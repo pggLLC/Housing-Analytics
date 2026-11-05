@@ -1692,6 +1692,7 @@ def compute_metrics(
     if place_too_small:
         future_units_needed_20yr = None
         future_units_growth_20yr = None
+        projection_basis = None  # no figure, so no apportionment to name
         future_units_basis_reading = "too_small"
 
     # methods-spec:end need-inputs

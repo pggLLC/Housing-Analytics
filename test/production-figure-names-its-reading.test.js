@@ -168,7 +168,9 @@ async function renderTile(selection, countyFips) {
     // Non-vacuity on the scan. The few geographies with no in-commuter record
     // give no production verdict today, so growth alone is held on Fruita's
     // digest with its in-commuter part removed.
-    assert(seen.resident_growth_plus_incommuters > 300,
+    // Places under 250 households publish no figure (reading 'too_small'), so
+    // the scan has ~290 with-in-commuter answers rather than ~480.
+    assert(seen.resident_growth_plus_incommuters > 250,
       `checked ${seen.resident_growth_plus_incommuters} with-in-commuter answers; too few to mean anything`);
     const alone = JSON.parse(JSON.stringify(fruita));
     delete alone.metrics.incommuter_need_units;

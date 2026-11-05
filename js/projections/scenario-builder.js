@@ -207,6 +207,13 @@
       basis = 'county';
     } else {
       const rec = (d.ledger || {})[geo.geoid];
+      // Under 250 households the ledger marks a place too small for a town
+      // forecast; the HNA page says so and points to the county, and so does this.
+      if (rec && rec.too_small) {
+        const hh = _num((rec.household_inputs || {}).place_households);
+        return { unavailableReason: name + ' has ' + (hh != null ? Math.round(hh).toLocaleString('en-US') + ' households' : 'fewer than 250 households')
+          + ', too few for a reliable town forecast (the cut-off is 250), so no projection is shown. Open its county instead.' };
+      }
       const blended = rec && rec.shares ? _num(rec.shares.blended) : null;
       if (blended != null) {
         share = blended;
