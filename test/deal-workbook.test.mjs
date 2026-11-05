@@ -946,9 +946,12 @@ ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no 
   six.sources.rows = six.sources.rows.concat(extra);
   const suSix = WB.chartSources(six);
   const rects = [...suSix.matchAll(/<title>([^<]*)<\/title><\/rect>/g)].map((x) => x[1]);
-  ok(/Other sources \(3\)/.test(suSix) && !suSix.includes('Invented source A</'), 'past four sources the rest fold into Other sources');
-  ok(rects.some((x) => /Other sources \(3\): \$600,000/.test(x)), 'Other sources carries the folded total');
+  const folded = six.sources.rows.slice(3);
+  ok(suSix.includes('Other sources (' + folded.length + ')') && !suSix.includes('Invented source A</'), 'past three sources the rest fold into Other sources');
+  ok(rects.some((x) => x.startsWith('Other sources (' + folded.length + '): ' + WB.money(folded.reduce((a, r) => a + r.amount, 0)))), 'Other sources carries the folded total');
+  ok(!/#[0-9a-f]{6}/i.test(su) && /var\(--chart-1\)/.test(su), 'the sources chart uses the site\'s chart tokens, no hard-coded colours');
   ok(WB.chartSources({ sources: { rows: [], tdc: 1, total: 0 } }) === '', 'no sources, no chart');
+  ok(cm.sources.rows.length === 4 && !/Other sources/.test(su), 'a single fourth source keeps its own name');
 
   // Coverage: every plotted year is the model's all-must-pay coverage; the dots are year 1, the lowest and the last.
   const cov = WB.chartCoverage(cm);
@@ -976,6 +979,14 @@ ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no 
   const nBelow = ['rent10', 'vac5', 'opex10', 'combined'].filter((k) => cs.result.stress[k].dscr < floor).length;
   ok(st.includes(nBelow + ' of 4 tests fall below it') || (nBelow === 0 && st.includes('Every test stays above it')), 'the chart counts the tests below CHFA\'s minimum');
   ok(WB.chartStress(m) === '', 'a run with no lender tests draws no stress chart');
+  // Labels carry the sizes the calculator ran; an unreadable size leaves a plain label, never the default.
+  ok(/Lower rents/.test(st) && /could not be read/.test(st) && !/smaller/.test(st), 'with no sizes read, labels make no size claim');
+  const sized = withStress(); sized.stressSizes = { rent: 1, vac: 1, opex: 1, combRent: 20, combVac: 10, combOpex: 20 };
+  const stSized = WB.chartStress(WB.build(sized, rules));
+  ok(stSized.includes('Rents 1% lower') && stSized.includes('Vacancy +1 points') && stSized.includes('Costs 1% higher') && stSized.includes('All three at once: rents 20% lower, vacancy +10 points, costs 20% higher'), 'labels and note carry the deal\'s own test sizes');
+  const doc = { getElementById: (id) => ({ 'dc-const-rent-stress': { value: '12' }, 'dc-const-vac-stress': { value: 'x' }, 'dc-const-opex-stress': { value: '-1' } })[id] || null };
+  const z = WB.stressSizes(doc);
+  ok(z.rent === 12 && z.vac === null && z.opex === null && z.combRent === null, 'only a number of 0 or more counts as a size, as the calculator\'s own input handler applies them');
   ok(/data-axis="x"/.test(st) && texts(st).every((x) => x.trim()), 'the stress chart tags its axis and has no blank text');
 
   // The page places each chart in the section whose table is its data view.

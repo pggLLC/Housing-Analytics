@@ -323,6 +323,7 @@
     // The engine's year-one lender tests (deal-engine.js computeDscrStressScenarios), on all must-pay debt.
     var stv = r.stress;
     model.stress = stv && stv.base ? Object.keys(stv).reduce(function (o, k) { o[k] = { dscr: num(stv[k] && stv[k].dscr) }; return o; }, {}) : null;
+    if (model.stress) model.stress.sizes = snap.stressSizes || null;
     return model;
   }
 
@@ -487,10 +488,11 @@
   // tags its axes (data-axis / data-tick) for the chart-axes audit, and the table under it is its data view.
   // Text is 15 to 16 units on a 480-wide view box: at 390px it renders at 10px or more, the site's floor.
   var CW = 480;
-  // Four source colours in a fixed order, checked for colour-blind separation in light and dark (the COHO
-  // lab palette: blue, green, amber, purple); a fifth source and beyond fold into grey "Other sources".
-  // The gap is rust. Values live in developer-deal-workbook.html (--wb-c1 to --wb-c4, --wb-other, --wb-gap).
-  var SERIES = ['var(--wb-c1)', 'var(--wb-c2)', 'var(--wb-c3)', 'var(--wb-c4)'];
+  // Three source colours from the site's approved chart tokens, in the order that keeps neighbours apart for
+  // colour-blind readers (blue, brown, teal); a fourth source is grey, and from five sources on, the fourth and later fold into grey "Other sources".
+  // The gap is --chart-7. Each piece is also named, with its amount, in the key below the bar.
+  var SERIES = ['var(--chart-1)', 'var(--chart-4)', 'var(--chart-3)'];
+  var OTHER = 'color-mix(in oklab, var(--muted) 55%, var(--card))', GAP = 'var(--chart-7)';
   function svgOpen(h, label) { return '<svg class="wb-chart" viewBox="0 0 ' + CW + ' ' + h + '" role="img" aria-label="' + esc(label) + '">'; }
   function svgText(x, y, t, o) {
     o = o || {};
@@ -512,10 +514,10 @@
     var s = m.sources || {}, tdc = s.tdc;
     var rows = (s.rows || []).filter(function (x) { return x.amount != null && x.amount > 0.5; });
     if (!rows.length || !(tdc > 0) || s.total == null) return '';
-    rows = rows.map(function (r, i) { return { label: r.label, amount: r.amount, fill: SERIES[i] || 'var(--wb-other)' }; });
-    if (rows.length > SERIES.length) {
+    rows = rows.map(function (r, i) { return { label: r.label, amount: r.amount, fill: SERIES[i] || OTHER }; });
+    if (rows.length > SERIES.length + 1) {
       var rest = rows.slice(SERIES.length);
-      rows = rows.slice(0, SERIES.length).concat([{ label: 'Other sources (' + rest.length + ')', amount: rest.reduce(function (a, r) { return a + r.amount; }, 0), fill: 'var(--wb-other)',
+      rows = rows.slice(0, SERIES.length).concat([{ label: 'Other sources (' + rest.length + ')', amount: rest.reduce(function (a, r) { return a + r.amount; }, 0), fill: OTHER,
         parts: rest.map(function (r) { return r.label + ' ' + money(r.amount); }).join('; ') }]);
     }
     var gap = s.gap != null && s.gap > 0.5 ? s.gap : 0;
@@ -529,15 +531,15 @@
       h += '<rect x="' + x.toFixed(1) + '" y="24" width="' + Math.max(0, w - 2).toFixed(1) + '" height="30" rx="3" fill="' + r.fill + '"><title>' + esc(r.label + ': ' + money(r.amount) + (r.parts ? ' (' + r.parts + ')' : '')) + '</title></rect>';
       x += w;
     });
-    if (gap) h += '<rect x="' + x.toFixed(1) + '" y="24" width="' + Math.max(0, sc(gap) - 2).toFixed(1) + '" height="30" rx="3" fill="var(--wb-gap)"><title>' + esc('Gap: ' + money(gap)) + '</title></rect>';
+    if (gap) h += '<rect x="' + x.toFixed(1) + '" y="24" width="' + Math.max(0, sc(gap) - 2).toFixed(1) + '" height="30" rx="3" fill="' + GAP + '"><title>' + esc('Gap: ' + money(gap)) + '</title></rect>';
     h += svgText(L, 80, 'Total development cost', { muted: true, size: 15 });
     h += '<rect x="' + L + '" y="88" width="' + sc(tdc).toFixed(1) + '" height="24" rx="3" fill="var(--muted)" opacity=".35"><title>' + esc('Total development cost: ' + money(tdc)) + '</title></rect>';
     h += svgText(L + sc(tdc) - 6, 105, short(tdc), { anchor: 'end', bold: true });
     h += '</svg>';
     var legend = '<ul class="wb-legend">' + rows.map(function (r) {
       return '<li><i style="background:' + r.fill + '"></i>' + esc(r.label) + ' <b>' + esc(short(r.amount)) + '</b></li>';
-    }).join('') + (gap ? '<li><i style="background:var(--wb-gap)"></i>Gap <b>' + esc(short(gap)) + '</b></li>' : '') + '</ul>';
-    return figure('wbChSU', 'Where the money comes from', gap ? 'The rust piece is the gap still to fund.' : s.gap != null && s.gap < -0.5 ? 'Sources cover the cost with ' + short(-s.gap) + ' to spare.' : 'Sources cover the cost.', h, legend);
+    }).join('') + (gap ? '<li><i style="background:' + GAP + '"></i>Gap <b>' + esc(short(gap)) + '</b></li>' : '') + '</ul>';
+    return figure('wbChSU', 'Where the money comes from', gap ? 'The red piece is the gap still to fund.' : s.gap != null && s.gap < -0.5 ? 'Sources cover the cost with ' + short(-s.gap) + ' to spare.' : 'Sources cover the cost.', h, legend);
   }
 
   // Debt coverage, all must-pay debt, each year of the forecast, against CHFA's minimum and its high-coverage line.
@@ -592,7 +594,7 @@
     }).join('') + '</g>';
     rows.forEach(function (y, i) {
       var top = Y(y.feeOwed);
-      h += '<rect x="' + (L + i * bw + 1).toFixed(1) + '" y="' + top.toFixed(1) + '" width="' + Math.max(1, bw - 2).toFixed(1) + '" height="' + Math.max(0, Y(0) - top).toFixed(1) + '" rx="2" fill="var(--wb-c3)"><title>' +
+      h += '<rect x="' + (L + i * bw + 1).toFixed(1) + '" y="' + top.toFixed(1) + '" width="' + Math.max(1, bw - 2).toFixed(1) + '" height="' + Math.max(0, Y(0) - top).toFixed(1) + '" rx="2" fill="var(--chart-4)"><title>' +
         esc('Year ' + y.year + ': ' + money(y.feeOwed) + ' still owed') + '</title></rect>';
     });
     var xt = [rows[0].year, Math.round((rows[0].year + last.year) / 2), last.year].filter(function (v, i, a) { return a.indexOf(v) === i; });
@@ -609,11 +611,26 @@
   }
 
   // Year-one coverage under the calculator's lender tests, each a dot pair: as entered, then stressed.
-  var STRESS_ROWS = [['rent10', 'Lower rents'], ['vac5', 'Higher vacancy'], ['opex10', 'Higher running costs'], ['combined', 'All three, smaller']];
+  // Labels carry the sizes the calculator ran (its Methods panel, read from the deal's frame); a size that
+  // could not be read leaves a plain label, never a default presented as the deal's.
+  function stressRows(z) {
+    z = z || {};
+    var p = function (v) { return v == null ? null : Math.round(v * 10) / 10; };
+    return [['rent10', z.rent != null ? 'Rents ' + p(z.rent) + '% lower' : 'Lower rents'],
+      ['vac5', z.vac != null ? 'Vacancy +' + p(z.vac) + ' points' : 'Higher vacancy'],
+      ['opex10', z.opex != null ? 'Costs ' + p(z.opex) + '% higher' : 'Higher running costs'],
+      ['combined', 'All three at once']];
+  }
+  function stressNote(z) {
+    z = z || {};
+    var c = [z.combRent != null ? 'rents ' + z.combRent + '% lower' : null, z.combVac != null ? 'vacancy +' + z.combVac + ' points' : null, z.combOpex != null ? 'costs ' + z.combOpex + '% higher' : null];
+    return c.every(function (x) { return x; }) ? 'All three at once: ' + c.join(', ') + '. Sizes are set in the Deal Calculator\'s Methods panel.'
+      : 'The test sizes could not be read from the calculator; see its Methods panel.';
+  }
   function chartStress(m) {
     var st = m.stress;
     if (!st || !st.base || st.base.dscr == null) return '';
-    var rows = STRESS_ROWS.filter(function (k) { return st[k[0]] && st[k[0]].dscr != null && isFinite(st[k[0]].dscr); });
+    var rows = stressRows(st.sizes).filter(function (k) { return st[k[0]] && st[k[0]].dscr != null && isFinite(st[k[0]].dscr); });
     if (!rows.length) return '';
     var mn = m.operating && m.operating.min || {}, lo = mn.dscr ? mn.dscr.value : null, base = st.base.dscr;
     var vals = rows.map(function (k) { return st[k[0]].dscr; }).concat([base, lo].filter(function (v) { return v != null; }));
@@ -644,7 +661,7 @@
     var note = 'Grey is year one as entered (' + ratio(base) + ')' + (lo != null ? '; the dashed line is CHFA\'s ' + ratio(lo) + ' minimum' : '') + '. ' +
       (below.length ? below.length + ' of ' + rows.length + ' tests fall below it.' : lo != null ? 'Every test stays above it.' : '');
     return figure('wbChStress', 'What breaks it', note, h,
-      '<p class="sr-muted">The Deal Calculator\'s lender tests, set in its Methods panel. Its defaults: rents 10% lower; vacancy 5 points higher; running costs 10% higher; all three together at 5%, 3 points and 5%.</p>');
+      '<p class="sr-muted">' + esc(stressNote(st.sizes)) + '</p>');
   }
 
   function render(m, title) {
@@ -1223,6 +1240,14 @@
     } catch (e) { per = null; }
     return per;
   }
+  // The lender-test sizes the calculator ran, from its Methods panel inputs (percent or points). The panel's
+  // input handler applies a value only when it is a number of 0 or more, so anything else reads as unknown.
+  var STRESS_INPUTS = { rent: 'dc-const-rent-stress', vac: 'dc-const-vac-stress', opex: 'dc-const-opex-stress', combRent: 'dc-const-comb-rent', combVac: 'dc-const-comb-vac', combOpex: 'dc-const-comb-opex' };
+  function stressSizes(doc) {
+    var o = {};
+    Object.keys(STRESS_INPUTS).forEach(function (k) { var el = doc && typeof doc.getElementById === 'function' ? doc.getElementById(STRESS_INPUTS[k]) : null; var v = el ? parseFloat(el.value) : NaN; o[k] = isFinite(v) && v >= 0 ? v : null; });
+    return o;
+  }
   function readCalc(w, mkt) {
     var dc = w.__DealCalc;
     var rs = dc.getRentScheduleMetadata ? dc.getRentScheduleMetadata() : null;
@@ -1232,7 +1257,7 @@
       rentLimits: dc.getRentLimitsMetadata ? dc.getRentLimitsMetadata() : null, rentSchedule: dc.getRentScheduleMetadata ? dc.getRentScheduleMetadata() : null, utilityAllowance: dc.getUtilityAllowanceMetadata ? uaWithText(dc.getUtilityAllowanceMetadata(), w.ChfaRentLimits) : null,
       amiByBr: dc.getAmiLimitsByBr ? dc.getAmiLimitsByBr() : null,
       mode: (function () { var c = w.document.querySelector('input[name="dc-deal-mode"]:checked'); return c ? c.value : null; })(), labels: (w.DealPermanentFinancing && w.DealPermanentFinancing.PROGRAM_LABELS) || {},
-      countyFips: fips, perBrMarket: per };
+      countyFips: fips, perBrMarket: per, stressSizes: stressSizes(w.document) };
   }
   // The market files, loaded once. A file that fails stays null and its section says so.
   var _mkt = null;
@@ -1619,5 +1644,5 @@
     else start(document);
   }
 
-  return { build: build, render: render, chartSources: chartSources, chartCoverage: chartCoverage, chartStress: chartStress, chartFee: chartFee, research: research, renderResearch: renderResearch, researchEditor: researchEditor, miles: miles, MARKET_API: MARKET_API, WAIT_BANDS: WAIT_BANDS, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, webLink: webLink, money: money, RULES_URL: RULES_URL, API: API };
+  return { build: build, render: render, chartSources: chartSources, chartCoverage: chartCoverage, chartStress: chartStress, chartFee: chartFee, stressSizes: stressSizes, research: research, renderResearch: renderResearch, researchEditor: researchEditor, miles: miles, MARKET_API: MARKET_API, WAIT_BANDS: WAIT_BANDS, market: market, renderMarket: renderMarket, rentersAtOrBelow: rentersAtOrBelow, zoriMetroSeries: zoriMetroSeries, MARKET_URLS: MARKET_URLS, findings: findings, chfaMinimums: chfaMinimums, queryFrom: queryFrom, calcUrl: calcUrl, loadFrame: loadFrame, settleWithin: settleWithin, start: start, webLink: webLink, money: money, RULES_URL: RULES_URL, API: API };
 });
