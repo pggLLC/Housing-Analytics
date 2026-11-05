@@ -153,7 +153,9 @@ rebuild_and_commit() {
 
 # Take the tail back out of the last commit, so a rebase never meets it.
 drop_tail() {
-  git checkout HEAD~1 -- "${TAIL[@]}"
+  # --no-overlay also removes tail files the chain created; a plain checkout
+  # would leave them in the commit to meet main's copy in an add/add conflict.
+  git checkout --no-overlay HEAD~1 -- "${TAIL[@]}"
   git commit -q --amend --no-edit --allow-empty
 }
 
@@ -190,10 +192,17 @@ if [ -n "$retry" ]; then
   fi
   rebuild_and_commit
   drop_tail
+  built_on=$(git rev-parse HEAD~1)
   git fetch origin "$target_branch"
   if ! git rebase "origin/$target_branch"; then
     git rebase --abort
     echo "::error::rebase still conflicts after one complete rebuild retry; nothing was pushed." >&2
+    exit 1
+  fi
+  # The retry's outputs describe built_on; a clean rebase over a branch that
+  # changed more than the tail could carry outputs of inputs that moved.
+  if [ -n "$(git diff --name-only "$built_on" "origin/$target_branch" -- . "${tail_excludes[@]}")" ]; then
+    echo "::error::$target_branch changed more than the tail again during the rebuild retry; nothing was pushed." >&2
     exit 1
   fi
 fi
