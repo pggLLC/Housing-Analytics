@@ -93,4 +93,15 @@ test('manual NOI has no yearly projection, so the limit says why it cannot apply
   close(r.deferredRepayCap.bySlider, r.deferredCap, 'the slider cap stands');
 });
 
+test('a cash-flow loan that matures inside 15 years: repayment is checked on the final schedule, not assumed', () => {
+  const r = computeDeal(deal({ 'dc-deferred-pct': '100', 'dc-asset-mgmt-fee': '60000', 'dc-deferred-repay-cap': true },
+    [{ program: 'doh_htf', amount: 10000, mode: 'loan', cashflowPayPct: 100, term: 5, maturity: 5 }]));
+  assert(r.deferredRepayCap.binds, 'the limit binds');
+  assert.equal(r.deferredRepayCap.owedAfter, null, 'the final schedule cannot reach year 15');
+  assert(/not confirmed/.test(r.deferredRepayCap.reason), 'and says so: ' + r.deferredRepayCap.reason);
+  const ok = computeDeal(deal({ 'dc-deferred-pct': '100', 'dc-asset-mgmt-fee': '60000', 'dc-deferred-repay-cap': true }));
+  assert.equal(ok.deferredRepayCap.owedAfter, 0, 'without that loan, repayment by year 15 is confirmed');
+  assert.equal(ok.deferredRepayCap.reason, null);
+});
+
 console.log('deal-deferred-fee-order: ' + passed + ' checks passed');

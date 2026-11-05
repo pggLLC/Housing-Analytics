@@ -1484,6 +1484,21 @@
     if (obligations.years && known(deferredDevFee) && deferredDevFee > 0) {
       obligations = loanObligations([seniorInput].concat(loanInputs), loanNoi, cashPayments.years, deferredDevFee);
     }
+    // Check the limit against the final schedule: a cash-flow loan that matures
+    // inside 15 years, unpaid because the fee now comes first, leaves later years
+    // unknown, so repayment by year 15 is then not confirmed.
+    if (repayCapOn && known(repayable) && known(deferredDevFee) && deferredDevFee > 0 && obligations.years) {
+      var repayEnd = obligations.years[repayYears - 1];
+      var owedAfter = repayEnd && known(repayEnd.deferredFeeOwed) ? repayEnd.deferredFeeOwed : null;
+      deferredRepayCap.owedAfter = owedAfter;
+      if (owedAfter === null) {
+        deferredRepayCap.reason = 'With this deferral the yearly payments cannot be followed to year ' + repayYears +
+          ((repayEnd && repayEnd.unavailableReason) ? ' (' + repayEnd.unavailableReason.replace(/\.$/, '') + ')' : '') +
+          ', so repayment of the deferred fee by year ' + repayYears + ' is not confirmed.';
+      } else if (owedAfter > 0.5) {
+        deferredRepayCap.reason = 'Cash flow leaves part of the deferred fee unpaid after year ' + repayYears + '.';
+      }
+    }
 
     var exit = (function () {
       // A blank or out-of-range hold or cap is unknown, not a default: no sale

@@ -5105,21 +5105,25 @@
         autoNote.hidden = currentDealMode() === 'ownership';
       } else if (autoBalance) {
         var repayCap = result.deferredRepayCap;
+        var repayNote = repayCap && repayCap.on && repayCap.reason ? ' 15-year limit: ' + repayCap.reason : '';
         if (deferredDevFee >= deferredCap - 1 && gapBeforeDeferred > deferredCap) {
           autoNote.textContent = (repayCap && repayCap.binds
             ? 'Hit cap: deferring max ' + fmt(deferredCap) + ', what cash flow repays in years 1 to ' + repayCap.years +
               ' (the ' + (deferredPctSlider * 100).toFixed(0) + '% slider allows ' + fmt(repayCap.bySlider) + '; QAP 3.A).'
             : 'Hit cap: deferring max ' + fmt(deferredCap) + ' (' + (deferredPctSlider * 100).toFixed(0) + '% of dev fee).') +
-            ' Remaining ' + fmt(gap) + ' still needs subordinate debt or additional grants.';
+            ' Remaining ' + fmt(gap) + ' still needs subordinate debt or additional grants.' + repayNote;
           autoNote.hidden = false;
         } else if (deferredDevFee > 1) {
           autoNote.textContent = 'Auto-balanced to ' + fmt(deferredDevFee) +
-            ' — exactly fills the gap (cap was ' + fmt(deferredCap) + ').';
+            ' — exactly fills the gap (cap was ' + fmt(deferredCap) + ').' + repayNote;
           autoNote.hidden = false;
         } else {
-          autoNote.textContent = 'Deal is balanced without deferring fee — no auto-deferral needed.';
+          autoNote.textContent = 'Deal is balanced without deferring fee — no auto-deferral needed.' + repayNote;
           autoNote.hidden = false;
         }
+      } else if (result.deferredRepayCap && result.deferredRepayCap.on && result.deferredRepayCap.reason) {
+        autoNote.textContent = 'Deferring ' + fmt(deferredDevFee) + '. 15-year limit: ' + result.deferredRepayCap.reason;
+        autoNote.hidden = currentDealMode() === 'ownership';
       } else if (result.deferredRepayCap && result.deferredRepayCap.binds) {
         autoNote.textContent = 'Deferring ' + fmt(deferredDevFee) + ', what cash flow repays in years 1 to ' + result.deferredRepayCap.years +
           '; the ' + (deferredPctSlider * 100).toFixed(0) + '% slider allows ' + fmt(result.deferredRepayCap.bySlider) + ' (QAP 3.A).';
