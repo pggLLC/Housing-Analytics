@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-05T05:09:55.780Z",
+    "generated_at": "2026-11-05T06:09:42.971Z",
     "root": "data/",
     "file_count": 2017,
-    "total_size_bytes": 220247385,
+    "total_size_bytes": 220289003,
     "kinds": {
       "json": 1968,
       "geojson": 35,
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 545,
-      "mtime": "2026-11-05T05:09:51.932Z",
+      "mtime": "2026-11-05T06:09:40.102Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39005,7 +39005,7 @@
       "path": "market/housing_policy_jurisdictions_co.geojson",
       "kind": "geojson",
       "size_bytes": 1230019,
-      "mtime": "2026-11-04T23:27:38.145Z",
+      "mtime": "2026-11-05T06:08:15.684Z",
       "shape": "geojson",
       "feature_count": 336,
       "property_keys": [
@@ -40038,7 +40038,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-05T05:09:53.736Z",
+      "mtime": "2026-11-05T06:09:41.575Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40062,7 +40062,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-05T05:09:53.312Z",
+      "mtime": "2026-11-05T06:09:41.228Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42504,7 +42504,7 @@
       "path": "policy/housing-policy-scorecard.json",
       "kind": "json",
       "size_bytes": 183105,
-      "mtime": "2026-11-04T23:27:38.285Z",
+      "mtime": "2026-11-05T06:08:15.814Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -42681,8 +42681,8 @@
     {
       "path": "policy/leading-signals.json",
       "kind": "json",
-      "size_bytes": 220317,
-      "mtime": "2026-11-04T18:35:33.074Z",
+      "size_bytes": 222341,
+      "mtime": "2026-11-05T06:08:15.815Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43023,8 +43023,8 @@
     {
       "path": "policy/prop123_jurisdictions.json",
       "kind": "json",
-      "size_bytes": 146395,
-      "mtime": "2026-11-04T16:45:36.452Z",
+      "size_bytes": 185989,
+      "mtime": "2026-11-05T06:08:15.817Z",
       "shape": "object",
       "keys": [
         "updated",
