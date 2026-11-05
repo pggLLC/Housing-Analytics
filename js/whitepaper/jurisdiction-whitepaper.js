@@ -99,6 +99,14 @@
   }
   // ACS profile for the place or county (demographics and housing stock).
   function summaryPath(geoid) { return 'data/hna/summary/' + geoid + '.json'; }
+  // Who builds, holds land and provides housing here (scripts/market/build_local_players.py).
+  // The named detail is served by the gated site only (coho-backend gated/); a town also
+  // reads its county's file for land holders and providers.
+  function localPlayersPath(geoid) { return 'data/jurisdiction-briefs/_local-players/' + geoid + '.json'; }
+  function countyOf(src, geoid) {
+    var row = findRanking(src && src.rankingIndex, geoid);
+    return row && row.type !== 'county' ? row.containingCounty || null : null;
+  }
 
   // ---------------------------------------------------------------- helpers
 
@@ -1094,6 +1102,7 @@
       funding: fundingSection(row, src, opts.FundingFit),
       deal: dealShape(need, rents, lihtc, src.fundingGuide, marketRents(row, src), opts.MixCheck || null, src.underwritingRules || null),
       landscape: landscape,
+      players: playersSection(opts.localPlayers || null, opts.countyLocalPlayers || null, !!opts.localPlayersFailed),
       dynamics: dealDynamics(row, src, need, lihtc, policy),
       workforce: workforceSection(row, src, countyRow ? countyRow.geoid : null),
       relocation: relocationSection(row, src, countyRow ? countyRow.geoid : null),
@@ -1146,6 +1155,8 @@
     '@media (max-width:560px){.wp-glance{grid-template-columns:repeat(2,minmax(0,1fr))}}',
     // Contact tables read as one card per person on a phone, so the phone and email show without scrolling sideways.
     '@media screen and (max-width:560px){.wp table.wp-stack thead{display:none}.wp table.wp-stack tr{display:block;border-bottom:1px solid var(--border);padding:6px 0}.wp table.wp-stack td{display:block;border:0;padding:2px 0}.wp table.wp-stack td[data-label]::before{content:attr(data-label) ": ";font-weight:600;color:var(--muted)}}',
+    '.wp-stackbar{display:flex;height:18px;border-radius:4px;overflow:hidden;border:1px solid var(--border);margin:.5em 0}.wp-stackbar span{display:block;height:100%}',
+    '.wp-legend{list-style:none;padding:0!important;display:flex;flex-wrap:wrap;gap:2px 14px;font-size:.85rem}.wp-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px}',
     '.wp-barcell{position:relative;min-width:7em;white-space:nowrap}.wp-bar{display:inline-block;height:.7em;max-width:6em;margin-right:6px;background:var(--accent);opacity:.55;vertical-align:baseline;border-radius:2px}',
     '@media print{body{background:#fff;color:#000}.wp{max-width:none;padding:0}.wp h2{break-after:avoid}.wp table{break-inside:auto}.wp tr{break-inside:avoid}.wp-noprint{display:none}a{color:#000}}'
   ].join('\n');
@@ -1605,6 +1616,111 @@
     return h + srcLine(['Question bank checked ' + (Q.bankChecked || NA) + '; signals in js/whitepaper/town-questions.js, applied to the sections above']);
   }
 
+  // The detail file for the place, and its county's for land and providers when the
+  // town has none of its own. Names come only from these files, which print what
+  // public award reports, county parcel records, HUD and the IRS print.
+  function playersSection(own, county, failed) {
+    if (!own && !county) return { missing: true, failed: failed };
+    var townDev = own && own.kind !== 'county' && own.developers && own.developers.organisations.length;
+    return {
+      missing: false,
+      failed: failed,
+      dev: townDev ? own : (own && own.kind === 'county' ? own : county || own),
+      landOwn: own && own.land ? own : null,
+      landCounty: own && own.kind !== 'county' ? county : null,
+      landReason: (own && own.land_unavailable_reason) || null,
+      prov: own && own.kind === 'county' ? own : (county || own),
+      built: (own || county).built
+    };
+  }
+
+  var PLAYER_COLORS = {
+    federal: '#4e7d3a', state: '#7a9a3a', tribal: '#8c6d3f', county: '#2f6f9f', municipal: '#1f3864', school: '#5b6fb5',
+    special_district: '#6c8ebf', housing_authority: '#b42318', utility: '#8a6d1e', religious: '#9b59b6', hoa: '#a0a0a0',
+    nonprofit: '#c0392b', business: '#d68910', trust: '#bfa27a', individual: '#c9b79c', unknown: '#dddddd'
+  };
+
+  var SHORT_TYPE = {
+    business: 'Company', utility: 'Utility or rail', religious: 'Church', hoa: 'HOA', nonprofit: 'Nonprofit', federal: 'Federal',
+    state: 'State', tribal: 'Tribal', county: 'County', municipal: 'City or town', school: 'School or college',
+    special_district: 'District', housing_authority: 'Housing authority'
+  };
+
+  function playersLand(d) {
+    var L = d.land;
+    var total = L.acres || 1;
+    var types = (L.by_type || []).filter(function (t) { return t.acres > 0; });
+    var h = '<p class="wp-meta">' + esc(L.scope) + ': ' + fmtInt(L.parcels) + ' parcels, about ' + fmtInt(L.acres) + ' acres (county record received ' + esc(L.county_record_received || NA) + ').</p>';
+    h += '<div class="wp-stackbar" role="img" aria-label="' + esc('Share of land by owner type: ' + types.slice(0, 8).map(function (t) { return t.label + ' ' + t.share + '%'; }).join('; ')) + '">' +
+      types.filter(function (t) { return 100 * t.acres / total >= 0.5; }).map(function (t) {
+        return '<span style="width:' + (100 * t.acres / total).toFixed(1) + '%;background:' + (PLAYER_COLORS[t.type] || '#999') + '"></span>';
+      }).join('') + '</div><ul class="wp-legend">' + types.slice(0, 9).map(function (t) {
+        return '<li><i style="background:' + (PLAYER_COLORS[t.type] || '#999') + '"></i>' + esc(t.label) + ' <strong>' + esc(t.share) + '%</strong></li>';
+      }).join('') + (L.smaller_owners_acres ? '<li class="wp-meta">Past the ' + fmtInt(L.largest_owners_counted) + ' largest owners: ' + fmtInt(L.smaller_owners_acres) + ' acres more held by smaller owners, not sorted by type.</li>' : '') + '</ul>';
+    function table(rows, title, note, folded) {
+      if (!rows || !rows.length) return '';
+      var t = (note ? '<p class="wp-meta">' + esc(note) + '</p>' : '') +
+        '<div class="wp-scroll"><table><thead><tr><th>Owner</th><th>Type</th><th class="n">Acres</th><th class="n">Parcels</th></tr></thead><tbody>' +
+        rows.map(function (r) { return '<tr><td>' + esc(r.owner) + '</td><td>' + esc(SHORT_TYPE[r.type] || r.type_label) + '</td><td class="n">' + fmtInt(r.acres) + '</td><td class="n">' + fmtInt(r.parcels) + '</td></tr>'; }).join('') +
+        '</tbody></table></div>';
+      return folded ? '<details><summary>' + esc(title) + '</summary>' + t + '</details>' : '<h4>' + esc(title) + '</h4>' + t;
+    }
+    var priv = L.largest_private_organisations || [];
+    h += table(priv.slice(0, 6), 'Largest private landholding organisations');
+    h += table(priv.slice(6, 15), 'More private landholding organisations', null, true);
+    h += table((L.most_parcels_private_organisations || []).slice(0, 10), 'Organisations holding the most parcels (often builders)', 'Many parcels usually means subdivision lots: builders, land developers and their lenders.', true);
+    h += table((L.largest_public_owners || []).slice(0, 10), 'Largest public owners', null, true);
+    return h;
+  }
+
+  function renderPlayers(m) {
+    var P = m.players;
+    var h = '<h2 id="players">Local players: who builds, holds land and provides housing</h2>';
+    if (!P || P.missing) {
+      return h + '<p class="wp-note">' + (P && P.failed ? 'The local players file did not load, so this section is not shown. Reload to try again.' : 'Local players load on the gated developer site only.') + '</p>';
+    }
+    var D = P.dev.developers;
+    var area = P.dev.name;
+    h += '<p>From public records, built ' + esc(P.built) + '. Each name is as its source prints it: a starting list for outreach, not an endorsement.</p>';
+    h += '<h3>Who builds here</h3>';
+    if (!D.organisations.length) {
+      h += '<p>No sponsor or grantee is on a state housing award or CHFA tax-credit application in ' + esc(area) + ' since ' + esc(D.since) + '.</p>';
+    } else {
+      var top = Math.max.apply(null, D.organisations.map(function (o) { return o.homes_awarded || 0; }).concat([1]));
+      h += '<p class="wp-meta">Sponsors and grantees on state housing awards and CHFA tax-credit applications in ' + esc(area) + ' since ' + esc(D.since) + ', largest first by homes awarded (' + fmtInt(D.organisations_total) + ' in all).</p>' +
+        '<div class="wp-scroll"><table><thead><tr><th>Organisation</th><th class="n">Homes awarded</th><th>Projects</th></tr></thead><tbody>' +
+        D.organisations.slice(0, 10).map(function (o) {
+          var w = Math.round(6 * (o.homes_awarded || 0) / top * 10) / 10;
+          var projs = (o.projects || []).slice(0, 3).map(function (p) { return link((p.name || 'project') + ' (' + (p.year || 'year not given') + (p.awarded ? '' : ', applied') + ')', p.source_url); }).join(', ');
+          return '<tr><td><strong>' + esc(o.name) + '</strong> <span class="wp-tag">' + esc(o.kind) + '</span></td>' +
+            '<td class="wp-barcell n"><span class="wp-bar" style="width:' + w + 'em"></span>' + (o.homes_awarded ? fmtInt(o.homes_awarded) : '—') + '</td>' +
+            '<td>' + esc(o.projects_awarded + ' awarded' + (o.projects_applied_only ? ', ' + o.projects_applied_only + ' applied only' : '')) + '<br><span class="wp-meta">' + projs + '</span></td></tr>';
+        }).join('') + '</tbody></table></div>';
+    }
+    var st = D.tax_credit_properties;
+    if (st && st.scope === 'county') h += '<p>CHFA lists ' + fmtInt(st.properties) + ' tax-credit properties in ' + esc(P.dev.county.name) + ' with ' + fmtInt(st.homes) + ' restricted homes; ' + fmtInt(st.nonprofit_properties) + ' were sponsored by a nonprofit.</p>';
+    h += '<h3>Who holds the land</h3>';
+    if (P.landOwn) h += playersLand(P.landOwn);
+    else if (P.landCounty && P.landCounty.land) h += (P.landReason ? '<p class="wp-meta">' + esc(P.landReason) + '</p>' : '') + playersLand(P.landCounty);
+    else h += '<p>' + esc(P.landReason || (P.landCounty && P.landCounty.land_unavailable_reason) || NA) + '</p>';
+    if (P.landOwn && P.landCounty && P.landCounty.land) h += '<details><summary>Land holders in all of ' + esc(P.landCounty.name) + '</summary>' + playersLand(P.landCounty) + '</details>';
+    h += '<p class="wp-meta">People, family trusts and estates are counted in the bar but never named. Acres are mapped parcel area; stacked condominium parcels each count, so a dense city can sum past its land area, and a town count includes parcels that cross its boundary. Confirm ownership with the county assessor.</p>';
+    var R = P.prov.providers;
+    h += '<h3>Who provides housing and services</h3>';
+    if (R.housing_authorities.length) {
+      h += '<div class="wp-scroll"><table><thead><tr><th>Public housing authority</th><th>City</th><th class="n">Public housing</th><th class="n">Vouchers</th></tr></thead><tbody>' +
+        R.housing_authorities.map(function (a) { return '<tr><td>' + esc(a.name) + '</td><td>' + esc(a.city) + '</td><td class="n">' + fmtInt(a.public_housing_units) + '</td><td class="n">' + fmtInt(a.voucher_units) + '</td></tr>'; }).join('') + '</tbody></table></div>';
+    } else {
+      h += '<p>HUD lists no public housing authority based in ' + esc(P.prov.name) + '.</p>';
+    }
+    if (R.housing_nonprofits.length) {
+      h += '<h4>Housing and shelter nonprofits (IRS)</h4><ul>' +
+        R.housing_nonprofits.slice(0, 8).map(function (o) { return '<li>' + link(o.name, o.url) + ' <span class="wp-meta">' + esc(o.city) + ' · ' + esc(o.activity || o.ntee) + (o.revenue ? ' · ' + fmtMoney(o.revenue) + ' revenue' : '') + '</span></li>'; }).join('') + '</ul>';
+    }
+    if (R.counseling_agencies.length) h += '<p><strong>HUD-approved housing counseling:</strong> ' + R.counseling_agencies.map(function (c) { return link(c.name, c.url) + ' (' + esc(c.city) + ')'; }).join('; ') + '.</p>';
+    return h + srcLine(['state award and CHFA applicant reports (data/policy/funding-awards/, data/jurisdiction-briefs/_lihtc-applications.json)', 'Colorado Public Parcels (Governor\'s Office of Information Technology)', 'HUD Public Housing Authorities', 'HUD housing counseling agencies', 'IRS Exempt Organizations Business Master File', 'built by scripts/market/build_local_players.py']);
+  }
+
   function renderLandscape(m) {
     var L = m.landscape;
     var h = '<h2 id="landscape">Local landscape: who is already working on housing here</h2>';
@@ -1836,7 +1952,7 @@
       '<p class="wp-meta">GEOID ' + esc(m.geoid) + (m.region ? ' · ' + esc(m.region) : '') + ' · built ' + esc(m.generated) +
       ' from public data in the COHO Analytics repository. Screening analysis: not a CHFA market study, underwriting, or legal advice.</p>' +
       renderGlance(m) + renderSummary(m) + renderCommunity(m) + renderNeed(m) + renderRents(m) + renderLihtc(m) + renderProp123(m) + renderPolicy(m) +
-      renderLandscape(m) + renderBrief(m) + renderFunding(m) + renderDeal(m) + renderQuestions(m) + renderDynamics(m) + renderWorkforce(m) + renderRelocation(m) + renderHnaCompare(m) + renderContacts(m) + renderDates(m);
+      renderLandscape(m) + renderPlayers(m) + renderBrief(m) + renderFunding(m) + renderDeal(m) + renderQuestions(m) + renderDynamics(m) + renderWorkforce(m) + renderRelocation(m) + renderHnaCompare(m) + renderContacts(m) + renderDates(m);
     // Number the sections in the order they print.
     var n = 0;
     body = body.replace(/<h2 id="(\w+)">/g, function (all, id) { return id === 'summary' ? all : '<h2 id="' + id + '">' + (++n) + '. '; });
@@ -1853,6 +1969,8 @@
     landscapePath: landscapePath,
     relatedGeoids: relatedGeoids,
     summaryPath: summaryPath,
+    localPlayersPath: localPlayersPath,
+    countyOf: countyOf,
     findByName: findByName,
     buildModel: buildModel,
     renderHtml: renderHtml,

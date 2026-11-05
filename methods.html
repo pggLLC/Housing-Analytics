@@ -132,7 +132,7 @@
         <p class="mx-byline">
           <span>Paul Glasgow &mdash; <a href="https://pggllc.org">pggLLC</a>, working with AI</span>
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
-          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">a09be84be</code></span>
+          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">ba3e360c9</code></span>
           <span>Companion to the <a href="working-paper.html">working paper</a></span>
           <span>Every section last read against its code on <time data-spec-reviewed>2026-10-10</time></span>
         </p>
@@ -227,6 +227,7 @@
           <li><a href="#m-repro">Reproducibility and known defects</a></li>
           <li><a href="#m-loss">What future need counts, and what it leaves out</a></li>
           <li><a href="#m-alternatives">Why this method and not another</a></li>
+          <li><a href="#m-footprint">How the site is built, and its environmental footprint</a></li>
         </ol>
       </nav>
 
@@ -1216,6 +1217,111 @@ weighted_avg(F)  =  ───────────────       F* = { f
               each other on a difference of a few points.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="m-footprint">
+        <h2 id="m-footprint"><span class="num">11</span> How the site is built, and its environmental footprint</h2>
+        <div class="col">
+          <p>
+            The pages and tools you use here make no calls to an AI model. They read published data
+            files and run fixed calculations in your browser. One background job does use AI: each day,
+            the news build sends up to 20 short requests to OpenAI&rsquo;s GPT-4o-mini to draft news
+            summaries.
+          </p>
+          <p>
+            Building the site is a different matter. Since February 2026 its maintainer has used AI
+            assistants to research, write, review and test it. Those assistants are Claude (Anthropic),
+            Codex (OpenAI), Gemini (Google) and Copilot (GitHub). Most of the roughly 2,500 code changes since then were made this
+            way, and Codex or Copilot reviewed about 1,500 of them automatically. Changes must pass the
+            site&rsquo;s automated checks and a review before they go live. This section
+            estimates what that work cost in electricity, carbon and water, through 5 November 2026.
+          </p>
+
+          <div class="mx-note">
+            <span class="tag">Our estimate, with a wide range</span>
+            <ul>
+              <li><strong>Electricity:</strong> about 170 kWh (range 33 to 760 kWh)</li>
+              <li><strong>Carbon:</strong> about 60 kg CO<sub>2</sub>e (range 4 to 360 kg)</li>
+              <li><strong>Water:</strong> about 210 gallons (range 10 to 960 gallons)</li>
+            </ul>
+            <p>
+              <strong>In everyday terms (middle case):</strong> about a week of an average Colorado
+              home&rsquo;s electricity, about 150 miles in a typical car, and about 210 gallons of water.
+              <a href="https://www.eia.gov/electricity/sales_revenue_price/pdf/table_5a.pdf">EIA</a>
+              puts Colorado homes at &ldquo;674&rdquo; kWh a month in 2024.
+              <a href="https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle">EPA</a>
+              says &ldquo;the average passenger vehicle emits about 400 grams of CO2 per mile&rdquo;
+              (updated 3 June 2026).
+            </p>
+          </div>
+
+          <h3 id="m-footprint-site">Where the work runs changes the answer</h3>
+          <p>
+            The same electricity has a very different footprint depending on the data center&rsquo;s grid
+            and cooling. On the cleanest US grid in EPA&rsquo;s
+            <a href="https://www.epa.gov/egrid/summary-data">eGRID2023</a> data (Upstate New York,
+            &ldquo;242.8&rdquo; lb CO2e per MWh), the middle case is about 19 kg of carbon. On the dirtiest
+            mainland grid (eastern Wisconsin and Upper Michigan, &ldquo;1,405.0&rdquo; lb per MWh), it is
+            about 107 kg. Water depends on cooling and on how the power is made. Using the state factors
+            in <a href="https://arxiv.org/html/2304.03271v5">Li and others (2025)</a> (on-site cooling
+            water divided by the site&rsquo;s PUE, plus water used to make the power), each kWh of data
+            center electricity uses about 1.5 litres in Texas and about 10.3 in Washington, where hydro
+            reservoirs evaporate. In gallons, the middle case runs from about 65 to about 460.
+          </p>
+          <p>
+            Providers&rsquo; clean-energy purchases and water &ldquo;replenishment&rdquo; projects are not
+            subtracted here. They are real investments, but they do not change what the local grid burns
+            or the water a site draws.
+          </p>
+
+          <div class="mx-warn">
+            <span class="tag">What cannot be known</span>
+            <p>
+              None of the four providers says which data center handles a given request. None publishes
+              measured energy per request for the tools used here. Anthropic, for example, lets developers
+              keep requests &ldquo;in US-based infrastructure&rdquo; but names no site
+              (<a href="https://platform.claude.com/docs/en/manage-claude/data-residency">Claude data
+              residency</a>). The figures above combine published per-request and per-session estimates
+              with a count of the work done. Read them as an order of magnitude, not a measurement.
+            </p>
+          </div>
+
+          <p><strong>What the estimate leaves out:</strong></p>
+          <ul>
+            <li>Training the AI models.</li>
+            <li>Manufacturing servers.</li>
+            <li>Visitors&rsquo; own devices.</li>
+            <li>Hosting the site.</li>
+            <li>Ordinary automated test runs.</li>
+          </ul>
+          <p>
+            A lifecycle study that counts server manufacturing would put the water figure several times
+            higher. <a href="https://mistral.ai/news/our-contribution-to-a-global-environmental-standard-for-ai">Mistral
+            (22 July 2025)</a> found &ldquo;45 mL&rdquo; of water for one 400-token response.
+          </p>
+
+          <p><strong>Published figures behind the estimate:</strong></p>
+          <ul>
+            <li>
+              Google&rsquo;s measured median Gemini text prompt is &ldquo;0.24 Wh&rdquo; and
+              &ldquo;0.26 mL&rdquo; of water
+              (<a href="https://arxiv.org/abs/2508.15734">Elsworth and others, 21 August 2025</a>).
+            </li>
+            <li>
+              OpenAI&rsquo;s chief executive gives &ldquo;about 0.34 watt-hours&rdquo; for an average
+              ChatGPT query (<a href="https://blog.samaltman.com/the-gentle-singularity">10 June 2025</a>).
+            </li>
+            <li>
+              A median AI coding-agent session is about 41 Wh
+              (<a href="https://simonpcouch.com/blog/2026-01-20-cc-impact/">Couch, 20 January 2026</a>).
+            </li>
+            <li>
+              US data centers drew 176 TWh in 2023
+              (<a href="https://climate.mit.edu/sites/default/files/2025-02/lbnl-2024-united-states-data-center-energy-usage-report.pdf">Lawrence
+              Berkeley National Laboratory, December 2024</a>).
+            </li>
+          </ul>
         </div>
       </section>
 

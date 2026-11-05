@@ -216,6 +216,7 @@ export const NOT_DERIVED = {
   'scripts/market/build_commute_strength.py': 'downloads the LEHD LODES 2023 origin-destination file and crosswalk over the network',
   'scripts/market/build_tract_workplaces.py': 'downloads LODES origin-destination files from the network; reads the index only for place names',
   'scripts/policy/build_job_access.py': 'routes drive times through OSRM over the network; reads the index only for the geography list and populations',
+  'scripts/market/build_local_players.py': 'queries the Colorado parcel service and HUD and IRS lists over the network; reads the index only for place names and counties',
 
   // Deploy artifact rather than a data derivation.
   'scripts/build-public-site.mjs': 'builds dist/ for deploy; not a data artifact',
