@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T03:34:54.118Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-05T05:09:18.287Z. Do not edit by hand.
 
 ---
 
@@ -64,7 +64,7 @@
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.5 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 262.9 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
-| `index.html` | COHO Analytics · Colorado affordable housing data | 52.2 KB |
+| `index.html` | COHO Analytics · Colorado affordable housing data | 52.3 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.1 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 13.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.3 KB |
@@ -73,7 +73,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 75.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.3 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 155.9 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 156.0 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 82.2 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -2319,7 +2319,7 @@
 | `test/green-building-guide.test.mjs` | 36.2 KB |
 | `test/growth-figure-agrees.test.js` | 15.7 KB |
 | `test/guided-path-a11y.test.js` | 3.4 KB |
-| `test/guided-path-enters-the-chapters.test.mjs` | 9.1 KB |
+| `test/guided-path-enters-the-chapters.test.mjs` | 9.3 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 5.0 KB |
 | `test/guided-path-product-routes.test.js` | 16.6 KB |
 | `test/hamilton-perry-option.test.js` | 17.6 KB |
@@ -2416,7 +2416,7 @@
 | `test/homes-short-agreement.test.js` | 4.2 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.2 KB |
 | `test/housing-events-and-brief-news.test.mjs` | 15.1 KB |
-| `test/housing-help.test.js` | 4.2 KB |
+| `test/housing-help.test.js` | 4.4 KB |
 | `test/housing-need-face-validity.test.mjs` | 25.3 KB |
 | `test/housing-news-leads-with-the-newest.test.mjs` | 24.0 KB |
 | `test/housing-outcome-score-absence.test.js` | 9.4 KB |
@@ -2619,7 +2619,7 @@
 | `test/ranking-index-no-coerced-zeros.test.js` | 10.1 KB |
 | `test/ranking-scenarios.test.js` | 3.1 KB |
 | `test/rebuild-derived-chain.test.mjs` | 8.9 KB |
-| `test/recommendation-leads-with-the-conclusion.test.mjs` | 32.3 KB |
+| `test/recommendation-leads-with-the-conclusion.test.mjs` | 32.5 KB |
 | `test/recommendation-transit-zone.test.mjs` | 13.6 KB |
 | `test/redfin-place-market-tracker.test.js` | 4.8 KB |
 | `test/region-membership.test.js` | 4.3 KB |

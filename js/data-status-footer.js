@@ -118,7 +118,7 @@
         '</div>';
     }
 
-    html += '<a href="' + PREFIX + 'data-status.html" aria-label="View full data health report">View data health ›</a>';
+    html += '<a href="' + PREFIX + 'data-status.html" aria-label="View data health (full report)">View data health ›</a>';
 
     bar.innerHTML = html;
     return bar;
