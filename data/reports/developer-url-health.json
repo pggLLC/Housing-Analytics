@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated_at_utc": "2026-10-30T13:25:59Z",
-    "total_urls": 433,
-    "broken_count": 50,
+    "generated_at_utc": "2026-11-06T14:32:51Z",
+    "total_urls": 436,
+    "broken_count": 52,
     "warning_count": 44,
-    "ok_count": 339,
+    "ok_count": 340,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
   "broken": [
@@ -200,11 +200,26 @@
       ]
     },
     {
+      "url": "https://www.housingcolorado.org/",
+      "status": 404,
+      "found_in": [
+        "local-resources / state:08/advocacy[0]"
+      ]
+    },
+    {
       "url": "https://www.hpe.com/",
       "status": 0,
       "found_in": [
         "local-resources / county:08069/majorEmployers[7]",
         "local-resources / place:0846465/majorEmployers[2]"
+      ]
+    },
+    {
+      "url": "https://www.memorialregionalhealth.com/",
+      "status": 526,
+      "found_in": [
+        "local-resources / place:0817760/hospital",
+        "local-resources / place:0817760/majorEmployers[0]"
       ]
     },
     {
@@ -396,6 +411,13 @@
   ],
   "warnings": [
     {
+      "url": "https://ci.lamar.co.us/community-development",
+      "status": 429,
+      "found_in": [
+        "local-resources / place:0843110/housingLead"
+      ]
+    },
+    {
       "url": "https://www.arvadaco.gov/1155/Affordable-Housing-in-Arvada",
       "status": 403,
       "found_in": [
@@ -415,14 +437,6 @@
       "status": 403,
       "found_in": [
         "policy-progress / Aspen / tap_fee_reduction"
-      ]
-    },
-    {
-      "url": "https://www.aurorak12.org/",
-      "status": 403,
-      "found_in": [
-        "local-resources / place:0804000/majorEmployers[3]",
-        "local-resources / place:0804000/schoolDistrict"
       ]
     },
     {
@@ -696,9 +710,7 @@
         "local-resources / place:0812045/hospital",
         "local-resources / place:0812045/majorEmployers[1]",
         "local-resources / place:0830780/hospital",
-        "local-resources / place:0830780/majorEmployers[0]",
-        "local-resources / place:0831660/hospital",
-        "local-resources / place:0831660/majorEmployers[0]"
+        "local-resources / place:0830780/majorEmployers[0]"
       ]
     },
     {
@@ -737,5 +749,5 @@
       ]
     }
   ],
-  "ok_count": 339
+  "ok_count": 340
 }
