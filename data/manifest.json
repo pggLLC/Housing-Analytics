@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-06T04:30:22.955189Z",
+  "generated": "2026-11-06T05:21:01.382659Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1027884
+      "bytes": 1027905
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9209,12 +9209,12 @@
     "data/market/walk_bike_access_co.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 968140
+      "bytes": 1160251
     },
     "data/market/walk_bike_map_co.json": {
-      "featureCount": 0,
+      "featureCount": 64,
       "placeholder": false,
-      "bytes": 4297901
+      "bytes": 5093626
     },
     "data/market/walkability_co.geojson": {
       "featureCount": 3532,

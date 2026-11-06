@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-06T04:30:19.465Z",
+    "generated_at": "2026-11-06T05:20:56.615Z",
     "root": "data/",
     "file_count": 2020,
-    "total_size_bytes": 221122859,
+    "total_size_bytes": 222110695,
     "kinds": {
       "json": 1971,
       "geojson": 35,
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-06T04:30:16.180Z",
+      "mtime": "2026-11-06T05:20:52.197Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39849,8 +39849,8 @@
     {
       "path": "market/walk_bike_access_co.json",
       "kind": "json",
-      "size_bytes": 968140,
-      "mtime": "2026-11-04T22:59:21.529Z",
+      "size_bytes": 1160251,
+      "mtime": "2026-11-06T05:19:07.867Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39867,14 +39867,15 @@
     {
       "path": "market/walk_bike_map_co.json",
       "kind": "json",
-      "size_bytes": 4297901,
-      "mtime": "2026-11-04T22:59:21.544Z",
+      "size_bytes": 5093626,
+      "mtime": "2026-11-06T05:19:07.880Z",
       "shape": "object",
       "keys": [
         "meta",
-        "places"
+        "places",
+        "counties"
       ],
-      "key_count": 2,
+      "key_count": 3,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -40077,7 +40078,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-06T04:30:17.797Z",
+      "mtime": "2026-11-06T05:20:54.412Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40101,7 +40102,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-06T04:30:17.406Z",
+      "mtime": "2026-11-06T05:20:53.883Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

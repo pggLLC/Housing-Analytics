@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-06T04:29:53.033Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-06T05:20:19.924Z. Do not edit by hand.
 
 ---
 
@@ -1911,8 +1911,8 @@
 | `data/market/transit_stops_coverage_co.json` | 230.7 KB | ✅ | — |
 | `data/market/travel_time_matrix_co.json` | 4.23 MB | ✅ | — |
 | `data/market/unfunded-application-points.json` | 42.7 KB | ✅ | — |
-| `data/market/walk_bike_access_co.json` | 945.4 KB | ✅ | — |
-| `data/market/walk_bike_map_co.json` | 4.10 MB | ✅ | — |
+| `data/market/walk_bike_access_co.json` | 1.11 MB | ✅ | — |
+| `data/market/walk_bike_map_co.json` | 4.86 MB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
 | `data/market/zillow_co_metros.json` | 107.1 KB | ✅ | — |
@@ -2757,7 +2757,7 @@
 | `test/validate-site.js` | 9.6 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/vintage-badge-fresh-on-return.test.js` | 3.1 KB |
-| `test/walk-bike-access.test.js` | 7.8 KB |
+| `test/walk-bike-access.test.js` | 10.8 KB |
 | `test/walkability-layer.test.js` | 2.7 KB |
 | `test/walkthrough-record.test.mjs` | 12.1 KB |
 | `test/wcag-pill-contrast.test.js` | 12.4 KB |
