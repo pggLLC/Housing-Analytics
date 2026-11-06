@@ -746,7 +746,7 @@
       return '<tr><th scope="row"><strong>' + esc(a.name || 'Project name not printed') + '</strong>' +
         (deal ? ' <a class="hm-deal-link" href="deal-summary.html?d=' + esc(deal.slug) + '">Deal summary</a>' : '') +
         '<div class="hm-muted">' + sub + '</div></th>' +
-        '<td class="num">' + esc(a.yearLabel || a.year || '—') + '</td><td>' + src + (a.confirmed ? '' : ' <span class="hm-tag">not checked against a total</span>') + '</td>' +
+        '<td class="num">' + esc(a.yearLabel || a.year || '—') + '</td><td>' + src + (a.bondDeal ? ' <span class="hm-tag">property list, not an award report</span>' : a.confirmed ? '' : ' <span class="hm-tag">not checked against a total</span>') + '</td>' +
         '<td class="num">' + dollars + '</td><td class="num">' + credits + '</td>' +
         '<td class="num">' + (a.homes === null || a.homes === undefined ? '—' : esc(count(a.homes)) + (a.homesEstimated ? ' est.' : '')) + '</td></tr>';
     }).join('');
@@ -827,7 +827,7 @@
         var where = [a.town, a.county].filter(Boolean).join(', ');
         var tags = (a.homesEstimated ? '<span class="hm-tag">est. homes</span>' : '') +
           (a.dollarsBasis === 'requested' ? '<span class="hm-tag">preliminary</span>' : '') +
-          (a.confirmed ? '' : '<span class="hm-tag">not checked against a total</span>') +
+          (a.bondDeal ? '<span class="hm-tag">property list, not an award report</span>' : a.confirmed ? '' : '<span class="hm-tag">not checked against a total</span>') +
           (a.developerRole === 'owner' && a.developer ? '<span class="hm-tag">owner as printed</span>' : '');
         var src = a.sourceUrl ? '<a href="' + esc(a.sourceUrl) + '" rel="noopener" target="_blank">' + esc(a.sourceTitle) + '</a>' : esc(a.sourceTitle);
         var quote = a.quote ? '<blockquote class="hm-quote">' + esc(a.quote) + '</blockquote>' : '';

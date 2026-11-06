@@ -223,7 +223,9 @@
         sourceUrl: feed.url || null,
         sourceChecked: feed.checked || null,
         quote: null,
-        confirmed: true,
+        // From CHFA's property list, not an award report, so there is no
+        // printed total to check it against.
+        confirmed: false,
       }, counties, aliases));
     });
 

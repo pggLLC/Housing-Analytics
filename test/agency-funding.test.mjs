@@ -239,6 +239,8 @@ ok(deals.length > 0, 'the funding-vs-need file lists 4% bond deals outside the r
 const withBonds = M.normalise({ ledger, documents, rows, dola, aliases, counties, bondDeals: { deals, url: 'chfa-portfolio.html', checked: fvn.generatedAt } });
 const bd = withBonds.filter((a) => a.bondDeal);
 ok(bd.length === deals.filter((d) => !M.isExcluded(d.name)).length, 'every bond deal becomes one CHFA record');
+ok(bd.every((a) => !a.confirmed), 'bond deals are not marked as checked against a PDF total');
+ok(!/,yes,CHFA tax credit property list/.test(M.csv(bd)), 'the CSV does not say a bond deal was checked against a PDF total');
 ok(bd.every((a) => a.agency === 'CHFA' && a.credits === null && a.dollars === null && a.bonds === null && a.developerRaw === null), 'bond deals carry homes only: no credits, dollars, bonds or developer');
 const bdHomes = deals.reduce((t, d) => t + (d.homes || 0), 0);
 ok(M.summarise(withBonds).homes - s.homes === bdHomes, `bond deals add their homes (${bdHomes}) and nothing else`);
