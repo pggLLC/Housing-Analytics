@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-06T11:09:56.670Z",
+    "generated_at": "2026-11-06T11:16:40.119Z",
     "root": "data/",
-    "file_count": 2021,
-    "total_size_bytes": 222227978,
+    "file_count": 2022,
+    "total_size_bytes": 222269976,
     "kinds": {
-      "json": 1972,
+      "json": 1973,
       "geojson": 35,
       "csv": 14
     }
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-06T07:27:27.520Z",
+      "mtime": "2026-11-06T11:16:37.380Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38239,8 +38239,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 256885,
-      "mtime": "2026-11-06T11:08:51.764Z",
+      "size_bytes": 256884,
+      "mtime": "2026-11-06T11:16:15.184Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -38388,6 +38388,21 @@
         "markets"
       ],
       "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "market/cbp-workplace-size.json",
+      "kind": "json",
+      "size_bytes": 41999,
+      "mtime": "2026-11-06T11:15:22.670Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "counties"
+      ],
+      "key_count": 2,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
@@ -40093,7 +40108,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-06T07:27:29.388Z",
+      "mtime": "2026-11-06T11:16:38.807Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40117,7 +40132,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-06T07:27:28.943Z",
+      "mtime": "2026-11-06T11:16:38.423Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

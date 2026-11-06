@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-06T11:10:01.298534Z",
+  "generated": "2026-11-06T11:16:43.191606Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1028270
+      "bytes": 1028638
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -8830,6 +8830,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 575
+    },
+    "data/market/cbp-workplace-size.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 41999
     },
     "data/market/cdphe_county_boundaries_co.geojson": {
       "featureCount": 64,
