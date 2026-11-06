@@ -1,0 +1,1353 @@
+{
+  "meta": {
+    "title": "School district and BOCES staff, by county",
+    "what": "People employed by each public school district and BOCES (headcount, all job categories, full- and part-time), listed under the county of the district office. Counts are district-wide.",
+    "as_of": "2025-2026",
+    "prior": "2024-2025",
+    "source": {
+      "label": "Colorado Department of Education, Personnel Turnover Rate by District and Position Categories (2025-2026 compared with 2024-2025)",
+      "url": "https://ed.cde.state.co.us/cdereval/staffstatistics",
+      "file": "https://ed.cde.state.co.us/fs/resource-manager/view/815995cd-d18c-466d-8694-c3673ac524c1"
+    },
+    "county_source": {
+      "label": "NCES Common Core of Data, LEA directory 2023-24 (district office county)",
+      "url": "https://educationdata.urban.org/api/v1/school-districts/ccd/directory/2023/?fips=8"
+    },
+    "not_a_ranking": "This is not a list of the largest employers. It names one kind of employer that every county has and whose staff counts are published.",
+    "not_used": "CDLE LMI Gateway \"Largest Employers\" is licensed from Data Axle; its terms of use bar copying or republishing, so it is not used (terms read 2026-11-06).",
+    "skipped": [
+      "Charter School Institute (statewide, office county is not where its staff work)"
+    ],
+    "unplaced": [],
+    "built": "2026-11-06",
+    "script": "scripts/build_public_employers.py"
+  },
+  "counties": {
+    "08001": [
+      {
+        "employer": "Adams 12 Five Star Schools",
+        "lea_code": "0020",
+        "headcount": 4974,
+        "headcount_prior": 5007
+      },
+      {
+        "employer": "School District 27J",
+        "lea_code": "0040",
+        "headcount": 2634,
+        "headcount_prior": 2425
+      },
+      {
+        "employer": "Westminster Public Schools",
+        "lea_code": "0070",
+        "headcount": 1007,
+        "headcount_prior": 980
+      },
+      {
+        "employer": "Mapleton 1",
+        "lea_code": "0010",
+        "headcount": 978,
+        "headcount_prior": 966
+      },
+      {
+        "employer": "Adams County 14",
+        "lea_code": "0030",
+        "headcount": 849,
+        "headcount_prior": 801
+      },
+      {
+        "employer": "Bennett 29J",
+        "lea_code": "0050",
+        "headcount": 194,
+        "headcount_prior": 202
+      },
+      {
+        "employer": "Strasburg 31J",
+        "lea_code": "0060",
+        "headcount": 152,
+        "headcount_prior": 159
+      },
+      {
+        "employer": "Adams County BOCES",
+        "lea_code": "9120",
+        "headcount": 4,
+        "headcount_prior": 4
+      }
+    ],
+    "08003": [
+      {
+        "employer": "Alamosa RE-11J",
+        "lea_code": "0100",
+        "headcount": 300,
+        "headcount_prior": 313
+      },
+      {
+        "employer": "San Luis Valley BOCES",
+        "lea_code": "9055",
+        "headcount": 116,
+        "headcount_prior": 93
+      },
+      {
+        "employer": "Sangre De Cristo Re-22J",
+        "lea_code": "0110",
+        "headcount": 48,
+        "headcount_prior": 51
+      }
+    ],
+    "08005": [
+      {
+        "employer": "Cherry Creek 5",
+        "lea_code": "0130",
+        "headcount": 8507,
+        "headcount_prior": 8363
+      },
+      {
+        "employer": "Adams-Arapahoe 28J",
+        "lea_code": "0180",
+        "headcount": 5860,
+        "headcount_prior": 5716
+      },
+      {
+        "employer": "Littleton 6",
+        "lea_code": "0140",
+        "headcount": 2093,
+        "headcount_prior": 2035
+      },
+      {
+        "employer": "Englewood 1",
+        "lea_code": "0120",
+        "headcount": 461,
+        "headcount_prior": 443
+      },
+      {
+        "employer": "Byers 32J",
+        "lea_code": "0190",
+        "headcount": 311,
+        "headcount_prior": 277
+      },
+      {
+        "employer": "Sheridan 2",
+        "lea_code": "0123",
+        "headcount": 207,
+        "headcount_prior": 198
+      },
+      {
+        "employer": "Deer Trail 26J",
+        "lea_code": "0170",
+        "headcount": 57,
+        "headcount_prior": 59
+      }
+    ],
+    "08007": [
+      {
+        "employer": "Archuleta County 50 Jt",
+        "lea_code": "0220",
+        "headcount": 258,
+        "headcount_prior": 249
+      }
+    ],
+    "08009": [
+      {
+        "employer": "Springfield RE-4",
+        "lea_code": "0250",
+        "headcount": 72,
+        "headcount_prior": 62
+      },
+      {
+        "employer": "Walsh RE-1",
+        "lea_code": "0230",
+        "headcount": 37,
+        "headcount_prior": 35
+      },
+      {
+        "employer": "Campo RE-6",
+        "lea_code": "0270",
+        "headcount": 24,
+        "headcount_prior": 22
+      },
+      {
+        "employer": "Pritchett RE-3",
+        "lea_code": "0240",
+        "headcount": 19,
+        "headcount_prior": 20
+      },
+      {
+        "employer": "Vilas RE-5",
+        "lea_code": "0260",
+        "headcount": 19,
+        "headcount_prior": 19
+      }
+    ],
+    "08011": [
+      {
+        "employer": "Las Animas RE-1",
+        "lea_code": "0290",
+        "headcount": 120,
+        "headcount_prior": 133
+      },
+      {
+        "employer": "McClave Re-2",
+        "lea_code": "0310",
+        "headcount": 48,
+        "headcount_prior": 46
+      }
+    ],
+    "08013": [
+      {
+        "employer": "St Vrain Valley RE1J",
+        "lea_code": "0470",
+        "headcount": 4437,
+        "headcount_prior": 4394
+      },
+      {
+        "employer": "Boulder Valley Re 2",
+        "lea_code": "0480",
+        "headcount": 4288,
+        "headcount_prior": 4298
+      }
+    ],
+    "08015": [
+      {
+        "employer": "Salida R-32",
+        "lea_code": "0500",
+        "headcount": 231,
+        "headcount_prior": 226
+      },
+      {
+        "employer": "Buena Vista R-31",
+        "lea_code": "0490",
+        "headcount": 191,
+        "headcount_prior": 189
+      },
+      {
+        "employer": "Mountain BOCES",
+        "lea_code": "9030",
+        "headcount": 21,
+        "headcount_prior": 27
+      }
+    ],
+    "08017": [
+      {
+        "employer": "Cheyenne County Re-5",
+        "lea_code": "0520",
+        "headcount": 41,
+        "headcount_prior": 39
+      },
+      {
+        "employer": "Kit Carson R-1",
+        "lea_code": "0510",
+        "headcount": 35,
+        "headcount_prior": 35
+      }
+    ],
+    "08019": [
+      {
+        "employer": "Clear Creek RE-1",
+        "lea_code": "0540",
+        "headcount": 125,
+        "headcount_prior": 135
+      }
+    ],
+    "08021": [
+      {
+        "employer": "North Conejos RE-1J",
+        "lea_code": "0550",
+        "headcount": 131,
+        "headcount_prior": 128
+      },
+      {
+        "employer": "Sanford 6J",
+        "lea_code": "0560",
+        "headcount": 63,
+        "headcount_prior": 63
+      },
+      {
+        "employer": "South Conejos RE-10",
+        "lea_code": "0580",
+        "headcount": 43,
+        "headcount_prior": 47
+      }
+    ],
+    "08023": [
+      {
+        "employer": "Sierra Grande R-30",
+        "lea_code": "0740",
+        "headcount": 51,
+        "headcount_prior": 39
+      },
+      {
+        "employer": "Centennial R-1",
+        "lea_code": "0640",
+        "headcount": 50,
+        "headcount_prior": 48
+      }
+    ],
+    "08025": [
+      {
+        "employer": "Crowley County RE-1-J",
+        "lea_code": "0770",
+        "headcount": 64,
+        "headcount_prior": 64
+      }
+    ],
+    "08027": [
+      {
+        "employer": "Custer County School District C-1",
+        "lea_code": "0860",
+        "headcount": 74,
+        "headcount_prior": 80
+      }
+    ],
+    "08029": [
+      {
+        "employer": "Delta County 50(J)",
+        "lea_code": "0870",
+        "headcount": 736,
+        "headcount_prior": 751
+      }
+    ],
+    "08031": [
+      {
+        "employer": "Denver County 1",
+        "lea_code": "0880",
+        "headcount": 16093,
+        "headcount_prior": 16070
+      },
+      {
+        "employer": "Division of Youth Services",
+        "lea_code": "8104",
+        "headcount": 41,
+        "headcount_prior": 32
+      },
+      {
+        "employer": "Expeditionary BOCES",
+        "lea_code": "9130",
+        "headcount": 37,
+        "headcount_prior": 37
+      }
+    ],
+    "08033": [
+      {
+        "employer": "Dolores County RE No.2",
+        "lea_code": "0890",
+        "headcount": 59,
+        "headcount_prior": 54
+      }
+    ],
+    "08035": [
+      {
+        "employer": "Douglas County Re 1",
+        "lea_code": "0900",
+        "headcount": 9016,
+        "headcount_prior": 8906
+      }
+    ],
+    "08037": [
+      {
+        "employer": "Eagle County RE 50",
+        "lea_code": "0910",
+        "headcount": 1060,
+        "headcount_prior": 1072
+      }
+    ],
+    "08039": [
+      {
+        "employer": "Elizabeth School District",
+        "lea_code": "0920",
+        "headcount": 424,
+        "headcount_prior": 410
+      },
+      {
+        "employer": "Big Sandy 100J",
+        "lea_code": "0940",
+        "headcount": 71,
+        "headcount_prior": 68
+      },
+      {
+        "employer": "Kiowa C-2",
+        "lea_code": "0930",
+        "headcount": 58,
+        "headcount_prior": 57
+      },
+      {
+        "employer": "Elbert 200",
+        "lea_code": "0950",
+        "headcount": 51,
+        "headcount_prior": 52
+      },
+      {
+        "employer": "Agate 300",
+        "lea_code": "0960",
+        "headcount": 15,
+        "headcount_prior": 16
+      }
+    ],
+    "08041": [
+      {
+        "employer": "Colorado Springs 11",
+        "lea_code": "1010",
+        "headcount": 3994,
+        "headcount_prior": 3991
+      },
+      {
+        "employer": "Academy 20",
+        "lea_code": "1040",
+        "headcount": 3896,
+        "headcount_prior": 3804
+      },
+      {
+        "employer": "District 49",
+        "lea_code": "1110",
+        "headcount": 3431,
+        "headcount_prior": 3378
+      },
+      {
+        "employer": "Harrison 2",
+        "lea_code": "0980",
+        "headcount": 2120,
+        "headcount_prior": 2116
+      },
+      {
+        "employer": "Widefield 3",
+        "lea_code": "0990",
+        "headcount": 1392,
+        "headcount_prior": 1388
+      },
+      {
+        "employer": "Fountain 8",
+        "lea_code": "1000",
+        "headcount": 1120,
+        "headcount_prior": 1139
+      },
+      {
+        "employer": "Lewis-Palmer 38",
+        "lea_code": "1080",
+        "headcount": 870,
+        "headcount_prior": 893
+      },
+      {
+        "employer": "Education reEnvisioned BOCES",
+        "lea_code": "9170",
+        "headcount": 527,
+        "headcount_prior": 465
+      },
+      {
+        "employer": "Cheyenne Mountain 12",
+        "lea_code": "1020",
+        "headcount": 518,
+        "headcount_prior": 531
+      },
+      {
+        "employer": "Manitou Springs 14",
+        "lea_code": "1030",
+        "headcount": 215,
+        "headcount_prior": 210
+      },
+      {
+        "employer": "Ellicott 22",
+        "lea_code": "1050",
+        "headcount": 194,
+        "headcount_prior": 195
+      },
+      {
+        "employer": "Colorado School for the Deaf and Blind",
+        "lea_code": "9000",
+        "headcount": 174,
+        "headcount_prior": 162
+      },
+      {
+        "employer": "Pikes Peak BOCES",
+        "lea_code": "9045",
+        "headcount": 158,
+        "headcount_prior": 142
+      },
+      {
+        "employer": "Peyton 23 Jt",
+        "lea_code": "1060",
+        "headcount": 90,
+        "headcount_prior": 117
+      },
+      {
+        "employer": "Calhan RJ-1",
+        "lea_code": "0970",
+        "headcount": 86,
+        "headcount_prior": 87
+      },
+      {
+        "employer": "Miami/Yoder 60 JT",
+        "lea_code": "1130",
+        "headcount": 69,
+        "headcount_prior": 74
+      },
+      {
+        "employer": "Hanover 28",
+        "lea_code": "1070",
+        "headcount": 59,
+        "headcount_prior": 59
+      },
+      {
+        "employer": "Edison 54 JT",
+        "lea_code": "1120",
+        "headcount": 21,
+        "headcount_prior": 21
+      },
+      {
+        "employer": "Ute Pass BOCES",
+        "lea_code": "9165",
+        "headcount": 3,
+        "headcount_prior": 25
+      }
+    ],
+    "08043": [
+      {
+        "employer": "Canon City RE-1",
+        "lea_code": "1140",
+        "headcount": 542,
+        "headcount_prior": 536
+      },
+      {
+        "employer": "Fremont RE-2",
+        "lea_code": "1150",
+        "headcount": 247,
+        "headcount_prior": 233
+      },
+      {
+        "employer": "Cotopaxi RE-3",
+        "lea_code": "1160",
+        "headcount": 38,
+        "headcount_prior": 47
+      }
+    ],
+    "08045": [
+      {
+        "employer": "Roaring Fork RE-1",
+        "lea_code": "1180",
+        "headcount": 909,
+        "headcount_prior": 846
+      },
+      {
+        "employer": "Garfield Re-2",
+        "lea_code": "1195",
+        "headcount": 769,
+        "headcount_prior": 693
+      },
+      {
+        "employer": "Garfield 16",
+        "lea_code": "1220",
+        "headcount": 212,
+        "headcount_prior": 204
+      },
+      {
+        "employer": "Colorado River BOCES",
+        "lea_code": "9175",
+        "headcount": 67,
+        "headcount_prior": 67
+      }
+    ],
+    "08047": [
+      {
+        "employer": "Gilpin County RE-1",
+        "lea_code": "1330",
+        "headcount": 45,
+        "headcount_prior": 55
+      }
+    ],
+    "08049": [
+      {
+        "employer": "East Grand 2",
+        "lea_code": "1350",
+        "headcount": 253,
+        "headcount_prior": 229
+      },
+      {
+        "employer": "West Grand 1-JT",
+        "lea_code": "1340",
+        "headcount": 73,
+        "headcount_prior": 76
+      }
+    ],
+    "08051": [
+      {
+        "employer": "Gunnison Watershed RE1J",
+        "lea_code": "1360",
+        "headcount": 316,
+        "headcount_prior": 319
+      }
+    ],
+    "08053": [
+      {
+        "employer": "Hinsdale County RE 1",
+        "lea_code": "1380",
+        "headcount": 28,
+        "headcount_prior": 28
+      }
+    ],
+    "08055": [
+      {
+        "employer": "Huerfano Re-1",
+        "lea_code": "1390",
+        "headcount": 92,
+        "headcount_prior": 86
+      },
+      {
+        "employer": "La Veta Re-2",
+        "lea_code": "1400",
+        "headcount": 36,
+        "headcount_prior": 48
+      }
+    ],
+    "08057": [
+      {
+        "employer": "North Park R-1",
+        "lea_code": "1410",
+        "headcount": 38,
+        "headcount_prior": 42
+      }
+    ],
+    "08059": [
+      {
+        "employer": "Jefferson County R-1",
+        "lea_code": "1420",
+        "headcount": 11082,
+        "headcount_prior": 11100
+      }
+    ],
+    "08061": [
+      {
+        "employer": "Eads RE-1",
+        "lea_code": "1430",
+        "headcount": 40,
+        "headcount_prior": 43
+      },
+      {
+        "employer": "Plainview RE-2",
+        "lea_code": "1440",
+        "headcount": 19,
+        "headcount_prior": 20
+      }
+    ],
+    "08063": [
+      {
+        "employer": "Burlington RE-6J",
+        "lea_code": "1500",
+        "headcount": 108,
+        "headcount_prior": 101
+      },
+      {
+        "employer": "Arriba-Flagler C-20",
+        "lea_code": "1450",
+        "headcount": 50,
+        "headcount_prior": 47
+      },
+      {
+        "employer": "Stratton R-4",
+        "lea_code": "1480",
+        "headcount": 40,
+        "headcount_prior": 41
+      },
+      {
+        "employer": "Hi-Plains R-23",
+        "lea_code": "1460",
+        "headcount": 33,
+        "headcount_prior": 32
+      },
+      {
+        "employer": "Bethune R-5",
+        "lea_code": "1490",
+        "headcount": 33,
+        "headcount_prior": 34
+      }
+    ],
+    "08065": [
+      {
+        "employer": "Lake County R-1",
+        "lea_code": "1510",
+        "headcount": 169,
+        "headcount_prior": 173
+      }
+    ],
+    "08067": [
+      {
+        "employer": "Durango 9-R",
+        "lea_code": "1520",
+        "headcount": 844,
+        "headcount_prior": 855
+      },
+      {
+        "employer": "Bayfield 10 Jt-R",
+        "lea_code": "1530",
+        "headcount": 190,
+        "headcount_prior": 201
+      },
+      {
+        "employer": "Ignacio 11 JT",
+        "lea_code": "1540",
+        "headcount": 144,
+        "headcount_prior": 144
+      },
+      {
+        "employer": "San Juan BOCES",
+        "lea_code": "9050",
+        "headcount": 85,
+        "headcount_prior": 85
+      }
+    ],
+    "08069": [
+      {
+        "employer": "Poudre R-1",
+        "lea_code": "1550",
+        "headcount": 4791,
+        "headcount_prior": 4754
+      },
+      {
+        "employer": "Thompson R2-J",
+        "lea_code": "1560",
+        "headcount": 2346,
+        "headcount_prior": 2370
+      },
+      {
+        "employer": "Estes Park R-3",
+        "lea_code": "1570",
+        "headcount": 181,
+        "headcount_prior": 182
+      }
+    ],
+    "08071": [
+      {
+        "employer": "Trinidad 1",
+        "lea_code": "1580",
+        "headcount": 109,
+        "headcount_prior": 99
+      },
+      {
+        "employer": "Branson Reorganized 82",
+        "lea_code": "1750",
+        "headcount": 64,
+        "headcount_prior": 61
+      },
+      {
+        "employer": "Hoehne Reorganized 3",
+        "lea_code": "1600",
+        "headcount": 48,
+        "headcount_prior": 48
+      },
+      {
+        "employer": "Primero Reorganized 2",
+        "lea_code": "1590",
+        "headcount": 44,
+        "headcount_prior": 31
+      },
+      {
+        "employer": "Aguilar Reorganized 6",
+        "lea_code": "1620",
+        "headcount": 35,
+        "headcount_prior": 32
+      },
+      {
+        "employer": "Kim Reorganized 88",
+        "lea_code": "1760",
+        "headcount": 15,
+        "headcount_prior": 13
+      }
+    ],
+    "08073": [
+      {
+        "employer": "East Central BOCES",
+        "lea_code": "9025",
+        "headcount": 112,
+        "headcount_prior": 117
+      },
+      {
+        "employer": "Limon RE-4J",
+        "lea_code": "1790",
+        "headcount": 74,
+        "headcount_prior": 77
+      },
+      {
+        "employer": "Genoa-Hugo C113",
+        "lea_code": "1780",
+        "headcount": 44,
+        "headcount_prior": 43
+      },
+      {
+        "employer": "Karval RE-23",
+        "lea_code": "1810",
+        "headcount": 23,
+        "headcount_prior": 25
+      }
+    ],
+    "08075": [
+      {
+        "employer": "Valley RE-1",
+        "lea_code": "1828",
+        "headcount": 305,
+        "headcount_prior": 339
+      },
+      {
+        "employer": "Frenchman RE-3",
+        "lea_code": "1850",
+        "headcount": 47,
+        "headcount_prior": 45
+      },
+      {
+        "employer": "Buffalo RE-4J",
+        "lea_code": "1860",
+        "headcount": 45,
+        "headcount_prior": 48
+      },
+      {
+        "employer": "Plateau RE-5",
+        "lea_code": "1870",
+        "headcount": 43,
+        "headcount_prior": 46
+      }
+    ],
+    "08077": [
+      {
+        "employer": "Mesa County Valley 51",
+        "lea_code": "2000",
+        "headcount": 2862,
+        "headcount_prior": 2946
+      },
+      {
+        "employer": "Plateau Valley 50",
+        "lea_code": "1990",
+        "headcount": 54,
+        "headcount_prior": 60
+      },
+      {
+        "employer": "De Beque 49JT",
+        "lea_code": "1980",
+        "headcount": 28,
+        "headcount_prior": 30
+      },
+      {
+        "employer": "Grand Valley BOCES",
+        "lea_code": "9135",
+        "headcount": 2,
+        "headcount_prior": 4
+      }
+    ],
+    "08079": [
+      {
+        "employer": "Creede School District",
+        "lea_code": "2010",
+        "headcount": 39,
+        "headcount_prior": 42
+      }
+    ],
+    "08081": [
+      {
+        "employer": "Moffat County RE: No 1",
+        "lea_code": "2020",
+        "headcount": 373,
+        "headcount_prior": 393
+      }
+    ],
+    "08083": [
+      {
+        "employer": "Montezuma-Cortez RE-1",
+        "lea_code": "2035",
+        "headcount": 354,
+        "headcount_prior": 359
+      },
+      {
+        "employer": "Dolores RE-4A",
+        "lea_code": "2055",
+        "headcount": 139,
+        "headcount_prior": 147
+      },
+      {
+        "employer": "Mancos Re-6",
+        "lea_code": "2070",
+        "headcount": 94,
+        "headcount_prior": 92
+      }
+    ],
+    "08085": [
+      {
+        "employer": "Montrose County RE-1J",
+        "lea_code": "2180",
+        "headcount": 822,
+        "headcount_prior": 809
+      },
+      {
+        "employer": "West End RE-2",
+        "lea_code": "2190",
+        "headcount": 64,
+        "headcount_prior": 59
+      }
+    ],
+    "08087": [
+      {
+        "employer": "Fort Morgan Re-3",
+        "lea_code": "2405",
+        "headcount": 563,
+        "headcount_prior": 580
+      },
+      {
+        "employer": "Brush RE-2(J)",
+        "lea_code": "2395",
+        "headcount": 195,
+        "headcount_prior": 187
+      },
+      {
+        "employer": "Wiggins RE-50(J)",
+        "lea_code": "2515",
+        "headcount": 140,
+        "headcount_prior": 127
+      },
+      {
+        "employer": "Weldon Valley RE-20(J)",
+        "lea_code": "2505",
+        "headcount": 45,
+        "headcount_prior": 44
+      }
+    ],
+    "08089": [
+      {
+        "employer": "East Otero R-1",
+        "lea_code": "2520",
+        "headcount": 231,
+        "headcount_prior": 194
+      },
+      {
+        "employer": "Rocky Ford R-2",
+        "lea_code": "2530",
+        "headcount": 113,
+        "headcount_prior": 117
+      },
+      {
+        "employer": "Fowler R-4J",
+        "lea_code": "2540",
+        "headcount": 72,
+        "headcount_prior": 69
+      },
+      {
+        "employer": "Swink 33",
+        "lea_code": "2570",
+        "headcount": 57,
+        "headcount_prior": 59
+      },
+      {
+        "employer": "Santa Fe Trail BOCES",
+        "lea_code": "9150",
+        "headcount": 41,
+        "headcount_prior": 39
+      },
+      {
+        "employer": "Manzanola 3J",
+        "lea_code": "2535",
+        "headcount": 36,
+        "headcount_prior": 35
+      },
+      {
+        "employer": "Cheraw 31",
+        "lea_code": "2560",
+        "headcount": 28,
+        "headcount_prior": 28
+      }
+    ],
+    "08091": [
+      {
+        "employer": "Ridgway R-2",
+        "lea_code": "2590",
+        "headcount": 74,
+        "headcount_prior": 73
+      },
+      {
+        "employer": "Ouray R-1",
+        "lea_code": "2580",
+        "headcount": 44,
+        "headcount_prior": 45
+      },
+      {
+        "employer": "Uncompahgre BOCES",
+        "lea_code": "9145",
+        "headcount": 18,
+        "headcount_prior": 21
+      }
+    ],
+    "08093": [
+      {
+        "employer": "Park County RE-2",
+        "lea_code": "2610",
+        "headcount": 143,
+        "headcount_prior": 89
+      },
+      {
+        "employer": "Platte Canyon 1",
+        "lea_code": "2600",
+        "headcount": 124,
+        "headcount_prior": 128
+      },
+      {
+        "employer": "Blue Sky BOCES",
+        "lea_code": "9140",
+        "headcount": 24,
+        "headcount_prior": 33
+      }
+    ],
+    "08095": [
+      {
+        "employer": "Holyoke Re-1J",
+        "lea_code": "2620",
+        "headcount": 89,
+        "headcount_prior": 93
+      },
+      {
+        "employer": "Northeast BOCES",
+        "lea_code": "9040",
+        "headcount": 71,
+        "headcount_prior": 68
+      },
+      {
+        "employer": "Haxtun RE-2J",
+        "lea_code": "2630",
+        "headcount": 64,
+        "headcount_prior": 65
+      }
+    ],
+    "08097": [
+      {
+        "employer": "Aspen 1",
+        "lea_code": "2640",
+        "headcount": 290,
+        "headcount_prior": 299
+      }
+    ],
+    "08099": [
+      {
+        "employer": "Lamar Re-2",
+        "lea_code": "2660",
+        "headcount": 226,
+        "headcount_prior": 218
+      },
+      {
+        "employer": "Wiley RE-13 Jt",
+        "lea_code": "2680",
+        "headcount": 59,
+        "headcount_prior": 54
+      },
+      {
+        "employer": "Holly RE-3",
+        "lea_code": "2670",
+        "headcount": 47,
+        "headcount_prior": 48
+      },
+      {
+        "employer": "Granada RE-1",
+        "lea_code": "2650",
+        "headcount": 39,
+        "headcount_prior": 43
+      },
+      {
+        "employer": "Southeastern BOCES",
+        "lea_code": "9075",
+        "headcount": 34,
+        "headcount_prior": 38
+      }
+    ],
+    "08101": [
+      {
+        "employer": "Pueblo City 60",
+        "lea_code": "2690",
+        "headcount": 1824,
+        "headcount_prior": 1953
+      },
+      {
+        "employer": "Pueblo County 70",
+        "lea_code": "2700",
+        "headcount": 1181,
+        "headcount_prior": 1195
+      },
+      {
+        "employer": "South Central BOCES",
+        "lea_code": "9060",
+        "headcount": 42,
+        "headcount_prior": 39
+      }
+    ],
+    "08103": [
+      {
+        "employer": "Meeker RE-1",
+        "lea_code": "2710",
+        "headcount": 98,
+        "headcount_prior": 102
+      },
+      {
+        "employer": "Rangely RE-4",
+        "lea_code": "2720",
+        "headcount": 94,
+        "headcount_prior": 94
+      },
+      {
+        "employer": "Rio Blanco BOCES",
+        "lea_code": "9125",
+        "headcount": 13,
+        "headcount_prior": 13
+      }
+    ],
+    "08105": [
+      {
+        "employer": "Monte Vista C-8",
+        "lea_code": "2740",
+        "headcount": 166,
+        "headcount_prior": 172
+      },
+      {
+        "employer": "Upper Rio Grande School District C-7",
+        "lea_code": "2730",
+        "headcount": 67,
+        "headcount_prior": 79
+      },
+      {
+        "employer": "Sargent RE-33J",
+        "lea_code": "2750",
+        "headcount": 50,
+        "headcount_prior": 52
+      }
+    ],
+    "08107": [
+      {
+        "employer": "Steamboat Springs RE-2",
+        "lea_code": "2770",
+        "headcount": 427,
+        "headcount_prior": 438
+      },
+      {
+        "employer": "Hayden RE-1",
+        "lea_code": "2760",
+        "headcount": 78,
+        "headcount_prior": 76
+      },
+      {
+        "employer": "South Routt RE 3",
+        "lea_code": "2780",
+        "headcount": 64,
+        "headcount_prior": 66
+      },
+      {
+        "employer": "Northwest Colo BOCES",
+        "lea_code": "9095",
+        "headcount": 26,
+        "headcount_prior": 30
+      }
+    ],
+    "08109": [
+      {
+        "employer": "Center 26 JT",
+        "lea_code": "2810",
+        "headcount": 136,
+        "headcount_prior": 149
+      },
+      {
+        "employer": "Moffat 2",
+        "lea_code": "2800",
+        "headcount": 70,
+        "headcount_prior": 47
+      },
+      {
+        "employer": "Mountain Valley RE 1",
+        "lea_code": "2790",
+        "headcount": 35,
+        "headcount_prior": 39
+      }
+    ],
+    "08111": [
+      {
+        "employer": "Silverton 1",
+        "lea_code": "2820",
+        "headcount": 23,
+        "headcount_prior": 22
+      }
+    ],
+    "08113": [
+      {
+        "employer": "Telluride R-1",
+        "lea_code": "2830",
+        "headcount": 145,
+        "headcount_prior": 148
+      },
+      {
+        "employer": "Norwood R-2J",
+        "lea_code": "2840",
+        "headcount": 54,
+        "headcount_prior": 52
+      }
+    ],
+    "08115": [
+      {
+        "employer": "Julesburg Re-1",
+        "lea_code": "2862",
+        "headcount": 64,
+        "headcount_prior": 60
+      },
+      {
+        "employer": "Revere School District",
+        "lea_code": "2865",
+        "headcount": 23,
+        "headcount_prior": 31
+      }
+    ],
+    "08117": [
+      {
+        "employer": "Summit RE-1",
+        "lea_code": "3000",
+        "headcount": 522,
+        "headcount_prior": 562
+      }
+    ],
+    "08119": [
+      {
+        "employer": "Woodland Park Re-2",
+        "lea_code": "3020",
+        "headcount": 333,
+        "headcount_prior": 334
+      },
+      {
+        "employer": "Cripple Creek-Victor RE-1",
+        "lea_code": "3010",
+        "headcount": 76,
+        "headcount_prior": 74
+      }
+    ],
+    "08121": [
+      {
+        "employer": "Akron R-1",
+        "lea_code": "3030",
+        "headcount": 85,
+        "headcount_prior": 82
+      },
+      {
+        "employer": "Otis R-3",
+        "lea_code": "3050",
+        "headcount": 43,
+        "headcount_prior": 48
+      },
+      {
+        "employer": "Lone Star 101",
+        "lea_code": "3060",
+        "headcount": 32,
+        "headcount_prior": 32
+      },
+      {
+        "employer": "Woodlin R-104",
+        "lea_code": "3070",
+        "headcount": 31,
+        "headcount_prior": 36
+      },
+      {
+        "employer": "Arickaree R-2",
+        "lea_code": "3040",
+        "headcount": 23,
+        "headcount_prior": 21
+      }
+    ],
+    "08123": [
+      {
+        "employer": "Greeley 6",
+        "lea_code": "3120",
+        "headcount": 2870,
+        "headcount_prior": 2927
+      },
+      {
+        "employer": "Weld RE-4",
+        "lea_code": "3100",
+        "headcount": 1246,
+        "headcount_prior": 1207
+      },
+      {
+        "employer": "Johnstown-Milliken RE-5J",
+        "lea_code": "3110",
+        "headcount": 511,
+        "headcount_prior": 490
+      },
+      {
+        "employer": "Weld County School District RE-3J",
+        "lea_code": "3090",
+        "headcount": 373,
+        "headcount_prior": 360
+      },
+      {
+        "employer": "Weld Re-8 Schools",
+        "lea_code": "3140",
+        "headcount": 361,
+        "headcount_prior": 357
+      },
+      {
+        "employer": "Eaton RE-2",
+        "lea_code": "3085",
+        "headcount": 298,
+        "headcount_prior": 275
+      },
+      {
+        "employer": "Weld County RE-1",
+        "lea_code": "3080",
+        "headcount": 282,
+        "headcount_prior": 286
+      },
+      {
+        "employer": "Platte Valley RE-7",
+        "lea_code": "3130",
+        "headcount": 170,
+        "headcount_prior": 171
+      },
+      {
+        "employer": "Ault-Highland RE-9",
+        "lea_code": "3145",
+        "headcount": 147,
+        "headcount_prior": 151
+      },
+      {
+        "employer": "Centennial BOCES",
+        "lea_code": "9035",
+        "headcount": 108,
+        "headcount_prior": 112
+      },
+      {
+        "employer": "Briggsdale RE-10",
+        "lea_code": "3146",
+        "headcount": 45,
+        "headcount_prior": 42
+      },
+      {
+        "employer": "Pawnee RE-12",
+        "lea_code": "3148",
+        "headcount": 27,
+        "headcount_prior": 24
+      },
+      {
+        "employer": "Prairie RE-11",
+        "lea_code": "3147",
+        "headcount": 23,
+        "headcount_prior": 32
+      }
+    ],
+    "08125": [
+      {
+        "employer": "Yuma 1",
+        "lea_code": "3200",
+        "headcount": 128,
+        "headcount_prior": 135
+      },
+      {
+        "employer": "Wray RD-2",
+        "lea_code": "3210",
+        "headcount": 127,
+        "headcount_prior": 127
+      },
+      {
+        "employer": "Idalia RJ-3",
+        "lea_code": "3220",
+        "headcount": 37,
+        "headcount_prior": 37
+      },
+      {
+        "employer": "Liberty J-4",
+        "lea_code": "3230",
+        "headcount": 19,
+        "headcount_prior": 20
+      }
+    ]
+  }
+}
