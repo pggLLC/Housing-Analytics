@@ -35,7 +35,7 @@
   "program_awards_left_out": 115,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 797,
+  "project_count": 798,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
   "statewide_recent_projects": 397
@@ -17322,35 +17322,20 @@
   },
   {
    "id": "westside-mhp-ahic-1329-loan-08067",
-   "name": "Westside MHP",
+   "name": "Westside MHP- AHIC 1329 Loan",
    "city": "Durango",
    "county_fips": "08067",
    "county_fips_all": null,
    "county": "La Plata County",
    "place_geoid": "0822035",
    "stage": "funded",
-   "first_year": 2022,
+   "first_year": 2023,
    "latest_year": 2023,
    "total_units": 58,
    "total_units_unavailable_reason": null,
    "restricted_units": null,
    "restricted_units_unavailable_reason": "no source prints an income-restricted count; DOLA prints total homes only",
    "events": [
-    {
-     "stage": "funded",
-     "year": 2022,
-     "agency": "DOLA",
-     "program": "State stimulus housing funds",
-     "amount": 4000000,
-     "amount_label": "awarded",
-     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/division_of_housing_annual_public_report_fy22-23_updated.pdf",
-     "quote": "Project: Westside MHP; Program: HB21-1329; Amount: $4,000,000; Amount basis: awarded; Announced: 2022-07-01/2023-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2022-23 (Figure 8)",
-     "announced": "2022-07-01/2023-06-30",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": false,
-     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2022-23 (Figure 8)",
-     "homes_unavailable_reason": "the award does not print a home count"
-    },
     {
      "stage": "funded",
      "year": 2023,
@@ -20163,8 +20148,40 @@
    ]
   },
   {
+   "id": "sloan-south-lake-affordable-housing-08031",
+   "name": "Sloan's Lake Affordable Housing",
+   "city": null,
+   "county_fips": "08031",
+   "county_fips_all": null,
+   "county": "Denver County",
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2022,
+   "latest_year": 2022,
+   "total_units": 158,
+   "total_units_unavailable_reason": null,
+   "restricted_units": null,
+   "restricted_units_unavailable_reason": "no source prints an income-restricted count; DOLA prints total homes only",
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2022,
+     "agency": "DOLA",
+     "program": "Housing Development Grant",
+     "amount": 5000000,
+     "amount_label": "awarded",
+     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/division_of_housing_annual_public_report_fy22-23_updated.pdf",
+     "quote": "Project: Sloan's Lake Affordable Housing; Program: HDG; Amount: $5,000,000; Amount basis: awarded; Homes: 158; Announced: 2022-07-01/2023-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2022-23 (Figure 8)",
+     "announced": "2022-07-01/2023-06-30",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": false,
+     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2022-23 (Figure 8)"
+    }
+   ]
+  },
+  {
    "id": "sol-08031",
-   "name": "SOL",
+   "name": "Sol",
    "city": "Denver",
    "county_fips": "08031",
    "county_fips_all": null,
@@ -20218,39 +20235,7 @@
      "amount": 5157239,
      "amount_label": "awarded",
      "source_url": "https://content.leg.colorado.gov/sites/default/files/images/division_of_housing_annual_public_report_fy22-23_updated.pdf",
-     "quote": "Project: SOL; Program: HDG; Amount: $5,157,239; Amount basis: awarded; Homes: 132; Announced: 2022-07-01/2023-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2022-23 (Figure 8)",
-     "announced": "2022-07-01/2023-06-30",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": false,
-     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2022-23 (Figure 8)"
-    }
-   ]
-  },
-  {
-   "id": "sloan-south-lake-affordable-housing-08031",
-   "name": "Sloan's Lake Affordable Housing",
-   "city": null,
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": null,
-   "stage": "funded",
-   "first_year": 2022,
-   "latest_year": 2022,
-   "total_units": 158,
-   "total_units_unavailable_reason": null,
-   "restricted_units": null,
-   "restricted_units_unavailable_reason": "no source prints an income-restricted count; DOLA prints total homes only",
-   "events": [
-    {
-     "stage": "funded",
-     "year": 2022,
-     "agency": "DOLA",
-     "program": "Housing Development Grant",
-     "amount": 5000000,
-     "amount_label": "awarded",
-     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/division_of_housing_annual_public_report_fy22-23_updated.pdf",
-     "quote": "Project: Sloan's Lake Affordable Housing; Program: HDG; Amount: $5,000,000; Amount basis: awarded; Homes: 158; Announced: 2022-07-01/2023-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2022-23 (Figure 8)",
+     "quote": "Project: Sol; Program: HDG; Amount: $5,157,239; Amount basis: awarded; Homes: 132; Announced: 2022-07-01/2023-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2022-23 (Figure 8)",
      "announced": "2022-07-01/2023-06-30",
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": false,
@@ -21525,7 +21510,7 @@
   },
   {
    "id": "park-ridge-limon-08073",
-   "name": "Limon ApartmentsChrisman",
+   "name": "Limon Apartments",
    "city": "Limon",
    "county_fips": "08073",
    "county_fips_all": null,
@@ -21554,6 +21539,20 @@
     {
      "stage": "funded",
      "year": 2021,
+     "agency": "DOLA",
+     "program": "Housing Development Grant",
+     "amount": 560000,
+     "amount_label": "awarded",
+     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/doh_annual_report_fy21-22.pdf",
+     "quote": "Project: Limon Apartments; Town: Limon; Program: HDG; Amount: $560,000; Amount basis: awarded; Homes: 16; Announced: 2021-07-01/2022-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)",
+     "announced": "2021-07-01/2022-06-30",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": false,
+     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)"
+    },
+    {
+     "stage": "funded",
+     "year": 2021,
      "agency": "CHFA",
      "program": "Housing tax credit property list (4% and State)",
      "amount": null,
@@ -21561,20 +21560,6 @@
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Park Ridge Apartments Limon Apartments; PROJ_ADD: 440 First Ave.; PROJ_CTY: Limon; N_UNITS: 16; LI_UNITS: 16; YR_ALLOC: 2021; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
-    },
-    {
-     "stage": "funded",
-     "year": 2021,
-     "agency": "DOLA",
-     "program": "Housing Development Grant",
-     "amount": 560000,
-     "amount_label": "awarded",
-     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/doh_annual_report_fy21-22.pdf",
-     "quote": "Project: Limon ApartmentsChrisman; Town: Limon; Program: HDG; Amount: $560,000; Amount basis: awarded; Homes: 16; Announced: 2021-07-01/2022-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)",
-     "announced": "2021-07-01/2022-06-30",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": false,
-     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)"
     },
     {
      "stage": "funded",
@@ -22464,6 +22449,38 @@
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Smith Ranch Apartments; PROJ_ADD: 105 Ruby Ranch Road; PROJ_CTY: Silverthorne; N_UNITS: 65; LI_UNITS: 64; YR_ALLOC: 2022; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
+    }
+   ]
+  },
+  {
+   "id": "chfa-sf-const-ahif1",
+   "name": "CHFA SF Const AHIF¹",
+   "city": null,
+   "county_fips": null,
+   "county_fips_all": null,
+   "county": null,
+   "place_geoid": null,
+   "stage": "funded",
+   "first_year": 2021,
+   "latest_year": 2021,
+   "total_units": 151,
+   "total_units_unavailable_reason": null,
+   "restricted_units": null,
+   "restricted_units_unavailable_reason": "no source prints an income-restricted count; DOLA prints total homes only",
+   "events": [
+    {
+     "stage": "funded",
+     "year": 2021,
+     "agency": "DOLA",
+     "program": "State stimulus housing funds",
+     "amount": 5000000,
+     "amount_label": "awarded",
+     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/doh_annual_report_fy21-22.pdf",
+     "quote": "Project: CHFA SF Const AHIF¹; Program: AHIF; Amount: $5,000,000; Amount basis: awarded; Homes: 151; Announced: 2021-07-01/2022-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)",
+     "announced": "2021-07-01/2022-06-30",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": false,
+     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)"
     }
    ]
   },
@@ -24636,7 +24653,7 @@
   },
   {
    "id": "park-ridge-estes-park-08069",
-   "name": "Park Ridge ApartmentsChrisman",
+   "name": "Park Ridge Apartments",
    "city": "Estes Park",
    "county_fips": "08069",
    "county_fips_all": null,
@@ -24665,6 +24682,20 @@
     {
      "stage": "funded",
      "year": 2021,
+     "agency": "DOLA",
+     "program": "Housing Development Grant",
+     "amount": 600000,
+     "amount_label": "awarded",
+     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/doh_annual_report_fy21-22.pdf",
+     "quote": "Project: Park Ridge Apartments; Town: Estes Park; Program: HDG; Amount: $600,000; Amount basis: awarded; Homes: 32; Announced: 2021-07-01/2022-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)",
+     "announced": "2021-07-01/2022-06-30",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": false,
+     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)"
+    },
+    {
+     "stage": "funded",
+     "year": 2021,
      "agency": "CHFA",
      "program": "Housing tax credit property list (4% and State)",
      "amount": null,
@@ -24672,20 +24703,6 @@
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Park Ridge Apartments Park Ridge; PROJ_ADD: 1250 Acacia Drive; PROJ_CTY: Estes Park; N_UNITS: 32; LI_UNITS: 31; YR_ALLOC: 2021; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
-    },
-    {
-     "stage": "funded",
-     "year": 2021,
-     "agency": "DOLA",
-     "program": "Housing Development Grant",
-     "amount": 600000,
-     "amount_label": "awarded",
-     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/doh_annual_report_fy21-22.pdf",
-     "quote": "Project: Park Ridge ApartmentsChrisman; Town: Estes Park; Program: HDG; Amount: $600,000; Amount basis: awarded; Homes: 32; Announced: 2021-07-01/2022-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)",
-     "announced": "2021-07-01/2022-06-30",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": false,
-     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)"
     }
    ]
   },
@@ -24744,7 +24761,7 @@
   },
   {
    "id": "park-ridge-trail-ridge-08069",
-   "name": "Trail Ridge ApartmentsChrisman",
+   "name": "Trail Ridge Apartments",
    "city": "Estes Park",
    "county_fips": "08069",
    "county_fips_all": null,
@@ -24773,6 +24790,20 @@
     {
      "stage": "funded",
      "year": 2021,
+     "agency": "DOLA",
+     "program": "Housing Development Grant",
+     "amount": 805000,
+     "amount_label": "awarded",
+     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/doh_annual_report_fy21-22.pdf",
+     "quote": "Project: Trail Ridge Apartments; Town: Estes Park; Program: HDG; Amount: $805,000; Amount basis: awarded; Homes: 24; Announced: 2021-07-01/2022-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)",
+     "announced": "2021-07-01/2022-06-30",
+     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
+     "confirmed": false,
+     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)"
+    },
+    {
+     "stage": "funded",
+     "year": 2021,
      "agency": "CHFA",
      "program": "Housing tax credit property list (4% and State)",
      "amount": null,
@@ -24780,20 +24811,6 @@
      "source_url": "https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers",
      "quote": "PROJECT: Park Ridge Apartments Trail Ridge; PROJ_ADD: 1256 Community Drive; PROJ_CTY: Estes Park; N_UNITS: 24; LI_UNITS: 23; YR_ALLOC: 2021; CREDIT: 4% and State; ComplianceStatus: Active Compliance",
      "compliance_status": "Active Compliance"
-    },
-    {
-     "stage": "funded",
-     "year": 2021,
-     "agency": "DOLA",
-     "program": "Housing Development Grant",
-     "amount": 805000,
-     "amount_label": "awarded",
-     "source_url": "https://content.leg.colorado.gov/sites/default/files/images/doh_annual_report_fy21-22.pdf",
-     "quote": "Project: Trail Ridge ApartmentsChrisman; Town: Estes Park; Program: HDG; Amount: $805,000; Amount basis: awarded; Homes: 24; Announced: 2021-07-01/2022-06-30; Source: DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)",
-     "announced": "2021-07-01/2022-06-30",
-     "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
-     "confirmed": false,
-     "source_title": "DOH Annual Public Report on Funding of Affordable Housing Preservation and Production, FY2021-22 (Figure 10)"
     }
    ]
   },

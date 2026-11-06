@@ -8,6 +8,7 @@ apart.
 import importlib.util
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -137,6 +138,11 @@ def test_dola_quotes_do_not_carry_the_grantee():
                 continue
             for g in grantees:
                 if g in e['quote']:
+                    # a town grantee named in the project's own place ("Crossman's
+                    # Addition to the Town of Buena Vista") is the place, not a sponsor
+                    town = re.fullmatch(r'(?:Town|City) of (.+)', g)
+                    if town and town.group(1) == p['city']:
+                        continue
                     assert g in p['name'] or g in (p['city'] or ''), (g, e['quote'])
 
 

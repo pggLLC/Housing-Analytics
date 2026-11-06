@@ -57,7 +57,10 @@ const phIn = P.filter((p) => p.program_type.includes('public-housing'));
 ok(phIn.length > 0 && phIn.length + props.metadata.public_housing.already_on_record_nearby === ph.features.length, 'each development is either added or left out as already on record');
 const near = (a, b) => Math.hypot((a.lat - b.lat) * 111320, (a.lng - b.lng) * 111320 * Math.cos(a.lat * Math.PI / 180));
 const others = P.filter((p) => !p.program_type.includes('public-housing') && Number.isFinite(p.lat));
-ok(phIn.every((x) => others.every((o) => near(x, o) > 200)), 'no added public housing record sits within 200 m of another record');
+const key = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+ok(phIn.every((x) => others.every((o) => near(x, o) > 200 && !(near(x, o) <= 1000 && key(o.property_name) === key(x.property_name)))),
+  'no added public housing record sits within 200 m of another record, or 1 km of one with its name');
+ok(!phIn.some((x) => /^(West Ridge|Columbine) Homes$/.test(x.property_name)), 'Westridge and Columbine Homes (Denver) counted once');
 const fl = read('data/affordable-housing/preservation/usda-farm-labor-housing.json');
 ok(fl.features.length >= 10 && /sc\.egov\.usda\.gov/.test(fl.meta.file), 'USDA farm labor file, with its source');
 ok(P.filter((p) => p.program_type.includes('usda-farm-labor')).length === fl.features.length, 'every farm labor project is in the inventory once (merged where already listed)');
@@ -72,6 +75,11 @@ for (const k of ['fy2122', 'fy2223']) {
   const ann = dola.meta.announcements.find((x) => x.source_type === 'DOH annual report to legislature (PDF)' && x.url.includes(k === 'fy2122' ? 'fy21-22' : 'fy22-23'));
   ok(ann && ann.stated_total > 2e8 && Math.abs(ann.rows_sum - ann.stated_total) / ann.stated_total < 0.01, k + ': rows add up to within 1% of the report total');
 }
+const byName = (n) => early.filter((a) => a.name === n);
+ok(byName('CHFA SF Const AHIF¹').length === 1 && byName('CHFA CAHP AHIF¹').length === 1, 'two $5M CHFA awards with different homes both count');
+const supp = early.filter((a) => /Supplemental funding/.test(a.note));
+ok(supp.length > 0 && supp.every((a) => a.homes === 0), 'supplemental awards keep the printed 0 homes');
+ok(!early.some((a) => /[a-z]Chrisman$/.test(a.name)) && byName('Sol').length === 1, 'project names as printed elsewhere (no run-on grantee, Sol not SOL)');
 ok(/from July 2021/.test(dola.meta.coverage), 'coverage says awards start July 2021');
 const fmap = read('data/derived/funding-map.json');
 ok(fmap.awards.filter((a) => a.year === 2021 || a.year === 2022).filter((a) => a.agency === 'DOH').length >= 100, 'Where the Money Goes maps the earlier DOH awards');

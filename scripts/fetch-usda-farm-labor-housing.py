@@ -17,7 +17,6 @@ Management company names are not copied.
 Run: python3 scripts/fetch-usda-farm-labor-housing.py
 """
 import io, json, os, re, sys, urllib.request
-from datetime import date
 
 PAGE = "https://www.sc.egov.usda.gov/data/MFH_section_515.html"
 BASE = "https://www.sc.egov.usda.gov/data/"

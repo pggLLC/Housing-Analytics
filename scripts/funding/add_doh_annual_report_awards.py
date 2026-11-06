@@ -72,6 +72,11 @@ PROGRAMS = [
 ]
 
 
+def read_json(path):
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
 def clean(s):
     return re.sub(r"\s+", " ", (s or "").replace("-\n", "").replace("\n", " ")).strip()
 
@@ -91,14 +96,15 @@ def norm(s):
 def held_back_rules():
     """The publication guard's patterns and the owner exclusion list: a row
     either one catches is not written to the public award file."""
-    text = open(os.path.join(ROOT, "scripts", "lib", "public-sensitive-patterns.mjs")).read()
+    with open(os.path.join(ROOT, "scripts", "lib", "public-sensitive-patterns.mjs"), encoding="utf-8") as fh:
+        text = fh.read()
     pats = [re.compile(m.group(1).replace("\\/", "/"), re.I if "i" in m.group(2) else 0)
             for m in re.finditer(r"regex:\s*/((?:\\/|[^/])+)/([a-z]*)", text)]
     if not pats:
         sys.exit("could not read scripts/lib/public-sensitive-patterns.mjs; not writing")
     sys.path.insert(0, os.path.join(ROOT, "scripts", "funding"))
     import build_lihtc_applications as apps
-    excl = json.load(open(os.path.join(ROOT, "data", "jurisdiction-briefs", "_lihtc-applications-excluded.json")))
+    excl = read_json(os.path.join(ROOT, "data", "jurisdiction-briefs", "_lihtc-applications-excluded.json"))
     entries = excl if isinstance(excl, list) else excl.get("entries", excl.get("excluded", []))
     hashes = {e["sha256"] for e in entries}
     def held(rec):
@@ -107,6 +113,38 @@ def held_back_rules():
             return True
         return any(apps.exclusion_hash(rec.get(k) or "", rec.get("town") or "") in hashes for k in ("name", "grantee"))
     return held
+
+
+def name_casing():
+    """Project names as the award reports print them, by lower case, so a
+    name DOH prints in capitals ("SOL") keeps its usual form ("Sol")."""
+    rows = read_json(os.path.join(ROOT, "data", "policy", "funding-awards", "award-rows.json"))["rows"]
+    return {r["name"].lower(): r["name"] for r in rows if r.get("name")}
+
+
+def project_name(name, grantee, casing):
+    name = name or grantee
+    if not name:
+        return name
+    first = (grantee or "").split(" ")[0]
+    if len(first) > 3:  # a grantee word run onto the project name ("Limon ApartmentsChrisman")
+        name = re.sub(rf"(?<=[a-z]){re.escape(first)}$", "", name)
+    if name.isupper() and name.lower() in casing:
+        name = casing[name.lower()]
+    return name
+
+
+def same_award(a, rec):
+    """The same award reported twice: same amount within a year, and the same
+    project (one name holds the other). A shared grantee counts only when the homes match too, since one
+    applicant can win two awards of the same size (CHFA's $5M AHIF awards)."""
+    if a.get("amount") != rec["amount"] or abs((a.get("year") or 0) - rec["year"]) > 1:
+        return False
+    na, nr = norm(a.get("name")), norm(rec["name"])
+    if na and nr and (na == nr or f" {na} " in f" {nr} " or f" {nr} " in f" {na} "):
+        return True  # one name inside the other: "Unity on Park Street (fka Wellspring Housing)"
+    return bool(norm(a.get("grantee")) and norm(a.get("grantee")) == norm(rec["grantee"])
+                and a.get("homes") is not None and a.get("homes") == rec["homes"])
 
 
 def fetch(url):
@@ -154,14 +192,15 @@ def stitch(rows, amount_col):
 
 
 def main():
-    data = json.load(open(OUT))
-    cnames = {f["properties"]["NAME"].lower(): f["properties"]["GEOID"] for f in json.load(open(COUNTIES))["features"]}
+    data = read_json(OUT)
+    cnames = {f["properties"]["NAME"].lower(): f["properties"]["GEOID"] for f in read_json(COUNTIES)["features"]}
     keep = [a for a in data["awards"] if not re.match(r"^(fy2122|fy2223)-", a.get("id") or "")]
     titles = {r["title"] for r in REPORTS}
     data["meta"]["announcements"] = [x for x in data["meta"]["announcements"] if x.get("title") not in titles]
     dup_note = re.compile(r"^\[(fy2122|fy2223)\] ")
     data["meta"]["dropped_as_duplicates"] = [x for x in data["meta"].get("dropped_as_duplicates", []) if not dup_note.match(x)]
 
+    casing = name_casing()
     added, dropped = [], []
     held = held_back_rules()
     held_count = 0
@@ -191,10 +230,12 @@ def main():
             cname = re.sub(r"\s+county$", "", county.strip(), flags=re.I).lower()
             fips = cnames.get(cname)
             homes_txt = re.sub(r"[^\d]", "", cell.get(c["homes"]) or "")
+            # an explicit 0 is kept: supplemental awards add no homes (their homes
+            # count on the earlier award); None means the cell is empty
             homes = int(homes_txt) if homes_txt else None
             printed = [cell.get(c[k]) or "" for k in ("grantee", "name", "source", "town", "county", "type", "activity", "homes", "amount") if c.get(k)]
             rec = {
-                "name": cell.get(c["name"]) or cell.get(c["grantee"]),
+                "name": project_name(cell.get(c["name"]), cell.get(c["grantee"]), casing),
                 "grantee": cell.get(c["grantee"]) or None,
                 "town": (cell.get(c["town"]) or None) if c.get("town") else None,
                 "county_fips": fips,
@@ -203,7 +244,7 @@ def main():
                 "program_as_printed": src or None,
                 "amount": amount,
                 "amount_basis": "awarded",
-                "homes": homes if homes else None,
+                "homes": homes,
                 "year": rep["year"],
                 "announced": rep["period"],
                 "source_title": rep["title"],
@@ -221,9 +262,7 @@ def main():
             if held(rec):
                 held_count += 1
                 continue
-            match = next((a for a in keep + added if a.get("amount") == amount and abs((a.get("year") or 0) - rep["year"]) <= 1
-                          and ((norm(a.get("name")) and norm(a.get("name")) == norm(rec["name"]))
-                               or (norm(a.get("grantee")) and norm(a.get("grantee")) == norm(rec["grantee"])))), None)
+            match = next((a for a in keep + added if same_award(a, rec)), None)
             if match:
                 dropped.append(f"[{rep['key']}] {rec['name']}: also reported as {match.get('id')}")
                 continue
@@ -251,11 +290,11 @@ def main():
         "are not included. An announcement that names fewer awards than its total is marked complete: false, and its "
         "awards are marked unconfirmed."
     )
-    with open(OUT, "w") as fh:
+    with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(data, fh, indent=2, ensure_ascii=False)
         fh.write("\n")
     print(f"added {len(added)}, kept once as duplicates {len(dropped)}; awards now {len(data['awards'])}")
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

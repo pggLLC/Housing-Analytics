@@ -68,6 +68,10 @@ const COUNTIES_PATH      = path.join(ROOT, 'data/boundaries/counties_co.geojson'
 // many housing-authority buildings under their own names) and is left out,
 // so no building is counted twice.
 const PUBLIC_HOUSING_NEAR_M = 200;
+// A record with the same name (letters and digits only) this close is the
+// same development under a slightly different map point (Westridge Homes).
+const PUBLIC_HOUSING_SAME_NAME_M = 1000;
+const _nameKey = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 const OUT_PATH           = path.join(ROOT, 'data/affordable-housing/properties.json');
 const MANIFEST_PATH      = path.join(ROOT, 'data/affordable-housing/properties-manifest.json');
 
@@ -682,8 +686,13 @@ function main() {
   const phAdded = [];
   const phNear = [];
   phNorm.forEach((ph) => {
-    const near = Number.isFinite(ph.lat) && deduped.some((r) => Number.isFinite(r.lat) && Number.isFinite(r.lng) &&
-      _metersApart(ph.lat, ph.lng, r.lat, r.lng) <= PUBLIC_HOUSING_NEAR_M);
+    const key = _nameKey(ph.property_name);
+    const near = Number.isFinite(ph.lat) && deduped.some((r) => {
+      if (!Number.isFinite(r.lat) || !Number.isFinite(r.lng)) return false;
+      const m = _metersApart(ph.lat, ph.lng, r.lat, r.lng);
+      return m <= PUBLIC_HOUSING_NEAR_M ||
+        (m <= PUBLIC_HOUSING_SAME_NAME_M && key.length > 3 && _nameKey(r.property_name) === key);
+    });
     (near ? phNear : phAdded).push(ph);
   });
   console.log(`  HUD public housing:              ${phNorm.length} (${phAdded.length} added, ${phNear.length} already on record nearby)`);
@@ -756,7 +765,7 @@ function main() {
         developments: phNorm.length,
         added: phAdded.length,
         already_on_record_nearby: phNear.length,
-        rule: 'A HUD public housing development within ' + PUBLIC_HOUSING_NEAR_M + ' m of a record already in the inventory is taken to be that record and left out.'
+        rule: 'A HUD public housing development within ' + PUBLIC_HOUSING_NEAR_M + ' m of a record already in the inventory, or within ' + PUBLIC_HOUSING_SAME_NAME_M + ' m of a record with the same name, is taken to be that record and left out.'
       },
       county_placed_from_coordinates: countyPlaced,
       total_records: all.length,
