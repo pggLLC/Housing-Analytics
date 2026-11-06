@@ -61,7 +61,12 @@ ok(phNames.has('Walsh Manor') && phNames.has('Pueblo public housing (CO002000300
 ok(/distinctive name word/.test(props.metadata.public_housing.rule), 'the matching rule is stated in the file');
 const fl = read('data/affordable-housing/preservation/usda-farm-labor-housing.json');
 ok(fl.features.length >= 10 && /sc\.egov\.usda\.gov/.test(fl.meta.file), 'USDA farm labor file, with its source');
-ok(P.filter((p) => p.program_type.includes('usda-farm-labor')).length === fl.features.length, 'every farm labor project is in the inventory once (merged where already listed)');
+const flIn = P.filter((p) => p.program_type.includes('usda-farm-labor'));
+ok(flIn.reduce((n, p) => n + Math.max(1, (p.usda_names || []).length), 0) === fl.features.length, 'every farm labor project is in the inventory once (merged where already listed)');
+const byProp = (n) => P.filter((p) => p.property_name === n);
+ok(byProp('Harvest Heights Hsg').length === 0 && byProp('Harvest Heights Housing').length === 1 && byProp('Tierra Nueva Family Alamosa').length === 0,
+  'farm labor listed by CHFA under another name at the same address is merged (Stratton, Alamosa)');
+ok(byProp('TIERRA NUEVA FARMWORKER HSG')[0].total_units === 216, 'a merged record keeps the listed home count');
 ok(!JSON.stringify(fl).includes('Management_Name') && !JSON.stringify(ph).includes('PHONE'), 'no contact fields copied');
 
 // 4. DOH annual reports FY2021-22 and FY2022-23

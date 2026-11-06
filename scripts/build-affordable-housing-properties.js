@@ -429,6 +429,18 @@ function _normAddress(s) {
     .replace(/[^a-z0-9]/g, '');
 }
 
+// House number and street name only: "710 5Th Street" = "710 Fifth Street",
+// "600 South Craft Drive" = "600 Craft Drive".
+const _ORDINALS = { first: '1st', second: '2nd', third: '3rd', fourth: '4th', fifth: '5th', sixth: '6th', seventh: '7th', eighth: '8th', ninth: '9th', tenth: '10th' };
+function _streetKey(s) {
+  const t = String(s || '').toLowerCase().replace(/[.,#’']/g, ' ')
+    .replace(/\b(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)\b/g, (w) => _ORDINALS[w])
+    .replace(/\b(n|s|e|w|north|south|east|west)\b/g, ' ')
+    .replace(/\b(street|st|stret|avenue|ave|road|rd|drive|dr|boulevard|blvd|court|ct|lane|ln|highway|hwy|circle|cir|place|pl|terrace|ter|parkway|pkwy)\b/g, ' ')
+    .replace(/\s+/g, ' ').trim();
+  return /^\d+ [a-z0-9]/.test(t) ? t.replace(/ /g, '') : null;
+}
+
 function _normIdentityName(s) {
   return String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 }
@@ -450,6 +462,10 @@ function _mergePropertyGroup(group) {
     Array.isArray(r.merged_from) ? r.merged_from : (r.source ? [r.source] : [])
   )));
   canonical.source = canonical.merged_from.join(' + ');
+  const usdaNames = group.flatMap((r) => r.usda_names || []);
+  if (usdaNames.length) canonical.usda_names = Array.from(new Set(usdaNames));
+  const usdaUnits = group.reduce((n, r) => n + (r.usda_units || 0), 0);
+  if (usdaUnits) canonical.usda_units = usdaUnits;
 
   const FILLABLE = [
     'address', 'city', 'county_fips', 'state', 'zip',
@@ -692,7 +708,30 @@ function main() {
   const farmLabor = readJson(USDA_FARM_LABOR_PATH);
   const farmLaborNorm = ((farmLabor && farmLabor.features) || []).map((f, i) => normalizeUsdaFarmLabor(f, i));
   console.log(`  USDA farm labor (Section 514):   ${farmLaborNorm.length}`);
-  const rawAll = [...lihtcNorm, ...presNorm, ...hudMfNorm, ...usdaRdNorm, ...farmLaborNorm, ...localPbvNorm];
+  // USDA's farm labor list names some projects differently from CHFA
+  // ("Harvest Heights Hsg" / "Harvest Heights Housing", "Tierra Nueva Family
+  // Alamosa" / "Alamosa Farmworker Housing"). A farm labor project at the
+  // same street address in the same town takes the listed record's name, so
+  // the dedupe below merges the two.
+  const otherRaw = [...lihtcNorm, ...presNorm, ...hudMfNorm, ...usdaRdNorm, ...localPbvNorm];
+  let farmLaborAliased = 0;
+  farmLaborNorm.forEach((fl) => {
+    const key = _streetKey(fl.address);
+    if (!key) return;
+    const twin = otherRaw.find((r) => _streetKey(r.address) === key && _normCity(r.city) === _normCity(fl.city) && r.property_name);
+    if (twin && _normName(twin.property_name) !== _normName(fl.property_name)) {
+      // the listed record keeps its own home count (Tierra Nueva: CHFA 216;
+      // USDA's dormitory and family buildings, 72 and 25, are part of it)
+      fl.usda_names = [fl.property_name];
+      fl.usda_units = fl.total_units;
+      fl.property_name = twin.property_name;
+      fl.total_units = null;
+      fl.assisted_units = null;
+      farmLaborAliased++;
+    }
+  });
+  console.log(`  Farm labor listed under another name: ${farmLaborAliased}`);
+  const rawAll = [...otherRaw.slice(0, lihtcNorm.length + presNorm.length + hudMfNorm.length + usdaRdNorm.length), ...farmLaborNorm, ...localPbvNorm];
   const deduped = dedupeProperties(rawAll);
 
   // Public housing: added unless it is shown to be a record already listed
