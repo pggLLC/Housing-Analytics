@@ -22,20 +22,25 @@ ok(/Colorado Department of Education/.test(m.source.label) && /^https:\/\/ed\.cd
 ok(/NCES/.test(m.county_source.label) && /^https:\/\//.test(m.county_source.url), 'county source named');
 ok(/not a list of the largest employers/i.test(m.not_a_ranking), 'says it is not a ranking');
 ok(/Data Axle/.test(m.not_used) && /20\d\d-\d\d-\d\d/.test(m.not_used), 'says why CDLE is not used, dated');
-const fips = Object.keys(P.counties);
-ok(fips.length >= 60, `counties covered (${fips.length})`);
-const odd = [];
+// All 64 counties are keys, checked against the HNA county list. An empty county says why.
+const R = JSON.parse(readFileSync(join(ROOT, 'data/hna/ranking-index.json'), 'utf8')).rankings;
+const want = R.filter(g => g.type === 'county').map(g => g.geoid).sort();
+const fips = Object.keys(P.counties).sort();
+ok(want.length === 64 && JSON.stringify(fips) === JSON.stringify(want), `all 64 counties are keys (${fips.length})`);
+const odd = fips.filter(f => !want.includes(f));
 for (const f of fips) {
-  if (!/^08\d{3}$/.test(f) || Number(f.slice(2)) % 2 !== 1 || Number(f.slice(2)) > 125) odd.push(f);
   const rows = P.counties[f];
-  ok(rows.length > 0, f + ' has rows');
+  ok(rows.length > 0 || /no school district/i.test((m.no_district_office || {})[f] || ''), f + ' has rows or says why not');
   rows.forEach((r, i) => {
     ok(r.employer && /^\d{4}$/.test(r.lea_code) && Number.isInteger(r.headcount) && r.headcount > 0, `${f} row ${i} well formed`);
     if (i) ok(rows[i - 1].headcount >= r.headcount, `${f} rows run largest first`);
   });
 }
-ok(!odd.length, 'county keys are Colorado county FIPS: ' + odd.join(','));
+ok(!odd.length, 'county keys are Colorado counties: ' + odd.join(','));
 ok(!Object.values(P.counties).flat().some(r => r.lea_code === '8001'), 'Charter School Institute left out');
+ok(P.counties['08014'] && P.counties['08014'].length === 0 && m.no_district_office['08014'], 'Broomfield is present, empty, and explained');
+const seen = Object.values(P.counties).flat().map(r => r.lea_code);
+ok(new Set(seen).size === seen.length, 'no district is listed under two counties');
 // Spot rows copied from the CDE 2025-26 file (All Job Categories).
 const find = (f, code) => (P.counties[f] || []).find(r => r.lea_code === code);
 if (m.as_of === '2025-2026') {

@@ -77,6 +77,16 @@ def main():
         by_county.setdefault(county[code][0], []).append(s)
     for f in by_county:
         by_county[f].sort(key=lambda s: -s['headcount'])
+    # Every county is a key. A county where no district has its office (Broomfield) is an empty list,
+    # explained in meta.no_district_office; another county's district-wide count is never copied in.
+    rank = json.load(open(os.path.join(os.path.dirname(__file__), '..', 'data', 'hna', 'ranking-index.json'), encoding='utf-8'))
+    all_fips = sorted(g['geoid'] for g in rank['rankings'] if g.get('type') == 'county')
+    assert len(all_fips) == 64, 'expected 64 Colorado counties, got %d' % len(all_fips)
+    empty = {}
+    for f in all_fips:
+        if f not in by_county:
+            by_county[f] = []
+            empty[f] = 'No school district or BOCES has its office here; schools here are run by districts listed under neighbouring counties.'
 
     out = {
         'meta': {
@@ -93,6 +103,7 @@ def main():
                         'or republishing, so it is not used (terms read 2026-11-06).',
             'skipped': ['Charter School Institute (statewide, office county is not where its staff work)'],
             'unplaced': sorted(unplaced),
+            'no_district_office': empty,
             'built': date.today().isoformat(),
             'script': 'scripts/build_public_employers.py',
         },

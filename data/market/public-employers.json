@@ -19,6 +19,9 @@
       "Charter School Institute (statewide, office county is not where its staff work)"
     ],
     "unplaced": [],
+    "no_district_office": {
+      "08014": "No school district or BOCES has its office here; schools here are run by districts listed under neighbouring counties."
+    },
     "built": "2026-11-06",
     "script": "scripts/build_public_employers.py"
   },
@@ -205,6 +208,7 @@
         "headcount_prior": 4298
       }
     ],
+    "08014": [],
     "08015": [
       {
         "employer": "Salida R-32",
