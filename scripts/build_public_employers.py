@@ -79,7 +79,8 @@ def main():
         by_county[f].sort(key=lambda s: -s['headcount'])
     # Every county is a key. A county where no district has its office (Broomfield) is an empty list,
     # explained in meta.no_district_office; another county's district-wide count is never copied in.
-    rank = json.load(open(os.path.join(os.path.dirname(__file__), '..', 'data', 'hna', 'ranking-index.json'), encoding='utf-8'))
+    with open(os.path.join(os.path.dirname(__file__), '..', 'data', 'hna', 'ranking-index.json'), encoding='utf-8') as fh:
+        rank = json.load(fh)
     all_fips = sorted(g['geoid'] for g in rank['rankings'] if g.get('type') == 'county')
     assert len(all_fips) == 64, 'expected 64 Colorado counties, got %d' % len(all_fips)
     empty = {}
