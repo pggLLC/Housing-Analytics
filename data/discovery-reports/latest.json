@@ -1,14 +1,14 @@
 {
-  "scanTimestamp": "2026-11-05T15:25:11.142Z",
-  "totalScanned": 2025,
-  "newSourceCount": 1993,
+  "scanTimestamp": "2026-11-06T14:58:31.906Z",
+  "totalScanned": 2029,
+  "newSourceCount": 1997,
   "existingCount": 31,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1027884,
+      "sizeBytes": 1029625,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -73,6 +73,18 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/affordable-housing/preservation/hud-public-housing.json",
+      "sizeBytes": 39399,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/affordable-housing/preservation/usda-farm-labor-housing.json",
+      "sizeBytes": 8455,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/affordable-housing/preservation/usda-rural-housing.json",
       "sizeBytes": 67622,
       "inDataManifest": false,
@@ -86,7 +98,7 @@
     },
     {
       "path": "data/affordable-housing/properties.json",
-      "sizeBytes": 1522540,
+      "sizeBytes": 1580864,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -110,19 +122,19 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 1652560,
+      "sizeBytes": 1724562,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/alerts/brief-news-queue.json",
-      "sizeBytes": 40659,
+      "sizeBytes": 43316,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/alerts/outlet-decisions.json",
-      "sizeBytes": 1988,
+      "sizeBytes": 5909,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -134,7 +146,7 @@
     },
     {
       "path": "data/alerts/outlet-review.json",
-      "sizeBytes": 17576,
+      "sizeBytes": 2675,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -170,7 +182,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 688069,
+      "sizeBytes": 698360,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1244,13 +1256,13 @@
     },
     {
       "path": "data/derived/funding-map.json",
-      "sizeBytes": 1482365,
+      "sizeBytes": 1584928,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/derived/funding-vs-need.json",
-      "sizeBytes": 93798,
+      "sizeBytes": 137205,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1280,7 +1292,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 308312,
+      "sizeBytes": 309244,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5096,7 +5108,7 @@
     },
     {
       "path": "data/hna/lehd/08.json",
-      "sizeBytes": 2173,
+      "sizeBytes": 2821,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5888,7 +5900,7 @@
     },
     {
       "path": "data/hna/local-resources.json",
-      "sizeBytes": 184974,
+      "sizeBytes": 186173,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10537,6 +10549,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/cbp-workplace-size.json",
+      "sizeBytes": 41999,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/cdphe_county_boundaries_co.geojson",
       "sizeBytes": 1186881,
       "inDataManifest": false,
@@ -10640,7 +10658,7 @@
     },
     {
       "path": "data/market/development-activity.json",
-      "sizeBytes": 1185097,
+      "sizeBytes": 1356698,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10856,7 +10874,13 @@
     },
     {
       "path": "data/market/principal-employers.json",
-      "sizeBytes": 22141,
+      "sizeBytes": 34445,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/public-employers.json",
+      "sizeBytes": 31055,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10958,13 +10982,13 @@
     },
     {
       "path": "data/market/walk_bike_access_co.json",
-      "sizeBytes": 968140,
+      "sizeBytes": 1160251,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/market/walk_bike_map_co.json",
-      "sizeBytes": 4297901,
+      "sizeBytes": 5093626,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11012,7 +11036,7 @@
     },
     {
       "path": "data/multifamily-inventory-co.json",
-      "sizeBytes": 92895,
+      "sizeBytes": 94694,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11024,7 +11048,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 16688,
+      "sizeBytes": 16686,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11534,7 +11558,7 @@
     },
     {
       "path": "data/policy/funding-awards/dola-awards.json",
-      "sizeBytes": 342119,
+      "sizeBytes": 547199,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11588,7 +11612,7 @@
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 175540,
+      "sizeBytes": 175173,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11816,7 +11840,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 541656,
+      "sizeBytes": 550942,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11834,13 +11858,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20453,
+      "sizeBytes": 20437,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 205488,
+      "sizeBytes": 207714,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11894,7 +11918,7 @@
     },
     {
       "path": "data/reports/developer-url-health.json",
-      "sizeBytes": 21189,
+      "sizeBytes": 21420,
       "inDataManifest": false,
       "inFilesManifest": true
     },
