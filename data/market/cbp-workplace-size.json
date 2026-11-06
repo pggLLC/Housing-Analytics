@@ -1,0 +1,2188 @@
+{
+ "meta": {
+  "title": "Private workplaces by number of employees, by county",
+  "year": 2023,
+  "reference_week": "week of March 12, 2023",
+  "source": {
+   "label": "U.S. Census Bureau, County Business Patterns 2023",
+   "url": "https://www.census.gov/programs-surveys/cbp.html",
+   "file": "https://www2.census.gov/programs-surveys/cbp/datasets/2023/cbp23co.zip"
+  },
+  "what": "Establishments (single locations, not companies) by employee-size class, and the sectors of those with 100 or more employees. No employer is named.",
+  "excludes": "Government (schools, counties, cities, state and federal agencies), self-employed people, private households, railroads and most farm work.",
+  "large_means": "100 or more employees at one location",
+  "large_at_most": "Where CBP withholds the large classes, the most there could be (the total less the published classes under 100 employees).",
+  "large_by_sector": "Sectors where CBP publishes the large classes; a sector it withholds is left out, so these can add to less than large.",
+  "withheld": "CBP prints N in a size class it does not publish. Where the published classes already add up to the total, those classes are 0; otherwise they are null (unknown), never guessed.",
+  "missing_counties": {},
+  "built": "2026-11-06",
+  "script": "scripts/build_cbp_workplace_size.py"
+ },
+ "counties": {
+  "08001": {
+   "establishments": 11319,
+   "employees": 207227,
+   "by_size": {
+    "1-4": 5994,
+    "5-9": 1949,
+    "10-19": 1516,
+    "20-49": 1145,
+    "50-99": 413,
+    "100-249": 210,
+    "250-499": 62,
+    "500-999": 18,
+    "1,000 or more": 12
+   },
+   "large": 302,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 49
+    },
+    {
+     "naics": "48",
+     "sector": "Transportation and warehousing",
+     "workplaces": 45
+    },
+    {
+     "naics": "23",
+     "sector": "Construction",
+     "workplaces": 41
+    },
+    {
+     "naics": "42",
+     "sector": "Wholesale trade",
+     "workplaces": 35
+    },
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 33
+    },
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 32
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 24
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 11
+    },
+    {
+     "naics": "54",
+     "sector": "Professional, scientific, and technical services",
+     "workplaces": 10
+    },
+    {
+     "naics": "51",
+     "sector": "Information",
+     "workplaces": 3
+    },
+    {
+     "naics": "55",
+     "sector": "Management of companies and enterprises",
+     "workplaces": 3
+    },
+    {
+     "naics": "71",
+     "sector": "Arts, entertainment, and recreation",
+     "workplaces": 3
+    },
+    {
+     "naics": "81",
+     "sector": "Other services (except public administration)",
+     "workplaces": 3
+    },
+    {
+     "naics": "61",
+     "sector": "Educational services",
+     "workplaces": 2
+    },
+    {
+     "naics": "53",
+     "sector": "Real estate and rental and leasing",
+     "workplaces": 1
+    }
+   ]
+  },
+  "08003": {
+   "establishments": 486,
+   "employees": 5956,
+   "by_size": {
+    "1-4": 216,
+    "5-9": 117,
+    "10-19": 77,
+    "20-49": 55,
+    "50-99": 15,
+    "100-249": 4,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 6,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08005": {
+   "establishments": 20137,
+   "employees": 321810,
+   "by_size": {
+    "1-4": 11647,
+    "5-9": 3219,
+    "10-19": 2341,
+    "20-49": 1756,
+    "50-99": 596,
+    "100-249": 432,
+    "250-499": 94,
+    "500-999": 34,
+    "1,000 or more": 18
+   },
+   "large": 578,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 95
+    },
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 80
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 63
+    },
+    {
+     "naics": "54",
+     "sector": "Professional, scientific, and technical services",
+     "workplaces": 52
+    },
+    {
+     "naics": "23",
+     "sector": "Construction",
+     "workplaces": 49
+    },
+    {
+     "naics": "51",
+     "sector": "Information",
+     "workplaces": 49
+    },
+    {
+     "naics": "52",
+     "sector": "Finance and insurance",
+     "workplaces": 40
+    },
+    {
+     "naics": "55",
+     "sector": "Management of companies and enterprises",
+     "workplaces": 30
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 27
+    },
+    {
+     "naics": "42",
+     "sector": "Wholesale trade",
+     "workplaces": 18
+    },
+    {
+     "naics": "81",
+     "sector": "Other services (except public administration)",
+     "workplaces": 17
+    },
+    {
+     "naics": "48",
+     "sector": "Transportation and warehousing",
+     "workplaces": 15
+    },
+    {
+     "naics": "61",
+     "sector": "Educational services",
+     "workplaces": 14
+    },
+    {
+     "naics": "71",
+     "sector": "Arts, entertainment, and recreation",
+     "workplaces": 12
+    },
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 11
+    },
+    {
+     "naics": "53",
+     "sector": "Real estate and rental and leasing",
+     "workplaces": 5
+    }
+   ]
+  },
+  "08007": {
+   "establishments": 576,
+   "employees": 4204,
+   "by_size": {
+    "1-4": 361,
+    "5-9": 108,
+    "10-19": 73,
+    "20-49": 25,
+    "50-99": 3,
+    "100-249": 5,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 6,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08009": {
+   "establishments": 87,
+   "employees": 584,
+   "by_size": {
+    "1-4": 60,
+    "5-9": 18,
+    "10-19": 6,
+    "20-49": null,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 3,
+   "large_by_sector": []
+  },
+  "08011": {
+   "establishments": 56,
+   "employees": 607,
+   "by_size": {
+    "1-4": 32,
+    "5-9": 12,
+    "10-19": 7,
+    "20-49": 3,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 2,
+   "large_by_sector": []
+  },
+  "08013": {
+   "establishments": 12990,
+   "employees": 159619,
+   "by_size": {
+    "1-4": 8058,
+    "5-9": 1965,
+    "10-19": 1409,
+    "20-49": 1008,
+    "50-99": 318,
+    "100-249": 163,
+    "250-499": 45,
+    "500-999": 17,
+    "1,000 or more": 7
+   },
+   "large": 232,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 39
+    },
+    {
+     "naics": "54",
+     "sector": "Professional, scientific, and technical services",
+     "workplaces": 38
+    },
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 36
+    },
+    {
+     "naics": "51",
+     "sector": "Information",
+     "workplaces": 26
+    },
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 25
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 13
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 12
+    },
+    {
+     "naics": "42",
+     "sector": "Wholesale trade",
+     "workplaces": 9
+    },
+    {
+     "naics": "55",
+     "sector": "Management of companies and enterprises",
+     "workplaces": 7
+    },
+    {
+     "naics": "61",
+     "sector": "Educational services",
+     "workplaces": 6
+    },
+    {
+     "naics": "81",
+     "sector": "Other services (except public administration)",
+     "workplaces": 4
+    },
+    {
+     "naics": "23",
+     "sector": "Construction",
+     "workplaces": 3
+    },
+    {
+     "naics": "71",
+     "sector": "Arts, entertainment, and recreation",
+     "workplaces": 3
+    },
+    {
+     "naics": "52",
+     "sector": "Finance and insurance",
+     "workplaces": 1
+    },
+    {
+     "naics": "53",
+     "sector": "Real estate and rental and leasing",
+     "workplaces": 1
+    }
+   ]
+  },
+  "08014": {
+   "establishments": 2337,
+   "employees": 45136,
+   "by_size": {
+    "1-4": 1329,
+    "5-9": 379,
+    "10-19": 248,
+    "20-49": 230,
+    "50-99": 79,
+    "100-249": 42,
+    "250-499": 17,
+    "500-999": 9,
+    "1,000 or more": 4
+   },
+   "large": 72,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "51",
+     "sector": "Information",
+     "workplaces": 15
+    },
+    {
+     "naics": "54",
+     "sector": "Professional, scientific, and technical services",
+     "workplaces": 11
+    },
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 7
+    },
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 6
+    },
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 5
+    },
+    {
+     "naics": "23",
+     "sector": "Construction",
+     "workplaces": 4
+    },
+    {
+     "naics": "42",
+     "sector": "Wholesale trade",
+     "workplaces": 3
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 3
+    },
+    {
+     "naics": "61",
+     "sector": "Educational services",
+     "workplaces": 2
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 2
+    }
+   ]
+  },
+  "08015": {
+   "establishments": 1076,
+   "employees": 7171,
+   "by_size": {
+    "1-4": 730,
+    "5-9": 183,
+    "10-19": 101,
+    "20-49": 50,
+    "50-99": 6,
+    "100-249": 4,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 6,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08017": {
+   "establishments": 59,
+   "employees": 358,
+   "by_size": {
+    "1-4": 42,
+    "5-9": 7,
+    "10-19": 4,
+    "20-49": 5,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 1,
+   "large_by_sector": []
+  },
+  "08019": {
+   "establishments": 340,
+   "employees": 3044,
+   "by_size": {
+    "1-4": 239,
+    "5-9": 49,
+    "10-19": 26,
+    "20-49": 20,
+    "50-99": 4,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 2,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08021": {
+   "establishments": 123,
+   "employees": 813,
+   "by_size": {
+    "1-4": 72,
+    "5-9": 27,
+    "10-19": 17,
+    "20-49": 6,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 1,
+   "large_by_sector": []
+  },
+  "08023": {
+   "establishments": 50,
+   "employees": 385,
+   "by_size": {
+    "1-4": 28,
+    "5-9": 15,
+    "10-19": 4,
+    "20-49": null,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 3,
+   "large_by_sector": []
+  },
+  "08025": {
+   "establishments": 41,
+   "employees": 481,
+   "by_size": {
+    "1-4": 22,
+    "5-9": 13,
+    "10-19": 4,
+    "20-49": null,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 2,
+   "large_by_sector": []
+  },
+  "08027": {
+   "establishments": 170,
+   "employees": 717,
+   "by_size": {
+    "1-4": 124,
+    "5-9": 27,
+    "10-19": 12,
+    "20-49": 7,
+    "50-99": 0,
+    "100-249": 0,
+    "250-499": 0,
+    "500-999": 0,
+    "1,000 or more": 0
+   },
+   "large": 0,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08029": {
+   "establishments": 878,
+   "employees": 6516,
+   "by_size": {
+    "1-4": 569,
+    "5-9": 169,
+    "10-19": 86,
+    "20-49": 41,
+    "50-99": 7,
+    "100-249": 3,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 6,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 1
+    }
+   ]
+  },
+  "08031": {
+   "establishments": 27422,
+   "employees": 489563,
+   "by_size": {
+    "1-4": 15794,
+    "5-9": 4151,
+    "10-19": 3175,
+    "20-49": 2545,
+    "50-99": 934,
+    "100-249": 590,
+    "250-499": 152,
+    "500-999": 48,
+    "1,000 or more": 33
+   },
+   "large": 823,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "54",
+     "sector": "Professional, scientific, and technical services",
+     "workplaces": 111
+    },
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 101
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 74
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 63
+    },
+    {
+     "naics": "51",
+     "sector": "Information",
+     "workplaces": 62
+    },
+    {
+     "naics": "52",
+     "sector": "Finance and insurance",
+     "workplaces": 62
+    },
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 57
+    },
+    {
+     "naics": "55",
+     "sector": "Management of companies and enterprises",
+     "workplaces": 48
+    },
+    {
+     "naics": "48",
+     "sector": "Transportation and warehousing",
+     "workplaces": 45
+    },
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 38
+    },
+    {
+     "naics": "42",
+     "sector": "Wholesale trade",
+     "workplaces": 33
+    },
+    {
+     "naics": "23",
+     "sector": "Construction",
+     "workplaces": 32
+    },
+    {
+     "naics": "53",
+     "sector": "Real estate and rental and leasing",
+     "workplaces": 23
+    },
+    {
+     "naics": "71",
+     "sector": "Arts, entertainment, and recreation",
+     "workplaces": 23
+    },
+    {
+     "naics": "61",
+     "sector": "Educational services",
+     "workplaces": 17
+    },
+    {
+     "naics": "81",
+     "sector": "Other services (except public administration)",
+     "workplaces": 16
+    },
+    {
+     "naics": "21",
+     "sector": "Mining, quarrying, and oil and gas extraction",
+     "workplaces": 13
+    },
+    {
+     "naics": "22",
+     "sector": "Utilities",
+     "workplaces": 5
+    }
+   ]
+  },
+  "08033": {
+   "establishments": 67,
+   "employees": 327,
+   "by_size": {
+    "1-4": 46,
+    "5-9": 11,
+    "10-19": 6,
+    "20-49": 4,
+    "50-99": 0,
+    "100-249": 0,
+    "250-499": 0,
+    "500-999": 0,
+    "1,000 or more": 0
+   },
+   "large": 0,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08035": {
+   "establishments": 10563,
+   "employees": 132499,
+   "by_size": {
+    "1-4": 6947,
+    "5-9": 1331,
+    "10-19": 1086,
+    "20-49": 769,
+    "50-99": 251,
+    "100-249": 125,
+    "250-499": 34,
+    "500-999": 13,
+    "1,000 or more": 7
+   },
+   "large": 179,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 49
+    },
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 22
+    },
+    {
+     "naics": "23",
+     "sector": "Construction",
+     "workplaces": 19
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 12
+    },
+    {
+     "naics": "51",
+     "sector": "Information",
+     "workplaces": 11
+    },
+    {
+     "naics": "42",
+     "sector": "Wholesale trade",
+     "workplaces": 9
+    },
+    {
+     "naics": "54",
+     "sector": "Professional, scientific, and technical services",
+     "workplaces": 9
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 8
+    },
+    {
+     "naics": "52",
+     "sector": "Finance and insurance",
+     "workplaces": 7
+    },
+    {
+     "naics": "61",
+     "sector": "Educational services",
+     "workplaces": 7
+    },
+    {
+     "naics": "71",
+     "sector": "Arts, entertainment, and recreation",
+     "workplaces": 7
+    },
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 6
+    },
+    {
+     "naics": "48",
+     "sector": "Transportation and warehousing",
+     "workplaces": 3
+    },
+    {
+     "naics": "55",
+     "sector": "Management of companies and enterprises",
+     "workplaces": 3
+    },
+    {
+     "naics": "81",
+     "sector": "Other services (except public administration)",
+     "workplaces": 3
+    }
+   ]
+  },
+  "08037": {
+   "establishments": 3664,
+   "employees": 36282,
+   "by_size": {
+    "1-4": 2482,
+    "5-9": 531,
+    "10-19": 327,
+    "20-49": 225,
+    "50-99": 57,
+    "100-249": 29,
+    "250-499": 9,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 42,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 13
+    },
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 8
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 4
+    },
+    {
+     "naics": "48",
+     "sector": "Transportation and warehousing",
+     "workplaces": 2
+    }
+   ]
+  },
+  "08039": {
+   "establishments": 722,
+   "employees": 3474,
+   "by_size": {
+    "1-4": 535,
+    "5-9": 98,
+    "10-19": 57,
+    "20-49": 26,
+    "50-99": 5,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 1,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08041": {
+   "establishments": 18852,
+   "employees": 267012,
+   "by_size": {
+    "1-4": 11013,
+    "5-9": 3012,
+    "10-19": 2265,
+    "20-49": 1633,
+    "50-99": 557,
+    "100-249": 268,
+    "250-499": 60,
+    "500-999": 29,
+    "1,000 or more": 15
+   },
+   "large": 372,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 66
+    },
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 60
+    },
+    {
+     "naics": "54",
+     "sector": "Professional, scientific, and technical services",
+     "workplaces": 51
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 32
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 24
+    },
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 23
+    },
+    {
+     "naics": "81",
+     "sector": "Other services (except public administration)",
+     "workplaces": 20
+    },
+    {
+     "naics": "48",
+     "sector": "Transportation and warehousing",
+     "workplaces": 17
+    },
+    {
+     "naics": "51",
+     "sector": "Information",
+     "workplaces": 15
+    },
+    {
+     "naics": "23",
+     "sector": "Construction",
+     "workplaces": 13
+    },
+    {
+     "naics": "52",
+     "sector": "Finance and insurance",
+     "workplaces": 13
+    },
+    {
+     "naics": "61",
+     "sector": "Educational services",
+     "workplaces": 13
+    },
+    {
+     "naics": "42",
+     "sector": "Wholesale trade",
+     "workplaces": 11
+    },
+    {
+     "naics": "71",
+     "sector": "Arts, entertainment, and recreation",
+     "workplaces": 7
+    }
+   ]
+  },
+  "08043": {
+   "establishments": 938,
+   "employees": 8603,
+   "by_size": {
+    "1-4": 539,
+    "5-9": 203,
+    "10-19": 111,
+    "20-49": 62,
+    "50-99": 12,
+    "100-249": 9,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 11,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 5
+    }
+   ]
+  },
+  "08045": {
+   "establishments": 2705,
+   "employees": 21223,
+   "by_size": {
+    "1-4": 1738,
+    "5-9": 439,
+    "10-19": 297,
+    "20-49": 178,
+    "50-99": 35,
+    "100-249": 14,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 18,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 7
+    },
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 4
+    },
+    {
+     "naics": "23",
+     "sector": "Construction",
+     "workplaces": 1
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 1
+    }
+   ]
+  },
+  "08047": {
+   "establishments": 144,
+   "employees": 4513,
+   "by_size": {
+    "1-4": 106,
+    "5-9": 8,
+    "10-19": 9,
+    "20-49": 6,
+    "50-99": 5,
+    "100-249": 3,
+    "250-499": 5,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 10,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08049": {
+   "establishments": 917,
+   "employees": 8294,
+   "by_size": {
+    "1-4": 617,
+    "5-9": 146,
+    "10-19": 86,
+    "20-49": 48,
+    "50-99": 13,
+    "100-249": 3,
+    "250-499": 3,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 7,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 2
+    }
+   ]
+  },
+  "08051": {
+   "establishments": 1191,
+   "employees": 7194,
+   "by_size": {
+    "1-4": 841,
+    "5-9": 184,
+    "10-19": 110,
+    "20-49": 44,
+    "50-99": 7,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 5,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 1
+    }
+   ]
+  },
+  "08053": {
+   "establishments": 66,
+   "employees": 127,
+   "by_size": {
+    "1-4": 61,
+    "5-9": 4,
+    "10-19": null,
+    "20-49": null,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 1,
+   "large_by_sector": []
+  },
+  "08055": {
+   "establishments": 164,
+   "employees": 1235,
+   "by_size": {
+    "1-4": 106,
+    "5-9": 33,
+    "10-19": 15,
+    "20-49": 9,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 1,
+   "large_by_sector": []
+  },
+  "08057": {
+   "establishments": 64,
+   "employees": 320,
+   "by_size": {
+    "1-4": 46,
+    "5-9": 11,
+    "10-19": 3,
+    "20-49": 4,
+    "50-99": 0,
+    "100-249": 0,
+    "250-499": 0,
+    "500-999": 0,
+    "1,000 or more": 0
+   },
+   "large": 0,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08059": {
+   "establishments": 17999,
+   "employees": 210701,
+   "by_size": {
+    "1-4": 11212,
+    "5-9": 2752,
+    "10-19": 1984,
+    "20-49": 1344,
+    "50-99": 426,
+    "100-249": 217,
+    "250-499": 40,
+    "500-999": 14,
+    "1,000 or more": 10
+   },
+   "large": 281,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 67
+    },
+    {
+     "naics": "54",
+     "sector": "Professional, scientific, and technical services",
+     "workplaces": 37
+    },
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 31
+    },
+    {
+     "naics": "23",
+     "sector": "Construction",
+     "workplaces": 26
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 22
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 19
+    },
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 18
+    },
+    {
+     "naics": "55",
+     "sector": "Management of companies and enterprises",
+     "workplaces": 14
+    },
+    {
+     "naics": "42",
+     "sector": "Wholesale trade",
+     "workplaces": 9
+    },
+    {
+     "naics": "52",
+     "sector": "Finance and insurance",
+     "workplaces": 9
+    },
+    {
+     "naics": "51",
+     "sector": "Information",
+     "workplaces": 8
+    },
+    {
+     "naics": "48",
+     "sector": "Transportation and warehousing",
+     "workplaces": 7
+    },
+    {
+     "naics": "61",
+     "sector": "Educational services",
+     "workplaces": 7
+    },
+    {
+     "naics": "53",
+     "sector": "Real estate and rental and leasing",
+     "workplaces": 2
+    },
+    {
+     "naics": "71",
+     "sector": "Arts, entertainment, and recreation",
+     "workplaces": 2
+    },
+    {
+     "naics": "81",
+     "sector": "Other services (except public administration)",
+     "workplaces": 2
+    }
+   ]
+  },
+  "08061": {
+   "establishments": 38,
+   "employees": 289,
+   "by_size": {
+    "1-4": 23,
+    "5-9": 9,
+    "10-19": 3,
+    "20-49": null,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 3,
+   "large_by_sector": []
+  },
+  "08063": {
+   "establishments": 275,
+   "employees": 1948,
+   "by_size": {
+    "1-4": 156,
+    "5-9": 59,
+    "10-19": 37,
+    "20-49": 20,
+    "50-99": 3,
+    "100-249": 0,
+    "250-499": 0,
+    "500-999": 0,
+    "1,000 or more": 0
+   },
+   "large": 0,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08065": {
+   "establishments": 253,
+   "employees": 1702,
+   "by_size": {
+    "1-4": 171,
+    "5-9": 43,
+    "10-19": 22,
+    "20-49": 12,
+    "50-99": 3,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 2,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08067": {
+   "establishments": 2447,
+   "employees": 20351,
+   "by_size": {
+    "1-4": 1485,
+    "5-9": 451,
+    "10-19": 306,
+    "20-49": 149,
+    "50-99": 32,
+    "100-249": 21,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 24,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 7
+    },
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 4
+    },
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 4
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 4
+    }
+   ]
+  },
+  "08069": {
+   "establishments": 11764,
+   "employees": 139517,
+   "by_size": {
+    "1-4": 6798,
+    "5-9": 1988,
+    "10-19": 1468,
+    "20-49": 1041,
+    "50-99": 279,
+    "100-249": 146,
+    "250-499": 30,
+    "500-999": 7,
+    "1,000 or more": 7
+   },
+   "large": 190,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 38
+    },
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 36
+    },
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 20
+    },
+    {
+     "naics": "42",
+     "sector": "Wholesale trade",
+     "workplaces": 16
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 15
+    },
+    {
+     "naics": "23",
+     "sector": "Construction",
+     "workplaces": 13
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 13
+    },
+    {
+     "naics": "51",
+     "sector": "Information",
+     "workplaces": 7
+    },
+    {
+     "naics": "48",
+     "sector": "Transportation and warehousing",
+     "workplaces": 6
+    },
+    {
+     "naics": "54",
+     "sector": "Professional, scientific, and technical services",
+     "workplaces": 6
+    },
+    {
+     "naics": "55",
+     "sector": "Management of companies and enterprises",
+     "workplaces": 6
+    },
+    {
+     "naics": "61",
+     "sector": "Educational services",
+     "workplaces": 5
+    },
+    {
+     "naics": "71",
+     "sector": "Arts, entertainment, and recreation",
+     "workplaces": 5
+    },
+    {
+     "naics": "81",
+     "sector": "Other services (except public administration)",
+     "workplaces": 2
+    },
+    {
+     "naics": "52",
+     "sector": "Finance and insurance",
+     "workplaces": 1
+    },
+    {
+     "naics": "53",
+     "sector": "Real estate and rental and leasing",
+     "workplaces": 1
+    }
+   ]
+  },
+  "08071": {
+   "establishments": 377,
+   "employees": 3318,
+   "by_size": {
+    "1-4": 218,
+    "5-9": 80,
+    "10-19": 48,
+    "20-49": 21,
+    "50-99": 6,
+    "100-249": 3,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 4,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08073": {
+   "establishments": 153,
+   "employees": 1351,
+   "by_size": {
+    "1-4": 83,
+    "5-9": 32,
+    "10-19": 21,
+    "20-49": 14,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 3,
+   "large_by_sector": []
+  },
+  "08075": {
+   "establishments": 559,
+   "employees": 4827,
+   "by_size": {
+    "1-4": 306,
+    "5-9": 119,
+    "10-19": 82,
+    "20-49": 42,
+    "50-99": 5,
+    "100-249": 4,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 5,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08077": {
+   "establishments": 4827,
+   "employees": 56737,
+   "by_size": {
+    "1-4": 2729,
+    "5-9": 845,
+    "10-19": 646,
+    "20-49": 411,
+    "50-99": 125,
+    "100-249": 54,
+    "250-499": 12,
+    "500-999": 2,
+    "1,000 or more": 3
+   },
+   "large": 71,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 20
+    },
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 17
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 6
+    },
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 5
+    },
+    {
+     "naics": "23",
+     "sector": "Construction",
+     "workplaces": 4
+    },
+    {
+     "naics": "21",
+     "sector": "Mining, quarrying, and oil and gas extraction",
+     "workplaces": 3
+    },
+    {
+     "naics": "42",
+     "sector": "Wholesale trade",
+     "workplaces": 2
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 2
+    },
+    {
+     "naics": "61",
+     "sector": "Educational services",
+     "workplaces": 2
+    }
+   ]
+  },
+  "08079": {
+   "establishments": 75,
+   "employees": 268,
+   "by_size": {
+    "1-4": 56,
+    "5-9": 13,
+    "10-19": 5,
+    "20-49": null,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 1,
+   "large_by_sector": []
+  },
+  "08081": {
+   "establishments": 389,
+   "employees": 3181,
+   "by_size": {
+    "1-4": 236,
+    "5-9": 70,
+    "10-19": 54,
+    "20-49": 22,
+    "50-99": 3,
+    "100-249": 4,
+    "250-499": 0,
+    "500-999": 0,
+    "1,000 or more": 0
+   },
+   "large": 4,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08083": {
+   "establishments": 759,
+   "employees": 6808,
+   "by_size": {
+    "1-4": 427,
+    "5-9": 169,
+    "10-19": 99,
+    "20-49": 46,
+    "50-99": 11,
+    "100-249": 4,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 7,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 2
+    }
+   ]
+  },
+  "08085": {
+   "establishments": 1501,
+   "employees": 14612,
+   "by_size": {
+    "1-4": 853,
+    "5-9": 289,
+    "10-19": 190,
+    "20-49": 126,
+    "50-99": 28,
+    "100-249": 12,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 15,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 4
+    },
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 3
+    },
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 2
+    }
+   ]
+  },
+  "08087": {
+   "establishments": 711,
+   "employees": 10323,
+   "by_size": {
+    "1-4": 372,
+    "5-9": 152,
+    "10-19": 103,
+    "20-49": 54,
+    "50-99": 19,
+    "100-249": 7,
+    "250-499": 3,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 11,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 3
+    },
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 1
+    }
+   ]
+  },
+  "08089": {
+   "establishments": 403,
+   "employees": 4508,
+   "by_size": {
+    "1-4": 212,
+    "5-9": 95,
+    "10-19": 52,
+    "20-49": 24,
+    "50-99": 15,
+    "100-249": null,
+    "250-499": 3,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 5,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 3
+    }
+   ]
+  },
+  "08091": {
+   "establishments": 321,
+   "employees": 1626,
+   "by_size": {
+    "1-4": 219,
+    "5-9": 52,
+    "10-19": 37,
+    "20-49": 12,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 1,
+   "large_by_sector": []
+  },
+  "08093": {
+   "establishments": 539,
+   "employees": 1866,
+   "by_size": {
+    "1-4": 426,
+    "5-9": 60,
+    "10-19": 37,
+    "20-49": 16,
+    "50-99": 0,
+    "100-249": 0,
+    "250-499": 0,
+    "500-999": 0,
+    "1,000 or more": 0
+   },
+   "large": 0,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08095": {
+   "establishments": 138,
+   "employees": 1146,
+   "by_size": {
+    "1-4": 85,
+    "5-9": 29,
+    "10-19": 15,
+    "20-49": 5,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 4,
+   "large_by_sector": []
+  },
+  "08097": {
+   "establishments": 1708,
+   "employees": 17629,
+   "by_size": {
+    "1-4": 1172,
+    "5-9": 242,
+    "10-19": 137,
+    "20-49": 97,
+    "50-99": 37,
+    "100-249": 11,
+    "250-499": 9,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 23,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 12
+    },
+    {
+     "naics": "71",
+     "sector": "Arts, entertainment, and recreation",
+     "workplaces": 4
+    }
+   ]
+  },
+  "08099": {
+   "establishments": 312,
+   "employees": 2661,
+   "by_size": {
+    "1-4": 162,
+    "5-9": 75,
+    "10-19": 47,
+    "20-49": 21,
+    "50-99": 5,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 2,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08101": {
+   "establishments": 3250,
+   "employees": 50735,
+   "by_size": {
+    "1-4": 1603,
+    "5-9": 640,
+    "10-19": 487,
+    "20-49": 342,
+    "50-99": 113,
+    "100-249": 46,
+    "250-499": 11,
+    "500-999": 5,
+    "1,000 or more": 3
+   },
+   "large": 65,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 20
+    },
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 14
+    },
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 9
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 6
+    },
+    {
+     "naics": "23",
+     "sector": "Construction",
+     "workplaces": 2
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 2
+    },
+    {
+     "naics": "48",
+     "sector": "Transportation and warehousing",
+     "workplaces": 1
+    },
+    {
+     "naics": "51",
+     "sector": "Information",
+     "workplaces": 1
+    },
+    {
+     "naics": "71",
+     "sector": "Arts, entertainment, and recreation",
+     "workplaces": 1
+    }
+   ]
+  },
+  "08103": {
+   "establishments": 194,
+   "employees": 2237,
+   "by_size": {
+    "1-4": 117,
+    "5-9": 32,
+    "10-19": 24,
+    "20-49": 15,
+    "50-99": null,
+    "100-249": 3,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 6,
+   "large_by_sector": []
+  },
+  "08105": {
+   "establishments": 374,
+   "employees": 2894,
+   "by_size": {
+    "1-4": 232,
+    "5-9": 72,
+    "10-19": 46,
+    "20-49": 16,
+    "50-99": 6,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 2,
+   "large_at_most": null,
+   "large_by_sector": []
+  },
+  "08107": {
+   "establishments": 1860,
+   "employees": 15390,
+   "by_size": {
+    "1-4": 1277,
+    "5-9": 262,
+    "10-19": 162,
+    "20-49": 117,
+    "50-99": 32,
+    "100-249": 7,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 10,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 3
+    },
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 1
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 1
+    }
+   ]
+  },
+  "08109": {
+   "establishments": 130,
+   "employees": 791,
+   "by_size": {
+    "1-4": 77,
+    "5-9": 30,
+    "10-19": 16,
+    "20-49": 5,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 2,
+   "large_by_sector": []
+  },
+  "08111": {
+   "establishments": 79,
+   "employees": 274,
+   "by_size": {
+    "1-4": 60,
+    "5-9": 13,
+    "10-19": 4,
+    "20-49": null,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 2,
+   "large_by_sector": []
+  },
+  "08113": {
+   "establishments": 690,
+   "employees": 5725,
+   "by_size": {
+    "1-4": 449,
+    "5-9": 105,
+    "10-19": 78,
+    "20-49": 45,
+    "50-99": 7,
+    "100-249": 5,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 6,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 5
+    }
+   ]
+  },
+  "08115": {
+   "establishments": 74,
+   "employees": 461,
+   "by_size": {
+    "1-4": 48,
+    "5-9": 17,
+    "10-19": 6,
+    "20-49": null,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 3,
+   "large_by_sector": []
+  },
+  "08117": {
+   "establishments": 2306,
+   "employees": 22915,
+   "by_size": {
+    "1-4": 1522,
+    "5-9": 331,
+    "10-19": 225,
+    "20-49": 168,
+    "50-99": 36,
+    "100-249": 18,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": 4
+   },
+   "large": 24,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 6
+    }
+   ]
+  },
+  "08119": {
+   "establishments": 824,
+   "employees": 7007,
+   "by_size": {
+    "1-4": 574,
+    "5-9": 120,
+    "10-19": 76,
+    "20-49": 36,
+    "50-99": 7,
+    "100-249": 7,
+    "250-499": 3,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 11,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 4
+    },
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 3
+    }
+   ]
+  },
+  "08121": {
+   "establishments": 115,
+   "employees": 537,
+   "by_size": {
+    "1-4": 88,
+    "5-9": 11,
+    "10-19": 11,
+    "20-49": 4,
+    "50-99": null,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": null,
+   "large_at_most": 1,
+   "large_by_sector": []
+  },
+  "08123": {
+   "establishments": 7454,
+   "employees": 101420,
+   "by_size": {
+    "1-4": 4150,
+    "5-9": 1284,
+    "10-19": 960,
+    "20-49": 717,
+    "50-99": 209,
+    "100-249": 105,
+    "250-499": 17,
+    "500-999": 7,
+    "1,000 or more": 5
+   },
+   "large": 134,
+   "large_at_most": null,
+   "large_by_sector": [
+    {
+     "naics": "31",
+     "sector": "Manufacturing",
+     "workplaces": 24
+    },
+    {
+     "naics": "44",
+     "sector": "Retail trade",
+     "workplaces": 24
+    },
+    {
+     "naics": "23",
+     "sector": "Construction",
+     "workplaces": 19
+    },
+    {
+     "naics": "56",
+     "sector": "Administrative and support and waste management",
+     "workplaces": 16
+    },
+    {
+     "naics": "62",
+     "sector": "Health care and social assistance",
+     "workplaces": 11
+    },
+    {
+     "naics": "21",
+     "sector": "Mining, quarrying, and oil and gas extraction",
+     "workplaces": 10
+    },
+    {
+     "naics": "42",
+     "sector": "Wholesale trade",
+     "workplaces": 5
+    },
+    {
+     "naics": "48",
+     "sector": "Transportation and warehousing",
+     "workplaces": 4
+    },
+    {
+     "naics": "54",
+     "sector": "Professional, scientific, and technical services",
+     "workplaces": 4
+    },
+    {
+     "naics": "53",
+     "sector": "Real estate and rental and leasing",
+     "workplaces": 3
+    },
+    {
+     "naics": "61",
+     "sector": "Educational services",
+     "workplaces": 2
+    },
+    {
+     "naics": "72",
+     "sector": "Accommodation and food services",
+     "workplaces": 2
+    }
+   ]
+  },
+  "08125": {
+   "establishments": 352,
+   "employees": 2314,
+   "by_size": {
+    "1-4": 227,
+    "5-9": 65,
+    "10-19": 39,
+    "20-49": 14,
+    "50-99": 5,
+    "100-249": null,
+    "250-499": null,
+    "500-999": null,
+    "1,000 or more": null
+   },
+   "large": 2,
+   "large_at_most": null,
+   "large_by_sector": []
+  }
+ }
+}
