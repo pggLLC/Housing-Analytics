@@ -140,7 +140,7 @@ ok(s.dollars === sumDollars, 'summarised dollars equal the sum of award dollars 
 // Bonds (a loan to the project) stay apart from credits and dollars.
 ok(awards.filter((a) => a.agency !== 'CHFA').every((a) => a.bonds === null), 'only CHFA 4% awards carry bonds');
 ok(chfa.filter((a) => a.bonds).every((a) => /4%/.test(a.program)), 'bonds appear only on 4% awards');
-const ledgerBonds = ledger.awards.reduce((t, r) => t + (M.agencyOf(r.agency) === 'CHFA' && !M.isExcluded(r.name) ? (r.bond_amount || 0) : 0), 0);
+const ledgerBonds = ledger.awards.reduce((t, r) => t + (M.agencyOf(r.agency) === 'CHFA' && !M.isExcluded(r.name) && !M.isReturned(r) ? (r.bond_amount || 0) : 0), 0);
 ok(s.bonds === ledgerBonds && s.bonds > 0, `summarised bonds equal the ledger's bond amounts (${s.bonds} vs ${ledgerBonds})`);
 // Prop 123 money splits by program and the parts add back to OEDIT's dollars.
 const oedit = awards.filter((a) => a.agency === 'OEDIT');
@@ -228,6 +228,22 @@ ok(about.includes('scripts/funding/build_funding_awards.py'), '"About this data"
 ok(about.length > 500, 'found "About this data" in the view');
 const beforeAnswer = html.slice(html.indexOf('<main'), html.indexOf('data-agency-funding-view')) + js.slice(js.indexOf('var MARKUP'), js.indexOf('data-hm-answer'));
 ok(!/Screening tool only|disclaimer|informational only/i.test(beforeAnswer), 'no warning sits above the answer');
+
+// ── returned awards and 4% bond deals outside the rounds ───────────────────
+const returned = ledger.awards.filter((r) => M.isReturned(r));
+ok(returned.length >= 1, 'the ledger has awards CHFA marks as returned');
+ok(returned.every((r) => !awards.some((a) => a.agency === 'CHFA' && a.year === r.year && a.homes === r.restricted_units && (a.name || '').replace(/\W/g, '').startsWith((r.name || '').replace(/\W/g, '').slice(0, 10)))), 'returned awards (did not proceed) are not counted');
+const fvn = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/derived/funding-vs-need.json'), 'utf8'));
+const deals = fvn.meta.bond_deals_outside_rounds || [];
+ok(deals.length > 0, 'the funding-vs-need file lists 4% bond deals outside the rounds');
+const withBonds = M.normalise({ ledger, documents, rows, dola, aliases, counties, bondDeals: { deals, url: 'chfa-portfolio.html', checked: fvn.generatedAt } });
+const bd = withBonds.filter((a) => a.bondDeal);
+ok(bd.length === deals.filter((d) => !M.isExcluded(d.name)).length, 'every bond deal becomes one CHFA record');
+ok(bd.every((a) => a.agency === 'CHFA' && a.credits === null && a.dollars === null && a.bonds === null && a.developerRaw === null), 'bond deals carry homes only: no credits, dollars, bonds or developer');
+const bdHomes = deals.reduce((t, d) => t + (d.homes || 0), 0);
+ok(M.summarise(withBonds).homes - s.homes === bdHomes, `bond deals add their homes (${bdHomes}) and nothing else`);
+ok(M.summarise(withBonds).credits === s.credits && M.summarise(withBonds).bonds === s.bonds, 'bond deals leave credits and bond totals unchanged');
+ok(bdHomes === fvn.statewide.bond_units_outside_rounds, 'bond homes match Funding vs Need statewide');
 
 if (failures) {
   console.error(`agency-funding: ${failures} failed`);

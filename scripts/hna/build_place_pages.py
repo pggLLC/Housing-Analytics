@@ -42,6 +42,7 @@ import html as html_lib
 import json
 import os
 import sys
+import re
 
 REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PLACE_CHAS    = os.path.join(REPO_ROOT, 'data', 'hna', 'place-chas.json')
@@ -51,6 +52,10 @@ PHANTOM_ALIAS = os.path.join(REPO_ROOT, 'data', 'hna', 'place-phantom-aliases.js
 PERMITS       = os.path.join(REPO_ROOT, 'data', 'hna', 'permits.json')
 OWNERSHIP_NEED = os.path.join(REPO_ROOT, 'data', 'hna', 'ownership-need.json')
 LOCAL_PLAYERS = os.path.join(REPO_ROOT, 'data', 'market', 'local-players.json')
+# 4% bond deals CHFA awarded outside its rounds (scripts/funding/build_funding_vs_need.mjs).
+# The property list prints their homes but not who built them, so the card
+# counts them apart from the groups that won awards.
+FUNDING_VS_NEED = os.path.join(REPO_ROOT, 'data', 'derived', 'funding-vs-need.json')
 COUNTY_NAMES_FILE = os.path.join(REPO_ROOT, 'data', 'co-county-boundaries.json')
 PAGES_DIR     = os.path.join(REPO_ROOT, 'places')
 TEMPLATE_FILE = os.path.join(PAGES_DIR, '_template.html')
@@ -488,7 +493,7 @@ def generate_page(
             data_payload['permits'] = permit_rec
             data_payload['permits_years'] = permits_doc.get('years')
     if players_doc:
-        players = local_players_payload(geoid, county_fips, players_doc)
+        players = local_players_payload(geoid, county_fips, players_doc, BOND_DEALS)
         if players:
             data_payload['local_players'] = players
     if ownership_doc:
@@ -532,7 +537,27 @@ LAND_GROUPS = [
 ]
 
 
-def local_players_payload(geoid: str, county_fips: str | None, doc: dict) -> dict | None:
+BOND_DEALS: list = []
+
+
+def _town_key(s) -> str:
+    return re.sub(r'[^a-z]', '', (s or '').lower())
+
+
+def bond_deals_payload(scope: str, name: str | None, county_fips: str | None, deals: list) -> dict | None:
+    """4% bond deals outside the rounds in the same area the developer counts cover."""
+    if scope == 'town':
+        mine = [d for d in deals if _town_key(d.get('city')) and _town_key(d.get('city')) == _town_key(name)]
+    else:
+        mine = [d for d in deals if d.get('county_fips') == county_fips]
+    if not mine:
+        return None
+    homes = [d['homes'] for d in mine if d.get('homes') is not None]
+    return {'deals': len(mine), 'homes': sum(homes) if homes else None,
+            'first_year': min(d['award_year'] for d in mine), 'last_year': max(d['award_year'] for d in mine)}
+
+
+def local_players_payload(geoid: str, county_fips: str | None, doc: dict, bond_deals: list | None = None) -> dict | None:
     """The basic who-works-here card: the town's own counts where it has them, else its county's."""
     areas = doc.get('areas') or {}
     town = areas.get(geoid)
@@ -556,11 +581,12 @@ def local_players_payload(geoid: str, county_fips: str | None, doc: dict) -> dic
                 if share >= 0.5:
                     groups.append({'key': key, 'label': label, 'share': share})
             land = {'scope': 'town' if land_src is town else 'county', 'received': L.get('county_record_received'), 'groups': groups}
-    return {
+    dev_scope = 'town' if dev_src is town else 'county'
+    out = {
         'built': (doc.get('meta') or {}).get('built'),
         'county_name': (county or base).get('name'),
         'developers': (dev_src or {}).get('developers'),
-        'developers_scope': 'town' if dev_src is town else 'county',
+        'developers_scope': dev_scope,
         'providers': {
             'housing_authorities': ((county or base).get('providers') or {}).get('housing_authorities') or [],
             'housing_nonprofits': ((town if town and (town.get('providers') or {}).get('housing_nonprofits') else county or base).get('providers') or {}).get('housing_nonprofits') or 0,
@@ -569,6 +595,10 @@ def local_players_payload(geoid: str, county_fips: str | None, doc: dict) -> dic
         'land': land,
         'land_unavailable_reason': None if land else (county or base).get('land_unavailable_reason'),
     }
+    bd = bond_deals_payload(dev_scope, (dev_src or {}).get('name'), county_fips, bond_deals or [])
+    if bd:
+        out['bond_deals'] = bd
+    return out
 
 
 def build_index(places: list[tuple[str, str, str]], template_dir: str) -> str:
@@ -648,6 +678,10 @@ def main() -> int:
     else:
         print(f'WARN: {OWNERSHIP_NEED} not found — pages will show no ownership-need card data. '
               f'Run npm run build:jurisdiction-metrics-digest first.', file=sys.stderr)
+    global BOND_DEALS
+    if os.path.exists(FUNDING_VS_NEED):
+        with open(FUNDING_VS_NEED) as f:
+            BOND_DEALS = (json.load(f).get('meta') or {}).get('bond_deals_outside_rounds') or []
     players_doc = None
     if os.path.exists(LOCAL_PLAYERS):
         with open(LOCAL_PLAYERS) as f:
