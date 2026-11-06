@@ -276,7 +276,7 @@
     var last = by[by.length - 1];
     var feedLast = d.meta && d.meta.bond_feed_last_year;
     setText('fvnYearText', 'LIHTC units awarded by year, ' + by[0].year + ' to ' + last.year + '. ' + last.year + ' is the year to date.' +
-      (feedLast ? ' Bond deals come from CHFA\u2019s property list, which runs through ' + feedLast + ' and adds recent bond deals late, so the latest years show few.' : ''));
+      (feedLast ? ' Bond deals outside the rounds come from CHFA\u2019s property list (through ' + feedLast + '). From 2021 CHFA also prints them in its federal 4% award report, which this count already reads, so few are added for recent years.' : ''));
   }
 
   // Table: one column definition list drives the header, the cells, the sort and the CSV.
