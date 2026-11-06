@@ -2117,7 +2117,8 @@ def _build_synthetic_wac_data(lehd_dir: str) -> dict[int, dict[str, dict[str, in
         return year_county
 
     for filename in sorted(os.listdir(lehd_dir)):
-        if not filename.endswith('.json'):
+        # County files only: 08.json is the statewide sum written after this.
+        if not re.fullmatch(r'08\d{3}\.json', filename):
             continue
         fips = filename[:-5]
         try:
@@ -2273,6 +2274,123 @@ def build_lehd_wac_snapshots() -> None:
         updated += 1
 
     print(f"✓ LEHD WAC snapshots merged into {updated} county files (years: {sorted_years})")
+
+
+def build_lehd_statewide(lehd_dir: str | None = None) -> dict | None:
+    """Write data/hna/lehd/08.json as the sum of the 64 county LEHD files.
+
+    The county files come from the LODES main OD file, where home and work
+    are both in Colorado. Statewide, every one of those jobs is a Colorado
+    resident working in Colorado, so ``within`` is the sum of each county's
+    ``within`` plus its ``inflow`` (commuters from another Colorado county).
+    Commuting across the state line is in the LODES auxiliary OD file, which
+    this build does not read, so the statewide ``inflow`` and ``outflow`` are
+    null (the HNA chart draws no bar and names them), and cross-county
+    commuting is published separately as ``crossCountyCommuters``.
+
+    ``annualEmployment``, ``annualWages`` and the industry counts (WAC, jobs
+    by workplace) are summed for every year all 64 counties report. The
+    county files are read only; nothing here changes them, the place files,
+    or any market-analysis input.
+    """
+    lehd_dir = lehd_dir or OUT['lehd_dir']
+    county_files = sorted(
+        f for f in os.listdir(lehd_dir)
+        if re.fullmatch(r'08\d{3}\.json', f)
+    )
+    if len(county_files) != 64:
+        print(f"⚠ Statewide LEHD skipped: {len(county_files)} county files, expected 64", file=sys.stderr)
+        return None
+    blobs = []
+    for f in county_files:
+        with open(os.path.join(lehd_dir, f), encoding='utf-8') as fh:
+            blobs.append(json.load(fh))
+
+    od_years = {b.get('year') for b in blobs}
+    if len(od_years) != 1:
+        print(f"⚠ Statewide LEHD skipped: county files mix OD years {sorted(od_years, key=str)}", file=sys.stderr)
+        return None
+    od_year = od_years.pop()
+
+    def _n(v):
+        return v if isinstance(v, (int, float)) and not isinstance(v, bool) else None
+
+    within_parts = [_n(b.get('within')) for b in blobs]
+    inflow_parts = [_n(b.get('inflow')) for b in blobs]
+    if any(v is None for v in within_parts + inflow_parts):
+        print('⚠ Statewide LEHD skipped: a county file has no within/inflow count', file=sys.stderr)
+        return None
+    cross_county = int(sum(inflow_parts))
+    within = int(sum(within_parts)) + cross_county
+
+    years = sorted({y for b in blobs for y in (b.get('annualEmployment') or {})})
+    annual_emp, annual_wages = {}, {}
+    for y in years:
+        emp = [_n((b.get('annualEmployment') or {}).get(y)) for b in blobs]
+        if all(v is not None for v in emp):
+            annual_emp[y] = int(sum(emp))
+        wages = [(b.get('annualWages') or {}).get(y) for b in blobs]
+        if all(isinstance(w, dict) for w in wages):
+            band = {}
+            for k in ('low', 'medium', 'high'):
+                vals = [_n(w.get(k)) for w in wages]
+                band[k] = int(sum(vals)) if all(v is not None for v in vals) else None
+            annual_wages[y] = band
+
+    yoy = {}
+    emp_years = sorted(annual_emp)
+    for prev, cur in zip(emp_years, emp_years[1:]):
+        a, b = annual_emp[prev], annual_emp[cur]
+        yoy[cur] = round((b - a) / a * 100.0, 2) if a else None
+
+    wac_years = {b.get('wacYear') for b in blobs}
+    wac_year = wac_years.pop() if len(wac_years) == 1 else None
+    industries = []
+    if wac_year is not None:
+        totals = {col: sum(int(b.get(col) or 0) for b in blobs) for col in _WAC_INDUSTRY_COLS}
+        total_jobs = sum(int(b.get(_WAC_TOTAL_COL) or 0) for b in blobs)
+        for col, count in totals.items():
+            if count > 0:
+                industries.append({
+                    'naics': col,
+                    'label': _WAC_INDUSTRY_LABELS.get(col, col),
+                    'count': count,
+                    'pct': round(count / total_jobs * 100.0, 1) if total_jobs else 0.0,
+                })
+        industries.sort(key=lambda x: x['count'], reverse=True)
+
+    payload = {
+        'updated': utc_now_z(),
+        'year': od_year,
+        'stateFips': STATE_FIPS_CO,
+        'within': within,
+        'inflow': None,
+        'outflow': None,
+        'crossCountyCommuters': cross_county,
+        'source': {
+            'dataset': 'LEHD LODES8 OD main (JT00) and WAC: sum of the 64 Colorado county files in data/hna/lehd/',
+            'notes': (
+                'within = Colorado residents working in Colorado (each county\'s within plus its '
+                'commuters from other Colorado counties). Commuting across the state line is in the '
+                'LODES auxiliary OD file, which is not read, so inflow and outflow are null. '
+                'annualEmployment = jobs by workplace (WAC C000) summed over every county, for years '
+                'all 64 counties report. Built by scripts/hna/build_hna_data.py build_lehd_statewide().'
+            ),
+        },
+        'wacYear': wac_year,
+        'annualEmployment': annual_emp,
+        'annualWages': annual_wages,
+        'yoyGrowth': yoy,
+        'industries': industries,
+    }
+    if any(b.get('syntheticWac') for b in blobs):
+        payload['syntheticWac'] = True
+    out_path = os.path.join(lehd_dir, f"{STATE_FIPS_CO}.json")
+    with open(out_path, 'w', encoding='utf-8') as fh:
+        json.dump(payload, fh)
+    _log_file_written(out_path, 'lehd:state')
+    print(f"✓ Statewide LEHD written: {within:,} live-and-work jobs, {annual_emp.get(max(annual_emp), 0) if annual_emp else 0:,} jobs by workplace")
+    return payload
 
 
 def build_dola_sya_by_county():
@@ -3415,6 +3533,8 @@ def main():
         build_lehd_by_county()
         _log_step('LEHD WAC annual snapshots (2019–2023)')
         build_lehd_wac_snapshots()
+        _log_step('LEHD statewide aggregate (sum of county files)')
+        build_lehd_statewide()
     elif 'lehd' in phases:
         print('  ℹ Skipping LEHD (SKIP_LEHD=true)')
 

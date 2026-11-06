@@ -402,7 +402,7 @@
   }
   var PROGRAM_LABELS = {
     'lihtc-9pct': '9% tax credit', 'lihtc-4pct': '4% tax credit', 'lihtc-state-paired': 'state credit', 'lihtc-toc-paired': 'transit-oriented credit',
-    'lihtc-mihtc': 'middle-income credit', 'hud-multifamily': 'HUD assisted', 'usda-rural-development': 'USDA Rural Development', 'pbv-local': 'project-based vouchers'
+    'lihtc-mihtc': 'middle-income credit', 'hud-multifamily': 'HUD assisted', 'usda-rural-development': 'USDA Rural Development', 'usda-farm-labor': 'USDA farm worker housing', 'public-housing': 'public housing', 'pbv-local': 'project-based vouchers'
   };
 
   // Housing-policy markers (scorecard) and the curated policy-progress record.

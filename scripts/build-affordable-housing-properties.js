@@ -60,6 +60,35 @@ const PRESERVATION_PATH  = path.join(ROOT, 'data/affordable-housing/preservation
 const HUD_MF_PATH        = path.join(ROOT, 'data/affordable-housing/preservation/hud-multifamily-assisted.json');
 const USDA_RD_PATH       = path.join(ROOT, 'data/affordable-housing/preservation/usda-rural-housing.json');
 const LOCAL_PHA_DIR      = path.join(ROOT, 'data/affordable-housing/local-pha-roster');
+const PUBLIC_HOUSING_PATH = path.join(ROOT, 'data/affordable-housing/preservation/hud-public-housing.json');
+const USDA_FARM_LABOR_PATH = path.join(ROOT, 'data/affordable-housing/preservation/usda-farm-labor-housing.json');
+const COUNTIES_PATH      = path.join(ROOT, 'data/boundaries/counties_co.geojson');
+// A HUD public housing development is taken to be a record already in the
+// inventory (CHFA's preservation list carries many housing-authority
+// buildings under their own names) only on evidence of identity, and each
+// record stands for one development at most:
+//  - a shared distinctive name word within PUBLIC_HOUSING_SAME_NAME_M
+//    ("West Ridge Homes" = "Westridge Homes", "Bean Tower" = "Thomas Bean
+//    Towers", "Park Avenue Phase 4b" = "Benedict Park Place 4B"), or
+//  - the same number of homes within PUBLIC_HOUSING_SAME_UNITS_M
+//    ("1099 Osage" = "Tapiz at Mariposa", 100 homes, 16 m apart); not for
+//    scattered sites, whose one map point stands for many addresses.
+// Nearness alone is not enough: Walsh Manor (89) sits 61 m from Walsh Manor
+// Annex (100), and HUD maps a town-wide authority ("Pueblo") at one point.
+const PUBLIC_HOUSING_SAME_NAME_M = 1000;
+const PUBLIC_HOUSING_SAME_UNITS_M = 300;
+const PH_COMMON_WORDS = new Set(('homes home apartments apartment apts apt the at of and on phase redevelopment rebuild ' +
+  'park avenue street place village villages manor towers tower court courts hope vi south north east west dispersed senior ' +
+  'housing residences annex co county city town un units').split(' '));
+const _nameWords = (s) => String(s || '').toLowerCase().replace(/westridge/g, 'west ridge').replace(/[^a-z0-9 ]/g, ' ')
+  .split(/\s+/).map((w) => w.replace(/s$/, '')).filter((w) => w.length > 1 && !PH_COMMON_WORDS.has(w) && !PH_COMMON_WORDS.has(w + 's'));
+// A HUD name that is only its authority's town ("Fountain", "Colorado
+// Springs") says nothing about which building it is.
+const _placeOnlyName = (ph) => {
+  const words = _nameWords(ph.property_name);
+  const authority = _nameWords(ph.pha_administered_by);
+  return words.length === 0 || words.every((w) => authority.includes(w));
+};
 const OUT_PATH           = path.join(ROOT, 'data/affordable-housing/properties.json');
 const MANIFEST_PATH      = path.join(ROOT, 'data/affordable-housing/properties-manifest.json');
 
@@ -400,6 +429,18 @@ function _normAddress(s) {
     .replace(/[^a-z0-9]/g, '');
 }
 
+// House number and street name only: "710 5Th Street" = "710 Fifth Street",
+// "600 South Craft Drive" = "600 Craft Drive".
+const _ORDINALS = { first: '1st', second: '2nd', third: '3rd', fourth: '4th', fifth: '5th', sixth: '6th', seventh: '7th', eighth: '8th', ninth: '9th', tenth: '10th' };
+function _streetKey(s) {
+  const t = String(s || '').toLowerCase().replace(/[.,#’']/g, ' ')
+    .replace(/\b(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)\b/g, (w) => _ORDINALS[w])
+    .replace(/\b(n|s|e|w|north|south|east|west)\b/g, ' ')
+    .replace(/\b(street|st|stret|avenue|ave|road|rd|drive|dr|boulevard|blvd|court|ct|lane|ln|highway|hwy|circle|cir|place|pl|terrace|ter|parkway|pkwy)\b/g, ' ')
+    .replace(/\s+/g, ' ').trim();
+  return /^\d+ [a-z0-9]/.test(t) ? t.replace(/ /g, '') : null;
+}
+
 function _normIdentityName(s) {
   return String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 }
@@ -421,6 +462,10 @@ function _mergePropertyGroup(group) {
     Array.isArray(r.merged_from) ? r.merged_from : (r.source ? [r.source] : [])
   )));
   canonical.source = canonical.merged_from.join(' + ');
+  const usdaNames = group.flatMap((r) => r.usda_names || []);
+  if (usdaNames.length) canonical.usda_names = Array.from(new Set(usdaNames));
+  const usdaUnits = group.reduce((n, r) => n + (r.usda_units || 0), 0);
+  if (usdaUnits) canonical.usda_units = usdaUnits;
 
   const FILLABLE = [
     'address', 'city', 'county_fips', 'state', 'zip',
@@ -451,6 +496,106 @@ function _mergePropertyGroup(group) {
       });
   }
   return canonical;
+}
+
+/**
+ * Normalize a HUD public housing development (housing-authority owned,
+ * HUD operating and capital funds). HUD gives no street address or city.
+ */
+function normalizePublicHousing(feature, idx) {
+  const p = feature.properties || {};
+  const coords = (feature.geometry || {}).coordinates || [null, null];
+  return {
+    property_id: 'public-housing:' + (p.DEVELOPMENT_CODE || idx),
+    program_type: ['preservation-candidate', 'public-housing'],
+    property_name: p.PROJECT || null,
+    address: null,
+    city: null,
+    county_fips: p.CNTY_FIPS || null,
+    state: 'CO',
+    zip: null,
+    total_units: p.N_UNITS || null,
+    assisted_units: p.N_UNITS || null,
+    latest_year: null,
+    lat: Number.isFinite(coords[1]) ? coords[1] : null,
+    lng: Number.isFinite(coords[0]) ? coords[0] : null,
+    source: p._source || 'HUD Public Housing Developments',
+    source_id: p.DEVELOPMENT_CODE || null,
+    subsidy_type: 'public-housing',
+    pha_administered_by: p.PHA_NAME || null,
+    scattered_site: !!p.SCATTERED_SITE,
+    years_to_expiration: null,
+    risk_status: null,
+    compliance_status: null, project_type: null, type_of_credits: null,
+    region: null, urban_rural: null,
+    senior_units: 0, family_units: 0, homeless_units: 0,
+    veteran_units: 0, supportive_units: 0
+  };
+}
+
+/**
+ * Normalize a USDA Section 514 farm labor rental (USDA's own active-projects
+ * file; HUD's copy of the USDA layer holds Section 515 only).
+ */
+function normalizeUsdaFarmLabor(feature, idx) {
+  const p = feature.properties || {};
+  const coords = (feature.geometry || {}).coordinates || [null, null];
+  const exp = p.restrictive_expiration ? parseInt(String(p.restrictive_expiration).slice(0, 4), 10) : null;
+  const yearsToExpiration = exp ? exp - new Date().getFullYear() : null;
+  return {
+    property_id: 'usda-514:' + (p.usda_project_key || idx),
+    program_type: ['preservation-candidate', 'usda-rural-development', 'usda-farm-labor'],
+    property_name: p.PROJECT || null,
+    address: p.PROJ_ADD || null,
+    city: p.PROJ_CTY || null,
+    county_fips: p.CNTY_FIPS || null,
+    state: 'CO',
+    zip: p.Zip || null,
+    total_units: p.N_UNITS || null,
+    assisted_units: p.LI_UNITS || p.N_UNITS || null,
+    latest_year: null,
+    lat: Number.isFinite(coords[1]) ? coords[1] : null,
+    lng: Number.isFinite(coords[0]) ? coords[0] : null,
+    source: p._source || 'USDA RD MFH active projects (Section 514 farm labor)',
+    source_id: p.usda_project_key || null,
+    subsidy_type: (p.ra_units || 0) > 0 ? 'usda-rd-with-ra' : 'usda-rd',
+    restrictive_expiration: p.restrictive_expiration || null,
+    years_to_expiration: yearsToExpiration,
+    risk_status: null,
+    ra_units: p.ra_units || 0,
+    compliance_status: null, project_type: null, type_of_credits: null,
+    region: null, urban_rural: 'Rural',
+    senior_units: 0, family_units: 0, homeless_units: 0,
+    veteran_units: 0, supportive_units: 0
+  };
+}
+
+function _metersApart(aLat, aLng, bLat, bLng) {
+  const dy = (aLat - bLat) * 111320;
+  const dx = (aLng - bLng) * 111320 * Math.cos(aLat * Math.PI / 180);
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+function _inRing(x, y, ring) {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1];
+    if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) inside = !inside;
+  }
+  return inside;
+}
+function _inPolygon(x, y, poly) {
+  if (!_inRing(x, y, poly[0])) return false;
+  for (let k = 1; k < poly.length; k++) if (_inRing(x, y, poly[k])) return false;
+  return true;
+}
+function _countyAt(lng, lat, counties) {
+  for (const f of counties) {
+    const g = f.geometry || {};
+    const polys = g.type === 'Polygon' ? [g.coordinates] : g.type === 'MultiPolygon' ? g.coordinates : [];
+    if (polys.some((poly) => _inPolygon(lng, lat, poly))) return f.properties.GEOID;
+  }
+  return null;
 }
 
 function dedupeProperties(records) {
@@ -560,8 +705,88 @@ function main() {
   // appears as ONE map marker with the union of program types and the
   // richest available metadata, rather than 3 stacked markers + triple
   // unit count.
-  const rawAll = [...lihtcNorm, ...presNorm, ...hudMfNorm, ...usdaRdNorm, ...localPbvNorm];
-  const all = dedupeProperties(rawAll);
+  const farmLabor = readJson(USDA_FARM_LABOR_PATH);
+  const farmLaborNorm = ((farmLabor && farmLabor.features) || []).map((f, i) => normalizeUsdaFarmLabor(f, i));
+  console.log(`  USDA farm labor (Section 514):   ${farmLaborNorm.length}`);
+  // USDA's farm labor list names some projects differently from CHFA
+  // ("Harvest Heights Hsg" / "Harvest Heights Housing", "Tierra Nueva Family
+  // Alamosa" / "Alamosa Farmworker Housing"). A farm labor project at the
+  // same street address in the same town takes the listed record's name, so
+  // the dedupe below merges the two.
+  const otherRaw = [...lihtcNorm, ...presNorm, ...hudMfNorm, ...usdaRdNorm, ...localPbvNorm];
+  let farmLaborAliased = 0;
+  farmLaborNorm.forEach((fl) => {
+    const key = _streetKey(fl.address);
+    if (!key) return;
+    const twin = otherRaw.find((r) => _streetKey(r.address) === key && _normCity(r.city) === _normCity(fl.city) && r.property_name);
+    if (twin && _normName(twin.property_name) !== _normName(fl.property_name)) {
+      // the listed record keeps its own home count (Tierra Nueva: CHFA 216;
+      // USDA's dormitory and family buildings, 72 and 25, are part of it)
+      fl.usda_names = [fl.property_name];
+      fl.usda_units = fl.total_units;
+      fl.property_name = twin.property_name;
+      fl.total_units = null;
+      fl.assisted_units = null;
+      farmLaborAliased++;
+    }
+  });
+  console.log(`  Farm labor listed under another name: ${farmLaborAliased}`);
+  const rawAll = [...otherRaw.slice(0, lihtcNorm.length + presNorm.length + hudMfNorm.length + usdaRdNorm.length), ...farmLaborNorm, ...localPbvNorm];
+  const deduped = dedupeProperties(rawAll);
+
+  // Public housing: added unless it is shown to be a record already listed
+  // (see PUBLIC_HOUSING_SAME_NAME_M above). Exact-unit and closer matches
+  // are taken first, and each record is used once.
+  const publicHousing = readJson(PUBLIC_HOUSING_PATH);
+  const phNorm = ((publicHousing && publicHousing.features) || []).map((f, i) => normalizePublicHousing(f, i));
+  const pairs = [];
+  phNorm.forEach((ph, i) => {
+    if (!Number.isFinite(ph.lat) || !Number.isFinite(ph.lng)) return;
+    const words = _placeOnlyName(ph) ? [] : _nameWords(ph.property_name);
+    deduped.forEach((r, j) => {
+      if (!Number.isFinite(r.lat) || !Number.isFinite(r.lng)) return;
+      const m = _metersApart(ph.lat, ph.lng, r.lat, r.lng);
+      if (m > PUBLIC_HOUSING_SAME_NAME_M) return;
+      const rWords = _nameWords(r.property_name);
+      const shared = words.filter((w) => rWords.includes(w)).length;
+      const sameUnits = ph.total_units != null && ph.total_units === r.total_units;
+      if (shared > 0 || (sameUnits && !ph.scattered_site && m <= PUBLIC_HOUSING_SAME_UNITS_M)) {
+        pairs.push({ i, j, score: shared * 10 + (sameUnits ? 5 : 0) - m / 1000 });
+      }
+    });
+  });
+  pairs.sort((a, b) => b.score - a.score);
+  const phMatched = new Map();
+  const recUsed = new Set();
+  pairs.forEach((p) => {
+    if (phMatched.has(p.i) || recUsed.has(p.j)) return;
+    phMatched.set(p.i, p.j);
+    recUsed.add(p.j);
+  });
+  const phAdded = phNorm.filter((_, i) => !phMatched.has(i));
+  // HUD names some town-wide groups of scattered homes only by the town
+  // ("Pueblo" twice): the development code tells them apart on the map.
+  phAdded.forEach((ph) => {
+    if (_placeOnlyName(ph)) ph.property_name = ph.property_name + ' public housing (' + ph.source_id + ')';
+  });
+  const phNear = phNorm.filter((_, i) => phMatched.has(i));
+  if (process.env.PH_MATCH_LOG) {
+    phMatched.forEach((j, i) => console.log('    same as listed: ' + phNorm[i].property_name + ' (' + phNorm[i].total_units + ') = ' + deduped[j].property_name + ' (' + deduped[j].total_units + ')'));
+  }
+  console.log(`  HUD public housing:              ${phNorm.length} (${phAdded.length} added, ${phNear.length} already listed)`);
+  const all = deduped.concat(phAdded);
+
+  // Records with coordinates but no county code (most CHFA preservation
+  // records) are placed in the county that contains them, so county and
+  // town rollups count them.
+  const countyFeats = (readJson(COUNTIES_PATH) || {}).features || [];
+  let countyPlaced = 0;
+  all.forEach((p) => {
+    if (p.county_fips || !Number.isFinite(p.lat) || !Number.isFinite(p.lng)) return;
+    const geoid = _countyAt(p.lng, p.lat, countyFeats);
+    if (geoid) { p.county_fips = geoid; p.county_fips_method = 'point-in-county'; countyPlaced++; }
+  });
+  console.log(`  County placed from coordinates:  ${countyPlaced}`);
   all.forEach(p => {
     p.risk_status = preservationRiskStatus(p.years_to_expiration);
   });
@@ -610,8 +835,17 @@ function main() {
         'CHFA Preservation':    presNorm.length,
         'HUD MF Assisted':      hudMfNorm.length,
         'USDA Rural Housing':   usdaRdNorm.length,
+        'USDA farm labor (Section 514)': farmLaborNorm.length,
+        'HUD public housing':   phAdded.length,
         'Local PHA roster':     localPbvNorm.length
       },
+      public_housing: {
+        developments: phNorm.length,
+        added: phAdded.length,
+        already_listed: phNear.length,
+        rule: 'A HUD public housing development is taken to be a record already in the inventory, and left out, only when it shares a distinctive name word with that record within ' + PUBLIC_HOUSING_SAME_NAME_M + ' m, or, for a development on one site, has the same number of homes within ' + PUBLIC_HOUSING_SAME_UNITS_M + ' m. Each record stands for one development at most. Nearness alone is not taken as the same building.'
+      },
+      county_placed_from_coordinates: countyPlaced,
       total_records: all.length,
       program_type_counts: programs,
       subsidy_type_counts: subsidies,
@@ -622,7 +856,9 @@ function main() {
         'preservation-candidate records are source-feed membership from 4 sources: CHFA Preservation (1,688 — no subsidy_type detail), HUD MF Assisted (343 — has subsidy_type detail), USDA Rural Housing (116 — has years_to_expiration and risk_status), Local PHA roster (curated PBV gap-fill — has pha_administered_by + pbv_contract_sunset).',
         'Records are deduplicated across sources first by normalized name + city, then by normalized name + address. Original source attributions are retained in merged_from. Records missing usable keys are retained individually.',
         'pbv-local records (Silt Senior Housing, etc.) cover gaps where a PHA runs a Project-Based Voucher contract that does not appear in any federal feed — these properties are invisible to CHFA + HUD MF + USDA RD ingest. This is a partial, hand-checked list: HUD counts PBV homes only by housing authority (see data/affordable-housing/pbv-by-pha-co.json) and names no buildings. Curate new records in data/affordable-housing/local-pha-roster/ per the README schema.',
-        'Pure Prop 123 awards without LIHTC are not yet ingested — DOLA award page is bot-blocked. P1 backlog.'
+        'Pure Prop 123 awards without LIHTC are not yet ingested — DOLA award page is bot-blocked. P1 backlog.',
+        'county_fips_method "point-in-county" marks a county code set from the record\'s coordinates (data/boundaries/counties_co.geojson) because its source gives none.',
+        'Housing Choice Vouchers (tenant-based) are not buildings and are not counted here.'
       ]
     },
     properties: all

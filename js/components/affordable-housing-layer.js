@@ -120,10 +120,16 @@
         return !!p.risk_status;
     }},
     { key: 'usda_rd',      label: 'USDA Rural Dev',    color: '#16a34a',
-      desc: 'USDA Rural Development Section 515/521 multifamily — rural-only financing with restrictive use covenants. Many properties also carry rental assistance.',
+      desc: 'USDA Rural Development rentals: Section 515 rural rentals and Section 514 farm worker housing, with restrictive use covenants. Many also carry Section 521 rental assistance.',
       match: function (p) {
         var pt = p.program_type || [];
         return pt.includes('usda-rural-development');
+    }},
+    { key: 'public_housing', label: 'Public housing', color: '#7c3aed',
+      desc: 'Owned by a local housing authority and run with HUD operating and capital funds (HUD Public Housing Developments). Shown only where no other record sits within 200 m, so a building already on another layer is not drawn twice. A scattered-site development is one point.',
+      match: function (p) {
+        var pt = p.program_type || [];
+        return pt.includes('public-housing');
     }},
     { key: 'pbv_local',    label: 'Voucher homes (partial)',   color: '#0ea5e9',
       desc: 'Project-based vouchers run by a local housing authority. Partial list: HUD counts these homes by housing authority (6,118 at 21 Colorado authorities, 31 Dec 2025, HUD Picture of Subsidized Households) but does not publish which buildings, so only buildings checked by hand that are on no other layer are shown.',

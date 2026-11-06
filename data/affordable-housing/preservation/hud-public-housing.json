@@ -1,0 +1,1690 @@
+{
+ "type": "FeatureCollection",
+ "meta": {
+  "source": "HUD Public Housing Developments (HUD eGIS)",
+  "source_url": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Public_Housing_Developments/FeatureServer/0",
+  "query": "STD_ST='CO'",
+  "fetched": "2026-11-06",
+  "unit_field": "N_UNITS is the layer TOTAL_UNITS field; ACC_UNITS (units under the HUD annual contributions contract) is kept beside it",
+  "records": 67,
+  "units": 6920,
+  "excluded": "Tenant characteristics and any contact fields are not copied."
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.015473,
+     39.714929
+    ]
+   },
+   "properties": {
+    "PROJECT": "Columbine Homes",
+    "DEVELOPMENT_CODE": "CO001000005",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 200,
+    "ACC_UNITS": 193,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.03674,
+     39.736761
+    ]
+   },
+   "properties": {
+    "PROJECT": "West Ridge Homes",
+    "DEVELOPMENT_CODE": "CO001000006",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 200,
+    "ACC_UNITS": 200,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.003429,
+     39.780019
+    ]
+   },
+   "properties": {
+    "PROJECT": "James Quigg Newton",
+    "DEVELOPMENT_CODE": "CO001000007",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 380,
+    "ACC_UNITS": 380,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.008603,
+     39.695617
+    ]
+   },
+   "properties": {
+    "PROJECT": "Walsh Manor",
+    "DEVELOPMENT_CODE": "CO001000014",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 89,
+    "ACC_UNITS": 89,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.97716,
+     39.748395
+    ]
+   },
+   "properties": {
+    "PROJECT": "Barney Ford Heights",
+    "DEVELOPMENT_CODE": "CO001000016",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 81,
+    "ACC_UNITS": 81,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.965769,
+     39.743378
+    ]
+   },
+   "properties": {
+    "PROJECT": "Connole Apts",
+    "DEVELOPMENT_CODE": "CO001000020",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 100,
+    "ACC_UNITS": 100,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.909606,
+     39.750219
+    ]
+   },
+   "properties": {
+    "PROJECT": "Dispersed East",
+    "DEVELOPMENT_CODE": "CO001000050",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 75,
+    "ACC_UNITS": 75,
+    "MONTHS_SINCE_REPORT": 7,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.053024,
+     39.699645
+    ]
+   },
+   "properties": {
+    "PROJECT": "Dispersed West",
+    "DEVELOPMENT_CODE": "CO001000051",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 80,
+    "ACC_UNITS": 80,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.976891,
+     39.767545
+    ]
+   },
+   "properties": {
+    "PROJECT": "Curtis Park Redevelopment",
+    "DEVELOPMENT_CODE": "CO001000055",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 250,
+    "ACC_UNITS": 135,
+    "MONTHS_SINCE_REPORT": 10,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.978407,
+     39.749211
+    ]
+   },
+   "properties": {
+    "PROJECT": "Bean Tower Hope Vi Redevelopment",
+    "DEVELOPMENT_CODE": "CO001000058",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 194,
+    "ACC_UNITS": 194,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.97897,
+     39.749271
+    ]
+   },
+   "properties": {
+    "PROJECT": "Park Avenue Phase 1b",
+    "DEVELOPMENT_CODE": "CO001000059",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 124,
+    "ACC_UNITS": 30,
+    "MONTHS_SINCE_REPORT": 7,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.97974,
+     39.748872
+    ]
+   },
+   "properties": {
+    "PROJECT": "Park Avenue Phase 3b",
+    "DEVELOPMENT_CODE": "CO001000060",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 91,
+    "ACC_UNITS": 30,
+    "MONTHS_SINCE_REPORT": 7,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.980815,
+     39.748864
+    ]
+   },
+   "properties": {
+    "PROJECT": "Park Avenue Phase 4b",
+    "DEVELOPMENT_CODE": "CO001000061",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 89,
+    "ACC_UNITS": 30,
+    "MONTHS_SINCE_REPORT": 7,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.993057,
+     39.716757
+    ]
+   },
+   "properties": {
+    "PROJECT": "A B Hirschfeld Towers",
+    "DEVELOPMENT_CODE": "CO001000062",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 209,
+    "ACC_UNITS": 209,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.033423,
+     39.736412
+    ]
+   },
+   "properties": {
+    "PROJECT": "John R Mulroy Apts",
+    "DEVELOPMENT_CODE": "CO001000063",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 50,
+    "ACC_UNITS": 50,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.008321,
+     39.695944
+    ]
+   },
+   "properties": {
+    "PROJECT": "Walsh Manor Annex",
+    "DEVELOPMENT_CODE": "CO001000064",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 100,
+    "ACC_UNITS": 100,
+    "MONTHS_SINCE_REPORT": -4,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.980015,
+     39.74862
+    ]
+   },
+   "properties": {
+    "PROJECT": "Park Avenue 5b",
+    "DEVELOPMENT_CODE": "CO001000065",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 89,
+    "ACC_UNITS": 30,
+    "MONTHS_SINCE_REPORT": 8,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.032221,
+     39.700832
+    ]
+   },
+   "properties": {
+    "PROJECT": "Westwood Homes",
+    "DEVELOPMENT_CODE": "CO001000066",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 192,
+    "ACC_UNITS": 184,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.005477,
+     39.73369
+    ]
+   },
+   "properties": {
+    "PROJECT": "1099 Osage",
+    "DEVELOPMENT_CODE": "CO001000067",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 100,
+    "ACC_UNITS": 100,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.004319,
+     39.731906
+    ]
+   },
+   "properties": {
+    "PROJECT": "Mariposa Phase Ii Apartments",
+    "DEVELOPMENT_CODE": "CO001000068",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 93,
+    "ACC_UNITS": 29,
+    "MONTHS_SINCE_REPORT": 9,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.034992,
+     39.631891
+    ]
+   },
+   "properties": {
+    "PROJECT": "South Lowell Apartments",
+    "DEVELOPMENT_CODE": "CO001000069",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 96,
+    "ACC_UNITS": 96,
+    "MONTHS_SINCE_REPORT": 8,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.025159,
+     39.68514
+    ]
+   },
+   "properties": {
+    "PROJECT": "Dispersed South",
+    "DEVELOPMENT_CODE": "CO001000070",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 153,
+    "ACC_UNITS": 153,
+    "MONTHS_SINCE_REPORT": 7,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.004023,
+     39.732275
+    ]
+   },
+   "properties": {
+    "PROJECT": "Mariposa Phase Iii Apartments",
+    "DEVELOPMENT_CODE": "CO001000072",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 87,
+    "ACC_UNITS": 31,
+    "MONTHS_SINCE_REPORT": 7,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.003893,
+     39.73195
+    ]
+   },
+   "properties": {
+    "PROJECT": "Mariposa Phase Iv Apartments",
+    "DEVELOPMENT_CODE": "CO001000074",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 77,
+    "ACC_UNITS": 19,
+    "MONTHS_SINCE_REPORT": 7,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.005051,
+     39.733623
+    ]
+   },
+   "properties": {
+    "PROJECT": "Mariposa Phase Vi Apartments",
+    "DEVELOPMENT_CODE": "CO001000075",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 94,
+    "ACC_UNITS": 36,
+    "MONTHS_SINCE_REPORT": 9,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.03997,
+     39.740507
+    ]
+   },
+   "properties": {
+    "PROJECT": "Vida At Sloans Lake (9% Unit)",
+    "DEVELOPMENT_CODE": "CO001000077",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 64,
+    "ACC_UNITS": 64,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.976359,
+     39.759327
+    ]
+   },
+   "properties": {
+    "PROJECT": "Platte Valley Homes",
+    "DEVELOPMENT_CODE": "CO001000078",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 50,
+    "ACC_UNITS": 50,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.021881,
+     39.732816
+    ]
+   },
+   "properties": {
+    "PROJECT": "Gateway South Apartments",
+    "DEVELOPMENT_CODE": "CO001000079",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 92,
+    "ACC_UNITS": 27,
+    "MONTHS_SINCE_REPORT": 8,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.003022,
+     39.738877
+    ]
+   },
+   "properties": {
+    "PROJECT": "North Lincoln Rebuild",
+    "DEVELOPMENT_CODE": "CO001000553",
+    "PHA_CODE": "CO001",
+    "PHA_NAME": "Housing Authority of the City and County of Denver",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08031",
+    "CNTY_NAME": "Denver",
+    "COUNTY_SUBDIVISION": "Denver",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 206,
+    "ACC_UNITS": 206,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.643309,
+     38.242063
+    ]
+   },
+   "properties": {
+    "PROJECT": "Sangre De Cristo Apartments",
+    "DEVELOPMENT_CODE": "CO002000100",
+    "PHA_CODE": "CO002",
+    "PHA_NAME": "Housing Authority of the City of Pueblo",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08101",
+    "CNTY_NAME": "Pueblo",
+    "COUNTY_SUBDIVISION": "Pueblo",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 40,
+    "ACC_UNITS": 40,
+    "MONTHS_SINCE_REPORT": -4,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.621611,
+     38.262874
+    ]
+   },
+   "properties": {
+    "PROJECT": "Mesa Tower",
+    "DEVELOPMENT_CODE": "CO002000200",
+    "PHA_CODE": "CO002",
+    "PHA_NAME": "Housing Authority of the City of Pueblo",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08101",
+    "CNTY_NAME": "Pueblo",
+    "COUNTY_SUBDIVISION": "Pueblo",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 199,
+    "ACC_UNITS": 199,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.583199,
+     38.287048
+    ]
+   },
+   "properties": {
+    "PROJECT": "Pueblo",
+    "DEVELOPMENT_CODE": "CO002000300",
+    "PHA_CODE": "CO002",
+    "PHA_NAME": "Housing Authority of the City of Pueblo",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08101",
+    "CNTY_NAME": "Pueblo",
+    "COUNTY_SUBDIVISION": "Pueblo",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 244,
+    "ACC_UNITS": 243,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.663755,
+     38.227024
+    ]
+   },
+   "properties": {
+    "PROJECT": "Pueblo",
+    "DEVELOPMENT_CODE": "CO002000400",
+    "PHA_CODE": "CO002",
+    "PHA_NAME": "Housing Authority of the City of Pueblo",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08101",
+    "CNTY_NAME": "Pueblo",
+    "COUNTY_SUBDIVISION": "Pueblo",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 246,
+    "ACC_UNITS": 245,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.78094,
+     37.627788
+    ]
+   },
+   "properties": {
+    "PROJECT": "Rio Cuchara Homes",
+    "DEVELOPMENT_CODE": "CO003000001",
+    "PHA_CODE": "CO003",
+    "PHA_NAME": "Housing Authority of the City of Walsenburg",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08055",
+    "CNTY_NAME": "Huerfano",
+    "COUNTY_SUBDIVISION": "Walsenburg",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 114,
+    "ACC_UNITS": 114,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.889237,
+     37.477562
+    ]
+   },
+   "properties": {
+    "PROJECT": "Alamosa",
+    "DEVELOPMENT_CODE": "CO004000001",
+    "PHA_CODE": "CO004",
+    "PHA_NAME": "Housing Authority of the City of Alamosa",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08003",
+    "CNTY_NAME": "Alamosa",
+    "COUNTY_SUBDIVISION": "Alamosa",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 199,
+    "ACC_UNITS": 199,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.500652,
+     37.169428
+    ]
+   },
+   "properties": {
+    "PROJECT": "Trinidad",
+    "DEVELOPMENT_CODE": "CO005000001",
+    "PHA_CODE": "CO005",
+    "PHA_NAME": "Trinidad Housing Authority",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08071",
+    "CNTY_NAME": "Las Animas",
+    "COUNTY_SUBDIVISION": "Trinidad",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 198,
+    "ACC_UNITS": 196,
+    "MONTHS_SINCE_REPORT": 4,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.615545,
+     38.079841
+    ]
+   },
+   "properties": {
+    "PROJECT": "Lamar",
+    "DEVELOPMENT_CODE": "CO006000001",
+    "PHA_CODE": "CO006",
+    "PHA_NAME": "Housing Authority of the City of Lamar",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08099",
+    "CNTY_NAME": "Prowers",
+    "COUNTY_SUBDIVISION": "Lamar",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 30,
+    "ACC_UNITS": 30,
+    "MONTHS_SINCE_REPORT": 7,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.1492,
+     37.9452
+    ]
+   },
+   "properties": {
+    "PROJECT": "Holly",
+    "DEVELOPMENT_CODE": "CO007000001",
+    "PHA_CODE": "CO007",
+    "PHA_NAME": "Housing Authority of the Town of Holly",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08099",
+    "CNTY_NAME": "Prowers",
+    "COUNTY_SUBDIVISION": "Holly",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 16,
+    "ACC_UNITS": 16,
+    "MONTHS_SINCE_REPORT": -4,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.011154,
+     37.074161
+    ]
+   },
+   "properties": {
+    "PROJECT": "Antonito",
+    "DEVELOPMENT_CODE": "CO008000001",
+    "PHA_CODE": "CO008",
+    "PHA_NAME": "Housing Authority of Antonito",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08021",
+    "CNTY_NAME": "Conejos",
+    "COUNTY_SUBDIVISION": "Antonito",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 29,
+    "ACC_UNITS": 29,
+    "MONTHS_SINCE_REPORT": 7,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.733203,
+     40.123564
+    ]
+   },
+   "properties": {
+    "PROJECT": "High Plains Manor",
+    "DEVELOPMENT_CODE": "CO009101655",
+    "PHA_CODE": "CO009",
+    "PHA_NAME": "Housing Authority of the Town of Yuma",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08125",
+    "CNTY_NAME": "Yuma",
+    "COUNTY_SUBDIVISION": "Yuma",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 50,
+    "ACC_UNITS": 50,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.787024,
+     40.260296
+    ]
+   },
+   "properties": {
+    "PROJECT": "Hillcrest Apartments",
+    "DEVELOPMENT_CODE": "CO011011011",
+    "PHA_CODE": "CO011",
+    "PHA_NAME": "Fort Morgan Housing Authority",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08087",
+    "CNTY_NAME": "Morgan",
+    "COUNTY_SUBDIVISION": "Fort Morgan",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 86,
+    "ACC_UNITS": 86,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.700262,
+     39.26757
+    ]
+   },
+   "properties": {
+    "PROJECT": "Limon Housing Authority",
+    "DEVELOPMENT_CODE": "CO012000001",
+    "PHA_CODE": "CO012",
+    "PHA_NAME": "Housing Authority of the Town of Limon",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08073",
+    "CNTY_NAME": "Lincoln",
+    "COUNTY_SUBDIVISION": "Limon",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 40,
+    "ACC_UNITS": 40,
+    "MONTHS_SINCE_REPORT": 8,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.00859,
+     38.526261
+    ]
+   },
+   "properties": {
+    "PROJECT": "Mt Shavano Manor",
+    "DEVELOPMENT_CODE": "CO013000001",
+    "PHA_CODE": "CO013",
+    "PHA_NAME": "Housing Authority of the City of Salida",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08015",
+    "CNTY_NAME": "Chaffee",
+    "COUNTY_SUBDIVISION": "Salida",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 50,
+    "ACC_UNITS": 50,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.658789,
+     37.401036
+    ]
+   },
+   "properties": {
+    "PROJECT": "Aguilar",
+    "DEVELOPMENT_CODE": "CO015000001",
+    "PHA_CODE": "CO015",
+    "PHA_NAME": "Housing Authority of the Town of Aguilar",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08071",
+    "CNTY_NAME": "Las Animas",
+    "COUNTY_SUBDIVISION": "Aguilar",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 18,
+    "ACC_UNITS": 18,
+    "MONTHS_SINCE_REPORT": 15,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.632518,
+     40.641935
+    ]
+   },
+   "properties": {
+    "PROJECT": "Haxtun Manor",
+    "DEVELOPMENT_CODE": "CO017070772",
+    "PHA_CODE": "CO017",
+    "PHA_NAME": "Housing Authority of the Town of Haxtun",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08095",
+    "CNTY_NAME": "Phillips",
+    "COUNTY_SUBDIVISION": "Haxtun",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 22,
+    "ACC_UNITS": 22,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.564174,
+     40.391956
+    ]
+   },
+   "properties": {
+    "PROJECT": "Ft. Latham Manor",
+    "DEVELOPMENT_CODE": "CO018000001",
+    "PHA_CODE": "CO018",
+    "PHA_NAME": "Housing Authority of the Town of Kersey",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08123",
+    "CNTY_NAME": "Weld",
+    "COUNTY_SUBDIVISION": "Kersey-Gill",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 20,
+    "ACC_UNITS": 20,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.517315,
+     40.109157
+    ]
+   },
+   "properties": {
+    "PROJECT": "Timberwood",
+    "DEVELOPMENT_CODE": "CO020000001",
+    "PHA_CODE": "CO020",
+    "PHA_NAME": "Housing Authority of the Town of Keenesburg",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08123",
+    "CNTY_NAME": "Weld",
+    "COUNTY_SUBDIVISION": "Keenesburg-Hudson",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 20,
+    "ACC_UNITS": 20,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.273931,
+     40.990638
+    ]
+   },
+   "properties": {
+    "PROJECT": "North View Apartments",
+    "DEVELOPMENT_CODE": "CO021000000",
+    "PHA_CODE": "CO021",
+    "PHA_NAME": "Julesburg Housing Authority",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08115",
+    "CNTY_NAME": "Sedgwick",
+    "COUNTY_SUBDIVISION": "Julesburg",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 52,
+    "ACC_UNITS": 52,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.231272,
+     40.07463
+    ]
+   },
+   "properties": {
+    "PROJECT": "Wray",
+    "DEVELOPMENT_CODE": "CO022072757",
+    "PHA_CODE": "CO022",
+    "PHA_NAME": "Housing Authority of the City of Wray",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08125",
+    "CNTY_NAME": "Yuma",
+    "COUNTY_SUBDIVISION": "Wray",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 41,
+    "ACC_UNITS": 41,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.304964,
+     40.579433
+    ]
+   },
+   "properties": {
+    "PROJECT": "Sunset View Homes",
+    "DEVELOPMENT_CODE": "CO023000001",
+    "PHA_CODE": "CO023",
+    "PHA_NAME": "Holyoke Housing Authority",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08095",
+    "CNTY_NAME": "Phillips",
+    "COUNTY_SUBDIVISION": "Holyoke",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 30,
+    "ACC_UNITS": 30,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.205096,
+     40.638194
+    ]
+   },
+   "properties": {
+    "PROJECT": "Sterling",
+    "DEVELOPMENT_CODE": "CO025000001",
+    "PHA_CODE": "CO025",
+    "PHA_NAME": "Housing Authority of the City of Sterling",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08075",
+    "CNTY_NAME": "Logan",
+    "COUNTY_SUBDIVISION": "Sterling",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 110,
+    "ACC_UNITS": 110,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.362559,
+     38.820896
+    ]
+   },
+   "properties": {
+    "PROJECT": "Cheyenne Wells",
+    "DEVELOPMENT_CODE": "CO026000001",
+    "PHA_CODE": "CO026",
+    "PHA_NAME": "Housing Authority for the Town of Cheyenne Wells",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08017",
+    "CNTY_NAME": "Cheyenne",
+    "COUNTY_SUBDIVISION": "Cheyenne Wells",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 25,
+    "ACC_UNITS": 25,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.808637,
+     38.886933
+    ]
+   },
+   "properties": {
+    "PROJECT": "Colorado Springs",
+    "DEVELOPMENT_CODE": "CO028000001",
+    "PHA_CODE": "CO028",
+    "PHA_NAME": "Housing Authority of the City of Colorado Springs",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08041",
+    "CNTY_NAME": "El Paso",
+    "COUNTY_SUBDIVISION": "Colorado Springs",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 215,
+    "ACC_UNITS": 215,
+    "MONTHS_SINCE_REPORT": 9,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.811478,
+     38.803189
+    ]
+   },
+   "properties": {
+    "PROJECT": "Colorado Springs",
+    "DEVELOPMENT_CODE": "CO028000002",
+    "PHA_CODE": "CO028",
+    "PHA_NAME": "Housing Authority of the City of Colorado Springs",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08041",
+    "CNTY_NAME": "El Paso",
+    "COUNTY_SUBDIVISION": "Colorado Springs",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 215,
+    "ACC_UNITS": 215,
+    "MONTHS_SINCE_REPORT": 7,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.777937,
+     38.846482
+    ]
+   },
+   "properties": {
+    "PROJECT": "Colorado Springs",
+    "DEVELOPMENT_CODE": "CO028000003",
+    "PHA_CODE": "CO028",
+    "PHA_NAME": "Housing Authority of the City of Colorado Springs",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08041",
+    "CNTY_NAME": "El Paso",
+    "COUNTY_SUBDIVISION": "Colorado Springs",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 276,
+    "ACC_UNITS": 276,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.810306,
+     40.078283
+    ]
+   },
+   "properties": {
+    "PROJECT": "Fort Lupton",
+    "DEVELOPMENT_CODE": "CO029000029",
+    "PHA_CODE": "CO029",
+    "PHA_NAME": "Housing Authority of the City of Fort Lupton",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08123",
+    "CNTY_NAME": "Weld",
+    "COUNTY_SUBDIVISION": "Fort Lupton",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 50,
+    "ACC_UNITS": 50,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.264203,
+     39.302424
+    ]
+   },
+   "properties": {
+    "PROJECT": "Burlington",
+    "DEVELOPMENT_CODE": "CO030000001",
+    "PHA_CODE": "CO030",
+    "PHA_NAME": "Burlington Housing Authority",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08063",
+    "CNTY_NAME": "Kit Carson",
+    "COUNTY_SUBDIVISION": "Burlington",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 31,
+    "ACC_UNITS": 31,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.538917,
+     37.984145
+    ]
+   },
+   "properties": {
+    "PROJECT": "La Junta",
+    "DEVELOPMENT_CODE": "CO031000001",
+    "PHA_CODE": "CO031",
+    "PHA_NAME": "La Junta Housing Authority",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08089",
+    "CNTY_NAME": "Otero",
+    "COUNTY_SUBDIVISION": "La Junta",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 86,
+    "ACC_UNITS": 86,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.70609,
+     40.387244
+    ]
+   },
+   "properties": {
+    "PROJECT": "Greeley",
+    "DEVELOPMENT_CODE": "CO035000010",
+    "PHA_CODE": "CO035",
+    "PHA_NAME": "Housing Authority of the City of Greeley",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08123",
+    "CNTY_NAME": "Weld",
+    "COUNTY_SUBDIVISION": "Greeley",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 86,
+    "ACC_UNITS": 86,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.42137,
+     37.205231
+    ]
+   },
+   "properties": {
+    "PROJECT": "San Luis",
+    "DEVELOPMENT_CODE": "CO037000001",
+    "PHA_CODE": "CO037",
+    "PHA_NAME": "Costilla County Housing Authority",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08023",
+    "CNTY_NAME": "Costilla",
+    "COUNTY_SUBDIVISION": "San Luis",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 57,
+    "ACC_UNITS": 57,
+    "MONTHS_SINCE_REPORT": 7,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -108.064142,
+     38.734039
+    ]
+   },
+   "properties": {
+    "PROJECT": "Delta",
+    "DEVELOPMENT_CODE": "CO040000001",
+    "PHA_CODE": "CO040",
+    "PHA_NAME": "Delta Housing Authority",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08029",
+    "CNTY_NAME": "Delta",
+    "COUNTY_SUBDIVISION": "Delta",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 75,
+    "ACC_UNITS": 75,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.108793,
+     37.756866
+    ]
+   },
+   "properties": {
+    "PROJECT": "Center",
+    "DEVELOPMENT_CODE": "CO043000001",
+    "PHA_CODE": "CO043",
+    "PHA_NAME": "Center Housing Authority",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08109",
+    "CNTY_NAME": "Saguache",
+    "COUNTY_SUBDIVISION": "Center",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 30,
+    "ACC_UNITS": 30,
+    "MONTHS_SINCE_REPORT": 6,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.630914,
+     40.259486
+    ]
+   },
+   "properties": {
+    "PROJECT": "Brush",
+    "DEVELOPMENT_CODE": "CO044000001",
+    "PHA_CODE": "CO044",
+    "PHA_NAME": "Housing Authority of the City of Brush",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08087",
+    "CNTY_NAME": "Morgan",
+    "COUNTY_SUBDIVISION": "Brush",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 30,
+    "ACC_UNITS": 30,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.985437,
+     39.654521
+    ]
+   },
+   "properties": {
+    "PROJECT": "Englewood",
+    "DEVELOPMENT_CODE": "CO048000001",
+    "PHA_CODE": "CO048",
+    "PHA_NAME": "Englewood Housing Authority",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08005",
+    "CNTY_NAME": "Arapahoe",
+    "COUNTY_SUBDIVISION": "Southwest Arapahoe",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 110,
+    "ACC_UNITS": 110,
+    "MONTHS_SINCE_REPORT": 7,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.860463,
+     39.700351
+    ]
+   },
+   "properties": {
+    "PROJECT": "Villages At Westerly Creek Iii",
+    "DEVELOPMENT_CODE": "CO052000001",
+    "PHA_CODE": "CO052",
+    "PHA_NAME": "Aurora Housing Authority",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08005",
+    "CNTY_NAME": "Arapahoe",
+    "COUNTY_SUBDIVISION": "South Aurora",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 4,
+    "ACC_UNITS": 4,
+    "MONTHS_SINCE_REPORT": -4,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.707673,
+     38.691173
+    ]
+   },
+   "properties": {
+    "PROJECT": "Fountain",
+    "DEVELOPMENT_CODE": "CO071000001",
+    "PHA_CODE": "CO071",
+    "PHA_NAME": "Housing Authority of the City of Fountain",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08041",
+    "CNTY_NAME": "El Paso",
+    "COUNTY_SUBDIVISION": "Fountain",
+    "SCATTERED_SITE": false,
+    "N_UNITS": 40,
+    "ACC_UNITS": 40,
+    "MONTHS_SINCE_REPORT": 7,
+    "_source": "HUD Public Housing Developments"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -108.289902,
+     37.346038
+    ]
+   },
+   "properties": {
+    "PROJECT": "Montezuma Co",
+    "DEVELOPMENT_CODE": "CO079000001",
+    "PHA_CODE": "CO079",
+    "PHA_NAME": "Housing Authority of the County of Montezuma",
+    "PROJ_ST": "CO",
+    "CNTY_FIPS": "08083",
+    "CNTY_NAME": "Montezuma",
+    "COUNTY_SUBDIVISION": "Mancos",
+    "SCATTERED_SITE": true,
+    "N_UNITS": 31,
+    "ACC_UNITS": 31,
+    "MONTHS_SINCE_REPORT": 5,
+    "_source": "HUD Public Housing Developments"
+   }
+  }
+ ]
+}
