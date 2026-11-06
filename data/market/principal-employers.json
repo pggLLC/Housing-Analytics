@@ -1,11 +1,49 @@
 {
  "meta": {
   "title": "Principal employers by area, from Colorado local government audit filings",
-  "as_of": "2026-10-29",
+  "as_of": "2026-11-06",
   "review_by": "2027-08-31",
-  "method": "Curated, not a feed. Each table is the \"Principal Employers\" schedule printed in the statistical section of an annual comprehensive financial report filed with the Office of the State Auditor (local government audit library). Employer names and counts are copied as printed, current-year column only; ranges stay ranges. Where the filer reprints another government's table, stated_source names it. Every row was checked line by line against the text of the filed PDF on 2026-10-29.",
+  "method": "Curated, not a feed. Each table is the \"Principal Employers\" schedule printed in the statistical section of an annual comprehensive financial report filed with the Office of the State Auditor (local government audit library). Employer names and counts are copied as printed, current-year column only; ranges stay ranges. Where the filer reprints another government's table, stated_source names it. Every row was checked line by line against the text of the filed PDF on 2026-10-29. Areas added 2026-11-06 were checked the same way against the filed PDF text; \"schedule\" names the table or section, and place_geoid marks a table that covers one town.",
   "library": "https://apps.leg.co.gov/osa/lg/local_govs",
-  "coverage": "15 areas. Most of the 138 county and city filings checked do not print the schedule (basic audits, or financial statements filed without the statistical section); 20 counties and cities and 21 school districts do."
+  "coverage": "22 areas. On 2026-11-06 the latest filings of the county, cities, towns and school districts in 53 counties were read: most print no employer table (basic audits, or financial statements filed without the statistical section). Grand County and Sterling print names without counts; Silverthorne, Greenwood Village and Gunnison print ranges.",
+  "checked_no_schedule": {
+   "08009": "2026-11-06",
+   "08011": "2026-11-06",
+   "08014": "2026-11-06",
+   "08017": "2026-11-06",
+   "08019": "2026-11-06",
+   "08021": "2026-11-06",
+   "08023": "2026-11-06",
+   "08025": "2026-11-06",
+   "08027": "2026-11-06",
+   "08033": "2026-11-06",
+   "08039": "2026-11-06",
+   "08047": "2026-11-06",
+   "08053": "2026-11-06",
+   "08055": "2026-11-06",
+   "08057": "2026-11-06",
+   "08061": "2026-11-06",
+   "08063": "2026-11-06",
+   "08071": "2026-11-06",
+   "08073": "2026-11-06",
+   "08079": "2026-11-06",
+   "08081": "2026-11-06",
+   "08087": "2026-11-06",
+   "08089": "2026-11-06",
+   "08091": "2026-11-06",
+   "08093": "2026-11-06",
+   "08095": "2026-11-06",
+   "08099": "2026-11-06",
+   "08103": "2026-11-06",
+   "08105": "2026-11-06",
+   "08109": "2026-11-06",
+   "08111": "2026-11-06",
+   "08115": "2026-11-06",
+   "08119": "2026-11-06",
+   "08121": "2026-11-06",
+   "08125": "2026-11-06"
+  },
+  "checked_no_schedule_note": "Counties where the latest filings (2024 or 2025) of the county, its cities and towns, and its school districts were read on 2026-11-06 and none printed a Principal Employers or similar table. Image-only PDFs could not be read."
  },
  "areas": [
   {
@@ -399,7 +437,8 @@
     "filing_folder": "2025",
     "pdf_page": 164,
     "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/859.00%20City%20of%20Glenwood%20Springs.pdf"
-   }
+   },
+   "place_geoid": "0830780"
   },
   {
    "id": "steamboat",
@@ -466,7 +505,8 @@
     "filing_folder": "2025",
     "pdf_page": 124,
     "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/896.00%20City%20of%20Steamboat%20Springs.pdf"
-   }
+   },
+   "place_geoid": "0873825"
   },
   {
    "id": "fremont",
@@ -595,7 +635,8 @@
     "filing_folder": "2025",
     "pdf_page": 210,
     "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/836.00%20City%20of%20Commerce%20City.pdf"
-   }
+   },
+   "place_geoid": "0816495"
   },
   {
    "id": "douglas",
@@ -997,6 +1038,469 @@
     "filing_folder": "2025",
     "pdf_page": 119,
     "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/4007.00%20Arapahoe%20County%20School%20District%20No.%206.pdf"
+   },
+   "place_geoid": "0845255"
+  },
+  {
+   "id": "fort-collins",
+   "area": "Fort Collins",
+   "place_geoid": "0827425",
+   "county_fips": [
+    "08069"
+   ],
+   "as_of": "2025",
+   "stated_source": "United States Bureau of Labor Statistics (as printed by the City)",
+   "schedule": "Principal Employers, Exhibit A-13",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "Colorado State University",
+     "employees": "8,899"
+    },
+    {
+     "rank": 2,
+     "employer": "Poudre R-1 School District",
+     "employees": "4,645"
+    },
+    {
+     "rank": 3,
+     "employer": "City of Fort Collins",
+     "employees": "2,686"
+    },
+    {
+     "rank": 4,
+     "employer": "Larimer County",
+     "employees": "2,259"
+    },
+    {
+     "rank": 5,
+     "employer": "Woodward",
+     "employees": "1,471"
+    },
+    {
+     "rank": 6,
+     "employer": "Broadcom (Avago)",
+     "employees": "1,126"
+    },
+    {
+     "rank": 7,
+     "employer": "Orthopaedic & Spine Center of the Rockies",
+     "employees": "1,090"
+    },
+    {
+     "rank": 8,
+     "employer": "Summitstone Health Partners",
+     "employees": "1,020"
+    },
+    {
+     "rank": 9,
+     "employer": "Dillon Companies Inc.",
+     "employees": "860"
+    },
+    {
+     "rank": 10,
+     "employer": "Front Range Community College",
+     "employees": "821"
+    }
+   ],
+   "source": {
+    "filer": "City of Fort Collins",
+    "filing_folder": "2025",
+    "pdf_page": 207,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/852.00%20City%20of%20Fort%20Collins.pdf"
+   }
+  },
+  {
+   "id": "federal-heights",
+   "area": "Federal Heights",
+   "place_geoid": "0826270",
+   "county_fips": [
+    "08001"
+   ],
+   "as_of": "2025",
+   "stated_source": "City surveys (employee estimates)",
+   "schedule": "Principal Employers",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "Waterworld (seasonal employer)",
+     "employees": "1,826"
+    },
+    {
+     "rank": 2,
+     "employer": "Pinnacle Learning Center",
+     "employees": "134"
+    },
+    {
+     "rank": 3,
+     "employer": "Comcast",
+     "employees": "118"
+    },
+    {
+     "rank": 4,
+     "employer": "Miller International",
+     "employees": "116"
+    },
+    {
+     "rank": 5,
+     "employer": "King Soopers",
+     "employees": "100"
+    },
+    {
+     "rank": 6,
+     "employer": "City of Federal Heights",
+     "employees": "96"
+    },
+    {
+     "rank": 7,
+     "employer": "McDonalds",
+     "employees": "90"
+    },
+    {
+     "rank": 8,
+     "employer": "Federal Heights Elementary",
+     "employees": "71"
+    },
+    {
+     "rank": 9,
+     "employer": "Safeway",
+     "employees": "60"
+    },
+    {
+     "rank": 10,
+     "employer": "Alpine Nissan",
+     "employees": "52"
+    }
+   ],
+   "source": {
+    "filer": "City of Federal Heights",
+    "filing_folder": "2025",
+    "pdf_page": 118,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/850.00%20City%20of%20Federal%20Heights.pdf"
+   }
+  },
+  {
+   "id": "greenwood-village",
+   "area": "Greenwood Village",
+   "place_geoid": "0833035",
+   "county_fips": [
+    "08005"
+   ],
+   "as_of": "2025",
+   "stated_source": "City of Greenwood Village Finance Department (ranges; rank by occupational privilege tax remitted)",
+   "schedule": "Principal Employers, Table XIII",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "Charter Communications Holding Co LLC",
+     "employees": "3,000 - 4,500"
+    },
+    {
+     "rank": 2,
+     "employer": "Fidelity Brokerage Services LLC",
+     "employees": "1,000 - 2,000"
+    },
+    {
+     "rank": 3,
+     "employer": "Empower Retirement LLC",
+     "employees": "1,000 - 2,000"
+    },
+    {
+     "rank": 4,
+     "employer": "Cherry Creek School District #5",
+     "employees": "1,000 - 2,000"
+    },
+    {
+     "rank": 5,
+     "employer": "Cobank",
+     "employees": "500 - 1,000"
+    },
+    {
+     "rank": 6,
+     "employer": "York Space Systems LLC",
+     "employees": "500 - 1,000"
+    },
+    {
+     "rank": 7,
+     "employer": "Merrick & Co",
+     "employees": "200 - 500"
+    },
+    {
+     "rank": 8,
+     "employer": "Century Communities",
+     "employees": "200 - 500"
+    },
+    {
+     "rank": 9,
+     "employer": "Air Methods LLC",
+     "employees": "200 - 500"
+    },
+    {
+     "rank": 10,
+     "employer": "King Soopers #100",
+     "employees": "200 - 500"
+    }
+   ],
+   "source": {
+    "filer": "City of Greenwood Village",
+    "filing_folder": "2025",
+    "pdf_page": 104,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/863.00%20City%20of%20Greenwood%20Village.pdf"
+   }
+  },
+  {
+   "id": "englewood",
+   "area": "Englewood",
+   "place_geoid": "0824785",
+   "county_fips": [
+    "08005"
+   ],
+   "as_of": "2024",
+   "stated_source": "City of Englewood Community Development Department, as reprinted by Englewood Schools",
+   "schedule": "Principal Employers",
+   "rows": [
+    {
+     "rank": 1,
+     "employer": "Health One Swedish Medical Center",
+     "employees": "1,909"
+    },
+    {
+     "rank": 2,
+     "employer": "Craig Hospital",
+     "employees": "982"
+    },
+    {
+     "rank": 3,
+     "employer": "Groove Toyota",
+     "employees": "487"
+    },
+    {
+     "rank": 4,
+     "employer": "Metro Community Providers",
+     "employees": "465"
+    },
+    {
+     "rank": 5,
+     "employer": "Veolia Transportation",
+     "employees": "317"
+    },
+    {
+     "rank": 6,
+     "employer": "Rolinc Staffing",
+     "employees": "252"
+    },
+    {
+     "rank": 7,
+     "employer": "Wal-Mart",
+     "employees": "248"
+    },
+    {
+     "rank": 8,
+     "employer": "Meadow Gold Dairies",
+     "employees": "224"
+    },
+    {
+     "rank": 9,
+     "employer": "Ouray Sportswear",
+     "employees": "219"
+    },
+    {
+     "rank": 10,
+     "employer": "American Bottling",
+     "employees": "215"
+    }
+   ],
+   "source": {
+    "filer": "Arapahoe County School District No. 1 (Englewood Schools)",
+    "filing_folder": "2025",
+    "pdf_page": 116,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/4064.00%20Arapahoe%20County%20School%20District%20No.%201.pdf"
+   }
+  },
+  {
+   "id": "silverthorne",
+   "area": "Silverthorne",
+   "place_geoid": "0870525",
+   "county_fips": [
+    "08117"
+   ],
+   "as_of": "2025",
+   "stated_source": "Department of Local Affairs, Summit County and the employers (ranges, part-time and seasonal included; the 2025 column, employers at 50 or more)",
+   "schedule": "Principal Employers, Schedule 19",
+   "rows": [
+    {
+     "rank": null,
+     "employer": "Outlets at Silverthorne",
+     "employees": "250-499"
+    },
+    {
+     "rank": null,
+     "employer": "Lowe's Home Centers",
+     "employees": "100-249"
+    },
+    {
+     "rank": null,
+     "employer": "Target Stores",
+     "employees": "100-249"
+    },
+    {
+     "rank": null,
+     "employer": "Town of Silverthorne",
+     "employees": "100-249"
+    },
+    {
+     "rank": null,
+     "employer": "Weston Landscape Design / Neils Lunceford",
+     "employees": "100-249"
+    },
+    {
+     "rank": null,
+     "employer": "Escalante Three Peaks",
+     "employees": "50-99"
+    },
+    {
+     "rank": null,
+     "employer": "Public Service Company of Colorado / Xcel",
+     "employees": "50-99"
+    },
+    {
+     "rank": null,
+     "employer": "TJX Companies",
+     "employees": "50-99"
+    },
+    {
+     "rank": null,
+     "employer": "United Parcel Service",
+     "employees": "50-99"
+    }
+   ],
+   "source": {
+    "filer": "Town of Silverthorne",
+    "filing_folder": "2025",
+    "pdf_page": 104,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/782.00%20Town%20of%20Silverthorne.pdf"
+   }
+  },
+  {
+   "id": "grand",
+   "area": "Grand County",
+   "county_fips": [
+    "08049"
+   ],
+   "as_of": "2025",
+   "stated_source": "Northwest Colorado Council of Governments, as printed by the Town of Winter Park (names and towns only; no counts)",
+   "schedule": "Top Employers by Area in County, Schedule E-14",
+   "rows": [
+    {
+     "rank": null,
+     "employer": "Fraser Valley Metropolitan District (Fraser)",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "Safeway (Fraser)",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "East Grand School District (Fraser and Granby)",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "City Market (Granby)",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "Mountain Parks Electric (Granby)",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "Devils Thumb Ranch & Resort",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "Snow Mountain Ranch, YMCA",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "U.S. Forest Service",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "Grand County Government (Hot Sulphur Springs)",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "Intrawest Resort Holdings, Inc. (Winter Park)",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "Winter Park Resort",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "Middle Park Medical Center (Winter Park and Granby)",
+     "employees": "not printed"
+    }
+   ],
+   "source": {
+    "filer": "Town of Winter Park",
+    "filing_folder": "2025",
+    "pdf_page": 92,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/811.00%20Town%20of%20Winter%20Park.pdf"
+   }
+  },
+  {
+   "id": "sterling",
+   "area": "Sterling",
+   "place_geoid": "0873935",
+   "county_fips": [
+    "08075"
+   ],
+   "as_of": "2025",
+   "stated_source": "City of Sterling letter of transmittal, Local Economy (names only; \"within Sterling or nearby\")",
+   "schedule": "Letter of transmittal, Local Economy",
+   "rows": [
+    {
+     "rank": null,
+     "employer": "Sterling Correctional Facility",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "Banner Health",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "RE-1 Valley School District",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "Walmart",
+     "employees": "not printed"
+    },
+    {
+     "rank": null,
+     "employer": "Northeastern Junior College",
+     "employees": "not printed"
+    }
+   ],
+   "source": {
+    "filer": "City of Sterling",
+    "filing_folder": "2025",
+    "pdf_page": 10,
+    "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2025/897.00%20City%20of%20Sterling.pdf"
    }
   }
  ]
