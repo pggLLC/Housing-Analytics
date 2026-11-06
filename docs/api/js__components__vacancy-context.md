@@ -7,7 +7,7 @@ Renders a vacancy-rate context card on the PMA page.
 Data landscape for Colorado vacancy:
   • Census ACS B25004 (5-year estimates) — best FREE machine-readable
     source. Tract-level, annual, ~18 mo lag. Already cached in
-    data/market/acs_tract_metrics_co.json (1,447 CO tracts, 2023 vintage).
+    data/market/acs_tract_metrics_co.json (1,447 CO tracts, ACS 2020-2024 vintage).
     We use this as the primary value below.
   • Colorado Division of Housing (DOH) + CHFA quarterly Multi-Family
     Vacancy & Rent Survey — historically the gold standard. DOH sponsorship
@@ -31,11 +31,4 @@ The card surfaces:
 Mount target: id="pmaVacancyContextMount"
 Inputs: bufferTracts (array of GEOIDs) — provided by the PMA pipeline.
 
-## Symbols
-
-### `render(container, opts)`
-
-@param {HTMLElement} container - mount point
-@param {Object} opts
-@param {Array<string>} opts.bufferTracts - GEOIDs in the PMA buffer
-@param {Object} [opts.weightsByTract] - optional polygon-clip share per tract
+_No documented symbols — module has a file-header comment only._

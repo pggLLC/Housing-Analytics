@@ -13,6 +13,7 @@ data attributes to configure the page:
 Update keys map to sentinel timestamps in the data files:
   fred        → data/fred-data.json  → .updated
   lihtc       → data/chfa-lihtc.json → .fetchedAt
+  allocations → data/allocations.json → .lastUpdated
   manifest    → data/manifest.json   → .generated
 
 A static fallback date can also be supplied:

@@ -12,7 +12,7 @@ Series used:
   DGS10        — 10-year Treasury yield (→ yield curve / discount rate)
   T10Y2Y       — Yield curve spread (→ market stress signal)
   BAA10Y       — Baa corporate - 10Y Treasury spread (→ credit stress)
-  WPUFD49207   — PPI: Inputs to construction (→ hard cost adjustment)
+  WPUIP2310001 — PPI: Net inputs to new construction, goods (→ hard cost adjustment)
 
 Depends on: js/config/financial-constants.js (must load first)
 

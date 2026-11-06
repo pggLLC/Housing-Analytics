@@ -1,7 +1,8 @@
 # `js/components/equity-forecast-panel.js`
 
 js/components/equity-forecast-panel.js
-LIHTC Equity Pricing Forecast — renders ARIMA-based forward curve
+LIHTC Equity Pricing Trend Extension — renders an ARIMA-based forward curve.
+With ~19 quarters of history this extends the trend; the panel says so.
 with 95% confidence interval on the Deal Calculator page.
 
 Uses js/forecasting.js (EconometricForecaster.forecastPricing) for

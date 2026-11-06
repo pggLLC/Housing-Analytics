@@ -62,3 +62,8 @@ Fetch JSON from a local asset path with cache-busting, timeout, and retry.
 @param {string} relativePath - Relative (or absolute) path to the JSON asset.
 @param {object} [options]    - Optional fetch options (method, headers, etc.).
 @returns {Promise<any>}      - Resolves with parsed JSON.
+
+### `pruneOversizeCache()`
+
+Drop cache entries larger than CACHE_MAX_CHARS, including those written
+before the limit existed, so the space returns to the user's saved work.

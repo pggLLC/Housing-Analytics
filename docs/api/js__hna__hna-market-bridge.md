@@ -23,7 +23,8 @@ Usage (Node/test):
 @property {Object}   pma                — method, score, confidence
 @property {Object}   demandSignals      — householdGrowth, projectedUnitsNeeded, etc.
 @property {Object}   affordabilityGap   — ami30/50/60 units needed, totalUndersupply, vacancy
-@property {Array}    prioritySegments   — ranked AMI tiers with rationale
+@property {Array}    prioritySegments   — ranked AMI tiers with rationale, plus CHAS cost-burdened bands
+@property {string[]} needNotes          — js/mix-check.js need notes (burden by band, workforce, 20-year need)
 @property {string}   confidence         — 'high' | 'medium' | 'low'
 @property {string[]} caveats            — data limitations
 

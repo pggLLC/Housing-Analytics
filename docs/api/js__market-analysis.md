@@ -117,9 +117,8 @@ Internal workforce scorer that also returns data-coverage metadata.
 
 Compute LIHTC recency context from nearby features. A market with its
 last allocation in 2018 reads very differently from one last funded
-in 2024 — CHFA geographic-distribution scoring and competitive
-saturation both depend on this temporal signal, which prior PMA
-scoring ignored entirely.
+in 2024. COHO uses this temporal signal to flag recent supply or
+gaps in the record for further market review.
 
 @param {Array} nearbyFeatures - LIHTC GeoJSON features from lihtcInBuffer
 @returns {{mostRecentYear:number|null, yearsSince:number|null, recentAllocations5yr:number, activityLevel:string, note:string|null}}
@@ -132,6 +131,12 @@ renters while showing the ACS renter total beside them, and the scenario
 table divided by that total: for Fruita, 100 units read 16.7% in one card
 and 10.1% in the next. null when there is no denominator at all; a rate
 over the scoring model's placeholder of 1 is not a rate.
+
+### `projectCaptureDenominator(result)`
+
+The pool a PROPOSED project's capture divides by. With the CHFA-rule
+counts it is the renters who qualify for the project's own tiers (60% AMI
+by default); without them it is the one denominator above, as before.
 
 ### `scoreScaleLegend()`
 

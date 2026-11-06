@@ -11,7 +11,7 @@ Responsibilities:
  - getCompetitiveJustification() — audit-ready competitive analysis
 
 Builds on the existing LIHTC filter logic in PMAEngine, layering in
-NHPD subsidy data for a complete competitive landscape.
+NHPD snapshot records; coverage is incomplete and cannot establish totals.
 
 Exposed as window.PMACompetitiveSet.
 
@@ -27,7 +27,7 @@ return the upper bound (the most permissive target in the range).
 Returns null — NOT a default — so downstream composites can
 distinguish "targeting unknown" from "targeting 60%".
 
-### `buildCompetitiveSet(lihtcFeatures, nhpdFeatures, siteLat, siteLon, radiusMiles)`
+### `buildCompetitiveSet(lihtcFeatures, nhpdFeatures, siteLat, siteLon, radiusMiles, coverage)`
 
 Build the competitive property set by merging LIHTC and NHPD data
 within the specified radius of the proposed site.
@@ -51,7 +51,7 @@ Flag subsidized properties at risk of subsidy expiry.
 Assess absorption risk based on competitive unit count vs proposed units.
 @param {Array}  competitiveSet - Output of buildCompetitiveSet
 @param {number} proposedUnits
-@returns {{risk: string, captureRate: number, totalCompetitiveUnits: number}}
+@returns {{risk: string|null, captureRate: number|null, totalCompetitiveUnits: number}}
 
 ### `getCompetitiveSetLayer(set)`
 

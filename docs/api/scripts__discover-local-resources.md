@@ -37,6 +37,11 @@ Exit codes:
 
 ## Symbols
 
+### `classifyBaseCandidate({ url, finalUrl, title, body })`
+
+Should a probed base URL be kept as a candidate city website?
+Returns { keep, reason }. Dropped candidates never reach the digest.
+
 ### `cdpGeoids(geoConfig)`
 
 GEOIDs of every Census-Designated Place, from the authoritative list in

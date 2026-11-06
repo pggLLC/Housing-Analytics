@@ -31,7 +31,8 @@ untouched. It never deletes or overwrites existing data.
 
 Data sourced from public-facing city/county housing pages + CDOLA
 Prop 123 commitment filings + each housing authority's own website.
-Last verified 2026-05-26; Greenwood Village verified 2026-07-14.
+Last verified 2026-05-26; Greenwood Village verified 2026-07-14;
+2026-10-09 discovery intake (#2125) verified 2026-10-11.
 
 ## Symbols
 

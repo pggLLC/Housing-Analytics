@@ -72,3 +72,35 @@ Leaflet can render this directly, and downstream aggregation can use the
 explicit GEOID list without pretending the boundary is a radius or hull.
 
 @returns {object|null} GeoJSON FeatureCollection or null when empty
+
+### `proposeNaturalFeatures()`
+
+Turn the option on: propose exclusions from the current selection.
+@returns {Promise<object>} getNaturalFeatures()
+
+### `applyNaturalFeatures()`
+
+Remove the proposed tracts that are not kept. The proposal is re-run on
+the selection as it stands, so tracts added since it was drawn are tested
+too. The selection from before Apply is stored for turning the option off.
+@returns {object} getNaturalFeatures()
+
+### `setNaturalFeatureKeep(geoid, keep, reason)`
+
+Keep (or stop keeping) a proposed tract because a crossing connects it.
+After Apply, keeping puts the tract back and un-keeping removes it.
+
+### `turnOffNaturalFeatures()`
+
+Turn the option off; an applied proposal is undone exactly.
+
+### `getNaturalFeatures()`
+
+The option's state, as every surface reads it (narrative, audit export,
+saved run). Each proposed tract carries how it got its state:
+'proposed out' (before Apply), 'excluded by feature', 'kept: crossing',
+or 're-added by analyst' (excluded, then clicked back in).
+
+### `naturalFeatureSummary()`
+
+A plain sentence for the rationale box, generated from getNaturalFeatures().

@@ -17,7 +17,7 @@ SCOPING A FOR-SALE PROJECT (entry points):
 
 EXPLORE (comparative & context):
   Compare Jurisdictions, Colorado Deep Dive, Market Intelligence,
-  CHFA Portfolio, Economic Dashboard, LIHTC Allocations, Preservation
+  CHFA Portfolio, Prop 123 Land Banking Awards, Economic Dashboard, Preservation
   Tracking
 
 DATA (transparency & quality):
@@ -26,7 +26,7 @@ DATA (transparency & quality):
 INSIGHTS, in three groups (2026-09-28):
   Current: Housing News, Policy & Legislation, Colorado Elections
   Research: Research & Analysis, Tax Credit Equity Markets, the papers
-  Guides: Help for Homebuyers
+  Guides: If You Need Housing Now, Help for Homebuyers
   It was 11 ungrouped items that overflowed a 1280x720 screen. About and
   Sitemap are in the footer. Each label matches the <h1> of the page it
   opens (test/insights-nav-labels.test.mjs).

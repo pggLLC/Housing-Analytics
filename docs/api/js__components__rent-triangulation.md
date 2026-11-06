@@ -10,9 +10,10 @@ which rent figure applies to which question:
   • ACS B25064 median gross rent — all occupied renter units, 5-yr smoothed
   • Zillow ZORI — asking rents on new leases (35-65th pct)
 
-Headline delta surfaces the gap between ACS (existing tenants) and
-ZORI (new-lease asking) — the gap is the "lease-up premium," the
-single most-misunderstood number in resort-adjacent CO markets.
+The rents are shown side by side and never subtracted or averaged:
+ACS gross rent includes tenant-paid utilities and comes from surveys
+two or more years older than ZORI's asking rents, which exclude them,
+so their difference is not a lease-up premium.
 
 Usage:
   RentTriangulation.attach(container, {
