@@ -76,6 +76,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
+import shapely
 import shapefile  # pyshp
 from scipy.sparse import coo_matrix
 from scipy.sparse.csgraph import dijkstra
@@ -94,6 +95,9 @@ LODES_XWALK = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz'
 COTREX = ('https://services5.arcgis.com/ttNGmDvKQA7oeDQ3/ArcGIS/rest/services/'
           'COTREX_Trails_Sept_Update/FeatureServer/0')
 COTREX_PAGE = 'https://trails.colorado.gov/'
+THIZ_FILE = ROOT / 'data' / 'policy' / 'thiz-zones.geojson'
+HALF_MILE = 805.0     # CHFA QAP transit-oriented distance, walked
+TWO_MILES = 3219.0    # THIZ radius (C.R.S. 24-48.5-136(3)(c)), straight line
 CDOT_BIKE = 'https://dtdapps.codot.gov/server/rest/services/BikeMap/Bike_Byways/MapServer/'
 DRCOG_RDC = 'https://gis.drcog.org/server/rest/services/RDC/'
 COS_TRANS = 'https://gis.coloradosprings.gov/arcgis/rest/services/GeneralUse/Transportation/MapServer/'
@@ -630,7 +634,34 @@ def wmedian(vals, weights):
     return pairs[-1][0]
 
 
-def build_map(doc, trails, services, local):
+def rings_of(geom, tol):
+    """Polygon rings, simplified, as rounded coordinate lists (outer and holes alike; the page draws even-odd)."""
+    if geom.is_empty:
+        return []
+    geom = geom.simplify(tol)
+    out = []
+    for p in ([geom] if geom.geom_type == 'Polygon' else [g for g in getattr(geom, 'geoms', []) if g.geom_type == 'Polygon']):
+        for r in [p.exterior] + list(p.interiors):
+            cs = []
+            for x, y in r.coords:
+                c = [round(x, 4), round(y, 4)]
+                if not cs or cs[-1] != c:
+                    cs.append(c)
+            if len(cs) > 3:
+                out.append(cs)
+    return out
+
+
+def half_mile_area(fac_now):
+    """Union of straight half-mile circles around existing OEDIT facilities, in lon/lat."""
+    from shapely.ops import unary_union
+    from shapely.affinity import scale
+    xy = proj(np.array([f['lon'] for f in fac_now]), np.array([f['lat'] for f in fac_now]))
+    u = unary_union([Point(x, y).buffer(HALF_MILE, 16) for x, y in xy])
+    return scale(u, xfact=1 / KX, yfact=1 / KY, origin=(0, 0))
+
+
+def build_map(doc, trails, services, local, zone=None, fac_now=None):
     """Per-town map layers: service points, COTREX trails and local bike lanes and paths within about 500 m of the town outline."""
     from shapely.geometry import box as sbox
     pb = load_json(ROOT / 'data' / 'co-place-boundaries.geojson')
@@ -650,6 +681,11 @@ def build_map(doc, trails, services, local):
     bgeoms = [LineString(ln) for _, ln in local['lanes']] + [LineString(ln) for src, ln in local['paths'] if src != 'cdot']
     bkinds = ['l'] * len(local['lanes']) + ['p'] * (len(bgeoms) - len(local['lanes']))
     btree = STRtree(bgeoms)
+    half = half_mile_area(fac_now) if fac_now else None
+    if zone is not None and not zone.is_valid:
+        zone = shapely.make_valid(zone)  # OEDIT's dissolved layer has self-touching rings
+    # Bus stops are 95% of OEDIT facilities and already show as transit dots; the map keeps stations, rail and park-and-rides.
+    fpts = [(f['lon'], f['lat'], f['type'], f['name']) for f in (fac_now or []) if f['type'] != 'bus']
     mp = {}
     for g in doc['places']:
         o = outl.get(g)
@@ -680,14 +716,32 @@ def build_map(doc, trails, services, local):
             if out_ is not lines:
                 lay['bikeways'] = out_
         lay['trails'] = lines
+        if zone is not None:
+            lay['thiz'] = rings_of(zone.intersection(area), 0.0004)
+            lay['half_mile'] = rings_of(half.intersection(area), 0.0003)
+            lay['facilities'] = [[round(x, 4), round(y, 4), t, n] for x, y, t, n in fpts
+                                 if bx[0] <= x <= bx[2] and bx[1] <= y <= bx[3] and area.contains(Point(x, y))]
         mp[g] = lay
+    # Counties: the official zone and the half-mile area for the county view (bike layers come from its towns).
+    cmp_ = {}
+    if zone is not None:
+        cf = load_json(ROOT / 'data' / 'boundaries' / 'counties_co.geojson')
+        for f in cf['features']:
+            g = f['properties']['GEOID']
+            if g not in doc['counties'] or not f.get('geometry'):
+                continue
+            o = shape(f['geometry'])
+            cmp_[g] = {'bbox': [round(v, 4) for v in o.bounds], 'thiz': rings_of(zone.intersection(o), 0.0015),
+                       'half_mile': rings_of(half.intersection(o), 0.0006)}
     meta = doc['meta']
     OUT_MAP.write_text(json.dumps({'meta': {'generated': meta['generated'], 'generated_by': meta['generated_by'],
-                                            'note': 'Per-town map layers for the walk and bike page: service points, COTREX trails and local bike lanes (l) and paths (p) from the DRCOG, Colorado Springs and Grand Junction inventories, within about 500 m of each town outline (2024 Census place boundaries), simplified.',
-                                            'sources': ['data/amenities/', 'data/market/health_centers_co.geojson', COTREX, 'data/co-place-boundaries.geojson'] +
+                                            'note': ('Per-town map layers for the walk and bike page: service points, COTREX trails and local bike lanes (l) and paths (p) from the DRCOG, Colorado Springs and Grand Junction inventories, '
+                                                     'the official OEDIT Transit and Housing Investment Zone (thiz), straight half-mile circles around existing OEDIT facilities (half_mile) and the non-bus facilities (stations, rail, park-and-rides; bus stops show as transit service points) '
+                                                     '[lon, lat, type, name], within about 500 m of each town outline (2024 Census place boundaries), simplified. counties: the zone and half-mile area per county.'),
+                                            'sources': ['data/amenities/', 'data/market/health_centers_co.geojson', COTREX, 'data/co-place-boundaries.geojson', 'data/policy/thiz-zones.geojson'] +
                                                        [LOCAL_LAYERS[k][0] for k in ('drcog_bike', 'cos_bike', 'gj_bike')],
                                             'odbl_notice': meta['odbl_notice']},
-                                   'places': mp}, separators=(',', ':')) + '\n')
+                                   'places': mp, 'counties': cmp_}, separators=(',', ':')) + '\n')
     log('wrote', OUT_MAP, OUT_MAP.stat().st_size, 'bytes')
 
 
@@ -702,7 +756,10 @@ def main():
     if args.map_only:
         trails, _, _ = read_trails(cache)
         services, _ = load_services()
-        build_map(load_json(OUT), trails, services, load_local(cache))
+        td = load_json(THIZ_FILE)
+        cols = td['meta']['facilityColumns']
+        build_map(load_json(OUT), trails, services, load_local(cache), shape(td['features'][0]['geometry']),
+                  [f for f in (dict(zip(cols, r)) for r in td['facilities']) if f['status'] == 'existing'])
         return
 
     net = Net()
@@ -783,6 +840,39 @@ def main():
         out['bike_straight'] = (sd <= BIKE_15).astype(float)
         res[name] = out
         log('service', name, len(pts), 'points; walk share', round(100 * (out['walk'] * H).sum() / H.sum(), 1))
+
+    # Transit areas. OEDIT's Transit and Housing Investment Zone (THIZ) map is the official two-mile zone; the
+    # half mile is the CHFA QAP's transit-oriented distance, walked on the same network to an existing OEDIT
+    # facility. Our own two-mile buffer of confirmed stops is built only to check it against the official zone.
+    thiz_doc = load_json(THIZ_FILE)
+    zone = shape(thiz_doc['features'][0]['geometry'])
+    if not zone.is_valid:
+        zone = shapely.make_valid(zone)  # OEDIT's dissolved layer has nested shells; repair before testing points
+    hin_thiz = shapely.contains_xy(zone, hlon, hlat)
+    fac_cols = thiz_doc['meta']['facilityColumns']
+    fac = [dict(zip(fac_cols, r)) for r in thiz_doc['facilities']]
+    fac_now = [f for f in fac if f['status'] == 'existing']
+    flon = np.array([f['lon'] for f in fac_now])
+    flat = np.array([f['lat'] for f in fac_now])
+    fnode, fsnap, fok = snap(tree, rn, flon, flat)
+    lead = {}
+    for nd, dd in zip(fnode[fok], fsnap[fok]):
+        lead[int(nd)] = min(lead.get(int(nd), np.inf), float(dd))
+    d = dijkstra(with_source(g_walk, lead), directed=False, indices=g_walk.shape[0], limit=HALF_MILE)[:g_walk.shape[0]]
+    hhalf = hok & (d[hnode] + hsnap <= HALF_MILE)
+    fd, _ = cKDTree(proj(flon, flat)).query(proj(hlon, hlat))
+    hhalf_straight = fd <= HALF_MILE
+    tp = np.array(services['transit'])
+    sd2, _ = cKDTree(proj(tp[:, 0], tp[:, 1])).query(proj(hlon, hlat))
+    hstop2 = sd2 <= TWO_MILES
+    agree = {
+        'homes_in_official_zone_pct': round(100 * H[hin_thiz].sum() / H.sum(), 1),
+        'homes_in_stop_buffer_pct': round(100 * H[hstop2].sum() / H.sum(), 1),
+        'homes_agreeing_pct': round(100 * H[hin_thiz == hstop2].sum() / H.sum(), 1),
+        'homes_official_only': int(H[hin_thiz & ~hstop2].sum()),
+        'homes_buffer_only': int(H[~hin_thiz & hstop2].sum()),
+    }
+    log('THIZ: homes in zone', agree, 'half-mile walk share', round(100 * H[hhalf].sum() / H.sum(), 1))
 
     # Jobs reachable, per county subgraph.
     jobs_ids = [b for b in wac if b in blocks]
@@ -880,6 +970,27 @@ def main():
             o['sidewalk_source'] = None
             o['walk_side'] = None
             o['walk_sidewalk_reach'] = None
+
+        def within(mask):
+            # The four everyday reaches for the homes in one transit area.
+            m = mask[rows]
+            hh = h[m]
+            t = hh.sum()
+            if t <= 0:
+                return {'homes': 0}
+            sub = rows[m]
+            av = lambda key: round(sum(100 * (res[s][key][sub] * hh).sum() / t for s in EVERYDAY) / len(EVERYDAY), 1)
+            out = {'homes': int(t), 'walk_reach': av('walk'), 'bike_reach': av('bike'), 'bike_calm_reach': av('bike_calm')}
+            out['walk_sidewalk_reach'] = av('walk_side') if o['sidewalk_source'] and hh[hcov_any[sub]].sum() >= SIDEWALK_MIN_COVER / 100 * t else None
+            return out
+        o['transit_areas'] = {
+            'thiz_pct': round(100 * h[hin_thiz[rows]].sum() / tot, 1),
+            'stop_buffer_2mi_pct': round(100 * h[hstop2[rows]].sum() / tot, 1),
+            'half_mile_walk_pct': round(100 * h[hhalf[rows]].sum() / tot, 1),
+            'half_mile_straight_pct': round(100 * h[hhalf_straight[rows]].sum() / tot, 1),
+            'half_mile': within(hhalf),
+            'thiz': within(hin_thiz),
+        }
         return o
 
     if args.county:
@@ -917,7 +1028,6 @@ def main():
 
     # Street-length measures by town and county outline: sidewalk share, possible missing sidewalk,
     # mapped bike lanes and paths.
-    import shapely
     cov_all = np.unique(np.concatenate(list(cover.values())))
     E = np.where(road & np.isin(net.cls, [1, 2]) & (net.w >= SIDEWALK_MIN_EDGE))[0]
     E = E[in_cells(cov_all, mid[E])]
@@ -926,6 +1036,9 @@ def main():
     mpt = shapely.points(mxy[:, 0] / KX, mxy[:, 1] / KY)
     lxy, lw = densify([ln for _, ln in local['paths'] if _ != 'cdot'] + [ln for _, ln in local['lanes']])
     lpt = shapely.points(lxy[:, 0] / KX, lxy[:, 1] / KY)
+    # Street pieces within half a mile (straight line) of an existing OEDIT facility.
+    ed, _ = cKDTree(proj(flon, flat)).query(mid[E])
+    near_fac = ed <= HALF_MILE
 
     def by_outline(feats, key):
         ids = [f['properties'][key] for f in feats if f.get('geometry')]
@@ -940,7 +1053,9 @@ def main():
         sw = tot(ept, net.w[E] * sidewalk[E])
         mi = tot(mpt, mw)
         bk = tot(lpt, lw)
-        return {g: (st[i], sw[i], mi[i], bk[i]) for i, g in enumerate(ids)}
+        st_h = tot(ept, net.w[E] * near_fac)
+        sw_h = tot(ept, net.w[E] * sidewalk[E] * near_fac)
+        return {g: (st[i], sw[i], mi[i], bk[i], st_h[i], sw_h[i]) for i, g in enumerate(ids)}
     edge_pl = by_outline(pb['features'], 'geoid')
     edge_ct = by_outline(cf['features'], 'GEOID')
 
@@ -948,8 +1063,9 @@ def main():
         return LOCAL_PLACES.get(g) or ('drcog' if cty in DRCOG_COUNTIES else None)
     for coll, eb, is_place in ((places, edge_pl, True), (counties, edge_ct, False)):
         for g, s_ in coll.items():
-            st_, sw_, mi_, bk_ = eb.get(g, (0, 0, 0, 0))
+            st_, sw_, mi_, bk_, sth_, swh_ = eb.get(g, (0, 0, 0, 0, 0, 0))
             ok = s_['sidewalk_source'] is not None and st_ > 0
+            s_['transit_areas']['half_mile_sidewalk_pct'] = round(100 * swh_ / sth_, 1) if ok and sth_ >= 1000 else None
             s_['sidewalk_pct'] = round(100 * sw_ / st_, 1) if ok else None
             s_['street_km_mapped'] = round(st_ / 1000, 1) if ok else None
             s_['missing_sidewalk_km'] = round(mi_ / 1000, 1) if ok and s_['sidewalk_source'] == 'drcog' else None
@@ -959,6 +1075,7 @@ def main():
             s_['bike_facility_km'] = round(bk_ / 1000, 1) if inv else None
     for k in ('sidewalk_pct', 'street_km_mapped', 'missing_sidewalk_km', 'bike_inventory', 'bike_facility_km'):
         state[k] = None
+    state['transit_areas']['half_mile_sidewalk_pct'] = None
 
     # Bands from the spread of towns with at least 200 homes, so a hamlet doesn't set the cut points.
     big = [p for p in places.values() if p['homes'] >= 200]
@@ -1005,7 +1122,9 @@ def main():
                  [round(100 * (res[s]['bike'][rows] * h).sum() / tot) for s in SERVICES] + \
                  [round(sum(100 * (res[s]['bike_calm'][rows] * h).sum() / tot for s in EVERYDAY) / 4, 1),
                   round(sum(100 * (res[s]['walk_side'][rows] * h).sum() / tot for s in EVERYDAY) / 4, 1)
-                  if h[hcov_any[rows]].sum() >= SIDEWALK_MIN_COVER / 100 * tot else None]
+                  if h[hcov_any[rows]].sum() >= SIDEWALK_MIN_COVER / 100 * tot else None,
+                  round(100 * h[hin_thiz[rows]].sum() / tot, 1),
+                  round(100 * h[hhalf[rows]].sum() / tot, 1)]
 
     now = datetime.now(timezone.utc)
     meta = {
@@ -1035,6 +1154,15 @@ def main():
                                 'walkways, trails and paths. missing_sidewalk_km is the length DRCOG marks Possible Missing Sidewalk.'
                                 % (SIDEWALK_MIN_COVER, CELL, SIDEWALK_MIN_EDGE, SIDEWALK_NEAR)),
         'local_counts': local['counts'],
+        'transit_areas': {
+            'thiz_program': 'Transit and Housing Investment Zones (HB26-1065, C.R.S. 24-48.5-136): the area within two miles of a transportation facility on the OEDIT map.',
+            'thiz_map': thiz_doc['meta']['sourceUrl'], 'thiz_zone_layer': thiz_doc['meta']['zoneLayer'],
+            'thiz_vintage': thiz_doc['meta']['vintage'], 'thiz_fetched': thiz_doc['meta']['fetched'][:10],
+            'thiz_file': 'data/policy/thiz-zones.geojson',
+            'facilities_existing': len(fac_now), 'facilities_planned': len(fac) - len(fac_now),
+            'half_mile_basis': 'CHFA 2027-28 QAP section 5.B.2.b: within a half-mile walk distance of transit corridors. Measured as a half-mile walk (805 m) on the same street and trail network to an existing OEDIT facility; planned facilities are left out of the walk.',
+            'check_against_official_zone': dict(agree, method='Homes inside the official zone against homes within two miles (straight line) of a confirmed fixed-route stop in data/amenities/transit_stops_statewide_co.geojson. The page uses the official zone; the buffer is only a check.'),
+        },
         'fields': {
             'walk / bike': 'share of homes (%) within a 10-minute walk / 15-minute ride of each service, by street and trail',
             'walk_roads / bike_roads': 'the same on streets only, so the difference is what trails add',
@@ -1047,7 +1175,12 @@ def main():
             'sidewalk_source / bike_inventory': 'which local inventory covers the place: drcog, cos (Colorado Springs) or gj (Grand Junction)',
             'sidewalk_pct / street_km_mapped / missing_sidewalk_km': 'street length with a sidewalk (%), street length measured (km), DRCOG possible missing sidewalk (km)',
             'bike_facility_km': 'km of mapped bike lanes and local paths inside the town outline (local inventories only, not COTREX)',
-            'blockGroups': 'by 2010 block group: [homes, walk_reach, bike_reach, transit_reach, jobs_walk15, jobs_bike15, walk % grocery, school, health, park, transit, bike % grocery, school, health, park, transit, bike_calm_reach, walk_sidewalk_reach]'},
+            'transit_areas': ('thiz_pct: share of homes inside the official OEDIT Transit and Housing Investment Zone; stop_buffer_2mi_pct: '
+                              'share within two miles (straight line) of a confirmed fixed-route stop, our check on the official zone; '
+                              'half_mile_walk_pct / half_mile_straight_pct: share within a half-mile walk / straight half mile of an existing OEDIT '
+                              'facility; half_mile and thiz: homes and the four everyday reaches for the homes in each area; '
+                              'half_mile_sidewalk_pct: street length with a mapped sidewalk within a straight half mile of a facility'),
+            'blockGroups': 'by 2010 block group: [homes, walk_reach, bike_reach, transit_reach, jobs_walk15, jobs_bike15, walk % grocery, school, health, park, transit, bike % grocery, school, health, park, transit, bike_calm_reach, walk_sidewalk_reach, thiz_pct, half_mile_walk_pct]'},
         'bands': bands,
         'sources': [
             {'id': 'tiger-roads-2025', 'name': 'U.S. Census Bureau, TIGER/Line Shapefiles 2025, All Roads', 'url': TIGER_ROADS_DIR,
@@ -1062,6 +1195,9 @@ def main():
             {'id': k.replace('_', '-'), 'name': v['name'], 'url': v['url'], 'page': v['page'], 'features': v['features'], 'fetched': v['fetched']}
             for k, v in local['layers'].items()
         ] + [
+            {'id': 'oedit-thiz', 'name': 'Colorado OEDIT, Transit and Housing Investment Zone map (zone layer and transportation facilities)',
+             'url': thiz_doc['meta']['sourceUrl'], 'file': 'data/policy/thiz-zones.geojson', 'vintage': thiz_doc['meta']['vintage'],
+             'fetched': thiz_doc['meta']['fetched'][:10], 'features': len(fac)},
             {'id': 'epa-sld', 'name': 'EPA Smart Location Database v3.0, National Walkability Index', 'file': 'data/market/epa_sld_co.json',
              'vintage': sld['meta'].get('vintage'), 'fetched': sld['meta'].get('fetched')},
         ],
@@ -1073,7 +1209,7 @@ def main():
     OUT.write_text(json.dumps(doc, separators=(',', ':'), sort_keys=False) + '\n')
     log('wrote', OUT, OUT.stat().st_size, 'bytes;', len(places), 'places', len(counties), 'counties', len(bgs), 'block groups')
 
-    build_map(doc, trails, services, local)
+    build_map(doc, trails, services, local, zone, fac_now)
 
 
 if __name__ == '__main__':

@@ -38,6 +38,12 @@ for (const id of LOCAL) {
 }
 ok(/Bicycles Prohibited/.test(m.bike_closed) && m.bike_calm_definition && m.sidewalk_definition, 'local-layer rules are stated');
 const INV = new Set(['drcog', 'cos', 'gj']);
+const TA = m.transit_areas;
+ok(TA && /HB26-1065/.test(TA.thiz_program) && /^https:\/\//.test(TA.thiz_map) && TA.thiz_file === 'data/policy/thiz-zones.geojson', 'transit areas name the official OEDIT map and file');
+ok(TA.facilities_existing > 10000 && /half-mile walk/.test(TA.half_mile_basis), 'half mile is walked to existing OEDIT facilities, with its QAP basis');
+const chk = TA.check_against_official_zone;
+ok(chk.homes_agreeing_pct >= 90, 'our two-mile stop buffer agrees with the official zone for at least 90% of homes (got ' + chk.homes_agreeing_pct + ')');
+ok(m.sources.some(s => s.id === 'oedit-thiz' && s.vintage && s.fetched), 'meta.sources lists the OEDIT map with its vintage');
 
 const L = m.bands.labels;
 ok(L.length === 4, 'four bands');
@@ -79,6 +85,17 @@ function checkRecord(r, where) {
   }
   if (r.sidewalk_pct != null) ok(r.sidewalk_source && r.sidewalk_pct >= 0 && r.sidewalk_pct <= 100 && r.street_km_mapped > 0, `${where}: sidewalk share of measured street length`);
   if (r.missing_sidewalk_km != null) ok(r.sidewalk_source === 'drcog' && r.missing_sidewalk_km >= 0, `${where}: possible missing sidewalk only from DRCOG`);
+  const T = r.transit_areas;
+  ok(T && ['thiz_pct', 'stop_buffer_2mi_pct', 'half_mile_walk_pct', 'half_mile_straight_pct'].every(k => T[k] >= 0 && T[k] <= 100), `${where}: transit-area shares are shares`);
+  // A half-mile walk is never longer than a half-mile straight line, and a half mile sits inside two miles of the same facility.
+  ok(T.half_mile_walk_pct <= T.half_mile_straight_pct + 0.05, `${where}: half-mile walk share never beats the straight half mile`);
+  ok(Math.abs(T.half_mile.homes - Math.round(r.homes * T.half_mile_walk_pct / 100)) <= Math.max(2, r.homes * 0.001), `${where}: homes near transit match the half-mile share`);
+  ok(Math.abs(T.thiz.homes - Math.round(r.homes * T.thiz_pct / 100)) <= Math.max(2, r.homes * 0.001), `${where}: homes in the zone match the zone share`);
+  for (const a of [T.half_mile, T.thiz]) {
+    if (a.homes > 0) ok(a.walk_reach >= 0 && a.walk_reach <= 100 && a.bike_calm_reach <= a.bike_reach + 0.05, `${where}: reaches inside a transit area are shares, calmer ride within biking`);
+    if (a.walk_sidewalk_reach != null) ok(r.sidewalk_source && a.walk_sidewalk_reach <= a.walk_reach + 0.05, `${where}: sidewalk walking near transit only with a sidewalk map, never above walking`);
+  }
+  if (T.half_mile_sidewalk_pct != null) ok(r.sidewalk_pct != null && T.half_mile_sidewalk_pct >= 0 && T.half_mile_sidewalk_pct <= 100, `${where}: sidewalk share near transit only where sidewalks are mapped`);
   ok(r.bike_inventory == null ? r.bike_facility_km == null : INV.has(r.bike_inventory) && r.bike_facility_km >= 0, `${where}: bike facility length only where an inventory covers it`);
 }
 
@@ -95,14 +112,20 @@ ok(doc.state.homes > 2400000 && doc.state.homes < 2600000, 'state homes match th
 
 const bgs = Object.keys(doc.blockGroups);
 ok(bgs.length > 3000, 'block groups present');
-bgs.forEach(g => { const a = doc.blockGroups[g]; ok(a.length === 18 && a[0] > 0, g + ' block group row has 18 fields and homes');
+bgs.forEach(g => { const a = doc.blockGroups[g]; ok(a.length === 20 && a[0] > 0, g + ' block group row has 20 fields and homes');
+  ok(a[18] >= 0 && a[18] <= 100 && a[19] >= 0 && a[19] <= 100, g + ' transit zone and half-mile shares are shares');
   ok(a[16] <= a[2] + 0.05 && (a[17] == null || a[17] <= a[1] + 0.05), g + ' calmer ride and sidewalk walking never beat the full figures');  });
 
 ok(Object.keys(map.places).every(g => doc.places[g]), 'map layers only for places in the access file');
 Object.values(map.places).forEach(l => {
   ok(l.bbox.length === 4 && l.bbox[0] < l.bbox[2] && l.bbox[1] < l.bbox[3], 'map box is ordered');
   ok(Array.isArray(l.bikeways) && l.bikeways.every(t => (t[0] === 'l' || t[0] === 'p') && t.length > 2), 'bike lanes and paths are typed lines');
+  ok(Array.isArray(l.thiz) && Array.isArray(l.half_mile) && l.thiz.concat(l.half_mile).every(r => r.length > 3), 'transit zone and half-mile rings present');
+  ok(Array.isArray(l.facilities) && l.facilities.every(f => f.length === 4 && f[0] >= l.bbox[0] && f[0] <= l.bbox[2]), 'facilities sit inside the map box');
 });
+ok(Object.keys(map.counties).length === 64 && Object.values(map.counties).every(c => c.bbox && Array.isArray(c.thiz) && Array.isArray(c.half_mile)), 'county map layers carry the zone and half-mile area');
+// Denver is almost all inside the zone.
+ok(doc.places['0820000'].transit_areas.thiz_pct > 95 && doc.places['0820000'].transit_areas.half_mile_walk_pct > 50, 'Denver: nearly every home in the zone, most within a half-mile walk');
 // Known coverage: Denver and Colorado Springs have sidewalk maps; Grand Junction has a bike map but no sidewalk map.
 ok(doc.places['0820000'].sidewalk_source === 'drcog' && doc.places['0816000'].sidewalk_source === 'cos', 'Denver and Colorado Springs carry sidewalk figures');
 ok(doc.places['0831660'].bike_inventory === 'gj' && doc.places['0831660'].sidewalk_pct === null, 'Grand Junction: bike inventory, no sidewalk map');
