@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-06T13:13:55.696761Z",
+  "generated": "2026-11-06T13:56:18.852853Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1028638
+      "bytes": 1029625
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -56,6 +56,16 @@
       "placeholder": false,
       "bytes": 195665
     },
+    "data/affordable-housing/preservation/hud-public-housing.json": {
+      "featureCount": 67,
+      "placeholder": false,
+      "bytes": 39399
+    },
+    "data/affordable-housing/preservation/usda-farm-labor-housing.json": {
+      "featureCount": 13,
+      "placeholder": false,
+      "bytes": 8455
+    },
     "data/affordable-housing/preservation/usda-rural-housing.json": {
       "featureCount": 116,
       "placeholder": false,
@@ -69,7 +79,7 @@
     "data/affordable-housing/properties.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1522540
+      "bytes": 1580864
     },
     "data/affordable-housing/property-aliases.json": {
       "featureCount": 0,
@@ -1119,12 +1129,12 @@
     "data/derived/funding-map.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 1482365
+      "bytes": 1584928
     },
     "data/derived/funding-vs-need.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 93798
+      "bytes": 137205
     },
     "data/derived/market-analysis/market_demand.json": {
       "featureCount": 0,
@@ -4339,7 +4349,7 @@
     "data/hna/lehd/08.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2173
+      "bytes": 2821
     },
     "data/hna/lehd/08001.json": {
       "featureCount": 0,
@@ -8924,7 +8934,7 @@
     "data/market/development-activity.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1185097
+      "bytes": 1356698
     },
     "data/market/dola_demographics_co.json": {
       "featureCount": 64,
@@ -9262,9 +9272,9 @@
       "bytes": 8518
     },
     "data/multifamily-inventory-co.json": {
-      "featureCount": 56,
+      "featureCount": 60,
       "placeholder": false,
-      "bytes": 92895
+      "bytes": 94694
     },
     "data/paper/compute-footprint.json": {
       "featureCount": 0,
@@ -9699,7 +9709,7 @@
     "data/policy/funding-awards/dola-awards.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 342119
+      "bytes": 547199
     },
     "data/policy/funding-awards/land-banking-corrections.json": {
       "featureCount": 0,

@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "d939232e2",
+  "generated_from_commit": "7e9cba5ee",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-11-06",
-    "total_commits": 9404,
+    "total_commits": 9413,
     "partial_month": "2026-11",
     "commits_by_month": [
       {
@@ -54,8 +54,8 @@
       },
       {
         "month": "2026-11",
-        "commits": 287,
-        "pct_of_peak": 18.4
+        "commits": 296,
+        "pct_of_peak": 18.9
       }
     ]
   },
@@ -64,16 +64,16 @@
     "html_pages_toplevel": 82,
     "html_pages_total": 576,
     "workflows": 84,
-    "scripts": 387,
+    "scripts": 390,
     "docs": 585,
-    "data_files": 2062,
+    "data_files": 2064,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 71,
-    "test_files": 706,
+    "test_files": 707,
     "absence_test_cases": 320,
     "absence_tests": 126,
     "lihtc_features": 926
@@ -251,10 +251,10 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 527178,
+    "hand_written_lines": 528477,
     "generated_place_page_lines": 282522,
     "top_level_pages": 82,
-    "html_nonblank_lines": 51762,
+    "html_nonblank_lines": 51772,
     "html_distinct_lines": 21431,
     "html_distinct_share": 0.414,
     "substantial_tools": 25,
@@ -320,7 +320,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "d939232e2",
+    "extracted_at_commit": "7e9cba5ee",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -569,10 +569,10 @@
     "renter_burden_moe_places": null,
     "renter_burden_moe_median_pp": null,
     "renter_burden_moe_over_20pp": null,
-    "restricted_properties": 1854,
-    "restricted_with_end_date": 110,
-    "restricted_already_expired": 77,
-    "restricted_units_expiring_10yr": 431
+    "restricted_properties": 1896,
+    "restricted_with_end_date": 122,
+    "restricted_already_expired": 82,
+    "restricted_units_expiring_10yr": 586
   },
   "footprint": {
     "measured_at": "2026-09-15",

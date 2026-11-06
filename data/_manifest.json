@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-06T13:13:51.132Z",
+    "generated_at": "2026-11-06T13:56:15.880Z",
     "root": "data/",
-    "file_count": 2022,
-    "total_size_bytes": 222283105,
+    "file_count": 2024,
+    "total_size_bytes": 222914381,
     "kinds": {
-      "json": 1973,
+      "json": 1975,
       "geojson": 35,
       "csv": 14
     }
@@ -217,6 +217,46 @@
       ]
     },
     {
+      "path": "affordable-housing/preservation/hud-public-housing.json",
+      "kind": "json",
+      "size_bytes": 39399,
+      "mtime": "2026-11-06T13:54:42.721Z",
+      "shape": "object",
+      "keys": [
+        "type",
+        "meta",
+        "features"
+      ],
+      "key_count": 3,
+      "primary_array_key": "features",
+      "primary_array_length": 67,
+      "primary_array_first_keys": [
+        "type",
+        "geometry",
+        "properties"
+      ]
+    },
+    {
+      "path": "affordable-housing/preservation/usda-farm-labor-housing.json",
+      "kind": "json",
+      "size_bytes": 8455,
+      "mtime": "2026-11-06T13:54:42.721Z",
+      "shape": "object",
+      "keys": [
+        "type",
+        "meta",
+        "features"
+      ],
+      "key_count": 3,
+      "primary_array_key": "features",
+      "primary_array_length": 13,
+      "primary_array_first_keys": [
+        "type",
+        "geometry",
+        "properties"
+      ]
+    },
+    {
       "path": "affordable-housing/preservation/usda-rural-housing.json",
       "kind": "json",
       "size_bytes": 67622,
@@ -239,7 +279,7 @@
       "path": "affordable-housing/properties-manifest.json",
       "kind": "json",
       "size_bytes": 118,
-      "mtime": "2026-11-01T12:43:12.146Z",
+      "mtime": "2026-11-06T13:54:42.721Z",
       "shape": "object",
       "keys": [
         "v",
@@ -255,8 +295,8 @@
     {
       "path": "affordable-housing/properties.json",
       "kind": "json",
-      "size_bytes": 1522540,
-      "mtime": "2026-11-01T12:43:12.146Z",
+      "size_bytes": 1580864,
+      "mtime": "2026-11-06T13:54:42.724Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -264,7 +304,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "properties",
-      "primary_array_length": 1854,
+      "primary_array_length": 1896,
       "primary_array_first_keys": [
         "property_id",
         "program_type",
@@ -678,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-06T11:16:37.380Z",
+      "mtime": "2026-11-06T13:56:12.387Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6422,8 +6462,8 @@
     {
       "path": "derived/funding-map.json",
       "kind": "json",
-      "size_bytes": 1482365,
-      "mtime": "2026-10-31T08:49:31.966Z",
+      "size_bytes": 1584928,
+      "mtime": "2026-11-06T13:54:42.819Z",
       "shape": "object",
       "keys": [
         "title",
@@ -6439,7 +6479,7 @@
       ],
       "key_count": 10,
       "primary_array_key": "awards",
-      "primary_array_length": 1521,
+      "primary_array_length": 1676,
       "primary_array_first_keys": [
         "id",
         "site",
@@ -6458,8 +6498,8 @@
     {
       "path": "derived/funding-vs-need.json",
       "kind": "json",
-      "size_bytes": 93798,
-      "mtime": "2026-11-05T12:42:20.060Z",
+      "size_bytes": 137205,
+      "mtime": "2026-11-06T13:55:44.372Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -18858,8 +18898,8 @@
     {
       "path": "hna/lehd/08.json",
       "kind": "json",
-      "size_bytes": 2173,
-      "mtime": "2026-09-25T12:55:18.690Z",
+      "size_bytes": 2821,
+      "mtime": "2026-11-06T13:54:42.900Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -18868,6 +18908,7 @@
         "within",
         "inflow",
         "outflow",
+        "crossCountyCommuters",
         "source",
         "wacYear",
         "annualEmployment",
@@ -18875,9 +18916,9 @@
         "yoyGrowth",
         "industries"
       ],
-      "key_count": 12,
+      "key_count": 13,
       "primary_array_key": "industries",
-      "primary_array_length": 10,
+      "primary_array_length": 20,
       "primary_array_first_keys": [
         "naics",
         "label",
@@ -38748,8 +38789,8 @@
     {
       "path": "market/development-activity.json",
       "kind": "json",
-      "size_bytes": 1185097,
-      "mtime": "2026-11-01T12:48:45.297Z",
+      "size_bytes": 1356698,
+      "mtime": "2026-11-06T13:54:43.077Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38758,7 +38799,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "projects",
-      "primary_array_length": 725,
+      "primary_array_length": 798,
       "primary_array_first_keys": [
         "id",
         "name",
@@ -40071,8 +40112,8 @@
     {
       "path": "multifamily-inventory-co.json",
       "kind": "json",
-      "size_bytes": 92895,
-      "mtime": "2026-11-05T14:44:06.289Z",
+      "size_bytes": 94694,
+      "mtime": "2026-11-06T13:54:43.392Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -40108,7 +40149,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-06T11:16:38.807Z",
+      "mtime": "2026-11-06T13:56:14.181Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40132,7 +40173,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-06T11:16:38.423Z",
+      "mtime": "2026-11-06T13:56:13.721Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42333,8 +42374,8 @@
     {
       "path": "policy/funding-awards/dola-awards.json",
       "kind": "json",
-      "size_bytes": 342119,
-      "mtime": "2026-11-05T07:03:10.977Z",
+      "size_bytes": 547199,
+      "mtime": "2026-11-06T13:54:43.401Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42342,7 +42383,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "awards",
-      "primary_array_length": 291,
+      "primary_array_length": 461,
       "primary_array_first_keys": [
         "name",
         "grantee",

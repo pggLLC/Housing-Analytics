@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-06T11:16:15.220Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-06T13:55:44.416Z. Do not edit by hand.
 
 ---
 
@@ -20,7 +20,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 17.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 41.5 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 225.3 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 225.8 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 21.0 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `commuting.html` | Commuting and Jobs | COHO Analytics | 10.1 KB |
@@ -32,7 +32,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.2 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.3 KB |
+| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.4 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.5 KB |
@@ -64,7 +64,7 @@
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.5 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 262.9 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
-| `index.html` | COHO Analytics · Colorado affordable housing data | 52.3 KB |
+| `index.html` | COHO Analytics · Colorado affordable housing data | 52.4 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.1 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 13.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.3 KB |
@@ -97,11 +97,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1974 JSON files found.
+1976 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1004.2 KB | ✅ | — |
+| `data/_manifest.json` | 1004.5 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -112,9 +112,11 @@
 | `data/affordable-housing/preservation/chfa-preservation.json` | 633.7 KB | ✅ | 1688 features |
 | `data/affordable-housing/preservation/doh-mobile-home-parks.json` | 408.8 KB | ✅ | 767 features |
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
+| `data/affordable-housing/preservation/hud-public-housing.json` | 38.5 KB | ✅ | 67 features |
+| `data/affordable-housing/preservation/usda-farm-labor-housing.json` | 8.3 KB | ✅ | 13 features |
 | `data/affordable-housing/preservation/usda-rural-housing.json` | 66.0 KB | ✅ | 116 features |
 | `data/affordable-housing/properties-manifest.json` | 118 B | ✅ | — |
-| `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
+| `data/affordable-housing/properties.json` | 1.51 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
@@ -126,7 +128,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 671.9 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 682.0 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -315,8 +317,8 @@
 | `data/deals/willoughby-corner-phase-ia-senior-lafayette.json` | 15.0 KB | ✅ | — |
 | `data/deals/willoughby-corner-phase-ib-family-lafayette.json` | 15.4 KB | ✅ | — |
 | `data/deals/windtrail-park-fort-collins.json` | 19.6 KB | ✅ | — |
-| `data/derived/funding-map.json` | 1.41 MB | ✅ | — |
-| `data/derived/funding-vs-need.json` | 91.6 KB | ✅ | — |
+| `data/derived/funding-map.json` | 1.51 MB | ✅ | — |
+| `data/derived/funding-vs-need.json` | 134.0 KB | ✅ | — |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
@@ -958,7 +960,7 @@
 | `data/hna/jurisdiction-metrics-digest/0886310.json` | 41.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0886475.json` | 42.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0886750.json` | 41.8 KB | ✅ | — |
-| `data/hna/lehd/08.json` | 2.1 KB | ✅ | — |
+| `data/hna/lehd/08.json` | 2.8 KB | ✅ | — |
 | `data/hna/lehd/08001.json` | 2.7 KB | ✅ | — |
 | `data/hna/lehd/08003.json` | 2.6 KB | ✅ | — |
 | `data/hna/lehd/08005.json` | 2.7 KB | ✅ | — |
@@ -1849,7 +1851,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 13.2 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 250.9 KB | ✅ | — |
+| `data/manifest.json` | 251.0 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1873,7 +1875,7 @@
 | `data/market/commute-strength.json` | 141.1 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
 | `data/market/developable_land_context_co.json` | 1.37 MB | ✅ | — |
-| `data/market/development-activity.json` | 1.13 MB | ✅ | — |
+| `data/market/development-activity.json` | 1.29 MB | ✅ | — |
 | `data/market/dola_demographics_co.json` | 24.3 KB | ✅ | — |
 | `data/market/dola_muni_household_population.json` | 74.6 KB | ✅ | — |
 | `data/market/dola_rent_survey_co.json` | 730 B | ✅ | — |
@@ -1921,7 +1923,7 @@
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
 | `data/market/zori_rents_co.json` | 24.3 KB | ✅ | — |
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
-| `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
+| `data/multifamily-inventory-co.json` | 92.5 KB | ✅ | — |
 | `data/paper/compute-footprint.json` | 1.8 KB | ✅ | — |
 | `data/paper/figures.json` | 16.3 KB | ✅ | — |
 | `data/paper/model-parameters.json` | 6.1 KB | ✅ | — |
@@ -2008,7 +2010,7 @@
 | `data/policy/funding-awards/award-rows.json` | 254.7 KB | ✅ | — |
 | `data/policy/funding-awards/developer-aliases.json` | 7.4 KB | ✅ | — |
 | `data/policy/funding-awards/documents.json` | 47.7 KB | ✅ | — |
-| `data/policy/funding-awards/dola-awards.json` | 334.1 KB | ✅ | — |
+| `data/policy/funding-awards/dola-awards.json` | 534.4 KB | ✅ | — |
 | `data/policy/funding-awards/land-banking-corrections.json` | 9.4 KB | ✅ | — |
 | `data/policy/funding-awards/land-banking-status-research.json` | 8.2 KB | ✅ | — |
 | `data/policy/funding-awards/ledger.json` | 365.6 KB | ✅ | — |
@@ -2057,7 +2059,7 @@
 | `data/policy_briefs_curated.json` | 241.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 200.7 KB | ✅ | — |
+| `data/polymarket-history.json` | 202.8 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2080,7 +2082,7 @@
 
 ## Test Files
 
-787 test files found.
+788 test files found.
 
 | File | Size |
 |------|------|
@@ -2314,7 +2316,7 @@
 | `test/funding-eligibility-claims.test.js` | 12.1 KB |
 | `test/funding-fit.test.js` | 12.5 KB |
 | `test/funding-links-land-on-funding.test.js` | 2.0 KB |
-| `test/funding-vs-need.test.mjs` | 13.9 KB |
+| `test/funding-vs-need.test.mjs` | 20.3 KB |
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-naming.test.js` | 22.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
@@ -2738,6 +2740,7 @@
 | `test/transit-zone.test.js` | 40.2 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/ui-audit-clean.test.js` | 4.3 KB |
+| `test/undercount-fixes.test.mjs` | 7.0 KB |
 | `test/unit-mix-validation.test.js` | 4.7 KB |
 | `test/unit-suffix-convention.test.js` | 6.6 KB |
 | `test/unit/cohort-component-model.test.js` | 11.5 KB |
@@ -2818,7 +2821,7 @@
 | `tests/test_co_construction_labor_cost.py` | 10.0 KB |
 | `tests/test_data_plausibility.py` | 23.8 KB |
 | `tests/test_deal_summaries.py` | 4.7 KB |
-| `tests/test_development_activity.py` | 45.2 KB |
+| `tests/test_development_activity.py` | 45.6 KB |
 | `tests/test_epa_sld_walk_index.py` | 2.1 KB |
 | `tests/test_fdic_branches_co.py` | 954 B |
 | `tests/test_fee_reductions.py` | 11.5 KB |
