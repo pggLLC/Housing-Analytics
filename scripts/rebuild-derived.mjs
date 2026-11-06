@@ -107,7 +107,8 @@ export const CHAIN = [
   {
     id: 'funding-vs-need',
     argv: ['node', 'scripts/funding/build_funding_vs_need.mjs'],
-    why: 'data/derived/funding-vs-need.json joins the award ledger to the '
+    why: 'data/derived/funding-vs-need.json joins the award ledger (plus 4% bond '
+       + 'deals from data/chfa-lihtc.json) to the '
        + 'ranking index\'s need and vacancy fields and to permits.json, so a '
        + 'rebuilt index leaves the Funding vs Need tab stale without it',
   },

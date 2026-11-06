@@ -4,8 +4,16 @@
  * gone, county by county, against the need and market the site measures.
  *
  * Reads the award ledger (scripts/funding/build_funding_awards.py), the county
- * rows of the ranking index, building permits against projected need, and
- * CHFA's 2026 rent limits. Writes data/derived/funding-vs-need.json, which the
+ * rows of the ranking index, building permits against projected need, CHFA's
+ * 2026 rent limits, and CHFA's tax credit property list (data/chfa-lihtc.json).
+ *
+ * The ledger is built from CHFA's round award reports, and most 4% credits
+ * paired with private activity bonds are awarded outside the rounds, so they
+ * are not in it. The property list has them. Each 4% property on the list with
+ * an award year in the ledger window is matched to the ledger (matchBondDeals);
+ * the ones no round award accounts for are added to the county's tax credit
+ * homes as bond deals outside the rounds. The round-report figures are kept
+ * beside the totals. Writes data/derived/funding-vs-need.json, which the
  * Funding vs Need tab of colorado-deep-dive.html renders.
  *
  * It is a step of the derived chain (scripts/rebuild-derived.mjs) because it
@@ -26,6 +34,7 @@ const INPUTS = {
   ranking: path.join(ROOT, 'data', 'hna', 'ranking-index.json'),
   permits: path.join(ROOT, 'data', 'hna', 'permits.json'),
   limits: path.join(ROOT, 'data', 'chfa-income-rent-limits-2026.json'),
+  feed: path.join(ROOT, 'data', 'chfa-lihtc.json'),
 };
 const OUTPUT = path.join(ROOT, 'data', 'derived', 'funding-vs-need.json');
 
@@ -48,7 +57,128 @@ function median(values) {
   return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2;
 }
 
-export function build({ ledger, documents, ranking, permits, limits }) {
+// ── Matching CHFA's property list to the round award ledger ──────────────
+// Names differ between the two (a building number, "fka:", "Apartments",
+// a placeholder address renamed at lease-up), so a feed property counts as
+// already in the ledger when any of these holds, against a LIHTC award in the
+// same county (or one the ledger could not place) awarded within two years:
+//   1. names alike (similarity ≥ NAME_SURE);
+//   2. names partly alike (≥ NAME_WITH_UNITS), award years within one, and
+//      restricted homes within UNIT_TOLERANCE;
+//   3. the same award year, names alike (≥ NAME_PART) sharing a distinctive
+//      word, and fewer homes than the award (one building of a multi-building
+//      award, e.g. "DHA 655 Broadway" in "DHA 655 Broadway/Studebaker");
+//   4. otherwise, a 4% round award no feed property matched by name, in the same
+//      county, award years within one, and homes within one (a renamed deal),
+//      paired one to one, closest first.
+// Rules 1-3 may match several feed properties to one award; rule 4 never does.
+// A feed property that matches nothing is a bond deal outside the rounds.
+export const NAME_SURE = 0.8;
+export const NAME_WITH_UNITS = 0.5;
+export const NAME_PART = 0.6;
+const STOP = new Set(['the', 'a', 'and', 'at', 'of', 'on', 'apartments', 'apartment', 'apts', 'apt', 'lp', 'llc', 'ltd', 'homes', 'residences', 'phase', 'senior', 'seniors']);
+const GENERIC = new Set(['flats', 'village', 'villas', 'crossing', 'crossings', 'vista', 'view', 'commons', 'place', 'park', 'station', 'street', 'square', 'plaza', 'lofts', 'court', 'gardens', 'house', 'manor', 'ridge', 'creek', 'heights', 'north', 'south', 'east', 'west', 'avenue', 'building', 'redevelopment', 'community', 'family', 'housing']);
+const words = (s) => String(s || '').toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9 ]+/g, ' ').split(/\s+/).filter((w) => w && !STOP.has(w));
+
+function longestCommon(a, b) {
+  let best = [0, 0, 0];
+  let prev = new Array(b.length + 1).fill(0);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = new Array(b.length + 1).fill(0);
+    for (let j = 1; j <= b.length; j++) {
+      if (a[i - 1] === b[j - 1]) {
+        cur[j] = prev[j - 1] + 1;
+        if (cur[j] > best[2]) best = [i - cur[j], j - cur[j], cur[j]];
+      }
+    }
+    prev = cur;
+  }
+  return best;
+}
+function matchingChars(a, b) {
+  if (!a.length || !b.length) return 0;
+  const [i, j, k] = longestCommon(a, b);
+  if (!k) return 0;
+  return k + matchingChars(a.slice(0, i), b.slice(0, j)) + matchingChars(a.slice(i + k), b.slice(j + k));
+}
+// Ratcliff/Obershelp similarity of two names (what Python's difflib.ratio computes)
+export function nameSimilarity(x, y) {
+  const a = words(x).join(' ');
+  const b = words(y).join(' ');
+  return a.length + b.length ? (2 * matchingChars(a, b)) / (a.length + b.length) : 0;
+}
+// "Remington fka: DMA Plaza Renovation" is two names for one deal
+const altNames = (name) => String(name || '').split(/\bf\.?k\.?a\.?:?/i).map((s) => s.trim()).filter(Boolean);
+
+export function matchBondDeals(feedProps, awards, { firstYear, lastYear }) {
+  const lihtc = awards.filter((a) => String(a.program || '').startsWith('LIHTC'));
+  const homes = (a) => num(a.restricted_units) ?? num(a.total_units);
+  const feedHomes = (p) => num(p.LI_UNITS) ?? num(p.N_UNITS);
+  const close = (x, y, tol) => x !== null && y !== null && Math.abs(x - y) <= tol;
+  const UNIT_TOLERANCE = (x, y) => Math.max(2, 0.05 * Math.max(x ?? 0, y ?? 0));
+  const bond = feedProps.filter((p) => /^4%/.test(p.TypeOfCredits || '') && Number.isInteger(p.AwardYear) && p.AwardYear >= firstYear && p.AwardYear <= lastYear);
+
+  const matched = [];
+  const left = [];
+  for (const p of bond) {
+    const pw = words(p.ReportedName || p.PROJECT);
+    const fu = feedHomes(p);
+    let best = null;
+    for (const a of lihtc) {
+      if (a.county_fips && a.county_fips !== p.CNTY_FIPS) continue;
+      const dy = Math.abs(p.AwardYear - a.year);
+      if (dy > 2) continue;
+      const au = homes(a);
+      for (const alt of altNames(a.name)) {
+        const r = nameSimilarity(p.ReportedName || p.PROJECT, alt);
+        const aw = words(alt);
+        const shared = pw.some((w) => w.length >= 3 && !GENERIC.has(w) && aw.includes(w));
+        const rule = r >= NAME_SURE ? 'name'
+          : r >= NAME_WITH_UNITS && dy <= 1 && close(fu, au, UNIT_TOLERANCE(fu, au)) ? 'name and homes'
+            : r >= NAME_PART && shared && dy === 0 && fu !== null && au !== null && fu < au ? 'one building of the award'
+              : null;
+        if (rule && (!best || r > best.r)) best = { a, r, rule };
+      }
+    }
+    if (best) matched.push({ p, a: best.a, rule: best.rule, similarity: Math.round(best.r * 100) / 100 });
+    else left.push(p);
+  }
+
+  // rule 4: renamed deals, one to one by homes and year
+  const claimed = new Set(matched.map((m) => m.a));
+  const open = lihtc.filter((a) => a.federal_credit_type === '4%' && !claimed.has(a));
+  const pairs = [];
+  for (const p of left) {
+    for (const a of open) {
+      if (a.county_fips !== p.CNTY_FIPS) continue;
+      const dy = Math.abs(p.AwardYear - a.year);
+      const fu = feedHomes(p);
+      const au = homes(a);
+      if (dy <= 1 && close(fu, au, 1)) pairs.push({ p, a, d: Math.abs(fu - au), dy });
+    }
+  }
+  pairs.sort((x, y) => x.d - y.d || x.dy - y.dy || String(x.p.ReportedName).localeCompare(String(y.p.ReportedName)));
+  const usedP = new Set();
+  const usedA = new Set();
+  for (const q of pairs) {
+    if (usedP.has(q.p) || usedA.has(q.a)) continue;
+    usedP.add(q.p); usedA.add(q.a);
+    matched.push({ p: q.p, a: q.a, rule: 'homes and year (renamed)', similarity: Math.round(nameSimilarity(q.p.ReportedName || q.p.PROJECT, q.a.name) * 100) / 100 });
+  }
+  const added = left.filter((p) => !usedP.has(p)).map((p) => ({
+    name: p.ReportedName || p.PROJECT,
+    county_fips: p.CNTY_FIPS,
+    city: p.PROJ_CTY || null,
+    award_year: p.AwardYear,
+    credit: p.TypeOfCredits,
+    project_type: p.ProjectType || null,
+    homes: feedHomes(p),
+    chfa_record_id: p.CHFA_RecordID ?? null,
+  })).sort((x, y) => x.award_year - y.award_year || x.name.localeCompare(y.name));
+  return { candidates: bond.length, matched, added };
+}
+
+export function build({ ledger, documents, ranking, permits, limits, feed }) {
   const awards = ledger.awards;
   const years = awards.map((a) => a.year).filter(Number.isInteger);
   const firstYear = Math.min(...years);
@@ -60,6 +190,12 @@ export function build({ ledger, documents, ranking, permits, limits }) {
   const isProp123 = (a) => a.program.startsWith('Prop 123') && a.program !== 'Prop 123 Modular Finance';
   const prop123Dollars = (a) => num(a.amount_awarded) ?? num(a.amount_requested);
   const units = (a) => num(a.restricted_units) ?? num(a.total_units);
+
+  const feedProps = (feed?.features || []).map((f) => f.properties || {});
+  const bond = matchBondDeals(feedProps, awards, { firstYear, lastYear });
+  const bondByFips = {};
+  for (const d of bond.added) (bondByFips[d.county_fips] ||= []).push(d);
+  const feedLastYear = Math.max(...feedProps.map((p) => p.AwardYear).filter(Number.isInteger));
 
   const vacancies = counties.map((c) => num(c.metrics?.vacancy_rate_pct)).filter((v) => v !== null).sort((a, b) => a - b);
   const vacancyCut = vacancies.length ? vacancies[Math.floor(VACANCY_QUANTILE * (vacancies.length - 1))] : null;
@@ -74,7 +210,10 @@ export function build({ ledger, documents, ranking, permits, limits }) {
 
     const gap30 = num(m.housing_gap_units);
     const population = num(m.population);
-    const creditUnits = sum(credit.filter((a) => a.program.startsWith('LIHTC')), units);
+    const roundUnits = sum(credit.filter((a) => a.program.startsWith('LIHTC')), units);
+    const bondDeals = bondByFips[fips] || [];
+    const bondUnits = bondDeals.reduce((s, d) => s + (d.homes ?? 0), 0);
+    const creditUnits = roundUnits + bondUnits;
     const nineUnits = sum(credit.filter((a) => a.federal_credit_type === '9%'), units);
     const nineCredit = sum(credit.filter((a) => a.federal_credit_type === '9%'), (a) => num(a.federal_credit));
 
@@ -117,6 +256,9 @@ export function build({ ledger, documents, ranking, permits, limits }) {
       funding: {
         tax_credit_awards: credit.length,
         lihtc_units: creditUnits,
+        round_report_lihtc_units: roundUnits,
+        bond_deals_outside_rounds: bondDeals.length,
+        bond_units_outside_rounds: bondUnits,
         lihtc_9pct_units: nineUnits,
         federal_9pct_credit_annual: nineCredit,
         federal_4pct_credit_annual: sum(credit.filter((a) => a.federal_credit_type === '4%'), (a) => num(a.federal_credit)),
@@ -179,11 +321,18 @@ export function build({ ledger, documents, ranking, permits, limits }) {
   const p123All = awards.filter(isProp123);
   const p123Total = p123All.reduce((s, a) => s + (prop123Dollars(a) ?? 0), 0);
   const byYear = {};
+  const yearRow = (year) => (byYear[year] ||= { year, tax_credit_awards: 0, lihtc_units: 0, round_report_lihtc_units: 0, bond_deals_outside_rounds: 0, bond_units_outside_rounds: 0, prop123_awards: 0, prop123_dollars: 0 });
+  for (const d of bond.added) {
+    const y = yearRow(d.award_year);
+    y.bond_deals_outside_rounds += 1;
+    y.bond_units_outside_rounds += d.homes ?? 0;
+    y.lihtc_units += d.homes ?? 0;
+  }
   for (const a of awards) {
-    const y = (byYear[a.year] ||= { year: a.year, tax_credit_awards: 0, lihtc_units: 0, prop123_awards: 0, prop123_dollars: 0 });
+    const y = yearRow(a.year);
     if (isCredit(a)) {
       y.tax_credit_awards += 1;
-      if (a.program.startsWith('LIHTC')) y.lihtc_units += units(a) ?? 0;
+      if (a.program.startsWith('LIHTC')) { y.lihtc_units += units(a) ?? 0; y.round_report_lihtc_units += units(a) ?? 0; }
     } else if (isProp123(a)) {
       y.prop123_awards += 1;
       y.prop123_dollars += prop123Dollars(a) ?? 0;
@@ -200,7 +349,13 @@ export function build({ ledger, documents, ranking, permits, limits }) {
       window: { first_year: firstYear, last_year: lastYear },
       inputs: Object.values(INPUTS).map((p) => path.relative(ROOT, p)),
       need_measure: 'housing_gap_units from the ranking index: renter households at or below 30% AMI minus rental homes priced affordable to them (ACS 5-year B25118 and B25063, with HUD income limits; data/co_ami_gap_by_county.json). Priced-affordable, not HUD CHAS affordable-and-available.',
-      coverage_measure: 'LIHTC units awarded in the window (restricted units where the report prints them, else total units) per 100 households in the ≤30% AMI gap. LIHTC mostly serves 60% AMI, so this is a scale comparison, not a claim that each unit closes a ≤30% gap.',
+      coverage_measure: 'LIHTC units awarded in the window per 100 households in the ≤30% AMI gap. Units are round award units (restricted units where the report prints them, else total units) plus the low-income units of 4% bond deals on CHFA\'s property list that no round award accounts for. LIHTC mostly serves 60% AMI, so this is a scale comparison, not a claim that each unit closes a ≤30% gap.',
+      bond_deal_method: `CHFA's round award reports leave out most 4% credits paired with private activity bonds, which CHFA awards outside the rounds. Every 4% property on CHFA's tax credit property list (data/chfa-lihtc.json) with an award year from ${firstYear} to ${lastYear} is matched to the round award ledger: same county, award within two years, and alike names (or partly alike names with the same number of homes, or one building of a larger award, or the same homes and year when a deal was renamed). The ${bond.added.length} properties no round award accounts for add their low-income units (LI_UNITS) to their county. Matching errs toward a match, so a doubtful pair is not counted twice. The property list runs through ${feedLastYear}; round award years after that have no bond deals added yet.`,
+      bond_feed_last_year: Number.isFinite(feedLastYear) ? feedLastYear : null,
+      bond_deals_checked: bond.candidates,
+      bond_deals_matched_to_rounds: bond.matched.length,
+      bond_deals_matched_by_rule: bond.matched.reduce((o, m) => ((o[m.rule] = (o[m.rule] || 0) + 1), o), {}),
+      bond_deals_outside_rounds: bond.added,
       quadrant_split: { gap_per_1000_residents: round(medNeed), lihtc_units_per_100_gap: round(medCover) },
       quadrant_method: `Counties split at the median of need per 1,000 residents (${round(medNeed)}) and of LIHTC units per 100 gap households (${round(medCover)}).`,
       flag_method: `high-vacancy: active-market vacancy (ACS B25004 for-rent plus for-sale-only, over all units) at or above the county 75th percentile, ${vacancyCut}%. building-ahead: permits over the last five years at least ${PRODUCTION_PACE}× DOLA's projected annual household growth. Flags describe the market; they are not a judgment that any project was wasted.`,
@@ -214,7 +369,11 @@ export function build({ ledger, documents, ranking, permits, limits }) {
     statewide: {
       tax_credit_awards: awards.filter(isCredit).length,
       // from every award, so units the ledger could not place in a county still count
-      lihtc_units: awards.filter((a) => a.program.startsWith('LIHTC')).reduce((s, a) => s + (units(a) ?? 0), 0),
+      round_report_lihtc_units: awards.filter((a) => a.program.startsWith('LIHTC')).reduce((s, a) => s + (units(a) ?? 0), 0),
+      bond_deals_outside_rounds: bond.added.length,
+      bond_units_outside_rounds: bond.added.reduce((s, d) => s + (d.homes ?? 0), 0),
+      lihtc_units: awards.filter((a) => a.program.startsWith('LIHTC')).reduce((s, a) => s + (units(a) ?? 0), 0)
+        + bond.added.reduce((s, d) => s + (d.homes ?? 0), 0),
       prop123_awards: p123All.length,
       prop123_dollars: p123Total,
       prop123_mixed_income_share_pct: p123Total ? round((p123All.filter((a) => /mixed-income/i.test(a.detail || '')).reduce((s, a) => s + (prop123Dollars(a) ?? 0), 0) / p123Total) * 100) : null,

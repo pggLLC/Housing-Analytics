@@ -97,7 +97,7 @@
     var soft = s.counties_soft_and_funded || [];
     setText('fvnSummary',
       'From ' + w.first_year + ' to ' + w.last_year + ', CHFA awarded housing tax credits to ' + fmtInt(s.tax_credit_awards) +
-      ' projects with ' + fmtInt(s.lihtc_units) + ' LIHTC units, and the Prop 123 financing fund selected ' + fmtInt(s.prop123_awards) +
+      ' projects in its rounds and ' + fmtInt(s.bond_deals_outside_rounds) + ' 4% bond deals outside them, with ' + fmtInt(s.lihtc_units) + ' LIHTC units in all, and the Prop 123 financing fund selected ' + fmtInt(s.prop123_awards) +
       ' awards worth ' + fmtMoney(s.prop123_dollars) + '. ' + fmtInt(q.underserved) + ' counties have above-median need and below-median funding for it; ' +
       soft.length + ' funded counties show both soft-market signals at once.');
     if (d.meta && d.meta.generatedAt) {
@@ -111,7 +111,7 @@
     var s = d.statewide || {};
     var w = (d.meta && d.meta.window) || {};
     var items = [
-      [fmtInt(s.lihtc_units), 'LIHTC units in round awards', w.first_year + '–' + w.last_year + ', ' + fmtInt(s.tax_credit_awards) + ' credit awards'],
+      [fmtInt(s.lihtc_units), 'LIHTC units awarded', w.first_year + '–' + w.last_year + ': ' + fmtInt(s.round_report_lihtc_units) + ' in rounds, ' + fmtInt(s.bond_units_outside_rounds) + ' in 4% bond deals'],
       [fmtMoney(s.prop123_dollars), 'Prop 123 fund awards', fmtInt(s.prop123_awards) + ' selections since FY23-24'],
       [fmtPct(s.prop123_mixed_income_share_pct), 'Prop 123 dollars to mixed-income', 'A catalyst signal, not a flaw'],
       [fmtInt((s.quadrants || {}).underserved), 'High need, less funding', 'Counties, split at the medians'],
@@ -256,7 +256,8 @@
       data: {
         labels: by.map(function (y) { return String(y.year); }),
         datasets: [
-          { label: 'LIHTC units awarded', data: by.map(function (y) { return y.lihtc_units; }), backgroundColor: c1, yAxisID: 'y' },
+          { label: 'LIHTC units in round awards', data: by.map(function (y) { return y.round_report_lihtc_units; }), backgroundColor: c1, yAxisID: 'y', stack: 'units' },
+          { label: '4% bond deals outside the rounds', data: by.map(function (y) { return y.bond_units_outside_rounds; }), backgroundColor: cssVar('--chart-3', '#5b8def'), yAxisID: 'y', stack: 'units' },
           // Prop 123 began in FY23-24: earlier years have no program, so they are gaps, not zeros.
           { type: 'line', label: 'Prop 123 fund awards ($M)', data: by.map(function (y) { return y.year >= 2023 ? y.prop123_dollars / 1e6 : null; }),
             borderColor: c2, backgroundColor: c2, yAxisID: 'y1', spanGaps: false }
@@ -266,14 +267,16 @@
         responsive: true, maintainAspectRatio: false,
         plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
         scales: {
-          x: { title: { display: true, text: 'Award year' } },
-          y: { position: 'left', min: 0, title: { display: true, text: 'LIHTC units' } },
+          x: { stacked: true, title: { display: true, text: 'Award year' } },
+          y: { position: 'left', min: 0, stacked: true, title: { display: true, text: 'LIHTC units' } },
           y1: { position: 'right', min: 0, title: { display: true, text: 'Prop 123 dollars ($M)' }, grid: { drawOnChartArea: false } }
         }
       }
     });
     var last = by[by.length - 1];
-    setText('fvnYearText', 'LIHTC units awarded by year, ' + by[0].year + ' to ' + last.year + '. ' + last.year + ' is the year to date.');
+    var feedLast = d.meta && d.meta.bond_feed_last_year;
+    setText('fvnYearText', 'LIHTC units awarded by year, ' + by[0].year + ' to ' + last.year + '. ' + last.year + ' is the year to date.' +
+      (feedLast ? ' Bond deals come from CHFA\u2019s property list, which runs through ' + feedLast + ' and adds recent bond deals late, so the latest years show few.' : ''));
   }
 
   // Table: one column definition list drives the header, the cells, the sort and the CSV.
@@ -284,7 +287,7 @@
       get: function (c) { return c.need.gap_units_30ami; }, text: function (c) { return fmtInt(c.need.gap_units_30ami); } },
     { key: 'gap_per_1000', label: 'Gap per 1,000 residents', title: 'The \u226430% AMI gap per 1,000 county residents', get: function (c) { return c.need.gap_per_1000_residents; }, text: function (c) { return fmtNum(c.need.gap_per_1000_residents); } },
     { key: 'gap_share', label: 'Share of state gap', title: 'The county\u2019s share of the statewide \u226430% AMI gap', get: function (c) { return c.need.share_of_state_gap; }, text: function (c) { return fmtPct(c.need.share_of_state_gap, 2); } },
-    { key: 'units', label: 'LIHTC units awarded', title: 'Restricted units where the award report prints them, else total units',
+    { key: 'units', label: 'LIHTC units awarded', title: 'Round award units (restricted units where the report prints them, else total units) plus the low-income units of 4% bond deals on CHFA\u2019s property list that no round award accounts for',
       get: function (c) { return c.funding.lihtc_units; }, text: function (c) { return fmtInt(c.funding.lihtc_units); } },
     { key: 'unit_share', label: 'Share of state LIHTC units', title: 'The county\u2019s share of all LIHTC units awarded statewide in the award window', get: function (c) { return c.funding.share_of_state_lihtc_units; }, text: function (c) { return fmtPct(c.funding.share_of_state_lihtc_units, 2); } },
     { key: 'coverage', label: 'Units per 100 gap households', title: 'LIHTC units awarded in the window per 100 households in the \u226430% AMI gap; a scale comparison, since most LIHTC units serve 60% AMI', get: function (c) { return c.funding.lihtc_units_per_100_gap; },
@@ -355,6 +358,8 @@
       ['gap_units_30ami', function (c) { return c.need.gap_units_30ami; }], ['gap_per_1000_residents', function (c) { return c.need.gap_per_1000_residents; }],
       ['share_of_state_gap_pct', function (c) { return c.need.share_of_state_gap; }], ['overall_need_score', function (c) { return c.need.overall_need_score; }],
       ['tax_credit_awards', function (c) { return c.funding.tax_credit_awards; }], ['lihtc_units', function (c) { return c.funding.lihtc_units; }],
+      ['round_report_lihtc_units', function (c) { return c.funding.round_report_lihtc_units; }], ['bond_deals_outside_rounds', function (c) { return c.funding.bond_deals_outside_rounds; }],
+      ['bond_units_outside_rounds', function (c) { return c.funding.bond_units_outside_rounds; }],
       ['lihtc_9pct_units', function (c) { return c.funding.lihtc_9pct_units; }], ['share_of_state_lihtc_units_pct', function (c) { return c.funding.share_of_state_lihtc_units; }],
       ['lihtc_units_per_100_gap', function (c) { return c.funding.lihtc_units_per_100_gap; }],
       ['lihtc_units_per_100_gap_unavailable_reason', function (c) { return c.funding.lihtc_units_per_100_gap_unavailable_reason; }],
