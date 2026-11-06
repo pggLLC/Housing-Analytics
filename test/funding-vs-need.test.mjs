@@ -26,7 +26,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { build, matchBondDeals, nameSimilarity } from '../scripts/funding/build_funding_vs_need.mjs';
+import { build, matchBondDeals, nameSimilarity, RETURNED } from '../scripts/funding/build_funding_vs_need.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readJson = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
@@ -56,12 +56,15 @@ function checks({ out, ledger, documents, ranking, feed, html, js }) {
   if (JSON.stringify(want) !== JSON.stringify(got)) fail('county FIPS differ from the ranking index');
   if (!got.every((f) => typeof f === 'string' && /^08\d{3}$/.test(f))) fail('a county FIPS is not a 5-digit 08xxx string');
 
-  // statewide totals recomputed from the ledger
-  const lihtc = ledger.awards.filter((a) => a.program.startsWith('LIHTC'));
+  // statewide totals recomputed from the ledger, less awards CHFA notes as returned
+  const counted = ledger.awards.filter((a) => !RETURNED.test(a.detail || ''));
+  const returned = ledger.awards.filter((a) => RETURNED.test(a.detail || ''));
+  if (JSON.stringify((out.meta.awards_returned || []).map((a) => a.name)) !== JSON.stringify(returned.map((a) => a.name))) fail('returned awards listed differ from the ledger notes');
+  const lihtc = counted.filter((a) => a.program.startsWith('LIHTC'));
   const units = lihtc.reduce((s, a) => s + (num(a.restricted_units) ?? num(a.total_units) ?? 0), 0);
   if (out.statewide.round_report_lihtc_units !== units) fail(`statewide round-report LIHTC units ${out.statewide.round_report_lihtc_units} != ledger ${units}`);
   const w = out.meta.window;
-  const bond = matchBondDeals(feed.features.map((f) => f.properties || {}), ledger.awards, { firstYear: w.first_year, lastYear: w.last_year });
+  const bond = matchBondDeals(feed.features.map((f) => f.properties || {}), counted, { firstYear: w.first_year, lastYear: w.last_year });
   const added = out.meta.bond_deals_outside_rounds || [];
   if (JSON.stringify(added) !== JSON.stringify(bond.added)) fail(`bond deals listed (${added.length}) != unmatched feed 4% properties (${bond.added.length})`);
   const byId = new Map(feed.features.map((f) => [f.properties?.CHFA_RecordID, f.properties]));
@@ -81,7 +84,7 @@ function checks({ out, ledger, documents, ranking, feed, html, js }) {
     if (f.bond_deals_outside_rounds !== mine.length || f.bond_units_outside_rounds !== mine.reduce((s, d) => s + d.homes, 0)) fail(`${c.name}: bond deals differ from the list`);
     if (f.lihtc_units !== f.round_report_lihtc_units + f.bond_units_outside_rounds) fail(`${c.name}: units != rounds + bond deals`);
   }
-  const p123 = ledger.awards.filter((a) => a.program.startsWith('Prop 123') && a.program !== 'Prop 123 Modular Finance');
+  const p123 = counted.filter((a) => a.program.startsWith('Prop 123') && a.program !== 'Prop 123 Modular Finance');
   const dollars = p123.reduce((s, a) => s + (num(a.amount_awarded) ?? num(a.amount_requested) ?? 0), 0);
   if (out.statewide.prop123_dollars !== dollars) fail(`statewide Prop 123 dollars ${out.statewide.prop123_dollars} != ledger ${dollars}`);
   const placed = out.counties.reduce((s, c) => s + c.funding.lihtc_units, 0);

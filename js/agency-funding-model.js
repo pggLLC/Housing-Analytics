@@ -66,6 +66,11 @@
     return heldBack(name);
   }
 
+  // CHFA prints a returned award in its report with a note ("Project did not
+  // proceed. Award returned by sponsor."); no money went and no home was built.
+  var RETURNED = /did not proceed|award returned/i;
+  function isReturned(r) { return RETURNED.test((r && r.detail) || ''); }
+
   function agencyOf(raw) {
     var a = String(raw || '').toUpperCase();
     if (a.indexOf('OEDIT') !== -1 || a.indexOf('PROP 123') !== -1) return 'OEDIT';
@@ -130,7 +135,11 @@
 
   /**
    * One record per award, whichever agency made it.
-   * opts: { ledger, documents, rows, dola, aliases, counties }
+   * opts: { ledger, documents, rows, dola, aliases, counties, bondDeals }
+   *   bondDeals: 4% bond deals CHFA awarded outside its rounds, matched against
+   *   the ledger by scripts/funding/build_funding_vs_need.mjs
+   *   (data/derived/funding-vs-need.json meta.bond_deals_outside_rounds).
+   *   CHFA's property list prints their homes but no credit or developer.
    *   counties: { '08001': { name: 'Adams', population: 530225 }, ... }
    */
   function normalise(opts) {
@@ -149,7 +158,7 @@
       if (!agency) return;
       var clean = rowsByKey[keys[i]] || null;
       var name = clean && clean.name ? clean.name : r.name;
-      if (isExcluded(name) || isExcluded(r.name)) return;
+      if (isExcluded(name) || isExcluded(r.name) || isReturned(r)) return;
       var doc = docs[r.source_file] || {};
       var credits = agency === 'CHFA'
         ? sumOrNull([num(r.federal_credit), num(r.state_credit), num(r.toc_credit), num(r.mihtc_credit)])
@@ -184,6 +193,39 @@
         sourceChecked: checked || null,
         quote: clean ? clean.quote : null,
         confirmed: r.reconciled === true,
+      }, counties, aliases));
+    });
+
+    var feed = opts.bondDeals || {};
+    (feed.deals || []).forEach(function (r, i) {
+      if (isExcluded(r.name)) return;
+      out.push(finish({
+        id: 'B' + i,
+        agency: 'CHFA',
+        program: 'LIHTC 4% bond deal',
+        bondDeal: true,
+        year: num(r.award_year),
+        fiscalYear: null,
+        name: r.name || null,
+        developerRaw: null,
+        town: r.city || null,
+        countyFips: r.county_fips || null,
+        dollars: null,
+        dollarsBasis: null,
+        credits: null,
+        bonds: null,
+        oeditKind: null,
+        federalCredit: null,
+        stateCredit: null,
+        homes: num(r.homes),
+        homesEstimated: false,
+        sourceTitle: 'CHFA tax credit property list (4% bond deal outside the rounds)',
+        sourceUrl: feed.url || null,
+        sourceChecked: feed.checked || null,
+        quote: null,
+        // From CHFA's property list, not an award report, so there is no
+        // printed total to check it against.
+        confirmed: false,
       }, counties, aliases));
     });
 
@@ -283,6 +325,11 @@
       if (a.bonds) s.bonds = (s.bonds || 0) + a.bonds;
       if (a.homes !== null) s.homes = (s.homes || 0) + a.homes;
       if (a.homes !== null && a.homesEstimated) s.homesEstimated = true;
+      if (a.bondDeal) {
+        s.bondDeals = s.bondDeals || { awards: 0, homes: 0 };
+        s.bondDeals.awards += 1;
+        s.bondDeals.homes += a.homes || 0;
+      }
       var b = s.byAgency[a.agency] || (s.byAgency[a.agency] = { awards: 0, dollars: null, credits: null, bonds: null, homes: null, byKind: {} });
       b.awards += 1;
       if (a.dollars !== null) b.dollars = (b.dollars || 0) + a.dollars;
@@ -438,6 +485,7 @@
     group: group,
     perResident: perResident,
     PROGRAMS: PROGRAMS,
+    isReturned: isReturned,
     programOf: programOf,
     flows: flows,
     csv: csv,

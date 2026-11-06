@@ -2,7 +2,7 @@
  "meta": {
   "title": "Who builds, holds land and provides housing services, by Colorado county and town",
   "generator": "scripts/market/build_local_players.py",
-  "built": "2026-11-05",
+  "built": "2026-11-06",
   "method": "Developers are sponsors and grantees on state housing awards and CHFA tax-credit applications since 2016. Land holders come from the Colorado Public Parcels composite, grouped by owner as printed on the county record; acres are mapped parcel area. Providers are HUD public housing authorities, HUD-approved housing counseling agencies and IRS-listed housing and shelter charities (NTEE L, without homeowner associations, plus P85 homeless service centres).",
   "public_safety": "This public file gives counts and shares by type and names only public bodies and nonprofits. Company names, private land owners and people are in the gated detail files only; people are never named anywhere.",
   "sources": {
@@ -56,21 +56,20 @@
     "name": "Adams County"
    },
    "developers": {
-    "organisations": 23,
+    "organisations": 28,
     "by_kind": {
-     "company or other": 13,
+     "company or other": 18,
      "housing authority": 6,
      "nonprofit": 4
     },
-    "projects_awarded": 28,
-    "homes_awarded": 2328,
+    "projects_awarded": 34,
+    "homes_awarded": 2880,
     "public_and_nonprofit": [
      "Brighton Housing Authority",
      "Aurora Housing Authority",
-     "Commerce City Housing Authority",
-     "Mercy Housing Mountain Plains",
      "Housing Authority of the City of Aurora",
-     "The Housing Authority of The City of"
+     "Commerce City Housing Authority",
+     "Mercy Housing Mountain Plains"
     ],
     "tax_credit_properties": {
      "properties": 72,
@@ -253,17 +252,18 @@
     "name": "Alamosa County"
    },
    "developers": {
-    "organisations": 3,
+    "organisations": 6,
     "by_kind": {
-     "company or other": 1,
+     "company or other": 3,
      "local government": 1,
-     "nonprofit": 1
+     "nonprofit": 2
     },
-    "projects_awarded": 2,
-    "homes_awarded": 447,
+    "projects_awarded": 5,
+    "homes_awarded": 523,
     "public_and_nonprofit": [
      "City of Alamosa",
-     "Community Resources & Housing Development Corp."
+     "Community Resources & Housing Development Corp.",
+     "San Luis Valley Housing Coalition"
     ],
     "tax_credit_properties": {
      "properties": 7,
@@ -295,14 +295,14 @@
     "name": "Arapahoe County"
    },
    "developers": {
-    "organisations": 27,
+    "organisations": 31,
     "by_kind": {
-     "company or other": 19,
-     "housing authority": 2,
+     "company or other": 22,
+     "housing authority": 3,
      "nonprofit": 6
     },
-    "projects_awarded": 31,
-    "homes_awarded": 2650,
+    "projects_awarded": 33,
+    "homes_awarded": 2886,
     "public_and_nonprofit": [
      "East Colfax Community Collective",
      "Restoration Christian Ministries (RCM)",
@@ -485,15 +485,15 @@
     "name": "Archuleta County"
    },
    "developers": {
-    "organisations": 6,
+    "organisations": 7,
     "by_kind": {
-     "company or other": 3,
+     "company or other": 4,
      "housing authority": 1,
      "local government": 1,
      "nonprofit": 1
     },
-    "projects_awarded": 7,
-    "homes_awarded": 165,
+    "projects_awarded": 9,
+    "homes_awarded": 189,
     "public_and_nonprofit": [
      "Archuleta County Housing Authority",
      "Pagosa Springs Community Development Corporation",
@@ -730,20 +730,20 @@
     "name": "Boulder County"
    },
    "developers": {
-    "organisations": 22,
+    "organisations": 27,
     "by_kind": {
-     "company or other": 13,
-     "housing authority": 3,
+     "company or other": 16,
+     "housing authority": 4,
      "local government": 1,
-     "nonprofit": 5
+     "nonprofit": 6
     },
-    "projects_awarded": 34,
-    "homes_awarded": 2076,
+    "projects_awarded": 40,
+    "homes_awarded": 2391,
     "public_and_nonprofit": [
      "Boulder County Housing Authority",
      "Longmont Housing Authority",
-     "Longmont Housing Development Corporation",
-     "Thistle Community Housing"
+     "Housing Authority of the City of Boulder d",
+     "Longmont Housing Development Corporation"
     ],
     "tax_credit_properties": {
      "properties": 89,
@@ -927,15 +927,15 @@
     "name": "Broomfield County"
    },
    "developers": {
-    "organisations": 8,
+    "organisations": 10,
     "by_kind": {
-     "company or other": 5,
+     "company or other": 7,
      "housing authority": 1,
      "local government": 1,
      "nonprofit": 1
     },
-    "projects_awarded": 8,
-    "homes_awarded": 274,
+    "projects_awarded": 9,
+    "homes_awarded": 433,
     "public_and_nonprofit": [
      "City and County of Broomfield",
      "Housing Authority of the City & County of Broomfield",
@@ -1108,18 +1108,19 @@
     "name": "Chaffee County"
    },
    "developers": {
-    "organisations": 9,
+    "organisations": 10,
     "by_kind": {
      "company or other": 6,
      "housing authority": 1,
-     "local government": 1,
+     "local government": 2,
      "nonprofit": 1
     },
-    "projects_awarded": 16,
-    "homes_awarded": 527,
+    "projects_awarded": 17,
+    "homes_awarded": 587,
     "public_and_nonprofit": [
      "Chaffee Housing Authority",
      "Chaffee Housing Trust",
+     "Town of Buena Vista",
      "City of Salida"
     ],
     "tax_credit_properties": {
@@ -1155,11 +1156,15 @@
     "name": "Cheyenne County"
    },
    "developers": {
-    "organisations": 0,
-    "by_kind": {},
-    "projects_awarded": 0,
-    "homes_awarded": null,
-    "public_and_nonprofit": [],
+    "organisations": 1,
+    "by_kind": {
+     "nonprofit": 1
+    },
+    "projects_awarded": 1,
+    "homes_awarded": 6,
+    "public_and_nonprofit": [
+     "Kit Carson Rural Development"
+    ],
     "tax_credit_properties": null
    },
    "land": null,
@@ -1410,11 +1415,15 @@
     "name": "Crowley County"
    },
    "developers": {
-    "organisations": 0,
-    "by_kind": {},
-    "projects_awarded": 0,
-    "homes_awarded": null,
-    "public_and_nonprofit": [],
+    "organisations": 1,
+    "by_kind": {
+     "nonprofit": 1
+    },
+    "projects_awarded": 1,
+    "homes_awarded": 28,
+    "public_and_nonprofit": [
+     "Southeast Colorado Enterprise Development , Inc."
+    ],
     "tax_credit_properties": null
    },
    "land": null,
@@ -1593,13 +1602,16 @@
     "name": "Delta County"
    },
    "developers": {
-    "organisations": 1,
+    "organisations": 2,
     "by_kind": {
-     "company or other": 1
+     "company or other": 1,
+     "housing authority": 1
     },
     "projects_awarded": 2,
     "homes_awarded": 100,
-    "public_and_nonprofit": [],
+    "public_and_nonprofit": [
+     "Delta Housing Authority"
+    ],
     "tax_credit_properties": {
      "properties": 6,
      "homes": 232,
@@ -1631,24 +1643,24 @@
     "name": "Denver County"
    },
    "developers": {
-    "organisations": 94,
+    "organisations": 107,
     "by_kind": {
-     "company or other": 63,
+     "company or other": 70,
      "housing authority": 4,
      "local government": 2,
-     "nonprofit": 25
+     "nonprofit": 31
     },
-    "projects_awarded": 113,
-    "homes_awarded": 10413,
+    "projects_awarded": 140,
+    "homes_awarded": 13374,
     "public_and_nonprofit": [
      "Housing Authority of the City and County of Denver",
      "Archway Investment Corporation",
+     "Colorado Coalition for the Homeless",
+     "Urban Land Conservancy",
      "Northeast Denver Housing Center",
      "Mercy Housing Mountain Plains",
-     "Colorado Coalition for the Homeless",
      "Denver Housing Authority",
-     "Housing Authority of the City County of Denver",
-     "Commun Denver"
+     "Montbello Organizing Committee"
     ],
     "tax_credit_properties": {
      "properties": 240,
@@ -1666,15 +1678,15 @@
       "type": "individual",
       "label": "Individuals",
       "public": false,
-      "acres": 220430,
-      "share": 36.2
+      "acres": 221729,
+      "share": 36.5
      },
      {
       "type": "trust",
       "label": "Family trusts and estates",
       "public": false,
-      "acres": 34090,
-      "share": 5.6
+      "acres": 32271,
+      "share": 5.3
      },
      {
       "type": "municipal",
@@ -1687,8 +1699,8 @@
       "type": "business",
       "label": "Companies and partnerships",
       "public": false,
-      "acres": 20506,
-      "share": 3.4
+      "acres": 21155,
+      "share": 3.5
      },
      {
       "type": "unknown",
@@ -1722,7 +1734,7 @@
       "type": "religious",
       "label": "Churches and religious bodies",
       "public": false,
-      "acres": 650,
+      "acres": 520,
       "share": 0.1
      },
      {
@@ -1978,12 +1990,12 @@
     "name": "Douglas County"
    },
    "developers": {
-    "organisations": 4,
+    "organisations": 5,
     "by_kind": {
-     "company or other": 4
+     "company or other": 5
     },
-    "projects_awarded": 6,
-    "homes_awarded": 669,
+    "projects_awarded": 7,
+    "homes_awarded": 869,
     "public_and_nonprofit": [],
     "tax_credit_properties": {
      "properties": 21,
@@ -2148,13 +2160,16 @@
     "name": "Eagle County"
    },
    "developers": {
-    "organisations": 3,
+    "organisations": 4,
     "by_kind": {
-     "company or other": 3
+     "company or other": 3,
+     "nonprofit": 1
     },
-    "projects_awarded": 3,
-    "homes_awarded": 199,
-    "public_and_nonprofit": [],
+    "projects_awarded": 4,
+    "homes_awarded": 215,
+    "public_and_nonprofit": [
+     "Habitat for Humanity Vail Valley"
+    ],
     "tax_credit_properties": {
      "properties": 9,
      "homes": 764,
@@ -2362,18 +2377,17 @@
     "name": "El Paso County"
    },
    "developers": {
-    "organisations": 30,
+    "organisations": 33,
     "by_kind": {
-     "company or other": 21,
+     "company or other": 24,
      "housing authority": 1,
      "nonprofit": 8
     },
-    "projects_awarded": 35,
-    "homes_awarded": 2905,
+    "projects_awarded": 39,
+    "homes_awarded": 3379,
     "public_and_nonprofit": [
      "Silver Key Senior Services",
-     "Volunteers of America National Services",
-     "Western Region Nonprofit Housing Corporation"
+     "Volunteers of America National Services"
     ],
     "tax_credit_properties": {
      "properties": 55,
@@ -2450,20 +2464,20 @@
     "name": "Garfield County"
    },
    "developers": {
-    "organisations": 14,
+    "organisations": 16,
     "by_kind": {
-     "company or other": 9,
+     "company or other": 10,
      "local government": 1,
-     "nonprofit": 4
+     "nonprofit": 5
     },
-    "projects_awarded": 14,
-    "homes_awarded": 727,
+    "projects_awarded": 16,
+    "homes_awarded": 811,
     "public_and_nonprofit": [
      "Roaring Fork Community Development Corporation",
      "Sharing Connexion",
      "Archdiocesan Housing",
      "Aspen Pitkin Employee Housing, Inc.",
-     "City of Glenwood Springs"
+     "Habitat for Humanity of the Roaring Fork Valley"
     ],
     "tax_credit_properties": {
      "properties": 12,
@@ -2797,18 +2811,19 @@
     "name": "Grand County"
    },
    "developers": {
-    "organisations": 8,
+    "organisations": 9,
     "by_kind": {
      "company or other": 5,
      "housing authority": 1,
-     "local government": 1,
+     "local government": 2,
      "nonprofit": 1
     },
-    "projects_awarded": 8,
-    "homes_awarded": 718,
+    "projects_awarded": 9,
+    "homes_awarded": 823,
     "public_and_nonprofit": [
      "Town of Granby",
      "Fraser Housing Authority",
+     "Town of Fraser",
      "Habitat for Humanity (Grand County)"
     ],
     "tax_credit_properties": {
@@ -2976,15 +2991,18 @@
     "name": "Gunnison County"
    },
    "developers": {
-    "organisations": 3,
+    "organisations": 5,
     "by_kind": {
      "company or other": 2,
-     "nonprofit": 1
+     "local government": 1,
+     "nonprofit": 2
     },
-    "projects_awarded": 3,
-    "homes_awarded": 177,
+    "projects_awarded": 5,
+    "homes_awarded": 472,
     "public_and_nonprofit": [
-     "Valley Housing Fund"
+     "Gunnison County",
+     "Valley Housing Fund",
+     "Archway Investment Corporation"
     ],
     "tax_credit_properties": {
      "properties": 3,
@@ -3521,22 +3539,21 @@
     "name": "Jefferson County"
    },
    "developers": {
-    "organisations": 33,
+    "organisations": 37,
     "by_kind": {
-     "company or other": 20,
+     "company or other": 23,
      "housing authority": 4,
      "local government": 1,
-     "nonprofit": 8
+     "nonprofit": 9
     },
-    "projects_awarded": 38,
-    "homes_awarded": 2647,
+    "projects_awarded": 41,
+    "homes_awarded": 3284,
     "public_and_nonprofit": [
-     "Housing Authority of the City of Lakewood, dba Met",
+     "Habitat for Humanity of Colorado, Inc.",
      "Archway Investment Corporation",
+     "Housing Authority of the City of Lakewood, dba Met",
      "Housing Authority of the City of Lakewood, Colorado dba Metro West Housing Solutions",
-     "Jefferson County Housing Authority",
-     "Family Tree, Inc.",
-     "Habitat for Humanity of Metro Denver"
+     "Jefferson County Housing Authority"
     ],
     "tax_credit_properties": {
      "properties": 67,
@@ -3719,10 +3736,12 @@
     "name": "Kiowa County"
    },
    "developers": {
-    "organisations": 0,
-    "by_kind": {},
-    "projects_awarded": 0,
-    "homes_awarded": null,
+    "organisations": 1,
+    "by_kind": {
+     "company or other": 1
+    },
+    "projects_awarded": 1,
+    "homes_awarded": 0,
     "public_and_nonprofit": [],
     "tax_credit_properties": null
    },
@@ -3780,16 +3799,17 @@
     "name": "Lake County"
    },
    "developers": {
-    "organisations": 6,
+    "organisations": 7,
     "by_kind": {
      "company or other": 4,
      "local government": 1,
-     "nonprofit": 1
+     "nonprofit": 2
     },
-    "projects_awarded": 6,
-    "homes_awarded": 184,
+    "projects_awarded": 7,
+    "homes_awarded": 196,
     "public_and_nonprofit": [
      "Advocates of Lake County",
+     "Chaffee Housing Trust",
      "Thelchrest, Incorporated"
     ],
     "tax_credit_properties": {
@@ -3947,24 +3967,24 @@
     "name": "La Plata County"
    },
    "developers": {
-    "organisations": 11,
+    "organisations": 13,
     "by_kind": {
-     "company or other": 3,
+     "company or other": 4,
      "housing authority": 1,
      "local government": 4,
-     "nonprofit": 3
+     "nonprofit": 4
     },
-    "projects_awarded": 11,
-    "homes_awarded": 438,
+    "projects_awarded": 14,
+    "homes_awarded": 739,
     "public_and_nonprofit": [
      "City of Durango",
+     "HomesFund",
      "Elevation Community Land Trust (ECLT)",
      "Volunteers of America National Services",
      "Housing Solutions for the Southwest",
      "Town of Bayfield",
      "Ignacio Housing Authority",
-     "La Plata County",
-     "Town of Ignacio"
+     "La Plata County"
     ],
     "tax_credit_properties": {
      "properties": 15,
@@ -4145,21 +4165,22 @@
     "name": "Larimer County"
    },
    "developers": {
-    "organisations": 18,
+    "organisations": 22,
     "by_kind": {
      "company or other": 10,
      "housing authority": 3,
-     "nonprofit": 5
+     "nonprofit": 9
     },
-    "projects_awarded": 24,
-    "homes_awarded": 1859,
+    "projects_awarded": 33,
+    "homes_awarded": 2495,
     "public_and_nonprofit": [
-     "Estes Park Housing Authority",
      "Loveland Housing Authority",
+     "Estes Park Housing Authority",
+     "Archdiocesan Housing Inc",
      "Volunteers of America National Services",
      "Fort Collins Housing Authority",
-     "CARE Housing, Inc.",
-     "Archdiocesan Housing Inc"
+     "Mercy Housing Mountain Plains",
+     "CARE Housing, Inc."
     ],
     "tax_credit_properties": {
      "properties": 64,
@@ -4184,14 +4205,14 @@
       "type": "business",
       "label": "Companies and partnerships",
       "public": false,
-      "acres": 214841,
+      "acres": 214903,
       "share": 11.7
      },
      {
       "type": "individual",
       "label": "Individuals",
       "public": false,
-      "acres": 190232,
+      "acres": 190170,
       "share": 10.3
      },
      {
@@ -4329,13 +4350,13 @@
     "name": "Las Animas County"
    },
    "developers": {
-    "organisations": 4,
+    "organisations": 5,
     "by_kind": {
-     "company or other": 3,
+     "company or other": 4,
      "nonprofit": 1
     },
-    "projects_awarded": 3,
-    "homes_awarded": 114,
+    "projects_awarded": 4,
+    "homes_awarded": 138,
     "public_and_nonprofit": [
      "Elevation Community Land Trust"
     ],
@@ -4373,8 +4394,8 @@
     "by_kind": {
      "company or other": 1
     },
-    "projects_awarded": 1,
-    "homes_awarded": 16,
+    "projects_awarded": 2,
+    "homes_awarded": 32,
     "public_and_nonprofit": [],
     "tax_credit_properties": {
      "properties": 1,
@@ -4569,20 +4590,22 @@
     "name": "Mesa County"
    },
    "developers": {
-    "organisations": 9,
+    "organisations": 12,
     "by_kind": {
-     "company or other": 5,
+     "company or other": 6,
      "housing authority": 1,
-     "local government": 1,
-     "nonprofit": 2
+     "local government": 2,
+     "nonprofit": 3
     },
-    "projects_awarded": 10,
-    "homes_awarded": 1053,
+    "projects_awarded": 15,
+    "homes_awarded": 1227,
     "public_and_nonprofit": [
      "City of Grand Junction",
-     "Housing Resources of Western Colorado",
      "Grand Junction Housing Authority",
-     "Volunteers of America"
+     "Housing Resources of Western Colorado",
+     "Volunteers of America",
+     "Grand Valley Catholic Outreach",
+     "Habitat for Humanity of Mesa County"
     ],
     "tax_credit_properties": {
      "properties": 17,
@@ -4756,11 +4779,15 @@
     "name": "Mineral County"
    },
    "developers": {
-    "organisations": 0,
-    "by_kind": {},
-    "projects_awarded": 0,
-    "homes_awarded": null,
-    "public_and_nonprofit": [],
+    "organisations": 1,
+    "by_kind": {
+     "local government": 1
+    },
+    "projects_awarded": 1,
+    "homes_awarded": 4,
+    "public_and_nonprofit": [
+     "Mineral County"
+    ],
     "tax_credit_properties": null
    },
    "land": null,
@@ -4950,9 +4977,9 @@
     "name": "Montezuma County"
    },
    "developers": {
-    "organisations": 6,
+    "organisations": 7,
     "by_kind": {
-     "company or other": 2,
+     "company or other": 3,
      "housing authority": 1,
      "local government": 2,
      "nonprofit": 1
@@ -5134,14 +5161,14 @@
     "name": "Montrose County"
    },
    "developers": {
-    "organisations": 6,
+    "organisations": 8,
     "by_kind": {
-     "company or other": 3,
+     "company or other": 5,
      "housing authority": 1,
      "nonprofit": 2
     },
-    "projects_awarded": 7,
-    "homes_awarded": 332,
+    "projects_awarded": 8,
+    "homes_awarded": 323,
     "public_and_nonprofit": [
      "Housing Authority Mexican American",
      "Volunteers of America National Services",
@@ -5406,15 +5433,18 @@
     "name": "Ouray County"
    },
    "developers": {
-    "organisations": 3,
+    "organisations": 5,
     "by_kind": {
      "company or other": 2,
-     "local government": 1
+     "local government": 1,
+     "nonprofit": 2
     },
-    "projects_awarded": 3,
-    "homes_awarded": 59,
+    "projects_awarded": 9,
+    "homes_awarded": 189,
     "public_and_nonprofit": [
-     "Home Trust of Ouray County"
+     "Telluride Foundation",
+     "Home Trust of Ouray County",
+     "Paradox Community Trust"
     ],
     "tax_credit_properties": {
      "properties": 1,
@@ -5969,14 +5999,14 @@
     "name": "Pueblo County"
    },
    "developers": {
-    "organisations": 8,
+    "organisations": 10,
     "by_kind": {
-     "company or other": 6,
+     "company or other": 8,
      "housing authority": 1,
      "local government": 1
     },
-    "projects_awarded": 9,
-    "homes_awarded": 553,
+    "projects_awarded": 11,
+    "homes_awarded": 569,
     "public_and_nonprofit": [
      "Housing Authority of the City of Pueblo",
      "City of Pueblo"
@@ -6504,15 +6534,17 @@
     "name": "Routt County"
    },
    "developers": {
-    "organisations": 3,
+    "organisations": 4,
     "by_kind": {
      "company or other": 1,
-     "housing authority": 2
+     "housing authority": 2,
+     "local government": 1
     },
-    "projects_awarded": 8,
-    "homes_awarded": 530,
+    "projects_awarded": 9,
+    "homes_awarded": 659,
     "public_and_nonprofit": [
      "Yampa Valley Housing Authority",
+     "Town of Hayden",
      "Hayden Municipal Housing Authority"
     ],
     "tax_credit_properties": {
@@ -6688,13 +6720,16 @@
     "name": "Saguache County"
    },
    "developers": {
-    "organisations": 1,
+    "organisations": 2,
     "by_kind": {
-     "company or other": 1
+     "company or other": 1,
+     "nonprofit": 1
     },
-    "projects_awarded": 1,
-    "homes_awarded": 32,
-    "public_and_nonprofit": [],
+    "projects_awarded": 2,
+    "homes_awarded": 52,
+    "public_and_nonprofit": [
+     "Crestone Peak Community Housing"
+    ],
     "tax_credit_properties": {
      "properties": 5,
      "homes": 115,
@@ -6855,13 +6890,14 @@
     "name": "San Juan County"
    },
    "developers": {
-    "organisations": 2,
+    "organisations": 3,
     "by_kind": {
+     "company or other": 1,
      "housing authority": 1,
      "local government": 1
     },
-    "projects_awarded": 2,
-    "homes_awarded": 8,
+    "projects_awarded": 3,
+    "homes_awarded": 16,
     "public_and_nonprofit": [
      "The Housing Authority of the Town of Silverton d.b.a. Silverton Housing Authority",
      "Town of Silverton"
@@ -7016,14 +7052,21 @@
     "name": "San Miguel County"
    },
    "developers": {
-    "organisations": 1,
+    "organisations": 6,
     "by_kind": {
-     "housing authority": 1
+     "housing authority": 3,
+     "local government": 2,
+     "nonprofit": 1
     },
-    "projects_awarded": 1,
-    "homes_awarded": 21,
+    "projects_awarded": 5,
+    "homes_awarded": 364,
     "public_and_nonprofit": [
-     "Mountain Village Housing Authority (MVHA)"
+     "San Miguel County",
+     "Town of Telluride",
+     "Telluride Foundation",
+     "Telluride Housing Authority",
+     "Mountain Village Housing Authority (MVHA)",
+     "Town of Mountain Village Housing Authority (MVHA)"
     ],
     "tax_credit_properties": {
      "properties": 2,
@@ -7360,9 +7403,9 @@
     "name": "Summit County"
    },
    "developers": {
-    "organisations": 5,
+    "organisations": 7,
     "by_kind": {
-     "company or other": 4,
+     "company or other": 6,
      "local government": 1
     },
     "projects_awarded": 8,
@@ -7607,17 +7650,18 @@
     "name": "Weld County"
    },
    "developers": {
-    "organisations": 10,
+    "organisations": 11,
     "by_kind": {
      "company or other": 8,
      "housing authority": 1,
-     "nonprofit": 1
+     "nonprofit": 2
     },
-    "projects_awarded": 10,
-    "homes_awarded": 1043,
+    "projects_awarded": 11,
+    "homes_awarded": 1098,
     "public_and_nonprofit": [
      "Greeley Area Habitat for Humanity",
-     "Loveland Housing Authority"
+     "Loveland Housing Authority",
+     "Archdiocesan Housing, Inc."
     ],
     "tax_credit_properties": {
      "properties": 29,
@@ -8087,17 +8131,18 @@
     "name": "Alamosa County"
    },
    "developers": {
-    "organisations": 3,
+    "organisations": 5,
     "by_kind": {
-     "company or other": 1,
+     "company or other": 2,
      "local government": 1,
-     "nonprofit": 1
+     "nonprofit": 2
     },
-    "projects_awarded": 2,
-    "homes_awarded": 447,
+    "projects_awarded": 4,
+    "homes_awarded": 491,
     "public_and_nonprofit": [
      "City of Alamosa",
-     "Community Resources & Housing Development Corp."
+     "Community Resources & Housing Development Corp.",
+     "San Luis Valley Housing Coalition"
     ],
     "tax_credit_properties": {
      "properties": 7,
@@ -8473,13 +8518,13 @@
     "name": "Jefferson County"
    },
    "developers": {
-    "organisations": 9,
+    "organisations": 11,
     "by_kind": {
-     "company or other": 8,
+     "company or other": 10,
      "nonprofit": 1
     },
-    "projects_awarded": 7,
-    "homes_awarded": 525,
+    "projects_awarded": 8,
+    "homes_awarded": 795,
     "public_and_nonprofit": [
      "Family Tree, Inc."
     ],
@@ -9444,13 +9489,13 @@
     "name": "Boulder County"
    },
    "developers": {
-    "organisations": 8,
+    "organisations": 9,
     "by_kind": {
-     "company or other": 7,
+     "company or other": 8,
      "nonprofit": 1
     },
-    "projects_awarded": 13,
-    "homes_awarded": 762,
+    "projects_awarded": 14,
+    "homes_awarded": 824,
     "public_and_nonprofit": [
      "Thistle Community Housing"
     ],
@@ -9778,15 +9823,15 @@
     "name": "Broomfield County"
    },
    "developers": {
-    "organisations": 8,
+    "organisations": 10,
     "by_kind": {
-     "company or other": 5,
+     "company or other": 7,
      "housing authority": 1,
      "local government": 1,
      "nonprofit": 1
     },
-    "projects_awarded": 8,
-    "homes_awarded": 274,
+    "projects_awarded": 9,
+    "homes_awarded": 433,
     "public_and_nonprofit": [
      "City and County of Broomfield",
      "Housing Authority of the City & County of Broomfield",
@@ -9875,7 +9920,7 @@
     }
    },
    "land": null,
-   "land_unavailable_reason": "Chaffee County does not share its parcel records with the state composite, so its land holders are not listed. The county assessor's own site has them.",
+   "land_unavailable_reason": "Town-level land holders are not built for this town yet; see its county.",
    "providers": {
     "housing_authorities": [
      "Housing Authority of The City of Salida"
@@ -10910,18 +10955,17 @@
     "name": "El Paso County"
    },
    "developers": {
-    "organisations": 26,
+    "organisations": 28,
     "by_kind": {
-     "company or other": 18,
+     "company or other": 21,
      "housing authority": 1,
-     "nonprofit": 7
+     "nonprofit": 6
     },
-    "projects_awarded": 29,
-    "homes_awarded": 2711,
+    "projects_awarded": 31,
+    "homes_awarded": 3099,
     "public_and_nonprofit": [
      "Silver Key Senior Services",
-     "Volunteers of America National Services",
-     "Western Region Nonprofit Housing Corporation"
+     "Volunteers of America National Services"
     ],
     "tax_credit_properties": {
      "properties": 51,
@@ -11053,9 +11097,9 @@
     "name": "Adams County"
    },
    "developers": {
-    "organisations": 4,
+    "organisations": 5,
     "by_kind": {
-     "company or other": 3,
+     "company or other": 4,
      "housing authority": 1
     },
     "projects_awarded": 5,
@@ -11632,13 +11676,16 @@
     "name": "Delta County"
    },
    "developers": {
-    "organisations": 1,
+    "organisations": 2,
     "by_kind": {
-     "company or other": 1
+     "company or other": 1,
+     "housing authority": 1
     },
     "projects_awarded": 2,
     "homes_awarded": 100,
-    "public_and_nonprofit": [],
+    "public_and_nonprofit": [
+     "Delta Housing Authority"
+    ],
     "tax_credit_properties": {
      "properties": 5,
      "scope": "town"
@@ -11667,23 +11714,24 @@
     "name": "Denver County"
    },
    "developers": {
-    "organisations": 92,
+    "organisations": 97,
     "by_kind": {
-     "company or other": 61,
+     "company or other": 62,
      "housing authority": 4,
      "local government": 2,
-     "nonprofit": 25
+     "nonprofit": 29
     },
-    "projects_awarded": 107,
-    "homes_awarded": 9955,
+    "projects_awarded": 121,
+    "homes_awarded": 11631,
     "public_and_nonprofit": [
-     "Housing Authority of the City and County of Denver",
      "Archway Investment Corporation",
-     "Mercy Housing Mountain Plains",
+     "Housing Authority of the City and County of Denver",
+     "Urban Land Conservancy",
      "Northeast Denver Housing Center",
+     "Mercy Housing Mountain Plains",
      "Denver Housing Authority",
-     "Housing Authority of the City County of Denver",
-     "Commun Denver"
+     "Colorado Coalition for the Homeless",
+     "Housing Authority of the City County of Denver"
     ],
     "tax_credit_properties": {
      "properties": 238,
@@ -11984,14 +12032,14 @@
     "name": "La Plata County"
    },
    "developers": {
-    "organisations": 7,
+    "organisations": 8,
     "by_kind": {
-     "company or other": 2,
+     "company or other": 3,
      "local government": 2,
      "nonprofit": 3
     },
-    "projects_awarded": 6,
-    "homes_awarded": 298,
+    "projects_awarded": 8,
+    "homes_awarded": 532,
     "public_and_nonprofit": [
      "Elevation Community Land Trust (ECLT)",
      "Volunteers of America National Services",
@@ -12626,12 +12674,12 @@
     "name": "Arapahoe County"
    },
    "developers": {
-    "organisations": 2,
+    "organisations": 3,
     "by_kind": {
-     "company or other": 2
+     "company or other": 3
     },
-    "projects_awarded": 2,
-    "homes_awarded": 145,
+    "projects_awarded": 3,
+    "homes_awarded": 227,
     "public_and_nonprofit": [],
     "tax_credit_properties": {
      "properties": 12,
@@ -12710,8 +12758,8 @@
      "company or other": 1,
      "housing authority": 1
     },
-    "projects_awarded": 4,
-    "homes_awarded": 262,
+    "projects_awarded": 6,
+    "homes_awarded": 318,
     "public_and_nonprofit": [
      "Estes Park Housing Authority"
     ],
@@ -13248,18 +13296,20 @@
     "name": "Larimer County"
    },
    "developers": {
-    "organisations": 11,
+    "organisations": 13,
     "by_kind": {
      "company or other": 7,
      "housing authority": 1,
-     "nonprofit": 3
+     "nonprofit": 5
     },
-    "projects_awarded": 14,
-    "homes_awarded": 1336,
+    "projects_awarded": 16,
+    "homes_awarded": 1488,
     "public_and_nonprofit": [
      "Volunteers of America National Services",
      "Fort Collins Housing Authority",
+     "Mercy Housing Mountain Plains",
      "CARE Housing, Inc.",
+     "Neighbor to Neighbor",
      "Habitat for Humanity Fort Collins"
     ],
     "tax_credit_properties": {
@@ -13570,15 +13620,17 @@
     "name": "Grand County"
    },
    "developers": {
-    "organisations": 3,
+    "organisations": 4,
     "by_kind": {
      "company or other": 2,
-     "housing authority": 1
+     "housing authority": 1,
+     "local government": 1
     },
-    "projects_awarded": 4,
-    "homes_awarded": 294,
+    "projects_awarded": 5,
+    "homes_awarded": 399,
     "public_and_nonprofit": [
-     "Fraser Housing Authority"
+     "Fraser Housing Authority",
+     "Town of Fraser"
     ],
     "tax_credit_properties": {
      "properties": 3,
@@ -14295,14 +14347,14 @@
     "name": "Mesa County"
    },
    "developers": {
-    "organisations": 7,
+    "organisations": 8,
     "by_kind": {
-     "company or other": 5,
+     "company or other": 6,
      "housing authority": 1,
      "local government": 1
     },
-    "projects_awarded": 7,
-    "homes_awarded": 871,
+    "projects_awarded": 10,
+    "homes_awarded": 997,
     "public_and_nonprofit": [
      "City of Grand Junction",
      "Grand Junction Housing Authority"
@@ -14530,13 +14582,16 @@
     "name": "Weld County"
    },
    "developers": {
-    "organisations": 4,
+    "organisations": 5,
     "by_kind": {
-     "company or other": 4
+     "company or other": 4,
+     "nonprofit": 1
     },
-    "projects_awarded": 4,
-    "homes_awarded": 566,
-    "public_and_nonprofit": [],
+    "projects_awarded": 5,
+    "homes_awarded": 621,
+    "public_and_nonprofit": [
+     "Archdiocesan Housing, Inc."
+    ],
     "tax_credit_properties": {
      "properties": 16,
      "scope": "town"
@@ -14728,15 +14783,16 @@
     "name": "Gunnison County"
    },
    "developers": {
-    "organisations": 2,
+    "organisations": 3,
     "by_kind": {
      "company or other": 1,
-     "nonprofit": 1
+     "nonprofit": 2
     },
-    "projects_awarded": 2,
-    "homes_awarded": 143,
+    "projects_awarded": 3,
+    "homes_awarded": 207,
     "public_and_nonprofit": [
-     "Valley Housing Fund"
+     "Valley Housing Fund",
+     "Archway Investment Corporation"
     ],
     "tax_credit_properties": {
      "properties": 1,
@@ -16135,11 +16191,15 @@
     "name": "Cheyenne County"
    },
    "developers": {
-    "organisations": 0,
-    "by_kind": {},
-    "projects_awarded": 0,
-    "homes_awarded": null,
-    "public_and_nonprofit": [],
+    "organisations": 1,
+    "by_kind": {
+     "nonprofit": 1
+    },
+    "projects_awarded": 1,
+    "homes_awarded": 6,
+    "public_and_nonprofit": [
+     "Kit Carson Rural Development"
+    ],
     "tax_credit_properties": null
    },
    "land": null,
@@ -16447,19 +16507,20 @@
     "name": "Jefferson County"
    },
    "developers": {
-    "organisations": 10,
+    "organisations": 11,
     "by_kind": {
      "company or other": 5,
      "housing authority": 2,
-     "nonprofit": 3
+     "nonprofit": 4
     },
-    "projects_awarded": 13,
-    "homes_awarded": 834,
+    "projects_awarded": 15,
+    "homes_awarded": 1201,
     "public_and_nonprofit": [
-     "Housing Authority of the City of Lakewood, dba Met",
-     "Archway Investment Corporation",
-     "Housing Authority of the City of Lakewood, Colorado dba Metro West Housing Solutions",
      "Habitat for Humanity of Colorado, Inc.",
+     "Archway Investment Corporation",
+     "Housing Authority of the City of Lakewood, dba Met",
+     "Housing Authority of the City of Lakewood, Colorado dba Metro West Housing Solutions",
+     "Jefferson Center for Mental Health",
      "West Colfax Lampstand"
     ],
     "tax_credit_properties": {
@@ -16861,8 +16922,8 @@
     "by_kind": {
      "company or other": 1
     },
-    "projects_awarded": 1,
-    "homes_awarded": 16,
+    "projects_awarded": 2,
+    "homes_awarded": 32,
     "public_and_nonprofit": [],
     "tax_credit_properties": {
      "properties": 1,
@@ -16916,13 +16977,16 @@
     "name": "Arapahoe County"
    },
    "developers": {
-    "organisations": 2,
+    "organisations": 3,
     "by_kind": {
-     "company or other": 2
+     "company or other": 2,
+     "housing authority": 1
     },
     "projects_awarded": 3,
     "homes_awarded": 164,
-    "public_and_nonprofit": [],
+    "public_and_nonprofit": [
+     "Housing Authority of the City of Littleton (dba South Metro Housing Options)"
+    ],
     "tax_credit_properties": {
      "properties": 7,
      "scope": "town"
@@ -17115,8 +17179,8 @@
      "housing authority": 2,
      "nonprofit": 3
     },
-    "projects_awarded": 10,
-    "homes_awarded": 751,
+    "projects_awarded": 11,
+    "homes_awarded": 834,
     "public_and_nonprofit": [
      "Longmont Housing Authority",
      "Boulder County Housing Authority",
@@ -17231,8 +17295,8 @@
      "housing authority": 1,
      "nonprofit": 1
     },
-    "projects_awarded": 4,
-    "homes_awarded": 249,
+    "projects_awarded": 5,
+    "homes_awarded": 303,
     "public_and_nonprofit": [
      "Loveland Housing Authority",
      "Archdiocesan Housing Inc"
@@ -17966,7 +18030,7 @@
      "nonprofit": 2
     },
     "projects_awarded": 6,
-    "homes_awarded": 332,
+    "homes_awarded": 290,
     "public_and_nonprofit": [
      "Housing Authority Mexican American",
      "Volunteers of America National Services",
@@ -17978,7 +18042,7 @@
     }
    },
    "land": null,
-   "land_unavailable_reason": "Montrose County does not share its parcel records with the state composite, so its land holders are not listed. The county assessor's own site has them.",
+   "land_unavailable_reason": "Town-level land holders are not built for this town yet; see its county.",
    "providers": {
     "housing_authorities": [
      "Montrose County Housing Authority"
@@ -18546,11 +18610,15 @@
     "name": "San Miguel County"
    },
    "developers": {
-    "organisations": 0,
-    "by_kind": {},
-    "projects_awarded": 0,
-    "homes_awarded": null,
-    "public_and_nonprofit": [],
+    "organisations": 1,
+    "by_kind": {
+     "nonprofit": 1
+    },
+    "projects_awarded": 1,
+    "homes_awarded": 55,
+    "public_and_nonprofit": [
+     "Telluride Foundation"
+    ],
     "tax_credit_properties": {
      "properties": 1,
      "scope": "town"
@@ -18879,14 +18947,16 @@
     "name": "Ouray County"
    },
    "developers": {
-    "organisations": 2,
+    "organisations": 3,
     "by_kind": {
      "company or other": 1,
-     "local government": 1
+     "local government": 1,
+     "nonprofit": 1
     },
-    "projects_awarded": 2,
-    "homes_awarded": 29,
+    "projects_awarded": 3,
+    "homes_awarded": 94,
     "public_and_nonprofit": [
+     "Telluride Foundation",
      "Home Trust of Ouray County"
     ],
     "tax_credit_properties": null
@@ -19117,12 +19187,12 @@
     "name": "Garfield County"
    },
    "developers": {
-    "organisations": 2,
+    "organisations": 3,
     "by_kind": {
-     "company or other": 2
+     "company or other": 3
     },
-    "projects_awarded": 2,
-    "homes_awarded": 126,
+    "projects_awarded": 3,
+    "homes_awarded": 190,
     "public_and_nonprofit": [],
     "tax_credit_properties": {
      "properties": 1,
@@ -19747,13 +19817,13 @@
     "name": "Pueblo County"
    },
    "developers": {
-    "organisations": 7,
+    "organisations": 8,
     "by_kind": {
-     "company or other": 6,
+     "company or other": 7,
      "housing authority": 1
     },
-    "projects_awarded": 7,
-    "homes_awarded": 538,
+    "projects_awarded": 8,
+    "homes_awarded": 542,
     "public_and_nonprofit": [
      "Housing Authority of the City of Pueblo"
     ],
@@ -20079,11 +20149,17 @@
     "name": "Ouray County"
    },
    "developers": {
-    "organisations": 0,
-    "by_kind": {},
-    "projects_awarded": 0,
-    "homes_awarded": null,
-    "public_and_nonprofit": [],
+    "organisations": 2,
+    "by_kind": {
+     "local government": 1,
+     "nonprofit": 1
+    },
+    "projects_awarded": 2,
+    "homes_awarded": 28,
+    "public_and_nonprofit": [
+     "Home Trust of Ouray County",
+     "Paradox Community Trust"
+    ],
     "tax_credit_properties": {
      "properties": 1,
      "scope": "town"
@@ -21116,13 +21192,14 @@
     "name": "San Juan County"
    },
    "developers": {
-    "organisations": 2,
+    "organisations": 3,
     "by_kind": {
+     "company or other": 1,
      "housing authority": 1,
      "local government": 1
     },
-    "projects_awarded": 2,
-    "homes_awarded": 8,
+    "projects_awarded": 3,
+    "homes_awarded": 16,
     "public_and_nonprofit": [
      "The Housing Authority of the Town of Silverton d.b.a. Silverton Housing Authority",
      "Town of Silverton"
@@ -21879,11 +21956,16 @@
     "name": "San Miguel County"
    },
    "developers": {
-    "organisations": 0,
-    "by_kind": {},
-    "projects_awarded": 0,
-    "homes_awarded": null,
-    "public_and_nonprofit": [],
+    "organisations": 2,
+    "by_kind": {
+     "local government": 2
+    },
+    "projects_awarded": 1,
+    "homes_awarded": 240,
+    "public_and_nonprofit": [
+     "San Miguel County",
+     "Town of Telluride"
+    ],
     "tax_credit_properties": {
      "properties": 1,
      "scope": "town"

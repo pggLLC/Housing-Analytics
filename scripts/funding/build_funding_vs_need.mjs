@@ -236,8 +236,12 @@ export function matchBondDeals(feedProps, awards, { firstYear, lastYear }) {
   return { candidates: bond.length, matched, added };
 }
 
+// CHFA notes a returned award in its report ("Project did not proceed. Award
+// returned by sponsor."). No home was built, so it is not counted.
+export const RETURNED = /did not proceed|award returned/i;
+
 export function build({ ledger, documents, ranking, permits, limits, feed }) {
-  const awards = ledger.awards;
+  const awards = ledger.awards.filter((a) => !RETURNED.test(a.detail || ''));
   const years = awards.map((a) => a.year).filter(Number.isInteger);
   const firstYear = Math.min(...years);
   const lastYear = Math.max(...years);
@@ -436,6 +440,9 @@ export function build({ ledger, documents, ranking, permits, limits, feed }) {
       unplaced_awards: unplaced.length,
       // their awards and dollars stand; their unit counts are null, so unit totals undercount them
       documents_units_withheld: (documents.documents || []).filter((d) => d.status === 'units_withheld').map((d) => ({ file: d.file, url: d.url })),
+      awards_returned: ledger.awards.filter((a) => RETURNED.test(a.detail || '')).map((a) => ({
+        name: a.name, year: a.year, program: a.program, county_fips: a.county_fips || null, homes: units(a), note: 'Project did not proceed. Award returned by sponsor.',
+      })),
       lihtc_awards_without_units: awards.filter((a) => a.program.startsWith('LIHTC') && units(a) == null).length,
       documents_needing_review: (documents.documents || []).filter((d) => !['ok', 'no_total_line', 'accepted_by_review', 'units_withheld'].includes(d.status)).map((d) => ({ file: d.file, url: d.url, status: d.status })),
     },

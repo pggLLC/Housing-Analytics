@@ -174,6 +174,7 @@
     "    <ul>",
     "      <li><strong>CHFA tax credits</strong> come from CHFA\'s award reports for 2016 to 2026; <strong>OEDIT Prop 123</strong> awards come from the Affordable Housing Financing Fund\'s selection lists for FY23-24 to FY25-26. Both are read from the PDFs by <code>scripts/funding/build_funding_awards.py</code> and checked against the total each PDF prints (<code>data/policy/funding-awards/ledger.json</code>). An award whose PDF does not print a total, or whose rows did not add up, is marked <em>not checked against a total</em>.</li>",
     "      <li><strong>DOLA Division of Housing</strong> awards come from the Division of Housing\'s annual reports to the legislature, which list every award by project for each state fiscal year from July 2021 (FY2021-22 to FY2024-25), and, for later months, State Housing Board vote summaries, DOLA releases and DOH award tables (<code>data/policy/funding-awards/dola-awards.json</code>), each with the line it rests on. An award reported twice is counted once. Awards before July 2021 are not included, and an announcement that names fewer projects than its total is marked incomplete. DOLA\'s Division of Local Government grants to towns and counties for a named housing project (incentive grants under HB21-1271, More Housing Now) are listed under DOLA as \"DLG\"; its planning and staffing grants are not projects and are left out.</li>",
+    "      <li><strong>4% bond deals outside the rounds.</strong> CHFA awards most 4% credits paired with private activity bonds outside its rounds, and its round reports before 2021 leave them out. Every 4% property on CHFA\'s tax credit property list (<code>data/chfa-lihtc.json</code>) that no award in the ledger accounts for is added as a CHFA award with its low-income homes, matched by county, year, name and home count (<code>data/derived/funding-vs-need.json</code>). The list prints no credit amount and no developer, so these add homes and awards but no credits, and sit under \"Not named on the award list\". Two awards CHFA notes as returned (\"Project did not proceed\") are left out.</li>",
     "      <li><strong>Tax credits are not dollars.</strong> CHFA prints the credit each project can claim per year (the federal credit runs ten years). Developers sell credits to investors, usually for less than a dollar each. So credits are shown on their own and never added to grants and loans. \"All three\" is measured in homes, the one thing every agency reports.</li>",
     "      <li><strong>Credits are not CHFA lending.</strong> CHFA\'s 4% award reports also print each project\'s tax-exempt bond amount (from 2018; the 2016 and 2017 reports do not). Bonds are a loan to the project, sold to bond buyers, and the issuer can be CHFA or a city, county or housing authority, so the bonds column is not a total of CHFA\'s own loans. Bonds are added from each award line, not from a report\'s printed total: CHFA\'s 2021 Round 2 report prints a bond total of $155,370,000, but its 17 bond amounts add up to $237,670,000 (the printed total leaves out four awards, $82,300,000 together, without saying why). CHFA\'s own mortgage loans are not in any award list this page reads, so they are not shown.</li>",
     "      <li><strong>Prop 123 money is split by program</strong> as the fund\'s selection lists name it: Concessionary Debt (loans), Equity, Land Banking and Modular Finance (factories, not housing sites). The four are shown in separate columns in \"Who funded whom\".</li>",
@@ -333,13 +334,21 @@
     return txt;
   }
 
+  // 4% bond deals CHFA awarded outside its rounds: homes from its property
+  // list, with no credit amount or developer printed.
+  function bondDealCount(s) {
+    return s.bondDeals || null;
+  }
+
   function splitList(s) {
     if (state.agency !== 'ALL') return '';
     var items = ['CHFA', 'OEDIT', 'DOLA'].map(function (k) {
       var b = s.byAgency[k];
       if (!b) return '<li>' + k + ': no awards</li>';
       var amt = k === 'CHFA' ? money(b.credits) + ' a year in credits' : money(b.dollars);
-      return '<li><strong>' + k + '</strong>: ' + esc(amt) + ', ' + esc(count(b.homes)) + ' homes, ' + b.awards + ' awards</li>';
+      var bd = k === 'CHFA' ? bondDealCount(s) : null;
+      return '<li><strong>' + k + '</strong>: ' + esc(amt) + ', ' + esc(count(b.homes)) + ' homes, ' + b.awards + ' awards' +
+        (bd && bd.awards ? ' (' + bd.awards + ' of them 4% bond deals outside the rounds, ' + esc(count(bd.homes)) + ' homes, credit amount not printed)' : '') + '</li>';
     });
     return '<ul class="hm-split">' + items.join('') + '</ul>';
   }
@@ -731,13 +740,13 @@
         : (a.developerKey ? (a.developerRole === 'owner' ? 'owner: ' : '') + '<a href="#" data-hm-pick-developer="' + esc(a.developerKey) + '">' + esc(a.developer) + '</a>' : 'developer not printed') +
           (state.place.type === 'county' && a.town ? ' · ' + placeLinks({ town: a.town }) : '');
       var dollars = a.agency === 'CHFA' || a.dollars === null || a.dollars === undefined ? '—' : esc(money(a.dollars)) + (a.dollarsBasis === 'requested' ? ' <span class="hm-tag">requested</span>' : '');
-      var credits = a.agency !== 'CHFA' ? '—' : (a.credits === null || a.credits === undefined ? 'Value unavailable' : esc(money(a.credits))) +
+      var credits = a.agency !== 'CHFA' ? '—' : a.bondDeal ? 'Not printed (4% bond deal)' : (a.credits === null || a.credits === undefined ? 'Value unavailable' : esc(money(a.credits))) +
         (a.bonds ? '<div class="hm-muted">+ ' + esc(money(a.bonds)) + ' bonds</div>' : '');
       var src = a.sourceUrl ? '<a href="' + esc(a.sourceUrl) + '" rel="noopener" target="_blank">' + esc(sourceText(a)) + '</a>' : esc(sourceText(a));
       return '<tr><th scope="row"><strong>' + esc(a.name || 'Project name not printed') + '</strong>' +
         (deal ? ' <a class="hm-deal-link" href="deal-summary.html?d=' + esc(deal.slug) + '">Deal summary</a>' : '') +
         '<div class="hm-muted">' + sub + '</div></th>' +
-        '<td class="num">' + esc(a.yearLabel || a.year || '—') + '</td><td>' + src + (a.confirmed ? '' : ' <span class="hm-tag">not checked against a total</span>') + '</td>' +
+        '<td class="num">' + esc(a.yearLabel || a.year || '—') + '</td><td>' + src + (a.bondDeal ? ' <span class="hm-tag">property list, not an award report</span>' : a.confirmed ? '' : ' <span class="hm-tag">not checked against a total</span>') + '</td>' +
         '<td class="num">' + dollars + '</td><td class="num">' + credits + '</td>' +
         '<td class="num">' + (a.homes === null || a.homes === undefined ? '—' : esc(count(a.homes)) + (a.homesEstimated ? ' est.' : '')) + '</td></tr>';
     }).join('');
@@ -770,6 +779,7 @@
     return parts.join('\n') || '—';
   }
   function awardMoneyText(a) {
+    if (a.bondDeal) return '4% bond deal, credit amount not printed';
     if (a.agency === 'CHFA') return (a.credits === null ? 'Value unavailable' : money(a.credits) + ' credits/yr') + (a.bonds ? ' · ' + money(a.bonds) + ' bonds' : '');
     if (a.dollars === null) return 'Value unavailable';
     return money(a.dollars) + (a.dollarsBasis === 'requested' ? ' requested' : '');
@@ -817,7 +827,7 @@
         var where = [a.town, a.county].filter(Boolean).join(', ');
         var tags = (a.homesEstimated ? '<span class="hm-tag">est. homes</span>' : '') +
           (a.dollarsBasis === 'requested' ? '<span class="hm-tag">preliminary</span>' : '') +
-          (a.confirmed ? '' : '<span class="hm-tag">not checked against a total</span>') +
+          (a.bondDeal ? '<span class="hm-tag">property list, not an award report</span>' : a.confirmed ? '' : '<span class="hm-tag">not checked against a total</span>') +
           (a.developerRole === 'owner' && a.developer ? '<span class="hm-tag">owner as printed</span>' : '');
         var src = a.sourceUrl ? '<a href="' + esc(a.sourceUrl) + '" rel="noopener" target="_blank">' + esc(a.sourceTitle) + '</a>' : esc(a.sourceTitle);
         var quote = a.quote ? '<blockquote class="hm-quote">' + esc(a.quote) + '</blockquote>' : '';
@@ -1184,7 +1194,9 @@
       data.statePopulation = Object.keys(data.counties).reduce(function (t, k) { return t + (data.counties[k].population || 0); }, 0) || null;
       data.geo = d.boundaries;
       fillSources(d.ledger && d.ledger.meta && d.ledger.meta.generated_at, d.dola && d.dola.meta && d.dola.meta.captured);
-      data.awards = M.normalise({ ledger: d.ledger, documents: d.documents, rows: d.rows, dola: d.dola, aliases: d.aliases, counties: data.counties });
+      var fvnMeta = (d.regions && d.regions.meta) || {};
+      data.awards = M.normalise({ ledger: d.ledger, documents: d.documents, rows: d.rows, dola: d.dola, aliases: d.aliases, counties: data.counties,
+        bondDeals: { deals: fvnMeta.bond_deals_outside_rounds || [], url: 'chfa-portfolio.html', checked: (d.regions && d.regions.generatedAt) || null } });
       var years = data.awards.map(function (a) { return a.year; }).filter(function (y) { return y !== null; });
       var min = Math.min.apply(null, years), max = Math.max.apply(null, years);
       data.years = [];

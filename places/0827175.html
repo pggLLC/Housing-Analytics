@@ -144,7 +144,7 @@
   "county_name": "Clear Creek",
   "geo_type": "cdp",
   "local_players": {
-    "built": "2026-11-05",
+    "built": "2026-11-06",
     "county_name": "Clear Creek County",
     "developers": {
       "organisations": 6,
@@ -242,6 +242,7 @@
     .place-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; }
     .place-card h2 { margin: 0 0 .5rem; font-size: 1.05rem; color: var(--accent, #096e65); }
     .place-stat { display: flex; justify-content: space-between; margin: .25rem 0; padding: .25rem 0; border-bottom: 1px dashed var(--border-soft, #e0e0e0); }
+    .place-stat[hidden] { display: none; }
     .place-stat .label { color: var(--muted); font-size: .85rem; }
     .place-stat .value { font-weight: 600; font-variant-numeric: tabular-nums; }
     .place-stat .value.bad { color: var(--bad, #dc2626); }
@@ -336,12 +337,13 @@
         <h2>Who works on housing here</h2>
         <div class="place-stat"><span class="label" id="psPlDevsLabel">Groups that won state housing awards since 2016</span><span class="value" id="psPlDevs">—</span></div>
         <div class="place-stat"><span class="label">Homes in those awards</span><span class="value" id="psPlHomes">—</span></div>
+        <div class="place-stat" id="psPlBondRow" hidden><span class="label" id="psPlBondLabel">Tax credit bond deals outside the award rounds</span><span class="value" id="psPlBond">—</span></div>
         <div class="place-stat"><span class="label">Housing authority</span><span class="value" id="psPlPha">—</span></div>
         <div class="place-stat"><span class="label">Housing and shelter nonprofits</span><span class="value" id="psPlNp">—</span></div>
         <p class="pl-names" id="psPlNames" hidden></p>
         <div id="psPlLand"></div>
         <p class="place-explain" id="psPlNote"></p>
-        <p class="place-src">Sources: CHFA, OEDIT and DOLA award reports and CHFA applicant reports (<a href="../data/policy/funding-awards/ledger.json">site copy</a>); <a href="https://gis.colorado.gov/public/rest/services/Address_and_Parcel/Colorado_Public_Parcels/FeatureServer/0">Colorado Public Parcels</a>; <a href="https://hudgis-hud.opendata.arcgis.com/datasets/HUD::public-housing-authorities">HUD public housing authorities</a>; <a href="https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmf">IRS exempt organizations list</a> (<a href="../data/market/local-players.json">site copy</a>, built <span id="psPlBuilt">—</span>).</p>
+        <p class="place-src">Sources: CHFA, OEDIT and DOLA award reports and CHFA applicant reports (<a href="../data/policy/funding-awards/ledger.json">site copy</a>); 4% bond deals from the <a href="../chfa-portfolio.html">CHFA tax credit property list</a>, which names no builder (<a href="../data/derived/funding-vs-need.json">site copy</a>); <a href="https://gis.colorado.gov/public/rest/services/Address_and_Parcel/Colorado_Public_Parcels/FeatureServer/0">Colorado Public Parcels</a>; <a href="https://hudgis-hud.opendata.arcgis.com/datasets/HUD::public-housing-authorities">HUD public housing authorities</a>; <a href="https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmf">IRS exempt organizations list</a> (<a href="../data/market/local-players.json">site copy</a>, built <span id="psPlBuilt">—</span>).</p>
       </div>
       <div class="place-card">
         <h2>Methodology</h2>
@@ -514,6 +516,14 @@
         var d = lp.developers || {};
         setV('psPlDevs', d.organisations ? fmt(d.organisations) : 'None on record');
         setV('psPlHomes', d.homes_awarded ? fmt(d.homes_awarded) : '—');
+        // CHFA awards most 4% bond deals outside its rounds. Its property list
+        // prints their homes but not the builder, so they are counted apart.
+        var bd = lp.bond_deals;
+        if (bd && bd.deals) {
+          document.getElementById('psPlBondLabel').textContent = 'Homes in ' + fmt(bd.deals) + (bd.deals === 1 ? ' tax credit bond deal' : ' tax credit bond deals') + ' outside the award rounds' + where + ' (' + (bd.first_year === bd.last_year ? bd.first_year : bd.first_year + '–' + bd.last_year) + ')';
+          setV('psPlBond', bd.homes ? fmt(bd.homes) : '—');
+          document.getElementById('psPlBondRow').hidden = false;
+        }
         var pr = lp.providers || {};
         setV('psPlPha', pr.housing_authorities && pr.housing_authorities.length ? pr.housing_authorities.join(', ') : 'None based in the county');
         setV('psPlNp', fmt(pr.housing_nonprofits || 0) + (lp.providers_scope === 'county' ? ' in the county' : ''));

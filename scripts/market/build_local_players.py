@@ -82,6 +82,8 @@ IRS_PAGE = 'https://www.irs.gov/charities-non-profits/exempt-organizations-busin
 PROPUBLICA = 'https://projects.propublica.org/nonprofits/organizations/'
 
 SINCE = 2016          # first year the award ledger covers
+# CHFA prints "Project did not proceed. Award returned by sponsor." on a returned award.
+RETURNED = re.compile(r'did not proceed|award returned', re.I)
 TOP_DEVELOPERS = 15
 TOP_LAND = 15
 TOP_NONPROFITS = 15
@@ -324,6 +326,8 @@ def build_developers(counties, places, nonprofit_keys):
     for a in led:
         if not a.get('county_fips') or not keep(a.get('name'), a.get('location')):
             continue
+        if RETURNED.search(a.get('detail') or ''):
+            continue  # CHFA notes the award was returned: no home was built
         for sp in split_sponsors(a.get('sponsor')):
             events.append((a['county_fips'], place_for(a['county_fips'], a.get('location')), sp, a.get('name'), a.get('year'),
                            a.get('total_units'), 'awarded', a.get('program'), a.get('source_url')))

@@ -552,12 +552,12 @@ jobs:
           #
           # test/every-gated-artifact-is-rebuildable.test.mjs now fails if this
           # workflow rebuilds the index while skipping any other chain step.
+          echo "── Rebuilding Funding vs Need (joins the award ledger to the index; place pages read its bond deals) ──"
+          node scripts/funding/build_funding_vs_need.mjs
           echo "── Rebuilding place pages ──"
           python3 scripts/hna/build_place_pages.py
           echo "── Rebuilding ACS median rent (copies each summary's DP04_0134E) ──"
           python3 scripts/build_acs_rent_co.py
-          echo "── Rebuilding Funding vs Need (joins the award ledger to the index) ──"
-          node scripts/funding/build_funding_vs_need.mjs
           echo "── Rebuilding the development activity ledger (reads geo-config) ──"
           python3 scripts/market/build_development_activity.py
           echo "── Rebuilding the next round watch (reads the ledger) ──"
@@ -665,9 +665,9 @@ jobs:
               git commit --amend --no-edit --allow-empty
               git rebase --autostash origin/main
               node scripts/build-home-snapshot.mjs
+              node scripts/funding/build_funding_vs_need.mjs
               python3 scripts/hna/build_place_pages.py
               python3 scripts/build_acs_rent_co.py
-              node scripts/funding/build_funding_vs_need.mjs
               python3 scripts/market/build_development_activity.py
               python3 scripts/funding/build_round_watch.py
               python3 scripts/funding/build_land_banking_status.py
