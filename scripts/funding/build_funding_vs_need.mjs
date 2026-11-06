@@ -284,7 +284,22 @@ export function build({ ledger, documents, ranking, permits, limits, feed }) {
       flags.push({ id: 'high-vacancy', text: `Active-market vacancy ${vacancy}%, in the loosest quarter of Colorado counties (≥ ${vacancyCut}%)` });
     }
     if (productionRatio !== null && productionRatio >= PRODUCTION_PACE) {
-      flags.push({ id: 'building-ahead', text: `Permits ${pv.permits_window} ran ${round(productionRatio, 1)}× DOLA's projected household growth, mostly market-rate homes that soften the higher end of the market more than the 30% AMI gap` });
+      // How much of that building was tax credit homes: new-construction
+      // low-income units CHFA awarded in the permit years, against the permits.
+      // Award years run ahead of permits, so this is a share of scale, not a
+      // match of the same homes.
+      const win = /(\d{4})\D+(\d{4})/.exec(pv.permits_window || '');
+      const permitsTotal = win && num(pv.permits_avg_annual_5yr) !== null ? pv.permits_avg_annual_5yr * (Number(win[2]) - Number(win[1]) + 1) : null;
+      const creditHomes = win ? feedProps.filter((p) => p.CNTY_FIPS === fips && /^New Construction/.test(p.ProjectType || '')
+        && p.AwardYear >= Number(win[1]) && p.AwardYear <= Number(win[2])).reduce((t, p) => t + (num(p.LI_UNITS) ?? 0), 0) : null;
+      const share = permitsTotal ? creditHomes / permitsTotal : null;
+      const base = `Permits ${pv.permits_window} ran ${round(productionRatio, 1)}× DOLA's projected household growth`;
+      const pct = share === null ? null : Math.round(share * 100);
+      const text = share === null ? base
+        : share > 1 ? `${base}. CHFA awarded more tax credit homes in those years than the permits count, so the permit count looks short here`
+          : share >= 0.25 ? `${base}. Tax credit homes awarded in those years equal ${pct}% of the permits, so much of this building is subsidized`
+            : `${base}. ${pct === 0 ? 'None of it was' : `Only ${pct}% was`} tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here`;
+      flags.push({ id: 'building-ahead', text, tax_credit_share_of_permits_pct: share === null ? null : round(share * 100) });
     }
 
     const lim = limitsByFips[fips]?.regular_tiers?.['60']?.max_rents || null;
