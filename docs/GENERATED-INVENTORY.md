@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-06T05:20:19.924Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-06T07:26:58.876Z. Do not edit by hand.
 
 ---
 
@@ -97,7 +97,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1972 JSON files found.
+1973 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1090,7 +1090,7 @@
 | `data/hna/local-hna-comparisons.json` | 6.5 KB | ✅ | — |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 6.5 KB | ✅ | — |
-| `data/hna/local-resources.json` | 180.6 KB | ✅ | — |
+| `data/hna/local-resources.json` | 181.8 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 703.9 KB | ✅ | — |
 | `data/hna/permits.json` | 270.3 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
@@ -1895,7 +1895,8 @@
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
-| `data/market/principal-employers.json` | 21.6 KB | ✅ | — |
+| `data/market/principal-employers.json` | 33.6 KB | ✅ | — |
+| `data/market/public-employers.json` | 30.3 KB | ✅ | — |
 | `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
 | `data/market/qct_dda_designations_co_normalized.json` | 698 B | ✅ | — |
 | `data/market/realtor_inventory_co.json` | 225.7 KB | ✅ | — |
@@ -2078,7 +2079,7 @@
 
 ## Test Files
 
-785 test files found.
+786 test files found.
 
 | File | Size |
 |------|------|
@@ -2614,6 +2615,7 @@
 | `test/provenance-label.test.js` | 2.2 KB |
 | `test/public-build-metadata.test.mjs` | 9.3 KB |
 | `test/public-config-no-secrets.test.js` | 4.8 KB |
+| `test/public-employers.test.mjs` | 3.2 KB |
 | `test/public-facing-numbers.test.js` | 10.9 KB |
 | `test/public-land-contract.test.js` | 9.3 KB |
 | `test/qa-recent-changes.js` | 22.2 KB |

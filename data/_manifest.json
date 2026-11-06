@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-06T05:20:56.615Z",
+    "generated_at": "2026-11-06T07:27:31.219Z",
     "root": "data/",
-    "file_count": 2020,
-    "total_size_bytes": 222110695,
+    "file_count": 2021,
+    "total_size_bytes": 222155255,
     "kinds": {
-      "json": 1971,
+      "json": 1972,
       "geojson": 35,
       "csv": 14
     }
@@ -678,7 +678,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-06T05:20:52.197Z",
+      "mtime": "2026-11-06T07:27:27.520Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -22345,8 +22345,8 @@
     {
       "path": "hna/local-resources.json",
       "kind": "json",
-      "size_bytes": 184974,
-      "mtime": "2026-10-23T03:48:58.412Z",
+      "size_bytes": 186173,
+      "mtime": "2026-11-06T07:25:52.063Z",
       "shape": "object",
       "keys": [
         "state:08",
@@ -38239,8 +38239,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 256758,
-      "mtime": "2026-11-05T16:14:38.864Z",
+      "size_bytes": 256760,
+      "mtime": "2026-11-06T07:26:58.831Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39455,8 +39455,8 @@
     {
       "path": "market/principal-employers.json",
       "kind": "json",
-      "size_bytes": 22141,
-      "mtime": "2026-10-29T17:37:42.180Z",
+      "size_bytes": 34445,
+      "mtime": "2026-11-06T07:25:52.372Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39464,7 +39464,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "areas",
-      "primary_array_length": 15,
+      "primary_array_length": 22,
       "primary_array_first_keys": [
         "id",
         "area",
@@ -39475,6 +39475,21 @@
         "rows",
         "source"
       ]
+    },
+    {
+      "path": "market/public-employers.json",
+      "kind": "json",
+      "size_bytes": 31055,
+      "mtime": "2026-11-06T07:25:52.372Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "counties"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "market/qct_dda_designations_co.json",
@@ -40078,7 +40093,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-06T05:20:54.412Z",
+      "mtime": "2026-11-06T07:27:29.388Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40102,7 +40117,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-06T05:20:53.883Z",
+      "mtime": "2026-11-06T07:27:28.943Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

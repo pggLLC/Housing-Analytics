@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-06T05:21:01.382659Z",
+  "generated": "2026-11-06T07:27:35.440245Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1027905
+      "bytes": 1028271
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -4999,7 +4999,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 184974
+      "bytes": 186173
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -9109,7 +9109,12 @@
     "data/market/principal-employers.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 22141
+      "bytes": 34445
+    },
+    "data/market/public-employers.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 31055
     },
     "data/market/qct_dda_designations_co.json": {
       "featureCount": 0,
