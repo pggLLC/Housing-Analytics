@@ -1,278 +1,50 @@
 {
   "meta": {
-    "generated": "2026-11-05T11:11:52Z",
+    "generated": "2026-11-06T11:09:53Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-10-30",
-      "checked": 51,
-      "unverified": 2,
-      "weak": 1
+      "since": "2026-10-31",
+      "checked": 59,
+      "unverified": 1,
+      "weak": 2
     }
   },
   "outlets": [
     {
-      "id": "26ce523e1b",
-      "name": "Multifamily Dive",
+      "id": "1eb9801a47",
+      "name": "Nixon Peabody",
       "domains": [
-        "multifamilydive.com"
+        "nixonpeabody.com"
       ],
       "stories": 1,
-      "first_seen": "2026-11-03",
-      "last_seen": "2026-11-03",
+      "first_seen": "2026-11-04",
+      "last_seen": "2026-11-04",
       "headlines": [
         {
-          "title": "HUD launches ‘express lane’ for LIHTC multifamily construction loans",
-          "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPcGxiSnpFSzE3YVk5M3dPRmdyU2RDd2JuTC1pdEFBQ3YwMUg4UFZfS0lvd2tQSEFUSlNLeGhndlNFNHNoV1NOWEx3MFFqY1lLdHAxM2k1YTdaLVZoQl8wTTdQQUlleG83MUo0SHMzcXBMUll3cWVpeEVNUWh2WXZqT2Y4Z0Q2YjNkSmRPcFhHZWlhZy1SSDJkcWdPTWdkZUU?oc=5",
-          "date": "2026-11-03"
+          "title": "HUD fast-tracks FHA financing for experienced LIHTC developers",
+          "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxObFFKS0hRZjBXd0VmSE16c3hQcHI3aEJZWHI1T3lwSExEMWpBdlRaZ2ptTEtwTVdkZGhudlM1dGdZZlA1SXNPSHFTMGhodkFFVFRXbjRoOTRrTGM3UUhSd1dDN0wtZTJ0SXBMZlA2eE1lMFhxcVUtbVd2S3FKbFdkMFVuR3RScC16LVBXM1VZd252WjhBLUFZU0xGV2Q4YS01S1FsOXlKT1RnTUhuN1RsQzRILTVlWHJULUE?oc=5",
+          "date": "2026-11-04"
         }
       ],
-      "first_listed": "2026-11-04"
+      "first_listed": "2026-11-06"
     },
     {
-      "id": "be1ecac280",
-      "name": "Hagadone News Network",
+      "id": "88fd837e59",
+      "name": "FOX5 Vegas",
       "domains": [
-        "hagadonenewsnetwork.com"
+        "fox5vegas.com"
       ],
       "stories": 1,
-      "first_seen": "2026-11-03",
-      "last_seen": "2026-11-03",
+      "first_seen": "2026-10-21",
+      "last_seen": "2026-10-21",
       "headlines": [
         {
-          "title": "Living in Bayfield Colorado vs Durango: what the price gap buys you",
-          "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPTmh2SGZUUFA4TEFVb3ZvbDNaQmRwdzlqRkw1RmhEOUVLVWx3eTlXdkVpMzhmOVctUy1UZ1hfWkw0a3pnRFJkX0xLNHBxTEN6Wm1vZ2ZGSWptN2VMaHFPTUZJdzNaX1VvYVNuTHlPOE9lWEoweGQ5VGkwRHBiOFQxNEVYSC1iRE0tdmMwcjBoNUtsSmdoVDZTVEJMd3JPZVF0eElvWHlCcUtySlRPeDU0OXpmXzdHcjA?oc=5",
-          "date": "2026-11-03"
+          "title": "Senator Cortez Masto, Senator Warren tour new Las Vegas affordable housing",
+          "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPcTdjYUx0V1cwbVFMZmVMNFNWVDlyMHdSWWZWX2lwZjNSekJqQTE2SDdoOTRpVC1YUDliNk9sSXdlVURMcEVxdkxQNDIyeTBOOGpfMkZzbGJ3ZUlvSTVUYVZ3bEF6YUhFNUVjZ19vT0FwRzdIWkxxelBZYzNRcnhXR1Fsd0hiMHMyS0FQRU8wcjF1M1FVT05yR01mYTgwaHN3SUw4WDhLTGZ4RFNocXF4btIBxAFBVV95cUxQTmstdzBvODNWd1VaczgzX2NySllVZTUwSVVUb1ZPajEweFZmZmlWVGhRQzRqLUhrVUh3TEpRVk96Z2hRVjNTTnhoaldkcjhHM1RXSU50R1diVkpneVNqbTdaNXd3Y2JBZ0JtMnJNUDBhTFhsbWpLUGlfdUpab0dWWGNlTVl2V0RWYXFkY1lWSHZYN2MwMkhFd1FBcGkybFZGNGl2N091aU90U2VkN0FBMDE1cUFKNGdNOVBOOEtHdVZZYnJq?oc=5",
+          "date": "2026-10-21"
         }
       ],
-      "first_listed": "2026-11-04"
-    },
-    {
-      "id": "2731aff857",
-      "name": "The Korea Daily",
-      "domains": [],
-      "stories": 1,
-      "first_seen": "2026-10-27",
-      "last_seen": "2026-10-27",
-      "headlines": [
-        {
-          "title": "Manufactured Housing — Federal Push Meets Local Zoning Hurdles",
-          "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOXzFEbjNaOC00WFgtdGN5TzZnMEFCbkowVG03ZDRNakJpeU1WRlBkdTIyRXpuRXkwYmxEMFFQejEtZVRma080ZElXQUYtc21TM3NIWWI4UU9lRE5SZUxkRzlJWVNNbzF2WjhhVXdRV3puRUZGLUJyejhQd2stb3Jua1JpR0NsV1Z5ZHU4RVlXRHI?oc=5",
-          "date": "2026-10-27"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "5b33154f8c",
-      "name": "coyotegulch.blog",
-      "domains": [],
-      "stories": 1,
-      "first_seen": "2026-10-23",
-      "last_seen": "2026-10-23",
-      "headlines": [
-        {
-          "title": "LaJunta gets nearly $30 million in federal funding to filter ‘forever chemicals’ from wastewater — #Colorado Public Radio #PFAS",
-          "link": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxPSUQxbjBIbEpUcEtVbi1ueW53MWR0RF9DU2FsaFc2MTdqUzhtb1ZHOEJ1cElheEFCVEFycWN2OEdIU0Vqcm1rLTVRNDFwRkRUXzctc2I1TG45SHc4eElMRFpnT2duMVNWZThmWmEzcmtJNkNsNWc5ajJaTjN2Ni1neTdxbS1xM0hkX2xzSzRlVFZyaDFfMUVhWkwtdFpmVG5vS0wwY3EyNlRmY1JCb202TDNNUGE5QnpnbzhlU25FbkNCd2FUYUMwazBTaF9EYUxjVXFKSW5OUVAzRnl4UGZEZmZiYThkalpJZEdLc2dR?oc=5",
-          "date": "2026-10-23"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "452e050dbc",
-      "name": "Knoxville News Sentinel",
-      "domains": [
-        "knoxnews.com"
-      ],
-      "stories": 1,
-      "first_seen": "2026-10-08",
-      "last_seen": "2026-10-08",
-      "headlines": [
-        {
-          "title": "Ivory Ridge Custom Home Builder Outlines How Colorado Springs Custom Homes Stay on Track Through Winter Construction",
-          "link": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxPaG9DQmVPbjRYVXpnS3Q5VDItNk9JUGtCVFBkUll6b1FMRWN5aDZSTjJ5MnpnM21EbHhpLVdUWGgwUzc5Y0dKdjI0WGNJcDJwZUJEYnZNY0lvdWkyUlZxRmZxTmY5TkhfeDh0V2UwVXFZX2ZXaDZFQWk0S3J6TDFtRFZhVHZKOWFyZzZoREY2MktOMGh0NUNzVlhFWFFlVURMdFBNT2hpR1E0QzRwbHVaWEQ0Ry1hRDNSUi1ESzF5Wm80V2Y3U3Vfc2xKa2padnpMdE9NakhrRDFiLVIwMVRUOTRra3lNOHJTbDBkTE84QmtzT2pxaTMza1BUQ2FKdw?oc=5",
-          "date": "2026-10-08"
-        }
-      ],
-      "first_listed": "2026-11-04"
-    },
-    {
-      "id": "a4e8c3ce26",
-      "name": "Legis1",
-      "domains": [],
-      "stories": 1,
-      "first_seen": "2026-10-06",
-      "last_seen": "2026-10-06",
-      "headlines": [
-        {
-          "title": "A Congressional Report Examines Housing Affordability",
-          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1CYTk3M0R6V2tGa0Z6QkdIc2F3NUo1cHhXTTJUZ1RqaVhiV3NfWmhsRHVWWnoxb0NDTWRlNFlSYlhWWDFJR3REcVRsUWIzdTVSSlkwbXZ4YzQxTTNzSGREdlh3RUlzazdHZVlvTWN6ZkRpaFdKejNv?oc=5",
-          "date": "2026-10-06"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "2f66127b5a",
-      "name": "Arvada Press",
-      "domains": [
-        "arvadapress.com"
-      ],
-      "stories": 1,
-      "first_seen": "2026-10-04",
-      "last_seen": "2026-10-04",
-      "headlines": [
-        {
-          "title": "Arvada awarded $100,000 grant for Suburban Studios homelessness program",
-          "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxONjRhNmp3b25TQ3prbXZEbVFvaFI4Yjc4TGxpb2x1eThJaVQ5Y0Z1Ykw0dkp5cU0yNFZSRDItZTZTeXlVM0JFV2Z0TDhIcGtRZjFPZ0tOaFpJdF9SVENPWlgwb0czQTJDRVpYYlBrdGxWd1FKZnh3QzR6ZHdlRTA4Y3Zld2ltTm52Vnc?oc=5",
-          "date": "2026-10-04"
-        }
-      ],
-      "first_listed": "2026-11-01"
-    },
-    {
-      "id": "787d737cf2",
-      "name": "Rocky Mountain Voice",
-      "domains": [
-        "rockymountainvoice.com"
-      ],
-      "stories": 2,
-      "first_seen": "2026-08-07",
-      "last_seen": "2026-09-30",
-      "headlines": [
-        {
-          "title": "Colorado homebuilding fees: Same house, $77,000 apart",
-          "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOZFh0Y3Nxa1dGZk5TUVRBZ1FxR3M0M0RTMkRxSHJxRWJqYWtybU1XVHBfOUFoaEgyWXhObXJmdWhyRmRlaFJLb2EtTEdxMHpTNlM1THBuT0lMUzBQakhCY0tqR1A1SWRXUTF1bUNsbk5tM0p0eHJ6WWwyTFVJVDQxTEVUNThEZE5xVXlYZWZOZllNZlFMdW00?oc=5",
-          "date": "2026-09-30"
-        },
-        {
-          "title": "Colorado teacher home loan program puts school fund money at risk in foreclosures",
-          "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPcHBoSEFaTFRhQlA2VFdSWWppME11c2YxUkZEZWdGMmh0X3dIdmtNWGRtazJsZl94X1BhM0h0OEJXQ2ZHelVBZzlQTThNM2Vfc0F1NzdpRmtoNEszOHQ1S3Z3V09lZjFPV25NY0V2cWVmSm5od09vN2VIaGVvNE1TR0FYQ1RhVEVKOUNkaTVVSE5SV2hveDNNYUVYT3YzSV9aVEtEc3dKcG8zbDVIQjNjeGxJdFpKN2ZiUF9YbENCUHowQQ?oc=5",
-          "date": "2026-08-07"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "ac244dd674",
-      "name": "Mansion Global",
-      "domains": [],
-      "stories": 2,
-      "first_seen": "2026-08-08",
-      "last_seen": "2026-09-29",
-      "headlines": [
-        {
-          "title": "An Investor’s Ski-in, Ski-out Retreat in Steamboat Springs, Colorado, Lists for $20 Million",
-          "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNS2wtcU9DNnQwckl5SW1JQ1dtekx2RUNVUHVWd2tZeUViN0Z0dnRYYXNnLXNVRm0wR3c4elhSZlZ6NTBWY3o1RGo0ZkRaX3hkSi1FMkFGd3d6UlRjUkRrWUhoT3JGcWdncWVsVjhCX1dqNW5Ua0JsNkw0eGtFOWJoOHVmT1ZuTkk4WXpJWTB5eEJ4MEJnQmplTTBBcHpYOURJSnk2WExpWUd6LW5tLW5hMTZIT09sR3ZHdnd4R0NSd0tXMVUwakNvU2pKQzRYVE3SAdQBQVVfeXFMT2ZOeGpyeV9hZjNwUkRoSUFlMGJMazNCWkdwYmtOaHhWdld6a1Ixd0V2LUFpWXhTWmNuOGJtR2lhVVIzVlV5ZTA0RDNLd2tkWGY0VFNMNmh1dXIxcGFPdE1HOEVhNGEtRlFSZ1dNRUdFeU10SzZzWXhGNnI4UWZMc3hrd2V1dmFxai14RUxydXJvQnJWaXFnLWx2S2xhZl9oV3VJMUxNRV9SaVFUNVFDSHd1UHRXdVhRbkkwMnV4Nll4ODZjVGZFMUZWNDloeG92MmhTQzc?oc=5",
-          "date": "2026-09-29"
-        },
-        {
-          "title": "Change Is Afoot in Steamboat Springs, Colorado, a Ski Town Drawing Texans in ‘Fur Coats’ and Brett Favre",
-          "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNTkg3M0xja1ZqcUJ2RFUxWGFJc1BTZFQtbjEweThFbHJKV2hzSW4wMThvbU5jV2pxMTAza0dXNEE5T2oxZHdibGtVdXRTNG5wbXVndTI4bnR0dHNFNjBiTDJXbnBXMEJjakZMaWJjbTQ0MXR5N3U4dHFGOWt2a3JIOEp1Tm9lVzNWZEpIS1hlUDJib1l5ZzJlYWpDSVp4aDdvcXhaYUZjSnNJdTM0QUZiNVgyeHVxVU92T2llMVlsamhOMzZxakY0MHBWbTdaS1FSRHNvN1NyRjU3RGVzbDNSQWd3?oc=5",
-          "date": "2026-08-08"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "b43610fd65",
-      "name": "citybiz",
-      "domains": [
-        "citybiz.co"
-      ],
-      "stories": 1,
-      "first_seen": "2026-09-17",
-      "last_seen": "2026-09-17",
-      "headlines": [
-        {
-          "title": "Thompson Thrift Opens 276-Unit Switch Apartments in Colorado Springs",
-          "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPOG9nclRUMlhCVjNtZ3k0Uk04OGxaaTVvQXU3cUxBNTl3SVlmWHMxWXRwU0czT3M0ZTlFcFBjQk0wT3k4OTgxU2xld09tYzNXbDFERmQ5ajNhM040R3VSdUpUVEl4MHNrYVdFQlp4MS1Cd3MwYk51NUNiQ1Z3UGVuQU5kOGdyTjhJcFdLWk9pUVFSMjRFRS1aRG0wQ2VZdjk0U0Y4dmVKUUV0Nms?oc=5",
-          "date": "2026-09-17"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "eafb5a9e48",
-      "name": "Snow Industry News",
-      "domains": [],
-      "stories": 1,
-      "first_seen": "2026-09-07",
-      "last_seen": "2026-09-07",
-      "headlines": [
-        {
-          "title": "The NHP Foundation Closes Financing on The Bella, Expanding Affordable Housing in Frisco, Colorado",
-          "link": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxORFZjSmU1SXFzYXQ0YXdKTDR4NTJqN0FFXzloNDNZSDZtLTV4dDlrc2pzcDAycm1yWEQxN0VTWnBpZy1NM1Q2ZGItbWV3dWJZVFBjMkp0NkVEWTQ5WUlLWTJiNmllN0FSMmt0Wm9OUGlINW4xcFlTdEFUb0o4TlF3MWpRLWloX2x0Tm8zZkdSRWVrOG1mSWtKR3hBLVF4Q2F3azJ6X2R2NWRiamRBa3RyaDE3d2xXQlRtcjl1ZmN6MGZSOTlXekh0aXYwUEwzNWNXR0I2MVRtbXVyTlFQbGVrUi1NYVpMS0RLNzlaU2JyUFVGUQ?oc=5",
-          "date": "2026-09-07"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "87afe1637f",
-      "name": "The Independent",
-      "domains": [],
-      "stories": 1,
-      "first_seen": "2026-09-04",
-      "last_seen": "2026-09-04",
-      "headlines": [
-        {
-          "title": "Ski town Vail is building a $189 million housing complex just to give workers an affordable place to live",
-          "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxObzUyakpfQ2lGM0pGeW9vQWpWRzhLN2d0ZVZISVJySFFESmRJTzZFTEp3MVpIVnJfN3I5SDZVQk1OTGZUaG8yc2RfRk5HaVlrN0VGRzFualhNeXF2eDQ3YjRfbkl4cnlQMC12VkF3LU5XZTgwUkxmTVRralJBLTF4TUNSWmZDZXpJYWRSdHBnLWtwZ1p0QnNGZlRxcGN5VF95ekEtaXJQR0lZaHM?oc=5",
-          "date": "2026-09-04"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "0962719838",
-      "name": "The Times of India",
-      "domains": [
-        "timesofindia.indiatimes.com"
-      ],
-      "stories": 1,
-      "first_seen": "2026-08-31",
-      "last_seen": "2026-08-31",
-      "headlines": [
-        {
-          "title": "In 2024, a Colorado county paid $34 million for a 650-acre ranch privately owned for more than a century;",
-          "link": "https://news.google.com/rss/articles/CBMi-AJBVV95cUxNVzNVU2NzVktnMHI2Ump2UDhoY2Nod0FRNzdhM1BFNUt2UTl4YTY5ODZSZDhEUXdKMEFudm16MzJ6WWRXbmVvWHVyYklYVDdXSU11bFlpUkQwQ054WUR1cHZFVEFsM3ZJWGJCVklvdmxTcmZhWndPOEVXT2hyUzdEUjFuZXlTZS1JVDJ3MzNNeG0ySDJ0WmRHQlpmSVlJTm41RW9jM2JFS21RNm10Q3hfekZmTktsX3hxWDAzcGY4QUhBVXVxanVqT19KcFF3QzFKMllTeTZ0YS1UUlhqSERxbTlPT1lEdkVVZ1JXZnNyOTdOdjlqNHZpc0FkOVM0YWpCeUNybkhuVnBMUGJ4UzVvWkNHTXZZb1B0Y0V2bjBTMU5iYWhwSEdMWDI3cEI2VVNtTk1kbUlYa1NLa29uX1pCWDN4SThMQUV4eGhNckpCOXlUaWJCY2FCUmdGX2ZvUGx6UmRpUWtiNGkzdENmOTRpNXFqcjAwZjcy0gH-AkFVX3lxTE92ZEJYTXhtY3FmejdwZ2Y4NWE0Q1dWNzR3Z2JzS0ZJekRhaFVURm0wR3lHMmhoLU9ld3Y0aUpiNmhEbDV5MlBYT3ZScjFBZjhBbFNVRzBUYmRxU1dyM01oZTdSZEJxOGRXZm9aYWhJVEh2NXAyXzMtUjdXZUpPSDE1NFRXOExKY3gybWxOQ04zZzlwQnZFTjBEay04ZHRPaVBQVVV2VGk5NnZuVDFKUmlPYUxIV2ducUdXSF9TY0JwR3BGaGxxbTV2WXFiNGdmTnZTRkdJVjdnTWRjTG1OX3o1TXAyS2FIcU5yWDVkSlRyWVFMS1NWNTJSLWltNVB2UGM2RWNBZzJ6a240T1p6UTcxUTc5VVFiM2dNNmVDLU9HZ0tnT1dGeDRhQjBncTk3TGNIeFpDVjZDa1FaZnE4NTd0SEY1NWlYNk1lNVhMM2U0SDNXMTQwX0p5eFR6UmdYWW1MeFNCaXFtbFV5Y0tMek1HNG1hbGlOTHE4QlRDNlE?oc=5",
-          "date": "2026-08-31"
-        }
-      ],
-      "first_listed": "2026-11-03"
-    },
-    {
-      "id": "4a973533c8",
-      "name": "Slow Boring",
-      "domains": [],
-      "stories": 1,
-      "first_seen": "2026-08-26",
-      "last_seen": "2026-08-26",
-      "headlines": [
-        {
-          "title": "As one housing reform works in Texas, another in Colorado hits a budgetary hitch",
-          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5PQ0xXSHRPeU1zVGgxZnlucDZPRzU3ZFc1eWFmb0FwQ2t0OF82TFNTSzVzdzdCVUdoMWFZa3pqRHBTYjdJdXFoUV9kQTQ4ZWlyTFRtcUIwc3dFQk96MEk5WFFYVHZNUEc0dTVPOGEtNTFEcXM?oc=5",
-          "date": "2026-08-26"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "bb29b61216",
-      "name": "Federation of American Scientists",
-      "domains": [],
-      "stories": 1,
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "headlines": [
-        {
-          "title": "It's time to update Colorado's permitting system. Here's how.",
-          "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQUmlpU3RCa3kyYkh6a1lZMG1kS05wX3ZkRzMxOTQyQXhKVmV4Y1V3aGwtbkJSWkdjNlBKQXZBUXVRUmV6SURjVzFxVFNRNklwRHdPa3hENzJRakg0RWxpcTR5Y1pzU0plZHNaVW1GNlp5TEl0eW5PMUp6VWZ5VXVHUUczcHdGTmFGMllMSWlKb1ZKdlRxZWc?oc=5",
-          "date": "2026-08-25"
-        }
-      ],
-      "first_listed": "2026-10-31"
+      "first_listed": "2026-11-06"
     },
     {
       "id": "9dd15260fc",
@@ -286,96 +58,6 @@
           "title": "Tailgatin’ Sports Tavern opens in Cortez",
           "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE4wWUxzbnhSVW50M1k4TzlYVE5mZ1VmZjZxYk9zMy1GYmpiYlNtbDVuRXktNDNhTW0xdlhwa0FfVnIwTzIxQUg2Zk1mZDFfNW9oMzRNU09rNVV6aHR3WEtrVjY0N01KMVpkR1JF?oc=5",
           "date": "2026-08-25"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "ab4b16819d",
-      "name": "The Fulcrum",
-      "domains": [
-        "thefulcrum.us"
-      ],
-      "stories": 1,
-      "first_seen": "2026-08-24",
-      "last_seen": "2026-08-24",
-      "headlines": [
-        {
-          "title": "Congress Just Passed a Housing Law That Rewards States for Reform — Here’s Why Colorado Has a Head Start",
-          "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQUF9od0NCaUxqYjJLZzFlN3RtUVdWd2F1TlpnWUtMME53OWxpSGtrVXQ5dEctc2I3T2N2TWs5QVhEbWUxaTJmUmlXTFd6WjR3ZTcwWHdqdUMwMTBZZjZheGFKc0stV1MwYzVkY0RDQ3hNQ1QxN3hFajRadGR4Y0xpdzU1OA?oc=5",
-          "date": "2026-08-24"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "6eff21e7dc",
-      "name": "Condé Nast Traveler",
-      "domains": [
-        "cntraveler.com"
-      ],
-      "stories": 1,
-      "first_seen": "2026-08-19",
-      "last_seen": "2026-08-19",
-      "headlines": [
-        {
-          "title": "This Quirky Colorado Earthship Airbnb Is Pure Magic",
-          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQRVRXaGhYLThNd19IMXMxQ05CNDBJRjd4aTlfXzdIakltTW5Ca0RCQUM1bmVCdWZIX0VjTG92ajk3Wnh4WGZkQ3hSZ2lHb2ItM3ZLNVFPQUVxdmwzYVpzUWdHcGc3LUxlX3pLczRRaEo0eGw5al9HXzhVQmlWNGlteHdwNWs3b3VrWkpvMA?oc=5",
-          "date": "2026-08-19"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "82fe1946c7",
-      "name": "3D Printing Industry",
-      "domains": [
-        "3dprintingindustry.com"
-      ],
-      "stories": 1,
-      "first_seen": "2026-08-15",
-      "last_seen": "2026-08-15",
-      "headlines": [
-        {
-          "title": "RIC Robotics printers build out Colorado’s first 3D printed metro district",
-          "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOU3hOQ0pBa2I0UEJ4SzhGV21rRnNCalJOemJEODZYbHRmX3JaN1JlMHpOZER2dGZLb0ZrckRuWEVUVFB5cThteGlyTFY1MVFSWFU1dkxsNzk2RktLX1R2NU8yWllxSWkxck9HV2NjRDA1cDN5dU96WFpFS01BYjdrWFRrQmhRTGVHSm14ek9UT2Y1WXE2YTZha0VzcGxFVDM5czBUU2x1YXJCemdRX05BWWY4WlFneUpD?oc=5",
-          "date": "2026-08-15"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "65a2faa56e",
-      "name": "Global Student Living",
-      "domains": [
-        "gslglobal.com"
-      ],
-      "stories": 1,
-      "first_seen": "2026-08-11",
-      "last_seen": "2026-08-11",
-      "headlines": [
-        {
-          "title": "Landmark Properties and Partners Complete The Mark Fort Collins",
-          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxPbHZNbzFjWnFVNWtTRjBZYU5HTWZNUGFJV0lPVkNjSXphNUx2R0NOVTRzWER4S01vcnF5UkpSNnVyS2U1VUV5SkR4cU5aUUtVUEJLd1lDSW9nUi0tNEhCZkZjejZQOF9GSXNqMzlXcGU1WWZfU3BpN05EQW1OZEhCOTVDcDBabUxCam9xZFhzS1MwMGd1LUpCWGJmOU1rZw?oc=5",
-          "date": "2026-08-11"
-        }
-      ],
-      "first_listed": "2026-10-31"
-    },
-    {
-      "id": "3b88625d18",
-      "name": "Landmark Properties",
-      "domains": [
-        "landmarkproperties.com"
-      ],
-      "stories": 1,
-      "first_seen": "2026-08-10",
-      "last_seen": "2026-08-10",
-      "headlines": [
-        {
-          "title": "Landmark Properties & Partners Deliver The Mark Fort Collins",
-          "link": "https://news.google.com/rss/articles/CBMihAJBVV95cUxQNzZrM09TcHhMTUxRR0VGSXNfSnM1SWhpUTgtS0dCTGtnWF9EcHJLNUJnQzRiRlo1bnRkWE9INi1RZXZ6dFlzM0dtWm5Da09EVTI5dldySXZKZDlGZl9hREN0d1NjT3N1RDRzNE56WEhQRGVkSWY2UXk2SVhIa2pWNHVuTjFWX000aUZvRFFYNHRMWjFOUThHRmlpOHBiVktNMlBrWERWYnhCNGNCa2VaV2lRejZTZGNsNFZnTDRqVDNPSmxDWWd6OHlERzRqMXFKZUdOYjV3X3lxNlllU2JlQlB1SUE4R3ozUzd4Yk5aQk91TzdLN1ZZbVRBWjI4a1BNOC1oYw?oc=5",
-          "date": "2026-08-10"
         }
       ],
       "first_listed": "2026-10-31"

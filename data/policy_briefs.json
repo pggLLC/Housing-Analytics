@@ -1,25 +1,79 @@
 {
   "meta": {
-    "generated": "2026-11-05T11:11:40Z",
+    "generated": "2026-11-06T11:09:45Z",
     "brief_count": 10,
-    "source_alerts": 2495,
+    "source_alerts": 2602,
     "methodology": "Policy briefs generated using GPT-4o-mini (LLM-assisted mode)."
   },
   "briefs": [
     {
-      "title": "Colorado's Political Landscape Shifts Towards Democratic Supermajorities Amidst Housing Challenges",
+      "title": "Colorado's Housing Policy Landscape Shifts Amid Legislative Changes and Local Initiatives",
       "policy_topic": "General",
-      "summary": "Recent electoral outcomes in Colorado indicate a significant shift towards Democratic supermajorities in both legislative chambers, with notable victories in traditionally Republican districts. This political change, coupled with ongoing housing challenges highlighted by recent flooding in Pagosa Springs, underscores the urgent need for comprehensive housing policies that address affordability and resilience in the face of climate-related disasters.",
-      "implications": "Policymakers should prioritize the development of affordable housing initiatives and disaster recovery programs to support communities affected by flooding. Additionally, leveraging the Democratic majority, there is an opportunity to implement progressive housing reforms that promote sustainable development and equitable access to housing. Engaging with local stakeholders and affected communities will be crucial in crafting effective and responsive housing policies.",
+      "summary": "Recent developments in Colorado highlight a significant shift in housing policy, marked by Boulder voters approving the state's first tax on vacant homes and a Denver nonprofit expanding its services for those facing housing instability. Additionally, the election results indicate a Democratic surge, potentially leading to supermajorities in the state legislature, which may influence future housing legislation. These changes come at a time when the state grapples with unsustainable Medicaid growth, underscoring the need for a balanced approach to funding and housing solutions.",
+      "implications": "The approval of the vacant home tax in Boulder could serve as a model for other municipalities to address housing shortages and encourage the utilization of existing properties. As the Democratic majority prepares to take office, it is crucial for policymakers to prioritize affordable housing initiatives and support nonprofits that provide essential services to vulnerable populations. Stakeholders should advocate for comprehensive housing strategies that integrate tax revenues from vacant homes into funding for affordable housing projects and support services.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
-        "Colorado Public Radio",
-        "9News",
-        "Colorado Newsline",
+        "KOAA News 5",
+        "Denver Gazette",
         "The Denver Post",
-        "Colorado Springs Gazette"
+        "Daily Camera",
+        "Denver7"
       ],
       "articles": [
+        {
+          "title": "Colorado's newly proposed budget says Medicaid growth is unsustainable, caregiver reacts - KOAA News 5",
+          "source": "KOAA News 5",
+          "link": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxON01HWkdPNUFDZ1hKNGFLam8xRWVhdm8wYTRXTElUMmRWRGNJblNiWEJvUHRRYVJxQnR6Y3BkUHNaSlJqMjBHUVdEVnBFRlVkVDVuUlZMNXQ5UVJOUUxmSXBFcHlCUTRYNzlTS2VqMWMzNUZ3NWl6bEhRZFBTbkJyZDc4WkVUTHM3OGN0OFhaQU1TdUhYSmtiYjNkYi01R0VjekJudGdyb3BRdlVmbWFiWnVSZ3R4TlFBakhIc2FfWmhrWHVqQWV3REVta0JxZlJid1k3d2R0d25GWkUxdl9XaWlnNE92UEdBQzhsSUh3?oc=5",
+          "date": "2026-11-06"
+        },
+        {
+          "title": "Jessica Killin flips Colorado's 5th congressional district, here's what she plans to do in Washington - KOAA News 5",
+          "source": "KOAA News 5",
+          "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNVmxaTmZNOWZPOXVRWjZBNEE1MVJsUXBXalFaOEs0alAtS3pVa1NtTDVfZG1KZWx5Q0JmTEJlTXd6V2N1U09nNHk3Q3J6RG9ZSnh2VFowSjNMdm43MmgwSWxGUi1LTk1RZHBaeWcwY1o2X2Q4RFZ3YWdBRlhwUVRidS1tb3JrYnZuU0FuaTNYVGhtVDhxbFVXLUxWSUNpb1NQVHBNRld2YTExeDA4OWFqeEZaM18tQTQta01PQWZCd05SZFJpRHY5Wnk1YnM?oc=5",
+          "date": "2026-11-06"
+        },
+        {
+          "title": "Denver nonprofit doubles its space and offers a fresh recipe for success to people facing housing instability - Denver7",
+          "source": "Denver7",
+          "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPUk1laFNEQW40U0Z6UmVaSUd2Q21GRnB5eW50by1FR19IOEV0X1FucjE2aUhWWjhfY202NmtOSFBoTGl1dDIxQkp4VVVLUXlGVmxab2I1bmJJNmMzRF9pRHFMN1k0QWRHbzBGWGVXd1NOSV83TmU5ZDBCSzlrQUFEWGNkV282cmVfaWppUzlyMUctR2MzOWpxOFU4VnBEeDZDOF9pd28wY3hqU0lXQy1PZWMtRzVYaVd2b0dmeVdpcWJZNEJvdldiZ1ZQNHFnZi01XzUtSk1jX29fM0ozSklPYTNXdw?oc=5",
+          "date": "2026-11-06"
+        },
+        {
+          "title": "Boulder voters approve state\u2019s first tax on vacant homes - Rocky Mountain PBS",
+          "source": "Rocky Mountain PBS",
+          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQYlhzZFowVWRFdld3N0Q4ZF9rRjEyVjJlWVNEd1JKZW1KQzNEMEtPektkN0p2VmVicFlWV3NocWdzdjR4WG9adzlaR1R5MmtHTndUZjFtZHlwRTBpMFYzeXhDSmdNeVF5WG1IY2JZVnpWNUJsd3g4RFlrWFdpM09kWkl4N0prQ2NxTkRR?oc=5",
+          "date": "2026-11-05"
+        },
+        {
+          "title": "CU Boulder to purchase 9-unit apartment building for $4.25M - Daily Camera",
+          "source": "Daily Camera",
+          "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQcmxMR253aEhOY09paVZXWGhuOWp2WHQtYzNvWnA4cWFVRVhjZ1RBTjBtbGRneHctNGhiT05UaU9iR1hDOUN6WTZxYXl0M19CVEV4ZXVBaDVmQk4tLUROTUQ2VHlWR0RBa1lvN1B4UzNrcHZWMGdCQ2JoeThXX19qVVpR?oc=5",
+          "date": "2026-11-05"
+        },
+        {
+          "title": "Here\u2019s the caucus breakdown of Democrats\u2019 new House majority - Denver Gazette",
+          "source": "Denver Gazette",
+          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPNk90NXJIdVFfa0hSUXpJMmw5SkJXX19tdzRTYnIybTROWWtsMHZNakFaNUU0QkV3dDhMeVFXSmtnOS1nVHpfTFFKTHBFcmZPbUJQdHJzaVE2c2hXanpvQnBBczJ5N1pqMmZtcHBLb2ctN3NOc2J1ZGRaMmtoNEVpOWdTY2FhY1NGT3hVTGJwakItUlc5NkRUREhUT2FjZ294aHc?oc=5",
+          "date": "2026-11-05"
+        },
+        {
+          "title": "Colorado Democrats surge in US House races as blue wave reshapes the state's congressional map - Denver7",
+          "source": "Denver7",
+          "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOLTlMdVd0TnU0SnNJNjJQN3VrYkVUZm1nY0hMMTBSTmd3Wm5KbGVOQUtxdnhLU3BucXBmZi1NRGpKeGJ5VkV0LUdIVzdESS1OZzBuYWVrNU1naS1YN2RvQlU5SFA4d0UzSTRNLUhzXzlPc05jUk1kSU42V3E2SXdBcGFJaUVvclViWHVaRU04dUpVdVotVTkzUThYYlpYNHV0M3Bzc05iRVduemd6a3phbEJlc3BJeS13T25Cb01sMUNCYkRaQWZ2Q3Axcw?oc=5",
+          "date": "2026-11-05"
+        },
+        {
+          "title": "Jessica Killin flips Colorado\u2019s 5th Congressional District, becomes first Democrat to win - Colorado Public Radio",
+          "source": "Colorado Public Radio",
+          "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE00cXdCV0x6a1MyYl8zbHZQNU5DZDZwb2JTV2RGOFE0dGpsSTBLQlpBd2F1Zi1aQ3FzcUtabXNiSXdFNWExSUVudkdRbDlQakFaLXpvaHpmSDVfbkI0UDBwOVNfLUhnSmpXMW9UejYwOGJPU3ZFZ3ZQcXk1WDZhMFU?oc=5",
+          "date": "2026-11-05"
+        },
+        {
+          "title": "Colorado House | 2026 election results - Denver Gazette",
+          "source": "Denver Gazette",
+          "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPb2ZTUmxySm9vN1drS3paaTFKSnoyVnhsbFUwMkhfSEpTWEFfUkdzbjNFblE5YmVKRGp6Ul9EcWtMT243VEsySjBjc1FnclY2cE54S3I4NXR0NGZ1MVo0NGNWaTBfMWFUbDdzWkpHLWZSX1hVbU1GU3Q3VW44cDg1ZG9oVE8?oc=5",
+          "date": "2026-11-05"
+        },
         {
           "title": "Colorado Democrats on track for supermajorities in both legislative chambers next year - The Denver Post",
           "source": "The Denver Post",
@@ -69,6 +123,12 @@
           "date": "2026-11-04"
         },
         {
+          "title": "Democrat Jessica Killin elected to Colorado Springs congressional district - 9News",
+          "source": "9News",
+          "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNT3NPdFRCY0s3alVtN0k5UGFpUWpVN3N1TjQ3ODdLQ3ZwbW93WXBVeXdOdC1BN3cxd3hUMnhOcGZlUjc3ZW9NbGo2UVB5RnlyYTQtRG5McEV1VFdzU3l3N2hNZnQ5SW56S09KVUdpQk5IVGM5UUVYb18xd3g3NkVaYmNJaTJXbGU3cnFqdHlja09Jbk45b2p1bTM1SHRFcGgxa3c1UUJfUDNJam1rb0tXWUd0NElLeUFMTkRIRTN2UEdDQnZuQzdCUVhaemVYaUM3UENXQThmc245ZTJ3U3Iw?oc=5",
+          "date": "2026-11-04"
+        },
+        {
           "title": "Jessica Killin leads Rep. Jeff Crank in effort to flip Colorado\u2019s 5th Congressional District seat - Colorado Public Radio",
           "source": "Colorado Public Radio",
           "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxON29BcDVMU29CbnJwOVktVFdmakpBcUdoRm5McWIteXRxa1JUcmRpU0g3SmNjY3puZjRHTjNTM3ktaGo2R1hGRU9WTGZrSGVGcHNqdTB6Vi1jSzVBQVhwLWpUSEFBblF3Z1hRSW8tTTF0bzdjUjY4VDBiSFVTUXRpVDZJeVdmcnROdFhIb25MbTVqbjlCQXZYSW5Mbw?oc=5",
@@ -79,6 +139,18 @@
           "source": "Rocky Mountain PBS",
           "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQZnh2TTNMWm1hSDNFUFZ5TFZBTVBCMTRza3ZHQ2xfTXZteXZOZTFuVDJZbzVRMEl0blY4NlZvRWdPeHhPZUFzbUpuSU16cWhVbmFUbjlKZGRYaHBYU21iMkpCSzVDcHU3eHJVRERPMm8xREFLc1VKb1Bua2lFaVBzdXJOTWttS0dYOU0wNWd5WG5INlQ5RkxhZ0lxNFRKRDY4TUhRQmZIMjhqQQ?oc=5",
           "date": "2026-11-04"
+        },
+        {
+          "title": "Thousands of Denverites have power restored after Election Day outage - The Denver Post",
+          "source": "The Denver Post",
+          "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE8zVm5kMWk2aHluMlBRU0c0MUNwSFdTQXJqUUJYWWpmTlk2MlRQMk16Z1R1UldycWYtNThDd0hBdU5VX1RYZmZXMHlMYTdFUm1mdWxZVmpvektqckRaN0YxOFN1ZTB1SGZpTDBURHBQeVlDLVo4UlRiNWlydw?oc=5",
+          "date": "2026-11-03"
+        },
+        {
+          "title": "Democrat Jessica Killin defeats incumbent U.S. Rep. Jeff Crank in Colorado\u2019s 5th Congressional District race - The Denver Post",
+          "source": "The Denver Post",
+          "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOQXFBQWhQV2s1dkxJbWY3d095Q0xqVHcwMFlLcnpycEZsOUtTMzdRUHk0clpfeWR2WE83Y0p5QlgtNGpfcU50d1JkMWw3ZldCSmVCcDByaWowRU9ka09TZVRsSkJabkpDQnBVcEN4M2ttNVpBQWJqejkwLTJ5bzQ4d2VLUEZ6SUtTNXBBaC1wNHNqMmR2YklBNDln?oc=5",
+          "date": "2026-11-03"
         },
         {
           "title": "Multiple D20 school evacuated for natural gas smells - KKTV",
@@ -120,6 +192,12 @@
           "title": "Salida City Council Double Header, Regular Session Starts at 6:00 p.m. Tonight - by Merrell Bergin - Ark Valley Voice",
           "source": "Ark Valley Voice",
           "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPenBIckQzNTZkVHFOQ3kyMTI0SXczMmhjWUppRXhHYmktMDRXTkdMWjgxanVlcENsSW56TVk1eWczVUFyZTNjNzRjX29OaFgtQ0YtYkNfQmVZUmFTdGZwZnZxUzVNalVueDROTURXbWZScUdqamNHVjRlYnptNFRsZFVBSmxRMGgtS183bUI0S3pnRnVpWV9STXdkcFhYdy1uWmZJRHRR?oc=5",
+          "date": "2026-11-02"
+        },
+        {
+          "title": "Colorado Springs and beyond holiday events - Colorado Springs Gazette",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5ORU9yS3FubVptZ2NQSEt0eEljZ3JMWVF1TDBzQUVITnRiZlpoQ2x4cUZEdlV2bi11WkdQblk4TExpVUZfMVpuWlFBWnJtbHU0R0gzb0F2Y1BYYmtSbWVVdmlhemJTMVgzbmt4bm82VWNqWHlJcERVWV9lTGRuc3c?oc=5",
           "date": "2026-11-02"
         },
         {
@@ -1335,71 +1413,40 @@
           "date": "2026-08-10"
         },
         {
-          "title": "Landmark Properties & Partners Deliver The Mark Fort Collins - Landmark Properties",
-          "source": "Landmark Properties",
-          "link": "https://news.google.com/rss/articles/CBMihAJBVV95cUxQNzZrM09TcHhMTUxRR0VGSXNfSnM1SWhpUTgtS0dCTGtnWF9EcHJLNUJnQzRiRlo1bnRkWE9INi1RZXZ6dFlzM0dtWm5Da09EVTI5dldySXZKZDlGZl9hREN0d1NjT3N1RDRzNE56WEhQRGVkSWY2UXk2SVhIa2pWNHVuTjFWX000aUZvRFFYNHRMWjFOUThHRmlpOHBiVktNMlBrWERWYnhCNGNCa2VaV2lRejZTZGNsNFZnTDRqVDNPSmxDWWd6OHlERzRqMXFKZUdOYjV3X3lxNlllU2JlQlB1SUE4R3ozUzd4Yk5aQk91TzdLN1ZZbVRBWjI4a1BNOC1oYw?oc=5",
-          "date": "2026-08-10"
-        },
-        {
           "title": "The Mark Fort Collins Debuts Near Colorado State University - Mile High CRE",
           "source": "Mile High CRE",
           "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQa2d1aFhXSlc2RTRaU0xYYk9VaVcyZkZkU2ZiTkhqd01nNmZBblFfUVY0VUxWVzFXSWZNbnItXzFDUVFYX3FFak9FSzZpWDE5TjZaTmp1VWxXUTBOeXdDU2R1NWplT3dOZUE3aXhHWmxnR0FSRzFKYUJsb21FN2RLaktZejctRWRNbFpZbw?oc=5",
           "date": "2026-08-10"
-        },
-        {
-          "title": "U.S. Senate OKs funding bill to avoid government shutdown - Colorado Politics",
-          "source": "Colorado Politics",
-          "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQcnlEelhReVJRVlpFajk4bkMta1F3WXZvWFJfS05BWktmZjAyUTJiaEJQSWtVREpFb2lvSE96aE92NGltSWVfOE9OWnhBcG9ZTW1PeGF3U28wVkhUY0Y0cFpjdFdheERGZWZFZDc0OWJpcWlaU0JOWnVGcDdJRFlDUmxCSUFIb1lOQnlwN2U2alMzdGZkeW9LUGtEUEFKamZ6emhJ?oc=5",
-          "date": "2026-08-08"
-        },
-        {
-          "title": "What\u2019s Working: How Justice Ramos turned need into entrepreneurship for kids in Cortez and on the Navajo Nation - The Colorado Sun",
-          "source": "The Colorado Sun",
-          "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOMUp5UEdjUV9Oc0hVMjdLcHhNYnB6dHNtRFhWdDNTQVRMZmIzWVB2eGxhSUVPWXk4bm9rVVBkbmFkN0V6UWdORURIakNhOXMzeW9Yc3pPYVd5cGZOZGc3c1lFSFRsLUxLcmdsZS1BaFVqYVMxTFNtTF9NdXRRWXQyVENlZTF2cm9LNXhZS2pGc3BEeXREdTIw?oc=5",
-          "date": "2026-08-08"
-        },
-        {
-          "title": "Change Is Afoot in Steamboat Springs, Colorado, a Ski Town Drawing Texans in \u2018Fur Coats\u2019 and Brett Favre - Mansion Global",
-          "source": "Mansion Global",
-          "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNTkg3M0xja1ZqcUJ2RFUxWGFJc1BTZFQtbjEweThFbHJKV2hzSW4wMThvbU5jV2pxMTAza0dXNEE5T2oxZHdibGtVdXRTNG5wbXVndTI4bnR0dHNFNjBiTDJXbnBXMEJjakZMaWJjbTQ0MXR5N3U4dHFGOWt2a3JIOEp1Tm9lVzNWZEpIS1hlUDJib1l5ZzJlYWpDSVp4aDdvcXhaYUZjSnNJdTM0QUZiNVgyeHVxVU92T2llMVlsamhOMzZxakY0MHBWbTdaS1FSRHNvN1NyRjU3RGVzbDNSQWd3?oc=5",
-          "date": "2026-08-08"
-        },
-        {
-          "title": "Change Is Afoot in Steamboat Springs, Colorado, a Ski Town Drawing Texans in \u2018Fur Coats\u2019 and Brett Favre - Mansion Global",
-          "source": "Mansion Global",
-          "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNTkg3M0xja1ZqcUJ2RFUxWGFJc1BTZFQtbjEweThFbHJKV2hzSW4wMThvbU5jV2pxMTAza0dXNEE5T2oxZHdibGtVdXRTNG5wbXVndTI4bnR0dHNFNjBiTDJXbnBXMEJjakZMaWJjbTQ0MXR5N3U4dHFGOWt2a3JIOEp1Tm9lVzNWZEpIS1hlUDJib1l5ZzJlYWpDSVp4aDdvcXhaYUZjSnNJdTM0QUZiNVgyeHVxVU92T2llMVlsamhOMzZxakY0MHBWbTdaS1FSRHNvN1NyRjU3RGVzbDNSQWd30gHnAUFVX3lxTE5EVkdUQnZoSXhxXzJLQTV3R1pzaE5vMHZ3cEhWTF9tajh0bDMyOTdjOGotUjY1VGo4WFFKQ0pFZ0p4VGc1MklDemExcHAtUmJiamF3WWVKeE8zUm41czBGZTJ2aHpyeG1HNDhMblA0U29IY2FxR3dSYlNoWEVkdlpyZ0tmNDRURE8zbTdjWHk2TnJSQzF0UF9ocHdidjltQm02a1NBYnhER1dMUDBUQWRVM2lCT2tvcUp2UzEwV3Y4MFdtWVRYS1ZhY3Ixb19yWkJpczFmMklPNlpYcjVtQ1d0Y3FmdGhsbw?oc=5",
-          "date": "2026-08-08"
-        },
-        {
-          "title": "Colorado teacher home loan program puts school fund money at risk in foreclosures - Rocky Mountain Voice",
-          "source": "Rocky Mountain Voice",
-          "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPcHBoSEFaTFRhQlA2VFdSWWppME11c2YxUkZEZWdGMmh0X3dIdmtNWGRtazJsZl94X1BhM0h0OEJXQ2ZHelVBZzlQTThNM2Vfc0F1NzdpRmtoNEszOHQ1S3Z3V09lZjFPV25NY0V2cWVmSm5od09vN2VIaGVvNE1TR0FYQ1RhVEVKOUNkaTVVSE5SV2hveDNNYUVYT3YzSV9aVEtEc3dKcG8zbDVIQjNjeGxJdFpKN2ZiUF9YbENCUHowQQ?oc=5",
-          "date": "2026-08-07"
         }
       ],
-      "alert_count": 226,
+      "alert_count": 233,
       "regions": [
-        "Denver",
         "Statewide",
-        "Colorado",
-        "Colorado Springs"
+        "Denver",
+        "Boulder"
       ],
-      "generated": "2026-11-05T11:11:19Z"
+      "generated": "2026-11-06T11:09:14Z"
     },
     {
-      "title": "Colorado Implements Innovative Strategies to Accelerate Affordable Housing Development",
+      "title": "Colorado's Innovative Strategies to Accelerate Affordable Housing Development",
       "policy_topic": "Affordable Housing",
-      "summary": "Recent initiatives in Colorado, including a new funding portal and an 'express lane' for Low-Income Housing Tax Credit (LIHTC) multifamily construction loans, aim to streamline the development of affordable housing. Public meetings in Colorado Springs and funding awards like the $1 million for the Valley Housing Fund reflect a growing commitment to address housing shortages through collaboration and innovation. These efforts are designed to reduce costs and expedite the construction process for developers.",
-      "implications": "To maximize the impact of these initiatives, local governments should actively engage with developers and community stakeholders to identify barriers and streamline permitting processes. Additionally, leveraging federal funds effectively will be crucial in sustaining momentum and ensuring that affordable housing projects meet the diverse needs of Colorado residents. Policymakers should also consider ongoing assessments of these programs to adapt strategies based on real-time feedback and outcomes.",
+      "summary": "Recent initiatives in Colorado, including HUD's fast-tracking of FHA financing and the launch of a new funding portal, aim to streamline the development of affordable housing. Public meetings in Colorado Springs and funding awards for land acquisition further demonstrate the state's commitment to addressing housing shortages. These efforts are designed to enhance flexibility and innovation in the housing sector, particularly for low-income housing tax credit (LIHTC) projects.",
+      "implications": "To maximize the impact of these initiatives, local governments should actively engage with developers and community stakeholders during public meetings to identify specific needs and challenges. Additionally, leveraging the new funding portal can significantly reduce costs for developers, allowing for more affordable units to be built. Policymakers should consider ongoing support for innovative financing solutions and partnerships to sustain momentum in addressing the affordable housing crisis.",
       "related_data": "data/market/hud_lihtc_co.geojson",
       "sources": [
+        "The Denver Post",
         "Daily Camera",
-        "Affordable Housing Finance",
+        "Reporter-Herald",
         "Gunnison Country Times",
-        "CBS News",
-        "Multifamily Dive"
+        "Hoodline"
       ],
       "articles": [
+        {
+          "title": "HUD fast-tracks FHA financing for experienced LIHTC developers - Nixon Peabody",
+          "source": "Nixon Peabody",
+          "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxObFFKS0hRZjBXd0VmSE16c3hQcHI3aEJZWHI1T3lwSExEMWpBdlRaZ2ptTEtwTVdkZGhudlM1dGdZZlA1SXNPSHFTMGhodkFFVFRXbjRoOTRrTGM3UUhSd1dDN0wtZTJ0SXBMZlA2eE1lMFhxcVUtbVd2S3FKbFdkMFVuR3RScC16LVBXM1VZd252WjhBLUFZU0xGV2Q4YS01S1FsOXlKT1RnTUhuN1RsQzRILTVlWHJULUE?oc=5",
+          "date": "2026-11-04"
+        },
         {
           "title": "HUD launches \u2018express lane\u2019 for LIHTC multifamily construction loans - Multifamily Dive",
           "source": "Multifamily Dive",
@@ -1471,6 +1518,12 @@
           "source": "Colorado Springs Gazette",
           "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPZDU4ZWFYQl9OUTdlTjE4SnpOTEJ2a0ZGUWhVZXZSOGdqWjI5RVpqUEZjRUp3NXZRUGZzLVJCSWkwaXFOOHZkb09xdzZjcUFRZ0o1Zkw3TVBtQ2NZQy1RZnI5d3dWcjhMc2FzM1NKY0V0SXFRVGlCY19zVm5pT01vd1pyRFktQ0lnRkNfRDZMOWRHMEdpQ3BEM1BBQzl1NVE?oc=5",
           "date": "2026-10-22"
+        },
+        {
+          "title": "Senator Cortez Masto, Senator Warren tour new Las Vegas affordable housing - FOX5 Vegas",
+          "source": "FOX5 Vegas",
+          "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPcTdjYUx0V1cwbVFMZmVMNFNWVDlyMHdSWWZWX2lwZjNSekJqQTE2SDdoOTRpVC1YUDliNk9sSXdlVURMcEVxdkxQNDIyeTBOOGpfMkZzbGJ3ZUlvSTVUYVZ3bEF6YUhFNUVjZ19vT0FwRzdIWkxxelBZYzNRcnhXR1Fsd0hiMHMyS0FQRU8wcjF1M1FVT05yR01mYTgwaHN3SUw4WDhLTGZ4RFNocXF4btIBxAFBVV95cUxQTmstdzBvODNWd1VaczgzX2NySllVZTUwSVVUb1ZPajEweFZmZmlWVGhRQzRqLUhrVUh3TEpRVk96Z2hRVjNTTnhoaldkcjhHM1RXSU50R1diVkpneVNqbTdaNXd3Y2JBZ0JtMnJNUDBhTFhsbWpLUGlfdUpab0dWWGNlTVl2V0RWYXFkY1lWSHZYN2MwMkhFd1FBcGkybFZGNGl2N091aU90U2VkN0FBMDE1cUFKNGdNOVBOOEtHdVZZYnJq?oc=5",
+          "date": "2026-10-21"
         },
         {
           "title": "College housing project expands to provide affordable housing in Colorado mountain towns - CBS News",
@@ -1879,43 +1932,37 @@
           "source": "Colorado Newsline",
           "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNSVl0a3ZHeGxSWS16Y3pvUTZ1eDJSbVFWYVMtTV81Q1M3b2NEWXJLWkZDRmotWDQwNUg4Z1Z3T2ltb1NaZXJ6SV92Q1ZJMXlGUF9RODFzNjNKNXpsZFV5RGVUdElINTJNdjU3TjQ2Yy1IdHMyYXNON3NuTlNaaVptcThHWlRtaFE?oc=5",
           "date": "2026-08-10"
-        },
-        {
-          "title": "Broomfield could see more affordable housing with likely participation in next Proposition 123 funding round - Broomfield Enterprise",
-          "source": "Broomfield Enterprise",
-          "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOeFAybEE1ODF1U3NLZnhIbTBKRERUMFZPTTJzWjNVY1p3MnNSV1BkV214NF9Va01vVmZicGR1djlIWHBsSDYxcWhqQk9IcTFzX3QtSG1CSU5ObloxRk5jejc4ekpZVkZvNWhBSnI4bHd5S01zWWdxeGFJWWduUmMta3RHQ0pTXzBPUHlJRUNYUDA?oc=5",
-          "date": "2026-08-07"
-        },
-        {
-          "title": "Wellington Renews Proposition 123 Commitment, Advances Affordable Housing - North Forty News",
-          "source": "North Forty News",
-          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNYkVLMzZvLWJQZF85VHNYUTJDYkVWbnBodmVnQXJWN2xUUkNwaEctY0hHaUd0YmdzclJsTHotMkRDREc2eV80dG1rQlo4c21qbkJLME9zZG1IVjYzYmJIV09qLXAyTDBsdTRvem9fUk5URkdBejljMlVzcFYxYjNRUjkzMk5QM1ItbjMxYmF3UFBXUXN3WjIwcVVCTHhqb0gydnF0cFNmdGlSMU1ZVW9mVE9za0Y?oc=5",
-          "date": "2026-08-07"
         }
       ],
       "alert_count": 82,
       "regions": [
-        "Denver",
         "Statewide",
+        "Denver",
         "Colorado",
         "Colorado Springs"
       ],
-      "generated": "2026-11-05T11:11:22Z"
+      "generated": "2026-11-06T11:09:17Z"
     },
     {
       "title": "Navigating Colorado's Cooling Housing Market Amid High Mortgage Rates",
       "policy_topic": "Housing Market",
-      "summary": "Recent reports indicate that Colorado's housing market is experiencing a significant slowdown, driven by high mortgage rates and rising home prices that are limiting buyer access. Notably, while the luxury segment remains resilient, overall sales are stalling, particularly in areas like Denver and ski towns. This shift presents both challenges and opportunities for stakeholders in the housing sector.",
-      "implications": "Policymakers should consider implementing measures to support first-time homebuyers, such as down payment assistance programs or interest rate subsidies. Additionally, zoning reforms could be explored to increase housing supply, particularly in high-demand areas. Engaging with local developers to incentivize the construction of affordable housing units will be crucial in addressing the growing affordability crisis.",
+      "summary": "Recent trends indicate a significant slowdown in Colorado's housing market, particularly in Denver, where high mortgage rates and elevated home prices are deterring potential buyers. As sellers outnumber buyers, the market is experiencing a shift, with home prices beginning to decline. This cooling trend raises concerns about affordability and accessibility for residents across the state.",
+      "implications": "Policymakers should consider implementing measures to support first-time homebuyers, such as down payment assistance programs and incentives for affordable housing development. Additionally, monitoring the impact of interest rates on housing demand will be crucial in crafting responsive policies that stabilize the market and promote equitable access to housing for all Coloradans.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
-        "Common Sense Institute",
-        "9News",
-        "Reuters",
+        "Denver Gazette",
+        "The Denver Post",
+        "Aspen Times",
         "The Grand Junction Daily Sentinel",
-        "FOX21 News Colorado"
+        "Reuters"
       ],
       "articles": [
+        {
+          "title": "Fear keeps its grip on Denver\u2019s housing market as buyers and sellers pull back - The Denver Post",
+          "source": "The Denver Post",
+          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9FUi1lUERvSVpITm5WcHlTcjBCRkV2djJLRGFtM000UEs5anBqYW9xU0J3eGVfUWNxSjdJaFlLdFZsNm1DZExReGg2VEpWRTZOV1ZKTkFkbjdubFJ0MmFZMDB5ZEl6bnpFZ3JCVWxTNXViMWpCUG9F?oc=5",
+          "date": "2026-11-05"
+        },
         {
           "title": "High mortgage rates, home prices freezing out buyers in Colorado - The Denver Post",
           "source": "The Denver Post",
@@ -2079,27 +2126,27 @@
           "date": "2026-08-10"
         }
       ],
-      "alert_count": 27,
+      "alert_count": 28,
       "regions": [
+        "Statewide",
         "Grand Junction",
         "Denver",
-        "Statewide",
         "Colorado"
       ],
-      "generated": "2026-11-05T11:11:24Z"
+      "generated": "2026-11-06T11:09:21Z"
     },
     {
-      "title": "Navigating Colorado's Housing Challenges: Short-Term Rentals, Tenant Assistance, and Workforce Housing Initiatives",
+      "title": "Navigating Colorado's Housing Challenges: Short-Term Rentals, Workforce Housing, and Tenant Rights",
       "policy_topic": "Rent & Tenants",
-      "summary": "Recent developments in Colorado highlight critical issues in housing policy, including a Supreme Court case that may reshape short-term rental regulations and ongoing debates over temporary rental assistance funding in Denver. Additionally, initiatives like the deed-restricted workforce housing in Mt. Crested Butte and the expansion of housing support for teachers in Aspen underscore the urgent need for affordable housing solutions in high-demand areas. These trends reflect the complex interplay between market pressures and community needs in Colorado's housing landscape.",
-      "implications": "Policymakers should prioritize the establishment of clear regulations for short-term rentals to balance tourism and local housing needs. Increased funding for temporary rental assistance is essential to support vulnerable populations facing housing instability. Furthermore, expanding workforce housing initiatives can help retain essential workers in high-cost areas, ensuring community sustainability and economic resilience.",
+      "summary": "Recent developments in Colorado highlight significant challenges in the housing market, including a pivotal Supreme Court case on short-term rental regulations and ongoing debates over temporary rental assistance funding in Denver. Additionally, initiatives like deed-restricted workforce housing in Mt. Crested Butte and the introduction of housing navigators for teachers in Aspen aim to address affordability issues in high-demand areas. These trends underscore the urgent need for comprehensive housing policies that balance the interests of various stakeholders.",
+      "implications": "Policymakers should consider implementing stricter regulations on short-term rentals to protect long-term housing availability while ensuring that temporary rental assistance is adequately funded to support vulnerable populations. Expanding workforce housing initiatives and resources like housing navigators can help alleviate pressures on essential workers in high-cost areas. Collaborative efforts among local governments, non-profits, and the private sector are crucial to creating sustainable solutions that meet the diverse needs of Colorado's residents.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
-        "StreetInsider",
+        "Colorado Springs Gazette",
+        "AspenTimes.com",
+        "The Denver Post",
         "Gunnison Country Times",
-        "Chinook Observer",
-        "Enterprise Community Partners",
-        "PRWeb"
+        "StreetInsider"
       ],
       "articles": [
         {
@@ -2225,25 +2272,25 @@
       ],
       "alert_count": 20,
       "regions": [
-        "Denver",
         "Statewide",
+        "Denver",
         "Colorado",
         "Colorado Springs"
       ],
-      "generated": "2026-11-05T11:11:26Z"
+      "generated": "2026-11-06T11:09:26Z"
     },
     {
-      "title": "Addressing Colorado's Housing Challenges Through Strategic Development Initiatives",
+      "title": "Navigating Colorado's Housing Development Landscape: Opportunities and Challenges",
       "policy_topic": "Construction & Permitting",
-      "summary": "Recent developments in Colorado highlight a growing focus on affordable housing and community-driven construction efforts. Notable initiatives include the addition of affordable units in various regions and discussions surrounding housing developments in local school districts. These efforts reflect a concerted push to address the state's housing affordability crisis amidst ongoing economic development discussions.",
-      "implications": "To enhance housing accessibility, policymakers should prioritize funding and support for affordable housing projects, particularly in underserved areas. Engaging community stakeholders in the development process can foster innovative solutions that meet local needs. Additionally, revisiting development fees and regulations may be necessary to streamline construction processes and encourage more housing developments across the state.",
+      "summary": "Recent developments in Colorado's construction and permitting sector highlight both progress and ongoing challenges in addressing housing affordability and accessibility. Initiatives such as the opening of new affordable units and community-driven housing improvements reflect a growing commitment to meet diverse housing needs. However, debates over development fees and limited options for specific populations, such as individuals with disabilities, underscore the complexities of achieving comprehensive housing solutions.",
+      "implications": "Policymakers should prioritize collaborative approaches that engage community stakeholders in housing development discussions to ensure diverse needs are met. Additionally, revisiting development fee structures and exploring incentives for affordable housing projects can enhance the availability of housing options. Finally, expanding support for specialized housing initiatives will be crucial in addressing the gaps for vulnerable populations.",
       "related_data": "data/market/hud_lihtc_co.geojson",
       "sources": [
+        "Construction Owners",
+        "Knoxville News Sentinel",
         "ColoradoBiz",
-        "Colorado Public Radio",
-        "Colorado Office of Economic Development and International Trade (.gov)",
-        "The Telluride Times",
-        "denverpost.com"
+        "24-7PressRelease.com",
+        "The Telluride Times"
       ],
       "articles": [
         {
@@ -2369,24 +2416,24 @@
       ],
       "alert_count": 20,
       "regions": [
-        "Denver",
         "Statewide",
+        "Denver",
         "Colorado",
         "Colorado Springs"
       ],
-      "generated": "2026-11-05T11:11:29Z"
+      "generated": "2026-11-06T11:09:31Z"
     },
     {
       "title": "Leveraging Denver's Success to Address Homelessness Across Colorado",
       "policy_topic": "Homelessness",
-      "summary": "Recent discussions highlight Denver's innovative strategies in tackling homelessness, garnering national attention and praise. As cities like Colorado Springs and Arvada seek to implement similar initiatives, public feedback on funding and support for programs is crucial for effective solutions. The ongoing efforts to assist homeless veterans and college students further emphasize the need for targeted interventions in diverse communities.",
-      "implications": "Policymakers should prioritize the allocation of resources towards proven models like Denver's, while actively engaging the public in funding discussions to ensure community needs are met. Expanding support for specialized programs, such as those for veterans and students, can create a more inclusive approach to homelessness. Collaborative efforts between cities can facilitate knowledge sharing and enhance the overall effectiveness of homelessness strategies across Colorado.",
+      "summary": "Recent discussions highlight Denver's effective strategies in combating homelessness, prompting calls for broader adoption of these models across Colorado. Public feedback is being sought on funding allocations, indicating a community-driven approach to addressing this pressing issue. Additionally, initiatives like the Annual Homeless Veterans Stand Down and support for college students facing homelessness demonstrate a multifaceted response to the crisis.",
+      "implications": "To capitalize on Denver's successful strategies, policymakers should consider implementing similar programs statewide, focusing on community engagement and targeted funding. Increased collaboration between cities, non-profits, and state agencies is essential to create a cohesive approach to homelessness. Furthermore, expanding support services for vulnerable populations, such as veterans and students, will be critical in ensuring long-term solutions.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
-        "Westword",
-        "Arvada Press",
+        "Colorado Springs Gazette",
         "FOX21 News Colorado",
-        "The New York Times",
+        "Westword",
+        "Planetizen",
         "Chalkbeat"
       ],
       "articles": [
@@ -2471,25 +2518,25 @@
       ],
       "alert_count": 13,
       "regions": [
-        "Denver",
         "Statewide",
+        "Denver",
         "Colorado",
         "Colorado Springs"
       ],
-      "generated": "2026-11-05T11:11:33Z"
+      "generated": "2026-11-06T11:09:34Z"
     },
     {
-      "title": "Navigating Zoning Challenges in Colorado: A Call for Comprehensive Land Use Reform",
+      "title": "Navigating Zoning Challenges in Colorado: A Call for Strategic Land Use Reform",
       "policy_topic": "Zoning & Land Use",
-      "summary": "Recent developments in Colorado highlight the ongoing tension between local zoning regulations and the need for increased residential density. Key actions include the approval of new housing projects in Garfield County and the scaling back of Denver's citywide upzoning initiative, reflecting the complexities of balancing growth with community concerns. As manufactured housing faces federal pushback due to local zoning hurdles, the urgency for cohesive land use policies becomes evident.",
-      "implications": "Policymakers must prioritize the revision of zoning codes to facilitate the development of diverse housing options, including manufactured homes, to address the housing crisis. Local governments should engage in collaborative planning efforts to create flexible zoning frameworks that support increased density while considering community input. Additionally, state-level support and incentives for municipalities that adopt progressive zoning reforms could accelerate the creation of affordable housing solutions.",
+      "summary": "Recent developments in Colorado highlight the ongoing challenges and opportunities in zoning and land use, particularly in the context of increasing residential density and manufactured housing initiatives. Local governments are grappling with the need to balance growth with community concerns, as seen in the approval of new housing projects in Garfield County and the scaling back of Denver's upzoning proposal. These dynamics underscore the importance of cohesive land use strategies that can accommodate the state's growing population.",
+      "implications": "Policymakers should prioritize the development of flexible zoning regulations that facilitate the integration of manufactured housing and higher-density residential projects. Collaboration between state and local governments is essential to streamline zoning processes and address community concerns effectively. Additionally, educational initiatives aimed at informing residents about the benefits of increased density and diverse housing options could foster greater public support for necessary reforms.",
       "related_data": "data/policy/prop123_jurisdictions.json",
       "sources": [
-        "Denverite",
+        "Colorado Springs Gazette",
+        "AspenTimes.com",
         "PostIndependent.com",
-        "Jefferson County",
-        "KRDO",
-        "Colorado Springs Gazette"
+        "The Korea Daily",
+        "KRDO"
       ],
       "articles": [
         {
@@ -2541,7 +2588,7 @@
         "Colorado",
         "Colorado Springs"
       ],
-      "generated": "2026-11-05T11:11:36Z"
+      "generated": "2026-11-06T11:09:38Z"
     },
     {
       "title": "Affordable Housing Tool Evaluations \u2014 November 2026",
@@ -2590,44 +2637,13 @@
       "regions": [
         "National tool evaluation"
       ],
-      "generated": "2026-11-05T11:11:36Z"
-    },
-    {
-      "title": "Federal Funding and Local Priorities: Addressing Infrastructure and Housing in Colorado",
-      "policy_topic": "Infrastructure & Funding",
-      "summary": "Recent federal funding of nearly $30 million for LaJunta aims to tackle the critical issue of 'forever chemicals' in wastewater, highlighting the state's commitment to environmental health. Concurrently, Grand Lake's trustees are shifting focus towards workforce housing and infrastructure, moving away from resort development. These developments indicate a growing recognition of the need for sustainable community investments in Colorado.",
-      "implications": "Local governments should leverage federal funding opportunities to enhance infrastructure while simultaneously addressing housing shortages. Policymakers must prioritize the integration of environmental health initiatives with housing strategies to create resilient communities. A coordinated approach involving stakeholders from both housing and environmental sectors can foster sustainable development and improve quality of life for residents.",
-      "related_data": "data/policy/funding-watch-sources.json",
-      "sources": [
-        "SkyHiNews.com",
-        "coyotegulch.blog"
-      ],
-      "articles": [
-        {
-          "title": "LaJunta gets nearly $30 million in federal funding to filter \u2018forever chemicals\u2019 from wastewater \u2014 #Colorado Public Radio #PFAS - coyotegulch.blog",
-          "source": "coyotegulch.blog",
-          "link": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxPSUQxbjBIbEpUcEtVbi1ueW53MWR0RF9DU2FsaFc2MTdqUzhtb1ZHOEJ1cElheEFCVEFycWN2OEdIU0Vqcm1rLTVRNDFwRkRUXzctc2I1TG45SHc4eElMRFpnT2duMVNWZThmWmEzcmtJNkNsNWc5ajJaTjN2Ni1neTdxbS1xM0hkX2xzSzRlVFZyaDFfMUVhWkwtdFpmVG5vS0wwY3EyNlRmY1JCb202TDNNUGE5QnpnbzhlU25FbkNCd2FUYUMwazBTaF9EYUxjVXFKSW5OUVAzRnl4UGZEZmZiYThkalpJZEdLc2dR?oc=5",
-          "date": "2026-10-23"
-        },
-        {
-          "title": "Grand Lake trustees prioritize workforce housing, infrastructure over resort concept - SkyHiNews.com",
-          "source": "SkyHiNews.com",
-          "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNaXo4REY4UFBwbW15VU5WdmVOSFBfR1VEbERscC1ETnpVVngxeG1xbktlTGZLaEZTVFJMZEp5U2IyZWdVWm1Sa0FjWGdGNDQ5cmJpUV9oaHdUc3JxVW1oZlVBVWlPa0JSM2oxRmVaN2RENk5SajFoVjRkZW96c3JpN1JSMF9ESk93alB5RllHeUpDdXdpcC1ORS0tN243enlOQTlTVGx3QUJwdzdxYVAyTTVYeEpNUQ?oc=5",
-          "date": "2026-08-27"
-        }
-      ],
-      "alert_count": 2,
-      "regions": [
-        "Statewide",
-        "Colorado"
-      ],
-      "generated": "2026-11-05T11:11:38Z"
+      "generated": "2026-11-06T11:09:38Z"
     },
     {
       "title": "Salida City Council Pursues Housing Credits to Fulfill Proposition 123 Commitment",
       "policy_topic": "Housing Policy",
-      "summary": "The Salida City Council is actively seeking six housing credits from Buena Vista as part of its commitment to Proposition 123, which aims to address affordable housing shortages in Colorado. This initiative reflects the ongoing challenges local governments face in meeting housing demands while adhering to state mandates.",
-      "implications": "Local governments should consider collaborative approaches to housing solutions, such as inter-municipal agreements for housing credits. Additionally, policymakers may need to evaluate the effectiveness of Proposition 123 and explore further incentives for municipalities to enhance affordable housing development.",
+      "summary": "The Salida City Council is actively seeking six housing credits from Buena Vista as part of its commitment to Proposition 123, which aims to enhance affordable housing options in the region. This initiative reflects the ongoing challenges local governments face in addressing housing shortages and meeting community needs for affordable living spaces.",
+      "implications": "Local governments should consider collaborative strategies to share housing credits and resources to effectively address housing shortages. Additionally, policymakers must prioritize the development of comprehensive housing plans that align with state commitments, ensuring that all communities can meet their affordable housing goals.",
       "related_data": "data/policy/prop123_jurisdictions.json",
       "sources": [
         "Ark Valley Voice"
@@ -2644,10 +2660,234 @@
       "regions": [
         "Colorado"
       ],
-      "generated": "2026-11-05T11:11:40Z"
+      "generated": "2026-11-06T11:09:41Z"
+    },
+    {
+      "title": "Prioritizing Workforce Housing and Infrastructure in Grand Lake, Colorado",
+      "policy_topic": "Infrastructure & Funding",
+      "summary": "The Grand Lake trustees have shifted their focus from resort development to enhancing workforce housing and infrastructure. This decision reflects a growing recognition of the need for sustainable community development that supports local residents and workers. By prioritizing these areas, Grand Lake aims to create a more balanced and resilient economy.",
+      "implications": "Local policymakers should consider allocating funding and resources towards the development of affordable housing and essential infrastructure improvements. Engaging with community stakeholders will be crucial in identifying specific needs and ensuring that new initiatives effectively support the workforce. Additionally, exploring partnerships with private developers and non-profits could enhance the capacity to address these pressing housing challenges.",
+      "related_data": "data/policy/funding-watch-sources.json",
+      "sources": [
+        "SkyHiNews.com"
+      ],
+      "articles": [
+        {
+          "title": "Grand Lake trustees prioritize workforce housing, infrastructure over resort concept - SkyHiNews.com",
+          "source": "SkyHiNews.com",
+          "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNaXo4REY4UFBwbW15VU5WdmVOSFBfR1VEbERscC1ETnpVVngxeG1xbktlTGZLaEZTVFJMZEp5U2IyZWdVWm1Sa0FjWGdGNDQ5cmJpUV9oaHdUc3JxVW1oZlVBVWlPa0JSM2oxRmVaN2RENk5SajFoVjRkZW96c3JpN1JSMF9ESk93alB5RllHeUpDdXdpcC1ORS0tN243enlOQTlTVGx3QUJwdzdxYVAyTTVYeEpNUQ?oc=5",
+          "date": "2026-08-27"
+        }
+      ],
+      "alert_count": 1,
+      "regions": [
+        "Colorado"
+      ],
+      "generated": "2026-11-06T11:09:44Z"
     }
   ],
   "stories": [
+    {
+      "title": "Colorado's newly proposed budget says Medicaid growth is unsustainable, caregiver reacts",
+      "source": "KOAA News 5",
+      "sourcing": "checked",
+      "source_domain": "koaa.com",
+      "link": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxON01HWkdPNUFDZ1hKNGFLam8xRWVhdm8wYTRXTElUMmRWRGNJblNiWEJvUHRRYVJxQnR6Y3BkUHNaSlJqMjBHUVdEVnBFRlVkVDVuUlZMNXQ5UVJOUUxmSXBFcHlCUTRYNzlTS2VqMWMzNUZ3NWl6bEhRZFBTbkJyZDc4WkVUTHM3OGN0OFhaQU1TdUhYSmtiYjNkYi01R0VjekJudGdyb3BRdlVmbWFiWnVSZ3R4TlFBakhIc2FfWmhrWHVqQWV3REVta0JxZlJid1k3d2R0d25GWkUxdl9XaWlnNE92UEdBQzhsSUh3?oc=5",
+      "date": "2026-11-06",
+      "scope": "colorado",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": []
+    },
+    {
+      "title": "Jessica Killin flips Colorado's 5th congressional district, here's what she plans to do in Washington",
+      "source": "KOAA News 5",
+      "sourcing": "checked",
+      "source_domain": "koaa.com",
+      "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNVmxaTmZNOWZPOXVRWjZBNEE1MVJsUXBXalFaOEs0alAtS3pVa1NtTDVfZG1KZWx5Q0JmTEJlTXd6V2N1U09nNHk3Q3J6RG9ZSnh2VFowSjNMdm43MmgwSWxGUi1LTk1RZHBaeWcwY1o2X2Q4RFZ3YWdBRlhwUVRidS1tb3JrYnZuU0FuaTNYVGhtVDhxbFVXLUxWSUNpb1NQVHBNRld2YTExeDA4OWFqeEZaM18tQTQta01PQWZCd05SZFJpRHY5Wnk1YnM?oc=5",
+      "date": "2026-11-06",
+      "scope": "colorado",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": []
+    },
+    {
+      "title": "Denver nonprofit doubles its space and offers a fresh recipe for success to people facing housing instability",
+      "source": "Denver7",
+      "sourcing": "checked",
+      "source_domain": "denver7.com",
+      "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPUk1laFNEQW40U0Z6UmVaSUd2Q21GRnB5eW50by1FR19IOEV0X1FucjE2aUhWWjhfY202NmtOSFBoTGl1dDIxQkp4VVVLUXlGVmxab2I1bmJJNmMzRF9pRHFMN1k0QWRHbzBGWGVXd1NOSV83TmU5ZDBCSzlrQUFEWGNkV282cmVfaWppUzlyMUctR2MzOWpxOFU4VnBEeDZDOF9pd28wY3hqU0lXQy1PZWMtRzVYaVd2b0dmeVdpcWJZNEJvdldiZ1ZQNHFnZi01XzUtSk1jX29fM0ozSklPYTNXdw?oc=5",
+      "date": "2026-11-06",
+      "scope": "colorado",
+      "programs": [],
+      "places": [
+        {
+          "geoid": "0820000",
+          "name": "Denver",
+          "type": "place"
+        }
+      ],
+      "regions": [
+        "Front Range"
+      ],
+      "also": []
+    },
+    {
+      "title": "Boulder voters approve state\u2019s first tax on vacant homes",
+      "source": "Rocky Mountain PBS",
+      "sourcing": "checked",
+      "source_domain": "rmpbs.org",
+      "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQYlhzZFowVWRFdld3N0Q4ZF9rRjEyVjJlWVNEd1JKZW1KQzNEMEtPektkN0p2VmVicFlWV3NocWdzdjR4WG9adzlaR1R5MmtHTndUZjFtZHlwRTBpMFYzeXhDSmdNeVF5WG1IY2JZVnpWNUJsd3g4RFlrWFdpM09kWkl4N0prQ2NxTkRR?oc=5",
+      "date": "2026-11-05",
+      "scope": "colorado",
+      "programs": [],
+      "places": [
+        {
+          "geoid": "0807850",
+          "name": "Boulder",
+          "type": "place"
+        }
+      ],
+      "regions": [
+        "Front Range"
+      ],
+      "also": []
+    },
+    {
+      "title": "CU Boulder to purchase 9-unit apartment building for $4.25M",
+      "source": "Daily Camera",
+      "sourcing": "checked",
+      "source_domain": "dailycamera.com",
+      "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQcmxMR253aEhOY09paVZXWGhuOWp2WHQtYzNvWnA4cWFVRVhjZ1RBTjBtbGRneHctNGhiT05UaU9iR1hDOUN6WTZxYXl0M19CVEV4ZXVBaDVmQk4tLUROTUQ2VHlWR0RBa1lvN1B4UzNrcHZWMGdCQ2JoeThXX19qVVpR?oc=5",
+      "date": "2026-11-05",
+      "scope": "colorado",
+      "programs": [],
+      "places": [
+        {
+          "geoid": "0807850",
+          "name": "Boulder",
+          "type": "place"
+        }
+      ],
+      "regions": [
+        "Front Range"
+      ],
+      "also": []
+    },
+    {
+      "title": "Here\u2019s the caucus breakdown of Democrats\u2019 new House majority",
+      "source": "Denver Gazette",
+      "sourcing": "checked",
+      "source_domain": "denvergazette.com",
+      "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPNk90NXJIdVFfa0hSUXpJMmw5SkJXX19tdzRTYnIybTROWWtsMHZNakFaNUU0QkV3dDhMeVFXSmtnOS1nVHpfTFFKTHBFcmZPbUJQdHJzaVE2c2hXanpvQnBBczJ5N1pqMmZtcHBLb2ctN3NOc2J1ZGRaMmtoNEVpOWdTY2FhY1NGT3hVTGJwakItUlc5NkRUREhUT2FjZ294aHc?oc=5",
+      "date": "2026-11-05",
+      "scope": "colorado",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": []
+    },
+    {
+      "title": "Colorado Democrats surge in US House races as blue wave reshapes the state's congressional map",
+      "source": "Denver7",
+      "sourcing": "checked",
+      "source_domain": "denver7.com",
+      "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOLTlMdVd0TnU0SnNJNjJQN3VrYkVUZm1nY0hMMTBSTmd3Wm5KbGVOQUtxdnhLU3BucXBmZi1NRGpKeGJ5VkV0LUdIVzdESS1OZzBuYWVrNU1naS1YN2RvQlU5SFA4d0UzSTRNLUhzXzlPc05jUk1kSU42V3E2SXdBcGFJaUVvclViWHVaRU04dUpVdVotVTkzUThYYlpYNHV0M3Bzc05iRVduemd6a3phbEJlc3BJeS13T25Cb01sMUNCYkRaQWZ2Q3Axcw?oc=5",
+      "date": "2026-11-05",
+      "scope": "colorado",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": []
+    },
+    {
+      "title": "Jessica Killin flips Colorado\u2019s 5th Congressional District, becomes first Democrat to win",
+      "source": "Colorado Public Radio",
+      "sourcing": "checked",
+      "source_domain": "cpr.org",
+      "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE00cXdCV0x6a1MyYl8zbHZQNU5DZDZwb2JTV2RGOFE0dGpsSTBLQlpBd2F1Zi1aQ3FzcUtabXNiSXdFNWExSUVudkdRbDlQakFaLXpvaHpmSDVfbkI0UDBwOVNfLUhnSmpXMW9UejYwOGJPU3ZFZ3ZQcXk1WDZhMFU?oc=5",
+      "date": "2026-11-05",
+      "scope": "colorado",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": []
+    },
+    {
+      "title": "Colorado House | 2026 election results",
+      "source": "Denver Gazette",
+      "sourcing": "checked",
+      "source_domain": "denvergazette.com",
+      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPb2ZTUmxySm9vN1drS3paaTFKSnoyVnhsbFUwMkhfSEpTWEFfUkdzbjNFblE5YmVKRGp6Ul9EcWtMT243VEsySjBjc1FnclY2cE54S3I4NXR0NGZ1MVo0NGNWaTBfMWFUbDdzWkpHLWZSX1hVbU1GU3Q3VW44cDg1ZG9oVE8?oc=5",
+      "date": "2026-11-05",
+      "scope": "colorado",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": []
+    },
+    {
+      "title": "Fear keeps its grip on Denver\u2019s housing market as buyers and sellers pull back",
+      "source": "The Denver Post",
+      "sourcing": "checked",
+      "source_domain": "denverpost.com",
+      "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9FUi1lUERvSVpITm5WcHlTcjBCRkV2djJLRGFtM000UEs5anBqYW9xU0J3eGVfUWNxSjdJaFlLdFZsNm1DZExReGg2VEpWRTZOV1ZKTkFkbjdubFJ0MmFZMDB5ZEl6bnpFZ3JCVWxTNXViMWpCUG9F?oc=5",
+      "date": "2026-11-05",
+      "scope": "colorado",
+      "programs": [],
+      "places": [
+        {
+          "geoid": "0820000",
+          "name": "Denver",
+          "type": "place"
+        }
+      ],
+      "regions": [
+        "Front Range"
+      ],
+      "also": []
+    },
+    {
+      "title": "Why Investors Are Searching for Hope in Home Builders",
+      "source": "WSJ",
+      "sourcing": "checked",
+      "source_domain": "wsj.com",
+      "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxONlMxbmhkclBUVmJHTmFLU2E1endoSzlKWDl6bUVHcXM2RXUtUmdpaUkyQlQzaG9wS3FCbVRERG5IVEpWaldhSXZsN3FzV3ZvVWlZdDB2OUJfaE9HcHUydkZmTXo3S2xqT1pBQ1dsZjlUcGV6YU1BUzBPbVhDaGQ2Qm0zSTF6dkxrSElCNktfdDZIZmdpa0ViNHFNYlc5dw?oc=5",
+      "date": "2026-11-05",
+      "scope": "national",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": []
+    },
+    {
+      "title": "The average US 30-year mortgage rate falls to 7.18% this week, its third straight decline",
+      "source": "AP News",
+      "sourcing": "checked",
+      "source_domain": "apnews.com",
+      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOaFhMZkpKRDgyRjlZTHhUR1BMV3dFdFRPMkNCdWk1WEczQXEzdlZPS1UzNXJzMUR2ZEhjb1pPSEpsdkhBc09iYU93cW9kR18zdkM0MDQ1U2NDUW1MMUpaaEZ3TEstZFVmRGRnekpzQnBFcVNldXc0YzhGVDVjNExtcVgtVlBqS09Gd2U0U0U2Vm1vMi1RWmY2elM1bVlZRWJ5d29UOGVLaVY?oc=5",
+      "date": "2026-11-05",
+      "scope": "national",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": []
+    },
+    {
+      "title": "Multifamily Developer Confidence Weakens in Third Quarter",
+      "source": "Eye On Housing",
+      "sourcing": "checked",
+      "source_domain": "eyeonhousing.org",
+      "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQQzZ2YUZTZHVfY1JLYk1sTWQ2TnJPYlhNaU92UkUzUEloMjJIT3d0UXd5TXQ2MGROT0MxbUgzVXFKV0tId19OUzllbi1VOEotMzJ3dl90ejV2bjA0aGdUTWFjbzBRSjExczNpS0didHhtRk95b2szZ1FGOVA2bTZJXzRrSzZkcFhmdzM1OEFDdUY0X1FyNHc?oc=5",
+      "date": "2026-11-05",
+      "scope": "national",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": []
+    },
     {
       "title": "Colorado Democrats on track for supermajorities in both legislative chambers next year",
       "source": "The Denver Post",
@@ -2657,6 +2897,23 @@
       "date": "2026-11-04",
       "scope": "colorado",
       "programs": [],
+      "places": [],
+      "regions": [],
+      "also": []
+    },
+    {
+      "title": "HUD fast-tracks FHA financing for experienced LIHTC developers",
+      "source": "Nixon Peabody",
+      "sourcing": "unverified",
+      "sourcing_label": "Unverified outlet",
+      "source_domain": "nixonpeabody.com",
+      "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxObFFKS0hRZjBXd0VmSE16c3hQcHI3aEJZWHI1T3lwSExEMWpBdlRaZ2ptTEtwTVdkZGhudlM1dGdZZlA1SXNPSHFTMGhodkFFVFRXbjRoOTRrTGM3UUhSd1dDN0wtZTJ0SXBMZlA2eE1lMFhxcVUtbVd2S3FKbFdkMFVuR3RScC16LVBXM1VZd252WjhBLUFZU0xGV2Q4YS01S1FsOXlKT1RnTUhuN1RsQzRILTVlWHJULUE?oc=5",
+      "date": "2026-11-04",
+      "scope": "federal",
+      "programs": [
+        "LIHTC",
+        "HUD"
+      ],
       "places": [],
       "regions": [],
       "also": []
@@ -2793,6 +3050,27 @@
       "also": []
     },
     {
+      "title": "Democrat Jessica Killin elected to Colorado Springs congressional district",
+      "source": "9News",
+      "sourcing": "checked",
+      "source_domain": "9news.com",
+      "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNT3NPdFRCY0s3alVtN0k5UGFpUWpVN3N1TjQ3ODdLQ3ZwbW93WXBVeXdOdC1BN3cxd3hUMnhOcGZlUjc3ZW9NbGo2UVB5RnlyYTQtRG5McEV1VFdzU3l3N2hNZnQ5SW56S09KVUdpQk5IVGM5UUVYb18xd3g3NkVaYmNJaTJXbGU3cnFqdHlja09Jbk45b2p1bTM1SHRFcGgxa3c1UUJfUDNJam1rb0tXWUd0NElLeUFMTkRIRTN2UEdDQnZuQzdCUVhaemVYaUM3UENXQThmc245ZTJ3U3Iw?oc=5",
+      "date": "2026-11-04",
+      "scope": "colorado",
+      "programs": [],
+      "places": [
+        {
+          "geoid": "0816000",
+          "name": "Colorado Springs",
+          "type": "place"
+        }
+      ],
+      "regions": [
+        "Front Range"
+      ],
+      "also": []
+    },
+    {
       "title": "Jessica Killin leads Rep. Jeff Crank in effort to flip Colorado\u2019s 5th Congressional District seat",
       "source": "Colorado Public Radio",
       "sourcing": "checked",
@@ -2872,10 +3150,22 @@
       ]
     },
     {
+      "title": "Thousands of Denverites have power restored after Election Day outage",
+      "source": "The Denver Post",
+      "sourcing": "checked",
+      "source_domain": "denverpost.com",
+      "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE8zVm5kMWk2aHluMlBRU0c0MUNwSFdTQXJqUUJYWWpmTlk2MlRQMk16Z1R1UldycWYtNThDd0hBdU5VX1RYZmZXMHlMYTdFUm1mdWxZVmpvektqckRaN0YxOFN1ZTB1SGZpTDBURHBQeVlDLVo4UlRiNWlydw?oc=5",
+      "date": "2026-11-03",
+      "scope": "colorado",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": []
+    },
+    {
       "title": "HUD launches \u2018express lane\u2019 for LIHTC multifamily construction loans",
       "source": "Multifamily Dive",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "source_domain": "multifamilydive.com",
       "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPcGxiSnpFSzE3YVk5M3dPRmdyU2RDd2JuTC1pdEFBQ3YwMUg4UFZfS0lvd2tQSEFUSlNLeGhndlNFNHNoV1NOWEx3MFFqY1lLdHAxM2k1YTdaLVZoQl8wTTdQQUlleG83MUo0SHMzcXBMUll3cWVpeEVNUWh2WXZqT2Y4Z0Q2YjNkSmRPcFhHZWlhZy1SSDJkcWdPTWdkZUU?oc=5",
       "date": "2026-11-03",
@@ -2884,6 +3174,19 @@
         "LIHTC",
         "HUD"
       ],
+      "places": [],
+      "regions": [],
+      "also": []
+    },
+    {
+      "title": "Democrat Jessica Killin defeats incumbent U.S. Rep. Jeff Crank in Colorado\u2019s 5th Congressional District race",
+      "source": "The Denver Post",
+      "sourcing": "checked",
+      "source_domain": "denverpost.com",
+      "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOQXFBQWhQV2s1dkxJbWY3d095Q0xqVHcwMFlLcnpycEZsOUtTMzdRUHk0clpfeWR2WE83Y0p5QlgtNGpfcU50d1JkMWw3ZldCSmVCcDByaWowRU9ka09TZVRsSkJabkpDQnBVcEN4M2ttNVpBQWJqejkwLTJ5bzQ4d2VLUEZ6SUtTNXBBaC1wNHNqMmR2YklBNDln?oc=5",
+      "date": "2026-11-03",
+      "scope": "colorado",
+      "programs": [],
       "places": [],
       "regions": [],
       "also": []
@@ -2951,8 +3254,8 @@
     {
       "title": "Living in Bayfield Colorado vs Durango: what the price gap buys you",
       "source": "Hagadone News Network",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "weak",
+      "sourcing_label": "Marked weak in review",
       "source_domain": "hagadonenewsnetwork.com",
       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPTmh2SGZUUFA4TEFVb3ZvbDNaQmRwdzlqRkw1RmhEOUVLVWx3eTlXdkVpMzhmOVctUy1UZ1hfWkw0a3pnRFJkX0xLNHBxTEN6Wm1vZ2ZGSWptN2VMaHFPTUZJdzNaX1VvYVNuTHlPOE9lWEoweGQ5VGkwRHBiOFQxNEVYSC1iRE0tdmMwcjBoNUtsSmdoVDZTVEJMd3JPZVF0eElvWHlCcUtySlRPeDU0OXpmXzdHcjA?oc=5",
       "date": "2026-11-03",
@@ -3061,6 +3364,27 @@
       ],
       "regions": [
         "Mountains"
+      ],
+      "also": []
+    },
+    {
+      "title": "Colorado Springs and beyond holiday events",
+      "source": "Colorado Springs Gazette",
+      "sourcing": "checked",
+      "source_domain": "gazette.com",
+      "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5ORU9yS3FubVptZ2NQSEt0eEljZ3JMWVF1TDBzQUVITnRiZlpoQ2x4cUZEdlV2bi11WkdQblk4TExpVUZfMVpuWlFBWnJtbHU0R0gzb0F2Y1BYYmtSbWVVdmlhemJTMVgzbmt4bm82VWNqWHlJcERVWV9lTGRuc3c?oc=5",
+      "date": "2026-11-02",
+      "scope": "colorado",
+      "programs": [],
+      "places": [
+        {
+          "geoid": "0816000",
+          "name": "Colorado Springs",
+          "type": "place"
+        }
+      ],
+      "regions": [
+        "Front Range"
       ],
       "also": []
     },
@@ -3973,8 +4297,7 @@
     {
       "title": "Manufactured Housing \u2014 Federal Push Meets Local Zoning Hurdles",
       "source": "The Korea Daily",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOXzFEbjNaOC00WFgtdGN5TzZnMEFCbkowVG03ZDRNakJpeU1WRlBkdTIyRXpuRXkwYmxEMFFQejEtZVRma080ZElXQUYtc21TM3NIWWI4UU9lRE5SZUxkRzlJWVNNbzF2WjhhVXdRV3puRUZGLUJyejhQd2stb3Jua1JpR0NsV1Z5ZHU4RVlXRHI?oc=5",
       "date": "2026-10-27",
       "scope": "federal",
@@ -4417,19 +4740,6 @@
       "also": []
     },
     {
-      "title": "LaJunta gets nearly $30 million in federal funding to filter \u2018forever chemicals\u2019 from wastewater \u2014 #Colorado Public Radio #PFAS",
-      "source": "coyotegulch.blog",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
-      "link": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxPSUQxbjBIbEpUcEtVbi1ueW53MWR0RF9DU2FsaFc2MTdqUzhtb1ZHOEJ1cElheEFCVEFycWN2OEdIU0Vqcm1rLTVRNDFwRkRUXzctc2I1TG45SHc4eElMRFpnT2duMVNWZThmWmEzcmtJNkNsNWc5ajJaTjN2Ni1neTdxbS1xM0hkX2xzSzRlVFZyaDFfMUVhWkwtdFpmVG5vS0wwY3EyNlRmY1JCb202TDNNUGE5QnpnbzhlU25FbkNCd2FUYUMwazBTaF9EYUxjVXFKSW5OUVAzRnl4UGZEZmZiYThkalpJZEdLc2dR?oc=5",
-      "date": "2026-10-23",
-      "scope": "colorado",
-      "programs": [],
-      "places": [],
-      "regions": [],
-      "also": []
-    },
-    {
       "title": "EDITORIAL: Another chance to clean house in Colorado\u2019s courts",
       "source": "Denver Gazette",
       "sourcing": "checked",
@@ -4801,6 +5111,28 @@
       "programs": [],
       "places": [],
       "regions": [],
+      "also": []
+    },
+    {
+      "title": "Senator Cortez Masto, Senator Warren tour new Las Vegas affordable housing",
+      "source": "FOX5 Vegas",
+      "sourcing": "unverified",
+      "sourcing_label": "Unverified outlet",
+      "source_domain": "fox5vegas.com",
+      "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPcTdjYUx0V1cwbVFMZmVMNFNWVDlyMHdSWWZWX2lwZjNSekJqQTE2SDdoOTRpVC1YUDliNk9sSXdlVURMcEVxdkxQNDIyeTBOOGpfMkZzbGJ3ZUlvSTVUYVZ3bEF6YUhFNUVjZ19vT0FwRzdIWkxxelBZYzNRcnhXR1Fsd0hiMHMyS0FQRU8wcjF1M1FVT05yR01mYTgwaHN3SUw4WDhLTGZ4RFNocXF4btIBxAFBVV95cUxQTmstdzBvODNWd1VaczgzX2NySllVZTUwSVVUb1ZPajEweFZmZmlWVGhRQzRqLUhrVUh3TEpRVk96Z2hRVjNTTnhoaldkcjhHM1RXSU50R1diVkpneVNqbTdaNXd3Y2JBZ0JtMnJNUDBhTFhsbWpLUGlfdUpab0dWWGNlTVl2V0RWYXFkY1lWSHZYN2MwMkhFd1FBcGkybFZGNGl2N091aU90U2VkN0FBMDE1cUFKNGdNOVBOOEtHdVZZYnJq?oc=5",
+      "date": "2026-10-21",
+      "scope": "colorado",
+      "programs": [],
+      "places": [
+        {
+          "geoid": "0817375",
+          "name": "Cortez",
+          "type": "place"
+        }
+      ],
+      "regions": [
+        "Southwest"
+      ],
       "also": []
     },
     {
@@ -5813,8 +6145,7 @@
     {
       "title": "Ivory Ridge Custom Home Builder Outlines How Colorado Springs Custom Homes Stay on Track Through Winter Construction",
       "source": "Knoxville News Sentinel",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "source_domain": "knoxnews.com",
       "link": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxPaG9DQmVPbjRYVXpnS3Q5VDItNk9JUGtCVFBkUll6b1FMRWN5aDZSTjJ5MnpnM21EbHhpLVdUWGgwUzc5Y0dKdjI0WGNJcDJwZUJEYnZNY0lvdWkyUlZxRmZxTmY5TkhfeDh0V2UwVXFZX2ZXaDZFQWk0S3J6TDFtRFZhVHZKOWFyZzZoREY2MktOMGh0NUNzVlhFWFFlVURMdFBNT2hpR1E0QzRwbHVaWEQ0Ry1hRDNSUi1ESzF5Wm80V2Y3U3Vfc2xKa2padnpMdE9NakhrRDFiLVIwMVRUOTRra3lNOHJTbDBkTE84QmtzT2pxaTMza1BUQ2FKdw?oc=5",
       "date": "2026-10-08",
@@ -5952,8 +6283,7 @@
     {
       "title": "A Congressional Report Examines Housing Affordability",
       "source": "Legis1",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1CYTk3M0R6V2tGa0Z6QkdIc2F3NUo1cHhXTTJUZ1RqaVhiV3NfWmhsRHVWWnoxb0NDTWRlNFlSYlhWWDFJR3REcVRsUWIzdTVSSlkwbXZ4YzQxTTNzSGREdlh3RUlzazdHZVlvTWN6ZkRpaFdKejNv?oc=5",
       "date": "2026-10-06",
       "scope": "federal",
@@ -6185,8 +6515,7 @@
     {
       "title": "Arvada awarded $100,000 grant for Suburban Studios homelessness program",
       "source": "Arvada Press",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "source_domain": "arvadapress.com",
       "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxONjRhNmp3b25TQ3prbXZEbVFvaFI4Yjc4TGxpb2x1eThJaVQ5Y0Z1Ykw0dkp5cU0yNFZSRDItZTZTeXlVM0JFV2Z0TDhIcGtRZjFPZ0tOaFpJdF9SVENPWlgwb0czQTJDRVpYYlBrdGxWd1FKZnh3QzR6ZHdlRTA4Y3Zld2ltTm52Vnc?oc=5",
       "date": "2026-10-04",
@@ -6375,8 +6704,7 @@
     {
       "title": "Colorado homebuilding fees: Same house, $77,000 apart",
       "source": "Rocky Mountain Voice -",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "source_domain": "rockymountainvoice.com",
       "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOZFh0Y3Nxa1dGZk5TUVRBZ1FxR3M0M0RTMkRxSHJxRWJqYWtybU1XVHBfOUFoaEgyWXhObXJmdWhyRmRlaFJLb2EtTEdxMHpTNlM1THBuT0lMUzBQakhCY0tqR1A1SWRXUTF1bUNsbk5tM0p0eHJ6WWwyTFVJVDQxTEVUNThEZE5xVXlYZWZOZllNZlFMdW00?oc=5",
       "date": "2026-09-30",
@@ -6475,8 +6803,7 @@
     {
       "title": "An Investor\u2019s Ski-in, Ski-out Retreat in Steamboat Springs, Colorado, Lists for $20 Million",
       "source": "Mansion Global",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNS2wtcU9DNnQwckl5SW1JQ1dtekx2RUNVUHVWd2tZeUViN0Z0dnRYYXNnLXNVRm0wR3c4elhSZlZ6NTBWY3o1RGo0ZkRaX3hkSi1FMkFGd3d6UlRjUkRrWUhoT3JGcWdncWVsVjhCX1dqNW5Ua0JsNkw0eGtFOWJoOHVmT1ZuTkk4WXpJWTB5eEJ4MEJnQmplTTBBcHpYOURJSnk2WExpWUd6LW5tLW5hMTZIT09sR3ZHdnd4R0NSd0tXMVUwakNvU2pKQzRYVE3SAdQBQVVfeXFMT2ZOeGpyeV9hZjNwUkRoSUFlMGJMazNCWkdwYmtOaHhWdld6a1Ixd0V2LUFpWXhTWmNuOGJtR2lhVVIzVlV5ZTA0RDNLd2tkWGY0VFNMNmh1dXIxcGFPdE1HOEVhNGEtRlFSZ1dNRUdFeU10SzZzWXhGNnI4UWZMc3hrd2V1dmFxai14RUxydXJvQnJWaXFnLWx2S2xhZl9oV3VJMUxNRV9SaVFUNVFDSHd1UHRXdVhRbkkwMnV4Nll4ODZjVGZFMUZWNDloeG92MmhTQzc?oc=5",
       "date": "2026-09-29",
       "scope": "colorado",
@@ -7196,8 +7523,7 @@
     {
       "title": "Thompson Thrift Opens 276-Unit Switch Apartments in Colorado Springs",
       "source": "citybiz",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "source_domain": "citybiz.co",
       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPOG9nclRUMlhCVjNtZ3k0Uk04OGxaaTVvQXU3cUxBNTl3SVlmWHMxWXRwU0czT3M0ZTlFcFBjQk0wT3k4OTgxU2xld09tYzNXbDFERmQ5ajNhM040R3VSdUpUVEl4MHNrYVdFQlp4MS1Cd3MwYk51NUNiQ1Z3UGVuQU5kOGdyTjhJcFdLWk9pUVFSMjRFRS1aRG0wQ2VZdjk0U0Y4dmVKUUV0Nms?oc=5",
       "date": "2026-09-17",
@@ -7810,8 +8136,7 @@
     {
       "title": "The NHP Foundation Closes Financing on The Bella, Expanding Affordable Housing in Frisco, Colorado",
       "source": "Snow Industry News",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "link": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxORFZjSmU1SXFzYXQ0YXdKTDR4NTJqN0FFXzloNDNZSDZtLTV4dDlrc2pzcDAycm1yWEQxN0VTWnBpZy1NM1Q2ZGItbWV3dWJZVFBjMkp0NkVEWTQ5WUlLWTJiNmllN0FSMmt0Wm9OUGlINW4xcFlTdEFUb0o4TlF3MWpRLWloX2x0Tm8zZkdSRWVrOG1mSWtKR3hBLVF4Q2F3azJ6X2R2NWRiamRBa3RyaDE3d2xXQlRtcjl1ZmN6MGZSOTlXekh0aXYwUEwzNWNXR0I2MVRtbXVyTlFQbGVrUi1NYVpMS0RLNzlaU2JyUFVGUQ?oc=5",
       "date": "2026-09-07",
       "scope": "colorado",
@@ -7964,8 +8289,7 @@
     {
       "title": "Ski town Vail is building a $189 million housing complex just to give workers an affordable place to live",
       "source": "The Independent",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxObzUyakpfQ2lGM0pGeW9vQWpWRzhLN2d0ZVZISVJySFFESmRJTzZFTEp3MVpIVnJfN3I5SDZVQk1OTGZUaG8yc2RfRk5HaVlrN0VGRzFualhNeXF2eDQ3YjRfbkl4cnlQMC12VkF3LU5XZTgwUkxmTVRralJBLTF4TUNSWmZDZXpJYWRSdHBnLWtwZ1p0QnNGZlRxcGN5VF95ekEtaXJQR0lZaHM?oc=5",
       "date": "2026-09-04",
       "scope": "colorado",
@@ -8246,8 +8570,7 @@
     {
       "title": "In 2024, a Colorado county paid $34 million for a 650-acre ranch privately owned for more than a century;",
       "source": "The Times of India",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "source_domain": "timesofindia.indiatimes.com",
       "link": "https://news.google.com/rss/articles/CBMi-AJBVV95cUxNVzNVU2NzVktnMHI2Ump2UDhoY2Nod0FRNzdhM1BFNUt2UTl4YTY5ODZSZDhEUXdKMEFudm16MzJ6WWRXbmVvWHVyYklYVDdXSU11bFlpUkQwQ054WUR1cHZFVEFsM3ZJWGJCVklvdmxTcmZhWndPOEVXT2hyUzdEUjFuZXlTZS1JVDJ3MzNNeG0ySDJ0WmRHQlpmSVlJTm41RW9jM2JFS21RNm10Q3hfekZmTktsX3hxWDAzcGY4QUhBVXVxanVqT19KcFF3QzFKMllTeTZ0YS1UUlhqSERxbTlPT1lEdkVVZ1JXZnNyOTdOdjlqNHZpc0FkOVM0YWpCeUNybkhuVnBMUGJ4UzVvWkNHTXZZb1B0Y0V2bjBTMU5iYWhwSEdMWDI3cEI2VVNtTk1kbUlYa1NLa29uX1pCWDN4SThMQUV4eGhNckpCOXlUaWJCY2FCUmdGX2ZvUGx6UmRpUWtiNGkzdENmOTRpNXFqcjAwZjcy0gH-AkFVX3lxTE92ZEJYTXhtY3FmejdwZ2Y4NWE0Q1dWNzR3Z2JzS0ZJekRhaFVURm0wR3lHMmhoLU9ld3Y0aUpiNmhEbDV5MlBYT3ZScjFBZjhBbFNVRzBUYmRxU1dyM01oZTdSZEJxOGRXZm9aYWhJVEh2NXAyXzMtUjdXZUpPSDE1NFRXOExKY3gybWxOQ04zZzlwQnZFTjBEay04ZHRPaVBQVVV2VGk5NnZuVDFKUmlPYUxIV2ducUdXSF9TY0JwR3BGaGxxbTV2WXFiNGdmTnZTRkdJVjdnTWRjTG1OX3o1TXAyS2FIcU5yWDVkSlRyWVFMS1NWNTJSLWltNVB2UGM2RWNBZzJ6a240T1p6UTcxUTc5VVFiM2dNNmVDLU9HZ0tnT1dGeDRhQjBncTk3TGNIeFpDVjZDa1FaZnE4NTd0SEY1NWlYNk1lNVhMM2U0SDNXMTQwX0p5eFR6UmdYWW1MeFNCaXFtbFV5Y0tMek1HNG1hbGlOTHE4QlRDNlE?oc=5",
       "date": "2026-08-31",
@@ -8493,8 +8816,7 @@
     {
       "title": "As one housing reform works in Texas, another in Colorado hits a budgetary hitch",
       "source": "Slow Boring",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5PQ0xXSHRPeU1zVGgxZnlucDZPRzU3ZFc1eWFmb0FwQ2t0OF82TFNTSzVzdzdCVUdoMWFZa3pqRHBTYjdJdXFoUV9kQTQ4ZWlyTFRtcUIwc3dFQk96MEk5WFFYVHZNUEc0dTVPOGEtNTFEcXM?oc=5",
       "date": "2026-08-26",
       "scope": "colorado",
@@ -8578,8 +8900,7 @@
     {
       "title": "It's time to update Colorado's permitting system. Here's how.",
       "source": "Federation of American Scientists",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQUmlpU3RCa3kyYkh6a1lZMG1kS05wX3ZkRzMxOTQyQXhKVmV4Y1V3aGwtbkJSWkdjNlBKQXZBUXVRUmV6SURjVzFxVFNRNklwRHdPa3hENzJRakg0RWxpcTR5Y1pzU0plZHNaVW1GNlp5TEl0eW5PMUp6VWZ5VXVHUUczcHdGTmFGMllMSWlKb1ZKdlRxZWc?oc=5",
       "date": "2026-08-25",
       "scope": "colorado",
@@ -8735,8 +9056,7 @@
     {
       "title": "Congress Just Passed a Housing Law That Rewards States for Reform \u2014 Here\u2019s Why Colorado Has a Head Start",
       "source": "The Fulcrum",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "source_domain": "thefulcrum.us",
       "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQUF9od0NCaUxqYjJLZzFlN3RtUVdWd2F1TlpnWUtMME53OWxpSGtrVXQ5dEctc2I3T2N2TWs5QVhEbWUxaTJmUmlXTFd6WjR3ZTcwWHdqdUMwMTBZZjZheGFKc0stV1MwYzVkY0RDQ3hNQ1QxN3hFajRadGR4Y0xpdzU1OA?oc=5",
       "date": "2026-08-24",
@@ -8970,8 +9290,7 @@
     {
       "title": "This Quirky Colorado Earthship Airbnb Is Pure Magic",
       "source": "Cond\u00e9 Nast Traveler",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "source_domain": "cntraveler.com",
       "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQRVRXaGhYLThNd19IMXMxQ05CNDBJRjd4aTlfXzdIakltTW5Ca0RCQUM1bmVCdWZIX0VjTG92ajk3Wnh4WGZkQ3hSZ2lHb2ItM3ZLNVFPQUVxdmwzYVpzUWdHcGc3LUxlX3pLczRRaEo0eGw5al9HXzhVQmlWNGlteHdwNWs3b3VrWkpvMA?oc=5",
       "date": "2026-08-19",
@@ -9264,8 +9583,7 @@
     {
       "title": "RIC Robotics printers build out Colorado\u2019s first 3D printed metro district",
       "source": "3D Printing Industry",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "source_domain": "3dprintingindustry.com",
       "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOU3hOQ0pBa2I0UEJ4SzhGV21rRnNCalJOemJEODZYbHRmX3JaN1JlMHpOZER2dGZLb0ZrckRuWEVUVFB5cThteGlyTFY1MVFSWFU1dkxsNzk2RktLX1R2NU8yWllxSWkxck9HV2NjRDA1cDN5dU96WFpFS01BYjdrWFRrQmhRTGVHSm14ek9UT2Y1WXE2YTZha0VzcGxFVDM5czBUU2x1YXJCemdRX05BWWY4WlFneUpD?oc=5",
       "date": "2026-08-15",
@@ -9588,8 +9906,7 @@
     {
       "title": "Landmark Properties and Partners Complete The Mark Fort Collins",
       "source": "Global Student Living",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
+      "sourcing": "checked",
       "source_domain": "gslglobal.com",
       "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxPbHZNbzFjWnFVNWtTRjBZYU5HTWZNUGFJV0lPVkNjSXphNUx2R0NOVTRzWER4S01vcnF5UkpSNnVyS2U1VUV5SkR4cU5aUUtVUEJLd1lDSW9nUi0tNEhCZkZjejZQOF9GSXNqMzlXcGU1WWZfU3BpN05EQW1OZEhCOTVDcDBabUxCam9xZFhzS1MwMGd1LUpCWGJmOU1rZw?oc=5",
       "date": "2026-08-11",
@@ -9674,28 +9991,6 @@
       "also": []
     },
     {
-      "title": "Landmark Properties & Partners Deliver The Mark Fort Collins",
-      "source": "Landmark Properties",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
-      "source_domain": "landmarkproperties.com",
-      "link": "https://news.google.com/rss/articles/CBMihAJBVV95cUxQNzZrM09TcHhMTUxRR0VGSXNfSnM1SWhpUTgtS0dCTGtnWF9EcHJLNUJnQzRiRlo1bnRkWE9INi1RZXZ6dFlzM0dtWm5Da09EVTI5dldySXZKZDlGZl9hREN0d1NjT3N1RDRzNE56WEhQRGVkSWY2UXk2SVhIa2pWNHVuTjFWX000aUZvRFFYNHRMWjFOUThHRmlpOHBiVktNMlBrWERWYnhCNGNCa2VaV2lRejZTZGNsNFZnTDRqVDNPSmxDWWd6OHlERzRqMXFKZUdOYjV3X3lxNlllU2JlQlB1SUE4R3ozUzd4Yk5aQk91TzdLN1ZZbVRBWjI4a1BNOC1oYw?oc=5",
-      "date": "2026-08-10",
-      "scope": "colorado",
-      "programs": [],
-      "places": [
-        {
-          "geoid": "0827425",
-          "name": "Fort Collins",
-          "type": "place"
-        }
-      ],
-      "regions": [
-        "Front Range"
-      ],
-      "also": []
-    },
-    {
       "title": "The Mark Fort Collins Debuts Near Colorado State University",
       "source": "Mile High CRE",
       "sourcing": "checked",
@@ -9727,125 +10022,14 @@
       "places": [],
       "regions": [],
       "also": []
-    },
-    {
-      "title": "U.S. Senate OKs funding bill to avoid government shutdown",
-      "source": "Colorado Politics",
-      "sourcing": "checked",
-      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQcnlEelhReVJRVlpFajk4bkMta1F3WXZvWFJfS05BWktmZjAyUTJiaEJQSWtVREpFb2lvSE96aE92NGltSWVfOE9OWnhBcG9ZTW1PeGF3U28wVkhUY0Y0cFpjdFdheERGZWZFZDc0OWJpcWlaU0JOWnVGcDdJRFlDUmxCSUFIb1lOQnlwN2U2alMzdGZkeW9LUGtEUEFKamZ6emhJ?oc=5",
-      "date": "2026-08-08",
-      "scope": "colorado",
-      "programs": [],
-      "places": [],
-      "regions": [],
-      "also": []
-    },
-    {
-      "title": "What\u2019s Working: How Justice Ramos turned need into entrepreneurship for kids in Cortez and on the Navajo Nation",
-      "source": "The Colorado Sun",
-      "sourcing": "checked",
-      "source_domain": "coloradosun.com",
-      "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOMUp5UEdjUV9Oc0hVMjdLcHhNYnB6dHNtRFhWdDNTQVRMZmIzWVB2eGxhSUVPWXk4bm9rVVBkbmFkN0V6UWdORURIakNhOXMzeW9Yc3pPYVd5cGZOZGc3c1lFSFRsLUxLcmdsZS1BaFVqYVMxTFNtTF9NdXRRWXQyVENlZTF2cm9LNXhZS2pGc3BEeXREdTIw?oc=5",
-      "date": "2026-08-08",
-      "scope": "colorado",
-      "programs": [],
-      "places": [
-        {
-          "geoid": "0817375",
-          "name": "Cortez",
-          "type": "place"
-        }
-      ],
-      "regions": [
-        "Southwest"
-      ],
-      "also": []
-    },
-    {
-      "title": "Change Is Afoot in Steamboat Springs, Colorado, a Ski Town Drawing Texans in \u2018Fur Coats\u2019 and Brett Favre",
-      "source": "Mansion Global",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
-      "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNTkg3M0xja1ZqcUJ2RFUxWGFJc1BTZFQtbjEweThFbHJKV2hzSW4wMThvbU5jV2pxMTAza0dXNEE5T2oxZHdibGtVdXRTNG5wbXVndTI4bnR0dHNFNjBiTDJXbnBXMEJjakZMaWJjbTQ0MXR5N3U4dHFGOWt2a3JIOEp1Tm9lVzNWZEpIS1hlUDJib1l5ZzJlYWpDSVp4aDdvcXhaYUZjSnNJdTM0QUZiNVgyeHVxVU92T2llMVlsamhOMzZxakY0MHBWbTdaS1FSRHNvN1NyRjU3RGVzbDNSQWd3?oc=5",
-      "date": "2026-08-08",
-      "scope": "colorado",
-      "programs": [],
-      "places": [
-        {
-          "geoid": "0873825",
-          "name": "Steamboat Springs",
-          "type": "place"
-        }
-      ],
-      "regions": [
-        "Mountains"
-      ],
-      "also": []
-    },
-    {
-      "title": "Broomfield could see more affordable housing with likely participation in next Proposition 123 funding round",
-      "source": "Broomfield Enterprise",
-      "sourcing": "checked",
-      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOeFAybEE1ODF1U3NLZnhIbTBKRERUMFZPTTJzWjNVY1p3MnNSV1BkV214NF9Va01vVmZicGR1djlIWHBsSDYxcWhqQk9IcTFzX3QtSG1CSU5ObloxRk5jejc4ekpZVkZvNWhBSnI4bHd5S01zWWdxeGFJWWduUmMta3RHQ0pTXzBPUHlJRUNYUDA?oc=5",
-      "date": "2026-08-07",
-      "scope": "colorado",
-      "programs": [
-        "Prop 123"
-      ],
-      "places": [
-        {
-          "geoid": "0809280",
-          "name": "Broomfield",
-          "type": "place"
-        }
-      ],
-      "regions": [
-        "Front Range"
-      ],
-      "also": []
-    },
-    {
-      "title": "Wellington Renews Proposition 123 Commitment, Advances Affordable Housing",
-      "source": "North Forty News",
-      "sourcing": "checked",
-      "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNYkVLMzZvLWJQZF85VHNYUTJDYkVWbnBodmVnQXJWN2xUUkNwaEctY0hHaUd0YmdzclJsTHotMkRDREc2eV80dG1rQlo4c21qbkJLME9zZG1IVjYzYmJIV09qLXAyTDBsdTRvem9fUk5URkdBejljMlVzcFYxYjNRUjkzMk5QM1ItbjMxYmF3UFBXUXN3WjIwcVVCTHhqb0gydnF0cFNmdGlSMU1ZVW9mVE9za0Y?oc=5",
-      "date": "2026-08-07",
-      "scope": "colorado",
-      "programs": [
-        "Prop 123"
-      ],
-      "places": [
-        {
-          "geoid": "0883230",
-          "name": "Wellington",
-          "type": "place"
-        }
-      ],
-      "regions": [
-        "Front Range"
-      ],
-      "also": []
-    },
-    {
-      "title": "Colorado teacher home loan program puts school fund money at risk in foreclosures",
-      "source": "Rocky Mountain Voice",
-      "sourcing": "unverified",
-      "sourcing_label": "Unverified outlet",
-      "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPcHBoSEFaTFRhQlA2VFdSWWppME11c2YxUkZEZWdGMmh0X3dIdmtNWGRtazJsZl94X1BhM0h0OEJXQ2ZHelVBZzlQTThNM2Vfc0F1NzdpRmtoNEszOHQ1S3Z3V09lZjFPV25NY0V2cWVmSm5od09vN2VIaGVvNE1TR0FYQ1RhVEVKOUNkaTVVSE5SV2hveDNNYUVYT3YzSV9aVEtEc3dKcG8zbDVIQjNjeGxJdFpKN2ZiUF9YbENCUHowQQ?oc=5",
-      "date": "2026-08-07",
-      "scope": "colorado",
-      "programs": [],
-      "places": [],
-      "regions": [],
-      "also": []
     }
   ],
   "stories_meta": {
-    "generated": "2026-11-05T11:11:40Z",
-    "source_alerts": 2490,
-    "out_of_scope": 2009,
-    "merged_duplicates": 50,
-    "blocked_outlets": 0,
+    "generated": "2026-11-06T11:09:45Z",
+    "source_alerts": 2597,
+    "out_of_scope": 2106,
+    "merged_duplicates": 49,
+    "blocked_outlets": 2,
     "method": "One story per headline, newest first. Other-state news is left out. Places are matched against the 546 geographies in data/hna/geo-config.json; regions follow the county map in scripts/hna/build_ranking_index.py. Each publisher is looked up in data/alerts/outlet-register.json: checked outlets carry no tag, others are tagged \"Unverified outlet\" or \"Weak sourcing\", and documented imposter sites are left out."
   }
 }

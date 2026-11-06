@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-05T11:11:51Z",
-    "as_of": "2026-11-05",
+    "generated": "2026-11-06T11:09:53Z",
+    "as_of": "2026-11-06",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -24,14 +24,14 @@
       "url": "https://www.chfainfo.com/events",
       "status": "ok",
       "listed": 1346,
-      "upcoming": 31
+      "upcoming": 30
     },
     {
       "id": "housing_colorado",
       "name": "Housing Colorado upcoming events",
       "url": "https://housingcolorado.org/events/",
-      "status": "ok",
-      "listed": 0,
+      "status": "unreachable",
+      "note": "HTTPError: HTTP Error 404: Not Found",
       "upcoming": 0
     },
     {
@@ -115,18 +115,6 @@
       "url": "https://cdola.colorado.gov/calendar",
       "source": "doh",
       "category": "deadline"
-    },
-    {
-      "title": "chfareach: CHFA NSPIRE Inspections, Denver",
-      "start": "2026-11-05",
-      "end": null,
-      "time": "13:00",
-      "location": "In-person, Denver",
-      "online": false,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-chfa-nspire-inspections-denver-11052026",
-      "source": "chfa",
-      "category": "compliance"
     },
     {
       "title": "Jobs report (Employment Situation) released",
@@ -767,6 +755,18 @@
     }
   ],
   "past": [
+    {
+      "title": "chfareach: CHFA NSPIRE Inspections, Denver",
+      "start": "2026-11-05",
+      "end": null,
+      "time": "13:00",
+      "location": "In-person, Denver",
+      "online": false,
+      "organizer": "CHFA",
+      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-chfa-nspire-inspections-denver-11052026",
+      "source": "chfa",
+      "category": "compliance"
+    },
     {
       "title": "chfareach: Protecting Personally Identifiable Information (PII) on Property, Webinar",
       "start": "2026-11-03",
@@ -4921,18 +4921,6 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-legal-review-2025-colorado-landlord-tenant-law-webinar-11-06-25",
       "source": "chfa",
       "category": "compliance"
-    },
-    {
-      "title": "Training Webinar: CHFA HomeAccess Training Webinar",
-      "start": "2025-11-05",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/4dd83353-c438-409e-9bcf-acb77f80f1ab@de029520-7a0e-4208-bc91-86b9369ad432",
-      "source": "chfa",
-      "category": "other"
     }
   ]
 }
