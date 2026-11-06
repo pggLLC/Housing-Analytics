@@ -2664,7 +2664,8 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   </section>
 
   <section class="mi-section" aria-labelledby="fvn-rent-heading">
-    <h2 id="fvn-rent-heading">How much a 60% AMI rent saves a tenant</h2>
+    <details class="fvn-fold">
+    <summary><h2 id="fvn-rent-heading">How much a 60% AMI rent saves a tenant</h2></summary>
     <h3>Source: <a href="https://www.zillow.com/research/data/" target="_blank" rel="noopener">Zillow Observed Rent Index</a> and <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener">CHFA 2026 rent limits</a></h3>
     <div class="mi-chart-container fvn-chart fvn-rent" data-source="Zillow ZORI (county); CHFA 2026 maximum gross rent, 60% AMI, 2 bedrooms" data-source-url="https://www.zillow.com/research/data/" data-vintage="ZORI monthly; CHFA 2026">
       <canvas id="fvnRentChart" role="img" aria-label="Bar chart: typical market rent minus the 60% AMI two-bedroom maximum rent, by county"></canvas>
@@ -2672,19 +2673,23 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     </div>
     <p id="fvnRentStatus" class="mi-status" role="status" hidden></p>
     <p class="data-note">Where the bar is short or negative, a 60% AMI unit rents for about what the market already charges, so the affordability it buys depends on deeper targeting (30% to 50% AMI units). Where it is long, the same unit is worth hundreds of dollars a month to its tenant. This is an approximation: the CHFA figure is a gross-rent ceiling that includes utilities, Zillow's index is contract rent across all unit sizes, and many LIHTC properties rent below the ceiling. Zillow covers only the counties shown. <span id="fvnRentVintage"></span></p>
+      </details>
   </section>
 
   <section class="mi-section" aria-labelledby="fvn-year-heading">
-    <h2 id="fvn-year-heading">Awards by year</h2>
+    <details class="fvn-fold">
+    <summary><h2 id="fvn-year-heading">Awards by year</h2></summary>
     <div class="mi-chart-container fvn-chart" data-source="CHFA Housing Tax Credit award reports; Prop 123 selected-applicant lists" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit/awards" data-vintage="2016 to date">
       <canvas id="fvnYearChart" role="img" aria-label="Bar and line chart: LIHTC units awarded and Prop 123 fund dollars awarded, by year"></canvas>
       <p class="sr-only" id="fvnYearText"></p>
     </div>
     <p id="fvnYearStatus" class="mi-status" role="status" hidden></p>
+      </details>
   </section>
 
   <section class="mi-section" aria-labelledby="fvn-table-heading">
-    <h2 id="fvn-table-heading">Every county</h2>
+    <details class="fvn-fold">
+    <summary><h2 id="fvn-table-heading">Every county</h2></summary>
     <p><button type="button" class="btn" id="fvnCsv" title="Downloads every county row with all the raw fields behind this table, including FIPS codes and credit amounts, as a CSV file">Download every field (CSV)</button></p>
     <div class="cc-table-wrap" role="region" aria-labelledby="fvn-table-heading" tabindex="0">
       <table class="cc-table" id="fvnTable" data-export="dd-funding-vs-need">
@@ -2693,19 +2698,24 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
         <tbody id="fvnTableBody"><tr><td>Loading…</td></tr></tbody>
       </table>
     </div>
+      </details>
   </section>
 
   <section class="mi-section" aria-labelledby="fvn-method-heading">
-    <h2 id="fvn-method-heading">What this does and does not show</h2>
+    <details class="fvn-fold">
+    <summary><h2 id="fvn-method-heading">What this does and does not show</h2></summary>
     <ul class="fvn-limits">
-      <li><strong>The flags describe a market, not a mistake.</strong> "High vacancy" means for-rent and for-sale vacancy is in the top quarter of counties; "building ahead of growth" means permits over five years ran at least twice DOLA's projected household growth. Both together suggest a softer market, where a subsidized unit buys less affordability than it would elsewhere. Neither says a project was wasted.</li>
-      <li><strong>Correlation, not cause.</strong> A soft market today can come from a wave of market-rate supply, not from subsidy.</li>
+      <li><strong>The two market flags.</strong> "High vacancy" means for-rent and for-sale vacancy is in the top quarter of counties. "Building ahead of growth" means permits over five years ran at least twice DOLA's projected household growth. Most of those new homes are market-rate, so building ahead of growth mainly softens the higher end of the market; it does little for renters at 30% AMI, whose gap the chart above measures.</li>
       <li><strong>An award is not a finished home.</strong> Projects take two to four years to deliver, and some awards are returned.</li>
       <li><strong>Tax credits are annual.</strong> CHFA prints the annual credit; the federal credit is claimed for ten years. Prop 123 amounts are dollars awarded, or requested where a preliminary list prints only the request.</li>
       <li><strong>Coverage.</strong> CHFA award reports from 2016 and Prop 123 lists from FY23-24. Division of Housing grants and loans are not in this comparison; <a href="where-housing-money-goes.html">Where Colorado's Housing Money Goes</a> lists the ones the Division has announced. ACS figures cover 2020 to 2024, and small-county vacancy has wide margins of error.</li>
       <li><strong>Mixed-income Prop 123 dollars</strong> are shown as a catalyst signal: money aimed at middle-income or workforce housing rather than the deepest-need gap. That can be a deliberate policy choice.</li>
     </ul>
+      </details>
   </section>
+  <style>
+    .fvn-fold > summary h2 { margin: 0; display: inline; font-size: inherit; }
+  </style>
 </div><!-- /tab-need -->
 
 <!-- Market Direction: which county and town markets are growing or weakening,

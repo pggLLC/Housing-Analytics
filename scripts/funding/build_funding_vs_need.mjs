@@ -284,7 +284,7 @@ export function build({ ledger, documents, ranking, permits, limits, feed }) {
       flags.push({ id: 'high-vacancy', text: `Active-market vacancy ${vacancy}%, in the loosest quarter of Colorado counties (≥ ${vacancyCut}%)` });
     }
     if (productionRatio !== null && productionRatio >= PRODUCTION_PACE) {
-      flags.push({ id: 'building-ahead', text: `Permits ${pv.permits_window} ran ${round(productionRatio, 1)}× DOLA's projected household growth` });
+      flags.push({ id: 'building-ahead', text: `Permits ${pv.permits_window} ran ${round(productionRatio, 1)}× DOLA's projected household growth, mostly market-rate homes that soften the higher end of the market more than the 30% AMI gap` });
     }
 
     const lim = limitsByFips[fips]?.regular_tiers?.['60']?.max_rents || null;
