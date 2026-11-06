@@ -151,10 +151,10 @@ if (addAdvocate('county:08049', MOUNTAIN_FAMILY_CENTER)) {
 });
 
 // Also extend Habitat Roaring Fork to other Roaring Fork Valley
-// communities they actually build in: Glenwood Springs (0831660),
+// communities they actually build in: Glenwood Springs (0830780; 0831660 is Grand Junction),
 // Carbondale (0810835), Silt (0870975), Rifle (0863215),
 // Parachute (0857300). Only adds if those entries exist.
-['place:0831660','place:0810835','place:0870975','place:0863215','place:0857300','place:0808945','place:0808945'].forEach(k => {
+['place:0830780','place:0810835','place:0870975','place:0863215','place:0857300','place:0808945','place:0808945'].forEach(k => {
   if (data[k] && addAdvocate(k, HABITAT_ROARING_FORK)) {
     changes.push(`Added "Habitat for Humanity of the Roaring Fork Valley" to ${k}`);
   }
