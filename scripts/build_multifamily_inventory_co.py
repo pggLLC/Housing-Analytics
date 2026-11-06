@@ -291,10 +291,11 @@ def main() -> int:
             "input_total_records": len(properties),
             "lihtc_lookup_size": len(lihtc_lookup),
             "notes": (
-                "Per-county rollup uses the property's county_fips field. "
-                "Preservation candidates from CHFA Preservation often lack county_fips "
-                "(they aggregate at the property name + address level); statewide totals "
-                "include them, county subtotals do not."
+                "Per-county rollup uses the property's county_fips field. CHFA Preservation "
+                "records carry no county code in their source; the properties build sets one "
+                "from each record's coordinates (county_fips_method 'point-in-county'), so "
+                "county subtotals include them. Town rollups match on the city name, so public "
+                "housing (HUD gives no city) counts in county and state totals only."
             ),
         },
         "state": state_bucket,

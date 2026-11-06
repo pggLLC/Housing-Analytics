@@ -5,6 +5,10 @@
  *    jobs by workplace and the live-and-work count are not the same-county-only figure the file
  *    used to hold (1,219,132 jobs for 2023 against 2.8 million in the county files), and
  *    cross-county commuting is not shown as people commuting into Colorado.
+ * 2. data/affordable-housing/properties.json: every record with coordinates has a county code, so
+ *    county rollups (data/multifamily-inventory-co.json) count CHFA preservation records too.
+ * 3. HUD public housing and USDA Section 514 farm labor housing are in the inventory, without
+ *    counting a building twice.
  */
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -33,5 +37,28 @@ ok(st.annualEmployment[last] > 2_000_000, 'statewide jobs are in the millions, n
 ok(/sum of the 64 Colorado county files/.test(st.source.dataset) && /auxiliary/.test(st.source.notes), 'source says how it is built and what is left out');
 const ind = st.industries.reduce((a, i) => a + i.count, 0);
 ok(ind === sum((c) => c.C000 || 0), 'industry counts add up to the jobs total');
+
+// 2. county codes on every placed record; rollup adds up
+const props = read('data/affordable-housing/properties.json');
+const P = props.properties;
+ok(P.filter((p) => Number.isFinite(p.lat) && !p.county_fips).length === 0, 'every record with coordinates has a county code');
+ok(P.some((p) => p.county_fips_method === 'point-in-county'), 'county codes set from coordinates are marked');
+const inv = read('data/multifamily-inventory-co.json');
+const countyUnits = Object.values(inv.counties).reduce((a, c) => a + c.total_units, 0);
+ok(countyUnits === inv.state.total_units, 'county subtotals add up to the statewide total');
+ok(inv.counties['08031'].total_units > 35000, 'Denver counts its CHFA preservation records');
+
+// 3. public housing and farm labor housing
+const ph = read('data/affordable-housing/preservation/hud-public-housing.json');
+ok(ph.features.length >= 60 && /Public_Housing_Developments/.test(ph.meta.source_url), 'HUD public housing file, with its source');
+const phIn = P.filter((p) => p.program_type.includes('public-housing'));
+ok(phIn.length > 0 && phIn.length + props.metadata.public_housing.already_on_record_nearby === ph.features.length, 'each development is either added or left out as already on record');
+const near = (a, b) => Math.hypot((a.lat - b.lat) * 111320, (a.lng - b.lng) * 111320 * Math.cos(a.lat * Math.PI / 180));
+const others = P.filter((p) => !p.program_type.includes('public-housing') && Number.isFinite(p.lat));
+ok(phIn.every((x) => others.every((o) => near(x, o) > 200)), 'no added public housing record sits within 200 m of another record');
+const fl = read('data/affordable-housing/preservation/usda-farm-labor-housing.json');
+ok(fl.features.length >= 10 && /sc\.egov\.usda\.gov/.test(fl.meta.file), 'USDA farm labor file, with its source');
+ok(P.filter((p) => p.program_type.includes('usda-farm-labor')).length === fl.features.length, 'every farm labor project is in the inventory once (merged where already listed)');
+ok(!JSON.stringify(fl).includes('Management_Name') && !JSON.stringify(ph).includes('PHONE'), 'no contact fields copied');
 
 console.log(`undercount-fixes: ${checks} checks passed`);

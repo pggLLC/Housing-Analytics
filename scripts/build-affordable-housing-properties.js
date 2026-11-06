@@ -60,6 +60,14 @@ const PRESERVATION_PATH  = path.join(ROOT, 'data/affordable-housing/preservation
 const HUD_MF_PATH        = path.join(ROOT, 'data/affordable-housing/preservation/hud-multifamily-assisted.json');
 const USDA_RD_PATH       = path.join(ROOT, 'data/affordable-housing/preservation/usda-rural-housing.json');
 const LOCAL_PHA_DIR      = path.join(ROOT, 'data/affordable-housing/local-pha-roster');
+const PUBLIC_HOUSING_PATH = path.join(ROOT, 'data/affordable-housing/preservation/hud-public-housing.json');
+const USDA_FARM_LABOR_PATH = path.join(ROOT, 'data/affordable-housing/preservation/usda-farm-labor-housing.json');
+const COUNTIES_PATH      = path.join(ROOT, 'data/boundaries/counties_co.geojson');
+// A public housing development within this distance of a record already in
+// the inventory is taken to be that record (CHFA's preservation list carries
+// many housing-authority buildings under their own names) and is left out,
+// so no building is counted twice.
+const PUBLIC_HOUSING_NEAR_M = 200;
 const OUT_PATH           = path.join(ROOT, 'data/affordable-housing/properties.json');
 const MANIFEST_PATH      = path.join(ROOT, 'data/affordable-housing/properties-manifest.json');
 
@@ -453,6 +461,106 @@ function _mergePropertyGroup(group) {
   return canonical;
 }
 
+/**
+ * Normalize a HUD public housing development (housing-authority owned,
+ * HUD operating and capital funds). HUD gives no street address or city.
+ */
+function normalizePublicHousing(feature, idx) {
+  const p = feature.properties || {};
+  const coords = (feature.geometry || {}).coordinates || [null, null];
+  return {
+    property_id: 'public-housing:' + (p.DEVELOPMENT_CODE || idx),
+    program_type: ['preservation-candidate', 'public-housing'],
+    property_name: p.PROJECT || null,
+    address: null,
+    city: null,
+    county_fips: p.CNTY_FIPS || null,
+    state: 'CO',
+    zip: null,
+    total_units: p.N_UNITS || null,
+    assisted_units: p.N_UNITS || null,
+    latest_year: null,
+    lat: Number.isFinite(coords[1]) ? coords[1] : null,
+    lng: Number.isFinite(coords[0]) ? coords[0] : null,
+    source: p._source || 'HUD Public Housing Developments',
+    source_id: p.DEVELOPMENT_CODE || null,
+    subsidy_type: 'public-housing',
+    pha_administered_by: p.PHA_NAME || null,
+    scattered_site: !!p.SCATTERED_SITE,
+    years_to_expiration: null,
+    risk_status: null,
+    compliance_status: null, project_type: null, type_of_credits: null,
+    region: null, urban_rural: null,
+    senior_units: 0, family_units: 0, homeless_units: 0,
+    veteran_units: 0, supportive_units: 0
+  };
+}
+
+/**
+ * Normalize a USDA Section 514 farm labor rental (USDA's own active-projects
+ * file; HUD's copy of the USDA layer holds Section 515 only).
+ */
+function normalizeUsdaFarmLabor(feature, idx) {
+  const p = feature.properties || {};
+  const coords = (feature.geometry || {}).coordinates || [null, null];
+  const exp = p.restrictive_expiration ? parseInt(String(p.restrictive_expiration).slice(0, 4), 10) : null;
+  const yearsToExpiration = exp ? exp - new Date().getFullYear() : null;
+  return {
+    property_id: 'usda-514:' + (p.usda_project_key || idx),
+    program_type: ['preservation-candidate', 'usda-rural-development', 'usda-farm-labor'],
+    property_name: p.PROJECT || null,
+    address: p.PROJ_ADD || null,
+    city: p.PROJ_CTY || null,
+    county_fips: p.CNTY_FIPS || null,
+    state: 'CO',
+    zip: p.Zip || null,
+    total_units: p.N_UNITS || null,
+    assisted_units: p.LI_UNITS || p.N_UNITS || null,
+    latest_year: null,
+    lat: Number.isFinite(coords[1]) ? coords[1] : null,
+    lng: Number.isFinite(coords[0]) ? coords[0] : null,
+    source: p._source || 'USDA RD MFH active projects (Section 514 farm labor)',
+    source_id: p.usda_project_key || null,
+    subsidy_type: (p.ra_units || 0) > 0 ? 'usda-rd-with-ra' : 'usda-rd',
+    restrictive_expiration: p.restrictive_expiration || null,
+    years_to_expiration: yearsToExpiration,
+    risk_status: null,
+    ra_units: p.ra_units || 0,
+    compliance_status: null, project_type: null, type_of_credits: null,
+    region: null, urban_rural: 'Rural',
+    senior_units: 0, family_units: 0, homeless_units: 0,
+    veteran_units: 0, supportive_units: 0
+  };
+}
+
+function _metersApart(aLat, aLng, bLat, bLng) {
+  const dy = (aLat - bLat) * 111320;
+  const dx = (aLng - bLng) * 111320 * Math.cos(aLat * Math.PI / 180);
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+function _inRing(x, y, ring) {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1];
+    if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) inside = !inside;
+  }
+  return inside;
+}
+function _inPolygon(x, y, poly) {
+  if (!_inRing(x, y, poly[0])) return false;
+  for (let k = 1; k < poly.length; k++) if (_inRing(x, y, poly[k])) return false;
+  return true;
+}
+function _countyAt(lng, lat, counties) {
+  for (const f of counties) {
+    const g = f.geometry || {};
+    const polys = g.type === 'Polygon' ? [g.coordinates] : g.type === 'MultiPolygon' ? g.coordinates : [];
+    if (polys.some((poly) => _inPolygon(lng, lat, poly))) return f.properties.GEOID;
+  }
+  return null;
+}
+
 function dedupeProperties(records) {
   const groups = new Map();
   let nullKeyCount = 0;
@@ -560,8 +668,38 @@ function main() {
   // appears as ONE map marker with the union of program types and the
   // richest available metadata, rather than 3 stacked markers + triple
   // unit count.
-  const rawAll = [...lihtcNorm, ...presNorm, ...hudMfNorm, ...usdaRdNorm, ...localPbvNorm];
-  const all = dedupeProperties(rawAll);
+  const farmLabor = readJson(USDA_FARM_LABOR_PATH);
+  const farmLaborNorm = ((farmLabor && farmLabor.features) || []).map((f, i) => normalizeUsdaFarmLabor(f, i));
+  console.log(`  USDA farm labor (Section 514):   ${farmLaborNorm.length}`);
+  const rawAll = [...lihtcNorm, ...presNorm, ...hudMfNorm, ...usdaRdNorm, ...farmLaborNorm, ...localPbvNorm];
+  const deduped = dedupeProperties(rawAll);
+
+  // Public housing: added only where no record already sits within
+  // PUBLIC_HOUSING_NEAR_M, so a housing-authority building CHFA lists under
+  // another name is not counted twice.
+  const publicHousing = readJson(PUBLIC_HOUSING_PATH);
+  const phNorm = ((publicHousing && publicHousing.features) || []).map((f, i) => normalizePublicHousing(f, i));
+  const phAdded = [];
+  const phNear = [];
+  phNorm.forEach((ph) => {
+    const near = Number.isFinite(ph.lat) && deduped.some((r) => Number.isFinite(r.lat) && Number.isFinite(r.lng) &&
+      _metersApart(ph.lat, ph.lng, r.lat, r.lng) <= PUBLIC_HOUSING_NEAR_M);
+    (near ? phNear : phAdded).push(ph);
+  });
+  console.log(`  HUD public housing:              ${phNorm.length} (${phAdded.length} added, ${phNear.length} already on record nearby)`);
+  const all = deduped.concat(phAdded);
+
+  // Records with coordinates but no county code (most CHFA preservation
+  // records) are placed in the county that contains them, so county and
+  // town rollups count them.
+  const countyFeats = (readJson(COUNTIES_PATH) || {}).features || [];
+  let countyPlaced = 0;
+  all.forEach((p) => {
+    if (p.county_fips || !Number.isFinite(p.lat) || !Number.isFinite(p.lng)) return;
+    const geoid = _countyAt(p.lng, p.lat, countyFeats);
+    if (geoid) { p.county_fips = geoid; p.county_fips_method = 'point-in-county'; countyPlaced++; }
+  });
+  console.log(`  County placed from coordinates:  ${countyPlaced}`);
   all.forEach(p => {
     p.risk_status = preservationRiskStatus(p.years_to_expiration);
   });
@@ -610,8 +748,17 @@ function main() {
         'CHFA Preservation':    presNorm.length,
         'HUD MF Assisted':      hudMfNorm.length,
         'USDA Rural Housing':   usdaRdNorm.length,
+        'USDA farm labor (Section 514)': farmLaborNorm.length,
+        'HUD public housing':   phAdded.length,
         'Local PHA roster':     localPbvNorm.length
       },
+      public_housing: {
+        developments: phNorm.length,
+        added: phAdded.length,
+        already_on_record_nearby: phNear.length,
+        rule: 'A HUD public housing development within ' + PUBLIC_HOUSING_NEAR_M + ' m of a record already in the inventory is taken to be that record and left out.'
+      },
+      county_placed_from_coordinates: countyPlaced,
       total_records: all.length,
       program_type_counts: programs,
       subsidy_type_counts: subsidies,
@@ -622,7 +769,9 @@ function main() {
         'preservation-candidate records are source-feed membership from 4 sources: CHFA Preservation (1,688 — no subsidy_type detail), HUD MF Assisted (343 — has subsidy_type detail), USDA Rural Housing (116 — has years_to_expiration and risk_status), Local PHA roster (curated PBV gap-fill — has pha_administered_by + pbv_contract_sunset).',
         'Records are deduplicated across sources first by normalized name + city, then by normalized name + address. Original source attributions are retained in merged_from. Records missing usable keys are retained individually.',
         'pbv-local records (Silt Senior Housing, etc.) cover gaps where a PHA runs a Project-Based Voucher contract that does not appear in any federal feed — these properties are invisible to CHFA + HUD MF + USDA RD ingest. This is a partial, hand-checked list: HUD counts PBV homes only by housing authority (see data/affordable-housing/pbv-by-pha-co.json) and names no buildings. Curate new records in data/affordable-housing/local-pha-roster/ per the README schema.',
-        'Pure Prop 123 awards without LIHTC are not yet ingested — DOLA award page is bot-blocked. P1 backlog.'
+        'Pure Prop 123 awards without LIHTC are not yet ingested — DOLA award page is bot-blocked. P1 backlog.',
+        'county_fips_method "point-in-county" marks a county code set from the record\'s coordinates (data/boundaries/counties_co.geojson) because its source gives none.',
+        'Housing Choice Vouchers (tenant-based) are not buildings and are not counted here.'
       ]
     },
     properties: all

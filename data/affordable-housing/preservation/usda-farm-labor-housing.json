@@ -1,0 +1,356 @@
+{
+ "type": "FeatureCollection",
+ "meta": {
+  "source": "USDA Rural Development, Multi-Family Housing active projects",
+  "source_page": "https://www.sc.egov.usda.gov/data/MFH_section_515.html",
+  "file": "https://www.sc.egov.usda.gov/data/files/MFH_Section_515/ActiveProjects/USDA_RD_MFH_Active_Projects-2026-10-17.xlsx",
+  "file_date": "2026-10-17",
+  "report_date": "2026-10-19",
+  "rule": "Colorado rows whose Labor_Housing_Type is not 0 (Section 514 farm labor housing). Section 515 rows are already in usda-rural-housing.json.",
+  "colorado_projects_in_file": 124,
+  "records": 13,
+  "units": 462,
+  "unit_note": "N_UNITS is USDA's Project_Size. Tierra Nueva Dormitory (Center) is a dormitory; USDA prints its size as 72.",
+  "excluded": "Management company names and borrower IDs are not copied."
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.896684,
+     37.465957
+    ]
+   },
+   "properties": {
+    "PROJECT": "Tierra Nueva Family Alamosa",
+    "PROJ_ADD": "600 South Craft Drive",
+    "PROJ_CTY": "Alamosa",
+    "PROJ_ST": "CO",
+    "Zip": 81101,
+    "CNTY_FIPS": "08003",
+    "N_UNITS": 37,
+    "LI_UNITS": 37,
+    "ra_units": 37,
+    "labor_housing_type": 2,
+    "rental_code": "FA",
+    "restrictive_expiration": "2038-12-31",
+    "usda_project_key": "000020916",
+    "_source": "USDA RD MFH active projects (Section 514 farm labor)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.232397,
+     38.060322
+    ]
+   },
+   "properties": {
+    "PROJECT": "Bent Cty Farm Hsg",
+    "PROJ_ADD": "1227 11Th Street",
+    "PROJ_CTY": "Las Animas",
+    "PROJ_ST": "CO",
+    "Zip": 81054,
+    "CNTY_FIPS": "08011",
+    "N_UNITS": 10,
+    "LI_UNITS": 10,
+    "ra_units": 10,
+    "labor_housing_type": 2,
+    "rental_code": "FA",
+    "restrictive_expiration": "2015-10-25",
+    "usda_project_key": "000000855",
+    "_source": "USDA RD MFH active projects (Section 514 farm labor)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.099561,
+     40.140443
+    ]
+   },
+   "properties": {
+    "PROJECT": "Casa Esperanza",
+    "PROJ_ADD": "1520 S Emery Street",
+    "PROJ_CTY": "Longmont",
+    "PROJ_ST": "CO",
+    "Zip": 80501,
+    "CNTY_FIPS": "08013",
+    "N_UNITS": 32,
+    "LI_UNITS": 32,
+    "ra_units": 10,
+    "labor_housing_type": 2,
+    "rental_code": "FA",
+    "restrictive_expiration": "2028-06-11",
+    "usda_project_key": "000000858",
+    "_source": "USDA RD MFH active projects (Section 514 farm labor)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -108.06955,
+     38.759319
+    ]
+   },
+   "properties": {
+    "PROJECT": "Alta Vista De La Montana",
+    "PROJ_ADD": "7108 Hwy. 50",
+    "PROJ_CTY": "Delta",
+    "PROJ_ST": "CO",
+    "Zip": 81416,
+    "CNTY_FIPS": "08029",
+    "N_UNITS": 41,
+    "LI_UNITS": 41,
+    "ra_units": 40,
+    "labor_housing_type": 2,
+    "rental_code": "FA",
+    "restrictive_expiration": "2031-01-31",
+    "usda_project_key": "000022756",
+    "_source": "USDA RD MFH active projects (Section 514 farm labor)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.607862,
+     39.299973
+    ]
+   },
+   "properties": {
+    "PROJECT": "Harvest Heights Hsg",
+    "PROJ_ADD": "710 5Th Street",
+    "PROJ_CTY": "Stratton",
+    "PROJ_ST": "CO",
+    "Zip": 80836,
+    "CNTY_FIPS": "08063",
+    "N_UNITS": 12,
+    "LI_UNITS": 12,
+    "ra_units": 12,
+    "labor_housing_type": 2,
+    "rental_code": "FA",
+    "restrictive_expiration": "2037-08-30",
+    "usda_project_key": "000024177",
+    "_source": "USDA RD MFH active projects (Section 514 farm labor)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -107.987785,
+     38.606571
+    ]
+   },
+   "properties": {
+    "PROJECT": "Olathe Family Hsg",
+    "PROJ_ADD": "222 Hap Ct",
+    "PROJ_CTY": "Olathe",
+    "PROJ_ST": "CO",
+    "Zip": 81425,
+    "CNTY_FIPS": "08085",
+    "N_UNITS": 24,
+    "LI_UNITS": 24,
+    "ra_units": 23,
+    "labor_housing_type": 2,
+    "rental_code": "FA",
+    "restrictive_expiration": "2013-08-31",
+    "usda_project_key": "000000925",
+    "_source": "USDA RD MFH active projects (Section 514 farm labor)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.786015,
+     40.250322
+    ]
+   },
+   "properties": {
+    "PROJECT": "Sol Naciente",
+    "PROJ_ADD": "322 Linda St",
+    "PROJ_CTY": "Fort Morgan",
+    "PROJ_ST": "CO",
+    "Zip": 80701,
+    "CNTY_FIPS": "08087",
+    "N_UNITS": 49,
+    "LI_UNITS": 49,
+    "ra_units": 39,
+    "labor_housing_type": 2,
+    "rental_code": "FA",
+    "restrictive_expiration": "2048-05-28",
+    "usda_project_key": "000023733",
+    "_source": "USDA RD MFH active projects (Section 514 farm labor)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.618166,
+     38.092564
+    ]
+   },
+   "properties": {
+    "PROJECT": "Emerald Homes",
+    "PROJ_ADD": "304 N 4Th St",
+    "PROJ_CTY": "Lamar",
+    "PROJ_ST": "CO",
+    "Zip": 81052,
+    "CNTY_FIPS": "08099",
+    "N_UNITS": 60,
+    "LI_UNITS": 60,
+    "ra_units": 56,
+    "labor_housing_type": 2,
+    "rental_code": "FA",
+    "restrictive_expiration": "2017-01-09",
+    "usda_project_key": "000020327",
+    "_source": "USDA RD MFH active projects (Section 514 farm labor)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.559624,
+     38.279007
+    ]
+   },
+   "properties": {
+    "PROJECT": "Las Villas De Pueblo",
+    "PROJ_ADD": "2818 E 12Th Stret",
+    "PROJ_CTY": "Pueblo",
+    "PROJ_ST": "CO",
+    "Zip": 81003,
+    "CNTY_FIPS": "08101",
+    "N_UNITS": 18,
+    "LI_UNITS": 18,
+    "ra_units": 17,
+    "labor_housing_type": 2,
+    "rental_code": "FA",
+    "restrictive_expiration": "2016-06-27",
+    "usda_project_key": "000000942",
+    "_source": "USDA RD MFH active projects (Section 514 farm labor)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.14949,
+     37.568832
+    ]
+   },
+   "properties": {
+    "PROJECT": "Tierra Nueva Dormitory Center",
+    "PROJ_ADD": "980 S Broadway",
+    "PROJ_CTY": "Center",
+    "PROJ_ST": "CO",
+    "Zip": 81125,
+    "CNTY_FIPS": "08105",
+    "N_UNITS": 72,
+    "LI_UNITS": 72,
+    "ra_units": 72,
+    "labor_housing_type": 2,
+    "rental_code": "FA",
+    "restrictive_expiration": "2019-02-18",
+    "usda_project_key": "000000952",
+    "_source": "USDA RD MFH active projects (Section 514 farm labor)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.14949,
+     37.568832
+    ]
+   },
+   "properties": {
+    "PROJECT": "Tierra Nueva Family Center",
+    "PROJ_ADD": "980 S Broadway",
+    "PROJ_CTY": "Center",
+    "PROJ_ST": "CO",
+    "Zip": 81125,
+    "CNTY_FIPS": "08105",
+    "N_UNITS": 25,
+    "LI_UNITS": 25,
+    "ra_units": 25,
+    "labor_housing_type": 2,
+    "rental_code": "FA",
+    "restrictive_expiration": "2021-12-27",
+    "usda_project_key": "000020055",
+    "_source": "USDA RD MFH active projects (Section 514 farm labor)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.67673,
+     40.39674
+    ]
+   },
+   "properties": {
+    "PROJECT": "Plaza Del Milagro",
+    "PROJ_ADD": "2500 1St Ave",
+    "PROJ_CTY": "Greeley",
+    "PROJ_ST": "CO",
+    "Zip": 80631,
+    "CNTY_FIPS": "08123",
+    "N_UNITS": 40,
+    "LI_UNITS": 40,
+    "ra_units": 39,
+    "labor_housing_type": 2,
+    "rental_code": "FA",
+    "restrictive_expiration": "2031-09-10",
+    "usda_project_key": "000000986",
+    "_source": "USDA RD MFH active projects (Section 514 farm labor)"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.67434,
+     40.39679
+    ]
+   },
+   "properties": {
+    "PROJECT": "Plaza Del Sol",
+    "PROJ_ADD": "2501 Ash Ave",
+    "PROJ_CTY": "Greeley",
+    "PROJ_ST": "CO",
+    "Zip": 80631,
+    "CNTY_FIPS": "08123",
+    "N_UNITS": 42,
+    "LI_UNITS": 42,
+    "ra_units": 40,
+    "labor_housing_type": 2,
+    "rental_code": "FA",
+    "restrictive_expiration": "2035-05-02",
+    "usda_project_key": "000020056",
+    "_source": "USDA RD MFH active projects (Section 514 farm labor)"
+   }
+  }
+ ]
+}

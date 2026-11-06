@@ -71,7 +71,8 @@
     // subsidized and market-rate alike.
     short_per_100_lte50: { fmt: 'num0' },
     // Subsidized homes on record (data/affordable-housing/properties.json:
-    // CHFA LIHTC and preservation, HUD multifamily, USDA Rural Development)
+    // CHFA LIHTC and preservation, HUD multifamily and public housing, USDA
+    // Rural Development incl. Section 514 farm labor; vouchers not counted)
     // per 100 renter households at or below 80% AMI, the ceiling most of
     // these programs serve. Loaded only when picked.
     subsidized_per_100_lte80: { fmt: 'num0', inventory: true },

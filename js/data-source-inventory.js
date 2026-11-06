@@ -1802,7 +1802,7 @@
       name: 'Affordable Housing Properties (combined)',
       category: 'LIHTC / Housing',
       format: 'JSON',
-      provider: 'COHO Analytics, from CHFA LIHTC and Preservation, HUD Multifamily Assisted, USDA Rural Development and a local PHA roster',
+      provider: 'COHO Analytics, from CHFA LIHTC and Preservation, HUD Multifamily Assisted, HUD Public Housing, USDA Rural Development (Sections 515 and 514) and a local PHA roster',
       url: null,
       localFile: 'data/affordable-housing/properties.json',
       lastUpdated: '2026-11-01',
