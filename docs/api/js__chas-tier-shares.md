@@ -51,3 +51,9 @@ Return renter-side AMI tier shares for a geography.
 Variant that accepts an explicit containing-county FIPS to use as
  fallback when the primary geoid resolution fails (useful for places
  whose TIGER aggregate is missing).
+
+### `getHouseholdSharesWithFallback(geoid, geoType, containingCountyFips5)`
+
+All-household AMI tier shares (renters and owners together), in the same
+ place → county → statewide order as getRenterSharesWithFallback.
+ Returns null when the CHAS files have not loaded.

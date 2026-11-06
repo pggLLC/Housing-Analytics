@@ -11,10 +11,11 @@ require() in Node, and via a fire-and-forget fetch in the browser
 (`OwnershipFinance.registryReady` resolves when models are available).
 
 Backward-compatibility contract (hard):
-  maxAffordablePrice(100000, 0.80) === 289983
-i.e. a call with no model/options reproduces the existing
-HNAOwnershipNeed kernel (rate 6.5%, 30yr, 10% down, 30% front-end,
-tax 0.65%, ins 0.35%, PMI 0.5% unconditional) bit-for-bit.
+  maxAffordablePrice(100000, 0.80, { rateAnnual: 0.065 }) === 289983
+i.e. a call with no model/options reproduces the HNAOwnershipNeed kernel
+(30yr, 10% down, 30% front-end, tax 0.65%, ins 0.35%, PMI 0.5%)
+bit-for-bit. The rate itself is MORTGAGE_RATE below, so the pinned
+figure names its rate explicitly and does not move when the week does.
 
 Model selection: the third argument of maxAffordablePrice /
 computeBuyerCapacity accepts (a) a legacy assumptions object, (b) a

@@ -21,6 +21,14 @@ Canonical amenity type identifiers used throughout the scoring logic.
 Mapping from score-output keys to canonical amenity type identifiers.
 @type {Object.<string, string>}
 
+### `SHOWN_KEY_TO_TYPE`
+
+Types reported by getAccessScore() for display but left out of its
+overall score: the convenience and general stores and the pharmacies the
+builder keeps out of "grocery" and "healthcare"
+(scripts/market-analysis/build_neighborhood_access.py, EXTRA_OSM_TYPES).
+@type {Object.<string, string>}
+
 ### `BASIS_CONFIRMED`
 
 transit_stop records carry transit_stop_basis (scripts/lib/transit_stops.py):
@@ -145,6 +153,6 @@ Returns whether amenity data has been loaded.
 ### `countByType()`
 
 Returns how many loaded records there are of each type, e.g.
-{ grocery: 2178, hospital: 121, ... }. A fresh object each call; types
+{ grocery: 716, hospital: 121, ... }. A fresh object each call; types
 with no records are absent, not 0. Empty object before data loads.
 @returns {Object.<string, number>}

@@ -46,6 +46,15 @@ Rank the given score against a reference project set.
 @param {Array}  referenceProjects - projects from reference-projects.json
 @returns {object} benchmarkResult
 
+### `CONTRAST_YEARS`
+
+Funded against not funded, in the same years, at the same buffer: does our score tell
+CHFA's winners from the applications it turned down? Funded = reference properties awarded
+in those years; not funded = mapped applications whose outcome is not_awarded
+(data/market/unfunded-application-points.json). Returns null when either side is thin.
+`separation` is the chance that a funded property outscores a not-funded application
+(0.5 = no better than a coin toss; ties count half).
+
 ### `analyzeCompetitivePipeline(lihtcFeatures, lat, lon, miles)`
 
 Analyse LIHTC supply within buffer by year cohort to infer pipeline.
@@ -56,18 +65,25 @@ Uses year_alloc to classify projects into recency stages.
 @param {number} miles - buffer radius
 @returns {object} pipelineResult
 
-### `generateScenarios(acs, existingUnits, scenarioList, denominator, scorer)`
+### `generateScenarios(acs, existingUnits, scenarioList, denominator, scorer, penetrationDenominator, checkExistingUnits)`
 
 Run multiple what-if scenarios for different proposed unit counts.
 @param {object} acs - aggregated ACS metrics
 @param {number} existingUnits - existing LIHTC units in buffer
 @param {Array}  scenarioList - array of {label, proposedUnits, amiMix}
 @param {number} [denominator] - the renter-household count the page's
-  other capture rates divide by (market-analysis.js captureDenominator).
+  simulator's capture rate divides by (market-analysis.js
+  projectCaptureDenominator).
   Without it the table used ACS renter_hh while the headline and the
   simulator used CHAS LIHTC-eligible renters (audit F3).
 @param {Function} [scorer] - units -> computePma result with the
   headline's inputs (market-analysis.js _scenarioScorer).
+@param {number} [penetrationDenominator] - renters qualified for any
+  tax-credit tier, for the 85% check (CHFA 2027-28 QAP) on existing + proposed units;
+  the capture denominator when absent.
+@param {number} [checkExistingUnits] - existing tax-credit units for that
+  check (CHFA's table counts tax-credit units only); existingUnits when
+  absent.
 @returns {Array} scenarioResults
 
 ### `exportWithMetadata(result, quality, scenarios, benchmark, pipeline)`

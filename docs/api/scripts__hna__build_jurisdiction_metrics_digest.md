@@ -20,3 +20,11 @@ data/hna/ranking-index.json.
 ### `acsAsOf(summary)`
 
 The ACS vintage of the summary this jurisdiction's ACS values came from.
+
+### `acs5AsOf(summary, yearKey = '_acs5DetailYear')`
+
+The vintage of summary fields fetched from the ACS 5-year only, whatever
+the profile's own series: the B-series detail tables (B25003, B25075;
+build_hna_data.py stamps their year as _acs5DetailYear) and overcrowding's
+inputs (backfill_hna_extended_acs_cache.mjs, _acs5BackfillYear). A summary
+written before those stamps takes the profile's year.

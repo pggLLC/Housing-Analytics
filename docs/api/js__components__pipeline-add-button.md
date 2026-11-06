@@ -11,6 +11,7 @@ Usage:
   PipelineAddButton.attach(container, {
     jurisdiction: 'New Castle',
     geoid:        '0853395',
+    idPrefix:     'row-0853395',   // optional; keeps form ids unique when one page mounts many
     defaults: {
       stage:          'Signal',     // optional pre-fill
       ioi_score:      71,

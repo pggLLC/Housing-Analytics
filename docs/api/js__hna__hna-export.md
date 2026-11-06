@@ -6,6 +6,14 @@
 
 Trigger a file download for a Blob in browsers that support it.
 
+### `_pageMatchesSelection()`
+
+True when the page shows one finished load for the selected place.
+
+### `_exportStillCurrent()`
+
+Called at every file sink: false means the page moved on, so do not save.
+
 ### `_showExportToast(message, type)`
 
 Show a brief toast and announce to the #hnaLiveRegion (Recommendation 5.1).
@@ -27,13 +35,20 @@ them exported `housing-needs-assessment.pdf` with a cover reading
 nothing inside to say which fifth of the report you were holding. The
 canonical page publishes no view and keeps the original names verbatim.
 
-### `_viewFilename(base)`
-
-'housing-needs-assessment.csv' -> 'housing-needs-assessment-who-lives-here.csv'
-
 ### `_viewTitle(base)`
 
 'Housing Needs Assessment' -> 'Housing Needs Assessment — Who lives here'
+
+### `_pageFieldReason(id)`
+
+Why a page figure is blank in a download (evening practitioner QA,
+ 3 Nov 2026: the CSV left baseline units and target vacancy empty on
+ views that do not carry the projection chapter).
+
+### `_placeFilename(reportData, ext)`
+
+housing-needs-assessment[-view]-<place>-<geoid>.<ext>: every download
+ names the place it is for (evening practitioner QA, 3 Nov 2026).
 
 ### `_csvField(v)`
 
@@ -98,12 +113,11 @@ matching geoid against window.HNARanking._get().allEntries. Returns
 null if the ranking module isn't loaded yet — HNA single-jurisdiction
 page doesn't load it; Compare does.
 
-### `_metricsFromHnaState(geoid)`
+### `_acsPeriodLabel(series, year)`
 
-Fallback metrics builder for the HNA single-jurisdiction page where
-HNARanking isn't loaded. Reads from window.HNAState (the loaded
-profile + chasData) and computes the same analytics-grade fields
-the ranking-index would expose.
+The ACS period of the profile on the page for `geoid`, read from the
+profile itself (_acsSeries / _acsYear, set by the controller from the
+summary file). A combined area says its members' periods.
 
 ### `buildReportData()`
 
@@ -122,14 +136,6 @@ Falls back to window.print() if the required libraries are unavailable.
 
 @param {string} [filename] - Output filename (default: housing-needs-assessment.pdf)
 @returns {Promise<void>}
-
-### `exportCsv(reportData, filename)`
-
-Exports key housing metrics for the current geography as a CSV file.
-
-@param {object} [reportData] - Pre-built report object (from buildReportData).
-  If omitted the function calls buildReportData() automatically.
-@param {string} [filename]   - Output filename (default: housing-needs-assessment.csv)
 
 ### `exportJson(reportData, filename)`
 

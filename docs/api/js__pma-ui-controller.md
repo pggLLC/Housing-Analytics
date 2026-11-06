@@ -85,7 +85,8 @@ Parse a PMA permalink from the URL hash and return an object with
 
 On page load, restore the last PMA run from localStorage (if within TTL)
 OR from a URL permalink hash.  The URL hash takes priority so shared
-links always reproduce the correct analysis context.
+links always reproduce the correct analysis context; the saved run is
+kept only when the hash names its own site and method.
 
 When a restorable state is found, the form controls are pre-populated
 and an informational banner is shown near the run button.

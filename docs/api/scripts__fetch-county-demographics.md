@@ -24,7 +24,11 @@ Run via:
 
 ## Symbols
 
-### `buildStatewideAggregate(counties)`
+### `fetchStateMedians(year)`
+
+[rent, income, home value] for the state, or nulls if Census has none.
+
+### `buildStatewideAggregate(counties, stateMedians)`
 
 Build a statewide aggregate row from individual county records.
 Count fields are summed; rate/median fields use population-weighted averages.

@@ -1,11 +1,17 @@
 # `js/preservation.js`
 
 js/preservation.js
-NHPD Preservation Dashboard — subsidy tracking for Colorado affordable housing.
+Preservation inventory — Colorado affordable rental properties on the
+Colorado Housing and Finance Authority (CHFA) preservation map.
 
-Loads data/market/nhpd_co.geojson via DataService, caches it with CacheManager,
-and renders KPI cards, an expiration-timeline chart, a filterable property table,
-and a CSV export.
+Loads data/affordable-housing/preservation/chfa-preservation.json via
+DataService, caches it with CacheManager, assigns each property a county
+from its mapped location (js/county-from-coords.js), and renders KPI cards,
+a units-by-county chart, a filterable property table and a CSV export.
+
+The CHFA layer carries property identity only (name, address, city, ZIP,
+total units, location). It has no subsidy type or expiration date, so this
+dashboard shows neither and never infers risk from the listing.
 
 Exposes window.PreservationDashboard for testing.
 
@@ -23,78 +29,69 @@ Exposes window.PreservationDashboard for testing.
 
 @const {string} CacheManager key for GeoJSON payload.
 
-### `EXPIRY_HORIZON_YEARS`
+### `DATA_PATH`
 
-@const {number} Years ahead to flag a subsidy as "expiring soon".
+@const {string} Data path relative to data/.
 
-### `TABLE_COLS`
+### `CHART_TOP_N`
 
-@const {string[]} Columns used by the sortable table.
+@const {number} Counties shown in the chart.
+
+### `SOURCE_LABEL`
+
+@const {string} Source label carried on every exported row.
+
+### `LIMITATION`
+
+@const {string} Limitation carried on every exported row.
+
+### `SIZE_BANDS`
+
+@const {Object} Unit-size bands for the size filter.
+
+### `toCount(v)`
+
+Safely coerces a value to a positive finite number; returns null when the
+source gives no usable count (a missing count is unknown, not zero).
+@param {*} v
+@returns {number|null}
+
+### `cityCase(s)`
+
+Title-cases a city string ("COLORADO SPRINGS" → "Colorado Springs").
+@param {string} s
+@returns {string}
 
 ### `normaliseFeature(feature)`
 
-Extracts and normalises properties from a GeoJSON Feature or flat object.
-Returns a flat record with standardised field names.
+Extracts and normalises one CHFA preservation feature (or a flat object).
 @param {Object} feature
-@returns {Object}
+@returns {Object|null}
 
-### `toNum(v)`
+### `assignCounties(rows, lookup)`
 
-Safely coerces a value to a non-negative finite number; returns 0 on failure.
-@param {*} v
-@returns {number}
-
-### `parseExpiryYear(raw)`
-
-Returns the expiry year as a number, or null if unparseable.
-@param {string|number|null} raw
-@returns {number|null}
-
-### `parseExpiryMs(raw)`
-
-Returns the expiry date as a ms timestamp, or null.
-@param {string|number|null} raw
-@returns {number|null}
+Assigns a county name to each row from its mapped point, when the
+county lookup is available. Rows outside every boundary keep ''.
+@param {Array.<Object>} rows
+@param {Function} lookup  (lat, lon) → {name} | null
 
 ### `computeKpis(rows)`
 
 Computes summary KPIs from a row array.
 @param {Array.<Object>} rows
-@returns {{total: number, totalUnits: number, expiringCount: number, expiringUnits: number}}
+@returns {{total: number, totalUnits: number, counties: number, unknownUnits: number}}
 
-### `buildChartData(rows)`
+### `buildChartData(rows, topN)`
 
-Builds expiration-year bucketed data for the timeline chart.
-@param {Array.<Object>} rows  All rows (unfiltered).
+Sums listed units and properties by county, largest first.
+@param {Array.<Object>} rows
+@param {number} [topN]
 @returns {{ labels: string[], unitCounts: number[], propertyCounts: number[] }}
 
 ### `renderChart(canvas, rows)`
 
-Renders or updates the expiration timeline chart on the given canvas.
+Renders the units-by-county chart on the given canvas.
 @param {HTMLCanvasElement} canvas
-@param {Array.<Object>} rows
-
-### `expiryClass(expiry)`
-
-Returns a CSS class indicating expiry urgency.
-@param {string|number|null} expiry
-@returns {string}
-
-### `expiryLabel(expiry)`
-
-Returns a human-readable expiry label.
-@param {string|number|null} expiry
-@returns {string}
-
-### `subsidyLabel(t)`
-
-Returns a label for subsidy type that's safe for HTML.
-@param {string} t
-@returns {string}
-
-### `renderTable(rows)`
-
-Renders the property table body.
 @param {Array.<Object>} rows
 
 ### `escHtml(s)`
@@ -103,11 +100,17 @@ Escapes a string for HTML attribute/text content.
 @param {string} s
 @returns {string}
 
-### `subsidyTypeSlug(t)`
+### `renderTable(rows)`
 
-Converts a subsidy type string to a CSS-safe slug.
-@param {string} t
-@returns {string}
+Renders the property table body.
+@param {Array.<Object>} rows
+
+### `inSizeBand(r, band)`
+
+True when a row falls in the named unit-size band.
+@param {Object} r
+@param {string} band
+@returns {boolean}
 
 ### `getFilteredSorted()`
 
@@ -133,7 +136,7 @@ Also announces update to screen readers.
 
 ### `populateFilters()`
 
-Populates the county and subsidy-type filter dropdowns from loaded data.
+Populates the county filter dropdown from loaded data.
 
 ### `setupSorting()`
 
@@ -145,16 +148,23 @@ Downloads the current filtered rows as a CSV file.
 
 ### `loadData()`
 
-Loads NHPD GeoJSON from cache or DataService and bootstraps the UI.
+Loads the CHFA preservation GeoJSON from cache or DataService.
+
+### `countyLookup()`
+
+Resolves once county boundaries are ready (or immediately when the
+helper is absent), then returns a lookup function or null.
+@returns {Promise<Function|null>}
 
 ### `onDataLoaded(geojson)`
 
 Called once GeoJSON is available (from cache or network).
 @param {Object} geojson
+@returns {Promise|undefined}
 
 ### `showError(msg)`
 
-Displays an error message in the table body.
+Displays an error message in place of the inventory.
 @param {string} msg
 
 ### `init()`

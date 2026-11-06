@@ -17,7 +17,9 @@ never 0: a $0.00 credit price is not a price.
 
 ### `current(benchmark)`
 
-Current national prices, with the date the file says they are as of.
+Current prices, with the date the file says they are as of. `co` is
+Novogradac's Colorado median across all credit types; it publishes no
+9%/4% split for Colorado, so `nine` and `four` are national averages.
 
 ### `quarters(history)`
 
@@ -45,3 +47,11 @@ Probability-weighted range across scenarios {probability, lowPct, highPct}.
 ### `quarterAfter(quarter, n)`
 
 'YYYY-Qn' moved n quarters on; null if the label is not a quarter.
+
+### `fill(doc, fetchImpl)`
+
+Fill the small price chips other pages show: [data-equity-price="co"]
+gets the Colorado median, [data-equity-price="nine"|"four"] the current
+national price, [data-equity-yoy="nine"|"four"] the change
+on the same quarter a year earlier, [data-equity-vintage] the quarter.
+Chips stay as typed ("—") when the files cannot be read.

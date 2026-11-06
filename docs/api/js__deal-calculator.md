@@ -51,6 +51,10 @@ Populate the county selector dropdown from HudFmr data.
 
 Units by bedroom type across every checked AMI tier (split rows win over the tier dropdown).
 
+### `renderAddedCredit(result, fmt)`
+
+#2161: the added credit's gross and net new equity, and the gap with it counted in the sources.
+
 ### `_findAmiGapCounty(fips)`
 
 Find the county record in the AMI gap data by FIPS.
@@ -91,12 +95,6 @@ Q5: Render the ZORI market context line beneath the achievable-rent-cap
 toggle. Shows the county's current ZORI median, YoY change, and vintage
 month so the user can see *why* the cap might or might not bind.
 
-### `_alTriangulationLine(fips)`
-
-F96 — Build a one-line Apartment List comparison string for the
-selected county. AL is city-level; we surface the largest AL-tracked
-city associated with this county (best-effort name match).
-
 ### `_dolaTriangulationLine(fips)`
 
 F96 — Build a one-line DOLA Apartment Rent Survey comparison for
@@ -119,11 +117,9 @@ Hook up the lat/lon → county auto-detection UI controls.
 Update the QCT/DDA indicator in the deal calculator UI.
 Called by the market-analysis controller once checkDesignation() resolves.
 
-When basis_boost_eligible is true the checkbox is pre-checked and the
-note is shown so the user is aware of the designation.  The basis %
-slider is intentionally NOT auto-adjusted — the user retains full
-manual control per the principle that the designation does not
-automatically apply the 130% boost (IRC §42(d)(5)(B) requires election).
+When basis_boost_eligible is true a note tells the user the site appears
+to be designated. The boost itself is never selected automatically: it
+needs the user to choose the designation and record its evidence (#2160).
 
 @param {boolean} basisBoostEligible - True when site is in a QCT or DDA.
 
@@ -132,10 +128,15 @@ automatically apply the 130% boost (IRC §42(d)(5)(B) requires election).
 HB26-1065 Transit Zone (TZ) state credit — a possible source, never
 added to the stack (#1937 Phase 4, #1973). Called by the PMA transit-zone
 gate with a TransitZone.status() result. The line appears only when the
-site passes TransitZone.fundingPath. It states the draft QAP's per-project
+site passes TransitZone.fundingPath. It states the sourced QAP's per-project
 pairing for the selected credit type. The amounts live only in the
 HB26-1065 entry's `tz_credit_pairing` in
 data/policy/tax-credit-legislation.json, pinned to the QAP text in
 data/audit/chfa-qap-watch.json; until that file loads no amount is shown.
 The statewide cap below must match the same entry
 (test/transit-zone-funding-line.test.js).
+
+### `transitZoneInZone(result)`
+
+'yes' inside an official zone polygon, 'no' when the official map places the site
+outside one, '' when Market Analysis has not answered.

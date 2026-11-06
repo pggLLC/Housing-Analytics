@@ -2,6 +2,10 @@
 
 ## Symbols
 
+### `cycleTarget(baseline, i)`
+
+Target stock `i` years after the baseline year, capped at the cycle's 3 years.
+
 ### `getHistoricalAffordableData(geoType, geoid, baseline)`
 
 Return a synthetic historical dataset for a geography.
@@ -16,7 +20,7 @@ future reporting years.
 
 ### `calculateComplianceTrajectory(baseline, actuals, currentYear)`
 
-Compare actual affordable-unit counts against the 3% compounding requirement.
+Compare actual affordable-unit counts against the 2024–2026 goal.
 
 @param {number}          baseline    - Baseline unit count (year 0)
 @param {(number|null)[]} actuals     - Array of actual unit counts per year (index 0 = baseline year)
@@ -30,14 +34,15 @@ Compare actual affordable-unit counts against the 3% compounding requirement.
   targets: number[]
 }}
 
-### `getDolaFilingDeadlines()`
+### `getDolaFilingDeadlines(now)`
 
-Return DOLA filing deadline information for the current and next cycles.
+Return the next Prop 123 commitment deadline (November 1).
 
+@param {Date} [now] - override for testing; defaults to today
 @returns {{
   nextDeadline: string,      // ISO date "YYYY-MM-DD"
   filed: boolean,            // always false (runtime has no filing registry access)
-  filingYear: number,        // year the report covers
+  filingYear: number,        // first year the commitment filed by this deadline covers
   daysUntilDeadline: number
 }}
 

@@ -53,3 +53,11 @@ contentDate — resolve when a file's content last changed.
          `date` is YYYY-MM-DD and `iso` a full timestamp, or null when no
          trustworthy answer exists. `source` is one of
          'git' | 'worktree' | 'shallow' | 'untracked' | 'missing' | 'error'.
+
+### `normalizeStamp(stamp)`
+
+A whole, real ISO date (as given) or zoned timestamp (as UTC, whole seconds), else null.
+
+### `embeddedStamp(absPath)`
+
+The JSON file's own stamp: YYYY-MM-DD or a UTC timestamp ending in Z, or null.

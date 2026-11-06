@@ -42,7 +42,7 @@ Safely coerces a value to a finite number; returns 0 on failure.
 @param {*} v
 @returns {number}
 
-### `loadInventory(data)`
+### `loadInventory(data, meta)`
 
 Stores a preloaded NHPD features array.
 Each item is expected to have at minimum: lat, lon, total_units,

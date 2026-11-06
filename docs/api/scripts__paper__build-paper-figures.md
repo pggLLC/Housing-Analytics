@@ -103,3 +103,16 @@ everything else — every figure about Colorado — is gated strictly.
 
 Adding a path here is a decision to stop checking it. Keep the list short,
 and keep it to figures about the repository rather than about housing.
+
+### `methodsData()`
+
+Counts that methods.html quotes about the data rather than the code. They
+were typed into the prose by hand, which is how §03's "roughly 31%" and §06's
+silence about the workforce reading both went stale: the page described the
+build as of 2026-09-15 and nothing compared it with any later one.
+
+### `lossAccounting()`
+
+What the 20-year need figure leaves out (methods §08 "m-loss"). Each count is
+read from the file the site publishes, so the section cannot describe a
+replacement total, a loss rate or an expiry count the data no longer has.
