@@ -202,6 +202,7 @@ export const NOT_DERIVED = {
   'scripts/validate-critical-data.js': 'validator — asserts required data files parse and carry required keys',
   'scripts/validate_hna_coverage.py': 'validator — asserts every geography in the registry has HNA coverage',
   'scripts/validate_hna_pages.js': 'validator — asserts the HNA pages reference geographies that exist',
+  'scripts/build_public_employers.py': 'fetches CDE and NCES files over the network; reads the index only for the list of 64 county keys, so nothing it writes changes when the index is rebuilt',
   'scripts/hna/check_transit_zone_copy.py': 'validator — decides whether the index transit copy is stale (fetch-parcel-zoning-data.yml gate); writes nothing',
   'scripts/hna/check_transit_stop_copies.py': 'validator — decides whether the index and neighborhood access were built from the current stop content (fetch-parcel-zoning-data.yml gate); writes nothing',
 

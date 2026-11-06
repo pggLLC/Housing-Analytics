@@ -304,41 +304,57 @@
       {
         "name": "Grand Valley Catholic Outreach",
         "url": "https://gvch.org/"
-      },
-      {
-        "name": "Habitat for Humanity of the Roaring Fork Valley",
-        "url": "https://www.habitatroaringfork.org/"
       }
     ],
     "schoolDistrict": {
-      "name": "Roaring Fork RE-1 School District",
-      "url": "https://www.rfschools.com/"
+      "name": "Mesa County Valley School District 51",
+      "url": "https://www.d51schools.org/"
     },
     "hospital": {
-      "name": "Valley View Hospital",
-      "url": "https://www.vvh.org/"
+      "name": "Intermountain Health St. Mary's Regional Hospital",
+      "url": "https://intermountainhealthcare.org/locations/st-marys-regional-hospital"
     },
     "majorEmployers": [
       {
-        "name": "Valley View Hospital",
-        "url": "https://www.vvh.org/",
-        "note": "Largest year-round employer in western Garfield County"
+        "name": "Mesa County Valley School District 51",
+        "url": "https://www.d51schools.org/",
+        "note": "3,465 employees countywide in 2024 (Mesa County annual financial report, p. 156)."
       },
       {
-        "name": "Colorado Mountain College",
-        "url": "https://coloradomtn.edu/",
-        "note": "Regional anchor; runs employee housing at multiple campuses"
+        "name": "Intermountain Health St. Mary's Regional Hospital",
+        "url": "https://intermountainhealthcare.org/locations/st-marys-regional-hospital",
+        "note": "2,846 employees countywide in 2024 (Mesa County annual financial report, p. 156)."
       },
       {
-        "name": "Glenwood Caverns Adventure Park",
-        "url": "https://glenwoodcaverns.com/",
-        "note": "Major seasonal/tourism employer"
+        "name": "Community Hospital",
+        "url": "https://yourcommunityhospital.com/",
+        "note": "1,400 employees countywide in 2024 (Mesa County annual financial report, p. 156)."
       },
       {
-        "name": "City of Glenwood Springs",
-        "url": "https://www.gwsco.gov/"
+        "name": "Mesa County",
+        "url": "https://www.mesacounty.us/",
+        "note": "1,271 employees countywide in 2024 (Mesa County annual financial report, p. 156)."
+      },
+      {
+        "name": "Colorado Mesa University",
+        "url": "https://www.coloradomesa.edu/",
+        "note": "1,173 employees countywide in 2024 (Mesa County annual financial report, p. 156)."
+      },
+      {
+        "name": "VA Medical Center (Grand Junction)",
+        "url": "https://www.va.gov/western-colorado-health-care/",
+        "note": "1,022 employees countywide in 2024 (Mesa County annual financial report, p. 156)."
+      },
+      {
+        "name": "City of Grand Junction",
+        "url": "https://www.gjcity.org/",
+        "note": "860 employees countywide in 2024 (Mesa County annual financial report, p. 156)."
       }
-    ]
+    ],
+    "_employers_source": {
+      "label": "Mesa County ACFR 2024, Schedule 16 Principal Employers (its source: Grand Junction Economic Partnership), filed with the Office of the State Auditor",
+      "url": "https://s3.us-east-2.amazonaws.com/lg.colorado.gov/published_audits/2024/548.00%20County%20of%20Mesa.pdf"
+    }
   },
   "cdp:0815165": {
     "prop123": {
@@ -4126,8 +4142,8 @@
       }
     ],
     "schoolDistrict": {
-      "name": "Boulder Valley School District (RE-2)",
-      "url": "https://www.bvsd.org/"
+      "name": "Thompson School District R2-J",
+      "url": "https://www.thompsonschools.org/"
     },
     "name": "Loveland",
     "hospital": {
