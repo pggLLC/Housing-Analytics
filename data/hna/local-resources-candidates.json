@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-30T13:58:07.378Z",
+  "generatedAt": "2026-11-06T14:55:36.575Z",
   "limit": 30,
   "placesChecked": 30,
   "placesWithCandidates": 9,
@@ -8,7 +8,7 @@
     "place:0827810": {
       "name": "Fort Morgan",
       "county_fips": "08087",
-      "households": 1555,
+      "households": 1649,
       "slug": "fort morgan",
       "candidateUrls": [
         {
@@ -40,7 +40,7 @@
     "place:0886750": {
       "name": "Yuma",
       "county_fips": "08125",
-      "households": 519,
+      "households": 542,
       "slug": "yuma",
       "candidateUrls": [
         {
@@ -85,42 +85,10 @@
         }
       ]
     },
-    "place:0818530": {
-      "name": "Cripple Creek",
-      "county_fips": "08119",
-      "households": 262,
-      "slug": "cripple creek",
-      "candidateUrls": [
-        {
-          "url": "https://www.cityofcripplecreek.com/",
-          "type": "base",
-          "status": 200,
-          "title": "Home Page | Cripple Creek, CO",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        }
-      ]
-    },
-    "place:0812855": {
-      "name": "Center",
-      "county_fips": "08109",
-      "households": 247,
-      "slug": "center",
-      "candidateUrls": [
-        {
-          "url": "https://www.centerco.gov/",
-          "type": "base",
-          "status": 200,
-          "title": "Official Web Site of Town of Center, CO",
-          "hasHousingKeyword": true,
-          "looksLikeColorado": true
-        }
-      ]
-    },
     "place:0849875": {
       "name": "Meeker",
       "county_fips": "08103",
-      "households": 228,
+      "households": 277,
       "slug": "meeker",
       "candidateUrls": [
         {
@@ -151,10 +119,42 @@
         }
       ]
     },
+    "place:0812855": {
+      "name": "Center",
+      "county_fips": "08109",
+      "households": 273,
+      "slug": "center",
+      "candidateUrls": [
+        {
+          "url": "https://www.centerco.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "Official Web Site of Town of Center, CO",
+          "hasHousingKeyword": true,
+          "looksLikeColorado": true
+        }
+      ]
+    },
+    "place:0818530": {
+      "name": "Cripple Creek",
+      "county_fips": "08119",
+      "households": 262,
+      "slug": "cripple creek",
+      "candidateUrls": [
+        {
+          "url": "https://www.cityofcripplecreek.com/",
+          "type": "base",
+          "status": 200,
+          "title": "Home Page | Cripple Creek, CO",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": true
+        }
+      ]
+    },
     "place:0850480": {
       "name": "Milliken",
       "county_fips": "08123",
-      "households": 225,
+      "households": 221,
       "slug": "milliken",
       "candidateUrls": [
         {
@@ -225,19 +225,14 @@
       "slug": "walsenburg"
     },
     {
-      "geoid": "0856970",
-      "name": "Palisade",
-      "slug": "palisade"
-    },
-    {
       "geoid": "0843660",
       "name": "Las Animas",
       "slug": "las animas"
     },
     {
-      "geoid": "0837270",
-      "name": "Holyoke",
-      "slug": "holyoke"
+      "geoid": "0856970",
+      "name": "Palisade",
+      "slug": "palisade"
     },
     {
       "geoid": "0812635",
@@ -250,6 +245,11 @@
       "slug": "burlington"
     },
     {
+      "geoid": "0837270",
+      "name": "Holyoke",
+      "slug": "holyoke"
+    },
+    {
       "geoid": "0820770",
       "name": "Dolores",
       "slug": "dolores"
@@ -260,14 +260,14 @@
       "slug": "del norte"
     },
     {
-      "geoid": "0828305",
-      "name": "Fraser",
-      "slug": "fraser"
-    },
-    {
       "geoid": "0855980",
       "name": "Orchard City",
       "slug": "orchard"
+    },
+    {
+      "geoid": "0828305",
+      "name": "Fraser",
+      "slug": "fraser"
     },
     {
       "geoid": "0885705",
