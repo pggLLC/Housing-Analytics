@@ -89,6 +89,15 @@ export const CHAIN = [
     why: 'pins the index generatedAt; a two-line diff here cost a CI round on #1692',
   },
   {
+    id: 'funding-vs-need',
+    argv: ['node', 'scripts/funding/build_funding_vs_need.mjs'],
+    why: 'data/derived/funding-vs-need.json joins the award ledger (plus 4% bond '
+       + 'deals from data/chfa-lihtc.json) to the '
+       + 'ranking index\'s need and vacancy fields and to permits.json, so a '
+       + 'rebuilt index leaves the Funding vs Need tab stale without it. Runs '
+       + 'before place-pages, which embed its bond deal list',
+  },
+  {
     id: 'place-pages',
     argv: ['python3', 'scripts/hna/build_place_pages.py'],
     why: '482 places/<geoid>.html, rebuilt from place-chas. Gated by '
@@ -103,14 +112,6 @@ export const CHAIN = [
        + 'It was in no chain until 2026-10-10, so the HNA build refreshed the '
        + 'summaries and left it stale on main, and test:market-construction '
        + 'failed on the next unrelated PR',
-  },
-  {
-    id: 'funding-vs-need',
-    argv: ['node', 'scripts/funding/build_funding_vs_need.mjs'],
-    why: 'data/derived/funding-vs-need.json joins the award ledger (plus 4% bond '
-       + 'deals from data/chfa-lihtc.json) to the '
-       + 'ranking index\'s need and vacancy fields and to permits.json, so a '
-       + 'rebuilt index leaves the Funding vs Need tab stale without it',
   },
   {
     id: 'development-activity',
