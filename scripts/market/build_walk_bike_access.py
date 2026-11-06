@@ -684,7 +684,8 @@ def build_map(doc, trails, services, local, zone=None, fac_now=None):
     half = half_mile_area(fac_now) if fac_now else None
     if zone is not None and not zone.is_valid:
         zone = shapely.make_valid(zone)  # OEDIT's dissolved layer has self-touching rings
-    fpts = [(f['lon'], f['lat'], f['type'], f['name']) for f in (fac_now or [])]
+    # Bus stops are 95% of OEDIT facilities and already show as transit dots; the map keeps stations, rail and park-and-rides.
+    fpts = [(f['lon'], f['lat'], f['type'], f['name']) for f in (fac_now or []) if f['type'] != 'bus']
     mp = {}
     for g in doc['places']:
         o = outl.get(g)
@@ -717,7 +718,7 @@ def build_map(doc, trails, services, local, zone=None, fac_now=None):
         lay['trails'] = lines
         if zone is not None:
             lay['thiz'] = rings_of(zone.intersection(area), 0.0004)
-            lay['half_mile'] = rings_of(half.intersection(area), 0.0002)
+            lay['half_mile'] = rings_of(half.intersection(area), 0.0003)
             lay['facilities'] = [[round(x, 4), round(y, 4), t, n] for x, y, t, n in fpts
                                  if bx[0] <= x <= bx[2] and bx[1] <= y <= bx[3] and area.contains(Point(x, y))]
         mp[g] = lay
@@ -735,7 +736,7 @@ def build_map(doc, trails, services, local, zone=None, fac_now=None):
     meta = doc['meta']
     OUT_MAP.write_text(json.dumps({'meta': {'generated': meta['generated'], 'generated_by': meta['generated_by'],
                                             'note': ('Per-town map layers for the walk and bike page: service points, COTREX trails and local bike lanes (l) and paths (p) from the DRCOG, Colorado Springs and Grand Junction inventories, '
-                                                     'the official OEDIT Transit and Housing Investment Zone (thiz), straight half-mile circles around existing OEDIT facilities (half_mile) and those facilities '
+                                                     'the official OEDIT Transit and Housing Investment Zone (thiz), straight half-mile circles around existing OEDIT facilities (half_mile) and the non-bus facilities (stations, rail, park-and-rides; bus stops show as transit service points) '
                                                      '[lon, lat, type, name], within about 500 m of each town outline (2024 Census place boundaries), simplified. counties: the zone and half-mile area per county.'),
                                             'sources': ['data/amenities/', 'data/market/health_centers_co.geojson', COTREX, 'data/co-place-boundaries.geojson', 'data/policy/thiz-zones.geojson'] +
                                                        [LOCAL_LAYERS[k][0] for k in ('drcog_bike', 'cos_bike', 'gj_bike')],
