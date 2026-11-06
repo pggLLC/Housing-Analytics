@@ -54,13 +54,11 @@ ok(inv.counties['08031'].total_units > 35000, 'Denver counts its CHFA preservati
 const ph = read('data/affordable-housing/preservation/hud-public-housing.json');
 ok(ph.features.length >= 60 && /Public_Housing_Developments/.test(ph.meta.source_url), 'HUD public housing file, with its source');
 const phIn = P.filter((p) => p.program_type.includes('public-housing'));
-ok(phIn.length > 0 && phIn.length + props.metadata.public_housing.already_on_record_nearby === ph.features.length, 'each development is either added or left out as already on record');
-const near = (a, b) => Math.hypot((a.lat - b.lat) * 111320, (a.lng - b.lng) * 111320 * Math.cos(a.lat * Math.PI / 180));
-const others = P.filter((p) => !p.program_type.includes('public-housing') && Number.isFinite(p.lat));
-const key = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-ok(phIn.every((x) => others.every((o) => near(x, o) > 200 && !(near(x, o) <= 1000 && key(o.property_name) === key(x.property_name)))),
-  'no added public housing record sits within 200 m of another record, or 1 km of one with its name');
-ok(!phIn.some((x) => /^(West Ridge|Columbine) Homes$/.test(x.property_name)), 'Westridge and Columbine Homes (Denver) counted once');
+ok(phIn.length > 0 && phIn.length + props.metadata.public_housing.already_listed === ph.features.length, 'each development is either added or left out as already on record');
+const phNames = new Set(phIn.map((x) => x.property_name));
+ok(!phNames.has('West Ridge Homes') && !phNames.has('Columbine Homes') && !phNames.has('Walsh Manor Annex'), 'Westridge, Columbine and Walsh Manor Annex (Denver) counted once');
+ok(phNames.has('Walsh Manor') && phNames.has('Pueblo public housing (CO002000300)'), 'nearness alone does not drop a development (Walsh Manor; Pueblo mapped at one point)');
+ok(/distinctive name word/.test(props.metadata.public_housing.rule), 'the matching rule is stated in the file');
 const fl = read('data/affordable-housing/preservation/usda-farm-labor-housing.json');
 ok(fl.features.length >= 10 && /sc\.egov\.usda\.gov/.test(fl.meta.file), 'USDA farm labor file, with its source');
 ok(P.filter((p) => p.program_type.includes('usda-farm-labor')).length === fl.features.length, 'every farm labor project is in the inventory once (merged where already listed)');

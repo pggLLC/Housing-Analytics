@@ -63,15 +63,32 @@ const LOCAL_PHA_DIR      = path.join(ROOT, 'data/affordable-housing/local-pha-ro
 const PUBLIC_HOUSING_PATH = path.join(ROOT, 'data/affordable-housing/preservation/hud-public-housing.json');
 const USDA_FARM_LABOR_PATH = path.join(ROOT, 'data/affordable-housing/preservation/usda-farm-labor-housing.json');
 const COUNTIES_PATH      = path.join(ROOT, 'data/boundaries/counties_co.geojson');
-// A public housing development within this distance of a record already in
-// the inventory is taken to be that record (CHFA's preservation list carries
-// many housing-authority buildings under their own names) and is left out,
-// so no building is counted twice.
-const PUBLIC_HOUSING_NEAR_M = 200;
-// A record with the same name (letters and digits only) this close is the
-// same development under a slightly different map point (Westridge Homes).
+// A HUD public housing development is taken to be a record already in the
+// inventory (CHFA's preservation list carries many housing-authority
+// buildings under their own names) only on evidence of identity, and each
+// record stands for one development at most:
+//  - a shared distinctive name word within PUBLIC_HOUSING_SAME_NAME_M
+//    ("West Ridge Homes" = "Westridge Homes", "Bean Tower" = "Thomas Bean
+//    Towers", "Park Avenue Phase 4b" = "Benedict Park Place 4B"), or
+//  - the same number of homes within PUBLIC_HOUSING_SAME_UNITS_M
+//    ("1099 Osage" = "Tapiz at Mariposa", 100 homes, 16 m apart); not for
+//    scattered sites, whose one map point stands for many addresses.
+// Nearness alone is not enough: Walsh Manor (89) sits 61 m from Walsh Manor
+// Annex (100), and HUD maps a town-wide authority ("Pueblo") at one point.
 const PUBLIC_HOUSING_SAME_NAME_M = 1000;
-const _nameKey = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+const PUBLIC_HOUSING_SAME_UNITS_M = 300;
+const PH_COMMON_WORDS = new Set(('homes home apartments apartment apts apt the at of and on phase redevelopment rebuild ' +
+  'park avenue street place village villages manor towers tower court courts hope vi south north east west dispersed senior ' +
+  'housing residences annex co county city town un units').split(' '));
+const _nameWords = (s) => String(s || '').toLowerCase().replace(/westridge/g, 'west ridge').replace(/[^a-z0-9 ]/g, ' ')
+  .split(/\s+/).map((w) => w.replace(/s$/, '')).filter((w) => w.length > 1 && !PH_COMMON_WORDS.has(w) && !PH_COMMON_WORDS.has(w + 's'));
+// A HUD name that is only its authority's town ("Fountain", "Colorado
+// Springs") says nothing about which building it is.
+const _placeOnlyName = (ph) => {
+  const words = _nameWords(ph.property_name);
+  const authority = _nameWords(ph.pha_administered_by);
+  return words.length === 0 || words.every((w) => authority.includes(w));
+};
 const OUT_PATH           = path.join(ROOT, 'data/affordable-housing/properties.json');
 const MANIFEST_PATH      = path.join(ROOT, 'data/affordable-housing/properties-manifest.json');
 
@@ -678,24 +695,46 @@ function main() {
   const rawAll = [...lihtcNorm, ...presNorm, ...hudMfNorm, ...usdaRdNorm, ...farmLaborNorm, ...localPbvNorm];
   const deduped = dedupeProperties(rawAll);
 
-  // Public housing: added only where no record already sits within
-  // PUBLIC_HOUSING_NEAR_M, so a housing-authority building CHFA lists under
-  // another name is not counted twice.
+  // Public housing: added unless it is shown to be a record already listed
+  // (see PUBLIC_HOUSING_SAME_NAME_M above). Exact-unit and closer matches
+  // are taken first, and each record is used once.
   const publicHousing = readJson(PUBLIC_HOUSING_PATH);
   const phNorm = ((publicHousing && publicHousing.features) || []).map((f, i) => normalizePublicHousing(f, i));
-  const phAdded = [];
-  const phNear = [];
-  phNorm.forEach((ph) => {
-    const key = _nameKey(ph.property_name);
-    const near = Number.isFinite(ph.lat) && deduped.some((r) => {
-      if (!Number.isFinite(r.lat) || !Number.isFinite(r.lng)) return false;
+  const pairs = [];
+  phNorm.forEach((ph, i) => {
+    if (!Number.isFinite(ph.lat) || !Number.isFinite(ph.lng)) return;
+    const words = _placeOnlyName(ph) ? [] : _nameWords(ph.property_name);
+    deduped.forEach((r, j) => {
+      if (!Number.isFinite(r.lat) || !Number.isFinite(r.lng)) return;
       const m = _metersApart(ph.lat, ph.lng, r.lat, r.lng);
-      return m <= PUBLIC_HOUSING_NEAR_M ||
-        (m <= PUBLIC_HOUSING_SAME_NAME_M && key.length > 3 && _nameKey(r.property_name) === key);
+      if (m > PUBLIC_HOUSING_SAME_NAME_M) return;
+      const rWords = _nameWords(r.property_name);
+      const shared = words.filter((w) => rWords.includes(w)).length;
+      const sameUnits = ph.total_units != null && ph.total_units === r.total_units;
+      if (shared > 0 || (sameUnits && !ph.scattered_site && m <= PUBLIC_HOUSING_SAME_UNITS_M)) {
+        pairs.push({ i, j, score: shared * 10 + (sameUnits ? 5 : 0) - m / 1000 });
+      }
     });
-    (near ? phNear : phAdded).push(ph);
   });
-  console.log(`  HUD public housing:              ${phNorm.length} (${phAdded.length} added, ${phNear.length} already on record nearby)`);
+  pairs.sort((a, b) => b.score - a.score);
+  const phMatched = new Map();
+  const recUsed = new Set();
+  pairs.forEach((p) => {
+    if (phMatched.has(p.i) || recUsed.has(p.j)) return;
+    phMatched.set(p.i, p.j);
+    recUsed.add(p.j);
+  });
+  const phAdded = phNorm.filter((_, i) => !phMatched.has(i));
+  // HUD names some town-wide groups of scattered homes only by the town
+  // ("Pueblo" twice): the development code tells them apart on the map.
+  phAdded.forEach((ph) => {
+    if (_placeOnlyName(ph)) ph.property_name = ph.property_name + ' public housing (' + ph.source_id + ')';
+  });
+  const phNear = phNorm.filter((_, i) => phMatched.has(i));
+  if (process.env.PH_MATCH_LOG) {
+    phMatched.forEach((j, i) => console.log('    same as listed: ' + phNorm[i].property_name + ' (' + phNorm[i].total_units + ') = ' + deduped[j].property_name + ' (' + deduped[j].total_units + ')'));
+  }
+  console.log(`  HUD public housing:              ${phNorm.length} (${phAdded.length} added, ${phNear.length} already listed)`);
   const all = deduped.concat(phAdded);
 
   // Records with coordinates but no county code (most CHFA preservation
@@ -764,8 +803,8 @@ function main() {
       public_housing: {
         developments: phNorm.length,
         added: phAdded.length,
-        already_on_record_nearby: phNear.length,
-        rule: 'A HUD public housing development within ' + PUBLIC_HOUSING_NEAR_M + ' m of a record already in the inventory, or within ' + PUBLIC_HOUSING_SAME_NAME_M + ' m of a record with the same name, is taken to be that record and left out.'
+        already_listed: phNear.length,
+        rule: 'A HUD public housing development is taken to be a record already in the inventory, and left out, only when it shares a distinctive name word with that record within ' + PUBLIC_HOUSING_SAME_NAME_M + ' m, or, for a development on one site, has the same number of homes within ' + PUBLIC_HOUSING_SAME_UNITS_M + ' m. Each record stands for one development at most. Nearness alone is not taken as the same building.'
       },
       county_placed_from_coordinates: countyPlaced,
       total_records: all.length,
