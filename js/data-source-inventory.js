@@ -1650,7 +1650,7 @@
       name: 'Funding vs Need (derived)',
       category: 'LIHTC / Housing',
       format: 'JSON',
-      provider: 'COHO Analytics, from CHFA and DOLA Prop 123 award reports and HUD CHAS need',
+      provider: 'COHO Analytics, from CHFA and DOLA Prop 123 award reports, CHFA\'s tax credit property list, and HUD CHAS need',
       url: null,
       localFile: 'data/derived/funding-vs-need.json',
       lastUpdated: '2026-11-05',
@@ -1659,7 +1659,7 @@
       geoUnit: 'County',
       coverage: 'All 64 Colorado counties, awards 2016 to 2026',
       features: 64,
-      description: 'Joins tax-credit and Prop 123 awards parsed from published award PDFs to each county’s ≤30% AMI housing gap, vacancy and permits. Awards made between CHFA rounds are missing until CHFA publishes them.',
+      description: 'Joins tax-credit and Prop 123 awards parsed from published award PDFs to each county’s ≤30% AMI housing gap, vacancy and permits. 4% bond deals CHFA awards outside its rounds are added from CHFA\'s tax credit property list (data/chfa-lihtc.json), matched so no deal is counted twice; the list adds recent bond deals late.',
       tags: ['lihtc', 'prop123', 'funding', 'need', 'derived'],
       apiEndpoint: null
     },

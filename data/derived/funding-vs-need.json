@@ -11,15 +11,1249 @@
    "data/policy/funding-awards/documents.json",
    "data/hna/ranking-index.json",
    "data/hna/permits.json",
-   "data/chfa-income-rent-limits-2026.json"
+   "data/chfa-income-rent-limits-2026.json",
+   "data/chfa-lihtc.json"
   ],
   "need_measure": "housing_gap_units from the ranking index: renter households at or below 30% AMI minus rental homes priced affordable to them (ACS 5-year B25118 and B25063, with HUD income limits; data/co_ami_gap_by_county.json). Priced-affordable, not HUD CHAS affordable-and-available.",
-  "coverage_measure": "LIHTC units awarded in the window (restricted units where the report prints them, else total units) per 100 households in the ≤30% AMI gap. LIHTC mostly serves 60% AMI, so this is a scale comparison, not a claim that each unit closes a ≤30% gap.",
+  "coverage_measure": "LIHTC units awarded in the window per 100 households in the ≤30% AMI gap. Units are round award units (restricted units where the report prints them, else total units) plus the low-income units of 4% bond deals on CHFA's property list that no round award accounts for. LIHTC mostly serves 60% AMI, so this is a scale comparison, not a claim that each unit closes a ≤30% gap.",
+  "bond_deal_method": "CHFA's round award reports leave out most 4% credits paired with private activity bonds, which CHFA awards outside the rounds. Every 4% property on CHFA's tax credit property list (data/chfa-lihtc.json) with an award year from 2016 to 2026 is matched to the round award ledger: same county, award within two years, and alike names (or partly alike names with the same number of homes, or one building of a larger award, or the same homes and year when a deal was renamed). The 122 properties no round award accounts for add their low-income units (LI_UNITS) to their county. Matching errs toward a match, so a doubtful pair is not counted twice. From 2021 CHFA also prints bond-only deals in its federal 4% award report, which the ledger reads, so most added deals are from 2016 to 2022. The property list runs through 2025.",
+  "bond_feed_last_year": 2025,
+  "bond_deals_checked": 275,
+  "bond_deals_matched_to_rounds": 153,
+  "bond_deals_matched_by_rule": {
+   "name": 123,
+   "name and homes": 10,
+   "one building of the award": 4,
+   "site of a scattered-site award": 1,
+   "homes and year (renamed)": 15
+  },
+  "bond_deals_outside_rounds": [
+   {
+    "name": "Aspen Country Inn II",
+    "county_fips": "08097",
+    "city": "Aspen",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 40,
+    "chfa_record_id": 1074
+   },
+   {
+    "name": "Congress Park Commons",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 32,
+    "chfa_record_id": 337
+   },
+   {
+    "name": "Copper Range Apartments",
+    "county_fips": "08041",
+    "city": "Colorado Springs",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 237,
+    "chfa_record_id": 827
+   },
+   {
+    "name": "Kentucky Circle Village",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 147,
+    "chfa_record_id": 529
+   },
+   {
+    "name": "Manors I and II",
+    "county_fips": "08045",
+    "city": "Glenwood Springs",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 76,
+    "chfa_record_id": 1069
+   },
+   {
+    "name": "Marcella",
+    "county_fips": "08059",
+    "city": "Arvada",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 206,
+    "chfa_record_id": 24
+   },
+   {
+    "name": "Martinez Park & Nettie Moore Apartments",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 45,
+    "chfa_record_id": 269
+   },
+   {
+    "name": "Maryel Manor Apartments",
+    "county_fips": "08014",
+    "city": "Broomfield",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 50,
+    "chfa_record_id": 89
+   },
+   {
+    "name": "North Range Crossings",
+    "county_fips": "08001",
+    "city": "Commerce City",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 216,
+    "chfa_record_id": 98
+   },
+   {
+    "name": "Sable Ridge Apartments",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 60,
+    "chfa_record_id": 524
+   },
+   {
+    "name": "Shorter Arms",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 41,
+    "chfa_record_id": 304
+   },
+   {
+    "name": "Whitney Young Manor",
+    "county_fips": "08041",
+    "city": "Colorado Springs",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 198,
+    "chfa_record_id": 849
+   },
+   {
+    "name": "William Tell Apartments",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 81,
+    "chfa_record_id": 406
+   },
+   {
+    "name": "Willow Street Residences II",
+    "county_fips": "08005",
+    "city": "Denver",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 80,
+    "chfa_record_id": 535
+   },
+   {
+    "name": "Woodlands Apartments",
+    "county_fips": "08069",
+    "city": "Fort Collins",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 115,
+    "chfa_record_id": 714
+   },
+   {
+    "name": "Woodside Village",
+    "county_fips": "08123",
+    "city": "Greeley",
+    "award_year": 2016,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 160,
+    "chfa_record_id": 776
+   },
+   {
+    "name": "Baker School Apartments",
+    "county_fips": "08001",
+    "city": "Denver",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 142,
+    "chfa_record_id": 443
+   },
+   {
+    "name": "Copper Stone Apartments",
+    "county_fips": "08013",
+    "city": "Lafayette",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 257,
+    "chfa_record_id": 119
+   },
+   {
+    "name": "Corwood Square Correll Apartments",
+    "county_fips": "08013",
+    "city": "Boulder",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 21,
+    "chfa_record_id": 575
+   },
+   {
+    "name": "Corwood Square Pinewood Apartments",
+    "county_fips": "08013",
+    "city": "Boulder",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 23,
+    "chfa_record_id": 573
+   },
+   {
+    "name": "Corwood Square Valmont Square",
+    "county_fips": "08013",
+    "city": "Boulder",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 36,
+    "chfa_record_id": 556
+   },
+   {
+    "name": "East Range Crossings",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 251,
+    "chfa_record_id": 544
+   },
+   {
+    "name": "Eaton Street Apartments",
+    "county_fips": "08059",
+    "city": "Westminster",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 118,
+    "chfa_record_id": 135
+   },
+   {
+    "name": "Holly Park Apartments",
+    "county_fips": "08001",
+    "city": "Commerce City",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 168,
+    "chfa_record_id": 100
+   },
+   {
+    "name": "Lakeview on the Rise",
+    "county_fips": "08069",
+    "city": "Fort Collins",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 180,
+    "chfa_record_id": 694
+   },
+   {
+    "name": "Larkridge Apartments",
+    "county_fips": "08001",
+    "city": "Thornton",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 338,
+    "chfa_record_id": 113
+   },
+   {
+    "name": "Moline at Stapleton Apartments",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 180,
+    "chfa_record_id": 597
+   },
+   {
+    "name": "Northern Hotel Apartments",
+    "county_fips": "08069",
+    "city": "Fort Collins",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 47,
+    "chfa_record_id": 685
+   },
+   {
+    "name": "Quayle",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction & Acquisition/Rehabilitation",
+    "homes": 102,
+    "chfa_record_id": 465
+   },
+   {
+    "name": "Sienna on Sloans",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 49,
+    "chfa_record_id": 267
+   },
+   {
+    "name": "Sierra Vista Apartments",
+    "county_fips": "08005",
+    "city": "Denver",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 209,
+    "chfa_record_id": 538
+   },
+   {
+    "name": "South Range Crossings",
+    "county_fips": "08035",
+    "city": "Parker",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 204,
+    "chfa_record_id": 192
+   },
+   {
+    "name": "Villas at Wadsworth Station",
+    "county_fips": "08059",
+    "city": "Lakewood",
+    "award_year": 2017,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 100,
+    "chfa_record_id": 369
+   },
+   {
+    "name": "Apex Meridian II",
+    "county_fips": "08035",
+    "city": "Englewood",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 155,
+    "chfa_record_id": 166
+   },
+   {
+    "name": "Aspen Meadows Aurora",
+    "county_fips": "08005",
+    "city": "Aurora",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 100,
+    "chfa_record_id": 63
+   },
+   {
+    "name": "Bustop",
+    "county_fips": "08013",
+    "city": "Boulder",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 53,
+    "chfa_record_id": 591
+   },
+   {
+    "name": "Capitol Hill Apartments",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 62,
+    "chfa_record_id": 235
+   },
+   {
+    "name": "Ciclo Apartments",
+    "county_fips": "08013",
+    "city": "Boulder",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 38,
+    "chfa_record_id": 561
+   },
+   {
+    "name": "Colorado 7 Cielo Vista",
+    "county_fips": "08109",
+    "city": "Center",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 24,
+    "chfa_record_id": 950
+   },
+   {
+    "name": "Colorado 7 Gomez Manor",
+    "county_fips": "08021",
+    "city": "Antonito",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 16,
+    "chfa_record_id": 947
+   },
+   {
+    "name": "Colorado 7 Guadalupe Hacienda",
+    "county_fips": "08021",
+    "city": "Antonito",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 24,
+    "chfa_record_id": 945
+   },
+   {
+    "name": "Colorado 7 Mount Blanca View",
+    "county_fips": "08003",
+    "city": "Alamosa",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 50,
+    "chfa_record_id": 940
+   },
+   {
+    "name": "Colorado 7 Sangre De Cristo",
+    "county_fips": "08109",
+    "city": "Center",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 16,
+    "chfa_record_id": 952
+   },
+   {
+    "name": "Colorado 7 Valle Vista",
+    "county_fips": "08109",
+    "city": "Center",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 20,
+    "chfa_record_id": 954
+   },
+   {
+    "name": "Connections at 6th",
+    "county_fips": "08005",
+    "city": "Aurora",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 68,
+    "chfa_record_id": 62
+   },
+   {
+    "name": "Ellipse Apartments",
+    "county_fips": "08013",
+    "city": "Boulder",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 105,
+    "chfa_record_id": 562
+   },
+   {
+    "name": "Golden West Communities Senior",
+    "county_fips": "08013",
+    "city": "Boulder",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 253,
+    "chfa_record_id": 577
+   },
+   {
+    "name": "Kearney Plaza",
+    "county_fips": "08001",
+    "city": "Commerce City",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 50,
+    "chfa_record_id": 103
+   },
+   {
+    "name": "Meadows II",
+    "county_fips": "08069",
+    "city": "Loveland",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 59,
+    "chfa_record_id": 725
+   },
+   {
+    "name": "Park Terrace Apartments",
+    "county_fips": "08059",
+    "city": "Arvada",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 95,
+    "chfa_record_id": 12
+   },
+   {
+    "name": "Reserve at Northglenn",
+    "county_fips": "08001",
+    "city": "Northglenn",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction & Acquisition/Rehabilitation",
+    "homes": 260,
+    "chfa_record_id": 495
+   },
+   {
+    "name": "Spring Creek Gypsum",
+    "county_fips": "08037",
+    "city": "Gypsum",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 150,
+    "chfa_record_id": 1087
+   },
+   {
+    "name": "St Mark Village",
+    "county_fips": "08001",
+    "city": "Westminster",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 215,
+    "chfa_record_id": 131
+   },
+   {
+    "name": "Village Crest Apartments",
+    "county_fips": "08001",
+    "city": "Commerce City",
+    "award_year": 2018,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 120,
+    "chfa_record_id": 105
+   },
+   {
+    "name": "Aurora Homes",
+    "county_fips": "08005",
+    "city": "Aurora",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 54,
+    "chfa_record_id": 26
+   },
+   {
+    "name": "Casa Del Sol",
+    "county_fips": "08101",
+    "city": "Pueblo",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 154,
+    "chfa_record_id": 883
+   },
+   {
+    "name": "Centennial Crossings",
+    "county_fips": "08005",
+    "city": "Centennial",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 209,
+    "chfa_record_id": 82
+   },
+   {
+    "name": "Charity's House Apartments",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 36,
+    "chfa_record_id": 321
+   },
+   {
+    "name": "Clare Gardens",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 128,
+    "chfa_record_id": 364
+   },
+   {
+    "name": "Denver Metro Village",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction & Acquisition/Rehabilitation",
+    "homes": 210,
+    "chfa_record_id": 254
+   },
+   {
+    "name": "Eiber Village at Garrison Station",
+    "county_fips": "08059",
+    "city": "Lakewood",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 49,
+    "chfa_record_id": 383
+   },
+   {
+    "name": "Fields on 15th",
+    "county_fips": "08013",
+    "city": "Longmont",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 88,
+    "chfa_record_id": 661
+   },
+   {
+    "name": "Glen Willow Apartments",
+    "county_fips": "08013",
+    "city": "Boulder",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 34,
+    "chfa_record_id": 572
+   },
+   {
+    "name": "Landing",
+    "county_fips": "08001",
+    "city": "Commerce City",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 223,
+    "chfa_record_id": 107
+   },
+   {
+    "name": "Lyons Valley Townhomes",
+    "county_fips": "08013",
+    "city": "Lyons",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 40,
+    "chfa_record_id": 746
+   },
+   {
+    "name": "Notable",
+    "county_fips": "08059",
+    "city": "Lakewood",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction & Acquisition/Rehabilitation",
+    "homes": 218,
+    "chfa_record_id": 602
+   },
+   {
+    "name": "Pancratia Hall Lofts",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 74,
+    "chfa_record_id": 505
+   },
+   {
+    "name": "Park Avenue West Apartments",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 122,
+    "chfa_record_id": 334
+   },
+   {
+    "name": "Range View Apartments",
+    "county_fips": "08001",
+    "city": "Aurora",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 220,
+    "chfa_record_id": 46
+   },
+   {
+    "name": "Reserves at Green Valley Ranch",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 144,
+    "chfa_record_id": 542
+   },
+   {
+    "name": "Sheridan Gardens",
+    "county_fips": "08031",
+    "city": "Englewood",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 48,
+    "chfa_record_id": 158
+   },
+   {
+    "name": "Stella",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 131,
+    "chfa_record_id": 400
+   },
+   {
+    "name": "Traditions at Lafayette",
+    "county_fips": "08013",
+    "city": "Lafayette",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 131,
+    "chfa_record_id": 115
+   },
+   {
+    "name": "West End Communties Canyon Pointe",
+    "county_fips": "08013",
+    "city": "Boulder",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 80,
+    "chfa_record_id": 574
+   },
+   {
+    "name": "Winfield Apartments",
+    "county_fips": "08041",
+    "city": "Colorado Springs",
+    "award_year": 2019,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 160,
+    "chfa_record_id": 867
+   },
+   {
+    "name": "Alpine Vista Apartments",
+    "county_fips": "08041",
+    "city": "Colorado Springs",
+    "award_year": 2020,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 242,
+    "chfa_record_id": 870
+   },
+   {
+    "name": "Aspen Meadows Apartments",
+    "county_fips": "08013",
+    "city": "Longmont",
+    "award_year": 2020,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 50,
+    "chfa_record_id": 658
+   },
+   {
+    "name": "Atlantis Apartments II",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2020,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 84,
+    "chfa_record_id": 464
+   },
+   {
+    "name": "Audrey",
+    "county_fips": "08035",
+    "city": "Highlands Ranch",
+    "award_year": 2020,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 134,
+    "chfa_record_id": 189
+   },
+   {
+    "name": "Caesar Square",
+    "county_fips": "08059",
+    "city": "Wheat Ridge",
+    "award_year": 2020,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 108,
+    "chfa_record_id": 142
+   },
+   {
+    "name": "Creek at Cottonwood",
+    "county_fips": "08041",
+    "city": "Colorado Springs",
+    "award_year": 2020,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 258,
+    "chfa_record_id": 875
+   },
+   {
+    "name": "Crossing Pointe South",
+    "county_fips": "08001",
+    "city": "Thornton",
+    "award_year": 2020,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 142,
+    "chfa_record_id": 498
+   },
+   {
+    "name": "Grace Apartments",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2020,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 53,
+    "chfa_record_id": 438
+   },
+   {
+    "name": "Madison and Woodlands",
+    "county_fips": "08013",
+    "city": "Boulder",
+    "award_year": 2020,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 68,
+    "chfa_record_id": 593
+   },
+   {
+    "name": "Meadows Townhomes",
+    "county_fips": "08123",
+    "city": "Fort Lupton",
+    "award_year": 2020,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 51,
+    "chfa_record_id": 769
+   },
+   {
+    "name": "Swallow Road",
+    "county_fips": "08069",
+    "city": "Fort Collins",
+    "award_year": 2020,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 84,
+    "chfa_record_id": 716
+   },
+   {
+    "name": "Tamarin Square",
+    "county_fips": "08067",
+    "city": "Durango",
+    "award_year": 2020,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 68,
+    "chfa_record_id": 998
+   },
+   {
+    "name": "Academy Heights",
+    "county_fips": "08041",
+    "city": "Colorado Springs",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 199,
+    "chfa_record_id": 847
+   },
+   {
+    "name": "Apex South",
+    "county_fips": "08035",
+    "city": "Englewood",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 208,
+    "chfa_record_id": 168
+   },
+   {
+    "name": "Brookstone Apartments",
+    "county_fips": "08069",
+    "city": "Loveland",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 71,
+    "chfa_record_id": 733
+   },
+   {
+    "name": "Casa Redonda de Vigil",
+    "county_fips": "08001",
+    "city": "Denver",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 42,
+    "chfa_record_id": 440
+   },
+   {
+    "name": "Central Park III",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 127,
+    "chfa_record_id": 514
+   },
+   {
+    "name": "Coachlight Apartments",
+    "county_fips": "08069",
+    "city": "Fort Collins",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 68,
+    "chfa_record_id": 684
+   },
+   {
+    "name": "Copper Platte Apartments",
+    "county_fips": "08123",
+    "city": "Greeley",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 221,
+    "chfa_record_id": 779
+   },
+   {
+    "name": "Crisman II Apartments",
+    "county_fips": "08123",
+    "city": "Longmont",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 83,
+    "chfa_record_id": 657
+   },
+   {
+    "name": "Crosswinds at Arista",
+    "county_fips": "08014",
+    "city": "Broomfield",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 158,
+    "chfa_record_id": 97
+   },
+   {
+    "name": "Draper Commons",
+    "county_fips": "08041",
+    "city": "Colorado Springs",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 95,
+    "chfa_record_id": 823
+   },
+   {
+    "name": "Forum Apartments",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 100,
+    "chfa_record_id": 260
+   },
+   {
+    "name": "Immaculata Plaza",
+    "county_fips": "08123",
+    "city": "Greeley",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction & Acquisition/Rehabilitation",
+    "homes": 55,
+    "chfa_record_id": 782
+   },
+   {
+    "name": "Interquest Ridge",
+    "county_fips": "08041",
+    "city": "Colorado Springs",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 240,
+    "chfa_record_id": 841
+   },
+   {
+    "name": "Karl's Farm Apartments",
+    "county_fips": "08001",
+    "city": "Northglenn",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 162,
+    "chfa_record_id": 528
+   },
+   {
+    "name": "Madison Avenue Apartments",
+    "county_fips": "08069",
+    "city": "Loveland",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 58,
+    "chfa_record_id": 730
+   },
+   {
+    "name": "Northfield Commons",
+    "county_fips": "08069",
+    "city": "Fort Collins",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 84,
+    "chfa_record_id": 690
+   },
+   {
+    "name": "Off Broadway Lofts",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 80,
+    "chfa_record_id": 298
+   },
+   {
+    "name": "Pascal Gardens",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 216,
+    "chfa_record_id": 466
+   },
+   {
+    "name": "San Juan Apartments",
+    "county_fips": "08085",
+    "city": "Montrose",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 76,
+    "chfa_record_id": 1023
+   },
+   {
+    "name": "Tantra Lake Apartments",
+    "county_fips": "08013",
+    "city": "Boulder",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 185,
+    "chfa_record_id": 594
+   },
+   {
+    "name": "Walden 35",
+    "county_fips": "08001",
+    "city": "Aurora",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 100,
+    "chfa_record_id": 60
+   },
+   {
+    "name": "Wildhorse Ridge",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2021,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 119,
+    "chfa_record_id": 543
+   },
+   {
+    "name": "Copper Rose",
+    "county_fips": "08041",
+    "city": "Colorado Springs",
+    "award_year": 2022,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 180,
+    "chfa_record_id": 873
+   },
+   {
+    "name": "Monument Ridge Townhomes",
+    "county_fips": "08077",
+    "city": "Grand Junction",
+    "award_year": 2022,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 165,
+    "chfa_record_id": 1053
+   },
+   {
+    "name": "Northfield Flats",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2022,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 129,
+    "chfa_record_id": 516
+   },
+   {
+    "name": "Presbyterian Manor",
+    "county_fips": "08013",
+    "city": "Boulder",
+    "award_year": 2022,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 75,
+    "chfa_record_id": 567
+   },
+   {
+    "name": "Ruby Vista",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2022,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 97,
+    "chfa_record_id": 458
+   },
+   {
+    "name": "St. Francis Center West",
+    "county_fips": "08031",
+    "city": "Denver",
+    "award_year": 2022,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 60,
+    "chfa_record_id": 414
+   },
+   {
+    "name": "Western Apartments",
+    "county_fips": "08071",
+    "city": "Trinidad",
+    "award_year": 2022,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 60,
+    "chfa_record_id": 934
+   },
+   {
+    "name": "Windsor Court",
+    "county_fips": "08005",
+    "city": "Aurora",
+    "award_year": 2022,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 143,
+    "chfa_record_id": 35
+   },
+   {
+    "name": "Arvada House",
+    "county_fips": "08059",
+    "city": "Arvada",
+    "award_year": 2023,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 88,
+    "chfa_record_id": 22
+   },
+   {
+    "name": "Junction 72",
+    "county_fips": "08001",
+    "city": "Commerce City",
+    "award_year": 2023,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction",
+    "homes": 93,
+    "chfa_record_id": 111
+   },
+   {
+    "name": "Village on Impala",
+    "county_fips": "08069",
+    "city": "Fort Collins",
+    "award_year": 2023,
+    "credit": "4% Tax Exempt",
+    "project_type": "New Construction & Acquisition/Rehabilitation",
+    "homes": 86,
+    "chfa_record_id": 680
+   },
+   {
+    "name": "Village on Main",
+    "county_fips": "08013",
+    "city": "Longmont",
+    "award_year": 2023,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 71,
+    "chfa_record_id": 654
+   },
+   {
+    "name": "Glennpark Village",
+    "county_fips": "08001",
+    "city": "Northglenn",
+    "award_year": 2024,
+    "credit": "4% Tax Exempt",
+    "project_type": "Acquisition/Rehabilitation",
+    "homes": 26,
+    "chfa_record_id": 493
+   }
+  ],
   "quadrant_split": {
    "gap_per_1000_residents": 15.9,
-   "lihtc_units_per_100_gap": 12.2
+   "lihtc_units_per_100_gap": 17.3
   },
-  "quadrant_method": "Counties split at the median of need per 1,000 residents (15.9) and of LIHTC units per 100 gap households (12.2).",
+  "quadrant_method": "Counties split at the median of need per 1,000 residents (15.9) and of LIHTC units per 100 gap households (17.3).",
   "flag_method": "high-vacancy: active-market vacancy (ACS B25004 for-rent plus for-sale-only, over all units) at or above the county 75th percentile, 2.4%. building-ahead: permits over the last five years at least 2× DOLA's projected annual household growth. Flags describe the market; they are not a judgment that any project was wasted.",
   "credit_note": "Credit amounts are the ANNUAL credit CHFA awards (claimed over 10 years federally); Prop 123 amounts are dollars awarded, or requested where a preliminary selection list prints only the request.",
   "unplaced_awards": 7,
@@ -29,15 +1263,18 @@
  },
  "statewide": {
   "tax_credit_awards": 318,
-  "lihtc_units": 25776,
+  "round_report_lihtc_units": 25776,
+  "bond_deals_outside_rounds": 122,
+  "bond_units_outside_rounds": 14057,
+  "lihtc_units": 39833,
   "prop123_awards": 134,
   "prop123_dollars": 442443919,
   "prop123_mixed_income_share_pct": 24.6,
   "prop123_homeownership_share_pct": 4.1,
   "quadrants": {
-   "underserved": 14,
    "aligned": 18,
    "funded-above-need": 12,
+   "underserved": 14,
    "low-need-low-funding": 16,
    "not-computable": 4
   },
@@ -52,63 +1289,90 @@
    {
     "year": 2016,
     "tax_credit_awards": 26,
-    "lihtc_units": 1838,
+    "lihtc_units": 3622,
+    "round_report_lihtc_units": 1838,
+    "bond_deals_outside_rounds": 16,
+    "bond_units_outside_rounds": 1784,
     "prop123_awards": 0,
     "prop123_dollars": 0
    },
    {
     "year": 2017,
     "tax_credit_awards": 24,
-    "lihtc_units": 1923,
+    "lihtc_units": 4348,
+    "round_report_lihtc_units": 1923,
+    "bond_deals_outside_rounds": 17,
+    "bond_units_outside_rounds": 2425,
     "prop123_awards": 0,
     "prop123_dollars": 0
    },
    {
     "year": 2018,
     "tax_credit_awards": 24,
-    "lihtc_units": 1381,
+    "lihtc_units": 3314,
+    "round_report_lihtc_units": 1381,
+    "bond_deals_outside_rounds": 21,
+    "bond_units_outside_rounds": 1933,
     "prop123_awards": 0,
     "prop123_dollars": 0
    },
    {
     "year": 2019,
     "tax_credit_awards": 27,
-    "lihtc_units": 2065,
+    "lihtc_units": 4618,
+    "round_report_lihtc_units": 2065,
+    "bond_deals_outside_rounds": 21,
+    "bond_units_outside_rounds": 2553,
     "prop123_awards": 0,
     "prop123_dollars": 0
    },
    {
     "year": 2020,
     "tax_credit_awards": 27,
-    "lihtc_units": 1775,
+    "lihtc_units": 3117,
+    "round_report_lihtc_units": 1775,
+    "bond_deals_outside_rounds": 12,
+    "bond_units_outside_rounds": 1342,
     "prop123_awards": 0,
     "prop123_dollars": 0
    },
    {
     "year": 2021,
     "tax_credit_awards": 38,
-    "lihtc_units": 3374,
+    "lihtc_units": 6121,
+    "round_report_lihtc_units": 3374,
+    "bond_deals_outside_rounds": 22,
+    "bond_units_outside_rounds": 2747,
     "prop123_awards": 0,
     "prop123_dollars": 0
    },
    {
     "year": 2022,
     "tax_credit_awards": 34,
-    "lihtc_units": 3500,
+    "lihtc_units": 4409,
+    "round_report_lihtc_units": 3500,
+    "bond_deals_outside_rounds": 8,
+    "bond_units_outside_rounds": 909,
     "prop123_awards": 0,
     "prop123_dollars": 0
    },
    {
     "year": 2023,
     "tax_credit_awards": 28,
-    "lihtc_units": 2674,
+    "lihtc_units": 3012,
+    "round_report_lihtc_units": 2674,
+    "bond_deals_outside_rounds": 4,
+    "bond_units_outside_rounds": 338,
     "prop123_awards": 29,
     "prop123_dollars": 79258879
    },
    {
     "year": 2024,
     "tax_credit_awards": 28,
-    "lihtc_units": 2587,
+    "lihtc_units": 2613,
+    "round_report_lihtc_units": 2587,
+    "bond_deals_outside_rounds": 1,
+    "bond_units_outside_rounds": 26,
     "prop123_awards": 50,
     "prop123_dollars": 190887982
    },
@@ -116,6 +1380,9 @@
     "year": 2025,
     "tax_credit_awards": 40,
     "lihtc_units": 3382,
+    "round_report_lihtc_units": 3382,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "prop123_awards": 55,
     "prop123_dollars": 172297058
    },
@@ -123,6 +1390,9 @@
     "year": 2026,
     "tax_credit_awards": 22,
     "lihtc_units": 1277,
+    "round_report_lihtc_units": 1277,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "prop123_awards": 0,
     "prop123_dollars": 0
    }
@@ -155,7 +1425,10 @@
    },
    "funding": {
     "tax_credit_awards": 27,
-    "lihtc_units": 1723,
+    "lihtc_units": 3331,
+    "round_report_lihtc_units": 1723,
+    "bond_deals_outside_rounds": 18,
+    "bond_units_outside_rounds": 1608,
     "lihtc_9pct_units": 394,
     "federal_9pct_credit_annual": 9632834,
     "federal_4pct_credit_annual": 20406428,
@@ -167,12 +1440,12 @@
     "prop123_units": 458,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 1558333,
-    "lihtc_units_per_100_gap": 11.7,
+    "lihtc_units_per_100_gap": 22.6,
     "federal_9pct_credit_per_unit_annual": 24449,
-    "share_of_state_lihtc_units": 6.71
+    "share_of_state_lihtc_units": 8.39
    },
    "flags": [],
-   "quadrant": "underserved"
+   "quadrant": "aligned"
   },
   {
    "fips": "08005",
@@ -200,7 +1473,10 @@
    },
    "funding": {
     "tax_credit_awards": 27,
-    "lihtc_units": 2759,
+    "lihtc_units": 3622,
+    "round_report_lihtc_units": 2759,
+    "bond_deals_outside_rounds": 7,
+    "bond_units_outside_rounds": 863,
     "lihtc_9pct_units": 582,
     "federal_9pct_credit_annual": 15145260,
     "federal_4pct_credit_annual": 35916835,
@@ -212,9 +1488,9 @@
     "prop123_units": 955,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 13.2,
+    "lihtc_units_per_100_gap": 17.3,
     "federal_9pct_credit_per_unit_annual": 26023,
-    "share_of_state_lihtc_units": 10.75
+    "share_of_state_lihtc_units": 9.12
    },
    "flags": [],
    "quadrant": "aligned"
@@ -246,6 +1522,9 @@
    "funding": {
     "tax_credit_awards": 5,
     "lihtc_units": 266,
+    "round_report_lihtc_units": 266,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 156,
     "federal_9pct_credit_annual": 3781000,
     "federal_4pct_credit_annual": 2227613,
@@ -259,7 +1538,7 @@
     "prop123_homeownership_dollars": 2050000,
     "lihtc_units_per_100_gap": 57.7,
     "federal_9pct_credit_per_unit_annual": 24237,
-    "share_of_state_lihtc_units": 1.04
+    "share_of_state_lihtc_units": 0.67
    },
    "flags": [
     {
@@ -268,7 +1547,8 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 3× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 3× DOLA's projected household growth. Only 8% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 8.4
     }
    ],
    "quadrant": "funded-above-need"
@@ -299,7 +1579,10 @@
    },
    "funding": {
     "tax_credit_awards": 25,
-    "lihtc_units": 2099,
+    "lihtc_units": 3081,
+    "round_report_lihtc_units": 2099,
+    "bond_deals_outside_rounds": 8,
+    "bond_units_outside_rounds": 982,
     "lihtc_9pct_units": 578,
     "federal_9pct_credit_annual": 14115214,
     "federal_4pct_credit_annual": 22457061,
@@ -311,9 +1594,9 @@
     "prop123_units": 823,
     "prop123_mixed_income_dollars": 1881360,
     "prop123_homeownership_dollars": 5450000,
-    "lihtc_units_per_100_gap": 14.8,
+    "lihtc_units_per_100_gap": 21.7,
     "federal_9pct_credit_per_unit_annual": 24421,
-    "share_of_state_lihtc_units": 8.18
+    "share_of_state_lihtc_units": 7.76
    },
    "flags": [],
    "quadrant": "aligned"
@@ -344,7 +1627,10 @@
    },
    "funding": {
     "tax_credit_awards": 1,
-    "lihtc_units": 120,
+    "lihtc_units": 270,
+    "round_report_lihtc_units": 120,
+    "bond_deals_outside_rounds": 1,
+    "bond_units_outside_rounds": 150,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 2771093,
@@ -356,10 +1642,10 @@
     "prop123_units": 0,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 7.1,
+    "lihtc_units_per_100_gap": 15.9,
     "federal_9pct_credit_per_unit_annual": null,
     "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
-    "share_of_state_lihtc_units": 0.47
+    "share_of_state_lihtc_units": 0.68
    },
    "flags": [
     {
@@ -395,7 +1681,10 @@
    },
    "funding": {
     "tax_credit_awards": 19,
-    "lihtc_units": 1577,
+    "lihtc_units": 2429,
+    "round_report_lihtc_units": 1577,
+    "bond_deals_outside_rounds": 10,
+    "bond_units_outside_rounds": 852,
     "lihtc_9pct_units": 274,
     "federal_9pct_credit_annual": 6744067,
     "federal_4pct_credit_annual": 16348691,
@@ -407,9 +1696,9 @@
     "prop123_units": 375,
     "prop123_mixed_income_dollars": 7000000,
     "prop123_homeownership_dollars": 890000,
-    "lihtc_units_per_100_gap": 12.7,
+    "lihtc_units_per_100_gap": 19.5,
     "federal_9pct_credit_per_unit_annual": 24613,
-    "share_of_state_lihtc_units": 6.14
+    "share_of_state_lihtc_units": 6.12
    },
    "flags": [],
    "quadrant": "aligned"
@@ -441,6 +1730,9 @@
    "funding": {
     "tax_credit_awards": 2,
     "lihtc_units": 123,
+    "round_report_lihtc_units": 123,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 48,
     "federal_9pct_credit_annual": 1350000,
     "federal_4pct_credit_annual": 1054204,
@@ -454,7 +1746,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 27.2,
     "federal_9pct_credit_per_unit_annual": 28125,
-    "share_of_state_lihtc_units": 0.48
+    "share_of_state_lihtc_units": 0.31
    },
    "flags": [
     {
@@ -463,7 +1755,8 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.2× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 2.2× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
     }
    ],
    "quadrant": "aligned"
@@ -494,7 +1787,10 @@
    },
    "funding": {
     "tax_credit_awards": 26,
-    "lihtc_units": 2343,
+    "lihtc_units": 4860,
+    "round_report_lihtc_units": 2343,
+    "bond_deals_outside_rounds": 16,
+    "bond_units_outside_rounds": 2517,
     "lihtc_9pct_units": 301,
     "federal_9pct_credit_annual": 7043280,
     "federal_4pct_credit_annual": 33198906,
@@ -506,9 +1802,9 @@
     "prop123_units": 745,
     "prop123_mixed_income_dollars": 3000000,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 17.1,
+    "lihtc_units_per_100_gap": 35.5,
     "federal_9pct_credit_per_unit_annual": 23400,
-    "share_of_state_lihtc_units": 9.13
+    "share_of_state_lihtc_units": 12.24
    },
    "flags": [],
    "quadrant": "aligned"
@@ -539,7 +1835,10 @@
    },
    "funding": {
     "tax_credit_awards": 79,
-    "lihtc_units": 7430,
+    "lihtc_units": 10438,
+    "round_report_lihtc_units": 7430,
+    "bond_deals_outside_rounds": 29,
+    "bond_units_outside_rounds": 3008,
     "lihtc_9pct_units": 1994,
     "federal_9pct_credit_annual": 42664340,
     "federal_4pct_credit_annual": 89657091,
@@ -551,9 +1850,9 @@
     "prop123_units": 3326,
     "prop123_mixed_income_dollars": 32699545,
     "prop123_homeownership_dollars": 1975000,
-    "lihtc_units_per_100_gap": 25.6,
+    "lihtc_units_per_100_gap": 35.9,
     "federal_9pct_credit_per_unit_annual": 21396,
-    "share_of_state_lihtc_units": 28.95
+    "share_of_state_lihtc_units": 26.28
    },
    "flags": [
     {
@@ -589,7 +1888,10 @@
    },
    "funding": {
     "tax_credit_awards": 7,
-    "lihtc_units": 948,
+    "lihtc_units": 1649,
+    "round_report_lihtc_units": 948,
+    "bond_deals_outside_rounds": 4,
+    "bond_units_outside_rounds": 701,
     "lihtc_9pct_units": 120,
     "federal_9pct_credit_annual": 2513115,
     "federal_4pct_credit_annual": 15380792,
@@ -601,9 +1903,9 @@
     "prop123_units": 333,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 17,
+    "lihtc_units_per_100_gap": 29.5,
     "federal_9pct_credit_per_unit_annual": 20943,
-    "share_of_state_lihtc_units": 3.69
+    "share_of_state_lihtc_units": 4.15
    },
    "flags": [],
    "quadrant": "funded-above-need"
@@ -635,6 +1937,9 @@
    "funding": {
     "tax_credit_awards": 1,
     "lihtc_units": 36,
+    "round_report_lihtc_units": 36,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 36,
     "federal_9pct_credit_annual": 1800000,
     "federal_4pct_credit_annual": 0,
@@ -648,7 +1953,7 @@
     "prop123_homeownership_dollars": 756000,
     "lihtc_units_per_100_gap": 11.2,
     "federal_9pct_credit_per_unit_annual": 50000,
-    "share_of_state_lihtc_units": 0.14
+    "share_of_state_lihtc_units": 0.09
    },
    "flags": [],
    "quadrant": "low-need-low-funding"
@@ -679,7 +1984,10 @@
    },
    "funding": {
     "tax_credit_awards": 25,
-    "lihtc_units": 2362,
+    "lihtc_units": 4171,
+    "round_report_lihtc_units": 2362,
+    "bond_deals_outside_rounds": 9,
+    "bond_units_outside_rounds": 1809,
     "lihtc_9pct_units": 604,
     "federal_9pct_credit_annual": 15001918,
     "federal_4pct_credit_annual": 26916448,
@@ -691,9 +1999,9 @@
     "prop123_units": 1278,
     "prop123_mixed_income_dollars": 12818096,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 13.3,
+    "lihtc_units_per_100_gap": 23.4,
     "federal_9pct_credit_per_unit_annual": 24838,
-    "share_of_state_lihtc_units": 9.2
+    "share_of_state_lihtc_units": 10.5
    },
    "flags": [],
    "quadrant": "aligned"
@@ -724,7 +2032,10 @@
    },
    "funding": {
     "tax_credit_awards": 4,
-    "lihtc_units": 249,
+    "lihtc_units": 317,
+    "round_report_lihtc_units": 249,
+    "bond_deals_outside_rounds": 1,
+    "bond_units_outside_rounds": 68,
     "lihtc_9pct_units": 129,
     "federal_9pct_credit_annual": 3134903,
     "federal_4pct_credit_annual": 1322959,
@@ -736,9 +2047,9 @@
     "prop123_units": 27,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 1550000,
-    "lihtc_units_per_100_gap": 17.6,
+    "lihtc_units_per_100_gap": 22.4,
     "federal_9pct_credit_per_unit_annual": 24302,
-    "share_of_state_lihtc_units": 0.97
+    "share_of_state_lihtc_units": 0.8
    },
    "flags": [],
    "quadrant": "aligned"
@@ -769,7 +2080,10 @@
    },
    "funding": {
     "tax_credit_awards": 4,
-    "lihtc_units": 290,
+    "lihtc_units": 498,
+    "round_report_lihtc_units": 290,
+    "bond_deals_outside_rounds": 2,
+    "bond_units_outside_rounds": 208,
     "lihtc_9pct_units": 138,
     "federal_9pct_credit_annual": 3954996,
     "federal_4pct_credit_annual": 2182105,
@@ -781,9 +2095,9 @@
     "prop123_units": 82,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 15.4,
+    "lihtc_units_per_100_gap": 26.4,
     "federal_9pct_credit_per_unit_annual": 28659,
-    "share_of_state_lihtc_units": 1.13
+    "share_of_state_lihtc_units": 1.25
    },
    "flags": [],
    "quadrant": "aligned"
@@ -814,7 +2128,10 @@
    },
    "funding": {
     "tax_credit_awards": 7,
-    "lihtc_units": 454,
+    "lihtc_units": 1024,
+    "round_report_lihtc_units": 454,
+    "bond_deals_outside_rounds": 5,
+    "bond_units_outside_rounds": 570,
     "lihtc_9pct_units": 359,
     "federal_9pct_credit_annual": 8650000,
     "federal_4pct_credit_annual": 635718,
@@ -826,9 +2143,9 @@
     "prop123_units": 412,
     "prop123_mixed_income_dollars": 8049671,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 7.6,
+    "lihtc_units_per_100_gap": 17.2,
     "federal_9pct_credit_per_unit_annual": 24095,
-    "share_of_state_lihtc_units": 1.77
+    "share_of_state_lihtc_units": 2.58
    },
    "flags": [],
    "quadrant": "underserved"
@@ -859,7 +2176,10 @@
    },
    "funding": {
     "tax_credit_awards": 3,
-    "lihtc_units": 69,
+    "lihtc_units": 109,
+    "round_report_lihtc_units": 69,
+    "bond_deals_outside_rounds": 1,
+    "bond_units_outside_rounds": 40,
     "lihtc_9pct_units": 45,
     "federal_9pct_credit_annual": 1096625,
     "federal_4pct_credit_annual": 516373,
@@ -871,14 +2191,15 @@
     "prop123_units": 66,
     "prop123_mixed_income_dollars": 5000000,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 14.8,
+    "lihtc_units_per_100_gap": 23.4,
     "federal_9pct_credit_per_unit_annual": 24369,
     "share_of_state_lihtc_units": 0.27
    },
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 4.3× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 4.3× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
     }
    ],
    "quadrant": "aligned"
@@ -910,6 +2231,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -956,6 +2280,9 @@
    "funding": {
     "tax_credit_awards": 1,
     "lihtc_units": 30,
+    "round_report_lihtc_units": 30,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 30,
     "federal_9pct_credit_annual": 800018,
     "federal_4pct_credit_annual": 0,
@@ -969,7 +2296,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 50.8,
     "federal_9pct_credit_per_unit_annual": 26667,
-    "share_of_state_lihtc_units": 0.12
+    "share_of_state_lihtc_units": 0.08
    },
    "flags": [
     {
@@ -978,7 +2305,8 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 9.6× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 9.6× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
     }
    ],
    "quadrant": "funded-above-need"
@@ -1009,7 +2337,10 @@
    },
    "funding": {
     "tax_credit_awards": 7,
-    "lihtc_units": 468,
+    "lihtc_units": 633,
+    "round_report_lihtc_units": 468,
+    "bond_deals_outside_rounds": 1,
+    "bond_units_outside_rounds": 165,
     "lihtc_9pct_units": 324,
     "federal_9pct_credit_annual": 8065405,
     "federal_4pct_credit_annual": 2114729,
@@ -1021,9 +2352,9 @@
     "prop123_units": 936,
     "prop123_mixed_income_dollars": 18997474,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 15.1,
+    "lihtc_units_per_100_gap": 20.4,
     "federal_9pct_credit_per_unit_annual": 24893,
-    "share_of_state_lihtc_units": 1.82
+    "share_of_state_lihtc_units": 1.59
    },
    "flags": [],
    "quadrant": "aligned"
@@ -1055,6 +2386,9 @@
    "funding": {
     "tax_credit_awards": 3,
     "lihtc_units": 131,
+    "round_report_lihtc_units": 131,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 96,
     "federal_9pct_credit_annual": 2172365,
     "federal_4pct_credit_annual": 242430,
@@ -1068,12 +2402,13 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 32.7,
     "federal_9pct_credit_per_unit_annual": 22629,
-    "share_of_state_lihtc_units": 0.51
+    "share_of_state_lihtc_units": 0.33
    },
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.9× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 2.9× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
     }
    ],
    "quadrant": "aligned"
@@ -1104,7 +2439,10 @@
    },
    "funding": {
     "tax_credit_awards": 7,
-    "lihtc_units": 362,
+    "lihtc_units": 438,
+    "round_report_lihtc_units": 362,
+    "bond_deals_outside_rounds": 1,
+    "bond_units_outside_rounds": 76,
     "lihtc_9pct_units": 282,
     "federal_9pct_credit_annual": 7272831,
     "federal_4pct_credit_annual": 2127517,
@@ -1116,9 +2454,9 @@
     "prop123_units": 260,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 720000,
-    "lihtc_units_per_100_gap": 44.1,
+    "lihtc_units_per_100_gap": 53.3,
     "federal_9pct_credit_per_unit_annual": 25790,
-    "share_of_state_lihtc_units": 1.41
+    "share_of_state_lihtc_units": 1.1
    },
    "flags": [],
    "quadrant": "funded-above-need"
@@ -1149,7 +2487,10 @@
    },
    "funding": {
     "tax_credit_awards": 5,
-    "lihtc_units": 399,
+    "lihtc_units": 553,
+    "round_report_lihtc_units": 399,
+    "bond_deals_outside_rounds": 1,
+    "bond_units_outside_rounds": 154,
     "lihtc_9pct_units": 207,
     "federal_9pct_credit_annual": 4778124,
     "federal_4pct_credit_annual": 3618656,
@@ -1161,9 +2502,9 @@
     "prop123_units": 139,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 8.8,
+    "lihtc_units_per_100_gap": 12.1,
     "federal_9pct_credit_per_unit_annual": 23083,
-    "share_of_state_lihtc_units": 1.55
+    "share_of_state_lihtc_units": 1.39
    },
    "flags": [],
    "quadrant": "underserved"
@@ -1195,6 +2536,9 @@
    "funding": {
     "tax_credit_awards": 2,
     "lihtc_units": 100,
+    "round_report_lihtc_units": 100,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 100,
     "federal_9pct_credit_annual": 2796283,
     "federal_4pct_credit_annual": 0,
@@ -1208,7 +2552,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 23.5,
     "federal_9pct_credit_per_unit_annual": 27963,
-    "share_of_state_lihtc_units": 0.39
+    "share_of_state_lihtc_units": 0.25
    },
    "flags": [],
    "quadrant": "funded-above-need"
@@ -1240,6 +2584,9 @@
    "funding": {
     "tax_credit_awards": 2,
     "lihtc_units": 70,
+    "round_report_lihtc_units": 70,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 70,
     "federal_9pct_credit_annual": 2156737,
     "federal_4pct_credit_annual": 0,
@@ -1253,7 +2600,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 15.1,
     "federal_9pct_credit_per_unit_annual": 30811,
-    "share_of_state_lihtc_units": 0.27
+    "share_of_state_lihtc_units": 0.18
    },
    "flags": [
     {
@@ -1262,10 +2609,11 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.4× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 2.4× DOLA's projected household growth. Only 5% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 4.6
     }
    ],
-   "quadrant": "aligned"
+   "quadrant": "underserved"
   },
   {
    "fips": "08019",
@@ -1294,6 +2642,9 @@
    "funding": {
     "tax_credit_awards": 1,
     "lihtc_units": 47,
+    "round_report_lihtc_units": 47,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 47,
     "federal_9pct_credit_annual": 1157614,
     "federal_4pct_credit_annual": 0,
@@ -1307,12 +2658,13 @@
     "prop123_homeownership_dollars": 1820000,
     "lihtc_units_per_100_gap": 32.2,
     "federal_9pct_credit_per_unit_annual": 24630,
-    "share_of_state_lihtc_units": 0.18
+    "share_of_state_lihtc_units": 0.12
    },
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 4× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 4× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
     }
    ],
    "quadrant": "funded-above-need"
@@ -1344,6 +2696,9 @@
    "funding": {
     "tax_credit_awards": 3,
     "lihtc_units": 126,
+    "round_report_lihtc_units": 126,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 60,
     "federal_9pct_credit_annual": 1350000,
     "federal_4pct_credit_annual": 1505776,
@@ -1357,7 +2712,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 37.2,
     "federal_9pct_credit_per_unit_annual": 22500,
-    "share_of_state_lihtc_units": 0.49
+    "share_of_state_lihtc_units": 0.32
    },
    "flags": [
     {
@@ -1366,7 +2721,8 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 6.3× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 6.3× DOLA's projected household growth. Only 4% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 3.9
     }
    ],
    "quadrant": "aligned"
@@ -1398,6 +2754,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -1444,6 +2803,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -1495,6 +2857,9 @@
    "funding": {
     "tax_credit_awards": 2,
     "lihtc_units": 104,
+    "round_report_lihtc_units": 104,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 50,
     "federal_9pct_credit_annual": 1350000,
     "federal_4pct_credit_annual": 1059696,
@@ -1508,12 +2873,13 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 24.2,
     "federal_9pct_credit_per_unit_annual": 27000,
-    "share_of_state_lihtc_units": 0.41
+    "share_of_state_lihtc_units": 0.26
    },
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 5.9× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 5.9× DOLA's projected household growth. CHFA awarded more tax credit homes in those years than the permits count, so the permit count looks short here",
+     "tax_credit_share_of_permits_pct": 167.7
     }
    ],
    "quadrant": "aligned"
@@ -1544,7 +2910,10 @@
    },
    "funding": {
     "tax_credit_awards": 5,
-    "lihtc_units": 264,
+    "lihtc_units": 340,
+    "round_report_lihtc_units": 264,
+    "bond_deals_outside_rounds": 1,
+    "bond_units_outside_rounds": 76,
     "lihtc_9pct_units": 140,
     "federal_9pct_credit_annual": 4156378,
     "federal_4pct_credit_annual": 1587122,
@@ -1556,9 +2925,9 @@
     "prop123_units": 172,
     "prop123_mixed_income_dollars": 8000000,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 50.2,
+    "lihtc_units_per_100_gap": 64.6,
     "federal_9pct_credit_per_unit_annual": 29688,
-    "share_of_state_lihtc_units": 1.03
+    "share_of_state_lihtc_units": 0.86
    },
    "flags": [],
    "quadrant": "funded-above-need"
@@ -1590,6 +2959,9 @@
    "funding": {
     "tax_credit_awards": 2,
     "lihtc_units": 84,
+    "round_report_lihtc_units": 84,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 84,
     "federal_9pct_credit_annual": 2722162,
     "federal_4pct_credit_annual": 0,
@@ -1603,7 +2975,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 52.8,
     "federal_9pct_credit_per_unit_annual": 32407,
-    "share_of_state_lihtc_units": 0.33
+    "share_of_state_lihtc_units": 0.21
    },
    "flags": [
     {
@@ -1640,6 +3012,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -1659,7 +3034,8 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 6.7× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 6.7× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
     }
    ],
    "quadrant": "underserved"
@@ -1691,6 +3067,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -1736,7 +3115,10 @@
    },
    "funding": {
     "tax_credit_awards": 1,
-    "lihtc_units": 32,
+    "lihtc_units": 92,
+    "round_report_lihtc_units": 32,
+    "bond_deals_outside_rounds": 3,
+    "bond_units_outside_rounds": 60,
     "lihtc_9pct_units": 32,
     "federal_9pct_credit_annual": 1340823,
     "federal_4pct_credit_annual": 0,
@@ -1748,14 +3130,15 @@
     "prop123_units": 0,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 22.7,
+    "lihtc_units_per_100_gap": 65.2,
     "federal_9pct_credit_per_unit_annual": 41901,
-    "share_of_state_lihtc_units": 0.12
+    "share_of_state_lihtc_units": 0.23
    },
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 43.2× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 43.2× DOLA's projected household growth. Only 8% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 7.8
     }
    ],
    "quadrant": "aligned"
@@ -1787,6 +3170,9 @@
    "funding": {
     "tax_credit_awards": 2,
     "lihtc_units": 165,
+    "round_report_lihtc_units": 165,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 45,
     "federal_9pct_credit_annual": 1292500,
     "federal_4pct_credit_annual": 2163996,
@@ -1800,7 +3186,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 34.9,
     "federal_9pct_credit_per_unit_annual": 28722,
-    "share_of_state_lihtc_units": 0.64
+    "share_of_state_lihtc_units": 0.42
    },
    "flags": [
     {
@@ -1837,6 +3223,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -1860,7 +3249,8 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 3.5× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 3.5× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
     }
    ],
    "quadrant": "low-need-low-funding"
@@ -1892,6 +3282,9 @@
    "funding": {
     "tax_credit_awards": 4,
     "lihtc_units": 149,
+    "round_report_lihtc_units": 149,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 149,
     "federal_9pct_credit_annual": 4270749,
     "federal_4pct_credit_annual": 0,
@@ -1905,7 +3298,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 30.9,
     "federal_9pct_credit_per_unit_annual": 28663,
-    "share_of_state_lihtc_units": 0.58
+    "share_of_state_lihtc_units": 0.38
    },
    "flags": [],
    "quadrant": "aligned"
@@ -1937,6 +3330,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -1956,7 +3352,8 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.1× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 2.1× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
     }
    ],
    "quadrant": "low-need-low-funding"
@@ -1988,6 +3385,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2036,6 +3436,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2082,6 +3485,9 @@
    "funding": {
     "tax_credit_awards": 2,
     "lihtc_units": 72,
+    "round_report_lihtc_units": 72,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 72,
     "federal_9pct_credit_annual": 2503258,
     "federal_4pct_credit_annual": 0,
@@ -2095,15 +3501,16 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 12.7,
     "federal_9pct_credit_per_unit_annual": 34767,
-    "share_of_state_lihtc_units": 0.28
+    "share_of_state_lihtc_units": 0.18
    },
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.8× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 2.8× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
     }
    ],
-   "quadrant": "funded-above-need"
+   "quadrant": "low-need-low-funding"
   },
   {
    "fips": "08115",
@@ -2132,6 +3539,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2183,6 +3593,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2228,7 +3641,10 @@
    },
    "funding": {
     "tax_credit_awards": 0,
-    "lihtc_units": 0,
+    "lihtc_units": 40,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 2,
+    "bond_units_outside_rounds": 40,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2240,18 +3656,19 @@
     "prop123_units": 0,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 0,
+    "lihtc_units_per_100_gap": 40,
     "federal_9pct_credit_per_unit_annual": null,
     "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
-    "share_of_state_lihtc_units": 0
+    "share_of_state_lihtc_units": 0.1
    },
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 16.1× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 16.1× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
     }
    ],
-   "quadrant": "low-need-low-funding"
+   "quadrant": "funded-above-need"
   },
   {
    "fips": "08003",
@@ -2279,7 +3696,10 @@
    },
    "funding": {
     "tax_credit_awards": 2,
-    "lihtc_units": 86,
+    "lihtc_units": 136,
+    "round_report_lihtc_units": 86,
+    "bond_deals_outside_rounds": 1,
+    "bond_units_outside_rounds": 50,
     "lihtc_9pct_units": 86,
     "federal_9pct_credit_annual": 2741509,
     "federal_4pct_credit_annual": 0,
@@ -2291,14 +3711,15 @@
     "prop123_units": 0,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 69.9,
+    "lihtc_units_per_100_gap": 110.6,
     "federal_9pct_credit_per_unit_annual": 31878,
     "share_of_state_lihtc_units": 0.34
    },
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.6× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 2.6× DOLA's projected household growth. Only 12% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 11.9
     }
    ],
    "quadrant": "funded-above-need"
@@ -2330,6 +3751,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2349,7 +3773,8 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.3× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 2.3× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
     }
    ],
    "quadrant": "underserved"
@@ -2381,6 +3806,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2432,6 +3860,9 @@
    "funding": {
     "tax_credit_awards": 1,
     "lihtc_units": 30,
+    "round_report_lihtc_units": 30,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 30,
     "federal_9pct_credit_annual": 930000,
     "federal_4pct_credit_annual": 0,
@@ -2446,7 +3877,7 @@
     "lihtc_units_per_100_gap": null,
     "lihtc_units_per_100_gap_unavailable_reason": "the measured ≤30% AMI gap is zero",
     "federal_9pct_credit_per_unit_annual": 31000,
-    "share_of_state_lihtc_units": 0.12
+    "share_of_state_lihtc_units": 0.08
    },
    "flags": [
     {
@@ -2483,7 +3914,10 @@
    },
    "funding": {
     "tax_credit_awards": 2,
-    "lihtc_units": 81,
+    "lihtc_units": 141,
+    "round_report_lihtc_units": 81,
+    "bond_deals_outside_rounds": 1,
+    "bond_units_outside_rounds": 60,
     "lihtc_9pct_units": 81,
     "federal_9pct_credit_annual": 2745090,
     "federal_4pct_credit_annual": 0,
@@ -2495,9 +3929,9 @@
     "prop123_units": 74,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 750000,
-    "lihtc_units_per_100_gap": 41.5,
+    "lihtc_units_per_100_gap": 72.3,
     "federal_9pct_credit_per_unit_annual": 33890,
-    "share_of_state_lihtc_units": 0.32
+    "share_of_state_lihtc_units": 0.35
    },
    "flags": [],
    "quadrant": "funded-above-need"
@@ -2529,6 +3963,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2575,6 +4012,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2621,6 +4061,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2672,6 +4115,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2720,6 +4166,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2771,6 +4220,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2817,6 +4269,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2868,6 +4323,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2914,6 +4372,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2960,6 +4421,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -2979,7 +4443,8 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 3.5× DOLA's projected household growth"
+     "text": "Permits 2021-2025 ran 3.5× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
     }
    ],
    "quadrant": "underserved"
@@ -3011,6 +4476,9 @@
    "funding": {
     "tax_credit_awards": 1,
     "lihtc_units": 16,
+    "round_report_lihtc_units": 16,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 109976,
@@ -3025,7 +4493,7 @@
     "lihtc_units_per_100_gap": 320,
     "federal_9pct_credit_per_unit_annual": null,
     "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
-    "share_of_state_lihtc_units": 0.06
+    "share_of_state_lihtc_units": 0.04
    },
    "flags": [],
    "quadrant": "funded-above-need"
@@ -3057,6 +4525,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -3103,6 +4574,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -3151,6 +4625,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
@@ -3202,6 +4679,9 @@
    "funding": {
     "tax_credit_awards": 0,
     "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
     "lihtc_9pct_units": 0,
     "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,

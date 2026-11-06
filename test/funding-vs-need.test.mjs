@@ -6,8 +6,11 @@
  *
  * Every check is relational, recomputed from an input rather than read back:
  *   - the 64 county rows are exactly the ranking index's counties, by 5-digit FIPS;
- *   - statewide LIHTC units and Prop 123 dollars equal sums over the ledger,
- *     and the by-year rows add up to them;
+ *   - statewide round-report LIHTC units and Prop 123 dollars equal sums over
+ *     the ledger, the bond deals added from CHFA's property list are exactly
+ *     the 4% properties in the window that matchBondDeals leaves unmatched,
+ *     each one's homes equal the feed's, and units = rounds + bond deals in
+ *     every county, statewide and in the by-year rows;
  *   - every ledger row comes from a document documents.json marks usable, and
  *     the tab's "needs a person" list is exactly the documents that are not;
  *   - coverage is null with a reason wherever the gap it divides by is null or
@@ -23,7 +26,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { build } from '../scripts/funding/build_funding_vs_need.mjs';
+import { build, matchBondDeals, nameSimilarity } from '../scripts/funding/build_funding_vs_need.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readJson = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
@@ -36,12 +39,13 @@ const INPUTS = {
   ranking: 'data/hna/ranking-index.json',
   permits: 'data/hna/permits.json',
   limits: 'data/chfa-income-rent-limits-2026.json',
+  feed: 'data/chfa-lihtc.json',
 };
 const USABLE = new Set(['ok', 'no_total_line', 'accepted_by_review', 'units_withheld']);
 const num = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
 const clone = (o) => JSON.parse(JSON.stringify(o));
 
-function checks({ out, ledger, documents, ranking, html, js }) {
+function checks({ out, ledger, documents, ranking, feed, html, js }) {
   const fails = [];
   const fail = (m) => fails.push(m);
 
@@ -55,14 +59,35 @@ function checks({ out, ledger, documents, ranking, html, js }) {
   // statewide totals recomputed from the ledger
   const lihtc = ledger.awards.filter((a) => a.program.startsWith('LIHTC'));
   const units = lihtc.reduce((s, a) => s + (num(a.restricted_units) ?? num(a.total_units) ?? 0), 0);
-  if (out.statewide.lihtc_units !== units) fail(`statewide LIHTC units ${out.statewide.lihtc_units} != ledger ${units}`);
+  if (out.statewide.round_report_lihtc_units !== units) fail(`statewide round-report LIHTC units ${out.statewide.round_report_lihtc_units} != ledger ${units}`);
+  const w = out.meta.window;
+  const bond = matchBondDeals(feed.features.map((f) => f.properties || {}), ledger.awards, { firstYear: w.first_year, lastYear: w.last_year });
+  const added = out.meta.bond_deals_outside_rounds || [];
+  if (JSON.stringify(added) !== JSON.stringify(bond.added)) fail(`bond deals listed (${added.length}) != unmatched feed 4% properties (${bond.added.length})`);
+  const byId = new Map(feed.features.map((f) => [f.properties?.CHFA_RecordID, f.properties]));
+  for (const d of added) {
+    const p = byId.get(d.chfa_record_id);
+    if (!p) { fail(`bond deal ${d.name}: no feed record ${d.chfa_record_id}`); continue; }
+    if (d.homes !== (num(p.LI_UNITS) ?? num(p.N_UNITS))) fail(`bond deal ${d.name}: ${d.homes} homes, feed says ${p.LI_UNITS}`);
+    if (!/^4%/.test(p.TypeOfCredits) || p.AwardYear < w.first_year || p.AwardYear > w.last_year) fail(`bond deal ${d.name} is not a 4% award in the window`);
+  }
+  if (out.meta.bond_deals_checked !== added.length + out.meta.bond_deals_matched_to_rounds) fail('bond deals checked != matched + added');
+  const bondUnits = added.reduce((s, d) => s + (d.homes ?? 0), 0);
+  if (out.statewide.bond_units_outside_rounds !== bondUnits || out.statewide.bond_deals_outside_rounds !== added.length) fail('statewide bond deal totals differ from the list');
+  if (out.statewide.lihtc_units !== units + bondUnits) fail(`statewide LIHTC units ${out.statewide.lihtc_units} != rounds ${units} + bond deals ${bondUnits}`);
+  for (const c of out.counties) {
+    const f = c.funding;
+    const mine = added.filter((d) => d.county_fips === c.fips);
+    if (f.bond_deals_outside_rounds !== mine.length || f.bond_units_outside_rounds !== mine.reduce((s, d) => s + d.homes, 0)) fail(`${c.name}: bond deals differ from the list`);
+    if (f.lihtc_units !== f.round_report_lihtc_units + f.bond_units_outside_rounds) fail(`${c.name}: units != rounds + bond deals`);
+  }
   const p123 = ledger.awards.filter((a) => a.program.startsWith('Prop 123') && a.program !== 'Prop 123 Modular Finance');
   const dollars = p123.reduce((s, a) => s + (num(a.amount_awarded) ?? num(a.amount_requested) ?? 0), 0);
   if (out.statewide.prop123_dollars !== dollars) fail(`statewide Prop 123 dollars ${out.statewide.prop123_dollars} != ledger ${dollars}`);
   const placed = out.counties.reduce((s, c) => s + c.funding.lihtc_units, 0);
   const unplaced = lihtc.filter((a) => !a.county_fips).reduce((s, a) => s + (num(a.restricted_units) ?? num(a.total_units) ?? 0), 0);
-  if (placed + unplaced !== units) fail(`county LIHTC units ${placed} + unplaced ${unplaced} != ${units}`);
-  for (const k of ['lihtc_units', 'prop123_dollars', 'tax_credit_awards', 'prop123_awards']) {
+  if (placed + unplaced !== units + bondUnits) fail(`county LIHTC units ${placed} + unplaced ${unplaced} != ${units + bondUnits}`);
+  for (const k of ['lihtc_units', 'round_report_lihtc_units', 'bond_units_outside_rounds', 'bond_deals_outside_rounds', 'prop123_dollars', 'tax_credit_awards', 'prop123_awards']) {
     const s = out.statewide.by_year.reduce((t, y) => t + y[k], 0);
     if (s !== out.statewide[k]) fail(`by_year ${k} sums to ${s}, statewide says ${out.statewide[k]}`);
   }
@@ -143,6 +168,7 @@ const real = {
   ledger: readJson(INPUTS.ledger),
   documents: readJson(INPUTS.documents),
   ranking: readJson(INPUTS.ranking),
+  feed: readJson(INPUTS.feed),
   html: read('colorado-deep-dive.html'),
   js: read('js/funding-vs-need.js'),
 };
@@ -182,6 +208,21 @@ function sabotage(name, mutate, expect) {
 sabotage('a county dropped', (c) => { c.out.counties.pop(); }, /county FIPS differ/);
 sabotage('a FIPS stored as a number', (c) => { c.out.counties[0].fips = Number(c.out.counties[0].fips); }, /5-digit|differ/);
 sabotage('statewide units off by one', (c) => { c.out.statewide.lihtc_units += 1; }, /statewide LIHTC units/);
+sabotage('a bond deal counted twice', (c) => {
+  const d = c.out.meta.bond_deals_outside_rounds[0];
+  c.out.meta.bond_deals_outside_rounds.push(clone(d));
+}, /bond deals listed/);
+sabotage('a bond deal the rounds already hold', (c) => {
+  // give the first added deal the name, county and year of a 4% round award
+  const d = c.out.meta.bond_deals_outside_rounds[0];
+  const p = c.feed.features.find((f) => f.properties.CHFA_RecordID === d.chfa_record_id).properties;
+  const a = c.ledger.awards.find((x) => x.federal_credit_type === '4%' && x.county_fips);
+  Object.assign(p, { ReportedName: a.name, PROJECT: a.name, CNTY_FIPS: a.county_fips, AwardYear: a.year });
+}, /bond deals listed/);
+sabotage('bond homes left out of a county', (c) => {
+  const r = c.out.counties.find((x) => x.funding.bond_units_outside_rounds > 0);
+  r.funding.lihtc_units = r.funding.round_report_lihtc_units;
+}, /units != rounds \+ bond deals/);
 sabotage('a ledger amount changed', (c) => {
   const a = c.ledger.awards.find((x) => x.program.startsWith('Prop 123') && num(x.amount_awarded));
   a.amount_awarded += 1000;
@@ -225,6 +266,47 @@ sabotage('the tab never initialised on reveal', (c) => {
 sabotage('the tab script reading another file', (c) => {
   c.js = c.js.replace("var FILE = 'derived/funding-vs-need.json'", "var FILE = 'derived/funding.json'");
 }, /the tab reads/);
+
+// The matcher on small cases: what it pairs and what it leaves as a bond deal.
+run('matchBondDeals pairs renamed and split deals and leaves the rest', () => {
+  const award = (name, county_fips, year, units, type = '4%', location = null, detail = null) => ({ program: 'LIHTC ' + type + ' + state', name, county_fips, year, restricted_units: units, federal_credit_type: type, location, detail });
+  const prop = (name, CNTY_FIPS, AwardYear, LI_UNITS, TypeOfCredits = '4% Tax Exempt', PROJ_CTY = null) => ({ ReportedName: name, CNTY_FIPS, AwardYear, LI_UNITS, TypeOfCredits, PROJ_CTY, CHFA_RecordID: name + CNTY_FIPS });
+  const awards = [
+    award('Sheridan Station', '08059', 2017, 133),
+    award('DHA 655 Broadway/Studebaker', '08031', 2019, 143),
+    award('Remington fka: DMA Plaza Renovation', '08031', 2018, 124),
+    award('Lowry Family Housing', '08031', 2016, 71),
+    award('Thrive', '08031', 2020, 105, '9%'),
+    award('Central Park II', '08031', 2021, 90, '9%'),
+    award('Thistle scattered sites', '08013', 2019, 159, '4%', 'Longmont, Boulder', 'scattered site: Engish Village (32), Laguna Place (8)'),
+    award('Mirasol III', '08069', 2018, 60, '4%', 'Loveland'),
+    award('Indy Street Flats', '08059', 2017, 114, '4%', 'Lakewood'),
+  ];
+  const feedRows = [
+    prop('Sheridan Station West', '08059', 2017, 133), // name
+    prop('DHA 655 Broadway', '08031', 2019, 110), // one building
+    prop('DHA Studebaker', '08031', 2019, 33), // the other building
+    prop('DMA Plaza Renovation', '08031', 2018, 124), // fka name
+    prop('Boulevard One Residences', '08031', 2016, 71), // renamed, same homes and year
+    prop('Thrive 4', '08031', 2020, 105), // 4% half of a 9% twin: counted once
+    prop('Sheridan Station West', '08005', 2017, 133), // same name, other county
+    prop('Larkridge Apartments', '08001', 2017, 338), // a bond deal outside the rounds
+    prop('Old Deal', '08001', 2012, 50), // before the window
+    prop('Nine Percent Deal', '08001', 2018, 40, '9% Competitive'), // not 4%
+    prop('Central Park III', '08031', 2021, 127), // another phase: added
+    prop('Renova 5 English Village', '08013', 2019, 32, '4% and State', 'Longmont'), // a site, by its printed homes
+    prop('Renova 5 Laguna Place', '08013', 2019, 8, '4% and State', 'Boulder'), // a site, by name
+    prop('Meadows II', '08069', 2018, 59, '4% and State', 'Loveland'), // alike letters, no shared word: added
+    prop('Eaton Street Apartments', '08059', 2017, 118, '4% and State', 'Westminster'), // another town: added
+  ];
+  const r = matchBondDeals(feedRows, awards, { firstYear: 2016, lastYear: 2026 });
+  assert.equal(r.candidates, 13);
+  assert.deepEqual(r.added.map((d) => d.name + ' ' + d.county_fips).sort(),
+    ['Central Park III 08031', 'Eaton Street Apartments 08059', 'Larkridge Apartments 08001', 'Meadows II 08069', 'Sheridan Station West 08005']);
+  assert.equal(r.matched.find((m) => m.p.ReportedName === 'Boulevard One Residences').rule, 'homes and year (renamed)');
+  assert.ok(nameSimilarity('Sheridan Station', 'Sheridan Station West') >= 0.8);
+  assert.ok(nameSimilarity('Academy Heights', 'Panorama Heights') < 0.8);
+});
 
 // A reworded page must stay green: the checks pin structure, not copy.
 run('rewording the tab copy keeps every check green', () => {
