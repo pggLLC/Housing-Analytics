@@ -63,14 +63,19 @@ function median(values) {
 // already in the ledger when any of these holds, against a LIHTC award in the
 // same county (or one the ledger could not place) awarded within two years:
 //   1. names alike (similarity ≥ NAME_SURE);
-//   2. names partly alike (≥ NAME_WITH_UNITS), award years within one, and
-//      restricted homes within UNIT_TOLERANCE;
-//   3. the same award year, names alike (≥ NAME_PART) sharing a distinctive
-//      word, and fewer homes than the award (one building of a multi-building
-//      award, e.g. "DHA 655 Broadway" in "DHA 655 Broadway/Studebaker");
+//   2. names partly alike (≥ NAME_WITH_UNITS) sharing a distinctive word, in
+//      the same town, award years within one, and restricted homes within
+//      UNIT_TOLERANCE;
+//   3. the same award year and town, names alike (≥ NAME_PART) sharing a
+//      distinctive word, and fewer homes than the award (one building of a
+//      multi-building award, e.g. "DHA 655 Broadway" in "DHA 655 Broadway/Studebaker");
 //   4. otherwise, a 4% round award no feed property matched by name, in the same
-//      county, award years within one, and homes within one (a renamed deal),
-//      paired one to one, closest first.
+//      county and town, award years within one, and homes within one (a renamed
+//      deal), paired one to one, closest first.
+// A scattered-site award's sites (printed in its detail) count as its names,
+// and a site also matches by the homes the award prints for it.
+// Names with different phase marks never match (Central Park III is not
+// Central Park II), and a pair in different towns matches only on rule 1.
 // Rules 1-3 may match several feed properties to one award; rule 4 never does.
 // A feed property that matches nothing is a bond deal outside the rounds.
 export const NAME_SURE = 0.8;
@@ -107,8 +112,51 @@ export function nameSimilarity(x, y) {
   const b = words(y).join(' ');
   return a.length + b.length ? (2 * matchingChars(a, b)) / (a.length + b.length) : 0;
 }
-// "Remington fka: DMA Plaza Renovation" is two names for one deal
-const altNames = (name) => String(name || '').split(/\bf\.?k\.?a\.?:?/i).map((s) => s.trim()).filter(Boolean);
+// "Remington fka: DMA Plaza Renovation" is two names for one deal, and a
+// scattered-site award prints its sites in the detail ("scattered site:
+// English Village (32), Laguna Place (8)"), each a property on CHFA's list
+function altNames(a) {
+  const names = String(a.name || '').split(/\bf\.?k\.?a\.?:?/i);
+  const m = /scattered site:\s*(.*)$/i.exec(a.detail || '');
+  if (m) names.push(...m[1].split(/,(?![^(]*\))/).map((x) => x.replace(/\([^)]*\)/g, '')));
+  return names.map((x) => x.trim()).filter(Boolean);
+}
+// Phase marks ("II", "Phase 3", "Building 2"). CHFA's list ends a twin deal's
+// names with its credit ("Sol 4", "Ives II 9"); that last 4 or 9 is not a phase.
+const ROMAN = { i: 1, ii: 2, iii: 3, iv: 4, v: 5, vi: 6, vii: 7, viii: 8, ix: 9, x: 10 };
+function phases(name) {
+  const w = String(name || '').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').split(/\s+/).filter(Boolean);
+  if (w.length > 1 && /^[49]$/.test(w[w.length - 1])) w.pop();
+  const out = new Set();
+  w.forEach((t, i) => {
+    if (ROMAN[t] && i > 0) out.add(ROMAN[t]);
+    else if (/^[1-9]$/.test(t) && i > 0) out.add(Number(t));
+  });
+  return out;
+}
+const phaseConflict = (x, y) => {
+  const a = phases(x);
+  const b = phases(y);
+  return a.size > 0 && b.size > 0 && ![...a].some((v) => b.has(v));
+};
+// The ledger's location can name several towns ("Longmont, Boulder") or
+// carry sponsor words ("Glenwood Springs CHFA"); a pair whose town is not in
+// it is two deals in one county unless the names say otherwise
+const town = (s) => ' ' + String(s || '').toLowerCase().replace(/\b(city|town) of\b/g, '').replace(/[^a-z ]+/g, ' ').replace(/\s+/g, ' ').trim() + ' ';
+function townsDiffer(p, a) {
+  const city = town(p.PROJ_CTY);
+  const loc = town(a.location);
+  return Boolean(city.trim() && loc.trim() && !loc.includes(city));
+}
+// a scattered-site award's sites with the homes it prints for each
+function sites(a) {
+  const m = /scattered site:\s*(.*)$/i.exec(a.detail || '');
+  if (!m) return [];
+  return m[1].split(/,(?![^(]*\))/).map((x) => {
+    const h = /\((\d+)(?:\s*units?)?\)/i.exec(x);
+    return { name: x.replace(/\([^)]*\)/g, '').trim(), homes: h ? Number(h[1]) : null };
+  });
+}
 
 export function matchBondDeals(feedProps, awards, { firstYear, lastYear }) {
   const lihtc = awards.filter((a) => String(a.program || '').startsWith('LIHTC'));
@@ -129,15 +177,25 @@ export function matchBondDeals(feedProps, awards, { firstYear, lastYear }) {
       const dy = Math.abs(p.AwardYear - a.year);
       if (dy > 2) continue;
       const au = homes(a);
-      for (const alt of altNames(a.name)) {
-        const r = nameSimilarity(p.ReportedName || p.PROJECT, alt);
+      const elsewhere = townsDiffer(p, a);
+      for (const alt of altNames(a)) {
+        const pname = p.ReportedName || p.PROJECT;
+        if (phaseConflict(pname, alt)) continue; // Central Park III is not Central Park II
+        const r = nameSimilarity(pname, alt);
         const aw = words(alt);
         const shared = pw.some((w) => w.length >= 3 && !GENERIC.has(w) && aw.includes(w));
         const rule = r >= NAME_SURE ? 'name'
-          : r >= NAME_WITH_UNITS && dy <= 1 && close(fu, au, UNIT_TOLERANCE(fu, au)) ? 'name and homes'
-            : r >= NAME_PART && shared && dy === 0 && fu !== null && au !== null && fu < au ? 'one building of the award'
-              : null;
+          : elsewhere || !shared ? null
+            : r >= NAME_WITH_UNITS && dy <= 1 && close(fu, au, UNIT_TOLERANCE(fu, au)) ? 'name and homes'
+              : r >= NAME_PART && dy === 0 && fu !== null && au !== null && fu < au ? 'one building of the award'
+                : null;
         if (rule && (!best || r > best.r)) best = { a, r, rule };
+      }
+      // a site of a scattered-site award, by the homes the award prints for it
+      // ("Renova 5 English Village", 32 homes = "Engish Village (32)")
+      if (!best && dy <= 1 && !elsewhere) {
+        const site = sites(a).find((x) => x.homes !== null && close(fu, x.homes, 1));
+        if (site) best = { a, r: nameSimilarity(p.ReportedName || p.PROJECT, site.name), rule: 'site of a scattered-site award' };
       }
     }
     if (best) matched.push({ p, a: best.a, rule: best.rule, similarity: Math.round(best.r * 100) / 100 });
@@ -150,7 +208,7 @@ export function matchBondDeals(feedProps, awards, { firstYear, lastYear }) {
   const pairs = [];
   for (const p of left) {
     for (const a of open) {
-      if (a.county_fips !== p.CNTY_FIPS) continue;
+      if (a.county_fips !== p.CNTY_FIPS || townsDiffer(p, a) || phaseConflict(p.ReportedName || p.PROJECT, a.name)) continue;
       const dy = Math.abs(p.AwardYear - a.year);
       const fu = feedHomes(p);
       const au = homes(a);

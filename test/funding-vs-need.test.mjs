@@ -269,14 +269,18 @@ sabotage('the tab script reading another file', (c) => {
 
 // The matcher on small cases: what it pairs and what it leaves as a bond deal.
 run('matchBondDeals pairs renamed and split deals and leaves the rest', () => {
-  const award = (name, county_fips, year, units, type = '4%') => ({ program: 'LIHTC ' + type + ' + state', name, county_fips, year, restricted_units: units, federal_credit_type: type });
-  const prop = (name, CNTY_FIPS, AwardYear, LI_UNITS, TypeOfCredits = '4% Tax Exempt', CHFA_RecordID = name) => ({ ReportedName: name, CNTY_FIPS, AwardYear, LI_UNITS, TypeOfCredits, CHFA_RecordID });
+  const award = (name, county_fips, year, units, type = '4%', location = null, detail = null) => ({ program: 'LIHTC ' + type + ' + state', name, county_fips, year, restricted_units: units, federal_credit_type: type, location, detail });
+  const prop = (name, CNTY_FIPS, AwardYear, LI_UNITS, TypeOfCredits = '4% Tax Exempt', PROJ_CTY = null) => ({ ReportedName: name, CNTY_FIPS, AwardYear, LI_UNITS, TypeOfCredits, PROJ_CTY, CHFA_RecordID: name + CNTY_FIPS });
   const awards = [
     award('Sheridan Station', '08059', 2017, 133),
     award('DHA 655 Broadway/Studebaker', '08031', 2019, 143),
     award('Remington fka: DMA Plaza Renovation', '08031', 2018, 124),
     award('Lowry Family Housing', '08031', 2016, 71),
     award('Thrive', '08031', 2020, 105, '9%'),
+    award('Central Park II', '08031', 2021, 90, '9%'),
+    award('Thistle scattered sites', '08013', 2019, 159, '4%', 'Longmont, Boulder', 'scattered site: Engish Village (32), Laguna Place (8)'),
+    award('Mirasol III', '08069', 2018, 60, '4%', 'Loveland'),
+    award('Indy Street Flats', '08059', 2017, 114, '4%', 'Lakewood'),
   ];
   const feedRows = [
     prop('Sheridan Station West', '08059', 2017, 133), // name
@@ -289,10 +293,16 @@ run('matchBondDeals pairs renamed and split deals and leaves the rest', () => {
     prop('Larkridge Apartments', '08001', 2017, 338), // a bond deal outside the rounds
     prop('Old Deal', '08001', 2012, 50), // before the window
     prop('Nine Percent Deal', '08001', 2018, 40, '9% Competitive'), // not 4%
+    prop('Central Park III', '08031', 2021, 127), // another phase: added
+    prop('Renova 5 English Village', '08013', 2019, 32, '4% and State', 'Longmont'), // a site, by its printed homes
+    prop('Renova 5 Laguna Place', '08013', 2019, 8, '4% and State', 'Boulder'), // a site, by name
+    prop('Meadows II', '08069', 2018, 59, '4% and State', 'Loveland'), // alike letters, no shared word: added
+    prop('Eaton Street Apartments', '08059', 2017, 118, '4% and State', 'Westminster'), // another town: added
   ];
   const r = matchBondDeals(feedRows, awards, { firstYear: 2016, lastYear: 2026 });
-  assert.equal(r.candidates, 8);
-  assert.deepEqual(r.added.map((d) => d.name + ' ' + d.county_fips).sort(), ['Larkridge Apartments 08001', 'Sheridan Station West 08005']);
+  assert.equal(r.candidates, 13);
+  assert.deepEqual(r.added.map((d) => d.name + ' ' + d.county_fips).sort(),
+    ['Central Park III 08031', 'Eaton Street Apartments 08059', 'Larkridge Apartments 08001', 'Meadows II 08069', 'Sheridan Station West 08005']);
   assert.equal(r.matched.find((m) => m.p.ReportedName === 'Boulevard One Residences').rule, 'homes and year (renamed)');
   assert.ok(nameSimilarity('Sheridan Station', 'Sheridan Station West') >= 0.8);
   assert.ok(nameSimilarity('Academy Heights', 'Panorama Heights') < 0.8);
