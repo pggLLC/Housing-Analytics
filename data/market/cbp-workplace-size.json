@@ -11,7 +11,7 @@
   "what": "Establishments (single locations, not companies) by employee-size class, and the sectors of those with 100 or more employees. No employer is named.",
   "excludes": "Government (schools, counties, cities, state and federal agencies), self-employed people, private households, railroads and most farm work.",
   "large_means": "100 or more employees at one location",
-  "large_at_most": "Where CBP withholds the large classes, the most there could be (the total less the classes it publishes).",
+  "large_at_most": "Where CBP withholds the large classes, the most there could be (the total less the published classes under 100 employees).",
   "large_by_sector": "Sectors where CBP publishes the large classes; a sector it withholds is left out, so these can add to less than large.",
   "withheld": "CBP prints N in a size class it does not publish. Where the published classes already add up to the total, those classes are 0; otherwise they are null (unknown), never guessed.",
   "missing_counties": {},
@@ -1883,7 +1883,7 @@
     "1,000 or more": null
    },
    "large": null,
-   "large_at_most": 3,
+   "large_at_most": 6,
    "large_by_sector": []
   },
   "08105": {

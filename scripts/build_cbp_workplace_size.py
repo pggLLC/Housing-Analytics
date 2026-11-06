@@ -117,8 +117,9 @@ def main():
             c['by_size'] = {label: v[k] for k, label in SIZES}
             c['large'] = large_count(r, v)
             if c['large'] is None and c['establishments'] is not None:
-                # Unknown, but no more than the workplaces left over once the published classes are counted.
-                c['large_at_most'] = c['establishments'] - sum(x for x in v.values() if x is not None)
+                # Unknown, but no more than the total less the published classes under 100 employees. Published
+                # large classes stay in, since they are part of the 100+ count.
+                c['large_at_most'] = c['establishments'] - sum(v[k] for k, _ in SIZES if k not in LARGE and v[k] is not None)
         elif len(naics) == 6 and naics[2:] == '----':
             n = large_count(r, sizes(r))
             if n:
@@ -144,7 +145,7 @@ def main():
             'excludes': 'Government (schools, counties, cities, state and federal agencies), self-employed people, '
                         'private households, railroads and most farm work.',
             'large_means': '100 or more employees at one location',
-            'large_at_most': 'Where CBP withholds the large classes, the most there could be (the total less the classes it publishes).',
+            'large_at_most': 'Where CBP withholds the large classes, the most there could be (the total less the published classes under 100 employees).',
             'large_by_sector': 'Sectors where CBP publishes the large classes; a sector it withholds is left out, so these can add to less than large.',
             'withheld': 'CBP prints N in a size class it does not publish. Where the published classes already add up to '
                         'the total, those classes are 0; otherwise they are null (unknown), never guessed.',

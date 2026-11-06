@@ -35,6 +35,12 @@ for (const [f, c] of Object.entries(P.counties)) {
   if (v.every((x) => x !== null)) ok(known === c.establishments, f + ' complete size classes add up to the total');
   if (LARGE.every((k) => c.by_size[k] !== null)) ok(c.large === LARGE.reduce((a, k) => a + c.by_size[k], 0), f + ' large is the sum of the large classes');
   if (c.large === null) ok(Number.isInteger(c.large_at_most) && c.large_at_most >= 0, f + ' withheld large has an upper bound');
+  if (c.large === null) {
+    // The bound is the total less the published classes under 100: published large classes stay inside it.
+    const smallKnown = Object.entries(c.by_size).filter(([k, x]) => !LARGE.includes(k) && x !== null).reduce((a, [, x]) => a + x, 0);
+    const largeKnown = LARGE.reduce((a, k) => a + (c.by_size[k] || 0), 0);
+    ok(c.large_at_most === c.establishments - smallKnown && c.large_at_most >= largeKnown, f + ' upper bound keeps published large classes');
+  }
   else ok(Number.isInteger(c.large) && c.large >= 0 && c.large <= c.establishments, f + ' large is a count');
   const bySector = c.large_by_sector.reduce((a, s) => a + s.workplaces, 0);
   ok(c.large === null || bySector <= c.large, f + ' sector counts do not exceed large');
@@ -47,5 +53,6 @@ if (m.year === 2023) {
   ok(P.counties['08081'].large === 4 && P.counties['08081'].establishments === 389, 'Moffat: 4 of 389');
   ok(P.counties['08077'].large === 71 && P.counties['08077'].by_size['500-999'] === 2, 'Mesa: 71, one 500-999 class read off the total');
   ok(P.counties['08009'].large === null && P.counties['08009'].large_at_most === 3, 'Baca: withheld, at most 3');
+  ok(P.counties['08103'].by_size['100-249'] === 3 && P.counties['08103'].large_at_most === 6, 'Rio Blanco: 3 published at 100-249, at most 6 in all');
 }
 console.log(`cbp-workplace-size: PASS (${checks} checks)`);
