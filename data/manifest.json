@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-06T14:58:36.751857Z",
+  "generated": "2026-11-06T15:03:47.022689Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -1134,7 +1134,7 @@
     "data/derived/funding-vs-need.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 137205
+      "bytes": 137675
     },
     "data/derived/market-analysis/market_demand.json": {
       "featureCount": 0,
@@ -9059,7 +9059,7 @@
     "data/market/local-players.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 566130
+      "bytes": 567967
     },
     "data/market/lodes_co.json": {
       "featureCount": 0,
@@ -9284,7 +9284,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16686
+      "bytes": 16688
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,

@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-06T13:58:18.127Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-06T15:03:17.557Z. Do not edit by hand.
 
 ---
 
@@ -318,12 +318,12 @@
 | `data/deals/willoughby-corner-phase-ib-family-lafayette.json` | 15.4 KB | ✅ | — |
 | `data/deals/windtrail-park-fort-collins.json` | 19.6 KB | ✅ | — |
 | `data/derived/funding-map.json` | 1.51 MB | ✅ | — |
-| `data/derived/funding-vs-need.json` | 134.0 KB | ✅ | — |
+| `data/derived/funding-vs-need.json` | 134.4 KB | ✅ | — |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 302.0 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 302.6 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
@@ -1890,7 +1890,7 @@
 | `data/market/hud_zip_tract_crosswalk_co.json` | 775.8 KB | ✅ | — |
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
 | `data/market/lihtc-equity-pricing-history.json` | 5.4 KB | ✅ | — |
-| `data/market/local-players.json` | 552.9 KB | ✅ | — |
+| `data/market/local-players.json` | 554.7 KB | ✅ | — |
 | `data/market/lodes_co.json` | 663.9 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
 | `data/market/market-direction.json` | 755.9 KB | ✅ | — |
@@ -2068,7 +2068,7 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 15.4 KB | ✅ | — |
 | `data/reports/data-source-health.json` | 7.6 KB | ✅ | — |
-| `data/reports/developer-url-health.json` | 20.7 KB | ✅ | — |
+| `data/reports/developer-url-health.json` | 20.9 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.92 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 158.8 KB | ✅ | — |
 | `data/schema/semantic-label-evidence.json` | 6.0 KB | ✅ | — |
@@ -2096,7 +2096,7 @@
 | `test/acs-vintage-label-integrity.test.js` | 3.9 KB |
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 8.2 KB |
-| `test/agency-funding.test.mjs` | 17.2 KB |
+| `test/agency-funding.test.mjs` | 19.1 KB |
 | `test/ahcia-status.test.mjs` | 7.0 KB |
 | `test/ami-gap-contract.test.js` | 14.7 KB |
 | `test/ami-gap-evidence-language.test.js` | 4.8 KB |
@@ -2316,7 +2316,7 @@
 | `test/funding-eligibility-claims.test.js` | 12.1 KB |
 | `test/funding-fit.test.js` | 12.5 KB |
 | `test/funding-links-land-on-funding.test.js` | 2.0 KB |
-| `test/funding-vs-need.test.mjs` | 20.3 KB |
+| `test/funding-vs-need.test.mjs` | 20.6 KB |
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-naming.test.js` | 22.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
@@ -2893,7 +2893,7 @@
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
 | `.github/workflows/build-acs-reliability.yml` | 3.5 KB |
-| `.github/workflows/build-hna-data.yml` | 38.9 KB |
+| `.github/workflows/build-hna-data.yml` | 39.0 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 16.5 KB |
 | `.github/workflows/car-data-update.yml` | 5.5 KB |

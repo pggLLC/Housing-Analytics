@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-06T14:22:28.716Z",
+    "generated_at": "2026-11-06T15:03:43.895Z",
     "root": "data/",
     "file_count": 2024,
-    "total_size_bytes": 222914688,
+    "total_size_bytes": 222917893,
     "kinds": {
       "json": 1975,
       "geojson": 35,
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-06T13:58:47.000Z",
+      "mtime": "2026-11-06T15:03:40.649Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6498,8 +6498,8 @@
     {
       "path": "derived/funding-vs-need.json",
       "kind": "json",
-      "size_bytes": 137205,
-      "mtime": "2026-11-06T13:55:44.372Z",
+      "size_bytes": 137675,
+      "mtime": "2026-11-06T15:03:03.295Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -6605,8 +6605,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 309244,
-      "mtime": "2026-11-05T15:36:49.865Z",
+      "size_bytes": 309909,
+      "mtime": "2026-11-06T15:03:03.303Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -6621,7 +6621,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 1993,
+      "primary_array_length": 1997,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -22363,7 +22363,7 @@
       "path": "hna/local-resources-candidates.json",
       "kind": "json",
       "size_bytes": 6696,
-      "mtime": "2026-10-30T17:18:23.103Z",
+      "mtime": "2026-11-06T15:03:03.373Z",
       "shape": "object",
       "keys": [
         "generatedAt",
@@ -38281,7 +38281,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 257320,
-      "mtime": "2026-11-06T13:58:02.821Z",
+      "mtime": "2026-11-06T15:03:03.497Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39271,8 +39271,8 @@
     {
       "path": "market/local-players.json",
       "kind": "json",
-      "size_bytes": 566130,
-      "mtime": "2026-11-05T13:08:07.013Z",
+      "size_bytes": 567967,
+      "mtime": "2026-11-06T15:03:03.558Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -40148,8 +40148,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16686,
-      "mtime": "2026-11-06T13:58:48.947Z",
+      "size_bytes": 16688,
+      "mtime": "2026-11-06T15:03:42.084Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40173,7 +40173,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-06T13:58:48.482Z",
+      "mtime": "2026-11-06T15:03:41.731Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -43806,8 +43806,8 @@
     {
       "path": "reports/developer-url-health.json",
       "kind": "json",
-      "size_bytes": 21189,
-      "mtime": "2026-10-30T13:27:45.309Z",
+      "size_bytes": 21420,
+      "mtime": "2026-11-06T15:03:03.778Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43817,7 +43817,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "broken",
-      "primary_array_length": 50,
+      "primary_array_length": 52,
       "primary_array_first_keys": [
         "url",
         "status",
