@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-11-06T14:58:31.906Z",
+  "scanTimestamp": "2026-11-07T13:57:33.346Z",
   "totalScanned": 2029,
   "newSourceCount": 1997,
   "existingCount": 31,
@@ -8,7 +8,7 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1029625,
+      "sizeBytes": 1029638,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -122,13 +122,13 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 1724562,
+      "sizeBytes": 1781690,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/alerts/brief-news-queue.json",
-      "sizeBytes": 43316,
+      "sizeBytes": 45400,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -182,7 +182,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 698360,
+      "sizeBytes": 682840,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1262,7 +1262,7 @@
     },
     {
       "path": "data/derived/funding-vs-need.json",
-      "sizeBytes": 137205,
+      "sizeBytes": 137675,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1292,7 +1292,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 309244,
+      "sizeBytes": 309909,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10802,7 +10802,7 @@
     },
     {
       "path": "data/market/local-players.json",
-      "sizeBytes": 566130,
+      "sizeBytes": 567967,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11048,7 +11048,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 16686,
+      "sizeBytes": 16688,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11612,7 +11612,7 @@
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 175173,
+      "sizeBytes": 174277,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11840,7 +11840,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 550942,
+      "sizeBytes": 561304,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11858,13 +11858,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20437,
+      "sizeBytes": 20481,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 207714,
+      "sizeBytes": 209940,
       "inDataManifest": false,
       "inFilesManifest": true
     },
