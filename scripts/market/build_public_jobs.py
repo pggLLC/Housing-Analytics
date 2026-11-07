@@ -144,7 +144,7 @@ def main():
                    'an area\'s work is public: school districts, counties, hospital districts, prisons, universities.',
             'limits': [
                 'LODES adds noise to small-area counts to protect confidentiality, so a town figure is an estimate.',
-                'Some state employees are reported at an administrative address, not where they work, so a county with a '
+                'Some state employees are reported at an administrative address, not where they work, so a county with a ' +
                 'large state office can look high and its neighbours low.',
                 'Leaves out the self-employed, uniformed military and some federal security agencies.',
                 'Towns are the 2020 Census place boundaries in the LODES crosswalk; jobs outside any place count only to the county.',
