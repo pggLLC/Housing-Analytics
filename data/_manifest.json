@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-07T12:01:20.090Z",
+    "generated_at": "2026-11-07T13:11:33.445Z",
     "root": "data/",
     "file_count": 2024,
     "total_size_bytes": 222973824,
@@ -1119,7 +1119,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-11-06T14:22:26.327Z",
+      "mtime": "2026-11-07T13:11:30.401Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1235,7 +1235,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 40281,
-      "mtime": "2026-11-06T14:22:21.721Z",
+      "mtime": "2026-11-07T13:11:28.432Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -40011,15 +40011,15 @@
       "path": "market/zillow_co_metros.json",
       "kind": "json",
       "size_bytes": 109627,
-      "mtime": "2026-10-31T11:37:29.831Z",
+      "mtime": "2026-11-07T13:11:26.283Z",
       "shape": "object",
       "keys": [
-        "zhvi_metro",
         "median_list_price_metro",
-        "zori_metro"
+        "zori_metro",
+        "zhvi_metro"
       ],
       "key_count": 3,
-      "primary_array_key": "zhvi_metro",
+      "primary_array_key": "median_list_price_metro",
       "primary_array_length": 6,
       "primary_array_first_keys": [
         "RegionID",
@@ -40027,13 +40027,13 @@
         "RegionName",
         "RegionType",
         "StateName",
-        "2000-01-31",
-        "2000-02-29",
-        "2000-03-31",
-        "2000-04-30",
-        "2000-05-31",
-        "2000-06-30",
-        "2000-07-31"
+        "2018-03-31",
+        "2018-04-30",
+        "2018-05-31",
+        "2018-06-30",
+        "2018-07-31",
+        "2018-08-31",
+        "2018-09-30"
       ]
     },
     {
@@ -40113,7 +40113,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 94694,
-      "mtime": "2026-11-06T14:22:26.389Z",
+      "mtime": "2026-11-07T13:11:30.490Z",
       "shape": "object",
       "keys": [
         "meta",
