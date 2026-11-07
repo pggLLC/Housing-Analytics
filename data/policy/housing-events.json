@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-06T11:09:53Z",
-    "as_of": "2026-11-06",
+    "generated": "2026-11-07T10:27:28Z",
+    "as_of": "2026-11-07",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -30,8 +30,8 @@
       "id": "housing_colorado",
       "name": "Housing Colorado upcoming events",
       "url": "https://housingcolorado.org/events/",
-      "status": "unreachable",
-      "note": "HTTPError: HTTP Error 404: Not Found",
+      "status": "ok",
+      "listed": 0,
       "upcoming": 0
     },
     {
@@ -40,7 +40,7 @@
       "url": "https://cdola.colorado.gov/calendar",
       "status": "ok",
       "listed": 188,
-      "upcoming": 10
+      "upcoming": 9
     },
     {
       "id": "prop123",
@@ -79,8 +79,8 @@
       "name": "FRED release calendar: CPI, jobs report, housing starts",
       "url": "https://fred.stlouisfed.org/",
       "status": "ok",
-      "listed": 8,
-      "upcoming": 8
+      "listed": 7,
+      "upcoming": 7
     },
     {
       "id": "curated",
@@ -103,30 +103,6 @@
       "url": "https://doh.colorado.gov/news-article/nofa-doh-cdbg-abatement-and-demolition-program",
       "source": "doh",
       "category": "deadline"
-    },
-    {
-      "title": "Colorado Emergency Rental Assistance Pre-Application Period (November)",
-      "start": "2026-11-04",
-      "end": "2026-11-06",
-      "time": null,
-      "location": null,
-      "online": false,
-      "organizer": "Colorado Division of Housing",
-      "url": "https://cdola.colorado.gov/calendar",
-      "source": "doh",
-      "category": "deadline"
-    },
-    {
-      "title": "Jobs report (Employment Situation) released",
-      "start": "2026-11-06",
-      "end": null,
-      "time": null,
-      "location": null,
-      "online": true,
-      "organizer": "U.S. Bureau of Labor Statistics",
-      "url": "http://www.bls.gov/ces/",
-      "source": "fred",
-      "category": "release"
     },
     {
       "title": "chfareach: New to chfareach? New Participant Orientation, Online Meeting",
@@ -199,18 +175,6 @@
       "url": "https://events.teams.microsoft.com/event/2ad089ba-d5ea-4dbb-af9b-24c9767a54a1@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
       "source": "chfa",
       "category": "homebuyer"
-    },
-    {
-      "title": "Proposition 123 Unit Goal and Commitment Office Hours",
-      "start": "2026-11-11",
-      "end": null,
-      "time": "13:00",
-      "location": null,
-      "online": false,
-      "organizer": "DOLA Proposition 123",
-      "url": "https://cdola.colorado.gov/calendar",
-      "source": "prop123",
-      "category": "developer"
     },
     {
       "title": "chfareach: Maintaining Compliance with DOH and CHFA, Online Workshop",
@@ -681,6 +645,18 @@
       "category": "release"
     },
     {
+      "title": "Proposition 123 Unit Goal and Commitment Office Hours",
+      "start": "2026-12-23",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "prop123",
+      "category": "developer"
+    },
+    {
       "title": "Deadline for Proposition 123 Compliance Submissions",
       "start": "2026-12-31",
       "end": null,
@@ -755,6 +731,30 @@
     }
   ],
   "past": [
+    {
+      "title": "Jobs report (Employment Situation) released",
+      "start": "2026-11-06",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Bureau of Labor Statistics",
+      "url": "http://www.bls.gov/ces/",
+      "source": "fred",
+      "category": "release"
+    },
+    {
+      "title": "Colorado Emergency Rental Assistance Pre-Application Period (November)",
+      "start": "2026-11-04",
+      "end": "2026-11-06",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
+    },
     {
       "title": "chfareach: CHFA NSPIRE Inspections, Denver",
       "start": "2026-11-05",
@@ -4895,30 +4895,6 @@
       "online": true,
       "organizer": "CHFA",
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-your-personal-brand-professionalism-and-promotability-online-workshop-hpi-11-12-2025",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "Training Webinar: CHFA Income Calculation Training for Underwriters and Processors",
-      "start": "2025-11-06",
-      "end": null,
-      "time": "13:30",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://attendee.gotowebinar.com/register/3052025926481142107",
-      "source": "chfa",
-      "category": "other"
-    },
-    {
-      "title": "chfareach: Legal Review 2025: Colorado Landlord-Tenant Law, Webinar",
-      "start": "2025-11-06",
-      "end": null,
-      "time": "12:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-legal-review-2025-colorado-landlord-tenant-law-webinar-11-06-25",
       "source": "chfa",
       "category": "compliance"
     }

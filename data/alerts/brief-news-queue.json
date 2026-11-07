@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-11-06T11:09:53Z",
-    "as_of": "2026-11-06",
+    "generated": "2026-11-07T10:27:28Z",
+    "as_of": "2026-11-07",
     "stale_days": 30,
-    "events_as_of": "2026-11-06",
+    "events_as_of": "2026-11-07",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,8 +14,32 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [
+        {
+          "title": "Colorado Springs pet-related information and events starting Nov. 7",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOMFdablJRUWEyMzlZTnNsdUpXaGk5cXdUbUhzSUVwbHg1dHhsX194RlBJRVduaks1cHhSbHRnX2V5Zlp6YTJnY2pvaHNSSWdzWjhkZWJfQTUzZ3lmMEVkXzVRSV9YOV81eHVNb0F4Vi1ITEZjMEVWU1hkczY4ZEs1ek8zT0tsVjRjbGdpN1V4d2NGdWtWVFpsenFqdEpxNkU?oc=5",
+          "date": "2026-11-07",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "2026 Midterm Results: El Paso County, Colorado Springs races",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQLU94SHJxVzVMV2syV19aZWtUVk5WZFdmMjl6T0NrU2U4Zkt0MF9uSjJ4aDVRU1NVVTU1QzlBbnpxT0x6YTlVZ1UtMXd3RmhsNG0tRnJmaTB2cG1ZUGdzNGlwS0Z0TlI3MnJ0alRrdWFXYUxRNE44MHd6WHU0NVVBRDFqVm93UzBibkZiWlhOWER3SHFO?oc=5",
+          "date": "2026-11-05",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "2026 Midterm Results: El Paso County, Colorado Springs ballot measures",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOSjJGaXV1Si1TSnpaTlJseEhHd1hkVVl5WEl0anh6bDB5d3pyQllPMVhyWkU3Q2FRbnZFR0ZMcG55WVRhbUJ3eGUtNUtYSmxqTU9XOXVqV0pkQ1dnVDQwZVByRDJ4LW9SVTVnalhkWkNqcWRTTkt1ZkwtaXJQVjktMk9fTkYyRkpXZThkbVpUWXowR1pRcjNHNk1hLW9NVjBjcUE?oc=5",
+          "date": "2026-11-05",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Democrat Jessica Killin in 5-point lead over Rep. Crank in Colorado Springs district",
           "source": "Colorado Newsline",
@@ -190,7 +214,7 @@
       ],
       "events": [],
       "reasons": [
-        "17 new stories naming it",
+        "20 new stories naming it",
         "1 new story about its county",
         "3 older stories not read yet"
       ]
@@ -202,8 +226,16 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [
+        {
+          "title": "House Democrats elect Rep. Jennifer Bacon of Denver as next Speaker",
+          "source": "Denver Gazette",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQckF1MHkxMFJCMmhVYnJHbTUyYk1xakIzYjlvejRmTnZFeEYtaUprcHBYRXpiVE5oQ2loWlNYMk1pYnJObGRLZ3pYMmxhSFB4d1llV2NuTVc0LWloYlVaaTNRYnFYcThIYUpUczFsdndBdFRpdDR5MU1ScXoxeGdPLU1rdHhYMXhsbjQ2SXZWMnZGaFZveFhvWU14XzFLbl9lZHN5S294c0dkUVFs?oc=5",
+          "date": "2026-11-06",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Denver nonprofit doubles its space and offers a fresh recipe for success to people facing housing instability",
           "source": "Denver7",
@@ -356,7 +388,7 @@
         }
       ],
       "reasons": [
-        "12 new stories naming it",
+        "13 new stories naming it",
         "4 older stories not read yet"
       ]
     },
@@ -367,7 +399,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [
         {
           "title": "The Town of Mt. Crested Butte is accepting applications for a deed-restricted workforce housing unit in Three Seasons. This 2-bedroom, 2-bathroom condominium is available to qualified applicants. Monthly rent is based on household size and the Town's Wor",
@@ -410,7 +442,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [
         {
           "title": "Living in Bayfield Colorado vs Durango: what the price gap buys you",
@@ -442,7 +474,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -475,7 +507,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [
         {
           "title": "Judge rules Ridgway hotel can’t house workers building Telluride’s Four Seasons resort",
@@ -509,7 +541,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -535,7 +567,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [
         {
           "title": "Senator Cortez Masto, Senator Warren tour new Las Vegas affordable housing",
@@ -558,7 +590,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [
         {
           "title": "Rifle City Council approves ADU code changes, water system improvements",
@@ -581,7 +613,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [
         {
           "title": "Salida City Council Double Header, Regular Session Starts at 6:00 p.m. Tonight - by Merrell Bergin",
@@ -604,7 +636,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [
         {
           "title": "Steamboat Springs launches work with Colorado Energy Office to address workforce housing, climate goals",
@@ -628,7 +660,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -670,7 +702,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -696,7 +728,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [],
       "events": [],
       "reasons": []
@@ -708,7 +740,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [],
       "events": [],
       "reasons": []
@@ -720,7 +752,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [],
       "events": [],
       "reasons": [
@@ -734,7 +766,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [],
       "events": [],
       "reasons": []
@@ -746,7 +778,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 19,
+      "days_since_review": 20,
       "stories": [],
       "events": [],
       "reasons": []
