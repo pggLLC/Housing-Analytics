@@ -265,6 +265,27 @@ test('households in which everyone attends college are left out of those who qua
   assert.strictEqual(without.assumptions.studentsRemoved, null, 'no student data: nothing removed, and none claimed');
 });
 
+test('a cell where every household is all-student is removed entirely (Codex #2751)', () => {
+  const m = [bins(), bins(), bins(), bins(), bins(), bins()]; m[0][45] = 100;
+  const sh = [[0, 1, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
+  const d = { pumas: { P1: m }, tracts: { '08001000100': ['P1', 0, 100, 0, 0, 0] }, student_share: { pumas: { P1: sh } } };
+  const r = S.chfaQualifiedRenters(d, limits, tracts, [60]);
+  assert.strictEqual(r.value, 0);
+  assert.strictEqual(r.assumptions.studentsRemoved, 100);
+});
+
+test('a size fit that cannot reach the published shares is not reported or used as a match (Codex #2751)', () => {
+  // 1p only at 40%, 3p only at 55%, tiers 90 / 10: sizes are pinned at 90 / 10, so 50 / 50 is out of reach.
+  assert.strictEqual(S.areaSizeFit([{ count: 90, sizes: [1, 0, 0, 0, 0, 0] }, { count: 10, sizes: [0, 0, 1, 0, 0, 0] }], [0.5, 0, 0.5, 0, 0, 0]), null);
+  const m = [bins(), bins(), bins(), bins(), bins(), bins()];
+  m[0][40] = 100; m[2][55] = 100;
+  const d = { pumas: { P1: m }, tracts: { '08001000100': ['P1', 0, 90, 10, 0, 0] } };
+  const r = S.chfaQualifiedRenters(d, limits, tracts, [60], null, { sizeIdx: { '08001000100': [50, 0, 50, 0, 0, 0] } });
+  assert.strictEqual(r.assumptions.sizeMatched, false);
+  assert.deepStrictEqual(r.assumptions.areaSizeShares, [0.5, 0, 0.5, 0, 0, 0], 'the published shares are still shown');
+  assert.strictEqual(r.byBedroom['1br'], 90, 'the sample is used as it is');
+});
+
 test('the files carry the student share and tract household sizes with their sources', () => {
   const d = read('data/market/chfa_renter_demand_co.json');
   const st = d.student_share;

@@ -200,6 +200,7 @@
   var BEDROOM_RULES = { shared: 'shared', smallest: 'smallest' };
   var TWO_PERSON_SMALL_SHARE_CO = 0.282;
   var DEFAULT_SIZE_VALUES = [1, 2, 3, 4, 5, 6.68];
+  var SIZE_FIT_TOLERANCE = 0.01;   // each fitted size share within 1 point of the published share
 
   // One set of size factors for the whole market area, found by iterative
   // proportional fitting, so the renter households the count actually uses
@@ -230,7 +231,12 @@
       }
       if (moved < 1e-6) break;
     }
-    return { base: base, fitted: modelled(f), factors: f };
+    var fitted = modelled(f);
+    // A fit that cannot reach the published shares (a size the sample lacks,
+    // or tiers that pin the sizes) is not a match: the caller then uses the
+    // sample as it is and says so (Codex #2751).
+    for (var k = 0; k < n; k++) if (!fitted || Math.abs(fitted[k] - target[k]) > SIZE_FIT_TOLERANCE) return null;
+    return { base: base, fitted: fitted, factors: f };
   }
 
   /**
@@ -409,7 +415,7 @@
     function studentShare(puma, s, k) {
       var p = students && students.pumas[puma];
       var v = p && p[s] && p[s][k];
-      return typeof v === 'number' && v > 0 && v < 1 ? v : 0;
+      return typeof v === 'number' && v > 0 && v <= 1 ? v : 0;   // 1 = every household in the cell is all-student (Codex #2751)
     }
 
     var byTier = {}, byBr = {};
