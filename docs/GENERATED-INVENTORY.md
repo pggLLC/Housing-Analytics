@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-08T20:17:53.998Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-08T21:43:04.305Z. Do not edit by hand.
 
 ---
 
@@ -2398,7 +2398,7 @@
 | `test/hna-ranking-low-evidence-badge.test.js` | 6.4 KB |
 | `test/hna-reading-path.test.js` | 5.3 KB |
 | `test/hna-rent-burden-bins.test.js` | 3.6 KB |
-| `test/hna-rent-burden-counts.test.js` | 5.3 KB |
+| `test/hna-rent-burden-counts.test.js` | 7.9 KB |
 | `test/hna-saved-scenario-matches-builder.test.js` | 16.6 KB |
 | `test/hna-scenario-builder-saved.test.js` | 8.1 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
@@ -2459,7 +2459,7 @@
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 8.9 KB |
-| `test/jurisdiction-whitepaper.test.mjs` | 46.1 KB |
+| `test/jurisdiction-whitepaper.test.mjs` | 46.9 KB |
 | `test/kalshi-signing-and-write.test.js` | 11.7 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-banking-awards.test.mjs` | 39.6 KB |
@@ -2505,7 +2505,7 @@
 | `test/metric-truth-crosssurface.test.js` | 8.1 KB |
 | `test/mi-supply-co-vs-national.test.js` | 3.9 KB |
 | `test/mix-check-recommenders.test.mjs` | 16.0 KB |
-| `test/mix-check.test.mjs` | 7.0 KB |
+| `test/mix-check.test.mjs` | 7.8 KB |
 | `test/mobile-overflow-css-rules-present.test.js` | 5.6 KB |
 | `test/mortgage-rate-one-source.test.js` | 12.7 KB |
 | `test/navigation-paths.test.js` | 555 B |
