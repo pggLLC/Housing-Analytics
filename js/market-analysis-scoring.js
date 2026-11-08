@@ -358,6 +358,11 @@
       // the last bin holds everything above 120%
       return b === mix[s].length - 1 ? Infinity : (b + 0.5) * toCounty[s];
     }
+    var PUMA_SCALE = [1, 1, 1, 1, 1, 1];
+    function pumaTierOf(pct) {
+      for (var j = 0; j < CHAS_TIER_BINS.length; j++) if (inRange(pct, CHAS_TIER_BINS[j])) return j;
+      return CHAS_TIER_BINS.length - 1;
+    }
     function inRange(pct, range) {
       return !(pct < range[0] || (range[1] !== Infinity && pct >= range[1]));
     }
@@ -450,14 +455,16 @@
         tiers.forEach(function (t) { perTier[t] = 0; });
         for (var s = 0; s < mix.length; s++) {
           var f = tilt ? tilt.factors[s] : 1;
-          // All-student households stay in the tier total (CHAS counts them)
-          // but not among those who qualify.
-          var keep = 1 - studentShare(row[0], s, k);
           for (var b = 0; b < mix[s].length; b++) {
             var wAll = mix[s][b] * f;
             if (!wAll) continue;
             var pct = binPct(mix, s, b, toCounty);
             if (!inRange(pct, range)) continue;
+            // All-student households stay in the tier total (CHAS counts them)
+            // but not among those who qualify. Their shares were measured on
+            // the PUMA's own income scale, so the bin's unadjusted tier picks
+            // the share (Codex #2751).
+            var keep = 1 - studentShare(row[0], s, pumaTierOf(binPct(mix, s, b, PUMA_SCALE)));
             tierTotal += wAll;
             if (s === 1) twoW += wAll;
             var w = wAll * keep;

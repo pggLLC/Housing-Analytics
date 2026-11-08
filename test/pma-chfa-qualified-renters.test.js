@@ -274,6 +274,17 @@ test('a cell where every household is all-student is removed entirely (Codex #27
   assert.strictEqual(r.assumptions.studentsRemoved, 100);
 });
 
+test('the student share is picked by the bin\'s own PUMA income tier, not the county-adjusted one (Codex #2751)', () => {
+  // A 1-person bin at 45% of the PUMA limit; the county limit is lower, so it
+  // lands in the county's 50-80% tier. Its student share is the PUMA's 30-50% cell.
+  const m = [bins(), bins(), bins(), bins(), bins(), bins()]; m[0][45] = 100;
+  const sh = [[0, 0.4, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
+  const d = { pumas: { P1: m }, tracts: { '08001000100': ['P1', 0, 0, 100, 0, 0] }, student_share: { pumas: { P1: sh } },
+    puma_lim50_2024: { P1: [60000, 60000, 60000, 60000, 60000, 60000] }, county_lim50_2024: { '08001': [50000, 50000, 50000, 50000, 50000, 50000] } };
+  const r = S.chfaQualifiedRenters(d, limits, tracts, [60]);
+  assert.strictEqual(r.assumptions.studentsRemoved, 40);
+});
+
 test('a size fit that cannot reach the published shares is not reported or used as a match (Codex #2751)', () => {
   // 1p only at 40%, 3p only at 55%, tiers 90 / 10: sizes are pinned at 90 / 10, so 50 / 50 is out of reach.
   assert.strictEqual(S.areaSizeFit([{ count: 90, sizes: [1, 0, 0, 0, 0, 0] }, { count: 10, sizes: [0, 0, 1, 0, 0, 0] }], [0.5, 0, 0.5, 0, 0, 0]), null);
