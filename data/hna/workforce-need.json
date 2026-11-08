@@ -10,8 +10,8 @@
    ],
    "incommuters_out_of_state": 2998,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 297784,
-   "jobs_horizon": 368008,
+   "jobs_base": 300391,
+   "jobs_horizon": 358752,
    "name": "Adams County",
    "present_incommuter_need": {
     "move_closer_25": 14778,
@@ -38,8 +38,8 @@
    ],
    "incommuters_out_of_state": 368,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 9477,
-   "jobs_horizon": 10602,
+   "jobs_base": 10092,
+   "jobs_horizon": 10744,
    "name": "Alamosa County",
    "present_incommuter_need": {
     "move_closer_25": 351,
@@ -66,8 +66,8 @@
    ],
    "incommuters_out_of_state": 3163,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 412995,
-   "jobs_horizon": 487714,
+   "jobs_base": 416948,
+   "jobs_horizon": 471667,
    "name": "Arapahoe County",
    "present_incommuter_need": {
     "move_closer_25": 19960,
@@ -94,8 +94,8 @@
    ],
    "incommuters_out_of_state": 259,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 7281,
-   "jobs_horizon": 9100,
+   "jobs_base": 7664,
+   "jobs_horizon": 8317,
    "name": "Archuleta County",
    "present_incommuter_need": {
     "move_closer_25": 125,
@@ -122,8 +122,8 @@
    ],
    "incommuters_out_of_state": 93,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 1540,
-   "jobs_horizon": 1590,
+   "jobs_base": 2209,
+   "jobs_horizon": 2161,
    "name": "Baca County",
    "present_incommuter_need": {
     "move_closer_25": 31,
@@ -150,8 +150,8 @@
    ],
    "incommuters_out_of_state": 24,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 1593,
-   "jobs_horizon": 1663,
+   "jobs_base": 1894,
+   "jobs_horizon": 1842,
    "name": "Bent County",
    "present_incommuter_need": {
     "move_closer_25": 37,
@@ -178,8 +178,8 @@
    ],
    "incommuters_out_of_state": 1690,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 234328,
-   "jobs_horizon": 244569,
+   "jobs_base": 236654,
+   "jobs_horizon": 247378,
    "name": "Boulder County",
    "present_incommuter_need": {
     "move_closer_25": 9895,
@@ -206,8 +206,8 @@
    ],
    "incommuters_out_of_state": 552,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 49667,
-   "jobs_horizon": 63867,
+   "jobs_base": 49298,
+   "jobs_horizon": 61831,
    "name": "Broomfield County",
    "present_incommuter_need": {
     "move_closer_25": 3036,
@@ -234,8 +234,8 @@
    ],
    "incommuters_out_of_state": 149,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 12432,
-   "jobs_horizon": 13438,
+   "jobs_base": 12769,
+   "jobs_horizon": 13189,
    "name": "Chaffee County",
    "present_incommuter_need": {
     "move_closer_25": 308,
@@ -262,8 +262,8 @@
    ],
    "incommuters_out_of_state": 37,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 978,
-   "jobs_horizon": 855,
+   "jobs_base": 1480,
+   "jobs_horizon": 1527,
    "name": "Cheyenne County",
    "present_incommuter_need": {
     "move_closer_25": 20,
@@ -290,8 +290,8 @@
    ],
    "incommuters_out_of_state": 39,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 4394,
-   "jobs_horizon": 4474,
+   "jobs_base": 4431,
+   "jobs_horizon": 4812,
    "name": "Clear Creek County",
    "present_incommuter_need": {
     "move_closer_25": 208,
@@ -318,8 +318,8 @@
    ],
    "incommuters_out_of_state": 65,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 2333,
-   "jobs_horizon": 2593,
+   "jobs_base": 2883,
+   "jobs_horizon": 3031,
    "name": "Conejos County",
    "present_incommuter_need": {
     "move_closer_25": 55,
@@ -346,8 +346,8 @@
    ],
    "incommuters_out_of_state": 54,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 1361,
-   "jobs_horizon": 1319,
+   "jobs_base": 1600,
+   "jobs_horizon": 1437,
    "name": "Costilla County",
    "present_incommuter_need": {
     "move_closer_25": 27,
@@ -374,8 +374,8 @@
    ],
    "incommuters_out_of_state": 20,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 1379,
-   "jobs_horizon": 1538,
+   "jobs_base": 1633,
+   "jobs_horizon": 1647,
    "name": "Crowley County",
    "present_incommuter_need": {
     "move_closer_25": 39,
@@ -402,8 +402,8 @@
    ],
    "incommuters_out_of_state": 19,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 1952,
-   "jobs_horizon": 2428,
+   "jobs_base": 2147,
+   "jobs_horizon": 2396,
    "name": "Custer County",
    "present_incommuter_need": {
     "move_closer_25": 42,
@@ -430,8 +430,8 @@
    ],
    "incommuters_out_of_state": 173,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 12341,
-   "jobs_horizon": 14257,
+   "jobs_base": 14143,
+   "jobs_horizon": 15139,
    "name": "Delta County",
    "present_incommuter_need": {
     "move_closer_25": 275,
@@ -458,8 +458,8 @@
    ],
    "incommuters_out_of_state": 8227,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 647752,
-   "jobs_horizon": 739990,
+   "jobs_base": 651715,
+   "jobs_horizon": 713072,
    "name": "Denver County",
    "present_incommuter_need": {
     "move_closer_25": 32222,
@@ -486,8 +486,8 @@
    ],
    "incommuters_out_of_state": 18,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 736,
-   "jobs_horizon": 723,
+   "jobs_base": 1079,
+   "jobs_horizon": 954,
    "name": "Dolores County",
    "present_incommuter_need": {
     "move_closer_25": 17,
@@ -514,8 +514,8 @@
    ],
    "incommuters_out_of_state": 1139,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 188130,
-   "jobs_horizon": 245260,
+   "jobs_base": 189401,
+   "jobs_horizon": 247137,
    "name": "Douglas County",
    "present_incommuter_need": {
     "move_closer_25": 7843,
@@ -542,8 +542,8 @@
    ],
    "incommuters_out_of_state": 2404,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 43565,
-   "jobs_horizon": 55700,
+   "jobs_base": 43795,
+   "jobs_horizon": 51913,
    "name": "Eagle County",
    "present_incommuter_need": {
     "move_closer_25": 1556,
@@ -570,8 +570,8 @@
    ],
    "incommuters_out_of_state": 50,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 8292,
-   "jobs_horizon": 9319,
+   "jobs_base": 9623,
+   "jobs_horizon": 13013,
    "name": "Elbert County",
    "present_incommuter_need": {
     "move_closer_25": 353,
@@ -598,8 +598,8 @@
    ],
    "incommuters_out_of_state": 3217,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 374875,
-   "jobs_horizon": 434884,
+   "jobs_base": 378003,
+   "jobs_horizon": 447914,
    "name": "El Paso County",
    "present_incommuter_need": {
     "move_closer_25": 6158,
@@ -626,8 +626,8 @@
    ],
    "incommuters_out_of_state": 95,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 18138,
-   "jobs_horizon": 19454,
+   "jobs_base": 18682,
+   "jobs_horizon": 18891,
    "name": "Fremont County",
    "present_incommuter_need": {
     "move_closer_25": 344,
@@ -654,8 +654,8 @@
    ],
    "incommuters_out_of_state": 732,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 35354,
-   "jobs_horizon": 43551,
+   "jobs_base": 35970,
+   "jobs_horizon": 42471,
    "name": "Garfield County",
    "present_incommuter_need": {
     "move_closer_25": 623,
@@ -682,8 +682,8 @@
    ],
    "incommuters_out_of_state": 14,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 5424,
-   "jobs_horizon": 5946,
+   "jobs_base": 5443,
+   "jobs_horizon": 6058,
    "name": "Gilpin County",
    "present_incommuter_need": {
     "move_closer_25": 277,
@@ -710,8 +710,8 @@
    ],
    "incommuters_out_of_state": 435,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 10286,
-   "jobs_horizon": 12163,
+   "jobs_base": 10605,
+   "jobs_horizon": 11908,
    "name": "Grand County",
    "present_incommuter_need": {
     "move_closer_25": 318,
@@ -738,8 +738,8 @@
    ],
    "incommuters_out_of_state": 349,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 12555,
-   "jobs_horizon": 14432,
+   "jobs_base": 12973,
+   "jobs_horizon": 13254,
    "name": "Gunnison County",
    "present_incommuter_need": {
     "move_closer_25": 313,
@@ -766,8 +766,8 @@
    ],
    "incommuters_out_of_state": 11,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 468,
-   "jobs_horizon": 542,
+   "jobs_base": 516,
+   "jobs_horizon": 451,
    "name": "Hinsdale County",
    "present_incommuter_need": {
     "move_closer_25": 8,
@@ -794,8 +794,8 @@
    ],
    "incommuters_out_of_state": 72,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 2542,
-   "jobs_horizon": 2458,
+   "jobs_base": 2761,
+   "jobs_horizon": 2325,
    "name": "Huerfano County",
    "present_incommuter_need": {
     "move_closer_25": 56,
@@ -822,8 +822,8 @@
    ],
    "incommuters_out_of_state": 20,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 771,
-   "jobs_horizon": 632,
+   "jobs_base": 931,
+   "jobs_horizon": 780,
    "name": "Jackson County",
    "present_incommuter_need": {
     "move_closer_25": 8,
@@ -850,8 +850,8 @@
    ],
    "incommuters_out_of_state": 1557,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 309316,
-   "jobs_horizon": 324899,
+   "jobs_base": 310236,
+   "jobs_horizon": 322021,
    "name": "Jefferson County",
    "present_incommuter_need": {
     "move_closer_25": 13881,
@@ -878,8 +878,8 @@
    ],
    "incommuters_out_of_state": 18,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 625,
-   "jobs_horizon": 637,
+   "jobs_base": 1121,
+   "jobs_horizon": 1095,
    "name": "Kiowa County",
    "present_incommuter_need": {
     "move_closer_25": 11,
@@ -906,8 +906,8 @@
    ],
    "incommuters_out_of_state": 225,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 3717,
-   "jobs_horizon": 3929,
+   "jobs_base": 4922,
+   "jobs_horizon": 5506,
    "name": "Kit Carson County",
    "present_incommuter_need": {
     "move_closer_25": 75,
@@ -934,8 +934,8 @@
    ],
    "incommuters_out_of_state": 44,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 3772,
-   "jobs_horizon": 4254,
+   "jobs_base": 3787,
+   "jobs_horizon": 3976,
    "name": "Lake County",
    "present_incommuter_need": {
     "move_closer_25": 79,
@@ -962,8 +962,8 @@
    ],
    "incommuters_out_of_state": 3127,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 34505,
-   "jobs_horizon": 36879,
+   "jobs_base": 35672,
+   "jobs_horizon": 37361,
    "name": "La Plata County",
    "present_incommuter_need": {
     "move_closer_25": 740,
@@ -990,8 +990,8 @@
    ],
    "incommuters_out_of_state": 3022,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 213143,
-   "jobs_horizon": 228770,
+   "jobs_base": 215979,
+   "jobs_horizon": 245911,
    "name": "Larimer County",
    "present_incommuter_need": {
     "move_closer_25": 5625,
@@ -1018,8 +1018,8 @@
    ],
    "incommuters_out_of_state": 386,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 5860,
-   "jobs_horizon": 5561,
+   "jobs_base": 6347,
+   "jobs_horizon": 4958,
    "name": "Las Animas County",
    "present_incommuter_need": {
     "move_closer_25": 121,
@@ -1046,8 +1046,8 @@
    ],
    "incommuters_out_of_state": 58,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 2592,
-   "jobs_horizon": 2832,
+   "jobs_base": 3195,
+   "jobs_horizon": 3550,
    "name": "Lincoln County",
    "present_incommuter_need": {
     "move_closer_25": 75,
@@ -1074,8 +1074,8 @@
    ],
    "incommuters_out_of_state": 403,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 9235,
-   "jobs_horizon": 9582,
+   "jobs_base": 10414,
+   "jobs_horizon": 10560,
    "name": "Logan County",
    "present_incommuter_need": {
     "move_closer_25": 193,
@@ -1102,8 +1102,8 @@
    ],
    "incommuters_out_of_state": 2018,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 81583,
-   "jobs_horizon": 86302,
+   "jobs_base": 83629,
+   "jobs_horizon": 92886,
    "name": "Mesa County",
    "present_incommuter_need": {
     "move_closer_25": 1226,
@@ -1130,8 +1130,8 @@
    ],
    "incommuters_out_of_state": 11,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 822,
-   "jobs_horizon": 808,
+   "jobs_base": 843,
+   "jobs_horizon": 765,
    "name": "Mineral County",
    "present_incommuter_need": {
     "move_closer_25": 16,
@@ -1158,8 +1158,8 @@
    ],
    "incommuters_out_of_state": 190,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 5803,
-   "jobs_horizon": 5656,
+   "jobs_base": 6287,
+   "jobs_horizon": 5695,
    "name": "Moffat County",
    "present_incommuter_need": {
     "move_closer_25": 82,
@@ -1186,8 +1186,8 @@
    ],
    "incommuters_out_of_state": 823,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 12398,
-   "jobs_horizon": 13044,
+   "jobs_base": 13241,
+   "jobs_horizon": 12796,
    "name": "Montezuma County",
    "present_incommuter_need": {
     "move_closer_25": 235,
@@ -1214,8 +1214,8 @@
    ],
    "incommuters_out_of_state": 439,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 21897,
-   "jobs_horizon": 24764,
+   "jobs_base": 22923,
+   "jobs_horizon": 25174,
    "name": "Montrose County",
    "present_incommuter_need": {
     "move_closer_25": 468,
@@ -1242,8 +1242,8 @@
    ],
    "incommuters_out_of_state": 404,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 15489,
-   "jobs_horizon": 16909,
+   "jobs_base": 16811,
+   "jobs_horizon": 17993,
    "name": "Morgan County",
    "present_incommuter_need": {
     "move_closer_25": 334,
@@ -1270,8 +1270,8 @@
    ],
    "incommuters_out_of_state": 155,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 7216,
-   "jobs_horizon": 6771,
+   "jobs_base": 7849,
+   "jobs_horizon": 7205,
    "name": "Otero County",
    "present_incommuter_need": {
     "move_closer_25": 187,
@@ -1298,8 +1298,8 @@
    ],
    "incommuters_out_of_state": 101,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 3221,
-   "jobs_horizon": 3481,
+   "jobs_base": 3352,
+   "jobs_horizon": 3532,
    "name": "Ouray County",
    "present_incommuter_need": {
     "move_closer_25": 106,
@@ -1326,8 +1326,8 @@
    ],
    "incommuters_out_of_state": 16,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 5364,
-   "jobs_horizon": 5103,
+   "jobs_base": 5462,
+   "jobs_horizon": 5465,
    "name": "Park County",
    "present_incommuter_need": {
     "move_closer_25": 181,
@@ -1354,8 +1354,8 @@
    ],
    "incommuters_out_of_state": 117,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 2244,
-   "jobs_horizon": 2229,
+   "jobs_base": 2917,
+   "jobs_horizon": 2934,
    "name": "Phillips County",
    "present_incommuter_need": {
     "move_closer_25": 54,
@@ -1382,8 +1382,8 @@
    ],
    "incommuters_out_of_state": 1066,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 21992,
-   "jobs_horizon": 23401,
+   "jobs_base": 22210,
+   "jobs_horizon": 22247,
    "name": "Pitkin County",
    "present_incommuter_need": {
     "move_closer_25": 1039,
@@ -1410,8 +1410,8 @@
    ],
    "incommuters_out_of_state": 269,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 5751,
-   "jobs_horizon": 6074,
+   "jobs_base": 6481,
+   "jobs_horizon": 6140,
    "name": "Prowers County",
    "present_incommuter_need": {
     "move_closer_25": 150,
@@ -1438,8 +1438,8 @@
    ],
    "incommuters_out_of_state": 648,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 73928,
-   "jobs_horizon": 83122,
+   "jobs_base": 74863,
+   "jobs_horizon": 71813,
    "name": "Pueblo County",
    "present_incommuter_need": {
     "move_closer_25": 1447,
@@ -1466,8 +1466,8 @@
    ],
    "incommuters_out_of_state": 230,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 3496,
-   "jobs_horizon": 3126,
+   "jobs_base": 3829,
+   "jobs_horizon": 3275,
    "name": "Rio Blanco County",
    "present_incommuter_need": {
     "move_closer_25": 62,
@@ -1494,8 +1494,8 @@
    ],
    "incommuters_out_of_state": 109,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 5696,
-   "jobs_horizon": 5648,
+   "jobs_base": 6359,
+   "jobs_horizon": 5815,
    "name": "Rio Grande County",
    "present_incommuter_need": {
     "move_closer_25": 169,
@@ -1522,8 +1522,8 @@
    ],
    "incommuters_out_of_state": 852,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 21047,
-   "jobs_horizon": 23978,
+   "jobs_base": 21976,
+   "jobs_horizon": 23301,
    "name": "Routt County",
    "present_incommuter_need": {
     "move_closer_25": 544,
@@ -1550,8 +1550,8 @@
    ],
    "incommuters_out_of_state": 41,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 2604,
-   "jobs_horizon": 2722,
+   "jobs_base": 3055,
+   "jobs_horizon": 3020,
    "name": "Saguache County",
    "present_incommuter_need": {
     "move_closer_25": 72,
@@ -1578,8 +1578,8 @@
    ],
    "incommuters_out_of_state": 25,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 680,
-   "jobs_horizon": 746,
+   "jobs_base": 630,
+   "jobs_horizon": 593,
    "name": "San Juan County",
    "present_incommuter_need": {
     "move_closer_25": 12,
@@ -1606,8 +1606,8 @@
    ],
    "incommuters_out_of_state": 379,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 7799,
-   "jobs_horizon": 9720,
+   "jobs_base": 7945,
+   "jobs_horizon": 9235,
    "name": "San Miguel County",
    "present_incommuter_need": {
     "move_closer_25": 334,
@@ -1634,8 +1634,8 @@
    ],
    "incommuters_out_of_state": 77,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 942,
-   "jobs_horizon": 891,
+   "jobs_base": 1302,
+   "jobs_horizon": 1244,
    "name": "Sedgwick County",
    "present_incommuter_need": {
     "move_closer_25": 18,
@@ -1662,8 +1662,8 @@
    ],
    "incommuters_out_of_state": 1666,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 27579,
-   "jobs_horizon": 31726,
+   "jobs_base": 27859,
+   "jobs_horizon": 30233,
    "name": "Summit County",
    "present_incommuter_need": {
     "move_closer_25": 1311,
@@ -1690,8 +1690,8 @@
    ],
    "incommuters_out_of_state": 90,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 11496,
-   "jobs_horizon": 9796,
+   "jobs_base": 11541,
+   "jobs_horizon": 11646,
    "name": "Teller County",
    "present_incommuter_need": {
     "move_closer_25": 301,
@@ -1718,8 +1718,8 @@
    ],
    "incommuters_out_of_state": 28,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 1576,
-   "jobs_horizon": 1443,
+   "jobs_base": 2586,
+   "jobs_horizon": 2551,
    "name": "Washington County",
    "present_incommuter_need": {
     "move_closer_25": 27,
@@ -1746,8 +1746,8 @@
    ],
    "incommuters_out_of_state": 1946,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 150769,
-   "jobs_horizon": 190394,
+   "jobs_base": 157400,
+   "jobs_horizon": 207252,
    "name": "Weld County",
    "present_incommuter_need": {
     "move_closer_25": 3959,
@@ -1774,8 +1774,8 @@
    ],
    "incommuters_out_of_state": 217,
    "job_growth_note": "Context only: SDO sets county migration from this jobs forecast, so resident growth already houses it.",
-   "jobs_base": 5216,
-   "jobs_horizon": 5329,
+   "jobs_base": 6769,
+   "jobs_horizon": 6858,
    "name": "Yuma County",
    "present_incommuter_need": {
     "move_closer_25": 94,
@@ -1795,7 +1795,7 @@
  },
  "meta": {
   "baseYear": 2024,
-  "generated_at": "2026-11-04T20:50:19Z",
+  "generated_at": "2026-11-08T08:32:17Z",
   "generated_by": "scripts/hna/build_workforce_need.py",
   "horizonYear": 2044,
   "income_cut": "le120",
@@ -1819,7 +1819,7 @@
    "crosswalk_income_limits": "CHFA \u2014 2026 Income Limit and Maximum Rent Tables for All Colorado Counties, https://www.chfainfo.com/getattachment/620a2abf-e2d3-44a6-868b-4318906acc3e/2026-Rent-and-income-limits.pdf (regular tiers)",
    "crosswalk_pums": "ACS PUMS 2020-2024 5-year, Colorado: https://www2.census.gov/programs-surveys/acs/data/pums/2024/5-Year/csv_pco.zip and https://www2.census.gov/programs-surveys/acs/data/pums/2024/5-Year/csv_hco.zip",
    "dola_jobs": "https://storage.googleapis.com/co-publicdata/jobs-county.csv",
-   "dola_jobs_vintage": "Vintage 2024, Created January 2026",
+   "dola_jobs_vintage": "Vintage 2025, Created November 2026",
    "lodes_od": "https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT01_2023.csv.gz",
    "lodes_od_aux": "https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_aux_JT01_2023.csv.gz"
   }
@@ -2583,24 +2583,24 @@
   },
   "0804935": {
    "containingCounty": "08037",
-   "incommuter_households_le60": 334,
+   "incommuter_households_le60": 336,
    "incommuters": 2330.0,
    "incommuters_by_tier": [
-    293,
-    397,
-    1454
+    294,
+    399,
+    1465
    ],
-   "incommuters_out_of_state": 79,
+   "incommuters_out_of_state": 80,
    "name": "Basalt (town)",
    "present_incommuter_need": {
-    "move_closer_25": 203,
-    "move_closer_50": 407
+    "move_closer_25": 205,
+    "move_closer_50": 409
    },
    "present_incommuter_need_by_ami": {
     "30_50": 35,
     "50_60": 26,
     "60_80": 48,
-    "80_120": 72,
+    "80_120": 73,
     "le30": 23
    },
    "present_incommuter_need_moe90": 12,
@@ -2700,7 +2700,7 @@
    "incommuters_by_tier": [
     239,
     520,
-    2393
+    2392
    ],
    "incommuters_out_of_state": 13,
    "name": "Berkley (CDP)",
@@ -3087,25 +3087,25 @@
   },
   "0807850": {
    "containingCounty": "08013",
-   "incommuter_households_le60": 9011,
+   "incommuter_households_le60": 8998,
    "incommuters": 74527.0,
    "incommuters_by_tier": [
-    5891,
-    10131,
-    56296
+    5886,
+    10107,
+    56240
    ],
-   "incommuters_out_of_state": 1047,
+   "incommuters_out_of_state": 1048,
    "name": "Boulder (city)",
    "present_incommuter_need": {
-    "move_closer_25": 6489,
-    "move_closer_50": 12978
+    "move_closer_25": 6481,
+    "move_closer_50": 12962
    },
    "present_incommuter_need_by_ami": {
-    "30_50": 975,
-    "50_60": 659,
-    "60_80": 1509,
-    "80_120": 2727,
-    "le30": 620
+    "30_50": 973,
+    "50_60": 658,
+    "60_80": 1507,
+    "80_120": 2724,
+    "le30": 619
    },
    "present_incommuter_need_moe90": 59,
    "share_of_county_households": 0.3243,
@@ -3919,7 +3919,7 @@
    "incommuters": 396.0,
    "incommuters_by_tier": [
     54,
-    151,
+    150,
     179
    ],
    "incommuters_out_of_state": 11,
@@ -4394,21 +4394,21 @@
    "incommuter_households_le60": 13105,
    "incommuters": 105553.0,
    "incommuters_by_tier": [
-    12613,
-    24617,
-    65348
+    12607,
+    24615,
+    65387
    ],
-   "incommuters_out_of_state": 2828,
+   "incommuters_out_of_state": 2829,
    "name": "Colorado Springs (city)",
    "present_incommuter_need": {
-    "move_closer_25": 9214,
-    "move_closer_50": 18428
+    "move_closer_25": 9216,
+    "move_closer_50": 18432
    },
    "present_incommuter_need_by_ami": {
     "30_50": 1395,
     "50_60": 896,
-    "60_80": 2178,
-    "80_120": 3760,
+    "60_80": 2179,
+    "80_120": 3761,
     "le30": 984
    },
    "present_incommuter_need_moe90": 202,
@@ -4508,7 +4508,7 @@
    "incommuters_by_tier": [
     2950,
     5940,
-    23083
+    23082
    ],
    "incommuters_out_of_state": 491,
    "name": "Commerce City (city)",
@@ -5847,24 +5847,24 @@
   },
   "0824950": {
    "containingCounty": "08123",
-   "incommuter_households_le60": 475,
+   "incommuter_households_le60": 478,
    "incommuters": 3871.0,
    "incommuters_by_tier": [
-    439,
-    813,
-    2373
+    443,
+    815,
+    2388
    ],
    "incommuters_out_of_state": 21,
    "name": "Erie (town)",
    "present_incommuter_need": {
-    "move_closer_25": 321,
-    "move_closer_50": 642
+    "move_closer_25": 323,
+    "move_closer_50": 645
    },
    "present_incommuter_need_by_ami": {
     "30_50": 52,
     "50_60": 31,
     "60_80": 73,
-    "80_120": 129,
+    "80_120": 130,
     "le30": 36
    },
    "present_incommuter_need_moe90": 12,
@@ -5903,18 +5903,18 @@
   },
   "0825280": {
    "containingCounty": "08123",
-   "incommuter_households_le60": 366,
+   "incommuter_households_le60": 367,
    "incommuters": 3011.0,
    "incommuters_by_tier": [
     258,
-    682,
-    2001
+    686,
+    2005
    ],
    "incommuters_out_of_state": 62,
    "name": "Evans (city)",
    "present_incommuter_need": {
     "move_closer_25": 258,
-    "move_closer_50": 515
+    "move_closer_50": 517
    },
    "present_incommuter_need_by_ami": {
     "30_50": 41,
@@ -6323,24 +6323,24 @@
   },
   "0827810": {
    "containingCounty": "08087",
-   "incommuter_households_le60": 588,
+   "incommuter_households_le60": 592,
    "incommuters": 4757.0,
    "incommuters_by_tier": [
     566,
-    1110,
-    3044
+    1126,
+    3049
    ],
    "incommuters_out_of_state": 193,
    "name": "Fort Morgan (city)",
    "present_incommuter_need": {
-    "move_closer_25": 384,
-    "move_closer_50": 767
+    "move_closer_25": 386,
+    "move_closer_50": 772
    },
    "present_incommuter_need_by_ami": {
-    "30_50": 62,
-    "50_60": 43,
-    "60_80": 82,
-    "80_120": 154,
+    "30_50": 63,
+    "50_60": 44,
+    "60_80": 83,
+    "80_120": 155,
     "le30": 41
    },
    "present_incommuter_need_moe90": 23,
@@ -6603,25 +6603,25 @@
   },
   "0828800": {
    "containingCounty": "08077",
-   "incommuter_households_le60": 110,
+   "incommuter_households_le60": 108,
    "incommuters": 805.0,
    "incommuters_by_tier": [
-    129,
+    124,
     239,
-    416
+    417
    ],
-   "incommuters_out_of_state": 30,
+   "incommuters_out_of_state": 29,
    "name": "Fruitvale (CDP)",
    "present_incommuter_need": {
-    "move_closer_25": 76,
-    "move_closer_50": 151
+    "move_closer_25": 75,
+    "move_closer_50": 150
    },
    "present_incommuter_need_by_ami": {
     "30_50": 11,
     "50_60": 8,
     "60_80": 17,
     "80_120": 31,
-    "le30": 9
+    "le30": 8
    },
    "present_incommuter_need_moe90": 3,
    "share_of_county_households": 0.0512,
@@ -6983,25 +6983,25 @@
   },
   "0830835": {
    "containingCounty": "08059",
-   "incommuter_households_le60": 2257,
+   "incommuter_households_le60": 2259,
    "incommuters": 19619.0,
    "incommuters_by_tier": [
-    1687,
-    2808,
-    14428
+    1688,
+    2810,
+    14434
    ],
    "incommuters_out_of_state": 111,
    "name": "Golden (city)",
    "present_incommuter_need": {
-    "move_closer_25": 1636,
-    "move_closer_50": 3273
+    "move_closer_25": 1637,
+    "move_closer_50": 3274
    },
    "present_incommuter_need_by_ami": {
     "30_50": 242,
     "50_60": 162,
     "60_80": 372,
     "80_120": 700,
-    "le30": 160
+    "le30": 161
    },
    "present_incommuter_need_moe90": 15,
    "share_of_county_households": 0.0322,
@@ -7123,24 +7123,24 @@
   },
   "0831660": {
    "containingCounty": "08077",
-   "incommuter_households_le60": 4121,
+   "incommuter_households_le60": 4120,
    "incommuters": 31610.0,
    "incommuters_by_tier": [
-    4565,
-    9050,
-    17715
+    4567,
+    9038,
+    17759
    ],
-   "incommuters_out_of_state": 1625,
+   "incommuters_out_of_state": 1630,
    "name": "Grand Junction (city)",
    "present_incommuter_need": {
-    "move_closer_25": 2972,
-    "move_closer_50": 5945
+    "move_closer_25": 2975,
+    "move_closer_50": 5949
    },
    "present_incommuter_need_by_ami": {
     "30_50": 416,
     "50_60": 301,
-    "60_80": 680,
-    "80_120": 1262,
+    "60_80": 681,
+    "80_120": 1264,
     "le30": 314
    },
    "present_incommuter_need_moe90": 102,
@@ -7155,8 +7155,8 @@
    "incommuters": 270.0,
    "incommuters_by_tier": [
     59,
-    69,
-    125
+    67,
+    124
    ],
    "incommuters_out_of_state": 7,
    "name": "Grand Lake (town)",
@@ -7165,7 +7165,7 @@
     "move_closer_50": 48
    },
    "present_incommuter_need_by_ami": {
-    "30_50": 5,
+    "30_50": 4,
     "50_60": 3,
     "60_80": 5,
     "80_120": 8,
@@ -7212,7 +7212,7 @@
    "incommuters_by_tier": [
     3272,
     5970,
-    16391
+    16390
    ],
    "incommuters_out_of_state": 814,
    "name": "Greeley (city)",
@@ -7347,24 +7347,24 @@
   },
   "0833502": {
    "containingCounty": "08013",
-   "incommuter_households_le60": 121,
+   "incommuter_households_le60": 117,
    "incommuters": 1009.0,
    "incommuters_by_tier": [
-    84,
-    128,
-    764
+    81,
+    127,
+    733
    ],
-   "incommuters_out_of_state": 10,
+   "incommuters_out_of_state": 9,
    "name": "Gunbarrel (CDP)",
    "present_incommuter_need": {
-    "move_closer_25": 87,
-    "move_closer_50": 175
+    "move_closer_25": 84,
+    "move_closer_50": 169
    },
    "present_incommuter_need_by_ami": {
     "30_50": 13,
     "50_60": 9,
     "60_80": 20,
-    "80_120": 37,
+    "80_120": 35,
     "le30": 8
    },
    "present_incommuter_need_moe90": 1,
@@ -8467,25 +8467,25 @@
   },
   "0840550": {
    "containingCounty": "08117",
-   "incommuter_households_le60": 558,
+   "incommuter_households_le60": 527,
    "incommuters": 2162.0,
    "incommuters_by_tier": [
-    767,
-    627,
-    766
+    741,
+    573,
+    734
    ],
-   "incommuters_out_of_state": 373,
+   "incommuters_out_of_state": 336,
    "name": "Keystone (CDP)",
    "present_incommuter_need": {
-    "move_closer_25": 251,
-    "move_closer_50": 501
+    "move_closer_25": 237,
+    "move_closer_50": 475
    },
    "present_incommuter_need_by_ami": {
-    "30_50": 61,
-    "50_60": 25,
-    "60_80": 53,
-    "80_120": 58,
-    "le30": 53
+    "30_50": 57,
+    "50_60": 24,
+    "60_80": 50,
+    "80_120": 56,
+    "le30": 50
    },
    "present_incommuter_need_moe90": 17,
    "share_of_county_households": 0.0511,
@@ -8859,24 +8859,24 @@
   },
   "0843000": {
    "containingCounty": "08059",
-   "incommuter_households_le60": 10615,
+   "incommuter_households_le60": 10619,
    "incommuters": 81024.0,
    "incommuters_by_tier": [
-    8739,
-    16039,
-    51858
+    8741,
+    16038,
+    51912
    ],
    "incommuters_out_of_state": 616,
    "name": "Lakewood (city)",
    "present_incommuter_need": {
-    "move_closer_25": 6900,
-    "move_closer_50": 13799
+    "move_closer_25": 6904,
+    "move_closer_50": 13808
    },
    "present_incommuter_need_by_ami": {
     "30_50": 1132,
-    "50_60": 678,
-    "60_80": 1511,
-    "80_120": 2733,
+    "50_60": 679,
+    "60_80": 1512,
+    "80_120": 2736,
     "le30": 843
    },
    "present_incommuter_need_moe90": 58,
@@ -9531,18 +9531,18 @@
   },
   "0846465": {
    "containingCounty": "08069",
-   "incommuter_households_le60": 4293,
+   "incommuter_households_le60": 4294,
    "incommuters": 30171.0,
    "incommuters_by_tier": [
-    3669,
-    7301,
-    18117
+    3668,
+    7305,
+    18127
    ],
-   "incommuters_out_of_state": 651,
+   "incommuters_out_of_state": 652,
    "name": "Loveland (city)",
    "present_incommuter_need": {
-    "move_closer_25": 2681,
-    "move_closer_50": 5362
+    "move_closer_25": 2682,
+    "move_closer_50": 5365
    },
    "present_incommuter_need_by_ami": {
     "30_50": 441,
@@ -10231,25 +10231,25 @@
   },
   "0851745": {
    "containingCounty": "08085",
-   "incommuter_households_le60": 976,
+   "incommuter_households_le60": 974,
    "incommuters": 7458.0,
    "incommuters_by_tier": [
-    1099,
-    2445,
-    3741
+    1095,
+    2443,
+    3731
    ],
    "incommuters_out_of_state": 328,
    "name": "Montrose (city)",
    "present_incommuter_need": {
-    "move_closer_25": 684,
-    "move_closer_50": 1368
+    "move_closer_25": 683,
+    "move_closer_50": 1365
    },
    "present_incommuter_need_by_ami": {
-    "30_50": 104,
+    "30_50": 103,
     "50_60": 67,
     "60_80": 149,
     "80_120": 291,
-    "le30": 74
+    "le30": 73
    },
    "present_incommuter_need_moe90": 24,
    "share_of_county_households": 0.5009,
@@ -10259,25 +10259,25 @@
   },
   "0851800": {
    "containingCounty": "08041",
-   "incommuter_households_le60": 548,
+   "incommuter_households_le60": 535,
    "incommuters": 3921.0,
    "incommuters_by_tier": [
-    635,
-    1070,
-    1892
+    612,
+    1050,
+    1861
    ],
-   "incommuters_out_of_state": 34,
+   "incommuters_out_of_state": 33,
    "name": "Monument (town)",
    "present_incommuter_need": {
-    "move_closer_25": 340,
-    "move_closer_50": 679
+    "move_closer_25": 332,
+    "move_closer_50": 665
    },
    "present_incommuter_need_by_ami": {
-    "30_50": 58,
+    "30_50": 57,
     "50_60": 33,
-    "60_80": 76,
-    "80_120": 126,
-    "le30": 46
+    "60_80": 75,
+    "80_120": 124,
+    "le30": 44
    },
    "present_incommuter_need_moe90": 7,
    "share_of_county_households": 0.0147,
@@ -11239,18 +11239,18 @@
   },
   "0857025": {
    "containingCounty": "08041",
-   "incommuter_households_le60": 86,
+   "incommuter_households_le60": 88,
    "incommuters": 696.0,
    "incommuters_by_tier": [
-    105,
-    139,
-    424
+    106,
+    144,
+    425
    ],
    "incommuters_out_of_state": 35,
    "name": "Palmer Lake (town)",
    "present_incommuter_need": {
-    "move_closer_25": 60,
-    "move_closer_50": 120
+    "move_closer_25": 61,
+    "move_closer_50": 121
    },
    "present_incommuter_need_by_ami": {
     "30_50": 9,
@@ -12280,12 +12280,12 @@
    "incommuters_by_tier": [
     283,
     553,
-    1077
+    1082
    ],
    "incommuters_out_of_state": 79,
    "name": "Rifle (city)",
    "present_incommuter_need": {
-    "move_closer_25": 171,
+    "move_closer_25": 172,
     "move_closer_50": 343
    },
    "present_incommuter_need_by_ami": {
@@ -12611,25 +12611,25 @@
   },
   "0867280": {
    "containingCounty": "08015",
-   "incommuter_households_le60": 408,
+   "incommuter_households_le60": 416,
    "incommuters": 2575.0,
    "incommuters_by_tier": [
-    364,
-    629,
-    1479
+    375,
+    643,
+    1478
    ],
-   "incommuters_out_of_state": 84,
+   "incommuters_out_of_state": 80,
    "name": "Salida (city)",
    "present_incommuter_need": {
-    "move_closer_25": 256,
-    "move_closer_50": 513
+    "move_closer_25": 260,
+    "move_closer_50": 520
    },
    "present_incommuter_need_by_ami": {
-    "30_50": 44,
+    "30_50": 45,
     "50_60": 28,
-    "60_80": 58,
-    "80_120": 96,
-    "le30": 30
+    "60_80": 59,
+    "80_120": 97,
+    "le30": 31
    },
    "present_incommuter_need_moe90": 8,
    "share_of_county_households": 0.285,
@@ -13706,7 +13706,7 @@
    "incommuter_households_le60": 92,
    "incommuters": 686.0,
    "incommuters_by_tier": [
-    91,
+    90,
     183,
     388
    ],
@@ -13958,15 +13958,15 @@
    "incommuter_households_le60": 413,
    "incommuters": 2073.0,
    "incommuters_by_tier": [
-    387,
-    498,
-    1034
+    388,
+    499,
+    1030
    ],
    "incommuters_out_of_state": 151,
    "name": "Telluride (town)",
    "present_incommuter_need": {
     "move_closer_25": 232,
-    "move_closer_50": 464
+    "move_closer_50": 463
    },
    "present_incommuter_need_by_ami": {
     "30_50": 45,
@@ -14016,7 +14016,7 @@
    "incommuters_by_tier": [
     4558,
     8583,
-    16854
+    16853
    ],
    "incommuters_out_of_state": 311,
    "name": "Thornton (city)",
@@ -14767,10 +14767,10 @@
   },
   "0883230": {
    "containingCounty": "08069",
-   "incommuter_households_le60": 153,
+   "incommuter_households_le60": 152,
    "incommuters": 1011.0,
    "incommuters_by_tier": [
-    126,
+    125,
     285,
     570
    ],
@@ -14851,12 +14851,12 @@
   },
   "0883835": {
    "containingCounty": "08001",
-   "incommuter_households_le60": 6577,
+   "incommuter_households_le60": 6578,
    "incommuters": 47149.0,
    "incommuters_by_tier": [
     6250,
     10126,
-    27559
+    27562
    ],
    "incommuters_out_of_state": 358,
    "name": "Westminster (city)",
@@ -14907,24 +14907,24 @@
   },
   "0884042": {
    "containingCounty": "08059",
-   "incommuter_households_le60": 157,
+   "incommuter_households_le60": 149,
    "incommuters": 1292.0,
    "incommuters_by_tier": [
-    101,
-    233,
-    906
+    99,
+    226,
+    833
    ],
    "incommuters_out_of_state": 15,
    "name": "West Pleasant View (CDP)",
    "present_incommuter_need": {
-    "move_closer_25": 109,
-    "move_closer_50": 218
+    "move_closer_25": 102,
+    "move_closer_50": 205
    },
    "present_incommuter_need_by_ami": {
-    "30_50": 17,
-    "50_60": 11,
-    "60_80": 25,
-    "80_120": 45,
+    "30_50": 16,
+    "50_60": 10,
+    "60_80": 23,
+    "80_120": 42,
     "le30": 11
    },
    "present_incommuter_need_moe90": 1,
@@ -14935,25 +14935,25 @@
   },
   "0884440": {
    "containingCounty": "08059",
-   "incommuter_households_le60": 2559,
+   "incommuter_households_le60": 2561,
    "incommuters": 19883.0,
    "incommuters_by_tier": [
-    2105,
-    3781,
-    12884
+    2106,
+    3786,
+    12888
    ],
    "incommuters_out_of_state": 137,
    "name": "Wheat Ridge (city)",
    "present_incommuter_need": {
-    "move_closer_25": 1682,
-    "move_closer_50": 3364
+    "move_closer_25": 1683,
+    "move_closer_50": 3366
    },
    "present_incommuter_need_by_ami": {
     "30_50": 273,
     "50_60": 165,
     "60_80": 370,
-    "80_120": 672,
-    "le30": 201
+    "80_120": 673,
+    "le30": 202
    },
    "present_incommuter_need_moe90": 14,
    "share_of_county_households": 0.0622,

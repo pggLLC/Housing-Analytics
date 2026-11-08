@@ -1044,9 +1044,9 @@
     7
    ],
    "0804935": [
-    293,
-    397,
-    1454
+    294,
+    399,
+    1465
    ],
    "0805120": [
     29,
@@ -1066,7 +1066,7 @@
    "0806172": [
     239,
     520,
-    2393
+    2392
    ],
    "0806255": [
     233,
@@ -1129,9 +1129,9 @@
     23
    ],
    "0807850": [
-    5891,
-    10131,
-    56296
+    5886,
+    10107,
+    56240
    ],
    "0808070": [
     4,
@@ -1260,7 +1260,7 @@
    ],
    "0812855": [
     54,
-    151,
+    150,
     179
    ],
    "0812900": [
@@ -1344,9 +1344,9 @@
     140
    ],
    "0816000": [
-    12613,
-    24617,
-    65348
+    12607,
+    24615,
+    65387
    ],
    "0816110": [
     648,
@@ -1366,7 +1366,7 @@
    "0816495": [
     2950,
     5940,
-    23083
+    23082
    ],
    "0817100": [
     1,
@@ -1599,9 +1599,9 @@
     16433
    ],
    "0824950": [
-    439,
-    813,
-    2373
+    443,
+    815,
+    2388
    ],
    "0825115": [
     390,
@@ -1610,8 +1610,8 @@
    ],
    "0825280": [
     258,
-    682,
-    2001
+    686,
+    2005
    ],
    "0825390": [
     375,
@@ -1685,8 +1685,8 @@
    ],
    "0827810": [
     566,
-    1110,
-    3044
+    1126,
+    3049
    ],
    "0827865": [
     1042,
@@ -1734,9 +1734,9 @@
     1203
    ],
    "0828800": [
-    129,
+    124,
     239,
-    416
+    417
    ],
    "0829185": [
     89,
@@ -1799,9 +1799,9 @@
     4634
    ],
    "0830835": [
-    1687,
-    2808,
-    14428
+    1688,
+    2810,
+    14434
    ],
    "0830945": [
     0,
@@ -1819,14 +1819,14 @@
     415
    ],
    "0831660": [
-    4565,
-    9050,
-    17715
+    4567,
+    9038,
+    17759
    ],
    "0831715": [
     59,
-    69,
-    125
+    67,
+    124
    ],
    "0831935": [
     12,
@@ -1836,7 +1836,7 @@
    "0832155": [
     3272,
     5970,
-    16391
+    16390
    ],
    "0832650": [
     13,
@@ -1859,9 +1859,9 @@
     10
    ],
    "0833502": [
-    84,
-    128,
-    764
+    81,
+    127,
+    733
    ],
    "0833640": [
     491,
@@ -2049,9 +2049,9 @@
     343
    ],
    "0840550": [
-    767,
-    627,
-    766
+    741,
+    573,
+    734
    ],
    "0840570": [
     6,
@@ -2114,9 +2114,9 @@
     404
    ],
    "0843000": [
-    8739,
-    16039,
-    51858
+    8741,
+    16038,
+    51912
    ],
    "0843110": [
     212,
@@ -2234,9 +2234,9 @@
     232
    ],
    "0846465": [
-    3669,
-    7301,
-    18117
+    3668,
+    7305,
+    18127
    ],
    "0847070": [
     99,
@@ -2344,14 +2344,14 @@
     0
    ],
    "0851745": [
-    1099,
-    2445,
-    3741
+    1095,
+    2443,
+    3731
    ],
    "0851800": [
-    635,
-    1070,
-    1892
+    612,
+    1050,
+    1861
    ],
    "0851975": [
     1,
@@ -2509,9 +2509,9 @@
     243
    ],
    "0857025": [
-    105,
-    139,
-    424
+    106,
+    144,
+    425
    ],
    "0857245": [
     3,
@@ -2696,7 +2696,7 @@
    "0864255": [
     283,
     553,
-    1077
+    1082
    ],
    "0864870": [
     0,
@@ -2749,9 +2749,9 @@
     62
    ],
    "0867280": [
-    364,
-    629,
-    1479
+    375,
+    643,
+    1478
    ],
    "0867445": [
     1,
@@ -2939,7 +2939,7 @@
     266
    ],
    "0874430": [
-    91,
+    90,
     183,
     388
    ],
@@ -2979,9 +2979,9 @@
     1
    ],
    "0876795": [
-    387,
-    498,
-    1034
+    388,
+    499,
+    1030
    ],
    "0877235": [
     94,
@@ -2991,7 +2991,7 @@
    "0877290": [
     4558,
     8583,
-    16854
+    16853
    ],
    "0877510": [
     173,
@@ -3099,7 +3099,7 @@
     5
    ],
    "0883230": [
-    126,
+    125,
     285,
     570
    ],
@@ -3116,7 +3116,7 @@
    "0883835": [
     6250,
     10126,
-    27559
+    27562
    ],
    "0884000": [
     0,
@@ -3124,14 +3124,14 @@
     2
    ],
    "0884042": [
-    101,
-    233,
-    906
+    99,
+    226,
+    833
    ],
    "0884440": [
-    2105,
-    3781,
-    12884
+    2106,
+    3786,
+    12888
    ],
    "0884770": [
     52,
@@ -3277,7 +3277,7 @@
    "low_middle_wage_jobs": 574
   },
   "0804935": {
-   "jobs": 79,
+   "jobs": 80,
    "low_middle_wage_jobs": 25
   },
   "0805120": {
@@ -3333,7 +3333,7 @@
    "low_middle_wage_jobs": 2
   },
   "0807850": {
-   "jobs": 1047,
+   "jobs": 1048,
    "low_middle_wage_jobs": 433
   },
   "0808070": {
@@ -3469,7 +3469,7 @@
    "low_middle_wage_jobs": 2
   },
   "0816000": {
-   "jobs": 2828,
+   "jobs": 2829,
    "low_middle_wage_jobs": 1028
   },
   "0816110": {
@@ -3733,8 +3733,8 @@
    "low_middle_wage_jobs": 56
   },
   "0828800": {
-   "jobs": 30,
-   "low_middle_wage_jobs": 16
+   "jobs": 29,
+   "low_middle_wage_jobs": 15
   },
   "0829185": {
    "jobs": 15,
@@ -3785,8 +3785,8 @@
    "low_middle_wage_jobs": 15
   },
   "0831660": {
-   "jobs": 1625,
-   "low_middle_wage_jobs": 863
+   "jobs": 1630,
+   "low_middle_wage_jobs": 864
   },
   "0831715": {
    "jobs": 7,
@@ -3809,7 +3809,7 @@
    "low_middle_wage_jobs": 0
   },
   "0833502": {
-   "jobs": 10,
+   "jobs": 9,
    "low_middle_wage_jobs": 3
   },
   "0833640": {
@@ -3925,8 +3925,8 @@
    "low_middle_wage_jobs": 10
   },
   "0840550": {
-   "jobs": 373,
-   "low_middle_wage_jobs": 318
+   "jobs": 336,
+   "low_middle_wage_jobs": 286
   },
   "0840570": {
    "jobs": 3,
@@ -4061,7 +4061,7 @@
    "low_middle_wage_jobs": 0
   },
   "0846465": {
-   "jobs": 651,
+   "jobs": 652,
    "low_middle_wage_jobs": 280
   },
   "0847070": {
@@ -4133,7 +4133,7 @@
    "low_middle_wage_jobs": 188
   },
   "0851800": {
-   "jobs": 34,
+   "jobs": 33,
    "low_middle_wage_jobs": 14
   },
   "0852075": {
@@ -4353,8 +4353,8 @@
    "low_middle_wage_jobs": 3
   },
   "0867280": {
-   "jobs": 84,
-   "low_middle_wage_jobs": 44
+   "jobs": 80,
+   "low_middle_wage_jobs": 42
   },
   "0867830": {
    "jobs": 5,
@@ -5081,9 +5081,9 @@
    "primary_low_middle_wage_jobs": 3
   },
   "0804935": {
-   "all_jobs": 2738,
-   "primary_jobs": 2412,
-   "primary_low_middle_wage_jobs": 798
+   "all_jobs": 2760,
+   "primary_jobs": 2432,
+   "primary_low_middle_wage_jobs": 801
   },
   "0805120": {
    "all_jobs": 334,
@@ -5166,9 +5166,9 @@
    "primary_low_middle_wage_jobs": 108
   },
   "0807850": {
-   "all_jobs": 92307,
-   "primary_jobs": 87930,
-   "primary_low_middle_wage_jobs": 21282
+   "all_jobs": 92347,
+   "primary_jobs": 87970,
+   "primary_low_middle_wage_jobs": 21287
   },
   "0808070": {
    "all_jobs": 75,
@@ -5381,9 +5381,9 @@
    "primary_low_middle_wage_jobs": 198
   },
   "0816000": {
-   "all_jobs": 234623,
-   "primary_jobs": 221264,
-   "primary_low_middle_wage_jobs": 85842
+   "all_jobs": 234805,
+   "primary_jobs": 221439,
+   "primary_low_middle_wage_jobs": 85861
   },
   "0816110": {
    "all_jobs": 4515,
@@ -5636,9 +5636,9 @@
    "primary_low_middle_wage_jobs": 7717
   },
   "0824950": {
-   "all_jobs": 4776,
-   "primary_jobs": 4432,
-   "primary_low_middle_wage_jobs": 1636
+   "all_jobs": 4799,
+   "primary_jobs": 4455,
+   "primary_low_middle_wage_jobs": 1643
   },
   "0825115": {
    "all_jobs": 4055,
@@ -5646,9 +5646,9 @@
    "primary_low_middle_wage_jobs": 1725
   },
   "0825280": {
-   "all_jobs": 3505,
-   "primary_jobs": 3331,
-   "primary_low_middle_wage_jobs": 1107
+   "all_jobs": 3514,
+   "primary_jobs": 3339,
+   "primary_low_middle_wage_jobs": 1111
   },
   "0825390": {
    "all_jobs": 3021,
@@ -5721,9 +5721,9 @@
    "primary_low_middle_wage_jobs": 1030
   },
   "0827810": {
-   "all_jobs": 7792,
-   "primary_jobs": 7437,
-   "primary_low_middle_wage_jobs": 2494
+   "all_jobs": 7820,
+   "primary_jobs": 7464,
+   "primary_low_middle_wage_jobs": 2515
   },
   "0827865": {
    "all_jobs": 6993,
@@ -5771,9 +5771,9 @@
    "primary_low_middle_wage_jobs": 1317
   },
   "0828800": {
-   "all_jobs": 910,
-   "primary_jobs": 851,
-   "primary_low_middle_wage_jobs": 402
+   "all_jobs": 901,
+   "primary_jobs": 843,
+   "primary_low_middle_wage_jobs": 395
   },
   "0829185": {
    "all_jobs": 449,
@@ -5836,9 +5836,9 @@
    "primary_low_middle_wage_jobs": 3192
   },
   "0830835": {
-   "all_jobs": 20722,
-   "primary_jobs": 19823,
-   "primary_low_middle_wage_jobs": 4834
+   "all_jobs": 20731,
+   "primary_jobs": 19832,
+   "primary_low_middle_wage_jobs": 4837
   },
   "0830945": {
    "all_jobs": 58,
@@ -5856,13 +5856,13 @@
    "primary_low_middle_wage_jobs": 432
   },
   "0831660": {
-   "all_jobs": 52786,
-   "primary_jobs": 49433,
-   "primary_low_middle_wage_jobs": 21893
+   "all_jobs": 52923,
+   "primary_jobs": 49567,
+   "primary_low_middle_wage_jobs": 21918
   },
   "0831715": {
-   "all_jobs": 301,
-   "primary_jobs": 266,
+   "all_jobs": 299,
+   "primary_jobs": 265,
    "primary_low_middle_wage_jobs": 135
   },
   "0831935": {
@@ -5896,9 +5896,9 @@
    "primary_low_middle_wage_jobs": 18
   },
   "0833502": {
-   "all_jobs": 1138,
-   "primary_jobs": 1091,
-   "primary_low_middle_wage_jobs": 251
+   "all_jobs": 1098,
+   "primary_jobs": 1051,
+   "primary_low_middle_wage_jobs": 246
   },
   "0833640": {
    "all_jobs": 3922,
@@ -6086,9 +6086,9 @@
    "primary_low_middle_wage_jobs": 216
   },
   "0840550": {
-   "all_jobs": 2845,
-   "primary_jobs": 2360,
-   "primary_low_middle_wage_jobs": 1513
+   "all_jobs": 2537,
+   "primary_jobs": 2110,
+   "primary_low_middle_wage_jobs": 1352
   },
   "0840570": {
    "all_jobs": 27,
@@ -6151,9 +6151,9 @@
    "primary_low_middle_wage_jobs": 540
   },
   "0843000": {
-   "all_jobs": 96160,
-   "primary_jobs": 90156,
-   "primary_low_middle_wage_jobs": 29829
+   "all_jobs": 96225,
+   "primary_jobs": 90221,
+   "primary_low_middle_wage_jobs": 29830
   },
   "0843110": {
    "all_jobs": 3182,
@@ -6271,9 +6271,9 @@
    "primary_low_middle_wage_jobs": 49
   },
   "0846465": {
-   "all_jobs": 39303,
-   "primary_jobs": 36940,
-   "primary_low_middle_wage_jobs": 14504
+   "all_jobs": 39357,
+   "primary_jobs": 36991,
+   "primary_low_middle_wage_jobs": 14518
   },
   "0847070": {
    "all_jobs": 597,
@@ -6381,14 +6381,14 @@
    "primary_low_middle_wage_jobs": 3
   },
   "0851745": {
-   "all_jobs": 12499,
-   "primary_jobs": 11658,
-   "primary_low_middle_wage_jobs": 5632
+   "all_jobs": 12521,
+   "primary_jobs": 11678,
+   "primary_low_middle_wage_jobs": 5636
   },
   "0851800": {
-   "all_jobs": 4235,
-   "primary_jobs": 3846,
-   "primary_low_middle_wage_jobs": 1811
+   "all_jobs": 4150,
+   "primary_jobs": 3765,
+   "primary_low_middle_wage_jobs": 1766
   },
   "0851975": {
    "all_jobs": 9,
@@ -6546,9 +6546,9 @@
    "primary_low_middle_wage_jobs": 546
   },
   "0857025": {
-   "all_jobs": 757,
-   "primary_jobs": 689,
-   "primary_low_middle_wage_jobs": 255
+   "all_jobs": 765,
+   "primary_jobs": 697,
+   "primary_low_middle_wage_jobs": 262
   },
   "0857245": {
    "all_jobs": 17,
@@ -6731,9 +6731,9 @@
    "primary_low_middle_wage_jobs": 422
   },
   "0864255": {
-   "all_jobs": 2919,
-   "primary_jobs": 2668,
-   "primary_low_middle_wage_jobs": 1216
+   "all_jobs": 2931,
+   "primary_jobs": 2680,
+   "primary_low_middle_wage_jobs": 1218
   },
   "0864870": {
    "all_jobs": 8,
@@ -6786,9 +6786,9 @@
    "primary_low_middle_wage_jobs": 8
   },
   "0867280": {
-   "all_jobs": 4098,
-   "primary_jobs": 3766,
-   "primary_low_middle_wage_jobs": 1555
+   "all_jobs": 4010,
+   "primary_jobs": 3683,
+   "primary_low_middle_wage_jobs": 1529
   },
   "0867445": {
    "all_jobs": 28,
@@ -6976,9 +6976,9 @@
    "primary_low_middle_wage_jobs": 288
   },
   "0874430": {
-   "all_jobs": 712,
-   "primary_jobs": 674,
-   "primary_low_middle_wage_jobs": 279
+   "all_jobs": 711,
+   "primary_jobs": 673,
+   "primary_low_middle_wage_jobs": 278
   },
   "0874485": {
    "all_jobs": 181,
@@ -7016,9 +7016,9 @@
    "primary_low_middle_wage_jobs": 0
   },
   "0876795": {
-   "all_jobs": 2782,
-   "primary_jobs": 2354,
-   "primary_low_middle_wage_jobs": 1107
+   "all_jobs": 2774,
+   "primary_jobs": 2346,
+   "primary_low_middle_wage_jobs": 1106
   },
   "0877235": {
    "all_jobs": 1105,
@@ -7166,14 +7166,14 @@
    "primary_low_middle_wage_jobs": 0
   },
   "0884042": {
-   "all_jobs": 1340,
-   "primary_jobs": 1270,
-   "primary_low_middle_wage_jobs": 350
+   "all_jobs": 1255,
+   "primary_jobs": 1186,
+   "primary_low_middle_wage_jobs": 340
   },
   "0884440": {
-   "all_jobs": 21092,
-   "primary_jobs": 19751,
-   "primary_low_middle_wage_jobs": 6294
+   "all_jobs": 21103,
+   "primary_jobs": 19761,
+   "primary_low_middle_wage_jobs": 6300
   },
   "0884770": {
    "all_jobs": 443,
@@ -7226,9 +7226,9 @@
    "primary_low_middle_wage_jobs": 542
   },
   "0886475": {
-   "all_jobs": 23,
-   "primary_jobs": 18,
-   "primary_low_middle_wage_jobs": 7
+   "all_jobs": 24,
+   "primary_jobs": 19,
+   "primary_low_middle_wage_jobs": 8
   },
   "0886750": {
    "all_jobs": 1308,
