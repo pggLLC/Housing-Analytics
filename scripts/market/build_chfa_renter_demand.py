@@ -30,7 +30,7 @@ PUMA spans counties with different limits.
 Usage:
     python3 scripts/market/build_chfa_renter_demand.py \
         --pums psam_h08.csv --tract-puma 2020_Census_Tract_to_2020_PUMA.txt \
-        --limits-2024 chfa-income-rent-limits-2024.json
+        --limits-2024 chfa-income-rent-limits-2024.json --persons psam_p08.csv
     # bedroom inputs only (two-person split, 6+ size), counts untouched:
     python3 scripts/market/build_chfa_renter_demand.py --pums psam_h08.csv --bedroom-inputs-only
     # student share (college-only households), counts untouched:
@@ -311,7 +311,7 @@ def main():
     ap.add_argument('--tract-puma', type=Path)
     ap.add_argument('--limits-2024', type=Path)
     ap.add_argument('--out', type=Path, default=OUT)
-    ap.add_argument('--persons', type=Path, help='PUMS person file (psam_p08.csv), for the student share')
+    ap.add_argument('--persons', type=Path, help='PUMS person file (psam_p08.csv), for the student share; required for a full build')
     ap.add_argument('--student-inputs-only', action='store_true',
                     help='add the student share to the existing file; counts unchanged (needs --persons)')
     ap.add_argument('--bedroom-inputs-only', action='store_true',
@@ -327,9 +327,13 @@ def main():
     elif a.bedroom_inputs_only:
         payload = add_bedroom_inputs(a.pums, a.out)
     else:
-        if not (a.tract_puma and a.limits_2024):
-            ap.error('--tract-puma and --limits-2024 are required for a full build')
+        if not (a.tract_puma and a.limits_2024 and a.persons):
+            # --persons too: without it the student share would be dropped and
+            # the page would silently count all-student households again.
+            ap.error('--tract-puma, --limits-2024 and --persons are required for a full build')
         payload = build(a.pums, a.tract_puma, a.limits_2024)
+        lim = {p: [float(v) for v in row] for p, row in payload['puma_lim50_2024'].items()}
+        payload.update(student_inputs(a.pums, a.persons, lim))
     a.out.write_text(json.dumps(payload, separators=(',', ':')))
     print(f'wrote {a.out} ({len(payload["pumas"])} PUMAs, {len(payload["tracts"])} tracts)')
 
