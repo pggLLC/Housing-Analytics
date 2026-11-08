@@ -52,7 +52,10 @@ for (const f of files) {
   const doc = yaml.load(fs.readFileSync(path.join(WF_DIR, f), 'utf8'));
   for (const [jobId, job] of Object.entries(doc.jobs || {})) {
     const steps = job.steps || [];
-    const pushIdx = steps.findIndex((s) => /(^|[\s;&|(])git push\b/m.test(s.run || ''));
+    // The shared commit helpers run `git push` themselves, so a step that
+    // calls one pushes too.
+    const pushIdx = steps.findIndex((s) =>
+      /(^|[\s;&|(])git push\b|scripts\/(push-data-commit|commit-with-derived-chain)\.sh\b/m.test(s.run || ''));
     if (pushIdx === -1) continue;
     pushing.push({ f, jobId, doc, job, steps, pushIdx });
   }
