@@ -35,7 +35,7 @@ test('the main town is the place with the most homes; a tract another town domin
   assert.deepStrictEqual(Object.keys(t.flagged), ['08001000003']);
   assert.strictEqual(t.others.length, 1, 'Gamma (5% of its tract, fewer homes than the main town there) is not flagged');
   assert(/Beta \(300 of 1,000 homes in tract 000003\)/.test(T.townsSentence(t)));
-  assert(/whole tracts/.test(T.townsSentence(t)));
+  assert(/entire census tracts.*Appendix A section 4, p\. 74/.test(T.townsSentence(t)));
 });
 
 test('a town with fewer homes in a tract than the main town is not flagged', () => {
@@ -63,7 +63,7 @@ test('jobs split into local and in-commuters; a flagged tract\'s jobs are counte
   assert.strictEqual(s.apart, 30);
   const line = T.inflowSentence(s, t);
   assert(/Counted apart: 30 jobs in tract 000003, shared with Beta/.test(line));
-  assert(/None of these is added to demand \(LEHD LODES 2023, all jobs, 95% of flows kept\)/.test(line));
+  assert(/None of these is added to demand: CHFA counts people moving in only when comparable projects show it \(2027–28 QAP, Appendix A section 7, p\. 83\)\. LEHD LODES 2023, all jobs, 95% of flows kept\./.test(line));
 });
 
 test('dropping a tract makes its working residents in-commuters, named by their town', () => {

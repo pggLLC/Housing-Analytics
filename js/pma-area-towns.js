@@ -114,8 +114,8 @@
       return shortName(o.name) + ' (' + o.tracts.map(function (t) {
         return t.homes.toLocaleString('en-US') + ' of ' + t.tractHomes.toLocaleString('en-US') + ' homes in tract ' + t.geoid.slice(5);
       }).join('; ') + ')';
-    }).join(', ') + '. CHFA counts whole tracts, so keep or drop each one with the tract picker; ' +
-      'their jobs are counted apart below (2020 Census homes).';
+    }).join(', ') + '. CHFA requires whole tracts (\u201cThe market boundary must include entire census tracts\u201d, 2027\u201328 QAP, ' +
+      'Appendix A section 4, p. 74), so keep or drop each one with the tract picker; their jobs are counted apart below (2020 Census homes).';
   }
 
   /**
@@ -186,8 +186,9 @@
           t.places.map(function (p) { return names[p] || p; }).join(' and ');
       }).join('; ') + '.';
     }
-    return out + ' None of these is added to demand (LEHD LODES ' + (s.year || '') + ', ' + s.jobType +
-      (s.coverage ? ', ' + Math.round(s.coverage * 100) + '% of flows kept' : '') + ').';
+    return out + ' None of these is added to demand: CHFA counts people moving in only when comparable projects show it ' +
+      '(2027\u201328 QAP, Appendix A section 7, p. 83). LEHD LODES ' + (s.year || '') + ', ' + s.jobType +
+      (s.coverage ? ', ' + Math.round(s.coverage * 100) + '% of flows kept' : '') + '.';
   }
 
   return {
