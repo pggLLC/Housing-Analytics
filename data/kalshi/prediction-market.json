@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-01T10:22:26Z",
+  "updated": "2026-11-08T10:18:54Z",
   "source": "kalshi",
   "items": [
     {
@@ -57,17 +57,17 @@
         },
         {
           "name": "Above 32,000",
-          "prob": 0.29,
-          "bid": 0.28,
-          "ask": 0.29,
+          "prob": 0.32,
+          "bid": 0.31,
+          "ask": 0.33,
           "thin": false
         },
         {
           "name": "Above 30,000",
-          "prob": 0.54,
-          "bid": 0.53,
-          "ask": 0.54,
-          "thin": false
+          "prob": null,
+          "bid": 0.56,
+          "ask": 0.73,
+          "thin": true
         }
       ]
     },
@@ -84,16 +84,16 @@
       "outcomes": [
         {
           "name": "Above 8.0%",
-          "prob": 0.05,
+          "prob": null,
           "bid": 0.02,
           "ask": 0.07,
-          "thin": false
+          "thin": true
         },
         {
           "name": "Above 7.9%",
           "prob": null,
           "bid": 0.01,
-          "ask": 0.12,
+          "ask": 0.07,
           "thin": true
         },
         {
@@ -106,29 +106,29 @@
         {
           "name": "Above 7.7%",
           "prob": null,
-          "bid": 0.05,
-          "ask": 0.18,
+          "bid": 0.01,
+          "ask": 0.12,
           "thin": true
         },
         {
           "name": "Above 7.6%",
           "prob": null,
-          "bid": 0.19,
-          "ask": 0.33,
+          "bid": 0.11,
+          "ask": 0.16,
           "thin": true
         },
         {
           "name": "Above 7.5%",
           "prob": null,
-          "bid": 0.27,
-          "ask": 0.45,
+          "bid": 0.19,
+          "ask": 0.2,
           "thin": true
         },
         {
           "name": "Above 7.4%",
           "prob": null,
-          "bid": 0.48,
-          "ask": 0.63,
+          "bid": 0.29,
+          "ask": 0.49,
           "thin": true
         }
       ]
@@ -146,59 +146,59 @@
       "outcomes": [
         {
           "name": "Above 1.400M",
-          "prob": null,
-          "bid": 0.01,
-          "ask": 0.65,
-          "thin": true
+          "prob": 0.12,
+          "bid": 0.07,
+          "ask": 0.17,
+          "thin": false
         },
         {
           "name": "Above 1.350M",
-          "prob": null,
-          "bid": 0.01,
-          "ask": 0.78,
-          "thin": true
+          "prob": 0.24,
+          "bid": 0.19,
+          "ask": 0.29,
+          "thin": false
         },
         {
           "name": "Above 1.300M",
-          "prob": null,
-          "bid": 0.26,
-          "ask": 0.6,
-          "thin": true
+          "prob": 0.43,
+          "bid": 0.38,
+          "ask": 0.48,
+          "thin": false
         },
         {
           "name": "Above 1.250M",
-          "prob": null,
-          "bid": 0.21,
-          "ask": 0.75,
-          "thin": true
+          "prob": 0.66,
+          "bid": 0.61,
+          "ask": 0.71,
+          "thin": false
         },
         {
           "name": "Above 1.200M",
-          "prob": null,
-          "bid": 0.01,
-          "ask": 0.99,
-          "thin": true
+          "prob": 0.83,
+          "bid": 0.78,
+          "ask": 0.88,
+          "thin": false
         },
         {
           "name": "Above 1.150M",
-          "prob": null,
-          "bid": 0.01,
-          "ask": 0.99,
-          "thin": true
+          "prob": 0.93,
+          "bid": 0.88,
+          "ask": 0.98,
+          "thin": false
         },
         {
           "name": "Above 1.100M",
-          "prob": null,
-          "bid": 0.01,
-          "ask": 0.99,
-          "thin": true
+          "prob": 0.96,
+          "bid": 0.93,
+          "ask": 0.98,
+          "thin": false
         },
         {
           "name": "Above 1.050M",
-          "prob": null,
-          "bid": 0.01,
+          "prob": 0.97,
+          "bid": 0.94,
           "ask": 0.99,
-          "thin": true
+          "thin": false
         }
       ]
     },
@@ -215,52 +215,52 @@
       "outcomes": [
         {
           "name": "Above 1.550M",
-          "prob": null,
+          "prob": 0.03,
           "bid": 0.02,
-          "ask": 0.14,
-          "thin": true
+          "ask": 0.03,
+          "thin": false
         },
         {
           "name": "Above 1.500M",
           "prob": 0.06,
-          "bid": 0.01,
+          "bid": 0.02,
           "ask": 0.1,
           "thin": false
         },
         {
           "name": "Above 1.450M",
-          "prob": null,
-          "bid": 0.12,
-          "ask": 0.96,
-          "thin": true
+          "prob": 0.2,
+          "bid": 0.15,
+          "ask": 0.25,
+          "thin": false
         },
         {
           "name": "Above 1.400M",
-          "prob": null,
-          "bid": 0.09,
-          "ask": 0.99,
-          "thin": true
+          "prob": 0.44,
+          "bid": 0.39,
+          "ask": 0.49,
+          "thin": false
         },
         {
           "name": "Above 1.350M",
-          "prob": null,
-          "bid": 0.01,
-          "ask": 0.99,
-          "thin": true
+          "prob": 0.8,
+          "bid": 0.75,
+          "ask": 0.85,
+          "thin": false
         },
         {
           "name": "Above 1.300M",
-          "prob": null,
-          "bid": 0.02,
-          "ask": 0.99,
-          "thin": true
+          "prob": 0.95,
+          "bid": 0.91,
+          "ask": 0.98,
+          "thin": false
         },
         {
           "name": "Above 1.250M",
-          "prob": null,
-          "bid": 0.54,
-          "ask": 0.97,
-          "thin": true
+          "prob": 0.96,
+          "bid": 0.94,
+          "ask": 0.98,
+          "thin": false
         }
       ]
     },
@@ -277,64 +277,64 @@
       "outcomes": [
         {
           "name": "Above $435,000",
-          "prob": 0.06,
+          "prob": 0.02,
           "bid": 0.01,
-          "ask": 0.1,
+          "ask": 0.02,
           "thin": false
         },
         {
           "name": "Above $430,000",
-          "prob": null,
+          "prob": 0.03,
           "bid": 0.01,
-          "ask": 0.29,
-          "thin": true
+          "ask": 0.06,
+          "thin": false
         },
         {
           "name": "Above $425,000",
-          "prob": null,
-          "bid": 0.01,
-          "ask": 0.54,
-          "thin": true
+          "prob": 0.05,
+          "bid": 0.02,
+          "ask": 0.08,
+          "thin": false
         },
         {
           "name": "Above $420,000",
-          "prob": null,
-          "bid": 0.01,
-          "ask": 0.83,
-          "thin": true
+          "prob": 0.2,
+          "bid": 0.15,
+          "ask": 0.25,
+          "thin": false
         },
         {
           "name": "Above $415,000",
-          "prob": null,
-          "bid": 0.01,
-          "ask": 0.5,
-          "thin": true
+          "prob": 0.64,
+          "bid": 0.59,
+          "ask": 0.68,
+          "thin": false
         },
         {
           "name": "Above $410,000",
-          "prob": null,
-          "bid": 0.02,
-          "ask": 0.85,
-          "thin": true
+          "prob": 0.93,
+          "bid": 0.88,
+          "ask": 0.97,
+          "thin": false
         },
         {
           "name": "Above $405,000",
-          "prob": null,
-          "bid": 0.02,
-          "ask": 0.98,
-          "thin": true
+          "prob": 0.96,
+          "bid": 0.93,
+          "ask": 0.99,
+          "thin": false
         },
         {
           "name": "Above $400,000",
           "prob": null,
-          "bid": 0.8,
+          "bid": 0.94,
           "ask": 1,
           "thin": true
         },
         {
           "name": "Above $395,000",
           "prob": null,
-          "bid": 0.77,
+          "bid": 0.96,
           "ask": 1,
           "thin": true
         }
@@ -353,226 +353,226 @@
       "outcomes": [
         {
           "name": "Above 446.0",
-          "prob": null,
-          "bid": 0.08,
-          "ask": 1,
-          "thin": true
+          "prob": 0.96,
+          "bid": 0.93,
+          "ask": 0.99,
+          "thin": false
         },
         {
           "name": "Above 446.1",
-          "prob": null,
-          "bid": 0.08,
-          "ask": 1,
-          "thin": true
+          "prob": 0.95,
+          "bid": 0.9,
+          "ask": 0.99,
+          "thin": false
         },
         {
           "name": "Above 446.2",
-          "prob": null,
-          "bid": 0,
-          "ask": 1,
-          "thin": true
+          "prob": 0.91,
+          "bid": 0.86,
+          "ask": 0.96,
+          "thin": false
         },
         {
           "name": "Above 446.3",
-          "prob": null,
-          "bid": 0.75,
-          "ask": 1,
-          "thin": true
+          "prob": 0.86,
+          "bid": 0.81,
+          "ask": 0.91,
+          "thin": false
         },
         {
           "name": "Above 446.4",
-          "prob": null,
-          "bid": 0.5,
-          "ask": 1,
-          "thin": true
+          "prob": 0.78,
+          "bid": 0.73,
+          "ask": 0.83,
+          "thin": false
         },
         {
           "name": "Above 446.5",
-          "prob": null,
-          "bid": 0.5,
-          "ask": 0.9,
-          "thin": true
+          "prob": 0.69,
+          "bid": 0.64,
+          "ask": 0.74,
+          "thin": false
         },
         {
           "name": "Above 446.6",
-          "prob": null,
-          "bid": 0.4,
-          "ask": 0.75,
-          "thin": true
+          "prob": 0.59,
+          "bid": 0.54,
+          "ask": 0.64,
+          "thin": false
         },
         {
           "name": "Above 446.7",
-          "prob": null,
-          "bid": 0.2,
-          "ask": 0.79,
-          "thin": true
+          "prob": 0.48,
+          "bid": 0.43,
+          "ask": 0.53,
+          "thin": false
         },
         {
           "name": "Above 446.8",
-          "prob": null,
-          "bid": 0.35,
-          "ask": 0.65,
-          "thin": true
+          "prob": 0.4,
+          "bid": 0.36,
+          "ask": 0.43,
+          "thin": false
         },
         {
           "name": "Above 446.9",
-          "prob": null,
-          "bid": 0.2,
-          "ask": 0.69,
-          "thin": true
+          "prob": 0.27,
+          "bid": 0.22,
+          "ask": 0.32,
+          "thin": false
         },
         {
           "name": "Above 447.0",
-          "prob": null,
-          "bid": 0.08,
-          "ask": 0.3,
-          "thin": true
+          "prob": 0.19,
+          "bid": 0.14,
+          "ask": 0.24,
+          "thin": false
         },
         {
           "name": "Above 447.1",
-          "prob": null,
-          "bid": 0.05,
-          "ask": 0.25,
-          "thin": true
+          "prob": 0.12,
+          "bid": 0.07,
+          "ask": 0.17,
+          "thin": false
         },
         {
           "name": "Above 447.2",
-          "prob": null,
-          "bid": 0.03,
-          "ask": 0.25,
-          "thin": true
+          "prob": 0.08,
+          "bid": 0.04,
+          "ask": 0.12,
+          "thin": false
         },
         {
           "name": "Above 447.3",
-          "prob": null,
-          "bid": 0.01,
-          "ask": 0.15,
-          "thin": true
+          "prob": 0.06,
+          "bid": 0.02,
+          "ask": 0.09,
+          "thin": false
         },
         {
           "name": "Above 447.4",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.1,
-          "thin": true
+          "prob": 0.03,
+          "bid": 0.01,
+          "ask": 0.06,
+          "thin": false
         },
         {
           "name": "Above 447.5",
           "prob": null,
           "bid": 0,
-          "ask": 0.08,
+          "ask": 0.06,
           "thin": true
         },
         {
           "name": "Above 450.0",
           "prob": null,
           "bid": 0,
-          "ask": 0.04,
+          "ask": 0.02,
           "thin": true
         },
         {
           "name": "Above 449.9",
           "prob": null,
           "bid": 0,
-          "ask": 0.05,
+          "ask": 0.04,
           "thin": true
         },
         {
           "name": "Above 449.8",
           "prob": null,
           "bid": 0,
-          "ask": 0.05,
+          "ask": 0.03,
           "thin": true
         },
         {
           "name": "Above 449.7",
           "prob": null,
           "bid": 0,
-          "ask": 0.05,
+          "ask": 0.01,
           "thin": true
         },
         {
           "name": "Above 449.6",
           "prob": null,
           "bid": 0,
-          "ask": 0.05,
+          "ask": 0.04,
           "thin": true
         },
         {
           "name": "Above 449.5",
           "prob": null,
           "bid": 0,
-          "ask": 0.09,
+          "ask": 0.05,
           "thin": true
         },
         {
           "name": "Above 449.4",
           "prob": null,
           "bid": 0,
-          "ask": 0.14,
+          "ask": 0.05,
           "thin": true
         },
         {
           "name": "Above 449.3",
           "prob": null,
           "bid": 0,
-          "ask": 0.14,
+          "ask": 0.05,
           "thin": true
         },
         {
           "name": "Above 449.2",
           "prob": 0.03,
           "bid": 0.01,
-          "ask": 0.06,
+          "ask": 0.05,
           "thin": false
         },
         {
           "name": "Above 449.1",
           "prob": null,
           "bid": 0,
-          "ask": 0.24,
+          "ask": 0.05,
           "thin": true
         },
         {
           "name": "Above 449.0",
           "prob": null,
           "bid": 0,
-          "ask": 0.24,
+          "ask": 0.05,
           "thin": true
         },
         {
           "name": "Above 448.9",
           "prob": null,
           "bid": 0,
-          "ask": 0.06,
+          "ask": 0.03,
           "thin": true
         },
         {
           "name": "Above 448.8",
           "prob": null,
           "bid": 0,
-          "ask": 0.34,
+          "ask": 0.05,
           "thin": true
         },
         {
           "name": "Above 448.7",
           "prob": null,
           "bid": 0,
-          "ask": 0.39,
+          "ask": 0.02,
           "thin": true
         },
         {
           "name": "Above 448.6",
           "prob": 0.03,
           "bid": 0.01,
-          "ask": 0.05,
+          "ask": 0.04,
           "thin": false
         },
         {
           "name": "Above 448.5",
           "prob": 0.03,
           "bid": 0.01,
-          "ask": 0.05,
+          "ask": 0.04,
           "thin": false
         }
       ]
