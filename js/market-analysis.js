@@ -2766,10 +2766,27 @@
         (a.localCases || 0).toLocaleString() + ' sample households)' +
         (st && lw < 1 ? ', blended ' + _pct(lw) + ' local and ' + _pct(1 - lw) + ' statewide (' + _pct(st.share) +
           ' to a 1BR, ' + st.cases.toLocaleString() + ' households) because a small sample is noisy' : '') + '.';
-    } else {
-      two = '2 people: the offered size that fits.';
     }
-    items.push('<strong>Bedroom fit:</strong> 1 person: studio or 1BR. ' + two + ' 3 people: 2BR. 4–5 people: 3BR. CHFA\'s size limits apply (studio 1, 1BR 1–2, 2BR 2–3, 3BR 3–5).');
+    // Built from the same assignment the count used, for the sizes offered.
+    var fit = a.fit || [];
+    var fitParts = [], left = [];
+    var who = ['1 person', '2 people', '3 people', '4 people', '5 people', '6 or more people'];
+    for (var n = 0; n < 6; n++) {
+      var f = fit[n];
+      if (!f) { left.push(n); continue; }
+      if (n === 1 && split) { fitParts.push(two); continue; }
+      var label = _bedroomLabel(f);
+      var last = fitParts.length && fitParts[fitParts.length - 1];
+      if (last && last.label === label && last.to === n - 1) { last.to = n; continue; }
+      fitParts.push({ from: n, to: n, label: label });
+    }
+    var fitText = fitParts.map(function (p) {
+      if (typeof p === 'string') return p;
+      var w = p.from === p.to ? who[p.from] : (p.from + 1) + '\u2013' + (p.to + 1) + ' people';
+      return w + ': ' + p.label + '.';
+    }).join(' ');
+    var leftText = left.length ? ' Not counted, because no offered size fits them: ' + left.map(function (n) { return who[n]; }).join(', ') + '.' : '';
+    items.push('<strong>Bedroom fit:</strong> ' + fitText + leftText + ' Each household goes to the smallest offered size it fits. CHFA\'s size limits apply (studio 1, 1BR 1\u20132, 2BR 2\u20133, 3BR 3\u20135).');
     var brs = Object.keys(cur.byBedroom || {}).filter(function (b) { return off.indexOf(b) !== -1; }).sort();
     if (brs.length) {
       items.push('<strong>Qualified renters by bedroom:</strong> ' + brs.map(function (b) {

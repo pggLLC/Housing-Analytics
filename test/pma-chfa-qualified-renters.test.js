@@ -283,5 +283,14 @@ test('the disclosed two-person split is weighted by two-person renters, not all 
   assert.strictEqual(r.assumptions.twoPersonSmallShare, 0.2, 'the share shown is the one applied');
 });
 
+test('the bedroom fit shown follows the offered sizes (Codex #2747)', () => {
+  const all = S.chfaQualifiedRenters(demand, limits, tracts, [60]).assumptions.fit;
+  assert.deepStrictEqual(all, [['1br'], ['1br', '2br'], ['2br'], ['3br'], ['3br'], null]);
+  const only3 = S.chfaQualifiedRenters(demand, limits, tracts, [60], ['3br']).assumptions.fit;
+  assert.deepStrictEqual(only3, [null, null, ['3br'], ['3br'], ['3br'], null], '3 people go to a 3BR when it is the only size');
+  const old = S.chfaQualifiedRenters(demand, limits, tracts, [60], null, { rule: 'smallest' }).assumptions.fit;
+  assert.deepStrictEqual(old[1], ['1br']);
+});
+
 if (failures) { console.log('\n' + failures + ' failure(s)'); process.exit(1); }
 console.log('\nAll checks passed ✅');

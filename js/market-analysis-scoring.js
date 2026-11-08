@@ -485,7 +485,13 @@
         // The regional sample's average size, spread over this area's
         // CHAS income mix, before the match.
         pumsRenterSize: tilt ? Math.round(tilt.base * 100) / 100 : null,
-        sizeMatched: !!tilt
+        sizeMatched: !!tilt,
+        // Bedroom sizes each household size (1-6+) is counted toward, from the
+        // offered sizes; null = no offered size fits and the size is left out.
+        fit: [1, 2, 3, 4, 5, 6].map(function (n) {
+          var u = unitsFor(n, null);
+          return u.length ? u.map(function (x) { return x.br; }) : null;
+        })
       } };
   }
 
