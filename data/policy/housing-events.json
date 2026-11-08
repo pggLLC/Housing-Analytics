@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-07T10:27:28Z",
-    "as_of": "2026-11-07",
+    "generated": "2026-11-08T10:35:38Z",
+    "as_of": "2026-11-08",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -40,7 +40,7 @@
       "url": "https://cdola.colorado.gov/calendar",
       "status": "ok",
       "listed": 188,
-      "upcoming": 9
+      "upcoming": 10
     },
     {
       "id": "prop123",
@@ -728,6 +728,18 @@
       "source": "curated",
       "category": "deadline",
       "checked": "2026-10-26"
+    },
+    {
+      "title": "Colorado Emergency Rental Assistance Pre-Application Period (March)",
+      "start": "2027-03-08",
+      "end": "2027-03-10",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "deadline"
     }
   ],
   "past": [

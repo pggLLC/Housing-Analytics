@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generated": "2026-11-07T10:27:28Z",
+    "generated": "2026-11-08T10:35:39Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-01",
-      "checked": 65,
-      "unverified": 1,
-      "weak": 2
+      "since": "2026-11-02",
+      "checked": 64,
+      "unverified": 2,
+      "weak": 1
     }
   },
   "outlets": [
@@ -27,6 +27,24 @@
         }
       ],
       "first_listed": "2026-11-06"
+    },
+    {
+      "id": "03a4428175",
+      "name": "Construction Dive",
+      "domains": [
+        "constructiondive.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-04",
+      "last_seen": "2026-11-04",
+      "headlines": [
+        {
+          "title": "HUD launches ‘express lane’ for LIHTC multifamily construction loans",
+          "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNRVdDZDc0TGdIenBiLVJQTTlBTWRFTFpuSmRiZkt6czNiWmJIVDFYQ0tsVElPS2VWS1kxd1pTVTZrMXI0T09IRFVDM3VPSHAxVmRVNFFOeDB4M1NqZ3BvSmtfRTZzektqNEFWb3BmSDAxMVhZOHNJd2pjUFhhVzEzYkZMSGhVMmhkNjFWclNCVmdURkwzZld0ckRtZ1dQSWpH?oc=5",
+          "date": "2026-11-04"
+        }
+      ],
+      "first_listed": "2026-11-08"
     },
     {
       "id": "88fd837e59",
