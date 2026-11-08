@@ -231,6 +231,15 @@
       }
       if (moved < 1e-6) break;
     }
+    // A group (tract and CHAS tier) with renters must keep some of them:
+    // zeroing all its sizes would drop it from the count, not refit it (Codex #2751).
+    var lost = groups.some(function (g) {
+      if (!(g.count > 0)) return false;
+      var had = 0, kept = 0;
+      for (var s2 = 0; s2 < n; s2++) { had += g.sizes[s2]; kept += g.sizes[s2] * f[s2]; }
+      return had > 0 && !(kept > 0);
+    });
+    if (lost) return null;
     var fitted = modelled(f);
     // A fit that cannot reach the published shares (a size the sample lacks,
     // or tiers that pin the sizes) is not a match: the caller then uses the

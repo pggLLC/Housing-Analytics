@@ -288,9 +288,14 @@ test('the student share is picked by the bin\'s own PUMA income tier, not the co
 test('a size fit that cannot reach the published shares is not reported or used as a match (Codex #2751)', () => {
   // 1p only at 40%, 3p only at 55%, tiers 90 / 10: sizes are pinned at 90 / 10, so 50 / 50 is out of reach.
   assert.strictEqual(S.areaSizeFit([{ count: 90, sizes: [1, 0, 0, 0, 0, 0] }, { count: 10, sizes: [0, 0, 1, 0, 0, 0] }], [0.5, 0, 0.5, 0, 0, 0]), null);
+  // A target that would zero out a whole tier (100% 3-person) drops those renters instead of refitting: rejected too.
+  assert.strictEqual(S.areaSizeFit([{ count: 90, sizes: [1, 0, 0, 0, 0, 0] }, { count: 10, sizes: [0, 0, 1, 0, 0, 0] }], [0, 0, 1, 0, 0, 0]), null);
   const m = [bins(), bins(), bins(), bins(), bins(), bins()];
   m[0][40] = 100; m[2][55] = 100;
   const d = { pumas: { P1: m }, tracts: { '08001000100': ['P1', 0, 90, 10, 0, 0] } };
+  const all3 = S.chfaQualifiedRenters(d, limits, tracts, [60], null, { sizeIdx: { '08001000100': [0, 0, 100, 0, 0, 0] } });
+  assert.strictEqual(all3.assumptions.sizeMatched, false);
+  assert.strictEqual(all3.value, 100);
   const r = S.chfaQualifiedRenters(d, limits, tracts, [60], null, { sizeIdx: { '08001000100': [50, 0, 50, 0, 0, 0] } });
   assert.strictEqual(r.assumptions.sizeMatched, false);
   assert.deepStrictEqual(r.assumptions.areaSizeShares, [0.5, 0, 0.5, 0, 0, 0], 'the published shares are still shown');
