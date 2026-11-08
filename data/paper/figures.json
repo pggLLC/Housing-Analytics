@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "40eedc6f1",
+  "generated_from_commit": "158331240",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-11-08",
-    "total_commits": 9451,
+    "total_commits": 9452,
     "partial_month": "2026-11",
     "commits_by_month": [
       {
@@ -54,7 +54,7 @@
       },
       {
         "month": "2026-11",
-        "commits": 334,
+        "commits": 335,
         "pct_of_peak": 21.4
       }
     ]
@@ -320,7 +320,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "40eedc6f1",
+    "extracted_at_commit": "158331240",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -565,10 +565,10 @@
     "gap30_priced_vintage": "2020–2024",
     "gap30_aa_vintage": "2018–2022",
     "chas_place_table_places": 482,
-    "renter_burden_moe_vintage": "2021–2025",
-    "renter_burden_moe_places": null,
-    "renter_burden_moe_median_pp": null,
-    "renter_burden_moe_over_20pp": null,
+    "renter_burden_moe_vintage": "2020–2024",
+    "renter_burden_moe_places": 400,
+    "renter_burden_moe_median_pp": 32,
+    "renter_burden_moe_over_20pp": 281,
     "restricted_properties": 1896,
     "restricted_with_end_date": 122,
     "restricted_already_expired": 82,
@@ -603,18 +603,5 @@
     "scope.html_distinct_share",
     "inventory.test_files"
   ],
-  "unavailable": [
-    {
-      "key": "methods_data.renter_burden_moe_places",
-      "reason": "acs-reliability.json has no place with an ACS 5-year renter cost-burden margin"
-    },
-    {
-      "key": "methods_data.renter_burden_moe_median_pp",
-      "reason": "acs-reliability.json has no place with an ACS 5-year renter cost-burden margin"
-    },
-    {
-      "key": "methods_data.renter_burden_moe_over_20pp",
-      "reason": "acs-reliability.json has no place with an ACS 5-year renter cost-burden margin"
-    }
-  ]
+  "unavailable": []
 }
