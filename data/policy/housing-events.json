@@ -4654,7 +4654,7 @@
       "location": "Online - Zoom",
       "online": true,
       "organizer": "CHFA",
-      "url": "https://us02web.zoom.us/meeting/register/zAc7_HMjQmmG4D2s0fy-7g#/registration",
+      "url": null,
       "source": "chfa",
       "category": "developer"
     },

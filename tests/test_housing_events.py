@@ -155,6 +155,21 @@ def test_ended_events_are_kept_in_past_newest_first():
     assert ends == sorted(ends, reverse=True)
 
 
+def test_an_ended_event_drops_its_expired_zoom_registration_link():
+    zoom = 'https://us02web.zoom.us/meeting/register/abc#/registration'
+    feed = {'events': [
+        {'title': 'Virtual: PAB Stakeholder Meeting', 'allDay': False, 'start': '2026-10-01T11:00:00',
+         'end': '2026-10-01T12:00:00', 'extendedProps': {'copy': 'Online - Zoom'}, 'url': zoom},
+        {'title': 'Virtual: Upcoming Zoom Meeting', 'allDay': False, 'start': '2026-10-30T11:00:00',
+         'end': '2026-10-30T12:00:00', 'extendedProps': {'copy': 'Online - Zoom'}, 'url': zoom},
+    ]}
+    ended = {e['title']: e for e in fhe.past(fhe.parse_chfa(feed), None, TODAY)}
+    assert ended['Virtual: PAB Stakeholder Meeting']['url'] is None
+    assert 'Virtual: Upcoming Zoom Meeting' not in ended
+    upcoming = [e for e in fhe.parse_chfa(feed) if e['title'] == 'Virtual: Upcoming Zoom Meeting']
+    assert upcoming[0]['url'] == zoom, 'an upcoming meeting keeps its registration link'
+
+
 def test_build_writes_past_events_and_keeps_upcoming_current():
     def fetch(url):
         return json.dumps(CHFA).encode() if 'chfainfo' in url else HC_PAGE.encode()

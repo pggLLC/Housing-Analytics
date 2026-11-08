@@ -27,7 +27,7 @@
         "https://aspen.gov/CivicAlerts.aspx?AID=762",
         "https://www.aspen.gov/1243/Employee-Housing-Development",
         "https://www.aspen.gov/AgendaCenter (only pre-2022 items; council records live in Laserfiche)",
-        "https://records.aspen.gov/WebLink/DocView.aspx?id=1796837 (connection reset through proxy - Laserfiche minutes/resolutions unreachable)",
+        "records.aspen.gov Laserfiche WebLink document 1796837 (connection reset through proxy - Laserfiche minutes/resolutions unreachable; link dropped 2026-11-08 because the weekly URL sweep also times out and no archived copy exists)",
         "https://cdola.colorado.gov/commitment-filings"
       ],
       "note": "Aspen's council minutes and resolutions are in Laserfiche (records.aspen.gov), which could not be reached, so the actions below are documented from the City's own press releases and carry no vote counts. The Lumberyard land-use entitlements (Sept 2023) predate the window and are not recorded. The DOLA Prop 123 commitment filing is not recorded here: the Opportunity Finder Civic component already scores it.",

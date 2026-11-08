@@ -251,7 +251,7 @@ const PLACE_ENTRIES = {
     prop123: { status: 'Committed', link: 'https://cdola.colorado.gov/commitment-filings', fast_track: true },
     housingLead: { name: 'Vail Housing Department', url: 'https://www.vailgov.com/government/departments/housing' },
     housingAuthority: [
-      { name: 'Vail Local Housing Authority', url: 'https://www.vailgov.com/government/boards-commissions/vail-local-housing-authority' }
+      { name: 'Vail Local Housing Authority', url: 'https://www.vail.gov/government/boards-commissions-authority-district/vail-local-housing-authority-vlha' }
     ],
     housingPlans: [
       { type: 'Housing Strategy', year: 2018, name: 'Vail Housing 2027 strategic plan',

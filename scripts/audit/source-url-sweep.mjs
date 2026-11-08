@@ -318,6 +318,21 @@ const ALLOW_LIST = new Set([
   "https://www.novoco.com/products/novogradac-qualified-census-tract-estimator",
   "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/rent-income-limit-calculator",
   "https://www.purgatory.ski/",
+  // Weekly sweep 2026-11-08 (#2744). These load for a normal client; the sweep
+  // is blocked or times out. Keep in sync with url-health-sweep.mjs.
+  // FRED series pages time out for automated clients (every fred.stlouisfed.org
+  // /series page in data/url-health.json does). Both series are live: the FRED
+  // API fetch writes them to data/fred-data.json daily. Cited by
+  // economic-dashboard.html and js/census-geo.js.
+  "https://fred.stlouisfed.org/series/COMPUTSA",
+  "https://fred.stlouisfed.org/series/UNDCONTSA",
+  // CBS News returns 406 to CI probes; 200 with a plain client 2026-11-08;
+  // cited by data/deals/warren-village-iii-denver.json.
+  "https://www.cbsnews.com/colorado/news/crews-break-ground-on-warren-village-iii-affordable-housing-services-expansion/",
+  // 1310 KFKA returns 503 to CI on two sweeps; 200 with a plain client
+  // 2026-11-08 ("Construction Underway On Housing Development In Greeley");
+  // cited by data/deals/starrise-at-north-weld-village-greeley.json.
+  "https://1310kfka.com/news/06/construction-underway-on-housing-development-in-greeley/",
 ]);
 
 const SKIP_PATTERNS = [
