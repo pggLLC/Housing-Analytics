@@ -662,9 +662,17 @@
     }
 
     var sizes = lihtc.properties.map(function (p) { return p.units; }).filter(function (u) { return u !== null; }).sort(function (a, b) { return a - b; });
-    var medianSize = sizes.length ? sizes[Math.floor(sizes.length / 2)] : null;
-    if (medianSize !== null) notes.push('Existing tax-credit projects here have a median of ' + fmtInt(medianSize) + ' units: a size the market has already absorbed.');
+    var medianSize = medianOf(sizes);
+    // A list of recorded projects says what was built, not how fast it leased, so the note names the size only.
+    if (medianSize !== null) notes.push('Tax-credit projects on record here have a median size of ' + fmtInt(medianSize) + ' units (' + sizes.length + (sizes.length === 1 ? ' project' : ' projects') + ').');
     return { route: route, mix: mix, burden: burden, workforce: workforce, pencil: pencil, rentCheck: rentCheck, boost: boost, medianSize: medianSize, notes: notes };
+  }
+
+  // Median of a sorted list: the middle value, or the mean of the two middle values for an even count. Null when empty.
+  function medianOf(sorted) {
+    var n = sorted.length;
+    if (!n) return null;
+    return n % 2 ? sorted[(n - 1) / 2] : (sorted[n / 2 - 1] + sorted[n / 2]) / 2;
   }
 
   // When an application can realistically go in, back-solved from CHFA's calendar.
@@ -1974,6 +1982,6 @@
     findByName: findByName,
     buildModel: buildModel,
     renderHtml: renderHtml,
-    _internal: { coloradoToday: coloradoToday, num: num, fmtMoney: fmtMoney, dealShape: dealShape, isSearchLink: isSearchLink }
+    _internal: { coloradoToday: coloradoToday, num: num, fmtMoney: fmtMoney, dealShape: dealShape, isSearchLink: isSearchLink, medianOf: medianOf }
   };
 }));

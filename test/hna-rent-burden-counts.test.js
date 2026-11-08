@@ -91,4 +91,38 @@ const noBins = Object.assign({}, noCounts, { DP04_0141PE: null, DP04_0142PE: nul
 w.HNARenderers.renderHousingGapSummary(noBins, 'place');
 check(!/0\.0% of renter/.test(el.textContent), 'page with missing bins: no 0.0% burden claim');
 
+// The gap panel's cost-pressure line (v3 review F2) agrees with the panel above: the same B25070
+// count and denominator, never all renters times a rate measured on fewer households.
+{
+  const d2 = new JSDOM('<!doctype html><body><div id="hnaGapCoveragePanel"><div id="hnaGapBurdenContext"></div></div></body>',
+    { url: 'http://127.0.0.1/housing-needs-assessment.html', runScripts: 'outside-only' });
+  const w2 = d2.window;
+  w2.APP_CONFIG = {};
+  w2.HNAState = { state: {} };
+  for (const f of ['js/utils/format-money.js', 'js/hna/hna-utils.js', 'js/hna/hna-renderers.js']) w2.eval(read(f));
+  const placeAmi = JSON.parse(read('data/co_ami_gap_by_place.json'));
+  const line = () => w2.document.getElementById('hnaGapBurdenContext').textContent;
+  // Expected figures come from the helper the burden panel uses, not from copied numbers or wording.
+  const numbersIn = (t) => (t.match(/\d[\d,]*(?:\.\d+)?/g) || []).map((x) => Number(x.replace(/,/g, '')));
+  for (const g of ['0828745', '0845970', '08077']) {
+    const p = prof(g), c = U.rentBurdenCounts(p);
+    if (!c) continue;
+    w2.HNARenderers.renderGapCoverageStats(g.slice(0, 5) === g ? g : '08077', null, null, { type: g.length === 5 ? 'county' : 'place', geoid: g }, placeAmi, p);
+    const n = numbersIn(line());
+    check(n.includes(c.atLeast30Households) && n.includes(c.computedHouseholds) && n.includes(c.atLeast30Pct) && n.includes(Number(c.year)),
+      g + ': gap panel shows the helper\'s count ' + c.atLeast30Households + ', denominator ' + c.computedHouseholds + ', share ' + c.atLeast30Pct + ' and year ' + c.year);
+    const all = Number(p.DP04_0047E);
+    check(all === c.computedHouseholds || !n.includes(all), g + ': the denominator is not all renter households (' + all + ')');
+  }
+  // No renters and no published shares (Alpine CDP in the stored summaries): no line, never 0.0%.
+  const empty = Object.assign({}, prof('0828745'), { DP04_0047E: 0, DP04_0141PE: null, DP04_0142PE: null });
+  for (const k of Object.keys(empty)) if (/B25070|b25070/.test(k)) delete empty[k];
+  w2.HNARenderers.renderGapCoverageStats('08077', null, null, { type: 'place', geoid: '0828745' }, placeAmi, empty);
+  check(line().trim() === '', 'gap panel with no renters and no shares: no line, not 0.0%');
+  const bare = prof('0828745');
+  for (const k of Object.keys(bare)) if (/B25070|b25070/.test(k)) delete bare[k];
+  w2.HNARenderers.renderGapCoverageStats('08077', null, null, { type: 'place', geoid: '0828745' }, placeAmi, bare);
+  check(!/\d+ of \d/.test(line()) && /no count is shown/.test(line()), 'gap panel without counts: the share only, no estimated count');
+}
+
 console.log(`\n${passed} passed`);

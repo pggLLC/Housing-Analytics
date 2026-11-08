@@ -23,7 +23,7 @@
     'Not yet': 'Studied in a site dossier and not ready: key ripeness questions, such as site control or entitlements, are unresolved.',
     'Site on file': 'A site from public program records (a Prop 123 land banking award or a tax credit application since 2023) with no dossier yet, so it has no ripeness reading.',
     'No open site': 'Every site on file in this place already has a developer on it.',
-    'No site on file': 'No site for this place in public program records yet.',
+    'No site on file': 'No site for this place in the site dossier yet. The dossier screens recent tax credit applications and Prop 123 land banking awards; other public records may still list projects here.',
     'IOI': 'Opportunity Index: a 0 to 100 score for each Colorado place from the Opportunity Finder, blending housing need, how recently the place won tax credits, basis boost eligibility, population and civic readiness, weighted by deal type. Places above about 60 enter the pipeline at Screen.',
     'anti-target': 'A place set aside on purpose, with the reason and a date to look again.',
     'tier': 'Where to build groups places by this page\'s score: Tier 1 Target at 70 or more (not low confidence), Tier 2 Promising at 50 to 69 (or 70+ with low confidence), Tier 3 Monitor at 35 to 49. Below 35 is left off.',

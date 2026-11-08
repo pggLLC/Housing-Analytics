@@ -83,6 +83,10 @@
         notes.push(lead + lims + ', at or below every current rent measure here (' + rangeText(ask) + '), so 70–80% units should lease and serve this band.');
       } else if (lim70 > ask.high) {
         notes.push(lead + lims + ', above every current rent measure here (' + rangeText(ask) + '), so higher-band tax-credit units would not lease; these renters need homes below market, which takes deeper units or rental subsidy.');
+      } else if (lim80 !== null && lim80 > ask.high) {
+        // Straddle (v3 review F4): 70% sits in or below the range and 80% above it. Name each position, never "both inside".
+        notes.push(lead + lims + '. Against the current rent measures here (' + rangeText(ask) + '), the 70% limit is ' + (lim70 < ask.low ? 'below' : 'inside') +
+          ' the range and the 80% limit is above every one, so 80% units would have to rent below their limit to compete. The market study has to test both before 70–80% units go in the mix.');
       } else {
         notes.push(lead + lims + ', inside the range of current rent measures here (' + rangeText(ask) + '). Whether they lease depends on the site; the market study has to test it before 70–80% units go in the mix.');
       }

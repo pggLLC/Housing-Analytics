@@ -549,4 +549,16 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   ok(!/data-commute-line/.test(WP.renderHtml(WP.buildModel(noJa, '0805265', { FundingFit, today: '2026-10-29' }))), 'without the file the line is left out, not guessed');
 }
 
+// Median project size (v3 review F3): the middle of an odd list, the mean of the two middle values of an even
+// one, null when empty; and the note names the size only, never "absorbed" (a project list is not lease-up evidence).
+{
+  const med = WP._internal.medianOf;
+  ok(med([20, 60]) === 40, 'even count: median of 20 and 60 is 40, not the upper middle 60');
+  ok(med([24, 50]) === 37, 'even count: median of 24 and 50 is 37');
+  ok(med([10, 30, 90]) === 30, 'odd count: the middle value');
+  ok(med([]) === null, 'no projects: no median');
+  const notes = WP.buildModel(src, '08077', { FundingFit, today: '2026-10-29' }).deal.notes.join(' ');
+  ok(!/absorbed/.test(notes), 'the project-size note never claims the market absorbed a size');
+}
+
 console.log(`jurisdiction-whitepaper: ${checks} checks passed`);
