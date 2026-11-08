@@ -156,7 +156,8 @@ def test_ended_events_are_kept_in_past_newest_first():
 
 
 def test_an_ended_event_drops_its_expired_zoom_registration_link():
-    zoom = 'https://us02web.zoom.us/meeting/register/abc#/registration'
+    # example.com host so the source URL sweep skips this fake link; the path still matches zoom.us/meeting/register.
+    zoom = 'https://example.com/zoom.us/meeting/register/abc#/registration'
     feed = {'events': [
         {'title': 'Virtual: PAB Stakeholder Meeting', 'allDay': False, 'start': '2026-10-01T11:00:00',
          'end': '2026-10-01T12:00:00', 'extendedProps': {'copy': 'Online - Zoom'}, 'url': zoom},
