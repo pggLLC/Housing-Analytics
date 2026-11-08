@@ -270,5 +270,18 @@ test('a tract the count skips (no usable limits) is left out of the size match t
   assert(Math.abs((n1 + 3 * n3) / (n1 + n3) - 1.8) < 0.03, 'implied average ' + ((n1 + 3 * n3) / (n1 + n3)));
 });
 
+
+test('the disclosed two-person split is weighted by two-person renters, not all renters (Codex #2747)', () => {
+  const twoOnly = [bins(), bins(), bins(), bins(), bins(), bins()]; twoOnly[1][45] = 100;
+  const oneOnly = [bins(), bins(), bins(), bins(), bins(), bins()]; oneOnly[0][45] = 100;
+  const d = { pumas: { PA: twoOnly, PB: oneOnly },
+    tracts: { '08001000100': ['PA', 0, 100, 0, 0, 0], '08001000200': ['PB', 0, 100, 0, 0, 0] },
+    two_person_split: { statewide_small_share: 0.28, pumas: { PA: [0.2, 100, 0.67, 0.2], PB: [0.8, 100, 0.67, 0.8] } } };
+  const two = [{ geoid: '08001000100', _bufferShare: 1 }, { geoid: '08001000200', _bufferShare: 1 }];
+  const r = S.chfaQualifiedRenters(d, limits, two, [60]);
+  assert.deepStrictEqual(r.byBedroom, { '1br': 120, '2br': 80, '3br': 0 });
+  assert.strictEqual(r.assumptions.twoPersonSmallShare, 0.2, 'the share shown is the one applied');
+});
+
 if (failures) { console.log('\n' + failures + ' failure(s)'); process.exit(1); }
 console.log('\nAll checks passed ✅');

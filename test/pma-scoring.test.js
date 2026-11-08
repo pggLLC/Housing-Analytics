@@ -35,7 +35,7 @@ function assertClose(actual, expected, tolerance, message) {
 test('PROV-1 does not modify PMA scoring constants/helper', () => {
   const scoringPath = path.resolve(__dirname, '..', 'js', 'market-analysis-scoring.js');
   const hash = crypto.createHash('sha256').update(fs.readFileSync(scoringPath)).digest('hex');
-  assert(hash === '2a548b83894799e514742ea30ef44df977bb0f812608dfa9ace578edfaef5972',
+  assert(hash === '8196d0604193291cdff8ee2c1dcc6083d1d2064723315e0f4bfb100f1945dbe7',
     'js/market-analysis-scoring.js remains byte-identical for provenance-only work');
 });
 

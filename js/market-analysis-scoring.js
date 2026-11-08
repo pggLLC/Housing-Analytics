@@ -419,15 +419,12 @@
       if (cs != null) scaled += 1; else if (acsIdx) unscaled += 1;
       chasRenters += chasTotal * share;
       acsRenters += chasTotal * countScale * share;
-      var sRow = split && split.pumas && split.pumas[row[0]];
-      splitNum += smallShare(row[0]) * chasTotal * countScale * share;
-      ownNum += (sRow && sRow[2] != null ? sRow[2] : 0) * chasTotal * countScale * share;
-      splitDen += chasTotal * countScale * share;
+      var twoPersonHere = 0;
       var toCounty = toCountyFor(gid, row[0]);
       CHAS_TIER_BINS.forEach(function (range, k) {
         var count = row[k + 1];
         if (!(count > 0)) return;
-        var tierTotal = 0, anyTier = 0, perTier = {}, perBr = {};
+        var tierTotal = 0, anyTier = 0, twoW = 0, perTier = {}, perBr = {};
         tiers.forEach(function (t) { perTier[t] = 0; });
         for (var s = 0; s < mix.length; s++) {
           var f = tilt ? tilt.factors[s] : 1;
@@ -437,6 +434,7 @@
             var pct = binPct(mix, s, b, toCounty);
             if (!inRange(pct, range)) continue;
             tierTotal += w;
+            if (s === 1) twoW += w;
             var parts = floors[tiers[0]][s];
             for (var u = 0; u < parts.length; u++) {
               var fits = false;
@@ -454,9 +452,15 @@
         if (tierTotal <= 0) return;
         var scale = count * countScale * share / tierTotal;
         total += anyTier * scale;
+        twoPersonHere += twoW * scale;
         tiers.forEach(function (t) { byTier[t] += perTier[t] * scale; });
         Object.keys(perBr).forEach(function (br) { byBr[br] += perBr[br] * scale; });
       });
+      // The disclosed split is weighted by the two-person renters it is applied to.
+      var sRow = split && split.pumas && split.pumas[row[0]];
+      splitNum += smallShare(row[0]) * twoPersonHere;
+      ownNum += (sRow && sRow[2] != null ? sRow[2] : 0) * twoPersonHere;
+      splitDen += twoPersonHere;
     });
 
     if (!used) return empty('no tract in the market area has CHAS and PUMS data');
@@ -469,7 +473,7 @@
       bedrooms: offered, reason: null,
       assumptions: {
         rule: rule,
-        // Renter-weighted over the market area's tracts.
+        // Weighted by the market area's two-person renters in the AMI bands counted.
         twoPersonSmallShare: splitDen > 0 ? Math.round(splitNum / splitDen * 1000) / 1000 : null,
         localWeight: splitDen > 0 ? Math.round(ownNum / splitDen * 100) / 100 : 0,
         localCases: cases,
