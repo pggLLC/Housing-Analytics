@@ -2746,7 +2746,7 @@
       items.push('<strong>Household size:</strong> renter households here average ' + a.areaRenterSize.toFixed(2) +
         ' people (ACS 2020–24). The Census sample for the wider region averages ' + a.pumsRenterSize.toFixed(2) +
         ', so its size mix is adjusted to match this area.');
-    } else if (a.areaRenterSize != null && isFinite(a.areaRenterSize)) {
+    } else if (typeof a.areaRenterSize === 'number' && Number.isFinite(a.areaRenterSize)) {
       items.push('<strong>Household size:</strong> renter households here average ' + a.areaRenterSize.toFixed(2) +
         ' people (ACS 2020–24), but the wider region\'s Census size mix cannot be adjusted to reach that average' +
         (a.pumsRenterSize != null ? ' (it averages ' + a.pumsRenterSize.toFixed(2) + ')' : '') +
