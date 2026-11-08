@@ -109,7 +109,7 @@
 
   function townsSentence(towns) {
     if (!towns || !towns.main) return null;
-    if (!towns.others.length) return 'Main town: ' + shortName(towns.main.name) + '. No other town holds 10% or more of any of these tracts\' homes (2020 Census).';
+    if (!towns.others.length) return 'Main town: ' + shortName(towns.main.name) + '. No other town is flagged: none holds 10% or more of a tract\'s homes (and 25 or more) and more of them than ' + shortName(towns.main.name) + ' (2020 Census).';
     return 'Main town: ' + shortName(towns.main.name) + '. Also in these tracts: ' + towns.others.map(function (o) {
       return shortName(o.name) + ' (' + o.tracts.map(function (t) {
         return t.homes.toLocaleString('en-US') + ' of ' + t.tractHomes.toLocaleString('en-US') + ' homes in tract ' + t.geoid.slice(5);
@@ -126,6 +126,11 @@
    */
   function inflow(od, placeDoc, tracts, towns, counties) {
     if (!od || !Array.isArray(od.pairs)) return null;
+    // Without the town file no tract can be flagged or origin named, so a
+    // total would look complete while mixing other towns' jobs in.
+    if (!placeDoc || !placeDoc.places || !towns) {
+      return { unavailable: true, reason: 'the 2020 Census town file did not load, so jobs in tracts shared with another town cannot be counted apart' };
+    }
     var share = {};
     (tracts || []).forEach(function (t) { if (t && shareOf(t) > 0) share[String(t.geoid)] = shareOf(t); });
     if (!Object.keys(share).length) return null;
@@ -167,6 +172,7 @@
 
   function inflowSentence(s, towns) {
     if (!s) return null;
+    if (s.unavailable) return 'Job counts withheld: ' + s.reason + '.';
     var main = towns && towns.main ? shortName(towns.main.name) : 'the market area';
     var out = 'About ' + s.jobs.toLocaleString('en-US') + ' jobs in the ' + main + ' tracts: ' +
       s.local.toLocaleString('en-US') + ' held by people who live in the market area and ' +

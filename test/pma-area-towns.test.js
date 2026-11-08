@@ -101,5 +101,22 @@ test('real data: the files the page reads carry what the module needs', () => {
   assert(/js\/pma-area-towns\.js/.test(html) && /id="pmaSumOtherTowns"/.test(html) && /id="pmaSumInflow"/.test(html));
 });
 
+test('without the town file, job totals are withheld, not shown unsplit (Codex #2748)', () => {
+  const od = { meta: {}, pairs: [['08001000009', '08001000001', 100]] };
+  const s = T.inflow(od, null, area, null, {});
+  assert.strictEqual(s.unavailable, true);
+  assert(/^Job counts withheld: the 2020 Census town file did not load/.test(T.inflowSentence(s, null)));
+});
+
+test('the no-other-town line states the whole flag rule (Codex #2748)', () => {
+  // Gamma holds 40% of tract 2 but fewer homes there than Alpha: not flagged.
+  const doc = JSON.parse(JSON.stringify(placeDoc));
+  doc.places['0800001'].tracts[1].housing_units = 500;
+  doc.places['0800003'].tracts[0].housing_units = 400;
+  const t = T.townsInArea(doc, area.slice(0, 2));
+  assert.strictEqual(t.others.length, 0);
+  assert(/none holds 10% or more of a tract's homes \(and 25 or more\) and more of them than Alpha/.test(T.townsSentence(t)));
+});
+
 if (failures) { console.log('\n' + failures + ' failure(s)'); process.exit(1); }
 console.log('\nAll checks passed ✅');

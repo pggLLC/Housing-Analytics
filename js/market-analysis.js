@@ -4681,6 +4681,10 @@
           var towns = AT.townsInArea(placeDoc, twTracts);
           result.areaTowns = towns;
           townsEl.textContent = AT.townsSentence(towns) || 'No town figures for these tracts';
+          if (!towns) {
+            inflowEl.textContent = AT.inflowSentence(AT.inflow({ pairs: [] }, null, twTracts, null, {}));
+            return;
+          }
           var btn = document.createElement('button');
           btn.type = 'button';
           btn.className = 'btn btn-secondary';
