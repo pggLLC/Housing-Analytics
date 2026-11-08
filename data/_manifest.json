@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-08T17:01:46.357Z",
+    "generated_at": "2026-11-08T20:14:19.765Z",
     "root": "data/",
     "file_count": 2025,
-    "total_size_bytes": 222670825,
+    "total_size_bytes": 222673016,
     "kinds": {
       "json": 1976,
       "geojson": 35,
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-08T17:01:42.698Z",
+      "mtime": "2026-11-08T20:14:16.128Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38550,19 +38550,21 @@
     {
       "path": "market/chfa_renter_demand_co.json",
       "kind": "json",
-      "size_bytes": 147143,
-      "mtime": "2026-11-04T22:17:51.514Z",
+      "size_bytes": 149334,
+      "mtime": "2026-11-08T20:12:43.555Z",
       "shape": "object",
       "keys": [
         "meta",
         "pumas",
         "tracts",
         "puma_lim50_2024",
-        "county_lim50_2024"
+        "county_lim50_2024",
+        "two_person_split",
+        "size_values"
       ],
-      "key_count": 5,
-      "primary_array_key": null,
-      "primary_array_length": null,
+      "key_count": 7,
+      "primary_array_key": "size_values",
+      "primary_array_length": 6,
       "primary_array_first_keys": null
     },
     {
@@ -40167,7 +40169,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-08T17:01:44.543Z",
+      "mtime": "2026-11-08T20:14:17.959Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40191,7 +40193,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-08T17:01:44.102Z",
+      "mtime": "2026-11-08T20:14:17.528Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

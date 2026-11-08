@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-08T17:01:12.477Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-08T20:13:46.032Z. Do not edit by hand.
 
 ---
 
@@ -73,7 +73,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 76.5 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.6 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 156.0 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 156.7 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 88.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -1865,7 +1865,7 @@
 | `data/market/chas_co.json` | 159.0 KB | ✅ | — |
 | `data/market/chas_tract_co.json` | 3.43 MB | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
-| `data/market/chfa_renter_demand_co.json` | 143.7 KB | ✅ | — |
+| `data/market/chfa_renter_demand_co.json` | 145.8 KB | ✅ | — |
 | `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
 | `data/market/co-adaptive-reuse-references.json` | 13.7 KB | ✅ | — |
 | `data/market/co-construction-labor-cost.json` | 128.3 KB | ✅ | — |
@@ -2083,7 +2083,7 @@
 
 ## Test Files
 
-789 test files found.
+790 test files found.
 
 | File | Size |
 |------|------|
@@ -2564,12 +2564,13 @@
 | `test/planned-sources-are-not-unknown.test.js` | 8.1 KB |
 | `test/pma-affordable-supply-label.test.js` | 3.0 KB |
 | `test/pma-affordable-supply-units.test.js` | 9.1 KB |
+| `test/pma-area-towns.test.js` | 6.7 KB |
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
 | `test/pma-barrier-data.test.js` | 6.5 KB |
 | `test/pma-boundary-clear-race.test.js` | 3.1 KB |
 | `test/pma-capture-denominator.test.js` | 15.4 KB |
 | `test/pma-capture-naming.test.js` | 12.1 KB |
-| `test/pma-chfa-qualified-renters.test.js` | 8.7 KB |
+| `test/pma-chfa-qualified-renters.test.js` | 17.9 KB |
 | `test/pma-commute-context.test.js` | 7.0 KB |
 | `test/pma-commute-shaped.test.js` | 8.0 KB |
 | `test/pma-competitive-set.test.js` | 13.0 KB |
