@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-08T04:58:43.155Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-08T08:27:07.393Z. Do not edit by hand.
 
 ---
 
@@ -2893,7 +2893,7 @@
 | `.github/workflows/backfill_housing_brief.yml` | 1.7 KB |
 | `.github/workflows/benchmark-freshness.yml` | 4.1 KB |
 | `.github/workflows/build-acs-reliability.yml` | 3.5 KB |
-| `.github/workflows/build-hna-data.yml` | 39.0 KB |
+| `.github/workflows/build-hna-data.yml` | 39.3 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 16.5 KB |
 | `.github/workflows/car-data-update.yml` | 5.5 KB |
