@@ -2776,6 +2776,10 @@
       items.push('<strong>Older rule, for comparison:</strong> if every two-person household took a 1BR (the smallest home that fits), ' +
         older.value.toLocaleString() + ' renter households would qualify and capture would be ' + oldRate + '.');
     }
+    items.push('<strong>Compared with CHFA\'s guide:</strong> CHFA sets the 40% rent test, the most people each bedroom size may hold, and counts renters ' +
+      '\u201cas of the current date\u201d (<a href="https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf" target="_blank" rel="noopener noreferrer">2027\u201328 QAP</a>, Appendix A section 7, p. 83). ' +
+      'Updating CHAS to the newer ACS count follows that. CHFA does not say which size a two-person household rents or how to set household sizes: ' +
+      'the shares and size match here are our choices from Census data, so the older rule is shown beside them.');
     return '<details class="pma-demand-counted" style="margin:.5rem 0 0;font-size:var(--tiny);color:var(--muted)">' +
       '<summary style="cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600;color:var(--text)">How demand is counted</summary>' +
       '<ul style="margin:.25rem 0 .25rem 1.1rem;padding:0;line-height:1.5">' + items.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' +
