@@ -431,7 +431,10 @@ def normalize_acs_dict(d: dict | None) -> dict | None:
         return d
     out = {}
     for k, v in d.items():
-        if k in ('NAME', 'state', '_acsSeries'):
+        # Series stamps are text ('acs1' / 'acs5'); normalize_acs_value would
+        # read them as missing. _b25070Series was lost this way on the
+        # 2026-11-08 build, which failed hna-rent-burden-counts on 08.json.
+        if k in ('NAME', 'state') or (k.startswith('_') and k.endswith('Series')):
             out[k] = v
         else:
             out[k] = normalize_acs_value(v)
