@@ -201,20 +201,19 @@
   var TWO_PERSON_SMALL_SHARE_CO = 0.282;
   var DEFAULT_SIZE_VALUES = [1, 2, 3, 4, 5, 6.68];
 
-  // Size mix tilted so its mean is target: w_s * exp(theta * size_s).
-  function sizeTilt(mix, sizeValues, target) {
-    var tot = [];
-    for (var s = 0; s < mix.length; s++) {
-      var t = 0;
-      for (var b = 0; b < mix[s].length; b++) t += mix[s][b] || 0;
-      tot.push(t);
-    }
+  // One tilt for the whole market area: weights w_s * exp(theta * size_s),
+  // with theta set so the renter households the count actually uses (each
+  // CHAS tier's count spread over that tier's PUMS sizes) average target.
+  // groups: [{count, sizes:[w1..w6]}], one per tract and CHAS tier.
+  function areaSizeTilt(groups, sizeValues, target) {
     function meanAt(theta) {
       var num = 0, den = 0;
-      for (var s = 0; s < tot.length; s++) {
-        var w = tot[s] * Math.exp(theta * sizeValues[s]);
-        num += w * sizeValues[s]; den += w;
-      }
+      var f = sizeValues.map(function (v) { return Math.exp(theta * v); });
+      groups.forEach(function (g) {
+        var gn = 0, gd = 0;
+        for (var s = 0; s < g.sizes.length; s++) { var w = g.sizes[s] * f[s]; gn += w * sizeValues[s]; gd += w; }
+        if (gd > 0) { num += g.count * gn / gd; den += g.count; }
+      });
       return den > 0 ? num / den : null;
     }
     var base = meanAt(0);
@@ -341,17 +340,66 @@
       });
       if (sizeDen > 0) areaSize = sizeNum / sizeDen;
     }
-    var tiltCache = {};
-    function tiltFor(puma, mix) {
-      if (tiltCache[puma] !== undefined) return tiltCache[puma];
-      return (tiltCache[puma] = areaSize ? sizeTilt(mix, sizeValues, areaSize) : null);
+    // PUMS bins are percent of the PUMA's renter-weighted limit. Where the
+    // PUMA spans counties with different limits, move each bin onto this
+    // tract's county scale before comparing it with county cut-offs.
+    function toCountyFor(gid, puma) {
+      var pLim = demand.puma_lim50_2024 && demand.puma_lim50_2024[puma];
+      var cLim = demand.county_lim50_2024 && demand.county_lim50_2024[gid.slice(0, 5)];
+      return [0, 1, 2, 3, 4, 5].map(function (i) {
+        return (pLim && cLim && pLim[i] > 0 && cLim[i] > 0) ? pLim[i] / cLim[i] : 1;
+      });
+    }
+    function binPct(mix, s, b, toCounty) {
+      // the last bin holds everything above 120%
+      return b === mix[s].length - 1 ? Infinity : (b + 0.5) * toCounty[s];
+    }
+    function inRange(pct, range) {
+      return !(pct < range[0] || (range[1] !== Infinity && pct >= range[1]));
+    }
+    function countScaleFor(gid, chasTotal) {
+      var acsRow = acsIdx && acsIdx[gid];
+      var acsR = acsRow && acsRow.renter_hh != null ? Number(acsRow.renter_hh) : NaN;
+      return (acsIdx && isFinite(acsR) && acsR >= 0 && chasTotal > 0) ? acsR / chasTotal : null;
+    }
+    function chasTotalOf(row) {
+      var t = 0;
+      for (var k = 1; k <= CHAS_TIER_BINS.length; k++) t += row[k] > 0 ? row[k] : 0;
+      return t;
+    }
+    // First pass: the renter households the count spreads over sizes, so
+    // the tilt is matched on them and not on the raw PUMA sample.
+    var tilt = null;
+    if (areaSize) {
+      var groups = [];
+      bufTracts.forEach(function (tract) {
+        var gid = String(tract && tract.geoid || '');
+        var share = (typeof tract._bufferShare === 'number') ? tract._bufferShare : 1;
+        var row = demand.tracts[gid];
+        var mix = row && demand.pumas[row[0]];
+        if (share <= 0 || !row || !mix) return;
+        var cs = countScaleFor(gid, chasTotalOf(row));
+        var toCounty = toCountyFor(gid, row[0]);
+        CHAS_TIER_BINS.forEach(function (range, k) {
+          var count = row[k + 1];
+          if (!(count > 0)) return;
+          var sizes = [0, 0, 0, 0, 0, 0];
+          for (var s = 0; s < mix.length; s++) {
+            for (var b = 0; b < mix[s].length; b++) {
+              if (mix[s][b] && inRange(binPct(mix, s, b, toCounty), range)) sizes[s] += mix[s][b];
+            }
+          }
+          groups.push({ count: count * (cs == null ? 1 : cs) * share, sizes: sizes });
+        });
+      });
+      tilt = areaSizeTilt(groups, sizeValues, areaSize);
     }
 
     var byTier = {}, byBr = {};
     tiers.forEach(function (t) { byTier[t] = 0; });
     offered.forEach(function (b) { byBr[b] = 0; });
     var total = 0, used = 0, missing = 0, scaled = 0, unscaled = 0, chasRenters = 0, acsRenters = 0;
-    var pumaSizeNum = 0, pumaSizeDen = 0, pumasUsed = {}, splitNum = 0, splitDen = 0, ownNum = 0;
+    var pumasUsed = {}, splitNum = 0, splitDen = 0, ownNum = 0;
 
     bufTracts.forEach(function (tract) {
       var gid = String(tract && tract.geoid || '');
@@ -364,32 +412,17 @@
       used += 1;
       pumasUsed[row[0]] = true;
       // CHAS 2018-22 tier counts, scaled to the tract's ACS 2020-24 renters.
-      var chasTotal = 0;
-      for (var k0 = 1; k0 <= CHAS_TIER_BINS.length; k0++) chasTotal += row[k0] > 0 ? row[k0] : 0;
-      var acsRow = acsIdx && acsIdx[gid];
-      var acsR = acsRow && acsRow.renter_hh != null ? Number(acsRow.renter_hh) : NaN;
-      var countScale = 1;
-      if (acsIdx && isFinite(acsR) && acsR >= 0 && chasTotal > 0) {
-        countScale = acsR / chasTotal; scaled += 1;
-      } else if (acsIdx) {
-        unscaled += 1;
-      }
+      var chasTotal = chasTotalOf(row);
+      var cs = countScaleFor(gid, chasTotal);
+      var countScale = cs == null ? 1 : cs;
+      if (cs != null) scaled += 1; else if (acsIdx) unscaled += 1;
       chasRenters += chasTotal * share;
       acsRenters += chasTotal * countScale * share;
       var sRow = split && split.pumas && split.pumas[row[0]];
       splitNum += smallShare(row[0]) * chasTotal * countScale * share;
       ownNum += (sRow && sRow[2] != null ? sRow[2] : 0) * chasTotal * countScale * share;
       splitDen += chasTotal * countScale * share;
-      var tilt = tiltFor(row[0], mix);
-      if (tilt) { pumaSizeNum += tilt.base * chasTotal * share; pumaSizeDen += chasTotal * share; }
-      // PUMS bins are percent of the PUMA's renter-weighted limit. Where the
-      // PUMA spans counties with different limits, move each bin onto this
-      // tract's county scale before comparing it with county cut-offs.
-      var pLim = demand.puma_lim50_2024 && demand.puma_lim50_2024[row[0]];
-      var cLim = demand.county_lim50_2024 && demand.county_lim50_2024[gid.slice(0, 5)];
-      var toCounty = [0, 1, 2, 3, 4, 5].map(function (i) {
-        return (pLim && cLim && pLim[i] > 0 && cLim[i] > 0) ? pLim[i] / cLim[i] : 1;
-      });
+      var toCounty = toCountyFor(gid, row[0]);
       CHAS_TIER_BINS.forEach(function (range, k) {
         var count = row[k + 1];
         if (!(count > 0)) return;
@@ -400,9 +433,8 @@
           for (var b = 0; b < mix[s].length; b++) {
             var w = mix[s][b] * f;
             if (!w) continue;
-            // the last bin holds everything above 120%
-            var pct = b === mix[s].length - 1 ? Infinity : (b + 0.5) * toCounty[s];
-            if (pct < range[0] || (range[1] !== Infinity && pct >= range[1])) continue;
+            var pct = binPct(mix, s, b, toCounty);
+            if (!inRange(pct, range)) continue;
             tierTotal += w;
             var parts = floors[tiers[0]][s];
             for (var u = 0; u < parts.length; u++) {
@@ -445,8 +477,10 @@
         renterScale: acsIdx ? { tractsScaled: scaled, tractsNotScaled: unscaled,
           chasRenters: Math.round(chasRenters), acsRenters: Math.round(acsRenters) } : null,
         areaRenterSize: areaSize != null ? Math.round(areaSize * 100) / 100 : null,
-        pumsRenterSize: pumaSizeDen > 0 ? Math.round(pumaSizeNum / pumaSizeDen * 100) / 100 : null,
-        sizeMatched: !!(areaSize && pumaSizeDen > 0)
+        // The regional sample's average size, spread over this area's
+        // CHAS income mix, before the match.
+        pumsRenterSize: tilt ? Math.round(tilt.base * 100) / 100 : null,
+        sizeMatched: !!tilt
       } };
   }
 

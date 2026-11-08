@@ -236,5 +236,27 @@ test('the file carries the two-person split with its sample size and source', ()
   assert.strictEqual(d.size_values.length, 6);
 });
 
+test('the size match is made on the CHAS-weighted renters the count uses, not the raw sample (Codex #2747)', () => {
+  // Codex's case: 1p only at 40%, 3p only at 55%, CHAS tiers 90 and 10. The
+  // tiers fix the sizes, so no tilt can reach an average of 2.0: say so.
+  const m = [bins(), bins(), bins(), bins(), bins(), bins()];
+  m[0][40] = 100; m[2][55] = 100;
+  const d = { pumas: { P1: m }, tracts: { '08001000100': ['P1', 0, 90, 10, 0, 0] } };
+  const acs = (avg) => ({ acsIdx: { '08001000100': { renter_hh: 100, avg_hh_size_renter: avg } } });
+  const r = S.chfaQualifiedRenters(d, limits, tracts, [60], null, acs(2.0));
+  assert.strictEqual(r.assumptions.sizeMatched, false, 'an unreachable average is not reported as matched');
+  // Sizes mixed within each tier: the tilted, CHAS-weighted mean hits the target.
+  const m2 = [bins(), bins(), bins(), bins(), bins(), bins()];
+  m2[0][40] = 100; m2[2][40] = 20; m2[0][55] = 20; m2[2][55] = 100;
+  const d2 = { pumas: { P1: m2 }, tracts: { '08001000100': ['P1', 0, 90, 10, 0, 0] } };
+  const r2 = S.chfaQualifiedRenters(d2, limits, tracts, [60], null, acs(2.0));
+  assert.strictEqual(r2.assumptions.sizeMatched, true);
+  // Raw sample mean is 2.0, but weighted to these tiers it is lower.
+  assert(r2.assumptions.pumsRenterSize < 1.6, 'base is CHAS-weighted: ' + r2.assumptions.pumsRenterSize);
+  // Every household here qualifies (1BR or 2BR), so byBedroom gives the sizes: 1p -> 1BR, 3p -> 2BR.
+  const n1 = r2.byBedroom['1br'], n3 = r2.byBedroom['2br'];
+  assert(Math.abs((n1 * 1 + n3 * 3) / (n1 + n3) - 2.0) < 0.03, 'implied average ' + ((n1 + 3 * n3) / (n1 + n3)));
+});
+
 if (failures) { console.log('\n' + failures + ' failure(s)'); process.exit(1); }
 console.log('\nAll checks passed ✅');
