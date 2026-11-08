@@ -282,6 +282,28 @@ test('credit path tree quotes the 4% vs 9% table it sits above', () => {
   }
 });
 
+test('the "typical size" row is CHFA\'s project list, 2015 to the latest award year', () => {
+  const props = json('data/chfa-lihtc.json').features.map((f) => f.properties)
+    .filter((p) => (p.AwardYear || 0) >= 2015 && p.N_UNITS);
+  const last = Math.max(...props.map((p) => p.AwardYear));
+  const median = (a) => { const v = a.slice().sort((x, y) => x - y), m = v.length >> 1; return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2; };
+  const groups = {
+    9: props.filter((p) => /^9%/.test(p.TypeOfCredits || '')),
+    '4tax': props.filter((p) => p.TypeOfCredits === '4% Tax Exempt'),
+    '4state': props.filter((p) => /^4%/.test(p.TypeOfCredits || '') && p.TypeOfCredits !== '4% Tax Exempt'),
+  };
+  const table = guide.getElementById('creditPathDiagram').parentElement.querySelector('.table-wrap table');
+  assert.ok(table.textContent.includes(`2015\u2013${last}`), `the row's years do not end at ${last}`);
+  for (const [k, rows] of Object.entries(groups)) {
+    const n = rows.map((p) => p.N_UNITS);
+    assert.strictEqual(table.querySelector(`[data-dg="size${k}"]`).textContent.trim(), `${median(n)} homes`, `size${k} drifted from data/chfa-lihtc.json`);
+    assert.strictEqual(table.querySelector(`[data-dg="count${k}"]`).textContent.trim(), String(n.length), `count${k} drifted from data/chfa-lihtc.json`);
+    checks += 2;
+  }
+  assert.ok(groups[9].every((p) => p.N_UNITS < 100), 'a 9% project reached 100 homes; the row says none did');
+  checks += 2;
+});
+
 /* 7 ── building types ───────────────────────────────────────────────────── */
 const hnaDocs = ['housing-needs-assessment.html', 'hna-what-to-do.html'].map((f) => [f, new JSDOM(read(f)).window.document]);
 test('building types: each range bar is drawn from its printed range on one 0-70 scale', () => {
