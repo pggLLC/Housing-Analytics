@@ -603,7 +603,7 @@
           <p style="font-size:.8125rem;color:var(--muted);margin:0 0 .6rem">
             Snapshot of what the PMA boundary contains. Use this card to sanity-check the analysis before reading scores.
           </p>
-          <dl class="pma-summary-dl" style="display:grid;grid-template-columns:minmax(0,max-content) minmax(0,1fr);column-gap:.75rem;row-gap:.35rem;font-size:.85rem;margin:0;overflow-wrap:anywhere">
+          <dl class="pma-summary-dl" style="display:grid;grid-template-columns:minmax(0,max-content) minmax(55%,1fr);column-gap:.75rem;row-gap:.35rem;font-size:.85rem;margin:0;overflow-wrap:anywhere">
             <dt style="font-weight:600;color:var(--muted)">Boundary method</dt>
             <dd id="pmaSumBoundary" style="margin:0">—</dd>
             <dt style="font-weight:600;color:var(--muted)">Commute context</dt>
@@ -625,6 +625,10 @@
             <dd id="pmaSumUnemployment" style="margin:0">—</dd>
             <dt style="font-weight:600;color:var(--muted)" title="LEHD LODES 2023 primary jobs, home tract to workplace town, each tract counted by its share in the market area. Context for the commuting section of a market study: it adds no demand and does not change any score.">Where residents work</dt>
             <dd id="pmaSumWorkplaces" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)" title="2020 Census homes by town and tract (PL 94-171). A tract is flagged when another town holds at least 10% of its homes and more of them than the main town. CHFA's guide requires whole tracts, so keep or drop a flagged tract with the tract picker.">Other towns in these tracts</dt>
+            <dd id="pmaSumOtherTowns" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)" title="LEHD LODES 2023 tract-to-tract jobs (all jobs). Jobs in a tract shared with another town are counted apart. Context only: it adds no demand and does not change any score.">Who works here</dt>
+            <dd id="pmaSumInflow" style="margin:0">—</dd>
             <dt style="font-weight:600;color:var(--muted)">Nearest transit</dt>
             <dd id="pmaSumTransit" style="margin:0">—</dd>
             <dt style="font-weight:600;color:var(--muted)" title="Supermarket or grocer. Convenience and general stores are not counted.">Nearest full grocery store</dt>
@@ -1481,6 +1485,7 @@
   <script defer src="js/market-analysis/whats-near.js"></script>
   <script defer src="js/market-analysis/market-report-renderers.js"></script>
   <script defer src="js/pma-workplaces.js"></script>
+  <script defer src="js/pma-area-towns.js"></script>
   <script defer src="js/data-connectors/market-data-cache.js"></script>
   <script defer src="js/data-connectors/hud-egis.js"></script>
   <script defer src="js/data-connectors/hud-fmr.js"></script>
