@@ -57,16 +57,16 @@
       "elected": "9% credits are the most valuable type of housing tax credit and are awarded competitively. Colorado gets a limited federal allocation each year. For 2026 the per-resident part of the ceiling is about $20.5M in annual credits ($3.416 per resident, IRS Rev. Proc. 2025-32); carryforward, returned credits and national-pool credits can add to it. CHFA awards them to the highest-scoring applications. Competition is fierce, which is why developers invest heavily in site selection, community engagement, and financing readiness before applying.",
       "developer": "The 9% rate is fixed by statute (not floating) for new construction and substantial rehabilitation costing at least 25% of the building's depreciable basis. The underlying rate is the one that yields a 70% present value of qualified basis over 10 years, but 26 U.S.C. §42(b)(2) sets a permanent 9% minimum for these buildings, so deals use 9%. CHFA's QAP determines scoring criteria. Review the current QAP for threshold and competitive scoring requirements before site selection.",
       "financier": "The 70% present-value rate is recalculated monthly, but 26 U.S.C. §42(b)(2) sets a permanent 9% minimum for new construction and substantial rehabilitation, so the rate in practice is 9%. Annual credit = Qualified Basis × 9%. Over 10 years, total credits = Annual Credit × 10. At $0.82 per credit dollar (Novogradac's 2026-Q2 national average for 9% credits), a $1M annual credit raises about $8.2M in equity. The credit is subject to the passive activity rules (IRC §469) and recapture under §42(j) during the 15-year compliance period.",
-      "learnMore": "https://www.chfainfo.com/arh/lihtc/Pages/lihtc.aspx",
+      "learnMore": "https://www.chfainfo.com/rental-housing/housing-credit",
       "tags": ["9pct-credit", "lihtc", "competitive", "chfa", "qap"]
     },
     "credit_rate_4pct": {
       "term": "4% Tax Credit (Bond-Linked)",
       "short": "The lower LIHTC credit rate, linked to tax-exempt bond financing. Less competitive than 9%, available year-round, and not counted against the state's 9% credit ceiling, but each deal needs private activity bond cap.",
-      "elected": "4% credits are paired with tax-exempt bonds. While they generate less equity than 9% credits, they are not subject to the annual competitive cap — making them valuable for markets where competition for 9% credits is intense. Colorado has significantly expanded 4% bond activity in recent years.",
+      "elected": "4% credits are paired with tax-exempt bonds. While they generate less equity than 9% credits, they are not subject to the annual competitive cap — making them valuable for markets where competition for 9% credits is intense.",
       "developer": "4% credits require tax-exempt bonds to finance at least 50% of the aggregate basis (land + building); for buildings placed in service in tax years beginning after 2025 the test is 25% if bonds issued after 2025 finance at least 5% of that basis (Public Law 119-21, section 70422(b)). The bond volume cap is separate from the LIHTC volume cap. 26 U.S.C. §42(b)(3) sets a permanent 4% minimum rate. Because the rate is lower, you need higher eligible basis to generate the same equity as 9% deals. Often paired with CHFA conduit bonds, HOME, CDBG, or local soft debt to fill gaps.",
       "financier": "The 30% present-value rate is recalculated monthly, but 26 U.S.C. §42(b)(3) sets a permanent 4% minimum for buildings placed in service after 2020, so the rate in practice is 4%. The bond-financed test (50%, or 25% under Public Law 119-21) is based on aggregate basis, not eligible basis — land counts toward the denominator. Tax-exempt bond deals go through the IRS Form 8038 process for bond issuance. PAB volume cap allocation from CHFA or local issuers is the binding constraint in many markets.",
-      "learnMore": "https://www.chfainfo.com/arh/lihtc/Pages/taxexemptbonds.aspx",
+      "learnMore": "https://www.chfainfo.com/rental-housing/private-activity-bonds",
       "tags": ["4pct-credit", "lihtc", "bonds", "afr", "volume-cap"]
     },
     "equity_price": {
@@ -95,7 +95,7 @@
       "elected": "The QAP is CHFA's annual policy document governing which affordable housing projects get funded with federal tax credits. It reflects state priorities: serving the lowest incomes, building in locations with jobs and transit access, prioritizing preservation of existing affordable housing, and ensuring geographic distribution. Elected officials can provide letters of support and community engagement documentation that strengthen applications.",
       "developer": "Read the QAP before selecting a site. Threshold requirements (site control, zoning, market study, environmental review) must be met before scoring. Competitive scoring categories include: serving lowest incomes (≤30% AMI units), location efficiency (walkability, transit), community need (housing gap data), developer capacity, and readiness. CHFA typically scores and ranks in April–May for June awards. Submit a pre-application to get early CHFA feedback.",
       "financier": "The QAP establishes set-asides (nonprofit, rural, preservation) that carve portions of the state allocation before open competition. Understanding which set-asides your project qualifies for is critical to competitive strategy. CHFA publishes a scoring matrix with the QAP. Track point changes year-over-year — small adjustments can significantly affect deal viability. The QAP also establishes developer fee limits and operating expense floors used in underwriting.",
-      "learnMore": "https://www.chfainfo.com/arh/lihtc/Pages/qap.aspx",
+      "learnMore": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
       "tags": ["qap", "chfa", "scoring", "competitive", "colorado"]
     },
     "developer_fee": {
@@ -105,7 +105,7 @@
       "elected": "Developer fees compensate the development team for years of work assembling a complex affordable housing deal. They are set by CHFA QAP limits and are part of the approved budget. A portion is often 'deferred' — meaning the developer won't get paid until the project generates sufficient cash flow — which helps fill financing gaps.",
       "developer": "CHFA caps developer fee as a percentage of eligible basis (typically ~15% for new construction, with a hard dollar cap). The fee has two components: (1) paid at construction completion from equity/loan proceeds, and (2) deferred — repaid from operating cash flow over time. The deferred portion shows up in your sources as equity. Structure the deferred fee carefully: it must be repaid before distributions and typically has a 15-year repayment horizon. Excessive deferred fees raise red flags with investors.",
       "financier": "Developer fee is an eligible basis item (typically 100% includable). It functions as a soft equity source when deferred — recorded as a liability on the partnership balance sheet, repaid from available cash flow after debt service. Investors scrutinize the ratio of deferred fee to total development cost; high deferrals signal thin equity cushions. The developer fee also represents profit margin — benchmark against CHFA's published caps and comparable deals in the market.",
-      "learnMore": "https://www.chfainfo.com/arh/lihtc/Pages/qap.aspx",
+      "learnMore": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
       "tags": ["developer-fee", "deferred", "equity", "eligible-basis"]
     },
     "basis_boost": {
@@ -199,7 +199,7 @@
       "elected": "The PMA defines the competitive landscape for a housing project. A well-drawn PMA reflects real commute patterns, neighborhood boundaries, and transit corridors — not just a radius around the site. The market study analyzes housing supply and demand within this boundary to determine whether the project is feasible.",
       "developer": "PMA delineation is one of the most important decisions in your market study. CHFA requires the market study analyst to justify the PMA boundary based on geography, employment centers, transit, and comparable project locations. A PMA that is too large makes your project look less needed; too small and you may overstate demand. Work with your analyst before the study begins to discuss PMA rationale.",
       "financier": "The PMA boundary directly affects the demand analysis: total eligible households, income-qualified population, and comparable supply are all measured within the PMA. A tight PMA increases capture rate; a loose one reduces it. CHFA underwriters review PMA rationale closely. In your pro forma, the PMA's vacancy rate and absorption velocity drive your lease-up assumptions and operating risk profile.",
-      "learnMore": "https://www.chfainfo.com/arh/lihtc/Pages/marketstudy.aspx",
+      "learnMore": "https://www.chfainfo.com/rental-housing/housing-credit/application",
       "tags": ["pma", "market-study", "feasibility", "chfa", "geography"]
     },
     "capture_rate": {
@@ -209,7 +209,7 @@
       "elected": "Capture rate answers the question: does this community actually need this housing project? If a 100-unit project needs to attract only 3% of all eligible households in the area, it's likely to fill up. If it needs 25%, there may not be enough demand. A low capture rate signals strong need; a high rate signals oversaturation.",
       "developer": "Capture Rate = Project's Income-Restricted Units ÷ Total Income-Eligible Households in PMA. Capture rates above 25% typically raise CHFA and lender concerns. To lower your capture rate: expand the PMA (if justifiable), reduce unit count, or document that your project targets an underserved AMI tier. Market study analysts calculate capture rate by bedroom size and income tier.",
       "financier": "Capture rate is a key risk metric in market feasibility analysis. CHFA's approved market study analysts are required to calculate and opine on capture rates. Industry thresholds: under 10% = strong feasibility, 10–25% = acceptable with supporting rationale, over 25% = potential oversaturation. In sensitivity analysis, model the impact of capture rate compression on stabilized occupancy and debt service coverage.",
-      "learnMore": "https://www.chfainfo.com/arh/lihtc/Pages/marketstudy.aspx",
+      "learnMore": "https://www.chfainfo.com/rental-housing/housing-credit/application",
       "tags": ["capture-rate", "market-study", "feasibility", "demand"]
     },
     "absorption": {
@@ -219,7 +219,7 @@
       "elected": "When a new affordable housing project opens, it doesn't fill up overnight. Absorption is the pace at which units rent. In tight markets, affordable projects often reach 90%+ occupancy within 60–90 days. Understanding local absorption helps set realistic expectations for when residents will benefit from the housing.",
       "developer": "Absorption is typically measured in units per month from initial occupancy to stabilization (93%+ occupied). CHFA and lenders typically expect 12–18 months to stabilization for new LIHTC projects, though some markets see faster lease-up. Your construction loan's interest reserve must cover the full lease-up period. Market study analysts assess absorption based on comparable project lease-up data.",
       "financier": "Absorption velocity determines the interest reserve requirement in your construction loan facility. Underwrite lease-up conservatively: model 15–20 units/month for a 100-unit project unless market data strongly supports faster absorption. A longer-than-expected lease-up period can burn through the interest reserve and require additional capital contributions. Investors and lenders stress-test absorption at 50% of the projected pace in downside scenarios.",
-      "learnMore": "https://www.chfainfo.com/arh/lihtc/Pages/marketstudy.aspx",
+      "learnMore": "https://www.chfainfo.com/rental-housing/housing-credit/application",
       "tags": ["absorption", "lease-up", "market-study", "construction-loan"]
     },
     "comparable_units": {
@@ -228,7 +228,7 @@
       "elected": "Comps are how market study analysts ground a new project's feasibility in real-world data. By looking at how similar affordable housing projects nearby have performed — how quickly they filled up, what their rents are, whether they have waitlists — analysts can assess whether a new project will succeed.",
       "developer": "Your market study analyst will identify 6–12 comparable LIHTC projects in the PMA, documenting their occupancy rates, rents by bedroom type, income restrictions, and year built. Waitlists at comparable projects are particularly powerful evidence of unmet demand. Identify comps early — if all comparable projects are 98% occupied with long waitlists, that's strong market support.",
       "financier": "Comparable project analysis underpins both the demand conclusion (are there enough eligible households?) and the rent conclusion (are restricted rents achievable?). CHFA requires comps to be genuinely comparable — similar bedroom mix, income restrictions, and location. Analysts must disclose any relationship with comparable projects. Rent comparability is critical: your restricted rents should be at or below market-rate rents in the PMA to avoid demand risk.",
-      "learnMore": "https://www.chfainfo.com/arh/lihtc/Pages/marketstudy.aspx",
+      "learnMore": "https://www.chfainfo.com/rental-housing/housing-credit/application",
       "tags": ["comps", "comparable", "market-study", "occupancy", "rents"]
     },
     "rent_to_income": {
@@ -247,7 +247,7 @@
       "elected": "A market study is the independent evidence that an affordable housing project is actually needed in a given community. It's conducted by an outside analyst — not the developer — and reviewed by CHFA. The study confirms there are enough income-eligible households, that rents are achievable, and that existing projects can't absorb the demand.",
       "developer": "CHFA maintains a list of approved market study analysts. The study must be completed within 180 days of application submission. It must include: PMA delineation, demographic analysis, comparable project analysis, capture rate calculation, and a feasibility conclusion. Commission the study early — good analysts are often booked months in advance. Provide the analyst with your unit mix, income restrictions, and rent schedule upfront.",
       "financier": "The market study is the primary document lenders and investors use to assess demand risk. Review the capture rate conclusion, absorption estimate, and comparable project occupancy data carefully. A qualified analyst's negative or lukewarm feasibility conclusion is a material deal risk. CHFA will reject or condition applications based on market study findings. In due diligence, read the full report, not just the executive summary.",
-      "learnMore": "https://www.chfainfo.com/arh/lihtc/Pages/marketstudy.aspx",
+      "learnMore": "https://www.chfainfo.com/rental-housing/housing-credit/application",
       "tags": ["market-study", "chfa", "feasibility", "capture-rate", "analyst"]
     },
     "capital_stack": {
@@ -266,7 +266,7 @@
       "elected": "DSCR is a lender's safety metric: it measures whether a building's rental income comfortably covers its mortgage payment. A DSCR of 1.15 means for every $1.00 in mortgage payments, the project earns $1.15. It's the reason that low-income rents — which are lower than market — sometimes require soft loans or grants to make the math work.",
       "developer": "DSCR = Net Operating Income ÷ Annual Debt Service. NOI = Effective Gross Income − Operating Expenses. CHFA's first mortgage program typically requires a minimum 1.15x DSCR, though they may underwrite to 1.20x for stress purposes. Your pro forma must demonstrate DSCR compliance at stabilization. Use CHFA's published operating expense benchmarks — understating expenses is a common underwriting error that leads to problems at lease-up.",
       "financier": "DSCR is the primary sizing constraint for the first mortgage. Higher NOI → larger first mortgage → less equity/soft debt needed. Key levers: rent level, operating expense efficiency, vacancy assumption. CHFA underwrites at conservative assumptions: 7% vacancy, operating expense inflation at 3% annually. Debt yield (NOI ÷ Loan Amount) is a secondary sizing metric increasingly used by agency lenders — typically minimum 7–8% for LIHTC first mortgages.",
-      "learnMore": "https://www.chfainfo.com/arh/lihtc/Pages/multifamily-lending.aspx",
+      "learnMore": "https://www.chfainfo.com/rental-housing/multifamily-lending",
       "tags": ["dscr", "underwriting", "first-mortgage", "noi", "debt-service"]
     },
     "home_funds": {
@@ -322,7 +322,7 @@
       "elected": "The construction loan is the short-term credit that pays for building the project. Once the building is finished and occupied, it converts to a long-term mortgage. Construction loans carry higher interest rates than permanent mortgages and are one of the larger costs in the deal — which is why faster construction timelines reduce overall project costs.",
       "developer": "Construction lenders require a construction budget, draw schedule, and performance bonds. The loan is funded in draws as construction milestones are met. Key elements: interest reserve (covers interest during construction and lease-up), contingency (typically 5–10% of hard costs), and completion guarantee (required from developer). CHFA often serves as both construction and permanent lender on LIHTC deals. Align your construction loan maturity with your LIHTC credit delivery schedule.",
       "financier": "Construction loan sizing = Hard Costs + Soft Costs + Interest Reserve + Contingency. The interest reserve must cover the full construction and lease-up period at the construction loan rate. A 24-month construction loan at 7% on a $12M loan generates ~$1.68M in interest — this must be in the budget. Construction lenders require a completion guarantee, typically recourse to the developer. At conversion to permanent, the first mortgage must be sufficient to repay the construction loan — model this carefully in your equity and debt delivery schedule.",
-      "learnMore": "https://www.chfainfo.com/arh/lihtc/Pages/multifamily-lending.aspx",
+      "learnMore": "https://www.chfainfo.com/rental-housing/multifamily-lending",
       "tags": ["construction-loan", "financing", "interest-reserve", "short-term"]
     },
     "permanent_loan": {
@@ -331,7 +331,7 @@
       "elected": "The permanent loan is the long-term mortgage on an affordable housing project — similar to a home mortgage but for a multifamily rental building. It's sized based on the project's rental income relative to its payments. Because affordable rents are lower than market rents, these mortgages are often smaller, which is why other subsidies are needed.",
       "developer": "The permanent loan converts from the construction loan at stabilization (typically 90%+ occupancy for 90 days). CHFA offers below-market permanent loan rates for LIHTC projects. Agency options include Fannie Mae's MTEB and Freddie Mac's TEL programs for bond deals. The permanent loan must fully repay the construction loan — if your equity isn't delivered at conversion, bridge loans may be needed. Build 3–6 months of vacancy cushion into your stabilization trigger.",
       "financier": "Permanent loan sizing: Loan Amount = NOI ÷ (DSCR × Debt Constant). Debt constant = annual payment ÷ loan amount (a function of rate and amortization period, typically 35–40 years for LIHTC). Example: $800K NOI ÷ (1.20 × 0.055) = $12.1M first mortgage. Maximize the permanent loan through operating efficiency and rent optimization. Agency execution (Fannie/Freddie) often provides better rates and higher leverage than bank portfolio loans for stabilized LIHTC.",
-      "learnMore": "https://www.chfainfo.com/arh/lihtc/Pages/multifamily-lending.aspx",
+      "learnMore": "https://www.chfainfo.com/rental-housing/multifamily-lending",
       "tags": ["permanent-loan", "first-mortgage", "dscr", "chfa", "agency"]
     },
     "syndicator": {
@@ -360,7 +360,7 @@
       "elected": "CHFA is Colorado's primary state-level affordable housing agency. It doesn't use state tax revenue — it's self-funded through bond issuance and program fees. CHFA administers the federal LIHTC program for Colorado, issues tax-exempt bonds for affordable housing, provides mortgage financing, and manages homeownership programs. Developers working on affordable housing in Colorado almost always work with CHFA.",
       "developer": "Understanding CHFA is foundational to affordable housing development in Colorado. Key programs: 9% LIHTC (competitive, annual QAP cycle), 4% LIHTC + bonds (ongoing), first mortgage lending (below market for affordable projects), State Affordable Housing Program (SAHP) soft debt, and the state Affordable Housing Tax Credit. It also administers Prop 123's Affordable Housing Financing Fund for OEDIT. CHFA hosts training sessions and publishes detailed program guidelines. Build a relationship with your CHFA housing credit officer early.",
       "financier": "CHFA is a conduit issuer of tax-exempt bonds, a direct lender for first mortgages, the state LIHTC allocating agency, and and the administrator of Prop 123's Affordable Housing Financing Fund. Its underwriting standards set the de facto floor for affordable housing finance in Colorado. CHFA's published income and rent limits (based on HUD MTSP), operating expense benchmarks, and debt service requirements are the baseline for all capital stack modeling in Colorado deals.",
-      "learnMore": "https://www.chfainfo.com/arh/lihtc/Pages/lihtc.aspx",
+      "learnMore": "https://www.chfainfo.com/rental-housing/housing-credit",
       "tags": ["chfa", "colorado", "lihtc", "bonds", "hfa"]
     },
     "nhpd": {

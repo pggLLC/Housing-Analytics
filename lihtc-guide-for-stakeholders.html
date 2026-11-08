@@ -362,9 +362,11 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <div class="chart-card" style="margin: 2rem 0;">
 <h3>4% vs 9% Credits: Which Path?</h3>
 <p style="line-height: 1.8; color: var(--mcm-beige); margin-bottom: 1rem;">
-  The single most consequential decision in an LIHTC deal. Both credits cover the same statutory period
-  and follow the same compliance rules — but their allocation mechanics, economics, and timelines differ
-  enough that the wrong election can make a feasible project infeasible.
+  <strong>In short:</strong> both are the same federal housing tax credit, claimed every year for 10 years, with the same rent and income rules.
+  The <strong>9% credit</strong> is worth more, but CHFA awards it in a yearly competition with a fixed pot, so many projects lose.
+  The <strong>4% credit</strong> is worth less, but a project gets it automatically when tax-exempt bonds pay for enough of the building and land, so the limit is the state's bond supply, not a contest.
+  Both rates are fixed by law: 9% under IRC &sect;42(b)(2) and, since the December 2020 law, 4% under IRC &sect;42(b)(3), which says the rate &ldquo;shall not be less than 4 percent&rdquo; for buildings placed in service after December 31, 2020
+  (<a href="https://www.law.cornell.edu/uscode/text/26/42" target="_blank" rel="noopener" style="color: var(--mcm-teal);">26 U.S.C. &sect;42(b)</a>, read 8 November 2026).
 </p>
 <!-- Decision tree. Every figure in it is the table's own figure below,
      held to it by test/explanatory-diagrams.test.js. -->
@@ -374,7 +376,7 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
     <li class="dg-decide__step">
       <p class="dg-node"><strong>1. Will tax-exempt private activity bonds finance at least half of the building and its land?</strong><span>Or at least 25% for a building placed in service after 2025, when bonds issued after 2025 finance at least 5% of that basis.</span></p>
       <div class="dg-decide__branches">
-        <p class="dg-node dg-node--accent"><strong>Yes: 4% credit</strong><span>Not competitive when bond cap is available. About <span data-dg="value4">$40K/yr</span> per $1M of eligible basis, so soft money usually fills 30&ndash;50% of the stack.</span></p>
+        <p class="dg-node dg-node--accent"><strong>Yes: 4% credit</strong><span>Not competitive when bond cap is available. About <span data-dg="value4">$40K/yr</span> per $1M of eligible basis, so the project usually needs more gap money from other sources.</span></p>
         <p class="dg-node dg-node--soft"><strong>No: go to question 2</strong><span>Without bonds, the 9% round is the only way to the credit.</span></p>
       </div>
     </li>
@@ -399,8 +401,8 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <tbody>
 <tr>
 <td><strong>Statutory rate</strong></td>
-<td>9% of eligible basis/yr × 10 yrs</td>
-<td>4% of eligible basis/yr × 10 yrs</td>
+<td>9% of eligible basis/yr × 10 yrs (floor in IRC §42(b)(2))</td>
+<td>4% of eligible basis/yr × 10 yrs (floor in IRC §42(b)(3) since 2021; it floated lower before)</td>
 </tr>
 <tr>
 <td><strong>Credit value per $1M basis</strong></td>
@@ -413,34 +415,35 @@ document.addEventListener('DOMContentLoaded', function () { if (window.ChfaRound
 <td>Non-competitive if PAB cap available — automatic if project passes the 50% test, or the 25% test for buildings placed in service after 2025 where bonds issued after 2025 finance at least 5% of the aggregate basis of the building and its land, with both tests measured on that building-and-land basis (Public Law 119-21 §70422)</td>
 </tr>
 <tr>
-<td><strong>Min scale</strong></td>
-<td>30–60 units typical (small-scale eligible)</td>
-<td>100+ units typical (bond issuance fixed costs)</td>
+<td><strong>Typical size in Colorado</strong></td>
+<td>Median <span data-dg="size9">50 homes</span> across <span data-dg="count9">142</span> 9% projects awarded 2015&ndash;2025; none reached 100</td>
+<td>Median <span data-dg="size4tax">112 homes</span> across <span data-dg="count4tax">160</span> bond-only 4% projects and <span data-dg="size4state">85 homes</span> across <span data-dg="count4state">139</span> paired with state credit, awarded 2015&ndash;2025; bond costs are fixed, so bigger projects spread them</td>
 </tr>
 <tr>
 <td><strong>Gap financing need</strong></td>
-<td>Lower — 9% equity covers more of TDC</td>
-<td>Higher — needs soft sources to fill 30–50% of the stack</td>
+<td>Lower — 9% equity covers more of total development cost</td>
+<td>Higher — more of the cost has to come from soft loans and grants</td>
 </tr>
 <tr>
-<td><strong>Timeline to closing</strong></td>
+<td><strong>Timeline to closing</strong> <em>(rule of thumb)</em></td>
 <td>12–18 mo from award</td>
 <td>6–12 mo from PAB allocation</td>
 </tr>
 <tr>
-<td><strong>Best for</strong></td>
-<td>Deep affordability (≥40% at ≤30% AMI), smaller projects, rural/suburban markets</td>
-<td>Larger projects (100+ units), strong gap-financing story, urban markets with soft $</td>
+<td><strong>Often used for</strong> <em>(rule of thumb)</em></td>
+<td>Smaller projects and deeper affordability, where the larger credit has to cover more of the cost</td>
+<td>Larger projects with soft loans or grants already lined up</td>
 </tr>
 </tbody>
 </table></div>
 <div class="data-source">
-  <strong>Colorado-specific:</strong> Annual 9% allocation totals, application counts, and PAB cap utilization change each year — pull the current numbers directly from
+  <strong>Colorado-specific:</strong> Annual 9% allocation totals, application counts, and private activity bond (PAB) cap use change each year — pull the current numbers directly from
   <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener" style="color: var(--mcm-teal);">CHFA's QAP and allocation disclosures</a>
   before using any figure in an application or investor deck. As a planning rule of thumb: 9% applications should assume 4% as a fallback path; unfunded 9% projects can sometimes convert to 4% but typically lose ~6 months.
   <br><br>
   <strong>Sources:</strong>
   <a href="https://www.law.cornell.edu/uscode/text/26/42" target="_blank" rel="noopener" style="color: var(--mcm-teal);">IRC §42(b)</a> (statutory credit rates) ·
+  <a href="data/chfa-lihtc.json" style="color: var(--mcm-teal);">CHFA Housing Tax Credit Properties list</a> (project sizes; the site's copy, fetched 1 November 2026) ·
   <a href="https://www.law.cornell.edu/uscode/text/26/42#h_4_B" target="_blank" rel="noopener" style="color: var(--mcm-teal);">IRC §42(h)(4)(B)</a> (50% test) ·
   <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener" style="color: var(--mcm-teal);">CHFA QAP</a> ·
   <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-basics" target="_blank" rel="noopener" style="color: var(--mcm-teal);">Novogradac LIHTC Basics</a>
