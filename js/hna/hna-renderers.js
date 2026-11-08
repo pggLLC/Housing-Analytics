@@ -8527,7 +8527,12 @@
       // households (DP04_0047E) by that table's rate overstated the count, because
       // the rate's universe leaves out renters with no income or no cash rent.
       const counts = (prof && U().rentBurdenCounts) ? U().rentBurdenCounts(prof) : null;
-      const burdenPct = (prof && U().rentBurden30Plus) ? U().rentBurden30Plus(prof) : null;
+      // The share-only fallback needs both published percentages and at least one renter household:
+      // rentBurden30Plus turns a missing (null) percentage into 0, so check absence before it runs.
+      const has = (k) => prof && prof[k] !== null && prof[k] !== undefined && prof[k] !== '' && Number.isFinite(Number(prof[k]));
+      const pctMeasured = (has('DP04_0141PE') && has('DP04_0142PE')) || (has('DP04_0145PE') && has('DP04_0146PE'));
+      const rentersMeasured = has('DP04_0047E') && Number(prof.DP04_0047E) > 0;
+      const burdenPct = (pctMeasured && rentersMeasured && U().rentBurden30Plus) ? U().rentBurden30Plus(prof) : null;
       const tail = ' <span style="color:var(--muted)">Cost-side complement to the income-side demand above — different lens on the same housing-need story.</span>';
       if (counts) {
         burdenEl.innerHTML =
