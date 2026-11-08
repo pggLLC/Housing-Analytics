@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-11-07T13:57:33.346Z
+**Scan timestamp:** 2026-11-08T14:16:08.118Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 2029 |
-| New (unregistered) | 1997 |
+| Files scanned | 2030 |
+| New (unregistered) | 1998 |
 | Registered | 31 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
@@ -33,8 +33,8 @@
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/property-websites.json` (31 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (4 KB)
-- `data/alerts/alerts_archive.json` (1740 KB)
-- `data/alerts/brief-news-queue.json` (44 KB)
+- `data/alerts/alerts_archive.json` (1770 KB)
+- `data/alerts/brief-news-queue.json` (45 KB)
 - `data/alerts/outlet-decisions.json` (6 KB)
 - `data/alerts/outlet-register.json` (31 KB)
 - `data/alerts/outlet-review.json` (3 KB)
@@ -43,7 +43,7 @@
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3871 KB)
 - `data/audit/chfa-qap-watch.json` (3487 KB)
-- `data/audit/funding-watch.json` (667 KB)
+- `data/audit/funding-watch.json` (665 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/benchmarks/str-license-counts.json` (6 KB)
@@ -239,7 +239,7 @@
 - `data/glossary.json` (71 KB)
 - `data/hmda/co-county-aggregates.json` (274 KB)
 - `data/hmda/co-state-trends.json` (4 KB)
-- `data/hna/acs-reliability.json` (682 KB)
+- `data/hna/acs-reliability.json` (651 KB)
 - `data/hna/benchmarks.json` (9 KB)
 - `data/hna/chas_affordable_available.json` (613 KB)
 - `data/hna/combined-regions.json` (1 KB)
@@ -665,7 +665,7 @@
 - `data/hna/jurisdiction-metrics-digest/0847345.json` (40 KB)
 - `data/hna/jurisdiction-metrics-digest/0848060.json` (42 KB)
 - `data/hna/jurisdiction-metrics-digest/0848115.json` (42 KB)
-- `data/hna/jurisdiction-metrics-digest/0848445.json` (43 KB)
+- `data/hna/jurisdiction-metrics-digest/0848445.json` (42 KB)
 - `data/hna/jurisdiction-metrics-digest/0848500.json` (42 KB)
 - `data/hna/jurisdiction-metrics-digest/0848555.json` (42 KB)
 - `data/hna/jurisdiction-metrics-digest/0848940.json` (40 KB)
@@ -678,7 +678,7 @@
 - `data/hna/jurisdiction-metrics-digest/0850026.json` (41 KB)
 - `data/hna/jurisdiction-metrics-digest/0850040.json` (42 KB)
 - `data/hna/jurisdiction-metrics-digest/0850380.json` (40 KB)
-- `data/hna/jurisdiction-metrics-digest/0850480.json` (43 KB)
+- `data/hna/jurisdiction-metrics-digest/0850480.json` (42 KB)
 - `data/hna/jurisdiction-metrics-digest/0850920.json` (42 KB)
 - `data/hna/jurisdiction-metrics-digest/0851250.json` (42 KB)
 - `data/hna/jurisdiction-metrics-digest/0851635.json` (42 KB)
@@ -1014,7 +1014,7 @@
 - `data/hna/projections/08007.json` (5 KB)
 - `data/hna/projections/08009.json` (5 KB)
 - `data/hna/projections/08011.json` (5 KB)
-- `data/hna/projections/08013.json` (5 KB)
+- `data/hna/projections/08013.json` (6 KB)
 - `data/hna/projections/08014.json` (5 KB)
 - `data/hna/projections/08015.json` (5 KB)
 - `data/hna/projections/08017.json` (5 KB)
@@ -1062,7 +1062,7 @@
 - `data/hna/projections/08101.json` (5 KB)
 - `data/hna/projections/08103.json` (5 KB)
 - `data/hna/projections/08105.json` (5 KB)
-- `data/hna/projections/08107.json` (5 KB)
+- `data/hna/projections/08107.json` (6 KB)
 - `data/hna/projections/08109.json` (5 KB)
 - `data/hna/projections/08111.json` (5 KB)
 - `data/hna/projections/08113.json` (5 KB)
@@ -1073,7 +1073,7 @@
 - `data/hna/projections/08123.json` (5 KB)
 - `data/hna/projections/08125.json` (5 KB)
 - `data/hna/projections/places.json` (948 KB)
-- `data/hna/ranking-index.json` (3328 KB)
+- `data/hna/ranking-index.json` (3327 KB)
 - `data/hna/ranking-scenarios/balanced.json` (49 KB)
 - `data/hna/ranking-scenarios/commuter-pressure.json` (49 KB)
 - `data/hna/ranking-scenarios/large-gap.json` (49 KB)
@@ -1158,7 +1158,7 @@
 - `data/hna/source/colorado_vital_rates.json` (5 KB)
 - `data/hna/source/dola_components_county.csv` (309 KB)
 - `data/hna/source/dola_household_county.csv` (3390 KB)
-- `data/hna/source/dola_jobs_county.csv` (128 KB)
+- `data/hna/source/dola_jobs_county.csv` (122 KB)
 - `data/hna/source/dola_profiles_county.csv` (218 KB)
 - `data/hna/source/dola_sya_county.csv` (20434 KB)
 - `data/hna/source/lodes_primary_jobs.json` (106 KB)
@@ -1811,7 +1811,7 @@
 - `data/market/hud_s8_contracts_co.json` (188 KB)
 - `data/market/hud_zip_tract_crosswalk_co.json` (776 KB)
 - `data/market/inclusionary_zoning_co.json` (7 KB)
-- `data/market/landuse_zoning_proxy_co.geojson` (4874 KB)
+- `data/market/landuse_zoning_proxy_co.geojson` (5100 KB)
 - `data/market/lihtc-equity-pricing-history.json` (5 KB)
 - `data/market/local-players.json` (555 KB)
 - `data/market/lodes_co.json` (664 KB)
@@ -1827,6 +1827,7 @@
 - `data/market/pma_tract_display_geometry.geojson` (1030 KB)
 - `data/market/principal-employers.json` (34 KB)
 - `data/market/public-employers.json` (30 KB)
+- `data/market/public-jobs.json` (81 KB)
 - `data/market/qct_dda_designations_co.json` (0 KB)
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/realtor_inventory_co.json` (226 KB)
@@ -1948,7 +1949,7 @@
 - `data/policy/green-building.json` (58 KB)
 - `data/policy/homeownership-programs.json` (33 KB)
 - `data/policy/housing-events-curated.json` (3 KB)
-- `data/policy/housing-events.json` (170 KB)
+- `data/policy/housing-events.json` (171 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/housing-roll-calls.json` (6 KB)
 - `data/policy/hud-state-median-family-income.json` (1 KB)
@@ -1986,11 +1987,11 @@
 - `data/policy/tool-watch.json` (5 KB)
 - `data/policy/unit-size-standards.json` (5 KB)
 - `data/policy/where-to-build-context.json` (34 KB)
-- `data/policy_briefs.json` (548 KB)
+- `data/policy_briefs.json` (550 KB)
 - `data/policy_briefs_curated.json` (241 KB)
 - `data/polymarket-curated.json` (6 KB)
 - `data/polymarket-data.json` (20 KB)
-- `data/polymarket-history.json` (205 KB)
+- `data/polymarket-history.json` (207 KB)
 - `data/processed/co_county_housing_indicators.geojson` (447 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
@@ -2006,7 +2007,7 @@
 - `data/source-registry.json` (6 KB)
 - `data/table-header-tips.json` (15 KB)
 - `data/tax-abatement-inventory.json` (24 KB)
-- `data/url-health.json` (1127 KB)
+- `data/url-health.json` (1179 KB)
 - `data/zillow/median_list_price_metro.csv` (855 KB)
 - `data/zillow/zhvi_metro.csv` (4386 KB)
 - `data/zillow/zori_metro.csv` (1050 KB)
