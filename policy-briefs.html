@@ -59,7 +59,7 @@
       .news-main, .news-aside { display: contents; }
       /* News first: the side column is a few rows, so it may sit between the
          latest stories and the rest, but the full lists live on other pages. */
-      #newsLatest { order: 1; } #eventsPanel { order: 2; } #policyWatchPanel { order: 3; } #newsRiver { order: 4; } #nationalPanel { order: 5; } #researchPanel { order: 6; }
+      #newsLatest { order: 1; } #eventsPanel { order: 2; } #digestPanel { order: 2; } #policyWatchPanel { order: 3; } #newsRiver { order: 4; } #nationalPanel { order: 5; } #researchPanel { order: 6; }
     }
 
     .news-label { display: flex; align-items: center; gap: .6rem; font-size: .8125rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 .6rem; }
@@ -232,7 +232,7 @@
       <!-- A summary rail, not a second page: a few rows, each linked to where
            the full list lives. It used to print every Policy watch entry and
            ran 6,804px beside ~3,050px of news (2026-09-28). -->
-      <aside class="news-aside" aria-label="Upcoming events, policy watch, national trends and latest research">
+      <aside class="news-aside" aria-label="Upcoming events, Sunday digest, policy watch, national trends and latest research">
         <section id="eventsPanel" class="news-panel" aria-labelledby="eventsLabel" hidden>
           <h2 class="news-label" id="eventsLabel">Upcoming events</h2>
           <p class="news-note" id="eventsNote"></p>
@@ -244,6 +244,11 @@
             <ul id="eventsPastList" class="event-rows no-glossary"></ul>
             <button type="button" class="news-linkbtn" id="eventsPastMore" hidden></button>
           </details>
+        </section>
+        <section id="digestPanel" class="news-panel" aria-labelledby="digestLabel">
+          <h2 class="news-label" id="digestLabel">Sunday digest</h2>
+          <p class="news-note">The week in Colorado affordable housing, Monday to Sunday, with a source and a date on every item.</p>
+          <p class="news-panel__more"><a href="sunday-digest.html">Read this week's digest</a></p>
         </section>
         <section id="policyWatchPanel" class="news-panel" aria-labelledby="policyWatchLabel" hidden>
           <h2 class="news-label" id="policyWatchLabel">Policy watch</h2>

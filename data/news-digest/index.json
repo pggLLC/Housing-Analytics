@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "description": "Sunday digest of Colorado affordable housing news. One edition per week, Monday to Sunday, written from official releases and checked newsrooms. Each edition is a Markdown file in this folder.",
+    "schedule": "Sundays, about 6:40 am Mountain Time; published on the site when the weekly pull request merges",
+    "updated": "2026-11-08"
+  },
+  "editions": [
+    {
+      "date": "2026-11-08",
+      "window_start": "2026-11-02",
+      "window_end": "2026-11-08",
+      "title": "Colorado Housing Week: Nov 2 – 8, 2026",
+      "file": "data/news-digest/2026-11-08.md",
+      "summary": [
+        "The southwest Colorado floods hit twice, and about 700 homes are damaged; the federal request still covers public infrastructure only.",
+        "Prop NN passed and Amendment 87 leads, which makes state housing money a little safer.",
+        "HUD opened an Express Lane for FHA construction loans on new LIHTC deals.",
+        "Polis's final budget request leaves a $1.6 billion gap; he presents it Nov 12.",
+        "The 30-year mortgage rate eased to 7.18%; 65% of metro Denver's October sales involved seller concessions."
+      ]
+    }
+  ]
+}
