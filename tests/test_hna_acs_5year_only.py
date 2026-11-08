@@ -136,3 +136,18 @@ def test_the_rent_burden_series_stamp_survives_normalization():
     out = hna.normalize_acs_dict({"_b25070Series": "acs5", "_acsSeries": "acs5", "_b25070Year": "2024", "B25070_001E": "-666666666"})
     assert out["_b25070Series"] == "acs5" and out["_acsSeries"] == "acs5"
     assert out["B25070_001E"] is None
+
+
+def test_an_all_zero_commuting_section_is_not_carried_forward(tmp_path):
+    zeros = {k: 0 for k in ("total", "drive", "carpool", "transit", "bike", "walk", "other", "work_from_home")}
+    path = tmp_path / "0829240.json"
+    path.write_text(json.dumps({"acsB08301": zeros}))
+    merged, _, _ = hna._merge_preserve_summary(str(path), {"acsB08301": None})
+    assert merged["acsB08301"] is None
+
+
+def test_a_real_commuting_section_is_still_carried_when_the_fetch_fails(tmp_path):
+    path = tmp_path / "08077.json"
+    path.write_text(json.dumps({"acsB08301": {"total": 70000, "transit": 400}}))
+    merged, _, _ = hna._merge_preserve_summary(str(path), {"acsB08301": None})
+    assert merged["acsB08301"]["total"] == 70000

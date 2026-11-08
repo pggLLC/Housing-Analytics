@@ -1670,6 +1670,13 @@ def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bo
         new_sec = payload.get(section)
         if not isinstance(old_sec, dict):
             continue
+        if section == 'acsB08301' and not (
+                isinstance(old_sec.get('total'), (int, float)) and old_sec['total'] > 0):
+            # A commuting section with no worker total gives no shares, and
+            # fetch_acs_b08301() now refuses one. Carrying it kept 15 tiny
+            # places at all-zero counts through every rebuild (audit
+            # 2026-11-03, still there after run 42462951013); leave it null.
+            continue
         if not isinstance(new_sec, dict) or not any(
             v is not None for k, v in new_sec.items() if not str(k).startswith('_')
         ):
