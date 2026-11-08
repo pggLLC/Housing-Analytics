@@ -36,18 +36,18 @@ for (const ed of idx.editions) {
 }
 
 // Renderer safety.
-const evil = render('Hello <script>alert(1)</script> [x](javascript:alert(1)) **b** [ok](https://a.example/?q=1&r=2)');
+const evil = render('Hello <script>alert(1)</script> [x](javascript:alert(1)) **b** [ok](https://example.com/?q=1&r=2)');
 assert(!/<script/i.test(evil), 'script tag survived');
 assert(!/javascript:/i.test(evil), 'javascript: link survived');
 assert(/<strong>b<\/strong>/.test(evil), 'bold not rendered');
-assert(/href="https:\/\/a\.example\/\?q=1&amp;r=2"/.test(evil), 'safe link not rendered');
+assert(/href="https:\/\/example\.com\/\?q=1&amp;r=2"/.test(evil), 'safe link not rendered');
 assert(/<h2>Section<\/h2>/.test(render('## Section')), '## renders as h2');
 assert(/<ul><li>a<ul><li>b<\/li><\/ul><\/li><\/ul>/.test(render('- a\n  - b')), 'nested list');
 
 for (const bad of ['javascript:alert(1)', 'data:text/html,x', '//evil.example/x', '/\\evil.example', '\\\\evil', ' JavaScript:x']) {
   assert.equal(safeHref(bad), null, `safeHref kept ${bad}`);
 }
-for (const good of ['https://a.example/', 'policy-briefs.html', 'data/news-digest/2026-11-08.md']) {
+for (const good of ['https://example.com/', 'policy-briefs.html', 'data/news-digest/2026-11-08.md']) {
   assert(safeHref(good), `safeHref dropped ${good}`);
 }
 
