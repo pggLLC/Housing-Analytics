@@ -91,4 +91,25 @@ const noBins = Object.assign({}, noCounts, { DP04_0141PE: null, DP04_0142PE: nul
 w.HNARenderers.renderHousingGapSummary(noBins, 'place');
 check(!/0\.0% of renter/.test(el.textContent), 'page with missing bins: no 0.0% burden claim');
 
+// The gap panel's cost-pressure line (v3 review F2) agrees with the panel above: the same B25070
+// count and denominator, never all renters times a rate measured on fewer households.
+{
+  const d2 = new JSDOM('<!doctype html><body><div id="hnaGapCoveragePanel"><div id="hnaGapBurdenContext"></div></div></body>',
+    { url: 'http://127.0.0.1/housing-needs-assessment.html', runScripts: 'outside-only' });
+  const w2 = d2.window;
+  w2.APP_CONFIG = {};
+  w2.HNAState = { state: {} };
+  for (const f of ['js/utils/format-money.js', 'js/hna/hna-utils.js', 'js/hna/hna-renderers.js']) w2.eval(read(f));
+  const placeAmi = JSON.parse(read('data/co_ami_gap_by_place.json'));
+  const line = () => w2.document.getElementById('hnaGapBurdenContext').textContent;
+  w2.HNARenderers.renderGapCoverageStats('08077', null, null, { type: 'place', geoid: '0828745' }, placeAmi, prof('0828745'));
+  check(/366 of 840 renter households/.test(line()) && /43\.6%/.test(line()) && /2020–2024 5-year/.test(line()), 'gap panel: 366 of 840 (43.6%), ACS 2020–2024, same as the burden panel');
+  const all = Number(prof('0828745').DP04_0047E);
+  check(!new RegExp('of ' + all.toLocaleString('en-US') + ' renter').test(line()) || all === 840, 'gap panel: the denominator is not all renter households (' + all + ')');
+  const bare = prof('0828745');
+  for (const k of Object.keys(bare)) if (/B25070|b25070/.test(k)) delete bare[k];
+  w2.HNARenderers.renderGapCoverageStats('08077', null, null, { type: 'place', geoid: '0828745' }, placeAmi, bare);
+  check(!/\d+ of \d/.test(line()) && /no count is shown/.test(line()), 'gap panel without counts: the share only, no estimated count');
+}
+
 console.log(`\n${passed} passed`);

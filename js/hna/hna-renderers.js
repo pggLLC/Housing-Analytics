@@ -8522,14 +8522,24 @@
       // Profile is passed in from the controller (the call site has it loaded);
       // fall back to state.current.profile for callers that don't pass it.
       const prof = profile || (window.HNAState && window.HNAState.state && window.HNAState.state.current && window.HNAState.state.current.profile) || null;
-      const renterHHs = prof && Number.isFinite(Number(prof.DP04_0047E)) ? Number(prof.DP04_0047E) : null;
+      // The count and its denominator come from the same table (B25070: renters whose
+      // burden is computed), as on the rent-burden panel. Multiplying ALL renter
+      // households (DP04_0047E) by that table's rate overstated the count, because
+      // the rate's universe leaves out renters with no income or no cash rent.
+      const counts = (prof && U().rentBurdenCounts) ? U().rentBurdenCounts(prof) : null;
       const burdenPct = (prof && U().rentBurden30Plus) ? U().rentBurden30Plus(prof) : null;
-      if (renterHHs != null && renterHHs > 0 && burdenPct != null && Number.isFinite(burdenPct)) {
-        const burdened = Math.round(renterHHs * burdenPct / 100);
+      const tail = ' <span style="color:var(--muted)">Cost-side complement to the income-side demand above — different lens on the same housing-need story.</span>';
+      if (counts) {
         burdenEl.innerHTML =
-          '<strong>Current cost pressure:</strong> ~' + fmt(burdened) + ' of ' + fmt(renterHHs) +
-          ' renter households (' + burdenPct.toFixed(1) + '%) are rent-burdened today (paying &gt;30% of income on rent). ' +
-          '<span style="color:var(--muted)">Cost-side complement to the income-side demand above — different lens on the same housing-need story.</span>';
+          '<strong>Current cost pressure:</strong> ' + fmt(counts.atLeast30Households) + ' of ' + fmt(counts.computedHouseholds) +
+          ' renter households whose rent burden is measured (' + counts.atLeast30Pct.toFixed(1) + '%) pay 30% or more of income on rent' +
+          ' (ACS ' + (counts.series === 'acs5' && /^\d{4}$/.test(counts.year) ? (Number(counts.year) - 4) + '–' + counts.year + ' 5-year' : counts.year) + ', table B25070).' + tail;
+      } else if (burdenPct != null && Number.isFinite(burdenPct)) {
+        burdenEl.innerHTML =
+          '<strong>Current cost pressure:</strong> ' + burdenPct.toFixed(1) + '% of renter households pay 30% or more of income on rent. ' +
+          'The household count behind this share is not on file for this place, so no count is shown.' + tail;
+      }
+      if (counts || (burdenPct != null && Number.isFinite(burdenPct))) {
         // Same rule as the score card: a share the ranking index rejected is
         // not shown. The guard keeps a later geography's line in place.
         const shown = burdenEl.innerHTML;
@@ -9282,7 +9292,7 @@
     const proxyBadgeHtml = (() => {
       const note = (html) => '<div role="note" style="margin:0 0 .55rem;padding:.45rem .6rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:1rem;line-height:1.5;color:var(--text)">' + html + '</div>';
       if (usePlace) {
-        return note('<strong>Place-level:</strong> cost burden, deep-need share and worst-case need are ' +
+        return note('<strong>Place-level:</strong> cost burden, deep-need share and severe rent burden are ' +
           escHtml(countyRec && placeRec && placeRec.name ? placeRec.name : 'this place') +
           '\u2019s own CHAS. Affordability pressure is ' + escHtml(countyName || 'the containing county') +
           ' county-level \u2014 that indicator is not published at place geography.');
@@ -9342,10 +9352,10 @@
           'Median home price ÷ median household income · resort-aware'
         ) +
         _scorecardCard(
-          'D · Worst-case need',
+          'D · Severely rent-burdened',
           pctStr(worstCase),
           pctD, peerLabel,
-          'Renters severely burdened (>50% income on housing) — HUD WCN signal'
+          'Renters paying more than half their income for housing — one part of HUD\'s worst-case needs, which also count income, assistance and housing condition'
         ) +
       '</div>' +
 
@@ -9366,7 +9376,7 @@
             '<li><strong>A · Cost burden (blended).</strong> <code>(renter_cb30 × renter_HH + owner_cb30 × owner_HH) ÷ total_HH</code>. Single % reflecting ALL households\' cost burden, weighted by tenure mix. <em>Why blend?</em> Pure renter burden misses owner-heavy markets; this version doesn\'t. Source: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" class="hna-source-link">HUD CHAS 2018-2022</a> Table 7.</li>' +
             '<li><strong>B · Deep-need share.</strong> renters at or below 30% AMI ÷ renters at or below 100% AMI. Drops the 100+ tier (high-income cohort) from the denominator so the signal isn\'t diluted by wealthy renters. Source: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" class="hna-source-link">HUD CHAS</a> Table 9.</li>' +
             '<li><strong>C · Affordability pressure.</strong> <code>median_home_price ÷ median_household_income</code>. Resort and high-cost markets (Pitkin 11.1x, Summit 8.6x) score high — appropriately — because they ARE expensive relative to local incomes. This is the lever percentile-normalisation pulls so resort distress surfaces without dwarfing urban distress. Source: <a href="https://data.census.gov/" target="_blank" rel="noopener" class="hna-source-link">ACS B19013 + B25077</a>.</li>' +
-            '<li><strong>D · Worst-case need.</strong> Share of renters paying &gt;50% of income on housing — directly maps to <a href="https://www.huduser.gov/portal/publications/Worst-Case-Housing-Needs-2025-Report-to-Congress.html" target="_blank" rel="noopener" class="hna-source-link">HUD\'s Worst Case Housing Needs</a> framework. Source: HUD CHAS Table 7 (renter_cb50 share).</li>' +
+            '<li><strong>D · Severely rent-burdened.</strong> Share of renters paying &gt;50% of income on housing. This is one part of <a href="https://www.huduser.gov/portal/publications/Worst-Case-Housing-Needs-2025-Report-to-Congress.html" target="_blank" rel="noopener" class="hna-source-link">HUD\'s Worst Case Housing Needs</a>, which also limits the count to very low-income renters without assistance and counts severely inadequate housing; this score uses the burden part only. Source: HUD CHAS Table 7 (renter_cb50 share).</li>' +
           '</ul>' +
           '<p style="margin:.4rem 0 .25rem"><strong>Severity bands:</strong> Highest need 70 or more · Elevated 50 to 69 · Moderate 30 to 49 · Lower under 30. Each card is banded on the same scale, using its own percentile.</p>' +
           '<p style="margin:.25rem 0;color:var(--muted);font-size:1rem"><strong>What this is NOT:</strong> a state-of-the-art econometric model. It\'s a transparent screening composite designed for early-stage LIHTC/HNA work. The four components are documented above; cross-check with primary HUD CHAS and Census ACS data before citing in formal needs assessments.</p>' +

@@ -84,6 +84,12 @@ ok(burden['31to50'].burdened === 234 && burden['81to100'].burdened === 15, 'burd
 const nn = M.needNotes({ burden, gap50: 22, lim70: 1947, lim80: 2226, rentRange: M.rentRange([{ rent: 1437 }, { rent: 2475 }]), ruralResort: true, mihtc: { name: 'Middle-income Housing Tax Credit' }, need20yr: 594 });
 ok(nn.notes.some((n) => /31–50% AMI .* though only 22 homes/.test(n)), '0-short band with burdened renters must be called real need');
 ok(nn.notes.some((n) => /inside the range of current rent measures here \(\$1,437–\$2,475\)/.test(n)), 'income averaging test must use the current-rent range');
+// Straddle (v3 review F4, invented): 70% at $1,500 inside $1,200–$1,700, 80% at $1,800 above it.
+const st = M.needNotes({ burden, gap50: 22, lim70: 1500, lim80: 1800, rentRange: M.rentRange([{ rent: 1200 }, { rent: 1700 }]) });
+const stNote = st.notes.filter((n) => /51–80% AMI/.test(n))[0] || '';
+ok(/70% limit is inside the range and the 80% limit is above every one/.test(stNote) && !/inside the range of current rent measures/.test(stNote), 'a limit above the range is never called inside it: ' + stNote);
+const both = M.needNotes({ burden, gap50: 22, lim70: 1500, lim80: 1650, rentRange: M.rentRange([{ rent: 1200 }, { rent: 1700 }]) });
+ok(both.notes.some((n) => /inside the range of current rent measures here \(\$1,200–\$1,700\)/.test(n)), 'both limits inside the range still read as inside');
 ok(nn.workforce && nn.workforce.ruralResort && nn.notes.some((n) => /up to 140%/.test(n)), 'rural resort counties get the middle-income lane');
 ok(nn.notes.some((n) => /20-year need \(594 homes\) is one total/.test(n)), 'the 20-year need must be named as unsplit');
 const quiet = M.needNotes({ burden: M.burdenByBand([{ key: '51to80', label: 'x', households: 50, burdenedPct: 10 }]), gap50: 0 });

@@ -284,7 +284,7 @@
     var why = [
       p && p.ioi_score ? 'Pipeline score ' + p.ioi_score + (p.stage ? ', stage ' + p.stage : '') : (p ? 'In the pipeline at ' + (p.stage || 'no stage') : 'Not in your pipeline'),
       place && place.prop123 ? 'Prop 123 ' + String(place.prop123).toLowerCase() + (place.prop123_units ? ' (' + place.prop123_units + ' homes)' : '') : '',
-      best ? 'Best site: ' + best.name + (best.homes ? ' (' + best.homes + ' homes)' : '') : sites.length ? 'Every site on file has a developer on it' : 'No site on file in public program records'
+      best ? 'Best site: ' + best.name + (best.homes ? ' (' + best.homes + ' homes)' : '') : sites.length ? 'Every site on file has a developer on it' : 'No site on file in the site dossier'
     ].filter(Boolean).join('. ') + '.';
 
     var h = '<div class="pc-card" id="place-card">';
@@ -309,11 +309,12 @@
       if (ranked.length > 3) h += '<p class="ib-muted">' + (ranked.length - 3) + ' more below in Your contacts and in the report\'s Who to contact.</p>';
       if (!top.some(function (c) { return c.phone || c.email; })) h += '<p class="ib-muted">No phone or email on file for anyone here yet.</p>';
     } else {
-      h += '<p class="ib-muted">No contacts on file for this place yet.</p>';
+      // Only your network and the researched contacts are ranked here; a public office the report lists below is not one of them.
+      h += '<p class="ib-muted">No contacts in your network or the researched contact file for this place yet. Public offices, where the report has them, are listed below.</p>';
     }
 
     h += '<h3>Sites here</h3>' + (sites.length ? '<ul class="pc-sites">' + sites.map(siteHtml).join('') + '</ul>'
-      : '<p class="ib-muted">No site on file in public program records (tax credit applications and Prop 123 land banking since 2023).</p>');
+      : '<p class="ib-muted">No site on file in the site dossier, which screens tax credit applications and Prop 123 land banking awards since 2023 for sites still open. Any public program records for this place, older or already built, are listed in the report below.</p>');
 
     if (sig.length) {
       h += '<h3>Latest <abbr data-glossary="signal">signals</abbr></h3><ul class="pc-sig">' + sig.map(function (s) {

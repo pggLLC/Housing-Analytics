@@ -113,7 +113,7 @@
       var why = [
         r.ioi_score ? 'Pipeline score ' + r.ioi_score + [r.classification ? 'class ' + r.classification : '', r.confidence ? r.confidence + ' confidence' : ''].filter(Boolean).map(function (x) { return ', ' + x; }).join('') : '',
         prop123Line((data.places || {})[r.geoid]),
-        best ? 'Best site: ' + best.name + (best.homes ? ' (' + best.homes + ' homes)' : '') + ', ' + LABEL[reading].toLowerCase() + (sites.length > 1 ? '; ' + (sites.length - 1) + ' more on file' : '') : sites.length ? 'Every site on file has a developer on it' : 'No site on file in public program records',
+        best ? 'Best site: ' + best.name + (best.homes ? ' (' + best.homes + ' homes)' : '') + ', ' + LABEL[reading].toLowerCase() + (sites.length > 1 ? '; ' + (sites.length - 1) + ' more on file' : '') : sites.length ? 'Every site on file has a developer on it' : 'No site on file in the site dossier',
         sig ? 'Latest signal: ' + [sig.signal_type, sig.strength, sig.date].filter(Boolean).join(', ') : ''
       ].filter(Boolean).join('. ') + '.';
       return { key: r.geoid, report: r.geoid, name: r.jurisdiction || r.geoid, geoid: r.geoid, row: r, sites: sites, reading: reading, signal: sig, place: (data.places || {})[r.geoid] || null, why: why };
