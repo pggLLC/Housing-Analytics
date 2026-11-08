@@ -377,7 +377,8 @@
         var share = (typeof tract._bufferShare === 'number') ? tract._bufferShare : 1;
         var row = demand.tracts[gid];
         var mix = row && demand.pumas[row[0]];
-        if (share <= 0 || !row || !mix) return;
+        // Same tracts as the count below: one without usable limits is skipped there.
+        if (share <= 0 || !row || !mix || !floorsFor(gid.slice(0, 5), row[0])) return;
         var cs = countScaleFor(gid, chasTotalOf(row));
         var toCounty = toCountyFor(gid, row[0]);
         CHAS_TIER_BINS.forEach(function (range, k) {

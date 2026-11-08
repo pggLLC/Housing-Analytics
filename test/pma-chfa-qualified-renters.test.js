@@ -258,5 +258,17 @@ test('the size match is made on the CHAS-weighted renters the count uses, not th
   assert(Math.abs((n1 * 1 + n3 * 3) / (n1 + n3) - 2.0) < 0.03, 'implied average ' + ((n1 + 3 * n3) / (n1 + n3)));
 });
 
+test('a tract the count skips (no usable limits) is left out of the size match too (Codex #2747)', () => {
+  const m1 = [bins(), bins(), bins(), bins(), bins(), bins()]; m1[0][45] = 100; m1[2][45] = 100;
+  const m2 = [bins(), bins(), bins(), bins(), bins(), bins()]; m2[0][45] = 100;
+  const d = { pumas: { P1: m1, P2: m2 }, tracts: { '08001000100': ['P1', 0, 100, 0, 0, 0], '08099000100': ['P2', 0, 100, 0, 0, 0] } };
+  const two = [{ geoid: '08001000100', _bufferShare: 1 }, { geoid: '08099000100', _bufferShare: 1 }];
+  const acsIdx = { '08001000100': { renter_hh: 100, avg_hh_size_renter: 1.8 }, '08099000100': { renter_hh: 100, avg_hh_size_renter: 1.8 } };
+  const r = S.chfaQualifiedRenters(d, limits, two, [60], null, { acsIdx: acsIdx });   // county 08099 has no limits
+  assert.strictEqual(r.tractsMissing, 1);
+  const n1 = r.byBedroom['1br'], n3 = r.byBedroom['2br'];
+  assert(Math.abs((n1 + 3 * n3) / (n1 + n3) - 1.8) < 0.03, 'implied average ' + ((n1 + 3 * n3) / (n1 + n3)));
+});
+
 if (failures) { console.log('\n' + failures + ' failure(s)'); process.exit(1); }
 console.log('\nAll checks passed ✅');
