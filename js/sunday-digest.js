@@ -28,7 +28,8 @@
   function safeHref(raw) {
     var href = String(raw).trim();
     if (/^https?:\/\//i.test(href)) return href;
-    if (/^[^:\/?#]*(?:[\/?#]|$)/.test(href) && href.indexOf(':') === -1) return href;
+    // Relative only: no scheme, and not protocol-relative (//host) or a backslash path.
+    if (href.indexOf(':') === -1 && !/^[\/\\]{2}/.test(href) && href.indexOf('\\') === -1) return href;
     return null;
   }
 

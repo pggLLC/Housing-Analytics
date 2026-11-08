@@ -44,6 +44,13 @@ assert(/href="https:\/\/a\.example\/\?q=1&amp;r=2"/.test(evil), 'safe link not r
 assert(/<h2>Section<\/h2>/.test(render('## Section')), '## renders as h2');
 assert(/<ul><li>a<ul><li>b<\/li><\/ul><\/li><\/ul>/.test(render('- a\n  - b')), 'nested list');
 
+for (const bad of ['javascript:alert(1)', 'data:text/html,x', '//evil.example/x', '\\\\evil', ' JavaScript:x']) {
+  assert.equal(safeHref(bad), null, `safeHref kept ${bad}`);
+}
+for (const good of ['https://a.example/', 'policy-briefs.html', 'data/news-digest/2026-11-08.md']) {
+  assert(safeHref(good), `safeHref dropped ${good}`);
+}
+
 // The page and Housing News link to it.
 assert(readFileSync('sunday-digest.html', 'utf8').includes('js/sunday-digest.js'), 'page does not load the renderer');
 assert(readFileSync('policy-briefs.html', 'utf8').includes('href="sunday-digest.html"'), 'Housing News does not link to the digest');
