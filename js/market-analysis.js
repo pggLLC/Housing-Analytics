@@ -4658,6 +4658,50 @@
         });
       }
     }
+    // Other towns inside the tract-drawn area, and the jobs there by where
+    // their workers live. The jobs file is large (LODES tract pairs), so it
+    // loads only when asked. Context only, no score or demand effect.
+    var townsEl = document.getElementById('pmaSumOtherTowns');
+    var inflowEl = document.getElementById('pmaSumInflow');
+    if (townsEl && inflowEl) {
+      var twTok = {};
+      townsEl._tok = twTok;
+      result.areaTowns = null;
+      result.areaInflow = null;
+      var AT = window.PMAAreaTowns;
+      if (!AT) {
+        townsEl.textContent = '—';
+        inflowEl.textContent = '—';
+      } else {
+        var twTracts = (result.bufferTractsDetail || []).map(function (t) { return { geoid: t.geoid, share: t.share }; });
+        townsEl.textContent = 'Loading…';
+        inflowEl.textContent = '';
+        AT.load(AT.PLACES_PATH).then(function (placeDoc) {
+          if (townsEl._tok !== twTok) return;
+          var towns = AT.townsInArea(placeDoc, twTracts);
+          result.areaTowns = towns;
+          townsEl.textContent = AT.townsSentence(towns) || 'No town figures for these tracts';
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn btn-secondary';
+          btn.style.cssText = 'min-height:44px;font-size:var(--tiny)';
+          btn.textContent = 'Count jobs and in-commuters (large file, about 14 MB)';
+          inflowEl.textContent = '';
+          inflowEl.appendChild(btn);
+          btn.addEventListener('click', function () {
+            inflowEl.textContent = 'Loading…';
+            Promise.all([AT.load(AT.OD_PATH), AT.load(AT.COUNTIES_PATH)]).then(function (docs) {
+              if (townsEl._tok !== twTok) return;
+              var counties = {};
+              ((docs[1] && docs[1].counties) || []).forEach(function (c) { counties[c.geoid] = c.label; });
+              var s = AT.inflow(docs[0], placeDoc, twTracts, towns, counties);
+              result.areaInflow = s;
+              inflowEl.textContent = AT.inflowSentence(s, towns) || 'No job figures for these tracts';
+            });
+          });
+        });
+      }
+    }
     setSum('pmaSumUnemployment',  fmtPctRate(acs.unemployment_rate));
 
     // Amenity distances — already in straight-line miles when available
