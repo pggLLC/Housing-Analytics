@@ -30,11 +30,14 @@ PUMA spans counties with different limits.
 Usage:
     python3 scripts/market/build_chfa_renter_demand.py \
         --pums psam_h08.csv --tract-puma 2020_Census_Tract_to_2020_PUMA.txt \
-        --limits-2024 chfa-income-rent-limits-2024.json
+        --limits-2024 chfa-income-rent-limits-2024.json --persons psam_p08.csv
     # bedroom inputs only (two-person split, 6+ size), counts untouched:
     python3 scripts/market/build_chfa_renter_demand.py --pums psam_h08.csv --bedroom-inputs-only
+    # student share (college-only households), counts untouched:
+    python3 scripts/market/build_chfa_renter_demand.py --pums psam_h08.csv --persons psam_p08.csv --student-inputs-only
 Sources:
     https://www2.census.gov/programs-surveys/acs/data/pums/2024/5-Year/csv_hco.zip
+    https://www2.census.gov/programs-surveys/acs/data/pums/2024/5-Year/csv_pco.zip (person file, students)
     https://www2.census.gov/geo/docs/maps-data/data/rel2020/2020_Census_Tract_to_2020_PUMA.txt
     https://www.chfainfo.com/getattachment/32e3fe74-40b0-445a-bb45-c35d23241acf/2024-Rent-and-income-limits.pdf
       (parsed with scripts/fetch_chfa_limits.py, YEAR=2024)
@@ -149,6 +152,60 @@ def bedroom_inputs(pums: Path, puma_lim50: dict[str, list[float]]) -> dict:
     }
 
 
+# College enrolment in the PUMS person file: SCHG 15 = undergraduate,
+# 16 = graduate or professional school.
+COLLEGE_GRADES = ('15', '16')
+CHAS_TIER_PCT = ((0, 30), (30, 50), (50, 80), (80, 100), (100, float('inf')))
+
+
+def student_inputs(pums: Path, persons: Path, puma_lim50: dict[str, list[float]]) -> dict:
+    """Share of renter households in which everyone is enrolled in college.
+
+    Tax credit homes generally cannot go to a household made up only of
+    full-time students. The ACS records college enrolment but not full- or
+    part-time status, or the program's exceptions, so this share is an upper
+    bound. Kept per PUMA, household size and CHAS income tier, because
+    student households sit mostly at low incomes and small sizes.
+    """
+    all_college = {}
+    with persons.open() as f:
+        for row in csv.DictReader(f):
+            key = row['SERIALNO']
+            enrolled = row.get('SCHG', '') in COLLEGE_GRADES
+            all_college[key] = all_college.get(key, True) and enrolled
+    hh = defaultdict(lambda: [[0.0] * len(CHAS_TIER_PCT) for _ in range(SIZES)])
+    st = defaultdict(lambda: [[0.0] * len(CHAS_TIER_PCT) for _ in range(SIZES)])
+    state_hh = state_st = 0.0
+    with pums.open() as f:
+        for row in csv.DictReader(f):
+            if row['TYPEHUGQ'] != '1' or row['TEN'] not in ('3', '4'):
+                continue
+            puma = row['PUMA']
+            np_ = int(row['NP'] or 0)
+            if puma not in puma_lim50 or np_ < 1:
+                continue
+            income = float(row['HINCP'] or 0) * float(row['ADJINC']) / 1e6
+            pct = max(0.0, income / puma_lim50[puma][min(np_, 8) - 1] * 50.0)
+            k = next(i for i, (lo, hi) in enumerate(CHAS_TIER_PCT) if pct < hi)
+            wt = float(row['WGTP'])
+            s = min(np_, SIZES) - 1
+            hh[puma][s][k] += wt
+            state_hh += wt
+            if all_college.get(row['SERIALNO']):
+                st[puma][s][k] += wt
+                state_st += wt
+    shares = {p: [[round(st[p][s][k] / hh[p][s][k], 3) if hh[p][s][k] > 0 else 0
+                   for k in range(len(CHAS_TIER_PCT))] for s in range(SIZES)]
+              for p in sorted(puma_lim50)}
+    return {'student_share': {
+        'statewide_share': round(state_st / state_hh, 4),
+        'layout': 'pumas[puma][size 1..6+][CHAS tier lte30, 31to50, 51to80, 81to100, 100plus] = share of renter households in which every member is enrolled in college',
+        'definition': 'Every household member attends college (PUMS SCHG 15 undergraduate or 16 graduate). ACS has no full-time flag and the program exceptions (married joint filers, single parents, job training, former foster youth) are not identified, so the share is an upper bound.',
+        'pumas': shares,
+        'source': 'Census ACS 2020-2024 5-year PUMS, Colorado housing and person files (TEN 3 or 4; SCHG)',
+    }}
+
+
 def build(pums: Path, tract_puma_path: Path, limits_path: Path) -> dict:
     tract_puma = load_tract_puma(tract_puma_path)
     limits = load_limits(limits_path)
@@ -254,15 +311,29 @@ def main():
     ap.add_argument('--tract-puma', type=Path)
     ap.add_argument('--limits-2024', type=Path)
     ap.add_argument('--out', type=Path, default=OUT)
+    ap.add_argument('--persons', type=Path, help='PUMS person file (psam_p08.csv), for the student share; required for a full build')
+    ap.add_argument('--student-inputs-only', action='store_true',
+                    help='add the student share to the existing file; counts unchanged (needs --persons)')
     ap.add_argument('--bedroom-inputs-only', action='store_true',
                     help='add the two-person split and size values to the existing file; counts unchanged')
     a = ap.parse_args()
-    if a.bedroom_inputs_only:
+    if a.student_inputs_only:
+        if not a.persons:
+            ap.error('--persons is required for --student-inputs-only')
+        payload = json.loads(a.out.read_text())
+        lim = {p: [float(v) for v in row] for p, row in payload['puma_lim50_2024'].items()}
+        payload.update(student_inputs(a.pums, a.persons, lim))
+        payload['meta']['student_inputs_added'] = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    elif a.bedroom_inputs_only:
         payload = add_bedroom_inputs(a.pums, a.out)
     else:
-        if not (a.tract_puma and a.limits_2024):
-            ap.error('--tract-puma and --limits-2024 are required for a full build')
+        if not (a.tract_puma and a.limits_2024 and a.persons):
+            # --persons too: without it the student share would be dropped and
+            # the page would silently count all-student households again.
+            ap.error('--tract-puma, --limits-2024 and --persons are required for a full build')
         payload = build(a.pums, a.tract_puma, a.limits_2024)
+        lim = {p: [float(v) for v in row] for p, row in payload['puma_lim50_2024'].items()}
+        payload.update(student_inputs(a.pums, a.persons, lim))
     a.out.write_text(json.dumps(payload, separators=(',', ':')))
     print(f'wrote {a.out} ({len(payload["pumas"])} PUMAs, {len(payload["tracts"])} tracts)')
 

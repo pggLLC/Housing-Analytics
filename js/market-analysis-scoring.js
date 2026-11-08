@@ -200,32 +200,52 @@
   var BEDROOM_RULES = { shared: 'shared', smallest: 'smallest' };
   var TWO_PERSON_SMALL_SHARE_CO = 0.282;
   var DEFAULT_SIZE_VALUES = [1, 2, 3, 4, 5, 6.68];
+  var SIZE_FIT_TOLERANCE = 0.01;   // each fitted size share within 1 point of the published share
 
-  // One tilt for the whole market area: weights w_s * exp(theta * size_s),
-  // with theta set so the renter households the count actually uses (each
-  // CHAS tier's count spread over that tier's PUMS sizes) average target.
-  // groups: [{count, sizes:[w1..w6]}], one per tract and CHAS tier.
-  function areaSizeTilt(groups, sizeValues, target) {
-    function meanAt(theta) {
-      var num = 0, den = 0;
-      var f = sizeValues.map(function (v) { return Math.exp(theta * v); });
+  // One set of size factors for the whole market area, found by iterative
+  // proportional fitting, so the renter households the count actually uses
+  // (each CHAS tier's count spread over that tier's PUMS sizes) have the
+  // area's published size shares (ACS B25009). groups: [{count, sizes:[w1..w6]}],
+  // one per tract and CHAS tier; target: six shares adding to 1.
+  function areaSizeFit(groups, target) {
+    var n = target.length;
+    function modelled(f) {
+      var out = [0, 0, 0, 0, 0, 0], tot = 0;
       groups.forEach(function (g) {
-        var gn = 0, gd = 0;
-        for (var s = 0; s < g.sizes.length; s++) { var w = g.sizes[s] * f[s]; gn += w * sizeValues[s]; gd += w; }
-        if (gd > 0) { num += g.count * gn / gd; den += g.count; }
+        var gd = 0, s;
+        for (s = 0; s < n; s++) gd += g.sizes[s] * f[s];
+        if (!(gd > 0)) return;
+        for (s = 0; s < n; s++) out[s] += g.count * g.sizes[s] * f[s] / gd;
+        tot += g.count;
       });
-      return den > 0 ? num / den : null;
+      return tot > 0 ? out.map(function (v) { return v / tot; }) : null;
     }
-    var base = meanAt(0);
-    if (base == null || !(target > 0)) return null;
-    var lo = -4, hi = 4;
-    if (target <= meanAt(lo) || target >= meanAt(hi)) return null;
-    for (var i = 0; i < 60; i++) {
-      var mid = (lo + hi) / 2;
-      if (meanAt(mid) < target) lo = mid; else hi = mid;
+    var f = [1, 1, 1, 1, 1, 1];
+    var base = modelled(f);
+    if (!base) return null;
+    for (var it = 0; it < 200; it++) {
+      var cur = modelled(f), moved = 0;
+      for (var s = 0; s < n; s++) {
+        if (cur[s] > 0 && target[s] > 0) { var r = target[s] / cur[s]; f[s] *= r; moved = Math.max(moved, Math.abs(r - 1)); }
+        else if (target[s] === 0) f[s] = 0;
+      }
+      if (moved < 1e-6) break;
     }
-    var theta = (lo + hi) / 2;
-    return { base: base, factors: sizeValues.map(function (v) { return Math.exp(theta * v); }) };
+    // A group (tract and CHAS tier) with renters must keep some of them:
+    // zeroing all its sizes would drop it from the count, not refit it (Codex #2751).
+    var lost = groups.some(function (g) {
+      if (!(g.count > 0)) return false;
+      var had = 0, kept = 0;
+      for (var s2 = 0; s2 < n; s2++) { had += g.sizes[s2]; kept += g.sizes[s2] * f[s2]; }
+      return had > 0 && !(kept > 0);
+    });
+    if (lost) return null;
+    var fitted = modelled(f);
+    // A fit that cannot reach the published shares (a size the sample lacks,
+    // or tiers that pin the sizes) is not a match: the caller then uses the
+    // sample as it is and says so (Codex #2751).
+    for (var k = 0; k < n; k++) if (!fitted || Math.abs(fitted[k] - target[k]) > SIZE_FIT_TOLERANCE) return null;
+    return { base: base, fitted: fitted, factors: f };
   }
 
   /**
@@ -242,8 +262,12 @@
    *    (default), or the older smallest-unit rule;
    *  - CHAS tier counts scaled to the tract's ACS 2020-24 renter households
    *    when opts.acsIdx carries them;
-   *  - the PUMS size mix tilted to the market area's own ACS average renter
-   *    household size (avg_hh_size_renter) when opts.acsIdx carries it.
+   *  - the PUMS size mix fitted to the market area's published renter
+   *    household size counts (ACS 2020-24 B25009, by tract) when opts.sizeIdx
+   *    carries them;
+   *  - households in which everyone attends college left out, when the
+   *    demand file carries student_share (tax credit homes generally cannot
+   *    go to all-student households).
    *
    * @param {Object} demand - data/market/chfa_renter_demand_co.json
    * @param {Object<string,Object>} limitsByFips - CHFA current-year county records (regular_tiers)
@@ -252,7 +276,7 @@
    * @param {Array<string>} [bedrooms] - unit sizes offered ('0br'..'3br');
    *   default 1-3BR. Household sizes no offered unit fits are left out, as
    *   CHFA's guide says (no one-bedroom units: no one-person households).
-   * @param {{rule?:string, acsIdx?:Object}} [opts]
+   * @param {{rule?:string, acsIdx?:Object, sizeIdx?:Object<string,Array<number>>}} [opts]
    * @returns {{value:number|null, byTier:Object<string,number>, byBedroom:Object<string,number>,
    *   source:string, tractsUsed:number, tractsMissing:number, reason:string|null, assumptions:Object}}
    */
@@ -326,20 +350,9 @@
       return (floorCache[key] = out);
     }
 
-    // Market area's own ACS average renter household size, weighted by
-    // renter households in the buffer.
     var sizeValues = (demand.size_values && demand.size_values.length === 6) ? demand.size_values : DEFAULT_SIZE_VALUES;
-    var areaSize = null, sizeNum = 0, sizeDen = 0;
-    if (acsIdx) {
-      bufTracts.forEach(function (tract) {
-        var a = acsIdx[String(tract && tract.geoid || '')];
-        var share = (typeof tract._bufferShare === 'number') ? tract._bufferShare : 1;
-        if (!a || !(share > 0)) return;
-        var r = Number(a.renter_hh), avg = Number(a.avg_hh_size_renter);
-        if (r > 0 && avg > 0) { sizeNum += r * share * avg; sizeDen += r * share; }
-      });
-      if (sizeDen > 0) areaSize = sizeNum / sizeDen;
-    }
+    var sizeIdx = opts.sizeIdx || null;
+    var students = demand.student_share && demand.student_share.pumas ? demand.student_share : null;
     // PUMS bins are percent of the PUMA's renter-weighted limit. Where the
     // PUMA spans counties with different limits, move each bin onto this
     // tract's county scale before comparing it with county cut-offs.
@@ -353,6 +366,11 @@
     function binPct(mix, s, b, toCounty) {
       // the last bin holds everything above 120%
       return b === mix[s].length - 1 ? Infinity : (b + 0.5) * toCounty[s];
+    }
+    var PUMA_SCALE = [1, 1, 1, 1, 1, 1];
+    function pumaTierOf(pct) {
+      for (var j = 0; j < CHAS_TIER_BINS.length; j++) if (inRange(pct, CHAS_TIER_BINS[j])) return j;
+      return CHAS_TIER_BINS.length - 1;
     }
     function inRange(pct, range) {
       return !(pct < range[0] || (range[1] !== Infinity && pct >= range[1]));
@@ -368,10 +386,11 @@
       return t;
     }
     // First pass: the renter households the count spreads over sizes, so
-    // the tilt is matched on them and not on the raw PUMA sample.
-    var tilt = null;
-    if (areaSize) {
-      var groups = [];
+    // the sizes are fitted on them and not on the raw PUMA sample. The
+    // target is the published size counts of the same tracts.
+    var tilt = null, areaShares = null, sizeTracts = 0;
+    if (sizeIdx) {
+      var groups = [], want = [0, 0, 0, 0, 0, 0];
       bufTracts.forEach(function (tract) {
         var gid = String(tract && tract.geoid || '');
         var share = (typeof tract._bufferShare === 'number') ? tract._bufferShare : 1;
@@ -379,27 +398,44 @@
         var mix = row && demand.pumas[row[0]];
         // Same tracts as the count below: one without usable limits is skipped there.
         if (share <= 0 || !row || !mix || !floorsFor(gid.slice(0, 5), row[0])) return;
+        var pub = sizeIdx[gid];
+        if (Array.isArray(pub) && pub.length === 6) {
+          sizeTracts += 1;
+          for (var s = 0; s < 6; s++) want[s] += (pub[s] > 0 ? pub[s] : 0) * share;
+        }
         var cs = countScaleFor(gid, chasTotalOf(row));
         var toCounty = toCountyFor(gid, row[0]);
         CHAS_TIER_BINS.forEach(function (range, k) {
           var count = row[k + 1];
           if (!(count > 0)) return;
           var sizes = [0, 0, 0, 0, 0, 0];
-          for (var s = 0; s < mix.length; s++) {
-            for (var b = 0; b < mix[s].length; b++) {
-              if (mix[s][b] && inRange(binPct(mix, s, b, toCounty), range)) sizes[s] += mix[s][b];
+          for (var s2 = 0; s2 < mix.length; s2++) {
+            for (var b = 0; b < mix[s2].length; b++) {
+              if (mix[s2][b] && inRange(binPct(mix, s2, b, toCounty), range)) sizes[s2] += mix[s2][b];
             }
           }
           groups.push({ count: count * (cs == null ? 1 : cs) * share, sizes: sizes });
         });
       });
-      tilt = areaSizeTilt(groups, sizeValues, areaSize);
+      var wantTotal = want.reduce(function (t, v) { return t + v; }, 0);
+      if (wantTotal > 0) {
+        areaShares = want.map(function (v) { return v / wantTotal; });
+        tilt = areaSizeFit(groups, areaShares);
+      }
+    }
+    function meanSize(sh) {
+      return sh ? sh.reduce(function (t, v, i) { return t + v * sizeValues[i]; }, 0) : null;
+    }
+    function studentShare(puma, s, k) {
+      var p = students && students.pumas[puma];
+      var v = p && p[s] && p[s][k];
+      return typeof v === 'number' && v > 0 && v <= 1 ? v : 0;   // 1 = every household in the cell is all-student (Codex #2751)
     }
 
     var byTier = {}, byBr = {};
     tiers.forEach(function (t) { byTier[t] = 0; });
     offered.forEach(function (b) { byBr[b] = 0; });
-    var total = 0, used = 0, missing = 0, scaled = 0, unscaled = 0, chasRenters = 0, acsRenters = 0;
+    var total = 0, withStudents = 0, used = 0, missing = 0, scaled = 0, unscaled = 0, chasRenters = 0, acsRenters = 0;
     var pumasUsed = {}, splitNum = 0, splitDen = 0, ownNum = 0;
 
     bufTracts.forEach(function (tract) {
@@ -424,17 +460,23 @@
       CHAS_TIER_BINS.forEach(function (range, k) {
         var count = row[k + 1];
         if (!(count > 0)) return;
-        var tierTotal = 0, anyTier = 0, twoW = 0, perTier = {}, perBr = {};
+        var tierTotal = 0, anyTier = 0, anyAll = 0, twoW = 0, perTier = {}, perBr = {};
         tiers.forEach(function (t) { perTier[t] = 0; });
         for (var s = 0; s < mix.length; s++) {
           var f = tilt ? tilt.factors[s] : 1;
           for (var b = 0; b < mix[s].length; b++) {
-            var w = mix[s][b] * f;
-            if (!w) continue;
+            var wAll = mix[s][b] * f;
+            if (!wAll) continue;
             var pct = binPct(mix, s, b, toCounty);
             if (!inRange(pct, range)) continue;
-            tierTotal += w;
-            if (s === 1) twoW += w;
+            // All-student households stay in the tier total (CHAS counts them)
+            // but not among those who qualify. Their shares were measured on
+            // the PUMA's own income scale, so the bin's unadjusted tier picks
+            // the share (Codex #2751).
+            var keep = 1 - studentShare(row[0], s, pumaTierOf(binPct(mix, s, b, PUMA_SCALE)));
+            tierTotal += wAll;
+            if (s === 1) twoW += wAll;
+            var w = wAll * keep;
             var parts = floors[tiers[0]][s];
             for (var u = 0; u < parts.length; u++) {
               var fits = false;
@@ -444,6 +486,7 @@
               }
               if (fits) {
                 anyTier += w * parts[u].share;
+                anyAll += wAll * parts[u].share;
                 perBr[parts[u].br] = (perBr[parts[u].br] || 0) + w * parts[u].share;
               }
             }
@@ -452,6 +495,7 @@
         if (tierTotal <= 0) return;
         var scale = count * countScale * share / tierTotal;
         total += anyTier * scale;
+        withStudents += anyAll * scale;
         twoPersonHere += twoW * scale;
         tiers.forEach(function (t) { byTier[t] += perTier[t] * scale; });
         Object.keys(perBr).forEach(function (br) { byBr[br] += perBr[br] * scale; });
@@ -481,11 +525,17 @@
         statewideSplit: split ? { share: split.statewide_small_share, cases: split.statewide_cases } : null,
         renterScale: acsIdx ? { tractsScaled: scaled, tractsNotScaled: unscaled,
           chasRenters: Math.round(chasRenters), acsRenters: Math.round(acsRenters) } : null,
-        areaRenterSize: areaSize != null ? Math.round(areaSize * 100) / 100 : null,
-        // The regional sample's average size, spread over this area's
-        // CHAS income mix, before the match.
-        pumsRenterSize: tilt ? Math.round(tilt.base * 100) / 100 : null,
+        // Published renter size shares of the area's tracts (B25009), and the
+        // regional sample's shares spread over this area's CHAS income mix
+        // before the fit; averages from the same shares.
+        areaSizeShares: areaShares ? areaShares.map(function (v) { return Math.round(v * 1000) / 1000; }) : null,
+        pumsSizeShares: tilt ? tilt.base.map(function (v) { return Math.round(v * 1000) / 1000; }) : null,
+        sizeTracts: sizeTracts,
+        areaRenterSize: areaShares ? Math.round(meanSize(areaShares) * 100) / 100 : null,
+        pumsRenterSize: tilt ? Math.round(meanSize(tilt.base) * 100) / 100 : null,
         sizeMatched: !!tilt,
+        // Qualified households left out because everyone in them attends college.
+        studentsRemoved: students ? Math.round(withStudents - total) : null,
         // Bedroom sizes each household size (1-6+) is counted toward, from the
         // offered sizes; null = no offered size fits and the size is left out.
         fit: [1, 2, 3, 4, 5, 6].map(function (n) {
@@ -581,6 +631,7 @@
     CHFA_MAX_OCCUPANTS: CHFA_MAX_OCCUPANTS,
     CHFA_DEFAULT_BEDROOMS: CHFA_DEFAULT_BEDROOMS,
     BEDROOM_RULES: BEDROOM_RULES,
+    areaSizeFit: areaSizeFit,
     TWO_PERSON_SMALL_SHARE_CO: TWO_PERSON_SMALL_SHARE_CO,
     scoreRentPressure: scoreRentPressure,
     scoreMarketTightness: scoreMarketTightness,
