@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-08T12:10:10.268Z",
+    "generated_at": "2026-11-08T12:15:43.384Z",
     "root": "data/",
     "file_count": 2024,
-    "total_size_bytes": 223007595,
+    "total_size_bytes": 223241611,
     "kinds": {
       "json": 1975,
       "geojson": 35,
@@ -625,7 +625,7 @@
       "path": "amenities/transit_stops_statewide_co.geojson",
       "kind": "geojson",
       "size_bytes": 3963794,
-      "mtime": "2026-11-01T12:02:56.261Z",
+      "mtime": "2026-11-08T12:13:13.437Z",
       "shape": "geojson",
       "feature_count": 14257,
       "property_keys": [
@@ -6822,7 +6822,7 @@
       "path": "fred-data.json",
       "kind": "json",
       "size_bytes": 1302624,
-      "mtime": "2026-11-07T11:53:58.179Z",
+      "mtime": "2026-11-08T11:58:13.410Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -36831,7 +36831,7 @@
       "path": "hna/transit-zone-by-geography.json",
       "kind": "json",
       "size_bytes": 399317,
-      "mtime": "2026-11-01T12:07:52.809Z",
+      "mtime": "2026-11-08T12:15:37.223Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -36846,7 +36846,7 @@
       "path": "hna/transit-zone-map.json",
       "kind": "json",
       "size_bytes": 449250,
-      "mtime": "2026-11-01T12:07:54.465Z",
+      "mtime": "2026-11-08T12:15:38.053Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38281,7 +38281,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 257320,
-      "mtime": "2026-11-08T04:58:43.022Z",
+      "mtime": "2026-11-08T11:58:13.604Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39237,14 +39237,16 @@
     {
       "path": "market/landuse_zoning_proxy_co.geojson",
       "kind": "geojson",
-      "size_bytes": 4990529,
-      "mtime": "2026-11-01T11:59:53.456Z",
+      "size_bytes": 5222529,
+      "mtime": "2026-11-08T12:10:15.355Z",
       "shape": "geojson",
-      "feature_count": 27168,
+      "feature_count": 28464,
       "property_keys": [
         "zone_proxy",
-        "landuse",
-        "mf_suitability"
+        "name",
+        "building",
+        "mf_suitability",
+        "count"
       ],
       "geometry_type": "Point"
     },
@@ -39684,7 +39686,7 @@
       "path": "market/schools_co.geojson",
       "kind": "geojson",
       "size_bytes": 1243277,
-      "mtime": "2026-11-01T12:07:56.408Z",
+      "mtime": "2026-11-08T12:15:39.604Z",
       "shape": "geojson",
       "feature_count": 1941,
       "property_keys": [
@@ -39822,7 +39824,7 @@
       "path": "market/transit_routes_co.geojson",
       "kind": "geojson",
       "size_bytes": 4708061,
-      "mtime": "2026-11-01T12:07:59.361Z",
+      "mtime": "2026-11-08T12:15:41.694Z",
       "shape": "geojson",
       "feature_count": 1658,
       "property_keys": [
@@ -39836,7 +39838,7 @@
       "path": "market/transit_stops_coverage_co.json",
       "kind": "json",
       "size_bytes": 236209,
-      "mtime": "2026-11-01T12:02:56.271Z",
+      "mtime": "2026-11-08T12:13:13.450Z",
       "shape": "object",
       "keys": [
         "meta",
