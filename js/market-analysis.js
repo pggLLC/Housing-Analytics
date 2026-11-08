@@ -997,9 +997,22 @@
    * the maximum tax-credit rent is no more than 40% of it, and a household
    * that fits an offered unit (1-3 bedroom unless the simulator says
    * otherwise). See scripts/market/build_chfa_renter_demand.py.
+   *
+   * The tract ACS file goes along so the count is scaled to ACS 2020-24
+   * renter households and matched to the area's own average renter
+   * household size. rule 'smallest' is the older bedroom rule, used only
+   * as a labelled comparison.
    */
-  function _chfaQualifiedRenters(bufTracts, tiers, bedrooms) {
-    return PMAScoring.chfaQualifiedRenters(chfaDemand, chfaLimitsByFips, bufTracts, tiers, bedrooms);
+  var _chfaAcsIdxCache = null, _chfaAcsIdxFor = null;
+  function _chfaAcsIdx() {
+    var rows = acsMetrics && acsMetrics.tracts;
+    if (!rows || !rows.length) return null;
+    if (_chfaAcsIdxFor !== rows) { _chfaAcsIdxCache = buildAcsIndex(rows); _chfaAcsIdxFor = rows; }
+    return _chfaAcsIdxCache;
+  }
+  function _chfaQualifiedRenters(bufTracts, tiers, bedrooms, rule) {
+    return PMAScoring.chfaQualifiedRenters(chfaDemand, chfaLimitsByFips, bufTracts, tiers, bedrooms,
+      { rule: rule, acsIdx: _chfaAcsIdx() });
   }
 
   var BEDROOM_INPUTS = ['pmaBr0', 'pmaBr1', 'pmaBr2', 'pmaBr3'];
@@ -2662,6 +2675,14 @@
         }
       }
     }
+    // The counting choices behind this number, and the older bedroom rule.
+    var counted = null;
+    if (simDen.source === 'chfa_qualified' && simDen.tracts) {
+      var detTiers = simDen.tiers || [60];
+      var detail = _chfaQualifiedRenters(simDen.tracts, detTiers, bedrooms);
+      var older = _chfaQualifiedRenters(simDen.tracts, detTiers, bedrooms, 'smallest');
+      counted = function (units) { return _demandCountedHtml(detail, older, units); };
+    }
     // Penetration is a whole-market check: existing tax-credit units have no
     // bedroom split, so its 20-80% pool stays at 1-3BR whatever the project
     // offers, and the line says so when the sizes were applied to capture.
@@ -2696,12 +2717,72 @@
             : 'Tax-credit units (existing, incl. funded not yet open) + proposed: ' + sim.penetrationRate + '% of ' +
               (penPool ? penPool.toLocaleString() + ' renter HH qualified at 20\u201380% AMI' + penScope : 'the same renters')) + '</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value">' + simDen.value.toLocaleString() + '</div><div class="pma-stat-label">' + simDen.short + ' \u2014 the denominator</div></div>' +
-      '</div>' + _tierCaptureLine(simDen, amiMix) + brNote +
+      '</div>' + _tierCaptureLine(simDen, amiMix) + brNote + (counted ? counted(sim.proposedUnits) : '') +
       '<p class="pma-sim-note" style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0">' +
         'CHFA does not accept a project that needs more than 85% of the households that qualify without more data to support demand, and its demand table counts existing, planned and proposed tax-credit units against households at the project\'s own AMI levels ' +
         '(<a href="https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf" target="_blank" rel="noopener noreferrer">2027–28 QAP</a>, pp. 9 and 85). ' +
         'Existing units here are not split by AMI tier, so both ratios are shown and either one over 85% is over. A whole-market screen, not CHFA\'s finding.</p>';
     explainCapture(result, sim, simDen, null);
+  }
+
+  function _pct(n) { return Math.round(n * 100) + '%'; }
+  // "How demand is counted": the three counting choices behind the capture
+  // rate, in plain words, with the older bedroom rule as a comparison.
+  function _demandCountedHtml(cur, older, proposed) {
+    if (!cur || cur.source !== 'chfa_qualified' || !cur.assumptions) return '';
+    var a = cur.assumptions;
+    var items = [];
+    var rs = a.renterScale;
+    if (rs && rs.tractsScaled) {
+      items.push('<strong>Renters:</strong> HUD CHAS 2018–22 income groups for each tract, scaled to the ' +
+        rs.acsRenters.toLocaleString() + ' renter households in the newer ACS 2020–24 count (CHAS alone: ' +
+        rs.chasRenters.toLocaleString() + ').' +
+        (rs.tractsNotScaled ? ' ' + rs.tractsNotScaled + ' tract' + (rs.tractsNotScaled === 1 ? ' has' : 's have') +
+          ' no usable ACS renter count and ' + (rs.tractsNotScaled === 1 ? 'stays' : 'stay') + ' at the CHAS count.' : ''));
+    } else {
+      items.push('<strong>Renters:</strong> HUD CHAS 2018–22 income groups for each tract. No ACS 2020–24 renter count loaded, so they are not updated.');
+    }
+    if (a.sizeMatched) {
+      items.push('<strong>Household size:</strong> renter households here average ' + a.areaRenterSize.toFixed(2) +
+        ' people (ACS 2020–24). The Census sample for the wider region averages ' + a.pumsRenterSize.toFixed(2) +
+        ', so its size mix is adjusted to match this area.');
+    } else {
+      items.push('<strong>Household size:</strong> no ACS average renter household size for this area, so the wider region\'s Census sample is used as it is.');
+    }
+    var off = cur.bedrooms || [];
+    var split = a.rule === 'shared' && off.indexOf('1br') !== -1 && off.indexOf('2br') !== -1;
+    var st = a.statewideSplit;
+    var two;
+    if (split) {
+      var sh = a.twoPersonSmallShare;
+      var lw = a.localWeight || 0;
+      two = '2 people: ' + (sh != null ? _pct(sh) + ' to a 1BR, ' + _pct(1 - sh) + ' to a 2BR' : 'shared between a 1BR and a 2BR') +
+        '. That is how two-person renters at 20\u201360% AMI live in this area\'s Census region (ACS PUMS 2020\u201324, ' +
+        (a.localCases || 0).toLocaleString() + ' sample households)' +
+        (st && lw < 1 ? ', blended ' + _pct(lw) + ' local and ' + _pct(1 - lw) + ' statewide (' + _pct(st.share) +
+          ' to a 1BR, ' + st.cases.toLocaleString() + ' households) because a small sample is noisy' : '') + '.';
+    } else {
+      two = '2 people: the offered size that fits.';
+    }
+    items.push('<strong>Bedroom fit:</strong> 1 person: studio or 1BR. ' + two + ' 3 people: 2BR. 4–5 people: 3BR. CHFA\'s size limits apply (studio 1, 1BR 1–2, 2BR 2–3, 3BR 3–5).');
+    var brs = Object.keys(cur.byBedroom || {}).filter(function (b) { return off.indexOf(b) !== -1; }).sort();
+    if (brs.length) {
+      items.push('<strong>Qualified renters by bedroom:</strong> ' + brs.map(function (b) {
+        return _bedroomLabel([b]) + ' ' + (cur.byBedroom[b] || 0).toLocaleString();
+      }).join(' · ') + ' (rounded; a two-person household can count partly toward each).');
+    }
+    if (split && older && older.source === 'chfa_qualified' && older.value != null) {
+      var oldRate = older.value > 0 ? (Math.round(proposed / older.value * 1000) / 10) + '%' : 'none';
+      items.push('<strong>Older rule, for comparison:</strong> if every two-person household took a 1BR (the smallest home that fits), ' +
+        older.value.toLocaleString() + ' renter households would qualify and capture would be ' + oldRate + '.');
+    }
+    return '<details class="pma-demand-counted" style="margin:.5rem 0 0;font-size:var(--tiny);color:var(--muted)">' +
+      '<summary style="cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600;color:var(--text)">How demand is counted</summary>' +
+      '<ul style="margin:.25rem 0 .25rem 1.1rem;padding:0;line-height:1.5">' + items.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' +
+      '<p style="margin:.25rem 0 0;font-size:var(--tiny);color:var(--muted)">Sources: <a href="https://www.census.gov/programs-surveys/acs/microdata.html" target="_blank" rel="noopener noreferrer">ACS PUMS 2020–24</a> (bedrooms, sizes, incomes), ' +
+      '<a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener noreferrer">HUD CHAS 2018–22</a> (income groups), ' +
+      'ACS 2020–24 5-year tables B25003 and B25010 (renter households, average size). Counted 8 Nov 2026.</p>' +
+      '</details>';
   }
 
   /* ── Peer Benchmarking render ────────────────────────────────────── */

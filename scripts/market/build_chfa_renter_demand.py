@@ -31,6 +31,8 @@ Usage:
     python3 scripts/market/build_chfa_renter_demand.py \
         --pums psam_h08.csv --tract-puma 2020_Census_Tract_to_2020_PUMA.txt \
         --limits-2024 chfa-income-rent-limits-2024.json
+    # bedroom inputs only (two-person split, 6+ size), counts untouched:
+    python3 scripts/market/build_chfa_renter_demand.py --pums psam_h08.csv --bedroom-inputs-only
 Sources:
     https://www2.census.gov/programs-surveys/acs/data/pums/2024/5-Year/csv_hco.zip
     https://www2.census.gov/geo/docs/maps-data/data/rel2020/2020_Census_Tract_to_2020_PUMA.txt
@@ -54,6 +56,14 @@ OUT = ROOT / 'data/market/chfa_renter_demand_co.json'
 MAX_BIN = 120          # 1-point bins 0..120; index 121 holds everything above 120%
 SIZES = 6              # household size 1..5, index 5 holds 6 or more people
 CHAS_TIERS = ('lte30', '31to50', '51to80', '81to100', '100plus')
+# Two-person renters at 20-60% AMI: share living in a studio or one-bedroom
+# (PUMS BDSP 0-1) against two or more bedrooms, for each PUMA from its own
+# sample. Small samples are noisy, so each PUMA's share is blended with the
+# statewide share as if the state added this many sample households:
+# share = (n * own + K * state) / (n + K). A PUMA with 50 cases is half its
+# own share, one with 150 is three quarters.
+SPLIT_AMI = (20.0, 60.0)
+SPLIT_PRIOR_CASES = 50
 
 
 def load_tract_puma(path: Path) -> dict[str, str]:
@@ -73,6 +83,70 @@ def load_limits(path: Path) -> dict[str, list[float]]:
         lim = c['regular_tiers']['50']['income_limits']
         out[c['fips']] = [float(lim[f'{n}p']) for n in range(1, 9)]
     return out
+
+
+def bedroom_inputs(pums: Path, puma_lim50: dict[str, list[float]]) -> dict:
+    """Two-person bedroom split and the mean size of 6+ person renter households.
+
+    The page counts a two-person household partly toward a one-bedroom and
+    partly toward a two-bedroom, in the shares two-person renters at 20-60%
+    AMI in the market's own PUMA actually live in (ACS PUMS BDSP), blended
+    with the statewide share where the local sample is small, instead of all
+    toward the smallest unit that fits. The 6+ mean lets the page match a market area's ACS
+    average renter household size.
+    """
+    small = defaultdict(float)
+    total = defaultdict(float)
+    cases = defaultdict(int)
+    by_br = [0.0] * 4
+    big_people = big_hh = 0.0
+    with pums.open() as f:
+        for row in csv.DictReader(f):
+            if row['TYPEHUGQ'] != '1' or row['TEN'] not in ('3', '4'):
+                continue
+            puma = row['PUMA']
+            if puma not in puma_lim50:
+                continue
+            np_ = int(row['NP'] or 0)
+            wt = float(row['WGTP'])
+            if np_ >= SIZES:
+                big_people += wt * np_
+                big_hh += wt
+            if np_ != 2:
+                continue
+            income = float(row['HINCP'] or 0) * float(row['ADJINC']) / 1e6
+            pct = max(0.0, income / puma_lim50[puma][1] * 50.0)
+            if not (SPLIT_AMI[0] <= pct <= SPLIT_AMI[1]):
+                continue
+            br = min(int(row['BDSP'] or 0), 3)
+            by_br[br] += wt
+            total[puma] += wt
+            cases[puma] += 1
+            if br <= 1:
+                small[puma] += wt
+    state_total = sum(by_br)
+    state_share = (by_br[0] + by_br[1]) / state_total
+    pumas = {}
+    for p in sorted(puma_lim50):
+        n = cases[p]
+        own = small[p] / total[p] if total[p] > 0 else state_share
+        weight = n / (n + SPLIT_PRIOR_CASES)
+        pumas[p] = [round(weight * own + (1 - weight) * state_share, 3), n, round(weight, 2), round(own, 3)]
+    return {
+        'two_person_split': {
+            'statewide_small_share': round(state_share, 3),
+            'statewide_cases': sum(cases.values()),
+            'statewide_by_bedrooms': {k: round(v / state_total, 3) for k, v in zip(('studio', '1br', '2br', '3plus'), by_br)},
+            'prior_cases': SPLIT_PRIOR_CASES,
+            'ami_range': list(SPLIT_AMI),
+            'layout': ('pumas[puma] = [share used, sample households, weight on the PUMA\'s own share, the PUMA\'s own share]; '
+                       'share used = weight * own + (1 - weight) * statewide, weight = n / (n + prior_cases)'),
+            'pumas': pumas,
+            'source': ('Census ACS 2020-2024 5-year PUMS, Colorado housing file: renter households (TEN 3 or 4) of two people '
+                       'with income 20-60% of the size-adjusted AMI (CHFA 2024 limits), by bedrooms (BDSP)'),
+        },
+        'size_values': [1, 2, 3, 4, 5, round(big_people / big_hh, 2)],
+    }
 
 
 def build(pums: Path, tract_puma_path: Path, limits_path: Path) -> dict:
@@ -126,6 +200,7 @@ def build(pums: Path, tract_puma_path: Path, limits_path: Path) -> dict:
         if puma and tiers:
             tracts[gid] = [puma] + counts
 
+    extra = bedroom_inputs(pums, puma_lim50)
     return {
         'meta': {
             'title': 'Renter households for a CHFA-style capture rate',
@@ -144,6 +219,7 @@ def build(pums: Path, tract_puma_path: Path, limits_path: Path) -> dict:
             },
             'renters': 'PUMS TEN 3 (rented) or 4 (occupied without payment of rent); housing units only',
             'chas_tiers': list(CHAS_TIERS),
+            'size_values': 'people counted for each PUMS size row when matching a market area\'s ACS average renter household size; the last is the statewide mean of 6+ person renter households',
             'pums_layout': 'pumas[puma][size 1..6+][bin]; bin i = income i% to i+1% of the size-adjusted AMI; last bin = above 120%; weights are PUMS household weights',
             'tract_layout': 'tracts[geoid] = [puma, lte30, 31to50, 51to80, 81to100, 100plus]',
             'limits_layout': 'puma_lim50_2024[puma] and county_lim50_2024[fips] = 50% AMI income limit for 1..8 people, 2024 dollars',
@@ -156,17 +232,37 @@ def build(pums: Path, tract_puma_path: Path, limits_path: Path) -> dict:
         'tracts': dict(sorted(tracts.items())),
         'puma_lim50_2024': {p: [round(v) for v in puma_lim50[p]] for p in sorted(puma_lim50)},
         'county_lim50_2024': {f: [round(v) for v in limits[f]] for f in sorted(limits)},
+        'two_person_split': extra['two_person_split'],
+        'size_values': extra['size_values'],
     }
+
+
+def add_bedroom_inputs(pums: Path, out: Path) -> dict:
+    """Add the bedroom inputs to an existing file without rebuilding its counts."""
+    payload = json.loads(out.read_text())
+    lim = {p: [float(v) for v in row] for p, row in payload['puma_lim50_2024'].items()}
+    payload.update(bedroom_inputs(pums, lim))
+    payload['meta']['size_values'] = ('people counted for each PUMS size row when matching a market area\'s ACS average renter '
+                                      'household size; the last is the statewide mean of 6+ person renter households')
+    payload['meta']['bedroom_inputs_added'] = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    return payload
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--pums', type=Path, required=True)
-    ap.add_argument('--tract-puma', type=Path, required=True)
-    ap.add_argument('--limits-2024', type=Path, required=True)
+    ap.add_argument('--tract-puma', type=Path)
+    ap.add_argument('--limits-2024', type=Path)
     ap.add_argument('--out', type=Path, default=OUT)
+    ap.add_argument('--bedroom-inputs-only', action='store_true',
+                    help='add the two-person split and size values to the existing file; counts unchanged')
     a = ap.parse_args()
-    payload = build(a.pums, a.tract_puma, a.limits_2024)
+    if a.bedroom_inputs_only:
+        payload = add_bedroom_inputs(a.pums, a.out)
+    else:
+        if not (a.tract_puma and a.limits_2024):
+            ap.error('--tract-puma and --limits-2024 are required for a full build')
+        payload = build(a.pums, a.tract_puma, a.limits_2024)
     a.out.write_text(json.dumps(payload, separators=(',', ':')))
     print(f'wrote {a.out} ({len(payload["pumas"])} PUMAs, {len(payload["tracts"])} tracts)')
 

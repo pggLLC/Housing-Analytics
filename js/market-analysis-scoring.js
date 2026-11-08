@@ -189,6 +189,46 @@
   // CHAS income tiers in percent of the county's AMI; the last is open-ended.
   var CHAS_TIER_BINS = [[0, 30], [30, 50], [50, 80], [80, 100], [100, Infinity]];
 
+  // How a household is matched to a bedroom size (paul, 8 Nov 2026). The
+  // default shares two-person households between a one-bedroom and a
+  // two-bedroom in the shares two-person renters at 20-60% AMI live in, in
+  // the market's own Census area (PUMA, ACS 2020-24 PUMS), blended with the
+  // statewide share where the local sample is small (data file
+  // two_person_split; Colorado: 28% studio or 1BR, 72% 2BR or more,
+  // n = 2,439). 'smallest' is the older rule, kept as a labelled
+  // comparison: every household takes the smallest offered unit that fits.
+  var BEDROOM_RULES = { shared: 'shared', smallest: 'smallest' };
+  var TWO_PERSON_SMALL_SHARE_CO = 0.282;
+  var DEFAULT_SIZE_VALUES = [1, 2, 3, 4, 5, 6.68];
+
+  // Size mix tilted so its mean is target: w_s * exp(theta * size_s).
+  function sizeTilt(mix, sizeValues, target) {
+    var tot = [];
+    for (var s = 0; s < mix.length; s++) {
+      var t = 0;
+      for (var b = 0; b < mix[s].length; b++) t += mix[s][b] || 0;
+      tot.push(t);
+    }
+    function meanAt(theta) {
+      var num = 0, den = 0;
+      for (var s = 0; s < tot.length; s++) {
+        var w = tot[s] * Math.exp(theta * sizeValues[s]);
+        num += w * sizeValues[s]; den += w;
+      }
+      return den > 0 ? num / den : null;
+    }
+    var base = meanAt(0);
+    if (base == null || !(target > 0)) return null;
+    var lo = -4, hi = 4;
+    if (target <= meanAt(lo) || target >= meanAt(hi)) return null;
+    for (var i = 0; i < 60; i++) {
+      var mid = (lo + hi) / 2;
+      if (meanAt(mid) < target) lo = mid; else hi = mid;
+    }
+    var theta = (lo + hi) / 2;
+    return { base: base, factors: sizeValues.map(function (v) { return Math.exp(theta * v); }) };
+  }
+
   /**
    * Renter households in a market area who could rent a tax-credit unit at
    * one or more AMI tiers, by CHFA's rules.
@@ -196,8 +236,15 @@
    * For each tract, each CHAS income tier count is multiplied by the share
    * of that tier's renters (ACS PUMS, the tract's PUMA) whose size fits an
    * offered unit (1-3 bedroom by default) and whose income falls between the
-   * 40%-of-income rent floor and the tier's limit. A household is matched to the smallest
-   * bedroom size that fits it, since that unit has the lowest rent.
+   * 40%-of-income rent floor and the tier's limit. Three choices are
+   * explicit and reported back (opts):
+   *  - bedroom rule: two-person households split between a 1BR and a 2BR
+   *    when both are offered, in the shares local two-person renters live in
+   *    (default), or the older smallest-unit rule;
+   *  - CHAS tier counts scaled to the tract's ACS 2020-24 renter households
+   *    when opts.acsIdx carries them;
+   *  - the PUMS size mix tilted to the market area's own ACS average renter
+   *    household size (avg_hh_size_renter) when opts.acsIdx carries it.
    *
    * @param {Object} demand - data/market/chfa_renter_demand_co.json
    * @param {Object<string,Object>} limitsByFips - CHFA current-year county records (regular_tiers)
@@ -206,10 +253,14 @@
    * @param {Array<string>} [bedrooms] - unit sizes offered ('0br'..'3br');
    *   default 1-3BR. Household sizes no offered unit fits are left out, as
    *   CHFA's guide says (no one-bedroom units: no one-person households).
-   * @returns {{value:number|null, byTier:Object<string,number>, source:string,
-   *   tractsUsed:number, tractsMissing:number, reason:string|null}}
+   * @param {{rule?:string, acsIdx?:Object}} [opts]
+   * @returns {{value:number|null, byTier:Object<string,number>, byBedroom:Object<string,number>,
+   *   source:string, tractsUsed:number, tractsMissing:number, reason:string|null, assumptions:Object}}
    */
-  function chfaQualifiedRenters(demand, limitsByFips, bufTracts, tiers, bedrooms) {
+  function chfaQualifiedRenters(demand, limitsByFips, bufTracts, tiers, bedrooms, opts) {
+    opts = opts || {};
+    var rule = opts.rule === BEDROOM_RULES.smallest ? BEDROOM_RULES.smallest : BEDROOM_RULES.shared;
+    var acsIdx = opts.acsIdx || null;
     var empty = function (reason) {
       return { value: null, byTier: {}, source: 'unavailable', tractsUsed: 0, tractsMissing: 0, reason: reason };
     };
@@ -234,33 +285,73 @@
       }
       return null;
     }
+    var split = demand.two_person_split || null;
+    function smallShare(puma) {
+      var row = split && split.pumas && split.pumas[puma];
+      if (row && row[0] >= 0 && row[0] <= 1) return row[0];
+      return split && split.statewide_small_share > 0 ? split.statewide_small_share : TWO_PERSON_SMALL_SHARE_CO;
+    }
+    // Units a household of n is counted toward, with shares that add to 1.
+    function unitsFor(n, puma) {
+      var br = unitFor(n);
+      if (!br) return [];
+      if (rule === BEDROOM_RULES.shared && n === 2 && br === '1br' && offered.indexOf('2br') !== -1) {
+        var sh = smallShare(puma);
+        return [{ br: '1br', share: sh }, { br: '2br', share: 1 - sh }];
+      }
+      return [{ br: br, share: 1 }];
+    }
 
-    // floors[fips][tier][size-1] = lowest qualifying income as a percent of AMI, or null.
+    // floors[fips|puma][tier][size-1] = [{br, share, floor}] where floor is
+    // the lowest qualifying income as a percent of AMI, or null.
     var floorCache = {};
-    function floorsFor(fips) {
-      if (floorCache[fips] !== undefined) return floorCache[fips];
+    function floorsFor(fips, puma) {
+      var key = fips + '|' + puma;
+      if (floorCache[key] !== undefined) return floorCache[key];
       var rec = limitsByFips[fips];
       var reg = rec && rec.regular_tiers;
       var lim50 = reg && reg['50'] && reg['50'].income_limits;
-      if (!lim50) return (floorCache[fips] = null);
+      if (!lim50) return (floorCache[key] = null);
       var out = {};
       tiers.forEach(function (t) {
         var tierRec = reg[String(t)];
         out[t] = [1, 2, 3, 4, 5, 6].map(function (n) {
-          var br = unitFor(n);
-          if (!br || !tierRec || !tierRec.max_rents) return null;
-          var rent = tierRec.max_rents[br];
           var lim = lim50[n + 'p'];
-          if (!(rent > 0) || !(lim > 0)) return null;
-          return (rent * 12 / CHFA_RENT_SHARE_OF_INCOME) / lim * 50;
+          return unitsFor(n, puma).map(function (u) {
+            var rent = tierRec && tierRec.max_rents && tierRec.max_rents[u.br];
+            var floor = (rent > 0 && lim > 0) ? (rent * 12 / CHFA_RENT_SHARE_OF_INCOME) / lim * 50 : null;
+            return { br: u.br, share: u.share, floor: floor };
+          });
         });
       });
-      return (floorCache[fips] = out);
+      return (floorCache[key] = out);
     }
 
-    var byTier = {};
+    // Market area's own ACS average renter household size, weighted by
+    // renter households in the buffer.
+    var sizeValues = (demand.size_values && demand.size_values.length === 6) ? demand.size_values : DEFAULT_SIZE_VALUES;
+    var areaSize = null, sizeNum = 0, sizeDen = 0;
+    if (acsIdx) {
+      bufTracts.forEach(function (tract) {
+        var a = acsIdx[String(tract && tract.geoid || '')];
+        var share = (typeof tract._bufferShare === 'number') ? tract._bufferShare : 1;
+        if (!a || !(share > 0)) return;
+        var r = Number(a.renter_hh), avg = Number(a.avg_hh_size_renter);
+        if (r > 0 && avg > 0) { sizeNum += r * share * avg; sizeDen += r * share; }
+      });
+      if (sizeDen > 0) areaSize = sizeNum / sizeDen;
+    }
+    var tiltCache = {};
+    function tiltFor(puma, mix) {
+      if (tiltCache[puma] !== undefined) return tiltCache[puma];
+      return (tiltCache[puma] = areaSize ? sizeTilt(mix, sizeValues, areaSize) : null);
+    }
+
+    var byTier = {}, byBr = {};
     tiers.forEach(function (t) { byTier[t] = 0; });
-    var total = 0, used = 0, missing = 0;
+    offered.forEach(function (b) { byBr[b] = 0; });
+    var total = 0, used = 0, missing = 0, scaled = 0, unscaled = 0, chasRenters = 0, acsRenters = 0;
+    var pumaSizeNum = 0, pumaSizeDen = 0, pumasUsed = {}, splitNum = 0, splitDen = 0, ownNum = 0;
 
     bufTracts.forEach(function (tract) {
       var gid = String(tract && tract.geoid || '');
@@ -268,9 +359,29 @@
       if (share <= 0) return;
       var row = demand.tracts[gid];
       var mix = row && demand.pumas[row[0]];
-      var floors = floorsFor(gid.slice(0, 5));
+      var floors = row && floorsFor(gid.slice(0, 5), row[0]);
       if (!row || !mix || !floors) { missing += 1; return; }
       used += 1;
+      pumasUsed[row[0]] = true;
+      // CHAS 2018-22 tier counts, scaled to the tract's ACS 2020-24 renters.
+      var chasTotal = 0;
+      for (var k0 = 1; k0 <= CHAS_TIER_BINS.length; k0++) chasTotal += row[k0] > 0 ? row[k0] : 0;
+      var acsRow = acsIdx && acsIdx[gid];
+      var acsR = acsRow && acsRow.renter_hh != null ? Number(acsRow.renter_hh) : NaN;
+      var countScale = 1;
+      if (acsIdx && isFinite(acsR) && acsR >= 0 && chasTotal > 0) {
+        countScale = acsR / chasTotal; scaled += 1;
+      } else if (acsIdx) {
+        unscaled += 1;
+      }
+      chasRenters += chasTotal * share;
+      acsRenters += chasTotal * countScale * share;
+      var sRow = split && split.pumas && split.pumas[row[0]];
+      splitNum += smallShare(row[0]) * chasTotal * countScale * share;
+      ownNum += (sRow && sRow[2] != null ? sRow[2] : 0) * chasTotal * countScale * share;
+      splitDen += chasTotal * countScale * share;
+      var tilt = tiltFor(row[0], mix);
+      if (tilt) { pumaSizeNum += tilt.base * chasTotal * share; pumaSizeDen += chasTotal * share; }
       // PUMS bins are percent of the PUMA's renter-weighted limit. Where the
       // PUMA spans counties with different limits, move each bin onto this
       // tract's county scale before comparing it with county cut-offs.
@@ -282,35 +393,61 @@
       CHAS_TIER_BINS.forEach(function (range, k) {
         var count = row[k + 1];
         if (!(count > 0)) return;
-        var tierTotal = 0, anyTier = 0, perTier = {};
+        var tierTotal = 0, anyTier = 0, perTier = {}, perBr = {};
         tiers.forEach(function (t) { perTier[t] = 0; });
         for (var s = 0; s < mix.length; s++) {
+          var f = tilt ? tilt.factors[s] : 1;
           for (var b = 0; b < mix[s].length; b++) {
-            var w = mix[s][b];
+            var w = mix[s][b] * f;
             if (!w) continue;
             // the last bin holds everything above 120%
             var pct = b === mix[s].length - 1 ? Infinity : (b + 0.5) * toCounty[s];
             if (pct < range[0] || (range[1] !== Infinity && pct >= range[1])) continue;
             tierTotal += w;
-            var fits = false;
-            for (var i = 0; i < tiers.length; i++) {
-              var t = tiers[i], floor = floors[t][s];
-              if (floor != null && pct <= t && pct >= floor) { perTier[t] += w; fits = true; }
+            var parts = floors[tiers[0]][s];
+            for (var u = 0; u < parts.length; u++) {
+              var fits = false;
+              for (var i = 0; i < tiers.length; i++) {
+                var t = tiers[i], part = floors[t][s][u];
+                if (part.floor != null && pct <= t && pct >= part.floor) { perTier[t] += w * part.share; fits = true; }
+              }
+              if (fits) {
+                anyTier += w * parts[u].share;
+                perBr[parts[u].br] = (perBr[parts[u].br] || 0) + w * parts[u].share;
+              }
             }
-            if (fits) anyTier += w;
           }
         }
         if (tierTotal <= 0) return;
-        var scale = count * share / tierTotal;
+        var scale = count * countScale * share / tierTotal;
         total += anyTier * scale;
         tiers.forEach(function (t) { byTier[t] += perTier[t] * scale; });
+        Object.keys(perBr).forEach(function (br) { byBr[br] += perBr[br] * scale; });
       });
     });
 
     if (!used) return empty('no tract in the market area has CHAS and PUMS data');
     Object.keys(byTier).forEach(function (t) { byTier[t] = Math.round(byTier[t]); });
-    return { value: Math.round(total), byTier: byTier, source: 'chfa_qualified', tractsUsed: used, tractsMissing: missing,
-      bedrooms: offered, reason: null };
+    Object.keys(byBr).forEach(function (b) { byBr[b] = Math.round(byBr[b]); });
+    var pumaList = Object.keys(pumasUsed).sort();
+    var cases = 0;
+    pumaList.forEach(function (p) { var r = split && split.pumas && split.pumas[p]; if (r) cases += r[1] || 0; });
+    return { value: Math.round(total), byTier: byTier, byBedroom: byBr, source: 'chfa_qualified', tractsUsed: used, tractsMissing: missing,
+      bedrooms: offered, reason: null,
+      assumptions: {
+        rule: rule,
+        // Renter-weighted over the market area's tracts.
+        twoPersonSmallShare: splitDen > 0 ? Math.round(splitNum / splitDen * 1000) / 1000 : null,
+        localWeight: splitDen > 0 ? Math.round(ownNum / splitDen * 100) / 100 : 0,
+        localCases: cases,
+        pumas: pumaList,
+        statewideSplit: split ? { share: split.statewide_small_share, cases: split.statewide_cases } : null,
+        renterScale: acsIdx ? { tractsScaled: scaled, tractsNotScaled: unscaled,
+          chasRenters: Math.round(chasRenters), acsRenters: Math.round(acsRenters) } : null,
+        areaRenterSize: areaSize != null ? Math.round(areaSize * 100) / 100 : null,
+        pumsRenterSize: pumaSizeDen > 0 ? Math.round(pumaSizeNum / pumaSizeDen * 100) / 100 : null,
+        sizeMatched: !!(areaSize && pumaSizeDen > 0)
+      } };
   }
 
   function scoreRentPressure(acs, countyAmi) {
@@ -398,6 +535,8 @@
     CHFA_RENT_SHARE_OF_INCOME: CHFA_RENT_SHARE_OF_INCOME,
     CHFA_MAX_OCCUPANTS: CHFA_MAX_OCCUPANTS,
     CHFA_DEFAULT_BEDROOMS: CHFA_DEFAULT_BEDROOMS,
+    BEDROOM_RULES: BEDROOM_RULES,
+    TWO_PERSON_SMALL_SHARE_CO: TWO_PERSON_SMALL_SHARE_CO,
     scoreRentPressure: scoreRentPressure,
     scoreMarketTightness: scoreMarketTightness,
     scoreMarketTightnessDetail: scoreMarketTightnessDetail,

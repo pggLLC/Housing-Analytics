@@ -22,7 +22,7 @@ county's renter pool for a small urban buffer.
   counties: Array<{fips:string, share:number, lihtc_eligible:number}>
 }}
 
-### `chfaQualifiedRenters(demand, limitsByFips, bufTracts, tiers, bedrooms)`
+### `chfaQualifiedRenters(demand, limitsByFips, bufTracts, tiers, bedrooms, opts)`
 
 Renter households in a market area who could rent a tax-credit unit at
 one or more AMI tiers, by CHFA's rules.
@@ -30,8 +30,15 @@ one or more AMI tiers, by CHFA's rules.
 For each tract, each CHAS income tier count is multiplied by the share
 of that tier's renters (ACS PUMS, the tract's PUMA) whose size fits an
 offered unit (1-3 bedroom by default) and whose income falls between the
-40%-of-income rent floor and the tier's limit. A household is matched to the smallest
-bedroom size that fits it, since that unit has the lowest rent.
+40%-of-income rent floor and the tier's limit. Three choices are
+explicit and reported back (opts):
+ - bedroom rule: two-person households split between a 1BR and a 2BR
+   when both are offered, in the shares local two-person renters live in
+   (default), or the older smallest-unit rule;
+ - CHAS tier counts scaled to the tract's ACS 2020-24 renter households
+   when opts.acsIdx carries them;
+ - the PUMS size mix tilted to the market area's own ACS average renter
+   household size (avg_hh_size_renter) when opts.acsIdx carries it.
 
 @param {Object} demand - data/market/chfa_renter_demand_co.json
 @param {Object<string,Object>} limitsByFips - CHFA current-year county records (regular_tiers)
@@ -40,5 +47,6 @@ bedroom size that fits it, since that unit has the lowest rent.
 @param {Array<string>} [bedrooms] - unit sizes offered ('0br'..'3br');
   default 1-3BR. Household sizes no offered unit fits are left out, as
   CHFA's guide says (no one-bedroom units: no one-person households).
-@returns {{value:number|null, byTier:Object<string,number>, source:string,
-  tractsUsed:number, tractsMissing:number, reason:string|null}}
+@param {{rule?:string, acsIdx?:Object}} [opts]
+@returns {{value:number|null, byTier:Object<string,number>, byBedroom:Object<string,number>,
+  source:string, tractsUsed:number, tractsMissing:number, reason:string|null, assumptions:Object}}
