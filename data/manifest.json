@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-08T21:43:46.674238Z",
+  "generated": "2026-11-08T22:14:22.748961Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1030109
+      "bytes": 1030516
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -8826,6 +8826,11 @@
       "placeholder": false,
       "bytes": 1398066
     },
+    "data/market/acs_tract_renter_household_size_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 49396
+    },
     "data/market/apartment_list_co.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -8874,7 +8879,7 @@
     "data/market/chfa_renter_demand_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 149334
+      "bytes": 157013
     },
     "data/market/childcare_co.geojson": {
       "featureCount": 2860,

@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-08T21:43:04.305Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-08T22:13:45.569Z. Do not edit by hand.
 
 ---
 
@@ -97,7 +97,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1977 JSON files found.
+1978 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1857,6 +1857,7 @@
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
 | `data/market/acs_renter_household_size_co.json` | 158.8 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.33 MB | ✅ | — |
+| `data/market/acs_tract_renter_household_size_co.json` | 48.2 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
 | `data/market/bps_monthly_ytd.json` | 92.9 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 575 B | ✅ | — |
@@ -1865,7 +1866,7 @@
 | `data/market/chas_co.json` | 159.0 KB | ✅ | — |
 | `data/market/chas_tract_co.json` | 3.43 MB | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
-| `data/market/chfa_renter_demand_co.json` | 145.8 KB | ✅ | — |
+| `data/market/chfa_renter_demand_co.json` | 153.3 KB | ✅ | — |
 | `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
 | `data/market/co-adaptive-reuse-references.json` | 13.7 KB | ✅ | — |
 | `data/market/co-construction-labor-cost.json` | 128.3 KB | ✅ | — |
@@ -2570,7 +2571,7 @@
 | `test/pma-boundary-clear-race.test.js` | 3.1 KB |
 | `test/pma-capture-denominator.test.js` | 15.4 KB |
 | `test/pma-capture-naming.test.js` | 12.1 KB |
-| `test/pma-chfa-qualified-renters.test.js` | 17.9 KB |
+| `test/pma-chfa-qualified-renters.test.js` | 22.1 KB |
 | `test/pma-commute-context.test.js` | 7.0 KB |
 | `test/pma-commute-shaped.test.js` | 8.0 KB |
 | `test/pma-competitive-set.test.js` | 13.0 KB |

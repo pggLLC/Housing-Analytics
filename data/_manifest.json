@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-08T21:43:42.949Z",
+    "generated_at": "2026-11-08T22:14:19.827Z",
     "root": "data/",
-    "file_count": 2025,
-    "total_size_bytes": 222673016,
+    "file_count": 2026,
+    "total_size_bytes": 222730091,
     "kinds": {
-      "json": 1976,
+      "json": 1977,
       "geojson": 35,
       "csv": 14
     }
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-08T21:43:38.197Z",
+      "mtime": "2026-11-08T22:14:16.187Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38386,6 +38386,21 @@
       ]
     },
     {
+      "path": "market/acs_tract_renter_household_size_co.json",
+      "kind": "json",
+      "size_bytes": 49396,
+      "mtime": "2026-11-08T22:12:42.905Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "tracts"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/apartment_list_co.json",
       "kind": "json",
       "size_bytes": 5646,
@@ -38550,8 +38565,8 @@
     {
       "path": "market/chfa_renter_demand_co.json",
       "kind": "json",
-      "size_bytes": 149334,
-      "mtime": "2026-11-08T20:12:43.555Z",
+      "size_bytes": 157013,
+      "mtime": "2026-11-08T22:12:42.916Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38560,9 +38575,10 @@
         "puma_lim50_2024",
         "county_lim50_2024",
         "two_person_split",
-        "size_values"
+        "size_values",
+        "student_share"
       ],
-      "key_count": 7,
+      "key_count": 8,
       "primary_array_key": "size_values",
       "primary_array_length": 6,
       "primary_array_first_keys": null
@@ -40169,7 +40185,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-08T21:43:40.375Z",
+      "mtime": "2026-11-08T22:14:18.012Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40193,7 +40209,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-08T21:43:39.858Z",
+      "mtime": "2026-11-08T22:14:17.585Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
