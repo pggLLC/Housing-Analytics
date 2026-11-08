@@ -2,8 +2,8 @@
   "meta": {
     "source": "EPA Envirofacts SEMS and FRS/ACRES",
     "state": "Colorado",
-    "retrieved_at": "2026-10-31T21:20:52Z",
-    "generated": "2026-10-31T21:20:52Z",
+    "retrieved_at": "2026-11-08T15:04:16Z",
+    "generated": "2026-11-08T15:04:16Z",
     "coverage_status": "full_statewide",
     "coverage_reason": "Statewide Colorado queries of EPA SEMS NPL sites and FRS-linked ACRES brownfield program records.",
     "query_urls": {
@@ -11,9 +11,9 @@
       "brownfields": "https://data.epa.gov/dmapservice/lookups.mv_new_geo_best_picks/state_code/equals/CO/join/frs.frs_program_facility/registry_id/equals/registry_id/and/pgm_sys_acrnm/equals/ACRES/1:10000/json"
     },
     "superfund_source_records": 24,
-    "brownfield_source_records": 1120,
+    "brownfield_source_records": 1121,
     "superfund_records": 24,
-    "brownfield_records": 1120,
+    "brownfield_records": 1121,
     "superfund_omitted_missing_coordinates": 0,
     "brownfield_omitted_missing_coordinates": 0,
     "note": "NPL query includes final, deleted, and proposed sites; ACRES records use EPA FRS representative coordinates."
@@ -10756,6 +10756,17 @@
       "county": "Ouray",
       "lat": 37.939727,
       "lon": -107.735612,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate"
+    },
+    {
+      "id": "272907",
+      "registry_id": "110011680573",
+      "name": "ST SCHOLASTICA",
+      "county_fips": "08043",
+      "county": "Fremont",
+      "lat": 38.44646,
+      "lon": -105.24191,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
     },
