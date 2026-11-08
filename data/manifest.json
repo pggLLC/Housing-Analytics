@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-08T12:54:26.802121Z",
+  "generated": "2026-11-08T12:59:08.848463Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1029673
+      "bytes": 1030052
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9130,6 +9130,11 @@
       "featureCount": 64,
       "placeholder": false,
       "bytes": 31055
+    },
+    "data/market/public-jobs.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 82433
     },
     "data/market/qct_dda_designations_co.json": {
       "featureCount": 0,

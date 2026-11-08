@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-08T12:54:23.102Z",
+    "generated_at": "2026-11-08T12:59:06.634Z",
     "root": "data/",
-    "file_count": 2024,
-    "total_size_bytes": 223209606,
+    "file_count": 2025,
+    "total_size_bytes": 223292039,
     "kinds": {
-      "json": 1975,
+      "json": 1976,
       "geojson": 35,
       "csv": 14
     }
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-08T09:48:55.333Z",
+      "mtime": "2026-11-08T12:59:03.871Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39550,6 +39550,22 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "market/public-jobs.json",
+      "kind": "json",
+      "size_bytes": 82433,
+      "mtime": "2026-11-08T12:57:48.594Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "counties",
+        "places"
+      ],
+      "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/qct_dda_designations_co.json",
       "kind": "json",
       "size_bytes": 480,
@@ -40151,7 +40167,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-08T12:54:20.760Z",
+      "mtime": "2026-11-08T12:59:05.300Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40175,7 +40191,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-08T12:54:20.264Z",
+      "mtime": "2026-11-08T12:59:04.962Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
