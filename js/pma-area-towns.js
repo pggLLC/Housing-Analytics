@@ -134,9 +134,9 @@
     var share = {};
     (tracts || []).forEach(function (t) { if (t && shareOf(t) > 0) share[String(t.geoid)] = shareOf(t); });
     if (!Object.keys(share).length) return null;
-    var flagged = (towns && towns.flagged) || {};
-    var idx = placeDoc && placeDoc.places ? byTract(placeDoc) : {};
-    var tractHomes = (placeDoc && placeDoc.tract_housing_units) || {};
+    var flagged = towns.flagged || {};
+    var idx = byTract(placeDoc);
+    var tractHomes = placeDoc.tract_housing_units || {};
     function originOf(home) {
       var homes = tractHomes[home] || 0;
       var best = null;
