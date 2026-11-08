@@ -62,7 +62,6 @@ const MANIFESTS_BEFORE_REBASE = {
   'pab-allocations-annual.yml': 'Commit refreshed allocations',
   'qa-status.yml': 'Commit data/_qa-status.json (cron only)',
   'upstream-vintage-watch.yml': 'Commit refreshed watch result',
-  'url-health-weekly.yml': 'Commit updated url-health.json',
 };
 
 let passed = 0;
