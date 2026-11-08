@@ -248,6 +248,7 @@
   var chasData            = null;   // HUD CHAS AMI-tier renter HH (D: capture-rate denominator)
   var chfaDemand          = null;   // tract CHAS tiers + PUMA size/income mix (CHFA-style qualified renters)
   var chfaLimitsByFips    = null;   // CHFA 2026 income and rent limits, keyed by county FIPS
+  var chfaSizeIdx         = null;   // ACS 2020-24 B25009 renter households by size, keyed by tract
   // CHFA computes demand per AMI tier (QAP Appendix A, section 7). The page
   // does not know the tiers of the existing stock, so existing affordable
   // penetration divides by renters who qualify for any tax-credit tier
@@ -1012,7 +1013,7 @@
   }
   function _chfaQualifiedRenters(bufTracts, tiers, bedrooms, rule) {
     return PMAScoring.chfaQualifiedRenters(chfaDemand, chfaLimitsByFips, bufTracts, tiers, bedrooms,
-      { rule: rule, acsIdx: _chfaAcsIdx() });
+      { rule: rule, acsIdx: _chfaAcsIdx(), sizeIdx: chfaSizeIdx });
   }
 
   var BEDROOM_INPUTS = ['pmaBr0', 'pmaBr1', 'pmaBr2', 'pmaBr3'];
@@ -2742,17 +2743,24 @@
     } else {
       items.push('<strong>Renters:</strong> HUD CHAS 2018–22 income groups for each tract. No ACS 2020–24 renter count loaded, so they are not updated.');
     }
+    var sizeShare = function (sh) {
+      return sh ? [0, 1, 2, 3, 4, 5].map(function (k) { return _pct(sh[k]); }).join(' / ') : '';
+    };
     if (a.sizeMatched) {
-      items.push('<strong>Household size:</strong> renter households here average ' + a.areaRenterSize.toFixed(2) +
-        ' people (ACS 2020–24). The Census sample for the wider region averages ' + a.pumsRenterSize.toFixed(2) +
-        ', so its size mix is adjusted to match this area.');
-    } else if (typeof a.areaRenterSize === 'number' && Number.isFinite(a.areaRenterSize)) {
-      items.push('<strong>Household size:</strong> renter households here average ' + a.areaRenterSize.toFixed(2) +
-        ' people (ACS 2020–24), but the wider region\'s Census size mix cannot be adjusted to reach that average' +
-        (a.pumsRenterSize != null ? ' (it averages ' + a.pumsRenterSize.toFixed(2) + ')' : '') +
-        ', so the sample is used as it is.');
+      items.push('<strong>Household size:</strong> renter households here are ' + sizeShare(a.areaSizeShares) +
+        ' with 1 / 2 / 3 / 4 / 5 / 6+ people (ACS 2020\u201324, table B25009, ' + a.sizeTracts + ' tract' + (a.sizeTracts === 1 ? '' : 's') +
+        '; average ' + a.areaRenterSize.toFixed(2) + '). The Census sample for the wider region is ' + sizeShare(a.pumsSizeShares) +
+        ', so its sizes are reweighted to match this area.');
+    } else if (a.areaSizeShares) {
+      items.push('<strong>Household size:</strong> the wider region\'s Census sample could not be matched to this area\'s published sizes (' +
+        sizeShare(a.areaSizeShares) + '), so it is used as it is.');
     } else {
-      items.push('<strong>Household size:</strong> no ACS average renter household size for this area, so the wider region\'s Census sample is used as it is.');
+      items.push('<strong>Household size:</strong> no published renter household sizes for these tracts, so the wider region\'s Census sample is used as it is.');
+    }
+    if (typeof a.studentsRemoved === 'number' && Number.isFinite(a.studentsRemoved)) {
+      items.push('<strong>Students:</strong> ' + (a.studentsRemoved > 0 ? a.studentsRemoved.toLocaleString() + ' households' : 'No households') +
+        ' in which everyone attends college ' + (a.studentsRemoved === 1 ? 'is' : 'are') + ' left out, because tax credit homes generally cannot go to all-student households. ' +
+        'The Census does not say who studies full time or who meets an exception, so this may remove a few too many (ACS PUMS 2020\u201324).');
     }
     var off = cur.bedrooms || [];
     var split = a.rule === 'shared' && off.indexOf('1br') !== -1 && off.indexOf('2br') !== -1;
@@ -2800,14 +2808,14 @@
     }
     items.push('<strong>Compared with CHFA\'s guide:</strong> CHFA sets the 40% rent test, the most people each bedroom size may hold, and counts renters ' +
       '\u201cas of the current date\u201d (<a href="https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf" target="_blank" rel="noopener noreferrer">2027\u201328 QAP</a>, Appendix A section 7, p. 83). ' +
-      'Updating CHAS to the newer ACS count follows that. CHFA does not say which size a two-person household rents or how to set household sizes: ' +
-      'the shares and size match here are our choices from Census data, so the older rule is shown beside them.');
+      'Updating CHAS to the newer ACS count follows that. CHFA does not say which size a two-person household rents, how to set household sizes, or how to treat students: ' +
+      'those are our choices from Census data, so the older rule is shown beside them.');
     return '<details class="pma-demand-counted" style="margin:.5rem 0 0;font-size:var(--tiny);color:var(--muted)">' +
       '<summary style="cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600;color:var(--text)">How demand is counted</summary>' +
       '<ul style="margin:.25rem 0 .25rem 1.1rem;padding:0;line-height:1.5">' + items.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' +
       '<p style="margin:.25rem 0 0;font-size:var(--tiny);color:var(--muted)">Sources: <a href="https://www.census.gov/programs-surveys/acs/microdata.html" target="_blank" rel="noopener noreferrer">ACS PUMS 2020–24</a> (bedrooms, sizes, incomes), ' +
       '<a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener noreferrer">HUD CHAS 2018–22</a> (income groups), ' +
-      'ACS 2020–24 5-year tables B25003 and B25010 (renter households, average size). Counted 8 Nov 2026.</p>' +
+      'ACS 2020–24 5-year tables B25003 and B25009 (renter households, households by size). Counted 8 Nov 2026.</p>' +
       '</details>';
   }
 
@@ -6199,7 +6207,10 @@
       // Loaded after the page was ready, a deep-linked analysis often ran
       // first and scored workforce without them, so one link read 63 on one
       // load and 65 on the next.
-      window.LodesCommute ? window.LodesCommute.loadMetrics().catch(function () { return null; }) : Promise.resolve(null)
+      window.LodesCommute ? window.LodesCommute.loadMetrics().catch(function () { return null; }) : Promise.resolve(null),
+      // Published renter household sizes by tract (ACS B25009), matched by
+      // the CHFA count. Without it the count uses the regional sizes as they are.
+      fetchFile('market/acs_tract_renter_household_size_co.json').catch(function () { return null; })
     ]).then(function (results) {      var statusParts = [];
 
       var tractData = results[0];
@@ -6256,6 +6267,8 @@
       var demandData = results[5];
       chfaDemand = demandData && !demandData._loadError && demandData.tracts && demandData.pumas ? demandData : null;
       var limitsData = results[6];
+      var sizeData = results[results.length - 1];
+      chfaSizeIdx = sizeData && !sizeData._loadError && sizeData.tracts ? sizeData.tracts : null;
       chfaLimitsByFips = null;
       if (limitsData && !limitsData._loadError && limitsData.counties) {
         chfaLimitsByFips = {};

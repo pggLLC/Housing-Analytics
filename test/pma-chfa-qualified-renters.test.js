@@ -201,22 +201,82 @@ test('CHAS tier counts are scaled to the tract\'s ACS renter households', () => 
     { acsIdx: { '08001000100': { renter_hh: 0 } } }).value, 0);
 });
 
-test('the size mix is matched to the area\'s ACS average renter household size', () => {
-  // Equal 1p and 3p weight at 45% (both qualify): PUMS mean 2.0.
+test('the size mix is matched to the area\'s published renter household sizes (B25009)', () => {
+  // Equal 1p and 3p weight at 45% (both qualify).
   const m = [bins(), bins(), bins(), bins(), bins(), bins()];
   m[0][45] = 100; m[2][45] = 100; m[0][20] = 100;   // a 1p under every floor
   const d = { pumas: { P1: m }, tracts: { '08001000100': ['P1', 0, 300, 0, 0, 0] } };
-  const at = (avg) => S.chfaQualifiedRenters(d, limits, tracts, [60], null,
-    { acsIdx: { '08001000100': { renter_hh: 300, avg_hh_size_renter: avg } } });
-  const big = at(2.6), small = at(1.4);
-  assert(big.assumptions.sizeMatched && big.assumptions.areaRenterSize === 2.6);
+  const at = (sizes) => S.chfaQualifiedRenters(d, limits, tracts, [60], null, { sizeIdx: { '08001000100': sizes } });
+  const big = at([100, 0, 200, 0, 0, 0]), small = at([250, 0, 50, 0, 0, 0]);
+  assert(big.assumptions.sizeMatched);
+  assert.deepStrictEqual(big.assumptions.areaSizeShares, [0.333, 0, 0.667, 0, 0, 0]);
+  assert.strictEqual(big.assumptions.areaRenterSize, 2.33);
+  assert.strictEqual(big.assumptions.sizeTracts, 1);
   assert(big.byBedroom['2br'] > small.byBedroom['2br'], 'larger households: more 2BR demand');
   assert(big.byBedroom['1br'] < small.byBedroom['1br'], 'smaller households: more 1BR demand');
-  // Without an ACS average the mix is used as it is.
-  const none = S.chfaQualifiedRenters(d, limits, tracts, [60], null, { acsIdx: { '08001000100': { renter_hh: 300 } } });
+  // No published sizes: the mix is used as it is.
+  const none = S.chfaQualifiedRenters(d, limits, tracts, [60], null, { sizeIdx: {} });
   assert.strictEqual(none.assumptions.sizeMatched, false);
+  assert.strictEqual(none.assumptions.areaSizeShares, null);
   assert.strictEqual(none.value, 300);
   assert.strictEqual(big.value, 300, 'both sizes qualify, so only the bedroom split moves');
+});
+
+test('the size fit reproduces the published shares on the CHAS-weighted renters the count uses', () => {
+  // Sizes mixed within each tier, tiers weighted 90 / 10: the fitted shares
+  // match the target although the raw sample is 50 / 50.
+  const m = [bins(), bins(), bins(), bins(), bins(), bins()];
+  m[0][40] = 100; m[2][40] = 20; m[0][55] = 20; m[2][55] = 100;
+  const d = { pumas: { P1: m }, tracts: { '08001000100': ['P1', 0, 90, 10, 0, 0] } };
+  const r = S.chfaQualifiedRenters(d, limits, tracts, [60], null, { sizeIdx: { '08001000100': [60, 0, 40, 0, 0, 0] } });
+  assert(r.assumptions.sizeMatched);
+  assert(r.assumptions.pumsSizeShares[0] > 0.7, 'before the fit, weighted to these tiers: ' + r.assumptions.pumsSizeShares);
+  // Every household here qualifies (1p -> 1BR, 3p -> 2BR), so byBedroom shows the fitted sizes.
+  const n1 = r.byBedroom['1br'], n3 = r.byBedroom['2br'];
+  assert(Math.abs(n1 / (n1 + n3) - 0.6) < 0.01, 'fitted 1-person share ' + n1 / (n1 + n3));
+  // The fit itself: published shares are reached.
+  const fit = S.areaSizeFit([{ count: 90, sizes: [100, 0, 20, 0, 0, 0] }, { count: 10, sizes: [20, 0, 100, 0, 0, 0] }], [0.6, 0, 0.4, 0, 0, 0]);
+  assert(Math.abs(fit.fitted[0] - 0.6) < 1e-4 && Math.abs(fit.fitted[2] - 0.4) < 1e-4);
+});
+
+test('a tract the count skips (no usable limits) is left out of the size match too (Codex #2747)', () => {
+  const m1 = [bins(), bins(), bins(), bins(), bins(), bins()]; m1[0][45] = 100; m1[2][45] = 100;
+  const m2 = [bins(), bins(), bins(), bins(), bins(), bins()]; m2[0][45] = 100;
+  const d = { pumas: { P1: m1, P2: m2 }, tracts: { '08001000100': ['P1', 0, 100, 0, 0, 0], '08099000100': ['P2', 0, 100, 0, 0, 0] } };
+  const two = [{ geoid: '08001000100', _bufferShare: 1 }, { geoid: '08099000100', _bufferShare: 1 }];
+  // The skipped tract is all 1-person; it must not pull the target.
+  const sizeIdx = { '08001000100': [60, 0, 40, 0, 0, 0], '08099000100': [100, 0, 0, 0, 0, 0] };
+  const r = S.chfaQualifiedRenters(d, limits, two, [60], null, { sizeIdx: sizeIdx });   // county 08099 has no limits
+  assert.strictEqual(r.tractsMissing, 1);
+  assert.strictEqual(r.assumptions.sizeTracts, 1);
+  const n1 = r.byBedroom['1br'], n3 = r.byBedroom['2br'];
+  assert(Math.abs(n1 / (n1 + n3) - 0.6) < 0.01, 'fitted 1-person share ' + n1 / (n1 + n3));
+});
+
+test('households in which everyone attends college are left out of those who qualify', () => {
+  const m = [bins(), bins(), bins(), bins(), bins(), bins()]; m[0][45] = 100;
+  const sh = [[0, 0.3, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
+  const d = { pumas: { P1: m }, tracts: { '08001000100': ['P1', 0, 100, 0, 0, 0] }, student_share: { pumas: { P1: sh } } };
+  const r = S.chfaQualifiedRenters(d, limits, tracts, [60]);
+  assert.strictEqual(r.value, 70, '30% of the 31-50% tier is all-student');
+  assert.strictEqual(r.assumptions.studentsRemoved, 30);
+  const without = S.chfaQualifiedRenters({ pumas: d.pumas, tracts: d.tracts }, limits, tracts, [60]);
+  assert.strictEqual(without.value, 100);
+  assert.strictEqual(without.assumptions.studentsRemoved, null, 'no student data: nothing removed, and none claimed');
+});
+
+test('the files carry the student share and tract household sizes with their sources', () => {
+  const d = read('data/market/chfa_renter_demand_co.json');
+  const st = d.student_share;
+  assert(/SCHG/.test(st.source) && /upper bound/.test(st.definition));
+  Object.keys(d.pumas).forEach((p) => {
+    assert.strictEqual(st.pumas[p].length, 6, p);
+    st.pumas[p].forEach((row) => row.forEach((v) => assert(v >= 0 && v <= 1)));
+  });
+  const z = read('data/market/acs_tract_renter_household_size_co.json');
+  assert(/B25009/.test(z.meta.source));
+  assert(Object.keys(z.tracts).length >= 1400);
+  Object.values(z.tracts).forEach((row) => assert(row.length === 6 && row.every((v) => Number.isInteger(v) && v >= 0)));
 });
 
 test('the file carries the two-person split with its sample size and source', () => {
@@ -235,41 +295,6 @@ test('the file carries the two-person split with its sample size and source', ()
   });
   assert.strictEqual(d.size_values.length, 6);
 });
-
-test('the size match is made on the CHAS-weighted renters the count uses, not the raw sample (Codex #2747)', () => {
-  // Codex's case: 1p only at 40%, 3p only at 55%, CHAS tiers 90 and 10. The
-  // tiers fix the sizes, so no tilt can reach an average of 2.0: say so.
-  const m = [bins(), bins(), bins(), bins(), bins(), bins()];
-  m[0][40] = 100; m[2][55] = 100;
-  const d = { pumas: { P1: m }, tracts: { '08001000100': ['P1', 0, 90, 10, 0, 0] } };
-  const acs = (avg) => ({ acsIdx: { '08001000100': { renter_hh: 100, avg_hh_size_renter: avg } } });
-  const r = S.chfaQualifiedRenters(d, limits, tracts, [60], null, acs(2.0));
-  assert.strictEqual(r.assumptions.sizeMatched, false, 'an unreachable average is not reported as matched');
-  // Sizes mixed within each tier: the tilted, CHAS-weighted mean hits the target.
-  const m2 = [bins(), bins(), bins(), bins(), bins(), bins()];
-  m2[0][40] = 100; m2[2][40] = 20; m2[0][55] = 20; m2[2][55] = 100;
-  const d2 = { pumas: { P1: m2 }, tracts: { '08001000100': ['P1', 0, 90, 10, 0, 0] } };
-  const r2 = S.chfaQualifiedRenters(d2, limits, tracts, [60], null, acs(2.0));
-  assert.strictEqual(r2.assumptions.sizeMatched, true);
-  // Raw sample mean is 2.0, but weighted to these tiers it is lower.
-  assert(r2.assumptions.pumsRenterSize < 1.6, 'base is CHAS-weighted: ' + r2.assumptions.pumsRenterSize);
-  // Every household here qualifies (1BR or 2BR), so byBedroom gives the sizes: 1p -> 1BR, 3p -> 2BR.
-  const n1 = r2.byBedroom['1br'], n3 = r2.byBedroom['2br'];
-  assert(Math.abs((n1 * 1 + n3 * 3) / (n1 + n3) - 2.0) < 0.03, 'implied average ' + ((n1 + 3 * n3) / (n1 + n3)));
-});
-
-test('a tract the count skips (no usable limits) is left out of the size match too (Codex #2747)', () => {
-  const m1 = [bins(), bins(), bins(), bins(), bins(), bins()]; m1[0][45] = 100; m1[2][45] = 100;
-  const m2 = [bins(), bins(), bins(), bins(), bins(), bins()]; m2[0][45] = 100;
-  const d = { pumas: { P1: m1, P2: m2 }, tracts: { '08001000100': ['P1', 0, 100, 0, 0, 0], '08099000100': ['P2', 0, 100, 0, 0, 0] } };
-  const two = [{ geoid: '08001000100', _bufferShare: 1 }, { geoid: '08099000100', _bufferShare: 1 }];
-  const acsIdx = { '08001000100': { renter_hh: 100, avg_hh_size_renter: 1.8 }, '08099000100': { renter_hh: 100, avg_hh_size_renter: 1.8 } };
-  const r = S.chfaQualifiedRenters(d, limits, two, [60], null, { acsIdx: acsIdx });   // county 08099 has no limits
-  assert.strictEqual(r.tractsMissing, 1);
-  const n1 = r.byBedroom['1br'], n3 = r.byBedroom['2br'];
-  assert(Math.abs((n1 + 3 * n3) / (n1 + n3) - 1.8) < 0.03, 'implied average ' + ((n1 + 3 * n3) / (n1 + n3)));
-});
-
 
 test('the disclosed two-person split is weighted by two-person renters, not all renters (Codex #2747)', () => {
   const twoOnly = [bins(), bins(), bins(), bins(), bins(), bins()]; twoOnly[1][45] = 100;

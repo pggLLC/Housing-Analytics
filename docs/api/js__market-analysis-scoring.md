@@ -37,8 +37,12 @@ explicit and reported back (opts):
    (default), or the older smallest-unit rule;
  - CHAS tier counts scaled to the tract's ACS 2020-24 renter households
    when opts.acsIdx carries them;
- - the PUMS size mix tilted to the market area's own ACS average renter
-   household size (avg_hh_size_renter) when opts.acsIdx carries it.
+ - the PUMS size mix fitted to the market area's published renter
+   household size counts (ACS 2020-24 B25009, by tract) when opts.sizeIdx
+   carries them;
+ - households in which everyone attends college left out, when the
+   demand file carries student_share (tax credit homes generally cannot
+   go to all-student households).
 
 @param {Object} demand - data/market/chfa_renter_demand_co.json
 @param {Object<string,Object>} limitsByFips - CHFA current-year county records (regular_tiers)
@@ -47,6 +51,6 @@ explicit and reported back (opts):
 @param {Array<string>} [bedrooms] - unit sizes offered ('0br'..'3br');
   default 1-3BR. Household sizes no offered unit fits are left out, as
   CHFA's guide says (no one-bedroom units: no one-person households).
-@param {{rule?:string, acsIdx?:Object}} [opts]
+@param {{rule?:string, acsIdx?:Object, sizeIdx?:Object<string,Array<number>>}} [opts]
 @returns {{value:number|null, byTier:Object<string,number>, byBedroom:Object<string,number>,
   source:string, tractsUsed:number, tractsMissing:number, reason:string|null, assumptions:Object}}
