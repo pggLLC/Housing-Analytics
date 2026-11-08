@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-08T14:30:59.351922Z",
+  "generated": "2026-11-08T17:01:49.441926Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -1169,7 +1169,7 @@
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 331988
+      "bytes": 332271
     },
     "data/environmental/fema-flood-co.geojson": {
       "featureCount": 4,
@@ -9029,7 +9029,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1815872
+      "bytes": 1149843
     },
     "data/market/hud_s8_contracts_co.json": {
       "featureCount": 0,
