@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-07T13:11:33.445Z",
+    "generated_at": "2026-11-08T04:59:08.131Z",
     "root": "data/",
     "file_count": 2024,
-    "total_size_bytes": 222973824,
+    "total_size_bytes": 222982658,
     "kinds": {
       "json": 1975,
       "geojson": 35,
@@ -15,7 +15,7 @@
       "path": "_qa-status.json",
       "kind": "json",
       "size_bytes": 7517,
-      "mtime": "2026-11-05T16:13:15.051Z",
+      "mtime": "2026-11-08T04:57:53.495Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-06T15:03:40.649Z",
+      "mtime": "2026-11-08T04:59:05.542Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1091,7 +1091,7 @@
       "path": "census-acs-state.json",
       "kind": "json",
       "size_bytes": 26927,
-      "mtime": "2026-10-31T14:37:16.745Z",
+      "mtime": "2026-11-08T04:57:53.556Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1234,8 +1234,8 @@
     {
       "path": "co-county-demographics.json",
       "kind": "json",
-      "size_bytes": 40281,
-      "mtime": "2026-11-07T13:11:28.432Z",
+      "size_bytes": 49088,
+      "mtime": "2026-11-08T04:57:53.559Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1255,7 +1255,7 @@
       "path": "co-county-economic-indicators.json",
       "kind": "json",
       "size_bytes": 15327,
-      "mtime": "2026-10-31T13:50:39.233Z",
+      "mtime": "2026-11-08T04:57:53.559Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1486,8 +1486,8 @@
     {
       "path": "core/educational-content.json",
       "kind": "json",
-      "size_bytes": 70573,
-      "mtime": "2026-11-02T12:29:30.620Z",
+      "size_bytes": 70600,
+      "mtime": "2026-11-08T04:57:53.565Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -6606,7 +6606,7 @@
       "path": "discovery-reports/latest.json",
       "kind": "json",
       "size_bytes": 309909,
-      "mtime": "2026-11-06T15:03:03.303Z",
+      "mtime": "2026-11-08T04:57:53.590Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -38281,7 +38281,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 257320,
-      "mtime": "2026-11-06T15:03:03.497Z",
+      "mtime": "2026-11-08T04:58:43.022Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -40149,7 +40149,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16688,
-      "mtime": "2026-11-06T15:03:42.084Z",
+      "mtime": "2026-11-08T04:59:06.884Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40173,7 +40173,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-06T15:03:41.731Z",
+      "mtime": "2026-11-08T04:59:06.568Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-07T14:42:41.425120Z",
+  "generated": "2026-11-08T04:59:10.213476Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -344,7 +344,7 @@
     "data/core/educational-content.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 70573
+      "bytes": 70600
     },
     "data/core/neighborhood-context.json": {
       "featureCount": 64,
