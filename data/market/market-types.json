@@ -2,7 +2,7 @@
  "meta": {
   "title": "COHO market patterns and a Colorado strategy menu",
   "generator": "scripts/market/build_market_types.py",
-  "generated_at": "2026-11-08T09:52:23Z",
+  "generated_at": "2026-11-08T12:19:08.391Z",
   "generated_at_note": "the market-direction stamp this was built from, not the time this ran",
   "sources": [
    "data/market/market-direction.json",

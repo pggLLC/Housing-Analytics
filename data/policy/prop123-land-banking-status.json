@@ -3,7 +3,7 @@
     "generator": "scripts/funding/build_land_banking_status.py",
     "generated_from": {
       "awards": "2026-10-22",
-      "ledger": "2026-11-01T12:33:17.116Z",
+      "ledger": "2026-11-08T12:19:08.391Z",
       "research_checked": "2026-10-22"
     },
     "labels": {

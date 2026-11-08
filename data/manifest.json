@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-08T12:16:17.633962Z",
+  "generated": "2026-11-08T12:34:40.475576Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9079,12 +9079,12 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 774021
+      "bytes": 774025
     },
     "data/market/market-types.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 433576
+      "bytes": 433580
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -9784,7 +9784,7 @@
     "data/policy/incentive-peer-profiles.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41042
+      "bytes": 41046
     },
     "data/policy/jchs-state-of-nations-housing.json": {
       "featureCount": 0,
