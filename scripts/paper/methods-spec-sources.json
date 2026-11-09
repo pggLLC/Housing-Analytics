@@ -202,7 +202,7 @@
         {
           "file": "js/hna/hna-controller.js",
           "function": "buildNeedReconciliation",
-          "sha": "1ec9fd0eb3d60ef6"
+          "sha": "44f389e3447e3fcc"
         },
         {
           "file": "js/hna/hna-controller.js",
@@ -225,7 +225,7 @@
           "sha": "fdf7ca75bc92909b"
         }
       ],
-      "reviewed": "2026-11-04"
+      "reviewed": "2026-11-09"
     },
     {
       "section": "m-alternatives",

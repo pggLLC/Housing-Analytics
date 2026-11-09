@@ -708,7 +708,7 @@
       geoUnit: 'County',
       coverage: 'Colorado — 64 counties',
       features: 64,
-      description: '64 county employment-cache records containing LEHD WAC (Workplace Area Characteristics) snapshots for 2019–2023.',
+      description: '64 county employment-cache records containing LEHD WAC (Workplace Area Characteristics) snapshots for 2019–2024.',
       tags: ['lehd', 'employment', 'wac', 'jobs'],
       apiEndpoint: 'https://lehd.ces.census.gov/data/'
     },

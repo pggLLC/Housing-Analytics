@@ -35,7 +35,7 @@ const T = json('data/market/through-commuters.json');
 const places = T.places;
 
 // ---- 1. The data file.
-ok(T.meta.lodes_year === 2023 && /JT01_2023/.test(T.meta.source), 'primary jobs, LODES 2023');
+ok(T.meta.lodes_year === 2024 && /JT01_2024/.test(T.meta.source), 'primary jobs, LODES 2024');
 ok(/comparable/.test(T.meta.use), 'the file says it is a pool, counted as demand only with comparable evidence');
 const scored = Object.entries(places).filter(([, p]) => p.through != null);
 ok(scored.length >= 50, `a statewide file scores many towns (${scored.length})`);
@@ -61,7 +61,7 @@ const C = require(join(ROOT, 'js/commuting.js'));
 C._setThrough(T);
 const item = C.throughItem({ geoid: '0805265', name: 'Bayfield (town)' });
 ok(item.includes(bay.through.toLocaleString('en-US')) && item.includes('most to Durango') && item.includes('drive through Bayfield'), `the public line prints the file's count and job town: ${item}`);
-ok(item.includes('LODES 2023'), 'the public line names its data year');
+ok(item.includes("LODES 2024"), 'the public line names its data year');
 ok(!/capture|CHFA|%/.test(item), 'the public line carries no capture effect or share (member-only)');
 const none = Object.keys(places).find((g) => places[g].through == null);
 ok(C.throughItem({ geoid: none, name: 'X' }) === '', 'a town without a count prints nothing');

@@ -2990,7 +2990,7 @@
         label: 'In-commuters who would move closer, today',
         units: incLow,
         unitsHigh: incHigh,
-        counts: 'Households of people who commute in (LEHD LODES 2023, primary jobs) with incomes at or below 120% AMI, if a quarter of them moved closer'
+        counts: 'Households of people who commute in (LEHD LODES 2024, primary jobs) with incomes at or below 120% AMI, if a quarter of them moved closer'
           + (incHigh !== null ? '; ' + Math.round(incHigh).toLocaleString('en-US') + ' homes if half did' : '')
           + '. Census microdata (ACS PUMS 2020\u20132024) gives the households per job at each LODES pay level, and each household\u2019s income against CHFA\u2019s limits for its size, so two workers in one household are one home. '
           + 'No statewide source measures the share who would move, so both are shown, and the quarter is in the figure used'

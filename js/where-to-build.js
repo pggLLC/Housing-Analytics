@@ -97,8 +97,8 @@
     parks: { label: 'OpenStreetMap parks (parks_co.geojson)', url: 'data/amenities/parks_co.geojson' },
     hnaList: { label: 'DOLA approved housing needs assessments (SB24-174), and town and county documents read for top places', url: 'https://dlg.colorado.gov/housing-plans' },
     plans: { label: 'Adopted comprehensive, housing and strategic plans, read for top places (local-commitment.json)', url: 'data/policy/local-commitment.json' },
-    jobs: { label: 'LEHD LODES 2023 jobs and commutes, with OSRM drive times on OpenStreetMap roads (job-access.json)', url: 'data/policy/job-access.json' },
-    commute: { label: 'LEHD LODES 2023 primary jobs, home block to work block (commute-strength.json)', url: 'data/market/commute-strength.json' },
+    jobs: { label: 'LEHD LODES 2024 jobs and commutes, with OSRM drive times on OpenStreetMap roads (job-access.json)', url: 'data/policy/job-access.json' },
+    commute: { label: 'LEHD LODES 2024 primary jobs, home block to work block (commute-strength.json)', url: 'data/market/commute-strength.json' },
     authorities: { label: 'HUD Picture of Subsidized Households (PHA file, 31 Dec 2025) and CHFA award party lists, 2022–2026', url: 'https://www.huduser.gov/portal/datasets/assthsg.html' }
   };
 

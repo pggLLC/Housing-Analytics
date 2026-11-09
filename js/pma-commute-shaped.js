@@ -13,11 +13,11 @@
 
   var MODE_LABEL = 'Commute-shaped PMA (beta)';
   var BUFFER_LABEL = 'Circular buffer PMA';
-  var DISCLOSURE = 'Commute-shaped PMA (beta) uses LODES 2023 OD flows and a one-site calibration against professional market studies; it changes the PMA tract set only when explicitly enabled.';
+  var DISCLOSURE = 'Commute-shaped PMA (beta) uses LODES 2024 OD flows and a one-site calibration against professional market studies; it changes the PMA tract set only when explicitly enabled.';
   var CALIBRATION_SOURCE = 'Professional market studies of one site (owner-provided, not published)';
   var DEFAULT_PARAMS = {
     minimum_jobs_to_seed_work_tracts: 50,
-    minimum_orientation_share: 0.028
+    minimum_orientation_share: 0.03
   };
   var DATA_URLS = {
     od: 'data/market/lodes_tract_od_co.json',

@@ -154,7 +154,7 @@ def _stream_od(od_path: Path, block_to_place: dict[str, str]) -> tuple[dict[str,
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--year", type=int, default=2022, help="LODES OD year (default 2022)")
+    ap.add_argument("--year", type=int, default=2024, help="LODES OD year (default 2024)")
     ap.add_argument("--refetch", action="store_true", help="force re-download even if cached")
     args = ap.parse_args()
 

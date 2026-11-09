@@ -262,7 +262,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Garfield County at #173 with an overall housing-need score of 56.4. It identifies 821 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 53.9% of <=30% AMI households. 46.2% of renter households are cost burdened, and 2% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Garfield County at #170 with an overall housing-need score of 56.4. It identifies 821 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 53.9% of <=30% AMI households. 46.2% of renter households are cost burdened, and 2% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -282,7 +282,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 62,479. LEHD-based commuting signals show 7,216 in-commuters and a commute ratio of 31.6%. The digest's 20-year figure is 10,027 homes. Projected resident growth gives 9,404. Today's in-commuters give 623: homes for a quarter of the households, at or below 120% AMI, of the people who commute into Garfield County, if they moved closer.",
+          "text": "Demographics and demand: the population metric is 62,479. LEHD-based commuting signals show 7,496 in-commuters and a commute ratio of 32%. The digest's 20-year figure is 10,051 homes. Projected resident growth gives 9,404. Today's in-commuters give 647: homes for a quarter of the households, at or below 120% AMI, of the people who commute into Garfield County, if they moved closer.",
           "cites": [
             "d11",
             "d12",
@@ -300,7 +300,7 @@
           ]
         },
         {
-          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 47.7. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $73,676 and a rent affordability gap of $10,480. The county-context service-sector employment share is 36.4%, and county-context ACS cohorts show median gross rent changed 65.5% from 2009 to 2024 while median household income changed 40.6%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 49.5. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $73,676 and a rent affordability gap of $10,480. The county-context service-sector employment share is 38.5%, and county-context ACS cohorts show median gross rent changed 65.5% from 2009 to 2024 while median household income changed 40.6%. These county-context figures are economic context, not place-level sector or wage observations.",
           "cites": [
             "d17",
             "d18",
@@ -620,7 +620,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-08T15:04:37Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -629,7 +629,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-08T15:04:37Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -737,7 +737,7 @@
     },
     {
       "id": "d14",
-      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache; LEHD LODES 2023 and ACS PUMS 2020-2024 5-year)",
+      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache; LEHD LODES 2024 and ACS PUMS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -764,7 +764,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-08T15:04:37Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -773,7 +773,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-08T15:04:37Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -782,7 +782,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-08T15:04:37Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -827,7 +827,7 @@
     },
     {
       "id": "d24",
-      "label": "In-commuter need, a quarter moving closer - jurisdiction metrics digest (LEHD LODES 2023 and ACS PUMS 2020-2024 5-year)",
+      "label": "In-commuter need, a quarter moving closer - jurisdiction metrics digest (LEHD LODES 2024 and ACS PUMS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

@@ -80,11 +80,11 @@ B08202_URLS = {
 # live out of state are only in "aux". County inflow and place-od-flows.json
 # both come from main, so aux is added here, by workplace, or border counties
 # (La Plata, Archuleta, Montezuma, Larimer, Weld, Mesa) read low.
-LODES_YEAR = 2023
-AUX_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_aux_JT01_2023.csv.gz'
-OD_MAIN_PRIMARY_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT01_2023.csv.gz'
-WAC_PRIMARY_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT01_2023.csv.gz'
-WAC_ALL_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT00_2023.csv.gz'
+LODES_YEAR = 2024
+AUX_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_aux_JT01_2024.csv.gz'
+OD_MAIN_PRIMARY_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT01_2024.csv.gz'
+WAC_PRIMARY_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT01_2024.csv.gz'
+WAC_ALL_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/wac/co_wac_S000_JT00_2024.csv.gz'
 XWALK_URL = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz'
 MOVE_CLOSER_SCENARIOS = (0.25, 0.50)
 CROSSWALK = os.path.join(ROOT, 'data', 'hna', 'workforce-ami-crosswalk.json')
@@ -157,12 +157,18 @@ def fetch():
     # The county maps come straight from workplace FIPS, so a partial
     # crosswalk or WAC file still covers 64 counties; check the places too.
     cached_aux = read_json(os.path.join(SRC, 'lodes_primary_jobs.json')) or {}
+    # A new LODES year can legitimately lose a few tiny places (no primary job
+    # in the town that year): allow up to 2% fewer then. Within one year the
+    # count may never fall, and a partial file loses far more than 2%.
+    new_year = cached_aux.get('year') is not None and aux.get('year') != cached_aux.get('year')
+    def _too_few(n, n_cached):
+        return n < n_cached and not (new_year and n >= 0.98 * n_cached)
     for key in ('places', 'wac_primary_places'):
-        if len(aux.get(key) or {}) < len(cached_aux.get(key) or {}):
+        if _too_few(len(aux.get(key) or {}), len(cached_aux.get(key) or {})):
             raise ValueError('LODES %s has %d places, fewer than the %d cached'
                              % (key, len(aux.get(key) or {}), len(cached_aux.get(key) or {})))
     n_tier, n_tier_cached = (len(((d.get('incommuters_by_tier') or {}).get('places')) or {}) for d in (aux, cached_aux))
-    if n_tier < n_tier_cached:
+    if _too_few(n_tier, n_tier_cached):
         raise ValueError('LODES in-commuters by tier has %d places, fewer than the %d cached' % (n_tier, n_tier_cached))
     _write_atomic('dola_jobs_county.csv', jobs_csv)
     _write_atomic('acs_b08202.json', json.dumps(out, separators=(',', ':'), sort_keys=True).encode('utf-8'))

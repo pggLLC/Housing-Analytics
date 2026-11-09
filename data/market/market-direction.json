@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-11-08T12:19:08.391Z",
+  "generated_at": "2026-11-09T11:45:06Z",
   "generated_at_note": "the newest of the input files' own stamps, not the time this ran",
   "generator": "scripts/market/build_market_direction.py",
   "title": "Colorado county housing market direction and tax-credit rent edge",
@@ -94,9 +94,9 @@
   },
   "call_counts": {
    "emerging": 10,
-   "falling_demand": 5,
+   "falling_demand": 6,
    "softening": 6,
-   "steady": 43
+   "steady": 42
   },
   "rent_edge_counts": {
    "clear": 20,
@@ -201,11 +201,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 11.8,
+     "value": 10.7,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 228036,
-     "jobs_to": 254922,
+     "jobs_to": 252478,
      "reading": "up"
     }
    },
@@ -315,12 +315,12 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": 2.0,
+     "value": -3.5,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 6878,
-     "jobs_to": 7016,
-     "reading": "flat"
+     "jobs_to": 6640,
+     "reading": "down"
     }
    },
    "recent_demand": {
@@ -404,11 +404,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 4.2,
+     "value": 0.1,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 338223,
-     "jobs_to": 352398,
+     "jobs_to": 338717,
      "reading": "flat"
     }
    },
@@ -508,11 +508,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 9.8,
+     "value": 5.3,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 4312,
-     "jobs_to": 4733,
+     "jobs_to": 4540,
      "reading": "up"
     }
    },
@@ -604,11 +604,11 @@
      "reading": "down"
     },
     "jobs": {
-     "value": 15.9,
+     "value": 13.3,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 1084,
-     "jobs_to": 1256,
+     "jobs_to": 1228,
      "reading": "up"
     }
    },
@@ -689,12 +689,12 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": -14.3,
+     "value": 3.8,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 999,
-     "jobs_to": 856,
-     "reading": "down"
+     "jobs_to": 1037,
+     "reading": "flat"
     }
    },
    "recent_demand": {
@@ -772,11 +772,11 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": 3.5,
+     "value": 0.5,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 184131,
-     "jobs_to": 190563,
+     "jobs_to": 185049,
      "reading": "flat"
     }
    },
@@ -875,12 +875,12 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 4.7,
+     "value": -2.0,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 39130,
-     "jobs_to": 40980,
-     "reading": "flat"
+     "jobs_to": 38349,
+     "reading": "down"
     }
    },
    "recent_demand": {
@@ -978,11 +978,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 12.2,
+     "value": 6.6,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 7761,
-     "jobs_to": 8710,
+     "jobs_to": 8270,
      "reading": "up"
     }
    },
@@ -1043,8 +1043,8 @@
   },
   "08017": {
    "name": "Cheyenne County",
-   "call": "falling_demand",
-   "call_basis": "population -0.33%/yr and jobs -8.3% since 2019",
+   "call": "steady",
+   "call_basis": "rising: none; falling: none",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -1079,12 +1079,12 @@
      "reading": "down"
     },
     "jobs": {
-     "value": -8.3,
+     "value": 0.5,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 628,
-     "jobs_to": 576,
-     "reading": "down"
+     "jobs_to": 631,
+     "reading": "flat"
     }
    },
    "recent_demand": {
@@ -1162,12 +1162,12 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": 2.2,
+     "value": -4.6,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 3557,
-     "jobs_to": 3636,
-     "reading": "flat"
+     "jobs_to": 3394,
+     "reading": "down"
     }
    },
    "recent_demand": {
@@ -1253,12 +1253,12 @@
      "reading": "down"
     },
     "jobs": {
-     "value": 3.1,
+     "value": 5.1,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 1361,
-     "jobs_to": 1403,
-     "reading": "flat"
+     "jobs_to": 1430,
+     "reading": "up"
     }
    },
    "recent_demand": {
@@ -1339,12 +1339,12 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": -22.7,
+     "value": 0.7,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 942,
-     "jobs_to": 728,
-     "reading": "down"
+     "jobs_to": 949,
+     "reading": "flat"
     }
    },
    "recent_demand": {
@@ -1430,11 +1430,11 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": -21.4,
+     "value": -17.9,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 978,
-     "jobs_to": 769,
+     "jobs_to": 803,
      "reading": "down"
     }
    },
@@ -1514,11 +1514,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 24.9,
+     "value": 15.5,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 849,
-     "jobs_to": 1060,
+     "jobs_to": 981,
      "reading": "up"
     }
    },
@@ -1564,7 +1564,7 @@
   "08029": {
    "name": "Delta County",
    "call": "emerging",
-   "call_basis": "rising: permits, price; growing: population, jobs",
+   "call_basis": "rising: permits, price; growing: population",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -1597,12 +1597,12 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 6.3,
+     "value": -0.1,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 7850,
-     "jobs_to": 8348,
-     "reading": "up"
+     "jobs_to": 7842,
+     "reading": "down"
     }
    },
    "recent_demand": {
@@ -1686,11 +1686,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 5.3,
+     "value": 8.2,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 529574,
-     "jobs_to": 557853,
+     "jobs_to": 573014,
      "reading": "up"
     }
    },
@@ -1802,12 +1802,12 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 9.5,
+     "value": -5.7,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 476,
-     "jobs_to": 521,
-     "reading": "up"
+     "jobs_to": 449,
+     "reading": "down"
     }
    },
    "recent_demand": {
@@ -1885,11 +1885,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 10.1,
+     "value": 7.2,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 131244,
-     "jobs_to": 144461,
+     "jobs_to": 140689,
      "reading": "up"
     }
    },
@@ -1983,11 +1983,11 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": 9.4,
+     "value": 6.2,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 33220,
-     "jobs_to": 36343,
+     "jobs_to": 35281,
      "reading": "up"
     }
    },
@@ -2082,11 +2082,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 23.9,
+     "value": 20.3,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 3973,
-     "jobs_to": 4921,
+     "jobs_to": 4780,
      "reading": "up"
     }
    },
@@ -2164,11 +2164,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 5.9,
+     "value": 5.2,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 268864,
-     "jobs_to": 284746,
+     "jobs_to": 282790,
      "reading": "up"
     }
    },
@@ -2267,12 +2267,12 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 4.8,
+     "value": -1.6,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 10816,
-     "jobs_to": 11334,
-     "reading": "flat"
+     "jobs_to": 10646,
+     "reading": "down"
     }
    },
    "recent_demand": {
@@ -2355,11 +2355,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": -5.5,
+     "value": -3.2,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 25019,
-     "jobs_to": 23651,
+     "jobs_to": 24220,
      "reading": "down"
     }
    },
@@ -2454,11 +2454,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": -7.2,
+     "value": -1.1,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 4587,
-     "jobs_to": 4255,
+     "jobs_to": 4536,
      "reading": "down"
     }
    },
@@ -2537,12 +2537,12 @@
      "reading": "up"
     },
     "jobs": {
-     "value": -1.8,
+     "value": 4.3,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 7364,
-     "jobs_to": 7229,
-     "reading": "down"
+     "jobs_to": 7678,
+     "reading": "flat"
     }
    },
    "recent_demand": {
@@ -2636,11 +2636,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 18.9,
+     "value": 19.9,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 7470,
-     "jobs_to": 8882,
+     "jobs_to": 8955,
      "reading": "up"
     }
    },
@@ -2731,12 +2731,12 @@
      "reading": "down"
     },
     "jobs": {
-     "value": 1.2,
+     "value": 0.0,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 260,
-     "jobs_to": 263,
-     "reading": "flat"
+     "jobs_to": 260,
+     "reading": "down"
     }
    },
    "recent_demand": {
@@ -2815,11 +2815,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 20.5,
+     "value": 16.2,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 1277,
-     "jobs_to": 1539,
+     "jobs_to": 1484,
      "reading": "up"
     }
    },
@@ -2914,7 +2914,7 @@
     "jobs": {
      "value": -0.9,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 468,
      "jobs_to": 464,
      "reading": "down"
@@ -2995,11 +2995,11 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": 2.3,
+     "value": 0.8,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 254182,
-     "jobs_to": 259943,
+     "jobs_to": 256204,
      "reading": "flat"
     }
    },
@@ -3106,11 +3106,11 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": -7.7,
+     "value": -7.9,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 469,
-     "jobs_to": 433,
+     "jobs_to": 432,
      "reading": "down"
     }
    },
@@ -3191,12 +3191,12 @@
      "reading": "down"
     },
     "jobs": {
-     "value": 4.5,
+     "value": 5.7,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 2637,
-     "jobs_to": 2756,
-     "reading": "flat"
+     "jobs_to": 2788,
+     "reading": "up"
     }
    },
    "recent_demand": {
@@ -3275,11 +3275,11 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": 10.4,
+     "value": 23.7,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 1870,
-     "jobs_to": 2064,
+     "jobs_to": 2313,
      "reading": "up"
     }
    },
@@ -3369,11 +3369,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 2.7,
+     "value": 4.1,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 25158,
-     "jobs_to": 25833,
+     "jobs_to": 26180,
      "reading": "flat"
     }
    },
@@ -3462,12 +3462,12 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 6.2,
+     "value": 4.0,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 152066,
-     "jobs_to": 161552,
-     "reading": "up"
+     "jobs_to": 158199,
+     "reading": "flat"
     }
    },
    "recent_demand": {
@@ -3537,8 +3537,8 @@
   },
   "08071": {
    "name": "Las Animas County",
-   "call": "steady",
-   "call_basis": "rising: permits; falling: none",
+   "call": "falling_demand",
+   "call_basis": "population -0.29%/yr and jobs -7.3% since 2019",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -3571,12 +3571,12 @@
      "reading": "down"
     },
     "jobs": {
-     "value": 3.5,
+     "value": -7.3,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 4360,
-     "jobs_to": 4514,
-     "reading": "flat"
+     "jobs_to": 4041,
+     "reading": "down"
     }
    },
    "recent_demand": {
@@ -3667,12 +3667,12 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": 5.2,
+     "value": -15.0,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 1901,
-     "jobs_to": 2000,
-     "reading": "up"
+     "jobs_to": 1616,
+     "reading": "down"
     }
    },
    "recent_demand": {
@@ -3718,7 +3718,7 @@
   "08075": {
    "name": "Logan County",
    "call": "falling_demand",
-   "call_basis": "population -0.36%/yr and jobs -4.6% since 2019",
+   "call_basis": "population -0.36%/yr and jobs -10.7% since 2019",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -3751,11 +3751,11 @@
      "reading": "down"
     },
     "jobs": {
-     "value": -4.6,
+     "value": -10.7,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 7122,
-     "jobs_to": 6794,
+     "jobs_to": 6358,
      "reading": "down"
     }
    },
@@ -3845,11 +3845,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 4.2,
+     "value": 0.4,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 62772,
-     "jobs_to": 65394,
+     "jobs_to": 62998,
      "reading": "flat"
     }
    },
@@ -3950,12 +3950,12 @@
      "reading": "up"
     },
     "jobs": {
-     "value": -6.0,
+     "value": 150.6,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 350,
-     "jobs_to": 329,
-     "reading": "down"
+     "jobs_to": 877,
+     "reading": "up"
     }
    },
    "recent_demand": {
@@ -4034,12 +4034,12 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": 0.6,
+     "value": -11.3,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 4334,
-     "jobs_to": 4358,
-     "reading": "flat"
+     "jobs_to": 3846,
+     "reading": "down"
     }
    },
    "recent_demand": {
@@ -4091,7 +4091,7 @@
   "08083": {
    "name": "Montezuma County",
    "call": "emerging",
-   "call_basis": "rising: price, rent; growing: population, jobs",
+   "call_basis": "rising: price, rent; growing: population",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -4123,12 +4123,12 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 5.8,
+     "value": 0.4,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 8821,
-     "jobs_to": 9333,
-     "reading": "up"
+     "jobs_to": 8860,
+     "reading": "flat"
     }
    },
    "recent_demand": {
@@ -4185,7 +4185,7 @@
   "08085": {
    "name": "Montrose County",
    "call": "emerging",
-   "call_basis": "rising: permits, price, rent; growing: population",
+   "call_basis": "rising: permits, price, rent; growing: population, jobs",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -4217,12 +4217,12 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 3.9,
+     "value": 5.3,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 15118,
-     "jobs_to": 15713,
-     "reading": "flat"
+     "jobs_to": 15924,
+     "reading": "up"
     }
    },
    "recent_demand": {
@@ -4311,11 +4311,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 1.9,
+     "value": 1.5,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 12428,
-     "jobs_to": 12665,
+     "jobs_to": 12612,
      "reading": "flat"
     }
    },
@@ -4373,7 +4373,7 @@
   "08089": {
    "name": "Otero County",
    "call": "falling_demand",
-   "call_basis": "population -0.42%/yr and jobs -5.4% since 2019",
+   "call_basis": "population -0.42%/yr and jobs -8.6% since 2019",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -4407,11 +4407,11 @@
      "reading": "down"
     },
     "jobs": {
-     "value": -5.4,
+     "value": -8.6,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 5803,
-     "jobs_to": 5492,
+     "jobs_to": 5305,
      "reading": "down"
     }
    },
@@ -4497,11 +4497,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 11.3,
+     "value": 13.1,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 1836,
-     "jobs_to": 2043,
+     "jobs_to": 2077,
      "reading": "up"
     }
    },
@@ -4586,11 +4586,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 16.0,
+     "value": 17.9,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 2382,
-     "jobs_to": 2763,
+     "jobs_to": 2808,
      "reading": "up"
     }
    },
@@ -4670,11 +4670,11 @@
      "reading": "down"
     },
     "jobs": {
-     "value": 9.7,
+     "value": 16.9,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 1600,
-     "jobs_to": 1755,
+     "jobs_to": 1870,
      "reading": "up"
     }
    },
@@ -4753,11 +4753,11 @@
      "reading": "down"
     },
     "jobs": {
-     "value": 2.1,
+     "value": 4.9,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 18409,
-     "jobs_to": 18787,
+     "jobs_to": 19315,
      "reading": "flat"
     }
    },
@@ -4809,8 +4809,8 @@
   },
   "08099": {
    "name": "Prowers County",
-   "call": "steady",
-   "call_basis": "rising: price; falling: none",
+   "call": "falling_demand",
+   "call_basis": "population -0.04%/yr and jobs -3.9% since 2019",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -4844,12 +4844,12 @@
      "reading": "down"
     },
     "jobs": {
-     "value": 4.5,
+     "value": -3.9,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 4351,
-     "jobs_to": 4547,
-     "reading": "flat"
+     "jobs_to": 4180,
+     "reading": "down"
     }
    },
    "recent_demand": {
@@ -4927,11 +4927,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": -1.4,
+     "value": -1.5,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 56907,
-     "jobs_to": 56090,
+     "jobs_to": 56074,
      "reading": "down"
     }
    },
@@ -5027,12 +5027,12 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": 0.5,
+     "value": -2.0,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 2824,
-     "jobs_to": 2839,
-     "reading": "flat"
+     "jobs_to": 2768,
+     "reading": "down"
     }
    },
    "recent_demand": {
@@ -5117,11 +5117,11 @@
      "reading": "down"
     },
     "jobs": {
-     "value": 8.7,
+     "value": 5.6,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 3578,
-     "jobs_to": 3889,
+     "jobs_to": 3778,
      "reading": "up"
     }
    },
@@ -5211,11 +5211,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": -1.7,
+     "value": -0.9,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 15262,
-     "jobs_to": 15001,
+     "jobs_to": 15131,
      "reading": "down"
     }
    },
@@ -5306,12 +5306,12 @@
      "reading": "up"
     },
     "jobs": {
-     "value": -0.9,
+     "value": 3.4,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 1543,
-     "jobs_to": 1529,
-     "reading": "down"
+     "jobs_to": 1595,
+     "reading": "flat"
     }
    },
    "recent_demand": {
@@ -5401,11 +5401,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 12.0,
+     "value": 41.3,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 300,
-     "jobs_to": 336,
+     "jobs_to": 424,
      "reading": "up"
     }
    },
@@ -5492,12 +5492,12 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": -0.2,
+     "value": 1.2,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 6352,
-     "jobs_to": 6337,
-     "reading": "down"
+     "jobs_to": 6431,
+     "reading": "flat"
     }
    },
    "recent_demand": {
@@ -5549,7 +5549,7 @@
   "08115": {
    "name": "Sedgwick County",
    "call": "falling_demand",
-   "call_basis": "population -0.45%/yr and jobs -21.3% since 2019",
+   "call_basis": "population -0.45%/yr and jobs -23.5% since 2019",
    "signals": {
     "permits": {
      "period_a": "2016–2020",
@@ -5583,11 +5583,11 @@
      "reading": "down"
     },
     "jobs": {
-     "value": -21.3,
+     "value": -23.5,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 732,
-     "jobs_to": 576,
+     "jobs_to": 560,
      "reading": "down"
     }
    },
@@ -5666,11 +5666,11 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": 10.3,
+     "value": 7.4,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 22086,
-     "jobs_to": 24362,
+     "jobs_to": 23727,
      "reading": "up"
     }
    },
@@ -5764,11 +5764,11 @@
      "reading": "up"
     },
     "jobs": {
-     "value": 4.6,
+     "value": 4.1,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 7147,
-     "jobs_to": 7478,
+     "jobs_to": 7443,
      "reading": "flat"
     }
    },
@@ -5859,11 +5859,11 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": -0.4,
+     "value": -2.7,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 1123,
-     "jobs_to": 1118,
+     "jobs_to": 1093,
      "reading": "down"
     }
    },
@@ -5942,12 +5942,12 @@
      "reading": "up"
     },
     "jobs": {
-     "value": -1.0,
+     "value": 3.8,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 110933,
-     "jobs_to": 109846,
-     "reading": "down"
+     "jobs_to": 115147,
+     "reading": "flat"
     }
    },
    "recent_demand": {
@@ -6042,11 +6042,11 @@
      "reading": "flat"
     },
     "jobs": {
-     "value": -15.6,
+     "value": -13.8,
      "from_year": 2019,
-     "to_year": 2023,
+     "to_year": 2024,
      "jobs_from": 4240,
-     "jobs_to": 3579,
+     "jobs_to": 3653,
      "reading": "down"
     }
    },
@@ -6222,7 +6222,7 @@
     "share_of_housing_units": 0.0875,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -6780,7 +6780,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "falling_demand",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -8468,7 +8468,7 @@
     "share_of_housing_units": 0.1077,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -10146,7 +10146,7 @@
     "share_of_housing_units": 0.0451,
     "reliability": "unreliable"
    },
-   "county_call": "falling_demand",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -10474,7 +10474,7 @@
     "share_of_housing_units": 0.15,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -13115,7 +13115,7 @@
     "share_of_housing_units": 0.2525,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -15513,7 +15513,7 @@
     "share_of_housing_units": 0.019,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -16177,7 +16177,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -16647,7 +16647,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -16699,7 +16699,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -17562,7 +17562,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -17998,7 +17998,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -18144,7 +18144,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "falling_demand",
+   "county_call": "steady",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -18699,7 +18699,7 @@
     "share_of_housing_units": 0.0029,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": {
      "total": 4,
@@ -19901,7 +19901,7 @@
     "share_of_housing_units": null,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -25609,7 +25609,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -26720,7 +26720,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -27002,7 +27002,7 @@
     "share_of_housing_units": 0.7951,
     "reliability": "unreliable"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -27921,7 +27921,7 @@
     "share_of_housing_units": 0.047,
     "reliability": "use_with_caution"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -28241,7 +28241,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -29122,7 +29122,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,
@@ -29327,7 +29327,7 @@
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
    },
-   "county_call": "steady",
+   "county_call": "falling_demand",
    "permits_ytd": {
     "ytd": null,
     "prior_ytd": null,

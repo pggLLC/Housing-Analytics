@@ -5,7 +5,7 @@ Writes:
 - data/hna/geo-config.json (county list + featured)
 - data/hna/summary/{geoid}.json (ACS profile + S0801 for featured geos)
 - data/hna/lehd/{countyFips5}.json (LEHD LODES OD inflow/outflow/within by county,
-  plus annual WAC employment snapshots and YoY growth rates for 2019–2023)
+  plus annual WAC employment snapshots and YoY growth rates for 2019–2024)
 - data/hna/dola_sya/{countyFips5}.json (DOLA/SDO single-year-of-age pyramid + senior pressure)
 
 Designed to run in GitHub Actions. All sources are public.
@@ -1930,7 +1930,7 @@ def build_summary_cache(max_workers: int | None = None):
 
 def build_lehd_by_county():
     # LODES8 CO OD main file index: https://lehd.ces.census.gov/data/lodes/LODES8/co/od/
-    year = os.environ.get('LODES_YEAR', '2023').strip() or '2023'
+    year = os.environ.get('LODES_YEAR', '2024').strip() or '2024'
     url = f"https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT00_{year}.csv.gz"
 
     print(f"Downloading LEHD LODES OD (CO) {year}...")
@@ -2015,7 +2015,7 @@ _WAC_INDUSTRY_LABELS = {
     'CNS20': 'Public Administration',
 }
 # Years to fetch for multi-year WAC snapshots (OD year is separate from WAC)
-_WAC_SNAPSHOT_YEARS = [2019, 2020, 2021, 2022, 2023]
+_WAC_SNAPSHOT_YEARS = [2019, 2020, 2021, 2022, 2023, 2024]
 
 # Synthetic WAC fallback constants — used when LEHD downloads are unavailable
 # (e.g., offline / CI environments without external network access).
@@ -2027,6 +2027,7 @@ _SYNTHETIC_GROWTH_FACTORS: dict[int, float] = {
     2021: 0.97,   # partial recovery
     2022: 1.00,   # LODES OD base year (`within` value)
     2023: 1.02,   # continued recovery / growth
+    2024: 1.03,   # slow growth
 }
 
 # Wage band shares (CE01 low ≤$1,250/mo, CE02 medium, CE03 high >$3,333/mo)
@@ -2152,7 +2153,7 @@ def _build_synthetic_wac_data(lehd_dir: str) -> dict[int, dict[str, dict[str, in
 
 
 def build_lehd_wac_snapshots() -> None:
-    """Fetch LEHD WAC data for 2019–2023 and merge into existing LEHD county files.
+    """Fetch LEHD WAC data for 2019–2024 and merge into existing LEHD county files.
 
     For each county, adds/updates:
       - annualEmployment : {year: total_jobs, …}
@@ -2161,7 +2162,7 @@ def build_lehd_wac_snapshots() -> None:
       - wacYear          : most recent WAC year successfully fetched
       - industries       : top-20 industry breakdown from the most recent year
     """
-    print("\nBuilding LEHD WAC annual employment snapshots (2019–2023)…")
+    print("\nBuilding LEHD WAC annual employment snapshots (2019–2024)…")
     year_county: dict[int, dict[str, dict[str, int]]] = {}
 
     for yr in _WAC_SNAPSHOT_YEARS:
@@ -3538,7 +3539,7 @@ def main():
     if 'lehd' in phases and os.environ.get('SKIP_LEHD', '').lower() != 'true':
         _log_step('LEHD by county')
         build_lehd_by_county()
-        _log_step('LEHD WAC annual snapshots (2019–2023)')
+        _log_step('LEHD WAC annual snapshots (2019–2024)')
         build_lehd_wac_snapshots()
         _log_step('LEHD statewide aggregate (sum of county files)')
         build_lehd_statewide()

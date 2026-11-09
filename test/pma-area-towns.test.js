@@ -46,7 +46,7 @@ test('a town with fewer homes in a tract than the main town is not flagged', () 
 });
 
 test('jobs split into local and in-commuters; a flagged tract\'s jobs are counted apart', () => {
-  const od = { meta: { year: 2023, source_url: 'x/co_od_main_JT00_2023.csv.gz', retained_flow_share: 0.95 },
+  const od = { meta: { year: 2024, source_url: 'x/co_od_main_JT00_2024.csv.gz', retained_flow_share: 0.95 },
     pairs: [
       ['08001000001', '08001000001', 100],   // local
       ['08001000009', '08001000001', 40],    // in-commuter from Delta
@@ -63,7 +63,7 @@ test('jobs split into local and in-commuters; a flagged tract\'s jobs are counte
   assert.strictEqual(s.apart, 30);
   const line = T.inflowSentence(s, t);
   assert(/Counted apart: 30 jobs in tract 000003, shared with Beta/.test(line));
-  assert(/None of these is added to demand: CHFA counts people moving in only when comparable projects show it \(2027–28 QAP, Appendix A section 7, p\. 83\)\. LEHD LODES 2023, all jobs, 95% of flows kept\./.test(line));
+  assert(/None of these is added to demand: CHFA counts people moving in only when comparable projects show it \(2027–28 QAP, Appendix A section 7, p\. 83\)\. LEHD LODES 2024, all jobs, 95% of flows kept\./.test(line));
 });
 
 test('dropping a tract makes its working residents in-commuters, named by their town', () => {
@@ -89,7 +89,7 @@ test('real data: the files the page reads carry what the module needs', () => {
   const pl = JSON.parse(fs.readFileSync(path.join(root, 'data', T.PLACES_PATH)));
   const od = JSON.parse(fs.readFileSync(path.join(root, 'data', T.OD_PATH)));
   assert(pl.tract_housing_units && Object.keys(pl.places).length > 400);
-  assert(/JT00_2023/.test(od.meta.source_url));
+  assert(/JT00_2024/.test(od.meta.source_url));
   // Fruita's tracts take in Loma and Redlands; their jobs are counted apart.
   const fr = ['08077001402', '08077001502', '08077001503', '08077001504'].map((g) => ({ geoid: g, share: 1 }));
   const t = T.townsInArea(pl, fr);

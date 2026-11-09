@@ -1,7 +1,7 @@
 /**
  * js/pma-workplaces.js
  * "Where residents work" for the market area: the towns that employ the most of
- * the market area's working residents, from LEHD LODES 2023 primary jobs.
+ * the market area's working residents, from LEHD LODES 2024 primary jobs.
  *
  * Reads data/market/tract-workplaces.json (scripts/market/build_tract_workplaces.py).
  * Each tract counts by the share of it inside the market area, the same share the

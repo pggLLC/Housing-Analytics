@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Commuting and Jobs page (commuting.html, js/commuting.js) and its two data files:
- *   data/market/commute-strength.json   built by scripts/market/build_commute_strength.py (LODES 2023)
+ *   data/market/commute-strength.json   built by scripts/market/build_commute_strength.py (LODES 2024)
  *   data/market/principal-employers.json curated from audit filings (Office of the State Auditor)
  *
  * Pins:
@@ -34,7 +34,7 @@ const CJ = require(join(ROOT, 'js/commuting.js'));
 // 1. Commute records add up.
 const [FAR, LONG] = C.meta.far_miles;
 ok(FAR === 20 && LONG === 60, 'far band is 20 to 60 miles');
-ok(C.meta.lodes_year === 2023 && /JT01_2023/.test(C.meta.source), 'LODES 2023 primary jobs');
+ok(C.meta.lodes_year === 2024 && /JT01_2024/.test(C.meta.source), 'LODES 2024 primary jobs');
 const places = Object.entries(C.places);
 const counties = Object.entries(C.counties);
 ok(places.length > 200, `places found (${places.length})`);

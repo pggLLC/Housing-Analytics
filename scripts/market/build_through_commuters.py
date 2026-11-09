@@ -6,7 +6,7 @@ centre outside it, and whose drive between the two passes the town. Example:
 people who live east of Bayfield and work in Durango drive past Bayfield on
 US-160. LODES has no routes, so the route is modelled:
 
-1. Workers: LEHD LODES 2023 origin-destination, primary jobs (JT01), so each
+1. Workers: LEHD LODES 2024 origin-destination, primary jobs (JT01), so each
    worker counts once. Home and work are 2020 census blocks.
 2. Job centres: every town or Census community with at least MIN_CENTER_JOBS
    primary jobs.
@@ -50,7 +50,7 @@ import zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, 'data', 'market', 'through-commuters.json')
 
-YEAR = 2023
+YEAR = 2024
 TIGER_YEAR = 2025
 LODES = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/'
 OD = f'od/co_od_main_JT01_{YEAR}.csv.gz'

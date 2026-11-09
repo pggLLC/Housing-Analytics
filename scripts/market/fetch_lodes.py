@@ -39,9 +39,9 @@ OUT_FILE = ROOT / "data" / "market" / "lodes_co.json"
 LODES_BASE = "https://lehd.ces.census.gov/data/lodes/LODES8/co"
 
 # Try years in descending order until we find one that exists
-# LODES 2023 is the latest release as of October 2026 (2024 returns 404).
+# LODES 2024 is the latest release as of November 2026 (posted 14 October 2026; 2025 returns 404).
 # LODES typically has a 2-3 year lag from the reference year.
-CANDIDATE_YEARS = [2023, 2022, 2021, 2020]
+CANDIDATE_YEARS = [2024, 2023, 2022, 2021]
 
 CACHE_DIR = Path(os.environ.get("TMPDIR", "/tmp")) / "pma_lodes_cache"
 CACHE_TTL_HOURS = 720  # 30 days

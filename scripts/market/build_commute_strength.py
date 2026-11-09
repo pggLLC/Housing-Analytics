@@ -2,7 +2,7 @@
 """Build data/market/commute-strength.json for the public "Commuting and jobs" page.
 
 For every Colorado town and Census community with 200 or more primary jobs, and
-for every county, from the LEHD LODES 2023 origin-destination file (primary
+for every county, from the LEHD LODES 2024 origin-destination file (primary
 jobs, JT01, so each worker counts once; home block to work block):
 
 - jobs: primary jobs located in the place.
@@ -40,7 +40,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 OUT = os.path.join(ROOT, 'data', 'market', 'commute-strength.json')
 RANKING = os.path.join(ROOT, 'data', 'hna', 'ranking-index.json')
 
-YEAR = 2023
+YEAR = 2024
 FAR_MILES = 20.0
 LONG_MILES = 60.0
 MIN_JOBS = 200
