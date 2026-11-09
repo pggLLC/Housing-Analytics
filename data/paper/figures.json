@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "2b9184997",
+  "generated_from_commit": "8fffc89a0",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-11-09",
-    "total_commits": 9485,
+    "total_commits": 9488,
     "partial_month": "2026-11",
     "commits_by_month": [
       {
@@ -54,8 +54,8 @@
       },
       {
         "month": "2026-11",
-        "commits": 368,
-        "pct_of_peak": 23.5
+        "commits": 371,
+        "pct_of_peak": 23.7
       }
     ]
   },
@@ -251,7 +251,7 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 531481,
+    "hand_written_lines": 531511,
     "generated_place_page_lines": 288963,
     "top_level_pages": 84,
     "html_nonblank_lines": 52793,
@@ -320,7 +320,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "2b9184997",
+    "extracted_at_commit": "8fffc89a0",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -546,9 +546,9 @@
     "anchor_overcount_places": 151,
     "anchor_overcount_share": 0.373,
     "ranked_geographies": 546,
-    "workforce_gap_wins": 236,
+    "workforce_gap_wins": 242,
     "future_units_with_incommuters": 343,
-    "workforce_reading_counties_sum": 184145,
+    "workforce_reading_counties_sum": 183122,
     "replacement_rate_min_pct": 0.02,
     "replacement_rate_max_pct": 0.6,
     "replacement_counties": 64,
@@ -556,8 +556,8 @@
     "replacement_20yr_statewide": 84933,
     "replacement_share_pct": 12.2,
     "incommuter_need_counties": 64,
-    "incommuter_need_25_counties": 132511,
-    "incommuter_need_50_counties": 265019,
+    "incommuter_need_25_counties": 131590,
+    "incommuter_need_50_counties": 263179,
     "gap30_priced_units_statewide": 89371,
     "gap30_aa_homes_statewide": 45794,
     "gap30_aa_occupied_statewide": 42707,
