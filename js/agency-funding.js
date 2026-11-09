@@ -1164,6 +1164,22 @@
     Array.prototype.forEach.call(root.querySelectorAll('[data-hm-source]'), function (el) { el.innerHTML = html; });
   }
 
+  // The page's date stamp (paul, 9 Nov 2026: every generated page shows how current it is):
+  // when the award lists were last read, and when the county figures and bond deals were last rebuilt.
+  function fillUpdated(ledgerRead, dolaRead, built) {
+    var el = document.querySelector('[data-hm-updated]');
+    if (!el) return;
+    var fmt = function (t) {
+      var d = t ? new Date(String(t).length === 10 ? t + 'T12:00:00Z' : t) : null;
+      return d && !isNaN(d.getTime()) ? d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }) : null;
+    };
+    var read = [ledgerRead, dolaRead].filter(Boolean).map(String).sort().pop();
+    var parts = [];
+    if (fmt(read)) parts.push('Award lists last read ' + fmt(read));
+    if (fmt(built)) parts.push('county figures rebuilt ' + fmt(built));
+    el.textContent = parts.length ? parts.join(' · ') + '.' : '';
+  }
+
   var started = false;
   function start() {
     root = document.querySelector('[data-agency-funding]');
@@ -1195,8 +1211,11 @@
       data.geo = d.boundaries;
       fillSources(d.ledger && d.ledger.meta && d.ledger.meta.generated_at, d.dola && d.dola.meta && d.dola.meta.captured);
       var fvnMeta = (d.regions && d.regions.meta) || {};
+      // The build date sits in the file's meta block; older copies carried it at the top level.
+      var fvnBuilt = fvnMeta.generatedAt || (d.regions && d.regions.generatedAt) || null;
+      fillUpdated(d.ledger && d.ledger.meta && d.ledger.meta.generated_at, d.dola && d.dola.meta && d.dola.meta.captured, fvnBuilt);
       data.awards = M.normalise({ ledger: d.ledger, documents: d.documents, rows: d.rows, dola: d.dola, aliases: d.aliases, counties: data.counties,
-        bondDeals: { deals: fvnMeta.bond_deals_outside_rounds || [], url: 'chfa-portfolio.html', checked: (d.regions && d.regions.generatedAt) || null } });
+        bondDeals: { deals: fvnMeta.bond_deals_outside_rounds || [], url: 'chfa-portfolio.html', checked: fvnBuilt } });
       var years = data.awards.map(function (a) { return a.year; }).filter(function (y) { return y !== null; });
       var min = Math.min.apply(null, years), max = Math.max.apply(null, years);
       data.years = [];
