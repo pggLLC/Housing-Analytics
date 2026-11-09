@@ -61,6 +61,7 @@ const PAGES_TO_AUDIT = [
   { name: 'construction-commodities', path: '/construction-commodities.html' },
   { name: 'cra-expansion-analysis',   path: '/cra-expansion-analysis.html' },
   { name: 'insights',                 path: '/insights.html' },
+  { name: 'sunday-digest',            path: '/sunday-digest.html' },
   // Static / article pages
   { name: 'about',                    path: '/about.html' },
   { name: 'article-pricing',          path: '/article-pricing.html' },

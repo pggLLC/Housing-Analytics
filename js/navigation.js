@@ -106,6 +106,7 @@
       items: [
         { label: "— Current —", isHeader: true },
         { label: "Housing News",           href: "policy-briefs.html",             desc: "Headlines; check the linked source" },
+        { label: "Sunday Digest",          href: "sunday-digest.html",             desc: "The week in Colorado housing, every Sunday", isNew: true },
         { label: "Policy & Legislation",   href: "housing-legislation-2026.html",  desc: "Laws and rules we track" },
         { label: "Colorado Elections",     href: "colorado-elections.html",        desc: "2026 ballot and officials" },
         { label: "— Research —", isHeader: true },

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Sunday Digest | COHO Analytics</title>
+  <meta name="description" content="A weekly digest of Colorado affordable housing news: state programs, Prop 123, local actions, disasters, federal funding and the market. Every item links to its source.">
+  <meta property="og:title" content="Sunday Digest | COHO Analytics">
+  <meta property="og:description" content="The week in Colorado affordable housing, with a link and a date on every item.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <style>
+    .digest-layout { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: var(--sp5); align-items: start; }
+    .digest-body { max-width: 760px; line-height: 1.65; overflow-wrap: anywhere; }
+    .digest-body h2 { margin-top: var(--sp5); }
+    .digest-body h3 { margin-top: var(--sp4); }
+    .digest-body li { margin-bottom: .35rem; }
+    .digest-body li > p { margin: .35rem 0 0; }
+    .digest-body hr { border: 0; border-top: 1px solid var(--border); margin: var(--sp5) 0; }
+    .digest-body em { color: var(--muted); }
+    .digest-body code { font-size: .9em; }
+    .digest-aside { position: sticky; top: var(--sp4); font-size: .9rem; }
+    .digest-aside h2 { font-size: .8125rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 .5rem; }
+    .digest-aside ul { list-style: none; padding: 0; margin: 0 0 var(--sp4); }
+    .digest-aside li { padding: .3rem 0; border-bottom: 1px solid var(--border); }
+    .digest-aside a[aria-current="page"] { font-weight: 700; color: var(--text); }
+    @media (max-width: 860px) {
+      .digest-layout { display: flex; flex-direction: column; }
+      .digest-aside { position: static; }
+    }
+  </style>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/sunday-digest.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
+
+  <main id="main-content">
+    <article class="article-wrap">
+      <header>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <a href="policy-briefs.html">Housing News</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Sunday Digest</span>
+        </nav>
+        <span class="kicker">Sunday Digest · The week in Colorado affordable housing, Monday to Sunday</span>
+        <h1 id="digestTitle" style="margin-bottom:var(--sp3);">Sunday Digest</h1>
+        <p style="max-width:760px;color:var(--muted);">Every item links to its source and gives its date. Items come from official releases and checked newsrooms; weak or AI-written outlets are left out.</p>
+      </header>
+
+      <div class="digest-layout" style="margin-top:var(--sp4);">
+        <div>
+          <p id="digestStatus" role="status">Loading this week's digest…</p>
+          <div id="digestBody" class="digest-body"></div>
+        </div>
+        <aside class="digest-aside" aria-labelledby="digestEditionsLabel">
+          <h2 id="digestEditionsLabel">Editions</h2>
+          <ul id="digestEditions"></ul>
+          <p><a href="policy-briefs.html">Daily headlines on Housing News</a></p>
+        </aside>
+      </div>
+    </article>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
+</body>
+</html>
