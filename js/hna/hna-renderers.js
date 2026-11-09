@@ -7919,6 +7919,11 @@
   function renderProp123Relationship(relationship, geoLabel, sourceLoaded) {
     var el = document.getElementById('prop123Relationship');
     if (!el) return;
+    // DOLA lists some filings (a pending one, a tribe's) without a date:
+    // say so instead of printing "null".
+    function filedOn(filing, word) {
+      return filing.submitted ? word + ' ' + filing.submitted : word + ', date not listed by DOLA';
+    }
 
     var status = sourceLoaded === false
       ? 'Source unavailable'
@@ -7935,7 +7940,7 @@
       ? null
       : (nextCycle.across === 'all' ? 'Filed by each county'
         : (nextCycle.across === 'mixed' ? 'Depends on county'
-          : (nextCycle.filing ? 'Filed ' + nextCycle.filing.submitted : 'No filing yet')));
+          : (nextCycle.filing ? filedOn(nextCycle.filing, 'Filed') : 'No filing yet')));
     var nextNote = nextValue && !nextCycle.filing && nextCycle.across !== 'all' && nextCycle.across !== 'mixed' && nextCycle.deadline
       ? 'Due ' + new Date(nextCycle.deadline + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
       : (nextCycle && nextCycle.filing
@@ -7952,7 +7957,7 @@
           return escHtml(c.county) + ' ' + (c.record
             ? escHtml(c.record.status) + ', fast-track ' + (c.record.fast_track === true ? 'Yes' : 'No')
             : 'Not committed') +
-            (next ? ', 2027–2029 ' + (next.filing ? 'filed ' + escHtml(next.filing.submitted) : 'not yet filed') : '');
+            (next ? ', 2027–2029 ' + (next.filing ? escHtml(filedOn(next.filing, 'filed')) : 'not yet filed') : '');
         }).join('; ') + '.'
       : record && record.source_url
       ? '<a href="' + escHtml(record.source_url) + '" target="_blank" rel="noopener">DOLA filing source</a>'

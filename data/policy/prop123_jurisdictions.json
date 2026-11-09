@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05",
+  "updated": "2026-11-09",
   "source_url": "https://cdola.colorado.gov/commitment-filings",
   "sources": {
     "cycle1_filings": {
@@ -9,7 +9,7 @@
     "fast_track": {
       "page": "https://cdola.colorado.gov/prop123fasttrack",
       "sheet": "https://docs.google.com/spreadsheets/d/1MNi6SG8rNaXxVojOAYOMhcz2SmrUCjrjdEhJqgYCSG8",
-      "sheet_last_updated": "2026-10-28"
+      "sheet_last_updated": "2026-11-06"
     },
     "fully_compliant": {
       "page": "https://cdola.colorado.gov/fully-compliant-jurisdictions-under-proposition-123",
@@ -25,7 +25,7 @@
   },
   "note": "Local government Proposition 123 affordable housing commitments, joined from DOLA's own lists: first-cycle (2024-2026) commitment filings, verified expedited review (\"fast track\") policies, jurisdictions verified as meeting every statutory requirement, and second-cycle (2027-2029) commitments filed so far in 2026. Built by scripts/policy/build_prop123_jurisdictions.py. HB26-1313 (signed and effective 2026-05-26 under its safety clause) replaces the 3% annual-growth eligibility requirement with permit-and-job-growth targets beginning the 3-year cycle on 2027-01-01; the required_commitment values below describe the current cycle.",
   "total_projected_units": 22988,
-  "fast_track_count": 152,
+  "fast_track_count": 156,
   "fast_track_without_cycle1_commitment": [
     {
       "name": "Town of Moffat",
@@ -36,18 +36,18 @@
       "fast_track_adopted": "2026-08-12"
     }
   ],
-  "commitment_met_count": 76,
+  "commitment_met_count": 78,
   "next_cycle": {
     "cycle": "2027-2029",
     "filing_deadline": "2026-11-01",
-    "filed_count": 155,
+    "filed_count": 156,
     "status_counts": {
-      "Approved": 69,
-      "Contingent Approval": 76,
-      "Pending": 10
+      "Approved": 72,
+      "Contingent Approval": 75,
+      "Pending": 9
     },
-    "unit_goal_total": 12106,
-    "unit_goal_unstated": 12,
+    "unit_goal_total": 12149,
+    "unit_goal_unstated": 11,
     "filings": [
       {
         "name": "Adams County",
@@ -132,7 +132,7 @@
       {
         "name": "City of Aurora",
         "submitted": "2026-10-20",
-        "status": "Contingent Approval",
+        "status": "Approved",
         "begins": null,
         "length": null,
         "unit_goal": 1381
@@ -500,10 +500,10 @@
       {
         "name": "City of Steamboat Springs",
         "submitted": "2026-10-30",
-        "status": "Pending",
+        "status": "Approved",
         "begins": null,
         "length": null,
-        "unit_goal": null
+        "unit_goal": 39
       },
       {
         "name": "City of Sterling",
@@ -532,7 +532,7 @@
       {
         "name": "City of Walsenburg",
         "submitted": "2026-10-27",
-        "status": "Contingent Approval",
+        "status": "Approved",
         "begins": null,
         "length": null,
         "unit_goal": 3
@@ -652,10 +652,10 @@
       {
         "name": "Mineral County",
         "submitted": "2026-10-30",
-        "status": "Pending",
+        "status": "Contingent Approval",
         "begins": null,
         "length": null,
-        "unit_goal": null
+        "unit_goal": 4
       },
       {
         "name": "Montrose County",
@@ -992,6 +992,14 @@
         "begins": null,
         "length": null,
         "unit_goal": 3
+      },
+      {
+        "name": "Town of Mancos",
+        "submitted": null,
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
       },
       {
         "name": "Town of Meeker",
@@ -1924,10 +1932,10 @@
       "compliance_verified": null,
       "next_cycle": {
         "submitted": "2026-10-30",
-        "status": "Pending",
+        "status": "Contingent Approval",
         "begins": null,
         "length": null,
-        "unit_goal": null
+        "unit_goal": 4
       }
     },
     {
@@ -2311,16 +2319,20 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 1650,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-08-01",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": false,
-      "fast_track_adopted": null,
-      "fast_track_instrument": null,
-      "compliance_verified": null,
+      "fast_track": true,
+      "fast_track_adopted": "2026-10-30",
+      "fast_track_instrument": "Resolution No. R2023-07",
+      "compliance_verified": {
+        "expedited_review": "2026-11-05",
+        "unit_commitment": "2026-11-02",
+        "required_units_met": 1650
+      },
       "next_cycle": {
         "submitted": "2026-10-20",
-        "status": "Contingent Approval",
+        "status": "Approved",
         "begins": null,
         "length": null,
         "unit_goal": 1381
@@ -2422,9 +2434,9 @@
       "status": "Committed",
       "filing_date": "2023-10-23",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": false,
-      "fast_track_adopted": null,
-      "fast_track_instrument": null,
+      "fast_track": true,
+      "fast_track_adopted": "2026-10-13",
+      "fast_track_instrument": "Resolution No. 26-63",
       "compliance_verified": null,
       "next_cycle": {
         "submitted": "2026-10-23",
@@ -3486,10 +3498,10 @@
       },
       "next_cycle": {
         "submitted": "2026-10-30",
-        "status": "Pending",
+        "status": "Approved",
         "begins": null,
         "length": null,
-        "unit_goal": null
+        "unit_goal": 39
       }
     },
     {
@@ -3589,16 +3601,20 @@
       "required_commitment": "3% annual affordable housing unit increase",
       "commitment_length": "3-Year (9%)",
       "proposed_units": 34,
-      "status": "Committed",
+      "status": "Commitment Met",
       "filing_date": "2023-11-01",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": false,
-      "fast_track_adopted": null,
-      "fast_track_instrument": null,
-      "compliance_verified": null,
+      "fast_track": true,
+      "fast_track_adopted": "2026-11-03",
+      "fast_track_instrument": "Resolution No. 2026 R 34",
+      "compliance_verified": {
+        "expedited_review": "2026-11-06",
+        "unit_commitment": "2026-10-28",
+        "required_units_met": 3
+      },
       "next_cycle": {
         "submitted": "2026-10-27",
-        "status": "Contingent Approval",
+        "status": "Approved",
         "begins": null,
         "length": null,
         "unit_goal": 3
@@ -4634,9 +4650,9 @@
       "status": "Committed",
       "filing_date": "2024-10-30",
       "source_url": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": false,
-      "fast_track_adopted": null,
-      "fast_track_instrument": null,
+      "fast_track": true,
+      "fast_track_adopted": "2026-09-22",
+      "fast_track_instrument": "Resolution No. 2026-O-13",
       "compliance_verified": null,
       "next_cycle": {
         "submitted": "2026-10-30",
@@ -4864,7 +4880,13 @@
       "fast_track_adopted": null,
       "fast_track_instrument": null,
       "compliance_verified": null,
-      "next_cycle": null
+      "next_cycle": {
+        "submitted": null,
+        "status": "Pending",
+        "begins": null,
+        "length": null,
+        "unit_goal": null
+      }
     },
     {
       "name": "Town of Manzanola",

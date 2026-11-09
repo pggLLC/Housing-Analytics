@@ -409,6 +409,15 @@ const t4 = rules.thresholds.find((t) => t.applies === 'rehab');
 ok(SR.thresholdStatus(rules, { [t4.id]: 'missing' }, { rehab: false }).rows.find((r) => r.id === t4.id).answer === 'na' && SR.thresholdStatus(rules, { [t4.id]: 'missing' }, { rehab: true }).rows.find((r) => r.id === t4.id).answer === 'missing', 'a conditional threshold answer stops counting once its condition is unticked');
 ok(SR.score(rules, { mix, applicant: 'for-profit' }, {}).addable.filter((a) => /^5B4/.test(a.id)).every((a) => /the Applicant/.test(a.how)), '5.B.4 suggestions say the Applicant itself must change');
 ok(['Town of Moffat', 'Town of Stratton'].every((n) => SR.prop123Status(prop123, n).status === 'yes'), 'a 2027-2029 filing with no first-cycle record counts as filed');
+// DOLA lists some filings without a date (Mancos pending and the two tribes, 2026-11): still filed, never "null" or "no filing yet".
+// The fixture blanks a real filer's date, so the check does not depend on the live data keeping an undated row.
+{
+  const dated = prop123.jurisdictions.find((j) => j.next_cycle && j.next_cycle.submitted);
+  const undatedList = Object.assign({}, prop123, { jurisdictions: prop123.jurisdictions.map((j) => (j === dated
+    ? Object.assign({}, j, { next_cycle: Object.assign({}, j.next_cycle, { submitted: null, status: 'Pending' }) }) : j)) });
+  const r = SR.prop123Status(undatedList, dated.name);
+  ok(r.status === 'yes' && /without a date/.test(r.text) && !/null/.test(r.text), 'an undated 2027-2029 filing counts as filed and says the date is not listed');
+}
 const cmpSkip = SR.compareTable(rules, prop123, [{ v: 'a', label: 'A', deal: { mix: { 60: 50 } }, claims: {}, stress: [{ fails: '', engine: { dscr: 1.3 } }, { fails: 'gap opens', skipped: false }, { fails: '', skipped: true }] }]);
 ok(/1 of 2 \(1 not run\)/.test(cmpSkip), 'the comparison counts skipped stress tests apart');
 const cond = SR.score(rules, { mix }, { '5B3c-rehab': true, '5B3d-preservation': true });

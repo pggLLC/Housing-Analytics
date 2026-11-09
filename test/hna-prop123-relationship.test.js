@@ -46,7 +46,11 @@ async function main() {
   assert.equal(DATA.jurisdictions.reduce((s, row) => s + row.proposed_units, 0), DATA.total_projected_units, 'unit goals sum to the stated total');
 
   const aurora = api.relationship(DATA, 'place', 'Aurora (city)');
-  assert.equal(aurora.status, 'Committed', 'prefixed DOLA city name matches the HNA place label');
+  // Pin the name match, not Aurora's status, which changes as DOLA verifies it.
+  const auroraRecord = DATA.jurisdictions.find(j => j.name === 'City of Aurora');
+  assert.ok(auroraRecord, 'the data file carries DOLA\'s Aurora record');
+  assert.equal(aurora.record, auroraRecord, 'prefixed DOLA city name matches the HNA place label');
+  assert.equal(aurora.status, auroraRecord.status, 'its status is the record\'s own');
   const springs = api.relationship(DATA, 'place', 'Colorado Springs (city)');
   assert.equal(springs.fastTrack, 'Yes', 'fast_track true displays as its own fact');
 
@@ -206,6 +210,19 @@ async function main() {
   window.HNARenderers.renderProp123Relationship(stratton, 'Stratton (town)', true);
   const strattonValues = Array.from(relationshipEl.querySelectorAll('.metric-value')).map((el) => el.textContent);
   assert.equal(strattonValues[2], 'Filed ' + stratton.nextCycle.filing.submitted, 'a 2027–2029 filer shows its filing even with no 2024–2026 record');
+
+  // A filing DOLA lists without a date (Mancos, pending, in 2026-11) says so,
+  // never "null". The fixture blanks Stratton's date, so the check does not
+  // depend on the live data keeping an undated row.
+  const undatedFixture = Object.assign({}, DATA, {
+    jurisdictions: DATA.jurisdictions.map((j) => (j.name === 'Town of Stratton' ? Object.assign({}, j, { next_cycle: Object.assign({}, j.next_cycle, { submitted: null }) }) : j)),
+    next_cycle: Object.assign({}, DATA.next_cycle, {
+      filings: DATA.next_cycle.filings.map((f) => (f.name === 'Town of Stratton' ? Object.assign({}, f, { submitted: null }) : f)) }) });
+  const strattonUndated = api.relationship(undatedFixture, 'place', 'Stratton (town)');
+  window.HNARenderers.renderProp123Relationship(strattonUndated, 'Stratton (town)', true);
+  const undatedValues = Array.from(relationshipEl.querySelectorAll('.metric-value')).map((el) => el.textContent);
+  assert.equal(undatedValues[2], 'Filed, date not listed by DOLA', 'an undated filing says the date is not listed');
+  assert(!relationshipEl.textContent.includes('null'), 'an undated filing never renders null');
 
   window.HNARenderers.renderProp123Relationship(highlandsRanch, 'Highlands Ranch (CDP)', true);
   const highlandsRendered = relationshipEl.textContent.replace(/\s+/g, ' ').trim();
