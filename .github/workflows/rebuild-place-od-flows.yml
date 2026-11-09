@@ -25,9 +25,9 @@ on:
   workflow_dispatch:
     inputs:
       year:
-        description: 'LODES OD year (e.g. 2023, 2022)'
+        description: 'LODES OD year (e.g. 2024, 2023)'
         required: false
-        default: '2023'
+        default: '2024'
 
 permissions:
   contents: write

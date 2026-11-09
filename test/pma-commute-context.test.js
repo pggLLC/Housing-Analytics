@@ -20,12 +20,23 @@ const source = fs.readFileSync(path.join(ROOT, 'js/pma-commute-context.js'), 'ut
 const engineSource = fs.readFileSync(path.join(ROOT, 'js/market-analysis.js'), 'utf8');
 const scoringSource = fs.readFileSync(path.join(ROOT, 'js/market-analysis-scoring.js'), 'utf8');
 
+// The legend's data year is a claim about the two files the overlay draws, so
+// it is read from them, not pinned: lodes_co.json names the WAC vintage and
+// the arcs file names the OD year. Both must agree, and the legend must name
+// that year. A rebuild of either file on another year fails here until the
+// overlay copy moves with it.
+const dataVintage = String(lodes.meta && lodes.meta.vintage);
+assert.match(dataVintage, /^20\d\d$/, 'lodes_co.json states its LODES vintage');
+assert.equal(String(arcs.metadata && arcs.metadata.year), dataVintage, 'OD arcs and tract jobs come from the same LODES year');
 assert.equal(
   CommuteContext.LEGEND_TEXT,
-  'LODES 2024 commute context \u2014 does not change PMA scores or tract selection',
-  'legend disclosure string is pinned'
+  'LODES ' + dataVintage + ' commute context \u2014 does not change PMA scores or tract selection',
+  'legend names the LODES year of the data it draws'
 );
-assert(source.includes('LODES 2024 commute context'), 'overlay source carries the commute-context legend');
+assert(source.includes('LODES ' + dataVintage + ' commute context'), 'overlay source carries the commute-context legend for the data year');
+assert(!source.match(new RegExp('LODES (?!' + dataVintage + ')20\\d\\d')), 'overlay source names no other LODES year');
+// Sabotage: a legend built for another year must not pass the same check.
+assert.notEqual(CommuteContext.LEGEND_TEXT, 'LODES ' + (Number(dataVintage) - 1) + ' commute context \u2014 does not change PMA scores or tract selection');
 assert(!source.includes('PMACommuting'), 'D-lite overlay does not call PMACommuting synthetic/hull module');
 assert(!source.includes('_buildSyntheticWorkplaces'), 'D-lite overlay cannot invoke synthetic workplace fallback');
 assert(!source.includes('generateCommutingBoundary'), 'D-lite overlay does not render commute-shaped PMA boundaries');

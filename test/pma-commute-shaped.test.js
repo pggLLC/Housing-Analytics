@@ -55,7 +55,9 @@ const result = mod.buildModeData(
 
 assert(result.state.enabled, 'commute-shaped mode enables with committed OD/travel artifacts');
 assert.equal(result.state.mode_label, 'Commute-shaped PMA (beta)');
-assert.match(result.state.disclosure, /LODES 2024 OD flows/);
+// The disclosure's year is read from the OD file the mode runs on, not pinned.
+assert.match(String(odDoc.meta.year), /^20\d\d$/, 'tract OD file states its LODES year');
+assert(result.state.disclosure.includes('LODES ' + odDoc.meta.year + ' OD flows'), 'disclosure names the LODES year of the OD file (' + odDoc.meta.year + ')');
 
 const modeTracts = result.tracts.map((t) => t.geoid);
 const professional = fixture.professional_tracts;
