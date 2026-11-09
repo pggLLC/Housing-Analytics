@@ -612,12 +612,20 @@ def _key(e: dict) -> tuple:
     return (e['organizer'], re.sub(r'\W+', ' ', e['title'].lower()).strip(), e['start'])
 
 
+# A Zoom registration page is deleted once the meeting is over (#2744: CHFA's
+# feed still links one for a December 2025 meeting, and it answers 404). An
+# ended event keeps its title but loses that link.
+EXPIRED_REGISTRATION_LINK = re.compile(r'zoom\.us/(meeting|webinar)/register', re.I)
+
+
 def past(events: list[dict], previous: dict | None, today: date, past_days: int = PAST_DAYS) -> list[dict]:
     """Events that have ended within past_days, newest first, once each.
 
     `events` are what the sources list today; `previous` is yesterday's file,
     whose upcoming events that have since ended, and whose past list, carry
     forward. Today's listing wins over a carried-forward copy of one event.
+    A Zoom registration link is dropped (url None): it stops working once the
+    meeting has happened.
     """
     first, today_iso = (today - timedelta(days=past_days)).isoformat(), today.isoformat()
     prev = previous if isinstance(previous, dict) else {}
@@ -632,6 +640,8 @@ def past(events: list[dict], previous: dict | None, today: date, past_days: int 
         if k in seen:
             continue
         seen.add(k)
+        if EXPIRED_REGISTRATION_LINK.search(e.get('url') or ''):
+            e = {**e, 'url': None}
         out.append(e)
     return sorted(out, key=lambda x: (x.get('end') or x['start'], x['start'], x.get('time') or '', x['title']),
                   reverse=True)

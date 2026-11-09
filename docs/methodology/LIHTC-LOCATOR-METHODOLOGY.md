@@ -483,7 +483,7 @@ Next planned: v2.0 after Sprint 1 remaining patches ship (ScoreResult contract s
 ### Colorado-specific
 - HB22-1304 / Proposition 123 (Affordable Housing Financing Fund, Affordable Housing Support Fund)
 - DOLA Prop 123 commitment filings — <https://cdola.colorado.gov/commitment-filings>
-- CHFA Qualified Allocation Plan (annual) — <https://www.chfainfo.com/multifamily/QAP>
+- CHFA Qualified Allocation Plan (annual) — <https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan>
 - Colorado Demography Office (CDO) population projections
 
 ### Data sources cited
