@@ -23,7 +23,7 @@ county with a large state office may look high and its neighbours low; LODES lea
 uniformed military and some federal security agencies. Areas with fewer than MIN_JOBS jobs get null with a
 reason, because a share of a tiny base is not meaningful.
 
-Usage: python3 scripts/market/build_public_jobs.py [--year 2023] [--cache DIR]
+Usage: python3 scripts/market/build_public_jobs.py [--year 2024] [--cache DIR]
 """
 import argparse
 import csv
@@ -65,7 +65,7 @@ def read_wac(path, cols):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--year', type=int, default=2023)
+    ap.add_argument('--year', type=int, default=2024)
     ap.add_argument('--cache', default=os.path.join(ROOT, '.cache', 'lodes'))
     a = ap.parse_args()
     os.makedirs(a.cache, exist_ok=True)
@@ -127,7 +127,7 @@ def main():
     for geoid, name, t in geos:
         r = row(geoid, name)
         if r is None:
-            missing[geoid] = 'No LEHD block in this area (not in the LODES crosswalk).'
+            missing[geoid] = 'No LODES job is placed in this area this year (none of its blocks appears in the workplace file).'
             continue
         (counties if t == 'county' else places)[geoid] = r
 
@@ -148,7 +148,11 @@ def main():
                 'large state office can look high and its neighbours low.',
                 'Leaves out the self-employed, uniformed military and some federal security agencies.',
                 'Towns are the 2020 Census place boundaries in the LODES crosswalk; jobs outside any place count only to the county.',
-            ],
+            ] + ([
+                'In the 2024 file about 23,000 state and local jobs moved to Denver from Adams, Arapahoe, Mesa, Boulder, Pueblo and ' +
+                'Larimer counties against the 2023 file, with no matching change in total jobs: this looks like state employees ' +
+                'reported at a Denver administrative address, so year-to-year changes in a county\'s government share are not evidence by themselves.',
+            ] if y == 2024 else []),
             'min_jobs': MIN_JOBS,
             'shown': 'true where the share is published; otherwise why_not says why.',
             'missing': missing,

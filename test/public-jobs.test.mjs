@@ -5,7 +5,7 @@
  * Pins: all 64 counties and every ranking-index place are keys or listed as missing; the source, year and limits
  * are stated; government = jobs - private, federal <= government, state_local = government - federal; a share is
  * published only above the minimum job count and matches the parts; a county's parts are at least the sum of its
- * towns'; and spot values match the LODES 2023 files.
+ * towns'; and spot values match the LODES 2024 files.
  */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -54,12 +54,12 @@ const placeJobs = Object.values(P.places).reduce((a, r) => a + r.jobs, 0);
 ok(placeJobs <= stateJobs, 'towns hold no more jobs than the counties');
 ok(stateJobs > 2000000, 'statewide job count is in range (LODES Colorado > 2 million)');
 
-if (m.year === 2023) {
-  ok(P.counties['08009'].jobs === 1256 && P.counties['08009'].government === 662 && P.counties['08009'].federal === 16, 'Baca: 662 of 1,256 government, 16 federal');
-  ok(P.counties['08103'].state_local === 1105 && P.counties['08103'].government_share === 0.408, 'Rio Blanco: 1,105 state and local, 40.8%');
-  ok(P.counties['08081'].private_large_firms === 887, 'Moffat: 887 private jobs at 500+ firms');
-  ok(P.places['0833640'].jobs === 3922 && P.places['0833640'].government === 1521, 'Gunnison: 1,521 of 3,922 government');
-  ok(P.counties['08031'].jobs === 557853 && P.places['0820000'].jobs === 557853, 'Denver city and county agree');
-  ok(m.missing['0834740'] && m.missing['0879270'], 'Haswell and Two Buttes have no LODES block and are listed as missing');
+if (m.year === 2024) {
+  ok(P.counties['08009'].jobs === 1228 && P.counties['08009'].government === 662 && P.counties['08009'].federal === 12, 'Baca: 662 of 1,228 government, 12 federal');
+  ok(P.counties['08103'].state_local === 1105 && P.counties['08103'].government_share === 0.422, 'Rio Blanco: 1,105 state and local, 42.2%');
+  ok(P.counties['08081'].private_large_firms === 504, 'Moffat: 504 private jobs at 500+ firms');
+  ok(P.places['0833640'].jobs === 3885 && P.places['0833640'].government === 1506, 'Gunnison: 1,506 of 3,885 government');
+  ok(P.counties['08031'].jobs === 573014 && P.places['0820000'].jobs === 573014, 'Denver city and county agree');
+  ok(m.missing['0834740'] && m.missing['0855705'], 'Haswell and Olney Springs have no LODES block with a job and are listed as missing');
 }
 console.log(`public-jobs: PASS (${checks} checks)`);

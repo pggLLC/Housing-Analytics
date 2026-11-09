@@ -1,6 +1,6 @@
 /**
  * js/pma-commute-context.js
- * Display-only LODES 2023 commute context overlay for the PMA map.
+ * Display-only LODES 2024 commute context overlay for the PMA map.
  *
  * D-lite contract: committed data only, default off, no PMA score or tract
  * selection changes, and no synthetic commute fallback.
@@ -8,7 +8,7 @@
 (function () {
   'use strict';
 
-  var LEGEND_TEXT = 'LODES 2023 commute context \u2014 does not change PMA scores or tract selection';
+  var LEGEND_TEXT = 'LODES 2024 commute context \u2014 does not change PMA scores or tract selection';
   var LODES_URL = 'market/lodes_co.json';
   var ARCS_URL = 'market/lodes_od_arcs_co.geojson';
   var _layer = null;
@@ -71,7 +71,7 @@
     if (opts.lastDataCoverage === 'fallback') {
       return {
         blocked: true,
-        warning: 'LODES 2023 commute context unavailable: fallback commute data was detected, so the overlay is blocked.',
+        warning: 'LODES 2024 commute context unavailable: fallback commute data was detected, so the overlay is blocked.',
         legend: LEGEND_TEXT,
         tractGeoids: tractGeoids,
         tractJobs: [],
@@ -92,7 +92,7 @@
     if (!Object.keys(idx).length) {
       return {
         blocked: true,
-        warning: 'LODES 2023 commute context unavailable: committed tract job data did not load, so no synthetic commute content is rendered.',
+        warning: 'LODES 2024 commute context unavailable: committed tract job data did not load, so no synthetic commute content is rendered.',
         legend: LEGEND_TEXT,
         tractGeoids: tractGeoids,
         tractJobs: [],
@@ -108,7 +108,7 @@
       return {
         geoid: geoid,
         work_workers: jobs,
-        vintage: row.vintage || (lodesData && lodesData.meta && lodesData.meta.vintage) || 2023
+        vintage: row.vintage || (lodesData && lodesData.meta && lodesData.meta.vintage) || 2024
       };
     }).filter(function (row) { return row.work_workers > 0; });
     tractJobs.forEach(function (row) {
@@ -266,7 +266,7 @@
         if (!feature || !row) return;
         var lyr = L.geoJSON(feature, { style: _styleForJob(row), interactive: true });
         lyr.bindTooltip(
-          '<strong>LODES 2023 WAC jobs</strong><br>Tract ' + geoid + ': ' +
+          '<strong>LODES 2024 WAC jobs</strong><br>Tract ' + geoid + ': ' +
           Math.round(row.work_workers).toLocaleString() + ' workplace jobs<br>' +
           'Context only; does not change PMA scores.',
           { sticky: true, className: 'pma-tooltip' }
@@ -292,7 +292,7 @@
       _layer = L.layerGroup(layers).addTo(map);
       _state = {
         enabled: true,
-        mode_label: 'Commute context overlay on (LODES 2023, display-only)',
+        mode_label: 'Commute context overlay on (LODES 2024, display-only)',
         legend: LEGEND_TEXT,
         warning: null,
         tract_count: data.tractGeoids.length,
@@ -304,7 +304,7 @@
       return data;
     }).catch(function (err) {
       clear(map);
-      var msg = 'LODES 2023 commute context unavailable: committed data failed to load; no synthetic commute content is rendered.';
+      var msg = 'LODES 2024 commute context unavailable: committed data failed to load; no synthetic commute content is rendered.';
       _state = {
         enabled: false,
         mode_label: 'Commute context overlay blocked',

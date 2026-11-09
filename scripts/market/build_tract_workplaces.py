@@ -33,7 +33,7 @@ import urllib.request
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, 'data', 'market', 'tract-workplaces.json')
 
-YEAR = 2023
+YEAR = 2024
 LODES = 'https://lehd.ces.census.gov/data/lodes/LODES8/'
 OD = f'co/od/co_od_main_JT01_{YEAR}.csv.gz'
 XWALK = 'co/co_xwalk.csv.gz'

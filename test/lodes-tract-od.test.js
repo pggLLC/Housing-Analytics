@@ -18,12 +18,12 @@ const commuteShapedSource = fs.readFileSync(path.join(ROOT, 'js', 'pma-commute-s
 assert(doc.meta, 'artifact exposes meta');
 assert.equal(doc.meta.source, 'LEHD LODES8 Origin-Destination (OD Main, All Jobs)');
 assert.equal(doc.meta.lodes_version, 'LODES8');
-assert.equal(doc.meta.vintage, '2023');
-assert.equal(doc.meta.year, 2023);
+assert.equal(doc.meta.vintage, '2024');
+assert.equal(doc.meta.year, 2024);
 assert.equal(doc.meta.generated_by, 'scripts/hna/build_tract_od_matrix.py');
 assert.equal(doc.meta.context_only, true, 'artifact is context-only');
 assert.equal(doc.meta.not_scoring_input, true, 'artifact is not a scoring input');
-assert.equal(doc.meta.source_url, 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT00_2023.csv.gz');
+assert.equal(doc.meta.source_url, 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT00_2024.csv.gz');
 assert.match(doc.meta.fetch_date, /^\d{4}-\d{2}-\d{2}$/, 'fetch_date is ISO');
 assert.match(doc.meta.last_verified, /^\d{4}-\d{2}-\d{2}$/, 'last_verified is ISO');
 assert.match(doc.meta.review_by, /^\d{4}-\d{2}-\d{2}$/, 'review_by is ISO');

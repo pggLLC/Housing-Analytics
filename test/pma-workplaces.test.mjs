@@ -11,7 +11,7 @@ let n = 0;
 function ok(c, msg) { if (!c) { console.error('FAIL: ' + msg); process.exit(1); } n++; }
 
 // ---- The file: every tract adds up, and the out-of-state count is in the total.
-ok(D.meta.lodes_year === 2023 && /JT01/.test(D.meta.sources.flows), 'primary jobs (JT01), LODES 2023');
+ok(D.meta.lodes_year === 2024 && /JT01/.test(D.meta.sources.flows), 'primary jobs (JT01), LODES 2024');
 ok(Object.keys(D.tracts).length > 1300, 'every Colorado tract with working residents');
 for (const [t, r] of Object.entries(D.tracts)) {
   const named = r.to.reduce((s, p) => s + p[1], 0);

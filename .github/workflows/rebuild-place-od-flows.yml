@@ -64,7 +64,7 @@ jobs:
 
       - name: Build place-OD flows
         env:
-          YEAR: ${{ inputs.year || '2023' }}
+          YEAR: ${{ inputs.year || '2024' }}
         run: |
           python scripts/hna/build_place_od_flows.py --year "$YEAR"
           python scripts/hna/build_tract_od_matrix.py --year "$YEAR"
@@ -79,7 +79,7 @@ jobs:
         # feeds the derived chain, so the chain is not needed here.
         env:
           DATA_COMMIT_BRANCH: ${{ github.ref_name }}
-          YEAR: ${{ inputs.year || '2023' }}
+          YEAR: ${{ inputs.year || '2024' }}
         run: |
           scripts/push-data-commit.sh "chore(data): rebuild place-OD flows (LEHD LODES OD $YEAR)" -- \
             data/hna/place-od-flows.json data/market/lodes_tract_od_co.json

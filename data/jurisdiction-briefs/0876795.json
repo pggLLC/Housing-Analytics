@@ -140,7 +140,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 2,160. LEHD-based commuting signals show 2,073 in-commuters and a commute ratio of 79.6%. The digest's 20-year figure is 512 homes. Projected resident growth gives 280; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 232: homes for a quarter of the households, at or below 120% AMI, of the people who commute into Town of Telluride, if they moved closer.",
+          "text": "Demographics and demand: the population metric is 2,160. LEHD-based commuting signals show 2,029 in-commuters and a commute ratio of 78.7%. The digest's 20-year figure is 509 homes. Projected resident growth gives 280; it comes from the county projection, so read it as county context, not a place trend. Today's in-commuters give 229: homes for a quarter of the households, at or below 120% AMI, of the people who commute into Town of Telluride, if they moved closer.",
           "cites": [
             "d11",
             "d12",
@@ -158,7 +158,7 @@
           ]
         },
         {
-          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 81.4. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $511,412 and a rent affordability gap of $94,740. The county-context service-sector employment share is 36.8%, and county-context ACS cohorts show median gross rent changed 26.4% from 2009 to 2024 while median household income changed 30.7%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 81.3. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $511,412 and a rent affordability gap of $94,740. The county-context service-sector employment share is 36.8%, and county-context ACS cohorts show median gross rent changed 26.4% from 2009 to 2024 while median household income changed 30.7%. These county-context figures are economic context, not place-level sector or wage observations.",
           "cites": [
             "d17",
             "d18",
@@ -316,7 +316,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-08T15:04:37Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -325,7 +325,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-08T15:04:37Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -424,7 +424,7 @@
     },
     {
       "id": "d14",
-      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache; LEHD LODES 2023 and ACS PUMS 2020-2024 5-year)",
+      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache; LEHD LODES 2024 and ACS PUMS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -451,7 +451,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-08T15:04:37Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -460,7 +460,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-08T15:04:37Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -469,7 +469,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-08T15:04:37Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -514,7 +514,7 @@
     },
     {
       "id": "d24",
-      "label": "In-commuter need, a quarter moving closer - jurisdiction metrics digest (LEHD LODES 2023 and ACS PUMS 2020-2024 5-year)",
+      "label": "In-commuter need, a quarter moving closer - jurisdiction metrics digest (LEHD LODES 2024 and ACS PUMS 2020-2024 5-year)",
       "url": "data/hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

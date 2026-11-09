@@ -22,10 +22,10 @@ const scoringSource = fs.readFileSync(path.join(ROOT, 'js/market-analysis-scorin
 
 assert.equal(
   CommuteContext.LEGEND_TEXT,
-  'LODES 2023 commute context \u2014 does not change PMA scores or tract selection',
+  'LODES 2024 commute context \u2014 does not change PMA scores or tract selection',
   'legend disclosure string is pinned'
 );
-assert(source.includes('LODES 2023 commute context'), 'overlay source carries the commute-context legend');
+assert(source.includes('LODES 2024 commute context'), 'overlay source carries the commute-context legend');
 assert(!source.includes('PMACommuting'), 'D-lite overlay does not call PMACommuting synthetic/hull module');
 assert(!source.includes('_buildSyntheticWorkplaces'), 'D-lite overlay cannot invoke synthetic workplace fallback');
 assert(!source.includes('generateCommutingBoundary'), 'D-lite overlay does not render commute-shaped PMA boundaries');

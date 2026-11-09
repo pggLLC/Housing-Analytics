@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated": "2026-11-02",
+    "updated": "2026-11-09",
     "purpose": "How COHO's figures compare with a recent local Housing Needs Assessment, and why they differ. Shown in the gated Jurisdiction Report for the county and the towns in it.",
     "rules": [
       "Only an HNA dated within the last five years.",
@@ -56,10 +56,10 @@
           "hna_value": 0.32,
           "hna_page": "Section I, page 17",
           "hna_quote": "Nearly one-third of La Plata County's workers (32%) do not live in the county",
-          "coho_value": 0.202,
-          "coho_text": "20% (Colorado homes only)",
-          "coho_source": "data/market/commute-strength.json counties.08067 in_commuters / jobs (LODES 2023 primary jobs)",
-          "why": "Geography and year. COHO's commute file counts Colorado homes only; the HNA (LEHD 2022) also counts out-of-state homes, mainly San Juan County, New Mexico (8% in the HNA). Adding out-of-state homes from the LODES 2023 aux file gives about 31%, close to the HNA.",
+          "coho_value": 0.206,
+          "coho_text": "21% (Colorado homes only)",
+          "coho_source": "data/market/commute-strength.json counties.08067 in_commuters / jobs (LODES 2024 primary jobs)",
+          "why": "Geography and year. COHO's commute file counts Colorado homes only; the HNA (LEHD 2022) also counts out-of-state homes, mainly San Juan County, New Mexico (8% in the HNA). Adding out-of-state homes from the LODES 2024 aux file gives about 31% (7,473 of 23,958 jobs), close to the HNA.",
           "kind": "geography"
         },
         {

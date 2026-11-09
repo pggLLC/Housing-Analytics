@@ -62,7 +62,7 @@ PUMS_PERSONS_URL = 'https://www2.census.gov/programs-surveys/acs/data/pums/2024/
 PUMS_HOUSING_URL = 'https://www2.census.gov/programs-surveys/acs/data/pums/2024/5-Year/csv_hco.zip'
 TRACT_PUMA_URL = 'https://www2.census.gov/geo/docs/reference/puma2020/2020_Census_Tract_to_2020_PUMA.txt'
 PUMS_DOLLAR_YEAR = 2024
-LODES_YEAR = 2023  # build_workforce_need.py LODES_YEAR
+LODES_YEAR = 2024  # build_workforce_need.py LODES_YEAR
 
 # The PUMS place-of-work code groups 2020 PUMAs. The Census Bureau publishes
 # no 2020 PUMA-to-POWPUMA file for Colorado, so the grouping is written out

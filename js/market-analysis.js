@@ -4919,7 +4919,7 @@
           '</div>' +
           '<p style="font-size:.8125rem;color:var(--muted);margin:0 0 8px;line-height:1.45;">' +
             (shapedState.enabled
-              ? 'Commute-shaped PMA beta starts with the circular-buffer tracts and adds whole tracts supported by LODES 2023 OD flow evidence. '
+              ? 'Commute-shaped PMA beta starts with the circular-buffer tracts and adds whole tracts supported by LODES 2024 OD flow evidence. '
               : isTractPicker
               ? details.length + ' selected whole tract' + (details.length === 1 ? '' : 's') + ' define this PMA. Counts below are full-tract ACS aggregates. '
               : details.length + ' tract' + (details.length === 1 ? '' : 's') + ' clip the ' +
@@ -5637,7 +5637,7 @@
       vintages: {
         acs:  r.acsVintageLabel || _acsVintageLabel(),
         chas: 'HUD CHAS 2018-2022',
-        lehd: 'LEHD WAC 2023',
+        lehd: 'LEHD WAC 2024',
         fmr:  'HUD FMR FY2027',
         lihtc:'HUD LIHTC Database (most recent quarterly)'
       },

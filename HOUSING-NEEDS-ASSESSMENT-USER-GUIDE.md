@@ -1,6 +1,6 @@
 # Housing Needs Assessment (HNA) Tool — User Guide
 
-> **Version:** 2026-03 | **Data vintage:** ACS 2024 (primary), DOLA 2024 SYA, LEHD LODES 2023  
+> **Version:** 2026-03 | **Data vintage:** ACS 2024 (primary), DOLA 2024 SYA, LEHD LODES 2024  
 > **Page:** `housing-needs-assessment.html`
 
 ---

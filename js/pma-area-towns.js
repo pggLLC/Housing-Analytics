@@ -9,7 +9,7 @@
  *    town holds at least OTHER_TOWN_MIN_SHARE of the tract's homes (and at
  *    least OTHER_TOWN_MIN_HOMES homes) and more of them than the main town. The page does not drop a flagged tract: the analyst
  *    keeps it or drops it with the tract picker.
- * 2. Who works here: LEHD LODES 2023 tract-to-tract jobs (all jobs, JT00).
+ * 2. Who works here: LEHD LODES 2024 tract-to-tract jobs (all jobs, JT00).
  *    Jobs in the area's tracts are split into those held by people who live
  *    in the area and those held by in-commuters, by origin town. Jobs in a
  *    flagged tract are counted apart, so another town's jobs are not added

@@ -41,7 +41,7 @@ import urllib.request
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, 'data', 'policy', 'job-access.json')
 
-YEAR = 2023
+YEAR = 2024
 MINUTES = 30
 ROUTE_MILES = 40.0
 LODES = 'https://lehd.ces.census.gov/data/lodes/LODES8/co/'

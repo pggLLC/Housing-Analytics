@@ -55,7 +55,7 @@ const result = mod.buildModeData(
 
 assert(result.state.enabled, 'commute-shaped mode enables with committed OD/travel artifacts');
 assert.equal(result.state.mode_label, 'Commute-shaped PMA (beta)');
-assert.match(result.state.disclosure, /LODES 2023 OD flows/);
+assert.match(result.state.disclosure, /LODES 2024 OD flows/);
 
 const modeTracts = result.tracts.map((t) => t.geoid);
 const professional = fixture.professional_tracts;

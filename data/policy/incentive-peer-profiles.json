@@ -7,7 +7,7 @@
    "data/market/market-types.json",
    "data/hna/ranking-index.json"
   ],
-  "market_types_generated_at": "2026-11-08T12:19:08.391Z",
+  "market_types_generated_at": "2026-11-09T11:45:06Z",
   "type_labels": {
    "resort": "Resort and second-home",
    "job_centre": "Job centre",
@@ -100,7 +100,7 @@
   "08017": {
    "level": "county",
    "region": "Eastern Plains",
-   "type": "softening",
+   "type": "steady",
    "population": 1741
   },
   "08019": {
@@ -340,7 +340,7 @@
   "08071": {
    "level": "county",
    "region": "Eastern Plains",
-   "type": "steady",
+   "type": "softening",
    "population": 14413
   },
   "0807190": {
@@ -496,7 +496,7 @@
   "08099": {
    "level": "county",
    "region": "Eastern Plains",
-   "type": "steady",
+   "type": "softening",
    "population": 11910
   },
   "08101": {
@@ -838,7 +838,7 @@
   "0822200": {
    "level": "municipality",
    "region": "Mountains",
-   "type": "steady",
+   "type": "job_centre",
    "population": 7442
   },
   "0822860": {
@@ -1318,7 +1318,7 @@
   "0845255": {
    "level": "municipality",
    "region": "Front Range",
-   "type": "job_centre",
+   "type": "softening",
    "population": 44710
   },
   "0845530": {
@@ -1732,7 +1732,7 @@
   "0867280": {
    "level": "municipality",
    "region": "Mountains",
-   "type": "steady",
+   "type": "job_centre",
    "population": 5861
   },
   "0867830": {

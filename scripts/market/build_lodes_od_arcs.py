@@ -47,7 +47,7 @@ CENTROIDS_PATH = ROOT / "data" / "market" / "tract_centroids_co.json"
 # scripts/market/fetch_lodes.py CANDIDATE_YEARS — both scripts must
 # pick the same vintage for lodes_co.json + lodes_od_arcs_co.geojson
 # to tell a consistent story.
-LODES_YEARS = ["2023", "2022", "2021", "2020"]
+LODES_YEARS = ["2024", "2023", "2022", "2021"]
 LODES_URL_TEMPLATE = (
     "https://lehd.ces.census.gov/data/lodes/LODES8/co/od/"
     "co_od_main_JT00_{year}.csv.gz"

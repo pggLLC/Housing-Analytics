@@ -120,12 +120,12 @@
     if (r.used) {
       note = 'Adds ' + $fmt(r.added) + ' households, using the low end (' + r.share + '%) of tenants from outside the county at ' +
         r.used.property + '. ' + (r.capped ? 'Capped at ' : 'The cap is ') + $fmt(r.cap) +
-        ' lower-paid workers who commute 20 to 60 miles into the county (LODES 2023). Use this line as a range check, not the base case.';
+        ' lower-paid workers who commute 20 to 60 miles into the county (LODES 2024). Use this line as a range check, not the base case.';
     } else if (r.noCap) {
       note = 'A comparable is on file, but the commuter counts that cap the added households could not be loaded, so no relocation number is shown.';
     } else {
       note = 'No comparable evidence of tenants relocating from outside this county is on file, so no relocation number is shown. CHFA allows in-migration only when comparable projects demonstrate it.' +
-        (r.cap != null ? ' For context, ' + $fmt(r.cap) + ' lower-paid workers commute 20 to 60 miles into the county (LODES 2023).' : '');
+        (r.cap != null ? ' For context, ' + $fmt(r.cap) + ' lower-paid workers commute 20 to 60 miles into the county (LODES 2024).' : '');
     }
     box.appendChild($h('div', { style: { marginTop: '.2rem', color: 'var(--muted)', fontSize: '.74rem' } }, [note]));
     r.evidence.forEach(function (c) {

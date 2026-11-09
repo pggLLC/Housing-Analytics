@@ -8,7 +8,7 @@ Downloads annual LEHD WAC public files from the Census FTP and extracts:
   - Total jobs by county (with year-over-year growth)
   - Industry breakdown (CNS01–CNS20 NAICS supersectors)
   - Wage distribution (CE01 low / CE02 medium / CE03 high)
-  - Multi-year historical totals (2021, 2022, 2023)
+  - Multi-year historical totals (2022, 2023, 2024)
 
 Output: data/hna/lehd/{county_fips5}.json (one file per county)
 
@@ -16,8 +16,8 @@ Usage:
     python scripts/hna/parse_lehd_wac.py
 
 Environment variables:
-    LODES_YEAR   - primary year to parse (default: "2023")
-    LODES_YEARS  - comma-separated list of years (default: "2021,2022,2023")
+    LODES_YEAR   - primary year to parse (default: "2024")
+    LODES_YEARS  - comma-separated list of years (default: "2022,2023,2024")
     LODES_STATE  - state abbreviation lowercase (default: "co")
 """
 
@@ -40,10 +40,10 @@ from typing import Optional
 ROOT = Path(__file__).resolve().parent.parent.parent
 
 STATE  = os.environ.get("LODES_STATE", "co").lower()
-YEAR   = int(os.environ.get("LODES_YEAR", "2023"))
+YEAR   = int(os.environ.get("LODES_YEAR", "2024"))
 
 # Years to parse for historical tracking (parse newest-first so primary year is always included)
-_years_env = os.environ.get("LODES_YEARS", "2021,2022,2023")
+_years_env = os.environ.get("LODES_YEARS", "2022,2023,2024")
 YEARS = sorted(set(int(y.strip()) for y in _years_env.split(",") if y.strip()))
 
 OUT_DIR   = ROOT / "data" / "hna" / "lehd"
