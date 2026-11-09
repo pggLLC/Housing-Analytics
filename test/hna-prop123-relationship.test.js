@@ -46,7 +46,11 @@ async function main() {
   assert.equal(DATA.jurisdictions.reduce((s, row) => s + row.proposed_units, 0), DATA.total_projected_units, 'unit goals sum to the stated total');
 
   const aurora = api.relationship(DATA, 'place', 'Aurora (city)');
-  assert.equal(aurora.status, 'Committed', 'prefixed DOLA city name matches the HNA place label');
+  // Pin the name match, not Aurora's status, which changes as DOLA verifies it.
+  const auroraRecord = DATA.jurisdictions.find(j => j.name === 'City of Aurora');
+  assert.ok(auroraRecord, 'the data file carries DOLA\'s Aurora record');
+  assert.equal(aurora.record, auroraRecord, 'prefixed DOLA city name matches the HNA place label');
+  assert.equal(aurora.status, auroraRecord.status, 'its status is the record\'s own');
   const springs = api.relationship(DATA, 'place', 'Colorado Springs (city)');
   assert.equal(springs.fastTrack, 'Yes', 'fast_track true displays as its own fact');
 
