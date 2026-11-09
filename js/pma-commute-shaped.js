@@ -17,7 +17,7 @@
   var CALIBRATION_SOURCE = 'Professional market studies of one site (owner-provided, not published)';
   var DEFAULT_PARAMS = {
     minimum_jobs_to_seed_work_tracts: 50,
-    minimum_orientation_share: 0.028
+    minimum_orientation_share: 0.03
   };
   var DATA_URLS = {
     od: 'data/market/lodes_tract_od_co.json',

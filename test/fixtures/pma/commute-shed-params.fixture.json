@@ -4,10 +4,10 @@
   "not_scoring_input": false,
   "mode_label": "Commute-shaped PMA (beta)",
   "calibration_source": "Professional market studies of one site (owner-provided, not published)",
-  "calibration_note": "One-site beta calibration. Thresholds reproduce the Fruita professional PMA acceptance gate and must not be treated as a statewide validated standard until a second professional benchmark passes unchanged.",
+  "calibration_note": "One-site beta calibration. Thresholds reproduce the Fruita professional PMA acceptance gate and must not be treated as a statewide validated standard until a second professional benchmark passes unchanged. Re-run on the LODES 2024 tract flows on 2026-11-09: the orientation floor moved from 0.028 to 0.030 so the same Fruita gate holds (6 of 8 professional tracts, Jaccard 0.75, no east Grand Junction tract); the 2023 floor let tract 08077001302 in at 2.9%.",
   "params": {
     "minimum_jobs_to_seed_work_tracts": 50,
-    "minimum_orientation_share": 0.028
+    "minimum_orientation_share": 0.03
   },
   "fruita_acceptance": {
     "site": {
