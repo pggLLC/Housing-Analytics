@@ -146,7 +146,11 @@ test('HTML: HNA employment cards are consolidated', () => {
     const wageTrendBlock = wageTrendBlockMatch ? wageTrendBlockMatch[0] : '';
     assert(wageTrendBlock.includes('id="chartWageTrend"'), 'Wage-Band Job Trend chart remains present');
     assert(wageTrendBlock.includes('LEHD WAC wage bands'), 'Wage-Band Job Trend card discloses LEHD WAC wage bands');
-    assert(wageTrendBlock.includes('LODES 2023'), 'Wage-Band Job Trend card discloses LODES 2023 vintage');
+    // The card's LODES year must be the WAC year of the county files it charts, not a pinned string.
+    const lodesWacYear = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'hna', 'lehd', '08.json'), 'utf8')).wacYear;
+    assert(/^20\d\d$/.test(String(lodesWacYear)), 'statewide LEHD file states its WAC year');
+    assert(wageTrendBlock.includes('LODES ' + lodesWacYear), 'Wage-Band Job Trend card discloses the LODES ' + lodesWacYear + ' vintage of data/hna/lehd');
+    assert(!new RegExp('LODES (?!' + lodesWacYear + ')20\\d\\d').test(wageTrendBlock), 'Wage-Band Job Trend card names no other LODES year');
     assert(!/QCEW/.test(wageTrendBlock), 'Wage-Band Job Trend card must not claim QCEW source/vintage');
     assert(!html.includes('id="chartIndustryAnalysis"'), 'duplicate Industry Analysis chart is absent');
     assert(!html.includes('id="wageGapsContainer"'), 'duplicate Wage Gaps card is absent');
