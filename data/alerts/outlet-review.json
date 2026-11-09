@@ -1,15 +1,33 @@
 {
   "meta": {
-    "generated": "2026-11-08T10:35:39Z",
+    "generated": "2026-11-09T11:50:15Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-02",
-      "checked": 64,
-      "unverified": 2,
+      "since": "2026-11-03",
+      "checked": 56,
+      "unverified": 3,
       "weak": 1
     }
   },
   "outlets": [
+    {
+      "id": "a31f0f45ba",
+      "name": "The Topeka Capital-Journal",
+      "domains": [
+        "cjonline.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-09",
+      "last_seen": "2026-11-09",
+      "headlines": [
+        {
+          "title": "Topeka mayor pushes for changes to federal affordable housing credits",
+          "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQXzQ3VWw5Vnc0RjBsSHh5bDJjTlgyb0R2MU9mNVFTSmhyV2JyZlhCem9ubllsT2dZQmhpNmZnM2tOQnpoX2pCV21ybXBlUnhjLWNuNUt2OWxsR1YtN3E1TTdXM2JyNWlEYVZLYnRXMkMtRlJORWVCNm9nTTBFNHIyRHFxTmFlaVI3cl9fS2lNSkJoS0JydE9tQ181dENqcnh2S0NIaEp3dG0zVmNCYU94YS1rbDhXLVBYR2hXRGo5Q2xIdWM?oc=5",
+          "date": "2026-11-09"
+        }
+      ],
+      "first_listed": "2026-11-09"
+    },
     {
       "id": "1eb9801a47",
       "name": "Nixon Peabody",
