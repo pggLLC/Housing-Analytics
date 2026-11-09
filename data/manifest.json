@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-08T22:14:22.748961Z",
+  "generated": "2026-11-09T04:54:20.261263Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1030516
+      "bytes": 1030996
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -609,7 +609,7 @@
     "data/deals/fitzsimons-gateway-apartments-aurora.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14006
+      "bytes": 14010
     },
     "data/deals/flats-at-sand-creek-colorado-springs.json": {
       "featureCount": 0,
@@ -1129,7 +1129,7 @@
     "data/derived/funding-map.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 1584928
+      "bytes": 1584932
     },
     "data/derived/funding-vs-need.json": {
       "featureCount": 64,
@@ -5009,7 +5009,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 186173
+      "bytes": 186194
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -9286,6 +9286,11 @@
       "placeholder": false,
       "bytes": 94694
     },
+    "data/news-digest/index.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1179
+    },
     "data/paper/compute-footprint.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -9764,7 +9769,7 @@
     "data/policy/housing-events.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 174655
+      "bytes": 174580
     },
     "data/policy/housing-policy-scorecard.json": {
       "featureCount": 0,
@@ -9844,7 +9849,7 @@
     "data/policy/local-support.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 158569
+      "bytes": 158662
     },
     "data/policy/methodology-version.json": {
       "featureCount": 0,
@@ -9879,7 +9884,7 @@
     "data/policy/prop123-rental-rules.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 33966
+      "bytes": 34009
     },
     "data/policy/prop123_jurisdictions.json": {
       "featureCount": 0,

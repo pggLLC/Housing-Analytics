@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-08T22:13:45.569Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-09T04:53:37.497Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-82 pages found.
+83 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -78,7 +78,7 @@
 | `methods.html` | Computational Methods | COHO Analytics | 88.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 52.7 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 53.1 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
@@ -87,8 +87,9 @@
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.7 KB |
 | `search.html` | Search · COHO Analytics | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 13.8 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 14.0 KB |
 | `state-allocation-map.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
+| `sunday-digest.html` | Sunday Digest | COHO Analytics | 4.2 KB |
 | `terms-of-use.html` | Terms of Use | COHO Analytics | 5.4 KB |
 | `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 3.3 KB |
 | `working-paper.html` | Instrumenting Housing Need | COHO Analytics | 77.2 KB |
@@ -97,11 +98,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1978 JSON files found.
+1979 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1006.0 KB | ✅ | — |
+| `data/_manifest.json` | 1006.4 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -1851,7 +1852,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 13.3 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 251.4 KB | ✅ | — |
+| `data/manifest.json` | 251.5 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1926,6 +1927,7 @@
 | `data/market/zori_rents_co.json` | 24.3 KB | ✅ | — |
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 92.5 KB | ✅ | — |
+| `data/news-digest/index.json` | 1.2 KB | ✅ | — |
 | `data/paper/compute-footprint.json` | 1.8 KB | ✅ | — |
 | `data/paper/figures.json` | 15.8 KB | ✅ | — |
 | `data/paper/model-parameters.json` | 6.1 KB | ✅ | — |
@@ -2021,7 +2023,7 @@
 | `data/policy/green-building.json` | 57.5 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 32.6 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 170.6 KB | ✅ | — |
+| `data/policy/housing-events.json` | 170.5 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/housing-roll-calls.json` | 5.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
@@ -2084,7 +2086,7 @@
 
 ## Test Files
 
-790 test files found.
+791 test files found.
 
 | File | Size |
 |------|------|
@@ -2708,6 +2710,7 @@
 | `test/submittal-review-round-two.test.mjs` | 9.5 KB |
 | `test/submittal-review.test.mjs` | 52.9 KB |
 | `test/submittal-tieout.test.mjs` | 14.8 KB |
+| `test/sunday-digest.test.mjs` | 3.3 KB |
 | `test/table-export-rendered.test.js` | 16.1 KB |
 | `test/table-export.test.js` | 25.3 KB |
 | `test/table-header-tips.test.js` | 9.2 KB |
@@ -2841,7 +2844,7 @@
 | `tests/test_hna_acs_5year_only.py` | 6.8 KB |
 | `tests/test_hna_geography_coverage.py` | 9.2 KB |
 | `tests/test_hna_ranking_integrity.py` | 22.5 KB |
-| `tests/test_housing_events.py` | 18.9 KB |
+| `tests/test_housing_events.py` | 20.0 KB |
 | `tests/test_hud_lihtc_match.py` | 2.2 KB |
 | `tests/test_lihtc_applications.py` | 27.7 KB |
 | `tests/test_local_incentives.py` | 12.9 KB |

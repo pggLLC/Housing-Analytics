@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-08T22:14:19.827Z",
+    "generated_at": "2026-11-09T04:54:16.705Z",
     "root": "data/",
-    "file_count": 2026,
-    "total_size_bytes": 222730091,
+    "file_count": 2027,
+    "total_size_bytes": 222731502,
     "kinds": {
-      "json": 1977,
+      "json": 1978,
       "geojson": 35,
       "csv": 14
     }
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-08T22:14:16.187Z",
+      "mtime": "2026-11-09T04:54:12.363Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -3114,8 +3114,8 @@
     {
       "path": "deals/fitzsimons-gateway-apartments-aurora.json",
       "kind": "json",
-      "size_bytes": 14006,
-      "mtime": "2026-10-21T23:07:23.422Z",
+      "size_bytes": 14010,
+      "mtime": "2026-11-09T04:52:25.683Z",
       "shape": "object",
       "keys": [
         "slug",
@@ -6462,8 +6462,8 @@
     {
       "path": "derived/funding-map.json",
       "kind": "json",
-      "size_bytes": 1584928,
-      "mtime": "2026-11-06T13:54:42.819Z",
+      "size_bytes": 1584932,
+      "mtime": "2026-11-09T04:52:25.695Z",
       "shape": "object",
       "keys": [
         "title",
@@ -22386,8 +22386,8 @@
     {
       "path": "hna/local-resources.json",
       "kind": "json",
-      "size_bytes": 186173,
-      "mtime": "2026-11-06T07:25:52.063Z",
+      "size_bytes": 186194,
+      "mtime": "2026-11-09T04:52:25.821Z",
       "shape": "object",
       "keys": [
         "state:08",
@@ -38280,8 +38280,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 257440,
-      "mtime": "2026-11-08T17:01:12.434Z",
+      "size_bytes": 257582,
+      "mtime": "2026-11-09T04:53:37.447Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -40163,6 +40163,28 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "news-digest/index.json",
+      "kind": "json",
+      "size_bytes": 1179,
+      "mtime": "2026-11-09T04:52:26.226Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "editions"
+      ],
+      "key_count": 2,
+      "primary_array_key": "editions",
+      "primary_array_length": 1,
+      "primary_array_first_keys": [
+        "date",
+        "window_start",
+        "window_end",
+        "title",
+        "file",
+        "summary"
+      ]
+    },
+    {
       "path": "paper/compute-footprint.json",
       "kind": "json",
       "size_bytes": 1878,
@@ -40185,7 +40207,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-08T22:14:18.012Z",
+      "mtime": "2026-11-09T04:54:14.610Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40209,7 +40231,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-08T22:14:17.585Z",
+      "mtime": "2026-11-09T04:54:14.071Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42190,7 +42212,7 @@
       "path": "policy/co-developer-funding-guide.json",
       "kind": "json",
       "size_bytes": 436191,
-      "mtime": "2026-11-05T07:03:10.975Z",
+      "mtime": "2026-11-09T04:52:26.229Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42622,8 +42644,8 @@
     {
       "path": "policy/housing-events.json",
       "kind": "json",
-      "size_bytes": 174655,
-      "mtime": "2026-11-08T10:35:38.948Z",
+      "size_bytes": 174580,
+      "mtime": "2026-11-09T04:52:26.236Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43003,8 +43025,8 @@
     {
       "path": "policy/local-support.json",
       "kind": "json",
-      "size_bytes": 158569,
-      "mtime": "2026-10-29T14:08:01.112Z",
+      "size_bytes": 158662,
+      "mtime": "2026-11-09T04:52:26.239Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -43153,8 +43175,8 @@
     {
       "path": "policy/prop123-rental-rules.json",
       "kind": "json",
-      "size_bytes": 33966,
-      "mtime": "2026-10-15T14:35:14.367Z",
+      "size_bytes": 34009,
+      "mtime": "2026-11-09T04:52:26.240Z",
       "shape": "object",
       "keys": [
         "schema",
