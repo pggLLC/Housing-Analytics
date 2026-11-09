@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Federal Rule Changes That Would Help Affordable Housing | COHO Analytics</title>
+  <meta name="description" content="Fourteen federal changes, ranked, that would aim housing money at the lowest-income renters, cut borrowing costs and reduce the overhead on gap financing. Current as of 9 November 2026.">
+  <meta property="og:title" content="Federal Rule Changes That Would Help Affordable Housing | COHO Analytics">
+  <meta property="og:description" content="Fourteen federal changes, ranked, that would aim housing money at the lowest-income renters, cut borrowing costs and reduce the overhead on gap financing. Current as of 9 November 2026.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/components/table-sort.js"></script>
+  <style>
+    /* OPAQUE backgrounds, deliberately. js/contrast-guard.js treats any
+       background with alpha > 0.02 as opaque and then computes luminance from
+       its r/g/b while ignoring the alpha — so a chip on rgba(153,27,27,.12),
+       which renders as pale pink, is read as dark red and the guard paints
+       light text on it. That produced 29 contrast failures on this page alone.
+       Using the card surface with a coloured border and coloured text keeps the
+       semantics, stays theme-aware, and gives the guard an honest background to
+       measure. */
+    .fh-status { display:inline-block; font-size:.8125rem; font-weight:600; letter-spacing:.02em;
+      padding:.12em .5em; border-radius:3px; white-space:nowrap;
+      background: var(--card); border:1px solid currentColor; }
+    .fh-final  { color: var(--bad); }
+    .fh-prop   { color: var(--warn); }
+    .fh-intact { color: var(--good); }
+    .fh-split { display:grid; gap:1.1rem; margin:1.5rem 0; }
+    @media (min-width:780px) { .fh-split { grid-template-columns:1fr 1fr; } }
+    .fh-box { border:1px solid var(--border); background: var(--card); padding:1.2rem; border-radius:6px; }
+    .fh-box h3 { margin-top:0; }
+    .fh-box ul { margin-bottom:0; padding-left:1.1em; }
+    .fh-box li { margin-bottom:.5rem; }
+    .fh-callout { border:1px solid var(--border); border-left:4px solid var(--accent2);
+      background: var(--card); padding:1.2rem 1.4rem; margin:1.5rem 0; border-radius:0 6px 6px 0; }
+    .fh-callout.key { border-left-color: var(--accent); }
+    .fh-callout .fh-tag { display:block; font-size:.8125rem; font-weight:700; letter-spacing:.09em;
+      text-transform:uppercase; color: var(--accent2); margin-bottom:.5rem; }
+    .fh-callout.key .fh-tag { color: var(--accent); }
+    .fh-callout p:last-child { margin-bottom:0; }
+    .fh-scroll { overflow-x:auto; margin:1.5rem 0; }
+    .fh-table { border-collapse:collapse; width:100%; font-size:.9rem; min-width:560px; }
+    .fh-table th, .fh-table td { padding:.55rem .7rem; text-align:left; vertical-align:top;
+      border-bottom:1px solid var(--border); }
+    .fh-table thead th { border-bottom:2px solid var(--border-strong); font-weight:700; font-size:.82rem; }
+    .fh-table td.fh-date { white-space:nowrap; font-variant-numeric:tabular-nums; }
+    .fh-table tr.fh-open td { background: var(--card2); box-shadow: inset 3px 0 0 var(--warn); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
+
+  <main id="main-content" class="js-glossary-auto">
+    <div class="platform-disclaimer" role="note">
+      This site is a public-data reference. Analyses use public datasets and are presented for reference, not as financial, tax, legal, or underwriting advice.
+    </div>
+
+    <article class="article-wrap">
+      <header>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <a href="insights.html">Insights</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Federal Rule Changes That Would Help Affordable Housing</span>
+        </nav>
+        <h1>Federal Rule Changes That Would Help Affordable Housing</h1>
+        <p class="lede">
+          What Congress and federal agencies could change to aim housing money at the households with the least, lower the cost of borrowing, and cut the overhead that eats into gap financing. Fourteen changes, ranked, each tied to the law or rule it would change.
+        </p>
+        <p class="article-meta">Policy brief · Current as of 9 November 2026 · Sources checked 6 to 9 November 2026. Laws, rules and funding levels change; check the linked source before relying on a figure.</p>
+      </header>
+
+      <h2>The short answer</h2>
+      <p>Congress and HUD already did a lot in the last 16 months, so any proposal should start from current law, not 2024 wish lists. The 2025 tax law made the 12% tax credit increase permanent and cut the bond test from 50% to 25%. The ROAD to Housing Act (Public Law 119-101, law on 11 July 2026) killed the HOME 24-month commitment deadline, exempted some HOME work from NEPA, made new construction a CDBG use, and let tax credit inspections count for vouchers. Most of the ROAD Act still needs HUD rules, and it appropriates no money.</p>
+      <p>The changes below are ranked by how much they would move deals, then by how hard they are to get. "Admin" means HUD, Treasury, USDA or FHFA can do it without Congress.</p>
+      <div class="fh-scroll"><table class="fh-table">
+      <thead>
+      <tr>
+      <th>#</th>
+      <th>Change</th>
+      <th>Who acts</th>
+      <th>Impact</th>
+      <th>Feasibility</th>
+      <th>Why it ranks here</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>1</td>
+      <td><strong>Fund the rural rate tools already in law.</strong> Pay the USDA Section 538 interest credit (cuts the rate to the federal AFR) on more loans, and keep Section 515 at its 1% rate with more than $50M a year.</td>
+      <td>USDA + appropriators</td>
+      <td>High in rural places</td>
+      <td>High: no new law</td>
+      <td>The rule already says USDA "will provide assistance in the form of interest credit" on at least 20% of 538 loans. It only needs money.</td>
+      </tr>
+      <tr>
+      <td>2</td>
+      <td><strong>Stop small federal dollars from "federalizing" a project.</strong> Set one de minimis rule: below a dollar amount, or a share of total cost, a HUD source does not trigger BABA, Davis-Bacon, full NEPA or Section 3. Start with BABA: base HUD's small-project waiver on the HUD share of the project, not its total cost, extend it past November 2027, and issue standing waivers for products not made in the U.S. so each project does not apply separately.</td>
+      <td>HUD (BABA, Section 3) + Congress (Davis-Bacon, NEPA)</td>
+      <td>High on small and rural deals</td>
+      <td>High for BABA (admin), medium for the rest</td>
+      <td>HUD's own BABA waiver only covers projects whose <em>total</em> cost is at or under the federal simplified acquisition threshold ($250,000 when HUD issued it, $350,000 since 1 Oct 2025), so a small HOME or CDBG award in a $10M building puts the whole building's materials under BABA, apart from a 5% minor-components allowance capped at $1M. AP reports a Denver developer spent over $60,000 on a consultant to find U.S.-made materials, with waivers for about 125 materials still pending.</td>
+      </tr>
+      <tr>
+      <td>3</td>
+      <td><strong>Keep and widen FHA-HFA Risk Sharing with Federal Financing Bank money.</strong> HUD did not project new commitments for 2027.</td>
+      <td>HUD + Treasury</td>
+      <td>High</td>
+      <td>High: admin</td>
+      <td>GAO counts about $4B, 276 projects and about 30,900 homes from FY2016 to FY2025. It is the closest federal version of Wyoming's idea.</td>
+      </tr>
+      <tr>
+      <td>4</td>
+      <td><strong>Bring back a Treasury bond-purchase program for HFA rental bonds (a "New Issue Bond Program 2.0").</strong></td>
+      <td>Congress (authority) + Treasury</td>
+      <td>High</td>
+      <td>Medium</td>
+      <td>It worked in 2009 and 2010: Treasury bought $15.3B of HFA bonds through Fannie and Freddie. Wyoming's WCDA used it.</td>
+      </tr>
+      <tr>
+      <td>5</td>
+      <td><strong>Finish the ROAD Act rules fast and cut Build America, Buy America (BABA) for small housing jobs.</strong></td>
+      <td>HUD</td>
+      <td>High on time and soft cost</td>
+      <td>High: deadlines are in the law</td>
+      <td>HUD owes the HOME NEPA rule by 11 July 2027 and the BABA review by 7 January 2027. A 50-unit Fort Collins rehab needed waivers on 8 product packages.</td>
+      </tr>
+      <tr>
+      <td>6</td>
+      <td><strong>Grow the Housing Trust Fund, the one program aimed at the poorest renters.</strong> Raise the 4.2 basis-point Fannie/Freddie set-aside, and protect it in any end to conservatorship.</td>
+      <td>Congress / FHFA</td>
+      <td>High for 30% AMI renters</td>
+      <td>Medium-low</td>
+      <td>HUD's budget shows $195M of new HTF money for 2026; with carryover, Novogradac reports $255.5M allocated to states. By rule, 100% must serve extremely low-income renters while the total is under $1B.</td>
+      </tr>
+      <tr>
+      <td>7</td>
+      <td><strong>Make USDA's 2026 Section 538 pilot permanent and wider.</strong> USDA's own pilot (9 Oct 2026 to 25 Sep 2028) already lowers the debt coverage test, accepts borrower financial statements (certified ones only if requested), defers to tax credit and HUD rent rules, and tiers paperwork by risk, but only for the first 200 loans. Make it permanent for every 538 loan now. Add what the pilot leaves out: accept state environmental reviews and HUD reviews on deals without HUD money (the pilot accepts HUD reviews only when HUD money is in the deal), replace the old Farmers Home construction standards with local code for 538 (the pilot does this only for 515), and publish processing times.</td>
+      <td>USDA (admin)</td>
+      <td>Medium-high in rural places</td>
+      <td>High: USDA already has exception and demonstration authority</td>
+      <td>USDA says stakeholders found "duplicative or unnecessary Agency application requirements that increase costs and waste time" (Federal Register, 25 Sep 2026). Section 3B has timing examples.</td>
+      </tr>
+      <tr>
+      <td>8</td>
+      <td><strong>Make subsidy layering one review, done by the HFA.</strong></td>
+      <td>HUD (guidance)</td>
+      <td>Medium</td>
+      <td>High</td>
+      <td>The statute already lets a housing credit agency certify layering for tax credit deals with HUD money. HUD can make that the default.</td>
+      </tr>
+      <tr>
+      <td>9</td>
+      <td><strong>Raise the Davis-Bacon triggers in HOME (12+ units) and CDBG rehab (8+ units)</strong> and index them.</td>
+      <td>Congress</td>
+      <td>Medium</td>
+      <td>Low-medium</td>
+      <td>Both triggers are fixed numbers in statute. Small rural deals pay federal wage paperwork costs on very small HOME or CDBG amounts.</td>
+      </tr>
+      <tr>
+      <td>10</td>
+      <td><strong>Fund a national mobile home park stabilization program.</strong> Give PRICE steady money (the ROAD Act authorized it through 2033, but HUD got $0 for it in 2026 and the 2027 budget drops it), add a federal acquisition loan guarantee for resident and nonprofit purchases, and tie Fannie, Freddie and FHA park loans to resident pad-lease protections.</td>
+      <td>Congress + HUD + FHFA</td>
+      <td>High for park residents</td>
+      <td>Medium</td>
+      <td>Federal park tools are small. Fannie's Duty to Serve plan targets loans on 2 to 3 resident, nonprofit or government-owned parks a year. In Colorado, resident buyouts have run on state and local money, such as the $42M regional purchase of two Roaring Fork parks.</td>
+      </tr>
+      <tr>
+      <td>11</td>
+      <td><strong>Bring back the energy programs that ended in 2026, aimed at affordable housing.</strong> Restore 45L and 179D for income-restricted homes, for new construction as well as rehab, so they pay for upgrades that cut energy use (envelope, heat pumps, efficient water heating, solar). Refund HUD's Green and Resilient Retrofit Program (GRRP) for existing buildings.</td>
+      <td>Congress</td>
+      <td>Medium-high: up to $5,000 a home in 45L alone</td>
+      <td>Low-medium</td>
+      <td>45L paid up to $5,000 per multifamily home with prevailing wages and did not cut tax credit basis, so it went straight into the gap. JCT scored ending 45L at $5.4B and 179D at $0.1B over 2025-2034; a version limited to affordable housing would cost less (not scored). section 3C has the detail.</td>
+      </tr>
+      <tr>
+      <td>12</td>
+      <td><strong>Add a basis boost for homes for extremely low-income renters, and end the 10-year rule for preservation buys.</strong> These are the parts of the Affordable Housing Credit Improvement Act still not law.</td>
+      <td>Congress</td>
+      <td>Medium-high</td>
+      <td>Medium</td>
+      <td>These are the main targeting provisions left out of the 2025 tax law.</td>
+      </tr>
+      <tr>
+      <td>13</td>
+      <td><strong>Build a federal shared equity program for renters and owners.</strong> For owners, let price limits survive foreclosure when a steward has a recorded right to buy the home, and back the first lender with a small federal guarantee so it no longer needs the limits wiped out. For renters, open HUD's Family Self-Sufficiency savings accounts to tax credit and USDA tenants, and keep renter-equity payouts from counting against benefits.</td>
+      <td>HUD, FHFA, Congress</td>
+      <td>Medium-high</td>
+      <td>Medium</td>
+      <td>FHA rules now say price limits must "automatically terminate" at foreclosure (24 CFR 203.41(c)(2)). That is the main reason lenders insist on first position over the affordability terms. An illustrative guarantee would cost about $300 to $3,500 per home over the loan's life. Section 5B has the detail.</td>
+      </tr>
+      <tr>
+      <td>14</td>
+      <td><strong>Restore the HOME per-unit subsidy cap at 270% and the green-building cap increase that HUD shelved.</strong></td>
+      <td>HUD</td>
+      <td>Medium</td>
+      <td>High: admin</td>
+      <td>HUD lowered the interim cap back to 240% of the Section 234 limits and put the green increase on indefinite hold on 29 April 2026.</td>
+      </tr>
+      </tbody>
+      </table></div>
+      <p>Smaller fixes that are cheap to make: run Section 4 capacity grants every year, not as a combined two-year notice (the FY2024/2025 Section 4 notice closed 6 July 2026). Let the HOME match drop where a jurisdiction's poverty rate qualifies, and add a rural match waiver. Keep FHFA's exclusion of workforce housing from the Fannie and Freddie multifamily caps.</p>
+      <h2>0. What already changed</h2>
+      <div class="fh-scroll"><table class="fh-table">
+      <thead>
+      <tr>
+      <th>Change</th>
+      <th>Law or rule</th>
+      <th>What it does</th>
+      <th>Source quote</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>12% more 9% credit, permanent</td>
+      <td>P.L. 119-21, 4 July 2025; 26 U.S.C. 42(h)(3)(I)</td>
+      <td>Per-capita credit ceiling × 1.12 from 2026</td>
+      <td>"In the case of calendar years beginning after December 31, 2025, each of the dollar amounts ... shall be increased by multiplying such dollar amount by 1.12." (<a href="https://www.law.cornell.edu/uscode/text/26/42" target="_blank" rel="noopener">26 U.S.C. 42</a>)</td>
+      </tr>
+      <tr>
+      <td>25% bond test</td>
+      <td>26 U.S.C. 42(h)(4)(B)(ii)</td>
+      <td>A 4% deal needs bonds for 25% of basis (not 50%) if a post-2025 bond issue finances at least 5%</td>
+      <td>"25 percent or more of the aggregate basis ... is financed by 1 or more obligations ... [that] are part of an issue the issue date of which is after December 31, 2025" (same)</td>
+      </tr>
+      <tr>
+      <td>HOME commitment deadline gone</td>
+      <td>P.L. 119-101 §501, 11 July 2026</td>
+      <td>No more 24-month clawback. CHDO set-aside can be reused after 24 months.</td>
+      <td>"Section 501 eliminates commitment deadlines from the HOME program." (<a href="https://www.everycrsreport.com/reports/R49354.html" target="_blank" rel="noopener">CRS R49354, updated 20 Oct 2026</a>)</td>
+      </tr>
+      <tr>
+      <td>HOME NEPA exemptions</td>
+      <td>§501</td>
+      <td>Infill, acquisition, rehab and new builds of 15 or fewer homes exempt. HUD rule due 11 July 2027.</td>
+      <td>"exempts several HOME activities from the procedural requirements of NEPA" (CRS R49354); unit and infill detail from <a href="https://www.nixonpeabody.com/insights/alerts/2026/06/30/hud-environmental-review-reforms-under-road-to-housing-act" target="_blank" rel="noopener">Nixon Peabody, 30 June 2026</a></td>
+      </tr>
+      <tr>
+      <td>Broader categorical exclusions</td>
+      <td>§206</td>
+      <td>Infill, 5-15 unit projects and office-to-housing conversions move to categorical exclusion. <strong>Not in force until HUD amends 24 CFR 50 and 58.</strong></td>
+      <td>"will not be effective until HUD undergoes formal rulemaking" (CRS R49354)</td>
+      </tr>
+      <tr>
+      <td>HUD NEPA rule</td>
+      <td>RIN 2506-AC61</td>
+      <td>Interim final rule targeted October 2026. <strong>Not yet published as of this note.</strong></td>
+      <td>"intended to assist in prioritizing efficiency ... and reducing costs associated with HUD's environmental review process" (<a href="https://www.reginfo.gov/public/do/eAgendaViewRule?pubId=202510&amp;RIN=2506-AC61" target="_blank" rel="noopener">reginfo.gov</a>)</td>
+      </tr>
+      <tr>
+      <td>CDBG pays for new homes</td>
+      <td>§204</td>
+      <td>Up to 20% of a grant, for funds appropriated after 11 July 2026</td>
+      <td>"makes new construction of housing an eligible CDBG activity" (CRS R49354)</td>
+      </tr>
+      <tr>
+      <td>Voucher inspections</td>
+      <td>§405</td>
+      <td>A recent LIHTC, HOME or RHS inspection satisfies the voucher inspection</td>
+      <td>"allows inspections under the LIHTC program, the HOME program, or various RHS programs to fully satisfy the inspection requirements of the HCV program" (CRS R49354)</td>
+      </tr>
+      <tr>
+      <td>FHA multifamily limits</td>
+      <td>§211</td>
+      <td>Higher limits, indexed to a multifamily construction deflator</td>
+      <td>"increases the multifamily loan limits for several FHA multifamily programs" (CRS R49354)</td>
+      </tr>
+      <tr>
+      <td>Bank public welfare cap</td>
+      <td>§203</td>
+      <td>15% to 20% of capital and surplus</td>
+      <td>"raises the allowable PWI percentage from 15%" (CRS R49354)</td>
+      </tr>
+      <tr>
+      <td>Rural rental assistance</td>
+      <td>§502</td>
+      <td>Section 521 decoupling from maturing 515 loans made permanent</td>
+      <td>"Section 521 rental assistance decoupling authority, which has been included in annual appropriations acts since FY2024" (CRS R49354)</td>
+      </tr>
+      <tr>
+      <td>No money</td>
+      <td>§1202</td>
+      <td>"no additional funds are authorized to be appropriated to carry out the requirements of this act" (CRS R49354)</td>
+      <td></td>
+      </tr>
+      <tr>
+      <td>Income averaging procedures</td>
+      <td>TD 10036, 30 Sep 2025</td>
+      <td>Final rules let an owner fix a bad unit group instead of losing the project</td>
+      <td><a href="https://www.federalregister.gov/documents/2025/09/30/2025-19005/section-42-low-income-housing-credit-average-income-test-procedures" target="_blank" rel="noopener">Federal Register 2025-19005</a></td>
+      </tr>
+      <tr>
+      <td>HOME rule, partly shelved</td>
+      <td>90 FR 746; 91 FR 23014</td>
+      <td>Most of the 2025 HOME rule took effect 20 April 2025. Tenancy addenda and the green subsidy increase are on hold indefinitely.</td>
+      <td>"delayed indefinitely as of April 29, 2026" (<a href="https://www.everycrsreport.com/files/2026-05-05_R48422_87a3ca85719b2970d10623b686c0f217c3a3306c.html" target="_blank" rel="noopener">CRS R48422, 5 May 2026</a>)</td>
+      </tr>
+      </tbody>
+      </table></div>
+      <h2>1. Targeting help at those in most need</h2>
+      <p><strong>What the law does now</strong></p>
+      <ul>
+      <li>Income averaging lets a tax credit building mix 20% to 80% AMI units if the average stays at 60%: "The average of the imputed income limitations designated ... shall not exceed 60 percent of area median gross income" and "shall be 20 percent, 30 percent, 40 percent, 50 percent, 60 percent, 70 percent, or 80 percent" (<a href="https://www.law.cornell.edu/uscode/text/26/42" target="_blank" rel="noopener">26 U.S.C. 42(g)(1)(C)</a>). The 2025 final procedures remove the risk that one noncompliant unit costs the whole building its credits.</li>
+      <li>The Housing Trust Fund is the only federal capital program aimed at the poorest renters. While the national total is under $1 billion, "the grantee must use 100 percent of its HTF grant for the benefit of extremely low-income families" (<a href="https://www.ecfr.gov/current/title-24/section-93.250" target="_blank" rel="noopener">24 CFR 93.250</a>). The statute's floor is 75% (<a href="https://www.law.cornell.edu/uscode/text/12/4568" target="_blank" rel="noopener">12 U.S.C. 4568</a>). HUD's FY2027 budget shows $195.0M appropriated for 2026 and an estimated $267M for 2027 (<a href="https://www.hud.gov/sites/dfiles/CFO/documents/2027_CJ_Program_HTF.pdf" target="_blank" rel="noopener">HUD 2027 CJ, HTF</a>). Novogradac reports the 2026 allocation at $255.5M, announced 3 Aug 2026 after a delay (secondary; <a href="https://www.novoco.com/notes-from-novogradac/after-delay-release-of-housing-trust-fund-allocations-shows-slight-increase-in-2026" target="_blank" rel="noopener">Novogradac, 2 Sep 2026</a>).</li>
+      <li>HTF and the Capital Magnet Fund both come from a 4.2 basis-point set-aside on Fannie and Freddie new business, 65% to HTF and 35% to CMF (<a href="https://www.law.cornell.edu/uscode/text/12/4567" target="_blank" rel="noopener">12 U.S.C. 4567</a>).</li>
+      <li>The HOME rule now lets an owner take the full rental-assistance payment even if it runs above the HOME rent (<a href="https://www.everycrsreport.com/files/2026-05-05_R48422_87a3ca85719b2970d10623b686c0f217c3a3306c.html" target="_blank" rel="noopener">CRS R48422</a>). That is the main federal tool for pairing deep rents with vouchers.</li>
+      </ul>
+      <p><strong>Changes that would help</strong></p>
+      <ol>
+      <li><strong>More HTF money, protected.</strong> Raising the 4.2 bp set-aside is the cleanest route to more deep-rent units without new appropriations. Any plan to end Fannie and Freddie conservatorship should carry the set-aside forward. <em>Unconfirmed: current status of any conservatorship-exit plan; not checked for this note.</em></li>
+      <li><strong>An extremely low-income basis boost in the tax credit.</strong> This was in the Affordable Housing Credit Improvement Act. It was not in the 2025 tax law and is still only a bill (<a href="https://www.congress.gov/bill/119th-congress/house-bill/2725" target="_blank" rel="noopener">H.R. 2725</a>, <a href="https://www.congress.gov/bill/119th-congress/senate-bill/1515" target="_blank" rel="noopener">S. 1515</a>). <em>We did not re-read the bill text for this note; confirm the boost's terms before citing them.</em></li>
+      <li><strong>Pair vouchers with tax credit units by default.</strong> The ROAD Act inspection change (§405) removes one barrier. HUD can go further by letting PHAs attach project-based vouchers through the HFA's tax credit round, so one competition covers both.</li>
+      <li><strong>Restore the HOME 270% subsidy cap.</strong> HUD's 2025 rule raised the cap in high-cost areas to 270% of the Section 234 limits, then a 2026 notice reverted it to 240% (<a href="https://www.everycrsreport.com/files/2026-05-05_R48422_87a3ca85719b2970d10623b686c0f217c3a3306c.html" target="_blank" rel="noopener">CRS R48422</a>). Deep-rent units need more subsidy per unit, so a lower cap pushes HOME toward shallower targeting.</li>
+      </ol>
+      <h2>2. Cutting cost with rate programs like Wyoming's</h2>
+      <p><strong>What Wyoming actually did, checked against the Legislature's own records</strong></p>
+      <p>Wyoming lawmakers have offered four versions of this idea in three sessions. None became law:</p>
+      <div class="fh-scroll"><table class="fh-table">
+      <thead>
+      <tr>
+      <th>Year</th>
+      <th>Bill</th>
+      <th>What it would do</th>
+      <th>What happened</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>2024</td>
+      <td>Budget amendment HB0001H3005</td>
+      <td>Treasurer may invest up to $15M a year from the Permanent Wyoming Mineral Trust Fund reserve in WCDA bonds, for first-time buyer loans "at a mortgage interest rate not to exceed three and one-half percent (3.5%)" (<a href="https://wyoleg.gov/2024/Amends/HB0001H3005.pdf" target="_blank" rel="noopener">amendment</a>)</td>
+      <td>Not in the enacted budget. The 2024 budget act (<a href="https://wyoleg.gov/2024/Enroll/HB0001.pdf" target="_blank" rel="noopener">Ch. 118</a>) has no such footnote; we searched it for "homebuy" and "mortgage."</td>
+      </tr>
+      <tr>
+      <td>2024</td>
+      <td>HB0221</td>
+      <td>Same idea as a stand-alone bill</td>
+      <td>"Did not Consider for Introduction," 16 Feb 2024 (<a href="https://wyoleg.gov/Legislation/2024/HB0221" target="_blank" rel="noopener">wyoleg.gov</a>)</td>
+      </tr>
+      <tr>
+      <td>2025</td>
+      <td>HB0067</td>
+      <td>Treasurer "shall invest ... a sum not to exceed sixty million dollars ($60,000,000.00)" from the mineral trust fund in WCDA bonds for veterans and first-time buyers "at a rate that is two percent (2%) below the available mortgage rate," sunset 1 July 2028 (<a href="https://wyoleg.gov/2025/Introduced/HB0067.pdf" target="_blank" rel="noopener">bill</a>)</td>
+      <td>"Did not Consider for Introduction," 3 Feb 2025 (<a href="https://wyoleg.gov/Legislation/2025/HB0067" target="_blank" rel="noopener">wyoleg.gov</a>)</td>
+      </tr>
+      <tr>
+      <td>2026</td>
+      <td>SF0064</td>
+      <td>$30M Wyoming housing revolving loan program run by WCDA. Loans to towns, housing authorities and nonprofits for new building, rehab and land, at a rate that "shall not exceed the United States effective federal funds rate" (<a href="https://wyoleg.gov/2026/Introduced/SF0064.pdf" target="_blank" rel="noopener">bill</a>)</td>
+      <td>"Failed Introduction 15-15," 10 Feb 2026 (<a href="https://wyoleg.gov/Legislation/2026/SF0064" target="_blank" rel="noopener">wyoleg.gov</a>; <a href="https://www.wyomingpublicmedia.org/politics-government/2026-03-16/most-affordable-housing-legislation-failed-this-session" target="_blank" rel="noopener">Wyoming Public Media, 16 Mar 2026</a>)</td>
+      </tr>
+      </tbody>
+      </table></div>
+      <p>What Wyoming does run is the normal state housing agency model. WCDA's deputy director told the Senate Banking subcommittee in 2024 that "WCDA receives no state funding" and that its "largest housing program is the Single-Family Mortgage Purchase Program for first-time homebuyers" (<a href="https://www.banking.senate.gov/imo/media/doc/volzke_testimony_4-16-24.pdf" target="_blank" rel="noopener">testimony, 15 Apr 2024</a>). WCDA also used the 2009-10 federal New Issue Bond Program: "WCDA issued $70 million of bonds under the newly created New Issue Bond Program" (<a href="https://www.wyomingcda.com/wp-content/uploads/2025/12/Final_2025_WebPages_AR_WCDA.pdf" target="_blank" rel="noopener">WCDA 2025 annual report</a>).</p>
+      <p><strong>So the "Wyoming model" is a proposal, not a program:</strong> use a state permanent fund to buy housing agency bonds at a set discount below market. The 2025 fiscal note shows the cost to the state. Permanent fund yields were projected near 3%, with long-run total returns of 6.75% (<a href="https://wyoleg.gov/2025/Fiscal/HB0067.pdf" target="_blank" rel="noopener">fiscal note</a>). The cost is the return the trust fund gives up.</p>
+      <p><strong>A neighbor that did pass it: Montana HB 819 (2023)</strong></p>
+      <ul>
+      <li>Board of Investments linked deposits: "Banks may request BOI deposits to reduce construction cost for housing developments." One example: Bigfork senior housing construction loan cut from 8.00% to 5.00% on $3.6M (<a href="https://archive.legmt.gov/content/Publications/fiscal/2025-Biennium/Section-F/Interim/Board-of-Investments-HB819-Summary.pdf" target="_blank" rel="noopener">BOI update, 12 Dec 2023</a>).</li>
+      <li>Infrastructure bonds: the state "can purchase up to 50% of public infrastructure bonds at 25% of market rate." There is also a 0% impact-fee loan pool (same source).</li>
+      <li>Coal Trust Multifamily loans: "Section 16 of HB 819 appropriated $50 million to the Board of Housing" for low-rate loans to rental projects. Fifteen 2023-24 approvals are listed (<a href="https://archive.legmt.gov/content/Publications/fiscal/2025-Biennium/Section-F/Interim/COMM-HB-819-CTMH-Loans-Sept2024.pdf" target="_blank" rel="noopener">Commerce, 16 Sep 2024</a>).</li>
+      </ul>
+      <p><strong>What a rate cut is worth (our arithmetic, illustrative).</strong> On a 35-year loan, the same rent income that carries $1.00M at 6.5% carries about $1.28M at 4.5% and about $1.46M at 3.5%. A 2-point cut adds roughly 28% to the debt a deal can carry, and that comes straight off the gap. <em>This is a fixed-payment calculation, not a model of any one deal.</em></p>
+      <p><strong>Federal versions, ranked</strong></p>
+      <ol>
+      <li><strong>USDA Section 538 interest credit (in rule now).</strong> "For at least 20 percent of the loans made during each fiscal year, the Agency will provide assistance in the form of interest credit, to the extent necessary to reduce the agreed-upon rate of interest to the AFR" (<a href="https://www.ecfr.gov/current/title-7/section-3565.211" target="_blank" rel="noopener">7 CFR 3565.211</a>). It is limited by money: "authority to ... provide interest credits is limited to the extent that appropriations are available" (§3565.4). FY2026 levels: 538 guarantees $400M, 515 direct loans $50M, 521 rental assistance $1,715M (<a href="https://ruralhome.org/usda-housing-funding-fy26/" target="_blank" rel="noopener">Housing Assistance Council</a>, secondary). <em>Unconfirmed: whether the FY2026 538 notice offers interest credit.</em></li>
+      <li><strong>USDA Section 515 at 1%.</strong> "The Agency will provide interest credit to subsidize the interest on the Agency loan to a payment rate of 1 percent" (<a href="https://www.ecfr.gov/current/title-7/part-3560" target="_blank" rel="noopener">7 CFR 3560</a>). At $50M a year, it funds a handful of deals nationally.</li>
+      <li><strong>FHA-HFA Risk Sharing with FFB money.</strong> FFB financed "nearly $4 billion (adjusted for inflation) in loans for 276 multifamily projects" that "produced or preserved about 30,900 rental units" from FY2016 to FY2025. GAO reports that in its FY2027 budget HUD "did not project that any new firm commitments would be issued in 2027 but stated it would honor existing commitments." NCSHA backs the program and the Mortgage Bankers Association opposes it (<a href="https://files.gao.gov/reports/GAO-26-109028/index.html" target="_blank" rel="noopener">GAO-26-109028, 15 Sep 2026</a>). Keeping it alive is an admin choice.</li>
+      <li><strong>Treasury bond purchase (NIBP 2.0).</strong> In 2009-10, the program "allowed the HFAs to issue $15.3 billion of bonds that were purchased by the Treasury through Fannie Mae and Freddie Mac," with over 90 HFAs taking part (<a href="https://www.bondbuyer.com/news/treasury-administration-gave-hfas-235b-of-bond-and-liquidity-aid" target="_blank" rel="noopener">Bond Buyer, 13 Jan 2010</a>, secondary). This is the federal form of the Wyoming bills. It would need new purchase authority, because the 2008 emergency authority it used has expired. <em>Unconfirmed: exact legal authority now needed; check with bond counsel.</em></li>
+      <li><strong>Fannie and Freddie caps.</strong> For 2026, each GSE's multifamily cap is $88B, "at least 50 percent ... mission-driven, affordable housing," and "multifamily loans that finance workforce housing will be excluded from the 2026 limits" (<a href="https://www.fhfa.gov/news/news-release/u.s.-federal-housing-announces-2026-multifamily-loan-purchase-caps-for-fannie-mae-and-freddie-mac" target="_blank" rel="noopener">FHFA, 24 Nov 2025</a>). FHFA could price affordable loans below the regular grid, not just exclude them from the cap.</li>
+      <li><strong>Federal Home Loan Banks.</strong> By law the Affordable Housing Program gets "10 percent of the preceding year's net income" (<a href="https://www.law.cornell.edu/uscode/text/12/1430" target="_blank" rel="noopener">12 U.S.C. 1430(j)(5)(C)</a>). Raising that share, or using FHLBank advances the way Montana uses linked deposits, would cut construction rates through local banks.</li>
+      </ol>
+      <h2>3. Overhead and operating fixes that strengthen gap financing</h2>
+      <div class="fh-scroll"><table class="fh-table">
+      <thead>
+      <tr>
+      <th>Issue</th>
+      <th>Current rule (quote)</th>
+      <th>Fix</th>
+      <th>Who</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><strong>HOME commitment deadline</strong></td>
+      <td>Repealed by P.L. 119-101 §501</td>
+      <td>Done. HUD should confirm in guidance that old commitment-deadline findings are moot.</td>
+      <td>HUD</td>
+      </tr>
+      <tr>
+      <td><strong>HOME match</strong></td>
+      <td>Jurisdictions must match "not less than 25 percent of the funds drawn." The law cuts it by poverty rate or disaster declaration (<a href="https://www.law.cornell.edu/uscode/text/42/12750" target="_blank" rel="noopener">42 U.S.C. 12750</a>).</td>
+      <td>Add a rural or small-jurisdiction reduction, and count waived local fees as match. <em>Check whether §501 changed 12750; the CRS summary does not say so.</em></td>
+      <td>Congress</td>
+      </tr>
+      <tr>
+      <td><strong>Davis-Bacon, HOME</strong></td>
+      <td>Applies to "construction of affordable housing with 12 or more units assisted" (<a href="https://www.law.cornell.edu/uscode/text/42/12836" target="_blank" rel="noopener">42 U.S.C. 12836</a>)</td>
+      <td>Raise to 25+ units and index it, or apply it only when HOME is above a set share of cost</td>
+      <td>Congress</td>
+      </tr>
+      <tr>
+      <td><strong>Davis-Bacon, CDBG rehab</strong></td>
+      <td>Applies to rehab "only if such property contains not less than 8 units" (<a href="https://www.law.cornell.edu/uscode/text/42/5310" target="_blank" rel="noopener">42 U.S.C. 5310</a>)</td>
+      <td>Same, and line it up with the new CDBG new-construction use</td>
+      <td>Congress</td>
+      </tr>
+      <tr>
+      <td><strong>NEPA</strong></td>
+      <td>ROAD §§205, 206 and 501 exemptions and exclusions; HUD interim final rule targeted Oct 2026</td>
+      <td>Publish the rule. Treat a state or HFA environmental review as satisfying HUD's. Use the HUD-USDA MOU (§802, due 7 Jan 2027) so one review covers both agencies.</td>
+      <td>HUD, USDA</td>
+      </tr>
+      <tr>
+      <td><strong>BABA</strong></td>
+      <td>Domestic content on "all iron, steel, manufactured products, and construction materials." Waiver if U.S. product is unavailable or "would increase the cost of the overall project by more than twenty-five (25) percent" (<a href="https://www.hud.gov/sites/default/files/Main/documents/Final-Nonavailability-Waiver-W-0000203-Fort-Collins-Windtrail-Park.pdf" target="_blank" rel="noopener">HUD Fort Collins waiver</a>)</td>
+      <td>A standing waiver for housing under a cost or unit threshold; HUD's §501 review is due 7 Jan 2027</td>
+      <td>HUD, OMB</td>
+      </tr>
+      <tr>
+      <td><strong>Subsidy layering</strong></td>
+      <td>The law already lets a housing credit agency certify that HUD plus other aid is "not ... any greater than is necessary." Guidelines must check equity pricing and that "project costs, including developer fees, are within a reasonable range" (<a href="https://www.law.cornell.edu/uscode/text/42/3545" target="_blank" rel="noopener">42 U.S.C. 3545 note, P.L. 102-550 §911</a>)</td>
+      <td>Make HFA certification the default for every LIHTC deal with project-based vouchers or other HUD money, with one review</td>
+      <td>HUD</td>
+      </tr>
+      <tr>
+      <td><strong>4% bond test</strong></td>
+      <td>Now 25% plus a 5% post-2025 bond issue (above)</td>
+      <td>Done in 2025. Next, let unused bond cap carry into a pooled state reserve for housing. <em>Proposal only; not checked against current §146 carryforward rules.</em></td>
+      <td>Congress</td>
+      </tr>
+      <tr>
+      <td><strong>10-year rule</strong></td>
+      <td>Acquisition credit needs "a period of at least 10 years between the date of its acquisition by the taxpayer and the date the building was last placed in service" (<a href="https://www.law.cornell.edu/uscode/text/26/42" target="_blank" rel="noopener">26 U.S.C. 42(d)(2)(B)(ii)</a>). Waivers exist for federally assisted buildings (§42(d)(6)).</td>
+      <td>Repeal for buildings that stay rent-restricted, to speed preservation buys</td>
+      <td>Congress</td>
+      </tr>
+      <tr>
+      <td><strong>Section 4 capacity</strong></td>
+      <td>Statute "requires private cash or in-kind match of three times the award amount." Recent appropriations limit it to Enterprise, LISC and Habitat (<a href="https://www.everycrsreport.com/reports/R47045.html" target="_blank" rel="noopener">CRS R47045</a>). FY2024/2025 funds ran as one notice that closed 6 July 2026 (<a href="https://www.hud.gov/hud-partners/community-section-4" target="_blank" rel="noopener">HUD</a>).</td>
+      <td>Issue a notice every year. Cut the match to 1:1 for rural groups.</td>
+      <td>HUD, appropriators</td>
+      </tr>
+      <tr>
+      <td><strong>HTF and CMF timing</strong></td>
+      <td>2026 HTF allocations came out 3 Aug 2026, late enough that members of Congress protested (Novogradac, above)</td>
+      <td>Publish allocations on a fixed date each year</td>
+      <td>HUD, CDFI Fund</td>
+      </tr>
+      <tr>
+      <td><strong>Inspections</strong></td>
+      <td>ROAD §405 lets LIHTC, HOME and RHS inspections count for vouchers. HOME already accepts NSPIRE inspections done for other funders.</td>
+      <td>One federal inspection schedule per property, shared across HUD, USDA and the HFA</td>
+      <td>HUD, USDA</td>
+      </tr>
+      </tbody>
+      </table></div>
+      <p><strong>A Colorado example of the BABA cost.</strong> HUD's final waiver for the Windtrail Park Apartments rehab in Fort Collins covers "multiple products across eight (8) packages — Hardware, Flooring, Window Treatments &amp; Hardware, Plumbing &amp; Accessories, HVAC, Electrical, Lighting, and Irrigation." The property has 50 homes at or below 60% AMI. The draft waiver went up for comment on 23 September 2026, and the final waiver runs from 26 October 2026 (<a href="https://www.hud.gov/sites/default/files/Main/documents/Final-Nonavailability-Waiver-W-0000203-Fort-Collins-Windtrail-Park.pdf" target="_blank" rel="noopener">HUD waiver W-0000203</a>). That is more than a month of federal process on a CDBG rehab before the products can be bought.</p>
+      <h2>3A. Small federal dollars that "federalize" a project</h2>
+      <p><strong>The problem.</strong> A deal financed mostly with tax credits, private debt and state money takes on federal rules when even a small HUD award is added. Each rule has its own trigger, and none of them scales with the size of the federal share:</p>
+      <div class="fh-scroll"><table class="fh-table">
+      <thead>
+      <tr>
+      <th>Rule</th>
+      <th>What triggers it</th>
+      <th>Source quote</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><strong>BABA</strong></td>
+      <td>Any HUD-funded housing project of 5 or more units, unless a waiver applies</td>
+      <td>"Projects with one- to four-units should be classified as private and not subject to BABA. Housing projects with five or more units should be considered as public infrastructure subject to BABA unless another BABA waiver or exemption applies." (<a href="https://www.hud.gov/sites/dfiles/OCHCO/documents/cpd-25-01.pdf" target="_blank" rel="noopener">HUD Notice CPD-25-01, 13 Jan 2025</a>)</td>
+      </tr>
+      <tr>
+      <td>BABA small-project waiver</td>
+      <td>Total project cost, from all sources, at or under the simplified acquisition threshold: $250,000 when issued, $350,000 since 1 Oct 2025</td>
+      <td>Waives BABA "for all infrastructure projects whose total cost (from all funding sources) is equal to or less than the simplified acquisition threshold ... currently $250,000" (CPD-25-01)</td>
+      </tr>
+      <tr>
+      <td>BABA minor-components waiver</td>
+      <td>Up to 5% of materials cost, capped at $1M</td>
+      <td>"no more than five percent of the total cost of the iron, steel, manufactured products, and construction materials ... up to a maximum of $1 million" (CPD-25-01). Both waivers are "effective from November 23, 2022, until ... November 23, 2027."</td>
+      </tr>
+      <tr>
+      <td><strong>Davis-Bacon</strong></td>
+      <td>HOME: 12 or more assisted units. CDBG rehab: 8 or more units.</td>
+      <td>See section 3 (<a href="https://www.law.cornell.edu/uscode/text/42/12836" target="_blank" rel="noopener">42 U.S.C. 12836</a>; <a href="https://www.law.cornell.edu/uscode/text/42/5310" target="_blank" rel="noopener">42 U.S.C. 5310</a>)</td>
+      </tr>
+      <tr>
+      <td><strong>Section 3</strong> hiring and reporting</td>
+      <td>HUD housing or community development money to a project above $200,000</td>
+      <td>Applies "when the total amount of assistance to the project exceeds a threshold of $200,000" (<a href="https://www.ecfr.gov/current/title-24/section-75.3" target="_blank" rel="noopener">24 CFR 75.3</a>)</td>
+      </tr>
+      <tr>
+      <td><strong>NEPA</strong> (24 CFR 50/58)</td>
+      <td>Any HUD money, until the ROAD Act exemptions and HUD's new rule take effect</td>
+      <td>See section 0</td>
+      </tr>
+      <tr>
+      <td><strong>URA</strong> relocation rules</td>
+      <td>Acquisition or displacement on a project with federal financial assistance</td>
+      <td>Subpart B covers "any acquisition of real property for a direct Federal program or project" and federally assisted ones (<a href="https://www.ecfr.gov/current/title-49/section-24.101" target="_blank" rel="noopener">49 CFR 24.101</a>)</td>
+      </tr>
+      </tbody>
+      </table></div>
+      <p><strong>The cost evidence is thin, but it points one way.</strong> The AP reported on 3 April 2026 that BABA "has caused construction delays and hundreds of thousands of dollars in extra costs." A Vermont developer spent "an additional $150,000 just to verify iron and steel." A Denver developer spent over $60,000 on a consultant to find U.S.-made materials and was still waiting on waivers for about 125 materials in an 85-unit building. A Kentucky developer plans two four-unit projects instead of one 20-to-30-unit project to stay under BABA. HUD "is taking at least six months to approve many waivers." NCSHA told the AP there is no national data on how much BABA adds (<a href="https://www.inquirer.com/real-estate/affordable-housing-crisis-build-america-baba-law-delays-hud-waivers-us-made-20260403.html" target="_blank" rel="noopener">AP via Philadelphia Inquirer, 3 Apr 2026</a>, secondary). The Fort Collins waiver in section 3 is the Colorado example. <em>No study we found prices Davis-Bacon, Section 3 or NEPA compliance per unit for small HUD awards. Treat any per-unit figure as unconfirmed.</em></p>
+      <p><strong>Congress has already written one lighter program.</strong> The Housing Trust Fund statute (<a href="https://www.law.cornell.edu/uscode/text/12/4568" target="_blank" rel="noopener">12 U.S.C. 4568</a>) and rule (<a href="https://www.ecfr.gov/current/title-24/part-93" target="_blank" rel="noopener">24 CFR 93</a>) contain no Davis-Bacon or NEPA requirement; we searched both texts. HTF instead sets its own environmental standards in the rule, such as historic preservation at <a href="https://www.ecfr.gov/current/title-24/section-93.301" target="_blank" rel="noopener">24 CFR 93.301(f)</a>. That is a working model for federal money with fixed standards instead of a federal process.</p>
+      <p><strong>What a fix would look like</strong></p>
+      <ol>
+      <li><strong>BABA, admin (HUD and OMB).</strong> Change the small-project waiver test from total project cost (now up to $350,000) to the HUD share. HUD's notice ties this to the federal simplified acquisition threshold, which rose from $250,000 to $350,000 on 1 Oct 2025 (<a href="https://www.govinfo.gov/content/pkg/FR-2025-08-27/pdf/2025-16412.pdf" target="_blank" rel="noopener">FAR inflation rule, 27 Aug 2025</a>), so the limit should now be $350,000. HUD has not published an updated figure that we found. For example, waive BABA where HUD money is under $1M or under 10% of total development cost. Extend both waivers past 23 November 2027, and issue standing nonavailability waivers for common housing products so each project does not apply separately. The ROAD Act review (§501, due 7 Jan 2027) is the opening. <em>The $1M and 10% figures are our illustration, not a cited proposal.</em></li>
+      <li><strong>Section 3, admin (HUD rule).</strong> Raise the $200,000 project threshold, or measure it against the HUD share of cost.</li>
+      <li><strong>Davis-Bacon, Congress.</strong> Apply it to HOME or CDBG only when the federal share passes a set dollar amount or percentage, and raise the unit triggers (section 3).</li>
+      <li><strong>NEPA, already moving.</strong> The ROAD Act HOME exemptions and §206 exclusions cover most small infill deals once HUD's rules are final. Ask HUD to add a "minor federal share" exclusion in the same rulemaking.</li>
+      <li><strong>Automatic waivers for products not made in the U.S. (admin, HUD).</strong> BABA already lets an agency waive the rule where products "are not produced in the United States in sufficient and reasonably available quantities or of a satisfactory quality" (<a href="https://www.hud.gov/sites/default/files/Main/documents/Final-Nonavailability-Waiver-W-0000203-Fort-Collins-Windtrail-Park.pdf" target="_blank" rel="noopener">HUD Fort Collins waiver</a>, quoting §70914(b)). HUD uses that power only project by project: its BABA page lists no general nonavailability waiver for any product (<a href="https://www.hud.gov/hud-partners/baba" target="_blank" rel="noopener">HUD BABA page</a>, checked 6 Nov 2026). Other agencies have issued product-wide waivers. EPA's approved list includes a "General Applicability Non-Availability Waiver Build America, Buy America Product Waiver: AMI Water Meters," running 12/20/24 to 12/19/27 (<a href="https://www.epa.gov/baba/build-america-buy-america-baba-act-approved-waivers" target="_blank" rel="noopener">EPA approved waivers</a>). HUD could do the same for housing. It would publish one list of products already shown not to be made in the U.S., built from the project waivers it has granted, such as the eight packages in Fort Collins. Any HUD-funded project could then use those products without its own 15-day posting and review. It would refresh the list each year. <em>Proposal; HUD has not proposed it.</em> One caution: transportation is moving the other way. FHWA's manufactured-products waiver dated from 1983, and FHWA is phasing it out from 1 October 2025 (<a href="https://www.venable.com/insights/publications/2025/09/build-america-buy-america-act-update" target="_blank" rel="noopener">Venable, 16 Sep 2025</a>, secondary).</li>
+      <li><strong>One statutory de minimis clause.</strong> A single section saying that HUD assistance below a set amount or share of cost does not by itself trigger BABA, Davis-Bacon or Section 3 would fix the problem in one place instead of program by program. <em>Proposal only; no bill with this text was found.</em></li>
+      </ol>
+      <h2>3B. Making USDA Section 538 easier to use</h2>
+      <p>The 538 guarantee is the main federal loan product for rural rental housing up to 115% of area income. Congress set $400M for FY2026 (Housing Assistance Council), and the FY2027 request is $500M (MMCG, secondary).</p>
+      <p><strong>How long 538 deals take: what the public record shows.</strong> USDA publishes no average processing times. These are the best public data points found.</p>
+      <div class="fh-scroll"><table class="fh-table">
+      <thead>
+      <tr>
+      <th>Example</th>
+      <th>Time</th>
+      <th>Source</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>USDA's first review of a complete application</td>
+      <td>USDA "will notify the lender generally within 30 days of receipt of a complete application." Incomplete applications "will be returned to the lender," and the lender must reapply.</td>
+      <td><a href="https://www.govinfo.gov/content/pkg/FR-2024-12-20/pdf/2024-30330.pdf" target="_blank" rel="noopener">USDA notice, 89 FR, 20 Dec 2024</a></td>
+      </tr>
+      <tr>
+      <td>Lender approval, if the lender is new to 538</td>
+      <td>A separate approval request is due "within 30 calendar days," and "the Agency will not issue a loan" guarantee until the lender is approved.</td>
+      <td>Same notice</td>
+      </tr>
+      <tr>
+      <td>Conditional commitment</td>
+      <td>"The conditional commitment will have a term of up to 24 months."</td>
+      <td>Bellwether Enterprise 538 term sheet (undated, cites a May 2017 change), in <a href="https://enterprisecommunity.org/sites/default/files/2021-09/FundingtheGaps.pdf" target="_blank" rel="noopener">Enterprise, Funding the Gaps</a></td>
+      </tr>
+      <tr>
+      <td>Royse City, Texas, 220 units, $19.6M loan</td>
+      <td>"Approximately three years" from first talks to closing, including "a two-year rate lock period." The lender had to get approval from both Rural Development Texas and the National Office because of the loan size.</td>
+      <td><a href="https://www.multihousingnews.com/how-bellwether-closed-record-section-538-deal/" target="_blank" rel="noopener">Multi-Housing News</a> (undated; secondary)</td>
+      </tr>
+      <tr>
+      <td>Section 515 transfers (often refinanced with 538)</td>
+      <td>"Transactions can take up to 12 months or longer, creating financial uncertainty for buyers and sellers."</td>
+      <td><a href="https://www.carh.org/wp-content/uploads/2025/04/032525_CARH-Ltr-to-USDA-Recommendations-to-Streamline-RD-Programs.pdf" target="_blank" rel="noopener">Council for Affordable and Rural Housing letter to USDA, 28 Mar 2025</a></td>
+      </tr>
+      <tr>
+      <td>USDA's own view</td>
+      <td>"The current transfer approval and closing timeframes often exceed the timeframes of third-party lenders and funders. These delays potentially jeopardize transactions."</td>
+      <td><a href="https://www.govinfo.gov/content/pkg/FR-2026-09-25/pdf/2026-19659.pdf" target="_blank" rel="noopener">USDA notice, 91 FR 60930, 25 Sep 2026</a></td>
+      </tr>
+      <tr>
+      <td>Program use</td>
+      <td>About $208M of 538 commitments expected for FY2027, below the program level; the source calls it a program that "uses half its authority."</td>
+      <td><a href="https://www.mmcginvest.com/post/usda-financing-and-grant-monitor-fall-2026-rural-development-capital-credit-risk-and-project-feas" target="_blank" rel="noopener">MMCG, Fall 2026 monitor, 1 Oct 2026</a> (secondary)</td>
+      </tr>
+      </tbody>
+      </table></div>
+      <p><strong>What is problematic, in USDA's own words.</strong> In the 25 Sep 2026 notice, USDA said stakeholders "identified challenges that include a lack of clarity around Agency requirements, processes, and timelines; inconsistencies and delays in Agency third-party report reviews; and duplicative or unnecessary Agency application requirements that increase costs and waste time." It also said third-party reports and their review "may add significant time and expense."</p>
+      <p><strong>538 no longer runs on a yearly funding round.</strong> Since 14 Nov 2019, USDA has accepted applications "on a continuous basis," because a late notice could land "after the LIHTC application deadline," and then "the developer will not be able to use LIHTC" (<a href="https://www.govinfo.gov/content/pkg/FR-2019-10-15/pdf/2019-22426.pdf" target="_blank" rel="noopener">84 FR 55035, 15 Oct 2019</a>). Money is still obligated only while appropriations last, and ties go by priority score and then the order USDA approved them (2024 notice).</p>
+      <p><strong>What USDA already changed in 2026.</strong></p>
+      <ul>
+      <li><em>The pilot (9 Oct 2026 to 25 Sep 2028), for the first 200 538 loans only:</em> the debt coverage test drops to 1.11. Lenders need only borrower financial statements, with certified statements "if requested." Where a deal also has tax credits or HUD money, USDA "may defer to the applicable Federal or State program requirements where doing so reduces duplicative administration." Paperwork is tiered by risk. Qualified lenders and nonprofits can process low-risk transfers. USDA "may accept recent HUD environmental review documentation, capital needs assessments, or related third-party reports" for pilot properties "that also receive HUD financing, subsidy, insurance, or recapitalization support." For 515 transfers only, projects can follow state and local codes "instead of relying on the standards in 7 CFR part 1924." USDA will track "processing times" and "report costs" and says it will change its rules at the end (91 FR 60930).</li>
+      <li><em>Loan size:</em> the maximum loan-to-cost for the continuous guarantee rises from 70% to 80% (same notice). Industry had asked for 90%, a 1.11 coverage test and 50-year amortization (CARH, 28 Mar 2025).</li>
+      <li><em>Fees, from 30 Sep 2026:</em> the standard fee stays at 65 basis points upfront and 35 a year. USDA dropped the reduced fee for green buildings, citing Executive Order 14148, and added a reduced fee (60 and 25) for Opportunity Zones (<a href="https://www.govinfo.gov/content/pkg/FR-2026-09-30/pdf/2026-20022.pdf" target="_blank" rel="noopener">USDA notice, 30 Sep 2026</a>). That is one more energy incentive gone (see section 3C).</li>
+      <li><em>HUD–USDA environmental agreement, signed 29 Sep 2026:</em> it commits the two to "develop a process to designate a lead agency" and to study shared inspections. It does not yet let one agency rely on the other's review. One summary put it this way: "Nothing in this document makes a closing faster this fiscal year" (<a href="https://grantedai.com/blog/usda-hud-section-802-mou-september-29-2026-environmental-review-road-to-housing-act-24-cfr-58-35-categorical-exclusions-lead-agency-july-11-2027-report-strategy" target="_blank" rel="noopener">Granted, 1 Oct 2026</a>, secondary; primary MOU not found).</li>
+      <li><em>Pending:</em> a June 2025 proposed rule would require a market study for every new construction 538 application (<a href="https://www.govinfo.gov/content/pkg/FR-2025-06-30/pdf/2025-10305.pdf" target="_blank" rel="noopener">90 FR, 30 Jun 2025</a>). It was not final as of October 2026 (MMCG, secondary). The Rural Housing Service Reform Act (H.R. 4957, introduced 12 Aug 2025 by Reps. Nunn and Cleaver) would authorize money for Rural Housing Service staff and technology and require a yearly program report (<a href="https://www.govinfo.gov/content/pkg/BILLS-119hr4957ih/html/BILLS-119hr4957ih.htm" target="_blank" rel="noopener">text</a>). No record of passage was found.</li>
+      </ul>
+      <p><strong>What still needs fixing, and who can fix it.</strong></p>
+      <div class="fh-scroll"><table class="fh-table">
+      <thead>
+      <tr>
+      <th>Rule step</th>
+      <th>What the rule says now</th>
+      <th>Fix</th>
+      <th>Who acts</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>Pilot only covers 200 loans until 2028</td>
+      <td>As above</td>
+      <td>Make it permanent for all 538 loans now. Don't wait for the 2028 review.</td>
+      <td>USDA (admin)</td>
+      </tr>
+      <tr>
+      <td>USDA's own environmental review</td>
+      <td>"A site will not be approved by the Agency until the Agency has completed the environmental review process in accordance with 7 CFR part 1970" (<a href="https://www.ecfr.gov/current/title-7/section-3565.255" target="_blank" rel="noopener">§3565.255</a>).</td>
+      <td>The pilot accepts HUD reviews only when HUD money is in the deal. Extend that to state reviews and to all 538 deals, and turn the September MOU into a working rule.</td>
+      <td>USDA, HUD (admin)</td>
+      </tr>
+      <tr>
+      <td>Old construction standards</td>
+      <td>Lenders must certify construction meets "7 CFR part 1924, subpart A" (<a href="https://www.ecfr.gov/current/title-7/section-3565.303" target="_blank" rel="noopener">§3565.303(d)</a>), a Farmers Home rule written for "insured Rural Housing" loans (<a href="https://www.ecfr.gov/current/title-7/section-1924.1" target="_blank" rel="noopener">7 CFR 1924.1</a>). Architects must certify plans under the same subpart (§3565.256).</td>
+      <td>The pilot already does this for 515 transfers. Extend it to 538.</td>
+      <td>USDA (admin)</td>
+      </tr>
+      <tr>
+      <td>Two sign-offs on big loans</td>
+      <td>Royse City needed both the state office and the National Office.</td>
+      <td>Raise the dollar level that a state office or approved lender can sign off on.</td>
+      <td>USDA (admin)</td>
+      </tr>
+      <tr>
+      <td>No public timing data</td>
+      <td>None published</td>
+      <td>Publish median days from complete application to commitment and to closing, by state, every quarter. The pilot already tracks this.</td>
+      <td>USDA (admin); H.R. 4957 would require a yearly report</td>
+      </tr>
+      <tr>
+      <td>Interest credit tied to funding</td>
+      <td>The rate cut to the AFR is "limited to the extent that appropriations are available" (§3565.4).</td>
+      <td>Fund it (row 1).</td>
+      <td>Congress</td>
+      </tr>
+      </tbody>
+      </table></div>
+      <p><strong>USDA can do most of this now.</strong> The rule lets the Administrator "make an exception to any requirement or provision ... if the Administrator determines that application of the requirement or provision ... would adversely affect the government's interest or the program objectives" (<a href="https://www.ecfr.gov/current/title-7/section-3565.13" target="_blank" rel="noopener">7 CFR 3565.13</a>), and allows "demonstration programs" (§3565.17). The 2026 pilot shows USDA is willing to use that power.</p>
+      <h2>3C. Bringing back the federal energy programs that ended</h2>
+      <p>These programs paid for efficiency and all-electric work in affordable housing. The 2025 tax law ended the credits and rescinded the retrofit money, so the gap they filled now lands on soft lenders.</p>
+      <div class="fh-scroll"><table class="fh-table">
+      <thead>
+      <tr>
+      <th>Program</th>
+      <th>What it paid per home</th>
+      <th>When it ended</th>
+      <th>What ending it saved (JCT, 2025-2034)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><strong>45L new energy efficient home credit</strong></td>
+      <td>Single-family and manufactured: $2,500 (ENERGY STAR) or $5,000 (Zero Energy Ready). Multifamily: $500 or $1,000, rising to "$2,500" or $5,000 with prevailing wages (<a href="https://www.law.cornell.edu/uscode/text/26/45L" target="_blank" rel="noopener">26 U.S.C. 45L</a>)</td>
+      <td>"This section shall not apply to any qualified new energy efficient home acquired after June 30, 2026" (same)</td>
+      <td>$5,444M (<a href="https://www.jct.gov/getattachment/eb21dc77-6439-4fc3-8f5d-fc23a8c377e0/x-35-25.pdf" target="_blank" rel="noopener">JCX-35-25, 1 July 2025</a>)</td>
+      </tr>
+      <tr>
+      <td><strong>179D efficient building deduction</strong></td>
+      <td>$0.50 to $1.00 a square foot, or $2.50 to $5.00 with prevailing wage and apprenticeship. It is a deduction, not a credit, so its cash value depends on the owner's tax rate. (<a href="https://www.law.cornell.edu/uscode/text/26/179D" target="_blank" rel="noopener">26 U.S.C. 179D</a>)</td>
+      <td>"This section shall not apply with respect to property the construction of which begins after June 30, 2026" (same)</td>
+      <td>$134M (same JCT table)</td>
+      </tr>
+      <tr>
+      <td><strong>HUD Green and Resilient Retrofit Program</strong></td>
+      <td>Grants and loans to retrofit HUD-assisted multifamily properties. The IRA gave "$837.5 million in grant and loan subsidy funding and $4 billion in loan commitment authority" (<a href="https://archives.hud.gov/news/2023/pr23-093.cfm" target="_blank" rel="noopener">HUD, 11 May 2023</a>)</td>
+      <td>Remaining money rescinded by the 2025 tax law (<a href="https://www.barclaydamon.com/alerts/key-affordable-housing-provisions-in-the-one-big-beautiful-bill-act" target="_blank" rel="noopener">Barclay Damon, 10 July 2025</a>, secondary)</td>
+      <td><em>Not checked: amount rescinded</em></td>
+      </tr>
+      <tr>
+      <td><strong>IRA home energy rebates (HEEHRA/HEAR), run by state energy offices</strong></td>
+      <td>In Colorado, "up to $14,000 in savings per qualified household" (<a href="https://energyoffice.colorado.gov/press-releases/polis-administration-launches-rebates-to-make-home-energy-improvements-more" target="_blank" rel="noopener">Colorado Energy Office, 13 Nov 2025</a>)</td>
+      <td>Colorado's program is listed closed. Single-family applications ran 13 Nov 2025 to 1 Aug 2026, and no multifamily phase was published (<a href="https://energyoffice.colorado.gov/home-energy-rebates" target="_blank" rel="noopener">CEO</a>)</td>
+      <td>Not a tax item. <em>Not checked: whether unspent IRA rebate money is still available to states.</em></td>
+      </tr>
+      </tbody>
+      </table></div>
+      <p><strong>Why 45L worked as gap money for tax credit deals.</strong> The statute says the usual basis cut for the credit "shall not apply for purposes of determining the adjusted basis of any building under section 42" (<a href="https://www.law.cornell.edu/uscode/text/26/45L" target="_blank" rel="noopener">26 U.S.C. 45L(e)</a>). A tax credit building could take 45L without losing any housing credit equity. On a 60-home building that met Zero Energy Ready with prevailing wages, the statute's numbers come to $300,000 (60 × $5,000). <em>Illustrative arithmetic, not any one deal.</em></p>
+      <p><strong>What reinstatement could look like, cheapest first</strong></p>
+      <ol>
+      <li><strong>Restore 45L for income-restricted homes only.</strong> Limit it to homes in a building with a section 42, HOME, HTF or USDA restriction, keep the section 42 basis carve-out, and keep the prevailing-wage tier. Full repeal saved $5.4B over ten years, so an affordable-only version would cost less. <em>JCT has not scored that version; treat its cost as unknown.</em></li>
+      <li><strong>Restore 179D for multifamily rental buildings that are income-restricted.</strong> Full repeal saved only $134M, so this is the cheapest item on the list.</li>
+      <li><strong>Refund GRRP or fold it into HOME.</strong> HUD could instead release the HOME green-building subsidy increase it put on hold in April 2026, which costs no new money (section 0).</li>
+      <li><strong>Keep the 48E low-income solar bonus allocations running</strong> while solar projects can still qualify.</li>
+      </ol>
+      <p>Why it matters for climate goals: these programs reached the households least able to pay for electrification, in buildings that stay rent-restricted for decades. No Colorado emissions estimate for them was found, so this page makes no emissions claim.</p>
+      <h2>4. Other states' programs, including the move to all-electric housing</h2>
+      <p><strong>Low-rate state money for housing</strong></p>
+      <ul>
+      <li><strong>Montana HB 819 (2023):</strong> linked deposits, purchases of up to half of local infrastructure bonds at 25% of the market rate, and $50M of Coal Trust multifamily loans (section 2 above). It is the enacted version of what Wyoming keeps proposing.</li>
+      <li><strong>Colorado:</strong> HB26-1065 created Transit and Housing Investment Zones. It is a state credit of up to $8.33M a year from 2027 to 2033 for governmental or quasi-governmental owners, who may sell the credits (<a href="https://leg.colorado.gov/bills/HB26-1065" target="_blank" rel="noopener">HB26-1065</a>, as summarized in our legislation watchlist). <em>Prop 123 concessionary debt is not re-checked here; see the qap-geography note for current Prop 123 figures.</em></li>
+      </ul>
+      <p><strong>All-electric housing: what states are doing now</strong></p>
+      <div class="fh-scroll"><table class="fh-table">
+      <thead>
+      <tr>
+      <th>State</th>
+      <th>Program</th>
+      <th>What it does</th>
+      <th>Status and source</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>Colorado</td>
+      <td>Model low energy and carbon code (HB22-1362)</td>
+      <td>State minimum from 1 July 2026. "Does not mandate electrification": all-electric and mixed-fuel buildings both have a path, and the solar-ready, electric-ready and EV-ready rules stay.</td>
+      <td><a href="https://energyoffice.colorado.gov/press-releases/colorados-new-model-low-energy-and-carbon-code-will-cut-energy-costs-improve-indoor" target="_blank" rel="noopener">Colorado Energy Office</a>; <a href="https://content.leg.colorado.gov/sites/default/files/documents/2022A/bills/2022a_1362_enr.pdf" target="_blank" rel="noopener">HB22-1362</a></td>
+      </tr>
+      <tr>
+      <td>Colorado</td>
+      <td>Heat pump tax credit</td>
+      <td>Claimed by the contractor and passed through as a discount. For 2026: $1,000 per air-source heat pump, $2,000 ground- or water-source, $250 per heat pump water heater.</td>
+      <td><a href="https://energyoffice.colorado.gov/hptc" target="_blank" rel="noopener">CEO</a></td>
+      </tr>
+      <tr>
+      <td>Colorado</td>
+      <td>Federal Home Energy Rebates (HEAR)</td>
+      <td>Launched 13 Nov 2025 with "up to $14,000 in savings per qualified household." Small multifamily was promised for 2026. The program page now lists it closed, with single-family applications taken 13 Nov 2025 to 1 Aug 2026 and no multifamily phase published.</td>
+      <td><a href="https://energyoffice.colorado.gov/press-releases/polis-administration-launches-rebates-to-make-home-energy-improvements-more" target="_blank" rel="noopener">CEO launch</a>; <a href="https://energyoffice.colorado.gov/home-energy-rebates" target="_blank" rel="noopener">CEO program page</a></td>
+      </tr>
+      <tr>
+      <td>Colorado</td>
+      <td>Large Building Decarbonization Showcase</td>
+      <td>$500K to $2M grants covering 50-65% of cost for existing buildings under Building Performance Colorado. Round 2 closed 23 Oct 2026.</td>
+      <td><a href="https://energyoffice.colorado.gov/large-building-decarbonization-showcase-grant-program" target="_blank" rel="noopener">CEO</a></td>
+      </tr>
+      <tr>
+      <td>Colorado</td>
+      <td>CHFA tax credit plan</td>
+      <td>Green certification required. All-electric earns no points but is "considered more competitive"; a claim must be backed by a third-party consultant.</td>
+      <td><a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" target="_blank" rel="noopener">2025-26 QAP</a>; <a href="https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf" target="_blank" rel="noopener">2027-28 QAP</a></td>
+      </tr>
+      <tr>
+      <td>California</td>
+      <td>BUILD (CEC with CPUC, from SB 1477)</td>
+      <td>"Incentives and no-cost technical assistance to develop new all-electric, low-income residential buildings." Averages $4,830 per multifamily unit. Guidelines revised Dec 2025 and Jan 2026.</td>
+      <td><a href="https://www.energy.ca.gov/index.php/programs-and-topics/programs/building-initiative-low-emissions-development-program" target="_blank" rel="noopener">CEC</a></td>
+      </tr>
+      <tr>
+      <td>New York</td>
+      <td>All-Electric Buildings Act</td>
+      <td>Bans new gas hookups in new buildings under seven stories, then all buildings after 1 Jan 2029. Upheld by the Second Circuit on 30 June 2026 ("not preempted under EPCA"). Start was delayed pending that ruling, and no new date is reported.</td>
+      <td><a href="https://ny1.com/nyc/all-boroughs/politics/2026/06/30/court-affirms-new-york-s-all-electric-buildings-mandate" target="_blank" rel="noopener">NY1/Spectrum, 30 June 2026</a> (secondary)</td>
+      </tr>
+      <tr>
+      <td>Maine</td>
+      <td>Governor's Energy Office heat pump goal</td>
+      <td>Passed 100,000 heat pumps two years early. New goal is 275,000 in total by 2027. A 2019 law set up a low-income heat pump program at MaineHousing.</td>
+      <td><a href="https://www.maine.gov/governor/mills/news/after-maine-surpasses-100000-heat-pump-goal-two-years-ahead-schedule-governor-mills-sets-new" target="_blank" rel="noopener">Governor's office, 21 July 2023</a></td>
+      </tr>
+      </tbody>
+      </table></div>
+      <p><strong>What this means for the federal ask.</strong> States carry building electrification now, because the federal tools for new affordable housing ended in 2026. 45L ends for homes acquired after 30 June 2026, 179D ends for construction starting after that date, and HUD's Green and Resilient Retrofit Program money was rescinded (<a href="https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm" target="_blank" rel="noopener">P.L. 119-21</a>; <a href="https://www.barclaydamon.com/alerts/key-affordable-housing-provisions-in-the-one-big-beautiful-bill-act" target="_blank" rel="noopener">Barclay Damon, 10 July 2025</a>, secondary). Three low-cost federal moves remain (section 3C has the full reinstatement options):</p>
+      <ol>
+      <li>HUD can take the HOME green-building subsidy increase off indefinite hold. That is an admin action.</li>
+      <li>Treasury can keep the 48E low-income solar bonus allocations running for as long as solar projects can still qualify under the 2025 tax law's deadlines. <em>Not confirmed: whether a 2027 allocation round will open.</em></li>
+      <li>Congress can add a small LIHTC basis boost for all-electric or certified low-energy buildings. Because the cost lands in the tax credit, it reaches the units that need it without a new program.</li>
+      </ol>
+      <h2>5. A national mobile home park stabilization program</h2>
+      <p><strong>What exists now</strong></p>
+      <div class="fh-scroll"><table class="fh-table">
+      <thead>
+      <tr>
+      <th>Tool</th>
+      <th>What it does</th>
+      <th>Status and source</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>HUD PRICE grants</td>
+      <td>Competitive grants to preserve and revitalize manufactured homes and parks. Eligible applicants include resident-owned communities, nonprofits, CDFIs and governments.</td>
+      <td>HUD obligated $225M in 2025 (PRICE plus a replacement-home pilot). <strong>$0 appropriated for 2026, and the 2027 budget "eliminates funding" for PRICE,</strong> in favor of "locally driven housing preservation" (<a href="https://www.hud.gov/sites/dfiles/CFO/documents/2027_CJ_Program_PRICE.pdf" target="_blank" rel="noopener">HUD 2027 CJ, PRICE</a>). The ROAD Act §304 formally authorized a version of PRICE, which "will terminate on July 11, 2033" (<a href="https://www.everycrsreport.com/reports/R49354.html" target="_blank" rel="noopener">CRS R49354</a>).</td>
+      </tr>
+      <tr>
+      <td>ROAD Act §301 and §303</td>
+      <td>Ends the permanent-chassis rule for manufactured homes. Raises FHA Title I manufactured home loan limits and indexes them.</td>
+      <td>Law 11 July 2026; HUD must set new indexing methods by 11 July 2027 (CRS R49354)</td>
+      </tr>
+      <tr>
+      <td>FHFA Duty to Serve</td>
+      <td>Fannie and Freddie must serve manufactured housing, including park loans.</td>
+      <td>Fannie's 2025-27 plan targets loans on 2 properties in 2025, 2 in 2026 and 3 in 2027 owned by "government entities, nonprofit organizations, or residents," plus 3.3% of multifamily UPB for parks with pad-lease protections. On chattel loans for the homes themselves, Fannie says only that it "continue[s] to work with our regulator to understand ... the viability of a chattel loan pilot program" (<a href="https://www.fhfa.gov/document/fm_dutytoserveplan_2025-2027_modified_09.30.2025.pdf" target="_blank" rel="noopener">Fannie Mae Duty to Serve plan, modified 30 Sep 2025</a>)</td>
+      </tr>
+      <tr>
+      <td>Colorado HB22-1287</td>
+      <td>Gives residents 120 days, up from 90, to offer on their park, with tolling events. Lets a public entity match the best offer. Bars rent increases by unregistered parks. Adds Attorney General enforcement.</td>
+      <td>Effective 1 Oct 2022 (<a href="https://www.larimer.gov/sites/default/files/uploads/2022/1287_fact_sheet_final.docx.pdf" target="_blank" rel="noopener">sponsor fact sheet via Larimer County</a>, secondary)</td>
+      </tr>
+      <tr>
+      <td>Colorado Mobile Home Park Acquisition Fund (SB22-160)</td>
+      <td>"Low-interest, flexible loans" for resident or nonprofit purchase, through fund administrators: Impact Development Fund $11.75M, ROC USA $11.75M, Thistle ROC $5M. At least 50% of homes must serve households at or below 80% AMI.</td>
+      <td><a href="https://doh.colorado.gov/mobile-home-park-acquisition-fund" target="_blank" rel="noopener">Colorado Division of Housing</a>. The page gives no results or open round.</td>
+      </tr>
+      <tr>
+      <td>Colorado local money</td>
+      <td>Roaring Fork governments approved an IGA behind the "$42M resident purchase of two mobile home parks." Pitkin County put in $3.25M, Carbondale $1.1M, and Glenwood Springs $1.5M plus a 2026 forgivable loan for Cavern Springs.</td>
+      <td>Public meeting records: Glenwood Springs City Council minutes, <a href="https://www.cogs.us/AgendaCenter/ViewFile/Minutes/_05152025-2049" target="_blank" rel="noopener">15 May 2025</a> and 7 May 2026; Carbondale Board of Trustees minutes, 26 Aug and 14 Oct 2025 (<a href="https://carbondalegov.diligent.community/Portal/MeetingInformation.aspx?Id=528" target="_blank" rel="noopener">meeting list</a>); Pitkin County BOCC, 8 Oct 2025 (<a href="https://records.pitkincounty.com/weblink/Browse.aspx?startid=9&amp;dbid=0" target="_blank" rel="noopener">records</a>)</td>
+      </tr>
+      </tbody>
+      </table></div>
+      <p><strong>What a federal program would need</strong></p>
+      <ol>
+      <li><strong>Steady PRICE money.</strong> The program is authorized through 2033 but unfunded for 2026 and proposed for elimination in 2027. A multi-year set amount would let resident groups line up purchases, which move on a seller's timeline.</li>
+      <li><strong>A federal acquisition guarantee for resident and nonprofit buyers.</strong> Colorado's fund shows the model: a state revolving fund run through CDFIs. A federal guarantee, through the CDFI Fund or USDA, would let those lenders go further. <em>Proposal; we did not check whether existing USDA or CDFI Bond Guarantee rules already allow park acquisition.</em></li>
+      <li><strong>Tie federal park financing to tenant protections.</strong> Duty to Serve already scores "MHCs with certain pad lease protections." FHFA could require those protections, plus a resident notice and opportunity-to-purchase clause like Colorado's, on every park loan Fannie, Freddie or FHA backs.</li>
+      <li><strong>Bigger Duty to Serve targets.</strong> Two or three resident-owned park loans a year from Fannie is not a national program.</li>
+      <li><strong>Home financing on the lot.</strong> Chattel lending is still a pilot discussion. The ROAD Act chassis and Title I changes help new homes, but most park homes are financed as personal property.</li>
+      </ol>
+      <h2>5B. A federal shared equity program for renters and owners</h2>
+      <p><strong>The "first position" problem.</strong> A first-mortgage lender wants to be able to sell a foreclosed home at full market price. So federal lending rules make the affordability terms give way:</p>
+      <ul>
+      <li>FHA: price and resale limits are allowed only if "the restrictions will automatically terminate if title to the mortgaged property is transferred by foreclosure or deed-in-lieu of foreclosure, or if the mortgage is assigned to the Secretary" (<a href="https://www.ecfr.gov/current/title-24/section-203.41" target="_blank" rel="noopener">24 CFR 203.41(c)(2)</a>).</li>
+      <li>Fannie Mae: land trust ground lease limits "must terminate automatically upon foreclosure" (<a href="https://selling-guide.fanniemae.com/sel/b5-5.3-02/shared-equity-transactions-general-requirements" target="_blank" rel="noopener">Fannie Mae Selling Guide B5-5.3-02, 5 Feb 2025</a>).</li>
+      <li>HUD HOME: affordability limits "may terminate upon ... foreclosure, transfer in lieu of foreclosure, or assignment of an FHA-insured mortgage to HUD." A city can instead use "purchase options, rights of first refusal, or other preemptive rights to obtain ownership of the housing before foreclosure" (<a href="https://www.ecfr.gov/current/title-24/section-92.254" target="_blank" rel="noopener">24 CFR 92.254</a>).</li>
+      </ul>
+      <p>So each home that goes to foreclosure can leave the program, and the public money in it is lost. Mt. Crested Butte lost "several of its 'affordable' units to foreclosure," because "banks and lenders typically require that the town lift any restrictions on foreclosed properties" (<a href="https://crestedbuttenews.com/?p=5107" target="_blank" rel="noopener">Crested Butte News, 12 Jun 2013</a>).</p>
+      <p><strong>What a federal program could do for owners.</strong></p>
+      <ol>
+      <li><em>Let limits survive when a steward stands behind them.</em> Amend 24 CFR 203.41(c)(2), and have FHFA direct Fannie Mae and Freddie Mac, so that resale limits may survive foreclosure when a qualified steward (a land trust, housing authority or state housing agency) holds a recorded right to buy the home at the restricted price before a foreclosure sale. HOME already lets cities use that right.</li>
+      <li>
+      <p><em>Make the first lender whole instead of wiping out the limits.</em> A small federal guarantee, run through FHA or a HOME set-aside, would pay the lender the gap between the restricted price and the loan balance if the steward buys. The lender keeps first claim on the money, but the affordability terms stay on the home. That takes away the reason lenders need the limits wiped out. <em>This is a proposal; no federal program does it today, and its cost has not been estimated.</em>
+      <strong>What the lender guarantee might cost (illustrative).</strong> No one has scored this. A rough estimate:</p>
+      </li>
+      <li>
+      <p><em>How often these homes go to foreclosure.</em> In a 2009 survey of 2,173 land trust mortgages, 0.56% were in foreclosure at the end of 2009, against 3.31% of prime loans, 3.57% of FHA loans and 4.58% of all loans in the Mortgage Bankers Association survey (<a href="https://www.lincolninst.edu/app/uploads/2024/04/1857_1164_thaden_final.pdf" target="_blank" rel="noopener">Thaden, Lincoln Institute working paper, 2010</a>, Table 4). That was the worst year of the foreclosure crisis. The paper credits steward work: "pre-purchase education, post-purchase support, high-risk loan prevention, and delinquency detection and intervention."</p>
+      </li>
+      <li><em>How much a claim would pay.</em> Take a restricted home at $300,000 with a 97% loan ($291,000). If the steward buys at the restricted price, the lender's loss is mainly foreclosure, carrying and resale costs, assumed here at about $30,000. Cap the guarantee at 20% of the loan ($58,200), like a mortgage insurance policy.</li>
+      <li><em>Cost per home over the life of the loan:</em></li>
+      </ol>
+      <div class="fh-scroll"><table class="fh-table">
+      <thead>
+      <tr>
+      <th>Case</th>
+      <th>Share of loans that ever claim</th>
+      <th>Average claim</th>
+      <th>Cost per home</th>
+      <th>Cost per 10,000 homes</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>Land trust-like (with steward support)</td>
+      <td>1%</td>
+      <td>$30,000</td>
+      <td>$300</td>
+      <td>$3M</td>
+      </tr>
+      <tr>
+      <td>Middle</td>
+      <td>3%</td>
+      <td>$30,000</td>
+      <td>$900</td>
+      <td>$9M</td>
+      </tr>
+      <tr>
+      <td>Stress (FHA-like, full cap paid)</td>
+      <td>6%</td>
+      <td>$58,200</td>
+      <td>$3,492</td>
+      <td>$35M</td>
+      </tr>
+      </tbody>
+      </table></div>
+      <p>For scale, the standard USDA 538 guarantee fee on the same $291,000 loan would be about $1,900 upfront and $1,000 a year (65 and 35 basis points). So a small fee, or a HOME set-aside, could likely cover the guarantee in all but the stress case. <em>These are illustrative numbers built from the assumptions above, not a federal cost score. A real score would need claim and severity data on shared equity loans, discounting under the Federal Credit Reform Act, and an estimate of how many homes would use it.</em></p>
+      <ol>
+      <li><em>Pay for default reserves and steward capacity.</em> Small steward grants, for loan cure funds and lender training, especially in rural areas where few lenders handle these loans.</li>
+      </ol>
+      <p><strong>What a federal program could do for renters.</strong></p>
+      <ol>
+      <li><em>Open HUD's savings accounts to more renters.</em> HUD's Family Self-Sufficiency program already builds tenant savings: the owner deposits an escrow credit "each month ... to each family's FSS escrow account" as the family's earnings rise (<a href="https://www.ecfr.gov/current/title-24/section-984.305" target="_blank" rel="noopener">24 CFR 984.305</a>). It covers public housing, vouchers and HUD-assisted multifamily (<a href="https://www.ecfr.gov/current/title-24/section-984.101" target="_blank" rel="noopener">§984.101</a>), not tax credit or USDA 538 tenants who have no HUD rent help. Congress could let state housing agencies run it in those buildings.</li>
+      <li><em>Fund renter equity in federally backed buildings.</em> Allow a share of cash flow or sale gains in tax credit and 538 properties to go into tenant accounts, as Colorado Renter Rewards does in Prop 123 buildings (2% cash back plus a 2% savings match; <a href="https://cdn.colorado.gov/governor/news/gov-polis-announces-colorado-renter-rewards-nations-first-state-cash-back-and-savings-program" target="_blank" rel="noopener">Governor's Office, 5 Feb 2026</a>; <a href="https://impactalpha.com/tenant-equity-models-start-to-give-renters-access-to-housing-wealth/" target="_blank" rel="noopener">ImpactAlpha, 16 Mar 2026</a>), and count that payment as an allowed project expense.</li>
+      <li><em>Keep payouts from costing families their benefits.</em> Colorado's program lets renters defer payouts "to avoid affecting public assistance" (<a href="https://impactalpha.com/tenant-equity-models-start-to-give-renters-access-to-housing-wealth/" target="_blank" rel="noopener">ImpactAlpha, 16 Mar 2026</a>). A federal rule that excludes renter-equity payouts from income for HUD rent, SNAP and Medicaid would remove that trap. <em>Not confirmed: exactly how each benefit program counts these payouts today.</em></li>
+      </ol>
+      <h2>What this means in Colorado</h2>
+      <ul>
+      <li>Colorado's 2026 code does not require all-electric construction, and CHFA gives no points for it. So any federal electrification incentive reaches Colorado deals through cost (rebates, credits, lower utility allowances), not through scoring.</li>
+      <li>The Fort Collins BABA waiver is the clearest local example of federal overhead on a small affordable rehab.</li>
+      <li>Colorado park buyouts already run on state money (the SB22-160 fund) and local money (Roaring Fork). A federal program would add to that, not start it.</li>
+      <li>The 25% bond test and the extra 12% of 9% credit are already law and apply to Colorado's 2026 credit year.</li>
+      </ul>
+      <h2>What we could not confirm</h2>
+      <ul>
+      <li>Average USDA 538 processing times. USDA publishes none; the examples in section 3B are single deals or industry statements.</li>
+      <li>The primary text of the 29 Sep 2026 HUD–USDA environmental agreement (only a secondary summary was found).</li>
+      <li>Whether H.R. 4957 (Rural Housing Service Reform Act) has moved since introduction.</li>
+      <li>The guarantee cost in section 5B is illustrative, not a federal cost score.</li>
+      <li>How HUD rent, SNAP and Medicaid count renter-equity payouts today.</li>
+      <li>Whether HUD's NEPA interim final rule (RIN 2506-AC61) has been published since the October 2026 target.</li>
+      <li>Whether the FY2026 USDA 538 notice offers interest credit.</li>
+      <li>The terms of the extremely low-income basis boost in H.R. 2725 and S. 1515. The bill text was not re-read.</li>
+      <li>Any change to HOME match (42 U.S.C. 12750) in P.L. 119-101. The Cornell text may not yet reflect the 2026 law.</li>
+      <li>The legal authority a new Treasury bond purchase would need.</li>
+      <li>
+      <p>The status of any plan to end Fannie and Freddie conservatorship, and what it would do to HTF and CMF funding.</p>
+      </li>
+      <li>
+      <p>Whether HUD has formally restated the BABA small-project waiver at $350,000 after the 1 Oct 2025 threshold increase, or changed the waivers in other ways since CPD-25-01 (13 Jan 2025).</p>
+      </li>
+      <li>Any per-unit cost study of Davis-Bacon, Section 3 or NEPA on small HUD awards.</li>
+      <li>Colorado HB20-1201 terms; we cite only HB22-1287 here.</li>
+      </ul>
+
+      <div class="fh-callout">
+        <span class="fh-tag">Scope of this brief</span>
+        <p>
+          This describes federal laws, rules and funding as of 9 November 2026 and the changes that would help. Figures
+          marked illustrative are worked examples, not official cost estimates. Related: <a href="housing-legislation-2026.html">Policy &amp; Legislation</a>
+          tracks the ROAD to Housing Act and the tax-credit watchlist.
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
+</body>
+</html>
