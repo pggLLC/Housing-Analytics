@@ -1,7 +1,7 @@
 {
   "meta": {
     "source": "data/affordable-housing/properties.json (unified LIHTC + preservation + HUD MF + USDA RD)",
-    "generated_at_utc": "2026-11-08T13:32:55Z",
+    "generated_at_utc": "2026-11-09T16:30:01Z",
     "input_total_records": 1896,
     "lihtc_lookup_size": 924,
     "notes": "Per-county rollup uses the property's county_fips field. CHFA Preservation records carry no county code in their source; the properties build sets one from each record's coordinates (county_fips_method 'point-in-county'), so county subtotals include them. Town rollups match on the city name, so public housing (HUD gives no city) counts in county and state totals only."
