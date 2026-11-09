@@ -659,7 +659,7 @@
     "playwright": "^1.58.2",
     "proxy-agent": "^8.0.2",
     "puppeteer": "^25.16.0",
-    "stylelint": "^17.16.0",
+    "stylelint": "^18.0.0",
     "stylelint-config-recommended": "^18.0.0",
     "wait-on": "^9.5.1",
     "wcag-contrast": "^3.0.0"
