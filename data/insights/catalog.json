@@ -36,6 +36,17 @@
       "review_from": { "file": "data/policy/tax-credit-legislation.json", "ids": ["ahcia-2025-hr2725", "ahcia-2025-s1515", "obbba-lihtc-ceiling-12pct", "obbba-lihtc-bond-25pct-test"] }
     },
     {
+      "id": "federal-rule-changes",
+      "section": "analysis",
+      "type": "Policy analysis",
+      "title": "Federal Rule Changes That Would Help Affordable Housing",
+      "url": "article-federal-rule-changes.html",
+      "summary": "Fourteen federal changes, ranked, that would aim housing money at the lowest-income renters, lower borrowing costs and cut the overhead on gap financing: rural loan rates, small federal awards that bring full federal rules, Build America, Buy America waivers, the Housing Trust Fund, mobile home parks, energy credits, USDA Section 538 and shared equity. Current as of 9 November 2026.",
+      "sources": ["Federal Register", "eCFR", "Congress.gov", "GAO", "CRS"],
+      "maintenance": "dated",
+      "published": "2026-11-09"
+    },
+    {
       "id": "fair-housing-rollback",
       "section": "analysis",
       "type": "Policy analysis",

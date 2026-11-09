@@ -273,9 +273,9 @@
       "undated": 0,
       "areas": {
         "unsourced: #researchCatalog>p.rc-card__summary:2": 2,
-        "unsourced: #researchCatalog>h3.rc-card__title:6": 2,
         "unsourced: #researchCatalog>h3.rc-card__title:7": 2,
-        "unsourced: #researchCatalog>h3.rc-card__title:16": 1
+        "unsourced: #researchCatalog>h3.rc-card__title:8": 2,
+        "unsourced: #researchCatalog>h3.rc-card__title:17": 1
       }
     },
     "land-banking-awards.html": {
@@ -409,6 +409,11 @@
         "unsourced: #main-content>table:3": 13,
         "unsourced: #main-content>table:4": 1
       }
+    },
+    "article-federal-rule-changes.html": {
+      "unsourced": 0,
+      "undated": 0,
+      "areas": {}
     }
   }
 }
