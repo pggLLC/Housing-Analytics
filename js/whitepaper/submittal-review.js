@@ -315,7 +315,7 @@
     var list = prop123.jurisdictions, have = {};
     list.forEach(function (j) { have[j.name.toLowerCase()] = true; });
     var extra = ((prop123.next_cycle || {}).filings || []).filter(function (f) { return f && f.name && !have[f.name.toLowerCase()]; })
-      .map(function (f) { return { name: f.name, kind: /\bcounty\b/i.test(f.name) && !/^city and county of/i.test(f.name) ? 'county' : 'municipality', status: 'new filing', next_cycle: { submitted: f.submitted } }; });
+      .map(function (f) { return { name: f.name, kind: /\bcounty\b/i.test(f.name) && !/^city and county of/i.test(f.name) ? 'county' : 'municipality', status: 'new filing', next_cycle: { submitted: f.submitted, status: f.status } }; });
     return extra.length ? list.concat(extra) : list;
   }
 
@@ -352,6 +352,11 @@
     if (!j) return { status: 'no', text: 'Not on DOLA\'s Prop 123 commitment list (as of ' + (prop123.updated || 'the last refresh') + ').' };
     if (j.next_cycle && j.next_cycle.submitted) {
       return { status: 'yes', name: j.name, text: j.name + ' filed its 2027-2029 Prop 123 commitment on ' + j.next_cycle.submitted + '.' };
+    }
+    // DOLA lists some filings (a pending one, a tribe's) without a date: still filed.
+    if (j.next_cycle) {
+      return { status: 'yes', name: j.name, text: j.name + ' filed its 2027-2029 Prop 123 commitment; DOLA lists it without a date' +
+        (j.next_cycle.status ? ' (' + j.next_cycle.status.toLowerCase() + ')' : '') + '.' };
     }
     var due = prop123.next_cycle && prop123.next_cycle.filing_deadline;
     return { status: 'to-confirm', name: j.name, text: j.name + ' has a first-cycle commitment (' + j.status + ') but no 2027-2029 filing on DOLA\'s list yet' + (due ? '; filings are due ' + due : '') + '.' };

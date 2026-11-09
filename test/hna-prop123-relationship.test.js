@@ -211,6 +211,24 @@ async function main() {
   const strattonValues = Array.from(relationshipEl.querySelectorAll('.metric-value')).map((el) => el.textContent);
   assert.equal(strattonValues[2], 'Filed ' + stratton.nextCycle.filing.submitted, 'a 2027–2029 filer shows its filing even with no 2024–2026 record');
 
+  // A filing DOLA lists without a date (Mancos, pending) says so, never "null".
+  const undated = DATA.next_cycle.filings.find((f) => !f.submitted);
+  assert.ok(undated, 'the data has an undated 2027–2029 filing, so this check runs');
+  const undatedFixture = Object.assign({}, DATA, {
+    jurisdictions: DATA.jurisdictions.map((j) => (j.name === 'Town of Stratton' ? Object.assign({}, j, { next_cycle: Object.assign({}, j.next_cycle, { submitted: null }) }) : j)),
+    next_cycle: Object.assign({}, DATA.next_cycle, {
+      filings: DATA.next_cycle.filings.map((f) => (f.name === 'Town of Stratton' ? Object.assign({}, f, { submitted: null }) : f)) }) });
+  const strattonUndated = api.relationship(undatedFixture, 'place', 'Stratton (town)');
+  window.HNARenderers.renderProp123Relationship(strattonUndated, 'Stratton (town)', true);
+  const undatedValues = Array.from(relationshipEl.querySelectorAll('.metric-value')).map((el) => el.textContent);
+  assert.equal(undatedValues[2], 'Filed, date not listed by DOLA', 'an undated filing says the date is not listed');
+  assert(!relationshipEl.textContent.includes('null'), 'an undated filing never renders null');
+  const mancos = api.relationship(DATA, 'place', 'Mancos (town)');
+  if (mancos.nextCycle && mancos.nextCycle.filing && !mancos.nextCycle.filing.submitted) {
+    window.HNARenderers.renderProp123Relationship(mancos, 'Mancos (town)', true);
+    assert(!relationshipEl.textContent.includes('null'), 'Mancos, filed without a date, never renders null');
+  }
+
   window.HNARenderers.renderProp123Relationship(highlandsRanch, 'Highlands Ranch (CDP)', true);
   const highlandsRendered = relationshipEl.textContent.replace(/\s+/g, ' ').trim();
   assert.equal(relationshipEl.querySelector('.metric-value').textContent, 'Not committed', 'same-name anomaly does not hedge the headline status');
