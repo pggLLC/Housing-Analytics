@@ -642,7 +642,7 @@
     "test:hna-lehd-partial-flows": "node test/hna-lehd-partial-flows.test.js"
   },
   "dependencies": {
-    "jsdom": "^30.1.3"
+    "jsdom": "^31.0.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0",
