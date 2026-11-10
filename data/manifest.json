@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-10T13:45:19.074483Z",
+  "generated": "2026-11-10T13:59:11.700750Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1030995
+      "bytes": 1031487
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9114,7 +9114,12 @@
     "data/market/opportunity_zones_co.geojson": {
       "featureCount": 126,
       "placeholder": false,
-      "bytes": 851949
+      "bytes": 852270
+    },
+    "data/market/opportunity_zones_co_2027.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 24701
     },
     "data/market/parcel_aggregates_co.json": {
       "featureCount": 8,
@@ -9164,7 +9169,7 @@
     "data/market/redfin_place_market_tracker_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2326243
+      "bytes": 2326318
     },
     "data/market/reference-projects.json": {
       "featureCount": 0,
@@ -9679,7 +9684,7 @@
     "data/policy/co-developer-funding-guide.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 436191
+      "bytes": 436532
     },
     "data/policy/colorado-deal-rules.json": {
       "featureCount": 0,
@@ -9909,7 +9914,7 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 46686
+      "bytes": 46936
     },
     "data/policy/state-housing-laws.json": {
       "featureCount": 0,
@@ -9924,7 +9929,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41617
+      "bytes": 41714
     },
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,

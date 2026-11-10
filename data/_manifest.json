@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-10T13:45:15.608Z",
+    "generated_at": "2026-11-10T13:59:09.572Z",
     "root": "data/",
-    "file_count": 2027,
-    "total_size_bytes": 222884421,
+    "file_count": 2028,
+    "total_size_bytes": 222910206,
     "kinds": {
-      "json": 1978,
+      "json": 1979,
       "geojson": 35,
       "csv": 14
     }
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-10T12:06:36.457Z",
+      "mtime": "2026-11-10T13:59:06.752Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39477,8 +39477,8 @@
     {
       "path": "market/opportunity_zones_co.geojson",
       "kind": "geojson",
-      "size_bytes": 851949,
-      "mtime": "2026-10-29T08:36:09.594Z",
+      "size_bytes": 852270,
+      "mtime": "2026-11-10T13:57:51.378Z",
       "shape": "geojson",
       "feature_count": 126,
       "property_keys": [
@@ -39487,6 +39487,28 @@
         "designated"
       ],
       "geometry_type": "Polygon"
+    },
+    {
+      "path": "market/opportunity_zones_co_2027.json",
+      "kind": "json",
+      "size_bytes": 24701,
+      "mtime": "2026-11-10T13:57:51.378Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "by_county",
+        "tracts"
+      ],
+      "key_count": 3,
+      "primary_array_key": "tracts",
+      "primary_array_length": 91,
+      "primary_array_first_keys": [
+        "geoid",
+        "qozid",
+        "county_fips",
+        "county",
+        "rural"
+      ]
     },
     {
       "path": "market/parcel_aggregates_co.json",
@@ -39648,8 +39670,8 @@
     {
       "path": "market/redfin_place_market_tracker_co.json",
       "kind": "json",
-      "size_bytes": 2326243,
-      "mtime": "2026-11-05T10:48:29.787Z",
+      "size_bytes": 2326318,
+      "mtime": "2026-11-10T13:57:51.383Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -40207,7 +40229,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-10T12:06:38.272Z",
+      "mtime": "2026-11-10T13:59:08.236Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40231,7 +40253,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-10T12:06:37.832Z",
+      "mtime": "2026-11-10T13:59:07.908Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42211,8 +42233,8 @@
     {
       "path": "policy/co-developer-funding-guide.json",
       "kind": "json",
-      "size_bytes": 436191,
-      "mtime": "2026-11-09T04:52:26.229Z",
+      "size_bytes": 436532,
+      "mtime": "2026-11-10T13:57:51.430Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43326,8 +43348,8 @@
     {
       "path": "policy/soft-funding-status.json",
       "kind": "json",
-      "size_bytes": 46686,
-      "mtime": "2026-11-05T07:03:10.982Z",
+      "size_bytes": 46936,
+      "mtime": "2026-11-10T13:57:51.439Z",
       "shape": "object",
       "keys": [
         "lastUpdated",
@@ -43394,8 +43416,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 41617,
-      "mtime": "2026-11-10T12:05:01.913Z",
+      "size_bytes": 41714,
+      "mtime": "2026-11-10T13:57:51.439Z",
       "shape": "object",
       "keys": [
         "schema",

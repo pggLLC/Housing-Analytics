@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "8d46377ce",
+  "generated_from_commit": "de9b4e3a1",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-11-10",
-    "total_commits": 9509,
+    "total_commits": 9515,
     "partial_month": "2026-11",
     "commits_by_month": [
       {
@@ -54,8 +54,8 @@
       },
       {
         "month": "2026-11",
-        "commits": 392,
-        "pct_of_peak": 25.1
+        "commits": 398,
+        "pct_of_peak": 25.5
       }
     ]
   },
@@ -66,7 +66,7 @@
     "workflows": 84,
     "scripts": 392,
     "docs": 585,
-    "data_files": 2068,
+    "data_files": 2069,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
@@ -251,14 +251,14 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 531576,
+    "hand_written_lines": 531627,
     "generated_place_page_lines": 288963,
     "top_level_pages": 84,
-    "html_nonblank_lines": 52795,
-    "html_distinct_lines": 21913,
+    "html_nonblank_lines": 52797,
+    "html_distinct_lines": 21915,
     "html_distinct_share": 0.415,
     "substantial_tools": 26,
-    "declared_data_sources": 87,
+    "declared_data_sources": 88,
     "estimate": {
       "declared": "analyst-constructed; not repository methodology",
       "means": "what a commissioned team would bill to build this from a specification, NOT the effort expended here",
@@ -320,7 +320,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "8d46377ce",
+    "extracted_at_commit": "de9b4e3a1",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
