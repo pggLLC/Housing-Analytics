@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-10T01:55:47.061157Z",
+  "generated": "2026-11-10T11:25:39.875256Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1031022
+      "bytes": 1030996
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -99,7 +99,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1840852
+      "bytes": 1893719
     },
     "data/alerts/brief-news-queue.json": {
       "featureCount": 0,
@@ -119,7 +119,7 @@
     "data/alerts/outlet-review.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4150
+      "bytes": 4911
     },
     "data/alerts/owner-news.json": {
       "featureCount": 0,
@@ -9954,7 +9954,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 560652
+      "bytes": 563582
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,

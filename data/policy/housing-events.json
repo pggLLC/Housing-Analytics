@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-09T11:50:15Z",
-    "as_of": "2026-11-09",
+    "generated": "2026-11-10T11:25:34Z",
+    "as_of": "2026-11-10",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -24,7 +24,7 @@
       "url": "https://www.chfainfo.com/events",
       "status": "ok",
       "listed": 1346,
-      "upcoming": 30
+      "upcoming": 29
     },
     {
       "id": "housing_colorado",
@@ -103,18 +103,6 @@
       "url": "https://doh.colorado.gov/news-article/nofa-doh-cdbg-abatement-and-demolition-program",
       "source": "doh",
       "category": "deadline"
-    },
-    {
-      "title": "chfareach: New to chfareach? New Participant Orientation, Online Meeting",
-      "start": "2026-11-09",
-      "end": null,
-      "time": "13:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-new-to-chfareach-new-participant-orientation-online-meeting-11-09-2026",
-      "source": "chfa",
-      "category": "compliance"
     },
     {
       "title": "Consumer Price Index (inflation) released",
@@ -743,6 +731,18 @@
     }
   ],
   "past": [
+    {
+      "title": "chfareach: New to chfareach? New Participant Orientation, Online Meeting",
+      "start": "2026-11-09",
+      "end": null,
+      "time": "13:00",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-new-to-chfareach-new-participant-orientation-online-meeting-11-09-2026",
+      "source": "chfa",
+      "category": "compliance"
+    },
     {
       "title": "Jobs report (Employment Situation) released",
       "start": "2026-11-06",

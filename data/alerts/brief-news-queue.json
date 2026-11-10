@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-11-09T11:50:15Z",
-    "as_of": "2026-11-09",
+    "generated": "2026-11-10T11:25:35Z",
+    "as_of": "2026-11-10",
     "stale_days": 30,
-    "events_as_of": "2026-11-09",
+    "events_as_of": "2026-11-10",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,7 +14,7 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [
         {
           "title": "Colorado Springs area nonprofit volunteer opportunities",
@@ -57,6 +57,14 @@
           "also": []
         },
         {
+          "title": "Colorado Springs and beyond holiday events",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE93WkdBMlZrT19QaUplNFZpWmV1UVRQZnAwS0JFVUxMQ25HY0NHaElldjdzdXB6SWlYVk5qb3Z5WWNoak1lV2ltRXNFT3JVRlRoTkZzYVQ2UVJKcmowajNVbHA1TVR4akxhNFYwdzV5djBKeVk0aGlzU2p1RHAxemM?oc=5",
+          "date": "2026-11-04",
+          "match": "place",
+          "also": []
+        },
+        {
           "title": "Democrat Jessica Killin in 5-point lead over Rep. Crank in Colorado Springs district",
           "source": "Colorado Newsline",
           "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxORG9pVUY4N0dzaGg3ZVBlSFowX25JY0ZQeS02SXFacFR5MGtPbl9WOXNrTlZpZnVNUTNXSDI4d2hEZ0hpaDJvVUdzVVZJeTN0NWlNVUt0bDdZa1FBZzhMbTFCT0s5c1RpT2hKd2F1NVhibUNwMU5vQ19TRUhoUlJLRV9mS2NBdTNkQnJxdkRrN181MUFtUGltRDQwaTdJZlgwOExpNl9mNHV0Yy1xVE9mWkdTc2FJM1FJcXEzN3B0aV9pUQ?oc=5",
@@ -93,14 +101,6 @@
           "source": "KRDO",
           "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOMmh1WXZCaVRTcnVkeHQyNkhOVmNzdXBrNGFhSnZGWjJUampZWE5XYWtSQmxQM1dsNFg2SDlKTXRDLUx0OW8tdVlLTFNWMzcycm5KeHB3MjhhOGxPbGwzSV9EX20ydTB6VTBxR3NFYTRUTUxLX1k4YlRQT1BqOVhVQQ?oc=5",
           "date": "2026-11-03",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Colorado Springs and beyond holiday events",
-          "source": "Colorado Springs Gazette",
-          "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5ORU9yS3FubVptZ2NQSEt0eEljZ3JMWVF1TDBzQUVITnRiZlpoQ2x4cUZEdlV2bi11WkdQblk4TExpVUZfMVpuWlFBWnJtbHU0R0gzb0F2Y1BYYmtSbWVVdmlhemJTMVgzbmt4bm82VWNqWHlJcERVWV9lTGRuc3c?oc=5",
-          "date": "2026-11-02",
           "match": "place",
           "also": []
         },
@@ -242,7 +242,7 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [
         {
           "title": "House Democrats elect Rep. Jennifer Bacon of Denver as next Speaker",
@@ -415,7 +415,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [
         {
           "title": "The Town of Mt. Crested Butte is accepting applications for a deed-restricted workforce housing unit in Three Seasons. This 2-bedroom, 2-bathroom condominium is available to qualified applicants. Monthly rent is based on household size and the Town's Wor",
@@ -458,7 +458,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [
         {
           "title": "Living in Bayfield Colorado vs Durango: what the price gap buys you",
@@ -490,7 +490,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -523,7 +523,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [
         {
           "title": "Judge rules Ridgway hotel can’t house workers building Telluride’s Four Seasons resort",
@@ -557,7 +557,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -583,7 +583,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [
         {
           "title": "Senator Cortez Masto, Senator Warren tour new Las Vegas affordable housing",
@@ -606,7 +606,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [
         {
           "title": "Rifle City Council approves ADU code changes, water system improvements",
@@ -629,7 +629,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [
         {
           "title": "Salida City Council Double Header, Regular Session Starts at 6:00 p.m. Tonight - by Merrell Bergin",
@@ -652,7 +652,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [
         {
           "title": "Steamboat Springs launches work with Colorado Energy Office to address workforce housing, climate goals",
@@ -676,7 +676,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -718,7 +718,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -744,7 +744,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [],
       "events": [],
       "reasons": []
@@ -756,7 +756,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [],
       "events": [],
       "reasons": []
@@ -768,7 +768,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [],
       "events": [],
       "reasons": [
@@ -782,7 +782,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [],
       "events": [],
       "reasons": []
@@ -794,7 +794,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 22,
+      "days_since_review": 23,
       "stories": [],
       "events": [],
       "reasons": []

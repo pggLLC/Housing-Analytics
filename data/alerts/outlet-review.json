@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generated": "2026-11-09T11:50:15Z",
+    "generated": "2026-11-10T11:25:35Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-03",
-      "checked": 56,
+      "since": "2026-11-04",
+      "checked": 60,
       "unverified": 3,
-      "weak": 1
+      "weak": 0
     }
   },
   "outlets": [
@@ -63,6 +63,24 @@
         }
       ],
       "first_listed": "2026-11-08"
+    },
+    {
+      "id": "81ee1a17da",
+      "name": "www.longmontleader.com",
+      "domains": [
+        "longmontleader.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-03",
+      "last_seen": "2026-11-03",
+      "headlines": [
+        {
+          "title": "Colorado Receives Federal Approval for 91 New Opportunity Zones",
+          "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPMFJ6bUJRdFEzNVFrVWRnTGZNQ2tldU11dEpfbzhmckE1VHBiVEpuVk84SnJ4UzZZUWxEajZ1ZGl1bkNFUkdUM2puNkxtWDZWaUV4Y0JIbDFYYlcxQnZxTEYyTzA3QlE0Q2RYTWVNZkJKLXhxQlVRc3BWRGxXUnA0WGQ4NU1kWTIxc3RmS0FGbEV6N1MxakI4MUxlT2ZVdWdMazlteGF3YnR4TXlHcDhaRmdBUEdqNkNwQ3lIWXpPc2ItQl9RUzIw?oc=5",
+          "date": "2026-11-03"
+        }
+      ],
+      "first_listed": "2026-11-10"
     },
     {
       "id": "88fd837e59",
