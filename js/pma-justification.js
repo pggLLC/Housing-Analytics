@@ -212,7 +212,7 @@
 
     // CHFA tract-picker boundary (takes precedence over commuting/buffer opener).
     // Whole-tract selection satisfies CHFA Market Study Guide (Appendix A,
-    // 2025-26 QAP), which prohibits radius boundaries. When the picker is
+    // 2027-28 QAP), which prohibits radius boundaries. When the picker is
     // used, the boundary IS the union of the listed tract polygons.
     var picked = scoreRun.pmaTractSelection || null;
     var pickedGeoids = picked && Array.isArray(picked.selected) ? picked.selected : null;
@@ -220,7 +220,7 @@
       parts.push(
         'This PMA boundary is defined as the union of ' + pickedGeoids.length +
         ' whole census tract(s), satisfying CHFA Market Study Guide (Appendix A, ' +
-        '2025-26 QAP): "Radius boundaries are not allowed. The market boundary ' +
+        '2027-28 QAP, p. 74): "Radius boundaries are not allowed. The market boundary ' +
         'must include entire census tracts." Included GEOIDs: ' +
         _summarizeGeoidList(pickedGeoids) + '.'
       );
@@ -259,7 +259,7 @@
           (c.method === 'buffer' ? 'This PMA boundary was delineated using a standard circular buffer method. ' : '') +
           c.captureUnavailableReason + ' ' +
           'Note: this is a screening boundary and does not satisfy CHFA Market ' +
-          'Study Guide (Appendix A, 2025-26 QAP), which requires the boundary to ' +
+          'Study Guide (Appendix A, 2027-28 QAP, p. 74), which requires the boundary to ' +
           'be defined by whole census tracts.'
         );
       }

@@ -123,13 +123,16 @@
       return;
     }
     var summary = global.ReviewStatus ? global.ReviewStatus.summaryHtml(entries, null, 'policy entries') : '';
+    // One column that may shrink: an implicit `auto` track grows to the cards'
+    // longest unbroken run and pushed the page sideways on a phone (591px at 390).
+    target.style.gridTemplateColumns = 'minmax(0, 1fr)';
     target.innerHTML = summary + entries.map(function (entry) {
       var meta = [
         entry.effective_date ? 'Effective ' + entry.effective_date : null,
         entry.sunset_date ? 'Sunset ' + entry.sunset_date : null,
         entry.last_verified ? 'Verified ' + entry.last_verified : null
       ].filter(Boolean).join(' · ');
-      return '<article class="chart-card" data-policy-id="' + esc(entry.id) + '" style="padding:var(--sp3);">' +
+      return '<article class="chart-card" data-policy-id="' + esc(entry.id) + '" style="padding:var(--sp3);min-width:0;overflow-wrap:anywhere;">' +
         '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--sp2);">' +
           '<div>' +
             '<h3 style="margin:0 0 var(--sp1);font-size:1rem;">' + esc(entry.title) + '</h3>' +

@@ -106,7 +106,7 @@ const ALLOW_LIST = new Set([
   "https://www.ncsha.org",
   "https://www.ncsha.org/",
   "https://www.ncsha.org/feed/",
-  "https://www.ncsha.org/advocacy-issues/lihtc/",
+  "https://www.ncsha.org/advocacy-issues/housing-credit/",
   "https://www.congress.gov/",
   "https://www.congress.gov/bill/118th-congress/house-bill/6644",
   "https://www.cbre.com/insights",
@@ -227,8 +227,6 @@ const ALLOW_LIST = new Set([
   // Kalshi rate-limits or blocks CI agents (429); homepage + API.
   "https://kalshi.com/",
   "https://api.kalshi.com/trade-api/v2/markets",
-  // CDOT data portal intermittently rejects CI fetches.
-  "https://data.cdot.colorado.gov/",
   // Colorado Association of Realtors — Akamai bot protection (403),
   // accessible to real browsers. Verified manually 2026-05-24.
   "https://www.coloradorealtors.com/market-trends/",

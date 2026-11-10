@@ -551,7 +551,7 @@
       tags: ['cdot', 'traffic', 'transportation', 'gis'],
       apiEndpoint: null,
       alternatives: [
-        { title: 'CDOT Data Portal', description: 'Colorado transportation open data', url: 'https://data.cdot.colorado.gov/' }
+        { title: 'CDOT Open Data', description: 'Colorado transportation open data', url: 'https://data-cdot.opendata.arcgis.com/' }
       ]
     },
     {

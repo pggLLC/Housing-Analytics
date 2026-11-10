@@ -5593,6 +5593,11 @@
         range.max = 80;
         range.value = current.weights[k];
         range.setAttribute('data-w', k);
+        // Tie the visible label to its slider: without for/id the range had no
+        // accessible name, so a screen reader announced five unnamed sliders.
+        range.id = 'lofSbWeight-' + k;
+        lbl.setAttribute('for', range.id);
+        range.setAttribute('aria-valuetext', _capitalize(k) + ' weight, ' + current.weights[k] + '%');
         range.addEventListener('input', function () {
           _scenarioOnSliderInput(k, +range.value);
         });

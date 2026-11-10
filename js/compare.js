@@ -540,7 +540,7 @@
 
   // table. Picks the jurisdiction with the most per-dimension wins;
   // ties broken by active-target composite score.
-  function _renderVerdict(records, winsByIdx) {
+  function _renderVerdict(records, winsByIdx, tiedRows) {
     var el = document.getElementById('cmpVerdict');
     if (!el || !records.length) return;
     if (records.length < 2) {
@@ -573,7 +573,9 @@
         ' <span class="cmp-verdict-meta">· ' + escHtml(winner.countyName) + ' · score ' + winnerScore + '/100</span>' +
       '</div>' +
       '<div class="cmp-verdict-detail">Wins <strong>' + maxWins + '</strong> of ' + totalRows +
-        ' dimensions across this comparison set. Other jurisdictions: ' +
+        ' dimensions across this comparison set' +
+        (tiedRows > 0 ? ' (' + tiedRows + ' shared with another place, so the counts add up to more than ' + totalRows + ')' : '') +
+        '. Other jurisdictions: ' +
         winsByIdx.map(function (w, i) {
           if (i === winnerIdx) return null;
           return escHtml(records[i].name) + ' ' + w;
@@ -886,6 +888,9 @@
     // Build body. F13: track win-count per jurisdiction across all numeric
     // dimensions so we can render an "Overall winner" verdict above the table.
     var winsByIdx = new Array(records.length).fill(0);
+    // Rows where two or more places share the best value: each gets a win, so
+    // the win counts can add up to more than the rows (18 + 7 against 23).
+    var tiedRows = 0;
     var body = '';
     ROWS.forEach(function (row) {
       if (row.group) {
@@ -911,6 +916,8 @@
       if (!row.raw && numericVals.length) {
         bestVal = row.best === 'low' ? Math.min.apply(null, numericVals) : Math.max.apply(null, numericVals);
       }
+      if (!row.raw && bestVal != null && numericVals.length > 1 &&
+          numericVals.filter(function (v) { return v === bestVal; }).length > 1) tiedRows++;
       vals.forEach(function (v, idx) {
         var isBest = !row.raw && bestVal != null && v === bestVal && numericVals.length > 1;
         if (isBest) winsByIdx[idx]++;
@@ -938,7 +945,7 @@
     // F13: render Overall winner verdict above the table. Picks the
     // jurisdiction with the most per-dimension wins. Ties broken by
     // active-target composite score.
-    _renderVerdict(records, winsByIdx);
+    _renderVerdict(records, winsByIdx, tiedRows);
 
     // Wire remove buttons
     Array.from($('cmpHeadRow').querySelectorAll('.cmp-rmBtn')).forEach(function (btn) {

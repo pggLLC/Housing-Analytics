@@ -57,6 +57,24 @@ awards = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(awards)
 
 OUT = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_lihtc-applications.json')
+# The public site cannot read OUT (data/jurisdiction-briefs is blocked from the
+# public build), so the applicant-report counts the LIHTC guide's round-odds
+# line needs go to a small public file: one row per CHFA report, no projects.
+PUBLIC_COUNTS = os.path.join(ROOT, 'data', 'policy', 'funding-awards', 'applicant-report-counts.json')
+PUBLIC_COUNT_KEYS = ('round_label', 'credit_type', 'status', 'rows', 'as_of', 'url')
+
+
+def public_counts(meta: dict) -> dict:
+    return {
+        'meta': {
+            'generated_at': meta.get('generated_at'),
+            'generator': 'scripts/funding/build_lihtc_applications.py',
+            'source': meta.get('source'),
+            'note': ('Rows per CHFA Applicant Report, as CHFA publishes them. A report counts only when '
+                     'its rows add up to the totals it prints (status ok). No project or contact fields.'),
+            'documents': [{k: d[k] for k in PUBLIC_COUNT_KEYS if k in d} for d in meta.get('documents', [])],
+        }
+    }
 # Applications left out on purpose, by sha256 of "<normalized name>|<normalized
 # city>", so the file does not itself name them.
 EXCLUDED = os.path.join(ROOT, 'data', 'jurisdiction-briefs', '_lihtc-applications-excluded.json')
@@ -883,6 +901,9 @@ def main() -> int:
     }
     with open(OUT, 'w') as fh:
         json.dump({'meta': meta, 'applications': apps}, fh, indent=1, ensure_ascii=False)
+        fh.write('\n')
+    with open(PUBLIC_COUNTS, 'w') as fh:
+        json.dump(public_counts(meta), fh, indent=1, ensure_ascii=False)
         fh.write('\n')
     return 0
 
