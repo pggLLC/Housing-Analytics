@@ -1029,6 +1029,7 @@ def compute_metrics(
     Returns a metrics dict with:
       housing_gap_units          int   — rental gap at 30% AMI (renter HH vs affordable units)
       ami_gap_50pct              int   — unit deficit at or below 50% AMI (cumulative; includes the ≤30% households)
+      ami_gap_80pct              int   — unit deficit at or below 80% AMI (cumulative; feeds the HNA export, not ranked)
       ami_gap_60pct              int   — unit deficit at or below 60% AMI (cumulative; never add the tiers)
       pct_cost_burdened          float — % renters paying ≥30% of income (CHAS or ACS fallback)
       pct_burdened_lte30         float — CHAS: % of ≤30% AMI renters that are cost-burdened
@@ -1257,6 +1258,7 @@ def compute_metrics(
     ami_gap_30 = 0
     ami_gap_50 = 0
     ami_gap_60 = 0
+    ami_gap_80 = 0
     low_income_households_lte30 = 0
     missing_ami_tiers: list[str] = []
     ami_gap_source = "none"  # one of: none, place_acs_direct, county_direct, county_proportional
@@ -1285,6 +1287,7 @@ def compute_metrics(
         housing_gap_units = _place_gap_abs("30")
         ami_gap_50 = _place_gap_abs("50")
         ami_gap_60 = _place_gap_abs("60")
+        ami_gap_80 = _place_gap_abs("80")
         ami_gap_30 = housing_gap_units
         ami_gap_source = "place_acs_direct"
 
@@ -1310,6 +1313,7 @@ def compute_metrics(
         county_gap_30 = _county_gap_abs("30")
         county_gap_50 = _county_gap_abs("50")
         county_gap_60 = _county_gap_abs("60")
+        county_gap_80 = _county_gap_abs("80")
         county_low_income_lte30 = int(safe_float(
             county_data.get("households_le_ami_pct", {}).get("30", 0)
         ))
@@ -1318,6 +1322,7 @@ def compute_metrics(
             housing_gap_units = county_gap_30
             ami_gap_50 = county_gap_50
             ami_gap_60 = county_gap_60
+            ami_gap_80 = county_gap_80
             low_income_households_lte30 = county_low_income_lte30
             ami_gap_source = "county_direct"
         else:
@@ -1336,6 +1341,7 @@ def compute_metrics(
             housing_gap_units = int(county_gap_30 * share)
             ami_gap_50 = int(county_gap_50 * share)
             ami_gap_60 = int(county_gap_60 * share)
+            ami_gap_80 = int(county_gap_80 * share)
             low_income_households_lte30 = int(county_low_income_lte30 * share)
             ami_gap_source = "county_proportional"
         ami_gap_30 = housing_gap_units
@@ -1802,6 +1808,7 @@ def compute_metrics(
                 "ami_gap_30pct",
                 "ami_gap_50pct",
                 "ami_gap_60pct",
+                "ami_gap_80pct",
                 "missing_ami_tiers",
             ])
         if chas_source != "place":
@@ -1917,6 +1924,7 @@ def compute_metrics(
         "ami_gap_30pct": ami_gap_30,
         "ami_gap_50pct": ami_gap_50,
         "ami_gap_60pct": ami_gap_60,
+        "ami_gap_80pct": ami_gap_80,
         "pct_burdened_lte30": pct_burdened_lte30,
         "pct_burdened_31to50": pct_burdened_31to50,
         "pct_burdened_51to80": pct_burdened_51to80,
@@ -2160,6 +2168,7 @@ def build(out_path: str | None = None) -> None:
                 "ami_gap_30pct": 0,
                 "ami_gap_50pct": 0,
                 "ami_gap_60pct": 0,
+                "ami_gap_80pct": 0,
                 "pct_burdened_lte30": None,
                 "pct_burdened_31to50": None,
                 "pct_burdened_51to80": None,
