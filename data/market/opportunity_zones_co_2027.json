@@ -1,0 +1,961 @@
+{
+  "meta": {
+    "title": "Colorado Qualified Opportunity Zones designated for the 2027 round",
+    "source": "U.S. Treasury final designations, via the CDFI Fund Opportunity Zones page (spreadsheet sheet final_oz2_designations, Colorado rows)",
+    "source_url": "https://www.cdfifund.gov/media/8018881/download?inline",
+    "url": "https://www.cdfifund.gov/opportunity-zones",
+    "related_source_urls": [
+      "https://home.treasury.gov/news/press-releases/sb0682/",
+      "https://home.treasury.gov/policy-issues/tax-policy/data-transparency/qualified-opportunity-zones",
+      "https://www.irs.gov/irb/2026-20_IRB"
+    ],
+    "source_quote": "Update November 5, 2026: Treasury has designated the list of Qualified Opportunity Zones for 2026.",
+    "designated_on": "2026-11-05",
+    "effective_date": "2027-01-01",
+    "retrieved": "2026-11-10",
+    "last_verified": "2026-11-10",
+    "review_by": "2027-01-15",
+    "tract_count": 91,
+    "rural_count": 28,
+    "county_count": 32,
+    "zones_2018_count": 126,
+    "same_tract_number_as_2018": 37,
+    "geometry": null,
+    "notes": [
+      "The new zones run January 1, 2027 through December 31, 2036 (IRS IRB 2026-20: \"the QOZ designation period begins on January 1, 2027, and ends on December 31, 2036.\"). The 2018 zones in data/market/opportunity_zones_co.geojson stay designated through December 31, 2028, so both sets are in force in 2027 and 2028.",
+      "Treasury lists tract numbers only. No boundaries are drawn yet, so the maps still show the 2018 zones.",
+      "2018 zones use 2010 census tract numbers. same_tract_number_as_2018 counts matching numbers only. A matching number does not prove the boundaries are identical, and a non-matching number does not prove the area dropped out.",
+      "Rural follows Treasury's 'Rural QOZ' column. Rural Qualified Opportunity Fund investments get the 30% five-year basis step-up under P.L. 119-21 section 70421."
+    ],
+    "designation_period": "2027-01-01 to 2036-12-31"
+  },
+  "by_county": [
+    {
+      "county_fips": "08001",
+      "county": "Adams County",
+      "zones_2018": 9,
+      "zones_2027": 14
+    },
+    {
+      "county_fips": "08003",
+      "county": "Alamosa County",
+      "zones_2018": 3,
+      "zones_2027": 2
+    },
+    {
+      "county_fips": "08005",
+      "county": "Arapahoe County",
+      "zones_2018": 9,
+      "zones_2027": 7
+    },
+    {
+      "county_fips": "08007",
+      "county": "Archuleta County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08009",
+      "county": "Baca County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08011",
+      "county": "Bent County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08013",
+      "county": "Boulder County",
+      "zones_2018": 4,
+      "zones_2027": 2
+    },
+    {
+      "county_fips": "08015",
+      "county": "Chaffee County",
+      "zones_2018": 2,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08017",
+      "county": "Cheyenne County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08019",
+      "county": "Clear Creek County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08023",
+      "county": "Costilla County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08025",
+      "county": "Crowley County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08029",
+      "county": "Delta County",
+      "zones_2018": 3,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08031",
+      "county": "Denver County",
+      "zones_2018": 10,
+      "zones_2027": 13
+    },
+    {
+      "county_fips": "08033",
+      "county": "Dolores County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08037",
+      "county": "Eagle County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08041",
+      "county": "El Paso County",
+      "zones_2018": 8,
+      "zones_2027": 8
+    },
+    {
+      "county_fips": "08043",
+      "county": "Fremont County",
+      "zones_2018": 3,
+      "zones_2027": 2
+    },
+    {
+      "county_fips": "08045",
+      "county": "Garfield County",
+      "zones_2018": 3,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08051",
+      "county": "Gunnison County",
+      "zones_2018": 1,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08055",
+      "county": "Huerfano County",
+      "zones_2018": 1,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08059",
+      "county": "Jefferson County",
+      "zones_2018": 5,
+      "zones_2027": 5
+    },
+    {
+      "county_fips": "08063",
+      "county": "Kit Carson County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08065",
+      "county": "Lake County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08067",
+      "county": "La Plata County",
+      "zones_2018": 2,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08069",
+      "county": "Larimer County",
+      "zones_2018": 4,
+      "zones_2027": 4
+    },
+    {
+      "county_fips": "08071",
+      "county": "Las Animas County",
+      "zones_2018": 3,
+      "zones_2027": 2
+    },
+    {
+      "county_fips": "08073",
+      "county": "Lincoln County",
+      "zones_2018": 1,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08075",
+      "county": "Logan County",
+      "zones_2018": 3,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08077",
+      "county": "Mesa County",
+      "zones_2018": 7,
+      "zones_2027": 3
+    },
+    {
+      "county_fips": "08079",
+      "county": "Mineral County",
+      "zones_2018": 0,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08081",
+      "county": "Moffat County",
+      "zones_2018": 1,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08083",
+      "county": "Montezuma County",
+      "zones_2018": 1,
+      "zones_2027": 2
+    },
+    {
+      "county_fips": "08085",
+      "county": "Montrose County",
+      "zones_2018": 4,
+      "zones_2027": 2
+    },
+    {
+      "county_fips": "08087",
+      "county": "Morgan County",
+      "zones_2018": 2,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08089",
+      "county": "Otero County",
+      "zones_2018": 2,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08095",
+      "county": "Phillips County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08099",
+      "county": "Prowers County",
+      "zones_2018": 3,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08101",
+      "county": "Pueblo County",
+      "zones_2018": 9,
+      "zones_2027": 5
+    },
+    {
+      "county_fips": "08103",
+      "county": "Rio Blanco County",
+      "zones_2018": 1,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08105",
+      "county": "Rio Grande County",
+      "zones_2018": 1,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08109",
+      "county": "Saguache County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08111",
+      "county": "San Juan County",
+      "zones_2018": 1,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08113",
+      "county": "San Miguel County",
+      "zones_2018": 1,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08115",
+      "county": "Sedgwick County",
+      "zones_2018": 0,
+      "zones_2027": 1
+    },
+    {
+      "county_fips": "08121",
+      "county": "Washington County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08123",
+      "county": "Weld County",
+      "zones_2018": 4,
+      "zones_2027": 3
+    },
+    {
+      "county_fips": "08125",
+      "county": "Yuma County",
+      "zones_2018": 1,
+      "zones_2027": 0
+    }
+  ],
+  "tracts": [
+    {
+      "geoid": "08001007801",
+      "qozid": "N08001007801-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08001007802",
+      "qozid": "N08001007802-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08001007900",
+      "qozid": "N08001007900-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08001008100",
+      "qozid": "N08001008100-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08001008309",
+      "qozid": "N08001008309-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08001008706",
+      "qozid": "N08001008706-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08001009202",
+      "qozid": "N08001009202-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08001009309",
+      "qozid": "N08001009309-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08001009320",
+      "qozid": "N08001009320-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08001009321",
+      "qozid": "N08001009321-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08001009604",
+      "qozid": "N08001009604-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08001009606",
+      "qozid": "N08001009606-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08001009751",
+      "qozid": "N08001009751-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08001015000",
+      "qozid": "N08001015000-27",
+      "county_fips": "08001",
+      "county": "Adams County",
+      "rural": false
+    },
+    {
+      "geoid": "08003960201",
+      "qozid": "R08003960201-27",
+      "county_fips": "08003",
+      "county": "Alamosa County",
+      "rural": true
+    },
+    {
+      "geoid": "08003960300",
+      "qozid": "R08003960300-27",
+      "county_fips": "08003",
+      "county": "Alamosa County",
+      "rural": true
+    },
+    {
+      "geoid": "08005005552",
+      "qozid": "N08005005552-27",
+      "county_fips": "08005",
+      "county": "Arapahoe County",
+      "rural": false
+    },
+    {
+      "geoid": "08005005702",
+      "qozid": "N08005005702-27",
+      "county_fips": "08005",
+      "county": "Arapahoe County",
+      "rural": false
+    },
+    {
+      "geoid": "08005006501",
+      "qozid": "N08005006501-27",
+      "county_fips": "08005",
+      "county": "Arapahoe County",
+      "rural": false
+    },
+    {
+      "geoid": "08005007202",
+      "qozid": "N08005007202-27",
+      "county_fips": "08005",
+      "county": "Arapahoe County",
+      "rural": false
+    },
+    {
+      "geoid": "08005007302",
+      "qozid": "N08005007302-27",
+      "county_fips": "08005",
+      "county": "Arapahoe County",
+      "rural": false
+    },
+    {
+      "geoid": "08005081101",
+      "qozid": "N08005081101-27",
+      "county_fips": "08005",
+      "county": "Arapahoe County",
+      "rural": false
+    },
+    {
+      "geoid": "08005082000",
+      "qozid": "N08005082000-27",
+      "county_fips": "08005",
+      "county": "Arapahoe County",
+      "rural": false
+    },
+    {
+      "geoid": "08013013401",
+      "qozid": "N08013013401-27",
+      "county_fips": "08013",
+      "county": "Boulder County",
+      "rural": false
+    },
+    {
+      "geoid": "08013060802",
+      "qozid": "N08013060802-27",
+      "county_fips": "08013",
+      "county": "Boulder County",
+      "rural": false
+    },
+    {
+      "geoid": "08015000100",
+      "qozid": "R08015000100-27",
+      "county_fips": "08015",
+      "county": "Chaffee County",
+      "rural": true
+    },
+    {
+      "geoid": "08029964800",
+      "qozid": "R08029964800-27",
+      "county_fips": "08029",
+      "county": "Delta County",
+      "rural": true
+    },
+    {
+      "geoid": "08031000705",
+      "qozid": "N08031000705-27",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "rural": false
+    },
+    {
+      "geoid": "08031000800",
+      "qozid": "N08031000800-27",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "rural": false
+    },
+    {
+      "geoid": "08031001000",
+      "qozid": "N08031001000-27",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "rural": false
+    },
+    {
+      "geoid": "08031001302",
+      "qozid": "N08031001302-27",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "rural": false
+    },
+    {
+      "geoid": "08031001500",
+      "qozid": "N08031001500-27",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "rural": false
+    },
+    {
+      "geoid": "08031001901",
+      "qozid": "N08031001901-27",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "rural": false
+    },
+    {
+      "geoid": "08031003501",
+      "qozid": "N08031003501-27",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "rural": false
+    },
+    {
+      "geoid": "08031003502",
+      "qozid": "N08031003502-27",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "rural": false
+    },
+    {
+      "geoid": "08031004101",
+      "qozid": "N08031004101-27",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "rural": false
+    },
+    {
+      "geoid": "08031004404",
+      "qozid": "N08031004404-27",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "rural": false
+    },
+    {
+      "geoid": "08031004503",
+      "qozid": "N08031004503-27",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "rural": false
+    },
+    {
+      "geoid": "08031004505",
+      "qozid": "N08031004505-27",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "rural": false
+    },
+    {
+      "geoid": "08031015800",
+      "qozid": "N08031015800-27",
+      "county_fips": "08031",
+      "county": "Denver County",
+      "rural": false
+    },
+    {
+      "geoid": "08041000302",
+      "qozid": "N08041000302-27",
+      "county_fips": "08041",
+      "county": "El Paso County",
+      "rural": false
+    },
+    {
+      "geoid": "08041002102",
+      "qozid": "N08041002102-27",
+      "county_fips": "08041",
+      "county": "El Paso County",
+      "rural": false
+    },
+    {
+      "geoid": "08041002300",
+      "qozid": "N08041002300-27",
+      "county_fips": "08041",
+      "county": "El Paso County",
+      "rural": false
+    },
+    {
+      "geoid": "08041002901",
+      "qozid": "N08041002901-27",
+      "county_fips": "08041",
+      "county": "El Paso County",
+      "rural": false
+    },
+    {
+      "geoid": "08041003001",
+      "qozid": "N08041003001-27",
+      "county_fips": "08041",
+      "county": "El Paso County",
+      "rural": false
+    },
+    {
+      "geoid": "08041004501",
+      "qozid": "N08041004501-27",
+      "county_fips": "08041",
+      "county": "El Paso County",
+      "rural": false
+    },
+    {
+      "geoid": "08041004513",
+      "qozid": "N08041004513-27",
+      "county_fips": "08041",
+      "county": "El Paso County",
+      "rural": false
+    },
+    {
+      "geoid": "08041005000",
+      "qozid": "N08041005000-27",
+      "county_fips": "08041",
+      "county": "El Paso County",
+      "rural": false
+    },
+    {
+      "geoid": "08043978200",
+      "qozid": "R08043978200-27",
+      "county_fips": "08043",
+      "county": "Fremont County",
+      "rural": true
+    },
+    {
+      "geoid": "08043978300",
+      "qozid": "R08043978300-27",
+      "county_fips": "08043",
+      "county": "Fremont County",
+      "rural": true
+    },
+    {
+      "geoid": "08045952100",
+      "qozid": "R08045952100-27",
+      "county_fips": "08045",
+      "county": "Garfield County",
+      "rural": true
+    },
+    {
+      "geoid": "08051963702",
+      "qozid": "R08051963702-27",
+      "county_fips": "08051",
+      "county": "Gunnison County",
+      "rural": true
+    },
+    {
+      "geoid": "08055960902",
+      "qozid": "R08055960902-27",
+      "county_fips": "08055",
+      "county": "Huerfano County",
+      "rural": true
+    },
+    {
+      "geoid": "08059009856",
+      "qozid": "N08059009856-27",
+      "county_fips": "08059",
+      "county": "Jefferson County",
+      "rural": false
+    },
+    {
+      "geoid": "08059010100",
+      "qozid": "N08059010100-27",
+      "county_fips": "08059",
+      "county": "Jefferson County",
+      "rural": false
+    },
+    {
+      "geoid": "08059010406",
+      "qozid": "N08059010406-27",
+      "county_fips": "08059",
+      "county": "Jefferson County",
+      "rural": false
+    },
+    {
+      "geoid": "08059010902",
+      "qozid": "N08059010902-27",
+      "county_fips": "08059",
+      "county": "Jefferson County",
+      "rural": false
+    },
+    {
+      "geoid": "08059011552",
+      "qozid": "N08059011552-27",
+      "county_fips": "08059",
+      "county": "Jefferson County",
+      "rural": false
+    },
+    {
+      "geoid": "08069000100",
+      "qozid": "N08069000100-27",
+      "county_fips": "08069",
+      "county": "Larimer County",
+      "rural": false
+    },
+    {
+      "geoid": "08069001304",
+      "qozid": "N08069001304-27",
+      "county_fips": "08069",
+      "county": "Larimer County",
+      "rural": false
+    },
+    {
+      "geoid": "08069001305",
+      "qozid": "N08069001305-27",
+      "county_fips": "08069",
+      "county": "Larimer County",
+      "rural": false
+    },
+    {
+      "geoid": "08069001306",
+      "qozid": "N08069001306-27",
+      "county_fips": "08069",
+      "county": "Larimer County",
+      "rural": false
+    },
+    {
+      "geoid": "08071000300",
+      "qozid": "R08071000300-27",
+      "county_fips": "08071",
+      "county": "Las Animas County",
+      "rural": true
+    },
+    {
+      "geoid": "08071000400",
+      "qozid": "R08071000400-27",
+      "county_fips": "08071",
+      "county": "Las Animas County",
+      "rural": true
+    },
+    {
+      "geoid": "08073961800",
+      "qozid": "R08073961800-27",
+      "county_fips": "08073",
+      "county": "Lincoln County",
+      "rural": true
+    },
+    {
+      "geoid": "08075966200",
+      "qozid": "R08075966200-27",
+      "county_fips": "08075",
+      "county": "Logan County",
+      "rural": true
+    },
+    {
+      "geoid": "08077000400",
+      "qozid": "N08077000400-27",
+      "county_fips": "08077",
+      "county": "Mesa County",
+      "rural": false
+    },
+    {
+      "geoid": "08077000700",
+      "qozid": "N08077000700-27",
+      "county_fips": "08077",
+      "county": "Mesa County",
+      "rural": false
+    },
+    {
+      "geoid": "08077001705",
+      "qozid": "N08077001705-27",
+      "county_fips": "08077",
+      "county": "Mesa County",
+      "rural": false
+    },
+    {
+      "geoid": "08079973600",
+      "qozid": "R08079973600-27",
+      "county_fips": "08079",
+      "county": "Mineral County",
+      "rural": true
+    },
+    {
+      "geoid": "08081000400",
+      "qozid": "R08081000400-27",
+      "county_fips": "08081",
+      "county": "Moffat County",
+      "rural": true
+    },
+    {
+      "geoid": "08083969400",
+      "qozid": "R08083969400-27",
+      "county_fips": "08083",
+      "county": "Montezuma County",
+      "rural": true
+    },
+    {
+      "geoid": "08083969600",
+      "qozid": "R08083969600-27",
+      "county_fips": "08083",
+      "county": "Montezuma County",
+      "rural": true
+    },
+    {
+      "geoid": "08085966100",
+      "qozid": "R08085966100-27",
+      "county_fips": "08085",
+      "county": "Montrose County",
+      "rural": true
+    },
+    {
+      "geoid": "08085966601",
+      "qozid": "R08085966601-27",
+      "county_fips": "08085",
+      "county": "Montrose County",
+      "rural": true
+    },
+    {
+      "geoid": "08087000600",
+      "qozid": "R08087000600-27",
+      "county_fips": "08087",
+      "county": "Morgan County",
+      "rural": true
+    },
+    {
+      "geoid": "08089968600",
+      "qozid": "R08089968600-27",
+      "county_fips": "08089",
+      "county": "Otero County",
+      "rural": true
+    },
+    {
+      "geoid": "08099000200",
+      "qozid": "R08099000200-27",
+      "county_fips": "08099",
+      "county": "Prowers County",
+      "rural": true
+    },
+    {
+      "geoid": "08101000800",
+      "qozid": "N08101000800-27",
+      "county_fips": "08101",
+      "county": "Pueblo County",
+      "rural": false
+    },
+    {
+      "geoid": "08101000903",
+      "qozid": "N08101000903-27",
+      "county_fips": "08101",
+      "county": "Pueblo County",
+      "rural": false
+    },
+    {
+      "geoid": "08101002100",
+      "qozid": "N08101002100-27",
+      "county_fips": "08101",
+      "county": "Pueblo County",
+      "rural": false
+    },
+    {
+      "geoid": "08101003103",
+      "qozid": "N08101003103-27",
+      "county_fips": "08101",
+      "county": "Pueblo County",
+      "rural": false
+    },
+    {
+      "geoid": "08101003500",
+      "qozid": "N08101003500-27",
+      "county_fips": "08101",
+      "county": "Pueblo County",
+      "rural": false
+    },
+    {
+      "geoid": "08103951200",
+      "qozid": "R08103951200-27",
+      "county_fips": "08103",
+      "county": "Rio Blanco County",
+      "rural": true
+    },
+    {
+      "geoid": "08105976700",
+      "qozid": "R08105976700-27",
+      "county_fips": "08105",
+      "county": "Rio Grande County",
+      "rural": true
+    },
+    {
+      "geoid": "08111972600",
+      "qozid": "R08111972600-27",
+      "county_fips": "08111",
+      "county": "San Juan County",
+      "rural": true
+    },
+    {
+      "geoid": "08113968200",
+      "qozid": "R08113968200-27",
+      "county_fips": "08113",
+      "county": "San Miguel County",
+      "rural": true
+    },
+    {
+      "geoid": "08115968300",
+      "qozid": "R08115968300-27",
+      "county_fips": "08115",
+      "county": "Sedgwick County",
+      "rural": true
+    },
+    {
+      "geoid": "08123000100",
+      "qozid": "N08123000100-27",
+      "county_fips": "08123",
+      "county": "Weld County",
+      "rural": false
+    },
+    {
+      "geoid": "08123000701",
+      "qozid": "N08123000701-27",
+      "county_fips": "08123",
+      "county": "Weld County",
+      "rural": false
+    },
+    {
+      "geoid": "08123001911",
+      "qozid": "R08123001911-27",
+      "county_fips": "08123",
+      "county": "Weld County",
+      "rural": true
+    }
+  ]
+}

@@ -302,7 +302,7 @@
         'requires complex dual-structure legal arrangements.' +
       '</p>' +
       '<p style="font-size:.8125rem;color:var(--muted);margin:0;line-height:1.4;">' +
-        '<strong>Note:</strong> The current 2018 OZ layer runs through 12/31/2028; OZ 2.0 creates decennial designation rounds. ' +
+        '<strong>Note:</strong> The current 2018 OZ layer runs through 12/31/2028. The U.S. Treasury designated the next round (91 Colorado tracts) on Nov 5, 2026, for Jan 1, 2027 to Dec 31, 2036; check whether this site is in it. ' +
         'Rural sites may warrant QROF review under Public Law 119-21 §70421. Consult specialized OZ legal counsel before structuring; OZ equity is market-dependent and not a guaranteed source.' +
       '</p>';
     mount.hidden = false;

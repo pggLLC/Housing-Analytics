@@ -30,6 +30,7 @@ const JSON_COUNT_PATHS = {
   'ntd-transit-co': 'features',
   'transit-stops-statewide-co': 'features',
   'epa-cleanup-co': ['superfundSites', 'brownfieldSites'],
+  'treasury-opportunity-zones-2027': 'tracts',
   'lihtc-trends-county': 'counties',
   'co-historical-allocations': 'allocations',
   'prop123-jurisdictions': 'jurisdictions',

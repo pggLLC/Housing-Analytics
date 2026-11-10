@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-03",
+  "lastUpdated": "2026-11-10",
   "vintage": "2026-Q4",
   "note": "Program terms checked against the cited official pages on 2026-10-09; 18 records rechecked 2026-10-26 and CEO-IRA-HOME-ENERGY-REBATES on 2026-11-03 (see each last_verified). Status 'retired' marks a legacy label no official page establishes, kept so older saved deals still resolve; 'see' names the real program. Null means unpublished, ambiguous or unverified, as explained by source_note. review_by is an internal quarterly review reminder, not a program deadline. Published caps and historical allocations are not available balances.",
   "programs": {
@@ -489,7 +489,7 @@
       "description": "Qualified Opportunity Zone (QOZ) capital gains deferral incentive under IRC §1400Z-2. Projects in designated OZ census tracts can attract equity from investors seeking capital gains tax deferral. Can be layered with LIHTC but complex structuring required. Not a direct funding program — availability depends on investor market.",
       "contactUrl": "https://www.cdfifund.gov/opportunity-zones",
       "adminEntity": "IRS/CDFI",
-      "note": "2018 OZ designations remain relevant through 12/31/2028; OZ 2.0 creates decennial designation rounds beginning with the 2026-07-01 determination date. Rural sites should diligence whether a Qualified Rural Opportunity Fund structure applies; Public Law 119-21 §70421 adds a 30% five-year basis step-up for qualifying rural QROF investments. Projects must be in designated OZ tracts (see QCT/DDA overlay).",
+      "note": "2018 OZ designations remain relevant through 12/31/2028; OZ 2.0 creates decennial designation rounds beginning with the 2026-07-01 determination date. Treasury designated the first new round on 2026-11-05 (91 Colorado tracts, 28 rural), in effect 2027-01-01 to 2036-12-31. Rural sites should diligence whether a Qualified Rural Opportunity Fund structure applies; Public Law 119-21 §70421 adds a 30% five-year basis step-up for qualifying rural QROF investments. Projects must be in designated OZ tracts (see QCT/DDA overlay).",
       "isMarketSource": true,
       "status": "VERIFY",
       "restrictions": [],
@@ -499,8 +499,8 @@
       "repayment": null,
       "max_rule": null,
       "source_url": "https://www.cdfifund.gov/opportunity-zones",
-      "source_note": "The CDFI page describes the Opportunity Zone designation and investor tax incentive. It does not state a universal investor interest rate, loan term, repayment schedule, project cap or available balance. Those terms depend on private investment agreements; a blank does not mean free capital.",
-      "last_verified": "2026-10-09",
+      "source_note": "The CDFI page describes the Opportunity Zone designation and investor tax incentive. It does not state a universal investor interest rate, loan term, repayment schedule, project cap or available balance. Those terms depend on private investment agreements; a blank does not mean free capital. Page re-read 2026-11-10: \"Update November 5, 2026: Treasury has designated the list of Qualified Opportunity Zones for 2026.\"",
+      "last_verified": "2026-11-10",
       "review_by": "2027-01-09"
     },
     "NMTC-CO": {

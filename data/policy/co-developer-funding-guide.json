@@ -2,7 +2,7 @@
   "meta": {
     "title": "Colorado developer funding resources",
     "as_of": "2026-10-10",
-    "last_checked": "2026-10-28",
+    "last_checked": "2026-11-10",
     "review_by": "2027-01-15",
     "scope": "Programs that finance affordable rental and for-sale housing development in Colorado: federal and state tax credits, CHFA loans, Proposition 123 funds, Division of Housing funds, federal and agency debt and grants, rental assistance, the largest city funds, and the state and federal programs that pay for public infrastructure serving housing sites.",
     "method": "Every term was read from the administrator's own page, the statute, eCFR, IRS, Federal Register (govinfo) or the CHFA QAP on the date in last_checked, and each one carries a verbatim quote and its URL in evidence. A term the official source does not publish is null and listed in unverified with the reason. Nothing is filled from memory or from third-party summaries.",
@@ -1507,7 +1507,7 @@
       "application_cycle": "Treasury opened the new designation cycle on July 1, 2026; governors nominate tracts. Current (2018) zones expire December 31, 2028.",
       "key_considerations": [
         "P.L. 119-21 (signed July 4, 2025) made zone designation recurring every ten years instead of a one-time program.",
-        "Colorado's 2027 zone map depends on the Governor's nominations under Rev. Proc. 2026-14; existing zones remain until the end of 2028.",
+        "Treasury designated the 2027 zones on November 5, 2026: 91 Colorado tracts, 28 of them rural (CDFI Fund list; COHO copy in data/market/opportunity_zones_co_2027.json). Existing 2018 zones remain until the end of 2028, so both sets apply in 2027 and 2028.",
         "Rural funds get a larger basis step-up (30%) under the amended law.",
         "OZ equity can combine with LIHTC, but neither program restricts rents by itself.",
         "IRS has issued 2026 transitional guidance (Notice 2026-40), proposed reporting and fund-certification regulations (REG-116506-25), and a request for more comments (Notice 2026-55); check them before structuring an OZ investment."
@@ -1577,6 +1577,11 @@
         },
         {
           "field": "key_considerations",
+          "quote": "Treasury has designated the list of Qualified Opportunity Zones for 2026.",
+          "url": "https://www.cdfifund.gov/opportunity-zones"
+        },
+        {
+          "field": "key_considerations",
           "quote": "Notice 2026-40 - Transitional Guidance on Qualified Opportunity Zones",
           "url": "https://www.irs.gov/credits-deductions/businesses/opportunity-zones"
         },
@@ -1600,7 +1605,7 @@
           "reason": "Not applicable."
         }
       ],
-      "last_checked": "2026-10-26",
+      "last_checked": "2026-11-10",
       "fit": {
         "role": "capital",
         "execution": [
