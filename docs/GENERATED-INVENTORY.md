@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-09T16:36:12.599Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-10T01:51:23.870Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.7 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 47.6 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.1 KB |
-| `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 23.1 KB |
+| `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 23.2 KB |
 | `article-federal-rule-changes.html` | Federal Rule Changes That Would Help Affordable Housing | COHO Analytics | 86.1 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 17.3 KB |
@@ -92,7 +92,7 @@
 | `state-allocation-map.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `sunday-digest.html` | Sunday Digest | COHO Analytics | 4.2 KB |
 | `terms-of-use.html` | Terms of Use | COHO Analytics | 5.4 KB |
-| `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 3.3 KB |
+| `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 3.4 KB |
 | `working-paper.html` | Instrumenting Housing Need | COHO Analytics | 77.2 KB |
 
 ---
@@ -325,7 +325,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 302.8 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 303.3 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.5 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
