@@ -25,7 +25,8 @@
       "The new zones run January 1, 2027 through December 31, 2036 (IRS IRB 2026-20: \"the QOZ designation period begins on January 1, 2027, and ends on December 31, 2036.\"). The 2018 zones in data/market/opportunity_zones_co.geojson stay designated through December 31, 2028, so both sets are in force in 2027 and 2028.",
       "Treasury lists tract numbers only. No boundaries are drawn yet, so the maps still show the 2018 zones.",
       "2018 zones use 2010 census tract numbers. same_tract_number_as_2018 counts matching numbers only. A matching number does not prove the boundaries are identical, and a non-matching number does not prove the area dropped out.",
-      "Rural follows Treasury's 'Rural QOZ' column. Rural Qualified Opportunity Fund investments get the 30% five-year basis step-up under P.L. 119-21 section 70421."
+      "Rural follows Treasury's 'Rural QOZ' column. Rural Qualified Opportunity Fund investments get the 30% five-year basis step-up under P.L. 119-21 section 70421.",
+      "by_county lists all 64 Colorado counties. county_count (32) counts counties with at least one 2027 zone; 16 counties have no zone in either round and carry 0 for both."
     ],
     "designation_period": "2027-01-01 to 2036-12-31"
   },
@@ -73,6 +74,12 @@
       "zones_2027": 2
     },
     {
+      "county_fips": "08014",
+      "county": "Broomfield County",
+      "zones_2018": 0,
+      "zones_2027": 0
+    },
+    {
       "county_fips": "08015",
       "county": "Chaffee County",
       "zones_2018": 2,
@@ -91,6 +98,12 @@
       "zones_2027": 0
     },
     {
+      "county_fips": "08021",
+      "county": "Conejos County",
+      "zones_2018": 0,
+      "zones_2027": 0
+    },
+    {
       "county_fips": "08023",
       "county": "Costilla County",
       "zones_2018": 1,
@@ -100,6 +113,12 @@
       "county_fips": "08025",
       "county": "Crowley County",
       "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08027",
+      "county": "Custer County",
+      "zones_2018": 0,
       "zones_2027": 0
     },
     {
@@ -121,9 +140,21 @@
       "zones_2027": 0
     },
     {
+      "county_fips": "08035",
+      "county": "Douglas County",
+      "zones_2018": 0,
+      "zones_2027": 0
+    },
+    {
       "county_fips": "08037",
       "county": "Eagle County",
       "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08039",
+      "county": "Elbert County",
+      "zones_2018": 0,
       "zones_2027": 0
     },
     {
@@ -145,10 +176,28 @@
       "zones_2027": 1
     },
     {
+      "county_fips": "08047",
+      "county": "Gilpin County",
+      "zones_2018": 0,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08049",
+      "county": "Grand County",
+      "zones_2018": 0,
+      "zones_2027": 0
+    },
+    {
       "county_fips": "08051",
       "county": "Gunnison County",
       "zones_2018": 1,
       "zones_2027": 1
+    },
+    {
+      "county_fips": "08053",
+      "county": "Hinsdale County",
+      "zones_2018": 0,
+      "zones_2027": 0
     },
     {
       "county_fips": "08055",
@@ -157,10 +206,22 @@
       "zones_2027": 1
     },
     {
+      "county_fips": "08057",
+      "county": "Jackson County",
+      "zones_2018": 0,
+      "zones_2027": 0
+    },
+    {
       "county_fips": "08059",
       "county": "Jefferson County",
       "zones_2018": 5,
       "zones_2027": 5
+    },
+    {
+      "county_fips": "08061",
+      "county": "Kiowa County",
+      "zones_2018": 0,
+      "zones_2027": 0
     },
     {
       "county_fips": "08063",
@@ -247,9 +308,27 @@
       "zones_2027": 1
     },
     {
+      "county_fips": "08091",
+      "county": "Ouray County",
+      "zones_2018": 0,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08093",
+      "county": "Park County",
+      "zones_2018": 0,
+      "zones_2027": 0
+    },
+    {
       "county_fips": "08095",
       "county": "Phillips County",
       "zones_2018": 1,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08097",
+      "county": "Pitkin County",
+      "zones_2018": 0,
       "zones_2027": 0
     },
     {
@@ -277,6 +356,12 @@
       "zones_2027": 1
     },
     {
+      "county_fips": "08107",
+      "county": "Routt County",
+      "zones_2018": 0,
+      "zones_2027": 0
+    },
+    {
       "county_fips": "08109",
       "county": "Saguache County",
       "zones_2018": 1,
@@ -299,6 +384,18 @@
       "county": "Sedgwick County",
       "zones_2018": 0,
       "zones_2027": 1
+    },
+    {
+      "county_fips": "08117",
+      "county": "Summit County",
+      "zones_2018": 0,
+      "zones_2027": 0
+    },
+    {
+      "county_fips": "08119",
+      "county": "Teller County",
+      "zones_2018": 0,
+      "zones_2027": 0
     },
     {
       "county_fips": "08121",
