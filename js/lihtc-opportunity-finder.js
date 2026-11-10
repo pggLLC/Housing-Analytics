@@ -3389,6 +3389,14 @@
     return matches.length ? matches[0] : null;
   }
 
+  // Count of 2027-round zones in a county, or null when the list did not load
+  // (null is "unknown", never zero).
+  function _countOz2027InCounty(countyFips5) {
+    var d = _redev.oz2027;
+    if (!d || !Array.isArray(d.tracts) || !countyFips5) return null;
+    return d.tracts.reduce(function (n, t) { return n + (t && t.county_fips === countyFips5 ? 1 : 0); }, 0);
+  }
+
   function _countOzTractsInCounty(countyFips5) {
     if (!_redev.oz || !_redev.oz.features || !countyFips5) return 0;
     return _redev.oz.features.reduce(function (n, f) {
@@ -3443,9 +3451,20 @@
     if (_redev._ozPromise) return _redev._ozPromise;
     _redev._ozPromise = fetch('data/market/opportunity_zones_co.geojson')
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (j) { _redev.oz = j || { features: [] }; return _redev.oz; })
-      .catch(function () { _redev.oz = { features: [] }; return _redev.oz; });
+      // Mark OZ data loaded only once the 2027 round has arrived too, so an
+      // open panel never renders without the new-round count.
+      .then(function (j) { return _ensureOz2027().then(function () { _redev.oz = j || { features: [] }; return _redev.oz; }); })
+      .catch(function () { _redev.oz = _redev.oz || { features: [] }; return _redev.oz; });
     return _redev._ozPromise;
+  }
+
+  // The small 2027-round tract list (Treasury, 2026-11-05; no geometry), so
+  // the detail panel can show both rounds. A failed load leaves null (unknown).
+  function _ensureOz2027() {
+    return fetch('data/market/opportunity_zones_co_2027.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { _redev.oz2027 = j; })
+      .catch(function () { _redev.oz2027 = null; });
   }
 
   function _loadRedevData(onArrival, opts) {
@@ -3492,6 +3511,7 @@
 
     var ura = _findUraForOp(op);
     var ozCount = _countOzTractsInCounty(countyFips5);
+    var oz2027Count = _countOz2027InCounty(countyFips5);
     var patterns = (_redev.reuse && _redev.reuse.patterns) || {};
 
     var html = '<h4 class="lof-section-h">🏗️ Downtown redevelopment opportunities</h4>' +
@@ -3535,12 +3555,23 @@
         '<strong>' + ozCount + ' designated OZ tract' + (ozCount === 1 ? '' : 's') + '</strong> in ' +
         escHtml(op.countyName || 'this county') + '. ' +
         'Property within these tracts qualifies for federal capital-gains deferral via Qualified Opportunity Fund equity — stacks with LIHTC + state credit. ' +
-        'OZ 2.0 adds decennial designation rounds, and rural sites should diligence whether the new QROF basis step-up context applies.<br>' +
-        '<a href="https://www.cdfifund.gov/opportunity-zones" target="_blank" rel="noopener" style="color:var(--brand);">HUD CDFI OZ map ↗</a>' +
+        'These are 2018 zones, designated through Dec 31, 2028. Rural sites should check whether the 30% QROF basis step-up (qualified rural opportunity fund) applies.<br>' +
+        '<a href="https://www.cdfifund.gov/opportunity-zones" target="_blank" rel="noopener" style="color:var(--brand);">CDFI Fund Opportunity Zones page ↗</a>' +
       '</div>';
     } else {
       html += '<div style="font-size:.8125rem;color:var(--muted);">' +
-        'No 2018 Opportunity Zones are designated in ' + escHtml(op.countyName || 'this county') + '. OZ 2.0 creates future decennial designation rounds; verify any post-2026 state designations before underwriting OZ equity.' +
+        'No 2018 Opportunity Zones are designated in ' + escHtml(op.countyName || 'this county') + '.' +
+      '</div>';
+    }
+    // New round: Treasury designated 91 Colorado tracts on 2026-11-05 for
+    // Jan 1, 2027 - Dec 31, 2036. Shown as a count only (no boundaries yet).
+    if (oz2027Count !== null) {
+      html += '<div style="font-size:.8125rem;line-height:1.5;margin-top:.35rem;">' +
+        '<strong>From Jan 1, 2027:</strong> ' +
+        (oz2027Count > 0
+          ? oz2027Count + ' new-round zone' + (oz2027Count === 1 ? '' : 's') + ' in ' + escHtml(op.countyName || 'this county') + '.'
+          : 'no new-round zones in ' + escHtml(op.countyName || 'this county') + '.') +
+        ' <span style="color:var(--muted);">U.S. Treasury designated 91 Colorado tracts on Nov 5, 2026. The map still shows the 2018 zones.</span>' +
       '</div>';
     }
     html += '</div>';
@@ -3599,7 +3630,7 @@
       '<a href="https://www.nps.gov/subjects/taxincentives/index.htm" target="_blank" rel="noopener" style="color:var(--brand);">Federal Historic Tax Credit ↗</a>' +
     '</div>';
     html += '<div style="font-size:.8125rem;color:var(--muted);font-style:italic;margin-top:.3rem;">' +
-      'Source: DOLA URA registry; HUD CDFI Opportunity Zones (2018 designations); adaptive-reuse reference data (CHFA + Novogradac case studies). ' +
+      'Source: DOLA URA registry; CDFI Fund Opportunity Zones (2018 designations and the 2027 round, Treasury list of Nov 5, 2026); adaptive-reuse reference data (CHFA + Novogradac case studies). ' +
       'URA active plans + TIF capacity change frequently — confirm with the URA executive director before pitching.' +
     '</div>';
 

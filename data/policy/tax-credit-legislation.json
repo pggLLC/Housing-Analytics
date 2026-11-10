@@ -347,15 +347,15 @@
       "status": "enacted",
       "effective_date": "2025-07-04",
       "sunset_date": null,
-      "pricing_impact": "Makes OZ rounds permanent (first decennial determination date 2026-07-01); rural QROF investments get a 30% five-year basis step-up. Colorado's new tracts are nominated but not yet certified by Treasury; new zones take effect 2027-01-01.",
+      "pricing_impact": "Makes OZ rounds permanent (first decennial determination date 2026-07-01); rural QROF investments get a 30% five-year basis step-up. Treasury designated Colorado's new round 2026-11-05 (91 tracts, 28 rural), for 2027-2036; 2018 zones last through 2028.",
       "source_url": "https://www.govinfo.gov/app/details/PLAW-119publ21",
       "related_source_urls": [
         "https://home.treasury.gov/policy-issues/tax-policy/data-transparency/qualified-opportunity-zones",
         "https://www.irs.gov/credits-deductions/businesses/opportunity-zones",
         "https://govmarketnews.com/colorado-opportunity-zones-2027/"
       ],
-      "source_note": "Public Law 119-21, section 70421, permanent renewal and enhancement of Opportunity Zones (section text re-read 2026-10-10). Colorado nomination count and date as reported by Government Market News on 2026-10-01; OEDIT's page refused automated access on 2026-10-10, and no Treasury certification of the new round was found that day.",
-      "last_verified": "2026-10-10",
+      "source_note": "Public Law 119-21, section 70421, permanent renewal and enhancement of Opportunity Zones (section text re-read 2026-10-10). CDFI Fund Opportunity Zones page re-read 2026-11-10: \"Update November 5, 2026: Treasury has designated the list of Qualified Opportunity Zones for 2026.\" Colorado tract count (91; 28 rural) counted from the linked Treasury spreadsheet, sheet final_oz2_designations, retrieved 2026-11-10.",
+      "last_verified": "2026-11-10",
       "review_by": "2026-12-01"
     },
     {

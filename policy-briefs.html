@@ -489,7 +489,7 @@
         : '';
       return '<article class="story' + (lead ? ' story--lead' : '') + '" data-date="' + escapeHtml(s.date) + '">' +
         '<' + tag + '>' + head + '</' + tag + '>' +
-        '<div class="story__meta">' + meta.join('') + alt + '</div>' + local + also + '</article>';
+        '<div class="story__meta">' + meta.join(' ') + ' ' + alt + '</div>' + local + also + '</article>';
     }
 
     function matches(s, skip) {

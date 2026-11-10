@@ -1470,6 +1470,24 @@
       tags: ['opportunity-zones', 'oz', 'tax-incentives', 'census-tract', 'hud', 'treasury'],
       apiEndpoint: null
     },
+    {
+      id: 'treasury-opportunity-zones-2027',
+      name: 'Opportunity Zones — Colorado, 2027 round (tract list)',
+      category: 'Policy / Tax Incentives',
+      format: 'JSON',
+      provider: 'U.S. Treasury / CDFI Fund',
+      url: 'https://www.cdfifund.gov/opportunity-zones',
+      localFile: 'data/market/opportunity_zones_co_2027.json',
+      lastUpdated: '2026-11-10',
+      updateFrequency: 'Once per decennial round (designated 2026-11-05; zones run 2027-01-01 to 2036-12-31)',
+      maxAgeDays: 365,
+      geoUnit: 'Census tract (number only, no boundaries)',
+      coverage: 'Colorado — 91 designated tracts, 28 rural',
+      features: 91,
+      description: 'Treasury\'s final list of Colorado tracts for the 2027 Opportunity Zone round, with the rural flag and a county comparison with the 2018 zones. No geometry yet, so maps keep drawing the 2018 zones.',
+      tags: ['opportunity-zones', 'oz', 'tax-incentives', 'census-tract', 'treasury'],
+      apiEndpoint: null
+    },
 
     // ── USGS National Hydrography Dataset ────────────────────────
     {
