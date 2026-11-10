@@ -28,11 +28,26 @@
       },
       "verification": {
         "level": "primary",
-        "against": "the HB26-1313 bill page (history, session-law table and enacted summary) and the session law, chapter 154",
-        "checked": "2026-10-25"
+        "against": "the HB26-1313 bill page (history, session-law table and enacted summary) and the session law, chapter 154; re-checked 2026-11-10 against DOLA's Proposition 123 2027-2029 Cycle page (https://cdola.colorado.gov/2027-2029-cycle), which matches the formula and the waiver window",
+        "checked": "2026-11-10"
       },
-      "review_by": "2026-11-09",
+      "review_by": "2027-02-08",
       "evidence": [
+        {
+          "section": "DOLA, Proposition 123 2027-2029 Cycle page (read 2026-11-10)",
+          "quote": "HB26-1313 replaces the previous baseline methodology and commitment calculation.",
+          "note": "https://cdola.colorado.gov/2027-2029-cycle"
+        },
+        {
+          "section": "DOLA, Proposition 123 2027-2029 Cycle page (read 2026-11-10)",
+          "quote": "The deadline to file a commitment is November 1, 2026.",
+          "note": "https://cdola.colorado.gov/2027-2029-cycle"
+        },
+        {
+          "section": "DOLA, Proposition 123 2027-2029 Cycle page (read 2026-11-10)",
+          "quote": "Before November 1, 2026, local governments may request a Good Faith Effort Waiver to the Division of Housing.",
+          "note": "https://cdola.colorado.gov/2027-2029-cycle"
+        },
         {
           "section": "Bill history",
           "quote": "05/26/2026 Governor Governor Signed"
