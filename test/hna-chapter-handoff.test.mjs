@@ -196,6 +196,17 @@ test('the gap part quotes HUD\'s count, and never calls a household count a shor
   }
 });
 
+// Codex on #2769: a combined area hid HUD's card but left the last place's
+// figures in its cells, and the summary quotes cells by text.
+test('a combined area resets HUD\'s cells, not just hides the card', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
+  const i = src.indexOf('function _combinedClearNonCanvasPanels');
+  const body = src.slice(i, src.indexOf('\n  }\n', i));
+  assert.ok(/renderChasAvailableShortfall\(null, null\)/.test(body), 'the combined path does not reset HUD\'s cells');
+  const fn = src.slice(src.indexOf('function renderChasAvailableShortfall'));
+  assert.ok(/vEl\.textContent = ok\(short\) \? fmt\(short\) : '—'/.test(fn), 'a missing figure is not written as a dash');
+});
+
 console.log(failures === 0
   ? '  hna-chapter-handoff: PASS'
   : `  hna-chapter-handoff: FAIL (${failures})`);

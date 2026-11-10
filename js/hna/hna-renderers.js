@@ -508,6 +508,8 @@
     fields.forEach(id => {
       if (els[id]) els[id].textContent = '—';
     });
+    // HUD's count belongs to the geography it was drawn for.
+    renderChasAvailableShortfall(null, null);
     // A margin belongs to the figure it was shown with; it goes with it.
     document.querySelectorAll('[data-acs-tier]').forEach((el) => {
       el.textContent = '—';
@@ -10125,8 +10127,10 @@
     var bar = document.getElementById('hnaGapCoverageBar');
     if (bar) bar.innerHTML = '';
     // HUD's count is per place or county; a summed combined area has none.
-    var chasShort = document.getElementById('hnaChasShortfall');
-    if (chasShort) chasShort.hidden = true;
+    // Rendering with no data resets the cells to a dash as well as hiding the
+    // card: the chapter summary quotes the cells by text, so a hidden card
+    // with the last place's figures would be quoted as the combined area's.
+    renderChasAvailableShortfall(null, null);
     var netLine = document.getElementById('hnaGapNetLine');
     if (netLine) {
       var gap = result && result.amiGapEntry || {};

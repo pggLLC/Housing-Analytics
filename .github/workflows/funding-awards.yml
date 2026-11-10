@@ -124,7 +124,7 @@ jobs:
         if: steps.parse.outputs.dry_run != 'true'
         id: commit
         run: |
-          scripts/commit-with-derived-chain.sh "chore: refresh funding award ledger [$(date -u '+%Y-%m-%d')]" -- data/policy/funding-awards/ledger.json data/policy/funding-awards/documents.json data/policy/funding-awards/award-rows.json data/jurisdiction-briefs/_lihtc-applications.json data/policy/prop123-land-banking-awards.json
+          scripts/commit-with-derived-chain.sh "chore: refresh funding award ledger [$(date -u '+%Y-%m-%d')]" -- data/policy/funding-awards/ledger.json data/policy/funding-awards/documents.json data/policy/funding-awards/award-rows.json data/jurisdiction-briefs/_lihtc-applications.json data/policy/funding-awards/applicant-report-counts.json data/policy/prop123-land-banking-awards.json
 
       - name: Dispatch Pages deploy for this run's commit
         if: steps.commit.outputs.pushed == 'true'
