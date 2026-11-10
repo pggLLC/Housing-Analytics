@@ -13,7 +13,7 @@
     "region": "Western Slope",
     "containingCounty": "08045"
   },
-  "metric_count": 147,
+  "metric_count": 148,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -161,6 +161,14 @@
       "measure_type": "level"
     },
     "ami_gap_60pct": {
+      "value": 0,
+      "geography_level": "place",
+      "confidence": "low",
+      "source_id": "ami-gap-place-acs",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level"
+    },
+    "ami_gap_80pct": {
       "value": 0,
       "geography_level": "place",
       "confidence": "low",

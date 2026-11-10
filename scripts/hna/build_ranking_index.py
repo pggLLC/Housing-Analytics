@@ -2168,7 +2168,8 @@ def build(out_path: str | None = None) -> None:
                 "ami_gap_30pct": 0,
                 "ami_gap_50pct": 0,
                 "ami_gap_60pct": 0,
-                "ami_gap_80pct": 0,
+                # New field: unknown on a crash, never a fabricated 0 (AGENTS.md).
+                "ami_gap_80pct": None,
                 "pct_burdened_lte30": None,
                 "pct_burdened_31to50": None,
                 "pct_burdened_51to80": None,
