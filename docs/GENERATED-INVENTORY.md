@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-10T01:55:00.647Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-10T12:06:05.810Z. Do not edit by hand.
 
 ---
 
@@ -103,7 +103,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1006.9 KB | ✅ | — |
+| `data/_manifest.json` | 1006.8 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -121,12 +121,12 @@
 | `data/affordable-housing/properties.json` | 1.51 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
-| `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 1.76 MB | ✅ | — |
+| `data/affordable-housing/regrid-parcels-by-place.json` | 957 B | ✅ | — |
+| `data/alerts/alerts_archive.json` | 1.81 MB | ✅ | — |
 | `data/alerts/brief-news-queue.json` | 45.3 KB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 5.8 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
-| `data/alerts/outlet-review.json` | 4.1 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 4.8 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
@@ -2044,7 +2044,7 @@
 | `data/policy/methodology-version.json` | 6.4 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 17.4 KB | ✅ | — |
 | `data/policy/policy-timeline.json` | 7.2 KB | ✅ | — |
-| `data/policy/policy-watch.json` | 53.6 KB | ✅ | — |
+| `data/policy/policy-watch.json` | 54.6 KB | ✅ | — |
 | `data/policy/prop123-land-banking-awards.json` | 80.8 KB | ✅ | — |
 | `data/policy/prop123-land-banking-status.json` | 35.9 KB | ✅ | — |
 | `data/policy/prop123-rental-rules.json` | 33.2 KB | ✅ | — |
@@ -2055,12 +2055,12 @@
 | `data/policy/soft-funding-status.json` | 45.6 KB | ✅ | — |
 | `data/policy/state-housing-laws.json` | 195.0 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 40.3 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 40.6 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 4.7 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 547.5 KB | ✅ | — |
+| `data/policy_briefs.json` | 550.4 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 241.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |

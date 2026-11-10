@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-10T11:25:39.875256Z",
+  "generated": "2026-11-10T12:06:42.951732Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1030996
+      "bytes": 1030995
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -94,7 +94,7 @@
     "data/affordable-housing/regrid-parcels-by-place.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4086
+      "bytes": 957
     },
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -9869,7 +9869,7 @@
     "data/policy/policy-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 54931
+      "bytes": 55919
     },
     "data/policy/prop123-land-banking-awards.json": {
       "featureCount": 0,
@@ -9924,7 +9924,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41266
+      "bytes": 41617
     },
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,
