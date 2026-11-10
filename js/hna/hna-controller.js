@@ -2804,6 +2804,21 @@
     if (window.HNARenderers && typeof window.HNARenderers.updateDecisionStrip === 'function') {
       window.HNARenderers.updateDecisionStrip({ affordability: { read: 'Low evidence — ' + ev.why, tone: 'unavailable' } });
     }
+    // The summary's lead sentence states its rate flatly ("100% of renters at
+    // or below 30% AMI are cost-burdened"). Where the cards call the rate low
+    // evidence, the sentence carries the same warning, right after the lead.
+    const n = document.getElementById('execNarrative');
+    const wrap = n && n.querySelector('.hna-narrative-html');
+    if (wrap && !/^not published/.test(ev.why) && !wrap.querySelector('.hna-narrative-evidence')) {
+      const p = document.createElement('p');
+      p.className = 'hna-narrative-evidence';
+      p.innerHTML = '<strong>Low evidence:</strong> the burden figures in this summary rest on ' + _escText(ev.why) + ', so read them as uncertain.';
+      const lead = wrap.querySelector('p:not(.hna-narrative-disclosure)');
+      if (lead && lead.nextSibling) wrap.insertBefore(p, lead.nextSibling); else wrap.appendChild(p);
+    }
+  }
+  function _escText(v) {
+    return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
   function _productionNeed(input) {
@@ -3781,17 +3796,22 @@
           // cannot outlive the method that produced the number (#2260).
           const methodSeries = proj?.housing_need?.household_method;
           const methodAt = Array.isArray(methodSeries) ? methodSeries[dolaIdx] : null;
+          // DOLA publishes households, not homes. The conversion to homes at
+          // the target vacancy is this site's (scripts/hna/build_hna_data.py),
+          // so the sentence credits DOLA with the input and this site with
+          // the number. A state reviewer reading "DOLA projects N units" would
+          // find their name on a figure they never produced.
           const basis = methodAt === 'sdo_household_forecast'
-            ? "from the State Demography Office's county household forecast"
+            ? "the State Demography Office's county household forecast"
             : methodAt === 'constant_headship'
-              ? 'from its components-of-change population forecast at a constant base-year headship rate'
+              ? "DOLA's components-of-change population forecast at a constant base-year headship rate"
               : methodAt === 'mixed'
-                ? 'from its household forecast where published and a constant headship rate elsewhere'
-                : 'from its published county series';
+                ? "DOLA's household forecast where published and a constant headship rate elsewhere"
+                : "DOLA's published county series";
           const dolaAmount = Math.round(dolaInc) < 0
-            ? `${window.HNAUtils.fmtNum(Math.abs(Math.round(dolaInc)))} fewer units needed`
-            : `${window.HNAUtils.fmtNum(Math.round(dolaInc))} additional units`;
-          countyDolaReconciliationNote = ` DOLA's county forecast projects about ${dolaAmount} by ${endYear} ${basis}; the figure above is modeled from your selected horizon and target-vacancy assumptions and may differ.`;
+            ? `${window.HNAUtils.fmtNum(Math.abs(Math.round(dolaInc)))} fewer homes needed`
+            : `${window.HNAUtils.fmtNum(Math.round(dolaInc))} additional homes`;
+          countyDolaReconciliationNote = ` Built on ${basis}, this site estimates about ${dolaAmount} by ${endYear}; the conversion to homes is this site's, not a figure DOLA publishes. The figure above uses your selected horizon and target vacancy and may differ.`;
         }
       }
     }
@@ -4935,6 +4955,21 @@
       } catch (_) {
         window.HNAState.state.acsAmiGapPlaceData = null;
       }
+    }
+    // HUD CHAS affordable-and-available: HUD's own count of homes short, the
+    // figure the chapter summary quotes. Missing file hides the card.
+    if (window.HNAState.state.chasAvailableData === undefined) {
+      try {
+        window.HNAState.state.chasAvailableData = await loadJson('data/hna/chas_affordable_available.json');
+      } catch (_) {
+        window.HNAState.state.chasAvailableData = null;
+      }
+    }
+    if (window.HNARenderers.renderChasAvailableShortfall) {
+      window.HNARenderers.renderChasAvailableShortfall(
+        window.HNAState.state.chasAvailableData,
+        { type: geoType, geoid: geoid }
+      );
     }
     // Pass the user's actual selection so the renderer can surface a
     // "scaled from county" disclosure when the user picked a place/CDP.

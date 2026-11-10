@@ -169,12 +169,31 @@ test('every figure a handoff names is filled by some script', () => {
       const id = k.id;
       const lookups = (src.match(new RegExp(id + "\\s*:\\s*document\\.getElementById\\('" + id + "'\\)", 'g')) || []).length;
       const mentions = (src.match(new RegExp("\\b" + id + "\\b", 'g')) || []).length;
-      const prefix = /^statGap\d+$/.test(id) && /'statGap' \+/.test(src);
+      const prefix = (/^statGap\d+$/.test(id) && /'statGap' \+/.test(src))
+        // HUD's count cells are written by tier: 'statChasShort' + tier.
+        || (/^statChasShort\d+$/.test(id) && /'statChasShort' \+ tier\)/.test(src));
       // Each bare lookup line mentions the id twice.
       if (!prefix && mentions - 2 * lookups <= 0) unwritten.push(v.id + ':' + id);
     }
   }
   assert.deepStrictEqual(unwritten, [], 'no script writes these, so the summary can never show them: ' + unwritten.join(', '));
+});
+
+// The box called renter household counts a "unit shortfall" (Fruita 295 and
+// 637, rehearsal 2026-11-10). It now quotes HUD's count of homes short, and
+// the household line is labelled as households.
+test('the gap part quotes HUD\'s count, and never calls a household count a shortfall', () => {
+  const afford = views.find((v) => ((v.handoff || {}).know || []).some((k) => /^statChasShort/.test(k.id)));
+  assert.ok(afford, 'no part quotes HUD\'s count of homes short');
+  for (const v of views) {
+    for (const k of ((v.handoff || {}).know || [])) {
+      if (/^statGap\d+$/.test(k.id)) {
+        assert.ok(!/shortfall|short\b/i.test(k.text), `${k.id} is a household count but is labelled "${k.text}"`);
+        assert.ok(/renter households/i.test(k.text), `${k.id} does not say it counts renter households`);
+      }
+      if (/^statChasShort/.test(k.id)) assert.ok(/HUD/.test(k.text), `${k.id} does not name HUD`);
+    }
+  }
 });
 
 console.log(failures === 0

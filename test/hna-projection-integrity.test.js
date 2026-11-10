@@ -618,8 +618,8 @@ async function assertCountyReconciliationNote() {
   window.HNAState.state.currentSelection = selection;
   await window.HNAController.applyAssumptions(projectionFixture(), selection);
   const note = document.getElementById('needNote').textContent;
-  assert(note.includes("DOLA's county forecast projects about 12,727 additional units by 2044"), 'County note should include DOLA reconciliation figure');
-  assert(note.includes('the figure above is modeled from your selected horizon and target-vacancy assumptions and may differ'), 'County note should explain why the figures may differ');
+  assert(note.includes("this site estimates about 12,727 additional homes by 2044") && !note.includes("DOLA's county forecast projects"), 'County note should include DOLA reconciliation figure');
+  assert(note.includes('The figure above uses your selected horizon and target vacancy and may differ'), 'County note should explain why the figures may differ');
   const trace = document.getElementById('projectionCalculationTraceBody').textContent;
   assert(trace.includes('190,000'), 'County trace shows the exact projected population used');
   assert(trace.includes('Direct county DOLA/SDO components-of-change projection'), 'County trace labels direct county provenance');
@@ -660,7 +660,7 @@ async function assertCountyNoteNamesTheStoredSeries() {
   const endIdx = laPlata.years.indexOf(2044);
   const realNote = await renderNote(laPlata, { geoType: 'county', geoid: '08067', label: 'La Plata County' });
   const realFigure = window.HNAUtils.fmtNum(Math.round(laPlata.housing_need.incremental_units_needed_dola[endIdx]));
-  assert(realNote.includes(`DOLA's county forecast projects about ${realFigure} additional units by 2044`), `County note quotes the stored 2044 figure ${realFigure}`);
+  assert(realNote.includes(`this site estimates about ${realFigure} additional homes by 2044`) && realNote.includes('not a figure DOLA publishes'), `County note quotes the stored 2044 figure ${realFigure}`);
   if (methods[endIdx] === 'sdo_household_forecast') {
     assert(realNote.includes(FORECAST_WORDS) && !realNote.includes(HEADSHIP_WORDS), `County note names the household forecast when the file says so: "${realNote}"`);
   } else if (methods[endIdx] === 'constant_headship') {

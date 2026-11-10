@@ -207,6 +207,15 @@
 
     ctx.renterCb30 = renterCb30;
     ctx.renterCb50 = renterCb50;
+    // The page's own severe-burden card is Census B25070 (newer, a different
+    // survey); the narrative's CHAS share is quoted next to it so a reader who
+    // sees both numbers knows why they differ.
+    try {
+      var bcSevere = window.HNAUtils && window.HNAUtils.rentBurdenCounts ? window.HNAUtils.rentBurdenCounts(profile) : null;
+      ctx.acsSeverePct = bcSevere && bcSevere.atLeast50Pct != null && Number.isFinite(+bcSevere.atLeast50Pct) ? +bcSevere.atLeast50Pct : null;
+      ctx.acsSevereHouseholds = bcSevere && bcSevere.atLeast50Households != null ? bcSevere.atLeast50Households : null;
+      ctx.acsSevereLabel = bcSevere && window.HNAUtils.acsSeriesText ? 'ACS ' + window.HNAUtils.acsSeriesText(bcSevere.series, bcSevere.year) : null;
+    } catch (_) { ctx.acsSeverePct = null; }
     ctx.ownerCb30  = ownerCb30;
     ctx.ami30BurdenPct = (ami30Total && ami30Burdened && ami30Total > 0)
       ? +((ami30Burdened / ami30Total) * 100).toFixed(1)
@@ -372,7 +381,10 @@
     if (ctx.renterCb50 != null && ctx.renterCb50 >= 25) {
       return '<strong>Severe renter cost burden is broadly documented — ' + _fmtPct(ctx.renterCb50) +
         ' of renters pay 50% or more of their income on rent</strong> (' + CHAS_LABEL + '), ' +
-        'a meaningful share of the community’s renter base navigating tight household budgets.';
+        'a meaningful share of the community’s renter base navigating tight household budgets.' +
+        (ctx.acsSeverePct != null
+          ? ' The Census count on this page gives ' + _fmtPct(ctx.acsSeverePct) + (ctx.acsSevereLabel ? ' (' + ctx.acsSevereLabel + ')' : '') + '; the two are different surveys and years.'
+          : '');
     }
     var basis = _cb30Basis(ctx);
     if (ctx.renterCb30 != null && basis.co == null) {
@@ -440,7 +452,12 @@
       if (!ledWithSevere || ctx.renterCb50 < 25) {
         lines.push(
           'Severe renter burden (paying ≥50% of income on rent) runs at ' +
-          _fmtPct(ctx.renterCb50) + ' locally vs ' + _fmtPct(CO_RENTER_CB50) + ' statewide (both ' + CHAS_LABEL + ').'
+          _fmtPct(ctx.renterCb50) + ' locally vs ' + _fmtPct(CO_RENTER_CB50) + ' statewide (both ' + CHAS_LABEL + ').' +
+          (ctx.acsSeverePct != null
+            ? ' The Census count on this page gives ' + _fmtPct(ctx.acsSeverePct) +
+              (ctx.acsSevereHouseholds != null ? ' (' + Number(ctx.acsSevereHouseholds).toLocaleString('en-US') + ' households' + (ctx.acsSevereLabel ? ', ' + ctx.acsSevereLabel : '') + ')' : '') +
+              '; the two are different surveys and years.'
+            : '')
         );
       }
     }

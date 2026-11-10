@@ -4803,7 +4803,7 @@
           var btn = document.createElement('button');
           btn.type = 'button';
           btn.className = 'btn btn-secondary';
-          btn.style.cssText = 'min-height:44px;font-size:var(--tiny)';
+          btn.style.cssText = 'min-height:44px;font-size:var(--tiny);white-space:normal;max-width:100%;text-align:left';
           btn.textContent = 'Count jobs and in-commuters (large file, about 14 MB)';
           inflowEl.textContent = '';
           inflowEl.appendChild(btn);
@@ -5633,7 +5633,7 @@
     return {
       exportedAt:  new Date().toISOString(),
       generatedBy: 'COHO Analytics Market Analysis (PMA) Export',
-      disclaimer:  'Screening tool only. PMA score is a public-data screening signal, not a substitute for a CHFA-required market study. The default mode is circular buffer; commute-shaped PMA is beta and opt-in. See docs/METHODOLOGY-GAPS-2026-05-21.md for limits.',
+      disclaimer:  'Screening tool only. PMA score is a public-data screening signal, not a substitute for a CHFA-required market study. The default mode is circular buffer; commute-shaped PMA is beta and opt-in. Known limits are listed on the Methods page (cohoanalytics.com/methods.html).',
       vintages: {
         acs:  r.acsVintageLabel || _acsVintageLabel(),
         chas: 'HUD CHAS 2018-2022',
