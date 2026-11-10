@@ -8268,7 +8268,9 @@
       }
       if (sEl) {
         sEl.innerHTML = vintage
-          ? 'HUD CHAS ' + escHtml(vintage) + ' · <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">huduser.gov</a>'
+          // The year sits in the link text: the chapter summary quotes this
+          // link, and a quoted source without its year is an undated one.
+          ? '<a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS ' + escHtml(vintage) + '</a>'
           : '';
       }
       if (ok(short)) shown++;
