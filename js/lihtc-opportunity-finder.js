@@ -3451,8 +3451,9 @@
     if (_redev._ozPromise) return _redev._ozPromise;
     _redev._ozPromise = fetch('data/market/opportunity_zones_co.geojson')
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (j) { _redev.oz = j || { features: [] }; return _ensureOz2027(); })
-      .then(function () { return _redev.oz; })
+      // Mark OZ data loaded only once the 2027 round has arrived too, so an
+      // open panel never renders without the new-round count.
+      .then(function (j) { return _ensureOz2027().then(function () { _redev.oz = j || { features: [] }; return _redev.oz; }); })
       .catch(function () { _redev.oz = _redev.oz || { features: [] }; return _redev.oz; });
     return _redev._ozPromise;
   }
