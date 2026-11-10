@@ -124,7 +124,7 @@ const deferred = JSON.parse(fs.readFileSync(COMMITTED_CACHE, 'utf8'));
     assert.ok(status.unavailableReason);
   });
 
-  await run('committed cache is a ten-jurisdiction deferred artifact with null counts', async () => {
+  await run('committed cache is a deferred artifact with no jurisdiction list and no counts', async () => {
     const meta = deferred.meta;
     assert.equal(meta.availability, 'deferred');
     assert.equal(meta.is_current_coverage, false);
@@ -134,7 +134,7 @@ const deferred = JSON.parse(fs.readFileSync(COMMITTED_CACHE, 'utf8'));
     assert.match(meta.unavailableReason, /#1612/);
     assert.match(meta.unavailableReason, /not a technical failure/i);
     assert.doesNotMatch(meta.next_refresh, /Sunday|scheduled run/i);
-    assert.equal(Object.keys(deferred.byGeoid).length, 10);
+    assert.equal(Object.keys(deferred.byGeoid).length, 0);
     Object.values(deferred.byGeoid).forEach((record) => {
       assert.equal(record.parcel_count, null);
       assert.deepEqual(record.parcels, []);

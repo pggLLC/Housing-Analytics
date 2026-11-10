@@ -118,7 +118,7 @@ See `docs/LIHTC_HISTORICAL_METHODOLOGY.md` for the full architecture.
 
 The file `.env` was committed to the repository containing:
 ```
-RECIPIENT_EMAIL="communityplanner@gmail.com"
+RECIPIENT_EMAIL="<owner address, redacted>"
 ```
 
 **Actions taken:**

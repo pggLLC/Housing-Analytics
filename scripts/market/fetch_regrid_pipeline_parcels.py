@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
-F246 — Fetch Regrid parcels for every IndiBuild pipeline jurisdiction.
+F246 — Fetch Regrid parcels for every jurisdiction in a private pipeline list.
 
 Runs server-side from .github/workflows/fetch-parcel-zoning-data.yml only when
 the optional paid source is explicitly enabled. Scheduled access is deferred
 for cost under #1612; the browser may still use a user's own key.
 
 Input:
-    docs/indibuild-pipeline-prototype/02-pipeline.csv  (jurisdiction list)
+    docs/developer-pipeline-prototype/02-pipeline.csv  (private jurisdiction list,
+                                                       gitignored; or REGRID_PIPELINE_CSV)
     data/co-place-centroids.json                       (geoid → lat/lng)
     env REGRID_API_KEY                                 (from repo secrets)
 
@@ -59,7 +60,7 @@ from urllib.parse import urlencode
 import requests
 
 ROOT = Path(__file__).resolve().parents[2]
-PIPELINE_CSV = Path(os.environ.get("REGRID_PIPELINE_CSV") or ROOT / "docs" / "indibuild-pipeline-prototype" / "02-pipeline.csv")
+PIPELINE_CSV = Path(os.environ.get("REGRID_PIPELINE_CSV") or ROOT / "docs" / "developer-pipeline-prototype" / "02-pipeline.csv")
 CENTROIDS_PATH = Path(os.environ.get("REGRID_CENTROIDS_PATH") or ROOT / "data" / "co-place-centroids.json")
 OUTPUT_PATH = Path(os.environ.get("REGRID_OUTPUT_PATH") or ROOT / "data" / "affordable-housing" / "regrid-parcels-by-place.json")
 

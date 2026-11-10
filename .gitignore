@@ -81,7 +81,7 @@ data/jurisdiction-briefs/_contacts/
 data/jurisdiction-briefs/_landscape/
 data/jurisdiction-briefs/*contacts*.json
 docs/developer-pipeline-prototype/
-docs/indibuild-pipeline-prototype/
+docs/*-pipeline-prototype/
 gated/
 dossiers/
 ripeness/
