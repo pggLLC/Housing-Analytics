@@ -5,7 +5,7 @@ Date: 2026-06-30
 B1 metric-digest data spine generated from the committed HNA ranking index and per-geography summaries. This is non-scoring and does not rewrite `data/hna/ranking-index.json`.
 
 - Digest files: 546
-- Total tagged metrics: 81350
+- Total tagged metrics: 81896
 - County-context metric tags: 7142
 - Rate metrics with denominator metadata: 15834
 - Min denominator floor: 50
@@ -14,9 +14,9 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 
 | geography_level | metric tags |
 |---|---:|
-| county | 9024 |
+| county | 9088 |
 | county_context | 7142 |
-| place | 65184 |
+| place | 65666 |
 
 ## Source Tags
 
@@ -30,8 +30,8 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | acs-profile-dp04 | 1088 |
 | acs-profile-dp04-grapi | 546 |
 | acs-profile-dp05 | 1092 |
-| ami-gap-county-acs | 518 |
-| ami-gap-place-acs | 3850 |
+| ami-gap-county-acs | 582 |
+| ami-gap-place-acs | 4332 |
 | chfa-2026-r1-awards | 546 |
 | chfa-lihtc-and-2026-r1-awards | 2184 |
 | chfa-lihtc-properties | 10370 |

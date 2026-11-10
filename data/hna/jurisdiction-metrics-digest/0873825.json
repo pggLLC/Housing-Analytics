@@ -13,7 +13,7 @@
     "region": "Mountains",
     "containingCounty": "08107"
   },
-  "metric_count": 151,
+  "metric_count": 152,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -162,6 +162,14 @@
     },
     "ami_gap_60pct": {
       "value": 225,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "ami-gap-place-acs",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level"
+    },
+    "ami_gap_80pct": {
+      "value": 46,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "ami-gap-place-acs",

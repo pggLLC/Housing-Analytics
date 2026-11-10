@@ -530,6 +530,22 @@ async function exportAll(c) {
     assert(!/native Excel chart/i.test(btn), 'the Download Excel button still promises native charts: ' + btn);
   });
 
+  await test('Fruita\'s 80% AMI gap reaches the export from the place gap file (Codex round 2, finding B)', async () => {
+    // The place file stores households minus units; the export must carry it, not null.
+    const placeFile = readJson('data/co_ami_gap_by_place.json');
+    const fr = Array.isArray(placeFile.places) ? placeFile.places.find((p) => p.fips === '0828745') : placeFile.places['0828745'];
+    const want = Math.max(0, Math.trunc(Number(fr.gap_units_minus_households_le_ami_pct['80'])));
+    assert.strictEqual(rankOf('0828745').metrics.ami_gap_80pct, want, 'ranking index lacks the 80% gap');
+    const r = await exportAll(CASES.find((c) => c.geoid === '0828745'));
+    const find = (o) => {
+      if (!o || typeof o !== 'object') return undefined;
+      if (Object.prototype.hasOwnProperty.call(o, 'gap80pctUnits')) return o.gap80pctUnits;
+      for (const v of Object.values(o)) { const x = find(v); if (x !== undefined) return x; }
+      return undefined;
+    };
+    assert.strictEqual(find(r.data), want, 'export gap80pctUnits is ' + JSON.stringify(find(r.data)));
+  });
+
   await test('a 0 AMI gap is exercised: Mesa\'s 60% AMI gap is 0 in the data', async () => {
     assert.strictEqual(rankOf('08077').metrics.ami_gap_60pct, 0, 'fixture changed: pick another zero-gap jurisdiction');
   });

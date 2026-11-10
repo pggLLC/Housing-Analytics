@@ -13,7 +13,7 @@
     "region": "San Luis Valley",
     "containingCounty": "08021"
   },
-  "metric_count": 151,
+  "metric_count": 152,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -161,6 +161,14 @@
       "measure_type": "level"
     },
     "ami_gap_60pct": {
+      "value": 6,
+      "geography_level": "place",
+      "confidence": "low",
+      "source_id": "ami-gap-place-acs",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level"
+    },
+    "ami_gap_80pct": {
       "value": 6,
       "geography_level": "place",
       "confidence": "low",
