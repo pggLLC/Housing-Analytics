@@ -715,9 +715,8 @@
       }
     });
 
-    // Set timestamp
-    var ts = document.getElementById('drhTimestamp');
-    if (ts) ts.textContent = 'Loaded: ' + new Date().toLocaleString();
+    // The timestamp is left to js/data-freshness.js, which stamps it with the data manifest's date
+    // ("Data last updated"). It used to show the time the page was opened, which says nothing about the data.
   }
 
   if (document.readyState === 'loading') {

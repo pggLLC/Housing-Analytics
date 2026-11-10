@@ -441,6 +441,14 @@
 
     var frag = document.createDocumentFragment();
     frag.appendChild(renderHero(data.hero));
+    // Date stamp (paul, 9 Nov 2026): when the page's content was last reviewed, from the file itself.
+    var reviewed = data._meta && data._meta.last_reviewed;
+    if (reviewed) {
+      var m = /^(\d{4})-(\d{2})(?:-(\d{2}))?$/.exec(String(reviewed));
+      var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      var label = m && +m[2] >= 1 && +m[2] <= 12 ? (m[3] ? +m[3] + ' ' : '') + MONTHS[+m[2] - 1] + ' ' + m[1] : String(reviewed);
+      frag.appendChild(el('p', { class: 'data-timestamp', text: 'Content last reviewed ' + label + '.' }));
+    }
     frag.appendChild(renderHowTo(data.intro));
     frag.appendChild(renderAmiAnchor(data.ami_anchor));
 
