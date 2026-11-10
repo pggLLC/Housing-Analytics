@@ -2,7 +2,7 @@
   "schema": "policy-watch/v1",
   "meta": {
     "title": "Policy watch",
-    "as_of": "2026-11-01",
+    "as_of": "2026-11-10",
     "method": "Curated, not a feed. An entry is listed only after someone has read its source. verification.level \"primary\" means checked against the primary document itself; \"reported\" means taken from a named outlet whose page was read, without checking the primary document. Each primary entry carries the exact source wording it rests on in `evidence`. A topic nobody has checked yet is listed in known_gaps rather than filled from search results. `derived` records a figure computed from the evidence (a sum), and `redline` records a struck and inserted amount that the PDF text runs together.",
     "known_gaps": [
       "Local county and city housing questions on the November 3, 2026 ballot, where the official notice was not yet published or could not be read when last checked. The local questions found so far, and which counties and towns were checked, are on Colorado Elections.",
@@ -28,11 +28,26 @@
       },
       "verification": {
         "level": "primary",
-        "against": "the HB26-1313 bill page (history, session-law table and enacted summary) and the session law, chapter 154",
-        "checked": "2026-10-25"
+        "against": "the HB26-1313 bill page (history, session-law table and enacted summary) and the session law, chapter 154; re-checked 2026-11-10 against DOLA's Proposition 123 2027-2029 Cycle page (https://cdola.colorado.gov/2027-2029-cycle), which matches the formula and the waiver window",
+        "checked": "2026-11-10"
       },
-      "review_by": "2026-11-09",
+      "review_by": "2027-02-08",
       "evidence": [
+        {
+          "section": "DOLA, Proposition 123 2027-2029 Cycle page (read 2026-11-10)",
+          "quote": "HB26-1313 replaces the previous baseline methodology and commitment calculation.",
+          "note": "https://cdola.colorado.gov/2027-2029-cycle"
+        },
+        {
+          "section": "DOLA, Proposition 123 2027-2029 Cycle page (read 2026-11-10)",
+          "quote": "The deadline to file a commitment is November 1, 2026.",
+          "note": "https://cdola.colorado.gov/2027-2029-cycle"
+        },
+        {
+          "section": "DOLA, Proposition 123 2027-2029 Cycle page (read 2026-11-10)",
+          "quote": "Before November 1, 2026, local governments may request a Good Faith Effort Waiver to the Division of Housing.",
+          "note": "https://cdola.colorado.gov/2027-2029-cycle"
+        },
         {
           "section": "Bill history",
           "quote": "05/26/2026 Governor Governor Signed"
