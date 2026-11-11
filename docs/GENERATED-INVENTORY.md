@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-11T04:52:15.552Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-11T05:24:23.503Z. Do not edit by hand.
 
 ---
 
@@ -2371,7 +2371,7 @@
 | `test/hna-dev-context-collision.test.js` | 4.6 KB |
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-export-binding-browser.test.js` | 12.5 KB |
-| `test/hna-export-matches-screen.test.js` | 38.0 KB |
+| `test/hna-export-matches-screen.test.js` | 40.4 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.5 KB |
 | `test/hna-functionality-check.js` | 64.6 KB |
 | `test/hna-gap-summary-sources.test.js` | 5.1 KB |
