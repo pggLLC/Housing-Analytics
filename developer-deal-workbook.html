@@ -86,12 +86,28 @@
   @media (max-width: 640px) {
     .wb-routes select, .wb-routes input, .wb-routes button { width: 100%; }
   }
+  @page wb-wide { size: letter landscape; }
   @media print {
-    #siteHeader, #devNav, #site-footer, .wb-load, .skip-link, #wbPrint, #wbOpenCalc, #wbViews, .wb-form, #wbResSave, [data-del-comp] { display: none !important; }
-    .dv-card { break-inside: avoid; border: 0; padding: 0; }
-    .wb-cf .sr-table { font-size: 7pt; }
-    .wb-fig { break-inside: avoid; }
+    #siteHeader, #devNav, #devSubNav, #site-footer, .wb-load, .skip-link, #wbPrint, #wbOpenCalc, #wbViews, .wb-form, #wbResSave, [data-del-comp] { display: none !important; }
+    /* A card may run across pages; only its heading stays with what follows. Whole-card "avoid" pushed the
+       Executive view off page 1 and left the intro alone there (headless print check, 2026-11-11). */
+    .dv-card { break-inside: auto; border: 0; padding: 0; }
+    .dv-card h2, .dv-card h3, figcaption { break-after: avoid; }
+    .sr-table tr, .rw-stat, .wb-fig { break-inside: avoid; }
+    /* Wide tables print whole: no scroll box (it clipped the cash flow at year 5), smaller type, no sticky column. */
+    .sr-scroll { overflow: visible !important; }
+    .sr-table { width: 100%; }
+    /* The site theme sizes table cells directly, so the size is set on the cells, not the table. */
+    .sr-table th, .sr-table td { padding: .12rem .2rem; font-size: 8pt; }
+    .wb-cf .sr-table td:first-child, .wb-cf .sr-table th:first-child { position: static; min-width: 0; }
+    /* The year-by-year tables (15 or more columns) print on landscape pages so every year shows. */
+    .wb-cf .sr-scroll { page: wb-wide; }
+    .wb-cf .sr-table { table-layout: fixed; }
+    .wb-cf .sr-table th, .wb-cf .sr-table td { padding: .1rem .12rem; font-size: 7pt; }
+    .wb-cf .sr-table td:first-child, .wb-cf .sr-table th:first-child { width: 13%; white-space: normal; }
     details { display: block; }
+    details > summary { list-style: none; }
+    details > summary::-webkit-details-marker { display: none; }
   }
 </style>
   <script defer src="js/components/table-header-tips.js"></script>

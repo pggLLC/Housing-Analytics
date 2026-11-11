@@ -1049,4 +1049,28 @@ ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no 
   ok(WB.chartFee(noFee) === '', 'no deferred fee, no fee chart');
 }
 
+// A deal saved a moment ago shows in the picker before the server's list has it (member check, 2026-11-10).
+{
+  const store = (v) => () => ({ getItem: () => v });
+  const note = (at) => JSON.stringify({ id: 'invented-silt-1a2b3c', name: 'Invented Silt', at });
+  ok(WB.justSaved(store(note(1000)), 60000).id === 'invented-silt-1a2b3c', 'a save from a minute ago is read');
+  ok(WB.justSaved(store(note(1000)), 1000 + 120000) === null && WB.justSaved(store(null), 5) === null && WB.justSaved(store('{bad'), 5) === null, 'an old, missing or broken note is ignored');
+  const idNote = (id) => store(JSON.stringify({ id, name: 'x', at: 1 }));
+  ok(['<b>', '-', 'not-a-generated-deal-id', 'a'.repeat(1000), '-abc-1a2b3c', 'silt--1a2b3g', 'x'.repeat(41) + '-1a2b3c'].every((id) => WB.justSaved(idNote(id), 2) === null), 'an id that is not shaped like a generated deal id is ignored');
+  ok(['deal-1a2b3c', 'a-000000', 'rehearsal-2026-11-09-54c4c9', 'x'.repeat(40) + '-1a2b3c'].every((id) => WB.justSaved(idNote(id), 2).id === id), 'generated deal ids are accepted');
+  ok(WB.justSaved(() => { throw new Error('storage blocked'); }, 2) === null, 'blocked storage is ignored, not thrown');
+  const listed = [{ id: 'a', name: 'A' }];
+  ok(WB.withJustSaved(listed, { id: 'b', name: 'B' }).map((d) => d.id).join() === 'b,a', 'the new deal leads the list when the server has not listed it');
+  ok(WB.withJustSaved(listed, { id: 'a', name: 'A' }) === listed && WB.withJustSaved(listed, null) === listed, 'a listed deal is not added twice');
+  ok(/coho-last-saved-deal/.test(read('js/whitepaper/member-calculator.js')), 'the Deal Calculator leaves the note on save');
+}
+
+// Print: wide tables print whole and the year-by-year tables go on landscape pages (headless print check, 2026-11-11).
+{
+  const page = read('developer-deal-workbook.html'), print = page.slice(page.indexOf('@media print'));
+  ok(/\.sr-scroll \{ overflow: visible !important; \}/.test(print), 'no scroll box clips a table in print');
+  ok(/@page wb-wide \{ size: letter landscape; \}/.test(page) && /\.wb-cf \.sr-scroll \{ page: wb-wide; \}/.test(print), 'the 15-year tables print on landscape pages');
+  ok(/\.dv-card \{ break-inside: auto;/.test(print) && /#devSubNav/.test(print), 'cards flow across pages and the second menu row stays off the page');
+}
+
 console.log(`deal-workbook: ${checks} checks passed`);

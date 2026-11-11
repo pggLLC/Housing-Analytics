@@ -87,6 +87,14 @@
     return null;
   }
 
+  // "../" for each folder between the page and the site root, counted from /dossiers/: "/dossiers/" and
+  // "/dossiers/index.html" are one deep, "/dossiers/<slug>/index.html" two. "" anywhere else.
+  function upFrom(path) {
+    var m = /\/dossiers\/(.*)$/.exec(String(path || ''));
+    if (!m) return '';
+    return new Array(m[1].split('/').length + 1).join('../');
+  }
+
   // The top row: one link per group, to its first page.
   function html(path) {
     var g = groupOf(path);
@@ -134,13 +142,20 @@
       sub.innerHTML = subMarkup;
       centre(sub, sub.querySelector('[aria-current="page"]'));
     } else if (sub) sub.parentNode.removeChild(sub);
-        var out = nav.querySelector('a[href="/logout"]');
+        // The links are written from the site root. Under /dossiers/ (the index, or a dossier's own folder) they
+    // need the way back up, or "developer.html" would resolve inside the dossier folder.
+    var up = upFrom(path);
+    if (up) Array.prototype.forEach.call(doc.querySelectorAll('#devNav a[href], #devSubNav a[href]'), function (a) {
+      var h = a.getAttribute('href');
+      if (!/^([a-z][a-z0-9+.-]*:|\/|#)/i.test(h)) a.setAttribute('href', up + h);
+    });
+    var out = nav.querySelector('a[href="/logout"]');
     if (out) out.addEventListener('click', function () {
       try { root.sessionStorage.removeItem('ib-auth-v1'); } catch (_) { /* storage blocked */ }
     });
   }
 
-  var api = { GROUPS: GROUPS, PAGES: PAGES, PRIVATE: PRIVATE, html: html, subHtml: subHtml, mount: mount };
+  var api = { GROUPS: GROUPS, PAGES: PAGES, PRIVATE: PRIVATE, html: html, subHtml: subHtml, mount: mount, upFrom: upFrom };
   if (typeof module === 'object' && module.exports) module.exports = api;
   else {
     root.DeveloperNav = api;
