@@ -627,6 +627,37 @@ async function exportAll(c) {
     }
   });
 
+  await test('a snapshot card grows with a long source line, so no card or text is drawn over another (round-three review)', async () => {
+    // The real disclosure a county-adjusted place (Aetna Estates, 0800620) shows under its home value.
+    const LONG = 'County-adjusted Zillow/ACS estimate \u00b7 ACS 2020-2024 5-year \u00b7 low \u00b7 low confidence: no current city index';
+    await exportAll(CASES.find((c) => c.geoid === '0828745'));
+    const el = document.getElementById('statHomeValueSrc');
+    const was = el.textContent, realPdf = window.jspdf;
+    const wrap = createJsPdfMock({ wrapText: true });
+    try {
+      el.textContent = LONG;
+      window.jspdf = { jsPDF: wrap.jsPDF };
+      await window.HNAExport.exportPdf('t.pdf');
+      wrap.assertSupported();
+    } finally { el.textContent = was; window.jspdf = realPdf; }
+    const cards = wrap.calls.filter((c) => c.method === 'roundedRect').map((c) => ({ page: c.page, x: c.args[0], y: c.args[1], w: c.args[2], h: c.args[3] }));
+    const texts = wrap.calls.filter((c) => c.method === 'text').map((c) => ({ page: c.page, lines: Array.isArray(c.args[0]) ? c.args[0] : [c.args[0]], x: c.args[1], y: c.args[2], size: c.fontSize, lh: (c.args[3] && c.args[3].lineHeightFactor) || 1.15 }));
+    assert(cards.length >= 9, 'the scan found only ' + cards.length + ' cards');
+    const long = texts.find((t) => t.lines.join(' ').replace(/\s+/g, '') === LONG.replace(/\s+/g, ''));
+    assert(long && long.lines.length >= 3, 'the long source line was not exported wrapped over three lines or more: ' + JSON.stringify(long && long.lines));
+    const inCard = (t, c) => t.page === c.page && t.x >= c.x && t.x < c.x + c.w && t.y >= c.y && t.y < c.y + c.h + 40;
+    const home = cards.find((c) => inCard(long, c) && long.y <= c.y + c.h);
+    assert(home, 'the long source line is not inside any card');
+    const lastBaseline = long.y + (long.lines.length - 1) * long.size * long.lh;
+    assert(lastBaseline <= home.y + home.h - 2, 'the source line runs past its card: last line at ' + lastBaseline + ', card ends at ' + (home.y + home.h));
+    // No card overlaps another, and no card is drawn over the text of the card above it.
+    for (const a of cards) for (const b of cards) {
+      if (a === b || a.page !== b.page) continue;
+      const overlap = a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+      assert(!overlap, 'two cards overlap: ' + JSON.stringify([a, b]));
+    }
+  });
+
   await test('a 0 AMI gap is exercised: Mesa\'s 60% AMI gap is 0 in the data', async () => {
     assert.strictEqual(rankOf('08077').metrics.ami_gap_60pct, 0, 'fixture changed: pick another zero-gap jurisdiction');
   });

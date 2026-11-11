@@ -1508,10 +1508,23 @@
         const GAP_X = 10;
         const GAP_Y = 8;
         const CELL_W = (CONTENT_W - (COLS - 1) * GAP_X) / COLS;
-        const CELL_H = 50;
+        // A card grows with its text: a long source line (a county-adjusted
+        // Zillow value, say) wraps to three lines or more, and at a fixed
+        // 50 pt the next row of cards was drawn over it. Each row of cards
+        // takes the height of its tallest card.
+        const SUB_LINE_H = 9;
+        const subLinesOf = (cell) => {
+          if (!cell.sub) return [];
+          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(7.5);
+          return pdf.splitTextToSize(String(cell.sub), CELL_W - 14);
+        };
+        const heightOf = (cell) => Math.max(50, 45 + Math.max(0, subLinesOf(cell).length - 1) * SUB_LINE_H + 5);
+        let CELL_H = 50;
         for (let i = 0; i < cells.length; i++) {
           const col = i % COLS;
           if (col === 0) {
+            CELL_H = Math.max.apply(null, cells.slice(i, i + COLS).map(heightOf));
             newPageIfNeeded(CELL_H + GAP_Y);
           }
           const x = MARGIN + col * (CELL_W + GAP_X);
@@ -1532,11 +1545,11 @@
           pdf.text(valLines, x + 7, y + 33);
           // Sub-note
           if (cells[i].sub) {
+            const subLines = subLinesOf(cells[i]);
             pdf.setFont('helvetica', 'normal');
             pdf.setFontSize(7.5);
             pdf.setTextColor.apply(pdf, COLOR_MUTED);
-            const subLines = pdf.splitTextToSize(cells[i].sub, CELL_W - 14);
-            pdf.text(subLines, x + 7, y + 45);
+            pdf.text(subLines, x + 7, y + 45, { lineHeightFactor: SUB_LINE_H / 7.5 });
           }
           // Advance row after the last column or last cell
           if (col === COLS - 1 || i === cells.length - 1) {
@@ -1544,7 +1557,7 @@
           }
         }
         // Room below the last row of cards: the next heading overlapped it.
-        y += 8;
+        y += 14;
       }
 
       function drawChart(canvasId, caption, maxHeightPt) {
