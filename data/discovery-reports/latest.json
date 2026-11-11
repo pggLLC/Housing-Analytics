@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-11-10T15:33:14.934Z",
-  "totalScanned": 2033,
-  "newSourceCount": 2001,
+  "scanTimestamp": "2026-11-11T15:07:33.238Z",
+  "totalScanned": 2034,
+  "newSourceCount": 2002,
   "existingCount": 31,
   "staleCount": 0,
   "agingCount": 1,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1031487,
+      "sizeBytes": 1031854,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7517,
+      "sizeBytes": 7515,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -122,13 +122,13 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 1893719,
+      "sizeBytes": 2011591,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/alerts/brief-news-queue.json",
-      "sizeBytes": 46426,
+      "sizeBytes": 52762,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -146,7 +146,7 @@
     },
     {
       "path": "data/alerts/outlet-review.json",
-      "sizeBytes": 4911,
+      "sizeBytes": 5989,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -182,7 +182,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 679891,
+      "sizeBytes": 687184,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1292,7 +1292,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 310529,
+      "sizeBytes": 310688,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1814,7 +1814,7 @@
     },
     {
       "path": "data/hna/hna-views.json",
-      "sizeBytes": 14153,
+      "sizeBytes": 14311,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11563,6 +11563,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/policy/funding-awards/applicant-report-counts.json",
+      "sizeBytes": 3632,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/policy/funding-awards/award-rows.json",
       "sizeBytes": 260805,
       "inDataManifest": false,
@@ -11636,7 +11642,7 @@
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 173396,
+      "sizeBytes": 173790,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11864,7 +11870,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 563582,
+      "sizeBytes": 581632,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11882,13 +11888,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20476,
+      "sizeBytes": 20510,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 216621,
+      "sizeBytes": 218851,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -12018,7 +12024,7 @@
     {
       "path": "data/car-market.json",
       "name": "Colorado Association of Realtors (CAR) — Statewide Market Summary",
-      "daysSince": 282
+      "daysSince": 283
     }
   ]
 }

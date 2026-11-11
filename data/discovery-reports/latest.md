@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-11-10T15:33:14.934Z
+**Scan timestamp:** 2026-11-11T15:07:33.238Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 2033 |
-| New (unregistered) | 2001 |
+| Files scanned | 2034 |
+| New (unregistered) | 2002 |
 | Registered | 31 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 1 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (1007 KB)
+- `data/_manifest.json` (1008 KB)
 - `data/_qa-status.json` (7 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (16 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (967 KB)
@@ -33,17 +33,17 @@
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/property-websites.json` (31 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (1 KB)
-- `data/alerts/alerts_archive.json` (1849 KB)
-- `data/alerts/brief-news-queue.json` (45 KB)
+- `data/alerts/alerts_archive.json` (1964 KB)
+- `data/alerts/brief-news-queue.json` (52 KB)
 - `data/alerts/outlet-decisions.json` (6 KB)
 - `data/alerts/outlet-register.json` (31 KB)
-- `data/alerts/outlet-review.json` (5 KB)
+- `data/alerts/outlet-review.json` (6 KB)
 - `data/alerts/owner-news.json` (0 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3871 KB)
 - `data/audit/chfa-qap-watch.json` (3487 KB)
-- `data/audit/funding-watch.json` (664 KB)
+- `data/audit/funding-watch.json` (671 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/benchmarks/str-license-counts.json` (6 KB)
@@ -1940,6 +1940,7 @@
 - `data/policy/county-parcel-sources.json` (22 KB)
 - `data/policy/developer-ownership-funding.json` (22 KB)
 - `data/policy/fee-reductions.json` (577 KB)
+- `data/policy/funding-awards/applicant-report-counts.json` (4 KB)
 - `data/policy/funding-awards/award-rows.json` (255 KB)
 - `data/policy/funding-awards/developer-aliases.json` (7 KB)
 - `data/policy/funding-awards/documents.json` (48 KB)
@@ -1952,7 +1953,7 @@
 - `data/policy/green-building.json` (58 KB)
 - `data/policy/homeownership-programs.json` (33 KB)
 - `data/policy/housing-events-curated.json` (3 KB)
-- `data/policy/housing-events.json` (169 KB)
+- `data/policy/housing-events.json` (170 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/housing-roll-calls.json` (6 KB)
 - `data/policy/hud-state-median-family-income.json` (1 KB)
@@ -1990,11 +1991,11 @@
 - `data/policy/tool-watch.json` (5 KB)
 - `data/policy/unit-size-standards.json` (5 KB)
 - `data/policy/where-to-build-context.json` (34 KB)
-- `data/policy_briefs.json` (550 KB)
+- `data/policy_briefs.json` (568 KB)
 - `data/policy_briefs_curated.json` (241 KB)
 - `data/polymarket-curated.json` (6 KB)
 - `data/polymarket-data.json` (20 KB)
-- `data/polymarket-history.json` (212 KB)
+- `data/polymarket-history.json` (214 KB)
 - `data/processed/co_county_housing_indicators.geojson` (447 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
@@ -2018,4 +2019,4 @@
 
 ## ⏳ Aging Sources
 
-- undefined — 282 days since last update
+- undefined — 283 days since last update
