@@ -701,7 +701,10 @@
       '.sr-hist-overall{border-left:3px solid #0a6b5c;padding-left:.6rem}.rw-band{font-size:.75rem;border:1px solid #0a6b5c;border-radius:9999px;padding:0 6px}' +
       '</style></head><body><h1>' + esc('Scenario history: ' + dealName) + '</h1>' +
       '<p class="sr-muted">Built ' + esc(builtAt) + ' from the versions saved on the member site. Figures are the Deal Calculator\'s at the time each version was saved; a screening estimate, not underwriting.</p>' +
-      historyHtml(m) + '</body></html>';
+      historyHtml(m) +
+      // The button says "Print or save as PDF", so the page opens the print window itself (rehearsal, 2026-11-10:
+      // it only opened this page, and the member had to know to press Cmd+P).
+      '<script>addEventListener("load",function(){setTimeout(function(){print()},300)})<\/script></body></html>';
   }
 
   // ── Calculator export ─────────────────────────────────────────────────────

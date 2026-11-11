@@ -348,6 +348,8 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   for (const f of ['developer-finder.html', 'developer-market-screen.html', 'developer-env-screen.html', 'developer-investor-returns.html', 'developer-entitled-land.html', 'developer-parcel-sales.html', 'developer-commuters.html', 'developer-next-places.html', 'developer-frontier.html', 'developer-preservation-first.html', 'dossiers/']) {
     ok(priv.includes(f), `the menu lists the member-only page ${f}`);
   }
+  // Under /dossiers/ the links need the way back to the site root.
+  ok(Nav.upFrom('/developer.html') === '' && Nav.upFrom('/dossiers/') === '../' && Nav.upFrom('/dossiers/index.html') === '../' && Nav.upFrom('/dossiers/invented-site/index.html') === '../../', 'menu links climb out of the dossier folders');
   const top = Nav.html('/developer.html');
   ok(Nav.GROUPS.length <= 7 && Nav.GROUPS.every((g) => top.includes('<a href="' + g.pages[0].href + '"') && top.includes('>' + g.label + '</a>')), 'the top row is one link per group, to its first page, seven at most');
   ok(Nav.GROUPS.every((g) => g.pages.length && (g.pages[0].private || existsSync(join(ROOT, g.pages[0].href)))), 'each group opens on a page that exists');

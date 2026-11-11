@@ -179,6 +179,7 @@ ok(!/<script/i.test(SR.compareTable(rules, prop123, [{ label: '<script>x</script
   const csv = SR.historyCsv(hm).split('\r\n');
   ok(csv[0].startsWith('Version,Label,Saved') && csv[2].startsWith('v2,construction +$2M,') && csv[2].includes(',2229877,'), 'the CSV has one row per version with plain numbers');
   ok(csv[3].includes(`"'=HYPERLINK(""x"")"`), 'a label that looks like a formula is defused in the CSV');
+  ok(/<script>addEventListener\("load",function\(\)\{setTimeout\(function\(\)\{print\(\)\},300\)\}\)<\/script><\/body>/.test(SR.historyPage('Invented Silt', hm, 'today')), 'the printable page opens the print window itself');
   ok(/<title>Scenario history: Invented Silt<\/title>/.test(SR.historyPage('Invented Silt', hm, 'today')) && SR.historyPage('<b>x</b>', hm, 'today').includes('&lt;b&gt;'), 'the printable page is titled with the escaped deal name');
   const he = SR.historyHtml({ rows: [], overall: '' });
   ok(!/<li|<dl|sr-hist-overall/.test(he) && /<p\b[^>]*>[^<]*\S[^<]*<\/p>/.test(he), 'an empty deal shows a note and no version cards');

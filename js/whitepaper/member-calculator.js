@@ -213,6 +213,8 @@
         .then(function (j) {
           // The next save of this run becomes its next version.
           if (!$('mcDeal').value && j.deal) { addDeal(j.deal, name); $('mcDeal').value = j.deal; }
+          // The server's list of deals can lag a new save by up to a minute; the next page reads this to show it anyway.
+          try { if (j.deal) win.sessionStorage.setItem('coho-last-saved-deal', JSON.stringify({ id: j.deal, name: name, at: Date.now() })); } catch (_) { /* storage blocked */ }
           $('mcNote').value = ''; // a note describes one version
           if (warned) { warned = false; $('mcSave').textContent = SAVE_LABEL; }
           say('Saved "' + esc(name) + '" ' + new Date(j.meta && j.meta.at || Date.now()).toLocaleString() +
