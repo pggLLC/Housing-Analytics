@@ -56,12 +56,28 @@ assert.ok(!html.includes('yardi-matrix-national-multifamily.json'), 'Yardi estim
 assert.ok(!/id="yardi/.test(html), 'Yardi panel stays removed');
 assert.match(html, /href="colorado-deep-dive\.html#tab-need"/, 'rent pointer opens the Deep Dive tab with the county rent chart');
 
-// The year-ago lookup must skip the missing October 2025 CPI month.
+// The page's year-ago lookup must never pair a month with a different
+// calendar month. October 2025 CPI was never published, so October 2026 has
+// no year-ago figure and must show no YoY rather than a 13-month change.
+const yaSrc = html.slice(html.indexOf('function yearAgoIndex('), html.indexOf('function pickChange('));
+const yearAgoIndex = new Function(yaSrc + '\nreturn yearAgoIndex;')();
 const cpi = fred.series.CPIAUCSL.observations.filter(o => o.value !== '.' && o.value != null);
-const last = cpi[cpi.length - 1];
-const target = new Date(last.date); target.setUTCFullYear(target.getUTCFullYear() - 1);
-const yearAgo = cpi.filter(o => new Date(o.date) <= target).pop();
-assert.equal(yearAgo.date.slice(5, 7), last.date.slice(5, 7), 'year-ago CPI is the same calendar month');
+let matched = 0;
+for (let end = 12; end < cpi.length; end++) {
+  const i = yearAgoIndex(cpi, end);
+  if (i < 0) continue;
+  matched++;
+  assert.equal(cpi[i].date.slice(5, 7), cpi[end].date.slice(5, 7), 'year-ago CPI for ' + cpi[end].date + ' is the same calendar month');
+  assert.equal(Number(cpi[i].date.slice(0, 4)), Number(cpi[end].date.slice(0, 4)) - 1, 'year-ago CPI for ' + cpi[end].date + ' is one year earlier');
+}
+assert.ok(matched > 12, 'most CPI months find their year-ago month');
+const gap = [{date: '2025-09-01', value: 1}, {date: '2025-11-01', value: 1}, {date: '2026-09-01', value: 1}, {date: '2026-10-01', value: 1}];
+assert.equal(yearAgoIndex(gap), -1, 'a missing year-ago month gives no YoY');
+assert.equal(yearAgoIndex(gap, 2), 0, 'a present year-ago month is used');
+const weekly = [{date: '2025-11-06'}, {date: '2025-11-13'}, {date: '2026-11-05'}, {date: '2026-11-12'}];
+assert.equal(yearAgoIndex(weekly), 0, 'weekly series still match the nearest earlier week');
+const daily = [{date: '2025-11-07'}, {date: '2025-11-10'}, {date: '2026-11-09'}, {date: '2026-11-10'}];
+assert.equal(yearAgoIndex(daily, 2), 0, 'a daily date whose year-ago day is a weekend uses the Friday before');
 
 console.log('Economic dashboard accuracy guards passed.');
 })().catch(e => { console.error(e); process.exit(1); });
