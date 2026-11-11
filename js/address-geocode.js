@@ -37,14 +37,30 @@
     return fold(String(text || '').split(',')[0]).split(/[^a-z0-9]+/)
       .filter(function (w) { return Object.prototype.hasOwnProperty.call(DIR, w); }).map(function (w) { return DIR[w]; });
   }
+  // Road types, in short form, so "Street" and "St" agree and "Street" and "Avenue" do not.
+  var KIND = { road: 'rd', rd: 'rd', cr: 'rd', street: 'st', st: 'st', avenue: 'ave', ave: 'ave', av: 'ave', drive: 'dr', dr: 'dr',
+    lane: 'ln', ln: 'ln', court: 'ct', ct: 'ct', circle: 'cir', cir: 'cir', boulevard: 'blvd', blvd: 'blvd', way: 'way', place: 'pl',
+    pl: 'pl', trail: 'trl', trl: 'trl', parkway: 'pkwy', pkwy: 'pkwy', terrace: 'ter', ter: 'ter', loop: 'loop', highway: 'hwy', hwy: 'hwy' };
+  function kinds(text) {
+    return fold(String(text || '').split(',')[0]).split(/[^a-z0-9]+/)
+      .filter(function (w) { return Object.prototype.hasOwnProperty.call(KIND, w); }).map(function (w) { return KIND[w]; });
+  }
   // The words of the street part (before the first comma), without road-type or direction words, and
-  // with a Mesa County half road ("18 1/2") kept as one token: "45 Kestrel Ridge Road, Penrose" ->
+  // with a half road ("18 1/2", "E 1/2") kept as one token: "45 Kestrel Ridge Road, Penrose" ->
   // ['45', 'kestrel', 'ridge']; "1340 18 1/2 Rd" -> ['1340', '18half']; "200 Avenue A" -> ['200', 'a'].
+  // When only numbers would be left, a letter or direction right before a road type is the street's
+  // name, not a direction: Mesa County's "3268 E Road" -> ['3268', 'e'], "North Avenue" -> ['north'].
   function street(text) {
-    return fold(String(text || '').split(',')[0]
-      .replace(/\b(\d+)\s*(1\/2|\u00bd)/g, '$1half'))
-      .replace(/[^a-z0-9\s]/g, ' ').trim().split(/\s+/)
-      .filter(function (w) { return w && !TYPE.test(w); });
+    var words = fold(String(text || '').split(',')[0]
+      .replace(/\b(\d+)\s*(1\/2|\u00bd)/g, '$1half')
+      .replace(/\b([a-z])\s*(1\/2|\u00bd)/gi, '$1half'))
+      .replace(/[^a-z0-9\s]/g, ' ').trim().split(/\s+/);
+    // The first road type, and whether only numbers come before the letter that precedes it.
+    var at = -1;
+    for (var i = 1; i < words.length && at < 0; i++) if (Object.prototype.hasOwnProperty.call(KIND, words[i])) at = i;
+    var named = at > 0 && Object.prototype.hasOwnProperty.call(DIR, words[at - 1]) &&
+      words.slice(0, at - 1).every(function (w) { return !w || NUM.test(w) || TYPE.test(w); });
+    return words.filter(function (w, i) { return w && (!TYPE.test(w) || (named && i === at - 1)); });
   }
   var NUM = /^\d/;
   function close(a, b) {
@@ -63,9 +79,9 @@
   // letter in a long word, and every word of it was typed. The typed text may carry one extra
   // leading number, its house number, and, when it has no comma, a trailing town, state and ZIP:
   // once the street words run out, the rest must all be words of the returned place (town, county, ZIP) or "Colorado". A typed ZIP must be
-  // the returned one, when one came back. A direction given on both sides must agree, so East Colfax
-  // is never taken for West Colfax; a direction on one side only is allowed, as the two services
-  // often leave it out.
+  // the returned one, when one came back. A direction or road type given on both sides must agree, so
+  // East Colfax is never taken for West Colfax, nor Main Street for Main Avenue; one given on one side
+  // only is allowed, as the two services often leave it out.
   function sameStreet(typed, road, place) {
     var want = street(typed), have = street(road);
     var where = fold(place).split(/[^a-z0-9]+/).filter(Boolean).concat(['colorado']);
@@ -73,6 +89,8 @@
     if (!have.length) return !want.length;
     var dt = dirs(typed), dh = dirs(road);
     if (dt.length && dh.length && !dt.some(function (d) { return dh.indexOf(d) > -1; })) return false;
+    var kt = kinds(typed), kh = kinds(road);
+    if (kt.length && kh.length && !kt.some(function (k) { return kh.indexOf(k) > -1; })) return false;
     if (!have.filter(function (h) { return NUM.test(h); }).every(function (h) { return want.indexOf(h) > -1; })) return false;
     if (want.length > 1 && NUM.test(want[0]) && have.indexOf(want[0]) < 0) want = want.slice(1);
     var used = [], tail = false;

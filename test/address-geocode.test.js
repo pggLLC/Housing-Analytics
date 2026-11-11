@@ -49,6 +49,20 @@ same('123 E Colfax Ave, Denver', 'East Colfax Avenue', true);
 same('123 Colfax Ave, Denver', 'East Colfax Avenue', true);
 same('123 E Colfax Ave, Denver', 'Colfax Avenue', true);
 same('500 SW 2nd St, Cortez', 'Northwest 2nd Street', false);
+// A road type given on both sides must agree (Street/St agree; Street/Avenue do not).
+same('123 Main Street, Montrose', 'Main Avenue', false);
+same('123 Main St, Montrose', 'Main Street', true);
+same('2310 CR 233, Rifle', 'County Road 233', true);
+same('123 North Ave, Grand Junction', 'North Street', false);
+// A letter or direction right before a road type, with only numbers before it, names the road.
+check(JSON.stringify(G.street('3200 E Road, Clifton')) === '["3200","e"]', 'lettered road keeps its letter: ' + G.street('3200 E Road, Clifton'));
+check(JSON.stringify(G.street('3200 E 1/2 Road, Clifton')) === '["3200","ehalf"]', 'lettered half road is one token: ' + G.street('3200 E 1/2 Road, Clifton'));
+check(JSON.stringify(G.street('123 E Main St')) === '["123","main"]', 'a direction before a named street is still dropped');
+same('3200 E Road, Clifton, CO 81520', 'E Road', true);
+same('3200 E Road Clifton CO 81520', 'E Road', true, 'Clifton Mesa County 81520');
+same('3200 E Road, Clifton', 'F Road', false);
+same('3200 E 1/2 Road, Clifton', 'E Road', false);
+same('123 North Ave, Grand Junction', 'North Avenue', true);
 // A comma-free ZIP must be the returned one, when one came back.
 same('123 Main Street CO 81424', 'Main Street', false, 'Montrose Montrose County 81401');
 same('123 Main Street CO 81401', 'Main Street', true, 'Montrose Montrose County 81401');
@@ -59,18 +73,22 @@ check(/street/.test(G.note({ source: 'osm', exact: false, label: 'Kestrel Ridge 
 
 // The whole lookup with Census unreachable (no page here) and mocked OpenStreetMap answers: an answer
 // in Cañon City is found by the accented and plain spellings but not by a Florence query; a West
-// Colfax answer not by East Colfax; a Montrose 81401 answer not by a comma-free 81424.
+// Colfax answer not by East Colfax; a Montrose 81401 answer not by a comma-free 81424; a Main Avenue
+// answer not by Main Street; and an E Road answer by an E Road query.
 const osmAnswer = [{ lat: '38.44', lon: '-105.24', display_name: 'Main Street, Cañon City, CO', address: { road: 'Main Street', city: 'Cañon City', county: 'Fremont County', state: 'Colorado', postcode: '81212' } }];
 const answers = {
   canon: osmAnswer,
   colfax: [{ lat: '39.74', lon: '-105.0', display_name: 'West Colfax Avenue, Denver, CO', address: { road: 'West Colfax Avenue', city: 'Denver', county: 'Denver County', state: 'Colorado', postcode: '80204' } }],
   montrose: [{ lat: '38.48', lon: '-107.88', display_name: 'Main Street, Montrose, CO', address: { road: 'Main Street', city: 'Montrose', county: 'Montrose County', state: 'Colorado', postcode: '81401' } }],
+  avenue: [{ lat: '38.48', lon: '-107.88', display_name: '123, Main Avenue, Montrose, CO', address: { house_number: '123', road: 'Main Avenue', city: 'Montrose', county: 'Montrose County', state: 'Colorado', postcode: '81401' } }],
+  eroad: [{ lat: '39.08', lon: '-108.45', display_name: '3200, E Road, Clifton, CO', address: { house_number: '3200', road: 'E Road', village: 'Clifton', county: 'Mesa County', state: 'Colorado', postcode: '81520' } }],
 };
 const ask = (key, q) => { globalThis.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve(answers[key]) }); return G.find(q).catch(() => null); };
 const queries = [['canon', '123 Main Street, Cañon City, CO'], ['canon', '123 Main Street, Canon City, CO'], ['canon', '123 Main Street, Florence, CO'],
-  ['colfax', '123 East Colfax Avenue, Denver, CO'], ['colfax', '123 West Colfax Avenue, Denver, CO'], ['montrose', '123 Main Street CO 81424'], ['montrose', '123 Main Street CO 81401']];
+  ['colfax', '123 East Colfax Avenue, Denver, CO'], ['colfax', '123 West Colfax Avenue, Denver, CO'], ['montrose', '123 Main Street CO 81424'], ['montrose', '123 Main Street CO 81401'],
+  ['avenue', '123 Main Street, Montrose, CO 81401'], ['eroad', '3200 E Road, Clifton, CO 81520']];
 queries.reduce((prev, [key, q]) => prev.then((out) => ask(key, q).then((hit) => out.concat([hit]))), Promise.resolve([]))
-  .then(([accented, plain, other, east, west, zipOff, zipOn]) => {
+  .then(([accented, plain, other, east, west, zipOff, zipOn, avenue, eroad]) => {
     check(accented && accented.source === 'osm', 'find: accented Cañon City query should resolve');
     check(plain && plain.source === 'osm', 'find: plain Canon City query should resolve');
     check(other === null, 'find: Florence query should not take a Cañon City answer');
@@ -78,6 +96,8 @@ queries.reduce((prev, [key, q]) => prev.then((out) => ask(key, q).then((hit) => 
     check(west && west.source === 'osm', 'find: West Colfax query should resolve');
     check(zipOff === null, 'find: comma-free 81424 query should not take a Montrose 81401 answer');
     check(zipOn && zipOn.source === 'osm', 'find: comma-free 81401 query should resolve');
+    check(avenue === null, 'find: Main Street query should not take a Main Avenue answer');
+    check(eroad && eroad.exact === true, 'find: 3200 E Road query should take the E Road answer, to the house');
     console.log(fails.length ? 'geocode: FAIL ' + fails.length + '/' + n + '\n  ' + fails.join('\n  ') : 'geocode: PASS ' + n + ' checks');
     process.exit(fails.length ? 1 : 0);
   });
