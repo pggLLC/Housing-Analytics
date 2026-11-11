@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-10T15:46:46.962375Z",
+  "generated": "2026-11-11T01:07:20.073081Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1031487
+      "bytes": 1031854
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -1604,7 +1604,7 @@
     "data/hna/hna-views.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14153
+      "bytes": 14311
     },
     "data/hna/home-value-cascade.json": {
       "featureCount": 64,
@@ -9710,6 +9710,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 590501
+    },
+    "data/policy/funding-awards/applicant-report-counts.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3632
     },
     "data/policy/funding-awards/award-rows.json": {
       "featureCount": 0,

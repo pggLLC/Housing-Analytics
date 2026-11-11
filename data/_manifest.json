@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-10T14:58:36.333Z",
+    "generated_at": "2026-11-11T01:07:17.217Z",
     "root": "data/",
-    "file_count": 2028,
-    "total_size_bytes": 223045652,
+    "file_count": 2029,
+    "total_size_bytes": 223049599,
     "kinds": {
-      "json": 1979,
+      "json": 1980,
       "geojson": 35,
       "csv": 14
     }
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7517,
-      "mtime": "2026-11-10T01:51:00.775Z",
+      "size_bytes": 7515,
+      "mtime": "2026-11-11T01:05:40.435Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-10T14:51:24.727Z",
+      "mtime": "2026-11-11T01:07:13.656Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6605,8 +6605,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 310529,
-      "mtime": "2026-11-10T01:51:00.899Z",
+      "size_bytes": 310688,
+      "mtime": "2026-11-11T01:05:40.540Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -6621,7 +6621,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 2000,
+      "primary_array_length": 2001,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -8475,8 +8475,8 @@
     {
       "path": "hna/hna-views.json",
       "kind": "json",
-      "size_bytes": 14153,
-      "mtime": "2026-10-29T07:40:26.123Z",
+      "size_bytes": 14311,
+      "mtime": "2026-11-11T01:05:40.575Z",
       "shape": "object",
       "keys": [
         "_comment",
@@ -38281,7 +38281,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 257831,
-      "mtime": "2026-11-10T14:50:56.367Z",
+      "mtime": "2026-11-11T01:06:43.156Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -40229,7 +40229,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-10T14:51:26.552Z",
+      "mtime": "2026-11-11T01:07:15.452Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40253,7 +40253,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-10T14:51:26.069Z",
+      "mtime": "2026-11-11T01:07:15.028Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42383,6 +42383,20 @@
         "measure",
         "reduces_total_cost"
       ]
+    },
+    {
+      "path": "policy/funding-awards/applicant-report-counts.json",
+      "kind": "json",
+      "size_bytes": 3632,
+      "mtime": "2026-11-11T01:05:40.956Z",
+      "shape": "object",
+      "keys": [
+        "meta"
+      ],
+      "key_count": 1,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "policy/funding-awards/award-rows.json",
