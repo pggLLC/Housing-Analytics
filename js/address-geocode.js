@@ -26,20 +26,16 @@
   function inColorado(lon, lat) { return lon <= -102 && lon >= -109.1 && lat >= 36.95 && lat <= 41.05; }
   function withState(text) { return /\b(co|colorado)\b/i.test(text) ? text : text + ', CO'; }
 
-  // The words that name the street, without the house number, the road type or a direction:
-  // "45 Kestrel Ridge Road, Penrose" -> ['kestrel', 'ridge']; "1340 18 Rd" -> ['18'].
-  // Road-type words that follow a street name ("18 Road"), as against ones that lead it ("Hwy 172").
-  var SUFFIX = /^(road|rd|street|st|avenue|ave|av|drive|dr|lane|ln|court|ct|circle|cir|boulevard|blvd|way|place|pl|trail|trl|parkway|pkwy|terrace|ter|loop)$/;
+  // The words of the street part (before the first comma), without road-type or direction words, and
+  // with a Mesa County half road ("18 1/2") kept as one token: "45 Kestrel Ridge Road, Penrose" ->
+  // ['45', 'kestrel', 'ridge']; "1340 18 1/2 Rd" -> ['1340', '18half']; "200 Avenue A" -> ['200', 'a'].
   function street(text) {
-    var first = String(text || '').split(',')[0].toLowerCase()
-      // Mesa County's half roads: "18 1/2 Road" is its own street, so the half stays on the number.
+    return String(text || '').split(',')[0].toLowerCase()
       .replace(/\b(\d+)\s*(1\/2|\u00bd)/g, '$1half')
-      .replace(/[^a-z0-9\s]/g, ' ').trim().split(/\s+/);
-    // A leading number is the house number, unless a road type follows it, which makes it the street
-    // itself: "1340 18 Rd" drops 1340, "18 Road and K Road" keeps 18, "16900 Hwy 172" drops 16900.
-    if (first.length > 1 && /^\d+[a-z]?$/.test(first[0]) && !SUFFIX.test(first[1])) first = first.slice(1);
-    return first.filter(function (w) { return w && !TYPE.test(w); });
+      .replace(/[^a-z0-9\s]/g, ' ').trim().split(/\s+/)
+      .filter(function (w) { return w && !TYPE.test(w); });
   }
+  var NUM = /^\d/;
   function close(a, b) {
     if (a === b) return true;
     if (Math.abs(a.length - b.length) > 1 || a.length < 5 || /\d/.test(a + b)) return false;
@@ -51,10 +47,14 @@
     }
     return edits + (a.length - i) + (b.length - j) <= 1;
   }
-  // Every typed street word is in the returned street name, allowing one wrong letter in a long word.
+  // The returned street is the typed one when every number in it was typed (so "19 Road" never stands
+  // in for "18 Road", nor County Road 320 for 233) and every typed word is in it, allowing one wrong
+  // letter in a long word. The typed text may carry one extra leading number, its house number.
   function sameStreet(typed, road) {
     var want = street(typed), have = street(road);
-    if (!want.length) return true;
+    if (!have.length) return !want.length;
+    if (!have.filter(function (h) { return NUM.test(h); }).every(function (h) { return want.indexOf(h) > -1; })) return false;
+    if (want.length > 1 && NUM.test(want[0]) && have.indexOf(want[0]) < 0) want = want.slice(1);
     return want.every(function (w) { return have.some(function (h) { return close(w, h); }); });
   }
 

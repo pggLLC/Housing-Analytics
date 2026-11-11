@@ -5,9 +5,9 @@ const fails = []; let n = 0;
 const check = (ok, msg) => { n++; if (!ok) fails.push(msg); };
 const same = (typed, road, want) => check(G.sameStreet(typed, road) === want, typed + ' vs ' + road + ': expected ' + want);
 
-check(JSON.stringify(G.street('45 Kestrel ridge road, penrose, colorado 81240')) === '["kestrel","ridge"]', 'street words: ' + G.street('45 Kestrel ridge road, penrose'));
-check(JSON.stringify(G.street('1340 18 Rd, Fruita, CO')) === '["18"]', 'grid road keeps its number');
-check(JSON.stringify(G.street('0039 County Road 17, Hesperus')) === '["17"]', 'county road keeps its number');
+check(JSON.stringify(G.street('45 Kestrel ridge road, penrose, colorado 81240')) === '["45","kestrel","ridge"]', 'street words: ' + G.street('45 Kestrel ridge road, penrose'));
+check(JSON.stringify(G.street('1340 18 1/2 Rd, Fruita, CO')) === '["1340","18half"]', 'half road is one token');
+check(JSON.stringify(G.street('0039 County Road 17, Hesperus')) === '["0039","17"]', 'county road keeps its number');
 same('45 Kestrel ridge road, penrose', 'Kestrel Ridge Road', true);
 same('45 Kestral Ridge Rd, Penrose', 'Kestrel Ridge Road', true); // one letter off in a long word
 same('1340 18 Rd, Fruita', '18 Road', true);
@@ -20,6 +20,8 @@ same('18 Road and K Road, Fruita', '19 Road and K Road', false); // a numbered r
 same('1340 18 1/2 Rd, Fruita', '18 1/2 Road', true);              // half roads keep their number
 same('1340 18 1/2 Rd, Fruita', '18 Road', false);
 same('0039 County Road 17, Hesperus', 'County Road 17', true);
+same('200 Avenue A, Pueblo, CO', 'Avenue A', true);               // house number before a prefix-style name
+same('200 Avenue A, Pueblo, CO', 'Avenue B', false);
 check(/street/.test(G.note({ source: 'osm', exact: false, label: 'Kestrel Ridge Road, Penrose, CO' })), 'street-only note says the pin is on the street');
 
 console.log(fails.length ? 'geocode: FAIL ' + fails.length + '/' + n + '\n  ' + fails.join('\n  ') : 'geocode: PASS ' + n + ' checks');
