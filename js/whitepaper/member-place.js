@@ -94,6 +94,14 @@
     Object.keys(j).forEach(function (g) {
       if (g.length === 5 && GEOID.test(g) && j[g] && j[g].name && !seen[g]) { seen[g] = 1; out.push({ geoid: g, name: String(j[g].name) }); }
     });
+    // Every option must name one geography, since the box submits only the name (Codex, #2774). A county
+    // that shares its name with its town (Denver, Broomfield) reads "Denver County"; places that still share
+    // a full Census name (two Twin Lakes CDPs) carry their GEOID.
+    var count = function () { var c = {}; out.forEach(function (p) { var k = p.name.toLowerCase(); c[k] = (c[k] || 0) + 1; }); return c; };
+    var c1 = count();
+    out.forEach(function (p) { if (c1[p.name.toLowerCase()] > 1 && p.geoid.length === 5 && !/county$/i.test(p.name)) p.name += ' County'; });
+    var c2 = count();
+    out.forEach(function (p) { if (c2[p.name.toLowerCase()] > 1) p.name += ' (' + p.geoid + ')'; });
     return out.sort(function (a, b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0; });
   }
   function nameOf(list, geoid) {

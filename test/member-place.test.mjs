@@ -49,6 +49,19 @@ ok(Object.keys(MP.TAKES).every((f) => fs.existsSync(path.join(ROOT, f)) || /hna-
   ok(MP.findByName(list, '  salida ').geoid === '0867280' && MP.findByName(list, 'Sal') === null && MP.findByName(list, '') === null, 'only a full name from the list picks a place');
 }
 
+// Every name picks one geography (Codex, #2774): a county sharing its town's name, and two places with the
+// same full Census name, are told apart. Checked on the real files the line reads.
+{
+  const real = MP.placeList(JSON.parse(fs.readFileSync(path.join(ROOT, 'data/co-place-centroids.json'), 'utf8')),
+    JSON.parse(fs.readFileSync(path.join(ROOT, 'data/policy/state-housing-laws.json'), 'utf8')));
+  const seen = {};
+  real.forEach((p) => { seen[p.name.toLowerCase()] = (seen[p.name.toLowerCase()] || 0) + 1; });
+  ok(Object.values(seen).every((n) => n === 1), 'no two geographies share a name in the list');
+  ok(MP.findByName(real, 'Denver').geoid === '0820000' && MP.findByName(real, 'Denver County').geoid === '08031', 'Denver the city and Denver the county are both pickable');
+  ok(MP.findByName(real, 'Broomfield County').geoid === '08014', 'Broomfield County is pickable');
+  ok(MP.findByName(real, 'Twin Lakes CDP (0879105)').geoid === '0879105' && MP.findByName(real, 'Twin Lakes CDP (0879100)').geoid === '0879100', 'each Twin Lakes picks itself');
+}
+
 const src = fs.readFileSync(path.join(ROOT, 'js/whitepaper/member-place.js'), 'utf8');
 ok(!/innerHTML|insertAdjacentHTML|document\.write/.test(src), 'names are never written as HTML');
 ok(!/location\.replace|location\.assign/.test(src), 'the line never redirects a page on its own');
