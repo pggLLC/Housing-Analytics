@@ -891,16 +891,23 @@ function getKey(){ return CONFIG_KEY || ""; }
   // Index of the observation dated closest to, and not after, one year
   // before the observation at `endIdx` (default: the latest). Works for
   // daily, weekly, monthly and quarterly series alike. Returns -1 when the
-  // series does not reach back a full year.
+  // series does not reach back a full year, or when the year-earlier period
+  // is missing (October 2025 CPI was never published), so a 13-month change
+  // is never shown as a year-over-year one.
   function yearAgoIndex(series, endIdx){
     const end = (endIdx == null) ? series.length - 1 : endIdx;
     if (end < 1) return -1;
     const d = new Date(series[end].date + "T00:00:00Z");
     if (isNaN(d.getTime())) return -1;
+    const step = d - new Date(series[end - 1].date + "T00:00:00Z");
+    const slack = Math.max(step - 86400000, 4 * 86400000);
     d.setUTCFullYear(d.getUTCFullYear() - 1);
     const target = d.toISOString().slice(0, 10);
     for (let i = end - 1; i >= 0; i--) {
-      if (series[i].date <= target) return i;
+      if (series[i].date <= target) {
+        const gap = d - new Date(series[i].date + "T00:00:00Z");
+        return (gap <= slack) ? i : -1;
+      }
     }
     return -1;
   }
