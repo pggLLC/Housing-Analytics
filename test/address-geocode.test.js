@@ -27,6 +27,8 @@ same('45 Kestrel Ridge Road Penrose CO 81240', 'Kestrel Ridge Road', true, 'Penr
 same('123 Main Street Nucla Colorado', 'Main Street', true, 'Nucla Montrose County 81424');
 same('45 Kestrel Ridge Road Canon City CO', 'Kestrel Ridge Road', false, 'Penrose Fremont County 81240');
 same('45 Kestrel Penrose', 'Penrose Road', false, 'Penrose');
+same('123 Main Street, Nucla, CO', 'Old Main Street', false, 'Nucla'); // every returned word must be typed too
+same('123 Old Main Street, Nucla, CO', 'Old Main Street', true, 'Nucla');
 check(/street/.test(G.note({ source: 'osm', exact: false, label: 'Kestrel Ridge Road, Penrose, CO' })), 'street-only note says the pin is on the street');
 
 console.log(fails.length ? 'geocode: FAIL ' + fails.length + '/' + n + '\n  ' + fails.join('\n  ') : 'geocode: PASS ' + n + ' checks');

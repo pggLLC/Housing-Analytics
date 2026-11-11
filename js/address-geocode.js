@@ -49,7 +49,7 @@
   }
   // The returned street is the typed one when every number in it was typed (so "19 Road" never stands
   // in for "18 Road", nor County Road 320 for 233) and every typed word is in it, allowing one wrong
-  // letter in a long word. The typed text may carry one extra leading number, its house number, and,
+  // letter in a long word, and every word of it was typed. The typed text may carry one extra leading number, its house number, and,
   // when it has no comma, a trailing town, state and ZIP: once the street words run out, the rest
   // must all be words of the returned place (town, county, ZIP) or "Colorado".
   function sameStreet(typed, road, place) {
@@ -58,14 +58,16 @@
     if (!have.length) return !want.length;
     if (!have.filter(function (h) { return NUM.test(h); }).every(function (h) { return want.indexOf(h) > -1; })) return false;
     if (want.length > 1 && NUM.test(want[0]) && have.indexOf(want[0]) < 0) want = want.slice(1);
-    var inStreet = 0, tail = false;
+    var used = [], tail = false;
     for (var i = 0; i < want.length; i++) {
       var w = want[i];
-      if (!tail && have.some(function (h) { return close(w, h); })) { inStreet++; continue; }
-      if (inStreet && (where.indexOf(w) > -1 || /^8\d{4}$/.test(w))) { tail = true; continue; }
+      if (!tail && have.some(function (h) { return close(w, h); })) { used.push(w); continue; }
+      if (used.length && (where.indexOf(w) > -1 || /^8\d{4}$/.test(w))) { tail = true; continue; }
       return false;
     }
-    return inStreet > 0;
+    // And the other way: every word of the returned street was typed, so "Old Main Street" is not
+    // taken for "Main Street".
+    return used.length > 0 && have.every(function (h) { return used.some(function (w) { return close(w, h); }); });
   }
 
   var n = 0;
