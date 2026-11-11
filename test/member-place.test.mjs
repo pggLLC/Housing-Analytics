@@ -137,6 +137,19 @@ try {
       await tab.unroute('**/data/co-place-centroids.json');
     }
 
+    // The report's own picker switches place: the line and the kept place follow it (Codex, #2774).
+    await tab.goto(ORIGIN + '/developer-brief.html?geoid=0867280');
+    await tab.waitForFunction(() => /Working on: Salida/.test((document.getElementById('mpLine') || {}).innerText || ''));
+    await tab.waitForFunction(() => document.querySelectorAll('#briefPickerList option').length > 100);
+    const gunnison = await tab.evaluate(() => [...document.querySelectorAll('#briefPickerList option')].map((o) => o.value).find((v) => /^Gunnison[^—]* — /.test(v)));
+    ok(!!gunnison, `${width}: the report's picker lists Gunnison`);
+    await tab.fill('#briefPicker', gunnison);
+    await tab.dispatchEvent('#briefPicker', 'change');
+    await tab.waitForFunction(() => new URLSearchParams(location.search).get('geoid') === '0833640');
+    await tab.waitForFunction(() => /Working on: Gunnison/.test(document.getElementById('mpLine').innerText));
+    ok(await tab.evaluate((k) => JSON.parse(localStorage.getItem(k)).geoid, MP.KEY) === '0833640', `${width}: the report's own pick is kept`);
+    ok(await tab.locator('#mpLine a').count() === 0, `${width}: no "Open it here" for the place already shown`);
+
     // Print: the line stays off the page.
     await tab.emulateMedia({ media: 'print' });
     ok(await line().isHidden(), `${width}: hidden in print`);

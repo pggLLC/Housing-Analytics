@@ -212,8 +212,10 @@
     }
     picked = kept;
     draw(kept, false);
-    if (kept && !kept.name) {
-      var asked = kept.geoid;
+    if (kept && !kept.name) nameIt(kept.geoid);
+
+    // Fill in the name of a place picked by its code alone (a link, or the page's own picker).
+    function nameIt(asked) {
       loadList().then(function (l) {
         // The member may have cleared or changed the place while the names loaded: only name the place
         // that is still picked, and never write it back otherwise.
@@ -225,6 +227,35 @@
         // Keep an open "Change" box open; only the name in the line is filled in.
         if (!doc.getElementById('mpInput')) draw(picked, false);
       });
+    }
+
+    // A page that switches place itself (Report's own picker rewrites ?geoid= with history.replaceState)
+    // moves the line and the kept place with it, so the line never names a town the page no longer shows
+    // (Codex, #2774).
+    // Only a change of place in the address counts: the page restating the place it opened on (the report
+    // rewrites ?geoid= when it finishes loading) must not bring back a place the member cleared.
+    var shown = linked;
+    function follow() {
+      var g = fromAddress(path, loc.search);
+      if (!g || g === shown) return;
+      shown = g;
+      if (picked && picked.geoid === g) return;
+      picked = { geoid: g, name: list ? nameOf(list, g) : '' };
+      write(getStore, picked);
+      draw(picked, false);
+      if (!picked.name) nameIt(g);
+    }
+    if (TAKES[fileOf(path)] && win.history) {
+      ['pushState', 'replaceState'].forEach(function (m) {
+        var orig = win.history[m];
+        if (typeof orig !== 'function') return;
+        win.history[m] = function () {
+          var r = orig.apply(this, arguments);
+          try { follow(); } catch (_) { /* the page's own call already succeeded */ }
+          return r;
+        };
+      });
+      if (win.addEventListener) win.addEventListener('popstate', follow);
     }
   }
 
