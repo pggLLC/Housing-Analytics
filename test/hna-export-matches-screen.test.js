@@ -586,6 +586,30 @@ async function exportAll(c) {
     } finally { el.textContent = was; }
   });
 
+  await test('the home value row names the source the page shows for it, in the workbook and the CSV (round-three review)', async () => {
+    // Fruita's home value is a Zillow index, not ACS DP04. Mesa County is checked too, so a fixed label cannot pass.
+    for (const geoid of ['0828745', '08077']) {
+      const r = await exportAll(CASES.find((c) => c.geoid === geoid));
+      const shown = document.getElementById('statHomeValueSrc').textContent.replace(/\s+/g, ' ').trim();
+      assert(shown && shown !== '\u2014', geoid + ': the page shows no home value source to compare with');
+      const row = sheets.Summary.rows.find((x) => typeof x.k === 'string' && /home value/i.test(x.k));
+      assert(row, geoid + ': no home value row in the workbook');
+      const rowText = JSON.stringify(row);
+      assert(rowText.includes(shown.slice(0, 20)), geoid + ': workbook home value row does not carry the page source "' + shown.slice(0, 40) + '": ' + rowText.slice(0, 200));
+      if (/zillow/i.test(shown)) assert(!/DP04/.test(rowText), geoid + ': a Zillow value is labelled DP04');
+      const csvRow = r.csvRows.find((x) => x[0] === 'Median Home Value source');
+      assert(csvRow && csvRow.join(' ').includes(shown.slice(0, 20)), geoid + ': CSV home value row lacks the page source: ' + JSON.stringify(csvRow) + ' vs ' + shown);
+    }
+  });
+
+  await test('shared-out CHAS figures are never called measured for the place (round-three review)', async () => {
+    const src = require('fs').readFileSync(require('path').join(__dirname, '..', 'js/hna/hna-export.js'), 'utf8');
+    assert(!/Measured for this place \(tract CHAS apportioned/.test(src), 'the apportioned CHAS label still says Measured');
+    const r = await exportAll(CASES.find((c) => c.geoid === '0828745'));
+    const all = r.csvRows.map((x) => x.join(' ')).join('\n') + r.pdf.join(' ');
+    assert(!/Measured for this place \(tract CHAS/.test(all), 'a download still calls apportioned CHAS measured');
+  });
+
   await test('a 0 AMI gap is exercised: Mesa\'s 60% AMI gap is 0 in the data', async () => {
     assert.strictEqual(rankOf('08077').metrics.ami_gap_60pct, 0, 'fixture changed: pick another zero-gap jurisdiction');
   });
