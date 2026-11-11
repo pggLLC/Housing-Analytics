@@ -4,9 +4,9 @@
 //    CORS headers, so the browser asks it the JSONP way, as its documentation says
 //    (https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf).
 // 2. When Census has no Colorado match, which happens on streets newer than its address list
-//    (new subdivisions, some county and grid roads), OpenStreetMap's Nominatim is asked once
-//    (https://nominatim.org/release-docs/latest/api/Search/; one request per Enter, as its usage
-//    policy asks). Its answer is used only if the street name it returns is the street that was
+//    (new subdivisions, some county and grid roads), OpenStreetMap's Nominatim is asked once,
+//    one request per Enter as its usage policy asks
+//    (https://nominatim.org/release-docs/latest/api/Search/). Its answer is used only if the street name it returns is the street that was
 //    typed, so "County Road 233" never lands on County Road 320. When OpenStreetMap knows the
 //    street but not the house number, the answer says the pin is on the street, not at the door.
 //
