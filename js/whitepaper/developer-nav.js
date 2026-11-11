@@ -149,6 +149,13 @@
       var h = a.getAttribute('href');
       if (!/^([a-z][a-z0-9+.-]*:|\/|#)/i.test(h)) a.setAttribute('href', up + h);
     });
+    // "Working on: <place>" under the menu (member-place.js). Loaded from here so every page with the member
+    // menu gets it without each page listing another script.
+    if (doc.createElement && doc.head && !doc.getElementById('mpScript') && !root.MemberPlace) {
+      var mp = doc.createElement('script');
+      mp.id = 'mpScript'; mp.src = up + 'js/whitepaper/member-place.js';
+      doc.head.appendChild(mp);
+    }
     var out = nav.querySelector('a[href="/logout"]');
     if (out) out.addEventListener('click', function () {
       try { root.sessionStorage.removeItem('ib-auth-v1'); } catch (_) { /* storage blocked */ }
