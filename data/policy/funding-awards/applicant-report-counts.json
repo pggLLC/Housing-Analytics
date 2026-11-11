@@ -1,0 +1,105 @@
+{
+ "meta": {
+  "generated_at": "2026-10-18T11:00:27Z",
+  "generator": "scripts/funding/build_lihtc_applications.py",
+  "source": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
+  "note": "Rows per CHFA Applicant Report, as CHFA publishes them. A report counts only when its rows add up to the totals it prints (status ok). No project or contact fields.",
+  "documents": [
+   {
+    "round_label": "2023 Round One",
+    "credit_type": "9%",
+    "status": "ok",
+    "rows": 26,
+    "url": "https://www.chfainfo.com/getattachment/8311f5ac-13b7-4075-a7ab-98496cee9495/2023-HTC-Round-One-Applicant-Report.pdf"
+   },
+   {
+    "round_label": "2023 Round Two",
+    "credit_type": "4%",
+    "status": "ok",
+    "rows": 35,
+    "as_of": "2023-08-11",
+    "url": "https://www.chfainfo.com/getattachment/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/2023-HTC-Round-Two-Applicant-Report.pdf"
+   },
+   {
+    "round_label": "2024 Round One",
+    "credit_type": "9%",
+    "status": "ok",
+    "rows": 23,
+    "as_of": "2024-02-09",
+    "url": "https://www.chfainfo.com/getattachment/154a5ab0-a93e-48b5-84bb-9f1fca061439/2024-HTC-Round-One-Applicant-Report.pdf"
+   },
+   {
+    "round_label": "2024 Round Two",
+    "credit_type": "4%",
+    "status": "ok",
+    "rows": 32,
+    "as_of": "2024-08-15",
+    "url": "https://www.chfainfo.com/getattachment/93df69bd-343e-4f1b-81c0-4960b5fe1fba/2024-HTC-Round-Two-Applicant-Report.pdf"
+   },
+   {
+    "round_label": "2025 Round One",
+    "credit_type": "9%",
+    "status": "ok",
+    "rows": 24,
+    "as_of": "2025-02-12",
+    "url": "https://www.chfainfo.com/getattachment/ad653f50-19f1-4672-a5e0-73fea5aae7d3/2025-HTC-Round-One-Applicant-Report.pdf"
+   },
+   {
+    "round_label": "2025 Round Two",
+    "credit_type": "4%",
+    "status": "ok",
+    "rows": 21,
+    "as_of": "2025-08-12",
+    "url": "https://www.chfainfo.com/getattachment/e2f4bc04-d8d0-403a-8775-5e8878502f01/2025-HTC-Round-Two-Applicant-Report.pdf"
+   },
+   {
+    "round_label": "2025 Middle Income Housing Tax Credit",
+    "credit_type": "MIHTC",
+    "status": "ok",
+    "rows": 5,
+    "as_of": "2025-05-29",
+    "url": "https://www.chfainfo.com/getattachment/dbf5e2bf-6bab-4be0-87cd-b76b4b2da655/2025-MIHTC-Applicant-Report.pdf"
+   },
+   {
+    "round_label": "2026 Round One",
+    "credit_type": "9%",
+    "status": "ok",
+    "rows": 32,
+    "as_of": "2026-02-09",
+    "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+   },
+   {
+    "round_label": "2026 Round Two",
+    "credit_type": "4%",
+    "status": "ok",
+    "rows": 26,
+    "as_of": "2026-08-11",
+    "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+   },
+   {
+    "round_label": "2026 Middle Income Housing Tax Credit",
+    "credit_type": "MIHTC",
+    "status": "ok",
+    "rows": 2,
+    "as_of": "2026-06-02",
+    "url": "https://www.chfainfo.com/getattachment/3ccf8430-1d3a-4189-89dc-e58acefc3b1b/2026-MIHTC-Applicant-Report.pdf"
+   },
+   {
+    "round_label": "Rolling MIHTC list",
+    "credit_type": "MIHTC",
+    "status": "ok",
+    "rows": 1,
+    "as_of": "2026-10-13",
+    "url": "https://www.chfainfo.com/getattachment/86a9169d-7951-4ffc-a9aa-b984d7833805/CHFA-Rolling-MIHTC-LOI-and-Applicant-Report.pdf"
+   },
+   {
+    "round_label": "Rolling federal 4% list",
+    "credit_type": "4%",
+    "status": "no_total_line",
+    "rows": 12,
+    "as_of": "2026-10-12",
+    "url": "https://www.chfainfo.com/getattachment/3aadf0e5-1030-4cc8-a72c-d963dc28f117/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf"
+   }
+  ]
+ }
+}

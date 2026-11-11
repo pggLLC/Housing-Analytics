@@ -508,6 +508,8 @@
     fields.forEach(id => {
       if (els[id]) els[id].textContent = '—';
     });
+    // HUD's count belongs to the geography it was drawn for.
+    renderChasAvailableShortfall(null, null);
     // A margin belongs to the figure it was shown with; it goes with it.
     document.querySelectorAll('[data-acs-tier]').forEach((el) => {
       el.textContent = '—';
@@ -8218,6 +8220,70 @@
    * @param {object|null} chasData - parsed chas_affordability_gap.json
    * @param {object|null} acsAmiData - parsed co_ami_gap_by_county.json
    */
+  /**
+   * renderChasAvailableShortfall — HUD's own count of homes short, from CHAS
+   * "affordable and available" (data/hna/chas_affordable_available.json,
+   * built by scripts/hna/build_chas_affordable_available.py).
+   *
+   * A home counts only if its rent is affordable at the tier AND it is vacant
+   * or rented by a household at or below the tier, so cheap homes held by
+   * higher-income renters are not supply. That is the difference from the
+   * ACS rows below it, which count every cheap rental, and it is why this is
+   * the figure the chapter summary quotes. homes_short is HUD's own field
+   * (floored at 0); this site's nested variant is not shown here.
+   *
+   * Missing stays missing: a geography without a record hides the card, and a
+   * tier without a number reads "—", never 0.
+   *
+   * @param {object|null} data - parsed chas_affordable_available.json
+   * @param {{type:string, geoid:string}} selectedGeo
+   */
+  function renderChasAvailableShortfall(data, selectedGeo) {
+    const box = document.getElementById('hnaChasShortfall');
+    if (!box) return;
+    const geo = selectedGeo || {};
+    const type = geo.type;
+    let record = null;
+    if (data) {
+      if (type === 'place' || type === 'cdp') record = (data.places || {})[geo.geoid] || null;
+      else if (type === 'county') record = (data.counties || {})[geo.geoid] || null;
+      else if (type === 'state') record = data.statewide || null;
+    }
+    const tiers = record && record.tiers;
+    const vintage = (data && data.meta && data.meta.vintage) || null;
+    const fmt = (U() && U().fmtNum) || ((n) => n.toLocaleString());
+    const ok = (v) => typeof v === 'number' && Number.isFinite(v) && v >= 0;
+    let shown = 0;
+    ['30', '50', '80'].forEach((tier) => {
+      const t = tiers && tiers[tier];
+      const vEl = document.getElementById('statChasShort' + tier);
+      const nEl = document.getElementById('statChasShort' + tier + 'Note');
+      const sEl = document.getElementById('statChasShort' + tier + 'Src');
+      const short = t && t.homes_short;
+      if (vEl) {
+        vEl.textContent = ok(short) ? fmt(short) : '—';
+        // The exports read this, not the text: the text is grouped for the
+        // reader's locale ("119.735", "119 735") and does not parse back.
+        if (ok(short)) vEl.setAttribute('data-value', String(short));
+        else vEl.removeAttribute('data-value');
+      }
+      if (nEl) {
+        nEl.textContent = (t && ok(t.renter_households) && ok(t.affordable_available_homes))
+          ? 'homes short · ' + fmt(t.affordable_available_homes) + ' homes for ' + fmt(t.renter_households) + ' households'
+          : 'homes short';
+      }
+      if (sEl) {
+        sEl.innerHTML = vintage
+          // The year sits in the link text: the chapter summary quotes this
+          // link, and a quoted source without its year is an undated one.
+          ? '<a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS ' + escHtml(vintage) + '</a>'
+          : '';
+      }
+      if (ok(short)) shown++;
+    });
+    box.hidden = shown === 0;
+  }
+
   // Hand off renderer values and source objects; explanation arithmetic stays
   // in the methodology registry and never feeds a displayed calculation.
   function explainGapFigure(figure, key, context) {
@@ -8428,10 +8494,10 @@
         const parts = BANDS.filter(b => gapTier[b] != null && gapTier[b] > 0)
           .map(b => 'up to ' + b + '% AMI +' + fmt(gapTier[b]));
         netLineEl.innerHTML =
-          '<strong>Net of existing affordable supply:</strong> ~' + fmt(totalGap) +
-          ' of these ' + fmt(totalDemand) + ' households remain unserved at up to 100% AMI' +
-          (parts.length ? ' <span style="color:var(--muted)">— shortfall concentrated at ' + parts.join(', ') + '</span>' : '') +
-          '. <span style="color:var(--muted)">Supply estimated from ACS B25063 gross-rent distribution; treat as directional.</span>';
+          '<strong>Band-by-band Census estimate:</strong> ~' + fmt(totalGap) +
+          ' of these ' + fmt(totalDemand) + ' renter households at up to 100% AMI are in bands with fewer rentals priced for them than households' +
+          (parts.length ? ' <span style="color:var(--muted)">(' + parts.join(', ') + ')</span>' : '') +
+          '. <span style="color:var(--muted)">It adds only the bands that are short, and counts every rental at a band&rsquo;s rent as available, so it does not match HUD&rsquo;s count above. Quote HUD&rsquo;s count; use this to see which bands are tightest. Supply from ACS B25063 gross rent; treat as directional.</span>';
         explainGapFigure(netLineEl, 'rental-shortfall-summary', { displayedValue: totalGap,
           rows: gapExplanationRows, sourceContext: explanationSource });
       } else if (usingChasFallback) {
@@ -8493,7 +8559,7 @@
           '</tr>'
         ).join('');
         projectedEl.innerHTML =
-          '<strong>Affordable rental deficit, today and projected:</strong> about ' + fmt(Math.round(totalToday)) + ' homes short today' +
+          '<strong>Band-by-band rental deficit (Census), today and projected:</strong> about ' + fmt(Math.round(totalToday)) + ' households short today, adding the bands that are short' +
           (total10 != null ? '; about ' + fmt(Math.round(total10)) + ' in 10 years' : '') +
           (total20 != null ? '; about ' + fmt(Math.round(total20)) + ' in 20 years' : '') +
           (more20 != null ? ', or about ' + fmt(Math.round(more20)) + ' more from growth.' : '.') +
@@ -10068,6 +10134,11 @@
     _combinedUnavailableHtml('specialNeedsPanel', unavailable);
     var bar = document.getElementById('hnaGapCoverageBar');
     if (bar) bar.innerHTML = '';
+    // HUD's count is per place or county; a summed combined area has none.
+    // Rendering with no data resets the cells to a dash as well as hiding the
+    // card: the chapter summary quotes the cells by text, so a hidden card
+    // with the last place's figures would be quoted as the combined area's.
+    renderChasAvailableShortfall(null, null);
     var netLine = document.getElementById('hnaGapNetLine');
     if (netLine) {
       var gap = result && result.amiGapEntry || {};
@@ -10426,6 +10497,7 @@
     // BLS / CHAS / FMR
     renderBlsLabourMarket,
     renderGapCoverageStats,
+    renderChasAvailableShortfall,
     renderChasAffordabilityGap,
     renderFmrPanel,
     renderHnaScorecardPanel,

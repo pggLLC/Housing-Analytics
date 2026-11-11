@@ -81,7 +81,7 @@
 
   /* ── Internal state ─────────────────────────────────────────────── */
   // CHFA tightening (2026-06-11): default to Tract picker. CHFA Market
-  // Study Guide (Appendix A, 2025-26 QAP) does not allow radius boundaries
+  // Study Guide (Appendix A, 2027-28 QAP) does not allow radius boundaries
   // — the PMA must be defined by whole census tracts justified by
   // municipal/county/tract/natural/school-district boundaries. The other
   // modes (buffer/commuting/hybrid) remain available for screening only.

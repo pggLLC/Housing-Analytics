@@ -499,29 +499,65 @@
     });
   }
 
-  /** AMI-gap rows: numbers kept as numbers, a real 0 kept as 0. */
+  /** AMI-gap rows: numbers kept as numbers, a real 0 kept as 0.
+   *
+   *  HUD's count comes first: homes short for renters, from CHAS "affordable
+   *  and available", quoted from the page's own cards. It is the figure the
+   *  HNA tells a reader to cite. The Census rows follow, labelled for what
+   *  they are: renter households minus rentals priced for them, which counts
+   *  every cheap rental as available. A bare "80% AMI gap: 37" would be read
+   *  as 37 homes short. */
+  var CENSUS_GAP_NOTE = 'renter households minus rentals priced for them (Census; counts every cheap rental as available; 0 = none short)';
   function _amiGapRows(d) {
     var g = (d && d.amiGap) || {};
     var src = g.source || 'unavailable';
     var reason = src === 'unavailable'
       ? 'No AMI-gap estimate for this geography.'
       : 'Not published by the AMI-gap source (' + src + ') for this geography.';
-    return [
+    var hud = g.hudShort || {};
+    var hudVintage = g.hudVintage ? ' ' + g.hudVintage : '';
+    var hudReason = src === 'combined'
+      ? 'HUD publishes this count per place or county, not for a combined area.'
+      : 'HUD CHAS has no affordable-and-available count for this geography.';
+    var hudRows = ['30', '50', '80'].map(function (t) {
+      var v = _numOrNull(hud[t]);
+      return { key: 'hudShort' + t, label: 'Homes short, ≤' + t + '% AMI (HUD CHAS' + hudVintage + ', affordable and available)',
+        value: v, display: _unitsDisplay(v), reason: v === null ? hudReason : null };
+    });
+    var censusRows = [
       { key: 'housingGapUnits', label: HOUSING_GAP_LABEL, value: _numOrNull(g.housingGapUnits) },
       { key: 'gap30pctUnits',   label: '30% AMI gap',     value: _numOrNull(g.gap30pctUnits) },
       { key: 'gap50pctUnits',   label: '50% AMI gap',     value: _numOrNull(g.gap50pctUnits) },
       { key: 'gap60pctUnits',   label: '60% AMI gap',     value: _numOrNull(g.gap60pctUnits) },
-    ].concat(src === 'combined' ? [
-      { key: 'gap80pctUnits', label: '80% AMI gap', value: _numOrNull(g.gap80pctUnits) },
-    ] : []).map(function (r) {
+      { key: 'gap80pctUnits',   label: '80% AMI gap',     value: _numOrNull(g.gap80pctUnits) },
+    ].map(function (r) {
       if (src === 'combined') {
         var threshold = r.key === 'housingGapUnits' ? '100' : r.key.match(/\d+/)[0];
         r.label = 'Cumulative shortfall through ≤' + threshold + '% AMI (positive band households − units)';
+      } else if (r.key !== 'housingGapUnits') {
+        r.label = r.label + ': ' + CENSUS_GAP_NOTE;
       }
       r.display = _unitsDisplay(r.value);
       r.reason = r.value === null ? reason : null;
       return r;
     });
+    return hudRows.concat(censusRows);
+  }
+
+  /** HUD's count as the page's cards show it (renderChasAvailableShortfall);
+   *  a hidden card or a dash is null, never 0. */
+  function _hudShortFromPage() {
+    var box = document.getElementById('hnaChasShortfall');
+    var out = { '30': null, '50': null, '80': null };
+    if (!box || box.hidden) return out;
+    Object.keys(out).forEach(function (t) {
+      // The cell's data-value, not its text: the text is grouped for the
+      // reader's locale and "119.735" would not parse back to the count.
+      var el = document.getElementById('statChasShort' + t);
+      var raw = el && el.getAttribute ? el.getAttribute('data-value') : null;
+      out[t] = raw != null && /^\d+$/.test(raw) ? Number(raw) : null;
+    });
+    return out;
   }
 
   /** LIHTC / QCT / DDA rows, as the page's cards show them, with the reason
@@ -884,7 +920,7 @@
       exportedAt:    new Date().toISOString(),
       generatedBy:   'COHO Analytics HNA Export',
       notInThisFile: NOT_IN_FILE.csv,
-      disclaimer:    'Screening tool only. Public-data screening output, not a substitute for a CHFA-required market study, professional underwriting, or independent investor analysis. See docs/METHODOLOGY-GAPS-2026-05-21.md for known limitations.',
+      disclaimer:    'Screening tool only. Public-data screening output, not a substitute for a CHFA-required market study, professional underwriting, or independent investor analysis. Known limitations are listed on the Methods page (cohoanalytics.com/methods.html).',
       vintages: {
         // The ACS period of the profile the page loaded for this place: 33
         // geographies carry the 2025 1-year, the rest the 2020-2024 5-year.
@@ -969,6 +1005,8 @@
         gap50pctUnits:      _numOrNull(m.ami_gap_50pct),
         gap60pctUnits:      _numOrNull(m.ami_gap_60pct),
         gap80pctUnits:      _numOrNull(m.ami_gap_80pct),
+        hudShort:           _hudShortFromPage(),
+        hudVintage:         ((_elText('statChasShort30Src') || '').match(/\d{4}[–-]\d{4}/) || [null])[0],
         missingAmiTiers:    m.missing_ami_tiers || [],
         source:             m._ami_gap_source || 'unavailable',
         gapSign:            m._ami_gap_sign || null,

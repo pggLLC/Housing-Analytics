@@ -341,6 +341,20 @@ test('the printed 9% round counts are the latest three years in the data files',
   checks += 2;
 });
 
+test('the round-odds line reads a file the public build serves, and it matches the full applications file', () => {
+  // data/jurisdiction-briefs is blocked from the public build, so the line
+  // would never update on the live site if it read the full file.
+  assert.ok(!RoundOdds.APPLICATIONS.startsWith('data/jurisdiction-briefs/'), 'the widget reads a blocked path');
+  const full = json('data/jurisdiction-briefs/_lihtc-applications.json');
+  const keys = ['round_label', 'credit_type', 'status', 'rows', 'as_of', 'url'];
+  const want = full.meta.documents.map((d) => Object.fromEntries(keys.filter((k) => k in d).map((k) => [k, d[k]])));
+  assert.deepStrictEqual(oddsData[0].meta.documents, want,
+    'applicant-report-counts.json drifted from _lihtc-applications.json; rerun scripts/funding/build_lihtc_applications.py');
+  assert.ok(!('applications' in oddsData[0]) && oddsData[0].meta.documents.every((d) => Object.keys(d).every((k) => keys.includes(k))),
+    'the public counts file carries project or contact fields');
+  checks += 3;
+});
+
 test('"roughly half funded" is still true of every year shown', () => {
   RoundOdds.rounds(oddsData[0], oddsData[1], 3).forEach((r) => {
     const share = r.awarded / r.applied;

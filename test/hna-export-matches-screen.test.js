@@ -29,6 +29,7 @@ const path = require('path');
 const { JSDOM } = require('jsdom');
 
 const ROOT = path.resolve(__dirname, '..');
+const CENSUS_GAP_NOTE = 'renter households minus rentals priced for them (Census; counts every cheap rental as available; 0 = none short)';
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
 
 function freshRequire(relPath) {
@@ -179,6 +180,9 @@ async function exportAll(c) {
   R.renderQctLayer(c.qct);
   if (c.dda) R.renderDdaLayer(c.county, c.dda, { type: c.geoType, name: summary.geo.label });
   await R.renderTransitZonePanel(c.geoid, c.tzNow || TZ_FRESH);
+  // HUD's count of homes short, by the page's own renderer (the controller
+  // passes the same file).
+  R.renderChasAvailableShortfall(readJson('data/hna/chas_affordable_available.json'), { type: c.geoType, geoid: c.geoid });
   // The controller caches the LEHD blob it rendered under this key (hna-controller.js).
   window.__HNA_LEHD_CACHE = { [c.geoid]: c.lehd() };
 
@@ -264,7 +268,8 @@ async function exportAll(c) {
       const m = rankOf(c.geoid).metrics;
       const pairs = [
         ['30% AMI gap', m.ami_gap_30pct], ['50% AMI gap', m.ami_gap_50pct], ['60% AMI gap', m.ami_gap_60pct],
-      ];
+        ['80% AMI gap', m.ami_gap_80pct],
+      ].map(([t, v]) => [t + ': ' + CENSUS_GAP_NOTE, v]);
       for (const [lab, want] of pairs) {
         const row = summaryRow(lab);
         assert(row, `the workbook has no "${lab}" row`);
@@ -544,6 +549,41 @@ async function exportAll(c) {
       return undefined;
     };
     assert.strictEqual(find(r.data), want, 'export gap80pctUnits is ' + JSON.stringify(find(r.data)));
+  });
+
+  await test('HUD\'s count of homes short leads the AMI gap rows and matches CHAS (fix audit 2026-11-10)', async () => {
+    // Fruita: HUD CHAS 2018-2022 affordable and available, 210 / 235 / 65.
+    const chas = readJson('data/hna/chas_affordable_available.json');
+    const tiers = chas.places['0828745'].tiers;
+    const r = await exportAll(CASES.find((c) => c.geoid === '0828745'));
+    for (const t of ['30', '50', '80']) {
+      const want = tiers[t].homes_short;
+      const row = sheets.Summary.rows.find((x) => typeof x.k === 'string' && x.k.startsWith('Homes short, ≤' + t + '% AMI (HUD CHAS'));
+      assert(row, `the workbook has no HUD homes-short row at ${t}%`);
+      assert.strictEqual(row.v, want, `HUD ${t}%: CHAS ${want}, Excel ${JSON.stringify(row.v)}`);
+      const csvRow = r.csvRows.find((x) => typeof x[0] === 'string' && x[0].startsWith('Homes short, ≤' + t + '% AMI'));
+      assert(csvRow && csvRow[1] === Number(want).toLocaleString('en-US'), `HUD ${t}%: CSV ${csvRow ? csvRow[1] : 'no row'}`);
+    }
+    const first = r.csvRows.findIndex((x) => typeof x[0] === 'string' && x[0].startsWith('Homes short, ≤30%'));
+    const census = r.csvRows.findIndex((x) => typeof x[0] === 'string' && x[0].startsWith('30% AMI gap'));
+    assert(first !== -1 && census !== -1 && first < census, 'HUD rows come before the Census rows');
+    const pdfText = r.pdf.join(' ');
+    assert(!/METHODOLOGY-GAPS/.test(pdfText), 'the PDF still names an internal docs file');
+  });
+
+  await test('HUD counts survive a browser that groups digits without commas (Codex P2, PR 2769)', async () => {
+    // Still on Fruita from the test above. A German or French browser prints
+    // 119735 as "119.735" or "119 735"; the export must not read the text.
+    const chas = readJson('data/hna/chas_affordable_available.json');
+    const tiers = chas.places['0828745'].tiers;
+    const el = document.getElementById('statChasShort30');
+    const was = el.textContent;
+    try {
+      el.textContent = '1.210';
+      const d = window.__HNA_buildReportData();
+      assert.strictEqual(d.amiGap.hudShort['30'], tiers['30'].homes_short,
+        'hudShort 30 is ' + JSON.stringify(d.amiGap.hudShort['30']));
+    } finally { el.textContent = was; }
   });
 
   await test('a 0 AMI gap is exercised: Mesa\'s 60% AMI gap is 0 in the data', async () => {

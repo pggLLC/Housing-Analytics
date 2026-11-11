@@ -262,12 +262,16 @@
       "handoff": {
         "know": [
           {
-            "id": "statGap30",
-            "text": "unit shortfall for households at or below 30% of area median income"
+            "id": "statChasShort30",
+            "text": "homes short for renter households at or below 30% of area median income (HUD's count)"
+          },
+          {
+            "id": "statChasShort50",
+            "text": "homes short at or below 50% (HUD's count)"
           },
           {
             "id": "statGap60",
-            "text": "shortfall at or below 60% — the band most LIHTC rental serves"
+            "text": "renter households at or below 60% — the band most LIHTC rental serves"
           },
           {
             "id": "statIncomeNeed",
