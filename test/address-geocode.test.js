@@ -16,6 +16,10 @@ same('16900 Hwy 172, Ignacio', 'HWY 172', true);
 same('325 E Aspen Ave, Fruita', '325 E ASPEN AVE', true);
 same('214 Grand Ave, Paonia', 'Main Street', false);
 same('18 Road and K Road, Fruita', 'ROAD S & RD S', false);
+same('18 Road and K Road, Fruita', '19 Road and K Road', false); // a numbered road is the street, not a house number
+same('1340 18 1/2 Rd, Fruita', '18 1/2 Road', true);              // half roads keep their number
+same('1340 18 1/2 Rd, Fruita', '18 Road', false);
+same('0039 County Road 17, Hesperus', 'County Road 17', true);
 check(/street/.test(G.note({ source: 'osm', exact: false, label: 'Kestrel Ridge Road, Penrose, CO' })), 'street-only note says the pin is on the street');
 
 console.log(fails.length ? 'geocode: FAIL ' + fails.length + '/' + n + '\n  ' + fails.join('\n  ') : 'geocode: PASS ' + n + ' checks');

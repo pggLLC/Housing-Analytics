@@ -28,10 +28,16 @@
 
   // The words that name the street, without the house number, the road type or a direction:
   // "45 Kestrel Ridge Road, Penrose" -> ['kestrel', 'ridge']; "1340 18 Rd" -> ['18'].
+  // Road-type words that follow a street name ("18 Road"), as against ones that lead it ("Hwy 172").
+  var SUFFIX = /^(road|rd|street|st|avenue|ave|av|drive|dr|lane|ln|court|ct|circle|cir|boulevard|blvd|way|place|pl|trail|trl|parkway|pkwy|terrace|ter|loop)$/;
   function street(text) {
-    var first = String(text || '').split(',')[0].toLowerCase().replace(/[^a-z0-9\s]/g, ' ').trim().split(/\s+/);
-    // A leading number is the house number, unless it is the street itself ("18 Road").
-    if (/^\d+[a-z]?$/.test(first[0]) && first.slice(1).some(function (w) { return !TYPE.test(w); })) first = first.slice(1);
+    var first = String(text || '').split(',')[0].toLowerCase()
+      // Mesa County's half roads: "18 1/2 Road" is its own street, so the half stays on the number.
+      .replace(/\b(\d+)\s*(1\/2|\u00bd)/g, '$1half')
+      .replace(/[^a-z0-9\s]/g, ' ').trim().split(/\s+/);
+    // A leading number is the house number, unless a road type follows it, which makes it the street
+    // itself: "1340 18 Rd" drops 1340, "18 Road and K Road" keeps 18, "16900 Hwy 172" drops 16900.
+    if (first.length > 1 && /^\d+[a-z]?$/.test(first[0]) && !SUFFIX.test(first[1])) first = first.slice(1);
     return first.filter(function (w) { return w && !TYPE.test(w); });
   }
   function close(a, b) {
