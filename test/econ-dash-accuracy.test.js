@@ -79,5 +79,17 @@ assert.equal(yearAgoIndex(weekly), 0, 'weekly series still match the nearest ear
 const daily = [{date: '2025-11-07'}, {date: '2025-11-10'}, {date: '2026-11-09'}, {date: '2026-11-10'}];
 assert.equal(yearAgoIndex(daily, 2), 0, 'a daily date whose year-ago day is a weekend uses the Friday before');
 
+// A held-back or failed refresh must show on the page, not just keep an old
+// date: "Last updated" turns amber with "update overdue" after 36 hours.
+const odSrc = html.slice(html.indexOf('function fredRefreshOverdue('), html.indexOf('function yearAgoIndex('));
+const fredRefreshOverdue = new Function(odSrc + '\nreturn fredRefreshOverdue;')();
+const now = Date.parse('2026-11-12T12:00:00Z');
+assert.equal(fredRefreshOverdue('2026-11-11T12:38:24Z', now), false, 'a file saved a day ago is current');
+assert.equal(fredRefreshOverdue('2026-11-10T12:38:24Z', now), true, 'a file two days old is overdue');
+assert.equal(fredRefreshOverdue(undefined, now), true, 'a file with no saved date is overdue');
+assert.match(html, /if \(fredRefreshOverdue\(meta\.updated, Date\.now\(\)\)\)/, 'the page checks the saved date');
+assert.match(html, /pill\.classList\.add\("warn"\)/, 'an overdue date is shown in the warning style');
+assert.match(html, /id="lastUpdatedPill"/, 'the Last updated pill can be flagged');
+
 console.log('Economic dashboard accuracy guards passed.');
 })().catch(e => { console.error(e); process.exit(1); });
