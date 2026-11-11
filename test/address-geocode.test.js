@@ -38,7 +38,23 @@ place('123 Main Street, CO 81424', 'Montrose Montrose County', '81401', false);
 place('123 Main Street, Clifton, CO 81520', 'Grand Junction Mesa County', '81520', true);
 place('45 Kestrel Ridge Rd, Canon City', 'Cañon City Fremont County', '', true);
 place('123 Main Street', 'Montrose', '81401', true);
+// Accents typed by the user read the same as plain letters, in the town, the comma-free tail and the street.
+place('123 Main Street, Cañon City, CO', 'Cañon City Fremont County', '81212', true);
+place('123 Main Street, Cañon City, CO', 'Canon City Fremont County', '', true);
+place('123 Main Street, Cañon City, CO', 'Florence Fremont County', '81226', false);
+same('45 Kestrel Ridge Road Cañon City CO', 'Kestrel Ridge Road', true, 'Cañon City Fremont County 81212');
+check(JSON.stringify(G.street('12 Peñasco Rd, Antonito')) === '["12","penasco"]', 'street words drop accents: ' + G.street('12 Peñasco Rd, Antonito'));
 check(/street/.test(G.note({ source: 'osm', exact: false, label: 'Kestrel Ridge Road, Penrose, CO' })), 'street-only note says the pin is on the street');
 
-console.log(fails.length ? 'geocode: FAIL ' + fails.length + '/' + n + '\n  ' + fails.join('\n  ') : 'geocode: PASS ' + n + ' checks');
-process.exit(fails.length ? 1 : 0);
+// The whole lookup with Census unreachable (no page here) and one OpenStreetMap answer in Cañon City:
+// the accented and plain spellings both find it, and a different typed town does not.
+const osmAnswer = [{ lat: '38.44', lon: '-105.24', display_name: 'Main Street, Cañon City, CO', address: { road: 'Main Street', city: 'Cañon City', county: 'Fremont County', state: 'Colorado', postcode: '81212' } }];
+globalThis.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve(osmAnswer) });
+Promise.all(['123 Main Street, Cañon City, CO', '123 Main Street, Canon City, CO', '123 Main Street, Florence, CO'].map((q) => G.find(q).catch(() => null)))
+  .then(([accented, plain, other]) => {
+    check(accented && accented.source === 'osm', 'find: accented Cañon City query should resolve');
+    check(plain && plain.source === 'osm', 'find: plain Canon City query should resolve');
+    check(other === null, 'find: Florence query should not take a Cañon City answer');
+    console.log(fails.length ? 'geocode: FAIL ' + fails.length + '/' + n + '\n  ' + fails.join('\n  ') : 'geocode: PASS ' + n + ' checks');
+    process.exit(fails.length ? 1 : 0);
+  });

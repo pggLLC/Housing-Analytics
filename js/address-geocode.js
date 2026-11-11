@@ -29,9 +29,13 @@
   // The words of the street part (before the first comma), without road-type or direction words, and
   // with a Mesa County half road ("18 1/2") kept as one token: "45 Kestrel Ridge Road, Penrose" ->
   // ['45', 'kestrel', 'ridge']; "1340 18 1/2 Rd" -> ['1340', '18half']; "200 Avenue A" -> ['200', 'a'].
+  // Lower case with accents dropped, so "Cañon City" and "Canon City" read the same.
+  function fold(text) {
+    return String(text || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
   function street(text) {
-    return String(text || '').split(',')[0].toLowerCase()
-      .replace(/\b(\d+)\s*(1\/2|\u00bd)/g, '$1half')
+    return fold(String(text || '').split(',')[0]
+      .replace(/\b(\d+)\s*(1\/2|\u00bd)/g, '$1half'))
       .replace(/[^a-z0-9\s]/g, ' ').trim().split(/\s+/)
       .filter(function (w) { return w && !TYPE.test(w); });
   }
@@ -54,7 +58,7 @@
   // must all be words of the returned place (town, county, ZIP) or "Colorado".
   function sameStreet(typed, road, place) {
     var want = street(typed), have = street(road);
-    var where = String(place || '').toLowerCase().split(/[^a-z0-9]+/).filter(Boolean).concat(['colorado']);
+    var where = fold(place).split(/[^a-z0-9]+/).filter(Boolean).concat(['colorado']);
     if (!have.length) return !want.length;
     if (!have.filter(function (h) { return NUM.test(h); }).every(function (h) { return want.indexOf(h) > -1; })) return false;
     if (want.length > 1 && NUM.test(want[0]) && have.indexOf(want[0]) < 0) want = want.slice(1);
@@ -73,11 +77,10 @@
   // The town and ZIP typed after the street (after a comma) must not contradict the returned place.
   // When both were typed, one agreeing is enough, since ZIP areas and town limits differ.
   function samePlace(typed, place, postcode) {
-    var after = String(typed || '').split(',').slice(1).join(' ').toLowerCase();
+    var after = fold(String(typed || '').split(',').slice(1).join(' '));
     var zip = (after.match(/\b(8\d{4})\b/) || [])[1];
     var town = after.replace(/\b(co|colorado|usa|us|8\d{4})\b/g, ' ').split(/[^a-z]+/).filter(Boolean);
-    // Accents dropped, so "Canon City" matches OpenStreetMap's "Cañon City".
-    var words = String(place || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().split(/[^a-z0-9]+/);
+    var words = fold(place).split(/[^a-z0-9]+/);
     var pc = String(postcode || '').slice(0, 5);
     var zipOk = !zip || !pc ? null : zip === pc;
     var townOk = !town.length ? null : town.every(function (w) { return words.indexOf(w) > -1; });
@@ -102,7 +105,7 @@
   function census(text) {
     return jsonp(CENSUS + '?address=' + encodeURIComponent(text) + '&benchmark=Public_AR_Current&format=jsonp').then(function (d) {
       var zip = (text.match(/\b(8\d{4})\b/) || [])[1];
-      var town = (String(text).split(',')[1] || '').toLowerCase().replace(/\b(co|colorado|8\d{4})\b/g, '').replace(/[^a-z\s]/g, '').trim();
+      var town = fold(String(text).split(',')[1]).replace(/\b(co|colorado|8\d{4})\b/g, '').replace(/[^a-z\s]/g, '').trim();
       var m = ((d && d.result && d.result.addressMatches) || []).filter(function (x) {
         var a = x.addressComponents || {};
         if (String(a.state).toUpperCase() !== 'CO') return false;
@@ -110,7 +113,7 @@
         // ("18 Road and K Road, Fruita" came back as a road in Cortez). A typed ZIP or town that
         // disagrees, with a street that does not match either, means it guessed. Census spells
         // some street words its own way, so a matching town and ZIP is enough on its own.
-        var otherPlace = (zip && a.zip && a.zip !== zip) || (town && a.city && a.city.toLowerCase() !== town);
+        var otherPlace = (zip && a.zip && a.zip !== zip) || (town && a.city && fold(a.city) !== town);
         return !(otherPlace && !sameStreet(text, x.matchedAddress, [a.city, a.zip].join(' ')));
       })[0];
       if (!m) return null;
