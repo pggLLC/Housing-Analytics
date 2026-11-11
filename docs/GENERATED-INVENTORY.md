@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-11T05:24:23.503Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-11T11:38:06.258Z. Do not edit by hand.
 
 ---
 
@@ -74,7 +74,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 76.5 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.6 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 156.7 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 156.8 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 88.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -86,7 +86,7 @@
 | `regional.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `research-brief.html` | Research Brief | COHO Analytics | 26.3 KB |
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.7 KB |
-| `search.html` | Search · COHO Analytics | 4.2 KB |
+| `search.html` | Search · COHO Analytics | 4.3 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 14.3 KB |
 | `state-allocation-map.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
@@ -122,11 +122,11 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 957 B | ✅ | — |
-| `data/alerts/alerts_archive.json` | 1.81 MB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 45.3 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 1.92 MB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 51.5 KB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 5.8 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
-| `data/alerts/outlet-review.json` | 4.8 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 5.8 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
@@ -2026,7 +2026,7 @@
 | `data/policy/green-building.json` | 57.5 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 32.6 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 169.3 KB | ✅ | — |
+| `data/policy/housing-events.json` | 169.7 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/housing-roll-calls.json` | 5.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
@@ -2062,7 +2062,7 @@
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 550.4 KB | ✅ | — |
+| `data/policy_briefs.json` | 568.0 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 241.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
@@ -2089,7 +2089,7 @@
 
 ## Test Files
 
-791 test files found.
+792 test files found.
 
 | File | Size |
 |------|------|
@@ -2101,6 +2101,7 @@
 | `test/acs-integration.test.js` | 14.8 KB |
 | `test/acs-sentinel-absence.test.js` | 4.1 KB |
 | `test/acs-vintage-label-integrity.test.js` | 3.9 KB |
+| `test/address-geocode.test.js` | 9.2 KB |
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 8.2 KB |
 | `test/agency-funding.test.mjs` | 19.1 KB |
@@ -2625,7 +2626,7 @@
 | `test/prop123.test.js` | 12.9 KB |
 | `test/property-websites.test.js` | 5.6 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
-| `test/public-build-metadata.test.mjs` | 9.3 KB |
+| `test/public-build-metadata.test.mjs` | 9.7 KB |
 | `test/public-config-no-secrets.test.js` | 4.8 KB |
 | `test/public-employers.test.mjs` | 3.2 KB |
 | `test/public-facing-numbers.test.js` | 10.9 KB |
@@ -2688,7 +2689,7 @@
 | `test/site-name-agreement.test.js` | 2.5 KB |
 | `test/site-qct-dda-evidence.test.js` | 19.1 KB |
 | `test/site-review-build-pause-regressions.test.js` | 10.3 KB |
-| `test/site-search.test.mjs` | 5.1 KB |
+| `test/site-search.test.mjs` | 6.8 KB |
 | `test/site-transit-evidence.test.js` | 14.9 KB |
 | `test/smoke-f139.test.js` | 14.8 KB |
 | `test/smoke-fmr.test.js` | 10.9 KB |
