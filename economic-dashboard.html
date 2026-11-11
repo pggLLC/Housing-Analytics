@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="card control" style="flex-wrap:wrap;">
 <span class="pill">FRED connected: <strong id="conn">…</strong></span>
 <span class="pill">Indicators: <strong id="count">—</strong></span>
-<span class="pill">Last updated: <strong id="lastUpdated">—</strong></span>
+<span class="pill" id="lastUpdatedPill">Last updated: <strong id="lastUpdated">—</strong></span>
 <button class="btn primary" id="refresh" type="button">Refresh</button>
 </div>
 </div>
@@ -894,6 +894,14 @@ function getKey(){ return CONFIG_KEY || ""; }
   // series does not reach back a full year, or when the year-earlier period
   // is missing (October 2025 CPI was never published), so a 13-month change
   // is never shown as a year-over-year one.
+  // True when the saved FRED file is more than 36 hours old. The refresh is
+  // daily; 36 hours allows for a late-running job without a false alarm.
+  function fredRefreshOverdue(updatedIso, nowMs){
+    const t = Date.parse(updatedIso);
+    if (!isFinite(t)) return true;
+    return nowMs - t > 36 * 3600 * 1000;
+  }
+
   function yearAgoIndex(series, endIdx){
     const end = (endIdx == null) ? series.length - 1 : endIdx;
     if (end < 1) return -1;
@@ -1062,6 +1070,17 @@ function getKey(){ return CONFIG_KEY || ""; }
       if (meta.updated && els.lastUpdated) {
         const updatedAt = new Date(meta.updated);
         els.lastUpdated.textContent = "Data as of " + updatedAt.toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"});
+        // The refresh runs daily. If it has not saved a file for over 36 hours
+        // (a failed fetch, or a new file the site's checks rejected so
+        // yesterday's was kept), say so instead of showing an old date quietly.
+        if (fredRefreshOverdue(meta.updated, Date.now())) {
+          els.lastUpdated.textContent += " · update overdue";
+          const pill = document.getElementById("lastUpdatedPill");
+          if (pill) {
+            pill.classList.add("warn");
+            pill.title = "The daily FRED refresh has not saved new data since this date. Figures below are from that file.";
+          }
+        }
       }
     } catch(e) {}
 

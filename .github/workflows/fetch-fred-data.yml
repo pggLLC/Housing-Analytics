@@ -95,6 +95,23 @@ jobs:
           print("  Validation passed ✅")
           PY
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      # Run the site's own checks on the new file before it is saved. If any
+      # fails, the gate puts back the committed file (yesterday's data stays
+      # live), the job stops before its commit step, and the workflow monitor
+      # opens an issue. On 2026-11-11 a 13-month CPI change reached the Economy
+      # page as year-over-year because data commits skip CI.
+      - name: Check the new data against the site's own tests
+        run: node scripts/data-refresh-gate.mjs data/fred-data.json
+
       # The scripts/monitoring/alert.js step was removed when this workflow moved to
       # the external monitor (.github/workflows/workflow-outcome-monitor.yml).
       #

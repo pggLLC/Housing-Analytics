@@ -35,7 +35,8 @@
     { label: 'Next round', pages: [
       { href: 'developer-round-watch.html', label: 'Next round' },
       { href: 'developer-next-places.html', label: 'Next places', private: true },
-      { href: 'developer-frontier.html', label: 'Where money goes furthest', private: true }] },
+      { href: 'developer-frontier.html', label: 'Where money goes furthest', private: true },
+      { href: 'developer-prop123.html', label: 'Prop 123 strategy', private: true }] },
     { label: 'Team', pages: [
       { href: 'developer-pipeline.html', label: 'Pipeline' },
       { href: 'dossiers/', label: 'Dossiers', private: true }] },
