@@ -1404,9 +1404,14 @@
   // The calculator settings carried by a share link, an export file's url, or a saved version.
   // A deal saved from the Deal Calculator in the last two minutes (member-calculator.js leaves a note in this tab's
   // session storage). The server's list can lag a new save, so the picker adds it when the list does not have it yet.
-  function justSaved(store, now) {
-    var x; try { x = JSON.parse(store.getItem('coho-last-saved-deal') || 'null'); } catch (_) { x = null; }
-    if (!x || typeof x.id !== 'string' || !/^[a-z0-9-]+$/.test(x.id) || !(now - x.at >= 0 && now - x.at < 120000)) return null;
+  // A new deal's id is its name as a slug of up to 40 characters, a hyphen and six hex digits (coho-backend
+  // src/index.js, deals()); anything else in the note is not a deal this page saved.
+  var SAVED_DEAL_ID = /^[a-z0-9](?:[a-z0-9-]{0,38}[a-z0-9])?-[a-f0-9]{6}$/;
+  // getStore: returns the tab's session storage. Reading window.sessionStorage itself throws when the browser
+  // blocks storage, so the read happens in here, inside the try.
+  function justSaved(getStore, now) {
+    var x; try { x = JSON.parse(getStore().getItem('coho-last-saved-deal') || 'null'); } catch (_) { x = null; }
+    if (!x || typeof x.id !== 'string' || !SAVED_DEAL_ID.test(x.id) || !(now - x.at >= 0 && now - x.at < 120000)) return null;
     return { id: x.id, name: String(x.name || x.id).slice(0, 120) };
   }
   function withJustSaved(deals, saved) {
@@ -1734,7 +1739,7 @@
     settleWithin(api('').then(null, function () { return { offline: true }; }), wait).then(function (j) {
       if (j == null) { $('wbDeals').innerHTML = '<option value="">Saved deals did not load. Reload the page to try again.</option>'; $('wbDeals').disabled = true; return; }
       if (j.offline) { $('wbDeals').innerHTML = '<option value="">Saved deals are on the team site only</option>'; $('wbDeals').disabled = true; return; }
-      var deals = withJustSaved(j.deals || [], justSaved(window.sessionStorage, Date.now()));
+      var deals = withJustSaved(j.deals || [], justSaved(function () { return window.sessionStorage; }, Date.now()));
       if (!deals.length) { $('wbDeals').innerHTML = '<option value="">No saved deals yet</option>'; return; }
       $('wbDeals').innerHTML = '<option value="">Choose a deal</option>' + deals.map(function (d) { return '<option value="' + esc(d.id) + '">' + esc(d.name || d.id) + '</option>'; }).join('');
     });

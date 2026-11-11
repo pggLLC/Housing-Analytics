@@ -1051,11 +1051,14 @@ ok(badBudget.uses.rows.length === 0 && badBudget.uses.reason === 'Line 4 has no 
 
 // A deal saved a moment ago shows in the picker before the server's list has it (member check, 2026-11-10).
 {
-  const store = (v) => ({ getItem: () => v });
+  const store = (v) => () => ({ getItem: () => v });
   const note = (at) => JSON.stringify({ id: 'invented-silt-1a2b3c', name: 'Invented Silt', at });
   ok(WB.justSaved(store(note(1000)), 60000).id === 'invented-silt-1a2b3c', 'a save from a minute ago is read');
   ok(WB.justSaved(store(note(1000)), 1000 + 120000) === null && WB.justSaved(store(null), 5) === null && WB.justSaved(store('{bad'), 5) === null, 'an old, missing or broken note is ignored');
-  ok(WB.justSaved(store(JSON.stringify({ id: '<b>', name: 'x', at: 1 })), 2) === null, 'an id that is not a deal id is ignored');
+  const idNote = (id) => store(JSON.stringify({ id, name: 'x', at: 1 }));
+  ok(['<b>', '-', 'not-a-generated-deal-id', 'a'.repeat(1000), '-abc-1a2b3c', 'silt--1a2b3g', 'x'.repeat(41) + '-1a2b3c'].every((id) => WB.justSaved(idNote(id), 2) === null), 'an id that is not shaped like a generated deal id is ignored');
+  ok(['deal-1a2b3c', 'a-000000', 'rehearsal-2026-11-09-54c4c9', 'x'.repeat(40) + '-1a2b3c'].every((id) => WB.justSaved(idNote(id), 2).id === id), 'generated deal ids are accepted');
+  ok(WB.justSaved(() => { throw new Error('storage blocked'); }, 2) === null, 'blocked storage is ignored, not thrown');
   const listed = [{ id: 'a', name: 'A' }];
   ok(WB.withJustSaved(listed, { id: 'b', name: 'B' }).map((d) => d.id).join() === 'b,a', 'the new deal leads the list when the server has not listed it');
   ok(WB.withJustSaved(listed, { id: 'a', name: 'A' }) === listed && WB.withJustSaved(listed, null) === listed, 'a listed deal is not added twice');
