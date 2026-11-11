@@ -11,12 +11,48 @@ const STOP_WORDS = new Set(('a an and are as at be by for from has have in is it
   'that the this to was were will with you your').split(' '));
 const MAX_BODY_WORDS = 1500;
 
-const ENTITIES = { nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'", mdash: '—', ndash: '–' };
+const ENTITIES = { nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', mdash: '—', ndash: '–', hellip: '…' };
 
-// One pass, so "&amp;lt;" decodes to the text "&lt;", never on to "<".
+// One pass, so "&amp;lt;" decodes to the text "&lt;", never on to "<". Numeric forms too, so a
+// title written "Where it&#x27;s heading" reads "Where it's heading" in the results.
 function decode(text) {
-  return String(text).replace(/&(nbsp|amp|lt|gt|quot|#39|mdash|ndash);/g, (m, name) => ENTITIES[name]);
+  return String(text).replace(/&(nbsp|amp|lt|gt|quot|mdash|ndash|hellip|#\d+|#x[0-9a-f]+);/gi, (m, name) => {
+    if (name[0] !== '#') return ENTITIES[name.toLowerCase()];
+    const code = name[1] === 'x' || name[1] === 'X' ? parseInt(name.slice(2), 16) : parseInt(name.slice(1), 10);
+    return code > 0 && code < 0x110000 ? String.fromCodePoint(code) : m;
+  });
 }
+
+// Pages and docs the site serves that a reader never searches for: the maintainers' pipeline and
+// QA screens, page templates, the search page itself, and contributor notes. They stay published
+// (pages link to them); they are left out of search results and the sitemap.
+export const SEARCH_HIDDEN = new Map([
+  ['og-card.html', 'social preview card rendered for link previews'],
+  ['search.html', 'the search page itself'],
+  ['ic-summary.html', 'print template filled from a workflow; empty on its own'],
+  ['data-status.html', 'pipeline status for maintainers; readers use the Data Trust Center'],
+  ['dashboard-data-quality.html', 'coverage QA and API keys for maintainers; readers use the Data Trust Center'],
+  ['docs/alerts-pipeline.md', 'how the news feed is built'],
+  ['docs/CHART_FIX_USAGE.md', 'code notes for a chart helper'],
+  ['docs/CONTRIBUTING.md', 'contributor notes'],
+  ['docs/DESIGN-SYSTEM.md', 'style rules for contributors'],
+  ['docs/SITE_STATE_USAGE.md', 'code notes for page state'],
+  ['docs/SCORECARD-V2.md', 'internal design notes'],
+  ['docs/PMA_DATA_ENHANCEMENTS.md', 'internal data backlog'],
+  ['docs/METHODOLOGY-GAPS-2026-05-21.md', 'internal review notes'],
+]);
+
+// Plain words readers type for a page whose own text says it another way. Scored like an old name.
+export const SEARCH_WORDS = new Map([
+  ['housing-help.html', 'help paying rent · rental assistance · rent help · emergency housing · homeless · shelter · eviction help · find affordable housing · apply for housing · housing voucher · Section 8'],
+  ['help-for-homebuyers.html', 'first-time homebuyer · down payment help · buy a home · homeownership help'],
+  ['resident-services.html', 'tenant services · services for residents'],
+  ['data-review-hub.html', 'data sources · where the data comes from · how current is the data · data freshness'],
+  ['methods.html', 'how numbers are calculated · methodology'],
+  ['lihtc-guide-for-stakeholders.html', 'what is LIHTC · housing tax credit basics · how tax credits work'],
+  ['housing-authority-guide.html', 'how to start a housing authority · create a housing authority'],
+  ['sitemap.html', 'all pages · site directory · site map'],
+]);
 
 function clean(text) {
   return decode(String(text).replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
@@ -53,6 +89,7 @@ function headings(html) {
 function record(t, u, d, headingList, bodyHtml, { body = true } = {}) {
   const k = Array.from(new Set(headingList)).join(' · ');
   const rec = { t, u, d, k };
+  if (SEARCH_WORDS.has(u)) rec.a = SEARCH_WORDS.get(u);
   if (body) {
     // A map or chart has no visible words of its own; its aria-label says what it shows.
     const labels = Array.from(String(bodyHtml).matchAll(/\saria-label="([^"]*)"/gi), (m) => m[1]).join(' ');

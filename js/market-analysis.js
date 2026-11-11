@@ -3809,50 +3809,34 @@
       }
 
       btn.disabled = true;
-      _setStatus('Geocoding “' + q + '” via US Census Geocoder…', 'info');
+      _setStatus('Looking up “' + q + '”…', 'info');
 
-      // US Census Geocoder — free, no key. Public_AR_Current = latest
-      // address ranges. format=json returns coords in WGS84.
-      // Docs: https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf
-      var url = 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress' +
-                '?address=' + encodeURIComponent(q) +
-                '&benchmark=Public_AR_Current' +
-                '&format=json';
-
-      fetch(url)
-        .then(function (r) {
-          if (!r.ok) throw new Error('Census Geocoder HTTP ' + r.status);
-          return r.json();
-        })
-        .then(function (d) {
-          var matches = (d && d.result && d.result.addressMatches) || [];
-          if (!matches.length) {
-            throw new Error('No match found. Try including the city + CO (e.g. "Main St, Pueblo CO").');
+      // js/address-geocode.js: the US Census Geocoder first (asked the JSONP way; it sends no CORS
+      // headers, so a plain fetch() is blocked by every browser), then OpenStreetMap when Census
+      // has no match, as on streets newer than its address list.
+      if (!window.CohoGeocode) {
+        _setStatus('The address lookup did not load. Click the map to place the site instead.', 'error');
+        btn.disabled = false;
+        return;
+      }
+      window.CohoGeocode.find(q)
+        .then(function (hit) {
+          if (!hit) {
+            throw new Error('No Colorado match from the US Census Geocoder or OpenStreetMap. Check the street name and town, or click the map.');
           }
-          // First match is highest-confidence per Census API convention.
-          var m = matches[0];
-          var coords = m.coordinates || {};
-          var lon = parseFloat(coords.x);   // Census returns x=lon, y=lat
-          var lat = parseFloat(coords.y);
-          if (!isFinite(lat) || !isFinite(lon)) {
-            throw new Error('Geocoder returned invalid coordinates.');
-          }
-          // Validate it's in Colorado via STATE from addressComponents. We
-          // could also bounds-check lat/lon against CO (37-41°N, -109--102°W),
-          // but the STATE field from the geocoder is more reliable.
-          var addr = (m.addressComponents && m.addressComponents.state) || '';
-          if (addr && String(addr).toUpperCase() !== 'CO') {
-            throw new Error('Address resolved to ' + addr + ' — this site is Colorado-only. Add "CO" to your query.');
+          var lat = hit.lat, lon = hit.lon;
+          if (!isFinite(lat) || !isFinite(lon) ||
+              lat < CO_LAT_MIN || lat > CO_LAT_MAX || lon < CO_LON_MIN || lon > CO_LON_MAX) {
+            throw new Error('That address is outside Colorado. This site is Colorado-only.');
           }
           // Hand off to the same flow as a map click.
-          map.setView([lat, lon], 13);
+          map.setView([lat, lon], hit.exact ? 13 : 15);
           placeSiteMarker(lat, lon);
           analyzeNewSite(lat, lon);
-          _setStatus('Placed at ' + (m.matchedAddress || q) +
-                     ' (' + lat.toFixed(4) + ', ' + lon.toFixed(4) + ')', 'ok');
+          _setStatus(window.CohoGeocode.note(hit) + ' (' + lat.toFixed(4) + ', ' + lon.toFixed(4) + ')', 'ok');
         })
         .catch(function (err) {
-          _setStatus(err.message || 'Geocoding failed. Try clicking the map instead.', 'error');
+          _setStatus(err && err.message && !/^(timeout|blocked|Failed to fetch)$/.test(err.message) ? err.message : 'The address lookup did not answer. Try again, or click the map instead.', 'error');
         })
         .then(function () {
           btn.disabled = false;
