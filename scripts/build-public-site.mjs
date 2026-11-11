@@ -6,7 +6,7 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { contentChangedDate, isArticle, isStampable, parseHistory, stampPage, visibleText } from './lib/page-dates.mjs';
 import { isSensitive } from './lib/public-sensitive-patterns.mjs';
-import { briefRecords, countyRecords, fundingProgramRecords, glossaryRecords, markdownRecord, pageRecords, redirectAlias } from './lib/search-index.mjs';
+import { briefRecords, countyRecords, fundingProgramRecords, glossaryRecords, markdownRecord, pageRecords, redirectAlias, SEARCH_HIDDEN } from './lib/search-index.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = process.env.COHO_PUBLIC_DIST
@@ -449,7 +449,7 @@ async function generateSitemap() {
         await walk(childRel);
         continue;
       }
-      if (!entry.name.endsWith('.html') || skip.has(toPosix(childRel))) continue;
+      if (!entry.name.endsWith('.html') || skip.has(toPosix(childRel)) || SEARCH_HIDDEN.has(toPosix(childRel))) continue;
       const html = await readFile(path.join(DIST, childRel), 'utf8');
       if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue;
       // A page that asks not to be indexed (the deprecated census dashboard,
@@ -507,6 +507,7 @@ async function generateSearchIndex() {
         const childRel = rel ? `${rel}/${entry.name}` : entry.name;
         if (entry.isDirectory()) { await walk(childRel); continue; }
         const relPath = toPosix(childRel);
+        if (SEARCH_HIDDEN.has(relPath)) continue;
         // Every Markdown file the build serves is public (copyRecursive admits only public docs).
         if (relPath.endsWith('.md') && relPath.startsWith('docs/')) {
           records.push(markdownRecord(relPath, await readFile(path.join(DIST, childRel), 'utf8')));
@@ -523,7 +524,9 @@ async function generateSearchIndex() {
       if (/<meta[^>]+name=["']?robots["']?[^>]+content=["'][^"']*noindex/i.test(html)) continue; // off-site redirect
         // The place profiles share one template, so their body words would match every topic
         // query 480 times over; their names and headings are what tell them apart.
-        records.push(...pageRecords(relPath, html, { body: !/^places\/\d+\.html$/.test(relPath) }));
+        // The sitemap page lists every page by name, so its words would match every search; it is
+        // found by its own name and its SEARCH_WORDS.
+        records.push(...pageRecords(relPath, html, { body: !/^places\/\d+\.html$/.test(relPath) && relPath !== 'sitemap.html' }));
       }
     }
     await walk('');

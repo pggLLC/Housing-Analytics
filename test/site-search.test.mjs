@@ -13,8 +13,9 @@ import { copyFile, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/pro
 import os from 'node:os';
 import path from 'node:path';
 import { gatedSearchIndex } from '../scripts/build-gated-search-index.mjs';
+import { SEARCH_HIDDEN } from '../scripts/lib/search-index.mjs';
 
-const { rank } = createRequire(import.meta.url)('../js/site-search.js');
+const { rank, kindOf, shortTitle } = createRequire(import.meta.url)('../js/site-search.js');
 const live = process.argv[2];
 
 async function load(rel) {
@@ -71,8 +72,33 @@ const SEARCHES = [
   ['housing needs assessment', 'housing-needs-assessment.html'],
   ['map', 'data-map-browser.html'],
   ['silt', 'places/0870195.html'],
+  // Readers looking for help use their own words, not the page's.
+  ['help paying rent', 'housing-help.html', 1],
+  ['rental assistance', 'housing-help.html'],
+  ['eviction', 'housing-help.html', 1],
+  ['first-time homebuyer', 'help-for-homebuyers.html', 1],
+  ['data', 'data-review-hub.html', 1],
+  ['map', 'data-map-browser.html', 1],
 ];
-for (const [q, url] of SEARCHES) expectFound(q, url);
+for (const [q, url, n] of SEARCHES) expectFound(q, url, n);
+
+// 3b. What readers care about, not how the site is run: maintainer screens, templates and
+// contributor notes stay out; definitions and method notes do not crowd out the pages.
+for (const u of SEARCH_HIDDEN.keys()) {
+  if (urls.has(u)) failures.push(`${u} is maintainer-only (${SEARCH_HIDDEN.get(u)}) but is in the search index`);
+}
+for (const q of ['rent', 'data', 'housing authority', 'construction costs', 'voucher']) {
+  const backups = rank(index, q).slice(0, 5).filter((r) => kindOf(r.u) === 'Glossary' || kindOf(r.u) === 'Methodology');
+  if (backups.length > 1) failures.push(`"${q}" top 5 has ${backups.length} glossary or methodology rows: ${backups.map((r) => r.u).join(', ')}`);
+}
+// A term search still puts its definition first.
+for (const [q, url] of [['ami', 'index.html#glossary=AMI'], ['qap', 'index.html#glossary=QAP']]) expectFound(q, url, 1);
+// Titles show as words: no entity codes, and no site name tacked on.
+for (const r of index) {
+  if (/&#?[a-z0-9]+;/i.test(r.t)) failures.push(`${r.u} title shows an entity code: ${r.t}`);
+}
+const shown = shortTitle('Deal Calculator | COHO Analytics');
+if (shown !== 'Deal Calculator') failures.push(`result titles should drop the site name; got "${shown}"`);
 
 // 4. On the developer site, its own pages are searchable and place profiles go to the public site.
 if (!live) {

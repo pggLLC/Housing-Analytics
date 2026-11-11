@@ -25,6 +25,9 @@
     for (var i = 0; i < terms.length; i++) {
       var term = terms[i];
       var inT = t.indexOf(term), inA = a.indexOf(term), inK = k.indexOf(term), inD = d.indexOf(term);
+      // Inside a title word ("map" in "Sitemap") counts as a heading hit, not a title hit.
+      // Terms are letters and digits only (rank() strips the rest), so they are safe in a pattern.
+      if (inT > 0 && !new RegExp('(^|[^a-z0-9])' + term).test(t)) { inT = -1; if (inK < 0) inK = 0; }
       if (inT < 0 && term.length >= 4 && it._jt.indexOf(term) >= 0) inT = 1;
       if (inA < 0 && inK < 0 && inD < 0 && term.length >= 4 && it._jo.indexOf(term) >= 0) inK = 1;
       // Body words only match from the start of a word, so "ami" does not hit "family".
@@ -41,7 +44,29 @@
     // place name (title), it's a topic query — down-weight so the relevant topic/dashboard pages
     // rank above the profiles instead of being buried under them.
     if (!titleHit && /(^|\/)places\/\d+\.html$/.test(it.u)) s *= 0.25;
+    // A glossary definition or a methodology note backs up a page; it should not crowd the pages out.
+    // A search for the term itself ("AMI", "QAP") still puts its definition first.
+    var kind = kindOf(it.u);
+    if (kind === 'Glossary' && squash(it.t.replace(/\s*\(.*|\s*\|.*$/, '')) !== squash(terms.join(''))) s *= 0.4;
+    if (kind === 'Methodology') s *= 0.6;
     return s;
+  }
+
+  // What a result is, shown beside its title; '' for an ordinary page.
+  function kindOf(u) {
+    u = String(u || '');
+    if (u.indexOf('#glossary=') > -1) return 'Glossary';
+    if (/^docs\//.test(u)) return 'Methodology';
+    if (/(^|\/)places\/\d+\.html$/.test(u)) return 'Place profile';
+    if (/^housing-needs-assessment\.html\?geoid=/.test(u)) return 'County';
+    if (/^research-brief\.html\?/.test(u)) return 'Research brief';
+    if (/[?&]program=/.test(u)) return 'Funding program';
+    return '';
+  }
+
+  // The title without the site name: "Deal Calculator | COHO Analytics" -> "Deal Calculator".
+  function shortTitle(t) {
+    return String(t || '').replace(/\s*(\||·|—)\s*COHO (Analytics|Glossary|Methodology|Research Brief|Funding Sources)\s*$/, '').trim() || String(t || '');
   }
 
   function rank(index, q) {
@@ -57,7 +82,7 @@
   }
 
   // Node (the search tests and the post-deploy live check) gets the ranking alone.
-  if (typeof module === 'object' && module.exports) { module.exports = { rank: rank }; return; }
+  if (typeof module === 'object' && module.exports) { module.exports = { rank: rank, kindOf: kindOf, shortTitle: shortTitle }; return; }
 
   var BASE = (root.APP_BASE_PATH || '/');
   var input = document.getElementById('siteSearchInput');
@@ -98,7 +123,8 @@
       // The developer site links place profiles to the public site, by full URL.
       var href = /^https?:\/\//.test(it.u) ? it.u : BASE + it.u;
       return '<a class="search-result" href="' + escapeHtml(href) + '">' +
-        '<span class="search-result-title">' + escapeHtml(it.t) + '</span>' +
+        '<span class="search-result-title">' + escapeHtml(shortTitle(it.t)) +
+        (kindOf(it.u) ? ' <span class="search-result-kind">' + escapeHtml(kindOf(it.u)) + '</span>' : '') + '</span>' +
         (it.d ? '<span class="search-result-desc">' + escapeHtml(it.d) + '</span>' : '') +
         '</a>';
     }).join('');

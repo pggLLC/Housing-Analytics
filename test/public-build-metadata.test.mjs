@@ -5,7 +5,7 @@ import { createRequire } from 'node:module';
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { isSensitive } from '../scripts/lib/public-sensitive-patterns.mjs';
-import { briefRenderedText, pageTabs, pageText, redirectAlias, wordBag } from '../scripts/lib/search-index.mjs';
+import { briefRenderedText, pageTabs, pageText, redirectAlias, SEARCH_HIDDEN, wordBag } from '../scripts/lib/search-index.mjs';
 
 execFileSync(process.execPath, ['scripts/build-public-site.mjs'], { stdio: 'inherit' });
 
@@ -84,7 +84,12 @@ for (const program of fundingGuide.programs) {
 
 const servedDocs = (await readdir('dist/docs', { recursive: true })).filter((name) => name.endsWith('.md'));
 assert(servedDocs.length > 0, 'no public methodology docs found to check in search');
-for (const name of servedDocs) assert(searchUrls.has(`docs/${name.split(path.sep).join('/')}`), `search must find docs/${name}`);
+// Contributor notes the build serves (SEARCH_HIDDEN) are left out on purpose; every other doc is found.
+for (const name of servedDocs) {
+  const rel = `docs/${name.split(path.sep).join('/')}`;
+  if (SEARCH_HIDDEN.has(rel)) assert(!searchUrls.has(rel), `search must leave out ${rel} (${SEARCH_HIDDEN.get(rel)})`);
+  else assert(searchUrls.has(rel), `search must find ${rel}`);
+}
 
 const servedRootPages = (await readdir('dist')).filter((name) => name.endsWith('.html'));
 let tabbedPages = 0;
@@ -110,7 +115,9 @@ for (const name of servedRootPages) {
     assert((target.a || '').includes(redirect.alias), `searching "${redirect.alias}" must find ${redirect.target}, where ${name} now goes`);
   }
   // Every word a reader can see on an untabbed page is searchable, unless the page hit the word cap.
-  const record = tabs.length > 1 ? null : searchIndex.find((r) => r.u === name);
+  // Not the sitemap page: it names every page, so its words would match every search; the build
+  // indexes it by its title and headings only.
+  const record = tabs.length > 1 || name === 'sitemap.html' ? null : searchIndex.find((r) => r.u === name);
   if (record && (record.b || '').split(' ').length < 1499) {
     const text = searchable(record);
     const missing = wordBag(pageText(html)).split(' ')
