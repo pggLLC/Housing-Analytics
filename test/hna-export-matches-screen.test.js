@@ -571,6 +571,21 @@ async function exportAll(c) {
     assert(!/METHODOLOGY-GAPS/.test(pdfText), 'the PDF still names an internal docs file');
   });
 
+  await test('HUD counts survive a browser that groups digits without commas (Codex P2, PR 2769)', async () => {
+    // Still on Fruita from the test above. A German or French browser prints
+    // 119735 as "119.735" or "119 735"; the export must not read the text.
+    const chas = readJson('data/hna/chas_affordable_available.json');
+    const tiers = chas.places['0828745'].tiers;
+    const el = document.getElementById('statChasShort30');
+    const was = el.textContent;
+    try {
+      el.textContent = '1.210';
+      const d = window.__HNA_buildReportData();
+      assert.strictEqual(d.amiGap.hudShort['30'], tiers['30'].homes_short,
+        'hudShort 30 is ' + JSON.stringify(d.amiGap.hudShort['30']));
+    } finally { el.textContent = was; }
+  });
+
   await test('a 0 AMI gap is exercised: Mesa\'s 60% AMI gap is 0 in the data', async () => {
     assert.strictEqual(rankOf('08077').metrics.ami_gap_60pct, 0, 'fixture changed: pick another zero-gap jurisdiction');
   });

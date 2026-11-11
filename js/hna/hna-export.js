@@ -551,9 +551,11 @@
     var out = { '30': null, '50': null, '80': null };
     if (!box || box.hidden) return out;
     Object.keys(out).forEach(function (t) {
-      var text = _elText('statChasShort' + t);
-      var n = text == null ? NaN : Number(String(text).replace(/,/g, '').trim());
-      out[t] = /^\s*[\d,]+\s*$/.test(String(text || '')) && Number.isFinite(n) ? n : null;
+      // The cell's data-value, not its text: the text is grouped for the
+      // reader's locale and "119.735" would not parse back to the count.
+      var el = document.getElementById('statChasShort' + t);
+      var raw = el && el.getAttribute ? el.getAttribute('data-value') : null;
+      out[t] = raw != null && /^\d+$/.test(raw) ? Number(raw) : null;
     });
     return out;
   }

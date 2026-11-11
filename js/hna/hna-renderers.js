@@ -8260,7 +8260,13 @@
       const nEl = document.getElementById('statChasShort' + tier + 'Note');
       const sEl = document.getElementById('statChasShort' + tier + 'Src');
       const short = t && t.homes_short;
-      if (vEl) vEl.textContent = ok(short) ? fmt(short) : '—';
+      if (vEl) {
+        vEl.textContent = ok(short) ? fmt(short) : '—';
+        // The exports read this, not the text: the text is grouped for the
+        // reader's locale ("119.735", "119 735") and does not parse back.
+        if (ok(short)) vEl.setAttribute('data-value', String(short));
+        else vEl.removeAttribute('data-value');
+      }
       if (nEl) {
         nEl.textContent = (t && ok(t.renter_households) && ok(t.affordable_available_homes))
           ? 'homes short · ' + fmt(t.affordable_available_homes) + ' homes for ' + fmt(t.renter_households) + ' households'
