@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-11T13:36:58.478Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-11T15:08:29.840Z. Do not edit by hand.
 
 ---
 
@@ -48,7 +48,7 @@
 | `developer-where.html` | Where Should I Build? — COHO Analytics | 38.6 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
 | `developer.html` | Developer Home — COHO Analytics | 19.6 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 94.8 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 95.7 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.1 KB |
 | `green-building-guide.html` | Green Building in a Colorado Deal | COHO Analytics | 16.8 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | COHO Analytics | 6.0 KB |
@@ -325,7 +325,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 303.4 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 303.6 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.5 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
@@ -2089,7 +2089,7 @@
 
 ## Test Files
 
-792 test files found.
+793 test files found.
 
 | File | Size |
 |------|------|
@@ -2189,6 +2189,7 @@
 | `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
+| `test/data-refresh-gate.test.mjs` | 3.6 KB |
 | `test/data-scope.test.js` | 6.4 KB |
 | `test/data-source-inventory-drift.test.js` | 7.9 KB |
 | `test/data-source-inventory-paths.test.js` | 1.5 KB |
@@ -2263,7 +2264,7 @@
 | `test/developer-geoids.test.js` | 6.6 KB |
 | `test/discover-local-resources-cdp.test.js` | 5.1 KB |
 | `test/document-guide.test.mjs` | 4.2 KB |
-| `test/econ-dash-accuracy.test.js` | 5.3 KB |
+| `test/econ-dash-accuracy.test.js` | 6.3 KB |
 | `test/econ-dash-co-unemployment.test.js` | 1021 B |
 | `test/econ-dash-series-labels.test.js` | 975 B |
 | `test/econ-dash-yoy-change.test.js` | 5.1 KB |
@@ -2940,7 +2941,7 @@
 | `.github/workflows/fetch-county-data.yml` | 5.5 KB |
 | `.github/workflows/fetch-dola-muni-households.yml` | 4.5 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 8.5 KB |
-| `.github/workflows/fetch-fred-data.yml` | 5.6 KB |
+| `.github/workflows/fetch-fred-data.yml` | 6.3 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 4.3 KB |
 | `.github/workflows/fetch-kalshi.yml` | 5.5 KB |
 | `.github/workflows/fetch-market-rents.yml` | 8.6 KB |
