@@ -21,18 +21,25 @@
   // A search area, not a map frame: Colorado's box with a few hundred metres to spare, so an address on
   // the state line is not cut off. The map decides afterwards whether the point is in Colorado.
   var CO_BOX = '-109.1,41.05,-102,36.95';
-  var TYPE = /^(road|rd|street|st|avenue|ave|av|drive|dr|lane|ln|court|ct|circle|cir|boulevard|blvd|way|place|pl|highway|hwy|trail|trl|parkway|pkwy|terrace|ter|loop|county|cnty|cr|co|state|sh|us|n|s|e|w|north|south|east|west|the)$/;
+  var TYPE = /^(road|rd|street|st|avenue|ave|av|drive|dr|lane|ln|court|ct|circle|cir|boulevard|blvd|way|place|pl|highway|hwy|trail|trl|parkway|pkwy|terrace|ter|loop|county|cnty|cr|co|state|sh|us|n|s|e|w|ne|nw|se|sw|north|south|east|west|northeast|northwest|southeast|southwest|the)$/;
 
   function inColorado(lon, lat) { return lon <= -102 && lon >= -109.1 && lat >= 36.95 && lat <= 41.05; }
   function withState(text) { return /\b(co|colorado)\b/i.test(text) ? text : text + ', CO'; }
 
-  // The words of the street part (before the first comma), without road-type or direction words, and
-  // with a Mesa County half road ("18 1/2") kept as one token: "45 Kestrel Ridge Road, Penrose" ->
-  // ['45', 'kestrel', 'ridge']; "1340 18 1/2 Rd" -> ['1340', '18half']; "200 Avenue A" -> ['200', 'a'].
   // Lower case with accents dropped, so "Cañon City" and "Canon City" read the same.
   function fold(text) {
     return String(text || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   }
+  // Street directions, in short form: "123 West Colfax Ave" -> ['w'].
+  var DIR = { n: 'n', s: 's', e: 'e', w: 'w', ne: 'ne', nw: 'nw', se: 'se', sw: 'sw', north: 'n', south: 's', east: 'e', west: 'w',
+    northeast: 'ne', northwest: 'nw', southeast: 'se', southwest: 'sw' };
+  function dirs(text) {
+    return fold(String(text || '').split(',')[0]).split(/[^a-z0-9]+/)
+      .filter(function (w) { return Object.prototype.hasOwnProperty.call(DIR, w); }).map(function (w) { return DIR[w]; });
+  }
+  // The words of the street part (before the first comma), without road-type or direction words, and
+  // with a Mesa County half road ("18 1/2") kept as one token: "45 Kestrel Ridge Road, Penrose" ->
+  // ['45', 'kestrel', 'ridge']; "1340 18 1/2 Rd" -> ['1340', '18half']; "200 Avenue A" -> ['200', 'a'].
   function street(text) {
     return fold(String(text || '').split(',')[0]
       .replace(/\b(\d+)\s*(1\/2|\u00bd)/g, '$1half'))
@@ -53,20 +60,26 @@
   }
   // The returned street is the typed one when every number in it was typed (so "19 Road" never stands
   // in for "18 Road", nor County Road 320 for 233) and every typed word is in it, allowing one wrong
-  // letter in a long word, and every word of it was typed. The typed text may carry one extra leading number, its house number, and,
-  // when it has no comma, a trailing town, state and ZIP: once the street words run out, the rest
-  // must all be words of the returned place (town, county, ZIP) or "Colorado".
+  // letter in a long word, and every word of it was typed. The typed text may carry one extra
+  // leading number, its house number, and, when it has no comma, a trailing town, state and ZIP:
+  // once the street words run out, the rest must all be words of the returned place (town, county, ZIP) or "Colorado". A typed ZIP must be
+  // the returned one, when one came back. A direction given on both sides must agree, so East Colfax
+  // is never taken for West Colfax; a direction on one side only is allowed, as the two services
+  // often leave it out.
   function sameStreet(typed, road, place) {
     var want = street(typed), have = street(road);
     var where = fold(place).split(/[^a-z0-9]+/).filter(Boolean).concat(['colorado']);
+    var zips = where.filter(function (w) { return /^8\d{4}$/.test(w); });
     if (!have.length) return !want.length;
+    var dt = dirs(typed), dh = dirs(road);
+    if (dt.length && dh.length && !dt.some(function (d) { return dh.indexOf(d) > -1; })) return false;
     if (!have.filter(function (h) { return NUM.test(h); }).every(function (h) { return want.indexOf(h) > -1; })) return false;
     if (want.length > 1 && NUM.test(want[0]) && have.indexOf(want[0]) < 0) want = want.slice(1);
     var used = [], tail = false;
     for (var i = 0; i < want.length; i++) {
       var w = want[i];
       if (!tail && have.some(function (h) { return close(w, h); })) { used.push(w); continue; }
-      if (used.length && (where.indexOf(w) > -1 || /^8\d{4}$/.test(w))) { tail = true; continue; }
+      if (used.length && (where.indexOf(w) > -1 || (/^8\d{4}$/.test(w) && !zips.length))) { tail = true; continue; }
       return false;
     }
     // And the other way: every word of the returned street was typed, so "Old Main Street" is not

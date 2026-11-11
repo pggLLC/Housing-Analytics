@@ -43,18 +43,41 @@ place('123 Main Street, Cañon City, CO', 'Cañon City Fremont County', '81212',
 place('123 Main Street, Cañon City, CO', 'Canon City Fremont County', '', true);
 place('123 Main Street, Cañon City, CO', 'Florence Fremont County', '81226', false);
 same('45 Kestrel Ridge Road Cañon City CO', 'Kestrel Ridge Road', true, 'Cañon City Fremont County 81212');
+// A direction given on both sides must agree; one side only is allowed.
+same('123 East Colfax Avenue, Denver', 'West Colfax Avenue', false);
+same('123 E Colfax Ave, Denver', 'East Colfax Avenue', true);
+same('123 Colfax Ave, Denver', 'East Colfax Avenue', true);
+same('123 E Colfax Ave, Denver', 'Colfax Avenue', true);
+same('500 SW 2nd St, Cortez', 'Northwest 2nd Street', false);
+// A comma-free ZIP must be the returned one, when one came back.
+same('123 Main Street CO 81424', 'Main Street', false, 'Montrose Montrose County 81401');
+same('123 Main Street CO 81401', 'Main Street', true, 'Montrose Montrose County 81401');
+same('123 Main Street Montrose CO 81424', 'Main Street', false, 'Montrose Montrose County 81401');
+same('123 Main Street CO 81424', 'Main Street', true, 'Nucla Montrose County');
 check(JSON.stringify(G.street('12 Peñasco Rd, Antonito')) === '["12","penasco"]', 'street words drop accents: ' + G.street('12 Peñasco Rd, Antonito'));
 check(/street/.test(G.note({ source: 'osm', exact: false, label: 'Kestrel Ridge Road, Penrose, CO' })), 'street-only note says the pin is on the street');
 
-// The whole lookup with Census unreachable (no page here) and one OpenStreetMap answer in Cañon City:
-// the accented and plain spellings both find it, and a different typed town does not.
+// The whole lookup with Census unreachable (no page here) and mocked OpenStreetMap answers: an answer
+// in Cañon City is found by the accented and plain spellings but not by a Florence query; a West
+// Colfax answer not by East Colfax; a Montrose 81401 answer not by a comma-free 81424.
 const osmAnswer = [{ lat: '38.44', lon: '-105.24', display_name: 'Main Street, Cañon City, CO', address: { road: 'Main Street', city: 'Cañon City', county: 'Fremont County', state: 'Colorado', postcode: '81212' } }];
-globalThis.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve(osmAnswer) });
-Promise.all(['123 Main Street, Cañon City, CO', '123 Main Street, Canon City, CO', '123 Main Street, Florence, CO'].map((q) => G.find(q).catch(() => null)))
-  .then(([accented, plain, other]) => {
+const answers = {
+  canon: osmAnswer,
+  colfax: [{ lat: '39.74', lon: '-105.0', display_name: 'West Colfax Avenue, Denver, CO', address: { road: 'West Colfax Avenue', city: 'Denver', county: 'Denver County', state: 'Colorado', postcode: '80204' } }],
+  montrose: [{ lat: '38.48', lon: '-107.88', display_name: 'Main Street, Montrose, CO', address: { road: 'Main Street', city: 'Montrose', county: 'Montrose County', state: 'Colorado', postcode: '81401' } }],
+};
+const ask = (key, q) => { globalThis.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve(answers[key]) }); return G.find(q).catch(() => null); };
+const queries = [['canon', '123 Main Street, Cañon City, CO'], ['canon', '123 Main Street, Canon City, CO'], ['canon', '123 Main Street, Florence, CO'],
+  ['colfax', '123 East Colfax Avenue, Denver, CO'], ['colfax', '123 West Colfax Avenue, Denver, CO'], ['montrose', '123 Main Street CO 81424'], ['montrose', '123 Main Street CO 81401']];
+queries.reduce((prev, [key, q]) => prev.then((out) => ask(key, q).then((hit) => out.concat([hit]))), Promise.resolve([]))
+  .then(([accented, plain, other, east, west, zipOff, zipOn]) => {
     check(accented && accented.source === 'osm', 'find: accented Cañon City query should resolve');
     check(plain && plain.source === 'osm', 'find: plain Canon City query should resolve');
     check(other === null, 'find: Florence query should not take a Cañon City answer');
+    check(east === null, 'find: East Colfax query should not take a West Colfax answer');
+    check(west && west.source === 'osm', 'find: West Colfax query should resolve');
+    check(zipOff === null, 'find: comma-free 81424 query should not take a Montrose 81401 answer');
+    check(zipOn && zipOn.source === 'osm', 'find: comma-free 81401 query should resolve');
     console.log(fails.length ? 'geocode: FAIL ' + fails.length + '/' + n + '\n  ' + fails.join('\n  ') : 'geocode: PASS ' + n + ' checks');
     process.exit(fails.length ? 1 : 0);
   });
