@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-11T11:38:06.258Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-11T13:36:58.478Z. Do not edit by hand.
 
 ---
 
@@ -48,7 +48,7 @@
 | `developer-where.html` | Where Should I Build? — COHO Analytics | 38.6 KB |
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
 | `developer.html` | Developer Home — COHO Analytics | 19.6 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 94.4 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 94.8 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.1 KB |
 | `green-building-guide.html` | Green Building in a Colorado Deal | COHO Analytics | 16.8 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | COHO Analytics | 6.0 KB |
@@ -130,7 +130,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 664.0 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 671.1 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -2066,7 +2066,7 @@
 | `data/policy_briefs_curated.json` | 241.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 211.5 KB | ✅ | — |
+| `data/polymarket-history.json` | 213.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2263,10 +2263,10 @@
 | `test/developer-geoids.test.js` | 6.6 KB |
 | `test/discover-local-resources-cdp.test.js` | 5.1 KB |
 | `test/document-guide.test.mjs` | 4.2 KB |
-| `test/econ-dash-accuracy.test.js` | 4.1 KB |
+| `test/econ-dash-accuracy.test.js` | 5.3 KB |
 | `test/econ-dash-co-unemployment.test.js` | 1021 B |
 | `test/econ-dash-series-labels.test.js` | 975 B |
-| `test/econ-dash-yoy-change.test.js` | 4.3 KB |
+| `test/econ-dash-yoy-change.test.js` | 5.1 KB |
 | `test/effective-demand.test.js` | 6.8 KB |
 | `test/election-figures.test.mjs` | 2.8 KB |
 | `test/energy-retrofit-funding.test.js` | 5.7 KB |
