@@ -1,0 +1,126 @@
+// js/address-geocode.js: one Colorado address lookup for every map with an address box.
+//
+// 1. The US Census Geocoder (free, no key) finds the house number on its address ranges. It sends no
+//    CORS headers, so the browser asks it the JSONP way, as its documentation says
+//    (https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf).
+// 2. When Census has no Colorado match, which happens on streets newer than its address list
+//    (new subdivisions, some county and grid roads), OpenStreetMap's Nominatim is asked once
+//    (https://nominatim.org/release-docs/latest/api/Search/; one request per Enter, as its usage
+//    policy asks). Its answer is used only if the street name it returns is the street that was
+//    typed, so "County Road 233" never lands on County Road 320. When OpenStreetMap knows the
+//    street but not the house number, the answer says the pin is on the street, not at the door.
+//
+// CohoGeocode.find(text) resolves { lon, lat, label, source: 'census' | 'osm', exact } or null,
+// and rejects only when neither service answered. CohoGeocode.street and .sameStreet are exported
+// for the checks.
+(function (global) {
+  'use strict';
+
+  var CENSUS = 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress';
+  var OSM = 'https://nominatim.openstreetmap.org/search';
+  // A search area, not a map frame: Colorado's box with a few hundred metres to spare, so an address on
+  // the state line is not cut off. The map decides afterwards whether the point is in Colorado.
+  var CO_BOX = '-109.1,41.05,-102,36.95';
+  var TYPE = /^(road|rd|street|st|avenue|ave|av|drive|dr|lane|ln|court|ct|circle|cir|boulevard|blvd|way|place|pl|highway|hwy|trail|trl|parkway|pkwy|terrace|ter|loop|county|cnty|cr|co|state|sh|us|n|s|e|w|north|south|east|west|the)$/;
+
+  function inColorado(lon, lat) { return lon <= -102 && lon >= -109.1 && lat >= 36.95 && lat <= 41.05; }
+  function withState(text) { return /\b(co|colorado)\b/i.test(text) ? text : text + ', CO'; }
+
+  // The words that name the street, without the house number, the road type or a direction:
+  // "45 Kestrel Ridge Road, Penrose" -> ['kestrel', 'ridge']; "1340 18 Rd" -> ['18'].
+  function street(text) {
+    var first = String(text || '').split(',')[0].toLowerCase().replace(/[^a-z0-9\s]/g, ' ').trim().split(/\s+/);
+    // A leading number is the house number, unless it is the street itself ("18 Road").
+    if (/^\d+[a-z]?$/.test(first[0]) && first.slice(1).some(function (w) { return !TYPE.test(w); })) first = first.slice(1);
+    return first.filter(function (w) { return w && !TYPE.test(w); });
+  }
+  function close(a, b) {
+    if (a === b) return true;
+    if (Math.abs(a.length - b.length) > 1 || a.length < 5 || /\d/.test(a + b)) return false;
+    var i = 0, j = 0, edits = 0;
+    while (i < a.length && j < b.length) {
+      if (a[i] === b[j]) { i++; j++; continue; }
+      if (++edits > 1) return false;
+      if (a.length > b.length) i++; else if (b.length > a.length) j++; else { i++; j++; }
+    }
+    return edits + (a.length - i) + (b.length - j) <= 1;
+  }
+  // Every typed street word is in the returned street name, allowing one wrong letter in a long word.
+  function sameStreet(typed, road) {
+    var want = street(typed), have = street(road);
+    if (!want.length) return true;
+    return want.every(function (w) { return have.some(function (h) { return close(w, h); }); });
+  }
+
+  var n = 0;
+  function jsonp(url) {
+    return new Promise(function (resolve, reject) {
+      var name = '__cohoGeocode' + (++n), s = global.document.createElement('script'), done = false;
+      var timer = setTimeout(function () { finish(); reject(new Error('timeout')); }, 12000);
+      function finish() { done = true; clearTimeout(timer); try { delete global[name]; } catch (e) { global[name] = undefined; } if (s.parentNode) s.parentNode.removeChild(s); }
+      global[name] = function (d) { if (done) return; finish(); resolve(d); };
+      s.onerror = function () { if (done) return; finish(); reject(new Error('blocked')); };
+      s.src = url + '&callback=' + name;
+      global.document.head.appendChild(s);
+    });
+  }
+
+  function census(text) {
+    return jsonp(CENSUS + '?address=' + encodeURIComponent(text) + '&benchmark=Public_AR_Current&format=jsonp').then(function (d) {
+      var zip = (text.match(/\b(8\d{4})\b/) || [])[1];
+      var town = (String(text).split(',')[1] || '').toLowerCase().replace(/\b(co|colorado|8\d{4})\b/g, '').replace(/[^a-z\s]/g, '').trim();
+      var m = ((d && d.result && d.result.addressMatches) || []).filter(function (x) {
+        var a = x.addressComponents || {};
+        if (String(a.state).toUpperCase() !== 'CO') return false;
+        // Census sometimes answers a street it cannot find with another street in another town
+        // ("18 Road and K Road, Fruita" came back as a road in Cortez). A typed ZIP or town that
+        // disagrees, with a street that does not match either, means it guessed. Census spells
+        // some street words its own way, so a matching town and ZIP is enough on its own.
+        var otherPlace = (zip && a.zip && a.zip !== zip) || (town && a.city && a.city.toLowerCase() !== town);
+        return !(otherPlace && !sameStreet(text, x.matchedAddress));
+      })[0];
+      if (!m) return null;
+      return { lon: Number(m.coordinates.x), lat: Number(m.coordinates.y), label: m.matchedAddress, source: 'census', exact: true };
+    });
+  }
+
+  function osm(text) {
+    if (typeof global.fetch !== 'function') return Promise.resolve(null);
+    var url = OSM + '?format=jsonv2&addressdetails=1&limit=5&countrycodes=us&bounded=1&viewbox=' + CO_BOX + '&q=' + encodeURIComponent(text);
+    return global.fetch(url, { headers: { Accept: 'application/json' } }).then(function (r) { return r.ok ? r.json() : []; }).then(function (list) {
+      var num = (String(text).trim().match(/^(\d+[a-z]?)\b/i) || [])[1];
+      var hit = (list || []).filter(function (x) {
+        var a = x.address || {}, lon = Number(x.lon), lat = Number(x.lat);
+        return a.state === 'Colorado' && inColorado(lon, lat) && a.road && sameStreet(text, a.road);
+      })[0];
+      if (!hit) return null;
+      var a = hit.address, town = a.city || a.town || a.village || a.hamlet || a.county || '';
+      var exact = !!(num && a.house_number && String(a.house_number).toLowerCase() === num.toLowerCase());
+      // A street-only answer says so in its own label, which the maps show beside the pin.
+      var label = (exact ? a.house_number + ' ' : '') + a.road + (town ? ', ' + town : '') + ', CO' + (a.postcode ? ' ' + a.postcode : '') +
+        (exact ? '' : ' (street only: house number not mapped yet)');
+      return { lon: Number(hit.lon), lat: Number(hit.lat), label: label, source: 'osm', exact: exact };
+    });
+  }
+
+  function find(text) {
+    var q = withState(String(text || '').trim()), censusDown = false;
+    return census(q).catch(function () { censusDown = true; return null; }).then(function (hit) {
+      if (hit) return hit;
+      return osm(q).catch(function (err) { if (censusDown) throw err; return null; });
+    });
+  }
+
+  // What to say beside the pin, so a street-only answer is never read as the door.
+  function note(hit) {
+    if (!hit) return '';
+    if (hit.source === 'census') return 'Found by the US Census Geocoder: ' + hit.label + '.';
+    return hit.exact
+      ? 'Found on OpenStreetMap: ' + hit.label + '. The Census address list does not have it yet.'
+      : 'Close, not exact: OpenStreetMap knows ' + hit.label.replace(/ \(street only[^)]*\)$/, '') + ' but not this house number, so the pin is on the street. Tap or click the map to move it.';
+  }
+
+  var api = { find: find, note: note, street: street, sameStreet: sameStreet };
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  global.CohoGeocode = api;
+})(typeof window !== 'undefined' ? window : globalThis);
