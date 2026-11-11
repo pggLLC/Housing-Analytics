@@ -391,7 +391,7 @@
    * ('county_proportional', 'county_value_used_directly') stay in the JSON
    * for anyone scripting against it; the CSV and PDF print these. */
   var CHAS_SOURCE_WORDS = {
-    place: 'Measured for this place (tract CHAS apportioned to the place boundary)',
+    place: 'Estimated for this place: HUD CHAS tract figures shared out to the place boundary',
     county: 'County rates used: CHAS is not published for this place, so the containing county\u2019s rates stand in',
     combined: 'Combined from the selected places',
     none: 'Not available for this geography',
@@ -476,6 +476,16 @@
     return n === null ? UNAVAILABLE : Math.round(n).toLocaleString('en-US');
   }
 
+  /* The source line the page prints under a card, so a file carries the source of
+   * the value it actually holds. The home value is a Zillow index for most towns
+   * and ACS DP04 for others; a fixed "DP04" note mislabelled the Zillow ones
+   * (round-three review, 2026-11-10). */
+  function _srcOf(id, fallback) {
+    var el = document.getElementById(id);
+    var t = el ? String(el.textContent || '').replace(/\s+/g, ' ').trim() : '';
+    return t && t !== '\u2014' ? t : fallback;
+  }
+
   /** Executive-snapshot rows, labelled as the page's stat cards are. */
   function _snapshotRows(d) {
     var s = (d && d.snapshot) || {};
@@ -483,7 +493,7 @@
     return [
       { key: 'population',            label: _cardLabel('statPop', 'Population'),                         value: s.population,            sub: 'ACS DP05 total' },
       { key: 'medianHouseholdIncome', label: _cardLabel('statMhi', 'Median household income'),            value: s.medianHouseholdIncome, sub: 'ACS DP03' },
-      { key: 'medianHomeValue',       label: _cardLabel('statHomeValue', 'Median home value'),            value: s.medianHomeValue,       sub: 'Owner-occupied DP04' },
+      { key: 'medianHomeValue',       label: _cardLabel('statHomeValue', 'Median home value'),            value: s.medianHomeValue,       sub: _srcOf('statHomeValueSrc', 'Source not shown on the page when exported') },
       { key: 'medianGrossRent',       label: _cardLabel('statRent', 'Median gross rent'),                 value: s.medianGrossRent,       sub: 'Renter-occupied DP04' },
       { key: 'ownerRenterTenure',     label: _cardLabel('statTenure', 'Renter-occupied (tenure)'),        value: s.ownerRenterTenure,     sub: 'DP04 tenure' },
       { key: 'rentBurden30Plus',      label: _cardLabel('statRentBurden', 'Rent burdened (30% or more)'),   value: s.rentBurden30Plus,      sub: 'ACS DP04 GRAPI' },
@@ -1259,6 +1269,8 @@
       ['Population (displayed)',                 d.snapshot.population],
       ['Median Household Income (displayed)',    d.snapshot.medianHouseholdIncome],
       ['Median Home Value (displayed)',          d.snapshot.medianHomeValue],
+      // The home value is a Zillow index for most towns and ACS DP04 for others: the file says which.
+      ['Median Home Value source',               _srcOf('statHomeValueSrc', 'Source not shown on the page when exported')],
       ['Median Gross Rent (displayed)',          d.snapshot.medianGrossRent],
       ['Owner / Renter Tenure',                  d.snapshot.ownerRenterTenure],
       ['Rent Burden \u226530% of income',             d.snapshot.rentBurden30Plus],
@@ -1531,6 +1543,8 @@
             y += CELL_H + GAP_Y;
           }
         }
+        // Room below the last row of cards: the next heading overlapped it.
+        y += 8;
       }
 
       function drawChart(canvasId, caption, maxHeightPt) {
@@ -1574,10 +1588,20 @@
 
       function drawTableSimple(rows) {
         // Simple 2-col table: label | value
-        const ROW_H = 18;
+        // A long label wraps inside its own column and the row grows with it;
+        // drawn on one fixed line it ran over the value (round-three review,
+        // 2026-11-10: the 80% AMI row and the transit rows).
+        const LINE_H = 11;
         const COL1_W = CONTENT_W * 0.55;
+        const COL2_W = CONTENT_W - COL1_W;
         for (const row of rows) {
           if (!row || row.value == null || row.value === '—') continue;
+          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(9.5);
+          const labelLines = pdf.splitTextToSize(String(row.label), COL1_W - 10);
+          pdf.setFont('helvetica', 'bold');
+          const valueLines = pdf.splitTextToSize(String(row.value), COL2_W - 2);
+          const ROW_H = 7 + LINE_H * Math.max(labelLines.length, valueLines.length);
           newPageIfNeeded(ROW_H);
           // Row rule
           pdf.setDrawColor.apply(pdf, COLOR_RULE);
@@ -1587,13 +1611,14 @@
           pdf.setFont('helvetica', 'normal');
           pdf.setFontSize(9.5);
           pdf.setTextColor.apply(pdf, COLOR_INK);
-          pdf.text(row.label, MARGIN, y + 12);
+          pdf.text(labelLines, MARGIN, y + 12, { lineHeightFactor: LINE_H / 9.5 });
           // Value
           pdf.setFont('helvetica', 'bold');
-          pdf.text(String(row.value), MARGIN + COL1_W, y + 12);
+          pdf.text(valueLines, MARGIN + COL1_W, y + 12, { lineHeightFactor: LINE_H / 9.5 });
           y += ROW_H;
         }
-        y += 6;
+        // Room below the last rule: a note or heading drawn next sat on it.
+        y += 14;
       }
 
       function drawPageFooter() {

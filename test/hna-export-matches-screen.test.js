@@ -586,6 +586,47 @@ async function exportAll(c) {
     } finally { el.textContent = was; }
   });
 
+  await test('the home value row names the source the page shows for it, in the workbook and the CSV (round-three review)', async () => {
+    // Fruita's home value is a Zillow index, not ACS DP04. Mesa County is checked too, so a fixed label cannot pass.
+    for (const geoid of ['0828745', '08077']) {
+      const r = await exportAll(CASES.find((c) => c.geoid === geoid));
+      const shown = document.getElementById('statHomeValueSrc').textContent.replace(/\s+/g, ' ').trim();
+      assert(shown && shown !== '\u2014', geoid + ': the page shows no home value source to compare with');
+      const row = sheets.Summary.rows.find((x) => typeof x.k === 'string' && /home value/i.test(x.k));
+      assert(row, geoid + ': no home value row in the workbook');
+      const rowText = JSON.stringify(row);
+      assert(rowText.includes(shown.slice(0, 20)), geoid + ': workbook home value row does not carry the page source "' + shown.slice(0, 40) + '": ' + rowText.slice(0, 200));
+      if (/zillow/i.test(shown)) assert(!/DP04/.test(rowText), geoid + ': a Zillow value is labelled DP04');
+      const csvRow = r.csvRows.find((x) => x[0] === 'Median Home Value source');
+      assert(csvRow && csvRow.join(' ').includes(shown.slice(0, 20)), geoid + ': CSV home value row lacks the page source: ' + JSON.stringify(csvRow) + ' vs ' + shown);
+    }
+  });
+
+  await test('the CHAS disclosure agrees with how the place figures were made: shared out from tracts is an estimate, a county is measured (round-three review)', async () => {
+    // What it must agree with: data/hna/place-chas.json records, per place, how its CHAS figures were built.
+    const placeChas = readJson('data/hna/place-chas.json');
+    const rec = placeChas.places['0828745'];
+    assert(rec && /apportion/i.test(rec.source + ' ' + placeChas.meta.method),
+      'fixture changed: Fruita\'s place CHAS is no longer recorded as apportioned from tracts (' + JSON.stringify(rec && rec.source) + ')');
+    const disclosures = async (geoid) => {
+      const r = await exportAll(CASES.find((c) => c.geoid === geoid));
+      const csv = r.csvRows.filter((x) => x[0] === 'CHAS Data Source').map((x) => x[1]);
+      const pdf = r.pdf.filter((t) => /^CHAS data source:/i.test(t));
+      // Non-vacuity on the scan: both downloads must carry the disclosure at all.
+      assert(csv.length === 1 && csv[0], geoid + ': the CSV carries no CHAS Data Source row');
+      assert(pdf.length === 1, geoid + ': the PDF carries no "CHAS data source" line (' + pdf.length + ')');
+      return csv.concat(pdf);
+    };
+    for (const text of await disclosures('0828745')) {
+      assert(!/\bmeasured\b/i.test(text), 'apportioned place CHAS is called measured: ' + text);
+      assert(/\bestimate/i.test(text), 'apportioned place CHAS is not disclosed as an estimate: ' + text);
+    }
+    // A county's CHAS is HUD's own published record, so the same wording there would be the opposite error.
+    for (const text of await disclosures('08077')) {
+      assert(!/\bestimate/i.test(text), 'a county\'s published CHAS is called an estimate: ' + text);
+    }
+  });
+
   await test('a 0 AMI gap is exercised: Mesa\'s 60% AMI gap is 0 in the data', async () => {
     assert.strictEqual(rankOf('08077').metrics.ami_gap_60pct, 0, 'fixture changed: pick another zero-gap jurisdiction');
   });
