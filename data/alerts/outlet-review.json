@@ -1,15 +1,33 @@
 {
   "meta": {
-    "generated": "2026-11-10T11:25:35Z",
+    "generated": "2026-11-11T11:13:06Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-04",
-      "checked": 60,
-      "unverified": 3,
-      "weak": 0
+      "since": "2026-11-05",
+      "checked": 53,
+      "unverified": 2,
+      "weak": 1
     }
   },
   "outlets": [
+    {
+      "id": "02a620c88d",
+      "name": "Quantum Computing Report",
+      "domains": [
+        "quantumcomputingreport.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-11",
+      "last_seen": "2026-11-11",
+      "headlines": [
+        {
+          "title": "Colorado Partners with IBM to Deploy AI-Driven Quantum Ecosystem Mapping and Workforce Tools",
+          "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPWHZpYXZKVmwyX0lrTV91N2tDYjRrNGZYZTM4eEt0ZV9teFhOZWwyQlRSbDQ3anNEdmpwTUxNWHJsZXNROTlFelAtaHdaT25fOFZZWUU1MTFVcDd6NEhNemNxR1RzU2JMVHJBX3ZfVHpLTEpfYWhrajdqclphdmFsdU5BeGZhNFEtdmFCTHhsang3RlJBZ3JDSDBZdVY3bUY3eDQwZmZXUktaX2twZ1UzWmtnb3RFVFlocUNvZEhRd0pyNDZ3czJn0gHMAUFVX3lxTE5uMW12VGlNRDl3ZmwwdDZSUVdZVzB1cUxUcDVVZy1mZXdqVHlqT29RNVVHS2NNUGI2dkRmR3RGc1hlck5yRndnTEFrenNrOVEtc1pieWlaU2tsMmd6c3RKWVAwbVJrTkZ6ZVVqNnd5S2hQUUFWUy1UN01BMGd0TkF5UzNyQ0xwTTdKeDVSV1lLMU5pZWhKZVpHc2VkZ01GTDBLandhV2kwRkN6Q0MwTy1HdHlSQ1h2LWxhTWxLckNpSFFTNWJjdlZENkIyNQ?oc=5",
+          "date": "2026-11-11"
+        }
+      ],
+      "first_listed": "2026-11-11"
+    },
     {
       "id": "a31f0f45ba",
       "name": "The Topeka Capital-Journal",

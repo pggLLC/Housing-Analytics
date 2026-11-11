@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-10T11:25:34Z",
-    "as_of": "2026-11-10",
+    "generated": "2026-11-11T11:13:05Z",
+    "as_of": "2026-11-11",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -24,15 +24,15 @@
       "url": "https://www.chfainfo.com/events",
       "status": "ok",
       "listed": 1346,
-      "upcoming": 29
+      "upcoming": 25
     },
     {
       "id": "housing_colorado",
       "name": "Housing Colorado upcoming events",
       "url": "https://housingcolorado.org/events/",
       "status": "ok",
-      "listed": 0,
-      "upcoming": 0
+      "listed": 1,
+      "upcoming": 1
     },
     {
       "id": "doh",
@@ -79,8 +79,8 @@
       "name": "FRED release calendar: CPI, jobs report, housing starts",
       "url": "https://fred.stlouisfed.org/",
       "status": "ok",
-      "listed": 7,
-      "upcoming": 7
+      "listed": 6,
+      "upcoming": 6
     },
     {
       "id": "curated",
@@ -103,66 +103,6 @@
       "url": "https://doh.colorado.gov/news-article/nofa-doh-cdbg-abatement-and-demolition-program",
       "source": "doh",
       "category": "deadline"
-    },
-    {
-      "title": "Consumer Price Index (inflation) released",
-      "start": "2026-11-10",
-      "end": null,
-      "time": null,
-      "location": null,
-      "online": true,
-      "organizer": "U.S. Bureau of Labor Statistics",
-      "url": "http://www.bls.gov/cpi/",
-      "source": "fred",
-      "category": "release"
-    },
-    {
-      "title": "Training Webinar: CHFA Guidelines Training for Underwriters and Processors",
-      "start": "2026-11-10",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/f252f282-d487-46c8-811c-1e2abcc83fd0@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "other"
-    },
-    {
-      "title": "Training Webinar: CHFA Lender Essentials Training",
-      "start": "2026-11-10",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/1fa68fd1-4d91-4e72-9320-c80f8762a9cc@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "hpi: Key Competencies to Effective Mentoring, Online Workshop",
-      "start": "2026-11-10",
-      "end": null,
-      "time": "12:50",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/hpi-key-competencies-to-effective-mentoring-online-workshop-11-10-2026-nov-10-2026",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "Training Webinar: Closers and Funders",
-      "start": "2026-11-10",
-      "end": null,
-      "time": "13:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/2ad089ba-d5ea-4dbb-af9b-24c9767a54a1@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
     },
     {
       "title": "chfareach: Maintaining Compliance with DOH and CHFA, Online Workshop",
@@ -537,6 +477,18 @@
       "category": "homebuyer"
     },
     {
+      "title": "2026 Annual Holiday Member Luncheon",
+      "start": "2026-12-17",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Housing Colorado",
+      "url": "https://members.housingcolorado.org/event-details?id=301c9a70-0214-f111-83da-7c1e52cbe791",
+      "source": "housing_colorado",
+      "category": "networking"
+    },
+    {
       "title": "December 2026 CHFA Board of Directors Meeting",
       "start": "2026-12-17",
       "end": null,
@@ -731,6 +683,66 @@
     }
   ],
   "past": [
+    {
+      "title": "Training Webinar: Closers and Funders",
+      "start": "2026-11-10",
+      "end": null,
+      "time": "13:00",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://events.teams.microsoft.com/event/2ad089ba-d5ea-4dbb-af9b-24c9767a54a1@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
+      "source": "chfa",
+      "category": "homebuyer"
+    },
+    {
+      "title": "hpi: Key Competencies to Effective Mentoring, Online Workshop",
+      "start": "2026-11-10",
+      "end": null,
+      "time": "12:50",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/hpi-key-competencies-to-effective-mentoring-online-workshop-11-10-2026-nov-10-2026",
+      "source": "chfa",
+      "category": "compliance"
+    },
+    {
+      "title": "Training Webinar: CHFA Lender Essentials Training",
+      "start": "2026-11-10",
+      "end": null,
+      "time": "10:00",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://events.teams.microsoft.com/event/1fa68fd1-4d91-4e72-9320-c80f8762a9cc@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
+      "source": "chfa",
+      "category": "homebuyer"
+    },
+    {
+      "title": "Training Webinar: CHFA Guidelines Training for Underwriters and Processors",
+      "start": "2026-11-10",
+      "end": null,
+      "time": "10:00",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://events.teams.microsoft.com/event/f252f282-d487-46c8-811c-1e2abcc83fd0@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
+      "source": "chfa",
+      "category": "other"
+    },
+    {
+      "title": "Consumer Price Index (inflation) released",
+      "start": "2026-11-10",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Bureau of Labor Statistics",
+      "url": "http://www.bls.gov/cpi/",
+      "source": "fred",
+      "category": "release"
+    },
     {
       "title": "chfareach: New to chfareach? New Participant Orientation, Online Meeting",
       "start": "2026-11-09",
