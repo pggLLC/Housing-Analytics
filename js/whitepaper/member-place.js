@@ -144,6 +144,7 @@
     after.parentNode.insertBefore(line, after.nextSibling);
 
     var list = null, listLoading = null;
+    var picked = null;   // the place the line shows now
     function loadList() {
       if (list) return Promise.resolve(list);
       if (!listLoading) {
@@ -169,7 +170,7 @@
       line.appendChild(change);
       if (place) {
         var clear = el('button', { type: 'button' }, 'Clear');
-        clear.addEventListener('click', function () { write(getStore, null); draw(null, false); });
+        clear.addEventListener('click', function () { picked = null; write(getStore, null); draw(null, false); });
         line.appendChild(clear);
       }
       if (picking) {
@@ -192,6 +193,7 @@
             if (!write(getStore, hit)) { note.textContent = 'This browser blocks saved settings, so the place cannot be kept.'; return; }
             var go = hrefFor(path, hit.geoid);
             // A page that opens on a place goes to it; any other page just shows the new place.
+            picked = hit;
             if (go && TAKES[fileOf(path)] && fromAddress(path, loc.search)) { loc.href = go; return; }
             draw(hit, false);
           });
@@ -208,14 +210,20 @@
       kept = { geoid: linked, name: '' };
       write(getStore, kept);
     }
+    picked = kept;
     draw(kept, false);
     if (kept && !kept.name) {
+      var asked = kept.geoid;
       loadList().then(function (l) {
-        var n = nameOf(l, kept.geoid);
+        // The member may have cleared or changed the place while the names loaded: only name the place
+        // that is still picked, and never write it back otherwise.
+        if (!picked || picked.geoid !== asked || picked.name) return;
+        var n = nameOf(l, asked);
         if (!n) return;
-        kept = { geoid: kept.geoid, name: n };
-        write(getStore, kept);
-        draw(kept, false);
+        picked = { geoid: asked, name: n };
+        write(getStore, picked);
+        // Keep an open "Change" box open; only the name in the line is filled in.
+        if (!doc.getElementById('mpInput')) draw(picked, false);
       });
     }
   }

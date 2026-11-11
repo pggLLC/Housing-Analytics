@@ -57,7 +57,12 @@ ok(/member-place\.js/.test(fs.readFileSync(path.join(ROOT, 'js/whitepaper/develo
 // The line on real pages, in Chromium at phone and desktop width.
 const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.svg': 'image/svg+xml', '.json': 'application/json', '.geojson': 'application/json', '.csv': 'text/csv' };
 const ORIGIN = 'http://example.org';
-const browser = await chromium.launch();
+// The same browser lookup as test/member-phone-header.test.mjs: Playwright's own, else Puppeteer's (CI).
+const bundled = chromium.executablePath();
+const fromPuppeteer = fs.existsSync(bundled) ? null : await (await import('puppeteer')).default.executablePath();
+const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (fs.existsSync(bundled) ? bundled
+  : fs.existsSync(fromPuppeteer) ? fromPuppeteer : '/opt/pw-browsers/chromium');
+const browser = await chromium.launch({ headless: true, executablePath, args: ['--no-sandbox'] });
 try {
   for (const width of [390, 1280]) {
     const ctx = await browser.newContext({ viewport: { width, height: 844 } });
@@ -118,6 +123,19 @@ try {
     // Clear.
     await tab.getByRole('button', { name: 'Clear' }).click();
     ok((await line().innerText()).startsWith('No place picked.') && await tab.evaluate((k) => localStorage.getItem(k), MP.KEY) === null, `${width}: Clear forgets the place`);
+
+    // Clear while the name is still loading: the late answer must not bring the place back (Codex, #2774).
+    {
+      let release; const held = new Promise((r) => { release = r; });
+      await tab.route('**/data/co-place-centroids.json', async (route) => { await held; route.fallback(); });
+      await tab.goto(ORIGIN + '/developer-brief.html?geoid=0803455');
+      await tab.waitForFunction(() => /Working on: 0803455/.test((document.getElementById('mpLine') || {}).innerText || ''));
+      await tab.getByRole('button', { name: 'Clear' }).click();
+      release();
+      await tab.waitForTimeout(1200);
+      ok((await line().innerText()).startsWith('No place picked.') && await tab.evaluate((k) => localStorage.getItem(k), MP.KEY) === null, `${width}: a place cleared while its name loads stays cleared`);
+      await tab.unroute('**/data/co-place-centroids.json');
+    }
 
     // Print: the line stays off the page.
     await tab.emulateMedia({ media: 'print' });
