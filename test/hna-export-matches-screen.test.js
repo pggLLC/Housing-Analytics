@@ -602,12 +602,29 @@ async function exportAll(c) {
     }
   });
 
-  await test('shared-out CHAS figures are never called measured for the place (round-three review)', async () => {
-    const src = require('fs').readFileSync(require('path').join(__dirname, '..', 'js/hna/hna-export.js'), 'utf8');
-    assert(!/Measured for this place \(tract CHAS apportioned/.test(src), 'the apportioned CHAS label still says Measured');
-    const r = await exportAll(CASES.find((c) => c.geoid === '0828745'));
-    const all = r.csvRows.map((x) => x.join(' ')).join('\n') + r.pdf.join(' ');
-    assert(!/Measured for this place \(tract CHAS/.test(all), 'a download still calls apportioned CHAS measured');
+  await test('the CHAS disclosure agrees with how the place figures were made: shared out from tracts is an estimate, a county is measured (round-three review)', async () => {
+    // What it must agree with: data/hna/place-chas.json records, per place, how its CHAS figures were built.
+    const placeChas = readJson('data/hna/place-chas.json');
+    const rec = placeChas.places['0828745'];
+    assert(rec && /apportion/i.test(rec.source + ' ' + placeChas.meta.method),
+      'fixture changed: Fruita\'s place CHAS is no longer recorded as apportioned from tracts (' + JSON.stringify(rec && rec.source) + ')');
+    const disclosures = async (geoid) => {
+      const r = await exportAll(CASES.find((c) => c.geoid === geoid));
+      const csv = r.csvRows.filter((x) => x[0] === 'CHAS Data Source').map((x) => x[1]);
+      const pdf = r.pdf.filter((t) => /^CHAS data source:/i.test(t));
+      // Non-vacuity on the scan: both downloads must carry the disclosure at all.
+      assert(csv.length === 1 && csv[0], geoid + ': the CSV carries no CHAS Data Source row');
+      assert(pdf.length === 1, geoid + ': the PDF carries no "CHAS data source" line (' + pdf.length + ')');
+      return csv.concat(pdf);
+    };
+    for (const text of await disclosures('0828745')) {
+      assert(!/\bmeasured\b/i.test(text), 'apportioned place CHAS is called measured: ' + text);
+      assert(/\bestimate/i.test(text), 'apportioned place CHAS is not disclosed as an estimate: ' + text);
+    }
+    // A county's CHAS is HUD's own published record, so the same wording there would be the opposite error.
+    for (const text of await disclosures('08077')) {
+      assert(!/\bestimate/i.test(text), 'a county\'s published CHAS is called an estimate: ' + text);
+    }
   });
 
   await test('a 0 AMI gap is exercised: Mesa\'s 60% AMI gap is 0 in the data', async () => {
