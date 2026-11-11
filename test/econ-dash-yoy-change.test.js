@@ -33,8 +33,22 @@ function yearBefore(date) {
   return d.toISOString().slice(0, 10);
 }
 
+// October 2025 CPI and jobs figures were never published. A monthly series
+// whose year-earlier month is missing gets no YoY at all, never a 13-month
+// change, and its card falls back to the labelled previous-point change.
+for (const id of ['UNRATE', 'CPIAUCSL']) {
+  const s = series(id);
+  const last = s[s.length - 1].date;
+  const want = yearBefore(last).slice(0, 7);
+  if (s.some(o => o.date.slice(0, 7) === want)) continue;
+  assert.equal(ctx.yearAgoIndex(s), -1, `${id}: no YoY when ${want} is missing`);
+  assert.equal(ctx.pickChange(s).label, 'chg', `${id}: card shows the labelled previous-point change`);
+  assert.ok(!isFinite(ctx.yoyPct(s)), `${id}: no year-over-year percentage`);
+}
+
 for (const id of ['DGS10', 'ECIALLCIV', 'HOUST', 'ICSA', 'UNRATE']) {
   const s = series(id);
+  if (id === 'UNRATE' && !s.some(o => o.date.slice(0, 7) === yearBefore(s[s.length - 1].date).slice(0, 7))) continue;
   const i = ctx.yearAgoIndex(s);
   assert.ok(i >= 0, `${id}: a year-earlier observation is found`);
   const target = yearBefore(s[s.length - 1].date);
