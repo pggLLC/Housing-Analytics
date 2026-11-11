@@ -29,6 +29,15 @@ same('45 Kestrel Ridge Road Canon City CO', 'Kestrel Ridge Road', false, 'Penros
 same('45 Kestrel Penrose', 'Penrose Road', false, 'Penrose');
 same('123 Main Street, Nucla, CO', 'Old Main Street', false, 'Nucla'); // every returned word must be typed too
 same('123 Old Main Street, Nucla, CO', 'Old Main Street', true, 'Nucla');
+// The typed town and ZIP must not contradict the returned place (both typed: one agreeing is enough).
+const place = (typed, town, pc, want) => check(G.samePlace(typed, town, pc) === want, typed + ' in ' + town + ' ' + pc + ': expected ' + want);
+place('123 Main Street, Nucla, CO 81424', 'Montrose Montrose County', '81401', false);
+place('123 Main Street, Nucla, CO 81424', 'Nucla Montrose County', '81424', true);
+place('123 Main Street, Nucla, CO', 'Montrose Montrose County', '81401', false);
+place('123 Main Street, CO 81424', 'Montrose Montrose County', '81401', false);
+place('123 Main Street, Clifton, CO 81520', 'Grand Junction Mesa County', '81520', true);
+place('45 Kestrel Ridge Rd, Canon City', 'Cañon City Fremont County', '', true);
+place('123 Main Street', 'Montrose', '81401', true);
 check(/street/.test(G.note({ source: 'osm', exact: false, label: 'Kestrel Ridge Road, Penrose, CO' })), 'street-only note says the pin is on the street');
 
 console.log(fails.length ? 'geocode: FAIL ' + fails.length + '/' + n + '\n  ' + fails.join('\n  ') : 'geocode: PASS ' + n + ' checks');

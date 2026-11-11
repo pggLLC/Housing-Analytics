@@ -70,6 +70,22 @@
     return used.length > 0 && have.every(function (h) { return used.some(function (w) { return close(w, h); }); });
   }
 
+  // The town and ZIP typed after the street (after a comma) must not contradict the returned place.
+  // When both were typed, one agreeing is enough, since ZIP areas and town limits differ.
+  function samePlace(typed, place, postcode) {
+    var after = String(typed || '').split(',').slice(1).join(' ').toLowerCase();
+    var zip = (after.match(/\b(8\d{4})\b/) || [])[1];
+    var town = after.replace(/\b(co|colorado|usa|us|8\d{4})\b/g, ' ').split(/[^a-z]+/).filter(Boolean);
+    // Accents dropped, so "Canon City" matches OpenStreetMap's "Cañon City".
+    var words = String(place || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().split(/[^a-z0-9]+/);
+    var pc = String(postcode || '').slice(0, 5);
+    var zipOk = !zip || !pc ? null : zip === pc;
+    var townOk = !town.length ? null : town.every(function (w) { return words.indexOf(w) > -1; });
+    if (zipOk === null) return townOk !== false;
+    if (townOk === null) return zipOk;
+    return zipOk || townOk;
+  }
+
   var n = 0;
   function jsonp(url) {
     return new Promise(function (resolve, reject) {
@@ -109,7 +125,9 @@
       var num = (String(text).trim().match(/^(\d+[a-z]?)\b/i) || [])[1];
       var hit = (list || []).filter(function (x) {
         var a = x.address || {}, lon = Number(x.lon), lat = Number(x.lat);
-        return a.state === 'Colorado' && inColorado(lon, lat) && a.road && sameStreet(text, a.road, [a.city, a.town, a.village, a.hamlet, a.suburb, a.county, a.postcode].join(' '));
+        return a.state === 'Colorado' && inColorado(lon, lat) && a.road &&
+          sameStreet(text, a.road, [a.city, a.town, a.village, a.hamlet, a.suburb, a.county, a.postcode].join(' ')) &&
+          samePlace(text, [a.city, a.town, a.village, a.hamlet, a.suburb, a.county].join(' '), a.postcode);
       })[0];
       if (!hit) return null;
       var a = hit.address, town = a.city || a.town || a.village || a.hamlet || a.county || '';
@@ -138,7 +156,7 @@
       : 'Close, not exact: OpenStreetMap knows ' + hit.label.replace(/ \(street only[^)]*\)$/, '') + ' but not this house number, so the pin is on the street. Tap or click the map to move it.';
   }
 
-  var api = { find: find, note: note, street: street, sameStreet: sameStreet };
+  var api = { find: find, note: note, street: street, sameStreet: sameStreet, samePlace: samePlace };
   if (typeof module === 'object' && module.exports) module.exports = api;
   global.CohoGeocode = api;
 })(typeof window !== 'undefined' ? window : globalThis);
