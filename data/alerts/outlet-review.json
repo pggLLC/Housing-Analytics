@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated": "2026-11-11T11:13:06Z",
+    "generated": "2026-11-12T11:30:23Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-05",
-      "checked": 53,
+      "since": "2026-11-06",
+      "checked": 56,
       "unverified": 2,
       "weak": 1
     }

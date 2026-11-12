@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-11-11T11:13:05Z",
-    "as_of": "2026-11-11",
+    "generated": "2026-11-12T11:30:23Z",
+    "as_of": "2026-11-12",
     "stale_days": 30,
-    "events_as_of": "2026-11-11",
+    "events_as_of": "2026-11-12",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,8 +14,56 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
+        {
+          "title": "BoodleBox partners with Pikes Peak State College on AI hackathon in Colorado Springs",
+          "source": "ColoradoBiz",
+          "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE8yMzlONlJHTjBPX1BfX2ZtS09pR0ZpQjR5SHE4OWNyVHg4S0tLYjJIZ1c1M2t0dmdoR0hMcXI0SUxzNEZIRmZnSExLOFRPbzZjeVJrZUZMRWFjMXJDMnZwMDVqcFNybUlvLVRJWFVSNXBuTDMzODlBUHdLMUk?oc=5",
+          "date": "2026-11-11",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Midwestern ice cream brand Handel’s debuting in Colorado Springs",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPNktsWFdiOXNYOFBMem8tNF8wWjdTQXUwUURsUENOeDFTTVYteEpKeXh5QmZWUGNJdWRjODZZbFVDWFhfRlVaaHdfS1l3Rlp2aDhfQ21USXhGWUxXQ3FXZVJhWjlyOXIta2ttRGpudWtrNUF2S3U5QTcyOGY5emlmSTR6bDhXRHlpWVlQenNpUjV6dm1pNm5jX2MzNA?oc=5",
+          "date": "2026-11-11",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Cult, divorce featured in former Colorado Springs resident’s solo show",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQYlZSN0pOOXlYNnI0RGxSUzE0Q0FFUVV4X053YjF1b0NBN1pfcGNaNTVHYWFiZFo2bS1OS0lKdTBLX1NjSGhiU1N1dzFHV2tDWHdoRjI3czhST2pvTmNpOFR6M1BZa3E3VllFX2ZkRmptVHVKZ2QwSUxSdzVGSnJ1cUtrR25XVTJmbEJxQnJBa2R5cFlOWHgxLUlqOFNXOURGeXc?oc=5",
+          "date": "2026-11-11",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs Utilities’ 2027 budget gets first approval vote",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPc0ljMVNtWTY4SkZsOF84R21OY1NBMGJkOGhXTkwxR3VIeFRmV2V1ekZNb0hJQ281VWFEbWV1SVhQMklCa0NTejhqc0FyaWF3SFUtNFNTUzJ6VmZuOUdoMnNncEs5aFhnWERYZXlrUHhOMHhMOVBXVUd1S0hlcnJOYnJwblVadld1bzVIQ3hHaHIwWXg1Q1NBdzk5bw?oc=5",
+          "date": "2026-11-10",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Soldiers celebrate heritage with march through Colorado Springs",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNZFFnU01UZTk0Tm1UUUNoZnZuWFgyN0ljanRYSVJwYzROV05kaGtaU2xkWmxTODVoOE5BaHQ1YUNtalFJa2RvNTVMd29Ba2pjTTFfTkJTQ0VDME43T2htZVhLTDI2ZmlpSEU2RU1VX3VDTlExMkR4NmZmblNYS19OeHh1dkZCdGhFejYzWG41SDZ3WWtIUm56S1FhRQ?oc=5",
+          "date": "2026-11-10",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs and beyond holiday events",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5RejZfajVxb3Nack5OT0xUOTl5NzgzNzZEU2NxZk82bmZQcW5YTXF2UGQ2WmZZZEtBcVowTGdfV2lENHZlTW9RV1N6OTFrZDZld2NYT2pDR3UwQ1psNzRwbC1ZMnlNc2QtUzFkN3lIck1nNm9aWGVjYlZaOTFmY3c?oc=5",
+          "date": "2026-11-10",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Merger creates Coldwell Banker Ranger in Colorado Springs",
           "source": "Colorado Springs Gazette",
@@ -41,10 +89,50 @@
           "also": []
         },
         {
+          "title": "Pikes Pick: Colorado Springs event helps survivors of suicide loss",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQQ3NtUGl5WldvZHlFbk1KcTZULWQtckhYQTBsSjRNYTlUalQyNWlVWVBlNFNWenZMejR4S3NYTFg4Q3J3UHN2bXBkUWJ2X2F6VUFiYlk4N21pcEJpOUtMaHNfNWVGVHEyQy03VHJiY05hdWRZNU5mbUhWZ3lYTHpZZk9IbndaTURjR2ZTTkxTWmtrdWxMQ0dhTGdqOE1SZw?oc=5",
+          "date": "2026-11-09",
+          "match": "place",
+          "also": []
+        },
+        {
           "title": "Amazon employee dies at Colorado Springs warehouse",
           "source": "FOX21 News Colorado",
           "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQdVFrWkljYU4wMFh5R2lDZHdabGhMVWMwQ1d3QlBDZG15empqNHg2ZDJYcy05cW90RkZ5QUE0dklZWUN6T2ZqUmtsdGtuWGhhTnhkVmVuMlJNU3lmNXR4Mk9VOWxiTlU0SmpWTC1PSGk3TUVjQkhKN2RPM00zWWlhbU5FemhGMEFJbW1zctIBkgFBVV95cUxNWHN5YmxxTXF0cEsyYzJuR3BNS3dISUxlRWZuTkVvVEJaY2NlbHFmRy1ibEJGRXlsaDlUNS1wUzdraGpIeHE1VDVSaVlJYjAyckRTbVNORTA1R2lib01hQV9BSEdxcTJyRHllSWZIVFVUR1NTVWRZTGk4RTlpLVZFNE1PQlpLMVdpOWdyZjBtczUwZw?oc=5",
           "date": "2026-11-09",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "New JewBelong billboard in Colorado Springs touts Christian solidarity",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQNmZZZXkyY2R0RkdIdkZ2TE1famVpSXRhZG1BRlJGZUtjd1h5MU5VTG53YmlIbzRNdFl0blMwR3lqcGlLN0ZiTUN0YXluYWRVWU1CM19OWDRMV3k1VTBNaXJ3NWw2dENDd3FaY0htZjRoSE5EcGdELW14ZmRwakRic2NUSmxlRTJ0WFB4TEFTbVR1TWM5MXpLclFhWkNCQWE1TVUtUQ?oc=5",
+          "date": "2026-11-09",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Mugshot Monday: Most wanted in the Colorado Springs area for Nov. 9",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOcVlFX0hxd3d0UERIY3JKSHZvczdmd3dTZER4WnpxYmFZaVFSV1VmcGptT2VqWUpEeVJTdzlvQlJFYlNFMU9BWWx3Nl84WjJFVlVRRGFNZDJRNkotT2Vja3RTZzZxOUh2YlRwVGlIamtJM2otZW12eGZiYnNETWFfZUdNeW5YUmVzMWJjdHZzbjk1S0QtXzBCZWw2aWh4Zw?oc=5",
+          "date": "2026-11-09",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs area military events starting Nov. 8",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPaU1xTURPS2p0MWJTWlhNd2l1bUZBeVp5WmxxSTI2N2YtMXlacUNBeXQ4OHg5WlFyYjBWZ2JHVmdTMDdTWWJockV6U3ltbGFaME5jZkp5T015eHVlUEU3amkzaFMycGVTM1ZDU2NTWVBTYXpxblBNN05zZWlsbFR2Nnh0ckstYzN4Rk9UUQ?oc=5",
+          "date": "2026-11-08",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Colorado Springs residents line Tejon Street for Veterans Day Parade",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQUHY5NWFRYzFtdEY0UjVxS3JGeTF1V1Z6VjRSNVRQWTAtN1p4MFUyZHpTZXl5TDNSOFF2dHhZbEVzTUZlYXhkY0J0d3lfWlN4TXpXdWQtSVVlbnRtbnVXZkhIbGkwZUhYdW9QMFo4WmVqM1BWd096TUdVaUZ4T3JsTVBweXNlZE1MZEs4QkVibUtkMHhMRGZuSFpoN1hnNlptMHc?oc=5",
+          "date": "2026-11-08",
           "match": "place",
           "also": []
         },
@@ -93,14 +181,6 @@
           "source": "Colorado Springs Gazette",
           "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOSjJGaXV1Si1TSnpaTlJseEhHd1hkVVl5WEl0anh6bDB5d3pyQllPMVhyWkU3Q2FRbnZFR0ZMcG55WVRhbUJ3eGUtNUtYSmxqTU9XOXVqV0pkQ1dnVDQwZVByRDJ4LW9SVTVnalhkWkNqcWRTTkt1ZkwtaXJQVjktMk9fTkYyRkpXZThkbVpUWXowR1pRcjNHNk1hLW9NVjBjcUE?oc=5",
           "date": "2026-11-05",
-          "match": "place",
-          "also": []
-        },
-        {
-          "title": "Colorado Springs and beyond holiday events",
-          "source": "Colorado Springs Gazette",
-          "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE93WkdBMlZrT19QaUplNFZpWmV1UVRQZnAwS0JFVUxMQ25HY0NHaElldjdzdXB6SWlYVk5qb3Z5WWNoak1lV2ltRXNFT3JVRlRoTkZzYVQ2UVJKcmowajNVbHA1TVR4akxhNFYwdzV5djBKeVk0aGlzU2p1RHAxemM?oc=5",
-          "date": "2026-11-04",
           "match": "place",
           "also": []
         },
@@ -270,7 +350,7 @@
       ],
       "events": [],
       "reasons": [
-        "27 new stories naming it",
+        "37 new stories naming it",
         "1 new story about its county",
         "3 older stories not read yet"
       ]
@@ -282,7 +362,7 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
         {
           "title": "Denver's shelters are 96% full, but few residents leave for stable housing",
@@ -463,7 +543,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
         {
           "title": "The Town of Mt. Crested Butte is accepting applications for a deed-restricted workforce housing unit in Three Seasons. This 2-bedroom, 2-bathroom condominium is available to qualified applicants. Monthly rent is based on household size and the Town's Wor",
@@ -506,7 +586,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
         {
           "title": "Voters support Pitkin County’s Healthy Community Fund renewal",
@@ -549,7 +629,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
         {
           "title": "Living in Bayfield Colorado vs Durango: what the price gap buys you",
@@ -581,7 +661,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -614,7 +694,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
         {
           "title": "Judge rules Ridgway hotel can’t house workers building Telluride’s Four Seasons resort",
@@ -648,7 +728,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -691,7 +771,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
         {
           "title": "Senator Cortez Masto, Senator Warren tour new Las Vegas affordable housing",
@@ -714,7 +794,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
         {
           "title": "Rifle City Council approves ADU code changes, water system improvements",
@@ -737,7 +817,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
         {
           "title": "Salida City Council Double Header, Regular Session Starts at 6:00 p.m. Tonight - by Merrell Bergin",
@@ -760,7 +840,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
         {
           "title": "Steamboat Springs launches work with Colorado Energy Office to address workforce housing, climate goals",
@@ -784,7 +864,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -826,7 +906,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [
         {
           "title": "Voters support Pitkin County’s Healthy Community Fund renewal",
@@ -857,7 +937,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [],
       "events": [],
       "reasons": []
@@ -869,7 +949,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [],
       "events": [],
       "reasons": []
@@ -881,7 +961,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [],
       "events": [],
       "reasons": [
@@ -895,7 +975,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 24,
+      "days_since_review": 25,
       "stories": [],
       "events": [],
       "reasons": []
