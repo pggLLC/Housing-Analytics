@@ -286,7 +286,7 @@
   function trendKey() {
     var t = trendStats();
     var since = state.trend === '2010-14' ? '2010–14' : state.trend;
-    return '<li class="cn-trend-key">' + (t ? '<p>From ' + since + ' to 2020–24, rent’s share of income rose in <strong>' + t.cs.worse + '</strong> counties and fell in <strong>' + t.cs.better + '</strong>.</p>' : '<p class="note">Loading the history…</p>') +
+    return '<li class="cn-trend-key">' + (t ? '<p>From ' + esc(since) + ' to 2020–24, rent’s share of income rose in <strong>' + t.cs.worse + '</strong> counties and fell in <strong>' + t.cs.better + '</strong>.</p>' : '<p class="note">Loading the history…</p>') +
       global.LabChangeArrows.legend({ worse: ['Rent pulling ahead', 'rent takes more of income'], better: ['Income catching up', 'rent takes less of income'], flat: ['About the same', 'within 1 point'],
         size: 'Longer arrow: bigger change. Thicker arrow: more renter households. Gray shapes: cities and towns of 20,000 or more.' }) + '</li>';
   }
@@ -330,7 +330,7 @@
         if (least == null || worse(s.values[least], v)) least = k;
       });
       return '<h3 class="cn-title">Select a county</h3>' +
-        '<p>Tap or click any county to see all ' + MEASURES.length + ' measures for it, with a line on what each one means there.</p>' +
+        '<p data-no-source>Tap or click any county to see all ' + MEASURES.length + ' measures for it, with a line on what each one means there.</p>' +
         countyList(names, null) +
         (s.ready && most ? '<p class="cn-line">On this measure, the most need is in ' + esc(names[most]) + ' (' + esc(fmt(m, s.values[most])) + countsFor(m, d, most) + ') and the least in ' + esc(names[least]) + ' (' + esc(fmt(m, s.values[least])) + countsFor(m, d, least) + ').</p>' : '');
     }
@@ -392,7 +392,7 @@
     });
     var finding = counted ? num(short) + ' of Colorado\u2019s ' + num(counted) + ' counties have fewer homes priced for renters at or below 30% AMI than such renters' : 'Colorado counties, measure by measure';
     return '<figure class="need-map county-need' + (trendOn(m) ? ' cn-trending' : '') + '" data-cn>' +
-      '<figcaption><strong data-role="cn-finding">' + esc(finding) + '</strong>' + (counted ? '<span class="cn-what">Colorado counties, measure by measure. Census ACS 2020\u20132024 and HUD income limits for the first measure.</span>' : '') + '<div class="cn-stepper">' + stepper(m) + '</div><div class="cn-about">' + aboutHtml(m, s) + '</div><div class="cn-trendbox">' + trendButtons(m) + '</div></figcaption>' +
+      '<figcaption><strong data-role="cn-finding">' + esc(finding) + '</strong>' + (counted ? '<span class="cn-what">Colorado counties, measure by measure. Source for the first measure: <a href="' + esc(SRC.acsGap[1]) + '">' + esc(SRC.acsGap[0]) + '</a>.</span>' : '') + '<div class="cn-stepper">' + stepper(m) + '</div><div class="cn-about">' + aboutHtml(m, s) + '</div><div class="cn-trendbox">' + trendButtons(m) + '</div></figcaption>' +
       '<div class="cn-grid"><div class="cn-mapcol">' +
       '<div class="pm-frame"><svg viewBox="0 0 ' + MAP_W + ' ' + MAP_H + '" role="group" aria-label="' + esc(counted ? (global.LabTpl && global.LabTpl.alt || function (f, s) { return f + '. Source: ' + s + '.'; })(num(short) + ' of ' + num(counted) + ' Colorado counties are short of homes for renters at or below 30% AMI', 'Census ACS, HUD') : 'Colorado counties. Select one to see every measure for it.') + '">' + paths + arrowsOrCities(m, d) + '</svg></div>' +
       '<ul class="need-key cn-key">' + keyHtml(m, s, sc) + '</ul></div>' +

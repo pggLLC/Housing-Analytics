@@ -6,6 +6,8 @@ window.LAB_VENDOR = './';
 window.LAB_LIVE = '';
 window.LAB_SITE = 'hub/';
 window.LAB_TITLE = 'COHO Analytics';
+// Tables sort with the site's own js/components/table-sort.js, not the lab's copy.
+window.LAB_SITE_SORT = true;
 window.resolveAssetUrl = function (p) { return p; };
 
 (function (global) {

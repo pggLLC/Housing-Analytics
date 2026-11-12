@@ -87,7 +87,7 @@
   function means(lines, title) {
     var shown = (lines || []).filter(function (l) { return l && l.text; });
     if (!shown.length) return '';
-    return '<aside class="means-box" aria-label="' + esc(title || 'Why it matters') + '"><p class="means-title">' + esc(title || 'Why it matters') + '</p><ul>' + shown.map(function (l) {
+    return '<aside class="means-box" data-no-source aria-label="' + esc(title || 'Why it matters') + '"><p class="means-title">' + esc(title || 'Why it matters') + '</p><ul>' + shown.map(function (l) {
       return '<li>' + (l.who ? '<strong>' + esc(l.who) + ':</strong> ' : '') + l.text + '</li>';
     }).join('') + '</ul></aside>';
   }
@@ -107,7 +107,7 @@
   function fold(title, take, body, o) {
     o = o || {};
     var h = o.level === 3 ? 'h3' : 'h2';
-    var key = o.id || String(title).replace(/<[^>]*>/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+    var key = o.id || String(title).replace(/<[^>]*>/g, '').replace(/[<>]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
     return '<details class="fold fold-sec' + (o.level === 3 ? ' fold-part' : '') + '" data-fold="' + esc(key) + '"' + (o.open ? ' open' : '') + '><summary>' +
       '<' + h + ' class="fold-title"' + (o.id ? ' id="' + esc(o.id) + '" tabindex="-1"' : '') + '>' + title + '</' + h + '>' +
       (take ? '<span class="fold-take">' + take + '</span>' : '') + '<span class="fold-cue" aria-hidden="true"></span></summary><div class="fold-body">' + body + '</div></details>';
@@ -229,7 +229,7 @@
   function isBlank(t) { return t === '' || /^(—|–|-|n\/a|no value|not published|not available|unavailable)$/i.test(t); }
   function sortable() {
     var main = document.getElementById('main');
-    if (!main) return;
+    if (!main || global.LAB_SITE_SORT) return;
     Array.prototype.forEach.call(main.querySelectorAll('table:not([data-sort-seen])'), function (t) {
       t.setAttribute('data-sort-seen', '1');
       if (t.closest(NO_SORT) || !t.tHead || t.tHead.rows.length !== 1 || t.tBodies.length !== 1 || t.tBodies[0].rows.length < 3) return;
@@ -249,7 +249,7 @@
   }
   if (typeof document !== 'undefined' && document.addEventListener) document.addEventListener('click', function (ev) {
     var b = ev.target.closest && ev.target.closest('button.th-sort');
-    if (!b) return;
+    if (!b || global.LAB_SITE_SORT) return;
     var th = b.parentNode, t = th.closest('table'), body = t.tBodies[0], i = Number(b.getAttribute('data-th-sort'));
     var rows = Array.prototype.slice.call(body.rows);
     var vals = rows.map(function (r) { return cellText(r.cells[i]); });
