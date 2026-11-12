@@ -74,8 +74,15 @@ window.resolveAssetUrl = function (p) { return p; };
   function page(hash) {
     var s = split(hash), path = s.path === '#' ? '#/' : s.path, to = FORWARD[path];
     if (!to) return null;
-    var g = new URLSearchParams(s.query), geoid = g.get('geoid') || g.get('g');
-    return to + (geoid && /^\d{5,7}$/.test(geoid) && !/^https?:/.test(to) ? '?geoid=' + geoid : '');
+    // The route's own query goes too (QA/QC F01, 12 Nov: only the place was carried, so layer=qct and other
+    // settings were dropped). The lab's g is the site's geoid; a malformed place is left out, never guessed.
+    // Nothing is added to a link off this site (the member site).
+    if (/^https?:/.test(to)) return to;
+    var q = new URLSearchParams(s.query), out = new URLSearchParams(), geoid = q.get('geoid') || q.get('g');
+    if (geoid && /^\d{5,7}$/.test(geoid)) out.set('geoid', geoid);
+    q.forEach(function (v, k) { if (k !== 'g' && k !== 'geoid') out.append(k, v); });
+    var qs = out.toString();
+    return to + (qs ? '?' + qs : '');
   }
   // Where a link to a lab route should point here: the route itself, the public page, or null (leave it out).
   function href(hash) { return carries(hash) ? hash : page(hash); }

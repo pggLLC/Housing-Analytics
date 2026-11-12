@@ -11,6 +11,10 @@
  *   3. Every data file the hub names by a fixed path is a file in this repo.
  *   4. Every public page the hub forwards a route to, and every old HNA page a
  *      chapter links to, exists (option A, 12 Nov 2026: the old pages stay live).
+ *   5. A forwarded route keeps the place and its own settings (independent QA/QC F01,
+ *      12 Nov 2026: the Deal Calculator step opened on a county saved earlier).
+ *   6. The scorecard has no second formula here: if js/hna/need-scorecard.js does
+ *      not load, the hub scores nothing and says why (QA/QC F03).
  */
 'use strict';
 const assert = require('node:assert/strict');
@@ -77,4 +81,39 @@ test('every forwarded route and every chapter link opens a page that exists', ()
   assert.equal(chapters.length, 5, 'expected five chapter links to the old HNA pages');
   const gone = chapters.concat(['housing-needs-assessment.html', 'hna-scenario-builder.html', 'hna-comparative-analysis.html']).filter((p) => !exists(p));
   assert.deepEqual(gone, [], 'old HNA pages the hub links to are gone: ' + gone.join(', '));
+});
+
+const vm = require('node:vm');
+function runHub(file, extra) {
+  const win = Object.assign({ URLSearchParams, location: { hash: '#/places' }, document: { querySelector: () => null } }, extra || {});
+  win.window = win;
+  vm.runInNewContext(read('hub/' + file), win);
+  return win;
+}
+
+test('a forwarded route keeps the place and its own settings', () => {
+  const P = runHub('lab-config.js').LAB_PORT;
+  const cases = [
+    ['#/deal-calculator?g=0828745', 'deal-calculator.html?geoid=0828745'],
+    ['#/finder?q=Fruita&g=0828745', 'lihtc-opportunity-finder.html?geoid=0828745&q=Fruita'],
+    ['#/data/map?layer=qct', 'data-map-browser.html?layer=qct'],
+    ['#/deal-calculator?g=08x', 'deal-calculator.html'],
+  ];
+  for (const [from, want] of cases) assert.equal(P.href(from), want, from);
+  assert.ok(/^https:\/\//.test(P.href('#/members?g=08077')) && !/geoid/.test(P.href('#/members?g=08077')), 'a member-site link gains a place');
+  // Every lab step on a place page names the place (stepPath in hub/hna.js).
+  const hna = hubJs.find(([f]) => f === 'hna.js')[1];
+  for (const step of ['#/deal-calculator', '#/recommendation', '#/finder']) {
+    const re = new RegExp("s\\[2\\] === '" + step.replace(/\//g, '\\/') + "'\\) s = \\[s\\[0\\], s\\[1\\], '" + step.replace(/\//g, '\\/') + "\\?[^\\]]*g=' \\+ g");
+    assert.ok(re.test(hna), 'the ' + step + ' step does not carry the working place');
+  }
+});
+
+test('the scorecard has no second formula on this site', () => {
+  const fn = function () {};
+  const withSite = runHub('need-scorecard.js', { LAB_PORT: {}, HNANeedScorecard: { score: fn, components: fn, percentile: fn, distributions: fn, MIN_RENTER_HH: 50 } });
+  assert.equal(withSite.LabNeedScorecard.score, fn, 'the hub does not score with js/hna/need-scorecard.js');
+  const without = runHub('need-scorecard.js', { LAB_PORT: {} });
+  assert.ok(without.LabNeedScorecard.unavailable && !without.LabNeedScorecard.score, 'with the site module missing, the hub still scores (' + without.LabNeedScorecard.source + ')');
+  assert.ok(/LabNeedScorecard[\s\S]{0,80}S\.unavailable/.test(hubJs.find(([f]) => f === 'hna.js')[1]), 'hna.js does not show the unavailable reason');
 });

@@ -1516,6 +1516,7 @@
     function scorecard() {
       var S = global.LabNeedScorecard, cf = isCounty ? geoid : fips;
       if (!S || !cf) return '';
+      if (S.unavailable) return '<h2>Housing needs scorecard</h2><p role="status" class="note">' + esc(S.unavailable) + '</p>';
       var chas = extraFile(EXTRA.chasGap), pc = extraFile('data/hna/place-chas.json'), econ = extraFile(EXTRA.econ);
       if (!chas || !pc || !econ) return '<p role="status" class="note">Loading the need scorecard…</p>';
       var crec = (chas.counties || {})[cf];
@@ -1568,7 +1569,7 @@
         : '<p class="note">No price bands here: there is no four-person AMI to set them.</p>';
       return '<h3>If you are taking this further</h3>' +
         '<p>Renter households who could afford to buy in each price band, against owner homes valued in that band. A buyer pool to test, not buyers ready to purchase.</p>' + table +
-        '<p>Next, for a for-sale project: the per-home subsidy gap is worked in the <a href="' + Pl.LIVE + 'deal-calculator.html" target="_blank" rel="noopener">Deal Calculator’s for-sale mode on the live site ↗</a>, and how deed-restricted resale formulas play out is on <a href="#/for-sale?g=' + esc(geoid) + '">For-sale and ownership</a>.</p>';
+        '<p>Next, for a for-sale project: the per-home subsidy gap is worked in the <a href="' + Pl.LIVE + 'deal-calculator.html?geoid=' + esc(geoid) + '" target="_blank" rel="noopener">Deal Calculator’s for-sale mode on the live site ↗</a>, and how deed-restricted resale formulas play out is on <a href="#/for-sale?g=' + esc(geoid) + '">For-sale and ownership</a>.</p>';
     }
     function ownershipNeed() {
       var O = global.HNAOwnershipNeed, U = global.HNAUtils;
@@ -2589,8 +2590,11 @@
       if (away && s[2] === 'here') s = [s[0], s[1], w ? '#/place/' + g : '#/places'];
       if (at && s[2] === at) s = [s[0], s[1], 'here'];
       // Every lab step opens on the working place.
-      if (w && s[2] === '#/finder') s = [s[0], s[1], '#/finder?q=' + encodeURIComponent(w.label)];
+      // The place goes as g on every lab step, so a page that forwards to the live site opens on it (QA/QC F01,
+      // 12 Nov: the Deal Calculator step opened on a county saved earlier in the browser).
+      if (w && s[2] === '#/finder') s = [s[0], s[1], '#/finder?q=' + encodeURIComponent(w.label) + '&g=' + g];
       if (w && s[2] === '#/recommendation') s = [s[0], s[1], '#/recommendation?g=' + g];
+      if (w && s[2] === '#/deal-calculator') s = [s[0], s[1], '#/deal-calculator?g=' + g];
       var here = s[2] === 'here', live = !s[2];
       if (here) hereAt = i;
       var label = '<span class="sp-n" aria-hidden="true">' + (i + 1) + '</span><span class="sp-title">' + esc(s[0]) + (live ? ' <span class="live-tag">live site ↗</span>' : '') + '</span>' +

@@ -97,8 +97,11 @@
 
   // Where the public site's own module is loaded (Housing-Analytics js/hna/need-scorecard.js, which the port
   // loads), the hub scores with it, so there is one scorecard; the copy above serves the lab's older pin.
+  // On the public site (LAB_PORT) there is no second formula: if the site's module did not load, the scorecard
+  // says so and scores nothing (QA/QC F03, 12 Nov 2026).
   var HA = global.HNANeedScorecard;
   global.LabNeedScorecard = HA && typeof HA.score === 'function'
     ? { MIN_RENTER_HH: HA.MIN_RENTER_HH, components: HA.components, percentile: HA.percentile, distributions: HA.distributions, score: HA.score, band: band, source: 'js/hna/need-scorecard.js' }
+    : global.LAB_PORT ? { unavailable: 'The site\u2019s scorecard (js/hna/need-scorecard.js) did not load, so no score is shown. Reload the page to try again.', source: null }
     : { MIN_RENTER_HH: MIN_RENTER_HH, components: components, percentile: percentile, distributions: distributions, score: score, band: band, source: 'lab copy' };
 })(typeof window !== 'undefined' ? window : this);
