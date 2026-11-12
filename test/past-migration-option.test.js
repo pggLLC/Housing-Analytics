@@ -59,12 +59,13 @@ for (const f of files) {
   // SDO's own components need not add up exactly (Vintage 2025 Denver and
   // Jefferson: estimates change by a few people a year more than births -
   // deaths + net migration). The residual by age can only match the estimates,
-  // so that gap is SDO's and is allowed on top of the 5 people.
-  const sdoGap = Math.abs(sum(want.map((y) => {
+  // so the residual is checked against SDO's net migration plus that gap.
+  // Signed, so drift in the opposite direction to SDO's gap still fails.
+  const sdoGap = sum(want.map((y) => {
     const r = compBy.get(`${b.geoid}|${y}`), prev = compBy.get(`${b.geoid}|${y - 1}`);
     return prev ? r.estimate - prev.estimate - (r.births - r.deaths + r.netmig) : 0;
-  }))) / 10;
-  assert(Math.abs(sum(p.male) + sum(p.female) - sum(p.netMigration) / 10) <= 5 + sdoGap,
+  })) / 10;
+  assert(Math.abs(sum(p.male) + sum(p.female) - sum(p.netMigration) / 10 - sdoGap) <= 5,
     `${b.geoid}: migration by age adds up to SDO's estimated total, within 5 people a year beyond SDO's own accounting gap`);
 }
 

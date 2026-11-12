@@ -218,11 +218,12 @@ def main():
         # 2015-2024 than births - deaths + net migration explain. The residual
         # by age can only match the estimates, so that gap is SDO's, not the
         # builder's, and only drift beyond it counts.
-        sdo_gap = abs(sum(
+        # Signed, so drift in the opposite direction to SDO's gap still counts.
+        sdo_gap = sum(
             float(comp_c[y]['estimate']) - float(comp_c[y - 1]['estimate'])
             - (float(comp_c[y]['births']) - float(comp_c[y]['deaths']) + float(comp_c[y]['netmig']))
-            for y in past_years)) / PAST_YEARS if all(y - 1 in comp_c for y in past_years) else 0.0
-        past_drift = max(past_drift, abs(sum(past_m) + sum(past_f) - sum(past_net) / PAST_YEARS) - sdo_gap)
+            for y in past_years) / PAST_YEARS if all(y - 1 in comp_c for y in past_years) else 0.0
+        past_drift = max(past_drift, abs(sum(past_m) + sum(past_f) - sum(past_net) / PAST_YEARS - sdo_gap))
         kds, kbs, mig_m, mig_f = [], [], [], []
         sdo_births, sdo_deaths, sdo_mig = [], [], []
         for y in years[:-1]:

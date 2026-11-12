@@ -367,6 +367,18 @@ def fetch_newest(kind: str, cache_dir: str, page_html: str | None = None) -> tup
         best = max(enumerate(cands), key=lambda ic: ((ic[1][2] or 0), -ic[0]))[1]
         url, text, v = best
         others = ', '.join(f'{u.rsplit("/", 1)[-1][:40]} = {vv}' for u, _, vv in cands)
+        # A newer copy already cached (say the Drive workbook, when only the
+        # older bucket CSV downloaded this time) is kept: a failed download
+        # must never roll the forecast back to an older vintage.
+        if os.path.exists(cache):
+            with open(cache, encoding='utf-8') as f:
+                cached = f.read()
+            cv = vintage_of_text(cached)
+            if cv is not None and cv > (v or 0):
+                rec = recorded_sources(cache_dir).get(kind, {})
+                print(f'  SDO {spec["label"]}: keeping the cached Vintage {cv}; '
+                      f'newest downloaded is Vintage {v} ({others})', file=sys.stderr)
+                return cached, rec.get('url'), cv
         print(f'  SDO {spec["label"]}: using Vintage {v} from {url} ({others})')
         os.makedirs(cache_dir, exist_ok=True)
         with open(cache, 'w', encoding='utf-8') as f:
