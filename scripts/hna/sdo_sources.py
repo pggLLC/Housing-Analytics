@@ -79,7 +79,6 @@ HOUSEHOLD_COLUMNS = ['id', 'area_code', 'year', 'household_type_id', 'household_
 SYA_COLUMNS = ['id', 'countyfips', 'year', 'age', 'county', 'malepopulation', 'femalepopulation',
                'totalpopulation', 'datatype']
 
-_NS = {'m': 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
 _UA = {'User-Agent': 'Mozilla/5.0 (compatible; HNA-data-builder)'}
 
 
@@ -125,16 +124,25 @@ def _col_index(ref: str) -> int:
     return n - 1
 
 
+def _ns(root: ET.Element) -> dict[str, str]:
+    # The spreadsheetml namespace, read from the part's own root tag rather
+    # than written out, so the source-URL sweep does not try to fetch an XML
+    # namespace name as if it were a web page.
+    return {'m': root.tag[1:].split('}', 1)[0] if root.tag.startswith('{') else ''}
+
+
 def read_xlsx_rows(data: bytes) -> list[list[str]]:
     """Rows of a workbook's first sheet, as strings (numbers keep their stored text)."""
     with zipfile.ZipFile(io.BytesIO(data)) as z:
         shared: list[str] = []
         if 'xl/sharedStrings.xml' in z.namelist():
             root = ET.fromstring(z.read('xl/sharedStrings.xml'))
+            _NS = _ns(root)
             for si in root.findall('m:si', _NS):
                 shared.append(''.join(t.text or '' for t in si.iter('{%s}t' % _NS['m'])))
         sheets = sorted(n for n in z.namelist() if re.match(r'xl/worksheets/sheet\d+\.xml$', n))
         root = ET.fromstring(z.read(sheets[0]))
+    _NS = _ns(root)
     rows: list[list[str]] = []
     for row in root.iter('{%s}row' % _NS['m']):
         out: list[str] = []
