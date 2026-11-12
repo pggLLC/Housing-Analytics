@@ -8,7 +8,7 @@
   var Shell = global.LabShell;
   var Pl = global.LabPlaces;
   var esc = Shell.esc, num = Pl.num, money = Pl.money;
-  var VENDOR = global.LAB_VENDOR || '../vendor/housing-analytics/';
+  var VENDOR = global.LAB_VENDOR;
 
   // Chapter names as the live site's HNA uses them.
   var TABS = [

@@ -6,7 +6,7 @@
 
   var Shell = global.LabShell;
   var esc = Shell.esc;
-  var VENDOR = global.LAB_VENDOR || '../vendor/housing-analytics/';
+  var VENDOR = global.LAB_VENDOR;
   // A port into the public site sets LAB_LIVE to its own root, so these links stay on that site.
   var LIVE = global.LAB_LIVE != null ? global.LAB_LIVE : 'https://cohoanalytics.com/';
 

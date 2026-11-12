@@ -6,7 +6,7 @@
 
   var Shell = global.LabShell;
   var esc = Shell.esc;
-  var VENDOR = global.LAB_VENDOR || '../vendor/housing-analytics/';
+  var VENDOR = global.LAB_VENDOR;
 
   var num = function (n) { return n == null ? null : Math.round(n).toLocaleString('en-US'); };
   var money = function (n) { return n == null ? null : '$' + Math.round(n).toLocaleString('en-US'); };

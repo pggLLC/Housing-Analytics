@@ -728,7 +728,7 @@
     if (!scripts[path] && typeof document.createElement === 'function') {
       scripts[path] = 1;
       var el = document.createElement('script');
-      el.src = (global.LAB_VENDOR || '../vendor/housing-analytics/') + path;
+      el.src = (global.LAB_VENDOR) + path;
       el.onload = function () { Shell.render(); };
       el.onerror = function () { scripts[path] = 'failed'; Shell.render(); };
       document.body.appendChild(el);

@@ -8,7 +8,7 @@
 
   var Shell = global.LabShell;
   var esc = Shell.esc;
-  var VENDOR = global.LAB_VENDOR || '../vendor/housing-analytics/';
+  var VENDOR = global.LAB_VENDOR;
   var FILE = 'data/hna/acs-reliability.json';
 
   // The figures the file rates, in words. Codes are ACS data profile and subject table variables.

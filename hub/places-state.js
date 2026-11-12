@@ -422,7 +422,7 @@
     var st = sums[g];
     if (st) return st;
     st = sums[g] = { data: null, error: null };
-    var VENDOR = global.LAB_VENDOR || '../vendor/housing-analytics/';
+    var VENDOR = global.LAB_VENDOR;
     (global.LAB_HNA_LOAD ? global.LAB_HNA_LOAD(g).then(function (r) { return r[1]; })
       : fetch(VENDOR + 'data/hna/summary/' + g + '.json').then(function (r) { if (!r.ok) throw new Error('summary ' + r.status); return r.json(); }))
       .then(function (sum) { st.data = { sum: sum }; Shell.render(); })
