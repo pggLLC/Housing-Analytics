@@ -164,16 +164,20 @@
 
   // Extra HNA files for the chapter graphics, each loaded once: commute flows, building permits, the
   // record of past forecast misses, and each county's State Demography Office forecast.
-  var extra = {};
+  // A file that fails to load is marked failed, not cached as an empty file: a chapter that counts or
+  // designates from it (extraFailed) says it did not load, and the next look after RETRY_MS asks again.
+  var extra = {}, failed = {}, RETRY_MS = 20000;
   function extraFile(f) {
+    if (failed[f] && Date.now() - failed[f] > RETRY_MS) { delete failed[f]; delete extra[f]; }
     if (!(f in extra)) {
       extra[f] = null;
-      fetch(VENDOR + f).then(function (r) { return r.ok ? r.json() : {}; })
+      fetch(VENDOR + f).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
         .then(function (j) { extra[f] = j || {}; Shell.render(); })
-        .catch(function () { extra[f] = {}; });
+        .catch(function () { failed[f] = Date.now(); extra[f] = {}; Shell.render(); });
     }
     return extra[f];
   }
+  function extraFailed() { return Array.prototype.some.call(arguments, function (f) { return !!failed[f]; }); }
   // A public-site module a chapter needs only when it opens, loaded once from the pinned copy.
   var scripts = {};
   function needScript(f) {
@@ -1865,6 +1869,10 @@
     function creditOverlays() {
       var lf = extraFile(EXTRA.lihtc), qf = extraFile(EXTRA.qct), df = extraFile(EXTRA.dda), tf = isCounty ? {} : extraFile(EXTRA.tracts);
       if (!lf || !qf || !df || !tf) return '';
+      // A list that did not load is not zero properties, zero tracts or "Not in a DDA".
+      if (extraFailed(EXTRA.lihtc, EXTRA.qct, EXTRA.dda) || (!isCounty && extraFailed(EXTRA.tracts))) {
+        return '<h2>LIHTC, QCT and DDA</h2><p class="note">The tax credit property, Qualified Census Tract or Difficult Development Area list did not load, so no counts or designation are shown here. Open this chapter again in a moment to retry.</p>';
+      }
       var cf = isCounty ? geoid : fips, props = (lf.features || []).map(function (f) { return f.properties || f; });
       var inCounty = props.filter(function (x) { return x.CNTY_FIPS === cf; });
       var nm = String(placeShort || '').toLowerCase(), inPlace = isCounty ? inCounty : inCounty.filter(function (x) { return String(x.PROJ_CTY || '').toLowerCase() === nm; });

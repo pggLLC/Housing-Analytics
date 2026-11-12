@@ -2,7 +2,7 @@
  "about": "Built by coho-pathfinder-visual-lab scripts/build-port.js. Do not edit hub/ or places-hub.html by hand: change the lab and rebuild.",
  "hub": "places",
  "lab": {
-  "commit": "b1c6bce5cde04ec2af0638889c51ac4acddb116f",
+  "commit": "573bb8a8cb2399845060cc6c12a59575b914e466",
   "dirty": false
  },
  "files": {
@@ -13,7 +13,7 @@
   "hub/employers.js": "b88b55893ff703a8e7b4868804e125f2c8b07a10cdeb0ed5a3825e38c7821d48",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/hna-dola.js": "a878dc1174acce2d4275c15807f6e1e6d7b2b78585b63c4718b0b766770d02ec",
-  "hub/hna.js": "80474252534c82bf35e9f1a905560ce524982186b99c4bfcad06bac9b73719df",
+  "hub/hna.js": "139a33fc6537c6cc504aa2eafd518b4b8d56b8cd8c503648b01cf1a5da6bbf28",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
   "hub/lab-config.js": "83d9eaca86fd30bf3c5da396ef6bd31b2b8ba879f89a4e36769b770a37bac5f8",
   "hub/look.css": "5e78c043e36a7ee3a79614e4869575fa66d0caf4c0a135be38d7b8bbc1f2a4bd",
