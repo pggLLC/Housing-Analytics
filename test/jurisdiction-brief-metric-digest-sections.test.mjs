@@ -49,6 +49,25 @@ test('available housing-gap rates still render the percent narrative', () => {
   assert.ok(section.paragraphs[0].text.includes('The deep-affordability gap rate is 65.7% of <=30% AMI households.'));
 });
 
+// Closeout ledger P01 (Codex P2 on #2782): a place with no published rent has a
+// null rent gap. The brief must say why, in the digest's own words, and must not
+// throw or print a dollar figure for it. Agreement, not copy: the sentence is
+// whatever unavailable_reason the digest record carries.
+test('a null rent gap prints the digest\'s own reason, not a figure', () => {
+  const brief = readJson('data/jurisdiction-briefs/0870195.json');
+  const digest = JSON.parse(JSON.stringify(readJson('data/hna/jurisdiction-metrics-digest/0870195.json')));
+  const reason = 'Invented reason for this test, ending in a period.';
+  Object.assign(digest.metrics.wage_affordability_rent_gap_dollars, { value: null, unavailable_reason: reason });
+  const text = sectionFor(brief, digest).paragraphs.map((p) => p.text).join(' ');
+  assert.ok(text.includes(reason.replace(/\.$/, '')), 'the brief does not carry the digest reason');
+  assert.ok(!/rent affordability gap of/.test(text), 'the brief still prints a rent gap figure');
+  assert.ok(!/NaN|undefined|null/.test(text), 'the brief prints NaN, undefined or null');
+  // Without a reason on the record it still does not throw or invent a figure.
+  delete digest.metrics.wage_affordability_rent_gap_dollars.unavailable_reason;
+  const bare = sectionFor(brief, digest).paragraphs.map((p) => p.text).join(' ');
+  assert.ok(!/rent affordability gap of|NaN|undefined/.test(bare), 'a bare null still prints a figure');
+});
+
 // Codex review on #2401: the 20-year figure adds projected resident growth
 // (county context for a place) to today's in-commuters to the place itself.
 // The brief must name each part with the digest's own numbers, and must not

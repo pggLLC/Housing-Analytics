@@ -97,7 +97,9 @@ function valueText(digest, field, style = "number") {
 // A place with no published median rent has no rent gap. Say so, with the
 // digest's own reason, instead of printing a figure built on a $0 rent.
 function rentGapText(digest) {
-  const m = metric(digest, "wage_affordability_rent_gap_dollars");
+  // Read the record directly: metric() throws on a null value, and a null
+  // rent gap is exactly the case this sentence has to explain.
+  const m = (digest.metrics && digest.metrics.wage_affordability_rent_gap_dollars) || {};
   if (typeof m.value === "number" && Number.isFinite(m.value)) {
     return ` and a rent affordability gap of ${valueText(digest, "wage_affordability_rent_gap_dollars", "money")}`;
   }

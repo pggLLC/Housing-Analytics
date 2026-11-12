@@ -428,51 +428,60 @@ async function exportAll(c) {
     };
     const base = CASES[1];
     const non = await exportAll(Object.assign({}, base, { dda: null, afterRender: setDda('Non-DDA', 'Fruita is not in a HUD Difficult Development Area.') }));
+    // Agreement, not copy (AGENTS.md, "pin the agreement"): every format carries
+    // the exporter's one note for the status, and the claim it makes fits the
+    // status. The 130% figure is the claim checked: present only when designated.
+    const W = window.__HNA_exportWords, flat = (a) => a.join(' ').replace(/\s+/g, ' ');
+    const nonNote = W.ddaNote('Non-DDA'), ddaNote = W.ddaNote('DDA'), unknownNote = W.ddaNote('');
+    assert(nonNote && ddaNote && unknownNote && new Set([nonNote, ddaNote, unknownNote]).size === 3, 'the three statuses do not get three notes');
     let row = summaryRow('DDA status');
     assert.strictEqual(row.v, 'Non-DDA');
-    assert(/^Not designated: no DDA basis boost here/.test(row.n), 'Non-DDA note: ' + row.n);
+    assert.strictEqual(row.n, nonNote, 'workbook Non-DDA note is not the exporter\'s');
     assert(!/130%/.test(row.n), 'a Non-DDA place is still told about a 130% boost in the workbook');
     const csvDda = non.csvRows.find((x) => x[0] === 'DDA status');
-    assert(csvDda && /^Non-DDA \(Not designated/.test(csvDda[1]) && !/130%/.test(csvDda[1]), 'CSV DDA row: ' + (csvDda && csvDda[1]));
-    assert(non.pdf.some((s) => /Not designated: no DDA basis boost/.test(String(s).replace(/\s+/g, ' ')))
-      || non.pdf.join(' ').replace(/\s+/g, ' ').includes('Not designated: no DDA basis'), 'the PDF card has no Non-DDA note');
+    assert(csvDda && csvDda[1].startsWith('Non-DDA') && csvDda[1].includes(nonNote) && !/130%/.test(csvDda[1]), 'CSV DDA row: ' + (csvDda && csvDda[1]));
+    assert(flat(non.pdf).includes(pdfPlain(nonNote).slice(0, 30)), 'the PDF card does not carry the Non-DDA note');
     assert(!non.pdf.some((s) => /^130% basis boost$/.test(String(s).trim())), 'the PDF still prints the bare "130% basis boost" note');
-    // The PDF heading says what a designation does, and does not call it pricing.
-    assert(!non.pdf.join(' ').includes('improve credit pricing'), 'the PDF heading still says a designation improves credit pricing');
-    assert(non.pdf.join(' ').replace(/\s+/g, ' ').includes('does not change the price an investor pays per credit'));
+    // The PDF heading must not claim a designation changes credit pricing.
+    assert(!/improv\w*[^.]{0,20}pricing|better (credit )?pric|raises? the (credit )?price/i.test(flat(non.pdf)), 'the PDF heading still says a designation improves credit pricing');
 
     await exportAll(Object.assign({}, base, { dda: null, afterRender: setDda('DDA', 'Mesa County is a HUD Non-Metropolitan DDA.') }));
     row = summaryRow('DDA status');
     assert.strictEqual(row.v, 'DDA');
-    assert(/^Designated: .*130% of eligible basis\. Confirm the site/.test(row.n), 'DDA note: ' + row.n);
+    assert.strictEqual(row.n, ddaNote, 'workbook DDA note is not the exporter\'s');
+    assert(/130%/.test(row.n), 'a designated place is not told the 130% basis figure');
 
     // Unknown: the page's own reason, and no claim either way.
     await exportAll(base);
     row = summaryRow('DDA status');
     assert.strictEqual(row.v, 'Unavailable');
-    assert(!/130%/.test(row.n) && !/Not designated/.test(row.n), 'an unknown DDA status makes a claim: ' + row.n);
+    assert(!/130%/.test(row.n) && row.n !== nonNote && row.n !== ddaNote, 'an unknown DDA status makes a claim: ' + row.n);
   });
 
   await test('reader-facing outputs name the AMI gap method in words; the JSON keeps the code (closeout ledger P09)', async () => {
     const r = await exportAll(CASES[1]);
     const code = r.data.amiGap.source;
-    assert.strictEqual(code, rankOf('0828745').metrics._ami_gap_source, 'fixture: the JSON no longer carries the stable code');
-    assert.strictEqual(code, 'place_acs_direct', 'fixture: Fruita\'s gap basis changed; pick a place whose code is place_acs_direct');
+    assert.strictEqual(code, rankOf('0828745').metrics._ami_gap_source, 'the JSON no longer carries the ranking index\'s code');
     const words = r.data.amiGap.sourceLabel;
-    assert(/^Calculated for this place from Census ACS/.test(words), 'no plain words for ' + code);
+    // The words are the exporter's one definition of this code, and are words, not the code.
+    assert.strictEqual(words, window.__HNA_exportWords.amiGapSource[code], 'no definition, or a second one, for ' + code);
+    assert(words && words !== code && /\s/.test(words), 'the reader gets the code, not words: ' + words);
     const head = summaryRow('AMI gap & affordability');
     assert.strictEqual(head.n, 'Source: ' + words, 'workbook: ' + head.n);
-    assert(!sheets.Summary.rows.some((x) => [x.k, x.v, x.n].some((c) => /place_acs_direct/.test(String(c)))), 'the workbook Summary still shows the code');
-    assert(!r.pdf.some((s) => /place_acs_direct/.test(String(s))), 'the PDF still shows the code');
+    const codeRe = new RegExp('\\b' + code + '\\b');
+    assert(!sheets.Summary.rows.some((x) => [x.k, x.v, x.n].some((c) => codeRe.test(String(c)))), 'the workbook Summary still shows the code');
+    assert(!r.pdf.some((s) => codeRe.test(String(s))), 'the PDF still shows the code');
     assert(r.pdf.join(' ').replace(/\s+/g, ' ').includes(pdfPlain(words).slice(0, 40)), 'the PDF does not show the plain words');
     // The CSV shows both, on separate rows, so the words and the code can be matched.
     const csvWords = r.csvRows.find((x) => x[0] === 'AMI Gap Source');
     const csvCode = r.csvRows.find((x) => x[0] === 'AMI Gap Source (code)');
     assert(csvWords && csvWords[1] === words && csvCode && csvCode[1] === code, 'CSV rows: ' + JSON.stringify([csvWords, csvCode]));
-    // The transit designation row carries words, not its status code.
+    // The transit designation row carries the exporter's words for its status, not the status code.
     const tz = summaryRow('Zone designation');
-    assert(tz && !/^(provisional|official_in|official_out|official_map_available)$/.test(String(tz.n || '').trim()),
+    const tzWords = Object.values(window.__HNA_exportWords.transitDesignation);
+    assert(tz && !Object.keys(window.__HNA_exportWords.transitDesignation).includes(String(tz.n || '').trim()),
       'the transit designation note is the bare status code: ' + (tz && tz.n));
+    assert(tz && (tz.v === 'Unavailable' || tzWords.some((w) => String(tz.n).includes(w))), 'the transit note is not one of the exporter\'s definitions: ' + (tz && tz.n));
   });
 
   await test('an unavailable transit panel exports its reason, never a share', async () => {

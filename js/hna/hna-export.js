@@ -1881,6 +1881,8 @@
 
   window.__HNA_buildReportData = buildReportData;
   window.__HNA_readableSheet = _readableSheet; // for the workbook layout test
+  // The code-to-words tables, so a test can check every format against the one definition.
+  window.__HNA_exportWords = { amiGapSource: AMI_GAP_SOURCE_WORDS, transitDesignation: TZ_DESIGNATION_WORDS, ddaNote: _ddaSub };
   // F173 — primary PDF entry point routes through the structured builder.
   // The old screenshot exportPdf is kept reachable for fallback (and on
   // explicit consumer call via window.__HNA_exportPdfScreenshot).
