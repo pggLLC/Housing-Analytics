@@ -4,8 +4,8 @@
  * Computes a per-county "Market Health" composite index (0-100) by
  * blending 5 normalized signals already on disk:
  *
- *   1. Job growth 5y (BLS QCEW)            — higher = stronger demand
- *   2. Population growth 5y (ACS/DOLA)     — higher = stronger demand
+ *   1. Employed residents 5y (BLS LAUS)    — higher = stronger demand
+ *   2. Population growth 5y (ACS 5-year)   — higher = stronger demand
  *   3. Inverse unemployment (BLS LAUS)     — lower unemp = stronger
  *   4. Mortgage originations per 1,000 households (HMDA ÷ ACS households)
  *      — higher = healthier credit. A raw count would rank counties by size.
@@ -164,8 +164,8 @@
     var columns = [
       { key: 'name',      label: 'County',    align: 'left',  tt: 'Colorado county. Click to sort A→Z / Z→A.' },
       { key: 'composite', label: 'Composite', align: 'right', tt: '0–100 blended score. ≥70 strong (green), 50–69 moderate, <50 soft. Equal-weighted percentile blend of the 5 columns to the right. Click to sort.' },
-      { key: 'jobGrowth', label: 'Job 5y',    align: 'right', tt: '5-year cumulative job growth from BLS QCEW (Quarterly Census of Employment & Wages). Higher = stronger labor market. Click to sort.' },
-      { key: 'popGrowth', label: 'Pop 5y',    align: 'right', tt: '5-year cumulative population growth (ACS 5-year + DOLA projections). Higher = stronger housing demand. Click to sort.' },
+      { key: 'jobGrowth', label: 'Employed 5y', align: 'right', tt: '5-year change in employed residents of the county, wherever they work (BLS LAUS). Not jobs located in the county. Higher = stronger labor market. Click to sort.' },
+      { key: 'popGrowth', label: 'Pop 5y',    align: 'right', tt: '5-year population change between two ACS 5-year estimates five years apart. Higher = stronger housing demand. Click to sort.' },
       { key: 'unempRate', label: 'Unemp',     align: 'right', tt: 'Latest unemployment rate (BLS LAUS). Lower is better — flipped in the composite (low unemp → high score). Click to sort.' },
       { key: 'origVolume',label: 'Origs',     align: 'right', tt: 'Annual HMDA mortgage originations (count). The score uses originations per 1,000 households, so large counties do not rank high for size alone. Click to sort.' },
       { key: 'denialRate',label: 'Denial',    align: 'right', tt: 'HMDA denial rate (denials ÷ decisions). Lower is better — flipped in the composite (low denial → high score). Click to sort.' },

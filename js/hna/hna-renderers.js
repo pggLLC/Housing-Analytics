@@ -8169,7 +8169,7 @@
       '<a href="' + url + '" target="_blank" rel="noopener" class="hna-source-link">' + escHtml(text) + '</a>';
     const cards = [
       { title: 'Unemployment',       value: fmt(rec.unemployment_rate, '%'),         note: srcLink(SRC_LAUS, 'BLS LAUS (current)') },
-      { title: 'Job growth (5y)',    value: fmt(rec.job_growth_5yr_pct, '%'),        note: srcLink(SRC_LAUS, 'BLS LAUS (residential)') },
+      { title: 'Employed residents (5y)',    value: fmt(rec.job_growth_5yr_pct, '%'),        note: srcLink(SRC_LAUS, 'BLS LAUS (residential)') },
       { title: 'Pop growth (5y)',    value: fmt(rec.population_growth_5yr_pct, '%'), note: srcLink(SRC_ACS,  'ACS 5-year') },
       { title: 'Affordability idx',  value: fmt(rec.affordability_index, ''),        note: 'home price ÷ HHI · ' + srcLink(SRC_ACS, 'ACS 5-year') },
     ];
