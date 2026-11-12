@@ -412,7 +412,7 @@
     "test:repo-private-data": "node test/repo-private-data.test.mjs",
     "test:policy-briefs-curated": "node test/policy-briefs-curated.test.js",
     "test:fee-reductions-surfaces": "node test/fee-reductions-surfaces.test.js",
-    "test:local-incentives": "python3 -m pytest tests/test_local_incentives.py -q && node test/local-incentives.test.mjs",
+    "test:local-incentives": "python3 -m pytest tests/test_local_incentives.py tests/test_tax_exemption_routes.py -q && node test/local-incentives.test.mjs",
     "test:local-support": "python3 -m pytest tests/test_local_support.py -q && node test/local-support.test.mjs",
     "test:jurisdiction-metrics-digest-fresh": "node scripts/check-jurisdiction-digest-fresh.mjs",
     "test:rent-burden-proxy-movement": "node test/rent-burden-proxy-movement.test.js",

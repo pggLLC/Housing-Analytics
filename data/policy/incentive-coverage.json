@@ -678,7 +678,7 @@
     {
       "geoid": "08067",
       "jurisdiction": "La Plata County",
-      "checked": "2026-10-10",
+      "checked": "2026-11-12",
       "result_by_scope": {
         "fees": "not_checked",
         "land_use": "not_checked",
@@ -686,9 +686,12 @@
       },
       "sources_checked": [
         "https://www.lpcgov.org/departments/finance___procurement/lodging_tax_information.php",
-        "https://chfainfo.com/community-partnerships/public-policy/cc-dec2024-election-results"
+        "https://chfainfo.com/community-partnerships/public-policy/cc-dec2024-election-results",
+        "https://laplatahousing.colorado.gov/community-resources/financing-affordable-housing-development",
+        "https://laplatahousing.colorado.gov/sites/laplatahousing/files/documents/DIDF%20Funds%20RHA%20Press%20Release%204.3.24.pdf",
+        "https://laplatahousing.colorado.gov/sites/laplatahousing/files/documents/Resolution%2025-05_Catalyst%20Transfer_251211.pdf"
       ],
-      "note": "1A (2024) recorded as 'reported'; official ballot text not found."
+      "note": "1A (2024) recorded as 'reported'; official ballot text not found. Countywide: the La Plata Economic Development Alliance's Housing Catalyst Fund (grants) and Catalyst Revolving Loan Fund (loans), checked 2026-11-12."
     },
     {
       "geoid": "0830780",

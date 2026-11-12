@@ -2,8 +2,8 @@
   "schema": "local-housing-funds/v1",
   "meta": {
     "title": "Colorado local housing funds, dedicated taxes, linkage fees, land and ownership tools",
-    "as_of": "2026-11-05",
-    "last_verified": "2026-11-05",
+    "as_of": "2026-11-12",
+    "last_verified": "2026-11-12",
     "review_by": "2027-01-10",
     "method": "Curated, not a feed. Each record was read from the jurisdiction's own code, ordinance, ballot question or election result, budget or program page, the text saved, and every evidence quote checked by exact substring match against the saved text (whitespace normalised). verification.level \"primary\" means read from that official document; \"reported\" means taken from a named outlet without the primary document, and verification.by names it. Every dollar figure and percentage a record states appears in its own evidence quotes (tests/test_local_incentives.py). A figure the source does not publish is null, never 0. Fee relief and land-use incentives are in data/policy/fee-reductions.json, not here.",
     "review_rule": "review_by is about 90 days out for records that change yearly (fund balances, program pages) and about six months for code- or ballot-backed records. policy-review-reminders.yml opens an issue a week before a record is due; the page shows a warning once it is overdue.",
@@ -2701,6 +2701,107 @@
       ],
       "notes": "Counts the 33% affordable housing share only; the 17% child care, 25% right-of-way, 20% tourism and 5% transit shares are not housing. The ordinance does not define 'incentives for affordable housing' or set income limits. Annual revenue not read from an official source.",
       "last_verified": "2026-11-05"
+    },
+    {
+      "id": "f-la-plata-housing-catalyst-fund",
+      "geoid": "08067",
+      "jurisdiction": "La Plata Economic Development Alliance (La Plata County)",
+      "county": "La Plata County",
+      "provider_type": "regional",
+      "tool": "housing_trust_fund",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "Grants for predevelopment costs",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Predevelopment costs such as feasibility, environmental studies, engineering and legal fees",
+      "summary": "The La Plata Economic Development Alliance's Housing Catalyst Fund gives grants for predevelopment costs to local nonprofits, private developers and local public agencies. Applicants using state and federal subsidies must commit at least 25% of units at below-market prices. The page publishes no fund size, award limits or dates.",
+      "authorizing_code": "La Plata Economic Development Alliance Housing Catalyst Fund (program page)",
+      "source": {
+        "label": "Regional Housing Alliance of La Plata County - Financing Affordable Housing Development",
+        "url": "https://laplatahousing.colorado.gov/community-resources/financing-affordable-housing-development"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "Regional Housing Alliance program page; read on the page itself 12 Nov 2026; the site refuses scripted downloads (HTTP 403), so the text was read through a browser-style fetch and not saved",
+        "checked": "2026-11-12"
+      },
+      "review_by": "2027-02-10",
+      "evidence": [
+        {
+          "section": "Housing Catalyst Fund",
+          "quote": "The Catalyst Fund is administered by the Alliance with input from the Catalyst Fund Committee and housing consultants."
+        },
+        {
+          "section": "Housing Catalyst Fund",
+          "quote": "The Catalyst Fund issues grants to help cover predevelopment costs"
+        },
+        {
+          "section": "Housing Catalyst Fund",
+          "quote": "is available to local nonprofit organizations, private developers, and local public agencies."
+        },
+        {
+          "section": "Housing Catalyst Fund",
+          "quote": "Applicants using state and federal subsidies must commit to providing at least 25% of available units"
+        }
+      ],
+      "notes": "No fund size, award limit, round dates or balance is published on the page; all left blank. The same page's $10,000 to $5,000,000 loan figures belong to a separate lender's construction fund, not this one.",
+      "last_verified": "2026-11-12"
+    },
+    {
+      "id": "f-la-plata-catalyst-revolving-loan-fund",
+      "geoid": "08067",
+      "jurisdiction": "La Plata Economic Development Alliance (La Plata County)",
+      "county": "La Plata County",
+      "provider_type": "regional",
+      "tool": "housing_trust_fund",
+      "status": "adopted",
+      "voter_approved": false,
+      "adopted": null,
+      "sunset": null,
+      "rate_text": "Low-interest loans; rate and term not published",
+      "annual_revenue": null,
+      "revenue_year": null,
+      "uses": "Early-stage costs including infrastructure and short-term construction financing for permitted workforce housing",
+      "summary": "A low-interest revolving loan fund for workforce housing projects already permitted and in the construction financing stage, started with a $950,000 grant from the Durango Industrial Development Foundation (April 2024). The Regional Housing Alliance moved it to the La Plata Economic Development Alliance beginning January 1, 2026.",
+      "authorizing_code": "RHA Resolution No. 2025-05 (Dec 11, 2025), transfer of the Catalyst Revolving Loan Fund",
+      "source": {
+        "label": "Regional Housing Alliance press release, April 3, 2024",
+        "url": "https://laplatahousing.colorado.gov/sites/laplatahousing/files/documents/DIDF%20Funds%20RHA%20Press%20Release%204.3.24.pdf"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "RHA press release and RHA Resolution 2025-05; read on the page itself 12 Nov 2026; the site refuses scripted downloads (HTTP 403), so the text was read through a browser-style fetch and not saved",
+        "checked": "2026-11-12"
+      },
+      "review_by": "2027-02-10",
+      "evidence": [
+        {
+          "section": "Subtitle",
+          "quote": "$950,000 Grant to Help Local Workforce Housing Projects Move Forward"
+        },
+        {
+          "section": "Release",
+          "quote": "The Housing Catalyst Revolving Loan Fund will be a low-interest loan and leveraged with other lending sources."
+        },
+        {
+          "section": "Release",
+          "quote": "already permitted and in the construction financing stage of a project."
+        },
+        {
+          "section": "Release",
+          "quote": "The early-stage costs to development including infrastructure and short-term construction financing"
+        },
+        {
+          "section": "Resolution No. 2025-05",
+          "quote": "Beginning January 1, 2026, the Catalyst Revolving Loan Fund shall transfer to the La Plata Economic Development Alliance.",
+          "source_url": "https://laplatahousing.colorado.gov/sites/laplatahousing/files/documents/Resolution%2025-05_Catalyst%20Transfer_251211.pdf"
+        }
+      ],
+      "notes": "No loan size, rate, term or current balance is published; all left blank. Scored by the Catalyst Fund committee on a rubric.",
+      "last_verified": "2026-11-12"
     }
   ]
 }
