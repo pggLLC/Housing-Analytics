@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "5426fa5ae",
+  "generated_from_commit": "02a95153d",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-11-12",
-    "total_commits": 9571,
+    "total_commits": 9576,
     "partial_month": "2026-11",
     "commits_by_month": [
       {
@@ -54,8 +54,8 @@
       },
       {
         "month": "2026-11",
-        "commits": 454,
-        "pct_of_peak": 29
+        "commits": 459,
+        "pct_of_peak": 29.4
       }
     ]
   },
@@ -64,9 +64,9 @@
     "html_pages_toplevel": 84,
     "html_pages_total": 578,
     "workflows": 84,
-    "scripts": 393,
+    "scripts": 394,
     "docs": 585,
-    "data_files": 2071,
+    "data_files": 2072,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
@@ -251,7 +251,7 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 534004,
+    "hand_written_lines": 534475,
     "generated_place_page_lines": 288963,
     "top_level_pages": 84,
     "html_nonblank_lines": 52937,
@@ -320,7 +320,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "5426fa5ae",
+    "extracted_at_commit": "02a95153d",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -552,9 +552,9 @@
     "replacement_rate_min_pct": 0.02,
     "replacement_rate_max_pct": 0.6,
     "replacement_counties": 64,
-    "growth_20yr_statewide": 612349,
+    "growth_20yr_statewide": 509274,
     "replacement_20yr_statewide": 84933,
-    "replacement_share_pct": 12.2,
+    "replacement_share_pct": 14.3,
     "incommuter_need_counties": 64,
     "incommuter_need_25_counties": 131590,
     "incommuter_need_50_counties": 263179,
