@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated": "2026-11-09",
+    "updated": "2026-11-12",
     "purpose": "How COHO's figures compare with a recent local Housing Needs Assessment, and why they differ. Shown in the gated Jurisdiction Report for the county and the towns in it.",
     "rules": [
       "Only an HNA dated within the last five years.",
@@ -30,11 +30,11 @@
           "hna_value": 1550,
           "hna_page": "Section III, page 14",
           "hna_quote": "Based on the demographer projections, La Plata County will need 1,550 new housing units by 2029 in order to accommodate growth.",
-          "coho_value": 1552,
-          "coho_text": "1,552, plus about 213 to replace homes lost to age",
+          "coho_value": 1209,
+          "coho_text": "1,209, plus about 213 to replace homes lost to age",
           "coho_source": "data/hna/projections/08067.json housing_need.tenure_split.incremental_units_needed_tenure_adjusted (2029); housing_need.replacement.cumulative_units (2029)",
-          "why": "Same State Demographer forecast and the same SB24-174 vacancy method (5% rental, 2% owner), so the numbers agree. COHO also shows replacement of aging homes as a separate add-on.",
-          "kind": "agrees"
+          "why": "Year. Same method (SB24-174 vacancy, 5% rental, 2% owner), but a newer forecast: COHO now uses the State Demographer's Vintage 2025 forecast (October 2026), which expects slower household growth in La Plata County. On the earlier forecast COHO's figure was 1,552, matching the HNA. COHO also shows replacement of aging homes as a separate add-on.",
+          "kind": "year"
         },
         {
           "id": "renter-gap-50",
