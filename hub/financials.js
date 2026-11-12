@@ -756,7 +756,7 @@
     var tr = d.tranches && d.tranches.length ? d.tranches : [seedTranche()];
     return '<h2>Loans and other sources</h2>' +
       '<h3>First mortgage</h3><p class="note">The rate, amortization and coverage are under Assumptions.</p>' + fieldGrid(d, 'senior') +
-      '<h3>Soft funding</h3><p class="note">Up to five sources below the first mortgage. A loan is paid by the repayment you pick; a grant fills the gap at closing, and a grant with federal money reduces eligible basis (<a href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title26-section42&num=0&edition=prelim">26 U.S.C. 42(d)(5)(A) ↗</a>). The federal-money answer starts at the live calculator\u2019s default for the program: HOME, CDBG, the National Housing Trust Fund and the Capital Magnet Fund are federal; Prop 123 is state money; any other program is left for you to answer.</p>' +
+      '<h3>Soft funding</h3><p class="note">Up to five sources below the first mortgage. A loan is paid by the repayment you pick; a grant fills the gap at closing, and a grant with federal money reduces eligible basis (<a href="https://www.law.cornell.edu/uscode/text/26/42">26 U.S.C. 42(d)(5)(A) ↗</a>). The federal-money answer starts at the live calculator\u2019s default for the program: HOME, CDBG, the National Housing Trust Fund and the Capital Magnet Fund are federal; Prop 123 is state money; any other program is left for you to answer.</p>' +
       '<div class="tranches">' + tr.map(function (t, i) { return trancheRow(t, i, tr.length); }).join('') + '</div>' +
       (tr.length < MAX_TRANCHES ? '<button type="button" class="button-link secondary" data-action="add-tranche">Add a source</button>' : '<p class="note">Five sources is the most the live calculator takes.</p>') +
       '<h3>Construction loan and tax-exempt bonds</h3><p class="note">Blank until you have a lender\u2019s quote. The bond test, the interest check and the draw schedule under Lender schedules read these.</p>' + fieldGrid(d, 'constr') +
@@ -1041,7 +1041,7 @@
       return '<details class="cost-group" id="cost-group-' + esc(g.id) + '" data-cost-group="' + esc(g.id) + '"' + (entered.length ? ' open' : '') + '>' +
         '<summary><span>' + esc(g.label) + '</span><span class="sub">' + esc(lines.length + ' lines' + (entered.length ? ', ' + entered.length + ' entered, ' + money(subtotal) : '')) + '</span></summary>' +
         '<div class="table-scroll cost-table" role="region" aria-label="' + esc(g.label) + ' costs" tabindex="0"><table><thead><tr><th scope="col">Line</th><th scope="col">Basis</th><th scope="col" class="num">Amount ($)</th></tr></thead><tbody>' + rows + '</tbody></table></div></details>';
-    }).join('') + '<p class="note">Land and the reserve lines are never in eligible basis, so their choice is fixed: eligible basis is the building\u2019s adjusted basis (<a href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title26-section42&num=0&edition=prelim">26 U.S.C. 42(d)(1) \u2197</a>), and reserves are cash held for operations.</p></div>';
+    }).join('') + '<p class="note">Land and the reserve lines are never in eligible basis, so their choice is fixed: eligible basis is the building\u2019s adjusted basis (<a href="https://www.law.cornell.edu/uscode/text/26/42">26 U.S.C. 42(d)(1) \u2197</a>), and reserves are cash held for operations.</p></div>';
   }
 
   function financialsView(params, parts) {
