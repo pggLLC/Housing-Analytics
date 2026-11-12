@@ -36,6 +36,7 @@ for (const c of comp.rows) {
   compBy.set(`08${c[comp.at('countyfips')].padStart(3, '0')}|${c[comp.at('year')]}`, {
     datatype: c[comp.at('datatype')], netmig: Number(c[comp.at('netmig')]),
     births: Number(c[comp.at('births')]), deaths: Number(c[comp.at('deaths')]),
+    estimate: Number(c[comp.at('estimate')]),
   });
 }
 const dir = 'data/hna/scenario-baseline';
@@ -55,8 +56,17 @@ for (const f of files) {
   });
   assert.equal(p.male.length, 101, `${b.geoid}: male migration by age 0-100`);
   assert.equal(p.female.length, 101, `${b.geoid}: female migration by age 0-100`);
-  assert(Math.abs(sum(p.male) + sum(p.female) - sum(p.netMigration) / 10) <= 5,
-    `${b.geoid}: migration by age adds up to SDO's estimated total, within 5 people a year`);
+  // SDO's own components need not add up exactly (Vintage 2025 Denver and
+  // Jefferson: estimates change by a few people a year more than births -
+  // deaths + net migration). The residual by age can only match the estimates,
+  // so the residual is checked against SDO's net migration plus that gap.
+  // Signed, so drift in the opposite direction to SDO's gap still fails.
+  const sdoGap = sum(want.map((y) => {
+    const r = compBy.get(`${b.geoid}|${y}`), prev = compBy.get(`${b.geoid}|${y - 1}`);
+    return prev ? r.estimate - prev.estimate - (r.births - r.deaths + r.netmig) : 0;
+  })) / 10;
+  assert(Math.abs(sum(p.male) + sum(p.female) - sum(p.netMigration) / 10 - sdoGap) <= 5,
+    `${b.geoid}: migration by age adds up to SDO's estimated total, within 5 people a year beyond SDO's own accounting gap`);
 }
 
 // The residual again, for two counties: SDO's estimated population by age next

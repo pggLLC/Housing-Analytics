@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-09T11:57:59Z",
+  "generatedAt": "2026-11-12T10:22:03Z",
   "generator": "scripts/funding/build_funding_vs_need.mjs",
   "window": {
    "first_year": 2016,
@@ -1623,7 +1623,7 @@
    "need": {
     "gap_units_30ami": 461,
     "gap_units_50ami": 292,
-    "overall_need_score": 79.1,
+    "overall_need_score": 78.3,
     "pct_renter_severe_burdened": 17.5,
     "gap_per_1000_residents": 14.9,
     "share_of_state_gap": 0.29
@@ -1681,7 +1681,7 @@
    "need": {
     "gap_units_30ami": 12466,
     "gap_units_50ami": 6087,
-    "overall_need_score": 76.3,
+    "overall_need_score": 75.5,
     "pct_renter_severe_burdened": 25.9,
     "gap_per_1000_residents": 33.9,
     "share_of_state_gap": 7.96
@@ -1835,7 +1835,7 @@
    "need": {
     "gap_units_30ami": 29051,
     "gap_units_50ami": 4602,
-    "overall_need_score": 71.9,
+    "overall_need_score": 73.5,
     "pct_renter_severe_burdened": 21.1,
     "gap_per_1000_residents": 40.4,
     "share_of_state_gap": 18.55
@@ -1888,7 +1888,7 @@
    "need": {
     "gap_units_30ami": 5586,
     "gap_units_50ami": 4154,
-    "overall_need_score": 71,
+    "overall_need_score": 71.8,
     "pct_renter_severe_burdened": 20,
     "gap_per_1000_residents": 14.8,
     "share_of_state_gap": 3.57
@@ -1927,6 +1927,54 @@
    },
    "flags": [],
    "quadrant": "funded-above-need"
+  },
+  {
+   "fips": "08041",
+   "name": "El Paso County",
+   "region": "Front Range",
+   "population": 742999,
+   "need": {
+    "gap_units_30ami": 17815,
+    "gap_units_50ami": 11234,
+    "overall_need_score": 70.4,
+    "pct_renter_severe_burdened": 23.6,
+    "gap_per_1000_residents": 24,
+    "share_of_state_gap": 11.38
+   },
+   "market": {
+    "active_market_vacancy_pct": 1.9,
+    "raw_rental_vacancy_pct": 3.9,
+    "seasonal_share_of_vacant_pct": 14.6,
+    "median_gross_rent_acs": 1696,
+    "permits_avg_annual_5yr": 6502,
+    "projected_need_annual_10yr": 4801.6,
+    "production_to_need_ratio": 1.35,
+    "chfa_60ami_max_rent_1br": 1310,
+    "chfa_60ami_max_rent_2br": 1572
+   },
+   "funding": {
+    "tax_credit_awards": 24,
+    "lihtc_units": 4086,
+    "round_report_lihtc_units": 2277,
+    "bond_deals_outside_rounds": 9,
+    "bond_units_outside_rounds": 1809,
+    "lihtc_9pct_units": 604,
+    "federal_9pct_credit_annual": 15001918,
+    "federal_4pct_credit_annual": 26216514,
+    "state_credit_annual": 8518873,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 10,
+    "prop123_dollars": 34308096,
+    "prop123_units": 1278,
+    "prop123_mixed_income_dollars": 12818096,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 22.9,
+    "federal_9pct_credit_per_unit_annual": 24838,
+    "share_of_state_lihtc_units": 10.33
+   },
+   "flags": [],
+   "quadrant": "aligned"
   },
   {
    "fips": "08119",
@@ -1977,102 +2025,6 @@
    "quadrant": "low-need-low-funding"
   },
   {
-   "fips": "08041",
-   "name": "El Paso County",
-   "region": "Front Range",
-   "population": 742999,
-   "need": {
-    "gap_units_30ami": 17815,
-    "gap_units_50ami": 11234,
-    "overall_need_score": 69.6,
-    "pct_renter_severe_burdened": 23.6,
-    "gap_per_1000_residents": 24,
-    "share_of_state_gap": 11.38
-   },
-   "market": {
-    "active_market_vacancy_pct": 1.9,
-    "raw_rental_vacancy_pct": 3.9,
-    "seasonal_share_of_vacant_pct": 14.6,
-    "median_gross_rent_acs": 1696,
-    "permits_avg_annual_5yr": 6502,
-    "projected_need_annual_10yr": 4801.6,
-    "production_to_need_ratio": 1.35,
-    "chfa_60ami_max_rent_1br": 1310,
-    "chfa_60ami_max_rent_2br": 1572
-   },
-   "funding": {
-    "tax_credit_awards": 24,
-    "lihtc_units": 4086,
-    "round_report_lihtc_units": 2277,
-    "bond_deals_outside_rounds": 9,
-    "bond_units_outside_rounds": 1809,
-    "lihtc_9pct_units": 604,
-    "federal_9pct_credit_annual": 15001918,
-    "federal_4pct_credit_annual": 26216514,
-    "state_credit_annual": 8518873,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 10,
-    "prop123_dollars": 34308096,
-    "prop123_units": 1278,
-    "prop123_mixed_income_dollars": 12818096,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 22.9,
-    "federal_9pct_credit_per_unit_annual": 24838,
-    "share_of_state_lihtc_units": 10.33
-   },
-   "flags": [],
-   "quadrant": "aligned"
-  },
-  {
-   "fips": "08067",
-   "name": "La Plata County",
-   "region": "Southwest",
-   "population": 56331,
-   "need": {
-    "gap_units_30ami": 1415,
-    "gap_units_50ami": 699,
-    "overall_need_score": 67.8,
-    "pct_renter_severe_burdened": 21.4,
-    "gap_per_1000_residents": 25.1,
-    "share_of_state_gap": 0.9
-   },
-   "market": {
-    "active_market_vacancy_pct": 2,
-    "raw_rental_vacancy_pct": 5.8,
-    "seasonal_share_of_vacant_pct": 58.9,
-    "median_gross_rent_acs": 1504,
-    "permits_avg_annual_5yr": 349,
-    "projected_need_annual_10yr": 304.8,
-    "production_to_need_ratio": 1.15,
-    "chfa_60ami_max_rent_1br": 1290,
-    "chfa_60ami_max_rent_2br": 1549
-   },
-   "funding": {
-    "tax_credit_awards": 4,
-    "lihtc_units": 317,
-    "round_report_lihtc_units": 249,
-    "bond_deals_outside_rounds": 1,
-    "bond_units_outside_rounds": 68,
-    "lihtc_9pct_units": 129,
-    "federal_9pct_credit_annual": 3134903,
-    "federal_4pct_credit_annual": 1322959,
-    "state_credit_annual": 0,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 1,
-    "prop123_dollars": 1550000,
-    "prop123_units": 27,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 1550000,
-    "lihtc_units_per_100_gap": 22.4,
-    "federal_9pct_credit_per_unit_annual": 24302,
-    "share_of_state_lihtc_units": 0.8
-   },
-   "flags": [],
-   "quadrant": "aligned"
-  },
-  {
    "fips": "08014",
    "name": "Broomfield County",
    "region": "Front Range",
@@ -2116,6 +2068,54 @@
     "lihtc_units_per_100_gap": 26.4,
     "federal_9pct_credit_per_unit_annual": 28659,
     "share_of_state_lihtc_units": 1.26
+   },
+   "flags": [],
+   "quadrant": "aligned"
+  },
+  {
+   "fips": "08067",
+   "name": "La Plata County",
+   "region": "Southwest",
+   "population": 56331,
+   "need": {
+    "gap_units_30ami": 1415,
+    "gap_units_50ami": 699,
+    "overall_need_score": 67,
+    "pct_renter_severe_burdened": 21.4,
+    "gap_per_1000_residents": 25.1,
+    "share_of_state_gap": 0.9
+   },
+   "market": {
+    "active_market_vacancy_pct": 2,
+    "raw_rental_vacancy_pct": 5.8,
+    "seasonal_share_of_vacant_pct": 58.9,
+    "median_gross_rent_acs": 1504,
+    "permits_avg_annual_5yr": 349,
+    "projected_need_annual_10yr": 304.8,
+    "production_to_need_ratio": 1.15,
+    "chfa_60ami_max_rent_1br": 1290,
+    "chfa_60ami_max_rent_2br": 1549
+   },
+   "funding": {
+    "tax_credit_awards": 4,
+    "lihtc_units": 317,
+    "round_report_lihtc_units": 249,
+    "bond_deals_outside_rounds": 1,
+    "bond_units_outside_rounds": 68,
+    "lihtc_9pct_units": 129,
+    "federal_9pct_credit_annual": 3134903,
+    "federal_4pct_credit_annual": 1322959,
+    "state_credit_annual": 0,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 1,
+    "prop123_dollars": 1550000,
+    "prop123_units": 27,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 1550000,
+    "lihtc_units_per_100_gap": 22.4,
+    "federal_9pct_credit_per_unit_annual": 24302,
+    "share_of_state_lihtc_units": 0.8
    },
    "flags": [],
    "quadrant": "aligned"
@@ -2176,7 +2176,7 @@
    "need": {
     "gap_units_30ami": 284,
     "gap_units_50ami": 0,
-    "overall_need_score": 63.8,
+    "overall_need_score": 64.7,
     "pct_renter_severe_burdened": 24.5,
     "gap_per_1000_residents": 35.6,
     "share_of_state_gap": 0.18
@@ -2225,7 +2225,7 @@
    "need": {
     "gap_units_30ami": 466,
     "gap_units_50ami": 513,
-    "overall_need_score": 63.7,
+    "overall_need_score": 62.9,
     "pct_renter_severe_burdened": 13.4,
     "gap_per_1000_residents": 27.4,
     "share_of_state_gap": 0.3
@@ -2279,7 +2279,7 @@
    "need": {
     "gap_units_30ami": 59,
     "gap_units_50ami": 51,
-    "overall_need_score": 61.3,
+    "overall_need_score": 62.8,
     "pct_renter_severe_burdened": 34.2,
     "gap_per_1000_residents": 11.6,
     "share_of_state_gap": 0.04
@@ -2337,7 +2337,7 @@
    "need": {
     "gap_units_30ami": 3107,
     "gap_units_50ami": 285,
-    "overall_need_score": 60.7,
+    "overall_need_score": 59.1,
     "pct_renter_severe_burdened": 22,
     "gap_per_1000_residents": 19.6,
     "share_of_state_gap": 1.98
@@ -2376,54 +2376,6 @@
    },
    "flags": [],
    "quadrant": "aligned"
-  },
-  {
-   "fips": "08045",
-   "name": "Garfield County",
-   "region": "Western Slope",
-   "population": 62479,
-   "need": {
-    "gap_units_30ami": 821,
-    "gap_units_50ami": 15,
-    "overall_need_score": 56.4,
-    "pct_renter_severe_burdened": 16.6,
-    "gap_per_1000_residents": 13.1,
-    "share_of_state_gap": 0.52
-   },
-   "market": {
-    "active_market_vacancy_pct": 1.7,
-    "raw_rental_vacancy_pct": 3,
-    "seasonal_share_of_vacant_pct": 62,
-    "median_gross_rent_acs": 1637,
-    "permits_avg_annual_5yr": 298.8,
-    "projected_need_annual_10yr": 477.4,
-    "production_to_need_ratio": 0.63,
-    "chfa_60ami_max_rent_1br": 1284,
-    "chfa_60ami_max_rent_2br": 1540
-   },
-   "funding": {
-    "tax_credit_awards": 7,
-    "lihtc_units": 438,
-    "round_report_lihtc_units": 362,
-    "bond_deals_outside_rounds": 1,
-    "bond_units_outside_rounds": 76,
-    "lihtc_9pct_units": 282,
-    "federal_9pct_credit_annual": 7272831,
-    "federal_4pct_credit_annual": 2127517,
-    "state_credit_annual": 2500000,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 3,
-    "prop123_dollars": 6300000,
-    "prop123_units": 260,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 720000,
-    "lihtc_units_per_100_gap": 53.3,
-    "federal_9pct_credit_per_unit_annual": 25790,
-    "share_of_state_lihtc_units": 1.11
-   },
-   "flags": [],
-   "quadrant": "funded-above-need"
   },
   {
    "fips": "08015",
@@ -2480,101 +2432,52 @@
    "quadrant": "aligned"
   },
   {
-   "fips": "08079",
-   "name": "Mineral County",
-   "region": "San Luis Valley",
-   "population": 729,
+   "fips": "08045",
+   "name": "Garfield County",
+   "region": "Western Slope",
+   "population": 62479,
    "need": {
-    "gap_units_30ami": 29,
-    "gap_units_50ami": 0,
-    "overall_need_score": 55.4,
-    "pct_renter_severe_burdened": 26.9,
-    "gap_per_1000_residents": 39.8,
-    "share_of_state_gap": 0.02
+    "gap_units_30ami": 821,
+    "gap_units_50ami": 15,
+    "overall_need_score": 55.6,
+    "pct_renter_severe_burdened": 16.6,
+    "gap_per_1000_residents": 13.1,
+    "share_of_state_gap": 0.52
    },
    "market": {
-    "active_market_vacancy_pct": 2,
-    "raw_rental_vacancy_pct": 14,
-    "seasonal_share_of_vacant_pct": 90.7,
-    "median_gross_rent_acs": 928,
-    "permits_avg_annual_5yr": 8.2,
-    "projected_need_annual_10yr": -1.6,
-    "production_to_need_ratio": null,
-    "chfa_60ami_max_rent_1br": 1096,
-    "chfa_60ami_max_rent_2br": 1315
+    "active_market_vacancy_pct": 1.7,
+    "raw_rental_vacancy_pct": 3,
+    "seasonal_share_of_vacant_pct": 62,
+    "median_gross_rent_acs": 1637,
+    "permits_avg_annual_5yr": 298.8,
+    "projected_need_annual_10yr": 477.4,
+    "production_to_need_ratio": 0.63,
+    "chfa_60ami_max_rent_1br": 1284,
+    "chfa_60ami_max_rent_2br": 1540
    },
    "funding": {
-    "tax_credit_awards": 0,
-    "lihtc_units": 0,
-    "round_report_lihtc_units": 0,
-    "bond_deals_outside_rounds": 0,
-    "bond_units_outside_rounds": 0,
-    "lihtc_9pct_units": 0,
-    "federal_9pct_credit_annual": 0,
-    "federal_4pct_credit_annual": 0,
-    "state_credit_annual": 0,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 0,
-    "prop123_dollars": 0,
-    "prop123_units": 0,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 0,
-    "federal_9pct_credit_per_unit_annual": null,
-    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
-    "share_of_state_lihtc_units": 0
-   },
-   "flags": [],
-   "quadrant": "underserved"
-  },
-  {
-   "fips": "08101",
-   "name": "Pueblo County",
-   "region": "Front Range",
-   "population": 169356,
-   "need": {
-    "gap_units_30ami": 4556,
-    "gap_units_50ami": 557,
-    "overall_need_score": 54.9,
-    "pct_renter_severe_burdened": 25.2,
-    "gap_per_1000_residents": 26.9,
-    "share_of_state_gap": 2.91
-   },
-   "market": {
-    "active_market_vacancy_pct": 1.3,
-    "raw_rental_vacancy_pct": 2.6,
-    "seasonal_share_of_vacant_pct": 25.2,
-    "median_gross_rent_acs": 1111,
-    "permits_avg_annual_5yr": 406.2,
-    "projected_need_annual_10yr": 782.5,
-    "production_to_need_ratio": 0.52,
-    "chfa_60ami_max_rent_1br": 1096,
-    "chfa_60ami_max_rent_2br": 1315
-   },
-   "funding": {
-    "tax_credit_awards": 5,
-    "lihtc_units": 553,
-    "round_report_lihtc_units": 399,
+    "tax_credit_awards": 7,
+    "lihtc_units": 438,
+    "round_report_lihtc_units": 362,
     "bond_deals_outside_rounds": 1,
-    "bond_units_outside_rounds": 154,
-    "lihtc_9pct_units": 207,
-    "federal_9pct_credit_annual": 4778124,
-    "federal_4pct_credit_annual": 3618656,
-    "state_credit_annual": 1800000,
+    "bond_units_outside_rounds": 76,
+    "lihtc_9pct_units": 282,
+    "federal_9pct_credit_annual": 7272831,
+    "federal_4pct_credit_annual": 2127517,
+    "state_credit_annual": 2500000,
     "mihtc_credit_annual": 0,
     "toc_credit_annual": 0,
-    "prop123_awards": 2,
-    "prop123_dollars": 12536571,
-    "prop123_units": 139,
+    "prop123_awards": 3,
+    "prop123_dollars": 6300000,
+    "prop123_units": 260,
     "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 12.1,
-    "federal_9pct_credit_per_unit_annual": 23083,
-    "share_of_state_lihtc_units": 1.4
+    "prop123_homeownership_dollars": 720000,
+    "lihtc_units_per_100_gap": 53.3,
+    "federal_9pct_credit_per_unit_annual": 25790,
+    "share_of_state_lihtc_units": 1.11
    },
    "flags": [],
-   "quadrant": "underserved"
+   "quadrant": "funded-above-need"
   },
   {
    "fips": "08029",
@@ -2623,6 +2526,103 @@
    },
    "flags": [],
    "quadrant": "funded-above-need"
+  },
+  {
+   "fips": "08101",
+   "name": "Pueblo County",
+   "region": "Front Range",
+   "population": 169356,
+   "need": {
+    "gap_units_30ami": 4556,
+    "gap_units_50ami": 557,
+    "overall_need_score": 54,
+    "pct_renter_severe_burdened": 25.2,
+    "gap_per_1000_residents": 26.9,
+    "share_of_state_gap": 2.91
+   },
+   "market": {
+    "active_market_vacancy_pct": 1.3,
+    "raw_rental_vacancy_pct": 2.6,
+    "seasonal_share_of_vacant_pct": 25.2,
+    "median_gross_rent_acs": 1111,
+    "permits_avg_annual_5yr": 406.2,
+    "projected_need_annual_10yr": 782.5,
+    "production_to_need_ratio": 0.52,
+    "chfa_60ami_max_rent_1br": 1096,
+    "chfa_60ami_max_rent_2br": 1315
+   },
+   "funding": {
+    "tax_credit_awards": 5,
+    "lihtc_units": 553,
+    "round_report_lihtc_units": 399,
+    "bond_deals_outside_rounds": 1,
+    "bond_units_outside_rounds": 154,
+    "lihtc_9pct_units": 207,
+    "federal_9pct_credit_annual": 4778124,
+    "federal_4pct_credit_annual": 3618656,
+    "state_credit_annual": 1800000,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 2,
+    "prop123_dollars": 12536571,
+    "prop123_units": 139,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 12.1,
+    "federal_9pct_credit_per_unit_annual": 23083,
+    "share_of_state_lihtc_units": 1.4
+   },
+   "flags": [],
+   "quadrant": "underserved"
+  },
+  {
+   "fips": "08079",
+   "name": "Mineral County",
+   "region": "San Luis Valley",
+   "population": 729,
+   "need": {
+    "gap_units_30ami": 29,
+    "gap_units_50ami": 0,
+    "overall_need_score": 52.3,
+    "pct_renter_severe_burdened": 26.9,
+    "gap_per_1000_residents": 39.8,
+    "share_of_state_gap": 0.02
+   },
+   "market": {
+    "active_market_vacancy_pct": 2,
+    "raw_rental_vacancy_pct": 14,
+    "seasonal_share_of_vacant_pct": 90.7,
+    "median_gross_rent_acs": 928,
+    "permits_avg_annual_5yr": 8.2,
+    "projected_need_annual_10yr": -1.6,
+    "production_to_need_ratio": null,
+    "chfa_60ami_max_rent_1br": 1096,
+    "chfa_60ami_max_rent_2br": 1315
+   },
+   "funding": {
+    "tax_credit_awards": 0,
+    "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
+    "lihtc_9pct_units": 0,
+    "federal_9pct_credit_annual": 0,
+    "federal_4pct_credit_annual": 0,
+    "state_credit_annual": 0,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 0,
+    "prop123_dollars": 0,
+    "prop123_units": 0,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 0,
+    "federal_9pct_credit_per_unit_annual": null,
+    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
+    "share_of_state_lihtc_units": 0
+   },
+   "flags": [],
+   "quadrant": "underserved"
   },
   {
    "fips": "08051",
@@ -2681,60 +2681,6 @@
     }
    ],
    "quadrant": "underserved"
-  },
-  {
-   "fips": "08019",
-   "name": "Clear Creek County",
-   "region": "Front Range",
-   "population": 9262,
-   "need": {
-    "gap_units_30ami": 146,
-    "gap_units_50ami": 0,
-    "overall_need_score": 50.1,
-    "pct_renter_severe_burdened": 18,
-    "gap_per_1000_residents": 15.8,
-    "share_of_state_gap": 0.09
-   },
-   "market": {
-    "active_market_vacancy_pct": 1,
-    "raw_rental_vacancy_pct": 5.2,
-    "seasonal_share_of_vacant_pct": 78.3,
-    "median_gross_rent_acs": 1467,
-    "permits_avg_annual_5yr": 36.4,
-    "projected_need_annual_10yr": 9.2,
-    "production_to_need_ratio": 3.96,
-    "chfa_60ami_max_rent_1br": 1620,
-    "chfa_60ami_max_rent_2br": 1944
-   },
-   "funding": {
-    "tax_credit_awards": 1,
-    "lihtc_units": 47,
-    "round_report_lihtc_units": 47,
-    "bond_deals_outside_rounds": 0,
-    "bond_units_outside_rounds": 0,
-    "lihtc_9pct_units": 47,
-    "federal_9pct_credit_annual": 1157614,
-    "federal_4pct_credit_annual": 0,
-    "state_credit_annual": 0,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 3,
-    "prop123_dollars": 10395000,
-    "prop123_units": 196,
-    "prop123_mixed_income_dollars": 8500000,
-    "prop123_homeownership_dollars": 1820000,
-    "lihtc_units_per_100_gap": 32.2,
-    "federal_9pct_credit_per_unit_annual": 24630,
-    "share_of_state_lihtc_units": 0.12
-   },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 4× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
-     "tax_credit_share_of_permits_pct": 0
-    }
-   ],
-   "quadrant": "funded-above-need"
   },
   {
    "fips": "08049",
@@ -2844,6 +2790,163 @@
    "quadrant": "underserved"
   },
   {
+   "fips": "08019",
+   "name": "Clear Creek County",
+   "region": "Front Range",
+   "population": 9262,
+   "need": {
+    "gap_units_30ami": 146,
+    "gap_units_50ami": 0,
+    "overall_need_score": 48.5,
+    "pct_renter_severe_burdened": 18,
+    "gap_per_1000_residents": 15.8,
+    "share_of_state_gap": 0.09
+   },
+   "market": {
+    "active_market_vacancy_pct": 1,
+    "raw_rental_vacancy_pct": 5.2,
+    "seasonal_share_of_vacant_pct": 78.3,
+    "median_gross_rent_acs": 1467,
+    "permits_avg_annual_5yr": 36.4,
+    "projected_need_annual_10yr": 9.2,
+    "production_to_need_ratio": 3.96,
+    "chfa_60ami_max_rent_1br": 1620,
+    "chfa_60ami_max_rent_2br": 1944
+   },
+   "funding": {
+    "tax_credit_awards": 1,
+    "lihtc_units": 47,
+    "round_report_lihtc_units": 47,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
+    "lihtc_9pct_units": 47,
+    "federal_9pct_credit_annual": 1157614,
+    "federal_4pct_credit_annual": 0,
+    "state_credit_annual": 0,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 3,
+    "prop123_dollars": 10395000,
+    "prop123_units": 196,
+    "prop123_mixed_income_dollars": 8500000,
+    "prop123_homeownership_dollars": 1820000,
+    "lihtc_units_per_100_gap": 32.2,
+    "federal_9pct_credit_per_unit_annual": 24630,
+    "share_of_state_lihtc_units": 0.12
+   },
+   "flags": [
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 4× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
+    }
+   ],
+   "quadrant": "funded-above-need"
+  },
+  {
+   "fips": "08085",
+   "name": "Montrose County",
+   "region": "Western Slope",
+   "population": 43807,
+   "need": {
+    "gap_units_30ami": 526,
+    "gap_units_50ami": 5,
+    "overall_need_score": 47,
+    "pct_renter_severe_burdened": 25.4,
+    "gap_per_1000_residents": 12,
+    "share_of_state_gap": 0.34
+   },
+   "market": {
+    "active_market_vacancy_pct": 1.5,
+    "raw_rental_vacancy_pct": 4.9,
+    "seasonal_share_of_vacant_pct": 22.9,
+    "median_gross_rent_acs": 1188,
+    "permits_avg_annual_5yr": 345.2,
+    "projected_need_annual_10yr": 285.5,
+    "production_to_need_ratio": 1.21,
+    "chfa_60ami_max_rent_1br": 1096,
+    "chfa_60ami_max_rent_2br": 1315
+   },
+   "funding": {
+    "tax_credit_awards": 4,
+    "lihtc_units": 268,
+    "round_report_lihtc_units": 192,
+    "bond_deals_outside_rounds": 1,
+    "bond_units_outside_rounds": 76,
+    "lihtc_9pct_units": 140,
+    "federal_9pct_credit_annual": 4156378,
+    "federal_4pct_credit_annual": 958961,
+    "state_credit_annual": 1100000,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 3,
+    "prop123_dollars": 9725000,
+    "prop123_units": 172,
+    "prop123_mixed_income_dollars": 8000000,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 51,
+    "federal_9pct_credit_per_unit_annual": 29688,
+    "share_of_state_lihtc_units": 0.68
+   },
+   "flags": [],
+   "quadrant": "funded-above-need"
+  },
+  {
+   "fips": "08093",
+   "name": "Park County",
+   "region": "Mountains",
+   "population": 17907,
+   "need": {
+    "gap_units_30ami": 310,
+    "gap_units_50ami": 327,
+    "overall_need_score": 46.8,
+    "pct_renter_severe_burdened": 26.3,
+    "gap_per_1000_residents": 17.3,
+    "share_of_state_gap": 0.2
+   },
+   "market": {
+    "active_market_vacancy_pct": 1.8,
+    "raw_rental_vacancy_pct": 8.3,
+    "seasonal_share_of_vacant_pct": 91.2,
+    "median_gross_rent_acs": 2161,
+    "permits_avg_annual_5yr": 173.8,
+    "projected_need_annual_10yr": 25.9,
+    "production_to_need_ratio": 6.71,
+    "chfa_60ami_max_rent_1br": 1620,
+    "chfa_60ami_max_rent_2br": 1944
+   },
+   "funding": {
+    "tax_credit_awards": 0,
+    "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
+    "lihtc_9pct_units": 0,
+    "federal_9pct_credit_annual": 0,
+    "federal_4pct_credit_annual": 0,
+    "state_credit_annual": 0,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 0,
+    "prop123_dollars": 0,
+    "prop123_units": 0,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 0,
+    "federal_9pct_credit_per_unit_annual": null,
+    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
+    "share_of_state_lihtc_units": 0
+   },
+   "flags": [
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 6.7× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
+    }
+   ],
+   "quadrant": "underserved"
+  },
+  {
    "fips": "08057",
    "name": "Jackson County",
    "region": "Mountains",
@@ -2896,108 +2999,6 @@
     }
    ],
    "quadrant": "underserved"
-  },
-  {
-   "fips": "08085",
-   "name": "Montrose County",
-   "region": "Western Slope",
-   "population": 43807,
-   "need": {
-    "gap_units_30ami": 526,
-    "gap_units_50ami": 5,
-    "overall_need_score": 46.1,
-    "pct_renter_severe_burdened": 25.4,
-    "gap_per_1000_residents": 12,
-    "share_of_state_gap": 0.34
-   },
-   "market": {
-    "active_market_vacancy_pct": 1.5,
-    "raw_rental_vacancy_pct": 4.9,
-    "seasonal_share_of_vacant_pct": 22.9,
-    "median_gross_rent_acs": 1188,
-    "permits_avg_annual_5yr": 345.2,
-    "projected_need_annual_10yr": 285.5,
-    "production_to_need_ratio": 1.21,
-    "chfa_60ami_max_rent_1br": 1096,
-    "chfa_60ami_max_rent_2br": 1315
-   },
-   "funding": {
-    "tax_credit_awards": 4,
-    "lihtc_units": 268,
-    "round_report_lihtc_units": 192,
-    "bond_deals_outside_rounds": 1,
-    "bond_units_outside_rounds": 76,
-    "lihtc_9pct_units": 140,
-    "federal_9pct_credit_annual": 4156378,
-    "federal_4pct_credit_annual": 958961,
-    "state_credit_annual": 1100000,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 3,
-    "prop123_dollars": 9725000,
-    "prop123_units": 172,
-    "prop123_mixed_income_dollars": 8000000,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 51,
-    "federal_9pct_credit_per_unit_annual": 29688,
-    "share_of_state_lihtc_units": 0.68
-   },
-   "flags": [],
-   "quadrant": "funded-above-need"
-  },
-  {
-   "fips": "08075",
-   "name": "Logan County",
-   "region": "Eastern Plains",
-   "population": 20892,
-   "need": {
-    "gap_units_30ami": 429,
-    "gap_units_50ami": 48,
-    "overall_need_score": 45.3,
-    "pct_renter_severe_burdened": 9.1,
-    "gap_per_1000_residents": 20.5,
-    "share_of_state_gap": 0.27
-   },
-   "market": {
-    "active_market_vacancy_pct": 1.7,
-    "raw_rental_vacancy_pct": 1.9,
-    "seasonal_share_of_vacant_pct": 18.6,
-    "median_gross_rent_acs": 1013,
-    "permits_avg_annual_5yr": 12.4,
-    "projected_need_annual_10yr": 2.1,
-    "production_to_need_ratio": 5.9,
-    "chfa_60ami_max_rent_1br": 1096,
-    "chfa_60ami_max_rent_2br": 1315
-   },
-   "funding": {
-    "tax_credit_awards": 2,
-    "lihtc_units": 104,
-    "round_report_lihtc_units": 104,
-    "bond_deals_outside_rounds": 0,
-    "bond_units_outside_rounds": 0,
-    "lihtc_9pct_units": 50,
-    "federal_9pct_credit_annual": 1350000,
-    "federal_4pct_credit_annual": 1059696,
-    "state_credit_annual": 1324619,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 1,
-    "prop123_dollars": 2299500,
-    "prop123_units": 54,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 24.2,
-    "federal_9pct_credit_per_unit_annual": 27000,
-    "share_of_state_lihtc_units": 0.26
-   },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 5.9× DOLA's projected household growth. CHFA awarded more tax credit homes in those years than the permits count, so the permit count looks short here",
-     "tax_credit_share_of_permits_pct": 167.7
-    }
-   ],
-   "quadrant": "aligned"
   },
   {
    "fips": "08007",
@@ -3053,61 +3054,6 @@
    "quadrant": "funded-above-need"
   },
   {
-   "fips": "08093",
-   "name": "Park County",
-   "region": "Mountains",
-   "population": 17907,
-   "need": {
-    "gap_units_30ami": 310,
-    "gap_units_50ami": 327,
-    "overall_need_score": 45.2,
-    "pct_renter_severe_burdened": 26.3,
-    "gap_per_1000_residents": 17.3,
-    "share_of_state_gap": 0.2
-   },
-   "market": {
-    "active_market_vacancy_pct": 1.8,
-    "raw_rental_vacancy_pct": 8.3,
-    "seasonal_share_of_vacant_pct": 91.2,
-    "median_gross_rent_acs": 2161,
-    "permits_avg_annual_5yr": 173.8,
-    "projected_need_annual_10yr": 25.9,
-    "production_to_need_ratio": 6.71,
-    "chfa_60ami_max_rent_1br": 1620,
-    "chfa_60ami_max_rent_2br": 1944
-   },
-   "funding": {
-    "tax_credit_awards": 0,
-    "lihtc_units": 0,
-    "round_report_lihtc_units": 0,
-    "bond_deals_outside_rounds": 0,
-    "bond_units_outside_rounds": 0,
-    "lihtc_9pct_units": 0,
-    "federal_9pct_credit_annual": 0,
-    "federal_4pct_credit_annual": 0,
-    "state_credit_annual": 0,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 0,
-    "prop123_dollars": 0,
-    "prop123_units": 0,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 0,
-    "federal_9pct_credit_per_unit_annual": null,
-    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
-    "share_of_state_lihtc_units": 0
-   },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 6.7× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
-     "tax_credit_share_of_permits_pct": 0
-    }
-   ],
-   "quadrant": "underserved"
-  },
-  {
    "fips": "08109",
    "name": "Saguache County",
    "region": "San Luis Valley",
@@ -3115,7 +3061,7 @@
    "need": {
     "gap_units_30ami": 141,
     "gap_units_50ami": 176,
-    "overall_need_score": 43.1,
+    "overall_need_score": 43.9,
     "pct_renter_severe_burdened": 27.1,
     "gap_per_1000_residents": 21.4,
     "share_of_state_gap": 0.09
@@ -3162,54 +3108,55 @@
    "quadrant": "aligned"
   },
   {
-   "fips": "08087",
-   "name": "Morgan County",
+   "fips": "08075",
+   "name": "Logan County",
    "region": "Eastern Plains",
-   "population": 29520,
+   "population": 20892,
    "need": {
-    "gap_units_30ami": 473,
-    "gap_units_50ami": 0,
-    "overall_need_score": 41.6,
-    "pct_renter_severe_burdened": 19.1,
-    "gap_per_1000_residents": 16,
-    "share_of_state_gap": 0.3
+    "gap_units_30ami": 429,
+    "gap_units_50ami": 48,
+    "overall_need_score": 43.7,
+    "pct_renter_severe_burdened": 9.1,
+    "gap_per_1000_residents": 20.5,
+    "share_of_state_gap": 0.27
    },
    "market": {
-    "active_market_vacancy_pct": 2.9,
-    "raw_rental_vacancy_pct": 2.9,
-    "seasonal_share_of_vacant_pct": 31.6,
-    "median_gross_rent_acs": 1025,
-    "permits_avg_annual_5yr": 132.6,
-    "projected_need_annual_10yr": 98.8,
-    "production_to_need_ratio": 1.34,
+    "active_market_vacancy_pct": 1.7,
+    "raw_rental_vacancy_pct": 1.9,
+    "seasonal_share_of_vacant_pct": 18.6,
+    "median_gross_rent_acs": 1013,
+    "permits_avg_annual_5yr": 12.4,
+    "projected_need_annual_10yr": 2.1,
+    "production_to_need_ratio": 5.9,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
    "funding": {
     "tax_credit_awards": 2,
-    "lihtc_units": 165,
-    "round_report_lihtc_units": 165,
+    "lihtc_units": 104,
+    "round_report_lihtc_units": 104,
     "bond_deals_outside_rounds": 0,
     "bond_units_outside_rounds": 0,
-    "lihtc_9pct_units": 45,
-    "federal_9pct_credit_annual": 1292500,
-    "federal_4pct_credit_annual": 2163996,
-    "state_credit_annual": 949176,
+    "lihtc_9pct_units": 50,
+    "federal_9pct_credit_annual": 1350000,
+    "federal_4pct_credit_annual": 1059696,
+    "state_credit_annual": 1324619,
     "mihtc_credit_annual": 0,
     "toc_credit_annual": 0,
     "prop123_awards": 1,
-    "prop123_dollars": 700000,
-    "prop123_units": 45,
+    "prop123_dollars": 2299500,
+    "prop123_units": 54,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 34.9,
-    "federal_9pct_credit_per_unit_annual": 28722,
-    "share_of_state_lihtc_units": 0.42
+    "lihtc_units_per_100_gap": 24.2,
+    "federal_9pct_credit_per_unit_annual": 27000,
+    "share_of_state_lihtc_units": 0.26
    },
    "flags": [
     {
-     "id": "high-vacancy",
-     "text": "Active-market vacancy 2.9%, in the loosest quarter of Colorado counties (≥ 2.4%)"
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 5.9× DOLA's projected household growth. CHFA awarded more tax credit homes in those years than the permits count, so the permit count looks short here",
+     "tax_credit_share_of_permits_pct": 167.7
     }
    ],
    "quadrant": "aligned"
@@ -3222,7 +3169,7 @@
    "need": {
     "gap_units_30ami": 22,
     "gap_units_50ami": 0,
-    "overall_need_score": 41.4,
+    "overall_need_score": 42.9,
     "pct_renter_severe_burdened": 32.4,
     "gap_per_1000_residents": 3.7,
     "share_of_state_gap": 0.01
@@ -3322,6 +3269,59 @@
    "quadrant": "aligned"
   },
   {
+   "fips": "08087",
+   "name": "Morgan County",
+   "region": "Eastern Plains",
+   "population": 29520,
+   "need": {
+    "gap_units_30ami": 473,
+    "gap_units_50ami": 0,
+    "overall_need_score": 40.7,
+    "pct_renter_severe_burdened": 19.1,
+    "gap_per_1000_residents": 16,
+    "share_of_state_gap": 0.3
+   },
+   "market": {
+    "active_market_vacancy_pct": 2.9,
+    "raw_rental_vacancy_pct": 2.9,
+    "seasonal_share_of_vacant_pct": 31.6,
+    "median_gross_rent_acs": 1025,
+    "permits_avg_annual_5yr": 132.6,
+    "projected_need_annual_10yr": 98.8,
+    "production_to_need_ratio": 1.34,
+    "chfa_60ami_max_rent_1br": 1096,
+    "chfa_60ami_max_rent_2br": 1315
+   },
+   "funding": {
+    "tax_credit_awards": 2,
+    "lihtc_units": 165,
+    "round_report_lihtc_units": 165,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
+    "lihtc_9pct_units": 45,
+    "federal_9pct_credit_annual": 1292500,
+    "federal_4pct_credit_annual": 2163996,
+    "state_credit_annual": 949176,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 1,
+    "prop123_dollars": 700000,
+    "prop123_units": 45,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 34.9,
+    "federal_9pct_credit_per_unit_annual": 28722,
+    "share_of_state_lihtc_units": 0.42
+   },
+   "flags": [
+    {
+     "id": "high-vacancy",
+     "text": "Active-market vacancy 2.9%, in the loosest quarter of Colorado counties (≥ 2.4%)"
+    }
+   ],
+   "quadrant": "aligned"
+  },
+  {
    "fips": "08039",
    "name": "Elbert County",
    "region": "Eastern Plains",
@@ -3329,7 +3329,7 @@
    "need": {
     "gap_units_30ami": 97,
     "gap_units_50ami": 49,
-    "overall_need_score": 38.3,
+    "overall_need_score": 39.2,
     "pct_renter_severe_burdened": 14.2,
     "gap_per_1000_residents": 3.5,
     "share_of_state_gap": 0.06
@@ -3384,7 +3384,7 @@
    "need": {
     "gap_units_30ami": 0,
     "gap_units_50ami": 0,
-    "overall_need_score": 36.2,
+    "overall_need_score": 38.7,
     "pct_renter_severe_burdened": 14.9,
     "gap_per_1000_residents": 0,
     "share_of_state_gap": 0
@@ -3435,7 +3435,7 @@
    "need": {
     "gap_units_30ami": 567,
     "gap_units_50ami": 0,
-    "overall_need_score": 36.1,
+    "overall_need_score": 37.8,
     "pct_renter_severe_burdened": 22.7,
     "gap_per_1000_residents": 11.4,
     "share_of_state_gap": 0.36
@@ -3479,55 +3479,6 @@
      "tax_credit_share_of_permits_pct": 0
     }
    ],
-   "quadrant": "low-need-low-funding"
-  },
-  {
-   "fips": "08065",
-   "name": "Lake County",
-   "region": "Mountains",
-   "population": 7380,
-   "need": {
-    "gap_units_30ami": 90,
-    "gap_units_50ami": 0,
-    "overall_need_score": 36.1,
-    "pct_renter_severe_burdened": 23.5,
-    "gap_per_1000_residents": 12.2,
-    "share_of_state_gap": 0.06
-   },
-   "market": {
-    "active_market_vacancy_pct": 0.5,
-    "raw_rental_vacancy_pct": 0,
-    "seasonal_share_of_vacant_pct": 86.4,
-    "median_gross_rent_acs": 1397,
-    "permits_avg_annual_5yr": 56.2,
-    "projected_need_annual_10yr": 36.2,
-    "production_to_need_ratio": 1.55,
-    "chfa_60ami_max_rent_1br": 1292,
-    "chfa_60ami_max_rent_2br": 1551
-   },
-   "funding": {
-    "tax_credit_awards": 0,
-    "lihtc_units": 0,
-    "round_report_lihtc_units": 0,
-    "bond_deals_outside_rounds": 0,
-    "bond_units_outside_rounds": 0,
-    "lihtc_9pct_units": 0,
-    "federal_9pct_credit_annual": 0,
-    "federal_4pct_credit_annual": 0,
-    "state_credit_annual": 0,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 3,
-    "prop123_dollars": 3600000,
-    "prop123_units": 192,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 0,
-    "federal_9pct_credit_per_unit_annual": null,
-    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
-    "share_of_state_lihtc_units": 0
-   },
-   "flags": [],
    "quadrant": "low-need-low-funding"
   },
   {
@@ -3634,6 +3585,55 @@
    "quadrant": "low-need-low-funding"
   },
   {
+   "fips": "08065",
+   "name": "Lake County",
+   "region": "Mountains",
+   "population": 7380,
+   "need": {
+    "gap_units_30ami": 90,
+    "gap_units_50ami": 0,
+    "overall_need_score": 35.3,
+    "pct_renter_severe_burdened": 23.5,
+    "gap_per_1000_residents": 12.2,
+    "share_of_state_gap": 0.06
+   },
+   "market": {
+    "active_market_vacancy_pct": 0.5,
+    "raw_rental_vacancy_pct": 0,
+    "seasonal_share_of_vacant_pct": 86.4,
+    "median_gross_rent_acs": 1397,
+    "permits_avg_annual_5yr": 56.2,
+    "projected_need_annual_10yr": 36.2,
+    "production_to_need_ratio": 1.55,
+    "chfa_60ami_max_rent_1br": 1292,
+    "chfa_60ami_max_rent_2br": 1551
+   },
+   "funding": {
+    "tax_credit_awards": 0,
+    "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
+    "lihtc_9pct_units": 0,
+    "federal_9pct_credit_annual": 0,
+    "federal_4pct_credit_annual": 0,
+    "state_credit_annual": 0,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 3,
+    "prop123_dollars": 3600000,
+    "prop123_units": 192,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 0,
+    "federal_9pct_credit_per_unit_annual": null,
+    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
+    "share_of_state_lihtc_units": 0
+   },
+   "flags": [],
+   "quadrant": "low-need-low-funding"
+  },
+  {
    "fips": "08021",
    "name": "Conejos County",
    "region": "San Luis Valley",
@@ -3696,7 +3696,7 @@
    "need": {
     "gap_units_30ami": 123,
     "gap_units_50ami": 0,
-    "overall_need_score": 34.1,
+    "overall_need_score": 33.2,
     "pct_renter_severe_burdened": 15.8,
     "gap_per_1000_residents": 7.4,
     "share_of_state_gap": 0.08
@@ -3743,59 +3743,59 @@
    "quadrant": "funded-above-need"
   },
   {
-   "fips": "08025",
-   "name": "Crowley County",
+   "fips": "08089",
+   "name": "Otero County",
    "region": "Eastern Plains",
-   "population": 5647,
+   "population": 18321,
    "need": {
-    "gap_units_30ami": 128,
-    "gap_units_50ami": 40,
-    "overall_need_score": 31.3,
-    "pct_renter_severe_burdened": 19.8,
-    "gap_per_1000_residents": 22.7,
-    "share_of_state_gap": 0.08
+    "gap_units_30ami": 0,
+    "gap_units_50ami": 0,
+    "overall_need_score": 31.4,
+    "pct_renter_severe_burdened": 21,
+    "gap_per_1000_residents": 0,
+    "share_of_state_gap": 0
    },
    "market": {
-    "active_market_vacancy_pct": 1.4,
-    "raw_rental_vacancy_pct": 0,
-    "seasonal_share_of_vacant_pct": 4.1,
-    "median_gross_rent_acs": 984,
-    "permits_avg_annual_5yr": 12.8,
-    "projected_need_annual_10yr": 5.7,
-    "production_to_need_ratio": 2.25,
+    "active_market_vacancy_pct": 4.5,
+    "raw_rental_vacancy_pct": 12.3,
+    "seasonal_share_of_vacant_pct": 0.5,
+    "median_gross_rent_acs": 839,
+    "permits_avg_annual_5yr": 22.6,
+    "projected_need_annual_10yr": -42,
+    "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
    "funding": {
-    "tax_credit_awards": 0,
-    "lihtc_units": 0,
-    "round_report_lihtc_units": 0,
+    "tax_credit_awards": 1,
+    "lihtc_units": 30,
+    "round_report_lihtc_units": 30,
     "bond_deals_outside_rounds": 0,
     "bond_units_outside_rounds": 0,
-    "lihtc_9pct_units": 0,
-    "federal_9pct_credit_annual": 0,
+    "lihtc_9pct_units": 30,
+    "federal_9pct_credit_annual": 930000,
     "federal_4pct_credit_annual": 0,
     "state_credit_annual": 0,
     "mihtc_credit_annual": 0,
     "toc_credit_annual": 0,
-    "prop123_awards": 0,
-    "prop123_dollars": 0,
-    "prop123_units": 0,
+    "prop123_awards": 1,
+    "prop123_dollars": 800000,
+    "prop123_units": 30,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 0,
-    "federal_9pct_credit_per_unit_annual": null,
-    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
-    "share_of_state_lihtc_units": 0
+    "lihtc_units_per_100_gap": null,
+    "lihtc_units_per_100_gap_unavailable_reason": "the measured ≤30% AMI gap is zero",
+    "federal_9pct_credit_per_unit_annual": 31000,
+    "share_of_state_lihtc_units": 0.08
    },
    "flags": [
     {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.3× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
-     "tax_credit_share_of_permits_pct": 0
+     "id": "high-vacancy",
+     "text": "Active-market vacancy 4.5%, in the loosest quarter of Colorado counties (≥ 2.4%)"
     }
    ],
-   "quadrant": "underserved"
+   "quadrant": null,
+   "quadrant_unavailable_reason": "the measured ≤30% AMI gap is zero"
   },
   {
    "fips": "08081",
@@ -3852,59 +3852,53 @@
    "quadrant": "low-need-low-funding"
   },
   {
-   "fips": "08089",
-   "name": "Otero County",
-   "region": "Eastern Plains",
-   "population": 18321,
+   "fips": "08023",
+   "name": "Costilla County",
+   "region": "San Luis Valley",
+   "population": 3607,
    "need": {
-    "gap_units_30ami": 0,
-    "gap_units_50ami": 0,
-    "overall_need_score": 30.6,
-    "pct_renter_severe_burdened": 21,
-    "gap_per_1000_residents": 0,
-    "share_of_state_gap": 0
+    "gap_units_30ami": 111,
+    "gap_units_50ami": 72,
+    "overall_need_score": 30.7,
+    "pct_renter_severe_burdened": 23.1,
+    "gap_per_1000_residents": 30.8,
+    "share_of_state_gap": 0.07
    },
    "market": {
-    "active_market_vacancy_pct": 4.5,
-    "raw_rental_vacancy_pct": 12.3,
-    "seasonal_share_of_vacant_pct": 0.5,
-    "median_gross_rent_acs": 839,
-    "permits_avg_annual_5yr": 22.6,
-    "projected_need_annual_10yr": -42,
+    "active_market_vacancy_pct": 1.8,
+    "raw_rental_vacancy_pct": 0,
+    "seasonal_share_of_vacant_pct": 65,
+    "median_gross_rent_acs": 927,
+    "permits_avg_annual_5yr": 51.8,
+    "projected_need_annual_10yr": -7.6,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
    "funding": {
-    "tax_credit_awards": 1,
-    "lihtc_units": 30,
-    "round_report_lihtc_units": 30,
+    "tax_credit_awards": 0,
+    "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
     "bond_deals_outside_rounds": 0,
     "bond_units_outside_rounds": 0,
-    "lihtc_9pct_units": 30,
-    "federal_9pct_credit_annual": 930000,
+    "lihtc_9pct_units": 0,
+    "federal_9pct_credit_annual": 0,
     "federal_4pct_credit_annual": 0,
     "state_credit_annual": 0,
     "mihtc_credit_annual": 0,
     "toc_credit_annual": 0,
-    "prop123_awards": 1,
-    "prop123_dollars": 800000,
-    "prop123_units": 30,
+    "prop123_awards": 0,
+    "prop123_dollars": 0,
+    "prop123_units": 0,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": null,
-    "lihtc_units_per_100_gap_unavailable_reason": "the measured ≤30% AMI gap is zero",
-    "federal_9pct_credit_per_unit_annual": 31000,
-    "share_of_state_lihtc_units": 0.08
+    "lihtc_units_per_100_gap": 0,
+    "federal_9pct_credit_per_unit_annual": null,
+    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
+    "share_of_state_lihtc_units": 0
    },
-   "flags": [
-    {
-     "id": "high-vacancy",
-     "text": "Active-market vacancy 4.5%, in the loosest quarter of Colorado counties (≥ 2.4%)"
-    }
-   ],
-   "quadrant": null,
-   "quadrant_unavailable_reason": "the measured ≤30% AMI gap is zero"
+   "flags": [],
+   "quadrant": "underserved"
   },
   {
    "fips": "08071",
@@ -3955,26 +3949,26 @@
    "quadrant": "funded-above-need"
   },
   {
-   "fips": "08023",
-   "name": "Costilla County",
-   "region": "San Luis Valley",
-   "population": 3607,
+   "fips": "08025",
+   "name": "Crowley County",
+   "region": "Eastern Plains",
+   "population": 5647,
    "need": {
-    "gap_units_30ami": 111,
-    "gap_units_50ami": 72,
-    "overall_need_score": 29.1,
-    "pct_renter_severe_burdened": 23.1,
-    "gap_per_1000_residents": 30.8,
-    "share_of_state_gap": 0.07
+    "gap_units_30ami": 128,
+    "gap_units_50ami": 40,
+    "overall_need_score": 29.8,
+    "pct_renter_severe_burdened": 19.8,
+    "gap_per_1000_residents": 22.7,
+    "share_of_state_gap": 0.08
    },
    "market": {
-    "active_market_vacancy_pct": 1.8,
+    "active_market_vacancy_pct": 1.4,
     "raw_rental_vacancy_pct": 0,
-    "seasonal_share_of_vacant_pct": 65,
-    "median_gross_rent_acs": 927,
-    "permits_avg_annual_5yr": 51.8,
-    "projected_need_annual_10yr": -7.6,
-    "production_to_need_ratio": null,
+    "seasonal_share_of_vacant_pct": 4.1,
+    "median_gross_rent_acs": 984,
+    "permits_avg_annual_5yr": 12.8,
+    "projected_need_annual_10yr": 5.7,
+    "production_to_need_ratio": 2.25,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -4000,57 +3994,14 @@
     "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
     "share_of_state_lihtc_units": 0
    },
-   "flags": [],
+   "flags": [
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 2.3× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
+    }
+   ],
    "quadrant": "underserved"
-  },
-  {
-   "fips": "08033",
-   "name": "Dolores County",
-   "region": "Southwest",
-   "population": 2432,
-   "need": {
-    "gap_units_30ami": 31,
-    "gap_units_50ami": 39,
-    "overall_need_score": 28.4,
-    "pct_renter_severe_burdened": 9.1,
-    "gap_per_1000_residents": 12.7,
-    "share_of_state_gap": 0.02
-   },
-   "market": {
-    "active_market_vacancy_pct": 0.6,
-    "raw_rental_vacancy_pct": 3.7,
-    "seasonal_share_of_vacant_pct": 67,
-    "median_gross_rent_acs": 986,
-    "permits_avg_annual_5yr": 6,
-    "projected_need_annual_10yr": -3.5,
-    "production_to_need_ratio": null,
-    "chfa_60ami_max_rent_1br": 1098,
-    "chfa_60ami_max_rent_2br": 1318
-   },
-   "funding": {
-    "tax_credit_awards": 0,
-    "lihtc_units": 0,
-    "round_report_lihtc_units": 0,
-    "bond_deals_outside_rounds": 0,
-    "bond_units_outside_rounds": 0,
-    "lihtc_9pct_units": 0,
-    "federal_9pct_credit_annual": 0,
-    "federal_4pct_credit_annual": 0,
-    "state_credit_annual": 0,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 0,
-    "prop123_dollars": 0,
-    "prop123_units": 0,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 0,
-    "federal_9pct_credit_per_unit_annual": null,
-    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
-    "share_of_state_lihtc_units": 0
-   },
-   "flags": [],
-   "quadrant": "low-need-low-funding"
   },
   {
    "fips": "08111",
@@ -4105,6 +4056,55 @@
     }
    ],
    "quadrant": "underserved"
+  },
+  {
+   "fips": "08033",
+   "name": "Dolores County",
+   "region": "Southwest",
+   "population": 2432,
+   "need": {
+    "gap_units_30ami": 31,
+    "gap_units_50ami": 39,
+    "overall_need_score": 26.7,
+    "pct_renter_severe_burdened": 9.1,
+    "gap_per_1000_residents": 12.7,
+    "share_of_state_gap": 0.02
+   },
+   "market": {
+    "active_market_vacancy_pct": 0.6,
+    "raw_rental_vacancy_pct": 3.7,
+    "seasonal_share_of_vacant_pct": 67,
+    "median_gross_rent_acs": 986,
+    "permits_avg_annual_5yr": 6,
+    "projected_need_annual_10yr": -3.5,
+    "production_to_need_ratio": null,
+    "chfa_60ami_max_rent_1br": 1098,
+    "chfa_60ami_max_rent_2br": 1318
+   },
+   "funding": {
+    "tax_credit_awards": 0,
+    "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
+    "lihtc_9pct_units": 0,
+    "federal_9pct_credit_annual": 0,
+    "federal_4pct_credit_annual": 0,
+    "state_credit_annual": 0,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 0,
+    "prop123_dollars": 0,
+    "prop123_units": 0,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 0,
+    "federal_9pct_credit_per_unit_annual": null,
+    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
+    "share_of_state_lihtc_units": 0
+   },
+   "flags": [],
+   "quadrant": "low-need-low-funding"
   },
   {
    "fips": "08103",
@@ -4165,7 +4165,7 @@
    "need": {
     "gap_units_30ami": 17,
     "gap_units_50ami": 0,
-    "overall_need_score": 23.8,
+    "overall_need_score": 24.7,
     "pct_renter_severe_burdened": 7.5,
     "gap_per_1000_residents": 3.8,
     "share_of_state_gap": 0.01
@@ -4364,6 +4364,61 @@
    "quadrant": "low-need-low-funding"
   },
   {
+   "fips": "08027",
+   "name": "Custer County",
+   "region": "Mountains",
+   "population": 5247,
+   "need": {
+    "gap_units_30ami": 114,
+    "gap_units_50ami": 55,
+    "overall_need_score": 22.2,
+    "pct_renter_severe_burdened": 13.4,
+    "gap_per_1000_residents": 21.7,
+    "share_of_state_gap": 0.07
+   },
+   "market": {
+    "active_market_vacancy_pct": 0.2,
+    "raw_rental_vacancy_pct": 2,
+    "seasonal_share_of_vacant_pct": 92.2,
+    "median_gross_rent_acs": 1069,
+    "permits_avg_annual_5yr": 115.4,
+    "projected_need_annual_10yr": 32.6,
+    "production_to_need_ratio": 3.54,
+    "chfa_60ami_max_rent_1br": 1096,
+    "chfa_60ami_max_rent_2br": 1315
+   },
+   "funding": {
+    "tax_credit_awards": 0,
+    "lihtc_units": 0,
+    "round_report_lihtc_units": 0,
+    "bond_deals_outside_rounds": 0,
+    "bond_units_outside_rounds": 0,
+    "lihtc_9pct_units": 0,
+    "federal_9pct_credit_annual": 0,
+    "federal_4pct_credit_annual": 0,
+    "state_credit_annual": 0,
+    "mihtc_credit_annual": 0,
+    "toc_credit_annual": 0,
+    "prop123_awards": 0,
+    "prop123_dollars": 0,
+    "prop123_units": 0,
+    "prop123_mixed_income_dollars": 0,
+    "prop123_homeownership_dollars": 0,
+    "lihtc_units_per_100_gap": 0,
+    "federal_9pct_credit_per_unit_annual": null,
+    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
+    "share_of_state_lihtc_units": 0
+   },
+   "flags": [
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 3.5× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
+    }
+   ],
+   "quadrant": "underserved"
+  },
+  {
    "fips": "08009",
    "name": "Baca County",
    "region": "Eastern Plains",
@@ -4413,26 +4468,26 @@
    "quadrant": "low-need-low-funding"
   },
   {
-   "fips": "08027",
-   "name": "Custer County",
-   "region": "Mountains",
-   "population": 5247,
+   "fips": "08017",
+   "name": "Cheyenne County",
+   "region": "Eastern Plains",
+   "population": 1741,
    "need": {
-    "gap_units_30ami": 114,
-    "gap_units_50ami": 55,
+    "gap_units_30ami": 7,
+    "gap_units_50ami": 0,
     "overall_need_score": 20.6,
-    "pct_renter_severe_burdened": 13.4,
-    "gap_per_1000_residents": 21.7,
-    "share_of_state_gap": 0.07
+    "pct_renter_severe_burdened": 12.9,
+    "gap_per_1000_residents": 4,
+    "share_of_state_gap": 0
    },
    "market": {
-    "active_market_vacancy_pct": 0.2,
-    "raw_rental_vacancy_pct": 2,
-    "seasonal_share_of_vacant_pct": 92.2,
-    "median_gross_rent_acs": 1069,
-    "permits_avg_annual_5yr": 115.4,
-    "projected_need_annual_10yr": 32.6,
-    "production_to_need_ratio": 3.54,
+    "active_market_vacancy_pct": 2.7,
+    "raw_rental_vacancy_pct": 1.8,
+    "seasonal_share_of_vacant_pct": 11.9,
+    "median_gross_rent_acs": 926,
+    "permits_avg_annual_5yr": 6.8,
+    "projected_need_annual_10yr": -0.2,
+    "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -4460,12 +4515,11 @@
    },
    "flags": [
     {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 3.5× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
-     "tax_credit_share_of_permits_pct": 0
+     "id": "high-vacancy",
+     "text": "Active-market vacancy 2.7%, in the loosest quarter of Colorado counties (≥ 2.4%)"
     }
    ],
-   "quadrant": "underserved"
+   "quadrant": "low-need-low-funding"
   },
   {
    "fips": "08073",
@@ -4475,7 +4529,7 @@
    "need": {
     "gap_units_30ami": 5,
     "gap_units_50ami": 0,
-    "overall_need_score": 20.6,
+    "overall_need_score": 19.8,
     "pct_renter_severe_burdened": 20.9,
     "gap_per_1000_residents": 0.9,
     "share_of_state_gap": 0
@@ -4515,55 +4569,6 @@
    },
    "flags": [],
    "quadrant": "funded-above-need"
-  },
-  {
-   "fips": "08121",
-   "name": "Washington County",
-   "region": "Eastern Plains",
-   "population": 4831,
-   "need": {
-    "gap_units_30ami": 61,
-    "gap_units_50ami": 0,
-    "overall_need_score": 19.9,
-    "pct_renter_severe_burdened": 14.3,
-    "gap_per_1000_residents": 12.6,
-    "share_of_state_gap": 0.04
-   },
-   "market": {
-    "active_market_vacancy_pct": 2.3,
-    "raw_rental_vacancy_pct": 3,
-    "seasonal_share_of_vacant_pct": 10.1,
-    "median_gross_rent_acs": 947,
-    "permits_avg_annual_5yr": 3.4,
-    "projected_need_annual_10yr": -0.7,
-    "production_to_need_ratio": null,
-    "chfa_60ami_max_rent_1br": 1096,
-    "chfa_60ami_max_rent_2br": 1315
-   },
-   "funding": {
-    "tax_credit_awards": 0,
-    "lihtc_units": 0,
-    "round_report_lihtc_units": 0,
-    "bond_deals_outside_rounds": 0,
-    "bond_units_outside_rounds": 0,
-    "lihtc_9pct_units": 0,
-    "federal_9pct_credit_annual": 0,
-    "federal_4pct_credit_annual": 0,
-    "state_credit_annual": 0,
-    "mihtc_credit_annual": 0,
-    "toc_credit_annual": 0,
-    "prop123_awards": 0,
-    "prop123_dollars": 0,
-    "prop123_units": 0,
-    "prop123_mixed_income_dollars": 0,
-    "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 0,
-    "federal_9pct_credit_per_unit_annual": null,
-    "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
-    "share_of_state_lihtc_units": 0
-   },
-   "flags": [],
-   "quadrant": "low-need-low-funding"
   },
   {
    "fips": "08061",
@@ -4617,25 +4622,25 @@
    "quadrant_unavailable_reason": "the measured ≤30% AMI gap is zero"
   },
   {
-   "fips": "08017",
-   "name": "Cheyenne County",
+   "fips": "08121",
+   "name": "Washington County",
    "region": "Eastern Plains",
-   "population": 1741,
+   "population": 4831,
    "need": {
-    "gap_units_30ami": 7,
+    "gap_units_30ami": 61,
     "gap_units_50ami": 0,
-    "overall_need_score": 19,
-    "pct_renter_severe_burdened": 12.9,
-    "gap_per_1000_residents": 4,
-    "share_of_state_gap": 0
+    "overall_need_score": 19.1,
+    "pct_renter_severe_burdened": 14.3,
+    "gap_per_1000_residents": 12.6,
+    "share_of_state_gap": 0.04
    },
    "market": {
-    "active_market_vacancy_pct": 2.7,
-    "raw_rental_vacancy_pct": 1.8,
-    "seasonal_share_of_vacant_pct": 11.9,
-    "median_gross_rent_acs": 926,
-    "permits_avg_annual_5yr": 6.8,
-    "projected_need_annual_10yr": -0.2,
+    "active_market_vacancy_pct": 2.3,
+    "raw_rental_vacancy_pct": 3,
+    "seasonal_share_of_vacant_pct": 10.1,
+    "median_gross_rent_acs": 947,
+    "permits_avg_annual_5yr": 3.4,
+    "projected_need_annual_10yr": -0.7,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -4662,12 +4667,7 @@
     "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
     "share_of_state_lihtc_units": 0
    },
-   "flags": [
-    {
-     "id": "high-vacancy",
-     "text": "Active-market vacancy 2.7%, in the loosest quarter of Colorado counties (≥ 2.4%)"
-    }
-   ],
+   "flags": [],
    "quadrant": "low-need-low-funding"
   },
   {
@@ -4678,7 +4678,7 @@
    "need": {
     "gap_units_30ami": 8,
     "gap_units_50ami": 0,
-    "overall_need_score": 9.6,
+    "overall_need_score": 8.1,
     "pct_renter_severe_burdened": 3.8,
     "gap_per_1000_residents": 8,
     "share_of_state_gap": 0.01

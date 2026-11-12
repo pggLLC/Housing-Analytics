@@ -41,6 +41,7 @@ with open(_HNA_CONSTANTS_PATH, 'r', encoding='utf-8') as _f:
 
 # Diagnostics module - imported lazily to keep startup fast
 sys.path.insert(0, os.path.dirname(__file__))
+from sdo_sources import fetch_newest as fetch_newest_sdo  # noqa: E402
 try:
     import acs_debug_tools as _acs_diag
 except ImportError:
@@ -2407,7 +2408,10 @@ def build_dola_sya_by_county():
     cache_path = os.path.join(OUT['cache_dir'], 'dola_sya_county.csv')
     
     print('Downloading DOLA/SDO single-year-of-age county file...')
-    status, text = http_get_text(url, timeout=120, retries=3)
+    # The newest vintage SDO publishes: sya.json (5-year groups) when it is
+    # newer than sya-county.csv, split into single years (sdo_sources.py).
+    text, _src, _v = fetch_newest_sdo('sya', OUT['cache_dir'])
+    status = 200 if text else 0
     
     if status != 200:
         # Download failed; try cache
@@ -2554,6 +2558,9 @@ def build_dola_sya_by_county():
 
 SDO_HOUSEHOLD_FORECAST_URL = 'https://storage.googleapis.com/co-publicdata/household-county.csv'
 HOUSEHOLD_METHOD_FORECAST = 'sdo_household_forecast'
+# Where this run's SDO files came from (sdo_sources.fetch_newest); the
+# statewide file records the same sources as the county files.
+SDO_RUN_SOURCES: dict = {}
 HOUSEHOLD_METHOD_HEADSHIP = 'constant_headship'
 
 
@@ -2689,7 +2696,8 @@ def build_dola_projections_by_county():
     hh_cache = os.path.join(OUT['cache_dir'], 'dola_household_county.csv')
 
     print('Downloading DOLA/SDO county components-of-change...')
-    comp_text = fetch_csv_with_cache(url_components, comp_cache, 'county components-of-change')
+    comp_text, comp_src, comp_vintage = fetch_newest_sdo('components', OUT['cache_dir'])
+    url_components = comp_src or url_components
     if comp_text is None:
         return
 
@@ -2762,7 +2770,10 @@ def build_dola_projections_by_county():
                     continue
 
     print('Downloading DOLA/SDO county household projections...')
-    hh_text = fetch_csv_with_cache(SDO_HOUSEHOLD_FORECAST_URL, hh_cache, 'county household projections')
+    hh_text, hh_src, hh_vintage = fetch_newest_sdo('households', OUT['cache_dir'])
+    households_url = hh_src or SDO_HOUSEHOLD_FORECAST_URL
+    SDO_RUN_SOURCES.update({'components_change_url': url_components, 'components_vintage': comp_vintage,
+                            'households_url': households_url, 'households_vintage': hh_vintage})
     household_forecast: dict[str, dict[int, float]] = parse_sdo_household_forecast(hh_text) if hh_text else {}
     if not household_forecast:
         print("⚠ County household projections unavailable; the household series falls back to the constant base-year headship rate", file=sys.stderr)
@@ -3051,7 +3062,9 @@ def build_dola_projections_by_county():
             'source': {
                 'components_change_url': url_components,
                 'profiles_url': url_profiles,
-                'households_url': SDO_HOUSEHOLD_FORECAST_URL,
+                'households_url': households_url,
+                'components_vintage': comp_vintage,
+                'households_vintage': hh_vintage,
                 'notes': ('Population and net migration from county components-of-change; '
                           'base-year households/units/vacancy from county profiles; '
                           'households after the base year move by the SDO county household '
@@ -3239,9 +3252,11 @@ def _build_state_projection_aggregate():
             'incremental_units_needed_dola': incremental_units_needed_dola,
         },
         'source': {
-            'components_change_url': 'https://storage.googleapis.com/co-publicdata/components-change-county.csv',
+            'components_change_url': SDO_RUN_SOURCES.get('components_change_url', 'https://storage.googleapis.com/co-publicdata/components-change-county.csv'),
             'profiles_url': 'https://storage.googleapis.com/co-publicdata/profiles-county.csv',
-            'households_url': SDO_HOUSEHOLD_FORECAST_URL,
+            'households_url': SDO_RUN_SOURCES.get('households_url', SDO_HOUSEHOLD_FORECAST_URL),
+            'components_vintage': SDO_RUN_SOURCES.get('components_vintage'),
+            'households_vintage': SDO_RUN_SOURCES.get('households_vintage'),
             'notes': (
                 'Colorado statewide aggregate: sum of all 64 county projections. '
                 'Population and net migration from county components-of-change; '

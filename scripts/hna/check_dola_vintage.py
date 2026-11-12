@@ -57,9 +57,21 @@ MIN_MATCHED = 60
 
 
 def fetch_forecast() -> list[list[str]]:
-    req = urllib.request.Request(FORECAST_URL, headers={'User-Agent': 'Mozilla/5.0'})
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        text = resp.read().decode('utf-8', errors='replace')
+    """SDO's newest county components file, wherever SDO posted it.
+
+    Since Vintage 2025 SDO's data-page workbook can be newer than the bucket
+    CSV at FORECAST_URL; sdo_sources picks the newest (written to a scratch
+    folder, so this check never touches the build's cache).
+    """
+    import tempfile
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from sdo_sources import fetch_newest
+    with tempfile.TemporaryDirectory() as tmp:
+        text, _url, _v = fetch_newest('components', tmp)
+    if not text:
+        req = urllib.request.Request(FORECAST_URL, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            text = resp.read().decode('utf-8', errors='replace')
     return list(csv.reader(io.StringIO(text)))
 
 
