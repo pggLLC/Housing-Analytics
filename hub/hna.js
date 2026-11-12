@@ -2468,7 +2468,7 @@
       aside: '<div class="place-tools">' + strength + geoKey(String(geoid).length === 5, county) +
         '<div class="actions"><a class="button-link" href="' + esc(Pl.useHref(entry)) + '">Use in project</a></div></div>'
     }) +
-      lifted.strip + (tab === 'overview' ? stepPath(false, null, geoid) : '') + nav + '<h2 class="tab-title">' + esc(current.title) + '</h2>' + focusTables(lifted.body) + downloads(geoid, entry) + (tab === 'overview' ? shareCard(entry, place, county, locator(geoid, entry.label, fips, county, shared.data.counties)) : '') + nextStep(geoid, tab, entry) +
+      lifted.strip + stepPath(false, null, geoid) + nav + '<h2 class="tab-title">' + esc(current.title) + '</h2>' + focusTables(lifted.body) + downloads(geoid, entry) + (tab === 'overview' ? shareCard(entry, place, county, locator(geoid, entry.label, fips, county, shared.data.counties)) : '') + nextStep(geoid, tab, entry) +
       (global.LabStrength ? global.LabStrength.footnote() : '') +
       '<p class="note">Census figures are survey estimates with margins of error, which are wide for small places. Each figure names its agency, dataset and year. ' +
       '<a href="' + esc(current.live ? Pl.LIVE + current.live + '?geoid=' + geoid : entry.href) + '">This chapter in full on cohoanalytics.com</a>.</p>';
