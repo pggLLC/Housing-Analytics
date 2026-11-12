@@ -64,7 +64,7 @@
     other_excise_tax: 'Other excise tax', linkage_fee: 'Linkage / housing impact fee', in_lieu_fee: 'Inclusionary fee in lieu',
     real_estate_transfer_tax: 'Real estate transfer tax', land_bank_or_public_land: 'Land banking or public land',
     community_land_trust: 'Community land trust', shared_equity_or_deed_restriction: 'Shared equity or deed-restriction purchase',
-    housing_authority: 'Housing authority funding', tax_increment_or_urban_renewal: 'Tax increment / urban renewal', other: 'Other local funding'
+    housing_authority: 'Housing authority funding', tax_increment_or_urban_renewal: 'Tax increment / urban renewal', local_housing_bond: 'Local housing bond', other: 'Other local funding'
   };
 
   // City-and-county governments are one jurisdiction with two geoids.

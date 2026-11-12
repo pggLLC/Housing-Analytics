@@ -16,7 +16,8 @@
     coverage: 'data/policy/incentive-coverage.json',
     prop123: 'data/policy/prop123_jurisdictions.json',
     alternatives: 'data/policy/incentive-alternatives.json',
-    peerProfiles: 'data/policy/incentive-peer-profiles.json'
+    peerProfiles: 'data/policy/incentive-peer-profiles.json',
+    taxRoutes: 'data/policy/tax-exemption-routes.json'
   };
 
   var STATE_TEXT = {
@@ -348,6 +349,86 @@
     return null;
   }
 
+
+  // ── County and regional money a town can also use ──────────────────────
+  // A municipality's own list holds only its own records; a county-wide or
+  // regional fund (for example a county housing catalyst fund) applies too.
+  function renderCountyFunds(model, p) {
+    if (p.kind === 'county' || !p.county) return '';
+    if (global.LocalIncentivesData.CONSOLIDATED[p.county] === p.geoid) return '';
+    var cp = model.profile(p.county);
+    if (!cp) return '';
+    var D = global.LocalIncentivesData;
+    var all = cp.items.filter(function (i) { return i.scope === 'funds'; }).map(function (i) { return i.record; });
+    // A county record limited to unincorporated land does not reach a town.
+    var unincorporatedOnly = function (r) { return /unincorporated/i.test([r.summary, r.uses, r.rate_text].join(' ')); };
+    var items = all.filter(function (r) { return !unincorporatedOnly(r); });
+    var skipped = all.length - items.length;
+    var body = items.length ? '<ul class="li-list">' + items.map(function (r) {
+      return '<li><strong>' + esc(D.FUND_TOOL_LABELS[r.tool] || r.tool) + ':</strong> ' + esc(r.jurisdiction) + '. ' + esc(r.summary || '') +
+        ' <span class="li-meta">' + sourceLink(r) + (r.last_verified ? ', checked ' + esc(longDate(r.last_verified)) : '') + '</span></li>';
+    }).join('') + '</ul>'
+      : '<p class="li-muted">' + (all.length ? 'None that reaches towns.' : esc(STATE_TEXT[cp.states.funds]) + ' for ' + esc(cp.name) + '.') + '</p>';
+    var left = skipped ? '<p class="li-muted">' + skipped + ' ' + esc(cp.name) + ' record' + (skipped > 1 ? 's cover' : ' covers') + ' only unincorporated land and ' + (skipped > 1 ? 'are' : 'is') + ' left out.</p>' : '';
+    return '<section class="li-block" aria-labelledby="li-cfunds-h"><h3 id="li-cfunds-h">County and regional money to check</h3>' +
+      '<p class="li-meta"><a href="#j=' + esc(cp.geoid) + '" data-li-jump="' + esc(cp.geoid) + '">' + esc(cp.name) + '</a> records that may also fund projects in ' + esc(p.name) + '. Each program sets its own rules, so confirm eligibility with it.</p>' + body + left + '</section>';
+  }
+
+  // ── Property tax exemption: housing authority route and assessor record ─
+  var ROUTE_TEXT = { ownership: 'Housing authority owns it', ground_lease: 'Leased to the housing authority', master_lease: 'Master lease to the housing authority', gp_member: 'Housing authority holds an ownership interest' };
+  var OUTCOME_TEXT = { granted: 'Exempt', denied: 'Denied', pilot: 'Payment in lieu of tax', appealed: 'Appealed' };
+
+  function renderTaxExemption(model, p) {
+    var doc = model.taxRoutes;
+    var head = '<section class="li-block" aria-labelledby="li-tax-h"><h3 id="li-tax-h">Property tax exemption</h3>';
+    var rule = doc && doc.meta && doc.meta.rule ? '<p>' + esc(doc.meta.rule) + '</p>' : '';
+    if (!doc || !Array.isArray(doc.entries)) return head + '<p class="li-muted">The exemption file could not be loaded.</p></section>';
+    var subject = p.inheritsFrom || p.geoid;
+    var byId = {};
+    doc.entries.forEach(function (e) { byId[e.geoid] = e; });
+    var own = byId[subject];
+    var county = byId[(own && own.county_geoid) || p.county || subject];
+    if (!own && !county) {
+      return head + rule + '<p class="li-muted">Not researched yet for ' + esc(p.name) + '. The statewide routes still apply: a project owned by or leased to a housing authority, or owned by a partnership in which one holds an interest, can be exempt (C.R.S. 29-4-227), and a nonprofit owner can apply for the charitable exemption (C.R.S. 39-3-112).</p></section>';
+    }
+    var statutes = {};
+    (doc.meta.statutes || []).forEach(function (s) { statutes[s.id] = s; });
+    var routes = (own && own.ha_routes && own.ha_routes.length ? own.ha_routes : (county && county.ha_routes) || []);
+    var routeList = routes.length ? '<ul class="li-list">' + routes.map(function (r) {
+      var cites = (r.statute_ids || []).map(function (id) {
+        var s = statutes[id];
+        return s ? '<a href="' + esc(safeUrl(s.source.url) || '') + '" target="_blank" rel="noopener">' + esc(s.citation) + '</a>' : '';
+      }).join(', ');
+      return '<li><strong>' + esc(ROUTE_TEXT[r.route] || r.route) + '.</strong> ' + esc(r.label) + (r.authority ? ' (' + esc(r.authority) + ')' : '') + '. ' + cites +
+        (r.precedents && r.precedents.length ? ' <span class="li-meta">' + r.precedents.length + ' exempt project' + (r.precedents.length > 1 ? 's' : '') + ' on record.</span>' : '') + '</li>';
+    }).join('') + '</ul>' : '<p class="li-muted">No housing authority route recorded yet.</p>';
+    var a = county && county.assessor;
+    var hist = '';
+    if (!a || a.status === 'not_researched') {
+      hist = '<p class="li-muted">The county assessor\'s record on housing exemptions has not been researched yet.</p>';
+    } else if (!a.history.length) {
+      hist = '<p class="li-muted">' + esc(a.office) + ': checked, no housing exemption found in the records read.</p>';
+    } else {
+      hist = '<div class="data-table li-stack"><table aria-label="Assessor record on housing exemptions"><thead><tr>' +
+        th('Project', 'The owner shown on the assessor record, and its account number.') + th('Year', 'The tax year the record shows.') +
+        th('Result', 'What the record shows: exempt, denied, payment in lieu of tax, or appealed, with the exempt share where shown.') +
+        th('Record line', 'The words on the assessor record this row rests on.') + '</tr></thead><tbody>' +
+        a.history.map(function (h) {
+          return '<tr><th scope="row">' + esc(h.project) + '<br><span class="li-muted">' + esc(h.account) + '</span></th><td>' + esc(h.year) + '</td>' +
+            '<td>' + esc(OUTCOME_TEXT[h.outcome] || h.outcome) + (h.exempt_share ? ', ' + esc(h.exempt_share) : '') + '</td>' +
+            '<td><q>' + esc(h.quote) + '</q><br><span class="li-muted">' + esc(h.exemption_type || '') + '</span></td></tr>';
+        }).join('') + '</tbody></table></div>' +
+        '<p class="li-meta">Source: <a href="' + esc(safeUrl(a.url) || '') + '" target="_blank" rel="noopener">' + esc(a.office) + '</a> public records (guest login, search by account), checked ' + esc(longDate(county.checked)) + '.</p>';
+    }
+    var notes = [own, county].filter(function (e, i, arr) { return e && e.note && arr.indexOf(e) === i; })
+      .map(function (e) { return '<p class="li-muted">' + esc(e.note) + '</p>'; }).join('');
+    var np = (own || county).nonprofit_exemption;
+    var who = '<p><strong>Who to call:</strong> the ' + esc(a ? a.office : 'county assessor') + ' for the exempt share on a housing authority deal' +
+      (np ? '; the <a href="' + esc(safeUrl(np.url) || '') + '" target="_blank" rel="noopener">' + esc(np.office) + '</a> for a nonprofit owner' : '') +
+      '. Named contacts are on the member site.</p>';
+    return head + rule + '<h4>Routes</h4>' + routeList + '<h4>' + esc(county ? county.name : p.name) + ' assessor record</h4>' + hist + who + notes + '</section>';
+  }
+
   function renderJurisdiction(model, geoid, target) {
     var p = model.profile(geoid);
     if (!p) { target.innerHTML = '<p>Choose a county, city or town.</p>'; return; }
@@ -359,6 +440,7 @@
     target.innerHTML = '<h2 id="li-j-name" style="margin-top:0;">' + esc(p.name) + '</h2>' +
       '<p class="li-meta">' + esc(kind) + (countyName ? ' · ' + esc(countyName) : '') + '</p>' + inherits +
       renderProp123(model, p) + renderFees(p) + renderList(p, 'land_use') + renderList(p, 'funds') +
+      renderCountyFunds(model, p) + renderTaxExemption(model, p) +
       renderRequired(model, geoid) + renderPeers(model, geoid) + renderAlternatives(model, geoid) + links;
   }
 
@@ -458,6 +540,7 @@
       var D = global.LocalIncentivesData;
       var model = D.build(byKey);
       model.SCOPES = D.SCOPES;
+      model.taxRoutes = byKey.taxRoutes;
       renderSummary(model, root.querySelector('[data-li-summary]'));
       renderToolkit(model, root.querySelector('[data-li-toolkit]'));
       renderCatalog(byKey.alternatives, root.querySelector('[data-li-catalog]'), byKey.fees);

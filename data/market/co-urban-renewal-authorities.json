@@ -138,7 +138,12 @@
       "jurisdiction": "City of Durango",
       "url": "https://www.durangogov.org/3170/Urban-Renewal-Authority",
       "active_plans": ["North Main Corridor", "Downtown"],
-      "housing_in_mission": true
+      "housing_in_mission": true,
+      "also_known_as": "Durango Renewal Partnership",
+      "housing_set_aside": null,
+      "housing_money_checked": "2026-11-12",
+      "housing_money_note": "No housing set-aside or housing dollar amount found. The February 2020 formation plan says the Partnership \"may create incentives for affordable housing projects or require that a certain number of units in a tax increment financed housing development are reserved for residents earning below the area median income\", but sets no share. The city's urban renewal page at the url above no longer loads (checked 2026-11-12), so current plan budgets were not read.",
+      "housing_money_sources": ["https://downtowncoloradoinc.org/wp-content/uploads/2024/03/attachments-original-1646604829-Durango_Renewal_Partnership_Formation_Report_and_Support_Documents_2.26.20.pdf"]
     },
     {
       "name": "Steamboat Springs Redevelopment Authority",

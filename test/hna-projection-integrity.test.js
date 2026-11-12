@@ -750,7 +750,7 @@ async function assertRealDataReconciliation() {
   const countyHeadline = document.getElementById('statUnitsNeed').textContent;
   const countyTrace = document.getElementById('projectionCalculationTraceBody').textContent;
   assert(countyTrace.includes(countyHeadline), 'Real county trace reconciles to the displayed headline');
-  assert(countyTrace.includes('190,165'), 'Real county trace pins the projected population used');
+  assert(countyTrace.includes('190,002'), 'Real county trace pins the projected population used (SDO Vintage 2025, Mesa 2044)');
   // Under the default option the county calculator reads the committed file's
   // stored household series, so the households, the rate they imply and the
   // vacancy-adjusted units are pinned to that file rather than to constants:

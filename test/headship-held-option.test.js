@@ -90,16 +90,19 @@ for (const b of Object.values(baselines)) {
     assert(Math.abs(r.population - def[i].population) < 1e-9, `${b.name} ${r.year}: the people are the same`);
   });
 }
-// Douglas: SDO lowers every rate, so holding 2024's adds households; Larimer:
-// SDO raises some, so holding them gives fewer.
+// Douglas: SDO lowers every rate, so holding 2024's adds households; Fremont:
+// SDO raises three of its four, so holding them gives fewer. (In SDO's Vintage
+// 2023 forecast the gaps were larger: Douglas over 20,000, Larimer over 5,000
+// fewer. Vintage 2025 changes rates less, and lowers all of Larimer's.)
 {
   const added = (geoid, params) => {
     const rows = M.project(baselines[geoid], params);
     return rows[20].households - rows[0].households;
   };
   assert(baselines['08035'].households.ratesByYear[20].every((v, g) => v < baselines['08035'].households.ratesByYear[0][g]), 'Douglas: SDO lowers every rate');
-  assert(added('08035', { headship: 'held' }) - added('08035', {}) > 20000, 'Douglas: held adds over 20,000 households by 2044');
-  assert(added('08069', { headship: 'held' }) - added('08069', {}) < -5000, 'Larimer: held gives over 5,000 fewer');
+  assert(added('08035', { headship: 'held' }) - added('08035', {}) > 3000, 'Douglas: held adds over 3,000 households by 2044');
+  assert(baselines['08043'].households.ratesByYear[20].filter((v, g) => v > baselines['08043'].households.ratesByYear[0][g]).length >= 3, 'Fremont: SDO raises three of four rates');
+  assert(added('08043', { headship: 'held' }) - added('08043', {}) < -150, 'Fremont: held gives over 150 fewer');
 }
 
 // 2. The page.
@@ -138,7 +141,9 @@ const mesaData = { baselines: { '08077': baselines['08077'] }, projections: proj
     `held: "${$('sbHeadshipHelp').textContent}"`);
   const custom = SB.getResults().custom;
   const baseline = SB.getResults().baseline;
-  assert(custom[20].homesNeeded < sdoHomes - 1000, `Mesa: held, fewer homes (${Math.round(custom[20].homesNeeded)} against ${Math.round(sdoHomes)})`);
+  // SDO's Vintage 2025 lowers Mesa's rates (Vintage 2023 raised them), so
+  // holding 2024's needs more homes.
+  assert(custom[20].homesNeeded > sdoHomes + 1000, `Mesa: held, more homes (${Math.round(custom[20].homesNeeded)} against ${Math.round(sdoHomes)})`);
   assert.equal(baseline[20].homesNeeded, sdoHomes, 'SDO\'s line stays SDO\'s');
   assert(Math.abs(custom[20].population - baseline[20].population) < 1e-6, 'the people are the same');
   assert.equal(w.document.querySelector('.sb-scenario-btn.active'), null, 'no preset is marked as chosen');
@@ -173,7 +178,7 @@ const mesaData = { baselines: { '08077': baselines['08077'] }, projections: proj
   load({ geoid: '08035', name: 'Douglas County', type: 'county' }, { baselines: { '08035': baselines['08035'] }, projections: projections('08035') });
   assert.equal(heldRadio().checked, true, 'the choice carries to the next place');
   assert(/^Douglas County’s 2024 households per person/.test($('sbHeadshipHelp').textContent), 'and describes it');
-  assert(SB.getResults().custom[20].homesNeeded > SB.getResults().baseline[20].homesNeeded + 20000, 'Douglas: held, over 20,000 more homes');
+  assert(SB.getResults().custom[20].homesNeeded > SB.getResults().baseline[20].homesNeeded + 3000, 'Douglas: held, over 3,000 more homes');
   $('sbClearResults').dispatchEvent(new w.Event('click'));
   assert.equal(heldRadio().checked, false, 'Reset goes back to SDO\'s rates');
 }

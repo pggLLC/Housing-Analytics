@@ -199,7 +199,7 @@ function choose(value) {
   assert(Math.abs(custom[20].homesNeeded - want[20].homesNeeded) < 1e-9, 'the scenario runs on shares by age');
   assert(Math.abs(custom[20].homesNeeded - hnaHomes) > 100, `and differs from the HNA page's share (${Math.round(custom[20].homesNeeded)} against ${Math.round(hnaHomes)})`);
   assert.equal(base[20].homesNeeded, hnaHomes, 'SDO\'s line keeps the HNA page\'s share');
-  assert.equal(custom[0].population, ctx.placePop, 'the town starts from its own population');
+  assert(Math.abs(custom[0].population - ctx.placePop) < 1e-6, `the town starts from its own population (${custom[0].population} against ${ctx.placePop}; shares by age can leave a rounding remainder)`);
   assert.equal(w.document.querySelector('.sb-scenario-btn.active'), null, 'no preset is marked as chosen');
   assert.equal($('sbLiveRegion').textContent, `Scenario updated. ${$('sbKeyHomesLabel').textContent}: ${$('sbKeyHomes').textContent}. ${$('sbKeyPopLabel').textContent}: ${$('sbKeyPop').textContent}.`,
     'a screen reader hears the new figures');

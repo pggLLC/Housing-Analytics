@@ -34,7 +34,7 @@ FUND_TOOLS = {
     'housing_trust_fund', 'dedicated_sales_tax', 'dedicated_property_tax', 'lodging_or_str_tax',
     'other_excise_tax', 'linkage_fee', 'in_lieu_fee', 'real_estate_transfer_tax',
     'land_bank_or_public_land', 'community_land_trust', 'shared_equity_or_deed_restriction',
-    'housing_authority', 'tax_increment_or_urban_renewal', 'other',
+    'housing_authority', 'tax_increment_or_urban_renewal', 'local_housing_bond', 'other',
 }
 FUND_STATUS = {'adopted', 'repealed', 'expired', 'ballot_failed'}
 PROVIDERS = {'city', 'county', 'town', 'special_district', 'housing_authority', 'regional'}

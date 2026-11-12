@@ -1,0 +1,17 @@
+{
+  "components": {
+    "cache": "dola_components_county.csv",
+    "url": "https://drive.google.com/uc?export=download&id=1Xcrd4F_Mo3UaPpnEK7bDj-VBdMI0woLr",
+    "vintage": 2025
+  },
+  "households": {
+    "cache": "dola_household_county.csv",
+    "url": "https://drive.google.com/uc?export=download&id=1-5ZhxqImanfb_LweMyTDqlARSsJFjkFP",
+    "vintage": 2025
+  },
+  "sya": {
+    "cache": "dola_sya_county.csv",
+    "url": "https://storage.googleapis.com/co-publicdata/sya.json",
+    "vintage": 2025
+  }
+}

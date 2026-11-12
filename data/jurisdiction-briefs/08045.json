@@ -262,7 +262,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Garfield County at #170 with an overall housing-need score of 56.4. It identifies 821 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 53.9% of <=30% AMI households. 46.2% of renter households are cost burdened, and 2% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Garfield County at #174 with an overall housing-need score of 55.6. It identifies 821 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 53.9% of <=30% AMI households. 46.2% of renter households are cost burdened, and 2% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -282,7 +282,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 62,479. LEHD-based commuting signals show 7,496 in-commuters and a commute ratio of 32%. The digest's 20-year figure is 10,051 homes. Projected resident growth gives 9,404. Today's in-commuters give 647: homes for a quarter of the households, at or below 120% AMI, of the people who commute into Garfield County, if they moved closer.",
+          "text": "Demographics and demand: the population metric is 62,479. LEHD-based commuting signals show 7,496 in-commuters and a commute ratio of 32%. The digest's 20-year figure is 7,863 homes. Projected resident growth gives 7,216. Today's in-commuters give 647: homes for a quarter of the households, at or below 120% AMI, of the people who commute into Garfield County, if they moved closer.",
           "cites": [
             "d11",
             "d12",
@@ -620,7 +620,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-11-12T13:37:38Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -629,7 +629,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-11-12T13:37:38Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -764,7 +764,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-11-12T13:37:38Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -773,7 +773,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-11-12T13:37:38Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -782,7 +782,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-09T11:57:59Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-11-12T13:37:38Z)",
       "url": "data/hna/jurisdiction-metrics-digest/08045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

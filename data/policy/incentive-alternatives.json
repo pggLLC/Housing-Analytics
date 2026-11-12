@@ -792,6 +792,83 @@
       }
     },
     {
+      "id": "local_housing_bond",
+      "label": "Local housing bond (town, county or housing authority debt)",
+      "family": "local_revenue",
+      "what_it_is": "A town, county or housing authority borrows for housing: a general obligation bond repaid from taxes, or a revenue bond repaid from project or authority revenue. Proceeds can buy land, build homes or lend to projects.",
+      "colorado_status": "authorized_with_voter_approval",
+      "status_reason": "TABOR art. X, section 20(4)(b) requires voter approval in advance for a town or county to create multiple-fiscal year debt, except refinancing at a lower rate or debt backed by cash reserves pledged irrevocably. A housing authority may borrow on its own bonds under C.R.S. 29-4-209(1)(o), and C.R.S. 29-4-227(1)(a) makes its bonds tax-exempt public instruments.",
+      "legal_basis": [
+        {
+          "citation": "Colo. Const. art. X, section 20(4)(b) (TABOR required elections)",
+          "source": {
+            "label": "Colorado Constitution Art. X, section 20 text (reproduced by Independence Institute, Appendix E PDF)",
+            "url": "https://www.i2i.org/wp-content/uploads/2011/02/appendixE-1.pdf"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "Independence Institute (i2i.org) reproduction of Colo. Const. art. X, section 20",
+            "against": "constitutional text as reproduced in the i2i Appendix E PDF",
+            "checked": "2026-11-12"
+          },
+          "evidence": [
+            {
+              "section": "(4)",
+              "quote": "districts must have voter approval in advance for:"
+            },
+            {
+              "section": "(4)(b)",
+              "quote": "Except for refinancing district bonded debt at a lower interest rate or adding new employees to existing district pension plans, creation of any multiple-fiscal year direct or indirect district debt or other financial obligation whatsoever without adequate present cash reserves pledged irrevocably and held for payments in all future fiscal years."
+            }
+          ]
+        },
+        {
+          "citation": "C.R.S. 29-4-209(1)(o) (housing authority powers: bonds)",
+          "source": {
+            "label": "C.R.S. 29-4-209 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_29-4-209"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-11-12"
+          },
+          "evidence": [
+            {
+              "section": "(1)(o)",
+              "quote": "To borrow money upon its bonds, notes, debentures, or other evidences of indebtedness, and to secure the same by pledges of its revenues"
+            }
+          ]
+        },
+        {
+          "citation": "C.R.S. 29-4-227(1)(a) (housing authority tax exemption)",
+          "source": {
+            "label": "C.R.S. 29-4-227 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+            "url": "https://colorado.public.law/statutes/crs_29-4-227"
+          },
+          "verification": {
+            "level": "reported",
+            "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+            "against": "statute text as reproduced by colorado.public.law",
+            "checked": "2026-11-12"
+          },
+          "evidence": [
+            {
+              "section": "(1)(a)",
+              "quote": "Bonds, notes, debentures, and other evidences of indebtedness of an authority are declared to be issued for a public purpose and to be public instruments, and, together with interest thereon, are exempt from taxes."
+            }
+          ]
+        }
+      ],
+      "considerations": "A local government's share of the state private activity bond cap is a state allocation for tax-exempt project bonds, not local money, and is shown separately. A voter-approved bond needs a November ballot question and a repayment source.",
+      "maps_to": {
+        "funds_tool": [
+          "local_housing_bond"
+        ]
+      }
+    },
+    {
       "id": "expedited_review",
       "label": "Expedited review (Prop 123 fast-track)",
       "family": "land_use",
