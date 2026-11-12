@@ -41,7 +41,7 @@
   var ITEM_LABELS = {
     tracts:      'Census tracts selected and justified',
     analyst:     'CHFA-approved market analyst engaged',
-    approval:    'PMA boundary approved by CHFA',
+    approval:    "Analyst has contacted CHFA's Staff Appraiser",
     demand:      'Income-qualified demand analysis complete',
     capture:     'Proposed-project capture rate calculated',
     competitive: 'Competitive property impact assessed',
