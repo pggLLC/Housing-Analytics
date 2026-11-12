@@ -363,7 +363,10 @@
   // (arrow keys scroll it) and carry a name. The name is the table's own caption, tags removed.
   function focusTables(html) {
     return html.replace(/<div class="table-scroll"><table><caption>([\s\S]*?)<\/caption>/g, function (all, cap) {
-      var name = cap.replace(/<[^>]*>/g, '').replace(/"/g, '&quot;').trim();
+      // Strip tags until none are left, then escape what remains, since it goes into an attribute.
+      var name = cap, prev;
+      do { prev = name; name = name.replace(/<[^>]*>/g, ''); } while (name !== prev);
+      name = name.replace(/[<>"]/g, function (c) { return { '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }).trim();
       return '<div class="table-scroll" role="region" tabindex="0" aria-label="' + name + '"><table><caption>' + cap + '</caption>';
     });
   }
