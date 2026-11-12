@@ -81,7 +81,15 @@ window.resolveAssetUrl = function (p) { return p; };
   function leave(hash) { return carries(hash) ? null : (page(hash) || '#/places'); }
   // Points every in-page lab link at what this site carries; a link with nowhere to go is left out
   // (a button) or kept as plain text (a link inside a sentence).
+  // The Spanish link sends the page to Google Translate. Like the site's own (js/navigation.js spanishHref), it
+  // carries the place and nothing else: a place page's route (#/place/<geoid>/<chapter>), never a query.
+  function spanishHref(hash) {
+    var m = /^#\/place\/\d{5,7}(\/[a-z-]+)?/.exec(split(hash).path);
+    return 'https://translate.google.com/translate?sl=en&tl=es&hl=es&u=' + encodeURIComponent('https://cohoanalytics.com/places-hub.html' + (m ? m[0] : ''));
+  }
   function fix(root) {
+    var es = document.querySelector('a[lang="es"]');
+    if (es) es.setAttribute('href', spanishHref(location.hash));
     // On the public site itself, "live site" and the lab's rebuilt/current tags say nothing; members-only stays.
     Array.prototype.forEach.call(root.querySelectorAll('.live-tag, .status-lab, .status-current'), function (n) { n.parentNode.removeChild(n); });
     Array.prototype.forEach.call(root.querySelectorAll('a'), function (a) {
@@ -96,5 +104,5 @@ window.resolveAssetUrl = function (p) { return p; };
       a.replaceWith(document.createTextNode(a.textContent));
     });
   }
-  global.LAB_PORT = { CARRIED: CARRIED, FORWARD: FORWARD, carries: carries, page: page, href: href, leave: leave, fix: fix };
+  global.LAB_PORT = { CARRIED: CARRIED, FORWARD: FORWARD, carries: carries, page: page, href: href, leave: leave, fix: fix, spanishHref: spanishHref };
 })(window);

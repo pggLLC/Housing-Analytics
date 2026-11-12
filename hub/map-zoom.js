@@ -54,7 +54,7 @@
     controls.className = 'pm-zoom';
     controls.innerHTML = '<button type="button" data-z="in" aria-label="Zoom in">+</button>' +
       '<button type="button" data-z="out" aria-label="Zoom out">−</button>' +
-      '<button type="button" data-z="reset" aria-label="Show the whole map">Reset</button>';
+      '<button type="button" data-z="reset" aria-label="Reset: show the whole map">Reset</button>';
     // Before the map, so the legend that follows the frame sits directly under the map (on a phone the
     // buttons sit above it; on a wider screen they float in its top-right corner).
     frame.insertBefore(controls, svg);

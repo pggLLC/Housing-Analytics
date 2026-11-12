@@ -2,7 +2,7 @@
  "about": "Built by coho-pathfinder-visual-lab scripts/build-port.js. Do not edit hub/ or places-hub.html by hand: change the lab and rebuild.",
  "hub": "places",
  "lab": {
-  "commit": "dbb52a9f1cc9780f75a33ba0cd95c3adaf066252",
+  "commit": "a9cf218f13bc6e0f1562dbb23cd2550c447bb58f",
   "dirty": false
  },
  "files": {
@@ -15,10 +15,10 @@
   "hub/hna-dola.js": "bdf02d017a9ed37aedad6a06e0bea398faaa9423395d590fce0d38f6a41ec0f0",
   "hub/hna.js": "556494df23bacf5a4b6298cdd39349f8e6c2169baef82ca7ec310e14a2dfad18",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
-  "hub/lab-config.js": "0dce281bf8ab92ae3673e8de3423efc74fa779b6f0a0761f77100457fff38709",
+  "hub/lab-config.js": "bd717fa7a6865de0e7744f9d4c3d626f3ec08cb06c3b88d4f29b22a6fdc777c8",
   "hub/look.css": "5e78c043e36a7ee3a79614e4869575fa66d0caf4c0a135be38d7b8bbc1f2a4bd",
   "hub/map-kit.js": "d58ee512d9778554f813428ecb9afc1c33bd4cb6877491f586a824880f4e58ce",
-  "hub/map-zoom.js": "bf109e9dbf303433232e93d2faeb9c4892d182128f467131b59572d33147a573",
+  "hub/map-zoom.js": "1943a40e00cf68ad11cd9d5440e9f512e74af882751c199ec262a4f789169764",
   "hub/nav.js": "1f6ca7f5cb8a44eac9dc546ac76df91ead8cd2e3b33ea8b4affb563ed3c658ea",
   "hub/need-scorecard.js": "5b6dec67e9970c69b8dfb178b49f140f655cde6789c00fa3963cfe4bb1bdff3a",
   "hub/palette.css": "a5e54cb6b658064a65f01b8e8661d2af2f8501fc7525469a2964065c66e38471",
@@ -31,7 +31,7 @@
   "hub/shell.css": "9492461c3bb1338366ddc6eef09f529b8109427c8182a844704a5fb2d1125a2e",
   "hub/shell.js": "86ce8486aa764cf878517321d18150aef6d03ec0ae81f7815c53f0ac417b65d6",
   "hub/strength.js": "5ef906aea7d9abbb2ceca7b2ebed0d5367eda496a473a0ace1f3a36ae31f8b96",
-  "hub/templates.css": "c729bccfd78bfc527674a6f7f16d5f001e894fa0dee900867ac5ccb5758fc29b",
+  "hub/templates.css": "e9f852f03b01c6e4bae1c368079cd9a0e5a764eae7a75613b0f0c558f750e3bd",
   "hub/templates.js": "ae255b06681269ee34287f9a2d3dd8fb20003dc105a64c4cf45510d96925f460",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
   "hub/text-fit.js": "583c08d1ce2e9c0b7fd7cd3baca0bee436da9f3741625d9aa7eb683276ea78f8",
