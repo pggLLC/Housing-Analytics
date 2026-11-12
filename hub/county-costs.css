@@ -1,0 +1,31 @@
+/* county-costs hub styles (Housing costs by county, Multifamily lens). Owned by wave ticket 2C; loaded after templates.css. */
+.cc-sec { margin: 0 0 2rem; scroll-margin-top: 1rem; }
+.cc-sec .cc-sec { margin: 1.25rem 0 1.5rem; }
+.cc-chip-label { margin: 0; font-size: 13px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .04em; }
+.cc-ends { display: grid; gap: 0; max-width: 820px; }
+.cc-ends .viz { margin-bottom: .5rem; }
+.cc-detail { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: 10px; padding: 1rem 1.1rem; margin: 0 0 1.5rem; }
+.cc-detail h3 { margin-top: 0; }
+.cc-dl { display: grid; grid-template-columns: minmax(9rem, 14rem) minmax(0, 1fr); gap: .5rem 1rem; margin: 0 0 1rem; }
+.cc-dl dt { font-weight: 700; }
+.cc-dl dd { margin: 0; }
+.cc-dl dd ul { margin: 0; padding-left: 1.1rem; }
+@media (max-width: 640px) { .cc-dl { grid-template-columns: 1fr; gap: .15rem; } .cc-dl dd { margin-bottom: .6rem; } }
+/* Driver ranking: a two-sided bar, centre line at zero. */
+.cc-dv { list-style: none; margin: .5rem 0; padding: 0; display: grid; gap: .45rem; }
+.cc-dv li { display: grid; grid-template-columns: 1.5rem minmax(9rem, 15rem) minmax(0, 1fr) 4.5rem; gap: .6rem; align-items: center; font-size: 15px; }
+.cc-dv-n { font-weight: 700; color: var(--ink-soft); }
+.cc-dv-track { position: relative; height: 18px; background: linear-gradient(to right, transparent calc(50% - 1px), var(--line-strong) calc(50% - 1px), var(--line-strong) calc(50% + 1px), transparent calc(50% + 1px)); }
+.cc-dv-bar { position: absolute; top: 2px; height: 14px; border-radius: 2px; }
+.cc-dv-bar.is-pos { left: 50%; background: var(--c-green); }
+.cc-dv-bar.is-neg { right: 50%; background: var(--rust); }
+.cc-dv-v { font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; }
+@media (max-width: 640px) {
+  .cc-dv li { grid-template-columns: 1.25rem minmax(0, 1fr) 4.25rem; }
+  .cc-dv-track { grid-column: 1 / -1; }
+}
+.cc-bands { list-style: none; margin: 0 0 1.5rem; padding: 0; display: grid; gap: .5rem; }
+.cc-bands li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: .15rem .6rem; align-items: start; font-size: 15px; }
+.cc-bands i { width: 22px; height: 14px; margin-top: .2rem; border: 1px solid var(--line); border-radius: 2px; grid-row: span 2; }
+.cc-band-h { font-weight: 700; }
+.cc-band-l { color: var(--ink-soft); }

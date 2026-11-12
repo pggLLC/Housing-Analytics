@@ -1,0 +1,66 @@
+/* economy hub styles. Owned by one wave ticket (qa/wave-tickets.json); loaded after templates.css. */
+.econ-sec { margin: 2rem 0 0; scroll-margin-top: 4rem; }
+.econ-sec:focus { outline: none; }
+.econ-sec > h2 { margin: 0 0 .5rem; }
+.econ-sec h3 { margin: 1.5rem 0 .4rem; font-size: 19px; }
+.econ-read { margin: 0 0 1rem; max-width: 46rem; font-size: 17px; line-height: 1.55; color: var(--ink); }
+
+/* Key figures: value, what it counts, its source. */
+.econ-tiles { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr)); }
+.econ-tiles li { display: grid; gap: .15rem; align-content: start; padding: .75rem .9rem; background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--green); border-radius: 10px; min-width: 0; }
+.econ-tile-v { font-size: 22px; font-weight: 700; color: var(--ink); line-height: 1.2; overflow-wrap: break-word; }
+.econ-tile-l { font-size: 14px; line-height: 1.4; color: var(--ink); }
+.econ-tile-s { font-size: 13px; color: var(--muted); }
+.econ-tile-s a { display: inline-block; min-height: 24px; }
+
+/* Small chart cards: one series each. Colorado cards carry a pine edge, national ones a grey one. */
+.econ-cards { list-style: none; margin: .5rem 0 1rem; padding: 0; display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); }
+.econ-card { display: grid; gap: .2rem; align-content: start; min-width: 0; padding: .75rem .9rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--grey); border-radius: 10px; color: var(--c-blue); }
+.econ-card.econ-co { border-left-color: var(--green); color: var(--green); }
+.econ-card h4 { margin: 0; font-size: 15px; line-height: 1.35; color: var(--ink); }
+.econ-card h4 a { color: var(--ink); text-decoration-color: var(--grey); display: inline-block; min-height: 24px; }
+.econ-v { margin: .1rem 0 0; font-size: 21px; font-weight: 700; color: var(--ink); line-height: 1.25; overflow-wrap: break-word; }
+.econ-when { margin: 0; font-size: 13px; color: var(--muted); }
+.econ-d { font-weight: 700; color: var(--ink); }
+.econ-what { margin: 0; font-size: 13px; line-height: 1.45; color: var(--muted); }
+.econ-spark { display: block; width: 100%; height: 64px; margin: .25rem 0; }
+.econ-off .econ-v { font-size: 15px; font-weight: 600; color: var(--muted); }
+.econ-co-cards { grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 360px)); }
+.econ-us { margin: 1rem 0 0; }
+.econ-us .panel, .econ-odds .panel { padding: 1rem; }
+
+/* Market odds. */
+.econ-odds-grid { list-style: none; margin: .5rem 0 1rem; padding: 0; display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
+.econ-odds-card { display: grid; gap: .3rem; align-content: start; min-width: 0; padding: .8rem .9rem; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+.econ-odds-card.econ-co { border-top: 4px solid var(--green); }
+.econ-odds-card h4 { margin: 0; font-size: 15px; line-height: 1.35; }
+.econ-odds-card .econ-v { font-size: 18px; }
+.econ-odds-top { font-size: 15px; color: var(--green); }
+.econ-badge { margin: 0; justify-self: start; padding: .05rem .55rem; border: 1px solid; border-left-width: 4px; border-radius: 6px; font-size: 12px; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: .03em; }
+.econ-odds-bars { list-style: none; margin: .2rem 0; padding: 0; display: grid; gap: .3rem; }
+.econ-odds-bars li { display: grid; grid-template-columns: minmax(0, 1fr) 70px 3.6rem; gap: .5rem; align-items: center; font-size: 14px; }
+.econ-odds-l { overflow-wrap: break-word; }
+.econ-odds-bar { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
+.econ-odds-bar span { display: block; height: 100%; background: var(--c-blue); }
+.econ-odds-p { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.econ-settled { color: var(--muted); font-style: italic; }
+
+/* Milestones and sources. */
+.econ-timeline { margin: 0 0 1rem; padding-left: 1.2rem; display: grid; gap: .75rem; }
+.econ-timeline li p { margin: .1rem 0; line-height: 1.5; }
+.econ-timeline a, .econ-src a { display: inline-block; min-height: 24px; }
+.econ-src { padding-left: 1.2rem; display: grid; gap: .4rem; line-height: 1.55; overflow-wrap: break-word; }
+
+@media (max-width: 600px) {
+  .econ-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
+  .econ-co-cards { grid-template-columns: minmax(0, 1fr); }
+  .econ-card { padding: .6rem .65rem; }
+  .econ-card h4 { font-size: 14px; }
+  .econ-v { font-size: 17px; }
+  .econ-spark { height: 48px; }
+  .econ-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .econ-tile-v { font-size: 19px; }
+  .econ-read { font-size: 16px; }
+}
+.econ-sec .fold > summary { display: grid; grid-template-columns: minmax(0, 1fr); }
+.econ-sec .fold > .panel { padding: 1rem; }

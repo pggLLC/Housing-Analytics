@@ -304,7 +304,7 @@
     return picker(d, st) + periods(st) + loadingTowns +
       '<section class="ri-card" aria-live="polite" aria-label="Rent against income in ' + esc(title(x)) + '">' + cardBody(d, x, st.period) + '</section>' +
       foldMore(id, '<section class="ri-card ri-mapcard" aria-label="Which way rent is moving against income, by county">' + map(d, st, cs) + '<div class="ri-foot">' + sourceLine(d) + '<p class="note ri-note">County lines and town limits: U.S. Census Bureau TIGER/Line. Broomfield became a county in 2001, so it has no arrow before 2005–09.</p></div></section>' +
-      '<section class="ri-card ri-wide" aria-label="Rent against income, Colorado counties">' + chart(d, st, cs) + '<div class="ri-foot">' + sourceLine(d) + '</div>' + dataBlock(d) + '</section>', cs);
+      '<section class="ri-card ri-wide" aria-label="Rent against income, Colorado counties">' + chart(d, st, cs) + dataBlock(d) + '<div class="ri-foot">' + sourceLine(d) + '</div></section>', cs);
   }
   // The county map and the ranked county chart fold shut under the place's own card (paul, 10 Nov: phone length).
   // A fold the reader opened stays open when a pick redraws the widget (LabTpl keeps fold state).

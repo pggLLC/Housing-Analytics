@@ -1,0 +1,38 @@
+/* small-pages hub styles. Owned by one wave ticket (qa/wave-tickets.json); loaded after templates.css. */
+
+/* Elections: lever titles are headings now, sized as before. */
+.lever h3.lever-title { margin: 0; line-height: 1.3; }
+.el-links .hub-card, .news-related .hub-card { min-height: 44px; }
+
+/* Construction costs: material cards and charts. */
+.mat-cards { list-style: none; margin: 0 0 1.5rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: .75rem; }
+.mat-card { display: grid; gap: .25rem; align-content: start; padding: 1rem; background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--green); border-radius: 10px; }
+.mat-card p { margin: 0; }
+.mat-card.is-off { border-top-color: var(--line); }
+.mat-name { font-weight: 700; color: var(--ink); }
+.mat-value { font-size: 28px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.mat-yoy { font-weight: 600; }
+.mat-yoy.up { color: var(--text-red); }
+.mat-yoy.down { color: var(--text-green); }
+.mat-chart { margin: 0 0 1.5rem; }
+.mat-table td, .mat-table th, .snap-table td, .snap-table th { padding: .4rem .6rem; }
+.mat-sources { margin: .5rem 0; padding-left: 1.2rem; font-size: 15px; }
+
+/* Research overview: market data snapshot. */
+.snap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: .75rem; margin: 0 0 1.5rem; }
+.snap-card { padding: 1rem; background: var(--card); border: 1px solid var(--line); border-radius: 10px; min-width: 0; }
+.snap-card h3 { margin: 0 0 .25rem; }
+.snap-card h4 { margin: 1rem 0 .4rem; }
+.snap-wide { grid-column: 1 / -1; }
+.snap-table { width: 100%; border-collapse: collapse; }
+.snap-table th[scope="row"] { font-weight: 600; text-align: left; }
+.snap-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.snap-meters { list-style: none; margin: .5rem 0; padding: 0; display: grid; gap: .9rem; }
+.snap-meter p { margin: 0; }
+.snap-row { display: flex; justify-content: space-between; gap: .75rem; font-weight: 600; }
+.snap-bar { height: 10px; margin: .35rem 0; background: var(--line); border-radius: 5px; overflow: hidden; }
+.snap-bar span { display: block; height: 100%; background: var(--green); }
+.snap-deadlines { margin: 0; padding-left: 1.1rem; display: grid; gap: .4rem; }
+.snap-table th, .snap-table td, .mat-table th { white-space: normal; }
+.snap-table th[scope="row"] { min-width: 7.5rem; }
+.snap-table th, .snap-table td { padding: .4rem .45rem; }

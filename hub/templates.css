@@ -1428,3 +1428,8 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .need-assume { margin: 1rem 0; padding: .75rem 1rem; border: 1px solid var(--line); border-radius: 8px; background: var(--card); min-width: 0; }
 .need-assume h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .need-assume .note { margin: .5rem 0 0; }
+
+/* Section tabs on long pages (format review F2): the HNA tab row, marking the section being read. */
+.page-tabs a[aria-current="location"] { border-bottom-color: var(--green); font-weight: 600; color: var(--green); }
+#main [id] { scroll-margin-top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) + var(--page-tabs-h, 3rem) + .5rem); }
+@media print { .page-tabs { display: none; } }

@@ -332,7 +332,8 @@
       return '<h3 class="cn-title">Select a county</h3>' +
         '<p data-no-source>Tap or click any county to see all ' + MEASURES.length + ' measures for it, with a line on what each one means there.</p>' +
         countyList(names, null) +
-        (s.ready && most ? '<p class="cn-line">On this measure, the most need is in ' + esc(names[most]) + ' (' + esc(fmt(m, s.values[most])) + countsFor(m, d, most) + ') and the least in ' + esc(names[least]) + ' (' + esc(fmt(m, s.values[least])) + countsFor(m, d, least) + ').</p>' : '');
+        (s.ready && most ? '<p class="cn-line">On this measure, the most need is in ' + esc(names[most]) + ' (' + esc(fmt(m, s.values[most])) + countsFor(m, d, most) + ') and the least in ' + esc(names[least]) + ' (' + esc(fmt(m, s.values[least])) + countsFor(m, d, least) + ').</p>' : '') +
+        '<p class="note cn-src metric-source">Source: ' + srcLine(m) + '</p>';
     }
     var name = names[g] || 'This county';
     var cur = series(m.id, d), v = cur.values[g];
@@ -351,7 +352,7 @@
     return '<h3 class="cn-title" tabindex="-1">' + esc(name) + '</h3>' +
       '<p class="cn-now-label">' + esc(m.label) + '</p>' + now +
       (m.id === 'rent_to_income' ? trendLine(g, name) : '') +
-      '<p class="note cn-src">' + srcLine(m) + '</p>' +
+      '<p class="note cn-src metric-source">Source: ' + srcLine(m) + '</p>' +
       countyList(names, g) +
       '<h4>All measures for ' + esc(name) + '</h4><p class="note">Rank 1 is the most need. Pick one to map it.</p><ul class="cn-list">' + list + '</ul>' +
       '<div class="actions"><a class="button-link" href="#/place/' + esc(g) + '">Needs assessment for ' + esc(name) + '</a>' +

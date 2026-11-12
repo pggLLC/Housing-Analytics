@@ -1,0 +1,123 @@
+/* Design, health and community (site/design-guide.js): the street-to-home band, the access step chart,
+   the 65+ line, the evidence scale and the CHFA columns. Palette names only; nothing scrolls sideways at 390px. */
+.dg-sec { margin: 2rem 0; scroll-margin-top: 5rem; }
+.dg-sec h3 { margin: 1.1rem 0 .4rem; font-size: 1.05rem; }
+.dg-short { margin: 1rem 0; }
+.dg-list { padding-left: 1.2rem; }
+.dg-list li { margin: .45rem 0; }
+.dg-sec figure { margin: 1rem 0; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .8rem .9rem; }
+.dg-sec .metric-source { font-size: 13px; margin: .5rem 0 0; }
+.dg-sec .metric-source a, .dg-sec p a { overflow-wrap: break-word; }
+.dg-fold summary { cursor: pointer; min-height: 44px; padding: .6rem 0; box-sizing: border-box; font-weight: 700; }
+.dg-fold-sec > summary h2 { margin: 0; display: inline; }
+.dg-illus:empty { display: none; }
+
+/* Street to home: five steps from public to private */
+.dg-steps ol { list-style: none; margin: .6rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .4rem; }
+.dg-step { border-radius: 6px; padding: .6rem .55rem; border-top: 6px solid var(--pine); background: var(--paper); display: flex; flex-direction: column; gap: .3rem; }
+.dg-step-0 { border-top-color: var(--map-1); }
+.dg-step-1 { border-top-color: var(--map-2); }
+.dg-step-2 { border-top-color: var(--map-3); }
+.dg-step-3 { border-top-color: var(--map-4); }
+.dg-step-4 { border-top-color: var(--map-5); }
+.dg-step-n { font-weight: 800; font-size: 1.3rem; color: var(--pine-deep); }
+.dg-step-body { display: flex; flex-direction: column; gap: .2rem; }
+.dg-step-level { font-size: 13px; color: var(--muted); }
+.dg-step-text { font-size: 14px; line-height: 1.4; }
+.dg-steps-ends { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin: .35rem 0 0; }
+@media (max-width: 760px) {
+  .dg-steps ol { grid-template-columns: minmax(0, 1fr); }
+  .dg-step { border-top: 0; border-left: 6px solid var(--pine); flex-direction: row; align-items: flex-start; }
+  .dg-step-0 { border-left-color: var(--map-1); }
+  .dg-step-1 { border-left-color: var(--map-2); }
+  .dg-step-2 { border-left-color: var(--map-3); }
+  .dg-step-3 { border-left-color: var(--map-4); }
+  .dg-step-4 { border-left-color: var(--map-5); }
+  .dg-steps-ends { flex-direction: column; }
+}
+
+/* SVG charts */
+.dg-access svg, .dg-seniors svg { width: 100%; max-width: 460px; height: auto; display: block; }
+.dg-grid { stroke: var(--line); stroke-width: 1; }
+.dg-rule { stroke: var(--rust); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.dg-line { fill: none; stroke: var(--pine); stroke-width: 2.5; }
+.dg-dot { fill: var(--gold); stroke: var(--pine-deep); stroke-width: 1.5; }
+.dg-ax { font-size: 13px; fill: var(--muted); }
+.dg-lbl { font-size: 14px; font-weight: 700; fill: var(--ink); }
+.dg-note { font-size: 13px; fill: var(--rust); }
+
+/* Evidence scale */
+.dg-ev-scale { list-style: none; margin: .6rem 0; padding: 0; display: grid; gap: .45rem; }
+.dg-ev-scale li { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: .6rem; align-items: center; }
+.dg-ev-dots { display: flex; flex-wrap: wrap; gap: 4px; }
+.dg-ev-dots i { width: 14px; height: 14px; border-radius: 50%; background: var(--pine); display: block; }
+.dg-ev-natural .dg-ev-dots i { background: var(--c-blue); }
+.dg-ev-before .dg-ev-dots i { background: var(--c-amber); }
+.dg-ev-obs .dg-ev-dots i { background: var(--grey); }
+.dg-ev-label { font-size: 14px; }
+.dg-ev-list { padding-left: 1.2rem; }
+.dg-ev-list li { margin: .5rem 0; }
+.dg-ev-tag { display: inline-block; font-size: 13px; font-weight: 700; padding: 0 .35rem; border-radius: 4px; background: var(--paper); border-left: 4px solid var(--pine); }
+.dg-ev-tag.dg-ev-natural { border-left-color: var(--c-blue); }
+.dg-ev-tag.dg-ev-before { border-left-color: var(--c-amber); }
+.dg-ev-tag.dg-ev-obs { border-left-color: var(--grey); }
+@media (max-width: 480px) { .dg-ev-scale li { grid-template-columns: minmax(0, 1fr); gap: .2rem; } }
+
+/* CHFA columns */
+.dg-qap-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .7rem; margin: .6rem 0 0; }
+.dg-qap-col { border: 1px solid var(--line); border-top: 5px solid var(--pine); border-radius: 6px; padding: .5rem .7rem; background: var(--paper); }
+.dg-qap-pts { border-top-color: var(--gold); }
+.dg-qap-set { border-top-color: var(--c-blue); }
+.dg-qap-oth { border-top-color: var(--grey); }
+.dg-qap-h { font-weight: 800; margin: .2rem 0 .4rem; }
+.dg-qap-h span { font-size: 1.3rem; margin-left: .3rem; color: var(--pine-deep); }
+.dg-qap-col ul { padding-left: 1.1rem; margin: 0; }
+.dg-qap-col li { margin: .35rem 0; font-size: 14px; }
+.dg-qap-sec { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.dg-sec .table-scroll { max-width: 100%; overflow-x: auto; }
+.dg-sec table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.dg-sec th, .dg-sec td { text-align: left; padding: .35rem .4rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+
+/* First-site-plan checklist */
+.dg-progress { font-size: 1.05rem; margin: .3rem 0 .8rem; }
+.dg-progress strong { font-size: 1.6rem; color: var(--pine-deep); margin-right: .2rem; }
+.dg-cl-h { display: flex; align-items: center; gap: .5rem; border-left: 6px solid var(--pine); padding-left: .5rem; }
+.dg-cl-h span { font-size: 13px; font-weight: 700; color: var(--muted); }
+.dg-cl-law { border-left-color: var(--rust); }
+.dg-cl-req { border-left-color: var(--pine); }
+.dg-cl-pts { border-left-color: var(--gold); }
+.dg-cl-good { border-left-color: var(--c-blue); }
+.dg-cl { list-style: none; margin: 0 0 .6rem; padding: 0; }
+.dg-cl li { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .1rem .75rem; padding: .35rem 0; border-bottom: 1px solid var(--line); }
+.dg-cl label { display: flex; gap: .6rem; align-items: flex-start; flex: 1 1 18rem; min-height: 44px; cursor: pointer; }
+.dg-cl input { width: 22px; height: 22px; margin: .1rem 0 0; flex: none; accent-color: var(--pine); }
+.dg-cl-text { line-height: 1.4; }
+.dg-cl input:checked + .dg-cl-text { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--pine); }
+.dg-cl-pts { white-space: nowrap; color: var(--pine-deep); }
+.dg-cl-src { font-size: 13px; white-space: nowrap; margin-left: 2.1rem; }
+
+/* Accessible homes tool */
+.dg-tool { background: var(--card); border: 1px solid var(--line); border-top: 5px solid var(--gold); border-radius: 8px; padding: .8rem .9rem; margin: .6rem 0 1rem; }
+.dg-tool-in { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; font-weight: 700; }
+.dg-tool-in input { width: 7rem; min-height: 44px; font-size: 1.2rem; padding: .2rem .5rem; border: 1px solid var(--line); border-radius: 6px; }
+.dg-tool-hud { display: flex; align-items: center; gap: .5rem; min-height: 44px; margin: .3rem 0; }
+.dg-tool-hud input { width: 22px; height: 22px; accent-color: var(--pine); }
+.dg-tool-out { padding-left: 1.1rem; margin: .4rem 0; }
+.dg-tool-out li { margin: .45rem 0; line-height: 1.45; }
+
+/* Research folds and related pages */
+.dg-research { margin: 1.2rem 0; }
+.dg-research h3 { font-size: 1.05rem; }
+.dg-why summary { color: var(--pine-deep); }
+.dg-related { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .6rem; }
+.dg-related li { border: 1px solid var(--line); border-radius: 6px; padding: .6rem .7rem; background: var(--card); display: flex; flex-direction: column; gap: .2rem; }
+.dg-related a { font-weight: 700; min-height: 24px; }
+.dg-related span { font-size: 14px; color: var(--muted); }
+.dg-cl-fold > summary { display: flex; align-items: center; gap: .4rem; list-style: none; }
+.dg-cl-fold > summary::-webkit-details-marker { display: none; }
+.dg-cl-fold > summary::before { content: '▸'; color: var(--pine-deep); font-size: 1.1rem; }
+.dg-cl-fold[open] > summary::before { content: '▾'; }
+.dg-cl-fold > summary h3 { margin: 0; }
+.dg-research { border-bottom: 1px solid var(--line); margin: 0; }
+.dg-research > summary { font-weight: 700; }
+.dg-research[open] { padding-bottom: .6rem; }

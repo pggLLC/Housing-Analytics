@@ -1,0 +1,117 @@
+/* Walking and biking (#/places/walk-bike). Colours come from palette.css tokens only. */
+.wb-search { display: grid; gap: 6px; margin: 16px 0; max-width: 640px; }
+.wb-search label { font-weight: 600; }
+.wb-search-row { display: flex; gap: 8px; }
+.wb-search-row input { flex: 1; min-width: 0; min-height: 44px; padding: 8px 12px; border: 1px solid var(--grey-line); border-radius: 8px; font: inherit; background: var(--card); color: var(--ink); }
+.wb-search-row .button-link { min-height: 44px; flex: 0 0 auto; width: auto; }
+
+.wb-place { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 12px; }
+.wb-place h2 { margin: 0; }
+.wb-place h3 { margin: 8px 0 0; font-size: 1.05rem; }
+
+.wb-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.wb-card { border: 1px solid var(--line); border-top: 6px solid var(--grey); border-radius: 10px; padding: 12px 14px; display: grid; gap: 6px; background: var(--paper); min-width: 0; }
+.wb-card p { margin: 0; }
+.wb-card-k { font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.wb-card-band { font-size: 1.5rem; font-weight: 700; color: var(--ink); line-height: 1.15; }
+.wb-card-v { font-size: .95rem; color: var(--slate-text); }
+.wb-card-v strong { font-size: 1.1rem; color: var(--ink); }
+.wb-card-x { font-size: .85rem; color: var(--muted); }
+.wb-meter { height: 10px; background: var(--track); border-radius: 5px; overflow: hidden; }
+.wb-meter span { display: block; height: 100%; background: var(--map-3); }
+.wb-b4 { border-top-color: var(--map-5); } .wb-b4 .wb-meter span { background: var(--map-5); }
+.wb-b3 { border-top-color: var(--map-4); } .wb-b3 .wb-meter span { background: var(--map-4); }
+.wb-b2 { border-top-color: var(--map-2); } .wb-b2 .wb-meter span { background: var(--map-3); }
+.wb-b1 { border-top-color: var(--grey); } .wb-b1 .wb-meter span { background: var(--grey); }
+
+.wb-fig { margin: 0; display: grid; gap: 6px; min-width: 0; }
+.wb-fig svg { width: 100%; height: auto; display: block; max-width: 100%; }
+.wb-fig figcaption { font-size: .88rem; color: var(--slate-text); }
+.wb-t { font: 12.5px system-ui, sans-serif; fill: var(--ink); }
+.wb-reach { max-width: 640px; }
+.wb-num { font-variant-numeric: tabular-nums; fill: var(--slate-text); }
+.wb-track { fill: var(--track); }
+.wb-walk { fill: var(--c-green); }
+.wb-bike { fill: var(--c-blue); }
+.wb-key { display: inline-block; width: 14px; height: 10px; border-radius: 2px; vertical-align: middle; margin: 0 4px 0 8px; }
+.wb-walk-k { background: var(--c-green); } .wb-bike-k { background: var(--c-blue); }
+.wb-trail-k { height: 3px; background: var(--slate-text); } .wb-trail-wk { height: 3px; background: var(--c-amber); }
+
+.wb-gap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; background: var(--tint-grey); border-radius: 10px; padding: 12px 14px; }
+.wb-gap > div p { margin: 0; }
+.wb-gap-v { font-size: 1.6rem; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.wb-gap-arrow { font-size: 1.4rem; color: var(--muted); }
+.wb-gap-say { flex: 1 1 100%; margin: 0; }
+.wb-adds { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+
+.wb-map svg { border: 1px solid var(--line); border-radius: 8px; }
+.wb-map-bg { fill: var(--map-empty); }
+.wb-bgs path { stroke: var(--card); stroke-width: .6; }
+.wb-outline { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 5 3; }
+.wb-trails polyline { fill: none; stroke-width: 1.6; stroke-linecap: round; }
+/* Bike trails in dark slate, not purple, so they never look like the blue ride bar to red-blind readers (Gemini round 12, q46; 11-06). */
+.wb-trail-b { stroke: var(--slate-text); }
+.wb-trail-w { stroke: var(--c-amber); stroke-dasharray: 3 2; }
+.wb-dot { stroke: var(--card); stroke-width: 1; }
+.wb-dot-grocery { fill: var(--rust); background: var(--rust); }
+.wb-dot-school { fill: var(--c-blue); background: var(--c-blue); }
+/* Health care in gold, not dark red, so it stays apart from the rust grocery dots (Gemini round 12, q49; 11-06). */
+.wb-dot-health { fill: var(--gold); background: var(--gold); }
+.wb-dot-park { fill: var(--c-green); background: var(--c-green); }
+.wb-dot-transit { fill: var(--ink); background: var(--ink); }
+.wb-key-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin: 0 3px 0 8px; vertical-align: middle; }
+.wb-you { fill: var(--gold); stroke: var(--ink); stroke-width: 2; }
+.wb-legend { display: inline-flex; flex-wrap: wrap; gap: 4px 10px; margin-right: 6px; }
+.wb-legend span { display: inline-flex; align-items: center; gap: 4px; font-size: 15px; }
+.wb-legend i { width: 20px; height: 16px; border-radius: 2px; border: 1px solid var(--line); }
+
+.wb-export { margin: 12px 0 24px; flex-wrap: wrap; }
+.wb-kind { margin: 8px 0; }
+.wb-table th button { background: none; border: 0; font: inherit; color: inherit; cursor: pointer; padding: 0; text-align: inherit; }
+.wb-src { display: grid; gap: 4px; }
+.print-only { display: none; }
+
+@media print {
+  .no-print, .lab-banner, .site-header, .site-nav, nav, footer, #wb-all, .next-box, .skip-link { display: none !important; }
+  .print-only { display: block; }
+  .wb-place { border: 0; padding: 0; }
+  .wb-cards { grid-template-columns: repeat(3, 1fr); }
+  .wb-fig, .wb-card { break-inside: avoid; }
+  .wb-place h3 { break-after: avoid; }
+  .wb-map svg { max-height: 6.2in; width: auto; margin: 0 auto; }
+  .wb-print-title { font-weight: 600; color: var(--pine); }
+}
+
+.wb-more summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; color: var(--pine); }
+.wb-counties path { stroke: var(--card); stroke-width: 1; }
+.wb-counties a:focus path, .wb-counties a:hover path { stroke: var(--ink); stroke-width: 2; }
+
+/* Bike lanes and sidewalks: the any-street figure is pale, the calmer or sidewalk figure strong. */
+.wb-place h4 { margin: 4px 0 0; font-size: .95rem; }
+.wb-pale { fill: var(--map-2); }
+.wb-strong { fill: var(--map-5); }
+.wb-lanes polyline { fill: none; stroke-width: 2; stroke-linecap: round; }
+.wb-lane-l { stroke: var(--c-blue); }
+.wb-lane-p { stroke: var(--c-blue); stroke-dasharray: 4 2; }
+.wb-lane-k { height: 3px; background: var(--c-blue); } .wb-lane-pk { height: 3px; background: repeating-linear-gradient(90deg, var(--c-blue) 0 4px, transparent 4px 6px); }
+
+/* Map layers (toggles), town limits and names, the state transit zone and the half-mile area. */
+.wb-map { position: relative; }
+.wb-toggles { margin: 0; }
+.wb-towns path { fill: none; stroke: var(--muted); stroke-width: .8; }
+.wb-thiz { fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-dasharray: 1 3; stroke-linecap: round; }
+.wb-half { fill: var(--c-amber); fill-opacity: .18; stroke: var(--c-amber); stroke-width: 1; }
+.wb-fac { fill: var(--card); stroke: var(--ink); stroke-width: 1.2; }
+.wb-thiz-k { height: 0; border-top: 3px dotted var(--ink); background: none; }
+.wb-half-k { background: var(--c-amber); opacity: .45; }
+.wb-fac-k { width: 8px; height: 8px; border: 1.2px solid var(--ink); background: var(--card); border-radius: 0; }
+.wb-hide-shade .wb-l-shade { visibility: hidden; }
+.wb-hide-towns .wb-l-towns, .wb-hide-thiz .wb-l-thiz, .wb-hide-half .wb-l-half, .wb-hide-bike .wb-l-bike, .wb-hide-dots .wb-l-dots, .wb-hide-stops .wb-l-stops { display: none; }
+.wb-toggles { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 0 12px; }
+.wb-toggles .pm-toggle { font-size: 14px; }
+@media (max-width: 640px) { .wb-map .pm-frame { padding-top: 52px; } }
+.wb-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.wb-tile { background: var(--tint-grey); border-radius: 10px; padding: 10px 12px; }
+.wb-tile p { margin: 0; }
+.wb-tile-v { font-size: 1.6rem; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.wb-tile-k { font-size: .9rem; color: var(--slate-text); }
