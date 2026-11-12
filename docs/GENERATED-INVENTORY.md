@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-12T12:41:44.498Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-12T15:38:37.599Z. Do not edit by hand.
 
 ---
 
@@ -21,7 +21,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 17.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 41.5 KB |
-| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 225.8 KB |
+| `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 225.7 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 21.0 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
 | `commuting.html` | Commuting and Jobs | COHO Analytics | 10.1 KB |
@@ -130,7 +130,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 671.1 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 670.1 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -320,7 +320,7 @@
 | `data/deals/willoughby-corner-phase-ib-family-lafayette.json` | 15.4 KB | ✅ | — |
 | `data/deals/windtrail-park-fort-collins.json` | 19.6 KB | ✅ | — |
 | `data/derived/funding-map.json` | 1.51 MB | ✅ | — |
-| `data/derived/funding-vs-need.json` | 134.4 KB | ✅ | — |
+| `data/derived/funding-vs-need.json` | 135.2 KB | ✅ | — |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
@@ -1096,7 +1096,7 @@
 | `data/hna/local-resources-candidates.json` | 6.5 KB | ✅ | — |
 | `data/hna/local-resources.json` | 181.8 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 703.9 KB | ✅ | — |
-| `data/hna/permits.json` | 270.3 KB | ✅ | — |
+| `data/hna/permits.json` | 270.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.55 MB | ✅ | — |
 | `data/hna/place-decade-trends.json` | 154.7 KB | ✅ | — |
@@ -2068,7 +2068,7 @@
 | `data/policy_briefs_curated.json` | 241.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 213.7 KB | ✅ | — |
+| `data/polymarket-history.json` | 215.9 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2559,7 +2559,7 @@
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
 | `test/permit-declared-value.test.mjs` | 5.9 KB |
 | `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
-| `test/phase3-comparison-ideas.test.js` | 5.3 KB |
+| `test/phase3-comparison-ideas.test.js` | 11.4 KB |
 | `test/pipeline-financing-tracks.test.js` | 3.8 KB |
 | `test/pipeline-guards-a1.test.js` | 2.0 KB |
 | `test/pipeline-guards-a2.test.js` | 4.9 KB |
