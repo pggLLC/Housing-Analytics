@@ -39,12 +39,15 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readJson = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
-const SRC = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
+// The computation moved to its own module, shared with the place hub (closeout ledger P04).
+const SRC = fs.readFileSync(path.join(ROOT, 'js/hna/need-scorecard.js'), 'utf8');
+// The panel that draws it, and says which geography the score describes.
+const RENDERER = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
 
 /** Pull a named function's source out of the renderer by brace matching. */
 function extract(name) {
   const i = SRC.indexOf('function ' + name + '(');
-  assert.ok(i >= 0, `${name}() is gone from hna-renderers.js — this guard is checking nothing`);
+  assert.ok(i >= 0, `${name}() is gone from need-scorecard.js — this guard is checking nothing`);
   let depth = 0;
   for (let k = SRC.indexOf('{', i); k < SRC.length; k += 1) {
     if (SRC[k] === '{') depth += 1;
@@ -110,7 +113,7 @@ const placeRows = ranked.filter((r) => r.type !== 'county' && r.containingCounty
   && counties[r.containingCounty]);
 
 test('the guard is exercising real code and real data', () => {
-  assert.ok(MIN_RENTER_HH >= 1, 'SCORECARD_MIN_RENTER_HH not found in the renderer');
+  assert.ok(MIN_RENTER_HH >= 1, 'SCORECARD_MIN_RENTER_HH not found in need-scorecard.js');
   assert.ok(placeRows.length > 400, `only ${placeRows.length} ranked places resolved; check went vacuous`);
   assert.ok(pools.place.blendedBurden.length > 200, 'the place pool is empty — nothing is being ranked');
 });
@@ -265,7 +268,7 @@ test('the renderer is actually given place CHAS on a normal render', () => {
   // The renderer must read what the controller populates — in CODE. The first
   // version tested this against the whole file and matched the explanatory
   // comment two lines above the fix, so reverting the code still passed.
-  const rendererCode = SRC
+  const rendererCode = RENDERER
     .replace(/\/\*[\s\S]*?\*\//g, ' ')
     .split('\n').map((l) => l.replace(/(^|[^:])\/\/.*$/, '$1')).join('\n');
   assert.ok(/state\.placeChas/.test(rendererCode),
@@ -279,8 +282,8 @@ test('the renderer is actually given place CHAS on a normal render', () => {
   // function DEFINITION and captured its parameter list — so it checked the
   // signature, which always mentions placeChas and never combinedDatasets, and
   // passed no matter what the call site said.
-  const poolCall = rendererCode.match(/=\s*_buildScorecardDistributions\(([^)\n]*)\)/);
-  assert.ok(poolCall, 'the pool is no longer built by a _buildScorecardDistributions call');
+  const poolCall = rendererCode.match(/=\s*NS\.distributions\(([^)\n]*)\)/);
+  assert.ok(poolCall, 'the pool is no longer built by an NS.distributions call');
   assert.ok(!/combinedDatasets/.test(poolCall[1]),
     'the peer pool resolves its own placeChas instead of sharing the subject\'s binding: '
     + poolCall[1].replace(/\s+/g, ' ').slice(0, 90));
@@ -291,16 +294,16 @@ test('the rendered disclosures match what the code actually does', () => {
   // explanatory comment that was written directly above the fix, and reported
   // the bug as still live in the code that fixed it — the same mention-vs-
   // usage mistake several guards in this repo have made.
-  const code = SRC
+  const code = RENDERER
     .replace(/\/\*[\s\S]*?\*\//g, ' ')
     .split('\n').map((l) => l.replace(/(^|[^:])\/\/.*$/, '$1')).join('\n');
   // The panel previously announced a county proxy for every place. That was
   // true then and would be a falsehood now, so the strings are checked
   // against the behaviour rather than left to drift.
-  assert.ok(/Place-level:/.test(SRC),
+  assert.ok(/Place-level:/.test(RENDERER),
     'nothing tells a reader when the score is the place’s own');
-  assert.ok(/County proxy:/.test(SRC), 'the county-proxy disclosure is gone');
-  assert.ok(/renter households, too few/.test(SRC),
+  assert.ok(/County proxy:/.test(RENDERER), 'the county-proxy disclosure is gone');
+  assert.ok(/renter households, too few/.test(RENDERER),
     'the county fallback does not say WHY it fell back');
   assert.ok(!/vs\. all 64 CO counties/.test(code),
     'the panel still claims every subject is ranked against the 64 counties');

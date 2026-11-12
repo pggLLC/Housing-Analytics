@@ -68,6 +68,8 @@ function loadRenderersDom() {
     },
   };
   vm.createContext(sandbox);
+  // The need scorecard's computation loads first, as on the pages (closeout ledger P04).
+  vm.runInContext(fs.readFileSync(path.join(ROOT, 'js/hna/need-scorecard.js'), 'utf8'), sandbox, { filename: 'js/hna/need-scorecard.js' });
   vm.runInContext(fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8'), sandbox, { filename: 'js/hna/hna-renderers.js' });
   return dom;
 }

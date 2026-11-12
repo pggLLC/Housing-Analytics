@@ -29,7 +29,7 @@ const placeChas = readJson('data/hna/place-chas.json');
 const econData = readJson('data/co-county-economic-indicators.json');
 const renderersSrc = read('js/hna/hna-renderers.js');
 
-const minMatch = renderersSrc.match(/var SCORECARD_MIN_RENTER_HH = (\d+);/);
+const minMatch = read('js/hna/need-scorecard.js').match(/var SCORECARD_MIN_RENTER_HH = (\d+);/);
 assert(minMatch, 'SCORECARD_MIN_RENTER_HH is no longer declared as expected; re-derive this test');
 const MIN_RENTER_HH = Number(minMatch[1]);
 
@@ -47,6 +47,7 @@ function render(geoid, contextCounty) {
     els: {},
     charts: {},
   };
+  w.eval(read('js/hna/need-scorecard.js')); // the computation, loaded first as the pages do
   w.eval(renderersSrc);
   assert(w.HNARenderers && typeof w.HNARenderers.renderHnaScorecardPanel === 'function',
     'renderers must load in jsdom');
