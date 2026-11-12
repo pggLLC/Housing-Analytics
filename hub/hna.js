@@ -672,7 +672,8 @@
             (res.skipped.length ? ' Not compared: ' + res.skipped.map(function (k) { return k.label.charAt(0).toLowerCase() + k.label.slice(1) + ' (' + k.reason + ')'; }).join('; ') + '.' : ''),
           source: Pl.srcLine(srcs) }) +
         '<div class="table-scroll"><table><caption>The same rates as a table</caption><thead><tr><th scope="col">Measure</th><th scope="col">' + esc(placeShort) + '</th><th scope="col">' + esc(countyName) + '</th><th scope="col" title="Place minus county, in percentage points">Difference</th><th scope="col">Reading</th></tr></thead><tbody>' +
-        rows.map(function (r) { return '<tr><th scope="row"' + (r[4].tip ? ' title="' + esc(r[4].tip) + '"' : '') + '>' + esc(r[0]) + '</th><td>' + pct(r[1]) + '</td><td>' + pct(r[2]) + '</td><td>' + esc(CC.formatDelta(r[4].delta)) + '</td><td>' + esc(r[3]) + '</td></tr>'; }).join('') + '</tbody></table></div>';
+        rows.map(function (r) { return '<tr><th scope="row"' + (r[4].tip ? ' title="' + esc(r[4].tip) + '"' : '') + '>' + esc(r[0]) + '</th><td>' + pct(r[1]) + '</td><td>' + pct(r[2]) + '</td><td>' + esc(CC.formatDelta(r[4].delta)) + '</td><td>' + esc(r[3]) + '</td></tr>'; }).join('') + '</tbody></table></div>' +
+        '<p class="metric-source">' + Pl.srcLine(srcs) + '</p>';
     }
 
     // Three rents on one dollar scale: HUD's 2-bedroom Fair Market Rent for the county, the median rent
@@ -942,7 +943,7 @@
         '<div class="table-scroll"><table><caption>Reuse patterns to evaluate</caption><thead><tr><th scope="col">Pattern</th><th scope="col">Typical cost a home</th><th scope="col">Typical time</th></tr></thead><tbody>' +
         Object.keys(reuse.patterns || {}).map(function (k) { var q = reuse.patterns[k]; return '<tr><th scope="row">' + esc(P[k] || k) + '</th><td>' + esc(range(q.typical_cost_per_unit_K)) + '</td><td>' + esc(String(q.typical_timeline_months || '').replace('-', '–')) + ' months</td></tr>'; }).join('') +
         '</tbody></table></div><p class="note">Typical ranges from CHFA and Novogradac case studies, not quotes; costs swing 30–50% with the building’s age, systems, asbestos or lead, and local code.</p>' +
-        '<p class="metric-source">Cleanup and credit programs: ' + TOOLS.map(function (t) { return '<a href="' + esc(t[1]) + '" target="_blank" rel="noopener">' + esc(t[0]) + '</a>'; }).join(' · ') + '</p>';
+        '<p class="metric-source">Ranges: COHO adaptive reuse reference guide, ' + esc(longDate((reuse.meta || {}).as_of) || 'no date in the source') + '. Cleanup and credit programs: ' + TOOLS.map(function (t) { return '<a href="' + esc(t[1]) + '" target="_blank" rel="noopener">' + esc(t[0]) + '</a>'; }).join(' · ') + '</p>';
     }
 
     // The market call for this place: the rule's verdict, then each signal with its own source.
@@ -1308,7 +1309,7 @@
           })) +
           '<div class="table-scroll"><table><caption>COHO\u2019s estimate of the affordable homes the goal calls for (not DOLA\u2019s figure)</caption><thead><tr><th scope="col">Year</th><th scope="col">Goal</th><th scope="col">Added over the baseline</th><th scope="col">Counted</th></tr></thead><tbody>' +
           [2023, 2024, 2025, 2026].map(function (y, i) { var g = U.calculateGrowthTarget(base, i); return '<tr' + (i === 3 ? ' class="row-strong"' : '') + '><th scope="row">' + y + (i === 0 ? ' (baseline)' : '') + '</th><td>' + num(g) + '</td><td>' + (i ? '+' + num(g - base) : '—') + '</td><td>' + (i ? 'Not on file' : 'Baseline proxy') + '</td></tr>'; }).join('') +
-          '</tbody></table></div>' : '') +
+          '</tbody></table></div><p class="metric-source">' + Pl.srcLine([[acs + ', DP04 (all homes)', acsUrl('DP04')], ['C.R.S. 29-32-105(1)(a)', 'https://cdola.colorado.gov/about-proposition-123']]) + '</p>' : '') +
         '<h3>Steps to stay eligible</h3><ol class="steps">' + P123_STEPS.map(function (s) { return '<li><strong>' + esc(s[0]) + '.</strong> ' + s[1] + '</li>'; }).join('') + '</ol>' +
         '<h3>Resources</h3><ul>' + P123_LINKS.map(function (l) { return '<li><a href="' + esc(l[1]) + '"' + (/^https?:/.test(l[1]) ? ' target="_blank" rel="noopener"' : '') + '>' + esc(l[0]) + '</a>' + (l[2] ? ': ' + esc(l[2]) : '') + '</li>'; }).join('') + '</ul>' +
         '<p class="metric-source">' + Pl.srcLine([['DOLA commitment filings, read ' + (pj.updated || 'date not recorded'), (src.cycle1_filings || {}).page || 'https://cdola.colorado.gov/commitment-filings'], ['DOLA fast-track list' + ((src.fast_track || {}).sheet_last_updated ? ', updated ' + src.fast_track.sheet_last_updated : ''), (src.fast_track || {}).page || 'https://cdola.colorado.gov/prop123fasttrack']]) + '</p>',
@@ -1553,7 +1554,7 @@
     // The live chapter's developer decision chain, as far as it goes on that page: the price context (shown above) and
     // demand by price band, from the same screen (js/hna/hna-ownership-need.js priceBandDemandScreen). The per-home
     // subsidy gap and resale steps are worked in the Deal Calculator and the for-sale page.
-    function takeFurther(r) {
+    function takeFurther(r, src) {
       var rows = (r.priceBandScreen && r.priceBandScreen.rows) || [];
       var NAME = { lte80: '80% AMI or less', '81to100': '81–100% AMI', '101to120': '101–120% AMI' };
       var gapNote = false;
@@ -1562,7 +1563,8 @@
           var na = x.potentialBuyerPoolHouseholds == null; if (na) gapNote = true;
           return '<tr><th scope="row">' + esc(NAME[x.key] || x.label) + '</th><td>' + money(x.maxAffordablePrice) + '</td><td>' + (na ? 'Not counted' : num(Math.round(x.potentialBuyerPoolHouseholds))) + '</td><td>' + (x.ownerValueSupplyUnits == null ? '—' : num(Math.round(x.ownerValueSupplyUnits))) + '</td><td>' + (x.currentGapHouseholds == null ? '—' : num(Math.round(x.currentGapHouseholds))) + '</td></tr>';
         }).join('') + '</tbody></table></div>' +
-        (gapNote ? '<p class="note">HUD’s CHAS income bands stop at 100% AMI, so renters above it are not counted.</p>' : '')
+        (gapNote ? '<p class="note">HUD’s CHAS income bands stop at 100% AMI, so renters above it are not counted.</p>' : '') +
+        (src ? '<p class="metric-source">' + src + '</p>' : '')
         : '<p class="note">No price bands here: there is no four-person AMI to set them.</p>';
       return '<h3>If you are taking this further</h3>' +
         '<p>Renter households who could afford to buy in each price band, against owner homes valued in that band. A buyer pool to test, not buyers ready to purchase.</p>' + table +
@@ -1603,6 +1605,7 @@
         'Ownership-supportive strategy': 'Ownership tools look worth screening here.', 'Deep affordability priority': 'The need here concentrates at the deepest income levels.',
         'Verify locally': 'No clear signal either way. This one needs local judgement.' };
       var at = fallback ? { level: 'county-proxy', countyName: countyName } : here, t = r.affordabilityTest;
+      var ownSrc = Pl.srcLine('HUD CHAS ' + (((chas.meta || {}).vintage || (chas.meta || {}).vintage_chas) || '2018-2022') + (t ? '; home value: ' + ({ zhvi: 'Zillow Home Value Index', county_zhvi_adjusted: 'Zillow index adjusted to the county ACS', fhfa_county_hpi_anchor: 'ACS median carried forward by the FHFA county price index', acs_raw: 'ACS median' }[t.source] || t.source || 'ACS') + (home && home.as_of ? ', ' + home.as_of : '') : ''), 'https://www.huduser.gov/portal/datasets/cp.html');
       var CLS = { 'market-attainable': 'within reach at 80% AMI', stretch: 'between what 80% and 100% AMI can buy', 'priced-out': 'above what 100% AMI can buy' };
       var tile = function (title, value, tier, detail) { return '<div class="score-part"><p class="score-part-t">' + esc(title) + '</p><p class="score-part-v">' + esc(value) + '</p><p><strong>' + esc(tier) + '</strong></p><p class="note">' + esc(detail) + '</p></div>'; };
       return fold('<h2>Affordable ownership need</h2>' +
@@ -1614,10 +1617,10 @@
         tile('Shared-equity fit', num(r.moderateIncomeRenterHouseholds) + ' renter households', r.ownershipFit.tier, 'earning 51–100% of area median income: a possible buyer base, not buyers ready to purchase') +
         '</div>' +
         (t ? '<p>The typical home, ' + money(t.medianHomeValue) + ', is ' + esc(CLS[t.classification] || t.classification) + ': a four-person household at 80% AMI can buy up to ' + money(t.maxPriceAt80Ami) + ', at 100% AMI up to ' + money(t.maxPriceAt100Ami) + '.</p>' : '') +
-        takeFurther(r) + ownStrategy(r, home) +
+        takeFurther(r, ownSrc) + ownStrategy(r, home) +
         '<details><summary>Caveats</summary><ul>' + (r.caveats || []).map(function (c) { return '<li>' + esc(c) + '</li>'; }).join('') + '</ul></details>' +
         '<div class="actions"><a class="button-link secondary" href="#/for-sale?g=' + esc(geoid) + '">For-sale and ownership in ' + esc(placeShort) + '</a></div>' +
-        '<p class="metric-source">' + Pl.srcLine('HUD CHAS ' + (((chas.meta || {}).vintage || (chas.meta || {}).vintage_chas) || '2018-2022') + (t ? '; home value: ' + ({ zhvi: 'Zillow Home Value Index', county_zhvi_adjusted: 'Zillow index adjusted to the county ACS', fhfa_county_hpi_anchor: 'ACS median carried forward by the FHFA county price index', acs_raw: 'ACS median' }[t.source] || t.source || 'ACS') + (home && home.as_of ? ', ' + home.as_of : '') : ''), 'https://www.huduser.gov/portal/datasets/cp.html') + '</p>',
+        '<p class="metric-source">' + ownSrc + '</p>',
         (PLAIN[r.tenureMixRecommendation] || 'Not enough local data to answer this yet.') + (t ? ' The typical home, ' + money(t.medianHomeValue) + ', is ' + (CLS[t.classification] || t.classification) + '.' : ''));
     }
 
@@ -2506,7 +2509,7 @@
     if (ami) F.push([money(ami), 'income the rent bands are set from, family of four (twice HUD\u2019s 50% limit)', 'HUD FY2026 income limits']);
     var alt = (global.LabTpl && global.LabTpl.alt || function (f) { return f; })(name + ': ' + per + ' homes per 100 renter households at or below 30% AMI', 'Census ACS');
     return '<section class="share-place" aria-labelledby="sp-h"><h2 id="sp-h">Share card</h2><p class="note">The picture a shared link to this page would carry, drawn at 1200 \u00d7 630.</p>' +
-      '<figure class="pc-card" role="img" aria-label="' + esc(alt) + '"><div class="pc-text"><p class="pc-brand">COHO Analytics</p>' +
+      '<figure class="pc-card" data-no-source="each figure names its source on the card" role="img" aria-label="' + esc(alt) + '"><div class="pc-text"><p class="pc-brand">COHO Analytics</p>' +
       '<p class="pc-name">' + esc(name) + '</p><p class="pc-where">' + esc(county && county !== entry.label ? county + ', Colorado' : 'Colorado') + '</p>' +
       '<ul class="pc-figs">' + F.map(function (f) { return '<li><b>' + esc(f[0]) + '</b><span>' + esc(f[1]) + '</span><small>' + esc(f[2]) + '</small></li>'; }).join('') + '</ul>' +
       '<p class="pc-foot">cohoanalytics.com \u00b7 Housing Needs Assessment</p></div>' +

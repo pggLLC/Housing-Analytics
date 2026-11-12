@@ -77,8 +77,8 @@
           '<td class="num">' + esc(r.cv == null ? '—' : (r.cv * 100).toFixed(1) + '%') + '</td>' +
           '<td><span class="tier tier-' + esc(r.t || 'none') + '">' + esc(TIER[r.t] || (r.why ? 'No margin: ' + r.why : 'No margin')) + '</span></td></tr>';
       }).join('') + '</tbody></table></div>' +
-      '<p class="note">CV is the margin of error divided by 1.645, then by the estimate. Good is up to 15%, fair 15 to 30%, use with caution over 30%. ' +
-      'Source: U.S. Census Bureau, ACS ' + esc(String(state.file.meta.acs_year)) + ' 5-year estimates, checked ' + esc(String(state.file.meta.generated).slice(0, 10)) + '.</p></details>' : '';
+      '<p class="note">CV is the margin of error divided by 1.645, then by the estimate. Good is up to 15%, fair 15 to 30%, use with caution over 30%.</p>' +
+      '<p class="source-line"><span>Source</span> U.S. Census Bureau, ACS ' + esc(String(state.file.meta.acs_year)) + ' 5-year estimates, checked ' + esc(String(state.file.meta.generated).slice(0, 10)) + '.</p></details>' : '';
     var mark = '<sup class="fn-mark"><a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fn-strength" aria-label="Note 1: what this line means">1</a></sup>';
     // The line stays short (paul 10-26: "most of this text should be in linked footnote"); the counts,
     // tract note and county link go in the footnote the marker jumps to.
