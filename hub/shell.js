@@ -323,8 +323,8 @@
     else tab = null;
     if (!el || el === main || !main.contains(el)) return null;
     var sel = el.id ? '#' + (global.CSS && CSS.escape ? CSS.escape(el.id) : el.id)
-      : el.name ? el.tagName.toLowerCase() + '[name="' + String(el.name).replace(/"/g, '\\"') + '"]' +
-        (el.type === 'radio' ? '[value="' + String(el.value).replace(/"/g, '\\"') + '"]' : '') : null;
+      : el.name ? el.tagName.toLowerCase() + '[name="' + String(el.name).replace(/["\\]/g, '\\$&') + '"]' +
+        (el.type === 'radio' ? '[value="' + String(el.value).replace(/["\\]/g, '\\$&') + '"]' : '') : null;
     return sel ? { sel: sel, tab: tab } : null;
   }
   function refocus(held) {
@@ -349,7 +349,7 @@
     // page it rebuilds instead; replace() keeps Back on the page the reader came from.
     var away = global.LAB_PORT && global.LAB_PORT.leave(location.hash || '#/');
     if (away) { location.replace(away); return; }
-    var view = VIEWS[route.view];
+    var view = Object.prototype.hasOwnProperty.call(VIEWS, route.view) ? VIEWS[route.view] : null;
     // Which place the charts on this page describe; a place page sets it, every other page leaves it empty,
     // so a chart's CSV never carries the last place visited.
     global.LAB_VIZ_CONTEXT = null;
