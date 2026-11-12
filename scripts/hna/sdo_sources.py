@@ -266,8 +266,10 @@ def sya_from_groups(single_csv: str, groups: list[dict], vintage: int) -> str | 
         s[1] += f
     buf = io.StringIO()
     w = csv.writer(buf, lineterminator='\n')
-    note = (f'Vintage {vintage} (SDO sya.json 5-year groups; single years split by the '
-            f'Vintage {vintage_of_text(single_csv)} single-year file)')
+    # Shown on the Scenario Builder, so plain words; the split itself is
+    # described under the page's sources (single-year shares from SDO's
+    # previous single-year file, Vintage {vintage_of_text(single_csv)}).
+    note = f'Vintage {vintage}, 5-year age groups split into single years'
     w.writerow([note] + [''] * (len(SYA_COLUMNS) - 1))
     w.writerow(SYA_COLUMNS)
     n = 0

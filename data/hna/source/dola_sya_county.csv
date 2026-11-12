@@ -1,4 +1,4 @@
-Vintage 2025 (SDO sya.json 5-year groups; single years split by the Vintage 2024 single-year file),,,,,,,,
+Vintage 2025, 5-year age groups split into single years,,,,,,,,
 id,countyfips,year,age,county,malepopulation,femalepopulation,totalpopulation,datatype
 1,0,1990,0,Colorado,26850,25695,52545,Estimate
 2,0,1990,1,Colorado,25924,25081,51005,Estimate
