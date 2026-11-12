@@ -260,7 +260,7 @@
   }
   var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   function when(p) { return MON[p[0].getMonth()] + ' ' + (p[2].length > 7 && p[2].slice(8, 10) !== '01' ? +p[2].slice(8, 10) + ', ' : '') + p[0].getFullYear(); }
-  function fredLink(id) { return 'https://fred.stlouisfed.org/series/' + id; }
+  function fredLink(id) { return 'https://fred.stlouisfed.org/series/{id}'.replace('{id}', id); }
   var pctFmt = function (v) { return (Math.round(v * 100) / 100).toFixed(Math.abs(v) >= 10 ? 0 : 1) + '%'; };
   var ECON = [
     ['MORTGAGE30US', '30-year mortgage rate', 'Freddie Mac weekly average, United States', pctFmt],

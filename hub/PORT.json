@@ -2,7 +2,7 @@
  "about": "Built by coho-pathfinder-visual-lab scripts/build-port.js. Do not edit hub/ or places-hub.html by hand: change the lab and rebuild.",
  "hub": "places",
  "lab": {
-  "commit": "4435c8c661f9fd1a3f244f02909151f7f8eebe36",
+  "commit": "b1c6bce5cde04ec2af0638889c51ac4acddb116f",
   "dirty": false
  },
  "files": {
@@ -23,8 +23,8 @@
   "hub/need-scorecard.js": "5b6dec67e9970c69b8dfb178b49f140f655cde6789c00fa3963cfe4bb1bdff3a",
   "hub/palette.css": "a5e54cb6b658064a65f01b8e8661d2af2f8501fc7525469a2964065c66e38471",
   "hub/places-combine.js": "b3d53321409c2dd780df591f1871cdd1cc299f7e465e2d726fce08c988dbcdf0",
-  "hub/places-more.js": "41e1898fcfbfd6f03f2351ea17601a34e0de583a9462923416d2935ac1fc6361",
-  "hub/places-state.js": "ec102887182d9677a265f0ef63b95f7416ff561f2124a14508334b98de419442",
+  "hub/places-more.js": "94633d60d35e3322b243702bd13952f0fd1f5ecbfe1ddcb793b88781b6fb9937",
+  "hub/places-state.js": "04efeb875cb61a0e674d1167e3f5eff04e59f7c2a909b7e321dda61adf1ccf73",
   "hub/places.js": "cdc57c3dca491db06f9f1031dd773fd795088225e9959986174db16ce9066f6c",
   "hub/rent-income.js": "adfeb85a27c7b0b205bb02bf93743aa7446c389a969e62673f1b8e794fbf044e",
   "hub/route-catalog.json": "9cf116efe9b94535fea8c7a09909feb5002fd5c133a2d30be1a09ef0478d0c45",

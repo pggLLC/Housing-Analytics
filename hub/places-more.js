@@ -757,7 +757,7 @@
     ['Construction materials input PPI (composite)', ['constructionMaterialsInput']]
   ];
   var MAT_INK = ['var(--text-rust)', 'var(--text-red)', 'var(--text-blue)'];
-  function fredLink(c) { return '<a href="https://fred.stlouisfed.org/series/' + esc(c.id) + '">' + esc(c.id) + '</a>'; }
+  function fredLink(c) { return '<a href="' + 'https://fred.stlouisfed.org/series/{id}'.replace('{id}', esc(c.id)) + '">' + esc(c.id) + '</a>'; }
   function materials(fred) {
     var ok = needScript('js/fred-commodities.js', function () { return !!fredModule(); });
     if (!ok) return scriptFailed('js/fred-commodities.js') ? '<p class="callout">The material price module did not load. The prices are on <a href="' + esc(COST_SRC) + '">the live construction costs page ↗</a>.</p>' : '<p class="note">Loading material prices…</p>';
@@ -808,7 +808,7 @@
     var last = obs[obs.length - 1], lastD = month(last.date), rise = (+last.value / base - 1) * 100;
     var events = tl.events.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }).map(function (e, i) { return { n: i + 1, date: month(e.date), e: e }; });
     var when = MONTHS[lastD.getMonth()] + ' ' + lastD.getFullYear();
-    var fredUrl = 'https://fred.stlouisfed.org/series/' + COST_SERIES;
+    var fredUrl = 'https://fred.stlouisfed.org/series/{id}'.replace('{id}', COST_SERIES);
     var chart = global.LabViz.indexLine({
       title: 'Multifamily construction prices since 2020',
       scope: '<span class="note">Index, January 2020 = 100. Numbers mark the events listed below.</span>',
