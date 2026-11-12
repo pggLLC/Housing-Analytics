@@ -170,6 +170,12 @@
     var ownTotal = total * o / (o + r), rentTotal = total - ownTotal;
     var oT = tierCounts(chas, 'owner'), rT = tierCounts(chas, 'renter');
     if (!oT || !rT) return null;
+    // A forecast decline is not a negative number of homes to build, and it does not cancel today's shortage:
+    // keep-up is zero and the decline is reported on its own.
+    if (total < 0) {
+      var zero = TIERS.map(function () { return 0; });
+      return table(zero, zero, { total: 0, decline: Math.round(-total) });
+    }
     return table(spread(ownTotal, oT), spread(rentTotal, rT), { total: total });
   }
 
@@ -236,7 +242,8 @@
       var tot = cu.total + ku.total;
       h += '<section class="dola-need" aria-labelledby="dola-need-h"><h2 id="dola-need-h">Homes needed, DOLA’s way</h2>' +
         '<p class="chapter-finding" data-role="dola-finding">' + esc(short) + ' needs about ' + fmt(tot) + ' homes by ' + end + ': ' + fmt(cu.total) +
-        ' to ease today’s shortage and ' + fmt(ku.total) + ' to keep up with growth.</p>' + bars(cu, ku) +
+        (ku.parts.decline ? ' to ease today’s shortage and none to keep up with growth. The State Demography Office forecast, with DOLA’s vacancy allowance, falls by about ' + fmt(ku.parts.decline) + ' homes by ' + end + ', and a falling forecast does not ease today’s shortage.</p>'
+          : ' to ease today’s shortage and ' + fmt(ku.total) + ' to keep up with growth.</p>') + bars(cu, ku) +
         '<p class="note">' + esc(belowLine(cu, ku)) + '</p></section>';
       h += '<div class="dola-tables">' + dolaTable('Table 1 · Existing shortage (catch-up)', cu, 'Catch-up') +
         dolaTable('Table 2 · Next ' + YEARS + ' years, ' + base + '–' + end + ' (keep-up)', ku, 'Keep-up') + '</div>';
@@ -247,7 +254,8 @@
         (o.isCounty ? '' : ', ' + esc(short) + '’s share as the HNA sets it (households and permits, blended)') + '. Income tiers: <a href="' + SRC.chas + '" rel="noopener">HUD CHAS 2018–2022</a>; CHAS stops at “over 100% AMI”, so DOLA’s 81–120% and 120%+ rows are shown as 81–100% and over 100%.</p>';
       h += allocationTable(cu, ku, short, st);
       h += '<section class="dola-t4" aria-labelledby="dola-t4-h"><h2 id="dola-t4-h">Table 4 · Supportive, accessible and visitable homes</h2><div class="dola-two">' +
-        '<div class="dola-card"><h3>Accessible and visitable</h3>' + (ac ? '<p class="dola-big">About ' + fmt(ac.units) + ' of the ' + fmt(ku.total) + ' new homes</p><p>' +
+        '<div class="dola-card"><h3>Accessible and visitable</h3>' + (ac && ku.parts.decline ? '<p class="dola-big">None needed for growth</p><p>The forecast shows no growth here, so no new homes are counted. ' + (ac.share * 100).toFixed(1) + '% of ' + ac.base + ' have a disability (' + esc(o.acsLabel || 'ACS') + ', DP02); DOLA’s guide applies that share to new homes (p. 52).</p>'
+          : ac ? '<p class="dola-big">About ' + fmt(ac.units) + ' of the ' + fmt(ku.total) + ' new homes</p><p>' +
           (ac.share * 100).toFixed(1) + '% of ' + ac.base + ' have a disability (' + esc(o.acsLabel || 'ACS') + ', DP02), applied to the ' + YEARS + '-year need, as DOLA’s guide suggests (p. 52). A share of the ' + fmt(ku.total) + ', not added to it.</p>'
           : '<p>No disability count in the ACS profile here.</p>') + '</div>' +
         '<div class="dola-card dola-input"><h3>Supportive</h3><p><strong>Town input needed.</strong> No public count of homelessness exists for a single town or county; HUD’s Point-in-Time count is by Continuum of Care. DOLA counts supportive homes on top of Table 3, not inside it.</p>' +

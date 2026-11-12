@@ -2,7 +2,7 @@
  "about": "Built by coho-pathfinder-visual-lab scripts/build-port.js. Do not edit hub/ or places-hub.html by hand: change the lab and rebuild.",
  "hub": "places",
  "lab": {
-  "commit": "be56bef0f05790564a02e72bff631289db2fd5f8",
+  "commit": "88049e65cb69f06e312eca4b240dd1471667de4f",
   "dirty": false
  },
  "files": {
@@ -13,7 +13,7 @@
   "hub/data-pages.css": "9284d87cfbef7443a2aa0926c586be3bc7c3d8f7daa1641de7349878af3b525c",
   "hub/employers.js": "b88b55893ff703a8e7b4868804e125f2c8b07a10cdeb0ed5a3825e38c7821d48",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
-  "hub/hna-dola.js": "a878dc1174acce2d4275c15807f6e1e6d7b2b78585b63c4718b0b766770d02ec",
+  "hub/hna-dola.js": "3d98f4185ac1b0decd1974f7f02bae7d450633f73b651652d4046ee8db71662e",
   "hub/hna.js": "7a61214c2633293af3118203b49169cf88c301ca40b6bf5bd6557e340ae16189",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
   "hub/lab-config.js": "a9762fd7d7712ac191dd01dcb77b4b400d1f6f8b929ece43a08c5898f870b37a",
@@ -91,7 +91,7 @@
   "js/lihtc-project-size.js": "e721b94b612a04b6b0c606ae84f92b03b486d0d5b886e286ee96081565c9566f",
   "js/historical-trends.js": "671fb304ad125b48b34bf7ae4ab9de3da4643ef0fa7178f11e282b995775760c",
   "js/affordability-metrics-panel.js": "f7532400acf4e2f7569032471f21856af44afcc3edea17a9e15463aa2730956d",
-  "js/market-health-composite.js": "732f7ca0bf6ee582af85cb2ca8c159718e2685eb77d4e1dc538422500a8450ce",
+  "js/market-health-composite.js": "e9554dbeb1bba7927f7099c0a902b35d7a20c1b58cd7ac5b317e0eda69847e90",
   "js/policy-simulator.js": "80ed956e69203df36004c66eea273570ac8344136c722dd60a01fd703173b85b",
   "js/components/affordable-housing-layer.js": "e433d17e95ef4e646e8dc9905f2b2180ea77355e4e0de433c20b39851426d3eb",
   "js/hna/hna-ownership-strategy.js": "e7194b52b59e709a48a76c00cf85800ebf0c55faf7d5cf066297f2dc92b90773"
