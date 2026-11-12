@@ -1431,5 +1431,5 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 
 /* Section tabs on long pages (format review F2): the HNA tab row, marking the section being read. */
 .page-tabs a[aria-current="location"] { border-bottom-color: var(--green); font-weight: 600; color: var(--green); }
-#main [id] { scroll-margin-top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) + var(--page-tabs-h, 3rem) + .5rem); }
+#main [id] { scroll-margin-top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) + 3rem + .5rem); }
 @media print { .page-tabs { display: none; } }

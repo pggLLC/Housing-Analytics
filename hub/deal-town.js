@@ -3,7 +3,7 @@
 // limits follow them, so a town inside a county has that county's limits. What a town changes is the market read: the
 // renters behind the suggested home sizes, and the town's own rent beside the county's.
 // How far the town's own survey figures can be used goes by its population, on two lines the Census Bureau draws
-// (https://www.census.gov/programs-surveys/acs/geography-acs/areas-published.html, checked 2026-11-05): 1-year
+// (https://www.census.gov/programs-surveys/acs/geography-acs/areas-published.html (checked 2026-11-05)): 1-year
 // supplemental estimates are published for areas of 20,000 or more, and below that only the 5-year average exists.
 //   20,000 or more  large: the town's figures are used.
 //   5,000 to 19,999 mid-size: the town's figures are used where its renter count rates good or fair; otherwise the county's.
