@@ -512,10 +512,18 @@
 
       // A linked place loads at once; auto=1, which older links carry, is
       // no longer needed. Returns whether the link named a listed place.
+      // A link with ?geoid= and no geoType (the hub pages and the step rail
+      // send these) takes the type from the geography list, so a saved
+      // county elsewhere cannot win over the place in the link.
       function applyUrlGeographyParams() {
         var requestedGeoType = urlParams.get('geoType');
-        var requestedGeoid = urlParams.get('geoid');
-        if (!requestedGeoType || !requestedGeoid) return false;
+        var requestedGeoid = urlParams.get('geoid') || urlParams.get('fips');
+        if (!requestedGeoid) return false;
+        if (!requestedGeoType) {
+          if (geoIndex[requestedGeoid]) requestedGeoType = geoIndex[requestedGeoid].type;
+          else if (/^08\d{3}$/.test(requestedGeoid)) requestedGeoType = 'county';
+          else return false;
+        }
 
         var entry = geoIndex[requestedGeoid];
         if (!entry && requestedGeoType !== 'county') return false;
