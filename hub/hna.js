@@ -1887,7 +1887,7 @@
       var pcl = isCounty ? extraFile(EXTRA.placeCounty) : {};
       if (!lf || !qf || !df || !tf || !pcl) return '';
       // A list that did not load is not zero properties, zero tracts or "Not in a DDA".
-      if (extraFailed(EXTRA.lihtc, EXTRA.qct, EXTRA.dda) || (!isCounty && extraFailed(EXTRA.tracts))) {
+      if (extraFailed(EXTRA.lihtc, EXTRA.qct, EXTRA.dda) || (!isCounty && extraFailed(EXTRA.tracts)) || (isCounty && extraFailed(EXTRA.placeCounty))) {
         return '<h2>LIHTC, QCT and DDA</h2><p class="note">The tax credit property, Qualified Census Tract or Difficult Development Area list did not load, so no counts or designation are shown here. Open this chapter again in a moment to retry.</p>';
       }
       var cf = isCounty ? geoid : fips, props = (lf.features || []).map(function (f) { return f.properties || f; });
