@@ -172,6 +172,10 @@ test('Deploy workflow: deploy.yml exists and is properly configured', () => {
     assert(content.includes('path: dist'),            "artifact path is dist");
     assert(content.includes('deploy-pages'),         'deploy-pages action present');
     assert(content.includes('cancel-in-progress: true'), 'new deploys cancel stuck older Pages deploys');
+    const deployJob = content.match(/^  deploy:\n([\s\S]*?)(?=^  [\w-]+:\n|(?![\s\S]))/m);
+    const timeout = deployJob && deployJob[1].match(/^\s{4}timeout-minutes:\s*(\d+)\s*$/m);
+    assert(timeout && Number(timeout[1]) >= 20,
+        'deploy job allows at least 5 minutes to build, 10 for Pages, 3 for live checks, and 2 for cleanup');
 });
 
 test('Deploy watchdog: automation commits cannot silently miss Pages deploy', () => {

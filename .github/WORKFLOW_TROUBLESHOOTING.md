@@ -4,6 +4,35 @@ This guide covers common failure modes for the data-building workflows in this r
 
 ---
 
+## Pages Deploy or Watchdog Failure
+
+The [Pages Deploy Watchdog](https://github.com/pggLLC/Housing-Analytics/actions/workflows/pages-deploy-watchdog.yml)
+checks whether the latest `main` commit has a successful or active deploy; it
+does not deploy the site itself. Its schedule can start late, so a green
+watchdog is not a real-time availability check.
+
+1. Compare the current `main` SHA, the most recent successful
+   [Pages deploy](https://github.com/pggLLC/Housing-Analytics/actions/workflows/deploy.yml),
+   and `https://cohoanalytics.com/version.json`. Check whether a newer deploy
+   is already running before taking action.
+2. Open the failed deploy and identify the failed step. If **Deploy to GitHub
+   Pages** remains at `syncing_files` until `Timeout reached`, the artifact
+   was uploaded but Pages did not finish in time. Check
+   [GitHub Status](https://www.githubstatus.com/) and the deployment logs;
+   this alone does not establish why syncing stalled.
+3. If no newer deploy is running and the current `main` still needs deployment,
+   dispatch `deploy.yml` on `main` from Actions. Do not rerun an old failure
+   blindly: it can deploy an old commit or cancel a newer run.
+4. Confirm the new deploy succeeds and the live `version.json` matches current
+   `main`. If `main` advances during verification, compare against the new head.
+
+`actions/deploy-pages@v5` caps its own timeout at 10 minutes. The longer job
+timeout provides build and cleanup headroom; it does not extend Pages' limit or
+guarantee recovery from a stalled sync. Keep failures visible and investigate
+repeated timeouts rather than treating a retry as a fix.
+
+---
+
 ## Weekly Data Sync Failures (`run-all-workflows.yml`)
 
 ### Symptoms
