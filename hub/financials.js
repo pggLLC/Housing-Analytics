@@ -434,7 +434,8 @@
     fields['dc-unit-mix-source'] = 'auto';
     fields['dc-unrepresented-schedule-rows'] = '[]';
     fields['dc-auto-noi'] = draft.fields['dc-auto-noi'] !== 'no';
-    fields['dc-noi'] = draft.fields['dc-noi'] == null || draft.fields['dc-noi'] === '' ? '0' : String(draft.fields['dc-noi']);
+    // A blank manual NOI stays blank: the engine reads it as unknown and holds the mortgage and gap (Codex, #2794).
+    fields['dc-noi'] = draft.fields['dc-noi'] == null ? '' : String(draft.fields['dc-noi']);
     fields['dc-achievable-cap'] = false; fields['dc-qct-dda'] = false;
     fields['dc-gsf-standard'] = ''; fields['dc-gsf-efficiency'] = '0.80';
     fields['dc-market-rent-mode'] = 'zori'; fields['dc-market-bedroom'] = '2br'; fields['dc-market-rent-source'] = '';
