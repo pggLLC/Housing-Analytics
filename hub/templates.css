@@ -933,7 +933,7 @@ th[aria-sort="descending"] > button.th-sort::after { content: "\2193"; color: va
    County and Cost. Fields now start together, each with its help, and Credit takes two columns so its two choices sit in a row. */
 @media (min-width: 900px) { .quick fieldset.quick-credit { grid-column: span 2; } }
 /* --sp-top is the height of the slim step bar while it shows (set in hna.js), so the two never overlap. */
-html { scroll-padding-top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) + var(--tabs-h, 0px) + 8px); }
+html { scroll-padding-top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) + var(--tabs-h, 0px) + var(--live-h, 0px) + 8px); }
 .quick-live { position: sticky; top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px)); z-index: 2; display: flex; flex-wrap: wrap; gap: .15rem 1.25rem; align-items: center; margin: 0 0 .75rem; padding: .45rem .75rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: 8px; font-size: 14px; font-variant-numeric: tabular-nums; }
 .quick-live b { font-weight: 600; color: var(--ink-soft); }
 .quick-live-k { font-weight: 700; }

@@ -220,7 +220,7 @@
     if (!c || !c.digest) return;
     var kind = b.getAttribute('data-hna-dl'), name = 'coho-hna-' + g + '-' + kind, body, type;
     if (kind === 'json') {
-      body = JSON.stringify({ geoid: g, pinnedCommit: global.LAB_PIN || null, digest: c.digest, summary: c.summary, hudAffordableAvailable: hudFor(g) }, null, 1); type = 'application/json'; name += '.json';
+      body = JSON.stringify({ geoid: g, pinnedCommit: global.LAB_PIN || null, digest: c.digest, summary: c.summary, unavailableReasons: missingReasons(c.digest), hudAffordableAvailable: hudFor(g) }, null, 1); type = 'application/json'; name += '.json';
     } else {
       body = '﻿' + csvOf(c.digest, g); type = 'text/csv'; name += '.csv';
     }
@@ -228,20 +228,32 @@
     a.href = url; a.download = name; global.document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
   });
+  // Why a figure has no value: the digest's own reason when it carries one (the rent gap and rent burden do),
+  // otherwise that the source publishes none for this place. Shown on the card and carried into the downloads.
+  function whyMissing(m) {
+    if (!m || m.value != null) return null;
+    if (m.unavailable_reason) return m.unavailable_reason;
+    return /^acs/i.test(m.source_id || '') ? 'The Census publishes no figure for this place in this survey.' : 'The source publishes no figure for this place.';
+  }
+  function missingReasons(digest) {
+    var ms = (digest && digest.metrics) || {}, out = {};
+    Object.keys(ms).sort().forEach(function (k) { var w = whyMissing(ms[k]); if (w) out[k] = w; });
+    return out;
+  }
   // One row per published figure: its key, value, source, vintage and the geography it is measured for.
   function csvOf(digest, geoid) {
     var q = function (x) { x = x == null ? '' : String(x); return /[",\n]/.test(x) ? '"' + x.replace(/"/g, '""') + '"' : x; };
     var ms = (digest && digest.metrics) || {};
-    var rows = [['geoid', 'figure', 'value', 'source', 'source id', 'vintage', 'geography', 'confidence']].concat(Object.keys(ms).sort().map(function (k) {
+    var rows = [['geoid', 'figure', 'value', 'source', 'source id', 'vintage', 'geography', 'confidence', 'why no value']].concat(Object.keys(ms).sort().map(function (k) {
       var m = ms[k] || {};
-      return [geoid, k, m.value, sourceOf(m), m.source_id || '', m.as_of || '', m.geography_level || '', m.confidence || ''];
+      return [geoid, k, m.value, sourceOf(m), m.source_id || '', m.as_of || '', m.geography_level || '', m.confidence || '', whyMissing(m) || ''];
     }));
     // HUD's affordable-and-available count, the page's headline, under its own keys and source.
     var h = hudFor(geoid);
     if (h) ['30', '50', '80'].forEach(function (k) {
       var x = h.tiers[k] || {};
       [['hud_homes_short_lte' + k, x.homes_short], ['hud_renter_households_lte' + k, x.renter_households], ['hud_affordable_available_homes_lte' + k, x.affordable_available_homes]].forEach(function (r) {
-        rows.push([geoid, r[0], r[1] == null ? '' : r[1], 'HUD CHAS, affordable and available (calculated by COHO from HUD counts)', 'hud-chas-affordable-available', h.vintage, String(geoid).length === 5 ? 'county' : 'place', r[1] == null ? 'not published' : '']);
+        rows.push([geoid, r[0], r[1] == null ? '' : r[1], 'HUD CHAS, affordable and available (calculated by COHO from HUD counts)', 'hud-chas-affordable-available', h.vintage, String(geoid).length === 5 ? 'county' : 'place', r[1] == null ? 'not published' : '', r[1] == null ? 'HUD publishes no count for this place.' : '']);
       });
     });
     return rows.map(function (r) { return r.map(q).join(','); }).join('\n') + '\n';
@@ -253,7 +265,7 @@
   }
   var EXTRA = { homeValues: 'data/hna/home-value-cascade.json', econ: 'data/co-county-economic-indicators.json', chasGap: 'data/hna/chas_affordability_gap.json', ranking: 'data/hna/ranking-index.json', demog: 'data/co-county-demographics.json', renterSize: 'data/market/acs_renter_household_size_co.json', renterBeds: 'data/market/acs_renter_bedrooms_co.json', flows: 'data/hna/place-od-flows.json', lehdPlace: 'data/hna/place-lehd.json', lehd: function (fips) { return 'data/hna/lehd/' + fips + '.json'; },
     nlihc: 'data/affordable-housing/nlihc-out-of-reach-co.json', ura: 'data/market/co-urban-renewal-authorities.json', oz: 'data/market/opportunity_zones_co.geojson', stops: 'data/amenities/transit_stops_statewide_co.geojson', placeShapes: 'data/co-place-boundaries.geojson', countyShapes: 'data/boundaries/counties_co.geojson',
-    reuse: 'data/market/co-adaptive-reuse-references.json', direction: 'data/market/market-direction.json', permits: 'data/hna/permits.json', forecastError: 'data/hna/forecast-error.json',
+    placeCounty: 'data/hna/derived/place_county_lookup.json', reuse: 'data/market/co-adaptive-reuse-references.json', direction: 'data/market/market-direction.json', permits: 'data/hna/permits.json', forecastError: 'data/hna/forecast-error.json',
     projection: function (fips) { return 'data/hna/projections/' + fips + '.json'; },
     sya: function (fips) { return 'data/hna/dola_sya/' + fips + '.json'; },
     lihtc: 'data/chfa-lihtc.json', qct: 'data/qct-colorado.json', dda: 'data/dda-colorado.json', tracts: 'data/hna/place-tract-membership.json',
@@ -399,7 +411,7 @@
       var at = scopeOf(d[key], key, sctx);
       if (at) at.metric = title;
       return x ? Pl.card(title, fmt(x.value), detail || null, sourceOf(x, ctx), sourceUrl(x, ctx), at)
-        : Pl.card(title, null, detail || null, sourceOf(d[key], ctx) || 'Not in the HNA files for this place', d[key] ? sourceUrl(d[key], ctx) : null, at);
+        : Pl.card(title, null, [whyMissing(d[key]), detail].filter(Boolean).join(' ') || null, sourceOf(d[key], ctx) || 'Not in the HNA files for this place', d[key] ? sourceUrl(d[key], ctx) : null, at);
     };
     var word = function (title, key, detail) { return mc(title, key, String, detail).replace('<div class="metric">', '<div class="metric word">'); };
     var pv = function (k) { return p[k] == null || p[k] === '' ? null : Number(p[k]); };
@@ -1871,7 +1883,9 @@
     // Tax credit properties in the place and county, Qualified Census Tracts among the place's own tracts, and DDA status.
     function creditOverlays() {
       var lf = extraFile(EXTRA.lihtc), qf = extraFile(EXTRA.qct), df = extraFile(EXTRA.dda), tf = isCounty ? {} : extraFile(EXTRA.tracts);
-      if (!lf || !qf || !df || !tf) return '';
+      // A county has no ZIP of its own: a Small Area (ZIP) DDA counts for it when one of the ZIP's places is in the county.
+      var pcl = isCounty ? extraFile(EXTRA.placeCounty) : {};
+      if (!lf || !qf || !df || !tf || !pcl) return '';
       // A list that did not load is not zero properties, zero tracts or "Not in a DDA".
       if (extraFailed(EXTRA.lihtc, EXTRA.qct, EXTRA.dda) || (!isCounty && extraFailed(EXTRA.tracts))) {
         return '<h2>LIHTC, QCT and DDA</h2><p class="note">The tax credit property, Qualified Census Tract or Difficult Development Area list did not load, so no counts or designation are shown here. Open this chapter again in a moment to retry.</p>';
@@ -1886,9 +1900,13 @@
       var myQ = mine ? mine.filter(function (t) { return qcts.indexOf(t) > -1; }) : null;
       var dd = (df.features || []).map(function (f) { return f.properties; });
       var countyDda = dd.some(function (x) { return x.DDA_KIND === 'county' && x.GEOID === cf; });
-      var zipDda = isCounty ? [] : dd.filter(function (x) { return x.DDA_KIND === 'zip' && (x.PLACE_GEOIDS || []).indexOf(geoid) > -1; });
+      var pclMap = (pcl && pcl.places) || {};
+      var zipDda = dd.filter(function (x) {
+        if (x.DDA_KIND !== 'zip') return false;
+        return isCounty ? (x.PLACE_GEOIDS || []).some(function (g) { return pclMap[g] === geoid; }) : (x.PLACE_GEOIDS || []).indexOf(geoid) > -1;
+      });
       var ddaWord = countyDda ? 'In a DDA' : zipDda.length ? 'Partly in a DDA' : 'Not in a DDA';
-      var ddaDetail = countyDda ? 'The whole county is a HUD Difficult Development Area for ' + (df.designationYear || '') + '.' : zipDda.length ? 'ZIP code' + (zipDda.length > 1 ? 's ' : ' ') + zipDda.map(function (x) { return x.ZCTA5; }).join(', ') + ' (' + esc(zipDda[0].DDA_NAME) + ') are Difficult Development Areas for ' + (df.designationYear || '') + '.' : 'No HUD ' + (df.designationYear || '') + ' Difficult Development Area covers ' + (isCounty ? 'the county' : placeShort) + '.';
+      var ddaDetail = countyDda ? 'The whole county is a HUD Difficult Development Area for ' + (df.designationYear || '') + '.' : zipDda.length ? 'ZIP code' + (zipDda.length > 1 ? 's ' : ' ') + zipDda.map(function (x) { return x.ZCTA5; }).join(', ') + ' (' + esc(zipDda[0].DDA_NAME) + ') ' + (zipDda.length > 1 ? 'are Small Area Difficult Development Areas' : 'is a Small Area Difficult Development Area') + ' for ' + (df.designationYear || '') + '. Only a site inside ' + (zipDda.length > 1 ? 'one of those ZIP codes' : 'that ZIP code') + ' gets the boost.' : 'No HUD ' + (df.designationYear || '') + ' Difficult Development Area covers ' + (isCounty ? 'the county' : placeShort) + '.';
       var hud = 'https://www.huduser.gov/portal/datasets/qct.html';
       keep('lihtc', num(inPlace.length), 'tax credit properties on record here', ['CHFA tax credit properties', 'https://www.chfainfo.com/rental-housing/housing-credit']);
       keep('qct', isCounty ? num(countyQ.length) : num(myQ.length) + ' of ' + num(mine.length), 'Qualified Census Tracts' + (isCounty ? '' : ' among the tracts here') + ', where a tax credit deal can take a 30% basis boost', ['HUD QCT list', hud]);
@@ -2623,7 +2641,20 @@
       // The tab row's height counts toward where a jump lands only while it is stuck under the bars.
       var tabs = document.querySelector('#main .tabs'), tr = tabs && global.getComputedStyle(tabs).position === 'sticky' ? tabs.getBoundingClientRect() : null;
       root.style.setProperty('--tabs-h', tr && tr.top <= hdr + sp + 1 ? Math.ceil(tr.height) + 'px' : '0px');
+      // The calculator's result strip sticks under the bars too; a field moved into view by keyboard clears it as well.
+      var live = global.document.querySelector('.quick-live'), lr = live && live.getClientRects().length ? live.getBoundingClientRect() : null;
+      root.style.setProperty('--live-h', lr && lr.top <= hdr + sp + 1 ? Math.ceil(lr.height) + 'px' : '0px');
     }
+    // Keyboard focus never lands under the sticky header, step line, tabs or result strip (WCAG 2.4.11): a field the
+    // browser leaves half-covered is scrolled down to just below them.
+    global.document.addEventListener('focusin', function (ev) {
+      var t = ev.target;
+      if (!t || !t.getBoundingClientRect || (t.closest && t.closest('.site-header, [data-sp-sticky], .step-path, #main .tabs, .quick-live'))) return;
+      var cs = global.getComputedStyle(global.document.documentElement), px = function (n) { return parseFloat(cs.getPropertyValue(n)) || 0; };
+      var cover = px('--hdr-h') + px('--sp-top') + px('--tabs-h') + px('--live-h');
+      var r = t.getBoundingClientRect();
+      if (cover && r.top < cover + 4) global.scrollBy({ top: r.top - cover - 8, behavior: 'instant' });
+    });
     global.addEventListener('scroll', function () { if (!queued) { queued = true; global.requestAnimationFrame(check); } }, { passive: true });
     global.addEventListener('resize', function () { if (!queued) { queued = true; global.requestAnimationFrame(check); } }, { passive: true });
     global.addEventListener('hashchange', function () { global.setTimeout(check, 0); });
