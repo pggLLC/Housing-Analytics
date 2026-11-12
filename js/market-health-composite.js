@@ -84,8 +84,8 @@
     if (!hmdaRec || !_demographics || !_demographics.counties) return null;
     var d = _demographics.counties[name] || _demographics.counties[name.replace(' County', '')];
     var hh = d ? Number(d.households) : NaN;
-    var orig = Number(hmdaRec.originations);
-    if (!Number.isFinite(hh) || hh <= 0 || !Number.isFinite(orig)) return null;
+    var orig = _num(hmdaRec.originations);  // missing stays missing; a measured 0 is a rate of 0
+    if (!Number.isFinite(hh) || hh <= 0 || orig == null) return null;
     return orig / hh * 1000;
   }
 

@@ -165,13 +165,37 @@ const behaviour = [
     assert(rows[rows.length - 1].name === 'Alamosa', 'C4 an unscored county sorts after the scored ones');
     assert(Number.isInteger(byName(rows, 'Adams').composite), 'C4 missing fields elsewhere leave other counties scored');
   }),
+  ...[null, ''].map(v => runC4(fixture({ 'hmda/co-county-aggregates.json': { counties: {
+    '08001': { years: { 2024: { originations: v, denial_rate: 0.12 } } },
+    '08003': { years: { 2024: { originations: 0, denial_rate: 0.2 } } },
+    '08005': { years: { 2024: { originations: 11000, denial_rate: 0.1 } } } } } })).then(({ rows }) => {
+    const a = byName(rows, 'Adams'), z = byName(rows, 'Alamosa');
+    assert(a.composite == null && a.origPer1k === null && a.missing.indexOf('mortgage originations per 1,000 households') > -1,
+      'C4 originations ' + JSON.stringify(v) + ': missing, not a rate of 0, and the county is not scored');
+    assert(z.origPer1k === 0 && Number.isInteger(z.composite), 'C4 measured 0 originations is a rate of 0 and still scores');
+  })),
   runC4(fixture({ 'co-county-economic-indicators.json': { counties: { Adams: econ(4, 3, 4.1), Alamosa: econ(0, 0, 5.2), Arapahoe: econ(2.5, 2, 3.9) } } })).then(({ rows }) => {
     const a = byName(rows, 'Alamosa');
     assert(a.jobGrowth === 0 && a.popGrowth === 0 && Number.isInteger(a.composite), 'C4 a measured 0 is a value and still scores');
   })
 ];
-assert(!/BLS QCEW|bls\.gov\/cew/.test(c4) && /BLS LAUS<\/a> \(employed residents/.test(c4),
-  'C4 footer cites BLS LAUS for employed residents, not QCEW jobs');
+// The footer cites the program that actually produces each column (Codex on #2792): read the producer,
+// scripts/fetch_county_economic_indicators.py, for the function behind job_growth_5yr_pct and unemployment_rate
+// and the BLS series it requests (LAUCN... is LAUS; ENU... would be QCEW), and the committed file's source line.
+const producer = readRel('scripts/fetch_county_economic_indicators.py');
+function programFor(field) {
+  const v = (new RegExp('"' + field + '":\\s*(\\w+)\\.get\\(').exec(producer) || [])[1];
+  const fn = v && (new RegExp(v + '\\s*=\\s*(\\w+)\\(').exec(producer) || [])[1];
+  const body = fn ? producer.slice(producer.indexOf('def ' + fn + '('), producer.indexOf('\ndef ', producer.indexOf('def ' + fn + '(') + 1)) : '';
+  return /f"LAUCN/.test(body) ? 'LAUS' : /ENU|\/cew\/|qcew/i.test(body) ? 'QCEW' : null;
+}
+const empProg = programFor('job_growth_5yr_pct'), urProg = programFor('unemployment_rate');
+assert(empProg === 'LAUS' && urProg === 'LAUS', 'C4 producer: employed residents from ' + empProg + ', unemployment from ' + urProg);
+assert(/BLS LAUS[^,]*employment/i.test(indicators.source || ''), 'C4 committed indicators file names LAUS employment as its source');
+const footer = (/'Sources: ([\s\S]*?)<\/p>'/.exec(c4) || [])[1] || '';
+const cites = prog => prog === 'LAUS' ? /BLS LAUS<\/a> \(employed residents/.test(footer) : /BLS QCEW<\/a> \(jobs/.test(footer);
+assert(cites(empProg) && (empProg === 'QCEW' || !/QCEW|bls\.gov\/cew/.test(footer)),
+  'C4 footer cites the program that produces employed residents (' + empProg + ')');
 assert(!/QCEW/.test(cddHtml), 'colorado-deep-dive cites no QCEW series it does not use');
 
 Promise.all(behaviour).catch(e => assert(false, 'C4 behaviour threw: ' + e.message)).then(() => {
