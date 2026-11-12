@@ -23,7 +23,7 @@
  * `apportioned` carries the tract count because that is the real confidence
  * signal and it is already recorded per place in data/hna/place-chas.json:
  * 270 of 482 Colorado places resolve to a single tract, where apportionment
- * means one tract's profile scaled by population share. That is a materially
+ * means one tract's profile scaled to the place. That is a materially
  * weaker claim than a twelve-tract city and the reader deserves to see the
  * difference. The neighbouring `low_confidence` and `coverage_share` fields
  * are not used here: both are constant across all 482 places in the committed
@@ -84,9 +84,16 @@
       return {
         level: level, label: tracts ? ('From ' + tracts + ' tract' + (tracts === 1 ? '' : 's')) : 'Apportioned',
         tone: 'derived', tractCount: tracts,
-        title: metric + ' is apportioned to this place from ' +
+        // The method as scripts/hna/build_place_chas.py applies it (its
+        // meta.method): weight = min(1, max(area share, population share)),
+        // area share alone where no population is known, then household
+        // totals matched to the place's ACS tenure counts. The old wording,
+        // "by population share", described neither the max nor the match.
+        title: metric + ' is an estimate for this place, built from ' +
           (tracts ? (tracts + ' underlying census tract' + (tracts === 1 ? '' : 's')) : 'the underlying census tracts') +
-          ' by population share.' +
+          '. Each tract counts by the larger of its population share and its land-area share inside the place' +
+          ' (land area alone where no population is known). Renter and owner household totals are then matched' +
+          ' to this place’s Census count; the rates stay HUD’s.' +
           (single ? ' Only one tract underlies this place, so the estimate carries that tract’s profile — treat it as indicative.' : '')
       };
     }

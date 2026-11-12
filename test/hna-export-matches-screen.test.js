@@ -180,6 +180,8 @@ async function exportAll(c) {
   R.renderQctLayer(c.qct);
   if (c.dda) R.renderDdaLayer(c.county, c.dda, { type: c.geoType, name: summary.geo.label });
   await R.renderTransitZonePanel(c.geoid, c.tzNow || TZ_FRESH);
+  // An invented page state, set after the page's own renderers have run.
+  if (c.afterRender) c.afterRender();
   // HUD's count of homes short, by the page's own renderer (the controller
   // passes the same file).
   R.renderChasAvailableShortfall(readJson('data/hna/chas_affordable_available.json'), { type: c.geoType, geoid: c.geoid });
@@ -416,6 +418,72 @@ async function exportAll(c) {
     });
   }
 
+  await test('a DDA note fits the status: Non-DDA is never told "130% basis boost" (closeout ledger P07)', async () => {
+    // The old exporter printed "130% basis boost" under every DDA status, so a
+    // place outside a DDA read as if it earned the boost. Invented statuses on
+    // Fruita's page; the three words are the ones renderDdaLayer writes.
+    const setDda = (status, note) => () => {
+      document.getElementById('statDdaStatus').textContent = status;
+      document.getElementById('statDdaNote').textContent = note;
+    };
+    const base = CASES[1];
+    const non = await exportAll(Object.assign({}, base, { dda: null, afterRender: setDda('Non-DDA', 'Fruita is not in a HUD Difficult Development Area.') }));
+    // Agreement, not copy (AGENTS.md, "pin the agreement"): every format carries
+    // the exporter's one note for the status, and the claim it makes fits the
+    // status. The 130% figure is the claim checked: present only when designated.
+    const W = window.__HNA_exportWords, flat = (a) => a.join(' ').replace(/\s+/g, ' ');
+    const nonNote = W.ddaNote('Non-DDA'), ddaNote = W.ddaNote('DDA'), unknownNote = W.ddaNote('');
+    assert(nonNote && ddaNote && unknownNote && new Set([nonNote, ddaNote, unknownNote]).size === 3, 'the three statuses do not get three notes');
+    let row = summaryRow('DDA status');
+    assert.strictEqual(row.v, 'Non-DDA');
+    assert.strictEqual(row.n, nonNote, 'workbook Non-DDA note is not the exporter\'s');
+    assert(!/130%/.test(row.n), 'a Non-DDA place is still told about a 130% boost in the workbook');
+    const csvDda = non.csvRows.find((x) => x[0] === 'DDA status');
+    assert(csvDda && csvDda[1].startsWith('Non-DDA') && csvDda[1].includes(nonNote) && !/130%/.test(csvDda[1]), 'CSV DDA row: ' + (csvDda && csvDda[1]));
+    assert(flat(non.pdf).includes(pdfPlain(nonNote).slice(0, 30)), 'the PDF card does not carry the Non-DDA note');
+    assert(!non.pdf.some((s) => /^130% basis boost$/.test(String(s).trim())), 'the PDF still prints the bare "130% basis boost" note');
+    // The PDF heading must not claim a designation changes credit pricing.
+    assert(!/improv\w*[^.]{0,20}pricing|better (credit )?pric|raises? the (credit )?price/i.test(flat(non.pdf)), 'the PDF heading still says a designation improves credit pricing');
+
+    await exportAll(Object.assign({}, base, { dda: null, afterRender: setDda('DDA', 'Mesa County is a HUD Non-Metropolitan DDA.') }));
+    row = summaryRow('DDA status');
+    assert.strictEqual(row.v, 'DDA');
+    assert.strictEqual(row.n, ddaNote, 'workbook DDA note is not the exporter\'s');
+    assert(/130%/.test(row.n), 'a designated place is not told the 130% basis figure');
+
+    // Unknown: the page's own reason, and no claim either way.
+    await exportAll(base);
+    row = summaryRow('DDA status');
+    assert.strictEqual(row.v, 'Unavailable');
+    assert(!/130%/.test(row.n) && row.n !== nonNote && row.n !== ddaNote, 'an unknown DDA status makes a claim: ' + row.n);
+  });
+
+  await test('reader-facing outputs name the AMI gap method in words; the JSON keeps the code (closeout ledger P09)', async () => {
+    const r = await exportAll(CASES[1]);
+    const code = r.data.amiGap.source;
+    assert.strictEqual(code, rankOf('0828745').metrics._ami_gap_source, 'the JSON no longer carries the ranking index\'s code');
+    const words = r.data.amiGap.sourceLabel;
+    // The words are the exporter's one definition of this code, and are words, not the code.
+    assert.strictEqual(words, window.__HNA_exportWords.amiGapSource[code], 'no definition, or a second one, for ' + code);
+    assert(words && words !== code && /\s/.test(words), 'the reader gets the code, not words: ' + words);
+    const head = summaryRow('AMI gap & affordability');
+    assert.strictEqual(head.n, 'Source: ' + words, 'workbook: ' + head.n);
+    const codeRe = new RegExp('\\b' + code + '\\b');
+    assert(!sheets.Summary.rows.some((x) => [x.k, x.v, x.n].some((c) => codeRe.test(String(c)))), 'the workbook Summary still shows the code');
+    assert(!r.pdf.some((s) => codeRe.test(String(s))), 'the PDF still shows the code');
+    assert(r.pdf.join(' ').replace(/\s+/g, ' ').includes(pdfPlain(words).slice(0, 40)), 'the PDF does not show the plain words');
+    // The CSV shows both, on separate rows, so the words and the code can be matched.
+    const csvWords = r.csvRows.find((x) => x[0] === 'AMI Gap Source');
+    const csvCode = r.csvRows.find((x) => x[0] === 'AMI Gap Source (code)');
+    assert(csvWords && csvWords[1] === words && csvCode && csvCode[1] === code, 'CSV rows: ' + JSON.stringify([csvWords, csvCode]));
+    // The transit designation row carries the exporter's words for its status, not the status code.
+    const tz = summaryRow('Zone designation');
+    const tzWords = Object.values(window.__HNA_exportWords.transitDesignation);
+    assert(tz && !Object.keys(window.__HNA_exportWords.transitDesignation).includes(String(tz.n || '').trim()),
+      'the transit designation note is the bare status code: ' + (tz && tz.n));
+    assert(tz && (tz.v === 'Unavailable' || tzWords.some((w) => String(tz.n).includes(w))), 'the transit note is not one of the exporter\'s definitions: ' + (tz && tz.n));
+  });
+
   await test('an unavailable transit panel exports its reason, never a share', async () => {
     const stale = new Date(Date.parse(tzByGeo.meta.stops_generated) + 40 * 86400e3);
     const r = await exportAll(Object.assign({}, CASES[0], { tzNow: stale }));
@@ -533,6 +601,34 @@ async function exportAll(c) {
     assert(!/re-draws the chart/i.test(src), 'the workbook still says Excel re-draws the chart');
     const btn = document.getElementById('btnExcel').getAttribute('title');
     assert(!/native Excel chart/i.test(btn), 'the Download Excel button still promises native charts: ' + btn);
+  });
+
+  await test('every workbook sheet keeps its header in view and on each printed page; long text wraps (closeout ledger P08)', async () => {
+    await exportAll(CASES[0]);
+    const names = Object.keys(sheets);
+    assert(names.length >= 3, 'only ' + names.length + ' sheets'); // Summary, Sources, About; chart sheets need drawn charts, which jsdom has none of
+    for (const n of names) {
+      const ws = sheets[n], head = ws.pageSetup && ws.pageSetup.printTitlesRow;
+      assert(ws.views && ws.views[0] && ws.views[0].state === 'frozen', n + ': header not frozen');
+      assert(/^(\d+):\1$/.test(head || '') && Number(head.split(':')[0]) === ws.views[0].ySplit, n + ': print titles ' + head + ' do not match the frozen header');
+      assert.strictEqual(ws.pageSetup.fitToWidth, 1, n + ': does not print one page across');
+    }
+    assert.strictEqual(sheets.Summary.views[0].ySplit, 1, 'Summary header is not row 1');
+    const chart = names.find((n) => !['Summary', 'Need reconciliation', 'Sources', 'About', 'Notes & sources'].includes(n));
+    if (chart) assert.strictEqual(sheets[chart].views[0].ySplit, 4, chart + ': chart sheet header is not row 4');
+    // A worksheet with real rows: text wraps and the row grows, numbers and values are untouched.
+    const rows = [[1, ['Metric', 'Value', 'Note']], [2, ['Short', 5455, 'ok']], [3, ['A label long enough to need three lines in a narrow column', 210, 'x'.repeat(130)]]]
+      .map(([n, vals]) => ({ n, height: undefined, cells: vals.map((value) => ({ value })) }));
+    const before = JSON.stringify(rows.map((r) => r.cells.map((c) => c.value)));
+    const fake = { rowCount: 3, getColumn: (c) => ({ width: [20, 12, 40][c - 1] }),
+      eachRow: (o, fn) => rows.forEach((r) => fn({ set height(h) { r.height = h; }, eachCell: (o2, f) => r.cells.forEach((c, i) => f(c, i + 1)) }, r.n)) };
+    window.__HNA_readableSheet(fake, { filter: true });
+    assert.strictEqual(JSON.stringify(rows.map((r) => r.cells.map((c) => c.value))), before, 'a value changed');
+    assert(rows[2].cells[0].alignment.wrapText && rows[2].cells[2].alignment.wrapText, 'long text does not wrap');
+    assert(!rows[2].cells[1].alignment.wrapText, 'a number was set to wrap');
+    assert(rows[2].height >= 45, 'the long row did not grow: ' + rows[2].height);
+    assert.strictEqual(rows[1].height, undefined, 'a short row was given a height');
+    assert.deepStrictEqual(fake.autoFilter, { from: { row: 1, column: 1 }, to: { row: 1, column: 3 } }, 'no filter on the header');
   });
 
   await test('Fruita\'s 80% AMI gap reaches the export from the place gap file (Codex round 2, finding B)', async () => {

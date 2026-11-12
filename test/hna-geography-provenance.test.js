@@ -42,6 +42,15 @@ run('a single-tract place is explicitly called out as indicative', () => {
   const many = GP.describe({ level: 'apportioned', tractCount: 9 });
   assert.match(one.title, /only one tract/i, 'single-tract places warn in the tooltip');
   assert.doesNotMatch(many.title, /only one tract/i, 'multi-tract places do not');
+  // Closeout ledger P06: the tooltip names the method build_place_chas.py
+  // applies (the larger of population share and area share, then the match to
+  // the place's ACS households), not "by population share".
+  assert.doesNotMatch(many.title, /by population share\./, 'the tooltip still calls it plain population share');
+  assert.match(many.title, /larger of its population share and its land-area share/);
+  assert.match(many.title, /matched to this place’s Census count/);
+  assert.match(many.title, /estimate/i, 'an apportioned figure is called an estimate');
+  const method = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, '..', 'data/hna/place-chas.json'), 'utf8')).meta.method;
+  assert.match(method, /max\(share_of_tract_area, population_share\)/, 'the build no longer uses the method this tooltip describes');
 });
 
 run('a null or zero tract count never renders "from 0 tracts"', () => {

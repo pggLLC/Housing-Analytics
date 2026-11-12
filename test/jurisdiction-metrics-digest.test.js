@@ -639,4 +639,100 @@ test('nothing is destroyed before the step that can fail', () => {
     + 'still leaves it empty');
 });
 
+/* ── P01 (closeout ledger, 2026-11-11): a missing rent stays missing ── */
+
+const RENT_METRICS = ['wage_affordability_rent_gap_dollars', 'wage_affordability_rent_burden_pct'];
+
+function runBridge(records) {
+  const r = spawnSync('python3', [BRIDGE, '--compute-workforce-layer'], {
+    cwd: ROOT, encoding: 'utf8', timeout: 30000, input: JSON.stringify(records),
+  });
+  assert.strictEqual(r.status, 0, `the bridge failed: ${r.stderr || r.error}`);
+  return JSON.parse(r.stdout);
+}
+
+test('an invented place with no rent gets no rent gap, and says why', () => {
+  // Before this, the bridge read a missing median rent as $0. "Income needed
+  // to rent" came out $0, the rent gap came out as minus the whole county wage
+  // (a large surplus), and rent burden came out 0%: a favourable result for a
+  // place the Census publishes no rent for. 170 of 546 records were affected.
+  // The LEHD earnings bins below are invented; they only give the county a wage.
+  const lehd = { metrics: { CE01: 100, CE02: 300, CE03: 600 }, CE01: 100, CE02: 300, CE03: 600 };
+  const base = { median_home_value: 400000, in_commuters: 10, commute_ratio: 20,
+    population: 300, county_lehd: lehd, county_trends: {} };
+  const out = runBridge([
+    Object.assign({ geoid: '0899901', gross_rent_median: null }, base),
+    Object.assign({ geoid: '0899902' }, base),                       // key absent
+    Object.assign({ geoid: '0899903', gross_rent_median: 0 }, base), // empty cell
+    Object.assign({ geoid: '0899904', gross_rent_median: -666666666 }, base), // ACS sentinel
+    Object.assign({ geoid: '0899905', gross_rent_median: 1500 }, base),
+  ]);
+  const known = out['0899905'];
+  assert.ok(typeof known.county_median_annual_wage_estimate === 'number',
+    'the invented county has no wage estimate, so this test proves nothing about rent');
+  for (const id of ['0899901', '0899902', '0899903', '0899904']) {
+    const row = out[id];
+    assert.strictEqual(row.wage_affordability_rent_gap_dollars, null,
+      `${id}: a rent gap was worked out with no rent (the $0 fallback is back)`);
+    assert.strictEqual(row.wage_affordability_rent_burden_pct, null,
+      `${id}: a rent burden was worked out with no rent (the $0 fallback is back)`);
+    assert.strictEqual(row.wage_affordability_rent_unavailable_reason, 'median_gross_rent_not_published');
+    assert.ok(/no median gross rent/.test(row.wage_affordability_rent_unavailable_reason_text || ''),
+      `${id}: the missing rent gap carries no plain reason`);
+    // Wage and home value are known, so the ownership side is still worked out
+    // and is the same figure the known-rent place gets.
+    assert.strictEqual(row.wage_affordability_ownership_gap_dollars, known.wage_affordability_ownership_gap_dollars,
+      `${id}: the ownership gap changed with the rent, which it does not depend on`);
+    assert.strictEqual(row.workforce_housing_pressure_score, known.workforce_housing_pressure_score,
+      `${id}: the pressure score moved with the rent, which it does not use`);
+  }
+  // The known-rent control: $1,500 a month needs $60,000 a year at 30%.
+  assert.strictEqual(known.wage_affordability_rent_gap_dollars,
+    60000 - known.county_median_annual_wage_estimate);
+  assert.ok(known.wage_affordability_rent_burden_pct > 0);
+  assert.strictEqual(known.wage_affordability_rent_unavailable_reason, null);
+});
+
+test('no committed digest reports a rent gap for a place with no rent', () => {
+  const ranking = JSON.parse(fs.readFileSync(RANKING_PATH, 'utf8'));
+  let missing = 0;
+  let withRent = 0;
+  for (const entry of ranking.rankings) {
+    const digest = JSON.parse(fs.readFileSync(path.join(DIGEST_DIR, `${entry.geoid}.json`), 'utf8'));
+    const rent = entry.metrics ? entry.metrics.gross_rent_median : null;
+    const hasRent = typeof rent === 'number' && rent > 0;
+    for (const name of RENT_METRICS) {
+      const m = digest.metrics[name];
+      if (hasRent) {
+        // A place with a rent and a county wage still gets its figure.
+        if (digest.metrics.wage_affordability_ownership_gap_dollars.value !== null) {
+          assert.ok(typeof m.value === 'number', `${entry.geoid} ${name}: has a rent but lost its figure`);
+        }
+        assert.ok(!('unavailable_reason' in m) || m.value === null,
+          `${entry.geoid} ${name}: carries a reason beside a value`);
+      } else {
+        assert.strictEqual(m.value, null,
+          `${entry.geoid} (${entry.name}) ${name} = ${m.value} with no published rent`);
+        assert.strictEqual(m.confidence, 'missing');
+        assert.ok(m.unavailable_reason_code && m.unavailable_reason && m.unavailable_reason.length > 20,
+          `${entry.geoid} ${name}: missing with no reason`);
+      }
+    }
+    if (hasRent) withRent += 1; else missing += 1;
+  }
+  assert.ok(missing > 0 && withRent > 0, 'the scan needs both kinds of place to mean anything');
+  console.log(`  (${missing} places with no published rent, ${withRent} with one)`);
+});
+
+test('Collbran has no rent gap; Fruita keeps its own', () => {
+  const collbran = JSON.parse(fs.readFileSync(path.join(DIGEST_DIR, '0815605.json'), 'utf8')).metrics;
+  assert.strictEqual(collbran.wage_affordability_rent_gap_dollars.value, null);
+  assert.strictEqual(collbran.wage_affordability_rent_burden_pct.value, null);
+  assert.ok(typeof collbran.wage_affordability_ownership_gap_dollars.value === 'number',
+    'Collbran has a home value and a county wage, so its ownership gap stands');
+  const fruita = JSON.parse(fs.readFileSync(path.join(DIGEST_DIR, '0828745.json'), 'utf8')).metrics;
+  assert.ok(typeof fruita.wage_affordability_rent_gap_dollars.value === 'number');
+  assert.ok(fruita.wage_affordability_rent_burden_pct.value > 0);
+});
+
 console.log('Done.');

@@ -149,12 +149,32 @@ def estimate_county_median_annual_wage(county_lehd: dict[str, Any]) -> float | N
     return float(WAGE_TIER_ANNUAL["high"])
 
 
+# Why a rent-dependent figure is missing. The code is stable for machine
+# readers; the sentence is what a page or download shows the reader.
+RENT_UNAVAILABLE_REASONS = {
+    "median_gross_rent_not_published": (
+        "The Census publishes no median gross rent for this place, so the rent "
+        "gap and rent burden cannot be calculated."
+    ),
+    "county_wage_estimate_unavailable": (
+        "No county wage estimate is available, so the wage gaps cannot be calculated."
+    ),
+}
+
+
 def compute_wage_affordability_gap(
     median_home_value: float | None,
     median_gross_rent: float | None,
     county_median_annual_wage: float | None,
 ) -> dict[str, Any]:
-    """Compare place housing costs with the containing county wage estimate."""
+    """Compare place housing costs with the containing county wage estimate.
+
+    A missing median rent stays missing. It is never read as $0: a $0 rent
+    turns into "income needed to rent: $0", a rent gap equal to minus the whole
+    wage, and a 0% rent burden, all of which read as a favorable result for a
+    place the Census simply does not publish a rent for. The ownership gap does
+    not depend on rent and is still worked out from the wage and home value.
+    """
     if county_median_annual_wage is None or county_median_annual_wage < 0:
         return {
             "county_median_annual_wage_estimate": county_median_annual_wage,
@@ -163,11 +183,13 @@ def compute_wage_affordability_gap(
             "rent_burden_pct": None,
             "income_needed_to_rent": None,
             "income_needed_to_own": None,
+            "rent_unavailable_reason": "county_wage_estimate_unavailable",
         }
-    annual_rent = (median_gross_rent or 0.0) * 12.0
+    # A rent of $0 or below is a survey sentinel or an empty cell, not a rent.
+    rent_missing = median_gross_rent is None or median_gross_rent <= 0
     gap = WageAffordabilityGap(
         median_annual_wage=county_median_annual_wage,
-        median_annual_rent=annual_rent,
+        median_annual_rent=None if rent_missing else median_gross_rent * 12.0,
         median_home_price=median_home_value,
     ).compute()
     return {
@@ -177,6 +199,7 @@ def compute_wage_affordability_gap(
         "rent_burden_pct": gap["rent_burden_pct"],
         "income_needed_to_rent": gap["income_needed_to_rent"],
         "income_needed_to_own": gap["income_needed_to_own"],
+        "rent_unavailable_reason": "median_gross_rent_not_published" if rent_missing else None,
     }
 
 
@@ -248,6 +271,10 @@ def compute_place_workforce_housing_layer(record: dict[str, Any]) -> dict[str, A
         "wage_affordability_rent_gap_dollars": _round_or_none(wage_gap["rent_gap_dollars"], 0),
         "wage_affordability_ownership_gap_dollars": _round_or_none(wage_gap["ownership_gap_dollars"], 0),
         "wage_affordability_rent_burden_pct": _round_or_none(wage_gap["rent_burden_pct"], 1),
+        "wage_affordability_rent_unavailable_reason": wage_gap["rent_unavailable_reason"],
+        "wage_affordability_rent_unavailable_reason_text": RENT_UNAVAILABLE_REASONS.get(
+            wage_gap["rent_unavailable_reason"]
+        ),
         "workforce_housing_pressure_score": demand["score"],
         "workforce_housing_home_value_pressure": demand["home_value_pressure"],
         "workforce_housing_service_sector_pressure": demand["service_sector_pressure"],
@@ -311,8 +338,9 @@ class WageAffordabilityGap:
     ----------
     median_annual_wage : float
         Median annual wage for the area (e.g. from QCEW or ACS DP03).
-    median_annual_rent : float
-        Median gross annual rent (median monthly rent × 12).
+    median_annual_rent : float | None
+        Median gross annual rent (median monthly rent × 12). None when no rent
+        is published: every rent-dependent output is then None, never 0.
     median_home_price : float | None
         Median owner-occupied home value.  Used to compute income needed to
         qualify for a mortgage (28% front-end ratio, 30-yr at *mortgage_rate*).
@@ -325,17 +353,17 @@ class WageAffordabilityGap:
     def __init__(
         self,
         median_annual_wage: float,
-        median_annual_rent: float,
+        median_annual_rent: float | None,
         median_home_price: float | None = None,
         mortgage_rate: float = 0.065,
         down_payment_pct: float = 0.10,
     ) -> None:
         if median_annual_wage < 0:
             raise ValueError("median_annual_wage must be non-negative")
-        if median_annual_rent < 0:
+        if median_annual_rent is not None and median_annual_rent < 0:
             raise ValueError("median_annual_rent must be non-negative")
         self._wage = float(median_annual_wage)
-        self._rent = float(median_annual_rent)
+        self._rent = float(median_annual_rent) if median_annual_rent is not None else None
         self._price = float(median_home_price) if median_home_price is not None else None
         self._rate = float(mortgage_rate)
         self._down = float(down_payment_pct)
@@ -353,8 +381,10 @@ class WageAffordabilityGap:
             return loan / n
         return loan * (monthly_rate * (1 + monthly_rate) ** n) / ((1 + monthly_rate) ** n - 1)
 
-    def _income_needed_to_rent(self) -> float:
+    def _income_needed_to_rent(self) -> float | None:
         """Annual income required so that rent ≤ 30% of gross."""
+        if self._rent is None:
+            return None
         monthly_rent = self._rent / 12.0
         return monthly_rent / AFFORDABILITY_THRESHOLD_PCT * 12.0
 
@@ -381,14 +411,28 @@ class WageAffordabilityGap:
         - own_gap_dollars         : float | None
         - wage_tiers              : dict   (affordability analysis per LEHD wage tier)
         """
+        income_own = self._income_needed_to_own()
+        gap_own = round(income_own - self._wage, 2) if income_own is not None else None
+
+        if self._rent is None:
+            # No published rent: nothing that depends on rent is reported.
+            return {
+                "median_annual_wage": self._wage,
+                "median_annual_rent": None,
+                "rent_burden_pct": None,
+                "affordable": None,
+                "gap_dollars": None,
+                "income_needed_to_rent": None,
+                "income_needed_to_own": round(income_own, 2) if income_own is not None else None,
+                "own_gap_dollars": gap_own,
+                "wage_tiers": {},
+            }
+
         rent_burden = (self._rent / self._wage * 100.0) if self._wage > 0 else None
         affordable = bool(rent_burden is not None and rent_burden <= 30.0)
 
         income_rent = self._income_needed_to_rent()
         gap_rent = round(income_rent - self._wage, 2)
-
-        income_own = self._income_needed_to_own()
-        gap_own = round(income_own - self._wage, 2) if income_own is not None else None
 
         # Per-tier analysis
         monthly_rent = self._rent / 12.0

@@ -11,9 +11,10 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 
-const src = fs.readFileSync(path.join(__dirname, '..', 'js/hna/hna-renderers.js'), 'utf8');
+// The computation moved to js/hna/need-scorecard.js, shared with the place hub (closeout ledger P04).
+const src = fs.readFileSync(path.join(__dirname, '..', 'js/hna/need-scorecard.js'), 'utf8');
 const start = src.indexOf('  function _scorecardComponents(rec, shape) {');
-assert.ok(start !== -1, '_scorecardComponents is in hna-renderers.js');
+assert.ok(start !== -1, '_scorecardComponents is in need-scorecard.js');
 const end = src.indexOf('\n  }\n', start) + 4;
 const components = new Function(src.slice(start, end) + '\nreturn _scorecardComponents;')();
 

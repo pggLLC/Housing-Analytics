@@ -72,14 +72,27 @@ if (scoreBody) {
   // test/need-severity-is-place-level.test.mjs). Follow the delegation rather
   // than asserting a field name that has legitimately moved — but still check
   // the CHAS read exists SOMEWHERE, so deleting it cannot pass this test.
-  assert(scoreBody.includes('_scorecardScore('), 'delegates to the scoring policy');
-  const policyBody = extractFn(renderersSrc, '_scorecardScore');
+  // Since closeout ledger P04 the policy is js/hna/need-scorecard.js, one
+  // module the HNA pages and the place hub share; the panel calls NS.score().
+  assert(scoreBody.includes('NS.score('), 'delegates to the scoring policy');
+  const scorecardSrc = fs.readFileSync(path.join(__dirname, '..', 'js/hna/need-scorecard.js'), 'utf8');
+  const policyBody = extractFn(scorecardSrc, '_scorecardScore');
   assert(policyBody !== null, 'the scoring policy exists');
-  const componentsBody = extractFn(renderersSrc, '_scorecardComponents');
+  const componentsBody = extractFn(scorecardSrc, '_scorecardComponents');
   assert(componentsBody !== null, 'the CHAS component reader exists');
   assert(componentsBody.includes('pct_renter_cb30'), 'reads CHAS cost-burden rate');
   assert(componentsBody.includes('renter_cb30_share'), 'reads the place-level CHAS cost-burden rate');
   assert(/composite/i.test(policyBody), 'builds a composite score');
+  // One implementation: the renderer no longer carries its own copy of the
+  // components, pools or policy, and every HNA page loads the module first.
+  ['_scorecardComponents', '_scorecardScore', '_buildScorecardDistributions', '_percentile'].forEach(function (fn) {
+    assert(extractFn(renderersSrc, fn) === null, fn + ' is not defined again in hna-renderers.js');
+  });
+  ['housing-needs-assessment.html', 'hna-who-lives-here.html', 'hna-what-housing-exists.html', 'hna-what-households-can-afford.html', 'hna-where-its-heading.html', 'hna-what-to-do.html'].forEach(function (page) {
+    var html = fs.readFileSync(path.join(__dirname, '..', page), 'utf8');
+    var a = html.indexOf('src="js/hna/need-scorecard.js"'), b = html.indexOf('src="js/hna/hna-renderers.js"');
+    assert(a > -1 && b > a, page + ' loads need-scorecard.js before hna-renderers.js');
+  });
 }
 
 console.log('\n[test] renderFastTrackCalculatorSection no longer a stub');
