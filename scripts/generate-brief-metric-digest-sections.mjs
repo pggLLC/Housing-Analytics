@@ -94,6 +94,19 @@ function valueText(digest, field, style = "number") {
   return num(value, Number.isInteger(value) ? 0 : 1);
 }
 
+// A place with no published median rent has no rent gap. Say so, with the
+// digest's own reason, instead of printing a figure built on a $0 rent.
+function rentGapText(digest) {
+  const m = metric(digest, "wage_affordability_rent_gap_dollars");
+  if (typeof m.value === "number" && Number.isFinite(m.value)) {
+    return ` and a rent affordability gap of ${valueText(digest, "wage_affordability_rent_gap_dollars", "money")}`;
+  }
+  const why = m.unavailable_reason
+    ? m.unavailable_reason.replace(/\.$/, "")
+    : "The digest has no rent affordability gap for this place";
+  return `. ${why}`;
+}
+
 // Below zero is a surplus where projected households fall, said in words.
 function futureUnitsText(digest) {
   const value = metric(digest, "future_units_needed_20yr").value;
@@ -193,8 +206,7 @@ export function sectionFor(brief, digest) {
           `Economic and service-worker context: the digest reports a workforce-housing pressure score of ` +
           `${valueText(digest, "workforce_housing_pressure_score", "score")}. A worker earning the containing ` +
           `county's LEHD earnings-bin wage estimate faces an ownership affordability gap of ` +
-          `${valueText(digest, "wage_affordability_ownership_gap_dollars", "money")} and a rent affordability gap of ` +
-          `${valueText(digest, "wage_affordability_rent_gap_dollars", "money")}. The county-context service-sector ` +
+          `${valueText(digest, "wage_affordability_ownership_gap_dollars", "money")}${rentGapText(digest)}. The county-context service-sector ` +
           `employment share is ${valueText(digest, "county_service_sector_share_pct", "pct")}, and county-context ACS ` +
           `cohorts show median gross rent changed ${valueText(digest, "county_trend_rent_change_2009_2024_pct", "pct")} ` +
           `from 2009 to 2024 while median household income changed ` +

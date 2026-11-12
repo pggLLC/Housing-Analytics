@@ -1166,12 +1166,14 @@
       "measure_type": "derived"
     },
     "wage_affordability_rent_gap_dollars": {
-      "value": -27500,
+      "value": null,
       "geography_level": "place",
-      "confidence": "high",
+      "confidence": "missing",
       "source_id": "economic-housing-bridge",
       "as_of": "2026-11-09T11:57:59Z",
-      "measure_type": "level"
+      "measure_type": "level",
+      "unavailable_reason_code": "median_gross_rent_not_published",
+      "unavailable_reason": "The Census publishes no median gross rent for this place, so the rent gap and rent burden cannot be calculated."
     },
     "wage_affordability_ownership_gap_dollars": {
       "value": 29283,
@@ -1182,12 +1184,14 @@
       "measure_type": "level"
     },
     "wage_affordability_rent_burden_pct": {
-      "value": 0,
+      "value": null,
       "geography_level": "place",
-      "confidence": "high",
+      "confidence": "missing",
       "source_id": "economic-housing-bridge",
       "as_of": "2026-11-09T11:57:59Z",
-      "measure_type": "rate"
+      "measure_type": "rate",
+      "unavailable_reason_code": "median_gross_rent_not_published",
+      "unavailable_reason": "The Census publishes no median gross rent for this place, so the rent gap and rent burden cannot be calculated."
     },
     "county_service_sector_share_pct": {
       "value": 34.1,

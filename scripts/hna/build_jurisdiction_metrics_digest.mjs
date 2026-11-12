@@ -197,6 +197,13 @@ const RATE_DENOMINATORS = {
   overcrowding_rate_pct: 'occupied_households',
 };
 
+// Figures the bridge works out from the place's median gross rent. When the
+// Census publishes no rent they are null and carry the bridge's reason.
+const RENT_DEPENDENT_METRICS = new Set([
+  'wage_affordability_rent_gap_dollars',
+  'wage_affordability_rent_burden_pct',
+]);
+
 const ECONOMIC_METRICS = {
   workforce_housing_pressure_score: {
     source_id: 'economic-housing-bridge',
@@ -1004,6 +1011,14 @@ function buildDigest(entry, rankingMeta, economicLayer, ownershipRecords, chasSo
       metrics[metric] = economicDigestMetric(metric, economic[sourceField], entry, rankingMeta);
     } else {
       metrics[metric] = economicDigestMetric(metric, null, entry, rankingMeta);
+    }
+    // A rent-dependent figure with no value says why. Without the reason a
+    // missing rent reads as "no data" at best; before 2026-11-12 it read as a
+    // $0 rent, which made 170 places look affordable to rent in.
+    if (RENT_DEPENDENT_METRICS.has(metric) && metrics[metric].value === null
+        && economic.wage_affordability_rent_unavailable_reason) {
+      metrics[metric].unavailable_reason_code = economic.wage_affordability_rent_unavailable_reason;
+      metrics[metric].unavailable_reason = economic.wage_affordability_rent_unavailable_reason_text;
     }
   }
   const own = ownershipRecords[entry.geoid] || {};

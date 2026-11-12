@@ -404,6 +404,35 @@
     none: 'Not available for this geography',
     unavailable: 'Not available for this geography'
   };
+  /* The AMI gap's basis code, in words. The code itself (place_acs_direct and
+   * so on) stays in the JSON export and in the data files; a reader of the PDF
+   * or workbook gets the sentence. Both name the same method. */
+  var AMI_GAP_SOURCE_WORDS = {
+    place_acs_direct: 'Calculated for this place from Census ACS household incomes and rents, against HUD income limits',
+    county_direct: 'County figure: this geography is a county',
+    county_proportional: 'Apportioned: the county gap scaled by this place\u2019s share of county population',
+    combined: 'Combined from the selected places',
+    none: 'Not available for this geography',
+    unavailable: 'Not available for this geography'
+  };
+  /* The transit zone screen's status code (js/transit-zone.js), in words. */
+  var TZ_DESIGNATION_WORDS = {
+    provisional: 'Provisional screen: the state has not published its zone map',
+    official_in: 'Inside a zone on the state\u2019s published map',
+    official_out: 'Outside the zones on the state\u2019s published map',
+    official_map_available: 'The state has published its zone map; check it for this site'
+  };
+  /* What a DDA status means for the basis boost. The old note printed
+   * "130% basis boost" under every status, including Non-DDA. The boost is a
+   * 130% eligible-basis factor for a project on a designated site; it is a
+   * site test, so a designated county or ZIP still needs the project's own
+   * location confirmed, and a place outside a DDA gets no boost from this rule. */
+  function _ddaSub(text) {
+    var s = String(text == null ? '' : text).trim();
+    if (/^dda$/i.test(s)) return 'Designated: a project on a designated site can count 130% of eligible basis. Confirm the site on HUD\u2019s DDA map';
+    if (/^non-?dda$/i.test(s)) return 'Not designated: no DDA basis boost here. A site in a Qualified Census Tract can still qualify for the same boost';
+    return 'Status unknown: check HUD\u2019s DDA map before assuming a basis boost either way';
+  }
   function _sourceWords(table, code) {
     if (code == null || code === '') return '';
     return table[code] || String(code);
@@ -578,7 +607,7 @@
       { key: 'projectCount', label: 'LIHTC projects', value: l.projectCount, sub: l.projectCountScope || 'Active compliance', reason: l.lihtcUnavailableReason },
       { key: 'totalUnits',   label: 'LIHTC units',    value: l.totalUnits,   sub: l.totalUnitsScope || 'Affordable',          reason: l.lihtcUnavailableReason },
       { key: 'qctTracts',    label: 'QCT tracts',     value: l.qctTracts,    sub: l.qctScope || 'IRC §42(d)(5)(B)',     reason: l.qctUnavailableReason },
-      { key: 'ddaStatus',    label: 'DDA status',     value: l.ddaStatus,    sub: '130% basis boost',                        reason: l.ddaUnavailableReason },
+      { key: 'ddaStatus',    label: 'DDA status',     value: l.ddaStatus,    sub: _ddaSub(l.ddaStatus),                      reason: l.ddaUnavailableReason },
     ].map(function (r) {
       var text = _isBlankText(r.value) ? '' : String(r.value).trim();
       var unavailable = text === '' || /^(unavailable|not available)$/i.test(text);
@@ -656,7 +685,7 @@
         value: t.halfMile, sub: 'CHFA QAP transit-oriented distance',
         disclosure: t.halfMileDisclosure || null, unavailableReason: t.halfMileReason || null },
       { key: 'nearest', label: 'Nearest confirmed stop from the centre', value: t.nearest, sub: t.nearestWhat || '' },
-      { key: 'designation', label: 'Zone designation', value: t.designationNote, sub: t.designation || '' },
+      { key: 'designation', label: 'Zone designation', value: t.designationNote, sub: _sourceWords(TZ_DESIGNATION_WORDS, t.designation), code: t.designation || null },
     ];
     return rows.map(function (r) {
       var text = t.state === 'ok' && !_isBlankText(r.value) ? String(r.value).trim() : '';
@@ -1019,6 +1048,7 @@
         hudVintage:         ((_elText('statChasShort30Src') || '').match(/\d{4}[–-]\d{4}/) || [null])[0],
         missingAmiTiers:    m.missing_ami_tiers || [],
         source:             m._ami_gap_source || 'unavailable',
+        sourceLabel:        _sourceWords(AMI_GAP_SOURCE_WORDS, m._ami_gap_source || 'unavailable'),
         gapSign:            m._ami_gap_sign || null,
         note:               m._ami_gap_note || null,
       },
@@ -1319,7 +1349,8 @@
       return [r.label, r.reason ? r.display + ' \u2014 ' + r.reason : r.display];
     })).concat([
       ['Missing AMI Tiers',                      (gap.missingAmiTiers || []).join(', ')],
-      ['AMI Gap Source',                         gap.source || ''],
+      ['AMI Gap Source',                         gap.sourceLabel || _sourceWords(AMI_GAP_SOURCE_WORDS, gap.source) || ''],
+      ['AMI Gap Source (code)',                  gap.source || ''],
       ['AMI Gap Field Note',                     gap.note || ''],
       ['', ''],
 
@@ -1768,7 +1799,7 @@
       drawTableSimple(gapRows.map(function (r) {
         return { label: _pdfPlain(r.label), value: r.display };
       }).concat([
-        { label: 'AMI gap source',             value: data.amiGap.source },
+        { label: 'AMI gap source',             value: _pdfPlain(data.amiGap.sourceLabel || _sourceWords(AMI_GAP_SOURCE_WORDS, data.amiGap.source)) },
       ]));
       // A sentence, not a table cell: the value column is too narrow for it.
       drawNarrative(_pdfPlain('CHAS data source: ' + (data.chasCostBurden.sourceLabel || data.chasCostBurden.source)));
@@ -1784,7 +1815,7 @@
       drawNarrative(_pdfPlain('LEHD source: ' + (data.employment.sourceLabel || data.employment.source)));
 
       // ── 8. LIHTC + opportunity factors ──
-      drawSectionHeader('8. LIHTC properties & opportunity factors', 'Existing LIHTC supply and HUD basis-boost designations (QCT / DDA) that improve credit pricing.');
+      drawSectionHeader('8. LIHTC properties & opportunity factors', 'Existing LIHTC supply and HUD basis-boost designations (QCT / DDA). A project on a designated site can count 130% of its eligible basis, which raises the credits it can earn. The designation does not change the price an investor pays per credit.');
       const lihtcRows = _lihtcRows(data);
       drawStatGrid(lihtcRows.map(function (r) {
         return { label: r.label, value: r.display, sub: _pdfPlain(r.sub) };
@@ -1849,6 +1880,7 @@
   // ---------------------------------------------------------------------------
 
   window.__HNA_buildReportData = buildReportData;
+  window.__HNA_readableSheet = _readableSheet; // for the workbook layout test
   // F173 — primary PDF entry point routes through the structured builder.
   // The old screenshot exportPdf is kept reachable for fallback (and on
   // explicit consumer call via window.__HNA_exportPdfScreenshot).
@@ -1938,6 +1970,47 @@
       .filter(Boolean);
   }
 
+  // Readable layout for a workbook sheet (closeout ledger P08). Changes how a
+  // sheet reads and prints, never a value: text wraps inside its column, rows
+  // grow to fit, the header row stays in view while scrolling and repeats on
+  // every printed page, and wide sheets print one page across. o.headerRow is
+  // the header's row number (1 unless given); rows above it, such as a chart
+  // sheet's title, are left as they are. o.filter adds a filter on the header.
+  function _readableSheet(ws, o) {
+    if (!ws) return;
+    o = o || {};
+    var head = o.headerRow || 1;
+    ws.views = [{ state: 'frozen', xSplit: o.freezeCols || 0, ySplit: head }];
+    var setup = { orientation: o.landscape ? 'landscape' : 'portrait', fitToPage: true, fitToWidth: 1, fitToHeight: 0, printTitlesRow: head + ':' + head };
+    if (ws.pageSetup && typeof ws.pageSetup === 'object') Object.keys(setup).forEach(function (k) { ws.pageSetup[k] = setup[k]; });
+    else ws.pageSetup = setup;
+    if (typeof ws.eachRow !== 'function') return;
+    var cols = 0;
+    ws.eachRow({ includeEmpty: false }, function (row, n) {
+      if (n < head) return;
+      var lines = 1;
+      row.eachCell({ includeEmpty: false }, function (cell, c) {
+        cols = Math.max(cols, c);
+        var v = cell.value;
+        if (v == null || v === '') return;
+        var text = typeof v === 'string';
+        cell.alignment = Object.assign({}, cell.alignment || {}, { vertical: 'top', wrapText: text || n === head });
+        if (!text) return;
+        var width = Math.max(4, (ws.getColumn(c).width || 10) * 1.1 - 1);
+        var need = String(v).split('\n').reduce(function (a, part) { return a + Math.max(1, Math.ceil(part.length / width)); }, 0);
+        lines = Math.max(lines, need);
+      });
+      if (lines > 1) row.height = Math.min(409, 15 * lines);
+    });
+    if (o.filter && cols && ws.rowCount > head) ws.autoFilter = { from: { row: head, column: 1 }, to: { row: head, column: cols } };
+  }
+
+  // A section heading inside a sheet, in bold.
+  function _sectionRow(row) {
+    if (row) row.font = Object.assign({}, row.font || {}, { bold: true });
+    return row;
+  }
+
   function _safeSheetName(s) {
     var name = _stripInfoGlyphs(String(s || 'Sheet').replace(/[\/\\?*\[\]:]/g, ' '));
     // Excel allows 31 characters. Cut at a word, not mid-word
@@ -1995,14 +2068,14 @@
 
       // AMI gap: numbers as numbers (a real 0 stays 0), same labels as the PDF.
       summary.addRow({});
-      summary.addRow({ k: 'AMI gap & affordability', n: 'Source: ' + ((d.amiGap && d.amiGap.source) || 'unavailable') });
+      _sectionRow(summary.addRow({ k: 'AMI gap & affordability', n: 'Source: ' + ((d.amiGap && (d.amiGap.sourceLabel || _sourceWords(AMI_GAP_SOURCE_WORDS, d.amiGap.source))) || AMI_GAP_SOURCE_WORDS.unavailable) }));
       _amiGapRows(d).forEach(function (r) {
         summary.addRow({ k: r.label, v: r.value === null ? UNAVAILABLE : r.value, n: r.reason || d.amiGap.note || '' });
       });
 
       // LIHTC properties, QCT and DDA, as the page's cards show them.
       summary.addRow({});
-      summary.addRow({ k: 'LIHTC properties & opportunity factors' });
+      _sectionRow(summary.addRow({ k: 'LIHTC properties & opportunity factors' }));
       _lihtcRows(d).forEach(function (r) {
         var n = _numOrNull(String(r.display).replace(/,/g, ''));
         summary.addRow({ k: r.label, v: r.reason ? UNAVAILABLE : (n !== null && /^[\d,]+$/.test(r.display) ? n : r.display), n: r.reason || r.sub });
@@ -2010,7 +2083,7 @@
 
       // Potential location: transit zone, as the page's panel shows it.
       summary.addRow({});
-      summary.addRow({ k: 'Potential location: transit zone (HB26-1065)', n: 'Screen only; see the designation row.' });
+      _sectionRow(summary.addRow({ k: 'Potential location: transit zone (HB26-1065)', n: 'Screen only; see the designation row.' }));
       _transitZoneRows(d).forEach(function (r) {
         summary.addRow({ k: r.label, v: r.display, n: r.reason || (r.disclosure ? r.sub + '. ' + r.disclosure : r.sub) });
       });
@@ -2018,7 +2091,7 @@
       // Sources, with the vintages the PDF prints.
       var vint = d.vintages || {};
       summary.addRow({});
-      summary.addRow({ k: 'Methodology & sources' });
+      _sectionRow(summary.addRow({ k: 'Methodology & sources' }));
       [
         ['ACS profile',    vint.acs],
         ['HUD CHAS',       vint.chas],
@@ -2027,6 +2100,8 @@
         ['HUD FMR',        vint.fmr],
         ['HUD Income Limits', vint.incomeLimits],
       ].forEach(function (r) { if (r[1]) summary.addRow({ k: r[0], v: r[1] }); });
+
+      _readableSheet(summary, { landscape: true });
 
       // ── How the need figures fit together (audit F4) ──
       // Figures as numbers, not text, so they can be summed or charted.
@@ -2056,6 +2131,7 @@
         rs.addRow({ m: 'Homes per year to reach figure used', h: recon.permits.neededPerYear == null ? null : Math.round(recon.permits.neededPerYear * 10) / 10 });
         rs.addRow({ m: 'Permit pace / needed per year', h: recon.permits.ratio == null ? null : Math.round(recon.permits.ratio * 100) / 100 });
         if (recon.households) rs.addRow({ m: 'Households chart change', h: numOrNull(recon.households.delta), c: recon.households.text });
+        _readableSheet(rs, { landscape: true });
       }
 
       // ── One sheet per chart ──
@@ -2087,6 +2163,8 @@
           sh.getRow(5 + rowIdx).values = row;
         });
 
+        _readableSheet(sh, { headerRow: 4, freezeCols: 1, landscape: chart.series.length > 4 });
+
         // No drawn chart: ExcelJS 4.4 cannot write chart objects (it has no
         // addChart), so the sheet holds the chart's data only, and the About
         // sheet says so (evening practitioner QA, 3 Nov 2026).
@@ -2105,6 +2183,7 @@
           sh.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
           sh.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF096E65' } };
           widths.forEach(function (w, i) { sh.getColumn(i + 1).width = w; });
+          _readableSheet(sh, { filter: name === 'Sources', landscape: widths.length > 2 });
           return sh;
         };
         addTable('Sources', meta.sources, [34, 30, 40, 40, 60, 24, 16, 14, 60]);
@@ -2121,6 +2200,7 @@
           chartNote,
           'Source details, with how each is maintained, are on the site’s data sources page (dashboard-data-sources-ui.html).',
         ].forEach(function (line) { notes.addRow({ n: line }); });
+        _readableSheet(notes);
       }
 
       var buf  = await wb.xlsx.writeBuffer();

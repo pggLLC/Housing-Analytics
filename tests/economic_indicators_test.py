@@ -45,6 +45,8 @@ from scripts.hna.economic_housing_bridge import (
     estimate_county_median_annual_wage,
     compute_service_worker_demand,
     compute_place_workforce_housing_layer,
+    compute_wage_affordability_gap,
+    RENT_UNAVAILABLE_REASONS,
 )
 
 # ---------------------------------------------------------------------------
@@ -466,6 +468,39 @@ def test_wage_gap_ownership():
     _assert(result["income_needed_to_own"] is not None, "income_needed_to_own computed when price provided")
 
 
+def test_wage_gap_missing_rent_stays_missing():
+    # No rent is not a $0 rent. Every rent-dependent output is None; the
+    # ownership side, which needs only the wage and the home value, stands.
+    with_rent = WageAffordabilityGap(
+        median_annual_wage=50000, median_annual_rent=18000, median_home_price=350000,
+    ).compute()
+    no_rent = WageAffordabilityGap(
+        median_annual_wage=50000, median_annual_rent=None, median_home_price=350000,
+    ).compute()
+    for key in ("median_annual_rent", "rent_burden_pct", "affordable", "gap_dollars", "income_needed_to_rent"):
+        _assert(no_rent[key] is None, f"{key} is None when no rent is published")
+    _assert(no_rent["wage_tiers"] == {}, "no wage-tier rent test without a rent")
+    _assert(no_rent["own_gap_dollars"] == with_rent["own_gap_dollars"], "ownership gap does not depend on rent")
+    _assert(no_rent["income_needed_to_own"] == with_rent["income_needed_to_own"], "income needed to own does not depend on rent")
+
+
+def test_compute_wage_affordability_gap_missing_rent():
+    for rent in (None, 0, 0.0, -666666666):
+        result = compute_wage_affordability_gap(400000, rent, 55000)
+        _assert(result["rent_gap_dollars"] is None, f"rent gap None for rent={rent!r}")
+        _assert(result["rent_burden_pct"] is None, f"rent burden None for rent={rent!r}")
+        _assert(result["income_needed_to_rent"] is None, f"income needed to rent None for rent={rent!r}")
+        _assert(result["ownership_gap_dollars"] is not None, f"ownership gap kept for rent={rent!r}")
+        _assert(result["rent_unavailable_reason"] == "median_gross_rent_not_published", f"reason set for rent={rent!r}")
+    known = compute_wage_affordability_gap(400000, 1500, 55000)
+    _assert(known["rent_gap_dollars"] == 5000.0, "known rent: $1,500 a month needs $60,000, $5,000 above the wage")
+    _assert(known["rent_unavailable_reason"] is None, "known rent carries no reason")
+    no_wage = compute_wage_affordability_gap(400000, 1500, None)
+    _assert(no_wage["rent_gap_dollars"] is None and no_wage["ownership_gap_dollars"] is None, "no wage: no gaps")
+    _assert(no_wage["rent_unavailable_reason"] == "county_wage_estimate_unavailable", "no wage: reason names the wage")
+    _assert(set(RENT_UNAVAILABLE_REASONS) == {"median_gross_rent_not_published", "county_wage_estimate_unavailable"}, "every reason code has a sentence")
+
+
 def test_negative_wage_raises():
     try:
         WageAffordabilityGap(median_annual_wage=-1000, median_annual_rent=18000)
@@ -620,6 +655,8 @@ _test("WageAffordabilityGap: not affordable case", test_wage_gap_not_affordable)
 _test("WageAffordabilityGap: wage tiers", test_wage_gap_tiers)
 _test("WageAffordabilityGap: ownership gap", test_wage_gap_ownership)
 _test("WageAffordabilityGap: negative wage raises", test_negative_wage_raises)
+_test("WageAffordabilityGap: missing rent stays missing", test_wage_gap_missing_rent_stays_missing)
+_test("compute_wage_affordability_gap: missing rent", test_compute_wage_affordability_gap_missing_rent)
 _test("identify_sector_mismatches: basic", test_identify_sector_mismatches)
 _test("identify_sector_mismatches: sorted by deficit", test_identify_sector_mismatches_sorted_by_deficit)
 _test("affordability_by_industry: structure", test_affordability_by_industry_structure)
