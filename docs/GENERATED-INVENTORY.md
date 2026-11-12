@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-12T06:37:42.199Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-12T09:59:31.093Z. Do not edit by hand.
 
 ---
 
@@ -99,7 +99,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1981 JSON files found.
+1982 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1872,7 +1872,7 @@
 | `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
 | `data/market/co-adaptive-reuse-references.json` | 13.7 KB | ✅ | — |
 | `data/market/co-construction-labor-cost.json` | 128.3 KB | ✅ | — |
-| `data/market/co-urban-renewal-authorities.json` | 11.8 KB | ✅ | — |
+| `data/market/co-urban-renewal-authorities.json` | 12.6 KB | ✅ | — |
 | `data/market/colorado-equity-pricing-factors.json` | 5.3 KB | ✅ | — |
 | `data/market/colorado-foreclosure-performance.json` | 48.4 KB | ✅ | — |
 | `data/market/commute-strength.json` | 142.5 KB | ✅ | — |
@@ -2030,18 +2030,18 @@
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/housing-roll-calls.json` | 5.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
-| `data/policy/incentive-alternatives.json` | 56.7 KB | ✅ | — |
-| `data/policy/incentive-coverage.json` | 40.2 KB | ✅ | — |
+| `data/policy/incentive-alternatives.json` | 60.9 KB | ✅ | — |
+| `data/policy/incentive-coverage.json` | 40.7 KB | ✅ | — |
 | `data/policy/incentive-peer-profiles.json` | 40.1 KB | ✅ | — |
 | `data/policy/jchs-state-of-nations-housing.json` | 4.3 KB | ✅ | — |
 | `data/policy/job-access.json` | 104.0 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 39.6 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
-| `data/policy/leading-signals.json` | 217.8 KB | ✅ | — |
+| `data/policy/leading-signals.json` | 219.0 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 4.9 KB | ✅ | — |
 | `data/policy/lihtc-underwriting-rules.json` | 23.7 KB | ✅ | — |
 | `data/policy/local-commitment.json` | 64.1 KB | ✅ | — |
-| `data/policy/local-housing-funds.json` | 146.9 KB | ✅ | — |
+| `data/policy/local-housing-funds.json` | 152.3 KB | ✅ | — |
 | `data/policy/local-support.json` | 154.9 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.4 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 17.4 KB | ✅ | — |
@@ -2058,6 +2058,7 @@
 | `data/policy/state-housing-laws.json` | 195.0 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 40.7 KB | ✅ | — |
+| `data/policy/tax-exemption-routes.json` | 20.8 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 4.7 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
@@ -2089,7 +2090,7 @@
 
 ## Test Files
 
-794 test files found.
+795 test files found.
 
 | File | Size |
 |------|------|
@@ -2882,6 +2883,7 @@
 | `tests/test_stage2_temporal.py` | 38.1 KB |
 | `tests/test_stage3_accessibility.py` | 22.4 KB |
 | `tests/test_stage3_visualization.py` | 17.7 KB |
+| `tests/test_tax_exemption_routes.py` | 4.5 KB |
 | `tests/test_transit_stop_gate.py` | 9.2 KB |
 | `tests/test_transit_stop_selection.py` | 15.9 KB |
 | `tests/test_transit_stops_statewide.py` | 24.1 KB |

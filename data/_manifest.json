@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-12T06:38:23.464Z",
+    "generated_at": "2026-11-12T10:00:10.990Z",
     "root": "data/",
-    "file_count": 2029,
-    "total_size_bytes": 223276510,
+    "file_count": 2030,
+    "total_size_bytes": 223310267,
     "kinds": {
-      "json": 1980,
+      "json": 1981,
       "geojson": 35,
       "csv": 14
     }
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-12T06:38:18.875Z",
+      "mtime": "2026-11-12T10:00:06.468Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38670,8 +38670,8 @@
     {
       "path": "market/co-urban-renewal-authorities.json",
       "kind": "json",
-      "size_bytes": 12114,
-      "mtime": "2026-10-18T08:06:44.629Z",
+      "size_bytes": 12946,
+      "mtime": "2026-11-12T09:58:13.119Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -40228,8 +40228,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16184,
-      "mtime": "2026-11-12T06:38:21.160Z",
+      "size_bytes": 16182,
+      "mtime": "2026-11-12T10:00:08.720Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40253,7 +40253,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-12T06:38:20.547Z",
+      "mtime": "2026-11-12T10:00:08.190Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42766,8 +42766,8 @@
     {
       "path": "policy/incentive-alternatives.json",
       "kind": "json",
-      "size_bytes": 58098,
-      "mtime": "2026-10-20T14:15:42.020Z",
+      "size_bytes": 62358,
+      "mtime": "2026-11-12T09:58:13.338Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42776,7 +42776,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "tools",
-      "primary_array_length": 20,
+      "primary_array_length": 21,
       "primary_array_first_keys": [
         "id",
         "label",
@@ -42792,8 +42792,8 @@
     {
       "path": "policy/incentive-coverage.json",
       "kind": "json",
-      "size_bytes": 41152,
-      "mtime": "2026-11-05T07:33:15.420Z",
+      "size_bytes": 41678,
+      "mtime": "2026-11-12T09:58:13.338Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42901,8 +42901,8 @@
     {
       "path": "policy/leading-signals.json",
       "kind": "json",
-      "size_bytes": 222991,
-      "mtime": "2026-11-09T16:35:18.535Z",
+      "size_bytes": 224287,
+      "mtime": "2026-11-12T09:58:13.339Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43032,8 +43032,8 @@
     {
       "path": "policy/local-housing-funds.json",
       "kind": "json",
-      "size_bytes": 150417,
-      "mtime": "2026-11-05T07:33:15.423Z",
+      "size_bytes": 155992,
+      "mtime": "2026-11-12T09:58:13.341Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -43042,7 +43042,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "entries",
-      "primary_array_length": 59,
+      "primary_array_length": 61,
       "primary_array_first_keys": [
         "id",
         "geoid",
@@ -43454,6 +43454,34 @@
         "last_verified",
         "review_by",
         "related_source_urls"
+      ]
+    },
+    {
+      "path": "policy/tax-exemption-routes.json",
+      "kind": "json",
+      "size_bytes": 21270,
+      "mtime": "2026-11-12T09:58:13.343Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "entries",
+      "primary_array_length": 5,
+      "primary_array_first_keys": [
+        "geoid",
+        "name",
+        "level",
+        "county_geoid",
+        "checked",
+        "review_by",
+        "ha_routes",
+        "assessor",
+        "nonprofit_exemption",
+        "local_abatement",
+        "note"
       ]
     },
     {
