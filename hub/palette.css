@@ -1,0 +1,166 @@
+/* COHO colour palette: the one place to change a colour.
+   Every page and chart reads these names. Change a value here and it changes everywhere.
+   Checked 4 Nov 2026 (contrast and colour-blind separation): see docs/palette.md before changing a value. */
+:root {
+  /* Brand */
+  --pine: #1B4D3E;        /* headings, links, buttons; white text on it 9.6:1 */
+  --pine-deep: #14382C;   /* hero and share-card background */
+  --on-dark: #FFFFFF;     /* text on pine-deep panels; stays white in any theme */
+  --on-dark-soft: #E6EEEA; /* body text on pine-deep; 11.6:1 */
+  --gold: #F2C14E;        /* accent fill only; never text on a light background (1.7:1) */
+  --rust: #C2410C;        /* households, warnings, "short"; 5.2:1 on white */
+  --ink: #1E293B;         /* body text */
+  --muted: #64748B;       /* small print; 4.5:1 on paper, the minimum, so do not lighten */
+  --paper: #F9F9F6;       /* page background */
+  --card: #FFFFFF;
+  --line: #E2E8F0;
+
+  /* Neutrals */
+  --slate: #475569;       /* bars where neither end is good or bad */
+  --slate-text: #334155;
+  --grey: #94A3B8;        /* "other" in charts */
+  --grey-line: #CBD5E1;
+  --track: #F1F5F9;       /* empty part of a bar */
+
+  /* Chart series (categories). Keep this order when a chart needs several. */
+  --c-green: #1A8A63;     /* homes; fill only, 4.3:1 is too light for small text */
+  --c-blue: #2F6FB0;
+  --c-purple: #7A5BA6;    /* close to blue for red-blind readers: never put purple next to blue without a label */
+  --c-amber: #B7841F;     /* fill only (3.3:1) */
+  --c-band: #BFD7F5;      /* forecast range band */
+
+  /* Maps: "more of something" (light = less, dark = more) */
+  --map-0: #E8F3F1;
+  --map-1: #C3E1DC;
+  --map-2: #8FC6BD;
+  --map-3: #4FA597;
+  --map-4: #1F7F72;
+  --map-5: #0B5A50;
+  --map-none: #DEDAA8;    /* not ranked: sand, at least 25 colour-difference units from every teal step and no-data, for red- and green-blind readers too (was #CFCAC2, 4.6 for red-blind; Gemini round 2, 5b) */
+  --map-empty: #EEF0F3;   /* no data */
+
+  /* Maps: "rose or fell" */
+  --div-fell: #5B8FC7;
+  --div-mid: #E2E5EA;
+  --div-rose: #F4A37A;
+  --div-rose-strong: var(--rust);
+
+  /* Text on a light tint, each at least 5.7:1 */
+  --text-green: #046C4E;  --tint-green: #E7F4EF;
+  --text-rust: #9A3E07;   --tint-rust: #FBEDE3;
+  --text-blue: #1E40AF;   --tint-blue: #E8EEFB;
+  --tint-grey: #EEF1F4;
+  --text-amber: #8A5A00;
+  --text-red: #991B1B;
+
+
+  /* Menus, page templates and status labels */
+  --tint: #EEF4F1;        /* pine at low strength, for page heads and the current menu */
+  --line-strong: var(--grey-line);
+  --ink-soft: var(--slate-text);     /* 10.4:1 on white */
+  --good: var(--text-green); --good-bg: var(--tint-green);      /* 5.7:1 */
+  --fair: var(--text-amber); --fair-bg: #FBF1DC;      /* 5.3:1 on its tint, 5.9:1 on white */
+  --caution: var(--text-rust); --caution-bg: var(--tint-rust); /* 6.0:1 */
+  --diagram-fill: #F4F7F6;
+  --green-dark: var(--pine-deep);   /* button hover; white on it is 12.9:1 */
+
+  /* Text and marks drawn on a coloured fill (buttons, bar labels, numbered circles) */
+  --on-fill: #FFFFFF;
+  --halo: #FFFFFF;        /* edge between map shapes and dots, and the outline behind map labels */
+  --map-edge: var(--halo); /* edge between county and town shapes; slate in dark mode so pale shapes don't glow (Gemini round 15, pick 2) */
+  --tip-bg: #1F2933;      /* map tooltips; text on it uses --on-fill */
+  --shade: rgba(30, 41, 59, .3);
+  --shade-soft: rgba(15, 23, 42, .08);
+  --tint-amber: #FFF6DB;  /* light amber row or callout */
+  --tint-line: #CFE0D7;   /* border on a pine tint */
+  --warn: #C05621;        /* "phased out", "could not be read" */
+  --c-olive: #5B8C2A;     /* sixth region colour */
+  --c-violet: #6B46C1;    /* Prop 123 equity bar; stays distinct when faded, where --c-purple turns grey */
+  --households-light: #F0A374; /* "pay 30-50%", paired with --rust */
+  --hatch-gap: #F2A57F;   /* second stripe of the funding-gap hatch */
+
+  /* Home hero and share card: always dark green with white text, in both themes */
+  --hero-bg: var(--pine-deep);   /* deep green; gold on it 7.7:1, white 12.9:1 */
+  --hero-glow: #24604C;  /* soft light in the hero's top corner */
+  --hero-met: #22594A;   /* a county that is not short, on the hero map */
+  --hero-shadow: rgba(0, 0, 0, .28);
+  --hero-ink: #FFFFFF;
+  --hero-text: #E3EEE8;
+  --hero-soft: #CFE6DA;
+  --hero-state: #2E6B57; --hero-state-line: #8FBFA9;
+  --hero-mtn: #3F7F69; --hero-snow: #F4F1EA; --hero-plain: #C9A94B;
+
+  /* Categories with no order: colour-blind safe set (Okabe-Ito). Use in this order. */
+  --cat-1: #0072B2; --cat-2: #E69F00; --cat-3: #009E73; --cat-4: #CC79A7;
+  --cat-5: #D55E00; --cat-6: #56B4E9; --cat-7: #8C8C8C;
+  --share-0: #CFE8F3;     /* lowest band of the commuting share map; the next bands are --cat-6, --cat-2, --cat-5 */
+
+  /* Data map layers, one colour each */
+  --layer-lihtc: #0F766E; --layer-qct: #2563EB; --layer-oz: #7C3AED; --layer-jobs: #B45309; --layer-schools: #6D28D9;
+  --layer-hospitals: #DC2626; --layer-clinics: #DB2777; --layer-grocery: #1D4ED8; --layer-parks: #4D7C0F;
+
+  /* Deep dive: rent-to-income bands, renter burden bands, county trend lines, market calls */
+  --ratio-ok: #2CA25F; --ratio-near: #F0AB00; --ratio-burden: #E07B00;
+  --burden-0: #D8EAF6; --burden-1: #9CCAE6; --burden-2: #4F9BCF; --burden-3: #1D5F99;
+  --scatter-1: #0EA5A0; --scatter-2: #6366F1; --scatter-3: #F59E0B; --scatter-4: #EF4444; --scatter-5: #22C55E; --scatter-6: #A855F7;
+  --call-emerging: #1D4ED8; --call-steady: #9CA3AF; --call-softening: #D97706; --call-second-home: #7C3AED; --call-no-data: #E5E7EB;
+
+  /* Blue steps for status keys (local records, land value market line) */
+  --blue-1: #B7D3F6; --blue-2: #86B6EF; --blue-3: #3987E5; --blue-4: #104281;
+
+  /* Print always uses these, whatever the screen theme */
+  --print-paper: #FFFFFF; --print-ink: #000000; --print-line: #999999;
+
+  /* Older names, kept so nothing breaks. They point at the names above. */
+  --green: var(--pine);
+  --focus: var(--pine);
+  --series-households: var(--rust);
+  --series-homes: var(--c-green);
+  --src-equity: var(--c-green);
+  --src-mortgage: var(--c-blue);
+  --src-soft: var(--c-purple);
+  --src-fee: var(--c-amber);
+  --src-gap: var(--rust);
+  --geo-local: var(--text-green);    --geo-local-bg: var(--tint-green);
+  --geo-derived: var(--text-rust);   --geo-derived-bg: var(--tint-rust);
+  --geo-proxy: var(--text-blue);     --geo-proxy-bg: var(--tint-blue);
+  --geo-neutral: var(--slate-text);  --geo-neutral-bg: var(--tint-grey);
+}
+
+
+/* Dark theme: PLACEHOLDER values (5 Nov 2026), to be replaced by the Round 15 pick.
+   It follows the device setting, and the header button can force light or dark. The button uses the same
+   classes (html.dark-mode / html.light-mode) and storage key as the live site, so it ports into Housing-Analytics as is.
+   Map and data colours (--map-*, --div-*, --cat-*, --layer-* and the deep dive bands) are left as they are on purpose:
+   changing what a colour means on a map is a design decision for the Round 15 pick, not a placeholder.
+   Print always stays light (the dark set applies to screens only). Keep the two blocks below identical. */
+@media screen and (prefers-color-scheme: dark) {
+  :root:not(.light-mode) {
+    color-scheme: dark;
+    --paper: #0F1714; --card: #16211D; --line: #2A3833; --grey-line: #3A4A44; --track: #1F2B27;
+    --ink: #E6EDEA; --muted: #A3B3AD; --slate-text: #C9D4D0; --slate: #8A9A94; --grey: #6B7B75;
+    --pine: #7FD1AE; --pine-deep: #0B2A20; --rust: #F08A5D;
+    --tint: #1C2E27; --tint-grey: #1E2925; --tint-green: #163428; --tint-rust: #3A2016; --tint-blue: #1A2640; --tint-amber: #33290F;
+    --fair-bg: #33290F; --diagram-fill: #18231F; --tint-line: #2E4A3E;
+    --text-green: #6FD3A6; --text-rust: #F2A27E; --text-blue: #9DB8F5; --text-amber: #E8C26A; --text-red: #F59A9A;
+    --c-green: #3DBB8C; --c-blue: #6EA6E0; --c-purple: #A88BD6; --c-amber: #D9A441; --c-band: #2B4466;
+    --on-fill: #0B1A14; --halo: #16211D; --tip-bg: #E6EDEA; --map-edge: #475569;
+    --shade: rgba(0, 0, 0, .6); --shade-soft: rgba(0, 0, 0, .35);
+    --hero-bg: #14382C;
+  }
+}
+@media screen {
+  :root.dark-mode {
+    color-scheme: dark;
+    --paper: #0F1714; --card: #16211D; --line: #2A3833; --grey-line: #3A4A44; --track: #1F2B27;
+    --ink: #E6EDEA; --muted: #A3B3AD; --slate-text: #C9D4D0; --slate: #8A9A94; --grey: #6B7B75;
+    --pine: #7FD1AE; --pine-deep: #0B2A20; --rust: #F08A5D;
+    --tint: #1C2E27; --tint-grey: #1E2925; --tint-green: #163428; --tint-rust: #3A2016; --tint-blue: #1A2640; --tint-amber: #33290F;
+    --fair-bg: #33290F; --diagram-fill: #18231F; --tint-line: #2E4A3E;
+    --text-green: #6FD3A6; --text-rust: #F2A27E; --text-blue: #9DB8F5; --text-amber: #E8C26A; --text-red: #F59A9A;
+    --c-green: #3DBB8C; --c-blue: #6EA6E0; --c-purple: #A88BD6; --c-amber: #D9A441; --c-band: #2B4466;
+    --on-fill: #0B1A14; --halo: #16211D; --tip-bg: #E6EDEA; --map-edge: #475569;
+    --shade: rgba(0, 0, 0, .6); --shade-soft: rgba(0, 0, 0, .35);
+    --hero-bg: #14382C;
+  }
+}
