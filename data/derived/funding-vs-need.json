@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-12T10:22:03Z",
+  "generatedAt": "2026-11-12T12:49:51Z",
   "generator": "scripts/funding/build_funding_vs_need.mjs",
   "window": {
    "first_year": 2016,
@@ -1301,7 +1301,8 @@
    "Routt County",
    "Ouray County",
    "Gunnison County",
-   "Grand County"
+   "Grand County",
+   "Archuleta County"
   ],
   "by_year": [
    {
@@ -1436,8 +1437,8 @@
     "seasonal_share_of_vacant_pct": 24.8,
     "median_gross_rent_acs": 1966,
     "permits_avg_annual_5yr": 1640.4,
-    "projected_need_annual_10yr": 1407.8,
-    "production_to_need_ratio": 1.17,
+    "projected_need_annual_10yr": 574.2,
+    "production_to_need_ratio": 2.86,
     "chfa_60ami_max_rent_1br": 1687,
     "chfa_60ami_max_rent_2br": 2025
    },
@@ -1462,7 +1463,13 @@
     "federal_9pct_credit_per_unit_annual": 24449,
     "share_of_state_lihtc_units": 8.42
    },
-   "flags": [],
+   "flags": [
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 2.9× DOLA's projected household growth. Only 10% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 9.7
+    }
+   ],
    "quadrant": "aligned"
   },
   {
@@ -1484,8 +1491,8 @@
     "seasonal_share_of_vacant_pct": 7.9,
     "median_gross_rent_acs": 1891,
     "permits_avg_annual_5yr": 4555.6,
-    "projected_need_annual_10yr": 3752,
-    "production_to_need_ratio": 1.21,
+    "projected_need_annual_10yr": 2401.9,
+    "production_to_need_ratio": 1.9,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -1532,8 +1539,8 @@
     "seasonal_share_of_vacant_pct": 17.9,
     "median_gross_rent_acs": 1861,
     "permits_avg_annual_5yr": 1639.8,
-    "projected_need_annual_10yr": 1556.1,
-    "production_to_need_ratio": 1.05,
+    "projected_need_annual_10yr": 1119.6,
+    "production_to_need_ratio": 1.46,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -1580,8 +1587,8 @@
     "seasonal_share_of_vacant_pct": 80.6,
     "median_gross_rent_acs": 2019,
     "permits_avg_annual_5yr": 354.4,
-    "projected_need_annual_10yr": 252.4,
-    "production_to_need_ratio": 1.4,
+    "projected_need_annual_10yr": 309.6,
+    "production_to_need_ratio": 1.14,
     "chfa_60ami_max_rent_1br": 1560,
     "chfa_60ami_max_rent_2br": 1873
    },
@@ -1634,8 +1641,8 @@
     "seasonal_share_of_vacant_pct": 80,
     "median_gross_rent_acs": 1928,
     "permits_avg_annual_5yr": 385.6,
-    "projected_need_annual_10yr": 127.6,
-    "production_to_need_ratio": 3.02,
+    "projected_need_annual_10yr": 48.6,
+    "production_to_need_ratio": 7.93,
     "chfa_60ami_max_rent_1br": 1641,
     "chfa_60ami_max_rent_2br": 1969
    },
@@ -1667,7 +1674,7 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 3× DOLA's projected household growth. Only 8% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "text": "Permits 2021-2025 ran 7.9× DOLA's projected household growth. Only 8% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
      "tax_credit_share_of_permits_pct": 8.4
     }
    ],
@@ -1692,8 +1699,8 @@
     "seasonal_share_of_vacant_pct": 53.4,
     "median_gross_rent_acs": 1716,
     "permits_avg_annual_5yr": 2540.2,
-    "projected_need_annual_10yr": 2465.1,
-    "production_to_need_ratio": 1.03,
+    "projected_need_annual_10yr": 1655.8,
+    "production_to_need_ratio": 1.53,
     "chfa_60ami_max_rent_1br": 1467,
     "chfa_60ami_max_rent_2br": 1761
    },
@@ -1740,8 +1747,8 @@
     "seasonal_share_of_vacant_pct": 73.9,
     "median_gross_rent_acs": 1917,
     "permits_avg_annual_5yr": 359.4,
-    "projected_need_annual_10yr": 162.2,
-    "production_to_need_ratio": 2.22,
+    "projected_need_annual_10yr": 108.9,
+    "production_to_need_ratio": 3.3,
     "chfa_60ami_max_rent_1br": 1560,
     "chfa_60ami_max_rent_2br": 1873
    },
@@ -1773,7 +1780,7 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.2× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "text": "Permits 2021-2025 ran 3.3× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
      "tax_credit_share_of_permits_pct": 0
     }
    ],
@@ -1798,8 +1805,8 @@
     "seasonal_share_of_vacant_pct": 11,
     "median_gross_rent_acs": 1781,
     "permits_avg_annual_5yr": 3058.8,
-    "projected_need_annual_10yr": 3990.2,
-    "production_to_need_ratio": 0.77,
+    "projected_need_annual_10yr": 3413.7,
+    "production_to_need_ratio": 0.9,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -1846,8 +1853,8 @@
     "seasonal_share_of_vacant_pct": 11.4,
     "median_gross_rent_acs": 1831,
     "permits_avg_annual_5yr": 6548.4,
-    "projected_need_annual_10yr": 4625.2,
-    "production_to_need_ratio": 1.42,
+    "projected_need_annual_10yr": 3774.5,
+    "production_to_need_ratio": 1.73,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -1899,8 +1906,8 @@
     "seasonal_share_of_vacant_pct": 16.1,
     "median_gross_rent_acs": 2193,
     "permits_avg_annual_5yr": 3891.2,
-    "projected_need_annual_10yr": 2551.2,
-    "production_to_need_ratio": 1.53,
+    "projected_need_annual_10yr": 3343.2,
+    "production_to_need_ratio": 1.16,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -1947,8 +1954,8 @@
     "seasonal_share_of_vacant_pct": 14.6,
     "median_gross_rent_acs": 1696,
     "permits_avg_annual_5yr": 6502,
-    "projected_need_annual_10yr": 4801.6,
-    "production_to_need_ratio": 1.35,
+    "projected_need_annual_10yr": 3432.7,
+    "production_to_need_ratio": 1.89,
     "chfa_60ami_max_rent_1br": 1310,
     "chfa_60ami_max_rent_2br": 1572
    },
@@ -1995,8 +2002,8 @@
     "seasonal_share_of_vacant_pct": 78.7,
     "median_gross_rent_acs": 1880,
     "permits_avg_annual_5yr": 153,
-    "projected_need_annual_10yr": 94.3,
-    "production_to_need_ratio": 1.62,
+    "projected_need_annual_10yr": 54.4,
+    "production_to_need_ratio": 2.81,
     "chfa_60ami_max_rent_1br": 1267,
     "chfa_60ami_max_rent_2br": 1521
    },
@@ -2021,7 +2028,13 @@
     "federal_9pct_credit_per_unit_annual": 50000,
     "share_of_state_lihtc_units": 0.09
    },
-   "flags": [],
+   "flags": [
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 2.8× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
+    }
+   ],
    "quadrant": "low-need-low-funding"
   },
   {
@@ -2043,8 +2056,8 @@
     "seasonal_share_of_vacant_pct": 21.1,
     "median_gross_rent_acs": 2126,
     "permits_avg_annual_5yr": 738.2,
-    "projected_need_annual_10yr": 1087.2,
-    "production_to_need_ratio": 0.68,
+    "projected_need_annual_10yr": 786.1,
+    "production_to_need_ratio": 0.94,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -2091,8 +2104,8 @@
     "seasonal_share_of_vacant_pct": 58.9,
     "median_gross_rent_acs": 1504,
     "permits_avg_annual_5yr": 349,
-    "projected_need_annual_10yr": 304.8,
-    "production_to_need_ratio": 1.15,
+    "projected_need_annual_10yr": 215.1,
+    "production_to_need_ratio": 1.62,
     "chfa_60ami_max_rent_1br": 1290,
     "chfa_60ami_max_rent_2br": 1549
    },
@@ -2139,8 +2152,8 @@
     "seasonal_share_of_vacant_pct": 7.3,
     "median_gross_rent_acs": 1539,
     "permits_avg_annual_5yr": 4304.4,
-    "projected_need_annual_10yr": 3855.7,
-    "production_to_need_ratio": 1.12,
+    "projected_need_annual_10yr": 2935.3,
+    "production_to_need_ratio": 1.47,
     "chfa_60ami_max_rent_1br": 1405,
     "chfa_60ami_max_rent_2br": 1687
    },
@@ -2187,8 +2200,8 @@
     "seasonal_share_of_vacant_pct": 86.6,
     "median_gross_rent_acs": 1149,
     "permits_avg_annual_5yr": 66.4,
-    "projected_need_annual_10yr": 62,
-    "production_to_need_ratio": 1.07,
+    "projected_need_annual_10yr": 44.4,
+    "production_to_need_ratio": 1.5,
     "chfa_60ami_max_rent_1br": 1475,
     "chfa_60ami_max_rent_2br": 1770
    },
@@ -2236,8 +2249,8 @@
     "seasonal_share_of_vacant_pct": 78.1,
     "median_gross_rent_acs": 2004,
     "permits_avg_annual_5yr": 83,
-    "projected_need_annual_10yr": 19.5,
-    "production_to_need_ratio": 4.26,
+    "projected_need_annual_10yr": 31.4,
+    "production_to_need_ratio": 2.64,
     "chfa_60ami_max_rent_1br": 1599,
     "chfa_60ami_max_rent_2br": 1918
    },
@@ -2265,7 +2278,7 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 4.3× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "text": "Permits 2021-2025 ran 2.6× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
      "tax_credit_share_of_permits_pct": 0
     }
    ],
@@ -2290,8 +2303,8 @@
     "seasonal_share_of_vacant_pct": 75.2,
     "median_gross_rent_acs": 1786,
     "permits_avg_annual_5yr": 93.8,
-    "projected_need_annual_10yr": 9.8,
-    "production_to_need_ratio": 9.57,
+    "projected_need_annual_10yr": 17.5,
+    "production_to_need_ratio": 5.36,
     "chfa_60ami_max_rent_1br": 1265,
     "chfa_60ami_max_rent_2br": 1518
    },
@@ -2323,7 +2336,7 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 9.6× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "text": "Permits 2021-2025 ran 5.4× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
      "tax_credit_share_of_permits_pct": 0
     }
    ],
@@ -2348,8 +2361,8 @@
     "seasonal_share_of_vacant_pct": 40.2,
     "median_gross_rent_acs": 1182,
     "permits_avg_annual_5yr": 1054,
-    "projected_need_annual_10yr": 1421.3,
-    "production_to_need_ratio": 0.74,
+    "projected_need_annual_10yr": 1013.5,
+    "production_to_need_ratio": 1.04,
     "chfa_60ami_max_rent_1br": 1132,
     "chfa_60ami_max_rent_2br": 1359
    },
@@ -2396,8 +2409,8 @@
     "seasonal_share_of_vacant_pct": 86.5,
     "median_gross_rent_acs": 1611,
     "permits_avg_annual_5yr": 275,
-    "projected_need_annual_10yr": 93.9,
-    "production_to_need_ratio": 2.93,
+    "projected_need_annual_10yr": 150.8,
+    "production_to_need_ratio": 1.82,
     "chfa_60ami_max_rent_1br": 1250,
     "chfa_60ami_max_rent_2br": 1500
    },
@@ -2422,13 +2435,7 @@
     "federal_9pct_credit_per_unit_annual": 22629,
     "share_of_state_lihtc_units": 0.33
    },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.9× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
-     "tax_credit_share_of_permits_pct": 0
-    }
-   ],
+   "flags": [],
    "quadrant": "aligned"
   },
   {
@@ -2450,8 +2457,8 @@
     "seasonal_share_of_vacant_pct": 62,
     "median_gross_rent_acs": 1637,
     "permits_avg_annual_5yr": 298.8,
-    "projected_need_annual_10yr": 477.4,
-    "production_to_need_ratio": 0.63,
+    "projected_need_annual_10yr": 350.3,
+    "production_to_need_ratio": 0.85,
     "chfa_60ami_max_rent_1br": 1284,
     "chfa_60ami_max_rent_2br": 1540
    },
@@ -2498,8 +2505,8 @@
     "seasonal_share_of_vacant_pct": 35.6,
     "median_gross_rent_acs": 1121,
     "permits_avg_annual_5yr": 101.8,
-    "projected_need_annual_10yr": 187.6,
-    "production_to_need_ratio": 0.54,
+    "projected_need_annual_10yr": 126.5,
+    "production_to_need_ratio": 0.8,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -2546,8 +2553,8 @@
     "seasonal_share_of_vacant_pct": 25.2,
     "median_gross_rent_acs": 1111,
     "permits_avg_annual_5yr": 406.2,
-    "projected_need_annual_10yr": 782.5,
-    "production_to_need_ratio": 0.52,
+    "projected_need_annual_10yr": 540.8,
+    "production_to_need_ratio": 0.75,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -2594,7 +2601,7 @@
     "seasonal_share_of_vacant_pct": 90.7,
     "median_gross_rent_acs": 928,
     "permits_avg_annual_5yr": 8.2,
-    "projected_need_annual_10yr": -1.6,
+    "projected_need_annual_10yr": -1.8,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -2643,8 +2650,8 @@
     "seasonal_share_of_vacant_pct": 82.9,
     "median_gross_rent_acs": 1252,
     "permits_avg_annual_5yr": 147.4,
-    "projected_need_annual_10yr": 60.4,
-    "production_to_need_ratio": 2.44,
+    "projected_need_annual_10yr": 16.3,
+    "production_to_need_ratio": 9.04,
     "chfa_60ami_max_rent_1br": 1391,
     "chfa_60ami_max_rent_2br": 1669
    },
@@ -2676,7 +2683,7 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.4× DOLA's projected household growth. Only 5% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "text": "Permits 2021-2025 ran 9× DOLA's projected household growth. Only 5% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
      "tax_credit_share_of_permits_pct": 4.6
     }
    ],
@@ -2701,8 +2708,8 @@
     "seasonal_share_of_vacant_pct": 87.6,
     "median_gross_rent_acs": 1493,
     "permits_avg_annual_5yr": 338.2,
-    "projected_need_annual_10yr": 54,
-    "production_to_need_ratio": 6.26,
+    "projected_need_annual_10yr": 87.3,
+    "production_to_need_ratio": 3.87,
     "chfa_60ami_max_rent_1br": 1385,
     "chfa_60ami_max_rent_2br": 1662
    },
@@ -2734,7 +2741,7 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 6.3× DOLA's projected household growth. Only 4% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "text": "Permits 2021-2025 ran 3.9× DOLA's projected household growth. Only 4% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
      "tax_credit_share_of_permits_pct": 3.9
     }
    ],
@@ -2759,8 +2766,8 @@
     "seasonal_share_of_vacant_pct": 8.4,
     "median_gross_rent_acs": 1162,
     "permits_avg_annual_5yr": 8.2,
-    "projected_need_annual_10yr": -11.4,
-    "production_to_need_ratio": null,
+    "projected_need_annual_10yr": 13.2,
+    "production_to_need_ratio": 0.62,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -2808,8 +2815,8 @@
     "seasonal_share_of_vacant_pct": 78.3,
     "median_gross_rent_acs": 1467,
     "permits_avg_annual_5yr": 36.4,
-    "projected_need_annual_10yr": 9.2,
-    "production_to_need_ratio": 3.96,
+    "projected_need_annual_10yr": 9,
+    "production_to_need_ratio": 4.04,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -2862,8 +2869,8 @@
     "seasonal_share_of_vacant_pct": 22.9,
     "median_gross_rent_acs": 1188,
     "permits_avg_annual_5yr": 345.2,
-    "projected_need_annual_10yr": 285.5,
-    "production_to_need_ratio": 1.21,
+    "projected_need_annual_10yr": 241.1,
+    "production_to_need_ratio": 1.43,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -2910,8 +2917,8 @@
     "seasonal_share_of_vacant_pct": 91.2,
     "median_gross_rent_acs": 2161,
     "permits_avg_annual_5yr": 173.8,
-    "projected_need_annual_10yr": 25.9,
-    "production_to_need_ratio": 6.71,
+    "projected_need_annual_10yr": 44,
+    "production_to_need_ratio": 3.95,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -2940,7 +2947,7 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 6.7× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "text": "Permits 2021-2025 ran 4× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
      "tax_credit_share_of_permits_pct": 0
     }
    ],
@@ -2965,7 +2972,7 @@
     "seasonal_share_of_vacant_pct": 71.3,
     "median_gross_rent_acs": 1701,
     "permits_avg_annual_5yr": 2.8,
-    "projected_need_annual_10yr": -4.5,
+    "projected_need_annual_10yr": -7.2,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -3019,8 +3026,8 @@
     "seasonal_share_of_vacant_pct": 81.6,
     "median_gross_rent_acs": 1432,
     "permits_avg_annual_5yr": 150,
-    "projected_need_annual_10yr": 98.1,
-    "production_to_need_ratio": 1.53,
+    "projected_need_annual_10yr": 64.5,
+    "production_to_need_ratio": 2.33,
     "chfa_60ami_max_rent_1br": 1107,
     "chfa_60ami_max_rent_2br": 1327
    },
@@ -3049,6 +3056,11 @@
     {
      "id": "high-vacancy",
      "text": "Active-market vacancy 3.2%, in the loosest quarter of Colorado counties (≥ 2.4%)"
+    },
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 2.3× DOLA's projected household growth. Only 7% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 6.7
     }
    ],
    "quadrant": "funded-above-need"
@@ -3072,8 +3084,8 @@
     "seasonal_share_of_vacant_pct": 38.8,
     "median_gross_rent_acs": 828,
     "permits_avg_annual_5yr": 82,
-    "projected_need_annual_10yr": 1.9,
-    "production_to_need_ratio": 43.16,
+    "projected_need_annual_10yr": 23.3,
+    "production_to_need_ratio": 3.52,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -3101,7 +3113,7 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 43.2× DOLA's projected household growth. Only 8% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "text": "Permits 2021-2025 ran 3.5× DOLA's projected household growth. Only 8% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
      "tax_credit_share_of_permits_pct": 7.8
     }
    ],
@@ -3126,8 +3138,8 @@
     "seasonal_share_of_vacant_pct": 18.6,
     "median_gross_rent_acs": 1013,
     "permits_avg_annual_5yr": 12.4,
-    "projected_need_annual_10yr": 2.1,
-    "production_to_need_ratio": 5.9,
+    "projected_need_annual_10yr": 13.3,
+    "production_to_need_ratio": 0.93,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -3152,13 +3164,7 @@
     "federal_9pct_credit_per_unit_annual": 27000,
     "share_of_state_lihtc_units": 0.26
    },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 5.9× DOLA's projected household growth. CHFA awarded more tax credit homes in those years than the permits count, so the permit count looks short here",
-     "tax_credit_share_of_permits_pct": 167.7
-    }
-   ],
+   "flags": [],
    "quadrant": "aligned"
   },
   {
@@ -3180,8 +3186,8 @@
     "seasonal_share_of_vacant_pct": 51.4,
     "median_gross_rent_acs": 1658,
     "permits_avg_annual_5yr": 27,
-    "projected_need_annual_10yr": 7.8,
-    "production_to_need_ratio": 3.46,
+    "projected_need_annual_10yr": 2.4,
+    "production_to_need_ratio": 11.25,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -3214,7 +3220,7 @@
     },
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 3.5× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "text": "Permits 2021-2025 ran 11.3× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
      "tax_credit_share_of_permits_pct": 0
     }
    ],
@@ -3239,8 +3245,8 @@
     "seasonal_share_of_vacant_pct": 38.8,
     "median_gross_rent_acs": 942,
     "permits_avg_annual_5yr": 23.4,
-    "projected_need_annual_10yr": 84.9,
-    "production_to_need_ratio": 0.28,
+    "projected_need_annual_10yr": 72.8,
+    "production_to_need_ratio": 0.32,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -3287,8 +3293,8 @@
     "seasonal_share_of_vacant_pct": 31.6,
     "median_gross_rent_acs": 1025,
     "permits_avg_annual_5yr": 132.6,
-    "projected_need_annual_10yr": 98.8,
-    "production_to_need_ratio": 1.34,
+    "projected_need_annual_10yr": 81.4,
+    "production_to_need_ratio": 1.63,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -3340,8 +3346,8 @@
     "seasonal_share_of_vacant_pct": 4.9,
     "median_gross_rent_acs": 1311,
     "permits_avg_annual_5yr": 367.4,
-    "projected_need_annual_10yr": 176,
-    "production_to_need_ratio": 2.09,
+    "projected_need_annual_10yr": 224.2,
+    "production_to_need_ratio": 1.64,
     "chfa_60ami_max_rent_1br": 1620,
     "chfa_60ami_max_rent_2br": 1944
    },
@@ -3367,13 +3373,7 @@
     "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
     "share_of_state_lihtc_units": 0
    },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.1× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
-     "tax_credit_share_of_permits_pct": 0
-    }
-   ],
+   "flags": [],
    "quadrant": "low-need-low-funding"
   },
   {
@@ -3395,8 +3395,8 @@
     "seasonal_share_of_vacant_pct": 2.8,
     "median_gross_rent_acs": 808,
     "permits_avg_annual_5yr": 12.4,
-    "projected_need_annual_10yr": -10.4,
-    "production_to_need_ratio": null,
+    "projected_need_annual_10yr": 12.8,
+    "production_to_need_ratio": 0.97,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -3446,8 +3446,8 @@
     "seasonal_share_of_vacant_pct": 69,
     "median_gross_rent_acs": 1070,
     "permits_avg_annual_5yr": 145.8,
-    "projected_need_annual_10yr": 51.3,
-    "production_to_need_ratio": 2.84,
+    "projected_need_annual_10yr": 85.8,
+    "production_to_need_ratio": 1.7,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -3472,13 +3472,7 @@
     "federal_9pct_credit_per_unit_annual": 34767,
     "share_of_state_lihtc_units": 0.18
    },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.8× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
-     "tax_credit_share_of_permits_pct": 0
-    }
-   ],
+   "flags": [],
    "quadrant": "low-need-low-funding"
   },
   {
@@ -3500,7 +3494,7 @@
     "seasonal_share_of_vacant_pct": 59.4,
     "median_gross_rent_acs": 774,
     "permits_avg_annual_5yr": 2,
-    "projected_need_annual_10yr": -5.3,
+    "projected_need_annual_10yr": -4.7,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -3554,8 +3548,8 @@
     "seasonal_share_of_vacant_pct": 44.6,
     "median_gross_rent_acs": 942,
     "permits_avg_annual_5yr": 10.2,
-    "projected_need_annual_10yr": 6.2,
-    "production_to_need_ratio": 1.65,
+    "projected_need_annual_10yr": 2,
+    "production_to_need_ratio": 5.1,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -3581,7 +3575,13 @@
     "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
     "share_of_state_lihtc_units": 0
    },
-   "flags": [],
+   "flags": [
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 5.1× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
+    }
+   ],
    "quadrant": "low-need-low-funding"
   },
   {
@@ -3603,8 +3603,8 @@
     "seasonal_share_of_vacant_pct": 86.4,
     "median_gross_rent_acs": 1397,
     "permits_avg_annual_5yr": 56.2,
-    "projected_need_annual_10yr": 36.2,
-    "production_to_need_ratio": 1.55,
+    "projected_need_annual_10yr": 9.8,
+    "production_to_need_ratio": 5.73,
     "chfa_60ami_max_rent_1br": 1292,
     "chfa_60ami_max_rent_2br": 1551
    },
@@ -3630,7 +3630,13 @@
     "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
     "share_of_state_lihtc_units": 0
    },
-   "flags": [],
+   "flags": [
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 5.7× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
+    }
+   ],
    "quadrant": "low-need-low-funding"
   },
   {
@@ -3652,8 +3658,8 @@
     "seasonal_share_of_vacant_pct": 67.1,
     "median_gross_rent_acs": 748,
     "permits_avg_annual_5yr": 32.2,
-    "projected_need_annual_10yr": 2,
-    "production_to_need_ratio": 16.1,
+    "projected_need_annual_10yr": 12.9,
+    "production_to_need_ratio": 2.5,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -3682,7 +3688,7 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 16.1× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "text": "Permits 2021-2025 ran 2.5× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
      "tax_credit_share_of_permits_pct": 0
     }
    ],
@@ -3707,8 +3713,8 @@
     "seasonal_share_of_vacant_pct": 20.9,
     "median_gross_rent_acs": 907,
     "permits_avg_annual_5yr": 77,
-    "projected_need_annual_10yr": 29.6,
-    "production_to_need_ratio": 2.6,
+    "projected_need_annual_10yr": 20.1,
+    "production_to_need_ratio": 3.83,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -3736,7 +3742,7 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.6× DOLA's projected household growth. Only 12% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "text": "Permits 2021-2025 ran 3.8× DOLA's projected household growth. Only 12% was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
      "tax_credit_share_of_permits_pct": 11.9
     }
    ],
@@ -3761,7 +3767,7 @@
     "seasonal_share_of_vacant_pct": 0.5,
     "median_gross_rent_acs": 839,
     "permits_avg_annual_5yr": 22.6,
-    "projected_need_annual_10yr": -42,
+    "projected_need_annual_10yr": -22.6,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -3816,7 +3822,7 @@
     "seasonal_share_of_vacant_pct": 26.7,
     "median_gross_rent_acs": 1039,
     "permits_avg_annual_5yr": 17.8,
-    "projected_need_annual_10yr": -5.9,
+    "projected_need_annual_10yr": 0.2,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -3870,7 +3876,7 @@
     "seasonal_share_of_vacant_pct": 65,
     "median_gross_rent_acs": 927,
     "permits_avg_annual_5yr": 51.8,
-    "projected_need_annual_10yr": -7.6,
+    "projected_need_annual_10yr": -2.6,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -3919,7 +3925,7 @@
     "seasonal_share_of_vacant_pct": 50.7,
     "median_gross_rent_acs": 891,
     "permits_avg_annual_5yr": 38,
-    "projected_need_annual_10yr": -39.4,
+    "projected_need_annual_10yr": -12.1,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -3967,8 +3973,8 @@
     "seasonal_share_of_vacant_pct": 4.1,
     "median_gross_rent_acs": 984,
     "permits_avg_annual_5yr": 12.8,
-    "projected_need_annual_10yr": 5.7,
-    "production_to_need_ratio": 2.25,
+    "projected_need_annual_10yr": 11.7,
+    "production_to_need_ratio": 1.09,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -3994,13 +4000,7 @@
     "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
     "share_of_state_lihtc_units": 0
    },
-   "flags": [
-    {
-     "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 2.3× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
-     "tax_credit_share_of_permits_pct": 0
-    }
-   ],
+   "flags": [],
    "quadrant": "underserved"
   },
   {
@@ -4022,7 +4022,7 @@
     "seasonal_share_of_vacant_pct": 83.8,
     "median_gross_rent_acs": 992,
     "permits_avg_annual_5yr": 14.6,
-    "projected_need_annual_10yr": -2.2,
+    "projected_need_annual_10yr": -0.3,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -4076,7 +4076,7 @@
     "seasonal_share_of_vacant_pct": 67,
     "median_gross_rent_acs": 986,
     "permits_avg_annual_5yr": 6,
-    "projected_need_annual_10yr": -3.5,
+    "projected_need_annual_10yr": -5.8,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1098,
     "chfa_60ami_max_rent_2br": 1318
@@ -4125,8 +4125,8 @@
     "seasonal_share_of_vacant_pct": 47.4,
     "median_gross_rent_acs": 919,
     "permits_avg_annual_5yr": 15.4,
-    "projected_need_annual_10yr": 0.5,
-    "production_to_need_ratio": null,
+    "projected_need_annual_10yr": 5.5,
+    "production_to_need_ratio": 2.8,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -4153,7 +4153,13 @@
     "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
     "share_of_state_lihtc_units": 0
    },
-   "flags": [],
+   "flags": [
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 2.8× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
+    }
+   ],
    "quadrant": null,
    "quadrant_unavailable_reason": "the measured ≤30% AMI gap is zero"
   },
@@ -4176,7 +4182,7 @@
     "seasonal_share_of_vacant_pct": 21.2,
     "median_gross_rent_acs": 999,
     "permits_avg_annual_5yr": 6.6,
-    "projected_need_annual_10yr": -1.9,
+    "projected_need_annual_10yr": 0.2,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1160,
     "chfa_60ami_max_rent_2br": 1392
@@ -4230,7 +4236,7 @@
     "seasonal_share_of_vacant_pct": 74,
     "median_gross_rent_acs": 945,
     "permits_avg_annual_5yr": 45.8,
-    "projected_need_annual_10yr": -10.9,
+    "projected_need_annual_10yr": -21.9,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -4279,8 +4285,8 @@
     "seasonal_share_of_vacant_pct": 6.4,
     "median_gross_rent_acs": 973,
     "permits_avg_annual_5yr": 4.8,
-    "projected_need_annual_10yr": 4.2,
-    "production_to_need_ratio": 1.14,
+    "projected_need_annual_10yr": 5.2,
+    "production_to_need_ratio": 0.92,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -4333,7 +4339,7 @@
     "seasonal_share_of_vacant_pct": 82.2,
     "median_gross_rent_acs": 838,
     "permits_avg_annual_5yr": 55.2,
-    "projected_need_annual_10yr": -31.7,
+    "projected_need_annual_10yr": -23.3,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -4382,8 +4388,8 @@
     "seasonal_share_of_vacant_pct": 92.2,
     "median_gross_rent_acs": 1069,
     "permits_avg_annual_5yr": 115.4,
-    "projected_need_annual_10yr": 32.6,
-    "production_to_need_ratio": 3.54,
+    "projected_need_annual_10yr": 19.3,
+    "production_to_need_ratio": 5.98,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -4412,7 +4418,7 @@
    "flags": [
     {
      "id": "building-ahead",
-     "text": "Permits 2021-2025 ran 3.5× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "text": "Permits 2021-2025 ran 6× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
      "tax_credit_share_of_permits_pct": 0
     }
    ],
@@ -4437,7 +4443,7 @@
     "seasonal_share_of_vacant_pct": 8.9,
     "median_gross_rent_acs": 592,
     "permits_avg_annual_5yr": 6.8,
-    "projected_need_annual_10yr": -11.1,
+    "projected_need_annual_10yr": -4.3,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -4486,8 +4492,8 @@
     "seasonal_share_of_vacant_pct": 11.9,
     "median_gross_rent_acs": 926,
     "permits_avg_annual_5yr": 6.8,
-    "projected_need_annual_10yr": -0.2,
-    "production_to_need_ratio": null,
+    "projected_need_annual_10yr": 1.1,
+    "production_to_need_ratio": 6.18,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -4517,6 +4523,11 @@
     {
      "id": "high-vacancy",
      "text": "Active-market vacancy 2.7%, in the loosest quarter of Colorado counties (≥ 2.4%)"
+    },
+    {
+     "id": "building-ahead",
+     "text": "Permits 2021-2025 ran 6.2× DOLA's projected household growth. None of it was tax credit homes, so it mainly softens the market above the 30% AMI gap; deed-restricted workforce homes built by towns and housing authorities are not counted here",
+     "tax_credit_share_of_permits_pct": 0
     }
    ],
    "quadrant": "low-need-low-funding"
@@ -4540,8 +4551,8 @@
     "seasonal_share_of_vacant_pct": 10.7,
     "median_gross_rent_acs": 868,
     "permits_avg_annual_5yr": 9.6,
-    "projected_need_annual_10yr": 11.7,
-    "production_to_need_ratio": 0.82,
+    "projected_need_annual_10yr": 12.8,
+    "production_to_need_ratio": 0.75,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
    },
@@ -4589,7 +4600,7 @@
     "seasonal_share_of_vacant_pct": 6.5,
     "median_gross_rent_acs": 800,
     "permits_avg_annual_5yr": 4.8,
-    "projected_need_annual_10yr": -3.5,
+    "projected_need_annual_10yr": -3.1,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -4640,7 +4651,7 @@
     "seasonal_share_of_vacant_pct": 10.1,
     "median_gross_rent_acs": 947,
     "permits_avg_annual_5yr": 3.4,
-    "projected_need_annual_10yr": -0.7,
+    "projected_need_annual_10yr": -3.2,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
@@ -4689,7 +4700,7 @@
     "seasonal_share_of_vacant_pct": 93,
     "median_gross_rent_acs": 1171,
     "permits_avg_annual_5yr": 13.2,
-    "projected_need_annual_10yr": 0.6,
+    "projected_need_annual_10yr": -3.2,
     "production_to_need_ratio": null,
     "chfa_60ami_max_rent_1br": 1096,
     "chfa_60ami_max_rent_2br": 1315
