@@ -84,13 +84,21 @@
     if (!hmdaRec || !_demographics || !_demographics.counties) return null;
     var d = _demographics.counties[name] || _demographics.counties[name.replace(' County', '')];
     var hh = d ? Number(d.households) : NaN;
-    var orig = Number(hmdaRec.originations);
-    if (!Number.isFinite(hh) || hh <= 0 || !Number.isFinite(orig)) return null;
+    var orig = _num(hmdaRec.originations);  // missing stays missing; a measured 0 is a rate of 0
+    if (!Number.isFinite(hh) || hh <= 0 || orig == null) return null;
     return orig / hh * 1000;
   }
 
+  // A missing input stays missing: it is not read as 0 and it does not get a neutral 50th percentile
+  // (independent QA/QC F02, 12 Nov 2026). A measured 0 is a value.
+  function _num(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var n = Number(v);
+    return Number.isFinite(n) ? n : null;
+  }
+
   function _percentile(value, sortedAsc) {
-    if (value == null || !Number.isFinite(value) || !sortedAsc.length) return 50;
+    if (value == null || !Number.isFinite(value) || !sortedAsc.length) return null;
     var n = sortedAsc.length;
     var idx = 0;
     while (idx < n && sortedAsc[idx] < value) idx++;
@@ -115,12 +123,12 @@
       return {
         name: name,
         fips: fips,
-        jobGrowth:  Number(m.job_growth_5yr_pct),
-        popGrowth:  Number(m.population_growth_5yr_pct),
-        unempRate:  Number(m.unemployment_rate),
-        origVolume: hmdaRec ? Number(hmdaRec.originations) : null,
+        jobGrowth:  _num(m.job_growth_5yr_pct),
+        popGrowth:  _num(m.population_growth_5yr_pct),
+        unempRate:  _num(m.unemployment_rate),
+        origVolume: hmdaRec ? _num(hmdaRec.originations) : null,
         origPer1k:  _origPer1k(hmdaRec, name),
-        denialRate: hmdaRec ? Number(hmdaRec.denial_rate)  : null,
+        denialRate: hmdaRec ? _num(hmdaRec.denial_rate)  : null,
       };
     });
     // Build sorted lists for percentile lookups
@@ -131,20 +139,32 @@
     var sortedDen   = counties.map(c => c.denialRate).filter(v => Number.isFinite(v)).sort((a,b)=>a-b);
 
     counties.forEach(function (c) {
+      var inv = function (p) { return p == null ? null : 100 - p; };
       var pJob   = _percentile(c.jobGrowth,  sortedJob);
       var pPop   = _percentile(c.popGrowth,  sortedPop);
-      var pUnemp = 100 - _percentile(c.unempRate, sortedUnemp);  // invert
+      var pUnemp = inv(_percentile(c.unempRate, sortedUnemp));  // invert
       var pOrig  = _percentile(c.origPer1k, sortedOrig);
-      var pDen   = 100 - _percentile(c.denialRate, sortedDen);   // invert
-      // Equal-weight average
-      c.composite = Math.round((pJob + pPop + pUnemp + pOrig + pDen) / 5);
+      var pDen   = inv(_percentile(c.denialRate, sortedDen));   // invert
       c.pJob = pJob; c.pPop = pPop; c.pUnemp = pUnemp; c.pOrig = pOrig; c.pDen = pDen;
+      // Equal-weight average of all five. With any input missing there is no composite, and the reason
+      // says which inputs are missing; no partial-input score is defined.
+      var names = [['employed residents', pJob], ['population', pPop], ['unemployment', pUnemp],
+        ['mortgage originations per 1,000 households', pOrig], ['denial rate', pDen]];
+      c.missing = names.filter(function (x) { return x[1] == null; }).map(function (x) { return x[0]; });
+      c.composite = c.missing.length ? null
+        : Math.round((pJob + pPop + pUnemp + pOrig + pDen) / 5);
     });
-    counties.sort(function (a, b) { return b.composite - a.composite; });
+    counties.sort(function (a, b) {
+      if (a.composite == null && b.composite == null) return a.name.localeCompare(b.name);
+      if (a.composite == null) return 1;
+      if (b.composite == null) return -1;
+      return b.composite - a.composite;
+    });
     return counties;
   }
 
   function _tierColor(score) {
+    if (score == null) return 'var(--muted)';
     if (score >= 70) return 'var(--good,#16a34a)';
     if (score >= 50) return 'var(--warn,#d97706)';
     return 'var(--bad,#dc2626)';
@@ -157,6 +177,7 @@
       return;
     }
     var scored = computeAll();
+    var unscored = scored.filter(function (c) { return c.composite == null; });
 
     // F143 — Sortable column metadata. Each column carries a key (for sort)
     // and a tooltip (definition shown on hover, also surfaces what makes a
@@ -173,11 +194,17 @@
 
     var html = '';
     html += '<p style="font-size:.85rem;color:var(--muted);margin:0 0 .75rem;">' +
-      'Composite 0-100 score blending 5 signals: job growth (5y), pop growth (5y), ' +
+      'Composite 0-100 score blending 5 signals: employed residents (5y), pop growth (5y), ' +
       'inverse unemployment, HMDA originations per 1,000 households, and inverse HMDA denial rate. ' +
       'Equal-weighted percentile blend. Higher = stronger market. ' +
       'Hover any column header for the definition; click to sort.' +
       '</p>';
+    if (unscored.length) {
+      html += '<p class="mhc-unscored" role="status" style="font-size:.85rem;margin:0 0 .75rem;">' +
+        (!_hmda ? 'The HMDA mortgage file did not load, so no county has all five inputs. ' : '') +
+        '<strong>' + unscored.length + ' of ' + scored.length + ' counties are not scored</strong> because one or more ' +
+        'of the five inputs is missing. Their composite reads "Not scored"; hover it to see which inputs.</p>';
+    }
     html += '<div style="overflow-x:auto;">';
     html += '<table class="mhc-table" data-export="dd-market-health" style="width:100%;border-collapse:collapse;font-size:.85rem;">';
     html += '<thead><tr>';
@@ -193,8 +220,7 @@
     html += '</tr></thead><tbody></tbody></table>';
     html += '</div>';
     html += '<p style="font-size:.8125rem;color:var(--muted);margin-top:.5rem;">' +
-      'Sources: <a href="https://www.bls.gov/cew/" target="_blank" rel="noopener">BLS QCEW</a> (jobs) · ' +
-      '<a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a> (unemp) · ' +
+      'Sources: <a href="https://www.bls.gov/lau/" target="_blank" rel="noopener">BLS LAUS</a> (employed residents, unemp) · ' +
       '<a href="https://data.census.gov/" target="_blank" rel="noopener">ACS</a>/' +
       '<a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener">DOLA</a> (pop) · ' +
       '<a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA</a> (origs + denial).' +
@@ -207,7 +233,9 @@
     function _rowHtml(c) {
       return '<tr>' +
         '<td style="padding:4px 8px;">' + _esc(c.name) + '</td>' +
-        '<td style="text-align:right;padding:4px 8px;color:' + _tierColor(c.composite) + ';font-weight:700;font-variant-numeric:tabular-nums;">' + c.composite + '</td>' +
+        (c.composite == null
+          ? '<td style="text-align:right;padding:4px 8px;color:var(--muted);" title="' + _esc('Missing: ' + c.missing.join(', ')) + '">Not scored</td>'
+          : '<td style="text-align:right;padding:4px 8px;color:' + _tierColor(c.composite) + ';font-weight:700;font-variant-numeric:tabular-nums;">' + c.composite + '</td>') +
         '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;color:var(--muted);">' + (Number.isFinite(c.jobGrowth) ? c.jobGrowth.toFixed(1) + '%' : '—') + '</td>' +
         '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;color:var(--muted);">' + (Number.isFinite(c.popGrowth) ? c.popGrowth.toFixed(1) + '%' : '—') + '</td>' +
         '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;color:var(--muted);">' + (Number.isFinite(c.unempRate) ? c.unempRate.toFixed(1) + '%' : '—') + '</td>' +
