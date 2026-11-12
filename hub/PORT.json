@@ -15,7 +15,7 @@
   "places-hub.html"
  ],
  "lab": {
-  "commit": "6d4da3ee459e4602372d78f2dad817fe3b7bfc0e",
+  "commit": "cb011d897c3f3f890097f273a1b6226c3752cdcc",
   "dirty": false
  },
  "files": {
@@ -54,7 +54,7 @@
   "hub/employers.js": "b88b55893ff703a8e7b4868804e125f2c8b07a10cdeb0ed5a3825e38c7821d48",
   "hub/equity.css": "53bb0d5d0c61318228d514d3c8db7e719dc9dee91b44ebdb690c1671e3491b3e",
   "hub/equity.js": "23b0cd67a229da6ca017d2086535b563b0b95bfdc0bb2bf6f846f927f2f89065",
-  "hub/financials.js": "97b6a98f7edb232288dc99d4adea0387987652d950983d2e29db56e1ecff8a34",
+  "hub/financials.js": "5a5efe705d09a3e2b817ed7b4c76d6af61ee4e11db7e3e947345bb9b0e77286c",
   "hub/finder.js": "4badea090cd42a10fbbea79bbc6571ea99d83725788e1737b8d97f0833c2d753",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/guide-extract.js": "b1f6a46a80c4a74d937e3b2da3dd82846118b980d42efab3249862318361e82b",
