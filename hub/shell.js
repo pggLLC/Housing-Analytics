@@ -349,7 +349,9 @@
     // page it rebuilds instead; replace() keeps Back on the page the reader came from.
     var away = global.LAB_PORT && global.LAB_PORT.leave(location.hash || '#/');
     if (away) { location.replace(away); return; }
-    var view = Object.prototype.hasOwnProperty.call(VIEWS, route.view) && typeof VIEWS[route.view] === 'function' ? VIEWS[route.view] : null;
+    // The view is looked up by the route table's own names, never by the address text itself.
+    var key = Object.keys(VIEWS).filter(function (k) { return k === route.view; })[0];
+    var view = key && typeof VIEWS[key] === 'function' ? VIEWS[key] : null;
     // Which place the charts on this page describe; a place page sets it, every other page leaves it empty,
     // so a chart's CSV never carries the last place visited.
     global.LAB_VIZ_CONTEXT = null;
