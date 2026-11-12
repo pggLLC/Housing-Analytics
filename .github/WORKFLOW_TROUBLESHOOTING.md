@@ -13,8 +13,8 @@ watchdog is not a real-time availability check.
 
 1. Compare the current `main` SHA, the most recent successful
    [Pages deploy](https://github.com/pggLLC/Housing-Analytics/actions/workflows/deploy.yml),
-   and `https://cohoanalytics.com/version.json`. Check whether a newer deploy
-   is already running before taking action.
+   and `version.json` at the live site's root. Check whether a newer deploy is
+   already running before taking action.
 2. Open the failed deploy and identify the failed step. If **Deploy to GitHub
    Pages** remains at `syncing_files` until `Timeout reached`, the artifact
    was uploaded but Pages did not finish in time. Check
