@@ -739,6 +739,11 @@
         a.setAttribute('href', 'deal-calculator.html'
           + (geo && /^08\d{3}(\d{2})?$/.test(geo.geoid || '') ? '?geoid=' + geo.geoid : ''));
       });
+      // The step rail follows the loaded place too, so no two links on the
+      // page model different places.
+      if (geo && window.WorkflowProgress && typeof window.WorkflowProgress.setPagePlace === 'function') {
+        window.WorkflowProgress.setPagePlace(geo.geoid, geo.type || geo.geoType);
+      }
       var sb = document.getElementById('sbSaveBtn');
       if (!sb) return;
       sb.disabled = !geo;

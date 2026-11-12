@@ -218,7 +218,13 @@
    * carries the page's own place. Only a checked Colorado GEOID and a known
    * geography type reach the href, since a stranger can set the URL. The
    * jurisdiction picker is left plain: it is where the place is changed. */
+  // The place the page has loaded since it opened (setPagePlace), which wins
+  // over the arrival URL: a reader who opens Denver and then loads Mesa is
+  // modelling Mesa.
+  var pagePlace = null;
+
   function urlPlace() {
+    if (pagePlace) return pagePlace;
     try {
       var sp = new URLSearchParams(global.location.search || '');
       var id = sp.get('geoid') || sp.get('fips');
@@ -452,6 +458,15 @@
     /** The route for the chosen product (the LIHTC route when none is chosen). */
     routeSteps: currentSteps,
     applyRoute: applyRouteToDocument,
+
+    /** Pages that change their place without reloading (the Scenario
+     *  Builder) tell the rail, so its links follow the place on screen. */
+    setPagePlace: function (geoid, geoType) {
+      var id = String(geoid || '');
+      if (!/^08\d{3}(\d{2})?$/.test(id)) return;
+      pagePlace = { geoid: id, geoType: /^(place|cdp|county)$/.test(geoType) ? geoType : null };
+      applyRouteToDocument();
+    },
 
     render: function (containerId, activeStep, options) {
       ensureStyles();

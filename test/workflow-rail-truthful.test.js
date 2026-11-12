@@ -75,6 +75,25 @@ assert(railHrefs('', savedMesa).every((h) => !/geoid=/.test(h)), 'with no place 
 assert(railHrefs('?geoid=%22%3E%3Cscript%3E', savedMesa).every((h) => !/geoid=|script/i.test(h)), 'a value that is not a GEOID is ignored');
 assert(railHrefs('?geoid=08031&geoType=evil', savedMesa).every((h) => !/evil/.test(h)), 'an unknown geography type is dropped');
 
+// 4b. A place loaded on the page after arrival (the Scenario Builder's Load)
+//     wins over the arrival URL, so the rail and the page's own Continue link
+//     model the same place.
+{
+  const html = fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8');
+  const dom = new JSDOM(html, { url: 'http://127.0.0.1/market-analysis.html?geoid=08031', runScripts: 'outside-only' });
+  dom.window.WorkflowState = { getActiveProject: () => savedMesa };
+  dom.window.eval(wp);
+  dom.window.WorkflowProgress.refreshSteps('maWorkflowProgress', 4);
+  dom.window.WorkflowProgress.setPagePlace('08077', 'county');
+  const after = [...dom.window.document.querySelectorAll('a.wf-step[href]')].map((a) => a.getAttribute('href'))
+    .filter((h) => !/^select-jurisdiction/.test(h));
+  assert(after.length >= 4 && after.every((h) => /geoid=08077/.test(h) && !/08031/.test(h)), `after a new place loads, the rail follows it: ${after.join(' ')}`);
+  dom.window.WorkflowProgress.setPagePlace('x"><b>', 'county');
+  assert([...dom.window.document.querySelectorAll('a.wf-step[href]')].every((a) => !/<b>/.test(a.getAttribute('href'))), 'a bad value is ignored');
+}
+const sbPage = fs.readFileSync(path.join(ROOT, 'hna-scenario-builder.html'), 'utf8');
+assert(/scenario-builder:state[\s\S]{0,1500}WorkflowProgress\.setPagePlace\(geo\.geoid/.test(sbPage), 'the Scenario Builder tells the rail when it loads a place');
+
 // 5. The Scenario Builder takes a ?geoid= link without a geoType (the hub pages
 //    and this rail send those) instead of falling back to the saved place.
 const sb = fs.readFileSync(path.join(ROOT, 'hna-scenario-builder.html'), 'utf8');
