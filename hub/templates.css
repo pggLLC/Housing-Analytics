@@ -7,7 +7,7 @@
 /* Values scripts set while the page runs, declared here with the same defaults the rules fall back to, so every
    var() names a defined property: --sp-top (hna.js, the slim step bar's height), --mk-k (map-kit.js, map units
    per screen pixel), --n (guide.js, cards in a row) and --g (financials.js, a rate cell's shade). */
-:root { --sp-top: 0px; --mk-k: 1.6; --n: 3; --g: 0; }
+:root { --sp-top: 0px; --hdr-h: 0px; --tabs-h: 0px; --mk-k: 1.6; --n: 3; --g: 0; }
 
 /* ---------- Header and menus ---------- */
 .theme-toggle { flex: none; min-height: 44px; min-width: 44px; padding: 0 .75rem; background: var(--card); color: var(--ink); border: 1px solid var(--line-strong); border-radius: 6px; font: inherit; font-size: 14px; cursor: pointer; }
@@ -130,7 +130,7 @@ html { overflow-x: clip; }
 
 /* ---------- Guide ---------- */
 .guide-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 3rem; align-items: start; }
-.on-this-page { position: sticky; top: calc(1rem + var(--sp-top, 0px)); font-size: 14px; }
+.on-this-page { position: sticky; top: calc(1rem + var(--hdr-h, 0px) + var(--sp-top, 0px) + var(--tabs-h, 0px)); font-size: 14px; }
 .otp-title { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 .5rem; }
 .on-this-page ol { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--line); }
 .on-this-page a { display: flex; align-items: center; min-height: 44px; padding: .5rem .75rem; margin-left: -2px; border-left: 2px solid transparent; color: var(--ink-soft); text-decoration: none; line-height: 1.35; }
@@ -381,7 +381,7 @@ html { overflow-x: clip; }
 .lv-field input, .lv-field select, .lv-comps input { min-height: 44px; padding: .5rem .65rem; border: 1px solid var(--line); border-radius: 6px; font: inherit; background: var(--card); color: var(--ink); width: 100%; box-sizing: border-box; }
 .lv-comps { min-width: 520px; }
 .lv-comps th, .lv-comps td { padding: .25rem; }
-.lv-out { position: sticky; top: calc(1rem + var(--sp-top, 0px)); min-width: 0; }
+.lv-out { position: sticky; top: calc(1rem + var(--hdr-h, 0px) + var(--sp-top, 0px)); min-width: 0; }
 .lv-out .metrics { grid-template-columns: 1fr; }
 .lv-band { margin: 1rem 0; padding: 1rem 1.25rem; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
 .lv-band figcaption { display: grid; gap: .25rem; margin-bottom: .75rem; }
@@ -933,8 +933,8 @@ th[aria-sort="descending"] > button.th-sort::after { content: "\2193"; color: va
    County and Cost. Fields now start together, each with its help, and Credit takes two columns so its two choices sit in a row. */
 @media (min-width: 900px) { .quick fieldset.quick-credit { grid-column: span 2; } }
 /* --sp-top is the height of the slim step bar while it shows (set in hna.js), so the two never overlap. */
-html { scroll-padding-top: var(--sp-top, 0px); }
-.quick-live { position: sticky; top: var(--sp-top, 0px); z-index: 2; display: flex; flex-wrap: wrap; gap: .15rem 1.25rem; align-items: center; margin: 0 0 .75rem; padding: .45rem .75rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: 8px; font-size: 14px; font-variant-numeric: tabular-nums; }
+html { scroll-padding-top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) + var(--tabs-h, 0px) + 8px); }
+.quick-live { position: sticky; top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px)); z-index: 2; display: flex; flex-wrap: wrap; gap: .15rem 1.25rem; align-items: center; margin: 0 0 .75rem; padding: .45rem .75rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: 8px; font-size: 14px; font-variant-numeric: tabular-nums; }
 .quick-live b { font-weight: 600; color: var(--ink-soft); }
 .quick-live-k { font-weight: 700; }
 .quick-live .linklike, .quick-back .linklike { min-height: 44px; font-weight: 600; }
@@ -998,12 +998,28 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
 .sp-where a { color: var(--pine); display: inline-flex; align-items: center; min-height: 44px; }
 .sp-where .sp-place a, .sp-where .sp-clear { margin-left: .4rem; }
 .step-path .sp-all { display: none; }
-.sp-sticky { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: var(--card); border-bottom: 1px solid var(--line); box-shadow: 0 2px 6px var(--shade-soft);
-  padding-top: env(safe-area-inset-top, 0px); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.sp-sticky { position: fixed; top: var(--hdr-h, 0px); left: 0; right: 0; z-index: 50; background: var(--card); border-bottom: 1px solid var(--line); box-shadow: 0 2px 6px var(--shade-soft);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 .sp-sticky .sp-where { margin: 0; max-width: 72rem; margin-inline: auto; }
 .sp-sticky .sp-up { margin-left: auto; }
 @media print { .sp-sticky, .sp-where .sp-all, .sp-where .sp-clear { display: none !important; } }
 .tabs { margin-top: .75rem; }
+/* paul 12 Nov: the main navigation stays at the top as on the public site; the step line rides just under it once
+   the step bar scrolls away, and a page's tab row sticks under both once it is reached. --hdr-h is the header's
+   measured height (shell.js), --sp-top the step line's, --tabs-h the tab row's while it sticks (hna.js). */
+.site-header { position: sticky; top: 0; z-index: 60; padding-top: max(.5rem, env(safe-area-inset-top, 0px)); }
+.tabs { position: sticky; top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) - 1px); z-index: 40; background: var(--card); }
+.sp-sticky .sp-toggle { display: none; }
+@media (max-width: 767px) {
+  /* The open phone menu scrolls inside the header rather than running off the screen. */
+  .site-nav.open { max-height: calc(100vh - 4rem); overflow-y: auto; }
+  /* Hide or show the step line and the tab row; hidden, a thin bar keeps the Show button. */
+  .sp-sticky .sp-toggle { display: inline-flex; align-items: center; min-height: 44px; font: inherit; font-size: 14px; color: var(--pine); background: none; border: 0; padding: 0 0 0 .5rem; text-decoration: underline; cursor: pointer; margin-left: auto; }
+  .sp-sticky .sp-up { margin-left: 0; }
+  html.sp-folded .sp-sticky .sp-where > :not(.sp-toggle) { display: none; }
+  html.sp-folded .tabs { position: static; }
+}
+@media print { .site-header, .tabs { position: static; } }
 @media (max-width: 767px) {
   /* A phone shows the step before, this step and the step after, one row; the menu lists all seven. */
   .step-path ol { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1019,9 +1035,11 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
   .step-path .sp-all { display: inline-block; }
   .sp-sticky .sp-of strong { font-weight: 600; }
   .step-path .sp-title { font-size: 13px; }
-  /* Chapter tabs: two to a row, every name visible, no sideways scroll. */
-  .tabs ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .tabs a { white-space: normal; line-height: 1.2; padding: .3rem .5rem; }
+  /* Chapter tabs: one row that sticks under the bars (paul, 12 Nov); it swipes sideways inside itself, never the
+     page, and the open chapter is scrolled into view (shell.js). */
+  .tabs ul { display: flex; flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; }
+  .tabs li { flex: 0 0 auto; scroll-snap-align: start; }
+  .tabs a { white-space: nowrap; padding: 0 .6rem; }
   .page-place .place-tools .actions { margin: 0; }
   .page-place .place-tools .geo-legend { flex: 1 1 auto; }
   .metrics { gap: .5rem; }

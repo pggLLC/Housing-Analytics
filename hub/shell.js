@@ -358,6 +358,17 @@
     var held = heldFocus();
     main.innerHTML = typeof view === 'function' ? view(route.params, route.parts)
       : VIEWS['not-found'] ? VIEWS['not-found'](route.params, route.parts) : '<h1>Not in the lab</h1><p class="lede">There is no lab page at this address.</p><p><a href="#/">Go to Home</a></p>';
+    // The seven-step bar sits in one place on every page that has it: first in the page, just under the main
+    // navigation (paul, 12 Nov), with its slim line right after it.
+    var spBar = main.querySelector('.step-path');
+    if (spBar && main.firstChild !== spBar) {
+      var spSlim = main.querySelector('[data-sp-sticky]');
+      main.insertBefore(spBar, main.firstChild);
+      if (spSlim) main.insertBefore(spSlim, spBar.nextSibling);
+    }
+    // A tab row that swipes sideways on a phone opens with the current tab in view.
+    var curTab = main.querySelector('.tabs [aria-current="page"]'), tabList = curTab && curTab.closest('ul');
+    if (tabList && tabList.scrollWidth > tabList.clientWidth) tabList.scrollLeft = Math.max(0, curTab.offsetLeft - tabList.offsetLeft - 16);
     // Fold the source lines before anything below measures the page, so a redraw keeps the reader's place.
     if (global.LabTpl && global.LabTpl.foldSources) global.LabTpl.foldSources();
     if (global.LabTpl && global.LabTpl.sortable) global.LabTpl.sortable();

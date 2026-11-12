@@ -2582,15 +2582,24 @@
     var where = step + place;
     return '<nav class="step-path" aria-label="From a town to a deal, seven steps"><p class="sp-where">' + where +
       '<button type="button" class="sp-all" data-sp-all="1" aria-expanded="false">All 7 steps</button></p><ol>' + items.join('') + '</ol></nav>' +
-      '<div class="sp-sticky" data-sp-sticky="1" hidden><p class="sp-where">' + where + '<a class="sp-up" href="#" data-sp-up="1">Steps</a></p></div>';
+      '<div class="sp-sticky" data-sp-sticky="1" hidden><p class="sp-where">' + where + '<a class="sp-up" href="#" data-sp-up="1">Steps</a>' +
+      '<button type="button" class="sp-toggle" data-sp-fold="1" aria-expanded="' + (spFolded() ? 'false' : 'true') + '">' + (spFolded() ? 'Show steps' : 'Hide') + '</button></p></div>';
   }
   // Once per page load: Clear, All 7 steps, and the slim bar that shows while the step bar is scrolled out of view.
+  // On a phone the slim line and the tab row can be folded away (paul, 12 Nov); the choice holds for the visit.
+  function spFolded() { return !!(global.document && global.document.documentElement.classList.contains('sp-folded')); }
   function bindStepBar() {
     if (bindStepBar.done || !global.document) return;
     bindStepBar.done = true;
     document.addEventListener('click', function (ev) {
-      var t = ev.target.closest && ev.target.closest('[data-sp-clear], [data-sp-all], [data-sp-up]');
+      var t = ev.target.closest && ev.target.closest('[data-sp-clear], [data-sp-all], [data-sp-up], [data-sp-fold]');
       if (!t) return;
+      if (t.hasAttribute('data-sp-fold')) {
+        var fold = !spFolded();
+        document.documentElement.classList.toggle('sp-folded', fold);
+        t.setAttribute('aria-expanded', fold ? 'false' : 'true'); t.textContent = fold ? 'Show steps' : 'Hide';
+        check(); return;
+      }
       if (t.hasAttribute('data-sp-clear')) { try { global.localStorage.removeItem(WORK_KEY); } catch (e) { /* nothing kept */ } if (global.LabShell) global.LabShell.render(); }
       else if (t.hasAttribute('data-sp-all')) { var nav = t.closest('.step-path'), on = !nav.classList.contains('sp-open'); nav.classList.toggle('sp-open', on); t.setAttribute('aria-expanded', on ? 'true' : 'false'); t.textContent = on ? 'Fewer steps' : 'All 7 steps'; }
       else { ev.preventDefault(); var bar = document.querySelector('.step-path'); if (bar) bar.scrollIntoView({ block: 'start' }); }
@@ -2599,14 +2608,23 @@
     var queued = false;
     function check() {
       queued = false;
+      var root = document.documentElement, head = document.querySelector('.site-header');
+      // The main navigation sticks at the top; everything else that sticks sits under it.
+      var hdr = head && global.getComputedStyle(head).position === 'sticky' ? Math.ceil(head.getBoundingClientRect().height) : 0;
+      root.style.setProperty('--hdr-h', hdr + 'px');
       var bar = document.querySelector('.step-path'), slim = document.querySelector('[data-sp-sticky]');
-      if (slim) slim.hidden = !bar || bar.getBoundingClientRect().bottom > 0;
-      // Anything else that sticks to the top (the calculator's result strip) sits under the slim bar, never behind it.
-      document.documentElement.style.setProperty('--sp-top', slim && !slim.hidden ? Math.ceil(slim.getBoundingClientRect().height) + 'px' : '0px');
+      if (slim) slim.hidden = !bar || bar.getBoundingClientRect().bottom > hdr;
+      // Anything else that sticks to the top (the calculator's result strip, the tab row) sits under the slim bar, never behind it.
+      var sp = slim && !slim.hidden ? Math.ceil(slim.getBoundingClientRect().height) : 0;
+      root.style.setProperty('--sp-top', sp + 'px');
+      // The tab row's height counts toward where a jump lands only while it is stuck under the bars.
+      var tabs = document.querySelector('#main .tabs'), tr = tabs && global.getComputedStyle(tabs).position === 'sticky' ? tabs.getBoundingClientRect() : null;
+      root.style.setProperty('--tabs-h', tr && tr.top <= hdr + sp + 1 ? Math.ceil(tr.height) + 'px' : '0px');
     }
     global.addEventListener('scroll', function () { if (!queued) { queued = true; global.requestAnimationFrame(check); } }, { passive: true });
     global.addEventListener('resize', function () { if (!queued) { queued = true; global.requestAnimationFrame(check); } }, { passive: true });
     global.addEventListener('hashchange', function () { global.setTimeout(check, 0); });
+    global.setTimeout(check, 0);
   }
   bindStepBar();
 
