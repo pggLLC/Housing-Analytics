@@ -71,7 +71,7 @@
       names: ['Fort Collins', 'Loveland'], basis: 'partner', who: 'Larimer County, Fort Collins and Loveland' },
     { id: 'eagle', title: 'Eagle County Regional Housing Needs Analysis', approved: '2026-01-14', url: 'https://www.avon.org/2382/Housing',
       counties: ['08037'], basis: 'check', who: 'Eagle County and its towns' },
-    { id: 'gunnison', title: 'Gunnison Valley Housing Needs Assessment', approved: '2026-05-05', url: 'https://townofcrestedbutte.colorado.gov/sites/townofcrestedbutte/files/documents/Gunnison%20Valley%20Housing%20Needs%20Assessment%202024_0.pdf',
+    { id: 'gunnison', title: 'Gunnison Valley Housing Needs Assessment', approved: '2026-05-05', url: 'https://townofcrestedbutte.colorado.gov/sites/g/files/lrnvjt3261/files/documents/Gunnison%20Valley%20Housing%20Needs%20Assessment%202024_0.pdf',
       counties: ['08051'], basis: 'check', who: 'Gunnison County and its towns' },
     { id: 'sanmiguel', title: 'San Miguel County Housing Needs Analysis', approved: '2026-05-07', url: 'https://smrha.org/needs-assessment/',
       counties: ['08113'], basis: 'check', who: 'San Miguel County and its towns' },

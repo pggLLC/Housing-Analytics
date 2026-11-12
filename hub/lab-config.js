@@ -85,7 +85,8 @@ window.resolveAssetUrl = function (p) { return p; };
   // carries the place and nothing else: a place page's route (#/place/<geoid>/<chapter>), never a query.
   function spanishHref(hash) {
     var m = /^#\/place\/\d{5,7}(\/[a-z-]+)?/.exec(split(hash).path);
-    return 'https://translate.google.com/translate?sl=en&tl=es&hl=es&u=' + encodeURIComponent('https://cohoanalytics.com/places-hub.html' + (m ? m[0] : ''));
+    var u = 'https://cohoanalytics.com/places-hub.html' + (m ? m[0] : '');
+    return 'https://translate.google.com/translate?sl=en&tl=es&hl=es&u={page}'.replace('{page}', function () { return encodeURIComponent(u); });
   }
   function fix(root) {
     var es = document.querySelector('a[lang="es"]');
