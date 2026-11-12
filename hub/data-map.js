@@ -260,7 +260,7 @@
       '<nav class="dm-chips" aria-label="Map layers">' + ['Affordable housing', 'Tax credit designations', 'Jobs and services'].map(function (g) {
         return '<div class="dm-group"><p class="dm-group-h">' + esc(g) + '</p><ul>' + LAYERS.filter(function (x) { return x.group === g; }).map(function (x) {
           var isOn = ids.indexOf(x.id) >= 0;
-          return '<li><a class="chip' + (isOn ? ' is-on' : '') + '" href="' + esc(href(toggled(ids, x.id), at, label)) + '" aria-pressed="' + isOn + '" data-layer="' + x.id + '">' + swatch(x) + esc(x.label) + '</a></li>';
+          return '<li><a class="chip' + (isOn ? ' is-on' : '') + '" href="' + esc(href(toggled(ids, x.id), at, label)) + '"' + (isOn ? ' aria-current="true"' : '') + ' data-layer="' + x.id + '">' + swatch(x) + esc(x.label) + '</a></li>';
         }).join('') + '</ul></div>';
       }).join('') + '</nav></details>';
     var search = '<form class="dm-search" data-dm-search role="search" autocomplete="off">' +

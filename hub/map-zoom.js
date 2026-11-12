@@ -39,7 +39,8 @@
       p.setAttribute('data-tip', text);
       var link = p.parentNode && p.parentNode.tagName && p.parentNode.tagName.toLowerCase() === 'a' ? p.parentNode : null;
       if (link && !link.getAttribute('aria-label')) link.setAttribute('aria-label', text);
-      if (!link) p.setAttribute('aria-label', text);
+      // A shape that is not a link is a picture with a name (role img): aria-label alone is not allowed on a path.
+      if (!link) { p.setAttribute('role', 'img'); p.setAttribute('aria-label', text); }
       p.removeChild(t);
     });
     var dots = Array.prototype.slice.call(svg.querySelectorAll('circle[data-tip]'));
