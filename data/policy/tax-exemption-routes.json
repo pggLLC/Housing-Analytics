@@ -1,0 +1,432 @@
+{
+  "schema": "tax-exemption-routes/v1",
+  "meta": {
+    "title": "Property tax exemption routes and assessor track records by county and place",
+    "as_of": "2026-11-12",
+    "last_verified": "2026-11-12",
+    "review_by": "2027-05-12",
+    "method": "Curated, not a feed. Routes rest on the quoted statute text below. Assessor history is read from each county assessor's public record, one account at a time, and every item quotes the record line it rests on. An exempt share is recorded only where the record shows it. A county whose records were not read has status not_researched. A blank means not checked, never no history.",
+    "rule": "Every deal assessment weighs a housing authority lease or ownership interest as the property tax route, and reads the local assessor's history on housing exemptions.",
+    "known_gaps": [
+      "Five geographies so far: La Plata, Delta and Morgan counties, Bayfield and Durango.",
+      "The assessor record shows the result, not the statute or the application; which exemption route each project used is not recorded.",
+      "Payment in lieu of tax (PILOT) agreements are not on assessor records and are left blank until a public agreement is read.",
+      "Named people to call are kept on the member site, not in this public file."
+    ],
+    "statutes": [
+      {
+        "id": "crs-29-4-227-1-a",
+        "citation": "C.R.S. 29-4-227(1)(a)",
+        "source": {
+          "label": "C.R.S. 29-4-227 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+          "url": "https://colorado.public.law/statutes/crs_29-4-227"
+        },
+        "verification": {
+          "level": "reported",
+          "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+          "checked": "2026-11-12"
+        },
+        "quote": "All property of an authority is exempt from all local and municipal taxes. Bonds, notes, debentures, and other evidences of indebtedness of an authority are declared to be issued for a public purpose and to be public instruments, and, together with interest thereon, are exempt from taxes. All property leased to an authority for the purposes of a project is also exempt from taxation, as is the income derived from the authority by the lessor under the lease."
+      },
+      {
+        "id": "crs-29-4-227-1-b",
+        "citation": "C.R.S. 29-4-227(1)(b)",
+        "source": {
+          "label": "C.R.S. 29-4-227 (Colorado.Public.Law reproduction of OLLS 2024 CRS)",
+          "url": "https://colorado.public.law/statutes/crs_29-4-227"
+        },
+        "verification": {
+          "level": "reported",
+          "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+          "checked": "2026-11-12"
+        },
+        "quote": "A project that is owned by, leased to, or under construction by an entity that is wholly owned by an authority, an entity in which an authority has an ownership interest, or an entity in which an entity wholly owned by an authority or of which an authority is the sole member has an ownership interest is exempt from both property tax and, during construction, from the payment of sales tax and use tax to the state or any county, city and county, municipality, or other political subdivision of the state in proportion to the percentage of the project that is for occupancy by persons of low income."
+      }
+    ]
+  },
+  "entries": [
+    {
+      "geoid": "08067",
+      "name": "La Plata County",
+      "level": "county",
+      "county_geoid": "08067",
+      "checked": "2026-11-12",
+      "review_by": "2027-05-12",
+      "ha_routes": [
+        {
+          "route": "ownership",
+          "label": "The housing authority owns the project",
+          "statute_ids": [
+            "crs-29-4-227-1-a"
+          ],
+          "authority": null,
+          "authority_geoid": null,
+          "precedents": []
+        },
+        {
+          "route": "ground_lease",
+          "label": "The land or building is leased to the housing authority for the project",
+          "statute_ids": [
+            "crs-29-4-227-1-a"
+          ],
+          "authority": null,
+          "authority_geoid": null,
+          "precedents": []
+        },
+        {
+          "route": "gp_member",
+          "label": "The housing authority (or an entity it wholly owns) holds an ownership interest in the owner, usually as general partner or managing member; only the low-income share is exempt",
+          "statute_ids": [
+            "crs-29-4-227-1-b"
+          ],
+          "authority": null,
+          "authority_geoid": null,
+          "precedents": []
+        }
+      ],
+      "assessor": {
+        "office": "La Plata County Assessor",
+        "role": "County Assessor: sets the exempt share each year and keeps the record",
+        "url": "https://eagleweb.lpcgov.org/assessor/web/",
+        "status": "researched",
+        "history": [
+          {
+            "project": "Southwest Horizon Ranch LLLP, Durango",
+            "account": "R421063",
+            "year": 2026,
+            "exemption_type": "Exempt (assessor shows full assessed value exempt)",
+            "outcome": "granted",
+            "exempt_share": "100%",
+            "pilot_terms": null,
+            "source_url": "https://eagleweb.lpcgov.org/assessor/web/",
+            "quote": "Owner Name SOUTHWEST HORIZON RANCH LLLP",
+            "checked": "2026-11-12",
+            "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+          }
+        ]
+      },
+      "nonprofit_exemption": {
+        "office": "Colorado Division of Property Taxation, Property Tax Administrator",
+        "role": "Approves the charitable (nonprofit) exemption under C.R.S. 39-3-112 on application",
+        "url": "https://dpt.colorado.gov/charitable-residential-property-exemption-forms"
+      },
+      "local_abatement": [],
+      "note": "One exempt tax credit partnership found so far. Which housing authority holds the interest is not shown on the assessor record, so no authority is named. A blank route list is not proof that no authority will partner."
+    },
+    {
+      "geoid": "0805265",
+      "name": "Bayfield (town)",
+      "level": "place",
+      "county_geoid": "08067",
+      "checked": "2026-11-12",
+      "review_by": "2027-05-12",
+      "ha_routes": [],
+      "assessor": null,
+      "nonprofit_exemption": {
+        "office": "Colorado Division of Property Taxation, Property Tax Administrator",
+        "role": "Approves the charitable (nonprofit) exemption under C.R.S. 39-3-112 on application",
+        "url": "https://dpt.colorado.gov/charitable-residential-property-exemption-forms"
+      },
+      "local_abatement": [],
+      "note": "Uses La Plata County's assessor record and routes. No town abatement program found in the sources read for this file; the town's own code was not searched."
+    },
+    {
+      "geoid": "0822035",
+      "name": "Durango (city)",
+      "level": "place",
+      "county_geoid": "08067",
+      "checked": "2026-11-12",
+      "review_by": "2027-05-12",
+      "ha_routes": [],
+      "assessor": null,
+      "nonprofit_exemption": {
+        "office": "Colorado Division of Property Taxation, Property Tax Administrator",
+        "role": "Approves the charitable (nonprofit) exemption under C.R.S. 39-3-112 on application",
+        "url": "https://dpt.colorado.gov/charitable-residential-property-exemption-forms"
+      },
+      "local_abatement": [],
+      "note": "Uses La Plata County's assessor record and routes. The city's own code was not searched for an abatement program."
+    },
+    {
+      "geoid": "08029",
+      "name": "Delta County",
+      "level": "county",
+      "county_geoid": "08029",
+      "checked": "2026-11-12",
+      "review_by": "2027-05-12",
+      "ha_routes": [
+        {
+          "route": "ownership",
+          "label": "The housing authority owns the project",
+          "statute_ids": [
+            "crs-29-4-227-1-a"
+          ],
+          "authority": "Housing Authority of the City of Delta",
+          "authority_geoid": "0819850",
+          "precedents": [
+            {
+              "project": "Housing Authority of the City of Delta, 321 Grand Ave",
+              "account": "R014438",
+              "year": 2026,
+              "exemption_type": "Exempt, owned by the housing authority",
+              "outcome": "granted",
+              "exempt_share": "100%",
+              "pilot_terms": null,
+              "source_url": "https://assessor.deltacountyco.gov/assessor/web/",
+              "quote": "Owner Name HOUSING AUTHORITY / CITY OF DELTA",
+              "checked": "2026-11-12",
+              "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+            },
+            {
+              "project": "Housing Authority of the City of Delta, 501 E 14th St",
+              "account": "R023529",
+              "year": 2026,
+              "exemption_type": "Exempt, owned by the housing authority",
+              "outcome": "granted",
+              "exempt_share": "100%",
+              "pilot_terms": null,
+              "source_url": "https://assessor.deltacountyco.gov/assessor/web/",
+              "quote": "Owner Name HOUSING AUTHORITY DELTA CITY OF",
+              "checked": "2026-11-12",
+              "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+            }
+          ]
+        },
+        {
+          "route": "ground_lease",
+          "label": "The land or building is leased to the housing authority for the project",
+          "statute_ids": [
+            "crs-29-4-227-1-a"
+          ],
+          "authority": "Housing Authority of the City of Delta",
+          "authority_geoid": "0819850",
+          "precedents": []
+        },
+        {
+          "route": "gp_member",
+          "label": "The housing authority (or an entity it wholly owns) holds an ownership interest in the owner, usually as general partner or managing member; only the low-income share is exempt",
+          "statute_ids": [
+            "crs-29-4-227-1-b"
+          ],
+          "authority": "Housing Authority of the City of Delta",
+          "authority_geoid": "0819850",
+          "precedents": []
+        }
+      ],
+      "assessor": {
+        "office": "Delta County Assessor",
+        "role": "County Assessor: sets the exempt share each year and keeps the record",
+        "url": "https://assessor.deltacountyco.gov/assessor/web/",
+        "status": "researched",
+        "history": [
+          {
+            "project": "Residences at Delta LLLP",
+            "account": "R026233",
+            "year": 2026,
+            "exemption_type": "Exempt (assessor shows full assessed value exempt)",
+            "outcome": "granted",
+            "exempt_share": "100%",
+            "pilot_terms": null,
+            "source_url": "https://assessor.deltacountyco.gov/assessor/web/",
+            "quote": "Owner Name RESIDENCES AT DELTA LLLP",
+            "checked": "2026-11-12",
+            "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+          },
+          {
+            "project": "Residences at Delta II LLLP (land, before construction)",
+            "account": "R026234",
+            "year": 2026,
+            "exemption_type": "Exempt (assessor shows full assessed value exempt)",
+            "outcome": "granted",
+            "exempt_share": "100%",
+            "pilot_terms": null,
+            "source_url": "https://assessor.deltacountyco.gov/assessor/web/",
+            "quote": "Owner Name RESIDENCES AT DELTA II LLLP",
+            "checked": "2026-11-12",
+            "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+          },
+          {
+            "project": "Villas at the Bluff LLLP",
+            "account": "R022756",
+            "year": 2026,
+            "exemption_type": "Exempt (assessor shows full assessed value exempt)",
+            "outcome": "granted",
+            "exempt_share": "100%",
+            "pilot_terms": null,
+            "source_url": "https://assessor.deltacountyco.gov/assessor/web/",
+            "quote": "Owner Name VILLAS AT THE BLUFF LLLP",
+            "checked": "2026-11-12",
+            "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+          },
+          {
+            "project": "Villas at the Bluff LLLP",
+            "account": "R023976",
+            "year": 2026,
+            "exemption_type": "Exempt (assessor shows full assessed value exempt)",
+            "outcome": "granted",
+            "exempt_share": "100%",
+            "pilot_terms": null,
+            "source_url": "https://assessor.deltacountyco.gov/assessor/web/",
+            "quote": "Owner Name VILLAS AT THE BLUFF LLLP",
+            "checked": "2026-11-12",
+            "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+          },
+          {
+            "project": "Villas at the Bluff II LLC",
+            "account": "R023975",
+            "year": 2026,
+            "exemption_type": "Exempt (assessor shows full assessed value exempt)",
+            "outcome": "granted",
+            "exempt_share": "100%",
+            "pilot_terms": null,
+            "source_url": "https://assessor.deltacountyco.gov/assessor/web/",
+            "quote": "Owner Name VILLAS AT THE BLUFF II LLC",
+            "checked": "2026-11-12",
+            "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+          },
+          {
+            "project": "Housing Authority of the City of Delta, 321 Grand Ave",
+            "account": "R014438",
+            "year": 2026,
+            "exemption_type": "Exempt, owned by the housing authority",
+            "outcome": "granted",
+            "exempt_share": "100%",
+            "pilot_terms": null,
+            "source_url": "https://assessor.deltacountyco.gov/assessor/web/",
+            "quote": "Owner Name HOUSING AUTHORITY / CITY OF DELTA",
+            "checked": "2026-11-12",
+            "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+          },
+          {
+            "project": "Housing Authority of the City of Delta, 501 E 14th St",
+            "account": "R023529",
+            "year": 2026,
+            "exemption_type": "Exempt, owned by the housing authority",
+            "outcome": "granted",
+            "exempt_share": "100%",
+            "pilot_terms": null,
+            "source_url": "https://assessor.deltacountyco.gov/assessor/web/",
+            "quote": "Owner Name HOUSING AUTHORITY DELTA CITY OF",
+            "checked": "2026-11-12",
+            "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+          }
+        ]
+      },
+      "nonprofit_exemption": {
+        "office": "Colorado Division of Property Taxation, Property Tax Administrator",
+        "role": "Approves the charitable (nonprofit) exemption under C.R.S. 39-3-112 on application",
+        "url": "https://dpt.colorado.gov/charitable-residential-property-exemption-forms"
+      },
+      "local_abatement": [],
+      "note": "Every tax credit partnership checked here shows its full assessed value exempt for 2026, and the housing authority's own parcels are exempt. The record does not say which statute each exemption rests on."
+    },
+    {
+      "geoid": "08087",
+      "name": "Morgan County",
+      "level": "county",
+      "county_geoid": "08087",
+      "checked": "2026-11-12",
+      "review_by": "2027-05-12",
+      "ha_routes": [
+        {
+          "route": "ownership",
+          "label": "The housing authority owns the project",
+          "statute_ids": [
+            "crs-29-4-227-1-a"
+          ],
+          "authority": "Housing Authority of Fort Morgan",
+          "authority_geoid": "0827810",
+          "precedents": [
+            {
+              "project": "Housing Authority of Fort Morgan, Hillcrest Apartments, 1100 Linda St",
+              "account": "R806052",
+              "year": 2026,
+              "exemption_type": "Account Type 9000 - EXEMPT CITY",
+              "outcome": "granted",
+              "exempt_share": "100%",
+              "pilot_terms": null,
+              "source_url": "https://morgancountyco-assessor.tylerhost.net/assessor/web/",
+              "quote": "Account Type 9000 - EXEMPT CITY",
+              "checked": "2026-11-12",
+              "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+            }
+          ]
+        },
+        {
+          "route": "ground_lease",
+          "label": "The land or building is leased to the housing authority for the project",
+          "statute_ids": [
+            "crs-29-4-227-1-a"
+          ],
+          "authority": "Housing Authority of Fort Morgan",
+          "authority_geoid": "0827810",
+          "precedents": []
+        },
+        {
+          "route": "gp_member",
+          "label": "The housing authority (or an entity it wholly owns) holds an ownership interest in the owner, usually as general partner or managing member; only the low-income share is exempt",
+          "statute_ids": [
+            "crs-29-4-227-1-b"
+          ],
+          "authority": "Housing Authority of Fort Morgan",
+          "authority_geoid": "0827810",
+          "precedents": []
+        }
+      ],
+      "assessor": {
+        "office": "Morgan County Assessor",
+        "role": "County Assessor: sets the exempt share each year and keeps the record",
+        "url": "https://morgancountyco-assessor.tylerhost.net/assessor/web/",
+        "status": "researched",
+        "history": [
+          {
+            "project": "Housing Authority of Fort Morgan, Hillcrest Apartments, 1100 Linda St",
+            "account": "R806052",
+            "year": 2026,
+            "exemption_type": "Account Type 9000 - EXEMPT CITY",
+            "outcome": "granted",
+            "exempt_share": "100%",
+            "pilot_terms": null,
+            "source_url": "https://morgancountyco-assessor.tylerhost.net/assessor/web/",
+            "quote": "Account Type 9000 - EXEMPT CITY",
+            "checked": "2026-11-12",
+            "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+          },
+          {
+            "project": "Sol Naciente LLLP",
+            "account": "R806431",
+            "year": 2026,
+            "exemption_type": "Account Type 9500 - EXEMPT DPT (exempt portion); taxable portion on R020327",
+            "outcome": "granted",
+            "exempt_share": "44.9%",
+            "pilot_terms": null,
+            "source_url": "https://morgancountyco-assessor.tylerhost.net/assessor/web/",
+            "quote": "***EXEMPT PORTION FOR 2026 IS 44.9% - - SEE R020327 FOR THE TAXABLE PORTION***",
+            "checked": "2026-11-12",
+            "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+          },
+          {
+            "project": "Gateway Village Apartments LLLP",
+            "account": "R801002",
+            "year": 2025,
+            "exemption_type": "Account Type 9000 - EXEMPT CITY (exempt portion); taxable portion on R005679",
+            "outcome": "granted",
+            "exempt_share": "20.93%",
+            "pilot_terms": null,
+            "source_url": "https://morgancountyco-assessor.tylerhost.net/assessor/web/",
+            "quote": "**20.93% EXEMPT FOR 2025 - SEE R005679 FOR TAXABLE PORTION**",
+            "checked": "2026-11-12",
+            "how_to_read": "Public assessor record, read 2026-11-12 through the assessor's EagleWeb guest login: open the url, choose guest, then search the account number."
+          }
+        ]
+      },
+      "nonprofit_exemption": {
+        "office": "Colorado Division of Property Taxation, Property Tax Administrator",
+        "role": "Approves the charitable (nonprofit) exemption under C.R.S. 39-3-112 on application",
+        "url": "https://dpt.colorado.gov/charitable-residential-property-exemption-forms"
+      },
+      "local_abatement": [],
+      "note": "Partial exemptions are split into an exempt account and a taxable account, with the share written in the legal summary. That matches the low-income share rule in C.R.S. 29-4-227(1)(b) or the charitable rule, but the record does not name the statute."
+    }
+  ]
+}

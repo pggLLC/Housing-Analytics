@@ -77,6 +77,12 @@ const LIST_URLS = process.argv.includes('--list-urls');
 // Re-use the allow-list from source-url-sweep — these are known-good URLs
 // that block CI user-agents (DOL, BLS, CHFA QAP, etc.). Keep in sync.
 const ALLOW_LIST = new Set([
+  // laplatahousing.colorado.gov (CloudFront) answers CI with 404 and other
+  // scripted clients with 403, but serves these documents to a reader fetch;
+  // both read 2026-11-12 (RHA DIDF release; RHA Resolution 2025-05). Cited by
+  // data/policy/local-housing-funds.json (La Plata catalyst fund records).
+  'https://laplatahousing.colorado.gov/sites/laplatahousing/files/documents/DIDF%20Funds%20RHA%20Press%20Release%204.3.24.pdf',
+  'https://laplatahousing.colorado.gov/sites/laplatahousing/files/documents/Resolution%2025-05_Catalyst%20Transfer_251211.pdf',
   // Colorado Springs Chamber & EDC — 403s every non-browser client, including
   // curl with a full browser UA, but loads normally in a real browser
   // (verified 2026-09-09: "Business in Colorado Springs | Colorado Springs
