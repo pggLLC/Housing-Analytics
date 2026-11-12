@@ -359,14 +359,19 @@
     var cp = model.profile(p.county);
     if (!cp) return '';
     var D = global.LocalIncentivesData;
-    var items = cp.items.filter(function (i) { return i.scope === 'funds'; }).map(function (i) { return i.record; });
+    var all = cp.items.filter(function (i) { return i.scope === 'funds'; }).map(function (i) { return i.record; });
+    // A county record limited to unincorporated land does not reach a town.
+    var unincorporatedOnly = function (r) { return /unincorporated/i.test([r.summary, r.uses, r.rate_text].join(' ')); };
+    var items = all.filter(function (r) { return !unincorporatedOnly(r); });
+    var skipped = all.length - items.length;
     var body = items.length ? '<ul class="li-list">' + items.map(function (r) {
       return '<li><strong>' + esc(D.FUND_TOOL_LABELS[r.tool] || r.tool) + ':</strong> ' + esc(r.jurisdiction) + '. ' + esc(r.summary || '') +
         ' <span class="li-meta">' + sourceLink(r) + (r.last_verified ? ', checked ' + esc(longDate(r.last_verified)) : '') + '</span></li>';
     }).join('') + '</ul>'
-      : '<p class="li-muted">' + esc(STATE_TEXT[cp.states.funds]) + ' for ' + esc(cp.name) + '.</p>';
-    return '<section class="li-block" aria-labelledby="li-cfunds-h"><h3 id="li-cfunds-h">County and regional money that also applies here</h3>' +
-      '<p class="li-meta"><a href="#j=' + esc(cp.geoid) + '" data-li-jump="' + esc(cp.geoid) + '">' + esc(cp.name) + '</a> records, open to projects in ' + esc(p.name) + '.</p>' + body + '</section>';
+      : '<p class="li-muted">' + (all.length ? 'None that reaches towns.' : esc(STATE_TEXT[cp.states.funds]) + ' for ' + esc(cp.name) + '.') + '</p>';
+    var left = skipped ? '<p class="li-muted">' + skipped + ' ' + esc(cp.name) + ' record' + (skipped > 1 ? 's cover' : ' covers') + ' only unincorporated land and ' + (skipped > 1 ? 'are' : 'is') + ' left out.</p>' : '';
+    return '<section class="li-block" aria-labelledby="li-cfunds-h"><h3 id="li-cfunds-h">County and regional money to check</h3>' +
+      '<p class="li-meta"><a href="#j=' + esc(cp.geoid) + '" data-li-jump="' + esc(cp.geoid) + '">' + esc(cp.name) + '</a> records that may also fund projects in ' + esc(p.name) + '. Each program sets its own rules, so confirm eligibility with it.</p>' + body + left + '</section>';
   }
 
   // ── Property tax exemption: housing authority route and assessor record ─
