@@ -2,7 +2,7 @@
  "about": "Built by coho-pathfinder-visual-lab scripts/build-port.js. Do not edit hub/ or places-hub.html by hand: change the lab and rebuild.",
  "hub": "places",
  "lab": {
-  "commit": "6a88b7737ae44b189bef2d89c03069dad1031375",
+  "commit": "b8a6a1319aac5cd7631c58564d38833591786a9b",
   "dirty": false
  },
  "files": {
@@ -31,7 +31,7 @@
   "hub/shell.css": "9492461c3bb1338366ddc6eef09f529b8109427c8182a844704a5fb2d1125a2e",
   "hub/shell.js": "8d22556e0460bb2a953a9094fb1bc6b95ad34ca5d9b7798201438061fbe4e1ce",
   "hub/strength.js": "5b077035b066a2806018ad8b32873a077791a66ef40cee8d0262e8839b3ef21a",
-  "hub/templates.css": "73be3cacd07a4706d16f1193ca4fb39916ac00e9b7d03e02d1ef1ad33ca3afa1",
+  "hub/templates.css": "f5287652dd1420599531c00b24bc1fd2580787941db33f8023fb86e7264f2fc8",
   "hub/templates.js": "281aa7e6ab2206b2c1e090a29204fc5b9ec605e49c09d700f4a8070bdd963d27",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
   "hub/text-fit.js": "583c08d1ce2e9c0b7fd7cd3baca0bee436da9f3741625d9aa7eb683276ea78f8",

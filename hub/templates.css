@@ -7,7 +7,7 @@
 /* Values scripts set while the page runs, declared here with the same defaults the rules fall back to, so every
    var() names a defined property: --sp-top (hna.js, the slim step bar's height), --mk-k (map-kit.js, map units
    per screen pixel), --n (guide.js, cards in a row) and --g (financials.js, a rate cell's shade). */
-:root { --sp-top: 0px; --hdr-h: 0px; --tabs-h: 0px; --mk-k: 1.6; --n: 3; --g: 0; }
+:root { --sp-top: 0px; --hdr-h: 0px; --tabs-h: 0px; --live-h: 0px; --mk-k: 1.6; --n: 3; --g: 0; }
 
 /* ---------- Header and menus ---------- */
 .theme-toggle { flex: none; min-height: 44px; min-width: 44px; padding: 0 .75rem; background: var(--card); color: var(--ink); border: 1px solid var(--line-strong); border-radius: 6px; font: inherit; font-size: 14px; cursor: pointer; }
