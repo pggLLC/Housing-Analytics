@@ -349,12 +349,12 @@
     // page it rebuilds instead; replace() keeps Back on the page the reader came from.
     var away = global.LAB_PORT && global.LAB_PORT.leave(location.hash || '#/');
     if (away) { location.replace(away); return; }
-    var view = Object.prototype.hasOwnProperty.call(VIEWS, route.view) ? VIEWS[route.view] : null;
+    var view = Object.prototype.hasOwnProperty.call(VIEWS, route.view) && typeof VIEWS[route.view] === 'function' ? VIEWS[route.view] : null;
     // Which place the charts on this page describe; a place page sets it, every other page leaves it empty,
     // so a chart's CSV never carries the last place visited.
     global.LAB_VIZ_CONTEXT = null;
     var held = heldFocus();
-    main.innerHTML = view ? view(route.params, route.parts)
+    main.innerHTML = typeof view === 'function' ? view(route.params, route.parts)
       : VIEWS['not-found'] ? VIEWS['not-found'](route.params, route.parts) : '<h1>Not in the lab</h1><p class="lede">There is no lab page at this address.</p><p><a href="#/">Go to Home</a></p>';
     // Fold the source lines before anything below measures the page, so a redraw keeps the reader's place.
     if (global.LabTpl && global.LabTpl.foldSources) global.LabTpl.foldSources();
