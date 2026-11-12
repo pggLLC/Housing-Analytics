@@ -70,6 +70,13 @@ URLS = {
     'components': 'https://storage.googleapis.com/co-publicdata/components-change-county.csv',
     'households': 'https://storage.googleapis.com/co-publicdata/household-county.csv',
 }
+# build_hna_data.py takes the newest vintage SDO publishes (sdo_sources.py)
+# and notes where each cached file came from; record that, not the default.
+try:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data', 'hna', 'source', 'sdo_sources.json')) as _f:
+        URLS.update({k: v['url'] for k, v in json.load(_f).items() if v.get('url')})
+except (OSError, ValueError):
+    pass
 
 
 def read_sdo(name):
@@ -206,7 +213,16 @@ def main():
                 past_m[a] += (nm[a] - sm[a]) / PAST_YEARS
                 past_f[a] += (nf[a] - sf[a]) / PAST_YEARS
         past_net = [int(float(comp_c[y]['netmig'])) for y in past_years]
-        past_drift = max(past_drift, abs(sum(past_m) + sum(past_f) - sum(past_net) / PAST_YEARS))
+        # SDO's own components need not add up exactly: in Vintage 2025 its
+        # Denver and Jefferson estimates change by up to 58 people more over
+        # 2015-2024 than births - deaths + net migration explain. The residual
+        # by age can only match the estimates, so that gap is SDO's, not the
+        # builder's, and only drift beyond it counts.
+        sdo_gap = abs(sum(
+            float(comp_c[y]['estimate']) - float(comp_c[y - 1]['estimate'])
+            - (float(comp_c[y]['births']) - float(comp_c[y]['deaths']) + float(comp_c[y]['netmig']))
+            for y in past_years)) / PAST_YEARS if all(y - 1 in comp_c for y in past_years) else 0.0
+        past_drift = max(past_drift, abs(sum(past_m) + sum(past_f) - sum(past_net) / PAST_YEARS) - sdo_gap)
         kds, kbs, mig_m, mig_f = [], [], [], []
         sdo_births, sdo_deaths, sdo_mig = [], [], []
         for y in years[:-1]:
