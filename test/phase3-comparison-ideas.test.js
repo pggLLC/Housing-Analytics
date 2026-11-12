@@ -104,7 +104,7 @@ assert(/computeAll/.test(c4),
   'has computeAll() function');
 assert(/percentile/i.test(c4),
   'uses percentile-rank normalization');
-assert(/composite\s*=\s*Math\.round/.test(c4),
+assert(/composite\s*=[^;]*Math\.round/.test(c4),
   'rounds the composite to integer');
 assert(/CO_COUNTY_NAMES_TO_FIPS/.test(c4),
   'maps county names to FIPS for HMDA cross-reference');
@@ -123,6 +123,59 @@ const hmda = JSON.parse(readRel('data/hmda/co-county-aggregates.json'));
 assert(Object.keys(hmda.counties).length === 64,
   '64 CO counties in HMDA dataset');
 
-console.log('\n=========================================');
-console.log('Results: ' + passed + ' passed, ' + failed + ' failed');
-process.exit(failed === 0 ? 0 : 1);
+// C4 behaviour (independent QA/QC F02, 12 Nov 2026): a missing input stays missing. With any of the five inputs
+// absent a county has no composite and says which inputs are missing; a failed HMDA feed leaves every county
+// unscored; a measured 0 still scores. Runs the real module on invented counties.
+const vm = require('vm');
+function runC4(files) {
+  const win = {
+    DataService: { baseData: rel => rel, getJSON: url => (url in files && files[url] !== 503) ? Promise.resolve(files[url]) : Promise.reject(new Error('503 ' + url)) }
+  };
+  const doc = { readyState: 'complete', getElementById: () => null };
+  vm.runInNewContext(c4, { window: win, document: doc, Number, Math, Object, Promise, String, Array });
+  return win.MarketHealthComposite.init().then(() => ({ M: win.MarketHealthComposite, rows: win.MarketHealthComposite.computeAll() }));
+}
+const econ = (j, p, u) => ({ job_growth_5yr_pct: j, population_growth_5yr_pct: p, unemployment_rate: u });
+const fixture = over => Object.assign({
+  'co-county-economic-indicators.json': { counties: { Adams: econ(4, 3, 4.1), Alamosa: econ(1, 0.5, 5.2), Arapahoe: econ(2.5, 2, 3.9) } },
+  'hmda/co-county-aggregates.json': { counties: {
+    '08001': { years: { 2024: { originations: 9000, denial_rate: 0.12 } } },
+    '08003': { years: { 2024: { originations: 300, denial_rate: 0.2 } } },
+    '08005': { years: { 2024: { originations: 11000, denial_rate: 0.1 } } } } },
+  'co-county-demographics.json': { counties: { Adams: { households: 180000 }, Alamosa: { households: 6500 }, Arapahoe: { households: 260000 } } }
+}, over);
+const byName = (rows, n) => rows.find(r => r.name === n);
+const renderText = M => { const m = { innerHTML: '', querySelector: () => null, querySelectorAll: () => [] }; M.render(m); return m.innerHTML; };
+const behaviour = [
+  runC4(fixture({})).then(({ rows }) => {
+    assert(rows.length === 3 && rows.every(r => Number.isInteger(r.composite) && r.composite >= 0 && r.composite <= 100),
+      'C4 complete inputs: every county has a 0-100 composite');
+  }),
+  runC4(fixture({ 'hmda/co-county-aggregates.json': 503 })).then(({ M, rows }) => {
+    assert(rows.every(r => r.composite == null), 'C4 HMDA feed failed: no county gets a numeric composite (' + rows.map(r => r.composite).join(',') + ')');
+    assert(rows.every(r => r.missing.indexOf('denial rate') > -1 && r.missing.indexOf('mortgage originations per 1,000 households') > -1),
+      'C4 HMDA feed failed: each county names the missing HMDA inputs');
+    const html = renderText(M);
+    assert(/did not load/.test(html) && /3 of 3 counties are not scored/.test(html), 'C4 HMDA feed failed: the table says so above the rows');
+  }),
+  runC4(fixture({ 'co-county-economic-indicators.json': { counties: { Adams: econ(4, 3, 4.1), Alamosa: econ(null, null, null), Arapahoe: econ(2.5, 2, 3.9) } } })).then(({ rows }) => {
+    const a = byName(rows, 'Alamosa');
+    assert(a.composite == null && a.jobGrowth === null && a.popGrowth === null && a.unempRate === null,
+      'C4 missing economic fields: stay missing (not 0) and the county is not scored');
+    assert(rows[rows.length - 1].name === 'Alamosa', 'C4 an unscored county sorts after the scored ones');
+    assert(Number.isInteger(byName(rows, 'Adams').composite), 'C4 missing fields elsewhere leave other counties scored');
+  }),
+  runC4(fixture({ 'co-county-economic-indicators.json': { counties: { Adams: econ(4, 3, 4.1), Alamosa: econ(0, 0, 5.2), Arapahoe: econ(2.5, 2, 3.9) } } })).then(({ rows }) => {
+    const a = byName(rows, 'Alamosa');
+    assert(a.jobGrowth === 0 && a.popGrowth === 0 && Number.isInteger(a.composite), 'C4 a measured 0 is a value and still scores');
+  })
+];
+assert(!/BLS QCEW|bls\.gov\/cew/.test(c4) && /BLS LAUS<\/a> \(employed residents/.test(c4),
+  'C4 footer cites BLS LAUS for employed residents, not QCEW jobs');
+assert(!/QCEW/.test(cddHtml), 'colorado-deep-dive cites no QCEW series it does not use');
+
+Promise.all(behaviour).catch(e => assert(false, 'C4 behaviour threw: ' + e.message)).then(() => {
+  console.log('\n=========================================');
+  console.log('Results: ' + passed + ' passed, ' + failed + ' failed');
+  process.exit(failed === 0 ? 0 : 1);
+});
