@@ -32,7 +32,7 @@ Calls DataService.fetchLODES when available; returns empty stub otherwise.
 @param {number} lat        - Site latitude
 @param {number} lon        - Site longitude
 @param {number} [radiusMiles] - Search radius (default 30 miles)
-@param {string} [vintage]  - LODES vintage year (default "2023")
+@param {string} [vintage]  - LODES vintage year (default "2024")
 @returns {Promise<{workplaces: Array, commutingFlows: Array}>}
 
 ### `_buildSyntheticWorkplaces(lat, lon, radiusMiles)`

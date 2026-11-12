@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-12T12:41:44.498Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-12T15:03:53.918Z. Do not edit by hand.
 
 ---
 
@@ -130,7 +130,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 671.1 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 670.1 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -320,7 +320,7 @@
 | `data/deals/willoughby-corner-phase-ib-family-lafayette.json` | 15.4 KB | ✅ | — |
 | `data/deals/windtrail-park-fort-collins.json` | 19.6 KB | ✅ | — |
 | `data/derived/funding-map.json` | 1.51 MB | ✅ | — |
-| `data/derived/funding-vs-need.json` | 134.4 KB | ✅ | — |
+| `data/derived/funding-vs-need.json` | 135.2 KB | ✅ | — |
 | `data/derived/market-analysis/market_demand.json` | 8.1 KB | ✅ | — |
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
@@ -1096,7 +1096,7 @@
 | `data/hna/local-resources-candidates.json` | 6.5 KB | ✅ | — |
 | `data/hna/local-resources.json` | 181.8 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 703.9 KB | ✅ | — |
-| `data/hna/permits.json` | 270.3 KB | ✅ | — |
+| `data/hna/permits.json` | 270.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.55 MB | ✅ | — |
 | `data/hna/place-decade-trends.json` | 154.7 KB | ✅ | — |
@@ -2068,7 +2068,7 @@
 | `data/policy_briefs_curated.json` | 241.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 213.7 KB | ✅ | — |
+| `data/polymarket-history.json` | 215.9 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |

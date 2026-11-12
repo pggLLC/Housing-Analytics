@@ -97,9 +97,21 @@ and the page said 2023.
 
 Executive-snapshot rows, labelled as the page's stat cards are.
 
-### `_amiGapRows(d)`
+### `CENSUS_GAP_NOTE`
 
 AMI-gap rows: numbers kept as numbers, a real 0 kept as 0.
+
+ HUD's count comes first: homes short for renters, from CHAS "affordable
+ and available", quoted from the page's own cards. It is the figure the
+ HNA tells a reader to cite. The Census rows follow, labelled for what
+ they are: renter households minus rentals priced for them, which counts
+ every cheap rental as available. A bare "80% AMI gap: 37" would be read
+ as 37 homes short.
+
+### `_hudShortFromPage()`
+
+HUD's count as the page's cards show it (renderChasAvailableShortfall);
+ a hidden card or a dash is null, never 0.
 
 ### `_lihtcRows(d)`
 

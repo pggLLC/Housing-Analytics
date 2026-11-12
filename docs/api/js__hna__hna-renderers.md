@@ -468,18 +468,24 @@ Census BPS also publishes place records for reporting jurisdictions;
 unincorporated areas and CDPs are county-permitted and legitimately have
 no place record.
 
-### `_scorecardScore(subjectPlaceRec, countyRec, econRec, dist, isPlaceSubject)`
+### `renderChasAvailableShortfall(data, selectedGeo)`
 
-The scoring policy as a pure function: which geography the score
-describes, which pool it is ranked in, and how the components combine.
+renderChasAvailableShortfall — HUD's own count of homes short, from CHAS
+"affordable and available" (data/hna/chas_affordable_available.json,
+built by scripts/hna/build_chas_affordable_available.py).
 
-It lives here rather than inline in renderHnaScorecardPanel because a
-guard cannot call a renderer. The first version of
-test/need-severity-is-place-level.test.mjs reimplemented these three
-decisions in the test file, so reverting any of them in the renderer left
-the test green — a guard agreeing with its own copy of the logic rather
-than with the shipped one. Three sabotage mutations went undetected
-before this was extracted.
+A home counts only if its rent is affordable at the tier AND it is vacant
+or rented by a household at or below the tier, so cheap homes held by
+higher-income renters are not supply. That is the difference from the
+ACS rows below it, which count every cheap rental, and it is why this is
+the figure the chapter summary quotes. homes_short is HUD's own field
+(floored at 0); this site's nested variant is not shown here.
+
+Missing stays missing: a geography without a record hides the card, and a
+tier without a number reads "—", never 0.
+
+@param {object|null} data - parsed chas_affordable_available.json
+@param {{type:string, geoid:string}} selectedGeo
 
 ### `_scorecardUnavailable(container, value, read)`
 

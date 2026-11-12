@@ -1,6 +1,6 @@
 # Test coverage report
 
-_Auto-generated 2026-11-06 by `scripts/generate-test-coverage.mjs` (weekly via `docs-sync.yml`)._
+_Auto-generated 2026-11-12 by `scripts/generate-test-coverage.mjs` (weekly via `docs-sync.yml`)._
 
 This is an **assertion-count** report, not line-coverage. Pattern-matched counts of `assert()`, `assert.X()`, `expect()`, `self.assert*()`, and bare pytest `assert` statements. Deliberate choice — a c8/nyc lift comes later once the test density justifies the instrumentation cost (see #655).
 
@@ -8,9 +8,9 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 
 | Runtime | Test files | Assertions |
 |---|---:|---:|
-| JavaScript (`test/`) | 502 | 16574 |
-| Python (`tests/`)   | 75 | 2714 |
-| **Total** | **577** | **19288** |
+| JavaScript (`test/`) | 504 | 16789 |
+| Python (`tests/`)   | 76 | 2742 |
+| **Total** | **580** | **19531** |
 
 ## JavaScript — per file
 
@@ -18,12 +18,14 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 |---|---|---:|---:|
 | `test/deal-cost-basis.test.js` | `deal-cost-basis` | 855 | 370 |
 | `test/policy-briefs-curated.test.js` | `policy-briefs-curated` | 1009 | 222 |
-| `test/combined-geo.test.js` | `combined-geo` | 948 | 212 |
+| `test/combined-geo.test.js` | `combined-geo` | 950 | 212 |
 | `test/integration/housing-needs-assessment.test.js` | `housing-needs-assessment` | 666 | 206 |
 | `test/hna-projection-integrity.test.js` | `hna-projection-integrity` | 906 | 169 |
+| `test/hna-export-matches-screen.test.js` | `hna-export-matches-screen` | 765 | 155 |
 | `test/deal-calc-cost-basis-page.test.js` | `deal-calc-cost-basis-page` | 382 | 147 |
 | `test/transit-zone.test.js` | `transit-zone` | 659 | 143 |
 | `test/acs-etl.test.js` | `acs-etl` | 536 | 139 |
+| `test/jurisdiction-metrics-digest.test.js` | `jurisdiction-metrics-digest` | 739 | 138 |
 | `test/hna-transit-zone.test.js` | `hna-transit-zone` | 664 | 137 |
 | `test/pma-scoring.test.js` | `pma-scoring` | 706 | 135 |
 | `test/daily-audit-repo-health.test.js` | `daily-audit-repo-health` | 618 | 129 |
@@ -31,16 +33,15 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/deal-doh-schedules.test.js` | `deal-doh-schedules` | 398 | 121 |
 | `test/pma-transit-stops.test.js` | `pma-transit-stops` | 506 | 121 |
 | `test/transit-zone-funding-line.test.js` | `transit-zone-funding-line` | 433 | 121 |
-| `test/jurisdiction-metrics-digest.test.js` | `jurisdiction-metrics-digest` | 643 | 116 |
-| `test/explanatory-diagrams.test.js` | `explanatory-diagrams` | 486 | 113 |
+| `test/explanatory-diagrams.test.js` | `explanatory-diagrams` | 522 | 120 |
 | `test/integration/analytics.test.js` | `analytics` | 334 | 111 |
 | `test/market-study-report.test.js` | `market-study-report` | 485 | 110 |
 | `test/geography-naming.test.js` | `geography-naming` | 345 | 107 |
 | `test/compliance-checklist.test.js` | `compliance-checklist` | 551 | 104 |
 | `test/ownership-finance.test.js` | `ownership-finance` | 481 | 102 |
+| `test/pma-chfa-qualified-renters.test.js` | `pma-chfa-qualified-renters` | 359 | 101 |
 | `test/daily-audit-operations.test.js` | `daily-audit-operations` | 414 | 98 |
 | `test/deal-lender-schedules.test.js` | `deal-lender-schedules` | 329 | 97 |
-| `test/hna-export-matches-screen.test.js` | `hna-export-matches-screen` | 541 | 96 |
 | `test/market-study-page.test.js` | `market-study-page` | 351 | 95 |
 | `test/deal-calc-schedule.test.js` | `deal-calc-schedule` | 370 | 94 |
 | `test/unit/site-selection-score.test.js` | `site-selection-score` | 629 | 94 |
@@ -74,12 +75,12 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/deal-calc-partnership-terms.test.js` | `deal-calc-partnership-terms` | 197 | 74 |
 | `test/nhpd-coverage.test.js` | `nhpd-coverage` | 262 | 73 |
 | `test/figure-explanations.test.js` | `figure-explanations` | 297 | 72 |
+| `test/hna-prop123-relationship.test.js` | `hna-prop123-relationship` | 246 | 72 |
 | `test/preservation.test.js` | `preservation` | 332 | 69 |
 | `test/qap-tod-points.test.js` | `qap-tod-points` | 280 | 69 |
 | `test/rent-ceiling-regime.test.js` | `rent-ceiling-regime` | 281 | 69 |
 | `test/site-qct-dda-evidence.test.js` | `site-qct-dda-evidence` | 350 | 69 |
 | `test/deal-calc-share-roundtrip.test.js` | `deal-calc-share-roundtrip` | 411 | 68 |
-| `test/hna-prop123-relationship.test.js` | `hna-prop123-relationship` | 229 | 68 |
 | `test/loan-obligations.test.js` | `loan-obligations` | 127 | 67 |
 | `test/table-export.test.js` | `table-export` | 429 | 67 |
 | `test/guided-path-product-routes.test.js` | `guided-path-product-routes` | 306 | 63 |
@@ -106,7 +107,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/historical-trends-real-data.test.js` | `historical-trends-real-data` | 272 | 54 |
 | `test/hna-ranking-index.test.js` | `hna-ranking-index` | 600 | 54 |
 | `test/mortgage-rate-one-source.test.js` | `mortgage-rate-one-source` | 227 | 54 |
-| `test/past-migration-option.test.js` | `past-migration-option` | 305 | 54 |
+| `test/past-migration-option.test.js` | `past-migration-option` | 315 | 54 |
 | `test/tax-credit-equity-markets.test.js` | `tax-credit-equity-markets` | 215 | 54 |
 | `test/deal-calc-permanent-financing-page.test.js` | `deal-calc-permanent-financing-page` | 139 | 53 |
 | `test/deal-engine-surfaces.test.js` | `deal-engine-surfaces` | 177 | 53 |
@@ -136,14 +137,15 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/query-builder.test.js` | `query-builder` | 338 | 46 |
 | `test/place-deals-limits.test.js` | `place-deals-limits` | 183 | 45 |
 | `test/pma-affordable-supply-units.test.js` | `pma-affordable-supply-units` | 138 | 45 |
+| `test/pma-commute-shaped.test.js` | `pma-commute-shaped` | 150 | 45 |
 | `test/homepage-snapshot.test.js` | `homepage-snapshot` | 305 | 44 |
 | `test/pages-deploy-watchdog.test.js` | `pages-deploy-watchdog` | 222 | 44 |
-| `test/pma-commute-shaped.test.js` | `pma-commute-shaped` | 148 | 44 |
 | `test/resale-waterfall.test.js` | `resale-waterfall` | 238 | 44 |
 | `test/homeownership-programs.test.js` | `homeownership-programs` | 166 | 43 |
 | `test/rent-limit-programs.test.js` | `rent-limit-programs` | 184 | 43 |
 | `test/colorado-equity-pricing-factors.test.js` | `colorado-equity-pricing-factors` | 147 | 42 |
 | `test/lodes-tract-od.test.js` | `lodes-tract-od` | 86 | 42 |
+| `test/hna-phase2-stubs-wired.test.js` | `hna-phase2-stubs-wired` | 170 | 41 |
 | `test/ownership-funding-schema.test.js` | `ownership-funding-schema` | 84 | 41 |
 | `test/smoke.test.js` | `smoke` | 247 | 41 |
 | `test/canonical-geography-contract.test.js` | `canonical-geography-contract` | 142 | 39 |
@@ -152,11 +154,10 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/data-scope.test.js` | `data-scope` | 131 | 39 |
 | `test/deal-calc-absence-semantics.test.js` | `deal-calc-absence-semantics` | 290 | 39 |
 | `test/funding-fit.test.js` | `funding-fit` | 221 | 39 |
-| `test/hna-phase2-stubs-wired.test.js` | `hna-phase2-stubs-wired` | 157 | 39 |
+| `test/headship-held-option.test.js` | `headship-held-option` | 221 | 39 |
 | `test/housing-outcome-score-absence.test.js` | `housing-outcome-score-absence` | 186 | 39 |
 | `test/scenario-builder-loaded-geography.test.js` | `scenario-builder-loaded-geography` | 187 | 39 |
 | `test/funding-eligibility-claims.test.js` | `funding-eligibility-claims` | 216 | 38 |
-| `test/headship-held-option.test.js` | `headship-held-option` | 216 | 38 |
 | `test/pma-competitive-set.test.js` | `pma-competitive-set` | 346 | 38 |
 | `test/deal-calc-equity-pricing.test.js` | `deal-calc-equity-pricing` | 129 | 37 |
 | `test/deal-calc-rent-programs.test.js` | `deal-calc-rent-programs` | 188 | 37 |
@@ -164,6 +165,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/jurisdiction-select-search.test.js` | `jurisdiction-select-search` | 199 | 37 |
 | `test/public-facing-numbers.test.js` | `public-facing-numbers` | 196 | 37 |
 | `test/deal-calc-operating-page.test.js` | `deal-calc-operating-page` | 118 | 36 |
+| `test/hna-geography-provenance.test.js` | `hna-geography-provenance` | 134 | 36 |
 | `test/unit/fema-flood.test.js` | `fema-flood` | 374 | 36 |
 | `test/xss-comparison-surfaces.test.js` | `xss-comparison-surfaces` | 347 | 36 |
 | `test/hna-phone-speed-f9.test.js` | `hna-phone-speed-f9` | 204 | 35 |
@@ -177,7 +179,6 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/hmda-lookup.test.js` | `hmda-lookup` | 164 | 34 |
 | `test/land-disposition.test.js` | `land-disposition` | 167 | 34 |
 | `test/place-pages.test.js` | `place-pages` | 166 | 34 |
-| `test/pma-chfa-qualified-renters.test.js` | `pma-chfa-qualified-renters` | 160 | 34 |
 | `test/scenario-baseline-reproduces-sdo.test.js` | `scenario-baseline-reproduces-sdo` | 227 | 34 |
 | `test/daily-audit-check-noise.test.js` | `daily-audit-check-noise` | 227 | 33 |
 | `test/dc-peer-deals.test.js` | `dc-peer-deals` | 202 | 33 |
@@ -186,6 +187,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/kalshi-signing-and-write.test.js` | `kalshi-signing-and-write` | 241 | 33 |
 | `test/place-chas-lookup.test.js` | `place-chas-lookup` | 161 | 33 |
 | `test/pma-barrier-aware.test.js` | `pma-barrier-aware` | 192 | 33 |
+| `test/pma-commute-context.test.js` | `pma-commute-context` | 149 | 33 |
 | `test/qct-dda-designation-unknown.test.js` | `qct-dda-designation-unknown` | 183 | 33 |
 | `test/tool-watch.test.js` | `tool-watch` | 95 | 33 |
 | `test/contrast-audit-summary.test.js` | `contrast-audit-summary` | 152 | 32 |
@@ -194,7 +196,6 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/workflow-state-set-jurisdiction.test.js` | `workflow-state-set-jurisdiction` | 225 | 32 |
 | `test/affordable-housing-preservation-risk.test.js` | `affordable-housing-preservation-risk` | 117 | 31 |
 | `test/co-historical-allocations.test.js` | `co-historical-allocations` | 282 | 31 |
-| `test/hna-geography-provenance.test.js` | `hna-geography-provenance` | 125 | 31 |
 | `test/lihtc-project-size.test.js` | `lihtc-project-size` | 114 | 31 |
 | `test/dc-constants.test.js` | `dc-constants` | 156 | 30 |
 | `test/home-answer-card.test.js` | `home-answer-card` | 152 | 30 |
@@ -210,7 +211,6 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/inventory-sync-push.test.js` | `inventory-sync-push` | 353 | 29 |
 | `test/osm-amenities-transit-basis.test.js` | `osm-amenities-transit-basis` | 148 | 29 |
 | `test/pma-barrier-data.test.js` | `pma-barrier-data` | 128 | 29 |
-| `test/pma-commute-context.test.js` | `pma-commute-context` | 138 | 29 |
 | `test/public-land-contract.test.js` | `public-land-contract` | 166 | 29 |
 | `test/unit/pma-infrastructure.test.js` | `pma-infrastructure` | 122 | 29 |
 | `test/bot-pr-dispatches-ci-checks.test.js` | `bot-pr-dispatches-ci-checks` | 405 | 28 |
@@ -220,6 +220,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/hna-qct-dda-unavailable.test.js` | `hna-qct-dda-unavailable` | 207 | 28 |
 | `test/hud-s8-contracts.test.js` | `hud-s8-contracts` | 94 | 28 |
 | `test/opportunity-zones-data.test.js` | `opportunity-zones-data` | 64 | 28 |
+| `test/pma-area-towns.test.js` | `pma-area-towns` | 123 | 28 |
 | `test/property-websites.test.js` | `property-websites` | 96 | 28 |
 | `test/shared-money-format.test.js` | `shared-money-format` | 125 | 28 |
 | `test/console-audit-exercises-controls.test.js` | `console-audit-exercises-controls` | 195 | 27 |
@@ -241,7 +242,8 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/chas-tier-shares.test.js` | `chas-tier-shares` | 147 | 26 |
 | `test/chfa-portfolio-filters.test.js` | `chfa-portfolio-filters` | 134 | 26 |
 | `test/co-developer-funding-guide.test.js` | `co-developer-funding-guide` | 250 | 26 |
-| `test/data-commits-queue.test.js` | `data-commits-queue` | 255 | 26 |
+| `test/data-commits-queue.test.js` | `data-commits-queue` | 254 | 26 |
+| `test/econ-dash-yoy-change.test.js` | `econ-dash-yoy-change` | 96 | 26 |
 | `test/energy-retrofit-funding.test.js` | `energy-retrofit-funding` | 128 | 26 |
 | `test/hna-build-rebase-recovery.test.js` | `hna-build-rebase-recovery` | 150 | 26 |
 | `test/hna-household-type-missing.test.js` | `hna-household-type-missing` | 147 | 26 |
@@ -257,6 +259,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/transit-zone-map.test.js` | `transit-zone-map` | 157 | 25 |
 | `test/deal-calc-correctness.test.js` | `deal-calc-correctness` | 66 | 24 |
 | `test/deal-tracker-wording.test.js` | `deal-tracker-wording` | 219 | 24 |
+| `test/econ-dash-accuracy.test.js` | `econ-dash-accuracy` | 96 | 24 |
 | `test/effective-demand.test.js` | `effective-demand` | 130 | 24 |
 | `test/foreclosure-performance.test.js` | `foreclosure-performance` | 120 | 24 |
 | `test/hna-deep-dive-batch2.test.js` | `hna-deep-dive-batch2` | 139 | 24 |
@@ -269,7 +272,6 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/a11y-contrast-labels.test.js` | `a11y-contrast-labels` | 61 | 23 |
 | `test/dc-dscr-stress.test.js` | `dc-dscr-stress` | 162 | 23 |
 | `test/deal-calc-ownership-actor-labels.test.js` | `deal-calc-ownership-actor-labels` | 117 | 23 |
-| `test/econ-dash-yoy-change.test.js` | `econ-dash-yoy-change` | 82 | 23 |
 | `test/epa-walkability-waits-for-geometry.test.js` | `epa-walkability-waits-for-geometry` | 192 | 23 |
 | `test/hna-provenance-disclosure.test.js` | `hna-provenance-disclosure` | 109 | 23 |
 | `test/hna-scenario-builder-saved.test.js` | `hna-scenario-builder-saved` | 200 | 23 |
@@ -334,7 +336,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/hna-household-demand-place-scaling.test.js` | `hna-household-demand-place-scaling` | 150 | 17 |
 | `test/hna-orphan-charts-wired.test.js` | `hna-orphan-charts-wired` | 132 | 17 |
 | `test/hna-profile-fetch-batches.test.js` | `hna-profile-fetch-batches` | 132 | 17 |
-| `test/hna-scorecard-small-place.test.js` | `hna-scorecard-small-place` | 97 | 17 |
+| `test/hna-scorecard-small-place.test.js` | `hna-scorecard-small-place` | 98 | 17 |
 | `test/hud-home-rent-limits.test.js` | `hud-home-rent-limits` | 85 | 17 |
 | `test/input-provenance.test.js` | `input-provenance` | 152 | 17 |
 | `test/pipeline-guards-a2.test.js` | `pipeline-guards-a2` | 132 | 17 |
@@ -353,7 +355,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/place-lehd-apportionment.test.js` | `place-lehd-apportionment` | 98 | 16 |
 | `test/pro-forma.test.js` | `pro-forma` | 46 | 16 |
 | `test/ui-audit-clean.test.js` | `ui-audit-clean` | 66 | 16 |
-| `test/workflow-push-dispatches-deploy.test.js` | `workflow-push-dispatches-deploy` | 160 | 16 |
+| `test/workflow-push-dispatches-deploy.test.js` | `workflow-push-dispatches-deploy` | 163 | 16 |
 | `test/xss-projection-surfaces.test.js` | `xss-projection-surfaces` | 140 | 16 |
 | `test/ami-gap-evidence-language.test.js` | `ami-gap-evidence-language` | 117 | 15 |
 | `test/basemap-honours-tilelayer-contract.test.js` | `basemap-honours-tilelayer-contract` | 134 | 15 |
@@ -386,7 +388,6 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/deal-calc-lender-schedules-page.test.js` | `deal-calc-lender-schedules-page` | 54 | 12 |
 | `test/deal-calc-workflow-prefill.test.js` | `deal-calc-workflow-prefill` | 117 | 12 |
 | `test/deal-calculator-glossary.test.js` | `deal-calculator-glossary` | 85 | 12 |
-| `test/econ-dash-accuracy.test.js` | `econ-dash-accuracy` | 68 | 12 |
 | `test/hna-county-scope-disclosures.test.js` | `hna-county-scope-disclosures` | 100 | 12 |
 | `test/hna-home-value-absence.test.js` | `hna-home-value-absence` | 121 | 12 |
 | `test/homes-short-agreement.test.js` | `homes-short-agreement` | 83 | 12 |
@@ -475,17 +476,18 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/aria-list-ownership.test.js` | `aria-list-ownership` | 46 | 3 |
 | `test/deal-calc-mortgage-math.test.js` | `deal-calc-mortgage-math` | 53 | 3 |
 | `test/funding-links-land-on-funding.test.js` | `funding-links-land-on-funding` | 39 | 3 |
-| `test/hna-rent-burden-counts.test.js` | `hna-rent-burden-counts` | 95 | 3 |
+| `test/hna-rent-burden-counts.test.js` | `hna-rent-burden-counts` | 129 | 3 |
 | `test/perf-deep-dive-lazy-tract.test.js` | `perf-deep-dive-lazy-tract` | 34 | 3 |
 | `test/place-glossary-path.test.js` | `place-glossary-path` | 53 | 3 |
 | `test/table-export-rendered.test.js` | `table-export-rendered` | 260 | 3 |
 | `test/data-source-inventory-paths.test.js` | `data-source-inventory-paths` | 45 | 2 |
-| `test/hna-scorecard-missing-band.test.js` | `hna-scorecard-missing-band` | 31 | 2 |
+| `test/hna-scorecard-missing-band.test.js` | `hna-scorecard-missing-band` | 32 | 2 |
 | `test/navigation-paths.test.js` | `navigation-paths` | 19 | 2 |
 | `test/hna-gap-summary-sources.test.js` | `hna-gap-summary-sources` | 94 | 1 |
 | `test/peer-benchmark-not-funded.test.js` | `peer-benchmark-not-funded` | 110 | 1 |
-| `test/walk-bike-access.test.js` | `walk-bike-access` | 111 | 1 |
+| `test/walk-bike-access.test.js` | `walk-bike-access` | 134 | 1 |
 | `test/acs-vintage-label-integrity.test.js` | `acs-vintage-label-integrity` | 88 | 0 |
+| `test/address-geocode.test.js` | `address-geocode` | 104 | 0 |
 | `test/affordability-defaults-inventory.test.js` | `affordability-defaults-inventory` | 160 | 0 |
 | `test/ci-verifies-bot-commits.test.js` | `ci-verifies-bot-commits` | 125 | 0 |
 | `test/county-demographics-contract.test.js` | `county-demographics-contract` | 395 | 0 |
@@ -524,15 +526,15 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | File | Target module | Lines | Assertions |
 |---|---|---:|---:|
 | `tests/test_funding_watch.py` | `funding_watch.py` | 1110 | 220 |
-| `tests/test_development_activity.py` | `development_activity.py` | 824 | 174 |
+| `tests/test_development_activity.py` | `development_activity.py` | 830 | 174 |
 | `tests/test_build_place_decade_trends.py` | `build_place_decade_trends.py` | 538 | 107 |
 | `tests/test_market_direction.py` | `market_direction.py` | 409 | 98 |
 | `tests/test_transit_stops_statewide.py` | `transit_stops_statewide.py` | 478 | 92 |
 | `tests/test_lihtc_applications.py` | `lihtc_applications.py` | 546 | 87 |
 | `tests/test_chfa_qap_watch.py` | `chfa_qap_watch.py` | 449 | 86 |
+| `tests/test_housing_events.py` | `housing_events.py` | 363 | 73 |
 | `tests/test_news_stories.py` | `news_stories.py` | 500 | 73 |
 | `tests/test_stage2_temporal.py` | `stage2_temporal.py` | 836 | 72 |
-| `tests/test_housing_events.py` | `housing_events.py` | 347 | 70 |
 | `tests/test_sentinel_normalization.py` | `sentinel_normalization.py` | 305 | 67 |
 | `tests/test_local_incentives.py` | `local_incentives.py` | 287 | 65 |
 | `tests/test_round_watch.py` | `round_watch.py` | 337 | 58 |
@@ -559,10 +561,11 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `tests/test_local_support.py` | `local_support.py` | 117 | 30 |
 | `tests/test_upstream_schema_check.py` | `upstream_schema_check.py` | 255 | 29 |
 | `tests/test_gtfs_transit_carry_forward.py` | `gtfs_transit_carry_forward.py` | 236 | 27 |
+| `tests/test_hna_acs_5year_only.py` | `hna_acs_5year_only.py` | 154 | 24 |
 | `tests/test_neighborhood_access_builder.py` | `neighborhood_access_builder.py` | 140 | 23 |
 | `tests/test_policy_watch.py` | `policy_watch.py` | 148 | 23 |
+| `tests/test_tax_exemption_routes.py` | `tax_exemption_routes.py` | 117 | 23 |
 | `tests/test_transit_stop_gate.py` | `transit_stop_gate.py` | 211 | 23 |
-| `tests/test_hna_acs_5year_only.py` | `hna_acs_5year_only.py` | 139 | 22 |
 | `tests/test_ranking_index_transit_zone.py` | `ranking_index_transit_zone.py` | 267 | 22 |
 | `tests/test_award_rows.py` | `award_rows.py` | 91 | 21 |
 | `tests/test_pma_provenance.py` | `pma_provenance.py` | 180 | 21 |
@@ -597,7 +600,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `tests/test_gtfs_transit_fallback.py` | `gtfs_transit_fallback.py` | 70 | 4 |
 | `tests/build_counties_co_test.py` | `build_counties_co_test.py` | 299 | 0 |
 | `tests/demographic_projections_test.py` | `demographic_projections_test.py` | 493 | 0 |
-| `tests/economic_indicators_test.py` | `economic_indicators_test.py` | 644 | 0 |
+| `tests/economic_indicators_test.py` | `economic_indicators_test.py` | 681 | 0 |
 
 ## Reading this report
 
