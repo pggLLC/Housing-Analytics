@@ -1,6 +1,6 @@
 # API reference
 
-_Auto-generated from JSDoc — 2026-11-06. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
+_Auto-generated from JSDoc — 2026-11-12. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
 
 Only modules with at least one JSDoc-commented symbol are indexed. To get a module on this page, add a `/** ... */` comment on any exported function, constant, or class.
 
@@ -117,6 +117,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`place-lehd-lookup.js`](./js__place-lehd-lookup.md) | place-lehd-lookup. | 0 |
 | [`place-profile-help.js`](./js__place-profile-help.md) | js/place-profile-help. | 0 |
 | [`pma-analysis-runner.js`](./js__pma-analysis-runner.md) | js/pma-analysis-runner. | 1 |
+| [`pma-area-towns.js`](./js__pma-area-towns.md) | js/pma-area-towns. | 2 |
 | [`pma-barrier-aware.js`](./js__pma-barrier-aware.md) | js/pma-barrier-aware. | 0 |
 | [`pma-barriers.js`](./js__pma-barriers.md) | js/pma-barriers. | 11 |
 | [`pma-commute-context.js`](./js__pma-commute-context.md) | js/pma-commute-context. | 0 |
@@ -149,6 +150,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`site-state.js`](./js__site-state.md) | site-state. | 0 |
 | [`soft-funding-tracker.js`](./js__soft-funding-tracker.md) | js/soft-funding-tracker. | 12 |
 | [`state-allocations-historical.js`](./js__state-allocations-historical.md) | _no header_ | 4 |
+| [`sunday-digest.js`](./js__sunday-digest.md) | sunday-digest. | 1 |
 | [`temporal-dashboard.js`](./js__temporal-dashboard.md) | _no header_ | 2 |
 | [`transit-zone-map.js`](./js__transit-zone-map.md) | js/transit-zone-map. | 0 |
 | [`transit-zone.js`](./js__transit-zone.md) | js/transit-zone. | 0 |
@@ -306,7 +308,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`hna-chapter-handoff.js`](./js__hna__hna-chapter-handoff.md) | hna-chapter-handoff. | 0 |
 | [`hna-comparison.js`](./js__hna__hna-comparison.md) | js/hna/hna-comparison. | 4 |
 | [`hna-controller.js`](./js__hna__hna-controller.md) | hna-controller. | 15 |
-| [`hna-export.js`](./js__hna__hna-export.md) | _no header_ | 26 |
+| [`hna-export.js`](./js__hna__hna-export.md) | _no header_ | 27 |
 | [`hna-market-bridge.js`](./js__hna__hna-market-bridge.md) | js/hna/hna-market-bridge. | 2 |
 | [`hna-market-call.js`](./js__hna__hna-market-call.md) | js/hna/hna-market-call. | 0 |
 | [`hna-narratives.js`](./js__hna__hna-narratives.md) | hna-narratives. | 0 |
@@ -317,6 +319,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`hna-section-takeaways.js`](./js__hna__hna-section-takeaways.md) | hna-section-takeaways. | 0 |
 | [`hna-utils.js`](./js__hna__hna-utils.md) | hna-utils. | 20 |
 | [`hna-workflow-autosave.js`](./js__hna__hna-workflow-autosave.md) | hna-workflow-autosave. | 0 |
+| [`need-scorecard.js`](./js__hna__need-scorecard.md) | Housing Needs Scorecard: the one computation (closeout ledger P04, 2026-11-12). | 1 |
 | [`ownership-decision-chain.js`](./js__hna__ownership-decision-chain.md) | js/hna/ownership-decision-chain. | 0 |
 | [`ownership-finance.js`](./js__hna__ownership-finance.md) | js/hna/ownership-finance. | 9 |
 | [`reading-path.js`](./js__hna__reading-path.md) | The guided reading path. | 3 |
@@ -383,6 +386,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`jurisdiction-whitepaper.js`](./js__whitepaper__jurisdiction-whitepaper.md) | jurisdiction-whitepaper. | 0 |
 | [`local-discussion.js`](./js__whitepaper__local-discussion.md) | local-discussion. | 0 |
 | [`member-calculator.js`](./js__whitepaper__member-calculator.md) | member-calculator. | 0 |
+| [`member-place.js`](./js__whitepaper__member-place.md) | member-place. | 0 |
 | [`place-card.js`](./js__whitepaper__place-card.md) | place-card. | 0 |
 | [`ripeness.js`](./js__whitepaper__ripeness.md) | ripeness. | 0 |
 | [`round-watch.js`](./js__whitepaper__round-watch.md) | round-watch. | 10 |
@@ -409,7 +413,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`backfill_hna_household_occupation.mjs`](./scripts__backfill_hna_household_occupation.md) | F169 — Backfill ACS DP02 / DP03 / DP05 variables that power the new | 0 |
 | [`build_article_indicator_geojson.mjs`](./scripts__build_article_indicator_geojson.md) | F208 — Join the article's county-indicator CSV with the county | 0 |
 | [`build_rent_burden_crosscheck.mjs`](./scripts__build_rent_burden_crosscheck.md) | F207b — Build the CHAS rent-burden crosscheck JSON. | 0 |
-| [`build-affordable-housing-properties.js`](./scripts__build-affordable-housing-properties.md) | build-affordable-housing-properties. | 5 |
+| [`build-affordable-housing-properties.js`](./scripts__build-affordable-housing-properties.md) | build-affordable-housing-properties. | 7 |
 | [`build-car-report-index.mjs`](./scripts__build-car-report-index.md) | scripts/build-car-report-index. | 0 |
 | [`contrast-audit.js`](./scripts__contrast-audit.md) | scripts/contrast-audit. | 0 |
 | [`coverage-audit.js`](./scripts__coverage-audit.md) | coverage-audit. | 0 |
@@ -423,6 +427,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`fetch-county-demographics.js`](./scripts__fetch-county-demographics.md) | scripts/fetch-county-demographics. | 3 |
 | [`fetch-doh-mobile-home-parks.js`](./scripts__fetch-doh-mobile-home-parks.md) | fetch-doh-mobile-home-parks. | 0 |
 | [`fetch-hud-multifamily.js`](./scripts__fetch-hud-multifamily.md) | fetch-hud-multifamily. | 1 |
+| [`fetch-hud-public-housing.js`](./scripts__fetch-hud-public-housing.md) | fetch-hud-public-housing. | 0 |
 | [`fetch-kalshi.js`](./scripts__fetch-kalshi.md) | fetch-kalshi. | 0 |
 | [`fetch-pab-allocations.mjs`](./scripts__fetch-pab-allocations.md) | fetch-pab-allocations. | 0 |
 | [`fetch-usda-rural-housing.js`](./scripts__fetch-usda-rural-housing.md) | fetch-usda-rural-housing. | 1 |
