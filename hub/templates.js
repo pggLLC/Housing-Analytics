@@ -107,7 +107,7 @@
   function fold(title, take, body, o) {
     o = o || {};
     var h = o.level === 3 ? 'h3' : 'h2';
-    var key = o.id || String(title).replace(/<[^>]*>/g, '').replace(/[<>]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+    var key = o.id || stripTags(title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
     return '<details class="fold fold-sec' + (o.level === 3 ? ' fold-part' : '') + '" data-fold="' + esc(key) + '"' + (o.open ? ' open' : '') + '><summary>' +
       '<' + h + ' class="fold-title"' + (o.id ? ' id="' + esc(o.id) + '" tabindex="-1"' : '') + '>' + title + '</' + h + '>' +
       (take ? '<span class="fold-take">' + take + '</span>' : '') + '<span class="fold-cue" aria-hidden="true"></span></summary><div class="fold-body">' + body + '</div></details>';
@@ -227,6 +227,8 @@
     return n * (u === 'billion' || u === 'b' ? 1e9 : u === 'million' || u === 'm' ? 1e6 : u === 'k' ? 1e3 : 1);
   }
   function isBlank(t) { return t === '' || /^(—|–|-|n\/a|no value|not published|not available|unavailable)$/i.test(t); }
+  // Tags out, repeated until nothing changes, so a tag split by another tag cannot survive.
+  function stripTags(s) { var prev; s = String(s); do { prev = s; s = s.replace(/<[^>]*>/g, ''); } while (s !== prev); return s; }
   function sortable() {
     var main = document.getElementById('main');
     if (!main || global.LAB_SITE_SORT) return;

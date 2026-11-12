@@ -7,7 +7,9 @@
   'use strict';
 
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-  function slug(s) { return String(s || 'chart').toLowerCase().replace(/<[^>]*>/g, '').replace(/[<>]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'chart'; }
+  // Tags out, repeated until nothing changes, so a tag split by another tag cannot survive.
+  function stripTags(s) { var prev; s = String(s); do { prev = s; s = s.replace(/<[^>]*>/g, ''); } while (s !== prev); return s; }
+  function slug(s) { return stripTags(String(s || 'chart').toLowerCase()).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'chart'; }
   function isNum(v) { return typeof v === 'number' && isFinite(v); }
   // Shown in the table: whole numbers get thousands commas, others keep up to two decimals. The CSV keeps the raw value.
   function show(v) {
@@ -23,7 +25,7 @@
     var q = function (v) { v = raw(v); return /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
     return [cols].concat(rows).map(function (r) { return r.map(q).join(','); }).join('\r\n');
   }
-  function plain(s) { return String(s == null ? '' : s).replace(/<[^>]*>/g, '').replace(/[<>]/g, '').trim(); }
+  function plain(s) { return stripTags(s == null ? '' : s).trim(); }
 
   // A row with no value says so. The cell reads "No value", never a blank or a 0, and the CSV carries a Status
   // column, so the numbers stay numbers. The words do not guess why: the source may not publish it, or it may
