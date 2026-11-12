@@ -1,0 +1,40 @@
+/* opportunities hub styles. Owned by one wave ticket (qa/wave-tickets.json); loaded after templates.css. */
+
+/* Menus that narrow a list (filters, sort, colour-by). Wrap on a phone; every control is 44px tall. */
+.opp-menus { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin: .75rem 0 1rem; }
+.opp-menu { display: grid; gap: .2rem; font-size: 13px; font-weight: 600; color: var(--ink-soft); min-width: 0; flex: 1 1 9.5rem; max-width: 20rem; }
+.opp-menu select { min-height: 44px; width: 100%; padding: 0 .5rem; font: inherit; font-size: 15px; font-weight: 400; color: var(--ink); background: var(--card); border: 1px solid var(--line-strong); border-radius: 6px; }
+.opp-menu select:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+.opp-csv { margin: .5rem 0 .75rem; }
+.opp-csv .button-link { min-height: 44px; display: inline-flex; align-items: center; }
+
+/* Pin and dot keys under a map. */
+.lb-key { list-style: none; display: flex; flex-wrap: wrap; gap: .35rem 1.25rem; margin: .25rem 0 .5rem; padding: 0; font-size: 15px; }
+.lb-key li { display: inline-flex; align-items: center; gap: .4rem; }
+.lb-key b { font-variant-numeric: tabular-nums; }
+.lb-pins circle { stroke: var(--halo); stroke-width: .8; fill-opacity: .9; }
+.lb-towns { margin: 0 0 1.25rem; }
+.lb-towns summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; color: var(--green); }
+.lb-towns ul { columns: 14rem auto; margin: .25rem 0 0; padding-left: 1.1rem; }
+.lb-towns li { break-inside: avoid; padding: .15rem 0; }
+
+/* Plain lists of points with a bold lead. */
+.opp-points { padding-left: 1.1rem; display: grid; gap: .6rem; max-width: 52rem; }
+.opp-quote { margin: .75rem 0; padding: .75rem 1rem; border-left: 4px solid var(--line-strong); background: var(--card); border-radius: 0 6px 6px 0; }
+.opp-quote p { margin: 0 0 .35rem; }
+.opp-quote footer { font-size: 13px; color: var(--muted); }
+
+/* Round One awards not yet in CHFA's feed. */
+.opp-cards { list-style: none; padding: 0; margin: .75rem 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr)); gap: .5rem; }
+.opp-cards li { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .6rem .75rem; display: grid; gap: .15rem; font-size: 14px; }
+.opp-cards li span { color: var(--muted); font-size: 13px; }
+
+/* Commuting map: flows to the picked town, and the picked dot outlined. */
+.cj-map .pm-frame { max-width: 760px; }
+.cj-dots circle { stroke: var(--ink); stroke-width: .6; fill-opacity: .92; }
+.cj-dots a:hover circle, .cj-dots a:focus circle, .cj-dots a.is-picked circle { stroke: var(--ink); stroke-width: 2.4; fill-opacity: 1; }
+.cj-flows-lines line { stroke: var(--cat-4); stroke-linecap: round; opacity: .85; }
+.cj-detail { margin: .75rem 0 1rem; }
+.cj-stats { list-style: none; padding: 0; margin: .75rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); gap: .5rem; }
+.cj-stats li { background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--green); border-radius: 8px; padding: .7rem .85rem; display: grid; gap: .15rem; font-size: 14px; color: var(--ink-soft); }
+.cj-stats b { font-size: 22px; color: var(--ink); font-variant-numeric: tabular-nums; }

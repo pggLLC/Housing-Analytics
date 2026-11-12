@@ -1,0 +1,131 @@
+/* Rent against income (site/rent-income.js). Rent today wears the households rust; "kept pace" wears the
+   chart blue. Text stays in ink tokens. Stacks to one column under 720px; nothing scrolls sideways at 390px. */
+.ri-wrap { display: grid; gap: 1rem; margin: 1.25rem 0; }
+.ri-pick { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; }
+.ri-pick label { font-weight: 600; }
+.ri-pick select { font: inherit; min-height: 44px; padding: 0 .6rem; border: 1px solid var(--muted); border-radius: 6px; background: var(--card); color: var(--ink); }
+.ri-card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 1rem 1.75rem; align-items: start; margin: 1rem 0; }
+.ri-wrap .ri-card { margin: 0; }
+.ri-text, .ri-viz { min-width: 0; }
+.ri-text p { margin: 0 0 .6rem; }
+.ri-kick { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--pine); }
+.ri-h { margin: .15rem 0 .5rem; font-size: 1.35rem; line-height: 1.25; text-wrap: balance; }
+.ri-take { background: var(--tint); border-left: 4px solid var(--rust); padding: .6rem .8rem; border-radius: 0 8px 8px 0; }
+.ri-take p { margin: 0; }
+.ri-big { font-size: 2.3rem; font-weight: 800; line-height: 1.05; color: var(--text-rust); font-variant-numeric: tabular-nums; margin: 0 0 .2rem !important; }
+.ri-big.ri-down { color: var(--c-blue); }
+.ri-vt { margin: 0 0 .75rem; font-size: 14px; font-weight: 600; color: var(--ink); }
+.ri-cmp { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .15rem .75rem; align-items: end; margin-bottom: .9rem; }
+.ri-cmp b { font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+.ri-bar { grid-column: 1 / -1; height: 22px; border-radius: 0 4px 4px 0; min-width: 4px; }
+.ri-rent { background: var(--rust); }
+.ri-inc { background: var(--c-blue); }
+.ri-n { grid-column: 1 / -1; font-size: 13px; color: var(--muted); }
+.ri-foot { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: .5rem; }
+.ri-foot .source-line, .ri-note, .ri-more-link { margin: .2rem 0; font-size: 13px; }
+.ri-kp { color: var(--c-blue); font-weight: 700; }
+.ri-kr { color: var(--text-rust); font-weight: 700; }
+.ri-legend { display: flex; flex-wrap: wrap; gap: .3rem 1rem; font-size: 13px; margin: 0 0 .5rem; }
+.ri-legend span { display: inline-flex; align-items: center; gap: .35rem; }
+.ri-sw { display: inline-block; width: 12px; height: 12px; border-radius: 50%; }
+.ri-sw-k { background: var(--c-blue); }
+.ri-sw-r { background: var(--rust); }
+.ri-sw-x { width: 18px; height: 6px; border-radius: 3px; background: var(--rust); opacity: .45; }
+.ri-g3, .ri-row { display: grid; grid-template-columns: 6rem minmax(0, 1fr) 4rem; gap: .6rem; align-items: center; }
+.ri-head { font-size: 12px; color: var(--muted); padding: 0 .4rem; margin-bottom: .2rem; }
+.ri-head span:last-child { text-align: right; }
+.ri-dots { list-style: none; margin: 0; padding: 0; }
+.ri-dots li { display: block; }
+.ri-row { width: 100%; min-height: 36px; padding: 0 .4rem; border: 0; border-radius: 6px; background: transparent; font: inherit; font-size: 14px; color: var(--ink); text-align: left; cursor: pointer; }
+.ri-dots li:nth-child(odd) .ri-row { background: var(--tint); }
+.ri-row:hover { outline: 1.5px solid var(--muted); }
+.ri-row:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 1px; }
+.ri-sel .ri-row, .ri-dots li.ri-sel:nth-child(odd) .ri-row { background: var(--tint-amber); outline: 2px solid var(--rust); }
+.ri-cn { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ri-tr { position: relative; height: 18px; }
+.ri-tr::before { content: ""; position: absolute; left: 0; right: 0; top: 8.5px; border-top: 1px dotted var(--muted); opacity: .5; }
+.ri-gap { position: absolute; top: 6px; height: 6px; border-radius: 3px; background: var(--rust); opacity: .45; }
+.ri-dt { position: absolute; top: 2px; width: 14px; height: 14px; border-radius: 50%; transform: translateX(-50%); border: 2px solid var(--halo); box-sizing: border-box; }
+.ri-dt-k { background: var(--c-blue); }
+.ri-dt-r { background: var(--rust); }
+.ri-ev { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ri-axis { padding: 0 .4rem; margin-top: .2rem; }
+.ri-ax { position: relative; display: block; height: 22px; border-top: 1.5px solid var(--muted); }
+.ri-tk { position: absolute; top: 5px; font-size: 12px; color: var(--ink); transform: translateX(-50%); white-space: nowrap; }
+.ri-tk::before { content: ""; position: absolute; left: 50%; top: -6px; height: 5px; border-left: 1.5px solid var(--muted); }
+.ri-axt { display: block; text-align: center; font-size: 12px; color: var(--muted); }
+.ri-all { margin-top: .6rem; font: inherit; min-height: 44px; padding: 0 1rem; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--pine); font-weight: 600; cursor: pointer; }
+@media (max-width: 720px) {
+  .ri-card { grid-template-columns: minmax(0, 1fr); padding: 1rem; }
+  .ri-g3, .ri-row { grid-template-columns: 4.9rem minmax(0, 1fr) 3.4rem; gap: .45rem; }
+  .ri-tk.ri-odd { display: none; }
+}
+/* County map (rent above or below the rent that tracked income). Orange = harder; blue = income kept ahead. */
+.ri-map { width: 100%; height: auto; display: block; }
+.ri-map path[data-ri-g] { stroke: var(--map-edge); stroke-width: 1; cursor: pointer; }
+.ri-map path[data-ri-g]:hover { stroke: var(--ink); stroke-width: 1.5; }
+.ri-map path[data-ri-g]:focus-visible { outline: none; stroke: var(--c-blue); stroke-width: 3; }
+.ri-map .ri-hatch path { pointer-events: none; stroke: none; }
+.ri-map .ri-ring { fill: none; stroke: var(--ink); stroke-width: 2.5; pointer-events: none; }
+.ri-m-far { fill: var(--rust); background: var(--rust); }
+.ri-m-ahead { fill: var(--div-rose); background: var(--div-rose); }
+.ri-m-even { fill: var(--div-mid); background: var(--div-mid); }
+.ri-m-behind { fill: var(--div-fell); background: var(--div-fell); }
+.ri-lbl { font-size: 10px; fill: var(--ink); pointer-events: none; paint-order: stroke; stroke: var(--halo); stroke-width: 3px; }
+/* The map is drawn in one viewBox and shrinks with the screen, so under 560 px these names render at about 6 px.
+   Hide them there; tapping a county names it in the readout below (graphics checklist C2). */
+@media (max-width: 560px) { .ri-lbl { display: none; } }
+.ri-mlegend { list-style: none; margin: .4rem 0 .6rem; padding: 0; display: grid; gap: .35rem; font-size: 14px; }
+.ri-mlegend li { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: .5rem; align-items: center; }
+.ri-mlegend i { display: block; width: 18px; height: 14px; border-radius: 3px; }
+.ri-mlegend b { font-variant-numeric: tabular-nums; }
+.ri-small { font-size: 13px; color: var(--muted); }
+.ri-sw-dots { display: inline-block; width: 18px; height: 12px; vertical-align: -1px; }
+.ri-info { margin: .5rem 0 0; font-size: 14px; background: var(--tint); border-radius: 8px; padding: .5rem .7rem; }
+.ri-mapcard { grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); }
+@media (max-width: 720px) {
+  .ri-mapcard { grid-template-columns: minmax(0, 1fr); }
+  .ri-mapcard .ri-viz { order: -1; }
+  .ri-mapcard:has(.ri-amap) .ri-viz { order: 0; }
+}
+/* 1980-to-today: period buttons, the share-of-income line, and the change-arrow map (site/change-arrows.js). */
+.ri-periods { display: flex; flex-wrap: wrap; gap: .4rem; }
+.ri-per { font: inherit; font-size: 15px; min-height: 44px; padding: 0 1rem; border: 1px solid var(--line-strong, var(--muted)); border-radius: 999px; background: var(--card); color: var(--pine); font-weight: 600; cursor: pointer; }
+.ri-per[aria-pressed="true"] { background: var(--pine); border-color: var(--pine); color: var(--card); }
+.ri-per:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 2px; }
+.ri-pick select optgroup { font-weight: 700; }
+.ri-line { width: 100%; height: auto; display: block; margin-bottom: .4rem; }
+.ri-ln-grid { stroke: var(--line); stroke-width: 1; }
+.ri-ln-y { font-size: 11px; fill: var(--muted); text-anchor: end; }
+.ri-ln-x { font-size: 11px; fill: var(--ink-soft, var(--ink)); text-anchor: middle; }
+.ri-ln-path { fill: none; stroke: var(--rust); stroke-width: 2.5; stroke-linejoin: round; }
+.ri-ln-dot { fill: var(--card); stroke: var(--rust); stroke-width: 2; }
+.ri-ln-on { fill: var(--rust); }
+.ri-ln-v { font-size: 12px; font-weight: 600; fill: var(--ink); text-anchor: middle; paint-order: stroke; stroke: var(--card); stroke-width: 3px; }
+.ri-ln-von { font-size: 13px; font-weight: 800; }
+.ri-lnote { font-size: 14px; margin: 0 0 .9rem; }
+.ri-amap { max-width: 560px; }
+.ri-amap path.ri-base { fill: var(--paper); stroke: var(--muted); stroke-opacity: .8; stroke-width: .8; cursor: pointer; }
+.ri-amap path.ri-base:hover { fill: var(--line); }
+.ri-amap path.ri-base:focus-visible { outline: none; stroke: var(--c-blue); stroke-width: 2.5; }
+.ri-amap path.ri-base.ri-on { fill: var(--line); stroke: var(--ink); stroke-width: 2; }
+.ca-legend { list-style: none; margin: .5rem 0 .3rem; padding: 0; display: grid; gap: .5rem; font-size: 16px; line-height: 1.3; }
+.ca-legend li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: .6rem; align-items: center; }
+.ca-legend li:nth-child(1) b { color: var(--rust); }
+.ca-legend li:nth-child(2) b { color: var(--c-blue); }
+.ca-legend .ca-lg-none { width: 26px; height: 18px; justify-self: center; }
+.ri-count { display: block; margin-top: .3rem; font-size: .95em; color: var(--muted); }
+.ca-lg-i { width: 44px; height: 30px; }
+.ca-size { font-size: 15px; margin: .2rem 0 0; }
+/* Need map (site/county-need.js): today or the change, for rent as a share of income. */
+.cn-trend { display: flex; flex-wrap: wrap; gap: .4rem; margin: .5rem 0 .2rem; }
+.cn-key .cn-trend-key { display: block; list-style: none; }
+.cn-key .cn-trend-key p { margin: 0 0 .4rem; }
+/* Bearings on the arrow maps: county lines strong enough to read, the state line, labelled cities. */
+.ri-amap path.ri-base { stroke: var(--muted); stroke-opacity: 1; stroke-width: 1; }
+.ca-city { fill: var(--ink); font-weight: 600; }
+.need-map.cn-trending svg a path { stroke: var(--muted); stroke-width: 1.4; }
+.need-map.cn-trending svg a:hover path, .need-map.cn-trending svg a:focus path { stroke: var(--ink); stroke-width: 2.5; }
+.ca-town { cursor: pointer; }
+.ca-town:hover, .ca-town:focus-visible { fill-opacity: .55 !important; stroke: var(--ink) !important; stroke-opacity: 1 !important; outline: none; }

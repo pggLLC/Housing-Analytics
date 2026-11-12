@@ -2,7 +2,7 @@
  "about": "Built by coho-pathfinder-visual-lab scripts/build-port.js. Do not edit hub/ or places-hub.html by hand: change the lab and rebuild.",
  "hub": "places",
  "lab": {
-  "commit": "a553609b3d1fc80aeca5c046404fc7c4512cdd22",
+  "commit": "6a92a89611f1e9c7f7e193755a9839d8a9971db3",
   "dirty": false
  },
  "files": {
@@ -10,6 +10,7 @@
   "hub/compare-records.js": "4a4e20b4c5064680ab87c53bae1dce945a5ce45c090feea7277570556805d1af",
   "hub/components.js": "633d66f2a7553180974d24c947ea8b1fab769f3c22feaa25b788f39de52d2a96",
   "hub/county-need.js": "5c514634affb4a851ef5c1df9104e498ce63a3c3d1f5458a8a2ac42549e47e27",
+  "hub/data-pages.css": "9284d87cfbef7443a2aa0926c586be3bc7c3d8f7daa1641de7349878af3b525c",
   "hub/employers.js": "b88b55893ff703a8e7b4868804e125f2c8b07a10cdeb0ed5a3825e38c7821d48",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/hna-dola.js": "a878dc1174acce2d4275c15807f6e1e6d7b2b78585b63c4718b0b766770d02ec",
@@ -21,17 +22,19 @@
   "hub/map-zoom.js": "1943a40e00cf68ad11cd9d5440e9f512e74af882751c199ec262a4f789169764",
   "hub/nav.js": "1f6ca7f5cb8a44eac9dc546ac76df91ead8cd2e3b33ea8b4affb563ed3c658ea",
   "hub/need-scorecard.js": "5b6dec67e9970c69b8dfb178b49f140f655cde6789c00fa3963cfe4bb1bdff3a",
+  "hub/opportunities.css": "a1f2f59400c4d5f02185fe576a8e75631aa9f2f0ef5b27a9f381585efb52dd38",
   "hub/palette.css": "a5e54cb6b658064a65f01b8e8661d2af2f8501fc7525469a2964065c66e38471",
   "hub/places-combine.js": "b3d53321409c2dd780df591f1871cdd1cc299f7e465e2d726fce08c988dbcdf0",
   "hub/places-more.js": "94633d60d35e3322b243702bd13952f0fd1f5ecbfe1ddcb793b88781b6fb9937",
   "hub/places-state.js": "04efeb875cb61a0e674d1167e3f5eff04e59f7c2a909b7e321dda61adf1ccf73",
   "hub/places.js": "cdc57c3dca491db06f9f1031dd773fd795088225e9959986174db16ce9066f6c",
+  "hub/rent-income.css": "ff4c8eaf18ba2dcdda43849d6f67b9e0b2a605d6c75d4fad2e8ce1f2d6732392",
   "hub/rent-income.js": "adfeb85a27c7b0b205bb02bf93743aa7446c389a969e62673f1b8e794fbf044e",
   "hub/route-catalog.json": "9cf116efe9b94535fea8c7a09909feb5002fd5c133a2d30be1a09ef0478d0c45",
   "hub/shell.css": "9492461c3bb1338366ddc6eef09f529b8109427c8182a844704a5fb2d1125a2e",
   "hub/shell.js": "8d22556e0460bb2a953a9094fb1bc6b95ad34ca5d9b7798201438061fbe4e1ce",
   "hub/strength.js": "c747d61b143cc2cfeffb6351a196720ecf848e965fecffeb20efebaab58597ad",
-  "hub/templates.css": "f5287652dd1420599531c00b24bc1fd2580787941db33f8023fb86e7264f2fc8",
+  "hub/templates.css": "62faa5516cf0e885202ac6dd4ba8a52fc9ecb52f01d0a326724232c24f16f12f",
   "hub/templates.js": "281aa7e6ab2206b2c1e090a29204fc5b9ec605e49c09d700f4a8070bdd963d27",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
   "hub/text-fit.js": "583c08d1ce2e9c0b7fd7cd3baca0bee436da9f3741625d9aa7eb683276ea78f8",
@@ -39,7 +42,7 @@
   "hub/viz-data.js": "1e6c2a0dae68aa2e33a0fb7123503fcd7c13bd9c00e6d163a6a1cb214dac33db",
   "hub/viz-tip.js": "4cc8ef6c798b8a9f22560ed26ce8b5ebf4a162e2c7f767abc021684b6387bf46",
   "hub/viz.js": "5a1b3886191f3479cf43ae69a68100a7566a45e2ae474416e095489b3a61979a",
-  "places-hub.html": "467dd34d59f040b864d32a209f4c2f878ff714e58e46f7843d4e94b47d950d8e"
+  "places-hub.html": "375b4035b1b7db350f1c26d87a68baf7cf43d0323531f821f49f79a39498ce7f"
  },
  "engines": {
   "js/deal-calculator-math.js": "305fc93936feecf0756732ccf52046adfc2af113ab232abe4769b7ff83701612",

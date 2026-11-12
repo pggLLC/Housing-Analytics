@@ -1029,8 +1029,9 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
   .step-path li.sp-current:last-child, .step-path ol:has(li.sp-current:last-child) li:nth-last-child(3) { display: block; }
   .step-path .sp-text, .step-path .sp-here { display: none; }
   .step-path .sp-box { padding: .4rem .45rem; }
-  /* With no step marked here, or with "All 7 steps" open, every step shows. */
-  .step-path ol:not(:has(.sp-current)) li, .step-path.sp-open li { display: block; }
+  /* With no step marked here (no place picked yet), the first three show, so the bar stays one row above the page;
+     "All 7 steps" opens every step. */
+  .step-path ol:not(:has(.sp-current)) li:nth-child(-n+3), .step-path.sp-open li { display: block; }
   .step-path.sp-open .sp-text { display: block; }
   .step-path .sp-all { display: inline-block; }
   .sp-sticky .sp-of strong { font-weight: 600; }
