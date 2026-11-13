@@ -3546,7 +3546,8 @@
           <dd id="dc-exit-net" style="margin:0;text-align:right;font-weight:700;color:var(--good,#047857);border-top:1px solid var(--border);padding-top:6px;">—</dd>
           <dt style="color:var(--muted);">Deferred fee payback year</dt>
           <dd id="dc-exit-defyr" style="margin:0;text-align:right;font-weight:700;">—</dd>
-          <dt style="color:var(--text);font-weight:700;">Sponsor's return on the deferred fee <a href="#dcWaterfallHeading" style="font-weight:400;">(from the partnership split)</a></dt>
+          <!-- The partnership section is on the Deal Calculator page only; from an embed (Market Analysis) the link opens it there. -->
+          <dt style="color:var(--text);font-weight:700;">Sponsor's return on the deferred fee <a href="${document.getElementById('dcWaterfallHeading') ? '' : 'deal-calculator.html'}#dcWaterfallHeading" style="font-weight:400;">(from the partnership split)</a></dt>
           <dd id="dc-exit-sponsor-irr" style="margin:0;text-align:right;font-weight:700;color:var(--accent);">—</dd>
           <dt style="color:var(--muted);">Same fee, counting all partnership cash and sale proceeds (includes the investor's share)</dt>
           <dd id="dc-exit-irr" style="margin:0;text-align:right;font-weight:600;color:var(--muted);">—</dd>
