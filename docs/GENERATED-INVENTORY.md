@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-13T09:00:45.727Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-13T09:07:36.501Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-85 pages found.
+89 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -33,10 +33,12 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.2 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
+| `data-hub.html` | Data and methods · COHO Analytics | 9.0 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.6 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
+| `deal-hub.html` | Build a deal · COHO Analytics | 9.0 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.4 KB |
@@ -78,9 +80,11 @@
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 88.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
+| `opportunities-hub.html` | Opportunities · COHO Analytics | 9.0 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
-| `places-hub.html` | Places and need · COHO Analytics | 6.7 KB |
+| `places-hub.html` | Places and need · COHO Analytics | 9.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 53.1 KB |
+| `policy-hub.html` | Policy and research · COHO Analytics | 9.0 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
@@ -2454,7 +2458,7 @@
 | `test/input-provenance.test.js` | 6.4 KB |
 | `test/insights-agreement.test.mjs` | 5.3 KB |
 | `test/insights-market-pulse.test.mjs` | 7.5 KB |
-| `test/insights-nav-labels.test.mjs` | 7.2 KB |
+| `test/insights-nav-labels.test.mjs` | 7.6 KB |
 | `test/insights-workflow-links.test.js` | 9.2 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/economic-indicators.test.js` | 12.2 KB |
@@ -2522,13 +2526,13 @@
 | `test/mortgage-rate-one-source.test.js` | 12.7 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/navigation-pill-label.test.js` | 2.7 KB |
-| `test/navigation-reaches-every-page.test.mjs` | 6.1 KB |
+| `test/navigation-reaches-every-page.test.mjs` | 5.9 KB |
 | `test/need-severity-is-place-level.test.mjs` | 16.0 KB |
 | `test/neuro-inclusive-brief.test.mjs` | 5.6 KB |
 | `test/next-step-link.test.js` | 8.7 KB |
 | `test/nhpd-coverage.test.js` | 14.1 KB |
 | `test/nlihc-out-of-reach.test.mjs` | 4.7 KB |
-| `test/no-synthesized-chfa-awards.test.js` | 4.3 KB |
+| `test/no-synthesized-chfa-awards.test.js` | 4.5 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/notify-cancelled-outcome.test.js` | 3.5 KB |
 | `test/one-canonical-step-sequence.test.mjs` | 6.2 KB |
@@ -2573,7 +2577,7 @@
 | `test/place-glossary-path.test.js` | 1.5 KB |
 | `test/place-lehd-apportionment.test.js` | 4.8 KB |
 | `test/place-pages.test.js` | 6.9 KB |
-| `test/places-hub-port.test.js` | 7.3 KB |
+| `test/places-hub-port.test.js` | 8.5 KB |
 | `test/planned-sources-are-not-unknown.test.js` | 8.1 KB |
 | `test/pma-affordable-supply-label.test.js` | 3.0 KB |
 | `test/pma-affordable-supply-units.test.js` | 9.1 KB |
