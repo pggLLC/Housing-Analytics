@@ -233,11 +233,14 @@
     var main = document.getElementById('main');
     if (!main || global.LAB_SITE_SORT) return;
     Array.prototype.forEach.call(main.querySelectorAll('table:not([data-sort-seen])'), function (t) {
+      // A table still filling (fewer than three rows, as when a live script adds them later) is looked at again.
+      if (t.tBodies.length === 1 && t.tBodies[0].rows.length < 3 && !t.closest(NO_SORT)) return;
       t.setAttribute('data-sort-seen', '1');
       if (t.closest(NO_SORT) || !t.tHead || t.tHead.rows.length !== 1 || t.tBodies.length !== 1 || t.tBodies[0].rows.length < 3) return;
       if (t.querySelector('[colspan], [rowspan], input, select, button')) return;
       var heads = t.tHead.rows[0].cells, n = heads.length;
-      if (n < 2 || Array.prototype.some.call(t.tBodies[0].rows, function (r) { return r.cells.length !== n; })) return;
+      // A one-column list sorts too, A to Z (the map "Show the numbers" lists of marks).
+      if (n < 1 || Array.prototype.some.call(t.tBodies[0].rows, function (r) { return r.cells.length !== n; })) return;
       Array.prototype.forEach.call(t.tBodies[0].rows, function (r, i) { r.setAttribute('data-row', i); });
       Array.prototype.forEach.call(heads, function (th, i) {
         if (!th.textContent.trim()) return;
@@ -277,6 +280,100 @@
     if (!say) { say = document.createElement('p'); say.id = 'sort-status'; say.className = 'visually-hidden'; say.setAttribute('role', 'status'); document.body.appendChild(say); }
     say.textContent = dir === 'none' ? 'Rows back in their original order.' : 'Sorted by ' + b.textContent.trim() + ', ' + dir + '.';
   });
+
+
+  // Section tabs for long pages (format review F2, paul 11-12): the same sticky tab row as the HNA chapters,
+  // under the step bar, one swipeable row on a phone. A page's "On this page" list becomes the row; a long
+  // page without one gets a row from its h2 headings. A page with its own tab row is left alone.
+  var TAB_MIN = 3, TAB_SCREENS = 8;
+  function slugId(t, used) {
+    var b = 'sec-' + (t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'part'), id = b, i = 2;
+    while (used[id] || document.getElementById(id)) id = b + '-' + i++;
+    used[id] = 1; return id;
+  }
+  function tabLabel(t) { t = t.replace(/\s+/g, ' ').trim(); return t.length > 42 ? t.slice(0, 41).replace(/\s+\S*$/, '') + '…' : t; }
+  function pageTabs() {
+    var main = document.getElementById('main');
+    if (!main || !main.querySelector('h1')) return;
+    // Guides keep their side contents list until they are served from the live pages (format review F3).
+    if (/^#\/guide\//.test(location.hash)) { var g = main.querySelector('.page-tabs'); if (g) g.remove(); return; }
+    // The Deal Calculator's sticky result strip owns that spot; a page with its own tab row keeps it.
+    var own = main.querySelector('.tabs:not(.page-tabs), .quick-live');
+    var old = main.querySelector('.page-tabs');
+    if (own) { if (old) old.remove(); return; }
+    var otp = main.querySelector('nav.on-this-page'), items = [];
+    if (otp) {
+      Array.prototype.forEach.call(otp.querySelectorAll('a[data-jump]'), function (a) {
+        var el = document.getElementById(a.getAttribute('data-jump'));
+        if (el) items.push({ id: el.id, el: el, label: tabLabel(a.textContent) });
+      });
+    } else {
+      if (document.documentElement.scrollHeight < TAB_SCREENS * (global.innerHeight || 800)) { if (old) old.remove(); return; }
+      var used = {};
+      Array.prototype.forEach.call(main.querySelectorAll('h2'), function (h) {
+        if (h.closest('details, aside, figure, nav, .page-tabs, .next-box, [hidden]') || !h.textContent.trim() || h.classList.contains('visually-hidden')) return;
+        var sec = h.parentNode && h.parentNode.tagName === 'SECTION' && h.parentNode.firstElementChild === h ? h.parentNode : h;
+        if (!sec.id) sec.id = slugId(h.textContent, used);
+        items.push({ id: sec.id, el: sec, label: tabLabel(h.textContent) });
+      });
+    }
+    if (items.length < TAB_MIN) { if (old) old.remove(); return; }
+    var key = items.map(function (x) { return x.id; }).join('|');
+    if (old && old.getAttribute('data-key') === key) return;
+    if (old) old.remove();
+    var route = location.hash.slice(2).split('?')[0];
+    var nav = document.createElement('nav');
+    nav.className = 'tabs page-tabs';
+    nav.setAttribute('aria-label', 'Sections of this page');
+    nav.setAttribute('data-key', key);
+    nav.innerHTML = '<ul>' + items.map(function (x, i) {
+      return '<li><a href="#/' + esc(route) + '?at=' + esc(x.id) + '" data-jump="' + esc(x.id) + '"' + (i ? '' : ' aria-current="location"') + '>' + esc(x.label) + '</a></li>';
+    }).join('') + '</ul>';
+    // Placed in the container that holds the page head, so the row sticks for the whole page, not one wrapper.
+    var h1 = main.querySelector('h1'), at = otp || items[0].el;
+    while (at.parentNode && at.parentNode !== main && !at.parentNode.contains(h1)) at = at.parentNode;
+    at.parentNode.insertBefore(nav, at);
+    if (otp) otp.hidden = true;
+    spyTabs();
+  }
+  // The tab for the section being read is marked, and on a phone scrolled into view in the row.
+  // A tab the reader picks stays marked until they scroll on, even when its section sits too low to reach the top.
+  var spyQueued = false, picked = null;
+  document.addEventListener('click', function (ev) {
+    var a = ev.target.closest && ev.target.closest('.page-tabs a[data-jump]');
+    if (!a) return;
+    // The slim step bar can appear as the page scrolls, after the browser placed the section: clear it again.
+    global.setTimeout(function () {
+      var el = document.getElementById(a.getAttribute('data-jump')), nav = a.closest('.page-tabs');
+      if (el && nav) { var gap = el.getBoundingClientRect().top - nav.getBoundingClientRect().bottom - 8; if (gap < 0) global.scrollBy({ top: gap, behavior: 'instant' }); }
+      picked = { a: a, y: global.scrollY }; markTab(a);
+    }, 150);
+  });
+  function markTab(cur) {
+    var nav = cur && cur.closest('.page-tabs');
+    if (!nav) return;
+    Array.prototype.forEach.call(nav.querySelectorAll('a[aria-current]'), function (a) { if (a !== cur) a.removeAttribute('aria-current'); });
+    if (cur.getAttribute('aria-current') !== 'location') {
+      cur.setAttribute('aria-current', 'location');
+      var ul = nav.querySelector('ul');
+      if (ul && ul.scrollWidth > ul.clientWidth) ul.scrollLeft = Math.max(0, cur.parentNode.offsetLeft - 16);
+    }
+  }
+  function spyTabs() {
+    spyQueued = false;
+    var nav = document.querySelector('#main .page-tabs');
+    if (!nav) return;
+    if (picked && picked.a.isConnected && Math.abs(global.scrollY - picked.y) < 60) return;
+    picked = null;
+    var cs = global.getComputedStyle(document.documentElement), px = function (n) { return parseFloat(cs.getPropertyValue(n)) || 0; };
+    var line = px('--hdr-h') + px('--sp-top') + nav.getBoundingClientRect().height + 24, cur = null;
+    Array.prototype.forEach.call(nav.querySelectorAll('a[data-jump]'), function (a) {
+      var el = document.getElementById(a.getAttribute('data-jump'));
+      if (el && el.getClientRects().length && el.getBoundingClientRect().top <= line) cur = a;
+    });
+    markTab(cur || nav.querySelector('a[data-jump]'));
+  }
+  if (typeof global.addEventListener === 'function') global.addEventListener('scroll', function () { if (!spyQueued) { spyQueued = true; (global.requestAnimationFrame || setTimeout)(spyTabs); } }, { passive: true });
 
   function foldSources() {
     var main = document.getElementById('main');
@@ -336,6 +433,7 @@
       // Sources fold before the browser lays the page out, so a redraw never shifts the reader's place.
       foldSources();
       sortable();
+      pageTabs();
       keepFolds();
       if (clipQueued) return;
       clipQueued = true;
@@ -395,5 +493,5 @@
     var cut = f0.slice(0, ALT_MAX - 1); return cut.slice(0, cut.lastIndexOf(' ')) + '\u2026';
   }
 
-  global.LabTpl = { newest: newest, stamp: stamp, means: means, terms: terms, alt: alt, ALT_MAX: ALT_MAX, gapTone: gapTone, toneBadge: toneBadge, crumbs: crumbs, trail: trail, head: head, factStrip: factStrip, onThisPage: onThisPage, next: next, source: source, fold: fold, foldHtml: foldHtml, openAround: openAround, printBar: printBar, foldSources: foldSources, sortable: sortable };
+  global.LabTpl = { newest: newest, stamp: stamp, means: means, terms: terms, alt: alt, ALT_MAX: ALT_MAX, gapTone: gapTone, toneBadge: toneBadge, crumbs: crumbs, trail: trail, head: head, factStrip: factStrip, onThisPage: onThisPage, pageTabs: pageTabs, next: next, source: source, fold: fold, foldHtml: foldHtml, openAround: openAround, printBar: printBar, foldSources: foldSources, sortable: sortable };
 })(window);

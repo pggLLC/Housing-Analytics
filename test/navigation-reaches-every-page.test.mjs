@@ -76,6 +76,8 @@ const UNLINKED_BY_DESIGN = {
   'places-hub.html':
     'the Places and need hub port candidate (option A, 12 Nov 2026); where the site '
     + 'links to it is the owner\'s call at release, so it is reached by its address until then',
+  'deal-hub.html':
+    'the Build a deal hub port candidate (joint release, 12 Nov 2026); linked from the menu at release',
 };
 
 test('the scan sees the whole site', () => {

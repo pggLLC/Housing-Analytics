@@ -1,0 +1,24 @@
+/* equity hub styles. Owned by one wave ticket (qa/wave-tickets.json); loaded after templates.css. */
+#eq-tracks h2 { margin-top: 0; }
+.eq-findings, .eq-gaps { margin: 0 0 1.25rem; padding-left: 1.2rem; display: grid; gap: .5rem; line-height: 1.55; }
+.eq-pair { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); margin: 0 0 1.25rem; }
+.eq-pair .viz { margin: 0; }
+.eq-odds { list-style: none; margin: 0 0 .5rem; padding: 0; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); }
+.eq-odds li { display: grid; gap: .2rem; padding: .85rem 1rem; background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--green); border-radius: 10px; }
+.eq-odds .fact-value { font-size: 26px; font-weight: 700; color: var(--ink); }
+.eq-odds .fact-label { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+.eq-credits, .eq-law { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
+.eq-credits li, .eq-law li { min-width: 0; padding: .9rem 1rem; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+.eq-credits li { border-top: 4px solid var(--c-blue); }
+.eq-credit-name { margin: 0 0 .4rem; font-weight: 700; font-size: 17px; color: var(--ink); }
+.eq-credits dl { margin: 0; display: grid; gap: .1rem; }
+.eq-credits dt { font-size: 13px; font-weight: 600; color: var(--muted); margin-top: .4rem; }
+.eq-credits dd { margin: 0; line-height: 1.5; font-weight: 400; font-variant-numeric: normal; color: var(--ink); }
+.eq-law h3 { margin: .35rem 0 .3rem; font-size: 17px; line-height: 1.35; }
+.eq-law p { margin: .25rem 0; line-height: 1.55; }
+.eq-law details { margin: .35rem 0 0; }
+.eq-law-top { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+.eq-status { display: inline-block; padding: .1rem .6rem; border-radius: 999px; font-size: 13px; font-weight: 700; background: var(--geo-neutral-bg); color: var(--geo-neutral); }
+.eq-status.eq-ok { background: var(--geo-local-bg); color: var(--geo-local); }
+.eq-status.eq-wait { background: var(--tint-amber); color: var(--text-amber); }
+.eq-status.eq-off { background: var(--geo-derived-bg); color: var(--geo-derived); }

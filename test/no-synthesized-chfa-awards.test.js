@@ -36,6 +36,8 @@ const SYNTH = 'chfa-awards-historical';
 const ALLOW = {
   'js/data-source-discovery.js':
     'file-registry checker: confirms the path is listed in data/manifest.json; never renders its contents',
+  'hub/data-more.js':
+    'file-registry checker (the data hub\'s copy of the discovery scan\'s PROBE_PATHS): confirms the path is listed in the manifests; never renders its contents',
 };
 
 const tracked = execSync('git ls-files', { cwd: ROOT, encoding: 'utf8' })

@@ -60,6 +60,17 @@ test('every script the hub page loads is a file in this repo', () => {
   assert.deepEqual(lazyMissing, [], 'lazy engines that are not here: ' + lazyMissing.join(', '));
 });
 
+test('every other hub page the build wrote loads only scripts in this repo', () => {
+  const others = (manifest.pages || []).filter((f) => f !== 'places-hub.html');
+  for (const f of others) {
+    assert.ok(manifest.files[f], 'PORT.json does not list ' + f);
+    const srcs = [...read(f).matchAll(/<script src="([^"]+)"/g)].map((m) => m[1]);
+    assert.ok(srcs.length > 30, f + ': the scan found only ' + srcs.length + ' scripts');
+    const missing = srcs.filter((s) => !exists(s));
+    assert.deepEqual(missing, [], f + ' loads scripts that are not here: ' + missing.join(', '));
+  }
+});
+
 test('every data file the hub names by a fixed path is in this repo', () => {
   const named = new Set();
   hubJs.forEach(([, src]) => { for (const m of src.matchAll(/'(data\/[A-Za-z0-9_./-]+\.(?:json|geojson|csv))'/g)) named.add(m[1]); });
@@ -85,7 +96,8 @@ test('every forwarded route and every chapter link opens a page that exists', ()
 
 const vm = require('node:vm');
 function runHub(file, extra) {
-  const win = Object.assign({ URLSearchParams, location: { hash: '#/places' }, document: { querySelector: () => null } }, extra || {});
+  // The shared config reads which hub page it is on from the address (hub/PORT.json pages); run it as Places.
+  const win = Object.assign({ URLSearchParams, location: { hash: '#/places', pathname: '/places-hub.html' }, document: { querySelector: () => null } }, extra || {});
   win.window = win;
   vm.runInNewContext(read('hub/' + file), win);
   return win;
@@ -93,11 +105,14 @@ function runHub(file, extra) {
 
 test('a forwarded route keeps the place and its own settings', () => {
   const P = runHub('lab-config.js').LAB_PORT;
+  // A route another hub page carries opens that page with the route as it is (query included); otherwise the
+  // public page, with the lab's g as the site's geoid.
+  const viaHub = (hub, route, live) => (exists(hub) ? hub + route : live);
   const cases = [
-    ['#/deal-calculator?g=0828745', 'deal-calculator.html?geoid=0828745'],
-    ['#/finder?q=Fruita&g=0828745', 'lihtc-opportunity-finder.html?geoid=0828745&q=Fruita'],
-    ['#/data/map?layer=qct', 'data-map-browser.html?layer=qct'],
-    ['#/deal-calculator?g=08x', 'deal-calculator.html'],
+    ['#/deal-calculator?g=0828745', viaHub('deal-hub.html', '#/deal-calculator?g=0828745', 'deal-calculator.html?geoid=0828745')],
+    ['#/finder?q=Fruita&g=0828745', viaHub('opportunities-hub.html', '#/finder?q=Fruita&g=0828745', 'lihtc-opportunity-finder.html?geoid=0828745&q=Fruita')],
+    ['#/data/map?layer=qct', viaHub('data-hub.html', '#/data/map?layer=qct', 'data-map-browser.html?layer=qct')],
+    ['#/deal-calculator?g=08x', viaHub('deal-hub.html', '#/deal-calculator?g=08x', 'deal-calculator.html')],
   ];
   for (const [from, want] of cases) assert.equal(P.href(from), want, from);
   assert.ok(/^https:\/\//.test(P.href('#/members?g=08077')) && !/geoid/.test(P.href('#/members?g=08077')), 'a member-site link gains a place');

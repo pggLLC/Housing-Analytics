@@ -1,0 +1,150 @@
+/* home hub styles. Owned by one wave ticket (qa/wave-tickets.json); loaded after templates.css. */
+
+/* Home: who you are, then where to go (chips are 44px tap targets). */
+.home-doors { margin-top: 1rem; }
+.hd-ask { font-weight: 600; margin: 0 0 .4rem; }
+.home-chips { list-style: none; margin: 0 0 .75rem; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+.home-chips a { min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center; padding: .4rem .9rem; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--card); color: var(--ink); text-decoration: none; font-size: 15px; }
+.home-chips a:hover { border-color: var(--green); color: var(--green); }
+.home-chips a[aria-current="true"] { background: var(--green); border-color: var(--green); color: var(--on-fill); }
+.home-chips a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.hd-next { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: 8px; padding: .75rem 1rem; }
+.hd-title { margin: 0 0 .3rem; font-weight: 700; }
+.hd-next ul { margin: 0; padding-left: 1.1rem; }
+.hd-next li { padding: .35rem 0; }
+
+/* Colorado at a glance: four cards, each a figure, a plain line, a picture and its source. */
+.home-glance { margin: 0 0 1.75rem; }
+.hg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15.5rem, 100%), 1fr)); gap: .75rem; }
+.hg-card { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--green); border-radius: 8px; padding: 1rem; display: grid; gap: .45rem; align-content: start; }
+.hg-card h3 { margin: 0; font-size: 15px; line-height: 1.3; color: var(--ink-soft); }
+.hg-value { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.1; color: var(--ink); font-variant-numeric: tabular-nums; }
+.hg-plain { margin: 0; font-size: 15px; }
+.hg-bar { height: 14px; border-radius: 7px; background: var(--caution-bg); border: 1px solid var(--line-strong); overflow: hidden; }
+.hg-fill { display: block; height: 100%; background: var(--green); }
+.hg-bar-key { display: flex; justify-content: space-between; margin: 0; font-size: 13px; color: var(--muted); }
+.hg-how summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--green); font-weight: 600; }
+.hg-how p { font-size: 14px; margin: .3rem 0; }
+.hg-card .metric-source { margin: 0; font-size: 13px; }
+.hg-read { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr)); gap: .75rem; margin-top: .9rem; }
+.hg-read p { margin: 0; background: var(--tint); border-radius: 8px; padding: .75rem 1rem; }
+.hg-burden { margin: 1rem 0 .25rem; }
+
+/* County map pointer. */
+.home-map { margin: 0 0 1.75rem; }
+
+/* From public data to a decision: numbered steps under the step rail. */
+.hs-list { list-style: none; margin: 0 0 1.75rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr)); gap: .75rem; }
+.hs-list > li { display: grid; grid-template-columns: auto 1fr; gap: .75rem; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .9rem 1rem; }
+.hs-n { font-size: 1.4rem; font-weight: 700; color: var(--green); line-height: 1; padding-top: .15rem; font-variant-numeric: tabular-nums; }
+.hs-list h3 { margin: 0 0 .3rem; font-size: 17px; }
+.hs-list p { margin: 0 0 .4rem; font-size: 15px; }
+.hs-go a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+
+/* Paths and audiences: cards in a grid. */
+.hp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); gap: .75rem; margin-bottom: 1rem; }
+.hp-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem; }
+.hp-card h3 { margin: 0 0 .4rem; font-size: 17px; }
+.hp-card p { margin: 0 0 .5rem; font-size: 15px; }
+.hp-know { color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: .5rem; }
+.hp-links { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; margin: 0 0 1.75rem; }
+.hp-links a { display: inline-flex; align-items: center; min-height: 44px; }
+.home-paths, .home-people, .home-more, .home-research, .home-platform { margin: 0 0 1.75rem; }
+.home-why h3 { margin-top: 0; }
+
+/* Research sources: a two-column list of named links. */
+.home-sources { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); gap: .25rem 1rem; }
+.home-sources li { display: grid; padding: .45rem 0; border-bottom: 1px solid var(--line); }
+.home-sources a { font-weight: 600; min-height: 28px; }
+.home-sources span { font-size: 14px; color: var(--muted); }
+.hpl-kind { display: block; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--green); }
+
+/* Privacy: three facts up top, then each section. */
+.priv-sum { list-style: none; margin: 0 0 1.5rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr)); gap: .75rem; }
+.priv-sum li { display: grid; gap: .2rem; background: var(--good-bg); border-radius: 8px; padding: .8rem 1rem; }
+.priv-sum strong { color: var(--good); }
+.priv-sec { max-width: 46rem; }
+.priv-sec h2 { font-size: 1.15rem; margin: 1.25rem 0 .35rem; }
+
+/* Site map: groups of tiles. */
+.sm-group { margin: 0 0 1.5rem; }
+.sm-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); gap: .5rem; }
+.sm-grid a { display: grid; gap: .15rem; min-height: 44px; box-sizing: border-box; height: 100%; padding: .65rem .85rem; background: var(--card); border: 1px solid var(--line); border-radius: 8px; color: inherit; text-decoration: none; }
+.sm-grid a:hover strong, .sm-grid a:focus strong { text-decoration: underline; color: var(--green); }
+.sm-grid span { font-size: 14px; color: var(--muted); }
+
+/* Share card: the 1200 x 630 picture, scaled to fit. */
+.og-frame { margin: 0 0 1.5rem; max-width: 720px; }
+.og-card { aspect-ratio: 1200 / 630; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; padding: 6% 7%; border-radius: 10px; background: linear-gradient(135deg, var(--hero-bg), var(--pine-deep)); color: var(--hero-ink); container-type: inline-size; }
+.og-brand { margin: 0 0 .5em; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; font-size: clamp(11px, 3cqi, 22px); color: var(--hero-soft); }
+.og-title { margin: 0 0 .35em; font-size: clamp(20px, 7cqi, 56px); line-height: 1.05; color: var(--hero-ink); }
+.og-tag { margin: 0 0 1em; font-size: clamp(12px, 3.4cqi, 26px); color: var(--hero-text); }
+.og-foot { margin: 0; font-size: clamp(10px, 2.4cqi, 18px); color: var(--hero-soft); }
+
+/* Home hero (big visual pass, 11-06): the promise on the left, Colorado's counties on the right, the town search
+   under the promise. On a phone: promise, then the map finding, then the search. */
+.home-hero.hh-warm { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); grid-template-areas: "copy fig" "find fig"; gap: 1.25rem 2.5rem; align-items: start;
+  background: radial-gradient(120% 90% at 100% 0%, var(--hero-glow) 0%, transparent 60%), var(--hero-bg); border: 0; border-radius: 18px; padding: 2.5rem 2.5rem 2.25rem; color: var(--hero-ink); }
+.hh-copy { grid-area: copy; }
+.hh-find { grid-area: find; align-self: end; }
+.hh-warm h1 { color: var(--hero-ink); font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 4.2vw, 3.1rem); line-height: 1.08; letter-spacing: -.01em; margin: .5rem 0 1rem; text-wrap: balance; }
+.hh-warm .lede { color: var(--hero-text); max-width: 34rem; margin-bottom: 0; }
+.hh-kicker { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); }
+.hh-warm .search { background: var(--card); color: var(--ink); border-radius: 12px; padding: .9rem 1rem; border: 0; max-width: 32rem; box-shadow: 0 8px 24px var(--hero-shadow); }
+.hh-warm .search label { color: var(--ink); }
+.hh-warm form.search, .hh-warm .search { margin-bottom: 0; }
+.hh-try { margin: .75rem 0 0; color: var(--hero-text); font-size: 15px; }
+.hh-try a { color: var(--hero-ink); font-weight: 600; }
+
+/* The finding: a big count, the sentence, the map, its key and source. */
+.hh-counties { grid-area: fig; margin: 0; align-self: center; }
+.hh-counties figcaption { display: grid; gap: .2rem; margin-bottom: .9rem; }
+.hh-big { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.1rem); line-height: 1; color: var(--hero-text); font-variant-numeric: lining-nums; }
+.hh-big b { font-size: 1.9em; font-weight: 700; color: var(--gold); letter-spacing: -.02em; }
+.hh-counties figcaption strong { display: block; color: var(--hero-ink); font-size: 17px; line-height: 1.35; font-weight: 600; max-width: 26rem; }
+.hh-cmap { display: block; width: 100%; height: auto; }
+.hh-cmap path { stroke: var(--hero-bg); stroke-width: 1.6; stroke-linejoin: round; }
+.hh-cmap path.is-short { fill: var(--gold); }
+.hh-cmap path.is-met { fill: var(--hero-met); stroke: var(--hero-text); stroke-width: 2.2; }
+.hh-cmap path.is-none { fill: var(--hero-met); }
+.hh-cmap path:hover { fill-opacity: .82; }
+.hh-cmap .mk-city-dot { fill: var(--hero-bg); stroke: var(--hero-ink); }
+.hh-cmap .mk-city-name { fill: var(--hero-bg); stroke: var(--gold); font-weight: 700; }
+.hh-counties ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+.hh-counties li, .hh-ckey i { width: 14px; height: 14px; border-radius: 3px; box-sizing: border-box; }
+.hh-counties .is-short { background: var(--gold); }
+.hh-counties .is-met { background: var(--hero-met); border: 2px solid var(--hero-text); }
+.hh-ckey { display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin: .75rem 0 0; font-size: 13px; color: var(--hero-text); }
+.hh-ckey span { display: inline-flex; align-items: center; gap: .4rem; }
+.hh-ckey i { display: inline-block; }
+.hh-csrc { margin: .3rem 0 0; font-size: 13px; color: var(--hero-text); }
+.hh-csrc a { color: var(--hero-ink); }
+.hh-paths ul { list-style: none; margin: 0 0 1.25rem; padding: 0; display: grid; gap: .9rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.hh-paths a { display: grid; gap: .35rem; height: 100%; box-sizing: border-box; padding: 1.1rem 1.15rem 1.2rem; background: var(--card); border: 1px solid var(--line); border-radius: 12px; text-decoration: none; color: var(--ink); box-shadow: 0 1px 2px var(--shade-soft); transition: border-color 150ms ease, box-shadow 150ms ease; }
+.hh-paths a:hover { border-color: var(--green); box-shadow: 0 4px 14px var(--shade-soft); }
+.hh-icon { display: grid; place-items: center; width: 44px; height: 44px; color: var(--green); background: var(--tint); border-radius: 10px; }
+.hh-icon .ic { width: 26px; height: 26px; }
+.hh-path-t { font-size: 1.15rem; font-weight: 700; }
+.hh-path-d { color: var(--ink-soft); font-size: 15px; line-height: 1.45; }
+.hh-path-go { color: var(--green); font-weight: 600; font-size: 15px; margin-top: .2rem; }
+.hh-strip ul { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; gap: .9rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.hh-strip li { display: grid; gap: .2rem; align-content: start; padding: .9rem 1rem; border-left: 4px solid var(--gold); background: var(--card); border-radius: 0 10px 10px 0; }
+.hh-n { font-size: 1.75rem; font-weight: 700; color: var(--green); line-height: 1.1; }
+.hh-l { font-size: 15px; line-height: 1.4; }
+.hh-s { font-size: 13px; color: var(--muted); }
+@media (max-width: 767px) {
+  .home-hero.hh-warm { grid-template-columns: minmax(0, 1fr); grid-template-areas: "copy" "fig" "find"; gap: 1.25rem; padding: 1.5rem 1.1rem; border-radius: 14px; }
+  .hh-warm h1 { font-size: 1.85rem; margin: .35rem 0 .6rem; }
+  .hh-warm .lede { font-size: 16px; }
+  /* The finding beside its map, so both fit the first phone screen. */
+  .hh-counties.has-map { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: .25rem .9rem; align-items: center; }
+  .hh-counties.has-map figcaption { margin: 0; }
+  .hh-counties.has-map figcaption strong { font-size: 15px; }
+  .hh-counties.has-map .hh-ckey, .hh-counties.has-map .hh-csrc { grid-column: 1 / -1; }
+  .hh-counties.has-map .hh-ckey { margin-top: .4rem; }
+  .hh-cmap .mk-cities { display: none; }
+  .hh-paths ul, .hh-strip ul { grid-template-columns: minmax(0, 1fr); }
+  .hh-paths a { grid-template-columns: auto minmax(0, 1fr); column-gap: .85rem; }
+  .hh-paths a > :not(.hh-icon) { grid-column: 2; }
+  .hh-icon { grid-row: span 3; }
+}

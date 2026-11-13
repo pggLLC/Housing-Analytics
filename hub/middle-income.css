@@ -1,0 +1,43 @@
+/* Middle-income rental in Colorado (site/middle-income.js): the AMI band chart, fact cards and lists.
+   Nothing scrolls sideways at 390px. */
+.mi-sec { margin: 2rem 0; scroll-margin-top: 5rem; }
+.mi-sec h3 { margin: 1.25rem 0 .4rem; font-size: 1.1rem; }
+.mi-chart { margin: .5rem 0 0; }
+.mi-chart .mi-what { display: block; margin-top: .25rem; font-weight: 400; color: var(--ink); }
+.mi-rows { list-style: none; margin: .75rem 0 0; padding: 0; display: grid; gap: .7rem; }
+.mi-rows li { display: grid; grid-template-columns: 13rem minmax(0, 1fr); grid-template-areas: 'name track' '. label'; column-gap: .75rem; align-items: center; }
+.mi-name { grid-area: name; font-weight: 700; }
+.mi-track { grid-area: track; position: relative; height: 22px; background: var(--bg2, var(--track)); border-radius: 4px; }
+.mi-bar { position: absolute; top: 0; bottom: 0; border-radius: 4px; }
+.mi-avg-only { opacity: .35; }
+.mi-ext { background: transparent !important; border: 2px dashed; box-sizing: border-box; }
+.mi-tick { position: absolute; top: -4px; bottom: -4px; width: 3px; margin-left: -1px; background: var(--ink); }
+.mi-label { grid-area: label; font-size: 14px; color: var(--muted); }
+.mi-axis { position: relative; height: 1.4rem; margin: .3rem 0 0 13.75rem; font-size: 13px; color: var(--muted); }
+.mi-axis span { position: absolute; transform: translateX(-50%); }
+.mi-axis span:first-child { transform: none; }
+.mi-axis span:last-child { transform: translateX(-100%); }
+.mi-notes dt { font-weight: 700; margin-top: .9rem; color: var(--text); font-size: 1rem; }
+.mi-notes dd { margin: .15rem 0 0; font-weight: 400; font-size: 1rem; line-height: 1.5; }
+.mi-notes dd .metric-source { margin: .2rem 0 0; font-size: 13px; }
+.mi-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .75rem; margin: .75rem 0; }
+.mi-card { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--c-amber); border-radius: 8px; padding: .7rem .85rem; }
+.mi-card p { margin: .25rem 0; }
+.mi-val { font-size: 1.5rem; font-weight: 800; color: var(--text-amber); }
+.mi-list { padding-left: 1.2rem; }
+.mi-list li { margin: .5rem 0; }
+.mi-pets { padding-left: 1.2rem; }
+.mi-table { width: 100%; border-collapse: collapse; }
+.mi-table th, .mi-table td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid var(--line); }
+.mi-sec .metric-source a, .mi-notes a, .mi-card a { overflow-wrap: break-word; }
+@media (max-width: 600px) {
+  .mi-rows li { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'name' 'track' 'label'; row-gap: .2rem; }
+  .mi-axis { margin-left: 0; }
+}
+.mi-table-wrap { max-width: 100%; overflow-x: auto; }
+@media (max-width: 480px) {
+  .mi-table { font-size: 14px; }
+  .mi-table th, .mi-table td { padding: .3rem .3rem; white-space: normal; min-width: 0; }
+  .mi-table { table-layout: fixed; }
+  .mi-table th:first-child { width: 30%; }
+}

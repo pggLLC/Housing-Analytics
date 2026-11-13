@@ -172,7 +172,7 @@
       return '<g transform="translate(' + q[0].toFixed(1) + ' ' + q[1].toFixed(1) + ')"><g class="mk-city"><circle r="3" class="mk-city-dot"></circle><text class="mk-city-name" ' + (c[3] === 'w' ? 'x="-6" text-anchor="end"' : 'x="6"') + ' y="4">' + c[0] + '</text></g></g>';
     }).join('') + '</g>';
     return '<div class="mk-inset"><p class="mk-inset-h"><strong>' + (o.title || 'Denver metro close-up') + '</strong> <span class="note">' + n.toLocaleString('en-US') + ' marks inside the box drawn on the state map' + (o.note ? '. ' + o.note : '') + '</span></p>' +
-      '<svg class="mk-inset-svg" viewBox="0 0 ' + MW + ' ' + MH + '" role="img" aria-label="' + (o.title || 'Denver metro close-up') + ': ' + n.toLocaleString('en-US') + ' marks">' +
+      '<svg class="mk-inset-svg" viewBox="0 0 ' + MW + ' ' + MH + '" role="group" aria-label="' + (o.title || 'Denver metro close-up') + ': ' + n.toLocaleString('en-US') + ' marks">' +
       '<g class="mk-inset-counties">' + outline + '</g>' + dots + labels + '</svg></div>';
   }
 

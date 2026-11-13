@@ -1,0 +1,46 @@
+/* How a Colorado town gets affordable homes built (site/attract-housing.js): lane switch, first five, the tier
+   ladder of labelled dots, move cards and the town check. Nothing scrolls sideways at 390px. */
+.ah-sec { margin: 2rem 0; scroll-margin-top: 5rem; }
+.ah-lanes { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1rem 0 0; }
+.ah-lanes a { padding: .35rem .9rem; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; font-weight: 600; }
+.ah-lanes a.on { background: var(--pine); border-color: var(--pine); color: var(--on-fill); }
+.ah-top { list-style: none; margin: .75rem 0 0; padding: 0; display: grid; gap: .55rem; }
+.ah-top li { display: grid; grid-template-columns: 2.1rem minmax(0, 1fr); column-gap: .6rem; align-items: start; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .6rem .75rem; }
+.ah-top-n { grid-row: span 2; display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--pine); color: var(--on-fill); font-weight: 800; }
+.ah-top-why { color: var(--muted); font-size: 15px; line-height: 1.45; }
+.ah-ladder { margin: .5rem 0 0; }
+.ah-rungs { list-style: none; margin: .6rem 0 0; padding: 0; display: grid; gap: .5rem; }
+.ah-rung { border-left: 6px solid var(--pine); background: var(--card); border-radius: 0 8px 8px 0; padding: .5rem .75rem; }
+.ah-rung-2 { border-left-color: var(--map-4); } .ah-rung-3 { border-left-color: var(--map-3); } .ah-rung-4 { border-left-color: var(--map-2); }
+.ah-rung-name { margin: 0 0 .35rem; font-weight: 700; }
+.ah-rung-n { display: inline-block; min-width: 1.4rem; margin-right: .4rem; color: var(--muted); }
+.ah-dots { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .3rem .9rem; }
+.ah-dot { display: inline-flex; align-items: center; gap: .35rem; font-size: 15px; }
+.ah-dot::before { content: ''; flex: none; width: .8rem; height: .8rem; border-radius: 50%; background: var(--pine); }
+.ah-dot-rental::before { background: var(--c-blue); }
+.ah-dot-sale::before { background: var(--c-amber); }
+.ah-dot.ah-off { opacity: .35; }
+.ah-key { display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin: .6rem 0 0; color: var(--muted); }
+.ah-q { color: var(--muted); }
+.ah-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: .75rem; margin: .75rem 0; }
+.ah-card { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--pine); border-radius: 8px; padding: .75rem .9rem; scroll-margin-top: 5rem; }
+.ah-card.ah-tier-3, .ah-card.ah-tier-4 { border-top-color: var(--map-3); }
+.ah-card.ah-off { opacity: .45; }
+.ah-card h3 { margin: 0 0 .3rem; font-size: 1.1rem; }
+.ah-card p { margin: .35rem 0; }
+.ah-tags { margin: 0 0 .4rem; }
+.ah-card .metric-source, .ah-ladder .metric-source { font-size: 13px; }
+.ah-card a, .ah-ladder .metric-source a, .ah-gates a { overflow-wrap: anywhere; }
+.ah-pick select { max-width: 100%; }
+.ah-gates { list-style: none; margin: .75rem 0; padding: 0; display: grid; gap: .6rem; }
+.ah-gate { background: var(--card); border: 1px solid var(--line); border-left: 6px solid var(--pine); border-radius: 0 8px 8px 0; padding: .6rem .8rem; }
+.ah-gate.ah-no { border-left-color: var(--c-amber); }
+.ah-gate p { margin: .25rem 0; }
+@media (max-width: 480px) {
+  .ah-cards { grid-template-columns: minmax(0, 1fr); }
+  .ah-top-why { font-size: 14px; }
+}
+.ah-cap { color: var(--muted); font-size: 15px; }
+.ah-pill { display: inline-block; margin-right: .35rem; padding: .05rem .55rem; border-radius: 999px; font-size: 13px; font-weight: 700; background: var(--tint-green); color: var(--text-green); }
+.ah-no .ah-pill { background: var(--fair-bg); color: var(--text-amber); }
+.ah-gate .source-line { margin: .4rem 0 0; }

@@ -1,0 +1,18 @@
+/* How Colorado's tax credit deals have changed (site/lihtc-history.js). Charts use the shared viz styles;
+   this adds the findings list, the dated rule timeline and the twinned-award list. Nothing scrolls sideways at 390px. */
+.lh-sec { margin: 2rem 0; scroll-margin-top: 5rem; }
+.lh-sec h3 { margin: 1.25rem 0 .4rem; font-size: 1.1rem; }
+.lh-find { list-style: none; margin: .5rem 0 0; padding: 0; display: grid; gap: .6rem; }
+.lh-find li { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--pine); border-radius: 0 8px 8px 0; padding: .6rem .85rem; }
+.lh-rules { list-style: none; margin: .75rem 0 0; padding: 0; border-left: 2px solid var(--line); }
+.lh-rules li { display: grid; grid-template-columns: 3.6rem minmax(0, 1fr); gap: .75rem; padding: .35rem 0 .7rem; position: relative; }
+.lh-rules li::before { content: ''; position: absolute; left: -7px; top: .7rem; width: 12px; height: 12px; border-radius: 50%; background: var(--pine); }
+.lh-yr { font-weight: 800; font-variant-numeric: tabular-nums; padding-left: .7rem; color: var(--pine); }
+.lh-rules p { margin: 0; }
+.lh-rules .metric-source { margin-top: .2rem; font-size: 13px; }
+.lh-twins { margin: .4rem 0; padding-left: 1.2rem; }
+.lh-twins li { margin: .35rem 0; overflow-wrap: break-word; }
+.lh-sec .metric-source a, .lh-find a { overflow-wrap: break-word; }
+@media (max-width: 480px) {
+  .lh-rules li { grid-template-columns: 1fr; gap: .1rem; }
+}

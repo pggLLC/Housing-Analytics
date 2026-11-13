@@ -79,7 +79,7 @@
       (thinN ? '<li>' + K.KEY_THIN + 'Under ' + K.THIN.toLocaleString('en-US') + ' homes: wide survey margin (' + thinN + ')</li>' : '') + '</ul>' +
       (global.LabVizData ? global.LabVizData.block(o.kicker || o.title, ['County', o.valueName || 'Value', 'Detail'], o.features.map(function (f) {
         var k = f.properties.GEOID, v = o.value(k); return [f.properties.NAME + ' County', v, o.label(k, v)];
-      }).sort(function (a, b) { return a[0] < b[0] ? -1 : 1; })) : '') + '</figure>';
+      }).sort(function (a, b) { return a[0] < b[0] ? -1 : 1; })) : '') + (o.source ? '<p class="metric-source">' + o.source + '</p>' : '') + '</figure>';
   }
 
   // ---------- Scenario builder ----------
@@ -206,6 +206,7 @@
         { key: 'homes', label: isDefault ? 'Homes needed' : 'Homes needed, your scenario', num: true, fmt: num },
         { key: 'sdo', label: 'Homes needed, state forecast', num: true, fmt: num }
       ], tableRows, { noun: 'years', placeholder: 'Year' }) +
+      '<p class="metric-source">Source: <a href="' + SDO + '">Colorado State Demography Office forecast</a>, ' + esc(String(ctx.counties[0].baseline.vintage || '').replace(/\s+Prepared\s+/i, ', prepared ')) + (isDefault ? '' : ', with your changes') + '.</p>' +
       (global.LabVizData ? '<p class="viz-data-csv"><a class="button-link secondary" download="' + esc('coho-scenario-' + g + (isDefault ? '-state-forecast' : '-your-scenario')) + '.csv" href="data:text/csv;charset=utf-8,' + encodeURIComponent('\ufeff' + global.LabVizData.csvText(
         ['Year', 'People', 'Households added', isDefault ? 'Homes needed' : 'Homes needed, your scenario', 'Homes needed, state forecast'],
         horizon.map(function (x) { var b = sdoRows.filter(function (y) { return y.year === x.year; })[0]; return [x.year, x.population, x.householdsAdded, x.homesNeeded, b ? b.homesNeeded : null]; }))) + '">Download every year as CSV</a></p>' : '') +

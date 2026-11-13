@@ -18,6 +18,9 @@
     // Places like this one (the live page's "What similar places use"; QA 11-09: the lab built the model without it).
     peerProfiles: 'data/policy/incentive-peer-profiles.json'
   };
+  // Housing authority exemption routes and county assessor records (HA #2785, read from HA's own file). Loaded on its
+  // own, so a copy of the data without it still draws every other section.
+  var TAX_FILES = { taxRoutes: 'data/policy/tax-exemption-routes.json' };
   var RANK_SRC = LIVE + 'hna-comparative-analysis.html';
   var LI_SRC = LIVE + 'local-incentives.html';
 
@@ -351,9 +354,12 @@
       return '<h3>' + esc(gr[0]) + '</h3><div class="table-scroll" role="region" aria-label="' + esc(gr[0]) + '" tabindex="0"><table class="cmp-table" data-deal-group="' + esc(gr[0]) + '"><caption class="visually-hidden">' + esc(gr[0]) + '</caption>' + heads + '<tbody>' +
         gr[1].map(function (row) {
           return '<tr><th scope="row">' + esc(row.label) + '</th>' + recs.map(function (r) { var v = row.cell(r, d); return '<td class="num" data-deal="' + esc(row.key) + '">' + (row.html ? v : esc(v == null ? '—' : v)) + '</td>'; }).join('') + '</tr>';
-        }).join('') + '</tbody></table></div>';
+        }).join('') + '</tbody></table></div>' +
+        // The group's sources, dated, under its table (format rule, 12 Nov); per-place detail stays in the fold below.
+        '<p class="metric-source">Source: ' + gr[1].map(function (row) { return '<a href="' + esc(row.url) + '" rel="noopener">' + esc(row.src(d, recs[0])) + '</a>'; })
+          .filter(function (x, i, a) { return a.indexOf(x) === i; }).join('; ') + '.</p>';
     }).join('');
-    var sources = '<details class="counted cmp-sources"><summary>Where each of these figures comes from</summary><div class="table-scroll" role="region" aria-label="Sources for the deal rows" tabindex="0"><table class="cmp-table"><caption>Source and geography for each figure</caption>' +
+    var sources = '<details class="counted cmp-sources" data-no-source="catalog: the table lists each figure’s source"><summary>Where each of these figures comes from</summary><div class="table-scroll" role="region" aria-label="Sources for the deal rows" tabindex="0"><table class="cmp-table"><caption>Source and geography for each figure</caption>' +
       heads + '<tbody>' + DEAL_GROUPS.map(function (gr) { return gr[1].map(function (row) {
         return '<tr><th scope="row">' + esc(row.label) + '</th>' + recs.map(function (r) { return '<td data-deal-src="' + esc(row.key) + '"><a href="' + esc(row.url) + '" rel="noopener">' + esc(row.src(d, r)) + '</a></td>'; }).join('') + '</tr>';
       }).join(''); }).join('') + '</tbody></table></div></details>';
@@ -398,7 +404,11 @@
       var Viz = global.LabViz, shareBars = function (title, key, color) {
         return Viz && Viz.orderedBars ? Viz.orderedBars({ title: title, rows: picked.map(function (g) { return [cleanName(by[g].name), val(g, key)]; }), fmt: pct, noShare: true, color: color }) : '';
       };
-      table = (picked.length > 1 ? '<div class="cmp-charts">' + shareBars('Renters paying over 30% of income on housing', 'pct_cost_burdened', 'var(--rust)') + shareBars('Share of households who rent', 'pct_renters', 'var(--c-blue)') + '</div>' : '') +
+      // One dated source line for the charts and the table: the survey each place's figures come from, and the build date.
+      var surveys = picked.map(function (g) { var c = global.LabHna && global.LabHna.loadPlace ? global.LabHna.loadPlace(g) : null; return cmpSource(CMP_ROWS[0], by[g], c && c.summary, s.data.ranking.metadata).text; })
+        .filter(function (x, i, a) { return x && !/loading/.test(x) && a.indexOf(x) === i; });
+      var cmpSrcLine = '<p class="metric-source">Source: COHO needs assessment ranking, from ' + esc(surveys.join(' and ') || 'Census ACS') + ', built ' + esc(String(s.data.ranking.metadata.generatedAt).slice(0, 10)) + '. Each figure\u2019s survey and period are under \u201cWhere each figure comes from\u201d.</p>';
+      table = (picked.length > 1 ? '<div class="cmp-charts">' + shareBars('Renters paying over 30% of income on housing', 'pct_cost_burdened', 'var(--rust)') + shareBars('Share of households who rent', 'pct_renters', 'var(--c-blue)') + '</div>' + cmpSrcLine : '') +
         '<div class="table-scroll" role="region" aria-label="Places compared" tabindex="0"><table class="cmp-table"><caption>Published figures for the places you picked</caption><thead><tr><th scope="col">Figure</th>' +
         picked.map(function (g) { return '<th scope="col" class="num">' + esc(cleanName(by[g].name)) + '</th>'; }).join('') + '</tr></thead><tbody>' +
         CMP_ROWS.map(function (row) {
@@ -406,7 +416,7 @@
         }).join('') + '</tbody></table></div>' +
         (global.LabVizData ? '<p class="viz-data-csv"><a class="button-link secondary" download="coho-compare-places.csv" href="data:text/csv;charset=utf-8,' + encodeURIComponent('\ufeff' + global.LabVizData.csvText(['Figure'].concat(picked.map(function (g) { return cleanName(by[g].name) + ' (' + g + ')'; })),
           CMP_ROWS.map(function (row) { return [row.label].concat(picked.map(function (g) { return val(g, row.key); })); }))) + '">Download this comparison as CSV</a></p>' : '') +
-        '<p class="note">Counties and places are counted the same way, so a county’s figures include its towns. A dash means the figure is not published for that place.</p>';
+        '<p class="note">Counties and places are counted the same way, so a county’s figures include its towns. A dash means the figure is not published for that place.</p>' + cmpSrcLine;
       // Homes per 10 renters at or below 30% AMI, the measure on the Places map.
       var per = picked.map(function (g) {
         var m = by[g].metrics || {}, h = m.low_income_households_lte30, gap = m.ami_gap_30pct;
@@ -424,7 +434,7 @@
       var acsSeries = picked.map(function (g) { return cmpSource(CMP_ROWS[0], by[g], sums[g], s.data.ranking.metadata).series; });
       var mixed = acsSeries.filter(function (x, i) { return x && acsSeries.indexOf(x) === i; }).length > 1;
       provenance = (mixed ? '<p class="note cmp-mixed">The Census figures here are not all from the same survey: ' + picked.map(function (g) { return esc(cleanName(by[g].name)) + ' uses ' + esc(cmpSource(CMP_ROWS[0], by[g], sums[g], s.data.ranking.metadata).text); }).join('; ') + '. Large counties and places use the one-year survey, small ones the five-year survey.</p>' : '') +
-        '<details class="counted cmp-sources"><summary>Where each figure comes from</summary><div class="table-scroll" role="region" aria-label="Sources by figure and place" tabindex="0"><table class="cmp-table"><caption>Survey, period and geography for each figure</caption><thead><tr><th scope="col">Figure</th>' +
+        '<details class="counted cmp-sources" data-no-source="catalog: the table lists each figure’s source"><summary>Where each figure comes from</summary><div class="table-scroll" role="region" aria-label="Sources by figure and place" tabindex="0"><table class="cmp-table"><caption>Survey, period and geography for each figure</caption><thead><tr><th scope="col">Figure</th>' +
         picked.map(function (g) { return '<th scope="col">' + esc(cleanName(by[g].name)) + '</th>'; }).join('') + '</tr></thead><tbody>' +
         CMP_ROWS.map(function (row) {
           return '<tr><th scope="row">' + esc(row.label) + '</th>' + picked.map(function (g) {
@@ -504,7 +514,7 @@
   }
   function liLink(m, id) { var g = m.geo.get(id); return '<a href="#/places/incentives/' + esc(id) + '">' + esc(g ? cleanName(g.name) : id) + '</a>'; }
   // How many places have each tool, grouped by family, then every kind of local fund counted from the records.
-  function toolkit(m) {
+  function toolkit(m, src) {
     var D = global.LocalIncentivesData, fam = {};
     m.adoption.forEach(function (a) { (fam[a.tool.family || 'other'] = fam[a.tool.family || 'other'] || []).push(a); });
     var head = '<thead><tr><th scope="col">Tool</th><th scope="col" title="Counties and municipalities with a verified record of using the tool.">Places on record</th><th scope="col">Colorado law</th><th scope="col">Examples</th></tr></thead>';
@@ -513,14 +523,14 @@
         var req = a.tool.colorado_status === 'required_for_subject_jurisdictions';
         return '<tr><th scope="row">' + esc(a.tool.label) + '</th><td>' + (req ? 'Required where state law applies' : num(a.adopters.length)) + '</td><td>' + esc(LAW_STATUS[a.tool.colorado_status] || a.tool.colorado_status) + '</td><td>' +
           (req ? esc(requiredText(a.tool)) : a.adopters.length ? a.adopters.slice(0, 5).map(function (id) { return liLink(m, id); }).join(', ') + (a.adopters.length > 5 ? ', and others' : '') : 'No verified record yet') + '</td></tr>';
-      }).join('') + '</tbody></table></div>';
+      }).join('') + '</tbody></table></div>' + (src ? '<p class="metric-source">' + src + '</p>' : '');
     }).join('');
     var by = {};
     m.records.forEach(function (items, geoid) { items.forEach(function (i) { if (i.scope === 'funds' && D.inUse(i)) (by[i.record.tool] = by[i.record.tool] || new Set()).add(geoid); }); });
     var kinds = Object.keys(by).sort(function (a, b) { return by[b].size - by[a].size; });
     return out + (kinds.length ? '<h3>Local funding on record, by kind</h3><div class="table-scroll"><table><thead><tr><th scope="col">Kind of fund or tool</th><th scope="col">Places</th><th scope="col">Examples</th></tr></thead><tbody>' + kinds.map(function (k) {
       return '<tr><th scope="row">' + esc(D.FUND_TOOL_LABELS[k] || k) + '</th><td>' + num(by[k].size) + '</td><td>' + Array.from(by[k]).sort().slice(0, 5).map(function (id) { return liLink(m, id); }).join(', ') + (by[k].size > 5 ? ', and others' : '') + '</td></tr>';
-    }).join('') + '</tbody></table></div>' : '');
+    }).join('') + '</tbody></table></div>' + (src ? '<p class="metric-source">' + src + '</p>' : '') : '');
   }
   // Every tool in the catalog with its Colorado legal basis, linked to the statute or bill.
   function catalog(doc, fees) {
@@ -630,8 +640,8 @@
           ['records', 'none_found', 'unreadable', 'not_checked'].map(function (k) { return b[k] ? '<span class="li-seg li-' + k + '" style="width:' + (b[k] / tot * 100).toFixed(2) + '%" title="' + esc(STATE[k].label + ': ' + b[k]) + '"></span>' : ''; }).join('') + '</div></div>';
       }).join('') + '<ul class="legend">' + ['records', 'none_found', 'unreadable', 'not_checked'].map(function (k) { return '<li><span class="key li-' + k + '"></span>' + esc(STATE[k].label) + '</li>'; }).join('') + '</ul></div>' +
       feeFinancing() +
-      '<h2>Statewide toolkit</h2><p>How many Colorado jurisdictions have a verified record of each tool. These counts cover only the jurisdictions checked so far, so they are a floor, not a census.</p>' + toolkit(m) +
-      '<h2>Jurisdiction deep dive</h2><p>Open any county, city or town for its records, what state law requires of it, and tools to consider. Unincorporated communities show their county’s tools.</p>' + global.LabUI.table('incentives', 'Local housing tools on record, by jurisdiction', cols, rows, { noun: 'jurisdictions', placeholder: 'Name or type' }) +
+      '<h2>Statewide toolkit</h2><p>How many Colorado jurisdictions have a verified record of each tool. These counts cover only the jurisdictions checked so far, so they are a floor, not a census.</p>' + toolkit(m, 'Source: COHO local incentive records, each read from the jurisdiction\u2019s own code, ordinance, budget or program page: fee and land-use records as of ' + esc((x.s.data.fees.meta || {}).as_of || '') + ', local fund records as of ' + esc((x.s.data.funds.meta || {}).as_of || '') + '.') +
+      '<h2>Jurisdiction deep dive</h2><p>Open any county, city or town for its records, what state law requires of it, and tools to consider. Unincorporated communities show their county’s tools.</p>' + global.LabUI.table('incentives', 'Local housing tools on record, by jurisdiction', cols, rows, { noun: 'jurisdictions', placeholder: 'Name or type' }) + '<p class="metric-source">Source: COHO local incentive records and coverage checks, as of ' + esc((x.s.data.coverage.meta || x.s.data.coverage.metadata || {}).as_of || '') + '; Prop 123 status from <a href="https://cdola.colorado.gov/commitment-filings">DOLA commitment filings</a>.</p>' +
       '<h2>Tools and what Colorado law allows</h2><p>The catalog behind the “Tools to consider” suggestions. Each tool carries its Colorado legal basis, including tools that state law closes to new local use or whose revenue cannot go to housing.</p>' + catalog(x.s.data.alternatives, x.s.data.fees) +
       '<details class="review-rules"><summary>Data sources and review rules</summary><ul>' +
       '<li>Each record names and links its source, usually the jurisdiction’s own code, ordinance, budget or program page. A record not read from the primary document is marked as reported. Jurisdictions checked and found to have none are recorded as such, not left blank.</li>' +
@@ -670,6 +680,59 @@
     }).join('') + '</ul>' : '<p>Every tool these places have on record is already on record for ' + esc(subject) + ' too.</p>';
     return out + '<p class="note">A place’s pattern and size are a starting point, not proof that a tool fits. “No record” is not “does not have”.</p></section>';
   }
+  // County and regional money a town can also use (the live page's renderCountyFunds, HA #2785): a town's own list
+  // holds only its own records, so the county's funds are listed too, leaving out any limited to unincorporated land.
+  function countyFunds(m, p, name) {
+    var D = global.LocalIncentivesData;
+    if (p.kind === 'county' || !p.county || (D.CONSOLIDATED || {})[p.county] === p.geoid) return '';
+    var cp = m.profile(p.county);
+    if (!cp) return '';
+    var cname = cleanName(cp.name);
+    var all = cp.items.filter(function (i) { return i.scope === 'funds'; });
+    var onlyUninc = function (it) { var r = it.record; return /unincorporated/i.test([r.summary, r.uses, r.rate_text].join(' ')); };
+    var items = all.filter(function (it) { return !onlyUninc(it); }), skipped = all.length - items.length;
+    return '<section id="li-county-funds"><h2>County and regional money to check</h2><p class="note">' + liLink(m, cp.geoid) + ' records that may also fund projects in ' + esc(name) + '. Each program sets its own rules, so confirm eligibility with it.</p>' +
+      (items.length ? '<ul class="li-items">' + items.map(itemLine).join('') + '</ul>' : '<p class="note">' + (all.length ? 'None that reaches towns.' : esc(STATE[cp.states.funds].label) + ' for ' + esc(cname) + '.') + '</p>') +
+      (skipped ? '<p class="note">' + skipped + ' ' + esc(cname) + ' record' + (skipped > 1 ? 's cover' : ' covers') + ' only unincorporated land and ' + (skipped > 1 ? 'are' : 'is') + ' left out.</p>' : '') + '</section>';
+  }
+  // Property tax exemption (the live page's renderTaxExemption, HA #2785): the housing authority routes with their
+  // statutes, and what the county assessor's record shows. A county not read yet says so; blank never means none.
+  var ROUTE_TEXT = { ownership: 'Housing authority owns it', ground_lease: 'Leased to the housing authority', master_lease: 'Master lease to the housing authority', gp_member: 'Housing authority holds an ownership interest' };
+  var OUTCOME_TEXT = { granted: 'Exempt', denied: 'Denied', pilot: 'Payment in lieu of tax', appealed: 'Appealed' };
+  function taxExemption(p, name) {
+    var head = '<section id="li-tax"><h2>Property tax exemption</h2>';
+    // The file is newer than the lab's pinned data copy: read it on the public site (LAB_PORT) and in the preview,
+    // which takes data from Housing-Analytics main (LAB_DATA_AS_OF); the bare lab at the pin says so instead of a 404.
+    if (!global.LAB_PORT && !global.LAB_DATA_AS_OF) return head + '<p class="note">The exemption routes are not in the lab’s pinned data yet. They are on the <a href="' + esc(LI_SRC) + '">live Local incentives page</a>.</p></section>';
+    var tx = load(TAX_FILES), doc = tx.data && tx.data.taxRoutes;
+    if (!tx.data && !tx.error) return head + '<p class="note">Loading the exemption routes…</p></section>';
+    if (!doc || !Array.isArray(doc.entries)) return head + '<p class="note">The exemption file could not be loaded.</p></section>';
+    var meta = doc.meta || {}, rule = meta.rule ? '<p>' + esc(meta.rule) + '</p>' : '';
+    var byId = {};
+    doc.entries.forEach(function (e) { byId[e.geoid] = e; });
+    var own = byId[p.inheritsFrom || p.geoid], county = byId[(own && own.county_geoid) || p.county || p.geoid];
+    var fileSrc = T.source('COHO property tax exemption routes (statutes quoted; assessor records read one account at a time)', LI_SRC, 'checked ' + (meta.last_verified || meta.as_of || 'no date in the source file'));
+    if (!own && !county) return head + rule + '<p class="note">Not researched yet for ' + esc(name) + '. The statewide routes still apply: a project owned by or leased to a housing authority, or owned by a partnership in which one holds an interest, can be exempt (C.R.S. 29-4-227), and a nonprofit owner can apply for the charitable exemption (C.R.S. 39-3-112).</p>' + fileSrc + '</section>';
+    var statutes = {};
+    (meta.statutes || []).forEach(function (s) { statutes[s.id] = s; });
+    var routes = own && own.ha_routes && own.ha_routes.length ? own.ha_routes : (county && county.ha_routes) || [];
+    var routeList = routes.length ? '<ul class="li-items">' + routes.map(function (r) {
+      var cites = (r.statute_ids || []).map(function (id) { var s = statutes[id], u = s && s.source && /^https:/.test(s.source.url || '') ? s.source.url : ''; return s ? (u ? '<a href="' + esc(u) + '">' + esc(s.citation) + '</a>' : esc(s.citation)) : ''; }).filter(Boolean).join(', ');
+      return '<li class="li-item"><p class="li-what"><strong>' + esc(ROUTE_TEXT[r.route] || r.route) + '</strong></p><p>' + esc(r.label) + (r.authority ? ' (' + esc(r.authority) + ')' : '') + '.' +
+        (r.precedents && r.precedents.length ? ' ' + r.precedents.length + ' exempt project' + (r.precedents.length > 1 ? 's' : '') + ' on record.' : '') + '</p>' + (cites ? '<p class="note">' + cites + '</p>' : '') + '</li>';
+    }).join('') + '</ul>' : '<p class="note">No housing authority route recorded yet.</p>';
+    var a = county && county.assessor, hist;
+    if (!a || a.status === 'not_researched') hist = '<p class="note">The county assessor’s record on housing exemptions has not been researched yet.</p>';
+    else if (!(a.history || []).length) hist = '<p class="note">' + esc(a.office) + ': checked, no housing exemption found in the records read.</p>';
+    else hist = '<div class="table-scroll"><table><caption>' + esc(county.name) + ' assessor record on housing exemptions</caption><thead><tr><th scope="col">Project</th><th scope="col">Year</th><th scope="col">Result</th><th scope="col">Record line</th></tr></thead><tbody>' +
+      a.history.map(function (h) {
+        return '<tr><th scope="row">' + esc(h.project) + '<br><span class="note">' + esc(h.account) + '</span></th><td>' + esc(h.year) + '</td><td>' + esc(OUTCOME_TEXT[h.outcome] || h.outcome) + (h.exempt_share ? ', ' + esc(h.exempt_share) : '') + '</td><td><q>' + esc(h.quote) + '</q>' + (h.exemption_type ? '<br><span class="note">' + esc(h.exemption_type) + '</span>' : '') + '</td></tr>';
+      }).join('') + '</tbody></table></div>' + T.source(a.office + ' public records (guest login, search by account)', /^https:/.test(a.url || '') ? a.url : LI_SRC, 'checked ' + (county.checked || 'no date in the source file'));
+    var notes = [own, county].filter(function (e, i, arr) { return e && e.note && arr.indexOf(e) === i; }).map(function (e) { return '<p class="note">' + esc(e.note) + '</p>'; }).join('');
+    var np = (own || county).nonprofit_exemption, npu = np && /^https:/.test(np.url || '') ? np.url : '';
+    var who = '<p><strong>Who to call:</strong> the ' + esc(a ? a.office : 'county assessor') + ' for the exempt share on a housing authority deal' + (np ? '; the ' + (npu ? '<a href="' + esc(npu) + '">' + esc(np.office) + '</a>' : esc(np.office)) + ' for a nonprofit owner' : '') + '. Named contacts are on the member site.</p>';
+    return head + rule + '<h3>Routes</h3>' + routeList + '<h3>' + esc(county ? county.name : name) + ' assessor record</h3>' + hist + who + notes + fileSrc + '</section>';
+  }
   function jurisdiction(geoid) {
     var x = liModel();
     if (!x.m) return waiting('Local incentives', x.s);
@@ -703,7 +766,7 @@
       kind: 'data', crumbs: T.trail('places', name, [{ label: 'Local incentives', href: '#/places/incentives' }]), title: name,
       answer: 'Housing tools on record for ' + esc(name) + (heir ? ', a CDP, so ' + esc(cleanName(heir.name)) + '’s tools apply' : '') + '.',
       meta: global.LocalIncentivesData.SCOPES.map(function (sc) { return esc(SCOPE_LABEL[sc]) + ': ' + pill(p.states[sc]); }).join(' · ')
-    }) + byScope + p123 + required + peerBlock(x.m, geoid, subject) + ideas +
+    }) + byScope + countyFunds(x.m, p, name) + taxExemption(p, name) + p123 + required + peerBlock(x.m, geoid, subject) + ideas +
       T.source('Local Housing Incentives on cohoanalytics.com', LI_SRC + '?geoid=' + geoid, x.s.data.fees.meta.as_of) +
       T.next('Next', [{ href: placeHref(place && place.kind === 'cdp' ? geoid : geoid), label: 'Housing need in ' + name + ' →' }, { href: '#/places/incentives', label: 'Every jurisdiction', secondary: true }]);
   }
@@ -770,6 +833,11 @@
         '<p class="mat-yoy ' + (y > 0 ? 'up' : 'down') + '">' + (y == null ? 'Year-on-year change unavailable' : (y > 0 ? '↑ ' : y < 0 ? '↓ ' : '') + Math.abs(y).toFixed(1) + '% from a year before') + '</p>' +
         '<p class="note">Used in: ' + esc(c.impact.toLowerCase()) + '</p><p class="metric-source">Index, ' + esc(MONTHS[month(c.date).getMonth()] + ' ' + month(c.date).getFullYear()) + ' · ' + fredLink(c) + '</p></li>';
     }).join('') + '</ul>';
+    // One dated source line for a group's chart and its table: the series, the last month and when COHO saved the file.
+    var matSrc = function (list) {
+      var h = list[0].history, last = h[h.length - 1].date.slice(0, 7), up = String(fred.updated || '').slice(0, 10);
+      return 'Source: U.S. Bureau of Labor Statistics via FRED: ' + list.map(fredLink).join(', ') + '; monthly through ' + esc(last) + (up ? ', saved ' + esc(up) : '') + '.';
+    };
     var charts = MAT_CHARTS.map(function (ch) {
       var list = ch[1].map(function (k) { return d[k]; }).filter(function (c) { return c && (!c.status || c.status === 'ok') && c.history && c.history.length > 1; });
       var body = !list.length ? '<p class="callout">No current series in the data file for this group.</p>' : global.LabViz.timeLines({
@@ -778,10 +846,11 @@
         label: 'Line chart of ' + list.map(function (c) { return c.name; }).join(', ') + ', monthly, ' + list[0].history[0].date.slice(0, 7) + ' to ' + list[0].history[list[0].history.length - 1].date.slice(0, 7) + '.',
         series: list.map(function (c, i) { return { label: c.name, color: MAT_INK[i % MAT_INK.length], points: c.history.filter(function (h) { return h.value != null && h.value !== '.'; }).map(function (h) { return [month(h.date), +h.value]; }) }; }),
         fmt: function (v) { return Number(v).toFixed(0); }, zero: false,
-        source: 'Source: U.S. Bureau of Labor Statistics via FRED: ' + list.map(fredLink).join(', ') + '.'
+        source: matSrc(list)
       });
       var tbl = list.length ? '<details class="fold"><summary>Show the numbers</summary><div class="table-scroll" role="region" aria-label="' + esc(ch[0]) + ' values" tabindex="0"><table class="mat-table"><thead><tr><th scope="col">Month</th>' + list.map(function (c) { return '<th scope="col" class="num">' + esc(c.name) + '</th>'; }).join('') + '</tr></thead><tbody>' +
         list[0].history.map(function (h, i) { return '<tr><th scope="row">' + esc(h.date.slice(0, 7)) + '</th>' + list.map(function (c) { var x = c.history[i]; return '<td class="num">' + esc(x && x.value != null ? (+x.value).toFixed(1) : '—') + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div></details>' : '';
+      if (tbl) tbl = tbl.replace(/<\/details>$/, '<p class="metric-source">' + matSrc(list) + '</p></details>');
       return '<section class="mat-chart"><h2>' + esc(ch[0]) + '</h2>' + body + tbl + '</section>';
     }).join('');
     var srcs = '<details class="fold"><summary>Data sources</summary><ul class="mat-sources">' + Object.keys(fredModule().series).map(function (k) {
@@ -852,5 +921,5 @@
     var f = parts && SUB[parts[1]];
     return f ? f(params, parts) : hub(params, parts);
   };
-  global.LabPlacesMore = { CMP_DEAL_FILES: CMP_DEAL_FILES, DEAL_GROUPS: DEAL_GROUPS, CMP_TARGETS: CMP_TARGETS, fullCompareHref: fullCompareHref, cmpSource: cmpSource, RANK_FILES: RANK_FILES, RANKING_VIEW_FILES: RANKING_VIEW_FILES, LENSES: LENSES, COMMIT_DIMS: COMMIT_DIMS, COST_FILES: COST_FILES, LI_FILES: LI_FILES, ranking: ranking, compare: compare, incentives: incentives, jurisdiction: jurisdiction, CMP_ROWS: CMP_ROWS };
+  global.LabPlacesMore = { CMP_DEAL_FILES: CMP_DEAL_FILES, DEAL_GROUPS: DEAL_GROUPS, CMP_TARGETS: CMP_TARGETS, fullCompareHref: fullCompareHref, cmpSource: cmpSource, RANK_FILES: RANK_FILES, RANKING_VIEW_FILES: RANKING_VIEW_FILES, LENSES: LENSES, COMMIT_DIMS: COMMIT_DIMS, COST_FILES: COST_FILES, LI_FILES: LI_FILES, TAX_FILES: TAX_FILES, ranking: ranking, compare: compare, incentives: incentives, jurisdiction: jurisdiction, CMP_ROWS: CMP_ROWS };
 })(window);

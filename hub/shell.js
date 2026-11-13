@@ -372,6 +372,7 @@
     // Fold the source lines before anything below measures the page, so a redraw keeps the reader's place.
     if (global.LabTpl && global.LabTpl.foldSources) global.LabTpl.foldSources();
     if (global.LabTpl && global.LabTpl.sortable) global.LabTpl.sortable();
+    if (global.LabTpl && global.LabTpl.pageTabs) global.LabTpl.pageTabs();
     // A port points each link at what that site carries (window.LAB_PORT.fix).
     if (global.LAB_PORT && global.LAB_PORT.fix) global.LAB_PORT.fix(main);
     document.querySelectorAll('.site-nav a').forEach(function (a) {

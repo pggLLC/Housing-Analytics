@@ -1,0 +1,33 @@
+/* lab-wave2 hub styles. Owned by one wave ticket (qa/wave-tickets.json); loaded after templates.css. */
+
+/* Land value guide: the residual example as two stacked bars. */
+.lv-guide h3 { margin-top: 1.25rem; }
+.lv-stack { display: flex; gap: 2px; height: 14px; min-width: 0; }
+.lv-seg { display: block; height: 100%; border-radius: 3px; }
+.lv-r0 { background: var(--src-equity); } .lv-r1 { background: var(--src-soft); } .lv-r2 { background: var(--src-fee); }
+.lv-c0 { background: var(--ink); opacity: .8; } .lv-c1 { background: var(--ink); opacity: .55; } .lv-c2 { background: var(--ink); opacity: .35; }
+.lv-residual .lv-rows li { grid-template-columns: 1fr; }
+.lv-parts { font-size: .8rem; color: var(--muted); }
+.lv-reading { display: grid; gap: .4rem; }
+
+/* Recommendation: the project steps the contract records. */
+.rec-steps { list-style: none; padding: 0; margin: .5rem 0 1rem; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.rec-step { display: grid; grid-template-columns: minmax(9rem, 14rem) 1fr auto; gap: .25rem 1rem; align-items: center; padding: .55rem 0; border-bottom: 1px solid var(--line); min-width: 0; }
+.rec-step-name { font-weight: 600; }
+.rec-step-state { color: var(--muted); overflow-wrap: break-word; }
+.rec-step-not_run .rec-step-state { font-style: italic; }
+.rec-step a { min-height: 44px; display: inline-flex; align-items: center; }
+@media (max-width: 560px) { .rec-step { grid-template-columns: 1fr auto; } .rec-step-state { grid-column: 1 / -1; grid-row: 2; } }
+
+/* Investor summary: anchors, programs and partner lists. */
+.ic-civic { display: grid; grid-template-columns: minmax(8rem, 12rem) 1fr; gap: .5rem 1rem; margin: .5rem 0 1rem; }
+.ic-civic dt { font-weight: 600; }
+.ic-civic dd { margin: 0; min-width: 0; }
+.ic-list, .ic-programs { list-style: none; padding: 0; margin: .25rem 0 1rem; display: grid; gap: .5rem; }
+.ic-programs > li { padding: .6rem .8rem; border: 1px solid var(--line); border-radius: 6px; background: var(--paper, transparent); }
+.ic-programs p { margin: .3rem 0 0; }
+.ic-civic .hint, .ic-list .hint, .ic-programs .hint { display: block; font-size: .82rem; color: var(--muted); }
+.ic-mag { font-weight: 600; border-left: 3px solid var(--green); padding-left: .5rem; }
+.ic-baseline { font-size: .9rem; color: var(--muted); border-left: 3px solid var(--line); padding-left: .6rem; }
+.ic-programs .tag { display: inline-block; font-size: .75rem; font-weight: 600; padding: 0 .45rem; border: 1px solid var(--line); border-radius: 9px; color: var(--muted); white-space: nowrap; }
+@media (max-width: 560px) { .ic-civic { grid-template-columns: 1fr; } .ic-civic dd { margin-bottom: .4rem; } .ic-programs .tag { white-space: normal; } }

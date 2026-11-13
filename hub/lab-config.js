@@ -1,7 +1,7 @@
-// The Places and need hub as it runs inside the public site (paul, 12 Nov 2026, option A).
-// scripts/build-port.js writes this file to <Housing-Analytics>/hub/lab-config.js and fills GUIDES.
-// The hub page sits at the site's root, so the site's own engines and data files are read in place:
-// nothing is copied from the lab's pinned vendor folder.
+// The lab's hubs as they run inside the public site (paul, 12 Nov 2026, option A; "Build all, release together").
+// scripts/build-port.js --hub <id> writes this file to <Housing-Analytics>/hub/lab-config.js and fills HUBS
+// (each hub page and the routes it draws, from port/hubs.js) and GUIDES. Every hub page sits at the site's
+// root, so the site's own engines and data files are read in place: nothing comes from the lab's vendor copy.
 window.LAB_VENDOR = './';
 window.LAB_LIVE = '';
 window.LAB_SITE = 'hub/';
@@ -13,10 +13,12 @@ window.resolveAssetUrl = function (p) { return p; };
 (function (global) {
   'use strict';
 
-  // The routes this hub carries: Find a place, each place's Housing Needs Assessment chapters, Compare
-  // places (with the blended total), the HNA ranking and the scenario builder. Every other lab route opens
-  // the public page it rebuilds (FORWARD). The old HNA pages stay live, and each chapter links to its page.
-  var CARRIED = [/^#\/places\/?$/, /^#\/places\/(compare|ranking|scenario)\/?$/, /^#\/place\/\d{5,7}(\/[a-z-]+)?\/?$/];
+  // Each hub page and the routes it draws itself. A route another hub page draws opens that page; any other
+  // route opens the public page it rebuilds (FORWARD). The old pages stay live until the cutover redirects them.
+  var HUBS = {"places-hub.html":["^#\\/places\\/?$","^#\\/places\\/(compare|ranking|scenario)\\/?$","^#\\/place\\/\\d{5,7}(\\/[a-z-]+)?\\/?$","^#\\/places\\/(incentives(\\/\\d{5,7})?|costs|economy|county-costs|multifamily|deep-dive|walk-bike|attract-housing)\\/?$","^#\\/report\\/?$"],"deal-hub.html":["^#\\/(projects|project|homes|handoff|convert|financials|open-deal|deal-calculator|sale-deal|use|deals|equity-pricing|pipeline|market|for-sale|recommendation|ic-summary|design)(\\/.*)?$"]}, STARTS = {"places-hub.html":"#/places","deal-hub.html":"#/projects"};
+  Object.keys(HUBS).forEach(function (p) { HUBS[p] = HUBS[p].map(function (re) { return new RegExp(re); }); });
+  var HERE = (location.pathname.split('/').pop() || 'index.html');
+  var CARRIED = HUBS[HERE] || [];
 
   // Lab route -> public page. A place carried in the route (?g= or ?geoid=) goes with it as ?geoid=.
   var FORWARD = {
@@ -69,9 +71,14 @@ window.resolveAssetUrl = function (p) { return p; };
     var h = String(hash || '#/'), q = h.indexOf('?');
     return { path: (q > -1 ? h.slice(0, q) : h).replace(/\/$/, '') || '#', query: q > -1 ? h.slice(q + 1) : '' };
   }
-  function carries(hash) { var p = split(hash).path; return CARRIED.some(function (re) { return re.test(p) || re.test(p + '/'); }); }
+  function drawnBy(list, hash) { var p = split(hash).path; return list.some(function (re) { return re.test(p) || re.test(p + '/'); }); }
+  function carries(hash) { return drawnBy(CARRIED, hash); }
+  // The other hub page that draws a route, or null.
+  function hubFor(hash) { var hit = null; Object.keys(HUBS).forEach(function (p) { if (!hit && p !== HERE && drawnBy(HUBS[p], hash)) hit = p; }); return hit; }
   // The public page for a lab route, or null when the site has none.
   function page(hash) {
+    var other = hubFor(hash);
+    if (other) return other + String(hash || '#/');
     var s = split(hash), path = s.path === '#' ? '#/' : s.path, to = FORWARD[path];
     if (!to) return null;
     // The route's own query goes too (QA/QC F01, 12 Nov: only the place was carried, so layer=qct and other
@@ -86,15 +93,16 @@ window.resolveAssetUrl = function (p) { return p; };
   }
   // Where a link to a lab route should point here: the route itself, the public page, or null (leave it out).
   function href(hash) { return carries(hash) ? hash : page(hash); }
-  // A route typed or followed that this hub does not carry: its public page, else Find a place.
-  function leave(hash) { return carries(hash) ? null : (page(hash) || '#/places'); }
+  // A route typed or followed that this page does not carry: the hub page or public page that has it, else
+  // this page's own start.
+  function leave(hash) { return carries(hash) ? null : (page(hash) || STARTS[HERE] || '#/'); }
   // Points every in-page lab link at what this site carries; a link with nowhere to go is left out
   // (a button) or kept as plain text (a link inside a sentence).
   // The Spanish link sends the page to Google Translate. Like the site's own (js/navigation.js spanishHref), it
   // carries the place and nothing else: a place page's route (#/place/<geoid>/<chapter>), never a query.
   function spanishHref(hash) {
     var m = /^#\/place\/\d{5,7}(\/[a-z-]+)?/.exec(split(hash).path);
-    var u = 'https://cohoanalytics.com/places-hub.html' + (m ? m[0] : '');
+    var u = 'https://cohoanalytics.com/' + HERE + (m ? m[0] : '');
     return 'https://translate.google.com/translate?sl=en&tl=es&hl=es&u={page}'.replace('{page}', function () { return encodeURIComponent(u); });
   }
   function fix(root) {
@@ -106,6 +114,11 @@ window.resolveAssetUrl = function (p) { return p; };
       var t = a.lastChild;
       if (t && t.nodeType === 3 && /\s*(on the live site\s*)?↗\s*$/.test(t.nodeValue)) t.nodeValue = t.nodeValue.replace(/\s*(on the live site\s*)?↗\s*$/, '');
     });
+    // A full cohoanalytics.com address is this site: keep it on the host it was opened on, so a staging build stays
+    // on staging (QA/QC, 12 Nov: the Deal Calculator link left staging).
+    Array.prototype.forEach.call(root.querySelectorAll('a[href^="https://cohoanalytics.com/"]'), function (a) {
+      a.setAttribute('href', a.getAttribute('href').replace(/^https:\/\/cohoanalytics\.com\//, '') || 'index.html');
+    });
     Array.prototype.forEach.call(root.querySelectorAll('a[href^="#/"]'), function (a) {
       var to = href(a.getAttribute('href'));
       if (to === a.getAttribute('href')) return;
@@ -114,5 +127,5 @@ window.resolveAssetUrl = function (p) { return p; };
       a.replaceWith(document.createTextNode(a.textContent));
     });
   }
-  global.LAB_PORT = { CARRIED: CARRIED, FORWARD: FORWARD, carries: carries, page: page, href: href, leave: leave, fix: fix, spanishHref: spanishHref };
+  global.LAB_PORT = { HUBS: HUBS, HERE: HERE, CARRIED: CARRIED, FORWARD: FORWARD, carries: carries, hubFor: hubFor, page: page, href: href, leave: leave, fix: fix, spanishHref: spanishHref };
 })(window);
