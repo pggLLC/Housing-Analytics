@@ -421,9 +421,9 @@
   var printOpened = [];
   if (typeof global.addEventListener === 'function') {
     global.addEventListener('beforeprint', function () {
-      // A print is the whole page: section and source folds, and each chart's table of numbers, whether or not
+      // A print is the whole page: section and source folds, a guide's folded parts, and each chart's table of numbers, whether or not
       // the reader had opened them. (Long lists print every row through CSS; see shell.css.)
-      printOpened = Array.prototype.filter.call(document.querySelectorAll('details.fold-sec:not([open]), details.fold-src:not([open]), details.viz-data:not([open])'), function (d) { d.open = true; return true; });
+      printOpened = Array.prototype.filter.call(document.querySelectorAll('details.fold-sec:not([open]), details.fold-src:not([open]), details.viz-data:not([open]), .guide-body details:not([open])'), function (d) { d.open = true; return true; });
     });
     global.addEventListener('afterprint', function () { printOpened.forEach(function (d) { d.open = false; }); printOpened = []; });
   }

@@ -14,6 +14,41 @@
  *  - https://custom-domain.com/page.html        →  /
  *  - https://custom-domain.com/admin/page.html  →  /  (NOT /admin/)
  */
+// A written guide opens in the new format (2026-11-13): policy-hub.html draws it
+// from the words on the guide's own page, which stay in that file and are still
+// edited there. This is the first script each of those pages loads, so a
+// visitor is sent on before the page paints. A section link (#id) goes with
+// it. The hub reads a guide page inside a frame, and ?classic=1 shows the page
+// as written (audits use it); neither is forwarded.
+// test/guides-open-in-hub.test.mjs holds this list and the hub's in agreement.
+(function () {
+  'use strict';
+  var GUIDE_PAGES = {
+    'lihtc-guide-for-stakeholders.html': 'lihtc-basics',
+    'affordable-deal-team.html': 'deal-team',
+    'green-building-guide.html': 'green-building',
+    'resident-services.html': 'resident-services',
+    'cra-expansion-analysis.html': 'cra-pricing',
+    'lihtc-enhancement-ahcia.html': 'ahcia',
+    'article-fair-housing-rollback.html': 'fair-housing',
+    'article-federal-rule-changes.html': 'federal-rules',
+    'housing-authority-guide.html': 'housing-authority',
+    'apa-white-paper.html': 'white-paper',
+    'working-paper.html': 'working-paper',
+    'methods.html': 'methods',
+    'about.html': 'about'
+  };
+  try {
+    var loc = window.location;
+    var file = String(loc.pathname || '').split('/').pop();
+    if (!Object.prototype.hasOwnProperty.call(GUIDE_PAGES, file)) return;
+    var slug = GUIDE_PAGES[file];
+    if (window.top !== window.self || /[?&]classic(=|&|$)/.test(loc.search || '')) return;
+    var at = String(loc.hash || '').slice(1);
+    loc.replace('policy-hub.html#/guide/' + slug + (/^[A-Za-z0-9_-]{1,80}$/.test(at) ? '?at=' + at : ''));
+  } catch (e) { /* the page stays as written */ }
+})();
+
 (function () {
   'use strict';
 

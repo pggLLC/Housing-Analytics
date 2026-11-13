@@ -5,8 +5,10 @@
  * Since 13 Nov 2026 each guide (LIHTC basics, deal team, white paper, ...) is
  * drawn by policy-hub.html at #/guide/<slug>. The words are NOT copied there:
  * the hub reads them from the guide's own page (hub/guide-extract.js), which
- * stays in the repo and is still where a guide is edited. The page itself
- * forwards a visitor to the hub with a small script at the top of <head>.
+ * stays in the repo, untouched, and is still where a guide is edited. The
+ * first script each guide page loads (js/path-resolver.js) forwards a visitor
+ * to the hub. No guide page is edited for this, so generated pages
+ * (methods.html, working-paper.html) are not carried in a PR.
  *
  * This holds the four parts together:
  *  1. every page that forwards is a guide the Policy hub draws, and every
@@ -47,8 +49,11 @@ const guideJs = read('hub/guide.js');
 const MODE = vm.runInNewContext('(' + /var PAGE_MODE = (\{[^;]*\});/.exec(guideJs)[1] + ')');
 const KEEP_PATHS = vm.runInNewContext('(' + /var PAGE_PATHS = (\{[^;]*\});/.exec(guideJs)[1] + ')');
 
-const FORWARD = /<script data-guide-forward="([a-z-]+)">([\s\S]*?)<\/script>/;
-const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && FORWARD.test(read(f)));
+// The pages that forward, from the site's own list (js/path-resolver.js, the first script each guide page loads).
+const resolver = read('js/path-resolver.js');
+const GUIDE_PAGES = vm.runInNewContext('(' + /var GUIDE_PAGES = (\{[^;]*\});/.exec(resolver)[1] + ')');
+const pages = Object.keys(GUIDE_PAGES);
+const slugOf = (page) => GUIDE_PAGES[page];
 const carriedSlugs = Object.keys(GUIDES).filter((slug) => drawn('policy-hub.html', '#/guide/' + slug));
 
 console.log('Guides open in the hub');
@@ -60,7 +65,7 @@ test('the Policy hub draws at least the thirteen written guides', () => {
 test('every page that forwards is a guide the Policy hub draws from that same page', () => {
   assert.ok(pages.length >= 13, 'only ' + pages.length + ' pages forward');
   pages.forEach((page) => {
-    const slug = FORWARD.exec(read(page))[1];
+    const slug = slugOf(page);
     assert.equal(GUIDES[slug], page, page + ' forwards to #/guide/' + slug + ', which the hub reads from ' + GUIDES[slug]);
     assert.ok(drawn('policy-hub.html', '#/guide/' + slug), page + ' forwards to #/guide/' + slug + ', which policy-hub.html does not draw');
   });
@@ -70,23 +75,22 @@ test('every guide the Policy hub draws has its own page forward to it', () => {
   carriedSlugs.forEach((slug) => {
     const page = GUIDES[slug];
     assert.ok(fs.existsSync(path.join(ROOT, page)), 'the hub reads #/guide/' + slug + ' from ' + page + ', which is not in the repo');
-    const m = FORWARD.exec(read(page));
-    assert.ok(m && m[1] === slug, page + ' does not forward to #/guide/' + slug + ', so the guide would stay in the old format at its own address');
+    assert.equal(slugOf(page), slug, page + ' does not forward to #/guide/' + slug + ', so the guide would stay in the old format at its own address');
   });
 });
 
 // Runs a page's forward script against a stand-in address and returns where it sent the visitor (or null).
-function forwarded(page, { hash = '', search = '', framed = false } = {}) {
+function forwarded(page, { hash = '', search = '', framed = false, dir = '/' } = {}) {
   let to = null;
   const self = {}, top = framed ? {} : self;
-  const window = { self, top };
-  vm.runInNewContext(FORWARD.exec(read(page))[2], { window, location: { hash, search, replace: (u) => { to = u; } }, URLSearchParams });
+  const window = { self, top, location: { hostname: 'cohoanalytics.com', pathname: dir + page, hash, search, replace: (u) => { to = u; } } };
+  vm.runInNewContext(resolver, { window, document: { baseURI: 'https://cohoanalytics.com/' + page } });
   return to;
 }
 
 test('the forward opens the guide, keeps a section link, and leaves a framed or classic view alone', () => {
   pages.forEach((page) => {
-    const slug = FORWARD.exec(read(page))[1];
+    const slug = slugOf(page);
     assert.equal(forwarded(page), 'policy-hub.html#/guide/' + slug, page);
     assert.equal(forwarded(page, { hash: '#some-part_2' }), 'policy-hub.html#/guide/' + slug + '?at=some-part_2', page + ' with a section link');
     assert.equal(forwarded(page, { hash: '#x&y=<z>' }), 'policy-hub.html#/guide/' + slug, page + ' with an anchor that is not a plain id');
@@ -96,11 +100,19 @@ test('the forward opens the guide, keeps a section link, and leaves a framed or 
   });
 });
 
-test('the forward runs before anything else on the page loads', () => {
+test('a page that is not a guide is never forwarded', () => {
+  ['index.html', 'policy-hub.html', 'deal-calculator.html', 'housing-help.html', 'constructor', 'toString', ''].forEach((page) => {
+    assert.equal(forwarded(page), null, page);
+  });
+  assert.equal(forwarded('about.html', { dir: '/Housing-Analytics/' }), 'policy-hub.html#/guide/about', 'a guide served from a sub-folder still forwards beside itself');
+});
+
+test('the forward runs before the page paints: the script is the first one each guide page loads, in the head, not deferred', () => {
   pages.forEach((page) => {
-    const html = read(page), at = html.indexOf('<script data-guide-forward');
-    const before = html.slice(0, at);
-    assert.ok(!/<script\b|<link\b[^>]*stylesheet/i.test(before), page + ' loads a script or stylesheet before the forward, so the old page could flash first');
+    const html = read(page), head = html.slice(0, html.indexOf('</head>'));
+    const first = /<script\b[^>]*>/.exec(head);
+    assert.ok(first && /src="js\/path-resolver\.js"/.test(first[0]) && !/\b(defer|async)\b|type="module"/.test(first[0]),
+      page + ': the first script in <head> is ' + (first ? first[0] : 'missing') + ', not a plain js/path-resolver.js');
   });
 });
 
@@ -116,7 +128,7 @@ function cut(page, slug) {
 
 test('each guide page cuts into a title and parts with words in them, with every table kept', () => {
   pages.forEach((page) => {
-    const slug = FORWARD.exec(read(page))[1];
+    const slug = slugOf(page);
     const { g, tables } = cut(page, slug);
     assert.ok(g.title && g.title.length > 3, page + ': no title');
     assert.ok(g.sections.length >= 3, page + ': only ' + g.sections.length + ' parts');
@@ -134,7 +146,7 @@ test('each guide page cuts into a title and parts with words in them, with every
 
 test('every section anchor on a guide page lands on a part of the guide', () => {
   pages.forEach((page) => {
-    const slug = FORWARD.exec(read(page))[1];
+    const slug = slugOf(page);
     const { g, ids } = cut(page, slug);
     const lands = (id) => g.sections.some((s) => s.id === id || (s.ids || []).includes(id));
     // Anchors above the first part (the page header) open the guide at its top, which is where they were.
@@ -151,6 +163,12 @@ test('the three long documents keep their "Which document do you need?" chooser,
     assert.equal(g.docGuide.items.filter((x) => x.here).length, 1, GUIDES[slug] + ': the chooser does not mark this page');
     g.docGuide.items.forEach((x) => assert.ok(drawn('policy-hub.html', x.href), GUIDES[slug] + ': chooser link ' + x.href + ' leaves the hub'));
   });
+});
+
+test('printing a guide opens its folded parts first, so "Print or save as PDF" gives the whole guide', () => {
+  const m = /addEventListener\('beforeprint', function \(\) \{([\s\S]*?)\}\);/.exec(read('hub/templates.js'));
+  assert.ok(m && /\.guide-body details:not\(\[open\]\)/.test(m[1]), 'hub/templates.js does not open .guide-body details before a print');
+  assert.ok(/addEventListener\('afterprint'/.test(read('hub/templates.js')), 'the folds are not closed again after the print');
 });
 
 if (failed) { console.error('\n' + failed + ' check(s) failed.'); process.exit(1); }
