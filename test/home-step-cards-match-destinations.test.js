@@ -84,11 +84,11 @@ for (const c of cards) {
 
 // The comparison has to be able to fail. Made-up names and headings, so this holds whatever the real pages say.
 check('the comparison rejects a card named for a different page, and accepts one that agrees', () => {
-  assert.deepStrictEqual(unnamed('Orchard ledger', ['Quarry census', 'Rents']), ['orchard', 'ledger']);
-  assert.deepStrictEqual(unnamed('Quarry ledger', ['Quarry census', 'Rents']), ['ledger']);
-  assert.deepStrictEqual(unnamed('Your quarry censuses and more', ['Quarry census: Fruita']), []);
-  assert.deepStrictEqual(unnamed('Quarry census', []), ['quarry', 'census']);
-  assert.ok(unnamed('', ['Quarry census']).length, 'a card with no name does not pass');
+  assert.deepStrictEqual(unnamed('Orchard ledger', ['Quarry almanac', 'Rents']), ['orchard', 'ledger']);
+  assert.deepStrictEqual(unnamed('Quarry ledger', ['Quarry almanac', 'Rents']), ['ledger']);
+  assert.deepStrictEqual(unnamed('Your quarry ledgers and more', ['Quarry ledger: Fruita']), []);
+  assert.deepStrictEqual(unnamed('Quarry almanac', []), ['quarry', 'almanac']);
+  assert.ok(unnamed('', ['Quarry almanac']).length, 'a card with no name does not pass');
 });
 
 if (failures) { console.log(`home-step-cards-match-destinations: FAIL (${failures})`); process.exit(1); }
