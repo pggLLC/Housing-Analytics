@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-13T09:16:57.362Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-13T10:12:06.006Z. Do not edit by hand.
 
 ---
 
@@ -338,7 +338,7 @@
 | `data/fixtures/fruita-commons-family.scenario.json` | 4.9 KB | ✅ | — |
 | `data/fixtures/fruita-commons.scenario.json` | 4.8 KB | ✅ | — |
 | `data/fred-data.json` | 1.24 MB | ✅ | — |
-| `data/glossary.json` | 70.6 KB | ✅ | — |
+| `data/glossary.json` | 70.8 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 274.3 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 4.1 KB | ✅ | — |
 | `data/hna/acs-reliability.json` | 651.1 KB | ✅ | — |
@@ -2096,7 +2096,7 @@
 
 ## Test Files
 
-796 test files found.
+797 test files found.
 
 | File | Size |
 |------|------|
@@ -2336,6 +2336,7 @@
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-naming.test.js` | 22.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
+| `test/glossary-list.test.js` | 5.6 KB |
 | `test/glossary-reaches-rendered-content.test.js` | 7.2 KB |
 | `test/glossary-rerender.test.js` | 4.9 KB |
 | `test/glossary-skips-hidden-text.test.js` | 7.8 KB |
