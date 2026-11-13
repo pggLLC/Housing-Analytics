@@ -68,31 +68,55 @@
       '.gl-tooltip-popup{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);min-width:220px;max-width:300px;background:var(--card);border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.15);padding:.65rem .85rem;z-index:9500;font-size:.8125rem;line-height:1.55;color:var(--text);pointer-events:none}',
       '.gl-tooltip-popup strong{display:block;font-size:.8125rem;font-weight:700;color:var(--accent);margin-bottom:.2rem}',
       /* Header button */
-      '@media(max-width:640px){#' + MODAL_ID + '{max-width:100%;border-radius:var(--radius)}.gl-search-wrap{display:none}}'
+      '.gl-also{font-size:.8rem;color:var(--muted);margin:0 0 .45rem}',
+      /* Phones: the search box takes its own row under the title. It used to
+         be hidden here, which left a phone reader an unsearchable list about
+         fifty screens long. 16px keeps iOS from zooming the page on focus.
+         The pop-up hangs from the top so the box stays put while results
+         shrink and grow under it. */
+      '@media(max-width:640px){#' + BACKDROP_ID + '{align-items:flex-start}#' + MODAL_ID + '{max-width:100%;border-radius:var(--radius)}.gl-header{flex-wrap:wrap}.gl-search-wrap{order:3;flex:1 0 100%;max-width:none}.gl-search{font-size:1rem;padding:.55rem .9rem}}'
     ].join('');
     document.head.appendChild(s);
   }
 
   /* ── Render term list ────────────────────────────────────── */
+  // Letters and digits decide the order: "§42" files under 4 and "9% LIHTC"
+  // under 9, not in a clump of symbols ahead of A.
+  function sortKey(t) {
+    return String(t.term).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+  function byName(a, b) {
+    return sortKey(a).localeCompare(sortKey(b), 'en', { numeric: true }) ||
+      String(a.term).localeCompare(String(b.term), 'en');
+  }
+
   function renderTerms(terms, filter) {
     var body = document.getElementById('glossaryBody');
     if (!body) return;
     var q = (filter || '').toLowerCase().trim();
-    // A term named exactly comes first, then terms whose name or expansion
-    // matches, then definitions that only mention it: a search result for
-    // "AMI" opens on AMI, not on QCT, whose definition uses the word.
+    // A term named exactly comes first (by its name or another spelling of
+    // it), then terms whose name, other spelling or expansion matches, then
+    // definitions that only mention it: a search result for "AMI" opens on
+    // AMI, not on QCT, whose definition uses the word.
     function rankOf(t) {
       var term = t.term.toLowerCase();
-      if (term === q) return 0;
-      if (term.includes(q) || (t.full || '').toLowerCase().includes(q)) return 1;
+      var also = (t.aliases || []).map(function (a) { return String(a).toLowerCase(); });
+      if (term === q || also.indexOf(q) !== -1) return 0;
+      if (term.includes(q) || (t.full || '').toLowerCase().includes(q) ||
+          also.some(function (a) { return a.includes(q); })) return 1;
       return (t.definition || '').toLowerCase().includes(q) ? 2 : -1;
     }
+    // The list reads A to Z, whatever order the file is in: a reader scanning
+    // for a word needs to know where it will be. Within a search, the best
+    // match still leads and ties fall back to A to Z.
     var visible = q
-      ? terms.map(function (t, i) { return { t: t, r: rankOf(t), i: i }; })
+      ? terms.map(function (t) { return { t: t, r: rankOf(t) }; })
           .filter(function (x) { return x.r >= 0; })
-          .sort(function (a, b) { return a.r - b.r || a.i - b.i; })
+          .sort(function (a, b) { return a.r - b.r || byName(a.t, b.t); })
           .map(function (x) { return x.t; })
-      : terms;
+      // `list: false` keeps an entry out of the browsing list (a Census table
+      // code, a data series ID) while search and the page tooltips still use it.
+      : terms.filter(function (t) { return t.list !== false; }).sort(byName);
 
     if (visible.length === 0) {
       body.innerHTML = '<p class="gl-empty">No terms match "<strong>' + escHtml(q) + '</strong>".</p>';
@@ -103,6 +127,8 @@
       return '<div class="gl-term" role="article">' +
         '<p class="gl-acronym">' + escHtml(t.term) + '</p>' +
         (t.full ? '<p class="gl-full">' + escHtml(t.full) + '</p>' : '') +
+        (t.aliases && t.aliases.length
+          ? '<p class="gl-also">Also written ' + escHtml(t.aliases.join(', ')) + '</p>' : '') +
         '<p class="gl-def">' + escHtml(t.definition) + '</p>' +
         '</div>';
     }).join('');
