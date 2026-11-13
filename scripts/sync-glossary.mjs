@@ -11,6 +11,12 @@
  *     callouts keep their own notes for elected officials, developers and
  *     lenders; only the summary comes from here.
  *   - `inline_key`: the tooltip's key when it differs from `term`.
+ *   - `aliases`: other spellings of the term (CDOH for DOH). Each gets the same
+ *     tooltip, is searched by the pop-up, and is auto-wrapped like the term.
+ *   - `label`: the name the pop-up shows, when it differs from `term`. `term`
+ *     is the case-sensitive text the pages are matched on, so it is not renamed.
+ *   - `list: false`: kept out of the pop-up's browsing list (search still finds it).
+ *   - `source` + `checked`: where an entry's figure, year or rule was read, and when.
  *   - `autolink: false`: listed in the pop-up and used for tooltips, but not
  *     auto-wrapped on every page by js/glossary.js.
  *
@@ -33,16 +39,21 @@ const END = '\n  };\n';
 
 const jsString = (s) => `'${s.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`;
 
+/** Every key a page can ask for this entry's tip by: its name, then its other spellings. */
+export const tooltipKeys = (t) => [t.inline_key || t.term, ...(t.aliases || [])];
+
 /** The TERMS object literal body, one line per term with a short definition. */
 export function termsBlock(glossary) {
   const seen = new Set();
   const lines = [];
   for (const t of glossary.terms) {
     if (!t.short) continue;
-    const key = t.inline_key || t.term;
-    if (seen.has(key)) throw new Error(`two glossary entries use the tooltip key "${key}"`);
-    seen.add(key);
-    lines.push(`    ${jsString(key)}: ${jsString(t.short)}`);
+    // Another spelling of the term (`aliases`: CDOH for DOH) gets the same tip.
+    for (const key of tooltipKeys(t)) {
+      if (seen.has(key)) throw new Error(`two glossary entries use the tooltip key "${key}"`);
+      seen.add(key);
+      lines.push(`    ${jsString(key)}: ${jsString(t.short)}`);
+    }
   }
   return lines.join(',\n');
 }
@@ -57,7 +68,7 @@ export function writeInline(src, glossary) {
 /** Each callout entry linked to a glossary term gets that term's short text. */
 export function writeCallouts(text, glossary) {
   const byKey = new Map();
-  for (const t of glossary.terms) byKey.set(t.inline_key || t.term, t);
+  for (const t of glossary.terms) for (const key of tooltipKeys(t)) byKey.set(key, t);
   return text.replace(/("glossary": "([^"]+)",\n(\s*)"short": )("(?:[^"\\]|\\.)*")/g, (m, head, key, _ind, _old) => {
     const t = byKey.get(key);
     if (!t || !t.short) throw new Error(`${CALLOUTS}: "${key}" has no short definition in ${GLOSSARY}`);

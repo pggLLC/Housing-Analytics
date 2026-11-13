@@ -224,9 +224,11 @@ export function glossaryRecords(glossary) {
     .filter((g) => g && g.term && g.definition)
     .map((g) => {
       const term = clean(g.term);
+      // `label` is the name the pop-up shows when it differs from the match key.
+      const name = clean(g.label || g.term);
       const full = clean(g.full || '');
       const rec = {
-        t: `${full && full !== term ? `${term} (${full})` : term} | COHO Glossary`,
+        t: `${full && full.toLowerCase() !== name.toLowerCase() ? `${name} (${full})` : name} | COHO Glossary`,
         u: `index.html#glossary=${encodeURIComponent(term)}`,
         d: clean(g.definition).slice(0, 300),
         k: 'Glossary'
@@ -234,6 +236,9 @@ export function glossaryRecords(glossary) {
       // The description is cut for display; the whole definition stays searchable.
       const b = wordBag(clean(g.definition), `${rec.t} ${rec.d} ${rec.k}`);
       if (b) rec.b = b;
+      // Another spelling (CDOH for DOH) finds the entry too.
+      const also = (g.aliases || []).map(clean).filter(Boolean);
+      if (also.length) rec.a = also.join(' · ');
       return rec;
     });
   if (!terms.length) return [];
