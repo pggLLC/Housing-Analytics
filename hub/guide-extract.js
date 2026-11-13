@@ -25,7 +25,7 @@
     'methods.html': '#/guide/methods',
     'about.html': '#/guide/about',
     'housing-help.html': '#/guide/renter-help',
-    'help-for-homebuyers.html': '#/assistance',
+    'help-for-homebuyers.html': '#/guide/homebuyer-help',
     'policy-briefs.html': '#/news',
     'housing-legislation-2026.html': '#/legislation',
     'dashboard-data-sources-ui.html': '#/data/sources',
@@ -57,7 +57,11 @@
     if (!href) return null;
     if (/^(https?:|mailto:)/i.test(href)) return href;
     const file = href.split('#')[0].split('?')[0].replace(/^\.?\//, '');
-    return o.routes[file] || o.live + href.replace(/^\.?\//, '');
+    const to = o.routes[file], frag = href.indexOf('#') > -1 ? href.slice(href.indexOf('#') + 1) : '';
+    // A link to a section of another page keeps its section: a guide opens on that part; any other page is
+    // linked as written, since its new view has no part by that name.
+    if (to && frag) return /^#\/guide\//.test(to) && /^[A-Za-z0-9_-]{1,80}$/.test(frag) ? to + '?at=' + frag : o.live + href.replace(/^\.?\//, '');
+    return to || o.live + href.replace(/^\.?\//, '');
   }
 
   function clean(node, doc, o) {
@@ -92,7 +96,10 @@
         if (!to) { el.replaceWith(...el.childNodes); return; }
         el.setAttribute('href', to);
       }
-      if (tag === 'div' && !el.attributes.length && el.children.length === 0 && !el.textContent.trim()) el.remove();
+      // An empty wrapper says nothing (a block whose parts were all taken out as the guide's sections); its anchor
+      // went to the first of those parts (byH2), so nothing lands on it.
+      if ((tag === 'div' || tag === 'section') && el.children.length === 0 && !el.textContent.trim() &&
+        [...el.attributes].every(a => a.name === 'data-at')) el.remove();
     });
     // A source line that names one of the site's files by its path reads "the site's data file" instead,
     // except on Methods and the working paper (keepPaths), which are about those files.
@@ -162,6 +169,12 @@
     });
     const used = new Set();
     const slug = t => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'section';
+    // A block that wraps several parts (the renter guide's #en and #es halves) gives its anchor to the first of them.
+    const wrapIds = h2s.map(h2 => {
+      const out = [];
+      for (let up = h2.parentElement; up && up !== main; up = up.parentElement) if (up.id && up.querySelector('h2') === h2) out.push(up.id);
+      return out;
+    });
     const sections = h2s.map((h2, i) => {
       const box = boxes[i];
       // A number in its own span ("<span>01</span>What") reads with a space, as the page shows it.
@@ -184,7 +197,7 @@
         (!el.textContent.trim() && !el.children.length && [...el.attributes].some(a => a.name === 'id' || a.name.startsWith('data-')) && el.tagName !== 'TD'));
       slots.forEach(el => { if (/^Loading\b/i.test(el.textContent.trim())) el.remove(); });
       // The page's own anchors inside this part, so a link to one of them still lands on the part.
-      const ids = [h2.id].concat([...holder.querySelectorAll('[id]')].map(el => el.id)).filter(x => x && x !== id);
+      const ids = [...new Set([h2.id].concat(wrapIds[i], [...holder.querySelectorAll('[id]')].map(el => el.id)).filter(x => x && x !== id))];
       const html = clean(holder, doc, o);
       return { id, title: t, lang, html, liveFilled: slots.length ? true : undefined, ids: ids.length ? ids : undefined };
     });

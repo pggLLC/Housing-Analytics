@@ -541,6 +541,7 @@
       '<p>Quick terms: <strong>DPA</strong> means down-payment assistance. <strong>AMI</strong> means area median income. A <strong>tax credit</strong> reduces tax owed dollar for dollar; a deduction reduces taxable income.</p>' +
       '<p>For CHFA programs the next step is usually a participating lender and <a href="https://www.chfainfo.com/homeownership/homebuyer-education">CHFA-approved homebuyer education ↗</a>. For tax credits, talk with a tax professional before counting a benefit in your budget.</p></aside>' +
       levels.map(function (l) { return (levels.length > 1 ? '<h3>' + esc(l[0]) + '</h3>' : '') + '<div class="help-cards">' + l[1].map(function (p) { return programCard(p, levels.length > 1 ? 'h4' : 'h3'); }).join('') + '</div>'; }).join('') +
+      '<p>Every program COHO tracks, with its status, who runs it and its official source, including ones that have ended or are only proposed, is on the <a href="#/guide/homebuyer-help">full Help for Homebuyers page</a>.</p>' +
       '<details class="review-rules"><summary>Data sources and review rules</summary><ul>' +
       '<li>Each card is from COHO’s homeownership program watchlist and links the program’s official page.</li>' +
       '<li>Dollar amounts are shown only when the official page stated them clearly.</li>' +
@@ -554,7 +555,9 @@
 
     return head + paths + rent + buy + own +
       '<h2>More help pages</h2>' + Shell.list(Shell.inHub('assistance')) +
-      '<ul class="route-list"><li><a href="#/guide/renter-help">If You Need Housing Now (renters, English and Spanish)</a></li></ul>';
+      // On the public site the list above already names both pages (their own addresses open the guides).
+      (global.LAB_PORT ? '' : '<ul class="route-list"><li><a href="#/guide/renter-help">If You Need Housing Now (renters, English and Spanish)</a></li>' +
+      '<li><a href="#/guide/homebuyer-help">Help for Homebuyers (every program, with sources)</a></li></ul>');
   }
 
   // ---- Shell pages: not found, privacy, search, site map, share card --------------------------------------

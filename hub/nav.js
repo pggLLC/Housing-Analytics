@@ -154,6 +154,9 @@
     // A page listed in a menu belongs to that menu (LIHTC basics sits under Build a deal, though
     // guides as a kind belong to Policy and research); otherwise the view decides.
     var m = MENUS.filter(function (x) { return x.groups.some(function (g) { return g.items.some(function (it) { return it.lab && (at === it.lab || at.indexOf(it.lab + '/') === 0); }); }); })[0] || menuFor(view);
+    // The two resident guides sit under Housing help, which is not one of the five menus.
+    var help = /^#\/(assistance|guide\/(renter-help|homebuyer-help))$/.test(at.replace(/\/$/, ''));
+    if (help) m = null;
     document.querySelectorAll('.menu-button').forEach(function (b) {
       if (m && b.dataset.menu === m.id) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
     });

@@ -15,6 +15,7 @@
  *  - https://custom-domain.com/admin/page.html  →  /  (NOT /admin/)
  */
 // A written guide opens in the new format (2026-11-13): policy-hub.html draws it
+// (index.html for the two resident guides under Housing help)
 // from the words on the guide's own page, which stay in that file and are still
 // edited there. This is the first script each of those pages loads, so a
 // visitor is sent on before the page paints. A section link (#id) goes with
@@ -36,8 +37,12 @@
     'apa-white-paper.html': 'white-paper',
     'working-paper.html': 'working-paper',
     'methods.html': 'methods',
-    'about.html': 'about'
+    'about.html': 'about',
+    'housing-help.html': 'renter-help',
+    'help-for-homebuyers.html': 'homebuyer-help'
   };
+  // The two guides for residents open on the front page (Housing help), not under the Policy hub.
+  var GUIDE_HUB = { 'renter-help': 'index.html', 'homebuyer-help': 'index.html' };
   try {
     var loc = window.location;
     var file = String(loc.pathname || '').split('/').pop();
@@ -45,7 +50,7 @@
     var slug = GUIDE_PAGES[file];
     if (window.top !== window.self || /[?&]classic(=|&|$)/.test(loc.search || '')) return;
     var at = String(loc.hash || '').slice(1);
-    loc.replace('policy-hub.html#/guide/' + slug + (/^[A-Za-z0-9_-]{1,80}$/.test(at) ? '?at=' + at : ''));
+    loc.replace((Object.prototype.hasOwnProperty.call(GUIDE_HUB, slug) ? GUIDE_HUB[slug] : 'policy-hub.html') + '#/guide/' + slug + (/^[A-Za-z0-9_-]{1,80}$/.test(at) ? '?at=' + at : ''));
   } catch (e) { /* the page stays as written */ }
 })();
 

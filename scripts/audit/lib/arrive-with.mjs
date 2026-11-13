@@ -28,6 +28,8 @@ export const ARRIVE_WITH = Object.freeze({
   'working-paper.html':                  GUIDE_AS_WRITTEN,
   'methods.html':                        GUIDE_AS_WRITTEN,
   'about.html':                          GUIDE_AS_WRITTEN,
+  'housing-help.html':                   GUIDE_AS_WRITTEN,
+  'help-for-homebuyers.html':            GUIDE_AS_WRITTEN,
   'housing-needs-assessment.html':       HNA_STATEWIDE,
   'hna-what-housing-exists.html':        HNA_STATEWIDE,
   'hna-who-lives-here.html':             HNA_STATEWIDE,
