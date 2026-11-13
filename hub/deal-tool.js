@@ -10,7 +10,10 @@
   // The live calculator on this site (LAB_LIVE is '' on the public site, so staging stays on staging), opened on the
   // working place (QA/QC, 12 Nov: a plain link opened on whatever county the browser had saved).
   var LIVE_TOOL = (global.LAB_LIVE != null ? global.LAB_LIVE : 'https://cohoanalytics.com/') + 'deal-calculator.html';
-  function place() { var g = new URLSearchParams(String(location.hash).split('?')[1] || '').get('g') || ''; return /^\d{5,7}$/.test(g) ? g : ''; }
+  function inAddress() { var g = new URLSearchParams(String(location.hash).split('?')[1] || '').get('g') || ''; return /^08\d{3}(\d{2})?$/.test(g) ? g : ''; }
+  // The place this page is on: the one in the address, else the working place (deal-quick.js pagePlace). The
+  // "Working on" line, the quick estimate's county and every link to the full calculator use this one place.
+  function place() { return global.LabDealQuick && global.LabDealQuick.place ? global.LabDealQuick.place() : inAddress(); }
   function liveTool() { return LIVE_TOOL + (place() ? '?geoid=' + place() : ''); }
 
   var STEPS = [
@@ -76,7 +79,7 @@
     return T.head({
       kind: 'tool', crumbs: T.trail('deal', 'Deal Calculator'), title: 'LIHTC Deal Calculator',
       answer: 'Does a Colorado Low-Income Housing Tax Credit (LIHTC) deal pencil? Start with a quick estimate for a 9% or 4% rental deal, or homes for sale, then enter every line to see the sources and uses, tax credits, debt and the funding gap.'
-    }) + (global.LabHna ? global.LabHna.stepPath(true, '#/deal-calculator') : '') +
+    }) + (global.LabHna ? global.LabHna.stepPath(true, '#/deal-calculator', inAddress() || undefined) : '') +
       (global.LabDealQuick ? global.LabDealQuick.view() : '') +
       '<section class="tool-section"><h2>How it runs</h2>' + stepper() +
       '<p class="note" data-role="slider-pointer"><strong>Stress sliders</strong> (deep-tier rent cut, coverage floor, lease-up, and rent, vacancy and expense cases) are on a project\u2019s results page. Start from a place and save homes and rents, then open <em>results</em> and use <em>Jump to Stress sliders</em> under Full result. The quick estimate above has no sliders.</p></section>' +

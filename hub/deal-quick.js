@@ -342,6 +342,63 @@
 
   var q = JSON.parse(JSON.stringify(START));
   var kind = 'rental';
+
+  // One place for the whole page (paul, 13 Nov: the "Working on" line, the county in this estimate and the link to
+  // the full calculator each named a different place). The page is on the place in its address, else on the
+  // working place. The county and town boxes follow that place, and a county or town picked here becomes it, so
+  // the line, the step links and every link to the full calculator name the same place. Nothing else typed into
+  // the estimate changes when the place does.
+  var GEO = /^08\d{3}(\d{2})?$/;
+  function pagePlace() {
+    var h = typeof location !== 'undefined' && location ? String(location.hash || '') : '';
+    var g = new URLSearchParams(h.split('?')[1] || '').get('g') || '';
+    if (GEO.test(g)) return g;
+    var w = global.LabHna && global.LabHna.working ? global.LabHna.working() : null;
+    return w && GEO.test(String(w.geoid || '')) ? String(w.geoid) : '';
+  }
+  function fullTool() { var p = pagePlace(); return LIVE_TOOL + (p ? '?geoid=' + p : ''); }
+  function setCounty(fips) {
+    if (q.county === fips) { q.place = ''; return; }
+    q.county = fips; q.place = '';
+    if (q.boost !== 'auto' && q.boost !== 'qct' && q.boost !== 'sadda') q.boost = 'auto';
+  }
+  var followed = null; // the place the boxes were last set from; null until the first look
+  function follow() {
+    var p = pagePlace();
+    if (p === followed || !data) return;
+    var sale = global.LabDealQuickSale && global.LabDealQuickSale.state ? global.LabDealQuickSale.state() : null;
+    var known = function (fips) { return (data.hud.counties || []).some(function (c) { return c.fips === fips; }); };
+    if (!p) {
+      // The place was cleared: the boxes go back to "Pick a county".
+      if (followed) { setCounty(''); if (sale) sale.county = ''; }
+    } else if (p.length === 5) {
+      if (known(p)) { setCounty(p); if (sale) sale.county = p; }
+    } else if (q.place === p && q.county) {
+      // A town picked here: the county stays the one it was picked under (a town can span two).
+      if (sale) sale.county = q.county;
+    } else {
+      var t = global.LabDealTown && global.LabDealTown.lookup ? global.LabDealTown.lookup(p, function () { Shell.render(); }) : { county: '' };
+      if (t === null) return; // the town lists are still loading; the next draw sets the boxes
+      if (t.county && known(t.county)) { setCounty(t.county); q.place = p; if (sale) sale.county = t.county; }
+    }
+    followed = p;
+  }
+  // A county or town picked in an estimate becomes the working place and goes in the address.
+  function adopt(geoid, label) {
+    var H = global.LabHna;
+    if (GEO.test(String(geoid || ''))) { if (H && H.setWorking) H.setWorking(geoid, label || undefined); }
+    else { geoid = ''; if (H && H.clearWorking) H.clearWorking(); }
+    if (typeof location === 'undefined' || typeof history === 'undefined' || !history.replaceState) return;
+    var h = String(location.hash || ''), at = h.indexOf('?'), ps = new URLSearchParams(at < 0 ? '' : h.slice(at + 1));
+    if (geoid) ps.set('g', geoid); else ps.delete('g');
+    var qs = ps.toString();
+    history.replaceState(null, '', (at < 0 ? h : h.slice(0, at)) + (qs ? '?' + qs : ''));
+  }
+  function placeLabel() {
+    if (!q.place) return countyName(q.county);
+    var t = global.LabDealTown && global.LabDealTown.lookup ? global.LabDealTown.lookup(q.place) : null;
+    return t && t.name || '';
+  }
   function money(n) { return (n < 0 ? '-$' : '$') + Math.round(Math.abs(n)).toLocaleString('en-US'); }
 
   var tdcNow = NaN; // the run's total development cost, for the gap card's tone
@@ -400,7 +457,7 @@
       row('Cash left after the loan', cash, 'sub') + '</tbody></table></div>' +
       (known(r.baseDSCR) ? '<p>The loan is sized so the building earns <strong>$' + r.baseDSCR.toFixed(2) + ' for each $1 of loan payment</strong>' + (cov ? '; CHFA’s floor is $' + cov.r.min_coverage.toFixed(2) + '.' : '.') + '</p>' : '') +
       '<p class="note">Rents are the most CHFA allows' + (r.allowanceRevenueReason ? '' : ', less any utility allowance entered') + '. A bigger loan needs more money left each year. ' +
-      'Later years, reserves for lease-up and the 15-year cash flow are in the <a href="' + LIVE_TOOL + '">full calculator ↗</a>.</p>' +
+      'Later years, reserves for lease-up and the 15-year cash flow are in the <a href="' + esc(fullTool()) + '">full calculator ↗</a>.</p>' +
       '<p class="metric-source">Sources: ' + (vacR ? vacR.html + '; ' : '') + (cov ? cov.html : '') + '</p></details>';
   }
 
@@ -483,7 +540,7 @@
       }).join('') + '<button type="button" class="linklike" data-quick-jump="result">Full result ↓</button></p>';
     return DISCLAIMER + '<p class="quick-back"><button type="button" class="linklike" data-quick-jump="inputs">↑ Back to the inputs</button></p>' +
       '<dl class="quick-out" id="quick-result" tabindex="-1" aria-live="polite">' + cards + '</dl>' + bar + proForma(r, units) + sourcesUses(r, soft) + assumptionsList(r, units) +
-      (missing ? '<p class="note">An answer the quick estimate does not ask for, such as floor space when some homes are above the credit limits, goes in the <a href="' + LIVE_TOOL + '">full Deal Calculator ↗</a>.</p>' : '');
+      (missing ? '<p class="note">An answer the quick estimate does not ask for, such as floor space when some homes are above the credit limits, goes in the <a href="' + esc(fullTool()) + '">full Deal Calculator ↗</a>.</p>' : '');
   }
 
   function basicFields(units) {
@@ -607,6 +664,7 @@
 
   function view() {
     load();
+    follow();
     var sale = kind === 'sale' && global.LabDealQuickSale;
     var tabs = global.LabDealQuickSale ? '<div class="seg quick-kind" role="group" aria-label="Kind of deal">' + [['rental', 'Rental tax credit'], ['sale', 'Homes for sale']].map(function (k) {
       return '<button type="button" data-quick-kind="' + k[0] + '" aria-pressed="' + ((sale ? 'sale' : 'rental') === k[0]) + '">' + k[1] + '</button>';
@@ -653,8 +711,8 @@
   document.addEventListener('change', function (ev) {
     var t = ev.target, n = t && t.name;
     if (!n || n.indexOf('quick:') !== 0) return;
-    if (n === 'quick:county') { q.county = t.value; q.place = ''; if (q.boost !== 'auto' && q.boost !== 'qct' && q.boost !== 'sadda') q.boost = 'auto'; }
-    else if (n === 'quick:place') q.place = /^08\d{5}$/.test(t.value) ? t.value : '';
+    if (n === 'quick:county') { setCounty(t.value); adopt(q.county, placeLabel()); }
+    else if (n === 'quick:place') { q.place = /^08\d{5}$/.test(t.value) ? t.value : ''; adopt(q.place || q.county, placeLabel()); }
     else if (n === 'quick:tdc') { var v = Number(t.value); if (v > 0) q.tdc = Math.round(v); }
     else if (n === 'quick:year') q.year = YEARS.some(function (y) { return y[0] === t.value; }) ? t.value : START.year;
     else if (n === 'quick:credit') { q.credit = t.value === '4' ? '4' : '9'; q.fedPrice = null; if (q.credit === '4' && q.boost === 'chfa') q.boost = 'auto'; }
@@ -699,6 +757,8 @@
   });
 
   global.LabDealQuick = { view: view, build: build, scaledLines: scaledLines, scaledOpex: scaledOpex, splitHomes: splitHomes, marketMix: marketMix, allowanceFor: allowanceFor, sizeTotals: sizeTotals, permRate: permRate, boostFor: boostFor, designations: designations, stateCap: stateCap, stateGone: stateGone, YEARS: YEARS, softCap: softCap, SOFT: SOFT, TIERS: TIERS, START: START,
+    place: pagePlace, fullTool: fullTool, adopt: adopt,
     _inputs: function () { return data && q.county ? build(q, data, mods()) : null; },
+    _state: function () { return q; }, _follow: follow, _data: function (d) { data = d; asked = true; },
     _set: function (o) { q = Object.assign(JSON.parse(JSON.stringify(START)), o); } };
 })(window);
