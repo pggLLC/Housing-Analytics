@@ -244,7 +244,7 @@
       T.fold('Colorado policy watch', 'Colorado housing laws and CHFA allocation plan changes COHO has checked, each with its source. As of ' + esc(w.meta.as_of) + '.',
         watchList(w, { law: 'Colorado housing laws, 2026 session', qap: 'CHFA allocation plan' }) +
         (w.meta.known_gaps && w.meta.known_gaps.length ? '<h3>Not yet covered</h3><p class="note">Topics not checked yet, listed so their absence is not read as “nothing happened”.</p><ul>' + w.meta.known_gaps.filter(function (g) { return !/appointments/i.test(g); }).map(function (g) { return '<li>' + esc(g) + '</li>'; }).join('') + '</ul>' : ''), { id: 'policy-watch' }) +
-      '<p class="note">How each change may move credit prices is the site’s reading, to be reviewed quarterly; the status links go to official sources. Charts of the bills over time are on <a href="' + LIVE + 'housing-legislation-2026.html">the full Legislation 2026 page</a>.</p>' +
+      '<p class="note">How each change may move credit prices is the site’s reading, to be reviewed quarterly; the status links go to official sources.</p>' +
       T.next('Next', [{ href: '#/equity-pricing', label: 'What credits sell for now →' }, { href: '#/guide/ahcia', label: 'AHCIA status', secondary: true }]);
   }
 
