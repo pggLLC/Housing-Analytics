@@ -26,6 +26,10 @@
 //   8. 55 words at most (LONG aside), and never a different claim: every figure in the
 //      tooltip also appears in the definition.
 //
+//   The site's own terms
+//   10. Each part of the Market Analysis score has an entry, and the weight the
+//       entry states is the weight the scoring engine uses.
+//
 //   Sources
 //   9. An entry that states a percent, a dollar amount, a year or a number of
 //      years names where that was read (`source.name`, `source.url`) and when
@@ -118,6 +122,26 @@ for (const t of terms) {
   }
   if (t.checked && t.checked > updated) fail(t, `checked ${t.checked} is after the file's updated date ${updated}`);
   if (t.checked && !t.source) fail(t, 'has a checked date but no source');
+}
+
+// 10. The site's own score parts are defined, with the engine's weights.
+const WEIGHTS = require(path.join(ROOT, 'js/market-analysis-scoring.js')).WEIGHTS;
+const PMA_PARTS = {
+  demand: 'Demand score', captureRisk: 'Competitive Density', rentPressure: 'Rent Pressure',
+  landSupply: 'Market Tightness', workforce: 'Workforce score',
+};
+const byTerm = new Map(terms.map((t) => [t.term, t]));
+const pmaScore = byTerm.get('PMA score');
+if (!pmaScore) failures.push('PMA score: the Market Analysis score has no entry');
+for (const key of Object.keys(WEIGHTS)) {
+  const name = PMA_PARTS[key];
+  if (!name) { failures.push(`WEIGHTS.${key}: no glossary entry is named for this part of the PMA score`); continue; }
+  const entry = byTerm.get(name);
+  const pct = Math.round(WEIGHTS[key] * 100) + '%';
+  if (!entry) { failures.push(`${name}: this part of the PMA score has no entry`); continue; }
+  if (!entry.definition.includes(pct + ' of the total')) fail(entry, `the engine weights this part ${pct}; the definition does not say so`);
+  const shown = name.replace(/ score$/, '');
+  if (pmaScore && !pmaScore.definition.includes(`${shown} ${pct}`)) fail(pmaScore, `does not list ${shown} at ${pct}`);
 }
 
 // Non-vacuity: the scan found entries to hold to each rule.

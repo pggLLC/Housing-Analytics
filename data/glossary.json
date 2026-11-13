@@ -1289,6 +1289,162 @@
       "definition": "An FHA mortgage insurance program for buying or refinancing existing multifamily rental properties.",
       "short": "FHA mortgage insurance program for acquisition or refinance of existing multifamily rental properties.",
       "autolink": false
+    },
+    {
+      "term": "PMA score",
+      "aliases": [
+        "PMA Score",
+        "Site Score"
+      ],
+      "definition": "This site's 0–100 reading of how well a market supports new affordable rentals at a chosen site. It is the weighted sum of five parts: Demand 30%, Competitive Density 25%, Rent Pressure 15%, Market Tightness 15% and Workforce 15%. Scores of 80 or more read Strong, 60–79 Moderate, 40–59 Marginal and under 40 Weak. It is not a CHFA score.",
+      "source": {
+        "name": "This site's Market Analysis scoring notes",
+        "url": "https://cohoanalytics.com/docs/PMA_SCORING.md"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Competitive Density",
+      "label": "Competitive density",
+      "definition": "A part of this site's PMA score, 25% of the total, that reads how crowded a market area already is. It divides the income-restricted homes already there by the renter households who qualify for them. No such homes scores 100, and the score falls to 0 when they reach 85% of those renters, the level CHFA's 2027–28 QAP questions.",
+      "source": {
+        "name": "This site's Market Analysis scoring code",
+        "url": "https://cohoanalytics.com/js/market-analysis-scoring.js"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Rent Pressure",
+      "label": "Rent pressure",
+      "definition": "A part of this site's PMA score, 15% of the total, that compares the market area's median rent with the rent a household at 60% of the county's AMI can afford at 30% of income. Median rent at 70% of that affordable rent or less scores 0, and at 150% or more scores 100.",
+      "source": {
+        "name": "This site's Market Analysis scoring code",
+        "url": "https://cohoanalytics.com/js/market-analysis-scoring.js"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Market Tightness",
+      "label": "Market tightness",
+      "definition": "A part of this site's PMA score, 15% of the total, read from the rental vacancy rate after for-rent homes in seasonal markets are discounted. No vacancy scores 100, and vacancy of 10% or more scores 0. A tight market suggests new homes will lease quickly.",
+      "source": {
+        "name": "This site's Market Analysis scoring notes",
+        "url": "https://cohoanalytics.com/docs/PMA_SCORING.md"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Demand score",
+      "definition": "A part of this site's PMA score, 30% of the total, shown there as Demand. It reads how much unmet need for affordable rentals a market area shows by blending four measures: the share of renters who are cost burdened (45%), the share severely cost burdened (20%), the poverty rate (10%) and the renter share of households (25%).",
+      "autolink": false,
+      "source": {
+        "name": "This site's Market Analysis scoring code",
+        "url": "https://cohoanalytics.com/js/market-analysis-scoring.js"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Workforce score",
+      "definition": "A part of this site's PMA score, 15% of the total, shown there as Workforce. Two inputs are measured today: the balance of jobs and homes in the market area, from Census LODES, and local household income against the county's AMI. Three more planned inputs are left out until real data exist, and the tool says so.",
+      "autolink": false,
+      "source": {
+        "name": "This site's Market Analysis scoring notes",
+        "url": "https://cohoanalytics.com/docs/PMA_SCORING.md"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Competitive Supply Share",
+      "label": "Competitive supply share",
+      "definition": "A proposed project's share of the competing affordable homes it would lease up against: its homes divided by those homes plus the competing ones on record. It is not a capture rate, which divides by renter households. This site shows it from observed records only and gives no risk rating while that inventory is incomplete.",
+      "source": {
+        "name": "This site's Market Analysis scoring notes",
+        "url": "https://cohoanalytics.com/docs/PMA_SCORING.md"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Housing Needs Fit",
+      "label": "Housing needs fit",
+      "definition": "A check on this site's deal concept card of how well a proposed mix of homes matches local need. It compares the homes planned at 30%, 50% and 60% AMI with the homes needed at each level and averages the three coverage shares: 50% or more reads strong, 15–49% partial and less than that weak.",
+      "source": {
+        "name": "This site's Market Analysis tool",
+        "url": "https://cohoanalytics.com/market-analysis.html"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Housing Needs Scorecard",
+      "label": "Housing needs scorecard",
+      "definition": "This site's 0–100 reading of housing need in one place, shown on its needs assessment. It averages up to four percentile ranks against places of the same type: cost burden among renters and owners, the share of renters under 100% AMI who are at or below 30% AMI, home price against income, and renters paying over half their income.",
+      "source": {
+        "name": "This site's method note on the Housing Needs Assessment page",
+        "url": "https://cohoanalytics.com/housing-needs-assessment.html"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Overall Need Score",
+      "label": "Overall need score",
+      "aliases": [
+        "Need Score"
+      ],
+      "definition": "This site's 0–100 ranking index for a county, town or CDP: 55% community need and 45% opportunity. Need blends the housing gap, cost burden, affordability, future pressure and overcrowding. Opportunity blends economic mobility, walkability, amenities and QCT or DDA status. Each input is a percentile among places of the same type, so the score is relative.",
+      "source": {
+        "name": "This site's Methods page, section 06",
+        "url": "https://cohoanalytics.com/methods.html#m-score"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "AMI Gap",
+      "label": "AMI gap",
+      "definition": "The rental homes priced for households at or below an AMI level minus the renter households at or below it, for a county or place. A negative number is a shortage. This site computes it from Census ACS rents and renter incomes against HUD income limits, and it does not test whether those homes are available to rent.",
+      "source": {
+        "name": "This site's Methods page, section 10",
+        "url": "https://cohoanalytics.com/methods.html#m-alternatives"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Affordable Ownership Need",
+      "label": "Affordable ownership need",
+      "definition": "A screening view on this site's needs assessment pages with two parts: the shortfall of rental homes priced for renter households at or below 80% AMI, and the pool of renter households at 51–100% of HUD's median family income who might buy. The pool is not a count of mortgage-ready buyers.",
+      "source": {
+        "name": "This site's method note on the Housing Needs Assessment page",
+        "url": "https://cohoanalytics.com/housing-needs-assessment.html"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Market Health Composite",
+      "label": "Market health composite",
+      "definition": "This site's 0–100 reading of a county's economy and mortgage market. It averages five percentile ranks among Colorado's 64 counties, equally weighted: the five-year change in employed residents, five-year population growth, unemployment (inverted), mortgage originations per 1,000 households and the mortgage denial rate (inverted). Higher means a stronger market.",
+      "source": {
+        "name": "This site's method note on the Colorado Deep Dive page",
+        "url": "https://cohoanalytics.com/colorado-deep-dive.html"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Housing Outcome Score",
+      "label": "Housing outcome score",
+      "definition": "This site's 0–100 summary of a deal on the Deal Calculator. It weights four parts: how much of the local affordability gap the homes cover (30%), local policy support (20%), financial feasibility (30%) and site quality (20%). It fills in as each step is completed and carries a letter grade, with A at 85 and above.",
+      "source": {
+        "name": "This site's Deal Calculator",
+        "url": "https://cohoanalytics.com/deal-calculator.html"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Civic Readiness",
+      "label": "Civic readiness",
+      "definition": "A part of this site's Opportunity Finder score that counts the local housing tools a place has on record, out of seven: a housing needs assessment, a Prop 123 commitment, a housing authority, housing nonprofits, a comprehensive plan, an inclusionary zoning ordinance and local funding. A place with no record of its own uses its county's.",
+      "source": {
+        "name": "This site's housing policy scorecard data",
+        "url": "https://cohoanalytics.com/data/policy/housing-policy-scorecard.json"
+      },
+      "checked": "2026-11-13"
     }
   ]
 }
