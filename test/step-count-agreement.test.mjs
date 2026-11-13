@@ -124,6 +124,15 @@ assert.deepStrictEqual(bad, [], 'Pipeline labels say steps:\n  ' + bad.join('\n 
     assert.ok(isAssessment || new URLSearchParams(l.raw.split('?')[1] || '').get('g') === place.geoid, `resume link "${l.text}" dropped the place`);
   }
   assert.ok(!/class="hh-resume"/.test(await home.renderHome()), 'a resume line is drawn with no place worked on');
+  // A place saved by the older workflow, before Home was rebuilt, still resumes (Codex review, PR 2804). The
+  // keys and shape are the ones js/workflow-state-core.js and -api.js write.
+  const core = fs.readFileSync(new URL('../js/workflow-state-core.js', import.meta.url), 'utf8');
+  assert.ok(/var WF_PREFIX = 'coho_wf_';/.test(core), 'js/workflow-state-core.js no longer keeps projects under coho_wf_; update the fallback on Home with it');
+  const older = { coho_wf_active: JSON.stringify('p1'), coho_wf_project_p1: JSON.stringify({ id: 'p1', jurisdiction: { geoid: '0828745', name: 'Fruita' } }) };
+  const olderLine = (/<p class="hh-resume">[\s\S]*?<\/p>/.exec(await home.renderHomeStoring(older)) || [])[0];
+  assert.ok(olderLine && home.text(olderLine).includes('Fruita'), 'a place saved by the older workflow draws no resume line on Home');
+  assert.ok(!/class="hh-resume"/.test(await home.renderHomeStoring({ coho_wf_active: JSON.stringify('p1'), coho_wf_project_p1: '{broken' })), 'an unreadable older project draws a resume line');
+  assert.ok(!/class="hh-resume"/.test(await home.renderHomeStoring({ coho_wf_active: JSON.stringify('p1'), coho_wf_project_p1: JSON.stringify({ id: 'p1', jurisdiction: {} }) })), 'an older project with no place draws a resume line');
   assert.strictEqual(home.steps(html).length, N, `Home lists ${home.steps(html).length} steps; the rail has ${N}`);
 }
 

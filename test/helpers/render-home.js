@@ -107,10 +107,14 @@ async function renderHome(query) {
 }
 // Home as a returning visitor sees it: this browser last worked on `place` ({ geoid, label }).
 async function renderHomeReturning(place, query) {
-  const { win } = await boot();
   const key = (/var WORK_KEY = '([^']+)'/.exec(fs.readFileSync(at('hub/hna.js'), 'utf8')) || [])[1];
   if (!key) throw new Error('hub/hna.js no longer names the key it keeps the working place under');
-  win.localStorage = { getItem: (k) => (k === key ? JSON.stringify(place) : null), setItem() {} };
+  return renderHomeStoring({ [key]: JSON.stringify(place) }, query);
+}
+// Home in a browser that holds `store` (key: the stored text) and nothing else.
+async function renderHomeStoring(store, query) {
+  const { win } = await boot();
+  win.localStorage = { getItem: (k) => (Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null), setItem() {} };
   try { return await renderHome(query); } finally { delete win.localStorage; }
 }
 // Tags out, then entities; `&amp;` last, so an escaped entity ("&amp;lt;") comes out as the text it stands for.
@@ -171,4 +175,4 @@ function renderHomeSync(query) {
   return out;
 }
 
-module.exports = { renderHome, renderRoute, renderHomeWith, renderHomeReturning, renderHomeSync, text, links, steps, rebuilds, pageOf, portConfig, boot, ROOT };
+module.exports = { renderHome, renderRoute, renderHomeWith, renderHomeReturning, renderHomeStoring, renderHomeSync, text, links, steps, rebuilds, pageOf, portConfig, boot, ROOT };

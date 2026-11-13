@@ -209,8 +209,19 @@
 
   // "Continue where you left off" (the old home page's resume strip): the place this browser last worked on,
   // with the three steps people come back to. It names no step number: visiting a page does not mark it done.
+  // A place saved by the public site's older workflow (js/workflow-state-core.js: the active project's id under
+  // coho_wf_active, the project under coho_wf_project_<id>, its place under .jurisdiction). Read only, so a
+  // visitor who picked a place before Home was rebuilt still gets the resume line. Never written here.
+  function savedWorkflowPlace() {
+    try {
+      var id = JSON.parse(global.localStorage.getItem('coho_wf_active') || 'null');
+      if (!id) return null;
+      var j = (JSON.parse(global.localStorage.getItem('coho_wf_project_' + id) || 'null') || {}).jurisdiction;
+      return j && validPlace(j.geoid) && j.name ? { geoid: String(j.geoid), label: String(j.name) } : null;
+    } catch (e) { return null; }
+  }
   function resume(params) {
-    var w = global.LabHna && global.LabHna.working ? global.LabHna.working() : null;
+    var w = (global.LabHna && global.LabHna.working ? global.LabHna.working() : null) || savedWorkflowPlace();
     if (!w || validPlace(params.get('town')) || params.get('q')) return '';
     var g = w.geoid;
     return '<p class="hh-resume"><span>Continue where you left off:</span> <a href="#/place/' + esc(g) + '"><strong>' + esc(w.label) + '</strong>’s needs assessment</a> · ' +
