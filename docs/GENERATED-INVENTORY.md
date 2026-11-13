@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-13T12:47:54.122Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-13T12:51:13.403Z. Do not edit by hand.
 
 ---
 
@@ -108,7 +108,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1008.6 KB | ✅ | — |
+| `data/_manifest.json` | 1008.7 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
