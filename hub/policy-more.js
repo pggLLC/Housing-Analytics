@@ -505,7 +505,7 @@
     'cra-expansion-analysis.html': '#/guide/cra-pricing', 'working-paper.html': '#/guide/working-paper', 'apa-white-paper.html': '#/guide/white-paper',
     'methods.html': '#/guide/methods', 'article-pricing.html': '#/equity-pricing', 'lihtc-guide-for-stakeholders.html': '#/guide/lihtc-basics',
     'local-incentives.html': '#/places/incentives', 'resident-services.html': '#/guide/resident-services', 'affordable-deal-team.html': '#/guide/deal-team',
-    'green-building-guide.html': '#/guide/green-building', 'help-for-homebuyers.html': '#/assistance', 'housing-authority-guide.html': '#/guide/housing-authority',
+    'green-building-guide.html': '#/guide/green-building', 'help-for-homebuyers.html': '#/guide/homebuyer-help', 'housing-authority-guide.html': '#/guide/housing-authority',
     'sunday-digest.html': '#/digest', 'housing-help.html': '#/assistance'
   };
   // The catalog's own section names and notes (meta.sections), in its order.

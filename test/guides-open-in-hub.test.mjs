@@ -47,6 +47,8 @@ const HUBS = JSON.parse(/var HUBS = (\{.*?\}), STARTS = /s.exec(config)[1]);
 const drawn = (page, route) => (HUBS[page] || []).some((re) => new RegExp(re).test(route));
 const guideJs = read('hub/guide.js');
 const MODE = vm.runInNewContext('(' + /var PAGE_MODE = (\{[^;]*\});/.exec(guideJs)[1] + ')');
+// Pages whose own scripts draw parts of them; the hub opens those in a frame and reads them once drawn.
+const RENDERED = vm.runInNewContext('(' + /var PAGE_RENDERED = (\{[^;]*\});/.exec(guideJs)[1] + ')');
 const KEEP_PATHS = vm.runInNewContext('(' + /var PAGE_PATHS = (\{[^;]*\});/.exec(guideJs)[1] + ')');
 
 // The pages that forward, from the site's own list (js/path-resolver.js, the first script each guide page loads).
@@ -54,24 +56,29 @@ const resolver = read('js/path-resolver.js');
 const GUIDE_PAGES = vm.runInNewContext('(' + /var GUIDE_PAGES = (\{[^;]*\});/.exec(resolver)[1] + ')');
 const pages = Object.keys(GUIDE_PAGES);
 const slugOf = (page) => GUIDE_PAGES[page];
-const carriedSlugs = Object.keys(GUIDES).filter((slug) => drawn('policy-hub.html', '#/guide/' + slug));
+// The hub page that draws a guide: the Policy hub, or the front page for the two resident guides (Housing help).
+const hubOf = (slug) => Object.keys(HUBS).find((page) => drawn(page, '#/guide/' + slug)) || null;
+const carriedSlugs = Object.keys(GUIDES).filter((slug) => hubOf(slug));
 
 console.log('Guides open in the hub');
 
-test('the Policy hub draws at least the thirteen written guides', () => {
-  assert.ok(carriedSlugs.length >= 13, 'policy-hub.html draws ' + carriedSlugs.length + ' guides: ' + carriedSlugs.join(', '));
+test('the hub pages draw at least the fifteen written guides, the two resident guides on the front page', () => {
+  assert.ok(carriedSlugs.length >= 15, 'the hub pages draw ' + carriedSlugs.length + ' guides: ' + carriedSlugs.join(', '));
+  ['renter-help', 'homebuyer-help'].forEach((slug) => assert.equal(hubOf(slug), 'index.html', '#/guide/' + slug + ' is drawn by ' + hubOf(slug) + ', not the front page'));
+  assert.ok(drawn('index.html', '#/assistance'), 'the front page does not draw Housing help (#/assistance)');
 });
 
-test('every page that forwards is a guide the Policy hub draws from that same page', () => {
-  assert.ok(pages.length >= 13, 'only ' + pages.length + ' pages forward');
+test('every page that forwards is a guide a hub page draws from that same page', () => {
+  assert.ok(pages.length >= 15, 'only ' + pages.length + ' pages forward');
   pages.forEach((page) => {
     const slug = slugOf(page);
     assert.equal(GUIDES[slug], page, page + ' forwards to #/guide/' + slug + ', which the hub reads from ' + GUIDES[slug]);
-    assert.ok(drawn('policy-hub.html', '#/guide/' + slug), page + ' forwards to #/guide/' + slug + ', which policy-hub.html does not draw');
+    assert.ok(hubOf(slug), page + ' forwards to #/guide/' + slug + ', which no hub page draws');
+    assert.equal(forwarded(page).split('#')[0], hubOf(slug), page + ' forwards to a page that does not draw #/guide/' + slug);
   });
 });
 
-test('every guide the Policy hub draws has its own page forward to it', () => {
+test('every guide a hub page draws has its own page forward to it', () => {
   carriedSlugs.forEach((slug) => {
     const page = GUIDES[slug];
     assert.ok(fs.existsSync(path.join(ROOT, page)), 'the hub reads #/guide/' + slug + ' from ' + page + ', which is not in the repo');
@@ -91,9 +98,10 @@ function forwarded(page, { hash = '', search = '', framed = false, dir = '/' } =
 test('the forward opens the guide, keeps a section link, and leaves a framed or classic view alone', () => {
   pages.forEach((page) => {
     const slug = slugOf(page);
-    assert.equal(forwarded(page), 'policy-hub.html#/guide/' + slug, page);
-    assert.equal(forwarded(page, { hash: '#some-part_2' }), 'policy-hub.html#/guide/' + slug + '?at=some-part_2', page + ' with a section link');
-    assert.equal(forwarded(page, { hash: '#x&y=<z>' }), 'policy-hub.html#/guide/' + slug, page + ' with an anchor that is not a plain id');
+    const to = hubOf(slug) + '#/guide/' + slug;
+    assert.equal(forwarded(page), to, page);
+    assert.equal(forwarded(page, { hash: '#some-part_2' }), to + '?at=some-part_2', page + ' with a section link');
+    assert.equal(forwarded(page, { hash: '#x&y=<z>' }), to, page + ' with an anchor that is not a plain id');
     assert.equal(forwarded(page, { framed: true }), null, page + ' forwards inside a frame, so the hub could not read it');
     assert.equal(forwarded(page, { search: '?classic=1' }), null, page + ' forwards with ?classic=1');
     assert.equal(forwarded(page, { search: '?a=1&classic' }), null, page + ' forwards with &classic');
@@ -101,7 +109,7 @@ test('the forward opens the guide, keeps a section link, and leaves a framed or 
 });
 
 test('a page that is not a guide is never forwarded', () => {
-  ['index.html', 'policy-hub.html', 'deal-calculator.html', 'housing-help.html', 'constructor', 'toString', ''].forEach((page) => {
+  ['index.html', 'policy-hub.html', 'deal-calculator.html', 'housing-needs-assessment.html', 'constructor', 'toString', ''].forEach((page) => {
     assert.equal(forwarded(page), null, page);
   });
   assert.equal(forwarded('about.html', { dir: '/Housing-Analytics/' }), 'policy-hub.html#/guide/about', 'a guide served from a sub-folder still forwards beside itself');
@@ -131,7 +139,10 @@ test('each guide page cuts into a title and parts with words in them, with every
     const slug = slugOf(page);
     const { g, tables } = cut(page, slug);
     assert.ok(g.title && g.title.length > 3, page + ': no title');
-    assert.ok(g.sections.length >= 3, page + ': only ' + g.sections.length + ' parts');
+    // The homebuyer page's program groups are drawn by its script from the program file, so its file alone has one
+    // part and the mount; the browser check in the pull request compared the drawn page.
+    const scriptDrawn = RENDERED[slug] && new JSDOM(read(page)).window.document.querySelector('main [data-homeownership-programs]');
+    assert.ok(g.sections.length >= (scriptDrawn ? 1 : 3), page + ': only ' + g.sections.length + ' parts');
     g.sections.forEach((s) => {
       assert.ok(s.title, page + ': a part has no heading');
       // A part a script fills is empty in the file; the hub opens the page to read those (hub/guide.js load).

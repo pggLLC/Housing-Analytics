@@ -57,6 +57,9 @@
     'methods': { menu: 'data', diagram: cardsFrom({ from: '10-why-this-method-and-not-another', title: 'Why this method and not another' }), introTitle: 'In short', next: [{ href: '#/data/sources', label: 'Every source and how fresh it is \u2192' }, { href: '#/places', label: 'See the numbers for a place', secondary: true }] },
     // The renter page sits under Housing help, which is not one of the five menus.
     'renter-help': { facts: [{ value: '2-1-1', label: 'Shelter, food and rent help; or text your ZIP code to 898-211', source: '2-1-1 Colorado', href: 'https://www.211colorado.org/' }, { value: '1-844-926-6632', label: 'Evictions and lease questions', source: 'Colorado Housing Connects', href: 'https://coloradohousingconnects.org/' }, { value: '(303) 838-1200', label: 'Behind on rent with an eviction notice: CARE Center, weekdays 8:30 to 5:30', source: 'Division of Housing', href: 'https://doh.colorado.gov/emergency-rental-assistance' }], diagram: cardsFrom({ from: 'start-here', kind: 'phones', title: 'Who to call' }), crumbs: [{ label: 'Home', href: '#/' }, { label: 'Housing help', href: '#/assistance' }], introTitle: 'In short', next: [{ href: '#/assistance', label: 'Help to buy or keep a home \u2192' }, { href: '#/places', label: 'Housing need in your town', secondary: true }] },
+    // The full homebuyer page: every program card (open, expired and proposed) and the local help list, as its own
+    // page draws them from the site's program file. Housing help (#/assistance) is the short way in.
+    'homebuyer-help': { crumbs: [{ label: 'Home', href: '#/' }, { label: 'Housing help', href: '#/assistance' }], introTitle: 'Start here', next: [{ href: '#/assistance', label: 'All housing help \u2192' }, { href: '#/for-sale', label: 'What a household can afford to buy', secondary: true }] },
     'about': { menu: 'data', diagram: cardsFrom({ from: 'core-sources', title: 'Where the data comes from' }), introTitle: 'In short', next: [{ href: '#/guide/methods', label: 'How the numbers are made \u2192' }, { href: '#/data/sources', label: 'Data sources', secondary: true }] },
     // Written by the lab (no live page has this), from the primary sources each section links.
     'preservation': {
@@ -325,7 +328,7 @@
 
   // The guides whose live page has its own layout, or whose scripts write some of its words and tables.
   var PAGE_MODE = { 'lihtc-basics': 'lihtc' };
-  var PAGE_RENDERED = { 'lihtc-basics': true, 'green-building': true, 'resident-services': true, 'cra-pricing': true, 'about': true, 'ahcia': true };
+  var PAGE_RENDERED = { 'lihtc-basics': true, 'green-building': true, 'resident-services': true, 'cra-pricing': true, 'about': true, 'ahcia': true, 'homebuyer-help': true };
   var PAGE_PATHS = { 'working-paper': true, 'methods': true };
   function load(slug) {
     if (cache[slug]) return cache[slug];
@@ -393,6 +396,8 @@
       // One- to three-word kickers ("Guide", "Platform") repeat the page kind the lab already shows, so only
       // the longer lines are drawn; the record keeps them all.
       (function (lines) { return lines.length ? '<ul class="guide-notes">' + lines.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>' : ''; })((g.notes || []).filter(function (n) { return n.split(' ').length > 3; })) +
+      // A guide written in two languages keeps its page's switch: a link to where the other language starts.
+      (function (es) { return es ? '<p class="guide-lang"><a href="#/guide/' + esc(slug) + '?at=g-' + esc(es.id) + '" data-jump="g-' + esc(es.id) + '" lang="es" hreflang="es">Espa\u00f1ol</a></p>' : ''; })(g.sections.filter(function (x) { return x.lang === 'es'; })[0]) +
       (g.docGuide ? '<aside class="doc-guide" aria-labelledby="doc-guide-t"><p class="doc-guide-t" id="doc-guide-t">' + esc(g.docGuide.title) + '</p><ol>' + g.docGuide.items.map(function (x) {
         return '<li' + (x.here ? ' class="is-here"' : '') + '>' + (x.here ? '<strong>' + esc(x.name) + '</strong> <span class="note">You are here</span>' : '<a href="' + esc(x.href) + '">' + esc(x.name) + '</a>') +
           (x.use ? '<span class="doc-guide-use">' + esc(x.use) + '</span>' : '') + (x.about ? '<span class="doc-guide-about">' + esc(x.about) + '</span>' : '') + '</li>';

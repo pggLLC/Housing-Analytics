@@ -377,8 +377,10 @@
     if (global.LabTpl && global.LabTpl.pageTabs) global.LabTpl.pageTabs();
     // A port points each link at what that site carries (window.LAB_PORT.fix).
     if (global.LAB_PORT && global.LAB_PORT.fix) global.LAB_PORT.fix(main);
+    // The two resident guides sit under Housing help, so that link shows as current on them.
+    var navView = /^#\/guide\/(renter-help|homebuyer-help)\/?$/.test((location.hash || '').split('?')[0]) ? 'assistance' : route.view;
     document.querySelectorAll('.site-nav a').forEach(function (a) {
-      if (a.dataset.hub === route.view) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+      if (a.dataset.hub === navView) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
     var h1 = main.querySelector('h1');
     var suffix = global.LAB_TITLE || 'COHO lab preview';
