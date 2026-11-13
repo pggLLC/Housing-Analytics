@@ -1,0 +1,460 @@
+/* Lab shell. Tokens follow docs/whole-site-redesign.md (provisional civic palette). */
+/* Colours live in palette.css. */
+* { box-sizing: border-box; }
+/* Type (big visual pass, 11-06): one display face for page titles, section titles and headline figures; the
+   body stays in the system face. Fraunces is an open-licence (OFL) Google font; Georgia stands in until it loads. */
+:root { --font-display: "Fraunces", Georgia, "Times New Roman", serif; }
+html { -webkit-text-size-adjust: 100%; }
+html { background: var(--paper); }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+a { color: var(--green); }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* main takes focus on every route change and from the skip link so screen readers land on the new page;
+   it is not a control, so it shows no ring (the ring drew a green frame around the whole page). */
+main:focus { outline: none; }
+.skip-link { position: absolute; left: -999px; top: 0; background: var(--card); padding: .5rem 1rem; }
+.skip-link:focus { left: 1rem; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.lab-banner { background: var(--ink); color: var(--on-fill); font-size: 14px; padding: .4rem 16px; text-align: center; }
+
+.site-header { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.5rem; padding: .75rem 16px; background: var(--card); border-bottom: 1px solid var(--line); }
+.brand { font-weight: 700; color: var(--ink); text-decoration: none; font-size: 18px; min-height: 44px; display: flex; align-items: center; }
+.site-nav { display: flex; flex-wrap: wrap; gap: .25rem 1rem; align-items: center; flex: 1; }
+.site-nav a { color: var(--ink); text-decoration: none; min-height: 44px; display: flex; align-items: center; border-bottom: 3px solid transparent; }
+.site-nav a[aria-current="page"] { border-bottom-color: var(--green); color: var(--green); font-weight: 600; }
+.nav-utilities { display: flex; flex-wrap: wrap; gap: .25rem 1rem; margin-left: auto; }
+.menu-toggle { display: none; margin-left: auto; min-height: 44px; padding: 0 1rem; background: var(--card); border: 1px solid var(--line); border-radius: 6px; font: inherit; color: var(--ink); }
+
+main { max-width: 1040px; margin: 0 auto; padding: 1.5rem 16px 3rem; }
+h1 { font-size: 32px; line-height: 1.25; margin: 0 0 .5rem; }
+h2 { font-size: 24px; line-height: 1.3; margin: 2rem 0 .75rem; }
+h3 { font-size: 18px; margin: 0 0 .25rem; }
+.lede { font-size: 18px; color: var(--ink); max-width: 46rem; margin: 0 0 1.5rem; }
+.muted, .note { color: var(--muted); font-size: 14px; }
+
+.choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
+.choice { background: var(--card); border: 1px solid var(--line); border-radius: 8px; }
+.choice a { display: block; padding: 1rem; text-decoration: none; color: var(--ink); min-height: 44px; }
+.choice a:hover h3 { text-decoration: underline; }
+.choice h3 { color: var(--green); }
+.choice p { margin: 0; color: var(--muted); font-size: 14px; }
+
+.search { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 0 0 1rem; }
+.search label { width: 100%; font-weight: 600; }
+.search input { flex: 1; min-width: 0; min-height: 44px; padding: 0 .75rem; border: 1px solid var(--muted); border-radius: 6px; font: inherit; background: var(--card); color: var(--ink); }
+
+.route-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.route-list li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; padding: .75rem 0; border-bottom: 1px solid var(--line); }
+.route-list a { min-height: 44px; display: inline-flex; align-items: center; font-weight: 600; overflow-wrap: break-word; }
+.route-list .note { width: 100%; margin: 0; }
+.status { font-size: 14px; white-space: nowrap; padding: .1rem .5rem; border: 1px solid var(--line); border-radius: 999px; align-self: center; background: var(--card); }
+.status-current::before { content: "✓ "; color: var(--green); }
+.status-members { font-weight: 600; }
+.status-lab::before { content: "● "; color: var(--rust); }
+.status-unfinished::before { content: "○ "; color: var(--muted); }
+.status-alias::before { content: "↪ "; }
+.status-not-public::before { content: "– "; }
+.count { color: var(--muted); font-size: 14px; margin: .5rem 0; }
+.callout { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--green); padding: .75rem 1rem; border-radius: 6px; margin: 1rem 0; }
+.back-link { display: inline-flex; min-height: 44px; align-items: center; }
+
+.site-footer { border-top: 1px solid var(--line); padding: 1rem 16px; color: var(--muted); font-size: 14px; text-align: center; }
+.site-footer .footer-terms { max-width: 44rem; margin: 0 auto .5rem; line-height: 1.5; }
+.site-footer .footer-link { display: inline-block; min-height: 44px; line-height: 44px; padding: 0 8px; }
+.terms { max-width: 44rem; }
+.terms h2 { font-size: 1.1rem; margin: 1.25rem 0 .25rem; }
+
+@media (max-width: 767px) {
+  .menu-toggle { display: block; }
+  .site-nav { display: none; width: 100%; flex-direction: column; align-items: stretch; }
+  .site-nav.open { display: flex; }
+  .nav-utilities { margin-left: 0; flex-direction: column; border-top: 1px solid var(--line); }
+  h1 { font-size: 28px; }
+}
+
+/* Projects (step 3) */
+.stack { display: grid; gap: .5rem; max-width: 40rem; margin: 1rem 0; }
+.stack h2 { margin-top: 1rem; }
+.stack input[type="text"], .stack input:not([type]), .stack input[name="name"] { min-height: 44px; padding: 0 .75rem; border: 1px solid var(--muted); border-radius: 6px; font: inherit; background: var(--card); color: var(--ink); }
+fieldset { border: 1px solid var(--line); border-radius: 6px; padding: .5rem 1rem; margin: 0; background: var(--card); }
+legend { font-weight: 600; padding: 0 .25rem; }
+fieldset label { display: flex; gap: .5rem; align-items: flex-start; padding: .6rem 0; min-height: 44px; }
+fieldset input[type="radio"] { width: 20px; height: 20px; margin-top: .2rem; flex: none; accent-color: var(--green); }
+button[type="submit"], .button-link { justify-self: start; min-height: 44px; padding: 0 1.25rem; border: 1px solid var(--green); border-radius: 6px; background: var(--green); color: var(--on-fill); font: inherit; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; text-decoration: none; }
+button.quiet { min-height: 44px; padding: 0 1.25rem; border: 1px solid var(--line); border-radius: 6px; background: var(--card); color: var(--ink); font: inherit; cursor: pointer; }
+form[data-action="delete"] button.quiet { margin-top: 2rem; }
+.use-link { font-size: 14px; min-height: 44px; display: inline-flex; align-items: center; }
+.route-list .use-link { font-weight: 400; }
+.state-attached::before { content: "◑ "; }
+.state-reviewed::before { content: "✓ "; color: var(--green); }
+.state-stale::before { content: "! "; color: var(--rust); font-weight: 700; }
+.state-not-attached::before { content: "○ "; color: var(--muted); }
+
+/* Homes and affordability (step 4) */
+.field-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .75rem 1rem; }
+.field { display: grid; gap: .25rem; font-size: 14px; font-weight: 600; }
+.field input, .field select { min-height: 44px; padding: 0 .75rem; border: 1px solid var(--muted); border-radius: 6px; font: inherit; font-weight: 400; font-size: 16px; background: var(--card); color: var(--ink); width: 100%; min-width: 0; }
+.field-label { font-size: 14px; font-weight: 600; margin: 1rem 0 .25rem; }
+.field.check { grid-template-columns: 24px minmax(0, 1fr); align-items: start; font-weight: 400; }
+.field.check input { width: 20px; height: 20px; min-height: 0; padding: 0; margin-top: .1rem; accent-color: var(--green); }
+.field.check .note, .field.check .src { grid-column: 2; }
+.field .src, .stress-slider .src { display: block; font-size: 12px; font-weight: 400; line-height: 1.4; color: var(--muted); }
+.field select[disabled] { opacity: .75; }
+/* Financials cost lines: the live page's nine DOH groups, each closed to its subtotal until opened. */
+.cost-groups { display: grid; gap: .25rem; }
+.cost-group { border-top: 1px solid var(--line, var(--muted)); }
+.cost-group > summary { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem .75rem; min-height: 44px; align-items: center; cursor: pointer; font-weight: 700; }
+.cost-group > summary .sub { font-weight: 400; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+@media (max-width: 600px) {
+  /* Phone: each cost line stacks, name on its own row, then basis and amount, so no name is cut off. */
+  .cost-table table, .cost-table tbody { display: block; }
+  .cost-table thead { display: none; }
+  .cost-table tr[data-cost-line] { display: grid; grid-template-columns: minmax(0, 1fr); gap: .35rem; padding: .6rem 0; border-top: 1px solid var(--line); }
+  .cost-table tr[data-cost-line] th, .cost-table tr[data-cost-line] td { display: block; padding: 0; border: 0; white-space: normal; text-align: left; }
+  .cost-table tr[data-cost-line] td select, .cost-table tr[data-cost-line] td input { width: 100%; }
+  .cost-table .cost-extra { text-align: left; }
+}
+.field .note { font-weight: 400; font-size: 13px; }
+.cost-table td select { min-height: 44px; padding: 0 .5rem; border: 1px solid var(--muted); border-radius: 6px; font: inherit; background: var(--card); color: var(--ink); }
+.checks { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
+.checks label { display: flex; align-items: center; gap: .5rem; min-height: 44px; }
+.checks input { width: 20px; height: 20px; accent-color: var(--green); }
+.homes > fieldset, .mix-row { margin: 1rem 0; }
+.row-result, .totals, .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .5rem 1rem; margin: .75rem 0 0; }
+.row-result div, .totals div, .facts div { border-top: 1px solid var(--line); padding-top: .4rem; }
+dt { font-size: 14px; color: var(--muted); }
+dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.key-figure { color: var(--rust); font-size: 20px; }
+.row-reason { font-size: 14px; margin: .5rem 0 0; }
+button.small { margin-top: .5rem; min-height: 44px; }
+.actions { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1.5rem 0; }
+.button-link.secondary { background: var(--card); color: var(--green); }
+.button-link.disabled { background: var(--paper); color: var(--muted); border-color: var(--line); cursor: not-allowed; }
+.table-scroll { overflow-x: auto; max-width: 100%; border: 1px solid var(--line); border-radius: 6px; background: var(--card); margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { padding: .5rem .75rem; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
+ul.plain { padding-left: 1.25rem; }
+ul.plain li { margin: .4rem 0; }
+
+/* Financials (step 5) */
+.cost-extra { display: block; margin-top: .4rem; font-size: 13px; color: var(--ink); text-align: right; }
+.cost-table td input, .op-table td input { width: 9rem; min-height: 44px; padding: 0 .5rem; border: 1px solid var(--muted); border-radius: 6px; font: inherit; text-align: right; font-variant-numeric: tabular-nums; }
+/* Operating budget: DOH's groups as row groups with their subtotal, lines entered per home per year. */
+.table-scroll.op-table { max-height: none; }
+.op-table th { white-space: normal; }
+.op-table .group-row th { background: var(--paper); color: var(--green); font-weight: 700; }
+.op-table .group-row .sub { float: right; color: var(--ink); font-variant-numeric: tabular-nums; }
+.op-table .sep-line th, .op-table .sep-line td { color: var(--muted); }
+.op-table .sep-line small { font-size: 13px; }
+.op-totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .5rem 1rem; margin: 0 0 1rem; }
+.op-totals div { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .6rem .8rem; }
+.op-totals dt { font-size: 14px; color: var(--muted); }
+.op-totals dd { margin: .15rem 0 0; font-weight: 700; font-variant-numeric: tabular-nums; }
+.fin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1rem 0; }
+.fin-card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .75rem 1rem; }
+.fin-card h3 { font-size: 14px; color: var(--muted); font-weight: 600; margin: 0 0 .25rem; }
+.fin-card .big { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; margin: 0; }
+.fin-card .why { font-size: 14px; color: var(--muted); margin: .25rem 0 0; }
+.unavail { color: var(--muted); font-weight: 400; }
+
+/* Places: metric cards, the income-band chart and the ranked shortfall list. */
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin: 0 0 1.5rem; }
+.metric { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem; display: flex; flex-direction: column; gap: .25rem; }
+.metric p { margin: 0; }
+.metric-label { font-size: 14px; font-weight: 600; color: var(--ink); }
+.metric-value { font-size: 30px; line-height: 1.15; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.metric-value.unavailable { font-size: 18px; font-weight: 600; color: var(--muted); }
+.metric-detail { font-size: 14px; color: var(--ink); }
+.metric-source { font-size: 13px; color: var(--muted); margin-top: auto; padding-top: .5rem; }
+.metric-source a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.metric-source a:hover { color: var(--ink); }
+
+.gap-chart { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem; margin: 0 0 1.5rem; }
+.gap-chart figcaption { display: flex; flex-direction: column; gap: .25rem; margin-bottom: .75rem; }
+.legend { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; list-style: none; margin: 0 0 .75rem; padding: 0; font-size: 14px; }
+.legend li { display: inline-flex; align-items: center; gap: .4rem; }
+.key { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.key.households, .bar.households { background: var(--series-households); }
+.key.homes, .bar.homes { background: var(--series-homes); }
+.gap-rows { display: flex; flex-direction: column; gap: .75rem; }
+.gap-row { display: grid; grid-template-columns: 11rem 1fr; gap: .25rem 1rem; align-items: center; }
+.gap-band { margin: 0; font-size: 14px; font-weight: 600; display: flex; flex-direction: column; }
+.gap-band .note { font-weight: 400; }
+.gap-bars { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.bar-row { display: flex; align-items: center; gap: .5rem; min-width: 0; }
+/* Bar widths are a share of the row less room for the value, so lengths stay proportional and the value never collides. */
+.bar { display: block; height: 14px; border-radius: 0 4px 4px 0; flex: none; }
+.bar-value { font-size: 13px; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.rank { list-style: none; margin: 0 0 1.5rem; padding: 0; border-top: 1px solid var(--line); }
+.rank li { display: grid; grid-template-columns: minmax(8rem, 14rem) 1fr 4.5rem; align-items: center; gap: .75rem; padding: .25rem 0; border-bottom: 1px solid var(--line); }
+.rank a { min-height: 44px; display: inline-flex; align-items: center; font-weight: 600; overflow-wrap: break-word; }
+.rank-bar { display: block; min-width: 0; }
+.rank-bar .bar { max-width: 100%; }
+.rank .bar-value { text-align: right; }
+
+@media (max-width: 767px) {
+  .gap-row { grid-template-columns: 1fr; }
+  .rank li { grid-template-columns: 1fr 4.5rem; }
+  .rank-bar { grid-column: 1 / -1; grid-row: 2; padding-bottom: .5rem; }
+  .metric-value { font-size: 26px; }
+}
+
+/* HNA chapter tabs on the place page. Links, so each chapter has its own address and Back works. */
+.tabs { margin: 1.5rem 0 0; border-bottom: 1px solid var(--line); }
+.tabs ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 .25rem; }
+.tabs a { display: flex; align-items: center; min-height: 44px; padding: 0 .9rem; color: var(--ink); text-decoration: none; border-bottom: 3px solid transparent; white-space: nowrap; }
+.tabs a:hover { border-bottom-color: var(--line); }
+.tabs a[aria-current="page"] { border-bottom-color: var(--green); font-weight: 600; color: var(--green); }
+.tab-title { margin-top: 1.25rem; }
+.metric.word .metric-value { font-size: 22px; line-height: 1.3; }
+
+/* What to do: the need figures as steps, each marked in or out of the figure used. */
+.need-steps { list-style: none; margin: 0 0 1rem; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+.need-step { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: 6px; padding: .75rem 1rem; display: flex; flex-direction: column; gap: .2rem; }
+.need-step-used { border-left-color: var(--green); }
+.type-rank { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: .75rem; }
+.type-card { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--line); border-radius: 6px; padding: .75rem 1rem; min-width: 0; }
+.type-card p, .type-card ul { margin: .3rem 0; }
+.type-card.lvl-veryhigh { border-top-color: var(--rust); }
+.type-card.lvl-high { border-top-color: var(--src-fee); }
+.type-card.lvl-moderate { border-top-color: var(--muted); }
+.type-head { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; flex-wrap: wrap; }
+.type-score { font-weight: 700; font-variant-numeric: tabular-nums; }
+.density { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .75rem 1rem; margin: 0 0 1rem; }
+.density-rows { list-style: none; margin: .5rem 0; padding: 0; display: flex; flex-direction: column; gap: .7rem; }
+.density-rows p { margin: 0 0 .25rem; }
+.density-photo { margin: 0 0 .4rem; max-width: 20rem; }
+.density-photo img { display: block; width: 100%; height: auto; border-radius: 6px; }
+.density-photo figcaption { font-size: 13px; color: var(--muted); margin-top: .25rem; }
+.density-track { position: relative; height: 14px; background: var(--paper); border-radius: 7px; }
+.density-bar { position: absolute; top: 0; bottom: 0; background: var(--series-homes); border-radius: 7px; }
+.density-mark { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); }
+.density-key { list-style: none; margin: .5rem 0; padding: 0; font-size: .9rem; color: var(--muted); }
+.density-mark-key { display: inline-block; width: 2px; height: 1em; background: var(--ink); margin-right: .5rem; vertical-align: middle; }
+.score-head { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .75rem 1rem; margin: 0 0 .75rem; }
+.score-head p { margin: 0; }
+.score-big { font-size: 2.4rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.score-big span { font-size: 1rem; color: var(--muted); font-weight: 600; }
+.score-parts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: .6rem; margin: 0 0 1rem; }
+.score-part { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--line); border-radius: 6px; padding: .6rem .8rem; min-width: 0; }
+.score-part p { margin: .2rem 0; }
+.score-part-t { font-weight: 600; }
+.score-part-v { font-size: 1.4rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.score-part.band-highest { border-top-color: var(--rust); }
+.score-part.band-elevated { border-top-color: var(--src-fee); }
+.score-part.band-moderate { border-top-color: var(--src-mortgage); }
+.score-part.band-lower { border-top-color: var(--series-homes); }
+.need-step p { margin: 0; }
+.need-step-v { font-size: 22px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+.need-tag { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .02em; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.need-step-used .need-tag { border-color: var(--green); color: var(--green); }
+.ft-check { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem; margin: 1rem 0 1.5rem; }
+.ft-check h3 { margin-top: 0; }
+.ft-inputs { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: .75rem; }
+.ft-inputs label { display: flex; flex-direction: column; gap: .25rem; font-size: 14px; font-weight: 600; }
+.ft-inputs input { width: 8rem; min-height: 44px; font: inherit; padding: 0 .5rem; border: 1px solid var(--line); border-radius: 6px; }
+.steps li { margin-bottom: .5rem; }
+.plan-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 1rem; margin-bottom: .75rem; }
+.plan-group { border: 1px solid var(--line); border-radius: 8px; padding: .5rem 1rem 1rem; margin: 0; min-width: 0; background: var(--card); }
+.plan-group legend { font-weight: 700; padding: 0 .25rem; }
+.plan-item { display: flex; gap: .6rem; align-items: flex-start; padding: .5rem 0; border-bottom: 1px solid var(--line); min-height: 44px; }
+.plan-item:last-child { border-bottom: 0; }
+.plan-item input { width: 20px; height: 20px; margin: .15rem 0 0; flex: none; }
+
+/* Chapter guidance: the question the chapter answers, then the plain finding for this place. */
+.chapter-intro { margin: 0 0 1.25rem; max-width: 46rem; }
+.chapter-ask { margin: 0 0 .5rem; color: var(--ink); font-weight: 600; }
+.chapter-finding { margin: 0; font-size: 20px; line-height: 1.45; color: var(--ink); border-left: 4px solid var(--rust); padding-left: .9rem; }
+.next-step { margin: 2rem 0 1rem; padding: 1rem 1.25rem; background: var(--card); border: 1px solid var(--line); border-radius: 8px; }
+.next-step p { margin: 0; }
+.next-step .actions { margin: .75rem 0 0; }
+
+/* Cards that open a tool. */
+.metric-link { position: relative; }
+.metric-link:hover { border-color: var(--green); }
+.metric-main { text-decoration: none; color: var(--ink); }
+.metric-main > span { display: block; }
+.metric-main::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.metric-main:focus-visible { outline: none; }
+.metric-main:focus-visible::after { outline: 3px solid var(--green); outline-offset: 2px; }
+.metric-link .metric-source a { position: relative; z-index: 1; }
+.metric-go { margin-top: .5rem; color: var(--green); font-weight: 600; font-size: 14px; }
+
+/* Two charts side by side on wide screens. */
+.chart-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 0 1rem; }
+
+/* Sortable, filterable tables. */
+.data-table { margin: 0 0 1.5rem; }
+.table-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin: 0 0 .5rem; }
+.table-tools label { font-weight: 600; width: 100%; }
+.table-tools input { flex: 1 1 16rem; min-width: 0; min-height: 44px; padding: 0 .75rem; border: 1px solid var(--muted); border-radius: 6px; font: inherit; background: var(--card); color: var(--ink); }
+.table-tools .count { margin: 0; color: var(--ink); }
+.table-scroll { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 8px; max-height: 70vh; }
+.data-table table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.data-table caption { text-align: left; padding: .75rem 1rem 0; font-weight: 600; }
+.data-table th, .data-table td { text-align: left; padding: .5rem .75rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+.data-table th { position: sticky; top: 0; background: var(--card); z-index: 1; padding: 0; }
+.data-table th button { all: unset; box-sizing: border-box; display: flex; align-items: center; gap: .25rem; width: 100%; min-height: 44px; padding: 0 .75rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.data-table th button:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+.data-table th button::after { content: "\2195"; color: var(--muted); font-weight: 400; }
+.data-table th[aria-sort="ascending"] button::after { content: "\2191"; color: var(--green); }
+.data-table th[aria-sort="descending"] button::after { content: "\2193"; color: var(--green); }
+.data-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.data-table th.num button { justify-content: flex-end; }
+.data-table tbody tr:hover { background: var(--paper); }
+
+/* Phones: short figures two to a row, so a chapter is not one long column of single numbers. Tabs wrap
+   rather than scroll, so every chapter name stays visible. */
+@media (max-width: 767px) {
+  .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+  .metric { padding: .75rem; }
+  .metric-value { font-size: 22px; }
+  .metric.word, .metric-link { grid-column: span 2; }
+  .tabs a { padding: 0 .6rem; }
+}
+details.counted { margin: 0 0 1.5rem; }
+details.counted summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; color: var(--green); }
+details.counted p { max-width: 46rem; }
+
+/* Financials: sources and uses, stress, exit and projection. */
+.fin-section { margin-top: 2rem; }
+.fin-section table caption { text-align: left; font-weight: 600; padding: .25rem 0 .5rem; }
+.fin-section small.why { display: block; font-size: 13px; color: var(--muted); font-weight: 400; }
+.fin-section tfoot th, .fin-section tfoot td { border-top: 2px solid var(--ink); font-weight: 700; }
+.stack-bar { display: flex; height: 28px; border-radius: 6px; overflow: hidden; margin: .5rem 0 1rem; background: var(--line); }
+.stack-bar .seg { display: block; height: 100%; min-width: 2px; }
+.seg-equity { background: var(--src-equity); }
+.seg-mortgage { background: var(--src-mortgage); }
+.seg-soft { background: var(--src-soft); }
+.seg-fee { background: var(--src-fee); }
+.seg-gap { background: var(--src-gap); }
+.fin-section .key { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: .5rem; vertical-align: -1px; }
+.su-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem 2rem; }
+.su-grid > * { min-width: 0; }
+.below-one td:nth-child(3) { color: var(--rust); font-weight: 700; }
+.exit-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem 1rem; margin: 0; }
+.exit-list div { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .6rem .9rem; }
+.exit-list dt { font-size: 14px; color: var(--muted); }
+.exit-list dd { margin: 0; font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.proj-table td, .proj-table th { white-space: nowrap; }
+.stress-table th[scope="row"] { white-space: normal; min-width: 10rem; }
+.su-grid th[scope="row"] { white-space: normal; }
+.fin-section table caption { padding-left: .75rem; }
+.proj-table th:first-child { position: sticky; left: 0; background: var(--card); }
+.proj-table thead th { position: sticky; top: 0; background: var(--card); z-index: 1; }
+.proj-table thead th:first-child { z-index: 2; }
+
+/* Geography labels: what place a figure describes and how it was derived (js/hna/geography-provenance.js levels). */
+.metric-scope { margin: .15rem 0 .1rem; }
+.geo-chip { display: inline-block; padding: .05rem .45rem; border-radius: 999px; border: 1px solid currentColor; font-size: 12px; font-weight: 600; line-height: 1.5; letter-spacing: .01em; white-space: nowrap; cursor: help; }
+figcaption .geo-chip { align-self: flex-start; }
+.geo-chip[data-tone="local"] { color: var(--geo-local); background: var(--geo-local-bg); }
+.geo-chip[data-tone="derived"] { color: var(--geo-derived); background: var(--geo-derived-bg); }
+.geo-chip[data-tone="proxy"] { color: var(--geo-proxy); background: var(--geo-proxy-bg); }
+.geo-chip[data-tone="neutral"], .geo-chip[data-tone="none"] { color: var(--geo-neutral); background: var(--geo-neutral-bg); }
+.geo-key { display: flex; flex-wrap: wrap; gap: .5rem 1rem; list-style: none; padding: 0; margin: .5rem 0 0; font-size: 14px; }
+.geo-key li { display: flex; gap: .4rem; align-items: baseline; }
+/* HNA chapter close: the figures to carry forward, and the sources panel. */
+.recap { margin: 2rem 0 1rem; padding: 1rem 1.25rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--ink); border-radius: 8px; }
+.recap h2 { margin: 0 0 .5rem; font-size: 18px; }
+.recap-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr)); }
+.recap-list li { min-width: 0; }
+.recap-n { display: block; font-size: 26px; line-height: 1.2; }
+.recap-list .metric-source { display: block; margin-top: .2rem; }
+.sources-method { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.method-notes { padding-left: 1.2rem; max-width: 46rem; }
+.method-notes li { margin-bottom: .4rem; }
+.source-grid { list-style: none; padding: 0; margin: 0; display: grid; gap: .4rem 1rem; grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr)); font-size: 14px; }
+.source-grid li { min-width: 0; }
+.rank .rank-label { min-height: 44px; display: inline-flex; align-items: center; font-weight: 600; }
+
+/* Financials: the answer first (gap, sources bar, tiles, rent to loan), then the inputs in four closed steps. */
+.ans { display: grid; gap: .75rem; margin: 1rem 0 1.5rem; }
+.ans-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem; min-width: 0; }
+.ans-change { margin: 0 0 .25rem; font-weight: 600; }
+.ans-k { margin: 0; border: 0; padding: 0; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+/* The funding gap card's heading is the finding in words (Gemini round 16, pick 1), not a kicker. */
+.wf-finding { margin: .75rem 0 .5rem; font-size: 1.0625rem; font-weight: 600; color: var(--ink); max-width: 56rem; }
+#ans-gap.ans-k { font-size: 1.0625rem; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.ans-hero { margin: .25rem 0 0; font-size: clamp(2.1rem, 9vw, 3rem); font-weight: 700; line-height: 1.05; letter-spacing: -.02em; color: var(--rust); font-variant-numeric: tabular-nums; }
+.ans-hero.ans-ok { color: var(--src-equity); }
+.ans-hero.ans-none { color: var(--muted); }
+.ans-sub { margin: .25rem 0 0; color: var(--ink); font-size: 15px; }
+.ans-bar { height: 32px; margin: 1rem 0 .75rem; gap: 2px; background: var(--card); }
+.ans-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; font-size: 15px; }
+.ans-legend li { display: flex; align-items: center; gap: .5rem; }
+.ans-legend i { width: 12px; height: 12px; border-radius: 3px; flex: none; display: inline-block; }
+.ans-legend b { margin-left: auto; font-variant-numeric: tabular-nums; }
+.seg-equity.seg-state { opacity: .6; }
+.ans-tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; }
+.ans-tiles li { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: .7rem; min-width: 0; }
+.ans-tiles b { display: block; font-size: 22px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.ans-tiles span { display: block; font-size: 12.5px; line-height: 1.3; color: var(--muted); }
+.ans-flow { list-style: none; margin: .75rem 0 .25rem; padding: 0; display: grid; gap: .4rem; font-size: 14px; }
+.ans-flow li { display: grid; grid-template-columns: minmax(0, 8.5rem) minmax(0, 1fr) auto; gap: .5rem; align-items: center; }
+.ans-flow li.strong { font-weight: 700; }
+.fl-t { position: relative; height: 16px; }
+.fl-b { position: absolute; top: 0; height: 100%; border-radius: 4px; }
+.fl-in { background: var(--src-equity); }
+.fl-out { background: var(--rust); opacity: .75; }
+.fl-noi { background: var(--series-homes); opacity: .7; }
+.fl-debt { background: var(--src-mortgage); }
+.fl-v { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.fin-step { background: var(--card); border: 1px solid var(--line); border-radius: 12px; margin: .6rem 0; }
+.fin-step > summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem 1rem; padding: .9rem 1rem; cursor: pointer; min-height: 48px; }
+.fin-step > summary .fs-t { font-weight: 700; font-size: 18px; }
+.fin-step > summary .fs-s { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.fin-step .fs-body { padding: 0 1rem 1rem; min-width: 0; }
+.fin-step .fs-body > h2:first-child { display: none; }
+.rate-grid td.num { background: color-mix(in srgb, var(--c-green) calc(var(--g, 0) * 70%), transparent); font-weight: 600; }
+.rate-grid td.mid { outline: 3px solid var(--ink); outline-offset: -3px; }
+.rate-grid td[data-covered] { background: var(--geo-local-bg); color: var(--geo-local); }
+@media (min-width: 900px) { .ans { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); } .ans > .ans-card:first-child { grid-row: span 2; } }
+@media (max-width: 420px) { .ans-flow li { grid-template-columns: minmax(0, 6.5rem) minmax(0, 1fr) auto; font-size: 13px; } .ans-tiles b { font-size: 19px; } }
+.home-about { background: var(--card); border: 1px solid var(--line); border-radius: 12px; margin: 1.5rem 0; }
+.home-about > summary { padding: 1rem; font-weight: 700; cursor: pointer; min-height: 48px; }
+.home-about > section { padding: 0 1rem; }
+/* Homes and affordability: each row's rent against CHFA's gross ceiling. */
+.ceiling-bar { margin: .75rem 0 .25rem; }
+.ceiling-bar figcaption { font-size: 14px; font-weight: 600; margin-bottom: .35rem; }
+.cb-track { display: flex; gap: 2px; height: 22px; border-radius: 6px; overflow: hidden; background: var(--line); }
+.cb-track span { display: block; height: 100%; }
+.cb-key { list-style: none; margin: .4rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem .9rem; font-size: 13px; color: var(--muted); }
+.cb-key i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: .35rem; vertical-align: -1px; }
+.cb-rent { background: var(--src-equity); }
+.cb-ua { background: var(--src-mortgage); }
+.cb-fee { background: var(--src-fee); }
+.cb-room { background: var(--geo-local-bg); box-shadow: inset 0 0 0 1px var(--src-equity); }
+/* Long tables: the first rows, then "Show all". */
+.data-table.clipped tbody tr[data-extra] { display: none; }
+/* A print carries every row, whether or not the reader pressed "Show all" or sorted first. A filter still applies and is shown in the filter box. */
+@media print { .data-table.clipped tbody tr[data-extra]:not([hidden]) { display: table-row; } .show-all { display: none; } }
+.show-all { margin: .5rem 0 1rem; }
+
+/* All tools: one card per group with its count; each opens its folded list. */
+.tool-groups { list-style: none; margin: 0 0 1.25rem; padding: 0; display: grid; gap: .6rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 10.5rem), 1fr)); }
+.tool-groups a { display: flex; flex-direction: column; gap: .2rem; min-height: 44px; padding: .8rem 1rem; background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--green); border-radius: 10px; text-decoration: none; color: var(--ink); }
+.tool-groups .tg-n { font-size: 1.6rem; font-weight: 700; color: var(--green); line-height: 1.1; }
+.tool-groups .tg-t { font-weight: 600; }
+.tool-group { margin: .5rem 0; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+.tool-group > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; gap: .4rem; padding: 0 1rem; font-weight: 600; }
+.tool-group[open] > summary { border-bottom: 1px solid var(--line); }
+.tool-group > .route-list { margin: 0; padding: .5rem 1rem; }
+/* Long lists on reading pages: the first few items show; "Show all" opens the rest (templates.js). */
+.list-clipped > [data-extra] { display: none !important; }
+
+/* Largest employers block (site/employers.js) */
+.emp-block { margin: 1.25rem 0; }
+.emp-block h3 { margin: 0 0 .5rem; }
+.emp-list { margin: .25rem 0 .5rem; padding-left: 1.5rem; }
+.emp-list li { margin: .35rem 0; line-height: 1.4; }
+.emp-name { font-weight: 600; overflow-wrap: anywhere; }
+.emp-count { color: var(--muted); font-size: 14px; white-space: nowrap; }
+.emp-count::before { content: "· "; }
+.emp-housing { font-size: 14px; }
+.emp-note { display: block; color: var(--muted); font-size: 14px; }
+.emp-lead { margin: .25rem 0; }
+.emp-none { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--muted); padding: .6rem .9rem; border-radius: 6px; }
+.emp-unconfirmed { border-left: 3px solid var(--muted); padding-left: .5rem; }

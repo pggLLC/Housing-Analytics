@@ -1,0 +1,236 @@
+/* Big visual pass (paul 11-06). The look layer: one display face for titles and headline figures, a header
+   that holds one row, place pages with a locator map, a step rail drawn as a line, and a bolder ladder.
+   Loads after the hub sheets and before text-fit.css. Colours come from palette.css only. */
+
+/* Type: titles and headline figures in the display face. */
+main h1, main h2, .page-head h1 { font-family: var(--font-display); font-weight: 600; letter-spacing: -.01em; }
+main h2 { font-size: 26px; line-height: 1.2; }
+main h2.fold-title, main .fold-title { font-family: inherit; letter-spacing: 0; }
+.page-head h1 { font-size: clamp(32px, 4.6vw, 48px); line-height: 1.05; }
+.metric-value:not(.unavailable), .fact-value, .hg-value, .hh-n { font-family: var(--font-display); font-weight: 700; font-variant-numeric: lining-nums tabular-nums; letter-spacing: -.01em; }
+.metric.word .metric-value { font-family: inherit; }
+
+/* Header: brand, five hubs and the three utility links on one row from 1180px; narrower screens keep the
+   two-row header from templates.css. */
+.brand { font-family: var(--font-display); font-weight: 700; font-size: 22px; letter-spacing: -.01em; }
+@media (min-width: 1180px) {
+  .site-header { flex-wrap: nowrap; padding-inline: max(16px, calc((100% - 1320px) / 2 + 16px)); }
+  .nav-utilities, .site-nav { flex-wrap: nowrap; align-items: center; }
+  .site-nav { min-width: 0; }
+}
+@media (min-width: 1180px) and (max-width: 1239px) {
+  .menu-button { padding: 0 .3rem; font-size: 14px; gap: .25rem; }
+  .nav-utilities { gap: .6rem; font-size: 13px; }
+}
+
+/* Place pages: where the place is, beside the title. */
+.page-head.has-visual { display: flow-root; }
+.ph-visual { float: right; width: 260px; margin: .25rem 0 .5rem 1.5rem; }
+.locator { display: block; width: 100%; height: auto; }
+.locator .lc-co { fill: var(--card); stroke: var(--grey-line); stroke-width: 1.4; stroke-linejoin: round; }
+.locator .lc-home { fill: var(--map-3); stroke: var(--map-5); stroke-width: 2.4; stroke-linejoin: round; }
+.locator .lc-ring { fill: none; stroke: var(--rust); stroke-width: 4; opacity: .45; }
+.locator .lc-dot { fill: var(--rust); stroke: var(--halo); stroke-width: 4; }
+.lc-cap { margin: .3rem 0 0; font-size: 13px; font-weight: 600; color: var(--ink-soft); text-align: center; }
+@media (max-width: 640px) {
+  .ph-visual { width: 118px; margin: 0 0 .25rem .75rem; }
+  .lc-cap { font-size: 12px; }
+}
+
+/* Seven steps from a town to a deal: numbered stops on one line. */
+.step-path ol { gap: 0; }
+.step-path li { position: relative; }
+.step-path li::before { content: ""; position: absolute; top: calc(.5rem + 13px); left: 0; right: 0; height: 2px; background: var(--grey-line); }
+.step-path li:first-child::before { left: 50%; }
+.step-path li:last-child::before { right: 50%; }
+.step-path .sp-box { position: relative; border: 0; background: transparent; justify-items: center; text-align: center; padding: .5rem .35rem; }
+.step-path .sp-n { width: 28px; height: 28px; background: var(--card); border: 2px solid var(--grey-line); font-size: 14px; }
+.step-path a.sp-box:hover .sp-n { border-color: var(--pine); color: var(--pine); }
+.step-path .sp-current .sp-box { border: 0; background: transparent; }
+.step-path .sp-current .sp-n { box-shadow: 0 0 0 5px var(--tint); }
+.step-path .sp-current .sp-title { color: var(--pine); }
+.step-path .sp-title .live-tag { margin: .15rem auto 0; }
+
+/* Affordability ladder: thicker bars, the 100 mark named once. */
+.ladder { padding: 1rem 1.1rem; border-radius: 14px; }
+.ladder figcaption strong { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; line-height: 1.25; }
+.ladder-rows { gap: .55rem; margin-top: .9rem; }
+.ladder-l { font-size: 14px; }
+.ladder-t { height: 20px; border-radius: 5px; }
+.ladder-b { border-radius: 5px; }
+.ladder-100 { top: -5px; bottom: -5px; width: 3px; border-radius: 2px; }
+.ladder-rows li:first-child .ladder-100::after { content: "100"; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 700; color: var(--ink); line-height: 1; padding-bottom: 2px; }
+.ladder-v { font-size: 14px; }
+.ladder-v b { font-family: var(--font-display); font-size: 17px; }
+
+/* Money flow on a phone: one bar per program, split by region, above the drawing. */
+.flow-bars { display: none; margin: .5rem 0 1rem; }
+.flow-bars > ul:first-of-type { list-style: none; margin: 0 0 .5rem; padding: 0; display: grid; gap: .1rem; }
+.flow-bars a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .2rem .5rem; padding: .45rem 0; min-height: 44px; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+.flow-bars .fb-t { font-weight: 600; font-size: 15px; display: inline-flex; align-items: center; gap: .45rem; }
+.flow-bars .fb-t i { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+.flow-bars .fb-n { font-family: var(--font-display); font-weight: 700; font-variant-numeric: lining-nums tabular-nums; }
+.flow-bars .fb-bar { grid-column: 1 / -1; display: flex; height: 14px; border-radius: 4px; overflow: hidden; background: var(--track); }
+.flow-bars .fb-bar b { display: block; height: 100%; border-right: 1px solid var(--halo); }
+.flow-bars .is-dim { opacity: .4; }
+@media (max-width: 640px) { .flow-bars { display: block; } }
+
+/* Economy cards: the line's first and last readings under it. */
+.econ-ends { display: flex; justify-content: space-between; gap: .5rem; margin: 0; font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.econ-ends span:last-child { text-align: right; }
+.econ-ends b { color: var(--ink); }
+@media (max-width: 640px) { .econ-ends { flex-direction: column; gap: 0; } .econ-ends span:last-child { text-align: left; } }
+
+/* Section folds (Gemini round 14): the cue is a button-shaped pill, an open fold is marked down its left edge so
+   it is clear where it ends, and "Show the numbers" uses the same arrow as the section folds. */
+.fold-sec .fold-cue { padding: .2rem .75rem; border: 1.5px solid currentColor; border-radius: 999px; min-height: 32px; }
+.fold-sec > summary:hover .fold-cue { background: var(--tint); }
+.fold-sec[open] { border-left: 4px solid var(--pine); }
+.fold-sec[open] > summary { background: var(--tint); border-radius: 6px 10px 0 0; }
+.fold-sec .fold-title { font-family: var(--font-display); font-weight: 600; letter-spacing: -.005em; }
+.viz-data summary { gap: .45rem; font-size: 15px; }
+.viz-data summary::after { content: ""; width: .45rem; height: .45rem; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); }
+.viz-data[open] summary::after { transform: translateY(2px) rotate(-135deg); }
+.viz-data summary::-webkit-details-marker { display: none; }
+.viz-data summary { list-style: none; }
+
+/* SB24-174 at a glance (Gemini round 13): a filled, half or open mark per item, readable without colour. */
+.sb174-marks { list-style: none; margin: .75rem 0 .4rem; padding: 0; display: grid; gap: .25rem .75rem; grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr)); }
+.sb174-marks a, .sb174-marks .sbm-row { display: flex; align-items: center; gap: .55rem; min-height: 44px; color: var(--ink); text-decoration: none; font-size: 15px; border-bottom: 1px solid var(--line); }
+.sb174-marks a:hover .sbm-t { text-decoration: underline; color: var(--pine); }
+.sbm { flex: none; display: inline-block; width: 18px; height: 18px; border-radius: 50%; box-sizing: border-box; border: 2px solid var(--pine); }
+.sbm-yes { background: var(--pine); }
+.sbm-part { background: linear-gradient(90deg, var(--pine) 50%, transparent 50%); }
+.sbm-no { border-color: var(--slate); border-style: dashed; background: transparent; }
+.sb174-key { display: flex; flex-wrap: wrap; gap: .25rem 1.1rem; margin: 0 0 .75rem; font-size: 13px; color: var(--ink-soft); }
+.sb174-key span { display: inline-flex; align-items: center; gap: .4rem; }
+.sb174-key .sbm { width: 14px; height: 14px; }
+/* "Not here yet" is our gap, not the town's: grey and dashed, not rust. */
+.sb174-no { color: var(--ink-soft); border-color: var(--slate); }
+
+/* What area median income means (Gemini round 5, q18). */
+.ami-line { margin: 1rem 0 1.25rem; padding: 1rem 1.1rem; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+.ami-line figcaption strong { font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; line-height: 1.3; }
+.al-track { position: relative; height: 12px; margin: 3.2rem .5rem 2.4rem; border-radius: 6px; background: linear-gradient(90deg, var(--map-1), var(--map-4)); }
+.al-tick { position: absolute; top: -6px; width: 2px; height: 24px; background: var(--ink); transform: translateX(-1px); }
+.al-tick b { position: absolute; top: 26px; left: 50%; transform: translateX(-50%); font-size: 12px; white-space: nowrap; color: var(--ink); }
+.al-tick.is-ami { width: 3px; }
+.al-tick:nth-child(even) { height: 38px; }
+.al-tick:nth-child(even) b { top: 40px; }
+.al-dot { position: absolute; top: 50%; width: 18px; height: 18px; border-radius: 50%; background: var(--rust); border: 3px solid var(--halo); transform: translate(-50%, -50%); box-shadow: 0 0 0 1px var(--rust); }
+.al-dot span { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 13px; font-weight: 700; color: var(--text-rust); }
+.al-key { list-style: none; margin: .5rem 0 .5rem; padding: 0; display: flex; flex-wrap: wrap; gap: .3rem 1rem; font-size: 14px; font-variant-numeric: tabular-nums; }
+.al-key b { color: var(--ink); }
+
+/* "Homes short" as 100 dots beside the ladder, on wider screens (Gemini round 5, q19). */
+.ladder-dots { display: none; }
+@media (min-width: 900px) {
+  .ladder:has(.ladder-dots) { display: grid; grid-template-columns: minmax(0, 1fr) 190px; column-gap: 1.5rem; }
+  .ladder:has(.ladder-dots) > figcaption, .ladder:has(.ladder-dots) > .metric-source { grid-column: 1 / -1; }
+  .ladder-dots { display: grid; gap: .4rem; grid-column: 2; grid-row: 2; align-content: center; }
+  .ladder:has(.ladder-dots) .ladder-rows { grid-column: 1; grid-row: 2; }
+  .ld-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; width: 172px; }
+  .ld-grid i, .ld-key i { display: block; width: 13px; height: 13px; border-radius: 50%; border: 2px solid var(--rust); box-sizing: border-box; }
+  .ld-grid i.on, .ld-key i.on { background: var(--c-green); border-color: var(--c-green); }
+  .ld-key { display: grid; gap: .1rem; font-size: 12px; color: var(--ink-soft); }
+  .ld-key span { display: inline-flex; align-items: center; gap: .35rem; }
+  .ld-key i { display: inline-block; width: 11px; height: 11px; }
+}
+
+/* One icon family (round 4): 24 px grid, 2 px stroke, round joins, colour from the text. */
+.ic { width: 24px; height: 24px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; vertical-align: middle; }
+
+/* Empty states: nothing picked yet, still loading, no data for this place. */
+.ic-empty { display: grid; justify-items: center; gap: .4rem; padding: 1.25rem 1rem; text-align: center; color: var(--ink-soft); }
+.ic-empty svg { width: 120px; height: 110px; fill: none; stroke: var(--grey-line); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.ic-empty .ie-acc { stroke: var(--pine); }
+.ic-empty-loading circle { fill: var(--pine); stroke: none; }
+.ic-empty p { margin: 0; max-width: 32ch; font-size: 15px; }
+.note.is-loading { display: flex; align-items: center; gap: .6rem; }
+.note.is-loading::before { content: ""; flex: none; width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid var(--grey-line); border-top-color: var(--pine); animation: ic-spin 1s linear infinite; }
+.viz-empty { display: flex; align-items: center; gap: .5rem; }
+.viz-empty::before { content: ""; flex: none; width: 22px; height: 16px; border: 2px dashed var(--grey-line); border-radius: 3px; }
+@keyframes ic-spin { to { transform: rotate(360deg); } }
+@keyframes ic-dot { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+.ie-d1, .ie-d2, .ie-d3 { animation: ic-dot 1.2s ease-in-out infinite; }
+.ie-d2 { animation-delay: .2s; } .ie-d3 { animation-delay: .4s; }
+@media (prefers-reduced-motion: reduce) { .note.is-loading::before, .ie-d1, .ie-d2, .ie-d3 { animation: none; } }
+
+/* LIHTC basics (round 5): how a deal is paid for, and 9% against 4%. White text only on pine, deep teal and slate. */
+.pay-stack, .credit-compare { margin: 1.25rem 0; padding: 1rem 1.1rem; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+.pay-stack figcaption strong, .credit-compare figcaption strong { display: block; font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; line-height: 1.3; }
+.credit-compare figcaption span { display: block; margin-top: .25rem; color: var(--ink-soft); font-size: 14px; }
+.ps-bar { display: flex; height: 44px; margin: .9rem 0 .6rem; border-radius: 8px; overflow: hidden; }
+.ps-bar span { display: flex; align-items: center; justify-content: center; min-width: 0; border-right: 2px solid var(--halo); }
+.ps-bar span:last-child { border-right: 0; }
+.ps-bar b { font-size: 15px; font-variant-numeric: tabular-nums; }
+.ps-eq { background: var(--pine); color: var(--card); }
+.ps-loan { background: var(--map-4); color: var(--on-fill); }
+.ps-fee { background: var(--gold); color: var(--ink); }
+.ps-gap { background: var(--slate); color: var(--on-fill); }
+.ps-key { list-style: none; margin: 0 0 .4rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: .3rem 1rem; font-size: 14px; }
+.ps-key li { display: flex; align-items: center; gap: .45rem; }
+.ps-key i { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+.cc-rows { list-style: none; margin: .9rem 0 .4rem; padding: 0; display: grid; gap: .9rem; }
+.cc-rows li { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr) 8.5rem; gap: .25rem .75rem; align-items: center; }
+.cc-t { font-weight: 700; }
+.cc-bar { height: 30px; border-radius: 6px; background: var(--track); overflow: hidden; }
+.cc-eq { display: flex; align-items: center; height: 100%; padding-left: .5rem; background: var(--pine); color: var(--card); font-size: 14px; white-space: nowrap; box-sizing: border-box; }
+.cc-v { font-size: 14px; } .cc-v b { font-family: var(--font-display); font-size: 18px; }
+.cc-how { grid-column: 2 / -1; font-size: 14px; color: var(--ink-soft); }
+@media (max-width: 640px) {
+  .cc-rows li { grid-template-columns: minmax(0, 1fr) auto; }
+  .cc-bar { grid-column: 1 / -1; grid-row: 2; }
+  .cc-how { grid-column: 1 / -1; }
+}
+
+/* Market patterns (round 8): palette colours, each with its own mark so colour is never the only cue. */
+.mt-badge { display: inline-flex; align-items: center; gap: .4rem; font-weight: 600; }
+.mt-badge i, .mt-cell::before { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 4px; font-style: normal; font-size: 12px; font-weight: 700; line-height: 1; flex: none; }
+.mt-resort i, td.mt-resort::before { background: var(--slate); color: var(--on-dark); }
+.mt-job_centre i, td.mt-job_centre::before { background: var(--map-3); color: var(--pine-deep); }
+.mt-growing i, td.mt-growing::before { background: var(--gold); color: var(--pine-deep); }
+.mt-softening i, td.mt-softening::before { background: var(--rust); color: var(--card); }
+.mt-steady i, td.mt-steady::before { background: var(--map-1); color: var(--pine-deep); }
+.mt-too_little_data i, td.mt-too_little_data::before { background: var(--map-none); color: var(--pine-deep); }
+td.mt-cell::before { margin-right: .4rem; vertical-align: -4px; }
+td.mt-resort::before { content: "\25B2"; } td.mt-job_centre::before { content: "\25A0"; } td.mt-growing::before { content: "\2191"; }
+td.mt-softening::before { content: "\2193"; } td.mt-steady::before { content: "="; } td.mt-too_little_data::before { content: "?"; }
+.mt-more summary { cursor: pointer; font-weight: 600; color: var(--pine); min-height: 44px; display: flex; align-items: center; }
+
+/* The towns-by-pattern table on a phone: a compact list, town and pattern on one line, the reason under it. */
+@media (max-width: 640px) {
+  [data-table="dd-mt-t"] thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  [data-table="dd-mt-t"] table, [data-table="dd-mt-t"] tbody { display: block; }
+  [data-table="dd-mt-t"] tr { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .1rem .6rem; padding: .45rem 0; border-bottom: 1px solid var(--line); }
+  [data-table="dd-mt-t"] tr[hidden], [data-table="dd-mt-t"].clipped tr[data-extra] { display: none; }
+  [data-table="dd-mt-t"] td { display: block; padding: 0; border: 0; min-width: 0; }
+  [data-table="dd-mt-t"] td:nth-child(1) { grid-column: 1 / 3; font-weight: 700; }
+  [data-table="dd-mt-t"] td:nth-child(2) { font-size: 14px; justify-self: end; white-space: nowrap; }
+  [data-table="dd-mt-t"] td:nth-child(3) { grid-row: 2; font-size: 13px; color: var(--ink-soft); white-space: nowrap; }
+  [data-table="dd-mt-t"] td:nth-child(4)::before { content: "\00B7  "; }
+  [data-table="dd-mt-t"] td:nth-child(4) { grid-column: 2 / -1; grid-row: 2; font-size: 13px; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  [data-table="dd-mt-t"] td:nth-child(5) { display: none; }
+}
+
+/* Share card for one place (round 7): drawn at 1200 x 630 and scaled to the column; every size is a share of its width. */
+.share-place { margin: 2rem 0 1rem; }
+.share-place h2 { margin-bottom: .2rem; }
+.pc-card { container-type: inline-size; position: relative; display: grid; grid-template-columns: 1fr 34%; gap: 3%; aspect-ratio: 1200 / 630; max-width: 760px; margin: .75rem 0 0; padding: 4.5% 5%; box-sizing: border-box; overflow: hidden; border-radius: 12px;
+  background: radial-gradient(circle at 85% 20%, var(--hero-glow), transparent 60%), var(--hero-bg); color: var(--on-dark); }
+.pc-text { display: flex; flex-direction: column; min-width: 0; }
+.pc-brand { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 3.2cqw; color: var(--gold); }
+.pc-name { margin: 1.5cqw 0 0; font-family: var(--font-display); font-weight: 700; font-size: 7cqw; line-height: 1; letter-spacing: -.01em; }
+.pc-where { margin: .8cqw 0 0; font-size: 2.4cqw; color: var(--on-dark-soft); }
+.pc-figs { list-style: none; margin: auto 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5cqw; }
+.pc-figs li { display: grid; align-content: start; gap: .5cqw; border-top: .35cqw solid var(--gold); padding-top: 1.2cqw; }
+.pc-figs b { font-family: var(--font-display); font-weight: 700; font-size: 5.2cqw; line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
+.pc-figs span { font-size: 1.75cqw; line-height: 1.3; color: var(--on-dark-soft); }
+.pc-figs small { font-size: 1.4cqw; color: var(--on-dark-soft); opacity: .85; }
+.pc-foot { margin: 2.5cqw 0 0; font-size: 1.7cqw; color: var(--on-dark-soft); }
+.pc-map { align-self: center; }
+.pc-map .lc-cap { display: none; }
+.pc-map .locator .lc-co { fill: var(--hero-met); stroke: var(--hero-bg); }
+.pc-map .locator .lc-home { fill: var(--gold); stroke: var(--hero-bg); }
+.pc-map .locator .lc-ring { stroke: var(--on-dark); }
+.pc-map .locator .lc-dot { fill: var(--rust); stroke: var(--on-dark); }

@@ -47,6 +47,8 @@ const PUBLIC_DIRECTORIES = new Set([
   'css',
   'data',
   'docs',
+  // The Places and need hub (places-hub.html), built from coho-pathfinder-visual-lab (hub/PORT.json).
+  'hub',
   'js',
   'lib',
   'maps',

@@ -1,0 +1,59 @@
+/* Text fit. Loads last, so these win over older one-line rules in the files above.
+   Checked by qa/text-fit-check.js at 390, 768 and 1280px.
+   1. Table text wraps between words; a word is never split. Numbers have no spaces, so they stay whole. */
+main th, main td,
+main .data-table th button,
+main .viz-data-table th, main .viz-data-table td,
+main .proj-table th, main .proj-table td,
+main .ls-table { white-space: normal; overflow-wrap: break-word; }
+/* A cell is never narrower than a short phrase, so long text does not collapse into a column of single words. */
+main td { min-width: 4.5rem; }
+/* Row labels such as "ACS 2005–2009" keep two lines at most. */
+main tbody th { min-width: 7rem; }
+/* Short labels and figures that read badly over two lines stay on one. */
+main .status, main .tier, main .rank-chip, main .rec-chip, main .geo-chip, main .need-tag { white-space: nowrap; }
+
+/* 2. Guides set a 40rem table width for desktop; on a phone the table fits the screen instead. */
+@media (max-width: 640px) {
+  .guide-body div:has(> table) > table { min-width: 0; }
+  .guide-body div:has(> table) > table td:last-child { min-width: 9rem; }
+}
+
+/* 3. County costs: on a phone the value sits on the label's line, not under the bar in a 20px column. */
+@media (max-width: 640px) {
+  .cc-dv-v { grid-column: 3; grid-row: 1; }
+}
+
+/* 4. Middle income: six fixed columns are too narrow for "Homes" on a phone; let the table size to its words. */
+@media (max-width: 600px) {
+  .mi-table { table-layout: auto; }
+}
+
+/* 5. Step cards in a row (guides): each card keeps at least 9rem, so "Affordability" fits on its line.
+   When the column is too narrow for all the steps side by side, they wrap to a second row. */
+@media (min-width: 641px) {
+  .g-cards--flow ol { grid-template-columns: repeat(auto-fit, minmax(max(9rem, (100% - (var(--n, 3) - 1) * 1.1rem) / var(--n, 3) - 1px), 1fr)); }
+}
+
+/* 6. Column headings keep room for a word like "Hourly," next to the numbers under them. */
+main thead th { min-width: 5rem; }
+
+/* 7. Cells that hold a phrase or a sentence (tagged by text-fit.js) get room to read across.
+   !important because older per-table rules set a smaller min-width with stronger selectors. */
+main td.cell-mid, main tbody th.cell-mid { min-width: 9rem !important; }
+main td.cell-long, main tbody th.cell-long { min-width: 15rem !important; }
+main td.cell-xlong, main tbody th.cell-xlong { min-width: 22rem !important; }
+
+/* 8. A bare web address (tagged by text-fit.js) may break anywhere; ordinary words never do. */
+main a.url-text { overflow-wrap: anywhere; }
+
+/* 9. Desktop: text used only 1040px of a wide screen, and lead paragraphs stopped at 42 to 46rem,
+   so lines broke with half the row empty. Content now sits on the same 1200px rail as the header,
+   and prose runs to about 56rem (some 90 letters a line), still short enough to read. */
+@media (min-width: 1100px) {
+  main { max-width: 1200px; }
+  .site-footer { padding-left: max(16px, calc((100% - 1200px) / 2 + 16px)); padding-right: max(16px, calc((100% - 1200px) / 2 + 16px)); }
+  .lede, .page-answer, .page-meta, .chapter-intro, .footnote, details.counted p, .method-notes,
+  .guide-body, .search, .terms, .viz .viz-answer, .gap-chart .gap-lead, .li-item p, .cn-what { max-width: 56rem; }
+  .facts { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+}

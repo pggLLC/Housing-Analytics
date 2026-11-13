@@ -1,0 +1,77 @@
+/* data-pages hub styles. Owned by one wave ticket (qa/wave-tickets.json); loaded after templates.css. */
+
+/* Data sources: detail, due soon, recent activity, freshness by group and source, the next 30 days, coverage. */
+.ds-detail { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: 10px; padding: 1rem 1.1rem; margin: 0 0 1.5rem; }
+.ds-detail h2 { margin-top: 0; }
+.ds-detail .dex-meta { margin: .75rem 0; }
+.ds-alt { padding-left: 1.2rem; }
+.ds-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 1rem 1.5rem; margin: 0 0 1rem; }
+.ds-due, .ds-recent, .ds-apis, .ds-cal-list { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: .45rem; }
+.ds-due { gap: 0; }
+.ds-due li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 .75rem; padding: .45rem 0 .45rem .6rem; border-bottom: 1px solid var(--line); border-left: 3px solid var(--c-amber); }
+.ds-due li .note { grid-column: 1 / -1; font-size: 13px; }
+.ds-when { font-weight: 600; font-size: 14px; color: var(--text-amber); }
+.ds-recent { gap: 0; }
+.ds-recent li { display: grid; grid-template-columns: 5.6rem minmax(0, 1fr) auto; gap: .5rem; align-items: baseline; padding: .3rem 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.ds-date { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; }
+.ds-groups { list-style: none; margin: 0 0 1.5rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(22rem, 100%), 1fr)); gap: 0 1.5rem; }
+.ds-groups li { display: grid; grid-template-columns: minmax(0, 1fr) 10.5rem; gap: .1rem .75rem; align-items: center; padding: .4rem 0; border-bottom: 1px solid var(--line); }
+.ds-groups li .note, .ds-groups li .ds-cov-n { grid-column: 1; font-size: 13px; }
+.ds-groups li > p:nth-child(2) { grid-column: 2; grid-row: 1 / span 2; white-space: nowrap; }
+.ds-groups .ds-meter { width: 6.5rem; max-width: none; }
+.ds-groups p { margin: 0; }
+.ds-group-h { font-weight: 600; font-size: 15px; }
+.ds-stale { color: var(--rust); }
+.ds-meter { display: inline-block; vertical-align: middle; width: 8rem; max-width: 55%; height: 10px; border-radius: 5px; background: var(--line); overflow: hidden; margin-right: .4rem; }
+.ds-meter-fill { display: block; height: 100%; }
+.ds-ok { background: var(--c-green); }
+.ds-mid { background: var(--c-amber); }
+.ds-low { background: var(--rust); }
+.ds-meter-n { font-variant-numeric: tabular-nums; font-weight: 600; font-size: 14px; }
+.ds-meter-none { font-size: 13px; color: var(--muted); }
+.ds-sources { list-style: none; margin: 0 0 .75rem; padding: 0; display: grid; gap: .4rem; }
+.ds-sources li { padding: .45rem 0; border-bottom: 1px solid var(--line); }
+.ds-sources p { margin: .1rem 0; }
+.ds-src-h { display: flex; flex-wrap: wrap; gap: .4rem; align-items: baseline; font-weight: 600; }
+.ds-src-m { display: flex; flex-wrap: wrap; gap: .25rem .5rem; align-items: center; }
+.ds-more { margin: 0 0 1.5rem; }
+.ds-more summary, .dt-maint summary, .dq-log-layer summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; }
+.ds-cal { list-style: none; margin: 0 0 .75rem; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+.ds-cal li { border: 1px solid var(--line); border-radius: 6px; padding: .3rem .25rem; min-height: 3rem; display: grid; align-content: start; gap: .1rem; background: var(--card); font-size: 12px; }
+.ds-cal-d { color: var(--muted); }
+.ds-cal-n { font-weight: 700; font-size: 13px; }
+.ds-cal li.ds-cal-1 { background: var(--tint-amber); border-color: var(--c-amber); }
+.ds-cal li.ds-cal-3 { background: var(--tint-green); border-color: var(--c-green); }
+.ds-cal li.ds-today { outline: 2px solid var(--green); outline-offset: -2px; }
+.ds-cov-map { margin: 0 0 1.25rem; max-width: 480px; }
+.ds-cov-map svg { width: 100%; height: auto; display: block; }
+.ds-co { fill: var(--tint); stroke: var(--green); stroke-width: 2; stroke-dasharray: 6 4; }
+.ds-cov-full { fill: var(--c-green); }
+.ds-cov-part { fill: var(--c-amber); }
+.ds-co-n { font-size: 40px; font-weight: 700; fill: var(--ink); }
+.ds-co-t { font-size: 16px; fill: var(--ink-soft); }
+.ds-co-l { font-size: 13px; fill: var(--muted); }
+.ds-cov-n { display: flex; flex-wrap: wrap; gap: .2rem .6rem; font-size: 14px; }
+.ds-exports { display: flex; flex-wrap: wrap; gap: .5rem; margin: .75rem 0 1.5rem; }
+.ds-exports button { min-height: 44px; }
+#ds-county { min-height: 44px; font-size: 16px; padding: .3rem .5rem; }
+.ds-apis li { padding: .3rem 0; border-bottom: 1px solid var(--line); overflow-wrap: break-word; }
+/* Trust center: health tiles and the maintainer fold. */
+.dt-maint { margin: 1.5rem 0; padding: .25rem 1rem .75rem; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+.dt-paths { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr)); gap: .25rem .75rem; font-size: 14px; }
+.dt-paths li { overflow-wrap: break-word; }
+.dt-paths span { color: var(--muted); }
+.dt-paths .dt-new span { color: var(--text-amber); font-weight: 600; }
+.dt-paths .dt-off span { color: var(--rust); }
+/* Data quality: place buckets, the five files, the log. */
+.dq-buckets, .dq-health, .ds-content { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); gap: .5rem; }
+.dq-buckets li, .dq-health li, .ds-content li { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--line-strong); border-radius: 8px; padding: .6rem .75rem; display: grid; gap: .15rem; }
+.dq-health p, .ds-content p { margin: 0; }
+.dq-buckets li.dq-b-ok, .dq-health li.dq-h-ok, .ds-content li.dq-h-ok { border-left-color: var(--c-green); }
+.dq-buckets li.dq-b-mid, .dq-health li.dq-h-mid, .ds-content li.dq-h-mid { border-left-color: var(--c-amber); }
+.dq-buckets li.dq-b-low, .dq-health li.dq-h-low, .ds-content li.dq-h-low { border-left-color: var(--rust); }
+pre.dq-log { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13.5px; line-height: 1.55; background: var(--tint-grey); border: 1px solid var(--line); border-radius: 6px; padding: .75rem .9rem; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 320px; overflow-y: auto; margin: 0 0 .75rem; }
+
+/* Compare places: the two share charts sit side by side on wide screens. */
+.cmp-charts{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr))}
+.cmp-charts > *{min-width:0}

@@ -1,0 +1,852 @@
+/* site/visual-pass.css - Civic visual overrides for COHO Analytics.
+   Visual only: no wording, numbers, markup or logic. Changes from the submitted passes are marked REVIEW.
+
+   ==========================================================================
+   BATCH 1: Home page and shared page frame
+   ========================================================================== */
+
+/* Lab banner - calm neutral notification */
+.lab-banner {
+  background: var(--paper);
+  /* REVIEW: muted on paper is 4.43:1, under AA for this 13px text, so the banner keeps ink. */
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  letter-spacing: 0.01em;
+}
+
+/* Site header alignment and layout */
+.site-header {
+  /* REVIEW: a 1040px header box floated on the canvas and made the nav wrap. The bar now runs full width,
+     and its content sits on a 1200px rail, wide enough for the brand, five hubs and three utility links
+     on one row at 1280px. */
+  max-width: none;
+  margin: 0;
+  padding: 0.5rem max(16px, calc((100% - 1200px) / 2 + 16px));
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.site-nav a {
+  padding: 0 0.5rem;
+  font-size: 15px;
+  color: var(--ink);
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.site-nav a:hover {
+  color: var(--green);
+}
+
+.site-nav a[aria-current="page"] {
+  border-bottom: 3px solid var(--green);
+  color: var(--green);
+  font-weight: 600;
+}
+
+.nav-utilities a {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.nav-utilities a:hover {
+  color: var(--green);
+}
+
+/* Page frame and hierarchy */
+main {
+  /* REVIEW: 1040px, not 960px, so the content lines up with the header and footer rails. */
+  max-width: 1040px;
+  padding: 2.5rem 16px 4rem;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+}
+
+.lede {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 42rem;
+  margin-bottom: 2rem;
+}
+
+/* Search box container */
+.search {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1.25rem;
+  margin-bottom: 2.5rem;
+  max-width: 42rem;
+}
+
+.search label {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+
+.search input {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 0 0.875rem;
+  transition: border-color 150ms ease;
+}
+
+.search input:hover {
+  border-color: var(--muted);
+}
+
+.search input:focus {
+  border-color: var(--green);
+}
+
+/* Choice cards grid */
+.choices {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.choice {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  transition: border-color 150ms ease;
+}
+
+.choice:hover {
+  border-color: var(--green);
+}
+
+.choice a {
+  padding: 1.25rem;
+}
+
+.choice a:hover h3 {
+  text-decoration: underline;
+}
+
+.choice h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--green);
+  margin-bottom: 0.35rem;
+}
+
+.choice p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Secondary navigation and footer */
+main > p > a[href="#/tools"] {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--green);
+}
+
+.site-footer {
+  /* REVIEW: full width, content on the 1040px rail, as the header. Ink, since muted on paper is under AA. */
+  max-width: none;
+  margin: 0;
+  border-top: 1px solid var(--line);
+  padding: 2rem max(16px, calc((100% - 1040px) / 2 + 16px));
+  color: var(--ink);
+  font-size: 14px;
+}
+
+/* Responsive overrides (< 768px) */
+@media (max-width: 767px) {
+  main {
+    padding: 1.5rem 16px 3rem;
+  }
+
+  h1 {
+    font-size: 26px;
+    line-height: 1.25;
+  }
+
+  .lede {
+    font-size: 16px;
+    margin-bottom: 1.5rem;
+  }
+
+  .search {
+    padding: 1rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .choices {
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+  }
+
+  .site-header {
+    padding: 0.5rem 16px;
+  }
+
+  .menu-toggle {
+    min-height: 44px;
+    padding: 0 0.875rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+/* ==========================================================================
+   BATCH 2: Places and need, route lists, status pills and action links
+   ========================================================================== */
+
+/* Top navigation / back link */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--green);
+  text-decoration: none;
+  margin-bottom: 0.75rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* Search header band and count */
+.count {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  margin: 0 0 1.5rem;
+  display: inline-block;
+}
+
+/* Section headings */
+h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 2rem 0 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--line);
+  letter-spacing: -0.01em;
+}
+
+/* Route lists and record rows */
+.route-list {
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.route-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line);
+  transition: background-color 150ms ease;
+}
+
+.route-list li:last-child {
+  border-bottom: none;
+}
+
+.route-list li:hover {
+  background-color: var(--paper);
+}
+
+/* Row links and unlinked text */
+.route-list a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--green);
+  text-decoration: none;
+  flex: 1 1 240px;
+}
+
+.route-list a:hover {
+  text-decoration: underline;
+}
+
+.route-list .unlinked {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  flex: 1 1 240px;
+}
+
+/* Subordinate row notes */
+.route-list .note {
+  width: 100%;
+  margin: 0.15rem 0 0.25rem;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ink);
+  opacity: 0.85;
+}
+
+/* Distinct action link ("Use in project").
+   REVIEW: written as .route-list .use-link so it outranks the .route-list a rule above; as submitted,
+   .use-link lost on specificity and became a 16px, 240px-wide row link like the title. */
+.route-list .use-link {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 0.75rem;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--green);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  text-decoration: none;
+  margin-left: auto;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.route-list .use-link:hover {
+  background: var(--paper);
+  border-color: var(--green);
+  text-decoration: none;
+}
+
+/* Status pills: clear shapes and contrast */
+.status {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  align-self: center;
+  background: var(--card);
+  color: var(--ink);
+}
+
+.status-current {
+  border-color: var(--green);
+  background: var(--card);
+  color: var(--green);
+}
+.status-current::before {
+  content: "\2713 ";
+  font-weight: 700;
+}
+
+/* REVIEW: the submitted pass put a lock emoji before Member site. Emoji render in colour and differ by
+   platform, and the pass rules exclude icons, so the members pill is told apart by its ink border and weight. */
+.status-members {
+  border-color: var(--ink);
+  background: var(--card);
+  color: var(--ink);
+}
+
+.status-lab {
+  border-color: var(--rust);
+  background: var(--card);
+  color: var(--rust);
+}
+.status-lab::before {
+  content: "\25CF ";
+}
+
+.status-unfinished {
+  border-color: var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 500;
+}
+.status-unfinished::before {
+  content: "\25CB ";
+}
+
+.status-alias::before {
+  content: "\21AA ";
+}
+
+.status-not-public::before {
+  content: "\2013 ";
+}
+
+/* Callouts and notices */
+.callout {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--green);
+  padding: 0.875rem 1.125rem;
+  border-radius: 4px;
+  margin: 1.5rem 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+p.note {
+  font-size: 14px;
+  color: var(--ink);
+  opacity: 0.85;
+}
+
+/* Batch 2 small-screen rules (< 768px) */
+@media (max-width: 767px) {
+  h2 {
+    font-size: 19px;
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  .route-list li {
+    padding: 0.625rem 0.75rem;
+  }
+
+  .route-list a,
+  .route-list .unlinked {
+    flex: 1 1 100%;
+    min-height: 44px;
+  }
+
+  .route-list .use-link {
+    flex: 1 1 100%;
+    margin-left: 0;
+    margin-top: 0.25rem;
+    justify-content: center;
+  }
+
+  .status {
+    align-self: flex-start;
+    margin-top: 0.2rem;
+  }
+}
+
+/* ==========================================================================
+   BATCH 3: Place page, HNA chapters, metric cards, charts and action flows
+   ========================================================================== */
+
+/* Chapter navigation tabs */
+.tabs {
+  margin: 1.5rem 0 0;
+  border-bottom: 1px solid var(--line);
+  /* REVIEW: no sideways scroll; shell.css wraps the tabs so every chapter name stays visible on a phone.
+     The submitted pass brought back overflow-x and a nowrap rule at 700px; both are left out. */
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  border-radius: 6px 6px 0 0;
+  padding: 0 0.5rem;
+}
+
+.tabs ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.25rem;
+}
+
+.tabs a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1rem;
+  font-size: 15px;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.tabs a:hover {
+  color: var(--green);
+  border-bottom-color: var(--line);
+}
+
+.tabs a[aria-current="page"] {
+  border-bottom-color: var(--green);
+  font-weight: 600;
+  color: var(--green);
+}
+
+.tab-title {
+  margin-top: 1.5rem;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* Chapter guidance and findings */
+.chapter-intro {
+  margin: 0 0 1.5rem;
+  max-width: 46rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}
+
+.chapter-ask {
+  margin: 0 0 0.5rem;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  /* REVIEW: sentence case. The question is a full sentence, and capitals slow reading. */
+  letter-spacing: 0.01em;
+}
+
+.chapter-finding {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--ink);
+  border-left: 4px solid var(--rust);
+  padding-left: 1rem;
+  font-weight: 500;
+}
+
+/* Metric cards */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.25rem;
+  margin: 0 0 2rem;
+}
+
+.metric {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  box-shadow: none;
+}
+
+.metric p {
+  margin: 0;
+}
+
+/* REVIEW: the submitted pass moved the value above the label with CSS order, which puts the screen order
+   out of step with what is read aloud, and the pass rules forbid reordering. The label stays first; the
+   value carries the weight by size. Labels stay in sentence case, since many are long. */
+.metric-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.metric-value {
+  font-size: 30px;
+  line-height: 1.15;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.15rem;
+}
+
+.metric-value.unavailable {
+  font-size: 18px;
+  font-weight: 600;
+  /* REVIEW: ink, not muted. Muted on paper is 4.43:1, and 18px semibold is not large text, so it fails AA. */
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px dashed var(--line);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+.metric.word .metric-value {
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--green);
+}
+
+.metric-detail {
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.metric-source {
+  /* REVIEW: 13px, the smallest size the lab allows. */
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+/* Charts and gap analysis */
+.gap-chart {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 0 0 2rem;
+}
+
+.gap-chart figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1.25rem;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.gap-chart figcaption strong {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0 0 0.75rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.key {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.key.households, .bar.households {
+  background: var(--series-households);
+}
+
+.key.homes, .bar.homes {
+  background: var(--series-homes);
+}
+
+.gap-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gap-row {
+  display: grid;
+  grid-template-columns: 13rem 1fr;
+  gap: 0.5rem 1.5rem;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed var(--line);
+}
+
+.gap-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.gap-band {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.gap-band .note {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.gap-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.bar {
+  display: block;
+  height: 16px;
+  border-radius: 0 4px 4px 0;
+  flex: none;
+}
+
+.bar-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Next step box */
+.next-step {
+  margin: 2.5rem 0 1.5rem;
+  padding: 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--green);
+  border-radius: 8px;
+}
+
+.next-step p {
+  margin: 0;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.next-step .actions {
+  margin: 1rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.button-link {
+  min-height: 44px;
+  padding: 0 1.25rem;
+  border: 1px solid var(--green);
+  border-radius: 6px;
+  background: var(--green);
+  color: var(--on-fill);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+/* REVIEW: the submitted hover used a raw hex; ink is a token, and white on ink is 14.6:1. */
+.button-link:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.button-link.secondary {
+  background: var(--card);
+  color: var(--green);
+  border-color: var(--line);
+}
+
+.button-link.secondary:hover {
+  background: var(--paper);
+  border-color: var(--green);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+/* Batch 3 small-screen rules (< 768px) */
+@media (max-width: 767px) {
+  .gap-row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  /* REVIEW: keep shell.css's two cards to a row on phones; the desktop grid rule above would undo it. */
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .metric.word,
+  .metric-link {
+    grid-column: span 2;
+  }
+
+  /* REVIEW: 22px, not 26px. Short cards sit two to a row on phones, and 26px figures crowd them. */
+  .metric-value {
+    font-size: 22px;
+  }
+
+  .metric {
+    padding: 0.875rem;
+  }
+
+  .chapter-intro {
+    padding: 1rem;
+  }
+
+  .chapter-finding {
+    font-size: 18px;
+    padding-left: 0.75rem;
+  }
+
+  .next-step {
+    padding: 1.25rem;
+  }
+
+  .button-link {
+    width: 100%;
+    justify-content: center;
+  }
+}
