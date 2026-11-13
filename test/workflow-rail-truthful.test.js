@@ -51,4 +51,54 @@ const stepRow = new RegExp('num: ' + optional[1] + ",\\s*key: '([a-z]+)'").exec(
 assert(stepRow, 'the optional step number exists in the route table');
 assert.equal(stepRow[1], 'opportunity', 'the step marked optional is the statewide Opportunity Finder');
 
+// 4. A page opened for a named place (?geoid=) sends every step to that place,
+//    even when the reader saved another county; the picker stays plain, and a
+//    value that is not a Colorado GEOID never reaches an href.
+function railHrefs(search, project) {
+  const html = fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8');
+  const dom = new JSDOM(html, { url: 'http://127.0.0.1/market-analysis.html' + search, runScripts: 'outside-only' });
+  dom.window.WorkflowState = { getActiveProject: () => project };
+  dom.window.eval(wp);
+  dom.window.WorkflowProgress.refreshSteps('maWorkflowProgress', 4);
+  return [...dom.window.document.querySelectorAll('a.wf-step[href]')].map((a) => a.getAttribute('href'));
+}
+const savedMesa = { jurisdiction: { geoType: 'county', geoid: '08077', countyFips: '08077' } };
+const carried = railHrefs('?geoid=08031', savedMesa);
+assert(carried.length >= 5, `the market analysis rail has its step links (${carried.length})`);
+carried.forEach((h) => {
+  if (/^select-jurisdiction\.html/.test(h)) assert(!/geoid=/.test(h), 'the picker link stays plain');
+  else assert(/[?&]geoid=08031(&|#|$)/.test(h) && !/08077/.test(h), `${h} carries the page's place, not the saved county`);
+});
+assert(railHrefs('?fips=0828745&geoType=cdp', savedMesa).some((h) => /deal-calculator\.html\?geoType=cdp&geoid=0828745$/.test(h)),
+  'a town or CDP link keeps its geography type');
+assert(railHrefs('', savedMesa).every((h) => !/geoid=/.test(h)), 'with no place in the link, the rail is unchanged');
+assert(railHrefs('?geoid=%22%3E%3Cscript%3E', savedMesa).every((h) => !/geoid=|script/i.test(h)), 'a value that is not a GEOID is ignored');
+assert(railHrefs('?geoid=08031&geoType=evil', savedMesa).every((h) => !/evil/.test(h)), 'an unknown geography type is dropped');
+
+// 4b. A place loaded on the page after arrival (the Scenario Builder's Load)
+//     wins over the arrival URL, so the rail and the page's own Continue link
+//     model the same place.
+{
+  const html = fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8');
+  const dom = new JSDOM(html, { url: 'http://127.0.0.1/market-analysis.html?geoid=08031', runScripts: 'outside-only' });
+  dom.window.WorkflowState = { getActiveProject: () => savedMesa };
+  dom.window.eval(wp);
+  dom.window.WorkflowProgress.refreshSteps('maWorkflowProgress', 4);
+  dom.window.WorkflowProgress.setPagePlace('08077', 'county');
+  const after = [...dom.window.document.querySelectorAll('a.wf-step[href]')].map((a) => a.getAttribute('href'))
+    .filter((h) => !/^select-jurisdiction/.test(h));
+  assert(after.length >= 4 && after.every((h) => /geoid=08077/.test(h) && !/08031/.test(h)), `after a new place loads, the rail follows it: ${after.join(' ')}`);
+  dom.window.WorkflowProgress.setPagePlace('x"><b>', 'county');
+  assert([...dom.window.document.querySelectorAll('a.wf-step[href]')].every((a) => !/<b>/.test(a.getAttribute('href'))), 'a bad value is ignored');
+}
+const sbPage = fs.readFileSync(path.join(ROOT, 'hna-scenario-builder.html'), 'utf8');
+assert(/scenario-builder:state[\s\S]{0,1500}WorkflowProgress\.setPagePlace\(geo\.geoid/.test(sbPage), 'the Scenario Builder tells the rail when it loads a place');
+
+// 5. The Scenario Builder takes a ?geoid= link without a geoType (the hub pages
+//    and this rail send those) instead of falling back to the saved place.
+const sb = fs.readFileSync(path.join(ROOT, 'hna-scenario-builder.html'), 'utf8');
+assert(/var requestedGeoid = urlParams\.get\('geoid'\) \|\| urlParams\.get\('fips'\);\s*if \(!requestedGeoid\) return false;/.test(sb),
+  'the Scenario Builder no longer requires geoType in the link');
+assert(/requestedGeoType = geoIndex\[requestedGeoid\]\.type/.test(sb), 'it takes the type from its own geography list');
+
 console.log('workflow-rail-truthful: PASS');

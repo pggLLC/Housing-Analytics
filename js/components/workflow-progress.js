@@ -159,7 +159,7 @@
     var links = [];
     route.forEach(function (s) {
       if (!s.companion) return;
-      links.push('<a href="' + relToRoot() + s.companion.href + '">' + s.companion.label + '</a> (step ' + s.num + ')');
+      links.push('<a href="' + relToRoot() + withPlace(s.companion.href) + '">' + s.companion.label + '</a> (step ' + s.num + ')');
     });
     return links.length
       ? '<p class="wf-companions">For the for-sale homes, also: ' + links.join(' \u00b7 ') + '</p>'
@@ -184,7 +184,7 @@
       if (el.classList.contains('wf-step--active') || el.getAttribute('aria-current') === 'step') continue;
       var labelEl = el.querySelector('.wf-step__label');
       if (labelEl && labelEl.textContent !== step.label) labelEl.textContent = step.label;
-      if (el.tagName === 'A') el.setAttribute('href', relToRoot() + step.href);
+      if (el.tagName === 'A') el.setAttribute('href', relToRoot() + withPlace(step.href));
     }
     // The companion line sits right after each rail's row of steps. Pages
     // wrap their hard-coded rails differently, so the row is found from the
@@ -208,6 +208,41 @@
     if (location.pathname.includes('/private/weekly-brief/')) { return '../../'; }
     if (location.pathname.includes('/docs/'))                 { return '../'; }
     return '';
+  }
+
+  /* ── A page opened for a named place keeps it on its step links ──────────
+   *
+   * Market Analysis and the Scenario Builder show the place in their link
+   * (?geoid= or ?fips=) without saving it, so a reader who had saved another
+   * county would follow the rail to that county. Each step link therefore
+   * carries the page's own place. Only a checked Colorado GEOID and a known
+   * geography type reach the href, since a stranger can set the URL. The
+   * jurisdiction picker is left plain: it is where the place is changed. */
+  // The place the page has loaded since it opened (setPagePlace), which wins
+  // over the arrival URL: a reader who opens Denver and then loads Mesa is
+  // modelling Mesa.
+  var pagePlace = null;
+
+  function urlPlace() {
+    if (pagePlace) return pagePlace;
+    try {
+      var sp = new URLSearchParams(global.location.search || '');
+      var id = sp.get('geoid') || sp.get('fips');
+      if (!id || !/^08\d{3}(\d{2})?$/.test(id)) return null;
+      var t = sp.get('geoType');
+      return { geoid: id, geoType: /^(place|cdp|county)$/.test(t) ? t : null };
+    } catch (e) { return null; }
+  }
+
+  function withPlace(href) {
+    var j = urlPlace();
+    if (!j || /^select-jurisdiction\.html/.test(href)) return href;
+    var h = href.indexOf('#');
+    var hash = h === -1 ? '' : href.slice(h);
+    var base = h === -1 ? href : href.slice(0, h);
+    if (/[?&](geoid|fips)=/.test(base)) return href;
+    return base + (base.indexOf('?') === -1 ? '?' : '&') +
+      (j.geoType ? 'geoType=' + j.geoType + '&' : '') + 'geoid=' + j.geoid + hash;
   }
 
   /* ── The width at which the full-size rail stops fitting ──────────────────
@@ -339,7 +374,7 @@
     if (useLink) {
       tag      = 'a';
       tagClose = '</a>';
-      hrefAttr = ' href="' + relToRoot() + step.href + '"';
+      hrefAttr = ' href="' + relToRoot() + withPlace(step.href) + '"';
     } else {
       tag      = 'div';
       tagClose = '</div>';
@@ -423,6 +458,15 @@
     /** The route for the chosen product (the LIHTC route when none is chosen). */
     routeSteps: currentSteps,
     applyRoute: applyRouteToDocument,
+
+    /** Pages that change their place without reloading (the Scenario
+     *  Builder) tell the rail, so its links follow the place on screen. */
+    setPagePlace: function (geoid, geoType) {
+      var id = String(geoid || '');
+      if (!/^08\d{3}(\d{2})?$/.test(id)) return;
+      pagePlace = { geoid: id, geoType: /^(place|cdp|county)$/.test(geoType) ? geoType : null };
+      applyRouteToDocument();
+    },
 
     render: function (containerId, activeStep, options) {
       ensureStyles();
