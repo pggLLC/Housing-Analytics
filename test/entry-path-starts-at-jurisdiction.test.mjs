@@ -325,7 +325,7 @@ test('one entry CTA, and it names what it starts', () => {
   assert.ok(/start here:\s*(pick|choose|select|find)\s+\S/i.test(all[0].text),
     `the entry CTA no longer names what the reader is starting: "${all[0].text}"`);
   // It opens the same hub page the Places menu's own "Start here" opens (js/navigation.js), so the two starts agree.
-  assert.ok(new RegExp(`href:\\s*"${all[0].href.replace(/[.#/]/g, '\\$&')}"`).test(read('js/navigation.js')) || read('js/navigation.js').includes(all[0].href.replace(/#.*$/, '')),
+  assert.ok(read('js/navigation.js').includes('href: "' + all[0].href.replace(/#.*$/, '') + '"'),
     `the menu does not offer ${all[0].href}, the page the homepage start opens`);
 });
 

@@ -45,7 +45,7 @@ const { renderHome } = require('./helpers/render-home');
   const palette = fs.readFileSync(path.join(__dirname, '..', 'hub', 'palette.css'), 'utf8');
   for (const c of new Set([...shown, ...used])) {
     const name = c.slice(4, -1);
-    assert(new RegExp(name.replace(/-/g, '\\-') + '\\s*:').test(palette), name + ' is used on the map but hub/palette.css does not define it');
+    assert(palette.split(/[;{}\n]/).some((d) => d.trim().split(':')[0].trim() === name), name + ' is used on the map but hub/palette.css does not define it');
   }
 
   console.log('home-need-map-legend-colors: PASS — ' + swatches.length + ' legend bands and ' + used.size + ' fill colors, all from the map ramp, every fill in the legend');

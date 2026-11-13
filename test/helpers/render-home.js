@@ -92,8 +92,9 @@ async function renderHomeReturning(place, query) {
   win.localStorage = { getItem: (k) => (k === key ? JSON.stringify(place) : null), setItem() {} };
   try { return await renderHome(query); } finally { delete win.localStorage; }
 }
-const text = (html) => String(html).replace(/<(script|style)[\s\S]*?<\/\1>/g, ' ').replace(/<[^>]+>/g, ' ')
-  .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&nbsp;| /g, ' ').replace(/\s+/g, ' ').trim();
+// Tags out, then entities; `&amp;` last, so an escaped entity ("&amp;lt;") comes out as the text it stands for.
+const text = (html) => String(html).replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, ' ').replace(/<[^>]+>/g, ' ')
+  .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&nbsp;|\u00a0/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
 
 
 // Where each link on Home goes once the page has pointed it (hub/lab-config.js does this in the browser):
