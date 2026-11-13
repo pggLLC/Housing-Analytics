@@ -380,6 +380,8 @@ html { overflow-x: clip; }
 .lv-field { display: grid; gap: .25rem; }
 .lv-field input, .lv-field select, .lv-comps input { min-height: 44px; padding: .5rem .65rem; border: 1px solid var(--line); border-radius: 6px; font: inherit; background: var(--card); color: var(--ink); width: 100%; box-sizing: border-box; }
 .lv-comps { min-width: 520px; }
+.lv-add { margin: 0; }
+.lv-add .button-link { min-height: 44px; display: inline-flex; align-items: center; }
 .lv-comps th, .lv-comps td { padding: .25rem; }
 .lv-out { position: sticky; top: calc(1rem + var(--hdr-h, 0px) + var(--sp-top, 0px)); min-width: 0; }
 .lv-out .metrics { grid-template-columns: 1fr; }
@@ -986,6 +988,11 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
 .page-meta abbr[title] { text-decoration: underline dotted; cursor: help; }
 
 /* Housing news: the newest stories first, as a short list of headlines. */
+/* Housing news: the two rows of one-tap buttons above the headlines (program, outlet check). */
+.news-pick { margin: 0 0 1rem; }
+.news-pick .news-pick-label { margin: 0; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.news-pick .news-n { font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 400; }
+.news-pick .chapter-finding { margin: .75rem 0 0; }
 .news-top { list-style: none; padding: 0; margin: 0 0 1.5rem; display: grid; gap: 0; border-top: 1px solid var(--line); }
 .news-top li { padding: .7rem 0; border-bottom: 1px solid var(--line); min-width: 0; }
 .news-top p { margin: 0; }

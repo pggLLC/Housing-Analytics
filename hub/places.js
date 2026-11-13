@@ -407,6 +407,7 @@
       meta: '<span class="scope-tag">Scope: Colorado, by county and place</span> Census ACS 2020\u20132024 with HUD FY2026 income limits.',
       aside: T.terms(TERMS)
     }) + (global.LabHna ? global.LabHna.stepPath(true, '#/places') : '') + Shell.searchBox('place-q', 'Find a town or county', q, 'For example Fruita or 0828745');
+    var working = global.LabHna && global.LabHna.working ? global.LabHna.working() : null;
     var means = T.means([
       { text: 'Where renters at or below 30% AMI outnumber the homes priced for them, the rest live in homes priced for higher incomes and pay more than they can afford.' }
     ]);
@@ -455,7 +456,9 @@
     return head + results + glance + (recent && recent.has ? recent.html : '') + groups + (rest.length ? '<h2>More tools</h2>' + Shell.list(rest) : '') +
       (!q ? notSure() : '') + (recent && !recent.has ? recent.html : '') +
       (!q ? '<p class="count">' + profiles.length + ' place profiles. Type a name above to find one.</p>' : '') +
-      T.next('What to do next', [{ href: '#/place/0828745', label: 'Open a needs assessment: Fruita \u2192' }, { href: '#/places/ranking', label: 'See every place ranked', secondary: true }, { href: '#/market', label: 'Check a rental market', secondary: true }]);
+      // The first link opens the place being worked on (member rehearsal, 13 Nov 2026: it read Fruita whatever
+      // place was picked); with none picked it keeps the Fruita example.
+      T.next('What to do next', [working ? { href: '#/place/' + encodeURIComponent(working.geoid), label: 'Open a needs assessment: ' + working.label + ' \u2192' } : { href: '#/place/0828745', label: 'Open a needs assessment: Fruita \u2192' }, { href: '#/places/ranking', label: 'See every place ranked', secondary: true }, { href: '#/market', label: 'Check a rental market', secondary: true }]);
   }
 
   function placeView(params, parts) {

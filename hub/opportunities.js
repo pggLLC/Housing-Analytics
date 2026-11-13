@@ -745,6 +745,14 @@
     });
     return (d._lb = { awards: awards, rounds: rounds, labels: meta.labels || {}, meta: meta });
   }
+  // The dated public sources behind a status, as links (the old page prints them under each award). Only web
+  // addresses become links; anything else prints as its title.
+  function lbSourceLinks(list) {
+    var links = (list || []).filter(function (q) { return q && q.title; }).map(function (q) {
+      return /^https?:\/\//i.test(String(q.url || '')) ? '<a href="' + esc(q.url) + '">' + esc(q.title) + '</a>' : esc(q.title);
+    });
+    return links.length ? ' <span class="lb-sources">' + (links.length === 1 ? 'Source: ' : 'Sources: ') + links.join('; ') + '.</span>' : '';
+  }
   function lbStatusText(x) {
     var s = x.s;
     if (!s || !s.label) return null;
@@ -827,7 +835,7 @@
     var rows = shown.map(function (x) {
       var a = x.a;
       return { round: x.round, project: x.project, url: a.source_url, status: lbStatusText(x), sponsor: x.sponsor, holder: x.holder ? LB_HOLDER[x.holder] : null, location: a.location, purpose: x.purpose, amount: a.amount_awarded, homes: a.estimated_units, printed: a.source_quote,
-        sources: x.s && x.s.sources ? x.s.sources.map(function (q) { return q.title + ' ' + q.url; }).join('; ') : null };
+        sources: x.s && x.s.sources ? x.s.sources.map(function (q) { return q.title + ' ' + q.url; }).join('; ') : null, sourceList: x.s && x.s.sources ? x.s.sources : [] };
     });
     var byRound = lb.rounds.map(function (r) { return [r.label, d.landBank.awards.filter(function (a) { return a.round === r.id; }).reduce(function (t, a) { return t + a.amount_awarded; }, 0)]; });
     var byPurpose = UI.tally(lb.awards, function (x) { return x.purpose; }, function (x) { return x.a.estimated_units; });
@@ -875,7 +883,7 @@
       UI.table('landbank', 'Land banking awards', [
         { key: 'round', label: 'Round' },
         { key: 'project', label: 'Project', href: function (r) { return r.url; }, tip: 'Links to the CHFA award list (PDF) for its round' },
-        { key: 'status', label: 'Status', tip: lb.meta.note || 'Where the project on the site stands' },
+        { key: 'status', label: 'Status', tip: lb.meta.note || 'Where the project on the site stands', more: function (r) { return lbSourceLinks(r.sourceList); } },
         { key: 'sponsor', label: 'Received by' },
         { key: 'holder', label: 'Held by', tip: lb.meta.holder_note || 'Kind of grantee' },
         { key: 'location', label: 'Town' },
@@ -884,7 +892,7 @@
         { key: 'homes', label: 'Est. homes', num: true, fmt: num, tip: m.units_note },
         { key: 'printed', label: 'Row as printed', tip: 'The row exactly as CHFA’s award list prints it' }
       ], rows, { noun: 'awards', placeholder: 'Sponsor, project or town' }) + T.source('CHFA land banking award lists', m.program_url, m.generated) +
-      '<p class="note">The CSV lists the dated sources behind each status. A status reads only public state award records and dated public sources.</p></section>' +
+      '<p class="note">Each status links the dated sources behind it, and the CSV lists them too. A status reads only public state award records and dated public sources.</p></section>' +
       '<section id="lb-apply" tabindex="-1"><h2>Applying now</h2>' +
       '<p>' + esc(o.summary) + '</p>' +
       '<p>To ask for an application, email <a href="mailto:' + esc(m.program_email) + '">' + esc(m.program_email) + '</a>.</p>' +

@@ -99,8 +99,9 @@
     return dir === 'ascending' ? r : -r;
   }
 
-  // A sortable, filterable table. cols: [{key, label, tip, num, fmt, href}]. Sorting and filtering happen in
+  // A sortable, filterable table. cols: [{key, label, tip, num, fmt, href, more}]. Sorting and filtering happen in
   // the page, so a long list never re-renders; header buttons carry the column's explanation as a tooltip.
+  // more(row) adds finished HTML after the cell's text (source links, say); the caller escapes it.
   function table(id, caption, cols, rows, opts) {
     opts = opts || {};
     var here = hashParams().params;
@@ -119,7 +120,7 @@
       var shown = v == null || v === '' ? '—' : c.fmt ? c.fmt(v, r) : String(v);
       var inner = c.href && c.href(r) ? '<a href="' + esc(c.href(r)) + '">' + esc(shown) + '</a>' : esc(shown);
       var cls = (c.num ? 'num ' : '') + (c.cls ? c.cls(r) || '' : '');
-      return '<td' + (cls.trim() ? ' class="' + esc(cls.trim()) + '"' : '') + ' data-v="' + esc(v == null ? '' : v) + '">' + inner + '</td>';
+      return '<td' + (cls.trim() ? ' class="' + esc(cls.trim()) + '"' : '') + ' data-v="' + esc(v == null ? '' : v) + '">' + inner + (c.more ? c.more(r) || '' : '') + '</td>';
     };
     // Long lists show their first rows and a button for the rest, so the page leads with its charts; a filter
     // or sort always searches every row.

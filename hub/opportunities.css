@@ -13,6 +13,8 @@
 .lb-key li { display: inline-flex; align-items: center; gap: .4rem; }
 .lb-key b { font-variant-numeric: tabular-nums; }
 .lb-pins circle { stroke: var(--halo); stroke-width: .8; fill-opacity: .9; }
+/* The dated sources behind an award's status, under the status text in its cell. */
+.lb-sources { display: block; margin-top: .25rem; font-size: 14px; color: var(--ink-soft); overflow-wrap: anywhere; }
 .lb-towns { margin: 0 0 1.25rem; }
 .lb-towns summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; color: var(--green); }
 .lb-towns ul { columns: 14rem auto; margin: .25rem 0 0; padding-left: 1.1rem; }
