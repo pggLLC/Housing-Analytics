@@ -15,7 +15,7 @@ window.resolveAssetUrl = function (p) { return p; };
 
   // Each hub page and the routes it draws itself. A route another hub page draws opens that page; any other
   // route opens the public page it rebuilds (FORWARD). The old pages stay live until the cutover redirects them.
-  var HUBS = {"places-hub.html":["^#\\/places\\/?$","^#\\/places\\/(compare|ranking|scenario)\\/?$","^#\\/place\\/\\d{5,7}(\\/[a-z-]+)?\\/?$","^#\\/places\\/(incentives(\\/\\d{5,7})?|costs|economy|county-costs|multifamily|deep-dive|walk-bike|attract-housing)\\/?$","^#\\/report\\/?$"],"deal-hub.html":["^#\\/(projects|project|homes|handoff|convert|financials|open-deal|deal-calculator|sale-deal|use|deals|equity-pricing|pipeline|market|for-sale|recommendation|ic-summary|design)(\\/.*)?$"],"opportunities-hub.html":["^#\\/(opportunities|opportunity|finder)(\\/.*)?$"],"data-hub.html":["^#\\/data(\\/.*)?$"],"policy-hub.html":["^#\\/(guides|news|digest|housing-posts|legislation|calendar|elections|money|research|tax-credit-history|middle-income)(\\/.*)?$"],"index.html":["^#\\/$"]}, STARTS = {"places-hub.html":"#/places","deal-hub.html":"#/projects","opportunities-hub.html":"#/opportunities","data-hub.html":"#/data","policy-hub.html":"#/guides","index.html":"#/"};
+  var HUBS = {"places-hub.html":["^#\\/places\\/?$","^#\\/places\\/(compare|ranking|scenario)\\/?$","^#\\/place\\/\\d{5,7}(\\/[a-z-]+)?\\/?$","^#\\/places\\/(incentives(\\/\\d{5,7})?|costs|economy|county-costs|multifamily|deep-dive|walk-bike|attract-housing)\\/?$","^#\\/report\\/?$"],"deal-hub.html":["^#\\/(projects|project|homes|handoff|convert|financials|open-deal|deal-calculator|sale-deal|use|deals|equity-pricing|pipeline|market|for-sale|recommendation|ic-summary|design)(\\/.*)?$"],"opportunities-hub.html":["^#\\/(opportunities|opportunity|finder)(\\/.*)?$"],"data-hub.html":["^#\\/data(\\/.*)?$"],"policy-hub.html":["^#\\/(guides|news|digest|housing-posts|legislation|calendar|elections|money|research|tax-credit-history|middle-income)(\\/.*)?$","^#\\/guide\\/(lihtc-basics|deal-team|green-building|resident-services|cra-pricing|ahcia|fair-housing|federal-rules|housing-authority|white-paper|working-paper|methods|about)\\/?$"],"index.html":["^#\\/$"]}, STARTS = {"places-hub.html":"#/places","deal-hub.html":"#/projects","opportunities-hub.html":"#/opportunities","data-hub.html":"#/data","policy-hub.html":"#/guides","index.html":"#/"};
   Object.keys(HUBS).forEach(function (p) { HUBS[p] = HUBS[p].map(function (re) { return new RegExp(re); }); });
   var HERE = (location.pathname.split('/').pop() || 'index.html');
   var CARRIED = HUBS[HERE] || [];
@@ -103,6 +103,10 @@ window.resolveAssetUrl = function (p) { return p; };
   function spanishHref(hash) {
     var m = /^#\/place\/\d{5,7}(\/[a-z-]+)?/.exec(split(hash).path);
     var u = 'https://cohoanalytics.com/' + HERE + (m ? m[0] : '');
+    // A written guide is translated from its own page, as it was before the guide opened here: the whole guide
+    // is in that page's file, so the translation does not depend on this page drawing it inside Google's frame.
+    var gm = /^#\/guide\/([a-z-]+)$/.exec(split(hash).path);
+    if (gm && GUIDES[gm[1]] && carries(hash)) u = 'https://cohoanalytics.com/' + GUIDES[gm[1]] + '?classic=1';
     return 'https://translate.google.com/translate?sl=en&tl=es&hl=es&u={page}'.replace('{page}', function () { return encodeURIComponent(u); });
   }
   function fix(root) {
@@ -127,5 +131,5 @@ window.resolveAssetUrl = function (p) { return p; };
       a.replaceWith(document.createTextNode(a.textContent));
     });
   }
-  global.LAB_PORT = { HUBS: HUBS, HERE: HERE, CARRIED: CARRIED, FORWARD: FORWARD, carries: carries, hubFor: hubFor, page: page, href: href, leave: leave, fix: fix, spanishHref: spanishHref };
+  global.LAB_PORT = { HUBS: HUBS, HERE: HERE, CARRIED: CARRIED, FORWARD: FORWARD, GUIDES: GUIDES, carries: carries, hubFor: hubFor, page: page, href: href, leave: leave, fix: fix, spanishHref: spanishHref };
 })(window);

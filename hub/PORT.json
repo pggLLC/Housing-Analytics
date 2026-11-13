@@ -8,6 +8,7 @@
   "opportunities",
   "data",
   "policy",
+  "guides",
   "home"
  ],
  "pages": [
@@ -19,7 +20,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "6b032911aa97e9c71ab030832ff5b887f9b6cca8",
+  "commit": "3c0b55921f2a15108dac3bad90a02e3b4aa46c4f",
   "dirty": false
  },
  "files": {
@@ -61,8 +62,8 @@
   "hub/financials.js": "60172168ab1987565ed92c28161c4c9f24ea84cf21d12a5c4c44f027f3b4645a",
   "hub/finder.js": "f39215066112b21436bad975d32c2c7be08232245317f791c1f364c23750a78d",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
-  "hub/guide-extract.js": "b1f6a46a80c4a74d937e3b2da3dd82846118b980d42efab3249862318361e82b",
-  "hub/guide.js": "7a7bd5fadbd04ba234a6a250bf1d676ed5c92c78b153c177d6a4dea6cbe8d358",
+  "hub/guide-extract.js": "55680693f3b815a0fc70b404a981608090148a43dccd689344efa2cb37e6c883",
+  "hub/guide.js": "3db13f831119ccfa3ebec8851fc7489881dd01d991f3a3ac8ff7491028a9be19",
   "hub/hna-dola.js": "3d98f4185ac1b0decd1974f7f02bae7d450633f73b651652d4046ee8db71662e",
   "hub/hna.js": "cd872cf0f9bd7ecbc10a62377f496648e88884455fab98ee5d5c7c05e3db2862",
   "hub/home.css": "d922d006b604880fa1282932b0bd7aa544809a7fc4e13823c2b7d6cf58f1acd2",
@@ -70,14 +71,14 @@
   "hub/homes.js": "bc7f1a7303a7af3ffb1c4ed9f38bac28e9936fa61fe2705071a434281190ae3a",
   "hub/ic-summary.js": "cebc3afe8e4fb1176cff28a03becd8e202230b72b142fb46d7e1c950464c9a6e",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
-  "hub/lab-config.js": "5fa96cc67b1f1501b32b79dc256766ca49849cbe6b14061a80534b1c673966b4",
+  "hub/lab-config.js": "73a25f8df1345c794c85510ddaac26b7c2dc51256e9e152a5e5ed53b1c27b5d5",
   "hub/lab-wave2.css": "b06fd1d529064eac1f0624cb6c507ddd1c1a0c44e1f9ad07d90c50fc2d9df94b",
   "hub/land-value.js": "0756b76823b19ac70e36d4a23f52fbd1228091d091cd645630a3dde983823edf",
   "hub/lender-export.js": "d1e48681ef719397028af4e5bbea04baf62f6b1b24441a7d1f40b034e5eea7da",
   "hub/lender-schedules.js": "d540caedeb111c4440fa773e80a45f85c9ced6d4c0ffe7014e54abb2bbffb0b7",
   "hub/lihtc-history.css": "466ec422410ecd3d0f14cf00089648a29ce0e400774871dde69a775414078d56",
   "hub/lihtc-history.js": "00329eaa437dd463edbee8956f7f4f3615e205d46d7211abc79cb144bf60a1ea",
-  "hub/look.css": "5e78c043e36a7ee3a79614e4869575fa66d0caf4c0a135be38d7b8bbc1f2a4bd",
+  "hub/look.css": "fffcf13b058699380e3a44ffcf4d8def4e7068bff8dcc09fb2eaf43a9938d64d",
   "hub/map-kit.js": "97e01a6de9a9430b723ab2b09130a96290cd307845a43accf05808baf0681752",
   "hub/map-zoom.js": "b1f372a0a160ac58393b8d3af79451cf792261645d07db5b552e7ab1b0f32312",
   "hub/market.js": "7e9d11511c76142c181f36441e2a3db93fa1875af6958ce398a5be21de0bc675",
@@ -105,8 +106,8 @@
   "hub/shell.js": "78d703e4d808132ea91d65c19543c906058150640bc33889f8e3e5d379debd08",
   "hub/small-pages.css": "c873d07280dbee49b8c1446e21377f83a31b1be765d3bad3ad868127afdffd15",
   "hub/strength.js": "10f09b6b204f00e1689748a2696efcd6424bd9e327d5b0f444e6dde011deabb7",
-  "hub/templates.css": "24c7729b28875d870028178ef9a0812c7f398a78441c562c64585f91eb1cd873",
-  "hub/templates.js": "90098aa30813458d6c67bdec0d802e1298993e3b137f95c04ef382fe2974361d",
+  "hub/templates.css": "cb82e57fb26646e1e062b869d9264b47315dff2cfdb55c0d4881077f59c676b1",
+  "hub/templates.js": "2b2ccd1d555356dc2f08975d28088cf689d982a7bd6568b5915cefb06a20b715",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
   "hub/text-fit.js": "583c08d1ce2e9c0b7fd7cd3baca0bee436da9f3741625d9aa7eb683276ea78f8",

@@ -165,7 +165,7 @@ main h2.fold-title, main .fold-title { font-family: inherit; letter-spacing: 0; 
 .ps-bar span:last-child { border-right: 0; }
 .ps-bar b { font-size: 15px; font-variant-numeric: tabular-nums; }
 .ps-eq { background: var(--pine); color: var(--card); }
-.ps-loan { background: var(--map-4); color: var(--on-fill); }
+.ps-loan { background: var(--map-4); color: var(--on-dark); } /* white in both modes: --map-4 does not change in dark, --on-fill does */
 .ps-fee { background: var(--gold); color: var(--ink); }
 .ps-gap { background: var(--slate); color: var(--on-fill); }
 .ps-key { list-style: none; margin: 0 0 .4rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: .3rem 1rem; font-size: 14px; }

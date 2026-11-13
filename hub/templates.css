@@ -1091,7 +1091,7 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
 .g-cards--flow li:not(:last-child)::after { content: "→"; position: absolute; right: -.7rem; top: 1rem; font-weight: 700; color: var(--green); line-height: 1; }
 .g-cards--phones li strong { font-size: 1rem; }
 .g-cards--phones li span:not(.g-card-n) { font-size: 1.35rem; font-weight: 700; color: var(--ink); }
-.g-cards figcaption { font-size: 14px; color: var(--muted); margin-top: .5rem; }
+.g-cards figcaption { font-size: 14px; color: var(--ink-soft); margin-top: .5rem; }
 @media (max-width: 640px) {
   .g-cards--flow ol { grid-template-columns: minmax(0, 1fr); }
   .g-cards--flow li:not(:last-child)::after { content: "↓"; right: auto; left: 1.4rem; top: auto; bottom: -1rem; }
@@ -1444,3 +1444,12 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .page-tabs a[aria-current="location"] { border-bottom-color: var(--green); font-weight: 600; color: var(--green); }
 #main [id] { scroll-margin-top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) + 3rem + .5rem); }
 @media print { .page-tabs { display: none; } }
+/* "Which document do you need?": the chooser the white paper, working paper and Methods share. */
+.doc-guide { margin: 0 0 1.5rem; padding: 1rem 1.25rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.doc-guide-t { margin: 0 0 .5rem; font-weight: 700; }
+.doc-guide ol { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
+.doc-guide li { display: grid; gap: .2rem; align-content: start; }
+.doc-guide li.is-here { border-left: 3px solid var(--accent); padding-left: .75rem; }
+.doc-guide a { font-weight: 700; display: inline-block; padding: .35rem 0; }
+.doc-guide-use { font-weight: 600; font-size: 14px; }
+.doc-guide-about { font-size: 14px; color: var(--ink-soft); }

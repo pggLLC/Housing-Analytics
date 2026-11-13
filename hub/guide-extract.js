@@ -51,7 +51,10 @@
     || (/^(dg-|diagram)/.test(c) ? c : null);
 
   function linkFor(href, o) {
-    if (!href || href.startsWith('#')) return null;
+    // A link to another part of the same page becomes a link to that part of the guide (o.self is the guide's own
+    // route), which opens the fold it sits in. Without a route to point at, or for a bare "#", it is plain text.
+    if (href && href.charAt(0) === '#') return o.self && /^#[A-Za-z0-9_-]{1,80}$/.test(href) ? o.self + '?at=' + href.slice(1) : null;
+    if (!href) return null;
     if (/^(https?:|mailto:)/i.test(href)) return href;
     const file = href.split('#')[0].split('?')[0].replace(/^\.?\//, '');
     return o.routes[file] || o.live + href.replace(/^\.?\//, '');
@@ -65,10 +68,19 @@
     comments.forEach(c => c.remove());
     [...node.querySelectorAll('*')].reverse().forEach(el => {
       const tag = el.tagName.toLowerCase();
-      if (!KEEP.has(tag)) { el.replaceWith(...el.childNodes); return; }
+      if (!KEEP.has(tag)) {
+        // A wrapper that is not kept hands its anchor to the first thing inside it, so a link to it still lands.
+        const gone = el.getAttribute('id'), first = el.firstElementChild;
+        if (gone && first && /^[A-Za-z0-9_-]{1,80}$/.test(gone) && !first.hasAttribute('data-at')) first.setAttribute('data-at', gone);
+        el.replaceWith(...el.childNodes); return;
+      }
       const classes = (el.getAttribute('class') || '').split(/\s+/).map(CLASS).filter(Boolean);
       const keep = ATTRS[tag] || [];
+      // The page's own anchor on this element is kept as data-at (not as an id, which could clash with the
+      // page it is drawn into), so a link to it can open the fold it sits in and land on it.
+      const own = el.getAttribute('id');
       [...el.attributes].forEach(a => { if (keep.indexOf(a.name) < 0) el.removeAttribute(a.name); });
+      if (own && /^[A-Za-z0-9_-]{1,80}$/.test(own)) el.setAttribute('data-at', own);
       if (classes.length) el.setAttribute('class', classes.join(' '));
       if (tag === 'a') {
         const to = linkFor(el.getAttribute('href'), o);
@@ -100,6 +112,20 @@
     const lede = ledeEl ? ledeEl.textContent.replace(/\s+/g, ' ').trim() : '';
     if (ledeEl) ledeEl.remove();
     h1.remove();
+    // "Which document do you need?": the chooser the white paper, working paper and Methods share. It is the
+    // page's own navigation between the three, so it is kept as a list of links, in the page's words.
+    const chooser = main.querySelector('nav.doc-guide');
+    let docGuide;
+    if (chooser) {
+      const say1 = (el, q) => { const n = el.querySelector(q); return n ? n.textContent.replace(/\s+/g, ' ').trim() : ''; };
+      const items = [...chooser.querySelectorAll('li')].map(li => {
+        const a = li.querySelector('a');
+        return a ? { name: a.textContent.replace(/\s+/g, ' ').trim(), href: linkFor(a.getAttribute('href'), o), here: li.classList.contains('is-current') || undefined,
+          use: say1(li, '.doc-guide__for'), about: say1(li, '.doc-guide__about') } : null;
+      }).filter(x => x && x.href);
+      if (items.length) docGuide = { title: say1(chooser, '.doc-guide__title') || 'Which document do you need?', items };
+      chooser.remove();
+    }
     main.querySelectorAll(DROP).forEach(n => n.remove());
     // The page's header lines (its disclaimer, kicker and dated byline) become notes under the title, not the
     // first section. A line about a print or PDF button the lab does not have is left out and recorded.
@@ -152,12 +178,83 @@
       const slots = [...holder.querySelectorAll('*')].filter(el => /^Loading\b/i.test(el.textContent.trim()) ||
         (!el.textContent.trim() && !el.children.length && [...el.attributes].some(a => a.name === 'id' || a.name.startsWith('data-')) && el.tagName !== 'TD'));
       slots.forEach(el => { if (/^Loading\b/i.test(el.textContent.trim())) el.remove(); });
+      // The page's own anchors inside this part, so a link to one of them still lands on the part.
+      const ids = [h2.id].concat([...holder.querySelectorAll('[id]')].map(el => el.id)).filter(x => x && x !== id);
       const html = clean(holder, doc, o);
-      return { id, title: t, lang, html, liveFilled: slots.length ? true : undefined };
+      return { id, title: t, lang, html, liveFilled: slots.length ? true : undefined, ids: ids.length ? ids : undefined };
     });
     const intro = clean(main, doc, o);
-    return { title, lede, intro, sections, notes, omitted };
+    return { title, lede, intro, sections, notes, omitted, docGuide };
   }
 
-  return { ROUTES: LAB_ROUTES, KEEP: KEEP, DROP: DROP, linkFor: linkFor, clean: clean, byH2: byH2 };
+  // The LIHTC guide's own layout: a .hero, a .lihtc-explainer intro and one <section> per part.
+  function lihtc(main, doc, o) {
+    const hero = main.querySelector('.hero');
+    const title = hero.querySelector('h1').textContent.trim();
+    const lede = hero.querySelector('p').textContent.replace(/\s+/g, ' ').trim();
+    const intro = main.querySelector('.lihtc-explainer');
+    const sections = [...main.children].filter(el => el.tagName === 'SECTION' && el !== intro).map((el, i) => {
+      const h2 = el.querySelector('h2');
+      const id = el.id || 'resources';
+      const t = h2 ? h2.textContent.replace(/\s+/g, ' ').trim() : 'Section ' + (i + 1);
+      if (h2) h2.remove();
+      const ids = [...el.querySelectorAll('[id]')].map(x => x.id).filter(x => x && x !== id);
+      return { id, title: t, html: clean(el, doc, o), ids: ids.length ? ids : undefined };
+    });
+    return { title, lede, intro: clean(intro, doc, o), sections, notes: [], omitted: [] };
+  }
+
+  // Inside the public site a guide is read from its own page, not from a copy (format review F3). A page whose
+  // scripts write some of its words and tables (rendered) is opened out of sight first, so those are read too.
+  // The pop-up definitions a script adds to table headings are not the page's words and are left out.
+  // onLate(guide), optional: a rendered page whose data arrives after the first read (a slow connection) is read
+  // again when it changes, for up to 20 seconds, and the fuller guide is handed over. The frame is kept that long.
+  function fromPage(url, o, onLate) {
+    const parse = html => new DOMParser().parseFromString(html, 'text/html');
+    const cut = doc => {
+      doc.querySelectorAll('[role="tooltip"]').forEach(n => n.remove());
+      const main = doc.querySelector('main');
+      if (!main || !main.querySelector('h1')) throw new Error('no article');
+      const description = (doc.querySelector('meta[name="description"]') || {}).content || null;
+      const b = o.mode === 'lihtc' ? lihtc(main, doc, o) : byH2(main, doc, o);
+      b.description = description;
+      return b;
+    };
+    if (!o.rendered) return fetch(url).then(r => { if (!r.ok) throw new Error(r.status); return r.text(); }).then(html => cut(parse(html)));
+    return new Promise((resolve, reject) => {
+      const f = document.createElement('iframe');
+      f.setAttribute('aria-hidden', 'true'); f.setAttribute('tabindex', '-1'); f.setAttribute('title', 'Reading the guide');
+      f.style.cssText = 'position:absolute;left:-10000px;top:0;width:1200px;height:900px;border:0;visibility:hidden';
+      const WAIT = o.wait || 8000, LATE = o.late == null ? 20000 : o.late, TICK = 150;
+      let timer = null, settled = false, readAt = -1;
+      const stop = () => { clearInterval(timer); f.remove(); };
+      const fail = e => { stop(); if (!settled) { settled = true; reject(e); } };
+      f.onerror = () => fail(new Error('the page did not open'));
+      f.onload = () => {
+        const t0 = Date.now(); let quiet = 0, last = -1;
+        timer = setInterval(() => {
+          let main = null;
+          try { main = f.contentDocument && f.contentDocument.querySelector('main'); } catch (e) { return fail(e); }
+          if (!main) return fail(new Error('no article'));
+          const size = main.innerHTML.length, loading = /(^|\s)Loading\b/i.test(main.textContent), age = Date.now() - t0;
+          quiet = size === last && !loading ? quiet + 1 : 0; last = size;
+          // First read: once nothing says it is loading and the page has stopped changing, or after 8 seconds.
+          if (!settled && (quiet >= 4 || age > WAIT)) {
+            settled = true; readAt = size;
+            try { resolve(cut(parse(f.contentDocument.documentElement.outerHTML))); } catch (e) { stop(); return reject(e); }
+            if (!onLate) stop();
+          // Later: the page changed after that read and has gone quiet again.
+          } else if (settled && onLate && quiet >= 4 && size !== readAt) {
+            readAt = size;
+            try { onLate(cut(parse(f.contentDocument.documentElement.outerHTML))); } catch (e) { /* the first read stands */ }
+          }
+          if (settled && age > LATE) stop();
+        }, TICK);
+      };
+      f.src = url;
+      document.body.appendChild(f);
+    });
+  }
+
+  return { ROUTES: LAB_ROUTES, KEEP: KEEP, DROP: DROP, linkFor: linkFor, clean: clean, byH2: byH2, lihtc: lihtc, fromPage: fromPage };
 });
