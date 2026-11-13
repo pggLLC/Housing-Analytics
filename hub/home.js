@@ -273,8 +273,8 @@
     ['Select your jurisdiction', 'Set the place for the analysis. It decides the income limits, HUD Fair Market Rents, QCT and DDA areas, Census figures and CHFA history used everywhere else.', '#/places', 'Pick a place'],
     ['Opportunity Finder, new', 'Optional, for deciding where to look. Compare Colorado places on housing need, recent CHFA investment, QCT and DDA basis boost, size and local capacity, read for a 4% bond or a 9% competitive deal.', '#/finder', 'Browse places statewide'],
     ['Housing needs assessment', 'Who needs housing: incomes, cost burden, renters and owners, the gap between what exists and what is needed, 10-year demand, and a recommended income mix.', '#/place/0828745', 'Open Fruita’s assessment'],
-    ['Market analysis and site feasibility', 'Define a market area and score a site on demand, competition, rents, tightness and access to jobs. CHFA requires a market study with every application. The free market check is here; the full study is a member tool.', '#/market', 'Run a market check'],
-    ['Projection scenarios', 'Compare 20-year population and housing forecasts under baseline, low and high growth. Tax credit homes stay affordable for 15 to 30 years, so lenders and CHFA look for demand that lasts.', '#/places/scenario', 'Change the forecast'],
+    ['Market check', 'Renters and the homes priced for them, rents against the tax credit limit, tax credit supply and a capture rate, with a market area you can draw. CHFA requires a market study with every application. The full Market Analysis, which scores a site, is a member tool.', '#/market', 'Run a market check'],
+    ['Scenario builder', 'Compare 20-year population and housing forecasts under baseline, low and high growth. Tax credit homes stay affordable for 15 to 30 years, so lenders and CHFA look for demand that lasts.', '#/places/scenario', 'Change the forecast'],
     ['Deal calculator', 'Size the capital stack: credit equity, the permanent loan from net operating income, and the gap soft funding must fill. Compare 9% and 4% side by side, or size an ownership subsidy.', '#/deal-calculator', 'Open the Deal Calculator'],
     ['Recommendation', 'The earlier steps on one page: what the public data says the place needs, what you recorded, and what the data cannot answer. Prints for a council or a board.', '#/recommendation', 'See the recommendation']
   ];
@@ -710,5 +710,5 @@
   Shell.views['share-card'] = shareCard;
   Shell.views.home = home;
   Shell.views.assistance = assistance;
-  global.LabHome = { home: home, firstMatch: firstMatch, homeHref: homeHref, QUICK: QUICK, DOORS: DOORS, assistance: assistance, notFound: notFound, privacy: privacy, search: search, searchRecords: searchRecords, rankSearch: rankSearch, COUNTY_FIPS: COUNTY_FIPS, sitemap: sitemap, shareCard: shareCard, TOOLS: TOOLS, RENT: RENT, STEPS: STEPS, DOORS: DOORS, SITEMAP: SITEMAP, homeFigures: homeFigures, HOME_FILES: HOME_FILES, stateSummary: stateSummary };
+  global.LabHome = { home: home, firstMatch: firstMatch, homeHref: homeHref, QUICK: QUICK, DOORS: DOORS, assistance: assistance, notFound: notFound, privacy: privacy, search: search, searchRecords: searchRecords, rankSearch: rankSearch, COUNTY_FIPS: COUNTY_FIPS, sitemap: sitemap, shareCard: shareCard, TOOLS: TOOLS, RENT: RENT, STEPS: STEPS, SITEMAP: SITEMAP, homeFigures: homeFigures, HOME_FILES: HOME_FILES, stateSummary: stateSummary };
 })(window);

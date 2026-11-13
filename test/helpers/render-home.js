@@ -54,17 +54,23 @@ function start(files) {
   const page = fs.readFileSync(at('index.html'), 'utf8');
   const scripts = [...page.matchAll(/<script src="([^"]+)"><\/script>/g)].map((m) => m[1]);
   const SKIP = /^hub\/(lab-config|shell)\.js$/;
-  // Chart, map and page files that need a real document are not needed to read Home's words; a file that
-  // cannot start without one is left out and named, so a silent gap cannot hide a missing figure.
+  // Four files cannot start without a real document. Home's words do not come from them, so they are left out
+  // by name. Any other file that fails to start is a broken page, and the load stops there: a browser would
+  // have lost that script too, so nothing here stands in for it.
+  const NEEDS_BROWSER = ['js/deal-engine.js', 'hub/homes.js', 'hub/financials.js', 'hub/policy-more.js'];
   const left = [];
   scripts.filter((s) => !SKIP.test(s)).forEach((s) => {
     const src = fs.readFileSync(at(s), 'utf8');
     try {
       vm.runInContext(src, ctx, { filename: s });
-    } catch (e) { left.push(s + ': ' + e.message); }
+    } catch (e) {
+      if (!NEEDS_BROWSER.includes(s)) throw new Error(s + ' did not start: ' + e.message);
+      left.push(s + ': ' + e.message);
+    }
   });
-  // The town answer card reads its facts from the site's own homepage engine; it must be the one loaded.
-  if (!win.HomeJurisdictionSearch) win.HomeJurisdictionSearch = require(at('js/home-jurisdiction-search.js'));
+  // The town answer card reads its facts from the site's own homepage engine, loaded by the page's own script
+  // tag. If that script is gone from the page, or did not start, the real page draws no facts.
+  if (!win.HomeJurisdictionSearch) throw new Error('index.html did not load js/home-jurisdiction-search.js, so the town answer card has no engine');
   if (!Shell.views.home) throw new Error('hub/home.js did not register the Home view (' + left.join('; ') + ')');
   const settle = () => new Promise((r) => setTimeout(r, 25));
   return (async () => { for (let i = 0; i < 40; i++) { Shell.views.home(new URLSearchParams('')); await settle(); } return { Shell, settle, left, win, fetched }; })();
@@ -75,6 +81,21 @@ async function renderHomeWith(files, query) {
   let html = '';
   for (let i = 0; i < 6; i++) { html = Shell.views.home(new URLSearchParams(query || '')); await settle(); }
   return html;
+}
+
+// The view a link on Home opens, drawn as the hub page draws it: "#/market?g=0828745" is the Market check for
+// Fruita. The shell picks the view by the first part of the route (hub/shell.js parseHash) and titles the tab
+// with the view's own <h1>.
+async function renderRoute(raw) {
+  const { Shell, settle } = await boot();
+  const bare = String(raw).replace(/^#\/?/, '');
+  const q = bare.indexOf('?');
+  const parts = (q > -1 ? bare.slice(0, q) : bare).split('/').filter(Boolean);
+  const view = Shell.views[parts[0] || 'home'];
+  if (!view) throw new Error('no hub view draws ' + raw);
+  let html = '';
+  for (let i = 0; i < 8; i++) { html = view(new URLSearchParams(q > -1 ? bare.slice(q + 1) : ''), parts); await settle(); }
+  return String(html);
 }
 
 async function renderHome(query) {
@@ -150,4 +171,4 @@ function renderHomeSync(query) {
   return out;
 }
 
-module.exports = { renderHome, renderHomeWith, renderHomeReturning, renderHomeSync, text, links, steps, rebuilds, pageOf, portConfig, boot, ROOT };
+module.exports = { renderHome, renderRoute, renderHomeWith, renderHomeReturning, renderHomeSync, text, links, steps, rebuilds, pageOf, portConfig, boot, ROOT };

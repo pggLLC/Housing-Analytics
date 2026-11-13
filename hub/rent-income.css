@@ -115,7 +115,7 @@
 .ca-legend li:nth-child(1) b { color: var(--rust); }
 .ca-legend li:nth-child(2) b { color: var(--c-blue); }
 .ca-legend .ca-lg-none { width: 26px; height: 18px; justify-self: center; }
-.ri-count { display: block; margin-top: .3rem; font-size: .95em; color: var(--muted); }
+.ri-count { display: block; margin-top: .3rem; font-size: .95em; color: var(--ink-soft); } /* on the tinted panel --muted is 4.3:1, under the 4.5 minimum */
 .ca-lg-i { width: 44px; height: 30px; }
 .ca-size { font-size: 15px; margin: .2rem 0 0; }
 /* Need map (site/county-need.js): today or the change, for rent as a share of income. */
