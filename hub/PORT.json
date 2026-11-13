@@ -1,13 +1,15 @@
 {
  "about": "Built by coho-pathfinder-visual-lab scripts/build-port.js. Do not edit hub/ or the *-hub.html pages by hand: change the lab and rebuild.",
- "hub": "opportunities",
+ "hub": "data",
  "hubs": [
   "places",
   "places-more",
   "deal",
-  "opportunities"
+  "opportunities",
+  "data"
  ],
  "pages": [
+  "data-hub.html",
   "deal-hub.html",
   "opportunities-hub.html",
   "places-hub.html"
@@ -17,6 +19,7 @@
   "dirty": false
  },
  "files": {
+  "data-hub.html": "81d011beb89b2a11e229bd671c4b67bb036096c389bfd5a88a310b94b9585e82",
   "deal-hub.html": "9c9dc61dd5f7d22ea6de8aae55ae76de3f85fc71fbf64dad33210d8dee7ac7fc",
   "hub/access.js": "8ccf6a2320fbdc280ddcb2632284e0449aa9e0d64306d2fa9c7f86d1134faa1d",
   "hub/attract-housing.css": "28bcd998512f3ce04d0a3e094e614dbfa727e9266f6765bdef65484515887161",
@@ -63,7 +66,7 @@
   "hub/homes.js": "a379c3a812fba9b12b333b3e8de97ca769c3f22556307fd175f6d58fc5876065",
   "hub/ic-summary.js": "f96d2397104aef1f63c17b2d73f512fe654a1676c32eab9dd4a285efa9cbbad1",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
-  "hub/lab-config.js": "a3eac7f26950e99265927ef724a33a0c4b145f510ec410852fe4e143b23e1900",
+  "hub/lab-config.js": "dd0cb09b3b8ae2c8652657e010d0d76b87635d06e72820c121c364eb97428e3d",
   "hub/lab-wave2.css": "b06fd1d529064eac1f0624cb6c507ddd1c1a0c44e1f9ad07d90c50fc2d9df94b",
   "hub/land-value.js": "7d5ed405822279f4f2cc9fb65714669773fb98912b852759b077e631adf3a261",
   "hub/lender-export.js": "d1e48681ef719397028af4e5bbea04baf62f6b1b24441a7d1f40b034e5eea7da",

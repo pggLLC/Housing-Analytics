@@ -80,6 +80,8 @@ const UNLINKED_BY_DESIGN = {
     'the Build a deal hub port candidate (joint release, 12 Nov 2026); linked from the menu at release',
   'opportunities-hub.html':
     'the Opportunities hub port candidate (joint release, 12 Nov 2026); linked from the menu at release',
+  'data-hub.html':
+    'the Data and methods hub port candidate (joint release, 12 Nov 2026); linked from the menu at release',
 };
 
 test('the scan sees the whole site', () => {
