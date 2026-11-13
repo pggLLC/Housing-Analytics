@@ -133,7 +133,7 @@ assert(indexHtml.includes('src="js/home-jurisdiction-search.js"'), 'index.html m
 // runs it: the page's inline script, against a stand-in address bar.
 {
   const vm = require('node:vm');
-  const inline = [...indexHtml.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]).find((t) => t.includes('history.replaceState'));
+  const inline = [...indexHtml.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script[^>]*>/gi)].map((m) => m[1]).find((t) => t.includes('history.replaceState'));
   assert(inline, 'index.html no longer has the opening script that sets the route');
   const open = (search, hash) => {
     const location = { pathname: '/index.html', search, hash };
