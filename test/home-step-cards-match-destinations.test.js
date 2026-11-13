@@ -57,13 +57,18 @@ check('the scan found the step cards', () => {
   for (const c of cards) assert.ok(c.h1, `step "${c.heading}" opens ${c.opens}, and the view drawn there has no <h1>`);
 });
 
+// The words of a card's name that none of a view's headings use. Empty means the card names the view.
+// The card's main noun phrase is the part before "&" or "and" (e.g. "Deal calculator").
+const unnamed = (heading, headings) => {
+  const phrase = words(heading.split(/&| and /)[0]);
+  const named = new Set(headings.flatMap(words));
+  return phrase.length ? phrase.filter((w) => !named.has(w)) : ['(no name)'];
+};
+
 for (const c of cards) {
-  // The card's main noun phrase: the part before "&" or "and" (e.g. "Deal calculator").
-  const phrase = words(c.heading.split(/&| and /)[0]);
-  const named = new Set(c.headings.flatMap(words));
   check(`"${c.heading}" names the view it opens, ${c.opens} ("${c.h1}")`, () => {
-    const missing = phrase.filter((w) => !named.has(w));
-    assert.ok(phrase.length && !missing.length,
+    const missing = unnamed(c.heading, c.headings);
+    assert.ok(!missing.length,
       `the card heading "${c.heading}" uses ${missing.map((w) => `"${w}"`).join(', ')}, which no heading on ${c.opens} uses (its headings: ${c.headings.slice(0, 8).join(' | ')})`);
   });
   if (/unit mix|set rents/i.test(c.text)) {
@@ -77,12 +82,13 @@ for (const c of cards) {
   }
 }
 
-// The check has to be able to fail: a name the destination does not use must be caught.
-check('a card named for a page its link does not open is caught', () => {
-  const market = cards.find((c) => /^#\/market\b/.test(c.route));
-  assert.ok(market, 'no step opens the Market check');
-  const named = new Set(market.headings.flatMap(words));
-  assert.ok(words('Market analysis').some((w) => !named.has(w)), 'the Market check view now uses "analysis" in a heading; pick another name the view does not use for this self-check');
+// The comparison has to be able to fail. Made-up names and headings, so this holds whatever the real pages say.
+check('the comparison rejects a card named for a different page, and accepts one that agrees', () => {
+  assert.deepStrictEqual(unnamed('Orchard ledger', ['Quarry census', 'Rents']), ['orchard', 'ledger']);
+  assert.deepStrictEqual(unnamed('Quarry ledger', ['Quarry census', 'Rents']), ['ledger']);
+  assert.deepStrictEqual(unnamed('Your quarry censuses and more', ['Quarry census: Fruita']), []);
+  assert.deepStrictEqual(unnamed('Quarry census', []), ['quarry', 'census']);
+  assert.ok(unnamed('', ['Quarry census']).length, 'a card with no name does not pass');
 });
 
 if (failures) { console.log(`home-step-cards-match-destinations: FAIL (${failures})`); process.exit(1); }
