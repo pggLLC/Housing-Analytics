@@ -140,8 +140,8 @@
       '<h3>Daily data-source check</h3><p>An automated check runs every day to:</p><ul><li>look for new data files that are not in the source list yet;</li><li>check each source’s age against its expected update window;</li><li>write a discovery report;</li><li>flag new files for a maintainer to review.</li></ul>' +
       '<h3 id="dt-scan">Discovery scan</h3><p>The scan looks for ' + r.length + ' known file paths and compares them with the site’s source list. Today: <strong>' + found.length + ' found</strong>, ' + (found.length - pending.length) + ' already registered, ' +
       '<strong>' + pending.length + ' pending review</strong>' + (gone.length ? ', ' + gone.length + ' registered but missing' : '') + ', ' + (r.length - found.length) + ' not on the site.</p>' +
-      '<h3>Pending discovery</h3>' + (pending.length ? '<p>Files the site has that are not in its source list yet. On the live page a maintainer approves each one to download a patch for the list.</p><ul class="dt-paths">' + pending.map(function (x) { return '<li><code>' + esc(name(x.path)) + '</code></li>'; }).join('') + '</ul>' : '<p>No file is waiting for review.</p>') +
-      '<h3>Discovery configuration</h3><p>The scan settings are for maintainers only. Visitors run it against the source list the site ships with; private audit files are never loaded. <a href="' + LIVE + 'data-review-hub.html">Run the scan on the live Trust center ↗</a></p>' +
+      '<h3>Pending discovery</h3>' + (pending.length ? '<p>Files the site has that are not in its source list yet. On the full Trust Center page a maintainer approves each one to download a patch for the list.</p><ul class="dt-paths">' + pending.map(function (x) { return '<li><code>' + esc(name(x.path)) + '</code></li>'; }).join('') + '</ul>' : '<p>No file is waiting for review.</p>') +
+      '<h3>Discovery configuration</h3><p>The scan settings are for maintainers only. Visitors run it against the source list the site ships with; private audit files are never loaded. <a href="' + LIVE + 'data-review-hub.html">Run the scan on the full Trust Center page ↗</a></p>' +
       '<h3>Probed file paths</h3><ul class="dt-paths">' + r.map(function (x) {
         var w = x.on ? (x.reg ? 'registered' : 'pending review') : 'not on the site';
         return '<li class="dt-' + (x.on ? (x.reg ? 'ok' : 'new') : 'off') + '"><code>' + esc(name(x.path)) + '</code> <span>' + esc(w) + '</span></li>';
@@ -273,11 +273,11 @@
   ];
   function apiSetup() {
     return '<details class="dt-maint"><summary>For maintainers: data service keys</summary>' +
-      '<h2>API configuration</h2><p>Maintainer setup, not needed to use the site. The scheduled data builds supply the Census and FRED keys privately, so every page here reads saved copies and needs no key. A browser shows “Not set” for each key unless one was entered on the live page.</p>' +
-      '<h2>API key setup</h2><p>On the live Data quality page a maintainer can enter a key for testing. It is saved only in that browser and never sent to a server. This site never asks for a key.</p>' +
+      '<h2>API configuration</h2><p>Maintainer setup, not needed to use the site. The scheduled data builds supply the Census and FRED keys privately, so every page here reads saved copies and needs no key. A browser shows “Not set” for each key unless one was entered on the full Data quality page.</p>' +
+      '<h2>API key setup</h2><p>On the full Data quality page a maintainer can enter a key for testing. It is saved only in that browser and never sent to a server. This site never asks for a key.</p>' +
       '<ul class="pw-list">' + KEYS.map(function (k) {
         return '<li><p><strong>' + esc(k.label) + '</strong> <span class="src-status">' + esc(k.cost) + '</span></p><p class="note">' + esc(k.what) + ' <a href="' + esc(k.href) + '">Get one ↗</a></p></li>';
-      }).join('') + '</ul><p><a href="' + LIVE + 'dashboard-data-quality.html">Key setup on the live Data quality page ↗</a></p></details>';
+      }).join('') + '</ul><p><a href="' + LIVE + 'dashboard-data-quality.html">Key setup on the full Data quality page ↗</a></p></details>';
   }
 
   // ---------- Data status ----------

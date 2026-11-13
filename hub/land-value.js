@@ -144,7 +144,7 @@
   }
 
   function view(params) {
-    if (!global.LandValueTool) return '<h1>Land value</h1><p class="callout">The live tool’s module did not load.</p>';
+    if (!global.LandValueTool) return '<h1>Land value</h1><p class="callout">The Land value tool’s module did not load.</p>';
     var p = params, st = stateFrom(p), r = result(st);
     var input = function (f) {
       return '<label class="lv-field"><span>' + esc(f.label) + '</span><input type="number" inputmode="decimal" min="0" step="' + f.step + '" data-lv="' + f.id + '" value="' + esc(p.get(f.id) || '') + '" placeholder="For example ' + esc(f.money ? money(Number(f.ex)) : f.ex) + '"></label>';
@@ -161,7 +161,7 @@
       '<div class="metric"><p class="metric-title">Market value from your sales</p><p class="metric-value">' + esc(r.comps ? money(r.comps.estimatedValue) : '—') + '</p><p class="metric-detail">' + esc(r.comps ? 'Median ' + money(r.comps.medianPerAcre) + ' an acre from ' + r.comps.count + (r.comps.count === 1 ? ' sale' : ' sales') + '. Range ' + money(r.comps.rangeValue.low) + ' to ' + money(r.comps.rangeValue.high) + '.' : 'Enter at least one sale with acres and price.') + '</p></div>' +
       '<div class="metric"><p class="metric-title">Most the deal can pay for land</p><p class="metric-value">' + esc(r.res ? money(r.res.adjustedResidual) : '—') + '</p><p class="metric-detail">' + esc(r.res ? (st.totalUnits > 0 ? money(r.res.perUnit) + ' a home. ' : '') + (st.siteAcres > 0 ? money(r.res.perAcre) + ' an acre. ' : '') + (r.res.adjustedResidual > 0 ? 'Sources minus cost, less off-site and cleanup costs.' : 'As entered, the sources ' + (r.res.grossResidual > 0 ? 'leave ' + money(r.res.grossResidual) + ', which off-site and cleanup costs use up' : 'do not cover the cost before land') + ', so nothing is left for land.') : 'Enter development cost and equity and first mortgage.') + '</p></div>' +
       askCard(r.ask, st.totalUnits) +
-      '<div class="metric"><p class="metric-title">How complete the inputs are</p><p class="metric-value">' + esc(CONF[r.conf.level] + ', ' + r.conf.score + ' of 100') + '</p><p class="metric-detail">The live tool’s own completeness check: sales, project figures and site details. It is not a measure of accuracy.</p></div>' +
+      '<div class="metric"><p class="metric-title">How complete the inputs are</p><p class="metric-value">' + esc(CONF[r.conf.level] + ', ' + r.conf.score + ' of 100') + '</p><p class="metric-detail">The tool’s own completeness check: sales, project figures and site details. It is not a measure of accuracy.</p></div>' +
       '</div>' + bandChart(r.band, r.ask);
     return T.head({
       kind: 'tool', crumbs: T.trail('opportunities', 'Land value'), title: 'Land value',
@@ -179,7 +179,7 @@
       '</form><section class="lv-out" aria-live="polite"><h2>Land value negotiation support</h2>' + out +
       '<p class="note">This page keeps your figures in its link, so you can copy the address to share it. Nothing is saved anywhere else.</p></section></div>' +
       guide() +
-      '<details class="counted"><summary>What this does not cover</summary><p>It does not use live sales or assessor data, entitlement risk or a ground lease. Off-site and cleanup costs count only if you enter them. The arithmetic is the live tool’s own (<a href="' + LIVE + '">Land value on cohoanalytics.com</a>).</p></details>' +
+      '<details class="counted"><summary>What this does not cover</summary><p>It does not use live sales or assessor data, entitlement risk or a ground lease. Off-site and cleanup costs count only if you enter them. The arithmetic is the same as the <a href="' + LIVE + '">full Land value tool</a>.</p></details>' +
       T.next('Next', [{ href: '#/deal-calculator', label: 'Test the deal with this land cost →' }, { href: '#/opportunity/preservation', label: 'Homes that could be lost', secondary: true }]);
   }
 

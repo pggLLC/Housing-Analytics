@@ -555,7 +555,7 @@
     var h = '<section class="snap" id="rs-snapshot"><h2>Market data snapshot</h2>' +
       '<p class="note">Prices, risk signals, rates and CHFA dates, each read from a data file with its own date.</p>';
     if (s.error) return h + '<p class="callout">' + esc(s.error) + '</p></section>';
-    if (scriptFailed('js/components/equity-pricing.js') || scriptFailed('js/components/market-pulse.js')) return h + '<p class="callout">The snapshot module did not load. The snapshot is on <a href="' + LIVE + 'insights.html">the live Research page ↗</a>.</p></section>';
+    if (scriptFailed('js/components/equity-pricing.js') || scriptFailed('js/components/market-pulse.js')) return h + '<p class="callout">The snapshot module did not load. The snapshot is on <a href="' + LIVE + 'insights.html">the full Research page ↗</a>.</p></section>';
     if (!s.data || !ready || !EP || !MP) return h + '<p class="note">Loading the market snapshot…</p></section>';
     var d = s.data;
     // Credit pricing: QoQ and YoY only where the history ends on the printed quarter at the printed prices.
@@ -647,7 +647,7 @@
       if (!it || typeof it.heading !== 'string') return '';
       var h = '<section id="brief-section-' + esc(it.id) + '"><h2>' + esc(it.heading) + '</h2>' + (it.paragraphs || []).map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
       if (Array.isArray(it.items) && it.items.length) h += (it.items_heading ? '<h3>' + esc(it.items_heading) + '</h3>' : '') + '<ul>' + it.items.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
-      if (it.map === 'transit-zone-screen') h += '<p class="note">The live brief draws the transit-stop screen on a map here. A transit-stop screen is not a zone designation; only OEDIT’s Transit and Housing Investment Zone map decides eligibility.</p>';
+      if (it.map === 'transit-zone-screen') h += '<p class="note">The full brief draws the transit-stop screen on a map here. A transit-stop screen is not a zone designation; only OEDIT’s Transit and Housing Investment Zone map decides eligibility.</p>';
       var t = it.table;
       if (t && Array.isArray(t.columns) && Array.isArray(t.rows)) {
         h += '<div class="table-scroll"><table class="brief-text-table">' + (t.caption ? '<caption>' + esc(t.caption) + '</caption>' : '') + '<thead><tr>' + t.columns.map(function (c) { return '<th scope="col">' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' +
