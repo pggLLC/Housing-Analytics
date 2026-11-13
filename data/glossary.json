@@ -1,375 +1,504 @@
 {
-  "updated": "2026-10-23T00:00:00Z",
+  "updated": "2026-11-13T00:00:00Z",
   "terms": [
     {
       "term": "LIHTC",
       "full": "Low-Income Housing Tax Credit",
-      "definition": "A dollar-for-dollar federal tax credit used to finance the construction and rehabilitation of affordable rental housing. Administered by state housing agencies, LIHTC is the nation's primary tool for encouraging private investment in affordable housing. Developers apply for credits, which are then sold to investors (usually banks) to raise equity capital for projects.",
-      "short": "Low-Income Housing Tax Credit — the main federal program funding affordable rental housing. States award the credits each year; investors buy them, and that equity lets the project keep rents affordable for 30+ years."
+      "definition": "The main federal program for financing affordable rental housing. State agencies award the credits, investors buy them, and that equity pays for part of construction. In return the homes stay rent-restricted for at least 30 years.",
+      "short": "Low-Income Housing Tax Credit — the main federal program funding affordable rental housing. States award the credits each year; investors buy them, and that equity lets the project keep rents affordable for 30+ years.",
+      "source": {
+        "name": "26 U.S.C. 42, Low-income housing credit, subsections (a) and (h)(6)",
+        "url": "https://www.law.cornell.edu/uscode/text/26/42"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "QCT",
       "full": "Qualified Census Tract",
-      "definition": "A census tract where at least 50% of households have incomes below 60% of Area Median Income (AMI), or where the poverty rate is at least 25%. LIHTC projects in QCTs are eligible for a 30% basis boost, allowing developers to receive more tax credits per dollar of project cost.",
-      "short": "Qualified Census Tract — a HUD-designated tract where at least 50% of households earn under 60% of AMI, or the poverty rate is at least 25%. LIHTC projects here qualify for a 30% basis boost."
+      "definition": "A census tract where at least 50% of households earn less than 60% of area median income, or where the poverty rate is at least 25%. HUD designates the tracts, and a LIHTC project in one qualifies for a 30% basis boost.",
+      "short": "Qualified Census Tract — a HUD-designated tract where at least 50% of households earn under 60% of AMI, or the poverty rate is at least 25%. LIHTC projects here qualify for a 30% basis boost.",
+      "source": {
+        "name": "26 U.S.C. 42, Low-income housing credit, subsection (d)(5)(B)",
+        "url": "https://www.law.cornell.edu/uscode/text/26/42"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "DDA",
       "full": "Difficult Development Area",
-      "definition": "An area designated by HUD where high construction, land, and utility costs make it harder to develop affordable housing. Like QCTs, LIHTC projects in DDAs qualify for a 30% basis boost to help offset higher costs. Designations are updated annually.",
-      "short": "Difficult Development Area — a HUD-designated place where construction, land and utility costs are high relative to local incomes. LIHTC projects here qualify for a 30% basis boost."
+      "definition": "An area HUD designates because construction, land and utility costs are high relative to area median income. A LIHTC project in one qualifies for a 30% basis boost.",
+      "short": "Difficult Development Area — a HUD-designated place where construction, land and utility costs are high relative to local incomes. LIHTC projects here qualify for a 30% basis boost.",
+      "source": {
+        "name": "26 U.S.C. 42, Low-income housing credit, subsection (d)(5)(B)",
+        "url": "https://www.law.cornell.edu/uscode/text/26/42"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "CHFA",
       "full": "Colorado Housing and Finance Authority",
-      "definition": "Colorado's state housing finance agency, responsible for allocating federal LIHTC credits, issuing tax-exempt bonds, and providing below-market loans for affordable housing development. CHFA evaluates developer applications through a competitive Qualified Allocation Plan (QAP) process.",
+      "definition": "Colorado's housing finance authority. It allocates federal and state housing tax credits under its Qualified Allocation Plan, issues tax-exempt bonds and makes loans for affordable housing.",
       "short": "Colorado Housing and Finance Authority — the state agency that allocates federal LIHTC credits, issues bonds, makes first-mortgage loans, and funds affordable housing in Colorado."
     },
     {
       "term": "AMI",
       "full": "Area Median Income",
-      "definition": "The midpoint of the income distribution for a given metropolitan area or county, as calculated by HUD annually. Affordable housing programs use AMI percentages (e.g., 30%, 50%, 60%, 80%) to set rent limits and tenant income eligibility thresholds. A household earning 60% of AMI qualifies for most LIHTC units.",
-      "short": "Area Median Income — the middle household income for a county or metro, published yearly by HUD. Programs use percentages of AMI (like 60% AMI) to set who qualifies and the maximum rents."
+      "definition": "The middle household income for a county or metro area, published each year by HUD. Programs set income eligibility and maximum rents as a percentage of it, such as 30%, 50%, 60% or 80% of AMI.",
+      "short": "Area Median Income — the middle household income for a county or metro, published yearly by HUD. Programs use percentages of AMI (like 60% AMI) to set who qualifies and the maximum rents.",
+      "source": {
+        "name": "HUD Income Limits",
+        "url": "https://www.huduser.gov/portal/datasets/il.html"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "PMA",
       "full": "Primary Market Area",
-      "definition": "The geographic area from which a housing development is expected to draw its tenants. PMA analysis evaluates demand, competition, rent levels, demographics, and other factors to determine whether a proposed development is financially feasible and will achieve stabilized occupancy. Required for LIHTC applications.",
+      "definition": "The area a proposed development is expected to draw most of its renters from. A market study measures demand, competing homes and rents inside it.",
       "short": "Primary Market Area — the area a proposed project will draw most renters from, usually defined by drive time, school district, or natural boundaries. The market study measures supply and demand inside it."
     },
     {
       "term": "HNA",
       "full": "Housing Needs Assessment",
-      "definition": "A study that quantifies the gap between existing housing supply and the current and future housing needs of a community. HNAs examine population growth, household formation, income distribution, existing housing stock, and affordability gaps to inform planning and investment decisions."
+      "definition": "A study of the gap between the homes a community has and the homes its households need, now and in the future. It looks at population, incomes, existing homes and affordability to guide planning and investment."
     },
     {
       "term": "HUD",
       "full": "U.S. Department of Housing and Urban Development",
-      "definition": "The federal agency responsible for national housing policy, including administering LIHTC income limits, Fair Market Rents, QCT/DDA designations, and the CDBG and HOME grant programs. HUD publishes key data used to underwrite and evaluate affordable housing developments.",
-      "short": "Department of Housing and Urban Development — the federal agency that runs the LIHTC, Section 8, and CDBG programs, publishes income limits and Fair Market Rents, and oversees state housing finance work."
+      "definition": "The federal housing department. It runs Section 8, CDBG and HOME, and publishes the income limits, Fair Market Rents, and QCT and DDA designations that LIHTC projects use.",
+      "short": "Department of Housing and Urban Development — the federal agency that runs Section 8, CDBG and HOME, and publishes the income limits, Fair Market Rents and tax credit designations other programs rely on."
     },
     {
       "term": "FRED",
       "full": "Federal Reserve Economic Data",
-      "definition": "A free public database of over 800,000 economic time series published by the Federal Reserve Bank of St. Louis. Widely used in housing finance for tracking interest rates, inflation (CPI), unemployment, construction costs, and housing market conditions.",
-      "short": "Federal Reserve Economic Data — the St. Louis Fed's free public time-series database covering housing, prices, employment, and rates."
+      "definition": "The St. Louis Fed's free database of economic data, including interest rates, prices, jobs and housing. It lists about 853,000 series from 127 sources.",
+      "short": "Federal Reserve Economic Data — the St. Louis Fed's free public time-series database covering housing, prices, employment, and rates.",
+      "source": {
+        "name": "FRED, Federal Reserve Bank of St. Louis",
+        "url": "https://fred.stlouisfed.org/"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "CPI",
       "full": "Consumer Price Index",
-      "definition": "A measure of the average change over time in the prices paid by urban consumers for a basket of goods and services, including housing costs. CPI trends affect rent restriction growth rates, operating expense projections, and the real value of tax credit equity in LIHTC deals.",
+      "definition": "The Bureau of Labor Statistics measure of how the prices urban consumers pay change over time, rent included. It is the usual gauge of inflation in rent and operating cost projections.",
       "short": "Consumer Price Index — Bureau of Labor Statistics measure of inflation in the prices households pay for a representative basket of goods and rent."
     },
     {
       "term": "FMR",
       "full": "Fair Market Rent",
-      "definition": "HUD's estimate of the gross rent (including utilities) that a typical household would need to pay to rent a modest unit in a given area. FMRs are used to set payment standards for the Housing Choice Voucher (Section 8) program and as a benchmark in housing market studies.",
-      "short": "Fair Market Rent — HUD's annual estimate of rent for a modest unit, by county and bedroom size. Used to set voucher payments and benchmark LIHTC rents."
+      "definition": "HUD's yearly estimate of the 40th percentile gross rent, meaning rent plus utilities, for an area and bedroom size. It sets voucher payment standards and serves as a rent benchmark.",
+      "short": "Fair Market Rent — HUD's annual estimate of rent for a modest unit, by county and bedroom size. Used to set voucher payments and benchmark LIHTC rents.",
+      "source": {
+        "name": "HUD Fair Market Rents",
+        "url": "https://www.huduser.gov/portal/datasets/fmr.html"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "CRA",
       "full": "Community Reinvestment Act",
-      "definition": "A federal law that encourages banks and other depository institutions to meet the credit needs of the communities they serve, including low- and moderate-income neighborhoods. CRA activity often drives bank investment in LIHTC tax credit equity and affordable housing loans."
+      "definition": "A federal law that pushes banks to meet the credit needs of the communities they serve, including low- and moderate-income neighborhoods. It is a main reason banks invest in tax credit equity and affordable housing loans."
     },
     {
       "term": "AHCIA",
       "full": "Affordable Housing Credit Improvement Act",
-      "definition": "Proposed federal legislation that would expand the LIHTC program, including increasing credit allocations to states, lowering the bond-financed project threshold, and creating permanent income-averaging provisions. Has been introduced in multiple congressional sessions.",
-      "short": "Affordable Housing Credit Improvement Act — federal LIHTC legislation, partly enacted: its 12% increase in 9% credit allocations and lower (25%) bond-financing test became law in July 2025; its remaining provisions (e.g. automatic basis boost in rural and Tribal areas) are still pending in Congress."
+      "definition": "A federal bill to expand LIHTC, partly enacted in July 2025. Its 12% increase in 9% credit allocations and its lower 25% bond financing test are law. The rest, such as an automatic basis boost in rural and Tribal areas, is still pending in Congress.",
+      "short": "Affordable Housing Credit Improvement Act — federal LIHTC legislation, partly enacted: its 12% increase in 9% credit allocations and lower (25%) bond-financing test became law in July 2025; its remaining provisions (such as an automatic basis boost in rural and Tribal areas) are still pending in Congress.",
+      "source": {
+        "name": "26 U.S.C. 42, Low-income housing credit, as amended by Pub. L. 119-21, section 70422",
+        "url": "https://www.law.cornell.edu/uscode/text/26/42"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "DOLA",
       "full": "Colorado Department of Local Affairs",
-      "definition": "The Colorado state agency that provides financial and technical assistance to local governments and communities, including housing programs. DOLA administers state housing grants, publishes population projections, and supports community planning and development.",
+      "definition": "The state department that supports local governments. It houses the Division of Housing and the State Demography Office, and tracks local Prop 123 commitments.",
       "short": "Department of Local Affairs — Colorado state agency that runs the Division of Housing, the State Demography Office, and tracks Prop 123 commitments."
     },
     {
       "term": "NHPD",
       "full": "National Housing Preservation Database",
-      "definition": "A database tracking federally subsidized housing properties across the United States, including properties with LIHTC, Section 8, and other subsidy programs. The NHPD is used to monitor expiring subsidies and identify preservation opportunities for affordable housing."
+      "definition": "A national database of federally subsidized rental properties, including LIHTC and Section 8. It is used to track expiring subsidies and find homes at risk of losing affordability."
     },
     {
       "term": "SYA",
       "full": "Single Year of Age",
-      "definition": "Population data reported for each individual year of age, as opposed to age groups. SYA data from DOLA and the Census Bureau is used to build age pyramids and project future housing demand by household type."
+      "definition": "Population counted for each single year of age instead of in age groups. Figures in this form from the State Demography Office and the Census Bureau are used to build age pyramids and project housing demand."
     },
     {
       "term": "SOFR",
       "full": "Secured Overnight Financing Rate",
-      "definition": "The benchmark interest rate for dollar-denominated derivatives and loans, replacing LIBOR. SOFR affects the cost of variable-rate construction loans and bridge financing in affordable housing development."
+      "definition": "The benchmark overnight interest rate, based on borrowing secured by Treasury securities, that replaced LIBOR. Variable-rate construction and bridge loans are usually priced from it.",
+      "source": {
+        "name": "Federal Reserve Bank of New York, SOFR",
+        "url": "https://www.newyorkfed.org/markets/reference-rates/sofr"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "ACS",
       "full": "American Community Survey",
-      "definition": "An ongoing Census Bureau survey that produces detailed demographic, social, economic, and housing estimates for communities across the United States. ACS data is the primary source for housing needs assessments, including income distribution, tenure, cost burden, and household size.",
-      "short": "American Community Survey — the Census Bureau's rolling survey. 1-year estimates for places 65,000+; 5-year averages for smaller places."
+      "definition": "The Census Bureau's ongoing survey of people, incomes and housing. It publishes 1-year estimates for areas of 65,000 people or more and 5-year estimates for all areas.",
+      "short": "American Community Survey — the Census Bureau's rolling survey. 1-year estimates for places 65,000+; 5-year averages for smaller places.",
+      "source": {
+        "name": "Census Bureau, When to use 1-year or 5-year estimates",
+        "url": "https://www.census.gov/programs-surveys/acs/guidance/estimates.html"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "CHAS",
       "full": "Comprehensive Housing Affordability Strategy",
-      "definition": "A HUD dataset derived from Census ACS data that measures housing problems (overcrowding, cost burden, inadequate conditions) by income level. CHAS data is used to document local housing needs and required for HUD grant applications such as CDBG and HOME.",
-      "short": "Comprehensive Housing Affordability Strategy — HUD's custom ACS tabulation showing housing need at specific AMI bands. Cleanest public read on the gap by income tier."
+      "definition": "HUD's custom tabulation of American Community Survey data showing housing problems, such as cost burden and overcrowding, by household income. Local governments use it to document housing need.",
+      "short": "Comprehensive Housing Affordability Strategy — HUD's custom ACS tabulation showing housing need at specific AMI bands. Cleanest public read on the gap by income tier.",
+      "source": {
+        "name": "HUD CHAS data",
+        "url": "https://www.huduser.gov/portal/datasets/cp.html"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "PPI",
       "full": "Producer Price Index",
-      "definition": "A family of indexes that measures the average change over time in the selling prices received by domestic producers for their output. In housing finance, construction PPIs (for lumber, steel, concrete, etc.) are tracked to forecast development cost trends and change-order exposure."
+      "definition": "A family of Bureau of Labor Statistics indexes that track the prices producers receive. The construction indexes for lumber, steel and concrete are used to follow building cost trends."
     },
     {
       "term": "CDP",
       "full": "Census Designated Place",
-      "definition": "An unincorporated community identified by the U.S. Census Bureau as a concentrated population center for statistical purposes. CDPs are not legally incorporated municipalities but are used to collect and report demographic and housing data, making them important geographies for housing needs assessments in rural and suburban Colorado.",
+      "definition": "An unincorporated community the Census Bureau defines so that it can publish data for it. It has no local government of its own, so there is no city council or municipal staff to plan for it.",
       "short": "Census Designated Place — an unincorporated community with Census data but no local government. Planning targets that lack a city council or municipal staff."
     },
     {
       "term": "TDC",
       "full": "Total Development Cost",
-      "definition": "The complete cost of developing a housing project, including land acquisition, hard construction costs, soft costs (architecture, engineering, legal), financing fees, and reserves. TDC is a key metric in LIHTC underwriting, as it determines the eligible basis for calculating tax credit amounts.",
+      "definition": "Everything it costs to build a project: land, construction, design and legal work, financing, reserves and developer fee.",
       "short": "Total Development Cost — every dollar to build the project: land, construction, design, financing, reserves, and developer fee."
-    },
-    {
-      "term": "DCR",
-      "full": "Debt Coverage Ratio",
-      "definition": "The ratio of a property's net operating income to its annual debt service payments. A DCR of 1.15 or higher is typically required by lenders for affordable housing projects, ensuring sufficient cash flow to cover mortgage payments with a margin of safety."
     },
     {
       "term": "PAB",
       "full": "Private Activity Bond",
-      "definition": "A tax-exempt bond issued by state or local governments to finance projects with a private purpose, including affordable housing. In LIHTC financing, projects using at least 50% PAB financing automatically qualify for 4% tax credits without competing in the 9% allocation process."
+      "definition": "A tax-exempt bond a state or local government issues for a private project such as affordable housing. A building gets 4% credits outside the 9% competition when bonds finance at least 50% of the building and land, or at least 25% for a building placed in service after 2025 when bonds issued after 2025 finance at least 5%.",
+      "source": {
+        "name": "26 U.S.C. 42, Low-income housing credit, subsection (h)(4)(B)",
+        "url": "https://www.law.cornell.edu/uscode/text/26/42"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "LEHD",
       "full": "Longitudinal Employer-Household Dynamics",
-      "definition": "A Census Bureau program that combines federal, state, and Census data to create statistics on employment, earnings, and job flows. LEHD Origin-Destination Employment Statistics (LODES) data is used in housing needs assessments to analyze commute patterns and job-housing balance."
+      "definition": "A Census Bureau program that combines federal, state and Census records into statistics on jobs, earnings and where workers live. Its LODES files are the source for commuting figures."
     },
     {
       "term": "QAP",
       "full": "Qualified Allocation Plan",
-      "definition": "A state housing agency's plan, required by IRC §42, that describes the criteria used to allocate 9% LIHTC credits to projects. CHFA's QAP defines scoring categories including community need, local support, site quality, and developer track record. Updated annually.",
-      "short": "Qualified Allocation Plan — CHFA's annual rulebook for awarding 9% LIHTC: threshold requirements, scoring criteria and priorities (rural, preservation, opportunity, deeply affordable)."
+      "definition": "The plan a state housing agency must adopt under IRC §42 to say how it will award housing tax credits. CHFA's plan sets the threshold requirements, scoring and priorities for 9% LIHTC in Colorado. The current plan covers 2027–28.",
+      "short": "Qualified Allocation Plan — CHFA's rulebook for awarding 9% LIHTC: threshold requirements, scoring criteria and priorities (rural, preservation, opportunity, deeply affordable).",
+      "source": {
+        "name": "CHFA 2027-2028 Qualified Allocation Plan",
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf"
+      },
+      "checked": "2026-11-03"
     },
     {
       "term": "LTV",
       "full": "Loan-to-Value Ratio",
-      "definition": "The ratio of a mortgage loan amount to the appraised value of the property. LIHTC lenders typically require LTV of 80% or less for permanent financing, ensuring sufficient equity cushion against potential property value declines.",
-      "short": "Loan-to-Value — the ratio of mortgage debt to property value. Lenders typically cap multifamily LTV at 75-85%."
+      "definition": "The loan amount divided by the property's appraised value. Lenders cap it so that some equity stands behind the loan, and the cap varies by loan program.",
+      "short": "Loan-to-Value — the ratio of mortgage debt to property value. Lenders cap it, and the cap varies by loan program."
     },
     {
       "term": "IRR",
       "full": "Internal Rate of Return",
-      "definition": "The annualized effective compounded return rate that makes the net present value of all cash flows (including tax credits) equal to zero. LIHTC investors typically target IRRs of 5-7% over the 10-year credit period, with higher targets in volatile markets.",
+      "definition": "The yearly rate of return at which the present value of all an investment's cash flows, tax credits included, comes to zero. Investors use it to compare tax credit equity with other uses of their money.",
       "short": "Internal Rate of Return — the discount rate at which a project's cash flows sum to zero. Investors compare LIHTC equity returns against this benchmark."
     },
     {
       "term": "NOI",
       "full": "Net Operating Income",
-      "definition": "A property's annual gross income minus operating expenses (excluding debt service). NOI is the foundation for sizing permanent debt: Supportable Mortgage = NOI ÷ (DCR × Mortgage Constant). CHFA typically requires a minimum DCR of 1.15-1.20.",
+      "definition": "A property's yearly income minus operating expenses, before loan payments. Lenders size the permanent loan from it: the project can carry the loan whose payments NOI covers with the required margin (see DSCR).",
       "short": "Net Operating Income — annual rental income minus operating expenses, before debt payments. The main measure of whether a building covers its mortgage."
     },
     {
       "term": "ARIMA",
       "full": "AutoRegressive Integrated Moving Average",
-      "definition": "A statistical model used for time-series forecasting that combines autoregression (past values), differencing (stationarity), and moving average (past forecast errors). Used in this platform to project LIHTC equity pricing trends with confidence intervals."
+      "definition": "A statistical forecasting method that projects a series from its own past values and past errors. This site uses it to project tax credit equity prices with a confidence range."
     },
     {
       "term": "OZ",
       "full": "Opportunity Zone",
-      "definition": "A federally designated census tract where investments in new businesses and real estate qualify for capital gains tax benefits under IRC §1400Z-2. Colorado has 126 designated OZ tracts. OZ equity can layer with LIHTC but requires complex dual-structure legal arrangements. Designation expires 12/31/2028.",
-      "short": "Opportunity Zone — a federally-designated low-income census tract where investors get capital-gains tax deferral and reduction in exchange for long-term investment."
+      "definition": "A low-income census tract where long-term investment earns federal capital gains tax benefits under IRC §1400Z-2. Colorado's 126 zones from 2018 stay active through 2028. Treasury has approved 91 Colorado tracts for the next round, which opens to investment on Jan 1, 2027.",
+      "short": "Opportunity Zone — a federally designated low-income census tract where investors get capital gains tax benefits in exchange for long-term investment.",
+      "source": {
+        "name": "OEDIT, Colorado Opportunity Zone Program",
+        "url": "https://oedit.colorado.gov/colorado-opportunity-zone-program"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "NMTC",
       "full": "New Markets Tax Credit",
-      "definition": "A federal tax credit program providing 39% tax credit over 7 years for qualified investments in low-income communities. Administered by the CDFI Fund. Can be combined with LIHTC in mixed-use developments with commercial components, though dual-credit structures require specialized legal counsel."
+      "definition": "A federal credit worth 39% of a qualified investment in a low-income community, claimed over 7 years. The CDFI Fund runs it. It can sit beside LIHTC in a mixed-use project with commercial space.",
+      "source": {
+        "name": "26 U.S.C. 45D, New markets tax credit, subsection (a)",
+        "url": "https://www.law.cornell.edu/uscode/text/26/45D"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "TIF",
       "full": "Tax Increment Financing",
-      "definition": "A municipal financing tool that captures the increase in property tax revenue generated by new development within a designated district. TIF can provide gap financing for affordable housing projects. Denver, Aurora, Colorado Springs, and Fort Collins have active TIF programs.",
+      "definition": "A local tool that sets aside the growth in property tax revenue from a district to pay for redevelopment there. It can fill part of the financing gap for affordable housing. In Colorado, urban renewal authorities can use it (see URA).",
       "short": "Tax Increment Financing — local public financing tool that diverts future property-tax growth from a defined district to pay for current redevelopment."
     },
     {
       "term": "EPA SLD",
       "full": "EPA Smart Location Database",
-      "definition": "A nationwide dataset from the U.S. Environmental Protection Agency that summarizes land use, transit access, walkability, and employment characteristics at the census block-group level. COHO uses EPA's own National Walkability Index for the walkability score, computes a bikeability score from SLD intersection density, land-use mix and auto network density, and reports SLD's distance to the nearest transit stop (D4A) as a distance, not a score.",
-      "short": "EPA Smart Location Database — a national geodatabase scoring walkability, transit access, and built-environment characteristics by Census block group."
+      "definition": "A nationwide EPA dataset that summarizes land use, transit access, walkability and jobs for each census block group. This site uses EPA's own National Walkability Index for the walkability score, computes a bikeability score from SLD intersection density, land-use mix and auto network density, and reports SLD's distance to the nearest transit stop (D4A) as a distance, not a score.",
+      "short": "EPA Smart Location Database — a national geodatabase scoring walkability, transit access, and built-environment characteristics by census block group."
     },
     {
       "term": "Walkability Score",
+      "label": "Walkability score",
       "full": "Walkability Score (0–100)",
-      "definition": "EPA's National Walkability Index for the site's census block group, rescaled from EPA's 1–20 scale to 0–100. EPA builds the index from national rankings of four Smart Location Database measures: intersection density (1/3), proximity to the nearest transit stop (1/3), employment and household mix (1/6) and employment mix (1/6). COHO does not reweight it. EPA's categories are used as labels: Most walkable (index above 15.25), Above average (10.51–15.25), Below average (5.76–10.5) and Least walkable (5.75 or below). Because the index includes transit proximity, it overlaps the separate transit measure in the access score."
+      "definition": "EPA's National Walkability Index for the site's census block group, rescaled from EPA's 1–20 scale to 0–100. EPA builds the index from national rankings of four Smart Location Database measures: intersection density (1/3), proximity to the nearest transit stop (1/3), employment and household mix (1/6) and employment mix (1/6). This site does not reweight it. EPA's categories are used as labels: Most walkable (index above 15.25), Above average (10.51–15.25), Below average (5.76–10.5) and Least walkable (5.75 or below). Because the index includes transit proximity, it overlaps the separate transit measure in the access score.",
+      "source": {
+        "name": "EPA, National Walkability Index methodology and user guide",
+        "url": "https://www.epa.gov/smartgrowth/national-walkability-index-user-guide-and-methodology"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "Bikeability Score",
+      "label": "Bikeability score",
       "full": "Bikeability Score (0–100)",
-      "definition": "A proxy score estimating how conducive an area is to cycling, derived from EPA Smart Location Database metrics: low auto-oriented network density (40% weight), land-use mix (30%), and pedestrian intersection density (30%). Higher scores indicate areas with less car-dependent infrastructure and more mixed-use development. This is a proxy — it does not measure actual bike lane presence."
+      "definition": "A proxy score estimating how conducive an area is to cycling, derived from EPA Smart Location Database metrics: low auto-oriented network density (40% weight), land-use mix (30%), and pedestrian intersection density (30%). Higher scores indicate areas with less car-dependent infrastructure and more mixed-use development. This is a proxy — it does not measure actual bike lane presence.",
+      "source": {
+        "name": "This site's method, using EPA Smart Location Database measures",
+        "url": "https://www.epa.gov/smartgrowth/smart-location-mapping"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "Cap Rate",
+      "label": "Cap rate",
       "full": "Capitalization Rate",
-      "definition": "A capitalization rate is a property's annual net operating income divided by its value or cost. On this page, it helps a reader compare the income a project produces with the capital invested and spot a deal whose operating return may be too thin.",
+      "definition": "A property's yearly net operating income divided by its value or cost. It lets a reader compare the income a project produces with the capital invested and spot a deal whose operating return may be too thin.",
       "short": "Capitalization Rate — annual net operating income divided by project value or cost. It helps compare the income a property produces with the capital invested."
     },
     {
       "term": "Eligible Basis",
+      "label": "Eligible basis",
       "full": "LIHTC Eligible Basis",
-      "definition": "Eligible Basis is the portion of development cost that may be used to calculate federal housing tax credits. It matters because land and certain other costs are excluded, so changing the eligible share directly changes the credit and equity estimate.",
+      "definition": "The part of development cost that counts toward federal housing tax credits. Land and certain other costs are excluded, so changing the eligible share changes the credit and equity estimate directly.",
       "short": "The portion of project cost that may be used to calculate federal housing tax credits. Land, commercial space and certain other costs are excluded."
     },
     {
       "term": "qualified basis",
+      "label": "Qualified basis",
       "full": "LIHTC Qualified Basis",
-      "definition": "Qualified basis is Eligible Basis after applying the project's applicable fraction and any allowed basis boost. It is the cost amount to which the credit rate is applied, so it directly controls estimated annual tax credits.",
+      "definition": "Eligible basis after the applicable fraction and any allowed basis boost are applied. The credit rate is applied to this amount, so it controls the estimated yearly tax credits.",
       "short": "Eligible Basis after applying the applicable fraction and any allowed basis boost. The credit rate is applied to this amount."
     },
     {
       "term": "applicable fraction",
+      "label": "Applicable fraction",
       "full": "LIHTC Applicable Fraction",
-      "definition": "The applicable fraction is the smaller of the low-income unit fraction or low-income floor-space fraction under Internal Revenue Code §42(c)(1)(B). It matters in a mixed-income project because it determines how much Eligible Basis becomes Qualified Basis.",
-      "short": "Under IRC §42(c)(1)(B), the smaller of the low-income unit fraction or low-income floor-space fraction. It sets how much Eligible Basis qualifies for credits in a mixed-income project."
+      "definition": "The smaller of a project's low-income share of units and its low-income share of floor space, under IRC §42(c)(1)(B). In a mixed-income project it sets how much eligible basis becomes qualified basis.",
+      "short": "Under IRC §42(c)(1)(B), the smaller of the low-income unit fraction or low-income floor-space fraction. It sets how much Eligible Basis qualifies for credits in a mixed-income project.",
+      "source": {
+        "name": "26 U.S.C. 42, Low-income housing credit, subsection (c)(1)",
+        "url": "https://www.law.cornell.edu/uscode/text/26/42"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "basis boost",
+      "label": "Basis boost",
       "full": "LIHTC Basis Boost",
-      "definition": "A basis boost is an allowed increase in Eligible Basis that can produce more housing tax credits without adding project cost. Internal Revenue Code §42(d)(5)(B) authorizes a 130% basis treatment for qualifying QCT and DDA projects, so the designation can materially change the equity estimate.",
-      "short": "A 30% increase in eligible basis (to 130%), which raises the tax credits a project can claim. Automatic in QCTs and DDAs, or by state designation. Often decides whether a deal pencils."
+      "definition": "An allowed increase in eligible basis that produces more housing tax credits without adding cost. IRC §42(d)(5)(B) lets a project in a QCT or DDA count 130% of its basis, a 30% boost, and a state agency can give other buildings the same boost.",
+      "short": "A 30% increase in eligible basis (to 130%), which raises the tax credits a project can claim. Automatic in QCTs and DDAs, or by state designation. Often decides whether a deal pencils.",
+      "source": {
+        "name": "26 U.S.C. 42, Low-income housing credit, subsection (d)(5)(B)",
+        "url": "https://www.law.cornell.edu/uscode/text/26/42"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "Developer Fee",
+      "label": "Developer fee",
       "full": "Developer Fee",
-      "definition": "A Developer Fee pays the sponsor for assembling, financing, and delivering the project. Its size and the portion deferred affect both Total Development Cost and the amount of financing still needed at closing.",
+      "definition": "The payment to the sponsor for assembling, financing and delivering the project. Its size, and the part deferred and repaid from operations, affect both total development cost and the financing still needed at closing.",
       "short": "Payment to the sponsor for assembling, financing, and delivering the project. Its size and any deferred portion (repaid from operations) affect both project cost and the closing gap."
     },
     {
       "term": "Hard costs",
       "full": "Hard Construction Costs",
-      "definition": "Hard costs are the direct physical construction expenses for labor, materials, site work, and installed building systems. They are usually the largest part of the budget, so a change in hard costs can quickly widen or close the financing gap.",
+      "definition": "The direct cost of physical construction: labor, materials, site work and installed building systems. They are usually the largest part of the budget, so a change in them quickly widens or closes the financing gap.",
       "short": "Direct physical construction expenses for labor, materials, site work, and installed building systems. They are usually the largest part of the development budget."
     },
     {
       "term": "Soft costs",
       "full": "Soft Development Costs",
-      "definition": "Soft costs are development expenses outside physical construction, such as design, engineering, legal work, permits, financing, and insurance. They matter because some are eligible for tax-credit basis while others are not, and all still require funding.",
+      "definition": "Development costs outside physical construction, such as design, engineering, legal work, permits, financing and insurance. Some count toward tax credit basis and some do not, and all of them still need funding.",
       "short": "Development expenses outside physical construction, including design, engineering, legal work, permits, financing, and insurance."
     },
     {
       "term": "Debt Service",
+      "label": "Debt service",
       "full": "Annual Debt Service",
-      "definition": "Debt Service is the principal and interest a project must pay on its loans during a year. Comparing it with Net Operating Income shows whether the proposed mortgage is supportable and how much cushion remains if revenue falls.",
+      "definition": "The principal and interest a project must pay on its loans in a year. Comparing it with net operating income shows whether the proposed mortgage is supportable and how much cushion is left if revenue falls.",
       "short": "The principal and interest a project must pay on its loans during a year. Comparing it with NOI shows whether the mortgage is supportable."
     },
     {
       "term": "Vacancy",
       "full": "Vacancy Allowance",
-      "definition": "Vacancy is the share of potential rent assumed to be lost because units are empty or rent is not collected. A higher vacancy assumption lowers effective income, which reduces the mortgage the project can support.",
+      "definition": "The share of potential rent assumed lost because homes are empty or rent goes uncollected. A higher assumption lowers effective income, which lowers the mortgage the project can support.",
       "short": "The share of potential rent assumed to be lost because units are empty or rent is not collected. A higher assumption lowers effective income."
     },
     {
       "term": "Replacement Reserve",
+      "label": "Replacement reserve",
       "full": "Replacement Reserve",
-      "definition": "A Replacement Reserve is money set aside each year for future major repairs and building-system replacement. It reduces cash available for debt payments today but protects the property from large unfunded costs later.",
+      "definition": "Money set aside each year for future major repairs and the replacement of building systems. It reduces the cash available for loan payments today and protects the property from large unfunded costs later.",
       "short": "Money set aside each year for future major repairs and building-system replacement. It protects the property but reduces cash available for debt payments today."
     },
     {
       "term": "credit price",
+      "label": "Credit price",
       "full": "Tax Credit Price",
-      "definition": "The credit price is the amount an investor pays for each dollar of housing tax credit. It matters because even a small pricing change, multiplied over ten years of credits, can move project equity by a large amount.",
+      "definition": "The amount an investor pays for each dollar of housing tax credit. A small change in price, multiplied over ten years of credits, moves project equity by a large amount.",
       "short": "The amount an investor pays for each dollar of housing tax credit. Small pricing changes can move project equity substantially over the ten-year credit stream."
     },
     {
       "term": "Equity pricing",
       "full": "LIHTC Equity Pricing",
-      "definition": "Equity pricing describes the investor price paid for a stream of housing tax credits and related tax benefits. It is a market assumption rather than a guaranteed offer, so the selected value changes how much cash the tax credits are expected to raise.",
+      "definition": "The price investors pay for a stream of housing tax credits and the tax benefits that come with them. It is a market assumption, not a guaranteed offer, so the value chosen changes how much cash the credits are expected to raise.",
       "short": "The investor price for a stream of housing tax credits and related tax benefits. It is a market assumption, not a guaranteed offer."
     },
     {
       "term": "placed in service",
+      "label": "Placed in service",
       "full": "Placed in Service",
-      "definition": "Placed in service is the date a building is ready and available for its intended residential use. It matters because that date starts the credit and compliance timelines and determines which rent and income limits apply.",
-      "short": "The date a building is ready and available for residential use. It starts the credit and compliance timelines and sets the applicable income-limit table."
+      "aliases": [
+        "PIS"
+      ],
+      "definition": "The date a building is ready and available for people to live in. The ten-year credit period starts that year or, if the owner chooses, the next, and the date sets which income limit table applies.",
+      "short": "The date a building is ready and available for residential use. It starts the credit and compliance timelines and sets the applicable income-limit table.",
+      "source": {
+        "name": "26 U.S.C. 42, Low-income housing credit, subsection (f)(1)",
+        "url": "https://www.law.cornell.edu/uscode/text/26/42"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "compliance period",
+      "label": "Compliance period",
       "full": "LIHTC Compliance Period",
-      "definition": "The compliance period is the first 15 taxable years during which a LIHTC building must satisfy federal affordability requirements under Internal Revenue Code §42(i)(1). A failure during this period can trigger credit recapture, so it shapes long-term operating obligations.",
-      "short": "The first 15 taxable years of federal LIHTC affordability requirements under IRC §42(i)(1); noncompliance can trigger credit recapture. An extended use period in the recorded LURA keeps rents affordable at least 15 more years."
+      "definition": "The first 15 taxable years in which a LIHTC building must meet federal affordability rules, under IRC §42(i)(1). A failure in this period can trigger recapture of credits. An extended use period then keeps rents restricted for at least 15 more years.",
+      "short": "The first 15 taxable years of federal LIHTC affordability requirements under IRC §42(i)(1); noncompliance can trigger credit recapture. An extended use period in the recorded LURA keeps rents affordable at least 15 more years.",
+      "source": {
+        "name": "26 U.S.C. 42, Low-income housing credit, subsections (i)(1) and (h)(6)",
+        "url": "https://www.law.cornell.edu/uscode/text/26/42"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "extended use",
+      "label": "Extended use",
       "full": "Extended Use Period",
-      "definition": "Extended use is the affordability period that continues after the initial 15-year compliance period under Internal Revenue Code §42(h)(6). It matters because the recorded agreement can restrict rents and tenant incomes for at least 30 years in total, and often longer.",
-      "short": "The affordability period continuing after initial compliance under IRC §42(h)(6). It generally keeps restrictions in place for at least 30 years in total."
+      "definition": "The affordability period that continues after the 15-year compliance period, under IRC §42(h)(6). The recorded agreement restricts rents and tenant incomes for at least 30 years in total, and often longer.",
+      "short": "The affordability period continuing after initial compliance under IRC §42(h)(6). It generally keeps restrictions in place for at least 30 years in total.",
+      "source": {
+        "name": "26 U.S.C. 42, Low-income housing credit, subsection (h)(6)",
+        "url": "https://www.law.cornell.edu/uscode/text/26/42"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "gap financing",
+      "label": "Gap financing",
       "full": "Gap Financing",
-      "definition": "Gap financing is the additional funding needed after tax-credit equity and supportable debt are subtracted from Total Development Cost. It tells a reader how much must still come from grants, soft loans, fee deferrals, or other sources before the project can close.",
-      "short": "The dollars needed to close the difference between project cost and what private debt + tax credit equity will fund. Filled with soft debt, grants, or fee waivers; often the hardest dollars to secure."
+      "definition": "The funding still needed after tax credit equity and supportable debt are subtracted from total development cost. It has to come from grants, soft loans, deferred fees or other sources before the project can close.",
+      "short": "The dollars needed to close the difference between project cost and what private debt and tax credit equity will fund. Filled with soft debt, grants, or fee waivers; often the hardest dollars to secure."
     },
     {
       "term": "amortization",
+      "label": "Amortization",
       "full": "Loan Amortization",
-      "definition": "Amortization is the scheduled repayment of loan principal over time through periodic payments. A longer amortization period lowers annual Debt Service and can support a larger loan, although it leaves principal outstanding for longer.",
+      "definition": "The scheduled repayment of loan principal through regular payments. A longer amortization period lowers yearly debt service and can support a larger loan, but it leaves principal outstanding for longer.",
       "short": "Scheduled repayment of loan principal over time. A longer period lowers annual Debt Service but leaves principal outstanding for longer."
     },
     {
       "term": "Operating expenses",
       "full": "Operating Expenses",
-      "definition": "Operating expenses are the recurring costs of running the property, excluding mortgage payments and usually capital replacements. They are subtracted from revenue to calculate Net Operating Income, so the assumption directly affects supportable debt.",
+      "definition": "The recurring costs of running the property, not counting mortgage payments and usually not capital replacements. They are subtracted from revenue to get net operating income, so the assumption directly affects supportable debt.",
       "short": "Recurring costs of running the property, excluding mortgage payments and usually capital replacements. They are subtracted from revenue to calculate NOI."
     },
     {
       "term": "concessions",
+      "label": "Concessions",
       "full": "Rent Concessions",
-      "definition": "Concessions are temporary incentives such as free rent or reduced move-in costs used to attract tenants. They lower the revenue actually collected during lease-up or a soft market, which can delay stabilization and weaken coverage.",
+      "definition": "Temporary incentives such as free rent or reduced move-in costs, used to attract tenants. They lower the revenue collected during lease-up or in a soft market, which can delay stabilization and weaken coverage.",
       "short": "Temporary incentives such as free rent or reduced move-in costs. They lower collected revenue during lease-up or a soft market."
     },
     {
       "term": "stabilization",
+      "label": "Stabilization",
       "full": "Operating Stabilization",
-      "definition": "Stabilization is the point when a property has reached a sustainable occupancy and operating pattern after lease-up. Lenders and investors care because permanent debt and long-term performance are tested against stabilized, not opening-month, results.",
+      "definition": "The point at which a property reaches steady occupancy and operations after lease-up. Lenders and investors test permanent debt and long-term performance against stabilized results, not opening-month results.",
       "short": "The point when a property reaches a sustainable occupancy and operating pattern after lease-up. Long-term financing is tested against stabilized results."
     },
     {
       "term": "CLT",
       "full": "Community Land Trust",
-      "definition": "A nonprofit that owns land permanently and leases it to the owners of the homes built on it. Because the land is left out of the purchase price, the home costs less; in return, a resale formula limits what the owner can sell it for, aiming to keep it affordable for the next buyer."
+      "definition": "A nonprofit that owns land permanently and leases it to the owners of the homes built on it. Because the land is left out of the purchase price, the home costs less. In return, a resale formula limits the sale price to keep the home affordable for the next buyer."
     },
     {
       "term": "HAMFI",
       "full": "HUD Area Median Family Income",
-      "definition": "HUD's version of area median income used in its CHAS tables. It plays the same role as AMI: income groups are described as a percentage of it, such as 80% of HAMFI."
+      "definition": "HUD's median family income for an area, the version of area median income used in its CHAS tables. Income groups are described as a percentage of it, such as 80% of HAMFI.",
+      "source": {
+        "name": "HUD CHAS background",
+        "url": "https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "ground lease",
-      "full": "Ground Lease",
-      "definition": "An arrangement where the buyer owns the house but leases the land under it, usually for 99 years, from a community land trust, housing authority or town. The buyer pays a small monthly land fee, and the lease sets the rules for resale."
+      "label": "Ground lease",
+      "definition": "An arrangement in which the buyer owns the house and leases the land under it, long term, from a community land trust, housing authority or town. The buyer pays a small monthly land fee, and the lease sets the rules for resale."
     },
     {
       "term": "deed restriction",
-      "full": "Deed Restriction",
-      "definition": "A legal limit recorded on a property's deed. For affordable for-sale homes it usually caps the resale price and requires the next buyer to meet an income limit, while the owner still owns both house and land.",
-      "short": "A legal restriction on a property's title that locks in affordability — capping rent or sale price for 30-99 years. Survives ownership changes."
+      "label": "Deed restriction",
+      "definition": "A legal limit recorded on a property's deed. On affordable for-sale homes it usually caps the resale price and requires the next buyer to meet an income limit, while the owner still owns both house and land.",
+      "short": "A legal restriction on a property's title that locks in affordability by capping rent or sale price. It survives changes of ownership."
     },
     {
       "term": "covenant",
+      "label": "Covenant",
       "full": "Restrictive Covenant",
       "definition": "A recorded promise tied to a property that binds current and future owners, such as a limit on resale price or on who can buy. It works much like a deed restriction."
     },
     {
       "term": "net proceeds",
+      "label": "Net proceeds",
       "full": "Seller's Net Proceeds",
-      "definition": "What a seller walks away with after paying selling costs, the mortgage balance and anything owed back to public programs."
+      "definition": "The money a seller keeps after paying selling costs, the mortgage balance and anything owed back to public programs."
     },
     {
       "term": "recapture",
+      "label": "Recapture",
       "full": "Subsidy Recapture",
-      "definition": "Repayment of public homebuyer assistance when a home is sold, so the money can help another buyer. Programs use it on its own or together with a capped resale price."
+      "definition": "Repayment of public homebuyer assistance when a home is sold, so that the money can help another buyer. Programs use it alone or together with a capped resale price."
     },
     {
       "term": "LODES",
       "full": "LEHD Origin-Destination Employment Statistics",
-      "definition": "Census Bureau data on where people work and where workers live, down to the city block. This site uses it for local jobs, wages and commuting.",
+      "definition": "Census Bureau data on where people work and where workers live, down to the census block. This site uses it for local jobs, wages and commuting.",
       "short": "LEHD Origin-Destination Employment Statistics — federal commuter-flow data used to map where workers live versus where they work."
     },
     {
@@ -390,36 +519,49 @@
     {
       "term": "SDO",
       "full": "State Demography Office",
-      "definition": "Colorado's official source of population and household estimates and forecasts, part of DOLA.",
+      "definition": "Colorado's official source of population and household estimates and forecasts. It is part of DOLA.",
       "short": "State Demography Office — Colorado state office within DOLA producing population, housing-unit, and labor-force estimates and projections by county and place."
     },
     {
       "term": "GRAPI",
       "full": "Gross Rent as a Percentage of Household Income",
-      "definition": "A Census measure of how much of a renter household's income goes to gross rent — rent plus the utilities and fuels the renter pays. Paying 30% or more is usually called cost-burdened."
+      "definition": "A Census measure of the share of a renter household's income that goes to gross rent, meaning rent plus the utilities and fuels the renter pays. Paying more than 30% is HUD's definition of cost burdened.",
+      "source": {
+        "name": "HUD CHAS background",
+        "url": "https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "MTSP",
       "full": "Multifamily Tax Subsidy Projects",
-      "definition": "HUD's income limits for tax-credit housing. They set who qualifies for LIHTC homes and, with the Section 42 formula, the maximum rents.",
-      "short": "Multifamily Tax Subsidy Project — HUD's annually-published income and rent limits used for LIHTC and tax-exempt-bond projects. Sets the maximum rent allowed at each AMI tier."
+      "definition": "HUD's yearly income limits for LIHTC and tax-exempt bond housing. They set who qualifies for the homes and, through the Section 42 rent formula, the maximum rents.",
+      "short": "Multifamily Tax Subsidy Projects — HUD's yearly income limits for LIHTC and tax-exempt bond projects. They set the maximum rent allowed at each AMI tier.",
+      "source": {
+        "name": "HUD Multifamily Tax Subsidy Project Income Limits",
+        "url": "https://www.huduser.gov/portal/datasets/mtsp.html"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "BPS",
       "full": "Building Permits Survey",
-      "definition": "The Census Bureau's count of new housing units authorized by building permits, by county and place.",
-      "short": "Census Building Permits Survey — the federal monthly count of new residential building permits issued, by state and metro area."
+      "definition": "The Census Bureau's count of new homes authorized by building permits. It is published for the nation, states, metro areas, counties and permit-issuing places.",
+      "short": "Census Building Permits Survey — the federal count of new homes authorized by building permits, by state, metro area, county and place.",
+      "source": {
+        "name": "Census Bureau, Building Permits Survey",
+        "url": "https://www.census.gov/construction/bps/index.html"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "DOH",
       "full": "Colorado Division of Housing",
-      "definition": "The state housing agency, part of DOLA, that funds affordable housing and runs state housing programs. Also written CDOH.",
-      "short": "Colorado Division of Housing — Colorado state agency (within DOLA) that funds and regulates affordable housing. Co-sponsored the Multi-Family Vacancy & Rent Survey through Q2 2020."
-    },
-    {
-      "term": "CDOH",
-      "full": "Colorado Division of Housing",
-      "definition": "The state housing agency, part of DOLA, that funds affordable housing and runs state housing programs. Also written DOH."
+      "aliases": [
+        "CDOH"
+      ],
+      "definition": "The state housing agency, part of DOLA. It funds affordable housing and runs state housing programs.",
+      "short": "Colorado Division of Housing — the state agency within DOLA that funds and regulates affordable housing."
     },
     {
       "term": "PHA",
@@ -429,7 +571,7 @@
     {
       "term": "PBV",
       "full": "Project-Based Voucher",
-      "definition": "A housing voucher tied to specific units in a building rather than to a tenant, so the rent help stays with the building.",
+      "definition": "A housing voucher tied to specific homes in a building instead of to a tenant, so the rent help stays with the building.",
       "short": "Project-Based Voucher — federal rental assistance tied to specific units (not a tenant). Gives the project a stable rent stream that supports deeper affordability."
     },
     {
@@ -440,13 +582,21 @@
     {
       "term": "AFFH",
       "full": "Affirmatively Furthering Fair Housing",
-      "definition": "The Fair Housing Act duty for HUD-funded jurisdictions to take active steps against segregation and to widen housing choice."
+      "definition": "The Fair Housing Act duty of HUD-funded jurisdictions to take active steps against segregation and to widen housing choice."
     },
     {
       "term": "ZORI",
       "full": "Zillow Observed Rent Index",
-      "definition": "Zillow's measure of typical asking rents on new leases. It usually runs ahead of Census rents, which include long-time tenants.",
-      "short": "Zillow Observed Rent Index — asking-rent series for new leases (35th–65th percentile), free monthly downloads at zillow.com/research."
+      "aliases": [
+        "Zillow ZORI"
+      ],
+      "definition": "Zillow's index of asking rents, built from homes listed for rent on Zillow more than once. It averages the middle of the market, the 35th to 65th percentile, and usually runs ahead of Census rents, which include long-time tenants.",
+      "short": "Zillow Observed Rent Index — Zillow's asking-rent index for the middle of the market (35th to 65th percentile). Free monthly downloads at zillow.com/research.",
+      "source": {
+        "name": "Zillow, ZORI methodology",
+        "url": "https://www.zillow.com/research/methodology-zori-repeat-rent-27092/"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "ZHVI",
@@ -456,39 +606,44 @@
     {
       "term": "FHFA",
       "full": "Federal Housing Finance Agency",
-      "definition": "The federal agency that oversees Fannie Mae and Freddie Mac. It publishes the House Price Index.",
+      "definition": "The federal agency that oversees Fannie Mae, Freddie Mac and the Federal Home Loan Banks. It publishes the House Price Index.",
       "short": "Federal Housing Finance Agency — regulates Fannie Mae, Freddie Mac, and the Federal Home Loan Banks, and publishes the House Price Index (HPI) used to track home-price changes by state and metro."
     },
     {
       "term": "HPI",
       "full": "House Price Index",
-      "definition": "FHFA's measure of how home prices change over time, based on repeat sales of the same homes.",
-      "short": "House Price Index — FHFA's quarterly measure of single-family home price change, computed from repeat-sales transactions on conforming-conventional mortgages."
+      "definition": "FHFA's measure of how single-family home prices change over time. It is built from repeat sales and refinancings of the same homes with Fannie Mae or Freddie Mac mortgages.",
+      "short": "House Price Index — FHFA's quarterly measure of single-family home price change, computed from repeat-sales transactions on conforming-conventional mortgages.",
+      "source": {
+        "name": "FHFA House Price Index",
+        "url": "https://www.fhfa.gov/data/hpi"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "IRC",
       "full": "Internal Revenue Code",
-      "definition": "Federal tax law. Section 42 of the Internal Revenue Code creates the Low-Income Housing Tax Credit and its rent formula."
+      "definition": "Federal tax law. Its Section 42 creates the Low-Income Housing Tax Credit and its rent formula."
     },
     {
       "term": "HB",
       "full": "House Bill",
-      "definition": "A bill that started in the state House of Representatives. Colorado bills are numbered by year, as in HB 24-1434."
+      "definition": "A bill that started in the Colorado House of Representatives. Bills are numbered by year, as in HB 24-1434."
     },
     {
       "term": "CAR",
       "full": "Colorado Association of REALTORS",
-      "definition": "The statewide realtors' association. It publishes monthly market reports on home sales, prices and inventory."
+      "definition": "The statewide association of real estate agents. It publishes monthly reports on home sales, prices and inventory."
     },
     {
       "term": "HH",
       "full": "Households",
-      "definition": "Shorthand for households: all the people who live together in one home."
+      "definition": "Shorthand for households. A household is all the people who live together in one home."
     },
     {
       "term": "MF",
       "full": "Multifamily",
-      "definition": "Buildings with several homes in them, such as apartments."
+      "definition": "Shorthand for multifamily: buildings with several homes in them, such as apartments."
     },
     {
       "term": "DPA",
@@ -509,19 +664,32 @@
       "term": "IZ",
       "full": "Inclusionary Zoning",
       "definition": "A local rule that requires or encourages new developments to include some affordable homes.",
-      "short": "Inclusionary Zoning — a local policy requiring or incentivizing affordable units in new market-rate residential development."
+      "short": "Inclusionary Zoning — a local policy requiring or encouraging affordable units in new market-rate residential development."
     },
     {
       "term": "HERA",
       "full": "Housing and Economic Recovery Act of 2008",
-      "definition": "A federal law. Its 'HERA Special' income limits are higher limits that apply to tax-credit projects placed in service by the end of 2008 in qualifying counties.",
-      "short": "Housing and Economic Recovery Act of 2008 — federal law that created the \"HERA Special\" income limits, a hold-harmless protection for LIHTC projects placed in service on or before 2008-12-31 in certain counties."
+      "definition": "A 2008 federal law. Its HERA Special income limits are higher limits that HUD publishes only for tax credit projects in service in 2007 or 2008 in qualifying areas.",
+      "short": "Housing and Economic Recovery Act of 2008 — federal law behind the HERA Special income limits, which HUD publishes only for LIHTC projects in service in 2007 or 2008.",
+      "source": {
+        "name": "HUD Multifamily Tax Subsidy Project Income Limits",
+        "url": "https://www.huduser.gov/portal/datasets/mtsp.html"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "DSCR",
       "full": "Debt Service Coverage Ratio",
-      "definition": "Net operating income divided by the year's mortgage payments. Lenders set a minimum, often around 1.15 to 1.25. Same idea as DCR.",
-      "short": "Debt Service Coverage Ratio — annual NOI divided by annual mortgage payments. Lenders typically require 1.15 to 1.25, meaning income 15% to 25% above the payments."
+      "aliases": [
+        "DCR"
+      ],
+      "definition": "Net operating income divided by the year's loan payments. A ratio of 1.15 means income is 15% above the payments. CHFA's 2027–28 QAP requires at least 1.15 on amortized debt through the first 15 years.",
+      "short": "Debt Service Coverage Ratio — annual NOI divided by annual loan payments. CHFA's 2027–28 QAP requires at least 1.15, meaning income 15% above the payments.",
+      "source": {
+        "name": "CHFA 2027-2028 Qualified Allocation Plan, section 4.C.5",
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf"
+      },
+      "checked": "2026-11-03"
     },
     {
       "term": "HTF",
@@ -531,7 +699,7 @@
     {
       "term": "NHTF",
       "full": "National Housing Trust Fund",
-      "definition": "A federal HUD program that funds homes for extremely low-income households, at or below 30% of AMI."
+      "definition": "A HUD program of grants to states to build and preserve homes for extremely low-income and very low-income households."
     },
     {
       "term": "LOI",
@@ -541,17 +709,17 @@
     {
       "term": "PUPA",
       "full": "Per Unit Per Annum",
-      "definition": "A cost per home per year, usually used for operating expenses."
+      "definition": "A cost per home per year. It is the usual unit for operating expenses."
     },
     {
       "term": "LP",
       "full": "Limited Partner",
-      "definition": "In a tax-credit deal, the investor who buys the credits and owns most of the partnership but does not run it."
+      "definition": "The investor in a tax credit deal who buys the credits and owns most of the partnership but does not run it."
     },
     {
       "term": "GP",
       "full": "General Partner",
-      "definition": "In a tax-credit deal, the developer or sponsor that manages the partnership and the property."
+      "definition": "The developer or sponsor in a tax credit deal that manages the partnership and the property."
     },
     {
       "term": "CDFI",
@@ -566,19 +734,18 @@
     {
       "term": "MIHTC",
       "full": "Middle Income Housing Tax Credit",
-      "definition": "A Colorado state tax credit, administered by CHFA, for rental homes for households above the usual LIHTC income limits.",
-      "short": "Middle Income Housing Tax Credit — a Colorado state program for households between 80% and 120% AMI (workforce: teachers, nurses, first responders)."
+      "definition": "A Colorado tax credit, allocated by CHFA, for rental homes serving households between 80% and 120% AMI, or up to 140% in rural resort counties. Federal credits do not reach these incomes.",
+      "short": "Middle Income Housing Tax Credit — a Colorado state program for households between 80% and 120% AMI (workforce: teachers, nurses, first responders).",
+      "source": {
+        "name": "CHFA, Middle-income Housing Tax Credit",
+        "url": "https://www.chfainfo.com/rental-housing/housing-credit/middle-income-housing-tax-credit-mihtc"
+      },
+      "checked": "2026-11-10"
     },
     {
       "term": "PSH",
       "full": "Permanent Supportive Housing",
       "definition": "Affordable housing paired with support services, usually for people who have experienced homelessness or live with a disability."
-    },
-    {
-      "term": "PIS",
-      "full": "Placed in Service",
-      "definition": "The date a project's homes are finished and ready to rent. The tax-credit period starts that year or, if the owner chooses, the next.",
-      "short": "Placed In Service — the date a LIHTC project is first available for occupancy. Triggers the 15-year compliance period and locks in the income-limit table used."
     },
     {
       "term": "CHDO",
@@ -593,8 +760,8 @@
     {
       "term": "PILOT",
       "full": "Payment in Lieu of Taxes",
-      "definition": "An agreed payment a property makes instead of regular property taxes.",
-      "short": "Payment In Lieu Of Taxes — an agreement where an affordable project pays a reduced, fixed amount instead of normal property taxes. Lowers operating costs."
+      "definition": "An agreed payment a property makes in place of regular property taxes. For an affordable project it is usually a reduced, fixed amount, which lowers operating costs.",
+      "short": "Payment in Lieu of Taxes — an agreement under which an affordable project pays a reduced, fixed amount instead of normal property taxes. Lowers operating costs."
     },
     {
       "term": "LURA",
@@ -604,7 +771,12 @@
     {
       "term": "ELI",
       "full": "Extremely Low Income",
-      "definition": "Households earning 30% of AMI or less."
+      "definition": "Households at or below 30% of area median income. HUD's own extremely low-income limit is the higher of 30% of the median and the federal poverty guideline.",
+      "source": {
+        "name": "HUD Income Limits",
+        "url": "https://www.huduser.gov/portal/datasets/il.html"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "TABOR",
@@ -614,7 +786,7 @@
     {
       "term": "RTD",
       "full": "Regional Transportation District",
-      "definition": "The Denver-area public transit agency."
+      "definition": "The public transit agency for the Denver area."
     },
     {
       "term": "GTFS",
@@ -624,18 +796,23 @@
     {
       "term": "CDOT",
       "full": "Colorado Department of Transportation",
-      "definition": "The state transportation agency.",
+      "definition": "The state transportation agency. This site uses its traffic counts and transit data when screening sites.",
       "short": "Colorado Department of Transportation — state agency publishing traffic counts and transit data used in site-suitability analysis."
     },
     {
       "term": "WUI",
       "full": "Wildland-Urban Interface",
-      "definition": "Areas where homes meet or mix with undeveloped wildland, with higher wildfire risk."
+      "definition": "Areas where homes meet or mix with undeveloped wildland. Wildfire risk is higher there."
     },
     {
       "term": "SFHA",
       "full": "Special Flood Hazard Area",
-      "definition": "FEMA's high-risk flood zone: land with at least a 1% chance of flooding in any year."
+      "definition": "FEMA's high-risk flood zone: land with at least a 1% chance of flooding in any given year.",
+      "source": {
+        "name": "44 CFR 59.1, Definitions",
+        "url": "https://www.law.cornell.edu/cfr/text/44/59.1"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "OSM",
@@ -644,8 +821,8 @@
     },
     {
       "term": "TIGER",
-      "full": "TIGER/Line boundaries",
-      "definition": "Census Bureau map files of boundaries such as counties, places and census tracts.",
+      "full": "Topologically Integrated Geographic Encoding and Referencing",
+      "definition": "The Census Bureau's map files of boundaries such as states, counties, places and census tracts.",
       "short": "Topologically Integrated Geographic Encoding and Referencing — the Census Bureau's geographic boundary files (states, counties, tracts, places)."
     },
     {
@@ -656,12 +833,16 @@
     {
       "term": "RD",
       "full": "USDA Rural Development",
-      "definition": "The federal agency that finances housing in rural areas, including rental properties."
+      "aliases": [
+        "USDA RD"
+      ],
+      "definition": "The USDA agency that finances housing in rural areas. Its programs include Section 515 rental loans, Section 538 loan guarantees and Section 502 home loans.",
+      "short": "USDA Rural Development — federal financing programs (Section 515 / 538 / 502) supporting affordable rental and owner-occupied housing in rural communities."
     },
     {
       "term": "USDA",
       "full": "U.S. Department of Agriculture",
-      "definition": "Federal department whose Rural Development agency finances rural housing."
+      "definition": "The federal department whose Rural Development agency finances rural housing."
     },
     {
       "term": "FEMA",
@@ -671,18 +852,18 @@
     {
       "term": "EPA",
       "full": "U.S. Environmental Protection Agency",
-      "definition": "The federal environmental agency."
+      "definition": "The federal environmental agency. This site uses its Smart Location Database for walkability and transit access."
     },
     {
       "term": "CDBG",
       "full": "Community Development Block Grant",
-      "definition": "Flexible HUD funding for local governments that can support housing and community projects.",
+      "definition": "Flexible HUD funding, granted each year by formula to states and to larger cities and counties, for housing rehabilitation, homebuyer help, infrastructure and other community projects.",
       "short": "Community Development Block Grant — a flexible annual HUD formula grant to states and large cities for affordable-housing rehab, homebuyer assistance, infrastructure and other community development."
     },
     {
       "term": "RAD",
       "full": "Rental Assistance Demonstration",
-      "definition": "A HUD program that converts public housing to long-term project-based rental assistance so it can be refinanced and repaired."
+      "definition": "A HUD program that converts public housing to long-term project-based rental assistance so that it can be refinanced and repaired."
     },
     {
       "term": "MSA",
@@ -692,13 +873,18 @@
     {
       "term": "MLS",
       "full": "Multiple Listing Service",
-      "definition": "The shared database real estate agents use to list and record home sales."
+      "definition": "The shared database real estate agents use to list homes for sale and record sales."
     },
     {
       "term": "TOD",
       "full": "Transit-Oriented Development",
-      "definition": "Housing built near frequent public transit.",
-      "short": "Transit-Oriented Development — projects within a ½-mile walk of transit. Earns 5 CHFA QAP points under the adopted 2027–28 QAP (§5.B.2.b), which also counts TOC sites; the 2025–26 QAP gave 3."
+      "definition": "Housing within a ½-mile walk of frequent public transit. CHFA's 2027–28 QAP (§5.B.2.b) gives 5 points to a project at an existing or planned transit-oriented (TOD or TOC) site, up from 3 in the 2025–26 QAP.",
+      "short": "Transit-Oriented Development — projects within a ½-mile walk of transit. Earns 5 CHFA QAP points under the adopted 2027–28 QAP (§5.B.2.b), which also counts TOC sites; the 2025–26 QAP gave 3.",
+      "source": {
+        "name": "CHFA 2027-2028 Qualified Allocation Plan, section 5.B.2.b",
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf"
+      },
+      "checked": "2026-11-03"
     },
     {
       "term": "NEPA",
@@ -708,7 +894,7 @@
     {
       "term": "HOME",
       "full": "HOME Investment Partnerships Program",
-      "definition": "HUD's largest federal block grant for affordable housing, given to states and local governments to build, buy or repair homes for low-income households.",
+      "definition": "A HUD block grant to states and local governments to build, buy or repair homes for low-income households, or to help them with rent.",
       "short": "HOME Investment Partnerships Program — annual HUD formula grant funding affordable-housing acquisition, new construction, rehab, and tenant rental assistance."
     },
     {
@@ -719,369 +905,546 @@
     {
       "term": "HTC",
       "full": "Historic Tax Credit",
-      "definition": "A tax credit for rehabilitating certified historic buildings: 20% federal, and Colorado offers a state credit too."
+      "definition": "A tax credit for rehabilitating certified historic buildings. The federal credit is 20% of qualified rehabilitation costs, and Colorado has its own state credit.",
+      "source": {
+        "name": "26 U.S.C. 47, Rehabilitation credit, subsection (a)",
+        "url": "https://www.law.cornell.edu/uscode/text/26/47"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "9% LIHTC",
-      "definition": "9% LIHTC — the competitive federal credit. Worth about 70% of a building's eligible cost in present value, but states only get a limited annual allocation, so projects compete through a scored CHFA application.",
+      "definition": "The competitive federal housing credit. It is worth about 70% of a building's eligible cost in present value. Each state gets a limited amount per year, so projects compete through a scored CHFA application.",
+      "short": "9% LIHTC — the competitive federal credit. Worth about 70% of a building's eligible cost in present value, but states only get a limited annual allocation, so projects compete through a scored CHFA application.",
       "autolink": false,
-      "short": "9% LIHTC — the competitive federal credit. Worth about 70% of a building's eligible cost in present value, but states only get a limited annual allocation, so projects compete through a scored CHFA application."
+      "source": {
+        "name": "26 U.S.C. 42, Low-income housing credit, subsection (b)(1)",
+        "url": "https://www.law.cornell.edu/uscode/text/26/42"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "4% LIHTC",
-      "definition": "4% LIHTC — the non-competitive federal credit, paired with tax-exempt bonds. Worth about 30% of a building's eligible cost in present value. Available year-round subject to a state bond cap.",
+      "definition": "The federal housing credit that comes with tax-exempt bond financing instead of the scored competition. It is worth about 30% of a building's eligible cost in present value and is available year-round, subject to the state's bond cap.",
+      "short": "4% LIHTC — the non-competitive federal credit, paired with tax-exempt bonds. Worth about 30% of a building's eligible cost in present value. Available year-round subject to a state bond cap.",
       "autolink": false,
-      "short": "4% LIHTC — the non-competitive federal credit, paired with tax-exempt bonds. Worth about 30% of a building's eligible cost in present value. Available year-round subject to a state bond cap."
+      "source": {
+        "name": "26 U.S.C. 42, Low-income housing credit, subsections (b)(1) and (h)(4)",
+        "url": "https://www.law.cornell.edu/uscode/text/26/42"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "rent burden",
-      "definition": "A renter paying more than 30% of gross income on rent and utilities. Over 50% is \"severely rent-burdened.\" HUD's standard measure of affordability stress.",
+      "label": "Rent burden",
+      "definition": "A renter household paying more than 30% of income for rent and utilities. Above 50% is severe rent burden. It is HUD's standard measure of affordability stress.",
+      "short": "A renter paying more than 30% of gross income on rent and utilities. Over 50% is \"severely rent-burdened.\" HUD's standard measure of affordability stress.",
       "autolink": false,
-      "short": "A renter paying more than 30% of gross income on rent and utilities. Over 50% is \"severely rent-burdened.\" HUD's standard measure of affordability stress."
+      "source": {
+        "name": "HUD CHAS background",
+        "url": "https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "cost burden",
-      "definition": "Renters or owners spending more than 30% of income on housing (rent or mortgage plus utilities). Over 50% is \"severely cost-burdened.\" HUD's standard affordability measure for both tenure types.",
+      "label": "Cost burden",
+      "definition": "A household, renting or owning, paying more than 30% of income for housing including utilities. Above 50% is severe cost burden. It is HUD's standard affordability measure for both renters and owners.",
+      "short": "Renters or owners spending more than 30% of income on housing (rent or mortgage plus utilities). Over 50% is \"severely cost-burdened.\" HUD's standard affordability measure for both tenure types.",
       "autolink": false,
-      "short": "Renters or owners spending more than 30% of income on housing (rent or mortgage plus utilities). Over 50% is \"severely cost-burdened.\" HUD's standard affordability measure for both tenure types."
+      "source": {
+        "name": "HUD CHAS background",
+        "url": "https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "absorption",
-      "definition": "How fast a market leases up newly built units, expressed as units per month. Used to project lease-up time and size the construction loan; slow absorption signals weak demand.",
-      "autolink": false,
-      "short": "How fast a market leases up newly built units, expressed as units per month. Used to project lease-up time and size the construction loan; slow absorption signals weak demand."
+      "label": "Absorption",
+      "definition": "How fast a market leases newly built homes, in homes per month. It is used to project lease-up time and size the construction loan, and slow absorption signals weak demand.",
+      "short": "How fast a market leases up newly built units, expressed as units per month. Used to project lease-up time and size the construction loan; slow absorption signals weak demand.",
+      "autolink": false
     },
     {
       "term": "market study",
-      "definition": "A third-party report, by a CHFA-approved analyst for CHFA applications, testing whether a project has enough qualifying renters and reasonable rents. Required for LIHTC and by most lenders; a weak study can kill a deal.",
-      "autolink": false,
-      "short": "A third-party report, by a CHFA-approved analyst for CHFA applications, testing whether a project has enough qualifying renters and reasonable rents. Required for LIHTC and by most lenders; a weak study can kill a deal."
+      "label": "Market study",
+      "definition": "A third-party report testing whether a project has enough qualifying renters at reasonable rents. LIHTC applications and most lenders require one, and a CHFA application needs a CHFA-approved analyst.",
+      "short": "A third-party report, by a CHFA-approved analyst for CHFA applications, testing whether a project has enough qualifying renters and reasonable rents. Required for LIHTC and by most lenders; a weak study can kill a deal.",
+      "autolink": false
     },
     {
       "term": "Prop 123",
       "definition": "A 2022 Colorado ballot measure setting aside state income tax revenue equal to up to 0.1% of taxable income (estimated at $290M a year from 2023-24) for affordable housing: 60% to OEDIT's Affordable Housing Financing Fund (run by CHFA), 40% to DOLA. For most of the money (homelessness programs and modular-manufacturer loans are exempt), the local government must file a commitment with DOLA: 3% growth a year for 2024–2026, then a permit-based goal from 2027.",
+      "short": "A 2022 Colorado ballot measure setting aside state income tax revenue equal to up to 0.1% of taxable income (estimated at $290M a year from 2023-24) for affordable housing: 60% to OEDIT's Affordable Housing Financing Fund (run by CHFA), 40% to DOLA. For most of the money (homelessness programs and modular-manufacturer loans are exempt), the local government must file a commitment with DOLA: 3% growth a year for 2024–2026, then a permit-based goal from 2027.",
       "autolink": false,
-      "short": "A 2022 Colorado ballot measure setting aside state income tax revenue equal to up to 0.1% of taxable income (estimated at $290M a year from 2023-24) for affordable housing: 60% to OEDIT's Affordable Housing Financing Fund (run by CHFA), 40% to DOLA. For most of the money (homelessness programs and modular-manufacturer loans are exempt), the local government must file a commitment with DOLA: 3% growth a year for 2024–2026, then a permit-based goal from 2027."
+      "source": {
+        "name": "DOLA, About Proposition 123",
+        "url": "https://cdola.colorado.gov/about-proposition-123"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "State LIHTC",
-      "definition": "Colorado's state-level affordable housing tax credit. Layered on top of federal LIHTC, adds roughly 30 cents of subsidy per dollar of federal credit.",
+      "definition": "Colorado's state Affordable Housing Tax Credit, which CHFA allocates alongside the federal credit. A full six-year allocation of state credit equals 30% of qualified basis for new construction and rehabilitation.",
+      "short": "Colorado's state Affordable Housing Tax Credit, allocated by CHFA alongside the federal credit. A full six-year allocation equals 30% of qualified basis.",
       "autolink": false,
-      "short": "Colorado's state-level affordable housing tax credit. Layered on top of federal LIHTC, adds roughly 30 cents of subsidy per dollar of federal credit."
+      "source": {
+        "name": "CHFA 2027-2028 Qualified Allocation Plan, section 3.P.1",
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf"
+      },
+      "checked": "2026-11-03"
     },
     {
       "term": "soft debt",
-      "definition": "A loan with below-market interest, deferred payments, or repayment only from project cash flow. Cities, counties, and Prop 123 use it to fill financing gaps.",
-      "autolink": false,
-      "short": "A loan with below-market interest, deferred payments, or repayment only from project cash flow. Cities, counties, and Prop 123 use it to fill financing gaps."
+      "label": "Soft debt",
+      "definition": "A loan with below-market interest, deferred payments, or repayment only from project cash flow. Cities, counties and Prop 123 programs use it to fill financing gaps.",
+      "short": "A loan with below-market interest, deferred payments, or repayment only from project cash flow. Cities, counties, and Prop 123 use it to fill financing gaps.",
+      "autolink": false
     },
     {
       "term": "linkage fee",
-      "definition": "A fee on new commercial or market-rate residential development, paid into an affordable housing fund. Set per square foot.",
-      "autolink": false,
-      "short": "A fee on new commercial or market-rate residential development, paid into an affordable housing fund. Set per square foot."
+      "label": "Linkage fee",
+      "definition": "A fee on new commercial or market-rate residential development, charged per square foot and paid into an affordable housing fund.",
+      "short": "A fee on new commercial or market-rate residential development, paid into an affordable housing fund. Set per square foot.",
+      "autolink": false
     },
     {
       "term": "capture rate",
-      "definition": "The share of income-qualified renters in a market area a proposed project needs to lease its units. CHFA counts renters whose income fits the unit's AMI limit and who would pay no more than 40% of income in rent, and its 2027-28 QAP will not accept capture above 85% without more demand data.",
+      "label": "Capture rate",
+      "definition": "The share of income-qualified renters in a market area a proposed project needs to lease its units. CHFA counts renters whose income fits the unit's AMI limit and who would pay no more than 40% of income in rent, and its 2027–28 QAP will not accept capture above 85% without more demand data.",
+      "short": "The share of income-qualified renters in a market area a proposed project needs to lease its units. CHFA counts renters whose income fits the unit's AMI limit and who would pay no more than 40% of income in rent, and its 2027–28 QAP will not accept capture above 85% without more demand data.",
       "autolink": false,
-      "short": "The share of income-qualified renters in a market area a proposed project needs to lease its units. CHFA counts renters whose income fits the unit's AMI limit and who would pay no more than 40% of income in rent, and its 2027-28 QAP will not accept capture above 85% without more demand data."
+      "source": {
+        "name": "CHFA 2027-2028 Qualified Allocation Plan",
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf"
+      },
+      "checked": "2026-11-03"
     },
     {
       "term": "GEOID",
-      "definition": "The standard federal identifier the Census Bureau uses to keep data joined cleanly across sources. Every county or place has a unique GEOID.",
-      "autolink": false,
-      "short": "The standard federal identifier the Census Bureau uses to keep data joined cleanly across sources. Every county or place has a unique GEOID."
-    },
-    {
-      "term": "IRC §42",
-      "full": "Section 42 of the federal Internal Revenue Code",
-      "definition": "Section 42 of the federal Internal Revenue Code — the law that creates the LIHTC program and defines its rules (basis, income limits, rent caps, compliance).",
-      "autolink": false,
-      "short": "Section 42 of the federal Internal Revenue Code — the law that creates the LIHTC program and defines its rules (basis, income limits, rent caps, compliance)."
-    },
-    {
-      "term": "§42",
-      "full": "Section 42 of the federal Internal Revenue Code",
-      "definition": "Section 42 of the federal Internal Revenue Code — the law that creates the LIHTC program and defines its rules (basis, income limits, rent caps, compliance).",
-      "autolink": false,
-      "short": "Section 42 of the federal Internal Revenue Code — the law that creates the LIHTC program and defines its rules (basis, income limits, rent caps, compliance)."
+      "definition": "The standard code the Census Bureau gives every state, county, place and tract. It keeps data joined correctly across sources.",
+      "short": "The standard federal identifier the Census Bureau uses to keep data joined cleanly across sources. Every county or place has a unique GEOID.",
+      "autolink": false
     },
     {
       "term": "QA/QC",
       "full": "Quality Assurance / Quality Control",
-      "definition": "Quality Assurance / Quality Control — the discipline of verifying that data inputs are current, complete, and reconcile across sources before any conclusion is drawn.",
-      "autolink": false,
-      "short": "Quality Assurance / Quality Control — the discipline of verifying that data inputs are current, complete, and reconcile across sources before any conclusion is drawn."
+      "definition": "The practice of checking that data inputs are current, complete and consistent across sources before any conclusion is drawn.",
+      "short": "Quality Assurance / Quality Control — the discipline of verifying that data inputs are current, complete, and reconcile across sources before any conclusion is drawn.",
+      "autolink": false
     },
     {
       "term": "COSTHPI",
       "full": "FRED series ID for FHFA's Colorado House Price Index",
-      "definition": "FRED series ID for FHFA's Colorado House Price Index — the quarterly repeat-sales index for Colorado, downloadable from FRED at fred.stlouisfed.org.",
-      "autolink": false,
+      "definition": "A quarterly repeat-sales index of Colorado home prices, published by FHFA. COSTHPI is its series ID on FRED, where it can be downloaded at fred.stlouisfed.org.",
       "short": "FRED series ID for FHFA's Colorado House Price Index — the quarterly repeat-sales index for Colorado, downloadable from FRED at fred.stlouisfed.org.",
+      "autolink": false,
       "list": false
     },
     {
       "term": "BLS",
       "full": "Bureau of Labor Statistics",
-      "definition": "Bureau of Labor Statistics — the federal agency that publishes the Consumer Price Index (CPI), employment data, and wage statistics.",
-      "autolink": false,
-      "short": "Bureau of Labor Statistics — the federal agency that publishes the Consumer Price Index (CPI), employment data, and wage statistics."
+      "definition": "The federal agency that publishes the Consumer Price Index, employment data and wage statistics.",
+      "short": "Bureau of Labor Statistics — the federal agency that publishes the Consumer Price Index (CPI), employment data, and wage statistics.",
+      "autolink": false
     },
     {
       "term": "BEA",
       "full": "Bureau of Economic Analysis",
-      "definition": "Bureau of Economic Analysis — the federal agency that publishes Gross Domestic Product (GDP), personal income, and regional economic accounts.",
-      "autolink": false,
-      "short": "Bureau of Economic Analysis — the federal agency that publishes Gross Domestic Product (GDP), personal income, and regional economic accounts."
+      "definition": "The federal agency that publishes gross domestic product, personal income and regional economic accounts.",
+      "short": "Bureau of Economic Analysis — the federal agency that publishes Gross Domestic Product (GDP), personal income, and regional economic accounts.",
+      "autolink": false
     },
     {
       "term": "IRS",
       "full": "Internal Revenue Service",
-      "definition": "Internal Revenue Service — the federal tax authority. For affordable housing, IRS administers the LIHTC program rules under Section 42 of the Internal Revenue Code.",
-      "autolink": false,
-      "short": "Internal Revenue Service — the federal tax authority. For affordable housing, IRS administers the LIHTC program rules under Section 42 of the Internal Revenue Code."
-    },
-    {
-      "term": "USDA RD",
-      "full": "USDA Rural Development",
-      "definition": "USDA Rural Development — federal financing programs (Section 515 / 538 / 502) supporting affordable rental and owner-occupied housing in rural communities.",
-      "autolink": false,
-      "short": "USDA Rural Development — federal financing programs (Section 515 / 538 / 502) supporting affordable rental and owner-occupied housing in rural communities."
+      "definition": "The federal tax agency. It administers the LIHTC rules in Section 42 of the Internal Revenue Code.",
+      "short": "Internal Revenue Service — the federal tax authority. For affordable housing, IRS administers the LIHTC program rules under Section 42 of the Internal Revenue Code.",
+      "autolink": false
     },
     {
       "term": "FHA",
       "full": "Federal Housing Administration",
-      "definition": "Federal Housing Administration — HUD division that insures multifamily mortgage loans (221(d)(4), 223(f)) used for affordable housing construction and refinance.",
-      "autolink": false,
-      "short": "Federal Housing Administration — HUD division that insures multifamily mortgage loans (221(d)(4), 223(f)) used for affordable housing construction and refinance."
+      "definition": "The part of HUD that insures mortgages. Its multifamily programs, Section 221(d)(4) and Section 223(f), back loans to build and refinance rental housing.",
+      "short": "Federal Housing Administration — HUD division that insures multifamily mortgage loans (221(d)(4), 223(f)) used for affordable housing construction and refinance.",
+      "autolink": false
     },
     {
       "term": "GSE",
       "full": "Government-Sponsored Enterprise",
-      "definition": "Government-Sponsored Enterprise — refers to Fannie Mae, Freddie Mac, and the Federal Home Loan Banks. Provide affordable-housing financing through LIHTC equity and below-market debt.",
-      "autolink": false,
-      "short": "Government-Sponsored Enterprise — refers to Fannie Mae, Freddie Mac, and the Federal Home Loan Banks. Provide affordable-housing financing through LIHTC equity and below-market debt."
+      "definition": "A company chartered by Congress to support housing finance: Fannie Mae, Freddie Mac and the Federal Home Loan Banks. They finance affordable housing through LIHTC equity and below-market loans.",
+      "short": "Government-Sponsored Enterprise — Fannie Mae, Freddie Mac and the Federal Home Loan Banks. They finance affordable housing through LIHTC equity and below-market debt.",
+      "autolink": false
     },
     {
       "term": "HMDA",
       "full": "Home Mortgage Disclosure Act",
-      "definition": "Home Mortgage Disclosure Act — federal law requiring lenders to report loan origination and denial data by census tract; the canonical source for mortgage-credit access analysis.",
-      "autolink": false,
-      "short": "Home Mortgage Disclosure Act — federal law requiring lenders to report loan origination and denial data by census tract; the canonical source for mortgage-credit access analysis."
+      "definition": "A federal law requiring lenders to report mortgage applications, loans and denials by census tract. Its data is the standard source for studying access to mortgage credit.",
+      "short": "Home Mortgage Disclosure Act — federal law requiring lenders to report loan origination and denial data by census tract; the canonical source for mortgage-credit access analysis.",
+      "autolink": false
     },
     {
       "term": "AHTC",
       "full": "Affordable Housing Tax Credit",
-      "definition": "Affordable Housing Tax Credit — alternate name some states use for the federal LIHTC program (or for layered state credits).",
-      "autolink": false,
-      "short": "Affordable Housing Tax Credit — alternate name some states use for the federal LIHTC program (or for layered state credits)."
+      "definition": "Another name for housing tax credits. Some states use it for the federal LIHTC program, and others for a state credit layered on top.",
+      "short": "Affordable Housing Tax Credit — alternate name some states use for the federal LIHTC program (or for layered state credits).",
+      "autolink": false
     },
     {
       "term": "NCHMA",
       "full": "National Council of Housing Market Analysts",
-      "definition": "National Council of Housing Market Analysts — the industry body that publishes professional standards for LIHTC market studies (capture-rate methodology, comparable selection, demand calculations).",
-      "autolink": false,
-      "short": "National Council of Housing Market Analysts — the industry body that publishes professional standards for LIHTC market studies (capture-rate methodology, comparable selection, demand calculations)."
+      "definition": "The industry body that publishes professional standards for LIHTC market studies, covering capture rates, comparable properties and demand calculations.",
+      "short": "National Council of Housing Market Analysts — the industry body that publishes professional standards for LIHTC market studies (capture-rate methodology, comparable selection, demand calculations).",
+      "autolink": false
     },
     {
       "term": "GDP",
       "full": "Gross Domestic Product",
-      "definition": "Gross Domestic Product — the standard measure of total economic output. Used here for state-level growth tracking via the Bureau of Economic Analysis.",
-      "autolink": false,
-      "short": "Gross Domestic Product — the standard measure of total economic output. Used here for state-level growth tracking via the Bureau of Economic Analysis."
+      "definition": "The standard measure of total economic output. This site tracks state GDP from the Bureau of Economic Analysis.",
+      "short": "Gross Domestic Product — the standard measure of total economic output. This site tracks state GDP from the Bureau of Economic Analysis.",
+      "autolink": false
     },
     {
       "term": "B25064",
       "full": "ACS table B25064",
-      "definition": "ACS table B25064 — median gross rent by Census tract or place. The cleanest free per-place rent figure available.",
+      "definition": "The ACS table of median gross rent for a census tract or place. It is the most direct free rent figure for a single place.",
+      "short": "ACS table B25064 — median gross rent by census tract or place. The cleanest free per-place rent figure available.",
       "autolink": false,
-      "short": "ACS table B25064 — median gross rent by Census tract or place. The cleanest free per-place rent figure available.",
       "list": false
     },
     {
       "term": "B25004",
       "full": "ACS table B25004",
-      "definition": "ACS table B25004 — vacant housing units by reason vacant. Used to compute vacancy rate at tract level.",
-      "autolink": false,
+      "definition": "The ACS table of vacant homes by the reason they are vacant. It is used to compute a vacancy rate for a tract.",
       "short": "ACS table B25004 — vacant housing units by reason vacant. Used to compute vacancy rate at tract level.",
+      "autolink": false,
       "list": false
     },
     {
       "term": "B25003",
       "full": "ACS table B25003",
-      "definition": "ACS table B25003 — tenure (owner vs. renter occupied) by Census tract.",
+      "definition": "The ACS table of tenure: homes occupied by owners and homes occupied by renters, by census tract.",
+      "short": "ACS table B25003 — tenure (owner vs. renter occupied) by census tract.",
       "autolink": false,
-      "short": "ACS table B25003 — tenure (owner vs. renter occupied) by Census tract.",
       "list": false
     },
     {
       "term": "B25070",
       "full": "ACS table B25070",
-      "definition": "ACS table B25070 — gross rent as a percentage of household income (rent-burden distribution) by tract.",
-      "autolink": false,
+      "definition": "The ACS table of gross rent as a percentage of household income. It shows how rent burden is distributed in a tract.",
       "short": "ACS table B25070 — gross rent as a percentage of household income (rent-burden distribution) by tract.",
+      "autolink": false,
       "list": false
     },
     {
       "term": "B19001",
       "full": "ACS table B19001",
-      "definition": "ACS table B19001 — household income distribution (all tenures). Retained as the AMI-gap model's legacy all-household series and population proxy.",
-      "autolink": false,
+      "definition": "The ACS table of household income for all households. The AMI gap model keeps it as its older all-household series and population proxy.",
       "short": "ACS table B19001 — household income distribution (all tenures). Retained as the AMI-gap model's legacy all-household series and population proxy.",
+      "autolink": false,
       "list": false
     },
     {
       "term": "B25118",
       "full": "ACS table B25118",
-      "definition": "ACS table B25118 — tenure by household income. The renter-household bins are the AMI-gap model's demand side: renter households at each AMI band.",
-      "autolink": false,
+      "definition": "The ACS table of tenure by household income. Its renter rows are the demand side of the AMI gap model: renter households in each AMI band.",
       "short": "ACS table B25118 — tenure by household income. The renter-household bins are the AMI-gap model's demand side: renter households at each AMI band.",
+      "autolink": false,
       "list": false
     },
     {
       "term": "B19013",
       "full": "ACS table B19013",
-      "definition": "ACS table B19013 — median household income by Census tract.",
+      "definition": "The ACS table of median household income, by census tract.",
+      "short": "ACS table B19013 — median household income by census tract.",
       "autolink": false,
-      "short": "ACS table B19013 — median household income by Census tract.",
       "list": false
-    },
-    {
-      "term": "PFA",
-      "full": "Private Activity Bond",
-      "definition": "Private Activity Bond — federally tax-exempt bonds states can issue to finance affordable housing (paired with 4% LIHTC), public infrastructure, and other qualified projects.",
-      "autolink": false,
-      "short": "Private Activity Bond — federally tax-exempt bonds states can issue to finance affordable housing (paired with 4% LIHTC), public infrastructure, and other qualified projects."
     },
     {
       "term": "LTC",
       "full": "Loan-to-Cost",
-      "definition": "Loan-to-Cost — the ratio of mortgage debt to total development cost (TDC). Used in construction-loan sizing.",
-      "autolink": false,
-      "short": "Loan-to-Cost — the ratio of mortgage debt to total development cost (TDC). Used in construction-loan sizing."
+      "definition": "The loan amount divided by total development cost. Lenders use it to size construction loans.",
+      "short": "Loan-to-Cost — the ratio of mortgage debt to total development cost (TDC). Used in construction-loan sizing.",
+      "autolink": false
     },
     {
       "term": "BMR",
       "full": "Below Market Rate",
-      "definition": "Below Market Rate — a unit restricted to rent or sell at less than market price, usually via deed restriction, inclusionary zoning, or covenant.",
-      "autolink": false,
-      "short": "Below Market Rate — a unit restricted to rent or sell at less than market price, usually via deed restriction, inclusionary zoning, or covenant."
+      "definition": "A home restricted to rent or sell for less than the market price, usually through a deed restriction, inclusionary zoning or a covenant.",
+      "short": "Below Market Rate — a unit restricted to rent or sell at less than market price, usually via deed restriction, inclusionary zoning, or covenant.",
+      "autolink": false
     },
     {
       "term": "CBRE",
-      "definition": "CBRE — a global commercial real-estate services firm whose Multifamily Outlook publishes Denver-area rent, vacancy, and concession data quarterly.",
-      "autolink": false,
-      "short": "CBRE — a global commercial real-estate services firm whose Multifamily Outlook publishes Denver-area rent, vacancy, and concession data quarterly."
+      "definition": "A commercial real estate services firm. Its Multifamily Outlook publishes Denver-area rent, vacancy and concession data each quarter.",
+      "short": "CBRE — a global commercial real-estate services firm whose Multifamily Outlook publishes Denver-area rent, vacancy, and concession data quarterly.",
+      "autolink": false
     },
     {
       "term": "ATTOM",
       "full": "ATTOM Data Solutions",
-      "definition": "ATTOM Data Solutions — a real-estate data aggregator whose Foreclosure Activity Report tracks default, auction, and bank-owned filings by metro.",
-      "autolink": false,
-      "short": "ATTOM Data Solutions — a real-estate data aggregator whose Foreclosure Activity Report tracks default, auction, and bank-owned filings by metro."
+      "definition": "A real estate data company. Its Foreclosure Activity Report tracks default, auction and bank-owned filings by metro area.",
+      "short": "ATTOM Data Solutions — a real-estate data aggregator whose Foreclosure Activity Report tracks default, auction, and bank-owned filings by metro.",
+      "autolink": false
     },
     {
       "term": "CoStar",
-      "definition": "CoStar — a paid commercial real-estate data subscription tracking rent, vacancy, sales comps, and pipeline by submarket. Subscription-only.",
-      "autolink": false,
-      "short": "CoStar — a paid commercial real-estate data subscription tracking rent, vacancy, sales comps, and pipeline by submarket. Subscription-only."
-    },
-    {
-      "term": "Zillow ZORI",
-      "full": "Zillow Observed Rent Index",
-      "definition": "Zillow Observed Rent Index — Zillow's asking-rent series for new leases (35th–65th percentile), free monthly downloads at zillow.com/research.",
-      "autolink": false,
-      "short": "Zillow Observed Rent Index — Zillow's asking-rent series for new leases (35th–65th percentile), free monthly downloads at zillow.com/research."
+      "definition": "A subscription database of commercial real estate. It tracks rent, vacancy, sales and the construction pipeline by submarket.",
+      "short": "CoStar — a paid commercial real-estate data subscription tracking rent, vacancy, sales comps, and pipeline by submarket.",
+      "autolink": false
     },
     {
       "term": "AAMD",
       "full": "Apartment Association of Metro Denver",
-      "definition": "Apartment Association of Metro Denver — the trade group whose quarterly Vacancy & Rent Survey is the standard read on Denver-area apartment performance.",
-      "autolink": false,
-      "short": "Apartment Association of Metro Denver — the trade group whose quarterly Vacancy & Rent Survey is the standard read on Denver-area apartment performance."
+      "definition": "The apartment industry's trade group for metro Denver. Its quarterly Vacancy and Rent Survey is the standard read on Denver-area apartment performance.",
+      "short": "Apartment Association of Metro Denver — the trade group whose quarterly Vacancy & Rent Survey is the standard read on Denver-area apartment performance.",
+      "autolink": false
     },
     {
       "term": "CDLE",
       "full": "Colorado Department of Labor and Employment",
-      "definition": "Colorado Department of Labor and Employment — state agency publishing unemployment, wage, and labor-force data by county.",
-      "autolink": false,
-      "short": "Colorado Department of Labor and Employment — state agency publishing unemployment, wage, and labor-force data by county."
+      "definition": "The state agency that publishes unemployment, wage and labor force data by county.",
+      "short": "Colorado Department of Labor and Employment — state agency publishing unemployment, wage, and labor-force data by county.",
+      "autolink": false
     },
     {
       "term": "CDPHE",
       "full": "Colorado Department of Public Health and Environment",
-      "definition": "Colorado Department of Public Health and Environment — state agency tracking environmental and public-health indicators used in site-screening.",
-      "autolink": false,
-      "short": "Colorado Department of Public Health and Environment — state agency tracking environmental and public-health indicators used in site-screening."
+      "definition": "The state agency that tracks environmental and public health indicators. This site uses them in site screening.",
+      "short": "Colorado Department of Public Health and Environment — state agency tracking environmental and public-health indicators used in site-screening.",
+      "autolink": false
     },
     {
       "term": "GVRHA",
       "full": "Gunnison Valley Regional Housing Authority",
-      "definition": "Gunnison Valley Regional Housing Authority — the multi-jurisdiction housing authority serving Gunnison County and Crested Butte (transitioning to Gunnison County HA in 2026).",
+      "definition": "The regional housing authority that served Gunnison County and Crested Butte. Its work has moved to the Gunnison County Housing Authority, whose pages now answer at gvrha.org.",
+      "short": "Gunnison Valley Regional Housing Authority — the regional housing authority that served Gunnison County and Crested Butte. Its work has moved to the Gunnison County Housing Authority.",
       "autolink": false,
-      "short": "Gunnison Valley Regional Housing Authority — the multi-jurisdiction housing authority serving Gunnison County and Crested Butte (transitioning to Gunnison County HA in 2026)."
+      "source": {
+        "name": "Gunnison County Housing Authority",
+        "url": "https://gvrha.org/"
+      },
+      "checked": "2026-11-13"
     },
     {
       "term": "APCHA",
       "full": "Aspen Pitkin County Housing Authority",
-      "definition": "Aspen Pitkin County Housing Authority — the resort-area housing authority that operates Aspen's deed-restricted workforce-housing program.",
-      "autolink": false,
-      "short": "Aspen Pitkin County Housing Authority — the resort-area housing authority that operates Aspen's deed-restricted workforce-housing program."
+      "definition": "The housing authority for Aspen and Pitkin County. It runs Aspen's deed-restricted workforce housing program.",
+      "short": "Aspen Pitkin County Housing Authority — the resort-area housing authority that operates Aspen's deed-restricted workforce-housing program.",
+      "autolink": false
     },
     {
       "term": "SMRHA",
       "full": "San Miguel Regional Housing Authority",
-      "definition": "San Miguel Regional Housing Authority — the regional housing authority serving Telluride and Mountain Village.",
-      "autolink": false,
-      "short": "San Miguel Regional Housing Authority — the regional housing authority serving Telluride and Mountain Village."
+      "definition": "The regional housing authority serving Telluride and Mountain Village.",
+      "short": "San Miguel Regional Housing Authority — the regional housing authority serving Telluride and Mountain Village.",
+      "autolink": false
     },
     {
       "term": "YVHA",
       "full": "Yampa Valley Housing Authority",
-      "definition": "Yampa Valley Housing Authority — the regional housing authority serving Steamboat Springs and surrounding Routt County.",
-      "autolink": false,
-      "short": "Yampa Valley Housing Authority — the regional housing authority serving Steamboat Springs and surrounding Routt County."
+      "definition": "The regional housing authority serving Steamboat Springs and the rest of Routt County.",
+      "short": "Yampa Valley Housing Authority — the regional housing authority serving Steamboat Springs and surrounding Routt County.",
+      "autolink": false
     },
     {
       "term": "Section 8",
-      "definition": "HUD's federal rental-assistance program. Includes Housing Choice Vouchers (tenant-based) and Project-Based Vouchers (unit-based).",
-      "autolink": false,
-      "short": "HUD's federal rental-assistance program. Includes Housing Choice Vouchers (tenant-based) and Project-Based Vouchers (unit-based)."
+      "definition": "HUD's rental assistance program. It includes Housing Choice Vouchers, which move with the tenant, and Project-Based Vouchers, which stay with the home.",
+      "short": "HUD's federal rental-assistance program. Includes Housing Choice Vouchers (tenant-based) and Project-Based Vouchers (unit-based).",
+      "autolink": false
     },
     {
       "term": "Section 42",
       "full": "Section 42 of the Internal Revenue Code",
-      "definition": "Section 42 of the Internal Revenue Code — the law that creates the LIHTC program and defines its compliance rules.",
-      "autolink": false,
-      "short": "Section 42 of the Internal Revenue Code — the law that creates the LIHTC program and defines its compliance rules."
+      "aliases": [
+        "IRC §42",
+        "§42"
+      ],
+      "definition": "The federal law that creates the Low-Income Housing Tax Credit and sets its rules on basis, income limits, rent caps and compliance.",
+      "short": "Section 42 of the federal Internal Revenue Code — the law that creates the LIHTC program and defines its rules (basis, income limits, rent caps, compliance).",
+      "autolink": false
     },
     {
       "term": "Section 515",
       "full": "USDA Rural Development Section 515",
-      "definition": "USDA Rural Development Section 515 — low-interest loans for new affordable rental housing in rural areas. Most properties also use LIHTC equity.",
-      "autolink": false,
-      "short": "USDA Rural Development Section 515 — low-interest loans for new affordable rental housing in rural areas. Most properties also use LIHTC equity."
+      "definition": "A USDA Rural Development program of low-interest loans for affordable rental housing in rural areas. Properties often combine it with LIHTC equity.",
+      "short": "USDA Rural Development Section 515 — low-interest loans for affordable rental housing in rural areas. Often combined with LIHTC equity.",
+      "autolink": false
     },
     {
       "term": "Section 538",
       "full": "USDA Rural Development Section 538",
-      "definition": "USDA Rural Development Section 538 — loan guarantee program supporting privately-financed rural affordable rental housing.",
-      "autolink": false,
-      "short": "USDA Rural Development Section 538 — loan guarantee program supporting privately-financed rural affordable rental housing."
+      "definition": "A USDA Rural Development program that guarantees private loans for affordable rental housing in rural areas.",
+      "short": "USDA Rural Development Section 538 — loan guarantee program supporting privately financed rural affordable rental housing.",
+      "autolink": false
     },
     {
       "term": "Section 221(d)(4)",
-      "definition": "FHA mortgage insurance program for new construction or substantial rehabilitation of multifamily rental housing.",
-      "autolink": false,
-      "short": "FHA mortgage insurance program for new construction or substantial rehabilitation of multifamily rental housing."
+      "definition": "An FHA mortgage insurance program for building or substantially rehabilitating multifamily rental housing.",
+      "short": "FHA mortgage insurance program for new construction or substantial rehabilitation of multifamily rental housing.",
+      "autolink": false
     },
     {
       "term": "Section 223(f)",
-      "definition": "FHA mortgage insurance program for acquisition or refinance of existing multifamily rental properties.",
+      "definition": "An FHA mortgage insurance program for buying or refinancing existing multifamily rental properties.",
+      "short": "FHA mortgage insurance program for acquisition or refinance of existing multifamily rental properties.",
+      "autolink": false
+    },
+    {
+      "term": "PMA score",
+      "aliases": [
+        "PMA Score",
+        "Site Score"
+      ],
+      "definition": "This site's 0–100 reading of how well a market supports new affordable rentals, not a CHFA score. Five parts are weighted: Demand 30%, Competitive Density 25%, Rent Pressure 15%, Market Tightness 15% and Workforce 15%. A part with no data is dropped and the rest reweighted. Scores read Strong from 80, Moderate from 60, Marginal from 40 and Weak below.",
+      "source": {
+        "name": "This site's Market Analysis scoring notes",
+        "url": "https://cohoanalytics.com/docs/PMA_SCORING.md"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Competitive Density",
+      "label": "Competitive density",
+      "definition": "A part of this site's PMA score, 25% of the total, that reads how crowded a market area already is. It divides the income-restricted homes there by the renters who qualify: none scores 100, and 85%, the level CHFA's 2027–28 QAP questions, scores 0. Without that count, renters at or below 80% AMI, then all renters, stand in.",
+      "source": {
+        "name": "This site's Market Analysis scoring code",
+        "url": "https://cohoanalytics.com/js/market-analysis-scoring.js"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Rent Pressure",
+      "label": "Rent pressure",
+      "definition": "A part of this site's PMA score, 15% of the total, that compares the market area's median rent with the rent a household at 60% of the county's AMI can afford at 30% of income. A ratio of 70% or less scores 0, and 150% or more scores 100. Without a county AMI or median rent, there is no score.",
+      "source": {
+        "name": "This site's Market Analysis scoring code",
+        "url": "https://cohoanalytics.com/js/market-analysis-scoring.js"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Market Tightness",
+      "label": "Market tightness",
+      "definition": "A part of this site's PMA score, 15% of the total, read from the rental vacancy rate after for-rent homes in seasonal markets are discounted. No vacancy scores 100, and 10% or more scores 0, since a tight market leases new homes quickly. Where no rental vacancy rate exists, total vacancy, taken as 5% if unknown, scores 0 at 12%.",
+      "source": {
+        "name": "This site's Market Analysis scoring notes",
+        "url": "https://cohoanalytics.com/docs/PMA_SCORING.md"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Demand score",
+      "definition": "A part of this site's PMA score, 30% of the total, shown there as Demand. It blends four measures of need for affordable rentals: renters who are cost burdened (45%), renters severely cost burdened (20%), the poverty rate (10%) and the renter share of households (25%). Where severe burden or poverty is suppressed, the others carry its weight.",
       "autolink": false,
-      "short": "FHA mortgage insurance program for acquisition or refinance of existing multifamily rental properties."
+      "source": {
+        "name": "This site's Market Analysis scoring code",
+        "url": "https://cohoanalytics.com/js/market-analysis-scoring.js"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Workforce score",
+      "definition": "A part of this site's PMA score, 15% of the total, shown there as Workforce. It averages two inputs: the balance of jobs and homes in the market area, from Census LODES, and household income against the county's AMI. A missing input is left out, but no LODES match reads a neutral 50. Three planned inputs wait for real data.",
+      "autolink": false,
+      "source": {
+        "name": "This site's Market Analysis scoring notes",
+        "url": "https://cohoanalytics.com/docs/PMA_SCORING.md"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Competitive Supply Share",
+      "label": "Competitive supply share",
+      "definition": "A proposed project's share of the competing affordable homes it would lease up against: its homes divided by those homes plus the competing ones on record. It is not a capture rate, which divides by renter households. This site shows it from observed records only and gives no risk rating while that inventory is incomplete.",
+      "source": {
+        "name": "This site's Market Analysis scoring notes",
+        "url": "https://cohoanalytics.com/docs/PMA_SCORING.md"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Housing Needs Fit",
+      "label": "Housing needs fit",
+      "definition": "A check on this site's deal concept card of how well a proposed mix of homes matches local need. It averages the share of needed homes the plan covers at 30%, 50% and 60% AMI: 50% or more reads strong, 15–49% partial, less weak. A level with homes planned but no need on record counts as fully covered.",
+      "source": {
+        "name": "This site's Market Analysis tool",
+        "url": "https://cohoanalytics.com/market-analysis.html"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Housing Needs Scorecard",
+      "label": "Housing needs scorecard",
+      "definition": "This site's 0–100 reading of a place's housing need. It averages up to four percentile ranks: cost burden, the share of lower-income renters at 30% AMI or below, renters paying over half their income, and home price against income. The last is always the county's rank. A place with fewer than 50 renter households uses its county's for all four.",
+      "source": {
+        "name": "This site's method note on the Housing Needs Assessment page",
+        "url": "https://cohoanalytics.com/housing-needs-assessment.html"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Overall Need Score",
+      "label": "Overall need score",
+      "aliases": [
+        "Need Score"
+      ],
+      "definition": "This site's 0–100 ranking index for a county, town or CDP: 55% community need (housing gap, cost burden, affordability, future pressure, overcrowding) and 45% opportunity (economic mobility, walkability, amenities, QCT or DDA status). Nearly all inputs are percentiles among places of one type. Missing inputs are left out, and estimated or county-borrowed inputs cut the score by up to 15%.",
+      "source": {
+        "name": "This site's Methods page, section 06",
+        "url": "https://cohoanalytics.com/methods.html#m-score"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "AMI Gap",
+      "label": "AMI gap",
+      "definition": "The gap between rental homes priced for households at or below an AMI level and the renter households at or below it. County figures are homes minus households, so a shortage is negative; place figures are households minus homes, so a shortage is positive. It uses Census ACS and HUD income limits and ignores whether those homes are available.",
+      "source": {
+        "name": "This site's Methods page, section 10",
+        "url": "https://cohoanalytics.com/methods.html#m-alternatives"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Affordable Ownership Need",
+      "label": "Affordable ownership need",
+      "definition": "A two-part screening view on this site's needs assessment pages: the shortfall of rental homes priced for renter households at or below 80% AMI, and the pool of renter households at 51–100% of HUD's median family income who might buy. The pool is not a count of mortgage-ready buyers. A place with no record shows its county's figures.",
+      "source": {
+        "name": "This site's method note on the Housing Needs Assessment page",
+        "url": "https://cohoanalytics.com/housing-needs-assessment.html"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Market Health Composite",
+      "label": "Market health composite",
+      "definition": "This site's 0–100 reading of a county's economy and mortgage market. It averages five percentile ranks among Colorado's 64 counties, equally weighted: the five-year change in employed residents, five-year population growth, unemployment (inverted), mortgage originations per 1,000 households and the mortgage denial rate (inverted). Higher means stronger. A county missing any of the five gets no score.",
+      "source": {
+        "name": "This site's method note on the Colorado Deep Dive page",
+        "url": "https://cohoanalytics.com/colorado-deep-dive.html"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Housing Outcome Score",
+      "label": "Housing outcome score",
+      "definition": "This site's 0–100 summary of a deal on the Deal Calculator, with a letter grade (A from 85). It weights four parts: coverage of the local affordability gap (30%), local policy support (20%), financial feasibility (30%) and site quality (20%). A part not yet measured is dropped and the rest reweighted; without the market analysis there is no score.",
+      "source": {
+        "name": "This site's Deal Calculator",
+        "url": "https://cohoanalytics.com/deal-calculator.html"
+      },
+      "checked": "2026-11-13"
+    },
+    {
+      "term": "Civic Readiness",
+      "label": "Civic readiness",
+      "definition": "A part of this site's Opportunity Finder score that counts up to seven local housing tools on record: a housing needs assessment, a Prop 123 commitment, a housing authority, housing nonprofits, a comprehensive plan, an inclusionary zoning ordinance and local funding. A place with no record uses its county's, and scores 0 if neither has one.",
+      "source": {
+        "name": "This site's housing policy scorecard data",
+        "url": "https://cohoanalytics.com/data/policy/housing-policy-scorecard.json"
+      },
+      "checked": "2026-11-13"
     }
   ]
 }

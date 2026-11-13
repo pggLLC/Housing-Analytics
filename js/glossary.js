@@ -69,6 +69,8 @@
       '.gl-tooltip-popup strong{display:block;font-size:.8125rem;font-weight:700;color:var(--accent);margin-bottom:.2rem}',
       /* Header button */
       '.gl-also{font-size:.8rem;color:var(--muted);margin:0 0 .45rem}',
+      '.gl-source{font-size:.78rem;color:var(--muted);margin:.4rem 0 0}',
+      '.gl-source a{color:var(--link,var(--accent));text-decoration:underline}',
       /* Phones: the search box takes its own row under the title. It used to
          be hidden here, which left a phone reader an unsearchable list about
          fifty screens long. 16px keeps iOS from zooming the page on focus.
@@ -82,12 +84,41 @@
   /* ── Render term list ────────────────────────────────────── */
   // Letters and digits decide the order: "§42" files under 4 and "9% LIHTC"
   // under 9, not in a clump of symbols ahead of A.
+  // `term` is the text the pages are matched on, case and all ("qualified
+  // basis", "Eligible Basis"), so it cannot be tidied. `label` is the name the
+  // list shows when the two differ.
+  function nameOf(t) { return String(t.label || t.term); }
   function sortKey(t) {
-    return String(t.term).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    return nameOf(t).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
   }
   function byName(a, b) {
     return sortKey(a).localeCompare(sortKey(b), 'en', { numeric: true }) ||
-      String(a.term).localeCompare(String(b.term), 'en');
+      nameOf(a).localeCompare(nameOf(b), 'en');
+  }
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  // "2026-11-13" -> "Nov 13, 2026", read as written (no time zone shift).
+  function plainDate(iso) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ''));
+    return m ? MONTHS[Number(m[2]) - 1] + ' ' + Number(m[3]) + ', ' + m[1] : '';
+  }
+  // Where an entry's figure, year or rule was read, and when.
+  function sourceLine(t) {
+    if (!t.source || !t.source.name) return '';
+    var url = String(t.source.url || '');
+    var name = /^https:\/\//.test(url)
+      ? '<a href="' + escHtml(url) + '" target="_blank" rel="noopener">' + escHtml(t.source.name) + '</a>'
+      : escHtml(t.source.name);
+    var when = plainDate(t.checked);
+    return '<p class="gl-source">Source: ' + name + (when ? ', checked ' + when : '') + '</p>';
+  }
+  // A page tooltip shows the start of the definition. Cut on a word, and only
+  // mark it cut when it is.
+  function clip(text, max) {
+    text = String(text || '');
+    if (text.length <= max) return text;
+    var cut = text.slice(0, max);
+    var space = cut.lastIndexOf(' ');
+    return (space > max * 0.6 ? cut.slice(0, space) : cut).replace(/[\s,;:]+$/, '') + '…';
   }
 
   function renderTerms(terms, filter) {
@@ -103,6 +134,7 @@
       var also = (t.aliases || []).map(function (a) { return String(a).toLowerCase(); });
       if (term === q || also.indexOf(q) !== -1) return 0;
       if (term.includes(q) || (t.full || '').toLowerCase().includes(q) ||
+          nameOf(t).toLowerCase().includes(q) ||
           also.some(function (a) { return a.includes(q); })) return 1;
       return (t.definition || '').toLowerCase().includes(q) ? 2 : -1;
     }
@@ -125,11 +157,15 @@
 
     body.innerHTML = visible.map(function (t) {
       return '<div class="gl-term" role="article">' +
-        '<p class="gl-acronym">' + escHtml(t.term) + '</p>' +
-        (t.full ? '<p class="gl-full">' + escHtml(t.full) + '</p>' : '') +
+        '<p class="gl-acronym">' + escHtml(nameOf(t)) + '</p>' +
+        // An expansion that only repeats the name ("Developer fee" / "Developer
+        // Fee") is not shown twice.
+        (t.full && t.full.toLowerCase() !== nameOf(t).toLowerCase()
+          ? '<p class="gl-full">' + escHtml(t.full) + '</p>' : '') +
         (t.aliases && t.aliases.length
           ? '<p class="gl-also">Also written ' + escHtml(t.aliases.join(', ')) + '</p>' : '') +
         '<p class="gl-def">' + escHtml(t.definition) + '</p>' +
+        sourceLine(t) +
         '</div>';
     }).join('');
   }
@@ -258,10 +294,16 @@
     // Build a map of acronym → term object
     // autolink: false terms stay in the pop-up but are not wrapped on pages.
     terms = terms.filter(function (t) { return t.autolink !== false; });
+    // Another spelling of a term (`aliases`: CDOH for DOH, DCR for DSCR) is
+    // wrapped with the same entry, so merging two entries into one does not
+    // take the definition away from pages that use the other spelling.
     var termMap = {};
-    terms.forEach(function (t) { termMap[t.term] = t; });
+    terms.forEach(function (t) {
+      termMap[t.term] = t;
+      (t.aliases || []).forEach(function (a) { if (!termMap[a]) termMap[a] = t; });
+    });
 
-    var acronyms = terms.map(function (t) { return t.term; });
+    var acronyms = Object.keys(termMap);
     // Sort longest first so "SOFR" doesn't match inside "SOFR-based" improperly
     acronyms.sort(function (a, b) { return b.length - a.length; });
 
@@ -367,10 +409,10 @@
         // aria-label rather than title, so the browser's native tooltip does
         // not duplicate the custom .gl-tooltip-popup.
         return '<abbr class="gl-tooltip-trigger" tabindex="0" aria-label="' +
-          escHtml(t.full) +
+          escHtml(t.full || nameOf(t)) +
           '" data-glossary-term="' + escHtml(match) + '">' + match +
-          '<span class="gl-tooltip-popup" aria-hidden="true"><strong>' + escHtml(t.full) + '</strong>' +
-          escHtml(t.definition.substring(0, 160)) + '…</span></abbr>';
+          '<span class="gl-tooltip-popup" aria-hidden="true"><strong>' + escHtml(t.full || nameOf(t)) + '</strong>' +
+          escHtml(clip(t.definition, 160)) + '</span></abbr>';
       });
 
       if (changed) {

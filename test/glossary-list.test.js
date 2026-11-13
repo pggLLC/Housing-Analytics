@@ -11,7 +11,10 @@
 //   2. The search box is present at every width.
 //   3. An entry marked `list: false` (a Census table code, a data series ID)
 //      stays out of the browsing list but is still found by search.
-//   4. Another spelling of a term (`aliases`) finds its entry, and leads.
+//   4. Another spelling of a term (`aliases`) finds its entry, and leads, and
+//      a page that uses that spelling still gets the definition.
+//   5. The list shows the display name (`label`), a source line where an
+//      entry states a figure, and page tooltips that end on a word.
 //
 // Runs the production js/glossary.js with data/glossary.json in jsdom.
 
@@ -102,19 +105,81 @@ const key = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
   });
 
   await test('another spelling finds the entry and leads the results', async () => {
-    const copy = JSON.parse(JSON.stringify(GLOSSARY));
-    const doh = copy.terms.find((t) => t.term === 'DOH');
-    assert.ok(doh, 'data/glossary.json no longer defines DOH; pick another term for this test');
-    doh.aliases = ['Division of Housing spelling test', 'ZZDOH'];
-    const w = load(copy);
+    // DOH and CDOH were two entries with the same text until 2026-11-13.
+    const doh = GLOSSARY.terms.find((t) => t.term === 'DOH');
+    assert.ok(doh && (doh.aliases || []).includes('CDOH'), 'DOH is expected to carry the alias CDOH; pick another pair for this test');
+    assert.ok(!GLOSSARY.terms.some((t) => t.term === 'CDOH'), 'CDOH is still an entry of its own');
+    const w = load();
     const doc = await open(w);
-    search(w, 'zzdoh');
-    assert.deepStrictEqual(shown(doc), ['DOH']);
-    assert.ok(/Also written .*ZZDOH/.test(doc.querySelector('#glossaryBody .gl-also').textContent));
+    search(w, 'cdoh');
+    assert.strictEqual(shown(doc)[0], 'DOH');
+    assert.ok(/Also written .*CDOH/.test(doc.querySelector('#glossaryBody .gl-also').textContent));
     // A link to the other spelling opens the same entry.
     w.CohoGlossary.close();
-    const again = await open(w, 'ZZDOH');
+    const again = await open(w, 'CDOH');
     assert.strictEqual(shown(again)[0], 'DOH');
+  });
+
+  await test('a page that uses the other spelling still gets the definition', async () => {
+    const w = load();
+    w.document.querySelector('main').innerHTML =
+      '<section><p>Grants come from CDOH each spring.</p></section><section><p>The lender tests DCR first.</p></section>';
+    w.CohoGlossary.rescan();
+    await wait(100);
+    for (const [alias, term] of [['CDOH', 'DOH'], ['DCR', 'DSCR']]) {
+      const el = w.document.querySelector(`.gl-tooltip-trigger[data-glossary-term="${alias}"]`);
+      assert.ok(el, `${alias} was not wrapped`);
+      const entry = GLOSSARY.terms.find((t) => t.term === term);
+      assert.ok(el.querySelector('.gl-tooltip-popup').textContent.includes(entry.full), `${alias} does not show the ${term} entry`);
+    }
+  });
+
+  await test('the list shows the display name, and no expansion that only repeats it', async () => {
+    const w = load();
+    const doc = await open(w);
+    const names = shown(doc);
+    const labelled = GLOSSARY.terms.filter((t) => t.label && t.list !== false);
+    assert.ok(labelled.length > 10, 'too few entries carry a label for this check');
+    for (const t of labelled) {
+      assert.ok(names.includes(t.label), `"${t.label}" is not listed`);
+      assert.ok(!names.includes(t.term), `"${t.term}" is listed in its match-key casing`);
+    }
+    for (const el of doc.querySelectorAll('#glossaryBody .gl-term')) {
+      const name = el.querySelector('.gl-acronym').textContent;
+      const full = el.querySelector('.gl-full');
+      if (full) assert.notStrictEqual(full.textContent.toLowerCase(), name.toLowerCase(), `"${name}" is printed twice`);
+    }
+  });
+
+  await test('an entry that states a figure links its source and says when it was checked', async () => {
+    const ami = GLOSSARY.terms.find((t) => t.term === 'AMI');
+    assert.ok(ami.source && ami.checked, 'AMI is expected to carry a source and a checked date');
+    const w = load();
+    const doc = await open(w, 'AMI');
+    const line = doc.querySelector('#glossaryBody .gl-term .gl-source');
+    assert.ok(line, 'no source line under AMI');
+    const link = line.querySelector('a');
+    assert.strictEqual(link.getAttribute('href'), ami.source.url);
+    assert.strictEqual(link.textContent, ami.source.name);
+    const [y, m, day] = ami.checked.split('-').map(Number);
+    assert.ok(line.textContent.includes(`${day}, ${y}`), `the checked date ${ami.checked} is not shown: ${line.textContent}`);
+    assert.ok(m >= 1 && m <= 12);
+  });
+
+  await test('a page tooltip ends on a word, and is marked cut only when it is', async () => {
+    const w = load();
+    w.document.querySelector('main').innerHTML = '<section><p>RTD runs the trains. LIHTC pays for homes.</p></section>';
+    w.CohoGlossary.rescan();
+    await wait(100);
+    const pop = (term) => w.document.querySelector(`.gl-tooltip-trigger[data-glossary-term="${term}"] .gl-tooltip-popup`).textContent;
+    const rtd = GLOSSARY.terms.find((t) => t.term === 'RTD');
+    assert.ok(rtd.definition.length < 160, 'RTD is expected to be a short definition');
+    assert.ok(pop('RTD').endsWith(rtd.definition), 'a short definition is shown whole, with no ellipsis');
+    const lihtc = GLOSSARY.terms.find((t) => t.term === 'LIHTC');
+    assert.ok(lihtc.definition.length > 160, 'LIHTC is expected to be a long definition');
+    assert.ok(pop('LIHTC').endsWith('…'), 'a cut definition is marked');
+    const shownPart = pop('LIHTC').slice(lihtc.full.length, -1);
+    assert.ok(lihtc.definition.startsWith(shownPart) && /\s/.test(lihtc.definition[shownPart.length]), 'the cut falls between words');
   });
 
   await test('a search with no match says so', async () => {
