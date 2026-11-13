@@ -15,7 +15,7 @@ window.resolveAssetUrl = function (p) { return p; };
 
   // Each hub page and the routes it draws itself. A route another hub page draws opens that page; any other
   // route opens the public page it rebuilds (FORWARD). The old pages stay live until the cutover redirects them.
-  var HUBS = {"places-hub.html":["^#\\/places\\/?$","^#\\/places\\/(compare|ranking|scenario)\\/?$","^#\\/place\\/\\d{5,7}(\\/[a-z-]+)?\\/?$","^#\\/places\\/(incentives(\\/\\d{5,7})?|costs|economy|county-costs|multifamily|deep-dive|walk-bike|attract-housing)\\/?$","^#\\/report\\/?$"],"deal-hub.html":["^#\\/(projects|project|homes|handoff|convert|financials|open-deal|deal-calculator|sale-deal|use|deals|equity-pricing|pipeline|market|for-sale|recommendation|ic-summary|design)(\\/.*)?$"]}, STARTS = {"places-hub.html":"#/places","deal-hub.html":"#/projects"};
+  var HUBS = {"places-hub.html":["^#\\/places\\/?$","^#\\/places\\/(compare|ranking|scenario)\\/?$","^#\\/place\\/\\d{5,7}(\\/[a-z-]+)?\\/?$","^#\\/places\\/(incentives(\\/\\d{5,7})?|costs|economy|county-costs|multifamily|deep-dive|walk-bike|attract-housing)\\/?$","^#\\/report\\/?$"],"deal-hub.html":["^#\\/(projects|project|homes|handoff|convert|financials|open-deal|deal-calculator|sale-deal|use|deals|equity-pricing|pipeline|market|for-sale|recommendation|ic-summary|design)(\\/.*)?$"],"opportunities-hub.html":["^#\\/(opportunities|opportunity|finder)(\\/.*)?$"]}, STARTS = {"places-hub.html":"#/places","deal-hub.html":"#/projects","opportunities-hub.html":"#/opportunities"};
   Object.keys(HUBS).forEach(function (p) { HUBS[p] = HUBS[p].map(function (re) { return new RegExp(re); }); });
   var HERE = (location.pathname.split('/').pop() || 'index.html');
   var CARRIED = HUBS[HERE] || [];
