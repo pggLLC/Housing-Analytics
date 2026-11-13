@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at_utc": "2026-11-06T14:32:51Z",
+    "generated_at_utc": "2026-11-13T14:51:25Z",
     "total_urls": 436,
-    "broken_count": 52,
-    "warning_count": 44,
+    "broken_count": 51,
+    "warning_count": 45,
     "ok_count": 340,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
@@ -23,15 +23,6 @@
       ]
     },
     {
-      "url": "https://greeleyschools.org/",
-      "status": 0,
-      "found_in": [
-        "local-resources / county:08123/majorEmployers[3]",
-        "local-resources / place:0832155/majorEmployers[4]",
-        "local-resources / place:0832155/schoolDistrict"
-      ]
-    },
-    {
       "url": "https://lovelandhousing.org/",
       "status": 0,
       "found_in": [
@@ -43,6 +34,15 @@
       "status": 0,
       "found_in": [
         "local-resources / place:0843000/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://pagosaspringsmedicalcenter.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08007/majorEmployers[0]",
+        "local-resources / place:0856860/hospital",
+        "local-resources / place:0856860/majorEmployers[0]"
       ]
     },
     {
@@ -179,6 +179,16 @@
       ]
     },
     {
+      "url": "https://www.foothillsunitedway.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08019/advocacy[0]",
+        "local-resources / county:08047/advocacy[0]",
+        "local-resources / county:08059/advocacy[1]",
+        "local-resources / county:08093/advocacy[0]"
+      ]
+    },
+    {
       "url": "https://www.gilpincounty.org/planning-zoning",
       "status": 0,
       "found_in": [
@@ -197,13 +207,6 @@
       "status": 404,
       "found_in": [
         "local-resources / place:0843000/majorEmployers[2]"
-      ]
-    },
-    {
-      "url": "https://www.housingcolorado.org/",
-      "status": 404,
-      "found_in": [
-        "local-resources / state:08/advocacy[0]"
       ]
     },
     {
@@ -378,13 +381,6 @@
       ]
     },
     {
-      "url": "https://www.vailgov.com/government/boards-commissions/vail-local-housing-authority",
-      "status": 404,
-      "found_in": [
-        "local-resources / county:08037/housingAuthority[0]"
-      ]
-    },
-    {
       "url": "https://www.whitewave.com/",
       "status": 0,
       "found_in": [
@@ -411,13 +407,6 @@
   ],
   "warnings": [
     {
-      "url": "https://ci.lamar.co.us/community-development",
-      "status": 429,
-      "found_in": [
-        "local-resources / place:0843110/housingLead"
-      ]
-    },
-    {
       "url": "https://www.arvadaco.gov/1155/Affordable-Housing-in-Arvada",
       "status": 403,
       "found_in": [
@@ -437,6 +426,14 @@
       "status": 403,
       "found_in": [
         "policy-progress / Aspen / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.aurorak12.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0804000/majorEmployers[3]",
+        "local-resources / place:0804000/schoolDistrict"
       ]
     },
     {
@@ -481,6 +478,13 @@
       ]
     },
     {
+      "url": "https://www.chfainfo.com/",
+      "status": 403,
+      "found_in": [
+        "local-resources / state:08/housingAuthority[0]"
+      ]
+    },
+    {
       "url": "https://www.ci.wheatridge.co.us/1843/Affordable-Housing-Strategy-and-Action-P",
       "status": 403,
       "found_in": [
@@ -518,13 +522,6 @@
         "policy-progress / Castle Rock / dedicated_income",
         "policy-progress / Castle Rock / hna",
         "policy-progress / Castle Rock / land_banking"
-      ]
-    },
-    {
-      "url": "https://www.crocs.com/",
-      "status": 429,
-      "found_in": [
-        "local-resources / place:0845970/majorEmployers[3]"
       ]
     },
     {
@@ -683,6 +680,13 @@
       "found_in": [
         "local-resources / county:08117/majorEmployers[5]",
         "local-resources / place:0808400/majorEmployers[1]"
+      ]
+    },
+    {
+      "url": "https://www.vail.gov/government/boards-commissions-authority-district/vail-local-housing-authority-vlha",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08037/housingAuthority[0]"
       ]
     },
     {
