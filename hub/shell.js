@@ -97,7 +97,9 @@
       ? '<a class="use-link" href="#/use?' + esc(String(new URLSearchParams({ kind: 'place-reference', geoid: e.geoid, label: e.label, href: e.href, from: location.hash || '#/' }))) + '">Use in project</a>'
       : '';
     return '<li>' + link + '<span class="status status-' + esc(e.status) + '">' + esc(STATUS[e.status]) + '</span>' +
-      (note ? '<p class="note">' + esc(note) + '</p>' : '') + use + '</li>';
+      (note ? '<p class="note"' + (e.noteTerms ? ' data-no-source="' + esc(e.noteTerms) + '"' : '') + '>' + esc(note) +
+        // A description that states a figure names the figure's dated source (scripts/build-route-catalog.js).
+        (e.noteSource ? ' Source: <a href="' + esc(e.noteSource.href) + '">' + esc(e.noteSource.label) + '</a>.' : '') + '</p>' : '') + use + '</li>';
   }
 
   function list(entries) {

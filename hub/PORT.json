@@ -17,7 +17,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "cb011d897c3f3f890097f273a1b6226c3752cdcc",
+  "commit": "399070179a7e441fcebe43fdd7defbda80cd996d",
   "dirty": false
  },
  "files": {
@@ -97,10 +97,10 @@
   "hub/rent-income.css": "ff4c8eaf18ba2dcdda43849d6f67b9e0b2a605d6c75d4fad2e8ce1f2d6732392",
   "hub/rent-income.js": "1d164a91a38d84f79d0bbd6006874ff915f789885fff3cf4aa67c3f272f6bea4",
   "hub/report.js": "71add5b9f6742529d86f39c581a00b73a0d24e1443b82247c7aebf34b553aee4",
-  "hub/route-catalog.json": "9cf116efe9b94535fea8c7a09909feb5002fd5c133a2d30be1a09ef0478d0c45",
+  "hub/route-catalog.json": "166d7dbc17f9309c294ace66dd0e69f1a22889692212d7af58b27679fb9694c5",
   "hub/sale-deal.js": "2857872c945e63c6fcd1a7250c5fec16eae1bac4ff79ca86886a57e8b3dd7678",
   "hub/shell.css": "9492461c3bb1338366ddc6eef09f529b8109427c8182a844704a5fb2d1125a2e",
-  "hub/shell.js": "5b89cfcadad8549b54ffd5e785fc4aba789567d1a50ba9966a1c4bfed319e42a",
+  "hub/shell.js": "cf6d128148613c13945bd2440b1a8f444eec3c2814fb44ed6d8a8c52d27ecc91",
   "hub/small-pages.css": "c873d07280dbee49b8c1446e21377f83a31b1be765d3bad3ad868127afdffd15",
   "hub/strength.js": "c747d61b143cc2cfeffb6351a196720ecf848e965fecffeb20efebaab58597ad",
   "hub/templates.css": "aad26d57357bbe33b97e19c52b12271c32c80c8c20fc0d689f08e97ac4cc4c1b",
@@ -138,7 +138,7 @@
   "js/components/housing-type-need.js": "606ebfa3f16fe291907f66cc98fdeb4e0ff0e36921c76612ffb12abec05a7a8d",
   "js/local-incentives-data.js": "f1ad486017680b9af8781485def973e6f3294634c0ae96542c7e0a27cebc55a5",
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
-  "js/data-source-inventory.js": "43ca75545c71f989cc6e8050dcfc2f068efe644502192300940a2f7bd88e7f6f",
+  "js/data-source-inventory.js": "9f7078adb2a9e5c4c27241b1b0da4e84e0fc94d26044bcdc325c7511ae8a4c60",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
   "js/hna/hna-ownership-need.js": "ac73544c0944cc118fc954594e96e9474a92ef60e37ff516ef2b3cc5b07514a0",
   "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",
