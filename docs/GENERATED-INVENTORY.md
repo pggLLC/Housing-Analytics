@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-12T15:38:37.599Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-13T08:58:19.371Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-84 pages found.
+85 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -79,6 +79,7 @@
 | `methods.html` | Computational Methods | COHO Analytics | 88.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
+| `places-hub.html` | Places and need · COHO Analytics | 6.7 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 53.1 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
@@ -325,7 +326,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 303.6 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 303.9 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.5 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
@@ -2091,7 +2092,7 @@
 
 ## Test Files
 
-795 test files found.
+796 test files found.
 
 | File | Size |
 |------|------|
@@ -2521,7 +2522,7 @@
 | `test/mortgage-rate-one-source.test.js` | 12.7 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/navigation-pill-label.test.js` | 2.7 KB |
-| `test/navigation-reaches-every-page.test.mjs` | 5.9 KB |
+| `test/navigation-reaches-every-page.test.mjs` | 6.1 KB |
 | `test/need-severity-is-place-level.test.mjs` | 16.0 KB |
 | `test/neuro-inclusive-brief.test.mjs` | 5.6 KB |
 | `test/next-step-link.test.js` | 8.7 KB |
@@ -2572,6 +2573,7 @@
 | `test/place-glossary-path.test.js` | 1.5 KB |
 | `test/place-lehd-apportionment.test.js` | 4.8 KB |
 | `test/place-pages.test.js` | 6.9 KB |
+| `test/places-hub-port.test.js` | 7.3 KB |
 | `test/planned-sources-are-not-unknown.test.js` | 8.1 KB |
 | `test/pma-affordable-supply-label.test.js` | 3.0 KB |
 | `test/pma-affordable-supply-units.test.js` | 9.1 KB |
