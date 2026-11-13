@@ -109,10 +109,10 @@ test('a page that is not a guide is never forwarded', () => {
 
 test('the forward runs before the page paints: the script is the first one each guide page loads, in the head, not deferred', () => {
   pages.forEach((page) => {
-    const html = read(page), head = html.slice(0, html.indexOf('</head>'));
-    const first = /<script\b[^>]*>/.exec(head);
-    assert.ok(first && /src="js\/path-resolver\.js"/.test(first[0]) && !/\b(defer|async)\b|type="module"/.test(first[0]),
-      page + ': the first script in <head> is ' + (first ? first[0] : 'missing') + ', not a plain js/path-resolver.js');
+    // Read as a browser reads it (no pattern over the markup): the first script element in <head>.
+    const first = new JSDOM(read(page)).window.document.head.querySelector('script');
+    assert.ok(first && first.getAttribute('src') === 'js/path-resolver.js' && !first.hasAttribute('defer') && !first.hasAttribute('async') && first.getAttribute('type') !== 'module',
+      page + ': the first script in <head> is ' + (first ? first.outerHTML : 'missing') + ', not a plain js/path-resolver.js');
   });
 });
 
