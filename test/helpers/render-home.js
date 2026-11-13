@@ -52,7 +52,7 @@ function start(files) {
   win.window = win;
   vm.createContext(ctx);
   const page = fs.readFileSync(at('index.html'), 'utf8');
-  const scripts = [...page.matchAll(/<script src="([^"]+)"><\/script>/g)].map((m) => m[1]);
+  const scripts = [...page.matchAll(/<script\b[^>]*\bsrc="([^"]+)"[^>]*>\s*<\/script[^>]*>/gi)].map((m) => m[1]);
   const SKIP = /^hub\/(lab-config|shell)\.js$/;
   // Four files cannot start without a real document. Home's words do not come from them, so they are left out
   // by name. Any other file that fails to start is a broken page, and the load stops there: a browser would
@@ -114,7 +114,7 @@ async function renderHomeReturning(place, query) {
   try { return await renderHome(query); } finally { delete win.localStorage; }
 }
 // Tags out, then entities; `&amp;` last, so an escaped entity ("&amp;lt;") comes out as the text it stands for.
-const text = (html) => String(html).replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, ' ').replace(/<[^>]+>/g, ' ')
+const text = (html) => String(html).replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1[^>]*>/gi, ' ').replace(/<[^>]+>/g, ' ')
   .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&nbsp;|\u00a0/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
 
 
