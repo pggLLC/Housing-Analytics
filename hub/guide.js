@@ -421,7 +421,17 @@
     }, 0);
     // An anchor from the guide's own page (its address before the move) lands on the part that holds it.
     var held = at ? g.sections.filter(function (x) { return x.id === at || (x.ids || []).indexOf(at) > -1; })[0] : null;
-    if (at) setTimeout(function () { var el = document.getElementById(at) || (held && document.getElementById('g-' + held.id)); if (el) { Array.prototype.forEach.call(el.querySelectorAll('details.g-more'), function (d) { d.open = true; }); el.scrollIntoView({ block: 'start' }); } }, 0);
+    if (at) setTimeout(function () {
+      // The exact element the page's anchor named, when the guide kept it; else the part that held it.
+      var named = Array.prototype.filter.call(document.querySelectorAll('.guide-body [data-at]'), function (n) { return n.getAttribute('data-at') === at; })[0];
+      var el = document.getElementById(at) || named || (held && document.getElementById('g-' + held.id));
+      if (!el) return;
+      // Every fold around it opens, so the link shows what it pointed at; a part jumped to opens its "read the rest".
+      for (var up = el.parentNode; up && up !== document; up = up.parentNode) if (up.tagName === 'DETAILS') up.open = true;
+      if (el.tagName === 'DETAILS') el.open = true;
+      Array.prototype.forEach.call(el.querySelectorAll('details.g-more'), function (d) { d.open = true; });
+      el.scrollIntoView({ block: 'start' });
+    }, 0);
     return page;
   }
 

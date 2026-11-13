@@ -68,7 +68,11 @@
       if (!KEEP.has(tag)) { el.replaceWith(...el.childNodes); return; }
       const classes = (el.getAttribute('class') || '').split(/\s+/).map(CLASS).filter(Boolean);
       const keep = ATTRS[tag] || [];
+      // The page's own anchor on this element is kept as data-at (not as an id, which could clash with the
+      // page it is drawn into), so a link to it can open the fold it sits in and land on it.
+      const own = el.getAttribute('id');
       [...el.attributes].forEach(a => { if (keep.indexOf(a.name) < 0) el.removeAttribute(a.name); });
+      if (own && /^[A-Za-z0-9_-]{1,80}$/.test(own)) el.setAttribute('data-at', own);
       if (classes.length) el.setAttribute('class', classes.join(' '));
       if (tag === 'a') {
         const to = linkFor(el.getAttribute('href'), o);
