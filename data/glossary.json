@@ -1389,7 +1389,7 @@
       "aliases": [
         "Need Score"
       ],
-      "definition": "This site's 0–100 ranking index for a county, town or CDP: 55% community need and 45% opportunity. Need blends the housing gap, cost burden, affordability, future pressure and overcrowding. Opportunity blends economic mobility, walkability, amenities and QCT or DDA status. Each input is a percentile among places of the same type, so the score is relative.",
+      "definition": "This site's 0–100 ranking index for a county, town or CDP: 55% community need and 45% opportunity. Need blends the housing gap, cost burden, affordability, future pressure and overcrowding. Opportunity blends economic mobility, walkability, amenities and QCT or DDA status. Nearly every input is a percentile among places of the same type, so the score is relative.",
       "source": {
         "name": "This site's Methods page, section 06",
         "url": "https://cohoanalytics.com/methods.html#m-score"
@@ -1439,7 +1439,7 @@
     {
       "term": "Civic Readiness",
       "label": "Civic readiness",
-      "definition": "A part of this site's Opportunity Finder score that counts the local housing tools a place has on record, out of seven: a housing needs assessment, a Prop 123 commitment, a housing authority, housing nonprofits, a comprehensive plan, an inclusionary zoning ordinance and local funding. A place with no record of its own uses its county's.",
+      "definition": "A part of this site's Opportunity Finder score that counts the local housing tools a place has on record, up to seven: a housing needs assessment, a Prop 123 commitment, a housing authority, housing nonprofits, a comprehensive plan, an inclusionary zoning ordinance and local funding. A place with no record of its own uses its county's.",
       "source": {
         "name": "This site's housing policy scorecard data",
         "url": "https://cohoanalytics.com/data/policy/housing-policy-scorecard.json"
