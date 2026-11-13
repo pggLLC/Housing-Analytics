@@ -105,7 +105,7 @@
     });
     rows.sort(function (a, b) { return b[1] - a[1]; });
     return out + Viz.orderedBars({ title: 'Share of a town\u2019s primary jobs held by people who live outside it, 2023', answer: 'In most of these job centers, more than half the jobs go to people who drive in.',
-      rows: rows, noShare: true, color: 'var(--c-green)', fmt: pct, source: 'LEHD LODES 2024, primary jobs, Colorado homes only (' + esc(s.data.commute.meta.lodes_year) + ' file on cohoanalytics.com)' });
+      rows: rows, noShare: true, color: 'var(--c-green)', fmt: pct, source: 'LEHD LODES 2024, primary jobs, Colorado homes only (' + esc(s.data.commute.meta.lodes_year) + ' file, COHO copy)' });
   }
 
   // The guide's three parties and what passes between them, drawn from its own sentences:
@@ -357,7 +357,7 @@
   function guideView(params, parts) {
     var slug = parts[1];
     var conf = GUIDES[slug];
-    if (!conf) return '<h1>Guide not in the lab</h1><p class="lede">There is no lab guide at this address.</p><p><a href="#/guides">Policy &amp; research</a></p>';
+    if (!conf) return '<h1>Guide not found</h1><p class="lede">There is no guide at this address.</p><p><a href="#/guides">Policy &amp; research</a></p>';
     var c = load(slug);
     if (c.error) return '<h1>Guide</h1><p class="callout">' + esc(c.error) + '</p>';
     if (!c.guide) return '<h1>Loading the guide</h1><p role="status" class="note">Loading…</p>';
@@ -384,9 +384,9 @@
     var page = T.head({
       kind: 'guide', crumbs: conf.crumbs ? conf.crumbs.concat([{ label: g.title }]) : T.trail(conf.menu, g.title), title: g.title, answer: esc(g.lede),
       meta: g.draft ? 'Written ' + esc(g.draft.written) + '. Every figure links its source.'
-        : g.livePage ? 'From the <a href="' + esc(g.live) + '">' + esc(g.livePage) + '</a> page on cohoanalytics.com, below the calculator.'
+        : g.livePage ? 'From the full <a href="' + esc(g.live) + '">' + esc(g.livePage) + '</a> page, below the calculator.'
         : g.here ? gStamp
-        : 'From the <a href="' + esc(g.live) + '">' + esc(g.title) + '</a> guide on cohoanalytics.com.' + (gStamp ? ' ' + gStamp : ''),
+        : 'From the full <a href="' + esc(g.live) + '">' + esc(g.title) + '</a> guide.' + (gStamp ? ' ' + gStamp : ''),
       facts: conf.facts
     }) + (conf.download ? T.printBar({ word: 'coho-' + slug }) : '') +
       // The live page's own header lines: its disclaimer, kind and dated byline.
@@ -402,7 +402,7 @@
       (hasStart ? '<section id="g-start" tabindex="-1"><h2>' + esc(startTitle) + '</h2>' + (conf.fold ? g.intro : shortened(null, g.intro)) + (conf.diagram ? conf.diagram(g) : '') + '</section>' : '') +
       g.sections.map(function (s) {
         return '<section id="g-' + esc(s.id) + '" tabindex="-1"' + (s.lang ? ' lang="' + esc(s.lang) + '"' : '') + '><h2>' + esc(s.title) + '</h2>' + (ins[s.id] ? ins[s.id](folded(s, conf), params) : folded(s, conf)) +
-          (s.liveFilled && !ins[s.id] ? '<p class="callout live-filled"><a href="' + esc(g.live) + '">More figures for this part on cohoanalytics.com</a>.</p>' : '') + '</section>';
+          (s.liveFilled && !ins[s.id] ? '<p class="callout live-filled"><a href="' + esc(g.live) + '">More figures for this part in the full guide</a>.</p>' : '') + '</section>';
       }).join('') +
       T.next('Next', conf.next) +
       '</article></div>';

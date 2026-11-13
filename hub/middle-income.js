@@ -98,7 +98,7 @@
       src([['plan26', 'p. 40'], 'chfaLimits']) +
       '<h3>Awards so far</h3>' +
       (rows ? '<div class="table-wrap mi-table-wrap"><table class="mi-table"><caption>MIHTC properties in CHFA’s property records</caption><thead><tr><th scope="col">Property</th><th scope="col">City</th><th scope="col">Year</th><th scope="col">Homes</th><th scope="col">At 80% AMI</th><th scope="col">At 100% AMI</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-        '<p class="metric-source">Source: <a href="https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers">CHFA tax credit property records</a>, as published on the live site' + (fetched ? ', fetched ' + esc(String(fetched).slice(0, 10)) : '') + '.</p>' : '<p class="callout">CHFA’s property records list no MIHTC award yet.</p>') +
+        '<p class="metric-source">Source: <a href="https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/layers">CHFA tax credit property records</a>, as copied by COHO' + (fetched ? ', fetched ' + esc(String(fetched).slice(0, 10)) : '') + '.</p>' : '<p class="callout">CHFA’s property records list no MIHTC award yet.</p>') +
       '<p>CHFA’s 2026 award report lists one more: Lumberyard Apartments in Aspen, 118 MIHTC homes of 173, $2.89 million requested.</p>' + src(['award26']) +
       '<h3>What changes next</h3>' +
       '<p>CHFA held the hearing on its 2027 draft plan on 29 October 2026. The draft raises the credit to $10 million and lowers the smallest application to $1 million. Check the adopted plan before relying on any figure here.</p>' + src(['draft27', 'mihtc']));
@@ -135,7 +135,7 @@
       '<ul class="mi-list">' +
       '<li>Homes at 110% and 120% AMI are planning bands: their rents come from CHFA’s published tiers, and they earn no credit.</li>' +
       '<li>MIHTC is not sized yet. A deal of only middle-income homes shows no credit equity. It will be added when CHFA adopts its 2027 plan, so the rent rule and amounts are settled.</li>' +
-      '<li>For Prop 123, choose the Prop 123 rent setting on the live Deal Calculator, with the program and any approved petition. Saved rent schedules use CHFA limits only.</li>' +
+      '<li>For Prop 123, choose the Prop 123 rent setting on the full Deal Calculator, with the program and any approved petition. Saved rent schedules use CHFA limits only.</li>' +
       '</ul>');
   }
 

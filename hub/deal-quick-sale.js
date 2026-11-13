@@ -91,7 +91,7 @@
         return '<p class="note" data-outside-county="' + esc(p.id) + '">' + esc(p.name) + ': ' + esc(p.reason) + (p.jurisdictionScope ? ' (' + esc(p.jurisdictionScope) + ' only)' : '') + '; not counted.</p>';
       }).join('');
     var verify = stack.verifySources || [];
-    if (gap && verify.length) out += '<p class="note">' + verify.length + ' more sources (Prop 123, FHLBank, USDA, local fee waivers and others) have no screening amount; the <a href="' + LIVE_TOOL + '">live calculator ↗</a> lists them.</p>';
+    if (gap && verify.length) out += '<p class="note">' + verify.length + ' more sources (Prop 123, FHLBank, USDA, local fee waivers and others) have no screening amount; the <a href="' + LIVE_TOOL + '">full Deal Calculator ↗</a> lists them.</p>';
     return out;
   }
 

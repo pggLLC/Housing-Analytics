@@ -163,7 +163,7 @@
     var id = spec[0], title = spec[1], fmt = spec[2], units = spec[3], what = spec[4];
     var s = obs(fred, id), f = freq(fred, id);
     var head = '<h4><a href="' + esc(fredLink(id)) + '">' + esc(title) + '</a></h4>';
-    if (!s.length) return '<li class="econ-card econ-off">' + head + '<p class="econ-v">Not in this copy of the data</p><p class="econ-what">' + esc(what) + ' FRED series ' + esc(id) + '.</p></li>';
+    if (!s.length) return '<li class="econ-card econ-off">' + head + '<p class="econ-v">Not in the data yet</p><p class="econ-what">' + esc(what) + ' FRED series ' + esc(id) + '.</p></li>';
     var last = s[s.length - 1], c = change(s, fmt), win = s.slice(-120);
     return '<li class="econ-card' + (geo === 'co' ? ' econ-co' : '') + '">' + head +
       '<p class="econ-v">' + esc(fmtValue(last.value, fmt, units)) + '</p>' +
@@ -193,7 +193,7 @@
   /* ── 1. What money costs ── */
   function money(fred, since) {
     var t10 = obs(fred, 'DGS10'), m30 = obs(fred, 'MORTGAGE30US'), sofr = obs(fred, 'SOFR');
-    if (!t10.length) return section('econ-money', 'What money costs', '', '<p class="callout">The rate series are not in this copy of the data.</p>');
+    if (!t10.length) return section('econ-money', 'What money costs', '', '<p class="callout">The rate series are not in the data yet.</p>');
     var l = t10[t10.length - 1].value, i3 = backIndex(t10, 3), i12 = yearAgoIndex(t10);
     var d3 = i3 > -1 ? l - t10[i3].value : NaN, d12 = i12 > -1 ? l - t10[i12].value : NaN;
     var read = 'The 10-year Treasury, which prices most permanent loans, is ' + pct(l, 2) + ': ' +
@@ -250,7 +250,7 @@
   /* ── 3. Is the Colorado pipeline growing? ── */
   function pipeline(fred, since) {
     var p = obs(fred, 'COBPPRIV');
-    if (!p.length) return section('econ-pipeline', 'Is the Colorado pipeline growing?', '', '<p class="callout">Colorado permits are not in this copy of the data.</p>' + usFold(fred, 'pipeline', 'National starts, permits and completions', ''));
+    if (!p.length) return section('econ-pipeline', 'Is the Colorado pipeline growing?', '', '<p class="callout">Colorado permits are not in the data yet.</p>' + usFold(fred, 'pipeline', 'National starts, permits and completions', ''));
     var last = p[p.length - 1], ly = +last.date.slice(0, 4), lm = +last.date.slice(5, 7), now = 0, prev = 0;
     p.forEach(function (o) { var y = +o.date.slice(0, 4), m = +o.date.slice(5, 7); if (m <= lm) { if (y === ly) now += o.value; if (y === ly - 1) prev += o.value; } });
     var ytd = prev ? (now / prev - 1) * 100 : NaN, yi = yearAgoIndex(p), mo = yi > -1 ? (last.value / p[yi].value - 1) * 100 : NaN;
@@ -395,7 +395,7 @@
     }).join('') + '</ul>';
   }
   function kalshi(k) {
-    if (!k || !Array.isArray(k.items) || !k.items.length) return '<p class="note">Kalshi odds are not in this copy of the data. They are saved weekly.</p>';
+    if (!k || !Array.isArray(k.items) || !k.items.length) return '<p class="note">Kalshi odds are not in the data yet. They are saved weekly.</p>';
     var quiet = [];
     var cards = k.items.map(function (it) {
       var mk = it.market || {}, outs = ladderChecked(it.outcomes || []);
@@ -428,7 +428,7 @@
   function polyCard(e, ev) {
     var ms = parse(ev), all = ms.length && ms.every(function (m) { return m.settled; }), body = '', head = '';
     var has = function (w) { return ms.reduce(function (t, m) { return t + (m.q.toLowerCase().indexOf(w) > -1 ? m.prob : 0); }, 0); };
-    if (!ms.length) body = '<p class="econ-what">No prices in this copy of the data.</p>';
+    if (!ms.length) body = '<p class="econ-what">No prices in the data yet.</p>';
     else if (e.role === 'recession' || e.role === 'up-down') {
       var y = e.role === 'up-down' ? (ms.filter(function (m) { return /up/i.test(m.q); })[0] || ms[0]).prob : ms[ms.length - 1].prob;
       head = all ? 'Settled' : Math.round(y * 100) + '% ' + (e.role === 'up-down' ? 'up' : 'yes');
@@ -455,7 +455,7 @@
       '<p class="econ-what">' + (ms.length ? 'Traded ' + esc(vol(ms)) + '. ' : '') + link('View on Polymarket', 'https://polymarket.com/event/' + encodeURIComponent(e.slug)) + '</p></li>';
   }
   function polymarket(p, c) {
-    if (!p || !c || !p.events) return '<p class="note">Polymarket odds are not in this copy of the data. They are saved daily.</p>';
+    if (!p || !c || !p.events) return '<p class="note">Polymarket odds are not in the data yet. They are saved daily.</p>';
     var live = (c.events || []).filter(function (e) { return p.events[e.slug]; });
     var dropped = (c.events || []).length - live.length;
     var first = function (role) { return live.filter(function (e) { return e.role === role; }).map(function (e) { return { e: e, ms: parse(p.events[e.slug]) }; }).filter(function (x) { return x.ms.length && !x.ms.every(function (m) { return m.settled; }); })[0]; };

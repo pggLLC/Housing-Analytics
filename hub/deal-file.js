@@ -43,11 +43,11 @@
   function decode(code) {
     return Promise.resolve().then(function () {
       code = String(code || '');
-      if (code.length > MAX_CHARS) throw new Error('The link is too long to be a lab deal.');
+      if (code.length > MAX_CHARS) throw new Error('The link is too long to be a COHO deal link.');
       var kind = code.charAt(0), bytes = fromB64url(code.slice(1));
       if (kind === 'z') { if (!canSqueeze) throw new Error('This browser cannot read a compressed link. Ask for the deal file instead.'); return squeeze(bytes, 'in'); }
       if (kind === 'j') return bytes;
-      throw new Error('This link is not a lab deal link.');
+      throw new Error('This link is not a COHO deal link.');
     }).then(function (bytes) { return JSON.parse(new TextDecoder().decode(bytes)); });
   }
   function shareUrl(code) { return location.href.split('#')[0] + '#/open-deal?d=' + code; }
@@ -111,7 +111,7 @@
       (pkg.exportedAt ? ' · shared ' + esc(Shell.when(pkg.exportedAt)) : '') + '</p>' +
       (rows ? '<ul class="deal-contents">' + rows + '</ul>' : '<p>No saved evidence.</p>') +
       (draft ? '<p>Financials inputs: ' + esc(String(entered)) + ' cost lines entered' + (draft.fields && draft.fields['dc-tdc'] ? ', total development cost $' + esc(Number(draft.fields['dc-tdc']).toLocaleString('en-US')) : '') + '.</p>' : '<p>No Financials inputs yet.</p>') +
-      '<p class="note">Opening makes a new project in this browser. Projects already here are not changed. Reviews are not carried, so check the evidence again before you mark it reviewed. The homes and rents are rerun on the public site’s CHFA rent code when you open it.</p>' +
+      '<p class="note">Opening makes a new project in this browser. Projects already here are not changed. Reviews are not carried, so check the evidence again before you mark it reviewed. The homes and rents are rerun on the site’s CHFA rent code when you open it.</p>' +
       '<div class="actions"><button type="button" data-action="deal-open" data-key="' + esc(key) + '">Open as a new project</button>' +
       '<a class="button-link secondary" href="#/projects">Not now</a></div></div>';
   }
@@ -207,12 +207,12 @@
       var input = ev.target;
       if (!input || input.dataset.action !== 'deal-file-pick' || !input.files || !input.files[0]) return;
       var f = input.files[0];
-      if (f.size > MAX_CHARS) { waiting.file = { problem: 'That file is too large to be a lab deal file.' }; location.hash = '#/open-deal?from=file'; Shell.render(); return; }
+      if (f.size > MAX_CHARS) { waiting.file = { problem: 'That file is too large to be a COHO deal file.' }; location.hash = '#/open-deal?from=file'; Shell.render(); return; }
       waiting.file = { reading: true };
       f.text().then(function (t) {
         var pkg = JSON.parse(t);
         waiting.file = { pkg: pkg, how: 'deal-file', problem: P.packageProblem(pkg) };
-      }).catch(function () { waiting.file = { problem: 'That file could not be read as a lab deal file.' }; })
+      }).catch(function () { waiting.file = { problem: 'That file could not be read as a COHO deal file.' }; })
         .then(function () { if (location.hash === '#/open-deal?from=file') Shell.render(); else location.hash = '#/open-deal?from=file'; });
     });
   }
@@ -223,8 +223,8 @@
     if (!o) return '';
     var from = (o.how === 'share-link' ? 'a share link' : 'a deal file') + ' on ' + Shell.when(o.openedAt);
     return o.scheduleMatched === false
-      ? '<p class="callout" role="status">Opened from ' + esc(from) + '. Its homes and rents differ from a rerun on the public site’s CHFA rent code, so the rerun is what you see. Ask the sender which CHFA table they used.</p>'
-      : '<p class="note">Opened from ' + esc(from) + (o.scheduleMatched ? '. Its homes and rents were rerun on the public site’s CHFA rent code and match the deal as shared.' : '.') + '</p>';
+      ? '<p class="callout" role="status">Opened from ' + esc(from) + '. Its homes and rents differ from a rerun on the site’s CHFA rent code, so the rerun is what you see. Ask the sender which CHFA table they used.</p>'
+      : '<p class="note">Opened from ' + esc(from) + (o.scheduleMatched ? '. Its homes and rents were rerun on the site’s CHFA rent code and match the deal as shared.' : '.') + '</p>';
   }
 
   global.LabDealFile = { encode: encode, decode: decode, panel: panel, picker: picker, openedNote: openedNote, fileName: fileName, rerunSchedule: rerunSchedule, printFull: printFull };

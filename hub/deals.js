@@ -106,7 +106,7 @@
       (d.next_step ? '<p><strong>Next step:</strong> ' + esc(d.next_step) + '</p>' : '') +
       T.onThisPage(sec.map(function (x) { return { id: x.id, title: x.title }; }), true) +
       sec.map(function (x) { return '<section id="' + x.id + '" tabindex="-1"><h2>' + esc(x.title) + '</h2>' + x.html + '</section>'; }).join('') +
-      '<p class="note">Researched ' + esc(d.researched_on || '') + ' from public records. Amounts on CHFA award reports are marked subject to change until closing. <a href="' + esc(LIVE + '?d=' + slug) + '">This summary on cohoanalytics.com</a>.</p>' +
+      '<p class="note">Researched ' + esc(d.researched_on || '') + ' from public records. Amounts on CHFA award reports are marked subject to change until closing. <a href="' + esc(LIVE + '?d=' + slug) + '">This summary on the Deal Summaries page</a>.</p>' +
       T.next('Next', [{ href: '#/deals', label: 'Every deal summary →' }, { href: '#/deal-calculator', label: 'Test a similar deal', secondary: true }]);
   }
 

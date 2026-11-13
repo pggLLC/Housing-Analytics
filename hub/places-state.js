@@ -154,7 +154,7 @@
       series: { years: years, main: pick(rows, 'homesNeeded'), alt: isDefault ? null : pick(sdoRows, 'homesNeeded'), low: band.length ? pick(band, 'low') : null, high: band.length ? pick(band, 'high') : null },
       labels: { main: isDefault ? 'State forecast' : 'Your scenario', alt: 'State forecast', band: 'Where 2 in 3 past forecasts landed' },
       answer: fig ? (isDefault ? 'The state forecast' : 'Your scenario') + ' needs ' + num(fig.growth) + ' more homes for residents by ' + fig.year + (isDefault || !figSdo ? '.' : ', against ' + num(figSdo.growth) + ' in the state forecast.') : '',
-      note: 'Homes are the rise in households divided by one minus the county’s target vacancy' + (ctx.counties.length === 1 && ctx.counties[0].vacancy != null ? ' (' + (Math.round(ctx.counties[0].vacancy * 1000) / 10) + '% here)' : '') + ', as on the needs assessment; this tool holds it fixed, and the full scenario builder on cohoanalytics.com shows it. The shaded range is how far past forecasts for places this size missed.',
+      note: 'Homes are the rise in households divided by one minus the county’s target vacancy' + (ctx.counties.length === 1 && ctx.counties[0].vacancy != null ? ' (' + (Math.round(ctx.counties[0].vacancy * 1000) / 10) + '% here)' : '') + ', as on the needs assessment; this tool holds it fixed, and the full Scenario Builder shows it. The shaded range is how far past forecasts for places this size missed.',
       source: '<a href="' + SDO + '">Colorado State Demography Office forecast</a>, ' + esc(String(ctx.counties[0].baseline.vintage || '').replace(/\s+Prepared\s+/i, ', prepared '))
     });
     var end = horizon[horizon.length - 1];
@@ -198,7 +198,7 @@
       '<div class="metric"><p class="metric-label">Homes needed by ' + esc(fig ? fig.year : '') + '</p><p class="metric-value">' + esc(fig ? num(fig.total) : '—') + '</p><p class="metric-detail">' + esc(fig && fig.inCommuters != null ? num(fig.growth) + ' for growth, ' + num(fig.inCommuters) + ' for in-commuters' : 'For growth') + '</p></div>' +
       '<div class="metric"><p class="metric-label">People in ' + esc(end.year) + '</p><p class="metric-value">' + esc(end.population == null ? '—' : num(end.population)) + '</p><p class="metric-detail">From ' + esc(rows[0].population == null ? '—' : num(rows[0].population)) + ' in ' + esc(rows[0].year) + '</p></div>' +
       '<div class="metric"><p class="metric-label">Households added</p><p class="metric-value">' + esc(num(end.householdsAdded)) + '</p><p class="metric-detail">' + esc(rows[0].year + ' to ' + end.year) + '</p></div></div>' +
-      chart + '<p class="note">This page keeps your settings in its link, so you can copy the address to share it. Saved scenarios are a member feature on the live site.</p></section></div>' +
+      chart + '<p class="note">This page keeps your settings in its link, so you can copy the address to share it. Saved scenarios are a member feature.</p></section></div>' +
       '<h2>Year by year</h2>' + UI.table('sc-years', 'Every fifth year of the scenario', [
         { key: 'year', label: 'Year' },
         { key: 'pop', label: 'People', num: true, fmt: num },
@@ -210,7 +210,7 @@
       (global.LabVizData ? '<p class="viz-data-csv"><a class="button-link secondary" download="' + esc('coho-scenario-' + g + (isDefault ? '-state-forecast' : '-your-scenario')) + '.csv" href="data:text/csv;charset=utf-8,' + encodeURIComponent('\ufeff' + global.LabVizData.csvText(
         ['Year', 'People', 'Households added', isDefault ? 'Homes needed' : 'Homes needed, your scenario', 'Homes needed, state forecast'],
         horizon.map(function (x) { var b = sdoRows.filter(function (y) { return y.year === x.year; })[0]; return [x.year, x.population, x.householdsAdded, x.homesNeeded, b ? b.homesNeeded : null]; }))) + '">Download every year as CSV</a></p>' : '') +
-      T.source('Scenario builder on cohoanalytics.com', SB_SRC + '?geoid=' + g) +
+      T.source('COHO Scenario Builder', SB_SRC + '?geoid=' + g) +
       T.next('Next', [{ href: '#/place/' + g, label: 'Full needs assessment for ' + geo.name + ' →' }, { href: '#/places/ranking', label: 'HNA ranking', secondary: true }]);
   }
   // Settings write into the address and redraw; the field being moved keeps focus. A slider shows its
@@ -284,7 +284,7 @@
     var fred = s.data.fred, since = (new Date().getFullYear() - 6) + '-01-01';
     var last = function (id) { var a = fredSeries(fred, id); return a[a.length - 1]; };
     var mort = last('MORTGAGE30US'), t10 = last('DGS10'), sofr = last('SOFR'), cour = last('COUR');
-    if (!mort || !t10) return T.head({ kind: 'data', crumbs: T.trail('places', title), title: title }) + '<p class="callout">The rate series are not in this copy of the data.</p>';
+    if (!mort || !t10) return T.head({ kind: 'data', crumbs: T.trail('places', title), title: title }) + '<p class="callout">The rate series are not in the data yet.</p>';
     var mortY = fredSeries(fred, 'MORTGAGE30US').filter(function (p) { return p[0] <= new Date(mort[0].getFullYear() - 1, mort[0].getMonth(), mort[0].getDate() + 3); }).pop();
     var rates = Viz.timeLines({
       title: 'Borrowing costs since ' + since.slice(0, 4),
@@ -346,7 +346,7 @@
         { key: 'year', label: 'A year earlier', num: true },
         { key: 'note', label: 'What it is' }
       ], rows, { noun: 'measures', placeholder: 'Measure' }) +
-      '<p>Market odds on rates and the economy, and multifamily rent benchmarks, stay on <a href="' + ECON_SRC + '">the live economic dashboard ↗</a>.</p>' +
+      '<p>Market odds on rates and the economy, and multifamily rent benchmarks, stay on <a href="' + ECON_SRC + '">the full Economic Dashboard ↗</a>.</p>' +
       T.source('Federal Reserve Bank of St. Louis (FRED), as gathered by COHO', 'https://fred.stlouisfed.org/', String(fred.updated || '').slice(0, 10)) +
       T.next('Next', [{ href: '#/places/costs', label: 'Construction costs →' }, { href: '#/equity-pricing', label: 'Tax credit prices', secondary: true }]);
   }
@@ -407,7 +407,7 @@
       '<h2>Every county</h2>' + UI.table('cc', 'Housing costs by county', [
         { key: 'county', label: 'County', href: function (r) { return q('county-costs', params, 'county', r.key); } }
       ].concat(HC.map(function (h) { return { key: h[0], label: h[1], num: true, fmt: h[3], tip: h[4] }; })), rows, { noun: 'counties', placeholder: 'County' }) +
-      '<p>How each county changed over ten years, and the article’s construction wage maps, stay on <a href="' + HC_SRC + '">the live page ↗</a>. Ten-year trends for towns are in each place’s needs assessment.</p>' +
+      '<p>How each county changed over ten years, and the article’s construction wage maps, stay on <a href="' + HC_SRC + '">the full article ↗</a>. Ten-year trends for towns are in each place’s needs assessment.</p>' +
       T.source('Census ACS five-year estimates and Building Permits Survey, as the needs assessment reads them', HC_SRC, String(s.data.ranking.metadata.generatedAt).slice(0, 10)) +
       T.next('Next', [{ href: '#/places/ranking', label: 'HNA ranking →' }, { href: '#/places/economy', label: 'Economic dashboard', secondary: true }]);
   }
@@ -478,7 +478,7 @@
         { key: 'lihtc', label: 'Tax credit buildings', num: true, fmt: num },
         { key: 'gap', label: 'Homes short at 30% AMI', num: true, fmt: num, tip: 'Renter households at or below 30% of area median income, less homes priced for them (ACS 5-year with HUD income limits)' }
       ], counties, { noun: 'counties', placeholder: 'County' }) +
-      '<p>Year built, statewide leaderboards from the live Census feed and tax credit maps stay on <a href="' + MF_SRC + '">the live Multifamily lens ↗</a>.</p>' +
+      '<p>Year built, statewide leaderboards read straight from the Census and tax credit maps stay on <a href="' + MF_SRC + '">the full Multifamily lens ↗</a>.</p>' +
       T.source('Census ACS 5-year profile (DP04) and the HNA ranking', MF_SRC, String(f.data.sum.updated || '').slice(0, 10)) +
       T.next('Next', [{ href: g === '08' ? '#/places' : '#/place/' + g, label: g === '08' ? 'Find a place →' : 'Full needs assessment →' }, { href: '#/places/county-costs', label: 'Housing costs by county', secondary: true }]);
   }
@@ -562,7 +562,7 @@
         ['#/data/map?layer=qct', 'Data map', 'Qualified census tracts, difficult development areas and tax credit buildings.'],
         ['#/opportunity/preservation', 'Preservation inventory', 'Affordable homes that could be lost, and when.']
       ].map(function (c) { return '<a class="hub-card research-card" href="' + c[0] + '"><span class="hub-card-title">' + esc(c[1]) + '</span><span class="hub-card-desc">' + esc(c[2]) + '</span></a>'; }).join('') + '</div>' +
-      '<p>Concessions, foreclosure, lender volume and market confidence stay on <a href="' + DD_SRC + '">the live deep dive ↗</a>.</p>' +
+      '<p>Concessions, foreclosure, lender volume and market confidence stay on <a href="' + DD_SRC + '">the full Colorado Deep Dive ↗</a>.</p>' +
       T.source('HUD income limits, Census ACS B25118 and B25063, CHFA and OEDIT award lists', DD_SRC, String(fvn.meta.generatedAt).slice(0, 10)) +
       T.next('Next', [{ href: '#/places/ranking', label: 'HNA ranking →' }, { href: '#/money', label: 'Where the money goes', secondary: true }]);
   }

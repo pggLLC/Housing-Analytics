@@ -466,7 +466,7 @@
       (q.state.on ? card('stateEquity', 'State credit equity', r.stateEquity, why('stateEquity'), 'If CHFA awards it, in credit year ' + esc(String(q.year)) + ', at $' + Number(q.state.price).toFixed(2) + (Number(q.state.price) === STATE_PRICE ? ' (COHO starting assumption)' : '') + '.') : '') +
       card('mortgage', 'First mortgage', r.mortgage, why('mortgage')) +
       (soft > 0 ? card('soft', 'Gap funding', soft) : '') +
-      card('deferredDevFee', 'Deferred developer fee', r.deferredDevFee, why('deferredDevFee'), 'Up to 40% of the fee, as the live page defers.') +
+      card('deferredDevFee', 'Deferred developer fee', r.deferredDevFee, why('deferredDevFee'), 'Up to 40% of the fee, as the full Deal Calculator defers.') +
       card('gap', 'Funding gap', r.gap, why('gap'), gapExtra);
     // What pays for the project, as shares of the cost.
     var parts = [['Federal credit equity', r.equity, 'equity'], ['State credit equity', r.stateEquity, 'equity state'], ['First mortgage', r.mortgage, 'mortgage'],
@@ -483,7 +483,7 @@
       }).join('') + '<button type="button" class="linklike" data-quick-jump="result">Full result ↓</button></p>';
     return DISCLAIMER + '<p class="quick-back"><button type="button" class="linklike" data-quick-jump="inputs">↑ Back to the inputs</button></p>' +
       '<dl class="quick-out" id="quick-result" tabindex="-1" aria-live="polite">' + cards + '</dl>' + bar + proForma(r, units) + sourcesUses(r, soft) + assumptionsList(r, units) +
-      (missing ? '<p class="note">An answer the quick estimate does not ask for, such as floor space when some homes are above the credit limits, goes in the <a href="' + LIVE_TOOL + '">full calculator on cohoanalytics.com ↗</a>.</p>' : '');
+      (missing ? '<p class="note">An answer the quick estimate does not ask for, such as floor space when some homes are above the credit limits, goes in the <a href="' + LIVE_TOOL + '">full Deal Calculator ↗</a>.</p>' : '');
   }
 
   function basicFields(units) {

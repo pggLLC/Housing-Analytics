@@ -26,7 +26,10 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Leave room for the build, deploy-pages' 10-minute maximum, and the live
+    # search retries. A job timeout can kill the runner before Pages cancels a
+    # timed-out deployment and reports the cause.
+    timeout-minutes: 30
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:

@@ -407,7 +407,7 @@
         '<dt>Housing plans</dt><dd>' + (plans.length ? plans.slice(0, 4).map(function (p) { return (p.url ? '<a href="' + esc(p.url) + '">' + esc(p.name || p.type) + '</a>' : esc(p.name || p.type)) + (p.year ? ' (' + esc(p.year) + ')' : ''); }).join('; ') : 'None on file') + '</dd></dl>' +
         '<p><a href="#/places/incentives/' + esc(g) + '">Local housing incentives on record →</a></p>' : '<p class="note">No local housing records on file for ' + esc(name) + '.</p>') +
       second() +
-      T.source('Investor summary (IC summary) on cohoanalytics.com', SRC + '?geoid=' + g) +
+      T.source('COHO Investor summary (IC summary)', SRC + '?geoid=' + g) +
       T.next('Next', [{ href: '#/deal-calculator', label: 'Run the deal →' }, { href: '#/market?g=' + g, label: 'Market check', secondary: true }, { href: '#/report?g=' + g, label: 'Free report', secondary: true }]);
   }
   document.addEventListener('change', function (ev) {

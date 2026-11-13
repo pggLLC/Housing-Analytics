@@ -232,8 +232,8 @@
   }
   // Checks a package before anything is saved. Returns the reason it cannot be opened, or null.
   function packageProblem(pkg) {
-    if (!pkg || typeof pkg !== 'object' || pkg.format !== PACKAGE) return 'This is not a COHO lab deal file.';
-    if (pkg.version !== VERSION) return 'This deal file is from another version of the lab (' + String(pkg.version) + ').';
+    if (!pkg || typeof pkg !== 'object' || pkg.format !== PACKAGE) return 'This is not a COHO deal file.';
+    if (pkg.version !== VERSION) return 'This deal file is from another version of this tool (' + String(pkg.version) + ').';
     var pr = pkg.project, sc = pkg.scenario;
     if (!pr || typeof pr.name !== 'string' || !pr.name.trim() || pr.name.length > 200) return 'The deal file has no project name.';
     if (pr.kind !== 'development' && pr.kind !== 'strategy') return 'The deal file has an unknown project kind.';
@@ -243,7 +243,7 @@
     var seen = {};
     for (var i = 0; i < pkg.attachments.length; i++) {
       var a = pkg.attachments[i];
-      if (!a || PACKAGE_KINDS.indexOf(a.kind) < 0 || !a.snapshot || typeof a.snapshot !== 'object') return 'The deal file holds evidence the lab does not know.';
+      if (!a || PACKAGE_KINDS.indexOf(a.kind) < 0 || !a.snapshot || typeof a.snapshot !== 'object') return 'The deal file holds evidence this tool does not know.';
       if (a.state !== 'attached' && a.state !== 'stale') return 'The deal file holds evidence in an unknown state.';
       if (seen[a.kind]) return 'The deal file holds two current copies of the same evidence.';
       seen[a.kind] = true;
