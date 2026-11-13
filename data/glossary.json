@@ -1389,7 +1389,7 @@
       "aliases": [
         "Need Score"
       ],
-      "definition": "This site's 0–100 ranking index for a county, town or CDP: 55% community need and 45% opportunity. Need blends the housing gap, cost burden, affordability, future pressure and overcrowding. Opportunity blends economic mobility, walkability, amenities and QCT or DDA status. Nearly every input is a percentile among places of the same type, so the score is relative.",
+      "definition": "This site's 0–100 ranking index for a county, town or CDP: 55% community need (housing gap, cost burden, affordability, future pressure, overcrowding) and 45% opportunity (economic mobility, walkability, amenities, QCT or DDA status). Nearly all inputs are percentiles among places of one type. Missing inputs are left out, and estimated or county-borrowed inputs cut the score by up to 15%.",
       "source": {
         "name": "This site's Methods page, section 06",
         "url": "https://cohoanalytics.com/methods.html#m-score"
@@ -1399,7 +1399,7 @@
     {
       "term": "AMI Gap",
       "label": "AMI gap",
-      "definition": "The rental homes priced for households at or below an AMI level minus the renter households at or below it, for a county or place. A negative number is a shortage. This site computes it from Census ACS rents and renter incomes against HUD income limits, and it does not test whether those homes are available to rent.",
+      "definition": "The gap between rental homes priced for households at or below an AMI level and the renter households at or below it. County figures are homes minus households, so a shortage is negative; place figures are households minus homes, so a shortage is positive. It uses Census ACS and HUD income limits and ignores whether those homes are available.",
       "source": {
         "name": "This site's Methods page, section 10",
         "url": "https://cohoanalytics.com/methods.html#m-alternatives"
@@ -1409,7 +1409,7 @@
     {
       "term": "Affordable Ownership Need",
       "label": "Affordable ownership need",
-      "definition": "A screening view on this site's needs assessment pages with two parts: the shortfall of rental homes priced for renter households at or below 80% AMI, and the pool of renter households at 51–100% of HUD's median family income who might buy. The pool is not a count of mortgage-ready buyers.",
+      "definition": "A two-part screening view on this site's needs assessment pages: the shortfall of rental homes priced for renter households at or below 80% AMI, and the pool of renter households at 51–100% of HUD's median family income who might buy. The pool is not a count of mortgage-ready buyers. A place with no record shows its county's figures.",
       "source": {
         "name": "This site's method note on the Housing Needs Assessment page",
         "url": "https://cohoanalytics.com/housing-needs-assessment.html"
