@@ -17,7 +17,16 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <script>/* Light or dark, before the page paints (the site's own key and classes). Open on COHO Analytics · Colorado affordable housing data. */
 try { var s = localStorage.getItem('coho-analytics-scheme'); if (s === 'dark' || s === 'light') document.documentElement.classList.add(s + '-mode'); } catch (e) {}
-if (!location.hash || location.hash === '#' || location.hash === '#/') history.replaceState(null, '', '#/');</script>
+if (!location.hash || location.hash === '#' || location.hash === '#/') history.replaceState(null, '', '#/');
+/* A link shared from the page this one replaces keeps working: it carried town and door in the address before the #,
+   and this page reads them after it. Only when the address after the # says nothing of its own. */
+try { (function () {
+  var from = new URLSearchParams(location.search), to = new URLSearchParams(), moved = false;
+  ["town","door"].forEach(function (k) { var v = from.get(k); if (v && /^[A-Za-z0-9_-]{1,40}$/.test(v)) { to.set(k, v); from.delete(k); moved = true; } });
+  if (!moved || location.hash !== '#/') return;
+  var rest = from.toString();
+  history.replaceState(null, '', location.pathname + (rest ? '?' + rest : '') + '#/?' + to.toString());
+})(); } catch (e) {}</script>
 <link rel="stylesheet" href="hub/palette.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

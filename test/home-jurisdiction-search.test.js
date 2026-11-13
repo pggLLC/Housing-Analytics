@@ -13,6 +13,7 @@ const path = require('node:path');
 const ROOT = path.resolve(__dirname, '..');
 const {
   MAX_RESULTS,
+  DOORS,
   searchJurisdictions,
   jurisdictionUrl
 } = require('../js/home-jurisdiction-search.js');
@@ -124,6 +125,41 @@ assert(indexHtml.includes('src="js/home-jurisdiction-search.js"'), 'index.html m
   const none = (/<div class="hh-found">[\s\S]*?<\/ul><\/div>/.exec(nothing) || [''])[0];
   assert(/role="status">[^<]*\bNo\b/.test(none) && homeHelper.links(none).length === 0,
     'a search with no match must say so and list nothing');
+}
+
+// A link shared from the old homepage (index.html?town=<geoid>&door=<role>) still opens that place's answer and
+// that role's next steps (Codex review, PR 2804). The old page read both from the address before the #; the
+// rebuilt page reads after it, so the page's own opening script carries them across. Run here as the browser
+// runs it: the page's inline script, against a stand-in address bar.
+{
+  const vm = require('node:vm');
+  const inline = [...indexHtml.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]).find((t) => t.includes('history.replaceState'));
+  assert(inline, 'index.html no longer has the opening script that sets the route');
+  const open = (search, hash) => {
+    const location = { pathname: '/index.html', search, hash };
+    const history = { replaceState(_s, _t, url) {
+      const m = /^([^?#]*)(\?[^#]*)?(#.*)?$/.exec(url);
+      if (m[1]) { location.pathname = m[1]; location.search = m[2] || ''; }
+      location.hash = m[3] || '';
+    } };
+    vm.runInNewContext(inline, { location, history, URLSearchParams, localStorage: { getItem: () => null }, document: { documentElement: { classList: { add() {} } } } });
+    return location;
+  };
+  const shared = open('?town=' + aspen.geoid + '&door=build', '');
+  const route = new URLSearchParams(shared.hash.replace(/^#\/\??/, ''));
+  assert.equal(route.get('town'), aspen.geoid, 'an old shared link lost its town: the page opened on ' + shared.hash);
+  assert.equal(route.get('door'), 'build', 'an old shared link lost its role: the page opened on ' + shared.hash);
+  assert.equal(shared.search, '', 'the town and role must move, not be left in both places');
+  // Home then draws what the link was shared for.
+  const drawn = homeHelper.renderHomeSync(shared.hash.replace(/^#\/\??/, ''));
+  assert(/class="ha-facts"/.test(drawn) && homeHelper.text(drawn).includes('Aspen'), 'the carried link draws no answer card for Aspen');
+  assert(homeHelper.text(drawn).includes(DOORS.build), 'the carried link does not show the role it was shared with');
+  // Other settings in the address stay where they were, and a link that names its own view is left alone.
+  assert.equal(open('?utm_source=x&town=' + aspen.geoid, '').search, '?utm_source=x', 'another setting in the address was dropped');
+  assert.equal(open('', '').hash, '#/', 'a plain visit must open Home');
+  const deep = open('?town=' + aspen.geoid, '#/sitemap');
+  assert.equal(deep.hash, '#/sitemap', 'a link to another view must not be rewritten');
+  assert.equal(open('?town=<script>', '').hash, '#/', 'a town that is not a plain code must not be carried');
 }
 
 console.log('Homepage jurisdiction search (#1097): PASS');
