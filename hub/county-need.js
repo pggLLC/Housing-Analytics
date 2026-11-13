@@ -218,13 +218,16 @@
     state.trend = tr === '1980' || tr === '2000' || tr === '2010-14' ? tr : '';
   }
   function hashFor() {
-    var p = new URLSearchParams();
+    // Home shows the same map; keep the reader on the page they are on, and on Home keep what else its address
+    // holds (the town and the role picked there), so the map and those controls do not undo each other.
+    var now = String((global.location && global.location.hash) || ''), cut = now.indexOf('?');
+    var at = cut > -1 ? now.slice(0, cut) : now;
+    var p = new URLSearchParams((at === '#/' || at === '') && cut > -1 ? now.slice(cut + 1) : '');
+    ['m', 'county', 'trend'].forEach(function (k) { p.delete(k); });
     if (state.m !== 'per10') p.set('m', state.m);
     if (state.county) p.set('county', state.county);
     if (state.trend && state.m === 'rent_to_income') p.set('trend', state.trend);
     var x = p.toString();
-    // Home shows the same map; keep the reader on the page they are on.
-    var at = String((global.location && global.location.hash) || '').split('?')[0];
     return (at === '#/' || at === '' ? '#/' : '#/places') + (x ? '?' + x : '');
   }
 
@@ -483,5 +486,5 @@
     });
   }
 
-  global.LabCountyNeed = { figure: figure, MEASURES: MEASURES, series: series, scale: scale, rankOf: rankOf, rankText: rankText, sentence: sentence, fmt: fmt, ext: ext, start: start, state: state };
+  global.LabCountyNeed = { figure: figure, MEASURES: MEASURES, series: series, scale: scale, rankOf: rankOf, rankText: rankText, sentence: sentence, fmt: fmt, ext: ext, start: start, state: state, hashFor: hashFor };
 })(window);

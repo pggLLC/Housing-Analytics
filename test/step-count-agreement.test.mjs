@@ -133,6 +133,27 @@ assert.deepStrictEqual(bad, [], 'Pipeline labels say steps:\n  ' + bad.join('\n 
   assert.ok(olderLine && home.text(olderLine).includes('Fruita'), 'a place saved by the older workflow draws no resume line on Home');
   assert.ok(!/class="hh-resume"/.test(await home.renderHomeStoring({ coho_wf_active: JSON.stringify('p1'), coho_wf_project_p1: '{broken' })), 'an unreadable older project draws a resume line');
   assert.ok(!/class="hh-resume"/.test(await home.renderHomeStoring({ coho_wf_active: JSON.stringify('p1'), coho_wf_project_p1: JSON.stringify({ id: 'p1', jurisdiction: {} }) })), 'an older project with no place draws a resume line');
+  // Home's controls share one address, and none may erase another's setting (Codex review, PR 2804): picking a
+  // role or a town keeps the map's measure and county, and changing the map keeps the town and the role.
+  const mixed = await home.renderHome('town=0828745&door=build&m=rent_to_income&county=08077');
+  const own = home.links(mixed).filter((l) => /^#\/\?/.test(l.raw) && /(^|[?&])(door|town)=/.test(l.raw));
+  assert.ok(own.length >= 5, `Home draws only ${own.length} links that set a role or a town`);
+  for (const l of own) {
+    const q = new URLSearchParams(l.raw.slice(3));
+    assert.ok(q.get('m') === 'rent_to_income' && q.get('county') === '08077', `"${l.text}" opens ${l.raw}, which drops the map's measure or county`);
+  }
+  const page = await home.boot();
+  const CN = page.win.LabCountyNeed, was = { m: CN.state.m, county: CN.state.county, trend: CN.state.trend, hash: page.location.hash };
+  try {
+    page.location.hash = '#/?town=0828745&door=build';
+    Object.assign(CN.state, { m: 'rent_to_income', county: '08077', trend: '' });
+    const after = new URLSearchParams(CN.hashFor().replace(/^#\/\??/, ''));
+    assert.deepStrictEqual([after.get('town'), after.get('door'), after.get('m'), after.get('county')], ['0828745', 'build', 'rent_to_income', '08077'],
+      'changing the map on Home rewrote the address as ' + CN.hashFor() + ', losing the town or the role');
+    // Off Home the map's address is its own: nothing from another page's address is carried in.
+    page.location.hash = '#/places?q=fruita';
+    assert.strictEqual(CN.hashFor(), '#/places?m=rent_to_income&county=08077');
+  } finally { Object.assign(CN.state, { m: was.m, county: was.county, trend: was.trend }); page.location.hash = was.hash; }
   assert.strictEqual(home.steps(html).length, N, `Home lists ${home.steps(html).length} steps; the rail has ${N}`);
 }
 

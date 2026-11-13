@@ -171,8 +171,9 @@
   ];
   // Home's own address with one setting changed: the role picked (door), the town picked (town) or the search (q).
   function homeHref(params, set) {
-    var q = new URLSearchParams();
-    ['door', 'town', 'q'].forEach(function (k) { var v = set && k in set ? set[k] : params.get(k); if (v) q.set(k, v); });
+    // Everything else Home keeps in its address (the map's measure and county, the table's region) stays as it is.
+    var q = new URLSearchParams(params.toString());
+    ['door', 'town', 'q'].forEach(function (k) { var v = set && k in set ? set[k] : params.get(k); if (v) q.set(k, v); else q.delete(k); });
     var t = q.toString();
     return '#/' + (t ? '?' + t : '');
   }

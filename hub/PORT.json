@@ -19,7 +19,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "9d1feae9bcf5fd23374b8866e6a399b716e16853",
+  "commit": "507c1e13a927af3619d701dd4f480152eb4fb3dd",
   "dirty": false
  },
  "files": {
@@ -36,7 +36,7 @@
   "hub/components.js": "633d66f2a7553180974d24c947ea8b1fab769f3c22feaa25b788f39de52d2a96",
   "hub/county-costs.css": "27d26b7dee75f7fe60d9521925a49b17dfc037bf2c18b3d4aef837ec33e8e575",
   "hub/county-costs.js": "ecc62e2579f8f5bb36e708aa080b908d9ade8eed5862f44cf962c6a0b300a2ff",
-  "hub/county-need.js": "135986ed34b59e88d8142e3f3c83dd89f0310e32b8b036058dc64f5eb706e786",
+  "hub/county-need.js": "83a44a223bf454a10fc2cfe698c142b027bc26450c2b08c632506a4a501f4e9d",
   "hub/cra-map.js": "1bceffc44ed208ba35160c35fb8c6f51e30a42df4a935d85bd0d96a14ae9b5ab",
   "hub/data-hub.js": "f498641db1b821c147b294aaf9518eb4df21d619a2744601332605dea8ce85b8",
   "hub/data-map.js": "11fef31cd223ab38eef4e2aa8c8ddda9accf74ebf1f691327a25990b48271026",
@@ -66,7 +66,7 @@
   "hub/hna-dola.js": "3d98f4185ac1b0decd1974f7f02bae7d450633f73b651652d4046ee8db71662e",
   "hub/hna.js": "c6a5a8a3b0956892bf816f1a7a40c624dbf8a1be09a87c9e68e2e72845876f6c",
   "hub/home.css": "d922d006b604880fa1282932b0bd7aa544809a7fc4e13823c2b7d6cf58f1acd2",
-  "hub/home.js": "bb479930b4f9e052d68baf429fc0618b2c3e137939add3d9993cccb0c34be33a",
+  "hub/home.js": "533d14238c8bae82795f5bee5399421d07cb0d48e6e1090ceb8cddc5e65ba7a9",
   "hub/homes.js": "a379c3a812fba9b12b333b3e8de97ca769c3f22556307fd175f6d58fc5876065",
   "hub/ic-summary.js": "f96d2397104aef1f63c17b2d73f512fe654a1676c32eab9dd4a285efa9cbbad1",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",

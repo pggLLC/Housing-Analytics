@@ -50,6 +50,7 @@ function start(files) {
   const ctx = { window: win, self: win, document: { addEventListener() {}, getElementById: () => null, querySelector: () => null, querySelectorAll: () => [], readyState: 'loading' }, history: { replaceState() {} }, location: { hash: '' },
     URLSearchParams, Math, JSON, Object, Array, String, Number, Promise, Date, Map, Set, RegExp, Error, Intl, fetch: fetchFile, setTimeout, console };
   win.window = win;
+  win.location = ctx.location; // one address bar, as in a browser
   vm.createContext(ctx);
   const page = fs.readFileSync(at('index.html'), 'utf8');
   const scripts = [...page.matchAll(/<script\b[^>]*\bsrc="([^"]+)"[^>]*>\s*<\/script[^>]*>/gi)].map((m) => m[1]);
@@ -73,7 +74,7 @@ function start(files) {
   if (!win.HomeJurisdictionSearch) throw new Error('index.html did not load js/home-jurisdiction-search.js, so the town answer card has no engine');
   if (!Shell.views.home) throw new Error('hub/home.js did not register the Home view (' + left.join('; ') + ')');
   const settle = () => new Promise((r) => setTimeout(r, 25));
-  return (async () => { for (let i = 0; i < 40; i++) { Shell.views.home(new URLSearchParams('')); await settle(); } return { Shell, settle, left, win, fetched }; })();
+  return (async () => { for (let i = 0; i < 40; i++) { Shell.views.home(new URLSearchParams('')); await settle(); } return { Shell, settle, left, win, fetched, location: ctx.location }; })();
 }
 // Home drawn from stand-in data files, on a page load of its own.
 async function renderHomeWith(files, query) {
