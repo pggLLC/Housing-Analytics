@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Policy and research · COHO Analytics</title>
+<meta name="description" content="Colorado housing news, deadlines, laws, elections, where the money goes, and COHO research.">
+<link rel="canonical" href="https://cohoanalytics.com/policy-hub.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script>/* Light or dark, before the page paints (the site's own key and classes). Open on Policy and research. */
+try { var s = localStorage.getItem('coho-analytics-scheme'); if (s === 'dark' || s === 'light') document.documentElement.classList.add(s + '-mode'); } catch (e) {}
+if (!location.hash || location.hash === '#' || location.hash === '#/') history.replaceState(null, '', '#/guides');</script>
+<link rel="stylesheet" href="hub/palette.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap">
+<link rel="stylesheet" href="hub/shell.css">
+<link rel="stylesheet" href="hub/visual-pass.css">
+<link rel="stylesheet" href="hub/templates.css">
+<link rel="stylesheet" href="hub/deep-dive.css">
+<link rel="stylesheet" href="hub/data-pages.css">
+<link rel="stylesheet" href="hub/equity.css">
+<link rel="stylesheet" href="hub/calculators.css">
+<link rel="stylesheet" href="hub/economy.css">
+<link rel="stylesheet" href="hub/home.css">
+<link rel="stylesheet" href="hub/county-costs.css">
+<link rel="stylesheet" href="hub/lab-wave2.css">
+<link rel="stylesheet" href="hub/small-pages.css">
+<link rel="stylesheet" href="hub/opportunities.css">
+<link rel="stylesheet" href="hub/rent-income.css">
+<link rel="stylesheet" href="hub/lihtc-history.css">
+<link rel="stylesheet" href="hub/middle-income.css">
+<link rel="stylesheet" href="hub/attract-housing.css">
+<link rel="stylesheet" href="hub/walk-bike.css">
+<link rel="stylesheet" href="hub/design-guide.css">
+<link rel="stylesheet" href="hub/look.css">
+<link rel="stylesheet" href="hub/text-fit.css">
+<style>#main:focus { outline: none; }</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="index.html">COHO Analytics</a>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"></nav>
+  <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">Dark</button>
+</header>
+<!-- The site's pages use <main id="main-content">; the lab's views draw into #main inside it. -->
+<main id="main-content"><div id="main" tabindex="-1"></div></main>
+<p id="announce" class="visually-hidden" aria-live="polite"></p>
+<footer class="site-footer">
+  <p class="footer-terms">Free, and worth every penny. COHO Analytics is offered as-is, with no warranty. It isn’t legal, tax or financial advice, and pggLLC isn’t liable for what you do with it. Using the site means you accept the terms.</p>
+  <p class="footer-links"><a class="footer-link" href="terms-of-use.html">Terms of use</a> <a class="footer-link" href="privacy-policy.html">Privacy</a> <a class="footer-link" href="sitemap.html">Site map</a> <a class="footer-link" href="https://docs.google.com/forms/d/e/1FAIpQLSfC1m7Y1_b3VL_U9rOg8f0nIE14RVg8qm4gvhQaG2Qw8vVOdw/viewform">Questions or feedback</a> <a class="footer-link" href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a> <a class="footer-link" href="#" lang="es" title="Español: traducción automática de Google">Español</a> <a class="footer-link" href="https://coho-backend.communityplanner.workers.dev/">Member sign in</a></p>
+  <p>Developed and maintained by <a class="footer-link" href="https://pggllc.org">pggLLC</a>.</p>
+</footer>
+<script src="hub/lab-config.js"></script>
+<script src="hub/project-store.js"></script>
+<script src="hub/shell.js"></script>
+<script src="hub/nav.js"></script>
+<script src="hub/templates.js"></script>
+<script src="js/deal-calculator-math.js"></script>
+<script src="js/chfa-rent-limits.js"></script>
+<script src="js/deal-cost-basis.js"></script>
+<script src="js/deal-operating-budget.js"></script>
+<script src="js/deal-lender-schedules.js"></script>
+<script src="js/deal-engine.js"></script>
+<script src="js/hna/geography-provenance.js"></script>
+<script src="js/hna/county-comparison.js"></script>
+<script src="js/hna/combined-geo.js"></script>
+<script src="js/county-measures.js"></script>
+<script src="js/utils/format-money.js"></script>
+<script src="js/hna/ownership-finance.js"></script>
+<script src="js/hna/hna-utils.js"></script>
+<script src="js/mix-check.js"></script>
+<script src="js/mix-check-inputs.js"></script>
+<script src="js/housing-need-projector.js"></script>
+<script src="js/components/housing-type-need.js"></script>
+<script src="js/local-incentives-data.js"></script>
+<script src="js/components/land-value-tool.js"></script>
+<script src="js/data-source-inventory.js"></script>
+<script src="js/provenance-label.js"></script>
+<script src="js/hna/hna-ownership-need.js"></script>
+<script src="js/hna/ownership-resale.js"></script>
+<script src="js/market-analysis-scoring.js"></script>
+<script src="js/workflow/recommendation-contract.js"></script>
+<script src="js/transit-zone.js"></script>
+<script src="js/data-quality-check.js"></script>
+<script src="js/agency-funding-model.js"></script>
+<script src="js/rent-vs-buy-breakeven.js"></script>
+<script src="js/components/funding-context-card.js"></script>
+<script src="js/projections/cohort-component-model.js"></script>
+<script src="js/projections/scenario-presets.js"></script>
+<script src="js/projections/scenario-builder.js"></script>
+<script src="js/funding-fit.js"></script>
+<script src="js/rent-burden-reliability.js"></script>
+<script src="js/hna/need-scorecard.js"></script>
+<script src="js/components/table-sort.js"></script>
+<script>
+// Loaded by a page when it opens, not at start (the same list the lab uses).
+window.LAB_LAZY_VENDOR = ["js/colorado-elections.js","js/sunday-digest.js","js/fred-commodities.js","js/components/equity-pricing.js","js/components/market-pulse.js","js/components/lihtc-by-year.js","js/lihtc-project-size.js","js/historical-trends.js","js/affordability-metrics-panel.js","js/market-health-composite.js","js/policy-simulator.js","js/components/affordable-housing-layer.js","js/hna/hna-ownership-strategy.js"];
+</script>
+<script src="hub/homes.js"></script>
+<script src="hub/financials.js"></script>
+<script src="hub/lender-export.js"></script>
+<script src="hub/lender-schedules.js"></script>
+<script src="hub/deal-file.js"></script>
+<script src="hub/components.js"></script>
+<script src="hub/viz.js"></script>
+<script src="hub/viz-data.js"></script>
+<script src="hub/viz-tip.js"></script>
+<script src="hub/map-kit.js"></script>
+<script src="hub/icons.js"></script>
+<script src="hub/change-arrows.js"></script>
+<script src="hub/rent-income.js"></script>
+<script src="hub/places.js"></script>
+<script src="hub/county-need.js"></script>
+<script src="hub/need-scorecard.js"></script>
+<script src="hub/employers.js"></script>
+<script src="hub/hna-dola.js"></script>
+<script src="hub/hna.js"></script>
+<script src="hub/compare-records.js"></script>
+<script src="hub/places-more.js"></script>
+<script src="hub/places-combine.js"></script>
+<script src="hub/places-state.js"></script>
+<script src="hub/attract-housing.js"></script>
+<script src="hub/ic-summary.js"></script>
+<script src="hub/market.js"></script>
+<script src="hub/report.js"></script>
+<script src="hub/finder.js"></script>
+<script src="hub/access.js"></script>
+<script src="hub/home.js"></script>
+<script src="hub/opportunities.js"></script>
+<script src="hub/land-value.js"></script>
+<script src="hub/deals.js"></script>
+<script src="hub/equity.js"></script>
+<script src="hub/lihtc-history.js"></script>
+<script src="hub/middle-income.js"></script>
+<script src="hub/design-guide.js"></script>
+<script src="hub/pipeline.js"></script>
+<script src="hub/guide-extract.js"></script>
+<script src="hub/policy.js"></script>
+<script src="hub/calendar.js"></script>
+<script src="hub/data-hub.js"></script>
+<script src="hub/data-more.js"></script>
+<script src="hub/geocode.js"></script>
+<script src="hub/data-map.js"></script>
+<script src="hub/policy-more.js"></script>
+<script src="hub/strength.js"></script>
+<script src="hub/guide.js"></script>
+<script src="hub/deal-quick-sale.js"></script>
+<script src="hub/sale-deal.js"></script>
+<script src="hub/deal-town.js"></script>
+<script src="hub/deal-quick.js"></script>
+<script src="hub/deal-tool.js"></script>
+<script src="hub/deal-extras.js"></script>
+<script src="hub/map-zoom.js"></script>
+<script src="hub/terms.js"></script>
+<script src="hub/deep-dive.js"></script>
+<script src="hub/economy.js"></script>
+<script src="hub/county-costs.js"></script>
+<script src="hub/commuting.js"></script>
+<script src="hub/walk-bike.js"></script>
+<script src="hub/cra-map.js"></script>
+<script src="hub/text-fit.js"></script>
+</body>
+</html>
