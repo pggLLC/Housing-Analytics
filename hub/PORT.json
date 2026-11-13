@@ -20,7 +20,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "3c0b55921f2a15108dac3bad90a02e3b4aa46c4f",
+  "commit": "419b5c3dff38e20a07e69a71dcec736ff62d396c",
   "dirty": false
  },
  "files": {
@@ -62,7 +62,7 @@
   "hub/financials.js": "60172168ab1987565ed92c28161c4c9f24ea84cf21d12a5c4c44f027f3b4645a",
   "hub/finder.js": "f39215066112b21436bad975d32c2c7be08232245317f791c1f364c23750a78d",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
-  "hub/guide-extract.js": "55680693f3b815a0fc70b404a981608090148a43dccd689344efa2cb37e6c883",
+  "hub/guide-extract.js": "25d35a856a68811ef560f3f9ee18ca25c599ac8ee1fc88351f1ea2702616147d",
   "hub/guide.js": "3db13f831119ccfa3ebec8851fc7489881dd01d991f3a3ac8ff7491028a9be19",
   "hub/hna-dola.js": "3d98f4185ac1b0decd1974f7f02bae7d450633f73b651652d4046ee8db71662e",
   "hub/hna.js": "cd872cf0f9bd7ecbc10a62377f496648e88884455fab98ee5d5c7c05e3db2862",

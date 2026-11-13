@@ -62,6 +62,11 @@
 
   function clean(node, doc, o) {
     node.querySelectorAll(DROP).forEach(n => n.remove());
+    // The site's glossary script wraps a term in a popup (js/glossary.js: abbr.gl-tooltip-trigger holding a hidden
+    // span.gl-tooltip-popup). A page read after that script ran carries those; the popup is not the page's words,
+    // and without its styles it would read as part of the sentence. The term itself stays as plain text.
+    node.querySelectorAll('.gl-tooltip-popup').forEach(n => n.remove());
+    node.querySelectorAll('.gl-tooltip-trigger').forEach(n => n.replaceWith(...n.childNodes));
     const walker = doc.createTreeWalker(node, 128 /* comments */);
     const comments = [];
     while (walker.nextNode()) comments.push(walker.currentNode);

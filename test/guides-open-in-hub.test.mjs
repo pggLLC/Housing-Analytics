@@ -195,6 +195,17 @@ test('a link in a guide to another part of the same page stays a link, and lands
   assert.ok(/here\.land\(m\[2\]\)\) ev\.preventDefault\(\)/.test(view), 'hub/guide.js does not land a same-guide link directly');
 });
 
+test('a glossary popup the page was given by the site\'s glossary script is not read as the guide\'s words', () => {
+  // js/glossary.js wraps a term on a guide page before the hub reads it. Live on 13 Nov the popup's definition was
+  // printed inside the sentence ("CHFA Colorado Housing and Finance Authority Colorado's housing finance ...").
+  const glossary = read('js/glossary.js');
+  assert.ok(glossary.includes('class="gl-tooltip-trigger"') && glossary.includes('class="gl-tooltip-popup"'), 'js/glossary.js no longer names its popup gl-tooltip-trigger / gl-tooltip-popup; hub/guide-extract.js drops them by those names');
+  const doc = new JSDOM('<main><div id="x"><p>Confirm terms with <abbr class="gl-tooltip-trigger" tabindex="0" aria-label="CHFA: the authority">CHFA<span class="gl-tooltip-popup" aria-hidden="true"><strong>Colorado Housing and Finance Authority</strong>Colorado\'s housing finance authority.</span></abbr> first.</p></div></main>').window.document;
+  const html = X.clean(doc.getElementById('x'), doc, { routes: X.ROUTES, live: '' });
+  assert.equal(say(html), 'Confirm terms with CHFA first.', 'the popup text was kept: ' + html);
+  assert.ok(!/<abbr|<span|<strong/.test(html), 'popup markup was kept: ' + html);
+});
+
 test('the three long documents keep their "Which document do you need?" chooser, with links that stay in the hub', () => {
   ['white-paper', 'working-paper', 'methods'].forEach((slug) => {
     const { g } = cut(GUIDES[slug], slug);
