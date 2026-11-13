@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-13T12:51:13.403Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-13T15:23:05.420Z. Do not edit by hand.
 
 ---
 
@@ -135,7 +135,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 670.1 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 785.6 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -2073,7 +2073,7 @@
 | `data/policy_briefs_curated.json` | 241.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 215.9 KB | ✅ | — |
+| `data/polymarket-history.json` | 218.1 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2082,7 +2082,7 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 15.4 KB | ✅ | — |
 | `data/reports/data-source-health.json` | 7.6 KB | ✅ | — |
-| `data/reports/developer-url-health.json` | 20.9 KB | ✅ | — |
+| `data/reports/developer-url-health.json` | 21.2 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.92 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 158.8 KB | ✅ | — |
 | `data/schema/semantic-label-evidence.json` | 6.0 KB | ✅ | — |
@@ -2090,7 +2090,7 @@
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/table-header-tips.json` | 15.3 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 23.8 KB | ✅ | — |
-| `data/url-health.json` | 1.15 MB | ✅ | — |
+| `data/url-health.json` | 1.19 MB | ✅ | — |
 
 ---
 
@@ -2553,7 +2553,7 @@
 | `test/ownership-resale.test.js` | 16.5 KB |
 | `test/package-4-user-visible.test.js` | 7.8 KB |
 | `test/page-dates.test.mjs` | 9.6 KB |
-| `test/pages-availability-check.js` | 19.2 KB |
+| `test/pages-availability-check.js` | 19.5 KB |
 | `test/pages-deploy-watchdog.test.js` | 10.7 KB |
 | `test/paper-figures-fresh.test.js` | 20.6 KB |
 | `test/paper-names-its-author.test.mjs` | 5.7 KB |
@@ -2938,7 +2938,7 @@
 | `.github/workflows/data-refresh.yml` | 5.8 KB |
 | `.github/workflows/data-sentinels-check.yml` | 6.1 KB |
 | `.github/workflows/data-source-monitoring.yml` | 13.7 KB |
-| `.github/workflows/deploy.yml` | 5.8 KB |
+| `.github/workflows/deploy.yml` | 6.0 KB |
 | `.github/workflows/developer-url-health.yml` | 3.3 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 3.5 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.6 KB |

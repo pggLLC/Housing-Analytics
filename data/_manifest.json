@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-13T14:40:24.090Z",
+    "generated_at": "2026-11-13T15:23:46.357Z",
     "root": "data/",
     "file_count": 2031,
-    "total_size_bytes": 223895625,
+    "total_size_bytes": 223895865,
     "kinds": {
       "json": 1982,
       "geojson": 35,
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-13T12:51:37.417Z",
+      "mtime": "2026-11-13T15:23:41.407Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6606,7 +6606,7 @@
       "path": "discovery-reports/latest.json",
       "kind": "json",
       "size_bytes": 311163,
-      "mtime": "2026-11-13T08:57:54.554Z",
+      "mtime": "2026-11-13T15:22:45.553Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -22365,7 +22365,7 @@
       "path": "hna/local-resources-candidates.json",
       "kind": "json",
       "size_bytes": 6696,
-      "mtime": "2026-11-06T15:03:03.373Z",
+      "mtime": "2026-11-13T15:22:45.681Z",
       "shape": "object",
       "keys": [
         "generatedAt",
@@ -38301,7 +38301,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 258225,
-      "mtime": "2026-11-13T08:57:54.865Z",
+      "mtime": "2026-11-13T15:22:45.850Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -40249,7 +40249,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-13T12:51:38.847Z",
+      "mtime": "2026-11-13T15:23:43.765Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40273,7 +40273,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-13T12:51:38.475Z",
+      "mtime": "2026-11-13T15:23:43.151Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -43948,8 +43948,8 @@
     {
       "path": "reports/developer-url-health.json",
       "kind": "json",
-      "size_bytes": 21420,
-      "mtime": "2026-11-06T15:03:03.778Z",
+      "size_bytes": 21660,
+      "mtime": "2026-11-13T15:22:46.109Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43959,7 +43959,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "broken",
-      "primary_array_length": 52,
+      "primary_array_length": 51,
       "primary_array_first_keys": [
         "url",
         "status",
