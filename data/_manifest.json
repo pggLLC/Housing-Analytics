@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-13T13:25:11.613Z",
+    "generated_at": "2026-11-13T14:34:08.382Z",
     "root": "data/",
     "file_count": 2031,
-    "total_size_bytes": 223859986,
+    "total_size_bytes": 223895625,
     "kinds": {
       "json": 1982,
       "geojson": 35,
@@ -44126,8 +44126,8 @@
     {
       "path": "url-health.json",
       "kind": "json",
-      "size_bytes": 1207573,
-      "mtime": "2026-11-08T14:01:49.397Z",
+      "size_bytes": 1243212,
+      "mtime": "2026-11-13T14:34:05.935Z",
       "shape": "object",
       "keys": [
         "lastSweepAt",
