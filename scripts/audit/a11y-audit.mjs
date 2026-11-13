@@ -87,7 +87,7 @@ const AUDIT_PAGES = [
 // entry must be listed in STATIC_PAGES: static prose, audited as served.
 const STATIC_PAGES = ['lihtc-guide-for-stakeholders.html'];
 const READY = {
-  'index.html':                          { selector: '#homeNeedMap path', min: 64 },
+  'index.html':                          { selector: 'figure.county-need a[data-county] path', min: 64 },
   'housing-needs-assessment.html':       { selector: '.leaflet-marker-icon', min: 100 },
   'hna-what-housing-exists.html':        { selector: '.leaflet-marker-icon', min: 100 },
   'hna-who-lives-here.html':             { selector: '#hnaGapCoveragePanel div' },

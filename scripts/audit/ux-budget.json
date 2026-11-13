@@ -9,7 +9,7 @@
   "pages": {
     "index.html": {
       "ready": {
-        "selector": "#homeNeedMap path",
+        "selector": "figure.county-need a[data-county] path",
         "min": 64
       }
     },
