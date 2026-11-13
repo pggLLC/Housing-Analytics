@@ -38,8 +38,8 @@
       { label: 'My partners', href: 'https://coho-backend.communityplanner.workers.dev/developer-my-partners.html', status: 'members', note: 'The firms you work with, shown in the Local players section of every dossier. Only you see them.' },
       // Decided member tools that are still public pages today (paul, 26 Oct and 30 Oct). They move behind the
       // gate when their hub lands; until then the link opens the public page.
-      { label: 'Market Analysis (full, site market area)', href: 'https://cohoanalytics.com/market-analysis.html', status: 'members', note: 'Decided as a member tool. Still a public page on cohoanalytics.com until it moves behind the member gate. The free Market check is in the lab.' },
-      { label: 'For-sale market study (full)', href: 'https://cohoanalytics.com/for-sale-market-study.html', status: 'members', note: 'Decided as a member tool (30 Oct). Still a public page on cohoanalytics.com until it moves behind the member gate. The free For-sale and ownership screen is in the lab.' }
+      { label: 'Market Analysis (full, site market area)', href: 'https://cohoanalytics.com/market-analysis.html', status: 'members', note: 'Decided as a member tool. Still a public page until it moves behind the member gate. The free Market check is on this site.' },
+      { label: 'For-sale market study (full)', href: 'https://cohoanalytics.com/for-sale-market-study.html', status: 'members', note: 'Decided as a member tool (30 Oct). Still a public page until it moves behind the member gate. The free For-sale and ownership screen is on this site.' }
     ]
   };
 
@@ -90,7 +90,7 @@
 
   function item(e) {
     var link = e.href
-      ? '<a href="' + esc(e.href) + '" data-route-path="' + esc(e.path || '') + '">' + esc(e.path === '404.html' ? 'The live site\u2019s \u201cPage not found\u201d screen' : e.label) + '</a>'
+      ? '<a href="' + esc(e.href) + '" data-route-path="' + esc(e.path || '') + '">' + esc(e.path === '404.html' ? 'The site\u2019s \u201cPage not found\u201d screen' : e.label) + '</a>'
       : '<span class="unlinked">' + esc(e.label) + '</span>';
     var note = e.status === 'alias' ? 'Forwards to ' + e.target + '.' : e.note;
     var use = e.role === 'generated-place'
@@ -187,7 +187,7 @@
         }).join('') + '</ul>' : '<p>No projects yet.</p>') +
         newProjectForm('', '') +
         '<p class="note"><a href="#/open-deal">Open a shared deal</a> from a share link or deal file.</p>' +
-        (legacy.subject || legacy.projects.length ? '<div class="callout">This browser also has records from the live site\u2019s Market Analysis or workflow. They are not used here unless you import them from a project page.</div>' : '') +
+        (legacy.subject || legacy.projects.length ? '<div class="callout">This browser also has records from Market Analysis or the older workflow pages. They are not used here unless you import them from a project page.</div>' : '') +
         '<h2>Current project tools</h2>' + list(inHub('projects'));
     },
     guides: function () {
@@ -199,7 +199,7 @@
     assistance: function () { return hubHead('assistance') + list(inHub('assistance')); },
     members: function () {
       return hubHead('members') +
-        '<div class="callout">These tools stay on the member site, behind the same sign-in and gate as today. The lab links to them and does not copy them or their data. <a href="#/request-access">Request a quote</a> for access.</div>' +
+        '<div class="callout">These tools stay on the member site, behind the same sign-in and gate as today. This site links to them and does not copy them or their data. <a href="#/request-access">Request a quote</a> for access.</div>' +
         list(LAB.members.concat(inHub('members')));
     },
     project: function (p, parts) { return projectView(LabProjects.get(parts[1]), p.get('delete') === 'ask'); },
@@ -248,7 +248,7 @@
         var st = LabProjects.stateOf(p.projectId, s.scenarioId, ev.kind);
         var att = p.attachments.filter(function (a) { return a.scenarioId === s.scenarioId && a.kind === ev.kind && a.state !== 'replaced'; })[0];
         var detail = att ? esc(att.label) + '. ' + (att.staleReason ? esc(att.staleReason) + '. ' : '') + 'Added ' + esc(when(att.attachedAt)) + '.'
-          : ev.step && ev.kind !== 'rent-schedule' ? 'Not in the lab yet (step ' + ev.step + ').' : 'Nothing added yet.';
+          : ev.step && ev.kind !== 'rent-schedule' ? 'Not built yet (step ' + ev.step + ').' : 'Nothing added yet.';
         var back = att && att.origin && att.origin.route ? ' <a href="' + esc(att.origin.route) + '">Open where it came from</a>' : '';
         if (ev.kind === 'rent-schedule') back += ' <a href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">' + (att ? 'Open the schedule' : 'Set homes and rents') + '</a>';
         return '<li><span class="unlinked">' + esc(ev.title) + '</span><span class="status state-' + esc(st.replace(' ', '-')) + '">' + esc(STATE[st]) + '</span>' +
@@ -286,7 +286,7 @@
     }
     return '<a class="back-link" href="' + esc(from) + '">\u2190 Back without adding</a>' +
       '<h1>Use in a project</h1><p class="lede">Add <strong>' + esc(label) + '</strong> to a project. Nothing is added until you confirm.</p>' +
-      '<p class="note">What is stored: a link to the place profile and its ID. Figures are not copied, so they stay as the live site shows them.</p>' +
+      '<p class="note">What is stored: a link to the place profile and its ID. Figures are not copied, so they stay as the place profile shows them.</p>' +
       (mine.length ? '<form class="stack" data-action="attach"><fieldset><legend>Choose a project</legend>' + mine.map(function (p) {
         var full = LabProjects.get(p.projectId);
         var conflict = p.jurisdiction && p.jurisdiction.geoid !== params.get('geoid')
@@ -359,7 +359,7 @@
     global.LAB_VIZ_CONTEXT = null;
     var held = heldFocus();
     main.innerHTML = typeof view === 'function' ? view(route.params, route.parts)
-      : VIEWS['not-found'] ? VIEWS['not-found'](route.params, route.parts) : '<h1>Not in the lab</h1><p class="lede">There is no lab page at this address.</p><p><a href="#/">Go to Home</a></p>';
+      : VIEWS['not-found'] ? VIEWS['not-found'](route.params, route.parts) : '<h1>Page not found</h1><p class="lede">There is no page at this address.</p><p><a href="#/">Go to Home</a></p>';
     // The seven-step bar sits in one place on every page that has it: first in the page, just under the main
     // navigation (paul, 12 Nov), with its slim line right after it.
     var spBar = main.querySelector('.step-path');

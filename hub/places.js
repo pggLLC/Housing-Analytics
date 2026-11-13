@@ -69,7 +69,7 @@
   // Tools for any place, grouped by the question a visitor brings. Anything in the hub that is not
   // named here still appears under "More tools", so no page drops out of the lab.
   var QUESTIONS = [
-    { title: 'How much housing does this place need?', paths: ['hna-scenario-builder.html'], folded: { label: 'The Housing Needs Assessment chapters, on cohoanalytics.com', note: 'Every place page carries these chapters as tabs.', paths: ['housing-needs-assessment.html', 'hna-who-lives-here.html', 'hna-what-housing-exists.html', 'hna-what-households-can-afford.html', 'hna-where-its-heading.html', 'hna-what-to-do.html'] } },
+    { title: 'How much housing does this place need?', paths: ['hna-scenario-builder.html'], folded: { label: 'The Housing Needs Assessment chapters, each on its own page', note: 'Every place page carries these chapters as tabs.', paths: ['housing-needs-assessment.html', 'hna-who-lives-here.html', 'hna-what-housing-exists.html', 'hna-what-households-can-afford.html', 'hna-where-its-heading.html', 'hna-what-to-do.html'] } },
     { title: 'How does it compare with other places?', paths: ['compare.html', 'hna-comparative-analysis.html', 'colorado-deep-dive.html', 'article-co-housing-costs.html', 'census-dashboard.html'] },
     { title: 'What shapes costs and local policy?', paths: ['local-incentives.html', 'economic-dashboard.html', 'construction-commodities.html'] },
     { title: 'Find a place another way', paths: ['select-jurisdiction.html', 'places/index.html'] }
@@ -88,7 +88,7 @@
       keys.forEach(function (k, i) { data[k] = all[i]; });
       Shell.render();
     }).catch(function (e) {
-      error = 'The data did not load (' + e.message + '). Run scripts/fetch-pinned-data.js and serve the repository root.';
+      error = 'The data did not load (' + e.message + '). Reload the page to try again.';
       Shell.render();
     });
   }

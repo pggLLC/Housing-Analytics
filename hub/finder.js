@@ -206,7 +206,7 @@
     return headFor(Object.assign({}, x.data, shared.data)) + global.LabHna.stepPath(true, '#/finder') + toggles + '<p class="chapter-finding">' + esc(why) + '</p>' +
       '<p class="count" role="status">' + (rows.length > 150 ? 'Showing 150 of ' + rows.length : rows.length) + ' places, sorted by ' + esc(sortedBy.toLowerCase()) + '.' + (hide ? ' ' + thinCount + ' places with thin survey data are hidden.' : ' Places with thin survey data come after the rest.') + '</p>' + townMap(rows, x.data, sortedBy) + table +
       '<p class="metric-source">' + Pl.srcLine([['HUD QCT and DDA designations, ' + esc(String(x.data.dda.designationYear || '')), 'https://www.huduser.gov/portal/datasets/qct.html'], ['CHFA Housing Tax Credit property list, ' + String(shared.data.lihtc.fetchedAt).slice(0, 10), shared.data.lihtc.source], ['Census ACS 2020–2024', Pl.SRC.acsGap], ['Census TIGER 2024 place and tract boundaries', 'https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html']]) + '</p>' +
-      '<div class="callout">These are facts, not a ranking or a prediction of CHFA points. A Small Area DDA counts only for a site inside the ZIP. Awards match by city name, so a project listed under a neighboring city is not counted here. The live Finder adds COHO’s weighted screen, maps and local support.</div>' +
+      '<div class="callout">These are facts, not a ranking or a prediction of CHFA points. A Small Area DDA counts only for a site inside the ZIP. Awards match by city name, so a project listed under a neighboring city is not counted here. The full Opportunity Finder adds COHO’s weighted screen, maps and local support.</div>' +
       T.next('Next', [{ href: '#/market', label: 'Market check a place' }, { href: LIVE + 'lihtc-opportunity-finder.html' + (/^\d{5,7}$/.test(params.get('g') || '') ? '?geoid=' + params.get('g') : ''), label: 'Full Opportunity Finder ↗', secondary: true }]);
   }
   document.addEventListener('input', function (ev) {
@@ -247,7 +247,7 @@
       '<p>The steps a project records for this place. Each answer above covers only the steps that are recorded.</p>' +
       '<ol class="rec-steps">' + steps + '</ol>' +
       (mine.length ? '<p>Projects saved in this browser for this place:</p><ul class="route-list">' + mine.map(function (p) { return '<li><a href="#/project/' + esc(p.projectId) + '">' + esc(p.name) + '</a></li>'; }).join('') + '</ul>'
-        : '<p class="note">No project is saved in this browser for this place. The lab does not pass its projects to this page yet, so every step reads as not run.</p>') + '</section>';
+        : '<p class="note">No project is saved in this browser for this place. Projects built on these pages are not read here yet, so every step reads as not run.</p>') + '</section>';
   }
   // Every source the conclusions drew on, with its date, named as the rest of the lab names it.
   function figureSources(r, g) {
@@ -273,7 +273,7 @@
     var headOnly = function (body) { return T.head({ kind: 'tool', crumbs: T.trail('deal', title), title: title }) + body; };
     if (!entry) return headOnly('<p class="callout">No Colorado place has the ID ' + esc(g) + '.</p>');
     var RC = global.RecommendationContract, TZ = global.TransitZone;
-    if (!RC) return headOnly('<p class="callout">The public site’s recommendation engine did not load.</p>');
+    if (!RC) return headOnly('<p class="callout">The site’s recommendation engine did not load.</p>');
     var c = global.LabHna.loadPlace(g), x = UI.load(REC_FILES);
     if (c.error || x.error) return headOnly('<p class="callout">' + esc(c.error || x.error) + '</p>');
     if (!c.digest || !x.data) return headOnly('<p role="status" class="note">Loading the public data for ' + esc(entry.label) + '…</p>');
@@ -302,7 +302,7 @@
       '<section class="rec-headline rec-card-' + esc(h.state) + '"><p class="rec-q">The direction</p><h2>' + esc(h.verdict) + ' ' + chip(h.state) + '</h2><p>' + esc(h.plain) + '</p></section>' +
       '<div class="rec-cards">' + cards + '</div>' +
       recorded(r, g, mine) + figureSources(r, g) +
-      '<p class="metric-source">Assembled by the public site’s recommendation contract from the HNA digest' + (c.digest.generated_from && c.digest.generated_from.ranking_index_generated_at ? ', built ' + esc(String(c.digest.generated_from.ranking_index_generated_at).slice(0, 10)) : '') + '. Transit: CDOT and transit agency stops, OEDIT zone status.</p>' +
+      '<p class="metric-source">Assembled by the site’s recommendation contract from the HNA digest' + (c.digest.generated_from && c.digest.generated_from.ranking_index_generated_at ? ', built ' + esc(String(c.digest.generated_from.ranking_index_generated_at).slice(0, 10)) : '') + '. Transit: CDOT and transit agency stops, OEDIT zone status.</p>' +
       T.next('Next', [{ href: '#/report?g=' + encodeURIComponent(g), label: 'Free report for ' + shortName(entry.label) }, { href: '#/deal-calculator?g=' + encodeURIComponent(g), label: 'Deal Calculator', secondary: true }, { href: '#/market?g=' + encodeURIComponent(g), label: 'Market check', secondary: true }]);
   }
 

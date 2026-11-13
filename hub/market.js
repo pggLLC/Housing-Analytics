@@ -129,7 +129,7 @@
   var PEN_TIERS = [20, 30, 40, 45, 50, 55, 60, 70, 80], CAP_TIERS = [30, 40, 50, 60, 70, 80];
   function capturePart(s, units, tier, noForm) {
     var E = global.PMAMarketScoring, V = global.LabViz;
-    if (!E || !E.chfaQualifiedRenters) return { html: '<p class="note">The public site\u2019s capture engine did not load.</p>' };
+    if (!E || !E.chfaQualifiedRenters) return { html: '<p class="note">The site\u2019s capture engine did not load.</p>' };
     var limits = {}; (s.d.chfa.counties || []).forEach(function (c) { limits[c.fips] = c; });
     var tracts = Object.keys(s.x.demand.tracts || {}).filter(function (g) { return g.slice(0, 5) === s.fips; }).map(function (g) { return { geoid: g }; });
     var q = E.chfaQualifiedRenters(s.x.demand, limits, tracts, [tier], undefined, liveOpts(s.x));
@@ -236,7 +236,7 @@
       answer: home == null ? null : short.length === bands.length ? 'Even a household at 120% AMI falls $' + num(home - bands[3][1]) + ' short of the typical home.'
         : short.length ? 'Households up to ' + short[short.length - 1][0] + ' fall short of the typical home; at 80% AMI the gap is $' + num(home - at80) + '.'
         : 'A household at 60% AMI can afford the typical home.',
-      note: 'What a four-person household can pay, from HUD’s area median income and the public site’s ownership engine: 30-year loan, 10% down, 30% of income for the payment, taxes, insurance and mortgage insurance' + (rate ? ', at ' + (rate.rateAnnual * 100).toFixed(2) + '% (' + rate.source + ')' : '') + '.',
+      note: 'What a four-person household can pay, from HUD’s area median income and the site’s ownership engine: 30-year loan, 10% down, 30% of income for the payment, taxes, insurance and mortgage insurance' + (rate ? ', at ' + (rate.rateAnnual * 100).toFixed(2) + '% (' + rate.source + ')' : '') + '.',
       source: Pl.srcLine([[homeM && /zillow/.test(homeM.source_id) ? 'Zillow Home Value Index, ' + homeM.as_of : 'Census ACS 2020–2024', homeM && /zillow/.test(homeM.source_id) ? LINKS.zillow : LINKS.acsValue], ['HUD FY2026 income limits', LINKS.il]])
     });
     return { fig: reach, ami: ami, home: home, homeM: homeM, at80: at80, bands: bands, short: short };
@@ -248,7 +248,7 @@
     var s = gather(g, 'For-sale and ownership');
     if (s.html) return s.html;
     var V = global.LabViz, OF = global.OwnershipFinance, OR = global.OwnershipResale;
-    if (!OF || !OR) return T.head({ kind: 'tool', crumbs: T.trail('deal', 'For-sale and ownership'), title: 'For-sale and ownership' }) + '<p class="callout">The public site’s ownership engines did not load.</p>';
+    if (!OF || !OR) return T.head({ kind: 'tool', crumbs: T.trail('deal', 'For-sale and ownership'), title: 'For-sale and ownership' }) + '<p class="callout">The site’s ownership engines did not load.</p>';
     var r = reachPart(s), ami = r.ami, home = r.home, homeM = r.homeM, at80 = r.at80, reach = r.fig;
 
     // 3.3: the most a shared-equity home can resell for, year by year, under each formula, from the engine.
@@ -266,7 +266,7 @@
       series: series, ref: { y: at80, label: 'Affordable at 80% AMI today' }, xUnit: 'years',
       answer: 'A home bought for $' + num(at80) + ', the most an 80% AMI household can pay here, resells for $' + num(series[0].points[YEARS][1]) + ' on the open market after ' + YEARS + ' years at 3% a year. The resale formulas cap it lower, at $' +
         num(Math.min.apply(null, series.slice(1).map(function (x) { return x.points[YEARS][1]; }))) + ' to $' + num(Math.max.apply(null, series.slice(1).map(function (x) { return x.points[YEARS][1]; }))) + '.',
-      note: 'Market growth of 3% a year is the public site’s moderate scenario. Recapture is left out: the home sells at market and public money is repaid from the owner’s gain. Screening only; the deed restriction or ground lease decides the real terms.',
+      note: 'Market growth of 3% a year is the site’s moderate scenario. Recapture is left out: the home sells at market and public money is repaid from the owner’s gain. Screening only; the deed restriction or ground lease decides the real terms.',
       source: Pl.srcLine([['COHO resale conventions, verified ' + ((doc.meta && doc.meta.last_verified) || ''), LIVE + 'for-sale-market-study.html']])
     }) : '';
 

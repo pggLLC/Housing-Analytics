@@ -47,7 +47,7 @@
           '<p class="swing-values">' + esc(money(Math.min(x[1], x[2]))) + ' to ' + esc(money(Math.max(x[1], x[2]))) + ' <span class="note">(' + esc(money(span)) + ' swing)</span></p></div>';
       }).join('') + '</div>' +
       (top ? '<p><strong>' + esc(top[0]) + '</strong> moves most here: ' + esc(money(Math.abs(top[2] - top[1]))) + '.</p>' : '') +
-      '<p class="metric-source">The public site’s Deal Engine, the same swings as the live Deal Calculator’s sensitivity chart.</p></section>';
+      '<p class="metric-source">The site’s Deal Engine, the same swings as the full Deal Calculator’s sensitivity chart.</p></section>';
   }
 
   // Rent context: voucher, existing and asking rents for the county, on one scale (as js/components/rent-triangulation.js reads them).
@@ -90,7 +90,7 @@
       { label: 'Rent paid', color: Viz.COLORS.households, points: res.rentSeries.map(function (p) { return [p.year, p.cum]; }) },
       { label: 'Net cost of buying', color: Viz.COLORS.homes, points: res.buySeries.map(function (p) { return [p.year, Math.max(0, p.cum)]; }) }],
       answer: 'Breakeven: ' + (y ? 'year ' + y : 'past 30 years, so renting stays cheaper') + '.', note: 'Buying counts the down payment, ' + res.params.closingCostPct + '% closing costs and a ' + res.params.opportunityRatePct + '% return the down payment could have earned, less what a sale returns after ' + res.params.sellingCostPct + '% selling costs.',
-      source: 'The live Deal Calculator’s rent-or-buy calculation, with the assumptions above.' }) : '';
+      source: 'The full Deal Calculator’s rent-or-buy calculation, with the assumptions above.' }) : '';
     return '<section class="fin-section" aria-labelledby="fin-rvb"><h2 id="fin-rvb">Rent or buy: when does buying win?</h2>' +
       '<p>For the market around the site: the year the net cost of buying a home drops below the rent paid. Change the assumptions to fit the place.</p>' +
       '<form class="homes" data-action="rvb" novalidate><div class="field-grid">' + RVB.map(function (f) {

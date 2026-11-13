@@ -615,7 +615,7 @@
       var src = Pl.srcLine('Colorado State Demography Office, county single year of age, ' + sya.pyramidYear, LINKS.dola);
       var last = sp && sp.years ? sp.years.length - 1 : -1, i0 = sp && sp.years ? sp.years.indexOf(sya.pyramidYear) : -1;
       return '<h2>Demographic projections: age pyramid and senior pressure</h2>' +
-        (isCounty ? '' : '<p class="note">Ages shown are for ' + esc(cname) + ', from the State Demography Office\u2019s county figures for ' + sya.pyramidYear + '. The live page does not load the Census age table for ' + esc(placeShort) + ', so the county stands in here too.</p>') +
+        (isCounty ? '' : '<p class="note">Ages shown are for ' + esc(cname) + ', from the State Demography Office\u2019s county figures for ' + sya.pyramidYear + '. The Census age table is not loaded for ' + esc(placeShort) + ', so the county stands in.</p>') +
         '<h3>Age pyramid</h3>' +
         Viz.pyramid({ title: 'Residents by age, ' + cname + ', ' + sya.pyramidYear, scope: scope, rows: g,
           answer: num(g.reduce(function (t, r) { return t + r[1] + r[2]; }, 0)) + ' residents; ' + num(seniors.reduce(function (t, r) { return t + r[1] + r[2]; }, 0)) + ' are 65 or older.', source: src }) +
@@ -1074,7 +1074,7 @@
           (isCounty ? sel('vac', 'Target vacancy', vacOn ? vacPick.toFixed(1) : '', '', vacOpts) : '') + '</div>' +
           '<p class="note">' + (isCounty ? 'These change the figures in this part only; the charts further down stay at 20 years and the published vacancy target. '
             : 'A town reads its stored projection at the year picked. Its vacancy target is the county’s and is set in that projection, so it has no control here. The charts further down stay at 20 years. ') +
-          'The forecast file ends in ' + (pj.years || [])[(pj.years || []).length - 1] + ', so 20 years is the longest horizon. Households follow the State Demography Office’s forecast; the live page can also hold or trend the headship rate.' +
+          'The forecast file ends in ' + (pj.years || [])[(pj.years || []).length - 1] + ', so 20 years is the longest horizon. Households follow the State Demography Office’s forecast; the full Scenario Builder can also hold or trend the headship rate.' +
           (customFail ? ' The forecast has no figure for that pick here, so the published 20-year reading is shown.' : '') + '</p></div>';
       })();
       var dolaSrc = [dolaName(), LINKS.dola], bps = ['Census Building Permits Survey' + (permits ? ', ' + permits.window : ''), 'https://www.census.gov/construction/bps/'];
@@ -1336,7 +1336,7 @@
     function pmaLink() {
       return '<h2>Primary market area and CHFA requirements</h2><p>Drawing the market area, CHFA’s market study requirements and the PMA checklist sit with the market check, where a site is tested.</p>' +
         '<div class="actions"><a class="button-link" href="#/market?g=' + esc(geoid) + '">Market check for ' + esc(placeShort) + '</a>' +
-        '<a class="button-link secondary" href="' + esc(Pl.LIVE) + 'market-analysis.html#maChfaRequirements">CHFA checklist on the live site ↗</a></div>';
+        '<a class="button-link secondary" href="' + esc(Pl.LIVE) + 'market-analysis.html#maChfaRequirements">CHFA checklist in Market Analysis ↗</a></div>';
     }
 
     // The live chapter's projection table, AMI mix and rent test (js/housing-need-projector.js, js/mix-check.js and
@@ -1569,7 +1569,7 @@
         : '<p class="note">No price bands here: there is no four-person AMI to set them.</p>';
       return '<h3>If you are taking this further</h3>' +
         '<p>Renter households who could afford to buy in each price band, against owner homes valued in that band. A buyer pool to test, not buyers ready to purchase.</p>' + table +
-        '<p>Next, for a for-sale project: the per-home subsidy gap is worked in the <a href="' + Pl.LIVE + 'deal-calculator.html?geoid=' + esc(geoid) + '" target="_blank" rel="noopener">Deal Calculator’s for-sale mode on the live site ↗</a>, and how deed-restricted resale formulas play out is on <a href="#/for-sale?g=' + esc(geoid) + '">For-sale and ownership</a>.</p>';
+        '<p>Next, for a for-sale project: the per-home subsidy gap is worked in the <a href="' + Pl.LIVE + 'deal-calculator.html?geoid=' + esc(geoid) + '" target="_blank" rel="noopener">Deal Calculator’s for-sale mode ↗</a>, and how deed-restricted resale formulas play out is on <a href="#/for-sale?g=' + esc(geoid) + '">For-sale and ownership</a>.</p>';
     }
     function ownershipNeed() {
       var O = global.HNAOwnershipNeed, U = global.HNAUtils;
@@ -2038,7 +2038,7 @@
           (ddas.length ? '<span class="pm-pair"><i class="pm-key-dda"></i><span>Difficult Development Area (' + num(ddas.length) + ')</span></span>' : '') + '</p>' +
         '<p class="note pm-boost">' + (qcts.length || ddas.length ? 'Shaded tracts are Qualified Census Tracts and hatched areas are Difficult Development Areas on HUD’s ' + esc(hudYear) + ' lists, where a tax credit deal can take a 30% basis boost.'
           : 'No Qualified Census Tract or Difficult Development Area on HUD’s ' + esc(hudYear) + ' lists falls ' + (isCounty ? 'in this county.' : 'inside this view.')) + '</p>' +
-        '<p class="note">Larger dots are larger properties. ' + (isCounty ? 'Every property on record in the county.' : 'The dashed ring is 30 miles from the centre of ' + esc(placeShort) + ', the live map’s reach for a town; it crosses county lines.') + ' A property on the preservation list is tracked there, not found at risk.</p>' +
+        '<p class="note">Larger dots are larger properties. ' + (isCounty ? 'Every property on record in the county.' : 'The dashed ring is 30 miles from the centre of ' + esc(placeShort) + ', the map’s reach for a town; it crosses county lines.') + ' A property on the preservation list is tracked there, not found at risk.</p>' +
         '<p class="metric-source">' + Pl.srcLine([['CHFA tax credit and preservation lists, HUD Multifamily Assisted, USDA Rural Housing, as merged ' + gen, Pl.LIVE + 'preservation.html'], ['HUD QCT and DDA lists, ' + hudYear, 'https://www.huduser.gov/portal/datasets/qct.html'], ['Census TIGER 2024 boundaries', 'https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html']]) + '</p>' +
         (global.LabVizData ? global.LabVizData.block('Affordable properties ' + where, ['Property', 'City', 'Program', 'Homes', 'Awarded'],
           dots.map(function (x) { return [x.property_name || '', x.city || '', label(x), +x.total_units || '', String(x.award_year || x.latest_year || '')]; }).sort(function (a, b) { return a[0] < b[0] ? -1 : 1; })) : '') + '</figure>',
@@ -2126,7 +2126,7 @@
     function buyScope() {
       var hs = scopeOf(d.median_home_value, 'median_home_value', sctx);
       var where = hs && hs.level === 'county-proxy' ? 'the county\u2019s typical home value' : 'the typical home value';
-      return { level: 'estimate', metric: 'Income needed to buy', from: where + ' and a 30-year loan at the dated mortgage rate, with the public site\u2019s ownership engine' };
+      return { level: 'estimate', metric: 'Income needed to buy', from: where + ' and a 30-year loan at the dated mortgage rate, with the site\u2019s ownership engine' };
     }
     function buyReach() {
       var OF = global.OwnershipFinance, hm = m('median_home_value'), inc = v('median_hh_income');
@@ -2446,7 +2446,7 @@
         '<li><strong>Tax credit overlays.</strong> Properties come from CHFA’s current monitoring list. The backup file the site keeps holds the same CHFA records, not a separate HUD count. QCT and DDA status come from HUD’s yearly lists.</li>' +
         '<li><strong>This geography.</strong> ' + esc(entry.label) + (isCounty ? ', a county.' : ', a place in ' + esc(countyName || 'its county') + '. HUD publishes income limits for counties only, so the town uses the county’s.') + '</li>' +
         '</ul><h3>Primary data sources</h3><ul class="source-grid">' + SRCS.map(function (x) { return '<li><strong>' + esc(x[0]) + '</strong> <a href="' + esc(x[2]) + '" rel="noopener">' + esc(x[1]) + '</a></li>'; }).join('') + '</ul>' +
-        '<p class="note"><a href="' + esc(Pl.LIVE) + 'dashboard-data-sources-ui.html" rel="noopener">Full data sources inventory</a> · <a href="' + esc(Pl.LIVE) + 'data-status.html" rel="noopener">Data freshness</a> on cohoanalytics.com</p></section>';
+        '<p class="note"><a href="' + esc(Pl.LIVE) + 'dashboard-data-sources-ui.html" rel="noopener">Full data sources inventory</a> · <a href="' + esc(Pl.LIVE) + 'data-status.html" rel="noopener">Data freshness</a></p></section>';
     }
   }
 
@@ -2493,7 +2493,7 @@
       lifted.strip + stepPath(false, null, geoid) + nav + '<h2 class="tab-title">' + esc(current.title) + '</h2>' + focusTables(lifted.body) + downloads(geoid, entry) + (tab === 'overview' ? shareCard(entry, place, county, locator(geoid, entry.label, fips, county, shared.data.counties)) : '') + nextStep(geoid, tab, entry) +
       (global.LabStrength ? global.LabStrength.footnote() : '') +
       '<p class="note">Census figures are survey estimates with margins of error, which are wide for small places. Each figure names its agency, dataset and year. ' +
-      '<a href="' + esc(current.live ? Pl.LIVE + current.live + '?geoid=' + geoid : entry.href) + '">This chapter in full on cohoanalytics.com</a>.</p>';
+      '<a href="' + esc(current.live ? Pl.LIVE + current.live + '?geoid=' + geoid : entry.href) + '">Open this chapter’s full page</a>.</p>';
   }
 
   // Share card for one place (Gemini round 7, q25; big visual pass 11-06): the 1200 x 630 picture a shared link
@@ -2544,7 +2544,7 @@
   function downloads(geoid, entry) {
     var g = esc(geoid);
     return '<section class="hna-dl" aria-labelledby="hna-dl-h"><h2 id="hna-dl-h">Download this assessment</h2>' +
-      '<p class="note">Figures for ' + esc(entry.label) + ' with their sources, as the public site publishes them.</p><div class="actions">' +
+      '<p class="note">Figures for ' + esc(entry.label) + ' with their sources, as COHO publishes them.</p><div class="actions">' +
       '<button type="button" class="button-link secondary" data-hna-dl="print">Print or save as PDF</button>' +
       '<button type="button" class="button-link secondary" data-hna-dl="csv" data-hna-g="' + g + '">Download CSV (opens in Excel)</button>' +
       '<button type="button" class="button-link secondary" data-hna-dl="json" data-hna-g="' + g + '">Download JSON</button>' +

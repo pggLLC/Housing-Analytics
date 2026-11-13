@@ -213,8 +213,8 @@
       '</dl>' + programList(s, r) + '</aside>';
     return head + '<div class="sale-layout">' + board + inputs + '</div>' + priceTiles(r) +
       '<section class="tool-section" aria-labelledby="sale-resale-h"><h2 id="sale-resale-h">When the home resells</h2><p>How each resale rule keeps the home affordable for the next buyer, after ' + esc(x['dc-own-resale-years'] || '5') + ' years, in a falling, steady and rising market.</p>' + resaleTable(r) + '</section>' +
-      '<p class="note">Calculated by the cohoanalytics.com Deal Engine for homes for sale. Funding programs checked ' + esc(data.programs.meta && data.programs.meta.last_verified || '') + '. Screening only, not underwriting.</p>' +
-      T.next('Next', [{ href: '#/for-sale', label: 'For-sale market study' }, { href: LIVE_TOOL, label: 'Every for-sale input on the live Deal Calculator ↗', secondary: true }, { href: '#/deal-calculator', label: 'Back to the Deal Calculator', secondary: true }]);
+      '<p class="note">Calculated by the COHO Deal Engine for homes for sale. Funding programs checked ' + esc(data.programs.meta && data.programs.meta.last_verified || '') + '. Screening only, not underwriting.</p>' +
+      T.next('Next', [{ href: '#/for-sale', label: 'For-sale market study' }, { href: LIVE_TOOL, label: 'Every for-sale input on the full Deal Calculator ↗', secondary: true }, { href: '#/deal-calculator', label: 'Back to the Deal Calculator', secondary: true }]);
   }
 
   document.addEventListener('change', function (ev) {

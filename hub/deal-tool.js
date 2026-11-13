@@ -53,11 +53,11 @@
       return '<li><a href="#/homes/' + at + '">' + esc(p.name) + '</a><span class="note"> ' + esc(p.jurisdiction ? p.jurisdiction.name : 'No place set') + ' · <a href="#/financials/' + at + '">results</a></span></li>';
     }).join('');
     return '<div class="start-grid">' +
-      '<section class="start-card"><h2>Run it in the lab</h2><p>Step 1 starts from a place. Steps 2 to 5 sit inside a project, so the homes, rents and costs stay together. A saved project opens at step 2. Projects save in this browser only.</p>' +
+      '<section class="start-card"><h2>Build it step by step</h2><p>Step 1 starts from a place. Steps 2 to 5 sit inside a project, so the homes, rents and costs stay together. A saved project opens at step 2. Projects save in this browser only.</p>' +
       (rows ? '<ul class="plain-list">' + rows + '</ul>' : '') +
       '<div class="actions"><a class="button-link" href="#/places">Start from a place</a><a class="button-link secondary" href="#/projects">Your projects</a></div></section>' +
-      '<section class="start-card"><h2>Every line on one page</h2><p>The live Deal Calculator runs the same engine with every input on one page, including soft funding.</p>' +
-      '<div class="actions"><a class="button-link secondary" href="' + esc(liveTool()) + '">Open it on cohoanalytics.com ↗</a></div></section></div>';
+      '<section class="start-card"><h2>Every line on one page</h2><p>The full Deal Calculator runs the same engine with every input on one page, including soft funding.</p>' +
+      '<div class="actions"><a class="button-link secondary" href="' + esc(liveTool()) + '">Open the full Deal Calculator ↗</a></div></section></div>';
   }
 
   function dataTable() {

@@ -188,9 +188,9 @@
       ]
     }) +
       '<h2>The ten places ranked highest' + (lensOn ? ' (official ranking)' : '') + '</h2>' + topTen(top, max, rows.length) +
-      '<details class="counted"><summary>How the score is built</summary><p>' + esc(meta.note) + '</p><p>The score is the HNA’s own screening index. The lab shows it as published and adds no score of its own. The figures beside it are each place’s published counts, so a place can be read without the score.</p>' +
+      '<details class="counted"><summary>How the score is built</summary><p>' + esc(meta.note) + '</p><p>The score is the HNA’s own screening index. This page shows it as published and adds no score of its own. The figures beside it are each place’s published counts, so a place can be read without the score.</p>' +
         // The live page's "what this page is not" note (QA 11-09), word for word.
-        '<p><strong>What the ranking does not tell you.</strong> Rankings use percentile scoring across all 546 geographies, mixing large cities with small CDPs. A high percentile rank for a 500-person CDP may reflect noise, not signal. The 55% community-need / 45% opportunity weighting is defensible but not the only valid weighting. A place with its own published ACS and CHAS data is scored on that data; a place without it uses its county\u2019s figure, scaled by population share. <a href="' + RANK_SRC + '">From the live HNA ranking page</a>.</p></details>' +
+        '<p><strong>What the ranking does not tell you.</strong> Rankings use percentile scoring across all 546 geographies, mixing large cities with small CDPs. A high percentile rank for a 500-person CDP may reflect noise, not signal. The 55% community-need / 45% opportunity weighting is defensible but not the only valid weighting. A place with its own published ACS and CHAS data is scored on that data; a place without it uses its county\u2019s figure, scaled by population share. <a href="' + RANK_SRC + '">From the full HNA ranking page</a>.</p></details>' +
       T.means([
         { text: 'The score weighs need together with access to jobs and services, so it favors places where new homes would also be near what residents use. A place with high need but few services ranks lower; its Community need score shows need alone.' }
       ]) +
@@ -703,7 +703,7 @@
     var head = '<section id="li-tax"><h2>Property tax exemption</h2>';
     // The file is newer than the lab's pinned data copy: read it on the public site (LAB_PORT) and in the preview,
     // which takes data from Housing-Analytics main (LAB_DATA_AS_OF); the bare lab at the pin says so instead of a 404.
-    if (!global.LAB_PORT && !global.LAB_DATA_AS_OF) return head + '<p class="note">The exemption routes are not in the lab’s pinned data yet. They are on the <a href="' + esc(LI_SRC) + '">live Local incentives page</a>.</p></section>';
+    if (!global.LAB_PORT && !global.LAB_DATA_AS_OF) return head + '<p class="note">The exemption routes are not in the data yet. They are on the <a href="' + esc(LI_SRC) + '">full Local incentives page</a>.</p></section>';
     var tx = load(TAX_FILES), doc = tx.data && tx.data.taxRoutes;
     if (!tx.data && !tx.error) return head + '<p class="note">Loading the exemption routes…</p></section>';
     if (!doc || !Array.isArray(doc.entries)) return head + '<p class="note">The exemption file could not be loaded.</p></section>';
@@ -767,7 +767,7 @@
       answer: 'Housing tools on record for ' + esc(name) + (heir ? ', a CDP, so ' + esc(cleanName(heir.name)) + '’s tools apply' : '') + '.',
       meta: global.LocalIncentivesData.SCOPES.map(function (sc) { return esc(SCOPE_LABEL[sc]) + ': ' + pill(p.states[sc]); }).join(' · ')
     }) + byScope + countyFunds(x.m, p, name) + taxExemption(p, name) + p123 + required + peerBlock(x.m, geoid, subject) + ideas +
-      T.source('Local Housing Incentives on cohoanalytics.com', LI_SRC + '?geoid=' + geoid, x.s.data.fees.meta.as_of) +
+      T.source('COHO Local Housing Incentives', LI_SRC + '?geoid=' + geoid, x.s.data.fees.meta.as_of) +
       T.next('Next', [{ href: placeHref(place && place.kind === 'cdp' ? geoid : geoid), label: 'Housing need in ' + name + ' →' }, { href: '#/places/incentives', label: 'Every jurisdiction', secondary: true }]);
   }
 
@@ -823,7 +823,7 @@
   function fredLink(c) { return '<a href="' + 'https://fred.stlouisfed.org/series/{id}'.replace('{id}', esc(c.id)) + '">' + esc(c.id) + '</a>'; }
   function materials(fred) {
     var ok = needScript('js/fred-commodities.js', function () { return !!fredModule(); });
-    if (!ok) return scriptFailed('js/fred-commodities.js') ? '<p class="callout">The material price module did not load. The prices are on <a href="' + esc(COST_SRC) + '">the live construction costs page ↗</a>.</p>' : '<p class="note">Loading material prices…</p>';
+    if (!ok) return scriptFailed('js/fred-commodities.js') ? '<p class="callout">The material price module did not load. The prices are on <a href="' + esc(COST_SRC) + '">the full construction costs page ↗</a>.</p>' : '<p class="note">Loading material prices…</p>';
     var d = commodities(fred);
     var cards = '<ul class="mat-cards">' + MAT_CARDS.filter(function (k) { return d[k]; }).map(function (k) {
       var c = d[k];
@@ -871,7 +871,7 @@
     if (!s.data) return waiting('Construction costs', s);
     var ser = s.data.fred.series[COST_SERIES], tl = s.data.timeline;
     var obs = (ser && ser.observations || []).filter(function (o) { return o.date >= '2020-01-01' && o.value !== '.' && o.value != null; });
-    if (!obs.length) return T.head({ kind: 'data', crumbs: crumbs('Construction costs'), title: 'Construction costs' }) + '<p class="callout">The cost series is not in this copy of the data.</p>';
+    if (!obs.length) return T.head({ kind: 'data', crumbs: crumbs('Construction costs'), title: 'Construction costs' }) + '<p class="callout">The cost series is not in the data yet.</p>';
     var base = +obs[0].value;
     var pts = obs.map(function (o) { return [month(o.date), +o.value / base * 100]; });
     var last = obs[obs.length - 1], lastD = month(last.date), rise = (+last.value / base - 1) * 100;

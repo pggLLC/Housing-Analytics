@@ -68,7 +68,7 @@
     var whose = o.tracts === 1 ? 'Figures shared out from tracts come from a single census tract.'
       : o.tracts > 1 ? 'Figures shared out from tracts draw on ' + o.tracts + ' tracts.' : '';
     var context = g !== 'strong' && o.county && o.county.href
-      ? ' <a href="' + esc(o.county.href) + '">See ' + esc(o.county.name) + '\u2019s figures' + (o.county.live ? ' on cohoanalytics.com \u2197' : '') + '</a> for the wider picture.' : '';
+      ? ' <a href="' + esc(o.county.href) + '">See ' + esc(o.county.name) + '\u2019s figures' + (o.county.live ? ' \u2197' : '') + '</a> for the wider picture.' : '';
     var table = c ? '<details class="strength-detail"><summary>See the margins</summary>' +
       '<div class="table-scroll" role="region" aria-label="Survey margins for ' + esc(o.name) + '" tabindex="0"><table><thead><tr><th scope="col">Figure</th><th scope="col" class="num">Estimate</th><th scope="col" class="num">Margin (90%)</th><th scope="col" class="num">CV</th><th scope="col">Rating</th></tr></thead><tbody>' +
       c.rows.map(function (r) {

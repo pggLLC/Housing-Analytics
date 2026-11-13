@@ -25,7 +25,7 @@
       if (!r.ok) throw new Error(r.status);
       return r.json();
     }).then(function (t) { chfa = t; Shell.render(); })
-      .catch(function () { chfaError = 'The CHFA rent table did not load. Run scripts/fetch-pinned-data.js and serve the repository root.'; Shell.render(); });
+      .catch(function () { chfaError = 'The CHFA rent table did not load. Reload the page to try again.'; Shell.render(); });
   }
 
   function money(n) { return n == null ? '—' : '$' + Math.round(n).toLocaleString('en-US'); }
@@ -97,7 +97,7 @@
     if (!s) return '<a class="back-link" href="#/project/' + esc(p.projectId) + '">← ' + esc(p.name) + '</a><h1>Scenario not found</h1>';
     loadChfa();
     var head = '<a class="back-link" href="#/project/' + esc(p.projectId) + '">← ' + esc(p.name) + '</a>' +
-      '<h1>Homes and affordability</h1><p class="lede">' + esc(s.name) + '. Set the homes, who they are for, and their rents. Ceilings come from CHFA’s published table, checked by the public site’s own code.</p>';
+      '<h1>Homes and affordability</h1><p class="lede">' + esc(s.name) + '. Set the homes, who they are for, and their rents. Ceilings come from CHFA’s published table, checked by the site’s own code.</p>';
     var manual = p.overrides[s.scenarioId] && p.overrides[s.scenarioId].manualMix;
     if (manual) return head + manualSummary(p, s, manual);
     if (chfaError) return head + '<p class="callout">' + esc(chfaError) + '</p>';
@@ -248,7 +248,7 @@
       '<div><dt>County and table</dt><dd>' + esc(c ? c.county_name + ' County' : meta.countyFips) + ', CHFA ' + esc(meta.tableYear) + ' table effective ' + esc(meta.effectiveDate) + '</dd></div>' +
       '<div><dt>Utility allowance</dt><dd>' + esc(meta.allowanceBasis.method || 'not set') + (meta.allowanceBasis.reference ? ', ' + esc(meta.allowanceBasis.reference) : '') + (meta.allowanceBasis.effectiveDate ? ', effective ' + esc(meta.allowanceBasis.effectiveDate) : '') + '</dd></div>' +
       '<div><dt>Vacancy</dt><dd>' + (meta.vacancyRate == null ? 'Not set' : (meta.vacancyRate * 100).toFixed(1) + '%') + '</dd></div>' +
-      '<div><dt>Goes to</dt><dd>Financials, on the cohoanalytics.com Deal Calculator</dd></div></dl>' +
+      '<div><dt>Goes to</dt><dd>Financials, on the COHO Deal Calculator</dd></div></dl>' +
       scheduleRows(att) +
       (mix.available ? '<p class="callout">Ready: ' + mix.restrictedRows.length + ' restricted row(s) and ' + mix.marketRows.length + ' market row(s), ' + mix.totalUnits + ' homes.</p>'
         : '<p class="callout"><strong>Not ready:</strong> ' + esc(ChfaRentLimits.unavailableMessage(mix.reason.replace(/^schedule_unavailable:/, '')) || mix.reason) + '</p>') +
@@ -277,9 +277,9 @@
     var back = '<a class="back-link" href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">← Back without changing anything</a>';
     if (!att) return back + '<h1>Nothing to convert</h1><p class="lede">Save a schedule first.</p>';
     var plan = conversionPlan(att);
-    var head = back + '<h1>Copy the mix for hand editing</h1><p class="lede">This copies the homes in ' + esc(s.name) + ' into a new scenario, ready for hand editing. Editing the copy, and running Financials on it, are not in the lab yet: for now the copy shows its homes only. ' + esc(s.name) + ' keeps its linked schedule.</p>';
+    var head = back + '<h1>Copy the mix for hand editing</h1><p class="lede">This copies the homes in ' + esc(s.name) + ' into a new scenario, ready for hand editing. Editing the copy, and running Financials on it, are not built yet: for now the copy shows its homes only. ' + esc(s.name) + ' keeps its linked schedule.</p>';
     if (plan.blocked.length) {
-      return head + '<div class="callout"><strong>Can’t convert yet.</strong> ' + plan.blocked.length + ' row(s) would be lost, and the lab never drops homes silently.</div>' +
+      return head + '<div class="callout"><strong>Can’t convert yet.</strong> ' + plan.blocked.length + ' row(s) would be lost, and this page never drops homes silently.</div>' +
         '<ul class="route-list">' + plan.blocked.map(function (b) {
           return '<li><span class="unlinked">Row ' + b.row.rowNumber + ': ' + esc(BR_LABEL[b.row.bedrooms]) + ', ' + esc(b.row.isMarket ? 'market' : b.row.amiTier + '% AMI') + ', ' + b.row.count + ' homes</span><p class="note">' + esc(b.why) + '</p></li>';
         }).join('') + '</ul><p>Keep using the linked schedule, or change these rows first.</p>';
@@ -289,14 +289,14 @@
         return '<tr><td>' + c.tier + '% AMI, ' + esc(BR_LABEL[RENT_BEDROOMS[c.bedroomCell]]) + '</td><td class="num">' + c.units + '</td><td class="num">' + money(c.scheduleRent) + '</td><td class="num">' + money(c.utilityAllowance) + '</td></tr>';
       }).join('') + '</tbody></table></div>' +
       '<ul class="plain"><li>All ' + plan.cells.reduce(function (n, c) { return n + c.units; }, 0) + ' homes keep their band and size.</li>' +
-      '<li>In manual mode the calculator sets rents from its own CHFA lookup for each band and size, and goes back to its local utility-allowance lookup instead of the allowance above. Financials for a mix edited by hand is not in the lab yet; the linked schedule keeps running.</li>' +
+      '<li>In manual mode the calculator sets rents from its own CHFA lookup for each band and size, and goes back to its local utility-allowance lookup instead of the allowance above. Financials for a mix edited by hand is not built yet; the linked schedule keeps running.</li>' +
       '<li>The county, table year and vacancy stay as saved.</li></ul>' +
       '<form data-action="convert"><button type="submit">Make the copy</button></form>';
   }
 
   function manualSummary(p, s, manual) {
     var from = p.scenarios.filter(function (x) { return x.scenarioId === manual.fromScenarioId; })[0];
-    return '<p class="callout">This scenario holds a copy of the homes in ' + esc(from ? from.name : 'another scenario') + ', made ' + esc(Shell.when(manual.convertedAt)) + '. Hand editing is not in the lab yet.' +
+    return '<p class="callout">This scenario holds a copy of the homes in ' + esc(from ? from.name : 'another scenario') + ', made ' + esc(Shell.when(manual.convertedAt)) + '. Hand editing is not built yet.' +
       (from ? ' <a href="#/homes/' + esc(p.projectId) + '/' + esc(from.scenarioId) + '">Go back to the linked schedule in ' + esc(from.name) + '</a>' : '') + '</p>' +
       '<div class="table-scroll" role="region" aria-label="Manual mix" tabindex="0"><table><thead><tr><th scope="col">Grid cell</th><th scope="col" class="num">Homes</th></tr></thead><tbody>' +
       manual.cells.map(function (c) { return '<tr><td>' + c.tier + '% AMI, ' + esc(BR_LABEL[RENT_BEDROOMS[c.bedroomCell]]) + '</td><td class="num">' + c.units + '</td></tr>'; }).join('') +

@@ -65,11 +65,11 @@
         fetch('guides/legislation-road.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(done, fail);
       }
     }
-    if (road.error) return '<p class="note">The ROAD Act write-up did not load; it is on <a href="' + LIVE + 'housing-legislation-2026.html#road-act">the live Legislation page</a>.</p>';
+    if (road.error) return '<p class="note">The ROAD Act write-up did not load; it is on <a href="' + LIVE + 'housing-legislation-2026.html#road-act">the full Legislation page</a>.</p>';
     if (!road.g) return '';
     return '<section id="lg-road" class="guide-body">' + road.g.sections.filter(function (x) { return ROAD_KEEP.indexOf(x.id) > -1; }).map(function (x) {
       return '<h2 id="lg-' + esc(x.id) + '">' + esc(x.id === 'verified-enacted-housing-provisions' ? 'ROAD to Housing Act: what it enacted' : x.title) + '</h2>' + x.html;
-    }).join('') + '<p class="note">From <a href="' + LIVE + 'housing-legislation-2026.html#road-act">the live Legislation page</a>.</p></section>';
+    }).join('') + '<p class="note">From <a href="' + LIVE + 'housing-legislation-2026.html#road-act">the full Legislation page</a>.</p></section>';
   }
 
   function natRow(x) {
@@ -112,17 +112,17 @@
         { key: 'date', label: 'Date' },
         { key: 'title', label: 'Headline', href: function (r) { return r.link; } },
         { key: 'source', label: 'Outlet' },
-        { key: 'check', label: 'Outlet check', tip: 'Checked: COHO has reviewed the outlet. Unverified: not checked yet. Weak sourcing: reviewed, with the reason. The same tags are on the live page.' },
+        { key: 'check', label: 'Outlet check', tip: 'Checked: COHO has reviewed the outlet. Unverified: not checked yet. Weak sourcing: reviewed, with the reason. The same tags are on the full Housing News page.' },
         { key: 'where', label: 'Where', tip: 'Places named in the story, matched to the 546 Colorado geographies; otherwise its region' }
       ], stories, { noun: 'headlines', placeholder: 'Headline, outlet or place' }) + T.source('Each outlet named in its row, as COHO’s news list gathers them', LIVE + 'data/policy_briefs.json', 'updated ' + sm.generated.slice(0, 10)) +
       UI.bars('Colorado headlines by month', 'Stories kept after duplicates and other-state news are removed. The first month starts ' + st[st.length - 1].date + ', so it is partial.', byMonth, num) +
       T.source('COHO news list, counted by month', LIVE + 'data/policy_briefs.json', 'updated ' + sm.generated.slice(0, 10)) +
       '<details class="counted"><summary>How this list is made</summary><p class="note">' + num(st.length) + ' Colorado headlines from ' + num(outlets) + ' outlets, newest ' + esc(st[0].date) + ', each dated and linked to the outlet that ran it. ' +
-      esc(sm.method.split('. ').filter(function (x) { return !/(data|scripts)\//.test(x); }).join('. ').replace(/\.?$/, '.')) + ' Places are matched to Colorado\u2019s counties, towns and CDPs (Census Gazetteer). Other states are left out. The same list is on <a href="' + LIVE + 'policy-briefs.html">cohoanalytics.com</a>.</p></details></section>' +
+      esc(sm.method.split('. ').filter(function (x) { return !/(data|scripts)\//.test(x); }).join('. ').replace(/\.?$/, '.')) + ' Places are matched to Colorado\u2019s counties, towns and CDPs (Census Gazetteer). Other states are left out. The same list is on <a href="' + LIVE + 'policy-briefs.html">the full Housing News page</a>.</p></details></section>' +
       (nat.length ? '<section id="nw-national" aria-labelledby="nw-national-h"><h2 id="nw-national-h">National trends</h2><p class="note">Housing market and homebuilding trends reported by national newspapers and housing research centers. Opinion pieces are left out. They are kept out of the Colorado list above.</p>' +
         '<ul class="pw-list">' + nat.slice(0, 5).map(natRow).join('') + '</ul>' +
         (nat.length > 5 ? '<details class="counted"><summary>' + num(nat.length - 5) + ' more national stories</summary><ul class="pw-list">' + nat.slice(5).map(natRow).join('') + '</ul></details>' : '') + '</section>' : '') +
-      '<p class="note">For the week in one read, see the <a href="' + LIVE + 'sunday-digest.html">Sunday digest</a> on cohoanalytics.com, a short summary of Colorado housing news each Sunday.</p>' +
+      '<p class="note">For the week in one read, see the <a href="' + LIVE + 'sunday-digest.html">Sunday digest</a>, a short summary of Colorado housing news each Sunday.</p>' +
       '<p class="note">Event dates and law deadlines are on <a href="#/calendar">Deadlines and events</a>. The laws themselves are on <a href="#/legislation">Legislation</a>, and the state\u2019s housing appointments on <a href="#/housing-posts">Who holds housing posts</a>.</p>' +
       T.next('Next', [{ href: '#/calendar', label: 'Deadlines and events \u2192' }, { href: '#/legislation', label: 'Laws COHO tracks', secondary: true }]);
   }
@@ -244,7 +244,7 @@
       T.fold('Colorado policy watch', 'Colorado housing laws and CHFA allocation plan changes COHO has checked, each with its source. As of ' + esc(w.meta.as_of) + '.',
         watchList(w, { law: 'Colorado housing laws, 2026 session', qap: 'CHFA allocation plan' }) +
         (w.meta.known_gaps && w.meta.known_gaps.length ? '<h3>Not yet covered</h3><p class="note">Topics not checked yet, listed so their absence is not read as “nothing happened”.</p><ul>' + w.meta.known_gaps.filter(function (g) { return !/appointments/i.test(g); }).map(function (g) { return '<li>' + esc(g) + '</li>'; }).join('') + '</ul>' : ''), { id: 'policy-watch' }) +
-      '<p class="note">How each change may move credit prices is the site’s reading, to be reviewed quarterly; the status links go to official sources. Charts of the bills over time are on <a href="' + LIVE + 'housing-legislation-2026.html">Legislation 2026 on cohoanalytics.com</a>.</p>' +
+      '<p class="note">How each change may move credit prices is the site’s reading, to be reviewed quarterly; the status links go to official sources. Charts of the bills over time are on <a href="' + LIVE + 'housing-legislation-2026.html">the full Legislation 2026 page</a>.</p>' +
       T.next('Next', [{ href: '#/equity-pricing', label: 'What credits sell for now →' }, { href: '#/guide/ahcia', label: 'AHCIA status', secondary: true }]);
   }
 
@@ -259,7 +259,7 @@
     var rest = LIVE_HUB ? LIVE_HUB().replace(/^[\s\S]*?<\/header>/, '') : '';
     return T.head({ kind: 'hub', crumbs: [{ label: 'Home', href: '#/' }, { label: m.title }], title: m.title, answer: esc(m.question) }) +
       m.groups.map(function (g) { return '<h2>' + esc(g.title) + '</h2><div class="hub-cards">' + g.items.map(card).join('') + '</div>'; }).join('') +
-      '<details class="counted"><summary>Every page under this menu on the live site</summary>' + rest + '</details>';
+      '<details class="counted"><summary>Every page under this menu</summary>' + rest + '</details>';
   }
 
   Shell.views.news = news;

@@ -43,7 +43,7 @@
     if (s.html) return s.html;
     var st = global.LabStrength ? global.LabStrength.load() : null;
     if (st && !st.file && !st.error) return T.head({ kind: 'tool', crumbs: T.trail('places', TITLE), title: TITLE }) + '<p role="status" class="note">Reading the survey margins…</p>';
-    if (!global.OwnershipFinance) return T.head({ kind: 'tool', crumbs: T.trail('places', TITLE), title: TITLE }) + '<p class="callout">The public site’s ownership engine did not load.</p>';
+    if (!global.OwnershipFinance) return T.head({ kind: 'tool', crumbs: T.trail('places', TITLE), title: TITLE }) + '<p class="callout">The site’s ownership engine did not load.</p>';
 
     var v = function (k) { var m = M.metric(s.c, k); return m ? m.value : null; };
     var name = s.name, here = s.isCounty ? Pl.AT.county : Pl.AT.place;

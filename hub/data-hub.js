@@ -242,7 +242,7 @@
     var get = function (k) { return params && typeof params.get === 'function' ? params.get(k) : null; };
     var I = global.DataSourceInventory;
     var crumbs = T.trail('data', 'Data sources');
-    if (!I) return T.head({ kind: 'data', crumbs: crumbs, title: 'Data sources' }) + '<p class="callout">The live site’s source registry did not load.</p>';
+    if (!I) return T.head({ kind: 'data', crumbs: crumbs, title: 'Data sources' }) + '<p class="callout">The site’s source registry did not load.</p>';
     var all = I.getSources(), stats = I.getStats();
     var order = ['current', 'aging', 'stale', 'live', 'curated', 'unavailable', 'planned', 'unknown'];
     var attention = all.filter(function (s) { return s.status === 'stale' || s.status === 'aging' || s.status === 'unavailable'; });
@@ -255,7 +255,7 @@
     return T.head({
       kind: 'data', crumbs: crumbs, title: 'Data sources',
       answer: 'Every source behind the site, who publishes it, when it was last brought in and whether that is recent enough for how often it changes.',
-      meta: '<span class="scope-tag">Status as of ' + esc(newest) + '</span> From each source’s own release date, by the live site’s rules.',
+      meta: '<span class="scope-tag">Status as of ' + esc(newest) + '</span> From each source’s own release date, by the site’s rules.',
       facts: [
         { value: num(stats.total), label: 'Sources in the registry, in ' + stats.categories + ' groups', source: 'COHO source registry', href: LIVE },
         { value: num(stats.counts.current || 0), label: 'Current for their cadence', source: 'COHO source registry', href: LIVE },
@@ -291,7 +291,7 @@
       (apis.length ? '<h2 id="ds-apis">Live data services</h2><p class="note">' + apis.length + ' sources can also be read straight from the publisher’s own service.</p><ul class="ds-apis">' + apis.map(function (s) {
         return '<li><strong>' + esc(plain(s.name)) + '</strong> <a href="' + esc(s.apiEndpoint) + '">' + esc(plain(s.provider) || 'Service') + ' service ↗</a></li>';
       }).join('') + '</ul>' : '') +
-      '<p class="note">The status rules and the cadences are the live site’s (<a href="' + LIVE + '">Data sources on cohoanalytics.com</a>).</p>' +
+      '<p class="note">The status rules and the cadences are the same as on <a href="' + LIVE + '">the full Data sources page</a>.</p>' +
       T.next('Next', [{ href: '#/guide/methods', label: 'How the numbers are made →' }, { href: '#/guide/about', label: 'About COHO', secondary: true }]);
   }
 

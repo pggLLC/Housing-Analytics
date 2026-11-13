@@ -179,7 +179,7 @@
     { id: 'dc-state-standard-annual', group: 'state', label: 'Round Two only: paired standard state credit, annual ($)', value: '', step: '1000', min: '0', placeholder: 'none' },
     // Paul's decision (1 November 2026): $0.72 stays an explicit, editable COHO starting assumption here.
     { id: 'dc-state-price', group: 'state', label: 'Price per $1 of state credit', value: '0.72', step: '0.01', min: '0', max: '1.5',
-      note: 'Starts at $0.72, COHO\u2019s own starting assumption from Colorado tax credit applications. No public source prices the Colorado state credit; replace it with a syndicator\u2019s quote. The live page starts blank.' },
+      note: 'Starts at $0.72, COHO\u2019s own starting assumption from Colorado tax credit applications. No public source prices the Colorado state credit; replace it with a syndicator\u2019s quote. The full Deal Calculator starts blank.' },
     { id: 'dc-state-fees', group: 'state', label: 'State credit investor fees, total ($)', value: '', step: '1000', min: '0', placeholder: 'none' },
     { id: 'dc-state-awarded', group: 'state', type: CHECK, label: 'CHFA has awarded this state credit (a proposed amount does not count: CHFA sizes it with a three-test calculation this calculator does not model)', value: '' },
     { id: 'dc-state-payin-closing', group: 'state-payin', label: 'At closing', value: '', step: '1', min: '0', max: '100', placeholder: '\u2014' },
@@ -187,7 +187,7 @@
     { id: 'dc-state-payin-stabilization', group: 'state-payin', label: 'At stabilization', value: '', step: '1', min: '0', max: '100', placeholder: '\u2014' },
     { id: 'dc-add-kind', group: 'added', label: 'Added credit', value: '', options: [['', 'None'], ['tz', 'Colorado Transit Zone credit (HB26-1065)'],
       ['designation', 'Another location- or designation-based credit'], ['other', 'Another credit, not tied to location']],
-      note: 'The Transit Zone credit counts only when Market Analysis places the site inside a zone on OEDIT\u2019s map, as on the live page; this page has no map test, so it stays uncounted here.' },
+      note: 'The Transit Zone credit counts only when Market Analysis places the site inside a zone on OEDIT\u2019s map, as on the full Deal Calculator; this page has no map test, so it stays uncounted here.' },
     { id: 'dc-add-evidence', group: 'added', type: 'text', label: 'Eligibility evidence (the designation, map or letter showing the site qualifies)', value: '', placeholder: 'not entered' },
     { id: 'dc-add-annual', group: 'added', label: 'Annual credit ($)', value: '', step: '1000', min: '1', placeholder: 'none' },
     { id: 'dc-add-years', group: 'added', label: 'Years claimed', value: '', step: '1', min: '1', placeholder: 'not entered' },
@@ -208,7 +208,7 @@
   // ranges. Rent burden stays at 30%: the live page disables it for published CHFA rents, which a saved schedule uses.
   var NOI_INPUTS = [
     { id: 'dc-auto-noi', group: 'noi', label: 'Net operating income', options: [['yes', 'Compute from the rents and the operating budget'], ['no', 'Enter it myself']], value: 'yes',
-      note: 'The live page computes it by default. An entered figure replaces the rents, vacancy and budget in every result, so its breakdown is not shown.' },
+      note: 'The full Deal Calculator computes it by default. An entered figure replaces the rents, vacancy and budget in every result, so its breakdown is not shown.' },
     { id: 'dc-noi', group: 'noi', label: 'Net operating income you entered ($ a year)', value: '0', step: '1000', min: '0', note: 'Used only when you enter it yourself.' }
   ];
   var CONST_INPUTS = [
@@ -278,8 +278,8 @@
   // a partnership agreement, investor letter, management agreement, construction contract or lender sets. No range is
   // added that a source does not give.
   var KIND_TEXT = {
-    tool: 'Tool default from the live calculator, for screening. Not a Colorado benchmark.',
-    example: 'Illustration from the live calculator. Replace it with your own figure.',
+    tool: 'Tool default from the full Deal Calculator, for screening. Not a Colorado benchmark.',
+    example: 'Illustration from the full Deal Calculator. Replace it with your own figure.',
     agreement: 'Set by your partnership agreement, investor letter or management agreement.',
     lender: 'Set by your lender\u2019s term sheet or construction contract.'
   };
@@ -333,7 +333,7 @@
     Promise.all([get('data/chfa-income-rent-limits-2026.json'), get('data/hud-fmr-income-limits.json'),
       get('data/market/novogradac-equity-pricing.json'), get('data/policy/lihtc-underwriting-rules.json')])
       .then(function (r) { data.chfa = r[0]; data.hud = r[1]; data.equity = r[2]; data.rules = r[3]; Shell.render(); })
-      .catch(function (e) { data.error = 'The data did not load (' + e.message + '). Run scripts/fetch-pinned-data.js and serve the repository root.'; Shell.render(); });
+      .catch(function (e) { data.error = 'The data did not load (' + e.message + '). Reload the page to try again.'; Shell.render(); });
     // CHFA's 2027 Common Application cost limits, which the live page loads for its cost-limit check. Optional, as on
     // the live page: a miss leaves the check saying the tables are unavailable.
     get('data/policy/chfa-common-app-tables.json').then(function (t) { data.commonApp = t; Shell.render(); }).catch(function () { data.commonApp = null; Shell.render(); });
@@ -630,7 +630,7 @@
         return '<tr' + (v.dscr != null && v.dscr < 1 ? ' class="below-one"' : '') + '><th scope="row">' + esc(x[0]) + (x[2] ? '<small class="why">' + esc(x[2]) + '</small>' : '') + '</th>' +
           '<td class="num">' + esc(dash(v.noi, money)) + '</td><td class="num">' + esc(dscr) + '</td><td class="num">' + esc(m) + '</td></tr>';
       }).join('') + '</tbody></table></div>' +
-      '<p class="note">NOI is net operating income. Coverage is NOI over every required loan payment: the first mortgage plus any must-pay soft loan. The loan stays at its sized amount in each case. Below 1.00x the property does not cover its required payments. The live page\u2019s defaults are tool settings for screening, not a lender\u2019s or CHFA\u2019s required cases; change them under Stress case settings.</p></section>';
+      '<p class="note">NOI is net operating income. Coverage is NOI over every required loan payment: the first mortgage plus any must-pay soft loan. The loan stays at its sized amount in each case. Below 1.00x the property does not cover its required payments. The full Deal Calculator\u2019s defaults are tool settings for screening, not a lender\u2019s or CHFA\u2019s required cases; change them under Stress case settings.</p></section>';
   }
   function exitSummary(r, inputs) {
     var e = r.exit || {};
@@ -672,7 +672,7 @@
           '<td class="num">' + esc(dash(x.dscr, function (v) { return v.toFixed(2) + 'x'; })) + '</td></tr>';
       }).join('') + '</tbody></table></div>' +
       (reasons.length ? '<p class="note">' + esc(reasons.join(' ')) + '</p>' : '') + coverageCheck(r) +
-      '<p class="note">Cash left after the must-pay loans goes to any bridge-loan payment, then the asset management fee, then the deferred developer fee, then cash-flow loans, as on the live page (the order of CHFA\u2019s 2027 Common Application DOH proforma).</p></section>';
+      '<p class="note">Cash left after the must-pay loans goes to any bridge-loan payment, then the asset management fee, then the deferred developer fee, then cash-flow loans, as on the full Deal Calculator (the order of CHFA\u2019s 2027 Common Application DOH proforma).</p></section>';
   }
 
   // The loan stack the visitor enters: the first mortgage's terms, up to five soft sources, then the bridge loan
@@ -757,9 +757,9 @@
     var tr = d.tranches && d.tranches.length ? d.tranches : [seedTranche()];
     return '<h2>Loans and other sources</h2>' +
       '<h3>First mortgage</h3><p class="note">The rate, amortization and coverage are under Assumptions.</p>' + fieldGrid(d, 'senior') +
-      '<h3>Soft funding</h3><p class="note">Up to five sources below the first mortgage. A loan is paid by the repayment you pick; a grant fills the gap at closing, and a grant with federal money reduces eligible basis (<a href="https://www.law.cornell.edu/uscode/text/26/42">26 U.S.C. 42(d)(5)(A) ↗</a>). The federal-money answer starts at the live calculator\u2019s default for the program: HOME, CDBG, the National Housing Trust Fund and the Capital Magnet Fund are federal; Prop 123 is state money; any other program is left for you to answer.</p>' +
+      '<h3>Soft funding</h3><p class="note">Up to five sources below the first mortgage. A loan is paid by the repayment you pick; a grant fills the gap at closing, and a grant with federal money reduces eligible basis (<a href="https://www.law.cornell.edu/uscode/text/26/42">26 U.S.C. 42(d)(5)(A) ↗</a>). The federal-money answer starts at the full Deal Calculator\u2019s default for the program: HOME, CDBG, the National Housing Trust Fund and the Capital Magnet Fund are federal; Prop 123 is state money; any other program is left for you to answer.</p>' +
       '<div class="tranches">' + tr.map(function (t, i) { return trancheRow(t, i, tr.length); }).join('') + '</div>' +
-      (tr.length < MAX_TRANCHES ? '<button type="button" class="button-link secondary" data-action="add-tranche">Add a source</button>' : '<p class="note">Five sources is the most the live calculator takes.</p>') +
+      (tr.length < MAX_TRANCHES ? '<button type="button" class="button-link secondary" data-action="add-tranche">Add a source</button>' : '<p class="note">Five sources is the most the Deal Calculator takes.</p>') +
       '<h3>Construction loan and tax-exempt bonds</h3><p class="note">Blank until you have a lender\u2019s quote. The bond test, the interest check and the draw schedule under Lender schedules read these.</p>' + fieldGrid(d, 'constr') +
       '<h4>Federal equity pay-in (% of federal equity)</h4><p class="note">From the investor\u2019s letter of intent; the three should add to 100%. The draw schedule needs them.</p>' + fieldGrid(d, 'payin') +
       '<h3>Bridge loan and asset management fee</h3>' + fieldGrid(d, 'bridge');
@@ -934,7 +934,7 @@
       ['Coverage the loan is sized to', ratio(r.dcr) || '—', 'Entered under Assumptions. CHFA’s floor is 1.15x.'],
       ['Rent limits', 'CHFA ' + data.chfa.meta.fiscal_year, 'CHFA rent table effective ' + data.chfa.meta.effective_date + ', applied to the saved rent schedule'],
       ['Vacancy', pct(inputs.resolvedDealMix.vacancyRate), 'From the saved rent schedule'],
-      ['Operating budget', d.opExample ? 'The live page’s invented example' : 'Your budget', d.opExample ? 'Replace it with your own budget before relying on the result.' : 'Entered under Operating budget']
+      ['Operating budget', d.opExample ? 'An invented example' : 'Your budget', d.opExample ? 'Replace it with your own budget before relying on the result.' : 'Entered under Operating budget']
     ];
     return '<section class="fin-section" aria-labelledby="fin-likely"><h2 id="fin-likely">Most-likely case</h2>' +
       '<p class="note">The result above runs on these assumptions. Change any of them above; the stress settings below then test the deal against this case.</p>' +
@@ -963,7 +963,7 @@
           (cut.supportedLoan != null ? 'At that floor the NOI carries about a ' + money(cut.supportedLoan) + ' loan against ' + money(cut.loan) + ' as sized (' + (cut.loanRoom >= 0 ? money(cut.loanRoom) + ' of room' : money(-cut.loanRoom) + ' too large') + ').' : '')
     };
     return '<section class="fin-section" aria-labelledby="fin-sliders"><h2 id="fin-sliders">Stress sliders</h2>' +
-      '<p class="note">The live calculator’s five stress controls. Move a slider and its line redraws. Each line shows what its setting does to this deal; no loan is resized.</p>' +
+      '<p class="note">The Deal Calculator’s five stress controls. Move a slider and its line redraws. Each line shows what its setting does to this deal; no loan is resized.</p>' +
       '<div class="stress-sliders">' + STRESS_INPUTS.map(function (i) {
         var raw = d.fields[i.id] === '' || d.fields[i.id] == null ? inputs.fields[i.id] : d.fields[i.id], v = Number(raw);
         return '<div class="stress-slider"><label for="' + i.id + '"><span>' + esc(i.label) + '</span> <output for="' + i.id + '">' + esc(isFinite(v) ? i.fmt(v) : '—') + '</output></label>' +
@@ -1018,7 +1018,7 @@
     return '<div class="field-grid" data-role="rent-regime"><label class="field"><span>Rent limits</span><select name="dc-rent-limit-regime" disabled aria-describedby="rent-regime-why">' +
       RENT_REGIMES.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === 'chfa_lihtc' ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>' +
       '<small class="note" id="rent-regime-why">Fixed at CHFA LIHTC because the homes and rents come from a saved rent schedule, which the shared engine prices only under CHFA limits. ' +
-      'Rent burden stays at 30%, as on the live page for published CHFA rents. Market-rate homes use the rent and source entered on the schedule. HOME, Prop 123 (with its program and rural resort petition), other AMI formulas and market-rate pricing need the live page\u2019s own unit grid: <a href="https://cohoanalytics.com/deal-calculator.html">open the live Deal Calculator \u2197</a>, or change the rents in <a href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Homes and affordability</a>.</small></label></div>';
+      'Rent burden stays at 30%, as on the full Deal Calculator for published CHFA rents. Market-rate homes use the rent and source entered on the schedule. HOME, Prop 123 (with its program and rural resort petition), other AMI formulas and market-rate pricing need the full Deal Calculator\u2019s own unit grid: <a href="https://cohoanalytics.com/deal-calculator.html">open the full Deal Calculator \u2197</a>, or change the rents in <a href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Homes and affordability</a>.</small></label></div>';
   }
 
   // The live page's cost table (costTableHtml): one closed group per DOH category with its subtotal, each line with its
@@ -1048,11 +1048,11 @@
   function financialsView(params, parts) {
     var p = P.get(parts[1]);
     var s = p && p.scenarios.filter(function (x) { return x.scenarioId === parts[2]; })[0];
-    if (!s) return '<a class="back-link" href="#/projects">\u2190 Projects</a><h1>Deal not in this browser</h1><p class="lede">Lab projects are saved in the browser that made them, so this address opens only there.</p><p>To pass a deal on, open Financials where it was made and use \u201cCopy share link\u201d or \u201cDownload deal file\u201d. A deal file opens here: <a href="#/open-deal">open a shared deal</a>.</p>';
+    if (!s) return '<a class="back-link" href="#/projects">\u2190 Projects</a><h1>Deal not in this browser</h1><p class="lede">Projects are saved in the browser that made them, so this address opens only there.</p><p>To pass a deal on, open Financials where it was made and use \u201cCopy share link\u201d or \u201cDownload deal file\u201d. A deal file opens here: <a href="#/open-deal">open a shared deal</a>.</p>';
     var back = '<a class="back-link" href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">← Homes and affordability</a>';
-    var head = back + '<h1>Financials</h1><p class="lede">' + esc(p.name) + ', ' + esc(s.name) + '. Run on the public site’s Deal Engine with this scenario’s saved rents. Every figure and every reason comes from that engine.</p>';
+    var head = back + '<h1>Financials</h1><p class="lede">' + esc(p.name) + ', ' + esc(s.name) + '. Run on the site’s Deal Engine with this scenario’s saved rents. Every figure and every reason comes from that engine.</p>';
     var manual = p.overrides[s.scenarioId] && p.overrides[s.scenarioId].manualMix;
-    if (manual) return head + '<p class="callout">Financials for a copied mix are not in the lab yet. The linked schedule in the original scenario still runs.</p>';
+    if (manual) return head + '<p class="callout">Financials for a copied mix are not built yet. The linked schedule in the original scenario still runs.</p>';
     var sched = currentSchedule(p, s.scenarioId);
     if (!sched) return head + '<p class="callout">Save a rent schedule in Homes and affordability first.</p>';
     loadData();
@@ -1075,7 +1075,7 @@
       '<div class="callout">From the saved schedule: ' + esc(String(r.units)) + ' homes, ' + esc(money(r.annualRents) || 'rents unavailable') + ' scheduled rent per year, vacancy ' + esc(pct(inputs.resolvedDealMix.vacancyRate)) + '. <a href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Change the homes or rents</a>.</div>' +
       answerPanel(r, inputs) +
       '<form class="homes" data-action="financials" novalidate>' +
-      stepOpen('fin-step-costs', 'Costs', costSub, '<h2>Costs</h2><p class="note">Every line on the live Deal Calculator, in the Colorado Division of Housing\u2019s nine groups. Open a group to enter its lines. A blank line carries no cost; anything not itemized is treated as outside eligible basis, as on the live site. Each line starts at the live page\u2019s basis choice; change it where your deal differs. A line partly in basis needs its part in basis before the engine will price basis. The developer fee is its own line under Developer fee; the engine tests it against CHFA\u2019s limit.</p>' +
+      stepOpen('fin-step-costs', 'Costs', costSub, '<h2>Costs</h2><p class="note">Every line on the full Deal Calculator, in the Colorado Division of Housing\u2019s nine groups. Open a group to enter its lines. A blank line carries no cost; anything not itemized is treated as outside eligible basis, as on the full Deal Calculator. Each line starts at that calculator\u2019s basis choice; change it where your deal differs. A line partly in basis needs its part in basis before the engine will price basis. The developer fee is its own line under Developer fee; the engine tests it against CHFA\u2019s limit.</p>' +
       costGroups + '<div class="actions"><button type="button" class="button-link secondary" data-action="use-cost-total">Make total development cost match the cost lines</button>' +
       '<button type="button" class="button-link secondary" data-action="clear-costs">Clear the cost lines</button></div>' + fieldGrid(d, 'costs') +
       '<h3>Developer fee, building purchase and federal grants</h3><p class="note">These answers set CHFA\u2019s fee limits and what a building purchase and a federal grant do to basis.</p>' + fieldGrid(d, 'devfee') +
@@ -1090,7 +1090,7 @@
       stepOpen('fin-step-budget', 'Operating budget', r.annualOpex != null ? money(r.annualOpex) + ' a year' : '', operatingBudget(d, inputs, r)) +
       stepOpen('fin-step-assumptions', 'Loans, credits and terms', r.interestRate != null ? r.interestRate + '% loan, $' + Number(inputs.fields['dc-equity-price']).toFixed(2) + ' equity' : '',
         '<h2>Assumptions</h2>' + rentLimitsFixed(p, s) + fieldGrid(d, null) + creditInputs(d) + loanStackInputs(d) + '<h2>Exit and projection</h2>' + fieldGrid(d, 'exit')) +
-      stepOpen('fin-step-stress', 'Stress settings', combinedLabel(inputs.constants), '<h2>Stress case settings</h2><p class="note">How far each stress case moves rent, vacancy and operating cost. The live page\u2019s defaults are tool settings for screening, not a lender\u2019s or CHFA\u2019s required cases. The sliders under Full result test one change at a time.</p>' + fieldGrid(d, 'stressconst') + '<div class="actions"><button type="button" class="button-link secondary" data-action="reset-stress-settings">Reset to the live calculator\u2019s defaults</button></div>') +
+      stepOpen('fin-step-stress', 'Stress settings', combinedLabel(inputs.constants), '<h2>Stress case settings</h2><p class="note">How far each stress case moves rent, vacancy and operating cost. The full Deal Calculator\u2019s defaults are tool settings for screening, not a lender\u2019s or CHFA\u2019s required cases. The sliders under Full result test one change at a time.</p>' + fieldGrid(d, 'stressconst') + '<div class="actions"><button type="button" class="button-link secondary" data-action="reset-stress-settings">Reset to the Deal Calculator\u2019s defaults</button></div>') +
       '<h2>Full result</h2><p class="note jump-links">Jump to <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-sliders">Stress sliders</a> · <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-ls">Lender schedules</a></p>' + setAsideStatus(r) + (function () { var t = boostTag(r, inputs.fields); return '<p class="boost-tag boost-' + t.kind + '" data-role="boost-tag">' + esc(t.text) + '</p>'; }()) + '<div class="fin-grid">' +
       card('Net operating income', money(r.noi), r, 'noi') +
       card('Supportable first mortgage', money(r.mortgage), r, 'mortgage', r.mortgage != null ? 'At ' + ratio(r.dcr) + ' coverage, ' + r.interestRate + '% over ' + r.term + ' years' : null) +
@@ -1105,7 +1105,7 @@
       basisSection(r, inputs.fields) + creditChecks(r) +
       mostLikely(d, inputs, r) + sourcesUses(r) + loanTable(r) + stressTable(r, inputs.constants) + stressSliders(d, inputs, r) + rateGrid(inputs, r) + exitSummary(r, inputs) + projectionTable(r) +
       (global.LabLenderExport ? global.LabLenderExport.remember(r, s.name) : '') + (global.LabLenderSchedules ? global.LabLenderSchedules.render(d, r, fieldGrid) : '') + waterfallSection(d, r) +
-      '<p class="note">Calculated by the cohoanalytics.com Deal Calculator. CHFA ' + esc(data.chfa.meta.fiscal_year) + ' rent table effective ' + esc(data.chfa.meta.effective_date) + '; HUD ' + esc(data.hud.meta && data.hud.meta.fiscal_year ? 'FY' + data.hud.meta.fiscal_year + ' ' : '') + 'Fair Market Rents; equity pricing Novogradac national average as of ' + esc(data.equity.meta.as_of || '') + '. Screening only, not underwriting.</p>' +
+      '<p class="note">Calculated by the COHO Deal Calculator. CHFA ' + esc(data.chfa.meta.fiscal_year) + ' rent table effective ' + esc(data.chfa.meta.effective_date) + '; HUD ' + esc(data.hud.meta && data.hud.meta.fiscal_year ? 'FY' + data.hud.meta.fiscal_year + ' ' : '') + 'Fair Market Rents; equity pricing Novogradac national average as of ' + esc(data.equity.meta.as_of || '') + '. Screening only, not underwriting.</p>' +
       '<div class="actions"><button type="submit">Save to ' + esc(s.name) + '</button>' +
       '<a class="button-link secondary" href="#/project/' + esc(p.projectId) + '">Back to the project</a></div></form>' +
       (global.LabDealFile ? global.LabDealFile.panel(p, s) : '') +
@@ -1148,8 +1148,8 @@
         '<div><dt>Other income</dt><dd>' + perYear(sum.otherIncomePerUnitYear) + ' per home a year, added to rent before vacancy</dd></div></dl>';
     return '<h2>Operating budget</h2>' + fieldGrid(d, 'noi') +
       (d.fields['dc-auto-noi'] === 'no' ? '<p class="callout">Net operating income is the figure you entered. The rents, vacancy and budget below do not change the results until you switch back to computing it.</p>' : '') +
-      '<p class="note">Dollars per home per year, in the Colorado Division of Housing\u2019s operating pro forma lines, as on the live Deal Calculator. A blank line is nothing budgeted on it; a budget with every line blank is unknown, not $0.</p>' +
-      (d.opExample ? '<p class="callout">These amounts are the live page\u2019s invented example ($5,400 a home a year). They are not a benchmark: replace them with your own budget.</p>' : '') +
+      '<p class="note">Dollars per home per year, in the Colorado Division of Housing\u2019s operating pro forma lines, as on the full Deal Calculator. A blank line is nothing budgeted on it; a budget with every line blank is unknown, not $0.</p>' +
+      (d.opExample ? '<p class="callout">These amounts are an invented example ($5,400 a home a year). They are not a benchmark: replace them with your own budget.</p>' : '') +
       (d.opMoved ? '<p class="callout">This draft was saved with one monthly operating figure. It now sits in \u201cOther expenses, Other\u201d at 12 times that figure, so its results are unchanged. Spread it across the lines when you can.</p>' : '') +
       '<div class="table-scroll op-table" role="region" aria-label="Operating budget" tabindex="0"><table><thead><tr><th scope="col">Line</th><th scope="col" class="num">$ per home per year</th></tr></thead>' +
       groups + income + '</table></div>' + totals + fieldGrid(d, 'opex');

@@ -519,7 +519,7 @@
       '<li><a href="#/assistance" data-jump="help-own"><span class="hp-t">I own and need help</span><span class="hp-d">Property tax relief, repairs, foreclosure help</span></a></li></ul>';
     var rent = '<h2 id="help-rent" tabindex="-1">Renting</h2><div class="help-cards">' + RENT.map(helpCard).join('') + '</div>' +
       '<p>Your rights as a renter, legal help, vouchers and homeless services are in the <a href="#/guide/renter-help">full renter guide, in English and Spanish</a> (<a href="#/guide/renter-help?at=g-si-necesita-vivienda-ahora" lang="es">en español</a>).</p>' +
-      '<p class="metric-source">As listed on cohoanalytics.com’s renter page, each program read on 29 October 2026.</p>';
+      '<p class="metric-source">As listed on the renter help page, each program read on 29 October 2026.</p>';
 
     var x = UI.load(PROGRAMS);
     if (x.error) return head + paths + rent + '<p class="callout">' + esc(x.error) + '</p>';
@@ -553,8 +553,8 @@
       (notNow.length ? '<p class="note">Not available now: ' + esc(notNow.map(function (p) { return p.name + ' (' + (p.status === 'VERIFY' ? 'being checked' : p.status) + ')'; }).join('; ')) + '.</p>' : '');
 
     return head + paths + rent + buy + own +
-      '<h2>Pages on the live site</h2>' + Shell.list(Shell.inHub('assistance')) +
-      '<ul class="route-list"><li><a href="#/guide/renter-help">If You Need Housing Now (renters, English and Spanish)</a><span class="status">In the lab</span></li></ul>';
+      '<h2>More help pages</h2>' + Shell.list(Shell.inHub('assistance')) +
+      '<ul class="route-list"><li><a href="#/guide/renter-help">If You Need Housing Now (renters, English and Spanish)</a></li></ul>';
   }
 
   // ---- Shell pages: not found, privacy, search, site map, share card --------------------------------------
