@@ -263,9 +263,9 @@
       "unsourced": 7,
       "undated": 0,
       "areas": {
-        "unsourced: #workflow-heading": 4,
-        "unsourced: #paths-heading": 1,
-        "unsourced: #audience-heading": 2
+        "unsourced: #h-steps": 4,
+        "unsourced: #home-about>article.hp-card:1": 1,
+        "unsourced: #home-about>article.hp-card:7": 2
       }
     },
     "insights.html": {

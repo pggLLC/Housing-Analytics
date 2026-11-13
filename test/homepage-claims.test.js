@@ -2,27 +2,29 @@
 // test/homepage-claims.test.js
 //
 // Metric-trust Package D: homepage public-claim accuracy guard.
+//
+// 13 Nov 2026: Home was rebuilt (index.html draws hub/home.js, which reads the same data files the old
+// js/index.js read). Every guard below keeps what it was for and reads the page as drawn, so a figure is held to
+// the file it comes from and a sentence to the data it describes. Where the rebuilt page says something in a
+// different place (the ≤50% count is a row under "More Colorado numbers", not a second card), the comment says so.
 
 'use strict';
 
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { JSDOM } = require('jsdom');
+const home = require('./helpers/render-home');
 
 const ROOT = path.resolve(__dirname, '..');
-const index = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-const indexJs = fs.readFileSync(path.join(ROOT, 'js', 'index.js'), 'utf8');
+const json = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
+const n = (v) => Math.round(v).toLocaleString('en-US');
 
-function htmlBlock(startNeedle, endNeedle) {
-  const start = index.indexOf(startNeedle);
-  assert.notEqual(start, -1, `index.html must include ${startNeedle}`);
-  const end = index.indexOf(endNeedle, start);
-  assert.notEqual(end, -1, `index.html must include ${endNeedle} after ${startNeedle}`);
-  return index.slice(start, end);
-}
+(async () => {
+const index = await home.renderHome();
+const text = home.text(index);
+const hubHome = fs.readFileSync(path.join(ROOT, 'hub', 'home.js'), 'utf8');
 
-assert(!index.includes('Educational Guide'), 'homepage must not describe itself as an Educational Guide');
+assert(!text.includes('Educational Guide'), 'homepage must not describe itself as an Educational Guide');
 
 // The need-score explainer names both halves of overall_need_score with the
 // shares the ranking builder uses (AXIS_WEIGHTS), not the need half alone.
@@ -32,121 +34,135 @@ assert(!index.includes('Educational Guide'), 'homepage must not describe itself 
   assert(axis, 'AXIS_WEIGHTS not found in scripts/hna/build_ranking_index.py');
   const needPct = Math.round(Number(axis[1]) * 100);
   const oppPct = Math.round(Number(axis[2]) * 100);
-  const m = index.match(/home-opening__map-explainer" data-measure-text="need">([\s\S]*?)<\/span>/);
-  assert(m, 'index.html must keep the need-score explainer');
-  const text = m[1].replace(/\s+/g, ' ');
-  assert(text.includes(`(${needPct}%) is need`), `need-score explainer must give the need share as ${needPct}%`);
-  assert(text.includes(`(${oppPct}%) is opportunity`), `need-score explainer must give the opportunity share as ${oppPct}%`);
+  // The explainer is the map's own text for its "Priority score" measure (hub/county-need.js), shown when that
+  // measure is picked; Home also carries a short version it shows if the map cannot load (hub/home.js).
+  const mapSrc = fs.readFileSync(path.join(ROOT, 'hub', 'county-need.js'), 'utf8');
+  const m = mapSrc.match(/\{ id: 'need', label: '([^']+)'[\s\S]*?what: '([^']+)'/);
+  assert(m, 'the county map must keep the need-score explainer (measure "need" in hub/county-need.js)');
+  assert(index.includes(m[1]), 'Home must offer the priority score as a map measure, by the name its explainer uses');
+  assert(/need and opportunity/i.test(m[1]), 'the measure\'s name says the score is need and opportunity, not need alone');
+  assert(m[2].includes(`(${needPct}%) is need`), `need-score explainer must give the need share as ${needPct}%`);
+  assert(m[2].includes(`(${oppPct}%) is opportunity`), `need-score explainer must give the opportunity share as ${oppPct}%`);
+  const short = hubHome.match(/The priority score is[^']*/);
+  assert(short, 'hub/home.js must keep the short need-score explainer for when the map cannot load');
+  assert(new RegExp(`\\b${needPct}% need\\b`).test(short[0]) && new RegExp(`\\b${oppPct}% opportunity\\b`).test(short[0]) && /not need alone/.test(short[0]),
+    `the short need-score explainer must give the shares as ${needPct}% need and ${oppPct}% opportunity, and say it is not need alone`);
 }
 
 for (const banned of [
   'quarter-million',
-  'quarter\u2011million',
+  'quarter‑million',
   'quarter&#8209;million',
   '250,000'
 ]) {
-  assert(!index.includes(banned), `homepage must not contain unsupported shortage claim: ${banned}`);
+  assert(!index.includes(banned) && !text.includes(banned), `homepage must not contain unsupported shortage claim: ${banned}`);
 }
 
-assert(index.includes('id="snapHouseholds"'), 'statewide household-count card must include #snapHouseholds');
-assert(
-  index.includes('CO Households (total)') && index.includes('data/hna/summary/08.json') && index.includes('ACS DP02_0001E'),
-  'statewide household-count card must disclose the statewide ACS summary source'
-);
-assert(
-  indexJs.includes("DS.baseData('hna/summary/08.json')") &&
-  indexJs.includes('DP02_0001E') &&
-  indexJs.includes("setText('snapHouseholds'"),
-  'js/index.js must fetch statewide households from data/hna/summary/08.json acsProfile.DP02_0001E'
-);
+// One fact row under "More Colorado numbers": its figure, its label and its source line.
+const facts = [...index.matchAll(/<li><span class="fact-value">([\s\S]*?)<\/span><span class="fact-label">([\s\S]*?)<\/span><span class="fact-source">([\s\S]*?)<\/span><\/li>/g)]
+  .map((m) => ({ value: home.text(m[1]), label: home.text(m[2]), source: home.text(m[3]), html: m[0] }));
+assert(facts.length >= 4, `only ${facts.length} fact rows parsed from Home`);
+const fact = (re, what) => { const f = facts.find((x) => re.test(x.label)); assert(f, `Home must keep the ${what} row`); return f; };
 
-const lead = htmlBlock('<p class="home-opening__lead">', '</p>');
-assert(
-  lead.includes('roughly half of renters now spend more than 30%') &&
-  /ACS B25070|HUD CHAS/.test(lead),
-  'hero renter cost-burden sentence must carry an ACS/CHAS source reference'
-);
+// Statewide households: the ACS profile figure in data/hna/summary/08.json, with its table named.
+{
+  const households = Number(json('data/hna/summary/08.json').acsProfile.DP02_0001E);
+  const row = fact(/^Colorado households$/, 'statewide household-count');
+  assert.equal(row.value, n(households), 'statewide household count must be data/hna/summary/08.json acsProfile.DP02_0001E');
+  assert(/ACS/.test(row.source) && /DP02/.test(row.source), 'statewide household-count row must disclose the statewide ACS summary source');
+  assert(hubHome.includes('data/hna/summary/08.json') && hubHome.includes('DP02_0001E'), 'hub/home.js must read statewide households from data/hna/summary/08.json acsProfile.DP02_0001E');
+}
+
 // Owner-selected framing: statewide cost burden across BOTH tenures, not the
 // supply-gap figure. Verified against data/hna/chas_affordability_gap.json
 // (HUD CHAS 2018-2022): 363,912 renter + 329,976 owner = 693,888 burdened
 // households, 30.5% of the 2,277,884-household CHAS universe. The percentage
 // must come from CHAS's own denominator -- dividing by the ACS DP02_0001E
 // household total (2,479,892) yields a wrong 28.0% and mixes vintages.
-assert(
-  lead.includes('694,000') &&
-  /nearly 1 in 3/i.test(lead) &&
-  lead.includes('data/hna/chas_affordability_gap.json'),
-  'hero cost-burden claim must use the verified 694,000 / nearly-1-in-3 HUD CHAS framing'
-);
-assert(
-  /HUD CHAS 2018/.test(lead),
-  'hero cost-burden claim must disclose the CHAS 2018-2022 vintage inline'
-);
+// The page computes the sentence from that file; this recomputes it here and holds the sentence to it.
+{
+  const lead = (/<p class="hg-burden">([\s\S]*?)<\/p>/.exec(index) || [])[1];
+  assert(lead, 'Home must keep the statewide cost-burden sentence');
+  const leadText = home.text(lead);
+  const chas = json('data/hna/chas_affordability_gap.json');
+  const counties = Array.isArray(chas.counties) ? chas.counties : Object.values(chas.counties);
+  let burdened = 0, all = 0;
+  for (const c of counties) for (const k of ['renter_hh_by_ami', 'owner_hh_by_ami']) for (const b of Object.values(c[k] || {})) { burdened += b.cost_burdened_30pct || 0; all += b.total || 0; }
+  assert(burdened > 0 && all > burdened, 'fixture: the CHAS file carries burdened and total households by tenure');
+  assert(leadText.includes(n(Math.round(burdened / 1000) * 1000)), `cost-burden sentence must give the CHAS count (${n(Math.round(burdened / 1000) * 1000)}), renters and owners together`);
+  const share = burdened / all;
+  if (/nearly 1 in 3/i.test(leadText)) assert(share > 0.28 && share < 1 / 3 + 0.007, `the sentence says "nearly 1 in 3" but CHAS says ${(share * 100).toFixed(1)}%`);
+  else assert(leadText.includes(Math.round(share * 100) + '% of'), 'cost-burden sentence must state the CHAS share when it is not "nearly 1 in 3"');
+  assert(/HUD CHAS 2018/.test(leadText), 'cost-burden claim must disclose the CHAS 2018-2022 vintage inline');
+  assert(/ACS/.test(leadText) && /roughly half of renters/.test(leadText), 'renter cost-burden sentence must carry an ACS source reference');
+  assert(/homeowners|owners/i.test(leadText), 'the sentence must say the count includes homeowners');
+  // No ACS household total in the same breath: the share is CHAS's own.
+  assert(!leadText.includes(n(Number(json('data/hna/summary/08.json').acsProfile.DP02_0001E))), 'cost-burden sentence must not mix in the ACS household total');
+}
 
-// The two cumulative AMI cards. What is pinned below is what each card has
-// to AGREE with — the data file js/index.js renders it from, and the other
-// card — never the sentence used to say it (#1746: three copy edits on
-// 2026-09-22 were each held by this block asserting the previous wording).
-// Reword freely. A rewording that drops the tier relationship the data has,
-// names a tier the data does not carry, or misstates what counts as an
-// available home, fails.
+// The two cumulative AMI figures. What is pinned below is what each has to AGREE with — the data file it is
+// drawn from, and the other figure — never the sentence used to say it (#1746: three copy edits on 2026-09-22
+// were each held by this block asserting the previous wording). Reword freely. A rewording that drops the tier
+// relationship the data has, names a tier the data does not carry, or misstates what counts as an available
+// home, fails.
+// On the rebuilt page the ≤30% figure is a card under "Colorado at a glance" and the ≤50% figure is a row under
+// "More Colorado numbers".
 const AA_FILE = 'data/hna/chas_affordable_available.json';
-const aaData = JSON.parse(fs.readFileSync(path.join(ROOT, AA_FILE), 'utf8'));
-assert(indexJs.includes("DS.baseData('hna/chas_affordable_available.json')"),
-  'js/index.js renders the shortfall cards from data/hna/chas_affordable_available.json');
-// Located by the value each card renders, not by its wording.
-function cardFor(valueId) {
-  const at = index.indexOf(`id="${valueId}"`);
-  assert.notEqual(at, -1, `index.html renders #${valueId}`);
-  const start = index.lastIndexOf('<div class="home-snapshot__item"', at);
-  return index.slice(start, index.indexOf('</div>', at));
-}
+const aaData = json(AA_FILE);
+assert(hubHome.includes(AA_FILE), 'hub/home.js draws the shortfall figures from data/hna/chas_affordable_available.json');
+const cards = [...index.matchAll(/<article class="hg-card"><h3>([\s\S]*?)<\/h3><p class="hg-value">([\s\S]*?)<\/p>([\s\S]*?)<\/article>/g)]
+  .map((m) => ({ key: home.text(m[1]), value: home.text(m[2]), note: home.text(m[3]), html: m[0] }));
+assert(cards.length >= 3, `only ${cards.length} "at a glance" cards parsed from Home`);
+const card30 = cards.find((c) => /≤30%/.test(c.key));
+assert(card30, 'Home must keep the ≤30% AMI shortfall card');
+const row50 = fact(/≤50%/, '≤50% AMI shortfall');
+const gapCards = { 30: { key: card30.key, value: card30.value, note: card30.note }, 50: { key: row50.label, value: row50.value, note: row50.source } };
 const GAP_TIERS = ['30', '50'];
-const gapCards = {};
-for (const tier of GAP_TIERS) {
-  const doc = new JSDOM(cardFor(`snapGap${tier}`)).window.document;
-  gapCards[tier] = {
-    html: cardFor(`snapGap${tier}`),
-    key: doc.querySelector('.home-snapshot__key').textContent,
-    note: doc.querySelector('.home-snapshot__note').textContent.trim(),
-  };
-}
-assert.notEqual(gapCards['30'].note, gapCards['50'].note, 'the two cumulative AMI cards must not carry identical sublabels');
+assert.notEqual(gapCards['30'].note, gapCards['50'].note, 'the two cumulative AMI figures must not carry identical notes');
 for (const tier of GAP_TIERS) {
   const card = gapCards[tier];
-  assert(card.html.includes(`href="${AA_FILE}"`), `≤${tier}% card links the file js/index.js renders its figure from`);
-  // The tier in the heading is a tier the data carries, and it is this card's tier.
+  // The tier in the heading is a tier the data carries, and it is this figure's tier.
   const named = /≤(\d+)%/.exec(card.key);
-  assert(named && named[1] === tier && aaData.statewide.tiers[named[1]],
-    `≤${tier}% card's heading names the data tier it renders`);
+  assert(named && named[1] === tier && aaData.statewide.tiers[named[1]], `≤${tier}% figure's heading names the data tier it renders`);
   // Homes, not people (#2220 follow-up: the numbers were read as people).
-  assert(/homes/i.test(card.key), `≤${tier}% card's heading names homes, the unit of the number`);
-  // The value the card renders for each figure exists in the note.
-  for (const id of ['Households', 'Homes', 'Per100']) {
-    assert(card.html.includes(`id="snapGap${tier}${id}"`), `≤${tier}% card shows the ${id} figure behind its shortfall`);
-  }
+  assert(/homes/i.test(card.key), `≤${tier}% figure's heading names homes, the unit of the number`);
+  // Every figure is the statewide record in the data file, pinned to the data rather than to a number, so a new
+  // CHAS vintage needs no test edit.
+  const r = aaData.statewide.tiers[tier];
+  assert.equal(card.value, n(r.homes_short), `≤${tier}% headline renders the statewide homes short`);
+  assert.equal(r.homes_short, r.renter_households - r.affordable_available_homes, `≤${tier}% headline equals the households minus the homes shown beside it`);
+  assert(card.note.includes(n(r.renter_households)), `≤${tier}% note renders the statewide households`);
+  assert(card.note.includes(n(r.affordable_available_homes)), `≤${tier}% note renders the statewide available homes`);
+  assert(new RegExp(`\\b${Math.round(100 * r.affordable_available_homes / r.renter_households)} (for every 100|per 100)`).test(card.note),
+    `≤${tier}% note renders homes per 100 households from the data's own counts`);
+  // The vintage shown is the data's.
+  assert(card.note.includes('HUD CHAS ' + aaData.meta.vintage), `≤${tier}% note renders the data vintage`);
 }
+assert(/not people/i.test(gapCards['30'].note), '≤30% card says the number counts homes, not people');
 // What counts as available is the method in the data: vacant for rent, or
 // rented by a household inside the group. The ≤30% card states it.
 assert(/vacant for rent/.test(aaData.meta.method) && /rented by a household at or below the tier/.test(aaData.meta.method),
   'fixture: the data counts vacant homes and homes rented within the group');
-assert(/vacant/i.test(gapCards['30'].note) && /rented by someone in that group|rented within the group/i.test(gapCards['30'].note),
+// Read from the paragraph that explains HUD's count, not the ACS note under it (which also names higher-income renters).
+const hudPara = [...card30.html.matchAll(/<p>([\s\S]*?)<\/p>/g)].map((m) => home.text(m[1])).find((x) => x.includes(n(aaData.statewide.tiers['30'].affordable_available_homes)));
+assert(hudPara, 'the ≤30% card explains HUD\'s count in its own paragraph');
+assert(/vacant/i.test(hudPara) && /rented by someone in that group|rented within the group/i.test(hudPara),
   '≤30% card says which homes count: vacant, or rented within the group');
-assert(/higher-income/i.test(gapCards['30'].note),
+assert(/higher-income[^.]*(don’t|do not|don't) count/i.test(hudPara),
   '≤30% card says cheap homes rented by higher-income households do not count');
-// Tiers are cumulative in the data, so the ≤50% card must say it includes ≤30%.
+assert(/vacant/i.test(gapCards['50'].note) && /rented within the group/i.test(gapCards['50'].note), '≤50% row says which homes count');
+// Tiers are cumulative in the data, so the ≤50% figure must say it includes ≤30%.
 const t = aaData.statewide.tiers;
 assert(t['50'].renter_households >= t['30'].renter_households, 'fixture: ≤50% contains ≤30% households');
-assert(/≤30%/.test(gapCards['50'].note) && /includ/i.test(gapCards['50'].note),
-  '≤50% card states that it includes the ≤30% households (the data tiers are cumulative)');
-// "No 60% figure" is true only while the data has no 60% tier.
-assert.equal(/no 60% figure/i.test(gapCards['50'].note), !('60' in t),
-  '≤50% card says there is no 60% figure exactly when the data has no 60% tier');
+assert(/≤30%/.test(gapCards['50'].key + ' ' + gapCards['50'].note) && /includ/i.test(gapCards['50'].key + ' ' + gapCards['50'].note),
+  '≤50% figure states that it includes the ≤30% households (the data tiers are cumulative)');
+// "No 60% tier" is true only while the data has no 60% tier.
+assert.equal(/no 60% (figure|tier)/i.test(gapCards['50'].note), !('60' in t),
+  '≤50% row says HUD has no 60% tier exactly when the data has no 60% tier');
 // Income limits: the data measures each household against its own area's
-// median, not one statewide figure; the card must not claim otherwise.
+// median, not one statewide figure; the page must not claim otherwise for HUD's count.
 assert(/for each area/.test(aaData.meta.income_basis), 'fixture: income basis is per area');
-assert(/each county/i.test(gapCards['50'].note) && !/statewide AMI/i.test(gapCards['50'].note),
-  '≤50% card says income limits are set for each county');
+assert(/each county/i.test(gapCards['30'].note), 'the ≤30% card says HUD uses each county\'s own limits');
 // The data's own arithmetic, for every county and the state: available =
 // occupied within the group + vacant; HUD's shortfall = households − homes,
 // floored at 0; the nested figure never falls as the tier widens.
@@ -167,93 +183,56 @@ for (const [name, rec] of [['statewide', aaData.statewide], ...Object.entries(aa
 const st = aaData.statewide.tiers;
 assert(st['50'].homes_short >= st['30'].homes_short,
   'statewide ≤50% shortfall is at least the ≤30% one; if not, the homepage needs the nested figure and a note saying so');
-// The vintage the cards show is the data's.
-for (const tier of GAP_TIERS) {
-  assert(gapCards[tier].html.includes(`id="snapGapVintage${tier}"`), `≤${tier}% card shows the data vintage`);
-}
-
-// Under HUD's count, each card keeps the ACS 2024 minimum (paul,
-// 2026-10-15: show both, HUD's figure on top). Pinned to
-// data/co_ami_gap_by_county.json, which js/index.js renders it from.
-const amiGapData = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'co_ami_gap_by_county.json'), 'utf8'));
-assert(indexJs.includes("DS.baseData('co_ami_gap_by_county.json')"), 'js/index.js renders the 2024 minimum from data/co_ami_gap_by_county.json');
+// Under HUD's count, each figure keeps the ACS minimum (paul, 2026-10-15: show both, HUD's figure on top).
+// Pinned to data/co_ami_gap_by_county.json, which hub/home.js draws it from.
+const amiGapData = json('data/co_ami_gap_by_county.json');
+assert(hubHome.includes('data/co_ami_gap_by_county.json'), 'hub/home.js draws the ACS minimum from data/co_ami_gap_by_county.json');
+const acsYear = String(amiGapData.meta.acs_year);
 const minNote = {};
-for (const [tier, minTier] of [['30', '30'], ['50', '60']]) {
-  const notes = new JSDOM(gapCards[tier].html).window.document.querySelectorAll('.home-snapshot__note');
-  assert.equal(notes.length, 2, `≤${tier}% card shows HUD's count and the 2024 minimum`);
-  minNote[minTier] = { html: notes[1].innerHTML, text: notes[1].textContent.trim() };
-  assert(minNote[minTier].html.includes('href="data/co_ami_gap_by_county.json"'), `2024 ≤${minTier}% note links its file`);
-  assert(minNote[minTier].html.includes(`id="snapMin${minTier}"`) && minNote[minTier].html.includes(`id="snapMinYear${minTier}"`),
-    `2024 ≤${minTier}% note shows its figure and the ACS year from the data`);
-  const named = [...minNote[minTier].text.matchAll(/≤(\d+)% AMI/g)].map((m) => m[1]).filter((n) => n !== '30');
-  assert(named.every((n) => n === minTier) && amiGapData.statewide.min_shortfall_matched_le_ami_pct[minTier] != null,
-    `2024 ≤${minTier}% note names the tier it renders, which the data carries`);
+{
+  // ≤30%: the second paragraph under "How this is counted" on the ≤30% card.
+  const paras = [...card30.html.matchAll(/<p>([\s\S]*?)<\/p>/g)].map((m) => home.text(m[1]));
+  minNote['30'] = paras.find((x) => /minimum/i.test(x) && x.includes(n(amiGapData.statewide.min_shortfall_matched_le_ami_pct['30'])));
+  assert(minNote['30'], 'the ≤30% card shows HUD\'s count and the ACS minimum from the data');
+  assert(card30.html.indexOf(n(aaData.statewide.tiers['30'].homes_short)) < card30.html.indexOf(n(amiGapData.statewide.min_shortfall_matched_le_ami_pct['30'])),
+    'HUD\'s count comes before the ACS minimum on the ≤30% card');
+  // ≤60%: rides on the ≤50% row, as a floor by a different method.
+  minNote['60'] = gapCards['50'].note.slice(gapCards['50'].note.search(/The ACS/));
+  assert(minNote['60'].includes(n(amiGapData.statewide.min_shortfall_matched_le_ami_pct['60'])), 'the ≤50% row shows the ACS ≤60% floor from the data');
 }
+for (const tier of ['30', '60']) {
+  assert(minNote[tier].includes(acsYear), `ACS ≤${tier}% note shows the ACS year from the data`);
+  assert(amiGapData.statewide.min_shortfall_matched_le_ami_pct[tier] != null, `the data carries the ≤${tier}% minimum`);
+}
+assert(/≤60% AMI/.test(minNote['60']) && !/≤(?!60)\d+% AMI/.test(minNote['60']), 'ACS ≤60% note names the tier it renders, which the data carries');
 assert.equal(amiGapData.statewide.demand_tenure, 'renter', 'fixture: the gap demand side is renter households');
-assert(/renter households/i.test(minNote['30'].text) && /afford/i.test(minNote['30'].text), '2024 ≤30% note states its basis');
-assert.equal(/no cash rent/i.test(minNote['30'].text), amiGapData.statewide.renter_units_no_cash_rent > 0,
-  '2024 ≤30% note names the no-cash-rent homes the figure subtracts');
+assert(/renter households/i.test(minNote['30']) && /afford/i.test(minNote['30']), 'ACS ≤30% note states its basis');
+assert.equal(/no cash rent/i.test(minNote['30']), amiGapData.statewide.renter_units_no_cash_rent > 0,
+  'ACS ≤30% note names the no-cash-rent homes the figure subtracts');
 // Why it differs from HUD's: one statewide limit (the data's own figure) against HUD's per-area limits.
-const amiShown = /AMI[^$]{0,40}\$([\d,]+)/.exec(minNote['30'].text);
-assert(amiShown && Number(amiShown[1].replace(/,/g, '')) === amiGapData.statewide.ami_4person && /4-person/.test(minNote['30'].text),
+const amiShown = /AMI[^$]{0,40}\$([\d,]+)/.exec(minNote['30']);
+assert(amiShown && Number(amiShown[1].replace(/,/g, '')) === amiGapData.statewide.ami_4person && /4-person/.test(minNote['30']),
   'the statewide AMI on the homepage equals statewide.ami_4person for the 4-person household the data uses');
-assert(/for each area/.test(aaData.meta.income_basis) && /each county/i.test(minNote['30'].text),
-  '2024 ≤30% note says HUD uses each county\'s limits, as the HUD data does');
-assert(/higher-income/i.test(minNote['30'].text), '2024 ≤30% note says it counts homes higher-income households rent');
-assert(/includ/i.test(minNote['60'].text) && /≤30%/.test(minNote['60'].text), '2024 ≤60% note says it includes the ≤30% households');
-assert(/at least|minimum/i.test(minNote['60'].text) && /occupied/i.test(minNote['60'].text) && /vacant|available/i.test(minNote['60'].text),
-  '2024 ≤60% note says it is a minimum and carries the occupancy caveat');
+assert(!/\$1\d\d,\d{3} for a 4-person/.test(hubHome), 'hub/home.js types the statewide AMI instead of reading statewide.ami_4person');
+assert(minNote['30'].includes('FY' + amiGapData.meta.hud_income_limits_year), 'ACS ≤30% note names the HUD income-limit year the data records');
+assert(/for each area/.test(aaData.meta.income_basis) && /each county/i.test(minNote['30']),
+  'ACS ≤30% note says HUD uses each county\'s limits, as the HUD data does');
+assert(/higher-income/i.test(minNote['30']), 'ACS ≤30% note says it counts homes higher-income households rent');
+assert(/floor|at least|minimum/i.test(minNote['60']) && /occupied/i.test(minNote['60']),
+  'ACS ≤60% note says it is a floor and carries the occupancy caveat');
+assert(/lower/i.test(minNote['60']) === (amiGapData.statewide.min_shortfall_matched_le_ami_pct['60'] < aaData.statewide.tiers['50'].homes_short),
+  'the ≤50% row says the ACS ≤60% floor is lower exactly when it is');
 for (const rec of [amiGapData.statewide, ...amiGapData.counties]) {
   const m = rec.min_shortfall_matched_le_ami_pct;
   assert(m && m['60'] >= m['30'] && m['30'] >= 0, `${rec.county_name}: ≤60% minimum is at least the ≤30% one and never negative`);
 }
 
-const routes = htmlBlock('<nav class="home-job-routes"', '</nav>');
-assert(
-  routes.includes('Plan ownership') &&
-  routes.includes('Screen affordable for-sale options') &&
-  routes.includes('housing-needs-assessment.html#affordable-ownership-need-section') &&
-  routes.includes('deal-calculator.html'),
-  'Find Opportunity routing must include an affordable ownership path'
-);
-
-async function assertRenderedGapFigures() {
-  const dom = new JSDOM(index, { url: 'http://127.0.0.1/index.html' });
-  global.window = dom.window;
-  global.document = dom.window.document;
-  global.location = dom.window.location;
-
-  window.DataService = {
-    baseData: (value) => value,
-    getJSON: (value) => value === 'hna/chas_affordable_available.json' ? Promise.resolve(aaData)
-      : value === 'co_ami_gap_by_county.json' ? Promise.resolve(amiGapData)
-      : Promise.reject(new Error('not used by this fixture')),
-  };
-
-  const indexModule = path.join(ROOT, 'js', 'index.js');
-  delete require.cache[require.resolve(indexModule)];
-  require(indexModule);
-  document.dispatchEvent(new window.Event('DOMContentLoaded'));
-  await new Promise((resolve) => setTimeout(resolve, 0));
-  await new Promise((resolve) => setTimeout(resolve, 0));
-
-  // Every figure is the statewide record in the data file, pinned to the
-  // data rather than to a number, so a new CHAS vintage needs no test edit.
-  const text = (id) => document.getElementById(id).textContent;
-  for (const tier of GAP_TIERS) {
-    const r = aaData.statewide.tiers[tier];
-    assert.equal(text(`snapGap${tier}`), r.homes_short.toLocaleString('en-US'), `≤${tier}% headline renders the statewide homes short`);
-    assert.equal(r.homes_short, r.renter_households - r.affordable_available_homes, `≤${tier}% headline equals the households minus the homes shown beside it`);
-    assert.equal(text(`snapGap${tier}Households`), r.renter_households.toLocaleString('en-US'), `≤${tier}% note renders the statewide households`);
-    assert.equal(text(`snapGap${tier}Homes`), r.affordable_available_homes.toLocaleString('en-US'), `≤${tier}% note renders the statewide available homes`);
-    assert.equal(text(`snapGap${tier}Per100`), String(Math.round(100 * r.affordable_available_homes / r.renter_households)),
-      `≤${tier}% note renders homes per 100 households from the data's own counts`);
-    assert.equal(text(`snapGapVintage${tier}`), aaData.meta.vintage, `≤${tier}% note renders the data vintage`);
-  }
-  for (const tier of ['30', '60']) {
-    assert.equal(text(`snapMin${tier}`), amiGapData.statewide.min_shortfall_matched_le_ami_pct[tier].toLocaleString('en-US'), `2024 ≤${tier}% renders the data's statewide minimum`);
-    assert.equal(text(`snapMinYear${tier}`), String(amiGapData.meta.acs_year), `2024 ≤${tier}% renders the data's ACS year`);
-  }
+// Ownership has a way in from Home, and it is the for-sale study, not the rental calculator.
+{
+  const own = home.links(index).filter((l) => /for-sale|ownership/i.test(l.text) && /^#\//.test(l.raw));
+  assert(own.length >= 1 && own.every((l) => home.rebuilds(l.raw) === 'for-sale-market-study.html'),
+    'Home must include an affordable ownership path, to the for-sale market study');
+  assert(home.links(index).some((l) => home.rebuilds(l.raw) === 'deal-calculator.html'), 'Home must still link the Deal Calculator');
 }
 
 // The homepage's opening names the audience AGENTS.md's persona pass
@@ -267,20 +246,55 @@ async function assertRenderedGapFigures() {
   const fields = persona[1].replace(/,? or /, ', ').split(/,\s*/).map((f) => f.trim().split(' ')[0]).filter(Boolean);
   assert(fields.length >= 4, `persona fields read from AGENTS.md (${fields.join(', ')})`);
   const stems = { finance: /financ/i, planning: /plan/i, development: /develop/i, local: /govern/i };
-  const lead = new JSDOM(index).window.document.querySelector('.home-opening__lead').textContent.replace(/\s+/g, ' ');
-  const learnerAt = lead.search(/learn|new to (the field|housing)|student/i);
-  assert(learnerAt > 0, 'the opening welcomes people learning the field');
+  // On the rebuilt page (paul, 13 Nov 2026: "follow your recommendation") the headline is for everyone and the
+  // opening under it says who the site works for; the full audience statement is under "who it is for". Both
+  // are held: the opening names people who work on housing before anything else, and the audience statement
+  // names each persona field before it welcomes learners.
+  const opening = home.text((/<p class="lede">([\s\S]*?)<\/p>/.exec(index) || [])[1] || '');
+  assert(/people working on it|people who work on/i.test(opening), 'the opening says the site is for the people working on housing');
+  assert(!/anyone can read/i.test(opening), 'the opening does not lead with a general-public audience');
+  const sentences = text.split(/(?<=[.!?:])\s+/);
+  const at = sentences.findIndex((x) => /learning the field|new to (the field|housing)|student/i.test(x));
+  assert(at > 0, 'Home welcomes people learning the field');
+  const lead = sentences.slice(Math.max(0, at - 2), at + 1).join(' ');
+  const learnerAt = lead.search(/learning the field|new to (the field|housing)|student/i);
   for (const f of fields) {
     const re = stems[f] || new RegExp(f.slice(0, 5), 'i');
-    const at = lead.search(re);
-    assert(at >= 0 && at < learnerAt, `the opening names "${f}" before it welcomes learners`);
+    const where = lead.search(re);
+    assert(where >= 0 && where < learnerAt, `the audience statement names "${f}" before it welcomes learners`);
   }
-  assert(!/anyone can read/i.test(lead) || lead.search(/anyone can read/i) > learnerAt, 'the opening does not lead with a general-public audience');
 }
 
-assertRenderedGapFigures()
-  .then(() => console.log('homepage-claims: PASS'))
-  .catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
+// Every ACS year Home names is the year of the data it describes. Until 13 Nov 2026
+// scripts/sync-hud-vintage-labels.mjs rewrote these in index.html; hub/home.js is built from the lab and cannot be
+// rewritten here, so a new vintage must fail this until the lab follows.
+{
+  const acs = Number(amiGapData.meta.acs_year);
+  const tract = Number(String(json('data/market/acs_tract_metrics_co.json').meta.vintage).match(/\d{4}/g).pop());
+  const profile = Number(json('data/hna/summary/08.json').acsProfile._acsYear);
+  assert(acs === tract && acs === profile, `fixture: the ACS files Home draws on share one year (gap ${acs}, tracts ${tract}, profile ${profile})`);
+  const tables = [...index.matchAll(/data\.census\.gov\/table\/ACS(?:DP|DT|ST)5Y(\d{4})\./g)].map((m) => Number(m[1]));
+  assert(tables.length >= 3, `only ${tables.length} Census table links found on Home`);
+  for (const y of tables) assert.equal(y, acs, `a Census table link on Home names ${y}; the data is ACS ${acs}`);
+  const spans = [...text.matchAll(/ACS (\d{4})[–-](\d{4})/g)].map((m) => [Number(m[1]), Number(m[2])]);
+  assert(spans.length >= 3, `only ${spans.length} ACS 5-year labels found on Home`);
+  for (const [from, to] of spans) assert(to === acs && from === acs - 4, `Home says "ACS ${from}–${to}"; the data is ACS ${acs - 4}–${acs}`);
+}
+
+// A figure the data cannot support is a dash, never a 0 (#1480) and never a typed fallback.
+{
+  const LabHome = (await home.boot()).win.LabHome;
+  assert(LabHome && typeof LabHome.homeFigures === 'function', 'hub/home.js exposes homeFigures for this guard');
+  const f = LabHome.homeFigures({ snap: { values: { renter_cost_burden_pct: null, average_lihtc_preservation_units_per_year: null } }, aa: null, gap: null, proj: { housing_need: { incremental_units_needed_dola: [1, null] } }, sum: null, burden: null });
+  assert(Number.isNaN(f.burden), 'a null burden share is unknown, not 0');
+  assert(Number.isNaN(f.need), 'a null 20-year need is unknown, not 0');
+  assert(Number.isNaN(f.households), 'a missing household total is unknown, not 0');
+  assert(Number.isNaN(f.presPerYr), 'a null preservation pace is unknown, not 0');
+  assert(Number.isNaN(f.allBurdened) && Number.isNaN(f.allBurdenedShare), 'no CHAS file gives no burdened count');
+}
+
+console.log('homepage-claims: PASS');
+})().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

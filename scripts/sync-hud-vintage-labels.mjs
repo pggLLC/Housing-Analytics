@@ -75,7 +75,10 @@ export const RULES = [
   { vintage: 'acs5', files: ['hna-what-to-do.html', 'housing-needs-assessment.html'], pattern: /data-vintage="ACS (\d{4}) 5-year"/g },
   // ACS 5-year tract metrics: data/market/acs_tract_metrics_co.json meta.vintage
   { vintage: 'acsTract', span: true, files: ['market-analysis.html', 'colorado-deep-dive.html', 'js/components/vacancy-context.js'], pattern: /ACS (?:5-yr )?(\d{4})[–-](\d{4})/g },
-  { vintage: 'acsTract', files: ['index.html', 'market-analysis.html'], pattern: /data\.census\.gov\/table\/ACS(?:DP|DT)5Y(\d{4})\./g },
+  // index.html left this rule on 13 Nov 2026: Home is drawn by hub/home.js, which is built from the lab and
+  // cannot be rewritten here (hub/PORT.json records its hash). test/homepage-claims.test.js holds its ACS years
+  // to the data instead, so a new vintage fails that test until the lab is updated and the hub rebuilt.
+  { vintage: 'acsTract', files: ['market-analysis.html'], pattern: /data\.census\.gov\/table\/ACS(?:DP|DT)5Y(\d{4})\./g },
   // LODES commute flows on the HNA pages: data/hna/lehd/<county>.json year
   { vintage: 'lodes', files: ['hna-where-its-heading.html', 'housing-needs-assessment.html'], pattern: /LODES (\d{4})/g },
   // LODES on Market Analysis: data/market/lodes_co.json meta.vintage

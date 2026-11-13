@@ -22,6 +22,7 @@ import assert from 'node:assert';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CHAPTER = 'hna-what-housing-exists.html';
@@ -91,13 +92,26 @@ test('choosing a jurisdiction opens part 1, not the full report', () => {
     'the redirect into the full report is back');
 });
 
-test('the homepage entry opens part 1', () => {
-  const src = read('index.html');
-  // Find step 3's link by its role in the path, not by its wording.
-  const step3 = src.match(/<a href="([^"]+)" aria-label="Step 3:[^"]*"/);
-  assert.ok(step3, 'the homepage has a step 3 link');
-  assert.equal(step3[1], CHAPTER,
+// Home is drawn by hub/home.js since the 13 Nov 2026 rebuild, so its step 3 is read from the page as drawn.
+const { renderHome, steps: homeSteps } = createRequire(import.meta.url)('./helpers/render-home.js');
+const HOME_STEP_3 = homeSteps(await renderHome()).find((c) => Number(c.num) === 3);
+
+test('the homepage entry opens the chapters, not the full report', () => {
+  // The old card linked the first chapter page. The rebuilt card opens a place's assessment on the Places hub
+  // (#/place/<geoid>), which is drawn as an overview with one tab per chapter. What must hold is what this file
+  // is for: a first-time visitor lands in the chaptered assessment, with part 1 one tab away, and is not sent
+  // into the full report (housing-needs-assessment.html).
+  const step3 = HOME_STEP_3;
+  assert.ok(step3 && step3.raw, 'the homepage has a step 3 link');
+  assert.ok(/^#\/place\/\d{5,7}$/.test(step3.raw), `step 3 opens ${step3.raw}, not a place's assessment`);
+  assert.ok(step3.href.startsWith('places-hub.html#/place/'), `step 3 opens ${step3.href}, not the chaptered assessment on the Places hub`);
+  assert.ok(!step3.href.includes('housing-needs-assessment.html'),
     'the homepage sends a first-time visitor into the full report');
+  const tabs = /var TABS = \[([\s\S]*?)\];/.exec(read('hub/hna.js'));
+  assert.ok(tabs, 'hub/hna.js no longer lists the assessment chapters as TABS');
+  const live = [...tabs[1].matchAll(/live:\s*'([^']+)'/g)].map((m) => m[1]);
+  assert.ok(live.length >= 4, `only ${live.length} chapters found in hub/hna.js`);
+  assert.ok(live.includes(CHAPTER), `the place page step 3 opens has no tab for part 1 (${CHAPTER})`);
 });
 
 test('resuming a saved project still opens the full report, on purpose', () => {

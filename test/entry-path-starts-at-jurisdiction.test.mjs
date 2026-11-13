@@ -31,11 +31,19 @@ import assert from 'node:assert';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const JURIS = 'select-jurisdiction.html';
 const FINDER = 'lihtc-opportunity-finder.html';
 const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
+
+// Home is drawn by hub/home.js since the 13 Nov 2026 rebuild (index.html), so its cards are read from the page
+// as drawn. Each step opens a route on a hub page; `rebuilds` names the page that route took the place of, which
+// is the identity the rail and the other pages still use for the same step.
+const { renderHome, steps: homeSteps, links: homeLinks, rebuilds } = createRequire(import.meta.url)('./helpers/render-home.js');
+const HOME = await renderHome();
+const HOME_STEPS = homeSteps(HOME);
 
 let failures = 0;
 const test = (name, fn) => {
@@ -261,65 +269,64 @@ test('no page keeps its own copy of the rail CSS', () => {
 });
 
 test('the homepage cards open on the jurisdiction', () => {
-  const src = read('index.html');
-  const cards = [...src.matchAll(/<li class="home-step[^"]*">\s*<span class="home-step__num"[^>]*>(\d+)<\/span>[\s\S]*?href="([^"]+)" aria-label="Step (\d+):/g)]
-    .map((m) => ({ num: m[1], href: m[2], aria: m[3] }));
-  assert.ok(cards.length >= 6, `only ${cards.length} homepage step cards parsed`);
+  assert.ok(HOME_STEPS.length >= 6, `only ${HOME_STEPS.length} homepage step cards parsed`);
   assert.deepStrictEqual(
-    cards.slice(0, 2).map((c) => [c.num, c.href, c.aria]),
-    [['01', JURIS, '1'], ['02', FINDER, '2']],
+    HOME_STEPS.slice(0, 2).map((c) => [c.num, rebuilds(c.raw)]),
+    [['01', JURIS], ['02', FINDER]],
     'the homepage still presents the finder as the first step');
+  for (const c of HOME_STEPS) {
+    assert.ok(c.href && fs.existsSync(path.join(ROOT, c.page)), `step ${c.num} opens ${c.href}, which is not a page here`);
+  }
 });
 
-test('the numeral, the link and the aria label never disagree', () => {
-  // Three copies of the same step number on one card. The reorder moved the
-  // cards; if any copy is renumbered independently a screen-reader user and a
-  // sighted user are told different things.
-  const src = read('index.html');
+test('the numeral and the link never disagree with the rail', () => {
+  // The old card carried three copies of its step number (numeral, link label, aria label) and the reorder could
+  // renumber one alone. The rebuilt card carries one numeral, written from the card's place in the list; what can
+  // still disagree is the card and the rail other pages show. So: the numerals run 1..n with no gap or repeat,
+  // and step n on Home is step n on the rail (js/components/workflow-progress.js STEPS), by the page it stands for.
+  const rail = [...read('js/components/workflow-progress.js').matchAll(/\{ num: (\d+),\s*key: '([a-z]+)',[^}]*href: '([^']+)' \}/g)]
+    .map((m) => ({ num: Number(m[1]), key: m[2], href: m[3] }));
+  assert.ok(rail.length >= 7, `only ${rail.length} rail steps parsed`);
+  assert.deepStrictEqual(HOME_STEPS.map((c) => Number(c.num)), HOME_STEPS.map((_, i) => i + 1), 'the homepage numerals do not run 1..n in order');
   const offenders = [];
-  for (const m of src.matchAll(/<span class="home-step__num"[^>]*>(\d+)<\/span>[\s\S]*?aria-label="Step (\d+):/g)) {
-    if (String(Number(m[1])) !== m[2]) offenders.push(`card ${m[1]} is labelled step ${m[2]}`);
+  for (const c of HOME_STEPS) {
+    const r = rail.find((x) => x.num === Number(c.num));
+    if (!r) { offenders.push(`card ${c.num} has no rail step`); continue; }
+    // The needs assessment step: the rail names its first chapter page, the card opens a place's assessment.
+    const same = r.key === 'hsa' ? /^#\/place\/\d{5,7}$/.test(c.raw) : rebuilds(c.raw) === r.href;
+    if (!same) offenders.push(`card ${c.num} opens ${c.raw} (${rebuilds(c.raw)}), the rail's step ${r.num} is ${r.href}`);
   }
   assert.deepStrictEqual([...offenders], [], offenders.join('; '));
 });
 
 test('the featured card is the one the reader should start on', () => {
-  // The featured treatment is the visual "start here". Left on the finder it
-  // would have reordered the list while still pointing the eye at step 2.
-  const src = read('index.html');
-  const featured = [...src.matchAll(/<li class="home-step home-step--featured">[\s\S]*?<\/li>/g)];
-  assert.strictEqual(featured.length, 1,
-    `${featured.length} homepage cards are featured; exactly one can be the start`);
-  assert.ok(featured[0][0].includes(`href="${JURIS}"`),
-    'the featured card is not the jurisdiction step');
+  // The featured treatment is the visual "start here". Left on the finder it would have reordered the list while
+  // still pointing the eye at step 2. On the rebuilt Home the featured cards are the three under the search; the
+  // one that says where to start is the first, and it opens the place picker.
+  const block = (/<section class="hh-paths"[\s\S]*?<\/section>/.exec(HOME) || [])[0] || '';
+  const cards = homeLinks(block);
+  assert.ok(cards.length >= 2, `only ${cards.length} start cards parsed`);
+  const starts = cards.filter((c) => /start here/i.test(c.text));
+  assert.strictEqual(starts.length, 1, `${starts.length} start cards say "start here"; exactly one can be the start`);
+  assert.strictEqual(starts[0], cards[0], 'the card that says "start here" is not the first card');
+  assert.strictEqual(rebuilds(starts[0].raw), JURIS, 'the start card is not the jurisdiction step');
 });
 
-test('one entry CTA, and it names the study', () => {
-  // The page already had a primary button to this place; a second one would
-  // have been two producers of the same call to action, competing for the
-  // same click. That part is unchanged.
-  //
-  // What changed is the wording. This used to pin the literal string "Start a
-  // Housing Market Study", sourced from #1620 §7 — a scoping document whose
-  // own opening line says it was "produced by Claude" and is "an input to an
-  // owner decision, not a build order". It was implemented in #1713 anyway,
-  // and the button then disagreed with select-jurisdiction.html, which tells
-  // the reader seven times that they are beginning a Housing Needs
-  // Assessment. The owner chose the destination's wording on 2026-09-18.
-  //
-  // Pinning a literal here is what let the two drift apart in the first
-  // place, so this asserts the SHAPE — the CTA must name what it starts — and
-  // test/homepage-job-routing.test.js checks that the name matches the page
-  // it opens. Reword both together and both tests stay green; reword one and
-  // that one fails.
-  const src = read('index.html');
-  const ctas = [...src.matchAll(/<a href="([^"]+)" class="btn"[\s\S]*?<\/a>/g)];
-  assert.strictEqual(ctas.length, 1, `${ctas.length} primary CTAs on the homepage; expected exactly one`);
-  assert.strictEqual(ctas[0][1], JURIS, `the entry CTA points at ${ctas[0][1]}`);
-  assert.ok(/<span>\s*(?:Start|Begin|Open)\s+(?:a|an|your)\s+\S[^<]*</i.test(ctas[0][0]),
-    'the entry CTA no longer names what the reader is starting');
-  assert.ok(/Step 1 &mdash; pick a Colorado jurisdiction/.test(ctas[0][0]),
-    'the CTA no longer says which step it opens, so it cannot be checked against the rail');
+test('one entry CTA, and it names what it starts', () => {
+  // The page had one primary button to the place picker; a second would have been two producers of the same call
+  // to action, competing for the same click. On the live site before 13 Nov 2026 that is what happened across
+  // pages: the homepage button opened select-jurisdiction.html while each menu's "Start here" opened a hub.
+  // So, across the whole of Home as drawn: one link says "start here", it opens the same place step 1 opens,
+  // and it says what the reader is starting (a town or county to pick), not just "start".
+  const all = homeLinks(HOME).filter((l) => /\bstart here\b/i.test(l.text));
+  assert.strictEqual(all.length, 1, `${all.length} "start here" links on the homepage; expected exactly one`);
+  assert.strictEqual(rebuilds(all[0].raw), JURIS, `the entry CTA points at ${all[0].href}`);
+  assert.strictEqual(all[0].raw, HOME_STEPS[0].raw, 'the entry CTA and step 1 open different places, so they cannot both be the start');
+  assert.ok(/start here:\s*(pick|choose|select|find)\s+\S/i.test(all[0].text),
+    `the entry CTA no longer names what the reader is starting: "${all[0].text}"`);
+  // It opens the same hub page the Places menu's own "Start here" opens (js/navigation.js), so the two starts agree.
+  assert.ok(read('js/navigation.js').includes('href: "' + all[0].href.replace(/#.*$/, '') + '"'),
+    `the menu does not offer ${all[0].href}, the page the homepage start opens`);
 });
 
 console.log(failures === 0

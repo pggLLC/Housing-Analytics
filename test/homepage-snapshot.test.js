@@ -102,91 +102,75 @@ async function testSnapshotFidelity() {
   assert(Buffer.byteLength(JSON.stringify(committed)) < 5 * 1024, 'homepage snapshot remains below 5 KB');
 }
 
-async function testHomepageRendering() {
-  const dom = new JSDOM(`<!doctype html><body>
-    <span id="snapCostBurden">—</span>
-    <span id="snapLihtcCount">—</span>
-    <span id="snapAvgUnitsPerYr">—</span>
-    <span id="snapDeficitGrowth">—</span>
-    <span id="snapNewConstPerYr">—</span><span id="snapRenterGrowthPerYr">—</span><span id="snapPreservationPerYr">—</span>
-  </body>`, { url: 'http://127.0.0.1/index.html' });
-  installDom(dom);
-  const snapshot = require('../data/home-snapshot.json');
-  const calls = [];
-  window.DataService = {
-    baseData: (name) => 'data/' + name,
-    getJSON: (url) => {
-      calls.push(url);
-      return url === 'data/home-snapshot.json' ? Promise.resolve(snapshot) : Promise.reject(new Error('not used in fixture'));
-    },
-  };
-  freshRequire('js/index.js');
-  document.dispatchEvent(new window.Event('DOMContentLoaded'));
-  await flushPromises();
-  await flushPromises();
+// Home is drawn by hub/home.js since the 13 Nov 2026 rebuild (index.html); the old js/index.js is gone. The
+// three tests below held that script to the snapshot. They now hold the page as drawn, from the same file, and
+// from stand-in copies of it for the cases today's data does not contain.
+const home = require('./helpers/render-home');
+const SNAP = 'data/home-snapshot.json';
+// One "at a glance" card by a word in its title: its headline value and all of its text.
+function glanceCard(html, re) {
+  const cards = [...html.matchAll(/<article class="hg-card"><h3>([\s\S]*?)<\/h3><p class="hg-value">([\s\S]*?)<\/p>([\s\S]*?)<\/article>/g)]
+    .map((m) => ({ title: home.text(m[1]), value: home.text(m[2]), text: home.text(m[3]) }));
+  const hit = cards.find((c) => re.test(c.title));
+  assert(hit, `Home has no "at a glance" card matching ${re}`);
+  return hit;
+}
+function factRow(html, re) {
+  const rows = [...html.matchAll(/<li><span class="fact-value">([\s\S]*?)<\/span><span class="fact-label">([\s\S]*?)<\/span>/g)].map((m) => ({ value: home.text(m[1]), label: home.text(m[2]) }));
+  const hit = rows.find((r) => re.test(r.label));
+  assert(hit, `Home has no fact row matching ${re}`);
+  return hit;
+}
 
-  assert.equal(document.getElementById('snapCostBurden').textContent, snapshot.values.renter_cost_burden_pct.toFixed(1) + '%');
-  assert.equal(document.getElementById('snapLihtcCount').textContent, snapshot.values.lihtc_property_count.toLocaleString());
-  assert.equal(document.getElementById('snapAvgUnitsPerYr').textContent, snapshot.values.average_lihtc_units_per_year.toLocaleString());
-  assert.equal(
-    document.getElementById('snapDeficitGrowth').textContent,
-    Math.round(snapshot.values.lihtc_new_construction_coverage_of_le60_renter_growth * 100) + '% covered',
-    'the card renders the coverage ratio from the snapshot, not a net and not a literal'
-  );
-  assert.equal(document.getElementById('snapNewConstPerYr').textContent, snapshot.values.average_lihtc_new_construction_units_per_year.toLocaleString(), 'note states the new-construction pace');
-  assert.equal(document.getElementById('snapRenterGrowthPerYr').textContent, snapshot.values.annual_le60_renter_household_growth.toLocaleString(), 'note states the renter growth');
-  assert.equal(document.getElementById('snapPreservationPerYr').textContent, snapshot.values.average_lihtc_preservation_units_per_year.toLocaleString(), 'note states the preservation pace separately');
-  assert(calls.includes('data/home-snapshot.json'), 'homepage requests the compact snapshot');
+async function testHomepageRendering() {
+  const snapshot = require('../data/home-snapshot.json');
+  const html = await home.renderHome();
+  const v = snapshot.values;
+  assert.equal(glanceCard(html, /Renters paying 30%/).value, v.renter_cost_burden_pct.toFixed(1) + '%');
+  assert.equal(factRow(html, /tax credit properties/i).value, v.lihtc_property_count.toLocaleString('en-US'));
+  assert.equal(factRow(html, /Tax credit homes a year/i).value, v.average_lihtc_units_per_year.toLocaleString('en-US'));
+  const coverage = glanceCard(html, /New tax-credit homes against/);
+  assert.equal(coverage.value, Math.round(v.lihtc_new_construction_coverage_of_le60_renter_growth * 100) + '% covered',
+    'the card renders the coverage ratio from the snapshot, not a net and not a literal');
+  assert(coverage.text.includes(v.average_lihtc_new_construction_units_per_year.toLocaleString('en-US') + ' homes a year'), 'note states the new-construction pace');
+  assert(coverage.text.includes(v.annual_le60_renter_household_growth.toLocaleString('en-US') + ' a year'), 'note states the renter growth');
+  assert(coverage.text.includes(v.average_lihtc_preservation_units_per_year.toLocaleString('en-US') + ' a year'), 'note states the preservation pace separately');
+  const calls = (await home.boot()).fetched;
+  assert(calls.includes(SNAP), 'homepage requests the compact snapshot');
   assert(!calls.includes('data/market/acs_tract_metrics_co.json'), 'homepage does not fetch the tract-level ACS file');
-  assert(!calls.includes('data/chfa-lihtc.json'), 'homepage does not fetch the CHFA feature collection');
+  // Changed with the rebuild, and said plainly: the old page read its figures from the snapshot alone. The
+  // rebuilt page still reads its headline figures from the snapshot, but its town search and county map share the
+  // Places hub's place data, which includes the CHFA feature collection. The figures above must not come from it:
+  // they are checked against the snapshot, and the stand-in tests below change only the snapshot.
+  assert(/snap: 'data\/home-snapshot\.json'/.test(require('node:fs').readFileSync(path.join(ROOT, 'hub', 'home.js'), 'utf8')), 'hub/home.js reads its statewide figures from the compact snapshot');
 }
 
 async function testNoLiteralFallback() {
   // Before 2026-09-22 js/index.js held a literal 6,500 for the household
   // growth. Without the derived basis the card must stay "—", never revert
   // to a number nothing in the data supports.
-  const dom = new JSDOM(`<!doctype html><body>
-    <span id="snapAvgUnitsPerYr">—</span>
-    <span id="snapDeficitGrowth">—</span>
-  </body>`, { url: 'http://127.0.0.1/index.html' });
-  installDom(dom);
   const committed = require('../data/home-snapshot.json');
   const withoutBasis = { ...committed, values: { ...committed.values } };
   delete withoutBasis.values.annual_le60_renter_household_growth;
-  window.DataService = {
-    baseData: (name) => 'data/' + name,
-    getJSON: (url) => (url === 'data/home-snapshot.json' ? Promise.resolve(withoutBasis) : Promise.reject(new Error('not used in fixture'))),
-  };
-  freshRequire('js/index.js');
-  document.dispatchEvent(new window.Event('DOMContentLoaded'));
-  await flushPromises();
-  await flushPromises();
-  assert.equal(document.getElementById('snapAvgUnitsPerYr').textContent, committed.values.average_lihtc_units_per_year.toLocaleString(), 'supply pace still renders');
-  assert.equal(document.getElementById('snapDeficitGrowth').textContent, '—', 'no renter household-growth basis → no coverage figure (no literal fallback)');
+  const html = await home.renderHomeWith({ [SNAP]: withoutBasis });
+  assert.equal(factRow(html, /Tax credit homes a year/i).value, committed.values.average_lihtc_units_per_year.toLocaleString('en-US'), 'supply pace still renders');
+  const coverage = glanceCard(html, /New tax-credit homes against/);
+  assert.equal(coverage.value, '—', 'no renter household-growth basis → no coverage figure (no literal fallback)');
+  assert(!/\b6,500\b/.test(home.text(html)), 'the old literal 6,500 is not on the page');
+  assert(!coverage.text.includes(committed.values.annual_le60_renter_household_growth.toLocaleString('en-US') + ' a year'), 'the note does not state a growth figure the snapshot no longer carries');
 }
 
 async function testNullIsNotZero() {
   // Number(null) is 0 (#1480): a null burden or preservation pace in the
   // snapshot must leave "—", not render "0.0%" or "0".
-  const dom = new JSDOM(`<!doctype html><body>
-    <span id="snapCostBurden">—</span>
-    <span id="snapDeficitGrowth">—</span>
-    <span id="snapPreservationPerYr">—</span>
-  </body>`, { url: 'http://127.0.0.1/index.html' });
-  installDom(dom);
   const committed = require('../data/home-snapshot.json');
   const nulls = { ...committed, values: { ...committed.values, renter_cost_burden_pct: null, average_lihtc_preservation_units_per_year: null } };
-  window.DataService = {
-    baseData: (name) => 'data/' + name,
-    getJSON: (url) => (url === 'data/home-snapshot.json' ? Promise.resolve(nulls) : Promise.reject(new Error('not used in fixture'))),
-  };
-  freshRequire('js/index.js');
-  document.dispatchEvent(new window.Event('DOMContentLoaded'));
-  await flushPromises();
-  await flushPromises();
-  assert.notEqual(document.getElementById('snapDeficitGrowth').textContent, '—', 'the fixture still renders the rest of the snapshot');
-  assert.equal(document.getElementById('snapCostBurden').textContent, '—', 'null burden is unknown, not 0.0%');
-  assert.equal(document.getElementById('snapPreservationPerYr').textContent, '—', 'null preservation pace is unknown, not 0');
+  const html = await home.renderHomeWith({ [SNAP]: nulls });
+  const coverage = glanceCard(html, /New tax-credit homes against/);
+  assert.notEqual(coverage.value, '—', 'the fixture still renders the rest of the snapshot');
+  assert.equal(glanceCard(html, /Renters paying 30%/).value, '—', 'null burden is unknown, not 0.0%');
+  assert(!/\b0(\.0)?%\s+of Colorado renters/.test(home.text(html)), 'the strip under the search does not show 0% for an unknown burden');
+  assert(/rehab \(— a year\)/.test(coverage.text) && !/rehab \(0 a year\)/.test(coverage.text), 'null preservation pace is unknown, not 0');
 }
 
 async function runBadgeFixture(snapshot, sourceResult) {
@@ -236,20 +220,8 @@ async function testStatewideNullYearStaysAbsent() {
     'a null horizon household value stops the snapshot build instead of deriving a negative growth from 0'
   );
 
-  const render = async (proj) => {
-    const dom = new JSDOM('<!doctype html><body><span id="snapUnits20">—</span></body>', { url: 'http://127.0.0.1/index.html' });
-    installDom(dom);
-    window.DataService = {
-      baseData: (name) => 'data/' + name,
-      getJSON: (url) => (url === 'data/hna/projections/08.json' ? Promise.resolve(proj) : Promise.reject(new Error('not used in fixture'))),
-    };
-    freshRequire('js/index.js');
-    document.dispatchEvent(new window.Event('DOMContentLoaded'));
-    await flushPromises();
-    await flushPromises();
-    return document.getElementById('snapUnits20').textContent;
-  };
-  const expected = Math.round(projections.housing_need.incremental_units_needed_dola[lastIdx]).toLocaleString();
+  const render = async (proj) => glanceCard(await home.renderHomeWith({ 'data/hna/projections/08.json': proj }), /Homes Colorado needs by/).value;
+  const expected = Math.round(projections.housing_need.incremental_units_needed_dola[lastIdx]).toLocaleString('en-US');
   assert.equal(await render(projections), expected, 'homepage renders the committed 20-year need');
   assert.equal(await render(nullYear), '—', 'a null 20-year need stays "—", not 0');
 }
@@ -274,20 +246,19 @@ async function testVintageSidecarAndFallback() {
   await testNullIsNotZero();
   await testStatewideNullYearStaysAbsent();
   await testVintageSidecarAndFallback();
-  testDecisionLineMatchesCoverage();
+  testDecisionLineMatchesCoverage(await home.renderHome());
   console.log('homepage snapshot delivery: PASS');
 })().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
 
-function testDecisionLineMatchesCoverage() {
+function testDecisionLineMatchesCoverage(homeHtml) {
   // The decision text sits under the four key numbers. It says new tax-credit
   // homes cover "only part" of new low-income renters; that is true only while
   // the ratio the coverage card renders is below 1.
-  const index = require('node:fs').readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-  const decide = /<div class="home-decide">([\s\S]*?)<\/div>/.exec(index);
-  assert(decide, 'index.html has the "what to decide" block');
+  const decide = /<div class="hg-read">([\s\S]*?)<\/div>/.exec(homeHtml);
+  assert(decide, 'Home has the "why this matters / what to decide" block');
   const coverage = require('../data/home-snapshot.json').values.lihtc_new_construction_coverage_of_le60_renter_growth;
   assert(Number.isFinite(coverage) && coverage > 0, 'fixture: the snapshot carries a coverage ratio');
   // Each phrase the line may use, and the ratio it is true for.

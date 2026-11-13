@@ -17,7 +17,9 @@ const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html
 // Every member page the member menu lists that has a file here.
 const NAV = (await import(path.join(ROOT, 'js/whitepaper/developer-nav.js'))).default;
 const MEMBER = NAV.PAGES.map((p) => p.href).filter((f) => fs.existsSync(path.join(ROOT, f)));
-const PUBLIC = ['index.html', 'deal-calculator.html'];
+// Two public pages that carry the shared header. Home is not one of them since its 13 Nov 2026 rebuild: it is
+// drawn by the hub shell, which has its own header and no chip, so it cannot show whether the chip survived.
+const PUBLIC = ['housing-needs-assessment.html', 'deal-calculator.html'];
 let checks = 0;
 const ok = (c, m) => { assert.ok(c, m); checks++; };
 

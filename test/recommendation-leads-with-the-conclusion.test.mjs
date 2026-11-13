@@ -486,12 +486,18 @@ test('step 7 is on every rail, and the component agrees', () => {
   assert.strictEqual(step7[1], 'recommendation.html');
 });
 
+// Home is drawn by hub/home.js since the 13 Nov 2026 rebuild; the cards are read from the page as drawn.
+const homeHelper = require('./helpers/render-home.js');
+const HOME_CARDS = homeHelper.steps(await homeHelper.renderHome());
+
 test('the homepage offers it as the seventh card', () => {
-  const src = read('index.html');
-  const step7 = src.match(/<a href="([^"]+)" aria-label="Step 7:[^"]*"/);
-  assert.ok(step7, 'no step 7 card on the homepage');
-  assert.strictEqual(step7[1], 'recommendation.html', 'step 7 does not open the recommendation');
-  assert.ok(/<span class="home-step__num"[^>]*>07<\/span>/.test(src), 'the seventh card is not numbered 07');
+  const cards = HOME_CARDS;
+  const step7 = cards.find((c) => Number(c.num) === 7);
+  assert.ok(step7 && step7.raw, 'no step 7 card on the homepage');
+  assert.strictEqual(homeHelper.rebuilds(step7.raw), 'recommendation.html', 'step 7 does not open the recommendation');
+  assert.ok(step7.href && fs.existsSync(path.join(ROOT, step7.page)), `step 7 opens ${step7.href}, which is not a page here`);
+  assert.strictEqual(step7.num, '07', 'the seventh card is not numbered 07');
+  assert.strictEqual(cards.indexOf(step7), 6, 'the recommendation is not the seventh card in order');
 });
 
 test('the page loads what it needs, and nothing it does not', () => {

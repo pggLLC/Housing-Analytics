@@ -414,13 +414,29 @@
     if (!form || !form.dataset.search) return;
     var target = form.dataset.search === 'tools-q' ? 'tools' : form.dataset.search === 'search-q' ? 'search' : 'places';
     var next = '#/' + target + (ev.target.value ? '?q=' + encodeURIComponent(ev.target.value) : '');
-    if (form.dataset.search === 'home-place') { location.hash = next; return; }
+    if (form.dataset.search === 'home-place') {
+      // The rebuilt Home answers on Home: the search rides in its own address (#/?q=), with the role picked.
+      if (!global.LabHome) { location.hash = next; return; }
+      var hp = new URLSearchParams(parseHash().params);
+      hp.delete('town');
+      if (ev.target.value) hp.set('q', ev.target.value); else hp.delete('q');
+      var hs = hp.toString();
+      history.replaceState(null, '', '#/' + (hs ? '?' + hs : ''));
+      render();
+      return;
+    }
     history.replaceState(null, '', next);
     render();
   });
   main.addEventListener('submit', function (ev) {
     ev.preventDefault();
     var form = ev.target;
+    // Enter in Home's search picks the first match, and Home answers for it.
+    if (form.dataset && form.dataset.search === 'home-place') {
+      var hit = global.LabHome && global.LabHome.firstMatch ? global.LabHome.firstMatch(form.querySelector('input').value) : null;
+      if (hit) { var sp = new URLSearchParams(parseHash().params); sp.delete('q'); sp.set('town', hit.geoid); location.hash = '#/?' + sp.toString(); }
+      return;
+    }
     var route = parseHash();
     var p = route.params;
     var fd = new FormData(form);

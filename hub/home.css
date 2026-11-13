@@ -109,7 +109,8 @@
 .hh-cmap path.is-none { fill: var(--hero-met); }
 .hh-cmap path:hover { fill-opacity: .82; }
 .hh-cmap .mk-city-dot { fill: var(--hero-bg); stroke: var(--hero-ink); }
-.hh-cmap .mk-city-name { fill: var(--hero-bg); stroke: var(--gold); font-weight: 700; }
+/* color is set to match the fill: checkers read an SVG label's colour from `color`, and the inherited one is the hero's white. */
+.hh-cmap .mk-city-name { fill: var(--hero-bg); color: var(--hero-bg); stroke: var(--gold); font-weight: 700; }
 .hh-counties ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
 .hh-counties li, .hh-ckey i { width: 14px; height: 14px; border-radius: 3px; box-sizing: border-box; }
 .hh-counties .is-short { background: var(--gold); }
@@ -133,7 +134,7 @@
 .hh-l { font-size: 15px; line-height: 1.4; }
 .hh-s { font-size: 13px; color: var(--muted); }
 @media (max-width: 767px) {
-  .home-hero.hh-warm { grid-template-columns: minmax(0, 1fr); grid-template-areas: "copy" "fig" "find"; gap: 1.25rem; padding: 1.5rem 1.1rem; border-radius: 14px; }
+  .home-hero.hh-warm { grid-template-columns: minmax(0, 1fr); grid-template-areas: "copy" "find" "fig"; gap: 1.25rem; padding: 1.5rem 1.1rem; border-radius: 14px; }
   .hh-warm h1 { font-size: 1.85rem; margin: .35rem 0 .6rem; }
   .hh-warm .lede { font-size: 16px; }
   /* The finding beside its map, so both fit the first phone screen. */
@@ -148,3 +149,28 @@
   .hh-paths a > :not(.hh-icon) { grid-column: 2; }
   .hh-icon { grid-row: span 3; }
 }
+
+/* Home, 13 Nov 2026: the search answers on Home. Matches and one place's figures sit under the box, on a card. */
+.hh-find { display: grid; gap: .75rem; }
+.hh-found, .home-answer { background: var(--card); color: var(--ink); border-radius: 12px; padding: .9rem 1rem; max-width: 32rem; box-shadow: 0 8px 24px var(--hero-shadow); }
+.hh-found .count { margin: 0 0 .4rem; color: var(--muted); font-size: 14px; }
+.hh-found ul, .home-answer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .1rem; }
+.hh-found a, .home-answer li a { display: block; padding: .55rem .25rem; min-height: 44px; box-sizing: border-box; color: var(--pine); font-weight: 600; }
+.home-answer h2 { margin: 0 0 .5rem; font-size: 1.3rem; }
+.home-answer .ha-facts { margin: 0 0 .75rem; display: grid; gap: .6rem; }
+.home-answer .ha-facts dt { font-size: 14px; color: var(--muted); font-weight: 600; }
+.home-answer .ha-facts dd { margin: 0; font-weight: 400; font-size: 16px; line-height: 1.45; }
+.home-answer .ha-facts b { font-size: 1.25rem; }
+.home-answer .metric-source { display: block; }
+.home-answer .actions { margin: 0 0 .5rem; }
+.home-answer .hd-title { margin: .75rem 0 .25rem; font-weight: 700; }
+.home-answer .ha-clear { margin: .5rem 0 0; font-size: 15px; }
+.hh-help { margin: 0; }
+.hh-help a { color: var(--hero-ink); font-weight: 600; display: inline-block; padding: .35rem 0; }
+.home-quick { margin: 0 0 1.5rem; }
+.home-member { margin: 1.5rem 0; }
+
+/* "Continue where you left off": the place this browser last worked on. */
+.hh-resume { margin: .75rem 0 0; color: var(--hero-text); font-size: 15px; line-height: 1.6; }
+.hh-resume span { font-weight: 600; }
+.hh-resume a { color: var(--hero-ink); font-weight: 600; }

@@ -25,7 +25,7 @@
   var BOUNDARIES_PATH = 'data/co-county-boundaries.json';
   var BANKS_PATH = 'data/cra/co-bank-branches.json';
 
-  // Literal hex for Leaflet path styles (see home-need-map.js); the legend
+  // Literal hex for Leaflet path styles (a CSS custom property does not resolve there); the legend
   // swatches are built from this same list.
   var BINS = [
     { min: 11, color: '#08306b', label: '11 or more banks' },

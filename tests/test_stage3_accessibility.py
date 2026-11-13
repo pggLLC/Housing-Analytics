@@ -48,6 +48,28 @@ def site_theme():
         return f.read()
 
 
+def _home_kpi_strip(html):
+    """The opening tag of Home's figure strip when it is a region landmark, else None."""
+    m = re.search(r'<[a-z]+\b[^>]*role="region"[^>]*>', html)
+    if m and re.search(r'strip|kpi|fact', m.group(0)):
+        return m.group(0)
+    m = re.search(r'<section\b[^>]*class="[^"]*\bhh-strip\b[^"]*"[^>]*>', html)
+    return m.group(0) if m else None
+
+
+@pytest.fixture(scope='module')
+def home_drawn():
+    """Home as a visitor gets it. Since 13 Nov 2026 index.html is a shell that draws hub/home.js, so the
+    page's sections and figure strip are read from the page as drawn (test/helpers/render-home.js)."""
+    import subprocess
+    helper = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'test', 'helpers', 'render-home.js')
+    out = subprocess.run(
+        ['node', '-e', 'require(%r).renderHome().then(h => process.stdout.write(h), e => { console.error(e); process.exit(1); })' % helper],
+        capture_output=True, text=True, timeout=180)
+    assert out.returncode == 0 and '<h1' in out.stdout, 'Home did not draw: ' + out.stderr[-600:]
+    return out.stdout
+
+
 @pytest.fixture(scope='session')
 def index_html():
     with open(INDEX_HTML) as f:
@@ -289,26 +311,31 @@ class TestARIAAttributes:
         assert 'aria-live' in lihtc_html, \
             'LIHTC-dashboard.html missing aria-live region'
 
-    def test_index_kpi_strip_has_role_region(self, index_html):
-        """KPI strip on index.html must use role="region" for landmark."""
-        assert 'role="region"' in index_html, \
-            'index.html KPI strip missing role="region"'
+    def test_index_kpi_strip_has_role_region(self, home_drawn):
+        """KPI strip on Home must be a region landmark: role="region", or a <section> that is named."""
+        assert _home_kpi_strip(home_drawn), \
+            'Home KPI strip is missing, or is not a region landmark'
 
     def test_economic_kpi_strip_has_role_region(self, economic_html):
         """KPI strip on economic-dashboard.html must use role="region"."""
         assert 'role="region"' in economic_html, \
             'economic-dashboard.html KPI strip missing role="region"'
 
-    def test_index_kpi_strip_has_aria_label(self, index_html):
-        """KPI region on index.html must have aria-label for screen readers."""
-        assert 'role="region" aria-label=' in index_html or \
-               re.search(r'role="region"[^>]*aria-label=', index_html), \
-            'index.html region missing aria-label'
+    def test_index_kpi_strip_has_aria_label(self, home_drawn):
+        """KPI region on Home must have a name for screen readers."""
+        strip = _home_kpi_strip(home_drawn)
+        assert strip and re.search(r'aria-label(ledby)?="[^"]+"', strip), \
+            'Home KPI region missing aria-label'
 
-    def test_index_sections_use_aria_labelledby(self, index_html):
-        """Sections on index.html must use aria-labelledby for heading association."""
-        assert 'aria-labelledby' in index_html, \
-            'index.html missing aria-labelledby on sections'
+    def test_index_sections_use_aria_labelledby(self, home_drawn):
+        """Sections on Home must be named: aria-labelledby for heading association, or aria-label."""
+        sections = re.findall(r'<section\b[^>]*>', home_drawn)
+        assert len(sections) >= 5, 'Home draws too few sections for this check to mean anything'
+        assert 'aria-labelledby' in home_drawn, 'Home missing aria-labelledby on sections'
+        unnamed = [t for t in sections if not re.search(r'aria-label(ledby)?="[^"]+"', t)]
+        assert not unnamed, 'Home sections with no name: ' + ', '.join(unnamed[:5])
+        for ref in re.findall(r'<section\b[^>]*aria-labelledby="([^"]+)"', home_drawn):
+            assert 'id="%s"' % ref in home_drawn, 'a section is labelled by #%s, which is not on the page' % ref
 
     def test_hna_stats_has_aria_label(self, hna_html):
         """HNA stats section must have aria-label for AT users."""

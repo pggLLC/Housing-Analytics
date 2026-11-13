@@ -302,7 +302,10 @@
     var x = find(d, st.sel) || d.geo[CO], cs = countyStats(d, st.period);
     var loadingTowns = st.wantTowns ? '<p role="status" class="note">Loading towns…</p>' : '';
     return picker(d, st) + periods(st) + loadingTowns +
-      '<section class="ri-card" aria-live="polite" aria-label="Rent against income in ' + esc(title(x)) + '">' + cardBody(d, x, st.period) + '</section>' +
+      '<section class="ri-card" aria-live="polite" aria-label="Rent against income in ' + esc(title(x)) + '">' + cardBody(d, x, st.period) +
+      // The headline card carries its own dated source: the full source and method notes sit with the county
+      // charts below, inside a fold, where they did not stand for this card (source-line check, 13 Nov 2026).
+      '<div class="ri-foot">' + T.source('U.S. Census Bureau: Census long form and American Community Survey 5-year medians (B25064 rent, B19013 income), as gathered by COHO', REPO, d.date) + '</div></section>' +
       foldMore(id, '<section class="ri-card ri-mapcard" aria-label="Which way rent is moving against income, by county">' + map(d, st, cs) + '<div class="ri-foot">' + sourceLine(d) + '<p class="note ri-note">County lines and town limits: U.S. Census Bureau TIGER/Line. Broomfield became a county in 2001, so it has no arrow before 2005–09.</p></div></section>' +
       '<section class="ri-card ri-wide" aria-label="Rent against income, Colorado counties">' + chart(d, st, cs) + dataBlock(d) + '<div class="ri-foot">' + sourceLine(d) + '</div></section>', cs);
   }

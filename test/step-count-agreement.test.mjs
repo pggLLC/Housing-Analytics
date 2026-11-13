@@ -96,36 +96,65 @@ assert.ok(stageLabels.includes("'Stage ' +"), 'js/pipeline.js no longer builds "
 assert.ok(stageLabels.includes('Pipeline stages'), 'content.json no longer labels the stat "Pipeline stages"');
 assert.deepStrictEqual(bad, [], 'Pipeline labels say steps:\n  ' + bad.join('\n  '));
 
-// ── 5. The homepage resume strip counts on the rail ───────────────────────
-// It used to add 1 to WorkflowState's own five-step numbering and print
-// "Step 4 of 6" beside a seven-step rail. Run js/index.js against a saved
-// project and compare what it prints with the rail entry for the next step.
-function resumeText(nextIncomplete) {
-  const home = new JSDOM('<!doctype html><div id="homeResumeStrip" hidden><span id="homeResumeJurisdiction"></span>'
-    + '<span id="homeResumeStep"></span><a id="homeResumeCta" href="#"></a></div>', {
-    url: 'https://cohoanalytics.com/', runScripts: 'outside-only',
-  });
-  const w = home.window;
-  w.eval(read('js/components/workflow-progress.js'));
-  // WorkflowState's own numbering, as it reports it: market is its step 3.
-  const legacy = { jurisdiction: 1, hsa: 2, market: 3, scenario: 4, deal: 5 };
-  w.WorkflowState = {
-    getActiveProject: () => ({ id: 'p' }),
-    getStep: () => ({ name: 'Fruita' }),
-    getProgress: () => ({ totalCount: 5, nextIncomplete, nextStepNum: legacy[nextIncomplete] || null,
-      nextStepLabel: 'x', nextStepUrl: 'x.html' }),
-  };
-  w.eval(read('js/index.js'));
-  if (w.document.readyState === 'loading') w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
-  return { text: w.document.getElementById('homeResumeStep').textContent, href: w.document.getElementById('homeResumeCta').getAttribute('href') };
-}
-for (const key of ['hsa', 'market', 'deal', null]) {
-  const want = RAIL.find((s) => s.key === (key || 'recommendation'));
-  const got = resumeText(key);
-  assert.ok(got.text.startsWith(`Step ${want.num} of ${N}`),
-    `homepage resume strip says "${got.text}" for next step ${key}; the rail has it as step ${want.num} of ${N}`);
-  assert.ok(got.text.includes(want.label), `resume strip "${got.text}" does not name the rail's label "${want.label}"`);
-  assert.strictEqual(got.href, want.href, `resume strip links to ${got.href}; the rail's step ${want.num} is ${want.href}`);
+// ── 5. The homepage resume line agrees with the rail ──────────────────────
+// The old strip added 1 to WorkflowState's own five-step numbering and printed "Step 4 of 6" beside a seven-step
+// rail. Home was rebuilt on 13 Nov 2026 (index.html draws hub/home.js): its "Continue where you left off" line
+// names the place this browser last worked on and links the steps people come back to, and it claims no step
+// number, because visiting a page does not mark it done. So: the line is drawn for a returning visitor, any
+// "Step x of y" it ever prints has y equal to the rail, every step it links is a rail step, on that place, and
+// Home's own count of steps is the rail's.
+{
+  const { createRequire } = await import('node:module');
+  const home = createRequire(import.meta.url)('./helpers/render-home.js');
+  const place = { geoid: '0828745', label: 'Fruita' };
+  const html = await home.renderHomeReturning(place);
+  const line = (/<p class="hh-resume">[\s\S]*?<\/p>/.exec(html) || [])[0];
+  assert.ok(line, 'Home draws no "continue where you left off" line for a returning visitor');
+  assert.ok(home.text(line).includes(place.label), 'the resume line does not name the place');
+  for (const m of home.text(html).matchAll(/Step (\d+) of (\d+)/g)) {
+    assert.strictEqual(Number(m[2]), N, `Home says "${m[0]}"; the rail has ${N} steps`);
+  }
+  const resumeLinks = home.links(line).filter((l) => !/^#\/\?/.test(l.raw));
+  assert.ok(resumeLinks.length >= 2, `the resume line links only ${resumeLinks.length} steps`);
+  for (const l of resumeLinks) {
+    const isAssessment = new RegExp('^#/place/' + place.geoid + '$').test(l.raw);
+    const step = isAssessment ? RAIL.find((s) => s.key === 'hsa') : RAIL.find((s) => s.href === home.rebuilds(l.raw));
+    assert.ok(step, `resume link "${l.text}" opens ${l.raw}, which is not a step on the rail`);
+    assert.ok(l.href, `resume link "${l.text}" has no page to open`);
+    assert.ok(isAssessment || new URLSearchParams(l.raw.split('?')[1] || '').get('g') === place.geoid, `resume link "${l.text}" dropped the place`);
+  }
+  assert.ok(!/class="hh-resume"/.test(await home.renderHome()), 'a resume line is drawn with no place worked on');
+  // A place saved by the older workflow, before Home was rebuilt, still resumes (Codex review, PR 2804). The
+  // keys and shape are the ones js/workflow-state-core.js and -api.js write.
+  const core = fs.readFileSync(new URL('../js/workflow-state-core.js', import.meta.url), 'utf8');
+  assert.ok(/var WF_PREFIX = 'coho_wf_';/.test(core), 'js/workflow-state-core.js no longer keeps projects under coho_wf_; update the fallback on Home with it');
+  const older = { coho_wf_active: JSON.stringify('p1'), coho_wf_project_p1: JSON.stringify({ id: 'p1', jurisdiction: { geoid: '0828745', name: 'Fruita' } }) };
+  const olderLine = (/<p class="hh-resume">[\s\S]*?<\/p>/.exec(await home.renderHomeStoring(older)) || [])[0];
+  assert.ok(olderLine && home.text(olderLine).includes('Fruita'), 'a place saved by the older workflow draws no resume line on Home');
+  assert.ok(!/class="hh-resume"/.test(await home.renderHomeStoring({ coho_wf_active: JSON.stringify('p1'), coho_wf_project_p1: '{broken' })), 'an unreadable older project draws a resume line');
+  assert.ok(!/class="hh-resume"/.test(await home.renderHomeStoring({ coho_wf_active: JSON.stringify('p1'), coho_wf_project_p1: JSON.stringify({ id: 'p1', jurisdiction: {} }) })), 'an older project with no place draws a resume line');
+  // Home's controls share one address, and none may erase another's setting (Codex review, PR 2804): picking a
+  // role or a town keeps the map's measure and county, and changing the map keeps the town and the role.
+  const mixed = await home.renderHome('town=0828745&door=build&m=rent_to_income&county=08077');
+  const own = home.links(mixed).filter((l) => /^#\/\?/.test(l.raw) && /(^|[?&])(door|town)=/.test(l.raw));
+  assert.ok(own.length >= 5, `Home draws only ${own.length} links that set a role or a town`);
+  for (const l of own) {
+    const q = new URLSearchParams(l.raw.slice(3));
+    assert.ok(q.get('m') === 'rent_to_income' && q.get('county') === '08077', `"${l.text}" opens ${l.raw}, which drops the map's measure or county`);
+  }
+  const page = await home.boot();
+  const CN = page.win.LabCountyNeed, was = { m: CN.state.m, county: CN.state.county, trend: CN.state.trend, hash: page.location.hash };
+  try {
+    page.location.hash = '#/?town=0828745&door=build';
+    Object.assign(CN.state, { m: 'rent_to_income', county: '08077', trend: '' });
+    const after = new URLSearchParams(CN.hashFor().replace(/^#\/\??/, ''));
+    assert.deepStrictEqual([after.get('town'), after.get('door'), after.get('m'), after.get('county')], ['0828745', 'build', 'rent_to_income', '08077'],
+      'changing the map on Home rewrote the address as ' + CN.hashFor() + ', losing the town or the role');
+    // Off Home the map's address is its own: nothing from another page's address is carried in.
+    page.location.hash = '#/places?q=fruita';
+    assert.strictEqual(CN.hashFor(), '#/places?m=rent_to_income&county=08077');
+  } finally { Object.assign(CN.state, { m: was.m, county: was.county, trend: was.trend }); page.location.hash = was.hash; }
+  assert.strictEqual(home.steps(html).length, N, `Home lists ${home.steps(html).length} steps; the rail has ${N}`);
 }
 
 console.log(`step-count-agreement: ${navSteps.length} menu labels and ${claims} count claims agree with the ${N}-step rail`);

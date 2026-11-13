@@ -218,13 +218,16 @@
     state.trend = tr === '1980' || tr === '2000' || tr === '2010-14' ? tr : '';
   }
   function hashFor() {
-    var p = new URLSearchParams();
+    // Home shows the same map; keep the reader on the page they are on, and on Home keep what else its address
+    // holds (the town and the role picked there), so the map and those controls do not undo each other.
+    var now = String((global.location && global.location.hash) || ''), cut = now.indexOf('?');
+    var at = cut > -1 ? now.slice(0, cut) : now;
+    var p = new URLSearchParams((at === '#/' || at === '') && cut > -1 ? now.slice(cut + 1) : '');
+    ['m', 'county', 'trend'].forEach(function (k) { p.delete(k); });
     if (state.m !== 'per10') p.set('m', state.m);
     if (state.county) p.set('county', state.county);
     if (state.trend && state.m === 'rent_to_income') p.set('trend', state.trend);
     var x = p.toString();
-    // Home shows the same map; keep the reader on the page they are on.
-    var at = String((global.location && global.location.hash) || '').split('?')[0];
     return (at === '#/' || at === '' ? '#/' : '#/places') + (x ? '?' + x : '');
   }
 
@@ -409,7 +412,11 @@
       var g = f.properties.GEOID, v = s.values[g];
       return [names[g], v == null ? null : v, v == null ? (m.blank || 'not published') : s.unreliable[g] ? 'too uncertain to rank' : ''];
     }).sort(function (a, b) { return a[0] < b[0] ? -1 : 1; });
-    return VD.block('Colorado counties, ' + m.label, ['County', m.label, 'Note'], rows, { fmt: { 1: function (v) { return fmt(m, v); } } });
+    // The Note column is for a county with something to flag. With nothing flagged it is left out: an empty
+    // note cell read "No value" beside every figure (Home port check, 13 Nov 2026).
+    var noted = rows.some(function (r) { return r[2]; });
+    rows = rows.map(function (r) { return noted ? [r[0], r[1], r[2] || 'none'] : [r[0], r[1]]; });
+    return VD.block('Colorado counties, ' + m.label, noted ? ['County', m.label, 'Note'] : ['County', m.label], rows, { fmt: { 1: function (v) { return fmt(m, v); } } });
   }
 
   // Redraw in place: colors, tooltips, key, words and panel. The page itself is not re-rendered, so the map
@@ -479,5 +486,5 @@
     });
   }
 
-  global.LabCountyNeed = { figure: figure, MEASURES: MEASURES, series: series, scale: scale, rankOf: rankOf, rankText: rankText, sentence: sentence, fmt: fmt, ext: ext, start: start, state: state };
+  global.LabCountyNeed = { figure: figure, MEASURES: MEASURES, series: series, scale: scale, rankOf: rankOf, rankText: rankText, sentence: sentence, fmt: fmt, ext: ext, start: start, state: state, hashFor: hashFor };
 })(window);

@@ -31,7 +31,8 @@ function extractFunction(src, name) {
 
 // The Deal Calculator loads the file the homepage reads.
 assert(dc.includes(`'${AA_PATH}'`), 'the Deal Calculator loads ' + AA_PATH);
-assert(read('js/index.js').includes("DS.baseData('hna/chas_affordable_available.json')"), 'the homepage cards show HUD\'s count from ' + AA_PATH);
+// Home is drawn by hub/home.js since the 13 Nov 2026 rebuild; it names the file by its full path.
+assert(read('hub/home.js').includes("'" + AA_PATH + "'") && /src="hub\/home\.js"/.test(read('index.html')), 'the homepage cards show HUD\'s count from ' + AA_PATH);
 
 const dom = new JSDOM('<!doctype html><body><p id="dc-fmr-note"></p><div id="dc-ami-gap-info"></div></body>', { runScripts: 'outside-only' });
 const w = dom.window;
