@@ -1376,7 +1376,7 @@
     {
       "term": "Housing Needs Scorecard",
       "label": "Housing needs scorecard",
-      "definition": "This site's 0–100 reading of housing need in one place, shown on its needs assessment. It averages up to four percentile ranks against places of the same type: cost burden among renters and owners, the share of renters under 100% AMI who are at or below 30% AMI, home price against income, and renters paying over half their income.",
+      "definition": "This site's 0–100 reading of housing need in one place. It averages up to four percentile ranks: renter and owner cost burden, the share of renters under 100% AMI at or below 30% AMI, renters paying over half their income, and home price against income. The first three rank a place among its own type; the last is the county's rank among counties.",
       "source": {
         "name": "This site's method note on the Housing Needs Assessment page",
         "url": "https://cohoanalytics.com/housing-needs-assessment.html"
