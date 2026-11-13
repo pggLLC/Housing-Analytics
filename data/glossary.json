@@ -1296,7 +1296,7 @@
         "PMA Score",
         "Site Score"
       ],
-      "definition": "This site's 0–100 reading of how well a market supports new affordable rentals at a chosen site. It is the weighted sum of five parts: Demand 30%, Competitive Density 25%, Rent Pressure 15%, Market Tightness 15% and Workforce 15%. Scores of 80 or more read Strong, 60–79 Moderate, 40–59 Marginal and under 40 Weak. It is not a CHFA score.",
+      "definition": "This site's 0–100 reading of how well a market supports new affordable rentals, not a CHFA score. Five parts are weighted: Demand 30%, Competitive Density 25%, Rent Pressure 15%, Market Tightness 15% and Workforce 15%. A part with no data is dropped and the rest reweighted. Scores read Strong from 80, Moderate from 60, Marginal from 40 and Weak below.",
       "source": {
         "name": "This site's Market Analysis scoring notes",
         "url": "https://cohoanalytics.com/docs/PMA_SCORING.md"
@@ -1306,7 +1306,7 @@
     {
       "term": "Competitive Density",
       "label": "Competitive density",
-      "definition": "A part of this site's PMA score, 25% of the total, that reads how crowded a market area already is. It divides the income-restricted homes already there by the renter households who qualify for them. No such homes scores 100, and the score falls to 0 when they reach 85% of those renters, the level CHFA's 2027–28 QAP questions.",
+      "definition": "A part of this site's PMA score, 25% of the total, that reads how crowded a market area already is. It divides the income-restricted homes there by the renters who qualify: none scores 100, and 85%, the level CHFA's 2027–28 QAP questions, scores 0. Without that count, renters at or below 80% AMI, then all renters, stand in.",
       "source": {
         "name": "This site's Market Analysis scoring code",
         "url": "https://cohoanalytics.com/js/market-analysis-scoring.js"
@@ -1326,7 +1326,7 @@
     {
       "term": "Market Tightness",
       "label": "Market tightness",
-      "definition": "A part of this site's PMA score, 15% of the total, read from the rental vacancy rate after for-rent homes in seasonal markets are discounted. No vacancy scores 100, and vacancy of 10% or more scores 0. A tight market suggests new homes will lease quickly.",
+      "definition": "A part of this site's PMA score, 15% of the total, read from the rental vacancy rate after for-rent homes in seasonal markets are discounted. No vacancy scores 100, and 10% or more scores 0, since a tight market leases new homes quickly. Where no rental vacancy rate exists, total vacancy, taken as 5% if unknown, scores 0 at 12%.",
       "source": {
         "name": "This site's Market Analysis scoring notes",
         "url": "https://cohoanalytics.com/docs/PMA_SCORING.md"
@@ -1335,7 +1335,7 @@
     },
     {
       "term": "Demand score",
-      "definition": "A part of this site's PMA score, 30% of the total, shown there as Demand. It reads how much unmet need for affordable rentals a market area shows by blending four measures: the share of renters who are cost burdened (45%), the share severely cost burdened (20%), the poverty rate (10%) and the renter share of households (25%).",
+      "definition": "A part of this site's PMA score, 30% of the total, shown there as Demand. It blends four measures of need for affordable rentals: renters who are cost burdened (45%), renters severely cost burdened (20%), the poverty rate (10%) and the renter share of households (25%). Where severe burden or poverty is suppressed, the others carry its weight.",
       "autolink": false,
       "source": {
         "name": "This site's Market Analysis scoring code",
