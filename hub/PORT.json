@@ -17,7 +17,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "bd102cf8ba162f484a61b339119b1ffa99af0309",
+  "commit": "80a6ea4205364284598bb52f2f8044ee773a6e4a",
   "dirty": false
  },
  "files": {
@@ -97,10 +97,10 @@
   "hub/rent-income.css": "ff4c8eaf18ba2dcdda43849d6f67b9e0b2a605d6c75d4fad2e8ce1f2d6732392",
   "hub/rent-income.js": "1d164a91a38d84f79d0bbd6006874ff915f789885fff3cf4aa67c3f272f6bea4",
   "hub/report.js": "71add5b9f6742529d86f39c581a00b73a0d24e1443b82247c7aebf34b553aee4",
-  "hub/route-catalog.json": "9cf116efe9b94535fea8c7a09909feb5002fd5c133a2d30be1a09ef0478d0c45",
+  "hub/route-catalog.json": "166d7dbc17f9309c294ace66dd0e69f1a22889692212d7af58b27679fb9694c5",
   "hub/sale-deal.js": "2857872c945e63c6fcd1a7250c5fec16eae1bac4ff79ca86886a57e8b3dd7678",
   "hub/shell.css": "9492461c3bb1338366ddc6eef09f529b8109427c8182a844704a5fb2d1125a2e",
-  "hub/shell.js": "5b89cfcadad8549b54ffd5e785fc4aba789567d1a50ba9966a1c4bfed319e42a",
+  "hub/shell.js": "cf6d128148613c13945bd2440b1a8f444eec3c2814fb44ed6d8a8c52d27ecc91",
   "hub/small-pages.css": "c873d07280dbee49b8c1446e21377f83a31b1be765d3bad3ad868127afdffd15",
   "hub/strength.js": "c747d61b143cc2cfeffb6351a196720ecf848e965fecffeb20efebaab58597ad",
   "hub/templates.css": "aad26d57357bbe33b97e19c52b12271c32c80c8c20fc0d689f08e97ac4cc4c1b",

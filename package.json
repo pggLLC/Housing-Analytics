@@ -506,7 +506,7 @@
     "test:basemap-provider": "node test/basemap-provider-single-source.test.js",
     "test:derived-chain": "node test/rebuild-derived-chain.test.mjs",
     "test:glossary-reach": "node test/glossary-reaches-rendered-content.test.js && npm run test:glossary-rerender",
-    "test:glossary-rerender": "node test/glossary-rerender.test.js",
+    "test:glossary-rerender": "node test/glossary-rerender.test.js && node test/glossary-list.test.js",
     "test:glossary-skips-hidden": "node test/glossary-skips-hidden-text.test.js",
     "test:glossary-skips-svg": "node test/glossary-skips-svg-text.test.js",
     "test:ownership-answer": "node test/ownership-answer-leads.test.js",
