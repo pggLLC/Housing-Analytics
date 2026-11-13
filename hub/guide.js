@@ -263,7 +263,9 @@
     var line = s && (s.html.match(/at 2027-Q4,([^<]*)/) || [])[1];
     var Viz = global.LabViz;
     if (!line || !Viz || !Viz.orderedBars) return '';
-    var rows = [['2026-Q2 benchmark', 0.82]];
+    // The starting price is the guide's own too ("all scenarios start at the 2026-Q2 benchmark $0.82").
+    var from = s.html.match(/start at the (\d{4}-Q\d) benchmark \$(\d\.\d\d)/);
+    var rows = [from ? [from[1] + ' benchmark', Number(from[2])] : ['2026-Q2 benchmark', 0.82]];
     line.replace(/([A-Z][A-Za-z ()]+?) \$(\d\.\d\d)/g, function (_, name, v) { rows.push([name.trim(), Number(v)]); });
     if (rows.length < 3) return '';
     return Viz.orderedBars({ title: '9% credit price after six quarters, by scenario', answer: 'Scenarios, not a forecast: each moves the 2026-Q2 national benchmark by its stated range.',
@@ -321,12 +323,34 @@
     return box.innerHTML;
   }
 
+  // The guides whose live page has its own layout, or whose scripts write some of its words and tables.
+  var PAGE_MODE = { 'lihtc-basics': 'lihtc' };
+  var PAGE_RENDERED = { 'lihtc-basics': true, 'green-building': true, 'resident-services': true, 'cra-pricing': true, 'about': true, 'ahcia': true };
+  var PAGE_PATHS = { 'working-paper': true, 'methods': true };
   function load(slug) {
     if (cache[slug]) return cache[slug];
     var c = cache[slug] = {};
-    fetch('guides/' + slug + '.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(function (g) { c.guide = g; Shell.render(); })
-      .catch(function (e) { c.error = 'The guide did not load (' + e.message + ').'; Shell.render(); });
+    var done = function (g) { c.guide = g; Shell.render(); };
+    var fail = function (e) { c.error = 'The guide did not load (' + e.message + ').'; Shell.render(); };
+    // Inside the public site the guide is read from its own page, cut the same way the lab's copy is
+    // (site/guide-extract.js), so it never shows a frozen copy (format review F3).
+    var X = global.LabGuideExtract, P = global.LAB_PORT, page = P && P.GUIDES && P.GUIDES[slug];
+    if (page && X && global.DOMParser) {
+      var o = { routes: X.ROUTES, live: '', keepPaths: !!PAGE_PATHS[slug], mode: PAGE_MODE[slug], rendered: !!PAGE_RENDERED[slug] };
+      var read = function (rendered) {
+        o.rendered = rendered;
+        return X.fromPage(page, o).then(function (b) {
+          // A part the page's scripts fill, on a page not yet marked as such: read the page again once it has drawn.
+          if (!rendered && b.sections.some(function (x) { return x.liveFilled; })) return read(true);
+          b.sections.forEach(function (x) { delete x.liveFilled; });
+          b.slug = slug; b.live = page; b.here = true;
+          return b;
+        });
+      };
+      read(o.rendered).then(done, fail);
+      return c;
+    }
+    fetch('guides/' + slug + '.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(done, fail);
     return c;
   }
 
@@ -344,7 +368,7 @@
     var sections = (hasStart ? [{ id: 'g-start', title: startTitle }] : []).concat(g.sections.map(function (s) { return { id: 'g-' + s.id, title: s.title, lang: s.lang }; }));
     // Currency stamp (paul 11-09): the live page's own dates from the site's research catalog.
     var cat = global.LabUI.load({ cat: 'data/insights/catalog.json' }).data;
-    var ce = cat && g.live ? (cat.cat.entries || []).filter(function (e) { return e.url && g.live.slice(-e.url.length - 1) === '/' + e.url; })[0] : null;
+    var ce = cat && g.live ? (cat.cat.entries || []).filter(function (e) { return e.url && ('/' + g.live).slice(-e.url.length - 1) === '/' + e.url; })[0] : null;
     var gStamp = ce ? (ce.updated ? T.stamp('Updated', ce.updated) : ce.published ? T.stamp('Published', ce.published) : '') : '';
     // A reviewed guide the catalog does not date: the newest "checked <date>" the page itself states.
     if (!gStamp) {
@@ -361,6 +385,7 @@
       kind: 'guide', crumbs: conf.crumbs ? conf.crumbs.concat([{ label: g.title }]) : T.trail(conf.menu, g.title), title: g.title, answer: esc(g.lede),
       meta: g.draft ? 'Written ' + esc(g.draft.written) + '. Every figure links its source.'
         : g.livePage ? 'From the <a href="' + esc(g.live) + '">' + esc(g.livePage) + '</a> page on cohoanalytics.com, below the calculator.'
+        : g.here ? gStamp
         : 'From the <a href="' + esc(g.live) + '">' + esc(g.title) + '</a> guide on cohoanalytics.com.' + (gStamp ? ' ' + gStamp : ''),
       facts: conf.facts
     }) + (conf.download ? T.printBar({ word: 'coho-' + slug }) : '') +
@@ -368,6 +393,10 @@
       // One- to three-word kickers ("Guide", "Platform") repeat the page kind the lab already shows, so only
       // the longer lines are drawn; the record keeps them all.
       (function (lines) { return lines.length ? '<ul class="guide-notes">' + lines.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>' : ''; })((g.notes || []).filter(function (n) { return n.split(' ').length > 3; })) +
+      (g.docGuide ? '<aside class="doc-guide" aria-labelledby="doc-guide-t"><p class="doc-guide-t" id="doc-guide-t">' + esc(g.docGuide.title) + '</p><ol>' + g.docGuide.items.map(function (x) {
+        return '<li' + (x.here ? ' class="is-here"' : '') + '>' + (x.here ? '<strong>' + esc(x.name) + '</strong> <span class="note">You are here</span>' : '<a href="' + esc(x.href) + '">' + esc(x.name) + '</a>') +
+          (x.use ? '<span class="doc-guide-use">' + esc(x.use) + '</span>' : '') + (x.about ? '<span class="doc-guide-about">' + esc(x.about) + '</span>' : '') + '</li>';
+      }).join('') + '</ol></aside>' : '') +
       '<div class="guide-layout">' + T.onThisPage(sections) +
       '<article class="guide-body">' +
       (hasStart ? '<section id="g-start" tabindex="-1"><h2>' + esc(startTitle) + '</h2>' + (conf.fold ? g.intro : shortened(null, g.intro)) + (conf.diagram ? conf.diagram(g) : '') + '</section>' : '') +
@@ -379,7 +408,20 @@
       '</article></div>';
     // A section named in the hash (from the contents list) is scrolled to after the page draws.
     var at = params.get('at');
-    if (at) setTimeout(function () { var el = document.getElementById(at); if (el) { Array.prototype.forEach.call(el.querySelectorAll('details.g-more'), function (d) { d.open = true; }); el.scrollIntoView({ block: 'start' }); } }, 0);
+    // A wide table scrolls sideways inside its box; the box takes keyboard focus so it can be scrolled without a mouse,
+    // as the table's box does on the guide's own page.
+    setTimeout(function () {
+      Array.prototype.forEach.call(document.querySelectorAll('.guide-body table'), function (t) {
+        var d = t.parentNode;
+        if (!d || d.tagName !== 'DIV' || d.hasAttribute('tabindex')) return;
+        var cap = t.querySelector('caption');
+        d.setAttribute('tabindex', '0'); d.setAttribute('role', 'region');
+        d.setAttribute('aria-label', ((cap && cap.textContent.replace(/\s+/g, ' ').trim()) || 'Table') + ' (scrolls sideways on a narrow screen)');
+      });
+    }, 0);
+    // An anchor from the guide's own page (its address before the move) lands on the part that holds it.
+    var held = at ? g.sections.filter(function (x) { return x.id === at || (x.ids || []).indexOf(at) > -1; })[0] : null;
+    if (at) setTimeout(function () { var el = document.getElementById(at) || (held && document.getElementById('g-' + held.id)); if (el) { Array.prototype.forEach.call(el.querySelectorAll('details.g-more'), function (d) { d.open = true; }); el.scrollIntoView({ block: 'start' }); } }, 0);
     return page;
   }
 

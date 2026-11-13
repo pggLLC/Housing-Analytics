@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+<script data-guide-forward="methods">/* This guide opens in the new format: policy-hub.html draws it from the words on this page, which stay here
+   and are still edited here. A section link (#id) goes with it. The new page reads this one inside a frame, and
+   ?classic=1 shows it as it was; neither is forwarded. */
+(function () { try {
+  if (window.top !== window.self || /[?&]classic(=|&|$)/.test(location.search)) return;
+  var at = location.hash.slice(1);
+  location.replace('policy-hub.html#/guide/methods' + (/^[A-Za-z0-9_-]{1,80}$/.test(at) ? '?at=' + at : ''));
+} catch (e) {} })();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">

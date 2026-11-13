@@ -100,6 +100,20 @@
     const lede = ledeEl ? ledeEl.textContent.replace(/\s+/g, ' ').trim() : '';
     if (ledeEl) ledeEl.remove();
     h1.remove();
+    // "Which document do you need?": the chooser the white paper, working paper and Methods share. It is the
+    // page's own navigation between the three, so it is kept as a list of links, in the page's words.
+    const chooser = main.querySelector('nav.doc-guide');
+    let docGuide;
+    if (chooser) {
+      const say1 = (el, q) => { const n = el.querySelector(q); return n ? n.textContent.replace(/\s+/g, ' ').trim() : ''; };
+      const items = [...chooser.querySelectorAll('li')].map(li => {
+        const a = li.querySelector('a');
+        return a ? { name: a.textContent.replace(/\s+/g, ' ').trim(), href: linkFor(a.getAttribute('href'), o), here: li.classList.contains('is-current') || undefined,
+          use: say1(li, '.doc-guide__for'), about: say1(li, '.doc-guide__about') } : null;
+      }).filter(x => x && x.href);
+      if (items.length) docGuide = { title: say1(chooser, '.doc-guide__title') || 'Which document do you need?', items };
+      chooser.remove();
+    }
     main.querySelectorAll(DROP).forEach(n => n.remove());
     // The page's header lines (its disclaimer, kicker and dated byline) become notes under the title, not the
     // first section. A line about a print or PDF button the lab does not have is left out and recorded.
@@ -152,12 +166,71 @@
       const slots = [...holder.querySelectorAll('*')].filter(el => /^Loading\b/i.test(el.textContent.trim()) ||
         (!el.textContent.trim() && !el.children.length && [...el.attributes].some(a => a.name === 'id' || a.name.startsWith('data-')) && el.tagName !== 'TD'));
       slots.forEach(el => { if (/^Loading\b/i.test(el.textContent.trim())) el.remove(); });
+      // The page's own anchors inside this part, so a link to one of them still lands on the part.
+      const ids = [h2.id].concat([...holder.querySelectorAll('[id]')].map(el => el.id)).filter(x => x && x !== id);
       const html = clean(holder, doc, o);
-      return { id, title: t, lang, html, liveFilled: slots.length ? true : undefined };
+      return { id, title: t, lang, html, liveFilled: slots.length ? true : undefined, ids: ids.length ? ids : undefined };
     });
     const intro = clean(main, doc, o);
-    return { title, lede, intro, sections, notes, omitted };
+    return { title, lede, intro, sections, notes, omitted, docGuide };
   }
 
-  return { ROUTES: LAB_ROUTES, KEEP: KEEP, DROP: DROP, linkFor: linkFor, clean: clean, byH2: byH2 };
+  // The LIHTC guide's own layout: a .hero, a .lihtc-explainer intro and one <section> per part.
+  function lihtc(main, doc, o) {
+    const hero = main.querySelector('.hero');
+    const title = hero.querySelector('h1').textContent.trim();
+    const lede = hero.querySelector('p').textContent.replace(/\s+/g, ' ').trim();
+    const intro = main.querySelector('.lihtc-explainer');
+    const sections = [...main.children].filter(el => el.tagName === 'SECTION' && el !== intro).map((el, i) => {
+      const h2 = el.querySelector('h2');
+      const id = el.id || 'resources';
+      const t = h2 ? h2.textContent.replace(/\s+/g, ' ').trim() : 'Section ' + (i + 1);
+      if (h2) h2.remove();
+      const ids = [...el.querySelectorAll('[id]')].map(x => x.id).filter(x => x && x !== id);
+      return { id, title: t, html: clean(el, doc, o), ids: ids.length ? ids : undefined };
+    });
+    return { title, lede, intro: clean(intro, doc, o), sections, notes: [], omitted: [] };
+  }
+
+  // Inside the public site a guide is read from its own page, not from a copy (format review F3). A page whose
+  // scripts write some of its words and tables (rendered) is opened out of sight first, so those are read too.
+  // The pop-up definitions a script adds to table headings are not the page's words and are left out.
+  function fromPage(url, o) {
+    const parse = html => new DOMParser().parseFromString(html, 'text/html');
+    const cut = doc => {
+      doc.querySelectorAll('[role="tooltip"]').forEach(n => n.remove());
+      const main = doc.querySelector('main');
+      if (!main || !main.querySelector('h1')) throw new Error('no article');
+      const description = (doc.querySelector('meta[name="description"]') || {}).content || null;
+      const b = o.mode === 'lihtc' ? lihtc(main, doc, o) : byH2(main, doc, o);
+      b.description = description;
+      return b;
+    };
+    if (!o.rendered) return fetch(url).then(r => { if (!r.ok) throw new Error(r.status); return r.text(); }).then(html => cut(parse(html)));
+    return new Promise((resolve, reject) => {
+      const f = document.createElement('iframe');
+      f.setAttribute('aria-hidden', 'true'); f.setAttribute('tabindex', '-1'); f.setAttribute('title', 'Reading the guide');
+      f.style.cssText = 'position:absolute;left:-10000px;top:0;width:1200px;height:900px;border:0;visibility:hidden';
+      let done = false, timer = null;
+      const finish = fn => { if (done) return; done = true; clearInterval(timer); try { fn(); } finally { f.remove(); } };
+      const read = () => finish(() => { try { resolve(cut(parse(f.contentDocument.documentElement.outerHTML))); } catch (e) { reject(e); } });
+      f.onerror = () => finish(() => reject(new Error('the page did not open')));
+      f.onload = () => {
+        const t0 = Date.now(); let quiet = 0, last = -1;
+        // Read once nothing says it is loading and the page has stopped changing, or after 8 seconds.
+        timer = setInterval(() => {
+          let main = null;
+          try { main = f.contentDocument && f.contentDocument.querySelector('main'); } catch (e) { return finish(() => reject(e)); }
+          if (!main) return finish(() => reject(new Error('no article')));
+          const size = main.innerHTML.length, loading = /(^|\s)Loading\b/i.test(main.textContent);
+          quiet = size === last && !loading ? quiet + 1 : 0; last = size;
+          if (quiet >= 4 || Date.now() - t0 > 8000) read();
+        }, 150);
+      };
+      f.src = url;
+      document.body.appendChild(f);
+    });
+  }
+
+  return { ROUTES: LAB_ROUTES, KEEP: KEEP, DROP: DROP, linkFor: linkFor, clean: clean, byH2: byH2, lihtc: lihtc, fromPage: fromPage };
 });
