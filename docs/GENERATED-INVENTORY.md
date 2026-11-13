@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-13T11:49:33.450Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-13T12:47:54.122Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.2 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-hub.html` | Data and methods · COHO Analytics | 9.0 KB |
+| `data-hub.html` | Data and methods · COHO Analytics | 9.1 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.6 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
@@ -67,7 +67,7 @@
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.7 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 265.3 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
-| `index.html` | COHO Analytics · Colorado affordable housing data | 52.4 KB |
+| `index.html` | COHO Analytics · Colorado affordable housing data | 11.0 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.2 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 13.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.3 KB |
@@ -80,9 +80,9 @@
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 88.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
-| `opportunities-hub.html` | Opportunities · COHO Analytics | 9.0 KB |
+| `opportunities-hub.html` | Opportunities · COHO Analytics | 9.1 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
-| `places-hub.html` | Places and need · COHO Analytics | 9.0 KB |
+| `places-hub.html` | Places and need · COHO Analytics | 9.1 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 53.1 KB |
 | `policy-hub.html` | Policy and research · COHO Analytics | 9.0 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
@@ -338,7 +338,7 @@
 | `data/fixtures/fruita-commons-family.scenario.json` | 4.9 KB | ✅ | — |
 | `data/fixtures/fruita-commons.scenario.json` | 4.8 KB | ✅ | — |
 | `data/fred-data.json` | 1.24 MB | ✅ | — |
-| `data/glossary.json` | 70.8 KB | ✅ | — |
+| `data/glossary.json` | 83.8 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 274.3 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 4.1 KB | ✅ | — |
 | `data/hna/acs-reliability.json` | 651.1 KB | ✅ | — |
@@ -2096,7 +2096,7 @@
 
 ## Test Files
 
-797 test files found.
+799 test files found.
 
 | File | Size |
 |------|------|
@@ -2279,7 +2279,7 @@
 | `test/election-figures.test.mjs` | 2.8 KB |
 | `test/energy-retrofit-funding.test.js` | 5.7 KB |
 | `test/entitled-land-findings.test.mjs` | 2.0 KB |
-| `test/entry-path-starts-at-jurisdiction.test.mjs` | 16.6 KB |
+| `test/entry-path-starts-at-jurisdiction.test.mjs` | 18.0 KB |
 | `test/epa-sld-local-lookup.test.js` | 13.2 KB |
 | `test/epa-walkability-d4a-distance.test.js` | 14.4 KB |
 | `test/epa-walkability-site-lookup.test.js` | 11.1 KB |
@@ -2336,16 +2336,17 @@
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-naming.test.js` | 22.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
-| `test/glossary-list.test.js` | 5.6 KB |
+| `test/glossary-list.test.js` | 9.4 KB |
 | `test/glossary-reaches-rendered-content.test.js` | 7.2 KB |
 | `test/glossary-rerender.test.js` | 4.9 KB |
 | `test/glossary-skips-hidden-text.test.js` | 7.8 KB |
 | `test/glossary-skips-svg-text.test.js` | 4.2 KB |
+| `test/glossary-style.test.js` | 7.9 KB |
 | `test/glossary-sync.test.mjs` | 2.9 KB |
 | `test/green-building-guide.test.mjs` | 36.2 KB |
 | `test/growth-figure-agrees.test.js` | 15.7 KB |
 | `test/guided-path-a11y.test.js` | 3.4 KB |
-| `test/guided-path-enters-the-chapters.test.mjs` | 9.3 KB |
+| `test/guided-path-enters-the-chapters.test.mjs` | 10.6 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 5.0 KB |
 | `test/guided-path-product-routes.test.js` | 16.6 KB |
 | `test/hamilton-perry-option.test.js` | 17.7 KB |
@@ -2359,6 +2360,7 @@
 | `test/helpers/deal-engine-p-expected.cjs` | 2.6 KB |
 | `test/helpers/deal-engine-page.cjs` | 1.6 KB |
 | `test/helpers/jspdf-mock.cjs` | 2.8 KB |
+| `test/helpers/render-home.js` | 10.6 KB |
 | `test/historical-trends-real-data.test.js` | 15.8 KB |
 | `test/hmda-lookup.test.js` | 6.9 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
@@ -2430,16 +2432,16 @@
 | `test/hna-unknown-geoid.test.js` | 2.8 KB |
 | `test/hna-view-content-parity.test.js` | 6.9 KB |
 | `test/hna-workflow-autosave.test.js` | 4.2 KB |
-| `test/home-answer-card.test.js` | 8.5 KB |
-| `test/home-jurisdiction-search.test.js` | 4.4 KB |
-| `test/home-need-map-legend-colors.test.js` | 3.3 KB |
-| `test/home-step-cards-match-destinations.test.js` | 3.3 KB |
+| `test/home-answer-card.test.js` | 11.7 KB |
+| `test/home-jurisdiction-search.test.js` | 8.7 KB |
+| `test/home-need-map-legend-colors.test.js` | 3.8 KB |
+| `test/home-step-cards-match-destinations.test.js` | 5.4 KB |
 | `test/home-value-integrity.test.mjs` | 19.1 KB |
 | `test/homeownership-programs.test.js` | 8.7 KB |
-| `test/homepage-claims.test.js` | 16.9 KB |
-| `test/homepage-job-routing.test.js` | 10.5 KB |
-| `test/homepage-snapshot.test.js` | 17.0 KB |
-| `test/homes-short-agreement.test.js` | 4.2 KB |
+| `test/homepage-claims.test.js` | 22.5 KB |
+| `test/homepage-job-routing.test.js` | 13.7 KB |
+| `test/homepage-snapshot.test.js` | 16.8 KB |
+| `test/homes-short-agreement.test.js` | 4.4 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.2 KB |
 | `test/housing-events-and-brief-news.test.mjs` | 15.1 KB |
 | `test/housing-help.test.js` | 4.4 KB |
@@ -2513,7 +2515,7 @@
 | `test/market-study-report.test.js` | 30.0 KB |
 | `test/market-types.test.mjs` | 10.9 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
-| `test/member-phone-header.test.mjs` | 9.1 KB |
+| `test/member-phone-header.test.mjs` | 9.3 KB |
 | `test/member-place.test.mjs` | 18.0 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
 | `test/methods-spec-sources.test.mjs` | 6.3 KB |
@@ -2640,7 +2642,7 @@
 | `test/public-build-metadata.test.mjs` | 9.7 KB |
 | `test/public-config-no-secrets.test.js` | 4.8 KB |
 | `test/public-employers.test.mjs` | 3.2 KB |
-| `test/public-facing-numbers.test.js` | 10.9 KB |
+| `test/public-facing-numbers.test.js` | 11.9 KB |
 | `test/public-jobs.test.mjs` | 4.4 KB |
 | `test/public-land-contract.test.js` | 9.3 KB |
 | `test/qa-recent-changes.js` | 22.2 KB |
@@ -2654,7 +2656,7 @@
 | `test/ranking-index-no-coerced-zeros.test.js` | 10.1 KB |
 | `test/ranking-scenarios.test.js` | 3.1 KB |
 | `test/rebuild-derived-chain.test.mjs` | 8.9 KB |
-| `test/recommendation-leads-with-the-conclusion.test.mjs` | 32.5 KB |
+| `test/recommendation-leads-with-the-conclusion.test.mjs` | 32.9 KB |
 | `test/recommendation-transit-zone.test.mjs` | 13.6 KB |
 | `test/redfin-place-market-tracker.test.js` | 4.8 KB |
 | `test/region-membership.test.js` | 4.3 KB |
@@ -2691,7 +2693,7 @@
 | `test/send-test-email.js` | 6.2 KB |
 | `test/shared-equity-brief.test.mjs` | 5.8 KB |
 | `test/shared-equity-lifecycle.test.js` | 20.3 KB |
-| `test/shared-money-format.test.js` | 6.6 KB |
+| `test/shared-money-format.test.js` | 6.8 KB |
 | `test/signals-that-cry-wolf.test.mjs` | 8.1 KB |
 | `test/site-analytics-and-crawlers.test.js` | 6.6 KB |
 | `test/site-comparison-null-score.test.js` | 7.2 KB |
@@ -2718,7 +2720,7 @@
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/state-allocations-abbr.test.js` | 3.2 KB |
 | `test/state-housing-laws.test.js` | 6.0 KB |
-| `test/step-count-agreement.test.mjs` | 7.5 KB |
+| `test/step-count-agreement.test.mjs` | 10.8 KB |
 | `test/step-labels-agree.test.mjs` | 5.5 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
 | `test/subject-project-linked-place.test.js` | 4.0 KB |
@@ -2889,7 +2891,7 @@
 | `tests/test_school_transport_exclusion.py` | 9.6 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
 | `tests/test_stage2_temporal.py` | 38.1 KB |
-| `tests/test_stage3_accessibility.py` | 22.4 KB |
+| `tests/test_stage3_accessibility.py` | 24.1 KB |
 | `tests/test_stage3_visualization.py` | 17.7 KB |
 | `tests/test_tax_exemption_routes.py` | 4.5 KB |
 | `tests/test_transit_stop_gate.py` | 9.2 KB |
