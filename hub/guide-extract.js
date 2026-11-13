@@ -45,7 +45,7 @@
   const KEEP = new Set(['h2', 'h3', 'h4', 'p', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'b', 'i', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'caption',
     'blockquote', 'code', 'br', 'figure', 'figcaption', 'details', 'summary', 'sup', 'sub', 'abbr', 'dl', 'dt', 'dd', 'section', 'div', 'span', 'small', 'cite', 'time']);
   const DROP = 'script, style, noscript, iframe, object, embed, form, button, input, select, textarea, svg, canvas, img, picture, video, audio, nav, link, meta, template';
-  const ATTRS = { a: ['href'], th: ['colspan', 'rowspan', 'scope'], td: ['colspan', 'rowspan'], abbr: ['title'], time: ['datetime'] };
+  const ATTRS = { a: ['href'], th: ['colspan', 'rowspan', 'scope', 'data-tip'], td: ['colspan', 'rowspan'], abbr: ['title'], time: ['datetime'] };
   // The page's own structure classes, renamed into the lab's: cards, panels, tables and its HTML diagrams.
   const CLASS = c => ({ 'lihtc-roles-grid': 'role-grid', 'lihtc-role-card': 'role-card', 'chart-card': 'panel', 'data-source': 'source-line', 'table-wrap': 'table-scroll' })[c]
     || (/^(dg-|diagram)/.test(c) ? c : null);
@@ -71,6 +71,13 @@
     // and without its styles it would read as part of the sentence. The term itself stays as plain text.
     node.querySelectorAll('.gl-tooltip-popup').forEach(n => n.remove());
     node.querySelectorAll('.gl-tooltip-trigger').forEach(n => n.replaceWith(...n.childNodes));
+    // A column heading's definition (js/components/table-header-tips.js): the page's script moves it into a popover
+    // inside the heading. The heading keeps the definition as data-tip and its label as plain text; the guide shows it.
+    node.querySelectorAll('th').forEach(th => {
+      const pop = th.querySelector('.th-tip__pop'), own = th.getAttribute('title');
+      if (pop) { if (!th.getAttribute('data-tip')) th.setAttribute('data-tip', pop.textContent.replace(/\s+/g, ' ').trim()); pop.remove(); }
+      else if (own && !th.getAttribute('data-tip')) th.setAttribute('data-tip', own);
+    });
     const walker = doc.createTreeWalker(node, 128 /* comments */);
     const comments = [];
     while (walker.nextNode()) comments.push(walker.currentNode);

@@ -217,6 +217,33 @@ test('a glossary popup the page was given by the site\'s glossary script is not 
   assert.ok(!/<abbr|<span|<strong/.test(html), 'popup markup was kept: ' + html);
 });
 
+test('hover help on a guide page is kept in the guide: column heading tips, glossary definitions, and a link to the page itself', () => {
+  // The guide pages get these from js/components/table-header-tips.js and js/glossary.js, which do not run in the hub.
+  // 1. A heading's own tip survives the cut, both as written (data-tip, title) and after the page's script moved it.
+  const doc = new JSDOM('<main><div id="x"><table><thead><tr><th data-tip="As written.">A</th><th title="From a title.">B</th>' +
+    '<th class="th-tip" tabindex="0"><span class="th-tip__label">C</span><span class="th-tip__pop" role="tooltip">Moved by the script.</span></th></tr></thead><tbody><tr><td>1</td><td>2</td><td>3</td></tr></tbody></table></div></main>').window.document;
+  const html = X.clean(doc.getElementById('x'), doc, { routes: X.ROUTES, live: '' });
+  ['As written.', 'From a title.', 'Moved by the script.'].forEach((t) => assert.ok(html.includes('data-tip="' + t + '"'), 'a heading tip was lost (' + t + '): ' + html));
+  assert.ok(!html.includes('th-tip__pop') && !/Moved by the script\.<\/th>/.test(html) && !/>CMoved/.test(html), 'the tip was read as the heading\'s words: ' + html);
+  const g = cut(GUIDES['lihtc-basics'], 'lihtc-basics').g;
+  const written = (read(GUIDES['lihtc-basics']).match(/<th\b[^>]*\sdata-tip="/g) || []).length;
+  const kept = ((g.intro + g.sections.map((x) => x.html).join('')).match(/<th\b[^>]*\sdata-tip="/g) || []).length;
+  assert.ok(written > 0 && kept === written, GUIDES['lihtc-basics'] + ': ' + written + ' heading tips written, ' + kept + ' kept');
+  // 2. The view fills the rest from the same two files the site's scripts read.
+  const view = read('hub/guide.js');
+  ['data/glossary.json', 'data/table-header-tips.json'].forEach((f) => {
+    assert.ok(view.includes("'" + f + "'"), 'hub/guide.js no longer reads ' + f);
+    assert.ok(read('js/glossary.js').includes('glossary.json') && read('js/components/table-header-tips.js').includes('table-header-tips.json'), 'the site\'s own scripts no longer read these files');
+  });
+  const terms = JSON.parse(read('data/glossary.json')).terms;
+  assert.ok(Array.isArray(terms) && terms.length > 100 && terms.every((t) => t.term && t.definition), 'data/glossary.json is no longer { terms: [{ term, definition }] }');
+  const tips = JSON.parse(read('data/table-header-tips.json'));
+  assert.ok(Object.keys(tips.tips || tips).length > 50, 'data/table-header-tips.json no longer holds the heading tips');
+  assert.ok(/function hoverHelp\(/.test(view) && /hoverHelp\(document\.querySelector\('\.guide-body'\)/.test(view), 'hub/guide.js no longer adds hover help once a guide is drawn');
+  // 3. The page as written stays one link away.
+  assert.ok(/g\.live\) \+ '\?classic=1"/.test(view), 'the guide no longer links its own page with ?classic=1');
+});
+
 test('the three long documents keep their "Which document do you need?" chooser, with links that stay in the hub', () => {
   ['white-paper', 'working-paper', 'methods'].forEach((slug) => {
     const { g } = cut(GUIDES[slug], slug);

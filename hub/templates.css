@@ -1453,3 +1453,11 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .doc-guide a { font-weight: 700; display: inline-block; padding: .35rem 0; }
 .doc-guide-use { font-weight: 600; font-size: 14px; }
 .doc-guide-about { font-size: 14px; color: var(--ink-soft); }
+
+/* Hover help in a guide (site/guide.js hoverHelp): a glossary term and a column heading with a definition carry
+   the dotted underline the site uses for both; the definition opens in one small label (.viz-tip look). */
+.guide-body abbr.g-term { text-decoration: underline dotted; text-decoration-color: var(--ink-soft); text-underline-offset: 3px; cursor: help; }
+.guide-body th.g-tip { text-decoration: underline dotted; text-decoration-color: var(--ink-soft); text-underline-offset: 3px; cursor: help; }
+.guide-body abbr.g-term:focus-visible, .guide-body th.g-tip:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+.guide-tip { max-width: min(340px, calc(100vw - 12px)); line-height: 1.45; pointer-events: none; }
+@media print { .guide-body abbr.g-term, .guide-body th.g-tip { text-decoration: none; } }
