@@ -96,36 +96,35 @@ assert.ok(stageLabels.includes("'Stage ' +"), 'js/pipeline.js no longer builds "
 assert.ok(stageLabels.includes('Pipeline stages'), 'content.json no longer labels the stat "Pipeline stages"');
 assert.deepStrictEqual(bad, [], 'Pipeline labels say steps:\n  ' + bad.join('\n  '));
 
-// ── 5. The homepage resume strip counts on the rail ───────────────────────
-// It used to add 1 to WorkflowState's own five-step numbering and print
-// "Step 4 of 6" beside a seven-step rail. Run js/index.js against a saved
-// project and compare what it prints with the rail entry for the next step.
-function resumeText(nextIncomplete) {
-  const home = new JSDOM('<!doctype html><div id="homeResumeStrip" hidden><span id="homeResumeJurisdiction"></span>'
-    + '<span id="homeResumeStep"></span><a id="homeResumeCta" href="#"></a></div>', {
-    url: 'https://cohoanalytics.com/', runScripts: 'outside-only',
-  });
-  const w = home.window;
-  w.eval(read('js/components/workflow-progress.js'));
-  // WorkflowState's own numbering, as it reports it: market is its step 3.
-  const legacy = { jurisdiction: 1, hsa: 2, market: 3, scenario: 4, deal: 5 };
-  w.WorkflowState = {
-    getActiveProject: () => ({ id: 'p' }),
-    getStep: () => ({ name: 'Fruita' }),
-    getProgress: () => ({ totalCount: 5, nextIncomplete, nextStepNum: legacy[nextIncomplete] || null,
-      nextStepLabel: 'x', nextStepUrl: 'x.html' }),
-  };
-  w.eval(read('js/index.js'));
-  if (w.document.readyState === 'loading') w.document.dispatchEvent(new w.Event('DOMContentLoaded'));
-  return { text: w.document.getElementById('homeResumeStep').textContent, href: w.document.getElementById('homeResumeCta').getAttribute('href') };
-}
-for (const key of ['hsa', 'market', 'deal', null]) {
-  const want = RAIL.find((s) => s.key === (key || 'recommendation'));
-  const got = resumeText(key);
-  assert.ok(got.text.startsWith(`Step ${want.num} of ${N}`),
-    `homepage resume strip says "${got.text}" for next step ${key}; the rail has it as step ${want.num} of ${N}`);
-  assert.ok(got.text.includes(want.label), `resume strip "${got.text}" does not name the rail's label "${want.label}"`);
-  assert.strictEqual(got.href, want.href, `resume strip links to ${got.href}; the rail's step ${want.num} is ${want.href}`);
+// ── 5. The homepage resume line agrees with the rail ──────────────────────
+// The old strip added 1 to WorkflowState's own five-step numbering and printed "Step 4 of 6" beside a seven-step
+// rail. Home was rebuilt on 13 Nov 2026 (index.html draws hub/home.js): its "Continue where you left off" line
+// names the place this browser last worked on and links the steps people come back to, and it claims no step
+// number, because visiting a page does not mark it done. So: the line is drawn for a returning visitor, any
+// "Step x of y" it ever prints has y equal to the rail, every step it links is a rail step, on that place, and
+// Home's own count of steps is the rail's.
+{
+  const { createRequire } = await import('node:module');
+  const home = createRequire(import.meta.url)('./helpers/render-home.js');
+  const place = { geoid: '0828745', label: 'Fruita' };
+  const html = await home.renderHomeReturning(place);
+  const line = (/<p class="hh-resume">[\s\S]*?<\/p>/.exec(html) || [])[0];
+  assert.ok(line, 'Home draws no "continue where you left off" line for a returning visitor');
+  assert.ok(home.text(line).includes(place.label), 'the resume line does not name the place');
+  for (const m of home.text(html).matchAll(/Step (\d+) of (\d+)/g)) {
+    assert.strictEqual(Number(m[2]), N, `Home says "${m[0]}"; the rail has ${N} steps`);
+  }
+  const resumeLinks = home.links(line).filter((l) => !/^#\/\?/.test(l.raw));
+  assert.ok(resumeLinks.length >= 2, `the resume line links only ${resumeLinks.length} steps`);
+  for (const l of resumeLinks) {
+    const isAssessment = new RegExp('^#/place/' + place.geoid + '$').test(l.raw);
+    const step = isAssessment ? RAIL.find((s) => s.key === 'hsa') : RAIL.find((s) => s.href === home.rebuilds(l.raw));
+    assert.ok(step, `resume link "${l.text}" opens ${l.raw}, which is not a step on the rail`);
+    assert.ok(l.href, `resume link "${l.text}" has no page to open`);
+    assert.ok(isAssessment || new URLSearchParams(l.raw.split('?')[1] || '').get('g') === place.geoid, `resume link "${l.text}" dropped the place`);
+  }
+  assert.ok(!/class="hh-resume"/.test(await home.renderHome()), 'a resume line is drawn with no place worked on');
+  assert.strictEqual(home.steps(html).length, N, `Home lists ${home.steps(html).length} steps; the rail has ${N}`);
 }
 
 console.log(`step-count-agreement: ${navSteps.length} menu labels and ${claims} count claims agree with the ${N}-step rail`);

@@ -1,9 +1,9 @@
 /**
  * js/county-measures.js
  *
- * County measures shared by the home page map (js/components/home-need-map.js)
- * and the data map (data-map-browser.html), so both draw the same figures and
- * grey out the same counties.
+ * County measures shared by the county need map on Home and the Places hub
+ * (hub/county-need.js) and the data map (data-map-browser.html), so both draw
+ * the same figures and grey out the same counties.
  *
  *   CountyMeasures.loadField(field, fetchJson) → Promise<{ values, unreliable, names, boundaries }>
  *     values[field][geoid]     number

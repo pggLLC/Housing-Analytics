@@ -19,19 +19,19 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const home = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+const { renderHome, steps, rebuilds } = require('./helpers/render-home');
 const strip = (h) => h.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
-const norm = (t) => strip(t).toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\b(\w+?)s\b/g, '$1').replace(/\s+/g, ' ').trim();
+// Small joining words are not part of a page's name ("Select your jurisdiction" names "Select Jurisdiction").
+const norm = (t) => strip(t).toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\b(a|an|the|your)\b/g, ' ').replace(/\b(\w+?)s\b/g, '$1').replace(/\s+/g, ' ').trim();
 
-const cards = [...home.matchAll(/<li class="home-step">([\s\S]*?)<\/li>/g)].map((m) => {
-  const b = m[1];
-  const h3 = (b.match(/<h3>([\s\S]*?)<\/h3>/) || [])[1] || '';
-  return {
-    heading: strip(h3.replace(/<span class="home-step__badge">[\s\S]*?<\/span>/, '')),
-    text: strip(b),
-    href: ((b.match(/<a href="([^"#?]+)/) || [])[1]) || '',
-  };
-});
+// Home is drawn by hub/home.js since the 13 Nov 2026 rebuild, so the cards are read from the page as drawn.
+// Each step opens a route on a hub page; the page that route rebuilds (still live beside it) is the one whose
+// own title the card has to agree with, and whose scripts say what the step can do.
+(async () => {
+const cards = steps(await renderHome()).map((c) => ({
+  // ", new" is the card's badge, not part of the tool's name.
+  heading: c.heading.replace(/,\s*new$/i, ''), text: c.heading + ' ' + c.body, route: c.raw, opens: c.href, href: rebuilds(c.raw) || '',
+}));
 
 let failures = 0;
 const check = (name, fn) => { try { fn(); console.log(`  ✓ ${name}`); } catch (e) { failures += 1; console.log(`  ✗ ${name} — ${e.message}`); } };
@@ -39,16 +39,18 @@ const check = (name, fn) => { try { fn(); console.log(`  ✓ ${name}`); } catch 
 console.log('home-step-cards-match-destinations');
 
 check('the scan found the step cards', () => {
-  assert.ok(cards.length >= 5, `found ${cards.length} step cards on index.html`);
+  assert.ok(cards.length >= 5, `found ${cards.length} step cards on Home`);
   for (const c of cards) assert.ok(c.heading && c.href, `a card is missing its heading or link: ${JSON.stringify(c)}`);
+  // The link itself goes somewhere real: the hub page that draws the route.
+  for (const c of cards) assert.ok(c.opens && fs.existsSync(path.join(ROOT, c.opens.replace(/[#?].*$/, ''))), `step "${c.heading}" opens ${c.opens}, which is not a page here`);
 });
 
 for (const c of cards) {
   const dest = fs.readFileSync(path.join(ROOT, c.href), 'utf8');
   const title = (dest.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '';
   const h1 = (dest.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || '';
-  // The card's main noun phrase: the part before "&" (e.g. "Market Analysis").
-  const phrase = norm(c.heading.split('&')[0]);
+  // The card's main noun phrase: the part before "&" or "and" (e.g. "Market Analysis").
+  const phrase = norm(c.heading.split(/&| and /)[0]);
   check(`"${c.heading}" names its destination ${c.href}`, () => {
     assert.ok(norm(title).includes(phrase) || norm(h1).includes(phrase),
       `the card heading "${c.heading}" appears in neither the <title> "${strip(title)}" nor the <h1> "${strip(h1)}" of ${c.href}`);
@@ -65,3 +67,4 @@ for (const c of cards) {
 
 if (failures) { console.log(`home-step-cards-match-destinations: FAIL (${failures})`); process.exit(1); }
 console.log('home-step-cards-match-destinations: PASS');
+})().catch((e) => { console.error(e); process.exit(1); });

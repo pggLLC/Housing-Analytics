@@ -60,10 +60,13 @@
     var min = d.gap && d.gap.statewide && d.gap.statewide.min_shortfall_matched_le_ami_pct;
     f.min30 = min && min['30']; f.min60 = min && min['60']; f.acsYear = d.gap && d.gap.meta && d.gap.meta.acs_year;
     f.renters = d.gap && d.gap.statewide && d.gap.statewide.renter_households_total;
+    // The one statewide income limit the ACS floor is measured against, and its HUD year: the file's own.
+    f.ami4 = d.gap && d.gap.statewide ? Number(d.gap.statewide.ami_4person) : NaN; f.hudYear = d.gap && d.gap.meta && d.gap.meta.hud_income_limits_year;
     f.households = d.sum && d.sum.acsProfile ? Number(d.sum.acsProfile.DP02_0001E) : NaN;
     var need = d.proj && d.proj.housing_need && d.proj.housing_need.incremental_units_needed_dola;
     var raw = Array.isArray(need) && need.length ? need[need.length - 1] : null;
     f.need = raw == null || raw === '' ? NaN : Math.round(Number(raw));
+    f.sdoVintage = d.proj && d.proj.source && d.proj.source.households_vintage ? String(d.proj.source.households_vintage) : '';
     f.needYear = d.snap && d.snap.deficit_growth_basis && d.snap.deficit_growth_basis.projection_years ? d.snap.deficit_growth_basis.projection_years[1] : 2044;
     f.lihtcCount = Number(v.lihtc_property_count); f.lihtcPerYr = Number(v.average_lihtc_units_per_year);
     f.newPerYr = Number(v.average_lihtc_new_construction_units_per_year); f.presPerYr = measured(v.average_lihtc_preservation_units_per_year);
@@ -107,18 +110,18 @@
         how: 'A count of homes, not people. ' + cnt(t30.renter_households) + ' renter households earn up to 30% of area median income, and only ' + cnt(t30.affordable_available_homes) +
           ' homes they can afford are vacant or rented by someone in that group: ' + (fin(t30.homes_per_100_households) ? Math.round(t30.homes_per_100_households) : '—') +
           ' for every 100 households. Cheap homes rented by higher-income households don’t count, because no one in the group can move in.</p><p>' +
-          esc(f.acsYear || '2024') + ' minimum: ' + cnt(f.min30) + ' homes short (AMI gap, ACS ' + esc(f.acsYear || '—') + '). Renter households earning up to 30% of area median income, minus the homes that rent for what they can afford, and minus homes rented for no cash rent. It counts cheap homes even when higher-income households rent them, and measures everyone against one statewide AMI ($127,800 for a 4-person household, HUD FY2026), so it differs from HUD’s count, which uses older survey years and each county’s own limits.',
+          esc(f.acsYear || '2024') + ' minimum: ' + cnt(f.min30) + ' homes short (AMI gap, ACS ' + esc(f.acsYear || '—') + '). Renter households earning up to 30% of area median income, minus the homes that rent for what they can afford, and minus homes rented for no cash rent. It counts cheap homes even when higher-income households rent them, and measures everyone against one statewide AMI (' + (fin(f.ami4) ? '$' + num(f.ami4) + ' for a 4-person household' : 'for a 4-person household') + (f.hudYear ? ', HUD FY' + esc(f.hudYear) : '') + '), so it differs from HUD’s count, which uses older survey years and each county’s own limits.',
         src: '<a href="' + HSRC.chas + '">HUD CHAS ' + esc(f.chasVintage) + '</a> · <a href="' + HSRC.b25118 + '">AMI gap, ACS ' + esc(f.acsYear || '—') + '</a>' }),
       glanceCard({ title: 'Homes Colorado needs by ' + f.needYear, value: cnt(f.need),
         plain: 'New homes needed for 20 years of household growth, at all incomes. This is growth only, separate from today’s shortfall.',
         how: 'Additional homes Colorado needs by ' + f.needYear + ' to house projected household growth at a healthy vacancy rate, all incomes. Counts growth only: not today’s shortfall, and not reduced by existing affordable or naturally affordable homes. Base year 2024.',
-        src: 'COHO estimate from the <a href="' + HSRC.dola + '">State Demography Office household forecast</a>' }),
+        src: 'COHO estimate from the <a href="' + HSRC.dola + '">State Demography Office household forecast' + (f.sdoVintage ? ', Vintage ' + esc(f.sdoVintage) : '') + '</a>' }),
       glanceCard({ title: 'New tax-credit homes against new low-income renters', value: cov ? Math.round(f.coverage * 100) + '% covered' : '—',
         plain: 'How much of each year’s growth in renters at or below 60% AMI new tax-credit construction keeps up with.',
         graphic: cov ? per100Bar(f.coverage * 100, Math.round(f.coverage * 100) + '% of new low-income renter households covered by new tax-credit homes').replace('homes</span><span>per <b>100</b> households', 'covered</span><span>of each year’s <b>100</b> new renters') : '',
         how: 'New LIHTC construction (' + (cov ? num(f.newPerYr) : '—') + ' homes a year, 10-year average) covers this share of projected new ≤60% AMI renter households (' + (cov ? num(f.renterGrowth) : '—') +
           ' a year: DOLA household growth × the share of all households that are renters at ≤60% AMI, from ACS 2020–2024), before any losses from the existing affordable stock, which no source here measures. Acquisition and rehab (' + (fin(f.presPerYr) ? num(f.presPerYr) : '—') + ' a year) preserves homes; it does not add to them.',
-        src: '<a href="' + HSRC.b25118 + '">ACS 2020–2024 (B25118)</a> · <a href="' + HSRC.dola + '">DOLA 2024 mid projection</a> · <a href="' + HSRC.chfa + '">CHFA tax credit properties</a>' })
+        src: '<a href="' + HSRC.b25118 + '">ACS 2020–2024 (B25118)</a> · <a href="' + HSRC.dola + '">State Demography Office household forecast' + (f.sdoVintage ? ', Vintage ' + esc(f.sdoVintage) : '') + ', from 2024</a> · <a href="' + HSRC.chfa + '">CHFA tax credit properties</a>' })
     ];
     return '<section class="home-glance" aria-labelledby="h-glance"><h2 id="h-glance">Colorado at a glance</h2><div class="hg-grid">' + cards.join('') + '</div>' +
       '<div class="hg-read"><p><strong>Why this matters.</strong> The shortfall is deepest for the lowest-income renters, and new tax-credit homes cover only part of each year’s growth in low-income renters, so building at today’s pace does not keep up with new demand, let alone the existing shortfall.</p>' +
@@ -136,17 +139,24 @@
     return '<section class="home-map" aria-labelledby="h-map"><h2 id="h-map">Housing need by county</h2>' +
       '<p>One map of Colorado’s 64 counties, shaded by the measure you pick. Darker means more need. Grey counties have too few households or survey margins too wide to rank.</p>' +
       '<ul class="home-chips">' + MAP_MEASURES.map(function (m) { return '<li><a href="#/places?m=' + m[0] + '">' + esc(m[1]) + '</a></li>'; }).join('') + '</ul>' +
-      '<p class="note">The priority score is one 0–100 figure per county, not need alone: 55% need (homes short, cost burden, rents and prices against incomes, growth, crowding) and 45% opportunity (mobility, walkability, services, QCT and DDA areas), so places with more amenities score higher. It also ranks all 546 places on <a href="#/places/ranking">the comparison page</a>.</p></section>';
+      '<p class="note">The priority score is one 0–100 figure per county, not need alone: 55% need (homes short, cost burden, rents and prices against incomes, growth, crowding) and 45% opportunity (mobility, walkability, services, QCT and DDA areas), so places with more amenities score higher. It also ranks ' + allPlaces() + ' on <a href="#/places/ranking">the comparison page</a>.</p></section>';
   }
 
   // The live county map from Places and need, on Home: tap a county for its figures, step through the measures.
+  // Counties plus the towns and CDPs the site has a page for: the count the ranking covers. Counted, never typed,
+  // so it cannot go stale (the old home page's count once did).
+  function placeCount() {
+    var towns = Shell.inHub('places', function (e) { return e.role === 'generated-place'; }).length, counties = Pl.countyEntries().length;
+    return towns && counties ? towns + counties : 0;
+  }
+  function allPlaces() { return placeCount() ? 'all ' + num(placeCount()) + ' places' : 'every town and county'; }
   function homeMap(params) {
     var x = Pl.data ? Pl.data() : { data: null };
     if (!global.LabCountyNeed || x.error) return mapTeaser();
     if (!x.data) return '<section class="home-map" aria-labelledby="h-map"><h2 id="h-map">Housing need by county</h2><p role="status" class="note">Loading the county map…</p></section>';
     return '<section class="home-map" aria-labelledby="h-map"><h2 id="h-map">Housing need by county</h2>' + global.LabCountyNeed.figure(x.data, params) +
       '<div class="actions home-next"><a class="button-link" href="#/places">Open a town or county’s full needs assessment →</a></div>' +
-      '<p class="note">The same map, with rankings for all 546 places, is on <a href="#/places">Places and need</a>.</p></section>';
+      '<p class="note">The same map is on <a href="#/places">Places and need</a>, with <a href="#/places/ranking">rankings for ' + allPlaces() + '</a>.</p></section>';
   }
 
   // "What brings you here?": the live homepage's six doors (js/home-jurisdiction-search.js DOORS), each with
@@ -157,19 +167,110 @@
     ['operate', 'I run a housing authority or nonprofit', [['What a housing authority can do', '#/guide/housing-authority'], ['Homes at risk of losing affordability', '#/opportunity/preservation'], ['Resident services', '#/guide/resident-services'], ['Pick your town: full needs assessment', '#/places']]],
     ['fund', 'I fund, lend or invest', [['Where housing money goes', '#/money'], ['Colorado tax credit awards by year', '#/places/deep-dive'], ['Funded deals, one page each', '#/deals'], ['Pick your town: full needs assessment', '#/places']]],
     ['analyze', 'I research or report on housing', [['Pick your town: full needs assessment', '#/places'], ['Compare with other Colorado places', '#/places/ranking'], ['Sources and how we check them', '#/data/trust'], ['Every data source', '#/data/sources']]],
-    ['rent', 'I need a place to live', [['Rent help, eviction help and vouchers (English y español)', '#/assistance'], ['Free housing help line: Colorado Housing Connects, 1-844-926-6632', 'https://coloradohousingconnects.org/'], ['Search income-restricted rentals: ColoradoHousingSearch.com', 'https://www.coloradohousingsearch.com/'], ['Thinking about buying? Help for homebuyers', '#/assistance']]]
+    ['rent', 'I need a place to live', [['Rent help, eviction help and vouchers (English y español)', '#/assistance'], ['Free housing help line: Colorado Housing Connects, 1-844-926-6632', 'https://coloradohousingconnects.org/'], ['Search income-restricted rentals: ColoradoHousingSearch.com', 'https://www.coloradohousingsearch.com/'], ['Thinking about buying? Help for homebuyers', LIVE + 'help-for-homebuyers.html']]]
   ];
-  function doors(picked) {
+  // Home's own address with one setting changed: the role picked (door), the town picked (town) or the search (q).
+  function homeHref(params, set) {
+    var q = new URLSearchParams();
+    ['door', 'town', 'q'].forEach(function (k) { var v = set && k in set ? set[k] : params.get(k); if (v) q.set(k, v); });
+    var t = q.toString();
+    return '#/' + (t ? '?' + t : '');
+  }
+  function validPlace(g) { return /^08\d{3}(\d{2})?$/.test(String(g || '')); }
+  // A door's link, opened on the town picked on Home when the page takes one.
+  function onPlace(href, g) {
+    if (!validPlace(g) || /^https/.test(href)) return href;
+    if (href === '#/places') return '#/place/' + g;
+    if (['#/finder', '#/deal-calculator', '#/market', '#/for-sale', '#/recommendation'].indexOf(href) > -1) return href + '?g=' + g;
+    return href;
+  }
+  function doorLinks(d, g) {
+    return '<ul>' + d[2].map(function (l) { return '<li><a href="' + esc(onPlace(l[1], g)) + '">' + esc(l[0]) + (/^https/.test(l[1]) && l[1].indexOf(LIVE) !== 0 ? ' ↗' : '') + '</a></li>'; }).join('') + '</ul>';
+  }
+  // The links show as soon as a role is picked: no town is needed (on the old home page they waited for one).
+  function doors(params) {
+    var picked = params.get('door'), g = params.get('town');
     var d = DOORS.filter(function (x) { return x[0] === picked; })[0];
     return '<div class="home-doors"><p class="hd-ask" id="hd-ask">What brings you here?</p><ul class="home-chips" aria-labelledby="hd-ask">' + DOORS.map(function (x) {
-      return '<li><a href="#/' + (x[0] === picked ? '' : '?door=' + x[0]) + '"' + (x[0] === picked ? ' aria-current="true"' : '') + '>' + esc(x[1]) + '</a></li>';
+      return '<li><a href="' + esc(homeHref(params, { door: x[0] === picked ? '' : x[0], q: '' })) + '"' + (x[0] === picked ? ' aria-current="true"' : '') + '>' + esc(x[1]) + '</a></li>';
     }).join('') + '</ul>' +
-      (d ? '<div class="hd-next"><p class="hd-title">Start here</p><ul>' + d[2].map(function (l) { return '<li><a href="' + esc(l[1]) + '">' + esc(l[0]) + (/^https/.test(l[1]) ? ' ↗' : '') + '</a></li>'; }).join('') + '</ul></div>' : '') + '</div>';
+      (d ? '<div class="hd-next"><p class="hd-title">Next steps for you</p>' + doorLinks(d, g) + '</div>' : '') + '</div>';
+  }
+
+  // Typing a town: matches under the box, on Home. Picking one shows its answer card, also on Home.
+  function found(params) {
+    var q = params.get('q');
+    if (!q) return '';
+    var all = Pl.countyEntries().concat(Shell.inHub('places', function (e) { return e.role === 'generated-place'; }));
+    var hits = all.filter(Shell.matches(q));
+    return '<div class="hh-found"><p class="count" role="status">' + (hits.length === 0 ? 'No Colorado town or county matches. Check the spelling.' : hits.length > 6 ? 'Showing 6 of ' + hits.length + '. Type more to narrow the list.' : hits.length + (hits.length === 1 ? ' match.' : ' matches.')) + '</p>' +
+      '<ul>' + hits.slice(0, 6).map(function (e) { return '<li><a href="' + esc(homeHref(params, { town: e.geoid, q: '' })) + '">' + esc(e.label) + '</a></li>'; }).join('') + '</ul></div>';
+  }
+
+  // "Continue where you left off" (the old home page's resume strip): the place this browser last worked on,
+  // with the three steps people come back to. It names no step number: visiting a page does not mark it done.
+  function resume(params) {
+    var w = global.LabHna && global.LabHna.working ? global.LabHna.working() : null;
+    if (!w || validPlace(params.get('town')) || params.get('q')) return '';
+    var g = w.geoid;
+    return '<p class="hh-resume"><span>Continue where you left off:</span> <a href="#/place/' + esc(g) + '"><strong>' + esc(w.label) + '</strong>’s needs assessment</a> · ' +
+      '<a href="' + esc(onPlace('#/market', g)) + '">Market check</a> · <a href="' + esc(onPlace('#/deal-calculator', g)) + '">Deal Calculator</a> · ' +
+      '<a href="' + esc(homeHref(params, { town: g })) + '">Its headline figures</a></p>';
+  }
+  function firstMatch(q) {
+    if (!q) return null;
+    return Pl.countyEntries().concat(Shell.inHub('places', function (e) { return e.role === 'generated-place'; })).filter(Shell.matches(q))[0] || null;
+  }
+  // One place's own figures, on Home (the live homepage's answer card). The figures and their wording are the
+  // public site's: js/home-jurisdiction-search.js answerFacts, read from the place's metrics digest.
+  var digests = {};
+  function digestFor(g) {
+    var c = digests[g];
+    if (c) return c;
+    c = digests[g] = { data: null, error: false };
+    var VENDOR = global.LAB_VENDOR;
+    (global.LAB_HNA_LOAD ? global.LAB_HNA_LOAD(g).then(function (r) { return r[0]; })
+      : fetch(VENDOR + 'data/hna/jurisdiction-metrics-digest/' + g + '.json').then(function (r) { if (!r.ok) throw new Error('digest ' + r.status); return r.json(); }))
+      .then(function (d) { c.data = d; Shell.render(); }).catch(function () { c.error = true; Shell.render(); });
+    return c;
+  }
+  function answer(params) {
+    var g = params.get('town');
+    if (!validPlace(g)) return '';
+    var e = Pl.entryFor(g), label = e ? e.label : g;
+    if (global.LabHna && global.LabHna.setWorking) global.LabHna.setWorking(g, label);
+    var c = digestFor(g), HJS = global.HomeJurisdictionSearch;
+    var facts = c.data && HJS ? HJS.answerFacts(c.data) : [];
+    var d = DOORS.filter(function (x) { return x[0] === params.get('door'); })[0];
+    var body = c.error ? '<p class="note">This place’s figures did not load. This is a loading problem, not missing data. Its full page is still open below.</p>'
+      : !c.data ? '<p role="status" class="note">Loading ' + esc(label) + '’s figures…</p>'
+      : !facts.length ? '<p class="note">The Census sample here is too small for a headline figure. The full page shows what is known.</p>'
+      : '<dl class="ha-facts">' + facts.map(function (f) {
+          return '<div><dt>' + esc(f.label) + '</dt><dd><b>' + esc(f.value) + '</b> ' + esc(f.note) + ' <span class="metric-source">' + esc(f.source) + '</span></dd></div>';
+        }).join('') + '</dl>';
+    return '<section class="home-answer" aria-labelledby="ha-h"><h2 id="ha-h">' + esc(label) + '</h2>' + body +
+      '<p class="actions"><a class="button-link" href="#/place/' + esc(g) + '">Open ' + esc(label) + '’s full needs assessment →</a></p>' +
+      (d ? '<p class="hd-title">Next steps for you</p>' + doorLinks(d, g) : '') +
+      // The old home page's own two extras for a picked place: its short profile page and its data file.
+      '<p class="ha-more">' + (e && /^places\//.test(e.path || '') ? '<a href="' + esc(LIVE + e.path) + '">' + esc(label) + '’s short profile page</a> · ' : '') +
+      '<a href="' + esc(LIVE + 'data/hna/jurisdiction-metrics-digest/' + g + '.json') + '">The data file behind these figures</a></p>' +
+      '<p class="ha-clear"><a href="' + esc(homeHref(params, { town: '' })) + '">Pick another town or county</a></p></section>';
+  }
+
+  // The tools the old home page listed as quick links, each at its rebuilt page.
+  var QUICK = [['Needs Assessment', '#/places'], ['Compare', '#/places/ranking'], ['Opportunity Finder', '#/finder'], ['Preservation', '#/opportunity/preservation'],
+    ['Ownership Need', '#/for-sale'], ['For-Sale Market Study', '#/for-sale'], ['Market Analysis', '#/market'], ['Deal Calculator', '#/deal-calculator'],
+    ['Scenario Builder', '#/places/scenario'], ['Recommendation', '#/recommendation'], ['Land Value', '#/opportunity/land-value'], ['Data Map', '#/data/map'], ['Data Trust Center', '#/data/trust']];
+  function quick(g) {
+    var seen = {};
+    return '<nav class="home-quick" aria-label="Jump to a tool"><p class="hd-ask">Jump to a tool</p><ul class="home-chips">' + QUICK.filter(function (x) { if (x[0] === 'Ownership Need') return false; if (seen[x[1]]) return false; seen[x[1]] = 1; return true; }).map(function (x) {
+      return '<li><a href="' + esc(onPlace(x[1], g)) + '">' + esc(x[0]) + '</a></li>';
+    }).join('') + '</ul></nav>';
   }
 
   // The live homepage's seven steps, each with what it does and the lab page that does it.
   var STEPS = [
-    ['Choose your jurisdiction', 'Set the place for the analysis. It decides the income limits, HUD Fair Market Rents, QCT and DDA areas, Census figures and CHFA history used everywhere else.', '#/places', 'Pick a place'],
+    ['Select your jurisdiction', 'Set the place for the analysis. It decides the income limits, HUD Fair Market Rents, QCT and DDA areas, Census figures and CHFA history used everywhere else.', '#/places', 'Pick a place'],
     ['Opportunity Finder, new', 'Optional, for deciding where to look. Compare Colorado places on housing need, recent CHFA investment, QCT and DDA basis boost, size and local capacity, read for a 4% bond or a 9% competitive deal.', '#/finder', 'Browse places statewide'],
     ['Housing needs assessment', 'Who needs housing: incomes, cost burden, renters and owners, the gap between what exists and what is needed, 10-year demand, and a recommended income mix.', '#/place/0828745', 'Open Fruita’s assessment'],
     ['Market analysis and site feasibility', 'Define a market area and score a site on demand, competition, rents, tightness and access to jobs. CHFA requires a market study with every application. The free market check is here; the full study is a member tool.', '#/market', 'Run a market check'],
@@ -180,7 +281,6 @@
   function steps() {
     return '<section class="home-steps" aria-labelledby="h-steps"><h2 id="h-steps">From public data to a housing decision</h2>' +
       '<p>Tax credit rental, deed-restricted or shared-equity ownership, or keeping homes that are already affordable: the questions come in the same order. Where, who needs what, does the market support it, does the deal pencil, and what do you recommend. Pick a place once and the tools open on it. Visiting a step does not mark it done.</p>' +
-      global.LabHna.stepPath(true) +
       '<ol class="hs-list">' + STEPS.map(function (s, i) {
         return '<li><span class="hs-n" aria-hidden="true">' + String(i + 1).padStart(2, '0') + '</span><div><h3>' + esc(s[0]) + '</h3><p>' + esc(s[1]) + '</p><p class="hs-go"><a href="' + esc(s[2]) + '">' + esc(s[3]) + ' →</a></p></div></li>';
       }).join('') + '</ol></section>';
@@ -284,9 +384,9 @@
   // Three ways in, each one page from an answer.
   function startPaths() {
     var P = [
-      ['need', 'See a place’s needs', 'Who lives there, what they earn, and how many homes are missing at each income.', '#/places', 'Pick a town or county'],
-      ['deal', 'Test a LIHTC deal', 'Rents, costs, tax credits and debt for a project, and whether there is a gap.', '#/deal-calculator', 'Open the Deal Calculator'],
-      ['site', 'Find where to build', 'Every town scored on the facts that matter for 4% and 9% tax credit deals.', '#/finder', 'Open the Opportunity Finder']
+      ['need', 'See a place’s needs', 'Who lives there, what they earn, and how many homes are missing at each income.', '#/places', 'Start here: pick a town or county'],
+      ['deal', 'Test whether a project works', 'Rents, costs, tax credits and debt for an affordable housing project, and whether there is a gap.', '#/projects', 'Open Build a deal'],
+      ['site', 'Find where to build', 'Every town scored on the facts that matter for a tax credit project, and homes that could be kept affordable.', '#/opportunities', 'Open Opportunities']
     ];
     var ICON = { need: 'need', deal: 'credit', site: 'place' };
     return '<section class="hh-paths" aria-label="Where to start"><ul>' + P.map(function (p) {
@@ -301,7 +401,7 @@
     var items = [
       fin(f.burden) ? [Math.round(f.burden) + '%', 'of Colorado renters pay 30% or more of income on housing', 'ACS 2020–2024', HSRC.b25070] : null,
       fin(t30.homes_short) ? [num(t30.homes_short), 'homes short for renters earning 30% of area median income or less', 'HUD CHAS ' + f.chasVintage, HSRC.chas] : null,
-      fin(f.need) ? [num(f.need), 'more homes Colorado needs by ' + f.needYear + ' for household growth', 'COHO estimate from the State Demography Office forecast', HSRC.dola] : null
+      fin(f.need) ? [num(f.need), 'more homes Colorado needs by ' + f.needYear + ' for household growth', 'COHO estimate from the State Demography Office forecast' + (f.sdoVintage ? ', Vintage ' + f.sdoVintage : ''), HSRC.dola] : null
     ].filter(Boolean);
     if (!items.length) return '';
     return '<section class="hh-strip" aria-label="Colorado in three numbers"><ul>' + items.map(function (x) {
@@ -316,16 +416,25 @@
     var f = x.data ? homeFigures(Object.assign({ sum: sum || null }, x.data)) : null;
     var figures = x.error ? '<p class="callout">' + esc(x.error) + '</p>' : !f ? '<p role="status" class="note">Loading Colorado’s figures…</p>' : '';
     var pd = Pl.data ? Pl.data().data : null;
+    var g = params.get('town');
     return '<section class="home-hero hh-warm"><div class="hh-copy"><p class="hh-kicker">COHO Analytics · Colorado housing</p>' +
-      '<h1>Everyone deserves a safe, decent home they can afford, housing with dignity.</h1>' +
+      '<h1>Everyone deserves a safe, decent home they can afford.</h1>' +
       '<p class="lede">Too many Coloradans can’t find one. COHO Analytics shows where the shortfall is in every town and county, and gives the people working on it, from town staff to builders, the numbers to plan what comes next.</p></div>' +
-      (x.data && x.data.gap ? heroCounties(x.data.gap, pd && pd.counties) : '') +
-      '<div class="hh-find">' + Shell.searchBox('home-place', 'Find your town or county', '', 'For example Fruita or Mesa County') +
-      '<p class="hh-try">Try <a href="#/place/0828745">Fruita</a> · <a href="#/place/08077">Mesa County</a> · <a href="#/place/0862000">Pueblo</a></p></div></section>' +
-      startPaths() + (f ? strip(f) + (global.LabTpl.newest(x.data) ? '<p class="page-meta home-stamp">' + global.LabTpl.stamp('Figures updated', global.LabTpl.newest(x.data)) + '</p>' : '') : '') +
+      // The search comes before the county figure, so it is on the first phone screen; a picked town answers here.
+      '<div class="hh-find">' + Shell.searchBox('home-place', 'Find your town or county', params.get('q') || '', 'For example Fruita or Mesa County') +
+      found(params) + answer(params) + resume(params) +
+      (g || params.get('q') ? '' : '<p class="hh-try">Try <a href="' + esc(homeHref(params, { town: '0828745' })) + '">Fruita</a> · <a href="' + esc(homeHref(params, { town: '08077' })) + '">Mesa County</a> · <a href="' + esc(homeHref(params, { town: '0862000' })) + '">Pueblo</a></p>') +
+      '<p class="hh-help"><a href="#/assistance">Looking for a home? Rent help, eviction help and vouchers, English y español →</a></p></div>' +
+      (x.data && x.data.gap ? heroCounties(x.data.gap, pd && pd.counties) : '') + '</section>' +
+      startPaths() + doors(params) + quick(g) +
+      (f ? strip(f) + (global.LabTpl.newest(x.data) ? '<p class="page-meta home-stamp">' + global.LabTpl.stamp('Figures updated', global.LabTpl.newest(x.data)) + '</p>' : '') : '') +
       homeMap(params) + figures + (f ? glance(f) : '') +
-      '<h2>Rent against income</h2>' + (global.LabRentIncome ? global.LabRentIncome.widget('home') : '') + doors(params.get('door')) +
-      (global.LabAccess ? global.LabAccess.panel() : '') +
+      // One section, so the dated source line under the charts stands for every card above it (the public site's
+      // source-line check reads a card's source from its own section).
+      '<section class="home-rent" aria-labelledby="h-rent"><h2 id="h-rent">Rent against income</h2>' + (global.LabRentIncome ? global.LabRentIncome.widget('home') : '') + '</section>' +
+      // One line, not the sales panel, until member terms are ready (Home evaluation, 13 Nov 2026). The panel and
+      // the quote form stay in site/access.js.
+      '<p class="callout home-member"><strong>For developers and housing teams.</strong> Market Analysis and the for-sale study are free in a basic form here. Members get the full versions, site dossiers and deal workbooks. <a href="#/members">Member tools</a></p>' +
       (f ? moreNumbers(f) : '') + platform() +
       '<details class="home-about" id="home-about"><summary>How COHO works, who it is for, and the research behind it</summary>' + steps() + paths() + audiences() + research() + '</details>' +
       '<h2>Other places to start</h2><ul class="choices">' +
@@ -334,10 +443,12 @@
       Shell.choice('#/projects', 'Scope a project', 'Homes and rents, then the Deal Calculator.') +
       Shell.choice('#/guides', 'Guides and research', 'How deals work in Colorado, policy and news.') +
       Shell.choice('#/data', 'Data and methods', 'Sources, freshness and how the numbers are made.') +
-      Shell.choice('#/request-access', 'Member access', 'Request a quote for your team’s sites and timeline.') +
+      Shell.choice(LIVE + 'places/index.html', 'Local housing profiles', 'A short profile page for every Colorado town and county.') +
       '</ul>' +
       (r.length ? '<h2>Recent in this browser</h2><ul class="route-list">' + r.map(function (x) { return '<li><a href="' + esc(x.href) + '">' + esc(x.label) + '</a></li>'; }).join('') + '</ul>' : '') +
-      '<p><a href="#/sitemap">Site map</a> · <a href="#/search">Search the site</a> · <a href="#/tools">See all ' + Shell.catalog().total + ' pages</a> · <a href="#/privacy">Privacy</a></p>';
+      '<p><a href="#/sitemap">Site map</a> · <a href="#/search">Search the site</a>' +
+      // The every-page index is a lab page; on the public site the site map is that list.
+      (global.LAB_PORT ? '' : ' · <a href="#/tools">See all ' + Shell.catalog().total + ' pages</a>') + ' · <a href="#/privacy">Privacy</a></p>';
   }
 
   // ---- Housing help ------------------------------------------------------------------------------
@@ -444,7 +555,7 @@
     return utilHead('That page is not here', 'There is no page at this address. Pages move when the site changes; the places below are always current.') +
       '<ul class="choices">' +
       Shell.choice('#/places', 'Pick a Colorado place', 'Start a housing needs assessment for a county, city, town or CDP.') +
-      Shell.choice('#/places/ranking', 'Compare all 546 places', 'Ranked by housing need.') +
+      Shell.choice('#/places/ranking', 'Compare ' + allPlaces(), 'Ranked by housing need.') +
       Shell.choice('#/places', 'Browse place profiles', 'Every city, town and CDP.') +
       Shell.choice('#/search', 'Search the site', 'Pages, data sources and place profiles.') +
       Shell.choice('#/sitemap', 'Site map', 'Every page, listed.') +
@@ -599,5 +710,5 @@
   Shell.views['share-card'] = shareCard;
   Shell.views.home = home;
   Shell.views.assistance = assistance;
-  global.LabHome = { home: home, assistance: assistance, notFound: notFound, privacy: privacy, search: search, searchRecords: searchRecords, rankSearch: rankSearch, COUNTY_FIPS: COUNTY_FIPS, sitemap: sitemap, shareCard: shareCard, TOOLS: TOOLS, RENT: RENT, STEPS: STEPS, DOORS: DOORS, SITEMAP: SITEMAP, homeFigures: homeFigures, HOME_FILES: HOME_FILES, stateSummary: stateSummary };
+  global.LabHome = { home: home, firstMatch: firstMatch, homeHref: homeHref, QUICK: QUICK, DOORS: DOORS, assistance: assistance, notFound: notFound, privacy: privacy, search: search, searchRecords: searchRecords, rankSearch: rankSearch, COUNTY_FIPS: COUNTY_FIPS, sitemap: sitemap, shareCard: shareCard, TOOLS: TOOLS, RENT: RENT, STEPS: STEPS, DOORS: DOORS, SITEMAP: SITEMAP, homeFigures: homeFigures, HOME_FILES: HOME_FILES, stateSummary: stateSummary };
 })(window);

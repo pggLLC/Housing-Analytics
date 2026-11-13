@@ -13,8 +13,9 @@
 //      denominator floor applied) is left off, never shown as a number;
 //   3. every next-step link opens a page that exists, and the report link is
 //      the same URL the search used to navigate to;
-//   4. the four door buttons in index.html are the doors the code knows, and
-//      the search comes before the long opening paragraph.
+//   4. the doors Home offers are the doors the code knows, the search comes
+//      before everything but the headline and a short opening, and the card
+//      Home draws for a picked town shows exactly these facts.
 
 'use strict';
 
@@ -140,12 +141,50 @@ assert.equal(dealFor(place), 'deal-calculator.html?geoid=0832155');
 assert.equal(dealFor(county), 'deal-calculator.html?geoid=' + county.geoid);
 
 // ── 4. The page carries the doors the code knows, search first ─────────────
+// Home is drawn by hub/home.js since the 13 Nov 2026 rebuild (index.html), so this reads the page as drawn.
+const home = require('./helpers/render-home');
 const index = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-const buttons = [...index.matchAll(/<button[^>]*data-home-door="([a-z]+)"[^>]*>([^<]+)<\/button>/g)]
-  .map((m) => [m[1], m[2].trim()]);
-assert.deepEqual(buttons, Object.entries(DOORS), 'index.html door buttons must match DOORS in js/home-jurisdiction-search.js');
-assert(index.includes('id="homeAnswerCard"'), 'index.html must carry the answer card container');
-assert(index.indexOf('id="homeJurisdictionSearch"') < index.indexOf('class="home-opening__lead"'),
-  'the town search must come before the long opening paragraph, so it is on the first phone screen');
+assert(index.includes('src="js/home-jurisdiction-search.js"'), 'index.html must load js/home-jurisdiction-search.js: the card\'s facts come from it');
+const blank = home.renderHomeSync();
+const doorsShown = home.links((/<div class="home-doors">[\s\S]*?<\/ul>/.exec(blank) || [''])[0])
+  .map((l) => [(/[?&]door=([a-z]+)/.exec(l.raw) || [])[1], l.text]).filter((d) => d[0]);
+assert.deepEqual(doorsShown, Object.entries(DOORS), 'the doors Home offers must match DOORS in js/home-jurisdiction-search.js');
+// On the first phone screen: only the headline and a short opening come before the search. (The old page failed
+// this on 14 Oct 2026 with a long paragraph first; the rebuilt one is measured at 390px in the port's persona pass.)
+const before = home.text(blank.slice(0, blank.indexOf('id="home-place"')));
+assert(blank.indexOf('id="home-place"') > 0 && before.length < 420,
+  `the town search must come before everything but the headline and a short opening (${before.length} characters come first)`);
+assert(blank.indexOf('id="home-place"') < blank.indexOf('<figure'), 'the town search must come before the first map');
+assert(!/class="home-answer"/.test(blank), 'no answer card before a town is picked');
+
+// The card as drawn for a town and for a county: every fact the engine gives is on it with its source, and
+// nothing else is shown as a fact. A place with no supported fact says so and shows no number.
+for (const entry of [place, county]) {
+  const html = home.renderHomeSync('town=' + entry.geoid + '&door=build');
+  const card = (/<section class="home-answer"[\s\S]*?<\/section>/.exec(html) || [])[0];
+  assert(card, `Home draws no answer card for ${entry.name}`);
+  const facts = answerFacts(JSON.parse(fs.readFileSync(path.join(digestDir, entry.geoid + '.json'), 'utf8')));
+  assert(facts.length >= 2, `fixture: ${entry.name} has facts to show`);
+  const rows = [...card.matchAll(/<div><dt>([\s\S]*?)<\/dt><dd><b>([\s\S]*?)<\/b>([\s\S]*?)<\/dd><\/div>/g)].map((m) => ({ label: home.text(m[1]), value: home.text(m[2]), rest: home.text(m[3]) }));
+  assert.deepEqual(rows.map((r) => [r.label, r.value]), facts.map((f) => [f.label, f.value]), `${entry.name}: the card's facts are not the engine's facts, in its order`);
+  rows.forEach((r, i) => assert(r.rest.includes(facts[i].source), `${entry.name}: "${r.label}" is shown without its source (${facts[i].source})`));
+  // The full report is one link away, on the place the card is about; so is the Deal Calculator for this door.
+  const next = home.links(card);
+  assert(next.some((l) => l.href === 'places-hub.html#/place/' + entry.geoid), `${entry.name}: the card must link the place's full assessment`);
+  const deal = next.find((l) => /deal-calculator/.test(l.raw));
+  assert(deal && new URLSearchParams(deal.raw.split('?')[1] || '').get('g') === entry.geoid, `${entry.name}: the build door's Deal Calculator link dropped the place`);
+  for (const l of next.filter((x) => x.href && !/^https?:|^#/.test(x.href))) {
+    assert(fs.existsSync(path.join(ROOT, home.pageOf(l.href))), `${entry.name}: the card links ${l.href}, which does not exist`);
+  }
+  assert(next.every((l) => l.href), `${entry.name}: the card has a link with nowhere to go`);
+}
+{
+  // A made-up or malformed place draws no card, and its text is never written into the page.
+  for (const bad of ['9912345', '08', '<script>alert(1)</script>', '0832155x']) {
+    const html = home.renderHomeSync('town=' + encodeURIComponent(bad));
+    assert(!/class="home-answer"/.test(html), `town=${bad} drew an answer card`);
+    assert(!html.includes('<script>alert(1)'), 'a typed place id reached the page unescaped');
+  }
+}
 
 console.log(`Homepage answer card: ${shown} facts agree with the digests (${topCodes} top-coded), ${withheld} unsupported values withheld, ${checked} links checked`);

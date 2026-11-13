@@ -409,7 +409,11 @@
       var g = f.properties.GEOID, v = s.values[g];
       return [names[g], v == null ? null : v, v == null ? (m.blank || 'not published') : s.unreliable[g] ? 'too uncertain to rank' : ''];
     }).sort(function (a, b) { return a[0] < b[0] ? -1 : 1; });
-    return VD.block('Colorado counties, ' + m.label, ['County', m.label, 'Note'], rows, { fmt: { 1: function (v) { return fmt(m, v); } } });
+    // The Note column is for a county with something to flag. With nothing flagged it is left out: an empty
+    // note cell read "No value" beside every figure (Home port check, 13 Nov 2026).
+    var noted = rows.some(function (r) { return r[2]; });
+    rows = rows.map(function (r) { return noted ? [r[0], r[1], r[2] || 'none'] : [r[0], r[1]]; });
+    return VD.block('Colorado counties, ' + m.label, noted ? ['County', m.label, 'Note'] : ['County', m.label], rows, { fmt: { 1: function (v) { return fmt(m, v); } } });
   }
 
   // Redraw in place: colors, tooltips, key, words and panel. The page itself is not re-rendered, so the map

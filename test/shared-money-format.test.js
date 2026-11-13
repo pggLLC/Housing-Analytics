@@ -59,8 +59,9 @@ assert.equal(global.HNAUtils.safeNum('-666666666.0'), null, 'HNA safeNum rejects
 assert.equal(global.HNAUtils.safeNum(0), 0, 'HNA safeNum preserves a real zero');
 assert.equal(global.HNAUtils.fmtMoney(0), '$0', 'HNA routes a real zero through the shared helper');
 
+// js/index.js left this list on 13 Nov 2026: the file was removed when Home was rebuilt (index.html draws
+// hub/home.js, built from the lab and held to its own checks there and in test/homepage-claims.test.js).
 const targetFiles = [
-  'js/index.js',
   'js/main.js',
   'js/market-analysis/market-analysis-utils.js',
   'js/pipeline.js',
@@ -81,7 +82,7 @@ assert.deepEqual(
   'targeted files contain raw dollar concatenation only in the preserved compact funding-card variant',
 );
 
-assert(!/function\s+fmtCurrency\s*\(/.test(read('js/index.js')), 'unused homepage formatter is removed');
+assert(!fs.existsSync(path.join(ROOT, 'js', 'index.js')), 'the old homepage script, and its unused formatter with it, is removed');
 assert(!/function\s+formatCurrency\s*\(/.test(read('js/main.js')), 'dead main.js formatter is removed');
 assert(!/formatCurrency\s*,/.test(read('js/main.js')), 'dead main.js formatter is not exported');
 assert(read('js/market-analysis/market-analysis-utils.js').includes('moneyFormatter.formatMoney(n)'), 'market-analysis formatter delegates to the shared helper');

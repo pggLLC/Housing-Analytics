@@ -32,7 +32,7 @@
   var countySort = { key: 'name', dir: 1 };
   var townSort = { key: 'name', dir: 1 };
 
-  // Literal hex, as Leaflet styles need (see js/components/home-need-map.js);
+  // Literal hex, as Leaflet styles need (a CSS custom property does not resolve there);
   // the legend swatches are drawn from this same list.
   var CALLS = {
     emerging: { label: 'Emerging', color: '#1d4ed8' },
