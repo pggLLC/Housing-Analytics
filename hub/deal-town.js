@@ -91,6 +91,16 @@
     'Tap, impact and permit fees from the town’s current fee schedule.'
   ];
 
+  // A town or community by its code: { county, name }. county is the one the town is listed under first (geo-config's
+  // containingCounty), for a page opened on a town. null while the lists load (render runs when they arrive);
+  // { county: '' } when the code is not in them or they did not load.
+  function lookup(place, render) {
+    if (!files && !failed) { load(render); return null; }
+    var hit = null;
+    if (files) ['places', 'cdps'].forEach(function (k) { (files.geo[k] || []).forEach(function (p) { if (p.geoid === place) hit = p; }); });
+    return hit ? { county: String(hit.containingCounty || ''), name: String(hit.label || '').replace(/\s*\((city|town|CDP|city and county)\)\s*$/i, '') } : { county: '', name: '' };
+  }
+
   // The block under the county picker: town picker, size line, rents, and the list when county figures stand in.
   function field(o) {
     // o: { esc, county, countyName, place, help }
@@ -134,6 +144,6 @@
     return files && place ? read(files, place, county) : null;
   }
 
-  global.LabDealTown = { field: field, mixTracts: mixTracts, status: status, townsIn: townsIn, read: read, COLLECT: COLLECT,
+  global.LabDealTown = { field: field, mixTracts: mixTracts, status: status, townsIn: townsIn, read: read, lookup: lookup, COLLECT: COLLECT,
     _files: function (f) { files = f; asked = true; } };
 })(window);

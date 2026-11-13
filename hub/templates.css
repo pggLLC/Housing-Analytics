@@ -713,7 +713,18 @@ th[aria-sort="descending"] > button.th-sort::after { content: "\2193"; color: va
 .rec-headline.rec-card-insufficient { border-style: dashed; background: var(--card); }
 .rec-q { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--ink-soft); }
 .rec-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr)); gap: .75rem; margin: 0 0 1.5rem; }
-.rec-card { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--good); border-radius: 8px; padding: .9rem 1rem; display: grid; gap: .4rem; align-content: start; min-width: 0; }
+/* One column that may be narrower than its widest child (minmax(0, 1fr)). Without it the Evidence table set the
+   column's width: its cells keep a minimum width each (text-fit.css), up to 788px across four columns, so the
+   table pushed past the card and the whole page scrolled sideways once a fold was opened (823px wide on a 390px
+   phone, 1649px on a 1280px screen, 13 Nov). The table now scrolls inside its own region. */
+.rec-card { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--good); border-radius: 8px; padding: .9rem 1rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: .4rem; align-content: start; min-width: 0; }
+/* On paper nothing scrolls. The cards print one under another, and an opened Evidence table gives up its minimum
+   cell widths so all four columns fit the sheet. (main … !important outranks the minimums in text-fit.css.) */
+@media print {
+  .rec-cards { grid-template-columns: minmax(0, 1fr); }
+  .rec-card .table-scroll { overflow: visible; }
+  main .rec-cards .rec-card th, main .rec-cards .rec-card td { min-width: 0 !important; }
+}
 .rec-card.rec-card-provisional { border-top-color: var(--fair); }
 .rec-card.rec-card-insufficient { border-top: 1px dashed var(--muted); border-style: dashed; }
 .rec-card h3 { margin: 0; font-size: 1.1rem; }

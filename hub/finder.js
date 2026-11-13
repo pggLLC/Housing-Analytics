@@ -285,7 +285,7 @@
         '<h3>' + (k.verdict ? esc(k.verdict) : '<span class="rec-none">No answer from public data</span>') + ' ' + chip(k.state) + '</h3>' +
         (k.plain ? '<p>' + esc(k.plain) + '</p>' : '') +
         (k.blocking && k.blocking.length ? '<ul class="rec-blocking">' + k.blocking.map(function (b) { return '<li>' + esc(b.label + ': ' + (b.why || 'no figure')) + '</li>'; }).join('') + '</ul>' : '') +
-        '<details><summary>Evidence (' + k.usableCount + ' of ' + k.evidenceCount + ' usable)</summary><div class="table-scroll"><table><thead><tr><th scope="col">Measure</th><th scope="col">Value</th><th scope="col">Standing</th><th scope="col">Source</th></tr></thead><tbody>' +
+        '<details><summary>Evidence (' + k.usableCount + ' of ' + k.evidenceCount + ' usable)</summary><div class="table-scroll" role="region" tabindex="0" aria-label="' + esc('Evidence: ' + k.question) + '"><table><thead><tr><th scope="col">Measure</th><th scope="col">Value</th><th scope="col">Standing</th><th scope="col">Source</th></tr></thead><tbody>' +
         k.evidence.map(function (e) {
           return '<tr><th scope="row">' + esc(e.label) + '</th><td>' + esc(fmt(e)) + (e.borrowedFrom ? ' <span class="note">from ' + esc(e.borrowedFrom.replace(/_/g, ' ')) + '</span>' : '') + '</td><td>' + chip(e.state) + '</td>' +
             '<td>' + esc(global.LabHna.sourceOf({ source_id: e.source, as_of: e.asOf }, { geoid: g }) || e.source || 'source not recorded') + (e.why ? '<span class="note"> ' + esc(e.why) + '</span>' : '') + '</td></tr>';
