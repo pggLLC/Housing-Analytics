@@ -169,6 +169,20 @@ try {
       await tab.unroute('**/data/co-place-centroids.json');
     }
 
+    // Cleared in another tab (a hub page's Clear removes both keys) while this tab loads the name: the late
+    // answer must not bring the place back (Codex, #2801).
+    {
+      let release; const held = new Promise((r) => { release = r; });
+      await tab.route('**/data/co-place-centroids.json', async (route) => { await held; route.fallback(); });
+      await tab.goto(ORIGIN + '/developer-brief.html?geoid=0803455');
+      await tab.waitForFunction(() => /Working on: 0803455/.test((document.getElementById('mpLine') || {}).innerText || ''));
+      await tab.evaluate(([a, b]) => { localStorage.removeItem(a); localStorage.removeItem(b); }, [MP.KEY, MP.LAB_KEY]);
+      release();
+      await tab.waitForTimeout(1200);
+      ok(await tab.evaluate(([a, b]) => localStorage.getItem(a) === null && localStorage.getItem(b) === null, [MP.KEY, MP.LAB_KEY]), `${width}: a place cleared in another tab while its name loads stays cleared`);
+      await tab.unroute('**/data/co-place-centroids.json');
+    }
+
     // The report's own picker switches place: the line and the kept place follow it (Codex, #2774).
     await tab.goto(ORIGIN + '/developer-brief.html?geoid=0867280');
     await tab.waitForFunction(() => /Working on: Salida/.test((document.getElementById('mpLine') || {}).innerText || ''));

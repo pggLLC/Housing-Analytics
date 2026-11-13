@@ -252,6 +252,10 @@
         // The member may have cleared or changed the place while the names loaded: only name the place
         // that is still picked, and never write it back otherwise.
         if (!picked || picked.geoid !== asked || picked.name) return;
+        // Another tab (a hub page, or another member page) may have cleared or changed the kept place too:
+        // name it only if this browser still keeps this place (Codex, #2801).
+        var still = read(getStore);
+        if (!still || still.geoid !== asked) return;
         var n = nameOf(l, asked);
         if (!n) return;
         picked = { geoid: asked, name: n };
