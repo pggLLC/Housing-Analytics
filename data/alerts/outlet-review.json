@@ -1,15 +1,33 @@
 {
   "meta": {
-    "generated": "2026-11-12T11:30:23Z",
+    "generated": "2026-11-13T11:24:36Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-06",
-      "checked": 56,
-      "unverified": 2,
+      "since": "2026-11-07",
+      "checked": 63,
+      "unverified": 3,
       "weak": 1
     }
   },
   "outlets": [
+    {
+      "id": "a2096d397f",
+      "name": "Kiowa County Press",
+      "domains": [
+        "kiowacountypress.net"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-12",
+      "last_seen": "2026-11-12",
+      "headlines": [
+        {
+          "title": "Colorado releases first statewide housing needs assessment",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQZFFnY2tJX201UmhxTnkyM2hnLUMtRFgteU1nc2RManFYdkpsVC1mb0dMU3lLLWRxR1hybVVCaVpwUDYyQ0w4TFlVbzRicFJjdk5ET1FpS3gxOGdtemtVRGgwX0JZaGRZTWIwNTdCcXd3OVhncXVYSVdIbHlFMktIWEtxdlpwV1k1bXBsTF8zS0x6b1FWOThoSXU0TQ?oc=5",
+          "date": "2026-11-12"
+        }
+      ],
+      "first_listed": "2026-11-13"
+    },
     {
       "id": "02a620c88d",
       "name": "Quantum Computing Report",
