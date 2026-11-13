@@ -50,6 +50,12 @@ const norm = (text) => new JSDOM(`<p>${text}</p>`).window.document.querySelector
 function h1Of(page) {
   const doc = new JSDOM(read(page)).window.document;
   const h1 = doc.querySelector('h1');
+  // The hub pages (*-hub.html) draw their heading into #main by script, from
+  // the same name as their <title> (hub/PORT.json, test/places-hub-port.test.js),
+  // so the title stands in for the heading there and nowhere else.
+  if (!h1 && /-hub\.html$/.test(page) && doc.getElementById('main')) {
+    return ((doc.querySelector('title') || {}).textContent || '').split('|')[0].split('\u00b7')[0];
+  }
   assert.ok(h1, `${page} has no <h1> to agree with`);
   return h1.textContent;
 }

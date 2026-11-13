@@ -36,6 +36,8 @@
     {
       label: "Scoping a Project",
       items: [
+        { label: "Places and need", href: "places-hub.html", desc: "Start here: one place's need, people, homes and prices", isNew: true },
+        { label: "Build a deal", href: "deal-hub.html", desc: "Start here: market check, calculator and recommendation in order", isNew: true },
         { label: "The Affordable Housing Pipeline",  href: "pipeline.html", desc: "Eight stages from housing need to housing built", isNew: true },
         { label: "LIHTC Guide",             href: "lihtc-guide-for-stakeholders.html", desc: "LIHTC basics. Start here" },
         { label: "— Rental (LIHTC) —", isHeader: true },
@@ -62,6 +64,7 @@
     {
       label: "Explore",
       items: [
+        { label: "Opportunities", href: "opportunities-hub.html", desc: "Start here: where tax credit deals fit, and what to preserve", isNew: true },
         { label: "Compare Opportunity Scores", href: "compare.html",                 desc: "2 to 6 places side by side", isNew: true },
         { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Rank 546 geographies by housing need" },
         { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "Market signals, construction costs, LIHTC history, funding sources" },
@@ -95,6 +98,7 @@
       // internal/docs/audits/CODEX-HANDOFF-AUDIT-PHASE2-2026-07.md item 2.1.
       label: "Data",
       items: [
+        { label: "Data and methods", href: "data-hub.html", desc: "Start here: every source, its date, and how it is checked", isNew: true },
         { label: "Data Trust Center",      href: "data-review-hub.html",           desc: "Sources, freshness and how we check the data" },
         { label: "File Browser",          href: "data-explorer.html",             desc: "Browse every dataset with previews" },
         { label: "Data Map",              href: "data-map-browser.html",          desc: "LIHTC, QCT/DDA, OZ, amenities, flood zones", isNew: true },
@@ -104,6 +108,8 @@
     {
       label: "Insights",
       items: [
+        { label: "— Start here —", isHeader: true },
+        { label: "Policy and research", href: "policy-hub.html", desc: "Start here: laws, money, elections and guides in one place", isNew: true },
         { label: "— Current —", isHeader: true },
         { label: "Housing News",           href: "policy-briefs.html",             desc: "Headlines; check the linked source" },
         { label: "Sunday Digest",          href: "sunday-digest.html",             desc: "The week in Colorado housing, every Sunday", isNew: true },
