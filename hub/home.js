@@ -417,8 +417,8 @@
     var figures = x.error ? '<p class="callout">' + esc(x.error) + '</p>' : !f ? '<p role="status" class="note">Loading Colorado’s figures…</p>' : '';
     var pd = Pl.data ? Pl.data().data : null;
     var g = params.get('town');
-    return '<section class="home-hero hh-warm"><div class="hh-copy"><p class="hh-kicker">COHO Analytics · Colorado housing</p>' +
-      '<h1>Everyone deserves a safe, decent home they can afford.</h1>' +
+    return '<section class="home-hero hh-warm" aria-labelledby="home-h1"><div class="hh-copy"><p class="hh-kicker">COHO Analytics · Colorado housing</p>' +
+      '<h1 id="home-h1">Everyone deserves a safe, decent home they can afford.</h1>' +
       '<p class="lede">Too many Coloradans can’t find one. COHO Analytics shows where the shortfall is in every town and county, and gives the people working on it, from town staff to builders, the numbers to plan what comes next.</p></div>' +
       // The search comes before the county figure, so it is on the first phone screen; a picked town answers here.
       '<div class="hh-find">' + Shell.searchBox('home-place', 'Find your town or county', params.get('q') || '', 'For example Fruita or Mesa County') +
