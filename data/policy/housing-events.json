@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-12T11:30:23Z",
-    "as_of": "2026-11-12",
+    "generated": "2026-11-13T11:24:36Z",
+    "as_of": "2026-11-13",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -23,8 +23,8 @@
       "name": "CHFA events and chfareach calendar",
       "url": "https://www.chfainfo.com/events",
       "status": "ok",
-      "listed": 1346,
-      "upcoming": 25
+      "listed": 0,
+      "upcoming": 0
     },
     {
       "id": "housing_colorado",
@@ -47,8 +47,8 @@
       "name": "Proposition 123 public calendar (DOLA)",
       "url": "https://cdola.colorado.gov/calendar",
       "status": "ok",
-      "listed": 45,
-      "upcoming": 2
+      "listed": 46,
+      "upcoming": 3
     },
     {
       "id": "apa_colorado",
@@ -105,54 +105,6 @@
       "category": "deadline"
     },
     {
-      "title": "chfareach: Maintaining Compliance with DOH and CHFA, Online Workshop",
-      "start": "2026-11-12",
-      "end": null,
-      "time": "09:25",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-maintaining-compliance-with-doh-and-chfa-online-workshop-11-12-2026",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "Training Webinar: CHFA Income Calculation Training for Underwriters and Processors",
-      "start": "2026-11-17",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/24e2a477-38f7-476c-984f-271f486adb39@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "other"
-    },
-    {
-      "title": "Training Webinar: CHFA Real Estate Professional CE Class: Creating Homeownership in Colorado",
-      "start": "2026-11-17",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/f315b854-1d02-4306-a4c3-1dcb9ce892f7@de029520-7a0e-4208-bc91-86b9369ad432",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "chfareach: Asserting Compassionate Boundaries, Online Workshop",
-      "start": "2026-11-17",
-      "end": null,
-      "time": "12:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-asserting-compassionate-boundaries-online-workshop-11-17-2026",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
       "title": "Housing starts and permits (New Residential Construction) released",
       "start": "2026-11-18",
       "end": null,
@@ -165,16 +117,16 @@
       "category": "release"
     },
     {
-      "title": "November 2026 CHFA Board of Directors Meeting",
-      "start": "2026-11-19",
+      "title": "Proposition 123 Unit Goal and Commitment Office Hours",
+      "start": "2026-11-18",
       "end": null,
-      "time": null,
-      "location": "CHFA Board Room and Virtual",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/about-chfa/leadership/board/november-2026-chfa-board-of-directors-meeting",
-      "source": "chfa",
-      "category": "board"
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "prop123",
+      "category": "developer"
     },
     {
       "title": "Housing Strategies Peer Exchange",
@@ -187,66 +139,6 @@
       "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU",
       "source": "apa_colorado",
       "category": "other"
-    },
-    {
-      "title": "Training Webinar: CHFA Loan Purchase Training",
-      "start": "2026-11-19",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/fd851d59-9670-45ce-9481-5ce05743f900@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "chfareach: De-escalation and Safety in Housing Communities, Webinar",
-      "start": "2026-11-19",
-      "end": null,
-      "time": "12:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-de-escalation-and-safety-in-housing-communities-webinar-11-19-2026",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "Training Webinar: CHFA Lender Essentials Training",
-      "start": "2026-11-19",
-      "end": null,
-      "time": "13:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/37b61e5d-6d48-4e6f-aa71-dce3517bc957@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "Training Webinar: Submission of Files and Suspense Conditions to CHFA",
-      "start": "2026-11-19",
-      "end": null,
-      "time": "13:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/374b2bc6-b52f-475e-adc7-3e286117fd8f@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "Training Webinar: Final Documents",
-      "start": "2026-11-24",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/91620c1f-90dd-40a2-9b9c-f10bd2c81111@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
     },
     {
       "title": "State Housing Board Meeting",
@@ -271,18 +163,6 @@
       "url": "http://www.census.gov/construction/nrc/",
       "source": "fred",
       "category": "release"
-    },
-    {
-      "title": "chfareach: 2026 Legal Updates for Colorado, Webinar",
-      "start": "2026-12-03",
-      "end": null,
-      "time": "12:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-2026-legal-updates-for-colorado-webinar-12-03-2026",
-      "source": "chfa",
-      "category": "compliance"
     },
     {
       "title": "Jobs report (Employment Situation) released",
@@ -321,42 +201,6 @@
       "category": "release"
     },
     {
-      "title": "Training Webinar: CHFA Guidelines Training for Underwriters and Processors",
-      "start": "2026-12-08",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/83f1ba60-88fa-4630-86f5-bb202278e093@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "other"
-    },
-    {
-      "title": "Training Webinar: CHFA Lender Essentials Training",
-      "start": "2026-12-08",
-      "end": null,
-      "time": "10:00",
-      "location": null,
-      "online": false,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/cbce6694-4548-4e34-9b31-cebafe39bec9@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "chfareach: What's Your AI Strategy? A Session for Housing Leaders, Denver",
-      "start": "2026-12-08",
-      "end": null,
-      "time": "12:55",
-      "location": "In-person, Denver",
-      "online": false,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-what-s-your-ai-strategy-a-session-for-housing-leaders-denver-12-08-2026",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
       "title": "State Housing Board Meeting",
       "start": "2026-12-08",
       "end": null,
@@ -381,30 +225,6 @@
       "category": "other"
     },
     {
-      "title": "Training Webinar: Submission of Files and Suspense Conditions to CHFA",
-      "start": "2026-12-09",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/a8af2305-1adb-41c6-a2fb-d2d637a84044@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "chfareach: Fair Housing Rights and Responsibilities, Webinar",
-      "start": "2026-12-09",
-      "end": null,
-      "time": "12:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-fair-housing-rights-and-responsibilities-webinar-12-09-2026",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
       "title": "Consumer Price Index (inflation) released",
       "start": "2026-12-10",
       "end": null,
@@ -417,66 +237,6 @@
       "category": "release"
     },
     {
-      "title": "Training Webinar: CHFA Income Calculation Training for Underwriters and Processors",
-      "start": "2026-12-10",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/30f56715-beec-4761-a102-f330139be039@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "other"
-    },
-    {
-      "title": "hpi: Create Your Calm, Online Workshop",
-      "start": "2026-12-11",
-      "end": null,
-      "time": "12:50",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/hpi-create-your-calm-online-workshop-12-11-2026-dec-11-2026",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "Training Webinar: Closers and Funders",
-      "start": "2026-12-15",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/405f3c6a-639a-4064-9525-b3317f4629d5@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "chfareach: NSPIRE and REAC: The New Guidance, Webinar",
-      "start": "2026-12-15",
-      "end": null,
-      "time": "12:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-nspire-and-reac-the-new-guidance-webinar-12-15-2026",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "Training Webinar: CHFA Loan Purchase Training",
-      "start": "2026-12-15",
-      "end": null,
-      "time": "13:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/9206db02-e66a-47fe-b541-f022de79d989@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
       "title": "2026 Annual Holiday Member Luncheon",
       "start": "2026-12-17",
       "end": null,
@@ -487,18 +247,6 @@
       "url": "https://members.housingcolorado.org/event-details?id=301c9a70-0214-f111-83da-7c1e52cbe791",
       "source": "housing_colorado",
       "category": "networking"
-    },
-    {
-      "title": "December 2026 CHFA Board of Directors Meeting",
-      "start": "2026-12-17",
-      "end": null,
-      "time": null,
-      "location": "CHFA Board Room and Virtual",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/about-chfa/leadership/board/december-2026-chfa-board-of-directors-meeting",
-      "source": "chfa",
-      "category": "board"
     },
     {
       "title": "Housing starts and permits (New Residential Construction) released",
@@ -525,30 +273,6 @@
       "category": "other"
     },
     {
-      "title": "chfareach: Resident Services in Neuro-inclusive Housing, Webinar",
-      "start": "2026-12-17",
-      "end": null,
-      "time": "11:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-resident-services-in-neuro-inclusive-housing-webinar-12-17-2026",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "hpi: HPI End of Year Celebration, Online and Denver",
-      "start": "2026-12-18",
-      "end": null,
-      "time": "11:55",
-      "location": "Online and In-person, Denver",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/hpi-hpi-end-of-year-celebration-online-and-denver-12-18-2026-dec-18-2026",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
       "title": "State Housing Board Meeting",
       "start": "2026-12-22",
       "end": null,
@@ -559,18 +283,6 @@
       "url": "https://cdola.colorado.gov/calendar",
       "source": "doh",
       "category": "board"
-    },
-    {
-      "title": "Training Webinar: Final Documents",
-      "start": "2026-12-22",
-      "end": null,
-      "time": "13:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/9e0ce3cf-c0bd-4a1c-9ed5-4ae001e71d0c@de029520-7a0e-4208-bc91-86b9369ad432?source=copyLinkLegacyShareLinkDialog",
-      "source": "chfa",
-      "category": "homebuyer"
     },
     {
       "title": "Housing starts and permits (New Residential Construction) released",
@@ -683,6 +395,18 @@
     }
   ],
   "past": [
+    {
+      "title": "chfareach: Maintaining Compliance with DOH and CHFA, Online Workshop",
+      "start": "2026-11-12",
+      "end": null,
+      "time": "09:25",
+      "location": "Online",
+      "online": true,
+      "organizer": "CHFA",
+      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-maintaining-compliance-with-doh-and-chfa-online-workshop-11-12-2026",
+      "source": "chfa",
+      "category": "compliance"
+    },
     {
       "title": "Training Webinar: Closers and Funders",
       "start": "2026-11-10",
@@ -4897,30 +4621,6 @@
       "url": "https://attendee.gotowebinar.com/register/7812561630053758551",
       "source": "chfa",
       "category": "homebuyer"
-    },
-    {
-      "title": "Training Webinar: Submission of Files and Suspense Conditions to CHFA",
-      "start": "2025-11-12",
-      "end": null,
-      "time": "13:30",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://attendee.gotowebinar.com/register/3957412179303629144",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "hpi: Your Personal Brand, Professionalism, and Promotability, Online Workshop (HPI)",
-      "start": "2025-11-12",
-      "end": null,
-      "time": "08:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-your-personal-brand-professionalism-and-promotability-online-workshop-hpi-11-12-2025",
-      "source": "chfa",
-      "category": "compliance"
     }
   ]
 }
