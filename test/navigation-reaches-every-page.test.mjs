@@ -122,3 +122,14 @@ test('every deliberate exemption says why', () => {
       `${page} is exempted with no real reason, which is how an exemption list becomes a dumping ground`);
   }
 });
+
+// The site map page is the one place a reader expects every menu page. On 13 Nov 2026 it listed none of
+// the five hub pages the menus open first, and 10 other menu pages.
+test('the site map page lists every page the menus open', () => {
+  const sitemap = fs.readFileSync(path.join(ROOT, 'sitemap.html'), 'utf8');
+  const groups = nav.slice(nav.indexOf('const GROUPS'), nav.indexOf('];', nav.indexOf('const GROUPS')));
+  const menuPages = new Set([...groups.matchAll(/href:\s*"([^"#?]+\.html)/g)].map((m) => m[1]));
+  assert.ok(menuPages.size > 40, 'could not read the menu from js/navigation.js');
+  const missing = [...menuPages].filter((p) => !sitemap.includes(`href="${p}"`));
+  assert.deepEqual(missing, [], `menu pages missing from sitemap.html: ${missing.join(', ')}`);
+});
