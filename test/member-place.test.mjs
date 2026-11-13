@@ -18,12 +18,13 @@ ok(MP.fromAddress('/developer-brief.html', '?geoid=0867280') === '0867280', 'a r
 ok(MP.fromAddress('/developer-commuters.html', '?geoid=08015') === '08015', 'a county counts where the page takes one');
 ok(MP.fromAddress('/developer-market-screen.html', '?place=0867280') === '0867280' && MP.fromAddress('/developer-market-screen.html', '?place=08015') === null, 'Market screen takes towns only');
 ok(MP.fromAddress('/developer-brief.html', '?geoid=9999999') === null && MP.fromAddress('/developer-brief.html', '?geoid=<b>') === null && MP.fromAddress('/developer-brief.html', '') === null, 'anything that is not a Colorado place is ignored');
+ok(MP.fromAddress('/developer-prop123.html', '?place=08077') === '08077' && MP.fromAddress('/developer-prop123.html', '?place=0828745') === '0828745', 'Prop 123 strategy takes a town or a county');
 ok(MP.fromAddress('/developer-pipeline.html', '?geoid=0867280') === null && MP.fromAddress('/developer-brief.html', '?place=0867280') === null, 'a page that takes no place, or another parameter, sets nothing');
 
 // "Open it here" exists only where the page opens on a place.
 ok(MP.hrefFor('/developer-brief.html', '0867280') === 'developer-brief.html?geoid=0867280' && MP.hrefFor('/developer-market-screen.html', '0867280') === 'developer-market-screen.html?place=0867280', 'each page gets its own parameter');
 ok(MP.hrefFor('/developer-market-screen.html', '08015') === '' && MP.hrefFor('/developer-pipeline.html', '0867280') === '' && MP.hrefFor('/developer-brief.html', 'x') === '', 'no link where the page cannot take the place');
-ok(Object.keys(MP.TAKES).every((f) => fs.existsSync(path.join(ROOT, f)) || /hna-input|hap-survey|commuters|market-screen/.test(f)), 'every page listed is a member page (four live in coho-backend)');
+ok(Object.keys(MP.TAKES).every((f) => fs.existsSync(path.join(ROOT, f)) || /hna-input|hap-survey|commuters|market-screen|prop123/.test(f)), 'every page listed is a member page (five live in coho-backend)');
 
 // The kept place: read and written inside a try, and never trusted.
 {
@@ -31,11 +32,29 @@ ok(Object.keys(MP.TAKES).every((f) => fs.existsSync(path.join(ROOT, f)) || /hna-
   const store = () => ({ getItem: (k) => (mem.has(k) ? mem.get(k) : null), setItem: (k, v) => mem.set(k, v), removeItem: (k) => mem.delete(k) });
   ok(MP.read(store) === null, 'nothing kept to start');
   ok(MP.write(store, { geoid: '0867280', name: 'Salida' }) && MP.read(store).name === 'Salida' && MP.read(store).geoid === '0867280', 'a place is kept and read back');
+  ok(JSON.parse(mem.get(MP.LAB_KEY)).label === 'Salida' && JSON.parse(mem.get(MP.LAB_KEY)).at === JSON.parse(mem.get(MP.KEY)).at, 'the hub pages get the same place, at the same time');
+  mem.delete(MP.LAB_KEY);
   mem.set(MP.KEY, JSON.stringify({ geoid: '<script>', name: 'x' }));
   ok(MP.read(store) === null, 'a kept value that is not a place is ignored');
   mem.set(MP.KEY, '{bad');
+  mem.set(MP.LAB_KEY, '{bad');
   ok(MP.read(store) === null, 'a broken value is ignored');
-  ok(MP.write(store, null) && !mem.has(MP.KEY), 'clearing removes it');
+  ok(MP.write(store, { geoid: '0867280', name: 'Salida' }) && MP.write(store, null) && !mem.has(MP.KEY) && !mem.has(MP.LAB_KEY), 'clearing removes it, for the hub pages too');
+
+  // The hub pages' own place (hub/hna.js, LAB_KEY): the newer of the two wins (paul, 13 Nov).
+  mem.set(MP.KEY, JSON.stringify({ geoid: '0828745', name: 'Fruita', at: 100 }));
+  mem.set(MP.LAB_KEY, JSON.stringify({ geoid: '0833640', label: 'Gunnison', at: 200 }));
+  ok(MP.read(store).geoid === '0833640' && MP.read(store).name === 'Gunnison', 'a newer pick on a hub page wins');
+  mem.set(MP.LAB_KEY, JSON.stringify({ geoid: '0833640', label: 'Gunnison', at: 50 }));
+  ok(MP.read(store).geoid === '0828745', 'a newer pick on the line wins');
+  mem.set(MP.KEY, JSON.stringify({ geoid: '0828745', name: 'Fruita' }));
+  mem.set(MP.LAB_KEY, JSON.stringify({ geoid: '0833640', label: 'Gunnison' }));
+  ok(MP.read(store).geoid === '0828745', 'two picks from before the times were kept: the line wins');
+  mem.delete(MP.KEY);
+  ok(MP.read(store).geoid === '0833640', 'a place picked only on a hub page shows on the line');
+  mem.set(MP.LAB_KEY, JSON.stringify({ geoid: '0833640', label: '0833640', at: 5 }));
+  ok(MP.read(store).name === '', 'a hub place known only by its code is named by the line');
+  mem.clear();
   const blocked = () => { throw new Error('storage blocked'); };
   ok(MP.read(blocked) === null && MP.write(blocked, { geoid: '0867280', name: 'Salida' }) === false, 'blocked storage is reported, not thrown');
 }
@@ -162,6 +181,38 @@ try {
     await tab.waitForFunction(() => /Working on: Gunnison/.test(document.getElementById('mpLine').innerText));
     ok(await tab.evaluate((k) => JSON.parse(localStorage.getItem(k)).geoid, MP.KEY) === '0833640', `${width}: the report's own pick is kept`);
     ok(await tab.locator('#mpLine a').count() === 0, `${width}: no "Open it here" for the place already shown`);
+
+    // The hub pages share the place with the line (paul, 13 Nov: the line named a place, but
+    // the hubs said "No place picked yet", and a pick on a hub never reached the line).
+    if (width === 390) {
+      const hubPlace = () => tab.evaluate(() => ((document.querySelector('.sp-place') || {}).innerText || ''));
+      await tab.goto(ORIGIN + '/deal-hub.html#/deal-calculator');
+      await tab.waitForSelector('.sp-place');
+      ok(/Working on: Gunnison/.test(await hubPlace()), `${width}: a hub page opens on the line's place (${await hubPlace()})`);
+      await tab.goto(ORIGIN + '/places-hub.html#/place/0828745');
+      await tab.waitForFunction(() => /Working on: Fruita/.test((document.querySelector('.sp-place') || {}).innerText || ''), null, { timeout: 30000 });
+      await tab.goto(ORIGIN + '/developer-pipeline.html');
+      await tab.waitForFunction(() => /Working on: Fruita/.test((document.getElementById('mpLine') || {}).innerText || ''));
+      ok(await tab.evaluate((k) => JSON.parse(localStorage.getItem(k)).geoid, MP.KEY) === '0828745', `${width}: a place opened on a hub page becomes the line's place`);
+      await tab.goto(ORIGIN + '/opportunities-hub.html#/finder');
+      await tab.waitForSelector('.sp-place');
+      ok(/Working on: Fruita/.test(await hubPlace()), `${width}: and every hub page agrees`);
+      await tab.click('[data-sp-clear]');
+      await tab.waitForFunction(() => /No place picked yet/.test((document.querySelector('.sp-place') || {}).innerText || ''));
+      await tab.goto(ORIGIN + '/developer-pipeline.html');
+      await line().waitFor();
+      ok((await line().innerText()).startsWith('No place picked.'), `${width}: Clear on a hub page clears the line too`);
+      await tab.getByRole('button', { name: 'Pick a place' }).click();
+      await tab.waitForFunction(() => document.querySelectorAll('#mpPlaces option').length > 100);
+      await tab.fill('#mpInput', 'Salida');
+      await tab.getByRole('button', { name: 'Use this place' }).click();
+      await tab.waitForFunction(() => /Working on: Salida/.test(document.getElementById('mpLine').innerText));
+      await tab.goto(ORIGIN + '/opportunities-hub.html#/finder');
+      await tab.waitForSelector('.sp-place');
+      ok(/Working on: Salida/.test(await hubPlace()), `${width}: a place picked on the line reaches the hub pages`);
+      await tab.goto(ORIGIN + '/developer-brief.html?geoid=0867280');
+      await line().waitFor();
+    }
 
     // Print: the line stays off the page.
     await tab.emulateMedia({ media: 'print' });

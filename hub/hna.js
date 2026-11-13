@@ -2565,17 +2565,47 @@
   // you should always know which place you are on). The last place a page opened on is kept in this browser; a
   // place in the address always wins and becomes the working place.
   var WORK_KEY = 'coho-lab-working';
-  function working() {
-    try { var w = JSON.parse(global.localStorage.getItem(WORK_KEY) || 'null'); return w && /^08\d{3}(\d{2})?$/.test(w.geoid) ? w : null; } catch (e) { return null; }
+  // The member site's "Working on" line (js/whitepaper/member-place.js) keeps the same place under MEMBER_KEY as
+  // {geoid, name}. The two are kept in step (paul, 13 Nov: a place picked on a member page left these pages at
+  // "No place picked yet"): every write goes to both with the time it was made, and a read takes the newer one.
+  // A value with no time counts as oldest; on a tie the member line's place wins. On the public site nothing
+  // reads MEMBER_KEY; it stays in that browser like WORK_KEY.
+  var MEMBER_KEY = 'coho-member-place';
+  var GEO = /^08\d{3}(\d{2})?$/;
+  function kept(key) {
+    try {
+      var x = JSON.parse(global.localStorage.getItem(key) || 'null');
+      if (!x || typeof x !== 'object' || !GEO.test(String(x.geoid || ''))) return null;
+      var at = Number(x.at);
+      return { geoid: String(x.geoid), label: String((key === WORK_KEY ? x.label : x.name) || '').slice(0, 80), at: isFinite(at) && at > 0 ? at : 0 };
+    } catch (e) { return null; }
   }
-  function setWorking(geoid, label) {
-    if (!/^08\d{3}(\d{2})?$/.test(String(geoid || ''))) return null;
+  function nameFor(geoid) {
     var cat = global.LabShell && global.LabShell.catalog && global.LabShell.catalog();
     var e = cat && cat.entries.filter(function (x) { return x.geoid === geoid; })[0];
-    if (!e && !label && global.LabPlaces && global.LabPlaces.entryFor) { var pe = global.LabPlaces.entryFor(geoid); label = pe && pe.label; }
-    var w = { geoid: geoid, label: label || (e ? e.label : geoid) };
-    try { global.localStorage.setItem(WORK_KEY, JSON.stringify(w)); } catch (err) { /* storage off: the address still carries it */ }
+    if (!e && global.LabPlaces && global.LabPlaces.entryFor) e = global.LabPlaces.entryFor(geoid);
+    return e && e.label ? String(e.label) : '';
+  }
+  function working() {
+    var a = kept(MEMBER_KEY), b = kept(WORK_KEY);
+    var w = a && b ? (b.at > a.at ? b : a) : (a || b);
+    if (!w) return null;
+    // A place picked by its code alone (a member link) is named here when the catalog knows it.
+    var label = w.label && w.label !== w.geoid ? w.label : nameFor(w.geoid) || w.geoid;
+    return { geoid: w.geoid, label: label };
+  }
+  function setWorking(geoid, label) {
+    if (!GEO.test(String(geoid || ''))) return null;
+    var w = { geoid: geoid, label: label || nameFor(geoid) || geoid };
+    var at = Date.now();
+    try {
+      global.localStorage.setItem(WORK_KEY, JSON.stringify({ geoid: w.geoid, label: w.label, at: at }));
+      global.localStorage.setItem(MEMBER_KEY, JSON.stringify({ geoid: w.geoid, name: w.label === w.geoid ? '' : w.label, at: at }));
+    } catch (err) { /* storage off: the address still carries it */ }
     return w;
+  }
+  function clearWorking() {
+    try { global.localStorage.removeItem(WORK_KEY); global.localStorage.removeItem(MEMBER_KEY); } catch (e) { /* nothing kept */ }
   }
   // away: drawn off the HNA, so the HNA step links to its picker; at: the lab route that is "you are here" instead;
   // geoid: the place this page is on (it becomes the working place). Without one, the bar uses the working place,
@@ -2628,7 +2658,7 @@
         t.setAttribute('aria-expanded', fold ? 'false' : 'true'); t.textContent = fold ? 'Show steps' : 'Hide';
         check(); return;
       }
-      if (t.hasAttribute('data-sp-clear')) { try { global.localStorage.removeItem(WORK_KEY); } catch (e) { /* nothing kept */ } if (global.LabShell) global.LabShell.render(); }
+      if (t.hasAttribute('data-sp-clear')) { clearWorking(); if (global.LabShell) global.LabShell.render(); }
       else if (t.hasAttribute('data-sp-all')) { var nav = t.closest('.step-path'), on = !nav.classList.contains('sp-open'); nav.classList.toggle('sp-open', on); t.setAttribute('aria-expanded', on ? 'true' : 'false'); t.textContent = on ? 'Fewer steps' : 'All 7 steps'; }
       else { ev.preventDefault(); var bar = document.querySelector('.step-path'); if (bar) bar.scrollIntoView({ block: 'start' }); }
     });
@@ -2733,5 +2763,5 @@
     return COHORTS.map(function (c) { return [c[1] >= 200 ? '85+' : c[0] + '\u2013' + c[1], sum(sya.male, c[0], c[1]), sum(sya.female, c[0], c[1])]; });
   }
 
-  global.LabHna = { peopleFigures: peopleFigures, ageGroups: ageGroups, TABS: TABS, chapter: function (c, geoid, tab, entry, place) { return focusTables(view(c, geoid, tab, entry, place)); }, stepPath: stepPath, PATH: PATH, working: working, setWorking: setWorking, loadPlace: loadPlace, sourceOf: sourceOf, sourceUrl: sourceUrl, scopeOf: scopeOf, INCOME: INCOME, STRUCTURE: STRUCTURE, BEDROOMS: BEDROOMS, RENT_BURDEN: RENT_BURDEN, BURDEN_TIERS: BURDEN_TIERS };
+  global.LabHna = { peopleFigures: peopleFigures, ageGroups: ageGroups, TABS: TABS, chapter: function (c, geoid, tab, entry, place) { return focusTables(view(c, geoid, tab, entry, place)); }, stepPath: stepPath, PATH: PATH, working: working, setWorking: setWorking, clearWorking: clearWorking, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, loadPlace: loadPlace, sourceOf: sourceOf, sourceUrl: sourceUrl, scopeOf: scopeOf, INCOME: INCOME, STRUCTURE: STRUCTURE, BEDROOMS: BEDROOMS, RENT_BURDEN: RENT_BURDEN, BURDEN_TIERS: BURDEN_TIERS };
 })(window);

@@ -30,7 +30,9 @@
     'developer-commuters.html': { param: 'geoid' },
     'developer-hna-input.html': { param: 'geoid' },
     'developer-hap-survey.html': { param: 'geoid' },
-    'developer-market-screen.html': { param: 'place', placesOnly: true }
+    'developer-market-screen.html': { param: 'place', placesOnly: true },
+    // Prop 123 strategy rewrites ?place= when its own picker changes, so the line follows it.
+    'developer-prop123.html': { param: 'place' }
   };
   // Where the names come from, read only when someone opens "Change" or arrives by a link with no name yet.
   var PLACES_URL = 'data/co-place-centroids.json';          // 482 towns and Census places: byGeoid[geoid].name
@@ -58,18 +60,40 @@
     return f + '?' + t.param + '=' + geoid;
   }
 
+  // The hub pages (places-hub, deal-hub and the rest, hub/hna.js) keep their own "Working on" place under
+  // LAB_KEY as {geoid, label}. Both are kept in step (paul, 13 Nov: picking on one page left the other blank):
+  // every write goes to both with the time it was made, and a read takes the newer one. A value from before
+  // that has no time counts as oldest, and on a tie the member line's own place wins.
+  var LAB_KEY = 'coho-lab-working';
+  function parse(store, key) {
+    var x;
+    try { x = JSON.parse(store.getItem(key) || 'null'); } catch (_) { x = null; }
+    if (!x || typeof x !== 'object' || !GEOID.test(String(x.geoid || ''))) return null;
+    var at = Number(x.at);
+    return { geoid: String(x.geoid), name: String((key === KEY ? x.name : x.label) || '').slice(0, 80), at: isFinite(at) && at > 0 ? at : 0 };
+  }
   // getStore: returns localStorage. Reading the property itself throws when storage is blocked, so every
   // read and write happens inside a try.
   function read(getStore) {
-    var x;
-    try { x = JSON.parse(getStore().getItem(KEY) || 'null'); } catch (_) { x = null; }
-    if (!x || typeof x !== 'object' || !GEOID.test(String(x.geoid || ''))) return null;
-    return { geoid: String(x.geoid), name: String(x.name || '').slice(0, 80) };
+    var store;
+    try { store = getStore(); } catch (_) { return null; }
+    var a = parse(store, KEY), b = parse(store, LAB_KEY);
+    var x = a && b ? (b.at > a.at ? b : a) : (a || b);
+    if (!x) return null;
+    // The hub keeps a code as its label until it knows the name; the line names it itself.
+    return { geoid: x.geoid, name: x.name === x.geoid ? '' : x.name };
   }
   function write(getStore, place) {
     try {
-      if (place && GEOID.test(String(place.geoid || ''))) getStore().setItem(KEY, JSON.stringify({ geoid: place.geoid, name: String(place.name || '').slice(0, 80) }));
-      else getStore().removeItem(KEY);
+      var store = getStore();
+      if (place && GEOID.test(String(place.geoid || ''))) {
+        var name = String(place.name || '').slice(0, 80), at = Date.now();
+        store.setItem(KEY, JSON.stringify({ geoid: place.geoid, name: name, at: at }));
+        store.setItem(LAB_KEY, JSON.stringify({ geoid: place.geoid, label: name || place.geoid, at: at }));
+      } else {
+        store.removeItem(KEY);
+        store.removeItem(LAB_KEY);
+      }
       return true;
     } catch (_) { return false; }
   }
@@ -267,7 +291,7 @@
     }
   }
 
-  var api = { KEY: KEY, TAKES: TAKES, fromAddress: fromAddress, hrefFor: hrefFor, read: read, write: write, placeList: placeList, nameOf: nameOf, findByName: findByName, mount: mount };
+  var api = { KEY: KEY, LAB_KEY: LAB_KEY, TAKES: TAKES, fromAddress: fromAddress, hrefFor: hrefFor, read: read, write: write, placeList: placeList, nameOf: nameOf, findByName: findByName, mount: mount };
   if (typeof module === 'object' && module.exports) module.exports = api;
   else {
     root.MemberPlace = api;
