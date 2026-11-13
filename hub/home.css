@@ -109,7 +109,8 @@
 .hh-cmap path.is-none { fill: var(--hero-met); }
 .hh-cmap path:hover { fill-opacity: .82; }
 .hh-cmap .mk-city-dot { fill: var(--hero-bg); stroke: var(--hero-ink); }
-.hh-cmap .mk-city-name { fill: var(--hero-bg); stroke: var(--gold); font-weight: 700; }
+/* color is set to match the fill: checkers read an SVG label's colour from `color`, and the inherited one is the hero's white. */
+.hh-cmap .mk-city-name { fill: var(--hero-bg); color: var(--hero-bg); stroke: var(--gold); font-weight: 700; }
 .hh-counties ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
 .hh-counties li, .hh-ckey i { width: 14px; height: 14px; border-radius: 3px; box-sizing: border-box; }
 .hh-counties .is-short { background: var(--gold); }
