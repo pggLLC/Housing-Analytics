@@ -199,7 +199,9 @@
   // Inside the public site a guide is read from its own page, not from a copy (format review F3). A page whose
   // scripts write some of its words and tables (rendered) is opened out of sight first, so those are read too.
   // The pop-up definitions a script adds to table headings are not the page's words and are left out.
-  function fromPage(url, o) {
+  // onLate(guide), optional: a rendered page whose data arrives after the first read (a slow connection) is read
+  // again when it changes, for up to 20 seconds, and the fuller guide is handed over. The frame is kept that long.
+  function fromPage(url, o, onLate) {
     const parse = html => new DOMParser().parseFromString(html, 'text/html');
     const cut = doc => {
       doc.querySelectorAll('[role="tooltip"]').forEach(n => n.remove());
@@ -215,21 +217,31 @@
       const f = document.createElement('iframe');
       f.setAttribute('aria-hidden', 'true'); f.setAttribute('tabindex', '-1'); f.setAttribute('title', 'Reading the guide');
       f.style.cssText = 'position:absolute;left:-10000px;top:0;width:1200px;height:900px;border:0;visibility:hidden';
-      let done = false, timer = null;
-      const finish = fn => { if (done) return; done = true; clearInterval(timer); try { fn(); } finally { f.remove(); } };
-      const read = () => finish(() => { try { resolve(cut(parse(f.contentDocument.documentElement.outerHTML))); } catch (e) { reject(e); } });
-      f.onerror = () => finish(() => reject(new Error('the page did not open')));
+      const WAIT = o.wait || 8000, LATE = o.late == null ? 20000 : o.late, TICK = 150;
+      let timer = null, settled = false, readAt = -1;
+      const stop = () => { clearInterval(timer); f.remove(); };
+      const fail = e => { stop(); if (!settled) { settled = true; reject(e); } };
+      f.onerror = () => fail(new Error('the page did not open'));
       f.onload = () => {
         const t0 = Date.now(); let quiet = 0, last = -1;
-        // Read once nothing says it is loading and the page has stopped changing, or after 8 seconds.
         timer = setInterval(() => {
           let main = null;
-          try { main = f.contentDocument && f.contentDocument.querySelector('main'); } catch (e) { return finish(() => reject(e)); }
-          if (!main) return finish(() => reject(new Error('no article')));
-          const size = main.innerHTML.length, loading = /(^|\s)Loading\b/i.test(main.textContent);
+          try { main = f.contentDocument && f.contentDocument.querySelector('main'); } catch (e) { return fail(e); }
+          if (!main) return fail(new Error('no article'));
+          const size = main.innerHTML.length, loading = /(^|\s)Loading\b/i.test(main.textContent), age = Date.now() - t0;
           quiet = size === last && !loading ? quiet + 1 : 0; last = size;
-          if (quiet >= 4 || Date.now() - t0 > 8000) read();
-        }, 150);
+          // First read: once nothing says it is loading and the page has stopped changing, or after 8 seconds.
+          if (!settled && (quiet >= 4 || age > WAIT)) {
+            settled = true; readAt = size;
+            try { resolve(cut(parse(f.contentDocument.documentElement.outerHTML))); } catch (e) { stop(); return reject(e); }
+            if (!onLate) stop();
+          // Later: the page changed after that read and has gone quiet again.
+          } else if (settled && onLate && quiet >= 4 && size !== readAt) {
+            readAt = size;
+            try { onLate(cut(parse(f.contentDocument.documentElement.outerHTML))); } catch (e) { /* the first read stands */ }
+          }
+          if (settled && age > LATE) stop();
+        }, TICK);
       };
       f.src = url;
       document.body.appendChild(f);

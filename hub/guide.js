@@ -337,14 +337,14 @@
     var X = global.LabGuideExtract, P = global.LAB_PORT, page = P && P.GUIDES && P.GUIDES[slug];
     if (page && X && global.DOMParser) {
       var o = { routes: X.ROUTES, live: '', keepPaths: !!PAGE_PATHS[slug], mode: PAGE_MODE[slug], rendered: !!PAGE_RENDERED[slug] };
+      var mine = function (b) { b.sections.forEach(function (x) { delete x.liveFilled; }); b.slug = slug; b.live = page; b.here = true; return b; };
       var read = function (rendered) {
         o.rendered = rendered;
-        return X.fromPage(page, o).then(function (b) {
+        // Figures that arrive after the first read (a slow connection) redraw the guide when they land.
+        return X.fromPage(page, o, function (late) { done(mine(late)); }).then(function (b) {
           // A part the page's scripts fill, on a page not yet marked as such: read the page again once it has drawn.
           if (!rendered && b.sections.some(function (x) { return x.liveFilled; })) return read(true);
-          b.sections.forEach(function (x) { delete x.liveFilled; });
-          b.slug = slug; b.live = page; b.here = true;
-          return b;
+          return mine(b);
         });
       };
       read(o.rendered).then(done, fail);

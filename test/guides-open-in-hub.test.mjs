@@ -184,6 +184,12 @@ test('the three long documents keep their "Which document do you need?" chooser,
   });
 });
 
+test('a guide whose figures arrive after the first read is read again, not cached without them', () => {
+  const extract = read('hub/guide-extract.js'), view = read('hub/guide.js');
+  assert.ok(/function fromPage\(url, o, onLate\)/.test(extract) && /onLate\(cut\(/.test(extract), 'hub/guide-extract.js no longer reads a changed page again');
+  assert.ok(/X\.fromPage\(page, o, function \(late\)/.test(view), 'hub/guide.js does not take the later read');
+});
+
 test('printing a guide opens its folded parts first, so "Print or save as PDF" gives the whole guide', () => {
   const m = /addEventListener\('beforeprint', function \(\) \{([\s\S]*?)\}\);/.exec(read('hub/templates.js'));
   assert.ok(m && /\.guide-body details:not\(\[open\]\)/.test(m[1]), 'hub/templates.js does not open .guide-body details before a print');
