@@ -131,6 +131,8 @@ button.small { margin-top: .5rem; min-height: 44px; }
 .button-link.secondary { background: var(--card); color: var(--green); }
 .button-link.disabled { background: var(--paper); color: var(--muted); border-color: var(--line); cursor: not-allowed; }
 .table-scroll { overflow-x: auto; max-width: 100%; border: 1px solid var(--line); border-radius: 6px; background: var(--card); margin: 1rem 0; }
+/* A table region that can be reached with Tab (tabindex="0") so its sideways scroll works from the keyboard. */
+.table-scroll:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 table { border-collapse: collapse; width: 100%; font-size: 14px; }
 th, td { padding: .5rem .75rem; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
 th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }

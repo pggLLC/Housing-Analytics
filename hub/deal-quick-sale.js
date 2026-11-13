@@ -91,7 +91,7 @@
         return '<p class="note" data-outside-county="' + esc(p.id) + '">' + esc(p.name) + ': ' + esc(p.reason) + (p.jurisdictionScope ? ' (' + esc(p.jurisdictionScope) + ' only)' : '') + '; not counted.</p>';
       }).join('');
     var verify = stack.verifySources || [];
-    if (gap && verify.length) out += '<p class="note">' + verify.length + ' more sources (Prop 123, FHLBank, USDA, local fee waivers and others) have no screening amount; the <a href="' + LIVE_TOOL + '">full Deal Calculator ↗</a> lists them.</p>';
+    if (gap && verify.length) out += '<p class="note">' + verify.length + ' more sources (Prop 123, FHLBank, USDA, local fee waivers and others) have no screening amount; the <a href="' + esc(global.LabDealQuick && global.LabDealQuick.fullTool ? global.LabDealQuick.fullTool() : LIVE_TOOL) + '">full Deal Calculator ↗</a> lists them.</p>';
     return out;
   }
 
@@ -116,7 +116,12 @@
   document.addEventListener('change', function (ev) {
     var t = ev.target, n = t && t.name;
     if (!n || n.indexOf('sale:') !== 0) return;
-    if (n === 'sale:county') s.county = t.value;
+    if (n === 'sale:county') {
+      s.county = t.value;
+      // The county picked here becomes the working place, as in the rental estimate (deal-quick.js adopt).
+      var c = data && (data.hud.counties || []).filter(function (x) { return x.fips === s.county; })[0];
+      if (global.LabDealQuick && global.LabDealQuick.adopt) global.LabDealQuick.adopt(s.county, c ? String(c.county_name || '') : '');
+    }
     // A cleared or invalid entry stays as typed and the results say what is missing; nothing is quietly restored.
     else if (n === 'sale:tdc') s.tdc = t.value === '' ? null : Number(t.value);
     else if (n === 'sale:units') s.units = t.value === '' ? null : Number(t.value);
