@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-13T17:28:46.557Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-13T18:57:24.798Z. Do not edit by hand.
 
 ---
 
@@ -2096,7 +2096,7 @@
 
 ## Test Files
 
-799 test files found.
+800 test files found.
 
 | File | Size |
 |------|------|
@@ -2349,6 +2349,7 @@
 | `test/guided-path-enters-the-chapters.test.mjs` | 10.6 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 5.0 KB |
 | `test/guided-path-product-routes.test.js` | 16.6 KB |
+| `test/guides-open-in-hub.test.mjs` | 13.5 KB |
 | `test/hamilton-perry-option.test.js` | 17.7 KB |
 | `test/headship-held-option.test.js` | 13.5 KB |
 | `test/helpers/ci-wiring.js` | 1.9 KB |
