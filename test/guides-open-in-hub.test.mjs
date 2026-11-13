@@ -121,7 +121,7 @@ function cut(page, slug) {
   const doc = new JSDOM(read(page)).window.document, main = doc.querySelector('main');
   const tables = main.querySelectorAll('table').length;
   const ids = [...main.querySelectorAll('section[id], h2[id], h3[id], div[id], article[id], figure[id]')].map((el) => el.id);
-  const o = { routes: X.ROUTES, live: '', keepPaths: !!KEEP_PATHS[slug] };
+  const o = { routes: X.ROUTES, live: '', self: '#/guide/' + slug, keepPaths: !!KEEP_PATHS[slug] };
   const g = MODE[slug] === 'lihtc' ? X.lihtc(main, doc, o) : X.byH2(main, doc, o);
   return { g, tables, ids };
 }
@@ -173,6 +173,26 @@ test('an anchor on a figure, table or sub-heading inside a part is kept on that 
   const view = read('hub/guide.js');
   assert.ok(/getAttribute\('data-at'\) === at/.test(view), 'hub/guide.js does not look for the named element');
   assert.ok(/up\.tagName === 'DETAILS'\) up\.open = true/.test(view), 'hub/guide.js does not open the folds around a linked element');
+});
+
+test('a link in a guide to another part of the same page stays a link, and lands on that part of the guide', () => {
+  const found = {};
+  pages.forEach((page) => {
+    const slug = slugOf(page), { g } = cut(page, slug);
+    const html = g.intro + g.sections.map((x) => x.html).join('');
+    const ats = [...new Set([...html.matchAll(/href="#\/guide\/([a-z0-9-]+)\?at=([A-Za-z0-9_-]+)"/g)].map((m) => { assert.equal(m[1], slug, page + ': a part link names another guide'); return m[2]; }))];
+    ats.forEach((id) => {
+      const lands = g.sections.some((x) => x.id === id || (x.ids || []).includes(id)) || html.includes('data-at="' + id + '"');
+      assert.ok(lands, page + ': the link to #' + id + ' has nowhere to land in the guide');
+    });
+    found[slug] = ats;
+  });
+  // Methods cross-refers between its numbered sections ("review §05 first"); those were plain text before.
+  ['m-apportion', 'm-anchor', 'm-burden', 'm-affordability', 'm-score', 'm-absence', 'm-loss'].forEach((id) => assert.ok(found.methods.includes(id), 'methods.html: the link to #' + id + ' was dropped'));
+  assert.ok(found['resident-services'].includes('rs-costs'), 'resident-services.html: the link to "What services cost" was dropped');
+  const view = read('hub/guide.js');
+  assert.ok(/self: '#\/guide\/' \+ slug/.test(view), 'hub/guide.js does not tell the reader the guide\'s own address');
+  assert.ok(/here\.land\(m\[2\]\)\) ev\.preventDefault\(\)/.test(view), 'hub/guide.js does not land a same-guide link directly');
 });
 
 test('the three long documents keep their "Which document do you need?" chooser, with links that stay in the hub', () => {

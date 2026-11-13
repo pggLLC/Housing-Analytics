@@ -51,7 +51,10 @@
     || (/^(dg-|diagram)/.test(c) ? c : null);
 
   function linkFor(href, o) {
-    if (!href || href.startsWith('#')) return null;
+    // A link to another part of the same page becomes a link to that part of the guide (o.self is the guide's own
+    // route), which opens the fold it sits in. Without a route to point at, or for a bare "#", it is plain text.
+    if (href && href.charAt(0) === '#') return o.self && /^#[A-Za-z0-9_-]{1,80}$/.test(href) ? o.self + '?at=' + href.slice(1) : null;
+    if (!href) return null;
     if (/^(https?:|mailto:)/i.test(href)) return href;
     const file = href.split('#')[0].split('?')[0].replace(/^\.?\//, '');
     return o.routes[file] || o.live + href.replace(/^\.?\//, '');
@@ -65,7 +68,12 @@
     comments.forEach(c => c.remove());
     [...node.querySelectorAll('*')].reverse().forEach(el => {
       const tag = el.tagName.toLowerCase();
-      if (!KEEP.has(tag)) { el.replaceWith(...el.childNodes); return; }
+      if (!KEEP.has(tag)) {
+        // A wrapper that is not kept hands its anchor to the first thing inside it, so a link to it still lands.
+        const gone = el.getAttribute('id'), first = el.firstElementChild;
+        if (gone && first && /^[A-Za-z0-9_-]{1,80}$/.test(gone) && !first.hasAttribute('data-at')) first.setAttribute('data-at', gone);
+        el.replaceWith(...el.childNodes); return;
+      }
       const classes = (el.getAttribute('class') || '').split(/\s+/).map(CLASS).filter(Boolean);
       const keep = ATTRS[tag] || [];
       // The page's own anchor on this element is kept as data-at (not as an id, which could clash with the

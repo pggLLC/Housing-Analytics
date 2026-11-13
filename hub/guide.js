@@ -336,7 +336,7 @@
     // (site/guide-extract.js), so it never shows a frozen copy (format review F3).
     var X = global.LabGuideExtract, P = global.LAB_PORT, page = P && P.GUIDES && P.GUIDES[slug];
     if (page && X && global.DOMParser) {
-      var o = { routes: X.ROUTES, live: '', keepPaths: !!PAGE_PATHS[slug], mode: PAGE_MODE[slug], rendered: !!PAGE_RENDERED[slug] };
+      var o = { routes: X.ROUTES, live: '', self: '#/guide/' + slug, keepPaths: !!PAGE_PATHS[slug], mode: PAGE_MODE[slug], rendered: !!PAGE_RENDERED[slug] };
       var mine = function (b) { b.sections.forEach(function (x) { delete x.liveFilled; }); b.slug = slug; b.live = page; b.here = true; return b; };
       var read = function (rendered) {
         o.rendered = rendered;
@@ -420,20 +420,32 @@
       });
     }, 0);
     // An anchor from the guide's own page (its address before the move) lands on the part that holds it.
-    var held = at ? g.sections.filter(function (x) { return x.id === at || (x.ids || []).indexOf(at) > -1; })[0] : null;
-    if (at) setTimeout(function () {
+    function land(at) {
+      var held = g.sections.filter(function (x) { return x.id === at || (x.ids || []).indexOf(at) > -1; })[0];
       // The exact element the page's anchor named, when the guide kept it; else the part that held it.
       var named = Array.prototype.filter.call(document.querySelectorAll('.guide-body [data-at]'), function (n) { return n.getAttribute('data-at') === at; })[0];
       var el = document.getElementById(at) || named || (held && document.getElementById('g-' + held.id));
-      if (!el) return;
+      if (!el) return false;
       // Every fold around it opens, so the link shows what it pointed at; a part jumped to opens its "read the rest".
       for (var up = el.parentNode; up && up !== document; up = up.parentNode) if (up.tagName === 'DETAILS') up.open = true;
       if (el.tagName === 'DETAILS') el.open = true;
       Array.prototype.forEach.call(el.querySelectorAll('details.g-more'), function (d) { d.open = true; });
       el.scrollIntoView({ block: 'start' });
-    }, 0);
+      return true;
+    }
+    if (at) setTimeout(function () { land(at); }, 0);
+    here = { slug: slug, land: land };
     return page;
   }
+
+  // A link in the guide's words to another part of the same guide lands there without drawing the page again,
+  // and works a second time (the address would not change, so the router would not hear it).
+  var here = null;
+  document.addEventListener('click', function (ev) {
+    var a = ev.target && ev.target.closest && ev.target.closest('.guide-body a[href^="#/guide/"]');
+    var m = a && here && !a.hasAttribute('data-jump') && /^#\/guide\/([a-z0-9-]+)\?at=([A-Za-z0-9_-]{1,80})$/.exec(a.getAttribute('href'));
+    if (m && m[1] === here.slug && here.land(m[2])) ev.preventDefault();
+  });
 
   Shell.views.guide = guideView;
   global.LabGuide = { GUIDES: GUIDES };
