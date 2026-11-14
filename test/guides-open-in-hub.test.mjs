@@ -240,6 +240,8 @@ test('hover help on a guide page is kept in the guide: column heading tips, glos
   const tips = JSON.parse(read('data/table-header-tips.json'));
   assert.ok(Object.keys(tips.tips || tips).length > 50, 'data/table-header-tips.json no longer holds the heading tips');
   assert.ok(/function hoverHelp\(/.test(view) && /hoverHelp\(document\.querySelector\('\.guide-body'\)/.test(view), 'hub/guide.js no longer adds hover help once a guide is drawn');
+  // A sortable heading holds the sorter's arrow button; whichever script runs first, the heading keeps its tip.
+  assert.ok(view.includes("button:not(.th-sort)"), 'hub/guide.js skips a heading the table sorter has already given its arrow button');
   // 3. The page as written stays one link away.
   assert.ok(/g\.live\) \+ '\?classic=1"/.test(view), 'the guide no longer links its own page with ?classic=1');
 });

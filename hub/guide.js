@@ -485,7 +485,9 @@
     // Column headings: the page's own tip, else the site's entry for the heading's words.
     Array.prototype.forEach.call(body.querySelectorAll('th'), function (th) {
       var tip = th.getAttribute('data-tip') || F.tips[th.textContent.replace(/\s+/g, ' ').replace(/[▲▼↑↓⇅↕?]+\s*$/, '').trim().toLowerCase()];
-      if (!tip || !th.textContent.trim() || th.querySelector('a, button, input, select')) return;
+      // The table sorter's arrow button is not a control of the heading's own (js/components/table-header-tips.js
+      // allows it too): the sorter may run before or after this, so a sortable heading keeps its tip either way.
+      if (!tip || !th.textContent.trim() || th.querySelector('a, button:not(.th-sort), input, select')) return;
       th.setAttribute('data-gtip', tip); th.classList.add('g-tip');
       if (!th.hasAttribute('tabindex')) th.setAttribute('tabindex', '0');
     });
