@@ -48,7 +48,7 @@ for (const f of fs.readdirSync(hubDir).filter((n) => n.endsWith('.js'))) {
     if (!folders.has(m[2])) folders.set(m[2], f);
   }
   for (const [name, dir] of Object.entries(prefixes)) {
-    const join = new RegExp('\\b' + name.replace(/\$/g, '\\$') + '\\s*\\+\\s*[\'"]([A-Za-z0-9_./-]+)[\'"]', 'g');
+    const join = new RegExp('\\b' + name.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&') + '\\s*\\+\\s*[\'"]([A-Za-z0-9_./-]+)[\'"]', 'g');
     for (const m of src.matchAll(join)) {
       if (FILE.test(m[1]) && !reads.has(dir + m[1])) reads.set(dir + m[1], f);
     }
@@ -68,15 +68,24 @@ const stoppedDirs = [...folders].filter(([d]) => isBlocked(d.replace(/\/$/, ''))
 check(stoppedDirs.length === 0, 'no folder a hub script reads from is on the blocked list' +
   (stoppedDirs.length ? ': ' + stoppedDirs.map(([d, f]) => d + ' (read by hub/' + f + ')').join(', ') : ''));
 
-// The public-artifact guard fails the build on any path it lists, so it must not list a file
-// or folder a hub page reads either.
+// The public-artifact guard fails the build on any path on its FORBIDDEN_PATHS list, so that
+// list must not name a file or folder a hub page reads either.
 const guard = fs.readFileSync(path.join(ROOT, 'scripts/audit/public-artifact-guard.mjs'), 'utf8');
-const guarded = [...guard.matchAll(/'((?:data|assets)\/[A-Za-z0-9_./-]+)'/g)].map((m) => m[1].replace(/\/$/, ''));
-check(guarded.length > 5, 'read ' + guarded.length + ' data paths from the public-artifact guard');
+const guarded = stringList(guard, 'FORBIDDEN_PATHS').map((g) => g.replace(/\/$/, ''));
+check(guarded.length > 10, 'read ' + guarded.length + ' paths from the public-artifact guard\'s forbidden list');
 const hits = (p) => guarded.some((g) => p === g || p.startsWith(g + '/'));
 const flagged = [...reads.keys(), ...[...folders.keys()].map((d) => d.replace(/\/$/, ''))].filter(hits);
 check(flagged.length === 0, 'the public-artifact guard forbids no file or folder a hub page reads' +
   (flagged.length ? ': ' + flagged.join(', ') : ''));
+
+// A folder a hub script builds names under at run time ('data/hna/summary/' + geoid + '.json')
+// can ask for any file in it, so neither list may hold out a file or folder beneath it.
+const runFolders = [...folders.keys()];
+const beneath = (p) => runFolders.filter((d) => p.startsWith(d) && p.length > d.length);
+const heldOut = [...blocked.map((b) => ['the public build', b]), ...guarded.map((g) => ['the public-artifact guard', g])]
+  .flatMap(([list, p]) => beneath(p).map((d) => p + ' (on ' + list + '; hub/' + folders.get(d) + ' reads ' + d + ')'));
+check(heldOut.length === 0, 'nothing beneath a folder a hub script reads at run time is held out of the build' +
+  (heldOut.length ? ': ' + heldOut.join(', ') : ''));
 
 if (failures) { console.error(failures + ' check(s) failed'); process.exit(1); }
 console.log('All hub data file checks passed');
