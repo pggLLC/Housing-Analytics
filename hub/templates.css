@@ -846,6 +846,16 @@ th[aria-sort="descending"] > button.th-sort::after { content: "\2193"; color: va
 .dm-hatch path { stroke: var(--c); stroke-width: .9; stroke-opacity: .85; }
 .dm-outline path { fill: var(--c); fill-opacity: .06; stroke: var(--c); stroke-width: 1.6; stroke-dasharray: 4 3; }
 .dm-pin circle { fill: var(--ink); stroke: var(--halo); stroke-width: 2.5; }
+/* Highways, rivers and lakes: four paths, widths in screen pixels at every zoom. */
+.dm-line path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.dm-line .dm-b-interstate { stroke: var(--layer-roads); stroke-width: 2.4; stroke-opacity: .85; }
+.dm-line .dm-b-us { stroke: var(--layer-roads); stroke-width: 1.2; stroke-opacity: .7; }
+.dm-line .dm-b-river { stroke: var(--layer-water); stroke-width: 1.1; stroke-opacity: .85; }
+.dm-line .dm-b-water, .mb-on.mb-on .dm-line path.dm-b-water { fill: var(--layer-water); fill-opacity: .45; stroke: var(--layer-water); stroke-width: .6; }
+/* Commute flows: width set on each line; the dot is the work end. */
+.dm-flow path { fill: none; stroke: var(--layer-commute); stroke-opacity: .5; stroke-linecap: round; }
+.dm-flow circle { fill: var(--layer-commute); stroke: var(--halo); stroke-width: .6; }
+.dm-live image { opacity: .9; }
 .dm-legend { list-style: none; margin: .75rem 0 0; padding: 0; display: grid; gap: .35rem; max-width: 760px; }
 .dm-legend li { display: flex; align-items: center; gap: .5rem; padding: .35rem .5rem; border: 1px solid var(--line); border-radius: 8px; }
 .dm-legend .dm-swatch { margin: 0; }

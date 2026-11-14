@@ -99,6 +99,7 @@
   --layer-lihtc: #0F766E; --layer-qct: #2563EB; --layer-oz: #7C3AED; --layer-jobs: #B45309; --layer-schools: #6D28D9;
   --layer-hospitals: #DC2626; --layer-clinics: #DB2777; --layer-grocery: #1D4ED8; --layer-parks: #4D7C0F;
   --layer-places: #334155; --layer-tracts: #64748B; --layer-transit: #0369A1; --layer-retail: #9A3412; --layer-flood: #0284C7; --layer-eji: #A21CAF;
+  --layer-roads: var(--ink); --layer-water: #1565C0; --layer-commute: #C2410C;
 
   /* Deep dive: rent-to-income bands, renter burden bands, county trend lines, market calls */
   --ratio-ok: #2CA25F; --ratio-near: #F0AB00; --ratio-burden: #E07B00;

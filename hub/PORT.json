@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "6f68f7c827a4ed06d1150c81fbe80215553c32ce",
+  "commit": "57c797e8bbb734db7bfecc723584eabeb32b2131",
   "dirty": false
  },
  "files": {
@@ -49,7 +49,7 @@
   "hub/county-need.js": "83a44a223bf454a10fc2cfe698c142b027bc26450c2b08c632506a4a501f4e9d",
   "hub/cra-map.js": "1bceffc44ed208ba35160c35fb8c6f51e30a42df4a935d85bd0d96a14ae9b5ab",
   "hub/data-hub.js": "88d0758bda2b714ba22585bce04c5d7813484bef8ae8d936eaf2920552869389",
-  "hub/data-map.js": "74146e950eff75cfc02d6c143aa0f3271a63eb3b96c6afce0fad7df6d15f4e36",
+  "hub/data-map.js": "1dac0a981498f4cd8f3230404cb59580f0df11964fd117d55d1861b11130a6b9",
   "hub/data-more.js": "eb64a1681dbe266ac45be3a7c968b1f6d25eb8a97a3172ea63bf79bd4bebd652",
   "hub/data-pages.css": "9284d87cfbef7443a2aa0926c586be3bc7c3d8f7daa1641de7349878af3b525c",
   "hub/deal-extras.js": "4b660b3f6121231b095ffc22ca658ad179c9df78cf9f747abd92a50873da5aa1",
@@ -99,7 +99,7 @@
   "hub/opportunities.css": "7fa3422f7362ac21115d41e1fa0ddd1872f791a04c177e681728ccdb25220a1d",
   "hub/opportunities.js": "548a6441f4d2f5c74a35212b05eb7a46a0b2879f4f60281a050f0b9dc6eb6667",
   "hub/page-chrome.js": "6fb948627686c77a38a591d3a367104656c298d14e1f45c44e755d50e10793e3",
-  "hub/palette.css": "c077537ffa991b323c82b41def4a5c12152af57a347a426e11de010faf1824fa",
+  "hub/palette.css": "2b724ff90242e19a5ae5dca3102a4d892429dc4964544e1303c28648fc3a4c38",
   "hub/pick-site.js": "f117a18b6d92658449be0c11e1853d6a27b46e427b0e03ee007c83b7a14e593f",
   "hub/pipeline.js": "ca34dc30e089a4f49946958a2a5a4bf76088c3510818458726fe14484af3c93a",
   "hub/place-list.js": "a4410f06be16d7f716696726f8393e9babe3e7973227cfcbd04ea1339c729f95",
@@ -123,7 +123,7 @@
   "hub/small-pages.css": "c873d07280dbee49b8c1446e21377f83a31b1be765d3bad3ad868127afdffd15",
   "hub/start-numbers.js": "96afaf2b3e22d1f96d1be89f99b2befa1efc054f6691ee23ceaf97e077caae2b",
   "hub/strength.js": "10f09b6b204f00e1689748a2696efcd6424bd9e327d5b0f444e6dde011deabb7",
-  "hub/templates.css": "72a0e4fb71b0fc000c08087db32d3927efc6620929db04d827f6056b884c8a25",
+  "hub/templates.css": "0aa0aa42934a76f2c361563979a6a04a34f77fd8763ef08b0a252912d2efd93e",
   "hub/templates.js": "2b2ccd1d555356dc2f08975d28088cf689d982a7bd6568b5915cefb06a20b715",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
@@ -156,7 +156,7 @@
   "js/hna/combined-geo.js": "e9334633975820a3b5baa22a3338661341bb8d1fe26838715f32fdfe56f51e3f",
   "js/county-measures.js": "952802e06d99dacbf87bc4857ac5089d728841c04658ce515b540295a0e4bab2",
   "js/utils/format-money.js": "738c5f3b1aeec8083bdc4c4657aef725bec276e4f80b5687cf0a0169f460e615",
-  "js/hna/ownership-finance.js": "a2f85c29d9fb3d4acfa91d7df45ef0b7a5a83136dedc81f5e60bba06cfe2dc71",
+  "js/hna/ownership-finance.js": "278f823e10fda6880307cb7bf24b434a25cefe708b81a28500001535b5369e88",
   "js/hna/hna-utils.js": "3e5a137e65091f2c188f314d064244b797957d67b3c14ef5efc0cd49c997acca",
   "js/mix-check.js": "34802c186a18e089d05c7ee5b736c3409427b485ad5c26db874153c353d7efaa",
   "js/mix-check-inputs.js": "84b2ef0f714b800d8f552db186ccc522c907b7e5afa5461ea40d3b49d306cb84",
@@ -166,7 +166,7 @@
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
   "js/data-source-inventory.js": "4a51756670f711944828f4c34834aec24789f9e8c486b26415e6c3183b4147ef",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
-  "js/hna/hna-ownership-need.js": "ac73544c0944cc118fc954594e96e9474a92ef60e37ff516ef2b3cc5b07514a0",
+  "js/hna/hna-ownership-need.js": "b33284b054b1120870e2850d8995c990edabf661d42a3a767bf9cc8f98b1f8d0",
   "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",
   "js/market-analysis-scoring.js": "52d5d11761f42bab2bd8788cb1aa02c23522389bcd2929443faddc0725170bb3",
   "js/workflow/recommendation-contract.js": "7a6c861c289d410fbf801d1169e942e31230bc25584c3c6f67975755994c4c88",
