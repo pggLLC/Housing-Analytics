@@ -720,7 +720,7 @@
       provider: 'Bureau of Labor Statistics',
       url: 'https://www.bls.gov/lau/',
       localFile: 'data/co-county-economic-indicators.json',
-      lastUpdated: '2026-11-07',
+      lastUpdated: '2026-11-14',
       updateFrequency: 'Monthly',
       maxAgeDays: 60,
       geoUnit: 'County',
