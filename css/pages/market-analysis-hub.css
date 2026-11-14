@@ -127,6 +127,47 @@ body.tool-page main [style*="color:#fff"][style*="background:var(--"] { color: v
    paragraphs 18px while its lists stay 13px. One size for both. */
 body.tool-page #main-content .info-tooltip-body, body.tool-page #main-content .info-tooltip-body p, body.tool-page #main-content .info-tooltip-body dl { font-size: 15px; line-height: 1.5; }
 
+/* The checklists (move piece 4): the CHFA requirements and checklist, and the Development Realism Checklists. The
+   same rule from another page (every paragraph in <main> at 18px) reaches the words inside the five process-step
+   cards, the two CHFA notes, and each realism checklist's opening lines and its closing "rules of thumb" and
+   "Sources" lines, all of which the tool sets at 13px or 14px. So a step's words stood larger than its heading, and
+   the small print under a checklist larger than the items it qualifies. They take the new pages' small sizes. */
+body.tool-page #main-content :is(.pma-workflow-step p, p.devr-item-note) { font-size: 14px; line-height: 1.45; }
+body.tool-page #main-content :is(p.pma-workflow-note, p.chfa-req-disclaimer, p.devr-intro) { font-size: 15px; line-height: 1.5; }
+
+/* The place and saved-projects row (move piece 4; js/components/ma-place-row.js fills it). On market-analysis.html
+   the header carries the place the visitor is working on as a pill, and a click on it lists the saved projects. The
+   new header has no pill, so both sit here, in a slim row between the seven-step bar and the page. The list opens
+   over the page, above the map (whose own layers go up to 1000) and below the seven-step bar (8500). The tool's
+   theme draws every <details> as a bordered, clipped box with a full-width heading: rolled back for this one. */
+body.tool-page .ma-place-row { font-size: 14px; line-height: 1.4; color: var(--ink); }
+body.tool-page .ma-place-row[hidden] { display: none; }
+body.tool-page .ma-place-row { display: flex; align-items: center; justify-content: space-between; gap: 0 1rem; flex-wrap: wrap; max-width: 1240px; margin: 0 auto; padding: .25rem 16px 0; box-sizing: border-box; }
+body.tool-page .ma-place-row p { margin: 0; font-size: 14px; color: var(--ink); }
+body.tool-page .ma-place-row__place strong { font-weight: 600; }
+body.tool-page .ma-place-row__projects { position: relative; border: 0; border-radius: 0; margin: 0; padding: 0; overflow: visible; background: none; }
+body.tool-page .ma-place-row__projects > summary { display: inline-flex; align-items: center; justify-content: flex-start; gap: .4rem; min-height: 44px; padding: 0 .25rem; font-size: 14px; font-weight: 600; color: var(--pine); background: none; border: 0; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+body.tool-page .ma-place-row__projects[open] > summary { background: none; border: 0; }
+body.tool-page .ma-place-row__projects > summary::after { content: ""; width: .45em; height: .45em; margin: -.2em .1em 0 .1em; border: solid currentColor; border-width: 0 2px 2px 0; transform: rotate(45deg); transition: none; }
+body.tool-page .ma-place-row__projects[open] > summary::after { transform: rotate(225deg); margin-top: .25em; }
+body.tool-page .ma-place-row :is(summary, button, a):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+body.tool-page .ma-place-row__menu { position: absolute; right: 0; top: 100%; z-index: 8400; box-sizing: border-box; width: 17rem; max-width: calc(100vw - 32px); padding: .5rem; background: var(--card); border: 1px solid var(--line-strong); border-radius: 10px; box-shadow: 0 8px 24px var(--shade-soft); }
+body.tool-page .ma-place-row__menu .ma-place-row__label { padding: .35rem .5rem; font-size: 13px; color: var(--ink-soft); }
+body.tool-page .ma-place-row__menu ul { list-style: none; margin: 0 0 .25rem; padding: 0 0 .25rem; border-bottom: 1px solid var(--line); }
+body.tool-page .ma-place-row__menu li { margin: 0; padding: 0; }
+body.tool-page .ma-place-row__menu button { display: flex; align-items: center; justify-content: space-between; gap: .5rem; width: 100%; min-height: 44px; padding: 0 .5rem; font: inherit; font-size: 14px; text-align: left; color: var(--ink); background: none; border: 0; border-radius: 6px; cursor: pointer; }
+body.tool-page .ma-place-row__menu button:hover, body.tool-page .ma-place-row__menu a:hover { background: var(--tint-grey); }
+body.tool-page .ma-place-row__menu button[aria-current] { font-weight: 600; }
+body.tool-page .ma-place-row__now { font-size: 13px; font-weight: 400; color: var(--ink-soft); white-space: nowrap; }
+body.tool-page .ma-place-row__menu a { display: flex; align-items: center; justify-content: flex-start; min-height: 44px; padding: 0 .5rem; font-size: 14px; color: var(--pine); text-decoration: underline; text-underline-offset: 2px; border-radius: 6px; }
+@media (max-width: 640px) {
+  /* On a phone the list is as wide as the screen allows and hangs from the row's left edge. */
+  body.tool-page .ma-place-row__projects { position: static; }
+  body.tool-page .ma-place-row { position: relative; }
+  body.tool-page .ma-place-row__menu { left: 16px; right: 16px; width: auto; max-width: none; }
+}
+@media print { body.tool-page .ma-place-row { display: none; } }
+
 /* 5. On a phone (move piece 2: the site, the market area and the score). Each rule answers a fault measured at 390px,
       most of them on market-analysis.html too. Layout only: no word, figure or control changes. */
 @media (max-width: 640px) {

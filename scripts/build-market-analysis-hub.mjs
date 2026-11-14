@@ -16,6 +16,8 @@
 //   3. js/navigation.js, js/dark-mode-toggle.js and js/mobile-menu.js are not loaded (the new header does their
 //      jobs); js/glossary.js, which navigation.js used to load, is loaded the same way at the same moment
 //   4. a trail back to Build a deal above the heading
+//   5. a row above the page with the place being worked on and the saved projects: the old header's pill and its
+//      list of recent projects (js/components/ma-place-row.js fills it)
 // The seven-step bar, the body and every script of the tool are carried as they are.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -107,7 +109,10 @@ export function build(src, hubPage, palette) {
     must(out.slice(lineStart, at).trim() === '', 'no longer has ' + f + ' on a line of its own');
     out = out.slice(0, lineStart) + (f === 'js/navigation.js' ? GLOSSARY : '') + out.slice(at + tag.length);
   });
-  swap(/<\/body>/, '<script src="hub/lab-config.js"></script>\n<script src="hub/page-chrome.js"></script>\n<script src="hub/nav.js"></script>\n</body>', 'a closing body tag');
+  // 5. The old header's place pill and its list of saved projects, as a row above <main>. Outside <main>, so the
+  //    body stays the old page's body, control for control.
+  swap(/([ \t]*)<main id="main-content">\n/, '$1<div id="maPlaceRow" class="ma-place-row" role="region" aria-label="Place and saved projects" hidden></div>\n$1<main id="main-content">\n', 'a main');
+  swap(/<\/body>/, '<script src="js/components/ma-place-row.js"></script>\n<script src="hub/lab-config.js"></script>\n<script src="hub/page-chrome.js"></script>\n<script src="hub/nav.js"></script>\n</body>', 'a closing body tag');
 
   // 4. Where the page sits in the new site (the new pages' trail). The seven-step bar above <main> stays as it is:
   //    js/components/workflow-progress.js ticks its finished steps and carries the chosen place on its links.
