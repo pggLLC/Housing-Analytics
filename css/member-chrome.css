@@ -7,7 +7,7 @@
      3. the old theme's colour names answer from the new palette (hub/palette.css), so every card, table and control
         a member page draws takes the new colours, light and dark, with no change to the page;
      4. the new pages' type, and the member menu as a row of tabs;
-     5. the member home (developer.html) in the new pages' cards and figures.
+     5. the member home page in the new pages' cards and figures.
    Colours come from the palette only: no colour is named here. */
 
 /* 1. */
@@ -70,7 +70,7 @@ body.member-page #devSubNav a[aria-current] { color: var(--green); background: n
 body.member-page #devSubNav { font-size: 15px; }
 body.member-page #devNav .dev-nav-badge { background: var(--tint-rust); color: var(--text-rust); }
 
-/* 5. The member home (developer.html). */
+/* 5. The member home page. */
 /* (The page's own rule for the hero never applied: a broken rule above it in the page's style swallows it.) */
 body.member-page .ib-hero { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
 @media (max-width: 640px) { body.member-page .ib-hero { padding: 1rem; } }
