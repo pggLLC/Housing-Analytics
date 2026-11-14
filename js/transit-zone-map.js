@@ -223,19 +223,11 @@
       // zooms it; dragging pans, since stops only appear once zoomed in.
       var map = L.map(el, { scrollWheelZoom: false, tap: false, zoomSnap: 0.25 });
       current = map;
-      var base = root.COHOBasemaps ? (dark ? root.COHOBasemaps.dark() : root.COHOBasemaps.light()) : null;
-      if (base) {
-        base.addTo(map);
-        // Same fallback as the main HNA map: if the Esri/CARTO tiles cannot be
-        // reached, swap to OpenStreetMap so roads and place names stay.
-        base.once('tileerror', function () {
-          if (current !== map) return;
-          try { map.removeLayer(base); } catch (e) { /* already gone */ }
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom: 19
-          }).addTo(map).bringToBack();
-          mount.setAttribute('data-tzm-basemap', 'osm');
-        });
+      // OpenStreetMap streets by default, a Satellite choice and a scale bar (paul's map rule, 11 Nov 2026).
+      // A street tile that fails is fetched from Esri World Street Map (js/config/basemaps.js).
+      if (root.COHOBasemaps && root.COHOBasemaps.standard) {
+        root.COHOBasemaps.standard(map, { dark: dark });
+        mount.setAttribute('data-tzm-basemap', 'osm');
       }
 
       L.geoJSON({ type: 'Feature', geometry: data.zone, properties: {} }, {

@@ -28,8 +28,9 @@
     // a single URL cannot express that. See js/config/basemaps.js.
     light:      { build: function () { return window.COHOBasemaps.light(); } },
     dark:       { build: function () { return window.COHOBasemaps.dark(); } },
-    osm:        { url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',               attr: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' },
-    satellite:  { url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attr: '&copy; Esri, Maxar, Earthstar Geographics' },
+    // OpenStreetMap is the default (paul's map rule, 11 Nov 2026): referrer 'origin', Esri street backup per tile.
+    osm:        { build: function () { return window.COHOBasemaps.street(); } },
+    satellite:  { build: function () { return window.COHOBasemaps.satellite(); } },
     'esri-gray':{ url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', attr: '&copy; Esri, HERE, DeLorme' },
   };
 
@@ -697,12 +698,11 @@
     var sel = document.getElementById('basemapSelect');
     if (!sel) return;
 
-    // Resolve the initial basemap: saved > auto (light/dark by theme) > osm
+    // Resolve the initial basemap: saved > OpenStreetMap (shown dark in dark mode). A scale bar in miles.
+    if (window.COHOBasemaps && window.COHOBasemaps.scale) window.COHOBasemaps.scale(map);
     var saved = null;
     try { saved = sessionStorage.getItem('co-map-basemap'); } catch(e) { /* ignore */ }
-    var isDark = document.documentElement.classList.contains('dark') ||
-                 document.body.classList.contains('dark-mode');
-    var initial = saved || (isDark ? 'dark' : 'light');
+    var initial = saved || 'osm';
 
     // Set the <select> to match; fall back to "auto"
     if (sel.querySelector('option[value="' + initial + '"]')) {
@@ -715,7 +715,7 @@
     sel.addEventListener('change', function () {
       var val = sel.value;
       if (val === 'auto') {
-        val = (document.documentElement.classList.contains('dark') || document.body.classList.contains('dark-mode')) ? 'dark' : 'light';
+        val = 'osm';
       }
       applyBasemap(map, val);
     });

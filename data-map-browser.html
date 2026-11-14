@@ -25,6 +25,7 @@
        instead of trying to bulk-download every polygon (gigabytes).
        Used by the "FEMA flood zones (live NFHL)" layer below. -->
   <script src="https://unpkg.com/esri-leaflet@3.0.12/dist/esri-leaflet.js"></script>
+  <script src="js/config/basemaps.js"></script>
 
   <script src="js/site-state.js"></script>
   <script src="js/county-measures.js"></script>
@@ -201,7 +202,7 @@
     <div>
       <div class="dmb-mapwrap">
         <div id="dmbMap" role="region" aria-label="Colorado data map"></div>
-        <div class="dmb-statusbar" id="dmbStatusBar">
+        <div class="dmb-statusbar" id="dmbStatusBar" data-no-source="input: the map view readout (zoom, centre, features in view)">
           <span>Zoom <strong id="dmbZoom">7</strong> · center <strong id="dmbCenter">39.0, -105.5</strong></span>
           <span><strong id="dmbVisibleCount">0</strong> features visible across <strong id="dmbActiveLayers">0</strong> layers</span>
         </div>
@@ -1204,10 +1205,9 @@
   map.on('layeradd layerremove', function () {
     setTimeout(() => _renderLegend(), 30);
   });
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap',
-    maxZoom: 19,
-  }).addTo(map);
+  // OpenStreetMap streets by default, a Satellite choice and a scale bar (paul's map rule, 11 Nov 2026).
+  if (window.COHOBasemaps && window.COHOBasemaps.standard) window.COHOBasemaps.standard(map, { position: 'topright' });
+  else L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap', maxZoom: 19, referrerPolicy: 'origin' }).addTo(map);
 
   // ── State ──
   // F212 — _layerCache moved up next to L.map() to keep it ahead of

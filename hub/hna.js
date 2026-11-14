@@ -1192,9 +1192,11 @@
       var rr = (dLat * sc).toFixed(1), rings = counted.length <= 400, dot = near.length > 600 ? 3 : near.length > 150 ? 5 : 8;
       var path = polys.map(function (pg) { return pg.map(function (ring) { return 'M' + ring.map(function (c) { return X(c[0]) + ' ' + Y(c[1]); }).join('L') + 'Z'; }).join(''); }).join('');
       var label = 'Map of ' + entry.label + ' with ' + num(counted.length) + ' confirmed transit stops within two miles of it' + (rings ? ' and a 2-mile ring round each' : '');
-      var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(label) + '">' +
+      // The lon/lat at the map's corners, so site/map-base.js can lay the street map under it.
+      var geo = [w - ox / (k * sc), n - (H - oy) / sc, w + (W - ox) / (k * sc), n + oy / sc].map(function (v) { return v.toFixed(5); }).join(' ');
+      var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" data-geo="' + geo + '" role="img" aria-label="' + esc(label) + '">' +
         '<path d="' + path + '" fill="var(--map-1)" fill-opacity="0.55" stroke="none"/>' +
-        (rings ? '<g fill="var(--c-blue)" opacity="0.16" stroke="none">' + counted.map(function (f) { var c = f.geometry.coordinates; return '<circle cx="' + X(c[0]) + '" cy="' + Y(c[1]) + '" r="' + rr + '"/>'; }).join('') + '</g>' : '') +
+        (rings ? '<g fill="var(--c-blue)" opacity="0.16" stroke="none" data-geo-size="1">' + counted.map(function (f) { var c = f.geometry.coordinates; return '<circle cx="' + X(c[0]) + '" cy="' + Y(c[1]) + '" r="' + rr + '"/>'; }).join('') + '</g>' : '') +
         '<g fill="var(--muted)">' + near.filter(function (f) { return !TZ.countsAsConfirmedStop(f.properties); }).map(function (f) { var c = f.geometry.coordinates; return '<circle cx="' + X(c[0]) + '" cy="' + Y(c[1]) + '" r="' + Math.max(2, dot / 2) + '"/>'; }).join('') + '</g>' +
         '<g fill="var(--c-blue)" stroke="var(--card)" stroke-width="0.7">' + counted.map(function (f) { var c = f.geometry.coordinates; return '<circle cx="' + X(c[0]) + '" cy="' + Y(c[1]) + '" r="' + dot + '"><title>' + esc((f.properties.name || 'Stop') + (f.properties.agency ? ', ' + f.properties.agency : '')) + '</title></circle>'; }).join('') + '</g>' +
         '<path d="' + path + '" fill="none" stroke="var(--ink)" stroke-width="2"/>' +
@@ -2017,9 +2019,9 @@
       var where = isCounty ? 'in ' + entry.label : 'within 30 miles of ' + placeShort;
       var mapLabel = 'Map of ' + num(inScope.length) + ' affordable properties ' + where + ', coloured by program';
       var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(mapLabel) + '">' +
-        (isCounty ? '' : '<circle cx="' + X(lon0) + '" cy="' + Y(lat0) + '" r="' + (MI / 69.0 * sc).toFixed(1) + '" fill="var(--map-empty)" stroke="var(--grey-line)" stroke-width="0.7" stroke-dasharray="4,4"/>') +
+        (isCounty ? '' : '<circle class="pm-reach" data-geo-size="1" cx="' + X(lon0) + '" cy="' + Y(lat0) + '" r="' + (MI / 69.0 * sc).toFixed(1) + '" fill="var(--map-empty)" stroke="var(--grey-line)" stroke-width="0.7" stroke-dasharray="4,4"/>') +
         '<path d="' + path + '" fill="var(--map-1)" fill-opacity="0.55" stroke="var(--ink)" stroke-width="1.5"/>' +
-        (isCounty ? '' : '<defs><clipPath id="pm-ring"><circle cx="' + X(lon0) + '" cy="' + Y(lat0) + '" r="' + (MI / 69.0 * sc).toFixed(1) + '"/></clipPath></defs>') +
+        (isCounty ? '' : '<defs><clipPath id="pm-ring"><circle data-geo-size="1" cx="' + X(lon0) + '" cy="' + Y(lat0) + '" r="' + (MI / 69.0 * sc).toFixed(1) + '"/></clipPath></defs>') +
         '<g' + (isCounty ? '' : ' clip-path="url(#pm-ring)"') + '>' +
         (ddas.length ? '<defs><pattern id="pm-dda" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="var(--rust)" stroke-width="1.6"/></pattern></defs>' +
           '<g class="pm-dda" fill="url(#pm-dda)" stroke="var(--rust)" stroke-width="1">' + ddas.map(function (f) { return '<path d="' + draw(f.geometry) + '"><title>' + esc('Difficult Development Area: ' + (f.properties.DDA_NAME || f.properties.NAME || '') + (f.properties.ZCTA5 ? ', ZIP code ' + f.properties.ZCTA5 : '')) + '</title></path>'; }).join('') + '</g>' : '') +

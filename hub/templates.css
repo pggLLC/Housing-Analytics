@@ -323,6 +323,40 @@ html { overflow-x: clip; }
 .pm-zoom button:disabled { color: var(--muted); border-color: var(--line); cursor: default; }
 .pm-zoom button:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
 .map-tip { position: absolute; z-index: 5; max-width: min(320px, calc(100% - 8px)); padding: .45rem .6rem; font-size: 14px; line-height: 1.35; color: var(--on-fill); background: var(--tip-bg); border-radius: 6px; box-shadow: 0 2px 8px var(--shade); pointer-events: none; }
+/* Background map under every zoomable map (map-base.js; paul's map rule, 11 Nov 2026): OpenStreetMap streets by default,
+   Esri satellite on request, credited on the map, with a scale bar. Tiles sit under the SVG, which draws on top of them. */
+.mb-frame > svg { position: relative; z-index: 1; }
+.mb-tiles { position: absolute; z-index: 0; overflow: hidden; pointer-events: none; background: var(--card); }
+.mb-tile { position: absolute; max-width: none; user-select: none; opacity: .9; }
+.mb-tiles[data-base="street"] .mb-tile { filter: saturate(.75); }
+html.dark-mode .mb-tiles[data-base="street"] .mb-tile { filter: invert(1) hue-rotate(180deg) brightness(.95) contrast(.95) saturate(.6); }
+@media (prefers-color-scheme: dark) { html:not(.light-mode) .mb-tiles[data-base="street"] .mb-tile { filter: invert(1) hue-rotate(180deg) brightness(.95) contrast(.95) saturate(.6); } }
+/* Shading lets the map show through once a reader zooms in to find a street; at state scale it stays solid. */
+.mb-on.is-zoomed-2 path:not(.mk-metro-box) { fill-opacity: .65; }
+.mb-on .pm-counties path, .mb-on .mk-inset-counties path { fill-opacity: .6; }
+/* A town map (data-geo) is read street by street, so its shading lets the streets show from the start. */
+.mb-on[data-geo] path:not(.mk-metro-box) { fill-opacity: .7; }
+.mb-on.is-zoomed-2 .pm-counties path, .mb-on.is-zoomed-2 .mk-inset-counties path { fill-opacity: .12; }
+/* The see-through rules above are for shaded maps; data layers and point shapes keep their own strength. */
+.mb-on.mb-on .dm-layer.dm-fill path { fill-opacity: .28; }
+.mb-on.mb-on .dm-layer.dm-outline path { fill-opacity: .06; }
+.mb-on.mb-on .dm-layer.dm-point path.dm-g, .mb-on.mb-on .mk-inset .dm-point path.mk-g { fill-opacity: .9; }
+.mb-on.mb-on .pm-layer path.mk-g { fill-opacity: .85; }
+.mb-on .pm-reach { fill: transparent; }
+.pm-frame .pm-zoom { z-index: 2; }
+.mb-switch { position: absolute; z-index: 2; top: 6px; left: 6px; display: inline-flex; border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; background: var(--card); }
+.mb-switch button { min-height: 36px; padding: 0 .7rem; font: inherit; font-size: 14px; font-weight: 600; color: var(--ink); background: var(--card); border: 0; cursor: pointer; }
+.mb-switch button + button { border-left: 1px solid var(--line-strong); }
+.mb-switch button[aria-pressed="true"] { color: var(--on-fill); background: var(--green); }
+.mb-switch button:focus-visible { outline: 3px solid var(--green); outline-offset: -3px; }
+@media (pointer: coarse) { .mb-switch button { min-height: 44px; } }
+@media (max-width: 640px) { .pm-frame .mb-switch { top: 0; left: 0; } .mb-switch button { min-height: 44px; padding: 0 .55rem; } }
+.mb-credit { position: absolute; z-index: 2; right: 0; bottom: 0; margin: 0; padding: 1px 6px; font-size: 11px; line-height: 1.4; color: var(--ink); background: var(--card); opacity: .92; border-top-left-radius: 4px; max-width: 75%; }
+.mb-credit a { color: inherit; }
+.mb-scale { position: absolute; z-index: 2; left: 6px; bottom: 4px; display: flex; flex-direction: column; align-items: flex-start; gap: 1px; pointer-events: none; font-size: 11px; line-height: 1.2; color: var(--ink); }
+.mb-scale-bar { display: block; height: 5px; border: 2px solid var(--ink); border-top: 0; background: transparent; box-shadow: 0 1px 0 var(--halo); }
+.mb-scale-label { padding: 0 3px; background: var(--card); border-radius: 3px; opacity: .92; }
+@media print { .mb-switch { display: none; } }
 .map-tip[hidden] { display: none; }
 .pres-map svg { display: block; width: 100%; height: auto; }
 .pm-counties path { fill: var(--paper); stroke: var(--line-strong); stroke-width: .8; }
@@ -1400,6 +1434,8 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .mk-inset-h { margin: 0 0 .35rem; font-size: 15px; }
 .mk-inset-h .note { display: block; font-size: 14px; }
 .mk-inset-svg { display: block; width: 100%; max-width: 560px; height: auto; border: 1px dashed var(--ink); border-radius: 6px; background: var(--card); }
+.mk-inset-svg.mb-on { background: transparent; }
+.pm-frame.mk-inset-frame { padding-top: 0; max-width: 560px; }
 .mk-inset-counties path { fill: var(--paper); stroke: var(--line-strong); stroke-width: 1.2; }
 .mk-inset circle:not([stroke]), .mk-inset path.mk-g:not([stroke]) { stroke: var(--halo); stroke-width: 1; }
 .mk-g, .mk-inset path.mk-g { fill-rule: evenodd; }

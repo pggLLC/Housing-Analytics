@@ -219,7 +219,9 @@
     var k = Math.cos(((bx[1] + bx[3]) / 2) * Math.PI / 180), w = (bx[2] - bx[0]) * k, h = bx[3] - bx[1], H = Math.max(160, Math.round(BOX_W * h / w));
     if (H > 560) H = 560;
     var sc = Math.min(BOX_W / w, H / h), ox = (BOX_W - w * sc) / 2, oy = (H - h * sc) / 2;
-    return { H: H, f: function (c) { return [(ox + (c[0] - bx[0]) * k * sc).toFixed(1), (oy + (bx[3] - c[1]) * sc).toFixed(1)]; } };
+    // geo: the lon/lat at the map's corners, so site/map-base.js can lay the street map under it.
+    var geo = [bx[0] - ox / (k * sc), bx[3] - (H - oy) / sc, bx[0] + (BOX_W - ox) / (k * sc), bx[3] + oy / sc].map(function (v) { return v.toFixed(5); }).join(' ');
+    return { H: H, geo: geo, f: function (c) { return [(ox + (c[0] - bx[0]) * k * sc).toFixed(1), (oy + (bx[3] - c[1]) * sc).toFixed(1)]; } };
   }
   function pathOf(g, P) { return polys(g).map(function (p) { return p.map(function (r) { return 'M' + r.map(function (c) { return P.f(c).join(' '); }).join('L') + 'Z'; }).join(''); }).join(''); }
   function overlaps(a, b) { return a[0] <= b[2] && a[2] >= b[0] && a[1] <= b[3] && a[3] >= b[1]; }
@@ -308,7 +310,7 @@
     var toggles = '<fieldset class="pm-toggles wb-toggles no-print"><legend class="visually-hidden">Map layers</legend>' + LAYERS.filter(function (l) {
       return l[0] === 'shade' || l[0] === 'towns' || (l[0] === 'thiz' && thiz) || (l[0] === 'half' && half) || (l[0] === 'bike' && (trails || bikeways)) || (l[0] === 'dots' && dots) || (l[0] === 'stops' && facs);
     }).map(function (l) { return '<label class="pm-toggle"><input type="checkbox" data-wb-layer="' + l[0] + '"' + (hidden[l[0]] ? '' : ' checked') + '> ' + esc(l[1]) + '</label>'; }).join('') + '</fieldset>';
-    return '<figure class="wb-fig wb-map' + cls + '"><p class="wb-title"><strong>' + esc(wbTitle) + '</strong></p>' + toggles + '<div class="pm-frame"><svg viewBox="0 0 ' + BOX_W + ' ' + P.H + '" role="img" aria-label="' + esc(wbTitle + '. Map of ' + (r.name || 'the area around this address') + ': ' + cnt + ' block groups shaded by the share of homes within a 10-minute walk of everyday services' + (trails ? ', with trails' : '') + (bikeways ? ', bike lanes and paths' : '') + (thiz ? ', the state transit zone' : '') + (half ? ', the half-mile transit area' : '') + (dots ? ' and service locations' : '') + ', with town limits.') + '">' +
+    return '<figure class="wb-fig wb-map' + cls + '"><p class="wb-title"><strong>' + esc(wbTitle) + '</strong></p>' + toggles + '<div class="pm-frame"><svg viewBox="0 0 ' + BOX_W + ' ' + P.H + '" data-geo="' + P.geo + '" role="img" aria-label="' + esc(wbTitle + '. Map of ' + (r.name || 'the area around this address') + ': ' + cnt + ' block groups shaded by the share of homes within a 10-minute walk of everyday services' + (trails ? ', with trails' : '') + (bikeways ? ', bike lanes and paths' : '') + (thiz ? ', the state transit zone' : '') + (half ? ', the half-mile transit area' : '') + (dots ? ' and service locations' : '') + ', with town limits.') + '">' +
       '<rect width="' + BOX_W + '" height="' + P.H + '" class="wb-map-bg"></rect><g class="wb-bgs wb-l-shade">' + bgs + '</g>' +
       (half ? '<path class="wb-half wb-l-half" fill-rule="evenodd" d="' + half + '"></path>' : '') + towns.lines +
       (thiz ? '<path class="wb-thiz wb-l-thiz" fill-rule="evenodd" d="' + thiz + '"></path>' : '') +

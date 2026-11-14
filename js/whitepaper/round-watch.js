@@ -457,8 +457,8 @@
     var map = L.map(el, { scrollWheelZoom: false, zoomSnap: 0.25 });
     map.fitBounds(CO_BOUNDS, { padding: [8, 8] });
     var dark = doc.documentElement.getAttribute('data-theme') === 'dark';
-    var base = w.COHOBasemaps ? (dark ? w.COHOBasemaps.dark() : w.COHOBasemaps.light()) : null;
-    if (base) base.addTo(map);
+    // OpenStreetMap streets by default, a Satellite choice and a scale bar (paul's map rule, 11 Nov 2026).
+    if (w.COHOBasemaps) w.COHOBasemaps.standard(map, { dark: dark });
     if (typeof w.ResizeObserver === 'function') {
       try { new w.ResizeObserver(function () { map.invalidateSize(); }).observe(el); } catch (e) { /* keeps its first size */ }
     }
