@@ -127,7 +127,7 @@ ok(!/hub\/|class="crumbs"|deal-market-analysis/.test(oldPage), 'market-analysis.
 
 // 7. The place and saved-projects row. The old header's pill (js/navigation.js) names the place and, on a click,
 //    lists up to three saved projects and "New Project". The new header has no pill; the row does both jobs.
-ok(/\n {2}<div id="maPlaceRow" class="ma-place-row" role="region" aria-label="Place and saved projects" hidden><\/div>\n {2}<main id="main-content">\n/.test(newPage), 'the place row is not just above <main>, a named region, empty and hidden until its script fills it');
+ok(/\n {2}<div id="maPlaceRow" class="ma-place-row" role="region" aria-label="[^"<>]+" hidden><\/div>\n {2}<main id="main-content">\n/.test(newPage), 'the place row is not just above <main>, a named region, empty and hidden until its script fills it');
 ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 4, 'the place row\'s script must load after the tool\'s own scripts and before the new header\'s');
 {
   const nav = read('js/navigation.js');
@@ -151,19 +151,27 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 4
     }
     w.eval(src);
     const row = w.document.getElementById('maPlaceRow');
-    return { w, row, calls, q: sel => row.querySelector(sel), text: sel => row.querySelector(sel).textContent, click: el => el.dispatchEvent(new w.MouseEvent('click', { bubbles: true, cancelable: true })) };
+    // The place the row names: the one emphasised name in its place line, or '' when it names none. The words around
+    // it are a wording choice and are not checked (AGENTS.md, "Guards: pin the agreement, not the copy").
+    const place = () => { const e = row.querySelectorAll('.ma-place-row__place strong'); return e.length === 1 ? e[0].textContent : e.length ? '(more than one name)' : ''; };
+    return { w, row, calls, place, q: sel => row.querySelector(sel), click: el => el.dispatchEvent(new w.MouseEvent('click', { bubbles: true, cancelable: true })) };
   };
+  // What the row must agree with is the pill: the same joiner between town and county, the same stand-in for a
+  // project with no name. Both are read from js/navigation.js, so rewording the pill and the row together stays green.
+  const joiner = (/pillLabel = city \? city \+ '([^']+)' \+ county : county/.exec(nav) || [])[1];
+  const noName = (/_esc\(\(p\.name \|\| '([^']+)'\)\.slice\(0, 28\)\)/.exec(nav) || [])[1];
+  ok(joiner && noName, 'js/navigation.js no longer builds the pill\'s label or a nameless project\'s label the way this reads them');
   // Nothing saved, nothing chosen; and the page's scripts missing altogether.
   for (const state of [{ projects: [], active: null }, null]) {
     const t = open(state);
-    ok(!t.row.hidden && t.text('.ma-place-row__place') === 'No place chosen yet.', 'with no place the row should say so');
-    ok(t.text('.ma-place-row__menu').includes('No project is saved in this browser yet.') && !t.q('[data-proj-id]'), 'with no project the list should say so');
-    ok(t.text('.ma-place-row__change') === 'Choose a place' && t.q('.ma-place-row__change').getAttribute('href') === 'select-jurisdiction.html', 'the row should offer the place picker');
+    ok(!t.row.hidden && t.q('.ma-place-row__place').textContent.trim() && t.place() === '', 'with no place the row should show, say something, and name no place');
+    ok(!t.q('[data-proj-id]') && !t.q('.ma-place-row__menu ul') && t.q('.ma-place-row__menu').textContent.trim(), 'with no project the list should offer none, and not be blank');
+    ok(t.q('.ma-place-row__change').getAttribute('href') === 'select-jurisdiction.html', 'the row should offer the place picker, where the pill links');
     ok(t.q('.ma-place-row__new').getAttribute('href') === 'select-jurisdiction.html?new=1', '"New project" should go where the pill\'s goes');
   }
   ok(open({ projects: [], active: null }, false).row === null, 'without the row on the page the script should do nothing');
   // A county chosen but no project: the pill falls back to SiteState, and so does the row.
-  ok(open({ projects: [], active: null, county: { fips: '08015', name: 'Chaffee County' } }).text('.ma-place-row__place') === 'Working on: Chaffee County', 'the row should fall back to the chosen county, as the pill does');
+  ok(open({ projects: [], active: null, county: { fips: '08015', name: 'Chaffee County' } }).place() === 'Chaffee County', 'the row should fall back to the chosen county, as the pill does');
   // Four projects (invented), the second open.
   const state = { active: 'p2', projects: [
     proj('p1', 'Alamosa family homes', { type: 'city', name: 'Alamosa', displayName: 'Alamosa (city)', countyName: 'Alamosa County' }),
@@ -172,20 +180,22 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 4
     proj('p4', 'Lamar duplexes', { type: 'city', name: 'Lamar', countyName: 'Prowers County' }),
   ] };
   const t = open(state);
-  ok(t.text('.ma-place-row__place') === 'Working on: Salida · Chaffee County', 'the place should read "Town · County", as on the pill');
+  ok(t.place() === 'Salida' + joiner + 'Chaffee County', 'the place should read town, then county, joined as on the pill');
   const btns = () => [...t.row.querySelectorAll('[data-proj-id]')];
   ok(btns().length === 3 && btns().map(b => b.getAttribute('data-proj-id')).join() === 'p1,p2,p3', 'the list should hold the first three saved projects, as the pill\'s does');
   ok(btns()[1].firstChild.textContent.trim() === 'Salida <b>senior</b> flats w' && !t.q('.ma-place-row__menu b'), 'a project name should be cut at 28 characters and written as text');
-  ok(btns()[2].textContent === 'Untitled project', 'a project with no name should read "Untitled project"');
-  ok(btns().filter(b => b.getAttribute('aria-current') === 'true').length === 1 && btns()[1].textContent.endsWith('open now'), 'the open project should be marked');
+  ok(btns()[2].textContent === noName, 'a project with no name should read as it does on the pill');
+  const marked = () => btns().filter(b => b.getAttribute('aria-current') === 'true');
+  // Marked for a screen reader (aria-current) and for the eye (a marker inside that button and no other).
+  ok(marked().length === 1 && marked()[0] === btns()[1] && [...t.row.querySelectorAll('.ma-place-row__now')].every(m => m.textContent.trim() && m.closest('[data-proj-id]') === btns()[1]) && t.q('.ma-place-row__now'), 'the open project, and only it, should be marked');
   // Opening another project: the pill calls WorkflowState.loadProject(id) and shows the new place.
   t.q('details').open = true;
   t.click(btns()[2]);
-  ok(t.calls.join() === 'load p3' && t.text('.ma-place-row__place') === 'Working on: Morgan County', 'a click on a project should open it and show its place');
-  ok(!t.q('details').open && btns()[2].getAttribute('aria-current') === 'true', 'after a project is opened the list should close with that project marked');
+  ok(t.calls.join() === 'load p3' && t.place() === 'Morgan County', 'a click on a project should open it and show its place');
+  ok(!t.q('details').open && marked().length === 1 && marked()[0] === btns()[2], 'after a project is opened the list should close with that project marked');
   // Escape and a click elsewhere close the list; a click inside it does not.
   t.q('details').open = true;
-  t.click(t.q('.ma-place-row__label'));
+  t.click(t.q('.ma-place-row__menu ul'));
   ok(t.q('details').open, 'a click inside the list should leave it open');
   t.w.document.dispatchEvent(new t.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
   ok(!t.q('details').open, 'Escape should close the list');
@@ -196,10 +206,10 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 4
   state.projects[2].jurisdiction = { type: 'city', name: 'Brush', countyName: 'Morgan County' };
   t.q('details').open = true;
   t.w.document.dispatchEvent(new t.w.CustomEvent('workflow:step-updated'));
-  ok(t.text('.ma-place-row__place') === 'Working on: Morgan County', 'an open list should not be redrawn');
+  ok(t.place() === 'Morgan County', 'an open list should not be redrawn');
   t.q('details').open = false;
   t.w.document.dispatchEvent(new t.w.CustomEvent('workflow:step-updated'));
-  ok(t.text('.ma-place-row__place') === 'Working on: Brush · Morgan County', 'the place should follow a saved step, as the pill does');
+  ok(t.place() === 'Brush' + joiner + 'Morgan County', 'the place should follow a saved step, as the pill does');
   // "New project" clears the county first, as the pill does, and lets the link go.
   t.calls.length = 0;
   const ev = new t.w.MouseEvent('click', { bubbles: true, cancelable: true });
