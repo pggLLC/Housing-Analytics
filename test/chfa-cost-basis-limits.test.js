@@ -43,7 +43,7 @@ test('Method Three follows the workbook: TRUNC(zone factor x base) per unit, sum
   assert.equal(Math.round(r.credit), Math.round((10 * 358957 + 20 * 433748) * 0.09));
   assert.equal(r.lower, true);
   assert.match(r.reason, /Mesa County is CHFA zone 3 \(factor 3\.6\)/);
-  assert.match(r.reason, /shown as a check, it does not change the capacity here/);
+  assert.match(r.reason, /does not change the capacity; with "Plan to CHFA's cost basis limit" ticked, it sets the credit/);
 });
 
 test('limits from a file not marked adopted are labelled draft', () => {
@@ -51,7 +51,7 @@ test('limits from a file not marked adopted are labelled draft', () => {
   const r = cbm.costBasisLimitCheck(Object.assign({}, mesa, { tables: draftTables, capacity: 1e9 }));
   assert.equal(r.checked, true);
   assert.equal(r.draft, true);
-  assert.match(r.reason, /, a draft; shown as a check/);
+  assert.match(r.reason, /, a draft\. It does not change the capacity/);
   assert.equal(cbm.costBasisLimitCheck(Object.assign({}, mesa, { tables: null })).draft, true, 'no tables: never called adopted');
   const empty = cbm.costBasisLimitCheck(Object.assign({}, mesa, { tables: { status: 'adopted' } }));
   assert.equal(empty.draft, true, 'adopted label but no tables: never called adopted');

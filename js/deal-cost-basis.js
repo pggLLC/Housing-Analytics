@@ -558,7 +558,7 @@
     out.reason = county.name + ' County is CHFA zone ' + county.zone + ' (factor ' + out.factor + '). '
       + Object.keys(out.perUnit).map(function (k) { return k.replace(' bedroom', ' BR') + ' ' + money(out.perUnit[k]); }).join(', ')
       + ' per unit, ' + (column === 'elevator' ? 'elevator' : 'walk-up') + (args.hudBoost ? ', x 1.3 for the QCT or DDA' : '')
-      + '. From ' + out.source + (out.draft ? ', a draft' : '') + '; shown as a check, it does not change the capacity here.';
+      + '. From ' + out.source + (out.draft ? ', a draft' : '') + '. It does not change the capacity; with "Plan to CHFA\'s cost basis limit" ticked, it sets the credit when it is the lowest of the three methods.';
     return out;
   }
 
