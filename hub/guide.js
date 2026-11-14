@@ -474,11 +474,13 @@
   // The same two files those scripts read are read here, and the same rules kept: a term is defined at its first
   // use in each part, never in a heading, link, button, table heading or code; a heading's tip is its own
   // (data-tip from the page) or the site's entry for that heading's words.
-  var HELP = { files: null, asked: false };
+  // One read of the two files for every page that asks; a page that asks while the read is under way gets the
+  // same answer when it comes (a guide opened, then Financials before the files arrive).
+  var HELP = { files: null, waiting: null };
   function helpFiles(then) {
     if (HELP.files) return then(HELP.files);
-    if (HELP.asked) return;
-    HELP.asked = true;
+    if (HELP.waiting) { HELP.waiting.push(then); return; }
+    HELP.waiting = [then];
     var V = global.LAB_VENDOR || '';
     var get = function (f) { return fetch(V + f).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); };
     Promise.all([get('data/glossary.json'), get('data/table-header-tips.json')]).then(function (all) {
@@ -502,8 +504,8 @@
       var onceKeys = Object.keys(once).sort(function (a, b) { return b.length - a.length; });
       HELP.files.once = once;
       HELP.files.oncePattern = onceKeys.length ? new RegExp('\\b(' + onceKeys.map(function (k) { return k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')\\b', 'g') : null;
-      HELP.asked = false;
-      then(HELP.files);
+      var waiting = HELP.waiting; HELP.waiting = null;
+      waiting.forEach(function (f) { f(HELP.files); });
     });
   }
   function clip(text, max) {
@@ -615,7 +617,9 @@
     gtip.style.left = (left + global.pageXOffset) + 'px'; gtip.style.top = (top + global.pageYOffset) + 'px';
     el.setAttribute('aria-describedby', 'guide-tip'); gtipOn = el;
   }
-  function gtipTarget(ev) { var t = ev.target; return t && t.closest ? t.closest('.guide-body [data-gtip]') : null; }
+  // A guide's words, and any other page part marked data-hover-help (Financials, site/calc-help.js), use the same label.
+  var GTIP = '.guide-body [data-gtip], [data-hover-help] [data-gtip]';
+  function gtipTarget(ev) { var t = ev.target; return t && t.closest ? t.closest(GTIP) : null; }
   // Wired once, when the first guide gets its hover help (this file is also loaded where there is no page to listen on).
   var gtipWired = false;
   function gtipWire() {
@@ -627,7 +631,7 @@
     var lastTouch = false;
     document.addEventListener('pointerdown', function (ev) { lastTouch = ev.pointerType === 'touch' || ev.pointerType === 'pen'; }, true);
     document.addEventListener('click', function (ev) {
-      var th = ev.target && ev.target.closest ? ev.target.closest('.guide-body th[data-gtip]') : null;
+      var th = ev.target && ev.target.closest ? ev.target.closest('.guide-body th[data-gtip], [data-hover-help] th[data-gtip]') : null;
       if (!th || !lastTouch || !ev.detail || ev.target.closest('.th-sort')) return;
       ev.stopPropagation(); ev.preventDefault();
       gtipShow(th);
@@ -650,5 +654,6 @@
   });
 
   Shell.views.guide = guideView;
-  global.LabGuide = { GUIDES: GUIDES };
+  // hoverHelp and helpFiles are shared with Financials (site/calc-help.js), which marks its terms the same way.
+  global.LabGuide = { GUIDES: GUIDES, hoverHelp: hoverHelp, helpFiles: helpFiles, hideTip: gtipHide, wireTips: gtipWire };
 })(window);
