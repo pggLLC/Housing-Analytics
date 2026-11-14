@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "34e3dcfa3b8ade36a8f847cb4647e0e5615264d1",
+  "commit": "d91a37d9ab38f3a79d66c29c3678d717f601a1e0",
   "dirty": false
  },
  "files": {
@@ -62,7 +62,7 @@
   "hub/equity.css": "53bb0d5d0c61318228d514d3c8db7e719dc9dee91b44ebdb690c1671e3491b3e",
   "hub/equity.js": "23b0cd67a229da6ca017d2086535b563b0b95bfdc0bb2bf6f846f927f2f89065",
   "hub/financials.js": "03939d7ce785a273776d08a1cbdf2c39f096a4f56607fca48451fe0b5bec0c06",
-  "hub/finder.js": "db03e05baeb62dc72ea8c572e9e48dca43e7e0247c3ceccece0e7771eefd847e",
+  "hub/finder.js": "96065905924a90f7eb9f4d578e99cbcb6c790a1b47398126d9d37baaddf8b0e9",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
   "hub/guide.js": "3eef04a914c6804fe18a863d6881b3f47b9926063cb39209db2fce9cae2c4f73",

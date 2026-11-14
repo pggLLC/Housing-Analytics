@@ -306,8 +306,16 @@
   //      current, so the schedule it was priced on is checked too (homes: the fix starts in Homes and affordability);
   //   3. a deal opened from a file or link whose homes and rents were replaced by the site's rerun was priced on the
   //      sender's schedule, not the one now in the project, until Financials is saved again in this project.
+  // A run made from the unit grid (calc-grid.js) was priced on no saved schedule: it names none, and its homes and
+  // rents are in the run itself. A schedule its scenario still carries from the copy it started as says nothing
+  // about that run, so only the store's own mark (case 1) applies to it.
+  function fromGrid(run) {
+    var s = run.snapshot || {}, mix = s.inputs && s.inputs.resolvedDealMix;
+    return s.scheduleAttachmentId === null && !!mix && mix.available === false;
+  }
   function runProblem(p, run) {
     if (run.state === 'stale') return { why: run.staleReason || 'something it was run on changed' };
+    if (fromGrid(run)) return null;
     var sched = scheduleOf(p, run);
     if (sched && sched.state !== 'attached') return { why: 'it was run on homes and rents that are out of date' + (sched.staleReason ? ' (' + sched.staleReason + ')' : ''), homes: true };
     var o = p.openedFrom, here = run.origin && String(run.origin.route || '').indexOf('/' + p.projectId + '/') >= 0;
