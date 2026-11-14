@@ -306,3 +306,13 @@ form[data-action="financials"] .field-grid .field-after { grid-column: 1 / -1; m
   /* text-fit.css gives a long cell 15rem; here the source names sit under the activity, as on the full calculator, so the table fits the screen. */
   main .doh table[data-role="doh-act"] tbody th[scope="row"], main .doh table[data-role="doh-15-totals"] tbody th[scope="row"] { min-width: 6rem !important; }
 }
+
+/* Calculator move piece E: the project's scenarios side by side (site/deal-extras.js) */
+[data-role="compare"] .compare-group th { text-align: left; padding-top: .9rem; font-weight: 700; border-bottom: 2px solid var(--line); }
+[data-role="compare"] td small.note { font-weight: 400; white-space: nowrap; }
+/* Scenarios side by side: the whole table shows (no inner scroll box), and on a narrow screen the row names stay in view while the columns scroll. */
+[data-role="compare"] .table-scroll { max-height: none; }
+[data-role="compare"] tbody th[scope="row"], [data-role="compare"] thead th:first-child { position: sticky; left: 0; background: var(--card); z-index: 1; }
+@media (max-width: 600px) { [data-role="compare"] td small.note { white-space: normal; } [data-role="compare"] th, [data-role="compare"] td { padding-left: .45rem; padding-right: .45rem; } }
+[data-role="chfa-comps"] .cmp-city { color: var(--muted); }
+@media (max-width: 600px) { [data-role="chfa-comps"] table { font-size: .875rem; } [data-role="chfa-comps"] th, [data-role="chfa-comps"] td { padding-left: .4rem; padding-right: .4rem; min-width: 0; } main [data-role="chfa-comps"] td.cell-mid { min-width: 6.5rem !important; } }
