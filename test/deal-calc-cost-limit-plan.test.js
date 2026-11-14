@@ -4,6 +4,8 @@
 // restricted rents. Every deal figure here is INVENTED; the cost limit table is CHFA's, halved to make it bind.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const { computeDeal } = require('../js/deal-engine.js');
 const { inputsFor } = require('./helpers/deal-engine-inputs.cjs');
 const official = require('../data/policy/chfa-common-app-tables.json');
@@ -29,6 +31,11 @@ test('a lower cost basis limit sets the credit, and the gap shows what it costs'
   assert.deepEqual(on.costBasis.basis.costLimitPlan, { on: true, applied: true, before: off.annualCredits });
   assert.ok(on.equity < off.equity && on.gap > off.gap, 'less credit, less equity, a larger gap');
   assert.equal(off.costBasis.basis.costLimitPlan.applied, false, 'unticked: the limit is shown, not applied');
+  // The Method Three note names the control that changes the credit, by its on-page label, in both states.
+  const label = (fs.readFileSync(path.join(__dirname, '..', 'js', 'deal-calculator.js'), 'utf8')
+    .match(/id="dc-plan-cost-limit"[\s\S]*?<strong>([^<]+)<\/strong>/) || [])[1];
+  assert(label, 'found the plan control label');
+  assert(m3.reason.includes(label) && off.costBasis.basis.costLimitMethod.reason.includes(label), 'note names "' + label + '"');
 });
 
 test('a cost basis limit above the capacity changes nothing', () => {
