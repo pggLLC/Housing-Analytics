@@ -34,7 +34,15 @@ test('nothing a profile had is dropped: every card, figure holder, link and the 
     'psPermitsAvg', 'psPermitsSf', 'psPermitsMf', 'psNeedAnnual', 'psNeedRatio', 'psPermitsNote', 'psOwnershipCard', 'psPlayersCard', 'psPlDevs', 'psPlHomes',
     'psPlBondRow', 'psPlPha', 'psPlNp', 'psPlNames', 'psPlLand', 'psPlNote', 'psChasVintage', 'psSource', 'psChasMethod', 'psTracts', 'psCoverage', 'psChasWarning',
     'placeDisclosure', 'place-data'].forEach((id) => assert.ok(tpl.includes('id="' + id + '"'), 'the template lost #' + id));
-  assert.ok(tpl.includes('<h2>Who works on housing here</h2>'), 'the "Who works on housing here" card is gone');
+  // The housing-organizations card exists only on profiles. Its heading wording is free; the card, a heading of
+  // some kind, the holders its figures are written to, and the script that fills and shows it are not.
+  const at = tpl.indexOf('id="psPlayersCard"');
+  const end = tpl.indexOf('<div class="place-card"', at + 1);
+  const card = tpl.slice(at, end > at ? end : tpl.indexOf('</main>', at));
+  assert.ok(/<h2>[^<]+<\/h2>/.test(card), 'the housing-organizations card has no heading');
+  const holders = ['psPlDevs', 'psPlHomes', 'psPlBondRow', 'psPlPha', 'psPlNp', 'psPlNames', 'psPlLand', 'psPlNote'];
+  holders.forEach((id) => assert.ok(card.includes('id="' + id + '"'), '#' + id + ' is no longer inside the housing-organizations card'));
+  assert.ok(/getElementById\('psPlayersCard'\)/.test(tpl) && holders.every((id) => tpl.includes("'" + id + "'")), 'the page script no longer fills the housing-organizations card');
   ['../market-analysis.html?fips={{PLACE_GEOID}}&geoType=place&auto=1', '../deal-calculator.html?geoid={{PLACE_GEOID}}',
     '../housing-needs-assessment.html?type={{PLACE_TYPE}}&geoid={{PLACE_GEOID}}', '../about.html', '../methods.html#how-we-check', '../terms-of-use.html',
     '../privacy-policy.html', '../sitemap.html', 'mailto:info@cohoanalytics.com'].forEach((h) => assert.ok(tpl.includes('href="' + h + '"'), 'the template lost the link to ' + h));
