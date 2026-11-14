@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T03:47:13.490Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T04:34:13.609Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-89 pages found.
+90 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -39,6 +39,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
 | `deal-hub.html` | Build a deal · COHO Analytics | 9.0 KB |
+| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 160.9 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 56.4 KB |
@@ -2096,7 +2097,7 @@
 
 ## Test Files
 
-801 test files found.
+802 test files found.
 
 | File | Size |
 |------|------|
@@ -2246,7 +2247,7 @@
 | `test/deal-engine-rent-cut-floor.test.js` | 3.2 KB |
 | `test/deal-engine-signed-rent-growth.test.js` | 3.5 KB |
 | `test/deal-engine-surfaces.test.js` | 14.0 KB |
-| `test/deal-engine.test.js` | 8.0 KB |
+| `test/deal-engine.test.js` | 8.2 KB |
 | `test/deal-file.test.mjs` | 15.4 KB |
 | `test/deal-gap-handoff.test.js` | 6.0 KB |
 | `test/deal-lender-schedules.test.js` | 21.0 KB |
@@ -2507,6 +2508,7 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.4 KB |
+| `test/market-analysis-hub-page.test.mjs` | 10.4 KB |
 | `test/market-construction.test.js` | 6.5 KB |
 | `test/market-direction-tab.test.mjs` | 25.6 KB |
 | `test/market-geography-binding.test.mjs` | 17.9 KB |
@@ -2530,7 +2532,7 @@
 | `test/mortgage-rate-one-source.test.js` | 12.7 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/navigation-pill-label.test.js` | 2.7 KB |
-| `test/navigation-reaches-every-page.test.mjs` | 6.7 KB |
+| `test/navigation-reaches-every-page.test.mjs` | 7.0 KB |
 | `test/need-severity-is-place-level.test.mjs` | 16.0 KB |
 | `test/neuro-inclusive-brief.test.mjs` | 5.6 KB |
 | `test/next-step-link.test.js` | 8.7 KB |
@@ -2723,7 +2725,7 @@
 | `test/state-allocations-abbr.test.js` | 3.2 KB |
 | `test/state-housing-laws.test.js` | 6.0 KB |
 | `test/step-count-agreement.test.mjs` | 10.8 KB |
-| `test/step-labels-agree.test.mjs` | 5.5 KB |
+| `test/step-labels-agree.test.mjs` | 5.8 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
 | `test/subject-project-linked-place.test.js` | 4.0 KB |
 | `test/submittal-review-round-two.test.mjs` | 9.5 KB |

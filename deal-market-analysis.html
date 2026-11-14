@@ -1,0 +1,2490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Built from market-analysis.html by scripts/build-market-analysis-hub.mjs. Do not edit by hand: change market-analysis.html or the script, then run it. -->
+  <script>/* Light or dark, before the page paints (the site's own key and classes). */
+  try { var s = localStorage.getItem('coho-analytics-scheme'); if (s === 'dark' || s === 'light') document.documentElement.classList.add(s + '-mode'); } catch (e) {}</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Market Analysis · COHO Analytics</title>
+  <meta name="description" content="Public Market Analysis (PMA) scoring for affordable housing site selection in Colorado. Demand, capture risk, rent pressure, and supply analysis using free public data.">
+  <link rel="canonical" href="https://cohoanalytics.com/deal-market-analysis.html">
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Market Analysis | COHO Analytics">
+  <meta property="og:description" content="Primary Market Area analysis and LIHTC development feasibility tool.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <script src="js/config.js"></script>
+  <script src="js/workflow-state-core.js"></script>
+  <script src="js/workflow-state-api.js"></script>
+  <script defer src="js/components/input-provenance.js"></script>
+  <script defer src="js/components/watchlist.js"></script>
+  <script src="js/components/workflow-progress.js" defer></script>
+  <script src="js/components/lihtc-tips.js" defer></script>
+  <script src="js/components/data-vintage-badge.js" defer></script>
+  <script src="js/components/analytics.js" data-step="4" data-step-label="market_analysis"></script>
+  <script defer src="js/components/page-context.js"></script>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-freshness.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <!-- Leaflet (vendored locally) -->
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
+  <link rel="stylesheet" href="css/f119-f148-mobile.css">
+  <script src="js/vendor/leaflet.js"></script>
+  <!-- F100: zoom-aware county + place boundary overlay (decorative). -->
+  <script src="js/components/jurisdiction-boundaries.js"></script>
+  <script src="js/components/affordable-housing-layer.js"></script>
+  <!-- Chart.js for radar chart -->
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <!-- F19: chart-theme so axis/grid colors adapt to dark mode -->
+  <script defer src="js/components/chart-theme.js"></script>
+  <script src="js/vendor/chartjs-plugin-annotation.min.js"></script>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/pages/market-analysis.css">
+  <link rel="stylesheet" href="css/pages/housing-needs-assessment.css">
+  <link rel="stylesheet" href="hub/palette.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap">
+  <style>@import url("hub/shell.css") layer(hub); @import url("hub/visual-pass.css") layer(hub); @import url("hub/templates.css") layer(hub); @import url("hub/look.css") layer(hub);</style>
+  <link rel="stylesheet" href="css/pages/market-analysis-hub.css">
+  <style>/* The header, footer and trail keep the new pages' small-print colour (hub/palette.css, read at build). */
+  :is(.skip-link, .site-header, .site-footer, .crumbs) { --muted: #64748B; }
+  @media screen and (prefers-color-scheme: dark) { :root:not(.light-mode) :is(.skip-link, .site-header, .site-footer, .crumbs) { --muted: #A3B3AD; } }
+  @media screen { :root.dark-mode :is(.skip-link, .site-header, .site-footer, .crumbs) { --muted: #A3B3AD; } }</style>
+  <script src="js/site-state.js"></script>
+  <!-- F63: place-level LEHD blob + block-classified OD flows for the
+       jurisdiction-context labor card. Loaded but optional — the renderer
+       hides the card silently if no data is found for the current place. -->
+  <script defer src="js/place-lehd-lookup.js"></script>
+  <!-- Toast notifications (must load before component scripts) -->
+  <script defer src="js/components/toast.js"></script>
+  <script defer src="js/components/jurisdiction-url-context.js"></script>
+  <script defer src="js/components/census-link-geo.js"></script>
+  <script defer src="js/components/next-action-cta.js" data-next-action-auto="true" data-from-page="pma"></script>
+  <script defer src="js/components/source-badge.js"></script>
+  <script src="js/components/data-scope.js"></script>
+  <script src="js/components/fetch-error-surface.js"></script>
+  <script defer src="js/components/data-quality-summary.js"></script>
+  <script defer src="js/components/api-health.js"></script>
+  <script defer src="js/components/map-layer-status.js"></script>
+  <script type="module">/* The glossary and the header announcement, as js/navigation.js did them. */
+  if (!document.getElementById('glossary-script')) { const gs = document.createElement('script'); gs.id = 'glossary-script'; gs.src = 'js/glossary.js'; document.body.appendChild(gs); }
+  document.dispatchEvent(new CustomEvent('nav:rendered'));</script>
+  <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/table-header-tips.js"></script>
+  <script defer src="js/components/table-sort.js"></script>
+  <script src="js/components/rent-triangulation.js"></script>
+  <script defer src="js/chart-fix.js"></script>
+  <script defer src="js/market-data-quality.js"></script>
+  <script defer src="js/market-analysis-enhancements.js"></script>
+  <script defer src="js/vendor/html2canvas-pro.min.js"></script>
+  <script defer src="js/components/workflow-next-action.js"></script>
+  <script defer src="js/components/development-realism.js"></script>
+  <!-- F162 — gated CRM CRUD. Only hydrated for visitors with a live
+       developer session; mount stays empty for the public visitor. -->
+</head>
+<body data-page-update-key="manifest" data-page-source="Census ACS · HUD LIHTC · HUD FMR &amp; Income Limits · FRED" data-menu="deal" class="tool-page">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+  <a class="brand" href="index.html">COHO Analytics</a>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"></nav>
+  <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">Dark</button>
+</header>
+
+  <!-- Workflow progress bar (Step 4 of 7) — outside <main class="js-glossary-auto"> so it sticks independently -->
+  <div class="wf-progress-wrap" id="maWorkflowProgress">
+    <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
+      <a class="wf-step" href="select-jurisdiction.html" data-step="1">
+        <span class="wf-step__num">1</span>
+        <span class="wf-step__label">Jurisdiction</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="lihtc-opportunity-finder.html" data-step="2">
+        <span class="wf-step__num">2</span>
+        <span class="wf-step__label">Opportunity Finder</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="hna-what-housing-exists.html" data-step="3">
+        <span class="wf-step__num">3</span>
+        <span class="wf-step__label">Needs Assessment</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <div class="wf-step wf-step--active" data-step="4" aria-current="step">
+        <span class="wf-step__num">4</span>
+        <span class="wf-step__label">Market Analysis</span>
+      </div>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="hna-scenario-builder.html" data-step="5">
+        <span class="wf-step__num">5</span>
+        <span class="wf-step__label">Scenarios</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="deal-calculator.html" data-step="6">
+        <span class="wf-step__num">6</span>
+        <span class="wf-step__label">Deal Calculator</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="recommendation.html" data-step="7">
+        <span class="wf-step__num">7</span>
+        <span class="wf-step__label">Recommendation</span>
+      </a>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li><a href="deal-hub.html#/projects">Build a deal</a></li><li><a href="deal-hub.html#/market">Market check</a></li><li><span aria-current="page">Market Analysis</span></li></ol></nav>
+    <!-- Jurisdiction context banner -->
+    <div id="maJurisdictionBanner" class="hna-jurisdiction-banner" hidden>
+      <div class="hna-jurisdiction-banner__inner">
+        <div class="hna-jurisdiction-banner__info" aria-live="polite" aria-atomic="true">
+          <span class="hna-jurisdiction-banner__label">Jurisdiction:</span>
+          <strong id="maJurisdictionName">Not selected</strong>
+          <span id="maJurisdictionBoundary"></span>
+          <div id="maMarketArea" data-boundary="not_drawn">Market area: not yet drawn.<a class="ma-start" href="#pmaMap">Start here: place your site on the map</a></div>
+          <div id="maSiteBoundaryNotice" role="status" hidden></div>
+        </div>
+        <div class="hna-jurisdiction-banner__actions">
+          <a href="docs/MARKET_ANALYSIS_METHOD.md" class="hna-jurisdiction-banner__change">What's the difference?</a>
+          <a href="select-jurisdiction.html" class="hna-jurisdiction-banner__change">Change</a>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="siteStateContextBanner" hidden aria-live="polite" style="font-size:.82rem;color:var(--muted);padding:.3rem 0 .1rem;"><span data-state-label></span></div>
+    <div id="maLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+    <div style="padding:1rem 0 0.5rem">
+      <span class="kicker">Analysis</span>
+<h1 style="margin-bottom:0.25rem">Market Analysis</h1>
+      <p class="pma-intro-text">Pick a spot on the map and this scores how well affordable housing would work there. It looks at how tight the rental market is, how many nearby households would qualify, what already exists, and how easily people could get to work, transit and schools. The area it scores is called the Primary Market Area, or PMA &mdash; the neighbourhood a project would actually draw its renters from.</p>
+      <p class="ma-primary-action" style="margin:.5rem 0 .25rem"><a class="btn btn-primary" href="#maPmaTool">Place your site on the map &darr;</a></p>
+      <!-- F256 — CHFA-rule disclosure. The CHFA Market Study Guide
+           (Appendix A of the 2027-28 QAP, p. 74) is explicit: "Radius
+           boundaries are not allowed. The market boundary must
+           include entire census tracts." This screening tool uses
+           a radius to identify candidate tracts for first-pass
+           review only; for an actual CHFA submittal the PMA must
+           be justified by municipal/county/tract boundaries,
+           natural barriers, school districts, and socioeconomic
+           characteristics. -->
+      <p class="pma-chfa-rule" style="max-width:none;margin:.4rem auto .8rem;padding:.55rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);font-size:.8125rem;line-height:1.5;color:var(--text)">
+        <strong>CHFA Market Study Guide — Appendix A, 2027-28 QAP, p. 74:</strong> <em>"Radius boundaries are not allowed. The market boundary must include entire census tracts."</em>
+        This tool uses a radius as a first-pass screening proxy. For an actual CHFA submittal, the Primary Market Area must be justified by municipal/county/tract boundaries, natural barriers, physical features such as interstate highways, socioeconomic characteristics, and school district boundaries.
+        <a href="https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf" target="_blank" rel="noopener">Read the QAP →</a>
+      </p>
+      <p class="pma-intro-note" role="note"><strong>Screening tool only.</strong> Scores are for early-stage site identification using public data. They are not a substitute for a formal CHFA-required PMA, independent market study, or professional underwriting.</p>
+      <small id="pmaDataStatus" style="color:var(--faint)">Loading data…</small>
+      <small id="pmaDataTimestamp" class="data-timestamp"></small>
+      <!-- Data vintage badge — ACS tract metrics drive the PMA composite;
+           their monthly-refresh cadence sets the SLA. Switches to stale
+           past 32 days (matches data-freshness-check.mjs SLA_CONFIG). -->
+      <div data-vintage-source="data/market/acs_tract_metrics_co.json"
+           data-vintage-sla-days="32"
+           data-vintage-label="ACS metrics as of"
+           style="margin-top:var(--sp2);"></div>
+    </div>
+
+    <!-- ── Data quality, sources, and integrations (collapsed by default) ──
+         Wraps the data-quality banner, the 8-source DataQualitySummary panel,
+         the API-health badge, and the Data Layer Integration table in a
+         single <details> group so the page opens to scoring + map first, not
+         to a wall of provenance plumbing. The user can expand to audit. -->
+    <details class="pma-data-meta-group" style="margin:0 0 var(--sp3);border:1px solid var(--border);border-radius:var(--radius,6px);background:var(--card2,#1a1a1a)">
+      <summary style="cursor:pointer;padding:.55rem .75rem;font-size:.82rem;font-weight:600;color:var(--text);user-select:none;display:flex;align-items:center;gap:.5rem">
+        <span aria-hidden="true" style="display:inline-block;width:.5rem;height:.5rem;background:var(--accent,#3a8);border-radius:50%"></span>
+        Data quality, sources &amp; integrations
+        <span style="font-weight:400;color:var(--muted);font-size:.8125rem;margin-left:.35rem">— click to expand provenance for this analysis</span>
+      </summary>
+      <div style="padding:.5rem .75rem .75rem">
+
+    <!-- ── Data Quality Banner ── -->
+    <div id="pmaDataQualityBanner" class="pma-quality-banner" aria-live="polite" aria-atomic="true">
+      <div class="pma-quality-row">
+        <span class="pma-quality-label">Data Coverage:</span>
+        <span id="pmaQualityAcs" class="pma-quality-pill">ACS —</span>
+        <span id="pmaQualityLihtc" class="pma-quality-pill">LIHTC —</span>
+        <span id="pmaQualityTracks" class="pma-quality-pill">Tracts —</span>
+        <span class="pma-quality-label" style="margin-left:auto">Confidence:</span>
+        <span id="pmaConfidenceScore" class="pma-confidence-badge">—</span>
+        <span class="pma-quality-label">Freshness:</span>
+        <span id="pmaFreshnessIndicator" class="pma-freshness-badge">—</span>
+      </div>
+      <div class="pma-quality-row" style="margin-top:0.35rem">
+        <span class="pma-quality-label">Statewide:</span>
+        <span id="pmaStatewideCoverage" class="pma-quality-pill" title="Loaded tracts vs. ~1,500 total Colorado census tracts">—</span>
+        <span class="pma-quality-label" style="margin-left:auto">Heuristic Confidence:</span>
+        <span id="pmaHeuristicConfidence" class="pma-confidence-badge" title="Click the map to compute heuristic confidence">—</span>
+      </div>
+      <div id="pmaCoverageWarning" class="pma-coverage-warning" style="display:none" role="alert"></div>
+      <div id="pmaQualityWarnings" class="pma-quality-warnings" style="display:none"></div>
+    </div>
+
+    <div id="pageContext"></div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.PageContext) PageContext.render('pageContext', {
+        what: 'Public Market Analysis (PMA) screening tool. Click the map to place a site, choose a buffer radius, and receive a scored feasibility assessment across 5 dimensions: demand, competitive density, rent pressure, market tightness, and workforce. Includes LIHTC concept recommendations.',
+        why: 'Site selection is the most consequential decision in LIHTC development. This tool helps narrow from hundreds of potential sites to a short list worth professional investigation, saving weeks of manual research.',
+        not: 'This is NOT a professionally delineated PMA. It uses a circular buffer, not commuting sheds or economic sub-markets. Scores are from public data only. Employment detection may fail in rural areas (<5,000 total jobs). Barrier analysis is heuristic — the PMA boundary is not spatially modified. This does not replace a CHFA-required market study ($15K-$40K) or professional site due diligence.',
+        nextSteps: [
+          { label: 'Scenario Builder', href: 'hna-scenario-builder.html', desc: '20-year demographic projections' },
+          { label: 'Deal Calculator', href: 'deal-calculator.html', desc: 'Model the capital stack' }
+        ]
+      });
+    });
+    </script>
+
+    <!-- ── Data Transparency Panels ── -->
+    <div id="pmaDataQualitySummary"></div>
+    <div id="pmaApiHealth" data-api-health="auto"></div>
+    <div id="pmaLayerStatus"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DataQualitySummary) {
+        window.DataQualitySummary.render('pmaDataQualitySummary', {
+          sources: [
+            { name: 'Census ACS Tract Metrics', status: 'primary', vintage: '2024', coverage: '~1,500 CO tracts' },
+            { name: 'CHFA LIHTC Projects', status: 'primary', vintage: '2025', coverage: '926 projects statewide (1987–2025)', note: 'Live from CHFA HousingTaxCreditProperties_view; refreshed weekly via CI' },
+            { name: 'HUD QCT/DDA Overlays', status: 'primary', vintage: '2025', coverage: '224 QCT tracts + DDA areas' },
+            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FMR FY2027 · IL FY2026', coverage: 'All CO counties' },
+            { name: 'FEMA Flood Zones', status: 'cached', vintage: '2026 (NFHL current effective)', coverage: 'Colorado', note: 'Polygon SFHA high-risk zones only (A/AE/AO/AH); Zone X/D moderate-low not included' },
+            { name: 'EPA EJI (Environmental Justice)', status: 'cached', vintage: '2022', coverage: 'Tract-level', note: 'Used as soil/cleanup proxy, not geotechnical data' },
+            { name: 'LEHD LODES Commuting', status: 'primary', vintage: '2024', coverage: 'CO counties', note: 'Workforce sub-score (25% weight)' },
+            { name: 'NHPD Preservation', status: 'unavailable', vintage: '—', coverage: 'Not loaded', note: 'The only NHPD file on hand is a 20-record sample that could not be verified, so it is not used. NHPD access is registration-gated; check subsidy status with HUD or CHFA directly.' }
+          ],
+          limitations: 'PMA uses a circular buffer, not a professionally delineated market area. Amenity distances are point-based approximations. Employment detection requires 500+ job clusters (may fail in rural areas). Barrier analysis is heuristic only — the PMA boundary is not spatially modified.'
+        });
+      }
+      if (window.MapLayerStatus) {
+        window.MapLayerStatus.render('pmaLayerStatus', window.MapLayerStatus.buildPMALayers());
+      }
+    });
+    </script>
+
+      </div><!-- /.pma-data-meta-group inner padding -->
+    </details><!-- /.pma-data-meta-group -->
+
+    <!-- ── Report Section Navigation ── -->
+    <nav class="ma-section-nav" aria-label="Report sections">
+      <ul class="ma-section-nav-list">
+        <li><a href="#maPmaTool" class="ma-section-nav-link">PMA Delineation</a></li>
+        <li><a href="#maJurisdictionContext" class="ma-section-nav-link">Commuting &amp; Rents</a></li>
+        <li><a href="#maChfaRequirements" class="ma-section-nav-link">CHFA Requirements</a></li>
+        <li><a href="#maSubjectProject" class="ma-section-nav-link">Subject Project</a></li>
+        <li><a href="#maExecSummary" class="ma-section-nav-link">Executive Summary</a></li>
+        <li><a href="#maMarketDemand" class="ma-section-nav-link">Market Demand</a></li>
+        <li><a href="#maAffordableSupply" class="ma-section-nav-link">Affordable Supply</a></li>
+        <li><a href="#maSubsidyOpp" class="ma-section-nav-link">Subsidy &amp; Finance</a></li>
+        <li><a href="#maSiteFeasibility" class="ma-section-nav-link">Site Feasibility</a></li>
+        <li><a href="#maNeighborhoodAccess" class="ma-section-nav-link">Neighborhood Access</a></li>
+        <li><a href="#maPolicyOverlays" class="ma-section-nav-link">Policy Overlays</a></li>
+        <li><a href="#maOpportunities" class="ma-section-nav-link">Opportunities</a></li>
+        <li><a href="#maSiteComparison" class="ma-section-nav-link">Compare Sites</a></li>
+      </ul>
+    </nav>
+
+    <section class="ma-report-section" id="maPmaTool">
+      <h2>Primary Market Area (PMA) Delineation</h2>
+      <p class="pma-intro-note" style="margin-bottom:.75rem;">
+        Define the PMA boundary by selecting whole census tracts — the only shape CHFA's Market Study Guide (Appendix A) accepts. Click the map to place a site, curate the auto-selected tract set using natural barriers, school districts, jurisdictional lines, or commute sheds, and run the analysis. Other delineation methods remain circular-buffer screening views with tract or commute overlays.
+      </p>
+
+      <!-- ── Delineation method tabs ── -->
+      <div class="pma-method-bar" style="margin-bottom:1rem;">
+        <div role="tablist" class="pma-method-tabs" aria-label="PMA delineation method"
+             style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.6rem;">
+          <!-- F259-B + CHFA tightening (2026-06-11): default is now Tract
+               picker. CHFA Market Study Guide (Appendix A, 2027-28 QAP)
+               requires PMA boundaries to be defined by whole census tracts
+               justified by barriers / school districts / jurisdictional /
+               commute-shed criteria. The other three modes derive boundaries
+               from a radius or commute shed and remain available for
+               screening only. -->
+          <button role="tab" id="pmaMethodTabTract"     aria-selected="true"
+                  aria-controls="pmaMethodPanel-tract"
+                  class="pma-tab pma-tab--active" data-pma-method="tract"
+                  style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
+            Tract picker
+            <span style="font-size:.78em;font-weight:600;">(whole-tract screening)</span>
+          </button>
+          <button role="tab" id="pmaMethodTabHybrid"    aria-selected="false"
+                  aria-controls="pmaMethodPanel-hybrid"
+                  class="pma-tab" data-pma-method="hybrid"
+                  style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
+            Circular buffer + tract overlay
+            <span style="font-size:.75em;">(screening)</span>
+          </button>
+          <button role="tab" id="pmaMethodTabCommuting" aria-selected="false"
+                  aria-controls="pmaMethodPanel-commuting"
+                  class="pma-tab" data-pma-method="commuting"
+                  style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
+            Buffer + commute overlay
+            <span style="font-size:.75em;">(screening)</span>
+          </button>
+          <button role="tab" id="pmaMethodTabBuffer"    aria-selected="false"
+                  aria-controls="pmaMethodPanel-buffer"
+                  class="pma-tab" data-pma-method="buffer"
+                  style="padding:.35rem .9rem;border-radius:4px;border:1px solid var(--border,#444);cursor:pointer;min-height:44px;">
+            Circular buffer
+            <span style="font-size:.75em;">(screening legacy)</span>
+          </button>
+        </div>
+        <div id="pmaMethodPanel-buffer"    role="tabpanel" aria-labelledby="pmaMethodTabBuffer" hidden>
+          <!-- buffer radius shown inline below -->
+        </div>
+        <div id="pmaMethodPanel-commuting" role="tabpanel" aria-labelledby="pmaMethodTabCommuting" hidden>
+          <p style="font-size:.8em;color:var(--faint,#888);margin:0 0 .35rem;">
+            Scores the selected circular buffer and displays LEHD/LODES commute context as a screening overlay. Commute data does not change the scored geography unless you opt into Commute-shaped beta.
+          </p>
+        </div>
+        <div id="pmaMethodPanel-hybrid"    role="tabpanel" aria-labelledby="pmaMethodTabHybrid" hidden>
+          <p style="font-size:.8em;color:var(--faint,#888);margin:0 0 .35rem;">
+            Scores the selected circular buffer and layers tract, commute, school district, and transit context for screening. <strong>Screening only — not CHFA-submittable.</strong>
+          </p>
+        </div>
+        <div id="pmaMethodPanel-tract"     role="tabpanel" aria-labelledby="pmaMethodTabTract">
+          <p style="font-size:.8em;color:var(--faint,#888);margin:0 0 .35rem;">
+            <strong>Whole-tract PMA picker.</strong> Click the map to set a site, then click individual census tracts to add or remove them from the Primary Market Area. Tracts within ~4 miles of the site are pre-selected as a starting set — <strong>curate this set</strong> using natural barriers, school districts, jurisdictional lines, or commute sheds before submitting. ACS population and household totals are aggregated from the selected tract GEOIDs.
+          </p>
+          <div id="pmaTractPickerSummary" hidden
+               style="margin:.4rem 0 .2rem;padding:.5rem .7rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:.82rem;line-height:1.5;color:var(--text)">
+            <strong>Selected tracts: <span id="pmaSelectedTractCount">0</span></strong>
+            <button type="button" id="pmaTractClearBtn"
+                    style="margin-left:.6rem;padding:.15rem .5rem;font-size:.8125rem;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:3px;cursor:pointer">
+              Clear all
+            </button>
+            <div id="pmaTractGeoidList" style="margin-top:.35rem;font-size:.8125rem;color:var(--muted);word-break:break-all"></div>
+            <div id="pmaTractUncuratedBanner" role="note" hidden
+                 style="margin-top:.5rem;padding:.4rem .6rem;border-left:3px solid #d97706;background:rgba(217,119,6,.10);color:var(--text);font-size:.8125rem;line-height:1.45">
+              <strong>Auto-selection ring (4 mi).</strong> No tracts added or removed yet. CHFA review expects a boundary justified by natural barriers, school districts, jurisdictional lines, or commute sheds — not a radius snapped to tract edges. Adjust the selection, write a rationale below, or both.
+            </div>
+            <div id="pmaNaturalFeatures" style="margin-top:.55rem;padding-top:.5rem;border-top:1px solid var(--border)">
+              <label for="pmaNfToggle" style="display:flex;gap:.45rem;align-items:center;min-height:44px;font-size:.8125rem;font-weight:600;color:var(--text);cursor:pointer">
+                <input type="checkbox" id="pmaNfToggle" style="width:20px;height:20px;margin:0;flex:none">
+                <span>Use natural features to limit the market area</span>
+              </label>
+              <p id="pmaNfSupported" style="margin:.2rem 0 0 1.4rem;font-size:.8125rem;line-height:1.45;color:var(--muted)">
+                Checks <span id="pmaNfSupportedList">interstates, rivers, and named lakes and reservoirs</span>. Not ridges or mountains: COHO has no data for them. A tract is proposed when the straight line from the site to the tract's centre crosses one of these.
+              </p>
+              <div id="pmaNfStatus" role="status" aria-live="polite" hidden
+                   style="margin:.4rem 0 0 1.4rem;font-size:.8125rem;line-height:1.45;color:var(--text)"></div>
+              <ul id="pmaNfList" hidden style="list-style:none;margin:.35rem 0 0 1.4rem;padding:0;font-size:.8125rem;line-height:1.4"></ul>
+              <button type="button" id="pmaNfApply" hidden
+                      style="margin:.4rem 0 0 1.4rem;padding:.3rem 1rem;min-height:44px;min-width:44px;font-size:.8125rem;border:1px solid var(--accent);background:var(--card);color:var(--accent);font-weight:600;border-radius:4px;cursor:pointer">
+                Apply
+              </button>
+            </div>
+            <label for="pmaTractRationale"
+                   style="display:block;margin:.55rem 0 .2rem;font-size:.8125rem;font-weight:600;color:var(--text)">
+              PMA boundary rationale <span style="font-weight:400;color:var(--muted)">(included verbatim in the CHFA justification narrative)</span>
+            </label>
+            <textarea id="pmaTractRationale" rows="3" maxlength="2000"
+                      placeholder="e.g., excluded tracts north of I-70 (highway barrier); included Carbondale RE-1 school district; followed Garfield County jurisdictional line on the west; PMA captures ~80% of LODES commute shed."
+                      style="width:100%;padding:.4rem .55rem;font-size:.8125rem;line-height:1.4;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);resize:vertical;font-family:inherit"></textarea>
+          </div>
+        </div>
+      </div>
+
+    <div class="pma-layout">
+      <!-- ── Left: Map ── -->
+      <div class="pma-map-wrap">
+        <div class="pma-controls">
+          <label for="pmaBufferSelect">Buffer radius (screening only):</label>
+          <select id="pmaBufferSelect" aria-label="Screening buffer radius in miles — not a CHFA-delineated PMA">
+            <option value="1">1 mi · urban infill</option>
+            <option value="2">2 mi · small city neighborhood</option>
+            <option value="3" selected>3 mi · small town / suburban (default)</option>
+            <option value="5">5 mi · rural ex-urban</option>
+            <option value="10">10 mi · rural (low density)</option>
+            <option value="15">15 mi · remote rural</option>
+          </select>
+          <label for="pmaIsochroneToggle" class="pma-iso-toggle"
+                 style="display:inline-flex;align-items:center;gap:.4rem;margin-left:.9rem;font-size:.8125rem;color:var(--muted);cursor:pointer"
+                 title="Show concentric rings around the placed site at walking and biking radii">
+            <input type="checkbox" id="pmaIsochroneToggle" aria-label="Show walking and biking isochrone rings">
+            <span>Walking + biking rings</span>
+          </label>
+          <span id="pmaSiteCoords" style="font-size:var(--tiny);color:var(--text);margin-left:auto">No site selected</span>
+        </div>
+        <!-- Address-based site selection — alternative to map-click.
+             Uses free Census Geocoder (no API key) + restricts to Colorado. -->
+        <div class="pma-address-search" role="search"
+             style="display:flex;align-items:center;gap:.5rem;margin:.6rem 0 .4rem;padding:.5rem .6rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);flex-wrap:wrap">
+          <label for="pmaAddressInput" style="font-size:.8125rem;font-weight:600;color:var(--muted);white-space:nowrap">
+            Find a Colorado address or pin:
+          </label>
+          <input id="pmaAddressInput" type="search"
+                 placeholder="e.g. 1437 Bannock St, Denver CO  —  or  39.5739, -107.5384"
+                 aria-label="Colorado street address, place name, or lat,lon coordinates"
+                 autocomplete="street-address"
+                 style="flex:1 1 240px;min-width:220px;padding:.35rem .5rem;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);font-size:.85rem">
+          <button id="pmaAddressSearchBtn" type="button"
+                  style="padding:.35rem .85rem;font-size:.8125rem;font-weight:700;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent,#fff);border-radius:4px;cursor:pointer"
+                  aria-label="Find &amp; drop pin: geocode the address and mark the site">
+            Find &amp; drop pin
+          </button>
+          <span id="pmaAddressStatus" role="status" aria-live="polite"
+                style="font-size:.8125rem;color:var(--muted);flex-basis:100%"></span>
+        </div>
+        <div id="pmaMap" role="application" aria-label="Colorado map — click to place a site marker"></div>
+        <div class="pma-map-hint">Click anywhere on the map to place a site — or type an address above. Uses the free US Census Geocoder (no API key required).</div>
+
+        <!-- ── Boundary overlays ── -->
+        <details class="map-layer-details map-layer-section">
+          <summary class="map-layer-heading">Boundary overlays</summary>
+          <div class="map-layer-grid">
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" id="pmaSmaToggle" data-layer="sma">
+              Secondary Market Area <small>(~25 mi)</small>
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" id="pmaParcelZoningToggle" data-layer="parcelZoning">
+              Existing buildings by type <small>(OpenStreetMap, not zoning)</small>
+            </label>
+          </div>
+        </details>
+
+        <!-- ── Map layers ── -->
+        <details id="pmaLayerPickerWrap" class="map-layer-details map-layer-section">
+          <summary class="map-layer-heading">Map layers</summary>
+          <div class="map-layer-grid">
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="lihtc" checked>
+              LIHTC properties
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="opportunities">
+              Opportunity Zones
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="schools">
+              Schools
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="transit">
+              Transit routes
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="transitStops">
+              Transit stops <small>(7,888)</small>
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="employmentCenters">
+              Employment centers <small>(LODES)</small>
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="grocery">
+              Grocery &amp; convenience stores
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="retail">
+              Retail &amp; dining
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="healthcare">
+              Healthcare facilities
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="parks">
+              Parks &amp; recreation
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="hospitals">
+              Hospitals &amp; medical
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="childcare">
+              Child care centers
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="barriers">
+              Natural barriers <small>(highways + water)</small>
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="envJustice">
+              Environmental justice
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="walkability">
+              Walkability scores <small>(EPA SLD)</small>
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="commuting">
+              Commuting flows <small>(LODES)</small>
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="infrastructure">
+              Infrastructure
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="housingPolicy">
+              Housing policy <small>(jurisdictions)</small>
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="commutingFlows">
+              Commuting flows <small>(LODES, largest per tract)</small>
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="commuteContext" id="pmaCommuteContextToggle">
+              Commute context <small>(LODES 2024 · no score change)</small>
+            </label>
+            <label class="map-layer-label" id="pmaCommuteShapedLabel">
+              <input type="checkbox" class="map-layer-cb" id="pmaCommuteShapedToggle">
+              Commute-shaped PMA (beta) <small>(opt-in)</small>
+              <span class="map-layer-badge" id="pmaCommuteShapedWarning" hidden></span>
+            </label>
+            <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="flood">
+              Flood zones
+            </label>
+            <label class="map-layer-label" id="layerToggleListings" title="Requires Bridge Browser Token + Dataset Code (set in Data Quality Dashboard)">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="listings" id="listingsLayerCb">
+              MLS listings <span class="map-layer-badge" id="listingsBadge">—</span>
+            </label>
+          </div>
+        </details>
+      </div>
+
+      <!-- ── Right: Analysis Panel ── -->
+      <div class="pma-panel">
+
+        <!-- Site Score -->
+        <div class="pma-card" data-pma-keep>
+          <h2>Site Score</h2>
+          <div id="pmaScoreWrap" class="pma-score-wrap">
+            <div class="pma-score-circle" id="pmaScoreCircle" data-score-role="primary" aria-label="PMA score, the primary result">—</div>
+            <div class="pma-score-meta">
+              <div class="pma-score-label">PMA score (0–100) — the primary result</div>
+              <div class="pma-score-scale" id="pmaScoreScale" style="font-size:.8125rem;color:var(--muted);margin-top:2px;"></div>
+              <div class="pma-score-note" style="font-size:.8125rem;color:var(--muted);margin-top:2px;">Relative indicator only — not a CHFA threshold</div>
+              <div class="pma-score-boundary" id="pmaScoreBoundary" data-boundary="none" style="font-size:.8125rem;margin-top:2px;" hidden></div>
+              <div class="pma-score-tier" id="pmaScoreTier">Select a site to begin</div>
+              <!-- #1937: HB26-1065 zone gate. Beside the score, not part of it. -->
+              <div class="pma-tz-gate" id="pmaTransitZoneGate" data-tz-state="none" aria-live="polite" style="font-size:.8125rem;margin-top:6px;line-height:1.4;" hidden></div>
+              <div style="font-size:var(--tiny);color:var(--faint);margin-top:0.3rem"><span id="pmaTractCount">—</span> ACS tracts in buffer</div>
+            </div>
+          </div>
+          <div style="margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;">
+            <button class="pma-btn pma-btn-primary" id="pmaRunBtn" type="button">Run Analysis</button>
+            <button class="pma-btn" id="pmaExplainScoreBtn" type="button" hidden>Explain Score</button>
+            <button class="pma-btn" id="pmaExportBtn" type="button" title="Export PMA report as printable HTML">Export Report</button>
+            <button class="pma-btn" id="pmaExportCsvBtn" type="button" title="Download analytics-grade CSV: site coords, dimension scores, ACS aggregates, amenity distances, data-coverage flags">Download CSV</button>
+            <button class="pma-btn" id="pmaExportJsonBtn" type="button" title="Download full result snapshot as JSON for downstream analysis">Download JSON</button>
+          </div>
+
+          <!-- F162 — gated CRM add mount. Hydrated by the
+               script block at the bottom of this page, gated on the
+               developer session cookie. Empty for public visitors. -->
+          <div id="pmaDealTrackerMount" style="margin-top:.55rem"></div>
+
+          <!-- ── Progress bar (visible during analysis) ── -->
+          <div id="pmaProgressWrap"
+               style="margin-top:.75rem;display:none;"
+               aria-live="polite" aria-atomic="false">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.3rem;">
+              <span id="pmaProgressLabel" style="font-size:.8em;color:var(--text,#eee);">Initializing…</span>
+              <span id="pmaProgressPct"   style="font-size:.75em;color:var(--faint,#888);">0 %</span>
+            </div>
+            <div role="progressbar"
+                 id="pmaProgressBar"
+                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+                 aria-labelledby="pmaProgressLabel"
+                 style="height:6px;background:var(--border,#333);border-radius:3px;overflow:hidden;">
+              <div id="pmaProgressFill"
+                   style="height:100%;width:0%;background:var(--accent,#096e65);border-radius:3px;transition:width .3s ease;"></div>
+            </div>
+            <div id="pmaProgressSteps"
+                 style="font-size:.72em;color:var(--faint,#888);margin-top:.25rem;">Step 0 of 9</div>
+          </div>
+
+        </div>
+
+        <!-- ── PMA Site Summary (consolidated view) ─────────────────────────
+             Aggregates the geographic + access facts the analysis already
+             collects so users get a one-glance picture of what makes up the
+             PMA, without hunting through Site Score, Data Coverage, TOD,
+             and the LIHTC Supply card individually. Hidden until Run
+             Analysis fires; populated by renderPmaSiteSummary().
+        -->
+        <div class="pma-card" id="pmaSiteSummary" style="display:none" data-source="ACS DP04 tract metrics · TIGER place boundaries · OpenStreetMap amenities · RTD/CDOT GTFS transit" data-source-id="acs-tract-metrics">
+          <h2 style="margin-bottom:6px">PMA Site Summary</h2>
+          <p style="font-size:.8125rem;color:var(--muted);margin:0 0 .6rem">
+            Snapshot of what the PMA boundary contains. Use this card to sanity-check the analysis before reading scores.
+          </p>
+          <dl class="pma-summary-dl" style="display:grid;grid-template-columns:minmax(0,max-content) minmax(55%,1fr);column-gap:.75rem;row-gap:.35rem;font-size:.85rem;margin:0;overflow-wrap:anywhere">
+            <dt style="font-weight:600;color:var(--muted)">Boundary method</dt>
+            <dd id="pmaSumBoundary" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Commute context</dt>
+            <dd id="pmaSumCommuteContext" style="margin:0">Off — does not change PMA scores or tract selection</dd>
+            <dt style="font-weight:600;color:var(--muted)">Census tracts</dt>
+            <dd id="pmaSumTracts" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)" title="Estimated by apportioning each census tract's households by the share of its area inside the buffer. A compact town inside large rural tracts is an approximation, not an exact jurisdiction count.">Households in buffer (area-apportioned est.)</dt>
+            <dd id="pmaSumUnits" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Rental households</dt>
+            <dd id="pmaSumRenters" style="margin:0">—</dd>
+            <!-- 2026-05 additions: ACS tract fields that aggregateAcs()
+                 was dropping until PR #889. Surfaces severity-level
+                 need indicators alongside the housing-stock totals. -->
+            <dt style="font-weight:600;color:var(--muted)">Severe cost-burden (renters)</dt>
+            <dd id="pmaSumSevereBurden" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Poverty rate</dt>
+            <dd id="pmaSumPoverty" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Unemployment rate</dt>
+            <dd id="pmaSumUnemployment" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)" title="LEHD LODES 2024 primary jobs, home tract to workplace town, each tract counted by its share in the market area. Context for the commuting section of a market study: it adds no demand and does not change any score.">Where residents work</dt>
+            <dd id="pmaSumWorkplaces" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)" title="2020 Census homes by town and tract (PL 94-171). A tract is flagged when another town holds at least 10% of its homes and more of them than the main town. CHFA's guide requires whole tracts, so keep or drop a flagged tract with the tract picker.">Other towns in these tracts</dt>
+            <dd id="pmaSumOtherTowns" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)" title="LEHD LODES 2024 tract-to-tract jobs (all jobs). Jobs in a tract shared with another town are counted apart. Context only: it adds no demand and does not change any score.">Who works here</dt>
+            <dd id="pmaSumInflow" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Nearest transit</dt>
+            <dd id="pmaSumTransit" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)" title="Supermarket or grocer. Convenience and general stores are not counted.">Nearest full grocery store</dt>
+            <dd id="pmaSumGrocery" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)" title="Clinic, doctor's office or hospital. Dentists, pharmacies and alternative medicine are not counted.">Nearest clinic or hospital</dt>
+            <dd id="pmaSumHealthcare" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Nearest school</dt>
+            <dd id="pmaSumSchool" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Nearest park</dt>
+            <dd id="pmaSumPark" style="margin:0">—</dd>
+          </dl>
+          <!-- K — Tract-level breakdown table. Surfaces the polygon-clip
+               shares that drive demand apportionment (now real after C). -->
+          <div id="pmaTractBreakdown" style="margin-top:14px;"></div>
+          <details style="margin-top:.6rem;font-size:.8125rem;color:var(--muted);line-height:1.5;">
+            <summary style="cursor:pointer;font-weight:600;color:var(--text)">Methodology &amp; rural-area fallback</summary>
+            <div style="margin-top:.4rem">
+              <p style="margin:0 0 .35rem"><strong>Boundary:</strong> A circular buffer around the placed site marker. Industry-standard PMA studies use commuting-shed + barrier analysis; the circular buffer is a screening simplification, not a substitute for a NH&amp;RA/Novogradac delineation.</p>
+              <p style="margin:0 0 .35rem"><strong>Census tracts:</strong> 2020 TIGER tract polygons whose centroid falls inside the buffer. Tract metrics from ACS 5-Year DP04 are population-weighted to derive PMA-level housing-unit and renter-household totals.</p>
+              <p style="margin:0 0 .35rem"><strong>Transit:</strong> Distance reported is to the nearest fixed-route stop (RTD/CDOT GTFS for Front Range; OpenStreetMap <code>public_transport=stop_position</code> elsewhere). In rural areas where fixed-route service is sparse, the fallback uses any OSM-tagged transit stop within the OSM dataset — these may include flag stops or call-a-ride pickup points that don't earn CHFA TOD points but still represent real transit access. The TOD panel above applies the ½-mile fixed-route standard strictly.</p>
+              <p style="margin:0 0 .35rem"><strong>Amenity distances:</strong> Straight-line (haversine) distance to the nearest tagged amenity. Not a walk- or drive-time estimate. Distances over the buffer radius indicate the amenity is outside the PMA but may still serve the site.</p>
+              <p style="margin:0"><strong>Limits:</strong> Buffer-based screening misses commuting-shed cuts (a 5-mile buffer can cross a 4-lane state highway that no LIHTC tenant would walk across). Treat this card as a high-signal pre-screen, not a market study.</p>
+            </div>
+          </details>
+        </div>
+
+        <!-- Vacancy Context — ACS B25004 buffer-weighted + source landscape -->
+        <div class="pma-card" id="pmaVacancyContextCard" data-source="Census ACS 5-Year B25004 + B25003 (tract metrics)" data-source-url="https://www.census.gov/programs-surveys/acs" data-vintage="ACS 5-yr 2020-2024" data-source-type="primary" style="display:none">
+          <div id="pmaVacancyContextMount" aria-live="polite"></div>
+        </div>
+
+        <!-- TOD Eligibility (½-mile transit) -->
+        <div class="pma-card" id="pmaTodPanel" style="display:none">
+          <h2 style="display:flex;align-items:center;gap:8px">
+            Transit-Oriented Development
+            <small style="font-size:.65em;font-weight:400;color:var(--muted);background:var(--surface);padding:2px 8px;border-radius:4px">CHFA 5 pts</small>
+          </h2>
+          <p style="font-size:.8125rem;color:var(--muted);margin-bottom:8px">
+            CHFA awards 5 QAP points (adopted 2027–28 QAP, §5.B.2.b) to sites at an existing or planned TOC or TOD site, within a ½-mile walk of transit; the 2025–26 QAP gave 3.
+            The blue dashed circle on the map shows a straight-line ½ mile, so confirm the walking route.
+          </p>
+          <div id="pmaTodContent">
+            <p style="color:var(--muted);font-size:.9rem">Place a site marker to check TOD eligibility.</p>
+          </div>
+        </div>
+
+        <!-- Radar Chart + Dimensions -->
+        <div class="pma-card" data-source="ACS 5-Year + HUD LIHTC DB + FRED + DOLA" data-source-url="https://www.huduser.gov/portal/datasets/lihtc.html" data-vintage="ACS 2020–2024 · HUD LIHTC 2023 · FRED 2024 · DOLA 2024" data-source-type="modeled">
+          <h2>Dimension Scores</h2>
+          <div class="pma-radar-wrap">
+            <canvas id="pmaRadarChart" role="img" aria-label="Radar chart: Primary Market Area scoring across affordability, demand, supply, and risk dimensions"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+          </div>
+          <ul class="pma-dim-list" id="pmaDimList">
+            <li class="pma-empty">Place a site marker to see dimension scores.</li>
+          </ul>
+          <div id="pmaBridgeContext" class="pma-card" style="display:none;margin-top:.75rem;padding:.6rem .85rem"></div>
+        </div>
+
+        <!-- Risk Flags -->
+        <div class="pma-card">
+          <h2>Risk Flags</h2>
+          <div id="pmaFlags">
+            <div class="pma-empty">No flags computed yet.</div>
+          </div>
+        </div>
+
+        <!-- Data Coverage -->
+        <div class="pma-card">
+          <details id="pmaDataCoverageDetails">
+            <summary style="cursor:pointer;font-weight:600;padding:.25rem 0">Data Coverage</summary>
+            <div id="pmaDataCoverage" style="margin-top:.5rem">
+              <div class="pma-empty">Run analysis to see data coverage.</div>
+            </div>
+          </details>
+        </div>
+
+        <!-- Existing affordable supply (LIHTC + other assisted) -->
+        <div class="pma-card">
+          <h2 style="display:inline;margin:0;">Existing affordable supply in buffer</h2>
+          <details class="info-tooltip">
+            <summary title="What's counted in 'supply'?" aria-label="Show existing affordable supply methodology">i</summary>
+            <div class="info-tooltip-body">
+              <p><strong>What this counts.</strong> Every affordable property located inside the analysis area (the buffer radius, or the selected tracts), from two sources kept separate in the breakdown:</p>
+              <ul style="margin:0 0 0.5rem 1.1rem;padding:0">
+                <li><strong>LIHTC</strong> — every CHFA tax-credit project, whatever its compliance status, operating or still being built. This total does not separate them. The competitive-pipeline card separates them only in part: CHFA's “Pre-Compliance - Construction Phase” marks a project being built, but “Active Compliance” does not show that a property has opened (most 2025 awards already carry it), so those projects and any without a status are staged from the CHFA <strong>award</strong> year, which usually comes two to three years before opening, and marked as estimates. Units are the project's <strong>income-restricted</strong> units (<code>LI_UNITS</code>), not its total units.</li>
+                <li><strong>Other assisted</strong> — HUD Multifamily Assisted, USDA Rural Development, local project-based vouchers and CHFA preservation records (<code>data/affordable-housing/properties.json</code>), counted at their <strong>assisted</strong> units.</li>
+              </ul>
+              <p>Nothing is excluded for an expired or expiring affordability period — the count includes properties at risk of leaving the inventory.</p>
+              <p>A property in both sources is counted once, as LIHTC: an other-assisted record within 100 m of a LIHTC project whose name shares a distinctive word with it is dropped. A project that does not report its restricted or assisted units is counted at its total units, and one that reports no unit count is left out of the unit total; each case is disclosed under the units figure.</p>
+              <dl>
+                <dt>Buffer radius</dt><dd>3, 5, 10, or 15 miles — selected via the control above the map</dd>
+                <dt>Primary source</dt><dd>CHFA HousingTaxCreditProperties live feed (<code>data/chfa-lihtc.json</code>) — 926 projects through 2025</dd>
+                <dt>Fallback source</dt><dd>HUD LIHTC Database (<code>data/market/hud_lihtc_co.geojson</code>) when CHFA cache is missing — lags by 2–3 years</dd>
+                <dt>Existing affordable penetration</dt><dd>existing affordable units (LIHTC + HUD Multifamily Assisted + USDA RD + local PBV + CHFA preservation, from projects that report a unit count) ÷ renter households in the PMA that qualify for a tax-credit unit at any CHFA tier from 20% to 80% AMI under CHFA's market-study rules (income at or under the limit for the household's size, rent no more than 40% of income, a household that fits a one- to three-bedroom unit). Tract counts by income come from HUD CHAS; the split by household size comes from Census ACS microdata (PUMS) for the surrounding area. It is not the proposed-project capture rate, which divides the proposed units by the renters who qualify for the project's own AMI tiers (60% unless you change the mix). When those files are missing, both fall back to all renters at or under 80% AMI (HUD CHAS), then to all renter households (ACS); the count used is shown under each rate.</dd>
+                <dt>Prop 123 overlay</dt><dd>count of units in DOLA Prop 123 jurisdictions — surfaces local-commitment alignment</dd>
+              </dl>
+            </div>
+          </details>
+          <div class="pma-stat-grid">
+            <div class="pma-stat">
+              <div class="pma-stat-value" id="pmaAffordableCount">—</div>
+              <div class="pma-stat-label">Existing affordable projects</div>
+              <div class="pma-stat-label" id="pmaAffordableBreakdown" style="font-size:.8125rem"></div>
+              <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">CHFA / HUD LIHTC</a> · HUD Multifamily Assisted · USDA RD · CHFA preservation</div>
+            </div>
+            <div class="pma-stat">
+              <div class="pma-stat-value" id="pmaLihtcUnits">—</div>
+              <div class="pma-stat-label">Existing affordable units (LIHTC + HUD MF, USDA RD, PBV)</div>
+              <div class="pma-stat-label" id="pmaAffordableUnitsBreakdown" style="font-size:.8125rem"></div>
+              <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">CHFA / HUD LIHTC</a> · HUD Multifamily Assisted · USDA RD · local PBV · CHFA preservation</div>
+            </div>
+            <div class="pma-stat">
+              <div class="pma-stat-value" id="pmaCaptureRate">—</div>
+              <div class="pma-stat-label">Existing affordable penetration</div>
+              <div class="pma-stat-note" id="pmaCaptureDenominator" data-denominator="" style="font-size:var(--tiny);color:var(--muted)"></div>
+              <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD</a> · <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS</a></div>
+            </div>
+            <div class="pma-stat">
+              <div class="pma-stat-value" id="pmaRenterHh">—</div>
+              <div class="pma-stat-label">Renter households (all incomes)</div>
+              <div class="kpi-source"><a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">ACS 2020–2024</a></div>
+            </div>
+            <div class="pma-stat">
+              <div class="pma-stat-value" id="pmaLihtcProp123" style="color:var(--accent)">—</div>
+              <div class="pma-stat-label">In Prop 123 jurisdictions</div>
+              <div class="kpi-source"><a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 commitment filings</a></div>
+            </div>
+            <div class="pma-stat">
+              <div class="pma-stat-value" id="pmaLihtcLastFunded" style="font-size:.85rem;line-height:1.25;">—</div>
+              <div class="pma-stat-label">Most recent LIHTC allocation</div>
+              <div class="kpi-source">CHFA award year (YR_ALLOC)</div>
+            </div>
+          </div>
+          <p class="pma-stat-note" id="pmaAffordableUnitsNote" role="note" style="font-size:.8125rem;color:var(--warn);margin:.4rem 0 0" hidden></p>
+        </div>
+
+        <div class="pma-card" id="pmaFundingContextCard" data-funding-context-surface="pma" hidden></div>
+
+        <!-- Curated jurisdictional housing-history brief (single-jurisdiction
+             scope, every claim sourced). Hides itself when no brief is on
+             file for the site's containing place or county. Inserted ahead of
+             the CHFA award timeline so the analyst gets narrative context
+             before the data table. -->
+        <!-- Curated jurisdictional housing-history briefs live only in
+             internal review tools. The PMA tool no longer surfaces them here. -->
+
+        <!-- Recent CHFA LIHTC awards in the containing county. Mirrors the
+             same component used on the HNA jurisdiction view + IC packet so
+             the PMA tool exposes a consistent "what's the local LIHTC
+             pipeline?" answer alongside the buffer aggregate stats above.
+             Card stays hidden until Run Analysis populates a county FIPS. -->
+        <div class="pma-card" id="pmaChfaAwardHistoryCard" hidden>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px">
+            <h2 style="display:inline-block;margin:0;">Recent CHFA LIHTC awards <span id="pmaChfaAwardHistoryScope" style="font-weight:400;font-size:.8125rem;color:var(--muted)"></span></h2>
+          </div>
+          <p style="font-size:var(--tiny);margin:6px 0 8px;color:var(--muted)">
+            Per-jurisdiction award timeline pulled from the deduped CHFA HousingTaxCreditProperties feed. Each property links to a chfainfo.com lookup.
+          </p>
+          <div id="pmaChfaAwardHistoryMount"></div>
+        </div>
+
+        <!-- F83: Nearby LIHTC OUTSIDE the PMA — regional context for sites
+             where the buffer/tract-shed catches few or no LIHTC projects.
+             These don't count toward competitive supply (they're outside the
+             PMA), but they tell you what's been built recently in the
+             broader market and give comparable-deal anchors. -->
+        <div class="pma-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+            <h2 style="display:inline-block;margin:0;">Nearby LIHTC outside the PMA</h2>
+            <div style="display:flex;align-items:center;gap:6px;font-size:.8125rem;color:var(--muted)">
+              within
+              <select id="pmaNearbyRadius" aria-label="Outer search radius" style="padding:2px 6px;border:1px solid var(--border);border-radius:4px;background:var(--card);color:var(--text);font-size:.82rem">
+                <option value="15">15 mi</option>
+                <option value="25" selected>25 mi</option>
+                <option value="50">50 mi</option>
+              </select>
+              of the site
+            </div>
+          </div>
+          <p style="font-size:var(--tiny);margin:6px 0 8px;color:var(--muted)">
+            Properties beyond the PMA boundary but within the chosen radius — for regional comparable
+            deals and recent-vintage benchmarks. Sorted nearest first; not included in existing affordable penetration or
+            competitive-supply scoring.
+          </p>
+          <div id="pmaNearbyLihtcWrap" tabindex="0" role="region" aria-label="Nearby LIHTC properties — scroll horizontally to see all columns" style="overflow-x:auto;border:1px solid var(--border);border-radius:6px">
+            <table id="pmaNearbyLihtc" style="width:100%;border-collapse:collapse;font-size:.85rem">
+              <thead style="background:var(--card2);font-size:.8125rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)">
+                <tr>
+                  <th style="text-align:left;padding:6px 8px">Project</th>
+                  <th style="text-align:left;padding:6px 8px">City</th>
+                  <th style="text-align:right;padding:6px 8px" title="Straight-line distance from the analysis site">Distance</th>
+                  <th style="text-align:right;padding:6px 8px" title="Year CHFA awarded the credits — not the year the property opened, which CHFA does not publish">Award year</th>
+                  <th style="text-align:right;padding:6px 8px" title="Total units; LI = LIHTC-restricted units">Units (LI)</th>
+                  <th style="text-align:left;padding:6px 8px" title="9% competitive vs 4% bond">Credit</th>
+                </tr>
+              </thead>
+              <tbody><tr><td colspan="6" style="padding:8px;color:var(--muted)">—</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Proposed-project capture simulator -->
+        <div class="pma-card">
+          <h2>Proposed-project capture simulator</h2>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem">Enter proposed unit count and AMI mix to simulate the proposed-project capture rate (see the capture result’s methodology for the denominator and calculation).</p>
+          <div class="pma-ami-grid">
+            <div class="pma-ami-field">
+              <label for="pmaProposedUnits">Total proposed units</label>
+              <input type="number" id="pmaProposedUnits" min="1" max="500" value="100" aria-label="Total proposed units" aria-describedby="pmaProposedUnits-error">
+              <span id="pmaProposedUnits-error" class="field-error" role="alert" hidden></span>
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi30">Units @ 30% AMI</label>
+              <input type="number" id="pmaAmi30" min="0" max="500" value="0" aria-label="Units at 30 percent AMI" aria-describedby="pmaAmi30-error">
+              <span id="pmaAmi30-error" class="field-error" role="alert" hidden></span>
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi40">Units @ 40% AMI</label>
+              <input type="number" id="pmaAmi40" min="0" max="500" value="0" aria-label="Units at 40 percent AMI" aria-describedby="pmaAmi40-error">
+              <span id="pmaAmi40-error" class="field-error" role="alert" hidden></span>
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi50">Units @ 50% AMI</label>
+              <input type="number" id="pmaAmi50" min="0" max="500" value="0" aria-label="Units at 50 percent AMI" aria-describedby="pmaAmi50-error">
+              <span id="pmaAmi50-error" class="field-error" role="alert" hidden></span>
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi60">Units @ 60% AMI</label>
+              <input type="number" id="pmaAmi60" min="0" max="500" value="100" aria-label="Units at 60 percent AMI" aria-describedby="pmaAmi60-error">
+              <span id="pmaAmi60-error" class="field-error" role="alert" hidden></span>
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi80">Units @ 80% AMI</label>
+              <input type="number" id="pmaAmi80" min="0" max="500" value="0" aria-label="Units at 80 percent AMI" aria-describedby="pmaAmi80-error">
+              <span id="pmaAmi80-error" class="field-error" role="alert" hidden></span>
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi90">Units @ 90% AMI <small style="color:var(--muted);font-weight:normal">(workforce / above-LIHTC)</small></label>
+              <input type="number" id="pmaAmi90" min="0" max="500" value="0" aria-label="Units at 90 percent AMI" aria-describedby="pmaAmi90-error">
+              <span id="pmaAmi90-error" class="field-error" role="alert" hidden></span>
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi110">Units @ 110% AMI <small style="color:var(--muted);font-weight:normal">(Prop 123 workforce)</small></label>
+              <input type="number" id="pmaAmi110" min="0" max="500" value="0" aria-label="Units at 110 percent AMI" aria-describedby="pmaAmi110-error">
+              <span id="pmaAmi110-error" class="field-error" role="alert" hidden></span>
+            </div>
+            <div class="pma-ami-field">
+              <label for="pmaAmi120">Units @ 120% AMI <small style="color:var(--muted);font-weight:normal">(CHFA upper band)</small></label>
+              <input type="number" id="pmaAmi120" min="0" max="500" value="0" aria-label="Units at 120 percent AMI" aria-describedby="pmaAmi120-error">
+              <span id="pmaAmi120-error" class="field-error" role="alert" hidden></span>
+            </div>
+          </div>
+          <!-- Bedroom sizes offered: CHFA's guide drops household sizes the project will not serve -->
+          <fieldset id="pmaBedrooms" style="border:1px solid var(--border);border-radius:4px;margin:0.5rem 0;padding:0.4rem 0.75rem">
+            <legend style="font-size:var(--tiny);font-weight:600;padding:0 0.25rem">Bedroom sizes offered</legend>
+            <div style="display:flex;flex-wrap:wrap;gap:0 1rem;font-size:var(--tiny)">
+              <label style="display:inline-flex;align-items:center;gap:0.35rem;min-height:44px;min-width:44px;cursor:pointer"><input type="checkbox" id="pmaBr0" value="0br"> Studio</label>
+              <label style="display:inline-flex;align-items:center;gap:0.35rem;min-height:44px;min-width:44px;cursor:pointer"><input type="checkbox" id="pmaBr1" value="1br" checked> 1BR</label>
+              <label style="display:inline-flex;align-items:center;gap:0.35rem;min-height:44px;min-width:44px;cursor:pointer"><input type="checkbox" id="pmaBr2" value="2br" checked> 2BR</label>
+              <label style="display:inline-flex;align-items:center;gap:0.35rem;min-height:44px;min-width:44px;cursor:pointer"><input type="checkbox" id="pmaBr3" value="3br" checked> 3BR</label>
+            </div>
+            <p style="font-size:var(--tiny);color:var(--muted);margin:0.25rem 0 0">Only households that fit an offered size are counted (studio 1 person, 1BR 1–2, 2BR 2–3, 3BR 3–5).</p>
+          </fieldset>
+          <!-- Unit-mix sync indicator: three-state (hard error / informational / hidden) -->
+          <div id="pma-units-sync-warn" hidden
+            style="margin:0.5rem 0;padding:0.5rem 0.75rem;border-radius:4px;
+                   font-size:var(--tiny);line-height:1.5;"
+            role="status" aria-live="polite">
+          </div>
+          <div id="pmaSimResult" style="margin-top:0.75rem">
+            <div class="pma-empty">Place a site to run simulator.</div>
+          </div>
+        </div>
+
+        <!-- Scenario Analysis -->
+        <div class="pma-card">
+          <h2>Scenario Analysis</h2>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem">What-if modeling: compare score outcomes for different unit counts.</p>
+          <a href="hna-scenario-builder.html"
+             style="display:inline-block;font-size:var(--tiny);padding:.3rem .75rem;
+                    border:1px solid var(--accent,#096e65);border-radius:4px;color:var(--accent,#096e65);
+                    text-decoration:none;margin-bottom:.5rem;">
+            Full Scenario Builder &rarr;
+          </a>
+          <div id="pmaScenarioResult">
+            <div class="pma-empty">Run analysis to compare scenarios.</div>
+          </div>
+        </div>
+
+        <!-- Mortgage Credit Access (HMDA + cross-county disclosure) -->
+        <div class="pma-card">
+          <h2 style="display:inline;margin:0;">Mortgage Credit Access</h2>
+          <details class="info-tooltip">
+            <summary title="What does this show?" aria-label="Show HMDA methodology">i</summary>
+            <div class="info-tooltip-body">
+              <p><strong>What this shows.</strong> Mortgage origination + denial-rate context for the buffer's primary county, sourced from CFPB HMDA Data Browser data. Tightening credit (rising denial rate, falling originations) precedes slowdowns in multifamily starts and reduced LIHTC bond demand.</p>
+              <dl>
+                <dt>Per-county metrics</dt><dd>originations, denial rate, mean loan amount, multifamily-only origination count (LIHTC-adjacent)</dd>
+                <dt>State benchmark</dt><dd>delta vs CO statewide (pp for rates, % for amounts)</dd>
+                <dt>Cross-county disclosure</dt><dd>when the buffer spans multiple counties, both counties' rates are summarized so you can see which side the parcel sits on matters for HUD AMI tier rents</dd>
+              </dl>
+              <p style="margin-top:0.5rem;font-size:.8125rem;color:var(--muted)">Source: <a href="https://ffiec.cfpb.gov/data-browser/" target="_blank" rel="noopener">CFPB HMDA Data Browser</a>. Vintages <span data-hmda-vintage>as listed in the data file</span>.</p>
+            </div>
+          </details>
+          <div id="pmaHmdaResult" style="margin-top:0.5rem;">
+            <div class="pma-empty">Place a site to load mortgage credit context.</div>
+          </div>
+        </div>
+
+        <!-- Peer Benchmarking -->
+        <div class="pma-card">
+          <h2 style="display:inline;margin:0;">Peer Benchmarking</h2>
+          <details class="info-tooltip">
+            <summary title="How are peers selected?" aria-label="Show peer benchmarking methodology">i</summary>
+            <div class="info-tooltip-body">
+              <p><strong>What this compares.</strong> Your site's score against real Colorado tax-credit properties awarded from 2015 to 2025, each scored by this page today at the same buffer you picked.</p>
+              <dl>
+                <dt>Reference set</dt><dd><code>data/market/reference-projects.json</code>, built by <code>scripts/market/build_reference_projects.mjs</code> from CHFA's Housing Tax Credit Properties feed. Name, address, homes, award year, credit and CHFA's urban, rural or mountain label are copied as CHFA prints them.</dd>
+                <dt>Scores</dt><dd>Our score today at each property's mapped point, not a score it had when it was funded. Each property's own homes count in its area's existing supply.</dd>
+                <dt>Primary comparison</dt><dd>percentile rank of this site's score among the properties scored at the same buffer</dd>
+                <dt>Comparable window</dt><dd>CHFA reference properties with similar scores: within ±10 points of this site at the same buffer, closest first. They are not matched on deal type, unit mix or location.</dd>
+                <dt>Not funded</dt><dd>Applications CHFA did not fund in 2023–2025 (CHFA Applicant Reports; each property once, at its latest application, and only if it never applied again or won later), geocoded by the Census Bureau and scored the same way. The page compares them with the properties funded in the same years at the site's buffer, and says whether our score tells the two apart. The rank is where a site sits among past winners, not its chance of an award.</dd>
+                <dt>No score</dt><dd>a site without a market score shows this card as unavailable; it is never ranked as 0</dd>
+                <dt>What this is <em>not</em></dt><dd>it's not a predictor of allocation — CHFA scores applications under its own <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener">Qualified Allocation Plan</a>. This is a market-positioning benchmark, not a policy-scoring estimate.</dd>
+              </dl>
+              <p style="margin-top:0.5rem;font-size:.8125rem;color:var(--muted)">Full methodology: <a href="docs/PMA_DATA_ENHANCEMENTS.md" target="_blank" rel="noopener">docs/PMA_DATA_ENHANCEMENTS.md</a></p>
+            </div>
+          </details>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem;margin-top:0.5rem">Compare this site to CHFA reference properties (Colorado tax-credit properties awarded 2015–2025), scored the same way today.</p>
+          <div id="pmaBenchmarkResult">
+            <div class="pma-empty">Run analysis to see benchmarking.</div>
+          </div>
+        </div>
+
+        <!-- Competitive Pipeline -->
+        <div class="pma-card">
+          <h2>Competitive Pipeline</h2>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem">LIHTC projects in buffer classified by estimated development stage.</p>
+          <div id="pmaPipelineResult">
+            <div class="pma-empty">Run analysis to see pipeline.</div>
+          </div>
+        </div>
+
+        <!-- Justification Narrative (commuting / hybrid modes) -->
+        <div class="pma-card" id="pmaJustificationCard" hidden>
+          <h2>PMA Justification Narrative</h2>
+          <p style="font-size:var(--tiny);margin-bottom:.5rem;">
+            Auto-generated plain-English rationale for boundary selection — suitable for LIHTC / CHFA application attachments.
+          </p>
+          <div id="pmaJustificationNarrative"
+               aria-live="polite" aria-atomic="false"
+               style="white-space:pre-wrap;font-size:.8em;line-height:1.65;max-height:260px;overflow-y:auto;
+                      background:var(--bg,#111);border:1px solid var(--border,#333);border-radius:5px;
+                      padding:.75rem .85rem;color:var(--text,#ddd);"></div>
+          <!-- Subsidy expiry risk table (populated when NHPD data found) -->
+          <div id="pmaSubsidyRiskWrap" hidden style="margin-top:.75rem;">
+            <p style="font-size:.78em;font-weight:600;margin-bottom:.35rem;">Recorded subsidy expirations near site (limited snapshot):</p>
+            <p style="font-size:.74em;margin:0 0 .35rem;color:var(--muted);"><strong>NHPD snapshot vintage: 2026-03-13 (stub).</strong> Access is registration-gated; verify current subsidy status with NHPD.</p>
+            <div id="pmaSubsidyRiskList" style="font-size:.78em;"></div>
+          </div>
+          <!-- Absorption risk card — proposed units vs total competitive set -->
+          <div id="pmaAbsorptionRiskWrap" hidden style="margin-top:.75rem;padding:.5rem .65rem;border-left:3px solid var(--border,#333);border-radius:0 4px 4px 0;background:var(--bg2,#1a1a1a);font-size:.78em;">
+            <p style="font-weight:600;margin:0 0 .35rem;">Competitive Supply Share — Observed Records</p>
+            <div id="pmaAbsorptionRiskBody" data-methodology-key="absorption-risk" data-methodology-placement="after" style="line-height:1.55;"></div>
+          </div>
+          <!-- Opportunity / incentive badges -->
+          <div id="pmaIncentiveBadges" style="margin-top:.65rem;display:flex;flex-wrap:wrap;gap:.4rem;"></div>
+          <div style="margin-top:.75rem;display:flex;flex-wrap:wrap;gap:.5rem;">
+            <button class="pma-btn" id="pmaExportAuditJson" type="button">Export Audit Trail (JSON)</button>
+          </div>
+        </div>
+
+        <!-- Export -->
+        <div class="pma-card">
+          <h2>Export</h2>
+          <div class="pma-export-bar">
+            <button class="pma-btn" id="pmaExportJson" type="button">Export JSON</button>
+            <button class="pma-btn" id="pmaExportCsv" type="button">Export CSV</button>
+            <button class="pma-btn" id="pmaExportMeta" type="button">Export with Metadata</button>
+          </div>
+        </div>
+
+        <!-- ── When to escalate beyond this screening tool ──────────────────
+             User-trust intervention from the methodology-gaps deep dive.
+             Public-data screening reaches diminishing returns at certain
+             deal sizes / risk levels — this card tells users WHERE that
+             boundary is so they don't mistake screening output for a
+             market study.
+        -->
+        <div class="pma-card" data-pma-keep style="border:1px solid color-mix(in oklab,var(--border) 50%,var(--accent) 50%);">
+          <h2 style="display:flex;align-items:center;gap:8px;">
+            When to commission a professional market study
+            <small style="font-size:.65em;font-weight:400;color:var(--muted);background:var(--surface);padding:2px 8px;border-radius:4px">Beyond screening</small>
+          </h2>
+          <p style="font-size:.85rem;color:var(--text);margin:0 0 .6rem;line-height:1.5;">
+            This page is a <strong>screening tool</strong>. The public data it reads (ACS, HUD CHAS, LIHTC database, LEHD, FRED) is broad-coverage but lags 1-5 years and isn't structured for deal-level underwriting. At certain deal sizes, AMI depths, or competitive contexts, the screening reaches diminishing returns. The thresholds below are guidance, not policy.
+          </p>
+          <details style="font-size:.82rem;color:var(--text);line-height:1.55;">
+            <summary style="cursor:pointer;font-weight:600;color:var(--text);padding:.25rem 0;">Suggested escalation triggers →</summary>
+            <ul style="margin:.5rem 0 0 1.25rem;padding:0;">
+              <li><strong>Any tax-credit application:</strong> CHFA requires a third-party market study with every Housing Tax Credit application, and it must match the application's income targeting, unit mix, unit sizes, parking and rents (QAP). Don't wait until the application deadline to commission it.</li>
+              <li><strong>Deep affordability (&gt;50% of units below 50% AMI):</strong> Proposed-project capture sensitivity matters more — public-data ratios understate competitive pressure in tight income bands.</li>
+              <li><strong>Tight market (vacancy &lt; 3% AND existing LIHTC saturation in buffer):</strong> Absorption forecasting needs lease-up data from comparable nearby projects, not ACS snapshots.</li>
+              <li><strong>Rural / mountain markets:</strong> ACS small-sample noise + 2nd-home inventory distortion make public data unreliable. CoStar / Yardi don't cover these well either — a local broker or appraiser tour is usually the right next step.</li>
+              <li><strong>First-time developer in this submarket:</strong> With no lease-up record of your own in the area, investors and lenders lean harder on the third-party study's absorption and rent findings.</li>
+            </ul>
+            <p style="margin:.65rem 0 0;color:var(--muted);">
+              <strong>Typical market-study providers in CO:</strong> Allen &amp; Associates, Capital Markets Group, Novogradac, RKG Associates. Ask two or three for quotes; cost depends on the submarket and the number of units.
+            </p>
+            <p style="margin:.65rem 0 0;color:var(--muted);">
+              <strong>Subscription data:</strong> CoStar MultifamilyTrack, Yardi Matrix, and RealPage MTM cover urban/suburban CO down to submarket level, for an annual fee per market. Not useful for rural sites.
+            </p>
+          </details>
+        </div>
+
+      </div><!-- /.pma-panel -->
+    </div><!-- /.pma-layout -->
+    </section><!-- /#maPmaTool -->
+
+    <!-- Context for the chosen jurisdiction, moved below the site tool on
+         2026-10-15 so the page opens on its purpose and main action. The
+         labor card used to sit above the page heading. Nothing removed. -->
+    <section class="ma-report-section" id="maJurisdictionContext">
+      <h2>Jurisdiction context: commuting and rents</h2>
+    <!-- F63: Jurisdiction-level labor market & commute context.
+         Populated when the page is opened with a place GEOID (?fips=...&geoType=place)
+         from data/hna/place-od-flows.json (block-classified LODES OD) plus the
+         place-LEHD aggregate. Hidden by default; renderer reveals it once flow
+         data is found. Complementary to the PMA buffer-scope workforce score —
+         this card tells you the labor-market character of the JURISDICTION
+         (bedroom community vs self-contained), which the buffer-scope analysis
+         doesn't capture. -->
+    <div id="maJurisdictionLabor" class="ma-labor-card" hidden style="max-width:none;margin:8px auto 0;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card2);"></div>
+    <!-- Members only: the member site (coho-backend) serves a Commuters page for every town and
+         county. Shown only on the member host, and written as the member site's full address,
+         so the public build's link check (scripts/build-public-site.mjs) never sees a local link
+         to a page the public site lacks. -->
+    <p id="maCommutersLink" hidden style="margin:8px 0 0;font-size:.875rem;"></p>
+    <script>
+    (function () {
+      if (!/\.workers\.dev$/.test(location.hostname)) return;
+      var q = new URLSearchParams(location.search), g = q.get('geoid') || q.get('fips') || '';
+      var el = document.getElementById('maCommutersLink');
+      el.innerHTML = '<a href="https://coho-backend.communityplanner.workers.dev/developer-commuters.html' + (/^08(\d{3}|\d{5})$/.test(g) ? '?geoid=' + g : '') + '">Commuters for this place</a>: who drives in, out and through, with sources (members).';
+      el.hidden = false;
+    })();
+    </script>
+    <!-- F159 — Rent triangulation: HUD FMR vs ACS B25064 vs Zillow ZORI.
+         Hydrated from WorkflowState/SiteState; updates on jurisdiction
+         change. Same shared component used on HNA. -->
+    <div id="pmaRentTriangulationCard" data-pma-result class="chart-card" style="margin:0 0 var(--sp3);">
+      <h2 style="margin:0 0 .35rem;">Rent triangulation — existing vs. asking</h2>
+      <p style="font-size:.82rem;color:var(--muted);margin:0 0 .4rem">
+        Three rent measurements for the active jurisdiction so you can see which figure applies to which question
+        (underwriting, cost-burden math, or what a new tenant pays).
+      </p>
+      <div id="pmaRentTriangulationMount" aria-live="polite"></div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function _hydratePmaRent() {
+        if (!window.RentTriangulation) return;
+        var mount = document.getElementById('pmaRentTriangulationMount');
+        if (!mount) return;
+        var placeGeoid = null, placeName = null, countyFips = null, countyName = null;
+        try {
+          var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                     window.WorkflowState.getActiveProject();
+          var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+          if (jx) {
+            if (jx.type === 'city' && jx.placeGeoid) {
+              placeGeoid = jx.placeGeoid;
+              placeName  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim();
+            }
+            if (jx.fips || jx.containingCounty) {
+              countyFips = String(jx.fips || jx.containingCounty).slice(-3);
+            }
+            if (jx.countyName || jx.name) countyName = jx.countyName || jx.name;
+          }
+        } catch (_) {}
+        if (!countyFips) {
+          try {
+            var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
+            if (sc && sc.fips) countyFips = String(sc.fips).slice(-3);
+            if (sc && sc.name && !countyName) countyName = sc.name;
+          } catch (_) {}
+        }
+        window.RentTriangulation.attach(mount, { placeGeoid: placeGeoid, placeName: placeName, countyFips: countyFips, countyName: countyName });
+      }
+      _hydratePmaRent();
+      document.addEventListener('workflow:step-updated', _hydratePmaRent);
+      document.addEventListener('sitestate:county-changed', _hydratePmaRent);
+      document.addEventListener('jurisdiction-changed', _hydratePmaRent);
+    });
+    </script>
+    </section><!-- /#maJurisdictionContext -->
+
+    <!-- ── CHFA PMA Requirements & Checklist ── -->
+    <section class="ma-report-section" id="maChfaRequirements">
+      <h2>CHFA PMA Requirements &amp; Checklist</h2>
+      <p style="color:var(--muted);font-size:.9rem;margin-bottom:1rem">
+        A Primary Market Area (PMA) is the census-tract-based geography from which a proposed
+        development is expected to draw most of its tenants. For a Housing Tax Credit application in Colorado, the
+        market analyst must contact CHFA before the study starts and be ready to discuss the market area.
+      </p>
+
+      <!-- CHFA Requirements Summary -->
+      <div class="chfa-requirements-panel">
+        <h3>CHFA PMA Requirements Summary</h3>
+        <p style="color:var(--muted);font-size:.9rem;margin-bottom:.75rem">
+          Per CHFA's <a href="https://www.chfainfo.com/rental-housing/housing-credit/application" target="_blank" rel="noopener">Qualified Allocation Plan</a>
+          and <a href="https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf" target="_blank" rel="noopener">Market Study Guide</a> (Appendix A, adopted 2027-28 QAP):
+        </p>
+        <ol class="chfa-req-list">
+          <li><strong>Census-tract geography</strong> — The PMA must be made of entire census tracts; radius boundaries are not allowed (QAP p. 74).</li>
+          <li><strong>Contact CHFA first</strong> — The CHFA-approved market analyst must contact CHFA's Staff Appraiser <em>before</em> starting the study and before the Letter of Intent, and should be ready to discuss the market area (QAP pp. 66, 74).</li>
+          <li><strong>Engagement letter</strong> — Due with the Letter of Intent and must name the proposed PMA (QAP p. 66). The study itself lists every 11-digit census tract in the PMA (p. 74).</li>
+          <li><strong>Market study must analyze:</strong>
+            <ul>
+              <li>Income-qualified demand and proposed-project capture rates (should be as low as possible)</li>
+              <li>Evidence the project will not negatively impact existing LIHTC properties in the PMA</li>
+              <li>Achievable rents and realistic absorption projections</li>
+            </ul>
+          </li>
+        </ol>
+        <p class="chfa-req-disclaimer">
+          <strong>Note:</strong> This tool assists with preliminary PMA research and does <em>not</em> replace the study by a CHFA-approved market analyst or CHFA's own review.
+        </p>
+      </div>
+
+      <!-- PMA Workflow diagram -->
+      <div class="pma-workflow">
+        <h3>PMA Definition Workflow</h3>
+        <div class="pma-workflow-steps" role="list" aria-label="PMA definition process steps">
+          <div class="pma-workflow-step" role="listitem">
+            <div class="pma-step-num">1</div>
+            <div class="pma-step-body">
+              <strong>Site Selection</strong>
+              <p>Identify proposed development site and approximate service area.</p>
+            </div>
+          </div>
+          <div class="pma-workflow-arrow" aria-hidden="true">→</div>
+          <div class="pma-workflow-step" role="listitem">
+            <div class="pma-step-num">2</div>
+            <div class="pma-step-body">
+              <strong>Engage Analyst</strong>
+              <p>Retain a CHFA-approved market analyst to propose PMA census tracts.</p>
+            </div>
+          </div>
+          <div class="pma-workflow-arrow" aria-hidden="true">→</div>
+          <div class="pma-workflow-step" role="listitem">
+            <div class="pma-step-num">3</div>
+            <div class="pma-step-body">
+              <strong>Contact CHFA</strong>
+              <p>Analyst contacts CHFA's Staff Appraiser before the study and the Letter of Intent, and discusses the proposed market area.</p>
+            </div>
+          </div>
+          <div class="pma-workflow-arrow" aria-hidden="true">→</div>
+          <div class="pma-workflow-step" role="listitem">
+            <div class="pma-step-num">4</div>
+            <div class="pma-step-body">
+              <strong>Market Study</strong>
+              <p>Analyst conducts full study within the PMA: demand, proposed-project capture rate, competitive impact, rents, absorption.</p>
+            </div>
+          </div>
+          <div class="pma-workflow-arrow" aria-hidden="true">→</div>
+          <div class="pma-workflow-step" role="listitem">
+            <div class="pma-step-num">5</div>
+            <div class="pma-step-body">
+              <strong>Application</strong>
+              <p>Engagement letter goes in with the Letter of Intent; the market study goes in with the application.</p>
+            </div>
+          </div>
+        </div>
+        <p class="pma-workflow-note">
+          <strong>This tool automates:</strong> tract selection by radius or drive-time, demographic scoring, competitive LIHTC overlay, existing affordable penetration, and proposed-project capture estimation.
+          It does <em>not</em> replace the CHFA-approved analyst's study or CHFA's own review.
+        </p>
+      </div>
+
+      <!-- CHFA PMA Checklist -->
+      <div class="chfa-checklist-panel">
+        <h3>CHFA PMA Checklist</h3>
+        <p style="color:var(--muted);font-size:.9rem">Track your LIHTC application PMA progress. Check items as you complete them.</p>
+        <div aria-live="polite" aria-atomic="true" id="chfaChecklistAnnouncer" class="sr-only"></div>
+        <ul class="chfa-checklist" id="chfaChecklist">
+          <li class="chfa-checklist-item" id="chfaChkTracts">
+            <input type="checkbox" id="chfaChkTractsInput" aria-label="Census tracts selected and justified">
+            <div class="chfa-checklist-content">
+              <label for="chfaChkTractsInput">Census tracts selected and justified</label>
+              <span class="chfa-checklist-note">Define the specific census tracts that form the PMA boundary.</span>
+            </div>
+          </li>
+          <li class="chfa-checklist-item" id="chfaChkAnalyst">
+            <input type="checkbox" id="chfaChkAnalystInput" aria-label="CHFA-approved market analyst engaged">
+            <div class="chfa-checklist-content">
+              <label for="chfaChkAnalystInput">CHFA-approved market analyst engaged</label>
+              <span class="chfa-checklist-note">Retain an analyst from the CHFA-approved list before beginning the study.</span>
+            </div>
+          </li>
+          <li class="chfa-checklist-item" id="chfaChkApproval">
+            <input type="checkbox" id="chfaChkApprovalInput" aria-label="Analyst has contacted CHFA's Staff Appraiser">
+            <div class="chfa-checklist-content">
+              <label for="chfaChkApprovalInput">Analyst has contacted CHFA's Staff Appraiser</label>
+              <span class="chfa-checklist-note">Before the study and the Letter of Intent; be ready to discuss the market area (QAP pp. 66, 74).</span>
+            </div>
+          </li>
+          <li class="chfa-checklist-item" id="chfaChkDemand">
+            <input type="checkbox" id="chfaChkDemandInput" aria-label="Income-qualified demand analysis complete">
+            <div class="chfa-checklist-content">
+              <label for="chfaChkDemandInput">Income-qualified demand analysis complete</label>
+              <span class="chfa-checklist-note">Document households at each AMI tier within the PMA.</span>
+            </div>
+          </li>
+          <li class="chfa-checklist-item" id="chfaChkCapture">
+            <input type="checkbox" id="chfaChkCaptureInput" aria-label="Proposed-project capture rate calculated">
+            <div class="chfa-checklist-content">
+              <label for="chfaChkCaptureInput">Proposed-project capture rate calculated
+                <span id="chfaCaptureRateDisplay" class="chfa-capture-rate-badge" style="display:none"></span>
+              </label>
+              <span class="chfa-checklist-note"><span data-methodology-key="project-capture">Review the proposed-project capture methodology and its renter demand pool.</span></span>
+            </div>
+          </li>
+          <li class="chfa-checklist-item" id="chfaChkCompetitive">
+            <input type="checkbox" id="chfaChkCompetitiveInput" aria-label="Competitive property impact assessed">
+            <div class="chfa-checklist-content">
+              <label for="chfaChkCompetitiveInput">Competitive property impact assessed</label>
+              <span class="chfa-checklist-note">Evaluate existing LIHTC properties in the PMA — confirm project will not cause material vacancy.</span>
+            </div>
+          </li>
+          <li class="chfa-checklist-item" id="chfaChkRents">
+            <input type="checkbox" id="chfaChkRentsInput" aria-label="Achievable rent analysis complete">
+            <div class="chfa-checklist-content">
+              <label for="chfaChkRentsInput">Achievable rent analysis complete</label>
+              <span class="chfa-checklist-note">Document market-achievable rents relative to AMI-restricted rent limits.</span>
+            </div>
+          </li>
+          <li class="chfa-checklist-item" id="chfaChkAbsorption">
+            <input type="checkbox" id="chfaChkAbsorptionInput" aria-label="Absorption projection documented">
+            <div class="chfa-checklist-content">
+              <label for="chfaChkAbsorptionInput">Absorption projection documented</label>
+              <span class="chfa-checklist-note">Provide realistic lease-up timeline based on comparable projects in the market.</span>
+            </div>
+          </li>
+        </ul>
+        <div id="chfaChecklistCompletionStatus" style="display:none;color:var(--good);font-weight:700;margin-bottom:8px;font-size:.95rem" role="status" aria-live="polite"></div>
+        <div class="chfa-checklist-progress">
+          <div class="chfa-progress-bar-wrap">
+            <div id="chfaProgressFill" class="chfa-progress-fill" style="width:0%" role="progressbar"
+                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="CHFA checklist progress"></div>
+          </div>
+          <span id="chfaProgressLabel" class="chfa-progress-label">0 of 8 complete</span>
+        </div>
+      </div>
+
+      <!-- Resources -->
+      <div class="chfa-resources">
+        <h3>CHFA Resources</h3>
+        <ul>
+          <li><a href="https://www.chfainfo.com/rental-housing/housing-credit/application" target="_blank" rel="noopener">CHFA LIHTC Application Page</a> — application forms and deadlines</li>
+          <li><a href="https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf" target="_blank" rel="noopener">CHFA 2027-28 QAP, Appendix A: Market Study Guide</a> — the market study rules for tax-credit applications (pp. 66-88)</li>
+          <li><a href="https://developers-guide.chfainfo.com/market-feasibility" target="_blank" rel="noopener">CHFA Developer's Guide: Market Feasibility</a> — general guidance on market studies (read 12 Nov 2026); for tax-credit studies the QAP's Market Study Guide governs</li>
+          <li><a href="housing-needs-assessment.html">Housing Needs Assessment →</a> — Jurisdiction-level demand, cost burden, and housing stock analysis</li>
+        </ul>
+      </div>
+    </section><!-- /#maChfaRequirements -->
+
+    <!-- ── Subject Project: anchors every downstream card to a proposed deal ── -->
+    <section class="ma-report-section" id="maSubjectProject" aria-labelledby="subjectProjectHeading">
+      <h2 id="subjectProjectHeading" class="sr-only">Subject Project</h2>
+      <div class="pma-card" data-source="CHFA — 2026 Income Limit and Maximum Rent Tables for All Colorado Counties" data-source-url="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" data-vintage="CHFA 2026 · HUD effective 2026-05-01 · cutoff 2026-06-15" data-source-type="primary">
+        <div id="subjectProjectMount" aria-live="polite"></div>
+      </div>
+      <div class="pma-card" data-source="CHFA 2026 LIHTC max rents + HUD FMR (FY2027)" data-source-url="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" data-vintage="CHFA 2026 · HUD FMR FY2027" data-source-type="primary">
+        <div id="subjectRentComparisonMount" aria-live="polite"></div>
+      </div>
+      <div class="pma-card" data-source="CHFA 2026 income limits + CHFA 40% rent-burden floor" data-source-url="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" data-vintage="CHFA 2026 income limits" data-source-type="primary">
+        <div id="subjectIncomeEligibilityMount" aria-live="polite"></div>
+      </div>
+      <div class="pma-card" data-source="ACS 5-Year (B25118 renter HH × HUD limits, 2024 vintage) · CHFA capture method" data-source-url="https://www.census.gov/programs-surveys/acs" data-vintage="ACS 5-yr 2020–2024 · HUD FY2026 limits" data-source-type="modeled">
+        <div id="subjectCaptureStackMount" aria-live="polite"></div>
+      </div>
+    </section><!-- /#maSubjectProject -->
+
+    <section class="ma-report-section" id="maExecSummary">
+      <h2>Executive Summary</h2>
+      <div id="maExecSummaryContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maMarketDemand">
+      <h2>Market Demand Analysis</h2>
+      <div id="maMarketDemandContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maAffordableSupply">
+      <h2>Existing Affordable Supply</h2>
+      <div id="maAffordableSupplyContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maSubsidyOpp">
+      <h2>Subsidy &amp; Finance Opportunities</h2>
+      <div id="maSubsidyOppContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maSiteFeasibility">
+      <h2>Site Feasibility Constraints</h2>
+      <div id="maSiteFeasibilityContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maNeighborhoodAccess">
+      <h2>Neighborhood Access &amp; Services</h2>
+      <div id="maNeighborhoodAccessContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maPolicyOverlays">
+      <h2>Policy &amp; Eligibility Overlays</h2>
+      <div id="maPolicyOverlaysContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maOpportunities">
+      <h2>Ranked Development Opportunities</h2>
+      <div id="maOpportunitiesContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <section class="ma-report-section" id="maInfrastructure">
+      <h2>Infrastructure Feasibility <small style="font-weight:400;color:var(--muted);">(Supplementary)</small></h2>
+      <div id="maInfrastructureContent">
+        <div class="ma-section-placeholder">Place a site marker above to generate this section.</div>
+      </div>
+    </section>
+
+    <!-- LIHTC Deal Calculator -->
+    <div id="dealCalcMount" class="container" style="padding-bottom:0;"></div>
+
+    <!-- LIHTC Concept Recommendation Card -->
+    <section class="ma-report-section" id="lihtcConceptSection" aria-labelledby="lihtcConceptHeading" style="margin-top:1.5rem;">
+      <h2 id="lihtcConceptHeading">LIHTC Concept Recommendation</h2>
+      <div aria-live="polite" aria-atomic="true" id="lihtcConceptLiveRegion" class="sr-only"></div>
+      <div id="lihtcConceptCard" hidden
+           role="region" aria-label="LIHTC deal concept recommendation"
+           style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;">
+        <div class="ma-section-placeholder">Run an enhanced PMA analysis (Commuting or Hybrid mode) to generate a concept recommendation.</div>
+      </div>
+    </section>
+
+    <!-- Methodology & Data Sources (collapsed by default) -->
+    <details style="margin-top:2rem;padding:0;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+      <summary style="cursor:pointer;padding:.85rem 1.25rem;font-weight:600;user-select:none;display:flex;align-items:center;gap:.5rem;color:var(--text)">
+        <span aria-hidden="true" style="display:inline-block;width:.5rem;height:.5rem;background:var(--accent,#3a8);border-radius:50%"></span>
+        Methodology &amp; Data Sources
+        <span style="font-weight:400;color:var(--muted);font-size:.8125rem;margin-left:.35rem">— click to expand source list</span>
+      </summary>
+      <div style="padding:.4rem 1.25rem 1rem">
+      <p style="font-size:var(--tiny);margin-bottom:.8rem">
+        All data is pre-computed or fetched from free public APIs; no proprietary key required.
+        See <a href="docs/MARKET_ANALYSIS_METHOD.md">MARKET_ANALYSIS_METHOD.md</a>,
+        <a href="docs/PMA_SCORING.md">PMA_SCORING.md</a>, and
+        <a href="docs/PMA_DATA_ENHANCEMENTS.md">PMA_DATA_ENHANCEMENTS.md</a> for full methodology.
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px, 100%),1fr));gap:6px 16px;font-size:.82rem">
+        <div><strong>ACS 5-Year Estimates</strong> — <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census Bureau</a> (B01003, B25003, B25004, B25070, B25064)</div>
+        <div><strong>HUD LIHTC Database</strong> — <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">Tax Credit Projects</a></div>
+        <div><strong>CHFA ArcGIS</strong> — <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">Colorado LIHTC Portfolio</a></div>
+        <div><strong>TIGERweb</strong> — <a href="https://www.census.gov/data/developers/data-sets/TIGERweb-map-service.html" target="_blank" rel="noopener">Tract Centroids &amp; Boundaries</a></div>
+        <div><strong>LEHD/LODES</strong> — <a href="https://lehd.ces.census.gov/data/" target="_blank" rel="noopener">Commuting Flows</a></div>
+        <div><strong>FRED</strong> — <a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener">Housing Starts &amp; Economic Series</a></div>
+        <div><strong>HUD NHPD</strong> — <a href="https://preservationdatabase.org/" target="_blank" rel="noopener">Preservation Database</a></div>
+        <div><strong>EPA Smart Location</strong> — <a href="https://www.epa.gov/smartgrowth/smart-location-mapping" target="_blank" rel="noopener">Walkability &amp; Transit Access</a></div>
+        <div><strong>FEMA Flood Zones</strong> — <a href="https://www.fema.gov/flood-maps" target="_blank" rel="noopener">National Flood Hazard Layer</a></div>
+        <div><strong>Opportunity Zones</strong> — <a href="https://www.cdfifund.gov/opportunity-zones" target="_blank" rel="noopener">CDFI Fund</a></div>
+      </div>
+      <p style="margin-top:.8rem;font-size:.8125rem;color:var(--muted)">
+        Figures update automatically when the source agencies publish new data.
+        <a href="dashboard-data-sources-ui.html">Full data sources inventory</a> ·
+        <a href="data-status.html">Data freshness status</a>
+      </p>
+      </div>
+    </details>
+
+    <!-- LIHTC contextual tips (Market Analysis step) -->
+    <div id="lihtcTipsMount-ma"></div>
+
+    <!-- ── Site Comparison ─────────────────────────────────────────────── -->
+    <section class="ma-report-section" id="maSiteComparison" aria-labelledby="maSiteCompHeading">
+      <h2 id="maSiteCompHeading">Site Comparison</h2>
+      <p style="font-size:.82rem;color:var(--muted);margin-bottom:.75rem;">
+        Save scored sites and compare them side by side. Each site captures its full 6-dimension score, location, QCT/DDA status, and gap coverage.
+      </p>
+      <div id="siteCompSetupBar">
+        <div class="sc-save-btns" id="scSaveButtons" style="display:none;">
+          <button type="button" class="btn btn-sm" id="scSaveSiteBtn" title="Save the current site analysis to the comparison table">Save Current Site</button>
+          <span id="scSaveConfirm" style="font-size:.82rem;color:var(--good);display:none;">Saved</span>
+        </div>
+      </div>
+      <div id="siteCompTable" style="margin-top:.75rem;">
+        <p class="ma-section-placeholder">Score a site above, then click "Save Current Site" to begin comparing locations.</p>
+      </div>
+      <div id="siteCompActions" style="margin-top:.5rem;display:none;">
+        <button type="button" class="btn btn-sm dc-comp-action--reset" id="scClearAllBtn">Clear All Sites</button>
+      </div>
+    </section>
+
+    <!-- Market Analysis Save & Continue panel -->
+    <section class="hna-continue-panel" id="maContinuePanel">
+      <div class="hna-continue-panel__inner">
+        <div class="hna-continue-panel__text">
+          <strong>Step 4 complete?</strong>
+          <span>Save your PMA score and site analysis to this project, then continue to Scenario Builder.</span>
+        </div>
+        <div class="hna-continue-panel__actions">
+          <button class="btn hna-save-btn" id="maSaveProjectBtn" type="button" disabled title="Score a site above to enable saving">Save PMA to Project</button>
+          <a class="btn btn-primary hna-continue-btn" href="hna-scenario-builder.html">
+            Continue to Scenarios →
+          </a>
+        </div>
+      </div>
+      <div id="maSaveConfirmation" class="hna-save-confirmation" hidden>✓ PMA saved to project</div>
+    </section>
+    <div style="max-width:1200px;margin:2rem auto;padding:0 var(--sp4);">
+      <h2 style="margin:0 0 .5rem;">Development Realism Checklists</h2>
+      <p style="font-size:.82rem;color:var(--faint);margin:0 0 1rem;">These factors are not captured by the PMA scoring model but affect whether a site is truly feasible. Screen early.</p>
+      <div id="pmaFatalFlaws"></div>
+      <div id="pmaCommunity"></div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DevRealism) {
+        DevRealism.renderFatalFlawChecklist('pmaFatalFlaws');
+        DevRealism.renderCommunityChecklist('pmaCommunity');
+      }
+    });
+    </script>
+  </main>
+
+  <script defer src="js/utils/format-money.js"></script>
+  <script defer src="js/market-analysis/market-analysis-state.js"></script>
+  <script defer src="js/market-analysis/market-analysis-utils.js"></script>
+  <script defer src="js/market-analysis/site-selection-score.js"></script>
+  <script defer src="js/market-analysis/whats-near.js"></script>
+  <script defer src="js/market-analysis/market-report-renderers.js"></script>
+  <script defer src="js/pma-workplaces.js"></script>
+  <script defer src="js/pma-area-towns.js"></script>
+  <script defer src="js/data-connectors/market-data-cache.js"></script>
+  <script defer src="js/data-connectors/hud-egis.js"></script>
+  <script defer src="js/data-connectors/hud-fmr.js"></script>
+  <script defer src="js/data-connectors/census-acs.js"></script>
+  <script defer src="js/data-connectors/hud-lihtc.js"></script>
+  <script defer src="js/data-connectors/nhpd.js"></script>
+  <script defer src="js/data-connectors/osm-amenities.js"></script>
+  <script defer src="js/data-connectors/epa-walkability.js"></script>
+  <script defer src="js/data-connectors/fema-flood.js"></script>
+  <script defer src="js/data-connectors/epa-cleanup.js"></script>
+  <!-- Workforce dimension connectors -->
+  <script defer src="js/data-connectors/lodes-commute.js"></script>
+  <script defer src="js/data-connectors/cdle-jobs.js"></script>
+  <script defer src="js/data-connectors/cde-schools.js"></script>
+  <script defer src="js/data-connectors/cdot-traffic.js"></script>
+  <!-- PMA heuristic confidence module -->
+  <script defer src="js/pma-confidence.js"></script>
+  <!-- HMDA mortgage-credit-access lookup (per-county denial rate, mean loan
+       amount, multifamily originations) — must load before market-analysis.js
+       so renderHmdaContext() can find window.HmdaLookup. Data shipped in PR #786. -->
+  <script defer src="js/hmda-lookup.js"></script>
+  <!-- Cross-county disclosure helper (PR #787 + #791 alias support). Used
+       by PMA to flag buffers that cross county lines for HUD AMI ambiguity. -->
+  <script defer src="js/cross-county-disclosure.js"></script>
+  <!-- ACS cache persistence fix — must load before market-analysis.js -->
+  <script defer src="js/market-analysis-cache-fix.js"></script>
+  <script defer src="js/market-analysis/market-analysis-controller.js"></script>
+  <script src="js/components/map-home-btn.js"></script>
+  <script src="js/components/method-footer.js"></script>
+  <script src="js/components/capital-partners.js"></script>
+  <script src="js/components/tax-abatement.js"></script>
+  <script src="js/components/chfa-award-history.js"></script>
+  <script src="js/components/qap-calendar.js"></script>
+  <script src="js/components/resort-wfh.js"></script>
+  <script defer src="js/components/zori-rent-utils.js"></script>
+  <script defer src="js/market-analysis-scoring.js"></script>
+  <script defer src="js/market-analysis-supply.js"></script>
+  <script defer src="js/pma-barrier-aware.js"></script>
+  <script defer src="js/provenance-label.js"></script>
+  <script defer src="js/components/funding-context-card.js"></script>
+  <script defer src="js/map-panes.js"></script>
+  <script src="js/config/basemaps.js"></script>
+  <script defer src="js/methodology-explainer.js"></script>
+  <script defer src="js/address-geocode.js"></script>
+  <script defer src="js/market-analysis.js"></script>
+  <script defer src="js/config/table-export-registry.js"></script>
+  <script defer src="js/components/table-export.js"></script>
+  <script defer src="js/deal-calculator-math.js"></script>
+  <!-- HB26-1065 zone screen used by the PMA gate (#1937). -->
+  <script defer src="js/transit-zone.js"></script>
+  <script defer src="js/deal-cost-basis.js"></script>
+  <script defer src="js/deal-operating-budget.js"></script>
+  <script defer src="js/deal-lender-schedules.js"></script>
+  <script defer src="js/deal-permanent-financing.js"></script>
+  <script defer src="js/deal-doh-schedules.js"></script>
+  <script defer src="js/deal-engine.js"></script>
+  <script defer src="js/deal-lender-schedules-view.js"></script>
+  <script defer src="js/deal-calculator.js"></script>
+  <!-- Enhanced PMA delineation modules -->
+  <script defer src="js/pma-commuting.js"></script>
+  <script defer src="js/pma-commute-context.js"></script>
+  <script defer src="js/pma-barriers.js"></script>
+  <script defer src="js/pma-employment-centers.js"></script>
+  <script defer src="js/pma-schools.js"></script>
+  <script defer src="js/pma-transit.js"></script>
+  <script defer src="js/pma-competitive-set.js"></script>
+  <script defer src="js/pma-opportunities.js"></script>
+  <script defer src="js/pma-infrastructure.js"></script>
+  <script defer src="js/pma-justification.js"></script>
+  <script defer src="js/pma-analysis-runner.js"></script>
+  <script defer src="js/hna/hna-market-bridge.js"></script>
+  <script defer src="js/mix-check.js"></script>
+  <script defer src="js/lihtc-deal-predictor.js"></script>
+  <script defer src="js/lihtc-deal-predictor-enhanced.js"></script>
+  <!-- HNA-to-concept bridge and full card renderer -->
+  <script defer src="js/market-analysis/housing-needs-fit-analyzer.js"></script>
+  <script defer src="js/lihtc-concept-card-renderer.js"></script>
+  <script defer src="js/pma-delineation.js"></script>
+  <script defer src="js/pma-tract-picker.js"></script>
+  <script defer src="js/pma-parcel-zoning.js"></script>
+  <script defer src="js/data-connectors/regrid-parcels.js"></script>
+  <script defer src="js/data-connectors/regrid-zoning.js"></script>
+  <script defer src="js/data-connectors/bridge-parcels.js"></script>
+  <script defer src="js/data-connectors/bridge-listings.js"></script>
+  <script defer src="js/data-connectors/bridge-market-summary.js"></script>
+  <script defer src="js/chfa-pma-checklist.js"></script>
+  <script defer src="js/pma-ui-controller.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var figure = document.getElementById('pmaAbsorptionRiskBody');
+    if (!figure) return;
+    figure.methodologyContext = function () {
+      var run = window.PMAUIController && window.PMAUIController.getLastScoreRun();
+      var absorption = run && run.absorptionRisk;
+      return { proposedUnits: absorption && absorption.proposedUnits,
+        competitiveUnits: absorption && absorption.totalCompetitiveUnits,
+        unavailableReason: absorption ? null : 'the competitive-supply result is not available for this run',
+        sources: 'LIHTC and assisted-housing competitive set for this PMA; source vintages are not attached to this score record · run created ' + (run && run.created_at || 'date unavailable') +
+          ' · site ' + (run && run.pma ? run.pma.lat + ', ' + run.pma.lon : 'not supplied') +
+          ' · ' + (absorption && absorption.competitivePropertyCount != null ? absorption.competitivePropertyCount + ' properties' : 'property count unavailable') };
+    };
+  });
+  </script>
+  <script defer src="js/market-analysis/site-comparison.js"></script>
+  <!-- Phase 2.1: Enhanced constraint screening modules -->
+  <script defer src="js/environmental-screening.js"></script>
+  <script defer src="js/public-land-overlay.js"></script>
+  <script defer src="js/soft-funding-tracker.js"></script>
+
+  <!-- Subject Project + downstream rent/income/capture cards -->
+  <script defer src="js/chfa-rent-limits.js"></script>
+  <script defer src="js/components/subject-project.js"></script>
+  <script defer src="js/components/subject-rent-comparison.js"></script>
+  <script defer src="js/components/subject-income-eligibility.js"></script>
+  <script defer src="js/components/subject-capture-stack.js"></script>
+  <script defer src="js/components/pma-vintage-strip.js"></script>
+  <script defer src="js/components/vacancy-context.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function _mountSubjectStack() {
+        if (!window.SubjectProject) { return setTimeout(_mountSubjectStack, 50); }
+        var sp = document.getElementById('subjectProjectMount');
+        if (sp) window.SubjectProject.mount(sp);
+        var rc = document.getElementById('subjectRentComparisonMount');
+        if (rc && window.SubjectRentComparison) window.SubjectRentComparison.attach(rc);
+        var ie = document.getElementById('subjectIncomeEligibilityMount');
+        if (ie && window.SubjectIncomeEligibility) window.SubjectIncomeEligibility.attach(ie);
+        var cs = document.getElementById('subjectCaptureStackMount');
+        if (cs && window.SubjectCaptureStack) window.SubjectCaptureStack.attach(cs);
+      }
+      _mountSubjectStack();
+    });
+  </script>
+
+<script src="js/help-modal.js"></script>
+<script src="js/data-status-footer.js"></script>
+<script>
+  CohoHelp.init({
+    title: 'How to Use the Market Analysis Tool',
+    description: 'This tool performs a Primary Market Area (PMA) analysis for LIHTC site selection. It scores your proposed development site across demand, competition, rent, and supply factors using free public data.',
+    steps: [
+      { label: 'Enter a location', desc: 'Type an address, city, or county in the search box. The tool geocodes your input and pre-selects whole census tracts within an approximately 4-mile ring as a starting set.' },
+      { label: 'Review the PMA boundary', desc: 'Add or remove individual tracts, then justify the boundary using natural barriers, school districts, jurisdictional lines, or commute sheds. The 4-mile ring is an auto-selection aid, not an adjustable PMA radius.' },
+      { label: 'Run the analysis', desc: 'Click "Run Analysis" to score the site. The tool pulls Census, HUD, and FRED data to score demand, competitive density (from existing affordable penetration), rent pressure, and supply.' },
+      { label: 'Interpret the scorecard', desc: 'The radar chart and score cards show how your site performs across all PMA dimensions. Scores above 70 are generally favorable for LIHTC.' },
+      { label: 'Review comparable projects', desc: 'The competitive set section lists nearby LIHTC developments with occupancy benchmarks and rent comparables.' },
+      { label: 'Export your PMA report', desc: 'Download the analysis as a PDF or JSON for use in your CHFA application or investor underwriting package.' },
+    ],
+    tips: [
+      'LIHTC applications to CHFA require a PMA study — this tool helps you prepare the data.',
+      'QCT and DDA designations are automatically detected and noted in the report — they affect your eligible basis.',
+      'CHFA\'s 2027-28 QAP will not accept a proposed-project capture rate above 85% without more data to support demand (the 2025-26 QAP sets no number); the simulator checks the project alone against the renters who qualify for its units, and existing plus proposed tax-credit units against renters at 20-80% AMI, and calls either one over 85% over. A high existing affordable penetration is a different signal: the market may already be saturated with affordable units.',
+    ]
+  });
+</script>
+
+<footer class="site-footer">
+  <p class="footer-terms">Free, and worth every penny. COHO Analytics is offered as-is, with no warranty. It isn’t legal, tax or financial advice, and pggLLC isn’t liable for what you do with it. Using the site means you accept the terms.</p>
+  <p class="footer-links"><a class="footer-link" href="terms-of-use.html">Terms of use</a> <a class="footer-link" href="privacy-policy.html">Privacy</a> <a class="footer-link" href="sitemap.html">Site map</a> <a class="footer-link" href="https://docs.google.com/forms/d/e/1FAIpQLSfC1m7Y1_b3VL_U9rOg8f0nIE14RVg8qm4gvhQaG2Qw8vVOdw/viewform">Questions or feedback</a> <a class="footer-link" href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a> <a class="footer-link" href="#" lang="es" title="Español: traducción automática de Google">Español</a> <a class="footer-link" href="https://coho-backend.communityplanner.workers.dev/">Member sign in</a></p>
+  <p>Developed and maintained by <a class="footer-link" href="https://pggllc.org">pggLLC</a>.</p>
+</footer>
+
+<script>
+/* ── Bridge Listings layer initialisation ── */
+(function () {
+  'use strict';
+  function initListingsLayer() {
+    var badge  = document.getElementById('listingsBadge');
+    var cb     = document.getElementById('listingsLayerCb');
+    var label  = document.getElementById('layerToggleListings');
+    if (!badge || !cb) return;
+
+    var avail = window.BridgeListings && window.BridgeListings.isAvailable();
+
+    if (avail) {
+      cb.disabled = false;
+      badge.textContent = 'ready';
+      badge.className = 'map-layer-badge map-layer-badge--ok';
+      if (label) label.title = 'Toggle MLS comparable listings on the map';
+    } else {
+      cb.disabled = true;
+      badge.textContent = 'no token';
+      badge.className = 'map-layer-badge map-layer-badge--warn';
+      if (label) {
+        label.title = 'Add your Bridge Browser Token and Dataset Code in the ' +
+                      'Data Quality Dashboard to enable this layer.';
+      }
+    }
+
+    /* Wire the checkbox to the existing PMA layer toggle system */
+    cb.addEventListener('change', function () {
+      if (!this.checked) {
+        /* Layer off — remove markers if the map module supports it */
+        if (window.PmaMap && typeof window.PmaMap.clearLayer === 'function') {
+          window.PmaMap.clearLayer('listings');
+        }
+        return;
+      }
+
+      /* Get current site coords from MAP or from the form */
+      var lat = null, lon = null;
+      if (window.PmaState) {
+        lat = parseFloat(window.PmaState.lat || 0);
+        lon = parseFloat(window.PmaState.lon || 0);
+      }
+      if (!lat || !lon) {
+        var latEl = document.getElementById('maLat') || document.getElementById('siteLat');
+        var lonEl = document.getElementById('maLon') || document.getElementById('siteLon');
+        if (latEl && lonEl) {
+          lat = parseFloat(latEl.value);
+          lon = parseFloat(lonEl.value);
+        }
+      }
+      if (!lat || !lon) {
+        console.warn('[BridgeListings] No site coordinates — run the PMA first.');
+        this.checked = false;
+        return;
+      }
+
+      badge.textContent = '…';
+      badge.className = 'map-layer-badge';
+
+      var radius = parseFloat(
+        (document.getElementById('maRadius') || {}).value || 1
+      ) || 1;
+
+      Promise.all([
+        window.BridgeListings.fetchActiveListingsNearPoint(lat, lon, radius),
+        window.BridgeListings.fetchRecentSalesNearPoint(lat, lon, radius, { monthsBack: 12 })
+      ]).then(function (results) {
+        var active = results[0];
+        var sales  = results[1];
+        var all    = active.concat(sales);
+
+        badge.textContent = all.length;
+        badge.className   = all.length > 0
+          ? 'map-layer-badge map-layer-badge--ok'
+          : 'map-layer-badge map-layer-badge--warn';
+
+        if (window.PmaMap && typeof window.PmaMap.addListingsLayer === 'function') {
+          window.PmaMap.addListingsLayer(
+            active.map(window.BridgeListings.toMapMarker),
+            sales.map(window.BridgeListings.toMapMarker)
+          );
+        } else {
+          /* Fallback: fire a custom event so market-analysis.js can handle it */
+          document.dispatchEvent(new CustomEvent('pma:listings-loaded', {
+            detail: {
+              active: active.map(window.BridgeListings.toMapMarker),
+              sales:  sales.map(window.BridgeListings.toMapMarker)
+            }
+          }));
+        }
+      }).catch(function (err) {
+        console.warn('[BridgeListings] layer fetch failed:', err);
+        badge.textContent = 'err';
+        badge.className = 'map-layer-badge map-layer-badge--warn';
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initListingsLayer);
+  } else {
+    initListingsLayer();
+  }
+}());
+</script>
+
+<script>
+/* ── SiteState integration: show persisted county context on Market Analysis ── */
+(function () {
+  function showCountyContext() {
+    if (typeof window.SiteState === 'undefined') return;
+    var county = window.SiteState.getCounty();
+    if (!county || !county.name) return;
+    /* Pre-populate #maLiveRegion with county context for screen readers */
+    var liveRegion = document.getElementById('maLiveRegion');
+    if (liveRegion) {
+      liveRegion.textContent = 'Context: ' + county.name;
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', showCountyContext);
+  } else {
+    showCountyContext();
+  }
+}());
+</script>
+
+<!-- Workflow: progress bar styles + jurisdiction banner + save-to-project -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Inject shared workflow styles (same as HNA page) ─────────────── */
+  if (!document.getElementById('wf-progress-styles')) {
+    var s = document.createElement('style');
+    s.id = 'wf-progress-styles';
+    s.textContent = [
+      /* Sticky below the site header — see housing-needs-assessment.html. */
+      '.hna-jurisdiction-banner{max-width:1200px;margin:12px auto 0;padding:0 18px;}',
+      '.hna-jurisdiction-banner__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:color-mix(in oklab,var(--card) 88%,var(--accent) 12%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;flex-wrap:wrap;}',
+      '.hna-jurisdiction-banner__label{font-size:.8125rem;color:var(--muted);font-weight:600;margin-right:6px;}',
+      '.hna-jurisdiction-banner__change{font-size:.8125rem;color:var(--accent);text-decoration:none;font-weight:700;}',
+      '.hna-continue-panel{max-width:1200px;margin:32px auto 0;padding:0 18px 40px;}',
+      '.hna-continue-panel__inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;background:var(--card);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap;}',
+      '.hna-continue-panel__text{flex:1;min-width:200px;}',
+      '.hna-continue-panel__text strong{display:block;margin-bottom:4px;font-size:1rem;}',
+      '.hna-continue-panel__text span{font-size:.88rem;color:var(--muted);}',
+      '.hna-continue-panel__actions{display:flex;gap:10px;flex-wrap:wrap;}',
+      '/* !important to override pages.css .btn {color:var(--on-accent,#fff) !important; background:var(--accent)} — we want secondary-surface styling for AA contrast. */',
+      '.hna-save-btn{padding:10px 18px;background:var(--bg2) !important;border:1px solid var(--border);border-radius:6px;font-weight:700;cursor:pointer;color:var(--text) !important;}',
+      '.hna-save-btn:hover{border-color:var(--accent);color:var(--accent) !important;}',
+      '.hna-continue-btn{padding:10px 20px;background:var(--accent);color:var(--on-accent,#fff);border:none;border-radius:6px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;}',
+      '.hna-save-confirmation{padding:8px 16px;font-size:.85rem;font-weight:700;color:var(--good,#047857);margin-top:8px;}'
+    ].join('');
+    document.head.appendChild(s);
+  }
+
+  /* ── Jurisdiction banner ──────────────────────────────────────────── */
+  var maBannerSite = null;
+  var maBannerGeoid = null;
+  var maBoundaryRevision = 0;
+
+  function updateMaJurisdictionBanner() {
+    var banner = document.getElementById('maJurisdictionBanner');
+    var nameEl = document.getElementById('maJurisdictionName');
+    var boundaryEl = document.getElementById('maJurisdictionBoundary');
+    var notice = document.getElementById('maSiteBoundaryNotice');
+    if (!banner || !nameEl || !boundaryEl || !notice) return;
+    var jurisdiction = null;
+    // A deep link drives the map and analysis even when another project is
+    // stored. Use that same context for both this label and the polygon check.
+    var params = new URLSearchParams(window.location.search);
+    if (params.has('geoid') || params.has('fips')) {
+      var ctx = window.JurisdictionUrlContext && window.JurisdictionUrlContext.resolveSync
+        ? window.JurisdictionUrlContext.resolveSync() : null;
+      jurisdiction = ctx && { geoid: ctx.geoid || ctx.fips, geoType: ctx.geoType,
+        name: ctx.geoType === 'county' ? ctx.countyName || ctx.displayName : ctx.displayName };
+    }
+    if (!jurisdiction || !jurisdiction.geoid) {
+      jurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
+        ? window.WorkflowState.getJurisdiction() : null;
+    }
+    if (!jurisdiction || !jurisdiction.geoid) {
+      var county = window.SiteState && window.SiteState.getCounty();
+      jurisdiction = county && { geoid: county.fips, geoType: 'county', name: county.name };
+    }
+    var geoid = jurisdiction && jurisdiction.geoid;
+    var type = jurisdiction && jurisdiction.geoType;
+    if (maBannerGeoid && maBannerGeoid !== geoid) maBannerSite = null;
+    maBannerGeoid = geoid;
+    var name = jurisdiction && (jurisdiction.name || jurisdiction.displayName || geoid) || 'Not selected';
+    if (type === 'county' && !/county$/i.test(name)) name += ' County';
+    nameEl.textContent = name;
+    boundaryEl.textContent = type === 'state' ? ' (statewide)'
+      : type === 'county' ? ' (county boundary)'
+      : type === 'cdp' ? ' (CDP boundary)'
+      : type === 'place' ? ' (place boundary)' : '';
+    banner.dataset.jurisdictionGeoid = geoid || '';
+    banner.hidden = false;
+
+    var engine = window.PMAEngine;
+    var result = engine && engine._state.getLastResult();
+    if (!result && window.PMAUIController && window.PMAUIController.getLastScoreRun) {
+      var restored = window.PMAUIController.getLastScoreRun();
+      result = restored && restored.pma;
+    }
+    if (maBannerSite && result && (result.lat !== maBannerSite.lat || result.lon !== maBannerSite.lon)) result = null;
+    if (engine && engine.renderScoreBoundary) engine.renderScoreBoundary(result);
+    var site = maBannerSite || result;
+    var revision = ++maBoundaryRevision;
+    banner.removeAttribute('data-site-outside-jurisdiction');
+    notice.hidden = true;
+    notice.textContent = '';
+    banner.dataset.siteBoundaryCheck = type === 'state' ? 'skipped' : 'not_checked';
+    if (type === 'state' || !geoid || !site || !Number.isFinite(site.lat) || !Number.isFinite(site.lon)) return;
+    banner.dataset.siteBoundaryCheck = 'pending';
+    var boundaries = window.JurisdictionBoundaries;
+    var lookup = boundaries && boundaries.getBoundary ? boundaries.getBoundary(type, geoid) : Promise.resolve(null);
+    lookup.catch(function () { return null; }).then(function (polygon) {
+      if (revision !== maBoundaryRevision) return;
+      if (!polygon || !engine || !engine.pointInBoundary) {
+        banner.dataset.siteBoundaryCheck = 'unavailable';
+        notice.textContent = 'Boundary check unavailable';
+        notice.hidden = false;
+        return;
+      }
+      var inside = engine.pointInBoundary(site.lon, site.lat, polygon);
+      banner.dataset.siteBoundaryCheck = inside ? 'inside' : 'outside';
+      if (!inside) {
+        banner.dataset.siteOutsideJurisdiction = 'true';
+        notice.textContent = 'This site appears to be outside the ' + name + ' boundary. '
+          + 'The market area is drawn around the site, so the analysis describes the area around the site, not ' + name + '.';
+        notice.hidden = false;
+      }
+    });
+  }
+
+  document.addEventListener('pma:site-placed', function (event) {
+    maBannerSite = event.detail;
+    updateMaJurisdictionBanner();
+  });
+  document.addEventListener('ma:analysis-complete', updateMaJurisdictionBanner);
+
+  /* ── F63: Jurisdiction labor & commute card ───────────────────────── */
+  // Fed by place-od-flows.json (block-classified LODES OD) when the page is
+  // entered with a 7-digit place GEOID. Hidden silently when no data — this
+  // is supplemental context, not a gating panel. Mirrors the OF F58 card.
+  function renderJurisdictionLaborCard() {
+    var host = document.getElementById('maJurisdictionLabor');
+    if (!host) return;
+    // Find a place GEOID from the URL / contexts.
+    var placeGeoid = null;
+    try {
+      var qs = new URLSearchParams(window.location.search);
+      var fips = qs.get('fips');
+      var geoType = qs.get('geoType');
+      if (fips && (geoType === 'place' || geoType === 'cdp' || String(fips).length === 7)) {
+        placeGeoid = fips;
+      }
+    } catch (_) {}
+    if (!placeGeoid) {
+      try {
+        var ctx = window.JurisdictionUrlContext && window.JurisdictionUrlContext.resolveSync && window.JurisdictionUrlContext.resolveSync();
+        if (ctx && ctx.placeGeoid) placeGeoid = ctx.placeGeoid;
+        else if (ctx && ctx.geoid && String(ctx.geoid).length === 7) placeGeoid = ctx.geoid;
+      } catch (_) {}
+    }
+    if (!placeGeoid) { host.hidden = true; return; }
+
+    // The lookup depends on PlaceLehd loading the block-OD aggregate.
+    function tryRender() {
+      var lehd = (window.PlaceLehd && window.PlaceLehd.lookup) ? window.PlaceLehd.lookup(placeGeoid) : null;
+      if (!lehd) { host.hidden = true; return; }
+      var fmt = function (n) { return Number.isFinite(n) ? n.toLocaleString() : '—'; };
+      var within = lehd.within || 0, inflow = lehd.inflow || 0, outflow = lehd.outflow || 0;
+      var jobsAt = lehd.C000 || lehd.jobs || null;
+      var residentWorkers = within + outflow;
+      var outflowPct = residentWorkers > 0 ? Math.round(100 * outflow / residentWorkers) : null;
+      var character;
+      if (outflowPct == null) character = '';
+      else if (outflowPct >= 70) character = '<strong>Bedroom community</strong> — ' + outflowPct + '% of resident workers commute out for jobs; workforce-housing demand tracks the regional employment center.';
+      else if (outflowPct >= 40) character = '<strong>Mixed labor market</strong> — ' + outflowPct + '% of resident workers commute out; both local jobs and the regional commuteshed shape demand.';
+      else                        character = '<strong>Self-contained labor market</strong> — only ' + outflowPct + '% of resident workers commute out; local jobs anchor demand.';
+      var sourceNote = lehd.flows_source === 'block-od'
+        ? 'Block-classified LEHD LODES OD (every home block → work block pair tagged against this place\'s boundary).'
+        : lehd.flows_source === 'tract-lodes'
+          ? 'Tract-aggregated LEHD LODES, weighted by this place\'s population share of each tract — directional.'
+          : 'LEHD LODES origin-destination flows.';
+      // F — Industry mix (top NAICS sectors) and wage-tier distribution.
+      // LODES CE01 ≤$1,250/mo, CE02 $1,251-$3,333/mo, CE03 >$3,333/mo.
+      // CE01+CE02 ≈ LIHTC wage-aligned worker pool (≤60% AMI in most CO counties).
+      var industries = Array.isArray(lehd.industries) ? lehd.industries.slice(0, 6) : [];
+      var ce1 = +lehd.CE01 || 0, ce2 = +lehd.CE02 || 0, ce3 = +lehd.CE03 || 0;
+      var ceTotal = ce1 + ce2 + ce3;
+      var lihtcWageShare = ceTotal > 0 ? Math.round(100 * (ce1 + ce2) / ceTotal) : null;
+      var industryHtml = '';
+      if (industries.length) {
+        var maxPct = industries[0] && industries[0].pct ? industries[0].pct : 1;
+        industryHtml =
+          '<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">' +
+            '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:4px">Industry mix (top employers)</div>' +
+            industries.map(function (ind) {
+              var pctW = Math.max(2, Math.round((ind.pct / maxPct) * 100));
+              return '<div style="display:flex;align-items:center;gap:8px;margin:3px 0;font-size:.8125rem">' +
+                       '<div style="flex:0 0 38%;color:var(--text)">' + (ind.label || ind.naics) + '</div>' +
+                       '<div style="flex:1;height:10px;background:rgba(0,0,0,.06);border-radius:4px;overflow:hidden">' +
+                         '<div style="height:100%;width:' + pctW + '%;background:#0b6e6d"></div>' +
+                       '</div>' +
+                       '<div style="flex:0 0 95px;text-align:right;font-variant-numeric:tabular-nums">' +
+                         fmt(ind.count) + ' · ' + ind.pct + '%</div>' +
+                     '</div>';
+            }).join('') +
+          '</div>';
+      }
+      var wageHtml = '';
+      if (ceTotal > 0) {
+        var w1 = Math.round(100 * ce1 / ceTotal);
+        var w2 = Math.round(100 * ce2 / ceTotal);
+        var w3 = Math.max(0, 100 - w1 - w2);
+        wageHtml =
+          '<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;flex-wrap:wrap;gap:6px">' +
+              '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700">' +
+                'Worker wage tiers (LODES CE01–CE03)</div>' +
+              (lihtcWageShare != null
+                ? '<div style="font-size:.8125rem;color:var(--muted)">LIHTC wage-aligned: <strong style="color:var(--text)">' +
+                    lihtcWageShare + '%</strong> (CE01+CE02)</div>'
+                : '') +
+            '</div>' +
+            '<div style="display:flex;min-height:1.5rem;border-radius:4px;overflow:hidden;border:1px solid var(--border)">' +
+              '<div style="width:' + w1 + '%;background:#c1442f;display:flex;align-items:center;justify-content:center;font-size:.8125rem;color:#fff;font-weight:600">' +
+                (w1 >= 8 ? w1 + '%' : '') + '</div>' +
+              '<div style="width:' + w2 + '%;background:#e9a800;display:flex;align-items:center;justify-content:center;font-size:.8125rem;color:#0d1f35;font-weight:600">' +
+                (w2 >= 8 ? w2 + '%' : '') + '</div>' +
+              '<div style="width:' + w3 + '%;background:#0b6e6d;display:flex;align-items:center;justify-content:center;font-size:.8125rem;color:#fff;font-weight:600">' +
+                (w3 >= 8 ? w3 + '%' : '') + '</div>' +
+            '</div>' +
+            '<div style="display:flex;justify-content:space-between;margin-top:3px;font-size:.8125rem;color:var(--muted);flex-wrap:wrap;gap:4px">' +
+              '<span><span style="display:inline-block;width:8px;height:8px;background:#c1442f;margin-right:4px;vertical-align:middle"></span>' +
+                '≤$1,250/mo · ' + fmt(ce1) + '</span>' +
+              '<span><span style="display:inline-block;width:8px;height:8px;background:#e9a800;margin-right:4px;vertical-align:middle"></span>' +
+                '$1,251–$3,333/mo · ' + fmt(ce2) + '</span>' +
+              '<span><span style="display:inline-block;width:8px;height:8px;background:#0b6e6d;margin-right:4px;vertical-align:middle"></span>' +
+                '>$3,333/mo · ' + fmt(ce3) + '</span>' +
+            '</div>' +
+          '</div>';
+      }
+      host.innerHTML =
+        '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px">' +
+          '<div>' +
+            '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:2px">Jurisdiction labor market</div>' +
+            '<div style="font-size:.86rem;font-weight:600">' + (lehd.flows_source === 'block-od' ? 'Block-OD flows' : 'LEHD flows') + ' for the selected jurisdiction</div>' +
+          '</div>' +
+          '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+            '<div style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card)">' +
+              '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Live & work here</div>' +
+              '<div style="font-size:.95rem;font-weight:700">' + fmt(within) + '</div></div>' +
+            '<div style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card)">' +
+              '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute in</div>' +
+              '<div style="font-size:.95rem;font-weight:700">' + fmt(inflow) + '</div></div>' +
+            '<div style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card)">' +
+              '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Commute out</div>' +
+              '<div style="font-size:.95rem;font-weight:700">' + fmt(outflow) + '</div></div>' +
+            '<div style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card)">' +
+              '<div style="font-size:.8125rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Local jobs</div>' +
+              '<div style="font-size:.95rem;font-weight:700">' + fmt(jobsAt) + '</div></div>' +
+          '</div>' +
+        '</div>' +
+        (character ? '<div style="margin-top:6px;font-size:.83rem;line-height:1.4">' + character + '</div>' : '') +
+        industryHtml +
+        wageHtml +
+        '<div style="margin-top:6px;font-size:.8125rem;color:var(--muted);line-height:1.4">' + sourceNote + ' Supplements the PMA buffer score with jurisdiction-level commute character, industry mix, and wage distribution.</div>';
+      host.hidden = false;
+    }
+    if (window.PlaceLehd && window.PlaceLehd.init) {
+      window.PlaceLehd.init().then(tryRender).catch(function () { host.hidden = true; });
+    } else {
+      // PlaceLehd may not have loaded yet — retry briefly.
+      var tries = 0;
+      var poll = setInterval(function () {
+        tries++;
+        if (window.PlaceLehd) {
+          clearInterval(poll);
+          window.PlaceLehd.init().then(tryRender).catch(function () { host.hidden = true; });
+        } else if (tries > 30) {
+          clearInterval(poll);
+          host.hidden = true;
+        }
+      }, 100);
+    }
+  }
+
+  /* ── Save PMA to project ──────────────────────────────────────────── */
+  function savePmaToProject() {
+    if (!window.WorkflowState) return false;
+    try {
+      var site = window.MAController && window.MAController.getCurrentSite();
+      if (!site || !Number.isFinite(site.lat) || !Number.isFinite(site.lon)) return false;
+      var snapshot = {
+        completedAt: new Date().toISOString(),
+        siteLat:     site.lat,
+        siteLon:     site.lon,
+        siteSource:  site.siteSource || null,
+        transitEvidence: site.transitEvidence || null,
+        bufferMiles: site.bufferMiles,
+        pmaScore:    site.pmaScore,
+        // The tier word the score circle shows, so the Recommendation can
+        // quote it without restating the thresholds.
+        pmaTier:     Number.isFinite(site.pmaScore) && window.PMAMarketScoring
+          ? window.PMAMarketScoring.scoreTier(site.pmaScore).label : null,
+        qctFlag:     site.qctFlag,
+        ddaFlag:     site.ddaFlag,
+        // The QCT/DDA evidence behind the Subsidy card (matched tract GEOID,
+        // DDA name/code, HUD year/source), or null while the check is pending.
+        qctDdaEvidence: site.qctDdaEvidence || null
+      };
+      // Saving a different point, radius or provenance: fields this save does not write
+      // describe the previously saved site, so they must not merge into this one.
+      var prev = WorkflowState.getStep('market') || {};
+      if (prev.siteLat !== site.lat || prev.siteLon !== site.lon || prev.bufferMiles !== site.bufferMiles || prev.siteSource !== site.siteSource) {
+        snapshot.siteAddress = null;
+        snapshot.dimensions = null;
+        snapshot.fmrRents = null;
+        snapshot.bridgeLandContext = null;
+        snapshot.exportReady = false;
+      }
+      WorkflowState.setStep('market', snapshot);
+      return true;
+    } catch (e) {
+      console.warn('[MA] WorkflowState save failed:', e);
+      return false;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    updateMaJurisdictionBanner();
+    renderJurisdictionLaborCard();
+    document.addEventListener('sitestate:county-changed', updateMaJurisdictionBanner);
+    document.addEventListener('workflow:step-updated', updateMaJurisdictionBanner);
+    document.addEventListener('sitestate:county-changed', renderJurisdictionLaborCard);
+    document.addEventListener('workflow:step-updated', renderJurisdictionLaborCard);
+    // Read lifecycle signals without changing the clearing or restoration rules.
+    new MutationObserver(updateMaJurisdictionBanner).observe(document.body,
+      { attributes: true, attributeFilter: ['data-pma-result-state'] });
+    var narrative = document.getElementById('pmaJustificationNarrative');
+    if (narrative) new MutationObserver(updateMaJurisdictionBanner).observe(narrative,
+      { childList: true, characterData: true, subtree: true });
+    // Fix #2: update progress bar step completion from WorkflowState
+    if (window.WorkflowProgress) WorkflowProgress.refreshSteps('maWorkflowProgress', 4);
+    // LIHTC contextual tips for this step
+    if (window.LihtcTips) {
+      LihtcTips.render('lihtcTipsMount-ma',
+        ['pma', 'capture_rate', 'comparable_units', 'vacancy_rate'],
+        { heading: 'Market Analysis Concepts' });
+    }
+
+    // #13 Fly map to jurisdiction county centroid when jurisdiction is known
+    var _CO_CENTROIDS = {
+      '08001':[39.87,-104.34],'08003':[37.19,-105.87],'08005':[39.63,-104.77],
+      '08007':[38.85,-105.49],'08009':[38.44,-102.60],'08011':[37.30,-102.56],
+      '08013':[40.09,-105.36],'08014':[40.37,-104.69],'08015':[38.17,-105.15],
+      '08017':[37.58,-107.88],'08019':[37.95,-104.52],'08021':[37.18,-104.51],
+      '08023':[40.88,-107.56],'08025':[39.33,-108.44],'08027':[37.28,-104.06],
+      '08029':[38.86,-104.52],'08031':[39.76,-104.88],'08033':[37.68,-106.92],
+      '08035':[39.59,-107.03],'08037':[40.54,-104.35],'08039':[40.38,-104.00],
+      '08041':[38.83,-105.04],'08043':[37.38,-106.04],'08045':[38.66,-106.07],
+      '08047':[39.65,-102.61],'08049':[39.01,-106.92],'08051':[39.15,-106.57],
+      '08053':[39.45,-105.77],'08055':[40.26,-103.80],'08057':[38.42,-107.87],
+      '08059':[40.09,-104.36],'08061':[38.35,-102.07],'08063':[38.08,-105.93],
+      '08065':[40.67,-103.12],'08067':[40.03,-103.48],'08069':[40.27,-105.10],
+      '08071':[37.35,-108.59],'08073':[37.44,-108.33],'08075':[39.33,-107.64],
+      '08077':[39.24,-108.89],'08079':[37.97,-103.72],'08081':[39.01,-107.63],
+      '08083':[37.47,-107.34],'08085':[38.44,-105.68],'08087':[37.44,-105.37],
+      '08089':[40.88,-102.60],'08091':[37.65,-105.70],'08093':[40.84,-103.52],
+      '08095':[40.59,-102.61],'08097':[38.75,-108.24],'08099':[38.51,-104.52],
+      '08101':[40.88,-104.36],'08103':[37.57,-103.51],'08105':[40.25,-107.22],
+      '08107':[38.67,-103.15],'08109':[37.29,-106.66],'08111':[37.68,-107.32],
+      '08113':[37.16,-107.00],'08115':[39.64,-106.42],'08117':[39.57,-106.04],
+      '08119':[39.08,-102.62],'08121':[37.43,-104.63],'08123':[39.68,-102.07],
+      '08125':[40.00,-102.08]
+    };
+    // F78: place-centroid cache — loaded async from data/co-place-centroids.json
+    // (482 CO places). Zooms tighter than the county-centroid fallback so a
+    // place-level deep-link (e.g. ?fips=0853395&geoType=place for New
+    // Castle) lands the map on the town, not its county center.
+    var _CO_PLACE_CENTROIDS = null;
+    fetch('data/co-place-centroids.json').then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { _CO_PLACE_CENTROIDS = d && d.byGeoid || null; })
+      .catch(function () { _CO_PLACE_CENTROIDS = null; });
+
+    function _applyJurisdictionFly(target) {
+      // target = { kind:'county'|'place', fips }
+      try {
+        if (!target || !target.fips || !window._cohoMap) return;
+        if (target.kind === 'place' && _CO_PLACE_CENTROIDS && _CO_PLACE_CENTROIDS[target.fips]) {
+          var p = _CO_PLACE_CENTROIDS[target.fips];
+          window._cohoMap.invalidateSize(false);
+          window._cohoMap.setView([p.lat, p.lng], 13, { animate: false });
+          return;
+        }
+        // County fallback (also used when place lookup is missing / not yet loaded).
+        var jurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
+          ? window.WorkflowState.getJurisdiction() : null;
+        var cfips = target.kind === 'county' ? target.fips
+                  : jurisdiction && jurisdiction.geoid === target.fips ? jurisdiction.countyFips : null;
+        if (cfips && _CO_CENTROIDS[cfips]) {
+          window._cohoMap.invalidateSize(false);
+          window._cohoMap.setView(_CO_CENTROIDS[cfips], 10, { animate: false });
+        }
+      } catch (_) {}
+    }
+    function _fallbackJurisdictionTarget() {
+      // Returns { kind, fips } or null. Prefers WorkflowState (most recent),
+      // then SiteState (county persistence).
+      try {
+        var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+        var _jx = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
+        if (_jx && _jx.fips) {
+          var len = String(_jx.fips).length;
+          return { kind: len === 7 ? 'place' : 'county', fips: _jx.fips };
+        }
+      } catch (_) {}
+      try {
+        var _sc = window.SiteState && window.SiteState.getCounty();
+        if (_sc && _sc.fips) return { kind: 'county', fips: _sc.fips };
+      } catch (_) {}
+      return null;
+    }
+    function _flyToJurisdiction() {
+      if (window.JurisdictionUrlContext && typeof window.JurisdictionUrlContext.resolve === 'function') {
+        window.JurisdictionUrlContext.resolve().then(function (ctx) {
+          if (!ctx) { _applyJurisdictionFly(_fallbackJurisdictionTarget()); return; }
+          // 7-digit fips OR explicit geoType=place → zoom to place centroid.
+          var f = ctx.fips || ctx.placeGeoid;
+          if (f && (ctx.geoType === 'place' || ctx.geoType === 'cdp' || String(f).length === 7)) {
+            _applyJurisdictionFly({ kind: 'place', fips: String(f) });
+          } else if (ctx.countyFips) {
+            _applyJurisdictionFly({ kind: 'county', fips: ctx.countyFips });
+          } else {
+            _applyJurisdictionFly(_fallbackJurisdictionTarget());
+          }
+        }).catch(function () {
+          _applyJurisdictionFly(_fallbackJurisdictionTarget());
+        });
+      } else {
+        _applyJurisdictionFly(_fallbackJurisdictionTarget());
+      }
+    }
+    // Fly on load and whenever jurisdiction changes. Retry once after the
+    // place-centroid blob finishes loading so cold-start deep-links still
+    // get a place-level zoom rather than the county fallback.
+    setTimeout(_flyToJurisdiction, 800);
+    setTimeout(_flyToJurisdiction, 2500);
+    document.addEventListener('workflow:step-updated', _flyToJurisdiction);
+    document.addEventListener('sitestate:county-changed', _flyToJurisdiction);
+
+    // F98 — Auto-run analysis on deep-link arrival when ?auto=1.
+    //
+    // Without this, deep-links from the Developer brief / Opportunity Finder
+    // land on PMA, fly the map to the jurisdiction, but never populate the
+    // PMA Site Summary card (severe cost-burden / poverty / unemployment +
+    // amenity distances) because runAnalysis only fires on explicit map
+    // click or coord entry. Users reported "missing stats" because the
+    // Site Summary stayed display:none.
+    //
+    // When auto=1 is in the URL and we have a resolvable centroid, fire
+    // runAnalysis with the place (or county) centroid as the site coords +
+    // a sensible default buffer (1.5 mi for places, 3 mi for counties).
+    var _autoRanThisLoad = false;
+    function _autoRunIfRequested() {
+      if (_autoRanThisLoad) return;
+      try {
+        var sp = new URLSearchParams(location.search);
+        if (sp.get('auto') !== '1') return;
+      } catch (_) { return; }
+      try {
+        var ctx = window.JurisdictionUrlContext &&
+          window.JurisdictionUrlContext.resolveSync &&
+          window.JurisdictionUrlContext.resolveSync();
+        if (!ctx) return;
+        var fips = ctx.fips || ctx.placeGeoid || ctx.geoid;
+        if (!fips) return;
+        var isPlace = ctx.geoType === 'place' || ctx.geoType === 'cdp' ||
+                      /^\d{7}$/.test(fips);
+        var lat = null, lng = null;
+        if (isPlace && _CO_PLACE_CENTROIDS && _CO_PLACE_CENTROIDS[fips]) {
+          lat = _CO_PLACE_CENTROIDS[fips].lat;
+          lng = _CO_PLACE_CENTROIDS[fips].lng;
+        } else {
+          // Fall back to the county centroid.
+          var cf = isPlace ? '08' + String(fips).slice(2, 5) : fips;
+          if (_CO_CENTROIDS[cf]) { lat = _CO_CENTROIDS[cf][0]; lng = _CO_CENTROIDS[cf][1]; }
+        }
+        if (lat == null || lng == null) return;
+        // Prefer PMAEngine.runAnalysis (the local function that renders the
+        // PMA Site Summary card AND delegates to MAController for the 8
+        // report sections). Fall back to MAController if PMAEngine isn't
+        // ready yet.
+        var engine = window.PMAEngine;
+        var hasRun = engine && typeof engine.runAnalysis === 'function';
+        var hasMac = window.MAController && typeof window.MAController.runAnalysis === 'function';
+        if (!hasRun && !hasMac) return;
+        _autoRanThisLoad = true;
+        try {
+          if (engine && typeof engine.placeSiteMarker === 'function') {
+            // A centroid, not a chosen site: QCT/DDA must stay unknown.
+            engine.placeSiteMarker(lat, lng, { jurisdictionCentroid: true });
+          }
+          if (hasRun) {
+            engine.runAnalysis(lat, lng);
+          } else {
+            window.MAController.runAnalysis(lat, lng, isPlace ? 1.5 : 3.0,
+              { siteSource: 'jurisdiction_centroid' });
+          }
+        } catch (e) {
+          console.warn('[market-analysis] auto-run failed:', e);
+          _autoRanThisLoad = false;
+        }
+      } catch (_) { /* swallow */ }
+    }
+    // Try a few times to allow async deps to settle (place centroids,
+    // MAController init, ACS tract metrics).
+    setTimeout(_autoRunIfRequested, 1500);
+    setTimeout(_autoRunIfRequested, 3500);
+    setTimeout(_autoRunIfRequested, 6000);
+
+    // F98b — Place boundary polygon overlay.
+    //
+    // When the deep-link resolves to a place, fetch its TIGER boundary
+    // from Census TIGERweb and overlay as a non-clickable reference
+    // polygon. This addresses "PMA doesn't show jurisdictional boundaries
+    // below county" — users couldn't visually verify which jurisdiction
+    // they were analyzing.
+    var _placeBoundaryLayer = null;
+    function _fetchPlaceBoundary(placeGeoid) {
+      if (!window.L || !window._cohoMap || !placeGeoid) return;
+      var stateFp = placeGeoid.slice(0, 2);
+      var placeFp = placeGeoid.slice(2);
+      // TIGERweb Places layer for Census places + CDPs (layer 28).
+      var url = 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/28/query?' +
+        'where=' + encodeURIComponent("STATE='" + stateFp + "' AND PLACE='" + placeFp + "'") +
+        '&outFields=NAME,GEOID&outSR=4326&f=geojson';
+      fetch(url).then(function (r) { return r.ok ? r.json() : null; }).then(function (gj) {
+        if (!gj || !gj.features || !gj.features.length) return;
+        if (_placeBoundaryLayer) {
+          try { window._cohoMap.removeLayer(_placeBoundaryLayer); } catch (_) {}
+        }
+        _placeBoundaryLayer = window.L.geoJSON(gj, {
+          style: {
+            color: '#0c4a6e',
+            weight: 2.5,
+            opacity: 0.9,
+            fillColor: '#0ea5e9',
+            fillOpacity: 0.06,
+            dashArray: '4 4',
+            interactive: false
+          }
+        }).addTo(window._cohoMap);
+      }).catch(function () { /* silent — boundary is decorative */ });
+    }
+
+    // Trigger the boundary fetch when the URL context resolves to a place.
+    function _maybeFetchBoundary() {
+      try {
+        var ctx = window.JurisdictionUrlContext &&
+          window.JurisdictionUrlContext.resolveSync &&
+          window.JurisdictionUrlContext.resolveSync();
+        if (!ctx) return;
+        var fips = ctx.fips || ctx.placeGeoid || ctx.geoid;
+        var isPlace = ctx.geoType === 'place' || ctx.geoType === 'cdp' ||
+                      /^\d{7}$/.test(fips || '');
+        if (isPlace && fips) _fetchPlaceBoundary(String(fips));
+      } catch (_) {}
+    }
+    setTimeout(_maybeFetchBoundary, 1200);
+    // F81: the :resolved event handler used to call _flyToJurisdiction(),
+    // which called JurisdictionUrlContext.resolve(), which re-emitted
+    // :resolved → infinite recursion ("Maximum call stack size exceeded").
+    // Use the event's own detail payload to fly directly instead.
+    document.addEventListener('jurisdiction-url-context:resolved', function (ev) {
+      updateMaJurisdictionBanner();
+      renderJurisdictionLaborCard();
+      var ctx = ev && ev.detail;
+      if (!ctx) return;
+      var f = ctx.fips || ctx.placeGeoid;
+      if (f && (ctx.geoType === 'place' || ctx.geoType === 'cdp' || String(f).length === 7)) {
+        _applyJurisdictionFly({ kind: 'place', fips: String(f) });
+      } else if (ctx.countyFips) {
+        _applyJurisdictionFly({ kind: 'county', fips: ctx.countyFips });
+      }
+    });
+
+    // #14 Enable save button only after PMA score renders
+    var saveBtn = document.getElementById('maSaveProjectBtn');
+    var confirm = document.getElementById('maSaveConfirmation');
+    if (saveBtn) {
+      var scoreEl = document.getElementById('pmaScoreCircle');
+      if (scoreEl) {
+        new MutationObserver(function () {
+          if (scoreEl.textContent.trim()) {
+            saveBtn.disabled = false;
+            saveBtn.removeAttribute('title');
+          }
+        }).observe(scoreEl, { childList: true, characterData: true, subtree: true });
+      }
+      saveBtn.addEventListener('click', function () {
+        var ok = savePmaToProject();
+        if (ok && confirm) {
+          confirm.removeAttribute('hidden');
+          saveBtn.textContent = 'Saved ✓';
+          saveBtn.disabled = true;
+          setTimeout(function () { confirm.setAttribute('hidden', ''); }, 3000);
+        }
+      });
+    }
+  });
+}());
+</script>
+
+<!-- F162 — gated CRM add button. Mounts only
+     when the visitor has a live developer session (inline 12-hour cookie
+     check, no gate-script dependency). Reads the active jurisdiction from
+     WorkflowState → SiteState → URL context so it stays in sync as the
+     user changes geography. Public visitors see nothing. -->
+<script>
+(function () {
+  'use strict';
+  function _isIBAuthed() {
+    try {
+      if (window.DeveloperGate && typeof window.DeveloperGate.isAuthed === 'function') {
+        return !!window.DeveloperGate.isAuthed();
+      }
+      var raw = sessionStorage.getItem('ib-auth-v1');
+      if (!raw) return false;
+      var v = JSON.parse(raw);
+      return v && v.ts && (Date.now() - v.ts < 12 * 60 * 60 * 1000);
+    } catch (_) { return false; }
+  }
+
+  function _resolveJurisdiction() {
+    var name = null, geoid = null;
+    // PRIORITY 1: WorkflowState active project (place or county)
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                 window.WorkflowState.getActiveProject();
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx) {
+        if (jx.type === 'city' && jx.placeGeoid) {
+          geoid = jx.placeGeoid;
+          name  = (jx.displayName || jx.name || '').replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim() || jx.name;
+        } else if (jx.fips) {
+          geoid = String(jx.fips);
+          name  = jx.countyName || jx.displayName || jx.name || null;
+        } else if (jx.containingCounty) {
+          geoid = String(jx.containingCounty);
+          name  = jx.countyName || jx.name || null;
+        }
+      }
+    } catch (_) {}
+    // PRIORITY 2: URL context (jurisdiction-url-context)
+    if (!geoid || !name) {
+      try {
+        var ctx = window.JurisdictionUrlContext &&
+                  window.JurisdictionUrlContext.resolveSync &&
+                  window.JurisdictionUrlContext.resolveSync();
+        if (ctx) {
+          if (!geoid) geoid = ctx.placeGeoid || ctx.geoid || ctx.fips || null;
+          if (!name)  name  = ctx.displayName || ctx.countyName || null;
+        }
+      } catch (_) {}
+    }
+    // PRIORITY 3: SiteState county
+    if (!geoid || !name) {
+      try {
+        var sc = window.SiteState && window.SiteState.getCounty && window.SiteState.getCounty();
+        if (sc) {
+          if (!geoid) geoid = sc.fips || null;
+          if (!name)  name  = sc.name || null;
+        }
+      } catch (_) {}
+    }
+    return (geoid && name) ? { name: String(name), geoid: String(geoid) } : null;
+  }
+
+  function _hydrate() {
+    var mount = document.getElementById('pmaDealTrackerMount');
+    if (!mount) return;
+    if (!_isIBAuthed() || !window.PipelineAddButton || !window.PipelineStore) {
+      mount.innerHTML = '';
+      return;
+    }
+    var jx = _resolveJurisdiction();
+    if (!jx) {
+      mount.innerHTML = '';
+      return;
+    }
+    try {
+      window.PipelineAddButton.attach(mount, {
+        jurisdiction: jx.name,
+        geoid:        jx.geoid,
+        defaults: { stage: 'Signal', notes: 'From Market Analysis · ' + jx.name }
+      });
+    } catch (_) { /* never break PMA */ }
+  }
+
+  document.addEventListener('DOMContentLoaded', _hydrate);
+  document.addEventListener('workflow:step-updated',      _hydrate);
+  document.addEventListener('sitestate:county-changed',   _hydrate);
+  document.addEventListener('jurisdiction-changed',       _hydrate);
+  document.addEventListener('jurisdiction-url-context:resolved', _hydrate);
+}());
+</script>
+<script src="hub/lab-config.js"></script>
+<script src="hub/page-chrome.js"></script>
+<script src="hub/nav.js"></script>
+</body>
+</html>

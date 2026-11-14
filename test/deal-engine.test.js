@@ -116,5 +116,7 @@ for (const file of fs.readdirSync(root).filter(name => name.endsWith('.html'))) 
   mounts++;
   assert(scripts.indexOf('js/deal-engine.js') >= 0 && scripts.indexOf('js/deal-engine.js') < scripts.indexOf('js/deal-calculator.js'), `${file}: engine loads before calculator`);
 }
-assert.equal(mounts, 2, 'every calculator mount is covered');
-console.log('deal-engine: PASS (invented A/B/C, 52 A/B monetary/stress comparisons with explicit L1 accrual corrections and explicit C absence, absence, purity and both mounts)');
+// Three: deal-calculator.html, market-analysis.html, and deal-market-analysis.html (the same body as
+// market-analysis.html in the new format, written by scripts/build-market-analysis-hub.mjs).
+assert.equal(mounts, 3, 'every calculator mount is covered');
+console.log('deal-engine: PASS (invented A/B/C, 52 A/B monetary/stress comparisons with explicit L1 accrual corrections and explicit C absence, absence, purity and all three mounts)');

@@ -49,6 +49,12 @@ const SKIP = new Set(['404.html', 'og-card.html', 'privacy-policy.html', 'terms-
 // for all of them: a template change that drops a source shows up on both.
 const PLACE_SAMPLES = ['places/0820000.html', 'places/0800320.html'];
 
+// A page written from another page with the same body is held to that page's baseline, area by area, and gets
+// no entry of its own: its figures are the other page's figures, not new ones. deal-market-analysis.html is
+// market-analysis.html in the new format (scripts/build-market-analysis-hub.mjs); test/market-analysis-hub-page.test.mjs
+// fails if the two bodies differ. It can never show more unsourced or undated figures than the page it comes from.
+const SAME_BODY_AS = { 'deal-market-analysis.html': 'market-analysis.html' };
+
 function publicPages() {
   const top = fs.readdirSync(ROOT)
     .filter((f) => f.endsWith('.html') && !SKIP.has(f) && !f.startsWith('developer'))
@@ -207,7 +213,7 @@ async function main() {
     // The slack covers late-loading figures in a page or area that already
     // has misses. A new page, or a card or section not in the baseline, gets
     // none: new content arrives sourced.
-    const b = baseline.pages[p];
+    const b = baseline.pages[SAME_BODY_AS[p] || p];
     const pageSlack = b ? SLACK : 0;
     const base = b || { unsourced: 0, undated: 0 };
     const grew = [];
@@ -229,7 +235,7 @@ async function main() {
     const next = { note: 'Per-page counts of figures with no nearby source link (unsourced) or a source link without a date (undated). Lower these as pages are fixed; never raise them to pass a PR.', pages: {} };
     for (const p of Object.keys(results).sort()) {
       const r = results[p];
-      if (!r.error) next.pages[p] = { unsourced: r.unsourced, undated: r.undated, areas: r.areas };
+      if (!r.error && !SAME_BODY_AS[p]) next.pages[p] = { unsourced: r.unsourced, undated: r.undated, areas: r.areas };
     }
     if (only.length) next.pages = { ...baseline.pages, ...next.pages };
     fs.writeFileSync(BASELINE, `${JSON.stringify(next, null, 2)}\n`);
