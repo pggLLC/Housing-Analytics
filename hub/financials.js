@@ -1088,6 +1088,56 @@
     return '<section class="fin-section" aria-labelledby="fin-checks" data-role="credit-checks"><h2 id="fin-checks">Fee, credit and cost checks</h2><dl class="basis-dl">' +
       rows.filter(function (x) { return x[1] != null; }).map(function (x) { return '<div><dt>' + esc(x[0]) + '</dt><dd>' + esc(x[1]) + '</dd></div>'; }).join('') + '</dl></section>';
   }
+  // Can the market fill these homes (paul, 14 Nov 2026: "Panel and Financials")? The deal's own homes by AMI band,
+  // counted against the renters who qualify for each band in the project's market area, the same count and the same
+  // COHO lines as the starting numbers panel (LabStart.captureCheck). A weak band carries a recommendation to use the
+  // rent of the next band down that is not weak; nothing here changes a figure.
+  function homesByBand(inputs, G) {
+    var out = {}, mix = inputs.resolvedDealMix;
+    if (mix && mix.available) (mix.restrictedRows || []).forEach(function (x) { var t = Number(x.tier); if (t > 0) out[t] = (out[t] || 0) + (Number(x.units) || 0); });
+    else if (G && G.grid && global.LabCalcGrid && global.LabCalcGrid.rowHomes && G.grid['dc-rent-limit-regime'] !== 'market') {
+      global.LabCalcGrid.BANDS.forEach(function (t) { if (G.grid['dc-chk-' + t] === 'yes') { var n = global.LabCalcGrid.rowHomes(G.grid, t); if (n > 0) out[t] = n; } });
+    }
+    Object.keys(out).forEach(function (t) { if (!(out[t] > 0)) delete out[t]; });
+    return out;
+  }
+  function captureMarket(p, s, inputs, G) {
+    var S = global.LabStart;
+    if (!S || !S.marketFor || !p.jurisdiction) return null;
+    var by = homesByBand(inputs, G), over = {};
+    Object.keys(by).forEach(function (t) { if (Number(t) > 80) { over[t] = by[t]; delete by[t]; } });
+    if (!Object.keys(by).length) return null;
+    var pick = p.overrides[s.scenarioId] && p.overrides[s.scenarioId].captureArea;
+    return { by: by, over: Object.keys(over), m: S.marketFor(p, s, by, pick) };
+  }
+  function captureSection(p, s, cm) {
+    if (!cm) return '';
+    var S = global.LabStart, m = cm.m;
+    var head = '<section class="fin-section" aria-labelledby="fin-capture" data-role="capture"><h2 id="fin-capture">Can the market fill these homes?</h2>';
+    if (m.wait) return head + '<p role="status" class="note">Counting the renters who qualify near ' + esc(p.jurisdiction.name) + '…</p></section>';
+    if (m.error) return head + '<p class="note">' + esc(m.error) + '</p></section>';
+    var areaLabel = m.area.label;
+    var lead = m.area.saved ? 'Renters counted in the market area saved from Market check ' + Shell.when(m.area.saved.att.attachedAt) + ': ' + areaLabel + '.'
+      : 'Renters counted in ' + areaLabel + '. No site’s market area is saved, so this is the biggest assumption here.' +
+        (m.widened ? ' ' + m.widened.label.charAt(0).toUpperCase() + m.widened.label.slice(1) + ' hold too few renters who qualify for these homes, so the count widens to the county.' : '');
+    var choice = m.areas.length > 1 ? '<label class="field capture-area"><span>Count renters in</span><select name="capture-area">' + m.areas.map(function (a) {
+      return '<option value="' + esc(a.key) + '"' + (a.key === m.area.key ? ' selected' : '') + '>' + esc(a.label.charAt(0).toUpperCase() + a.label.slice(1)) + '</option>';
+    }).join('') + '</select></label>' : '';
+    var rows = m.check.rows.map(function (x) {
+      return '<tr' + (x.level === 'good' ? '' : ' class="capture-weak"') + '><th scope="row">' + x.band + '%</th><td class="num">' + esc(String(x.homes)) + '</td><td class="num">' + esc(Math.round(x.renters).toLocaleString('en-US')) + '</td><td class="num">' +
+        esc(x.needed.toLocaleString('en-US')) + '</td><td class="num">' + S.captureLevel(x) + '</td></tr>';
+    }).join('');
+    return head + '<p class="note">' + esc(lead) + '</p>' + choice +
+      '<div class="table-scroll"><table class="start-table" data-no-sort><caption>Homes against the renters who qualify, by income band (share = homes ÷ renters; needed = the renters a ' + esc(pct(S.GOOD, 0)) + ' share takes)</caption><thead><tr><th scope="col">Band</th><th scope="col" class="num">Homes</th><th scope="col" class="num">Renters who qualify</th><th scope="col" class="num">Needed</th><th scope="col" class="num">Share</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+      (S.captureWarning(m.check, areaLabel) || '<p class="note" data-role="capture-ok">Every band stays at ' + esc(pct(S.GOOD, 0)) + ' or less of the renters who qualify for it.</p>') +
+      (cm.over.length ? '<p class="note">Homes at ' + cm.over.map(function (t) { return t + '%'; }).join(' and ') + ' of area median income are not counted: the CHFA count covers bands up to 80%.</p>' : '') +
+      '<p class="note">A household can qualify for more than one band, so the counts overlap. Counted the CHFA market-study way by the site’s own engine (HUD CHAS 2018–2022, Census ACS 2020–2024), as the starting numbers are. A real market area is drawn round the site: <a href="#/market">check a site</a>.</p></section>';
+  }
+  function captureFlag(cm) {
+    var w = cm && cm.m && cm.m.check ? cm.m.check.weak : [];
+    if (!w.length) return '';
+    return ' <strong>Weak capture in the ' + w.map(function (x) { return x.band + '%'; }).join(' and ') + ' band' + (w.length === 1 ? '' : 's') + '.</strong> <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-capture">See who could rent them</a>.';
+  }
   // The live page's fold under its rents, with its note on which rents the cap lowered (result.rentCapBindings).
   function rentCapInputs(d, r) {
     var b = (r && r.rentCapBindings) || [];
@@ -1165,6 +1215,7 @@
     var inputs = buildInputs(d, sched && sched.snapshot, data, { ChfaRentLimits: global.ChfaRentLimits, DealCostBasis: global.DealCostBasis, grid: G });
     var r = global.DealEngine.computeDeal(inputs);
     var saved = p.attachments.filter(function (a) { return a.scenarioId === s.scenarioId && a.kind === 'financials' && a.state !== 'replaced'; })[0];
+    var cm = captureMarket(p, s, inputs, G);
     var money$ = function (name, value, label) {
       return '<input name="' + esc(name) + '" type="number" min="0" step="1000" inputmode="numeric" value="' + esc(value == null ? '' : value) + '" placeholder="not entered" aria-label="' + esc(label) + '">';
     };
@@ -1175,8 +1226,8 @@
     return head + (global.LabDealFile ? global.LabDealFile.openedNote(p) : '') +
       (sched && sched.state === 'stale' ? '<p class="callout">The rent schedule is out of date: ' + esc(sched.staleReason) + '. Save it again in Homes and affordability before relying on these figures.</p>' : '') +
       (saved ? '<p class="note">' + (global.LabProjects.isTemporary && global.LabProjects.isTemporary(p.projectId) ? 'Kept for this visit only, because this browser is not storing data. Download the deal file to keep it. Last kept ' : 'Saved to the project ') + esc(Shell.when(saved.attachedAt)) + (saved.state === 'stale' ? ' (out of date: ' + esc(saved.staleReason) + ')' : '') + '. Changes below are a draft until you save again.</p>' : '') +
-      (G ? '<div class="callout" data-role="grid-summary">From the unit grid: ' + esc(String(r.units)) + ' homes, ' + esc(money(r.annualRents) || 'rents unavailable') + ' scheduled rent per year, vacancy ' + esc(pct(r.vacancyRate) || 'not set') + '. <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-step-homes">Change the homes or rents</a>.</div>'
-        : '<div class="callout">From the saved schedule: ' + esc(String(r.units)) + ' homes, ' + esc(money(r.annualRents) || 'rents unavailable') + ' scheduled rent per year, vacancy ' + esc(pct(inputs.resolvedDealMix.vacancyRate)) + '. <a href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Change the homes or rents</a>.</div>') +
+      (G ? '<div class="callout" data-role="grid-summary">From the unit grid: ' + esc(String(r.units)) + ' homes, ' + esc(money(r.annualRents) || 'rents unavailable') + ' scheduled rent per year, vacancy ' + esc(pct(r.vacancyRate) || 'not set') + '. <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-step-homes">Change the homes or rents</a>.' + captureFlag(cm) + '</div>'
+        : '<div class="callout">From the saved schedule: ' + esc(String(r.units)) + ' homes, ' + esc(money(r.annualRents) || 'rents unavailable') + ' scheduled rent per year, vacancy ' + esc(pct(inputs.resolvedDealMix.vacancyRate)) + '. <a href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Change the homes or rents</a>.' + captureFlag(cm) + '</div>') +
       answerPanel(r, inputs) +
       '<form class="homes" data-action="financials" novalidate>' +
       (G ? stepOpen('fin-step-homes', 'Homes and rents', global.LabCalcGrid.sub(r, G), global.LabCalcGrid.section(p, s, G, inputs, r, data)).replace('<details ', r.units > 0 ? '<details ' : '<details open ') : '') +
@@ -1207,7 +1258,7 @@
       card('Break-even occupancy', pct(r.breakEvenOcc), r, 'breakEvenOcc') +
       '</div>' +
       (sum && sum.reason ? '<p class="callout"><strong>Costs:</strong> ' + esc(sum.reason) + '</p>' : '') +
-      basisSection(r, inputs.fields) + creditChecks(r) + (global.LabCalcGrid ? global.LabCalcGrid.tables(r, inputs, G, data) : '') + (global.LabCalcComps ? global.LabCalcComps.render(inputs) : '') +
+      basisSection(r, inputs.fields) + creditChecks(r) + captureSection(p, s, cm) + (global.LabCalcGrid ? global.LabCalcGrid.tables(r, inputs, G, data) : '') + (global.LabCalcComps ? global.LabCalcComps.render(inputs) : '') +
       mostLikely(d, inputs, r) + sourcesUses(r) + loanTable(r) + (DOH() ? DOH().sections(r, d.fields) : '') + stressTable(r, inputs.constants) + stressSliders(d, inputs, r) + rateGrid(inputs, r) + exitSummary(r, inputs) + projectionTable(r) +
       (global.LabLenderExport ? global.LabLenderExport.remember(r, s.name) : '') + (global.LabLenderSchedules ? global.LabLenderSchedules.render(d, r, fieldGrid) : '') + waterfallSection(d, r) + (SITE() ? SITE().concept(d, inputs, r) : '') + (global.LabCalcOutcome ? global.LabCalcOutcome.render(p, d, inputs, r, G) : '') +
       '<p class="note">Calculated by the COHO Deal Calculator. CHFA ' + esc(data.chfa.meta.fiscal_year) + ' rent table effective ' + esc(data.chfa.meta.effective_date) + '; HUD ' + esc(data.hud.meta && data.hud.meta.fiscal_year ? 'FY' + data.hud.meta.fiscal_year + ' ' : '') + 'Fair Market Rents; equity pricing Novogradac national average as of ' + esc(data.equity.meta.as_of || '') + '. Screening only, not underwriting.</p>' +
@@ -1310,6 +1361,7 @@
     var form = ev.target.form;
     if (!form || form.dataset.action !== 'financials') return;
     var parts = route(), name = ev.target.name;
+    if (name === 'capture-area') { P.setOverride(parts[1], parts[2], 'captureArea', ev.target.value); renderKeepingOpen(); var a = main.querySelector('[name="capture-area"]'); if (a) a.focus(); return; }
     P.setOverride(parts[1], parts[2], 'financialsDraft', readDraft(form, draftFor(P.get(parts[1]), parts[2])));
     // Redrawn once the click or Tab that left the field has finished, with focus where the reader moved (redraw.js).
     if (global.LabRedraw) return global.LabRedraw.after(renderKeepingOpen);
@@ -1384,5 +1436,5 @@
     Shell.render();
   });
 
-  global.LabFinancials = { setAsideStatus: setAsideStatus, SET_ASIDE_HELP: SET_ASIDE_HELP, boostTag: boostTag, basisSection: basisSection, LS_INPUTS: LS_INPUTS, fieldGrid: function (d, g) { return fieldGrid(d, g); }, SOFT_REFERENCE: SOFT_REFERENCE, AMOUNT_SOURCE: AMOUNT_SOURCE, IMPACT_FEE_NOTE: IMPACT_FEE_NOTE, programReference: programReference, _data: data, LOAN_INPUTS: LOAN_INPUTS, SOFT_PROGRAMS: SOFT_PROGRAMS, FEDERAL_FUND_DEFAULTS: FEDERAL_FUND_DEFAULTS, seedTranche: seedTranche, addedTranche: addedTranche, readDraft: readDraft, WF_INPUTS: WF_INPUTS, STRESS_INPUTS: STRESS_INPUTS, RATE_STEPS: RATE_STEPS, PRICE_STEPS: PRICE_STEPS, buildInputs: buildInputs, inputsFor: inputsFor, currentSchedule: currentSchedule, emptyDraft: emptyDraft, draftFor: draftFor, equityDefault: equityDefault, INPUTS: INPUTS, exitSummary: exitSummary, costIds: costIds, lineBasis: lineBasis, costGroupsHtml: costGroupsHtml, CONSTANTS: CONSTANTS, CREDIT_RATES: CREDIT_RATES, SOURCE_TAGS: SOURCE_TAGS, sourceTag: sourceTag, CREDIT_INPUTS: CREDIT_INPUTS, RENT_CAP_INPUTS: RENT_CAP_INPUTS, rentCapInputs: rentCapInputs, CHECKBOX_IDS: CHECKBOX_IDS, NOI_INPUTS: NOI_INPUTS, CONST_INPUTS: CONST_INPUTS, constantsFrom: constantsFrom, stressTable: stressTable, rentLimitsFixed: rentLimitsFixed, creditChecks: creditChecks, sourcesUses: sourcesUses, sourcesUsesRows: sourcesUsesRows, unavailable: unavailable };
+  global.LabFinancials = { setAsideStatus: setAsideStatus, SET_ASIDE_HELP: SET_ASIDE_HELP, boostTag: boostTag, basisSection: basisSection, LS_INPUTS: LS_INPUTS, fieldGrid: function (d, g) { return fieldGrid(d, g); }, SOFT_REFERENCE: SOFT_REFERENCE, AMOUNT_SOURCE: AMOUNT_SOURCE, IMPACT_FEE_NOTE: IMPACT_FEE_NOTE, programReference: programReference, _data: data, LOAN_INPUTS: LOAN_INPUTS, SOFT_PROGRAMS: SOFT_PROGRAMS, FEDERAL_FUND_DEFAULTS: FEDERAL_FUND_DEFAULTS, seedTranche: seedTranche, addedTranche: addedTranche, readDraft: readDraft, WF_INPUTS: WF_INPUTS, STRESS_INPUTS: STRESS_INPUTS, RATE_STEPS: RATE_STEPS, PRICE_STEPS: PRICE_STEPS, buildInputs: buildInputs, inputsFor: inputsFor, currentSchedule: currentSchedule, emptyDraft: emptyDraft, draftFor: draftFor, equityDefault: equityDefault, INPUTS: INPUTS, exitSummary: exitSummary, costIds: costIds, lineBasis: lineBasis, costGroupsHtml: costGroupsHtml, CONSTANTS: CONSTANTS, CREDIT_RATES: CREDIT_RATES, SOURCE_TAGS: SOURCE_TAGS, sourceTag: sourceTag, CREDIT_INPUTS: CREDIT_INPUTS, RENT_CAP_INPUTS: RENT_CAP_INPUTS, rentCapInputs: rentCapInputs, homesByBand: homesByBand, captureSection: captureSection, captureMarket: captureMarket, CHECKBOX_IDS: CHECKBOX_IDS, NOI_INPUTS: NOI_INPUTS, CONST_INPUTS: CONST_INPUTS, constantsFrom: constantsFrom, stressTable: stressTable, rentLimitsFixed: rentLimitsFixed, creditChecks: creditChecks, sourcesUses: sourcesUses, sourcesUsesRows: sourcesUsesRows, unavailable: unavailable };
 })(window);
