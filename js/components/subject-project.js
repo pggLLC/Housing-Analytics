@@ -494,7 +494,7 @@
         if (c.hera_special) label += ' (HERA Special available)';
         if (c.rural_resort) label += ' · rural-resort (Prop 123)';
         return { value: c.fips, label: label };
-      }) : [];
+      }).sort(function (a, b) { return a.label.localeCompare(b.label, 'en', { sensitivity: 'base' }); }) : [];
 
       // Header strip
       var hdr = $h('div', { style: {

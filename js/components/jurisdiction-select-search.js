@@ -72,6 +72,10 @@
       if (parent && String(parent.tagName).toLowerCase() === 'optgroup') {
         type = parent.label || type;
       }
+      // A one-list picker (A to Z, no groups) names each option's type on the option itself.
+      if (option.getAttribute && option.getAttribute('data-jurisdiction-type')) {
+        type = option.getAttribute('data-jurisdiction-type');
+      }
       entries.push({
         geoid: String(option.value),
         name: name,

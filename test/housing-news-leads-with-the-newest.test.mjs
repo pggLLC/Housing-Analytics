@@ -189,15 +189,18 @@ test('a place named in a headline filters by that place and by its region', asyn
   const { window } = await runPage(fixture());
   const doc = window.document;
   const sel = doc.getElementById('regionFilter');
-  const group = (label) => [...sel.querySelectorAll('optgroup')].find((g) => g.label === label);
-  assert.ok(group('Places'), 'no Places group in the filter');
-  const sterling = [...group('Places').querySelectorAll('option')].find((o) => /^Sterling \(1\)$/.test(o.textContent));
+  // Regions and places are one A to Z list, each option naming its type (typing a letter reaches them all).
+  const ofType = (type) => [...sel.querySelectorAll('option')].filter((o) => o.getAttribute('data-jurisdiction-type') === type);
+  assert.ok(ofType('Place').length, 'no places in the filter');
+  const listed = [...sel.querySelectorAll(':scope > option')].filter((o) => o.value).map((o) => o.textContent);
+  assert.deepEqual(listed, listed.slice().sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' })), 'regions and places are not one A to Z list');
+  const sterling = ofType('Place').find((o) => /^Sterling \(1\)$/.test(o.textContent));
   assert.ok(sterling, 'Sterling is not offered as a place filter');
   sel.value = sterling.value;
   sel.dispatchEvent(new window.Event('change'));
   let titles = [...doc.querySelectorAll('#newsRiverBody .story .story__link')].map((a) => a.textContent);
   assert.deepEqual(titles, ['Sterling housing project is recipient of Proposition 123 funds']);
-  assert.ok([...group('Regions').querySelectorAll('option')].some((o) => o.value === 'Eastern Plains'),
+  assert.ok(ofType('Region').some((o) => o.value === 'Eastern Plains' && /^Eastern Plains region \(/.test(o.textContent)),
     'the region the pipeline gave Sterling is not a filter');
   sel.value = 'Eastern Plains';
   sel.dispatchEvent(new window.Event('change'));
