@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-14T14:56:58.178159Z",
+  "generated": "2026-11-14T15:37:29.796276Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1032879
+      "bytes": 1033287
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9220,6 +9220,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 353190
+    },
+    "data/market/tract_drive_times_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3777980
     },
     "data/market/transit_routes_co.geojson": {
       "featureCount": 1658,

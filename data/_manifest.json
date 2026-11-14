@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-14T14:53:55.057Z",
+    "generated_at": "2026-11-14T15:37:27.267Z",
     "root": "data/",
-    "file_count": 2031,
-    "total_size_bytes": 223884279,
+    "file_count": 2032,
+    "total_size_bytes": 227662389,
     "kinds": {
-      "json": 1982,
+      "json": 1983,
       "geojson": 35,
       "csv": 14
     }
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-14T14:34:10.061Z",
+      "mtime": "2026-11-14T15:37:23.724Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1091,7 +1091,7 @@
       "path": "census-acs-state.json",
       "kind": "json",
       "size_bytes": 26927,
-      "mtime": "2026-11-08T04:57:53.556Z",
+      "mtime": "2026-11-14T15:06:54.968Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38300,8 +38300,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 258225,
-      "mtime": "2026-11-14T14:14:29.796Z",
+      "size_bytes": 258355,
+      "mtime": "2026-11-14T15:36:45.512Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -39897,6 +39897,23 @@
       ]
     },
     {
+      "path": "market/tract_drive_times_co.json",
+      "kind": "json",
+      "size_bytes": 3777980,
+      "mtime": "2026-11-14T15:06:55.365Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "tracts",
+        "points",
+        "from"
+      ],
+      "key_count": 4,
+      "primary_array_key": "tracts",
+      "primary_array_length": 1447,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/transit_routes_co.geojson",
       "kind": "geojson",
       "size_bytes": 4708061,
@@ -40249,7 +40266,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-14T14:53:52.876Z",
+      "mtime": "2026-11-14T15:37:25.272Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40273,7 +40290,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-14T14:53:52.363Z",
+      "mtime": "2026-11-14T15:37:24.906Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
