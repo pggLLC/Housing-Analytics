@@ -2,7 +2,7 @@
 //
 // 1. What each box is. The live page puts a button under every box whose note gives the box's definition from
 //    js/deal-calculator-input-registry.js. That file is loaded here unchanged, and each box with a definition gets a
-//    small "?" beside its label (or, in the cost and operating tables, a tip on the column heading). The live note's
+//    small "?" beside its label, drawn by the stylesheet so the label's own text is unchanged (or, in the cost and operating tables, a tip on the column heading). The live note's
 //    other lines (worked example, assumption, not yet verified) describe the live page's own invented starting
 //    values; Financials starts blank or from the tool's stated defaults, and its own tag under each box says who
 //    sets it, so only the definition is carried.
@@ -53,7 +53,7 @@
   function marker(def) {
     var s = document.createElement('span');
     s.className = 'fin-help'; s.setAttribute('tabindex', '0'); s.setAttribute('role', 'button');
-    s.setAttribute('aria-label', 'What this box is'); s.setAttribute('data-gtip', def); s.textContent = '?';
+    s.setAttribute('aria-label', 'What this box is'); s.setAttribute('data-gtip', def);
     return s;
   }
   // The boxes the live page explains: text, number and choice boxes (not ticks, choices of one, or sliders).
@@ -69,7 +69,7 @@
         if (label.classList.contains('check')) return;
         var first = label.firstChild, holder = label.firstElementChild;
         if (holder && holder.tagName === 'SPAN' && !holder.contains(el) && first === holder) {
-          if (!holder.querySelector('.fin-help')) { holder.appendChild(document.createTextNode(' ')); holder.appendChild(marker(def)); n++; }
+          if (!holder.querySelector('.fin-help')) { holder.appendChild(marker(def)); n++; }
         } else if (first && first.nodeType === 3 && first.nodeValue.trim()) {
           if (!(first.nextSibling && first.nextSibling.classList && first.nextSibling.classList.contains('fin-help'))) { label.insertBefore(marker(def), first.nextSibling); n++; }
         }
@@ -88,7 +88,7 @@
       }
       if (th.getAttribute('data-help-def') !== def) {
         var cell = td.parentNode.cells[0];
-        if (cell && cell !== td && !cell.querySelector('.fin-help')) { cell.appendChild(document.createTextNode(' ')); cell.appendChild(marker(def)); n++; }
+        if (cell && cell !== td && !cell.querySelector('.fin-help')) { cell.appendChild(marker(def)); n++; }
       }
     });
     return n;

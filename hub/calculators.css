@@ -320,7 +320,9 @@ form[data-action="financials"] .field-grid .field-after { grid-column: 1 / -1; m
    "?" beside a box's label that says what the box is. Its touch area is larger than the mark. */
 [data-hover-help] abbr.g-term, [data-hover-help] th.g-tip { text-decoration: underline dotted; text-decoration-color: var(--ink-soft); text-underline-offset: 3px; cursor: help; }
 [data-hover-help] abbr.g-term:focus-visible, [data-hover-help] th.g-tip:focus-visible, .fin-help:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
-.fin-help { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 1.15rem; height: 1.15rem; margin-left: .1rem; vertical-align: .1em;
+.fin-help { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 1.15rem; height: 1.15rem; margin-left: .35rem; vertical-align: .1em;
   border: 1px solid var(--green); border-radius: 50%; color: var(--green); font-size: .72rem; font-weight: 700; line-height: 1; cursor: help; }
+/* The "?" is drawn here, not written into the label, so a label's own words stay exactly as they were. */
+.fin-help::before { content: "?"; }
 .fin-help::after { content: ""; position: absolute; inset: -.7rem; }
 @media print { .fin-help { display: none; } [data-hover-help] abbr.g-term, [data-hover-help] th.g-tip { text-decoration: none; } }

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-14T11:13:32.714019Z",
+  "generated": "2026-11-14T12:47:36.509705Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -174,7 +174,7 @@
     "data/audit/funding-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 804495
+      "bytes": 710090
     },
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
@@ -1199,7 +1199,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1303703
+      "bytes": 1304645
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -9989,12 +9989,12 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20471
+      "bytes": 20485
     },
     "data/polymarket-history.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 223312
+      "bytes": 225543
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
