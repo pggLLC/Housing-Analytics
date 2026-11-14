@@ -449,8 +449,11 @@
         return cache[path];
       }
 
-      // Populate the dropdown with three optgroups (Counties, Incorporated
-      // Places, then CDPs/Unincorporated Communities), each alphabetical.
+      // Populate the dropdown with one A to Z list of counties, towns and
+      // CDPs (paul, 14 Nov 2026: typing a letter must reach every place that
+      // starts with it). The names carry the type ("Mesa County",
+      // "Fruita (city)", "Fort Carson (CDP)"); the search box reads it from
+      // data-jurisdiction-type.
       fetchJSON('data/hna/ranking-index.json')
         .then(function (idx) {
           var rankings = idx.rankings || {};
@@ -474,32 +477,16 @@
             else if (r.type === 'place') places.push(entry);
             else if (r.type === 'cdp') cdps.push(entry);
           });
-          counties.sort(function (a, b) { return a.name.localeCompare(b.name); });
-          places.sort(function (a, b) { return a.name.localeCompare(b.name); });
-          cdps.sort(function (a, b) { return a.name.localeCompare(b.name); });
+          var TYPE = { county: 'County', place: 'Incorporated place', cdp: 'CDP' };
+          var bare = function (n) { return String(n).replace(/\s*\([^()]*\)$/, '').replace(/\s+County$/, ''); };
+          var all = counties.concat(places, cdps).sort(function (a, b) {
+            return bare(a.name).localeCompare(bare(b.name), 'en', { sensitivity: 'base' }) || a.name.localeCompare(b.name);
+          });
 
           var html = '<option value="">— Select a geography —</option>';
-          if (counties.length) {
-            html += '<optgroup label="Counties">';
-            counties.forEach(function (c) {
-              html += '<option value="' + c.geoid + '">' + c.name + '</option>';
-            });
-            html += '</optgroup>';
-          }
-          if (places.length) {
-            html += '<optgroup label="Incorporated Places (share of county growth)">';
-            places.forEach(function (p) {
-              html += '<option value="' + p.geoid + '">' + p.name + '</option>';
-            });
-            html += '</optgroup>';
-          }
-          if (cdps.length) {
-            html += '<optgroup label="Unincorporated Communities — CDPs (share of county growth)">';
-            cdps.forEach(function (c) {
-              html += '<option value="' + c.geoid + '">' + c.name + '</option>';
-            });
-            html += '</optgroup>';
-          }
+          all.forEach(function (g) {
+            html += '<option value="' + g.geoid + '" data-jurisdiction-type="' + TYPE[g.type] + '">' + g.name + '</option>';
+          });
           select.innerHTML = html;
           // Never open on an empty chart: a linked place first, then the
           // place this visitor last worked on, then a starting example.
