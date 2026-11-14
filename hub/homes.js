@@ -97,7 +97,8 @@
     if (!s) return '<a class="back-link" href="#/project/' + esc(p.projectId) + '">← ' + esc(p.name) + '</a><h1>Scenario not found</h1>';
     loadChfa();
     var head = '<a class="back-link" href="#/project/' + esc(p.projectId) + '">← ' + esc(p.name) + '</a>' +
-      '<h1>Homes and affordability</h1><p class="lede">' + esc(s.name) + '. Set the homes, who they are for, and their rents. Ceilings come from CHFA’s published table, checked by the site’s own code.</p>';
+      '<h1>Homes and affordability</h1><p class="lede">' + esc(s.name) + '. Set the homes, who they are for, and their rents. Ceilings come from CHFA’s published table, checked by the site’s own code.</p>' +
+      (global.LabStart ? global.LabStart.homesNote(p, s) : '');
     var manual = p.overrides[s.scenarioId] && p.overrides[s.scenarioId].manualMix;
     if (manual) return head + manualSummary(p, s, manual);
     if (chfaError) return head + '<p class="callout">' + esc(chfaError) + '</p>';
