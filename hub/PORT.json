@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "7eb367725d4a14f97eb672cff52c3884eb2c5b5c",
+  "commit": "70bfa4c5552f1a5b615299185e88957f72d3ee20",
   "dirty": false
  },
  "files": {
@@ -94,7 +94,7 @@
   "hub/market.js": "050cc71150329f94c0778eba86aeed22feb68ca2ea00959923122525d860385a",
   "hub/middle-income.css": "d6ee8edc88955d68fc798e4ed247954c3d0900fd11bf62fba990ad09855ed22e",
   "hub/middle-income.js": "5301fa977060cca905ef65201fcdf54cc58f3f831580abcd49f5b3088835bb29",
-  "hub/nav.js": "10b4496a762e3014fa507d8f6782b4882df388e0afc4afa8ad7a181d8fcb0be4",
+  "hub/nav.js": "6fba985d28a9ead39b74a4f4531c412e62346929c67440e2c982d960364fe82b",
   "hub/need-scorecard.js": "a8c89af9acc59264b61eb5ccb5d8f553bc49ac1dfbff5d15a4fa95914ddf16a0",
   "hub/opportunities.css": "7fa3422f7362ac21115d41e1fa0ddd1872f791a04c177e681728ccdb25220a1d",
   "hub/opportunities.js": "548a6441f4d2f5c74a35212b05eb7a46a0b2879f4f60281a050f0b9dc6eb6667",

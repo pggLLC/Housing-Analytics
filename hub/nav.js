@@ -215,6 +215,8 @@
       return to + (qs ? '?' + qs : '');
     }
     if (file === 'hna-scenario-builder.html' || file === 'recommendation.html') { var one = g([q.get('geoid'), q.get('fips')]); return to + (one.length ? '?g=' + one[0] : ''); }
+    // Local incentives keeps its picked town or county in the hash (#j=<geoid>, js/local-incentives.js geoidFromHash).
+    if (file === 'local-incentives.html') { var j = /(?:^|[&?])j=(\d{7}|\d{5})(?!\d)/.exec(m[3] || ''); if (j) return to + '/' + j[1]; }
     if (/^\/guide\//.test(to.slice(1)) && /^[A-Za-z0-9_-]{1,80}$/.test(m[3] || '')) return to + '?at=' + m[3];
     return to;
   }

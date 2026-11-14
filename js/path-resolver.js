@@ -58,7 +58,8 @@
 // Pages whose content now lives in a hub view (paul, 14 Nov 2026: "redirect group A", "redirect county costs"). The content
 // check of 14 Nov 2026 found each page's headings, figures and tables in its view. Two parts:
 //  1. An old address forwards to its view, as the guides do: never inside a frame, never with ?classic=1,
-//     which still opens the page as written. A place, a deal or a comparison in the address goes with it.
+//     which still opens the page as written. A place, a deal or a comparison in the address goes with it, and the
+//     town or county picked on local-incentives.html (#j=<geoid>).
 //     select-jurisdiction.html is not forwarded while it picks a place for another page (?next=, ?step=,
 //     ?new=) or with ?classic=1 (the place pill on the pages that stay).
 //  2. On the pages that stay, a link to one of these pages (a menu, a card, a "Next" link) is pointed at
@@ -87,8 +88,8 @@
   };
   var GEO = /^\d{5}(\d{2})?$/;
   var has = function (o, k) { return Object.prototype.hasOwnProperty.call(o, k); };
-  // The view for an old page and its query string, or null when the page stays as written.
-  function movedTo(file, search) {
+  // The view for an old page, its query string and its hash, or null when the page stays as written.
+  function movedTo(file, search, hash) {
     if (!has(MOVED_PAGES, file)) return null;
     var q = new URLSearchParams(search || '');
     if (q.has('classic')) return null;
@@ -104,6 +105,11 @@
       var qs = [picked.length ? 'g=' + picked.join(',') : '', t ? 't=' + t : ''].filter(Boolean).join('&');
       return to + (qs ? '?' + qs : '');
     }
+    // Local incentives keeps its picked town or county in the hash (#j=<geoid>, js/local-incentives.js geoidFromHash).
+    if (file === 'local-incentives.html') {
+      var j = /(?:^#?|[&?])j=(\d{7}|\d{5})(?!\d)/.exec(hash || '');
+      if (j) return to + '/' + j[1];
+    }
     if (file === 'hna-scenario-builder.html' || file === 'recommendation.html') {
       var g = places([q.get('geoid'), q.get('fips')]);
       return to + (g.length ? '?g=' + g[0] : '');
@@ -115,7 +121,7 @@
     var file = String(loc.pathname || '').split('/').pop();
     // Inside a frame (how a hub reads a page) nothing is forwarded or rewritten.
     if (window.top !== window.self) return;
-    var away = movedTo(file, loc.search);
+    var away = movedTo(file, loc.search, loc.hash);
     if (away) { loc.replace(away); return; }
     // Part 2: links on this page.
     // Links resolve against the page without its query or hash: a calculator share link's hash runs to many
@@ -130,7 +136,7 @@
       var u;
       try { u = new URL(raw, base); } catch (e) { return; }
       if (u.host !== loc.host && !/^(www\.)?cohoanalytics\.com$/i.test(u.hostname)) return;
-      var f = u.pathname.split('/').pop(), to = movedTo(f, u.search);
+      var f = u.pathname.split('/').pop(), to = movedTo(f, u.search, u.hash);
       // A written guide (forwarded since 13 Nov 2026) is pointed at its hub view the same way.
       if (!to && G && has(G.pages, f) && !/[?&]classic(=|&|$)/.test(u.search)) {
         var slug = G.pages[f], at = u.hash.slice(1);

@@ -79,6 +79,9 @@ test('an old address forwards, carrying its place, deal or comparison', () => {
   for (const t of ['workforce_resort', 'prop123_local']) assert.equal(load(SITE + 'compare.html?jurisdictions=0828745&target=' + t).went, 'places-hub.html#/places/compare?g=0828745&t=' + t);
   assert.equal(load(SITE + 'compare.html?jurisdictions=%3Cscript%3E').went, 'places-hub.html#/places/compare', 'a bad place code is dropped');
   assert.equal(load(SITE + 'select-jurisdiction.html').went, 'places-hub.html#/places');
+  // Local incentives keeps its pick in the hash, #j=<geoid> (Codex P2 on #2875): a town, a county and a CDP.
+  for (const j of ['0828745', '08077', '0815165']) assert.equal(load(SITE + 'local-incentives.html#j=' + j).went, 'places-hub.html#/places/incentives/' + j, 'incentives ' + j);
+  assert.equal(load(SITE + 'local-incentives.html#j=%3Cb%3E').went, 'places-hub.html#/places/incentives', 'a bad pick is dropped');
 });
 
 test('not forwarded: ?classic=1, inside a frame, the picker while another page uses it, pages that stay', () => {
@@ -93,12 +96,14 @@ test('on a page that stays, links to forwarded pages and guides point at the vie
     '<a id="a" href="preservation.html">x</a><a id="b" href="recommendation.html?geoid=0828745">x</a>' +
     '<a id="c" href="https://cohoanalytics.com/methods.html#m-sampling-error">x</a><a id="d" href="select-jurisdiction.html?classic=1">x</a>' +
     '<a id="e" href="data-map-browser.html?classic=1">x</a><a id="f" href="market-analysis.html">x</a><a id="g" href="#top">x</a>' +
-    '<a id="h" href="https://example.com/compare.html">x</a><a id="i" href="select-jurisdiction.html?new=1">x</a>');
+    '<a id="h" href="https://example.com/compare.html">x</a><a id="i" href="select-jurisdiction.html?new=1">x</a>' +
+    '<a id="j" href="local-incentives.html#j=08077">x</a>');
   assert.equal(went, null);
   const h = (id) => doc.getElementById(id).getAttribute('href');
   assert.equal(h('a'), SITE + 'opportunities-hub.html#/opportunity/preservation');
   assert.equal(h('b'), SITE + 'deal-hub.html#/recommendation?g=0828745');
   assert.equal(h('c'), SITE + 'policy-hub.html#/guide/methods?at=m-sampling-error');
+  assert.equal(h('j'), SITE + 'places-hub.html#/places/incentives/08077', 'a link to a picked county on local incentives');
   for (const id of ['d', 'e', 'f', 'g', 'h', 'i']) assert.ok(!/-hub\.html/.test(h(id)), id + ' was rewritten to ' + h(id));
 });
 
