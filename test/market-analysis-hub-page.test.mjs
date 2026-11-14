@@ -319,6 +319,11 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 4
   const hubScripts = scripts(read(hubFile || 'deal-hub.html'));
   const registers = hubScripts.filter(f => f.startsWith('hub/') && fs.existsSync(path.join(root, f)) && new RegExp("Shell\\.views\\[['\"]" + view + "['\"]\\]\\s*=").test(read(f)));
   ok(registers.length === 1, hubFile + ' does not load a script that registers the "' + view + '" view the hand-off opens');
+  // And the hub page lets the route through: hub/lab-config.js sends a route its page's list does not match to that
+  // page's start (#/projects). Tested the way its drawnBy() tests a hash: the path, with and without a closing slash.
+  const hubs = JSON.parse((/var HUBS = (\{.*?\}), STARTS = /.exec(read('hub/lab-config.js')) || [])[1] || '{}');
+  ok((hubs[hubFile] || []).some(re => new RegExp(re).test('#/' + view) || new RegExp(re).test('#/' + view + '/')),
+    'hub/lab-config.js does not let #/' + view + ' through on ' + hubFile + ', so the link would land on its start page');
   if (registers.length === 1) {
     const reader = read(registers[0]);
     ok(/['"]subject['"]/.test(reader), registers[0] + ' no longer reads the subject setting the hand-off sends');
