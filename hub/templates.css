@@ -61,11 +61,14 @@
   .menu-button { padding: 0 .4rem; font-size: 14px; }
   .nav-utilities { gap: .25rem .5rem; font-size: 13px; }
 }
-@media (max-width: 960px) {
+/* Below 1180px the brand, five menus and utility links do not fit one row (look.css puts them on one row from
+   1180px), so the Menu button takes over there. Between 961 and 1179px they used to wrap into a header 109 to
+   157px tall that stayed stuck to the top of the screen. */
+@media (max-width: 1179px) {
   .site-header { flex-wrap: wrap; }
   .menu-toggle { display: block; margin-left: auto; min-height: 44px; }
   .site-nav { display: none; width: 100%; flex-direction: column; align-items: stretch; flex-basis: 100%; }
-  .site-nav.open { display: flex; }
+  .site-nav.open { display: flex; overflow-y: auto; max-height: calc(100vh - 8rem); max-height: calc(100dvh - 8rem); }
   .menus { flex-direction: column; gap: 0; }
   .menu-button { width: 100%; justify-content: space-between; padding: 0 .5rem; font-size: 16px; border-bottom: 1px solid var(--line); }
   .menu-button[aria-current="true"] { border-bottom-color: var(--line); box-shadow: inset 3px 0 0 var(--green); padding-left: .75rem; }
@@ -1029,8 +1032,9 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
 .tabs { position: sticky; top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) - 1px); z-index: 40; background: var(--card); }
 .sp-sticky .sp-toggle { display: none; }
 @media (max-width: 767px) {
-  /* The open phone menu scrolls inside the header rather than running off the screen. */
-  .site-nav.open { max-height: calc(100vh - 4rem); overflow-y: auto; }
+  /* The open phone menu scrolls inside the header rather than running off the screen: the header's own row,
+     its padding and the gap above the menu take just under 8rem. */
+  .site-nav.open { overflow-y: auto; max-height: calc(100vh - 8rem); max-height: calc(100dvh - 8rem); }
   /* Hide or show the step line and the tab row; hidden, a thin bar keeps the Show button. */
   .sp-sticky .sp-toggle { display: inline-flex; align-items: center; min-height: 44px; font: inherit; font-size: 14px; color: var(--pine); background: none; border: 0; padding: 0 0 0 .5rem; text-decoration: underline; cursor: pointer; margin-left: auto; }
   .sp-sticky .sp-up { margin-left: 0; }
