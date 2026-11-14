@@ -165,7 +165,7 @@
         '<a class="button-link secondary" href="#/convert/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Copy these homes into the unit grid</a>' : '') +
       '</div></form>' +
       '<form class="cg-start" data-action="start-grid"><p class="note">Pricing with HOME, Prop 123, another income-limit formula or market rents, or want the Deal Calculator’s own grid of income level by size? ' +
-      '<button type="submit" class="link-button">Start a scenario in the unit grid</button>. ' + esc(s.name) + ' stays as it is.</p></form>';
+      esc(s.name) + ' stays as it is.</p><button type="submit" class="link-button">Start a scenario in the unit grid</button></form>';
   }
 
   // The public site's Subject Project rules for a utility allowance (js/components/subject-project.js setSubject

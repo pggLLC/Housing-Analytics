@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "bc9d9af38c87158d4041908bc5cab3f2c05084e3",
+  "commit": "34e3dcfa3b8ade36a8f847cb4647e0e5615264d1",
   "dirty": false
  },
  "files": {
@@ -31,7 +31,7 @@
   "hub/attract-housing.css": "28bcd998512f3ce04d0a3e094e614dbfa727e9266f6765bdef65484515887161",
   "hub/attract-housing.js": "9b33f4d813797798b92d674f7dfe80a1f7b8e8c0fc1c0aa0235498b4e754a7c7",
   "hub/calc-grid.js": "02dffeeae3ce04defc40650c40072cb5a5002f0a8f5de09b5f5fc54e253f622e",
-  "hub/calculators.css": "c4077e9035a9e4cf11a1239dc9f15a6ab1562365b0e538b4845769587a799539",
+  "hub/calculators.css": "d53eb5d5c661537b4f0a86b2eedb79d8129a48a3b42e32b9f32a2104afbe7ffc",
   "hub/calendar.js": "9fd8e62851166913afee680810c97317642113db4ea3f0e25235e6c0ed05d6b5",
   "hub/change-arrows.js": "3bfb7835e88183749dd64cacc43d91af9ae80d65038bb60ed70190d7755d4f3d",
   "hub/commuting.js": "be7105b9c3ad7d1d6486dd9cb8a288b95a1ff849e8478592adbb87f97beb8b6b",
@@ -70,7 +70,7 @@
   "hub/hna.js": "5fce6ca5e03ed9c8d04c362d70a5bbd6e8f6cf49192ea322989f964de6a8582e",
   "hub/home.css": "47c8d4d65023a4e3bf1153eb9fdf2aacceddafe9b5bb0eac8533c77e283e32bb",
   "hub/home.js": "60b81865af0f5d88b6e1ea9461b093987126794c297f716ee1872c7be9d7ed74",
-  "hub/homes.js": "031b7ab11d6e684d9c1855a24c000d733e0af35606baa2c87dced98c5174aaa1",
+  "hub/homes.js": "aa590b4b1f238b16e46d2ebde5c2528eebee286805a2bbfb0c4597dfe65c47f6",
   "hub/ic-summary.js": "cebc3afe8e4fb1176cff28a03becd8e202230b72b142fb46d7e1c950464c9a6e",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
   "hub/lab-config.js": "3ec168aa9e2e577e50711177822c25f313cad0e749b2d5a06e0f45eab0643a00",

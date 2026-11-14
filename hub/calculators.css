@@ -212,7 +212,7 @@ form[data-action="financials"] .field-grid .field { align-content: start; }
 .cg-market legend { font-weight: 700; padding: 0 .25rem; }
 .cg-market input[readonly] { background: var(--paper, var(--card)); color: var(--muted); }
 .cg-start { margin: .75rem 0 0; }
-.cg-start .link-button { padding: 0; border: 0; background: none; color: var(--green); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; min-height: 32px; }
+.cg-start .link-button { padding: 0; border: 0; background: none; color: var(--green); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; min-height: 44px; text-align: left; }
 table[data-role="rent-ach"] tr[data-status="concerning"] td:last-child, table[data-role="rent-ach"] tr[data-status="misaligned"] td:last-child { color: var(--caution, var(--text-rust)); font-weight: 600; }
 table[data-role="rent-ach"] tr[data-status="clear"] td:last-child { color: var(--good, var(--text-green)); font-weight: 600; }
 .cg-flag { display: inline-block; margin-right: .25rem; padding: 0 .35rem; border: 1px solid var(--line); border-radius: 4px; font-size: 12px; font-weight: 600; }
