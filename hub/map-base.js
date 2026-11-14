@@ -48,10 +48,13 @@
   var MAX_TILES = 64;
   var maps = [];
 
+  // The choice made on this page; the browser's storage only carries it to the next visit, when the browser allows it.
+  var picked = null;
   function chosen() {
+    if (picked) return picked;
     try { return global.localStorage.getItem(KEY) === 'satellite' ? 'satellite' : 'street'; } catch (_) { return 'street'; }
   }
-  function remember(b) { try { global.localStorage.setItem(KEY, b); } catch (_) { /* the choice holds for this page only */ } }
+  function remember(b) { picked = b === 'satellite' ? 'satellite' : 'street'; try { global.localStorage.setItem(KEY, picked); } catch (_) { /* the choice holds for this page only */ } }
 
   // ---------- where the map is ----------
   // B: the map's base viewBox { x, y, w, h }. Returns the lon/lat at its corners, or null for a map with no place.
