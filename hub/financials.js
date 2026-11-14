@@ -163,9 +163,18 @@
   // and defaults: building type for CHFA's cost limits, the fee and acquisition questions, federal grant allocation, the
   // federal credit requested and awarded, state credit with its pay-in, an added credit, and the expense target.
   var CHECK = 'checkbox';
+  // The live page's market cap on restricted rents (HA #2859): the most the market pays a month for each size, after
+  // utilities, from a market study. Blank means no cap; the engine underwrites a restricted rent above it at the cap.
+  var RENT_CAP_INPUTS = [['studio', 'Studio'], ['1br', '1BR'], ['2br', '2BR'], ['3br', '3BR'], ['4br', '4BR']].map(function (b) {
+    return { id: 'dc-rent-cap-' + b[0], group: 'rentcap', label: b[1] + ' ($ a month)', value: '', step: '1', min: '0', placeholder: 'none' };
+  }).concat([{ id: 'dc-rent-cap-source', group: 'rentcap', type: 'text', label: 'Source of the cap (market study, date)', value: '', placeholder: 'not entered' }]);
   var CREDIT_INPUTS = [
     { id: 'dc-building-type', group: 'costs', label: 'Building type, for CHFA\u2019s cost basis limits', options: [['', 'Not chosen'], ['elevator', 'Elevator'], ['walk_up', 'Walk-up']], value: '',
-      note: 'Needed for the check against CHFA\u2019s per-unit cost limits in CHFA\u2019s 2027 Common Application (V9). The check is shown beside the credit; it does not change it.' },
+      note: 'Needed for CHFA\u2019s per-unit cost limits in CHFA\u2019s 2027 Common Application (V9). With the box below ticked, those limits set the credit when they are the lowest of CHFA\u2019s three methods.' },
+    // The live page's "Plan to CHFA's cost basis limit" (HA #2859): on unless unticked; the engine applies Method Three
+    // when it is the lowest of the three methods. A draft saved before the box existed starts ticked (draftFor).
+    { id: 'dc-plan-cost-limit', group: 'costs', type: CHECK, label: 'Plan to CHFA\u2019s cost basis limit', value: 'yes',
+      note: 'CHFA reserves the least of three methods (2027-28 QAP, 3.M.1). When the cost basis limit (Method Three) is lowest, it sets the credit. Untick to see the credit before the limit.' },
     { id: 'dc-ioi', group: 'devfee', type: CHECK, label: 'The builder has an identity of interest with the developer or owner (lowers CHFA\u2019s contractor fee limit)', value: '' },
     { id: 'dc-special-pop', group: 'devfee', type: CHECK, label: 'The project serves people experiencing homelessness or special populations (CHFA then keeps all of an acquisition in the developer fee base)', value: '' },
     { id: 'dc-acq-42d2', group: 'devfee', type: CHECK, label: 'Any existing building purchase meets 26 U.S.C. 42(d)(2): bought from an unrelated party, not placed in service during the ten years before you bought it, and rehabilitated enough to earn its own credit under 42(e)', value: '',
@@ -306,6 +315,7 @@
     'dc-pf-reserve-yield': ['tool'], 'dc-after-refi-rate': ['lender'], 'dc-after-refi-term': ['lender'], 'dc-after-refi-dcr': ['lender'], 'dc-after-refi-cost': ['lender'], 'dc-after-land-pct': ['tool'],
     'dc-after-rehab-rate': ['tool'], 'dc-after-resyn-price': ['agreement'],
     'dc-qap-year': ['tool', 'credit_cap_federal_9pct'], 'dc-pilot-gap': ['tool', 'credit_cap_federal_9pct'],
+    'dc-plan-cost-limit': ['tool', 'credit_reservation_methods'],
     'dc-state-price': ['coho'], 'dc-state-payin-closing': ['agreement'], 'dc-state-payin-completion': ['agreement'], 'dc-state-payin-stabilization': ['agreement'],
     'dc-add-price': ['agreement'], 'dc-add-fees': ['agreement'], 'dc-add-payin-closing': ['agreement'], 'dc-add-payin-completion': ['agreement'], 'dc-add-payin-stabilization': ['agreement'],
     'dc-const-rent-stress': ['tool'], 'dc-const-vac-stress': ['tool'], 'dc-const-opex-stress': ['tool'], 'dc-const-comb-rent': ['tool'], 'dc-const-comb-vac': ['tool'], 'dc-const-comb-opex': ['tool']
@@ -335,7 +345,7 @@
   var DOH = function () { return global.LabCalcDoh || null; };
   // The site and scale helpers (calc-site.js): gross area from the homes, site coordinates, pre-fill, concept.
   var SITE = function () { return global.LabCalcSite || null; };
-  var FIELDS = INPUTS.concat(LOAN_INPUTS, LS_INPUTS, WF_INPUTS, STRESS_INPUTS, CREDIT_INPUTS, NOI_INPUTS, CONST_INPUTS, DOH() ? DOH().INPUTS : [], SITE() ? SITE().INPUTS : []);
+  var FIELDS = INPUTS.concat(LOAN_INPUTS, LS_INPUTS, WF_INPUTS, STRESS_INPUTS, CREDIT_INPUTS, RENT_CAP_INPUTS, NOI_INPUTS, CONST_INPUTS, DOH() ? DOH().INPUTS : [], SITE() ? SITE().INPUTS : []);
 
   var data = { chfa: null, hud: null, equity: null, rules: null, error: null, loading: false, rateHint: undefined };
   function loadData() {
@@ -1054,7 +1064,7 @@
     if (!cb) return '';
     var rows = [];
     var b = cb.basis || {};
-    var basisWord = { awarded: 'the award entered', requested: 'the request entered', capacity: 'the credit the costs support' };
+    var basisWord = { awarded: 'the award entered', requested: 'the request entered', capacity: 'the credit the costs support', 'cost basis limit': 'CHFA\u2019s cost basis limit (Method Three)' };
     rows.push(['Federal credit used for equity', b.creditForEquity == null ? ((b.reasons || {}).capacity || 'Not available for these inputs.') : money(b.creditForEquity) + ' a year, from ' + (basisWord[b.creditForEquityBasis] || 'the engine')]);
     var fee = function (t, what) {
       if (!t) return null;
@@ -1063,7 +1073,12 @@
     rows.push(['Contractor fee (builder profit and overhead)', fee(cb.contractorFee)]);
     rows.push(['Developer fee, before deferral', fee(cb.developerFee)]);
     var clm = b.costLimitMethod;
-    if (clm && clm.checked != null) rows.push(['CHFA cost limits (' + (clm.draft ? 'draft ' : '') + '2027 Common Application)', clm.credit != null ? money(clm.credit) + ' a year under the per-unit limits. ' + (clm.reason || '') : (clm.reason || 'Choose a building type.')]);
+    var plan = b.costLimitPlan || {};
+    if (clm && clm.checked != null) rows.push(['CHFA cost limits (' + (clm.draft ? 'draft ' : '') + '2027 Common Application)', clm.credit != null ? money(clm.credit) + ' a year under the per-unit limits. ' +
+      (plan.applied ? 'The lowest of CHFA\u2019s three methods, so it sets the credit, down from ' + money(plan.before) + ' a year. ' : plan.on === false ? 'A check only: \u201cPlan to CHFA\u2019s cost basis limit\u201d is unticked. ' : '') + (clm.reason || '') : (clm.reason || 'Choose a building type.')]);
+    var gm = b.gapMethod || {};
+    if (gm.binding && gm.capacityBefore != null && b.capacity != null) rows.push(['Credit trimmed to the need', money(gm.capacityBefore - b.capacity) + ' a year. Sources would exceed the cost by about ' +
+      money((gm.capacityBefore - b.capacity) * 10 * (r.equityPrice || 0)) + ' at the full credit. CHFA would likely trim the credit to the gap (Method Two), so the deal shows no gap rather than a surplus.']);
     var sc = cb.stateCredit;
     if (sc && sc.entered) rows.push(['State credit', sc.equity != null ? money(sc.allowedAnnual) + ' a year for ' + sc.years + ' years at $' + Number(sc.price).toFixed(2) + ': ' + money(sc.equity) + ' after fees.' : sc.reason]);
     var ac = cb.addedCredit;
@@ -1072,6 +1087,16 @@
     if (et && et.entered) rows.push(['Expense target', et.reason ? et.reason : money(et.target) + ' a home a year against ' + money(et.used) + ' in the line items. Coverage would be ' + ratio(et.coverageAtTarget) + ' at the target and is ' + ratio(et.coverageUsed) + ' as budgeted.']);
     return '<section class="fin-section" aria-labelledby="fin-checks" data-role="credit-checks"><h2 id="fin-checks">Fee, credit and cost checks</h2><dl class="basis-dl">' +
       rows.filter(function (x) { return x[1] != null; }).map(function (x) { return '<div><dt>' + esc(x[0]) + '</dt><dd>' + esc(x[1]) + '</dd></div>'; }).join('') + '</dl></section>';
+  }
+  // The live page's fold under its rents, with its note on which rents the cap lowered (result.rentCapBindings).
+  function rentCapInputs(d, r) {
+    var b = (r && r.rentCapBindings) || [];
+    var open = b.length || RENT_CAP_INPUTS.some(function (i) { return d.fields[i.id] != null && String(d.fields[i.id]).trim() !== ''; });
+    return '<details class="tranche-more" data-role="rent-cap"' + (open ? ' open' : '') + '><summary>Market cap on restricted rents (optional)</summary>' +
+      '<p class="note">When a market study finds a tier\u2019s limit is above what the market pays, the deal underwrites at the lower rent. Enter the most the market pays a month for each size, after utilities. Blank means no cap.</p>' +
+      fieldGrid(d, 'rentcap') +
+      (b.length ? '<p class="note" role="status" data-role="rent-cap-note">The cap lowers ' + b.length + ' rent' + (b.length === 1 ? '' : 's') + ': ' +
+        esc(b.map(function (x) { return x.tier + '% ' + String(x.br).toUpperCase() + ' ' + money(x.limit) + ' to ' + money(x.cap); }).join(', ')) + '.</p>' : '') + '</details>';
   }
   function creditInputs(d) {
     return '<h2>Tax credits</h2>' +
@@ -1169,7 +1194,7 @@
       }())) +
       stepOpen('fin-step-budget', 'Operating budget', r.annualOpex != null ? money(r.annualOpex) + ' a year' : '', operatingBudget(d, inputs, r)) +
       stepOpen('fin-step-assumptions', 'Loans, credits and terms', r.interestRate != null ? r.interestRate + '% loan, $' + Number(inputs.fields['dc-equity-price']).toFixed(2) + ' equity' : '',
-        '<h2>Assumptions</h2>' + (G ? '' : rentLimitsFixed(p, s)) + (global.LabCalcTax ? global.LabCalcTax.callout(p, d) : '') + fieldGrid(d, null) + (SITE() ? SITE().area(d, inputs, G) : '') + creditInputs(d) + loanStackInputs(d) + '<h2>Exit and projection</h2>' + fieldGrid(d, 'exit')) +
+        '<h2>Assumptions</h2>' + (G ? '' : rentLimitsFixed(p, s)) + rentCapInputs(d, r) + (global.LabCalcTax ? global.LabCalcTax.callout(p, d) : '') + fieldGrid(d, null) + (SITE() ? SITE().area(d, inputs, G) : '') + creditInputs(d) + loanStackInputs(d) + '<h2>Exit and projection</h2>' + fieldGrid(d, 'exit')) +
       stepOpen('fin-step-stress', 'Stress settings', combinedLabel(inputs.constants), '<h2>Stress case settings</h2><p class="note">How far each stress case moves rent, vacancy and operating cost. The full Deal Calculator\u2019s defaults are tool settings for screening, not a lender\u2019s or CHFA\u2019s required cases. The sliders under Full result test one change at a time.</p>' + fieldGrid(d, 'stressconst') + '<div class="actions"><button type="button" class="button-link secondary" data-action="reset-stress-settings">Reset to the Deal Calculator\u2019s defaults</button></div>') +
       '<h2>Full result</h2><p class="note jump-links">Jump to <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-sliders">Stress sliders</a> · <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-ls">Lender schedules</a></p>' + setAsideStatus(r) + (function () { var t = boostTag(r, inputs.fields); return '<p class="boost-tag boost-' + t.kind + '" data-role="boost-tag">' + esc(t.text) + '</p>'; }()) + '<div class="fin-grid">' +
       card('Net operating income', money(r.noi), r, 'noi') +
@@ -1359,5 +1384,5 @@
     Shell.render();
   });
 
-  global.LabFinancials = { setAsideStatus: setAsideStatus, SET_ASIDE_HELP: SET_ASIDE_HELP, boostTag: boostTag, basisSection: basisSection, LS_INPUTS: LS_INPUTS, fieldGrid: function (d, g) { return fieldGrid(d, g); }, SOFT_REFERENCE: SOFT_REFERENCE, AMOUNT_SOURCE: AMOUNT_SOURCE, IMPACT_FEE_NOTE: IMPACT_FEE_NOTE, programReference: programReference, _data: data, LOAN_INPUTS: LOAN_INPUTS, SOFT_PROGRAMS: SOFT_PROGRAMS, FEDERAL_FUND_DEFAULTS: FEDERAL_FUND_DEFAULTS, seedTranche: seedTranche, addedTranche: addedTranche, readDraft: readDraft, WF_INPUTS: WF_INPUTS, STRESS_INPUTS: STRESS_INPUTS, RATE_STEPS: RATE_STEPS, PRICE_STEPS: PRICE_STEPS, buildInputs: buildInputs, inputsFor: inputsFor, currentSchedule: currentSchedule, emptyDraft: emptyDraft, draftFor: draftFor, equityDefault: equityDefault, INPUTS: INPUTS, exitSummary: exitSummary, costIds: costIds, lineBasis: lineBasis, costGroupsHtml: costGroupsHtml, CONSTANTS: CONSTANTS, CREDIT_RATES: CREDIT_RATES, SOURCE_TAGS: SOURCE_TAGS, sourceTag: sourceTag, CREDIT_INPUTS: CREDIT_INPUTS, CHECKBOX_IDS: CHECKBOX_IDS, NOI_INPUTS: NOI_INPUTS, CONST_INPUTS: CONST_INPUTS, constantsFrom: constantsFrom, stressTable: stressTable, rentLimitsFixed: rentLimitsFixed, creditChecks: creditChecks, sourcesUses: sourcesUses, sourcesUsesRows: sourcesUsesRows, unavailable: unavailable };
+  global.LabFinancials = { setAsideStatus: setAsideStatus, SET_ASIDE_HELP: SET_ASIDE_HELP, boostTag: boostTag, basisSection: basisSection, LS_INPUTS: LS_INPUTS, fieldGrid: function (d, g) { return fieldGrid(d, g); }, SOFT_REFERENCE: SOFT_REFERENCE, AMOUNT_SOURCE: AMOUNT_SOURCE, IMPACT_FEE_NOTE: IMPACT_FEE_NOTE, programReference: programReference, _data: data, LOAN_INPUTS: LOAN_INPUTS, SOFT_PROGRAMS: SOFT_PROGRAMS, FEDERAL_FUND_DEFAULTS: FEDERAL_FUND_DEFAULTS, seedTranche: seedTranche, addedTranche: addedTranche, readDraft: readDraft, WF_INPUTS: WF_INPUTS, STRESS_INPUTS: STRESS_INPUTS, RATE_STEPS: RATE_STEPS, PRICE_STEPS: PRICE_STEPS, buildInputs: buildInputs, inputsFor: inputsFor, currentSchedule: currentSchedule, emptyDraft: emptyDraft, draftFor: draftFor, equityDefault: equityDefault, INPUTS: INPUTS, exitSummary: exitSummary, costIds: costIds, lineBasis: lineBasis, costGroupsHtml: costGroupsHtml, CONSTANTS: CONSTANTS, CREDIT_RATES: CREDIT_RATES, SOURCE_TAGS: SOURCE_TAGS, sourceTag: sourceTag, CREDIT_INPUTS: CREDIT_INPUTS, RENT_CAP_INPUTS: RENT_CAP_INPUTS, rentCapInputs: rentCapInputs, CHECKBOX_IDS: CHECKBOX_IDS, NOI_INPUTS: NOI_INPUTS, CONST_INPUTS: CONST_INPUTS, constantsFrom: constantsFrom, stressTable: stressTable, rentLimitsFixed: rentLimitsFixed, creditChecks: creditChecks, sourcesUses: sourcesUses, sourcesUsesRows: sourcesUsesRows, unavailable: unavailable };
 })(window);

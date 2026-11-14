@@ -17,6 +17,7 @@
         { value: 'About $90K/yr', label: '9% credit for each $1M of eligible basis, for 10 years', source: 'IRC §42(b)', href: 'https://www.law.cornell.edu/uscode/text/26/42' },
         { value: 'About $40K/yr', label: '4% credit for each $1M of eligible basis, for 10 years', source: 'IRC §42(b)', href: 'https://www.law.cornell.edu/uscode/text/26/42' },
         { value: '14 of 32', label: '9% applications CHFA funded in 2026', source: 'CHFA applicant and award reports', href: 'https://www.chfainfo.com/rental-housing/housing-credit/awards' },
+        { value: '9 of 21', label: '4% + state credit applications CHFA funded in Round Two, 2025 (2026 awards pending)', source: 'CHFA applicant and award reports', href: 'https://www.chfainfo.com/rental-housing/housing-credit/awards' },
         { value: '30 years', label: 'Colorado minimum affordability (15 compliance + 15 extended use)', source: 'CHFA QAP', href: 'https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan' }
       ],
       diagram: function (g) { return partners() + payStack(g) + creditCompare(g); },
@@ -30,7 +31,7 @@
         'key-concepts/3': 'Credits become cash when a syndicator sells them to investors; the price per credit dollar sets the equity.',
         'key-concepts/4': 'Colorado\u2019s state credit (HB 24-1434) adds a second equity layer on top of the federal credit.',
         'key-concepts/5': 'Two podcasts for keeping current: Tax Credit Tuesday and UCLA Housing Voice.',
-        'housing-authorities/0': 'CHFA writes the QAP, scores applications and runs two rounds a year: 9% in Round One, 4% in Round Two.',
+        'housing-authorities/0': 'CHFA writes the QAP, scores applications and runs two competitive rounds a year: 9% with state credit in Round One (applications February 1, 2027) and 4% with state credit in Round Two (August 2, 2027). The 2027–28 caps and gap money for both rounds.',
         'housing-authorities/1': 'The largest scoring lines for CHFA\u2019s 2027 Round One, led by low-income targeting.',
         'investors/0': 'What investors get: credits over 10 years, depreciation and a passive ownership share.',
         'investors/1': 'A numbered checklist, starting with the development team and the market and site.',
@@ -175,16 +176,22 @@
       return { r: r, credits: credits, eq: eq, pct: pct };
     }
     var S = [side(9), side(4)];
-    function row(x) {
-      return '<li><span class="cc-t">' + x.r + '% credit</span>' +
+    // The 4% + state row draws only its federal part: no public source prices Colorado's state credit.
+    var HOW = {
+      9: 'Won in CHFA’s competitive Round One. 14 of 32 applications were funded in 2026.',
+      4: 'Bonds alone: not a contest while bond cap lasts. CHFA takes these all year except February, August and December. Loans and soft funds fill more.',
+      '4s': 'Bonds plus Colorado state credit, won in CHFA’s competitive Round Two (applications due August 2, 2027). 9 of 21 were funded in 2025. Per project in 2027: a fixed $1,000,000 a year of accelerated state credit plus up to $675,000 of standard. No public source prices the state credit, so the bar shows only the federal part.'
+    };
+    function row(x, key) {
+      return '<li><span class="cc-t">' + (key === '4s' ? '4% + state' : x.r + '% credit') + '</span>' +
         '<span class="cc-bar"><span class="cc-eq" style="width:' + x.pct + '%"><b>$' + x.eq.toFixed(1) + 'M</b></span></span>' +
-        '<span class="cc-v"><b>' + x.pct + '%</b> of the cost</span>' +
-        '<span class="cc-how">' + (x.r === 9 ? 'Won in CHFA’s competitive Round One. 14 of 32 applications were funded in 2026.' : 'Comes with tax-exempt private activity bonds. Round Two, or rolling for bond-only deals. Loans and soft funds fill more.') + '</span></li>';
+        '<span class="cc-v"><b>' + x.pct + '%</b> ' + (key === '4s' ? '+ state credit' : 'of the cost') + '</span>' +
+        '<span class="cc-how">' + HOW[key || x.r] + '</span></li>';
     }
     return '<figure class="credit-compare" aria-labelledby="cc-cap"><figcaption id="cc-cap"><strong>A 9% credit pays about twice as much of a project as a 4% credit</strong>' +
       '<span>Sample: 60 homes costing $' + COST + 'M, $' + BASIS + 'M of it eligible basis. Bars show credit equity as a share of the cost.</span></figcaption>' +
-      '<ol class="cc-rows">' + S.map(row).join('') + '</ol>' +
-      '<p class="metric-source">Credit: about ' + S.map(function (x) { return x.r + '% of basis a year for 10 years ($' + x.credits.toFixed(1) + 'M)'; }).join(' or ') + ', <a href="https://www.law.cornell.edu/uscode/text/26/42" target="_blank" rel="noopener">IRC §42(b)</a>. Price: $0.82 (9%) and $0.83 (4%) per credit dollar, Novogradac 2026-Q2 national averages.</p></figure>';
+      '<ol class="cc-rows">' + row(S[0]) + row(S[1]) + row(S[1], '4s') + '</ol>' +
+      '<p class="metric-source">Credit: about ' + S.map(function (x) { return x.r + '% of basis a year for 10 years ($' + x.credits.toFixed(1) + 'M)'; }).join(' or ') + ', <a href="https://www.law.cornell.edu/uscode/text/26/42" target="_blank" rel="noopener">IRC §42(b)</a>. Price: $0.82 (9%) and $0.83 (4%) per credit dollar, Novogradac 2026-Q2 national averages. Round Two dates and state credit caps: <a href="https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf" target="_blank" rel="noopener">CHFA 2027–28 QAP</a> §3.B.2 (p. 15) and §3.L (p. 31); Round Two counts: CHFA applicant and award reports.</p></figure>';
   }
   function stackBox(title, sub, strong) {
     return '<li class="dg-stack-box' + (strong ? ' dg-stack-box--main' : '') + '"><strong>' + esc(title) + '</strong><span>' + esc(sub) + '</span></li>';
@@ -474,11 +481,13 @@
   // The same two files those scripts read are read here, and the same rules kept: a term is defined at its first
   // use in each part, never in a heading, link, button, table heading or code; a heading's tip is its own
   // (data-tip from the page) or the site's entry for that heading's words.
-  var HELP = { files: null, asked: false };
+  // One read of the two files for every page that asks; a page that asks while the read is under way gets the
+  // same answer when it comes (a guide opened, then Financials before the files arrive).
+  var HELP = { files: null, waiting: null };
   function helpFiles(then) {
     if (HELP.files) return then(HELP.files);
-    if (HELP.asked) return;
-    HELP.asked = true;
+    if (HELP.waiting) { HELP.waiting.push(then); return; }
+    HELP.waiting = [then];
     var V = global.LAB_VENDOR || '';
     var get = function (f) { return fetch(V + f).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); };
     Promise.all([get('data/glossary.json'), get('data/table-header-tips.json')]).then(function (all) {
@@ -502,8 +511,8 @@
       var onceKeys = Object.keys(once).sort(function (a, b) { return b.length - a.length; });
       HELP.files.once = once;
       HELP.files.oncePattern = onceKeys.length ? new RegExp('\\b(' + onceKeys.map(function (k) { return k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')\\b', 'g') : null;
-      HELP.asked = false;
-      then(HELP.files);
+      var waiting = HELP.waiting; HELP.waiting = null;
+      waiting.forEach(function (f) { f(HELP.files); });
     });
   }
   function clip(text, max) {
@@ -615,7 +624,9 @@
     gtip.style.left = (left + global.pageXOffset) + 'px'; gtip.style.top = (top + global.pageYOffset) + 'px';
     el.setAttribute('aria-describedby', 'guide-tip'); gtipOn = el;
   }
-  function gtipTarget(ev) { var t = ev.target; return t && t.closest ? t.closest('.guide-body [data-gtip]') : null; }
+  // A guide's words, and any other page part marked data-hover-help (Financials, site/calc-help.js), use the same label.
+  var GTIP = '.guide-body [data-gtip], [data-hover-help] [data-gtip]';
+  function gtipTarget(ev) { var t = ev.target; return t && t.closest ? t.closest(GTIP) : null; }
   // Wired once, when the first guide gets its hover help (this file is also loaded where there is no page to listen on).
   var gtipWired = false;
   function gtipWire() {
@@ -627,7 +638,7 @@
     var lastTouch = false;
     document.addEventListener('pointerdown', function (ev) { lastTouch = ev.pointerType === 'touch' || ev.pointerType === 'pen'; }, true);
     document.addEventListener('click', function (ev) {
-      var th = ev.target && ev.target.closest ? ev.target.closest('.guide-body th[data-gtip]') : null;
+      var th = ev.target && ev.target.closest ? ev.target.closest('.guide-body th[data-gtip], [data-hover-help] th[data-gtip]') : null;
       if (!th || !lastTouch || !ev.detail || ev.target.closest('.th-sort')) return;
       ev.stopPropagation(); ev.preventDefault();
       gtipShow(th);
@@ -650,5 +661,6 @@
   });
 
   Shell.views.guide = guideView;
-  global.LabGuide = { GUIDES: GUIDES };
+  // hoverHelp and helpFiles are shared with Financials (site/calc-help.js), which marks its terms the same way.
+  global.LabGuide = { GUIDES: GUIDES, hoverHelp: hoverHelp, helpFiles: helpFiles, hideTip: gtipHide, wireTips: gtipWire };
 })(window);

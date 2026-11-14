@@ -217,6 +217,7 @@
       '<p><a href="' + LIVE + 'deal-market-analysis.html?geoid=' + encodeURIComponent(g) + '" rel="noopener">Open the full Market Analysis and draw the market area ↗</a></p>' +
       '<p>Members can then start a <a href="' + CHFA_DRAFT + '" rel="noopener">CHFA-format market study ↗</a>: CHFA\u2019s nine sections in order, the tables public data can fill, six maps, and a Word file for a CHFA-approved analyst to finish. It supports the study; it is not the study CHFA accepts.</p>' +
       '<p class="metric-source">' + Pl.srcLine('CHFA Market Study Guide, Appendix A to the 2027–28 QAP (adopted 25 September 2026, approved 23 October 2026)', 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf') + '</p>' +
+      tractSection(params, s, g) +
       useSection(params, s, g) +
       T.next('Next', [{ href: '#/report?g=' + encodeURIComponent(g), label: 'Free report for ' + s.name }, { href: LIVE + 'deal-market-analysis.html?geoid=' + encodeURIComponent(g), label: 'Full Market Analysis ↗', secondary: true }, { href: '#/for-sale?g=' + encodeURIComponent(g), label: 'For-sale and ownership here', secondary: true }]);
   }
@@ -318,6 +319,11 @@
   // place gives only the town's main county, so the whole-county area and the saved site take the site's own county.
   var CENTROIDS = { cent: 'data/market/tract_centroids_co.json' };
   var RADII = [0, 2, 5, 10];
+  // r: 0 (the county), 2, 5 or 10 miles, or 't' (the tracts suggested round the site, as set on the map above).
+  function radiusOf(params, site) {
+    if (params.get('r') === 't' && site && global.LabTractCapture) return 't';
+    return RADII.indexOf(+params.get('r')) > -1 ? +params.get('r') : (site ? 5 : 0);
+  }
   var P = global.LabProjects;
   function mp() { return new URLSearchParams((location.hash.split('?')[1]) || ''); }
   function siteOf(params) {
@@ -342,6 +348,13 @@
   // The market area as stored: which tracts, how they were picked, in plain words.
   // county: the site's own county (siteCounty); the page's county when left out.
   function areaFor(s, site, radius, cent, county) {
+    if (radius === 't') {
+      var TC = global.LabTractCapture, edited = TC ? TC.parseList(mp().get('tr')) : [];
+      var picked = TC ? TC.current(site, edited) : null, pa = TC && TC.pickedArea ? TC.pickedArea(site) : null;
+      if (pa && pa.id !== 'map' && pa.id !== 'suggested') return { tracts: pa.list.slice(), radiusMiles: null, method: 'compared-area:' + pa.method, areaLabel: 'Census tracts: ' + pa.label + ', picked from the comparison', pending: false };
+      return { tracts: (picked || []).slice().sort(), radiusMiles: null, method: edited.length ? 'suggested-tracts-edited' : 'suggested-tracts',
+        areaLabel: edited.length ? 'Census tracts round the site, as set on the map' : 'Census tracts suggested round the site', pending: !picked };
+    }
     var cf = county ? county.fips : s.fips, cn = county ? county.name : s.countyName;
     var inCounty = Object.keys(s.x.demand.tracts || {}).filter(function (g) { return g.slice(0, 5) === cf; }).sort();
     if (!site || !radius) return { tracts: inCounty, radiusMiles: null, method: 'county', areaLabel: 'All of ' + cn };
@@ -364,8 +377,22 @@
     q.set('at', 'mk-use');
     return '#/market?' + q.toString();
   }
+  // Suggested market area round the site, with a tap map and capture as tracts go in or out (site/tract-capture.js).
+  var TCF = global.LabTractCapture ? global.LabTractCapture.FILES : {};
+  function tractSection(params, s, g) {
+    var TC = global.LabTractCapture;
+    if (!TC) return '';
+    var site = siteOf(params);
+    var head = '<h2 id="mk-tracts">Suggested market area</h2>';
+    if (!site) return head + '<p>Place a site and COHO suggests the census tracts for its market area, says why for each, and shows how the capture rate moves as you add or drop them.</p>' +
+      (global.LabPickSite ? '<div class="actions mk-pick"><button type="button" class="button-link" data-mk-pick="locate">Use my location</button>' +
+        '<button type="button" class="button-link secondary" data-mk-pick="map">Pick on the map</button></div>' : '<p><a href="#mk-use">Place the site below</a>.</p>');
+    var units = Math.max(1, Math.min(1000, Math.round(+params.get('u')) || 60)), tier = CAP_TIERS.indexOf(+params.get('t')) > -1 ? +params.get('t') : 60;
+    return head + '<p>Whole census tracts round ' + esc(site.label) + ', each with the reason it is in or out. Tap a tract to see what it does to the capture rate; the project is ' + num(units) + ' homes at ' + tier + '% AMI, as set under Capture rate.</p>' +
+      TC.section({ s: s, site: site, units: units, tier: tier, edited: TC.parseList(params.get('tr')), ta: params.get('ta') });
+  }
   function useSection(params, s, g) {
-    var site = siteOf(params), r = RADII.indexOf(+params.get('r')) > -1 ? +params.get('r') : (site ? 5 : 0), county = siteCounty(params, s);
+    var site = siteOf(params), r = radiusOf(params, site), county = siteCounty(params, s);
     var done = params.get('added');
     var head = '<h2 id="mk-use">Use a site and market area in a project</h2>';
     if (done) {
@@ -387,10 +414,11 @@
       var dis = m && !site;
       return '<label><input type="radio" name="mk-r" value="' + m + '"' + (m === r ? ' checked' : '') + (dis ? ' disabled' : '') + '> ' +
         (m ? 'Census tracts whose centre is within ' + m + ' miles of the site' + (dis ? ' (find a site first)' : '') : 'All of ' + esc(county.name)) + '</label>';
-    }).join('') + '</fieldset>';
+    }).join('') + (site && global.LabTractCapture ? '<label><input type="radio" name="mk-r" value="t"' + (r === 't' ? ' checked' : '') + '> The market area picked above (the suggested tracts unless you pick or draw another)' +
+      (area && area.tracts.length ? ' (<span data-tc-count>' + area.tracts.length + '</span>)' : ' (<span data-tc-count>working them out</span>)') + '</label>' : '') + '</fieldset>';
     var areaNote = !area ? (cent.error ? '<p class="callout">' + esc(cent.error) + '</p>' : '<p class="note" role="status">Loading the census tract centres…</p>')
       : '<p class="note">' + esc(area.areaLabel) + ': ' + num(area.tracts.length) + (area.tracts.length === 1 ? ' whole census tract.' : ' whole census tracts.') +
-        (area.method === 'county' ? '' : ' A tract counts when its centre (Census TIGER 2020) is inside the radius. This is a screening stand-in: a CHFA market study draws the area from whole tracts and justifies its edge.') + '</p>';
+        (area.method === 'county' ? '' : /^(suggested|compared)/.test(area.method) ? ' Why each tract is in is listed under Suggested market area above. COHO\u2019s screening rules, not CHFA\u2019s: a CHFA market study draws the area and justifies its edge.' : ' A tract counts when its centre (Census TIGER 2020) is inside the radius. This is a screening stand-in: a CHFA market study draws the area from whole tracts and justifies its edge.') + '</p>';
     var mine = P ? P.list() : [];
     var want = params.get('p') && params.get('s') ? params.get('p') + '|' + params.get('s') : null;
     var choose = !mine.length
@@ -404,7 +432,7 @@
         }).join('');
       }).join('') + '</fieldset>' +
       '<p class="note">What is stored: ' + (site ? 'the site’s address and coordinates, and ' : '') + 'the list of census tracts in the market area. No figures are copied. A project with no place takes ' + esc(s.entry.label) + '.</p>' +
-      '<button type="submit"' + (area && area.tracts.length ? '' : ' disabled') + '>Use in project</button></form>';
+      '<button type="submit"' + (area && (area.tracts.length || area.pending) ? '' : ' disabled') + '>Use in project</button></form>';
     return head + '<p>Place the site and pick the market area, then add both to a project. Its Site and market area steps then show them.</p>' + siteForm + '<form data-mk-radius="' + esc(g) + '">' + radios + '</form>' + areaNote + choose;
   }
   function setParams(change) {
@@ -440,12 +468,23 @@
     ev.preventDefault();
     var params = mp(), g = form.dataset.mkUse, s = gather(g, 'Market check');
     if (s.html) return;
-    var site = siteOf(params), r = RADII.indexOf(+params.get('r')) > -1 ? +params.get('r') : (site ? 5 : 0), county = siteCounty(params, s);
+    var site = siteOf(params), r = radiusOf(params, site), county = siteCounty(params, s);
     var cent = site && r ? UI.load(CENTROIDS) : { data: { cent: {} } };
     if (!cent.data) return;
     var area = areaFor(s, site, r, cent.data.cent, county);
     var target = String(new FormData(form).get('target') || '').split('|');
-    if (target.length !== 2 || !area.tracts.length) return;
+    if (r === 't' && global.LabTractCapture.needsReason && global.LabTractCapture.needsReason(site)) {
+      var why = form.querySelector('[data-mk-wait]') || form.appendChild(Object.assign(document.createElement('p'), { className: 'note' }));
+      why.setAttribute('data-mk-wait', ''); why.setAttribute('role', 'status');
+      why.textContent = 'You picked another area than the recommended one. Say why under Compare market areas, then add it.';
+      return;
+    }
+    if (target.length !== 2 || !area.tracts.length) {
+      var st = form.querySelector('[data-mk-wait]') || form.appendChild(Object.assign(document.createElement('p'), { className: 'note' }));
+      st.setAttribute('data-mk-wait', ''); st.setAttribute('role', 'status');
+      st.textContent = area.pending ? 'Still working out the suggested tracts. Try again in a moment.' : 'Pick a project and a market area first.';
+      return;
+    }
     var pid = target[0], sid = target[1], p = P.get(pid);
     if (!p) return;
     var route = '#/market?' + params.toString();
@@ -464,10 +503,18 @@
         snapshot: { lat: site.lat, lon: site.lon, label: site.label, countyFips: county.fips, placeGeoid: placeGeoid, source: site.source },
         origin: { route: route } });
     }
+    // The suggested tracts keep each tract's reason and the rules, so a later page reads them without new math.
+    // A radius or the county is a screening stand-in and says so.
+    var rec = /^(suggested|compared)/.test(area.method) && global.LabTractCapture ? global.LabTractCapture.record(site, global.LabTractCapture.parseList(params.get('tr'))) : null;
     P.attach(pid, sid, { kind: 'market-snapshot', label: area.areaLabel + ' (' + area.tracts.length + (area.tracts.length === 1 ? ' tract)' : ' tracts)'),
       snapshot: { tracts: area.tracts, site: site ? { lat: site.lat, lon: site.lon, label: site.label } : null, countyFips: county.fips, areaLabel: area.areaLabel,
-        radiusMiles: area.radiusMiles, method: area.method, tractSource: area.method === 'county' ? 'data/market/chfa_renter_demand_co.json' : CENTROIDS.cent },
-      sourceDates: { tractCentroids: cent.data.cent && cent.data.cent.meta ? (cent.data.cent.meta.generated || null) : null },
+        radiusMiles: area.radiusMiles, method: area.method,
+        boundary: /^(suggested|compared)/.test(area.method) ? 'tract-picker' : 'buffer', screeningOnly: !/^(suggested|compared)/.test(area.method),
+        screeningNote: /^(suggested|compared)/.test(area.method) ? 'Whole census tracts, each with a reason. COHO screening rules, not a CHFA market area until an analyst draws it.' : 'Screening only, not a CHFA market area',
+        tractReasons: rec ? rec.tracts : null, rules: rec ? rec.rules : null, comparison: rec ? rec.comparison : null,
+        tractSource: area.method === 'county' ? 'data/market/chfa_renter_demand_co.json' : /^(suggested|compared)/.test(area.method) ? [TCF.cent, TCF.geom, TCF.od, TCF.barriers].filter(Boolean) : CENTROIDS.cent },
+      sourceDates: rec ? rec.sourceDates : { tractCentroids: cent.data.cent && cent.data.cent.meta ? (cent.data.cent.meta.generated || null) : null },
+      methodVersions: rec ? { suggestion: 'site/tract-capture.js rules of 14 Nov 2026', renters: 'PMAMarketScoring.chfaQualifiedRenters', crossings: 'PMABarriers.proposeTractExclusions' } : null,
       origin: { route: route } });
     var back = params.get('back');
     if (back && /^#\//.test(back)) { location.hash = back; return; }
