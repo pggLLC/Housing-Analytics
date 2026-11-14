@@ -105,15 +105,33 @@
 
         
     
-            var tile_layer_0494125b01a2c879bc28bd8624518cae = L.tileLayer(
-                "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+            var tile_layer_osm1792429277eff0c08572cb7b = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {
   "minZoom": 0,
   "maxZoom": 19,
-  "maxNativeZoom": 16,
+  "maxNativeZoom": 19,
   "noWrap": false,
-  "attribution": "Tiles \u0026copy; Esri \u0026mdash; Esri, HERE, Garmin, \u0026copy; OpenStreetMap contributors",
-  "subdomains": "abc",
+  "attribution": "Map &copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+  "referrerPolicy": "origin",
+}
+
+            );
+        
+    
+            tile_layer_osm1792429277eff0c08572cb7b.addTo(map_96be839c6d10d98b0b2de838ba714ba3);
+        
+    
+            var tile_layer_sat1792429277eff0c08572cb7b = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "noWrap": false,
+  "attribution": "Imagery &copy; <a href=\"https://www.esri.com/\">Esri</a>. Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community",
   "detectRetina": false,
   "tms": false,
   "opacity": 1,
@@ -122,27 +140,27 @@
             );
         
     
-            tile_layer_0494125b01a2c879bc28bd8624518cae.addTo(map_96be839c6d10d98b0b2de838ba714ba3);
         
     
-            var tile_layer_5b19c1a0ad1f6e09f37102483ff292e7 = L.tileLayer(
-                "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}",
-                {
-  "minZoom": 0,
-  "maxZoom": 19,
-  "maxNativeZoom": 16,
-  "noWrap": false,
-  "attribution": "Tiles \u0026copy; Esri \u0026mdash; Esri, HERE, Garmin, \u0026copy; OpenStreetMap contributors",
-  "subdomains": "abc",
-  "detectRetina": false,
-  "tms": false,
-  "opacity": 1,
-}
 
-            );
+    (function (layer, map) {
+      // A failed OpenStreetMap tile comes from Esri World Street Map instead,
+      // and Esri's credit joins the map while the street layer is shown.
+      var credited = false;
+      layer.on('tileerror', function (e) {
+        var t = e.tile, c = e.coords;
+        if (!t || !c || t.getAttribute('data-backup')) return;
+        t.setAttribute('data-backup', '1');
+        t.src = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}".replace('{z}', c.z).replace('{y}', c.y).replace('{x}', c.x);
+        if (!credited && map.attributionControl) { map.attributionControl.addAttribution("Some street tiles &copy; <a href=\"https://www.esri.com/\">Esri</a>. Sources: Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan, Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC, (c) OpenStreetMap contributors, and the GIS User Community"); credited = true; }
+      });
+      layer.on('remove', function () {
+        if (credited && map.attributionControl) { map.attributionControl.removeAttribution("Some street tiles &copy; <a href=\"https://www.esri.com/\">Esri</a>. Sources: Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan, Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC, (c) OpenStreetMap contributors, and the GIS User Community"); credited = false; }
+      });
+      L.control.scale({ imperial: true, metric: false, position: 'bottomleft' }).addTo(map);
+    })(tile_layer_osm1792429277eff0c08572cb7b, map_96be839c6d10d98b0b2de838ba714ba3);
         
     
-            tile_layer_5b19c1a0ad1f6e09f37102483ff292e7.addTo(map_96be839c6d10d98b0b2de838ba714ba3);
         
     
             map_96be839c6d10d98b0b2de838ba714ba3.fitBounds(
@@ -321,10 +339,11 @@
     
             var layer_control_7886bd09aca13ce05406bf7ad5815685_layers = {
                 base_layers : {
+                    "Streets (OpenStreetMap)" : tile_layer_osm1792429277eff0c08572cb7b,
+                    "Satellite (Esri)" : tile_layer_sat1792429277eff0c08572cb7b,
                 },
                 overlays :  {
                     "Median Gross Rent (2020\u20132024 ACS, $)" : choropleth_9694e4817cb23db9fc664e443e472b6c,
-                    "macro_element_6bd625e48d797e5e4e6a17ebefe03fa7" : geo_json_6bd625e48d797e5e4e6a17ebefe03fa7,
                 },
             };
             let layer_control_7886bd09aca13ce05406bf7ad5815685 = L.control.layers(

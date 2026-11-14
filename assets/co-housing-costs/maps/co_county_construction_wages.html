@@ -105,15 +105,33 @@
 
         
     
-            var tile_layer_124497fbdb7a9b373f32281c15229543 = L.tileLayer(
-                "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+            var tile_layer_osm4bb252a82619003cf86bf822 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {
   "minZoom": 0,
   "maxZoom": 19,
-  "maxNativeZoom": 16,
+  "maxNativeZoom": 19,
   "noWrap": false,
-  "attribution": "Tiles \u0026copy; Esri \u0026mdash; Esri, HERE, Garmin, \u0026copy; OpenStreetMap contributors",
-  "subdomains": "abc",
+  "attribution": "Map &copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+  "referrerPolicy": "origin",
+}
+
+            );
+        
+    
+            tile_layer_osm4bb252a82619003cf86bf822.addTo(map_b7cc931e344f780fda253f18982a2ead);
+        
+    
+            var tile_layer_sat4bb252a82619003cf86bf822 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "noWrap": false,
+  "attribution": "Imagery &copy; <a href=\"https://www.esri.com/\">Esri</a>. Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community",
   "detectRetina": false,
   "tms": false,
   "opacity": 1,
@@ -122,27 +140,27 @@
             );
         
     
-            tile_layer_124497fbdb7a9b373f32281c15229543.addTo(map_b7cc931e344f780fda253f18982a2ead);
         
     
-            var tile_layer_58e1df73a76f1b89a1a8076e445d85bb = L.tileLayer(
-                "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}",
-                {
-  "minZoom": 0,
-  "maxZoom": 19,
-  "maxNativeZoom": 16,
-  "noWrap": false,
-  "attribution": "Tiles \u0026copy; Esri \u0026mdash; Esri, HERE, Garmin, \u0026copy; OpenStreetMap contributors",
-  "subdomains": "abc",
-  "detectRetina": false,
-  "tms": false,
-  "opacity": 1,
-}
 
-            );
+    (function (layer, map) {
+      // A failed OpenStreetMap tile comes from Esri World Street Map instead,
+      // and Esri's credit joins the map while the street layer is shown.
+      var credited = false;
+      layer.on('tileerror', function (e) {
+        var t = e.tile, c = e.coords;
+        if (!t || !c || t.getAttribute('data-backup')) return;
+        t.setAttribute('data-backup', '1');
+        t.src = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}".replace('{z}', c.z).replace('{y}', c.y).replace('{x}', c.x);
+        if (!credited && map.attributionControl) { map.attributionControl.addAttribution("Some street tiles &copy; <a href=\"https://www.esri.com/\">Esri</a>. Sources: Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan, Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC, (c) OpenStreetMap contributors, and the GIS User Community"); credited = true; }
+      });
+      layer.on('remove', function () {
+        if (credited && map.attributionControl) { map.attributionControl.removeAttribution("Some street tiles &copy; <a href=\"https://www.esri.com/\">Esri</a>. Sources: Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan, Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC, (c) OpenStreetMap contributors, and the GIS User Community"); credited = false; }
+      });
+      L.control.scale({ imperial: true, metric: false, position: 'bottomleft' }).addTo(map);
+    })(tile_layer_osm4bb252a82619003cf86bf822, map_b7cc931e344f780fda253f18982a2ead);
         
     
-            tile_layer_58e1df73a76f1b89a1a8076e445d85bb.addTo(map_b7cc931e344f780fda253f18982a2ead);
         
     
             map_b7cc931e344f780fda253f18982a2ead.fitBounds(
@@ -323,10 +341,11 @@
     
             var layer_control_69df22a1ed5877ae97f3b4c1114b3d7b_layers = {
                 base_layers : {
+                    "Streets (OpenStreetMap)" : tile_layer_osm4bb252a82619003cf86bf822,
+                    "Satellite (Esri)" : tile_layer_sat4bb252a82619003cf86bf822,
                 },
                 overlays :  {
                     "Avg Annual Construction Wages (QCEW NAICS 23, $)" : choropleth_0eeee91cb498888fc0e30a9bc3d650b0,
-                    "macro_element_834a9e115bfaca37df9f2da3a28f2418" : geo_json_834a9e115bfaca37df9f2da3a28f2418,
                 },
             };
             let layer_control_69df22a1ed5877ae97f3b4c1114b3d7b = L.control.layers(

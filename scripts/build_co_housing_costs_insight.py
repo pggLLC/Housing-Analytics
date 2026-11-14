@@ -1239,6 +1239,72 @@ def _load_county_geojson(cfg: Config) -> Optional[Any]:
         return None
 
 
+# Basemap credits: the services' own copyrightText (MapServer?f=json, read
+# 14 Nov 2026), matching js/config/basemaps.js.
+_OSM_ATTR = (
+    'Map &copy; <a href="https://www.openstreetmap.org/copyright">'
+    "OpenStreetMap</a> contributors"
+)
+_SAT_ATTR = (
+    'Imagery &copy; <a href="https://www.esri.com/">Esri</a>. Source: Esri, '
+    "Vantor, Earthstar Geographics, and the GIS User Community"
+)
+_BACKUP_ATTR = (
+    'Some street tiles &copy; <a href="https://www.esri.com/">Esri</a>. '
+    "Sources: Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan, Esri "
+    "Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC, "
+    "(c) OpenStreetMap contributors, and the GIS User Community"
+)
+_STREET_BACKUP = (
+    "https://server.arcgisonline.com/ArcGIS/rest/services/"
+    "World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+)
+_STREET_BACKUP_JS = """
+    (function (layer, map) {
+      // A failed OpenStreetMap tile comes from Esri World Street Map instead,
+      // and Esri's credit joins the map while the street layer is shown.
+      var credited = false;
+      layer.on('tileerror', function (e) {
+        var t = e.tile, c = e.coords;
+        if (!t || !c || t.getAttribute('data-backup')) return;
+        t.setAttribute('data-backup', '1');
+        t.src = %(url)s.replace('{z}', c.z).replace('{y}', c.y).replace('{x}', c.x);
+        if (!credited && map.attributionControl) { map.attributionControl.addAttribution(%(attr)s); credited = true; }
+      });
+      layer.on('remove', function () {
+        if (credited && map.attributionControl) { map.attributionControl.removeAttribution(%(attr)s); credited = false; }
+      });
+      L.control.scale({ imperial: true, metric: false, position: 'bottomleft' }).addTo(map);
+    })(%(layer)s, %(map)s);
+"""
+
+
+def _street_backup_js(layer_name: str, map_name: str) -> str:
+    return _STREET_BACKUP_JS % {
+        "url": json.dumps(_STREET_BACKUP), "attr": json.dumps(_BACKUP_ATTR),
+        "layer": layer_name, "map": map_name,
+    }
+
+
+if HAS_FOLIUM:
+    from branca.element import MacroElement, Template
+
+    class _StreetBackup(MacroElement):
+        """Esri street tiles for failed OSM tiles, plus a scale bar in miles."""
+
+        _template = Template(
+            "{% macro script(this, kwargs) %}{{ this.js() }}{% endmacro %}"
+        )
+
+        def __init__(self, layer: Any) -> None:
+            super().__init__()
+            self._name = "StreetBackup"
+            self.layer = layer
+
+        def js(self) -> str:
+            return _street_backup_js(self.layer.get_name(), self._parent.get_name())
+
+
 def _make_choropleth_map(
     geojson: Any,
     data: "pd.DataFrame",
@@ -1263,28 +1329,27 @@ def _make_choropleth_map(
     zoom = cfg.MAP_ZOOM if cfg else 6
     co_bounds = cfg.CO_BOUNDS if cfg else [[36.79, -109.42], [41.21, -101.68]]
 
-    # NOT "CartoDB positron": CARTO's keyless basemap tiles now come back with
-    # "API KEY REQUIRED · carto.com/basemaps/apikey" painted across the image.
-    # They still return HTTP 200 with a valid PNG, so nothing errors — the map
-    # just renders defaced. Esri's Canvas basemaps need no key; labels are a
-    # separate transparent overlay there, so it takes two layers.
-    # The interactive site maps use js/config/basemaps.js for the same reason.
+    # paul's map rule (11 Nov 2026): OpenStreetMap streets by default, credited
+    # and linked, with a Satellite choice (Esri World Imagery) and a scale bar.
+    # Esri World Street Map stands in tile by tile when an OSM tile fails, and
+    # its credit joins the map when it does. Same layers and credits as the
+    # interactive site maps (js/config/basemaps.js). Not CARTO: its keyless
+    # tiles now come back with "API KEY REQUIRED" painted across them.
     m = folium.Map(location=list(center), zoom_start=zoom, tiles=None, max_bounds=True)
-    _ESRI_CANVAS = "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/"
-    _ESRI_ATTR = (
-        "Tiles &copy; Esri &mdash; Esri, HERE, Garmin, "
-        "&copy; OpenStreetMap contributors"
+    streets = folium.TileLayer(
+        tiles="https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        attr=_OSM_ATTR, name="Streets (OpenStreetMap)",
+        max_native_zoom=19, max_zoom=19,
+        # OSM refuses tiles without a Referer; the member site sends none.
+        referrer_policy="origin",
     )
+    streets.add_to(m)
     folium.TileLayer(
-        tiles=_ESRI_CANVAS + "World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-        attr=_ESRI_ATTR, name="Light", control=False,
-        max_native_zoom=16, max_zoom=19,
+        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        attr=_SAT_ATTR, name="Satellite (Esri)",
+        max_zoom=19, show=False,
     ).add_to(m)
-    folium.TileLayer(
-        tiles=_ESRI_CANVAS + "World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}",
-        attr=_ESRI_ATTR, name="Labels", overlay=True, control=False,
-        max_native_zoom=16, max_zoom=19,
-    ).add_to(m)
+    _StreetBackup(streets).add_to(m)
     m.fit_bounds(co_bounds)
 
     # Build lookup dict: fips -> value
@@ -1324,6 +1389,8 @@ def _make_choropleth_map(
             aliases=list(geojson["features"][0].get("properties", {}).keys())[:3],
         ),
         style_function=lambda x: {"fillOpacity": 0, "weight": 0},
+        # Hover layer only: keep its unnamed entry out of the layer switch.
+        control=False,
     )
     tooltip_layer.add_to(m)
 
