@@ -241,12 +241,14 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 4
   const phone = [...bridge.matchAll(/@media \(max-width: 640px\) \{([\s\S]*?)\n\}/g)].map(m => m[1]).join('\n');
   ['#dc-ami-rows, div:has(+ #dc-ami-rows))', '#dc-cb-detail > div[style*="grid-template-columns"]', '#dealCalcMount dl[style*="grid-template-columns"]']
     .forEach(k => ok(new RegExp(k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ' \\{ grid-template-columns:[^;]+!important').test(phone), k + ' should be laid out on a phone only, over its inline grid'));
-  ok(/#dealCalcMount label:has\(> input\[style\*="display:block"\]/.test(phone), 'the pay-in labels should be laid out on a phone only');
+  ok(/#dealCalcMount label:has\(> :is\(input, select\):is\(\[style\*="display:block"\], \[style\*="display: block"\]\)\)/.test(phone), 'the pay-in labels should be laid out on a phone only');
   const calc = read('js/deal-calculator.js');
   // Tiers: a three-column grid with its heading row just before it.
   ok(/<div style="display:grid;grid-template-columns:[^"]+">\s*(?:<span[^>]*>[^<]*<\/span>\s*){3}<\/div>\s*<div id="dc-ami-rows" style="display:grid;grid-template-columns:/.test(calc),
     'the income tiers are no longer a grid with its heading row just before it');
   ok(/`\s*<label style="display:flex[^"]*">\s*<input id="dc-chk-\$\{pct\}"/.test(calc), 'a tier no longer starts with its label, which the sheet gives the whole row');
+  ok(/<div style="grid-column:1 \/ -1;display:grid;grid-template-columns:/.test(calc) && /#dc-ami-rows > div\[style\*="grid-column"\] \{ grid-template-columns:[^;]+!important/.test(phone),
+    'the homes-by-bedroom boxes under each tier are no longer a full-row inline grid the sheet sets three to a row');
   // Pay-in boxes: words and a display:block box inside one label, which a phone draws as a row.
   ['fed', 'state', 'add'].forEach(k => ok(new RegExp('<label[^>]*>[^<]*<input id="dc-' + k + '-payin-completion" type="number"[^>]*style="display:block').test(calc),
     'the ' + k + ' pay-in box is no longer a display:block box inside its label'));

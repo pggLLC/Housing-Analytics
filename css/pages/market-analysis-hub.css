@@ -237,9 +237,16 @@ body.tool-page #main-content #lihtcConceptSection p.lihtc-cc-constraint-narrativ
   body.tool-page #dealCalcMount :is(#dc-ami-rows, div:has(+ #dc-ami-rows)) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; }
   body.tool-page #dealCalcMount :is(#dc-ami-rows > label, div:has(+ #dc-ami-rows) > span:first-child) { grid-column: 1 / -1; }
   body.tool-page #dealCalcMount div:has(+ #dc-ami-rows) > span { text-align: left !important; }
+  body.tool-page #dealCalcMount #dc-ami-rows > label { justify-content: flex-start; }
+  /* Under each tier, the homes by bedroom size were five boxes 60px wide, narrower than the "assumption" chip under
+     each, so the chips ran into each other. Three to a row. */
+  body.tool-page #dealCalcMount #dc-ami-rows > div[style*="grid-column"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; align-items: end; }
   /* On a phone every label is drawn as a row, so "At completion" and its box shared a third of the width and the box
-     was 18px wide, too narrow to show a figure. The words above the box, as written. */
-  body.tool-page #dealCalcMount label:has(> input[style*="display:block"], > select[style*="display:block"]) { display: block; min-width: 0; text-align: left; }
+     was 18px wide, too narrow to show a figure. The words above the box, as written. (Once a script sets a style on
+     the box, the browser rewrites the attribute with a space after the colon, so both spellings.) */
+  body.tool-page #dealCalcMount label:has(> :is(input, select):is([style*="display:block"], [style*="display: block"])) { display: block; min-width: 0; text-align: left; }
+  /* Three such boxes side by side, one under two lines of words and one under one: the boxes line up at the foot. */
+  body.tool-page #dealCalcMount [role="group"] > div[style*="grid-template-columns"] { align-items: end; }
   /* "How basis and credit were calculated": each line is a name with its source beside a value in a 99px column,
      so a value written as a sentence ("Enter the construction loan, rate, months and average share drawn ...") stood
      one or two words a line. On a phone the value goes under its name. */
