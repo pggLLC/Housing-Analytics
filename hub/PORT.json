@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "8379816f1b0aba6717362eda1822073b63c39920",
+  "commit": "7eb367725d4a14f97eb672cff52c3884eb2c5b5c",
   "dirty": false
  },
  "files": {
@@ -104,11 +104,11 @@
   "hub/pipeline.js": "ca34dc30e089a4f49946958a2a5a4bf76088c3510818458726fe14484af3c93a",
   "hub/place-list.js": "a4410f06be16d7f716696726f8393e9babe3e7973227cfcbd04ea1339c729f95",
   "hub/places-combine.js": "b3d53321409c2dd780df591f1871cdd1cc299f7e465e2d726fce08c988dbcdf0",
-  "hub/places-more.js": "b66a0e5fb11964bdd07b5d39c52069e378d39ab912de7887e1d5dc2856ab0c0e",
+  "hub/places-more.js": "06e88020dce88fd76129a90e69b2f162a18a6cecbcb5e4c1a7ec1b7587684016",
   "hub/places-state.js": "084e522a6e98d92c93ef4e20bf0196327243a453d6aab418ff63008056cb1d02",
   "hub/places.js": "c39f346dc57210a057408de589f923c38350e4afc892d804cb7887703e0c0f59",
   "hub/policy-more.js": "2aa65ec2eefa28d9ac7f53cc6abbb432eb7268b9ff16f65f23e18b1ea1e2f36b",
-  "hub/policy.js": "7ac6e7765a7a620b62cf7e7042f328c01ce179cb495dd6ed32ebaf030a07123b",
+  "hub/policy.js": "394fe1d5c0a23439ade5f0722cbee4c1950afbc28d00301b24555e7f0af10b93",
   "hub/profile.css": "d18e7355133687b3c43099751dc234a12da6cbfe743fb65d932e414e171015a2",
   "hub/project-store.js": "f05e2135eb76a37550cc142ccbd552e35712bc83836e0a7125389ea69de5ff91",
   "hub/redraw.js": "0aa306638ac0e4dd3ca9a88c54459bdf16d7f486ae4c3ed3472c23e532622c16",
