@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T17:43:37.771Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T17:54:29.934Z. Do not edit by hand.
 
 ---
 
@@ -39,7 +39,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
 | `deal-hub.html` | Build a deal · COHO Analytics | 10.2 KB |
-| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 161.0 KB |
+| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 161.2 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 7.5 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 60.3 KB |
@@ -2510,7 +2510,7 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.4 KB |
-| `test/market-analysis-hub-page.test.mjs` | 27.1 KB |
+| `test/market-analysis-hub-page.test.mjs` | 33.3 KB |
 | `test/market-construction.test.js` | 6.5 KB |
 | `test/market-direction-tab.test.mjs` | 25.6 KB |
 | `test/market-geography-binding.test.mjs` | 17.9 KB |
