@@ -20,6 +20,7 @@
  *   - data/market/developable_land_context_co.json (tract developable-land context)
  *   - data/market/travel_time_matrix_co.json (OSM-derived tract-to-regional-hub drive times)
  *   - data/market/lodes_tract_od_co.json (LODES tract-to-tract OD matrix)
+ *   - data/market/tract_drive_times_co.json (OSM-derived drive times between nearby tracts)
  *
  * Each was added in a one-time commit and has no refresh workflow. The UI
  * discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -147,6 +148,12 @@ const BENCHMARK_FILES = [
     file: 'data/market/lodes_tract_od_co.json',
     label: 'Colorado LODES tract-to-tract OD matrix',
     reviewByPaths: ['meta.review_by'],
+  },  {
+    file: 'data/market/tract_drive_times_co.json',
+    label: 'Colorado tract-to-tract drive times (nearby tracts)',
+    reviewByPaths: ['meta.review_by'],
+    // Road-network drive times; rebuild yearly or after a major network change.
+    staleAfterDays: 365,
   },
 ];
 
