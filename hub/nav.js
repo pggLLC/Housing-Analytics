@@ -38,7 +38,7 @@
         { label: '2026 Round One awards', lab: '#/opportunity/round-one', desc: 'CHFA’s latest tax credit awards.' },
         { label: 'Prop 123 land banking', lab: '#/opportunity/land-banking', desc: 'State awards to buy land for future homes.' }] }
     ] },
-    { id: 'deal', title: 'Build a deal', question: 'Does this project pencil, and who does what?', hub: '#/projects', views: ['projects', 'project', 'homes', 'handoff', 'convert', 'financials', 'open-deal', 'deal-calculator', 'sale-deal', 'use', 'deals', 'equity-pricing', 'pipeline', 'market', 'for-sale', 'recommendation', 'ic-summary', 'design'], groups: [
+    { id: 'deal', title: 'Build a deal', question: 'Does this project pencil, and who does what?', hub: '#/projects', views: ['projects', 'project', 'homes', 'handoff', 'convert', 'financials', 'open-deal', 'open-calc', 'deal-calculator', 'sale-deal', 'use', 'deals', 'equity-pricing', 'pipeline', 'market', 'for-sale', 'recommendation', 'ic-summary', 'design'], groups: [
       { title: 'Tools', items: [
         { label: 'Deal Calculator', lab: '#/deal-calculator', desc: 'Sources and uses, credits, debt and the gap.' },
         { label: 'Market check', lab: '#/market', desc: 'Renters, rents, supply and a capture rate for any place. Free.' },

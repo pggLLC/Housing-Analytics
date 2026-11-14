@@ -131,6 +131,174 @@
   }
   Shell.views['open-deal'] = openView;
 
+  // ---------- the old Deal Calculator's own link (#/open-calc?v=1&...) ----------
+  // deal-calculator.html's "Copy link" carries every dc- and pf- box by its id (dc- dropped), a ticked box as 1 or 0,
+  // a radio group under its first member's id, the soft sources in tr, and its homes in rentSchedule
+  // (js/deal-calculator-share.js _serialize). The Market Analysis page's calculator sends the same, plus subject: the
+  // Subject Project its rent schedule is priced from. This turns those into a deal package that #/open-deal opens.
+  // As on the old page, a box the link leaves out keeps Financials' starting value; every box the link carries that
+  // Financials does not read is named before anything is saved.
+  var CALC_MODE_FIELD = { 'mode-rental': 1, 'rate-9': 1, v: 1, subject: 1, rentSchedule: 1, utilityAllowance: 1, inputProvenance: 1, tr: 1, fips: 1, geoid: 1, 'unit-mix-source': 1 };
+  function calcPackage(q, env) {
+    var F = env.F, G = env.G, CB = env.CB, OB = env.OB, DOH = env.DOH;
+    q = new URLSearchParams(q.toString());
+    var used = {}, notes = [];
+    var has = function (k) { return q.has(k); };
+    var take = function (k) { used[k] = true; return q.get(k); };
+    var json = function (k) { if (!has(k)) return null; try { return JSON.parse(take(k)); } catch (_) { return undefined; } };
+    if (has('mode-rental') && take('mode-rental') === 'ownership') throw new Error('This link is a for-sale deal. Financials works rental deals: open it on the Deal Calculator’s for-sale mode.');
+    // Cost and operating lines saved before today's layouts load into the lines that hold them, as on the old page.
+    var moved = {};
+    [['cost', CB && CB.legacyCostFields], ['op', OB && OB.legacyOperatingFields]].forEach(function (x) {
+      if (!x[1]) return;
+      var legacy = x[1](function (k) { return q.has(k) ? q.get(k) : null; }) || {};
+      Object.keys(legacy).forEach(function (k) { q.set(k, legacy[k]); moved[x[0]] = true; });
+    });
+    // The old lines those moved from are read, by the move.
+    var lineIds = {}; F.costIds().forEach(function (id) { lineIds[id] = true; });
+    q.forEach(function (v, k) {
+      var m = /^cost-([a-z_]+?)(-basis|-eligible|-used)?$/.exec(k);
+      if ((moved.cost && m && !lineIds[m[1]]) || (moved.op && k === 'opex')) used[k] = true;
+    });
+    var d = F.emptyDraft();
+    var checks = {}; (F.CHECKBOX_IDS || []).forEach(function (id) { checks[id] = true; });
+    var box = function (v) { return v === '1' || v === 'true' ? 'yes' : ''; };
+    // The old page's "Copy link" carries every box that is not blank (and every list and ticked box), so a typed box
+    // the link leaves out was blank on the sender's page: it opens blank here too, not at Financials' starting value.
+    // Only boxes the old page has (js/deal-calculator-input-registry.js) are read that way; a link made before a box
+    // existed opens that box blank, where the old page would show its default.
+    var R = env.registry;
+    F.FIELDS.forEach(function (i) {
+      var k = i.id.replace(/^dc-/, '');
+      if (i.id === 'dc-credit') { if (has('rate-9')) d.fields[i.id] = Number(take('rate-9')) === 0.04 ? '4' : '9'; return; }
+      if (!has(k)) { if (!checks[i.id] && !i.options && R && R.get(i.id)) d.fields[i.id] = ''; return; }
+      var v = String(take(k));
+      // A yes-or-no list here can be a ticked box on the old page (dc-auto-noi), which the link sends as 1 or 0.
+      var yesNo = i.options && i.options.some(function (o) { return o[0] === 'yes'; }) && i.options.some(function (o) { return o[0] === 'no'; });
+      if (yesNo && /^(1|0|true|false)$/.test(v)) v = v === '1' || v === 'true' ? 'yes' : 'no';
+      d.fields[i.id] = checks[i.id] ? box(v) : v;
+    });
+    F.costIds().forEach(function (id) {
+      var k = 'cost-' + id;
+      if (has(k)) d.costs[id] = String(take(k));
+      if (has(k + '-basis')) d.basis[id] = String(take(k + '-basis'));
+      if (has(k + '-eligible')) d.parts[id] = String(take(k + '-eligible'));
+      if (has(k + '-used')) d.used[id] = String(take(k + '-used'));
+    });
+    var op = false;
+    OB.LINE_TEMPLATE.forEach(function (t) { if (has('op-' + t.id)) { d.opLines[t.id] = String(take('op-' + t.id)); op = true; } });
+    OB.INCOME_TEMPLATE.forEach(function (t) { if (has('op-income-' + t.id)) { d.opIncome[t.id] = String(take('op-income-' + t.id)); op = true; } });
+    if (op) {
+      d.opExample = false;
+      OB.LINE_TEMPLATE.forEach(function (t) { if (!has('op-' + t.id)) d.opLines[t.id] = ''; });
+      OB.INCOME_TEMPLATE.forEach(function (t) { if (!has('op-income-' + t.id)) d.opIncome[t.id] = ''; });
+    }
+    // Soft sources: program:amount:mode:rate:term:cash flow %:accrue:priority:type:maturity:IO:federal:DOH:activity:status:state.
+    if (has('tr')) {
+      var rows = String(take('tr')).split(';').filter(Boolean).slice(0, 12).map(function (s, i) {
+        var x = s.split(':'), t = i === 0 ? F.seedTranche() : F.addedTranche(), before = t.program;
+        var put = function (k, v) { if (v != null) t[k] = v; };
+        put('program', x[0]); put('amount', x[1]); if (x[2]) t.mode = x[2]; put('rate', x[3]); put('term', x[4]); put('cashflowPayPct', x[5]); put('priority', x[7]);
+        if (t.program !== before) t.fundSource = F.FEDERAL_FUND_DEFAULTS[t.program] || '';
+        if (DOH && t.program !== before) DOH.programChanged(t);
+        t.loanType = x[8] !== undefined ? x[8] : x[6] === 'accrued' ? 'accrue_defer' : x[5] !== undefined && x[5] !== '' && Number(x[5]) < 100 ? 'cash_flow' : 'amortizing';
+        t.maturity = x[9] !== undefined ? x[9] : x[4]; t.ioYears = x[10] !== undefined ? x[10] : '2';
+        if (x[11] !== undefined) t.fundSource = x[11];
+        if (DOH) { DOH.fill(t); if (x[12] !== undefined) t.doh = x[12]; if (x[13] !== undefined) t.activity = x[13]; if (x[14]) t.status = x[14]; if (x[15]) t.stateRequest = x[15]; }
+        return t;
+      });
+      if (rows.length) d.tranches = rows;
+    }
+    // The homes: the unit grid, or the Market Analysis rent schedule priced from the subject the link carries.
+    var fips = has('county-select') ? String(q.get('county-select')) : '';
+    var schedule = json('rentSchedule'), subject = json('subject'), allowance = json('utilityAllowance');
+    if (subject === undefined || (subject != null && (typeof subject !== 'object' || !Array.isArray(subject.unit_mix)))) { notes.push('The link’s Subject Project could not be read, so its homes and rents are not carried.'); subject = null; }
+    var scheduled = schedule && schedule.mode === 'schedule';
+    var manualMix = null, attachments = [];
+    if (subject) attachments.push({ kind: 'rent-schedule', label: 'Homes and rents from the link', snapshot: { subject: subject, result: null }, state: 'attached', origin: { openedFrom: 'deal-calculator link' }, attachedAt: new Date().toISOString() });
+    if (!scheduled) {
+      var g = G.blank(fips), gchecks = { 'dc-achievable-cap': 1 };
+      Object.keys(g).forEach(function (id) {
+        var k = id.replace(/^dc-/, '');
+        if (!has(k)) return;
+        g[id] = /^dc-chk-/.test(id) || gchecks[id] ? box(take(k)) : String(take(k));
+      });
+      d.grid = g;
+      manualMix = { fromScenarioId: null, convertedAt: new Date().toISOString(), cells: [], countyFips: g['dc-county-select'] || fips };
+      if (!subject && allowance && allowance.applied) notes.push('The sender’s utility allowance is not in the link, so restricted homes are priced at the full limit until you save the homes with their allowance in Homes and affordability.');
+    } else if (!subject) {
+      notes.push('Its homes come from a Market Analysis rent schedule the link does not carry, so no homes are set. Enter them in Homes and affordability.');
+    }
+    used['county-select'] = true;
+    var unread = [];
+    q.forEach(function (v, k) { if (!used[k] && !CALC_MODE_FIELD[k] && unread.indexOf(k) < 0) unread.push(k); });
+    var geoid = has('geoid') && /^\d{2,7}$/.test(q.get('geoid')) ? q.get('geoid') : fips ? fips : null;
+    var name = env.countyName(fips);
+    var overrides = { financialsDraft: d };
+    if (manualMix) overrides.manualMix = manualMix;
+    return {
+      pkg: { format: P.PACKAGE, version: P.PACKAGE_VERSION, exportedAt: '',
+        project: { name: 'Deal from the Deal Calculator' + (name ? ', ' + name : ''), kind: 'development', jurisdiction: geoid ? { geoid: geoid, name: geoid === fips && name ? name : (name || geoid) } : null },
+        scenario: { name: scheduled ? 'Rent schedule' : 'Unit grid', site: null }, attachments: attachments, overrides: overrides },
+      homes: scheduled ? (subject ? 'schedule' : 'none') : 'grid', linkRows: scheduled ? schedule.rows || [] : null, notes: notes, unread: unread
+    };
+  }
+  // The rerun schedule's homes, as the old page lists them in rentSchedule, to compare with the link's.
+  function scheduleRows(pkg) {
+    var att = pkg.attachments.filter(function (a) { return a.kind === 'rent-schedule'; })[0];
+    var C = global.ChfaRentLimits, sub = att && att.snapshot.subject;
+    if (!att || !C || !C.dealMixFromSchedule) return [];
+    var mix = C.dealMixFromSchedule(att.snapshot.result, { countyFips: sub.county_fips, regime: 'chfa_lihtc' });
+    return mix && mix.available ? (mix.restrictedRows || []).concat(mix.marketRows || []) : [];
+  }
+  function sameRows(a, b) {
+    // The old page marks a market-rate row with tier "market"; the shared mix leaves its tier out.
+    var key = function (r) { var m = r.tier == null || r.tier === 'market'; return [m ? 'market' : r.tier, r.bedrooms, r.units, m ? r.rent : r.contractRent].join('|'); };
+    var A = (a || []).map(key).sort(), B = (b || []).map(key).sort();
+    return A.length > 0 && A.join(';') === B.join(';');
+  }
+  function calcEnv() {
+    return { registry: global.DealCalculatorInputRegistry, F: global.LabFinancials, G: global.LabCalcGrid, CB: global.DealCostBasis, OB: global.DealOperatingBudget, DOH: global.LabCalcDoh,
+      countyName: function (fips) { var c = chfa && (chfa.counties || []).filter(function (x) { return x.fips === fips; })[0]; return c ? (/county$/i.test(c.county_name) ? c.county_name : c.county_name + ' County') : ''; } };
+  }
+  var registry = null;
+  function calcView(params) {
+    var back = '<a class="back-link" href="#/projects">← Projects</a>';
+    var head = back + '<h1>Open a deal from the Deal Calculator</h1><p class="lede">See what the calculator’s link holds before anything is saved.</p>';
+    if (!params.toString() || params.get('v') !== '1') return head + '<p class="callout" role="alert">This address holds no Deal Calculator deal. Use the calculator’s “Copy link”, or “Continue in Financials” on Market Analysis.</p>' + picker();
+    loadChfa();
+    if (chfaError) return head + '<p class="callout">' + esc(chfaError) + '</p>';
+    if (!global.LabFinancials || !global.DealCostBasis || !global.DealOperatingBudget || !global.LabCalcGrid) return head + '<p role="status">Loading the calculator…</p>';
+    if (!chfa) return head + '<p role="status">Loading the CHFA rent table…</p>';
+    if (!global.DealCalculatorInputRegistry && registry !== 'failed') {
+      if (!registry) {
+        registry = 'loading';
+        var el = document.createElement('script');
+        el.src = VENDOR + 'js/deal-calculator-input-registry.js';
+        el.onload = function () { registry = 'ready'; Shell.render(); };
+        el.onerror = function () { registry = 'failed'; Shell.render(); };
+        document.body.appendChild(el);
+      }
+      return head + '<p role="status">Loading the calculator’s list of boxes…</p>';
+    }
+    if (registry === 'failed') return head + '<p class="callout">The Deal Calculator’s list of boxes did not load, so the link cannot be read.</p>';
+    var key = 'calc:' + params.toString();
+    if (!waiting[key]) {
+      try {
+        var made = calcPackage(params, calcEnv());
+        waiting[key] = { pkg: made.pkg, how: 'share-link', calc: made, problem: P.packageProblem(made.pkg) };
+      } catch (e) { waiting[key] = { problem: e.message }; }
+    }
+    var w = waiting[key];
+    if (w.problem) return head + '<p class="callout" role="alert">' + esc(w.problem) + '</p>';
+    var c = w.calc;
+    var homes = c.homes === 'grid' ? 'Homes: the unit grid from the link.' : c.homes === 'schedule' ? 'Homes: the Market Analysis rent schedule, rerun on the site’s CHFA rent code when you open it.' : 'Homes: none set.';
+    var extra = '<p>' + esc(homes) + '</p>' + c.notes.map(function (n) { return '<p class="callout">' + esc(n) + '</p>'; }).join('') +
+      (c.unread.length ? '<details class="calc-unread"><summary>' + esc(String(c.unread.length)) + ' boxes in the link that Financials does not use</summary><p class="note">They stay on the Deal Calculator. ' + esc(c.unread.join(', ')) + '.</p></details>' : '');
+    return head + preview(w, key).replace('<div class="actions">', extra + '<div class="actions">');
+  }
+  Shell.views['open-calc'] = calcView;
+
   // ---------- Financials panel ----------
   function panel(p, s) {
     return '<section class="deal-share no-print" id="fin-share" aria-labelledby="fin-share-h"><h2 id="fin-share-h">Share, hand off or print</h2>' +
@@ -195,9 +363,11 @@
         try {
           var pkgCopy = JSON.parse(JSON.stringify(w.pkg));
           var rerun = rerunSchedule(pkgCopy);
+          // A Deal Calculator link carries the old page's priced rows, not a schedule result: compare with those.
+          if (w.calc && rerun.has) rerun.matched = w.calc.linkRows ? sameRows(w.calc.linkRows, scheduleRows(pkgCopy)) : undefined;
           var made = P.importScenario(pkgCopy, w.how, rerun.has ? rerun.matched : undefined);
           delete waiting[b.dataset.key];
-          location.hash = rerun.has ? '#/financials/' + made.projectId + '/' + made.scenarioId : '#/project/' + made.projectId;
+          location.hash = rerun.has || w.calc ? '#/financials/' + made.projectId + '/' + made.scenarioId : '#/project/' + made.projectId;
         } catch (e) {
           w.problem = e.message; Shell.render();
         }
@@ -227,5 +397,5 @@
       : '<p class="note">Opened from ' + esc(from) + (o.scheduleMatched ? '. Its homes and rents were rerun on the site’s CHFA rent code and match the deal as shared.' : '.') + '</p>';
   }
 
-  global.LabDealFile = { encode: encode, decode: decode, panel: panel, picker: picker, openedNote: openedNote, fileName: fileName, rerunSchedule: rerunSchedule, printFull: printFull };
+  global.LabDealFile = { calcPackage: calcPackage, sameRows: sameRows, encode: encode, decode: decode, panel: panel, picker: picker, openedNote: openedNote, fileName: fileName, rerunSchedule: rerunSchedule, printFull: printFull };
 })(typeof window !== 'undefined' ? window : globalThis);

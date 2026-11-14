@@ -304,7 +304,7 @@
     create: create, rename: rename, remove: removeProject, addScenario: addScenario,
     attach: attach, setJurisdiction: setJurisdiction, setSite: setSite, setOverride: setOverride,
     markReviewed: markReviewed, stateOf: stateOf,
-    exportScenario: exportScenario, importScenario: importScenario, packageProblem: packageProblem,
+    exportScenario: exportScenario, importScenario: importScenario, packageProblem: packageProblem, PACKAGE: PACKAGE, PACKAGE_VERSION: VERSION,
     legacyPreview: legacyPreview, importLegacySubject: importLegacySubject,
     DEPENDENCIES: DEPENDENCIES
   };
