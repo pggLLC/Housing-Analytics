@@ -303,6 +303,10 @@
     return href ? '<a class="button-link secondary" href="' + esc(href) + '">' + esc(words) + '</a>' : '';
   }
 
+  // Each scenario shows its own panel, so every control carries an id unique to its scenario: the shell puts focus
+  // back after a redraw by id, and a shared name alone would find the first scenario's control.
+  function fid(at, n) { return 'start-' + String(at).replace(/[^A-Za-z0-9_-]/g, '_') + '-' + n; }
+
   // Where the renters are counted, stated as the biggest assumption, with the areas the user can switch between.
   function areaBlock(p, s, r, at) {
     var a = r.area;
@@ -314,7 +318,7 @@
     var choice = r.areas.length > 1
       ? '<form class="start-area-form" data-start="' + at + '" novalidate><fieldset><legend>Count renters in</legend>' +
         r.areas.map(function (o) {
-          return '<label class="check-line"><input type="radio" name="area" value="' + o.key + '"' + (o.key === a.key ? ' checked' : '') + '> ' + esc(o.label.charAt(0).toUpperCase() + o.label.slice(1)) + '</label>';
+          return '<label class="check-line"><input type="radio" id="' + fid(at, 'area-' + o.key) + '" name="area" value="' + o.key + '"' + (o.key === a.key ? ' checked' : '') + '> ' + esc(o.label.charAt(0).toUpperCase() + o.label.slice(1)) + '</label>';
         }).join('') + '</fieldset></form>' +
         '<p class="note">Incomes and rent ceilings are set for the whole county, so the area changes how many renters qualify, the income mix and which bands are thin, and a thin band moves its rents down.</p>'
       : '';
@@ -346,7 +350,7 @@
       var c = r.capture[b], v = r.custom ? r.byBand[b] : (dr.bands && dr.bands[b] != null && dr.bands[b] !== '' ? dr.bands[b] : r.byBand[b]);
       var mark = c === Infinity ? 'No renters qualify' : c > VERY_THIN ? pct(c) + ', very thin' : c > GOOD ? pct(c) + ', thin' : pct(c);
       return '<tr><th scope="row">' + b + '%</th><td class="num">' + num(r.pool[b]) + '</td>' +
-        '<td class="num"><input name="b' + b + '" type="number" min="0" max="1000" step="1" inputmode="numeric" value="' + esc(String(v)) + '" aria-label="Homes at ' + b + '% of area median income"></td>' +
+        '<td class="num"><input id="' + fid(at, 'b' + b) + '" name="b' + b + '" type="number" min="0" max="1000" step="1" inputmode="numeric" value="' + esc(String(v)) + '" aria-label="Homes at ' + b + '% of area median income"></td>' +
         '<td class="num">' + esc(mark) + '</td></tr>';
     }).join('');
     var sizeWhy = r.size.where ? r.size.homes + ' is the middle size of the ' + r.size.count + ' new tax credit buildings awarded in ' + esc(r.size.where) + ' since ' + SINCE + ' (CHFA property list, read ' + esc(String(r.lihtcAt || '').slice(0, 10)) + ').' : '60 is a starting size; no list of local buildings was found.';
@@ -373,7 +377,7 @@
         r.cost.projects.map(function (q) { return esc(q[0]) + ' (' + q[1] + ', ' + q[3] + ' homes, ' + esc(money(q[2] / q[3])) + ' a home)'; }).join(' and ') + '. ' +
         'The study’s own figure, ' + esc(money(GJ_COST.studyFigure)) + ', also counts market-rate and partly affordable projects. These are 2023 and 2024 costs, not brought forward. ' +
         '<a href="' + GJ_COST.url + '">Source</a>.</p>' +
-        '<label class="check-line"><input type="checkbox" name="cost"' + (r.wantCost ? ' checked' : '') + '> Also put ' + esc(money(total)) + ' (' + r.homes + ' homes at ' + esc(money(r.cost.perHome)) + ') on Financials</label>' +
+        '<label class="check-line"><input type="checkbox" id="' + fid(at, 'cost') + '" name="cost"' + (r.wantCost ? ' checked' : '') + '> Also put ' + esc(money(total)) + ' (' + r.homes + ' homes at ' + esc(money(r.cost.perHome)) + ') on Financials</label>' +
         '<p class="note">Financials needs the cost in lines to count tax credits. The total is split the way the Deal Calculator’s example budget splits it, which is a made-up example, not a local project. Replace the lines with your own budget.</p>';
     } else {
       costText = '<p>No public, local cost per home was found for ' + esc(r.countyName) + ', so costs stay blank. Financials then shows the rents, operating income and the loan they carry, but no credits or gap until you enter costs. A statewide average is not used.</p>';
@@ -385,7 +389,7 @@
       area +
       '<form class="start-form" data-start="' + at + '" novalidate>' +
       '<h4>Homes and incomes</h4>' +
-      '<label class="field"><span>Homes in the project</span><input name="homes" type="number" min="1" max="1000" step="1" inputmode="numeric" value="' + r.homes + '"></label>' +
+      '<label class="field"><span>Homes in the project</span><input id="' + fid(at, 'homes') + '" name="homes" type="number" min="1" max="1000" step="1" inputmode="numeric" value="' + r.homes + '"></label>' +
       '<p class="note">' + sizeWhy + '</p>' +
       '<div class="table-scroll"><table class="start-table" data-no-sort><caption>Who the homes are for (share = homes \u00f7 renters who qualify)</caption><thead><tr><th scope="col">Band</th><th scope="col" class="num">Renters who qualify</th><th scope="col" class="num">Homes</th><th scope="col" class="num">Share</th></tr></thead><tbody>' + bandRows + '</tbody></table></div>' +
       '<p class="note">' + (r.custom ? 'You set the homes in each band. Change the total to spread them by renters again. ' : 'Homes are spread in proportion to the renters who qualify for each band, so each band takes about the same share of its renters. ') +
