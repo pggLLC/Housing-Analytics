@@ -119,6 +119,8 @@
   function apply() {
     if (!onFinancials() || !main.querySelector('form[data-action="financials"]')) { main.removeAttribute('data-hover-help'); main.__helpFor = null; return; }
     main.setAttribute('data-hover-help', 'financials');
+    // The tips open from the "?" whether or not the glossary files have come (site/guide.js).
+    if (global.LabGuide && global.LabGuide.wireTips) global.LabGuide.wireTips();
     glossary();
     loadRegistry();
     if (reg === 'ready') fields(main);

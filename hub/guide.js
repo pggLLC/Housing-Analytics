@@ -474,11 +474,13 @@
   // The same two files those scripts read are read here, and the same rules kept: a term is defined at its first
   // use in each part, never in a heading, link, button, table heading or code; a heading's tip is its own
   // (data-tip from the page) or the site's entry for that heading's words.
-  var HELP = { files: null, asked: false };
+  // One read of the two files for every page that asks; a page that asks while the read is under way gets the
+  // same answer when it comes (a guide opened, then Financials before the files arrive).
+  var HELP = { files: null, waiting: null };
   function helpFiles(then) {
     if (HELP.files) return then(HELP.files);
-    if (HELP.asked) return;
-    HELP.asked = true;
+    if (HELP.waiting) { HELP.waiting.push(then); return; }
+    HELP.waiting = [then];
     var V = global.LAB_VENDOR || '';
     var get = function (f) { return fetch(V + f).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); };
     Promise.all([get('data/glossary.json'), get('data/table-header-tips.json')]).then(function (all) {
@@ -502,8 +504,8 @@
       var onceKeys = Object.keys(once).sort(function (a, b) { return b.length - a.length; });
       HELP.files.once = once;
       HELP.files.oncePattern = onceKeys.length ? new RegExp('\\b(' + onceKeys.map(function (k) { return k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')\\b', 'g') : null;
-      HELP.asked = false;
-      then(HELP.files);
+      var waiting = HELP.waiting; HELP.waiting = null;
+      waiting.forEach(function (f) { f(HELP.files); });
     });
   }
   function clip(text, max) {
@@ -653,5 +655,5 @@
 
   Shell.views.guide = guideView;
   // hoverHelp and helpFiles are shared with Financials (site/calc-help.js), which marks its terms the same way.
-  global.LabGuide = { GUIDES: GUIDES, hoverHelp: hoverHelp, helpFiles: helpFiles, hideTip: gtipHide };
+  global.LabGuide = { GUIDES: GUIDES, hoverHelp: hoverHelp, helpFiles: helpFiles, hideTip: gtipHide, wireTips: gtipWire };
 })(window);

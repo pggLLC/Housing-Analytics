@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "f9acce46ae78b1756dd3109b8890b412033f1c9e",
+  "commit": "be87156feb364de27ef1d52af2c0991e6d2e3533",
   "dirty": false
  },
  "files": {
@@ -34,7 +34,7 @@
   "hub/calc-comps.js": "da91271ff932b59041b54665f474520facce9bfcde455caf5c12b54b56e64a04",
   "hub/calc-doh.js": "7ec3f51dabeace0a3939051b09da4e42630c810919517206846122ad2fa2cc94",
   "hub/calc-grid.js": "b3bb54cf59ebabd1cbb83834b2a1a528647b5293e4f97bbf379a3343c29eb43f",
-  "hub/calc-help.js": "ccb2d4cfb5ed2a8a8123bd99b7e726a4e906e16d3b8e448218b57498a0a17d91",
+  "hub/calc-help.js": "9773428d27011b2382b7e5f16d1702d9cf3dac53893d5b34b8c96798b28178bd",
   "hub/calc-outcome.js": "1f24c9640eb0e8d14e6fc6a8664ef1da510a10093855ab56695c6247ac0901b5",
   "hub/calc-site.js": "ad9d4b4c9b462e415dc9dbf00fa34d8dabce4fd69d8d1fdb934df9778238b993",
   "hub/calc-tax.js": "ded0687ab2ee6cd6b28b9fd633586ee8843476a9cd402c1b340fbe5f40c30a7a",
@@ -72,7 +72,7 @@
   "hub/finder.js": "96065905924a90f7eb9f4d578e99cbcb6c790a1b47398126d9d37baaddf8b0e9",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
-  "hub/guide.js": "9f3dffe6e9566d3fa13807ff7b6a94a07adf535cbae4065a08fc114acd4f378a",
+  "hub/guide.js": "89bb2e454ed4b3dade718cfbc2ed4ff3a24da8c8e6e41b2795c919178d4cead3",
   "hub/hna-dola.js": "3d98f4185ac1b0decd1974f7f02bae7d450633f73b651652d4046ee8db71662e",
   "hub/hna.js": "5fce6ca5e03ed9c8d04c362d70a5bbd6e8f6cf49192ea322989f964de6a8582e",
   "hub/home.css": "47c8d4d65023a4e3bf1153eb9fdf2aacceddafe9b5bb0eac8533c77e283e32bb",
