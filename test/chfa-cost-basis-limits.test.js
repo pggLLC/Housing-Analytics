@@ -8,6 +8,10 @@ const path = require('node:path');
 const cbm = require('../js/deal-cost-basis.js');
 
 const ROOT = path.join(__dirname, '..');
+// The plan control's label as the calculator renders it (js/deal-calculator.js, dc-plan-cost-limit).
+const PLAN_LABEL = (fs.readFileSync(path.join(ROOT, 'js/deal-calculator.js'), 'utf8')
+  .match(/id="dc-plan-cost-limit"[\s\S]*?<strong>([^<]+)<\/strong>/) || [])[1];
+assert(PLAN_LABEL, 'found the plan control label in js/deal-calculator.js');
 const tables = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/policy/chfa-common-app-tables.json'), 'utf8'));
 
 test('the tables are the workbook\'s, labeled adopted', () => {
@@ -43,7 +47,9 @@ test('Method Three follows the workbook: TRUNC(zone factor x base) per unit, sum
   assert.equal(Math.round(r.credit), Math.round((10 * 358957 + 20 * 433748) * 0.09));
   assert.equal(r.lower, true);
   assert.match(r.reason, /Mesa County is CHFA zone 3 \(factor 3\.6\)/);
-  assert.match(r.reason, /shown as a check, it does not change the capacity here/);
+  // The note names the plan control by the label the calculator shows (agreement, not a pinned sentence);
+  // test/deal-calc-cost-limit-plan.test.js checks that the engine does what the control says.
+  assert(r.reason.includes(PLAN_LABEL), 'the note names the "' + PLAN_LABEL + '" control by its on-page label');
 });
 
 test('limits from a file not marked adopted are labelled draft', () => {
@@ -51,7 +57,7 @@ test('limits from a file not marked adopted are labelled draft', () => {
   const r = cbm.costBasisLimitCheck(Object.assign({}, mesa, { tables: draftTables, capacity: 1e9 }));
   assert.equal(r.checked, true);
   assert.equal(r.draft, true);
-  assert.match(r.reason, /, a draft; shown as a check/);
+  assert.match(r.reason, /, a draft\b/);
   assert.equal(cbm.costBasisLimitCheck(Object.assign({}, mesa, { tables: null })).draft, true, 'no tables: never called adopted');
   const empty = cbm.costBasisLimitCheck(Object.assign({}, mesa, { tables: { status: 'adopted' } }));
   assert.equal(empty.draft, true, 'adopted label but no tables: never called adopted');
