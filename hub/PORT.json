@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "666e209477989b3ede9548caed0384770c68f858",
+  "commit": "cffb70f1890960167702fa3614b883fccfdc8e7d",
   "dirty": false
  },
  "files": {
@@ -90,7 +90,7 @@
   "hub/map-base.js": "4a68d037306cefc9b843b60aee62b42fbf3d4db90c5853315e192fdafdcd3a35",
   "hub/map-kit.js": "e70fb1db58bf10e7d487c03c4cb1f31757c22762f86b37bc4c11e77d3629a945",
   "hub/map-zoom.js": "77cd032522104dbbf3e69bc8b6463b2c63953b114b9ed4c1dc0095f346d1e70f",
-  "hub/market.js": "cf2a8ab559b151fb30e4415f8457917f98788d98b750acd52f4f56c80447701f",
+  "hub/market.js": "8f57956ac0301a69c8140311f38d9716c18936db9655ac40d47469c7004b0254",
   "hub/middle-income.css": "d6ee8edc88955d68fc798e4ed247954c3d0900fd11bf62fba990ad09855ed22e",
   "hub/middle-income.js": "5301fa977060cca905ef65201fcdf54cc58f3f831580abcd49f5b3088835bb29",
   "hub/nav.js": "35391b1c8115ab49dba11ee7a584d0cbab660350f51991615823f1aed1bdd325",

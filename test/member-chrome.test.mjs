@@ -30,5 +30,15 @@ for (const f of pages) {
 const home = read('developer.html');
 for (const href of ['places-hub.html', 'opportunities-hub.html', 'deal-hub.html#/projects', 'places-hub.html#/places/compare', 'developer-finder.html']) ok(home.includes('href="' + href + '"'), 'the member home links ' + href);
 for (const old of ['housing-needs-assessment.html', 'lihtc-opportunity-finder.html']) ok(!home.includes('href="' + old + '"'), 'the member home no longer links ' + old);
-ok(/Member home<\/a>/.test(home) && !/>Member sign in</.test(home), 'the member footer says Member home, not Member sign in');
+// The footer's member link opens the member home (the page the member site serves at "/"), not the sign-in page the
+// public footer offers: this asserts where the link goes, not its wording (AGENTS.md, "pin the agreement, not the copy").
+const SIGN_IN = 'https://coho-backend.communityplanner.workers.dev/';
+const footerOf = (src) => (/<!-- member-chrome:footer [^>]*-->([\s\S]*?)<!-- \/member-chrome:footer -->/.exec(src) || [])[1] || '';
+ok(read('deal-hub.html').includes('href="' + SIGN_IN + '"'), 'non-vacuous: the public footer still offers the member sign-in that the member footer replaces');
+ok(fs.existsSync(path.join(ROOT, 'developer.html')) && /class="ib-hero"/.test(home), 'developer.html is the member home');
+for (const f of pages) {
+  const foot = footerOf(read(f));
+  ok(/<a class="footer-link" href="developer\.html">[^<]+<\/a>/.test(foot), f + ': the footer links the member home (developer.html)');
+  ok(!foot.includes(SIGN_IN), f + ': the footer does not send a signed-in member to the sign-in page');
+}
 console.log(`member-chrome: ${checks} checks passed`);

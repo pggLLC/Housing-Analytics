@@ -409,8 +409,13 @@
       global.CohoGeocode.find(text).then(function (hit) {
         if (!hit) { say('No match from the US Census Geocoder or OpenStreetMap. Check the street name and town.'); return; }
         if (!(hit.lat >= 36.9 && hit.lat <= 41.1 && hit.lon >= -109.1 && hit.lon <= -102)) { say('That address is outside Colorado.'); return; }
-        var q = mp();
-        setParams({ site: hit.lat.toFixed(5) + ',' + hit.lon.toFixed(5), sl: hit.label || text, ss: hit.source || null, r: q.get('r') && q.get('r') !== '0' ? q.get('r') : '5', added: null });
+        // The page's place follows the address, as it does for a site picked on the map, so "Use in project" never
+        // saves a site under another town's or county's name, and the whole-county area is the site's own county.
+        if (!global.LabPickSite) { say('The address could not be placed in a Colorado town or county on this page.'); return; }
+        global.LabPickSite.describe(hit.lat, hit.lon, 0, hit.source || 'address').then(function (d) {
+          var q = mp();
+          setParams({ g: d.placeGeoid || d.countyFips, site: hit.lat.toFixed(5) + ',' + hit.lon.toFixed(5), sl: hit.label || text, ss: hit.source || null, r: q.get('r') && q.get('r') !== '0' ? q.get('r') : '5', added: null });
+        }, function () { say('That address could not be placed in a Colorado town or county. Check the street name and town.'); });
       }, function () { say('The address lookup did not answer. Try again in a moment.'); });
       return;
     }
