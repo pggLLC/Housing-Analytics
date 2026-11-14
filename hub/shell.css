@@ -460,3 +460,9 @@ figcaption .geo-chip { align-self: flex-start; }
 .emp-lead { margin: .25rem 0; }
 .emp-none { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--muted); padding: .6rem .9rem; border-radius: 6px; }
 .emp-unconfirmed { border-left: 3px solid var(--muted); padding-left: .5rem; }
+/* Project page: where the project is, and the one next step in each scenario. */
+.project-place h2 { margin-top: 0; }
+.place-picks { list-style: none; margin: .75rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+details.project-place { margin: 1rem 0; }
+details.project-place > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; color: var(--green); }
+.next-step { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; margin: .75rem 0 1.5rem; }

@@ -202,7 +202,7 @@
         '<div class="callout">These tools stay on the member site, behind the same sign-in and gate as today. This site links to them and does not copy them or their data. <a href="#/request-access">Request a quote</a> for access.</div>' +
         list(LAB.members.concat(inHub('members')));
     },
-    project: function (p, parts) { return projectView(LabProjects.get(parts[1]), p.get('delete') === 'ask'); },
+    project: function (p, parts) { return projectView(LabProjects.get(parts[1]), p.get('delete') === 'ask', p.get('place') || ''); },
     use: function (p) { return useView(p); },
     tools: function (p) {
       var q = p.get('q') || '';
@@ -233,7 +233,7 @@
       '<fieldset><legend>What kind of project?</legend>' +
       '<label><input type="radio" name="kind" value="development" checked> A development site: one site, its homes and its numbers</label>' +
       '<label><input type="radio" name="kind" value="strategy"> A place strategy: a town or county plan that can list several sites</label></fieldset>' +
-      '<p class="note">' + (place ? 'Place: ' + esc(place) : 'You can add a place later.') + '</p>' +
+      '<p class="note">' + (place ? 'Place: ' + esc(place) : 'You pick its town or county on the next page.') + '</p>' +
       '<button type="submit">Start project</button></form>';
   }
 
@@ -241,7 +241,73 @@
   var NOT_STORED = '<div class="callout" role="alert"><p><strong>Not saved.</strong> This browser is not storing data for this site (private browsing, blocked site data or full storage), ' +
     'so projects last only until this tab is closed or reloaded. To keep one, open its Financials and use \u201cDownload deal file\u201d, or allow site data and start again.</p></div>';
 
-  function projectView(p, askDelete) {
+  // Every Colorado place a project can be in: the town and CDP profiles, and the 64 counties once the place data
+  // has loaded (that load redraws the page).
+  function placeOptions() {
+    var Pl = global.LabPlaces, counties = [];
+    if (Pl) { Pl.data(); counties = Pl.countyEntries(); }
+    return counties.concat(catalog.entries.filter(function (e) { return e.role === 'generated-place' && e.geoid; }));
+  }
+  function placeHits(q, opts) {
+    var words = String(q).toLowerCase().split(/\s+/).filter(Boolean);
+    return opts.filter(function (e) { var hay = (e.label + ' ' + e.geoid).toLowerCase(); return words.every(function (w) { return hay.indexOf(w) > -1; }); });
+  }
+  // A place with its county ("Glendale, Arapahoe County"), so two places that share a name can be told apart
+  // before one is saved. Until the place data has loaded, a name that two places share carries its GEOID.
+  function placeLabel(e, list) {
+    var Pl = global.LabPlaces, sh = Pl && Pl.data(), d = sh && sh.data;
+    if (String(e.geoid).length === 5) return e.label;
+    var rec = d && d.gapPlace && d.gapPlace.places[e.geoid], fips = rec && rec.containing_county_fips;
+    var c = fips && Pl.countyEntries().filter(function (x) { return x.geoid === fips; })[0];
+    if (c) return e.label + ', ' + c.label;
+    var twin = (list || []).some(function (x) { return x !== e && x.label === e.label; });
+    return twin ? e.label + ' (' + e.geoid + ')' : e.label;
+  }
+  // A place named exactly as the project is ("grand junction", "Fruita project"). It is offered, never set unasked.
+  function namedPlace(name, opts) {
+    var n = String(name || '').toLowerCase().replace(/\s+project(\s+\d+)?$/, '').replace(/\s+/g, ' ').trim();
+    var hits = opts.filter(function (e) { return e.label.toLowerCase() === n; });
+    return hits.length === 1 ? hits[0] : null;
+  }
+
+  // Where the project is. With no place the project page asks for one first: the Recommendation and the place's
+  // need figures read the project's place, and nothing else on these pages sets it.
+  function placeSection(p, q) {
+    var opts = placeOptions(), hits = q ? placeHits(q, opts).slice(0, 8) : [];
+    var guess = !p.jurisdiction ? namedPlace(p.name, opts) : null;
+    var pick = function (e, words, cls) { return '<button type="submit" name="geoid" value="' + esc(e.geoid) + '"' + (cls ? ' class="' + cls + '"' : '') + '>' + esc(words) + '</button>'; };
+    var body = '<form class="search" role="search" data-place-search="' + esc(p.projectId) + '"><label for="project-place-q">Find a town, city or county</label>' +
+      '<input id="project-place-q" name="q" type="search" autocomplete="off" value="' + esc(q) + '" placeholder="For example Grand Junction or Mesa County"></form>' +
+      (q ? (hits.length ? '<form data-action="set-place" data-project="' + esc(p.projectId) + '"><ul class="place-picks">' +
+        hits.map(function (e) { return '<li>' + pick(e, placeLabel(e, opts), 'quiet') + '</li>'; }).join('') + '</ul></form>'
+        : '<p class="note">No Colorado place matches that name.</p>') : '');
+    if (!p.jurisdiction) {
+      return '<section class="callout project-place" aria-labelledby="project-place-h"><h2 id="project-place-h">Where is this project?</h2>' +
+        '<p>Pick its town or county first. The Recommendation reads the project\u2019s place, and so do the place\u2019s need figures.</p>' +
+        (guess && !q ? '<form data-action="set-place" data-project="' + esc(p.projectId) + '"><p>Is it in ' + esc(placeLabel(guess, opts)) + '?</p>' + pick(guess, 'Use ' + guess.label) + '</form><p class="note">Or find another place:</p>' : '') +
+        body + '</section>';
+    }
+    return '<details class="project-place"' + (q ? ' open' : '') + '><summary>Change the place</summary>' +
+      '<p class="note">The place, market area, homes and rents and Financials run saved for ' + esc(p.jurisdiction.name) + ' are then marked out of date. Nothing is deleted.</p>' + body + '</details>';
+  }
+
+  // The one thing to do next in a scenario, so the project page always has a way forward.
+  function nextStep(p, s) {
+    var at = esc(p.projectId) + '/' + esc(s.scenarioId);
+    var st = function (kind) { return LabProjects.stateOf(p.projectId, s.scenarioId, kind); };
+    // A unit-grid scenario carries its homes and rents in Financials, so it needs no saved schedule.
+    var grid = p.overrides && p.overrides[s.scenarioId] && p.overrides[s.scenarioId].manualMix;
+    var go = function (href, words, why) { return '<p class="next-step"><strong>Next:</strong> ' + (why ? esc(why) + ' ' : '') + '<a class="button-link" href="' + href + '">' + esc(words) + '</a></p>'; };
+    if (!p.jurisdiction) return '<p class="next-step"><strong>Next:</strong> pick the project\u2019s town or county, above.</p>';
+    if (!grid && st('rent-schedule') === 'not attached') return go('#/homes/' + at, 'Set homes and rents');
+    if (!grid && st('rent-schedule') === 'stale') return go('#/homes/' + at, 'Save homes and rents again', 'The homes and rents are out of date.');
+    if (st('financials') === 'not attached') return go('#/financials/' + at, 'Run Financials');
+    if (st('financials') === 'stale') return go('#/financials/' + at, 'Run Financials again', 'The saved run is out of date.');
+    return go('#/recommendation?g=' + esc(encodeURIComponent(p.jurisdiction.geoid)) + '&amp;p=' + esc(encodeURIComponent(p.projectId)) + '&amp;s=' + esc(encodeURIComponent(s.scenarioId)),
+      'See the Recommendation for ' + p.jurisdiction.name);
+  }
+
+  function projectView(p, askDelete, placeQ) {
     if (!p) return '<a class="back-link" href="#/projects">\u2190 Projects</a><h1>Project not found</h1><p class="lede">It is not saved in this browser.</p>';
     var rows = p.scenarios.map(function (s) {
       return '<h3>' + esc(s.name) + '</h3><ul class="route-list">' + EVIDENCE.map(function (ev) {
@@ -253,12 +319,13 @@
         if (ev.kind === 'rent-schedule') back += ' <a href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">' + (att ? 'Open the schedule' : 'Set homes and rents') + '</a>';
         return '<li><span class="unlinked">' + esc(ev.title) + '</span><span class="status state-' + esc(st.replace(' ', '-')) + '">' + esc(STATE[st]) + '</span>' +
           '<p class="note">' + detail + back + '</p></li>';
-      }).join('') + '</ul>';
+      }).join('') + '</ul>' + nextStep(p, s);
     }).join('');
     return '<a class="back-link" href="#/projects">\u2190 Projects</a><h1>' + esc(p.name) + '</h1>' +
       '<p class="lede">' + esc(KIND[p.kind]) + ' \u00b7 ' + esc(p.jurisdiction ? p.jurisdiction.name : 'No place set') + '</p>' +
-      (LabProjects.isTemporary(p.projectId) ? NOT_STORED : '') +
+      (LabProjects.isTemporary(p.projectId) ? NOT_STORED : '') + (p.jurisdiction ? '' : placeSection(p, placeQ)) +
       '<p class="note">' + (LabProjects.isTemporary(p.projectId) ? 'Last changed ' : 'Saved in this browser ') + esc(when(p.savedAt)) + '. \u201cAdded\u201d means the evidence is stored with the project; \u201cReviewed\u201d means someone checked it.</p>' +
+      (p.jurisdiction ? placeSection(p, placeQ) : '') +
       rows + '<h2>Brief</h2><p>Not built yet. It will list assumptions, open questions and sources, and will not give a verdict the evidence does not support.</p>' +
       // The confirmation is part of the page: a browser dialog is not shown in every place the lab runs.
       (askDelete
@@ -290,7 +357,8 @@
       (mine.length ? '<form class="stack" data-action="attach"><fieldset><legend>Choose a project</legend>' + mine.map(function (p) {
         var full = LabProjects.get(p.projectId);
         var conflict = p.jurisdiction && p.jurisdiction.geoid !== params.get('geoid')
-          ? ' <span class="note">This project is in ' + esc(p.jurisdiction.name) + '; its place will not change.</span>' : '';
+          ? ' <span class="note">This project is in ' + esc(p.jurisdiction.name) + '; its place will not change.</span>'
+          : !p.jurisdiction ? ' <span class="note">It has no place yet, so its place becomes ' + esc(label) + '.</span>' : '';
         return full.scenarios.map(function (s) {
           // Two projects can share a name, so each choice also shows its place and when it was saved.
           return '<label><input type="radio" name="target" required value="' + esc(p.projectId + '|' + s.scenarioId) + '"> ' + esc(p.name) + ' (' + esc(s.name) + ')' +
@@ -413,6 +481,12 @@
   // Search terms live in the hash, so Back restores the list a visitor was looking at.
   main.addEventListener('input', function (ev) {
     var form = ev.target.form;
+    // The project page's place search rides in its own address, so the list survives a redraw and Back.
+    if (form && form.dataset.placeSearch) {
+      history.replaceState(null, '', '#/project/' + form.dataset.placeSearch + (ev.target.value ? '?place=' + encodeURIComponent(ev.target.value) : ''));
+      render();
+      return;
+    }
     if (!form || !form.dataset.search) return;
     var target = form.dataset.search === 'tools-q' ? 'tools' : form.dataset.search === 'search-q' ? 'search' : 'places';
     var next = '#/' + target + (ev.target.value ? '?q=' + encodeURIComponent(ev.target.value) : '');
@@ -444,6 +518,8 @@
     var fd = new FormData(form);
     function attachTo(projectId, scenarioId) {
       var project = LabProjects.get(projectId);
+      // A project with no place takes the place added to it; one that has a place keeps it.
+      if (!project.jurisdiction && p.get('geoid')) project = LabProjects.setJurisdiction(projectId, { geoid: p.get('geoid'), name: p.get('label') });
       LabProjects.attach(projectId, scenarioId, {
         kind: 'place-reference', label: p.get('label'),
         snapshot: { geoid: p.get('geoid'), name: p.get('label'), href: p.get('href') },
@@ -460,6 +536,18 @@
       var created = LabProjects.create({ name: fd.get('name'), kind: fd.get('kind'), jurisdiction: place });
       if (fd.get('attachAfter')) attachTo(created.projectId, created.scenarios[0].scenarioId);
       else location.hash = '#/project/' + created.projectId;
+    } else if (form.dataset.action === 'set-place') {
+      // Set from the project page: the project's place, and the place itself added to each scenario, as "Use in
+      // project" adds it from a place page.
+      var pid = form.dataset.project, geoid = ev.submitter && ev.submitter.value;
+      var hit = placeOptions().filter(function (e) { return e.geoid === geoid; })[0];
+      if (!hit || !LabProjects.get(pid)) return;
+      LabProjects.setJurisdiction(pid, { geoid: hit.geoid, name: hit.label });
+      LabProjects.get(pid).scenarios.forEach(function (sc) {
+        LabProjects.attach(pid, sc.scenarioId, { kind: 'place-reference', label: hit.label, snapshot: { geoid: hit.geoid, name: hit.label, href: hit.path }, origin: { route: '#/place/' + hit.geoid } });
+      });
+      history.replaceState(null, '', '#/project/' + pid);
+      render();
     } else if (form.dataset.action === 'attach') {
       var target = String(fd.get('target')).split('|');
       attachTo(target[0], target[1]);
