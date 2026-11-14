@@ -469,8 +469,14 @@
       seen[k] = a; out.push(a);
     };
     var town = siteTown(b);
-    if (town) add('town', 'Town’s own tracts', 'Tracts holding at least 10% of ' + town.name + '’s homes (2020 Census).',
-      (town.rec.tracts || []).filter(function (r) { return town.rec.housing_units > 0 && r.housing_units / town.rec.housing_units >= TEST.townShare; }).map(function (r) { return r.tract_geoid; }), 'town-tracts');
+    // The town's own tracts always hold the site's tract, even where it has under 10% of the town's homes, so no area
+    // recommended for this site leaves the site out.
+    if (town) {
+      var own = (town.rec.tracts || []).filter(function (r) { return town.rec.housing_units > 0 && r.housing_units / town.rec.housing_units >= TEST.townShare; }).map(function (r) { return r.tract_geoid; });
+      var addSite = !!sug.siteGeoid && own.indexOf(sug.siteGeoid) < 0;
+      add('town', 'Town’s own tracts', 'Tracts holding at least 10% of ' + town.name + '’s homes (2020 Census)' + (addSite ? ', plus the site’s own tract' : '') + '.',
+        addSite ? own.concat([sug.siteGeoid]) : own, 'town-tracts');
+    }
     var inSug = sug.tracts.filter(function (t) { return t.suggested; }).map(function (t) { return t.geoid; });
     add('suggested', 'Suggested tracts', 'COHO’s suggestion: each tract’s reason is in the table below.', inSug, 'suggested-tracts');
     add('ring', 'Suggested plus the next ring', 'Adds every tract whose centre is within ' + (core * 2) + ' miles of the site.',
@@ -481,7 +487,7 @@
     if (cf) add('county', 'Whole county', 'Every tract in ' + cName + '.', Object.keys(b.ctx.s.x.demand.tracts || {}).filter(function (g) { return g.slice(0, 5) === cf; }), 'county');
     if (b.picked) add('map', 'Your area on the map', 'The tracts as you set them on the map above.', chosen(b), 'suggested-tracts-edited');
     out.forEach(function (a) { a.eval = evaluate(b, a, town); });
-    recommend(out);
+    recommend(out, sug.siteGeoid);
     b.areas = out; b.areasKey = key;
     return out;
   }
@@ -545,10 +551,11 @@
     }
     return { byTier: byTier, pool: pool, existing: existing, projects: sup.lihtcCount || 0, pen: pen, supplyNotes: notes, tests: tests, passes: tests.filter(function (t) { return t.pass; }).length };
   }
-  // The smallest area that passes all four; if none does, the one that passes most, then the smallest.
-  function recommend(list) {
+  // The smallest area that passes all four; if none does, the one that passes most, then the smallest. Only an area
+  // that holds the site's own tract can be recommended.
+  function recommend(list, siteGeoid) {
     list.forEach(function (x) { x.recommended = false; });
-    var pool = list.filter(function (x) { return x.id !== 'map'; });
+    var pool = list.filter(function (x) { return x.id !== 'map' && (!siteGeoid || x.list.indexOf(siteGeoid) > -1); });
     var best = pool.slice().sort(function (x, y) { return (y.eval.passes === 4) - (x.eval.passes === 4) || y.eval.passes - x.eval.passes || x.list.length - y.list.length; })[0];
     if (!best) return null;
     best.recommended = true;
