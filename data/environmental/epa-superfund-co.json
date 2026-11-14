@@ -2,8 +2,8 @@
   "meta": {
     "source": "EPA Envirofacts SEMS and FRS/ACRES",
     "state": "Colorado",
-    "retrieved_at": "2026-11-08T15:04:16Z",
-    "generated": "2026-11-08T15:04:16Z",
+    "retrieved_at": "2026-11-14T12:28:29Z",
+    "generated": "2026-11-14T12:28:29Z",
     "coverage_status": "full_statewide",
     "coverage_reason": "Statewide Colorado queries of EPA SEMS NPL sites and FRS-linked ACRES brownfield program records.",
     "query_urls": {
@@ -11,9 +11,9 @@
       "brownfields": "https://data.epa.gov/dmapservice/lookups.mv_new_geo_best_picks/state_code/equals/CO/join/frs.frs_program_facility/registry_id/equals/registry_id/and/pgm_sys_acrnm/equals/ACRES/1:10000/json"
     },
     "superfund_source_records": 24,
-    "brownfield_source_records": 1121,
+    "brownfield_source_records": 1128,
     "superfund_records": 24,
-    "brownfield_records": 1121,
+    "brownfield_records": 1128,
     "superfund_omitted_missing_coordinates": 0,
     "brownfield_omitted_missing_coordinates": 0,
     "note": "NPL query includes final, deleted, and proposed sites; ACRES records use EPA FRS representative coordinates."
@@ -387,6 +387,17 @@
       "riskLevel": "moderate"
     },
     {
+      "id": "270266",
+      "registry_id": "110072339980",
+      "name": "1007 2ND AVE",
+      "county_fips": null,
+      "county": "Rio Grande",
+      "lat": 37.5792,
+      "lon": -106.14503,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate"
+    },
+    {
       "id": "242677",
       "registry_id": "110071977306",
       "name": "101 121 PINE STREET",
@@ -680,6 +691,17 @@
       "county": "Larimer",
       "lat": 40.588622,
       "lon": -105.097358,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate"
+    },
+    {
+      "id": "272488",
+      "registry_id": "110072340078",
+      "name": "1250 GRAND AVENUE",
+      "county_fips": "08113",
+      "county": "San Miguel",
+      "lat": 38.13076,
+      "lon": -108.29497,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
     },
@@ -4550,8 +4572,8 @@
       "name": "DENVER URBAN GARDENS APDC AND CITY OF AURORA",
       "county_fips": "08001",
       "county": "Arapahoe",
-      "lat": 39.740937,
-      "lon": -104.882616,
+      "lat": 39.74121,
+      "lon": -104.88228,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
     },
@@ -4561,8 +4583,8 @@
       "name": "DENVER URBAN GARDENS ASIAN PACIFIC DEVELP CENTER",
       "county_fips": "08001",
       "county": "Arapahoe",
-      "lat": 39.740937,
-      "lon": -104.882616,
+      "lat": 39.74121,
+      "lon": -104.88228,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
     },
@@ -5685,6 +5707,17 @@
       "county": "Boulder",
       "lat": 39.98015,
       "lon": -105.12788,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate"
+    },
+    {
+      "id": "272487",
+      "registry_id": "110072340077",
+      "name": "FORMER BSA BOY SCOUTS OF AMERICA BUILDING",
+      "county_fips": "08113",
+      "county": "San Miguel",
+      "lat": 38.13175,
+      "lon": -108.2966,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
     },
@@ -8450,6 +8483,17 @@
       "riskLevel": "moderate"
     },
     {
+      "id": "270267",
+      "registry_id": "110072339981",
+      "name": "MONTE VISTA MUNICIPAL AIRPORT",
+      "county_fips": null,
+      "county": "Rio Grande",
+      "lat": 37.613167,
+      "lon": -106.231061,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate"
+    },
+    {
       "id": "136972",
       "registry_id": "110044760700",
       "name": "MONTEZ PARK",
@@ -10118,6 +10162,39 @@
       "county": "Montezuma",
       "lat": 37.2053,
       "lon": -108.72824,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate"
+    },
+    {
+      "id": "272772",
+      "registry_id": "110072340137",
+      "name": "SAGUACHE 125 3RD STREET",
+      "county_fips": null,
+      "county": "Saguache",
+      "lat": 38.089148,
+      "lon": -106.135502,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate"
+    },
+    {
+      "id": "272771",
+      "registry_id": "110072340136",
+      "name": "SAGUACHE ABSTRACT BUILDING",
+      "county_fips": null,
+      "county": "Saguache",
+      "lat": 38.087568,
+      "lon": -106.136861,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate"
+    },
+    {
+      "id": "272768",
+      "registry_id": "110072340134",
+      "name": "SAGUACHE COMMUNITY BUILDING",
+      "county_fips": null,
+      "county": "Saguache",
+      "lat": 37.74928,
+      "lon": -106.104074,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
     },
