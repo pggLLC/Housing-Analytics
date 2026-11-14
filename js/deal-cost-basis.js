@@ -753,6 +753,8 @@
     } else {
       out.gapMethod.applied = true; out.gapMethod.credit = gm.credit; out.gapMethod.gap = gm.gap; out.gapMethod.citation = methods.citation;
       if (gm.credit < out.capacity - 0.5) {
+        // Kept so the page can show the surplus the trim removes (sources above the need).
+        out.gapMethod.capacityBefore = out.capacity;
         out.capacity = gm.credit;
         out.gapMethod.binding = true;
         out.cap.binding = false;

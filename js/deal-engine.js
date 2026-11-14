@@ -600,6 +600,13 @@
     return { year: weakest.year, ratio: weakest[key] };
   }
 
+  function managementSplit(fields, rents, otherIncome, vacancy, opex) {
+    var pct = parseFloat(fields['dc-pf-mgmt-pct']);
+    if (!Number.isFinite(pct) || pct <= 0 || pct > 15 || ![rents, otherIncome, vacancy, opex].every(known)) return { pct: 0, yearOne: 0 };
+    var yearOne = (rents + otherIncome) * (1 - vacancy) * pct / 100;
+    // A fee above the whole operating budget is left in it; the lender schedules report that case.
+    return yearOne > opex + 0.5 ? { pct: 0, yearOne: 0 } : { pct: pct / 100, yearOne: yearOne };
+  }
   function operatingProjection(result, fields) {
     var otherIncomeBase = result.annualOtherIncome === undefined ? 0 : result.annualOtherIncome;
     if (!result.dscrAutoMode || ![result.annualRents, otherIncomeBase, result.noi, result.annualOpex,
@@ -621,7 +628,8 @@
       var em = Math.pow(1 + result.exit.expGrowth, y - 1);
       var rents = result.annualRents * rm, otherIncome = otherIncomeBase * rm;
       var vacancyLoss = (rents + otherIncome) * result.vacancyRate;
-      var egi = rents + otherIncome - vacancyLoss, opex = result.annualOpex * em;
+      var split = managementSplit(fields, result.annualRents, otherIncomeBase, result.vacancyRate, result.annualOpex);
+      var egi = rents + otherIncome - vacancyLoss, opex = (result.annualOpex - split.yearOne) * em + egi * split.pct;
       var reserve = result.annualRepReserve * em, tax = result.netPropTax * em;
       var noi = y === 1 ? result.noi : egi - opex - reserve - tax;
       var obligation = result.obligations.years[y - 1];
@@ -999,8 +1007,19 @@
         }
         value = contract.contractRent;
       }
-      return value;
+      return marketRegime ? value : restrictedCap(tier, br, value);
     }
+    // Market cap on restricted rents (dc-rent-cap-<br>, net of utilities, blank = none): a market study can
+    // find that a tier's limit is above what the market pays; the deal then underwrites at the lower rent.
+    var rentCapBindings = [];
+    function restrictedCap(tier, br, rent) {
+      var cap = parseFloat(fields['dc-rent-cap-' + br]);
+      if (!Number.isFinite(cap) || cap <= 0 || !(rent > cap)) return rent;
+      rentCapBindings.push({ tier: tier, br: br, limit: rent, cap: cap });
+      return cap;
+    }
+    var BEDROOM_KEY = {};
+    Object.keys(RENT_BEDROOMS).forEach(function (k) { BEDROOM_KEY[RENT_BEDROOMS[k]] = k; });
     var pricedRows = [];
     var gridBedrooms = { studio: 0, '1br': 0, '2br': 0, '3br': 0, '4br': 0 };
     var manualMarket = { rows: [], unavailableReason: null, message: null, source: null };
@@ -1021,6 +1040,7 @@
     }
     if (scheduleMode) {
       _resolvedDealMix.restrictedRows.forEach(function (r) {
+        r = Object.assign({}, r, { contractRent: restrictedCap(r.tier, BEDROOM_KEY[r.bedrooms], r.contractRent) });
         annualRents += r.contractRent * r.units * 12;
         amiUnitSum += r.units;
         if (isLihtcCreditEligiblePct(r.tier, minimumSetAsideElection)) {
@@ -1278,11 +1298,15 @@
     seniorInput.amount = mortgage;
     var rentGrowthForLoans = growthRate(fields, 'pf-rent-growth', 2);
     var expenseGrowthForLoans = growthRate(fields, 'pf-exp-growth', 3);
+    // A management fee entered as a share of collected income (dc-pf-mgmt-pct) follows income, not
+    // expense growth, as in the lender schedules (deal-lender-schedules.js lineBudget) and the
+    // dossier deal workbooks: year one's fee comes out of the operating budget and grows with income.
+    var mgmtSplit = managementSplit(fields, annualRents, otherIncomeForMath, vacFrac(), annualOpex);
     var loanNoi = Array.from({ length: 50 }, function (_, index) {
       if (index === 0) return noi;
-      return autoNoi && [annualRents, annualOpex, annualRepReserve, netPropTax, rentGrowthForLoans, expenseGrowthForLoans].every(known)
-        ? (annualRents + otherIncomeForMath) * Math.pow(1 + rentGrowthForLoans, index) * (1 - vacFrac())
-          - (annualOpex + annualRepReserve + netPropTax) * Math.pow(1 + expenseGrowthForLoans, index) : null;
+      if (!(autoNoi && [annualRents, annualOpex, annualRepReserve, netPropTax, rentGrowthForLoans, expenseGrowthForLoans].every(known))) return null;
+      var egiNow = (annualRents + otherIncomeForMath) * Math.pow(1 + rentGrowthForLoans, index) * (1 - vacFrac());
+      return egiNow * (1 - mgmtSplit.pct) - (annualOpex - mgmtSplit.yearOne + annualRepReserve + netPropTax) * Math.pow(1 + expenseGrowthForLoans, index);
     });
     // DOH PR 4: payments from cash flow that are not loans in the stack. Both
     // default to $0; a blank or out-of-range entry is unknown, not $0.
@@ -1413,6 +1437,17 @@
         rows: pricedRows, units: units, applicableFraction: basis.applicableFraction, creditRate: _creditRate,
         hudBoost: !!(basis.boost && basis.boost.applied && ['qct', 'dda', 'sadda'].indexOf(fields['dc-boost-designation']) !== -1),
         capacity: basis.capacity }));
+    }
+    // Plan to the cost basis limit (dc-plan-cost-limit, on unless unticked): CHFA reserves the least of the
+    // three methods (QAP 3.M.1), so when Method Three is lower it sets the credit, as the dossier deal
+    // workbooks do. An entered award still wins; a request is held to the lower figure.
+    basis.costLimitPlan = { on: fields['dc-plan-cost-limit'] !== false, applied: false, before: null };
+    if (basis.costLimitPlan.on && basis.costLimitMethod && basis.costLimitMethod.checked && known(basis.costLimitMethod.credit)
+        && basis.creditForEquity !== null && basis.creditForEquityBasis !== 'awarded' && basis.costLimitMethod.credit < basis.creditForEquity - 0.5) {
+      basis.costLimitPlan.applied = true;
+      basis.costLimitPlan.before = basis.creditForEquity;
+      basis.creditForEquity = basis.costLimitMethod.credit;
+      basis.creditForEquityBasis = 'cost basis limit';
     }
     // An entered award is known even while the unit mix is invalid.
     if (chfaRegime && (!unitMixError || basis.creditForEquityBasis === 'awarded')) {
@@ -1674,7 +1709,7 @@
       pricedRows: pricedRows,
       gridBedrooms: gridBedrooms,
       manualMarket: manualMarket,
-      capBindings: capBindings,
+      capBindings: capBindings, rentCapBindings: rentCapBindings,
       minimumSetAsideResult: minimumSetAsideResult,
       lihtcUnits: lihtcUnits,
       applicableFraction: applicableFraction,
