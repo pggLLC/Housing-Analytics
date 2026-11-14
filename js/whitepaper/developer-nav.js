@@ -49,7 +49,8 @@
   // Pages with a file in this repo, and pages only the member site serves.
   var PAGES = ALL.filter(function (p) { return !p.private; });
   var PRIVATE = ALL.filter(function (p) { return p.private; });
-  var BACK = { href: 'lihtc-opportunity-finder.html', label: '← Opportunity Finder' };
+  // Back to the public site's Opportunities hub (was the old Opportunity Finder page until the member switch, 14 Nov 2026).
+  var BACK = { href: 'opportunities-hub.html', label: '← Opportunities' };
   // /logout (coho-backend) clears the password cookie and ends the Cloudflare
   // sign-in, so the next visit asks for a code again.
 

@@ -7,8 +7,14 @@
   'use strict';
 
   var doc = global.document;
-  var MAPS = '.pres-map .pm-frame > svg, .need-map .pm-frame > svg, .dd-map .pm-frame > svg, .wb-map .pm-frame > svg';
-  var MAX = 8;
+  var MAPS = '.pres-map .pm-frame > svg:not(.mk-inset-svg), .need-map .pm-frame > svg:not(.mk-inset-svg), .dd-map .pm-frame > svg:not(.mk-inset-svg), .wb-map .pm-frame > svg:not(.mk-inset-svg)';
+  // Zoom reaches street scale (about 40x the statewide view), now that a street map lies under every map
+  // (site/map-base.js). A map may still set its own limit with data-zoom-max.
+  var MAX = 40;
+  // Dots keep about their size on screen as the map zooms: radius / scale^0.8, so a dot grows by scale^0.2
+  // (1.5x at 8x, 2.1x at 40x) instead of with the map. A circle whose radius is a real distance (a 2-mile ring)
+  // sits inside [data-geo-size] and scales with the map. The data map sizes its own marks (data-map.js).
+  var DOT_GROW = 0.8;
   // A finger is wide: a tap this close to a small circle counts as a tap on it (screen pixels).
   var REACH = { mouse: 10, pen: 12, touch: 22 };
 
@@ -44,6 +50,17 @@
       p.removeChild(t);
     });
     var dots = Array.prototype.slice.call(svg.querySelectorAll('circle[data-tip]'));
+    var sized = svg.getAttribute('data-map') === 'data' ? [] : Array.prototype.slice.call(svg.querySelectorAll('circle')).filter(function (c) {
+      return !c.closest('.mk-cities, [data-geo-size]') && isFinite(parseFloat(c.getAttribute('r')));
+    }).map(function (c) { return [c, parseFloat(c.getAttribute('r'))]; });
+    // Shaped marks (squares, triangles from the map kit) shrink with the circles about their own centres, so
+    // marks sized by a value stay comparable across shapes at every zoom.
+    var shaped = svg.getAttribute('data-map') === 'data' ? [] : Array.prototype.slice.call(svg.querySelectorAll('path.mk-g')).filter(function (g) {
+      return !g.closest('.mk-cities, [data-geo-size]') && typeof g.getBBox === 'function';
+    }).map(function (g) {
+      var b; try { b = g.getBBox(); } catch (_) { return null; }
+      return b && (b.width || b.height) ? [g, b.x + b.width / 2, b.y + b.height / 2] : null;
+    }).filter(Boolean);
 
     svg.classList.add('pm-zoomable');
     var tip = doc.createElement('div');
@@ -59,6 +76,8 @@
     // Before the map, so the legend that follows the frame sits directly under the map (on a phone the
     // buttons sit above it; on a wider screen they float in its top-right corner).
     frame.insertBefore(controls, svg);
+    // The street map or satellite image under the map, its credit and a scale bar (site/map-base.js).
+    if (global.LabMapBase) global.LabMapBase.attach(svg, B);
 
     // ---- tooltip ----
     var current = null;
@@ -104,7 +123,12 @@
       vb.x = Math.min(B.x + B.w - vb.w, Math.max(B.x, vb.x));
       vb.y = Math.min(B.y + B.h - vb.h, Math.max(B.y, vb.y));
       svg.setAttribute('viewBox', [vb.x, vb.y, vb.w, vb.h].map(function (n) { return +n.toFixed(2); }).join(' '));
-      var s = scale();
+      var s = scale(), k = Math.pow(s, -DOT_GROW);
+      sized.forEach(function (d) { d[0].setAttribute('r', +(d[1] * k).toFixed(2)); });
+      shaped.forEach(function (d) {
+        if (k > 0.999) { d[0].removeAttribute('transform'); return; }
+        d[0].setAttribute('transform', 'translate(' + d[1].toFixed(2) + ' ' + d[2].toFixed(2) + ') scale(' + k.toFixed(4) + ') translate(' + (-d[1]).toFixed(2) + ' ' + (-d[2]).toFixed(2) + ')');
+      });
       svg.classList.toggle('is-zoomed', s > 1.01);
       svg.classList.toggle('is-zoomed-2', s >= 2);
       controls.querySelector('[data-z="out"]').disabled = s <= 1.01;
@@ -223,7 +247,11 @@
     apply();
   }
 
-  function scan(root) { Array.prototype.forEach.call((root || doc).querySelectorAll(MAPS), enhance); }
+  function scan(root) {
+    Array.prototype.forEach.call((root || doc).querySelectorAll(MAPS), enhance);
+    // The Denver metro close-up does not zoom, but gets the street map too (site/map-kit.js inset()).
+    if (global.LabMapBase) Array.prototype.forEach.call((root || doc).querySelectorAll('.mk-inset-frame > svg'), function (s) { global.LabMapBase.attach(s, null, { fixed: true }); });
+  }
   if (typeof MutationObserver !== 'undefined' && doc.body) {
     new MutationObserver(function () { scan(); }).observe(doc.body, { childList: true, subtree: true });
     scan();

@@ -96,8 +96,8 @@
     var map = L.map(el, { scrollWheelZoom: false, zoomSnap: 0.25 });
     map.fitBounds(CO_BOUNDS, { padding: [8, 8] });
     var dark = doc.documentElement.getAttribute('data-theme') === 'dark';
-    var base = global.COHOBasemaps ? (dark ? global.COHOBasemaps.dark() : global.COHOBasemaps.light()) : null;
-    if (base) base.addTo(map);
+    // OpenStreetMap streets by default, a Satellite choice and a scale bar (paul's map rule, 11 Nov 2026).
+    if (global.COHOBasemaps) global.COHOBasemaps.standard(map, { dark: dark });
     if (typeof L.geoJSON === 'function') {
       getJSON(COUNTIES).then(function (gj) {
         L.geoJSON(gj, { interactive: false, style: { color: dark ? '#8b98a8' : '#6b7787', weight: 1, opacity: 0.7, fill: false } }).addTo(map);
@@ -174,7 +174,11 @@
   function employers(data) {
     var areas = (data && data.areas) || [];
     var sel = $('[data-cj-area]');
-    sel.innerHTML = areas.map(function (a, i) { return '<option value="' + i + '">' + esc(a.area) + ' (' + esc(a.as_of) + ')</option>'; }).join('');
+    // A to Z by area name, so typing a letter finds it; the value stays the file's order, and the first area still shows first.
+    sel.innerHTML = areas.map(function (a, i) { return { i: i, t: a.area + ' (' + a.as_of + ')' }; })
+      .sort(function (a, b) { return a.t.localeCompare(b.t, 'en', { sensitivity: 'base' }); })
+      .map(function (o) { return '<option value="' + o.i + '">' + esc(o.t) + '</option>'; }).join('');
+    sel.value = '0';
     function show(i) {
       var a = areas[i];
       if (!a) return;

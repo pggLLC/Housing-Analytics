@@ -542,12 +542,12 @@
   }
 
   function placePicker(snap, g) {
-    var opt = function (r) { return '<option value="' + esc(r.geoid) + '"' + (r.geoid === g ? ' selected' : '') + '>' + esc(cleanName(r.name)) + '</option>'; };
-    var byName = function (a, b) { return cleanName(a.name) < cleanName(b.name) ? -1 : 1; };
+    // Counties, towns, cities and CDPs in one A to Z list, each labelled with its type (LabPlaceList).
+    var items = snap.counties.map(function (r) { return { value: r.geoid, name: r.name, kind: 'county' }; })
+      .concat(snap.places.map(function (r) { return { value: r.geoid, name: r.name, kind: '' }; }));
     return '<form class="search sc-pick" onsubmit="return false"><label for="mf-g">State, county or town</label><select id="mf-g" data-place-pick="mf-g">' +
       '<option value="08"' + (g === '08' ? ' selected' : '') + '>Colorado (the whole state)</option>' +
-      '<optgroup label="Counties (64)">' + snap.counties.slice().sort(byName).map(opt).join('') + '</optgroup>' +
-      '<optgroup label="Towns, cities and CDPs (' + snap.places.length + ')">' + snap.places.slice().sort(byName).map(opt).join('') + '</optgroup></select></form>';
+      global.LabPlaceList.options(items, g) + '</select></form>';
   }
 
   function multifamily(params) {

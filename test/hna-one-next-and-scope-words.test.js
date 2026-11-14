@@ -47,9 +47,9 @@ test('only the last part leads to Market Analysis, and it carries the place', ()
     const src = read(v.slug);
     const i = src.indexOf('id="hnaChapterHandoff"');
     const block = src.slice(i, src.indexOf('</section>', i));
-    const market = /href="market-analysis\.html"/.test(block);
+    const market = /href="deal-market-analysis\.html"/.test(block);
     assert.strictEqual(market, !v.handoff.next, v.slug + ': Market link in the handoff does not match whether this is the last part');
-    if (market) assert.ok(/href="market-analysis\.html" data-carry-place/.test(block), v.slug + ': the Market link does not carry the place');
+    if (market) assert.ok(/href="deal-market-analysis\.html" data-carry-place/.test(block), v.slug + ': the Market link does not carry the place');
   }
 });
 
@@ -98,7 +98,7 @@ test('following a Market link opens Market Analysis on the selected place', () =
   for (const a of [banner, handoff]) {
     a.dispatchEvent(new dom.window.MouseEvent('mousedown', { bubbles: true }));
     const u = new URL(a.getAttribute('href'), 'https://cohoanalytics.com/');
-    assert.strictEqual(u.pathname, '/market-analysis.html');
+    assert.strictEqual(u.pathname, '/deal-market-analysis.html');
     assert.strictEqual(u.searchParams.get('fips'), '0828745', 'the place was not carried: ' + a.getAttribute('href'));
     assert.strictEqual(u.searchParams.get('geoType'), 'place');
   }

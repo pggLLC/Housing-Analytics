@@ -55,7 +55,7 @@ window.resolveAssetUrl = function (p) { return window.LAB_ROOT + p; };
     '#/recommendation': 'recommendation.html',
     '#/deal-calculator': 'deal-calculator.html',
     '#/equity-pricing': 'article-pricing.html',
-    '#/market': 'market-analysis.html',
+    '#/market': 'deal-market-analysis.html',
     '#/for-sale': 'for-sale-market-study.html',
     '#/deals': 'deal-summary.html',
     '#/ic-summary': 'ic-summary.html',

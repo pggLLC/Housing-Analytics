@@ -142,7 +142,87 @@
     return esri(tone === 'dark' ? 'World_Dark_Gray_Base' : 'World_Light_Gray_Base', opts);
   }
 
+  // ---- paul's map rule (11 Nov 2026): OpenStreetMap streets by default, Satellite on request ----
+  // Every map opens on the OpenStreetMap street map, credited and linked, with a Satellite choice (Esri World
+  // Imagery) and a scale bar. Esri World Street Map stands in tile by tile when an OSM tile fails. The OSM layer
+  // sends referrerPolicy 'origin': the member site's Worker sends no Referer, and OSM refuses tiles without one.
+  // Street tiles come from tile.openstreetmap.org, the one host OSM's tile policy names; _headers lets the member
+  // site load it. Esri credits are the services' own copyrightText (MapServer?f=json, read 14 Nov 2026).
+  var OSM_ATTR = 'Map &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+  var SAT_ATTR = 'Imagery &copy; <a href="https://www.esri.com/">Esri</a>. Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community';
+  var BACKUP_ATTR = 'Some street tiles &copy; <a href="https://www.esri.com/">Esri</a>. Sources: Esri, HERE, Garmin, USGS, Intermap, '
+    + 'INCREMENT P, NRCan, Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC, (c) OpenStreetMap contributors, '
+    + 'and the GIS User Community';
+  var STREET_BACKUP = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
+  var darkStyled = false;
+  function darkStyle() {
+    var doc = global.document;
+    if (darkStyled || !doc || !doc.head) return;
+    darkStyled = true;
+    var st = doc.createElement('style');
+    st.textContent = '.coho-street-dark img.leaflet-tile{filter:invert(1) hue-rotate(180deg) brightness(.95) contrast(.95) saturate(.6)}';
+    doc.head.appendChild(st);
+  }
+  function isDark() {
+    var d = global.document && global.document.documentElement;
+    if (!d) return false;
+    if (d.classList.contains('dark-mode') || d.getAttribute('data-theme') === 'dark') return true;
+    if (d.classList.contains('light-mode') || d.getAttribute('data-theme') === 'light') return false;
+    return !!(global.matchMedia && global.matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+  /** OpenStreetMap streets. opts.dark (default: the page's theme) shows them dark. */
+  function street(opts) {
+    var o = opts || {};
+    var dark = o.dark == null ? isDark() : !!o.dark;
+    var options = { attribution: OSM_ATTR, maxZoom: o.maxZoom || DISPLAY_MAX, referrerPolicy: 'origin' };
+    if (o.pane) options.pane = o.pane;
+    if (dark) { darkStyle(); options.className = 'coho-street-dark'; }
+    var layer = global.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', options);
+    // One failed tile comes from Esri World Street Map instead; the rest stay OpenStreetMap. The first backup
+    // tile adds Esri's credit to the map, and it goes when the street layer leaves the map.
+    var credited = null;
+    layer.on('tileerror', function (e) {
+      var t = e.tile, c = e.coords;
+      if (!t || !c || t.getAttribute('data-backup')) return;
+      t.setAttribute('data-backup', '1');
+      t.src = STREET_BACKUP.replace('{z}', c.z).replace('{y}', c.y).replace('{x}', c.x);
+      var ac = layer._map && layer._map.attributionControl;
+      if (ac && credited !== ac) { ac.addAttribution(BACKUP_ATTR); credited = ac; }
+    });
+    layer.on('remove', function () {
+      if (credited) { credited.removeAttribution(BACKUP_ATTR); credited = null; }
+    });
+    return layer;
+  }
+  /** Esri World Imagery. */
+  function satellite(opts) {
+    var o = opts || {};
+    var options = { attribution: SAT_ATTR, maxZoom: o.maxZoom || DISPLAY_MAX };
+    if (o.pane) options.pane = o.pane;
+    return global.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', options);
+  }
+  /**
+   * Open a map on the street map and give it the Streets / Satellite switch and a scale bar in miles.
+   * Returns { base, satellite, control }. opts.extra adds more base layers to the switch, by label.
+   */
+  function standard(map, opts) {
+    var o = opts || {};
+    var base = street(o), sat = satellite(o), layers = { 'Streets (OpenStreetMap)': base, 'Satellite (Esri)': sat };
+    Object.keys(o.extra || {}).forEach(function (k) { layers[k] = o.extra[k]; });
+    base.addTo(map);
+    var control = global.L.control.layers(layers, null, { position: o.position || 'topright', collapsed: o.collapsed !== false }).addTo(map);
+    if (o.scale !== false) global.L.control.scale({ imperial: true, metric: false, position: 'bottomleft' }).addTo(map);
+    return { base: base, satellite: sat, control: control };
+  }
+
   global.COHOBasemaps = {
+    street: street,
+    satellite: satellite,
+    standard: standard,
+    scale: function (map) { return global.L.control.scale({ imperial: true, metric: false, position: 'bottomleft' }).addTo(map); },
+    STREET_ATTR: OSM_ATTR,
+    SATELLITE_ATTR: SAT_ATTR,
+    STREET_BACKUP_ATTR: BACKUP_ATTR,
     dark: function (opts) { return labelled('dark', opts); },
     light: function (opts) { return labelled('light', opts); },
     darkNoLabels: function (opts) { return unlabelled('dark', opts); },

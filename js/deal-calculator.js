@@ -1647,7 +1647,7 @@
   }
   function scheduleSource(mix) {
     var meta = mix.sourceMeta;
-    return countySource({ source: 'Market Analysis Subject project', sourceUrl: 'market-analysis.html#subjectProjectMount',
+    return countySource({ source: 'Market Analysis Subject project', sourceUrl: 'deal-market-analysis.html#subjectProjectMount',
       vintage: 'CHFA ' + meta.tableYear + ' · effective ' + meta.effectiveDate,
       why: 'Copied from the saved project schedule. Units and vacancy are project entries; rents use the cited CHFA table and allowance basis.',
       binding: 'schedule', fromShared: !!_sharedRentSchedule });
@@ -1698,7 +1698,7 @@
         var a = document.createElement('a');
         var j = window.WorkflowState && window.WorkflowState.getJurisdiction ? window.WorkflowState.getJurisdiction() : null;
         var place = linkParams().get('geoid') || (j && j.geoid) || '';
-        a.href = 'market-analysis.html' + (/^08\d{3}(\d{2})?$/.test(place) ? '?geoid=' + place : '')
+        a.href = 'deal-market-analysis.html' + (/^08\d{3}(\d{2})?$/.test(place) ? '?geoid=' + place : '')
           + '#subjectProjectMount';
         a.textContent = 'Set the utility allowance in Market Analysis \u2192';
         el.appendChild(document.createTextNode(' '));
@@ -1707,7 +1707,7 @@
       var basis = _resolvedDealMix && _resolvedDealMix.available
         ? _resolvedDealMix.sourceMeta.allowanceBasis : allowance.basis;
       markSource(el, countySource({ source: basis && (basis.reference || basis.method),
-        sourceUrl: 'market-analysis.html#subjectProjectMount',
+        sourceUrl: 'deal-market-analysis.html#subjectProjectMount',
         fromShared: !!_sharedRentSchedule || allowance.source === 'shared',
         sourceValue: basis,
         vintage: basis && (basis.effectiveDate || (basis.method === 'owner_pays_all' ? 'Not required: owner pays all' : null)),

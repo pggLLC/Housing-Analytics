@@ -42,7 +42,7 @@ run('deal calculator after the HNA, market and scenario skipped: guidance plus a
   assert.match(r.cls, /wf-next-action--current/);
   assert.match(r.text, /Model your capital stack/);
   assert.match(r.text, /Optional context not yet run: Market Analysis, Scenario Builder/);
-  assert.match(r.html, /href="market-analysis\.html"/, 'the first skipped analysis is one click away');
+  assert.match(r.html, /href="deal-market-analysis\.html"/, 'the first skipped analysis is one click away');
   assert.match(r.text, /Results here do not depend on it/);
 });
 
@@ -138,7 +138,7 @@ run('nothing skipped: plain current-step guidance, no context line', () => {
 run('current step done: continue to the next one', () => {
   const r = render('housing-needs-assessment.html', ['opportunity', 'jurisdiction', 'hsa']);
   assert.match(r.text, /Step Complete/);
-  assert.match(r.html, /href="market-analysis\.html"/);
+  assert.match(r.html, /href="deal-market-analysis\.html"/);
 });
 
 if (failures) { console.error('workflow-next-action-prerequisites: FAIL'); process.exitCode = 1; }

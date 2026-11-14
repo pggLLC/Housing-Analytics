@@ -124,7 +124,7 @@
     var areas = doc.areas || [], i = Math.max(0, Math.min(areas.length - 1, Number(cur) || 0)), a = areas[i], s = a.source;
     return '<section id="cj-employers" tabindex="-1"><h2>Largest employers</h2>' +
       '<p>As each county or city printed them in its audited annual financial report. A filer that reprints another government’s table says so in its source line.</p>' +
-      picker('area', 'Area', areas.map(function (x, n) { return [n, x.area + ' (' + x.as_of + ')']; }), i) +
+      picker('area', 'Area', areas.map(function (x, n) { return [n, x.area + ' (' + x.as_of + ')']; }).sort(function (x, y) { return x[1].localeCompare(y[1], 'en', { sensitivity: 'base' }); }), i) +
       '<div class="table-scroll" role="region" tabindex="0" aria-label="Largest employers"><table><caption>Largest employers, ' + esc(a.area) + ', ' + esc(a.as_of) + '</caption><thead><tr><th scope="col" class="num">Rank</th><th scope="col">Employer</th><th scope="col" class="num">Employees</th></tr></thead><tbody>' +
       a.rows.map(function (r) { return '<tr><td class="num">' + esc(r.rank == null ? '' : r.rank) + '</td><td>' + esc(r.employer) + '</td><td class="num">' + esc(r.employees) + '</td></tr>'; }).join('') + '</tbody></table></div>' +
       '<p class="note metric-source">Source: ' + esc(s.filer) + ', annual financial report filed with the Office of the State Auditor (<a href="' + esc(s.url) + '">PDF</a>' + (s.pdf_page ? ', PDF page ' + esc(s.pdf_page) : '') + '), “Principal Employers”, ' + esc(a.as_of) + '. Its source: ' + esc(a.stated_source) + '.</p></section>';

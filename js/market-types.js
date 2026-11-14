@@ -159,12 +159,12 @@
 
   function fillSelects() {
     var all = rows();
-    var groups = [['county', 'Counties'], ['town', 'Towns'], ['cdp', 'Census-designated places']];
-    el('mtPick').innerHTML = '<option value="">Pick a county or town</option>' + groups.map(function (g) {
-      return '<optgroup label="' + g[1] + '">' + all.filter(function (p) { return p.level === g[0]; })
-        .sort(function (a, b) { return a.name.localeCompare(b.name); })
-        .map(function (p) { return '<option value="' + esc(p.geoid) + '">' + esc(p.name) + '</option>'; }).join('') + '</optgroup>';
-    }).join('');
+    // One A to Z list (paul, 14 Nov 2026: typing a letter must reach every place that starts with it). The names
+    // carry the type: "Mesa County", "Fruita (city)", "Fort Carson (CDP)".
+    var bare = function (n) { return String(n).replace(/\s*\([^()]*\)$/, '').replace(/\s+County$/, ''); };
+    el('mtPick').innerHTML = '<option value="">Pick a county or town</option>' + all.filter(function (p) { return p.level === 'county' || p.level === 'town' || p.level === 'cdp'; })
+      .sort(function (a, b) { return bare(a.name).localeCompare(bare(b.name), 'en', { sensitivity: 'base' }) || a.name.localeCompare(b.name); })
+      .map(function (p) { return '<option value="' + esc(p.geoid) + '">' + esc(p.name) + '</option>'; }).join('');
     el('mtCounty').innerHTML = '<option value="">All counties</option>' + all.filter(function (p) { return p.level === 'county'; })
       .sort(function (a, b) { return a.name.localeCompare(b.name); })
       .map(function (p) { return '<option value="' + esc(p.geoid) + '">' + esc(p.name) + '</option>'; }).join('');

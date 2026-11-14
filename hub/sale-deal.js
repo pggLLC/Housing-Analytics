@@ -224,6 +224,7 @@
     if (k === 'subsidy') x.subsidyType = t.value;
     else if (k === 'convention') x.conventionId = t.value;
     else x[k] = t.value;
+    if (global.LabRedraw) return global.LabRedraw.after(Shell.render);
     Shell.render();
     var again = document.querySelector('[name="' + n + '"]');
     if (again) again.focus();

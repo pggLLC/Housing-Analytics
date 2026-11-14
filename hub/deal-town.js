@@ -42,7 +42,7 @@
       (f.geo[g[0]] || []).forEach(function (p) {
         var x = cross[p.geoid], inCounty = x ? (x.all_counties || []).some(function (c) { return c.fips === county; }) : p.containingCounty === county;
         if (!inCounty) return;
-        list.push({ geoid: p.geoid, name: String(p.label || '').replace(/\s*\((city|town|CDP|city and county)\)\s*$/i, ''), kind: g[1], part: !!(x && x.all_counties.length > 1) });
+        list.push({ geoid: p.geoid, name: String(p.label || '').replace(/\s*\((city|town|CDP|city and county)\)\s*$/i, ''), label: String(p.label || ''), kind: g[1], part: !!(x && x.all_counties.length > 1) });
       });
     });
     return list.sort(function (a, b) { return a.name.localeCompare(b.name); });
@@ -110,10 +110,10 @@
     if (failed) return '<p class="note" role="status">The town list did not load (' + esc(failed) + '). The estimate uses the county.</p>';
     var towns = townsIn(files, o.county);
     if (!towns.length) return '';
-    var opt = function (t) { return '<option value="' + esc(t.geoid) + '"' + (t.geoid === o.place ? ' selected' : '') + '>' + esc(t.name + (t.part ? ' (part)' : '')) + '</option>'; };
+    // Cities, towns and unincorporated communities in one A to Z list, each labelled with its type (LabPlaceList).
+    var items = towns.map(function (t) { return { value: t.geoid, name: t.label || t.name, kind: t.kind === 'cdp' ? 'cdp' : 'place', extra: t.part ? ' (part)' : '' }; });
     var picker = '<div class="field-wrap"><label class="field">City or town (optional)<select name="quick:place"><option value="">Whole county</option>' +
-      '<optgroup label="Cities and towns">' + towns.filter(function (t) { return t.kind === 'town'; }).map(opt).join('') + '</optgroup>' +
-      (towns.some(function (t) { return t.kind === 'cdp'; }) ? '<optgroup label="Unincorporated communities">' + towns.filter(function (t) { return t.kind === 'cdp'; }).map(opt).join('') + '</optgroup>' : '') +
+      global.LabPlaceList.options(items, o.place) +
       '</select></label>' +
       o.help('place', 'Pick a town to size the homes to its renters and see its rents. The income limits and rent limits stay the county’s, because HUD and CHFA set them by county. ' +
         'Census survey samples shrink with population, so a small town’s figures carry wide margins. Large towns (20,000 or more) use their own figures; mid-size towns use theirs where the renter count is reliable enough; small towns use the county’s.',

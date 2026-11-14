@@ -420,8 +420,9 @@ function initPolicyPanel(panelId) {
       return m;
     }
 
+    // OpenStreetMap streets by default, a Satellite choice and a scale bar (paul's map rule, 11 Nov 2026).
     function addTiles(map) {
-      window.COHOBasemaps.dark().addTo(map);
+      window.COHOBasemaps.standard(map);
     }
 
     /* ─ Section A: Affordability Ratio choropleth map ─ */

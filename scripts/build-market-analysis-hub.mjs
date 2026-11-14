@@ -73,7 +73,7 @@ export function build(src, hubPage, palette) {
   // 1. Head.
   swap(/<title>[^<]*<\/title>/, '<title>Market Analysis · COHO Analytics</title>', 'a title');
   must(!/rel="canonical"/.test(out), 'now names a canonical address; decide which page owns it');
-  swap(/(<meta name="description"[^>]*>)/, '$1\n  <link rel="canonical" href="https://cohoanalytics.com/' + TARGET + '">\n  <meta name="robots" content="noindex, follow">\n  <link rel="icon" href="favicon.svg" type="image/svg+xml">', 'a description');
+  swap(/(<meta name="description"[^>]*>)/, '$1\n  <link rel="canonical" href="https://cohoanalytics.com/' + TARGET + '">\n  <link rel="icon" href="favicon.svg" type="image/svg+xml">', 'a description');
   must(!/<link rel="icon"/.test(src), 'now declares its own favicon; drop the one this adds');
   swap(/<head>/, '<head>\n  <!-- Built from ' + SOURCE + ' by scripts/build-market-analysis-hub.mjs. Do not edit by hand: change ' + SOURCE + ' or the script, then run it. -->\n' +
     '  <script>/* Light or dark, before the page paints (the site\'s own key and classes). */\n' +

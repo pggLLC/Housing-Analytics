@@ -3919,7 +3919,7 @@
       var qs = '?fips=' + encodeURIComponent(op.placeGeoid || op.containingCounty) +
                '&geoType=' + encodeURIComponent(op.placeGeoid ? 'place' : 'county') + '&auto=1';
       var hnaHref = 'housing-needs-assessment.html' + qs;
-      var pmaHref = 'market-analysis.html' + qs;
+      var pmaHref = 'deal-market-analysis.html' + qs;
       var dcHref  = 'deal-calculator.html' + qs;
       actionEl.innerHTML =
         '<h4>Why this opportunity</h4>' +
@@ -5048,21 +5048,17 @@
     window.__lofState = state;
 
     // ── Base tile options ─────────────────────────────────────────────
-    // Matches the set used by colorado-deep-dive.html + market-analysis.html
-    // (CARTO Light, CARTO Dark, OSM Standard, Esri World Imagery).
+    // OpenStreetMap streets open the map (paul's map rule, 11 Nov 2026), with Satellite and the
+    // light and dark Esri canvases as choices. The street layer sends referrer 'origin' so it also
+    // loads on the member site, and falls back to Esri World Street Map tile by tile.
     state._baseLayers = {
-      'Light':            window.COHOBasemaps.light(),
-      'Street (OSM)':     window.L.tileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        { attribution: '© OpenStreetMap contributors', maxZoom: 19 }
-      ),
-      'Dark':             window.COHOBasemaps.dark(),
-      'Satellite (Esri)': window.L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        { attribution: 'Tiles © Esri', maxZoom: 19 }
-      )
+      'Streets (OpenStreetMap)': window.COHOBasemaps.street(),
+      'Satellite (Esri)':        window.COHOBasemaps.satellite(),
+      'Light':                   window.COHOBasemaps.light(),
+      'Dark':                    window.COHOBasemaps.dark()
     };
-    state._baseLayers['Light'].addTo(state.map);
+    state._baseLayers['Streets (OpenStreetMap)'].addTo(state.map);
+    window.COHOBasemaps.scale(state.map);
     // Layer control gets attached in _initMapOverlays() once data is loaded.
 
     // F100 — Decorative county + place + CDP boundary overlay.

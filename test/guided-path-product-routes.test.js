@@ -103,7 +103,7 @@ test('hard-coded rails follow the choice, except the page the reader is on', () 
   assert.strictEqual(label(3), 'Needs Assessment', 'the active slot is left alone');
   WP.setProduct('lihtc-rental');
   assert.strictEqual(label(4), 'Market Analysis', 'switching back restores the rental route');
-  assert.strictEqual(href(4), 'market-analysis.html');
+  assert.strictEqual(href(4), 'deal-market-analysis.html');
 });
 
 test('the next-step banner reads the same route as the rail', () => {
@@ -172,7 +172,7 @@ test('the banner names the for-sale page beside the rental one', () => {
     return win.document.querySelector('#workflowNextAction');
   };
   const study = WP0().stepsFor('mixed').find((s) => s.key === 'market');
-  const onRental = make('market-analysis.html');
+  const onRental = make('deal-market-analysis.html');
   assert(onRental.querySelector('a[href="' + study.companion.href + '"]'), 'rental page links the for-sale study');
   const onStudy = make(study.companion.href);
   assert.match(onStudy.textContent, /Step 4 of 7/, 'the study page is step 4');
@@ -209,7 +209,7 @@ const pending = new Promise((resolve) => {
   win.eval(bannerSrc);
   setTimeout(() => {
     test('loading a saved project resets the banner\'s route', () => {
-      assert.strictEqual(win.WorkflowNextAction.steps().urls.market, 'market-analysis.html', 'fixture: rental project');
+      assert.strictEqual(win.WorkflowNextAction.steps().urls.market, 'deal-market-analysis.html', 'fixture: rental project');
       WS.loadProject(forSale);
       assert.strictEqual(win.WorkflowNextAction.steps().urls.market, 'for-sale-market-study.html', 'the banner drops its cached route');
     });
@@ -264,15 +264,15 @@ test('choosing a jurisdiction returns to a routed step, and only to one', () => 
 
 test('a Next link\'s step=N follows a product change made on the picker', () => {
   const dom = new JSDOM('<!doctype html><button id="sjContinueBtn">x</button>',
-    { url: 'https://cohoanalytics.com/select-jurisdiction.html?next=' + encodeURIComponent('market-analysis.html') + '&step=4', runScripts: 'outside-only' });
+    { url: 'https://cohoanalytics.com/select-jurisdiction.html?next=' + encodeURIComponent('deal-market-analysis.html') + '&step=4', runScripts: 'outside-only' });
   dom.window.eval(railSrc);
   dom.window.eval(read('js/jurisdiction-selector.js'));
   // The picker starts on DOMContentLoaded, which jsdom fires after this tick.
   dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
-  assert.strictEqual(dom.window.JurisdictionSelector.returnTarget(), 'market-analysis.html', 'rental: step 4 is Market Analysis');
+  assert.strictEqual(dom.window.JurisdictionSelector.returnTarget(), 'deal-market-analysis.html', 'rental: step 4 is Market Analysis');
   dom.window.WorkflowProgress.setProduct('for-sale');
   const want = WP0().stepsFor('for-sale').find((s) => s.num === 4).href;
-  assert.notStrictEqual(want, 'market-analysis.html', 'fixture: for-sale replaces step 4');
+  assert.notStrictEqual(want, 'deal-market-analysis.html', 'fixture: for-sale replaces step 4');
   assert.strictEqual(dom.window.JurisdictionSelector.returnTarget(), want, 'after switching to for-sale, step 4 is the for-sale page');
   const label = WP0().stepsFor('for-sale').find((s) => s.num === 4).label;
   assert.strictEqual(dom.window.document.getElementById('sjContinueBtn').textContent, 'Continue to ' + label + ' \u2192', 'the button names the page it now opens');

@@ -340,7 +340,7 @@
       bodyEl.innerHTML = addCurrentHtml + arr.map(function (entry) {
         var hnaUrl = 'housing-needs-assessment.html?fips=' + encodeURIComponent(entry.geoid);
         var ofUrl  = 'lihtc-opportunity-finder.html';
-        var pmaUrl = 'market-analysis.html?fips=' + encodeURIComponent(entry.fips || entry.geoid);
+        var pmaUrl = 'deal-market-analysis.html?fips=' + encodeURIComponent(entry.fips || entry.geoid);
         var icUrl  = 'ic-summary.html?geoid=' + encodeURIComponent(entry.geoid);
         return '<div style="padding:6px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:.4rem;">' +
           '<div style="min-width:0;flex:1;">' +

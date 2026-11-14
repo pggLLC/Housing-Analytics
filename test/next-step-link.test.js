@@ -102,7 +102,7 @@ for (const ev of ['workflow:product-changed', 'workflow:project-loaded']) {
   const pma = renderNext(routeFor(null).dom.window, 'pma', jx);
   assert.equal(pma.href, 'hna-scenario-builder.html?geoType=place&geoid=0862880&auto=1', 'Scenario Builder gets geoid/geoType/auto');
   const hna = renderNext(routeFor(null).dom.window, 'hna', jx);
-  assert.equal(hna.href, 'market-analysis.html?fips=0862880&geoType=place&auto=1', 'Market Analysis gets fips/geoType/auto');
+  assert.equal(hna.href, 'deal-market-analysis.html?fips=0862880&geoType=place&auto=1', 'Market Analysis gets fips/geoType/auto');
   const deal = renderNext(routeFor(null).dom.window, 'deal', jx);
   assert.equal(deal.href, 'recommendation.html?fips=0862880&geoType=place', 'Recommendation gets fips/geoType without auto-run');
 }

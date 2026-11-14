@@ -275,7 +275,7 @@
       <ul>
         <li><a href="colorado-deep-dive.html">Colorado Deep Dive</a></li>
         <li><a href="housing-needs-assessment.html">Housing Needs Assessment</a></li>
-        <li><a href="market-analysis.html">Market Analysis</a></li>
+        <li><a href="deal-market-analysis.html">Market Analysis</a></li>
       </ul>
     </section>
   </main>
@@ -653,10 +653,16 @@
         });
         sel.appendChild(group);
       }
-      addGroup('Regions', regionNames.sort(), function (v) { return v; });
-      addGroup('Places', Object.keys(placeNames).sort(function (a, b) {
-        return counts[b] - counts[a] || placeNames[a].localeCompare(placeNames[b]);
-      }), function (v) { return placeNames[v]; });
+      // Regions and places in one A to Z list (paul, 14 Nov 2026: typing a letter must reach every place that
+      // starts with it). A region says so in its label; the search box reads the type from data-jurisdiction-type.
+      regionNames.map(function (v) { return { v: v, t: v + ' region', type: 'Region' }; })
+        .concat(Object.keys(placeNames).map(function (v) { return { v: v, t: placeNames[v], type: 'Place' }; }))
+        .sort(function (a, b) { return a.t.localeCompare(b.t, 'en', { sensitivity: 'base' }); })
+        .forEach(function (x) {
+          var o = document.createElement('option'); o.value = x.v; o.textContent = x.t + ' (' + counts[x.v] + ')';
+          o.setAttribute('data-jurisdiction-type', x.type);
+          sel.appendChild(o);
+        });
       addGroup('Wider coverage', [WIDE_STATE, WIDE_FEDERAL].filter(function (v) { return counts[v]; }), function (v) { return v; });
       sel.addEventListener('change', function () { state.place = sel.value; state.shown = PAGE; render(); });
 

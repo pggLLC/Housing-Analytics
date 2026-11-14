@@ -1091,7 +1091,10 @@
         sec('mt-here', 'Already here', here.length ? list(here) : '<p>No local housing fund or housing authority program in our records.</p>', 3);
     }
     var byName = function (a, b) { return a.name.localeCompare(b.name); };
-    var placeOpts = [['', 'Pick a county or town']].concat(counties.map(function (c) { return [c.geoid, c.name]; }), towns.slice().sort(byName).map(function (x) { return [x.geoid, x.name]; }));
+    // Counties and towns in one A to Z list (the names carry "County", "(town)" or "(city)"), so a typed letter reaches them all.
+    var PL = global.LabPlaceList;
+    var placeOpts = [['', 'Pick a county or town']].concat(counties.concat(towns).map(function (x) { return [x.geoid, PL ? PL.label(x.name, x.level) : x.name]; })
+      .sort(function (a, b) { return (PL ? PL.key(a[1]).localeCompare(PL.key(b[1]), 'en', { sensitivity: 'base' }) : 0) || a[1].localeCompare(b[1]); }));
 
     // Towns by pattern, filtered by county and pattern in the address.
     var cF = params.get('mtc') || '', tF = params.get('mtt') || '';

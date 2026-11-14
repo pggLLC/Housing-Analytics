@@ -105,7 +105,7 @@
       '<h3>How strong the data is</h3><p>' + (tally ? esc(tally.good + ' of ' + tally.total + ' survey figures rate good' + (tally.fair ? ', ' + tally.fair + ' fair' : '') + (tally.caution ? ', ' + tally.caution + ' use with caution' : '') + '.') + ' ' : '') +
       'Census survey samples shrink with population, so small places carry wider margins. Read figures for a small place as a range. The rating is about how certain the figures are, not about the place.</p>' +
       '<h3>What this report is not</h3><p>It is a screen from public data, not a market study. It draws no market area around a site. The capture rate uses the whole county and a sample 60-home project at 60% AMI. Supply and rent limits are county-wide. Every figure carries its source under it.</p></div>' +
-      '<div class="callout no-print">The member edition adds a market area around your site, site comparison and deal fit. It is on the <a href="' + esc(LIVE + 'market-analysis.html') + '">member site ↗</a>.</div>';
+      '<div class="callout no-print">The member edition adds a market area around your site, site comparison and deal fit. It is on the <a href="' + esc(LIVE + 'deal-market-analysis.html') + '">member site ↗</a>.</div>';
 
     return T.head({
       kind: 'tool', crumbs: T.trail('places', TITLE, [{ label: 'Pick a place', href: '#/report' }]), title: 'Free report: ' + s.entry.label,

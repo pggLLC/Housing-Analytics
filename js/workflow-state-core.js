@@ -55,7 +55,7 @@
   var STEP_META = [
     { key: 'jurisdiction', num: 1, label: 'Select Jurisdiction',     url: 'select-jurisdiction.html' },
     { key: 'hsa',          num: 2, label: 'Housing Needs Assessment', url: 'housing-needs-assessment.html' },
-    { key: 'market',       num: 3, label: 'Market Analysis',          url: 'market-analysis.html' },
+    { key: 'market',       num: 3, label: 'Market Analysis',          url: 'deal-market-analysis.html' },
     { key: 'scenario',     num: 4, label: 'Scenario Builder',         url: 'hna-scenario-builder.html' },
     { key: 'deal',         num: 5, label: 'Deal Calculator',          url: 'deal-calculator.html' }
   ];

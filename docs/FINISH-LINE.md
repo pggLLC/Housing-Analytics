@@ -43,7 +43,7 @@ Seven steps, in the order the rail (`js/components/workflow-progress.js` STEPS) 
 | 1 | Jurisdiction | `select-jurisdiction.html` |
 | 2 | Opportunity Finder | `lihtc-opportunity-finder.html` |
 | 3 | Needs Assessment | `hna-what-housing-exists.html` |
-| 4 | Market Analysis | `market-analysis.html` |
+| 4 | Market Analysis | `deal-market-analysis.html` |
 | 5 | Scenarios | `hna-scenario-builder.html` |
 | 6 | Deal Calculator | `deal-calculator.html` |
 | 7 | Recommendation | `recommendation.html` |
