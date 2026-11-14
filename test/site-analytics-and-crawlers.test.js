@@ -66,6 +66,21 @@ test('loader is a no-op with an empty token and off the production host', () => 
   assert.strictEqual(runLoader('t0ken', 'localhost', '/index.html').length, 0);
 });
 
+test('the new-format pages count visits too: hub/lab-config.js starts the same beacon with the same token', () => {
+  // The hub pages (index.html and the *-hub.html pages) do not load js/navigation.js. From 13 Nov 2026 the new
+  // Home and hubs went uncounted until hub/lab-config.js started the counter itself.
+  const cfg = fs.readFileSync(path.join(ROOT, 'hub', 'lab-config.js'), 'utf8');
+  const token = /var CF_ANALYTICS_TOKEN = '([^']*)';/.exec(nav)[1];
+  assert(cfg.includes("var TOKEN = '" + token + "';"), 'hub/lab-config.js does not carry the token js/navigation.js uses');
+  assert(/static\.cloudflareinsights\.com\/beacon\.min\.js/.test(cfg) && /cohoanalytics\.com/.test(cfg) && /cf-web-analytics/.test(cfg), 'hub/lab-config.js does not start the beacon on the production host, once');
+  const port = JSON.parse(fs.readFileSync(path.join(ROOT, 'hub', 'PORT.json'), 'utf8'));
+  assert(port.pages.length >= 6, 'hub/PORT.json lists fewer than six hub pages');
+  port.pages.forEach((page) => {
+    const html = fs.readFileSync(path.join(ROOT, page), 'utf8');
+    assert(/<script src="hub\/lab-config\.js"><\/script>/.test(html) || /js\/navigation\.js/.test(html), page + ' loads neither hub/lab-config.js nor js/navigation.js, so its visits are not counted');
+  });
+});
+
 test('every gated developer page is excluded from measurement', () => {
   const gated = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && read(f).includes('js/developer-gate.js'));
   assert(gated.length > 0, 'found no pages loading js/developer-gate.js');
