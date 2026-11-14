@@ -388,7 +388,8 @@
       kind: 'guide', crumbs: conf.crumbs ? conf.crumbs.concat([{ label: g.title }]) : T.trail(conf.menu, g.title), title: g.title, answer: esc(g.lede),
       meta: g.draft ? 'Written ' + esc(g.draft.written) + '. Every figure links its source.'
         : g.livePage ? 'From the full <a href="' + esc(g.live) + '">' + esc(g.livePage) + '</a> page, below the calculator.'
-        : g.here ? gStamp
+        // Inside the public site the guide's own page stays one link away (?classic=1 holds it open; see js/path-resolver.js).
+        : g.here ? (gStamp ? gStamp + ' ' : '') + '<a class="guide-own" href="' + esc(g.live) + '?classic=1">Open this guide as its own page</a>.'
         : 'From the full <a href="' + esc(g.live) + '">' + esc(g.title) + '</a> guide.' + (gStamp ? ' ' + gStamp : ''),
       facts: conf.facts
     }) + (conf.download ? T.printBar({ word: 'coho-' + slug }) : '') +
@@ -425,6 +426,8 @@
       });
     }, 0);
     // An anchor from the guide's own page (its address before the move) lands on the part that holds it.
+    // Once the guide is drawn, its glossary terms and column headings get their definitions (see hoverHelp).
+    setTimeout(function () { helpFiles(function (F) { hoverHelp(document.querySelector('.guide-body'), F); }); }, 0);
     function land(at) {
       var held = g.sections.filter(function (x) { return x.id === at || (x.ids || []).indexOf(at) > -1; })[0];
       // The exact element the page's anchor named, when the guide kept it; else the part that held it.
@@ -441,6 +444,121 @@
     if (at) setTimeout(function () { land(at); }, 0);
     here = { slug: slug, land: land };
     return page;
+  }
+
+  // ---- Hover help the guide's own page has: glossary definitions and column heading tips ----------------------
+  // The site's pages get these from js/glossary.js and js/components/table-header-tips.js, which do not run here.
+  // The same two files those scripts read are read here, and the same rules kept: a term is defined at its first
+  // use in each part, never in a heading, link, button, table heading or code; a heading's tip is its own
+  // (data-tip from the page) or the site's entry for that heading's words.
+  var HELP = { files: null, asked: false };
+  function helpFiles(then) {
+    if (HELP.files) return then(HELP.files);
+    if (HELP.asked) return;
+    HELP.asked = true;
+    var V = global.LAB_VENDOR || '';
+    var get = function (f) { return fetch(V + f).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); };
+    Promise.all([get('data/glossary.json'), get('data/table-header-tips.json')]).then(function (all) {
+      var terms = ((all[0] && all[0].terms) || []).filter(function (t) { return t && t.term && t.definition && t.autolink !== false; });
+      var map = Object.create(null);
+      terms.forEach(function (t) { map[t.term] = t; });
+      terms.forEach(function (t) { (t.aliases || []).forEach(function (a) { if (!map[a]) map[a] = t; }); });
+      var keys = Object.keys(map).sort(function (a, b) { return b.length - a.length; });
+      HELP.files = {
+        map: map, tips: (all[1] && (all[1].tips || all[1])) || {},
+        pattern: keys.length ? new RegExp('\\b(' + keys.map(function (k) { return k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')\\b', 'g') : null
+      };
+      HELP.asked = false;
+      then(HELP.files);
+    });
+  }
+  function clip(text, max) {
+    text = String(text || '');
+    if (text.length <= max) return text;
+    var cut = text.slice(0, max), sp = cut.lastIndexOf(' ');
+    return (sp > max * 0.6 ? cut.slice(0, sp) : cut).replace(/[\s,;:]+$/, '') + '…';
+  }
+  function hoverHelp(body, F) {
+    if (!body || body.getAttribute('data-help') === '1') return;
+    gtipWire();
+    body.setAttribute('data-help', '1');
+    // Column headings: the page's own tip, else the site's entry for the heading's words.
+    Array.prototype.forEach.call(body.querySelectorAll('th'), function (th) {
+      var tip = th.getAttribute('data-tip') || F.tips[th.textContent.replace(/\s+/g, ' ').replace(/[▲▼↑↓⇅↕?]+\s*$/, '').trim().toLowerCase()];
+      // The table sorter's arrow button is not a control of the heading's own (js/components/table-header-tips.js
+      // allows it too): the sorter may run before or after this, so a sortable heading keeps its tip either way.
+      if (!tip || !th.textContent.trim() || th.querySelector('a, button:not(.th-sort), input, select')) return;
+      th.setAttribute('data-gtip', tip); th.classList.add('g-tip');
+      if (!th.hasAttribute('tabindex')) th.setAttribute('tabindex', '0');
+    });
+    if (!F.pattern) return;
+    // Glossary terms: first use in each part of the guide.
+    var SKIP = 'a, button, abbr, th, code, pre, h1, h2, h3, h4, h5, h6, summary, figcaption, svg, select, option, textarea, input, .no-glossary, .guide-diagram, .g-cards';
+    Array.prototype.forEach.call(body.querySelectorAll('.guide-section, section'), function (sec) {
+      if (sec.getAttribute('lang') && sec.getAttribute('lang') !== 'en') return;
+      var seen = Object.create(null), w = document.createTreeWalker(sec, 4), nodes = [], n;
+      while ((n = w.nextNode())) nodes.push(n);
+      nodes.forEach(function (node) {
+        var par = node.parentNode;
+        if (!par || !node.nodeValue || !node.nodeValue.trim() || (par.closest && par.closest(SKIP))) return;
+        // A part inside this one is walked on its own turn.
+        if (par.closest('.guide-section, section') !== sec) return;
+        var text = node.nodeValue, last = 0, frag = null, m;
+        F.pattern.lastIndex = 0;
+        while ((m = F.pattern.exec(text))) {
+          if (seen[m[1]]) continue;
+          var t = F.map[m[1]]; if (!t) continue;
+          seen[m[1]] = true;
+          frag = frag || document.createDocumentFragment();
+          if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+          var full = t.full || t.label || t.term;
+          var a = document.createElement('abbr');
+          a.className = 'g-term'; a.setAttribute('tabindex', '0'); a.setAttribute('aria-label', full);
+          a.setAttribute('data-gtip', full + ': ' + clip(t.definition, 160)); a.setAttribute('data-term', t.term);
+          a.textContent = m[1];
+          frag.appendChild(a);
+          last = m.index + m[1].length;
+        }
+        if (frag) { if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last))); par.replaceChild(frag, node); }
+      });
+    });
+  }
+  // One small label for both, shown on hover, focus or a tap, and closed by Escape or moving away.
+  var gtip = null, gtipOn = null;
+  function gtipHide() { if (gtip) gtip.hidden = true; if (gtipOn) gtipOn.removeAttribute('aria-describedby'); gtipOn = null; }
+  function gtipShow(el) {
+    if (gtipOn === el) return;
+    gtipHide();
+    if (!gtip) { gtip = document.createElement('div'); gtip.id = 'guide-tip'; gtip.className = 'viz-tip guide-tip'; gtip.setAttribute('role', 'tooltip'); document.body.appendChild(gtip); }
+    gtip.textContent = el.getAttribute('data-gtip'); gtip.hidden = false;
+    var r = el.getBoundingClientRect(), w = gtip.offsetWidth, h = gtip.offsetHeight, vw = document.documentElement.clientWidth;
+    var left = Math.max(6, Math.min(r.left + r.width / 2 - w / 2, vw - w - 6)), top = r.top - h - 8 < 6 ? r.bottom + 8 : r.top - h - 8;
+    gtip.style.left = (left + global.pageXOffset) + 'px'; gtip.style.top = (top + global.pageYOffset) + 'px';
+    el.setAttribute('aria-describedby', 'guide-tip'); gtipOn = el;
+  }
+  function gtipTarget(ev) { var t = ev.target; return t && t.closest ? t.closest('.guide-body [data-gtip]') : null; }
+  // Wired once, when the first guide gets its hover help (this file is also loaded where there is no page to listen on).
+  var gtipWired = false;
+  function gtipWire() {
+    if (gtipWired) return;
+    gtipWired = true;
+    // A tap on a sortable heading opens its definition and does not sort the table; the sorter's arrow is the
+    // separate touch target (the rule js/components/table-header-tips.js keeps on the guide's own page). A mouse
+    // click, a keypress and a tap on the arrow still sort.
+    var lastTouch = false;
+    document.addEventListener('pointerdown', function (ev) { lastTouch = ev.pointerType === 'touch' || ev.pointerType === 'pen'; }, true);
+    document.addEventListener('click', function (ev) {
+      var th = ev.target && ev.target.closest ? ev.target.closest('.guide-body th[data-gtip]') : null;
+      if (!th || !lastTouch || !ev.detail || ev.target.closest('.th-sort')) return;
+      ev.stopPropagation(); ev.preventDefault();
+      gtipShow(th);
+    }, true);
+    // After a touch, a stray mouse event elsewhere does not close the label; a tap elsewhere does (the click below).
+    document.addEventListener('mouseover', function (ev) { var el = gtipTarget(ev); if (el) gtipShow(el); else if (gtipOn && !lastTouch) gtipHide(); });
+    document.addEventListener('focusin', function (ev) { var el = gtipTarget(ev); if (el) gtipShow(el); else if (gtipOn) gtipHide(); });
+    document.addEventListener('click', function (ev) { var el = gtipTarget(ev); if (el && gtipOn !== el) gtipShow(el); else if (!el && gtipOn) gtipHide(); });
+    document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && gtipOn) gtipHide(); });
+    global.addEventListener('hashchange', gtipHide);
   }
 
   // A link in the guide's words to another part of the same guide lands there without drawing the page again,

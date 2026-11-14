@@ -1,0 +1,50 @@
+/* The place profiles (places/<geoid>.html, built by Housing-Analytics scripts/hna/build_place_pages.py from
+   places/_template.html) in the hub's look. The page keeps its own words, figures, ids and script; this sheet
+   replaces the styles the template used to carry in its head. Colours come from hub/palette.css only. */
+main.profile { max-width: 1240px; }
+.profile .page-head { margin-bottom: 1.25rem; }
+.profile .profile-county { margin: 0 0 .5rem; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--green); }
+.profile .place-sub { font-size: 19px; line-height: 1.5; margin: 0 0 1rem; color: var(--ink); }
+.profile .profile-open { display: flex; flex-wrap: wrap; gap: .5rem .75rem; align-items: center; margin: 0; }
+.profile .profile-open .note { font-size: 14px; color: var(--ink-soft); }
+
+.place-grid { margin: 1.5rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(330px, 100%), 1fr)); gap: 1rem; align-items: start; }
+.place-card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1.1rem 1.25rem; color: var(--ink); min-width: 0; }
+.place-card[hidden] { display: none; }
+main.profile .place-card h2 { margin: 0 0 .6rem; font-size: 20px; line-height: 1.2; color: var(--ink); }
+.place-stat { display: flex; justify-content: space-between; align-items: baseline; gap: .75rem; margin: 0; padding: .45rem 0; border-bottom: 1px solid var(--line); }
+.place-stat[hidden] { display: none; }
+.place-stat .label { flex: 1 1 auto; color: var(--ink-soft); font-size: 14px; line-height: 1.4; }
+.place-stat .value { flex: 0 1 auto; max-width: 60%; font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; color: var(--ink); overflow-wrap: break-word; }
+.place-stat .value.bad { color: var(--text-red); }
+.place-stat .value.warn { color: var(--text-amber); }
+.place-stat .value.good { color: var(--text-green); }
+.place-explain { margin-top: .75rem; font-size: 14px; line-height: 1.5; color: var(--ink-soft); }
+.place-src { margin: .7rem 0 0; font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+.place-card a, .place-source a, .place-disclosure a { color: var(--green); }
+.place-card a:focus-visible, .profile-tools a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+#psPermitsNote { color: var(--ink-soft); font-size: 14px; }
+.pl-stack { display: flex; height: 14px; border-radius: 4px; overflow: hidden; border: 1px solid var(--line-strong); margin: .6rem 0 .3rem; }
+.pl-stack span { display: block; height: 100%; }
+.pl-legend { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .15rem .8rem; font-size: 13px; color: var(--ink-soft); }
+.pl-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; }
+.pl-names { font-size: 14px; margin: .5rem 0 0; line-height: 1.45; color: var(--ink); }
+.place-explain summary { cursor: pointer; color: var(--green); font-weight: 600; font-size: 14px; min-height: 44px; display: flex; align-items: center; }
+.place-explain p { margin: .5rem 0; line-height: 1.5; }
+.place-explain ul { margin: .4rem 0; padding-left: 1.1rem; }
+.place-explain li { margin: .15rem 0; }
+.place-disclosure { margin: 1rem 0; padding: .75rem 1rem; background: var(--tint); border: 1px solid var(--line-strong); border-left: 4px solid var(--green); border-radius: 6px; font-size: 15px; line-height: 1.5; color: var(--ink); }
+.place-disclosure[hidden] { display: none; }
+.profile-tools { margin: 2rem 0 1rem; }
+main.profile .profile-tools h2 { font-size: 22px; margin: 0 0 .75rem; }
+.profile-tools .profile-links { display: flex; flex-wrap: wrap; gap: .5rem .75rem; }
+.place-source { margin: 1.5rem 0 0; font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+
+/* The list of every profile (places/index.html). */
+.place-index ul { columns: 3; column-gap: 1.5rem; padding-left: 1rem; }
+.place-index li { padding: .2rem 0; break-inside: avoid; }
+.place-index li a { color: var(--green); }
+.place-index .muted { color: var(--ink-soft); font-size: 14px; }
+@media (max-width: 900px) { .place-index ul { columns: 2; } }
+@media (max-width: 600px) { .place-index ul { columns: 1; } }
+@media print { .profile-tools, .profile-open { display: none; } .place-card { break-inside: avoid; } }

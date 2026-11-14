@@ -2,13 +2,33 @@
 // scripts/build-port.js --hub <id> writes this file to <Housing-Analytics>/hub/lab-config.js and fills HUBS
 // (each hub page and the routes it draws, from port/hubs.js) and GUIDES. Every hub page sits at the site's
 // root, so the site's own engines and data files are read in place: nothing comes from the lab's vendor copy.
-window.LAB_VENDOR = './';
-window.LAB_LIVE = '';
-window.LAB_SITE = 'hub/';
+// A page that is not at the site's root (a place profile, places/<geoid>.html) sets LAB_ROOT ('../') before this
+// file, so the menu's links and the hub's own files are found from where that page sits.
+window.LAB_ROOT = typeof window.LAB_ROOT === 'string' ? window.LAB_ROOT : '';
+window.LAB_VENDOR = window.LAB_ROOT || './';
+window.LAB_LIVE = window.LAB_ROOT;
+window.LAB_SITE = window.LAB_ROOT + 'hub/';
 window.LAB_TITLE = 'COHO Analytics';
 // Tables sort with the site's own js/components/table-sort.js, not the lab's copy.
 window.LAB_SITE_SORT = true;
-window.resolveAssetUrl = function (p) { return p; };
+window.resolveAssetUrl = function (p) { return window.LAB_ROOT + p; };
+
+// Visit counts. The site's other pages start Cloudflare Web Analytics from js/navigation.js (loadAnalytics), which
+// the hub pages do not load, so the new Home and hubs were not counted (found 13 Nov 2026). This is the same
+// loader with the same public token, read from js/navigation.js when the port is built: cookieless, production
+// host only, once per page.
+(function () {
+  var TOKEN = 'd8f83044c0ed43bc89e766a9ecc23c6a';
+  if (!TOKEN || TOKEN.charAt(0) === '/') return;
+  if (location.hostname !== 'cohoanalytics.com' && location.hostname !== 'www.cohoanalytics.com') return;
+  if (/^developer/.test(location.pathname.split('/').pop() || '')) return;
+  if (document.getElementById('cf-web-analytics')) return;
+  var s = document.createElement('script');
+  s.id = 'cf-web-analytics'; s.defer = true;
+  s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  s.setAttribute('data-cf-beacon', JSON.stringify({ token: TOKEN }));
+  document.head.appendChild(s);
+})();
 
 (function (global) {
   'use strict';
@@ -17,7 +37,9 @@ window.resolveAssetUrl = function (p) { return p; };
   // route opens the public page it rebuilds (FORWARD). The old pages stay live until the cutover redirects them.
   var HUBS = {"places-hub.html":["^#\\/places\\/?$","^#\\/places\\/(compare|ranking|scenario)\\/?$","^#\\/place\\/\\d{5,7}(\\/[a-z-]+)?\\/?$","^#\\/places\\/(incentives(\\/\\d{5,7})?|costs|economy|county-costs|multifamily|deep-dive|walk-bike|attract-housing)\\/?$","^#\\/report\\/?$"],"deal-hub.html":["^#\\/(projects|project|homes|handoff|convert|financials|open-deal|deal-calculator|sale-deal|use|deals|equity-pricing|pipeline|market|for-sale|recommendation|ic-summary|design)(\\/.*)?$"],"opportunities-hub.html":["^#\\/(opportunities|opportunity|finder)(\\/.*)?$"],"data-hub.html":["^#\\/data(\\/.*)?$"],"policy-hub.html":["^#\\/(guides|news|digest|housing-posts|legislation|calendar|elections|money|research|tax-credit-history|middle-income)(\\/.*)?$","^#\\/guide\\/(lihtc-basics|deal-team|green-building|resident-services|cra-pricing|ahcia|fair-housing|federal-rules|housing-authority|white-paper|working-paper|methods|about)\\/?$"],"index.html":["^#\\/assistance\\/?$","^#\\/guide\\/(renter-help|homebuyer-help)\\/?$","^#\\/$"]}, STARTS = {"places-hub.html":"#/places","deal-hub.html":"#/projects","opportunities-hub.html":"#/opportunities","data-hub.html":"#/data","policy-hub.html":"#/guides","index.html":"#/"};
   Object.keys(HUBS).forEach(function (p) { HUBS[p] = HUBS[p].map(function (re) { return new RegExp(re); }); });
-  var HERE = (location.pathname.split('/').pop() || 'index.html');
+  var ROOT = global.LAB_ROOT || '';
+  // A page below the root is never a hub page, whatever its file is called (places/index.html is not Home).
+  var HERE = ROOT ? '' : (location.pathname.split('/').pop() || 'index.html');
   var CARRIED = HUBS[HERE] || [];
 
   // Lab route -> public page. A place carried in the route (?g= or ?geoid=) goes with it as ?geoid=.
@@ -78,7 +100,7 @@ window.resolveAssetUrl = function (p) { return p; };
   // The public page for a lab route, or null when the site has none.
   function page(hash) {
     var other = hubFor(hash);
-    if (other) return other + String(hash || '#/');
+    if (other) return ROOT + other + String(hash || '#/');
     var s = split(hash), path = s.path === '#' ? '#/' : s.path, to = FORWARD[path];
     if (!to) return null;
     // The route's own query goes too (QA/QC F01, 12 Nov: only the place was carried, so layer=qct and other
@@ -89,7 +111,7 @@ window.resolveAssetUrl = function (p) { return p; };
     if (geoid && /^\d{5,7}$/.test(geoid)) out.set('geoid', geoid);
     q.forEach(function (v, k) { if (k !== 'g' && k !== 'geoid') out.append(k, v); });
     var qs = out.toString();
-    return to + (qs ? '?' + qs : '');
+    return ROOT + to + (qs ? '?' + qs : '');
   }
   // Where a link to a lab route should point here: the route itself, the public page, or null (leave it out).
   function href(hash) { return carries(hash) ? hash : page(hash); }
@@ -121,7 +143,7 @@ window.resolveAssetUrl = function (p) { return p; };
     // A full cohoanalytics.com address is this site: keep it on the host it was opened on, so a staging build stays
     // on staging (QA/QC, 12 Nov: the Deal Calculator link left staging).
     Array.prototype.forEach.call(root.querySelectorAll('a[href^="https://cohoanalytics.com/"]'), function (a) {
-      a.setAttribute('href', a.getAttribute('href').replace(/^https:\/\/cohoanalytics\.com\//, '') || 'index.html');
+      a.setAttribute('href', ROOT + (a.getAttribute('href').replace(/^https:\/\/cohoanalytics\.com\//, '') || 'index.html'));
     });
     Array.prototype.forEach.call(root.querySelectorAll('a[href^="#/"]'), function (a) {
       var to = href(a.getAttribute('href'));

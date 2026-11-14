@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "6c9fa1fb6ac2a365438b989a6dcc62d6e46a9178",
+  "commit": "bdcf057ad7d2e43eb797a015fce1bf3a16ad8630",
   "dirty": false
  },
  "files": {
@@ -63,8 +63,8 @@
   "hub/financials.js": "60172168ab1987565ed92c28161c4c9f24ea84cf21d12a5c4c44f027f3b4645a",
   "hub/finder.js": "01386fcf2c5871fc72c355e853214d94d32e46e6d8238f9e45c553d666794e0d",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
-  "hub/guide-extract.js": "3648482c19f385d098860dba5d28a7729ef522bf646e35b0237c96f2d87c3e92",
-  "hub/guide.js": "2bc8579d64c9d7ebb882888059665c567cecb532e58e0dd79d6e3c195815b167",
+  "hub/guide-extract.js": "185647d6212624237406a90e892c43d4a16f177fff85d8bf90022041fe0a84ee",
+  "hub/guide.js": "35f863f00d9c6870742c6a1f598d58edc5d4313fc83fab25450447a31b69d44e",
   "hub/hna-dola.js": "3d98f4185ac1b0decd1974f7f02bae7d450633f73b651652d4046ee8db71662e",
   "hub/hna.js": "cd872cf0f9bd7ecbc10a62377f496648e88884455fab98ee5d5c7c05e3db2862",
   "hub/home.css": "47c8d4d65023a4e3bf1153eb9fdf2aacceddafe9b5bb0eac8533c77e283e32bb",
@@ -72,7 +72,7 @@
   "hub/homes.js": "bc7f1a7303a7af3ffb1c4ed9f38bac28e9936fa61fe2705071a434281190ae3a",
   "hub/ic-summary.js": "cebc3afe8e4fb1176cff28a03becd8e202230b72b142fb46d7e1c950464c9a6e",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
-  "hub/lab-config.js": "194ae6b54a3f9506b2d7c1f6cc2099c7c8086077c77beb6f68d0526fb72fbcea",
+  "hub/lab-config.js": "3ec168aa9e2e577e50711177822c25f313cad0e749b2d5a06e0f45eab0643a00",
   "hub/lab-wave2.css": "737b9423f791592871165b4d7729cbcbf5579b4356925f42a308134861eddb20",
   "hub/land-value.js": "acd0c8b2f777bdffca9568c1d77e8c0d54e4b847217e28b68b6fc442ed4b1220",
   "hub/lender-export.js": "d1e48681ef719397028af4e5bbea04baf62f6b1b24441a7d1f40b034e5eea7da",
@@ -89,6 +89,7 @@
   "hub/need-scorecard.js": "a8c89af9acc59264b61eb5ccb5d8f553bc49ac1dfbff5d15a4fa95914ddf16a0",
   "hub/opportunities.css": "7fa3422f7362ac21115d41e1fa0ddd1872f791a04c177e681728ccdb25220a1d",
   "hub/opportunities.js": "548a6441f4d2f5c74a35212b05eb7a46a0b2879f4f60281a050f0b9dc6eb6667",
+  "hub/page-chrome.js": "6fb948627686c77a38a591d3a367104656c298d14e1f45c44e755d50e10793e3",
   "hub/palette.css": "a5e54cb6b658064a65f01b8e8661d2af2f8501fc7525469a2964065c66e38471",
   "hub/pipeline.js": "ca34dc30e089a4f49946958a2a5a4bf76088c3510818458726fe14484af3c93a",
   "hub/places-combine.js": "b3d53321409c2dd780df591f1871cdd1cc299f7e465e2d726fce08c988dbcdf0",
@@ -97,6 +98,7 @@
   "hub/places.js": "c39f346dc57210a057408de589f923c38350e4afc892d804cb7887703e0c0f59",
   "hub/policy-more.js": "2aa65ec2eefa28d9ac7f53cc6abbb432eb7268b9ff16f65f23e18b1ea1e2f36b",
   "hub/policy.js": "39620ea2afa26aeab56cdb8f33126dee9c35305ba46f2c8abbaffecc8fee4a4e",
+  "hub/profile.css": "d18e7355133687b3c43099751dc234a12da6cbfe743fb65d932e414e171015a2",
   "hub/project-store.js": "fafed1a8c6be2daf2393f6580113f53a9ea88ee69a8a3ab4023b5da5c5b9776c",
   "hub/rent-income.css": "487a582f5637325d554f62bf548c44a1f37b58166f799347c9e6023f7bcbcd2e",
   "hub/rent-income.js": "07aedf8f15cc3f5203edae212a840cfa361c68d08f1f3951bddf69aaceb244ba",
@@ -107,7 +109,7 @@
   "hub/shell.js": "aed5a95f596b94175f8c2e2063bbe68cf6b0166a604f1ceaca9d6b6481759753",
   "hub/small-pages.css": "c873d07280dbee49b8c1446e21377f83a31b1be765d3bad3ad868127afdffd15",
   "hub/strength.js": "10f09b6b204f00e1689748a2696efcd6424bd9e327d5b0f444e6dde011deabb7",
-  "hub/templates.css": "da5680eee06f124e5c643f986f72d904ba8bb29ba43d80b2f267f61d0bc76656",
+  "hub/templates.css": "0a862c442324a6071aaf63a53961fa9a0f52ea3fd0c47b3a1e65d7c19bfea106",
   "hub/templates.js": "2b2ccd1d555356dc2f08975d28088cf689d982a7bd6568b5915cefb06a20b715",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
