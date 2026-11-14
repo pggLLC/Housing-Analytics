@@ -428,9 +428,13 @@
     var feats = []; list.forEach(function (g) { if (b.lihtc[g]) feats = feats.concat(b.lihtc[g]); });
     var sup = S ? S.summarizeAffordableSupply(feats, []) : { lihtcUnits: null, lihtcCount: feats.length };
     var existing = sup.lihtcUnits || 0, units = b.ctx.units;
-    return { qualified: q.value, pool: pool.value, existing: existing, projects: sup.lihtcCount || 0,
+    return { qualified: q.value, pool: pool.value, existing: existing, projects: sup.lihtcCount || 0, supplyNotes: supplyNotes(sup),
       capture: q.value > 0 ? units / q.value : null, pen: pool.value > 0 ? (existing + units) / pool.value : null, reason: q.reason };
   }
+  // The supply engine's own caveats: a property counted at all its units because it reports no income-restricted
+  // count (may overstate), or one with no unit count at all (left out, so understates). The full Market Analysis shows
+  // them beside its figures; so does every penetration here, and the saved comparison keeps them.
+  function supplyNotes(sup) { return [sup.unitsFallbackReason, sup.unitsUnavailableReason].filter(Boolean); }
   function single(b, g) {
     var k = g + '|' + b.ctx.tier;
     if (!(k in b.single)) { var m = measure(b, [g]); b.single[k] = m ? m.qualified : null; }
@@ -530,7 +534,16 @@
         : (cap <= TEST.room && pen <= TEST.room ? 'Capture at ' + tier + '% AMI is ' + p1(cap) + ' and penetration ' + p1(pen) + ', both at least 10 points under CHFA’s 85% line.'
           : (cap > line || pen > line ? 'Over CHFA’s 85% line: ' : 'Within 10 points of CHFA’s 85% line: ') + 'capture at ' + tier + '% AMI ' + p1(cap) + ', penetration ' + p1(pen) + '.') }
     ];
-    return { byTier: byTier, pool: pool, existing: existing, projects: sup.lihtcCount || 0, pen: pen, tests: tests, passes: tests.filter(function (t) { return t.pass; }).length };
+    // An uncertain supply count never decides the test silently: the caveat goes with the test, and where the count
+    // could turn the result (an overstated count behind a fail, an understated one behind a pass) the test says so.
+    var notes = supplyNotes(sup), t4 = tests[3];
+    if (notes.length && cap != null && pen != null) {
+      var penOk = pen <= TEST.room, capOk = cap <= TEST.room;
+      t4.caveat = notes.join(' ');
+      t4.uncertain = capOk && ((penOk && !!sup.unitsUnavailableReason) || (!penOk && !!sup.unitsFallbackReason));
+      t4.text += ' Supply note: ' + t4.caveat + (t4.uncertain ? (penOk ? ' So this pass is not certain.' : ' So this fail is not certain.') : '');
+    }
+    return { byTier: byTier, pool: pool, existing: existing, projects: sup.lihtcCount || 0, pen: pen, supplyNotes: notes, tests: tests, passes: tests.filter(function (t) { return t.pass; }).length };
   }
   // The smallest area that passes all four; if none does, the one that passes most, then the smallest.
   function recommend(list) {
@@ -561,13 +574,17 @@
       return '<tr' + (x.recommended ? ' class="tc-rec"' : '') + '><th scope="row"><label class="tc-check"><input type="radio" name="tc-area" value="' + esc(x.id) + '"' + (x.id === pick ? ' checked' : '') + '> ' + esc(x.label) + '</label>' +
         (x.recommended ? ' <span class="tc-badge">Recommended</span>' : '') + '<span class="note tc-sub">' + x.list.length + (x.list.length === 1 ? ' tract. ' : ' tracts. ') + esc(x.note) + (x.alias.length ? ' Same tracts as: ' + esc(x.alias.join(', ')) + '.' : '') + '</span></th>' +
         CAP_TIERS.map(function (t) { return cell(ev.byTier[t].capture, t === tier).replace('<td class="num', '<td data-label="' + t + '% AMI" class="num'); }).join('') +
-        cell(ev.pen, false).replace('<td class="num', '<td data-label="Penetration" class="num') +
-        '<td data-label="Tests" class="tc-tests">' + ev.tests.map(function (t) { return '<span class="' + (t.pass ? 'tc-pass' : 'tc-fail') + '" title="' + esc(t.text) + '">' + (t.pass ? '✓' : '✗') + ' ' + ({ whole: 'Whole tracts', origin: 'Tenants could come from here', town: 'No other town’s market', capture: 'Room under the line' })[t.id] + '</span>'; }).join('') + '</td></tr>';
+        cell(ev.pen, false).replace('<td class="num', '<td data-label="Penetration" class="num').replace('</td>', ev.supplyNotes.length && ev.pen != null ? ' <span class="tc-flag tc-flag-note">supply note</span></td>' : '</td>') +
+        '<td data-label="Tests" class="tc-tests">' + ev.tests.map(function (t) { return '<span class="' + (t.pass ? 'tc-pass' : 'tc-fail') + '" title="' + esc(t.text) + '">' + (t.pass ? '✓' : '✗') + ' ' + ({ whole: 'Whole tracts', origin: 'Tenants could come from here', town: 'No other town’s market', capture: 'Room under the line' })[t.id] + (t.uncertain ? ', not certain' : '') + '</span>'; }).join('') + '</td></tr>';
     }).join('');
     var why = rec ? '<div class="tc-why"><p><strong>Recommended: ' + esc(rec.label) + ' (' + rec.list.length + (rec.list.length === 1 ? ' tract' : ' tracts') + ').</strong> ' +
-      (rec.eval.passes === 4 ? 'It is the smallest area that passes all four tests.' : 'No area passes all four tests; this one passes ' + rec.eval.passes + ', the most, and is the smallest that does.') + '</p>' +
+      (rec.eval.passes === 4 ? 'It is the smallest area that passes all four tests.' : 'No area passes all four tests; this one passes ' + rec.eval.passes + ', the most, and is the smallest that does.') +
+      (rec.eval.tests[3].uncertain ? ' Its fourth test rests on a tax credit supply count that may be off (see the supply note), so check the property list before relying on it.' : '') + '</p>' +
       '<ol class="tc-tests-list">' + rec.eval.tests.map(function (t) { return '<li class="' + (t.pass ? 'tc-pass' : 'tc-fail') + '">' + (t.pass ? 'Passes. ' : 'Fails. ') + esc(t.text) + '</li>'; }).join('') + '</ol>' +
       '<p><strong>The other areas:</strong></p><ul>' + list.filter(function (x) { return !x.recommended; }).map(function (x) { return '<li><strong>' + esc(x.label) + ':</strong> ' + esc(x.line) + '</li>'; }).join('') + '</ul></div>' : '';
+    var noted = list.filter(function (x) { return x.eval.supplyNotes.length && x.eval.pen != null; });
+    var notesList = noted.length ? '<div class="tc-supply-note"><p><strong>Supply note.</strong> Penetration counts the tax credit homes already in each area, from CHFA’s property list as the full Market Analysis reads it. Some counts are uncertain:</p><ul>' +
+      noted.map(function (x) { return '<li><strong>' + esc(x.label) + ':</strong> ' + esc(x.eval.supplyNotes.join(' ')) + '</li>'; }).join('') + '</ul></div>' : '';
     var diff = rec && pick && pick !== rec.id;
     var form = '<div class="tc-pickform"><p class="tc-picked" aria-live="polite">' + (pick ? 'Picked: <strong>' + esc((areaById(b, pick) || {}).label || '') + '</strong>.' : '') + '</p>' +
       (diff ? '<label for="tc-why">Why this area instead of the recommended one? <span class="note">(saved with the pick; needed to use it)</span></label><textarea id="tc-why" name="tc-why" rows="3" data-tc-why>' + esc(b.pickWhy || '') + '</textarea>' : '') +
@@ -575,7 +592,7 @@
     host.innerHTML = '<p>Capture for a ' + num(b.ctx.units) + '-home project with every home at each AMI level, and penetration with the tax credit homes already there. The project’s level, ' + tier + '% AMI, is the one the tests use. Cells over CHFA’s 85% line are marked.</p>' +
       '<div class="tc-compare-wrap"><table class="data-table tc-compare-table"><caption>Market areas round the site, smallest first</caption><thead><tr><th scope="col">Area</th>' +
       CAP_TIERS.map(function (t) { return '<th scope="col" class="num' + (t === tier ? ' tc-tier' : '') + '">' + t + '% AMI</th>'; }).join('') + '<th scope="col" class="num">Penetration</th><th scope="col">Tests</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-      why + form +
+      notesList + why + form +
       '<p class="note">The four tests: 1. whole census tracts, as CHFA’s Market Study Guide asks (Appendix A to the <a href="' + MSG + '" rel="noopener">2027–28 QAP</a>); 2. tenants could plausibly come from every tract (near the site on its side' + (b.sug.withDrive ? ' and within ' + b.sug.maxDrive + ' minutes\u2019 drive' : '') + ', or at least 10% of working residents with a job near it, LODES 2024); 3. no tract where another town holds most homes and has tax credit homes of its own (2020 Census homes by town and tract); 4. capture at the project’s level and penetration at least 10 points under CHFA’s 85% line. Tests 2 to 4 and their thresholds are COHO’s screening judgments, not CHFA rules. ' + (b.sug.withDrive ? 'Drive times are free-flow OpenStreetMap times from each tract\u2019s 2020 population centre to the one nearest the site, so a range or a long way round shows as a long drive. ' : 'The drive-time file did not load, so drive times are not checked. ') + 'School districts are not checked here; an analyst weighs them.</p>';
   }
   // True when the reader picked another area than the recommended one and has not said why.
@@ -612,7 +629,7 @@
     b.el.querySelector('.tc-answer').textContent = ans;
     b.el.querySelector('.tc-meters').innerHTML = m && m.capture != null
       ? meter('Capture rate, this project', m.capture, num(ctx.units) + ' homes ÷ ' + num(m.qualified) + ' renter households in these tracts who qualify for a ' + ctx.tier + '% AMI home.', line) +
-        (m.pen != null ? meter('Penetration, all tax credit homes', m.pen, '(' + num(m.existing) + ' existing in ' + num(m.projects) + (m.projects === 1 ? ' property' : ' properties') + ' + ' + num(ctx.units) + ' proposed) ÷ ' + num(m.pool) + ' renter households who qualify at 20 to 80% AMI.', line) : '')
+        (m.pen != null ? meter('Penetration, all tax credit homes', m.pen, '(' + num(m.existing) + ' existing in ' + num(m.projects) + (m.projects === 1 ? ' property' : ' properties') + ' + ' + num(ctx.units) + ' proposed) ÷ ' + num(m.pool) + ' renter households who qualify at 20 to 80% AMI.' + (m.supplyNotes.length ? ' Supply note: ' + m.supplyNotes.join(' ') : ''), line) : '')
       : '';
     b.el.querySelector('[data-tc-reset]').hidden = !b.picked;
     drawPanel(b);
@@ -790,7 +807,7 @@
         return { geoid: g, name: t.name, county: t.county, miles: Math.round(t.miles * 10) / 10, inArea: !!inSet[g], suggested: t.suggested, why: t.why, reason: t.reason };
       }),
       comparison: {
-        areas: areas.map(function (x) { return { id: x.id, label: x.label, method: x.method, note: x.note, tracts: x.list.slice(), recommended: !!x.recommended, tests: x.eval.tests.map(function (t) { return { id: t.id, pass: t.pass, text: t.text }; }), line: x.line || null }; }),
+        areas: areas.map(function (x) { return { id: x.id, label: x.label, method: x.method, note: x.note, tracts: x.list.slice(), recommended: !!x.recommended, tests: x.eval.tests.map(function (t) { return { id: t.id, pass: t.pass, text: t.text, caveat: t.caveat || null, uncertain: !!t.uncertain }; }), supplyNotes: x.eval.supplyNotes.slice(), line: x.line || null }; }),
         recommended: rec ? rec.id : null,
         recommendedWhy: rec ? rec.eval.tests.map(function (t) { return (t.pass ? 'Passes: ' : 'Fails: ') + t.text; }) : null,
         picked: pa ? pa.id : null,
