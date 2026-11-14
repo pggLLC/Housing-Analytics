@@ -542,7 +542,19 @@
   function gtipWire() {
     if (gtipWired) return;
     gtipWired = true;
-    document.addEventListener('mouseover', function (ev) { var el = gtipTarget(ev); if (el) gtipShow(el); else if (gtipOn) gtipHide(); });
+    // A tap on a sortable heading opens its definition and does not sort the table; the sorter's arrow is the
+    // separate touch target (the rule js/components/table-header-tips.js keeps on the guide's own page). A mouse
+    // click, a keypress and a tap on the arrow still sort.
+    var lastTouch = false;
+    document.addEventListener('pointerdown', function (ev) { lastTouch = ev.pointerType === 'touch' || ev.pointerType === 'pen'; }, true);
+    document.addEventListener('click', function (ev) {
+      var th = ev.target && ev.target.closest ? ev.target.closest('.guide-body th[data-gtip]') : null;
+      if (!th || !lastTouch || !ev.detail || ev.target.closest('.th-sort')) return;
+      ev.stopPropagation(); ev.preventDefault();
+      gtipShow(th);
+    }, true);
+    // After a touch, a stray mouse event elsewhere does not close the label; a tap elsewhere does (the click below).
+    document.addEventListener('mouseover', function (ev) { var el = gtipTarget(ev); if (el) gtipShow(el); else if (gtipOn && !lastTouch) gtipHide(); });
     document.addEventListener('focusin', function (ev) { var el = gtipTarget(ev); if (el) gtipShow(el); else if (gtipOn) gtipHide(); });
     document.addEventListener('click', function (ev) { var el = gtipTarget(ev); if (el && gtipOn !== el) gtipShow(el); else if (!el && gtipOn) gtipHide(); });
     document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && gtipOn) gtipHide(); });

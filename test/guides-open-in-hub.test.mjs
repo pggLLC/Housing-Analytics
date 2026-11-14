@@ -242,6 +242,10 @@ test('hover help on a guide page is kept in the guide: column heading tips, glos
   assert.ok(/function hoverHelp\(/.test(view) && /hoverHelp\(document\.querySelector\('\.guide-body'\)/.test(view), 'hub/guide.js no longer adds hover help once a guide is drawn');
   // A sortable heading holds the sorter's arrow button; whichever script runs first, the heading keeps its tip.
   assert.ok(view.includes("button:not(.th-sort)"), 'hub/guide.js skips a heading the table sorter has already given its arrow button');
+  // A tap on a sortable heading opens the definition and does not sort; the arrow is the touch target for sorting
+  // (js/components/table-header-tips.js keeps the same rule on the guide's own page).
+  assert.ok(/pointerType === 'touch'/.test(view) && /closest\('\.th-sort'\)/.test(view) && /ev\.stopPropagation\(\); ev\.preventDefault\(\);\s*gtipShow\(th\)/.test(view), 'hub/guide.js lets a tap on a heading sort the table');
+  assert.ok(/thSortArrow \|\| !lastPointerTouch/.test(read('js/components/table-header-tips.js')), 'js/components/table-header-tips.js changed how a heading tap is told from a sort; hub/guide.js follows it');
   // 3. The page as written stays one link away.
   assert.ok(/g\.live\) \+ '\?classic=1"/.test(view), 'the guide no longer links its own page with ?classic=1');
 });
