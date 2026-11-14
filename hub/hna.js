@@ -2540,20 +2540,115 @@
       dot + '</svg>' + (county || isCounty ? '<p class="lc-cap">' + esc(isCounty ? name : county) + '</p>' : '');
   }
 
-  // The live chapters' download buttons (PDF, CSV, JSON; js/hna/hna-export.js). The lab's CSV and JSON carry the
-  // place's own HNA files at the pin with every figure's source; PDF is the browser's print. The live Excel workbook
-  // is not repeated: the CSV opens in Excel.
+  // The live chapters' download buttons (js/hna/hna-export.js). The lab's CSV and JSON carry the place's own HNA
+  // files at the pin with every figure's source. The formatted PDF report and the Excel workbook (content check
+  // gap 2, 14 Nov) are made by the live HNA's own builder, unchanged: inside the public site the page loads the
+  // HNA for the same place out of sight and asks it for the file (fullReport below), so the file is the one the
+  // HNA page itself writes. Where that page is on another site (the lab), the buttons are a labelled link to the
+  // older HNA page for the same place instead.
   function downloads(geoid, entry) {
-    var g = esc(geoid);
+    var g = esc(geoid), same = reportSameSite();
+    var full = same
+      ? '<button type="button" class="button-link" data-hna-report="pdf" data-hna-g="' + g + '">Download the full report (PDF)</button>' +
+        '<button type="button" class="button-link" data-hna-report="xlsx" data-hna-g="' + g + '">Download the Excel workbook</button>'
+      : '<a class="button-link" href="' + esc(oldHnaUrl(geoid)) + '" target="_blank" rel="noopener">Full PDF report and Excel workbook: older HNA page for ' + esc(entry.label) + ' ↗</a>';
     return '<section class="hna-dl" aria-labelledby="hna-dl-h"><h2 id="hna-dl-h">Download this assessment</h2>' +
-      '<p class="note">Figures for ' + esc(entry.label) + ' with their sources, as COHO publishes them.</p><div class="actions">' +
-      '<button type="button" class="button-link secondary" data-hna-dl="print">Print or save as PDF</button>' +
+      '<p class="note">Figures for ' + esc(entry.label) + ' with their sources, as COHO publishes them.</p>' +
+      '<div class="actions">' + full + '</div>' +
+      '<p class="note hna-report-note">' + (same
+        ? 'The full report and the workbook hold every table and chart in the assessment. Each takes about 15 seconds to build.'
+        : 'Those two files are built on the older page for now, which opens on the same place.') + '</p>' +
+      '<p class="note hna-report-status" role="status" aria-live="polite" data-hna-report-status="' + g + '"></p>' +
+      '<div class="actions">' +
+      '<button type="button" class="button-link secondary" data-hna-dl="print">Print this page or save as PDF</button>' +
       '<button type="button" class="button-link secondary" data-hna-dl="csv" data-hna-g="' + g + '">Download CSV (opens in Excel)</button>' +
       '<button type="button" class="button-link secondary" data-hna-dl="json" data-hna-g="' + g + '">Download JSON</button>' +
       // The live banner's "Export IC summary" link, to the lab's Investor summary for the same place.
       '<a class="button-link secondary" href="#/ic-summary?g=' + g + '">Investor summary for this place →</a>' +
       '<a class="button-link secondary" href="#/places/compare?g=' + g + '&view=blend">Combine with other places →</a></div></section>';
   }
+
+  // The full report and the workbook, from the HNA page's own builder (js/hna/hna-export.js, not changed).
+  // The HNA page for the place opens in a frame out of sight (?classic=1, so it is never forwarded here); once it
+  // has loaded the place, and its LIHTC, QCT and DDA figures (they load after the page settles: the DDA line is
+  // filled last), its own download is called. The builder checks again that the page shows the place before it
+  // writes, and its own message ("Excel workbook downloaded ✓", or why it did not) is shown here.
+  var REPORT = { pdf: { fn: '__HNA_exportPdf', lib: 'jspdf', what: 'full report' }, xlsx: { fn: '__HNA_exportExcel', lib: 'ExcelJS', what: 'Excel workbook' } };
+  var reportFrame = null, reportBusy = false;
+  function oldHnaUrl(geoid) { return Pl.LIVE + 'housing-needs-assessment.html?geoid=' + encodeURIComponent(geoid) + '&classic=1'; }
+  function reportSameSite() {
+    try { return new URL(Pl.LIVE || './', global.location.href).origin === global.location.origin; } catch (e) { return false; }
+  }
+  function reportStatus(g, text) {
+    var el = global.document.querySelector('[data-hna-report-status="' + g + '"]');
+    if (el) el.textContent = text;
+  }
+  function reportFrameFor(geoid) {
+    var src = oldHnaUrl(geoid);
+    if (reportFrame && reportFrame.getAttribute('data-src') === src && reportFrame.isConnected) return reportFrame;
+    if (reportFrame) reportFrame.remove();
+    var f = global.document.createElement('iframe');
+    f.setAttribute('data-src', src);
+    f.setAttribute('aria-hidden', 'true');
+    f.setAttribute('tabindex', '-1');
+    f.title = 'Housing Needs Assessment report builder';
+    // Laid out at a desktop width so the charts draw at the size the report expects, but out of sight.
+    f.style.cssText = 'position:fixed;left:-20000px;top:0;width:1280px;height:900px;border:0;visibility:hidden';
+    f.src = src;
+    global.document.body.appendChild(f);
+    reportFrame = f;
+    return f;
+  }
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  async function reportReady(f, spec) {
+    var t0 = Date.now(), settledAt = 0;
+    while (Date.now() - t0 < 90000) {
+      var w = null;
+      try { w = f.contentWindow; } catch (e) { w = null; }
+      var d = null;
+      try { d = w && w.document; } catch (e) { d = null; }
+      var cur = w && w.HNAState && w.HNAState.state && w.HNAState.state.current;
+      var c = w && w.HNAController;
+      if (d && d.readyState === 'complete' && w[spec.fn] && w[spec.lib] && cur && c && !(c.isUpdating && c.isUpdating())) {
+        if (!settledAt) settledAt = Date.now();
+        var dda = d.getElementById('statDdaStatus');
+        var ddaDone = !dda || String(dda.textContent || '').trim() !== '—';
+        // The LIHTC, QCT and DDA figures load after the page settles; wait up to 25 seconds for them, then go on
+        // (the builder marks any figure that has not loaded as not loaded, never as zero).
+        if (ddaDone || Date.now() - settledAt > 25000) return w;
+      }
+      await wait(300);
+    }
+    return null;
+  }
+  async function fullReport(kind, g, button) {
+    var spec = REPORT[kind];
+    if (!spec || reportBusy) return;
+    reportBusy = true;
+    var buttons = global.document.querySelectorAll('[data-hna-report]');
+    Array.prototype.forEach.call(buttons, function (b) { b.disabled = true; });
+    var label = (nameFor(g) || g);
+    reportStatus(g, 'Building the ' + spec.what + ' for ' + label + '…');
+    try {
+      var w = await reportReady(reportFrameFor(g), spec);
+      if (!w) { reportStatus(g, 'The ' + spec.what + ' could not be built: the assessment did not finish loading. Try again in a moment.'); return; }
+      await w[spec.fn]();
+      var toast = w.document.getElementById('hna-export-toast');
+      var said = toast ? String(toast.textContent || '').trim() : '';
+      reportStatus(g, /downloaded/i.test(said) ? said.replace(/\s*✓\s*$/, '') + ' for ' + label + '.' : (said || 'The ' + spec.what + ' was not made. Try again.'));
+    } catch (e) {
+      reportStatus(g, 'The ' + spec.what + ' could not be built. Try again, or use the CSV below.');
+    } finally {
+      reportBusy = false;
+      Array.prototype.forEach.call(global.document.querySelectorAll('[data-hna-report]'), function (b) { b.disabled = false; });
+      if (button && button.isConnected) button.focus();
+    }
+  }
+  if (global.document) global.document.addEventListener('click', function (ev) {
+    var b = ev.target.closest && ev.target.closest('[data-hna-report]');
+    if (!b) return;
+    fullReport(b.getAttribute('data-hna-report'), b.getAttribute('data-hna-g'), b);
+  });
 
   // 5.1: where the needs assessment sits in the live site's seven steps from a town to a deal recommendation
   // (js/components/workflow-progress.js keeps the same order and names). Only "you are here" is marked:
