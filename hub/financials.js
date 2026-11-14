@@ -1305,6 +1305,8 @@
   main.addEventListener('submit', function (ev) {
     var form = ev.target;
     if (form.dataset.action !== 'financials') return;
+    // Redraw any change still waiting first, so Save reads the form as that change left it (as on Homes).
+    if (global.LabRedraw) { global.LabRedraw.flush(); form = main.querySelector('form[data-action="financials"]') || form; }
     var parts = route();
     var p = P.get(parts[1]);
     var d = readDraft(form, draftFor(p, parts[2]));

@@ -352,6 +352,9 @@
     var form = ev.target;
     var parts = route();
     if (form.dataset.action === 'homes') {
+      // A change still waiting to redraw may have cleared fields (a new allowance source clears the allowances) that
+      // this form still shows. Redraw first, so Save reads the form as the change left it (Codex on HA #2845).
+      if (global.LabRedraw) { global.LabRedraw.flush(); form = main.querySelector('form[data-action="homes"]') || form; }
       var x = saveDraft(form);
       var subject = subjectFrom(x.d);
       var result = ChfaRentLimits.rentSchedule(subject, { chfaTable: chfa });
