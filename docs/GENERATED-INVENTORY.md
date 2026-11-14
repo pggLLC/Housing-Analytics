@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T02:07:17.204Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T02:50:52.781Z. Do not edit by hand.
 
 ---
 
@@ -2096,7 +2096,7 @@
 
 ## Test Files
 
-800 test files found.
+801 test files found.
 
 | File | Size |
 |------|------|
@@ -2581,6 +2581,7 @@
 | `test/place-glossary-path.test.js` | 1.5 KB |
 | `test/place-lehd-apportionment.test.js` | 4.8 KB |
 | `test/place-pages.test.js` | 6.9 KB |
+| `test/place-profile-format.test.mjs` | 5.9 KB |
 | `test/places-hub-port.test.js` | 8.5 KB |
 | `test/planned-sources-are-not-unknown.test.js` | 8.1 KB |
 | `test/pma-affordable-supply-label.test.js` | 3.0 KB |
