@@ -8,7 +8,8 @@
 //   renters who qualify, by band  PMAMarketScoring.chfaQualifiedRenters, called the way Market check calls it
 //   market area                   the user's pick of: the scenario's saved market area (a market-snapshot's tracts),
 //                                 the census tracts mostly inside the place (data/hna/place-tract-membership.json,
-//                                 by area), or the whole county; the first that exists is the default
+//                                 by area), or the whole county; the first that exists is the default, widened
+//                                 to the county when the place's tracts cannot carry the homes
 //   size                          CHFA's tax credit property list (data/chfa-lihtc.json)
 //   bedrooms                      Census ACS B25042, renter homes by bedrooms (data/market/acs_renter_bedrooms_co.json)
 //   rent ceilings                 ChfaRentLimits.maxGrossRent on CHFA's 2026 table; HUD FY2027 Fair Market Rents
@@ -205,37 +206,61 @@
     var entry = Pl.entryFor(geoid);
     var name = isCounty ? countyName : M.shortName(entry ? entry.label : p.jurisdiction.name);
 
-    // Market area: the user picks among the areas this page can count (a saved market check's area, the tracts
-    // mostly inside the place, the whole county); the first of those that exists is the default.
+    // Size: the typical new building here, or the homes the user typed or set band by band.
     var saved = savedArea(p, s), dr = draftOf(p, s);
+    var size = typicalSize(d.lihtc, fips, isCounty ? null : name, countyName);
+    var custom = dr.bands && BANDS.some(function (b) { return dr.bands[b] !== '' && dr.bands[b] != null; });
+    var setBands = {};
+    if (custom) BANDS.forEach(function (b) { setBands[b] = Math.max(0, Math.round(Number(dr.bands[b]) || 0)); });
+    var homes = custom ? sum(setBands) : Math.max(1, Math.min(1000, Math.round(Number(dr.homes)) || size.homes));
+
+    // Market area: the user picks among the areas this page can count (a saved market check's area, the tracts
+    // mostly inside the place, the whole county). With no pick, a saved area comes first, then the place's tracts;
+    // when those hold too few renters for the homes (a band past the very-thin line with no lower band to take it),
+    // the default widens to the county and the page says why.
     var inDemand = function (list) { return list.filter(function (g) { return x.demand.tracts && x.demand.tracts[g]; }); };
     var areas = [];
     if (saved && !saved.stale) areas.push({ key: 'saved', tracts: inDemand(saved.tracts), label: saved.label, saved: saved });
     var pa = !isCounty ? placeArea(f.placeTracts, geoid) : null;
     if (pa) areas.push({ key: 'place', tracts: inDemand(pa.tracts), label: pa.rule === 'mostly' ? (pa.tracts.length === 1 ? 'the census tract' : 'the ' + pa.tracts.length + ' census tracts') + ' mostly inside ' + name : 'the census tract that covers most of ' + name, placeRule: pa.rule });
     areas.push({ key: 'county', tracts: Object.keys(x.demand.tracts || {}).filter(function (g) { return g.slice(0, 5) === fips; }), label: 'all of ' + countyName });
-    var area = areas.filter(function (a) { return a.key === dr.area; })[0] || areas[0];
-    if (saved && saved.stale) area.staleSaved = saved;
 
     // Renters who qualify for each band, counted the CHFA market-study way.
     var limits = {}; (d.chfa.counties || []).forEach(function (c) { limits[c.fips] = c; });
-    var list = area.tracts.map(function (g) { return { geoid: g }; }), pool = {};
-    BANDS.forEach(function (b) { var q = E.chfaQualifiedRenters(x.demand, limits, list, [b], undefined, engineOpts(x)); pool[b] = q && q.value > 0 ? q.value : 0; });
-    var poolAll = sum(pool);
-
-    // Size and incomes.
-    var size = typicalSize(d.lihtc, fips, isCounty ? null : name, countyName);
-    var custom = dr.bands && BANDS.some(function (b) { return dr.bands[b] !== '' && dr.bands[b] != null; });
-    var byBand = {};
-    if (custom) BANDS.forEach(function (b) { byBand[b] = Math.max(0, Math.round(Number(dr.bands[b]) || 0)); });
-    var homes = custom ? sum(byBand) : Math.max(1, Math.min(1000, Math.round(Number(dr.homes)) || size.homes));
-    if (!custom) byBand = spread(homes, pool, BANDS);
+    var poolsIn = function (a) {
+      if (a.pool) return a.pool;
+      var list = a.tracts.map(function (g) { return { geoid: g }; }), out = {};
+      BANDS.forEach(function (b) { var q = E.chfaQualifiedRenters(x.demand, limits, list, [b], undefined, engineOpts(x)); out[b] = q && q.value > 0 ? q.value : 0; });
+      a.pool = out;
+      return out;
+    };
+    var bandsIn = function (pl) { return custom ? setBands : spread(homes, pl, BANDS); };
+    var area = areas.filter(function (a) { return a.key === dr.area; })[0], widened = null;
+    if (!area) {
+      area = areas[0];
+      if (area.key === 'place') {
+        var pp = poolsIn(area);
+        if (!(sum(pp) > 0) || moves(bandsIn(pp), pp).tooBig.length) { widened = area; area = areas[areas.length - 1]; }
+      }
+    }
+    if (saved && saved.stale) area.staleSaved = saved;
+    var pool = poolsIn(area), poolAll = sum(pool);
+    var byBand = bandsIn(pool);
     var capture = {}; BANDS.forEach(function (b) { capture[b] = byBand[b] > 0 ? (pool[b] > 0 ? byBand[b] / pool[b] : Infinity) : 0; });
 
     // Bedrooms from renter homes in the place (or county); 4 bedrooms and up are counted as 3.
-    var br = (!isCounty && f.bedrooms.places && f.bedrooms.places[geoid]) || (f.bedrooms.counties && f.bedrooms.counties[fips]) || null;
-    var bw = br && br.bedrooms ? { efficiency: br.bedrooms.studio, '1BR': br.bedrooms['1br'], '2BR': br.bedrooms['2br'], '3BR': (br.bedrooms['3br'] || 0) + (br.bedrooms['4br'] || 0) + (br.bedrooms['5plus'] || 0) }
-      : { efficiency: 1, '1BR': 1, '2BR': 1, '3BR': 1 };
+    // A record whose counts are all zero (a small place the survey found no renters in) is passed over for the
+    // county's; with neither, sizes are split evenly and the page says so.
+    var weights = function (rec) {
+      var b = rec && rec.bedrooms;
+      if (!b) return null;
+      var w = { efficiency: Number(b.studio) || 0, '1BR': Number(b['1br']) || 0, '2BR': Number(b['2br']) || 0, '3BR': (Number(b['3br']) || 0) + (Number(b['4br']) || 0) + (Number(b['5plus']) || 0) };
+      return sum(w) > 0 ? w : null;
+    };
+    var brPlace = !isCounty && f.bedrooms.places ? f.bedrooms.places[geoid] : null, brCounty = f.bedrooms.counties ? f.bedrooms.counties[fips] : null;
+    var br = weights(brPlace) ? brPlace : weights(brCounty) ? brCounty : null;
+    var bw = weights(br) || { efficiency: 1, '1BR': 1, '2BR': 1, '3BR': 1 };
+    var brNote = br ? (br === brCounty && brPlace ? 'the survey counts no renter homes by size in ' + name + ', so ' : '') : null;
     var bySize = spread(homes, bw, SIZES);
     var cells = grid(byBand, bySize);
 
@@ -255,11 +280,11 @@
     var ua = uaFor(fips), cost = localCost(fips);
     var vacRule = f.rules && f.rules.rules && f.rules.rules.pro_forma_vacancy, vacSrc = vacRule && f.rules.sources && f.rules.sources[vacRule.source];
     return {
-      name: name, geoid: geoid, fips: fips, countyName: countyName, isCounty: isCounty, area: area, areas: areas, pool: pool, poolAll: poolAll,
+      name: name, geoid: geoid, fips: fips, countyName: countyName, isCounty: isCounty, area: area, areas: areas, widened: widened, pool: pool, poolAll: poolAll,
       // No renter in the area qualifies for any band (a small place whose tracts the CHFA count finds empty): there
       // is no mix to propose, so the panel says so and offers no button.
       noPool: !(poolAll > 0),
-      size: size, homes: homes, custom: custom, byBand: byBand, capture: capture, bySize: bySize, cells: cells, bedroomsFrom: br,
+      size: size, homes: homes, custom: custom, byBand: byBand, capture: capture, bySize: bySize, cells: cells, bedroomsFrom: br, brNote: brNote || '',
       at: at, rent: rent, tooBig: tooBig, fit: fit, ua: ua, cost: cost, wantCost: !!dr.cost && !!cost,
       vacancy: vacRule && isFinite(vacRule.rate) ? vacRule.rate : 0.07, vacSrc: vacSrc, vacWhere: vacRule && vacRule.location,
       chfa: d.chfa.meta, hud: d.hud.meta, lihtcAt: d.lihtc.fetchedAt, bedroomsMeta: f.bedrooms.meta, ptMeta: f.placeTracts.meta
@@ -283,7 +308,9 @@
     var a = r.area;
     var lead = a.saved
       ? '<p><strong>Market area: ' + esc(a.label) + '.</strong> Saved from Market check ' + esc(Shell.when(a.saved.att.attachedAt)) + '.</p>'
-      : '<p><strong>Biggest assumption: the market area.</strong> No site is picked yet, so these numbers count renters in ' + esc(a.label) + (a.placeRule ? ' (Census 2024 boundaries)' : '') + '. A real market area is drawn round the site from whole census tracts.</p>';
+      : r.widened
+        ? '<p><strong>Biggest assumption: the market area.</strong> No site is picked yet. ' + esc(r.widened.label.charAt(0).toUpperCase() + r.widened.label.slice(1)) + ' (Census 2024 boundaries) ' + (/census tracts /.test(r.widened.label) ? 'hold' : 'holds') + ' too few renters who qualify for ' + r.homes + ' homes: a band would pass the ' + pct(VERY_THIN) + ' line with no lower band to take it. So these numbers count renters in ' + esc(a.label) + '. A real market area is drawn round the site from whole census tracts.</p>'
+        : '<p><strong>Biggest assumption: the market area.</strong> No site is picked yet, so these numbers count renters in ' + esc(a.label) + (a.placeRule ? ' (Census 2024 boundaries)' : '') + '. A real market area is drawn round the site from whole census tracts.</p>';
     var choice = r.areas.length > 1
       ? '<form class="start-area-form" data-start="' + at + '" novalidate><fieldset><legend>Count renters in</legend>' +
         r.areas.map(function (o) {
@@ -369,7 +396,9 @@
       '<div class="table-scroll"><table class="start-table" data-no-sort><caption>Gross rent a month, by size (homes) and band</caption><thead><tr><th scope="col">Size</th>' + BANDS.map(function (b) { return '<th scope="col" class="num">' + b + '%</th>'; }).join('') + '</tr></thead><tbody>' + rentRows + '</tbody></table></div>' +
       '<p class="note">' + (capped ? '* Held to HUD’s Fair Market Rent, below CHFA’s ceiling. ' : '') +
       (moved.length ? '↓ ' + moved.map(function (b) { return b + '% homes at the ' + r.at[b] + '% rent'; }).join('; ') + '. ' : 'No band is very thin, so no rent moves down. ') +
-      '<a href="' + esc(r.chfa.source_url) + '">CHFA 2026 limits</a>, effective ' + esc(r.chfa.effective_date) + '; <a href="' + esc(r.hud.url_fmr) + '">HUD FY' + esc(String(r.hud.fiscal_year)) + ' Fair Market Rents</a>. Bedrooms follow renter homes in ' + esc(r.bedroomsFrom ? r.bedroomsFrom.name.replace(/ \((city|town|CDP)\)$/, '') : 'the county') + ' (Census ACS 2020–2024, table B25042); 4 bedrooms and up count as 3.</p>' +
+      '<a href="' + esc(r.chfa.source_url) + '">CHFA 2026 limits</a>, effective ' + esc(r.chfa.effective_date) + '; <a href="' + esc(r.hud.url_fmr) + '">HUD FY' + esc(String(r.hud.fiscal_year)) + ' Fair Market Rents</a>. ' + (r.bedroomsFrom
+        ? 'Bedrooms: ' + esc(r.brNote) + 'sizes follow renter homes in ' + esc(String(r.bedroomsFrom.name || r.countyName).replace(/ \((city|town|CDP)\)$/, '')) + ' (Census ACS 2020–2024, table B25042); 4 bedrooms and up count as 3.'
+        : 'Bedrooms: no count of renter homes by size was found for ' + esc(r.name) + ' or ' + esc(r.countyName) + ', so the homes are split evenly by size.') + '</p>' +
       '<h4>Utilities</h4>' + uaText +
       '<h4>Vacancy</h4><p>' + pct(r.vacancy) + ', CHFA’s minimum for project income' + (r.vacSrc ? ' (<a href="' + esc(r.vacSrc.url) + '">' + esc(r.vacSrc.title) + '</a>' + (r.vacWhere ? ', ' + esc(r.vacWhere) : '') + ')' : '') + '.</p>' +
       '<h4>Cost</h4>' + costText +
