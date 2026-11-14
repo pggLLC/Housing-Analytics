@@ -499,7 +499,11 @@
   function inputsFor(p, scenarioId, d) {
     var mods = { ChfaRentLimits: global.ChfaRentLimits, DealCostBasis: global.DealCostBasis };
     var G = global.LabCalcGrid ? global.LabCalcGrid.ctx(p, scenarioId, d) : null;
-    if (G) { mods.grid = G; return global.LabCalcGrid.ready() ? buildInputs(d, null, data, mods) : null; }
+    if (G) {
+      // Start the grid's files here too: the comparison table reaches a grid scenario from a page that never opened one.
+      if (!global.LabCalcGrid.ready()) { global.LabCalcGrid.load(); return null; }
+      mods.grid = G; return buildInputs(d, null, data, mods);
+    }
     var sched = currentSchedule(p, scenarioId);
     return sched ? buildInputs(d, sched.snapshot, data, mods) : null;
   }
