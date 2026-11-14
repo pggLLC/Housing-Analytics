@@ -8,7 +8,9 @@
 //                      that reaches into the place. Awards match the CHFA list by city name, as the live Finder does.
 //   #/recommendation   Step 7: the public site's own recommendation contract (js/workflow/recommendation-contract.js,
 //                      RecommendationContract.build) on the place's HNA digest, with the transit zone summary
-//                      (js/transit-zone.js, TransitZone.areaSummary). The lab passes no project into it.
+//                      (js/transit-zone.js, TransitZone.areaSummary). The project it is handed is the workflow
+//                      record the site's full tools saved in this browser, when that record is for the page's
+//                      place (read only; see workflowRecord below). Projects built on these pages are not read yet.
 (function (global) {
   'use strict';
 
@@ -227,26 +229,79 @@
     return String(item.value);
   }
 
+  // ---- Saved work (paul, 13 Nov 2026: "build it as proposed", step 1) --------------------------------
+  // The workflow record the site's full tools keep in this browser (js/workflow-state-core.js: the active project's
+  // id under coho_wf_active, the project itself under coho_wf_project_<id>). The site's own Recommendation page
+  // hands that project to the contract; so does this view, and only when the record is for the page's place.
+  // Read only: neither key is ever written here, and no project is created when none is saved.
+  function workflowRecord() {
+    try {
+      var id = JSON.parse(global.localStorage.getItem('coho_wf_active') || 'null');
+      if (!id) return null;
+      var p = JSON.parse(global.localStorage.getItem('coho_wf_project_' + id) || 'null');
+      return p && typeof p === 'object' && !Array.isArray(p) ? p : null;
+    } catch (e) { return null; }
+  }
+  // The record's place, resolved in the order the site resolves it (js/components/jurisdiction-url-context.js
+  // _baseFromWorkflow): a typed GEOID, else a seven-digit place GEOID, else the county.
+  function recordPlace(p) {
+    var j = p && (p.jurisdiction || (p.steps && p.steps.jurisdiction));
+    if (!j || typeof j !== 'object') return null;
+    var id = j.geoType && j.geoid ? j.geoid : /^\d{7}$/.test(String(j.placeGeoid || '')) ? j.placeGeoid : (j.fips || j.countyFips || null);
+    return { geoid: id ? String(id) : null, name: j.displayName || j.name || j.countyName || null };
+  }
+  // What this page does with the record: quote it (it is for this place), name it and quote nothing (it holds
+  // recorded steps for another place), or neither (nothing saved, or a record with no step recorded).
+  function savedWork(RC, g) {
+    var p = workflowRecord();
+    if (!p) return { project: null, elsewhere: null };
+    var has = RC.projectRecord(p).some(function (st) { return st.status !== 'not_run'; });
+    var at = recordPlace(p);
+    if (at && at.geoid === String(g)) return { project: p, shown: has, elsewhere: null };
+    return { project: null, elsewhere: has ? (at || { geoid: null, name: null }) : null };
+  }
+
   // Where each of the contract's project steps is done in the lab, or on the live site where the lab has no page yet.
   function stepHref(key, g) {
     var q = encodeURIComponent(g);
     return { jurisdiction: '#/places', hsa: '#/place/' + q, market: '#/market?g=' + q, deal: '#/deal-calculator?g=' + q }[key] || null;
   }
+  // A step as the contract recorded it: every figure it quotes, its date and its note, as the site's own page
+  // lists them (js/workflow/recommendation-page.js renderProject). Its link opens the tool that saved it.
+  function recordedStep(st, tool) {
+    var fields = (st.fields || []).map(function (f) { return '<div><dt>' + esc(f.label) + '</dt><dd>' + esc(f.value) + '</dd></div>'; }).join('');
+    return '<li class="rec-step rec-step-recorded" data-step="' + esc(st.key) + '"><span class="rec-step-name">' + esc(st.label) + '</span>' +
+      '<span class="rec-step-state">Recorded' + (st.recordedAt ? ' ' + esc(String(st.recordedAt).slice(0, 10)) : '') + '</span>' +
+      '<a href="' + esc(tool) + '">Reopen this step' + (/^https?:/.test(tool) ? ' ↗' : '') + '</a>' +
+      (fields ? '<dl class="rec-step-fields">' + fields + '</dl>' : st.note ? '' : '<p class="rec-step-note">Recorded, with no figure to quote.</p>') +
+      (st.note ? '<p class="rec-step-note">' + esc(st.note) + '</p>' : '') + '</li>';
+  }
   // The contract's own record of each project step, as the live page lists it under the same heading.
-  function recorded(r, g, mine) {
+  function recorded(r, g, mine, saved) {
+    var shown = !!(saved && saved.project && saved.shown);
     var steps = (r.project || []).map(function (st) {
-      var href = stepHref(st.key, g), live = !href ? 'https://cohoanalytics.com/' + st.href : null;
-      var first = st.fields && st.fields[0];
-      return '<li class="rec-step rec-step-' + esc(st.status) + '"><span class="rec-step-name">' + esc(st.label) + '</span>' +
-        (st.status === 'not_run' ? '<span class="rec-step-state">Not run</span>'
-          : '<span class="rec-step-state">' + (first ? esc(first.label) + ': ' + esc(fmt(first)) : st.savedElsewhere ? 'Saved for another place' : 'Recorded') +
-            (st.recordedAt ? ', ' + esc(String(st.recordedAt).slice(0, 10)) : '') + '</span>') +
-        '<a href="' + esc(href || live) + '">' + (st.status === 'not_run' ? 'Open this step' : 'Reopen this step') + (live ? ' ↗' : '') + '</a></li>';
+      if (st.status !== 'not_run') return recordedStep(st, LIVE + st.href);
+      // With a workflow record on the page every link opens the full tool, since only that tool saves the step.
+      // With none, a step opens where it is done on these pages, or on the live site where there is no such page.
+      var href = shown ? null : stepHref(st.key, g), live = !href ? (shown ? LIVE : 'https://cohoanalytics.com/') + st.href : null;
+      return '<li class="rec-step rec-step-not_run"' + (shown ? ' data-step="' + esc(st.key) + '"' : '') + '><span class="rec-step-name">' + esc(st.label) + '</span>' +
+        '<span class="rec-step-state">Not run</span>' +
+        '<a href="' + esc(href || live) + '">Open this step' + (live && /^https?:/.test(live) ? ' ↗' : '') + '</a></li>';
     }).join('');
+    var meta = shown && saved.project._meta || {};
+    var from = shown ? '<p class="note" id="rec-saved-from">Read from the work the full tools saved in this browser' +
+      (meta.projectName ? ': ' + esc(meta.projectName) : '') + (meta.savedAt ? ', last saved ' + esc(String(meta.savedAt).slice(0, 10)) : '') +
+      '. Each figure is quoted as its tool saved it. Nothing is worked out again.</p>' : '';
+    var other = saved && saved.elsewhere, there = other && other.geoid ? Pl.entryFor(other.geoid) : null;
+    var otherName = there ? shortName(there.label) : other && other.name;
+    var away = !other ? '' : '<p class="callout" id="rec-saved-elsewhere">' + (there
+      ? 'This browser holds saved work for ' + esc(otherName) + ', so none of it is quoted here. <a href="#/recommendation?g=' + esc(encodeURIComponent(other.geoid)) + '">Open the Recommendation for ' + esc(otherName) + '</a>'
+      : 'This browser holds saved work for ' + (otherName ? esc(otherName) + ', a place this page cannot match' : 'no named place') + ', so none of it is quoted here.') + '</p>';
     return '<section class="rec-project"><h2>What you have recorded</h2>' +
-      '<p>The steps a project records for this place. Each answer above covers only the steps that are recorded.</p>' +
-      '<ol class="rec-steps">' + steps + '</ol>' +
+      '<p>The steps a project records for this place. Each answer above covers only the steps that are recorded.</p>' + away +
+      '<ol class="rec-steps">' + steps + '</ol>' + from +
       (mine.length ? '<p>Projects saved in this browser for this place:</p><ul class="route-list">' + mine.map(function (p) { return '<li><a href="#/project/' + esc(p.projectId) + '">' + esc(p.name) + '</a></li>'; }).join('') + '</ul>'
+        : shown ? '<p class="note">Projects built on these pages are not read here yet.</p>'
         : '<p class="note">No project is saved in this browser for this place. Projects built on these pages are not read here yet, so every step reads as not run.</p>') + '</section>';
   }
   // Every source the conclusions drew on, with its date, named as the rest of the lab names it.
@@ -278,7 +333,8 @@
     if (c.error || x.error) return headOnly('<p class="callout">' + esc(c.error || x.error) + '</p>');
     if (!c.digest || !x.data) return headOnly('<p role="status" class="note">Loading the public data for ' + esc(entry.label) + '…</p>');
     var tz = TZ ? TZ.areaSummary(x.data.transit, g, x.data.thiz, new Date()) : null;
-    var r = RC.build({ digest: c.digest, project: null, transitZone: tz, generatedAt: new Date().toISOString() });
+    var saved = savedWork(RC, g);
+    var r = RC.build({ digest: c.digest, project: saved.project, transitZone: tz, generatedAt: new Date().toISOString() });
     var h = r.headline;
     var cards = r.conclusions.map(function (k) {
       return '<article class="rec-card rec-card-' + esc(k.state) + '"><p class="rec-q">' + esc(k.question) + '</p>' +
@@ -301,12 +357,12 @@
     }) + T.printBar() + global.LabHna.stepPath(true, '#/recommendation', g) +
       '<section class="rec-headline rec-card-' + esc(h.state) + '"><p class="rec-q">The direction</p><h2>' + esc(h.verdict) + ' ' + chip(h.state) + '</h2><p>' + esc(h.plain) + '</p></section>' +
       '<div class="rec-cards">' + cards + '</div>' +
-      recorded(r, g, mine) + figureSources(r, g) +
+      recorded(r, g, mine, saved) + figureSources(r, g) +
       '<p class="metric-source">Assembled by the site’s recommendation contract from the HNA digest' + (c.digest.generated_from && c.digest.generated_from.ranking_index_generated_at ? ', built ' + esc(String(c.digest.generated_from.ranking_index_generated_at).slice(0, 10)) : '') + '. Transit: CDOT and transit agency stops, OEDIT zone status.</p>' +
       T.next('Next', [{ href: '#/report?g=' + encodeURIComponent(g), label: 'Free report for ' + shortName(entry.label) }, { href: '#/deal-calculator?g=' + encodeURIComponent(g), label: 'Deal Calculator', secondary: true }, { href: '#/market?g=' + encodeURIComponent(g), label: 'Market check', secondary: true }]);
   }
 
   Shell.views.finder = finder;
   Shell.views.recommendation = recommendation;
-  global.LabFinder = { finder: finder, recommendation: recommendation, cityKey: cityKey, METRO: METRO, buildRows: buildRows };
+  global.LabFinder = { finder: finder, recommendation: recommendation, cityKey: cityKey, METRO: METRO, buildRows: buildRows, workflowRecord: workflowRecord, recordPlace: recordPlace };
 })(window);
