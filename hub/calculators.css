@@ -240,6 +240,26 @@ table[data-role="peers"] small { color: var(--muted); font-weight: 400; }
 .tax-callout li { margin: .35rem 0; font-size: 14px; }
 .tax-callout .tax-src { display: block; margin-top: .15rem; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
 .tax-callout .tax-src a { color: inherit; }
+
+/* Piece D of the calculator move: gross area estimate, site coordinates, pre-fill from local need, concept recommendation. */
+.site-area > .note, .site-coords > .note { margin: .25rem 0 .75rem; }
+.site-area .actions, .site-coords .actions, .site-prefill .actions { margin: .75rem 0; }
+.site-area .actions button, .site-coords .actions button, .site-prefill .actions button { min-height: 44px; }
+.site-area button[disabled] { opacity: .55; cursor: not-allowed; }
+.site-prefill { margin-top: 1rem; padding-top: .75rem; border-top: 1px solid var(--line); }
+.site-result { margin: .5rem 0 0; overflow-wrap: anywhere; }
+.site-result:empty { display: none; }
+.site-result.site-good, .site-result.site-warn, .site-result.site-bad { padding: .5rem .75rem; border-left: 4px solid var(--line); background: var(--card); border-radius: 4px; color: var(--ink); }
+.site-result.site-good { border-left-color: var(--good); }
+.site-result.site-warn { border-left-color: var(--fair); }
+.site-result.site-bad { border-left-color: var(--text-red); }
+.site-result .tax-src { display: block; margin-top: .25rem; font-size: 13px; color: var(--muted); }
+.site-concept [data-role="concept-head"] { margin: .75rem 0 .25rem; font-size: 1.05rem; }
+.site-concept [data-role="concept-head"] .note { font-size: 14px; white-space: nowrap; }
+.site-concept ul { margin: .35rem 0 .75rem; padding-left: 1.25rem; }
+.site-concept li { margin: .3rem 0; overflow-wrap: anywhere; }
+.site-concept [data-role="concept-mix"] h3, .site-concept [data-role="concept-mix"] h4, .site-concept [data-role="concept-mix"] strong { font-size: 15px; }
+.site-concept [data-role="concept-mix"] p { margin: .4rem 0; }
 /* Four columns on a phone: tighter cells so the state and other dollars sit beside the cost without a sideways scroll. */
 @media (max-width: 560px) {
   .doh table[data-role="doh-act"] th, .doh table[data-role="doh-act"] td, .doh table[data-role="doh-15-totals"] th, .doh table[data-role="doh-15-totals"] td { padding: .5rem .25rem; font-size: 13px; }
