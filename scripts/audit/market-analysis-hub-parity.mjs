@@ -5,7 +5,7 @@
 // one browser, gives each the same invented site and the same inputs, and compares everything a visitor can
 // read or take away:
 //   - the analysis result the engine holds (PMAEngine._state.getLastResult())
-//   - every word and number drawn inside <main> (less the two lines the new page adds, and with glossary
+//   - every word and number drawn inside <main> (less the trail the new page adds, and with glossary
 //     pop-ups set aside: they attach at a moment that varies from load to load on either page)
 //   - the value of every field, the rows of every table, the data behind every chart
 //   - the CSV and JSON downloads, byte for byte (less their time stamp)
@@ -71,8 +71,8 @@ async function runPage(browser, file, site, input) {
 
   const snap = await page.evaluate(() => {
     const main = document.getElementById('main-content').cloneNode(true);
-    // The two lines the new page adds.
-    main.querySelectorAll('nav.crumbs, p.tool-steps').forEach(n => n.remove());
+    // The trail the new page adds.
+    main.querySelectorAll('nav.crumbs').forEach(n => n.remove());
     const live = document.getElementById('main-content');
     // Glossary pop-ups attach when js/glossary.js arrives, which varies from load to load on either page, and each
     // one splits the sentence it sits in. So the pop-up text is set aside (and counted), and the words are read

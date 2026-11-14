@@ -15,8 +15,8 @@
 //   2. the header and footer: the new pages' own (hub/page-chrome.js and hub/nav.js draw the five menus)
 //   3. js/navigation.js, js/dark-mode-toggle.js and js/mobile-menu.js are not loaded (the new header does their
 //      jobs); js/glossary.js, which navigation.js used to load, is loaded the same way at the same moment
-//   4. the old seven-step bar gives way to a line that says where this sits in Build a deal
-//   5. a trail back to Build a deal above the heading
+//   4. a trail back to Build a deal above the heading
+// The seven-step bar, the body and every script of the tool are carried as they are.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -29,10 +29,13 @@ const TARGET = 'deal-market-analysis.html';
 const HUB_SHEETS = ['shell.css', 'visual-pass.css', 'templates.css', 'look.css'];
 const DROPPED_SCRIPTS = ['js/navigation.js', 'js/dark-mode-toggle.js', 'js/mobile-menu.js'];
 
-// js/navigation.js added js/glossary.js to the end of the body at the moment it ran. An inline module runs in the
-// same turn a deferred script would, so the glossary starts at the same moment, under the same id, as on the old page.
-const GLOSSARY = '  <script type="module">/* The glossary, loaded as js/navigation.js loaded it. */\n' +
-  '  if (!document.getElementById(\'glossary-script\')) { const gs = document.createElement(\'script\'); gs.id = \'glossary-script\'; gs.src = \'js/glossary.js\'; document.body.appendChild(gs); }</script>\n';
+// js/navigation.js did three things for this page besides drawing the header: it added js/glossary.js to the end
+// of the body at the moment it ran, it announced 'nav:rendered' (the Watchlist listens for it), and it gave the page
+// the site's favicon. An inline module runs in the same turn a deferred script would, so the glossary starts and
+// the announcement goes out at the same moment as on the old page; the favicon is a link in the head, as on the hubs.
+const GLOSSARY = '  <script type="module">/* The glossary and the header announcement, as js/navigation.js did them. */\n' +
+  '  if (!document.getElementById(\'glossary-script\')) { const gs = document.createElement(\'script\'); gs.id = \'glossary-script\'; gs.src = \'js/glossary.js\'; document.body.appendChild(gs); }\n' +
+  '  document.dispatchEvent(new CustomEvent(\'nav:rendered\'));</script>\n';
 
 function must(cond, what) { if (!cond) throw new Error('build-market-analysis-hub: ' + SOURCE + ' ' + what); }
 
@@ -68,7 +71,8 @@ export function build(src, hubPage, palette) {
   // 1. Head.
   swap(/<title>[^<]*<\/title>/, '<title>Market Analysis · COHO Analytics</title>', 'a title');
   must(!/rel="canonical"/.test(out), 'now names a canonical address; decide which page owns it');
-  swap(/(<meta name="description"[^>]*>)/, '$1\n  <link rel="canonical" href="https://cohoanalytics.com/' + TARGET + '">\n  <meta name="robots" content="noindex, follow">', 'a description');
+  swap(/(<meta name="description"[^>]*>)/, '$1\n  <link rel="canonical" href="https://cohoanalytics.com/' + TARGET + '">\n  <meta name="robots" content="noindex, follow">\n  <link rel="icon" href="favicon.svg" type="image/svg+xml">', 'a description');
+  must(!/<link rel="icon"/.test(src), 'now declares its own favicon; drop the one this adds');
   swap(/<head>/, '<head>\n  <!-- Built from ' + SOURCE + ' by scripts/build-market-analysis-hub.mjs. Do not edit by hand: change ' + SOURCE + ' or the script, then run it. -->\n' +
     '  <script>/* Light or dark, before the page paints (the site\'s own key and classes). */\n' +
     '  try { var s = localStorage.getItem(\'coho-analytics-scheme\'); if (s === \'dark\' || s === \'light\') document.documentElement.classList.add(s + \'-mode\'); } catch (e) {}</script>', 'a head');
@@ -105,18 +109,10 @@ export function build(src, hubPage, palette) {
   });
   swap(/<\/body>/, '<script src="hub/lab-config.js"></script>\n<script src="hub/page-chrome.js"></script>\n<script src="hub/nav.js"></script>\n</body>', 'a closing body tag');
 
-  // 4. The old seven-step bar. Its links are kept, as one line under the heading (no link is lost).
-  const bar = /[ \t]*<!-- Workflow progress bar[\s\S]*?<div class="wf-progress-wrap" id="maWorkflowProgress">[\s\S]*?\n  <\/div>\n/.exec(out);
-  must(bar, 'no longer has the seven-step bar');
-  const steps = [...bar[0].matchAll(/<a class="wf-step" href="([^"]+)"[^>]*>\s*<span class="wf-step__num">\d<\/span>\s*<span class="wf-step__label">([^<]+)<\/span>/g)].map(m => ({ href: m[1], label: m[2] }));
-  must(steps.length === 6, 'seven-step bar no longer has six links and this page');
-  out = out.replace(bar[0], '');
-
-  // 5. Where the page sits (the new pages' trail), and the old bar's six links as one line under the opening words.
+  // 4. Where the page sits in the new site (the new pages' trail). The seven-step bar above <main> stays as it is:
+  //    js/components/workflow-progress.js ticks its finished steps and carries the chosen place on its links.
   const trail = '<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li><a href="deal-hub.html#/projects">Build a deal</a></li><li><a href="deal-hub.html#/market">Market check</a></li><li><span aria-current="page">Market Analysis</span></li></ol></nav>\n';
-  const stepLine = '<p class="tool-steps"><span>Other steps</span> ' + steps.map(s => '<a href="' + s.href + '">' + s.label + '</a>').join(' ') + '</p>\n';
   swap(/(<main id="main-content">\n)/, '$1    ' + trail, 'a main');
-  swap(/(<p class="pma-intro-text">[\s\S]*?<\/p>\n)/, '$1      ' + stepLine, 'its opening paragraph');
 
   return out;
 }

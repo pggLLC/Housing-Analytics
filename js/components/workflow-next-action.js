@@ -115,7 +115,9 @@
     'hna-who-lives-here.html':            'hsa',
     'hna-what-households-can-afford.html': 'hsa',
     'hna-where-its-heading.html':         'hsa',
-    'hna-what-to-do.html':                'hsa'
+    'hna-what-to-do.html':                'hsa',
+    // Market Analysis in the new format (written from market-analysis.html by scripts/build-market-analysis-hub.mjs).
+    'deal-market-analysis.html':          'market'
   };
   var STEP_ACTIONS = {
     opportunity:  'Find a jurisdiction with strong LIHTC opportunity to focus your analysis.',

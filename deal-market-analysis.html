@@ -12,6 +12,7 @@
   <meta name="description" content="Public Market Analysis (PMA) scoring for affordable housing site selection in Colorado. Demand, capture risk, rent pressure, and supply analysis using free public data.">
   <link rel="canonical" href="https://cohoanalytics.com/deal-market-analysis.html">
   <meta name="robots" content="noindex, follow">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <meta property="og:title" content="Market Analysis | COHO Analytics">
   <meta property="og:description" content="Primary Market Area analysis and LIHTC development feasibility tool.">
   <meta property="og:type" content="website">
@@ -75,8 +76,9 @@
   <script defer src="js/components/data-quality-summary.js"></script>
   <script defer src="js/components/api-health.js"></script>
   <script defer src="js/components/map-layer-status.js"></script>
-  <script type="module">/* The glossary, loaded as js/navigation.js loaded it. */
-  if (!document.getElementById('glossary-script')) { const gs = document.createElement('script'); gs.id = 'glossary-script'; gs.src = 'js/glossary.js'; document.body.appendChild(gs); }</script>
+  <script type="module">/* The glossary and the header announcement, as js/navigation.js did them. */
+  if (!document.getElementById('glossary-script')) { const gs = document.createElement('script'); gs.id = 'glossary-script'; gs.src = 'js/glossary.js'; document.body.appendChild(gs); }
+  document.dispatchEvent(new CustomEvent('nav:rendered'));</script>
   <script defer src="js/components/inline-glossary.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
   <script defer src="js/components/table-sort.js"></script>
@@ -100,6 +102,45 @@
   <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">Dark</button>
 </header>
 
+  <!-- Workflow progress bar (Step 4 of 7) — outside <main class="js-glossary-auto"> so it sticks independently -->
+  <div class="wf-progress-wrap" id="maWorkflowProgress">
+    <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
+      <a class="wf-step" href="select-jurisdiction.html" data-step="1">
+        <span class="wf-step__num">1</span>
+        <span class="wf-step__label">Jurisdiction</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="lihtc-opportunity-finder.html" data-step="2">
+        <span class="wf-step__num">2</span>
+        <span class="wf-step__label">Opportunity Finder</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="hna-what-housing-exists.html" data-step="3">
+        <span class="wf-step__num">3</span>
+        <span class="wf-step__label">Needs Assessment</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <div class="wf-step wf-step--active" data-step="4" aria-current="step">
+        <span class="wf-step__num">4</span>
+        <span class="wf-step__label">Market Analysis</span>
+      </div>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="hna-scenario-builder.html" data-step="5">
+        <span class="wf-step__num">5</span>
+        <span class="wf-step__label">Scenarios</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="deal-calculator.html" data-step="6">
+        <span class="wf-step__num">6</span>
+        <span class="wf-step__label">Deal Calculator</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="recommendation.html" data-step="7">
+        <span class="wf-step__num">7</span>
+        <span class="wf-step__label">Recommendation</span>
+      </a>
+    </div>
+  </div>
 
   <main id="main-content">
     <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li><a href="deal-hub.html#/projects">Build a deal</a></li><li><a href="deal-hub.html#/market">Market check</a></li><li><span aria-current="page">Market Analysis</span></li></ol></nav>
@@ -127,7 +168,6 @@
       <span class="kicker">Analysis</span>
 <h1 style="margin-bottom:0.25rem">Market Analysis</h1>
       <p class="pma-intro-text">Pick a spot on the map and this scores how well affordable housing would work there. It looks at how tight the rental market is, how many nearby households would qualify, what already exists, and how easily people could get to work, transit and schools. The area it scores is called the Primary Market Area, or PMA &mdash; the neighbourhood a project would actually draw its renters from.</p>
-      <p class="tool-steps"><span>Other steps</span> <a href="select-jurisdiction.html">Jurisdiction</a> <a href="lihtc-opportunity-finder.html">Opportunity Finder</a> <a href="hna-what-housing-exists.html">Needs Assessment</a> <a href="hna-scenario-builder.html">Scenarios</a> <a href="deal-calculator.html">Deal Calculator</a> <a href="recommendation.html">Recommendation</a></p>
       <p class="ma-primary-action" style="margin:.5rem 0 .25rem"><a class="btn btn-primary" href="#maPmaTool">Place your site on the map &darr;</a></p>
       <!-- F256 — CHFA-rule disclosure. The CHFA Market Study Guide
            (Appendix A of the 2027-28 QAP, p. 74) is explicit: "Radius

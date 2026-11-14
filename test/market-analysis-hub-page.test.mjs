@@ -37,15 +37,15 @@ ok(build(oldPage, hubPage, read("hub/palette.css")) === newPage,
 
 // 2. The body of the page is the old page's.
 const mainOf = html => { const m = /<main id="main-content">\n([\s\S]*?)\n  <\/main>/.exec(html); assert.ok(m, 'a page has no <main id="main-content">'); return m[1]; };
-const added = [/^ *<nav class="crumbs" aria-label="Breadcrumb">.*<\/nav>\n/m, /^ *<p class="tool-steps">.*<\/p>\n/m];
+const added = [/^ *<nav class="crumbs" aria-label="Breadcrumb">.*<\/nav>\n/m];
 let newMain = mainOf(newPage);
 added.forEach(re => { ok(re.test(newMain), 'the new page lacks an added line: ' + re); newMain = newMain.replace(re, ''); });
-ok(newMain === mainOf(oldPage), 'between <main> and </main> the new page differs from market-analysis.html by more than the two added lines');
+ok(newMain === mainOf(oldPage), 'between <main> and </main> the new page differs from market-analysis.html by more than the one added line (the trail)');
 
 // 3. Every id.
 const ids = html => new Set([...html.matchAll(/\sid="([^"]+)"/g)].map(m => m[1]));
 const oldIds = ids(oldPage), newIds = ids(newPage);
-const GONE = new Set(['maWorkflowProgress', 'site-footer']);
+const GONE = new Set(['site-footer']); // the old footer's empty slot; the new footer stands in its place
 const missing = [...oldIds].filter(id => !newIds.has(id) && !GONE.has(id));
 ok(missing.length === 0, 'ids on market-analysis.html that the new page lacks: ' + missing.join(', '));
 ok(oldIds.size > 200, 'market-analysis.html has far fewer ids than expected (' + oldIds.size + '); has the page changed shape?');
@@ -64,16 +64,19 @@ ok(newScripts.slice(-3).join() === 'hub/lab-config.js,hub/page-chrome.js,hub/nav
 const inline = html => [...html.matchAll(/<script(?![^>]*\ssrc=)[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1].trim()).filter(Boolean);
 const newInline = inline(newPage).filter(s => !/coho-analytics-scheme|glossary-script/.test(s));
 ok(/<script type="module">[^<]*gs\.src = 'js\/glossary\.js'/.test(newPage), 'the new page does not load the glossary (js/navigation.js used to)');
+ok(/<script type="module">[^<]*dispatchEvent\(new CustomEvent\('nav:rendered'\)\)/.test(newPage), 'the new page does not announce nav:rendered (js/navigation.js used to; the Watchlist listens for it)');
+ok(/<link rel="icon" href="favicon\.svg"/.test(newPage) && fs.existsSync(path.join(root, 'favicon.svg')), 'the new page has no favicon (js/navigation.js used to add it)');
+// The next-step card finds the page's step by file name first; the new page is listed beside the old one.
+ok(/'deal-market-analysis\.html':\s*'market'/.test(read('js/components/workflow-next-action.js')), 'js/components/workflow-next-action.js does not know deal-market-analysis.html is the Market Analysis step');
 assert.deepEqual(newInline, inline(oldPage), 'an inline script differs between the two pages');
 checks++;
 
-// 5. No link lost from the step bar.
-const bar = /<div class="wf-progress-wrap" id="maWorkflowProgress">[\s\S]*?\n  <\/div>\n/.exec(oldPage);
-ok(bar, 'market-analysis.html no longer has the seven-step bar');
-const barLinks = [...bar[0].matchAll(/href="([^"]+)"/g)].map(m => m[1]);
-const stepLine = /<p class="tool-steps">.*<\/p>/.exec(newPage)[0];
-barLinks.forEach(h => ok(stepLine.includes('href="' + h + '"'), 'the step bar\'s link to ' + h + ' is not on the new page'));
-ok(barLinks.length === 6, 'the step bar should link six other steps, found ' + barLinks.length);
+// 5. The seven-step bar is carried whole: js/components/workflow-progress.js ticks its finished steps and puts the
+//    chosen place on its links, so it stays the old page's own markup.
+const barOf = html => (/<div class="wf-progress-wrap" id="maWorkflowProgress">[\s\S]*?\n  <\/div>\n/.exec(html) || [''])[0];
+ok(barOf(oldPage).length > 0, 'market-analysis.html no longer has the seven-step bar');
+ok(barOf(newPage) === barOf(oldPage), 'the seven-step bar on the new page differs from market-analysis.html\'s');
+ok([...barOf(newPage).matchAll(/href="([^"]+)"/g)].length === 6, 'the step bar should link six other steps');
 // Every other link on the old page is on the new one (the body is identical; this covers head and tail).
 const hrefs = html => new Set([...html.matchAll(/<a\s[^>]*href="([^"]+)"/g)].map(m => m[1]));
 const lostLinks = [...hrefs(oldPage)].filter(h => !hrefs(newPage).has(h));
@@ -109,6 +112,6 @@ ok(newPage.includes(':is(.skip-link, .site-header, .site-footer, .crumbs) { --mu
 // The tool's own sheets stay: its scripts draw with their classes.
 [...oldPage.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].forEach(m => ok(newPage.includes('href="' + m[1] + '"'), 'the new page dropped the sheet ' + m[1]));
 // The old page itself is not touched by any of this.
-ok(!/hub\/|tool-steps|deal-market-analysis/.test(oldPage), 'market-analysis.html must stay as it is until paul retires it');
+ok(!/hub\/|class="crumbs"|deal-market-analysis/.test(oldPage), 'market-analysis.html must stay as it is until paul retires it');
 
 console.log('market-analysis-hub-page: ' + checks + ' checks passed');

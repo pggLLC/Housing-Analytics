@@ -13,16 +13,21 @@
      4. gives the page the new pages' type, cards, buttons and tab row (section 4).
    Colours come from the palette only: no colour is named here. */
 
-/* 1. Inside <main>, every property the new pages' sheets set is rolled back, so the tool is laid out by its own
-      sheets exactly as on market-analysis.html. Written inside the layer: there is no layer below it, so the
-      roll-back lands on the browser's own value and the tool's unlayered rules then apply over it. The trail is
-      the one part of <main> that belongs to the new pages. The same goes for the row the tool adds to the footer
-      on a phone (.footer-tools: js/components/watchlist.js moves the Watchlist there), which is the tool's. */
+/* 1. Everything that is not the header, footer or skip link is the tool's: <main>, the seven-step bar above it, and
+      whatever the tool's scripts add to the page (pop-ups, the Watchlist). There, every property the new pages'
+      sheets set is rolled back, so the tool is laid out by its own sheets exactly as on market-analysis.html.
+      Written inside the layer: there is no layer below it, so the roll-back lands on the browser's own value and
+      the tool's unlayered rules then apply over it. The trail is the one part of <main> that belongs to the new
+      pages. The row the tool adds to the footer on a phone (.footer-tools: js/components/watchlist.js moves the
+      Watchlist there) is the tool's too. */
 @layer hub {
-  body.tool-page main#main-content *:not(.crumbs, .crumbs *),
-  body.tool-page main#main-content *:not(.crumbs, .crumbs *)::before,
-  body.tool-page main#main-content *:not(.crumbs, .crumbs *)::after,
-  body.tool-page main#main-content *:not(.crumbs, .crumbs *)::marker,
+  body.tool-page > *:not(.skip-link, .site-header, .site-footer),
+  body.tool-page > *:not(.skip-link, .site-header, .site-footer)::before,
+  body.tool-page > *:not(.skip-link, .site-header, .site-footer)::after,
+  body.tool-page > *:not(.skip-link, .site-header, .site-footer) *:not(.crumbs, .crumbs *),
+  body.tool-page > *:not(.skip-link, .site-header, .site-footer) *:not(.crumbs, .crumbs *)::before,
+  body.tool-page > *:not(.skip-link, .site-header, .site-footer) *:not(.crumbs, .crumbs *)::after,
+  body.tool-page > *:not(.skip-link, .site-header, .site-footer) *:not(.crumbs, .crumbs *)::marker,
   body.tool-page .site-footer :is(.footer-tools, .footer-tools *),
   body.tool-page .site-footer :is(.footer-tools, .footer-tools *)::before,
   body.tool-page .site-footer :is(.footer-tools, .footer-tools *)::after { all: revert-layer; }
@@ -71,17 +76,12 @@ body.tool-page main .kicker { display: none; }
 body.tool-page .pma-intro-text { font-size: 18px; line-height: 1.5; color: var(--ink); max-width: 68ch; text-align: left; hyphens: manual; }
 body.tool-page .pma-intro-note { text-align: left; hyphens: manual; }
 
-/* The old step bar's six links. */
+/* The trail. */
 body.tool-page .crumbs ol:not(#_) { margin: 0 0 .5rem !important; }
 @media (max-width: 480px) {
   /* On a phone the trail stays on one line: the last step is this page, and the heading below says so. */
   body.tool-page .crumbs li:last-child:not(#_) { display: none !important; }
 }
-.tool-steps { display: flex; flex-wrap: wrap; gap: .4rem .5rem; align-items: center; margin: .75rem 0 0; font-size: 14px; color: var(--ink-soft); }
-.tool-steps > span { font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 11px; color: var(--ink-soft); margin-right: .25rem; }
-body.tool-page .tool-steps a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 .8rem; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--card); color: var(--green); text-decoration: none; font-size: 14px; font-weight: 600; }
-body.tool-page .tool-steps a:hover { background: var(--tint); }
-body.tool-page .tool-steps a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 /* The page's own row of links to its parts, as the new pages' tab row. It already sticks under the header
    (js/components/workflow-progress.js measures the header into --site-header-h). Its z-index is the new pages'
@@ -115,4 +115,4 @@ body.tool-page main :is(button, a, input, select, textarea, summary):focus-visib
 body.tool-page main :is(.badge, .pill)[style*="color:#fff"],
 body.tool-page main [style*="color:#fff"][style*="background:var(--"] { color: var(--on-fill) !important; }
 
-@media print { .tool-steps, body.tool-page .crumbs { display: none; } }
+@media print { body.tool-page .crumbs { display: none; } }
