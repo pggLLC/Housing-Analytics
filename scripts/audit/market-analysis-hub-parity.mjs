@@ -10,6 +10,8 @@
 //   - the value of every field, the rows of every table, the data behind every chart
 //   - the CSV and JSON downloads, byte for byte (less their time stamp)
 //   - the count of controls, tables, charts and maps
+//   - which elements of <main> are drawn and which are not (market-analysis-hub-drawn.mjs), so a result that is
+//     in the page but hidden on one of the two does not pass
 // Requests that leave the machine are blocked for both pages, so a slow outside service cannot make the two
 // differ; the parts that wait on one say "unavailable" on both.
 //
@@ -17,6 +19,7 @@
 // Exits 1 on any difference. Not part of ci-checks (it needs a browser); run it before each piece is merged.
 import { chromium } from 'playwright';
 import fs from 'node:fs';
+import { readNotDrawn, drawnDiff } from './market-analysis-hub-drawn.mjs';
 
 const arg = n => { const i = process.argv.indexOf(n); return i > -1 ? process.argv[i + 1] : null; };
 const BASE = (arg('--base') || 'http://127.0.0.1:8080').replace(/\/$/, '');
@@ -104,6 +107,8 @@ async function runPage(browser, file, site, input) {
     };
   });
 
+  const drawn = await readNotDrawn(page);
+
   const downloads = {};
   for (const id of ['pmaExportCsvBtn', 'pmaExportJsonBtn', 'pmaExportJson', 'pmaExportCsv', 'pmaExportMeta']) {
     try {
@@ -113,7 +118,7 @@ async function runPage(browser, file, site, input) {
     } catch (e) { downloads[id] = 'NO DOWNLOAD'; }
   }
   await ctx.close();
-  return { ...snap, downloads, errors };
+  return { ...snap, drawn, downloads, errors };
 }
 
 function diffList(a, b, what, out) {
@@ -140,6 +145,7 @@ for (const site of SITES) {
     diffList(o.fields, n.fields, 'field', diffs);
     diffList(o.tables.map(t => t.join(' // ')), n.tables.map(t => t.join(' // ')), 'table', diffs);
     if (JSON.stringify(o.charts) !== JSON.stringify(n.charts)) diffs.push('chart data differs');
+    { const d = drawnDiff(o.drawn, n.drawn); if (d) diffs.push(d); }
     Object.keys(o.downloads).forEach(k => {
       if (o.downloads[k] === n.downloads[k]) return;
       const a = o.downloads[k].split(/(?<=,|\n|\})/), b = n.downloads[k].split(/(?<=,|\n|\})/);
@@ -150,11 +156,11 @@ for (const site of SITES) {
     if (n.errors.length) diffs.push('page errors on the new page: ' + n.errors.join(' ; '));
     const numbers = o.whole.match(/\d[\d,.]*/g) || [];
     const row = { site: site.name, inputs: input.label, score: JSON.parse(o.result).pma_score ?? JSON.parse(o.result).score ?? null,
-      compared: { words: o.whole.split(' ').length, blocks: o.text.length, glossaryOld: o.glossary, glossaryNew: n.glossary, numbers: numbers.length, fields: o.fields.length, tables: o.tables.length, tableRows: o.tables.reduce((s, t) => s + t.length, 0), charts: o.charts.length,
+      compared: { words: o.whole.split(' ').length, blocks: o.text.length, glossaryOld: o.glossary, glossaryNew: n.glossary, numbers: numbers.length, fields: o.fields.length, elements: o.drawn.elements, notDrawn: o.drawn.hidden.reduce((t, x) => t + Number(x.split(' x').pop()), 0), tables: o.tables.length, tableRows: o.tables.reduce((s, t) => s + t.length, 0), charts: o.charts.length,
         downloads: Object.values(o.downloads).filter(d => d !== 'NO DOWNLOAD').length, ...o.counts }, diffs };
     report.runs.push(row);
     failed += diffs.length ? 1 : 0;
-    console.log((diffs.length ? 'DIFFERS ' : 'same    ') + site.name + ' · ' + input.label + ' · ' + row.compared.words + ' words, ' + row.compared.numbers + ' numbers, ' + row.compared.fields + ' fields, ' + row.compared.tableRows + ' table rows, ' + row.compared.charts + ' charts, ' + row.compared.downloads + ' downloads');
+    console.log((diffs.length ? 'DIFFERS ' : 'same    ') + site.name + ' · ' + input.label + ' · ' + row.compared.words + ' words, ' + row.compared.numbers + ' numbers, ' + row.compared.fields + ' fields, ' + row.compared.tableRows + ' table rows, ' + row.compared.charts + ' charts, ' + row.compared.downloads + ' downloads, ' + row.compared.elements + ' elements (' + row.compared.notDrawn + ' not drawn)');
     diffs.slice(0, 12).forEach(d => console.log('   ' + d));
   }
 }
