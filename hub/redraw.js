@@ -19,7 +19,7 @@
   }
   // How to find a control again after the page is rebuilt: id, or name (and value, for a choice), or all its data-
   // attributes (Remove source 2 is data-action plus data-idx), inside its row; and, where that still matches more than
-  // one control, which of them it was. A control with none of these is found by its place in the page's order.
+  // one control, which of them it was. A control with none of these is found by what it is and says (sigOf).
   function q(v) { return String(v).replace(/["\\]/g, '\\$&'); }
   function dataSel(el) {
     var out = '';
@@ -29,6 +29,11 @@
     }
     return out ? el.tagName.toLowerCase() + out : null;
   }
+  function sigOf(el) {
+    var f = el.closest && el.closest('form');
+    return [el.tagName, el.type || '', (el.getAttribute('aria-label') || el.textContent || el.value || '').replace(/\s+/g, ' ').trim(),
+      el.getAttribute('href') || '', f ? (f.getAttribute('data-action') || f.id || '') : ''].join('|');
+  }
   function scopeOf(row) { return row != null ? '[data-row="' + q(row) + '"] ' : ''; }
   function keyOf(el) {
     if (!el || el === doc.body || !el.tagName) return null;
@@ -36,14 +41,19 @@
       : el.name ? el.tagName.toLowerCase() + '[name="' + q(el.name) + '"]' +
         (el.type === 'radio' || el.type === 'checkbox' ? '[value="' + q(el.value) + '"]' : '')
       : dataSel(el);
-    if (!sel) { var at = focusables().indexOf(el); return at < 0 ? null : { index: at }; }
+    if (!sel) {
+      // No id, name or data-: what it is and says (tag, type, words, link, the form it belongs to), and which of the
+      // controls that look the same it was. Never its place among all controls, which a redraw can shift.
+      var sig = sigOf(el), same = focusables().filter(function (n) { return sigOf(n) === sig; });
+      return { sig: sig, nth: Math.max(0, same.indexOf(el)) };
+    }
     var r = el.closest && el.closest('[data-row]'), row = r ? r.getAttribute('data-row') : null, nth = 0;
     try { nth = Array.prototype.indexOf.call(doc.querySelectorAll(scopeOf(row) + sel), el); } catch (e) { nth = 0; }
     return { sel: sel, row: row, nth: Math.max(0, nth) };
   }
   function find(key) {
     if (!key) return null;
-    if (key.index != null) return focusables()[key.index] || null;
+    if (key.sig != null) return focusables().filter(function (n) { return sigOf(n) === key.sig; })[key.nth || 0] || null;
     try { return doc.querySelectorAll(scopeOf(key.row) + key.sel)[key.nth || 0] || null; } catch (e) { return null; }
   }
 
