@@ -218,3 +218,32 @@ table[data-role="rent-ach"] tr[data-status="clear"] td:last-child { color: var(-
 .cg-flag { display: inline-block; margin-right: .25rem; padding: 0 .35rem; border: 1px solid var(--line); border-radius: 4px; font-size: 12px; font-weight: 600; }
 table[data-role="peers"] td[data-near="yes"] { font-weight: 700; }
 table[data-role="peers"] small { color: var(--muted); font-weight: 400; }
+
+/* The Division of Housing (DOH) views on Financials (calc-doh.js; calculator move, piece C). */
+.doh .row-strong th, .doh .row-strong td { font-weight: 700; border-top: 2px solid var(--ink); }
+.doh .doh-indent th { padding-left: 1.75rem; font-weight: 400; color: var(--ink-soft); }
+.doh table[data-role="doh-act"] th[scope="row"], .doh table[data-role="doh-pf"] th[scope="row"] { white-space: normal; }
+.doh-sources { display: block; margin-top: .15rem; font-size: 13px; font-weight: 400; color: var(--ink-soft); }
+.doh-dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 0 1.25rem; margin: .75rem 0; }
+.doh-dl div { min-width: 0; padding: .55rem 0; border-top: 1px solid var(--line); }
+.doh-dl dt { font-size: 13px; color: var(--ink-soft); }
+.doh-dl dd { margin: .15rem 0 0; font-weight: 700; overflow-wrap: anywhere; }
+.doh-years > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 600; font-size: 14px; }
+.doh-wide th, .doh-wide td { white-space: nowrap; }
+.doh-wide th[scope="row"] { position: sticky; left: 0; background: var(--card); white-space: normal; min-width: 7rem; max-width: 9rem; font-size: 13px; }
+.doh-fields { margin-top: .5rem; }
+.doh-export { margin-top: 1rem; align-items: center; }
+.doh-export .note { margin: 0; flex: 1 1 16rem; }
+.doh .table-scroll { max-height: none; }
+/* The property tax callout above the assumptions (calc-tax.js). */
+.tax-callout ul { margin: .25rem 0 .5rem; padding-left: 1.25rem; }
+.tax-callout li { margin: .35rem 0; font-size: 14px; }
+.tax-callout .tax-src { display: block; margin-top: .15rem; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.tax-callout .tax-src a { color: inherit; }
+/* Four columns on a phone: tighter cells so the state and other dollars sit beside the cost without a sideways scroll. */
+@media (max-width: 560px) {
+  .doh table[data-role="doh-act"] th, .doh table[data-role="doh-act"] td, .doh table[data-role="doh-15-totals"] th, .doh table[data-role="doh-15-totals"] td { padding: .5rem .25rem; font-size: 13px; }
+  main .doh table[data-role="doh-act"] td, main .doh table[data-role="doh-act"] thead th, main .doh table[data-role="doh-15-totals"] td, main .doh table[data-role="doh-15-totals"] thead th { min-width: 4.25rem; }
+  /* text-fit.css gives a long cell 15rem; here the source names sit under the activity, as on the full calculator, so the table fits the screen. */
+  main .doh table[data-role="doh-act"] tbody th[scope="row"], main .doh table[data-role="doh-15-totals"] tbody th[scope="row"] { min-width: 6rem !important; }
+}
