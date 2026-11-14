@@ -34,11 +34,14 @@ for (const old of ['housing-needs-assessment.html', 'lihtc-opportunity-finder.ht
 // public footer offers: this asserts where the link goes, not its wording (AGENTS.md, "pin the agreement, not the copy").
 const SIGN_IN = 'https://coho-backend.communityplanner.workers.dev/';
 const footerOf = (src) => (/<!-- member-chrome:footer [^>]*-->([\s\S]*?)<!-- \/member-chrome:footer -->/.exec(src) || [])[1] || '';
-ok(read('deal-hub.html').includes('href="' + SIGN_IN + '"'), 'non-vacuous: the public footer still offers the member sign-in that the member footer replaces');
+// Every link target in a footer, compared whole (never as a substring of the page).
+const hrefsOf = (html) => [...html.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
+const publicFooter = (/<footer class="site-footer">[\s\S]*?<\/footer>/.exec(read('deal-hub.html')) || [''])[0];
+ok(hrefsOf(publicFooter).some((h) => h === SIGN_IN), 'non-vacuous: the public footer still offers the member sign-in that the member footer replaces');
 ok(fs.existsSync(path.join(ROOT, 'developer.html')) && /class="ib-hero"/.test(home), 'developer.html is the member home');
 for (const f of pages) {
   const foot = footerOf(read(f));
   ok(/<a class="footer-link" href="developer\.html">[^<]+<\/a>/.test(foot), f + ': the footer links the member home (developer.html)');
-  ok(!foot.includes(SIGN_IN), f + ': the footer does not send a signed-in member to the sign-in page');
+  ok(!hrefsOf(foot).some((h) => h === SIGN_IN), f + ': the footer does not send a signed-in member to the sign-in page');
 }
 console.log(`member-chrome: ${checks} checks passed`);
