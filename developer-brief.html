@@ -589,7 +589,7 @@
   function quickActions(geoid, isCounty) {
     const geoType = isCounty ? 'county' : 'place';
     const hnaHref = 'housing-needs-assessment.html?auto=1&geoType=' + encodeURIComponent(geoType) + '&geoid=' + encodeURIComponent(geoid);
-    const pmaHref = 'market-analysis.html?auto=1&geoType=' + encodeURIComponent(geoType) + '&geoid=' + encodeURIComponent(geoid) + '&fips=' + encodeURIComponent(geoid);
+    const pmaHref = 'deal-market-analysis.html?auto=1&geoType=' + encodeURIComponent(geoType) + '&geoid=' + encodeURIComponent(geoid) + '&fips=' + encodeURIComponent(geoid);
     const compareHref = 'compare.html?jurisdictions=' + encodeURIComponent(geoid);
     return `
       <div class="ib-card">

@@ -25,7 +25,7 @@
   'use strict';
 
   var PLACEHOLDERS = { '': 1, '—': 1, '–': 1, '-': 1, 'Loading': 1, '…': 1, '...': 1, 'N/A': 1 };
-  var NEXT_STEP_HREF = /^(market-analysis|deal-calculator|hna-scenario-builder|recommendation)\.html/;
+  var NEXT_STEP_HREF = /^(deal-market-analysis|market-analysis|deal-calculator|hna-scenario-builder|recommendation)\.html/;
 
   function isReal(text) {
     var v = (text || '').replace(/\s+/g, ' ').trim();

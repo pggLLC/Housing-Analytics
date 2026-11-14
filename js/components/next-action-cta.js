@@ -34,7 +34,7 @@
   var PAGES = {
     'of':   { label: '🎯 Opportunity Finder',   href: 'lihtc-opportunity-finder.html',  geoSupport: 'place' },
     'hna':  { label: '📋 Housing Needs Asmt.',  href: 'housing-needs-assessment.html',  geoSupport: 'both' },
-    'pma':  { label: '🗺️ Market Analysis (PMA)', href: 'market-analysis.html',          geoSupport: 'place-or-county' },
+    'pma':  { label: '🗺️ Market Analysis (PMA)', href: 'deal-market-analysis.html',          geoSupport: 'place-or-county' },
     'deal': { label: '💵 Deal Calculator',       href: 'deal-calculator.html',           geoSupport: 'county' }
   };
 
@@ -84,7 +84,7 @@
   // STEPS (test/next-step-link.test.js checks that it does).
   var FALLBACK_ROUTE = [
     { num: 3, key: 'hsa',            label: 'Needs Assessment', href: 'hna-what-housing-exists.html' },
-    { num: 4, key: 'market',         label: 'Market Analysis',  href: 'market-analysis.html' },
+    { num: 4, key: 'market',         label: 'Market Analysis',  href: 'deal-market-analysis.html' },
     { num: 5, key: 'scenario',       label: 'Scenarios',        href: 'hna-scenario-builder.html' },
     { num: 6, key: 'deal',           label: 'Deal Calculator',  href: 'deal-calculator.html' },
     { num: 7, key: 'recommendation', label: 'Recommendation',   href: 'recommendation.html' }

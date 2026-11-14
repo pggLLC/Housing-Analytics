@@ -19,7 +19,9 @@
  *  7. the place the visitor is working on and the saved projects, which the old header's pill showed, are in a row
  *     above the page (js/components/ma-place-row.js), reading and doing what the pill does;
  *  8. the bridging sheet's rules point at markup the tool still draws: every id it names exists, and the built-in
- *     calculator's phone rules find the inline layouts they were written against.
+ *     calculator's phone rules find the inline layouts they were written against;
+ *  9. every menu, step bar, next step and profile link opens the new page, and the scripts that recognise the
+ *     Market Analysis link by its file name (carrying the place, saving before leaving) recognise the new name.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -70,8 +72,12 @@ const newInline = inline(newPage).filter(s => !/coho-analytics-scheme|glossary-s
 ok(/<script type="module">[^<]*gs\.src = 'js\/glossary\.js'/.test(newPage), 'the new page does not load the glossary (js/navigation.js used to)');
 ok(/<script type="module">[^<]*dispatchEvent\(new CustomEvent\('nav:rendered'\)\)/.test(newPage), 'the new page does not announce nav:rendered (js/navigation.js used to; the Watchlist listens for it)');
 ok(/<link rel="icon" href="favicon\.svg"/.test(newPage) && fs.existsSync(path.join(root, 'favicon.svg')), 'the new page has no favicon (js/navigation.js used to add it)');
-// The next-step card finds the page's step by file name first; the new page is listed beside the old one.
-ok(/'deal-market-analysis\.html':\s*'market'/.test(read('js/components/workflow-next-action.js')), 'js/components/workflow-next-action.js does not know deal-market-analysis.html is the Market Analysis step');
+// The next-step card finds the page's step by file name: an alias, or the page its step list sends that step to.
+{
+  const wna = read('js/components/workflow-next-action.js');
+  const knows = f => new RegExp("'" + f.replace(/[.-]/g, '\\$&') + "':\\s*'market'|key: 'market',[^}]*href: '" + f.replace(/[.-]/g, '\\$&') + "'").test(wna);
+  ok(knows('deal-market-analysis.html') && knows('market-analysis.html'), 'js/components/workflow-next-action.js does not know both Market Analysis pages are step 4');
+}
 assert.deepEqual(newInline, inline(oldPage), 'an inline script differs between the two pages');
 checks++;
 
@@ -92,7 +98,8 @@ ok(part(newPage, /<header class="site-header">[\s\S]*?<\/header>/, 'no header') 
 ok(part(newPage, /<footer class="site-footer">[\s\S]*?<\/footer>/, 'no footer') === part(hubPage, /<footer class="site-footer">[\s\S]*?<\/footer>/, 'no hub footer'), 'the footer is not the hub pages\' footer');
 ok(/<body[^>]*\sdata-menu="deal"/.test(newPage), 'the page does not name its menu (data-menu="deal")');
 ok(/<link rel="canonical" href="https:\/\/cohoanalytics\.com\/deal-market-analysis\.html">/.test(newPage), 'no canonical address');
-ok(/<meta name="robots" content="noindex, follow">/.test(newPage), 'until the links switch, the new page stays out of search results so the tool is not listed twice');
+// The menus and the seven-step bar send visitors here (section 9), so search engines may list it.
+ok(!/<meta name="robots"[^>]*noindex/.test(newPage), 'the page every link now opens is hidden from search');
 ['hub/palette.css', 'css/pages/market-analysis-hub.css'].forEach(f => { ok(newPage.includes('href="' + f + '"'), 'the page does not load ' + f); ok(fs.existsSync(path.join(root, f)), f + ' is missing'); });
 // The new pages' sheets come in a cascade layer, so they can never restyle the tool: an unlayered rule (every rule in
 // the tool's own sheets) outranks a layered one.
@@ -261,6 +268,30 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 4
   const big = /(?:^|[}/])\s*([^{}/]*#main-content p:not\(\[style\*="font-size"\]\))\s*\{[^}]*font-size/m.exec(read('css/pages/housing-needs-assessment.css').replace(/\/\*[\s\S]*?\*\//g, '/'));
   ok(big && (big[1].match(/#/g) || []).length === 1, 'the rule that makes paragraphs in main large has changed; recheck the calculator notes');
   ok(/#main-content #dealCalcMount p:not\(\[style\*="font-size"\]\)\s*\{\s*font-size/.test(bridge), 'the calculator notes no longer outrank the large-paragraph rule');
+}
+
+// 9. The links switched. The old page stays up at its address, with no redirect, until paul retires it; nothing on
+//    the site sends a visitor there any more. methods.html is kept out of pull requests, so its prose link stays.
+{
+  const LEFT_ALONE = new Set(['market-analysis.html', 'deal-market-analysis.html', 'methods.html']);
+  const linkToOld = /(?:href\s*[=:]\s*["']|["'])(?:\.\.\/)?market-analysis\.html(?=[?#]|["'](?!\s*:))/; // a link or an address, not a key in a lookup table
+  const htmlFiles = dir => fs.readdirSync(path.join(root, dir)).filter(f => f.endsWith('.html')).map(f => (dir === '.' ? '' : dir + '/') + f);
+  const jsAll = dir => fs.readdirSync(path.join(root, dir), { withFileTypes: true })
+    .flatMap(d => d.isDirectory() ? jsAll(dir + '/' + d.name) : d.name.endsWith('.js') ? [dir + '/' + d.name] : []);
+  const stillOld = [...htmlFiles('.'), ...htmlFiles('places'), ...jsAll('js'), ...jsAll('hub'), 'scripts/hna/build_place_pages.py', 'scripts/hna/build_hna_views.py']
+    .filter(f => !LEFT_ALONE.has(f) && linkToOld.test(read(f).replace(/\/\*[\s\S]*?\*\/|^\s*\/\/.*$/gm, '')));
+  ok(stillOld.length === 0, 'these still send visitors to the old page: ' + stillOld.slice(0, 8).join(', '));
+  ok(read('js/components/workflow-progress.js').includes("key: 'market',       label: 'Market Analysis',    href: '" + 'deal-market-analysis.html' + "'")
+    || /key: 'market',[^}]*href: 'deal-market-analysis\.html'/.test(read('js/components/workflow-progress.js')), 'step 4 of the seven-step bar does not open the new page');
+  ok(/href: "deal-market-analysis\.html"/.test(read('js/navigation.js')), 'the menu does not open the new page');
+  // Scripts that know the Market Analysis link by its file name.
+  const reFrom = (f, re, what) => { const m = re.exec(read(f)); ok(m, f + ' no longer ' + what); return m ? new RegExp(m[1]) : /$^/; };
+  const nextStep = reFrom('js/hna/hna-workflow-autosave.js', /NEXT_STEP_HREF = \/(.+)\/;/, 'names the next-step links it saves before');
+  ok(nextStep.test('deal-market-analysis.html') && nextStep.test('market-analysis.html'), 'the needs assessment no longer saves before a visitor follows the Market Analysis link');
+  const carry = reFrom('js/components/workflow-next-action.js', /if \(!\/(.+?)\/\.test\(base\)\) return;/, 'checks which link carries the place');
+  ok(carry.test('deal-market-analysis.html') && !carry.test('deal-calculator.html'), 'the next-step button no longer carries the place to Market Analysis');
+  ok(/href="deal-market-analysis\.html" data-carry-place/.test(read('scripts/hna/build_hna_views.py')), 'the needs assessment view builder writes another Market Analysis link');
+  ok(/'market-analysis\.html':\s*'market'/.test(read('js/components/workflow-next-action.js')), 'the old page, still up, is no longer recognised as step 4');
 }
 
 console.log('market-analysis-hub-page: ' + checks + ' checks passed');

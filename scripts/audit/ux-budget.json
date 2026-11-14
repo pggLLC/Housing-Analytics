@@ -31,6 +31,12 @@
         "min": 64
       }
     },
+    "deal-market-analysis.html": {
+      "ready": {
+        "selector": "#pmaMap path",
+        "min": 64
+      }
+    },
     "hna-scenario-builder.html": {
       "ready": {
         "selector": "#sbGeoSelect option",

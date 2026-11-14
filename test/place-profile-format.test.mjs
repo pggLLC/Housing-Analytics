@@ -43,7 +43,7 @@ test('nothing a profile had is dropped: every card, figure holder, link and the 
   const holders = ['psPlDevs', 'psPlHomes', 'psPlBondRow', 'psPlPha', 'psPlNp', 'psPlNames', 'psPlLand', 'psPlNote'];
   holders.forEach((id) => assert.ok(card.includes('id="' + id + '"'), '#' + id + ' is no longer inside the housing-organizations card'));
   assert.ok(/getElementById\('psPlayersCard'\)/.test(tpl) && holders.every((id) => tpl.includes("'" + id + "'")), 'the page script no longer fills the housing-organizations card');
-  ['../market-analysis.html?fips={{PLACE_GEOID}}&geoType=place&auto=1', '../deal-calculator.html?geoid={{PLACE_GEOID}}',
+  ['../deal-market-analysis.html?fips={{PLACE_GEOID}}&geoType=place&auto=1', '../deal-calculator.html?geoid={{PLACE_GEOID}}',
     '../housing-needs-assessment.html?type={{PLACE_TYPE}}&geoid={{PLACE_GEOID}}', '../about.html', '../methods.html#how-we-check', '../terms-of-use.html',
     '../privacy-policy.html', '../sitemap.html', 'mailto:info@cohoanalytics.com'].forEach((h) => assert.ok(tpl.includes('href="' + h + '"'), 'the template lost the link to ' + h));
   assert.ok(tpl.includes('src="../js/glossary.js"'), 'glossary definitions are no longer loaded on a profile (js/navigation.js used to load them)');

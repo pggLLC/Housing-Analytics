@@ -211,10 +211,10 @@
       '<h2>Capture rate</h2>' + cap.html +
       '<h2 id="mk-pma">Draw the market area</h2>' +
       '<p>This screen uses the whole county. A CHFA market study needs a primary market area drawn round the site from whole census tracts; CHFA does not accept a radius. The full Market Analysis draws it: place the site, add or drop tracts, and note the natural barriers, school districts, town lines or commute patterns that justify the edge. Demand by income and bedroom size, capture and nearby comparables then count only what is inside it.</p>' +
-      '<p><a href="' + LIVE + 'market-analysis.html?geoid=' + encodeURIComponent(g) + '" rel="noopener">Open the full Market Analysis and draw the market area ↗</a></p>' +
+      '<p><a href="' + LIVE + 'deal-market-analysis.html?geoid=' + encodeURIComponent(g) + '" rel="noopener">Open the full Market Analysis and draw the market area ↗</a></p>' +
       '<p>Members can then start a <a href="' + CHFA_DRAFT + '" rel="noopener">CHFA-format market study ↗</a>: CHFA\u2019s nine sections in order, the tables public data can fill, six maps, and a Word file for a CHFA-approved analyst to finish. It supports the study; it is not the study CHFA accepts.</p>' +
       '<p class="metric-source">' + Pl.srcLine('CHFA Market Study Guide, Appendix A to the 2027–28 QAP (adopted 25 September 2026, approved 23 October 2026)', 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf') + '</p>' +
-      T.next('Next', [{ href: '#/report?g=' + encodeURIComponent(g), label: 'Free report for ' + s.name }, { href: LIVE + 'market-analysis.html?geoid=' + encodeURIComponent(g), label: 'Full Market Analysis ↗', secondary: true }, { href: '#/for-sale?g=' + encodeURIComponent(g), label: 'For-sale and ownership here', secondary: true }]);
+      T.next('Next', [{ href: '#/report?g=' + encodeURIComponent(g), label: 'Free report for ' + s.name }, { href: LIVE + 'deal-market-analysis.html?geoid=' + encodeURIComponent(g), label: 'Full Market Analysis ↗', secondary: true }, { href: '#/for-sale?g=' + encodeURIComponent(g), label: 'For-sale and ownership here', secondary: true }]);
   }
 
   // ---- For-sale and ownership ----------------------------------------------------------------

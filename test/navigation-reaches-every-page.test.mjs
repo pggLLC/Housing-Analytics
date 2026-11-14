@@ -44,10 +44,6 @@ const jsBlob = fs.readdirSync(jsDir).filter((f) => f.endsWith('.js'))
 
 /** Pages that are deliberately not linked from anywhere. Each needs a reason. */
 const UNLINKED_BY_DESIGN = {
-  'deal-market-analysis.html':
-    'the full Market Analysis in the new format, written from market-analysis.html by '
-    + 'scripts/build-market-analysis-hub.mjs; opened by its address only until the menus and the '
-    + 'Market check switch to it (the last piece of the Market Analysis move), then this row goes',
   'og-card.html': 'social preview card rendered by crawlers, never navigated to',
   '404.html': 'served by GitHub Pages for any missing URL; reached by a broken link or typo, never by navigation',
   'colorado-market.html':

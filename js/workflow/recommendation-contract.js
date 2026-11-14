@@ -500,7 +500,7 @@
       fields: [['name', 'Jurisdiction'], ['geoType', 'Level']] },
     { key: 'hsa', label: 'Housing needs assessment', href: 'hna-what-housing-exists.html',
       fields: [['population', 'Population'], ['medianRent', 'Median rent'], ['costBurden', 'Cost burden']] },
-    { key: 'market', label: 'Market analysis', href: 'market-analysis.html',
+    { key: 'market', label: 'Market analysis', href: 'deal-market-analysis.html',
       // Market Analysis saves the PMA score as pmaScore and its tier word as
       // pmaTier. This step once read score/label, which no page writes, so a
       // run analysis was quoted with no figures.

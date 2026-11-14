@@ -40,7 +40,7 @@
     // chapters carry the same content in 11-15 section parts and each one
     // offers 'Full report →' for anyone who wants the whole thing.
     { num: 3, key: 'hsa',          label: 'Needs Assessment',   href: 'hna-what-housing-exists.html' },
-    { num: 4, key: 'market',       label: 'Market Analysis',    href: 'market-analysis.html' },
+    { num: 4, key: 'market',       label: 'Market Analysis',    href: 'deal-market-analysis.html' },
     { num: 5, key: 'scenario',     label: 'Scenarios',          href: 'hna-scenario-builder.html' },
     { num: 6, key: 'deal',         label: 'Deal Calculator',    href: 'deal-calculator.html' },
     // Step 7 is the synthesis. Every conclusion the workflow reaches is
