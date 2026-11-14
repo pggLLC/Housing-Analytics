@@ -3,7 +3,7 @@
 
    Two sets of sheets meet on this page: the tool's own (css/site-theme.css and the rest, which its scripts
    draw with) and the new pages' (hub/*.css). The page loads the new pages' sheets into a cascade layer named
-   "hub"; a layered rule gives way to every unlayered rule. This sheet, loaded last, then does four things:
+   "hub"; a layered rule gives way to every unlayered rule. This sheet, loaded last, then does five things:
      1. keeps the new pages' sheets off the tool: inside <main> they decide nothing (section 1);
      2. keeps the tool's sheets off the header, menu, footer and trail: there the new pages' sheets decide
         everything, as on a hub page (section 2);
@@ -11,6 +11,7 @@
         chart and control the tool draws takes the new colours in light and dark with no change to the tool
         (section 3);
      4. gives the page the new pages' type, cards, buttons and tab row (section 4).
+     5. fixes the layout on a phone, area by area (section 5).
    Colours come from the palette only: no colour is named here. */
 
 /* 1. Everything that is not the header, footer or skip link is the tool's: <main>, the seven-step bar above it, and
@@ -120,5 +121,22 @@ body.tool-page main :is(button, a, input, select, textarea, summary):focus-visib
    in dark mode. Here that text takes the palette's colour for text on a fill, in light and dark. */
 body.tool-page main :is(.badge, .pill)[style*="color:#fff"],
 body.tool-page main [style*="color:#fff"][style*="background:var(--"] { color: var(--on-fill) !important; }
+
+/* 5. On a phone (move piece 2: the site, the market area and the score). Each rule answers a fault measured at 390px,
+      most of them on market-analysis.html too. Layout only: no word, figure or control changes. */
+@media (max-width: 640px) {
+  /* A card inside a section inside the page: three sets of side padding left 272px of 390 for the words. */
+  body.tool-page .ma-report-section { padding: .75rem; }
+  body.tool-page main .pma-card { padding: .85rem .8rem; }
+  /* The address box is `flex: 1 1 240px` for a row; once the row stacks, that made it 240px tall. */
+  body.tool-page #pmaAddressInput { flex: 0 0 auto !important; width: 100%; min-width: 0 !important; min-height: 44px; }
+  body.tool-page #pmaAddressSearchBtn { min-height: 44px; }
+  /* The score: the tool shrinks the ring and its text together to 85% beside each other, which left the text a
+     155px column 970px tall with a blank band under it. Here the ring sits above the text at full size and width. */
+  body.tool-page .pma-score-wrap { transform: none; flex-direction: column; align-items: flex-start; gap: .6rem; }
+  body.tool-page .pma-score-meta { width: 100%; }
+}
+/* Risk flags are drawn one under another with no space between a red one and an amber one. */
+body.tool-page #pmaFlags > * + * { margin-top: .35rem; }
 
 @media print { body.tool-page .crumbs { display: none; } }
