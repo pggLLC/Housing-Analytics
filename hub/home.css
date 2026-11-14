@@ -174,3 +174,8 @@
 .hh-resume { margin: .75rem 0 0; color: var(--hero-text); font-size: 15px; line-height: 1.6; }
 .hh-resume span { font-weight: 600; }
 .hh-resume a { color: var(--hero-ink); font-weight: 600; }
+/* Clear the working place, on the resume line and on a picked place's card. A button that reads as a link. */
+.hh-clear { font: inherit; font-weight: 600; color: var(--hero-ink); background: none; border: 0; padding: .35rem 0; min-height: 44px; text-decoration: underline; cursor: pointer; }
+.hh-clear:focus-visible { outline: 3px solid currentColor; outline-offset: 2px; }
+.home-answer .hh-clear { color: var(--pine); font-weight: 400; }
+#hh-cleared:focus { outline: none; }

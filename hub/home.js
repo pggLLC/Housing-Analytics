@@ -213,21 +213,54 @@
   // A place saved by the public site's older workflow (js/workflow-state-core.js: the active project's id under
   // coho_wf_active, the project under coho_wf_project_<id>, its place under .jurisdiction). Read only, so a
   // visitor who picked a place before Home was rebuilt still gets the resume line. Never written here.
-  function savedWorkflowPlace() {
+  function workflowPlace() {
     try {
       var id = JSON.parse(global.localStorage.getItem('coho_wf_active') || 'null');
       if (!id) return null;
       var j = (JSON.parse(global.localStorage.getItem('coho_wf_project_' + id) || 'null') || {}).jurisdiction;
-      return j && validPlace(j.geoid) && j.name ? { geoid: String(j.geoid), label: String(j.name) } : null;
+      return j && validPlace(j.geoid) && j.name ? { geoid: String(j.geoid), label: String(j.name), key: id + '|' + j.geoid } : null;
     } catch (e) { return null; }
+  }
+  // Clear on Home sets that older place aside under a key of this page's own (RESUME_OFF), since the workflow's
+  // storage is never written here. It shows again once the workflow holds a different project or place.
+  var RESUME_OFF = 'coho-lab-resume-off';
+  function savedWorkflowPlace() {
+    var w = workflowPlace();
+    if (!w) return null;
+    try { if (global.localStorage.getItem(RESUME_OFF) === w.key) return null; } catch (e) { /* storage off: show it */ }
+    return { geoid: w.geoid, label: w.label };
+  }
+  // Clear (feature check, 13 Nov 2026: every other hub page could clear the working place from its "Working on"
+  // line; Home could only swap it). One button on the resume line and one on a picked place's card.
+  function clearButton(params, label) {
+    return '<button type="button" class="hh-clear" data-home-clear="1" data-to="' + esc(homeHref(params, { town: '', q: '' })) + '" aria-label="Clear ' + esc(label) + ' as the place you are working on">Clear</button>';
+  }
+  var cleared = false;
+  if (global.document && global.addEventListener) {
+    global.addEventListener('hashchange', function () { cleared = false; });
+    global.document.addEventListener('click', function (ev) {
+      var b = ev.target.closest && ev.target.closest('[data-home-clear]');
+      if (!b) return;
+      if (global.LabHna && global.LabHna.clearWorking) global.LabHna.clearWorking();
+      var w = workflowPlace();
+      try { if (w) global.localStorage.setItem(RESUME_OFF, w.key); } catch (e) { /* storage off: nothing was kept */ }
+      cleared = true;
+      // A picked place's card is in the address (?town=); leaving it there would pick the place again.
+      var to = b.getAttribute('data-to') || '#/';
+      if (location.hash !== to && (location.hash || '#/') !== to) history.pushState(null, '', to);
+      Shell.render();
+      var said = document.getElementById('hh-cleared');
+      if (said) said.focus({ preventScroll: true });
+    });
   }
   function resume(params) {
     var w = (global.LabHna && global.LabHna.working ? global.LabHna.working() : null) || savedWorkflowPlace();
-    if (!w || validPlace(params.get('town')) || params.get('q')) return '';
+    if (validPlace(params.get('town')) || params.get('q')) return '';
+    if (!w) return cleared ? '<p class="hh-resume" id="hh-cleared" tabindex="-1">Place cleared. Pick a town or county to start again.</p>' : '';
     var g = w.geoid;
     return '<p class="hh-resume"><span>Continue where you left off:</span> <a href="#/place/' + esc(g) + '"><strong>' + esc(w.label) + '</strong>’s needs assessment</a> · ' +
       '<a href="' + esc(onPlace('#/market', g)) + '">Market check</a> · <a href="' + esc(onPlace('#/deal-calculator', g)) + '">Deal Calculator</a> · ' +
-      '<a href="' + esc(homeHref(params, { town: g })) + '">Its headline figures</a></p>';
+      '<a href="' + esc(homeHref(params, { town: g })) + '">Its headline figures</a> · ' + clearButton(params, w.label) + '</p>';
   }
   function firstMatch(q) {
     if (!q) return null;
@@ -266,7 +299,7 @@
       // The old home page's own two extras for a picked place: its short profile page and its data file.
       '<p class="ha-more">' + (e && /^places\//.test(e.path || '') ? '<a href="' + esc(LIVE + e.path) + '">' + esc(label) + '’s short profile page</a> · ' : '') +
       '<a href="' + esc(LIVE + 'data/hna/jurisdiction-metrics-digest/' + g + '.json') + '">The data file behind these figures</a></p>' +
-      '<p class="ha-clear"><a href="' + esc(homeHref(params, { town: '' })) + '">Pick another town or county</a></p></section>';
+      '<p class="ha-clear"><a href="' + esc(homeHref(params, { town: '' })) + '">Pick another town or county</a> · ' + clearButton(params, label) + '</p></section>';
   }
 
   // The tools the old home page listed as quick links, each at its rebuilt page.

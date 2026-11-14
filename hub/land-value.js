@@ -8,7 +8,9 @@
   var Shell = global.LabShell, T = global.LabTpl;
   var esc = Shell.esc;
   var LIVE = 'https://cohoanalytics.com/land-value.html';
-  var COMPS = 4;
+  // The sales table opens with four rows. "Add a sale" adds one at a time (rows= in the address), up to MAX_COMPS;
+  // the live tool's own form adds rows the same way, and its arithmetic takes any number of sales.
+  var COMPS = 4, MAX_COMPS = 20;
 
   var FIELDS = [
     { id: 'acres', label: 'Site size (acres)', step: '0.1', ex: '3.5' },
@@ -30,10 +32,17 @@
   function money(n) { return n == null ? '—' : n >= 1e6 ? '$' + (n / 1e6).toFixed(2) + 'M' : '$' + Math.round(n).toLocaleString('en-US'); }
   function val(p, k) { var v = parseFloat(p.get(k)); return isFinite(v) ? v : 0; }
 
+  // How many sale rows to draw: four, or more when the address asks for them (rows=) or already holds a later sale.
+  function rowCount(p) {
+    var asked = Math.floor(val(p, 'rows')), last = 0;
+    p.forEach(function (v, k) { var m = /^c(\d+)[dapy]$/.exec(k); if (m && v !== '') last = Math.max(last, Number(m[1])); });
+    return Math.min(MAX_COMPS, Math.max(COMPS, asked, last));
+  }
+
   // Builds the module's state from the hash, the same fields its own form reads.
   function stateFrom(p) {
     var comps = [];
-    for (var i = 1; i <= COMPS; i++) {
+    for (var i = 1, n = rowCount(p); i <= n; i++) {
       var a = val(p, 'c' + i + 'a'), pr = val(p, 'c' + i + 'p');
       if (a > 0 && pr > 0) comps.push({ description: p.get('c' + i + 'd') || '', acres: a, price: pr, pricePerAcre: pr / a, date: p.get('c' + i + 'y') || '' });
     }
@@ -143,58 +152,95 @@
       '<p class="metric-detail">' + esc('Price ' + (a.discountPct ? 'after the ' + a.discountPct + '% discount ' : '') + money(a.net) + (a.max == null ? '' : ', against ' + money(a.max) + ' the deal can pay') + '. ' + say + close) + '</p></div>';
   }
 
-  function view(params) {
-    if (!global.LandValueTool) return '<h1>Land value</h1><p class="callout">The Land value tool’s module did not load.</p>';
-    var p = params, st = stateFrom(p), r = result(st);
-    var input = function (f) {
-      return '<label class="lv-field"><span>' + esc(f.label) + '</span><input type="number" inputmode="decimal" min="0" step="' + f.step + '" data-lv="' + f.id + '" value="' + esc(p.get(f.id) || '') + '" placeholder="For example ' + esc(f.money ? money(Number(f.ex)) : f.ex) + '"></label>';
-    };
-    var compRows = '';
-    for (var i = 1; i <= COMPS; i++) {
-      compRows += '<tr><th scope="row">' + i + '</th>' +
-        '<td><input type="text" data-lv="c' + i + 'd" value="' + esc(p.get('c' + i + 'd') || '') + '" aria-label="Sale ' + i + ' address or note"></td>' +
-        '<td><input type="number" min="0" step="0.1" data-lv="c' + i + 'a" value="' + esc(p.get('c' + i + 'a') || '') + '" aria-label="Sale ' + i + ' acres"></td>' +
-        '<td><input type="number" min="0" step="10000" data-lv="c' + i + 'p" value="' + esc(p.get('c' + i + 'p') || '') + '" aria-label="Sale ' + i + ' price"></td>' +
-        '<td><input type="text" data-lv="c' + i + 'y" value="' + esc(p.get('c' + i + 'y') || '') + '" aria-label="Sale ' + i + ' year" placeholder="2025"></td></tr>';
-    }
-    var out = '<div class="metrics">' +
+  // One row of the sales table, and what sits under it: "Add a sale", or a line once the table is full.
+  function compRow(i, p) {
+    var v = function (k) { return esc((p && p.get('c' + i + k)) || ''); };
+    return '<tr><th scope="row">' + i + '</th>' +
+      '<td><input type="text" data-lv="c' + i + 'd" value="' + v('d') + '" aria-label="Sale ' + i + ' address or note"></td>' +
+      '<td><input type="number" min="0" step="0.1" data-lv="c' + i + 'a" value="' + v('a') + '" aria-label="Sale ' + i + ' acres"></td>' +
+      '<td><input type="number" min="0" step="10000" data-lv="c' + i + 'p" value="' + v('p') + '" aria-label="Sale ' + i + ' price"></td>' +
+      '<td><input type="text" data-lv="c' + i + 'y" value="' + v('y') + '" aria-label="Sale ' + i + ' year" placeholder="2025"></td></tr>';
+  }
+  function addSale(rows) {
+    return rows < MAX_COMPS ? '<button type="button" class="button-link secondary" data-lv-add="1">Add a sale</button>'
+      : '<span class="note" tabindex="-1" data-lv-full="1">' + MAX_COMPS + ' sales is the most this page takes.</span>';
+  }
+  // The results panel, for the inputs in p. Drawn with the page, and again on its own after each change.
+  function results(p) {
+    var st = stateFrom(p), r = result(st);
+    return '<h2>Land value negotiation support</h2>' + '<div class="metrics">' +
       '<div class="metric"><p class="metric-title">Market value from your sales</p><p class="metric-value">' + esc(r.comps ? money(r.comps.estimatedValue) : '—') + '</p><p class="metric-detail">' + esc(r.comps ? 'Median ' + money(r.comps.medianPerAcre) + ' an acre from ' + r.comps.count + (r.comps.count === 1 ? ' sale' : ' sales') + '. Range ' + money(r.comps.rangeValue.low) + ' to ' + money(r.comps.rangeValue.high) + '.' : 'Enter at least one sale with acres and price.') + '</p></div>' +
       '<div class="metric"><p class="metric-title">Most the deal can pay for land</p><p class="metric-value">' + esc(r.res ? money(r.res.adjustedResidual) : '—') + '</p><p class="metric-detail">' + esc(r.res ? (st.totalUnits > 0 ? money(r.res.perUnit) + ' a home. ' : '') + (st.siteAcres > 0 ? money(r.res.perAcre) + ' an acre. ' : '') + (r.res.adjustedResidual > 0 ? 'Sources minus cost, less off-site and cleanup costs.' : 'As entered, the sources ' + (r.res.grossResidual > 0 ? 'leave ' + money(r.res.grossResidual) + ', which off-site and cleanup costs use up' : 'do not cover the cost before land') + ', so nothing is left for land.') : 'Enter development cost and equity and first mortgage.') + '</p></div>' +
       askCard(r.ask, st.totalUnits) +
       '<div class="metric"><p class="metric-title">How complete the inputs are</p><p class="metric-value">' + esc(CONF[r.conf.level] + ', ' + r.conf.score + ' of 100') + '</p><p class="metric-detail">The tool’s own completeness check: sales, project figures and site details. It is not a measure of accuracy.</p></div>' +
-      '</div>' + bandChart(r.band, r.ask);
+      '</div>' + bandChart(r.band, r.ask) +
+      '<p class="note">This page keeps your figures in its link, so you can copy the address to share it. Nothing is saved anywhere else.</p>';
+  }
+
+  function view(params) {
+    if (!global.LandValueTool) return '<h1>Land value</h1><p class="callout">The Land value tool’s module did not load.</p>';
+    var p = params;
+    var input = function (f) {
+      return '<label class="lv-field"><span>' + esc(f.label) + '</span><input type="number" inputmode="decimal" min="0" step="' + f.step + '" data-lv="' + f.id + '" value="' + esc(p.get(f.id) || '') + '" placeholder="For example ' + esc(f.money ? money(Number(f.ex)) : f.ex) + '"></label>';
+    };
+    var compRows = '', rows = rowCount(p);
+    for (var i = 1; i <= rows; i++) compRows += compRow(i, p);
     return T.head({
       kind: 'tool', crumbs: T.trail('opportunities', 'Land value'), title: 'Land value',
       answer: 'What a site is worth on the market, the most an affordable project can pay for it, and the room between the two.',
       strip: exampleStrip(),
       meta: '<span class="scope-tag">Not an appraisal</span> For an offer letter or financing, use an MAI or state-certified appraiser.'
     }) +
-      '<div class="lv-layout"><form class="lv-form" data-lv-form="1" onsubmit="return false">' +
+      '<div class="lv-layout"><form class="lv-form" data-lv-form="1" data-lv-rows="' + rows + '" onsubmit="return false">' +
       '<fieldset><legend>The site</legend>' + FIELDS.slice(0, 2).map(input).join('') + input(ASK) +
       '<label class="lv-field"><span>Zoning</span><select data-lv="zoning">' + ZONING.map(function (z) { return '<option value="' + z[0] + '"' + (p.get('zoning') === z[0] ? ' selected' : '') + '>' + esc(z[1]) + '</option>'; }).join('') + '</select></label></fieldset>' +
       '<fieldset><legend>Recent land sales nearby</legend><p class="note">Three or more sales of similar zoning within about five miles. County assessor records and local brokers are the usual sources.</p>' +
-      '<div class="table-scroll"><table class="lv-comps" data-no-source="input: sales the visitor enters"><thead><tr><th scope="col">#</th><th scope="col">Address or note</th><th scope="col">Acres</th><th scope="col">Price</th><th scope="col">Year</th></tr></thead><tbody>' + compRows + '</tbody></table></div></fieldset>' +
+      '<div class="table-scroll"><table class="lv-comps" data-no-source="input: sales the visitor enters"><thead><tr><th scope="col">#</th><th scope="col">Address or note</th><th scope="col">Acres</th><th scope="col">Price</th><th scope="col">Year</th></tr></thead><tbody>' + compRows + '</tbody></table></div><p class="lv-add">' + addSale(rows) + '</p></fieldset>' +
       '<fieldset><legend>What the project can pay</legend><p class="note">Take these from the Deal Calculator if you have run the deal.</p>' + FIELDS.slice(2, 8).map(input).join('') + '</fieldset>' +
       '<fieldset><legend>Public land</legend>' + input(FIELDS[8]) + '<p class="note">100% means donated land, 50% half the market price.</p></fieldset>' +
-      '</form><section class="lv-out" aria-live="polite"><h2>Land value negotiation support</h2>' + out +
-      '<p class="note">This page keeps your figures in its link, so you can copy the address to share it. Nothing is saved anywhere else.</p></section></div>' +
+      '</form><section class="lv-out" aria-live="polite">' + results(p) + '</section></div>' +
       guide() +
       '<details class="counted"><summary>What this does not cover</summary><p>It does not use live sales or assessor data, entitlement risk or a ground lease. Off-site and cleanup costs count only if you enter them. The arithmetic is the same as the <a href="' + LIVE + '">full Land value tool</a>.</p></details>' +
       T.next('Next', [{ href: '#/deal-calculator', label: 'Test the deal with this land cost →' }, { href: '#/opportunity/preservation', label: 'Homes that could be lost', secondary: true }]);
   }
 
-  // Each change writes the inputs into the hash and redraws, keeping focus on the field being edited.
+  // The form's fields as the address carries them. Rows added with "Add a sale" stay, filled in or not.
+  function formParams(form) {
+    var p = new URLSearchParams();
+    form.querySelectorAll('[data-lv]').forEach(function (f) { if (f.value !== '') p.set(f.dataset.lv, f.value); });
+    var rows = Math.min(MAX_COMPS, form.querySelectorAll('.lv-comps tbody tr').length);
+    if (rows > COMPS) p.set('rows', String(rows));
+    return p;
+  }
+  // Writes the form into the address and redraws the results panel only. The form itself is left as it is, so
+  // the cursor stays where the reader put it: a full redraw sent it back to the field just edited, and typing
+  // meant for the next field landed there.
+  function update(form) {
+    var p = formParams(form);
+    history.replaceState(null, '', '#/opportunity/land-value' + (String(p) ? '?' + p : ''));
+    var out = document.querySelector('.lv-out');
+    if (out && global.LandValueTool) out.innerHTML = results(p);
+  }
   document.addEventListener('change', function (ev) {
     var el = ev.target;
     if (!el.dataset || !el.dataset.lv) return;
-    var form = el.closest('form'), p = new URLSearchParams();
-    form.querySelectorAll('[data-lv]').forEach(function (f) { if (f.value !== '') p.set(f.dataset.lv, f.value); });
-    var id = el.dataset.lv;
-    history.replaceState(null, '', '#/opportunity/land-value' + (String(p) ? '?' + p : ''));
-    Shell.render();
-    var again = document.querySelector('[data-lv="' + id + '"]');
-    if (again) again.focus();
+    var form = el.closest('[data-lv-form]');
+    if (form) update(form);
+  });
+  // "Add a sale": one more row at the foot of the table, with the cursor in it. Nothing typed so far is touched.
+  document.addEventListener('click', function (ev) {
+    var b = ev.target.closest && ev.target.closest('[data-lv-add]');
+    var form = b && b.closest('[data-lv-form]'), body = form && form.querySelector('.lv-comps tbody');
+    if (!body) return;
+    var n = body.rows.length + 1;
+    if (n > MAX_COMPS) return;
+    body.insertAdjacentHTML('beforeend', compRow(n, null));
+    var box = b.closest('.lv-add');
+    if (box && n >= MAX_COMPS) box.innerHTML = addSale(n);
+    update(form);
+    var first = form.querySelector('[data-lv="c' + n + 'd"]');
+    if (first) first.focus();
   });
 
-  global.LabLandValue = { view: view, stateFrom: stateFrom, result: result };
+  global.LabLandValue = { view: view, stateFrom: stateFrom, result: result, rowCount: rowCount };
 })(window);
