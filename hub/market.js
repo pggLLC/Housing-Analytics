@@ -303,8 +303,8 @@
       '<h2>What happens when an owner sells</h2>' + lines +
       '<h2>The resale formulas, side by side</h2>' + cards +
       '<p class="note">' + esc(OR.SCREENING_CAVEAT) + '</p>' +
-      '<div class="callout">This is a free screen. The full for-sale study, with land structures, resale settlements, effective demand and capture, is a member tool, as the full Market Analysis is.</div>' +
-      T.next('Next', [{ href: '#/report?g=' + encodeURIComponent(g), label: 'Free report for ' + s.name }, { href: LIVE + 'for-sale-market-study.html', label: 'Full for-sale study ↗', secondary: true }, { href: '#/market?g=' + encodeURIComponent(g), label: 'Market check here', secondary: true }, { href: '#/assistance', label: 'Help for homebuyers', secondary: true }]);
+      '<div class="callout">This is a free screen. The full for-sale study, with land structures, resale settlements, effective demand and capture, opens for the same place on its own page.</div>' +
+      T.next('Next', [{ href: '#/report?g=' + encodeURIComponent(g), label: 'Free report for ' + s.name }, { href: LIVE + 'for-sale-market-study.html' + (/^\d{5,7}$/.test(String(g)) ? '?geoid=' + encodeURIComponent(g) : ''), label: 'Full for-sale study ↗', secondary: true }, { href: '#/market?g=' + encodeURIComponent(g), label: 'Market check here', secondary: true }, { href: '#/assistance', label: 'Help for homebuyers', secondary: true }]);
   }
 
   // ---- Site and market area, for a project (walkthrough, 14 Nov 2026) ---------------------------
