@@ -90,6 +90,71 @@
   var NEWS_PROGRAMS = [['LIHTC', 'Tax credits (LIHTC)'], ['CHFA', 'CHFA'], ['Prop 123', 'Prop 123'], ['Division of Housing', 'Division of Housing (DOLA)'], ['HUD', 'HUD'], ['Section 8', 'Section 8']];
   var NEWS_CHECKS = [['checked', 'Checked'], ['unverified', 'Unverified outlet'], ['weak', 'Weak sourcing']];
   // Stories from before the outlet check carry no `sourcing` and count as checked, as on the live page.
+  // A story that names a Colorado place carries one line of that place's own numbers (the live page's local
+  // line): read from the place's Housing Needs Assessment digest, each figure graded by
+  // RecommendationContract.evidence() as the live page grades it. A figure the contract calls insufficient, or one
+  // borrowed from another geography level, is left out; a rent-burden rate held back for too few renters says so.
+  var NEWS_LEVEL = { place: 'place', cdp: 'cdp', county: 'county' };
+  var newsDigests = {};
+  function newsDigest(geoid) {
+    if (!newsDigests[geoid]) {
+      var e = newsDigests[geoid] = { doc: undefined };
+      // The hosted preview packs the per-place HNA files into bundles (LAB_HNA_LOAD), as hna.js reads them.
+      e.wait = (global.LAB_HNA_LOAD ? global.LAB_HNA_LOAD(geoid).then(function (r) { return r[0] || null; })
+        : fetch((global.LAB_VENDOR || '') + 'data/hna/jurisdiction-metrics-digest/' + encodeURIComponent(geoid) + '.json').then(function (r) { return r.ok ? r.json() : null; }))
+        .catch(function () { return null; })
+        .then(function (doc) { e.doc = doc; return doc; });
+    }
+    return newsDigests[geoid];
+  }
+  function newsGraded(doc, key, label, type) {
+    var contract = global.RecommendationContract;
+    if (!contract || typeof contract.evidence !== 'function') return { usable: false };
+    var item = contract.evidence(doc && doc.metrics, key, label, { requestedLevel: NEWS_LEVEL[type] || null });
+    var usable = item.state !== 'insufficient' && !item.borrowedFrom && typeof item.value === 'number' && isFinite(item.value);
+    return { usable: usable, value: item.value, asOf: item.asOf, withheld: item.value !== null && !usable };
+  }
+  function newsLocalLine(doc, place) {
+    var parts = [], vintages = [], notes = [];
+    var burden = newsGraded(doc, 'pct_cost_burdened', 'Rent-burdened renter share', place.type);
+    if (burden.usable && burden.value > 0) { parts.push(burden.value.toFixed(0) + '% of renter households rent-burdened'); vintages.push(burden.asOf); }
+    else if (burden.withheld) notes.push('rent-burden rate withheld: too few renter households for a reliable rate');
+    var rent = newsGraded(doc, 'gross_rent_median', 'Median gross rent', place.type);
+    if (rent.usable && rent.value > 0) { parts.push('median gross rent $' + Math.round(rent.value).toLocaleString('en-US')); vintages.push(rent.asOf); }
+    var gap = newsGraded(doc, 'housing_gap_units', 'Units short at 30% AMI', place.type);
+    if (gap.usable && gap.value > 0) { parts.push(Math.round(gap.value).toLocaleString('en-US') + ' units short for households at or below 30% AMI'); vintages.push(gap.asOf); }
+    var name = (doc && doc.geography && doc.geography.name) || place.name;
+    var link = '<a href="#/place/' + esc(encodeURIComponent(place.geoid)) + '">' + esc(name) + ' housing needs</a>';
+    if (!parts.length && !notes.length) return link;
+    var vintage = vintages.filter(function (v, i) { return v && vintages.indexOf(v) === i; }).join('; ');
+    return '<span class="news-local-name">' + esc(name) + ':</span> ' + esc(parts.concat(notes).join(' · ')) +
+      (vintage ? ' <span class="news-local-src">(' + esc(vintage) + ')</span>' : '') + ' · ' + link;
+  }
+  // The line's spot: filled at once when the digest is in hand, otherwise when its row comes into view.
+  function newsLocal(x) {
+    var p = x.places && x.places[0];
+    if (!p || !p.geoid) return '';
+    var e = newsDigests[p.geoid], done = e && e.doc !== undefined;
+    return '<p class="news-local" data-geoid="' + esc(p.geoid) + '" data-name="' + esc(p.name || '') + '" data-type="' + esc(p.type || '') + '"' +
+      (done ? ' data-filled="' + (e.doc ? 'yes' : 'no-data') + '">' + newsLocalLine(e.doc, p) : '>') + '</p>';
+  }
+  // Only the lines a reader can see load, as the live page loads only the cards it shows: the top stories and
+  // the table's first rows, then more as "Show all", a sort or a filter brings rows into view.
+  function fillNewsLocal() {
+    document.querySelectorAll('.news-local[data-geoid]:not([data-filled])').forEach(function (el) {
+      if (!el.parentNode.getClientRects().length) return; // the empty line itself is hidden, so ask of its row
+      el.setAttribute('data-filled', 'pending');
+      var place = { geoid: el.getAttribute('data-geoid'), name: el.getAttribute('data-name'), type: el.getAttribute('data-type') };
+      newsDigest(place.geoid).wait.then(function (doc) {
+        el.innerHTML = newsLocalLine(doc, place);
+        el.setAttribute('data-filled', doc ? 'yes' : 'no-data');
+      });
+    });
+  }
+  var newsFillSoon = function () { setTimeout(fillNewsLocal, 0); };
+  document.addEventListener('click', function (ev) { if (ev.target.closest && ev.target.closest('#nw-latest [data-unclip], #nw-latest th button')) newsFillSoon(); }, true); // capture: "Show all" removes its button first
+  document.addEventListener('input', function (ev) { if (ev.target.closest && ev.target.closest('#nw-latest')) newsFillSoon(); });
+
   function newsCheck(x) { return x.sourcing === 'unverified' || x.sourcing === 'weak' ? x.sourcing : 'checked'; }
   function news(params) {
     params = params || new URLSearchParams();
@@ -132,10 +197,11 @@
       (checkChips.filter(Boolean).length > 1 ? '<nav class="dm-chips" aria-label="Outlet check"><p class="news-pick-label">Outlet check</p><ul>' + checkChips.join('') + '</ul></nav>' : '');
     var pick = pickRows ? '<section id="nw-pick" class="news-pick" aria-label="Narrow the headlines">' + pickRows +
       (narrowed ? '<p class="chapter-finding" role="status">' + (picked.length ? 'Showing ' + num(picked.length) + ' of ' + num(st.length) + ' headlines' : 'No headlines match') + ': ' + esc(pickedNames.join(', ')) + '. <a id="nw-all" href="' + esc(to({ np: '', nc: '' })) + '">Show all headlines</a></p>' : '') + '</section>' : '';
-    var stories = picked.map(function (x) { return { date: x.date, title: x.title, link: safe(x.link), source: x.source, check: check(x), where: (x.places || []).map(function (p) { return p.name; }).concat(x.places && x.places.length ? [] : x.regions || []).join(', ') || 'Statewide' }; });
+    var stories = picked.map(function (x) { return { date: x.date, title: x.title, link: safe(x.link), source: x.source, check: check(x), where: (x.places || []).map(function (p) { return p.name; }).concat(x.places && x.places.length ? [] : x.regions || []).join(', ') || 'Statewide', local: newsLocal(x) }; });
     var byMonth = UI.tally(st, function (x) { return x.date && x.date.slice(0, 7); }).sort(function (a, b) { return a[0] < b[0] ? -1 : 1; });
     var outlets = UI.tally(st, function (x) { return x.source; }).length;
     var top = stories.slice(0, 8);
+    newsFillSoon();
     return T.head({
       kind: 'data', crumbs: T.trail('policy', 'Housing news'), title: 'Housing news',
       meta: '<span class="scope-tag">Colorado</span> Updated ' + esc(sm.generated.slice(0, 10)) + '.'
@@ -143,13 +209,13 @@
       pick +
       (!top.length ? '' : '<section id="nw-top" aria-labelledby="nw-top-h"><h2 id="nw-top-h" class="visually-hidden">Latest stories</h2><ol class="news-top">' + top.map(function (r) {
         return '<li><p class="news-date">' + esc(r.date) + ' · ' + esc(r.source) + (r.check !== 'Checked' ? ' · <span class="news-check">' + esc(r.check) + '</span>' : '') + '</p><p class="news-head">' + (r.link ? '<a href="' + esc(r.link) + '">' + esc(r.title) + '</a>' : esc(r.title)) + '</p>' +
-          '<p class="news-where">' + esc(r.where) + '</p></li>';
+          '<p class="news-where">' + esc(r.where) + '</p>' + r.local + '</li>';
       }).join('') + '</ol></section>') +
       weekLine(st) +
       '<section id="nw-latest" tabindex="-1"><h2>' + (narrowed ? 'Headlines picked' : 'All headlines') + '</h2>' +
       UI.table('news', 'Colorado housing headlines, newest first' + (narrowed ? ': ' + pickedNames.join(', ') : ''), [
         { key: 'date', label: 'Date' },
-        { key: 'title', label: 'Headline', href: function (r) { return r.link; } },
+        { key: 'title', label: 'Headline', href: function (r) { return r.link; }, more: function (r) { return r.local; } },
         { key: 'source', label: 'Outlet' },
         { key: 'check', label: 'Outlet check', tip: 'Checked: COHO has reviewed the outlet. Unverified: not checked yet. Weak sourcing: reviewed, with the reason. The same tags are on the full Housing News page.' },
         { key: 'where', label: 'Where', tip: 'Places named in the story, matched to the 546 Colorado geographies; otherwise its region' }
