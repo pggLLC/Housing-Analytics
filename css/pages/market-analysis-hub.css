@@ -84,7 +84,9 @@ body.tool-page .tool-steps a:hover { background: var(--tint); }
 body.tool-page .tool-steps a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
 /* The page's own row of links to its parts, as the new pages' tab row. It already sticks under the header
-   (js/components/workflow-progress.js measures the header into --site-header-h). */
+   (js/components/workflow-progress.js measures the header into --site-header-h). Its z-index is the new pages'
+   own for a sticky tab row (.tabs, 40): below the header, which is sticky at 60 (hub/templates.css) and so
+   carries its open menus above this row and above the map. */
 body.tool-page .ma-section-nav { background: var(--card); border-bottom: 1px solid var(--line); margin: 1rem 0 1.5rem; z-index: 40; }
 body.tool-page .ma-section-nav-link { display: flex; align-items: center; min-height: 44px; padding: 0 .9rem; font-size: 15px; font-weight: 400; color: var(--ink); border-bottom: 3px solid transparent; white-space: nowrap; }
 body.tool-page .ma-section-nav-link:hover { color: var(--ink); border-bottom-color: var(--line-strong); }

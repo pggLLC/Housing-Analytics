@@ -96,8 +96,12 @@ export function build(src, hubPage, palette) {
 
   // 3. Scripts the new header replaces.
   DROPPED_SCRIPTS.forEach(f => {
-    const re = new RegExp('[ \\t]*<script defer src="' + f.replace(/[.\/]/g, '\\$&') + '"></script>\\n');
-    swap(re, f === 'js/navigation.js' ? GLOSSARY : '', 'a deferred ' + f);
+    const tag = '<script defer src="' + f + '"></script>\n';
+    const at = out.indexOf(tag);
+    must(at > -1 && out.indexOf(tag, at + 1) === -1, 'no longer loads ' + f + ' once, deferred');
+    const lineStart = out.lastIndexOf('\n', at) + 1;
+    must(out.slice(lineStart, at).trim() === '', 'no longer has ' + f + ' on a line of its own');
+    out = out.slice(0, lineStart) + (f === 'js/navigation.js' ? GLOSSARY : '') + out.slice(at + tag.length);
   });
   swap(/<\/body>/, '<script src="hub/lab-config.js"></script>\n<script src="hub/page-chrome.js"></script>\n<script src="hub/nav.js"></script>\n</body>', 'a closing body tag');
 
