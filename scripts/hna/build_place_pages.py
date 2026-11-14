@@ -614,31 +614,50 @@ def build_index(places: list[tuple[str, str, str]], template_dir: str) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Colorado Places — COHO Analytics</title>
   <meta name="description" content="Index of all Colorado places with housing data profiles.">
-  <link rel="stylesheet" href="../css/site-theme.css">
-  <link rel="stylesheet" href="../css/layout.css">
-  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <script>try {{ var s = localStorage.getItem('coho-analytics-scheme'); if (s === 'dark' || s === 'light') document.documentElement.classList.add(s + '-mode'); }} catch (e) {{}}</script>
+  <link rel="stylesheet" href="../hub/palette.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap">
+  <link rel="stylesheet" href="../hub/shell.css">
+  <link rel="stylesheet" href="../hub/visual-pass.css">
+  <link rel="stylesheet" href="../hub/templates.css">
+  <link rel="stylesheet" href="../hub/look.css">
+  <link rel="stylesheet" href="../hub/profile.css">
   <script src="../js/path-resolver.js"></script>
   <script src="../js/config.js"></script>
-  <script defer src="../js/navigation.js"></script>
-  <style>
-    .place-index {{ max-width: var(--page-max, 1920px); margin: 2rem auto; padding: 0 1.5rem; }}
-    .place-index h1 {{ margin-bottom: 1rem; }}
-    .place-index ul {{ columns: 3; column-gap: 1.5rem; padding-left: 1rem; }}
-    .place-index li {{ padding: .15rem 0; break-inside: avoid; }}
-    .place-index .muted {{ color: var(--muted); font-size: .82em; }}
-    @media (max-width: 700px) {{ .place-index ul {{ columns: 1; }} }}
-  </style>
+  <script defer src="../js/glossary.js"></script>
 </head>
-<body>
-  <header class="site-header"></header>
-  <main id="main-content" class="place-index">
-    <h1>Colorado Places ({len(places)})</h1>
-    <p>Per-place housing data profiles. Each page surfaces CHAS cost-burden,
-    cross-county jurisdiction status, and links into the Deal Calculator + PMA workflow.</p>
+<body data-menu="places">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="../index.html">COHO Analytics</a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Main"></nav>
+    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">Dark</button>
+  </header>
+  <main id="main-content" class="profile place-index">
+    <header class="page-head">
+      <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Home</a></li><li><a href="../places-hub.html#/places">Places and need</a></li><li><span aria-current="page">Place profiles</span></li></ol></nav>
+      <h1>Colorado Places ({len(places)})</h1>
+      <p class="place-sub">Per-place housing data profiles. Each page surfaces CHAS cost-burden,
+      cross-county jurisdiction status, and links into the Deal Calculator + PMA workflow.</p>
+    </header>
     <ul>
 {rows}
     </ul>
   </main>
+  <footer class="site-footer">
+    <p class="footer-terms">Free, and worth every penny. COHO Analytics is offered as-is, with no warranty. It isn’t legal, tax or financial advice, and pggLLC isn’t liable for what you do with it. Using the site means you accept the terms.</p>
+    <p class="footer-links"><a class="footer-link" href="../terms-of-use.html">Terms of use</a> <a class="footer-link" href="../privacy-policy.html">Privacy</a> <a class="footer-link" href="../about.html">About this site</a> <a class="footer-link" href="../methods.html#how-we-check">How we check our figures</a> <a class="footer-link" href="../sitemap.html">Site map</a> <a class="footer-link" data-feedback href="https://docs.google.com/forms/d/e/1FAIpQLSfC1m7Y1_b3VL_U9rOg8f0nIE14RVg8qm4gvhQaG2Qw8vVOdw/viewform">Questions or feedback</a> <a class="footer-link" href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a> <a class="footer-link" href="https://translate.google.com/translate?sl=en&tl=es&hl=es&u=https%3A%2F%2Fcohoanalytics.com%2Fplaces%2Findex.html" lang="es" title="Español: traducción automática de Google">Español</a> <a class="footer-link" href="https://coho-backend.communityplanner.workers.dev/">Member sign in</a></p>
+    <p>Developed and maintained by <a class="footer-link" href="https://pggllc.org">pggLLC</a>.</p>
+  </footer>
+  <!-- The hub's menu on this page: hub/page-chrome.js stands in for the hubs' router, hub/nav.js draws the menus. -->
+  <script>window.LAB_ROOT = '../';</script>
+  <script src="../hub/lab-config.js"></script>
+  <script src="../hub/page-chrome.js"></script>
+  <script src="../hub/nav.js"></script>
 </body>
 </html>
 '''
