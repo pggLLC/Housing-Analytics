@@ -27,8 +27,16 @@
     src.started = true;
     Object.keys(FILES).forEach(function (k) {
       fetch(global.LAB_VENDOR + FILES[k]).then(function (r) { if (!r.ok) throw new Error(FILES[k] + ' ' + r.status); return r.json(); })
-        .then(function (d) { src[k] = d; patch(); }, function () { src[k] = null; patch(); });
+        .then(function (d) { src[k] = d; arrived(); }, function () { src[k] = null; arrived(); });
     });
+  }
+  // A Pre-fill pressed before the two shortfall files are in waits here, and runs once both have answered.
+  var waiting = [];
+  function arrived() {
+    patch();
+    if (src.gapCounty === undefined || src.gapPlace === undefined || !waiting.length) return;
+    var run = waiting; waiting = [];
+    run.forEach(function (w) { doPrefill(w[0], w[1]); });
   }
   // A file arriving late redraws only this file's own two blocks, so a fold the reader opened elsewhere on the
   // page, and anything being typed there, is left alone.
@@ -343,6 +351,30 @@
       (global.LIHTCDealPredictor.DISCLAIMER ? '<p class="note" data-role="concept-disclaimer">' + esc(global.LIHTCDealPredictor.DISCLAIMER) + '</p>' : '') + '</section>';
   }
 
+  // The Pre-fill button's work, on the saved draft. While a shortfall file is still on its way nothing is changed
+  // and the press waits; if the county file never came, the rows are left as they were, not emptied.
+  function doPrefill(pid, sid) {
+    var P = global.LabProjects, F = global.LabFinancials, p = P.get(pid), k = key(pid, sid);
+    if (!p) return;
+    var d = F.draftFor(p, sid), G = global.LabCalcGrid ? global.LabCalcGrid.ctx(p, sid, d) : null;
+    if (!G) return;
+    function say(text, kind) { notes[k] = Object.assign({}, notes[k], { prefill: { text: text, kind: kind || '', source: '' } }); redraw(); }
+    load();
+    if (src.gapCounty === undefined || src.gapPlace === undefined) {
+      if (!waiting.some(function (w) { return w[0] === pid && w[1] === sid; })) waiting.push([pid, sid]);
+      return say('Loading the local shortfall figures…');
+    }
+    if (src.gapCounty === null) return say('The local shortfall figures did not load, so the rows are left as they were. Try again in a moment.', 'bad');
+    // The live page allocates its Total Units field; here a blank total means the homes in the rows.
+    var total = G.grid['dc-units'] !== '' && G.grid['dc-units'] != null ? G.grid['dc-units'] : global.LabCalcGrid.gridHomes(G.grid);
+    var place = p.jurisdiction && /^\d{7}$/.test(String(p.jurisdiction.geoid || '')) ? String(p.jurisdiction.geoid) : null;
+    var out = prefill(G.grid, total, place, src.gapPlace, src.gapCounty);
+    d.grid = out.grid;
+    notes[k] = Object.assign({}, notes[k], { prefill: { text: out.text, kind: out.kind, source: out.source || '' } });
+    P.setOverride(pid, sid, 'financialsDraft', d);
+    redraw();
+  }
+
   // ---------- buttons ----------
   document.addEventListener('click', function (ev) {
     var b = ev.target && ev.target.closest && ev.target.closest('button[data-action="gsf-apply"], button[data-action="coords-detect"], button[data-action="coords-geo"], button[data-action="ami-prefill"]');
@@ -362,14 +394,9 @@
     }
     if (act === 'ami-prefill') {
       if (!G) return;
-      // The live page allocates its Total Units field; here a blank total means the homes in the rows.
-      var total = G.grid['dc-units'] !== '' && G.grid['dc-units'] != null ? G.grid['dc-units'] : global.LabCalcGrid.gridHomes(G.grid);
-      var place = p.jurisdiction && /^\d{7}$/.test(String(p.jurisdiction.geoid || '')) ? String(p.jurisdiction.geoid) : null;
-      var out = prefill(G.grid, total, place, src.gapPlace, src.gapCounty);
-      d.grid = out.grid;
-      notes[k] = Object.assign({}, notes[k], { prefill: { text: out.text, kind: out.kind, source: out.source || '' } });
+      // Keep what the form holds, then fill from it; the rows change only once both files have answered.
       P.setOverride(pid, sid, 'financialsDraft', d);
-      return redraw();
+      return doPrefill(pid, sid);
     }
     P.setOverride(pid, sid, 'financialsDraft', d);
     if (act === 'coords-detect') return lookup(pid, sid, parseFloat(d.fields['dc-coords-lat']), parseFloat(d.fields['dc-coords-lon']));

@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "c446dbdf2bb2f2fcafac1996e0ace24407ecfee0",
+  "commit": "db48b1659fdc27d88d0629f1315a4b33194b7d70",
   "dirty": false
  },
  "files": {
@@ -32,7 +32,7 @@
   "hub/attract-housing.js": "9b33f4d813797798b92d674f7dfe80a1f7b8e8c0fc1c0aa0235498b4e754a7c7",
   "hub/calc-doh.js": "7ec3f51dabeace0a3939051b09da4e42630c810919517206846122ad2fa2cc94",
   "hub/calc-grid.js": "b3bb54cf59ebabd1cbb83834b2a1a528647b5293e4f97bbf379a3343c29eb43f",
-  "hub/calc-site.js": "4827541b0a4c493429378cf7ac700cf09eb61af4bb4b04211bbfb66057bade82",
+  "hub/calc-site.js": "ad9d4b4c9b462e415dc9dbf00fa34d8dabce4fd69d8d1fdb934df9778238b993",
   "hub/calc-tax.js": "ded0687ab2ee6cd6b28b9fd633586ee8843476a9cd402c1b340fbe5f40c30a7a",
   "hub/calculators.css": "6ccfe0f518d949284a66ddc5b2b0d63bd961f083e638932e978639f42d3044fc",
   "hub/calendar.js": "9fd8e62851166913afee680810c97317642113db4ea3f0e25235e6c0ed05d6b5",
