@@ -224,4 +224,31 @@ body.tool-page .ma-place-row__menu a { display: flex; align-items: center; justi
 /* Risk flags are drawn one under another with no space between a red one and an amber one. */
 body.tool-page #pmaFlags > * + * { margin-top: .35rem; }
 
+/* Move piece 5: the built-in calculator (js/deal-calculator.js, unchanged). Layout only: no word, figure or control
+   changes. Its notes and source lines are paragraphs, which css/pages/housing-needs-assessment.css draws at 18px in
+   main, larger than the 13px fields they explain. 14px, as the checklists' small print. */
+body.tool-page #main-content #dealCalcMount p:not([style*="font-size"]) { font-size: 14px; line-height: 1.45; }
+/* The concept card's notes under each constraint (Soft funding, Environmental fit, Public ownership) were 18px too. */
+body.tool-page #main-content #lihtcConceptSection p.lihtc-cc-constraint-narrative:not([style*="font-size"]) { font-size: 15px; line-height: 1.5; }
+@media (max-width: 640px) {
+  /* Each income tier is one row of three columns: tier, homes, bedrooms. Beside a 70px and a 100px column the tier's
+     name had 80px, so "70% AMI (market/workforce; not counted under this election ...)" stood one word a line, 270px
+     tall. On a phone the name takes the row, and homes and bedrooms sit under it, half each, under their headings. */
+  body.tool-page #dealCalcMount :is(#dc-ami-rows, div:has(+ #dc-ami-rows)) { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; }
+  body.tool-page #dealCalcMount :is(#dc-ami-rows > label, div:has(+ #dc-ami-rows) > span:first-child) { grid-column: 1 / -1; }
+  body.tool-page #dealCalcMount div:has(+ #dc-ami-rows) > span { text-align: left !important; }
+  /* On a phone every label is drawn as a row, so "At completion" and its box shared a third of the width and the box
+     was 18px wide, too narrow to show a figure. The words above the box, as written. */
+  body.tool-page #dealCalcMount label:has(> input[style*="display:block"], > select[style*="display:block"]) { display: block; min-width: 0; text-align: left; }
+  /* "How basis and credit were calculated": each line is a name with its source beside a value in a 99px column,
+     so a value written as a sentence ("Enter the construction loan, rate, months and average share drawn ...") stood
+     one or two words a line. On a phone the value goes under its name. */
+  body.tool-page #dc-cb-detail > div[style*="grid-template-columns"] { grid-template-columns: minmax(0, 1fr) !important; }
+  body.tool-page #dc-cb-detail > div[style*="grid-template-columns"] > strong { text-align: left !important; }
+  /* The list of formula terms is two columns, the first at least 9rem: the meanings were a column 87px wide. Term
+     above meaning. */
+  body.tool-page #dealCalcMount dl[style*="grid-template-columns"] { grid-template-columns: minmax(0, 1fr) !important; gap: 0 !important; }
+  body.tool-page #dealCalcMount dl[style*="grid-template-columns"] > dd { margin: 0 0 .5rem !important; }
+}
+
 @media print { body.tool-page .crumbs { display: none; } }
