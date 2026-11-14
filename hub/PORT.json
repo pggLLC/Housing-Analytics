@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "eaee69f79bff639352381532ab15941eb3897a5c",
+  "commit": "57c797e8bbb734db7bfecc723584eabeb32b2131",
   "dirty": false
  },
  "files": {
@@ -156,7 +156,7 @@
   "js/hna/combined-geo.js": "e9334633975820a3b5baa22a3338661341bb8d1fe26838715f32fdfe56f51e3f",
   "js/county-measures.js": "952802e06d99dacbf87bc4857ac5089d728841c04658ce515b540295a0e4bab2",
   "js/utils/format-money.js": "738c5f3b1aeec8083bdc4c4657aef725bec276e4f80b5687cf0a0169f460e615",
-  "js/hna/ownership-finance.js": "a2f85c29d9fb3d4acfa91d7df45ef0b7a5a83136dedc81f5e60bba06cfe2dc71",
+  "js/hna/ownership-finance.js": "278f823e10fda6880307cb7bf24b434a25cefe708b81a28500001535b5369e88",
   "js/hna/hna-utils.js": "3e5a137e65091f2c188f314d064244b797957d67b3c14ef5efc0cd49c997acca",
   "js/mix-check.js": "34802c186a18e089d05c7ee5b736c3409427b485ad5c26db874153c353d7efaa",
   "js/mix-check-inputs.js": "84b2ef0f714b800d8f552db186ccc522c907b7e5afa5461ea40d3b49d306cb84",
@@ -166,7 +166,7 @@
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
   "js/data-source-inventory.js": "4a51756670f711944828f4c34834aec24789f9e8c486b26415e6c3183b4147ef",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
-  "js/hna/hna-ownership-need.js": "ac73544c0944cc118fc954594e96e9474a92ef60e37ff516ef2b3cc5b07514a0",
+  "js/hna/hna-ownership-need.js": "b33284b054b1120870e2850d8995c990edabf661d42a3a767bf9cc8f98b1f8d0",
   "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",
   "js/market-analysis-scoring.js": "52d5d11761f42bab2bd8788cb1aa02c23522389bcd2929443faddc0725170bb3",
   "js/workflow/recommendation-contract.js": "7a6c861c289d410fbf801d1169e942e31230bc25584c3c6f67975755994c4c88",
