@@ -584,3 +584,5 @@ output[id$="-v"], .stress-slider output { font-variant-numeric: tabular-nums; fo
   .tc-compare-table td[data-label]::before { content: attr(data-label); display: block; font-size: .8rem; color: var(--muted); }
   .tc-tests span { white-space: normal; }
 }
+.tc-supply-note { border: 1px solid var(--line); border-left: 4px solid var(--rust); border-radius: 6px; padding: .5rem 1rem; background: var(--card); margin: .75rem 0; }
+.tc-supply-note ul { margin: .25rem 0 0; padding-left: 1.2rem; }
