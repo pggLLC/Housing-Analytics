@@ -334,12 +334,12 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 4
   const opened = [];
   const run = async ({ drawn = true, share = true, subject = { total_units: 40, unit_mix: [{ br: 2, ami: 60, count: 40 }] } } = {}) => {
     const dom = new JSDOM('<!doctype html><body><main id="main-content"><div id="dealCalcMount">' + (drawn ? '<input id="dc-units" value="40">' : '') + '</div><section id="lihtcConceptSection"></section></main></body>',
-      { runScripts: 'outside-only', url: 'https://example.test/deal-market-analysis.html?fips=08013&auto=1' });
+      { runScripts: 'outside-only', url: 'https://example.com/deal-market-analysis.html?fips=08013&auto=1' });
     const w = dom.window;
     opened.push(w);
     w.DealCalcLinkParams = () => new w.URLSearchParams('fips=08013&auto=1');
     const snap = { q: 'units=40&tr=a%3D1' };
-    if (share) w.__DealCalcShare = { buildSnapshot: () => ({ url: 'https://example.test/deal-market-analysis.html?' + snap.q }) };
+    if (share) w.__DealCalcShare = { buildSnapshot: () => ({ url: 'https://example.com/deal-market-analysis.html?' + snap.q }) };
     if (subject) w.SubjectProject = { get: () => subject };
     w.eval(src);
     if (w.document.readyState === 'loading') await new Promise(r => w.document.addEventListener('DOMContentLoaded', r));
