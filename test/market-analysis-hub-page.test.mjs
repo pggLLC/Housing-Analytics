@@ -15,7 +15,9 @@
  *  4. the same scripts load in the same order, less the three the new header replaces, plus the new header's
  *     three; the glossary, which js/navigation.js used to load, is loaded the same way;
  *  5. no link the old step bar offered is lost;
- *  6. the header and footer are the hub pages' own, and the visit is counted once.
+ *  6. the header and footer are the hub pages' own, and the visit is counted once;
+ *  7. the place the visitor is working on and the saved projects, which the old header's pill showed, are in a row
+ *     above the page (js/components/ma-place-row.js), reading and doing what the pill does.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -53,7 +55,7 @@ ok(oldIds.size > 200, 'market-analysis.html has far fewer ids than expected (' +
 // 4. The same scripts, in order.
 const scripts = html => [...html.matchAll(/<script[^>]*\ssrc="([^"]+)"/g)].map(m => m[1]);
 const DROPPED = ['js/navigation.js', 'js/dark-mode-toggle.js', 'js/mobile-menu.js'];
-const ADDED = ['hub/lab-config.js', 'hub/page-chrome.js', 'hub/nav.js'];
+const ADDED = ['js/components/ma-place-row.js', 'hub/lab-config.js', 'hub/page-chrome.js', 'hub/nav.js'];
 const oldScripts = scripts(oldPage), newScripts = scripts(newPage);
 DROPPED.forEach(f => { ok(oldScripts.includes(f), 'market-analysis.html no longer loads ' + f + '; update the build script'); ok(!newScripts.includes(f), 'the new page still loads ' + f); });
 ADDED.forEach(f => ok(newScripts.includes(f), 'the new page does not load ' + f));
@@ -122,5 +124,92 @@ ok(newPage.includes(':is(.skip-link, .site-header, .site-footer, .crumbs) { --mu
 [...oldPage.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)].forEach(m => ok(newPage.includes('href="' + m[1] + '"'), 'the new page dropped the sheet ' + m[1]));
 // The old page itself is not touched by any of this.
 ok(!/hub\/|class="crumbs"|deal-market-analysis/.test(oldPage), 'market-analysis.html must stay as it is until paul retires it');
+
+// 7. The place and saved-projects row. The old header's pill (js/navigation.js) names the place and, on a click,
+//    lists up to three saved projects and "New Project". The new header has no pill; the row does both jobs.
+ok(/\n {2}<div id="maPlaceRow" class="ma-place-row" role="region" aria-label="Place and saved projects" hidden><\/div>\n {2}<main id="main-content">\n/.test(newPage), 'the place row is not just above <main>, a named region, empty and hidden until its script fills it');
+ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 4, 'the place row\'s script must load after the tool\'s own scripts and before the new header\'s');
+{
+  const nav = read('js/navigation.js');
+  // What the row copies from the pill. If the pill changes, the row must be looked at again.
+  ok(nav.includes('projects.slice(0, 3)') && nav.includes(".slice(0, 28)") && nav.includes("select-jurisdiction.html?new=1") && nav.includes('setCounty(null)') && nav.includes("'workflow:step-updated', _updateJurisdictionPill"),
+    'the pill in js/navigation.js no longer works the way js/components/ma-place-row.js copies it');
+  const { JSDOM } = await import('jsdom');
+  const src = read('js/components/ma-place-row.js');
+  const proj = (id, name, jx) => ({ _meta: { projectId: id, projectName: name }, jurisdiction: jx });
+  const open = (state, withRow = true) => {
+    const dom = new JSDOM('<!doctype html><body>' + (withRow ? '<div id="maPlaceRow" class="ma-place-row" hidden></div>' : '') + '<main id="main-content"><button id="elsewhere">x</button></main></body>', { runScripts: 'outside-only' });
+    const w = dom.window;
+    const calls = [];
+    if (state) {
+      w.WorkflowState = {
+        getActiveProject: () => state.projects.find(x => x._meta.projectId === state.active) || null,
+        listProjects: () => state.projects.map(x => ({ id: x._meta.projectId, name: x._meta.projectName })),
+        loadProject: id => { calls.push('load ' + id); state.active = id; w.document.dispatchEvent(new w.CustomEvent('workflow:project-loaded', { detail: { id } })); },
+      };
+      w.SiteState = { getCounty: () => state.county || { fips: null, name: null }, setCounty: v => { calls.push('county ' + v); state.county = null; } };
+    }
+    w.eval(src);
+    const row = w.document.getElementById('maPlaceRow');
+    return { w, row, calls, q: sel => row.querySelector(sel), text: sel => row.querySelector(sel).textContent, click: el => el.dispatchEvent(new w.MouseEvent('click', { bubbles: true, cancelable: true })) };
+  };
+  // Nothing saved, nothing chosen; and the page's scripts missing altogether.
+  for (const state of [{ projects: [], active: null }, null]) {
+    const t = open(state);
+    ok(!t.row.hidden && t.text('.ma-place-row__place') === 'No place chosen yet.', 'with no place the row should say so');
+    ok(t.text('.ma-place-row__menu').includes('No project is saved in this browser yet.') && !t.q('[data-proj-id]'), 'with no project the list should say so');
+    ok(t.text('.ma-place-row__change') === 'Choose a place' && t.q('.ma-place-row__change').getAttribute('href') === 'select-jurisdiction.html', 'the row should offer the place picker');
+    ok(t.q('.ma-place-row__new').getAttribute('href') === 'select-jurisdiction.html?new=1', '"New project" should go where the pill\'s goes');
+  }
+  ok(open({ projects: [], active: null }, false).row === null, 'without the row on the page the script should do nothing');
+  // A county chosen but no project: the pill falls back to SiteState, and so does the row.
+  ok(open({ projects: [], active: null, county: { fips: '08015', name: 'Chaffee County' } }).text('.ma-place-row__place') === 'Working on: Chaffee County', 'the row should fall back to the chosen county, as the pill does');
+  // Four projects (invented), the second open.
+  const state = { active: 'p2', projects: [
+    proj('p1', 'Alamosa family homes', { type: 'city', name: 'Alamosa', displayName: 'Alamosa (city)', countyName: 'Alamosa County' }),
+    proj('p2', 'Salida <b>senior</b> flats with a long name', { type: 'city', name: 'Salida', displayName: 'Salida (city)', countyName: 'Chaffee County' }),
+    proj('p3', '', { type: 'county', name: 'Morgan County' }),
+    proj('p4', 'Lamar duplexes', { type: 'city', name: 'Lamar', countyName: 'Prowers County' }),
+  ] };
+  const t = open(state);
+  ok(t.text('.ma-place-row__place') === 'Working on: Salida · Chaffee County', 'the place should read "Town · County", as on the pill');
+  const btns = () => [...t.row.querySelectorAll('[data-proj-id]')];
+  ok(btns().length === 3 && btns().map(b => b.getAttribute('data-proj-id')).join() === 'p1,p2,p3', 'the list should hold the first three saved projects, as the pill\'s does');
+  ok(btns()[1].firstChild.textContent.trim() === 'Salida <b>senior</b> flats w' && !t.q('.ma-place-row__menu b'), 'a project name should be cut at 28 characters and written as text');
+  ok(btns()[2].textContent === 'Untitled project', 'a project with no name should read "Untitled project"');
+  ok(btns().filter(b => b.getAttribute('aria-current') === 'true').length === 1 && btns()[1].textContent.endsWith('open now'), 'the open project should be marked');
+  // Opening another project: the pill calls WorkflowState.loadProject(id) and shows the new place.
+  t.q('details').open = true;
+  t.click(btns()[2]);
+  ok(t.calls.join() === 'load p3' && t.text('.ma-place-row__place') === 'Working on: Morgan County', 'a click on a project should open it and show its place');
+  ok(!t.q('details').open && btns()[2].getAttribute('aria-current') === 'true', 'after a project is opened the list should close with that project marked');
+  // Escape and a click elsewhere close the list; a click inside it does not.
+  t.q('details').open = true;
+  t.click(t.q('.ma-place-row__label'));
+  ok(t.q('details').open, 'a click inside the list should leave it open');
+  t.w.document.dispatchEvent(new t.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  ok(!t.q('details').open, 'Escape should close the list');
+  t.q('details').open = true;
+  t.click(t.w.document.getElementById('elsewhere'));
+  ok(!t.q('details').open, 'a click elsewhere should close the list');
+  // The place follows the project while the list is closed; an open list is not redrawn under the visitor's hand.
+  state.projects[2].jurisdiction = { type: 'city', name: 'Brush', countyName: 'Morgan County' };
+  t.q('details').open = true;
+  t.w.document.dispatchEvent(new t.w.CustomEvent('workflow:step-updated'));
+  ok(t.text('.ma-place-row__place') === 'Working on: Morgan County', 'an open list should not be redrawn');
+  t.q('details').open = false;
+  t.w.document.dispatchEvent(new t.w.CustomEvent('workflow:step-updated'));
+  ok(t.text('.ma-place-row__place') === 'Working on: Brush · Morgan County', 'the place should follow a saved step, as the pill does');
+  // "New project" clears the county first, as the pill does, and lets the link go.
+  t.calls.length = 0;
+  const ev = new t.w.MouseEvent('click', { bubbles: true, cancelable: true });
+  t.q('.ma-place-row__new').dispatchEvent(ev);
+  ok(t.calls.join() === 'county null' && !ev.defaultPrevented, '"New project" should clear the county and follow its link');
+  // The open list paints above the map (whose layers go up to 1000) and below the seven-step bar.
+  const bridge = read('css/pages/market-analysis-hub.css');
+  const menuZ = /\.ma-place-row__menu\s*\{[^}]*z-index:\s*(\d+)/.exec(bridge);
+  const barZ = [...read('css/site-theme.css').matchAll(/\.(?:wf-progress-wrap|workflow-progress)\b[^{}]*\{([^}]*)\}/g)].map(m => /z-index:\s*(\d+)/.exec(m[1])).filter(Boolean).map(m => Number(m[1]));
+  ok(menuZ && Number(menuZ[1]) > 1000 && barZ.every(z => Number(menuZ[1]) < z), 'the open list should sit above the map and below the seven-step bar');
+}
 
 console.log('market-analysis-hub-page: ' + checks + ' checks passed');
