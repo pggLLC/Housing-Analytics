@@ -17,7 +17,9 @@
  *  5. no link the old step bar offered is lost;
  *  6. the header and footer are the hub pages' own, and the visit is counted once;
  *  7. the place the visitor is working on and the saved projects, which the old header's pill showed, are in a row
- *     above the page (js/components/ma-place-row.js), reading and doing what the pill does.
+ *     above the page (js/components/ma-place-row.js), reading and doing what the pill does;
+ *  8. the bridging sheet's rules point at markup the tool still draws: every id it names exists, and the built-in
+ *     calculator's phone rules find the inline layouts they were written against.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -220,6 +222,45 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 4
   const menuZ = /\.ma-place-row__menu\s*\{[^}]*z-index:\s*(\d+)/.exec(bridge);
   const barZ = [...read('css/site-theme.css').matchAll(/\.(?:wf-progress-wrap|workflow-progress)\b[^{}]*\{([^}]*)\}/g)].map(m => /z-index:\s*(\d+)/.exec(m[1])).filter(Boolean).map(m => Number(m[1]));
   ok(menuZ && Number(menuZ[1]) > 1000 && barZ.every(z => Number(menuZ[1]) < z), 'the open list should sit above the map and below the seven-step bar');
+}
+
+// 8. The bridging sheet only lays out what the tool draws. A rule naming an id the tool no longer draws, or written
+//    against an inline layout the tool no longer uses, would do nothing without failing anywhere else.
+{
+  const bridge = read('css/pages/market-analysis-hub.css').replace(/\/\*[\s\S]*?\*\//g, '');
+  const jsFiles = dir => fs.readdirSync(path.join(root, dir), { withFileTypes: true })
+    .flatMap(d => d.isDirectory() ? jsFiles(dir + '/' + d.name) : d.name.endsWith('.js') ? [dir + '/' + d.name] : []);
+  const drawn = [oldPage, ...jsFiles('js').map(read)].join('\n');
+  const selectors = [...bridge.matchAll(/([^{}]+)\{/g)].map(m => m[1]).filter(sel => !/^\s*@/.test(sel));
+  const named = new Set(selectors.flatMap(sel => [...sel.replace(/"[^"]*"/g, '""').matchAll(/#([A-Za-z][\w-]*)/g)].map(m => m[1])));
+  ok(named.has('dealCalcMount') && named.has('dc-ami-rows'), 'the sheet no longer has rules for the built-in calculator');
+  // An id is drawn when the page or a script writes it whole.
+  const writes = id => ['"' + id + '"', "'" + id + "'", 'id=\\"' + id + '\\"'].some(q => drawn.includes(q));
+  named.forEach(id => ok(writes(id), 'the bridging sheet names #' + id + ', which nothing on the page draws'));
+  // The calculator's phone rules sit in the phone block, and each still finds its layout.
+  const phone = [...bridge.matchAll(/@media \(max-width: 640px\) \{([\s\S]*?)\n\}/g)].map(m => m[1]).join('\n');
+  ['#dc-ami-rows, div:has(+ #dc-ami-rows))', '#dc-cb-detail > div[style*="grid-template-columns"]', '#dealCalcMount dl[style*="grid-template-columns"]']
+    .forEach(k => ok(new RegExp(k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ' \\{ grid-template-columns:[^;]+!important').test(phone), k + ' should be laid out on a phone only, over its inline grid'));
+  ok(/#dealCalcMount label:has\(> :is\(input, select\):is\(\[style\*="display:block"\], \[style\*="display: block"\]\)\)/.test(phone), 'the pay-in labels should be laid out on a phone only');
+  const calc = read('js/deal-calculator.js');
+  // Tiers: a three-column grid with its heading row just before it.
+  ok(/<div style="display:grid;grid-template-columns:[^"]+">\s*(?:<span[^>]*>[^<]*<\/span>\s*){3}<\/div>\s*<div id="dc-ami-rows" style="display:grid;grid-template-columns:/.test(calc),
+    'the income tiers are no longer a grid with its heading row just before it');
+  ok(/`\s*<label style="display:flex[^"]*">\s*<input id="dc-chk-\$\{pct\}"/.test(calc), 'a tier no longer starts with its label, which the sheet gives the whole row');
+  ok(/<div style="grid-column:1 \/ -1;display:grid;grid-template-columns:/.test(calc) && /#dc-ami-rows > div\[style\*="grid-column"\] \{ grid-template-columns:[^;]+!important/.test(phone),
+    'the homes-by-bedroom boxes under each tier are no longer a full-row inline grid the sheet sets three to a row');
+  // Pay-in boxes: words and a display:block box inside one label, which a phone draws as a row.
+  ['fed', 'state', 'add'].forEach(k => ok(new RegExp('<label[^>]*>[^<]*<input id="dc-' + k + '-payin-completion" type="number"[^>]*style="display:block').test(calc),
+    'the ' + k + ' pay-in box is no longer a display:block box inside its label'));
+  ok(/\blabel,[^{}]*\{[^}]*display:\s*inline-flex/.test(read('css/responsive.css')), 'css/responsive.css no longer draws every label as a row on a phone; the pay-in rule may be unneeded');
+  // Terms list and basis lines: inline two-column grids.
+  ok(/<dl style="[^"]*display:grid;grid-template-columns:/.test(calc), 'the formula terms are no longer an inline grid');
+  ok(/function row\(label, value, note\) \{\s*rows\.push\('<div style="display:grid;grid-template-columns:[^"]+">'/.test(calc) && /el\('dc-cb-detail'\)/.test(calc),
+    'the basis lines are no longer inline grids written into #dc-cb-detail');
+  // The calculator's notes beat the 18px rule for paragraphs in main: two ids against one, and no inline size.
+  const big = /(?:^|[}/])\s*([^{}/]*#main-content p:not\(\[style\*="font-size"\]\))\s*\{[^}]*font-size/m.exec(read('css/pages/housing-needs-assessment.css').replace(/\/\*[\s\S]*?\*\//g, '/'));
+  ok(big && (big[1].match(/#/g) || []).length === 1, 'the rule that makes paragraphs in main large has changed; recheck the calculator notes');
+  ok(/#main-content #dealCalcMount p:not\(\[style\*="font-size"\]\)\s*\{\s*font-size/.test(bridge), 'the calculator notes no longer outrank the large-paragraph rule');
 }
 
 console.log('market-analysis-hub-page: ' + checks + ' checks passed');
