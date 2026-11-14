@@ -15,7 +15,9 @@
 
   var Shell = global.LabShell;
   var esc = Shell.esc;
-  var BR = ['studio', '1br', '2br', '3br', '4br'], BEDROOMS = { studio: 0, '1br': 1, '2br': 2, '3br': 3, '4br': 4 };
+  var BR = ['studio', '1br', '2br', '3br', '4br'];
+  // A saved schedule's rows name their size this way (the live page's RENT_BEDROOMS).
+  var RENT_BEDROOMS = { studio: 'efficiency', '1br': '1BR', '2br': '2BR', '3br': '3BR', '4br': '4BR' };
   var LOW = [30, 40, 50, 60];
   var FILES = { standards: 'data/policy/unit-size-standards.json', gapCounty: 'data/co_ami_gap_by_county.json', gapPlace: 'data/co_ami_gap_by_place.json' };
   var src = { started: false, standards: undefined, gapCounty: undefined, gapPlace: undefined };
@@ -113,7 +115,7 @@
     var R = inp && inp.resolvedDealMix;
     if (R && R.available) {
       R.restrictedRows.concat(R.marketRows).forEach(function (r) {
-        var br = BR.filter(function (b) { return BEDROOMS[b] === r.bedrooms; })[0];
+        var br = BR.filter(function (b) { return RENT_BEDROOMS[b] === r.bedrooms; })[0];
         if (br) m[br] += r.units;
       });
       return m;
