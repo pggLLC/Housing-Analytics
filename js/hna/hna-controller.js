@@ -797,22 +797,24 @@
       // Basemaps come from js/config/basemaps.js so the provider is decided in
       // one place. CARTO's anonymous tiles now arrive watermarked "API KEY
       // REQUIRED" — HTTP 200, valid PNG, defaced image.
+      // OpenStreetMap streets open the map (paul's map rule, 11 Nov 2026), shown dark in dark mode.
+      osm:         window.COHOBasemaps.street({ dark: false }),
+      osmDark:     window.COHOBasemaps.street({ dark: true }),
       light:       window.COHOBasemaps.light(),
       dark:        window.COHOBasemaps.dark(),
-      osm:         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',             { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom: 19 }),
       satellite:   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community', maxZoom: 18 }),
       'esri-gray': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ', maxZoom: 16 }),
     };
     const BASEMAP_LABELS = {
-      light: 'Light', dark: 'Dark', osm: 'OpenStreetMap',
+      osm: 'Streets (OpenStreetMap)', osmDark: 'Streets, dark', light: 'Light', dark: 'Dark',
       satellite: 'Satellite (Esri)', 'esri-gray': 'Gray Canvas (Esri)',
     };
 
     // Determine initial basemap: session choice → auto (OS/site theme)
     function autoKey() {
-      if (document.documentElement.classList.contains('dark-mode'))  return 'dark';
-      if (document.documentElement.classList.contains('light-mode')) return 'light';
-      return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+      if (document.documentElement.classList.contains('dark-mode'))  return 'osmDark';
+      if (document.documentElement.classList.contains('light-mode')) return 'osm';
+      return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'osmDark' : 'osm';
     }
     const storedBase = (function(){ try { return sessionStorage.getItem(HNA_BASE_SESSION_KEY); } catch(_){ return null; } })();
     let userOverride = !!(storedBase && BASEMAPS[storedBase]);
@@ -829,8 +831,10 @@
 
     // Fall back to OSM Standard if the selected tile provider is unreachable
     activeBase.once('tileerror', function() {
-      if (activeKey !== 'osm') swapBase('osm');
+      if (activeKey !== 'osm' && activeKey !== 'osmDark') swapBase('osm');
     });
+    // A scale bar in miles.
+    window.COHOBasemaps.scale(window.HNAState.map);
 
     // --- Basemap selector Leaflet control (top-right corner of map) ---
     const BasemapControl = L.Control.extend({

@@ -293,10 +293,9 @@
     var map = L.map(el, { scrollWheelZoom: false, zoomSnap: 0.25 });
     map.fitBounds(CO_BOUNDS, { padding: [8, 8] });
     var dark = global.document.documentElement.getAttribute('data-theme') === 'dark';
-    var base = global.COHOBasemaps ? (dark ? global.COHOBasemaps.dark() : global.COHOBasemaps.light()) : null;
-    if (base) base.addTo(map);
-    // The grey canvas tiles show almost nothing inside Colorado at state zoom, and a
-    // browser that blocks the tile host shows nothing at all. County lines from our own
+    // OpenStreetMap streets by default, a Satellite choice and a scale bar (paul's map rule, 11 Nov 2026).
+    if (global.COHOBasemaps) global.COHOBasemaps.standard(map, { dark: dark });
+    // A browser that blocks the tile hosts shows no basemap at all. County lines from our own
     // copy of the Census boundaries give the pins a recognisable state either way.
     addCountyLines(L, map, dark);
     // Re-measure when the container changes size (a phone rotating, the page reflowing),

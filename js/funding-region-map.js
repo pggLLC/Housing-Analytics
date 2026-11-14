@@ -471,8 +471,11 @@
     });
 
     map = L.map('frm-map', { zoomSnap: 0.25, minZoom: 6, maxZoom: 17, scrollWheelZoom: false, maxBounds: [[35.8, -110.6], [42.2, -100.6]] });
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · Regions: U.S. Census Bureau counties' }).addTo(map);
+    // OpenStreetMap streets by default, a Satellite choice and a scale bar (paul's map rule, 11 Nov 2026).
+    if (window.COHOBasemaps && window.COHOBasemaps.standard) window.COHOBasemaps.standard(map);
+    else L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, referrerPolicy: 'origin',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+    map.attributionControl.addAttribution('Regions: U.S. Census Bureau counties');
     map.fitBounds(CO_BOUNDS);
     map.on('zoomend', syncZoom);
     // Redraw tiles when the map's box changes size (phone rotation, layout shifts)

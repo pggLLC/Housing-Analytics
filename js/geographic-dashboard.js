@@ -191,10 +191,9 @@
       } catch (e) { console.warn('[geo-dashboard] jurisdiction boundaries attach failed', e); }
     }
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-      maxZoom: 19
-    }).addTo(map);
+    // OpenStreetMap streets by default, a Satellite choice and a scale bar (paul's map rule, 11 Nov 2026).
+    if (window.COHOBasemaps && window.COHOBasemaps.standard) window.COHOBasemaps.standard(map);
+    else L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors', maxZoom: 19, referrerPolicy: 'origin' }).addTo(map);
 
     // Add simple rectangle for Colorado coverage
     L.rectangle([[37.0, -109.05], [41.0, -102.05]], {

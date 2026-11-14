@@ -142,7 +142,75 @@
     return esri(tone === 'dark' ? 'World_Dark_Gray_Base' : 'World_Light_Gray_Base', opts);
   }
 
+  // ---- paul's map rule (11 Nov 2026): OpenStreetMap streets by default, Satellite on request ----
+  // Every map opens on the OpenStreetMap street map, credited and linked, with a Satellite choice (Esri World
+  // Imagery) and a scale bar. Esri World Street Map stands in tile by tile when an OSM tile fails. The OSM layer
+  // sends referrerPolicy 'origin': the member site's Worker sends no Referer, and OSM refuses tiles without one.
+  // The a/b/c hosts are the ones the member site's CSP allows (*.tile.openstreetmap.org).
+  var OSM_ATTR = 'Map &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+  var SAT_ATTR = 'Imagery &copy; <a href="https://www.esri.com/">Esri</a>, Maxar, Earthstar Geographics';
+  var STREET_BACKUP = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/';
+  var darkStyled = false;
+  function darkStyle() {
+    var doc = global.document;
+    if (darkStyled || !doc || !doc.head) return;
+    darkStyled = true;
+    var st = doc.createElement('style');
+    st.textContent = '.coho-street-dark img.leaflet-tile{filter:invert(1) hue-rotate(180deg) brightness(.95) contrast(.95) saturate(.6)}';
+    doc.head.appendChild(st);
+  }
+  function isDark() {
+    var d = global.document && global.document.documentElement;
+    if (!d) return false;
+    if (d.classList.contains('dark-mode') || d.getAttribute('data-theme') === 'dark') return true;
+    if (d.classList.contains('light-mode') || d.getAttribute('data-theme') === 'light') return false;
+    return !!(global.matchMedia && global.matchMedia('(prefers-color-scheme: dark)').matches);
+  }
+  /** OpenStreetMap streets. opts.dark (default: the page's theme) shows them dark. */
+  function street(opts) {
+    var o = opts || {};
+    var dark = o.dark == null ? isDark() : !!o.dark;
+    var options = { attribution: OSM_ATTR, maxZoom: o.maxZoom || DISPLAY_MAX, subdomains: 'abc', referrerPolicy: 'origin' };
+    if (o.pane) options.pane = o.pane;
+    if (dark) { darkStyle(); options.className = 'coho-street-dark'; }
+    var layer = global.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', options);
+    // One failed tile comes from Esri World Street Map instead; the rest stay OpenStreetMap.
+    layer.on('tileerror', function (e) {
+      var t = e.tile, c = e.coords;
+      if (!t || !c || t.getAttribute('data-backup')) return;
+      t.setAttribute('data-backup', '1');
+      t.src = STREET_BACKUP + c.z + '/' + c.y + '/' + c.x;
+    });
+    return layer;
+  }
+  /** Esri World Imagery. */
+  function satellite(opts) {
+    var o = opts || {};
+    var options = { attribution: SAT_ATTR, maxZoom: o.maxZoom || DISPLAY_MAX };
+    if (o.pane) options.pane = o.pane;
+    return global.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', options);
+  }
+  /**
+   * Open a map on the street map and give it the Streets / Satellite switch and a scale bar in miles.
+   * Returns { base, satellite, control }. opts.extra adds more base layers to the switch, by label.
+   */
+  function standard(map, opts) {
+    var o = opts || {};
+    var base = street(o), sat = satellite(o), layers = { 'Streets (OpenStreetMap)': base, 'Satellite (Esri)': sat };
+    Object.keys(o.extra || {}).forEach(function (k) { layers[k] = o.extra[k]; });
+    base.addTo(map);
+    var control = global.L.control.layers(layers, null, { position: o.position || 'topright', collapsed: o.collapsed !== false }).addTo(map);
+    if (o.scale !== false) global.L.control.scale({ imperial: true, metric: false, position: 'bottomleft' }).addTo(map);
+    return { base: base, satellite: sat, control: control };
+  }
+
   global.COHOBasemaps = {
+    street: street,
+    satellite: satellite,
+    standard: standard,
+    scale: function (map) { return global.L.control.scale({ imperial: true, metric: false, position: 'bottomleft' }).addTo(map); },
+    STREET_ATTR: OSM_ATTR,
+    SATELLITE_ATTR: SAT_ATTR,
     dark: function (opts) { return labelled('dark', opts); },
     light: function (opts) { return labelled('light', opts); },
     darkNoLabels: function (opts) { return unlabelled('dark', opts); },

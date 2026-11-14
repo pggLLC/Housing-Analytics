@@ -3675,26 +3675,10 @@
       mapEl.appendChild(loadDiv);
     }
 
-    // Basemap layers — Carto Light (default, low visual noise) +
-    // Esri World Imagery (satellite, useful for screening site context
-    // visually — parcels, surrounding buildings, parking, vegetation).
-    // Esri's "World_Imagery" tile service is free for non-commercial use
-    // and doesn't require an API key. Attribution per Esri's TOS.
-    var cartoLight = window.COHOBasemaps.light();
-    var esriSatellite = L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      {
-        attribution: 'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, ' +
-          'and the GIS User Community',
-        maxZoom: 19
-      }
-    );
-    cartoLight.addTo(map);
-    L.control.layers(
-      { 'Street (Carto Light)': cartoLight, 'Satellite (Esri)': esriSatellite },
-      null,
-      { position: 'topright', collapsed: true }
-    ).addTo(map);
+    // Basemap: OpenStreetMap streets by default (paul's map rule, 11 Nov 2026), with Esri World
+    // Imagery for screening a site by eye (parcels, buildings, parking) and the light Esri canvas
+    // as a quieter choice. A scale bar in miles. See js/config/basemaps.js.
+    window.COHOBasemaps.standard(map, { extra: { 'Light (Esri canvas)': window.COHOBasemaps.light() } });
 
     map.on('click', function (e) {
       if (!dataLoaded) {
