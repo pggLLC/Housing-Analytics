@@ -75,7 +75,8 @@ ok(/<link rel="icon" href="favicon\.svg"/.test(newPage) && fs.existsSync(path.jo
 // The next-step card finds the page's step by file name: an alias, or the page its step list sends that step to.
 {
   const wna = read('js/components/workflow-next-action.js');
-  const knows = f => new RegExp("'" + f.replace(/[.-]/g, '\\$&') + "':\\s*'market'|key: 'market',[^}]*href: '" + f.replace(/[.-]/g, '\\$&') + "'").test(wna);
+  const esc = s => s.replace(/[.*+?^${}()|[\]\\-]/g, '\\$&');
+  const knows = f => new RegExp("'" + esc(f) + "':\\s*'market'|key: 'market',[^}]*href: '" + esc(f) + "'").test(wna);
   ok(knows('deal-market-analysis.html') && knows('market-analysis.html'), 'js/components/workflow-next-action.js does not know both Market Analysis pages are step 4');
 }
 assert.deepEqual(newInline, inline(oldPage), 'an inline script differs between the two pages');
