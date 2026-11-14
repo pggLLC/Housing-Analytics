@@ -6,9 +6,9 @@
 //
 // Every figure is read from the public site's own files and engines:
 //   renters who qualify, by band  PMAMarketScoring.chfaQualifiedRenters, called the way Market check calls it
-//   market area                   the scenario's saved market area (a market-snapshot's tracts), else the census
-//                                 tracts mostly inside the place (data/hna/place-tract-membership.json, by area),
-//                                 else the whole county
+//   market area                   the user's pick of: the scenario's saved market area (a market-snapshot's tracts),
+//                                 the census tracts mostly inside the place (data/hna/place-tract-membership.json,
+//                                 by area), or the whole county; the first that exists is the default
 //   size                          CHFA's tax credit property list (data/chfa-lihtc.json)
 //   bedrooms                      Census ACS B25042, renter homes by bedrooms (data/market/acs_renter_bedrooms_co.json)
 //   rent ceilings                 ChfaRentLimits.maxGrossRent on CHFA's 2026 table; HUD FY2027 Fair Market Rents
@@ -26,7 +26,6 @@
   var esc = Shell.esc;
   var BANDS = [30, 40, 50, 60];
   var SIZES = ['efficiency', '1BR', '2BR', '3BR'];
-  var SIZE_LABEL = { efficiency: 'Studio', '1BR': '1 bedroom', '2BR': '2 bedrooms', '3BR': '3 bedrooms' };
   var SIZE_PLURAL = { efficiency: ['studio', 'studios'], '1BR': ['one-bedroom', 'one-bedrooms'], '2BR': ['two-bedroom', 'two-bedrooms'], '3BR': ['three-bedroom', 'three-bedrooms'] };
   var SHORT = { efficiency: 'Studio', '1BR': '1 BR', '2BR': '2 BR', '3BR': '3 BR' };
   var FMR_KEY = { efficiency: 'efficiency', '1BR': 'one_br', '2BR': 'two_br', '3BR': 'three_br' };
@@ -206,16 +205,17 @@
     var entry = Pl.entryFor(geoid);
     var name = isCounty ? countyName : M.shortName(entry ? entry.label : p.jurisdiction.name);
 
-    // Market area.
-    var saved = savedArea(p, s), area;
+    // Market area: the user picks among the areas this page can count (a saved market check's area, the tracts
+    // mostly inside the place, the whole county); the first of those that exists is the default.
+    var saved = savedArea(p, s), dr = draftOf(p, s);
     var inDemand = function (list) { return list.filter(function (g) { return x.demand.tracts && x.demand.tracts[g]; }); };
-    if (saved && !saved.stale) area = { tracts: inDemand(saved.tracts), label: saved.label, saved: saved };
-    else {
-      var pa = !isCounty ? placeArea(f.placeTracts, geoid) : null;
-      if (pa) area = { tracts: inDemand(pa.tracts), label: pa.rule === 'mostly' ? (pa.tracts.length === 1 ? 'the census tract' : 'the ' + pa.tracts.length + ' census tracts') + ' mostly inside ' + name : 'the census tract that covers most of ' + name, placeRule: pa.rule };
-      else area = { tracts: Object.keys(x.demand.tracts || {}).filter(function (g) { return g.slice(0, 5) === fips; }), label: 'all of ' + countyName };
-      if (saved && saved.stale) area.staleSaved = saved;
-    }
+    var areas = [];
+    if (saved && !saved.stale) areas.push({ key: 'saved', tracts: inDemand(saved.tracts), label: saved.label, saved: saved });
+    var pa = !isCounty ? placeArea(f.placeTracts, geoid) : null;
+    if (pa) areas.push({ key: 'place', tracts: inDemand(pa.tracts), label: pa.rule === 'mostly' ? (pa.tracts.length === 1 ? 'the census tract' : 'the ' + pa.tracts.length + ' census tracts') + ' mostly inside ' + name : 'the census tract that covers most of ' + name, placeRule: pa.rule });
+    areas.push({ key: 'county', tracts: Object.keys(x.demand.tracts || {}).filter(function (g) { return g.slice(0, 5) === fips; }), label: 'all of ' + countyName });
+    var area = areas.filter(function (a) { return a.key === dr.area; })[0] || areas[0];
+    if (saved && saved.stale) area.staleSaved = saved;
 
     // Renters who qualify for each band, counted the CHFA market-study way.
     var limits = {}; (d.chfa.counties || []).forEach(function (c) { limits[c.fips] = c; });
@@ -225,7 +225,6 @@
 
     // Size and incomes.
     var size = typicalSize(d.lihtc, fips, isCounty ? null : name, countyName);
-    var dr = draftOf(p, s);
     var custom = dr.bands && BANDS.some(function (b) { return dr.bands[b] !== '' && dr.bands[b] != null; });
     var byBand = {};
     if (custom) BANDS.forEach(function (b) { byBand[b] = Math.max(0, Math.round(Number(dr.bands[b]) || 0)); });
@@ -256,7 +255,10 @@
     var ua = uaFor(fips), cost = localCost(fips);
     var vacRule = f.rules && f.rules.rules && f.rules.rules.pro_forma_vacancy, vacSrc = vacRule && f.rules.sources && f.rules.sources[vacRule.source];
     return {
-      name: name, geoid: geoid, fips: fips, countyName: countyName, isCounty: isCounty, area: area, pool: pool, poolAll: poolAll,
+      name: name, geoid: geoid, fips: fips, countyName: countyName, isCounty: isCounty, area: area, areas: areas, pool: pool, poolAll: poolAll,
+      // No renter in the area qualifies for any band (a small place whose tracts the CHFA count finds empty): there
+      // is no mix to propose, so the panel says so and offers no button.
+      noPool: !(poolAll > 0),
       size: size, homes: homes, custom: custom, byBand: byBand, capture: capture, bySize: bySize, cells: cells, bedroomsFrom: br,
       at: at, rent: rent, tooBig: tooBig, fit: fit, ua: ua, cost: cost, wantCost: !!dr.cost && !!cost,
       vacancy: vacRule && isFinite(vacRule.rate) ? vacRule.rate : 0.07, vacSrc: vacSrc, vacWhere: vacRule && vacRule.location,
@@ -267,11 +269,31 @@
   function scheduleState(p, s) { return P.stateOf(p.projectId, s.scenarioId, 'rent-schedule'); }
 
   // ---------------- the panel ----------------
+  // The way to a specific site: offered only once Market check can save a site's market area to this scenario and
+  // come back (LabMarket.useHref); until then the panel's own area choice is the test it offers.
   function siteLink(p, s, words) {
-    var M = global.LabMarket, back = '#/project/' + p.projectId;
-    var href = M && M.useHref ? M.useHref(null, { g: p.jurisdiction.geoid, project: p.projectId, scenario: s.scenarioId, back: back })
-      : '#/market?g=' + encodeURIComponent(p.jurisdiction.geoid);
-    return '<a class="button-link secondary" href="' + esc(href) + '">' + esc(words) + '</a>';
+    var M = global.LabMarket;
+    if (!M || typeof M.useHref !== 'function') return '';
+    var href = M.useHref(null, { g: p.jurisdiction.geoid, project: p.projectId, scenario: s.scenarioId, back: '#/project/' + p.projectId });
+    return href ? '<a class="button-link secondary" href="' + esc(href) + '">' + esc(words) + '</a>' : '';
+  }
+
+  // Where the renters are counted, stated as the biggest assumption, with the areas the user can switch between.
+  function areaBlock(p, s, r, at) {
+    var a = r.area;
+    var lead = a.saved
+      ? '<p><strong>Market area: ' + esc(a.label) + '.</strong> Saved from Market check ' + esc(Shell.when(a.saved.att.attachedAt)) + '.</p>'
+      : '<p><strong>Biggest assumption: the market area.</strong> No site is picked yet, so these numbers count renters in ' + esc(a.label) + (a.placeRule ? ' (Census 2024 boundaries)' : '') + '. A real market area is drawn round the site from whole census tracts.</p>';
+    var choice = r.areas.length > 1
+      ? '<form class="start-area-form" data-start="' + at + '" novalidate><fieldset><legend>Count renters in</legend>' +
+        r.areas.map(function (o) {
+          return '<label class="check-line"><input type="radio" name="area" value="' + o.key + '"' + (o.key === a.key ? ' checked' : '') + '> ' + esc(o.label.charAt(0).toUpperCase() + o.label.slice(1)) + '</label>';
+        }).join('') + '</fieldset></form>' +
+        '<p class="note">Incomes and rent ceilings are set for the whole county, so the area changes how many renters qualify, the income mix and which bands are thin, and a thin band moves its rents down.</p>'
+      : '';
+    return '<div class="callout start-area">' + lead + choice +
+      (a.staleSaved ? '<p>The market area saved for the old place is out of date, so it is not used.</p>' : '') +
+      siteLink(p, s, a.saved ? 'Try another site' : 'Check a site') + '</div>';
   }
 
   function section(p, s) {
@@ -284,15 +306,14 @@
     if (r.error) return head + '<p class="callout">' + esc(r.error) + '</p></details>';
     var at = esc(p.projectId) + '/' + esc(s.scenarioId);
     var dr = draftOf(p, s);
+    var area = areaBlock(p, s, r, at);
+    if (r.noPool) {
+      return head + area + '<p class="callout">No renters counted in ' + esc(r.area.label) + ' qualify for homes at 30% to 60% of area median income in the data the site’s capture engine reads (HUD CHAS 2018–2022, Census ACS 2020–2024), so there is no income mix to start from' +
+        (r.areas.length > 1 ? '. Count renters in a wider area above, or set the homes on the Homes form yourself.' : '. Set the homes on the Homes form yourself.') + '</p></details>';
+    }
 
     var ideal = 'A ' + r.homes + '-home, 9% tax credit building for renters at 30% to 60% of area median income: ' +
       SIZES.filter(function (k) { return r.bySize[k] > 0; }).map(function (k) { return plural(r.bySize[k], k); }).join(', ').replace(/, ([^,]*)$/, ' and $1') + '.';
-
-    var area = r.area.saved
-      ? '<div class="callout start-area"><p><strong>Market area: ' + esc(r.area.label) + '.</strong> Saved from Market check ' + esc(Shell.when(r.area.saved.att.attachedAt)) + '. The renters who qualify, the income mix and the rents below are counted in it.</p>' + siteLink(p, s, 'Try another site') + '</div>'
-      : '<div class="callout start-area"><p><strong>Biggest assumption: the market area.</strong> No site is picked yet, so these numbers count renters in ' + esc(r.area.label) + (r.area.placeRule ? ' (Census 2024 boundaries)' : '') + '. ' +
-        'A real market area is drawn round the site from whole census tracts. It changes how many renters qualify, and so the income mix and the rents.</p>' +
-        (r.area.staleSaved ? '<p>The market area saved for the old place is out of date, so it is not used.</p>' : '') + siteLink(p, s, 'Check a site') + '</div>';
 
     var bandRows = BANDS.map(function (b) {
       var c = r.capture[b], v = r.custom ? r.byBand[b] : (dr.bands && dr.bands[b] != null && dr.bands[b] !== '' ? dr.bands[b] : r.byBand[b]);
@@ -392,7 +413,7 @@
     var p = P.get(pid), s = p && p.scenarios.filter(function (x) { return x.scenarioId === sid; })[0];
     if (!s || !p.jurisdiction) return false;
     var r = plan(p, s);
-    if (r.wait || r.error) return false;
+    if (r.wait || r.error || r.noPool) return false;
     P.setOverride(pid, sid, 'homesDraft', homesDraft(r));
     var cd = r.wantCost ? costDraft(p, s, r) : null;
     if (cd) P.setOverride(pid, sid, 'financialsDraft', cd);
@@ -426,6 +447,7 @@
         dr.bands = {}; BANDS.forEach(function (b) { var el = form.querySelector('[name="b' + b + '"]'); dr.bands[b] = el ? el.value : ''; });
         dr.homes = String(sum(dr.bands));
       } else if (n === 'cost') dr.cost = ev.target.checked;
+      else if (n === 'area') dr.area = ev.target.value;
       else return;
       P.setOverride(ids[0], ids[1], 'startDraft', dr);
       redraw();
@@ -434,6 +456,7 @@
       var form = ev.target;
       if (!form.dataset || !form.dataset.start) return;
       ev.preventDefault();
+      if (!form.classList.contains('start-form')) return;
       var ids = form.dataset.start.split('/');
       apply(ids[0], ids[1]);
     });

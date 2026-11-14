@@ -488,3 +488,7 @@ details.start-numbers[open] { padding-bottom: 1rem; }
 /* The two starting-numbers tables hold short figures, so they drop the site-wide cell minimums (text-fit.css) to fit a phone. */
 main .start-table td, main .start-table thead th { min-width: 0; }
 main .start-table tbody th { min-width: 3.5rem; }
+/* The market-area choice inside the starting-numbers callout. */
+.start-area fieldset { border: 0; margin: 0 0 .25rem; padding: 0; min-width: 0; }
+.start-area legend { font-weight: 600; padding: 0; }
+.start-area .check-line { font-weight: 400; }
