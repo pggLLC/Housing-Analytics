@@ -13,7 +13,6 @@
 // covered; none of that is carried (deep dive: /mnt/project-files/cutover/calculator-move/housing-outcome-score-deep-dive.md).
 (function (global) {
   'use strict';
-  var Shell = global.LabShell;
   var FILES = { gapCounty: 'data/co_ami_gap_by_county.json', gapPlace: 'data/co_ami_gap_by_place.json', scorecard: 'data/policy/housing-policy-scorecard.json' };
   var src = {};   // each file: undefined while loading, null if it failed, else the file
   var started = false, last = null;
