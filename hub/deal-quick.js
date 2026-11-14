@@ -732,7 +732,8 @@
     else if (n === 'quick:util') q.util = t.value === 'renter' ? 'renter' : 'owner';
     else if (n.indexOf('quick:ua:') === 0) { var ua = String(t.value).trim(); q.ua = q.ua || {}; q.ua[n.slice(9)] = ua === '' || !(Number(ua) >= 0) ? null : Number(ua); }
     else if (n.indexOf('quick:term:') === 0) { var tv = String(t.value).trim(); q.terms = q.terms || {}; q.terms[n.slice(11)] = tv === '' || !(Number(tv) >= 0) ? null : Number(tv); }
-    Shell.render();
+    // Redrawn once the click or Tab that left the field has finished, with focus where the reader moved (redraw.js).
+    if (global.LabRedraw) global.LabRedraw.after(Shell.render); else Shell.render();
   });
 
   // Folds stay as the reader left them when the panel re-renders.

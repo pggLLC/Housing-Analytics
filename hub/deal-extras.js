@@ -235,6 +235,7 @@
     var t = ev.target;
     if (!t.name || t.name.indexOf('rvb:') !== 0) return;
     global.LabDealExtras._rvb(t.name.slice(4), parseFloat(t.value));
+    if (global.LabRedraw) return global.LabRedraw.after(Shell.render);
     Shell.render();
     var again = document.querySelector('[name="' + t.name + '"]');
     if (again) again.focus();

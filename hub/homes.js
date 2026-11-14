@@ -323,17 +323,14 @@
     return { p: P.get(parts[1]), d: d, parts: parts };
   }
 
-  // Recalculate as the visitor types, keeping focus on the field they were in.
+  // Recalculate as the visitor types. The entry is saved at once; the page is redrawn once the click or Tab that
+  // left the field has finished, with focus on the field the visitor moved to (redraw.js).
   main.addEventListener('change', function (ev) {
     var form = ev.target.form;
     if (!form || form.dataset.action !== 'homes') return;
-    var name = ev.target.name, row = ev.target.closest('.mix-row');
-    var rowIndex = row ? row.dataset.row : null;
     saveDraft(form);
-    Shell.render();
-    var sel = (rowIndex != null ? '.mix-row[data-row="' + rowIndex + '"] ' : '') + '[name="' + name + '"]';
-    var again = main.querySelector(sel);
-    if (again) again.focus();
+    if (global.LabRedraw) global.LabRedraw.after(Shell.render);
+    else Shell.render();
   });
   main.addEventListener('click', function (ev) {
     var form = ev.target.form || (ev.target.closest && ev.target.closest('form'));
@@ -356,6 +353,9 @@
     var form = ev.target;
     var parts = route();
     if (form.dataset.action === 'homes') {
+      // A change still waiting to redraw may have cleared fields (a new allowance source clears the allowances) that
+      // this form still shows. Redraw first, so Save reads the form as the change left it (Codex on HA #2845).
+      if (global.LabRedraw) { global.LabRedraw.flush(); form = main.querySelector('form[data-action="homes"]') || form; }
       var x = saveDraft(form);
       var subject = subjectFrom(x.d);
       var result = ChfaRentLimits.rentSchedule(subject, { chfaTable: chfa });
