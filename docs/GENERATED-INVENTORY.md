@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T01:21:09.006Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T02:07:17.204Z. Do not edit by hand.
 
 ---
 
@@ -2349,7 +2349,7 @@
 | `test/guided-path-enters-the-chapters.test.mjs` | 10.6 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 5.0 KB |
 | `test/guided-path-product-routes.test.js` | 16.6 KB |
-| `test/guides-open-in-hub.test.mjs` | 15.8 KB |
+| `test/guides-open-in-hub.test.mjs` | 19.4 KB |
 | `test/hamilton-perry-option.test.js` | 17.7 KB |
 | `test/headship-held-option.test.js` | 13.5 KB |
 | `test/helpers/ci-wiring.js` | 1.9 KB |
@@ -2696,7 +2696,7 @@
 | `test/shared-equity-lifecycle.test.js` | 20.3 KB |
 | `test/shared-money-format.test.js` | 6.8 KB |
 | `test/signals-that-cry-wolf.test.mjs` | 8.1 KB |
-| `test/site-analytics-and-crawlers.test.js` | 6.6 KB |
+| `test/site-analytics-and-crawlers.test.js` | 7.9 KB |
 | `test/site-comparison-null-score.test.js` | 7.2 KB |
 | `test/site-comparison-save.test.js` | 8.7 KB |
 | `test/site-figures-sync.test.mjs` | 5.8 KB |
