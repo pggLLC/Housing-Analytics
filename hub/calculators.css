@@ -180,6 +180,8 @@ form[data-action="financials"] .field-grid .field { align-content: start; }
 .basis-dl dt { min-width: 0; }
 .basis-dl dt small { display: block; color: var(--muted); font-size: .8rem; }
 .basis-dl dd { margin: 0; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; max-width: 22rem; }
+/* On a phone a long answer took the row and laid the label over it; stack them there. */
+@media (max-width: 600px) { .basis-dl > div { grid-template-columns: minmax(0, 1fr); } .basis-dl dd { text-align: left; max-width: none; } }
 .basis-dl .boost-discretionary dd { color: var(--fair, var(--text-amber)); }
 .basis-dl .boost-hud dd { color: var(--good, var(--text-green)); }
 .basis-dl .boost-not-applied dd { color: var(--caution, var(--text-rust)); }
