@@ -30,7 +30,10 @@ assert(steps.length >= 7, `read the canonical steps (${steps.length})`);
 //    HNA page, so they resolve to the same rail step as it does.
 const hnaViews = JSON.parse(read('data/hna/hna-views.json')).views.map((v) => v.slug);
 const isHnaFamily = (f) => f === 'housing-needs-assessment.html' || hnaViews.includes(f);
-const railStepFor = (f) => steps.find((s) => s.href === f) ||
+// A page written from another page (deal-market-analysis.html is market-analysis.html in the new format, by
+// scripts/build-market-analysis-hub.mjs) is the same rail step as the page it is written from.
+const WRITTEN_FROM = { 'deal-market-analysis.html': 'market-analysis.html' };
+const railStepFor = (f) => steps.find((s) => s.href === (WRITTEN_FROM[f] || f)) ||
   (isHnaFamily(f) ? steps.find((s) => isHnaFamily(s.href)) : undefined);
 const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
 let footers = 0;
