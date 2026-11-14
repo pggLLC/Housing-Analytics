@@ -1,0 +1,116 @@
+/* The full Market Analysis in the new pages' look (deal-market-analysis.html, written by
+   scripts/build-market-analysis-hub.mjs from market-analysis.html).
+
+   Two sets of sheets meet on this page: the tool's own (css/site-theme.css and the rest, which its scripts
+   draw with) and the new pages' (hub/*.css). The page loads the new pages' sheets into a cascade layer named
+   "hub"; a layered rule gives way to every unlayered rule. This sheet, loaded last, then does four things:
+     1. keeps the new pages' sheets off the tool: inside <main> they decide nothing (section 1);
+     2. keeps the tool's sheets off the header, menu, footer and trail: there the new pages' sheets decide
+        everything, as on a hub page (section 2);
+     3. points the old theme's variable names at the new palette (hub/palette.css), so every card, table,
+        chart and control the tool draws takes the new colours in light and dark with no change to the tool
+        (section 3);
+     4. gives the page the new pages' type, cards, buttons and tab row (section 4).
+   Colours come from the palette only: no colour is named here. */
+
+/* 1. Inside <main>, every property the new pages' sheets set is rolled back, so the tool is laid out by its own
+      sheets exactly as on market-analysis.html. Written inside the layer: there is no layer below it, so the
+      roll-back lands on the browser's own value and the tool's unlayered rules then apply over it. The trail is
+      the one part of <main> that belongs to the new pages. The same goes for the row the tool adds to the footer
+      on a phone (.footer-tools: js/components/watchlist.js moves the Watchlist there), which is the tool's. */
+@layer hub {
+  body.tool-page main#main-content *:not(.crumbs, .crumbs *),
+  body.tool-page main#main-content *:not(.crumbs, .crumbs *)::before,
+  body.tool-page main#main-content *:not(.crumbs, .crumbs *)::after,
+  body.tool-page main#main-content *:not(.crumbs, .crumbs *)::marker,
+  body.tool-page .site-footer :is(.footer-tools, .footer-tools *),
+  body.tool-page .site-footer :is(.footer-tools, .footer-tools *)::before,
+  body.tool-page .site-footer :is(.footer-tools, .footer-tools *)::after { all: revert-layer; }
+}
+
+/* 2. The header, menu, footer, skip link and trail take the layer's value for every property, whatever the tool's
+      sheets say about links, lists, buttons or .site-header (the old header used that class too, and the old
+      theme forces some of its link colours). The :not(#_) matches every element and lifts these selectors above
+      any rule in the tool's sheets. Their small-print colour is set in the page's head (see the build script). */
+body.tool-page :is(.skip-link, .site-header, .site-footer, .crumbs):not(#_),
+body.tool-page :is(.site-header, .site-footer, .crumbs) *:not(#_, .footer-tools, .footer-tools *) { all: revert-layer !important; }
+
+/* 3. The old theme's names, answered from the new palette. Tripled so it outranks the old theme's own
+      dark-mode blocks (html.dark-mode, :root:not(.light-mode)); the palette itself switches light and dark.
+      --card is the same name in both and the palette's own rule already wins. */
+:root:root:root {
+  --bg: var(--paper); --bg2: var(--tint-grey); --bg3: var(--track);
+  --card2: var(--paper); --surface: var(--card); --surface-2: var(--track); --card-alt: var(--paper);
+  --text: var(--ink); --text-strong: var(--ink); --muted: var(--ink-soft); --faint: var(--ink-soft);
+  --border: var(--line); --border-strong: var(--line-strong);
+  --link: var(--green); --link-hover: var(--green-dark);
+  --accent: var(--green); --accent-dim: var(--tint); --accent-weak: var(--tint); --on-accent: var(--on-fill);
+  --accent2: var(--text-amber); --accent2-dim: var(--fair-bg);
+  --good: var(--text-green); --good-dim: var(--tint-green); --on-good: var(--on-fill);
+  --warn: var(--text-rust); --warn-dim: var(--tint-rust); --on-warn: var(--on-fill);
+  --bad: var(--text-red); --bad-dim: var(--tint-rust); --on-bad: var(--on-fill);
+  --info: var(--text-blue); --info-dim: var(--tint-blue); --on-info: var(--on-fill);
+  --panel: var(--paper); --input: var(--card); --button: var(--card);
+  --text-l: var(--ink); --text-d: var(--ink); --card-l: var(--card); --card-d: var(--card);
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --focus-ring: 0 0 0 3px var(--tint-line);
+  --shadow-sm: none; --shadow: 0 2px 6px var(--shade-soft); --shadow-card: none;
+}
+
+/* 4. The page in the new pages' look. Light or dark is the palette's call alone, and text is drawn the way the
+      new pages draw it (the old theme thins it on a Mac). */
+html { overflow-x: clip; }
+html:root { color-scheme: normal; }
+body.tool-page { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: auto; -moz-osx-font-smoothing: auto; }
+body.tool-page main#main-content { max-width: 1240px; margin: 0 auto; padding: 1.5rem 16px 3rem; }
+body.tool-page main#main-content:focus { outline: none; }
+body.tool-page main h1 { font-family: var(--font-display); font-size: clamp(28px, 4vw, 40px); font-weight: 600; line-height: 1.15; letter-spacing: -.01em; color: var(--ink); margin: 0 0 .75rem; }
+body.tool-page main h2 { font-family: var(--font-display); font-size: 22px; font-weight: 600; line-height: 1.25; letter-spacing: -.01em; color: var(--ink); }
+body.tool-page main h3 { font-size: 17px; line-height: 1.35; color: var(--ink); }
+body.tool-page main .kicker { display: none; }
+body.tool-page .pma-intro-text { font-size: 18px; line-height: 1.5; color: var(--ink); max-width: 68ch; text-align: left; hyphens: manual; }
+body.tool-page .pma-intro-note { text-align: left; hyphens: manual; }
+
+/* The old step bar's six links. */
+body.tool-page .crumbs ol:not(#_) { margin: 0 0 .5rem !important; }
+@media (max-width: 480px) {
+  /* On a phone the trail stays on one line: the last step is this page, and the heading below says so. */
+  body.tool-page .crumbs li:last-child:not(#_) { display: none !important; }
+}
+.tool-steps { display: flex; flex-wrap: wrap; gap: .4rem .5rem; align-items: center; margin: .75rem 0 0; font-size: 14px; color: var(--ink-soft); }
+.tool-steps > span { font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 11px; color: var(--ink-soft); margin-right: .25rem; }
+body.tool-page .tool-steps a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 .8rem; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--card); color: var(--green); text-decoration: none; font-size: 14px; font-weight: 600; }
+body.tool-page .tool-steps a:hover { background: var(--tint); }
+body.tool-page .tool-steps a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* The page's own row of links to its parts, as the new pages' tab row. It already sticks under the header
+   (js/components/workflow-progress.js measures the header into --site-header-h). */
+body.tool-page .ma-section-nav { background: var(--card); border-bottom: 1px solid var(--line); margin: 1rem 0 1.5rem; z-index: 40; }
+body.tool-page .ma-section-nav-link { display: flex; align-items: center; min-height: 44px; padding: 0 .9rem; font-size: 15px; font-weight: 400; color: var(--ink); border-bottom: 3px solid transparent; white-space: nowrap; }
+body.tool-page .ma-section-nav-link:hover { color: var(--ink); border-bottom-color: var(--line-strong); }
+body.tool-page .ma-section-nav-link.active { color: var(--green); border-bottom-color: var(--green); font-weight: 600; }
+body.tool-page .ma-section-nav-link:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+@media (max-width: 767px) {
+  /* One row that scrolls sideways, as the new pages' tab rows do on a phone, not six wrapped rows. */
+  body.tool-page .ma-section-nav-list { flex-wrap: nowrap; white-space: nowrap; overflow-x: auto; }
+}
+body.tool-page main [id] { scroll-margin-top: calc(var(--site-header-h, 0px) + 4rem); }
+
+/* Cards. */
+body.tool-page .ma-report-section, body.tool-page .pma-card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: none; color: var(--ink); }
+body.tool-page .ma-report-section { padding: 1.1rem 1.25rem; margin: 1.5rem 0; }
+
+/* Buttons: the new pages' green for the main action. */
+body.tool-page main .pma-btn, body.tool-page main .btn { border-radius: 6px; font-weight: 600; }
+body.tool-page main .pma-btn-primary, body.tool-page main .btn.primary, body.tool-page main .btn-primary { background: var(--green); border-color: var(--green); color: var(--on-fill) !important; }
+body.tool-page main .pma-btn-primary:hover, body.tool-page main .btn.primary:hover, body.tool-page main .btn-primary:hover { background: var(--green-dark); }
+body.tool-page main :is(button, a, input, select, textarea, summary):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Score, band and risk badges: the report draws them as white on a filled colour, and the old theme's
+   `.pill, .badge { color: var(--muted) !important }` turns that text dark slate on dark green (1.6:1 on the old
+   page). The same goes for any label the tool draws as white on one of the theme's colours, which turn pale
+   in dark mode. Here that text takes the palette's colour for text on a fill, in light and dark. */
+body.tool-page main :is(.badge, .pill)[style*="color:#fff"],
+body.tool-page main [style*="color:#fff"][style*="background:var(--"] { color: var(--on-fill) !important; }
+
+@media print { .tool-steps, body.tool-page .crumbs { display: none; } }
