@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T12:46:53.310Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T14:14:48.739Z. Do not edit by hand.
 
 ---
 
@@ -158,7 +158,7 @@
 | `data/chfa-lihtc.json` | 966.9 KB | ✅ | 926 features |
 | `data/chfa-qap-calendar.json` | 20.7 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 39.3 KB | ✅ | — |
+| `data/co-county-demographics.json` | 47.9 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 14.5 KB | ✅ | — |
@@ -2097,7 +2097,7 @@
 
 ## Test Files
 
-803 test files found.
+804 test files found.
 
 | File | Size |
 |------|------|
@@ -2155,7 +2155,7 @@
 | `test/chas-affordable-available.test.js` | 6.0 KB |
 | `test/chas-tier-shares.test.js` | 6.9 KB |
 | `test/chfa-award-coverage.test.mjs` | 5.0 KB |
-| `test/chfa-cost-basis-limits.test.js` | 5.1 KB |
+| `test/chfa-cost-basis-limits.test.js` | 5.7 KB |
 | `test/chfa-dda-qct-absence.test.js` | 13.4 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/chfa-portfolio-filters.test.js` | 6.3 KB |
@@ -2212,6 +2212,7 @@
 | `test/deal-calc-ami-bands.test.js` | 7.0 KB |
 | `test/deal-calc-correctness.test.js` | 4.7 KB |
 | `test/deal-calc-cost-basis-page.test.js` | 25.0 KB |
+| `test/deal-calc-cost-limit-plan.test.js` | 3.7 KB |
 | `test/deal-calc-credit-stack-page.test.js` | 13.8 KB |
 | `test/deal-calc-doh-schedules-page.test.js` | 12.1 KB |
 | `test/deal-calc-equity-pricing.test.js` | 8.2 KB |
@@ -2250,7 +2251,7 @@
 | `test/deal-engine.test.js` | 8.2 KB |
 | `test/deal-file.test.mjs` | 15.4 KB |
 | `test/deal-gap-handoff.test.js` | 6.0 KB |
-| `test/deal-lender-schedules.test.js` | 21.0 KB |
+| `test/deal-lender-schedules.test.js` | 21.9 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
 | `test/deal-permanent-financing.test.js` | 14.0 KB |
 | `test/deal-quick-estimate.test.mjs` | 12.8 KB |

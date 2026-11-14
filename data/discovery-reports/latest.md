@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-11-13T15:19:59.774Z
+**Scan timestamp:** 2026-11-14T14:05:50.883Z
 
 ## Summary
 
@@ -33,17 +33,17 @@
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/property-websites.json` (31 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (1 KB)
-- `data/alerts/alerts_archive.json` (2138 KB)
-- `data/alerts/brief-news-queue.json` (59 KB)
+- `data/alerts/alerts_archive.json` (2192 KB)
+- `data/alerts/brief-news-queue.json` (60 KB)
 - `data/alerts/outlet-decisions.json` (6 KB)
 - `data/alerts/outlet-register.json` (31 KB)
-- `data/alerts/outlet-review.json` (7 KB)
+- `data/alerts/outlet-review.json` (8 KB)
 - `data/alerts/owner-news.json` (0 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3871 KB)
 - `data/audit/chfa-qap-watch.json` (3487 KB)
-- `data/audit/funding-watch.json` (786 KB)
+- `data/audit/funding-watch.json` (693 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/benchmarks/str-license-counts.json` (6 KB)
@@ -1954,7 +1954,7 @@
 - `data/policy/green-building.json` (58 KB)
 - `data/policy/homeownership-programs.json` (33 KB)
 - `data/policy/housing-events-curated.json` (3 KB)
-- `data/policy/housing-events.json` (159 KB)
+- `data/policy/housing-events.json` (158 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/housing-roll-calls.json` (6 KB)
 - `data/policy/hud-state-median-family-income.json` (1 KB)
@@ -1993,11 +1993,11 @@
 - `data/policy/tool-watch.json` (5 KB)
 - `data/policy/unit-size-standards.json` (5 KB)
 - `data/policy/where-to-build-context.json` (34 KB)
-- `data/policy_briefs.json` (601 KB)
+- `data/policy_briefs.json` (612 KB)
 - `data/policy_briefs_curated.json` (241 KB)
 - `data/polymarket-curated.json` (6 KB)
 - `data/polymarket-data.json` (20 KB)
-- `data/polymarket-history.json` (218 KB)
+- `data/polymarket-history.json` (220 KB)
 - `data/processed/co_county_housing_indicators.geojson` (447 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
@@ -2021,4 +2021,4 @@
 
 ## ⏳ Aging Sources
 
-- undefined — 285 days since last update
+- undefined — 286 days since last update
