@@ -319,7 +319,7 @@
         if (ev.kind === 'rent-schedule') back += ' <a href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">' + (att ? 'Open the schedule' : 'Set homes and rents') + '</a>';
         return '<li><span class="unlinked">' + esc(ev.title) + '</span><span class="status state-' + esc(st.replace(' ', '-')) + '">' + esc(STATE[st]) + '</span>' +
           '<p class="note">' + detail + back + '</p></li>';
-      }).join('') + '</ul>' + nextStep(p, s);
+      }).join('') + '</ul>' + nextStep(p, s) + (global.LabStart ? global.LabStart.section(p, s) : '');
     }).join('');
     return '<a class="back-link" href="#/projects">\u2190 Projects</a><h1>' + esc(p.name) + '</h1>' +
       '<p class="lede">' + esc(KIND[p.kind]) + ' \u00b7 ' + esc(p.jurisdiction ? p.jurisdiction.name : 'No place set') + '</p>' +

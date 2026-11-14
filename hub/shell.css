@@ -466,3 +466,25 @@ figcaption .geo-chip { align-self: flex-start; }
 details.project-place { margin: 1rem 0; }
 details.project-place > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; color: var(--green); }
 .next-step { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; margin: .75rem 0 1.5rem; }
+
+/* Starting numbers for a new project (start-numbers.js): a closed-by-choice box under each scenario with no homes saved. */
+details.start-numbers { margin: .5rem 0 1.5rem; border: 1px solid var(--line); border-radius: 8px; background: var(--card); padding: 0 1rem; }
+details.start-numbers > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-weight: 600; color: var(--green); }
+details.start-numbers[open] { padding-bottom: 1rem; }
+.start-numbers h4 { margin: 1.25rem 0 .25rem; }
+.start-numbers .start-ideal { font-weight: 600; }
+.start-numbers .start-area p { margin: 0 0 .5rem; }
+.start-numbers .field { max-width: 14rem; }
+.start-table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+.start-table caption { text-align: left; font-weight: 600; padding: .5rem .75rem 0; }
+.start-table th, .start-table td { padding: .3rem .35rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+.start-table td.num { text-align: right; white-space: nowrap; }
+.start-table th.num { text-align: right; }
+.start-table input { width: 3.75rem; min-height: 44px; padding: 0 .5rem; border: 1px solid var(--muted); border-radius: 6px; font: inherit; font-size: 16px; text-align: right; background: var(--card); color: var(--ink); }
+.start-tag { margin-left: .15rem; font-weight: 700; color: var(--green); }
+.check-line { display: flex; align-items: center; gap: .5rem; min-height: 44px; font-weight: 600; }
+.check-line input { width: 1.25rem; height: 1.25rem; }
+.start-note { margin-top: .5rem; }
+/* The two starting-numbers tables hold short figures, so they drop the site-wide cell minimums (text-fit.css) to fit a phone. */
+main .start-table td, main .start-table thead th { min-width: 0; }
+main .start-table tbody th { min-width: 3.5rem; }
