@@ -21,17 +21,19 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "4cac63596597aa709f7f84551500df239d91c789",
+  "commit": "6a5ce4a228ffbddead8ce35fc194973b4d393b23",
   "dirty": false
  },
  "files": {
-  "data-hub.html": "df64bbfd45f50f83321a029d6c69cd295108ed0c422e3a95d57b3984bd88e7cf",
-  "deal-hub.html": "a7b5d55533a35ec218be2cdf35ed942f88ca426bc3fc0350344a3eb2924814e0",
+  "data-hub.html": "127f6a1135c0176fd4c48347f25f9b732dae2a9fd1b02ce6d1c1848505373118",
+  "deal-hub.html": "5155e2eb074c2773b3d768fbd9c14d835aad10256529c276705fb3e226ccb2c9",
   "hub/access.js": "8ccf6a2320fbdc280ddcb2632284e0449aa9e0d64306d2fa9c7f86d1134faa1d",
   "hub/attract-housing.css": "28bcd998512f3ce04d0a3e094e614dbfa727e9266f6765bdef65484515887161",
   "hub/attract-housing.js": "9b33f4d813797798b92d674f7dfe80a1f7b8e8c0fc1c0aa0235498b4e754a7c7",
+  "hub/calc-doh.js": "7ec3f51dabeace0a3939051b09da4e42630c810919517206846122ad2fa2cc94",
   "hub/calc-grid.js": "02dffeeae3ce04defc40650c40072cb5a5002f0a8f5de09b5f5fc54e253f622e",
-  "hub/calculators.css": "d53eb5d5c661537b4f0a86b2eedb79d8129a48a3b42e32b9f32a2104afbe7ffc",
+  "hub/calc-tax.js": "ded0687ab2ee6cd6b28b9fd633586ee8843476a9cd402c1b340fbe5f40c30a7a",
+  "hub/calculators.css": "fba9528d26c9e5c2fe0029650749bfe5922e7670604f784735e2700fdb19e08b",
   "hub/calendar.js": "9fd8e62851166913afee680810c97317642113db4ea3f0e25235e6c0ed05d6b5",
   "hub/change-arrows.js": "3bfb7835e88183749dd64cacc43d91af9ae80d65038bb60ed70190d7755d4f3d",
   "hub/commuting.js": "be7105b9c3ad7d1d6486dd9cb8a288b95a1ff849e8478592adbb87f97beb8b6b",
@@ -61,7 +63,7 @@
   "hub/employers.js": "b88b55893ff703a8e7b4868804e125f2c8b07a10cdeb0ed5a3825e38c7821d48",
   "hub/equity.css": "53bb0d5d0c61318228d514d3c8db7e719dc9dee91b44ebdb690c1671e3491b3e",
   "hub/equity.js": "23b0cd67a229da6ca017d2086535b563b0b95bfdc0bb2bf6f846f927f2f89065",
-  "hub/financials.js": "03939d7ce785a273776d08a1cbdf2c39f096a4f56607fca48451fe0b5bec0c06",
+  "hub/financials.js": "e5e2052260363a3b945cbaa54b5cabf58163aae5da640a393d340600121a70ee",
   "hub/finder.js": "96065905924a90f7eb9f4d578e99cbcb6c790a1b47398126d9d37baaddf8b0e9",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
@@ -121,10 +123,10 @@
   "hub/viz.js": "5a1b3886191f3479cf43ae69a68100a7566a45e2ae474416e095489b3a61979a",
   "hub/walk-bike.css": "6894c1022a298d0f0ab4e90935b30eba979482bf07166864965f6a805b3fb662",
   "hub/walk-bike.js": "d1ea116546fcf4342fff28a066230bd9e3e1a76c0c64db15c8baf46aed80bac6",
-  "index.html": "51fbd13127ea41900d820718a67a4f0388016a39b0f7b4183b6e5dfc8dbc2fa8",
-  "opportunities-hub.html": "c3c19bac0a2ff2920e344290f03a0405a6dfb48767747097772a3bb458ad4926",
-  "places-hub.html": "170e467a03fb18d04e6a3cea44f00477823c07704a3a8d2ed78383a276ac2566",
-  "policy-hub.html": "957396a49da339eaddbc5b58abee9330a088487d5ced1cfc61815b55a2e4f258"
+  "index.html": "9f6168f36796183853c9b2ccaf8c400aab1f8573ec4d3eafcb17f1c2df53f19c",
+  "opportunities-hub.html": "46cc8d85395e0520b3e855c199e67aba45ae7211cbbbe909c108b4e96542201c",
+  "places-hub.html": "600313caa4613c2693926ecf730284ca0fd979ddef15f0a2725e1af2b2f0bfa0",
+  "policy-hub.html": "26e9273cb6f8193a1469a5f63bb69b84c1a37cb149698884451a836afebd1f97"
  },
  "engines": {
   "js/deal-calculator-math.js": "305fc93936feecf0756732ccf52046adfc2af113ab232abe4769b7ff83701612",
@@ -132,6 +134,8 @@
   "js/deal-cost-basis.js": "b7277ad2ea10ab489434d1ac49025d1b39faa4a32cfcca69854a60c809478661",
   "js/deal-operating-budget.js": "31101c41368da8124bc5fe58f69c515421a8491d62bd972b5ad6bf5a54585deb",
   "js/deal-lender-schedules.js": "c3ae73613dc02b2044db86d3a678348880e01f62a4c182a2bee0d97693882769",
+  "js/deal-permanent-financing.js": "266f3886192b1f40391b87371d7b79bd545471b0913661c566426db1b98c9c2f",
+  "js/deal-doh-schedules.js": "c994b2d33b25effda4990eb8d7c4a1275f1bde88cf0e4c22e1b862fae225d012",
   "js/deal-engine.js": "fb85689977edf9e0bf83fa193bb53cc144a42675c8148b46ddc16076dee2e80c",
   "js/components/zori-rent-utils.js": "abc03b5eede8deafb6b9dc4e435e45a7833359b45d75fd2339976c2d95141c3d",
   "js/hna/geography-provenance.js": "72b4721bff6f5b7ff369229d69c3c2e7e62962cfeeb417ad2cc802403c3a9919",

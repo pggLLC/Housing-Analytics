@@ -56,6 +56,9 @@
       note: 'Housing authority ownership or a nonprofit partnership may qualify for a property tax exemption. Confirm it with the county assessor.' },
     { id: 'dc-dcr', label: 'Debt coverage ratio required', value: '1.20', step: '0.01' },
     { id: 'dc-rate', label: 'Permanent loan rate (%)', value: '6.5', step: '0.05' },
+    // The live page's spread box in its perm-rate hint (calculator move piece C). Blank uses the published assumption.
+    { id: 'dc-perm-spread', label: 'Spread over the 10-year Treasury (points)', value: '', step: '0.05', min: '0', max: '5', placeholder: 'COHO assumption',
+      note: 'For the rate hint under Most-likely case: the latest 10-year Treasury plus this spread. Blank uses COHO\u2019s screening assumption. The loan rate changes only when you choose the hinted rate there.' },
     { id: 'dc-term', label: 'Amortization (years)', value: '35', step: '1' },
     // Exit and projection, with the live page's labels, defaults and ranges (Year-15 Exit Analysis and the
     // pro forma's Projection Assumptions).
@@ -323,7 +326,9 @@
     return '<small class="src" data-src="' + esc(t[0]) + '">' + html + '</small>';
   }
 
-  var FIELDS = INPUTS.concat(LOAN_INPUTS, LS_INPUTS, WF_INPUTS, STRESS_INPUTS, CREDIT_INPUTS, NOI_INPUTS, CONST_INPUTS);
+  // The DOH loan type and maximum-loan-by-value fields (calc-doh.js, calculator move piece C).
+  var DOH = function () { return global.LabCalcDoh || null; };
+  var FIELDS = INPUTS.concat(LOAN_INPUTS, LS_INPUTS, WF_INPUTS, STRESS_INPUTS, CREDIT_INPUTS, NOI_INPUTS, CONST_INPUTS, DOH() ? DOH().INPUTS : []);
 
   var data = { chfa: null, hud: null, equity: null, rules: null, error: null, loading: false, rateHint: undefined };
   function loadData() {
@@ -386,7 +391,10 @@
     // The unit grid's fields (calc-grid.js), for a scenario whose homes are typed there.
     d.grid = o.grid && typeof o.grid === 'object' ? JSON.parse(JSON.stringify(o.grid)) : null;
     if (Array.isArray(o.tranches) && o.tranches.length) d.tranches = o.tranches.slice(0, MAX_TRANCHES).map(function (t) {
-      var c = {}; TRANCHE_KEYS.forEach(function (k) { c[k] = t[k] == null ? '' : String(t[k]); }); return c;
+      var c = {}; TRANCHE_KEYS.forEach(function (k) { c[k] = t[k] == null ? '' : String(t[k]); });
+      // The DOH answers on a source (calc-doh.js). One saved before they existed starts at the program's defaults.
+      if (DOH()) DOH().KEYS.forEach(function (k) { if (t[k] != null) c[k] = String(t[k]); });
+      return c;
     });
     if (o.opLines) {
       OB().LINE_TEMPLATE.forEach(function (t) { d.opLines[t.id] = o.opLines[t.id] == null ? '' : String(o.opLines[t.id]); });
@@ -482,9 +490,13 @@
       // As window.DealCalcSoftTranches() hands them over: numbers, a blank as null, the ids the live rows carry.
       tranches: (draft.tranches && draft.tranches.length ? draft.tranches : [seedTranche()]).map(function (t, i) {
         var n = function (v) { return v == null || String(v).trim() === '' ? null : Number(v); };
-        return { id: i + 1, program: t.program, amount: n(t.amount), mode: t.mode === 'grant' ? 'grant' : 'loan', loanType: t.loanType,
+        var row = { id: i + 1, program: t.program, amount: n(t.amount), mode: t.mode === 'grant' ? 'grant' : 'loan', loanType: t.loanType,
           rate: n(t.rate), term: n(t.term), maturity: n(t.maturity), ioYears: n(t.ioYears), cashflowPayPct: n(t.cashflowPayPct), priority: n(t.priority),
           fundSource: t.fundSource || '' };
+        // Where the source counts for DOH, what it pays for, its status and whether it is a state request. The
+        // engine carries these through to the DOH tables; it prices nothing from them.
+        if (DOH()) { var doh = DOH().engine(t); row.doh = doh.doh; row.stateRequest = doh.stateRequest; row.status = doh.status; row.activity = doh.activity; }
+        return row;
       }),
       costLines: costLines, costRules: sources.rules, chfaCommonAppTables: sources.commonApp == null ? null : sources.commonApp,
       // Read the way the live page's readOperatingLines reads them: a blank line is null, never 0.
@@ -599,7 +611,9 @@
   }
   function sourcesUses(r) {
     var su = sourcesUsesRows(r);
-    if (!su) return '<h2>Sources and uses</h2><p class="note">' + esc(unavailable(r, 'budget.groups')) + '</p>';
+    // In its own section, like the full table: a bare heading that starts with "Sources" is read by the shared
+    // sources fold (templates.js) as a source list, and it folded everything after it, the Save button included.
+    if (!su) return '<section class="fin-section" aria-labelledby="fin-su"><h2 id="fin-su">Sources and uses</h2><p class="note">' + esc(unavailable(r, 'budget.groups')) + '</p></section>';
     var sources = su.sources, uses = su.uses, cs = su.credits, tdc = su.tdc;
     var known = sources.every(function (x) { return x[1] != null; });
     var whole = sources.reduce(function (t, x) { return t + (x[3] && x[1] > 0 ? x[1] : 0); }, 0);
@@ -766,6 +780,8 @@
       '<label class="field"><span>Federal money in this source?</span><select name="' + name('fundSource') + '">' +
         [['', 'Not answered'], ['federal', 'Yes: a grant with federal money reduces eligible basis'], ['nonfederal', 'No federal money']].map(function (o) {
           return '<option value="' + o[0] + '"' + ((t.fundSource || '') === o[0] ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select></label></div>' +
+      (DOH() ? '<details class="tranche-more" id="tr-doh-' + i + '"><summary>For a Division of Housing (DOH) application</summary>' +
+        '<p class="note">Where this source sits in DOH\u2019s tables under Full result. These answers change no figure.</p>' + DOH().trancheFields(t, i) + '</details>' : '') +
       (grant ? '' : '<details class="tranche-more" id="tr-more-' + i + '"><summary>Maturity and cash-flow priority</summary><div class="field-grid">' +
         num('maturity', 'Maturity (years)', ' min="1" max="50" step="1"') + num('ioYears', 'Interest-only years', ' min="0" max="49" step="1"', 'Used only for interest-only then amortizing.') +
         num('cashflowPayPct', 'Share of cash left over (%)', ' min="0" max="100" step="1"', 'Cash-flow loans only.') + num('priority', 'Priority (1 paid first)', ' min="1" max="12" step="1"') +
@@ -781,7 +797,8 @@
       (tr.length < MAX_TRANCHES ? '<button type="button" class="button-link secondary" data-action="add-tranche">Add a source</button>' : '<p class="note">Five sources is the most the Deal Calculator takes.</p>') +
       '<h3>Construction loan and tax-exempt bonds</h3><p class="note">Blank until you have a lender\u2019s quote. The bond test, the interest check and the draw schedule under Lender schedules read these.</p>' + fieldGrid(d, 'constr') +
       '<h4>Federal equity pay-in (% of federal equity)</h4><p class="note">From the investor\u2019s letter of intent; the three should add to 100%. The draw schedule needs them.</p>' + fieldGrid(d, 'payin') +
-      '<h3>Bridge loan and asset management fee</h3>' + fieldGrid(d, 'bridge');
+      '<h3>Bridge loan and asset management fee</h3>' + fieldGrid(d, 'bridge') +
+      (DOH() ? '<h3>Maximum loan by value (DOH quick calculation)</h3><p class="note">Beside sizing by coverage: value at a cap rate, or an appraised value, times a loan-to-value ratio. Leave blank to skip. The answer is under Permanent financing, Colorado DOH layout.</p>' + fieldGrid(d, 'dohmax') : '');
   }
 
   function fieldGrid(d, group) {
@@ -941,10 +958,14 @@
       ? 'Novogradac national average for ' + credit + '% deals, as of ' + (data.equity.meta.as_of || 'its latest update')
       : 'Entered under Assumptions';
     var hint = data.rateHint, rate = Number(d.fields['dc-rate']);
-    var hintRate = hint ? Math.round((hint.t10 + hint.spread) * 100) / 100 : null;
+    // As on the live page, a spread typed by the reader replaces the assumption in the hint; a blank or negative one does not.
+    var typed = d.fields['dc-perm-spread'], own = typed != null && String(typed).trim() !== '' && isFinite(Number(typed)) && Number(typed) >= 0;
+    var spread = hint ? (own ? Number(typed) : hint.spread) : null;
+    var hintRate = hint ? Math.round((hint.t10 + spread) * 100) / 100 : null;
     var rateSource = hint === undefined ? 'Loading the latest 10-year Treasury…'
       : !hint ? 'The 10-year Treasury did not load, so the rate is as entered.'
-      : '10-year Treasury ' + hint.t10.toFixed(2) + '% (FRED, ' + hint.date + ') plus ' + hint.spread.toFixed(2) + ' points = ' + hintRate.toFixed(2) + '%. The spread is a COHO screening assumption with no published source: use your lender’s quote.';
+      : '10-year Treasury ' + hint.t10.toFixed(2) + '% (FRED, ' + hint.date + ') plus ' + spread.toFixed(2) + ' points = ' + hintRate.toFixed(2) + '%. ' +
+        (own ? 'The spread is the one you entered under Loans, credits and terms.' : 'The spread is a COHO screening assumption with no published source: use your lender’s quote, or enter your own spread under Loans, credits and terms.');
     var useRate = hint && isFinite(rate) && Math.abs(rate - hintRate) >= 0.005
       ? ' <button type="button" class="link-button" data-action="use-rate" data-rate="' + hintRate.toFixed(2) + '">Use ' + hintRate.toFixed(2) + '%</button>' : '';
     var rows = [
@@ -1114,7 +1135,7 @@
       }())) +
       stepOpen('fin-step-budget', 'Operating budget', r.annualOpex != null ? money(r.annualOpex) + ' a year' : '', operatingBudget(d, inputs, r)) +
       stepOpen('fin-step-assumptions', 'Loans, credits and terms', r.interestRate != null ? r.interestRate + '% loan, $' + Number(inputs.fields['dc-equity-price']).toFixed(2) + ' equity' : '',
-        '<h2>Assumptions</h2>' + (G ? '' : rentLimitsFixed(p, s)) + fieldGrid(d, null) + creditInputs(d) + loanStackInputs(d) + '<h2>Exit and projection</h2>' + fieldGrid(d, 'exit')) +
+        '<h2>Assumptions</h2>' + (G ? '' : rentLimitsFixed(p, s)) + (global.LabCalcTax ? global.LabCalcTax.callout(p, d) : '') + fieldGrid(d, null) + creditInputs(d) + loanStackInputs(d) + '<h2>Exit and projection</h2>' + fieldGrid(d, 'exit')) +
       stepOpen('fin-step-stress', 'Stress settings', combinedLabel(inputs.constants), '<h2>Stress case settings</h2><p class="note">How far each stress case moves rent, vacancy and operating cost. The full Deal Calculator\u2019s defaults are tool settings for screening, not a lender\u2019s or CHFA\u2019s required cases. The sliders under Full result test one change at a time.</p>' + fieldGrid(d, 'stressconst') + '<div class="actions"><button type="button" class="button-link secondary" data-action="reset-stress-settings">Reset to the Deal Calculator\u2019s defaults</button></div>') +
       '<h2>Full result</h2><p class="note jump-links">Jump to <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-sliders">Stress sliders</a> · <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-ls">Lender schedules</a></p>' + setAsideStatus(r) + (function () { var t = boostTag(r, inputs.fields); return '<p class="boost-tag boost-' + t.kind + '" data-role="boost-tag">' + esc(t.text) + '</p>'; }()) + '<div class="fin-grid">' +
       card('Net operating income', money(r.noi), r, 'noi') +
@@ -1128,7 +1149,7 @@
       '</div>' +
       (sum && sum.reason ? '<p class="callout"><strong>Costs:</strong> ' + esc(sum.reason) + '</p>' : '') +
       basisSection(r, inputs.fields) + creditChecks(r) + (global.LabCalcGrid ? global.LabCalcGrid.tables(r, inputs, G, data) : '') +
-      mostLikely(d, inputs, r) + sourcesUses(r) + loanTable(r) + stressTable(r, inputs.constants) + stressSliders(d, inputs, r) + rateGrid(inputs, r) + exitSummary(r, inputs) + projectionTable(r) +
+      mostLikely(d, inputs, r) + sourcesUses(r) + loanTable(r) + (DOH() ? DOH().sections(r, d.fields) : '') + stressTable(r, inputs.constants) + stressSliders(d, inputs, r) + rateGrid(inputs, r) + exitSummary(r, inputs) + projectionTable(r) +
       (global.LabLenderExport ? global.LabLenderExport.remember(r, s.name) : '') + (global.LabLenderSchedules ? global.LabLenderSchedules.render(d, r, fieldGrid) : '') + waterfallSection(d, r) +
       '<p class="note">Calculated by the COHO Deal Calculator. CHFA ' + esc(data.chfa.meta.fiscal_year) + ' rent table effective ' + esc(data.chfa.meta.effective_date) + '; HUD ' + esc(data.hud.meta && data.hud.meta.fiscal_year ? 'FY' + data.hud.meta.fiscal_year + ' ' : '') + 'Fair Market Rents; equity pricing Novogradac national average as of ' + esc(data.equity.meta.as_of || '') + '. Screening only, not underwriting.</p>' +
       '<div class="actions"><button type="submit">Save to ' + esc(s.name) + '</button>' +
@@ -1207,6 +1228,8 @@
       TRANCHE_KEYS.forEach(function (k) { var v = fd.get('tr:' + i + ':' + k); if (v != null) t[k] = String(v); });
       // As on the live page, picking another program resets the federal-money answer to that program's default.
       if (t.program !== before) t.fundSource = FEDERAL_FUND_DEFAULTS[t.program] || '';
+      // The DOH answers follow the same rule: read from the row, and reset to the new program's own when it changes.
+      if (DOH()) { DOH().read(fd, t, i); if (t.program !== before) DOH().programChanged(t); }
     });
     // The unit grid, when it is on the form (a scenario whose homes are typed there).
     if (global.LabCalcGrid && fd.get('dc-unit-mix-source') === 'manual') {
