@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "82bb365f8e59a35c86b62d2bb9cb701e3c1f85b0",
+  "commit": "33df620d475805f612fe570fc878a7d10873bfa8",
   "dirty": false
  },
  "files": {
@@ -49,7 +49,7 @@
   "hub/county-need.js": "83a44a223bf454a10fc2cfe698c142b027bc26450c2b08c632506a4a501f4e9d",
   "hub/cra-map.js": "1bceffc44ed208ba35160c35fb8c6f51e30a42df4a935d85bd0d96a14ae9b5ab",
   "hub/data-hub.js": "88d0758bda2b714ba22585bce04c5d7813484bef8ae8d936eaf2920552869389",
-  "hub/data-map.js": "550622ddde76b3ed4eb5d8026865c22b069a681ed57ce93c15f2e4f8c84084ae",
+  "hub/data-map.js": "1dac0a981498f4cd8f3230404cb59580f0df11964fd117d55d1861b11130a6b9",
   "hub/data-more.js": "eb64a1681dbe266ac45be3a7c968b1f6d25eb8a97a3172ea63bf79bd4bebd652",
   "hub/data-pages.css": "9284d87cfbef7443a2aa0926c586be3bc7c3d8f7daa1641de7349878af3b525c",
   "hub/deal-extras.js": "4b660b3f6121231b095ffc22ca658ad179c9df78cf9f747abd92a50873da5aa1",

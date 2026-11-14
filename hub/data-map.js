@@ -310,7 +310,12 @@
   function fetchLive(url, done) {
     var pre = new global.Image();
     pre.onload = function () { if (done()) liveSay(LIVE_DONE); };
-    pre.onerror = function () { var g = global.document.querySelector('.data-map .dm-live'); if (g && g.__want === url) g.__want = null; if (stillWanted(url)) liveSay(LIVE_FAIL); };
+    // Ask whether this request is still the one wanted before clearing it, so a failed refresh says so.
+    pre.onerror = function () {
+      var wanted = stillWanted(url), g = global.document.querySelector('.data-map .dm-live');
+      if (g && g.__want === url) g.__want = null;
+      if (wanted) liveSay(LIVE_FAIL);
+    };
     pre.src = url;
   }
   function stillWanted(url) {
