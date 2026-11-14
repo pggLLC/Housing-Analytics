@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "741dcb2268464a4262566dc6c22af0f2478c8340",
+  "commit": "9a262ba09b4d6b9510207a175dae68f4460415c5",
   "dirty": false
  },
  "files": {
@@ -68,7 +68,7 @@
   "hub/employers.js": "b88b55893ff703a8e7b4868804e125f2c8b07a10cdeb0ed5a3825e38c7821d48",
   "hub/equity.css": "53bb0d5d0c61318228d514d3c8db7e719dc9dee91b44ebdb690c1671e3491b3e",
   "hub/equity.js": "23b0cd67a229da6ca017d2086535b563b0b95bfdc0bb2bf6f846f927f2f89065",
-  "hub/financials.js": "a89d19808e7ea840a6675d14cc058045cb06e4311f7a594375e03cc938dd62e3",
+  "hub/financials.js": "4f5f2a32ad1b57b78a8334702f827721bc5ccb7434d49c1534b6866b42334c58",
   "hub/finder.js": "96065905924a90f7eb9f4d578e99cbcb6c790a1b47398126d9d37baaddf8b0e9",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
