@@ -146,9 +146,13 @@
   // Every map opens on the OpenStreetMap street map, credited and linked, with a Satellite choice (Esri World
   // Imagery) and a scale bar. Esri World Street Map stands in tile by tile when an OSM tile fails. The OSM layer
   // sends referrerPolicy 'origin': the member site's Worker sends no Referer, and OSM refuses tiles without one.
-  // The a/b/c hosts are the ones the member site's CSP allows (*.tile.openstreetmap.org).
+  // Street tiles come from tile.openstreetmap.org, the one host OSM's tile policy names; _headers lets the member
+  // site load it. Esri credits are the services' own copyrightText (MapServer?f=json, read 14 Nov 2026).
   var OSM_ATTR = 'Map &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-  var SAT_ATTR = 'Imagery &copy; <a href="https://www.esri.com/">Esri</a>, Maxar, Earthstar Geographics';
+  var SAT_ATTR = 'Imagery &copy; <a href="https://www.esri.com/">Esri</a>. Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community';
+  var BACKUP_ATTR = 'Some street tiles &copy; <a href="https://www.esri.com/">Esri</a>. Sources: Esri, HERE, Garmin, USGS, Intermap, '
+    + 'INCREMENT P, NRCan, Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC, (c) OpenStreetMap contributors, '
+    + 'and the GIS User Community';
   var STREET_BACKUP = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/';
   var darkStyled = false;
   function darkStyle() {
@@ -170,16 +174,23 @@
   function street(opts) {
     var o = opts || {};
     var dark = o.dark == null ? isDark() : !!o.dark;
-    var options = { attribution: OSM_ATTR, maxZoom: o.maxZoom || DISPLAY_MAX, subdomains: 'abc', referrerPolicy: 'origin' };
+    var options = { attribution: OSM_ATTR, maxZoom: o.maxZoom || DISPLAY_MAX, referrerPolicy: 'origin' };
     if (o.pane) options.pane = o.pane;
     if (dark) { darkStyle(); options.className = 'coho-street-dark'; }
-    var layer = global.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', options);
-    // One failed tile comes from Esri World Street Map instead; the rest stay OpenStreetMap.
+    var layer = global.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', options);
+    // One failed tile comes from Esri World Street Map instead; the rest stay OpenStreetMap. The first backup
+    // tile adds Esri's credit to the map, and it goes when the street layer leaves the map.
+    var credited = null;
     layer.on('tileerror', function (e) {
       var t = e.tile, c = e.coords;
       if (!t || !c || t.getAttribute('data-backup')) return;
       t.setAttribute('data-backup', '1');
       t.src = STREET_BACKUP + c.z + '/' + c.y + '/' + c.x;
+      var ac = layer._map && layer._map.attributionControl;
+      if (ac && credited !== ac) { ac.addAttribution(BACKUP_ATTR); credited = ac; }
+    });
+    layer.on('remove', function () {
+      if (credited) { credited.removeAttribution(BACKUP_ATTR); credited = null; }
     });
     return layer;
   }
@@ -211,6 +222,7 @@
     scale: function (map) { return global.L.control.scale({ imperial: true, metric: false, position: 'bottomleft' }).addTo(map); },
     STREET_ATTR: OSM_ATTR,
     SATELLITE_ATTR: SAT_ATTR,
+    STREET_BACKUP_ATTR: BACKUP_ATTR,
     dark: function (opts) { return labelled('dark', opts); },
     light: function (opts) { return labelled('light', opts); },
     darkNoLabels: function (opts) { return unlabelled('dark', opts); },

@@ -1570,7 +1570,7 @@
         var dv = doc.defaultView;
         // OpenStreetMap streets by default, a Satellite choice and a scale bar (paul's map rule, 11 Nov 2026).
         if (dv.COHOBasemaps && dv.COHOBasemaps.standard) dv.COHOBasemaps.standard(map);
-        else L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap', referrerPolicy: 'origin' }).addTo(map);
+        else L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap', referrerPolicy: 'origin' }).addTo(map);
       }
       if (layer) layer.remove();
       var COLORS = { site: '#b42318', market: '#1d4ed8', credit: '#0f766e', chfa: '#6b7280' };
