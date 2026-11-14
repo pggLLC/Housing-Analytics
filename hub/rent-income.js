@@ -82,7 +82,7 @@
       var p = s.data.p.places[g], pr = proj[g] || {}, y0 = (p2000[g] || {}).y2000 || {};
       var list = (y0.median_gross_rent > 0 && y0.median_hh_income_rent_year > 0 ? [{ p: '2000', y: 2000, r: y0.median_gross_rent, i: y0.median_hh_income_rent_year }] : [])
         .concat(cohortPoints(p.acs_cohorts));
-      towns[g] = { g: g, n: p.place_name, kind: 'town', pts: list, county: pr.containing_county || null,
+      towns[g] = { g: g, n: p.place_name, label: /\((city|town|CDP)\)$|CDP \(.+ County\)$/.test(pr.name || '') ? pr.name : '', kind: 'town', pts: list, county: pr.containing_county || null,
         small: !!pr.too_small, hh: (pr.household_inputs || {}).place_households };
     });
     return towns;
@@ -281,11 +281,12 @@
   var state = {};
   function picker(d, st) {
     var opt = function (x) { return '<option value="' + x.g + '"' + (x.g === st.sel ? ' selected' : '') + '>' + esc(x.n) + '</option>'; };
-    var cs = d.counties.slice().sort(function (a, b) { return d.geo[a].n.localeCompare(d.geo[b].n); }).map(function (g) { return opt(d.geo[g]); }).join('');
-    var tw = towns ? Object.keys(towns).sort(function (a, b) { return towns[a].n.localeCompare(towns[b].n); }).map(function (g) { return opt(towns[g]); }).join('') : '';
+    // Counties and (once loaded) towns in one A to Z list, labelled "Adams County", "Fruita (town)" (LabPlaceList).
+    var items = d.counties.map(function (g) { return { value: g, name: d.geo[g].n, kind: 'county' }; })
+      .concat(towns ? Object.keys(towns).map(function (g) { return { value: g, name: towns[g].label || towns[g].n, kind: 'place' }; }) : []);
     return '<div class="ri-pick"><label for="ri-sel-' + st.id + '">Show</label><select id="ri-sel-' + st.id + '" data-ri-pick>' + opt(d.geo[CO]) +
-      '<optgroup label="Counties">' + cs + '</optgroup>' +
-      (towns ? '<optgroup label="Towns and cities">' + tw + '</optgroup>' : '<option value="towns">A town or city…</option>') + '</select></div>';
+      global.LabPlaceList.options(items, st.sel) +
+      (towns ? '' : '<option value="towns">A town or city…</option>') + '</select></div>';
   }
   function periods(st) {
     return '<div class="ri-periods" role="group" aria-label="Compare 2020–24 with">' + PERIODS.map(function (p) {

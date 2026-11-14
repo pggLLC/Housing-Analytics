@@ -1025,12 +1025,24 @@
         : 'Coverage ' + ratio(cut.coverage) + (cut.noiLoss > 0 ? ' after the rent cut ' : ' ') + (cut.meetsFloor ? 'meets' : 'falls short of') + ' a ' + ratio(cut.floor) + ' floor. ' +
           (cut.supportedLoan != null ? 'At that floor the NOI carries about a ' + money(cut.supportedLoan) + ' loan against ' + money(cut.loan) + ' as sized (' + (cut.loanRoom >= 0 ? money(cut.loanRoom) + ' of room' : money(-cut.loanRoom) + ' too large') + ').' : '')
     };
+    // Where each slider starts and, for the coverage floor, the target: figures this page already cites (slider.js draws them).
+    var SL = global.LabSlider, basePrice = Number(inputs.fields['dc-equity-price']);
+    var dcrRule = data.rules && data.rules.rules && data.rules.rules.min_debt_coverage, dcrMin = dcrRule && Number(dcrRule.min_coverage);
+    var aim = {
+      'dc-stress-equity-price': isFinite(basePrice) && basePrice > 0 ? { mark: basePrice, markText: 'The base case price, $' + basePrice.toFixed(2) + ', shown under Most-likely case.' } : null,
+      'dc-stress-tdc-overrun': { mark: 0, markText: '0%: the budget as entered.' },
+      'dc-stress-rent-low': { mark: 0, markText: '0%: rents as entered.' },
+      'dc-stress-leaseup': { mark: 12, markText: '12 months: the calculator’s starting setting.' },
+      'dc-stress-dscr-floor': dcrMin > 0 ? { band: [dcrMin, 1.40], text: 'Target: CHFA’s minimum, ' + dcrMin.toFixed(2) + 'x, or higher (source below).' } : null
+    };
     return '<section class="fin-section" aria-labelledby="fin-sliders"><h2 id="fin-sliders">Stress sliders</h2>' +
       '<p class="note">The Deal Calculator’s five stress controls. Move a slider and its line redraws. Each line shows what its setting does to this deal; no loan is resized.</p>' +
       '<div class="stress-sliders">' + STRESS_INPUTS.map(function (i) {
         var raw = d.fields[i.id] === '' || d.fields[i.id] == null ? inputs.fields[i.id] : d.fields[i.id], v = Number(raw);
         return '<div class="stress-slider"><label for="' + i.id + '"><span>' + esc(i.label) + '</span> <output for="' + i.id + '">' + esc(isFinite(v) ? i.fmt(v) : '—') + '</output></label>' +
-          '<input type="range" id="' + i.id + '" name="' + i.id + '" min="' + i.min + '" max="' + i.max + '" step="' + i.step + '" value="' + esc(String(raw)) + '">' +
+          '<input type="range" id="' + i.id + '" name="' + i.id + '" min="' + i.min + '" max="' + i.max + '" step="' + i.step + '" value="' + esc(String(raw)) + '"' +
+            (SL && aim[i.id] ? SL.attrs('plain', '', aim[i.id].band) + ' aria-describedby="' + i.id + '-target"' : '') + '>' +
+          (SL && aim[i.id] ? SL.scale(Object.assign({ id: i.id, min: i.min, max: i.max, value: v }, aim[i.id])) : '') +
           '<p class="impact" data-role="' + i.id + '-impact">' + esc(line[i.id]) + '</p><p class="note">' + esc(i.note) + '</p>' + sourceTag(i) + '</div>';
       }).join('') + '</div></section>';
   }

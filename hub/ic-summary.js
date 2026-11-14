@@ -75,14 +75,12 @@
     return '<div class="metric"><p class="metric-label">' + esc(label) + '</p><p class="metric-value">' + esc(value == null ? '—' : value) + '</p>' + (detail ? '<p class="metric-detail">' + esc(detail) + '</p>' : '') + '</div>';
   }
   function picker(list, g) {
-    var groups = [['county', 'Counties'], ['place', 'Towns and cities'], ['cdp', 'Unincorporated places (CDPs)']];
-    return '<form class="search sc-pick" onsubmit="return false"><label for="ic-g">Pick a place</label><select id="ic-g" data-ic-pick="1"><option value="">Choose a county, town or CDP</option>' +
-      groups.map(function (gr) {
-        return '<optgroup label="' + gr[1] + '">' + list.filter(function (r) { return r.type === gr[0]; }).sort(function (a, b) { return a.name < b.name ? -1 : 1; }).map(function (r) {
-          return '<option value="' + esc(r.geoid) + '"' + (r.geoid === g ? ' selected' : '') + '>' + esc(cleanName(r.name)) + '</option>';
-        }).join('') + '</optgroup>';
-      }).join('') + '</select></form>';
+    var items = list.filter(function (r) { return r.type === 'county' || r.type === 'place' || r.type === 'cdp'; })
+      .map(function (r) { return { value: r.geoid, name: r.name, kind: r.type }; });
+    return '<form class="search sc-pick" onsubmit="return false"><label for="ic-g">Pick a place</label><select id="ic-g" data-ic-pick="1"><option value="">Choose a county, city or town</option>' +
+      global.LabPlaceList.options(items, g) + '</select></form>';
   }
+
 
   // ── The live page's second half ──────────────────────────────────────────────────────────────────────────────
 

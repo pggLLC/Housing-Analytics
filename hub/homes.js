@@ -106,7 +106,8 @@
     var d = draftFor(p, s.scenarioId);
     var schedule = ChfaRentLimits.rentSchedule(subjectFrom(d), { chfaTable: chfa });
     var saved = p.attachments.filter(function (a) { return a.scenarioId === s.scenarioId && a.kind === 'rent-schedule' && a.state !== 'replaced'; })[0];
-    var counties = [['', 'Choose a county']].concat(chfa.counties.map(function (c) { return [c.fips, c.county_name + ' County']; }));
+    var counties = [['', 'Choose a county']].concat(chfa.counties.map(function (c) { return [c.fips, c.county_name + ' County']; })
+      .sort(function (a, b) { return a[1].localeCompare(b[1], 'en', { sensitivity: 'base' }); }));
     var tiers = tiersFor(d.county_fips).map(function (t) { return [t, t + '% of area median income']; }).concat([['market', 'Market rate (no limit)']]);
     var basis = d.utility_allowance_basis;
     var methods = [['', 'Choose how the allowance was set']].concat(ChfaRentLimits.ALLOWANCE_METHODS.map(function (m) { return [m.method, m.label]; }));

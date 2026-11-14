@@ -30,17 +30,12 @@
     }).join('') + '</ul></nav>';
   }
   function cleanName(n) { return String(n || '').replace(/ \((city|town|CDP)\)$/i, '').replace(/, Colorado$/, ''); }
-  // A place picker over the HNA ranking list: counties, then towns, then CDPs.
+  // A place picker over the HNA ranking list: counties, towns and CDPs in one A to Z list, each labelled with its
+  // type, so typing a letter reaches every place that starts with it (LabPlaceList).
   function placeSelect(id, ranking, picked, withState) {
-    var list = Array.isArray(ranking.rankings) ? ranking.rankings : Object.keys(ranking.rankings).map(function (k) { return ranking.rankings[k]; });
-    var groups = [['county', 'Counties'], ['place', 'Towns and cities'], ['cdp', 'Unincorporated places (CDPs)']];
     return '<form class="search sc-pick" onsubmit="return false"><label for="' + id + '">Pick a place</label><select id="' + id + '" data-place-pick="' + id + '">' +
-      (withState ? '<option value="08"' + (picked === '08' ? ' selected' : '') + '>Colorado (the whole state)</option>' : '<option value="">Choose a county, town or CDP</option>') +
-      groups.map(function (g) {
-        return '<optgroup label="' + g[1] + '">' + list.filter(function (r) { return r.type === g[0]; }).sort(function (a, b) { return a.name < b.name ? -1 : 1; }).map(function (r) {
-          return '<option value="' + esc(r.geoid) + '"' + (r.geoid === picked ? ' selected' : '') + '>' + esc(cleanName(r.name)) + '</option>';
-        }).join('') + '</optgroup>';
-      }).join('') + '</select></form>';
+      (withState ? '<option value="08"' + (picked === '08' ? ' selected' : '') + '>Colorado (the whole state)</option>' : '<option value="">Choose a county, city or town</option>') +
+      global.LabPlaceList.options(global.LabPlaceList.fromRanking(ranking), picked) + '</select></form>';
   }
   function rankList(ranking) {
     return Array.isArray(ranking.rankings) ? ranking.rankings : Object.keys(ranking.rankings).map(function (k) { return ranking.rankings[k]; });
@@ -172,7 +167,9 @@
       '<fieldset><legend>Your settings, as a share of their starting point</legend>' + SLIDE.map(function (sl) {
         var v = p[sl.key];
         return '<label class="sc-slider"><span>' + esc(sl.label) + ' <output id="sc-' + sl.k + '-v">' + v + '%</output></span>' +
-          '<input type="range" min="' + sl.min + '" max="' + sl.max + '" step="' + sl.step + '" value="' + v + '" data-sc="' + sl.k + '" aria-label="' + esc(sl.label) + '" aria-describedby="sc-' + sl.k + '-help"></label>' +
+          '<input type="range" min="' + sl.min + '" max="' + sl.max + '" step="' + sl.step + '" value="' + v + '" data-sc="' + sl.k + '" aria-label="' + esc(sl.label) + '" aria-describedby="sc-' + sl.k + '-help">' +
+          (global.LabSlider ? global.LabSlider.scale({ id: 'sc-' + sl.k, min: sl.min, max: sl.max, value: v, mark: 100,
+            markText: sl.k === 'm' && p.migration_from ? '100%: the ' + esc(span) + ' average.' : '100%: the State Demography Office forecast.' }) : '') + '</label>' +
           '<p class="note" id="sc-' + sl.k + '-help">' + esc(sl.k === 'm' ? (p.migration_from ? '100% is the ' + span + ' average.' : '100% is the state forecast: ' + count(avg) + '.') + (past != null && !p.migration_from ? ' In ' + span + ', ' + count(past, true) + '.' : '')
             : sl.k === 'b' ? '110% means one more baby for every ten the state expects.' : 'Below 100% means people live longer.') + '</p>';
       }).join('') + '</fieldset>' +
