@@ -50,15 +50,29 @@
       name: function (p) { return 'FEMA flood zone ' + (p.FLD_ZONE || '') + ' (1% annual chance)'; } },
     { id: 'eji', glyph: 'diamond', group: 'Environment', label: 'Tracts with high or moderate environmental burden', unit: 'tracts', file: 'data/market/environmental_constraints_co.geojson', kind: 'point', shape: 'dot', color: 'var(--layer-eji)', src: 'CDC Environmental Justice Index 2022',
       min: function (p) { return p.risk_category === 'high' || p.risk_category === 'moderate'; },
-      county: function (p) { return p.county_fips || null; }, name: function (p) { return p.name + ', ' + p.risk_category + ' risk (EJI ' + Math.round(p.eji_percentile * 100) + 'th percentile)'; } }
+      county: function (p) { return p.county_fips || null; }, name: function (p) { return p.name + ', ' + p.risk_category + ' risk (EJI ' + Math.round(p.eji_percentile * 100) + 'th percentile)'; } },
+    // The last three from the full Data Map (paul, 14 Nov 2026: "add the last three layers").
+    // Highways, rivers and lakes: the full Data Map's "natural and road barriers" file. 43,599 shapes are drawn as
+    // four paths (interstates, US highways, rivers, lakes), not one element each, so the map stays quick on a phone.
+    { id: 'barriers', group: 'Environment', label: 'Highways, rivers and lakes', unit: 'shapes', file: 'data/market/natural_barriers_co.geojson', kind: 'line', shape: 'line', color: 'var(--layer-roads)', src: 'CDOT highway segments and Census TIGERweb water',
+      asOf: function () { var f = files['data/market/natural_barriers_co.geojson']; return f && f.data && f.data.meta && String(f.data.meta.generated || '').slice(0, 10); } },
+    // Home-to-work flows between tracts. The file is a sample of each tract's largest flows, not every commute, so
+    // the map draws the biggest of them for the county or town picked, or statewide when none is.
+    { id: 'commute', group: 'Jobs and services', label: 'Commute flows', unit: 'flows', file: 'data/market/lodes_od_arcs_co.geojson', kind: 'flow', shape: 'flow', color: 'var(--layer-commute)', src: 'Census LEHD LODES',
+      asOf: function () { var f = files['data/market/lodes_od_arcs_co.geojson'], m = f && f.data && f.data.metadata; return m && m.year ? m.year + ' jobs' : null; } },
+    // FEMA's own live service, drawn as one picture of the view on screen (the way the satellite view is), not a
+    // site file. The FEMA flood zones layer above is the site's simplified copy for the whole state.
+    { id: 'femalive', group: 'Environment', label: 'Live FEMA floodplain', kind: 'live', shape: 'live', color: 'var(--layer-flood)', src: 'FEMA National Flood Hazard Layer, 1% annual chance areas, read from FEMA when shown',
+      title: 'FEMA’s live floodplain', link: 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28' }
   ];
+  var GROUPS = [];
+  LAYERS.forEach(function (l) { if (GROUPS.indexOf(l.group) < 0) GROUPS.push(l.group); });
   var BY_ID = {};
   LAYERS.forEach(function (l) { BY_ID[l.id] = l; });
   // "What's here" always answers these for a searched or tapped spot, drawn or not. Both Opportunity Zone
   // rounds are answered: the 2018 zones stay in force to the end of 2028, the 2027 zones start in 2027.
   var DESIGNATIONS = ['qct', 'dda', 'oz', 'oz27'];
   var COUNTIES = 'data/boundaries/counties_co.geojson', PLACES = 'data/co-place-centroids.json';
-  var LIVE_ONLY = ['Natural and road barriers', 'Commute flows', 'FEMA floodplain (live service)'];
 
   // ---------- projection (plain equirectangular at Colorado's latitude) ----------
   // Statewide frame and projection from site/map-kit.js.
@@ -114,6 +128,211 @@
     var dLat = (b[1] - a[1]) * rad, dLng = (b[0] - a[0]) * rad;
     var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a[1] * rad) * Math.cos(b[1] * rad) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
     return 2 * R * Math.asin(Math.sqrt(h));
+  }
+  function far(d) { return d < 0.1 ? 'under 0.1 mi' : d.toFixed(1) + ' mi'; }
+  // Straight-line miles from pt to the segment a-b, on a flat map at pt's latitude (fine over a few miles).
+  function segMiles(pt, a, b) {
+    var kx = Math.cos(pt[1] * Math.PI / 180) * 69.17, ky = 69.17;
+    var ax = (a[0] - pt[0]) * kx, ay = (a[1] - pt[1]) * ky, dx = (b[0] - a[0]) * kx, dy = (b[1] - a[1]) * ky;
+    var l2 = dx * dx + dy * dy, u = l2 ? Math.max(0, Math.min(1, -(ax * dx + ay * dy) / l2)) : 0;
+    var x = ax + u * dx, y = ay + u * dy;
+    return Math.sqrt(x * x + y * y);
+  }
+  function linesOf(g) {
+    if (!g) return [];
+    if (g.type === 'LineString') return [g.coordinates];
+    if (g.type === 'MultiLineString') return g.coordinates;
+    return polys(g).reduce(function (all, p) { return all.concat(p); }, []);
+  }
+  function linePath(coords) {
+    var out = [], last = null;
+    coords.forEach(function (c, i) {
+      var p = xy(c);
+      if (last && i < coords.length - 1 && Math.abs(p[0] - last[0]) < 0.05 && Math.abs(p[1] - last[1]) < 0.05) return;
+      out.push(p[0].toFixed(2) + ' ' + p[1].toFixed(2)); last = p;
+    });
+    return out.length > 1 ? 'M' + out.join('L') : '';
+  }
+
+  // ---------- highways, rivers and lakes ----------
+  function roadName(p) { var m = /^([IU])-0*(\d+)/.exec(p.name || ''); return m ? (m[1] === 'I' ? 'I-' : 'US ') + m[2] : (p.name || 'Highway'); }
+  function waterName(p) {
+    var n = String(p.name || '');
+    if (!n || /^Unnamed/i.test(n)) return 'unnamed';
+    return n.replace(/\b([NSEW]|Mid) Fk\b/, function (m, d) { return ({ N: 'North', S: 'South', E: 'East', W: 'West', Mid: 'Middle' })[d] + ' Fork'; }).replace(/\bFk\b/, 'Fork').replace(/\bRiv\b/, 'River').replace(/\bCrk\b/, 'Creek').replace(/\bLks\b/, 'Lakes').replace(/\bLk\b/, 'Lake');
+  }
+  // Drawn in this order, so roads sit over water.
+  var BARRIER_KINDS = [
+    { key: 'water', label: 'Lake or reservoir', many: 'Lakes', of: function (p, g) { return p.barrier_type === 'water' && g.type !== 'LineString' && g.type !== 'MultiLineString'; }, name: waterName },
+    { key: 'river', label: 'River', many: 'Rivers', of: function (p) { return p.sub_type === 'river'; }, name: waterName },
+    { key: 'us', label: 'US highway', many: 'US highways', of: function (p) { return p.sub_type === 'us_route'; }, name: roadName },
+    { key: 'interstate', label: 'Interstate', many: 'Interstates', of: function (p) { return p.sub_type === 'interstate'; }, name: roadName }
+  ];
+  function kindOf(f) {
+    var p = f.properties || {};
+    for (var i = 0; i < BARRIER_KINDS.length; i++) if (BARRIER_KINDS[i].of(p, f.geometry || {})) return BARRIER_KINDS[i];
+    return null;
+  }
+  // One path per kind, built once per visit.
+  function barrierPaths(st) {
+    if (st.paths) return st.paths;
+    var d = {}, n = {}, total = 0, skipped = 0;
+    (st.data.features || []).forEach(function (f) {
+      var k = f.geometry && kindOf(f);
+      if (!k) { skipped++; return; }
+      var s = k.key === 'water' ? pathOf(f.geometry) : linesOf(f.geometry).map(linePath).join('');
+      if (!s) { skipped++; return; }
+      (d[k.key] = d[k.key] || []).push(s); n[k.key] = (n[k.key] || 0) + 1; total++;
+    });
+    var html = BARRIER_KINDS.filter(function (k) { return d[k.key]; }).map(function (k) {
+      return '<path class="dm-b-' + k.key + '" d="' + d[k.key].join('') + '"><title>' + esc(k.many + ' (' + num(n[k.key]) + ' shapes)') + '</title></path>';
+    }).join('');
+    st.paths = { html: html, n: total, by: n, skipped: skipped };
+    return st.paths;
+  }
+  // The nearest interstate, US highway, river and lake to a spot.
+  function barriersNear(pt, list) {
+    var best = {};
+    list.forEach(function (f) {
+      var k = kindOf(f);
+      if (!k) return;
+      linesOf(f.geometry).forEach(function (line) {
+        for (var i = 1; i < line.length; i++) {
+          var d = segMiles(pt, line[i - 1], line[i]);
+          if (!best[k.key] || d < best[k.key].d) best[k.key] = { d: d, f: f };
+        }
+      });
+    });
+    var parts = BARRIER_KINDS.slice().reverse().filter(function (k) { return best[k.key]; }).map(function (k) {
+      var nm = k.name(best[k.key].f.properties || {});
+      return k.label + ': ' + (nm === 'unnamed' ? 'unnamed, ' : nm + ', ') + far(best[k.key].d);
+    });
+    return parts.length ? 'Nearest ' + parts.join('. ').replace(/^./, function (c) { return c.toLowerCase(); }) + '.' : 'None in the file';
+  }
+  // The interstates, US highways and rivers with a point inside a county.
+  function barriersIn(list, cf) {
+    var b = bboxOf(cf.geometry), found = {};
+    list.forEach(function (f) {
+      var k = kindOf(f);
+      if (!k || k.key === 'water') return;
+      var nm = k.name(f.properties || {});
+      if (nm === 'unnamed' || (found[k.key] && found[k.key][nm])) return;
+      var hit = linesOf(f.geometry).some(function (line) {
+        return line.some(function (c) { return c[0] >= b[0] && c[0] <= b[2] && c[1] >= b[1] && c[1] <= b[3] && inGeom(c, cf.geometry); });
+      });
+      if (hit) (found[k.key] = found[k.key] || {})[nm] = 1;
+    });
+    var parts = BARRIER_KINDS.slice().reverse().filter(function (k) { return found[k.key]; }).map(function (k) {
+      var names = Object.keys(found[k.key]).sort(function (x, y) { return (parseInt(x.replace(/\D+/g, ''), 10) || 0) - (parseInt(y.replace(/\D+/g, ''), 10) || 0) || (x < y ? -1 : 1); });
+      return k.many + ': ' + names.slice(0, 6).join(', ') + (names.length > 6 ? ' and ' + (names.length - 6) + ' more' : '');
+    });
+    return parts.length ? parts.join('. ') + '.' : 'None in the file';
+  }
+
+  // ---------- commute flows ----------
+  var FLOW_NEAR = 5, FLOW_TOP = 60, FLOW_STATE = 200;
+  function countyName(fips) {
+    var c = files[COUNTIES] && files[COUNTIES].data;
+    var hit = c && c.features.filter(function (f) { return f.properties.GEOID === fips; })[0];
+    return hit ? hit.properties.NAMELSAD : 'county ' + fips;
+  }
+  function tractPlace(geoid) { geoid = String(geoid || ''); return 'tract ' + geoid.slice(5) + ', ' + countyName(geoid.slice(0, 5)); }
+  function flowName(p) { return 'Live in ' + tractPlace(p.home_tract) + '; work in ' + tractPlace(p.work_tract) + ': ' + num(p.jobs) + ' workers' + (p.distance_miles != null ? ', ' + p.distance_miles + ' mi apart' : ''); }
+  // The flows the map draws for a target: those that start or end in a picked county, or within FLOW_NEAR miles
+  // of a picked town or spot, biggest first; statewide with nothing picked.
+  function flowsFor(t, list) {
+    var pick = list, scope = 'statewide';
+    if (t && t.kind === 'county') {
+      pick = list.filter(function (f) { var p = f.properties || {}; return String(p.home_tract).slice(0, 5) === t.geoid || String(p.work_tract).slice(0, 5) === t.geoid; });
+      scope = 'in ' + t.label;
+    } else if (t && t.pt) {
+      pick = list.filter(function (f) { var c = f.geometry.coordinates; return miles(t.pt, c[0]) <= FLOW_NEAR || miles(t.pt, c[c.length - 1]) <= FLOW_NEAR; });
+      scope = 'within ' + FLOW_NEAR + ' miles of ' + (t.label || 'the tapped spot');
+    }
+    pick = pick.slice().sort(function (a, b) { return (b.properties.jobs || 0) - (a.properties.jobs || 0); });
+    return { all: pick.length, top: pick.slice(0, t ? FLOW_TOP : FLOW_STATE), scope: scope };
+  }
+  function flowText(fl) {
+    if (!fl.all) return 'None in the file';
+    return num(fl.all) + ' flows in the file start or end ' + fl.scope + '. Largest: ' + flowName(fl.top[0].properties || {}).replace(/^Live/, 'live') + '.';
+  }
+  // Each flow curves to its right on the way from home to work, ends in a dot at work, and is as wide as its
+  // share of the biggest flow drawn. The biggest draw last, on top.
+  function flowShapes(top) {
+    if (!top.length) return '';
+    var maxJ = top[0].properties.jobs || 1;
+    function f2(p) { return p[0].toFixed(2) + ' ' + p[1].toFixed(2); }
+    return top.slice().reverse().map(function (f) {
+      var p = f.properties || {}, c = f.geometry.coordinates, a = xy(c[0]), b = xy(c[c.length - 1]);
+      var dx = b[0] - a[0], dy = b[1] - a[1], q = [(a[0] + b[0]) / 2 - dy * 0.2, (a[1] + b[1]) / 2 + dx * 0.2];
+      var w = 0.6 + 2.6 * Math.sqrt((p.jobs || 0) / maxJ), tip = '<title>' + esc(flowName(p)) + '</title>';
+      return '<path d="M' + f2(a) + 'Q' + f2(q) + ' ' + f2(b) + '" style="stroke-width:' + w.toFixed(2) + 'px">' + tip + '</path>' +
+        '<circle cx="' + b[0].toFixed(2) + '" cy="' + b[1].toFixed(2) + '" r="1.6">' + tip + '</circle>';
+    }).join('');
+  }
+
+  // ---------- FEMA's live floodplain ----------
+  // One picture from FEMA's export service for the view on screen, in plain longitude and latitude so it sits on
+  // this map's own projection. FEMA draws flood zones only at street scale (1:36,000 or closer); the scale it works
+  // out is a pixel's ground size times the dots per inch asked for, so the request asks for a low enough dpi that
+  // a whole county view still counts as street scale. Wider views than FEMA_WIDEST degrees are not asked for: the
+  // picture would take FEMA's server a long time, and the FEMA flood zones layer covers the whole state.
+  var FEMA = 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/export', FEMA_WIDEST = 2.5;
+  var LIVE_WAIT = 'Loading from FEMA…', LIVE_DONE = 'Drawn for the view on screen, read from FEMA just now.';
+  var LIVE_ZOOM = 'Zoom in to a county or closer and FEMA’s live floodplain loads. The FEMA flood zones layer covers the whole state.';
+  var LIVE_FAIL = 'FEMA’s service did not answer. Zoom or pan to try again, or use the FEMA flood zones layer.';
+  var LIVE_SLOW = 'Still waiting on FEMA’s service. Busy areas can take a minute.';
+  function femaView(vb, px) {
+    var a = lnglat([vb[0], vb[1]]), b = lnglat([vb[0] + vb[2], vb[1] + vb[3]]);
+    var w = a[0], e = b[0], n = a[1], s = b[1];
+    if (e - w > FEMA_WIDEST) return null;
+    // Square pixels in degrees, so FEMA keeps the box as asked; the picture is stretched onto the view.
+    var W = Math.round(Math.min(2048, Math.max(400, px || 800))), H = Math.max(1, Math.round(W * (n - s) / (e - w)));
+    var mpp = (e - w) * 111320 / W, dpi = Math.max(1, Math.min(96, Math.floor(30000 * 0.0254 / mpp)));
+    return {
+      x: vb[0], y: vb[1], w: vb[2], h: vb[3],
+      url: FEMA + '?bbox=' + [w, s, e, n].map(function (v) { return v.toFixed(5); }).join(',') + '&bboxSR=4326&imageSR=4326&size=' + W + ',' + H +
+        '&dpi=' + dpi + '&layers=show:28&layerDefs=' + encodeURIComponent('{"28":"SFHA_TF = \'T\'"}') + '&transparent=true&format=png32&f=image'
+    };
+  }
+  function liveImage(lv) {
+    return '<image href="' + esc(lv.url) + '" x="' + lv.x.toFixed(2) + '" y="' + lv.y.toFixed(2) + '" width="' + lv.w.toFixed(2) + '" height="' + lv.h.toFixed(2) + '" preserveAspectRatio="none"/>';
+  }
+  var slowTimer = null;
+  function liveSay(text) {
+    var el = global.document && global.document.querySelector('.data-map .dm-live-status');
+    if (el && el.textContent !== text) el.textContent = text;
+    clearTimeout(slowTimer);
+    if (text === LIVE_WAIT) slowTimer = setTimeout(function () { var e2 = global.document.querySelector('.data-map .dm-live-status'); if (e2 && e2.textContent === LIVE_WAIT) e2.textContent = LIVE_SLOW; }, 15000);
+  }
+  // An SVG image says nothing when it loads, so the same picture is also fetched as a plain image (the browser
+  // shares one copy) to tell the reader when it has arrived. done() runs once it has.
+  function fetchLive(url, done) {
+    var pre = new global.Image();
+    pre.onload = function () { if (done()) liveSay(LIVE_DONE); };
+    pre.onerror = function () { var g = global.document.querySelector('.data-map .dm-live'); if (g && g.__want === url) g.__want = null; if (stillWanted(url)) liveSay(LIVE_FAIL); };
+    pre.src = url;
+  }
+  function stillWanted(url) {
+    var g = global.document.querySelector('.data-map .dm-live'), img = g && g.querySelector('image');
+    return !!g && (g.__want === url || (!g.__want && img && img.getAttribute('href') === url));
+  }
+  // After a zoom or pan settles, ask FEMA for the new view; the old picture stays until the new one arrives.
+  function refreshLive(svg, g) {
+    if (!g.isConnected) return;
+    var v = svg.viewBox.baseVal, r = svg.getBoundingClientRect();
+    var lv = femaView([v.x, v.y, v.width, v.height], r.width * Math.min(2, global.devicePixelRatio || 1));
+    var img = g.querySelector('image');
+    if (!lv) { g.__want = null; if (img) g.removeChild(img); liveSay(LIVE_ZOOM); return; }
+    if ((!g.__want && img && img.getAttribute('href') === lv.url) || g.__want === lv.url) return;
+    g.__want = lv.url;
+    liveSay(LIVE_WAIT);
+    fetchLive(lv.url, function () {
+      if (!g.isConnected || g.__want !== lv.url) return false;
+      g.__want = null;
+      g.innerHTML = liveImage(lv);
+      return true;
+    });
   }
 
   // ---------- files: each loads once, when first needed ----------
@@ -210,9 +429,11 @@
     if (t.kind === 'county') {
       var cf = t.feature;
       LAYERS.forEach(function (L) {
-        if (ids.indexOf(L.id) < 0 && DESIGNATIONS.indexOf(L.id) < 0) return;
+        if ((ids.indexOf(L.id) < 0 && DESIGNATIONS.indexOf(L.id) < 0) || L.kind === 'live') return;
         var list = feats(L);
         if (!list) { rows.push({ L: L, text: 'Loading…' }); return; }
+        if (L.kind === 'line') { var bi = barriersIn(list, cf); rows.push({ L: L, text: bi, yes: bi !== 'None in the file' }); return; }
+        if (L.kind === 'flow') { var fc = flowsFor(t, list); rows.push({ L: L, text: flowText(fc), yes: fc.all > 0 }); return; }
         var n = list.filter(function (f) {
           if (L.kind === 'point') { var c = pointOf(f); return c && inGeom(c, cf.geometry); }
           var code = L.county && L.county(f.properties || {});
@@ -243,6 +464,13 @@
       list.forEach(function (f) { var c = pointOf(f); if (!c) return; var d = miles(pt, c); if (d < bestD) { bestD = d; best = f; } });
       rows.push({ L: L, text: best ? 'Nearest: ' + (L.short || L.name)(best.properties || {}) + ', ' + (bestD < 0.1 ? 'under 0.1' : bestD.toFixed(1)) + ' mi' : 'None in the file' });
     });
+    LAYERS.forEach(function (L) {
+      if ((L.kind !== 'line' && L.kind !== 'flow') || ids.indexOf(L.id) < 0) return;
+      var list = feats(L);
+      if (!list) { rows.push({ L: L, text: 'Loading…' }); return; }
+      if (L.kind === 'line') rows.push({ L: L, text: barriersNear(pt, list) });
+      else { var fl = flowsFor(t, list); rows.push({ L: L, text: flowText(fl), yes: fl.all > 0 }); }
+    });
     return rows;
   }
   function herePanel(t, ids, counties) {
@@ -267,6 +495,9 @@
     var s = L.shape, c = L.color;
     var inner = s === 'dot' ? (L.glyph && L.glyph !== 'circle' ? '<path d="' + glyphD(L.glyph, 7, 7, 4.4) + '" fill="' + c + '" fill-rule="evenodd" stroke="var(--halo)" stroke-width="1"/>' : '<circle cx="7" cy="7" r="4" fill="' + c + '" stroke="var(--halo)" stroke-width="1"/>')
       : s === 'fill' ? '<rect x="1" y="1" width="12" height="12" rx="2" fill="' + c + '" fill-opacity=".35" stroke="' + c + '"/>'
+      : s === 'line' ? '<path d="M1 10C4 9 6 4 13 3" fill="none" stroke="var(--layer-water)" stroke-width="1.6"/><path d="M1 5L13 11" stroke="' + c + '" stroke-width="2.4"/>'
+      : s === 'flow' ? '<path d="M2 12Q3 3 11 4" fill="none" stroke="' + c + '" stroke-width="2"/><circle cx="11.5" cy="4" r="2" fill="' + c + '"/>'
+      : s === 'live' ? '<rect x="1" y="1" width="12" height="12" rx="2" fill="none" stroke="var(--line-strong)"/><path d="M1 9C4 7 7 11 13 7V13H1Z" fill="' + c + '" fill-opacity=".55"/>'
       : s === 'hatch' ? '<rect x="1" y="1" width="12" height="12" rx="2" fill="none" stroke="' + c + '"/><path d="M1 9L9 1M5 13L13 5M1 13L13 1" stroke="' + c + '" stroke-width="1.4"/>'
       : '<rect x="1.5" y="1.5" width="11" height="11" rx="2" fill="' + c + '" fill-opacity=".08" stroke="' + c + '" stroke-width="1.6" stroke-dasharray="3 2"/>';
     return '<svg class="dm-swatch" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">' + inner + '</svg>';
@@ -278,7 +509,7 @@
     var ids = onIds(params), at = params.get('at'), label = params.get('label');
     var on = ids.map(function (id) { return BY_ID[id]; });
     var cs = need(COUNTIES), ps = need(PLACES);
-    on.forEach(function (L) { need(L.file); if (L.join) need(L.join); });
+    on.forEach(function (L) { if (L.file) need(L.file); if (L.join) need(L.join); });
     if (at) DESIGNATIONS.forEach(function (id) { need(BY_ID[id].file); if (BY_ID[id].join) need(BY_ID[id].join); });
 
     // Keep the reader's zoom across re-renders (a layer switched, a tap, a file arriving); a new search
@@ -293,12 +524,12 @@
     if (pickerOpen == null) pickerOpen = !(global.innerWidth && global.innerWidth < 640);
     var picker = '<details class="dm-picker"' + (pickerOpen ? ' open' : '') + '><summary>Layers <span class="dm-count">' + ids.length + ' of ' + MAX_ON + ' on</span></summary>' +
       '<p class="note">Turn on up to three. A fourth turns the first one off.</p>' +
-      '<nav class="dm-chips" aria-label="Map layers">' + ['Affordable housing', 'Tax credit designations', 'Jobs and services'].map(function (g) {
+      '<nav class="dm-chips" aria-label="Map layers">' + GROUPS.map(function (g) {
         return '<div class="dm-group"><p class="dm-group-h">' + esc(g) + '</p><ul>' + LAYERS.filter(function (x) { return x.group === g; }).map(function (x) {
           var isOn = ids.indexOf(x.id) >= 0;
           return '<li><a class="chip' + (isOn ? ' is-on' : '') + '" href="' + esc(href(toggled(ids, x.id), at, label)) + '"' + (isOn ? ' aria-current="true"' : '') + ' data-layer="' + x.id + '">' + swatch(x) + esc(x.label) + '</a></li>';
         }).join('') + '</ul></div>';
-      }).join('') + '</nav><p class="note dm-more">' + esc(LIVE_ONLY.length) + ' more layers (road and river barriers, commute flows and FEMA’s live floodplain service) are on the <a href="' + LIVE + 'data-map-browser.html">full Data Map ↗</a>.</p></details>';
+      }).join('') + '</nav></details>';
     var search = '<form class="dm-search" data-dm-search role="search" autocomplete="off">' +
       '<label for="dm-q">Find an address, town or county</label>' +
       '<div class="dm-search-row"><input id="dm-q" name="dmq" type="search" placeholder="e.g. Pueblo, Eagle County, 1313 Sherman St Denver" value="' + esc(label || (t && t.kind !== 'point' ? t.label : '')) + '" aria-describedby="dm-q-help" aria-autocomplete="list" aria-controls="dm-suggest">' +
@@ -312,7 +543,7 @@
     }) + search;
 
     if (cs.error) return head + picker + '<p class="callout">The county outlines did not load (' + esc(cs.error) + ').</p>';
-    var waiting = on.filter(function (L) { var j = L.join && files[L.join]; return (!files[L.file].data && !files[L.file].error) || (j && !j.data && !j.error); });
+    var waiting = on.filter(function (L) { var j = L.join && files[L.join]; return L.file && ((!files[L.file].data && !files[L.file].error) || (j && !j.data && !j.error)); });
     if (!cs.data || waiting.length) return head + picker + '<p role="status" class="note">Loading ' + esc((waiting.length ? waiting.map(function (L) { return L.label.toLowerCase(); }).join(', ') : 'county outlines')) + '…</p>';
 
     var outline = cs.data.features.map(function (f) {
@@ -320,13 +551,33 @@
     }).join('');
     // Areas under points; within areas, outlines over fills so both read.
     var order = on.slice().sort(function (a, b) { return rank(a) - rank(b); });
-    function rank(L) { return L.kind === 'point' ? 3 : L.shape === 'outline' ? 2 : L.shape === 'hatch' ? 1 : 0; }
+    function rank(L) { return L.kind === 'point' ? 3 : L.kind === 'flow' ? 2.8 : L.kind === 'line' ? 2.5 : L.shape === 'outline' ? 2 : L.shape === 'hatch' ? 1 : 0; }
     var legend = [], insetGroups = [];
+    // FEMA's live floodplain is a picture under every other layer, for the view on screen.
+    var lv = null, liveHtml = '';
+    if (ids.indexOf('femalive') >= 0) {
+      var r0 = old && old.getBoundingClientRect && old.getBoundingClientRect();
+      var px = ((r0 && r0.width) || Math.min(760, global.innerWidth || 760)) * Math.min(2, global.devicePixelRatio || 1);
+      lv = femaView(zoom ? zoom.split(' ').map(Number) : [0, 0, MAP_W, MAP_H], px);
+      liveHtml = '<g class="dm-live" data-layer="femalive">' + (lv ? liveImage(lv) : '') + '</g>';
+      if (lv) setTimeout(function () { fetchLive(lv.url, function () { return stillWanted(lv.url); }); }, 0);
+    }
     var layers = order.map(function (L) {
+      if (L.kind === 'live') { legend.push({ L: L, live: lv ? LIVE_WAIT : LIVE_ZOOM }); return ''; }
       var st = files[L.file];
       var jt = L.join && files[L.join], err = st.error || (jt && jt.error);
       if (err) { legend.push({ L: L, text: 'did not load (' + err + ')' }); return ''; }
       var list = feats(L), shapes = [], drawn = 0, near = [];
+      if (L.kind === 'line') {
+        var bp = barrierPaths(st);
+        legend.push({ L: L, n: bp.n, asOf: L.asOf(), note: num(bp.by.interstate || 0) + ' interstate and ' + num(bp.by.us || 0) + ' US highway segments (dark, interstates thicker), ' + num(bp.by.river || 0) + ' river lines and ' + num(bp.by.water || 0) + ' lakes and reservoirs (blue).' + (bp.skipped ? ' ' + num(bp.skipped) + ' records in the file are a single point, with no line to draw.' : ''), noCount: true });
+        return '<g class="dm-layer dm-line" data-layer="' + L.id + '" style="--c:' + L.color + '">' + bp.html + '</g>';
+      }
+      if (L.kind === 'flow') {
+        var fl = flowsFor(t, list);
+        legend.push({ L: L, n: fl.top.length, asOf: L.asOf(), note: (fl.all > fl.top.length ? 'The ' + num(fl.top.length) + ' largest of ' + num(fl.all) : 'All ' + num(fl.all)) + ' in the file that start or end ' + fl.scope + (t ? '' : '; find a county or town for its own') + '. Each runs from where people live to a dot where they work, curving to its right; wider means more workers. The file keeps each tract’s largest flows, not every commute.' });
+        return '<g class="dm-layer dm-flow" data-layer="' + L.id + '" style="--c:' + L.color + '">' + flowShapes(fl.top) + '</g>';
+      }
       list.forEach(function (f) {
         var tip = '<title>' + esc(L.name(f.properties || {})) + '</title>';
         if (L.kind === 'area') { var d = pathOf(f.geometry); if (d) { shapes.push('<path d="' + d + '">' + tip + '</path>'); drawn++; } return; }
@@ -353,27 +604,29 @@
     legend.sort(function (a, b) { return ids.indexOf(a.L.id) - ids.indexOf(b.L.id); });
     var legendHtml = legend.length ? '<ul class="dm-legend" aria-label="Layers on the map">' + legend.map(function (r) {
       var L = r.L;
-      return '<li>' + swatch(L) + '<span class="dm-legend-name"><strong>' + esc(L.label) + '</strong> <span class="note">' +
-        (r.text ? esc(r.text) : esc(num(r.n) + (L.unit ? ' ' + L.unit : L.kind === 'area' ? ' areas' : ' places') + (L.id === 'jobs' ? ' (tracts with 2,000 or more jobs)' : '') + '. ' + L.src + (r.asOf ? ', ' + r.asOf : '') + '.')) +
-        ' <a href="' + esc('#/data/explorer?file=' + encodeURIComponent(L.file.replace(/^data\//, ''))) + '">File</a></span></span>' +
+      var said = r.text ? esc(r.text)
+        : r.live ? '<span class="dm-live-status" role="status">' + esc(r.live) + '</span> ' + esc(L.src + '.')
+        : esc(num(r.n) + (L.unit ? ' ' + L.unit : L.kind === 'area' ? ' areas' : ' places') + (L.id === 'jobs' ? ' (tracts with 2,000 or more jobs)' : '') + '. ' + (r.note ? r.note + ' ' : '') + L.src + (r.asOf ? ', ' + r.asOf : '') + '.');
+      var src = L.file ? '<a href="' + esc('#/data/explorer?file=' + encodeURIComponent(L.file.replace(/^data\//, ''))) + '">File</a>' : '<a href="' + esc(L.link) + '" rel="noopener">FEMA service ↗</a>';
+      return '<li>' + swatch(L) + '<span class="dm-legend-name"><strong>' + esc(L.label) + '</strong> <span class="note">' + said + ' ' + src + '</span></span>' +
         '<a class="dm-off" href="' + esc(href(toggled(ids, L.id), at, label)) + '" aria-label="' + esc('Turn off ' + L.label) + '">Off</a></li>';
     }).join('') + '</ul>' : '<p class="note dm-legend-empty">No layers on. Pick one above.</p>';
     // Map kit part 2: a visible title that says what is drawn, with the counts, not alt text.
     var drawnL = legend.filter(function (r) { return !r.text; });
-    var mapTitle = drawnL.length ? drawnL.map(function (r) { return num(r.n) + ' ' + r.L.label.replace(/^[A-Z](?=[a-z]*( [a-z(]|$))/, function (c) { return c.toLowerCase(); }); }).join(', ').replace(/, ([^,]*)$/, ' and $1') + ' across Colorado' + (t ? ', around ' + (t.label || 'the tapped spot') : '') : 'Colorado, with no layers on';
+    var mapTitle = drawnL.length ? drawnL.map(function (r) { return (r.n == null || r.noCount ? '' : num(r.n) + ' ') + (r.L.title || r.L.label).replace(/^[A-Z](?=[a-z]*(,? [a-z(]|$))/, function (c) { return c.toLowerCase(); }); }).join(', ').replace(/, ([^,]*)$/, ' and $1') + ' across Colorado' + (t ? ', around ' + (t.label || 'the tapped spot') : '') : 'Colorado, with no layers on';
     var aria = 'Map of Colorado' + (on.length ? ' showing ' + on.map(function (L) { return L.label; }).join(', ') : '') + (t ? ', centered on ' + (t.label || 'a tapped spot') : '');
 
     lastAt = at;
     return head +
       '<div class="dm-layout">' + picker + '<figure class="pres-map data-map"><figcaption><strong>' + esc(mapTitle) + '</strong></figcaption>' +
       '<div class="pm-frame"><svg viewBox="0 0 ' + MAP_W + ' ' + MAP_H + '" data-map="data" data-zoom-max="40"' + (zoom ? ' data-zoom="' + esc(zoom) + '"' : '') + ' role="img" aria-label="' + esc(aria) + '">' + defs +
-      '<g class="pm-counties">' + outline + '</g>' + layers + pin + (insetGroups.length && !zoom ? K.metroBox() : '') + K.cities() + '</svg></div>' +
+      '<g class="pm-counties">' + outline + '</g>' + liveHtml + layers + pin + (insetGroups.length && !zoom ? K.metroBox() : '') + K.cities() + '</svg></div>' +
       legendHtml +
       // Map kit part 3: the Denver metro close-up of the point layers, when the map is not zoomed in already.
       (insetGroups.length && !zoom ? K.inset({ features: cs.data ? cs.data.features : [], groups: insetGroups }) : '') +
       '<p class="note metric-source">Each layer’s source and date are in the key above. County outlines: US Census TIGER. Town centers: 2024 Census Gazetteer.</p></figure>' +
       herePanel(t, ids, cs.data) + '</div>' +
-      '<p class="note">Larger layers stay on the <a href="' + LIVE + 'data-map-browser.html">full Data Map ↗</a>: ' + esc(LIVE_ONLY.join(', ')) + '.</p>' +
+      '<p class="note">The older <a href="' + LIVE + 'data-map-browser.html">full Data Map ↗</a> is still there, with its own layer list.</p>' +
       T.next('Next', [{ href: '#/opportunities', label: 'Where homes can be built or kept →' }, { href: '#/data/explorer', label: 'Every data file', secondary: true }]);
   }
   function day(iso) { return iso ? String(iso).slice(0, 10) : null; }
@@ -417,7 +670,7 @@
   }
 
   if (global.document) {
-    var doc = global.document, tapTimer = null;
+    var doc = global.document, tapTimer = null, liveTimer = null;
     doc.addEventListener('input', function (ev) {
       var form = ev.target.form;
       if (form && form.hasAttribute('data-dm-search')) { status(form, ''); renderSuggest(form); }
@@ -472,6 +725,9 @@
       Array.prototype.forEach.call(svg.querySelectorAll('.dm-point circle'), function (c) { c.setAttribute('r', dot.toFixed(3)); });
       Array.prototype.forEach.call(svg.querySelectorAll('.dm-point path.dm-g'), function (g) { g.setAttribute('d', glyphD(g.getAttribute('data-g'), +g.getAttribute('data-x'), +g.getAttribute('data-y'), dot)); });
       Array.prototype.forEach.call(svg.querySelectorAll('.dm-pin circle'), function (c) { c.setAttribute('r', pin.toFixed(3)); });
+      Array.prototype.forEach.call(svg.querySelectorAll('.dm-flow circle'), function (c) { c.setAttribute('r', (dot * 0.7).toFixed(3)); });
+      var live = svg.querySelector('.dm-live');
+      if (live) { clearTimeout(liveTimer); liveTimer = setTimeout(function () { refreshLive(svg, live); }, 450); }
       Array.prototype.forEach.call(svg.querySelectorAll('.dm-pattern'), function (p) { p.setAttribute('patternTransform', 'rotate(45) scale(' + (1 / s).toFixed(4) + ')'); });
     });
   }
