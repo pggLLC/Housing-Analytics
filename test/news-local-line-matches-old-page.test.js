@@ -27,8 +27,8 @@ function builder(src, names) {
 }
 const oldPage = builder(read('policy-briefs.html'), ['var LEVEL =', 'function graded(', 'function localLine(']);
 const hub = builder(read('hub/policy.js'), ['var NEWS_LEVEL =', 'function newsGraded(', 'function newsLocalLine(']);
-// Compared as the reader sees them: the words, with the tags (class names, link targets) taken out.
-const words = html => html.replace(/<[^>]+>/g, '');
+// Compared with only the class names and link targets taken out, so words, tags and order must all agree.
+const words = html => html.replace(/ (class|href)="[^"]*"/g, '');
 
 const fails = []; let n = 0, lines = 0;
 const check = (ok, msg) => { n++; if (!ok) fails.push(msg); };
