@@ -36,9 +36,13 @@
     if (el && last) el.outerHTML = section.apply(null, last);
   }
 
-  // Homes by income level, from the saved schedule the engine ran on or from the unit grid.
+  // A unit grid on market rents (no restricted limit): the engine prices every row at market rent whatever its label
+  // (js/deal-engine.js tierRent), so none of its homes is restricted to an income level.
+  function marketOnly(inputs, G) { return !!((G && G.grid && G.grid['dc-rent-limit-regime'] === 'market') || (inputs && inputs.regime === 'market' && !(inputs.resolvedDealMix && inputs.resolvedDealMix.available))); }
+  // Homes by income level, from the saved schedule the engine ran on or from the unit grid. Restricted homes only.
   function homesByTier(inputs, G) {
     var out = {}, R = inputs && inputs.resolvedDealMix;
+    if (marketOnly(inputs, G)) return out;
     if (R && R.available) {
       R.restrictedRows.forEach(function (r) { var t = Number(r.tier); if (isFinite(t) && r.units > 0) out[t] = (out[t] || 0) + r.units; });
       return out;
@@ -94,6 +98,8 @@
     var geoid = p.jurisdiction && /^\d{7}$/.test(String(p.jurisdiction.geoid)) ? String(p.jurisdiction.geoid) : null;
     var rec = needRecord(geoid, fips), byTier = homesByTier(inputs, G), homes = LEVELS.map(function (b) { return atOrBelow(byTier, b); });
     if (!rec) return part('Need', 'not measured', 'none', '<p class="note">There is no shortfall record for this county or town, so this part is not measured. It is not counted as met.</p>', '', meaning);
+    if (marketOnly(inputs, G)) return part('Need', 'no restricted homes', 'none', '<p class="note">This scenario prices every home at market rent (no rent limit), so none is kept for a household at a set income level, whatever row it sits in. There is nothing to set beside the need.</p>',
+      esc(rec.source), meaning);
     if (!homes[2]) return part('Need', 'no homes at 60% AMI or below', 'none', '<p class="note">This deal has no homes at or below 60% AMI yet, so there is nothing to set beside the need. Add homes under Homes and affordability or in the unit grid.</p>',
       esc(rec.source), meaning);
     var rows = LEVELS.map(function (b, i) {
@@ -165,5 +171,5 @@
     return section(p, d, inputs, r, G);
   }
 
-  global.LabCalcOutcome = { render: render, homesByTier: homesByTier, atOrBelow: atOrBelow, _needRecord: needRecord, _src: src, FILES: FILES };
+  global.LabCalcOutcome = { render: render, homesByTier: homesByTier, marketOnly: marketOnly, atOrBelow: atOrBelow, _needRecord: needRecord, _src: src, FILES: FILES };
 })(window);
