@@ -330,11 +330,19 @@
   var PAGE_MODE = { 'lihtc-basics': 'lihtc' };
   var PAGE_RENDERED = { 'lihtc-basics': true, 'green-building': true, 'resident-services': true, 'cra-pricing': true, 'about': true, 'ahcia': true, 'homebuyer-help': true };
   var PAGE_PATHS = { 'working-paper': true, 'methods': true };
-  function load(slug) {
-    if (cache[slug]) return cache[slug];
+  // A read that fails (a dropped connection; Safari calls it "Load failed") is tried once more on its own. If
+  // that fails too the page says so with a Try again button, and the failure is not kept as the answer: opening
+  // the guide again reads it again, as the hub's data loads do (components.js load()).
+  function load(slug, again) {
+    var had = cache[slug];
+    if (had && !(had.error && Date.now() - had.failedAt > 5000)) return had;
     var c = cache[slug] = {};
-    var done = function (g) { c.guide = g; Shell.render(); };
-    var fail = function (e) { c.error = 'The guide did not load (' + e.message + ').'; Shell.render(); };
+    var done = function (g) { if (cache[slug] === c) { c.guide = g; Shell.render(); } };
+    var fail = function (e) {
+      if (cache[slug] !== c) return;
+      if (!again) { delete cache[slug]; setTimeout(function () { if (!cache[slug]) load(slug, true); }, 1500); return; }
+      c.error = 'The guide did not load (' + ((e && e.message) || 'no reply') + ').'; c.failedAt = Date.now(); Shell.render();
+    };
     // Inside the public site the guide is read from its own page, cut the same way the lab's copy is
     // (site/guide-extract.js), so it never shows a frozen copy (format review F3).
     var X = global.LabGuideExtract, P = global.LAB_PORT, page = P && P.GUIDES && P.GUIDES[slug];
@@ -357,12 +365,27 @@
     return c;
   }
 
+  if (global.document) global.document.addEventListener('click', function (ev) {
+    var b = ev.target.closest && ev.target.closest('[data-guide-retry]');
+    if (!b) return;
+    delete cache[b.getAttribute('data-guide-retry')];
+    Shell.render();
+  });
+  // A phone that brings the page back from its back-forward cache (Safari) has cancelled any read in flight:
+  // read again the guides that failed or were still loading.
+  if (global.addEventListener) global.addEventListener('pageshow', function (ev) {
+    if (!ev.persisted) return;
+    Object.keys(cache).forEach(function (k) { if (!cache[k].guide) delete cache[k]; });
+    Shell.render();
+  });
+
   function guideView(params, parts) {
     var slug = parts[1];
     var conf = GUIDES[slug];
     if (!conf) return '<h1>Guide not found</h1><p class="lede">There is no guide at this address.</p><p><a href="#/guides">Policy &amp; research</a></p>';
     var c = load(slug);
-    if (c.error) return '<h1>Guide</h1><p class="callout">' + esc(c.error) + '</p>';
+    if (c.error) return '<h1>Guide</h1><div class="callout" role="alert"><p>' + esc(c.error) + ' The connection may have dropped.</p>' +
+      '<p><button type="button" class="button-link secondary" data-guide-retry="' + esc(slug) + '">Try again</button></p></div>';
     if (!c.guide) return '<h1>Loading the guide</h1><p role="status" class="note">Loading…</p>';
     var g = c.guide;
     arrow.defs = false;

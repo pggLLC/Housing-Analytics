@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T09:54:36.928Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T11:12:53.885Z. Do not edit by hand.
 
 ---
 
@@ -33,12 +33,12 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.2 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-hub.html` | Data and methods · COHO Analytics | 9.6 KB |
+| `data-hub.html` | Data and methods · COHO Analytics | 9.7 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 84.6 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
-| `deal-hub.html` | Build a deal · COHO Analytics | 9.6 KB |
+| `deal-hub.html` | Build a deal · COHO Analytics | 9.7 KB |
 | `deal-market-analysis.html` | Market Analysis · COHO Analytics | 161.1 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 3.8 KB |
@@ -68,7 +68,7 @@
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.7 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 265.3 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
-| `index.html` | COHO Analytics · Colorado affordable housing data | 11.5 KB |
+| `index.html` | COHO Analytics · Colorado affordable housing data | 11.7 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.2 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 13.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.3 KB |
@@ -81,11 +81,11 @@
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 88.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
-| `opportunities-hub.html` | Opportunities · COHO Analytics | 9.6 KB |
+| `opportunities-hub.html` | Opportunities · COHO Analytics | 9.7 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
-| `places-hub.html` | Places and need · COHO Analytics | 9.6 KB |
+| `places-hub.html` | Places and need · COHO Analytics | 9.7 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 53.1 KB |
-| `policy-hub.html` | Policy and research · COHO Analytics | 9.5 KB |
+| `policy-hub.html` | Policy and research · COHO Analytics | 9.7 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
@@ -128,11 +128,11 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 957 B | ✅ | — |
-| `data/alerts/alerts_archive.json` | 2.09 MB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 58.6 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 2.14 MB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 60.0 KB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 5.8 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
-| `data/alerts/outlet-review.json` | 6.5 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 7.9 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
@@ -2033,7 +2033,7 @@
 | `data/policy/green-building.json` | 57.5 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 32.6 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 158.6 KB | ✅ | — |
+| `data/policy/housing-events.json` | 158.3 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/housing-roll-calls.json` | 5.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
@@ -2070,7 +2070,7 @@
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 601.0 KB | ✅ | — |
+| `data/policy_briefs.json` | 611.5 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 241.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
@@ -2097,7 +2097,7 @@
 
 ## Test Files
 
-802 test files found.
+803 test files found.
 
 | File | Size |
 |------|------|
@@ -2535,6 +2535,7 @@
 | `test/navigation-reaches-every-page.test.mjs` | 7.0 KB |
 | `test/need-severity-is-place-level.test.mjs` | 16.0 KB |
 | `test/neuro-inclusive-brief.test.mjs` | 5.6 KB |
+| `test/news-local-line-matches-old-page.test.js` | 4.7 KB |
 | `test/next-step-link.test.js` | 8.7 KB |
 | `test/nhpd-coverage.test.js` | 14.1 KB |
 | `test/nlihc-out-of-reach.test.mjs` | 4.7 KB |
