@@ -13,7 +13,7 @@
  *     (the trail back to Build a deal, and the old step bar's six links as one line);
  *  3. every id on the old page is on the new one, except the step bar the new header replaces;
  *  4. the same scripts load in the same order, less the three the new header replaces, plus the new header's
- *     three; the glossary, which js/navigation.js used to load, is loaded the same way;
+ *     three, the place row's, and the calculator hand-off's two (section 10); the glossary, which js/navigation.js used to load, is loaded the same way;
  *  5. no link the old step bar offered is lost;
  *  6. the header and footer are the hub pages' own, and the visit is counted once;
  *  7. the place the visitor is working on and the saved projects, which the old header's pill showed, are in a row
@@ -21,7 +21,9 @@
  *  8. the bridging sheet's rules point at markup the tool still draws: every id it names exists, and the built-in
  *     calculator's phone rules find the inline layouts they were written against;
  *  9. every menu, step bar, next step and profile link opens the new page, and the scripts that recognise the
- *     Market Analysis link by its file name (carrying the place, saving before leaving) recognise the new name.
+ *     Market Analysis link by its file name (carrying the place, saving before leaving) recognise the new name;
+ * 10. a link under the built-in calculator opens its numbers in the Deal hub's Financials, on the route the hub
+ *     registers, without the page's own address being read as a share link.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -59,7 +61,7 @@ ok(oldIds.size > 200, 'market-analysis.html has far fewer ids than expected (' +
 // 4. The same scripts, in order.
 const scripts = html => [...html.matchAll(/<script[^>]*\ssrc="([^"]+)"/g)].map(m => m[1]);
 const DROPPED = ['js/navigation.js', 'js/dark-mode-toggle.js', 'js/mobile-menu.js'];
-const ADDED = ['js/components/ma-place-row.js', 'hub/lab-config.js', 'hub/page-chrome.js', 'hub/nav.js'];
+const ADDED = ['js/components/ma-calc-handoff.js', 'js/deal-calculator-share.js', 'js/components/ma-place-row.js', 'hub/lab-config.js', 'hub/page-chrome.js', 'hub/nav.js'];
 const oldScripts = scripts(oldPage), newScripts = scripts(newPage);
 DROPPED.forEach(f => { ok(oldScripts.includes(f), 'market-analysis.html no longer loads ' + f + '; update the build script'); ok(!newScripts.includes(f), 'the new page still loads ' + f); });
 ADDED.forEach(f => ok(newScripts.includes(f), 'the new page does not load ' + f));
@@ -293,6 +295,67 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 4
   ok(carry.test('deal-market-analysis.html') && !carry.test('deal-calculator.html'), 'the next-step button no longer carries the place to Market Analysis');
   ok(/href="deal-market-analysis\.html" data-carry-place/.test(read('scripts/hna/build_hna_views.py')), 'the needs assessment view builder writes another Market Analysis link');
   ok(/'market-analysis\.html':\s*'market'/.test(read('js/components/workflow-next-action.js')), 'the old page, still up, is no longer recognised as step 4');
+}
+
+// 10. Under the built-in calculator, a link that opens its numbers in the Deal hub's Financials. The settings come from
+//     js/deal-calculator-share.js, loaded unchanged (the rules "Copy link" uses), plus the page's subject project.
+//     js/components/ma-calc-handoff.js keeps the share script from opening this page's own address (?fips=...)
+//     as a share link, which would reset the calculator's rent schedule and utility allowance.
+{
+  const at = f => newScripts.indexOf(f);
+  ok(at('js/deal-calculator.js') >= 0 && at('js/deal-calculator.js') < at('js/components/ma-calc-handoff.js') && at('js/components/ma-calc-handoff.js') === at('js/deal-calculator-share.js') - 1,
+    'the hand-off script must load after js/deal-calculator.js (which sets window.DealCalcLinkParams) and just before js/deal-calculator-share.js (which reads it)');
+  const tag = f => (newPage.match(new RegExp('<script[^>]*\\ssrc="' + f.replace(/[.*+?^${}()|[\]\\/-]/g, '\\$&') + '"[^>]*>')) || [''])[0];
+  ok(/\sdefer[\s>]/.test(tag('js/deal-calculator.js')) && /\sdefer[\s>]/.test(tag('js/components/ma-calc-handoff.js')) && /\sdefer[\s>]/.test(tag('js/deal-calculator-share.js')),
+    'the calculator, hand-off and share scripts must all be deferred, or they no longer run in that order');
+  ok(!scripts(oldPage).includes('js/deal-calculator-share.js') && !scripts(oldPage).includes('js/components/ma-calc-handoff.js'), 'the old page itself should not load the hand-off');
+
+  // The address the link opens agrees with the route the Deal hub registers.
+  const src = read('js/components/ma-calc-handoff.js');
+  const route = (/var ROUTE = '([^']+)';/.exec(src) || [])[1] || '';
+  const m = /^([a-z0-9-]+\.html)#\/([a-z0-9-]+)\?v=1&$/.exec(route);
+  ok(m, 'the hand-off route is not "<page>#/<view>?v=1&": ' + route);
+  const [, hubFile, view] = m || [];
+  const hubScripts = scripts(read(hubFile || 'deal-hub.html'));
+  const registers = hubScripts.filter(f => f.startsWith('hub/') && fs.existsSync(path.join(root, f)) && new RegExp("Shell\\.views\\[['\"]" + view + "['\"]\\]\\s*=").test(read(f)));
+  ok(registers.length === 1, hubFile + ' does not load a script that registers the "' + view + '" view the hand-off opens');
+  if (registers.length === 1) {
+    const reader = read(registers[0]);
+    ok(/['"]subject['"]/.test(reader), registers[0] + ' no longer reads the subject setting the hand-off sends');
+  }
+
+  // What the script does, in a page with the calculator drawn. The share script and subject project are stand-ins.
+  const { JSDOM } = await import('jsdom');
+  const opened = [];
+  const run = async ({ drawn = true, share = true, subject = { total_units: 40, unit_mix: [{ br: 2, ami: 60, count: 40 }] } } = {}) => {
+    const dom = new JSDOM('<!doctype html><body><main id="main-content"><div id="dealCalcMount">' + (drawn ? '<input id="dc-units" value="40">' : '') + '</div><section id="lihtcConceptSection"></section></main></body>',
+      { runScripts: 'outside-only', url: 'https://example.test/deal-market-analysis.html?fips=08013&auto=1' });
+    const w = dom.window;
+    opened.push(w);
+    w.DealCalcLinkParams = () => new w.URLSearchParams('fips=08013&auto=1');
+    const snap = { q: 'units=40&tr=a%3D1' };
+    if (share) w.__DealCalcShare = { buildSnapshot: () => ({ url: 'https://example.test/deal-market-analysis.html?' + snap.q }) };
+    if (subject) w.SubjectProject = { get: () => subject };
+    w.eval(src);
+    if (w.document.readyState === 'loading') await new Promise(r => w.document.addEventListener('DOMContentLoaded', r));
+    const p = w.document.getElementById('maCalcHandoff');
+    return { w, p, a: p && p.querySelector('a'), snap };
+  };
+  const t = await run();
+  ok(t.w.DealCalcLinkParams(t.w.location).toString() === '', 'on this page the share script must see no share link in the address');
+  ok(t.p && t.p.previousElementSibling && t.p.previousElementSibling.id === 'dealCalcMount', 'the link should sit just under the built-in calculator');
+  const href = () => t.a.getAttribute('href');
+  const parts = h => { const q = new URLSearchParams(h.slice(h.indexOf('?') + 1)); return { route: h.slice(0, h.indexOf('?') + 1), q }; };
+  ok(parts(href()).route === route.slice(0, -('v=1&'.length)) && parts(href()).q.get('v') === '1', 'the link should open the hub route with v=1 first');
+  ok(parts(href()).q.get('units') === '40' && parts(href()).q.get('tr') === 'a=1', 'the link should carry the share script\'s settings as they are');
+  ok(JSON.stringify(JSON.parse(parts(href()).q.get('subject'))) === JSON.stringify({ total_units: 40, unit_mix: [{ br: 2, ami: 60, count: 40 }] }), 'the link should carry the subject project whole');
+  t.snap.q = 'units=52';
+  t.a.dispatchEvent(new t.w.Event('pointerdown'));
+  ok(parts(href()).q.get('units') === '52', 'the link should carry the numbers on screen when it is used, not when it was drawn');
+  ok(t.a.textContent.trim() && t.p.querySelector('#' + t.a.getAttribute('aria-describedby')), 'the link should have words and a described note');
+  ok(!parts((await run({ subject: null })).a.getAttribute('href')).q.has('subject'), 'with no subject project the link should still open, without one');
+  ok(!(await run({ drawn: false })).p && !(await run({ share: false })).p, 'before the calculator is drawn, or without the share script, there should be no link yet');
+  opened.forEach(w => w.close()); // the script keeps looking for the calculator for a minute
 }
 
 console.log('market-analysis-hub-page: ' + checks + ' checks passed');
