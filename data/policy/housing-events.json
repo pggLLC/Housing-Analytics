@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-13T11:24:36Z",
-    "as_of": "2026-11-13",
+    "generated": "2026-11-14T11:01:26Z",
+    "as_of": "2026-11-14",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -31,8 +31,8 @@
       "name": "Housing Colorado upcoming events",
       "url": "https://housingcolorado.org/events/",
       "status": "ok",
-      "listed": 1,
-      "upcoming": 1
+      "listed": 2,
+      "upcoming": 2
     },
     {
       "id": "doh",
@@ -163,6 +163,18 @@
       "url": "http://www.census.gov/construction/nrc/",
       "source": "fred",
       "category": "release"
+    },
+    {
+      "title": "Young Professionals Holiday Party",
+      "start": "2026-12-03",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Housing Colorado",
+      "url": "https://members.housingcolorado.org/event-details?id=d9d69a90-9ddf-f111-bda1-7c1e52a4c682",
+      "source": "housing_colorado",
+      "category": "networking"
     },
     {
       "title": "Jobs report (Employment Situation) released",
@@ -4597,30 +4609,6 @@
       "url": "https://doh.colorado.gov/emergency-rental-assistance",
       "source": "doh",
       "category": "deadline"
-    },
-    {
-      "title": "Training Webinar: CHFA Lender Basic Training",
-      "start": "2025-11-13",
-      "end": null,
-      "time": "13:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/199f8726-2d90-40a2-baec-bbdaab6ef45e@de029520-7a0e-4208-bc91-86b9369ad432",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "Training Webinar: Closers and Funders",
-      "start": "2025-11-13",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://attendee.gotowebinar.com/register/7812561630053758551",
-      "source": "chfa",
-      "category": "homebuyer"
     }
   ]
 }

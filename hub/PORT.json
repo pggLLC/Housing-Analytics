@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "226e2086c06e6cd4f83faede8d59ac7e00faa997",
+  "commit": "c49912efd1e63c4ce8befa5654b363419fcb0a40",
   "dirty": false
  },
  "files": {
@@ -71,7 +71,7 @@
   "hub/finder.js": "96065905924a90f7eb9f4d578e99cbcb6c790a1b47398126d9d37baaddf8b0e9",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
-  "hub/guide.js": "3eef04a914c6804fe18a863d6881b3f47b9926063cb39209db2fce9cae2c4f73",
+  "hub/guide.js": "d62df6e6767499191d26b6ef058d0e149e2dc20a7874adb85785f8a1643fe1ee",
   "hub/hna-dola.js": "3d98f4185ac1b0decd1974f7f02bae7d450633f73b651652d4046ee8db71662e",
   "hub/hna.js": "5fce6ca5e03ed9c8d04c362d70a5bbd6e8f6cf49192ea322989f964de6a8582e",
   "hub/home.css": "47c8d4d65023a4e3bf1153eb9fdf2aacceddafe9b5bb0eac8533c77e283e32bb",
@@ -104,7 +104,7 @@
   "hub/places-state.js": "9bb3e3fc5ee09150b693f6f62cc0f2560f8cafe1716c453378e5b4200d52df12",
   "hub/places.js": "c39f346dc57210a057408de589f923c38350e4afc892d804cb7887703e0c0f59",
   "hub/policy-more.js": "2aa65ec2eefa28d9ac7f53cc6abbb432eb7268b9ff16f65f23e18b1ea1e2f36b",
-  "hub/policy.js": "39620ea2afa26aeab56cdb8f33126dee9c35305ba46f2c8abbaffecc8fee4a4e",
+  "hub/policy.js": "7ac6e7765a7a620b62cf7e7042f328c01ce179cb495dd6ed32ebaf030a07123b",
   "hub/profile.css": "d18e7355133687b3c43099751dc234a12da6cbfe743fb65d932e414e171015a2",
   "hub/project-store.js": "fafed1a8c6be2daf2393f6580113f53a9ea88ee69a8a3ab4023b5da5c5b9776c",
   "hub/rent-income.css": "487a582f5637325d554f62bf548c44a1f37b58166f799347c9e6023f7bcbcd2e",
@@ -116,7 +116,7 @@
   "hub/shell.js": "d5495b100e275287e3d47adec60a8ed29ced57d20edd545ee3b059e0986e07b2",
   "hub/small-pages.css": "c873d07280dbee49b8c1446e21377f83a31b1be765d3bad3ad868127afdffd15",
   "hub/strength.js": "10f09b6b204f00e1689748a2696efcd6424bd9e327d5b0f444e6dde011deabb7",
-  "hub/templates.css": "23983335a46b9f63fad0128c898905937da4dfa52172c703f21760886c0210f1",
+  "hub/templates.css": "0b797c2a0a2ac8eba3a23819b36956d42914e05bd5fed138aa69819a06dcce6d",
   "hub/templates.js": "2b2ccd1d555356dc2f08975d28088cf689d982a7bd6568b5915cefb06a20b715",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
