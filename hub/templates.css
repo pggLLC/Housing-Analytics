@@ -1088,7 +1088,9 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
 @media print { .site-header, .tabs { position: static; } }
 @media (max-width: 767px) {
   /* A phone shows the step before, this step and the step after, one row; the menu lists all seven. */
-  .step-path ol { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* Each column is at least as wide as its longest word, so "Recommendation" stays whole inside its box; on a very
+     narrow phone the row swipes sideways inside itself, never the page. */
+  .step-path ol { grid-template-columns: repeat(3, minmax(min-content, 1fr)); overflow-x: auto; }
   .step-path li { display: none; }
   .step-path li.sp-current, .step-path li:has(+ li.sp-current), .step-path li.sp-current + li { display: block; }
   .step-path li.sp-current:first-child ~ li:nth-child(3) { display: block; }
@@ -1102,6 +1104,7 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
   .step-path .sp-all { display: inline-block; }
   .sp-sticky .sp-of strong { font-weight: 600; }
   .step-path .sp-title { font-size: 13px; }
+  @media (max-width: 420px) { .step-path .sp-title { font-size: 12px; } }
   /* Chapter tabs: one row that sticks under the bars (paul, 12 Nov); it swipes sideways inside itself, never the
      page, and the open chapter is scrolled into view (shell.js). */
   .tabs ul { display: flex; flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; }
@@ -1314,6 +1317,7 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .fee-waterfall .fw-step { background: var(--card); border-left: 4px solid var(--slate); padding: .4rem .6rem; border-radius: 4px; display: flex; flex-direction: column; box-sizing: border-box; }
 .fee-waterfall .fw-step span { font-size: .875rem; color: var(--muted); }
 .fee-waterfall .fw-loan { border-left-color: var(--pine); background: var(--tint-green); }
+.fee-waterfall .fw-loan span { color: var(--ink-soft); } /* on the green tint --muted is 4.2:1, under the 4.5 minimum */
 @media (max-width: 560px) { .fee-waterfall .fw-step { width: 100% !important; } }
 .fee-ways { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .75rem; margin: .5rem 0 1rem; }
 .fee-way { background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--slate); border-radius: 6px; padding: .6rem .75rem; }

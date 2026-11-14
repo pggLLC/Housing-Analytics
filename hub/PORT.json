@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "fb86e4b7821056694a11b4d239df6cbefceee863",
+  "commit": "8379816f1b0aba6717362eda1822073b63c39920",
   "dirty": false
  },
  "files": {
@@ -123,7 +123,7 @@
   "hub/small-pages.css": "c873d07280dbee49b8c1446e21377f83a31b1be765d3bad3ad868127afdffd15",
   "hub/start-numbers.js": "50205a8ddccc79283c6b218811aa6f82a912749a1952ea4d843a4d38610183ea",
   "hub/strength.js": "10f09b6b204f00e1689748a2696efcd6424bd9e327d5b0f444e6dde011deabb7",
-  "hub/templates.css": "0aa0aa42934a76f2c361563979a6a04a34f77fd8763ef08b0a252912d2efd93e",
+  "hub/templates.css": "269d381d5b14fd0fc310c100b6f3bbf245cbda172333660a5c0bcdaf2c1fe1dd",
   "hub/templates.js": "2b2ccd1d555356dc2f08975d28088cf689d982a7bd6568b5915cefb06a20b715",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
