@@ -399,11 +399,14 @@
     if (!ss.length) return '';
     var xs = ss[0].points.map(function (p) { return p[0]; }), x0 = xs[0], x1 = xs[xs.length - 1];
     var ys = []; ss.forEach(function (s) { s.points.forEach(function (p) { ys.push(p[1]); }); }); if (o.ref) ys.push(o.ref.y);
-    var lo = 0, hi = Math.max.apply(null, ys) * 1.08, step = Math.pow(10, Math.floor(Math.log10(hi / 4)));
-    while (hi / step > 6) step *= 2;
-    // A line that goes below zero (a year of negative cash flow) takes the axis down with it, in whole steps.
-    var low = Math.min.apply(null, ys);
-    if (low < 0) { lo = Math.floor(low / step) * step; while ((hi - lo) / step > 7) { step *= 2; lo = Math.floor(low / step) * step; } }
+    // The axis spans zero to the highest value, and down to the lowest when a line goes below zero (a year of negative
+    // cash flow), in whole steps. A chart that stays above zero is drawn exactly as before. All-zero data gets a unit range.
+    var top = Math.max.apply(null, ys), low = Math.min.apply(null, ys);
+    var hi = top > 0 ? top * 1.08 : 0, lo0 = low < 0 ? low * 1.08 : 0, span = hi - lo0;
+    if (!(span > 0)) { hi = 1; span = 1; }
+    var step = Math.pow(10, Math.floor(Math.log10(span / 4)));
+    while (span / step > 6) step *= 2;
+    var lo = lo0 < 0 ? Math.floor(lo0 / step) * step : 0;
     function usd(v) { return (v < 0 ? '\u2212$' : '$') + num(Math.abs(v)); }
     function draw(W, H, phone) {
       var yw = 64, rw = 0, top = 16, bot = H - 30, X = function (v) { return yw + (v - x0) / (x1 - x0) * (W - yw - rw - 10); }, Y = function (v) { return bot - (v - lo) / (hi - lo) * (bot - top); };

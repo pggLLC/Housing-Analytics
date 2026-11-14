@@ -282,6 +282,23 @@ form[data-action="financials"] .field-grid .field-after { grid-column: 1 / -1; m
 .realism .devr-type-card { margin: 0 0 .5rem; padding: .6rem .75rem; border: 1px solid var(--line); border-radius: 6px; }
 .realism .devr-type-specs { font-weight: 700; margin-bottom: .25rem; overflow-wrap: anywhere; }
 .realism .devr-type-notes { font-size: 14px; color: var(--muted); overflow-wrap: anywhere; }
+/* The housing outcome in four parts (calc-outcome.js): four cards, no total. */
+.outcome-parts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: .75rem; margin-top: .75rem; }
+.outcome-part { border: 1px solid var(--line); border-left: 6px solid var(--line); border-radius: 8px; padding: .75rem 1rem; background: var(--card); min-width: 0; }
+.outcome-part h3 { margin: 0 0 .25rem; font-size: 1.05rem; }
+.outcome-status { display: block; font-size: 14px; font-weight: 600; color: var(--muted); margin-top: .1rem; }
+.outcome-good { border-left-color: var(--good); } .outcome-good .outcome-status { color: var(--good); }
+.outcome-warn { border-left-color: var(--warn); } .outcome-warn .outcome-status { color: var(--warn); }
+.outcome-info { border-left-color: var(--pine); }
+.outcome-meaning { margin: .25rem 0 .5rem; font-size: 14px; color: var(--muted); }
+.outcome-part ul { margin: .25rem 0 .5rem; padding-left: 1.2rem; }
+.outcome-part li { margin: .3rem 0; overflow-wrap: anywhere; }
+.outcome-flags { list-style: none; padding-left: 0 !important; }
+.outcome-flags li { display: flex; align-items: baseline; gap: .4rem; }
+.outcome-need { list-style: none; padding-left: 0 !important; }
+.outcome-need li { padding: .4rem 0; border-top: 1px solid var(--line); }
+.outcome-flag { flex: 0 0 auto; display: inline-block; min-width: 5.5em; padding: 0 6px; margin-right: .35rem; border-radius: 999px; border: 1px solid currentColor; font-size: 13px; font-weight: 700; text-align: center; }
+.outcome-flag-yes { color: var(--good); } .outcome-flag-no { color: var(--warn); } .outcome-flag-unknown { color: var(--muted); }
 /* Four columns on a phone: tighter cells so the state and other dollars sit beside the cost without a sideways scroll. */
 @media (max-width: 560px) {
   .doh table[data-role="doh-act"] th, .doh table[data-role="doh-act"] td, .doh table[data-role="doh-15-totals"] th, .doh table[data-role="doh-15-totals"] td { padding: .5rem .25rem; font-size: 13px; }

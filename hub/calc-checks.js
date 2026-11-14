@@ -9,7 +9,7 @@
 // A tick changes no figure and is read by nothing else.
 (function (global) {
   'use strict';
-  var P = global.LabProjects, Shell = global.LabShell;
+  var P = global.LabProjects;
   var PATH = 'js/components/development-realism.js', KEY = 'realismChecks';
   var PANELS = ['renderPartnershipPanel', 'renderColoradoFactors', 'renderProjectTypeGuidance'];
   var state = null;   // null: not asked; 'loading'; 'failed'; 'ready'

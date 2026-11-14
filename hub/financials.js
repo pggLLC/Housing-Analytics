@@ -1172,7 +1172,7 @@
       (sum && sum.reason ? '<p class="callout"><strong>Costs:</strong> ' + esc(sum.reason) + '</p>' : '') +
       basisSection(r, inputs.fields) + creditChecks(r) + (global.LabCalcGrid ? global.LabCalcGrid.tables(r, inputs, G, data) : '') +
       mostLikely(d, inputs, r) + sourcesUses(r) + loanTable(r) + (DOH() ? DOH().sections(r, d.fields) : '') + stressTable(r, inputs.constants) + stressSliders(d, inputs, r) + rateGrid(inputs, r) + exitSummary(r, inputs) + projectionTable(r) +
-      (global.LabLenderExport ? global.LabLenderExport.remember(r, s.name) : '') + (global.LabLenderSchedules ? global.LabLenderSchedules.render(d, r, fieldGrid) : '') + waterfallSection(d, r) + (SITE() ? SITE().concept(d, inputs, r) : '') +
+      (global.LabLenderExport ? global.LabLenderExport.remember(r, s.name) : '') + (global.LabLenderSchedules ? global.LabLenderSchedules.render(d, r, fieldGrid) : '') + waterfallSection(d, r) + (SITE() ? SITE().concept(d, inputs, r) : '') + (global.LabCalcOutcome ? global.LabCalcOutcome.render(p, d, inputs, r, G) : '') +
       '<p class="note">Calculated by the COHO Deal Calculator. CHFA ' + esc(data.chfa.meta.fiscal_year) + ' rent table effective ' + esc(data.chfa.meta.effective_date) + '; HUD ' + esc(data.hud.meta && data.hud.meta.fiscal_year ? 'FY' + data.hud.meta.fiscal_year + ' ' : '') + 'Fair Market Rents; equity pricing Novogradac national average as of ' + esc(data.equity.meta.as_of || '') + '. Screening only, not underwriting.</p>' +
       '<div class="actions"><button type="submit">Save to ' + esc(s.name) + '</button>' +
       '<a class="button-link secondary" href="#/project/' + esc(p.projectId) + '">Back to the project</a></div></form>' +
