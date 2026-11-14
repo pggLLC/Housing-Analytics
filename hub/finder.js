@@ -293,15 +293,26 @@
   function runOf(p, sid) {
     return (p.attachments || []).filter(function (a) { return a && a.scenarioId === sid && a.kind === 'financials' && a.state !== 'replaced'; })[0] || null;
   }
-  // Why a saved run is not quoted, or null when it stands. The store marks a run out of date when the place,
-  // the site or the rent schedule changed after it. One case the store does not mark: a deal opened from a file
-  // or link whose homes and rents were replaced by the site's rerun. That run was priced on the sender's
-  // schedule, not the one now in the project, until Financials is saved again in this project.
+  // The rent schedule a run was priced on: the one it names in its own scenario, else the scenario's current one
+  // (a copied scenario's run still names the schedule it was copied from).
+  function scheduleOf(p, run) {
+    var mine = (p.attachments || []).filter(function (a) { return a && a.kind === 'rent-schedule' && a.scenarioId === run.scenarioId; });
+    var id = run.snapshot && run.snapshot.scheduleAttachmentId;
+    return mine.filter(function (a) { return id && a.attachmentId === id; })[0] || mine.filter(function (a) { return a.state !== 'replaced'; })[0] || null;
+  }
+  // Why a saved run is not quoted, or null when it stands. Three cases:
+  //   1. the store marks a run out of date when the place, the site or the rent schedule changed after it;
+  //   2. Financials saves a run even while it warns that the rent schedule is out of date, and that run is marked
+  //      current, so the schedule it was priced on is checked too (homes: the fix starts in Homes and affordability);
+  //   3. a deal opened from a file or link whose homes and rents were replaced by the site's rerun was priced on the
+  //      sender's schedule, not the one now in the project, until Financials is saved again in this project.
   function runProblem(p, run) {
-    if (run.state === 'stale') return run.staleReason || 'something it was run on changed';
+    if (run.state === 'stale') return { why: run.staleReason || 'something it was run on changed' };
+    var sched = scheduleOf(p, run);
+    if (sched && sched.state !== 'attached') return { why: 'it was run on homes and rents that are out of date' + (sched.staleReason ? ' (' + sched.staleReason + ')' : ''), homes: true };
     var o = p.openedFrom, here = run.origin && String(run.origin.route || '').indexOf('/' + p.projectId + '/') >= 0;
     if (o && o.scheduleMatched === false && !here)
-      return 'it came with ' + (o.how === 'share-link' ? 'a share link' : 'a deal file') + ' whose homes and rents differ from a rerun on the site’s CHFA rent code';
+      return { why: 'it came with ' + (o.how === 'share-link' ? 'a share link' : 'a deal file') + ' whose homes and rents differ from a rerun on the site’s CHFA rent code' };
     return null;
   }
   // The project in the shape the site's recommendation contract reads. Jurisdiction is the project's place.
@@ -379,8 +390,10 @@
       // A saved run that is out of date is named with its reason, and none of its figures are quoted.
       if (hub && st.key === 'deal' && why) {
         return '<li class="rec-step rec-step-stale" data-step="deal"><span class="rec-step-name">' + esc(st.label) + '</span>' +
-          '<span class="rec-step-state">Out of date</span><a href="' + esc(fin) + '">Run Financials again</a>' +
-          '<p class="rec-step-note">The Financials run saved ' + esc(when(run.attachedAt)) + ' is out of date: ' + esc(why) + '. Its figures are not quoted. Run Financials again and save it.</p></li>';
+          '<span class="rec-step-state">Out of date</span>' +
+          (why.homes && sid ? '<a href="#/homes/' + esc(encodeURIComponent(pid)) + '/' + esc(encodeURIComponent(sid)) + '">Save homes and rents again</a>' : '<a href="' + esc(fin) + '">Run Financials again</a>') +
+          '<p class="rec-step-note">The Financials run saved ' + esc(when(run.attachedAt)) + ' is out of date: ' + esc(why.why) + '. Its figures are not quoted. ' +
+          (why.homes ? 'Save the homes and rents again, then run Financials again.' : 'Run Financials again and save it.') + '</p></li>';
       }
       var href = shown ? null : hub && st.key === 'deal' ? fin : stepHref(st.key, g), live = !href ? (shown ? LIVE : 'https://cohoanalytics.com/') + st.href : null;
       return '<li class="rec-step rec-step-not_run"' + (shown || hub ? ' data-step="' + esc(st.key) + '"' : '') + '><span class="rec-step-name">' + esc(st.label) + '</span>' +
