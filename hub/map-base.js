@@ -22,24 +22,26 @@
 
   var doc = global.document;
   var OSM_COPY = 'https://www.openstreetmap.org/copyright';
+  // Tile addresses are written as templates, the way Leaflet writes them.
+  function tpl(t) { return function (z, x, y) { return t.replace('{z}', z).replace('{x}', x).replace('{y}', y); }; }
   var BASES = {
     street: {
       label: 'Streets',
       // OSM's tile policy asks for this one host (https://operations.osmfoundation.org/policies/tiles/).
-      url: function (z, x, y) { return 'https://tile.openstreetmap.org/' + z + '/' + x + '/' + y + '.png'; },
+      url: tpl('https://tile.openstreetmap.org/{z}/{x}/{y}.png'),
       credit: 'Map © <a href="' + OSM_COPY + '" rel="noopener">OpenStreetMap</a> contributors',
       max: 19
     },
     satellite: {
       label: 'Satellite',
-      url: function (z, x, y) { return 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/' + z + '/' + y + '/' + x; },
+      url: tpl('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'),
       // Credits are the services' own copyrightText (MapServer?f=json, read 14 Nov 2026).
       credit: 'Imagery © <a href="https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9" rel="noopener">Esri</a>. Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community',
       max: 19
     }
   };
   var BACKUP = {
-    url: function (z, x, y) { return 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/' + z + '/' + y + '/' + x; },
+    url: tpl('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}'),
     credit: 'some tiles © <a href="https://www.arcgis.com/home/item.html?id=3b93337983e9436f8db950e38a8629af" rel="noopener">Esri</a>. Sources: Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan, Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC, (c) OpenStreetMap contributors, and the GIS User Community'
   };
   var KEY = 'coho-map-base';

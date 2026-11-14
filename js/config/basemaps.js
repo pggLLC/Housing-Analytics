@@ -153,7 +153,7 @@
   var BACKUP_ATTR = 'Some street tiles &copy; <a href="https://www.esri.com/">Esri</a>. Sources: Esri, HERE, Garmin, USGS, Intermap, '
     + 'INCREMENT P, NRCan, Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC, (c) OpenStreetMap contributors, '
     + 'and the GIS User Community';
-  var STREET_BACKUP = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/';
+  var STREET_BACKUP = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
   var darkStyled = false;
   function darkStyle() {
     var doc = global.document;
@@ -185,7 +185,7 @@
       var t = e.tile, c = e.coords;
       if (!t || !c || t.getAttribute('data-backup')) return;
       t.setAttribute('data-backup', '1');
-      t.src = STREET_BACKUP + c.z + '/' + c.y + '/' + c.x;
+      t.src = STREET_BACKUP.replace('{z}', c.z).replace('{y}', c.y).replace('{x}', c.x);
       var ac = layer._map && layer._map.attributionControl;
       if (ac && credited !== ac) { ac.addAttribution(BACKUP_ATTR); credited = ac; }
     });
