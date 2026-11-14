@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T12:46:53.310Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T13:12:27.458Z. Do not edit by hand.
 
 ---
 
@@ -2097,7 +2097,7 @@
 
 ## Test Files
 
-803 test files found.
+804 test files found.
 
 | File | Size |
 |------|------|
@@ -2212,6 +2212,7 @@
 | `test/deal-calc-ami-bands.test.js` | 7.0 KB |
 | `test/deal-calc-correctness.test.js` | 4.7 KB |
 | `test/deal-calc-cost-basis-page.test.js` | 25.0 KB |
+| `test/deal-calc-cost-limit-plan.test.js` | 3.2 KB |
 | `test/deal-calc-credit-stack-page.test.js` | 13.8 KB |
 | `test/deal-calc-doh-schedules-page.test.js` | 12.1 KB |
 | `test/deal-calc-equity-pricing.test.js` | 8.2 KB |
@@ -2250,7 +2251,7 @@
 | `test/deal-engine.test.js` | 8.2 KB |
 | `test/deal-file.test.mjs` | 15.4 KB |
 | `test/deal-gap-handoff.test.js` | 6.0 KB |
-| `test/deal-lender-schedules.test.js` | 21.0 KB |
+| `test/deal-lender-schedules.test.js` | 21.9 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
 | `test/deal-permanent-financing.test.js` | 14.0 KB |
 | `test/deal-quick-estimate.test.mjs` | 12.8 KB |
