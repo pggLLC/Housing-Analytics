@@ -122,6 +122,11 @@ body.tool-page main :is(button, a, input, select, textarea, summary):focus-visib
 body.tool-page main :is(.badge, .pill)[style*="color:#fff"],
 body.tool-page main [style*="color:#fff"][style*="background:var(--"] { color: var(--on-fill) !important; }
 
+/* Info pop-ups (the small "i" beside a heading or a score). The tool sets their words at 13px, but a rule meant for
+   another page's paragraphs (css/pages/housing-needs-assessment.css, every paragraph in <main>) makes a pop-up's
+   paragraphs 18px while its lists stay 13px. One size for both. */
+body.tool-page #main-content .info-tooltip-body, body.tool-page #main-content .info-tooltip-body p, body.tool-page #main-content .info-tooltip-body dl { font-size: 15px; line-height: 1.5; }
+
 /* 5. On a phone (move piece 2: the site, the market area and the score). Each rule answers a fault measured at 390px,
       most of them on market-analysis.html too. Layout only: no word, figure or control changes. */
 @media (max-width: 640px) {
@@ -135,6 +140,45 @@ body.tool-page main [style*="color:#fff"][style*="background:var(--"] { color: v
      155px column 970px tall with a blank band under it. Here the ring sits above the text at full size and width. */
   body.tool-page .pma-score-wrap { transform: none; flex-direction: column; align-items: flex-start; gap: .6rem; }
   body.tool-page .pma-score-meta { width: 100%; }
+}
+/* Move piece 3: supply, demand and your project, on a phone. */
+@media (max-width: 640px) {
+  /* The "assumption / yours / data" chip under each field (js/components/input-provenance.js; 255 on this page) is a
+     button, and on a phone every button is drawn 44px tall and as wide as its box, so each chip was a grey bar the size
+     of the field it describes. Here it is a small chip again; the area that takes a tap stays 44px tall, reaching down
+     and to the sides, not up over the field. */
+  body.tool-page main .input-prov { position: relative; display: inline-flex; align-self: flex-start; width: auto; min-height: 24px; padding: 0 .45rem; }
+  body.tool-page main .input-prov::before { content: ""; position: absolute; inset: 0 -8px -20px -8px; }
+  /* A field's label is drawn as a row, which put "(workforce / above-LIHTC)" in a column of its own beside
+     "Units @ 90% AMI". One block of words, from the left. */
+  body.tool-page main .pma-ami-field { justify-content: flex-end; }
+  body.tool-page main .pma-ami-field label { display: block; min-height: 0; text-align: left; }
+  /* "Use HERA Special limits" stood one word a line beside its note. The note goes under the tick box and its words. */
+  body.tool-page main label:has(> #sp-use_hera_special) { flex-wrap: wrap; }
+  body.tool-page main label:has(> #sp-use_hera_special) > span:last-child { flex: 1 1 100%; }
+  /* "within [25 mi] of the site": the choice was as wide as the card, which cut the sentence into three lines. The
+     choice is as wide as its words, and the row wraps if it has to. */
+  body.tool-page main div:has(> #pmaNearbyRadius) { flex-wrap: wrap; }
+  body.tool-page main #pmaNearbyRadius { flex: 0 0 auto; width: auto; }
+  /* Figures in tiles sit two to a row, each 137px wide: "Existing affordable penetration" ran to 14 lines beside a
+     two-line neighbour. One tile to a row. */
+  body.tool-page main .pma-stat-grid { grid-template-columns: minmax(0, 1fr); }
+  /* Table cells are 16px under 12px headings, which left "Under 85% on both ratios" a 49px column seven lines tall and
+     the scenario and pipeline tables a few pixels wider than their card (they scroll sideways, as every table of
+     the tool does on a phone). 14px. */
+  body.tool-page main table td { font-size: 14px; }
+  /* The scenario and pipeline tables were 15 and 28px wider than their card, so their last column (the 85% check, the
+     stage) was cut at the edge and needed a sideways swipe. With less space beside each cell they fit. */
+  body.tool-page main :is(#pmaScenarioResult, #pmaPipelineResult) :is(th, td) { padding-left: .3rem !important; padding-right: .3rem !important; }
+  /* A list of terms in an info pop-up is two columns, the first as wide as its longest term. On a phone that left the
+     meaning a column 68px wide and the supply pop-up 4,248px tall. Term above meaning. */
+  body.tool-page main .info-tooltip-body dl { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  body.tool-page main .info-tooltip-body dd { margin: 0 0 .5rem; }
+  /* An open pop-up beside a score's name was a 160px column. Open, the name and its pop-up take the row, and the bar
+     and the score go under them. */
+  body.tool-page main .pma-dim-item:has(.info-tooltip[open]) { grid-template-columns: minmax(0, 1fr) 50px; }
+  body.tool-page main .pma-dim-item:has(.info-tooltip[open]) .pma-dim-name { grid-column: 1 / -1; flex-wrap: wrap; }
+  body.tool-page main .pma-dim-name .info-tooltip[open] { flex: 1 1 100%; }
 }
 /* Risk flags are drawn one under another with no space between a red one and an amber one. */
 body.tool-page #pmaFlags > * + * { margin-top: .35rem; }
