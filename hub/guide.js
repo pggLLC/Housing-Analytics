@@ -480,6 +480,7 @@
   }
   function hoverHelp(body, F) {
     if (!body || body.getAttribute('data-help') === '1') return;
+    gtipWire();
     body.setAttribute('data-help', '1');
     // Column headings: the page's own tip, else the site's entry for the heading's words.
     Array.prototype.forEach.call(body.querySelectorAll('th'), function (th) {
@@ -534,11 +535,17 @@
     el.setAttribute('aria-describedby', 'guide-tip'); gtipOn = el;
   }
   function gtipTarget(ev) { var t = ev.target; return t && t.closest ? t.closest('.guide-body [data-gtip]') : null; }
-  document.addEventListener('mouseover', function (ev) { var el = gtipTarget(ev); if (el) gtipShow(el); else if (gtipOn) gtipHide(); });
-  document.addEventListener('focusin', function (ev) { var el = gtipTarget(ev); if (el) gtipShow(el); else if (gtipOn) gtipHide(); });
-  document.addEventListener('click', function (ev) { var el = gtipTarget(ev); if (el && gtipOn !== el) gtipShow(el); else if (!el && gtipOn) gtipHide(); });
-  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && gtipOn) gtipHide(); });
-  global.addEventListener('hashchange', gtipHide);
+  // Wired once, when the first guide gets its hover help (this file is also loaded where there is no page to listen on).
+  var gtipWired = false;
+  function gtipWire() {
+    if (gtipWired) return;
+    gtipWired = true;
+    document.addEventListener('mouseover', function (ev) { var el = gtipTarget(ev); if (el) gtipShow(el); else if (gtipOn) gtipHide(); });
+    document.addEventListener('focusin', function (ev) { var el = gtipTarget(ev); if (el) gtipShow(el); else if (gtipOn) gtipHide(); });
+    document.addEventListener('click', function (ev) { var el = gtipTarget(ev); if (el && gtipOn !== el) gtipShow(el); else if (!el && gtipOn) gtipHide(); });
+    document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && gtipOn) gtipHide(); });
+    global.addEventListener('hashchange', gtipHide);
+  }
 
   // A link in the guide's words to another part of the same guide lands there without drawing the page again,
   // and works a second time (the address would not change, so the router would not hear it).

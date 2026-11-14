@@ -85,7 +85,14 @@
     st.forEach(function (x) { if (x.date >= since) n[x.sourcing === 'weak' || x.sourcing === 'unverified' ? x.sourcing : 'checked'] += 1; });
     return '<p class="note" id="nw-week">Week to ' + esc(newest) + ': ' + num(n.checked) + ' from checked outlets · ' + num(n.unverified) + ' unverified · ' + num(n.weak) + ' weak sourcing.</p>';
   }
-  function news() {
+  // One-tap buttons above the headlines (the full Housing News page's own two rows): the programs a story is
+  // tagged with in the news file, and its outlet check. Each is a link, so a pick rides in the address (np, nc).
+  var NEWS_PROGRAMS = [['LIHTC', 'Tax credits (LIHTC)'], ['CHFA', 'CHFA'], ['Prop 123', 'Prop 123'], ['Division of Housing', 'Division of Housing (DOLA)'], ['HUD', 'HUD'], ['Section 8', 'Section 8']];
+  var NEWS_CHECKS = [['checked', 'Checked'], ['unverified', 'Unverified outlet'], ['weak', 'Weak sourcing']];
+  // Stories from before the outlet check carry no `sourcing` and count as checked, as on the live page.
+  function newsCheck(x) { return x.sourcing === 'unverified' || x.sourcing === 'weak' ? x.sourcing : 'checked'; }
+  function news(params) {
+    params = params || new URLSearchParams();
     var s = UI.load(NEWS);
     if (!s.data) return wait('Housing news', s);
     // The live page keeps stories scoped 'national' out of the Colorado list and shows them under National trends.
@@ -94,7 +101,38 @@
     var nat = all.filter(function (x) { return x.scope === 'national' && x.title; }).sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
     // Outlet check, as the live page tags it: stories before the check have no `sourcing` and count as checked.
     function check(x) { return x.sourcing === 'unverified' ? 'Unverified outlet' : x.sourcing === 'weak' ? 'Weak sourcing' + (x.sourcing_label ? ': ' + x.sourcing_label : '') : 'Checked'; }
-    var stories = st.map(function (x) { return { date: x.date, title: x.title, link: safe(x.link), source: x.source, check: check(x), where: (x.places || []).map(function (p) { return p.name; }).concat(x.places && x.places.length ? [] : x.regions || []).join(', ') || 'Statewide' }; });
+    // The picks: any of the chosen programs (as the live page matches them), and one outlet check.
+    var wantP = String(params.get('np') || '').split(',').filter(function (k, i, a) { return a.indexOf(k) === i && NEWS_PROGRAMS.some(function (p) { return p[0] === k; }); });
+    var wantC = NEWS_CHECKS.some(function (c) { return c[0] === params.get('nc'); }) ? params.get('nc') : '';
+    var inProgram = function (x, list) { var ps = x.programs || []; return !list.length || list.some(function (k) { return ps.indexOf(k) > -1; }); };
+    var picked = st.filter(function (x) { return inProgram(x, wantP) && (!wantC || newsCheck(x) === wantC); });
+    var narrowed = wantP.length > 0 || !!wantC;
+    var to = function (set) {
+      var q = new URLSearchParams(params.toString());
+      Object.keys(set).forEach(function (k) { if (set[k]) q.set(k, set[k]); else q.delete(k); });
+      var t = q.toString();
+      return '#/news' + (t ? '?' + t : '');
+    };
+    // Each button shows how many headlines it would leave, given the other row's pick.
+    var chip = function (id, on, href, label, n) {
+      return '<li><a id="' + id + '"' + (on ? ' class="is-on" aria-current="true"' : '') + ' href="' + esc(href) + '">' + esc(label) + ' <span class="news-n">' + num(n) + '<span class="visually-hidden"> headlines</span></span></a></li>';
+    };
+    var programChips = NEWS_PROGRAMS.map(function (p, i) {
+      if (!st.some(function (x) { return (x.programs || []).indexOf(p[0]) > -1; })) return '';
+      var on = wantP.indexOf(p[0]) > -1;
+      return chip('nw-p' + i, on, to({ np: (on ? wantP.filter(function (k) { return k !== p[0]; }) : wantP.concat([p[0]])).join(',') }), p[1],
+        st.filter(function (x) { return (!wantC || newsCheck(x) === wantC) && (x.programs || []).indexOf(p[0]) > -1; }).length);
+    }).join('');
+    var checkChips = NEWS_CHECKS.map(function (c, i) {
+      if (c[0] !== 'checked' && !st.some(function (x) { return newsCheck(x) === c[0]; })) return '';
+      return chip('nw-c' + i, wantC === c[0], to({ nc: wantC === c[0] ? '' : c[0] }), c[1], st.filter(function (x) { return inProgram(x, wantP) && newsCheck(x) === c[0]; }).length);
+    });
+    var pickedNames = NEWS_PROGRAMS.filter(function (p) { return wantP.indexOf(p[0]) > -1; }).map(function (p) { return p[1]; }).concat(NEWS_CHECKS.filter(function (c) { return c[0] === wantC; }).map(function (c) { return c[1]; }));
+    var pickRows = (programChips ? '<nav class="dm-chips" aria-label="Program"><p class="news-pick-label">Program</p><ul>' + programChips + '</ul></nav>' : '') +
+      (checkChips.filter(Boolean).length > 1 ? '<nav class="dm-chips" aria-label="Outlet check"><p class="news-pick-label">Outlet check</p><ul>' + checkChips.join('') + '</ul></nav>' : '');
+    var pick = pickRows ? '<section id="nw-pick" class="news-pick" aria-label="Narrow the headlines">' + pickRows +
+      (narrowed ? '<p class="chapter-finding" role="status">' + (picked.length ? 'Showing ' + num(picked.length) + ' of ' + num(st.length) + ' headlines' : 'No headlines match') + ': ' + esc(pickedNames.join(', ')) + '. <a id="nw-all" href="' + esc(to({ np: '', nc: '' })) + '">Show all headlines</a></p>' : '') + '</section>' : '';
+    var stories = picked.map(function (x) { return { date: x.date, title: x.title, link: safe(x.link), source: x.source, check: check(x), where: (x.places || []).map(function (p) { return p.name; }).concat(x.places && x.places.length ? [] : x.regions || []).join(', ') || 'Statewide' }; });
     var byMonth = UI.tally(st, function (x) { return x.date && x.date.slice(0, 7); }).sort(function (a, b) { return a[0] < b[0] ? -1 : 1; });
     var outlets = UI.tally(st, function (x) { return x.source; }).length;
     var top = stories.slice(0, 8);
@@ -102,20 +140,21 @@
       kind: 'data', crumbs: T.trail('policy', 'Housing news'), title: 'Housing news',
       meta: '<span class="scope-tag">Colorado</span> Updated ' + esc(sm.generated.slice(0, 10)) + '.'
     }) +
-      '<section id="nw-top" aria-labelledby="nw-top-h"><h2 id="nw-top-h" class="visually-hidden">Latest stories</h2><ol class="news-top">' + top.map(function (r) {
+      pick +
+      (!top.length ? '' : '<section id="nw-top" aria-labelledby="nw-top-h"><h2 id="nw-top-h" class="visually-hidden">Latest stories</h2><ol class="news-top">' + top.map(function (r) {
         return '<li><p class="news-date">' + esc(r.date) + ' · ' + esc(r.source) + (r.check !== 'Checked' ? ' · <span class="news-check">' + esc(r.check) + '</span>' : '') + '</p><p class="news-head">' + (r.link ? '<a href="' + esc(r.link) + '">' + esc(r.title) + '</a>' : esc(r.title)) + '</p>' +
           '<p class="news-where">' + esc(r.where) + '</p></li>';
-      }).join('') + '</ol></section>' +
+      }).join('') + '</ol></section>') +
       weekLine(st) +
-      '<section id="nw-latest" tabindex="-1"><h2>All headlines</h2>' +
-      UI.table('news', 'Colorado housing headlines, newest first', [
+      '<section id="nw-latest" tabindex="-1"><h2>' + (narrowed ? 'Headlines picked' : 'All headlines') + '</h2>' +
+      UI.table('news', 'Colorado housing headlines, newest first' + (narrowed ? ': ' + pickedNames.join(', ') : ''), [
         { key: 'date', label: 'Date' },
         { key: 'title', label: 'Headline', href: function (r) { return r.link; } },
         { key: 'source', label: 'Outlet' },
         { key: 'check', label: 'Outlet check', tip: 'Checked: COHO has reviewed the outlet. Unverified: not checked yet. Weak sourcing: reviewed, with the reason. The same tags are on the full Housing News page.' },
         { key: 'where', label: 'Where', tip: 'Places named in the story, matched to the 546 Colorado geographies; otherwise its region' }
       ], stories, { noun: 'headlines', placeholder: 'Headline, outlet or place' }) + T.source('Each outlet named in its row, as COHO’s news list gathers them', LIVE + 'data/policy_briefs.json', 'updated ' + sm.generated.slice(0, 10)) +
-      UI.bars('Colorado headlines by month', 'Stories kept after duplicates and other-state news are removed. The first month starts ' + st[st.length - 1].date + ', so it is partial.', byMonth, num) +
+      UI.bars('Colorado headlines by month', (narrowed ? 'Every headline, not only the ones picked above. ' : '') + 'Stories kept after duplicates and other-state news are removed. The first month starts ' + st[st.length - 1].date + ', so it is partial.', byMonth, num) +
       T.source('COHO news list, counted by month', LIVE + 'data/policy_briefs.json', 'updated ' + sm.generated.slice(0, 10)) +
       '<details class="counted"><summary>How this list is made</summary><p class="note">' + num(st.length) + ' Colorado headlines from ' + num(outlets) + ' outlets, newest ' + esc(st[0].date) + ', each dated and linked to the outlet that ran it. ' +
       esc(sm.method.split('. ').filter(function (x) { return !/(data|scripts)\//.test(x); }).join('. ').replace(/\.?$/, '.')) + ' Places are matched to Colorado\u2019s counties, towns and CDPs (Census Gazetteer). Other states are left out. The same list is on <a href="' + LIVE + 'policy-briefs.html">the full Housing News page</a>.</p></details></section>' +

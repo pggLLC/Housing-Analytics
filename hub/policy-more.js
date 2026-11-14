@@ -564,10 +564,21 @@
       return '<tr><th scope="row">' + esc(label) + '</th><td class="num"><strong>' + esc(EP.money(c[key])) + '</strong></td><td class="num">' +
         esc(EP.pct(same ? EP.change(d.hist, key, 1) : null)) + '</td><td class="num">' + esc(EP.pct(same ? EP.change(d.hist, key, 4) : null)) + '</td></tr>';
     };
+    // CSV downloads of the two tables (the old Research page offered both). Cells are numbers; a value the page
+    // prints as unavailable or n/a is left blank, never written as 0.
+    var csv = function (id, label, header, rows) { return global.LabOpportunities && global.LabOpportunities.csvLink ? global.LabOpportunities.csvLink(id, label, header, rows) : ''; };
+    var csvNum = function (v, digits) { return v == null || !isFinite(v) ? '' : Number(v).toFixed(digits); };
+    var priceCsv = function (label, key) {
+      var q = same ? EP.change(d.hist, key, 1) : null, y = same ? EP.change(d.hist, key, 4) : null;
+      return [label, csvNum(c[key], 2), q == null ? '' : csvNum(q * 100, 1), y == null ? '' : csvNum(y * 100, 1), c.asOf || '', snapQuarter(c.vintage),
+        bm.source || 'Novogradac LIHTC equity pricing', bm.source_url || 'https://www.novoco.com/'];
+    };
     var pricing = '<div class="snap-card"><h3>Credit pricing analysis</h3>' +
       '<p class="note">Equity price per $1 of credit: the Colorado median, with national averages as a market reference' + (c && c.asOf ? '. As of ' + esc(c.asOf) + (c.vintage ? ' (' + esc(snapQuarter(c.vintage)) + ')' : '') : '') + '.</p>' +
       (c ? '<div class="table-scroll" role="region" aria-label="Credit pricing" tabindex="0"><table class="snap-table"><thead><tr><th scope="col">Credit type</th><th scope="col" class="num">Price</th><th scope="col" class="num" title="Change from the quarter before">QoQ</th><th scope="col" class="num" title="Change from a year before">YoY</th></tr></thead><tbody>' +
         priceRow('Colorado median, all credits', 'co') + priceRow('9% competitive (national, market reference)', 'nine') + priceRow('4% bond-financed (national, market reference)', 'four') + '</tbody></table></div>' +
+        csv('lihtc-equity-pricing', 'Download credit pricing (CSV)', ['Credit type', 'Price per $1 of credit ($)', 'Change from the quarter before (%)', 'Change from a year before (%)', 'As of', 'Quarter', 'Source', 'Source link'],
+          [priceCsv('Colorado median, all credits', 'co'), priceCsv('9% competitive (national, market reference)', 'nine'), priceCsv('4% bond-financed (national, market reference)', 'four')]) +
         '<p class="note">Novogradac publishes Colorado as one median across credit types, with no history here, so its QoQ and YoY read n/a.</p>'
         : '<p class="callout">Pricing could not be read from the pricing file.</p>') +
       '<p class="metric-source">Source: <a href="' + esc(bm.source_url || 'https://www.novoco.com/') + '">' + esc(bm.source || 'Novogradac LIHTC equity pricing') + '</a>' +
@@ -589,7 +600,10 @@
     var rateCard = '<div class="snap-card snap-wide"><h3>Rates and deadlines</h3><p class="note">Financing rates and CHFA’s next tax credit dates.</p>' +
       '<div class="table-scroll" role="region" aria-label="Rates" tabindex="0"><table class="snap-table"><thead><tr><th scope="col">Rate</th><th scope="col" class="num">Latest</th><th scope="col" class="num" title="Change from the value a year before, in basis points (1 bp = 0.01 percentage point)">1-year change</th><th scope="col">As of</th></tr></thead><tbody>' +
       rates.map(function (x) { return '<tr><th scope="row">' + esc(x.label) + '</th><td class="num"><strong>' + esc(snapPct(x.value, 2)) + '</strong></td><td class="num">' + esc(snapBps(x.changeBps)) + '</td><td>' + esc(snapDay(x.date)) + '</td></tr>'; }).join('') +
-      '</tbody></table></div><h4>Next CHFA deadlines</h4>' +
+      '</tbody></table></div>' +
+      (rates.length ? csv('benchmark-financing-rates', 'Download rates (CSV)', ['Rate', 'Latest (%)', '1-year change (basis points)', 'As of', 'Source', 'Source link'],
+        rates.map(function (x) { return [x.label, csvNum(x.value, 2), x.changeBps == null ? '' : String(x.changeBps), String(x.date || '').slice(0, 10), 'FRED, Federal Reserve Bank of St. Louis (series ' + x.id + ')', 'https://fred.stlouisfed.org/series/' + x.id]; })) : '') +
+      '<h4>Next CHFA deadlines</h4>' +
       (dl.length ? '<ul class="snap-deadlines">' + dl.map(function (e) {
         return '<li><strong>' + esc(snapDay(e.date)) + '</strong> · ' + e.days + (e.days === 1 ? ' day' : ' days') + '<br>' + (e.url ? '<a href="' + esc(e.url) + '">' + esc(e.name) + '</a>' : esc(e.name)) + (e.draft ? ' <span class="scope-tag">Draft QAP</span>' : '') + '</li>';
       }).join('') + '</ul>' : '<p class="note">No upcoming CHFA deadlines are in the calendar file.</p>') +
