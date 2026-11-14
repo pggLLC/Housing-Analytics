@@ -74,7 +74,7 @@ test('a missing input leaves Method Three unchecked with no credit, never a gues
   }
 });
 
-test('the engine shows Method Three beside the capacity and never changes the credit', () => {
+test('the engine shows Method Three beside the capacity and leaves a higher limit alone', () => {
   const { computeDeal } = require('../js/deal-engine.js');
   const { inputsFor } = require('./helpers/deal-engine-inputs.cjs');
   const base = computeDeal(inputsFor('A'));

@@ -143,6 +143,13 @@
     'dc-add-mode': 'Whether the added credit adds to the other credits or replaces part of one.',
     'dc-add-displaces': 'The credit the added credit replaces.',
     'dc-add-displaced-annual': 'Annual amount of the credit the added credit replaces.',
+    'dc-plan-cost-limit': 'Whether the credit is held to CHFA\'s cost basis limit (Method Three) when that is the lowest of the three methods CHFA uses to reserve credit (2027-28 QAP, 3.M.1).',
+    'dc-rent-cap-studio': 'Most the market pays a month for a restricted studio, after utilities, from a market study; blank means no cap.',
+    'dc-rent-cap-1br': 'Most the market pays a month for a restricted one-bedroom home, after utilities, from a market study; blank means no cap.',
+    'dc-rent-cap-2br': 'Most the market pays a month for a restricted two-bedroom home, after utilities, from a market study; blank means no cap.',
+    'dc-rent-cap-3br': 'Most the market pays a month for a restricted three-bedroom home, after utilities, from a market study; blank means no cap.',
+    'dc-rent-cap-4br': 'Most the market pays a month for a restricted four-bedroom home, after utilities, from a market study; blank means no cap.',
+    'dc-rent-cap-source': 'The market study or survey, with its date, that supports the rent cap.',
     'dc-add-fed-cut': 'Annual federal credit the allocator cuts because of the added credit, if any. Blank means no cut.'
   };
   Object.keys(definitions).forEach(function (id) { add(id, definitions[id]); });
@@ -196,6 +203,9 @@
     ['closing', 'completion', 'stabilization'].forEach(function (stage) {
       add('dc-' + src + '-payin-' + stage, 'Share of ' + ({ fed: 'federal', state: 'state', add: 'added' })[src] + ' credit equity paid in at ' + stage + ', in percent.');
     });
+  });
+  ['dc-rent-cap-studio', 'dc-rent-cap-1br', 'dc-rent-cap-2br', 'dc-rent-cap-3br', 'dc-rent-cap-4br', 'dc-rent-cap-source'].forEach(function (id) {
+    fields[id].status = 'needs-source'; fields[id].why = 'Only a market study or rent survey for this site can supply it.';
   });
   ['dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-pf-appraised'].forEach(function (id) {
     fields[id].status = 'needs-source'; fields[id].why = 'No project-specific source has been supplied.';
