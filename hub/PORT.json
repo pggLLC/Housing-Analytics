@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "67d2c7dc05b89e1081384ed1fcfc53cb8259095d",
+  "commit": "6db4e39b28909e94b6f502338e1c4010196ad45a",
   "dirty": false
  },
  "files": {
@@ -104,7 +104,7 @@
   "hub/policy.js": "39620ea2afa26aeab56cdb8f33126dee9c35305ba46f2c8abbaffecc8fee4a4e",
   "hub/profile.css": "d18e7355133687b3c43099751dc234a12da6cbfe743fb65d932e414e171015a2",
   "hub/project-store.js": "fafed1a8c6be2daf2393f6580113f53a9ea88ee69a8a3ab4023b5da5c5b9776c",
-  "hub/redraw.js": "91ada1d60e6da9a5ea55ce5c664afbc9095ae11b2d351ca1540526dce3f42451",
+  "hub/redraw.js": "6fdc82eddd74035a6ab303b49ff1f7148f7264635fa1ab6a585969dd0f0676b9",
   "hub/rent-income.css": "487a582f5637325d554f62bf548c44a1f37b58166f799347c9e6023f7bcbcd2e",
   "hub/rent-income.js": "07aedf8f15cc3f5203edae212a840cfa361c68d08f1f3951bddf69aaceb244ba",
   "hub/report.js": "a50b44ea78aae9b1cfe977203315255ce0c26137873e2f2cdb763303815ec44d",

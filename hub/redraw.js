@@ -17,14 +17,21 @@
     var main = doc.getElementById('main') || doc.body;
     return Array.prototype.filter.call(main.querySelectorAll(FOCUSABLE), function (n) { return !n.disabled && n.type !== 'hidden'; });
   }
-  // How to find a control again after the page is rebuilt: id, or name (and value, for a choice) inside its row;
-  // a control with neither (a link or button reached by Tab) by its place in the page's order.
+  // How to find a control again after the page is rebuilt: id, or name (and value, for a choice), or its first data-
+  // attribute (a button such as Add row), inside its row; a control with none of these by its place in the page's order.
+  function dataSel(el) {
+    for (var i = 0; i < el.attributes.length; i++) {
+      var a = el.attributes[i];
+      if (a.name.indexOf('data-') === 0 && a.name !== 'data-row') return el.tagName.toLowerCase() + '[' + a.name + '="' + String(a.value).replace(/["\\]/g, '\\$&') + '"]';
+    }
+    return null;
+  }
   function keyOf(el) {
     if (!el || el === doc.body || !el.tagName) return null;
     var sel = el.id ? '#' + cssEsc(el.id)
       : el.name ? el.tagName.toLowerCase() + '[name="' + String(el.name).replace(/["\\]/g, '\\$&') + '"]' +
         (el.type === 'radio' || el.type === 'checkbox' ? '[value="' + String(el.value).replace(/["\\]/g, '\\$&') + '"]' : '')
-      : null;
+      : dataSel(el);
     if (!sel) { var at = focusables().indexOf(el); return at < 0 ? null : { index: at }; }
     var row = el.closest && el.closest('[data-row]');
     return { sel: sel, row: row ? row.getAttribute('data-row') : null };
@@ -69,12 +76,31 @@
     doc.addEventListener('keydown', function () { if (pending) run(); }, true);
     // Typing that reaches a field without a key press first (a phone keyboard, dictation, paste) is marked as edited.
     doc.addEventListener('input', function (ev) { if (pending && edited.indexOf(ev.target) < 0) edited.push(ev.target); }, true);
-    ['pointerup', 'pointercancel', 'click'].forEach(function (type) {
+    ['pointerup', 'pointercancel'].forEach(function (type) {
       doc.addEventListener(type, function () {
         down = false;
         if (pending) { if (timer) global.clearTimeout(timer); timer = global.setTimeout(run, 0); }
       }, true);
     });
+    // A click that lands while a change is still waiting: redraw first, then give the click to the rebuilt control, so
+    // whatever it does (Save, Add row, Export) reads the page as the change left it, never the stale form (Codex on
+    // HA #2845). A click into a text field only needs the redraw; focus is put back on the rebuilt field.
+    var ACTS = 'button, a[href], summary, label, input[type="checkbox"], input[type="radio"], input[type="submit"], input[type="button"]';
+    doc.addEventListener('click', function (ev) {
+      down = false;
+      if (!pending) return;
+      var hit = ev.target && ev.target.closest ? ev.target.closest(ACTS) : null;
+      // A label hands its click to its box; follow the box. A label for a text field needs only the redraw.
+      if (hit && hit.tagName === 'LABEL') hit = hit.control && /^(checkbox|radio)$/.test(hit.control.type) ? hit.control : null;
+      var key = hit ? keyOf(hit) : null;
+      run();
+      if (!hit || hit.isConnected) return;
+      var el = find(key);
+      if (!el || el === hit) return;
+      ev.stopImmediatePropagation();
+      ev.preventDefault();
+      el.click();
+    }, true);
   }
 
   global.LabRedraw = { after: after, flush: run, _keyOf: keyOf };
