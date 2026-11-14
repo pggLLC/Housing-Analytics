@@ -18,6 +18,12 @@
 .rec-step-not_run .rec-step-state { font-style: italic; }
 .rec-step a { min-height: 44px; display: inline-flex; align-items: center; }
 @media (max-width: 560px) { .rec-step { grid-template-columns: 1fr auto; } .rec-step-state { grid-column: 1 / -1; grid-row: 2; } }
+/* A recorded step: every figure the saved work quotes, and the contract's note when it quotes none. */
+.rec-step-fields { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: .2rem 1.5rem; margin: 0; min-width: 0; }
+.rec-step-fields div { display: flex; flex-wrap: wrap; gap: 0 .4rem; min-width: 0; }
+.rec-step-fields dt { color: var(--muted); }
+.rec-step-fields dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.rec-step-note { grid-column: 1 / -1; margin: 0; color: var(--muted); overflow-wrap: break-word; }
 
 /* Investor summary: anchors, programs and partner lists. */
 .ic-civic { display: grid; grid-template-columns: minmax(8rem, 12rem) 1fr; gap: .5rem 1rem; margin: .5rem 0 1rem; }
