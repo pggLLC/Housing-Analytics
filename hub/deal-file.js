@@ -172,7 +172,11 @@
       var k = i.id.replace(/^dc-/, '');
       if (i.id === 'dc-credit') { if (has('rate-9')) d.fields[i.id] = Number(take('rate-9')) === 0.04 ? '4' : '9'; return; }
       if (!has(k)) { if (!checks[i.id] && !i.options && R && R.get(i.id)) d.fields[i.id] = ''; return; }
-      d.fields[i.id] = checks[i.id] ? box(take(k)) : String(take(k));
+      var v = String(take(k));
+      // A yes-or-no list here can be a ticked box on the old page (dc-auto-noi), which the link sends as 1 or 0.
+      var yesNo = i.options && i.options.some(function (o) { return o[0] === 'yes'; }) && i.options.some(function (o) { return o[0] === 'no'; });
+      if (yesNo && /^(1|0|true|false)$/.test(v)) v = v === '1' || v === 'true' ? 'yes' : 'no';
+      d.fields[i.id] = checks[i.id] ? box(v) : v;
     });
     F.costIds().forEach(function (id) {
       var k = 'cost-' + id;

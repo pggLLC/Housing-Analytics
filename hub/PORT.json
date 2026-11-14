@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "2b9c0f437002d348d1c9e7ab18f9d8c2475494ca",
+  "commit": "75f1bd1a77648fe7697821c5ce6de061db35d8b9",
   "dirty": false
  },
  "files": {
@@ -53,7 +53,7 @@
   "hub/data-more.js": "eb64a1681dbe266ac45be3a7c968b1f6d25eb8a97a3172ea63bf79bd4bebd652",
   "hub/data-pages.css": "9284d87cfbef7443a2aa0926c586be3bc7c3d8f7daa1641de7349878af3b525c",
   "hub/deal-extras.js": "4b660b3f6121231b095ffc22ca658ad179c9df78cf9f747abd92a50873da5aa1",
-  "hub/deal-file.js": "188dce7203238a3b3d5725db01f873d372481414e2377cc80a945e6e73d7ca46",
+  "hub/deal-file.js": "c0d05688ed83bcf625a1131455fb107abb2c731da58d3358303b033e5bd021c1",
   "hub/deal-quick-sale.js": "8707ba8e2fb14cc752bf8063c79edcd37265cdbed2a81abb4a86afd1feb54ff4",
   "hub/deal-quick.js": "b60b7ad8f12e406eb743a4a1ae8804bdf8cc0f363f2e94ad48b7fa86ae0a8231",
   "hub/deal-tool.js": "214485901c30df6a09a6c896ba8093bff9dfc320e1cd5b6ca4ea9c7d358d5bd8",
