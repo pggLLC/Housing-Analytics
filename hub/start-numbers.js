@@ -171,14 +171,16 @@
   // Which band's rent each band is underwritten at. A band whose homes would take more than VERY_THIN of the renters
   // who qualify for it uses the rent of the next lower band that, with those homes added, stays at GOOD or less.
   // Bands are taken from the highest down; a band no lower band can take is listed in tooBig and keeps its own rent.
-  function moves(byBand, pool) {
+  // bands (sorted, lowest first) defaults to the panel's BANDS; Financials passes every band it counts.
+  function moves(byBand, pool, bands) {
+    bands = bands || BANDS;
     var at = {}, load = {}, tooBig = [];
-    BANDS.forEach(function (b) { load[b] = byBand[b] || 0; at[b] = b; });
-    BANDS.slice().reverse().forEach(function (b) {
+    bands.forEach(function (b) { load[b] = byBand[b] || 0; at[b] = b; });
+    bands.slice().reverse().forEach(function (b) {
       var n = byBand[b] || 0, c = n > 0 ? (pool[b] > 0 ? n / pool[b] : Infinity) : 0;
       if (!(n > 0) || !(c > VERY_THIN)) return;
-      for (var i = BANDS.indexOf(b) - 1; i >= 0; i--) {
-        var l = BANDS[i];
+      for (var i = bands.indexOf(b) - 1; i >= 0; i--) {
+        var l = bands[i];
         if (pool[l] > 0 && (load[l] + n) / pool[l] <= GOOD) { at[b] = l; load[l] += n; load[b] -= n; return; }
       }
       tooBig.push(b);
@@ -245,7 +247,7 @@
       area = areas[0];
       if (area.key === 'place') {
         var pp = poolOf(c, area, bands);
-        if (!(sum(pp) > 0) || moves(byBand, pp).tooBig.length) { widened = area; area = areas[areas.length - 1]; }
+        if (!(sum(pp) > 0) || moves(byBand, pp, bands).tooBig.length) { widened = area; area = areas[areas.length - 1]; }
       }
     }
     var pool = poolOf(c, area, bands);
