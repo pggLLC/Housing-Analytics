@@ -427,7 +427,7 @@
     }, 0);
     // An anchor from the guide's own page (its address before the move) lands on the part that holds it.
     // Once the guide is drawn, its glossary terms and column headings get their definitions (see hoverHelp).
-    setTimeout(function () { helpFiles(function (F) { hoverHelp(document.querySelector('.guide-body'), F); }); }, 0);
+    setTimeout(function () { helpFiles(function (F) { hoverHelp(document.querySelector('.guide-body'), F, !!g.termsOnce); }); }, 0);
     function land(at) {
       var held = g.sections.filter(function (x) { return x.id === at || (x.ids || []).indexOf(at) > -1; })[0];
       // The exact element the page's anchor named, when the guide kept it; else the part that held it.
@@ -468,6 +468,17 @@
         map: map, tips: (all[1] && (all[1].tips || all[1])) || {},
         pattern: keys.length ? new RegExp('\\b(' + keys.map(function (k) { return k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')\\b', 'g') : null
       };
+      // Every term with a short definition, the ones not linked on sight included: a guide whose own page defines
+      // each term once at its first use (js/components/inline-glossary.js reads the same list) does so here too.
+      var once = Object.create(null);
+      // A term's key there is its inline_key or its name, and each of its other spellings (scripts/sync-glossary.mjs).
+      ((all[0] && all[0].terms) || []).forEach(function (t) {
+        if (!t || !t.term || !t.definition || !t.short) return;
+        [t.inline_key || t.term].concat(t.aliases || []).forEach(function (k) { if (k && !once[k]) once[k] = t; });
+      });
+      var onceKeys = Object.keys(once).sort(function (a, b) { return b.length - a.length; });
+      HELP.files.once = once;
+      HELP.files.oncePattern = onceKeys.length ? new RegExp('\\b(' + onceKeys.map(function (k) { return k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')\\b', 'g') : null;
       HELP.asked = false;
       then(HELP.files);
     });
@@ -478,7 +489,14 @@
     var cut = text.slice(0, max), sp = cut.lastIndexOf(' ');
     return (sp > max * 0.6 ? cut.slice(0, sp) : cut).replace(/[\s,;:]+$/, '') + '…';
   }
-  function hoverHelp(body, F) {
+  function termMark(t, text) {
+    var full = t.full || t.label || t.term, a = document.createElement('abbr');
+    a.className = 'g-term'; a.setAttribute('tabindex', '0'); a.setAttribute('aria-label', full);
+    a.setAttribute('data-gtip', full + ': ' + clip(t.definition, 160)); a.setAttribute('data-term', t.term);
+    a.textContent = text;
+    return a;
+  }
+  function hoverHelp(body, F, termsOnce) {
     if (!body || body.getAttribute('data-help') === '1') return;
     gtipWire();
     body.setAttribute('data-help', '1');
@@ -490,6 +508,16 @@
       if (!tip || !th.textContent.trim() || th.querySelector('a, button:not(.th-sort), input, select')) return;
       th.setAttribute('data-gtip', tip); th.classList.add('g-tip');
       if (!th.hasAttribute('tabindex')) th.setAttribute('tabindex', '0');
+    });
+    // A definition the guide's page already carries (an abbr with a title, written by the page's own glossary
+    // script before the guide was read) opens the same way as the rest: on hover, focus or a tap.
+    Array.prototype.forEach.call(body.querySelectorAll('abbr[title]:not(.g-term)'), function (a) {
+      var def = a.getAttribute('title'), word = a.textContent.replace(/\s+/g, ' ').trim();
+      if (!def || !word) return;
+      var t = (F.once && F.once[word]) || (F.map && F.map[word]);
+      a.classList.add('g-term'); a.setAttribute('data-gtip', def); a.setAttribute('data-term', t ? t.term : word);
+      a.setAttribute('aria-label', word + ': ' + def); a.removeAttribute('title');
+      if (!a.closest('a, button, summary')) a.setAttribute('tabindex', '0');
     });
     if (!F.pattern) return;
     // Glossary terms: first use in each part of the guide.
@@ -511,12 +539,40 @@
           seen[m[1]] = true;
           frag = frag || document.createDocumentFragment();
           if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
-          var full = t.full || t.label || t.term;
-          var a = document.createElement('abbr');
-          a.className = 'g-term'; a.setAttribute('tabindex', '0'); a.setAttribute('aria-label', full);
-          a.setAttribute('data-gtip', full + ': ' + clip(t.definition, 160)); a.setAttribute('data-term', t.term);
-          a.textContent = m[1];
-          frag.appendChild(a);
+          frag.appendChild(termMark(t, m[1]));
+          last = m.index + m[1].length;
+        }
+        if (frag) { if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last))); par.replaceChild(frag, node); }
+      });
+    });
+    // Once in the whole guide, where its own page does the same: any term still without a definition anywhere in
+    // the guide gets one at its first use. Running words are tried first; a term that is used only in a heading
+    // or a column heading is defined there, as on the page.
+    if (!termsOnce || !F.oncePattern) return;
+    var have = Object.create(null);
+    Array.prototype.forEach.call(body.querySelectorAll('abbr.g-term'), function (a) { have[a.getAttribute('data-term')] = true; });
+    var LOOSE = 'a, button, abbr, code, pre, summary, svg, select, option, textarea, input, .no-glossary, .guide-diagram, .g-cards, th.g-tip';
+    // Last, a term used only inside a link or a fold's title: defined on hover there, and the link or the fold
+    // stays the one thing to press.
+    var LINKS = LOOSE.replace(/^a, /, '').replace(' summary,', '');
+    [SKIP, LOOSE, LINKS].forEach(function (skip) {
+      var w = document.createTreeWalker(body, 4), nodes = [], n;
+      while ((n = w.nextNode())) nodes.push(n);
+      nodes.forEach(function (node) {
+        var par = node.parentNode;
+        if (!par || !node.nodeValue || !node.nodeValue.trim() || (par.closest && par.closest(skip))) return;
+        var sec = par.closest('.guide-section, section');
+        if (sec && sec.getAttribute('lang') && sec.getAttribute('lang') !== 'en') return;
+        var text = node.nodeValue, last = 0, frag = null, m;
+        F.oncePattern.lastIndex = 0;
+        while ((m = F.oncePattern.exec(text))) {
+          if (have[m[1]]) continue;
+          have[m[1]] = true;
+          frag = frag || document.createDocumentFragment();
+          if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+          var mark = termMark(F.once[m[1]], m[1]);
+          if (par.closest('a, summary')) mark.removeAttribute('tabindex');
+          frag.appendChild(mark);
           last = m.index + m[1].length;
         }
         if (frag) { if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last))); par.replaceChild(frag, node); }
