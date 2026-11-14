@@ -333,7 +333,7 @@ html.dark-mode .mb-tiles[data-base="street"] .mb-tile { filter: invert(1) hue-ro
 @media (prefers-color-scheme: dark) { html:not(.light-mode) .mb-tiles[data-base="street"] .mb-tile { filter: invert(1) hue-rotate(180deg) brightness(.95) contrast(.95) saturate(.6); } }
 /* Shading lets the map show through once a reader zooms in to find a street; at state scale it stays solid. */
 .mb-on.is-zoomed-2 path:not(.mk-metro-box) { fill-opacity: .65; }
-.mb-on .pm-counties path { fill-opacity: .6; }
+.mb-on .pm-counties path, .mb-on .mk-inset-counties path { fill-opacity: .6; }
 /* A town map (data-geo) is read street by street, so its shading lets the streets show from the start. */
 .mb-on[data-geo] path:not(.mk-metro-box) { fill-opacity: .7; }
 .mb-on.is-zoomed-2 .pm-counties path, .mb-on.is-zoomed-2 .mk-inset-counties path { fill-opacity: .12; }
@@ -1428,6 +1428,8 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .mk-inset-h { margin: 0 0 .35rem; font-size: 15px; }
 .mk-inset-h .note { display: block; font-size: 14px; }
 .mk-inset-svg { display: block; width: 100%; max-width: 560px; height: auto; border: 1px dashed var(--ink); border-radius: 6px; background: var(--card); }
+.mk-inset-svg.mb-on { background: transparent; }
+.pm-frame.mk-inset-frame { padding-top: 0; max-width: 560px; }
 .mk-inset-counties path { fill: var(--paper); stroke: var(--line-strong); stroke-width: 1.2; }
 .mk-inset circle:not([stroke]), .mk-inset path.mk-g:not([stroke]) { stroke: var(--halo); stroke-width: 1; }
 .mk-g, .mk-inset path.mk-g { fill-rule: evenodd; }

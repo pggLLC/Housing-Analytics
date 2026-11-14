@@ -1196,7 +1196,7 @@
       var geo = [w - ox / (k * sc), n - (H - oy) / sc, w + (W - ox) / (k * sc), n + oy / sc].map(function (v) { return v.toFixed(5); }).join(' ');
       var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" data-geo="' + geo + '" role="img" aria-label="' + esc(label) + '">' +
         '<path d="' + path + '" fill="var(--map-1)" fill-opacity="0.55" stroke="none"/>' +
-        (rings ? '<g fill="var(--c-blue)" opacity="0.16" stroke="none">' + counted.map(function (f) { var c = f.geometry.coordinates; return '<circle cx="' + X(c[0]) + '" cy="' + Y(c[1]) + '" r="' + rr + '"/>'; }).join('') + '</g>' : '') +
+        (rings ? '<g fill="var(--c-blue)" opacity="0.16" stroke="none" data-geo-size="1">' + counted.map(function (f) { var c = f.geometry.coordinates; return '<circle cx="' + X(c[0]) + '" cy="' + Y(c[1]) + '" r="' + rr + '"/>'; }).join('') + '</g>' : '') +
         '<g fill="var(--muted)">' + near.filter(function (f) { return !TZ.countsAsConfirmedStop(f.properties); }).map(function (f) { var c = f.geometry.coordinates; return '<circle cx="' + X(c[0]) + '" cy="' + Y(c[1]) + '" r="' + Math.max(2, dot / 2) + '"/>'; }).join('') + '</g>' +
         '<g fill="var(--c-blue)" stroke="var(--card)" stroke-width="0.7">' + counted.map(function (f) { var c = f.geometry.coordinates; return '<circle cx="' + X(c[0]) + '" cy="' + Y(c[1]) + '" r="' + dot + '"><title>' + esc((f.properties.name || 'Stop') + (f.properties.agency ? ', ' + f.properties.agency : '')) + '</title></circle>'; }).join('') + '</g>' +
         '<path d="' + path + '" fill="none" stroke="var(--ink)" stroke-width="2"/>' +

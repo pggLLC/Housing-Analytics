@@ -176,7 +176,9 @@
     }).join('');
   }
 
-  function attach(svg, B) {
+  // o.fixed: a map that does not zoom (the Denver close-up) gets the tiles, credit and scale bar but no switch of
+  // its own; the switch on the state map above it changes both.
+  function attach(svg, B, o) {
     if (!svg || svg.__mapBase) return null;
     var frame = svg.closest && svg.closest('.pm-frame');
     if (!frame) return null;
@@ -194,7 +196,8 @@
     m.picker.setAttribute('role', 'group');
     m.picker.setAttribute('aria-label', 'Background map');
     m.picker.innerHTML = switchHtml();
-    frame.insertBefore(m.picker, svg);
+    if (o && o.fixed) m.picker.hidden = true;
+    else frame.insertBefore(m.picker, svg);
     m.credit = doc.createElement('p');
     m.credit.className = 'mb-credit';
     m.credit.innerHTML = BASES[chosen()].credit;
