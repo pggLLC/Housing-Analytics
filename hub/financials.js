@@ -1253,6 +1253,8 @@
     if (!form || form.dataset.action !== 'financials') return;
     var parts = route(), name = ev.target.name;
     P.setOverride(parts[1], parts[2], 'financialsDraft', readDraft(form, draftFor(P.get(parts[1]), parts[2])));
+    // Redrawn once the click or Tab that left the field has finished, with focus where the reader moved (redraw.js).
+    if (global.LabRedraw) return global.LabRedraw.after(renderKeepingOpen);
     renderKeepingOpen();
     var again = main.querySelector('[name="' + name + '"]');
     if (again) again.focus();

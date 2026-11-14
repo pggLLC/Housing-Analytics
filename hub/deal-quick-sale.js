@@ -126,7 +126,8 @@
     else if (n === 'sale:tdc') s.tdc = t.value === '' ? null : Number(t.value);
     else if (n === 'sale:units') s.units = t.value === '' ? null : Number(t.value);
     else if (n === 'sale:target') { var g = Number(t.value); if (TARGETS.indexOf(g) !== -1) s.target = g; }
-    Shell.render();
+    // Redrawn once the click or Tab that left the field has finished, with focus where the reader moved (redraw.js).
+    if (global.LabRedraw) global.LabRedraw.after(Shell.render); else Shell.render();
   });
 
   // The full for-sale screen (sale-deal.js) shares these answers, so a reader moves between the two without retyping.

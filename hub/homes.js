@@ -322,17 +322,14 @@
     return { p: P.get(parts[1]), d: d, parts: parts };
   }
 
-  // Recalculate as the visitor types, keeping focus on the field they were in.
+  // Recalculate as the visitor types. The entry is saved at once; the page is redrawn once the click or Tab that
+  // left the field has finished, with focus on the field the visitor moved to (redraw.js).
   main.addEventListener('change', function (ev) {
     var form = ev.target.form;
     if (!form || form.dataset.action !== 'homes') return;
-    var name = ev.target.name, row = ev.target.closest('.mix-row');
-    var rowIndex = row ? row.dataset.row : null;
     saveDraft(form);
-    Shell.render();
-    var sel = (rowIndex != null ? '.mix-row[data-row="' + rowIndex + '"] ' : '') + '[name="' + name + '"]';
-    var again = main.querySelector(sel);
-    if (again) again.focus();
+    if (global.LabRedraw) global.LabRedraw.after(Shell.render);
+    else Shell.render();
   });
   main.addEventListener('click', function (ev) {
     var form = ev.target.form || (ev.target.closest && ev.target.closest('form'));
