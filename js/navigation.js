@@ -65,16 +65,16 @@
       label: "Explore",
       items: [
         { label: "Opportunities", href: "opportunities-hub.html", desc: "Start here: where tax credit deals fit, and what to preserve", isNew: true },
-        { label: "Compare Opportunity Scores", href: "compare.html",                 desc: "2 to 6 places side by side", isNew: true },
+        { label: "Compare Opportunity Scores", href: "places-hub.html#/places/compare",                 desc: "2 to 6 places side by side", isNew: true },
         { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Rank 546 geographies by housing need" },
         { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "Market signals, construction costs, LIHTC history, funding sources" },
         { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "Browse CHFA LIHTC projects" },
         { label: "Where Colorado's Housing Money Goes", href: "where-housing-money-goes.html", desc: "Every CHFA, OEDIT and DOLA award by county, town and developer", isNew: true },
         { label: "Deal Summaries",        href: "deal-summary.html",              desc: "Sourced write-ups of CHFA tax credit awards: mix, money, status", isNew: true },
         { label: "Prop 123 Land Banking Awards", href: "land-banking-awards.html", desc: "Every Prop 123 land banking award, mapped", isNew: true },
-        { label: "Commuting and Jobs",    href: "commuting.html",                 desc: "Who commutes in to work, what it costs, largest employers", isNew: true },
+        { label: "Commuting and Jobs",    href: "opportunities-hub.html#/opportunity/commuting",                 desc: "Who commutes in to work, what it costs, largest employers", isNew: true },
         { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
-        { label: "Preservation Tracking", href: "preservation.html",              desc: "Properties on CHFA's preservation map" },
+        { label: "Preservation Tracking", href: "opportunities-hub.html#/opportunity/preservation",              desc: "Properties on CHFA's preservation map" },
       ]
     },
     {
@@ -101,7 +101,7 @@
         { label: "Data and methods", href: "data-hub.html", desc: "Start here: every source, its date, and how it is checked", isNew: true },
         { label: "Data Trust Center",      href: "data-review-hub.html",           desc: "Sources, freshness and how we check the data" },
         { label: "File Browser",          href: "data-explorer.html",             desc: "Browse every dataset with previews" },
-        { label: "Data Map",              href: "data-map-browser.html",          desc: "LIHTC, QCT/DDA, OZ, amenities, flood zones", isNew: true },
+        { label: "Data Map",              href: "data-hub.html#/data/map",          desc: "LIHTC, QCT/DDA, OZ, amenities, flood zones", isNew: true },
         { label: "Glossary",              href: "#glossary",                      desc: "Plain definitions of tax credit and housing terms" },
       ]
     },
@@ -111,15 +111,15 @@
         { label: "— Start here —", isHeader: true },
         { label: "Policy and research", href: "policy-hub.html", desc: "Start here: laws, money, elections and guides in one place", isNew: true },
         { label: "— Current —", isHeader: true },
-        { label: "Housing News",           href: "policy-briefs.html",             desc: "Headlines; check the linked source" },
+        { label: "Housing News",           href: "policy-hub.html#/news",             desc: "Headlines; check the linked source" },
         { label: "Sunday Digest",          href: "sunday-digest.html",             desc: "The week in Colorado housing, every Sunday", isNew: true },
         { label: "Policy & Legislation",   href: "housing-legislation-2026.html",  desc: "Laws and rules we track" },
-        { label: "Colorado Elections",     href: "colorado-elections.html",        desc: "2026 ballot and officials" },
+        { label: "Colorado Elections",     href: "policy-hub.html#/elections",        desc: "2026 ballot and officials" },
         { label: "— Research —", isHeader: true },
         { label: "Research & Analysis",    href: "insights.html",                  desc: "Dated analysis and briefs" },
-        { label: "Local Housing Incentives", href: "local-incentives.html",       desc: "What each town and county offers" },
+        { label: "Local Housing Incentives", href: "places-hub.html#/places/incentives",       desc: "What each town and county offers" },
         { label: "Services in Affordable Housing", href: "resident-services.html", desc: "How services help residents stay housed" },
-        { label: "Tax Credit Equity Markets", href: "article-pricing.html",        desc: "Equity pricing benchmarks" },
+        { label: "Tax Credit Equity Markets", href: "deal-hub.html#/equity-pricing",        desc: "Equity pricing benchmarks" },
         { label: "— How the numbers are made —", isHeader: true },
         { label: "White Paper for Planners", href: "apa-white-paper.html",        desc: "To explain a finding in plain language" },
         { label: "Working Paper",         href: "working-paper.html",             desc: "Why the system works the way it does" },
@@ -343,13 +343,13 @@
 
     if (county) {
       wrap.innerHTML =
-        '<a href="' + root + 'select-jurisdiction.html" class="jurisdiction-pill" title="Change jurisdiction">' +
+        '<a href="' + root + 'select-jurisdiction.html?classic=1" class="jurisdiction-pill" title="Change jurisdiction">' +
           '<span class="jurisdiction-pill__name">' + _esc(pillLabel) + '</span>' +
           ' <span aria-hidden="true" style="opacity:.5;font-size:.75em">▾</span>' +
         '</a>';
     } else {
       wrap.innerHTML =
-        '<a href="' + root + 'select-jurisdiction.html" class="jurisdiction-pill jurisdiction-pill--empty">' +
+        '<a href="' + root + 'select-jurisdiction.html?classic=1" class="jurisdiction-pill jurisdiction-pill--empty">' +
           '+ Choose jurisdiction' +
         '</a>';
     }
@@ -567,12 +567,12 @@
           <strong>Data</strong>
           <a href="${normalizeHref('data-review-hub.html')}">Data Trust Center</a>
           <a href="${normalizeHref('data-explorer.html')}">File Browser</a>
-          <a href="${normalizeHref('data-map-browser.html')}">Data Map</a>
+          <a href="${normalizeHref('data-hub.html#/data/map')}">Data Map</a>
           <a href="#glossary">Glossary</a>
         </div>
         <div class="footer-col">
           <strong>Insights</strong>
-          <a href="${normalizeHref('policy-briefs.html')}">Housing News</a>
+          <a href="${normalizeHref('policy-hub.html#/news')}">Housing News</a>
           <a href="${normalizeHref('insights.html')}">Research &amp; Analysis</a>
           <a href="${normalizeHref('methods.html')}">Methods</a>
           <a href="${normalizeHref('housing-help.html')}">If You Need Housing Now</a>
