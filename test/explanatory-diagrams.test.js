@@ -341,6 +341,19 @@ test('the printed 9% round counts are the latest three years in the data files',
   checks += 2;
 });
 
+test('the printed Round Two (4% + state credit) counts are the latest three years in the data files, with pending years named', () => {
+  const want = RoundOdds.phrase(RoundOdds.rounds(oddsData[0], oddsData[1], 3, 'two'), RoundOdds.pending(oddsData[0], oddsData[1], 'two'));
+  const spans = guide.querySelectorAll('[data-dg="awards2"]');
+  assert.strictEqual(spans.length, 2, 'the tree and the table each carry the Round Two counts');
+  spans.forEach((sp) => assert.strictEqual(sp.textContent.trim(), want,
+    'printed Round Two counts drifted from the data files; run the page and copy what it shows'));
+  const apps = { meta: { documents: [{ round_label: '2030 Round Two', credit_type: '4%', status: 'ok', rows: 20 }, { round_label: '2031 Round Two', credit_type: '4%', status: 'ok', rows: 25 }] } };
+  const ledger = { awards: [{ federal_credit_type: '4%', round: 2, year: 2030 }, { federal_credit_type: '4%', year: 2031 }, { federal_credit_type: '9%', round: 2, year: 2031 }] };
+  assert.strictEqual(RoundOdds.phrase(RoundOdds.rounds(apps, ledger, 3, 'two'), RoundOdds.pending(apps, ledger, 'two')),
+    '1 of 20 in 2030; 25 applied in 2031, awards pending', 'a year with no Round Two award report is pending, never 0 awarded');
+  checks += 3;
+});
+
 test('the round-odds line reads a file the public build serves, and it matches the full applications file', () => {
   // data/jurisdiction-briefs is blocked from the public build, so the line
   // would never update on the live site if it read the full file.
