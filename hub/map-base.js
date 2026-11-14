@@ -8,8 +8,8 @@
 //   - a scale bar in miles that follows the zoom.
 //
 // Tiles are HTML images laid under the SVG, not SVG images, so each one can carry referrerpolicy="origin": the
-// member site sends no Referer by default, and OpenStreetMap refuses tiles without one. Street tiles use the a/b/c
-// hosts the member site's image policy (*.tile.openstreetmap.org) already allows.
+// member site sends no Referer by default, and OpenStreetMap refuses tiles without one. Street tiles use the one
+// host OSM's tile policy names, tile.openstreetmap.org, which HA's _headers image policy allows for the member site.
 //
 // The tiles are Web Mercator and the lab's maps are plain equirectangular, so each tile is placed on its own
 // corners. Inside one tile the two differ by a pixel or two, so streets sit under the dots they belong to at every
@@ -25,20 +25,22 @@
   var BASES = {
     street: {
       label: 'Streets',
-      url: function (z, x, y) { return 'https://' + 'abc'.charAt((x + y) % 3) + '.tile.openstreetmap.org/' + z + '/' + x + '/' + y + '.png'; },
+      // OSM's tile policy asks for this one host (https://operations.osmfoundation.org/policies/tiles/).
+      url: function (z, x, y) { return 'https://tile.openstreetmap.org/' + z + '/' + x + '/' + y + '.png'; },
       credit: 'Map © <a href="' + OSM_COPY + '" rel="noopener">OpenStreetMap</a> contributors',
       max: 19
     },
     satellite: {
       label: 'Satellite',
       url: function (z, x, y) { return 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/' + z + '/' + y + '/' + x; },
-      credit: 'Imagery © <a href="https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9" rel="noopener">Esri</a>, Maxar, Earthstar Geographics',
+      // Credits are the services' own copyrightText (MapServer?f=json, read 14 Nov 2026).
+      credit: 'Imagery © <a href="https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9" rel="noopener">Esri</a>. Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community',
       max: 19
     }
   };
   var BACKUP = {
     url: function (z, x, y) { return 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/' + z + '/' + y + '/' + x; },
-    credit: 'some tiles © <a href="https://www.arcgis.com/home/item.html?id=3b93337983e9436f8db950e38a8629af" rel="noopener">Esri</a>, HERE, Garmin, OpenStreetMap contributors'
+    credit: 'some tiles © <a href="https://www.arcgis.com/home/item.html?id=3b93337983e9436f8db950e38a8629af" rel="noopener">Esri</a>. Sources: Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan, Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC, (c) OpenStreetMap contributors, and the GIS User Community'
   };
   var KEY = 'coho-map-base';
   var MAX_TILES = 64;

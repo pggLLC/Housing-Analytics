@@ -53,6 +53,14 @@
     var sized = svg.getAttribute('data-map') === 'data' ? [] : Array.prototype.slice.call(svg.querySelectorAll('circle')).filter(function (c) {
       return !c.closest('.mk-cities, [data-geo-size]') && isFinite(parseFloat(c.getAttribute('r')));
     }).map(function (c) { return [c, parseFloat(c.getAttribute('r'))]; });
+    // Shaped marks (squares, triangles from the map kit) shrink with the circles about their own centres, so
+    // marks sized by a value stay comparable across shapes at every zoom.
+    var shaped = svg.getAttribute('data-map') === 'data' ? [] : Array.prototype.slice.call(svg.querySelectorAll('path.mk-g')).filter(function (g) {
+      return !g.closest('.mk-cities, [data-geo-size]') && typeof g.getBBox === 'function';
+    }).map(function (g) {
+      var b; try { b = g.getBBox(); } catch (_) { return null; }
+      return b && (b.width || b.height) ? [g, b.x + b.width / 2, b.y + b.height / 2] : null;
+    }).filter(Boolean);
 
     svg.classList.add('pm-zoomable');
     var tip = doc.createElement('div');
@@ -117,6 +125,10 @@
       svg.setAttribute('viewBox', [vb.x, vb.y, vb.w, vb.h].map(function (n) { return +n.toFixed(2); }).join(' '));
       var s = scale(), k = Math.pow(s, -DOT_GROW);
       sized.forEach(function (d) { d[0].setAttribute('r', +(d[1] * k).toFixed(2)); });
+      shaped.forEach(function (d) {
+        if (k > 0.999) { d[0].removeAttribute('transform'); return; }
+        d[0].setAttribute('transform', 'translate(' + d[1].toFixed(2) + ' ' + d[2].toFixed(2) + ') scale(' + k.toFixed(4) + ') translate(' + (-d[1]).toFixed(2) + ' ' + (-d[2]).toFixed(2) + ')');
+      });
       svg.classList.toggle('is-zoomed', s > 1.01);
       svg.classList.toggle('is-zoomed-2', s >= 2);
       controls.querySelector('[data-z="out"]').disabled = s <= 1.01;

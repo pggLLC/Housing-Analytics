@@ -22,20 +22,43 @@
     { id: 'lihtc', glyph: 'circle', group: 'Affordable housing', label: 'Tax credit properties', file: 'data/chfa-lihtc.json', kind: 'point', shape: 'dot', color: 'var(--layer-lihtc)', src: 'CHFA', name: function (p) { return p.PROJECT + ', ' + p.PROJ_CTY + (p.N_UNITS ? ': ' + num(p.N_UNITS) + ' homes' : ''); }, short: function (p) { return p.PROJECT + ', ' + p.PROJ_CTY; } },
     { id: 'qct', group: 'Tax credit designations', label: 'Qualified Census Tracts', file: 'data/qct-colorado.json', kind: 'area', shape: 'fill', color: 'var(--layer-qct)', src: 'HUD, 2026 list', county: function (p) { return p.STATE && p.COUNTY ? p.STATE + p.COUNTY : null; }, name: function (p) { return (p.NAME || 'Census tract') + ' (' + p.GEOID + ')'; } },
     { id: 'dda', group: 'Tax credit designations', label: 'Difficult Development Areas', file: 'data/dda-colorado.json', kind: 'area', shape: 'hatch', color: 'var(--rust)', src: 'HUD, 2026 list', county: function (p) { return p.DDA_KIND === 'county' ? p.GEOID : null; }, name: function (p) { return p.DDA_NAME || p.NAME || 'Difficult Development Area'; } },
-    { id: 'oz', group: 'Tax credit designations', label: 'Opportunity Zones (2018)', file: 'data/market/opportunity_zones_co.geojson', kind: 'area', shape: 'outline', color: 'var(--layer-oz)', src: 'US Treasury', county: function (p) { return p.county_fips || null; }, name: function (p) { return 'Tract ' + p.geoid; } },
+    { id: 'oz', group: 'Tax credit designations', label: 'Opportunity Zones (2018 round)', file: 'data/market/opportunity_zones_co.geojson', kind: 'area', shape: 'outline', color: 'var(--layer-oz)', src: 'US Treasury, in force to the end of 2028', county: function (p) { return p.county_fips || null; }, name: function (p) { return 'Tract ' + p.geoid; } },
+    // The 2027-36 round: Treasury lists tract numbers only (data/market/opportunity_zones_co_2027.json, designated
+    // 5 Nov 2026), drawn from the site's 2020 Census tract shapes (data/market/tract_boundaries_co.geojson); all 91
+    // numbers match a tract there. Both rounds are in force in 2027 and 2028.
+    { id: 'oz27', group: 'Tax credit designations', label: 'Opportunity Zones (2027–36 round)', file: 'data/market/tract_boundaries_co.geojson', join: 'data/market/opportunity_zones_co_2027.json', kind: 'area', shape: 'fill', color: 'var(--layer-oz)', src: 'US Treasury, designated',
+      keep: function (j) { var set = {}; ((j && j.tracts) || []).forEach(function (t) { set[t.geoid] = t; }); return set; },
+      asOf: function (j) { return j && j.meta && j.meta.designated_on; },
+      county: function (p) { return p.GEOID ? String(p.GEOID).slice(0, 5) : null; }, name: function (p) { return 'Tract ' + p.GEOID + (p.rural ? ', rural zone' : ''); } },
+    // Boundaries, from the same files as the full Data Map (data-map-browser.html).
+    { id: 'places', group: 'Boundaries', label: 'Town and city limits', unit: 'towns and places', file: 'data/co-place-boundaries.geojson', kind: 'area', shape: 'outline', color: 'var(--layer-places)', src: 'Census TIGERweb places and CDPs',
+      asOf: function () { var f = files['data/co-place-boundaries.geojson']; return f && f.data && f.data.metadata && String(f.data.metadata.generated_at_utc || '').slice(0, 10); },
+      name: function (p) { return p.name || 'Place'; } },
+    { id: 'tracts', group: 'Boundaries', label: 'Census tracts', unit: 'tracts', file: 'data/market/tract_boundaries_co.geojson', kind: 'area', shape: 'outline', color: 'var(--layer-tracts)', src: 'Census TIGERweb, 2020 tracts',
+      county: function (p) { return p.GEOID ? String(p.GEOID).slice(0, 5) : null; }, name: function (p) { return 'Tract ' + p.GEOID; } },
     { id: 'jobs', glyph: 'square', group: 'Jobs and services', label: 'Job centers', file: 'data/market/employment_centers_co.geojson', kind: 'point', shape: 'dot', color: 'var(--layer-jobs)', src: 'Census LEHD', min: function (p) { return p.totalJobs >= 2000; }, name: function (p) { return p.name; } },
     { id: 'schools', glyph: 'diamond', group: 'Jobs and services', label: 'Schools', file: 'data/market/schools_co.geojson', kind: 'point', shape: 'dot', color: 'var(--layer-schools)', src: 'NCES 2021–22', name: function (p) { return p.school_name; } },
     { id: 'hospitals', glyph: 'cross', group: 'Jobs and services', label: 'Hospitals', file: 'data/market/hospitals_co.geojson', kind: 'point', shape: 'dot', color: 'var(--layer-hospitals)', src: 'HIFLD and CDPHE', name: function (p) { return p.name; } },
     { id: 'clinics', glyph: 'tdown', group: 'Jobs and services', label: 'Community health centers', file: 'data/market/health_centers_co.geojson', kind: 'point', shape: 'dot', color: 'var(--layer-clinics)', src: 'HRSA', name: function (p) { return p.name; } },
     { id: 'grocery', glyph: 'triangle', group: 'Jobs and services', label: 'Grocery stores', file: 'data/amenities/grocery_co.geojson', kind: 'point', shape: 'dot', color: 'var(--layer-grocery)', src: 'OpenStreetMap', name: function (p) { return p.name || 'Grocery store'; } },
-    { id: 'parks', glyph: 'ring', group: 'Jobs and services', label: 'Parks', file: 'data/amenities/parks_co.geojson', kind: 'point', shape: 'dot', color: 'var(--layer-parks)', src: 'OpenStreetMap', name: function (p) { return p.name || 'Park'; } }
+    { id: 'parks', glyph: 'ring', group: 'Jobs and services', label: 'Parks', file: 'data/amenities/parks_co.geojson', kind: 'point', shape: 'dot', color: 'var(--layer-parks)', src: 'OpenStreetMap', name: function (p) { return p.name || 'Park'; } },
+    { id: 'transit', glyph: 'circle', group: 'Jobs and services', label: 'Transit stops', file: 'data/amenities/transit_stops_statewide_co.geojson', kind: 'point', shape: 'dot', color: 'var(--layer-transit)', src: 'CDOT and agency feeds, confirmed stops',
+      min: function (p) { return p.reliability === 'confirmed'; }, name: function (p) { return (p.name || 'Stop') + (p.agency ? ' (' + p.agency + ')' : ''); } },
+    { id: 'retail', glyph: 'square', group: 'Jobs and services', label: 'Shops and restaurants', file: 'data/amenities/retail_nodes_co.geojson', kind: 'point', shape: 'dot', color: 'var(--layer-retail)', src: 'OpenStreetMap',
+      name: function (p) { return (p.name || 'Unnamed') + ' (' + String(p.shop || p.amenity || p.leisure || 'shop').replace(/_/g, ' ') + ')'; } },
+    { id: 'flood', group: 'Environment', label: 'FEMA high-risk flood zones', file: 'data/market/flood_zones_co.geojson', kind: 'area', shape: 'fill', color: 'var(--layer-flood)', src: 'FEMA National Flood Hazard Layer, simplified',
+      name: function (p) { return 'FEMA flood zone ' + (p.FLD_ZONE || '') + ' (1% annual chance)'; } },
+    { id: 'eji', glyph: 'diamond', group: 'Environment', label: 'Tracts with high or moderate environmental burden', unit: 'tracts', file: 'data/market/environmental_constraints_co.geojson', kind: 'point', shape: 'dot', color: 'var(--layer-eji)', src: 'CDC Environmental Justice Index 2022',
+      min: function (p) { return p.risk_category === 'high' || p.risk_category === 'moderate'; },
+      county: function (p) { return p.county_fips || null; }, name: function (p) { return p.name + ', ' + p.risk_category + ' risk (EJI ' + Math.round(p.eji_percentile * 100) + 'th percentile)'; } }
   ];
   var BY_ID = {};
   LAYERS.forEach(function (l) { BY_ID[l.id] = l; });
-  // "What's here" always answers these three for a searched or tapped spot, drawn or not.
-  var DESIGNATIONS = ['qct', 'dda', 'oz'];
+  // "What's here" always answers these for a searched or tapped spot, drawn or not. Both Opportunity Zone
+  // rounds are answered: the 2018 zones stay in force to the end of 2028, the 2027 zones start in 2027.
+  var DESIGNATIONS = ['qct', 'dda', 'oz', 'oz27'];
   var COUNTIES = 'data/boundaries/counties_co.geojson', PLACES = 'data/co-place-centroids.json';
-  var LIVE_ONLY = ['Place boundaries', 'Census tracts', 'Transit stops', 'Retail centers', 'Flood zones', 'Natural and road barriers', 'Commute flows', 'Environmental burden', 'FEMA floodplain (live service)'];
+  var LIVE_ONLY = ['Natural and road barriers', 'Commute flows', 'FEMA floodplain (live service)'];
 
   // ---------- projection (plain equirectangular at Colorado's latitude) ----------
   // Statewide frame and projection from site/map-kit.js.
@@ -108,8 +131,21 @@
   function feats(L) {
     var f = files[L.file];
     if (!f || !f.data) return null;
-    if (!f.list) f.list = (f.data.features || []).filter(function (x) { return x.geometry && (!L.min || L.min(x.properties || {})); });
-    return f.list;
+    // A layer with a join keeps only the features its second file names (the 2027 zones from the tract shapes).
+    var j = L.join ? files[L.join] : null;
+    if (L.join && (!j || !j.data)) return null;
+    // Two layers can share one file (tract outlines and the 2027 zones), so each layer keeps its own list.
+    f.lists = f.lists || {};
+    if (!f.lists[L.id]) {
+      var keep = L.join ? L.keep(j.data) : null;
+      f.lists[L.id] = (f.data.features || []).filter(function (x) {
+        var p = x.properties || {};
+        if (keep && !keep[p.GEOID]) return false;
+        if (keep) p.rural = !!keep[p.GEOID].rural;
+        return x.geometry && (!L.min || L.min(p));
+      });
+    }
+    return f.lists[L.id];
   }
 
   // ---------- address state ----------
@@ -242,8 +278,8 @@
     var ids = onIds(params), at = params.get('at'), label = params.get('label');
     var on = ids.map(function (id) { return BY_ID[id]; });
     var cs = need(COUNTIES), ps = need(PLACES);
-    on.forEach(function (L) { need(L.file); });
-    if (at) DESIGNATIONS.forEach(function (id) { need(BY_ID[id].file); });
+    on.forEach(function (L) { need(L.file); if (L.join) need(L.join); });
+    if (at) DESIGNATIONS.forEach(function (id) { need(BY_ID[id].file); if (BY_ID[id].join) need(BY_ID[id].join); });
 
     // Keep the reader's zoom across re-renders (a layer switched, a tap, a file arriving); a new search
     // target zooms to it instead.
@@ -262,7 +298,7 @@
           var isOn = ids.indexOf(x.id) >= 0;
           return '<li><a class="chip' + (isOn ? ' is-on' : '') + '" href="' + esc(href(toggled(ids, x.id), at, label)) + '"' + (isOn ? ' aria-current="true"' : '') + ' data-layer="' + x.id + '">' + swatch(x) + esc(x.label) + '</a></li>';
         }).join('') + '</ul></div>';
-      }).join('') + '</nav><p class="note dm-more">' + esc(LIVE_ONLY.length) + ' more layers, among them transit stops, flood zones, place boundaries and census tracts, are on the <a href="' + LIVE + 'data-map-browser.html">full Data Map ↗</a>.</p></details>';
+      }).join('') + '</nav><p class="note dm-more">' + esc(LIVE_ONLY.length) + ' more layers (road and river barriers, commute flows and FEMA’s live floodplain service) are on the <a href="' + LIVE + 'data-map-browser.html">full Data Map ↗</a>.</p></details>';
     var search = '<form class="dm-search" data-dm-search role="search" autocomplete="off">' +
       '<label for="dm-q">Find an address, town or county</label>' +
       '<div class="dm-search-row"><input id="dm-q" name="dmq" type="search" placeholder="e.g. Pueblo, Eagle County, 1313 Sherman St Denver" value="' + esc(label || (t && t.kind !== 'point' ? t.label : '')) + '" aria-describedby="dm-q-help" aria-autocomplete="list" aria-controls="dm-suggest">' +
@@ -276,7 +312,7 @@
     }) + search;
 
     if (cs.error) return head + picker + '<p class="callout">The county outlines did not load (' + esc(cs.error) + ').</p>';
-    var waiting = on.filter(function (L) { return !files[L.file].data && !files[L.file].error; });
+    var waiting = on.filter(function (L) { var j = L.join && files[L.join]; return (!files[L.file].data && !files[L.file].error) || (j && !j.data && !j.error); });
     if (!cs.data || waiting.length) return head + picker + '<p role="status" class="note">Loading ' + esc((waiting.length ? waiting.map(function (L) { return L.label.toLowerCase(); }).join(', ') : 'county outlines')) + '…</p>';
 
     var outline = cs.data.features.map(function (f) {
@@ -288,7 +324,8 @@
     var legend = [], insetGroups = [];
     var layers = order.map(function (L) {
       var st = files[L.file];
-      if (st.error) { legend.push({ L: L, text: 'did not load (' + st.error + ')' }); return ''; }
+      var jt = L.join && files[L.join], err = st.error || (jt && jt.error);
+      if (err) { legend.push({ L: L, text: 'did not load (' + err + ')' }); return ''; }
       var list = feats(L), shapes = [], drawn = 0, near = [];
       list.forEach(function (f) {
         var tip = '<title>' + esc(L.name(f.properties || {})) + '</title>';
@@ -304,7 +341,7 @@
         drawn++;
       });
       var meta = st.data.meta || {};
-      var asOf = day(st.data.fetchedAt || meta.generated || meta.generated_at) || (st.data.designationYear ? String(st.data.designationYear) : null);
+      var asOf = L.asOf ? L.asOf(files[L.join] && files[L.join].data) : day(st.data.fetchedAt || meta.generated || meta.generated_at) || (st.data.designationYear ? String(st.data.designationYear) : null);
       legend.push({ L: L, n: drawn, asOf: asOf });
       if (L.kind === 'point' && near.length) insetGroups.push({ cls: 'dm-point dm-inset-' + L.id, style: '--c:' + L.color, dots: near });
       return '<g class="dm-layer dm-' + L.kind + ' dm-' + L.shape + '" data-layer="' + L.id + '" style="--c:' + L.color + '"' + (L.shape === 'hatch' ? ' fill="url(#dm-hatch-' + L.id + ')"' : '') + '>' + shapes.join('') + '</g>';
@@ -317,13 +354,13 @@
     var legendHtml = legend.length ? '<ul class="dm-legend" aria-label="Layers on the map">' + legend.map(function (r) {
       var L = r.L;
       return '<li>' + swatch(L) + '<span class="dm-legend-name"><strong>' + esc(L.label) + '</strong> <span class="note">' +
-        (r.text ? esc(r.text) : esc(num(r.n) + (L.kind === 'area' ? ' areas' : ' places') + (L.id === 'jobs' ? ' (tracts with 2,000 or more jobs)' : '') + '. ' + L.src + (r.asOf ? ', ' + r.asOf : '') + '.')) +
+        (r.text ? esc(r.text) : esc(num(r.n) + (L.unit ? ' ' + L.unit : L.kind === 'area' ? ' areas' : ' places') + (L.id === 'jobs' ? ' (tracts with 2,000 or more jobs)' : '') + '. ' + L.src + (r.asOf ? ', ' + r.asOf : '') + '.')) +
         ' <a href="' + esc('#/data/explorer?file=' + encodeURIComponent(L.file.replace(/^data\//, ''))) + '">File</a></span></span>' +
         '<a class="dm-off" href="' + esc(href(toggled(ids, L.id), at, label)) + '" aria-label="' + esc('Turn off ' + L.label) + '">Off</a></li>';
     }).join('') + '</ul>' : '<p class="note dm-legend-empty">No layers on. Pick one above.</p>';
     // Map kit part 2: a visible title that says what is drawn, with the counts, not alt text.
     var drawnL = legend.filter(function (r) { return !r.text; });
-    var mapTitle = drawnL.length ? drawnL.map(function (r) { return num(r.n) + ' ' + r.L.label.replace(/^./, function (c) { return c.toLowerCase(); }); }).join(', ').replace(/, ([^,]*)$/, ' and $1') + ' across Colorado' + (t ? ', around ' + (t.label || 'the tapped spot') : '') : 'Colorado, with no layers on';
+    var mapTitle = drawnL.length ? drawnL.map(function (r) { return num(r.n) + ' ' + r.L.label.replace(/^[A-Z](?=[a-z]*( [a-z(]|$))/, function (c) { return c.toLowerCase(); }); }).join(', ').replace(/, ([^,]*)$/, ' and $1') + ' across Colorado' + (t ? ', around ' + (t.label || 'the tapped spot') : '') : 'Colorado, with no layers on';
     var aria = 'Map of Colorado' + (on.length ? ' showing ' + on.map(function (L) { return L.label; }).join(', ') : '') + (t ? ', centered on ' + (t.label || 'a tapped spot') : '');
 
     lastAt = at;

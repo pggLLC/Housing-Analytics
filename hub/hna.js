@@ -2019,9 +2019,9 @@
       var where = isCounty ? 'in ' + entry.label : 'within 30 miles of ' + placeShort;
       var mapLabel = 'Map of ' + num(inScope.length) + ' affordable properties ' + where + ', coloured by program';
       var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(mapLabel) + '">' +
-        (isCounty ? '' : '<circle cx="' + X(lon0) + '" cy="' + Y(lat0) + '" r="' + (MI / 69.0 * sc).toFixed(1) + '" fill="var(--map-empty)" stroke="var(--grey-line)" stroke-width="0.7" stroke-dasharray="4,4"/>') +
+        (isCounty ? '' : '<circle class="pm-reach" data-geo-size="1" cx="' + X(lon0) + '" cy="' + Y(lat0) + '" r="' + (MI / 69.0 * sc).toFixed(1) + '" fill="var(--map-empty)" stroke="var(--grey-line)" stroke-width="0.7" stroke-dasharray="4,4"/>') +
         '<path d="' + path + '" fill="var(--map-1)" fill-opacity="0.55" stroke="var(--ink)" stroke-width="1.5"/>' +
-        (isCounty ? '' : '<defs><clipPath id="pm-ring"><circle cx="' + X(lon0) + '" cy="' + Y(lat0) + '" r="' + (MI / 69.0 * sc).toFixed(1) + '"/></clipPath></defs>') +
+        (isCounty ? '' : '<defs><clipPath id="pm-ring"><circle data-geo-size="1" cx="' + X(lon0) + '" cy="' + Y(lat0) + '" r="' + (MI / 69.0 * sc).toFixed(1) + '"/></clipPath></defs>') +
         '<g' + (isCounty ? '' : ' clip-path="url(#pm-ring)"') + '>' +
         (ddas.length ? '<defs><pattern id="pm-dda" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="7" stroke="var(--rust)" stroke-width="1.6"/></pattern></defs>' +
           '<g class="pm-dda" fill="url(#pm-dda)" stroke="var(--rust)" stroke-width="1">' + ddas.map(function (f) { return '<path d="' + draw(f.geometry) + '"><title>' + esc('Difficult Development Area: ' + (f.properties.DDA_NAME || f.properties.NAME || '') + (f.properties.ZCTA5 ? ', ZIP code ' + f.properties.ZCTA5 : '')) + '</title></path>'; }).join('') + '</g>' : '') +

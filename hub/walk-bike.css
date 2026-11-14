@@ -46,6 +46,8 @@
 
 .wb-map svg { border: 1px solid var(--line); border-radius: 8px; }
 .wb-map-bg { fill: var(--map-empty); }
+/* Over the street map or satellite (site/map-base.js) the blank backing would hide the tiles. */
+.mb-on .wb-map-bg { fill: transparent; }
 .wb-bgs path { stroke: var(--card); stroke-width: .6; }
 .wb-outline { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 5 3; }
 .wb-trails polyline { fill: none; stroke-width: 1.6; stroke-linecap: round; }

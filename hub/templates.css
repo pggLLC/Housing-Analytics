@@ -337,6 +337,12 @@ html.dark-mode .mb-tiles[data-base="street"] .mb-tile { filter: invert(1) hue-ro
 /* A town map (data-geo) is read street by street, so its shading lets the streets show from the start. */
 .mb-on[data-geo] path:not(.mk-metro-box) { fill-opacity: .7; }
 .mb-on.is-zoomed-2 .pm-counties path, .mb-on.is-zoomed-2 .mk-inset-counties path { fill-opacity: .12; }
+/* The see-through rules above are for shaded maps; data layers and point shapes keep their own strength. */
+.mb-on.mb-on .dm-layer.dm-fill path { fill-opacity: .28; }
+.mb-on.mb-on .dm-layer.dm-outline path { fill-opacity: .06; }
+.mb-on.mb-on .dm-layer.dm-point path.dm-g, .mb-on.mb-on .mk-inset .dm-point path.mk-g { fill-opacity: .9; }
+.mb-on.mb-on .pm-layer path.mk-g { fill-opacity: .85; }
+.mb-on .pm-reach { fill: transparent; }
 .pm-frame .pm-zoom { z-index: 2; }
 .mb-switch { position: absolute; z-index: 2; top: 6px; left: 6px; display: inline-flex; border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; background: var(--card); }
 .mb-switch button { min-height: 36px; padding: 0 .7rem; font: inherit; font-size: 14px; font-weight: 600; color: var(--ink); background: var(--card); border: 0; cursor: pointer; }
