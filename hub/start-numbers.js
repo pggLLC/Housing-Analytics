@@ -26,6 +26,8 @@
   var P = global.LabProjects;
   var esc = Shell.esc;
   var BANDS = [30, 40, 50, 60];
+  // The bands Financials' capture check can step a weak band down to: the unit grid's bands up to 80%.
+  var STEP_BANDS = [20, 30, 40, 50, 60, 70, 80];
   var SIZES = ['efficiency', '1BR', '2BR', '3BR'];
   var SIZE_PLURAL = { efficiency: ['studio', 'studios'], '1BR': ['one-bedroom', 'one-bedrooms'], '2BR': ['two-bedroom', 'two-bedrooms'], '3BR': ['three-bedroom', 'three-bedrooms'] };
   var SHORT = { efficiency: 'Studio', '1BR': '1 BR', '2BR': '2 BR', '3BR': '3 BR' };
@@ -169,14 +171,16 @@
   // Which band's rent each band is underwritten at. A band whose homes would take more than VERY_THIN of the renters
   // who qualify for it uses the rent of the next lower band that, with those homes added, stays at GOOD or less.
   // Bands are taken from the highest down; a band no lower band can take is listed in tooBig and keeps its own rent.
-  function moves(byBand, pool) {
+  // bands (sorted, lowest first) defaults to the panel's BANDS; Financials passes every band it counts.
+  function moves(byBand, pool, bands) {
+    bands = bands || BANDS;
     var at = {}, load = {}, tooBig = [];
-    BANDS.forEach(function (b) { load[b] = byBand[b] || 0; at[b] = b; });
-    BANDS.slice().reverse().forEach(function (b) {
+    bands.forEach(function (b) { load[b] = byBand[b] || 0; at[b] = b; });
+    bands.slice().reverse().forEach(function (b) {
       var n = byBand[b] || 0, c = n > 0 ? (pool[b] > 0 ? n / pool[b] : Infinity) : 0;
       if (!(n > 0) || !(c > VERY_THIN)) return;
-      for (var i = BANDS.indexOf(b) - 1; i >= 0; i--) {
-        var l = BANDS[i];
+      for (var i = bands.indexOf(b) - 1; i >= 0; i--) {
+        var l = bands[i];
         if (pool[l] > 0 && (load[l] + n) / pool[l] <= GOOD) { at[b] = l; load[l] += n; load[b] -= n; return; }
       }
       tooBig.push(b);
@@ -184,13 +188,82 @@
     return { at: at, tooBig: tooBig };
   }
 
+  // Market capture for any homes by band (paul, 14 Nov 2026): how many renters who qualify each band needs to stay
+  // at the good line, which bands are weak (above it), and for each weak band the next band down that is not weak
+  // once that band's homes are counted against its renters, as moves() counts them. The panel and Financials both
+  // show it; the recommendation changes no figure on its own.
+  function captureCheck(byBand, pool) {
+    var bands = Object.keys(byBand).map(Number).filter(function (b) { return byBand[b] > 0; }).sort(function (a, b) { return a - b; });
+    var load = {}; Object.keys(pool).forEach(function (b) { load[b] = byBand[b] || 0; });
+    var rows = bands.map(function (b) {
+      var n = byBand[b], q = pool[b] || 0, share = q > 0 ? n / q : Infinity, needed = Math.ceil(n / GOOD - 1e-9);
+      return { band: b, homes: n, renters: q, share: share, needed: needed, short: Math.max(0, needed - Math.round(q)),
+        level: share === Infinity ? 'none' : share > VERY_THIN ? 'very thin' : share > GOOD ? 'thin' : 'good', down: null };
+    });
+    rows.slice().reverse().forEach(function (r) {
+      if (r.level === 'good') return;
+      var lower = Object.keys(pool).map(Number).filter(function (l) { return l < r.band; }).sort(function (a, b) { return b - a; });
+      for (var i = 0; i < lower.length; i++) {
+        var l = lower[i];
+        if (pool[l] > 0 && (load[l] + r.homes) / pool[l] <= GOOD) { load[l] += r.homes; r.down = { band: l, share: load[l] / pool[l] }; return; }
+      }
+    });
+    return { rows: rows, weak: rows.filter(function (r) { return r.level !== 'good'; }) };
+  }
+  // A table cell: the share, with its level under it when weak (HTML; the level words are fixed).
+  function captureLevel(r) { return r.level === 'none' ? 'No renters qualify' : pct(r.share) + (r.level === 'good' ? '' : '<small class="cap-level">' + r.level + '</small>'); }
+  // The plain warning under a capture table, or '' when every band is at the good line. moved: the panel's own rent
+  // moves (band -> the band whose rent it uses), so a band it already moved says so.
+  function captureWarning(chk, areaLabel, moved) {
+    if (!chk.weak.length) return '';
+    var lines = chk.weak.map(function (r) {
+      var head = 'The ' + r.band + '% band: ' + r.homes + ' home' + (r.homes === 1 ? '' : 's') + (r.level === 'none'
+        ? ', and no renter in ' + areaLabel + ' qualifies for it.'
+        : ' would need ' + pct(r.share) + ' of its ' + num(r.renters) + ' qualifying renters. Staying at ' + pct(GOOD) + ' takes about ' + num(r.needed) + ', ' + num(r.short) + ' more than this area counts.');
+      var done = moved && moved[r.band] != null && moved[r.band] !== r.band;
+      return '<li>' + esc(head) + ' <strong>' + esc(done ? 'Its rents below already use the ' + moved[r.band] + '% rent.' : r.down ? 'Recommended: rent these homes at the ' + r.down.band + '% rent, where they would take ' + pct(r.down.share) + ' of that band’s renters.'
+        : r.renters > 0 ? 'No lower band has room. About ' + num(Math.floor(GOOD * r.renters + 1e-9)) + ' homes in this band would stay at ' + pct(GOOD) + ', or count renters in a wider or different market area.'
+        : 'No lower band has room. Count renters in a wider or different market area.') + '</strong></li>';
+    });
+    return '<div class="callout capture-warning" data-role="capture-warning"><p><strong>Weak capture.</strong> A band that needs more than ' + pct(GOOD) + ' of the renters who qualify for it is a lease-up risk, and a lender or CHFA’s market analyst will ask who moves in.</p><ul>' +
+      lines.join('') + '</ul><p class="note">The ' + pct(GOOD) + ' and ' + pct(VERY_THIN) + ' lines are COHO starting rules, not a published standard. CHFA’s own line is 85% penetration (Market check shows it).</p></div>';
+  }
+
+  // Financials' check for a deal's own homes (byBand: homes by AMI band). The area is the user's pick on Financials,
+  // else as the panel picks it (the same test as plan()): a saved market check's area, else the place's tracts,
+  // widened to the county when a band there is past the very-thin line with no lower band to take it.
+  // bedrooms: the sizes the deal's homes come in, as the engine names them ('0br' to '3br'); none counts the engine's
+  // 1-3BR default, as the panel does.
+  function marketFor(p, s, byBand, pick, bedrooms) {
+    var c = context(p);
+    if (c.wait || c.error) return c;
+    // Every band a weak band could step down to is counted, whether or not the deal has homes in it (Codex P2 on
+    // HA #2863): the unit grid's bands up to 80% that CHFA's table carries for the county, and the deal's own bands.
+    var reg = c.limits[c.fips] && c.limits[c.fips].regular_tiers || {};
+    var areas = areasFor(p, s, c), bands = BANDS.slice();
+    STEP_BANDS.forEach(function (b) { if (reg[String(b)] && bands.indexOf(b) < 0) bands.push(b); });
+    Object.keys(byBand).forEach(function (b) { b = Number(b); if (bands.indexOf(b) < 0) bands.push(b); });
+    bands.sort(function (a, b) { return a - b; });
+    var area = areas.filter(function (a) { return a.key === pick; })[0], widened = null;
+    if (!area) {
+      area = areas[0];
+      if (area.key === 'place') {
+        var pp = poolOf(c, area, bands, bedrooms);
+        if (!(sum(pp) > 0) || moves(byBand, pp, bands).tooBig.length) { widened = area; area = areas[areas.length - 1]; }
+      }
+    }
+    var pool = poolOf(c, area, bands, bedrooms);
+    return { area: area, areas: areas, widened: widened, staleSaved: areas.staleSaved, pool: pool, check: captureCheck(byBand, pool), countyName: c.countyName, name: c.name };
+  }
+
   function draftOf(p, s) { var o = p.overrides[s.scenarioId] && p.overrides[s.scenarioId].startDraft; return o ? JSON.parse(JSON.stringify(o)) : { homes: '', bands: null, cost: false }; }
 
-  // Everything the panel shows and the button writes, or { wait } / { error } while the data loads.
-  function plan(p, s) {
+  // The public data both the panel and Financials' capture check read, or { wait } / { error } while it loads.
+  function context(p) {
     var Pl = global.LabPlaces, M = global.LabMarket, UI = global.LabUI, E = global.PMAMarketScoring, C = global.ChfaRentLimits;
     if (!Pl || !M || !UI || !C) return { error: 'The page did not finish loading. Reload to try again.' };
-    if (!E || !E.chfaQualifiedRenters) return { error: 'The site’s capture engine did not load.' };
+    if (!E || !E.chfaQualifiedRenters) return { error: 'The site\u2019s capture engine did not load.' };
+    if (!p.jurisdiction) return { error: 'The project has no place yet.' };
     var geoid = p.jurisdiction.geoid;
     var shared = Pl.data(), extra = UI.load(M.EXTRA), mine = UI.load(FILES);
     var err = shared.error || extra.error || mine.error;
@@ -205,9 +278,46 @@
     var countyName = county.county ? String(county.county.county_name).replace(/ County$/, '') + ' County' : 'the county';
     var entry = Pl.entryFor(geoid);
     var name = isCounty ? countyName : M.shortName(entry ? entry.label : p.jurisdiction.name);
+    var limits = {}; (d.chfa.counties || []).forEach(function (c) { limits[c.fips] = c; });
+    return { E: E, C: C, M: M, geoid: geoid, d: d, x: x, f: f, isCounty: isCounty, fips: fips, county: county, countyName: countyName, name: name, limits: limits };
+  }
+
+  // The areas renters can be counted in: a saved market check's area, the tracts mostly inside the place, the
+  // whole county. Each area counts its renters band by band, once, the CHFA market-study way (poolOf).
+  function areasFor(p, s, c) {
+    var x = c.x, name = c.name;
+    var saved = savedArea(p, s);
+    var inDemand = function (list) { return list.filter(function (g) { return x.demand.tracts && x.demand.tracts[g]; }); };
+    var areas = [];
+    if (saved && !saved.stale) areas.push({ key: 'saved', tracts: inDemand(saved.tracts), label: saved.label, saved: saved });
+    var pa = !c.isCounty ? placeArea(c.f.placeTracts, c.geoid) : null;
+    if (pa) areas.push({ key: 'place', tracts: inDemand(pa.tracts), label: pa.rule === 'mostly' ? (pa.tracts.length === 1 ? 'the census tract' : 'the ' + pa.tracts.length + ' census tracts') + ' mostly inside ' + name : 'the census tract that covers most of ' + name, placeRule: pa.rule });
+    areas.push({ key: 'county', tracts: Object.keys(x.demand.tracts || {}).filter(function (g) { return g.slice(0, 5) === c.fips; }), label: 'all of ' + c.countyName });
+    areas.staleSaved = saved && saved.stale ? saved : null;
+    return areas;
+  }
+  // Renters who qualify in an area, band by band, for the bedroom sizes given (none: the engine's 1-3BR default).
+  // Kept on the area for each set of sizes.
+  function poolOf(c, a, bands, bedrooms) {
+    var key = bedrooms && bedrooms.length ? bedrooms.join(',') : '';
+    a.pools = a.pools || {};
+    var cache = a.pools[key] = a.pools[key] || {};
+    var list = a.tracts.map(function (g) { return { geoid: g }; }), out = {};
+    bands.forEach(function (b) {
+      if (!(b in cache)) { var q = c.E.chfaQualifiedRenters(c.x.demand, c.limits, list, [b], key ? bedrooms : undefined, engineOpts(c.x)); cache[b] = q && q.value > 0 ? q.value : 0; }
+      out[b] = cache[b];
+    });
+    return out;
+  }
+
+  // Everything the panel shows and the button writes, or { wait } / { error } while the data loads.
+  function plan(p, s) {
+    var c = context(p);
+    if (c.wait || c.error) return c;
+    var C = c.C, d = c.d, f = c.f, isCounty = c.isCounty, fips = c.fips, county = c.county, countyName = c.countyName, name = c.name, geoid = c.geoid;
 
     // Size: the typical new building here, or the homes the user typed or set band by band.
-    var saved = savedArea(p, s), dr = draftOf(p, s);
+    var dr = draftOf(p, s);
     var size = typicalSize(d.lihtc, fips, isCounty ? null : name, countyName);
     var custom = dr.bands && BANDS.some(function (b) { return dr.bands[b] !== '' && dr.bands[b] != null; });
     var setBands = {};
@@ -218,22 +328,8 @@
     // mostly inside the place, the whole county). With no pick, a saved area comes first, then the place's tracts;
     // when those hold too few renters for the homes (a band past the very-thin line with no lower band to take it),
     // the default widens to the county and the page says why.
-    var inDemand = function (list) { return list.filter(function (g) { return x.demand.tracts && x.demand.tracts[g]; }); };
-    var areas = [];
-    if (saved && !saved.stale) areas.push({ key: 'saved', tracts: inDemand(saved.tracts), label: saved.label, saved: saved });
-    var pa = !isCounty ? placeArea(f.placeTracts, geoid) : null;
-    if (pa) areas.push({ key: 'place', tracts: inDemand(pa.tracts), label: pa.rule === 'mostly' ? (pa.tracts.length === 1 ? 'the census tract' : 'the ' + pa.tracts.length + ' census tracts') + ' mostly inside ' + name : 'the census tract that covers most of ' + name, placeRule: pa.rule });
-    areas.push({ key: 'county', tracts: Object.keys(x.demand.tracts || {}).filter(function (g) { return g.slice(0, 5) === fips; }), label: 'all of ' + countyName });
-
-    // Renters who qualify for each band, counted the CHFA market-study way.
-    var limits = {}; (d.chfa.counties || []).forEach(function (c) { limits[c.fips] = c; });
-    var poolsIn = function (a) {
-      if (a.pool) return a.pool;
-      var list = a.tracts.map(function (g) { return { geoid: g }; }), out = {};
-      BANDS.forEach(function (b) { var q = E.chfaQualifiedRenters(x.demand, limits, list, [b], undefined, engineOpts(x)); out[b] = q && q.value > 0 ? q.value : 0; });
-      a.pool = out;
-      return out;
-    };
+    var areas = areasFor(p, s, c);
+    var poolsIn = function (a) { return poolOf(c, a, BANDS); };
     var bandsIn = function (pl) { return custom ? setBands : spread(homes, pl, BANDS); };
     var area = areas.filter(function (a) { return a.key === dr.area; })[0], widened = null;
     if (!area) {
@@ -243,7 +339,7 @@
         if (!(sum(pp) > 0) || moves(bandsIn(pp), pp).tooBig.length) { widened = area; area = areas[areas.length - 1]; }
       }
     }
-    if (saved && saved.stale) area.staleSaved = saved;
+    if (areas.staleSaved) area.staleSaved = areas.staleSaved;
     var pool = poolsIn(area), poolAll = sum(pool);
     var byBand = bandsIn(pool);
     var capture = {}; BANDS.forEach(function (b) { capture[b] = byBand[b] > 0 ? (pool[b] > 0 ? byBand[b] / pool[b] : Infinity) : 0; });
@@ -346,12 +442,14 @@
     var ideal = 'A ' + r.homes + '-home, 9% tax credit building for renters at 30% to 60% of area median income: ' +
       SIZES.filter(function (k) { return r.bySize[k] > 0; }).map(function (k) { return plural(r.bySize[k], k); }).join(', ').replace(/, ([^,]*)$/, ' and $1') + '.';
 
+    var chk = captureCheck(r.byBand, r.pool);
     var bandRows = BANDS.map(function (b) {
       var c = r.capture[b], v = r.custom ? r.byBand[b] : (dr.bands && dr.bands[b] != null && dr.bands[b] !== '' ? dr.bands[b] : r.byBand[b]);
-      var mark = c === Infinity ? 'No renters qualify' : c > VERY_THIN ? pct(c) + ', very thin' : c > GOOD ? pct(c) + ', thin' : pct(c);
-      return '<tr><th scope="row">' + b + '%</th><td class="num">' + num(r.pool[b]) + '</td>' +
+      var mark = c === Infinity ? 'No renters qualify' : c > VERY_THIN ? pct(c) + '<small class="cap-level">very thin</small>' : c > GOOD ? pct(c) + '<small class="cap-level">thin</small>' : pct(c);
+      var need = r.byBand[b] > 0 ? num(Math.ceil(r.byBand[b] / GOOD - 1e-9)) : '\u2014';
+      return '<tr><th scope="row">' + b + '%</th><td class="num">' + num(r.pool[b]) + '</td><td class="num">' + need + '</td>' +
         '<td class="num"><input id="' + fid(at, 'b' + b) + '" name="b' + b + '" type="number" min="0" max="1000" step="1" inputmode="numeric" value="' + esc(String(v)) + '" aria-label="Homes at ' + b + '% of area median income"></td>' +
-        '<td class="num">' + esc(mark) + '</td></tr>';
+        '<td class="num">' + mark + '</td></tr>';
     }).join('');
     var sizeWhy = r.size.where ? r.size.homes + ' is the middle size of the ' + r.size.count + ' new tax credit buildings awarded in ' + esc(r.size.where) + ' since ' + SINCE + ' (CHFA property list, read ' + esc(String(r.lihtcAt || '').slice(0, 10)) + ').' : '60 is a starting size; no list of local buildings was found.';
 
@@ -391,9 +489,10 @@
       '<h4>Homes and incomes</h4>' +
       '<label class="field"><span>Homes in the project</span><input id="' + fid(at, 'homes') + '" name="homes" type="number" min="1" max="1000" step="1" inputmode="numeric" value="' + r.homes + '"></label>' +
       '<p class="note">' + sizeWhy + '</p>' +
-      '<div class="table-scroll"><table class="start-table" data-no-sort><caption>Who the homes are for (share = homes \u00f7 renters who qualify)</caption><thead><tr><th scope="col">Band</th><th scope="col" class="num">Renters who qualify</th><th scope="col" class="num">Homes</th><th scope="col" class="num">Share</th></tr></thead><tbody>' + bandRows + '</tbody></table></div>' +
+      '<div class="table-scroll"><table class="start-table" data-no-sort><caption>Who the homes are for (share = homes \u00f7 renters who qualify; needed = the renters a ' + pct(GOOD) + ' share takes)</caption><thead><tr><th scope="col">Band</th><th scope="col" class="num">Renters who qualify</th><th scope="col" class="num">Needed</th><th scope="col" class="num">Homes</th><th scope="col" class="num">Share</th></tr></thead><tbody>' + bandRows + '</tbody></table></div>' +
       '<p class="note">' + (r.custom ? 'You set the homes in each band. Change the total to spread them by renters again. ' : 'Homes are spread in proportion to the renters who qualify for each band, so each band takes about the same share of its renters. ') +
       'A household can qualify for more than one band, so the counts overlap. Counted the CHFA market-study way by the site’s own engine (HUD CHAS 2018–2022, Census ACS 2020–2024).</p>' +
+      captureWarning(chk, r.area.label, r.at) +
       (r.tooBig.length ? '<p class="callout">Too many homes for this market area: no lower band has room for the ' + r.tooBig.map(function (b) { return b + '%'; }).join(' and ') + ' band’s homes. About ' + num(r.fit) + ' homes would keep every band at 10% or less of its renters.</p>' : '') +
       '<h4>Rents</h4>' +
       '<p>Each rent, utilities included, is the lower of CHFA’s 2026 ceiling and HUD’s Fair Market Rent for ' + esc(r.countyName) + '. Where a band would take more than ' + pct(VERY_THIN) + ' of the renters who qualify for it (very thin), its homes are underwritten at the rent of the next lower band that stays at ' + pct(GOOD) + ' or less (good capture). The ' + pct(GOOD) + ' and ' + pct(VERY_THIN) + ' lines are COHO starting rules, not a published standard.</p>' +
@@ -503,5 +602,6 @@
   }
 
   global.LabStart = { section: section, plan: plan, apply: apply, homesNote: homesNote, homesDraft: homesDraft, spread: spread, grid: grid, moves: moves, uaFor: uaFor, localCost: localCost,
+    captureCheck: captureCheck, captureWarning: captureWarning, captureLevel: captureLevel, marketFor: marketFor,
     GOOD: GOOD, VERY_THIN: VERY_THIN, DOH_UA: DOH_UA, GJ_COST: GJ_COST, BANDS: BANDS };
 })(window);

@@ -503,5 +503,5 @@
   }
 
   global.LabCalcGrid = { load: load, ready: ready, ctx: ctx, read: read, inputs: inputs, section: section, sub: sub, tables: tables, blank: blank, seed: seed, stored: stored,
-    gridHomes: gridHomes, findPeerDeals: findPeerDeals, prop123Programs: prop123Programs, prop123Petitions: prop123Petitions, BANDS: BANDS, BR: BR, REGIMES: REGIMES, KEYS: KEYS, _src: src };
+    gridHomes: gridHomes, rowHomes: rowHomes, findPeerDeals: findPeerDeals, prop123Programs: prop123Programs, prop123Petitions: prop123Petitions, BANDS: BANDS, BR: BR, REGIMES: REGIMES, KEYS: KEYS, _src: src };
 })(window);

@@ -678,7 +678,7 @@
   }
 
   function drawHow(b) {
-    var s = b.sug, src = b.data.sources, P = global.LabPlaces;
+    var s = b.sug, src = b.data.sources;
     var line = function (t, u) { return u ? '<a href="' + esc(u) + '" rel="noopener">' + esc(t) + '</a>' : esc(t); };
     b.el.querySelector('.tc-how').innerHTML =
       '<p class="note"><strong>How COHO suggests the tracts.</strong> The tract the site is in; tracts whose centre is within ' + s.coreMiles + ' miles' + (s.city ? ' (2 in a city, where 25 or more tract centres sit within 3 miles)' : ' (the full Market Analysis pre-selects the same 4 miles)') +
@@ -819,7 +819,7 @@
         recommendedWhy: rec ? rec.eval.tests.map(function (t) { return (t.pass ? 'Passes: ' : 'Fails: ') + t.text; }) : null,
         picked: pa ? pa.id : null,
         pickedWhy: pa && rec && pa.id !== rec.id ? (b.pickWhy || '').trim() || null : null,
-        tests: 'COHO screening tests, 14 Nov 2026: 1 whole tracts (CHFA Market Study Guide); 2 every tract near the site on its side' + (b && b.sug && b.sug.withDrive ? ' and within ' + b.sug.maxDrive + ' minutes by road (OpenStreetMap)' : '') + ', or with 10%+ of working residents employed near it (LODES 2024); 3 no tract where another town holds most homes and has tax credit homes; 4 capture at the project level and penetration at least 10 points under the 85% line. Tests 2-4 are not CHFA rules.'
+        tests: 'COHO screening tests, 14 Nov 2026: 1 whole tracts (CHFA Market Study Guide); 2 every tract near the site on its side' + (b.sug.withDrive ? ' and within ' + b.sug.maxDrive + ' minutes by road (OpenStreetMap)' : '') + ', or with 10%+ of working residents employed near it (LODES 2024); 3 no tract where another town holds most homes and has tax credit homes; 4 capture at the project level and penetration at least 10 points under the 85% line. Tests 2-4 are not CHFA rules.'
       },
       edited: !!(edited && edited.length), city: b.sug.city, coreMiles: b.sug.coreMiles, reachMiles: b.sug.reach,
       withCommutes: b.sug.withCommutes, withCrossings: b.sug.withCrossings,

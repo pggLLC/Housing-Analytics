@@ -480,7 +480,10 @@ details.start-numbers[open] { padding-bottom: 1rem; }
 .start-table th, .start-table td { padding: .3rem .35rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
 .start-table td.num { text-align: right; white-space: nowrap; }
 .start-table th.num { text-align: right; }
-.start-table input { width: 3.75rem; min-height: 44px; padding: 0 .5rem; border: 1px solid var(--muted); border-radius: 6px; font: inherit; font-size: 16px; text-align: right; background: var(--card); color: var(--ink); }
+/* A weak band's level sits under its share, so the column stays narrow at 390px. */
+.start-table .cap-level { display: block; font-size: .75rem; font-weight: 600; color: var(--caution, var(--text-rust, #9a3412)); }
+.start-table tr.capture-weak th { color: var(--caution, var(--text-rust, #9a3412)); }
+.start-table input { width: 4.25rem; min-height: 44px; padding: 0 .5rem; border: 1px solid var(--muted); border-radius: 6px; font: inherit; font-size: 16px; text-align: right; background: var(--card); color: var(--ink); }
 .start-tag { margin-left: .15rem; font-weight: 700; color: var(--green); }
 .check-line { display: flex; align-items: center; gap: .5rem; min-height: 44px; font-weight: 600; }
 .check-line input { width: 1.25rem; height: 1.25rem; }
