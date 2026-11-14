@@ -9,17 +9,27 @@
   <meta name="description" content="Housing data profile for Morgan Heights, Morgan County, Colorado: cost-burden by AMI tier, mortgage credit access, cross-county disclosure, and HUD AMI rent limits.">
   <meta property="og:title" content="Morgan Heights Housing Profile — COHO Analytics">
   <meta property="og:description" content="LIHTC underwriting data for Morgan Heights, Morgan County, Colorado.">
-  <link rel="stylesheet" href="../css/site-theme.css">
-  <link rel="stylesheet" href="../css/layout.css">
-  <link rel="stylesheet" href="../css/pages.css">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <!-- Light or dark, before the page paints (the site's own key and classes). -->
+  <script>try { var s = localStorage.getItem('coho-analytics-scheme'); if (s === 'dark' || s === 'light') document.documentElement.classList.add(s + '-mode'); } catch (e) {}</script>
+  <!-- The new format: the same header, menu, footer and look as the hub pages (hub/ is built from the lab). -->
+  <link rel="stylesheet" href="../hub/palette.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap">
+  <link rel="stylesheet" href="../hub/shell.css">
+  <link rel="stylesheet" href="../hub/visual-pass.css">
+  <link rel="stylesheet" href="../hub/templates.css">
+  <link rel="stylesheet" href="../hub/look.css">
+  <link rel="stylesheet" href="../hub/profile.css">
   <link rel="canonical" href="/places/0851975.html">
 
   <script src="../js/path-resolver.js"></script>
   <script src="../js/config.js"></script>
   <script src="../js/fetch-helper.js"></script>
   <script src="../js/data-service-portable.js"></script>
-  <script defer src="../js/navigation.js"></script>
-  <script defer src="../js/dark-mode-toggle.js"></script>
+  <!-- Glossary definitions on the page's terms, as before (js/navigation.js used to load this). -->
+  <script defer src="../js/glossary.js"></script>
 
   <!-- Embedded place data (used by the renderer below) -->
   <script id="place-data" type="application/json">
@@ -232,52 +242,24 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Place","@id":"https://cohoanalytics.com/places/0851975.html#place","name":"Morgan Heights, Colorado","identifier":"0851975","url":"https://cohoanalytics.com/places/0851975.html","containedInPlace":{"@type":"AdministrativeArea","name":"Morgan County, Colorado"}},{"@type":"Dataset","@id":"https://cohoanalytics.com/places/0851975.html#dataset","name":"Morgan Heights Housing Profile","description":"Housing needs and affordability profile for Morgan Heights, Colorado, including CHAS cost-burden estimates and AMI tier context.","url":"https://cohoanalytics.com/places/0851975.html","creator":{"@id":"https://cohoanalytics.com/#organization"},"spatialCoverage":{"@id":"https://cohoanalytics.com/places/0851975.html#place"},"temporalCoverage":"2018/2024","isBasedOn":["https://www.huduser.gov/portal/datasets/cp.html","https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html"]}]}</script>
 
 
-  <style>
-    .place-hero { padding: 2rem 1.5rem; background: linear-gradient(180deg, var(--bg2, #f5f6f8), var(--bg, #fff)); border-bottom: 1px solid var(--border); }
-    .place-hero h1 { margin: 0; font-size: 1.8rem; }
-    .place-hero .place-sub { color: var(--muted); margin-top: .25rem; }
-    .place-grid { max-width: var(--page-max, 1920px); margin: 1.5rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 1rem; }
-    .place-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; }
-    .place-card h2 { margin: 0 0 .5rem; font-size: 1.05rem; color: var(--accent, #096e65); }
-    .place-stat { display: flex; justify-content: space-between; margin: .25rem 0; padding: .25rem 0; border-bottom: 1px dashed var(--border-soft, #e0e0e0); }
-    .place-stat[hidden] { display: none; }
-    .place-stat .label { color: var(--muted); font-size: .85rem; }
-    .place-stat .value { font-weight: 600; font-variant-numeric: tabular-nums; }
-    .place-stat .value.bad { color: var(--bad, #dc2626); }
-    .place-stat .value.warn { color: var(--warn, #d97706); }
-    .place-stat .value.good { color: var(--good, #16a34a); }
-    .place-explain { margin-top: .75rem; font-size: .82rem; color: var(--muted); }
-    .place-src { margin: .6rem 0 0; font-size: .78rem; color: var(--muted); line-height: 1.4; }
-    .pl-stack { display: flex; height: 14px; border-radius: 4px; overflow: hidden; border: 1px solid var(--border); margin: .6rem 0 .3rem; }
-    .pl-stack span { display: block; height: 100%; }
-    .pl-legend { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .15rem .8rem; font-size: .8rem; color: var(--muted); }
-    .pl-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; }
-    .pl-names { font-size: .85rem; margin: .4rem 0 0; line-height: 1.45; }
-    .place-explain summary { cursor: pointer; color: var(--accent, #096e65); font-weight: 600; font-size: .85rem; }
-    .place-explain p { margin: .5rem 0; line-height: 1.5; }
-    .place-explain ul { margin: .4rem 0; padding-left: 1.1rem; }
-    .place-explain li { margin: .15rem 0; }
-    .place-disclosure { margin: 1rem auto; max-width: var(--page-max, 1920px); padding: .75rem 1rem; background: rgba(59, 130, 246, .08); border: 1px solid rgba(59, 130, 246, .3); border-radius: 6px; font-size: .88rem; line-height: 1.5; }
-    .place-tools { max-width: var(--page-max, 1920px); margin: 2rem auto; padding: 0 1.5rem; }
-    .place-tools h2 { font-size: 1.1rem; margin-bottom: .5rem; }
-    .place-tools a { display: inline-block; margin: .25rem .5rem .25rem 0; padding: .35rem .75rem; border: 1px solid var(--accent, #096e65); border-radius: 4px; color: var(--accent, #096e65); text-decoration: none; font-size: .88rem; }
-    .place-tools a:hover { background: var(--accent, #096e65); color: #fff; }
-    .place-source { max-width: var(--page-max, 1920px); margin: 2rem auto; padding: 0 1.5rem; font-size: .78rem; color: var(--muted); }
-  </style>
 </head>
-<body>
-  <header class="site-header"></header>
+<body data-menu="places">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="../index.html">COHO Analytics</a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Main"></nav>
+    <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">Dark</button>
+  </header>
 
-  <main id="main-content">
-    <div class="place-hero">
-      <div style="max-width: var(--page-max, 1920px); margin: 0 auto;">
-        <div style="font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">
-          Colorado · Morgan County
-        </div>
-        <h1>Morgan Heights</h1>
-        <p class="place-sub">~81 households</p>
-      </div>
-    </div>
+  <main id="main-content" class="profile">
+    <header class="page-head page-place">
+      <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Home</a></li><li><a href="../places-hub.html#/places">Places and need</a></li><li><a href="index.html">Place profiles</a></li><li><span aria-current="page">Morgan Heights</span></li></ol></nav>
+      <p class="profile-county">Colorado · Morgan County</p>
+      <h1>Morgan Heights</h1>
+      <p class="place-sub">~81 households</p>
+      <p class="profile-open"><a class="button-link" href="../places-hub.html#/place/0851975">Full Housing Needs Assessment</a> <span class="note">Six chapters on Morgan Heights, with charts and sources.</span></p>
+    </header>
 
     <div id="placeDisclosure" class="place-disclosure" hidden></div>
 
@@ -355,11 +337,13 @@
       </div>
     </div>
 
-    <div class="place-tools">
+    <div class="profile-tools">
       <h2>Continue your analysis</h2>
-      <a href="../market-analysis.html?fips=0851975&geoType=place&auto=1">Run PMA analysis →</a>
-      <a href="../deal-calculator.html?geoid=0851975">Open Deal Calculator →</a>
-      <a href="../housing-needs-assessment.html?type=place&geoid=0851975">View full HNA dashboard →</a>
+      <p class="profile-links">
+        <a class="button-link secondary" href="../market-analysis.html?fips=0851975&geoType=place&auto=1">Run PMA analysis →</a>
+        <a class="button-link secondary" href="../deal-calculator.html?geoid=0851975">Open Deal Calculator →</a>
+        <a class="button-link secondary" href="../housing-needs-assessment.html?type=place&geoid=0851975">View full HNA dashboard →</a>
+      </p>
     </div>
 
     <div class="place-source">
@@ -368,6 +352,17 @@
       Data vintage: HUD CHAS 2018-2022 + TIGER 2024 + Census BPS 2016-2025.
     </div>
   </main>
+
+  <footer class="site-footer">
+    <p class="footer-terms">Free, and worth every penny. COHO Analytics is offered as-is, with no warranty. It isn’t legal, tax or financial advice, and pggLLC isn’t liable for what you do with it. Using the site means you accept the terms.</p>
+    <p class="footer-links"><a class="footer-link" href="../terms-of-use.html">Terms of use</a> <a class="footer-link" href="../privacy-policy.html">Privacy</a> <a class="footer-link" href="../about.html">About this site</a> <a class="footer-link" href="../methods.html#how-we-check">How we check our figures</a> <a class="footer-link" href="../sitemap.html">Site map</a> <a class="footer-link" data-feedback href="https://docs.google.com/forms/d/e/1FAIpQLSfC1m7Y1_b3VL_U9rOg8f0nIE14RVg8qm4gvhQaG2Qw8vVOdw/viewform">Questions or feedback</a> <a class="footer-link" href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a> <a class="footer-link" href="https://translate.google.com/translate?sl=en&tl=es&hl=es&u=https%3A%2F%2Fcohoanalytics.com%2Fplaces%2F0851975.html" lang="es" title="Español: traducción automática de Google">Español</a> <a class="footer-link" href="https://coho-backend.communityplanner.workers.dev/">Member sign in</a></p>
+    <p>Developed and maintained by <a class="footer-link" href="https://pggllc.org">pggLLC</a>.</p>
+  </footer>
+  <!-- The hub's menu on this page: hub/page-chrome.js stands in for the hubs' router, hub/nav.js draws the menus. -->
+  <script>window.LAB_ROOT = '../';</script>
+  <script src="../hub/lab-config.js"></script>
+  <script src="../hub/page-chrome.js"></script>
+  <script src="../hub/nav.js"></script>
 
   <script>
     (function () {
