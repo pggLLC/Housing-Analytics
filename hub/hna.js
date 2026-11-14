@@ -2683,10 +2683,11 @@
       root.style.setProperty('--live-h', lr && lr.top <= hdr + sp + 1 ? Math.ceil(lr.height) + 'px' : '0px');
     }
     // Keyboard focus never lands under the sticky header, step line, tabs or result strip (WCAG 2.4.11): a field the
-    // browser leaves half-covered is scrolled down to just below them.
+    // browser leaves half-covered is scrolled down to just below them. The page region itself is not a field: the
+    // shell moves focus to it when the address changes, and a pick on the same page keeps the reader's place.
     global.document.addEventListener('focusin', function (ev) {
       var t = ev.target;
-      if (!t || !t.getBoundingClientRect || (t.closest && t.closest('.site-header, [data-sp-sticky], .step-path, #main .tabs, .quick-live'))) return;
+      if (!t || t.id === 'main' || !t.getBoundingClientRect || (t.closest && t.closest('.site-header, [data-sp-sticky], .step-path, #main .tabs, .quick-live'))) return;
       var cs = global.getComputedStyle(global.document.documentElement), px = function (n) { return parseFloat(cs.getPropertyValue(n)) || 0; };
       var cover = px('--hdr-h') + px('--sp-top') + px('--tabs-h') + px('--live-h');
       var r = t.getBoundingClientRect();

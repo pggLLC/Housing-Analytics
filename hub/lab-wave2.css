@@ -24,6 +24,12 @@
 .rec-step-fields dt { color: var(--muted); }
 .rec-step-fields dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
 .rec-step-note { grid-column: 1 / -1; margin: 0; color: var(--muted); overflow-wrap: break-word; }
+/* Recommendation, step 2: which saved work the page reads. A long project name wraps inside a phone screen. */
+.rec-pick { margin: .75rem 0 .5rem; }
+.rec-pick-label { margin: 0; font-size: 13px; font-weight: 600; color: var(--muted); }
+.rec-pick li { min-width: 0; max-width: 100%; }
+.rec-pick a { max-width: 100%; padding: .35rem .9rem; overflow-wrap: anywhere; }
+.rec-step-stale .rec-step-state { font-weight: 600; }
 
 /* Investor summary: anchors, programs and partner lists. */
 .ic-civic { display: grid; grid-template-columns: minmax(8rem, 12rem) 1fr; gap: .5rem 1rem; margin: .5rem 0 1rem; }

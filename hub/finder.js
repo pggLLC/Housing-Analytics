@@ -268,42 +268,151 @@
   }
   // A step as the contract recorded it: every figure it quotes, its date and its note, as the site's own page
   // lists them (js/workflow/recommendation-page.js renderProject). Its link opens the tool that saved it.
-  function recordedStep(st, tool) {
+  // For a project built on these pages, o gives the link's words and the date as the project pages write it.
+  function recordedStep(st, tool, o) {
     var fields = (st.fields || []).map(function (f) { return '<div><dt>' + esc(f.label) + '</dt><dd>' + esc(f.value) + '</dd></div>'; }).join('');
     return '<li class="rec-step rec-step-recorded" data-step="' + esc(st.key) + '"><span class="rec-step-name">' + esc(st.label) + '</span>' +
-      '<span class="rec-step-state">Recorded' + (st.recordedAt ? ' ' + esc(String(st.recordedAt).slice(0, 10)) : '') + '</span>' +
-      '<a href="' + esc(tool) + '">Reopen this step' + (/^https?:/.test(tool) ? ' ↗' : '') + '</a>' +
+      '<span class="rec-step-state">Recorded' + (st.recordedAt ? ' ' + esc(o ? o.when(st.recordedAt) : String(st.recordedAt).slice(0, 10)) : '') + '</span>' +
+      '<a href="' + esc(tool) + '">' + (o ? esc(o.open) : 'Reopen this step') + (/^https?:/.test(tool) ? ' ↗' : '') + '</a>' +
       (fields ? '<dl class="rec-step-fields">' + fields + '</dl>' : st.note ? '' : '<p class="rec-step-note">Recorded, with no figure to quote.</p>') +
       (st.note ? '<p class="rec-step-note">' + esc(st.note) + '</p>' : '') + '</li>';
   }
-  // The contract's own record of each project step, as the live page lists it under the same heading.
-  function recorded(r, g, mine, saved) {
-    var shown = !!(saved && saved.project && saved.shown);
+
+  // ---------- A project built on these pages (step 2, paul 14 Nov 2026) ----------
+  // The page reads one record at a time: the work the full tools saved (above) or one project from these pages,
+  // never the two together. The pick rides in the address as p (a project id, or FULL for the full tools' work)
+  // and s (a scenario id), so a link reopens it. Nothing here writes to either store.
+  var FULL = 'full-tools';
+  // Dollars as Financials writes them (site/financials.js money), so a quoted figure reads as it does there.
+  function money(n) { return n == null || !isFinite(n) ? null : (n < 0 ? '-$' : '$') + Math.round(Math.abs(n)).toLocaleString('en-US'); }
+  function when(iso) { return Shell.when ? Shell.when(iso) : String(iso).slice(0, 10); }
+  function recHref(g, pid, sid) {
+    return '#/recommendation?g=' + encodeURIComponent(g) + (pid ? '&p=' + encodeURIComponent(pid) : '') + (sid ? '&s=' + encodeURIComponent(sid) : '');
+  }
+  // The scenario's current Financials run: the one the project page lists, attached or out of date.
+  function runOf(p, sid) {
+    return (p.attachments || []).filter(function (a) { return a && a.scenarioId === sid && a.kind === 'financials' && a.state !== 'replaced'; })[0] || null;
+  }
+  // Why a saved run is not quoted, or null when it stands. The store marks a run out of date when the place,
+  // the site or the rent schedule changed after it. One case the store does not mark: a deal opened from a file
+  // or link whose homes and rents were replaced by the site's rerun. That run was priced on the sender's
+  // schedule, not the one now in the project, until Financials is saved again in this project.
+  function runProblem(p, run) {
+    if (run.state === 'stale') return run.staleReason || 'something it was run on changed';
+    var o = p.openedFrom, here = run.origin && String(run.origin.route || '').indexOf('/' + p.projectId + '/') >= 0;
+    if (o && o.scheduleMatched === false && !here)
+      return 'it came with ' + (o.how === 'share-link' ? 'a share link' : 'a deal file') + ' whose homes and rents differ from a rerun on the site’s CHFA rent code';
+    return null;
+  }
+  // The project in the shape the site's recommendation contract reads. Jurisdiction is the project's place.
+  // Deal test is the saved Financials run: the Deal Engine's own result as saved, never worked out again.
+  // These pages save nothing for the housing needs assessment, market analysis or scenarios, so they stay unset.
+  function hubRecord(p, sid) {
+    var run = sid ? runOf(p, sid) : null, why = run ? runProblem(p, run) : null;
+    var res = run && !why && run.snapshot && run.snapshot.result;
+    var rec = { jurisdiction: { geoid: p.jurisdiction.geoid, name: p.jurisdiction.name, completedAt: p.createdAt || p.savedAt } };
+    if (res && typeof res === 'object' && run.attachedAt) rec.deal = {
+      completedAt: run.attachedAt, dealMode: 'rental', savedForGeoid: p.jurisdiction.geoid, savedForName: p.jurisdiction.name,
+      outputs: { gap: money(res.gap), annualCredits: money(res.annualCredits), firstMortgage: money(res.mortgage) }
+    };
+    return { record: rec, run: run, why: why };
+  }
+  // A project opens on the scenario whose Financials run was saved last, or its first scenario when none has one.
+  function defaultScenario(p) {
+    var best = null, at = '';
+    (p.scenarios || []).forEach(function (sc) {
+      var run = runOf(p, sc.scenarioId), t = run ? String(run.attachedAt || '') : '';
+      if (run && (!best || t > at)) { best = sc; at = t; }
+    });
+    return best || (p.scenarios || [])[0] || null;
+  }
+  // Which record this address shows. With no pick: the full tools' work when it is for this place, as before;
+  // otherwise the project for this place saved last. A pick that cannot be honoured is named, never guessed at.
+  function pickRecord(g, params, saved) {
+    var P = global.LabProjects, wf = !!(saved.project && saved.shown);
+    var mine = !P ? [] : P.list().filter(function (x) { return x.jurisdiction && x.jurisdiction.geoid === String(g); })
+      .map(function (x) { return P.get(x.projectId); })
+      .filter(function (p) { return p && p.jurisdiction && p.jurisdiction.geoid === String(g); });
+    var want = params.get('p'), wantS = params.get('s'), pick = null, miss = null;
+    if (want === FULL) { if (wf) pick = FULL; else miss = { kind: 'full' }; }
+    else if (want) {
+      // The project is read from its own record, so one the list of projects has lost is still found.
+      var asked = mine.filter(function (p) { return p.projectId === want; })[0] || (P && P.get(want)) || null;
+      if (asked && asked.jurisdiction && asked.jurisdiction.geoid === String(g)) { pick = want; if (mine.indexOf(asked) < 0) mine.push(asked); }
+      else miss = asked ? { kind: 'elsewhere', project: asked } : { kind: 'unknown' };
+    }
+    if (!pick) pick = wf ? FULL : mine.length ? mine[0].projectId : null;
+    var proj = pick && pick !== FULL ? mine.filter(function (p) { return p.projectId === pick; })[0] : null;
+    var scn = proj && wantS ? (proj.scenarios || []).filter(function (sc) { return sc.scenarioId === wantS; })[0] || null : null;
+    if (proj && wantS && !scn && !miss) miss = { kind: 'scenario' };
+    if (proj && !scn) scn = defaultScenario(proj);
+    return { wf: wf, mine: mine, pick: pick, proj: proj, scn: scn, miss: miss, hub: proj ? hubRecord(proj, scn && scn.scenarioId) : null };
+  }
+  function pickChips(label, list, on, hrefOf) {
+    return '<nav class="dm-chips rec-pick" aria-label="' + esc(label) + '"><p class="rec-pick-label">' + esc(label) + '</p><ul>' + list.map(function (c) {
+      return '<li><a href="' + esc(hrefOf(c[0])) + '"' + (c[0] === on ? ' class="is-on" aria-current="true"' : '') + '>' + esc(c[1]) + '</a></li>';
+    }).join('') + '</ul></nav>';
+  }
+  function missNote(g, sel) {
+    var m = sel.miss;
+    if (!m) return '';
+    var there = m.kind === 'elsewhere' && m.project.jurisdiction ? Pl.entryFor(m.project.jurisdiction.geoid) : null;
+    return '<p class="callout" id="rec-pick-missing">' + (
+      m.kind === 'full' ? 'This address asks for the work the full tools saved, and this browser holds none for this place.'
+      : m.kind === 'scenario' ? 'The scenario in this address is not in ' + esc(sel.proj.name) + ', so ' + esc(sel.scn ? sel.scn.name : 'no scenario') + ' is shown.'
+      : m.kind === 'unknown' ? 'The project in this address is not saved in this browser, so it is not read here. A project is saved in the browser that made it.'
+      : there ? 'The project in this address, ' + esc(m.project.name) + ', is for ' + esc(shortName(there.label)) + ', so it is not read here. <a href="' + esc(recHref(m.project.jurisdiction.geoid, m.project.projectId)) + '">Open the Recommendation for ' + esc(shortName(there.label)) + '</a>'
+      : 'The project in this address, ' + esc(m.project.name) + ', ' + (m.project.jurisdiction ? 'is for ' + esc(m.project.jurisdiction.name) + ', a place this page cannot match' : 'has no place set') + ', so it is not read here.') + '</p>';
+  }
+
+  function recorded(r, g, sel, saved) {
+    var shown = sel.pick === FULL, hub = sel.proj, run = hub && sel.hub.run, why = hub && sel.hub.why;
+    var pid = hub && hub.projectId, sid = hub && sel.scn && sel.scn.scenarioId;
+    var projHref = hub && '#/project/' + encodeURIComponent(pid);
+    var fin = hub && (sid ? '#/financials/' + encodeURIComponent(pid) + '/' + encodeURIComponent(sid) : projHref);
     var steps = (r.project || []).map(function (st) {
-      if (st.status !== 'not_run') return recordedStep(st, LIVE + st.href);
-      // With a workflow record on the page every link opens the full tool, since only that tool saves the step.
-      // With none, a step opens where it is done on these pages, or on the live site where there is no such page.
-      var href = shown ? null : stepHref(st.key, g), live = !href ? (shown ? LIVE : 'https://cohoanalytics.com/') + st.href : null;
-      return '<li class="rec-step rec-step-not_run"' + (shown ? ' data-step="' + esc(st.key) + '"' : '') + '><span class="rec-step-name">' + esc(st.label) + '</span>' +
+      if (st.status !== 'not_run') {
+        return !hub ? recordedStep(st, LIVE + st.href)
+          : st.key === 'deal' ? recordedStep(st, fin, { when: when, open: 'Open Financials' })
+          : recordedStep(st, projHref, { when: when, open: 'Open the project' });
+      }
+      // A saved run that is out of date is named with its reason, and none of its figures are quoted.
+      if (hub && st.key === 'deal' && why) {
+        return '<li class="rec-step rec-step-stale" data-step="deal"><span class="rec-step-name">' + esc(st.label) + '</span>' +
+          '<span class="rec-step-state">Out of date</span><a href="' + esc(fin) + '">Run Financials again</a>' +
+          '<p class="rec-step-note">The Financials run saved ' + esc(when(run.attachedAt)) + ' is out of date: ' + esc(why) + '. Its figures are not quoted. Run Financials again and save it.</p></li>';
+      }
+      var href = shown ? null : hub && st.key === 'deal' ? fin : stepHref(st.key, g), live = !href ? (shown ? LIVE : 'https://cohoanalytics.com/') + st.href : null;
+      return '<li class="rec-step rec-step-not_run"' + (shown || hub ? ' data-step="' + esc(st.key) + '"' : '') + '><span class="rec-step-name">' + esc(st.label) + '</span>' +
         '<span class="rec-step-state">Not run</span>' +
         '<a href="' + esc(href || live) + '">Open this step' + (live && /^https?:/.test(live) ? ' ↗' : '') + '</a></li>';
     }).join('');
     var meta = shown && saved.project._meta || {};
+    var temp = hub && global.LabProjects.isTemporary && global.LabProjects.isTemporary(pid);
     var from = shown ? '<p class="note" id="rec-saved-from">Read from the work the full tools saved in this browser' +
       (meta.projectName ? ': ' + esc(meta.projectName) : '') + (meta.savedAt ? ', last saved ' + esc(String(meta.savedAt).slice(0, 10)) : '') +
-      '. Each figure is quoted as its tool saved it. Nothing is worked out again.</p>' : '';
+      '. Each figure is quoted as its tool saved it. Nothing is worked out again.</p>'
+      : hub ? '<p class="note" id="rec-saved-from">Read from the project <a href="' + esc(projHref) + '">' + esc(hub.name) + '</a>' + (sel.scn ? ', ' + esc(sel.scn.name) : '') +
+        ', built on these pages and ' + (temp ? 'kept for this visit only, because this browser is not storing data' : 'saved in this browser' + (hub.savedAt ? ' ' + esc(when(hub.savedAt)) : '')) +
+        '. ' + (sel.hub.record.deal ? 'The Deal test is quoted as Financials saved it. Nothing is worked out again. ' : '') +
+        'This page reads only what was saved. These pages save a project’s place and its Financials run, and nothing yet for the housing needs assessment, the market analysis or scenarios, so those three read as not run.</p>'
+      : '';
     var other = saved && saved.elsewhere, there = other && other.geoid ? Pl.entryFor(other.geoid) : null;
     var otherName = there ? shortName(there.label) : other && other.name;
     var away = !other ? '' : '<p class="callout" id="rec-saved-elsewhere">' + (there
       ? 'This browser holds saved work for ' + esc(otherName) + ', so none of it is quoted here. <a href="#/recommendation?g=' + esc(encodeURIComponent(other.geoid)) + '">Open the Recommendation for ' + esc(otherName) + '</a>'
       : 'This browser holds saved work for ' + (otherName ? esc(otherName) + ', a place this page cannot match' : 'no named place') + ', so none of it is quoted here.') + '</p>';
+    var choices = (sel.wf ? [[FULL, 'Full tools' + (saved.project._meta && saved.project._meta.projectName ? ': ' + saved.project._meta.projectName : '')]] : [])
+      .concat(sel.mine.map(function (p) { return [p.projectId, p.name]; }));
+    var pickers = (choices.length > 1 ? pickChips('Saved work to read', choices, sel.pick, function (id) { return recHref(g, id); }) : '') +
+      (hub && (hub.scenarios || []).length > 1 ? pickChips('Scenario', hub.scenarios.map(function (sc) { return [sc.scenarioId, sc.name]; }), sid, function (id) { return recHref(g, pid, id); }) : '');
     return '<section class="rec-project"><h2>What you have recorded</h2>' +
-      '<p>The steps a project records for this place. Each answer above covers only the steps that are recorded.</p>' + away +
+      '<p>The steps a project records for this place. Each answer above covers only the steps that are recorded.</p>' + away + missNote(g, sel) + pickers +
       '<ol class="rec-steps">' + steps + '</ol>' + from +
-      (mine.length ? '<p>Projects saved in this browser for this place:</p><ul class="route-list">' + mine.map(function (p) { return '<li><a href="#/project/' + esc(p.projectId) + '">' + esc(p.name) + '</a></li>'; }).join('') + '</ul>'
-        : shown ? '<p class="note">Projects built on these pages are not read here yet.</p>'
-        : '<p class="note">No project is saved in this browser for this place. Projects built on these pages are not read here yet, so every step reads as not run.</p>') + '</section>';
+      (sel.mine.length ? '<p>Projects saved in this browser for this place:</p><ul class="route-list">' + sel.mine.map(function (p) { return '<li><a href="#/project/' + esc(p.projectId) + '">' + esc(p.name) + '</a></li>'; }).join('') + '</ul>'
+        : shown ? '' : '<p class="note">No project is saved in this browser for this place, so every step reads as not run.</p>') + '</section>';
   }
+
   // Every source the conclusions drew on, with its date, named as the rest of the lab names it.
   function figureSources(r, g) {
     var list = r.sources || [];
@@ -333,8 +442,8 @@
     if (c.error || x.error) return headOnly('<p class="callout">' + esc(c.error || x.error) + '</p>');
     if (!c.digest || !x.data) return headOnly('<p role="status" class="note">Loading the public data for ' + esc(entry.label) + '…</p>');
     var tz = TZ ? TZ.areaSummary(x.data.transit, g, x.data.thiz, new Date()) : null;
-    var saved = savedWork(RC, g);
-    var r = RC.build({ digest: c.digest, project: saved.project, transitZone: tz, generatedAt: new Date().toISOString() });
+    var saved = savedWork(RC, g), sel = pickRecord(g, params, saved);
+    var r = RC.build({ digest: c.digest, project: sel.proj ? sel.hub.record : saved.project, transitZone: tz, generatedAt: new Date().toISOString() });
     var h = r.headline;
     var cards = r.conclusions.map(function (k) {
       return '<article class="rec-card rec-card-' + esc(k.state) + '"><p class="rec-q">' + esc(k.question) + '</p>' +
@@ -347,7 +456,6 @@
             '<td>' + esc(global.LabHna.sourceOf({ source_id: e.source, as_of: e.asOf }, { geoid: g }) || e.source || 'source not recorded') + (e.why ? '<span class="note"> ' + esc(e.why) + '</span>' : '') + '</td></tr>';
         }).join('') + '</tbody></table></div></details></article>';
     }).join('');
-    var mine = global.LabProjects ? global.LabProjects.list().filter(function (p) { return p.jurisdiction && p.jurisdiction.geoid === String(g); }) : [];
     return T.head({
       kind: 'tool', crumbs: T.trail('deal', title, [{ label: 'Pick a place', href: '#/recommendation' }]), title: 'Recommendation: ' + entry.label,
       answer: 'What the public data says ' + esc(shortName(entry.label)) + ' needs, one question at a time. Each answer says how much weight it can bear.',
@@ -357,7 +465,7 @@
     }) + T.printBar() + global.LabHna.stepPath(true, '#/recommendation', g) +
       '<section class="rec-headline rec-card-' + esc(h.state) + '"><p class="rec-q">The direction</p><h2>' + esc(h.verdict) + ' ' + chip(h.state) + '</h2><p>' + esc(h.plain) + '</p></section>' +
       '<div class="rec-cards">' + cards + '</div>' +
-      recorded(r, g, mine, saved) + figureSources(r, g) +
+      recorded(r, g, sel, saved) + figureSources(r, g) +
       '<p class="metric-source">Assembled by the site’s recommendation contract from the HNA digest' + (c.digest.generated_from && c.digest.generated_from.ranking_index_generated_at ? ', built ' + esc(String(c.digest.generated_from.ranking_index_generated_at).slice(0, 10)) : '') + '. Transit: CDOT and transit agency stops, OEDIT zone status.</p>' +
       T.next('Next', [{ href: '#/report?g=' + encodeURIComponent(g), label: 'Free report for ' + shortName(entry.label) }, { href: '#/deal-calculator?g=' + encodeURIComponent(g), label: 'Deal Calculator', secondary: true }, { href: '#/market?g=' + encodeURIComponent(g), label: 'Market check', secondary: true }]);
   }
