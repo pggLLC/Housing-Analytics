@@ -216,20 +216,33 @@
     frame.appendChild(m.scale);
     frame.classList.add('mb-frame');
     svg.classList.add('mb-on');
+    prune();
     maps.push(m);
     draw(m);
     if (typeof global.ResizeObserver === 'function') {
       var queued = false;
-      new global.ResizeObserver(function () {
+      m.ro = new global.ResizeObserver(function () {
         if (queued) return; queued = true;
         (global.requestAnimationFrame || setTimeout)(function () { queued = false; draw(m); });
-      }).observe(svg);
+      });
+      m.ro.observe(svg);
     }
     return m;
   }
 
+  // A view that redraws leaves its old maps out of the page: drop them and stop watching their size, so nothing keeps
+  // the old map, its tiles or its paths alive. Runs whenever a map is added and when the background map changes.
+  function prune() {
+    maps = maps.filter(function (m) {
+      if (m.svg.isConnected !== false && doc.contains(m.svg)) return true;
+      if (m.ro) m.ro.disconnect();
+      m.imgs = {};
+      return false;
+    });
+  }
+
   function redrawAll() {
-    maps = maps.filter(function (m) { return m.svg.isConnected !== false && doc.contains(m.svg); });
+    prune();
     maps.forEach(function (m) {
       Object.keys(m.imgs).forEach(function (id) { m.layer.removeChild(m.imgs[id]); });
       m.imgs = {};
@@ -254,5 +267,7 @@
     });
   }
 
-  global.LabMapBase = { attach: attach, geoOf: geoOf, tileSet: tileSet, BASES: BASES, BACKUP: BACKUP, chosen: chosen, KEY: KEY };
+  global.LabMapBase = { attach: attach, geoOf: geoOf, tileSet: tileSet, BASES: BASES, BACKUP: BACKUP, chosen: chosen, KEY: KEY,
+    // How many maps are held (qa/map-kit.test.js checks it never outgrows the maps on the page).
+    held: function () { return maps.length; } };
 })(typeof window !== 'undefined' ? window : this);
