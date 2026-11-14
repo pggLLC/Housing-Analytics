@@ -308,7 +308,7 @@
   function plan(p, s) {
     var c = context(p);
     if (c.wait || c.error) return c;
-    var C = c.C, d = c.d, x = c.x, f = c.f, isCounty = c.isCounty, fips = c.fips, county = c.county, countyName = c.countyName, name = c.name, geoid = c.geoid;
+    var C = c.C, d = c.d, f = c.f, isCounty = c.isCounty, fips = c.fips, county = c.county, countyName = c.countyName, name = c.name, geoid = c.geoid;
 
     // Size: the typical new building here, or the homes the user typed or set band by band.
     var dr = draftOf(p, s);
