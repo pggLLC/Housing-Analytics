@@ -39,6 +39,7 @@
   // A unit grid on market rents (no restricted limit): the engine prices every row at market rent whatever its label
   // (js/deal-engine.js tierRent), so none of its homes is restricted to an income level.
   function marketOnly(inputs, G) { return !!((G && G.grid && G.grid['dc-rent-limit-regime'] === 'market') || (inputs && inputs.regime === 'market' && !(inputs.resolvedDealMix && inputs.resolvedDealMix.available))); }
+  var HOME_LEVEL = { home_low: 50, home_high: 80 };
   // Homes by income level, from the saved schedule the engine ran on or from the unit grid. Restricted homes only.
   function homesByTier(inputs, G) {
     var out = {}, R = inputs && inputs.resolvedDealMix;
@@ -49,13 +50,19 @@
     }
     var g = G && G.grid;
     if (!g) return out;
+    // Under HOME the row does not set the restriction: every home rents at the program's fixed rent and is kept for
+    // households at or below the program's income level (js/chfa-rent-limits.js HOME_REGIMES), and a row above that
+    // level gets no rent at all. So a HOME home counts at the program's level, and a row above it counts nothing.
+    var home = HOME_LEVEL[g['dc-rent-limit-regime']];
     Object.keys(g).forEach(function (k) {
       var m = /^dc-units-(\d+)$/.exec(k);
       if (!m || g['dc-chk-' + m[1]] !== 'yes') return;
       var t = Number(m[1]), split = 0;
+      if (home && t > home) return;
       Object.keys(g).forEach(function (k2) { var b = new RegExp('^dc-units-' + t + '-').test(k2) ? parseInt(g[k2], 10) : NaN; if (b > 0) split += b; });
       var n = split > 0 ? split : parseInt(g[k], 10);
-      if (n > 0) out[t] = (out[t] || 0) + n;
+      var at = home || t;
+      if (n > 0) out[at] = (out[at] || 0) + n;
     });
     return out;
   }
@@ -113,6 +120,7 @@
     return part('Need', homes[0] ? num(homes[0]) + ' of ' + num(homes[2]) + ' homes at or below 30% AMI' : 'no homes at or below 30% AMI, where the shortfall is deepest', homes[0] ? 'good' : 'warn',
       '<ul class="outcome-need">' + rows + '</ul>' +
       (gaps.length ? '<p class="note">Not counted at ' + gaps.join('% and ') + '% AMI in the record: that level is not measured, not met.</p>' : '') +
+      (G && G.grid && HOME_LEVEL[G.grid['dc-rent-limit-regime']] ? '<p class="note">On HOME rents every home is kept for households at or below ' + HOME_LEVEL[G.grid['dc-rent-limit-regime']] + '% AMI, whatever row it sits in, so it is counted at that level.</p>' : '') +
       '<p class="note">Each row counts everyone at or below that level, so the rows overlap. Homes priced for a level are not always available to the household; this counts homes, not who lives in them.</p>',
       esc(rec.source) + ' (' + esc(rec.level) + ' record)', meaning);
   }
