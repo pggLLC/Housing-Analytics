@@ -413,6 +413,8 @@
         // saves a site under another town's or county's name, and the whole-county area is the site's own county.
         if (!global.LabPickSite) { say('The address could not be placed in a Colorado town or county on this page.'); return; }
         global.LabPickSite.describe(hit.lat, hit.lon, 0, hit.source || 'address').then(function (d) {
+          // Just over the state line (inside the rough box above): the page and its place stay as they were.
+          if (!d || d.outside || !(d.placeGeoid || d.countyFips)) { say('That address is outside Colorado. COHO covers Colorado only.'); return; }
           var q = mp();
           setParams({ g: d.placeGeoid || d.countyFips, site: hit.lat.toFixed(5) + ',' + hit.lon.toFixed(5), sl: hit.label || text, ss: hit.source || null, r: q.get('r') && q.get('r') !== '0' ? q.get('r') : '5', added: null });
         }, function () { say('That address could not be placed in a Colorado town or county. Check the street name and town.'); });
