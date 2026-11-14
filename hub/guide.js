@@ -615,7 +615,9 @@
     gtip.style.left = (left + global.pageXOffset) + 'px'; gtip.style.top = (top + global.pageYOffset) + 'px';
     el.setAttribute('aria-describedby', 'guide-tip'); gtipOn = el;
   }
-  function gtipTarget(ev) { var t = ev.target; return t && t.closest ? t.closest('.guide-body [data-gtip]') : null; }
+  // A guide's words, and any other page part marked data-hover-help (Financials, site/calc-help.js), use the same label.
+  var GTIP = '.guide-body [data-gtip], [data-hover-help] [data-gtip]';
+  function gtipTarget(ev) { var t = ev.target; return t && t.closest ? t.closest(GTIP) : null; }
   // Wired once, when the first guide gets its hover help (this file is also loaded where there is no page to listen on).
   var gtipWired = false;
   function gtipWire() {
@@ -627,7 +629,7 @@
     var lastTouch = false;
     document.addEventListener('pointerdown', function (ev) { lastTouch = ev.pointerType === 'touch' || ev.pointerType === 'pen'; }, true);
     document.addEventListener('click', function (ev) {
-      var th = ev.target && ev.target.closest ? ev.target.closest('.guide-body th[data-gtip]') : null;
+      var th = ev.target && ev.target.closest ? ev.target.closest('.guide-body th[data-gtip], [data-hover-help] th[data-gtip]') : null;
       if (!th || !lastTouch || !ev.detail || ev.target.closest('.th-sort')) return;
       ev.stopPropagation(); ev.preventDefault();
       gtipShow(th);
@@ -650,5 +652,6 @@
   });
 
   Shell.views.guide = guideView;
-  global.LabGuide = { GUIDES: GUIDES };
+  // hoverHelp and helpFiles are shared with Financials (site/calc-help.js), which marks its terms the same way.
+  global.LabGuide = { GUIDES: GUIDES, hoverHelp: hoverHelp, helpFiles: helpFiles, hideTip: gtipHide };
 })(window);

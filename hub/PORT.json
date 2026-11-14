@@ -21,12 +21,12 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "c49912efd1e63c4ce8befa5654b363419fcb0a40",
+  "commit": "b4d5f798bc328b60721d102d8784d3962d195c5d",
   "dirty": false
  },
  "files": {
-  "data-hub.html": "2a20d194d67ef8ab410d2c8342f194fc61672e990a7b63cb21c69577a902f078",
-  "deal-hub.html": "3f44851c845c4655e47387e975994f0a88fa0e0bb77bf35c8b84b64e5fb38409",
+  "data-hub.html": "cc62fd9f3c61fc0d6393001abc30fe75d242fe1d6016d43e498180fa48e47a9b",
+  "deal-hub.html": "ed81263ea8a3ec9e4926ec62ddb452bcfe9c2ed98c257b5182f4c833e106f0c1",
   "hub/access.js": "8ccf6a2320fbdc280ddcb2632284e0449aa9e0d64306d2fa9c7f86d1134faa1d",
   "hub/attract-housing.css": "28bcd998512f3ce04d0a3e094e614dbfa727e9266f6765bdef65484515887161",
   "hub/attract-housing.js": "9b33f4d813797798b92d674f7dfe80a1f7b8e8c0fc1c0aa0235498b4e754a7c7",
@@ -34,10 +34,11 @@
   "hub/calc-comps.js": "da91271ff932b59041b54665f474520facce9bfcde455caf5c12b54b56e64a04",
   "hub/calc-doh.js": "7ec3f51dabeace0a3939051b09da4e42630c810919517206846122ad2fa2cc94",
   "hub/calc-grid.js": "b3bb54cf59ebabd1cbb83834b2a1a528647b5293e4f97bbf379a3343c29eb43f",
+  "hub/calc-help.js": "2f4ba11910a20de4e33e5c7d4fd1ec216e2134cb66810191c50fffeaa914b5e9",
   "hub/calc-outcome.js": "1f24c9640eb0e8d14e6fc6a8664ef1da510a10093855ab56695c6247ac0901b5",
   "hub/calc-site.js": "ad9d4b4c9b462e415dc9dbf00fa34d8dabce4fd69d8d1fdb934df9778238b993",
   "hub/calc-tax.js": "ded0687ab2ee6cd6b28b9fd633586ee8843476a9cd402c1b340fbe5f40c30a7a",
-  "hub/calculators.css": "f983e443d694c7db22a292af5116537693230e4c19ecdc668199a2662564d699",
+  "hub/calculators.css": "f14407cfb9cead4607908207c6eebbe20ec02bcb7af352ea23f10fb528d8475b",
   "hub/calendar.js": "9fd8e62851166913afee680810c97317642113db4ea3f0e25235e6c0ed05d6b5",
   "hub/change-arrows.js": "3bfb7835e88183749dd64cacc43d91af9ae80d65038bb60ed70190d7755d4f3d",
   "hub/commuting.js": "be7105b9c3ad7d1d6486dd9cb8a288b95a1ff849e8478592adbb87f97beb8b6b",
@@ -71,7 +72,7 @@
   "hub/finder.js": "96065905924a90f7eb9f4d578e99cbcb6c790a1b47398126d9d37baaddf8b0e9",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
-  "hub/guide.js": "d62df6e6767499191d26b6ef058d0e149e2dc20a7874adb85785f8a1643fe1ee",
+  "hub/guide.js": "9f3dffe6e9566d3fa13807ff7b6a94a07adf535cbae4065a08fc114acd4f378a",
   "hub/hna-dola.js": "3d98f4185ac1b0decd1974f7f02bae7d450633f73b651652d4046ee8db71662e",
   "hub/hna.js": "5fce6ca5e03ed9c8d04c362d70a5bbd6e8f6cf49192ea322989f964de6a8582e",
   "hub/home.css": "47c8d4d65023a4e3bf1153eb9fdf2aacceddafe9b5bb0eac8533c77e283e32bb",
@@ -127,10 +128,10 @@
   "hub/viz.js": "9468c01dbce06d23ec374a5a48d439d4bfc0e814d15d9c6bff6111bfeccf68ce",
   "hub/walk-bike.css": "6894c1022a298d0f0ab4e90935b30eba979482bf07166864965f6a805b3fb662",
   "hub/walk-bike.js": "d1ea116546fcf4342fff28a066230bd9e3e1a76c0c64db15c8baf46aed80bac6",
-  "index.html": "f3cb682e940695763576c4e6929fc59c485a3eada5010b7233531adb840fcd5c",
-  "opportunities-hub.html": "8bd701260a14c73dc9b7ad4272b9f950c5e9c63e4d80d964e29b39b1af5e353e",
-  "places-hub.html": "0bcbdb8959dcdf406eed8dbb049faf4648845ad479b9c65999f816de53c9a812",
-  "policy-hub.html": "e52e97bab1d9e21b11f58fa09c0957c08faf06bc990408ffcd22608d3201bbf2"
+  "index.html": "ec02d515c67504c5363ef209fb3787df18cf7e492739ce02cc90b62eebacb5c4",
+  "opportunities-hub.html": "45098a9109ab6f77569c5f7aad9161bb188cf4a622d46762fcb3d28bb93aff6c",
+  "places-hub.html": "bc013f51ae79526027dcf8f5dd12ebe6889cd3a51ec1e8983644d9338ce7323b",
+  "policy-hub.html": "cb5dac84b62f641130010c33f57b2d9c33b256e2317fdc48015b81a27403931c"
  },
  "engines": {
   "js/deal-calculator-math.js": "305fc93936feecf0756732ccf52046adfc2af113ab232abe4769b7ff83701612",
@@ -188,6 +189,7 @@
   "js/components/affordable-housing-layer.js": "e433d17e95ef4e646e8dc9905f2b2180ea77355e4e0de433c20b39851426d3eb",
   "js/hna/hna-ownership-strategy.js": "e7194b52b59e709a48a76c00cf85800ebf0c55faf7d5cf066297f2dc92b90773",
   "js/components/development-realism.js": "174e35387989e2a1da198bcf53856688914add0b697bfa13e1f0b04e1e81ccb9",
+  "js/deal-calculator-input-registry.js": "9580bdc0ba18840a1996faf952250bb4d8d60f62bdc630f8849d486f83bc96bc",
   "js/deal-calculator-unit-size.js": "a36aae7469af793fb85cb9bb2a5fc332155cd7d502247b51ad6cb360edd5291a",
   "js/county-from-coords.js": "5c25f70968786fde9db1b4307041b66ec9ce260f42b8f3f022d6f138f5e88d1f",
   "js/data-connectors/hud-fmr.js": "e7d62f328340d652016b09656f45c6ac078e5af5f428adfb59b6e9684951df35",

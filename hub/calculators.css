@@ -316,3 +316,11 @@ form[data-action="financials"] .field-grid .field-after { grid-column: 1 / -1; m
 @media (max-width: 600px) { [data-role="compare"] td small.note { white-space: normal; } [data-role="compare"] th, [data-role="compare"] td { padding-left: .45rem; padding-right: .45rem; } }
 [data-role="chfa-comps"] .cmp-city { color: var(--muted); }
 @media (max-width: 600px) { [data-role="chfa-comps"] table { font-size: .875rem; } [data-role="chfa-comps"] th, [data-role="chfa-comps"] td { padding-left: .4rem; padding-right: .4rem; min-width: 0; } main [data-role="chfa-comps"] td.cell-mid { min-width: 6.5rem !important; } }
+/* Hover help on Financials (site/calc-help.js): glossary terms and heading tips as on the guide pages, and a small
+   "?" beside a box's label that says what the box is. Its touch area is larger than the mark. */
+[data-hover-help] abbr.g-term, [data-hover-help] th.g-tip { text-decoration: underline dotted; text-decoration-color: var(--ink-soft); text-underline-offset: 3px; cursor: help; }
+[data-hover-help] abbr.g-term:focus-visible, [data-hover-help] th.g-tip:focus-visible, .fin-help:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+.fin-help { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 1.15rem; height: 1.15rem; margin-left: .1rem; vertical-align: .1em;
+  border: 1px solid var(--green); border-radius: 50%; color: var(--green); font-size: .72rem; font-weight: 700; line-height: 1; cursor: help; }
+.fin-help::after { content: ""; position: absolute; inset: -.7rem; }
+@media print { .fin-help { display: none; } [data-hover-help] abbr.g-term, [data-hover-help] th.g-tip { text-decoration: none; } }
