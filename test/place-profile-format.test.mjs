@@ -65,5 +65,16 @@ test('all 482 profiles and their list are built from this template', () => {
   assert.equal((index.match(/<li><a href="\d{7}\.html">/g) || []).length, 482, 'places/index.html does not list all 482 profiles');
 });
 
+test('the header is one row at every width: the Menu button takes over exactly where the one-row header stops', () => {
+  // hub/look.css lays brand, menus and utility links on one row from a minimum width; below it they do not fit
+  // and wrapped into a header up to 157px tall, stuck to the top of the screen (14 Nov 2026). hub/templates.css
+  // must hand over to the Menu button for every narrower width. Move both together and this stays green.
+  const oneRow = read('hub/look.css').match(/@media \(min-width: (\d+)px\) \{\s*\.site-header \{ flex-wrap: nowrap;/);
+  const toggle = read('hub/templates.css').match(/@media \(max-width: (\d+)px\) \{\s*\.site-header \{ flex-wrap: wrap; \}\s*\.menu-toggle \{ display: block;/);
+  assert.ok(oneRow, 'hub/look.css no longer sets the one-row header at a minimum width');
+  assert.ok(toggle, 'hub/templates.css no longer shows the Menu button below a maximum width');
+  assert.equal(Number(toggle[1]), Number(oneRow[1]) - 1, 'the Menu button stops at ' + toggle[1] + 'px but the one-row header starts at ' + oneRow[1] + 'px; between them the header wraps');
+});
+
 if (failed) { console.error('\n' + failed + ' check(s) failed.'); process.exit(1); }
 console.log('\nAll checks passed.');
