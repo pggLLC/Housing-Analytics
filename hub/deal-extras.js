@@ -102,24 +102,81 @@
       fig + '<p><strong>For a tax credit deal:</strong> ' + esc(why) + '</p></section>';
   }
 
-  // The project's scenarios side by side, each run on its own saved schedule and draft.
+  // The project's scenarios side by side, each run on its own saved schedule and draft: the live Deal Calculator's
+  // "Scenario A and B" rows (js/deal-comparison.js: its deal assumptions, pro forma outputs and homes by income
+  // level), for every scenario of the project, this one first. Each value is the engine's own record for that
+  // scenario, not text read off a page; another scenario's results in money also give its difference from this one.
+  // The live page's Save as A or B is "Copy this scenario" here: the copy gets this scenario's homes and draft.
   function compare(p, here, data) {
-    var F = global.LabFinancials, E = global.DealEngine;
-    var rows = p.scenarios.map(function (s) {
+    var F = global.LabFinancials, E = global.DealEngine, O = global.LabCalcOutcome, G0 = global.LabCalcGrid;
+    var list = p.scenarios.filter(function (s) { return s.scenarioId === here; }).concat(p.scenarios.filter(function (s) { return s.scenarioId !== here; }));
+    var cols = list.map(function (s) {
       // From the scenario's saved schedule, or from its unit grid when its homes are typed there.
       var d = F.draftFor(p, s.scenarioId), inp = F.inputsFor(p, s.scenarioId, d);
       if (!inp) return { s: s, r: null };
-      return { s: s, d: d, r: E.computeDeal(Object.assign(inp, { skipSchedules: true })) };
+      var G = G0 ? G0.ctx(p, s.scenarioId, d) : null;
+      return { s: s, d: d, inp: inp, tiers: O ? O.homesByTier(inp, G) : null, r: E.computeDeal(Object.assign(inp, { skipSchedules: true })) };
     });
-    var cols = [['Homes', function (x) { return x.r ? String(x.r.units) : '—'; }], ['Total cost', function (x) { return x.d ? money(Number(x.d.fields['dc-tdc']) || null) : '—'; }],
-      ['Credit equity', function (x) { return x.r ? money(x.r.equity) : '—'; }], ['First mortgage', function (x) { return x.r ? money(x.r.mortgage) : '—'; }],
-      ['Basis boost', function (x) { return x.r ? F.boostTag(x.r, x.d.fields).short : '—'; }], ['Funding gap', function (x) { return x.r ? (x.r.gap == null ? '—' : money(Math.max(0, x.r.gap))) : '—'; }], ['Coverage', function (x) { return x.r && known(x.r.baseDSCR) ? x.r.baseDSCR.toFixed(2) + 'x' : '—'; }]];
-    return '<section class="fin-section" aria-labelledby="fin-compare"><h2 id="fin-compare">Compare this project’s scenarios</h2>' +
-      (rows.length < 2 ? '<p>Add a second scenario to this project, say a 4% version or a different mix, and each one’s results line up here. <a href="#/project/' + esc(p.projectId) + '">Add a scenario on the project page</a>.</p>' : '<p>Each scenario runs on its own saved homes and costs.</p>') +
-      '<div class="table-scroll" role="region" aria-label="Scenarios side by side" tabindex="0"><table><thead><tr><th scope="col">Scenario</th>' + cols.map(function (c) { return '<th scope="col" class="num">' + c[0] + '</th>'; }).join('') + '</tr></thead><tbody>' +
-      rows.map(function (x) {
-        return '<tr' + (x.s.scenarioId === here ? ' class="row-strong"' : '') + '><th scope="row">' + esc(x.s.name) + (x.r ? '' : ' <span class="note">(no saved homes yet)</span>') + '</th>' + cols.map(function (c) { return '<td class="num">' + esc(c[1](x)) + '</td>'; }).join('') + '</tr>';
-      }).join('') + '</tbody></table></div></section>';
+    // A scenario with no saved homes has nothing to set beside this one: it is named under the table, not given a column of dashes.
+    var empty = cols.filter(function (x, i) { return i > 0 && !x.r; });
+    cols = cols.filter(function (x, i) { return i === 0 || x.r; });
+    function pctText(v, k) { return known(v) ? (+v).toFixed(k) : '—'; }
+    function stateEq(r) { return r.creditStack && known(r.creditStack.state) ? r.creditStack.state : r.stateEquity; }
+    // [label, value (a number, or text), shown, money row?]
+    var ROWS = [
+      ['Deal assumptions'],
+      ['Credit type', function (x) { return x.d.fields['dc-credit'] === '4' ? '4%' : '9%'; }],
+      ['Total development cost', function (x) { var v = Number(x.d.fields['dc-tdc']); return v > 0 ? v : null; }, money],
+      ['Homes', function (x) { return x.r.units; }, function (v) { return known(v) ? num(v) : '—'; }],
+      ['Basis boost', function (x) { return F.boostTag(x.r, x.d.fields).short; }],
+      ['Equity price a credit dollar', function (x) { return x.r.equityPrice; }, function (v) { return known(v) ? '$' + (+v).toFixed(2) : '—'; }],
+      ['Net operating income', function (x) { return x.r.noi; }, money],
+      ['Coverage the lender requires', function (x) { return Number(x.inp.fields['dc-dcr']); }, function (v) { return v > 0 ? (+v).toFixed(2) + 'x' : '—'; }],
+      ['Interest rate', function (x) { return x.r.interestRate; }, function (v) { return pctText(v, 2) === '—' ? '—' : pctText(v, 2) + '%'; }],
+      ['Loan term', function (x) { return x.r.term; }, function (v) { return known(v) ? v + ' years' : '—'; }],
+      ['Results'],
+      ['Qualified basis', function (x) { return x.r.eligibleBasis; }, money, true],
+      ['Annual tax credits', function (x) { return x.r.annualCredits; }, money, true],
+      ['Federal credit equity', function (x) { return x.r.equity; }, money, true],
+      ['State credit equity', function (x) { return stateEq(x.r); }, money, true],
+      ['Rent a year before vacancy', function (x) { return x.r.annualRents; }, money, true],
+      ['Supportable first mortgage', function (x) { return x.r.mortgage; }, money, true],
+      ['Funding gap', function (x) { return x.r.gap == null ? null : Math.max(0, x.r.gap); }, money, true],
+      ['Coverage', function (x) { return x.r.baseDSCR; }, function (v) { return known(v) ? (+v).toFixed(2) + 'x' : '—'; }]
+    ];
+    // Homes by income level: the live page's 30, 40, 50 and 60% rows, and any other level a scenario uses.
+    var levels = [30, 40, 50, 60];
+    cols.forEach(function (x) { Object.keys(x.tiers || {}).forEach(function (t) { t = +t; if (levels.indexOf(t) < 0 && x.tiers[t] > 0) levels.push(t); }); });
+    levels.sort(function (a, b) { return a - b; });
+    if (O) {
+      ROWS.push(['Homes by income level']);
+      levels.forEach(function (t) { ROWS.push([t + '% AMI', function (x) { return x.tiers ? x.tiers[t] || 0 : null; }, function (v) { return known(v) ? num(v) : '—'; }]); });
+    }
+    var base = cols[0];
+    function cell(row, x) {
+      if (!x.r) return '<td class="num">—</td>';
+      var v = row[1](x), shown = row[2] ? row[2](v) : (v == null ? '—' : String(v));
+      var diff = '';
+      if (row[3] && x !== base && base.r) {
+        var b = row[1](base);
+        // From the whole dollars shown, so the difference is the one a reader works out from the two cells.
+        if (known(v) && known(b)) { var dd = Math.round(v) - Math.round(b); diff = dd === 0 ? 'same as this one' : (dd > 0 ? '+' : '−') + money(Math.abs(dd)) + ' against this one'; }
+      }
+      return '<td class="num">' + esc(shown) + (diff ? '<br><small class="note">' + esc(diff) + '</small>' : '') + '</td>';
+    }
+    var width = cols.length + 1;
+    return '<section class="fin-section" aria-labelledby="fin-compare" data-role="compare"><h2 id="fin-compare">Compare this project’s scenarios</h2>' +
+      (cols.length < 2 ? '<p>' + (empty.length ? 'Once another scenario has saved homes, say a 4% version or a different mix, its results line up here.' : 'Add a second scenario to this project, say a 4% version or a different mix, and each one’s results line up here.') + ' Copy this one to try a change; the copy starts with these homes, costs and settings.</p>'
+        : '<p>Each scenario runs on its own saved homes and costs. This one is first; each result in money also gives another scenario’s difference from this one.</p>') +
+      '<div class="table-scroll" role="region" aria-label="Scenarios side by side" tabindex="0"><table data-role="compare-table"><thead><tr><th scope="col">For each scenario</th>' +
+      cols.map(function (x) { return '<th scope="col" class="num">' + esc(x.s.name) + (x.s.scenarioId === here ? ' <small>(this one)</small>' : '') + (x.r ? '' : ' <span class="note">(no saved homes yet)</span>') + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      ROWS.map(function (row) {
+        if (row.length === 1) return '<tr class="compare-group"><th scope="rowgroup" colspan="' + width + '">' + esc(row[0]) + '</th></tr>';
+        return '<tr><th scope="row">' + esc(row[0]) + '</th>' + cols.map(function (x) { return cell(row, x); }).join('') + '</tr>';
+      }).join('') + '</tbody></table></div>' +
+      (empty.length ? '<p class="note" data-role="compare-empty">Not in the table, with no saved homes yet: ' + esc(empty.map(function (x) { return x.s.name; }).join(', ')) + '.</p>' : '') +
+      '<div class="actions"><button type="button" class="button-link secondary" data-action="copy-scenario" data-pid="' + esc(p.projectId) + '" data-sid="' + esc(here) + '">Copy this scenario</button>' +
+      '<a class="button-link secondary" href="#/project/' + esc(p.projectId) + '">Rename or remove scenarios on the project page</a></div></section>';
   }
 
   // Funding programs open to a deal like this in the county, as js/components/funding-context-card.js filters them.
@@ -161,6 +218,18 @@
     },
     _rvb: function (k, v) { if (rvbIn && RVB.some(function (f) { return f[0] === k; }) && isFinite(v)) rvbIn[k] = v; }
   };
+
+  // Copy this scenario: the live page's Save as A or B. The copy gets this scenario's homes, draft and settings,
+  // and opens on its own Financials, ready for the change to try.
+  document.addEventListener('click', function (ev) {
+    var b = ev.target && ev.target.closest && ev.target.closest('button[data-action="copy-scenario"]');
+    var P = global.LabProjects;
+    if (!b || !P) return;
+    var p = P.get(b.dataset.pid), s = p && p.scenarios.filter(function (x) { return x.scenarioId === b.dataset.sid; })[0];
+    if (!s) return;
+    var copy = P.addScenario(p.projectId, 'Copy of ' + s.name, s.scenarioId);
+    location.hash = '#/financials/' + p.projectId + '/' + copy;
+  });
 
   document.addEventListener('change', function (ev) {
     var t = ev.target;
