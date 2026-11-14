@@ -313,7 +313,9 @@
   // CHFA asks; the radius only picks which tracts, and the page says it is a screening stand-in, not the drawn
   // primary market area. "Use in project" stores the site and the tract list with the chosen project. No figure
   // is worked out here: the project pages recount renters from the tract list with the site's own engine.
-  // Address: #/market?g=<geoid>&site=<lat>,<lon>&sl=<label>&ss=<census|osm>&r=<0|2|5|10>&p=<project>&s=<scenario>&back=<hash>
+  // Address: #/market?g=<geoid>&site=<lat>,<lon>&sl=<label>&ss=<census|osm>&sc=<county>&r=<0|2|5|10>&p=<project>&s=<scenario>&back=<hash>
+  // sc is the county the site stands in. A town can span counties (Aurora: Adams, Arapahoe, Douglas), and the page's
+  // place gives only the town's main county, so the whole-county area and the saved site take the site's own county.
   var CENTROIDS = { cent: 'data/market/tract_centroids_co.json' };
   var RADII = [0, 2, 5, 10];
   var P = global.LabProjects;
@@ -325,15 +327,24 @@
     if (!(lat >= 36.9 && lat <= 41.1 && lon >= -109.1 && lon <= -102)) return null;
     return { lat: lat, lon: lon, label: params.get('sl') || (lat.toFixed(5) + ', ' + lon.toFixed(5)), source: params.get('ss') === 'osm' ? 'openstreetmap' : params.get('ss') === 'census' ? 'census-geocoder' : params.get('ss') === 'device' ? 'device-location' : 'map' };
   }
+  // The site's own county ({ fips, name }), or the page's county when there is no site or the address names none.
+  function siteCounty(params, s) {
+    var sc = params.get('sc');
+    if (!siteOf(params) || !/^08\d{3}$/.test(sc || '') || sc === s.fips) return { fips: s.fips, name: s.countyName };
+    var c = Pl.countyFacts(sc, s.d);
+    return c && c.county ? { fips: sc, name: c.county.county_name } : { fips: s.fips, name: s.countyName };
+  }
   function miles(a, b) {
     var R = 3958.8, r = Math.PI / 180, dLat = (b.lat - a.lat) * r, dLon = (b.lon - a.lon) * r;
     var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
     return 2 * R * Math.asin(Math.sqrt(h));
   }
   // The market area as stored: which tracts, how they were picked, in plain words.
-  function areaFor(s, site, radius, cent) {
-    var inCounty = Object.keys(s.x.demand.tracts || {}).filter(function (g) { return g.slice(0, 5) === s.fips; }).sort();
-    if (!site || !radius) return { tracts: inCounty, radiusMiles: null, method: 'county', areaLabel: 'All of ' + s.countyName };
+  // county: the site's own county (siteCounty); the page's county when left out.
+  function areaFor(s, site, radius, cent, county) {
+    var cf = county ? county.fips : s.fips, cn = county ? county.name : s.countyName;
+    var inCounty = Object.keys(s.x.demand.tracts || {}).filter(function (g) { return g.slice(0, 5) === cf; }).sort();
+    if (!site || !radius) return { tracts: inCounty, radiusMiles: null, method: 'county', areaLabel: 'All of ' + cn };
     var tracts = (cent.tracts || []).filter(function (t) { return t.lat != null && t.lon != null && miles(site, t) <= radius; }).map(function (t) { return t.geoid; }).sort();
     return { tracts: tracts, radiusMiles: radius, method: 'tract-centroid-radius', areaLabel: 'Census tracts whose centre is within ' + radius + ' miles of the site' };
   }
@@ -341,7 +352,11 @@
     o = o || {};
     var q = new URLSearchParams();
     q.set('g', o.g || '');
-    if (site && site.lat != null && site.lon != null) { q.set('site', (+site.lat).toFixed(5) + ',' + (+site.lon).toFixed(5)); if (site.label) q.set('sl', site.label); }
+    if (site && site.lat != null && site.lon != null) {
+      q.set('site', (+site.lat).toFixed(5) + ',' + (+site.lon).toFixed(5));
+      if (site.label) q.set('sl', site.label);
+      if (/^08\d{3}$/.test(site.countyFips || '')) q.set('sc', site.countyFips);
+    }
     if (o.radius) q.set('r', o.radius);
     if (o.project) q.set('p', o.project);
     if (o.scenario) q.set('s', o.scenario);
@@ -350,7 +365,7 @@
     return '#/market?' + q.toString();
   }
   function useSection(params, s, g) {
-    var site = siteOf(params), r = RADII.indexOf(+params.get('r')) > -1 ? +params.get('r') : (site ? 5 : 0);
+    var site = siteOf(params), r = RADII.indexOf(+params.get('r')) > -1 ? +params.get('r') : (site ? 5 : 0), county = siteCounty(params, s);
     var done = params.get('added');
     var head = '<h2 id="mk-use">Use a site and market area in a project</h2>';
     if (done) {
@@ -359,7 +374,7 @@
         '<div class="actions">' + (dp ? '<a class="button-link" href="#/project/' + esc(dp.projectId) + '">Open the project</a>' : '') + '</div></div>';
     }
     var cent = site && r ? UI.load(CENTROIDS) : { data: { cent: {} } };
-    var area = cent.data ? areaFor(s, site, r, cent.data.cent) : null;
+    var area = cent.data ? areaFor(s, site, r, cent.data.cent, county) : null;
     var siteForm = '<form class="stack" data-mk-site="' + esc(g) + '" autocomplete="off">' +
       '<label for="mk-site-q">Site address</label>' +
       '<div class="dm-search-row"><input id="mk-site-q" name="mkq" type="search" value="' + esc(site ? site.label : '') + '" placeholder="e.g. 250 N 5th St, Grand Junction" aria-describedby="mk-site-help"><button type="submit">Find</button></div>' +
@@ -371,7 +386,7 @@
     var radios = '<fieldset><legend>Market area</legend>' + RADII.map(function (m) {
       var dis = m && !site;
       return '<label><input type="radio" name="mk-r" value="' + m + '"' + (m === r ? ' checked' : '') + (dis ? ' disabled' : '') + '> ' +
-        (m ? 'Census tracts whose centre is within ' + m + ' miles of the site' + (dis ? ' (find a site first)' : '') : 'All of ' + esc(s.countyName)) + '</label>';
+        (m ? 'Census tracts whose centre is within ' + m + ' miles of the site' + (dis ? ' (find a site first)' : '') : 'All of ' + esc(county.name)) + '</label>';
     }).join('') + '</fieldset>';
     var areaNote = !area ? (cent.error ? '<p class="callout">' + esc(cent.error) + '</p>' : '<p class="note" role="status">Loading the census tract centres…</p>')
       : '<p class="note">' + esc(area.areaLabel) + ': ' + num(area.tracts.length) + (area.tracts.length === 1 ? ' whole census tract.' : ' whole census tracts.') +
@@ -403,7 +418,7 @@
     if (form.dataset && form.dataset.mkSite != null) {
       ev.preventDefault();
       var text = form.mkq.value.trim(), say = function (t) { var el = form.querySelector('.mk-site-status'); if (el) el.textContent = t; };
-      if (!text) { setParams({ site: null, sl: null, ss: null, r: null }); return; }
+      if (!text) { setParams({ site: null, sl: null, ss: null, sc: null, r: null }); return; }
       if (!global.CohoGeocode) { say('The address lookup is not available on this page.'); return; }
       say('Looking up the address…');
       global.CohoGeocode.find(text).then(function (hit) {
@@ -416,7 +431,7 @@
           // Just over the state line (inside the rough box above): the page and its place stay as they were.
           if (!d || d.outside || !(d.placeGeoid || d.countyFips)) { say('That address is outside Colorado. COHO covers Colorado only.'); return; }
           var q = mp();
-          setParams({ g: d.placeGeoid || d.countyFips, site: hit.lat.toFixed(5) + ',' + hit.lon.toFixed(5), sl: hit.label || text, ss: hit.source || null, r: q.get('r') && q.get('r') !== '0' ? q.get('r') : '5', added: null });
+          setParams({ g: d.placeGeoid || d.countyFips, site: hit.lat.toFixed(5) + ',' + hit.lon.toFixed(5), sl: hit.label || text, ss: hit.source || null, sc: d.countyFips || null, r: q.get('r') && q.get('r') !== '0' ? q.get('r') : '5', added: null });
         }, function () { say('That address could not be placed in a Colorado town or county. Check the street name and town.'); });
       }, function () { say('The address lookup did not answer. Try again in a moment.'); });
       return;
@@ -425,10 +440,10 @@
     ev.preventDefault();
     var params = mp(), g = form.dataset.mkUse, s = gather(g, 'Market check');
     if (s.html) return;
-    var site = siteOf(params), r = RADII.indexOf(+params.get('r')) > -1 ? +params.get('r') : (site ? 5 : 0);
+    var site = siteOf(params), r = RADII.indexOf(+params.get('r')) > -1 ? +params.get('r') : (site ? 5 : 0), county = siteCounty(params, s);
     var cent = site && r ? UI.load(CENTROIDS) : { data: { cent: {} } };
     if (!cent.data) return;
-    var area = areaFor(s, site, r, cent.data.cent);
+    var area = areaFor(s, site, r, cent.data.cent, county);
     var target = String(new FormData(form).get('target') || '').split('|');
     if (target.length !== 2 || !area.tracts.length) return;
     var pid = target[0], sid = target[1], p = P.get(pid);
@@ -446,11 +461,11 @@
       var had = sc && sc.siteId ? P.get(pid).sites.filter(function (x) { return x.siteId === sc.siteId; })[0] : null;
       if (!had || had.lat !== site.lat || had.lng !== site.lon) P.setSite(pid, sid, { label: site.label, lat: site.lat, lng: site.lon });
       P.attach(pid, sid, { kind: 'site-reference', label: 'Site: ' + site.label,
-        snapshot: { lat: site.lat, lon: site.lon, label: site.label, countyFips: s.fips, placeGeoid: placeGeoid, source: site.source },
+        snapshot: { lat: site.lat, lon: site.lon, label: site.label, countyFips: county.fips, placeGeoid: placeGeoid, source: site.source },
         origin: { route: route } });
     }
     P.attach(pid, sid, { kind: 'market-snapshot', label: area.areaLabel + ' (' + area.tracts.length + (area.tracts.length === 1 ? ' tract)' : ' tracts)'),
-      snapshot: { tracts: area.tracts, site: site ? { lat: site.lat, lon: site.lon, label: site.label } : null, countyFips: s.fips, areaLabel: area.areaLabel,
+      snapshot: { tracts: area.tracts, site: site ? { lat: site.lat, lon: site.lon, label: site.label } : null, countyFips: county.fips, areaLabel: area.areaLabel,
         radiusMiles: area.radiusMiles, method: area.method, tractSource: area.method === 'county' ? 'data/market/chfa_renter_demand_co.json' : CENTROIDS.cent },
       sourceDates: { tractCentroids: cent.data.cent && cent.data.cent.meta ? (cent.data.cent.meta.generated || null) : null },
       origin: { route: route } });
@@ -467,7 +482,7 @@
     global.LabPickSite.open(function (hit) {
       if (!hit) return;
       setParams({ g: hit.placeGeoid || hit.countyFips, site: hit.lat.toFixed(5) + ',' + hit.lon.toFixed(5), sl: hit.label,
-        ss: hit.source === 'device' ? 'device' : 'map', r: hit.radiusMiles || 0, added: null, at: 'mk-use' });
+        ss: hit.source === 'device' ? 'device' : 'map', sc: hit.countyFips || null, r: hit.radiusMiles || 0, added: null, at: 'mk-use' });
     }, { mode: b.getAttribute('data-mk-pick'), radius: r });
   });
   document.addEventListener('change', function (ev) {
