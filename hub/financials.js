@@ -1089,8 +1089,8 @@
       rows.filter(function (x) { return x[1] != null; }).map(function (x) { return '<div><dt>' + esc(x[0]) + '</dt><dd>' + esc(x[1]) + '</dd></div>'; }).join('') + '</dl></section>';
   }
   // Can the market fill these homes (paul, 14 Nov 2026: "Panel and Financials")? The deal's own homes by AMI band,
-  // counted against the renters who qualify for each band in the project's market area, the same count and the same
-  // COHO lines as the starting numbers panel (LabStart.captureCheck). A weak band carries a recommendation to use the
+  // counted against the renters who qualify for each band in the project's market area (for the sizes the homes come in),
+  // the same count and the same COHO lines as the starting numbers panel (LabStart.captureCheck). A weak band carries a recommendation to use the
   // rent of the next band down that is not weak; nothing here changes a figure.
   function homesByBand(inputs, G) {
     var out = {}, mix = inputs.resolvedDealMix;
@@ -1101,14 +1101,34 @@
     Object.keys(out).forEach(function (t) { if (!(out[t] > 0)) delete out[t]; });
     return out;
   }
+  // The sizes the counted homes come in, as the engine names them, so renters are counted for the homes on offer, as
+  // Market check's simulator counts them (Codex P2 on HA #2864): a household counts only where an offered size fits
+  // it. The engine has no 4BR rule, so 4BR homes are left out; with no size left, its 1-3BR default applies.
+  var ENGINE_BR = { efficiency: '0br', studio: '0br', '1BR': '1br', '1br': '1br', '2BR': '2br', '2br': '2br', '3BR': '3br', '3br': '3br' };
+  function bedroomsOffered(inputs, G) {
+    var on = {}, mix = inputs.resolvedDealMix;
+    var add = function (b, n) { if (ENGINE_BR[b] && n > 0) on[ENGINE_BR[b]] = true; };
+    if (mix && mix.available) (mix.restrictedRows || []).forEach(function (x) { var t = Number(x.tier); if (t > 0 && t <= 80) add(x.bedrooms, Number(x.units) || 0); });
+    else if (G && G.grid && global.LabCalcGrid && global.LabCalcGrid.rowHomes && G.grid['dc-rent-limit-regime'] !== 'market') {
+      var g = G.grid, BR = global.LabCalcGrid.BR || [], int = function (v) { return Math.max(0, Math.round(Number(v) || 0)); };
+      global.LabCalcGrid.BANDS.forEach(function (t) {
+        if (g['dc-chk-' + t] !== 'yes' || t > 80) return;
+        var split = 0;
+        BR.forEach(function (br) { var n = int(g['dc-units-' + t + '-' + br]); split += n; add(br, n); });
+        if (!split) add(g['dc-br-' + t] || '2br', int(g['dc-units-' + t]));
+      });
+    }
+    return ['0br', '1br', '2br', '3br'].filter(function (k) { return on[k]; });
+  }
+  function sizeNames(list) { return list.map(function (b) { return b === '0br' ? 'studio' : b.toUpperCase(); }); }
   function captureMarket(p, s, inputs, G) {
     var S = global.LabStart;
     if (!S || !S.marketFor || !p.jurisdiction) return null;
     var by = homesByBand(inputs, G), over = {};
     Object.keys(by).forEach(function (t) { if (Number(t) > 80) { over[t] = by[t]; delete by[t]; } });
     if (!Object.keys(by).length) return null;
-    var pick = p.overrides[s.scenarioId] && p.overrides[s.scenarioId].captureArea;
-    return { by: by, over: Object.keys(over), m: S.marketFor(p, s, by, pick) };
+    var pick = p.overrides[s.scenarioId] && p.overrides[s.scenarioId].captureArea, br = bedroomsOffered(inputs, G);
+    return { by: by, over: Object.keys(over), br: br, m: S.marketFor(p, s, by, pick, br.length ? br : null) };
   }
   function captureSection(p, s, cm) {
     if (!cm) return '';
@@ -1127,11 +1147,16 @@
       return '<tr' + (x.level === 'good' ? '' : ' class="capture-weak"') + '><th scope="row">' + x.band + '%</th><td class="num">' + esc(String(x.homes)) + '</td><td class="num">' + esc(Math.round(x.renters).toLocaleString('en-US')) + '</td><td class="num">' +
         esc(x.needed.toLocaleString('en-US')) + '</td><td class="num">' + S.captureLevel(x) + '</td></tr>';
     }).join('');
-    return head + '<p class="note">' + esc(lead) + '</p>' + choice +
+    var sizes = cm.br && cm.br.length ? sizeNames(cm.br) : null;
+    var fit = '<p class="note" data-role="capture-sizes">' + esc(sizes
+      ? 'Counted for the sizes these homes come in (' + (sizes.length > 1 ? sizes.slice(0, -1).join(', ') + ' and ' + sizes[sizes.length - 1] : sizes[0]) + '): a household counts only if one fits it.'
+      : 'Counted for 1 to 3 bedroom homes: no size these homes come in has a CHFA household rule.') +
+      ' CHFA’s limits: studio 1 person, 1BR 1 to 2, 2BR 2 to 3, 3BR 3 to 5.</p>';
+    return head + '<p class="note">' + esc(lead) + '</p>' + fit + choice +
       '<div class="table-scroll"><table class="start-table" data-no-sort><caption>Homes against the renters who qualify, by income band (share = homes ÷ renters; needed = the renters a ' + esc(pct(S.GOOD, 0)) + ' share takes)</caption><thead><tr><th scope="col">Band</th><th scope="col" class="num">Homes</th><th scope="col" class="num">Renters who qualify</th><th scope="col" class="num">Needed</th><th scope="col" class="num">Share</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
       (S.captureWarning(m.check, areaLabel) || '<p class="note" data-role="capture-ok">Every band stays at ' + esc(pct(S.GOOD, 0)) + ' or less of the renters who qualify for it.</p>') +
       (cm.over.length ? '<p class="note">Homes at ' + cm.over.map(function (t) { return t + '%'; }).join(' and ') + ' of area median income are not counted: the CHFA count covers bands up to 80%.</p>' : '') +
-      '<p class="note">A household can qualify for more than one band, so the counts overlap. Counted the CHFA market-study way by the site’s own engine (HUD CHAS 2018–2022, Census ACS 2020–2024), as the starting numbers are. A real market area is drawn round the site: <a href="#/market">check a site</a>.</p></section>';
+      '<p class="note">A household can qualify for more than one band, so the counts overlap. Counted the CHFA market-study way by the site’s own engine (HUD CHAS 2018–2022, Census ACS 2020–2024), as the starting numbers are; they count 1 to 3 bedroom homes. A real market area is drawn round the site: <a href="#/market">check a site</a>.</p></section>';
   }
   function captureFlag(cm) {
     var w = cm && cm.m && cm.m.check ? cm.m.check.weak : [];
@@ -1436,5 +1461,5 @@
     Shell.render();
   });
 
-  global.LabFinancials = { setAsideStatus: setAsideStatus, SET_ASIDE_HELP: SET_ASIDE_HELP, boostTag: boostTag, basisSection: basisSection, LS_INPUTS: LS_INPUTS, fieldGrid: function (d, g) { return fieldGrid(d, g); }, SOFT_REFERENCE: SOFT_REFERENCE, AMOUNT_SOURCE: AMOUNT_SOURCE, IMPACT_FEE_NOTE: IMPACT_FEE_NOTE, programReference: programReference, _data: data, LOAN_INPUTS: LOAN_INPUTS, SOFT_PROGRAMS: SOFT_PROGRAMS, FEDERAL_FUND_DEFAULTS: FEDERAL_FUND_DEFAULTS, seedTranche: seedTranche, addedTranche: addedTranche, readDraft: readDraft, WF_INPUTS: WF_INPUTS, STRESS_INPUTS: STRESS_INPUTS, RATE_STEPS: RATE_STEPS, PRICE_STEPS: PRICE_STEPS, buildInputs: buildInputs, inputsFor: inputsFor, currentSchedule: currentSchedule, emptyDraft: emptyDraft, draftFor: draftFor, equityDefault: equityDefault, INPUTS: INPUTS, exitSummary: exitSummary, costIds: costIds, lineBasis: lineBasis, costGroupsHtml: costGroupsHtml, CONSTANTS: CONSTANTS, CREDIT_RATES: CREDIT_RATES, SOURCE_TAGS: SOURCE_TAGS, sourceTag: sourceTag, CREDIT_INPUTS: CREDIT_INPUTS, RENT_CAP_INPUTS: RENT_CAP_INPUTS, rentCapInputs: rentCapInputs, homesByBand: homesByBand, captureSection: captureSection, captureMarket: captureMarket, CHECKBOX_IDS: CHECKBOX_IDS, NOI_INPUTS: NOI_INPUTS, CONST_INPUTS: CONST_INPUTS, constantsFrom: constantsFrom, stressTable: stressTable, rentLimitsFixed: rentLimitsFixed, creditChecks: creditChecks, sourcesUses: sourcesUses, sourcesUsesRows: sourcesUsesRows, unavailable: unavailable };
+  global.LabFinancials = { setAsideStatus: setAsideStatus, SET_ASIDE_HELP: SET_ASIDE_HELP, boostTag: boostTag, basisSection: basisSection, LS_INPUTS: LS_INPUTS, fieldGrid: function (d, g) { return fieldGrid(d, g); }, SOFT_REFERENCE: SOFT_REFERENCE, AMOUNT_SOURCE: AMOUNT_SOURCE, IMPACT_FEE_NOTE: IMPACT_FEE_NOTE, programReference: programReference, _data: data, LOAN_INPUTS: LOAN_INPUTS, SOFT_PROGRAMS: SOFT_PROGRAMS, FEDERAL_FUND_DEFAULTS: FEDERAL_FUND_DEFAULTS, seedTranche: seedTranche, addedTranche: addedTranche, readDraft: readDraft, WF_INPUTS: WF_INPUTS, STRESS_INPUTS: STRESS_INPUTS, RATE_STEPS: RATE_STEPS, PRICE_STEPS: PRICE_STEPS, buildInputs: buildInputs, inputsFor: inputsFor, currentSchedule: currentSchedule, emptyDraft: emptyDraft, draftFor: draftFor, equityDefault: equityDefault, INPUTS: INPUTS, exitSummary: exitSummary, costIds: costIds, lineBasis: lineBasis, costGroupsHtml: costGroupsHtml, CONSTANTS: CONSTANTS, CREDIT_RATES: CREDIT_RATES, SOURCE_TAGS: SOURCE_TAGS, sourceTag: sourceTag, CREDIT_INPUTS: CREDIT_INPUTS, RENT_CAP_INPUTS: RENT_CAP_INPUTS, rentCapInputs: rentCapInputs, homesByBand: homesByBand, captureSection: captureSection, captureMarket: captureMarket, bedroomsOffered: bedroomsOffered, CHECKBOX_IDS: CHECKBOX_IDS, NOI_INPUTS: NOI_INPUTS, CONST_INPUTS: CONST_INPUTS, constantsFrom: constantsFrom, stressTable: stressTable, rentLimitsFixed: rentLimitsFixed, creditChecks: creditChecks, sourcesUses: sourcesUses, sourcesUsesRows: sourcesUsesRows, unavailable: unavailable };
 })(window);

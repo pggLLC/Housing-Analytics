@@ -232,7 +232,9 @@
   // Financials' check for a deal's own homes (byBand: homes by AMI band). The area is the user's pick on Financials,
   // else as the panel picks it (the same test as plan()): a saved market check's area, else the place's tracts,
   // widened to the county when a band there is past the very-thin line with no lower band to take it.
-  function marketFor(p, s, byBand, pick) {
+  // bedrooms: the sizes the deal's homes come in, as the engine names them ('0br' to '3br'); none counts the engine's
+  // 1-3BR default, as the panel does.
+  function marketFor(p, s, byBand, pick, bedrooms) {
     var c = context(p);
     if (c.wait || c.error) return c;
     // Every band a weak band could step down to is counted, whether or not the deal has homes in it (Codex P2 on
@@ -246,11 +248,11 @@
     if (!area) {
       area = areas[0];
       if (area.key === 'place') {
-        var pp = poolOf(c, area, bands);
+        var pp = poolOf(c, area, bands, bedrooms);
         if (!(sum(pp) > 0) || moves(byBand, pp, bands).tooBig.length) { widened = area; area = areas[areas.length - 1]; }
       }
     }
-    var pool = poolOf(c, area, bands);
+    var pool = poolOf(c, area, bands, bedrooms);
     return { area: area, areas: areas, widened: widened, staleSaved: areas.staleSaved, pool: pool, check: captureCheck(byBand, pool), countyName: c.countyName, name: c.name };
   }
 
@@ -294,12 +296,16 @@
     areas.staleSaved = saved && saved.stale ? saved : null;
     return areas;
   }
-  function poolOf(c, a, bands) {
-    a.pool = a.pool || {};
+  // Renters who qualify in an area, band by band, for the bedroom sizes given (none: the engine's 1-3BR default).
+  // Kept on the area for each set of sizes.
+  function poolOf(c, a, bands, bedrooms) {
+    var key = bedrooms && bedrooms.length ? bedrooms.join(',') : '';
+    a.pools = a.pools || {};
+    var cache = a.pools[key] = a.pools[key] || {};
     var list = a.tracts.map(function (g) { return { geoid: g }; }), out = {};
     bands.forEach(function (b) {
-      if (!(b in a.pool)) { var q = c.E.chfaQualifiedRenters(c.x.demand, c.limits, list, [b], undefined, engineOpts(c.x)); a.pool[b] = q && q.value > 0 ? q.value : 0; }
-      out[b] = a.pool[b];
+      if (!(b in cache)) { var q = c.E.chfaQualifiedRenters(c.x.demand, c.limits, list, [b], key ? bedrooms : undefined, engineOpts(c.x)); cache[b] = q && q.value > 0 ? q.value : 0; }
+      out[b] = cache[b];
     });
     return out;
   }
