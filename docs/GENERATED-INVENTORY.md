@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T19:34:52.605Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T20:27:29.264Z. Do not edit by hand.
 
 ---
 
@@ -2098,7 +2098,7 @@
 
 ## Test Files
 
-806 test files found.
+807 test files found.
 
 | File | Size |
 |------|------|
@@ -2454,6 +2454,7 @@
 | `test/housing-outcome-score-absence.test.js` | 9.4 KB |
 | `test/housing-outcome-score-site-only-label.test.js` | 2.4 KB |
 | `test/housing-type-need-middle-income.test.js` | 6.0 KB |
+| `test/hub-data-files-ship.test.mjs` | 5.1 KB |
 | `test/hud-designation-year.test.js` | 5.5 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 2.8 KB |
