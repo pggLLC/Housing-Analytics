@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- member-chrome:theme (scripts/build-member-chrome.mjs; do not edit by hand) -->
+<script>/* Light or dark, before the page paints (the site's own key and classes). */
+try { var s = localStorage.getItem('coho-analytics-scheme'); if (s === 'dark' || s === 'light') document.documentElement.classList.add(s + '-mode'); } catch (e) {}</script>
+<!-- /member-chrome:theme -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jurisdiction Report — COHO Analytics</title>
@@ -204,11 +208,32 @@
 </style>
   <script defer src="js/components/table-header-tips.js"></script>
   <script defer src="js/components/table-sort.js"></script>
+<!-- member-chrome:head (scripts/build-member-chrome.mjs; do not edit by hand) -->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="hub/palette.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap">
+<style>@import url("hub/shell.css") layer(hub); @import url("hub/visual-pass.css") layer(hub); @import url("hub/templates.css") layer(hub); @import url("hub/look.css") layer(hub);</style>
+<link rel="stylesheet" href="css/member-chrome.css">
+<style>/* The header and footer keep the new pages' small-print colour (hub/palette.css, read at build). */
+:is(.skip-link, .site-header, .site-footer) { --muted: #64748B; }
+@media screen and (prefers-color-scheme: dark) { :root:not(.light-mode) :is(.skip-link, .site-header, .site-footer) { --muted: #A3B3AD; } }
+@media screen { :root.dark-mode :is(.skip-link, .site-header, .site-footer) { --muted: #A3B3AD; } }</style>
+<!-- /member-chrome:head -->
 </head>
-<body>
-<header id="siteHeader"></header>
+<body class="member-page">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<!-- member-chrome:header (scripts/build-member-chrome.mjs; do not edit by hand) -->
+<header class="site-header">
+  <a class="brand" href="index.html">COHO Analytics</a>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"></nav>
+  <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">Dark</button>
+</header>
+<!-- /member-chrome:header -->
 
-<main class="page-container" style="max-width:1100px;margin:0 auto;padding:var(--sp3);">
+<main id="main-content" class="page-container" style="max-width:1100px;margin:0 auto;padding:var(--sp3);">
 
   <nav id="devNav" class="ib-section-nav"></nav>
 
@@ -245,8 +270,24 @@
   </div>
 
 </main>
+<!-- member-chrome:footer (scripts/build-member-chrome.mjs; do not edit by hand) -->
+<footer class="site-footer">
+  <p class="footer-terms">Free, and worth every penny. COHO Analytics is offered as-is, with no warranty. It isn’t legal, tax or financial advice, and pggLLC isn’t liable for what you do with it. Using the site means you accept the terms.</p>
+  <p class="footer-links"><a class="footer-link" href="terms-of-use.html">Terms of use</a> <a class="footer-link" href="privacy-policy.html">Privacy</a> <a class="footer-link" href="sitemap.html">Site map</a> <a class="footer-link" href="https://docs.google.com/forms/d/e/1FAIpQLSfC1m7Y1_b3VL_U9rOg8f0nIE14RVg8qm4gvhQaG2Qw8vVOdw/viewform">Questions or feedback</a> <a class="footer-link" href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a> <a class="footer-link" href="#" lang="es" title="Español: traducción automática de Google">Español</a> <a class="footer-link" href="developer.html">Member home</a></p>
+  <p>Developed and maintained by <a class="footer-link" href="https://pggllc.org">pggLLC</a>.</p>
+</footer>
+<!-- /member-chrome:footer -->
 
-<script src="js/navigation.js"></script>
+<!-- member-chrome:scripts (scripts/build-member-chrome.mjs; do not edit by hand) -->
+<script type="module">/* The glossary and the header announcement, as js/navigation.js did them. */
+if (!document.getElementById('glossary-script')) { const gs = document.createElement('script'); gs.id = 'glossary-script'; gs.src = 'js/glossary.js'; document.body.appendChild(gs); }
+document.dispatchEvent(new CustomEvent('nav:rendered'));</script>
+<script src="hub/lab-config.js"></script>
+<script src="hub/page-chrome.js"></script>
+<script src="hub/nav.js"></script>
+<script>/* On a member page, the header's Members link is the current one. */
+document.querySelectorAll('.site-nav a[data-hub="members"]').forEach(function (a) { a.setAttribute('aria-current', 'page'); });</script>
+<!-- /member-chrome:scripts -->
 <script src="js/whitepaper/developer-nav.js"></script>
 <!-- F120 — Regrid land-bank connector (on-demand only) -->
 <script src="js/data-connectors/regrid-parcels.js"></script>

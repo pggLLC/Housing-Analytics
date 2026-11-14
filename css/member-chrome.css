@@ -1,0 +1,89 @@
+/* Member pages (developer*.html here, and coho-backend's gated/developer-*.html) in the new pages' header, menu,
+   footer and look. scripts/build-member-chrome.mjs puts the header, footer and sheets on each page; this sheet,
+   loaded last in the head, decides how the two sets of sheets meet. It follows css/pages/market-analysis-hub.css,
+   which does the same for the full Market Analysis (see that file for the reasoning behind each section):
+     1. the new pages' sheets (loaded in the cascade layer "hub") decide nothing inside the page's own content;
+     2. the old theme decides nothing in the header, menu, footer and skip link;
+     3. the old theme's colour names answer from the new palette (hub/palette.css), so every card, table and control
+        a member page draws takes the new colours, light and dark, with no change to the page;
+     4. the new pages' type, and the member menu as a row of tabs;
+     5. the member home (developer.html) in the new pages' cards and figures.
+   Colours come from the palette only: no colour is named here. */
+
+/* 1. */
+@layer hub {
+  body.member-page > *:not(.skip-link, .site-header, .site-footer),
+  body.member-page > *:not(.skip-link, .site-header, .site-footer)::before,
+  body.member-page > *:not(.skip-link, .site-header, .site-footer)::after,
+  body.member-page > *:not(.skip-link, .site-header, .site-footer) *,
+  body.member-page > *:not(.skip-link, .site-header, .site-footer) *::before,
+  body.member-page > *:not(.skip-link, .site-header, .site-footer) *::after,
+  body.member-page > *:not(.skip-link, .site-header, .site-footer) *::marker { all: revert-layer; }
+}
+
+/* 2. */
+body.member-page :is(.skip-link, .site-header, .site-footer):not(#_),
+body.member-page :is(.site-header, .site-footer) *:not(#_) { all: revert-layer !important; }
+/* The old theme stacks pop-ups and sticky rows around a header at 9000 (css/site-theme.css). The new header keeps that
+   level here, so nothing a member page stacks paints over an open menu. */
+body.member-page .site-header:not(#_) { z-index: 9000 !important; }
+
+/* 3. */
+:root:root:root {
+  --bg: var(--paper); --bg2: var(--tint-grey); --bg3: var(--track);
+  --card2: var(--paper); --surface: var(--card); --surface-2: var(--track); --card-alt: var(--paper);
+  --text: var(--ink); --text-strong: var(--ink); --muted: var(--ink-soft); --faint: var(--ink-soft);
+  --border: var(--line); --border-strong: var(--line-strong);
+  --link: var(--green); --link-hover: var(--green-dark);
+  --accent: var(--green); --accent-dim: var(--tint); --accent-weak: var(--tint); --on-accent: var(--on-fill);
+  --accent2: var(--text-amber); --accent2-dim: var(--fair-bg);
+  --good: var(--text-green); --good-dim: var(--tint-green); --on-good: var(--on-fill);
+  --warn: var(--text-rust); --warn-dim: var(--tint-rust); --on-warn: var(--on-fill);
+  --bad: var(--text-red); --bad-dim: var(--tint-rust); --on-bad: var(--on-fill);
+  --info: var(--text-blue); --info-dim: var(--tint-blue); --on-info: var(--on-fill);
+  --panel: var(--paper); --input: var(--card); --button: var(--card);
+  --text-l: var(--ink); --text-d: var(--ink); --card-l: var(--card); --card-d: var(--card);
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --focus-ring: 0 0 0 3px var(--tint-line);
+  --shadow-sm: none; --shadow: 0 2px 6px var(--shade-soft); --shadow-card: none;
+}
+
+/* 4. */
+html { overflow-x: clip; }
+html:root { color-scheme: normal; }
+body.member-page { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: auto; -moz-osx-font-smoothing: auto; }
+body.member-page main:focus { outline: none; }
+body.member-page main h1 { font-family: var(--font-display); font-size: clamp(28px, 4vw, 40px); font-weight: 600; line-height: 1.15; letter-spacing: -.01em; color: var(--ink); }
+body.member-page main h2 { font-family: var(--font-display); font-weight: 600; letter-spacing: -.01em; color: var(--ink); }
+body.member-page main :is(button, a, input, select, textarea, summary):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+body.member-page main a:not([class]) { color: var(--pine); }
+
+/* The member menu (js/whitepaper/developer-nav.js draws it) as the new pages' row of tabs: the groups, then the pages
+   of the group you are in. */
+body.member-page #devNav,
+body.member-page #devSubNav { background: var(--card); border-bottom: 1px solid var(--line); gap: 0 .25rem; }
+body.member-page #devNav { margin-top: .5rem; }
+body.member-page :is(#devNav, #devSubNav) a { color: var(--ink); font-weight: 400; border-radius: 0; border-bottom: 3px solid transparent; padding: 0 .8rem; }
+body.member-page :is(#devNav, #devSubNav) a:hover { color: var(--ink); border-bottom-color: var(--line-strong); }
+body.member-page #devNav a[aria-current],
+body.member-page #devSubNav a[aria-current] { color: var(--green); background: none; box-shadow: none; border-bottom-color: var(--green); font-weight: 600; }
+body.member-page #devSubNav { font-size: 15px; }
+body.member-page #devNav .dev-nav-badge { background: var(--tint-rust); color: var(--text-rust); }
+
+/* 5. The member home (developer.html). */
+/* (The page's own rule for the hero never applied: a broken rule above it in the page's style swallows it.) */
+body.member-page .ib-hero { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+@media (max-width: 640px) { body.member-page .ib-hero { padding: 1rem; } }
+body.member-page .ib-hero h1 { margin: 0 0 .5rem; }
+body.member-page .ib-hero p, body.member-page .ib-start { color: var(--ink); font-size: 17px; }
+body.member-page :is(.ib-stat, .ib-section-card) { background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: none; }
+body.member-page .ib-stat-label { color: var(--ink-soft); text-transform: none; letter-spacing: 0; font-size: 14px; font-weight: 600; }
+body.member-page .ib-stat-value { font-family: var(--font-display); font-weight: 600; color: var(--ink); }
+body.member-page .ib-section-card h2 { font-size: 20px !important; }
+body.member-page .ib-section-card h2 .meta { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 14px; color: var(--ink-soft); }
+body.member-page .ib-priority-rank { background: var(--green); color: var(--on-fill); }
+body.member-page .ib-quick-link { background: var(--card); border: 1px solid var(--line); border-radius: 10px; color: var(--ink); }
+body.member-page .ib-quick-link:hover { border-color: var(--green); background: var(--tint); transform: none; }
+body.member-page .ib-quick-link strong { color: var(--pine); }
+body.member-page .ib-quick-link span { display: block; color: var(--ink-soft); font-size: 15px; margin-top: .2rem; }
+body.member-page .ib-quick-link .ib-new { display: inline; margin: 0 0 0 .4rem; font-size: 12px; font-weight: 600; color: var(--green); }

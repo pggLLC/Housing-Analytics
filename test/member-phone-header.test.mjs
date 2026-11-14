@@ -36,7 +36,9 @@ async function look(browser, file, width) {
     return route.fulfill({ body: fs.readFileSync(f), contentType: mime[path.extname(f)] || 'application/octet-stream' });
   });
   await tab.goto(`${ORIGIN}/${file}`, { waitUntil: 'load', timeout: 90000 });
-  await tab.waitForFunction(() => document.querySelector('header.site-header .nav-wrap') && document.getElementById('jurisdictionPillWrap'), null, { timeout: 30000 });
+  // A public page carries the shared header (js/navigation.js); a member page, since the member switch (14 Nov 2026),
+  // the new pages' header (scripts/build-member-chrome.mjs), whose five menus hub/nav.js draws.
+  await tab.waitForFunction(() => (document.querySelector('header.site-header .nav-wrap') && document.getElementById('jurisdictionPillWrap')) || document.querySelector('#site-nav .menus .menu-button'), null, { timeout: 30000 });
   await tab.waitForFunction(() => !document.getElementById('devNav') || document.querySelectorAll('#devNav a').length > 0, null, { timeout: 30000 });
   await tab.waitForTimeout(200);
   const v = await tab.evaluate(() => {
@@ -48,6 +50,9 @@ async function look(browser, file, width) {
     const nr = nav && nav.getBoundingClientRect(), cr = cur && cur.getBoundingClientRect();
     return {
       chip: shown(document.getElementById('jurisdictionPillWrap')),
+      menus: document.querySelectorAll('#site-nav .menu-button').length,
+      membersCurrent: !!document.querySelector('#site-nav a[data-hub="members"][aria-current="page"]'),
+      oldHeader: !!document.querySelector('header.site-header .nav-wrap'),
       rows: tops.size, links: links.length,
       curInView: !cur || (cr.left >= nr.left - 1 && cr.right <= nr.right + 1),
       scrolls: !!nav && nav.scrollWidth > nav.clientWidth,
@@ -133,8 +138,13 @@ try {
     ok(v.dealBtn && v.withPicker, width + 'px: Delete this deal shows with the deal picker');
     ok(v.page <= width, width + 'px: Submittal review does not scroll sideways (' + v.page + 'px)');
   }
-  // On a desktop the member pages keep the chip too: only the phone header changes.
-  ok((await look(browser, MEMBER[0], 1280)).chip, MEMBER[0] + ' at 1280px keeps the jurisdiction chip');
+  // Since the member switch (14 Nov 2026) every member page carries the new pages' header at both widths: the five
+  // menus, with Members as the current link, and no old header. The place being worked on shows under the member
+  // menu ("Working on", js/whitepaper/member-place.js), not as a chip.
+  for (const f of MEMBER) for (const width of [390, 1280]) {
+    const v = await look(browser, f, width);
+    ok(v.menus === 5 && v.membersCurrent && !v.oldHeader, f + ' at ' + width + 'px: the new header, five menus, Members current (' + v.menus + ' menus)');
+  }
 } finally {
   await browser.close();
 }
