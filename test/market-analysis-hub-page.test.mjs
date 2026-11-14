@@ -98,7 +98,7 @@ ok(/<meta name="robots" content="noindex, follow">/.test(newPage), 'until the li
 // sticky with a z-index of its own (a stacking context that carries the menus); the section row sits below it.
 {
   const headerZ = [...['hub/shell.css', 'hub/visual-pass.css', 'hub/templates.css', 'hub/look.css'].map(read).join('\n')
-    .matchAll(/(?:^|\})\s*\.site-header\s*\{([^}]*)\}/g)].map(m => m[1]).filter(b => /z-index/.test(b)).pop() || '';
+    .matchAll(/^\.site-header\s*\{([^}]*)\}/gm)].map(m => m[1]).filter(b => /z-index/.test(b)).pop() || '';
   const rowZ = /\.ma-section-nav\s*\{[^}]*z-index:\s*(\d+)/.exec(read('css/pages/market-analysis-hub.css'));
   ok(/position:\s*sticky/.test(headerZ) && /z-index:\s*(\d+)/.test(headerZ), 'the new header is no longer sticky with a z-index of its own');
   ok(rowZ && Number(/z-index:\s*(\d+)/.exec(headerZ)[1]) > Number(rowZ[1]), 'the section row would paint over an open header menu');
