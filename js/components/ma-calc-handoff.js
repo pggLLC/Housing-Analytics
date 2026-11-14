@@ -2,7 +2,7 @@
  * js/components/ma-calc-handoff.js
  * deal-market-analysis.html only (written in by scripts/build-market-analysis-hub.mjs).
  *
- * Puts "Open these numbers in Financials" under the built-in Deal Calculator. The link opens the
+ * Puts "Continue in Financials" under the built-in Deal Calculator. The link opens the
  * Deal hub's #/open-calc route with the calculator's own share-link parameters, which the hub shows
  * first and then opens as a new project on Financials. Nothing is saved before that click.
  *
@@ -63,7 +63,7 @@
     p.id = 'maCalcHandoff';
     p.className = 'ma-calc-handoff';
     var a = document.createElement('a');
-    a.textContent = 'Open these numbers in Financials';
+    a.textContent = 'Continue in Financials';
     a.setAttribute('aria-describedby', 'maCalcHandoffNote');
     refresh(a);
     // The address is built when it is used, so it carries the numbers on screen at that moment.
