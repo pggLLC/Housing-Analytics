@@ -51,7 +51,7 @@
 
     // Español: this page through Google Translate, as the site's own link does (js/navigation.js spanishHref).
     var es = document.querySelector('.site-footer a[lang="es"]');
-    if (es) es.setAttribute('href', 'https://translate.google.com/translate?sl=en&tl=es&hl=es&u=' + encodeURIComponent(location.origin + location.pathname));
+    if (es) es.setAttribute('href', 'https://translate.google.com/translate?sl=en&tl=es&hl=es&u={page}'.replace('{page}', function () { return encodeURIComponent(location.origin + location.pathname); }));
 
     // Questions or feedback: the form is told which page it was opened from, as on the site's other pages.
     var fb = document.querySelector('.site-footer a[data-feedback]');
