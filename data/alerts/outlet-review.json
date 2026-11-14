@@ -1,15 +1,51 @@
 {
   "meta": {
-    "generated": "2026-11-13T11:24:36Z",
+    "generated": "2026-11-14T11:01:26Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-07",
+      "since": "2026-11-08",
       "checked": 63,
-      "unverified": 3,
-      "weak": 1
+      "unverified": 5,
+      "weak": 2
     }
   },
   "outlets": [
+    {
+      "id": "79575901bd",
+      "name": "Just The News",
+      "domains": [
+        "justthenews.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-13",
+      "last_seen": "2026-11-13",
+      "headlines": [
+        {
+          "title": "Colorado Realtors report 19% decline in state's home sales over high mortgage rates",
+          "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNeHJCRDhQRXFHa2Y2X3ZEemhrdXd2XzdKdVZ3TElPVlluMEpiV3FFSlhvcExyMGVOZXAtQV93VndfTWNhYnlMTlJNSk9LNzVzSVVqTElabGItZldpT2ljRlpLd19UNmVIMGtzbmpTTmVHSGUzQ2JTUmxzZmoxTXNFUHExQUYyNDRmckxWdldqVmVSS2Q4LWhLYTcycE5nQzQ2YnhCZlF2UVc?oc=5",
+          "date": "2026-11-13"
+        }
+      ],
+      "first_listed": "2026-11-14"
+    },
+    {
+      "id": "60ae0ec406",
+      "name": "Unofficial Networks",
+      "domains": [
+        "unofficialnetworks.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-13",
+      "last_seen": "2026-11-13",
+      "headlines": [
+        {
+          "title": "Colorado Mountain Towns May Soon Be Able to Build Affordable Housing on Federal Land",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNVExveGNkejVoQmotV3V2Y2dsRGtkU0RtU1VoZVdIRlQ5NjhrbzVEMjBPbEhWVlZRbUYwd1V6NzVGd2F6VUQ4b0ZvZlpjUDVLbEZuS0JOYVFRUmlQbURkRzlmVmxzSlpEYzJwUHpZMVhvOFhfV0tKQ1BNSDBIdl9RSTZ0ZXhOV2xqUTFOYmQ3MS1ybFNuazUwSA?oc=5",
+          "date": "2026-11-13"
+        }
+      ],
+      "first_listed": "2026-11-14"
+    },
     {
       "id": "a2096d397f",
       "name": "Kiowa County Press",
