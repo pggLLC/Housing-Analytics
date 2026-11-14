@@ -162,8 +162,10 @@
       '<p class="note">CHFA table: ' + esc(chfa.meta.source) + ', effective ' + esc(chfa.meta.effective_date) + '. <a href="' + esc(chfa.meta.source_url) + '">Source</a></p>' +
       '<div class="actions"><button type="submit">Save to ' + esc(s.name) + '</button>' +
       (saved ? '<a class="button-link secondary" href="#/handoff/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Review handoff to Financials</a>' +
-        '<a class="button-link secondary" href="#/convert/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Copy the mix for hand editing</a>' : '') +
-      '</div></form>';
+        '<a class="button-link secondary" href="#/convert/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Copy these homes into the unit grid</a>' : '') +
+      '</div></form>' +
+      '<form class="cg-start" data-action="start-grid"><p class="note">Pricing with HOME, Prop 123, another income-limit formula or market rents, or want the Deal Calculator’s own grid of income level by size? ' +
+      '<button type="submit" class="link-button">Start a scenario in the unit grid</button>. ' + esc(s.name) + ' stays as it is.</p></form>';
   }
 
   // The public site's Subject Project rules for a utility allowance (js/components/subject-project.js setSubject
@@ -277,7 +279,7 @@
     var back = '<a class="back-link" href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">← Back without changing anything</a>';
     if (!att) return back + '<h1>Nothing to convert</h1><p class="lede">Save a schedule first.</p>';
     var plan = conversionPlan(att);
-    var head = back + '<h1>Copy the mix for hand editing</h1><p class="lede">This copies the homes in ' + esc(s.name) + ' into a new scenario, ready for hand editing. Editing the copy, and running Financials on it, are not built yet: for now the copy shows its homes only. ' + esc(s.name) + ' keeps its linked schedule.</p>';
+    var head = back + '<h1>Copy these homes into the unit grid</h1><p class="lede">This copies the homes in ' + esc(s.name) + ' into a new scenario that is priced from the Deal Calculator’s unit grid: income level by size, with the rent limits you choose (CHFA, HOME, Prop 123, another formula or market). ' + esc(s.name) + ' keeps its linked schedule.</p>';
     if (plan.blocked.length) {
       return head + '<div class="callout"><strong>Can’t convert yet.</strong> ' + plan.blocked.length + ' row(s) would be lost, and this page never drops homes silently.</div>' +
         '<ul class="route-list">' + plan.blocked.map(function (b) {
@@ -289,16 +291,18 @@
         return '<tr><td>' + c.tier + '% AMI, ' + esc(BR_LABEL[RENT_BEDROOMS[c.bedroomCell]]) + '</td><td class="num">' + c.units + '</td><td class="num">' + money(c.scheduleRent) + '</td><td class="num">' + money(c.utilityAllowance) + '</td></tr>';
       }).join('') + '</tbody></table></div>' +
       '<ul class="plain"><li>All ' + plan.cells.reduce(function (n, c) { return n + c.units; }, 0) + ' homes keep their band and size.</li>' +
-      '<li>In manual mode the calculator sets rents from its own CHFA lookup for each band and size, and goes back to its local utility-allowance lookup instead of the allowance above. Financials for a mix edited by hand is not built yet; the linked schedule keeps running.</li>' +
+      '<li>In the grid the calculator sets each rent from the rent limit for its income level and size, less the utility allowance and fees saved with these homes for that size. A rent you set below the limit here is not carried: the copy prices at the limit.</li>' +
       '<li>The county, table year and vacancy stay as saved.</li></ul>' +
       '<form data-action="convert"><button type="submit">Make the copy</button></form>';
   }
 
   function manualSummary(p, s, manual) {
     var from = p.scenarios.filter(function (x) { return x.scenarioId === manual.fromScenarioId; })[0];
-    return '<p class="callout">This scenario holds a copy of the homes in ' + esc(from ? from.name : 'another scenario') + ', made ' + esc(Shell.when(manual.convertedAt)) + '. Hand editing is not built yet.' +
-      (from ? ' <a href="#/homes/' + esc(p.projectId) + '/' + esc(from.scenarioId) + '">Go back to the linked schedule in ' + esc(from.name) + '</a>' : '') + '</p>' +
-      '<div class="table-scroll" role="region" aria-label="Manual mix" tabindex="0"><table><thead><tr><th scope="col">Grid cell</th><th scope="col" class="num">Homes</th></tr></thead><tbody>' +
+    var open = '<div class="actions"><a class="button-link" href="#/financials/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Edit the homes and run Financials</a></div>';
+    if (!manual.fromScenarioId) return '<p class="callout">The homes in this scenario are typed in the unit grid on its Financials page: income level by size, with the rent limits you choose.</p>' + open;
+    return '<p class="callout">This scenario started as a copy of the homes in ' + esc(from ? from.name : 'another scenario') + ', made ' + esc(Shell.when(manual.convertedAt)) + '. Its homes are now edited in the unit grid on its Financials page.' +
+      (from ? ' <a href="#/homes/' + esc(p.projectId) + '/' + esc(from.scenarioId) + '">Go back to the linked schedule in ' + esc(from.name) + '</a>' : '') + '</p>' + open +
+      '<h2>The homes as copied</h2><div class="table-scroll" role="region" aria-label="Homes as copied" tabindex="0" data-no-source="the visitor’s own inputs"><table><thead><tr><th scope="col">Grid cell</th><th scope="col" class="num">Homes</th></tr></thead><tbody>' +
       manual.cells.map(function (c) { return '<tr><td>' + c.tier + '% AMI, ' + esc(BR_LABEL[RENT_BEDROOMS[c.bedroomCell]]) + '</td><td class="num">' + c.units + '</td></tr>'; }).join('') +
       '</tbody></table></div>';
   }
@@ -369,7 +373,18 @@
       if (plan.blocked.length) return;
       var copy = P.addScenario(parts[1], 'Manual mix (copy of ' + s.name + ')', parts[2]);
       P.setOverride(parts[1], copy, 'manualMix', { fromScenarioId: parts[2], convertedAt: new Date().toISOString(), cells: plan.cells });
-      location.hash = '#/homes/' + parts[1] + '/' + copy;
+      // The copy's own Financials draft starts from the copied cells, not from a grid the source may have carried.
+      var cd = P.get(parts[1]).overrides[copy].financialsDraft;
+      if (cd && cd.grid) { delete cd.grid; P.setOverride(parts[1], copy, 'financialsDraft', cd); }
+      location.hash = '#/financials/' + parts[1] + '/' + copy;
+    } else if (form.dataset.action === 'start-grid') {
+      // A new scenario with an empty grid, in the county chosen on this form if any. Nothing in this one changes.
+      ev.preventDefault();
+      var gp = P.get(parts[1]);
+      var gd = draftFor(gp, parts[2]);
+      var grid = P.addScenario(parts[1], 'Unit grid');
+      P.setOverride(parts[1], grid, 'manualMix', { fromScenarioId: null, convertedAt: new Date().toISOString(), cells: [], countyFips: gd.county_fips || '' });
+      location.hash = '#/financials/' + parts[1] + '/' + grid;
     }
   });
 

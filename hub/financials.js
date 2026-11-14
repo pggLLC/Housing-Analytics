@@ -372,7 +372,7 @@
     var costs = {};
     costIds().forEach(function (id) { costs[id] = ''; });
     var op = exampleOperating();
-    return { fields: fields, costs: costs, basis: {}, parts: {}, used: {}, opLines: op.lines, opIncome: op.income, opExample: true, tranches: [seedTranche()] };
+    return { fields: fields, costs: costs, basis: {}, parts: {}, used: {}, opLines: op.lines, opIncome: op.income, opExample: true, tranches: [seedTranche()], grid: null };
   }
   // Drafts saved before a field existed get its default; a field the lab no longer shows is dropped.
   function draftFor(p, scenarioId) {
@@ -383,6 +383,8 @@
     costIds().forEach(function (id) { if (o.costs && o.costs[id] != null) d.costs[id] = String(o.costs[id]); });
     // A draft saved before the basis choice existed keeps each line's starting choice, which is what it ran with.
     d.basis = Object.assign({}, o.basis); d.parts = Object.assign({}, o.parts); d.used = Object.assign({}, o.used);
+    // The unit grid's fields (calc-grid.js), for a scenario whose homes are typed there.
+    d.grid = o.grid && typeof o.grid === 'object' ? JSON.parse(JSON.stringify(o.grid)) : null;
     if (Array.isArray(o.tranches) && o.tranches.length) d.tranches = o.tranches.slice(0, MAX_TRANCHES).map(function (t) {
       var c = {}; TRANCHE_KEYS.forEach(function (k) { c[k] = t[k] == null ? '' : String(t[k]); }); return c;
     });
@@ -414,10 +416,13 @@
   }
 
   // Builds exactly what deal-calculator.html's readDealInputs() hands to DealEngine.computeDeal,
-  // for a rental deal whose unit mix comes from the saved Market Analysis-style schedule.
+  // for a rental deal whose unit mix comes from the saved Market Analysis-style schedule. With mods.grid (a scenario
+  // whose homes are typed in the unit grid) there is no schedule to read: everything here that is not about homes
+  // and rents is built the same way, and calc-grid.js then sets the homes and rents as the live page's grid does.
   function buildInputs(draft, scheduleSnapshot, sources, mods) {
     var C = mods.ChfaRentLimits, B = mods.DealCostBasis;
-    var subject = scheduleSnapshot.subject, result = scheduleSnapshot.result;
+    var G = mods.grid || null;
+    var subject = G ? { county_fips: G.grid['dc-county-select'] || null } : scheduleSnapshot.subject, result = G ? {} : scheduleSnapshot.result;
     var fips = subject.county_fips;
     var fields = {};
     FIELDS.forEach(function (i) { fields[i.id] = draft.fields[i.id]; });
@@ -467,9 +472,9 @@
       if (B.CONTINGENCY_KINDS[t.id]) line.used = blank(used[t.id]);
       return line;
     });
-    return {
+    var out = {
       fields: fields,
-      resolvedDealMix: C.dealMixFromSchedule(result, { countyFips: fips, regime: 'chfa_lihtc' }),
+      resolvedDealMix: G ? null : C.dealMixFromSchedule(result, { countyFips: fips, regime: 'chfa_lihtc' }),
       amiLimits: amiLimits, amiLimitsByBr: amiLimitsByBr, countyFips: fips, creditRate: CREDIT_RATES[credit],
       constants: constants, utilityAllowance: { applied: false, reason: 'schedule_rents_are_net' },
       equityPriceDefault: equityDefault(credit, sources.equity), minimumSetAsideElection: fields['dc-minimum-set-aside'], regime: 'chfa_lihtc',
@@ -487,6 +492,16 @@
       otherIncomeLines: OB().INCOME_TEMPLATE.map(function (t) { return { id: t.id, label: t.label, amount: blank((draft.opIncome || {})[t.id]) }; }),
       fmrData: county ? county.fmr : null
     };
+    return G ? global.LabCalcGrid.inputs(out, G, sources) : out;
+  }
+  // The engine inputs for a scenario: from its unit grid when its homes are typed there, else from its saved rent
+  // schedule. Null when it has neither yet, or the grid's own files are still loading.
+  function inputsFor(p, scenarioId, d) {
+    var mods = { ChfaRentLimits: global.ChfaRentLimits, DealCostBasis: global.DealCostBasis };
+    var G = global.LabCalcGrid ? global.LabCalcGrid.ctx(p, scenarioId, d) : null;
+    if (G) { mods.grid = G; return global.LabCalcGrid.ready() ? buildInputs(d, null, data, mods) : null; }
+    var sched = currentSchedule(p, scenarioId);
+    return sched ? buildInputs(d, sched.snapshot, data, mods) : null;
   }
 
   function unavailable(result, path) {
@@ -932,8 +947,9 @@
       ['Equity price', '$' + price.toFixed(2) + ' per credit dollar', priceSource],
       ['Permanent loan rate', esc(d.fields['dc-rate']) + '%', rateSource, useRate],
       ['Coverage the loan is sized to', ratio(r.dcr) || '—', 'Entered under Assumptions. CHFA’s floor is 1.15x.'],
-      ['Rent limits', 'CHFA ' + data.chfa.meta.fiscal_year, 'CHFA rent table effective ' + data.chfa.meta.effective_date + ', applied to the saved rent schedule'],
-      ['Vacancy', pct(inputs.resolvedDealMix.vacancyRate), 'From the saved rent schedule'],
+      inputs.resolvedDealMix.available ? ['Rent limits', 'CHFA ' + data.chfa.meta.fiscal_year, 'CHFA rent table effective ' + data.chfa.meta.effective_date + ', applied to the saved rent schedule']
+        : ['Rent limits', esc((RENT_REGIMES.filter(function (o) { return o[0] === inputs.regime; })[0] || ['', inputs.regime])[1]), 'Chosen under Homes and rents'],
+      inputs.resolvedDealMix.available ? ['Vacancy', pct(inputs.resolvedDealMix.vacancyRate), 'From the saved rent schedule'] : ['Vacancy', pct(r.vacancyRate), 'Entered under Homes and rents'],
       ['Operating budget', d.opExample ? 'An invented example' : 'Your budget', d.opExample ? 'Replace it with your own budget before relying on the result.' : 'Entered under Operating budget']
     ];
     return '<section class="fin-section" aria-labelledby="fin-likely"><h2 id="fin-likely">Most-likely case</h2>' +
@@ -1018,7 +1034,7 @@
     return '<div class="field-grid" data-role="rent-regime"><label class="field"><span>Rent limits</span><select name="dc-rent-limit-regime" disabled aria-describedby="rent-regime-why">' +
       RENT_REGIMES.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === 'chfa_lihtc' ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('') + '</select>' +
       '<small class="note" id="rent-regime-why">Fixed at CHFA LIHTC because the homes and rents come from a saved rent schedule, which the shared engine prices only under CHFA limits. ' +
-      'Rent burden stays at 30%, as on the full Deal Calculator for published CHFA rents. Market-rate homes use the rent and source entered on the schedule. HOME, Prop 123 (with its program and rural resort petition), other AMI formulas and market-rate pricing need the full Deal Calculator\u2019s own unit grid: <a href="https://cohoanalytics.com/deal-calculator.html">open the full Deal Calculator \u2197</a>, or change the rents in <a href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Homes and affordability</a>.</small></label></div>';
+      'Rent burden stays at 30%, as on the full Deal Calculator for published CHFA rents. Market-rate homes use the rent and source entered on the schedule. HOME, Prop 123 (with its program and rural resort petition), other AMI formulas and market-rate pricing use the unit grid: <a href="#/convert/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">copy these homes into the unit grid</a>, or change the rents in <a href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Homes and affordability</a>.</small></label></div>';
   }
 
   // The live page's cost table (costTableHtml): one closed group per DOH category with its subtotal, each line with its
@@ -1050,16 +1066,19 @@
     var s = p && p.scenarios.filter(function (x) { return x.scenarioId === parts[2]; })[0];
     if (!s) return '<a class="back-link" href="#/projects">\u2190 Projects</a><h1>Deal not in this browser</h1><p class="lede">Projects are saved in the browser that made them, so this address opens only there.</p><p>To pass a deal on, open Financials where it was made and use \u201cCopy share link\u201d or \u201cDownload deal file\u201d. A deal file opens here: <a href="#/open-deal">open a shared deal</a>.</p>';
     var back = '<a class="back-link" href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">← Homes and affordability</a>';
-    var head = back + '<h1>Financials</h1><p class="lede">' + esc(p.name) + ', ' + esc(s.name) + '. Run on the site’s Deal Engine with this scenario’s saved rents. Every figure and every reason comes from that engine.</p>';
-    var manual = p.overrides[s.scenarioId] && p.overrides[s.scenarioId].manualMix;
-    if (manual) return head + '<p class="callout">Financials for a copied mix are not built yet. The linked schedule in the original scenario still runs.</p>';
-    var sched = currentSchedule(p, s.scenarioId);
-    if (!sched) return head + '<p class="callout">Save a rent schedule in Homes and affordability first.</p>';
+    // A scenario whose homes are typed in the unit grid (calc-grid.js) runs from the grid; any other runs from its
+    // saved rent schedule.
+    var manual = global.LabCalcGrid && p.overrides[s.scenarioId] && p.overrides[s.scenarioId].manualMix;
+    var head = back + '<h1>Financials</h1><p class="lede">' + esc(p.name) + ', ' + esc(s.name) + '. Run on the site’s Deal Engine with ' + (manual ? 'the homes typed in this scenario’s unit grid' : 'this scenario’s saved rents') + '. Every figure and every reason comes from that engine.</p>';
+    var sched = manual ? null : currentSchedule(p, s.scenarioId);
+    if (!manual && !sched) return head + '<p class="callout">Save a rent schedule in Homes and affordability first.</p>';
     loadData();
+    if (manual) global.LabCalcGrid.load();
     if (data.error) return head + '<p class="callout">' + esc(data.error) + '</p>';
-    if (!data.rules) return head + '<p role="status">Loading the rent, FMR, pricing and cost-rule data…</p>';
+    if (!data.rules || (manual && !global.LabCalcGrid.ready())) return head + '<p role="status">Loading the rent, FMR, pricing and cost-rule data…</p>';
     var d = draftFor(p, s.scenarioId);
-    var inputs = buildInputs(d, sched.snapshot, data, { ChfaRentLimits: global.ChfaRentLimits, DealCostBasis: global.DealCostBasis });
+    var G = manual ? global.LabCalcGrid.ctx(p, s.scenarioId, d) : null;
+    var inputs = buildInputs(d, sched && sched.snapshot, data, { ChfaRentLimits: global.ChfaRentLimits, DealCostBasis: global.DealCostBasis, grid: G });
     var r = global.DealEngine.computeDeal(inputs);
     var saved = p.attachments.filter(function (a) { return a.scenarioId === s.scenarioId && a.kind === 'financials' && a.state !== 'replaced'; })[0];
     var money$ = function (name, value, label) {
@@ -1070,11 +1089,13 @@
     var entered = costIds().filter(function (id) { return d.costs[id] !== '' && d.costs[id] != null; }).length;
     var costSub = entered + ' of ' + costIds().length + ' lines' + (isFinite(Number(d.fields['dc-tdc'])) && Number(d.fields['dc-tdc']) > 0 ? ', ' + money(Number(d.fields['dc-tdc'])) : '');
     return head + (global.LabDealFile ? global.LabDealFile.openedNote(p) : '') +
-      (sched.state === 'stale' ? '<p class="callout">The rent schedule is out of date: ' + esc(sched.staleReason) + '. Save it again in Homes and affordability before relying on these figures.</p>' : '') +
+      (sched && sched.state === 'stale' ? '<p class="callout">The rent schedule is out of date: ' + esc(sched.staleReason) + '. Save it again in Homes and affordability before relying on these figures.</p>' : '') +
       (saved ? '<p class="note">' + (global.LabProjects.isTemporary && global.LabProjects.isTemporary(p.projectId) ? 'Kept for this visit only, because this browser is not storing data. Download the deal file to keep it. Last kept ' : 'Saved to the project ') + esc(Shell.when(saved.attachedAt)) + (saved.state === 'stale' ? ' (out of date: ' + esc(saved.staleReason) + ')' : '') + '. Changes below are a draft until you save again.</p>' : '') +
-      '<div class="callout">From the saved schedule: ' + esc(String(r.units)) + ' homes, ' + esc(money(r.annualRents) || 'rents unavailable') + ' scheduled rent per year, vacancy ' + esc(pct(inputs.resolvedDealMix.vacancyRate)) + '. <a href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Change the homes or rents</a>.</div>' +
+      (G ? '<div class="callout" data-role="grid-summary">From the unit grid: ' + esc(String(r.units)) + ' homes, ' + esc(money(r.annualRents) || 'rents unavailable') + ' scheduled rent per year, vacancy ' + esc(pct(r.vacancyRate) || 'not set') + '. <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-step-homes">Change the homes or rents</a>.</div>'
+        : '<div class="callout">From the saved schedule: ' + esc(String(r.units)) + ' homes, ' + esc(money(r.annualRents) || 'rents unavailable') + ' scheduled rent per year, vacancy ' + esc(pct(inputs.resolvedDealMix.vacancyRate)) + '. <a href="#/homes/' + esc(p.projectId) + '/' + esc(s.scenarioId) + '">Change the homes or rents</a>.</div>') +
       answerPanel(r, inputs) +
       '<form class="homes" data-action="financials" novalidate>' +
+      (G ? stepOpen('fin-step-homes', 'Homes and rents', global.LabCalcGrid.sub(r, G), global.LabCalcGrid.section(p, s, G, inputs, r, data)).replace('<details ', r.units > 0 ? '<details ' : '<details open ') : '') +
       stepOpen('fin-step-costs', 'Costs', costSub, '<h2>Costs</h2><p class="note">Every line on the full Deal Calculator, in the Colorado Division of Housing\u2019s nine groups. Open a group to enter its lines. A blank line carries no cost; anything not itemized is treated as outside eligible basis, as on the full Deal Calculator. Each line starts at that calculator\u2019s basis choice; change it where your deal differs. A line partly in basis needs its part in basis before the engine will price basis. The developer fee is its own line under Developer fee; the engine tests it against CHFA\u2019s limit.</p>' +
       costGroups + '<div class="actions"><button type="button" class="button-link secondary" data-action="use-cost-total">Make total development cost match the cost lines</button>' +
       '<button type="button" class="button-link secondary" data-action="clear-costs">Clear the cost lines</button></div>' + fieldGrid(d, 'costs') +
@@ -1089,7 +1110,7 @@
       }())) +
       stepOpen('fin-step-budget', 'Operating budget', r.annualOpex != null ? money(r.annualOpex) + ' a year' : '', operatingBudget(d, inputs, r)) +
       stepOpen('fin-step-assumptions', 'Loans, credits and terms', r.interestRate != null ? r.interestRate + '% loan, $' + Number(inputs.fields['dc-equity-price']).toFixed(2) + ' equity' : '',
-        '<h2>Assumptions</h2>' + rentLimitsFixed(p, s) + fieldGrid(d, null) + creditInputs(d) + loanStackInputs(d) + '<h2>Exit and projection</h2>' + fieldGrid(d, 'exit')) +
+        '<h2>Assumptions</h2>' + (G ? '' : rentLimitsFixed(p, s)) + fieldGrid(d, null) + creditInputs(d) + loanStackInputs(d) + '<h2>Exit and projection</h2>' + fieldGrid(d, 'exit')) +
       stepOpen('fin-step-stress', 'Stress settings', combinedLabel(inputs.constants), '<h2>Stress case settings</h2><p class="note">How far each stress case moves rent, vacancy and operating cost. The full Deal Calculator\u2019s defaults are tool settings for screening, not a lender\u2019s or CHFA\u2019s required cases. The sliders under Full result test one change at a time.</p>' + fieldGrid(d, 'stressconst') + '<div class="actions"><button type="button" class="button-link secondary" data-action="reset-stress-settings">Reset to the Deal Calculator\u2019s defaults</button></div>') +
       '<h2>Full result</h2><p class="note jump-links">Jump to <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-sliders">Stress sliders</a> · <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-ls">Lender schedules</a></p>' + setAsideStatus(r) + (function () { var t = boostTag(r, inputs.fields); return '<p class="boost-tag boost-' + t.kind + '" data-role="boost-tag">' + esc(t.text) + '</p>'; }()) + '<div class="fin-grid">' +
       card('Net operating income', money(r.noi), r, 'noi') +
@@ -1102,7 +1123,7 @@
       card('Break-even occupancy', pct(r.breakEvenOcc), r, 'breakEvenOcc') +
       '</div>' +
       (sum && sum.reason ? '<p class="callout"><strong>Costs:</strong> ' + esc(sum.reason) + '</p>' : '') +
-      basisSection(r, inputs.fields) + creditChecks(r) +
+      basisSection(r, inputs.fields) + creditChecks(r) + (global.LabCalcGrid ? global.LabCalcGrid.tables(r, inputs, G, data) : '') +
       mostLikely(d, inputs, r) + sourcesUses(r) + loanTable(r) + stressTable(r, inputs.constants) + stressSliders(d, inputs, r) + rateGrid(inputs, r) + exitSummary(r, inputs) + projectionTable(r) +
       (global.LabLenderExport ? global.LabLenderExport.remember(r, s.name) : '') + (global.LabLenderSchedules ? global.LabLenderSchedules.render(d, r, fieldGrid) : '') + waterfallSection(d, r) +
       '<p class="note">Calculated by the COHO Deal Calculator. CHFA ' + esc(data.chfa.meta.fiscal_year) + ' rent table effective ' + esc(data.chfa.meta.effective_date) + '; HUD ' + esc(data.hud.meta && data.hud.meta.fiscal_year ? 'FY' + data.hud.meta.fiscal_year + ' ' : '') + 'Fair Market Rents; equity pricing Novogradac national average as of ' + esc(data.equity.meta.as_of || '') + '. Screening only, not underwriting.</p>' +
@@ -1183,6 +1204,11 @@
       // As on the live page, picking another program resets the federal-money answer to that program's default.
       if (t.program !== before) t.fundSource = FEDERAL_FUND_DEFAULTS[t.program] || '';
     });
+    // The unit grid, when it is on the form (a scenario whose homes are typed there).
+    if (global.LabCalcGrid && fd.get('dc-unit-mix-source') === 'manual') {
+      var at = route(), gp = P.get(at[1]);
+      if (gp) global.LabCalcGrid.read(fd, form, d, global.LabCalcGrid.ctx(gp, at[2], d));
+    }
     return d;
   }
   // A redraw keeps each section the reader opened or closed (by its id) as they left it.
@@ -1251,12 +1277,14 @@
     var p = P.get(parts[1]);
     var d = readDraft(form, draftFor(p, parts[2]));
     P.setOverride(parts[1], parts[2], 'financialsDraft', d);
-    var sched = currentSchedule(p, parts[2]);
-    var inputs = buildInputs(d, sched.snapshot, data, { ChfaRentLimits: global.ChfaRentLimits, DealCostBasis: global.DealCostBasis });
+    // A run from the unit grid names no schedule: its homes and rents are in snapshot.inputs.
+    var G = global.LabCalcGrid ? global.LabCalcGrid.ctx(p, parts[2], d) : null;
+    var sched = G ? null : currentSchedule(p, parts[2]);
+    var inputs = buildInputs(d, sched && sched.snapshot, data, { ChfaRentLimits: global.ChfaRentLimits, DealCostBasis: global.DealCostBasis, grid: G });
     var r = global.DealEngine.computeDeal(inputs);
     P.attach(parts[1], parts[2], {
       kind: 'financials', label: (r.gap == null ? 'Run, gap unavailable' : 'Gap ' + money(r.gap)) + ' \u00b7 ' + boostTag(r, inputs.fields).short,
-      snapshot: { inputs: JSON.parse(JSON.stringify(inputs)), result: JSON.parse(JSON.stringify(r)), scheduleAttachmentId: sched.attachmentId },
+      snapshot: { inputs: JSON.parse(JSON.stringify(inputs)), result: JSON.parse(JSON.stringify(r)), scheduleAttachmentId: sched ? sched.attachmentId : null },
       sourceDates: { chfaTable: data.chfa.meta.effective_date, equityPricing: data.equity.meta.as_of || null },
       methodVersions: { dealEngine: 'Housing-Analytics ' + (global.LAB_PIN || '') + ' js/deal-engine.js' },
       origin: { route: '#/financials/' + parts[1] + '/' + parts[2] }
@@ -1264,5 +1292,5 @@
     Shell.render();
   });
 
-  global.LabFinancials = { setAsideStatus: setAsideStatus, SET_ASIDE_HELP: SET_ASIDE_HELP, boostTag: boostTag, basisSection: basisSection, LS_INPUTS: LS_INPUTS, fieldGrid: function (d, g) { return fieldGrid(d, g); }, SOFT_REFERENCE: SOFT_REFERENCE, AMOUNT_SOURCE: AMOUNT_SOURCE, IMPACT_FEE_NOTE: IMPACT_FEE_NOTE, programReference: programReference, _data: data, LOAN_INPUTS: LOAN_INPUTS, SOFT_PROGRAMS: SOFT_PROGRAMS, FEDERAL_FUND_DEFAULTS: FEDERAL_FUND_DEFAULTS, seedTranche: seedTranche, addedTranche: addedTranche, readDraft: readDraft, WF_INPUTS: WF_INPUTS, STRESS_INPUTS: STRESS_INPUTS, RATE_STEPS: RATE_STEPS, PRICE_STEPS: PRICE_STEPS, buildInputs: buildInputs, emptyDraft: emptyDraft, draftFor: draftFor, equityDefault: equityDefault, INPUTS: INPUTS, exitSummary: exitSummary, costIds: costIds, lineBasis: lineBasis, costGroupsHtml: costGroupsHtml, CONSTANTS: CONSTANTS, CREDIT_RATES: CREDIT_RATES, SOURCE_TAGS: SOURCE_TAGS, sourceTag: sourceTag, CREDIT_INPUTS: CREDIT_INPUTS, CHECKBOX_IDS: CHECKBOX_IDS, NOI_INPUTS: NOI_INPUTS, CONST_INPUTS: CONST_INPUTS, constantsFrom: constantsFrom, stressTable: stressTable, rentLimitsFixed: rentLimitsFixed, creditChecks: creditChecks, sourcesUses: sourcesUses, sourcesUsesRows: sourcesUsesRows, unavailable: unavailable };
+  global.LabFinancials = { setAsideStatus: setAsideStatus, SET_ASIDE_HELP: SET_ASIDE_HELP, boostTag: boostTag, basisSection: basisSection, LS_INPUTS: LS_INPUTS, fieldGrid: function (d, g) { return fieldGrid(d, g); }, SOFT_REFERENCE: SOFT_REFERENCE, AMOUNT_SOURCE: AMOUNT_SOURCE, IMPACT_FEE_NOTE: IMPACT_FEE_NOTE, programReference: programReference, _data: data, LOAN_INPUTS: LOAN_INPUTS, SOFT_PROGRAMS: SOFT_PROGRAMS, FEDERAL_FUND_DEFAULTS: FEDERAL_FUND_DEFAULTS, seedTranche: seedTranche, addedTranche: addedTranche, readDraft: readDraft, WF_INPUTS: WF_INPUTS, STRESS_INPUTS: STRESS_INPUTS, RATE_STEPS: RATE_STEPS, PRICE_STEPS: PRICE_STEPS, buildInputs: buildInputs, inputsFor: inputsFor, currentSchedule: currentSchedule, emptyDraft: emptyDraft, draftFor: draftFor, equityDefault: equityDefault, INPUTS: INPUTS, exitSummary: exitSummary, costIds: costIds, lineBasis: lineBasis, costGroupsHtml: costGroupsHtml, CONSTANTS: CONSTANTS, CREDIT_RATES: CREDIT_RATES, SOURCE_TAGS: SOURCE_TAGS, sourceTag: sourceTag, CREDIT_INPUTS: CREDIT_INPUTS, CHECKBOX_IDS: CHECKBOX_IDS, NOI_INPUTS: NOI_INPUTS, CONST_INPUTS: CONST_INPUTS, constantsFrom: constantsFrom, stressTable: stressTable, rentLimitsFixed: rentLimitsFixed, creditChecks: creditChecks, sourcesUses: sourcesUses, sourcesUsesRows: sourcesUsesRows, unavailable: unavailable };
 })(window);

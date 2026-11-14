@@ -106,10 +106,10 @@
   function compare(p, here, data) {
     var F = global.LabFinancials, E = global.DealEngine;
     var rows = p.scenarios.map(function (s) {
-      var sched = p.attachments.filter(function (a) { return a.scenarioId === s.scenarioId && a.kind === 'rent-schedule' && a.state !== 'replaced'; })[0];
-      if (!sched) return { s: s, r: null };
-      var d = F.draftFor(p, s.scenarioId);
-      return { s: s, d: d, r: E.computeDeal(Object.assign(F.buildInputs(d, sched.snapshot, data, { ChfaRentLimits: global.ChfaRentLimits, DealCostBasis: global.DealCostBasis }), { skipSchedules: true })) };
+      // From the scenario's saved schedule, or from its unit grid when its homes are typed there.
+      var d = F.draftFor(p, s.scenarioId), inp = F.inputsFor(p, s.scenarioId, d);
+      if (!inp) return { s: s, r: null };
+      return { s: s, d: d, r: E.computeDeal(Object.assign(inp, { skipSchedules: true })) };
     });
     var cols = [['Homes', function (x) { return x.r ? String(x.r.units) : '—'; }], ['Total cost', function (x) { return x.d ? money(Number(x.d.fields['dc-tdc']) || null) : '—'; }],
       ['Credit equity', function (x) { return x.r ? money(x.r.equity) : '—'; }], ['First mortgage', function (x) { return x.r ? money(x.r.mortgage) : '—'; }],
