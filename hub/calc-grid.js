@@ -301,6 +301,8 @@
       '</div>' +
       '<p class="note" data-role="rent-limit-example">At 60% AMI, 2 bedroom: ' + esc(limitText(eg)) + '.' + (notes.length ? ' ' + esc(notes.join(' ')) : '') + '</p>' +
       '<p class="note" data-role="allowance-note">' + esc(allowanceNote(inp, G)) + '</p>';
+    // The live page's site coordinates and "Pre-fill from local need", from calc-site.js.
+    if (global.LabCalcSite && global.LabFinancials) h += global.LabCalcSite.coords(p, s, global.LabFinancials.draftFor(p, s.scenarioId)) + global.LabCalcSite.prefillBar(p, s);
 
     h += '<div class="cg-grid" data-role="unit-grid" data-no-source="the visitor’s own inputs"><div class="cg-head" aria-hidden="true"><span>Income level</span><span>Homes</span><span>Size</span></div>' +
       BANDS.map(function (t) {

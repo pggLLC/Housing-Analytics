@@ -328,7 +328,9 @@
 
   // The DOH loan type and maximum-loan-by-value fields (calc-doh.js, calculator move piece C).
   var DOH = function () { return global.LabCalcDoh || null; };
-  var FIELDS = INPUTS.concat(LOAN_INPUTS, LS_INPUTS, WF_INPUTS, STRESS_INPUTS, CREDIT_INPUTS, NOI_INPUTS, CONST_INPUTS, DOH() ? DOH().INPUTS : []);
+  // The site and scale helpers (calc-site.js): gross area from the homes, site coordinates, pre-fill, concept.
+  var SITE = function () { return global.LabCalcSite || null; };
+  var FIELDS = INPUTS.concat(LOAN_INPUTS, LS_INPUTS, WF_INPUTS, STRESS_INPUTS, CREDIT_INPUTS, NOI_INPUTS, CONST_INPUTS, DOH() ? DOH().INPUTS : [], SITE() ? SITE().INPUTS : []);
 
   var data = { chfa: null, hud: null, equity: null, rules: null, error: null, loading: false, rateHint: undefined };
   function loadData() {
@@ -450,7 +452,7 @@
     // A blank manual NOI stays blank: the engine reads it as unknown and holds the mortgage and gap (Codex, #2794).
     fields['dc-noi'] = draft.fields['dc-noi'] == null ? '' : String(draft.fields['dc-noi']);
     fields['dc-achievable-cap'] = false; fields['dc-qct-dda'] = false;
-    fields['dc-gsf-standard'] = ''; fields['dc-gsf-efficiency'] = '0.80';
+    if (SITE()) SITE().engineFields(fields, draft); else { fields['dc-gsf-standard'] = ''; fields['dc-gsf-efficiency'] = '0.80'; }
     fields['dc-market-rent-mode'] = 'zori'; fields['dc-market-bedroom'] = '2br'; fields['dc-market-rent-source'] = '';
     DEAL_AMI_BANDS.forEach(function (t) {
       fields['dc-chk-' + t] = false; fields['dc-units-' + t] = '0'; fields['dc-br-' + t] = '2br';
@@ -1135,7 +1137,7 @@
       }())) +
       stepOpen('fin-step-budget', 'Operating budget', r.annualOpex != null ? money(r.annualOpex) + ' a year' : '', operatingBudget(d, inputs, r)) +
       stepOpen('fin-step-assumptions', 'Loans, credits and terms', r.interestRate != null ? r.interestRate + '% loan, $' + Number(inputs.fields['dc-equity-price']).toFixed(2) + ' equity' : '',
-        '<h2>Assumptions</h2>' + (G ? '' : rentLimitsFixed(p, s)) + (global.LabCalcTax ? global.LabCalcTax.callout(p, d) : '') + fieldGrid(d, null) + creditInputs(d) + loanStackInputs(d) + '<h2>Exit and projection</h2>' + fieldGrid(d, 'exit')) +
+        '<h2>Assumptions</h2>' + (G ? '' : rentLimitsFixed(p, s)) + (global.LabCalcTax ? global.LabCalcTax.callout(p, d) : '') + fieldGrid(d, null) + (SITE() ? SITE().area(d, inputs, G) : '') + creditInputs(d) + loanStackInputs(d) + '<h2>Exit and projection</h2>' + fieldGrid(d, 'exit')) +
       stepOpen('fin-step-stress', 'Stress settings', combinedLabel(inputs.constants), '<h2>Stress case settings</h2><p class="note">How far each stress case moves rent, vacancy and operating cost. The full Deal Calculator\u2019s defaults are tool settings for screening, not a lender\u2019s or CHFA\u2019s required cases. The sliders under Full result test one change at a time.</p>' + fieldGrid(d, 'stressconst') + '<div class="actions"><button type="button" class="button-link secondary" data-action="reset-stress-settings">Reset to the Deal Calculator\u2019s defaults</button></div>') +
       '<h2>Full result</h2><p class="note jump-links">Jump to <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-sliders">Stress sliders</a> · <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-ls">Lender schedules</a></p>' + setAsideStatus(r) + (function () { var t = boostTag(r, inputs.fields); return '<p class="boost-tag boost-' + t.kind + '" data-role="boost-tag">' + esc(t.text) + '</p>'; }()) + '<div class="fin-grid">' +
       card('Net operating income', money(r.noi), r, 'noi') +
@@ -1150,7 +1152,7 @@
       (sum && sum.reason ? '<p class="callout"><strong>Costs:</strong> ' + esc(sum.reason) + '</p>' : '') +
       basisSection(r, inputs.fields) + creditChecks(r) + (global.LabCalcGrid ? global.LabCalcGrid.tables(r, inputs, G, data) : '') +
       mostLikely(d, inputs, r) + sourcesUses(r) + loanTable(r) + (DOH() ? DOH().sections(r, d.fields) : '') + stressTable(r, inputs.constants) + stressSliders(d, inputs, r) + rateGrid(inputs, r) + exitSummary(r, inputs) + projectionTable(r) +
-      (global.LabLenderExport ? global.LabLenderExport.remember(r, s.name) : '') + (global.LabLenderSchedules ? global.LabLenderSchedules.render(d, r, fieldGrid) : '') + waterfallSection(d, r) +
+      (global.LabLenderExport ? global.LabLenderExport.remember(r, s.name) : '') + (global.LabLenderSchedules ? global.LabLenderSchedules.render(d, r, fieldGrid) : '') + waterfallSection(d, r) + (SITE() ? SITE().concept(d, inputs, r) : '') +
       '<p class="note">Calculated by the COHO Deal Calculator. CHFA ' + esc(data.chfa.meta.fiscal_year) + ' rent table effective ' + esc(data.chfa.meta.effective_date) + '; HUD ' + esc(data.hud.meta && data.hud.meta.fiscal_year ? 'FY' + data.hud.meta.fiscal_year + ' ' : '') + 'Fair Market Rents; equity pricing Novogradac national average as of ' + esc(data.equity.meta.as_of || '') + '. Screening only, not underwriting.</p>' +
       '<div class="actions"><button type="submit">Save to ' + esc(s.name) + '</button>' +
       '<a class="button-link secondary" href="#/project/' + esc(p.projectId) + '">Back to the project</a></div></form>' +
@@ -1212,6 +1214,7 @@
       if (i.type === CHECK) { if (!form.querySelector || form.querySelector('[name="' + i.id + '"]')) d.fields[i.id] = fd.get(i.id) != null ? 'yes' : ''; return; }
       d.fields[i.id] = fd.get(i.id) == null ? d.fields[i.id] : String(fd.get(i.id));
     });
+    if (SITE()) SITE().read(d);
     costIds().forEach(function (id) {
       var v = fd.get('cost:' + id), part = fd.get('part:' + id), use = fd.get('used:' + id), b = fd.get('basis:' + id);
       d.costs[id] = v == null ? d.costs[id] : String(v);
