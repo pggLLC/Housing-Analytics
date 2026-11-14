@@ -246,6 +246,19 @@ test('hover help on a guide page is kept in the guide: column heading tips, glos
   // (js/components/table-header-tips.js keeps the same rule on the guide's own page).
   assert.ok(/pointerType === 'touch'/.test(view) && /closest\('\.th-sort'\)/.test(view) && /ev\.stopPropagation\(\); ev\.preventDefault\(\);\s*gtipShow\(th\)/.test(view), 'hub/guide.js lets a tap on a heading sort the table');
   assert.ok(/thSortArrow \|\| !lastPointerTouch/.test(read('js/components/table-header-tips.js')), 'js/components/table-header-tips.js changed how a heading tap is told from a sort; hub/guide.js follows it');
+  // 2b. The pages define terms a second way: js/components/inline-glossary.js, once per page, for every term with
+  // a short definition, the ones js/glossary.js does not link on sight included (Prop 123, GEOID, market study).
+  // The guide does the same for a page that asks for it, from the same list.
+  const inline = read('js/components/inline-glossary.js');
+  const inlineTerms = (inline.slice(inline.indexOf('var TERMS = {'), inline.indexOf('};', inline.indexOf('var TERMS = {'))).match(/^\s+'(?:[^'\\]|\\.)+':\s*'/gm) || []).length;
+  // Its keys: a term's inline_key or name, and each other spelling (scripts/sync-glossary.mjs tooltipKeys).
+  const withShort = new Set(terms.filter((t) => t.short).flatMap((t) => [t.inline_key || t.term, ...(t.aliases || [])])).size;
+  assert.ok(inlineTerms > 80 && inlineTerms === withShort, 'js/components/inline-glossary.js defines ' + inlineTerms + ' terms and data/glossary.json gives ' + withShort + ' keys with a short definition; hub/guide.js reads the second as the first');
+  assert.ok(/!t\.short\) return;\s*\[t\.inline_key \|\| t\.term\]\.concat\(t\.aliases \|\| \[\]\)/.test(view) && /if \(!termsOnce \|\| !F\.oncePattern\) return;/.test(view) && /, F, !!g\.termsOnce\);/.test(view), 'hub/guide.js no longer defines each short-definition term once in a guide whose page does');
+  const extractSrc = read('hub/guide-extract.js');
+  assert.ok(/querySelector\('\.js-glossary-auto'\)/.test(extractSrc) && /b\.termsOnce = true/.test(extractSrc) && /querySelectorAll\('\.js-glossary-auto'\)/.test(inline), 'hub/guide-extract.js no longer reads the page\'s own request for once-per-page definitions (.js-glossary-auto)');
+  const asking = Object.keys(GUIDES).filter((slug) => /class="[^"]*\bjs-glossary-auto\b/.test(read(GUIDES[slug])));
+  assert.ok(asking.length >= 10, 'only ' + asking.length + ' guide pages ask for once-per-page definitions; the scan found too little to check');
   // 3. The page as written stays one link away.
   assert.ok(/g\.live\) \+ '\?classic=1"/.test(view), 'the guide no longer links its own page with ?classic=1');
 });

@@ -241,8 +241,11 @@
       const main = doc.querySelector('main');
       if (!main || !main.querySelector('h1')) throw new Error('no article');
       const description = (doc.querySelector('meta[name="description"]') || {}).content || null;
+      // The page asks for each of the site's terms to be defined once at its first use (js/components/inline-glossary.js).
+      const termsOnce = !!doc.querySelector('.js-glossary-auto') && !(doc.body && doc.body.getAttribute('data-inline-glossary') === 'off');
       const b = o.mode === 'lihtc' ? lihtc(main, doc, o) : byH2(main, doc, o);
       b.description = description;
+      if (termsOnce) b.termsOnce = true;
       return b;
     };
     if (!o.rendered) return fetch(url).then(r => { if (!r.ok) throw new Error(r.status); return r.text(); }).then(html => cut(parse(html)));
