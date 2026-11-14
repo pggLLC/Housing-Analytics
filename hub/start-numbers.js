@@ -26,6 +26,8 @@
   var P = global.LabProjects;
   var esc = Shell.esc;
   var BANDS = [30, 40, 50, 60];
+  // The bands Financials' capture check can step a weak band down to: the unit grid's bands up to 80%.
+  var STEP_BANDS = [20, 30, 40, 50, 60, 70, 80];
   var SIZES = ['efficiency', '1BR', '2BR', '3BR'];
   var SIZE_PLURAL = { efficiency: ['studio', 'studios'], '1BR': ['one-bedroom', 'one-bedrooms'], '2BR': ['two-bedroom', 'two-bedrooms'], '3BR': ['three-bedroom', 'three-bedrooms'] };
   var SHORT = { efficiency: 'Studio', '1BR': '1 BR', '2BR': '2 BR', '3BR': '3 BR' };
@@ -231,7 +233,11 @@
   function marketFor(p, s, byBand, pick) {
     var c = context(p);
     if (c.wait || c.error) return c;
+    // Every band a weak band could step down to is counted, whether or not the deal has homes in it (Codex P2 on
+    // HA #2863): the unit grid's bands up to 80% that CHFA's table carries for the county, and the deal's own bands.
+    var reg = c.limits[c.fips] && c.limits[c.fips].regular_tiers || {};
     var areas = areasFor(p, s, c), bands = BANDS.slice();
+    STEP_BANDS.forEach(function (b) { if (reg[String(b)] && bands.indexOf(b) < 0) bands.push(b); });
     Object.keys(byBand).forEach(function (b) { b = Number(b); if (bands.indexOf(b) < 0) bands.push(b); });
     bands.sort(function (a, b) { return a - b; });
     var area = areas.filter(function (a) { return a.key === pick; })[0], widened = null;
