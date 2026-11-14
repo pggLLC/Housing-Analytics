@@ -393,7 +393,7 @@
   }
 
   // 3.3: several lines over the same years, each labelled at its end; a dashed reference level across.
-  // o: { series: [{ label, color, dash, points: [[x, y]] }], ref: { y, label }, xUnit }
+  // o: { series: [{ label, color, dash, points: [[x, y]] }], ref: { y, label }, xTicks: [x values to label], xName: 'year' }
   function multiLine(o) {
     var ss = o.series.filter(function (s) { return s.points.length > 1; });
     if (!ss.length) return '';
@@ -401,18 +401,22 @@
     var ys = []; ss.forEach(function (s) { s.points.forEach(function (p) { ys.push(p[1]); }); }); if (o.ref) ys.push(o.ref.y);
     var lo = 0, hi = Math.max.apply(null, ys) * 1.08, step = Math.pow(10, Math.floor(Math.log10(hi / 4)));
     while (hi / step > 6) step *= 2;
+    // A line that goes below zero (a year of negative cash flow) takes the axis down with it, in whole steps.
+    var low = Math.min.apply(null, ys);
+    if (low < 0) { lo = Math.floor(low / step) * step; while ((hi - lo) / step > 7) { step *= 2; lo = Math.floor(low / step) * step; } }
+    function usd(v) { return (v < 0 ? '\u2212$' : '$') + num(Math.abs(v)); }
     function draw(W, H, phone) {
       var yw = 64, rw = 0, top = 16, bot = H - 30, X = function (v) { return yw + (v - x0) / (x1 - x0) * (W - yw - rw - 10); }, Y = function (v) { return bot - (v - lo) / (hi - lo) * (bot - top); };
       var g = '';
-      for (var v = 0; v <= hi; v += step) g += L(yw, Y(v), W - rw - 10, Y(v), LINE) + T(yw - 6, Y(v) + 4, '$' + (v >= 1000 ? num(v / 1000) + 'k' : num(v)), { fill: MUT, a: 'end' });
-      xs.forEach(function (x) { if ((x - x0) % 5 === 0) g += T(X(x), bot + 18, String(x), { fill: MUT, a: x === x1 ? 'end' : 'middle' }); });
+      for (var v = lo; v <= hi; v += step) g += L(yw, Y(v), W - rw - 10, Y(v), v === 0 && lo < 0 ? MUT : LINE) + T(yw - 6, Y(v) + 4, (v < 0 ? '\u2212$' : '$') + (Math.abs(v) >= 1000 ? num(Math.abs(v) / 1000) + 'k' : num(Math.abs(v))), { fill: MUT, a: 'end' });
+      xs.forEach(function (x) { if (o.xTicks ? o.xTicks.indexOf(x) >= 0 : (x - x0) % 5 === 0) g += T(X(x), bot + 18, String(x), { fill: MUT, a: x === x1 ? 'end' : 'middle' }); });
       if (o.ref) g += L(yw, Y(o.ref.y), W - rw - 10, Y(o.ref.y), INK, ' stroke-dasharray="5,4" stroke-width="1.5"');
       ss.forEach(function (s) {
         g += '<path d="' + s.points.map(function (p, i) { return (i ? 'L' : 'M') + f1(X(p[0])) + ' ' + f1(Y(p[1])); }).join('') + '" fill="none" stroke="' + s.color + '" stroke-width="3"' + (s.dash ? ' stroke-dasharray="7,4"' : '') + '/>';
       });
       ss.forEach(function (s) {
         var gapX = (W - yw - rw - 10) / Math.max(1, s.points.length - 1);
-        s.points.forEach(function (q) { g += HIT(X(q[0]), Y(q[1]), s.label + ', ' + q[0] + ': $' + num(q[1]), gapX); });
+        s.points.forEach(function (q) { g += HIT(X(q[0]), Y(q[1]), s.label + ', ' + (o.xName ? o.xName + ' ' : '') + q[0] + ': ' + usd(q[1]), gapX); });
       });
       return g;
     }
@@ -426,8 +430,8 @@
       keyRows.forEach(function (k, i) {
         var x = (i % cols) * cw, y = H + 18 + Math.floor(i / cols) * rh;
         g += L(x, y - 4, x + 22, y - 4, k.color, ' stroke-width="3"' + (k.dash ? ' stroke-dasharray="6,4"' : ''));
-        g += phone ? T(x + 28, y, '$' + num(k.v), { fill: k.color, w: 700 }) + T(x + 28, y + 18, k.label, { fill: k.color })
-          : T(x + 28, y, '$' + num(k.v) + '  ' + k.label, { fill: k.color, w: 700 });
+        g += phone ? T(x + 28, y, usd(k.v), { fill: k.color, w: 700 }) + T(x + 28, y + 18, k.label, { fill: k.color })
+          : T(x + 28, y, usd(k.v) + '  ' + k.label, { fill: k.color, w: 700 });
       });
       return { g: g, h: H + 18 + Math.ceil(keyRows.length / cols) * rh };
     }

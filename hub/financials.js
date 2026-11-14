@@ -46,7 +46,12 @@
     { id: 'dc-boost-designation', label: '30% basis boost', options: [['none', 'No boost'], ['qct', 'Qualified Census Tract (QCT)'], ['dda', 'Difficult Development Area (DDA)'],
       ['sadda', 'Small Area DDA (SADDA)'], ['chfa', 'CHFA basis boost (9% only)']], value: 'none' },
     { id: 'dc-boost-evidence', label: 'Evidence for the boost', type: 'text', value: '', placeholder: 'HUD map or list for the tract, or CHFA letter and date' },
-    { id: 'dc-boost-pct', label: 'CHFA basis boost only: percentage in CHFA\u2019s letter (up to 30)', value: '', step: '1' },
+    { id: 'dc-boost-pct', label: 'CHFA basis boost only: percentage in CHFA\u2019s letter (up to 30)', value: '', step: '1',
+      // The live page's two notes under the boost (dc-boost-help, dc-dda-2027), word for word, with its three links.
+      after: '<p class="note field-after" id="dc-boost-help">A QCT, DDA or SADDA boost raises eligible basis by 30% once; a CHFA boost raises it once by the percentage in CHFA\u2019s letter, up to 30%. It needs a designation and the evidence for it, never applies to buying an existing building, and the CHFA boost cannot be combined with a QCT, DDA or SADDA.</p>' +
+        '<p class="note field-after" id="dc-dda-2027">HUD\u2019s 2027 lists apply to 9% credits allocated after December 31, 2026, which is every 2027 round. A 4% bond deal uses them only if, after that date, its bonds are issued and its buildings placed in service. They add Archuleta and Chaffee counties and ZIP 80433 as DDAs, and drop San Miguel County and ZIPs 80129, 80249, 80465 and 80913. This site\u2019s maps show the 2026 lists until January. ' +
+        '<a href="https://www.huduser.gov/portal/Datasets/qct/DDA2027NM.PDF">HUD 2027 county list \u2197</a> \u00b7 <a href="https://www.huduser.gov/portal/Datasets/qct/DDA2027M.PDF">HUD 2027 ZIP list \u2197</a> \u00b7 ' +
+        '<a href="https://www.federalregister.gov/documents/2026/10/06/2026-20390/statutorily-mandated-designation-of-difficult-development-areas-and-qualified-census-tracts-for-2027">Federal Register, October 6, 2026 \u2197</a></p>' },
     { id: 'dc-deferred-pct', label: 'Deferred developer fee cap (% of the fee)', value: '40', step: '1' },
     { id: 'dc-deferred-auto-balance', type: 'checkbox', label: 'Auto-balance the gap with deferred fee: defer more fee, up to the cap, to close any remaining gap. Untick to defer exactly the percentage above.', value: 'yes' },
     { id: 'dc-deferred-repay-cap', type: 'checkbox', label: 'Defer no more than 15 years of cash flow repays: any fee above what years 1 to 15 repay becomes gap. CHFA reviews whether cash flow can repay the deferred fee (2027-2028 QAP section 2.B, Criteria for Approval).', value: 'yes' },
@@ -692,6 +697,21 @@
       '<dl class="exit-list" data-role="exit">' + items.map(function (x) { return '<div><dt>' + esc(x[0]) + '</dt><dd>' + esc(x[1]) + '</dd></div>'; }).join('') + '</dl>' +
       (notes.length ? '<p class="note">' + esc(notes.join(' ')) + '</p>' : '') + '</section>';
   }
+  // The live page's line chart of net operating income, debt service and cash flow (pf-chart), from the same
+  // projection rows as the table under it. A year the engine could not compute is left off its line.
+  function projectionChart(list) {
+    var V = global.LabViz;
+    if (!V || list.length < 2) return '';
+    function pts(k) { return list.filter(function (x) { return x[k] != null && isFinite(x[k]); }).map(function (x) { return [x.year, Math.round(x[k])]; }); }
+    var end = list[list.length - 1].year;
+    return '<div data-role="pf-chart">' + V.multiLine({ title: 'Net operating income, debt service and cash flow by year',
+      label: 'Line chart: net operating income, debt service and cash flow over the projection period',
+      series: [{ label: 'Net operating income', color: V.COLORS.homes, points: pts('noi') },
+        { label: 'Debt service', color: V.COLORS.blue, dash: true, points: pts('debtService') },
+        { label: 'Cash flow', color: V.COLORS.households, points: pts('cashFlow') }],
+      xTicks: list.map(function (x) { return x.year; }).filter(function (y) { return y === 1 || y === end || (y % 5 === 0 && end - y > 1); }), xName: 'year',
+      note: 'The same figures as the table below. The key gives each line in year ' + end + '.' }) + '</div>';
+  }
   function projectionTable(r) {
     var pr = r.projection;
     if (!pr || !pr.rows) return '<section class="fin-section"><h2>Operating projection</h2><p class="note">' + esc(unavailable(r, 'projection')) + '</p></section>';
@@ -699,7 +719,7 @@
     var cols = [['Income after vacancy', 'egi'], ['Operating expenses', 'opex'], ['Replacement reserve', 'repReserve'], ['Property tax', 'propTax'],
       ['Net operating income', 'noi'], ['Debt service', 'debtService'], ['Cash flow', 'cashFlow'], ['Deferred fee paid', 'deferredFeePaid']];
     var reasons = list.map(function (x) { return x.unavailableReason; }).filter(Boolean).filter(function (x, i, a) { return a.indexOf(x) === i; });
-    return '<section class="fin-section" aria-labelledby="fin-proj"><h2 id="fin-proj">' + esc(String(pr.years)) + '-year operating projection</h2>' +
+    return '<section class="fin-section" aria-labelledby="fin-proj"><h2 id="fin-proj">' + esc(String(pr.years)) + '-year operating projection</h2>' + projectionChart(list) +
       '<div class="table-scroll" role="region" aria-label="Operating projection" tabindex="0"><table class="proj-table"><thead><tr><th scope="col">Year</th>' +
       cols.map(function (c) { return '<th scope="col" class="num">' + esc(c[0]) + '</th>'; }).join('') + '<th scope="col" class="num">Coverage</th></tr></thead><tbody>' +
       list.map(function (x) {
@@ -813,7 +833,7 @@
         ? '<input name="' + i.id + '" type="text" maxlength="200" value="' + esc(v) + '" placeholder="' + esc(i.placeholder || '') + '">'
         : '<input name="' + i.id + '" type="number" step="' + i.step + '"' + (i.min ? ' min="' + i.min + '"' : '') + (i.max ? ' max="' + i.max + '"' : '') + ' inputmode="decimal" value="' + esc(v) + '"' +
           (i.id === 'dc-equity-price' ? ' placeholder="' + equityDefault(d.fields['dc-credit'] === '4' ? '4' : '9', data.equity) + '"' : i.id === 'dc-boost-pct' ? ' placeholder="not entered"' : i.placeholder ? ' placeholder="' + esc(i.placeholder) + '"' : '') + '>';
-      return '<label class="field"><span>' + esc(i.label) + '</span>' + ctl + (i.note ? '<small class="note">' + esc(i.note) + '</small>' : '') + sourceTag(i) + '</label>';
+      return '<label class="field"><span>' + esc(i.label) + '</span>' + ctl + (i.note ? '<small class="note">' + esc(i.note) + '</small>' : '') + sourceTag(i) + '</label>' + (i.after || '');
     }).join('') + '</div>';
   }
 
@@ -1157,7 +1177,8 @@
       '<div class="actions"><button type="submit">Save to ' + esc(s.name) + '</button>' +
       '<a class="button-link secondary" href="#/project/' + esc(p.projectId) + '">Back to the project</a></div></form>' +
       (global.LabDealFile ? global.LabDealFile.panel(p, s) : '') +
-      (global.LabDealExtras ? global.LabDealExtras.render(p, s, d, inputs, r, data) : '');
+      (global.LabDealExtras ? global.LabDealExtras.render(p, s, d, inputs, r, data) : '') +
+      (global.LabCalcChecks ? global.LabCalcChecks.render(p, s) : '');
   }
 
   // DOH's four expense groups and other income, per home per year, with the engine's own totals. Taxes and the
