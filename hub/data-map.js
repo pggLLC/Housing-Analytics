@@ -1,5 +1,5 @@
 // Data map (#/data/map). The site's own map files, up to three at once, drawn from their own coordinates over
-// the Census county outlines with no map tiles, so the page stays light. Areas draw see-through, so where
+// the Census county outlines, on the OpenStreetMap street map or Esri satellite imagery (site/map-base.js). Areas draw see-through, so where
 // two designations overlap shows. One search box finds a county or town from the site's own files, or an
 // address through the free US Census Geocoder (only when the visitor presses Enter). A tap or a search opens
 // "What's here": the county, whether the spot is inside a Qualified Census Tract, a Difficult Development Area
@@ -262,7 +262,7 @@
           var isOn = ids.indexOf(x.id) >= 0;
           return '<li><a class="chip' + (isOn ? ' is-on' : '') + '" href="' + esc(href(toggled(ids, x.id), at, label)) + '"' + (isOn ? ' aria-current="true"' : '') + ' data-layer="' + x.id + '">' + swatch(x) + esc(x.label) + '</a></li>';
         }).join('') + '</ul></div>';
-      }).join('') + '</nav></details>';
+      }).join('') + '</nav><p class="note dm-more">' + esc(LIVE_ONLY.length) + ' more layers, among them transit stops, flood zones, place boundaries and census tracts, are on the <a href="' + LIVE + 'data-map-browser.html">full Data Map ↗</a>.</p></details>';
     var search = '<form class="dm-search" data-dm-search role="search" autocomplete="off">' +
       '<label for="dm-q">Find an address, town or county</label>' +
       '<div class="dm-search-row"><input id="dm-q" name="dmq" type="search" placeholder="e.g. Pueblo, Eagle County, 1313 Sherman St Denver" value="' + esc(label || (t && t.kind !== 'point' ? t.label : '')) + '" aria-describedby="dm-q-help" aria-autocomplete="list" aria-controls="dm-suggest">' +

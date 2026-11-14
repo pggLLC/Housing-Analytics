@@ -59,6 +59,8 @@
     // Before the map, so the legend that follows the frame sits directly under the map (on a phone the
     // buttons sit above it; on a wider screen they float in its top-right corner).
     frame.insertBefore(controls, svg);
+    // The street map or satellite image under the map, its credit and a scale bar (site/map-base.js).
+    if (global.LabMapBase) global.LabMapBase.attach(svg, B);
 
     // ---- tooltip ----
     var current = null;
