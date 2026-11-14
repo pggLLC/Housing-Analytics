@@ -17,30 +17,34 @@
     var main = doc.getElementById('main') || doc.body;
     return Array.prototype.filter.call(main.querySelectorAll(FOCUSABLE), function (n) { return !n.disabled && n.type !== 'hidden'; });
   }
-  // How to find a control again after the page is rebuilt: id, or name (and value, for a choice), or its first data-
-  // attribute (a button such as Add row), inside its row; a control with none of these by its place in the page's order.
+  // How to find a control again after the page is rebuilt: id, or name (and value, for a choice), or all its data-
+  // attributes (Remove source 2 is data-action plus data-idx), inside its row; and, where that still matches more than
+  // one control, which of them it was. A control with none of these is found by its place in the page's order.
+  function q(v) { return String(v).replace(/["\\]/g, '\\$&'); }
   function dataSel(el) {
+    var out = '';
     for (var i = 0; i < el.attributes.length; i++) {
       var a = el.attributes[i];
-      if (a.name.indexOf('data-') === 0 && a.name !== 'data-row') return el.tagName.toLowerCase() + '[' + a.name + '="' + String(a.value).replace(/["\\]/g, '\\$&') + '"]';
+      if (a.name.indexOf('data-') === 0 && a.name !== 'data-row') out += '[' + a.name + '="' + q(a.value) + '"]';
     }
-    return null;
+    return out ? el.tagName.toLowerCase() + out : null;
   }
+  function scopeOf(row) { return row != null ? '[data-row="' + q(row) + '"] ' : ''; }
   function keyOf(el) {
     if (!el || el === doc.body || !el.tagName) return null;
     var sel = el.id ? '#' + cssEsc(el.id)
-      : el.name ? el.tagName.toLowerCase() + '[name="' + String(el.name).replace(/["\\]/g, '\\$&') + '"]' +
-        (el.type === 'radio' || el.type === 'checkbox' ? '[value="' + String(el.value).replace(/["\\]/g, '\\$&') + '"]' : '')
+      : el.name ? el.tagName.toLowerCase() + '[name="' + q(el.name) + '"]' +
+        (el.type === 'radio' || el.type === 'checkbox' ? '[value="' + q(el.value) + '"]' : '')
       : dataSel(el);
     if (!sel) { var at = focusables().indexOf(el); return at < 0 ? null : { index: at }; }
-    var row = el.closest && el.closest('[data-row]');
-    return { sel: sel, row: row ? row.getAttribute('data-row') : null };
+    var r = el.closest && el.closest('[data-row]'), row = r ? r.getAttribute('data-row') : null, nth = 0;
+    try { nth = Array.prototype.indexOf.call(doc.querySelectorAll(scopeOf(row) + sel), el); } catch (e) { nth = 0; }
+    return { sel: sel, row: row, nth: Math.max(0, nth) };
   }
   function find(key) {
     if (!key) return null;
     if (key.index != null) return focusables()[key.index] || null;
-    var within = key.row != null ? '[data-row="' + String(key.row).replace(/["\\]/g, '\\$&') + '"] ' : '';
-    try { return doc.querySelector(within + key.sel); } catch (e) { return null; }
+    try { return doc.querySelectorAll(scopeOf(key.row) + key.sel)[key.nth || 0] || null; } catch (e) { return null; }
   }
 
   function run() {
