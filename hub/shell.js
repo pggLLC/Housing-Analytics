@@ -252,6 +252,17 @@
     var words = String(q).toLowerCase().split(/\s+/).filter(Boolean);
     return opts.filter(function (e) { var hay = (e.label + ' ' + e.geoid).toLowerCase(); return words.every(function (w) { return hay.indexOf(w) > -1; }); });
   }
+  // A place with its county ("Glendale, Arapahoe County"), so two places that share a name can be told apart
+  // before one is saved. Until the place data has loaded, a name that two places share carries its GEOID.
+  function placeLabel(e, list) {
+    var Pl = global.LabPlaces, sh = Pl && Pl.data(), d = sh && sh.data;
+    if (String(e.geoid).length === 5) return e.label;
+    var rec = d && d.gapPlace && d.gapPlace.places[e.geoid], fips = rec && rec.containing_county_fips;
+    var c = fips && Pl.countyEntries().filter(function (x) { return x.geoid === fips; })[0];
+    if (c) return e.label + ', ' + c.label;
+    var twin = (list || []).some(function (x) { return x !== e && x.label === e.label; });
+    return twin ? e.label + ' (' + e.geoid + ')' : e.label;
+  }
   // A place named exactly as the project is ("grand junction", "Fruita project"). It is offered, never set unasked.
   function namedPlace(name, opts) {
     var n = String(name || '').toLowerCase().replace(/\s+project(\s+\d+)?$/, '').replace(/\s+/g, ' ').trim();
@@ -268,12 +279,12 @@
     var body = '<form class="search" role="search" data-place-search="' + esc(p.projectId) + '"><label for="project-place-q">Find a town, city or county</label>' +
       '<input id="project-place-q" name="q" type="search" autocomplete="off" value="' + esc(q) + '" placeholder="For example Grand Junction or Mesa County"></form>' +
       (q ? (hits.length ? '<form data-action="set-place" data-project="' + esc(p.projectId) + '"><ul class="place-picks">' +
-        hits.map(function (e) { return '<li>' + pick(e, e.label, 'quiet') + '</li>'; }).join('') + '</ul></form>'
+        hits.map(function (e) { return '<li>' + pick(e, placeLabel(e, opts), 'quiet') + '</li>'; }).join('') + '</ul></form>'
         : '<p class="note">No Colorado place matches that name.</p>') : '');
     if (!p.jurisdiction) {
       return '<section class="callout project-place" aria-labelledby="project-place-h"><h2 id="project-place-h">Where is this project?</h2>' +
         '<p>Pick its town or county first. The Recommendation reads the project\u2019s place, and so do the place\u2019s need figures.</p>' +
-        (guess && !q ? '<form data-action="set-place" data-project="' + esc(p.projectId) + '"><p>Is it in ' + esc(guess.label) + '?</p>' + pick(guess, 'Use ' + guess.label) + '</form><p class="note">Or find another place:</p>' : '') +
+        (guess && !q ? '<form data-action="set-place" data-project="' + esc(p.projectId) + '"><p>Is it in ' + esc(placeLabel(guess, opts)) + '?</p>' + pick(guess, 'Use ' + guess.label) + '</form><p class="note">Or find another place:</p>' : '') +
         body + '</section>';
     }
     return '<details class="project-place"' + (q ? ' open' : '') + '><summary>Change the place</summary>' +

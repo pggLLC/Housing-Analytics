@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "8bd39ec6b84024b4be279a4f831660233ae19721",
+  "commit": "b1be9ccad233a6eff03867b501a78ed2958aaa49",
   "dirty": false
  },
  "files": {
@@ -110,7 +110,7 @@
   "hub/route-catalog.json": "166d7dbc17f9309c294ace66dd0e69f1a22889692212d7af58b27679fb9694c5",
   "hub/sale-deal.js": "5f345010158bdb77ab6943b8f58f0adfc5d6aadbb35c27a40aba9f467752d800",
   "hub/shell.css": "24c73f27c79abfbc4240a7228a48405f30a061a3459d78a98a76746dfddd4778",
-  "hub/shell.js": "be1ea657a9c7b10ae1cbf6ff240e975e3e2df3caaad4f20cdfc6056d9aa283e4",
+  "hub/shell.js": "d5495b100e275287e3d47adec60a8ed29ced57d20edd545ee3b059e0986e07b2",
   "hub/small-pages.css": "c873d07280dbee49b8c1446e21377f83a31b1be765d3bad3ad868127afdffd15",
   "hub/strength.js": "10f09b6b204f00e1689748a2696efcd6424bd9e327d5b0f444e6dde011deabb7",
   "hub/templates.css": "23983335a46b9f63fad0128c898905937da4dfa52172c703f21760886c0210f1",
