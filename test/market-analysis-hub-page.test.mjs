@@ -97,14 +97,23 @@ ok(/<meta name="robots" content="noindex, follow">/.test(newPage), 'until the li
   ok(!newPage.includes('href="' + f + '"'), f + ' is also linked outside the layer, where it would restyle the tool');
   ok(fs.existsSync(path.join(root, f)), f + ' is missing');
 });
-// An open header menu must paint above the tool: above its sticky section row and its map. The new header is
-// sticky with a z-index of its own (a stacking context that carries the menus); the section row sits below it.
+// An open header menu must paint above the tool: above its seven-step bar, its sticky section row and its map. The
+// new header is sticky (a stacking context that carries the menus), and on this page it takes the old header's
+// level, which the tool's own sheets stack everything else under.
 {
-  const headerZ = [...['hub/shell.css', 'hub/visual-pass.css', 'hub/templates.css', 'hub/look.css'].map(read).join('\n')
+  const headerRule = [...['hub/shell.css', 'hub/visual-pass.css', 'hub/templates.css', 'hub/look.css'].map(read).join('\n')
     .matchAll(/^\.site-header\s*\{([^}]*)\}/gm)].map(m => m[1]).filter(b => /z-index/.test(b)).pop() || '';
-  const rowZ = /\.ma-section-nav\s*\{[^}]*z-index:\s*(\d+)/.exec(read('css/pages/market-analysis-hub.css'));
-  ok(/position:\s*sticky/.test(headerZ) && /z-index:\s*(\d+)/.test(headerZ), 'the new header is no longer sticky with a z-index of its own');
-  ok(rowZ && Number(/z-index:\s*(\d+)/.exec(headerZ)[1]) > Number(rowZ[1]), 'the section row would paint over an open header menu');
+  const bridge = read('css/pages/market-analysis-hub.css');
+  const headerZ = /body\.tool-page \.site-header:not\(#_\)\s*\{\s*z-index:\s*(\d+)\s*!important/.exec(bridge);
+  const rowZ = /\.ma-section-nav\s*\{[^}]*z-index:\s*(\d+)/.exec(bridge);
+  // Every level the tool's theme gives the step bar (.wf-progress-wrap, .workflow-progress).
+  const barZ = [...read('css/site-theme.css').matchAll(/\.(?:wf-progress-wrap|workflow-progress)\b[^{}]*\{([^}]*)\}/g)]
+    .map(m => /z-index:\s*(\d+)/.exec(m[1])).filter(Boolean).map(m => Number(m[1]));
+  ok(/position:\s*sticky/.test(headerRule), 'the new header is no longer sticky, so it no longer carries its menus above the page');
+  ok(headerZ, 'the bridging sheet no longer gives the header a level of its own on this page');
+  ok(barZ.length > 0, 'css/site-theme.css no longer gives the seven-step bar a z-index the way this reads it');
+  ok(headerZ && barZ.every(z => Number(headerZ[1]) > z), 'the seven-step bar would paint over an open header menu');
+  ok(headerZ && rowZ && Number(headerZ[1]) > Number(rowZ[1]), 'the section row would paint over an open header menu');
 }
 // The header, footer and trail keep the palette's small-print colour, light and dark.
 const mutedLight = /--muted:\s*([^;]+);/.exec(read('hub/palette.css'))[1].trim();

@@ -39,6 +39,12 @@
       any rule in the tool's sheets. Their small-print colour is set in the page's head (see the build script). */
 body.tool-page :is(.skip-link, .site-header, .site-footer, .crumbs):not(#_),
 body.tool-page :is(.site-header, .site-footer, .crumbs) *:not(#_, .footer-tools, .footer-tools *) { all: revert-layer !important; }
+/* One thing the old header did for the tool is kept: its place in the stack. The tool's sheets stack the page around a
+   header at 9000 (css/site-theme.css): the seven-step bar sticks under it at 8500, the map and the section row lower
+   still. The new header's own level (60, hub/templates.css) is below that bar, which would then paint over the top of
+   an open menu. So on this page the new header sits where the old one sat, and everything the tool stacks keeps the
+   order it has on market-analysis.html. */
+body.tool-page .site-header:not(#_) { z-index: 9000 !important; }
 
 /* 3. The old theme's names, answered from the new palette. Tripled so it outranks the old theme's own
       dark-mode blocks (html.dark-mode, :root:not(.light-mode)); the palette itself switches light and dark.
@@ -85,8 +91,8 @@ body.tool-page .crumbs ol:not(#_) { margin: 0 0 .5rem !important; }
 
 /* The page's own row of links to its parts, as the new pages' tab row. It already sticks under the header
    (js/components/workflow-progress.js measures the header into --site-header-h). Its z-index is the new pages'
-   own for a sticky tab row (.tabs, 40): below the header, which is sticky at 60 (hub/templates.css) and so
-   carries its open menus above this row and above the map. */
+   own for a sticky tab row (.tabs, 40): below the seven-step bar and below the header (section 2), which is
+   sticky and so carries its open menus above this row, the bar and the map. */
 body.tool-page .ma-section-nav { background: var(--card); border-bottom: 1px solid var(--line); margin: 1rem 0 1.5rem; z-index: 40; }
 body.tool-page .ma-section-nav-link { display: flex; align-items: center; min-height: 44px; padding: 0 .9rem; font-size: 15px; font-weight: 400; color: var(--ink); border-bottom: 3px solid transparent; white-space: nowrap; }
 body.tool-page .ma-section-nav-link:hover { color: var(--ink); border-bottom-color: var(--line-strong); }
