@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "b4d5f798bc328b60721d102d8784d3962d195c5d",
+  "commit": "f9acce46ae78b1756dd3109b8890b412033f1c9e",
   "dirty": false
  },
  "files": {
@@ -34,7 +34,7 @@
   "hub/calc-comps.js": "da91271ff932b59041b54665f474520facce9bfcde455caf5c12b54b56e64a04",
   "hub/calc-doh.js": "7ec3f51dabeace0a3939051b09da4e42630c810919517206846122ad2fa2cc94",
   "hub/calc-grid.js": "b3bb54cf59ebabd1cbb83834b2a1a528647b5293e4f97bbf379a3343c29eb43f",
-  "hub/calc-help.js": "2f4ba11910a20de4e33e5c7d4fd1ec216e2134cb66810191c50fffeaa914b5e9",
+  "hub/calc-help.js": "ccb2d4cfb5ed2a8a8123bd99b7e726a4e906e16d3b8e448218b57498a0a17d91",
   "hub/calc-outcome.js": "1f24c9640eb0e8d14e6fc6a8664ef1da510a10093855ab56695c6247ac0901b5",
   "hub/calc-site.js": "ad9d4b4c9b462e415dc9dbf00fa34d8dabce4fd69d8d1fdb934df9778238b993",
   "hub/calc-tax.js": "ded0687ab2ee6cd6b28b9fd633586ee8843476a9cd402c1b340fbe5f40c30a7a",

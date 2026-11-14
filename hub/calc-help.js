@@ -31,7 +31,8 @@
     if ((m = /^opinc:([a-z_]+)$/.exec(name))) return 'dc-op-income-' + m[1];
     if ((m = /^op:([a-z_]+)$/.exec(name))) return 'dc-op-' + m[1];
     if ((m = /^tr:\d+:([A-Za-z]+)$/.exec(name))) return TRANCHE[m[1]] ? 'tranche-' + TRANCHE[m[1]] : null;
-    return /^dc-[a-z0-9-]+$/.test(name) ? name : null;
+    // Every other box already carries the live id as its name (dc-..., and the pro forma's pf-...).
+    return /^[a-z]+-[a-z0-9-]+$/.test(name) ? name : null;
   }
   function definition(name) {
     var R = global.DealCalculatorInputRegistry, id = liveId(name), f = R && id && R.get(id);
