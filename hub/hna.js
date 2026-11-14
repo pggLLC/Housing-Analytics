@@ -2575,7 +2575,9 @@
   // writes, and its own message ("Excel workbook downloaded ✓", or why it did not) is shown here.
   var REPORT = { pdf: { fn: '__HNA_exportPdf', lib: 'jspdf', what: 'full report' }, xlsx: { fn: '__HNA_exportExcel', lib: 'ExcelJS', what: 'Excel workbook' } };
   var reportFrame = null, reportBusy = false;
-  function oldHnaUrl(geoid) { return Pl.LIVE + 'housing-needs-assessment.html?geoid=' + encodeURIComponent(geoid) + '&classic=1'; }
+  // auto=1 makes the HNA page open this place even when the browser has another place saved (js/hna/hna-controller.js
+  // gives a saved place priority over geoid otherwise; Codex P1 on HA #2875).
+  function oldHnaUrl(geoid) { return Pl.LIVE + 'housing-needs-assessment.html?geoid=' + encodeURIComponent(geoid) + '&auto=1&classic=1'; }
   function reportSameSite() {
     try { return new URL(Pl.LIVE || './', global.location.href).origin === global.location.origin; } catch (e) { return false; }
   }
@@ -2632,6 +2634,9 @@
     try {
       var w = await reportReady(reportFrameFor(g), spec);
       if (!w) { reportStatus(g, 'The ' + spec.what + ' could not be built: the assessment did not finish loading. Try again in a moment.'); return; }
+      // The file is only written for the place on this page: if the assessment opened any other place, nothing is saved.
+      var shown = w.HNAState.state.current;
+      if (!shown || String(shown.geoid) !== String(g)) { reportStatus(g, 'The ' + spec.what + ' could not be built: the assessment opened ' + ((shown && shown.label) || 'another place') + ', not ' + label + '. Nothing was saved.'); return; }
       await w[spec.fn]();
       var toast = w.document.getElementById('hna-export-toast');
       var said = toast ? String(toast.textContent || '').trim() : '';
