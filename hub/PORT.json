@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "78b353ddc022c2c6c927a15dfcd9ae6d53fc0233",
+  "commit": "d37acfcda5e45677df0d088395d8cad30d7da99e",
   "dirty": false
  },
  "files": {
@@ -53,7 +53,7 @@
   "hub/data-more.js": "eb64a1681dbe266ac45be3a7c968b1f6d25eb8a97a3172ea63bf79bd4bebd652",
   "hub/data-pages.css": "9284d87cfbef7443a2aa0926c586be3bc7c3d8f7daa1641de7349878af3b525c",
   "hub/deal-extras.js": "4b660b3f6121231b095ffc22ca658ad179c9df78cf9f747abd92a50873da5aa1",
-  "hub/deal-file.js": "c0d05688ed83bcf625a1131455fb107abb2c731da58d3358303b033e5bd021c1",
+  "hub/deal-file.js": "cfaf518289d6f50415bf2b3743a27d546f90c83a65701ec2a3866385a9809e32",
   "hub/deal-quick-sale.js": "8707ba8e2fb14cc752bf8063c79edcd37265cdbed2a81abb4a86afd1feb54ff4",
   "hub/deal-quick.js": "b60b7ad8f12e406eb743a4a1ae8804bdf8cc0f363f2e94ad48b7fa86ae0a8231",
   "hub/deal-tool.js": "214485901c30df6a09a6c896ba8093bff9dfc320e1cd5b6ca4ea9c7d358d5bd8",
@@ -74,7 +74,7 @@
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
   "hub/guide.js": "710fed44d84f241b221a1b49b8aaaeb32ca36db9bfa25a298bd775760ba576db",
   "hub/hna-dola.js": "3d98f4185ac1b0decd1974f7f02bae7d450633f73b651652d4046ee8db71662e",
-  "hub/hna.js": "f3b4bed1219bf8cea74316d1b48a502c951ddc8de6705e49799f6fdbb1a0936a",
+  "hub/hna.js": "42bd4076c40ec3074899d2799b64554831395c1c02eaf51d76757d5496b86715",
   "hub/home.css": "47c8d4d65023a4e3bf1153eb9fdf2aacceddafe9b5bb0eac8533c77e283e32bb",
   "hub/home.js": "60b81865af0f5d88b6e1ea9461b093987126794c297f716ee1872c7be9d7ed74",
   "hub/homes.js": "048cc62e0cfd9789252368d9aecf8e951c96500f207d94bb41f54dc7e6684d2b",
@@ -94,7 +94,7 @@
   "hub/market.js": "050cc71150329f94c0778eba86aeed22feb68ca2ea00959923122525d860385a",
   "hub/middle-income.css": "d6ee8edc88955d68fc798e4ed247954c3d0900fd11bf62fba990ad09855ed22e",
   "hub/middle-income.js": "5301fa977060cca905ef65201fcdf54cc58f3f831580abcd49f5b3088835bb29",
-  "hub/nav.js": "23e0fc0338898ccf64af2db8d35795f52f6f4a999e563694d83da78167d44bd1",
+  "hub/nav.js": "10b4496a762e3014fa507d8f6782b4882df388e0afc4afa8ad7a181d8fcb0be4",
   "hub/need-scorecard.js": "a8c89af9acc59264b61eb5ccb5d8f553bc49ac1dfbff5d15a4fa95914ddf16a0",
   "hub/opportunities.css": "7fa3422f7362ac21115d41e1fa0ddd1872f791a04c177e681728ccdb25220a1d",
   "hub/opportunities.js": "548a6441f4d2f5c74a35212b05eb7a46a0b2879f4f60281a050f0b9dc6eb6667",

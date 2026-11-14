@@ -100,7 +100,7 @@
     if (file === 'deal-summary.html' && /^[a-z0-9-]{1,120}$/.test(q.get('d') || '')) return to + '/' + q.get('d');
     if (file === 'compare.html') {
       var picked = places(String(q.get('jurisdictions') || '').split(',')).slice(0, 6);
-      var t = /^[a-z0-9-]{1,20}$/.test(q.get('target') || '') ? q.get('target') : '';
+      var t = /^[a-z0-9_-]{1,20}$/.test(q.get('target') || '') ? q.get('target') : '';
       var qs = [picked.length ? 'g=' + picked.join(',') : '', t ? 't=' + t : ''].filter(Boolean).join('&');
       return to + (qs ? '?' + qs : '');
     }
@@ -118,13 +118,19 @@
     var away = movedTo(file, loc.search);
     if (away) { loc.replace(away); return; }
     // Part 2: links on this page.
+    // Links resolve against the page without its query or hash: a calculator share link's hash runs to many
+    // thousands of characters, and reading it again for every link made pages with many links stall.
+    var base = loc.protocol + '//' + loc.host + loc.pathname, G = window.COHO_GUIDE_PAGES;
     var fix = function (a) {
       var raw = a && a.getAttribute && a.getAttribute('href');
       if (!raw || raw.charAt(0) === '#' || /^(mailto|tel|javascript):/i.test(raw)) return;
+      // Only a link naming a forwarded page or a guide is read further.
+      var name = /([^\/]+\.html)$/.exec(raw.split(/[?#]/)[0]);
+      if (!name || !(has(MOVED_PAGES, name[1]) || (G && has(G.pages, name[1])))) return;
       var u;
-      try { u = new URL(raw, loc.href); } catch (e) { return; }
+      try { u = new URL(raw, base); } catch (e) { return; }
       if (u.host !== loc.host && !/^(www\.)?cohoanalytics\.com$/i.test(u.hostname)) return;
-      var f = u.pathname.split('/').pop(), to = movedTo(f, u.search), G = window.COHO_GUIDE_PAGES;
+      var f = u.pathname.split('/').pop(), to = movedTo(f, u.search);
       // A written guide (forwarded since 13 Nov 2026) is pointed at its hub view the same way.
       if (!to && G && has(G.pages, f) && !/[?&]classic(=|&|$)/.test(u.search)) {
         var slug = G.pages[f], at = u.hash.slice(1);
@@ -132,19 +138,25 @@
       }
       if (to) a.setAttribute('href', new URL(to, u).href);
     };
-    var fixAll = function () { Array.prototype.forEach.call(document.querySelectorAll('a[href]'), fix); };
+    var fixIn = function (root) {
+      if (!root || root.nodeType !== 1) return;
+      if (root.tagName === 'A') fix(root);
+      Array.prototype.forEach.call(root.querySelectorAll('a[href]'), fix);
+    };
+    var fixAll = function () { fixIn(document.documentElement); };
     var onUse = function (e) { var a = e.target && e.target.closest && e.target.closest('a[href]'); if (a) fix(a); };
     ['click', 'auxclick', 'contextmenu', 'focusin'].forEach(function (k) { document.addEventListener(k, onUse, true); });
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fixAll); else fixAll();
     window.addEventListener('load', fixAll);
-    // Pages that draw their links later (a chapter's "Next" links, deal cards) get them pointed as they appear.
+    // Pages that draw their links later (a chapter's "Next" links, deal cards, the step bar that adds the place to
+    // its links) get them pointed as they appear or change: only what was added or changed is read, not the whole
+    // page again. A link this script points is not pointed again: its new address names no forwarded page.
     if (window.MutationObserver) {
-      var queued = false;
-      new window.MutationObserver(function () {
-        if (queued) return;
-        queued = true;
-        setTimeout(function () { queued = false; fixAll(); }, 150);
-      }).observe(document.documentElement, { childList: true, subtree: true });
+      new window.MutationObserver(function (records) {
+        records.forEach(function (r) {
+          if (r.type === 'attributes') fix(r.target); else Array.prototype.forEach.call(r.addedNodes, fixIn);
+        });
+      }).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['href'] });
     }
     window.COHO_MOVED_PAGES = { pages: MOVED_PAGES, to: movedTo };
   } catch (e) { /* the page stays as written */ }

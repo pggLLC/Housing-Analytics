@@ -210,7 +210,7 @@
     var g = function (list) { return list.filter(function (x, i, a) { return x && GEO.test(x) && a.indexOf(x) === i; }); };
     if (file === 'deal-summary.html' && /^[a-z0-9-]{1,120}$/.test(q.get('d') || '')) return to + '/' + q.get('d');
     if (file === 'compare.html') {
-      var picked = g(String(q.get('jurisdictions') || '').split(',')).slice(0, 6), t = /^[a-z0-9-]{1,20}$/.test(q.get('target') || '') ? q.get('target') : '';
+      var picked = g(String(q.get('jurisdictions') || '').split(',')).slice(0, 6), t = /^[a-z0-9_-]{1,20}$/.test(q.get('target') || '') ? q.get('target') : '';
       var qs = [picked.length ? 'g=' + picked.join(',') : '', t ? 't=' + t : ''].filter(Boolean).join('&');
       return to + (qs ? '?' + qs : '');
     }

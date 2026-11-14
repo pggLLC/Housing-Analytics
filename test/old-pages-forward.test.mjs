@@ -17,6 +17,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
+import { ARRIVE_WITH } from '../scripts/audit/lib/arrive-with.mjs';
 
 const require = createRequire(import.meta.url);
 const { JSDOM } = require('jsdom');
@@ -40,7 +41,7 @@ function load(url, html = '', framed = false) {
   const dom = new JSDOM('<!doctype html><body>' + html + '</body>', { url });
   let went = null;
   const location = { href: u.href, pathname: u.pathname, search: u.search, hash: u.hash, host: u.host, hostname: u.hostname, protocol: u.protocol, replace: (to) => { went = to; } };
-  const win = { location, addEventListener() {} };
+  const win = { location, addEventListener() {}, MutationObserver: dom.window.MutationObserver };
   win.self = win; win.top = framed ? {} : win;
   const ctx = vm.createContext({ window: win, document: dom.window.document, URL, URLSearchParams, Array, Object, String, RegExp, setTimeout });
   vm.runInContext(resolver, ctx);
@@ -74,6 +75,8 @@ test('an old address forwards, carrying its place, deal or comparison', () => {
   assert.equal(load(SITE + 'compare.html?jurisdictions=0828745,0831660&target=9pct').went, 'places-hub.html#/places/compare?g=0828745,0831660&t=9pct');
   assert.equal(load(SITE + 'hna-scenario-builder.html?geoid=0828745').went, 'places-hub.html#/places/scenario?g=0828745');
   assert.equal(load(SITE + 'recommendation.html?fips=08077').went, 'deal-hub.html#/recommendation?g=08077');
+  // Targets with an underscore are compare.js targets too (Codex P2 on #2875).
+  for (const t of ['workforce_resort', 'prop123_local']) assert.equal(load(SITE + 'compare.html?jurisdictions=0828745&target=' + t).went, 'places-hub.html#/places/compare?g=0828745&t=' + t);
   assert.equal(load(SITE + 'compare.html?jurisdictions=%3Cscript%3E').went, 'places-hub.html#/places/compare', 'a bad place code is dropped');
   assert.equal(load(SITE + 'select-jurisdiction.html').went, 'places-hub.html#/places');
 });
@@ -99,6 +102,23 @@ test('on a page that stays, links to forwarded pages and guides point at the vie
   for (const id of ['d', 'e', 'f', 'g', 'h', 'i']) assert.ok(!/-hub\.html/.test(h(id)), id + ' was rewritten to ' + h(id));
 });
 
+// A link drawn after the page loads (a chapter's Next link, a deal card) is pointed at its view as it appears; a
+// calculator share link's long hash is not read again for each link (it stalled pages with many links).
+const late = load(SITE + 'housing-needs-assessment.html?geoid=0828745', '<div id="m"></div>');
+const shared = load(SITE + 'deal-calculator.html#v=1&' + 'tdc=20000000&'.repeat(4000), '<a id="a" href="compare.html">x</a><a id="b" href="deal-market-analysis.html#x">x</a>');
+await new Promise((r) => setTimeout(r, 50)); // the pages have finished loading
+late.doc.getElementById('m').innerHTML = '<p><a id="z" href="commuting.html">x</a><a id="y" href="market-analysis.html">x</a></p>';
+await Promise.resolve(); // a MutationObserver answers before the next task
+late.doc.getElementById('y').setAttribute('href', 'hna-scenario-builder.html?geoType=place&geoid=0828745');
+await Promise.resolve();
+test('a link drawn after the page loads is pointed at its view; a long share-link hash does not get in the way', () => {
+  assert.equal(late.doc.getElementById('z').getAttribute('href'), SITE + 'opportunities-hub.html#/opportunity/commuting');
+  assert.equal(late.doc.getElementById('y').getAttribute('href'), SITE + 'places-hub.html#/places/scenario?g=0828745', 'a link whose address changes later');
+  assert.equal(shared.went, null);
+  assert.equal(shared.doc.getElementById('a').getAttribute('href'), SITE + 'places-hub.html#/places/compare');
+  assert.equal(shared.doc.getElementById('b').getAttribute('href'), 'deal-market-analysis.html#x');
+});
+
 test('a page in a subfolder gets the view at the site root', () => {
   const { doc } = load(SITE + 'places/0828745.html', '<a id="a" href="../local-incentives.html">x</a>');
   assert.equal(doc.getElementById('a').getAttribute('href'), SITE + 'places-hub.html#/places/incentives');
@@ -110,11 +130,18 @@ test('the old header menus link to the views, and the place pill keeps the old p
   // (test/step-count-agreement, guided-path-product-routes, place-deals-limits). Their links are pointed at
   // the views as the page draws them or they are used (the check above), not in the menu's source.
   const RAIL = new Set(['select-jurisdiction.html', 'hna-scenario-builder.html', 'recommendation.html', 'land-value.html', 'deal-summary.html']);
-  for (const p of Object.keys(MOVED).filter((x) => !RAIL.has(x))) {
-    const plain = new RegExp('(href: "|normalizeHref\\(\'|root \\+ \')' + p.replace(/\./g, '\\.') + '(?!\\?classic|\\?new)', 'g');
+  // The Insights menu entries likewise: test/insights-nav-labels ties each Insights label to the heading of the page
+  // it names, so they keep the old page's file in the menu source and are pointed at the views the same way.
+  const INSIGHTS = new Set(['policy-briefs.html', 'colorado-elections.html', 'local-incentives.html', 'article-pricing.html']);
+  for (const p of Object.keys(MOVED).filter((x) => !RAIL.has(x) && !INSIGHTS.has(x))) {
+    const plain = new RegExp('(href: "|normalizeHref\\(\'|root \\+ \')' + p.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&') + '(?!\\?classic|\\?new)', 'g');
     assert.equal((nav.match(plain) || []).length, 0, 'js/navigation.js still links to ' + p);
   }
   assert.ok(/select-jurisdiction\.html\?classic=1" class="jurisdiction-pill"/.test(nav), 'the place pill');
+});
+
+test('the site audits measure each forwarded page as written (?classic=1), not the hub view it forwards to', () => {
+  for (const p of Object.keys(MOVED)) assert.equal(ARRIVE_WITH[p], '?classic=1', p + ' is not opened with ?classic=1 by scripts/audit/lib/arrive-with.mjs');
 });
 
 if (failed) { console.error(failed + ' check(s) failed'); process.exit(1); }
