@@ -139,6 +139,7 @@
   // As on the old page, a box the link leaves out keeps Financials' starting value; every box the link carries that
   // Financials does not read is named before anything is saved.
   var CALC_MODE_FIELD = { 'mode-rental': 1, 'rate-9': 1, v: 1, subject: 1, rentSchedule: 1, utilityAllowance: 1, inputProvenance: 1, tr: 1, fips: 1, geoid: 1, 'unit-mix-source': 1 };
+  var SECTIONS = [/^pf-/, /^stress-/, /^wf-/];
   function calcPackage(q, env) {
     var F = env.F, G = env.G, CB = env.CB, OB = env.OB, DOH = env.DOH;
     q = new URLSearchParams(q.toString());
@@ -167,11 +168,19 @@
     // the link leaves out was blank on the sender's page: it opens blank here too, not at Financials' starting value.
     // Only boxes the old page has (js/deal-calculator-input-registry.js) are read that way; a link made before a box
     // existed opens that box blank, where the old page would show its default.
-    var R = env.registry;
+    // The Market Analysis page's calculator has no pro forma, stress test or partnership boxes, so its link carries
+    // none of them, while deal-calculator.html's always carries some (their starting values are not blank). A
+    // section with no box in the link was not on the sender's page: its boxes keep Financials' starting values. For
+    // the pro forma and partnership these are the engine's own values when the boxes are missing; the stress test
+    // starts at a 12-month lease-up, where the engine on that page tests none (its stress table has no slider).
+    var R = env.registry, keys = [];
+    q.forEach(function (v, k) { keys.push(k); });
+    var absent = SECTIONS.filter(function (re) { return !keys.some(function (k) { return re.test(k); }); });
+    var onPage = function (k) { return !absent.some(function (re) { return re.test(k); }); };
     F.FIELDS.forEach(function (i) {
       var k = i.id.replace(/^dc-/, '');
       if (i.id === 'dc-credit') { if (has('rate-9')) d.fields[i.id] = Number(take('rate-9')) === 0.04 ? '4' : '9'; return; }
-      if (!has(k)) { if (!checks[i.id] && !i.options && R && R.get(i.id)) d.fields[i.id] = ''; return; }
+      if (!has(k)) { if (!checks[i.id] && !i.options && R && R.get(i.id) && onPage(k)) d.fields[i.id] = ''; return; }
       var v = String(take(k));
       // A yes-or-no list here can be a ticked box on the old page (dc-auto-noi), which the link sends as 1 or 0.
       var yesNo = i.options && i.options.some(function (o) { return o[0] === 'yes'; }) && i.options.some(function (o) { return o[0] === 'no'; });
