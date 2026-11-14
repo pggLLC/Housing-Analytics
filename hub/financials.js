@@ -315,6 +315,7 @@
     'dc-pf-reserve-yield': ['tool'], 'dc-after-refi-rate': ['lender'], 'dc-after-refi-term': ['lender'], 'dc-after-refi-dcr': ['lender'], 'dc-after-refi-cost': ['lender'], 'dc-after-land-pct': ['tool'],
     'dc-after-rehab-rate': ['tool'], 'dc-after-resyn-price': ['agreement'],
     'dc-qap-year': ['tool', 'credit_cap_federal_9pct'], 'dc-pilot-gap': ['tool', 'credit_cap_federal_9pct'],
+    'dc-plan-cost-limit': ['tool', 'credit_reservation_methods'],
     'dc-state-price': ['coho'], 'dc-state-payin-closing': ['agreement'], 'dc-state-payin-completion': ['agreement'], 'dc-state-payin-stabilization': ['agreement'],
     'dc-add-price': ['agreement'], 'dc-add-fees': ['agreement'], 'dc-add-payin-closing': ['agreement'], 'dc-add-payin-completion': ['agreement'], 'dc-add-payin-stabilization': ['agreement'],
     'dc-const-rent-stress': ['tool'], 'dc-const-vac-stress': ['tool'], 'dc-const-opex-stress': ['tool'], 'dc-const-comb-rent': ['tool'], 'dc-const-comb-vac': ['tool'], 'dc-const-comb-opex': ['tool']

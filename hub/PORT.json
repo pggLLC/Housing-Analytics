@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "33df620d475805f612fe570fc878a7d10873bfa8",
+  "commit": "219bcb3a7387bbc1bd9f563aa876a732997122c5",
   "dirty": false
  },
  "files": {
@@ -68,7 +68,7 @@
   "hub/employers.js": "b88b55893ff703a8e7b4868804e125f2c8b07a10cdeb0ed5a3825e38c7821d48",
   "hub/equity.css": "53bb0d5d0c61318228d514d3c8db7e719dc9dee91b44ebdb690c1671e3491b3e",
   "hub/equity.js": "23b0cd67a229da6ca017d2086535b563b0b95bfdc0bb2bf6f846f927f2f89065",
-  "hub/financials.js": "a89d19808e7ea840a6675d14cc058045cb06e4311f7a594375e03cc938dd62e3",
+  "hub/financials.js": "4f5f2a32ad1b57b78a8334702f827721bc5ccb7434d49c1534b6866b42334c58",
   "hub/finder.js": "96065905924a90f7eb9f4d578e99cbcb6c790a1b47398126d9d37baaddf8b0e9",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
@@ -143,7 +143,7 @@
  "engines": {
   "js/deal-calculator-math.js": "305fc93936feecf0756732ccf52046adfc2af113ab232abe4769b7ff83701612",
   "js/chfa-rent-limits.js": "1df51b28817a6a76cda4e47c76297aa9daaae7a59fb2f0574df6fe4b11b9e17e",
-  "js/deal-cost-basis.js": "38849027ba72153ce73df672f897e49fcd90db4d4be375db1be1620e7ba6ee6f",
+  "js/deal-cost-basis.js": "6445276907fd960179f8064d0849b2598bf5365dec8890b04e5b23032bb9c76f",
   "js/deal-operating-budget.js": "31101c41368da8124bc5fe58f69c515421a8491d62bd972b5ad6bf5a54585deb",
   "js/deal-lender-schedules.js": "c3ae73613dc02b2044db86d3a678348880e01f62a4c182a2bee0d97693882769",
   "js/deal-permanent-financing.js": "266f3886192b1f40391b87371d7b79bd545471b0913661c566426db1b98c9c2f",
@@ -164,7 +164,7 @@
   "js/components/housing-type-need.js": "606ebfa3f16fe291907f66cc98fdeb4e0ff0e36921c76612ffb12abec05a7a8d",
   "js/local-incentives-data.js": "f1ad486017680b9af8781485def973e6f3294634c0ae96542c7e0a27cebc55a5",
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
-  "js/data-source-inventory.js": "73c2b322a0196023ac6546356be3649cbe7299a05679e34b70c7fa7bc72d7f7f",
+  "js/data-source-inventory.js": "4a51756670f711944828f4c34834aec24789f9e8c486b26415e6c3183b4147ef",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
   "js/hna/hna-ownership-need.js": "ac73544c0944cc118fc954594e96e9474a92ef60e37ff516ef2b3cc5b07514a0",
   "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",
