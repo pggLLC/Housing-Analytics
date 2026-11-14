@@ -15,7 +15,7 @@
 // Requests that leave the machine are blocked for both pages, so a slow outside service cannot make the two
 // differ; the parts that wait on one say "unavailable" on both.
 //
-//   node scripts/audit/market-analysis-hub-parity.mjs [--base http://127.0.0.1:8080] [--out report.json]
+//   node scripts/audit/market-analysis-hub-parity.mjs [--base http://127.0.0.1:8080] [--out report.json] [--width 390]
 // Exits 1 on any difference. Not part of ci-checks (it needs a browser); run it before each piece is merged.
 import { chromium } from 'playwright';
 import fs from 'node:fs';
@@ -27,6 +27,8 @@ const OUT = arg('--out');
 // --control compares the old page with itself: what differs there is the page's own run-to-run noise.
 const OLD = 'market-analysis.html', NEW = process.argv.includes('--control') ? OLD : 'deal-market-analysis.html';
 const ONLY = arg('--site');
+// --width 390 runs both pages at a phone's width, so the rules the new page has for a phone are compared too.
+const WIDTH = Number(arg('--width')) || 1280;
 
 // Invented sites: a point in six Colorado places, none of them a project. Two sets of inputs each.
 const SITES = [
@@ -47,7 +49,7 @@ const STAMP = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z?|\b\d{1,2}:\d{2}(:\d
 const clean = s => String(s).replace(STAMP, '<time>').replace(/\(\d+ ?ms\)/g, '(<ms>)').replace(/\s+/g, ' ').trim();
 
 async function runPage(browser, file, site, input) {
-  const ctx = await browser.newContext({ viewport: { width: 1280, height: 1000 }, acceptDownloads: true });
+  const ctx = await browser.newContext({ viewport: { width: WIDTH, height: 1000 }, acceptDownloads: true });
   const page = await ctx.newPage();
   const errors = [];
   page.on('pageerror', e => errors.push(String(e.message).slice(0, 200)));
