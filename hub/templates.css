@@ -1472,3 +1472,8 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .guide-body abbr.g-term:focus-visible, .guide-body th.g-tip:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 .guide-tip { max-width: min(340px, calc(100vw - 12px)); line-height: 1.45; pointer-events: none; }
 @media print { .guide-body abbr.g-term, .guide-body th.g-tip { text-decoration: none; } }
+/* Housing news: a story's local line, the named place's own numbers from its needs assessment. */
+.news-local { font-size: .82rem; color: var(--muted); margin: .2rem 0 0; overflow-wrap: break-word; }
+.news-local:empty { display: none; }
+.news-local-name { font-weight: 600; color: var(--ink); }
+.data-table td .news-local { max-width: 48ch; }

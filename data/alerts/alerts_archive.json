@@ -1,11 +1,501 @@
 {
   "meta": {
-    "generated": "2026-11-13T11:23:52Z",
+    "generated": "2026-11-14T11:00:43Z",
     "feed_count": 33,
-    "alert_count": 3284,
+    "alert_count": 3366,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "A New York Construction Worker Fell for a Tiny Car\u2014and Started a Rebellion - WSJ",
+      "date": "2026-11-14T10:31:48Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE42X0Vad3EyelNrWUdxWlJrdEs2VGVpblU0dkJETk5EMDEtblhFNzlxVC1VTTl2MXIzOWdDbWhaaFdqZ1JzUUF1c0JkMGlPR2lzdXpsOVk1T2NESzlDSmV6ZXVsOWpTQXJMUmJkb3V3Q3c?oc=5",
+      "topic": "construction",
+      "region": "Colorado",
+      "summary": "A New York Construction Worker Fell for a Tiny Car\u2014and Started a Rebellion \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Mamdani Makes Deal With Trump to Delay SNAP Rules for Stores Across U.S. - The New York Times",
+      "date": "2026-11-14T07:13:00Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNYjZkRG51azl2QldzMHRrVExKS1BGSW92eFVxNDJMSlEtdTBQNUZHd2wzQVZmRHRONlM1ZGUzckd0RlJKWW5yRXdYSHpKNGIwWWkwZmstWlBKdHpYWUtROGpuTHo1VVZTcVNaa3pnZmYtS29EclRIUEY4MDRQWFpjRDdJRlI?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Mamdani Makes Deal With Trump to Delay SNAP Rules for Stores Across U.S. \u00a0\u00a0 The New York Times"
+    },
+    {
+      "title": "A Democrat Wins the Alaska Governor\u2019s Race for the First Time Since 1998 - The New York Times",
+      "date": "2026-11-14T05:08:59Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNeS1HSHliVXN6OTZxaHByVnRZcWtZR0FrbVN1ak1nOVBMalVBcmJNSVlWY3l5ZElZY01SRERDZmh1cENXY2t2WWlqb1hucWZmd3dQbzM2RDNHMmozUkl1dlFYaDhyaEpJX0FOemg4eUloX2FnZnEteTZBWTctcm5zeW9YVFdzcEpvVkd4LW02TUU3ZWR0N0dFMkFB?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "A Democrat Wins the Alaska Governor\u2019s Race for the First Time Since 1998 \u00a0\u00a0 The New York Times"
+    },
+    {
+      "title": "What Europe\u2019s rising public debt means for your portfolio - Financial Times",
+      "date": "2026-11-14T05:03:12Z",
+      "source": "Financial Times",
+      "source_domain": "ft.com",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBjT3FBVDlVT1BTdmJYV1BPT284S0N3LWk1aFdMRWNWN29QTmg5UmMwbjJ5MlhJQjFsZUpJMmVldEExRVJZYThrYkM2d2diTzBHNm5sNWp0Rm01UkUyVVZQd1RtQ3ZVNEhDeGZIZ2pwMi0?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "What Europe\u2019s rising public debt means for your portfolio \u00a0\u00a0 Financial Times"
+    },
+    {
+      "title": "BoE chief economist says further rate rises needed to combat inflation - Financial Times",
+      "date": "2026-11-14T05:02:24Z",
+      "source": "Financial Times",
+      "source_domain": "ft.com",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPeTJBZmNHSzM3d2RiV3RfdWVIaGdWbXc3YS05LWRUUENvMmVaakRlSXBndzNEd1lqbHJjSUk4Um1nTFRraXBqLUVWVHA4SUlBSXVLZHBBUGJlZmNnejc0aXM5alNITDdxZnUyb3FvV3ZiNXg2dGltSWFZT241WDAtV050WTE?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "BoE chief economist says further rate rises needed to combat inflation \u00a0\u00a0 Financial Times"
+    },
+    {
+      "title": "Nvidia\u2019s cult of personality was bound to end badly - Financial Times",
+      "date": "2026-11-14T05:00:37Z",
+      "source": "Financial Times",
+      "source_domain": "ft.com",
+      "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5JUi02Ql9yR2ZKMTRBTU9rTlN2ZW9FREdHMEIxVHBNVW5tczVtNW9kaWd3NkhlaGQ1Q254cUp2YTI5RWZZOHpkMzRWMFEtVGt3Q1l1Q1hwVjFzYmpLdThCSVp1eUVielFZbHFMbG4zWnQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Nvidia\u2019s cult of personality was bound to end badly \u00a0\u00a0 Financial Times"
+    },
+    {
+      "title": "Print Edition | Wall Street Journal - WSJ",
+      "date": "2026-11-14T03:13:20Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBlczBDMGJlM1JqcS1jdTlkT2JNTWVZQmcwR2dwRFRSaXVYNGs5SkNWT3Q3a1VQb2otdGhKWmpUTm9ERV9ZdE5nQndCY2k2bUtBc1hucER6M1JiZE1WT0paM0l3?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Print Edition | Wall Street Journal \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Developer Avoided Stricter Oversight Before Fatal Building Collapse - The New York Times",
+      "date": "2026-11-14T02:24:29Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxON3A0V3dtWnNnWFB2Z0x2RVBhX2hiYmJCa01TYnc0SUZucUJFcm1mdlUtRTgyV1l3dEd3NVVvcTFfTnM0Z1dBMkFHbTMzZzBLVkg4QW1zY1FoUzNnLU1aOFNYbnlkRTlNMkxkWThTYnpROWlYMWpqVlotRjBYMGROY2VQWHBFbmdDZzFGUjhR?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Developer Avoided Stricter Oversight Before Fatal Building Collapse \u00a0\u00a0 The New York Times"
+    },
+    {
+      "title": "Denver and beyond holiday events - Denver Gazette",
+      "date": "2026-11-14T01:34:24Z",
+      "source": "Denver Gazette",
+      "source_domain": "denvergazette.com",
+      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1VdkZPUXFYSHUzck1OeTNNWHdIYld4TWZfdlFpVUpNdGFBNXFBWk9BRjlzeUZtdUR0cEFqWlM4cVlVM1ZKMTNFU19GR194RHdLeERjUEZYTTdoaC1ucXJrR2Q0ZUVfSDJBNEx2b1V4bHZaRkFrNm04Z2p1dEd6cVE?oc=5",
+      "topic": "general",
+      "region": "Denver",
+      "summary": "Denver and beyond holiday events \u00a0\u00a0 Denver Gazette"
+    },
+    {
+      "title": "Cohen-Esrey Urges Congress to Prioritize Affordable Housing - Construction Owners",
+      "date": "2026-11-14T01:11:23Z",
+      "source": "Construction Owners",
+      "source_domain": "constructionowners.com",
+      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNMm5wRFpWTVFZajQ1d3pHTUJodldPZ05lUkR0U3hVU2VwYnAzRGlvSURNTDhqcHViMV93MFhrX09SVGJjWGJ2bWZKUXZBMnhkRDEtMER4T1p4U2F0dksyaWVTQlhnMzhDTGNRZDI3dGRreU9oWGFjRklhMFk5UkNTU3Z4QnB6R2d5S1A2X09fZEc5RE9JNWVGTUc0T2ZCdTFtbkJtMDhvNl9QUHpxWVFrZTJYZDE4eF9QSWc0?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Cohen-Esrey Urges Congress to Prioritize Affordable Housing \u00a0\u00a0 Construction Owners"
+    },
+    {
+      "title": "Analysis | Trump\u2019s Cabinet secretaries get some bad press - The Washington Post",
+      "date": "2026-11-14T00:59:40Z",
+      "source": "The Washington Post",
+      "source_domain": "washingtonpost.com",
+      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPenpDQ0plYUhoQVhHNVB5Y0Vsem9TVG95d2NkNTl0LXZSTFdYNzVqcG4xMzNucEtXMjVBMlZyNGk5cUlMeG1RSlNYYnJuanVKcm95dEhka1N5YjMzRVAtZDg4RVh5R0d0c2dLa2djbXFyVzE4NVhUalpZZmFveEhva1Z3bHRZWEFfZTBOalBfejk2V281VzNCSlZxYkZGZw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Analysis | Trump\u2019s Cabinet secretaries get some bad press \u00a0\u00a0 The Washington Post"
+    },
+    {
+      "title": "Water fees shaping Colorado housing development - Denver Gazette",
+      "date": "2026-11-14T00:30:10Z",
+      "source": "Denver Gazette",
+      "source_domain": "denvergazette.com",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPS0JSZ0Y2UVFWVnpqNXkzOXZKNDR3RnJQcHdELVdVTnBtV1BEZGJlaDU2ZHVEUm55d1dkS1ZpdWFYa0FoT0dNRDdPV3ZKZWZ3T3BsRk9TX3ByRzdsUEhTUUVJM21oc083cE9EN0liRDhzRVdWeXNtX1RYeTUwUzUtNDJOS25nQWdCNmJKa2gwYjJxdFU?oc=5",
+      "topic": "construction",
+      "region": "Denver",
+      "summary": "Water fees shaping Colorado housing development \u00a0\u00a0 Denver Gazette"
+    },
+    {
+      "title": "Millennials put down roots in Colorado, bringing economic and housing momentum - Daily Camera",
+      "date": "2026-11-14T00:09:34Z",
+      "source": "Daily Camera",
+      "source_domain": "dailycamera.com",
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNc0xLTWVTdEdHSl9PbjRpNzZVNkVKekFBbkJKNzNhNDdKUjZQNkN5Sl9SRkp2TnZJcFRYWHdkcXQ4SjBYdF9zSmZLZTZvZjVMRlpRQ0RpZHNVbi1uXzBHbWQ5a2tkNFRweGRPT0ZYSFJXMTR3Z1JURm5VWHZURWQ1YnlnVTU0NFdtZDVmRVFOc1dNM3NHMUhnM3B0QXdEckhlQlg3XzEzaDZBbGNYWEVkNzZ4TURic1cy?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Millennials put down roots in Colorado, bringing economic and housing momentum \u00a0\u00a0 Daily Camera"
+    },
+    {
+      "title": "Colorado Realtors report 19% decline in state's home sales over high mortgage rates - Just The News",
+      "date": "2026-11-13T23:50:07Z",
+      "source": "Just The News",
+      "source_domain": "justthenews.com",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNeHJCRDhQRXFHa2Y2X3ZEemhrdXd2XzdKdVZ3TElPVlluMEpiV3FFSlhvcExyMGVOZXAtQV93VndfTWNhYnlMTlJNSk9LNzVzSVVqTElabGItZldpT2ljRlpLd19UNmVIMGtzbmpTTmVHSGUzQ2JTUmxzZmoxTXNFUHExQUYyNDRmckxWdldqVmVSS2Q4LWhLYTcycE5nQzQ2YnhCZlF2UVc?oc=5",
+      "topic": "market",
+      "region": "Statewide",
+      "summary": "Colorado Realtors report 19% decline in state's home sales over high mortgage rates \u00a0\u00a0 Just The News"
+    },
+    {
+      "title": "Why Anthropic\u2019s Dario Amodei Has Angered OpenAI and Other A.I. Peers - The New York Times",
+      "date": "2026-11-13T23:20:11Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPUWxHUTR3T2hmZ0hnbEpjd1VtQUpIS3V4MjY5LUhvQzhTS1BaMEVwVEg5bVFnTlp1dGc3SEZrdG55VDByX1lXbVhxdTFLUlp4NklDXzFWZ1FOa2U0OFZlc1JsUi0zWXFXYXkxMVJHdU50X1psazB4SzZzZmVDNVJsdjRlSGdVdDJjRmQ0?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Why Anthropic\u2019s Dario Amodei Has Angered OpenAI and Other A.I. Peers \u00a0\u00a0 The New York Times"
+    },
+    {
+      "title": "105 housing markets to enter 2027 above pre-pandemic inventory levels - ResiClub",
+      "date": "2026-11-13T23:07:31Z",
+      "source": "ResiClub",
+      "source_domain": "resiclubanalytics.com",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNblN3d3FWWVNMVkJzcDRZS0hUbmE0aUEweUZaOXZQOUR5RVZ1TU1XQ1prNnNzNFRPRXQ2QXZKYXZEaHZpUkotWlFySXI2emRVZUFRWUFvQ1hMSS1GT0RqLTZidGs5anR3aFM1SnZWeGl0cUJFVjY2bXduSGdBX205SjBQN0JFeHQweWpuOWRmcDN5d1lUVXRram1mazA5TTVoWUdyX2hJNW8?oc=5",
+      "topic": "market",
+      "region": "Colorado",
+      "summary": "105 housing markets to enter 2027 above pre-pandemic inventory levels \u00a0\u00a0 ResiClub"
+    },
+    {
+      "title": "Morgan Stanley\u2019s Shalett \u2018Incredibly\u2019 Bullish Despite AI Turmoil - Bloomberg.com",
+      "date": "2026-11-13T22:22:59Z",
+      "source": "Bloomberg.com",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOYm5JdmlJWkdGbUVRd0NyNG9KV1c4eEZsaXdQTTNCc3VaNXczLWNZcjZiS0JxTFVKc0RPcTNqWnBadEF0dnNfUHVUcUhBaVJneDhmaHlublo2OWlrSkpNdDQ5RHFjWWdqQU5xNFh4ZmJKUUd4MmxSWlFIY3JnV2VMeUFPTHhCQzNsYnlBZlFQVmhlMGpMRTRMSTBRZE9VVTZHc1JoY1V2RlBhMlFtX0tnRmNCMA?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Morgan Stanley\u2019s Shalett \u2018Incredibly\u2019 Bullish Despite AI Turmoil \u00a0\u00a0 Bloomberg.com"
+    },
+    {
+      "title": "Guyana Hydro Project Draws US, Chinese Bids in Funding Fight - Bloomberg.com",
+      "date": "2026-11-13T21:16:07Z",
+      "source": "Bloomberg.com",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOMU1jbS1kSllVX0diLUhIMWJTMnAwc1h5UmJCcjJZN2RaZzltZEE5Mlc1ME9fcXhZMjctTTkwenlGOFhDYXc0MFBCWjVzOXp6QUl6ajQ3aHEtZWtxaU4tcTZLbS1jUm1lZUpjbVhQTlFjRTB1SlBLckZveDJRLXV5OFVmT2pRdHg3Vk1OY3NLa09JcS0zUG45WFlmRjh1bE5SamRnNDd3SnVTemprTExz?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Guyana Hydro Project Draws US, Chinese Bids in Funding Fight \u00a0\u00a0 Bloomberg.com"
+    },
+    {
+      "title": "Kevin Warsh\u2019s Plan to Remake the Fed: Fewer Rate Votes, More Deliberating - WSJ",
+      "date": "2026-11-13T21:01:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPWWREYWtpWllac2NUdW9FOW1tdXZrTS1FclFzZnA4TEhkOEFJQ0liTEZZdElXbU5BUHMtTnNVME1zYUVpWHY5VXZmM0Z4YWRMY0U4YzVFdldTOEhEQUpSSnluaXNNM2VVVlQ0YnNXR0hUNHRhM1gwSWhtZXl3QlB2QXR5aUVXajZBTTlRdDhB?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Kevin Warsh\u2019s Plan to Remake the Fed: Fewer Rate Votes, More Deliberating \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Amazon revives deal with troubled data centre venture backed by Rick Perry - Financial Times",
+      "date": "2026-11-13T20:40:40Z",
+      "source": "Financial Times",
+      "source_domain": "ft.com",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxORUJReUY4aWVzV1dsSmNsdDlBQ29HTTBlZEFTaFRGSmlPX0FnOWZwZTdwTHRBNmY0bV9kYWRKU0hVaDdTOFdDcFF6Ty1SVEZUMFdDWUJqNjFQcnMyTk1vR2QyM3lvZXk3RXlqVzhpR2NFZXFkY1NYcnNnOVJyYlU1dlJnaVI?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Amazon revives deal with troubled data centre venture backed by Rick Perry \u00a0\u00a0 Financial Times"
+    },
+    {
+      "title": "Mamdani Strikes Deal With Trump on Bodega Food Stamp Rules - Bloomberg.com",
+      "date": "2026-11-13T20:34:09Z",
+      "source": "Bloomberg.com",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNWGRtUjExNndWMHhsYmt4a3RtSExhdHlmWUZJdlZsMEtZLWNiTVZJMFRFSHptQUJ5Wk5Pb1JuR1gzSDhnbEMyOVJESXlKNjFSRDJobTItUzFqYzBHRUFNWDVHbDB4VkFzNHZLc2RrRHJBb1hEcDhoSnd3aFFWQU1mY180QmZ0aXNzR0E4aFFvYTZvRHBWZlk2a2FpOW1HQTd3STBGVXhRU21FV01GVkRPQVVRdTc?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Mamdani Strikes Deal With Trump on Bodega Food Stamp Rules \u00a0\u00a0 Bloomberg.com"
+    },
+    {
+      "title": "Wealthy Parents Are Spending a Fortune to Keep Their Adult Kids Coming Home - WSJ",
+      "date": "2026-11-13T20:25:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOMFJBT3k3WDJQOENoYlJPMm43UTFpMzBpT0c3MnJCMjRLdDRMWEd6aExQMVBVRy16NFZpT2RURjVqWTVzRURIOTlEQ2x2Qjg4Rklyckg3R3c3OVhMRk9VZk9vRUVZSU5qRmxKNWRXT0JNM2xoZktFTUl4ck5pZnhlOC13bFBYS3pwcVgxcVJRTUlwVmtzZTkzMEFWYzlueTlFMzVKNXlJenAzdGUzSjY0Y0JhOW51WnJZRUZiaHBQNXRPNW9uZ042Ug?oc=5",
+      "topic": "rent",
+      "region": "Colorado",
+      "summary": "Wealthy Parents Are Spending a Fortune to Keep Their Adult Kids Coming Home \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Inquiry Into Brooklyn Building Collapse Expands as Families Demand Answers - The New York Times",
+      "date": "2026-11-13T20:15:38Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQcW1XQVdGWGV1Tmg0eV9fS1hQTkZPbFNFTE9WUzR3eDJweGtQaFNpTjVIQ3h5eFhZRjR4aWtaUVBhTEh0bnJZakRHanc0QmhoR2w5VjJqc1FnZnRJalZiMExpbW9uMTJGWUVBLWVKUFB4S2ZDTW82eFFXdTE1Umw3T3dQczFCVGg5b2lYVkVMVVVBVERNbjUw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Inquiry Into Brooklyn Building Collapse Expands as Families Demand Answers \u00a0\u00a0 The New York Times"
+    },
+    {
+      "title": "Incoming House Speaker Jeffries heckled at Democratic conference - Reuters",
+      "date": "2026-11-13T20:04:32Z",
+      "source": "Reuters",
+      "source_domain": "reuters.com",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNU1J1TkpJQlpET0FyZ1NtRlFSMk5KbmxsM0lzRkpnV09qdlVvNTlnYkZNR18wX2NUVThLVDRFRTFmVllmYWhVaEVwUXNDRlppRWw4c0hSOUxLakpKUlkzdXpmZlVjZWl3Y0dBUDdNX0drOV8xTlhDVUl0dkZPeURITnBrTUhBdkdteWtpbGMyLXZic3NLWGFVM3NKSXFwNXZhZlp5WFh3?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Incoming House Speaker Jeffries heckled at Democratic conference \u00a0\u00a0 Reuters"
+    },
+    {
+      "title": "Fed on Track to Raise Interest Rates Next Month And Maybe Again in January - Bloomberg.com",
+      "date": "2026-11-13T19:55:01Z",
+      "source": "Bloomberg.com",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNeXJmalVqcjF1WEgxXzRyZ2hNRTRMWXdCWGdpblhnaGwxY0ZDeFIwYTVnWENtQ2U2NFg3YkpUS21EdkNHaXlwVlVicGxWd2RJZnJqOXlySXJfZzdscXlqRFNJSkswUjZ0ZjFINC11aU9GMWdrMGR6SzdfYUlkN3pGaDZZci1NbnkxWmtoZ1lNa3E2MmxDcnFqRnN0MWpwUURLT05odHBpdVlhNXRjNUJOd3JGcnNCYzd6bjVqWQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Fed on Track to Raise Interest Rates Next Month And Maybe Again in January \u00a0\u00a0 Bloomberg.com"
+    },
+    {
+      "title": "Fed likely to need to raise rates amid worsening inflation: Daly - Reuters",
+      "date": "2026-11-13T18:48:40Z",
+      "source": "Reuters",
+      "source_domain": "reuters.com",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOaHBuM0FNRHlsWlNrX090Q3F6R2VZUTFYRkF3bFZwbDNQMUwxZXpiYmROVUJWWTVKZHRoOExqUkxpcktRYUZodDVncmNVSEdIMDktTDYxMXlWM1hvdXVKRmVfMmtvbTBUd1MyWkxFR3RqTlNJNVk1WFNtc2pnQ0w4QjRTdjlmcFdPUkVUZFVndGdCRWRPMEw3cFZHcjBlc3lhdDY2Vw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Fed likely to need to raise rates amid worsening inflation: Daly \u00a0\u00a0 Reuters"
+    },
+    {
+      "title": "Exclusive | Widow of Late Campbell\u2019s Chairman Asks $170 Million for Miami Beach Mansion - WSJ",
+      "date": "2026-11-13T18:45:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNQ2NvbExuYlNyeFprWU5UUEFkU2l4Z3dPNk9JOVY3SVd6NmtzWEI5Sm1XREtndUlUSjVjeGxtdVBLbFdMN0FTWDRiZm9CM2t0aW5hOWhJckpUdTBGaVdxTU5yT2tBYmlIZFdyTTR5LVpkOWZjemdtVWhqeFFlU1VCV2ZySGljNWg1UTFDNVZoYTJvYzhIcUlWVHhTYw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Exclusive | Widow of Late Campbell\u2019s Chairman Asks $170 Million for Miami Beach Mansion \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Eisenkot Accuses Netanyahu of Fueling \u2018Racist\u2019 Hostility Against Arabs - The New York Times",
+      "date": "2026-11-13T18:26:47Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNYUNnN19mM2sxVHA4Um9aWTVRX00zT0JfNER0Tm5pWWVYckhMV3l1b3owZi1Zakp2T0JUdFREYURDNlI1VlphYWVNVktGSnQ0SUtNeFVjcTd6VnRnU2pnT2hXdkJORzE2Z0F0c01XLVVha2YwYXM0QWdvcEc0Z0hxZjB2eUdKTlhOVThMRVZnUDlBdw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Eisenkot Accuses Netanyahu of Fueling \u2018Racist\u2019 Hostility Against Arabs \u00a0\u00a0 The New York Times"
+    },
+    {
+      "title": "Colorado Mountain Towns May Soon Be Able to Build Affordable Housing on Federal Land - Unofficial Networks",
+      "date": "2026-11-13T18:24:17Z",
+      "source": "Unofficial Networks",
+      "source_domain": "unofficialnetworks.com",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNVExveGNkejVoQmotV3V2Y2dsRGtkU0RtU1VoZVdIRlQ5NjhrbzVEMjBPbEhWVlZRbUYwd1V6NzVGd2F6VUQ4b0ZvZlpjUDVLbEZuS0JOYVFRUmlQbURkRzlmVmxzSlpEYzJwUHpZMVhvOFhfV0tKQ1BNSDBIdl9RSTZ0ZXhOV2xqUTFOYmQ3MS1ybFNuazUwSA?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Colorado Mountain Towns May Soon Be Able to Build Affordable Housing on Federal Land \u00a0\u00a0 Unofficial Networks"
+    },
+    {
+      "title": "Six people dead near Kenya's capital after building collapses, police say - Reuters",
+      "date": "2026-11-13T18:18:20Z",
+      "source": "Reuters",
+      "source_domain": "reuters.com",
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNOGR3Mk1maEdYRWpJY3l4dHFmZzdRYUJENl85bk9NblJYaW50bW0tUkt2b20yR0tzVTRBZ0VPY1R6bTl6UTRQcFduek1KTUtoZ2ZZOXItU2ZzWXlDNWlxRTBxTjBjelRCNGpfZ1pwWFUwc09UV19CZXdyZk4zd1Q3bkFOSEQzUHloZ2hUM2FMa2EyQzlDdnVEaXpzNkpYak1pdG91RTFrLTRmdi1BWjZES2ZQNDI0YXpKRktHVg?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Six people dead near Kenya's capital after building collapses, police say \u00a0\u00a0 Reuters"
+    },
+    {
+      "title": "Transit-oriented development is good business: How business groups can support their regions by advancing transit-accessible communities - Brookings",
+      "date": "2026-11-13T18:07:35Z",
+      "source": "Brookings",
+      "source_domain": "brookings.edu",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNZ04wZlJadjRYNXRONDlXVVU2Q19lWXdHMDI1X2ppZmhYWHVDdm0tbkEwVVNGTnVmNW94M0NiN1NmbFRUbGhyeUFNdFk0NEJfdXlxT0hVWVNYazVva2FZTm9uYkxjdlZ4Yk5vOTFnYlR3b3JOVjNIVV9LajVvMWdGbjJoa1BzN29SaUE?oc=5",
+      "topic": "construction",
+      "region": "Colorado",
+      "summary": "Transit-oriented development is good business: How business groups can support their regions by advancing transit-accessible communities \u00a0\u00a0 Brookings"
+    },
+    {
+      "title": "How state-owned roads can advance transit-oriented development - Brookings",
+      "date": "2026-11-13T18:07:35Z",
+      "source": "Brookings",
+      "source_domain": "brookings.edu",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPcFZId29HYTlFNWhXUkV0R19tNE9KeGE3aTVWYXB3Ml8tXzRMQkVpZmhiNzNlekduUzFXb1RQZzJhXy1lSFNqdUtVTUs3RzdtU1R2OVAyZXd6U3ZwdHRNU1g0NEV2SzdsZEg3WGR2c3VnYlplRkZ4dWZnQTI5NlpwTl83c0lyUVA4V0E?oc=5",
+      "topic": "construction",
+      "region": "Colorado",
+      "summary": "How state-owned roads can advance transit-oriented development \u00a0\u00a0 Brookings"
+    },
+    {
+      "title": "Wendy's Village Teacher Housing Breaks Ground in Colorado Springs - Hoodline",
+      "date": "2026-11-13T18:05:24Z",
+      "source": "Hoodline",
+      "source_domain": "hoodline.com",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPeTllM2NBVFJ0R0NXeTdLbUNub082bUt3dDBMMTFzZkx4QmNWYXdaWmdjcXpsTHR0RG9jc0I5REtMTHYtUmFKVUdJZkI3ZGRaaTd4MVpMZVlROWRfaHN3eFdoNXB1Q0lpZ3NTTzlDWUJoUjA1NEo5Rmx4VkE5akVPakFnc25pVnRTYXE3bG5BaTRZaUJzNWRyQ3VXdEZ3dmJ1MmtBUmw2b0o?oc=5",
+      "topic": "general",
+      "region": "Colorado Springs",
+      "summary": "Wendy's Village Teacher Housing Breaks Ground in Colorado Springs \u00a0\u00a0 Hoodline"
+    },
+    {
+      "title": "The Fed chief said AI would tame inflation. His colleagues disagree. - The Washington Post",
+      "date": "2026-11-13T18:00:00Z",
+      "source": "The Washington Post",
+      "source_domain": "washingtonpost.com",
+      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOYWx2S1gybU5lYjJCbEl5OXkyekl3YXdnd2RuWnJPQU9VODlSSnpLM1ZDeGVfT19LdEF4OThPMGZQM1NDNXloMzFGcjdmZDE4ZU90dDBuX2xsX2lUZTJjLU5HNEZCNnJJRFJQT0tmR2FwZVBXT1Q3cURtZHFTYTJtUDVOVHZESnNfWlBkZXdoT1pQXzNkYldpWklrdEZiRWxiVjJRaHNxOXpMVXhPOFR1ZERmc09uWXJEcWR1dUdKblUzQjdkTkM0?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "The Fed chief said AI would tame inflation. His colleagues disagree. \u00a0\u00a0 The Washington Post"
+    },
+    {
+      "title": "The savings account mistake that\u2019s costing you hundreds each year - The Washington Post",
+      "date": "2026-11-13T18:00:00Z",
+      "source": "The Washington Post",
+      "source_domain": "washingtonpost.com",
+      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNdVBiTFgwWVZiYVZ3RzJXVHkwblBuSVNuWUMyamY0cGxSTEprOW9MZDFORzQtMGhTRmRSVHB0ME55YWZNUHVya3JwNkdrYkxCWjRnMmp0UWJwOHR0akRaLTVKVG52dVhnNzNvZzdHMzJJUU9BVU0wSnZEU3V2WnIyTW1ER2tyaVlpZENCVDlSWEVVc2hVYzVLekFQcDRnams0U21IdWtUcXhoMldoTHRJRQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "The savings account mistake that\u2019s costing you hundreds each year \u00a0\u00a0 The Washington Post"
+    },
+    {
+      "title": "Building Material Price Inflation Remains High Despite Energy Price Declines - Eye On Housing",
+      "date": "2026-11-13T16:57:52Z",
+      "source": "Eye On Housing",
+      "source_domain": "eyeonhousing.org",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNVklhN05Xd19qdy1GVmZaTHFZdm1QaDF5akRzbDNkdzMtWnM4cUZoOGVZa3dpSW45MHZyT2xQMi1SaEhyaE9FaF9pS2lLcTZTWEVmRWVaWExONHdqaWRjUlVDQ28tdUlJOTlyaHlNYnNfQTBSV0VjZ1kwVHNINjRJOTRGaHBWaEpsMWhYbG53UnROc2ZFZnk0ZFo3aFJPVjlsamF6cGpHYTZuUDdKMS04?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Building Material Price Inflation Remains High Despite Energy Price Declines \u00a0\u00a0 Eye On Housing"
+    },
+    {
+      "title": "Rural Development Programs In The Spotlight At House Hearing - Legis1",
+      "date": "2026-11-13T16:31:09Z",
+      "source": "Legis1",
+      "source_domain": "legis1.com",
+      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9zeXFaQS1JNlY4VWlVR0xrbG1makpEYVpwWHAxUnlZbXExd3JHYnpHWkNJX3RYNWg1WUZtZjdqWHp1Z3NkOVFUcDdfcGpiS0liUG9WTFNVT1lncFN5UEQ2WXFxcFFYbXB4dGFjZm9rX3JoQXkydmkwY3VvMHI?oc=5",
+      "topic": "construction",
+      "region": "Colorado",
+      "summary": "Rural Development Programs In The Spotlight At House Hearing \u00a0\u00a0 Legis1"
+    },
+    {
+      "title": "Fed's Warsh to take stock of AI revolution as US public grows wary - Reuters",
+      "date": "2026-11-13T16:30:03Z",
+      "source": "Reuters",
+      "source_domain": "reuters.com",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNWkQ4OXhSU2NkMHBKdUJoR3UxSHZZdDcwX2lwRldpTVlTdWstUGdDMExnaDVjb1ItV2kyUlNGRnlNbS04ZDVWX1hrczMxOXRnTG9MWUxFRXBMNFc5UkYwMnpFOGZsTG1KcTB5dGdlckdHRmFrdERaT1VZWkJKU0JhMER4czlvUEJXQ0JxalhaWUxyQ0pfaHh6WHZlUW1GYVBpb3RxQXVUMVpzMGc4c0E?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Fed's Warsh to take stock of AI revolution as US public grows wary \u00a0\u00a0 Reuters"
+    },
+    {
+      "title": "Fed\u2019s Collins Says Higher Rates Are Appropriate \u2018Soon\u2019 - Bloomberg.com",
+      "date": "2026-11-13T16:10:44Z",
+      "source": "Bloomberg.com",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQdEwzV3pSLU9vQ2tmOXhVYzdoTzhyaEcxUjdBdzM2NXE2VC0xNlFDaFhUOGlXa0ZqeTBDTFByTE1xVlVEejBIdEdSUlYwZlZhZnE0MXhzTUtQUlcyNFZYNE1rcVZKV1RWVHRmUXYydWNvbC03V0RFd3NjZUtpS2VtVFl1Umh2RWxDbzQ5a0hlR2F1bDhIN0paOW5sNFdTaU1lOEUwNVNZaHI?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Fed\u2019s Collins Says Higher Rates Are Appropriate \u2018Soon\u2019 \u00a0\u00a0 Bloomberg.com"
+    },
+    {
+      "title": "Barcelona take on further \u20ac300m debt for Camp Nou rebuild, project reaches \u20ac1.8bn - The New York Times",
+      "date": "2026-11-13T15:30:06Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNOURSajQ0dW43bnlndEtEUElVNno4eWYtYTVwOWFwLU9JMFdLTDFKVUotRzJtMWxKUExfa1kwSHdPYXVtSlZWQUVsX1FPRk9MTEhPZF8waWRmWXhMWjhTUmJPN0FHUks5eVpkRGNZLU9WVmp0b2Jma3RsdEp1MVRxc01WTFZyZ2RHTWw5SHMxWQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Barcelona take on further \u20ac300m debt for Camp Nou rebuild, project reaches \u20ac1.8bn \u00a0\u00a0 The New York Times"
+    },
+    {
+      "title": "Bessent Says Treasury Favored Megaspeed on Trade Blacklist - Bloomberg.com",
+      "date": "2026-11-13T15:17:26Z",
+      "source": "Bloomberg.com",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNWVFxSHpBeEg2MmF4VFBhWXQwNHJscXVYdEYtc1V4T2c1d25kUlJQY1hGbWI1OUxQZ1Z4aHMtUGJWU1ZOQzE3Ulp4aVFZSlhTbHBUTmpzTlQxV2hzMlhtNzYxbFBOckpWWkQwOUM0VGh2QnN6SEpzTWhMQnVJM0dYVUFBYXIzWl9tT21GLUVlVHFCSldxNTB5eGllLUhwcE53U3JJSmcydEdPWTV4OHc?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Bessent Says Treasury Favored Megaspeed on Trade Blacklist \u00a0\u00a0 Bloomberg.com"
+    },
+    {
+      "title": "No Relief: Credit Conditions for Builders Still Tightening - Eye On Housing",
+      "date": "2026-11-13T13:52:49Z",
+      "source": "Eye On Housing",
+      "source_domain": "eyeonhousing.org",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxONWQ0VEMzaWtSdUlISjNqYnh1bTlLUUJhR1N3TGdXUXFEZFNwUjNSMWs1V1VZejV5TGVTVmhkRWhoZXdWZDh1SnExdmNDTHlvS255Ul9wbng3QVFFN2pwZG5rblpuT1N1NW1QMUtnTUJuWjBPMjgtZTBXYk1PWFNwV1JXNk1ySEQyb0JlLVNoRC1SU1UtX2c?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "No Relief: Credit Conditions for Builders Still Tightening \u00a0\u00a0 Eye On Housing"
+    },
+    {
+      "title": "Why market timing is a fool\u2019s game (note to self) - Financial Times",
+      "date": "2026-11-13T13:31:40Z",
+      "source": "Financial Times",
+      "source_domain": "ft.com",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPUEZRdG1tQnhMdFlHTm1SOWh3cDV3bTlaUDdFSjhzOG9TVVJ5eWFYbmMxcXpFZjRHQ1ZPWFNlbkdIZVh0ZlM2X05xS29tUGNKMVQ2TWtQbDYyWlVGX3ZlaVZSRTI4U05FNWxOTlFzLTVLMVpjdzM1clVHYlY4Y1JXaXlLQVk?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Why market timing is a fool\u2019s game (note to self) \u00a0\u00a0 Financial Times"
+    },
+    {
+      "title": "How a Jewish Ceremonial Structure Became a Community Symbol in Chicago - Bloomberg.com",
+      "date": "2026-11-13T13:00:05Z",
+      "source": "Bloomberg.com",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPZkRMVGpsZWNTcjRVdldGdHpRek0wcWtPVVZZY05QVDliSlJ2ZDlBaHJmaGkzdlpHTks2UlRzYlU0RmVnT1hnWHB5Q28yRXA0REdvWGtIWWdSSTZfUDJlQUZVUl83T2dLbDdaZ0hMMVBxZW40UVFqRnJUNWZIaXpRdFVHdHM3bHBKMm93R1VZeWZRY0l4SEUyMzg4d2Q5UXJOU0x1RmJUd1NUVEVISFFNdjIxSWcwS0tmYm11NlVR?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "How a Jewish Ceremonial Structure Became a Community Symbol in Chicago \u00a0\u00a0 Bloomberg.com"
+    },
+    {
+      "title": "Barcelona finalise \u20ac300 million bond issue to complete Camp Nou renovations - Reuters",
+      "date": "2026-11-13T12:47:44Z",
+      "source": "Reuters",
+      "source_domain": "reuters.com",
+      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQSGtwd0xLdmZUQ0lpZXEweEVPWjItOWVYcWktU0VOUGVtUElSSzhEVktVZUJsbDNTNHdKN1B3QUhsaWpoUDczSEwwaGdMcjN0Z0pHZnZQNkpMbW9VdkFTeGN1dHRWbUstVWc4Ykx6M0VUMHBydGljRVRTWkJqeXpTYjBFbGUtam1fMGU5V1dCM255Q0lVVGJ5U2psOFAwNndGREJRanFyUHpNcEFjeEw4SDRvZjFwei1TRlY3SXN3?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Barcelona finalise \u20ac300 million bond issue to complete Camp Nou renovations \u00a0\u00a0 Reuters"
+    },
+    {
+      "title": "Respiratory illnesses rise in Gaza with worst to come as winter floods arrive, WHO says - Reuters",
+      "date": "2026-11-13T12:39:35Z",
+      "source": "Reuters",
+      "source_domain": "reuters.com",
+      "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQOUQ4VUJVcUlWTXZmUG9DbVh4R2h2UEJ1NS1mcW9vM1QydmdQWmVYc1ZpWFNEdEc0a0NDQ1pIM3pTNk94dXZrWHlNMGpISDJJaUh4aVF4ZUlXSkdFLXUyamZTU3JWREFpSEU4b08yQXpTbGVnN3pZaTJBa3pPUXlCczhfOVF1YjRFZlI2ZlEwcFlMVHdCYmQ1V253UUZ2ck5HcHJnaWJqakl2T1V5YXpHM25lU3VHcFpkWm9kZVVYR1BUV0EyeG44bFp4a3M5TUI4eXRqWmVyT0s2alBWOUlrZEV4OA?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Respiratory illnesses rise in Gaza with worst to come as winter floods arrive, WHO says \u00a0\u00a0 Reuters"
+    },
+    {
+      "title": "Nvidia Succession Shows Key Part of CFOs\u2019 Jobs: Serving as On-Call CEOs in a Pinch - WSJ",
+      "date": "2026-11-13T12:25:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNbjEzQTBEWmlhdXhxd214bjRkRXlBR09BdGpxMHlkY1d0WVgxcnpuSG83aUpJYmRMQWJFRkZFalV6QlFxTUstaWFzWHJobnhacjlRMUlyZklxSGJMbjg1SHpiVmdFdVp4Zlh6dTRmTU1ZSGFwQ1lkTlB6VFN6QWptdUhkX2tiM2JYUVBuTk9EbFZ2V0dzZUxscVhQNXZWdTRPWVctaXU3RGZlcXFqNG1EUkZSa2NuYkY5NHB0ZU9R?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Nvidia Succession Shows Key Part of CFOs\u2019 Jobs: Serving as On-Call CEOs in a Pinch \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "China Looks to Shake Up Centuries-Old Business of Insuring Ships - WSJ",
+      "date": "2026-11-13T12:06:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQVF9MMFk5aGVhdlluOG02Y05WSkpJVGVhRlctT3BuazNQVGNGRkJDemFFOGZEc256RXdMYmJVY3V4dzVZUG1ZeTVyTkdNdkpOandVSHR2dUtfbjNWSTFpbE9WNEpBUlVjWkVGaHo0bGNuTi15WE5YcnhLV3lPdnlXSXdvNjVBWjV6OW03ZF96Qk4tNGhWVzBYaGtLaURHYXlOY0lTWmx0bjVvX0FZMGVZ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "China Looks to Shake Up Centuries-Old Business of Insuring Ships \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Exclusive | New York Knicks Player Josh Hart Takes Minority Stake in Italian Basketball Team - WSJ",
+      "date": "2026-11-13T11:30:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNeGxhUk5neFFoNk9hNzFVcFBIMVBhbmxhS3czb1lXUmM0OS0ybW1FVlh6Y2RnVDFmako1WVlKMzNzVURtNDVnUUZ1Mkk3ZGZDc3hSYVk1NmYxSUlzcE5ZVXFrV2ZReFczcUJ2b2F1eFhOdURNcWhmNmUtYmpMZnZldTB5VzR3cEVVV1M2N3ljOUE5S09SMmsySHhGazJUOHpXYVF0dWFLUlFUamREY2ppYXJBci05V3ZZNlZCX1FZSzBndldRTkpN?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Exclusive | New York Knicks Player Josh Hart Takes Minority Stake in Italian Basketball Team \u00a0\u00a0 WSJ"
+    },
     {
       "title": "JBS Reports Lower Profit, Citing Difficult Operating Environment - WSJ",
       "date": "2026-11-13T11:20:30Z",
@@ -15,6 +505,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "JBS Reports Lower Profit, Citing Difficult Operating Environment \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Jensen Huang Called Her \u2018a Deer in the Headlights.\u2019 Now She Runs Nvidia. - WSJ",
+      "date": "2026-11-13T11:02:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb1otRlRSSXRmek1yNmFSRkJrVU4xM1RESXBrUWZXOGR2SUhXRUNUTHZQUlFmU2RTTmRHZkR4dUtPTHBJMGFGYnFZUUlzTlROWWtEbmZZdGo2U2ZaSUNGTkp0SmJEQkhBVnJGanJtMm43TGlaMGs2V3NfWlpxSkFaQl9kZkNyWDRGSHBKb1lYelhhQXZLNEk1MmJwT2R6YUM5QndFelQ1SVBmdw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Jensen Huang Called Her \u2018a Deer in the Headlights.\u2019 Now She Runs Nvidia. \u00a0\u00a0 WSJ"
     },
     {
       "title": "EXCLUSIVE: Huang exit and US scrutiny imperil $3 billion in Chinese AI projects reliant on Nvidia - Reuters",
@@ -27,6 +527,16 @@
       "summary": "EXCLUSIVE: Huang exit and US scrutiny imperil $3 billion in Chinese AI projects reliant on Nvidia \u00a0\u00a0 Reuters"
     },
     {
+      "title": "Trafigura Is Key Player in LME Aluminum Squeeze With China Trade - Bloomberg.com",
+      "date": "2026-11-13T10:32:22Z",
+      "source": "Bloomberg.com",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQSTlHdGJudFBBbEQ1V2tkY09oZ3Q2b050dkc2RnU0ejhoWV93M1phbnNMa096ZTdRd0p2TEd6TmFWS1Npa1pTY1lkWGlGVkM4RENSSnVMVHhMRjFmTE1Wb2VLQldiRWJYaU1XVXkwYzZ6NldRT0hGbDlmVlpuaU5ydUNJM0Z5ZGFSSkxoWHcyMTl2amVmQ05ORlJXOHhsTU5YUDhJSERlcmJKb1gteFcxT2pDZXZmdw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Trafigura Is Key Player in LME Aluminum Squeeze With China Trade \u00a0\u00a0 Bloomberg.com"
+    },
+    {
       "title": "KKR, Germany\u2019s RWE Invest $16 Billion in U.K. Wind-Power Projects - WSJ",
       "date": "2026-11-13T10:24:38Z",
       "source": "WSJ",
@@ -37,6 +547,16 @@
       "summary": "KKR, Germany\u2019s RWE Invest $16 Billion in U.K. Wind-Power Projects \u00a0\u00a0 WSJ"
     },
     {
+      "title": "The Click of Falling Bricks: A Building\u2019s Shocking Collapse - The New York Times",
+      "date": "2026-11-13T10:03:15Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxON29tc0dLcTR3TW9WTlJZbTZsX3hFRWpwdE51M1pkOTNBQXlSTC1ONnowUEhVeEk2YTZ1eE84Qlp0ekxnMVk2c0JXQkpTMk12Ti1JX0VtQzdCLUFXeXZvS1FsYlpYSGxKM2daRm9YeHdUR0tqX3dBSGpTZkxHOUFNN0tnazVHc0dpLXdWM1hJUVAwSlgtQkFWN3dWVWRXWXNGNk4xYmlBMWVnZw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "The Click of Falling Bricks: A Building\u2019s Shocking Collapse \u00a0\u00a0 The New York Times"
+    },
+    {
       "title": "Bank of England\u2019s Lombardelli Signals Another Rate Rise Likely in Near Term - WSJ",
       "date": "2026-11-13T10:00:23Z",
       "source": "WSJ",
@@ -45,6 +565,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Bank of England\u2019s Lombardelli Signals Another Rate Rise Likely in Near Term \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "The U.S.-Israel Relationship Is Broken. Here\u2019s How Eisenkot Could Fix It. - The New York Times",
+      "date": "2026-11-13T09:45:38Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNTDl3Q3pVM1Z2bFc0QldEZlFCVHdJdVFOek5lS1NVeVBpdWE3SFY2ZkJCbHN5WWN4MGRBNndIMlBNYXROYnJuYklpWTNta00taEVBM2g4OFFPRkxDTG1UTGFGaXY0aHRkMjFOS0doRHNwbDJabUJXWVdrZE1hMHlLVjFtQks?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "The U.S.-Israel Relationship Is Broken. Here\u2019s How Eisenkot Could Fix It. \u00a0\u00a0 The New York Times"
     },
     {
       "title": "Video From Inside Brooklyn Building That Collapsed Shows Walls Caving In - The New York Times",
@@ -65,6 +595,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Japan Fires Off Verbal Warning on Yen as Weakness Stokes Intervention Alert \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "London\u2019s Jazz Renaissance Has a Sound All Its Own - Bloomberg.com",
+      "date": "2026-11-13T07:00:00Z",
+      "source": "Bloomberg.com",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPQnZsU1V5M2xaZ2dRbHhzUVRLbWRtemc0RmdnVU15cWF2dGtXZjhJdjBhSjdDS0ZGeldUcTBxUnNNTGx6UzRmdThmSTlmM0pMcWFmeTNXXy1peDZHWms0d0dZdndwcUJsU3pGZjlTWEo3V3R5bG9ETGliSmYtNHNfbUoxbWFIX2lleWZXQ1JuZlNVbnZGYmVYM0pqN1hqTUlwV2pyMWZFQVNoSWtaTGdNc0dn?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "London\u2019s Jazz Renaissance Has a Sound All Its Own \u00a0\u00a0 Bloomberg.com"
     },
     {
       "title": "Germany\u2019s Merck Raises Guidance Again on Growth Across Units - WSJ",
@@ -167,6 +707,16 @@
       "summary": "Archway Communities helps Colorado families turn affordable rent into a path to homeownership \u00a0\u00a0 CBS News"
     },
     {
+      "title": "How did New York become so unequal? - The Washington Post",
+      "date": "2026-11-13T01:48:18Z",
+      "source": "The Washington Post",
+      "source_domain": "washingtonpost.com",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQN3ROVTNYVEF1dzN2aUowc2NybE1BdlAtZ2xELWk2NjhsbmgwcmllY2pVOVMzNkV2V3kwQU91SFc4Z2FBRm1Jd0trT2hzanREZXdqalIzcGhEQ1RZbTBlVzRtOV9yVnFidzVXM3JOeVlPeHhFZzVhNlgxSFVFN29GRkpjYmlFSXQ3OGhxWA?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "How did New York become so unequal? \u00a0\u00a0 The Washington Post"
+    },
+    {
       "title": "Home sales in worst slump since the aftermath of the Great Recession - The Washington Post",
       "date": "2026-11-13T01:47:38Z",
       "source": "The Washington Post",
@@ -195,6 +745,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Fed\u2019s Williams Says Still Work to Do to Get Monetary Policy to Right Place \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Electronic Arts Bondholders Allege \u2018Unscrupulous\u2019 Ratings in $1.4 Billion Fight - WSJ",
+      "date": "2026-11-13T01:11:38Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOLURxdTg4X2tlVTd0cld6R2puZXc4dDRNRU9rQTE1bENGbWRwWU11ZmwxM0NYU2FRNk0tS0VXWjFGNC12NVNoQW1iSjNsTW5CSGtmTXlOSHJvU2UtSGNYMkV6R21HMUhVY2pmQnRXTjFmTnE3ek9WZFBPZG5oMGtPdm5CdHVaZXNQaGpoMWZ2UnMzOHRvcUR6UWg5ck5fM1FwLTlYLTdVN1M4Y2FveHNpSU5IaHhLUDJjUURYYg?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Electronic Arts Bondholders Allege \u2018Unscrupulous\u2019 Ratings in $1.4 Billion Fight \u00a0\u00a0 WSJ"
     },
     {
       "title": "Village of tiny homes for teachers breaks ground in Colorado Springs - Colorado Springs Gazette",
@@ -267,6 +827,16 @@
       "summary": "An A.I. Titan Resigns \u00a0\u00a0 The New York Times"
     },
     {
+      "title": "Israeli air strike on Gaza hospital kills six, including surgeon - NPR",
+      "date": "2026-11-12T22:33:00Z",
+      "source": "NPR",
+      "source_domain": "npr.org",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOdmhRLXBlNjVHdTBUeEJtSnZrTi1taGJTQjdGZmlNZ3RsdFVfeG94S0tSb2NYeGlYeEdxLUs1STdkZlVCNGdfbC1mMUcyOTFkRkJ2VmVaTm1EU0tCMHdOWGY4YmJnbEZDVmV5TE1PakRDempjQ1U4eTNCU2dIYTVUUHN2c3RsWWZMM25OejZFcU1LZmJoUTZQWnptTkxjN25zR1pzWnNsRm1yUzRo?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Israeli air strike on Gaza hospital kills six, including surgeon \u00a0\u00a0 NPR"
+    },
+    {
       "title": "U.S. Stocks Down as Huang Ouster Sends Shockwaves Through Tech - WSJ",
       "date": "2026-11-12T22:12:00Z",
       "source": "WSJ",
@@ -337,6 +907,16 @@
       "summary": "Richard Posner, judge and scholar on law and economics, 1939-2026 \u00a0\u00a0 Financial Times"
     },
     {
+      "title": "Why Architects Are Lining Up Against Permitting Reform - Bloomberg.com",
+      "date": "2026-11-12T20:55:37Z",
+      "source": "Bloomberg.com",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOLWJva0FUdmo2Mk80aEdKVlQ2MzlPQnVIVGg2TmMwQ3hBNXZTRGhXZU0yeTJHQXZlbXVfQXdFTml3dlB4UklRLXF3WVRXa3Z2dTNrb012TWZPNkJUZnJOTUtFakFILU16cVQxdUMzMlgta1k0cWp2TE12S0M3QlNjTkJmSXdmLW5ZR3VmSm5pRnZGbXdiSUtvMEhlLWhzS3V6YXJSS0pHcE5FektzMDdiTWxSZWgwRlRoUFVxWA?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Why Architects Are Lining Up Against Permitting Reform \u00a0\u00a0 Bloomberg.com"
+    },
+    {
       "title": "Treasury Selloff Accelerates, European Bonds Follow Suit - WSJ",
       "date": "2026-11-12T20:53:00Z",
       "source": "WSJ",
@@ -345,6 +925,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Treasury Selloff Accelerates, European Bonds Follow Suit \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Colorado mountain leaders believe a new U.S. Forest Service rule could be a \u2018gamechanger\u2019 for affordable housing projects on federal land - AspenTimes.com",
+      "date": "2026-11-12T20:36:14Z",
+      "source": "AspenTimes.com",
+      "source_domain": "aspentimes.com",
+      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNbHBqTENMakFXXzFhWWFGMUJWTFNtM1d5ODRmOTNGNllTUHNWMThtVUFNdmV4d0E3ZGYtUmNoU0ZQQXZqNWY5c19WQVAwZXpYTHJpeVp5eGRmN08zMFZNSnQ4U1drSkJZenlNejE2aFVBVTN3Tk1xSzBJNVp4OWdfYkJfVGNja1A1WXVuXzFfcHg?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Colorado mountain leaders believe a new U.S. Forest Service rule could be a \u2018gamechanger\u2019 for affordable housing projects on federal land \u00a0\u00a0 AspenTimes.com"
     },
     {
       "title": "U.S. 30-Year Treasury Auction Shows Softer Demand - WSJ",
@@ -395,6 +985,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Yemen's Houthis say they attacked pumping station on Saudi Arabia's East-West oil pipeline \u00a0\u00a0 Reuters"
+    },
+    {
+      "title": "Opinion | Mark Levin hates it. The internet mocks it. But I won\u2019t leave it. - The Washington Post",
+      "date": "2026-11-12T20:15:00Z",
+      "source": "The Washington Post",
+      "source_domain": "washingtonpost.com",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQU1hMbUw4enU4NE1RWnNaVUFXTEc4V2VYTVFUZVpxbE9UV3FYVDRlbTZjQndXVkpFX2hhQjlIdkFULWlkZGhfV0FVWXdMVEl1NnZHQU9uVHBBdDBBOW9jQ1NJekN4dk1YSl9LYmkwV1NUb3o1VVlOTk5UZXUtYlRsazZvWHQxN0htYllRUldzRTZGeVhMWU90MEVCYkpqUXFTeFE?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Opinion | Mark Levin hates it. The internet mocks it. But I won\u2019t leave it. \u00a0\u00a0 The Washington Post"
     },
     {
       "title": "BofA Traders See Short Sellers Pile Into Rate-Sensitive Stocks - Bloomberg.com",
@@ -557,6 +1157,16 @@
       "summary": "Existing Home Sales Fell to 16-Year Low \u00a0\u00a0 Eye On Housing"
     },
     {
+      "title": "Opioid settlement money is helping fight homelessness. Some fear blurred lines. - The Washington Post",
+      "date": "2026-11-12T18:00:00Z",
+      "source": "The Washington Post",
+      "source_domain": "washingtonpost.com",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQUGdwNW0wZWVyRHZvT2tEQUYtSTJwcV9Ha0Jndy1vSUFYczRLLWZhSUUzcHJVNWFCaWhsUVI1RUhadzhncU9JSTFpUGgyTnA0dXRJWEFLOXk0NGJMTHFaRnhhV01idTRfXzZMbEFRbFBUSmpWTWFob2NpbFVwWUM4czdLV3Bac25tLTBxMkJyc1R3cW1sYkhFcGNzUmZub3NSQVBjZV9tNTI0Rk02N3dR?oc=5",
+      "topic": "homelessness",
+      "region": "Colorado",
+      "summary": "Opioid settlement money is helping fight homelessness. Some fear blurred lines. \u00a0\u00a0 The Washington Post"
+    },
+    {
       "title": "Which generation has had it easiest for homebuying? New research shows a shift. - The Washington Post",
       "date": "2026-11-12T18:00:00Z",
       "source": "The Washington Post",
@@ -585,6 +1195,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "US labor market resilient; existing home sales hit more than 16-year low in October \u00a0\u00a0 Reuters"
+    },
+    {
+      "title": "Beijing Is Trying to Build a Chinese Rival for Insuring World Shipping - WSJ",
+      "date": "2026-11-12T17:43:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOMmkzaThBN0FzaTNNb0txSjRNeGJRNlE2X3NhTTdHemlOUmpiVGpra01haWFLdGlDWlVkY3MtQmw5QmwwWUhackU2NkdDWVlZSjh0dFRHYXRiU3F6aGdPV21wQXdJSnNTd1doSXpyVlRONXVuQWhyVnE2cmczb0JiZVc1UXdJekNFQUdvS0V0dk5jMHR6alBpR1JzS2EzZ2RfZTdQR1FKaEhOVjVDR0pDR3l4THRoZ3FpN0E?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Beijing Is Trying to Build a Chinese Rival for Insuring World Shipping \u00a0\u00a0 WSJ"
     },
     {
       "title": "Union Pacific turns fuel surcharges into profits as rivals lag - Reuters",
@@ -687,6 +1307,16 @@
       "summary": "NEWSLETTER: Drama at Nvidia: Pricing AI in a maelstrom \u00a0\u00a0 Reuters"
     },
     {
+      "title": "Bangladesh picks Chinese firm to build third floating LNG terminal - Reuters",
+      "date": "2026-11-12T15:07:04Z",
+      "source": "Reuters",
+      "source_domain": "reuters.com",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPd2JIenJreXB5SzBSNUhPWWtzczI0QXhQdjZ4cmtwVjhWMXI1c1ZlcDFWQUx0REF5YlZHMkRaMHRyNldIWG95UFBSdVN1MlpmS1hUNFlzSTB1Q2hlWVE3dlpUdUtGTmpiaC14Q2UycWtTV2NYc2ZxWUdGZVRWcHJfaGhuMzViV0hyRk8xRTJ3VjVveUlZYUIzblR5SHNOOGQzdW9DREE2RTVDdDRUTzhqVmtZLThoZw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Bangladesh picks Chinese firm to build third floating LNG terminal \u00a0\u00a0 Reuters"
+    },
+    {
       "title": "Crowds fill Lima streets for Pope Leo's emotional return to Peru - Reuters",
       "date": "2026-11-12T15:07:00Z",
       "source": "Reuters",
@@ -777,6 +1407,16 @@
       "summary": "Colorado Springs police officers shoot, kill woman who allegedly pointed gun at officers \u00a0\u00a0 CBS News"
     },
     {
+      "title": "Spain\u2019s rail crashes are a grim backdrop to the election - The Economist",
+      "date": "2026-11-12T14:08:53Z",
+      "source": "The Economist",
+      "source_domain": "economist.com",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOS0xPNnhDWWlVME9jWWQySDY5NnczdERqNk5Fb1E4TzVER2NfOGhybGJOUlVGVE1vajB4Q0lYckZISlFBeFJ6LURMWTY0ckxkSGk5WjZ2eUI3UGdMenIzcUtUZUVkXzJBSVREVXhzdVEtMU9pSUJva2E3NTJGTVpNWWdFNHJYdXVVUzhhblRYUm5ldzB3SkduZmVncS0zdUZu?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Spain\u2019s rail crashes are a grim backdrop to the election \u00a0\u00a0 The Economist"
+    },
+    {
       "title": "Britain\u2019s nicest prison - The Economist",
       "date": "2026-11-12T14:08:53Z",
       "source": "The Economist",
@@ -815,6 +1455,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "How navigating red tape became the European way of life \u00a0\u00a0 The Economist"
+    },
+    {
+      "title": "Spain\u2019s ACS Expects Data-Center Build-Out to Boost Revenue, Profit Through 2030 - WSJ",
+      "date": "2026-11-12T13:47:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQVEwtQlBmM0dRVHJpY2J4c0NVbE80M2U1X1BfR1I4Z0NHM0w2N3lzd3hucHJzR3VmV2pEVHJMcUJJM0NDbHotQ1Y1emJQSlc2Q3Q1U3pnVmhkc2ZrS3Z6UUdlQjVaN0owajBOYzVBemh3UGdpY0ZfeVg4SEsxNkQ0TEtWTlFBYXo5eFRxN1M4NC1MQmhJWUtOY2VCeUw0bzliTmRhZVlyM2F0WUhwVVlaQ0p4MURvUQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Spain\u2019s ACS Expects Data-Center Build-Out to Boost Revenue, Profit Through 2030 \u00a0\u00a0 WSJ"
     },
     {
       "title": "Spain approves one of housing decrees that triggered snap election - Reuters",
@@ -1087,6 +1737,16 @@
       "summary": "Metro Bank Hangs Up \u2018For Sale\u2019 Sign \u00a0\u00a0 WSJ"
     },
     {
+      "title": "BAE Systems Lifts Cash Flow Guidance Again as Defense Spending Fuels Orders - WSJ",
+      "date": "2026-11-12T08:12:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPU1pMUFBMR2dZdi1MMHdtblVROTdxdWhNTEd1dzlCSHQ0dFRRV0lib3h6OThOUU1VVTA0WGhKZmVoYjlJcDdtVk5JVEdXczVuNHdrSzNmcGhXcURLRFYwVG5ONENoTHpXdm9SaGppa0VRSGFkVXZxbE1lWE5EVGxRY3hLT2djUzQ4T1hQWk1hTFc4bTRpbV93SEdmX1o3TkVSRDVaZm8ycDlPNWQ2ZVdiMGozdDRfOThuRk9SeXAzRQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "BAE Systems Lifts Cash Flow Guidance Again as Defense Spending Fuels Orders \u00a0\u00a0 WSJ"
+    },
+    {
       "title": "How 4 Seasoned Commuters Make It From New Jersey to Manhattan - The New York Times",
       "date": "2026-11-12T08:00:07Z",
       "source": "The New York Times",
@@ -1207,6 +1867,16 @@
       "summary": "What Happens When AI Replaces the Economists? \u00a0\u00a0 Bloomberg.com"
     },
     {
+      "title": "A Quarter of Key Goods Vulnerable to Supply Disruptions, Study Finds - WSJ",
+      "date": "2026-11-12T06:35:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNY2tZeG5TXzA3T242OHBiUFBNWTFCRlhmUHhGdkdxMmhmeW5ma2hLSkRZSnZZcGNnTktKbm1CTlBKWV9FZkkwaFI1R0FWMkFTVjM5Q0p2THlTYnhiOVZRbUFrRjVQWGJBRjd3Mkh4dU9xWjNFd0hfaXZHbkxMVGVWbkFtWmc3ZngzQ1UzRHdDZDEwMDI5ZEQ3azJTLVBueTU5VEdZVnRqMHZuOXNnQnpTbA?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "A Quarter of Key Goods Vulnerable to Supply Disruptions, Study Finds \u00a0\u00a0 WSJ"
+    },
+    {
       "title": "How resilient is the US consumer? - Financial Times",
       "date": "2026-11-12T06:31:49Z",
       "source": "Financial Times",
@@ -1245,6 +1915,26 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Opinion | The Senate passed a permitting reform bill. It threatens tribal sovereignty. \u00a0\u00a0 The Washington Post"
+    },
+    {
+      "title": "A case for small-town grit: Sheyenne, North Dakota\u2019s quiet comeback - Brookings",
+      "date": "2026-11-12T05:10:11Z",
+      "source": "Brookings",
+      "source_domain": "brookings.edu",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOWEJYemJQRW9lQTV4elI2SHZpblFxQ3R4M09yLVltVWJRN0x2VzdVRWZFMGp0N3Rfdy0yY1F2TktvOUM5VXFDTmt1YVhxN1p1My1fSlRuUWdkNTJmX2staWhOUXFRYnQtczdmMEROemg1S3VUQlFza21PNXd5U25hcUc0UVNiWktZOGVHNG82b2dHZXJtTDlQREE3V2NYdW0tMVE?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "A case for small-town grit: Sheyenne, North Dakota\u2019s quiet comeback \u00a0\u00a0 Brookings"
+    },
+    {
+      "title": "The blue wave should target red tape - Financial Times",
+      "date": "2026-11-12T05:00:51Z",
+      "source": "Financial Times",
+      "source_domain": "ft.com",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxObS1SVjdlMnBwaUxTMHlVNkstYkRSX0FMOXRhWWtpY1cxeHFoSDVGWjNBX1dvRjZzQ0M4QlFwWG0wRjdGb0FBSGZFV0IyUDFvSjdodEllRTFZYjc5amdac2lvU1Z2R3dGR0t1Uk1XTC14WDZtYzMxclJTYWZXdDBTZlZkcV8?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "The blue wave should target red tape \u00a0\u00a0 Financial Times"
     },
     {
       "title": "Growth investing or gambling? - Financial Times",
@@ -1427,6 +2117,16 @@
       "summary": "Trump\u2019s Asia trade deals reap small slice of cash \u00a0\u00a0 Financial Times"
     },
     {
+      "title": "Companies Dole Out Mega Paydays and Luxury Trips to Compete for AI Talent - WSJ",
+      "date": "2026-11-12T01:00:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOdmVOejVwV01jYzlMM0gtUTZGWmpNXzNKVFl5MmRTVm9kM0JicmUwWnhSUVVZNmNMQTlPaUZvRUdpTXlUTWUxVTZGZW1CRV9OanpSQVhYdnRHMVB0blBuMElaU2MwTVhZWURrMFdRSkFjZ3ZlalY3Z2JqbFVQTUF4R3N3ejRpNk9ISXpTTjFOZ2dhWVJXXzNucWd1cmR3VGdIbW5ZWkR4eERKLU54UWlj?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Companies Dole Out Mega Paydays and Luxury Trips to Compete for AI Talent \u00a0\u00a0 WSJ"
+    },
+    {
       "title": "India\u2019s BEML to Build Tunneling Machines to Cut China Reliance - Bloomberg.com",
       "date": "2026-11-12T01:00:00Z",
       "source": "Bloomberg.com",
@@ -1565,6 +2265,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Three men backed by Iran plotted to attack British air base, U.S. says \u00a0\u00a0 The Washington Post"
+    },
+    {
+      "title": "AI stocks rebound, and Wall Street nearly returns to where it was before last week\u2019s sell-off - AP News",
+      "date": "2026-11-11T21:42:00Z",
+      "source": "AP News",
+      "source_domain": "apnews.com",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNYi1oYnVxUmZHNlhJVXBPYk9ITmFxZzBzUWNfUDZPT2tsR0R4SExvcmJzM3I1ZEh0WHV0bHM2amVtQmMzWnpwRWVFRjluOTdETUt2UGtPbUUzamNLcVJ5UHk3Qm5ZMmNlNm16X21EZkZxaktKT3RIUEc4SlJCbnJDbzhxOXFkNVI0ZVFab3JBOGxtSXM?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "AI stocks rebound, and Wall Street nearly returns to where it was before last week\u2019s sell-off \u00a0\u00a0 AP News"
     },
     {
       "title": "That Thanksgiving hand turkey on your fridge is actually an education policy failure - The Washington Post",
@@ -1717,6 +2427,16 @@
       "summary": "PHFA Releases 2027/2028 Qualified Allocation Plan for Low-Income Housing Tax Credits \u00a0\u00a0 Yahoo Finance"
     },
     {
+      "title": "Russian Fuel Exporters Court Brazilian Diesel Buyers After New Jersey Snub - Bloomberg.com",
+      "date": "2026-11-11T19:16:54Z",
+      "source": "Bloomberg.com",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPQjBfUWJ6YUkxSWtmZ1NQdUpjdmhuTXpxdEZVVXNRZzBzZE5TaW9NM1d5Sm4wRV9ubmdoNWFjcHZNR3NFek0tbkdrRUNNUldPY0hueEJDa1NpS0MxekZyaHh2eTJ1TXZ5LXMtNlUxYU9FYWFfNEJ4c3hzSHhnUzhvVjJ5M1pXU0JfVm1IcVpxSEdkNGYtaldZOVEzb0tUNWpYRG5Yc3g3WkpoS0dfU2l1Y2JSaUtrNTZPdDVfOWhfQ05FQ28?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Russian Fuel Exporters Court Brazilian Diesel Buyers After New Jersey Snub \u00a0\u00a0 Bloomberg.com"
+    },
+    {
       "title": "Opinion | Obama\u2019s win led to rosy predictions. Are they finally coming true? - The Washington Post",
       "date": "2026-11-11T19:15:00Z",
       "source": "The Washington Post",
@@ -1797,6 +2517,26 @@
       "summary": "European shares log record close on Siemens, CoreWeave-fueled AI optimism \u00a0\u00a0 Reuters"
     },
     {
+      "title": "10864 S Highway 67, Divide, CO 80814 [Updated 11/11] - Realtor.com",
+      "date": "2026-11-11T17:48:00Z",
+      "source": "Realtor.com",
+      "source_domain": "realtor.com",
+      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQR245OEVwVnFLLWxOQ0VVU3NHcUpuc2dyRVB2VGwwcm1naUFYUWZyMjBROGtvOG9tWXJwdWpWV3FKMXZzcUZ5SWZlVExXajk4cHNULTB0d05lZ0ZOa2c1QmF4UWJhZzE0U21NdHNRemlZNU5lbFh3cUc0UGZWWWJPenNDZU9WQWlPT2h4WWhGY3d6NmpwUDJXRXMyTGl5Zw?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "10864 S Highway 67, Divide, CO 80814 [Updated 11/11] \u00a0\u00a0 Realtor.com"
+    },
+    {
+      "title": "Opinion | What if Trump Still Thinks He\u2019s Winning? - WSJ",
+      "date": "2026-11-11T17:42:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQTWlFY2hoeGlwRTdGSG51UEtMN0dWRTlld0NmcDVoYk9hdnNSQW1BME9WZTFsMGZwanRDV1F1ejNVYU4ydGdldk9Yd3ptZFk3aTRVMDd5dnVEN1FtVFNrVmVNRUtJS3ZGRUx4RVlOb2hvcHVWeVEzSjhGWmc1RWZhQQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Opinion | What if Trump Still Thinks He\u2019s Winning? \u00a0\u00a0 WSJ"
+    },
+    {
       "title": "Rita Paul Has Died. She Nurtured a Fabled Greenwich Village Hotel. - The New York Times",
       "date": "2026-11-11T17:00:51Z",
       "source": "The New York Times",
@@ -1805,6 +2545,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Rita Paul Has Died. She Nurtured a Fabled Greenwich Village Hotel. \u00a0\u00a0 The New York Times"
+    },
+    {
+      "title": "Raman and the D.S.A.: Wariness, Skepticism and Hope - The New York Times",
+      "date": "2026-11-11T16:52:44Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPVFE2M0h4UDVzcDA1TzZEcEZlT1ZiWENhdWd5c2pTSmZIZEJNNUVTdVdWVG44RGt6OExrU1ZUWnVJbEVoYklHODl4b21Nd2JHUTZDOVVBTHAtNFFsV1N4NVFGMzY3cUk0YU5ULW92T0FrOWFBVWtmQ0dnYmg3bXBqbkdYM192cHJPNHRLMTlKQlZUU1h2?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Raman and the D.S.A.: Wariness, Skepticism and Hope \u00a0\u00a0 The New York Times"
     },
     {
       "title": "Ternium Says Mexico Steel Imports Need Strict Tariff Enforcement - Bloomberg.com",
@@ -1825,6 +2575,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Sixth Street CEO Warns AI Race Rife With \u2018Speculative Behaviors\u2019 \u00a0\u00a0 Bloomberg.com"
+    },
+    {
+      "title": "Johnson Capital Multifamily and Gershman Investment Corp Close $17.2-M HUD Refinance of Fort Collins Affordable Housing Community - Yield PRO",
+      "date": "2026-11-11T16:41:31Z",
+      "source": "Yield PRO",
+      "source_domain": "yieldpro.com",
+      "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1ISWpoMlpyVm15R2puS2pIN1pCOEFoVVBzZFRNR0dldjRaMWJfTXVjdW90aXlyb1VMclNiYlA4aE1sSHB3eV80RVFDN3JUekpyalJURXJRZkJwVmF4?oc=5",
+      "topic": "affordable_housing",
+      "region": "Fort Collins",
+      "summary": "Johnson Capital Multifamily and Gershman Investment Corp Close $17.2-M HUD Refinance of Fort Collins Affordable Housing Community \u00a0\u00a0 Yield PRO"
     },
     {
       "title": "Data Center Gas Plants to Lift US Power Emissions 10%, BNEF Says - Bloomberg.com",
@@ -1897,6 +2657,16 @@
       "summary": "Lithium Americas raises Thacker Pass cost estimate by 31% \u00a0\u00a0 Reuters"
     },
     {
+      "title": "Federal, state, local officials assess damage from historic flooding in southwestern Colorado - CBS News",
+      "date": "2026-11-11T15:10:00Z",
+      "source": "CBS News",
+      "source_domain": "cbsnews.com",
+      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPQmZaVDJlMU52dy1KY0JMT2J1THFWVjBGU0ZLRllNVkRIeENVWG90bUxvTjhBQ2lmRVY4Z25ZVmgwLW85Mmd6RTBOWGxMenhqdzBMeUVNaEF0THRRSVFmdUNCWWFyTnVrYnZEZlpDOUlHMzA2dld2RFBvRU8zQk9kUDRRc2J4eGdaTC15dGwzcTk1c2tLUm5PWlo3SVBrVUxpcWpfNWg5cXdkREVPOWJNVlVZZlZXSUdiLXpZOW5RYmROMGEzd19jMkpmWQ?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Federal, state, local officials assess damage from historic flooding in southwestern Colorado \u00a0\u00a0 CBS News"
+    },
+    {
       "title": "Cult, divorce featured in former Colorado Springs resident\u2019s solo show - Colorado Springs Gazette",
       "date": "2026-11-11T15:00:00Z",
       "source": "Colorado Springs Gazette",
@@ -1905,6 +2675,16 @@
       "topic": "general",
       "region": "Colorado Springs",
       "summary": "Cult, divorce featured in former Colorado Springs resident\u2019s solo show \u00a0\u00a0 Colorado Springs Gazette"
+    },
+    {
+      "title": "A Mini-Exodus Unfolds at Blackstone\u2019s Marquee Real Estate Team - WSJ",
+      "date": "2026-11-11T14:55:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPNEJLUWIyWjczNjVQRmdzZ1NQX1FCM0xXZ0ZuVDdJOS1GMTVNOExZVVBJY3RtQVJxTk9FWloxQXBteTlQN2dqZndhdnBNNmhTQ1lJQVNaa3k1NXM1T2NROFFtbXN0VmYtakpncTlqMm4yM1FnN2pZTlRJMUo3cE9xbDRxLWhBUmt4anhweWs0eEwwSVFNYUtnSnVidE1ZbTU1b3Z0TQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "A Mini-Exodus Unfolds at Blackstone\u2019s Marquee Real Estate Team \u00a0\u00a0 WSJ"
     },
     {
       "title": "Iowa Finance Authority Awards LIHTCs to Advance 595 Affordable Homes - Affordable Housing Finance",
@@ -2015,6 +2795,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Threats sent to UK and Irish schools dismissed as hoax \u00a0\u00a0 Reuters"
+    },
+    {
+      "title": "Chinese Integration Threatens What\u2019s Driving Hong Kong\u2019s Revival - Bloomberg",
+      "date": "2026-11-11T12:00:14Z",
+      "source": "Bloomberg",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPTXpKZ3VEX0phRnRGUE9tZjZzV3NXT19VVmZzclZRWEc5d2xoTnJhY0J6X3N5bTNaaWJpbzE5YjZYTVM5QU5Xd3ZtT082SzNOUXhsWG1VMUlXenlzbkpnaldxTUVwWlNJNzRkeTBxek1FV1A5RzJFVVd4VE9oWl84UWR2MGZ3Yk16VWM3bTBwdDJmZTZBN1RIRFNHRDBRU3hRMEwwV1ozVGJsWlRU?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Chinese Integration Threatens What\u2019s Driving Hong Kong\u2019s Revival \u00a0\u00a0 Bloomberg"
     },
     {
       "title": "Portland and the Twin Cities Share Characteristics but Their Growth Looks Very Different - Urban Institute",
@@ -2365,6 +3155,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Oil Prices Rebound as Middle East Supply Risks Persist \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Volkswagen Backer Porsche SE Urges Faster Cost Cuts as Losses Mount - WSJ",
+      "date": "2026-11-11T08:00:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNR1lDWmpTZzBOckpVMkUxT2lyOGR0UkxiTV9VZmVmQXBIbDI1bmFSOUlPUXhjWVZldV9TZFN2UWsweTZGMzJBVUtGSkZUSndoNWZEZFlhQ1FSZW0yUzRKOUhCOS05bS1WMDhrWHlLR0I4alJIRlFJVzMwTVpvZFUyMFN3YTF6ZlNzSUU3U0NvVGtqN2s0dFRFU3dZcVBrZVAwT1U2dTZZRUVibjVwOXlPZjFtcjg?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Volkswagen Backer Porsche SE Urges Faster Cost Cuts as Losses Mount \u00a0\u00a0 WSJ"
     },
     {
       "title": "Foreign investors pull out $50 billion from Asian equities in October on AI, cash burn woes - Reuters",
@@ -3467,6 +4267,16 @@
       "summary": "Inflation Persists in October \u00a0\u00a0 Eye On Housing"
     },
     {
+      "title": "Opinion | Our Best Cyber Defense Is American SI - WSJ",
+      "date": "2026-11-10T16:34:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNMlVQempfYjFnaE54ZzY2cDFoSm9nSjBmUlVocjVfMk9nTm1zUnFHWEhiZVRwb1k1UW9Gb2FxODZtRlhsQ0Yxc2hDZW9WZWZnR1hEWjdrNWdua3JSV2NhdmpJeFd3dWRla0h1MDdqM2lnTldCQTdXc1NXeTdPSWR4VjhZdlo?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Opinion | Our Best Cyber Defense Is American SI \u00a0\u00a0 WSJ"
+    },
+    {
       "title": "Here\u2019s why last year\u2019s government shutdown will haunt October\u2019s inflation data. - The New York Times",
       "date": "2026-11-10T16:14:17Z",
       "source": "The New York Times",
@@ -3495,6 +4305,26 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Fed's Logan calls for two more rate hikes, possibly rapidly \u00a0\u00a0 Reuters"
+    },
+    {
+      "title": "How to Build 700,000 Homes in NYC in Five Hard Steps - Bloomberg.com",
+      "date": "2026-11-10T15:36:43Z",
+      "source": "Bloomberg.com",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOTWp3NUdtYkNnQmJOejkyelB1SVdiXzkyU210VjM3QUt2Q3FOOEw1Q1VTdHM1WkdrS05yakhLZlp5YVNfeldrblc0N0VrdjlYZm5TRVN2clRPeExxZFl3bkU0d3FqMlNlY3BtRDQxTVR6MndXTDJIN1NSbXJmalBoMnUzNzlrZWtNWURYSWUtZWRrS3JtaFVTTVhLdW5Qb0dGcGlReXluSUptdDdoOEJJT1VMNzZwSlk?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "How to Build 700,000 Homes in NYC in Five Hard Steps \u00a0\u00a0 Bloomberg.com"
+    },
+    {
+      "title": "Over a third of Colorado households are cost-burdened, housing\u200b study finds - Westword",
+      "date": "2026-11-10T15:33:29Z",
+      "source": "Westword",
+      "source_domain": "westword.com",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNZTJYRkd1TlpBeVVrVUNYclFuYnR0QU8wQy05QTRjS1pVYW1aSWtVWTNpTkJGNmYzY3owdmt1UXNzendkendmQ21MVDloRWZabkczNjVaMk92R1hwU2RwZnZGaHVkWDhSYmltejdSeHZqY1BHY1p0czZUd210Si1qVHZyWFNVbzQ0VDh6d05NNEJuQjlIdVpQcGl4dWtraHZ3dXBQUTVZSjhRLVE2eklDMW85bw?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Over a third of Colorado households are cost-burdened, housing\u200b study finds \u00a0\u00a0 Westword"
     },
     {
       "title": "Los Angeles Strives to Stick the Landing Ahead of 2028 Games - The Pew Charitable Trusts",
@@ -4217,6 +5047,16 @@
       "summary": "The Parents Suing Schools Because Their Kids Got Bad Grades \u00a0\u00a0 WSJ"
     },
     {
+      "title": "AG settlement flags false advertising of single-family home rentals - Colorado Politics",
+      "date": "2026-11-09T23:34:40Z",
+      "source": "Colorado Politics",
+      "source_domain": "coloradopolitics.com",
+      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOU0RMaWdUYUFuWVNhX3J3bTdwNloydzdsbEFpQW1TVWJkb2JaZkowTXZQV3NYb2FXaW1Uc2RGVGlheHU4R3FMdFZIU3dtQ0hLR2J4dGRuRURuUEp1MU85cG9WMzJnMHdIV0ZlOVNLX1VIN2I1X2Mxcl9iVEtiOE41VlJyN2lPYTJacXFoSTBQR1laU19QNU9jUE5RZXpYcld1anlFb1o5Q185cjFEQWRhOQ?oc=5",
+      "topic": "rent",
+      "region": "Statewide",
+      "summary": "AG settlement flags false advertising of single-family home rentals \u00a0\u00a0 Colorado Politics"
+    },
+    {
       "title": "Trump Media swings to quarterly profit; Truth API boosts revenue - Reuters",
       "date": "2026-11-09T23:24:18Z",
       "source": "Reuters",
@@ -4365,6 +5205,16 @@
       "topic": "construction",
       "region": "Colorado",
       "summary": "Supreme Court Allows Construction of Trump\u2019s Border Wall in Big Bend \u00a0\u00a0 The New York Times"
+    },
+    {
+      "title": "Understanding and enhancing the well-being of boys and men of color - Brookings",
+      "date": "2026-11-09T20:01:07Z",
+      "source": "Brookings",
+      "source_domain": "brookings.edu",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPVGdXaExLcXZmRVpLejU5SnUzcVVoZXlsYWpYYkdlakJob3gzbUZ2T3EwX2xwYkpadFVMV01jSTRYanFuRmJwU2VRV1BmMXJUZVRldXhadDA1Z3ZsYVlZNnJXckRucUtsRXVzaDN5U0pveTFOVHQzU2pCZXBtOVR6ZE1MZkVULWsxYUxBSnNYdjN4N3AzcHF5Z2ZHMS03Wkpoc2h2OGxn?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Understanding and enhancing the well-being of boys and men of color \u00a0\u00a0 Brookings"
     },
     {
       "title": "Wall St executives should prepare for oversight under Senator Elizabeth Warren, aide says - Reuters",
@@ -5135,6 +5985,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Trump Says He Backs Energy Permitting Bill on Eve of Senate Vote \u00a0\u00a0 Bloomberg.com"
+    },
+    {
+      "title": "Nvidia investigates whether CEO Jensen Huang was targeted by Chinese spy with whom he had an affair - The Washington Post",
+      "date": "2026-11-09T00:29:34Z",
+      "source": "The Washington Post",
+      "source_domain": "washingtonpost.com",
+      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPSGdlRzViTFVKWHNHbkh5LU43QjlONlZqU3Z6VFlJeklPR0tFTFM5Q3lBcXIwRW95emZkU3BJdmRsdUR3dEdyRVMzYjN3UmhIcWxfOXJsSEFFaDVCbWVRMGVXQlhDd0RzcUtfSWw2dS1FTzdaUHczRG5heEs1QkFVMmR2cTZSVm5OeS1zZlljT25OVjFBQm1pS2hxd2JHeTRnUEJoMzFQQ2N4SHRPN3pzR2pnakx3Zm9NTk55bjlPXy1KY1FJZk1UaVFlVVBwVTVZZ2xxakhGS1dHekEx?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Nvidia investigates whether CEO Jensen Huang was targeted by Chinese spy with whom he had an affair \u00a0\u00a0 The Washington Post"
     },
     {
       "title": "RBA\u2019s Hunter Says AI Boom Will Put Near-Term Pressure on CPI - Bloomberg.com",
@@ -31526,43 +32386,6 @@
       "region": "Denver",
       "summary": "Perspective: The bad policy behind Colorado\u2019s costly housing \u00a0\u00a0 Denver Gazette",
       "source_domain": "denvergazette.com"
-    },
-    {
-      "title": "Amtrak receives $5.3 billion for new trains, new tracks and infrastructure improvement - Planetizen",
-      "date": "2026-08-16T07:00:00Z",
-      "source": "Planetizen",
-      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPVW9QbUtXUVE2SHlxM1lYOWNYcHd4dkxpOXpWZFB2SHpkeThtSUtBdHBjQloydnRLeWNvazhxWVVjLVJHZjBSNDltLU1kZ1NtdEFSM3V0NGNXR0hVbEd0cFZ5cUVpSk5xMGZTUEFLcWNlYzZCZUhBNmJRVTd2OVpQcjhKYlJlTXhldUI0dlVTamhuVFZRUmw2Z2YybkdOUGJPekVfbTZuNFFrX3gtem54VmpxT1RXZG9fa21kMUp2aWw1N0FT?oc=5",
-      "topic": "infrastructure",
-      "region": "Colorado",
-      "summary": "Amtrak receives $5.3 billion for new trains, new tracks and infrastructure improvement \u00a0\u00a0 Planetizen"
-    },
-    {
-      "title": "Illinois Housing Development Authority Releases Plan To Create And Preserve Affordable Housing - RiverBender.com",
-      "date": "2026-08-16T07:00:00Z",
-      "source": "RiverBender.com",
-      "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxOWmNHbkxIeUNNbWRWeUFacEhPV05hUXhhTnJfUk1QbmxHcnhUQ1lBRmg1SVQ0Z2YzVGUtdkdraTNNX0NIaWhDVGtuLXBnMEUwSDlJZm84V21sOFVVSks5Y242QlBRWmhuRWEwWjBvcXdwRGxWeFUxVFhscnQyYnFBZVpYUHpBZ2FmcnU1dWdqaVlBU01UN0RXTFcwUTRsdTFGRDZONWRIY0pSNUdCN0txUVEtTzlrb01pZXNqdnFuM0hjdWpFMjBwOExHZlpvV2kzMmZfU2dvU0xvMmVsNkE?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Illinois Housing Development Authority Releases Plan To Create And Preserve Affordable Housing \u00a0\u00a0 RiverBender.com"
-    },
-    {
-      "title": "Denver Housing Affordability Report - Common Sense Institute",
-      "date": "2026-08-15T22:59:42Z",
-      "source": "Common Sense Institute",
-      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNREZEYzJnTTN0eVBPcmZJTG5Mb0lrVFBiX1JFcEJvTkVGdVNUdm16Y01ldWdFaVhBcDhvdVdReXUwM0w4TjZKTmNTZG5rSDdocFRzOENYaGhuSXFmcTdWVlRGN2RSY01OeUVELU95akdGNE5rLUwzYWVlY0tvZE9NRTlGaE4zczBKZkFkVjhBWW4yRHJuOVI4RW5YNUJWR3JYeGVwR210NTVoTXJ3TWNSNWlKaU5JUQ?oc=5",
-      "topic": "general",
-      "region": "Denver",
-      "summary": "Denver Housing Affordability Report \u00a0\u00a0 Common Sense Institute",
-      "source_domain": "commonsenseinstituteus.org"
-    },
-    {
-      "title": "Illinois housing authority releases new plan for affordable housing tax credits - whig.com",
-      "date": "2026-08-15T16:46:06Z",
-      "source": "whig.com",
-      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNSklkM0ZpT3VzMVZxc25hOXZ4NGVRUE56dWZaTy1KR0Vzb0R4bjM0a0oxb0xOV0lmNnJyb3pHVm9EWHBfeldKNG9XTzNiTWRpbFNnSlJkRVpVXzFxZWtQTGhfc3NtYVh2c0xDVWJMQUU4RzhtTXpUbHU5NzV6SlNGc29rdHl4VnZfVmJVVFRqOVp3eFVOZWkyVk91b0dITXdtalJuX0N3aUE0U1dH?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Illinois housing authority releases new plan for affordable housing tax credits \u00a0\u00a0 whig.com"
     }
   ]
 }
