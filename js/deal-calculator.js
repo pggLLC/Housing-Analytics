@@ -2200,6 +2200,22 @@
               Select a county to load ZORI market context.
             </div>
           </div>
+          <details id="dc-rent-cap-wrap" style="margin-top:.65rem;padding:.55rem .65rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);font-size:var(--small);">
+            <summary style="cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center;">Market cap on restricted rents (optional)</summary>
+            <p style="font-size:var(--tiny);color:var(--muted);line-height:1.45;margin:.2rem 0 .5rem;">
+              When a market study finds a tier's limit is above what the market pays, the deal underwrites at the lower rent.
+              Enter the most the market pays a month for each size, after utilities. Blank means no cap.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.5rem;">
+              <label style="display:flex;flex-direction:column;align-items:flex-start;gap:.25rem;">Studio ($ a month)<input id="dc-rent-cap-studio" type="number" min="0" step="1" placeholder="none" style="display:block;width:100%;min-height:44px;"></label>
+              <label style="display:flex;flex-direction:column;align-items:flex-start;gap:.25rem;">1BR ($ a month)<input id="dc-rent-cap-1br" type="number" min="0" step="1" placeholder="none" style="display:block;width:100%;min-height:44px;"></label>
+              <label style="display:flex;flex-direction:column;align-items:flex-start;gap:.25rem;">2BR ($ a month)<input id="dc-rent-cap-2br" type="number" min="0" step="1" placeholder="none" style="display:block;width:100%;min-height:44px;"></label>
+              <label style="display:flex;flex-direction:column;align-items:flex-start;gap:.25rem;">3BR ($ a month)<input id="dc-rent-cap-3br" type="number" min="0" step="1" placeholder="none" style="display:block;width:100%;min-height:44px;"></label>
+              <label style="display:flex;flex-direction:column;align-items:flex-start;gap:.25rem;">4BR ($ a month)<input id="dc-rent-cap-4br" type="number" min="0" step="1" placeholder="none" style="display:block;width:100%;min-height:44px;"></label>
+            </div>
+            <label style="display:block;margin-top:.5rem;">Source of the cap (market study, date)
+              <input id="dc-rent-cap-source" type="text" placeholder="not entered" style="display:block;width:100%;min-height:44px;"></label>
+            <p id="dc-rent-cap-note" role="status" style="font-size:var(--tiny);color:var(--muted);margin:.4rem 0 0;"></p>
+          </details>
         </div>
 
         <!-- #2160: eligible basis comes from the itemized costs. The 30% boost
@@ -2246,6 +2262,14 @@
             <option value="elevator">Elevator</option>
             <option value="walk_up">Walk-up</option>
           </select>
+        </label>
+        <label data-dc-mode="rental" style="display:flex;align-items:flex-start;gap:.55rem;margin-bottom:var(--sp2);font-size:var(--small);cursor:pointer;">
+          <input id="dc-plan-cost-limit" type="checkbox" checked
+            style="width:1rem;height:1rem;margin-top:.18rem;flex:0 0 auto;cursor:pointer;" aria-describedby="dc-plan-cost-limit-help">
+          <span style="flex:1 1 auto;min-width:0;"><strong>Plan to CHFA's cost basis limit</strong>
+            <span id="dc-plan-cost-limit-help" style="display:block;font-size:var(--tiny);color:var(--muted);line-height:1.45;margin-top:.15rem;">
+              CHFA reserves the least of three methods (2027-28 QAP, 3.M.1). When the cost basis limit (Method Three) is lowest, it sets the credit.
+              Untick to see the credit before the limit.</span></span>
         </label>
         <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Floor area of the units counted as LIHTC units (SF)
@@ -3621,6 +3645,7 @@
     // Attach event listeners
     document.getElementById('dc-edit-unit-mix').addEventListener('click', editMixHere);
     const ids = ['dc-unit-mix-source', 'dc-unrepresented-schedule-rows', 'dc-tdc', 'dc-gross-sf', 'dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-boost-pct', 'dc-building-type', 'dc-units', 'dc-sale-target-ami',
+      'dc-rent-cap-studio', 'dc-rent-cap-1br', 'dc-rent-cap-2br', 'dc-rent-cap-3br', 'dc-rent-cap-4br', 'dc-rent-cap-source',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-pf-cap-rate', 'dc-pf-cap-lvr', 'dc-pf-appraised', 'dc-pf-appraised-lvr',
       'dc-asset-mgmt-fee', 'dc-asset-mgmt-growth', 'dc-bridge-ds', 'dc-bridge-years',
@@ -3661,7 +3686,7 @@
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
     });
-    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path', 'dc-add-kind', 'dc-add-mode', 'dc-add-displaces', 'dc-bond-post2025', 'dc-qap-year', 'dc-pilot-gap'].forEach(function (id) {
+    ['dc-ioi', 'dc-special-pop', 'dc-acq-42d2', 'dc-state-awarded', 'dc-state-path', 'dc-add-kind', 'dc-add-mode', 'dc-add-displaces', 'dc-bond-post2025', 'dc-qap-year', 'dc-pilot-gap', 'dc-plan-cost-limit'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('change', recalculate);
     });
@@ -4811,9 +4836,15 @@
       row('Method Two: gap calculation', basis.gapMethod.applied ? fmt(basis.gapMethod.credit) : 'Not calculated',
         basis.gapMethod.applied ? (basis.gapMethod.binding ? basis.gapMethod.reason : 'Uses not covered by sources other than federal and state credit equity: ' + fmt(Math.max(0, basis.gapMethod.gap)) + ', divided by the credit price and 10 years (' + basis.gapMethod.citation + ').') : basis.gapMethod.reason);
       var m3 = basis.costLimitMethod || {};
-      row('Method Three: cost basis limits' + (m3.draft ? ' (draft)' : ' (check, not applied)'), m3.checked ? fmt(m3.credit) : 'Not checked',
-        m3.checked ? (m3.lower ? 'Lower than the capacity below: CHFA would reserve no more than ' + fmt(m3.credit) + ' under these limits. ' : '') + m3.reason : m3.reason);
+      var plan = basis.costLimitPlan || {};
+      row('Method Three: cost basis limits' + (m3.draft ? ' (draft)' : plan.applied ? ' (sets the credit)' : plan.on ? '' : ' (check, not applied)'), m3.checked ? fmt(m3.credit) : 'Not checked',
+        m3.checked ? (plan.applied ? 'Lowest of the three methods, so the credit is ' + fmt(m3.credit) + ' a year, down from ' + fmt(plan.before) + '. '
+          : m3.lower ? 'Lower than the capacity below: CHFA would reserve no more than ' + fmt(m3.credit) + ' under these limits. ' : '') + m3.reason : m3.reason);
+      var gmBefore = basis.gapMethod && basis.gapMethod.binding ? basis.gapMethod.capacityBefore : null;
+      if (gmBefore != null) row('Credit trimmed to the need', fmt(gmBefore - basis.capacity) + ' a year',
+        'Sources would exceed the cost by about ' + fmt((gmBefore - basis.capacity) * 10 * (result.equityPrice || 0)) + ' at the full credit. CHFA would likely trim the credit to the gap (Method Two), so the deal shows no gap rather than a surplus.');
       row('Credit capacity', money(basis.capacity, 'Not available'), basis.capacity == null && basis.reasons.capacity ? basis.reasons.capacity
+        : plan.on ? 'The smaller of Method One and Method Two; with "Plan to CHFA\'s cost basis limit" ticked, Method Three also applies when it is lower.'
         : 'The smaller of Method One and Method Two. Method Three uses limits from CHFA\'s 2027 workbook; it is shown above as a check and not applied here.');
     }
 
@@ -5512,6 +5543,13 @@
       } else {
         note.style.display = 'none';
       }
+    }
+
+    var capNote = document.getElementById('dc-rent-cap-note');
+    if (capNote) {
+      var rcb = result.rentCapBindings || [];
+      capNote.textContent = rcb.length ? 'The cap lowers ' + rcb.length + ' rent' + (rcb.length === 1 ? '' : 's') + ': ' + rcb.map(function (b) {
+        return b.tier + '% ' + b.br.toUpperCase() + ' ' + fmt(b.limit) + ' to ' + fmt(b.cap); }).join(', ') + '.' : '';
     }
 
     // G — Update Sources & Uses to render the full multi-tranche stack.

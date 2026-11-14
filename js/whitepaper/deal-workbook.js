@@ -180,10 +180,12 @@
           b.cap && b.cap.applied ? APPLICANT_LIMIT_NOTE : null].filter(Boolean),
         // CHFA's third reservation test is published only in its Excel application, so the engine never runs it.
         costLimit: b.costLimitMethod && !b.costLimitMethod.checked ? (b.costLimitMethod.reason || 'CHFA\'s cost basis limits were not checked.') : null,
-        // Checked against the limits in CHFA's 2027 application workbook: shown as a check, never applied.
+        // Checked against the limits in CHFA's 2027 application workbook. applied: the calculator's
+        // "Plan to CHFA's cost basis limit" set the credit to it (before = the credit without it).
         // draft is true only when the limits file is not marked adopted.
         costLimitDraft: b.costLimitMethod && b.costLimitMethod.checked
-          ? { credit: num(b.costLimitMethod.credit), lower: !!b.costLimitMethod.lower, reason: b.costLimitMethod.reason || null, draft: b.costLimitMethod.draft !== false } : null,
+          ? { credit: num(b.costLimitMethod.credit), lower: !!b.costLimitMethod.lower, reason: b.costLimitMethod.reason || null, draft: b.costLimitMethod.draft !== false,
+              applied: !!(b.costLimitPlan && b.costLimitPlan.applied), before: b.costLimitPlan && b.costLimitPlan.applied ? num(b.costLimitPlan.before) : null } : null,
         // Where the basis calculation stopped; an entered award can still carry the credit past it.
         stopReason: ['eligibleBasis', 'afterGrant', 'applicableFraction', 'acquisitionRate'].map(function (k) { return (b.reasons || {})[k]; }).filter(Boolean)[0] || null
       };
@@ -434,7 +436,9 @@
     (m.basis.flags || []).forEach(function (f) { out.push({ level: 'warn', text: 'Credit: ' + f }); });
     if (m.basis.costLimit && m.basis.calculated != null) out.push({ level: 'warn', text: 'CHFA\'s cost basis limit (Method Three) was not checked: ' + m.basis.costLimit.replace(/\.$/, '') + '. Check the credit against it in CHFA\'s application.' });
     var m3d = m.basis.costLimitDraft;
-    if (m3d && m.basis.calculated != null) out.push({ level: 'warn', text: 'CHFA\'s cost basis limit (Method Three), at ' + (m3d.draft ? 'the draft 2027 limits' : 'the 2027 limits') + ', allows ' + money(m3d.credit) + ' a year'
+    if (m3d && m3d.applied) out.push({ level: 'warn', text: 'CHFA\'s cost basis limit (Method Three), at ' + (m3d.draft ? 'the draft 2027 limits' : 'the 2027 limits') + ', is the lowest of the three methods, so it sets the credit: '
+      + money(m3d.credit) + ' a year, down from ' + money(m3d.before) + '. Confirm it in CHFA\'s application.' });
+    else if (m3d && m.basis.calculated != null) out.push({ level: 'warn', text: 'CHFA\'s cost basis limit (Method Three), at ' + (m3d.draft ? 'the draft 2027 limits' : 'the 2027 limits') + ', allows ' + money(m3d.credit) + ' a year'
       + (m3d.lower ? ', less than the credit capacity' : '') + '. It is not applied here: it is a check. Check the credit against it in CHFA\'s application.' });
     // No designation, or one that does not apply to this credit type, is a settled answer; a designation left
     // without its evidence, award or rule is an open input that took the boost out of the credit.
@@ -752,7 +756,7 @@
       br.push(['Credit equity (10 years of credit × price)', money(b.equity)]);
       h += table(['Line', 'Amount'], br.map(function (x) { return { cells: [esc(x[0]), esc(x[1])] }; }), { num: [1], fixed: true });
       if (b.costLimit) h += '<p class="sr-muted">Not checked: ' + esc(b.costLimit) + '</p>';
-      if (b.costLimitDraft) h += '<p class="sr-muted">Method Three at CHFA\'s ' + (b.costLimitDraft.draft ? 'draft ' : '') + '2027 limits, not applied: ' + esc(money(b.costLimitDraft.credit))
+      if (b.costLimitDraft) h += '<p class="sr-muted">Method Three at CHFA\'s ' + (b.costLimitDraft.draft ? 'draft ' : '') + '2027 limits, ' + (b.costLimitDraft.applied ? 'sets the credit' : 'not applied') + ': ' + esc(money(b.costLimitDraft.credit))
         + (b.costLimitDraft.lower ? ', less than the credit capacity' : '') + '. ' + esc(b.costLimitDraft.reason || '') + '</p>';
       (b.unchecked || []).forEach(function (n) { h += '<p class="sr-muted">' + esc(n) + '</p>'; });
     }

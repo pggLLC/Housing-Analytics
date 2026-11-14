@@ -122,10 +122,23 @@ const extra = { 'dc-constr-loan': '12000000', 'dc-constr-rate': '7', 'dc-constr-
 function full() { const i = inputsFor('A'); Object.assign(i.fields, extra); return i; }
 
 test('engine: the new inputs leave every existing figure unchanged', () => {
-  const base = computeDeal(inputsFor('A')), withNew = computeDeal(full());
+  // The management fee share is left out: it now (on purpose) makes the fee follow income in the
+  // 15-year cash flow, which moves the projection and the deferred fee repaid from it.
+  const noMgmt = full(); delete noMgmt.fields['dc-pf-mgmt-pct'];
+  const base = computeDeal(inputsFor('A')), withNew = computeDeal(noMgmt);
   for (const k of ['annualRents', 'noi', 'mortgage', 'annualCredits', 'equity', 'deferredDevFee', 'gap']) assert.equal(withNew[k], base[k], k);
   assert.deepEqual(withNew.projection, base.projection);
   assert.deepEqual(withNew.exit, base.exit);
+});
+
+test('engine: a management fee share keeps year one and makes the fee follow income after it', () => {
+  const noMgmt = full(); delete noMgmt.fields['dc-pf-mgmt-pct'];
+  const a = computeDeal(noMgmt), b = computeDeal(full());
+  for (const k of ['annualRents', 'noi', 'mortgage', 'annualCredits', 'equity', 'gap']) assert.equal(b[k], a[k], k);
+  const ra = a.projection.rows, rb = b.projection.rows, last = ra.length - 1;
+  near(rb[0].noi, ra[0].noi, 1);
+  // Income grows slower than expenses here, so a fee that follows income leaves more NOI in the last year.
+  assert(rb[last].noi > ra[last].noi, 'last-year NOI is higher when the fee follows income');
 });
 
 test('engine: draw schedule ties and conversion cases resize the loan', () => {
