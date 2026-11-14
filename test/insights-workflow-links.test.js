@@ -20,7 +20,7 @@ const ROUTES = [
   ['deal-equity', 'deal-calculator.html', 'article-pricing.html', '#dc-equity-price'],
   ['cra-deal', 'cra-expansion-analysis.html', 'deal-calculator.html#dc-equity-price', 'main'],
   ['history-deal', 'colorado-deep-dive.html', 'deal-calculator.html', 'main'],
-  ['intelligence-market', 'colorado-deep-dive.html', 'market-analysis.html', '#sitesel-heading'],
+  ['intelligence-market', 'colorado-deep-dive.html', 'deal-market-analysis.html', '#sitesel-heading'],
   ['deep-dive-opportunities', 'colorado-deep-dive.html', 'lihtc-opportunity-finder.html', '.page-hero'],
   ['deep-dive-jurisdiction', 'colorado-deep-dive.html', 'select-jurisdiction.html', '.page-hero'],
 ];

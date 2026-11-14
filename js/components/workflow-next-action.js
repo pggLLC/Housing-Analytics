@@ -49,7 +49,7 @@
     { key: 'jurisdiction',   label: 'Select Jurisdiction',      href: 'select-jurisdiction.html' },
     { key: 'opportunity',    label: 'Opportunity Finder',       href: 'lihtc-opportunity-finder.html' },
     { key: 'hsa',            label: 'Housing Needs Assessment', href: 'hna-what-housing-exists.html' },
-    { key: 'market',         label: 'Market Analysis',          href: 'market-analysis.html' },
+    { key: 'market',         label: 'Market Analysis',          href: 'deal-market-analysis.html' },
     { key: 'scenario',       label: 'Scenario Builder',         href: 'hna-scenario-builder.html' },
     { key: 'deal',           label: 'Deal Calculator',          href: 'deal-calculator.html' },
     { key: 'recommendation', label: 'Recommendation',           href: 'recommendation.html' }
@@ -116,8 +116,9 @@
     'hna-what-households-can-afford.html': 'hsa',
     'hna-where-its-heading.html':         'hsa',
     'hna-what-to-do.html':                'hsa',
-    // Market Analysis in the new format (written from market-analysis.html by scripts/build-market-analysis-hub.mjs).
-    'deal-market-analysis.html':          'market'
+    // The rail sends step 4 to Market Analysis in the new format (written from market-analysis.html by
+    // scripts/build-market-analysis-hub.mjs). The old page stays up at its address and is the same step.
+    'market-analysis.html':               'market'
   };
   var STEP_ACTIONS = {
     opportunity:  'Find a jurisdiction with strong LIHTC opportunity to focus your analysis.',
@@ -476,7 +477,7 @@
     // Only a fixed page and checked values reach the href: the jurisdiction
     // can come from the URL, which a stranger can set.
     var base = (a.getAttribute('href') || '').split('?')[0].split('#')[0];
-    if (!/^market-analysis\.html$/.test(base)) return;
+    if (!/^(deal-)?market-analysis\.html$/.test(base)) return;
     var fips = String(j.fips);
     var geoType = /^(place|cdp|county)$/.test(j.geoType) ? j.geoType : (fips.length === 7 ? 'place' : 'county');
     a.setAttribute('href', base + '?fips=' + fips + '&geoType=' + geoType + '&auto=1');

@@ -3919,7 +3919,7 @@
       var qs = '?fips=' + encodeURIComponent(op.placeGeoid || op.containingCounty) +
                '&geoType=' + encodeURIComponent(op.placeGeoid ? 'place' : 'county') + '&auto=1';
       var hnaHref = 'housing-needs-assessment.html' + qs;
-      var pmaHref = 'market-analysis.html' + qs;
+      var pmaHref = 'deal-market-analysis.html' + qs;
       var dcHref  = 'deal-calculator.html' + qs;
       actionEl.innerHTML =
         '<h4>Why this opportunity</h4>' +

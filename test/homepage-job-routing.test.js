@@ -65,7 +65,7 @@ for (const href of [
   'places/index.html',
   'housing-needs-assessment.html',
   'lihtc-opportunity-finder.html',
-  'market-analysis.html',
+  'deal-market-analysis.html',
   'data-review-hub.html',
   'deal-calculator.html',
   'land-value.html'

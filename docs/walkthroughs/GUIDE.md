@@ -38,7 +38,7 @@ link below.
 | 1 | <https://cohoanalytics.com/select-jurisdiction.html> |
 | 2 | <https://cohoanalytics.com/lihtc-opportunity-finder.html> |
 | 3 | <https://cohoanalytics.com/hna-what-housing-exists.html> |
-| 4 | <https://cohoanalytics.com/market-analysis.html> |
+| 4 | <https://cohoanalytics.com/deal-market-analysis.html> |
 | 5 | <https://cohoanalytics.com/hna-scenario-builder.html> |
 | 6 | <https://cohoanalytics.com/deal-calculator.html> |
 | 7 | <https://cohoanalytics.com/recommendation.html> |

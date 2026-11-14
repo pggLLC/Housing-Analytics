@@ -49,7 +49,7 @@
         { label: "What households can afford", href: "hna-what-households-can-afford.html", isSub: true, desc: "What can households here actually afford, and where is the gap?" },
         { label: "Where it's heading", href: "hna-where-its-heading.html", isSub: true, desc: "What does demand look like in 5, 10 and 20 years?" },
         { label: "What to do about it", href: "hna-what-to-do.html", isSub: true, desc: "How much of what, for whom, and what is already available?" },
-        { label: "Market Analysis",         href: "market-analysis.html",           desc: "Step 4: Score a site and its market area" },
+        { label: "Market Analysis",         href: "deal-market-analysis.html",           desc: "Step 4: Score a site and its market area" },
         { label: "Scenario Builder",        href: "hna-scenario-builder.html",      desc: "Step 5: 20-year demographic projections" },
         { label: "Funding Sources",         href: "colorado-deep-dive.html#tab-funding", desc: "Colorado programs that fit your project" },
         { label: "Deal Calculator",         href: "deal-calculator.html",           desc: "Step 6: LIHTC pro forma & capital stack" },
@@ -553,7 +553,7 @@
           <a href="${normalizeHref('select-jurisdiction.html')}">Select Jurisdiction</a>
           <a href="${normalizeHref('lihtc-opportunity-finder.html')}">Opportunity Finder</a>
           <a href="${normalizeHref('housing-needs-assessment.html')}">Housing Needs Assessment</a>
-          <a href="${normalizeHref('market-analysis.html')}">Market Analysis</a>
+          <a href="${normalizeHref('deal-market-analysis.html')}">Market Analysis</a>
           <a href="${normalizeHref('deal-calculator.html')}">Deal Calculator</a>
           <a href="${normalizeHref('lihtc-guide-for-stakeholders.html')}">LIHTC Guide</a>
         </div>

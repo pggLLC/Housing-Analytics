@@ -38,7 +38,7 @@
       { label: 'My partners', href: 'https://coho-backend.communityplanner.workers.dev/developer-my-partners.html', status: 'members', note: 'The firms you work with, shown in the Local players section of every dossier. Only you see them.' },
       // Decided member tools that are still public pages today (paul, 26 Oct and 30 Oct). They move behind the
       // gate when their hub lands; until then the link opens the public page.
-      { label: 'Market Analysis (full, site market area)', href: 'https://cohoanalytics.com/market-analysis.html', status: 'members', note: 'Decided as a member tool. Still a public page until it moves behind the member gate. The free Market check is on this site.' },
+      { label: 'Market Analysis (full, site market area)', href: 'https://cohoanalytics.com/deal-market-analysis.html', status: 'members', note: 'Decided as a member tool. Still a public page until it moves behind the member gate. The free Market check is on this site.' },
       { label: 'For-sale market study (full)', href: 'https://cohoanalytics.com/for-sale-market-study.html', status: 'members', note: 'Decided as a member tool (30 Oct). Still a public page until it moves behind the member gate. The free For-sale and ownership screen is on this site.' }
     ]
   };

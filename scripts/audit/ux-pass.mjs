@@ -53,6 +53,7 @@ export const UX_PAGES = [
   'lihtc-opportunity-finder.html',
   'hna-what-housing-exists.html',
   'market-analysis.html',
+  'deal-market-analysis.html',
   'hna-scenario-builder.html',
   'deal-calculator.html',
   'recommendation.html',

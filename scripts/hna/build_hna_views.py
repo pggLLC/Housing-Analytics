@@ -273,7 +273,7 @@ def handoff(out, view, all_views):
         # data-carry-place: workflow-next-action.js adds the selected place
         # (?fips=&geoType=&auto=1) when the reader follows it, so Market
         # Analysis opens on the place this assessment was about.
-        cta = ('<a class="btn btn-primary" href="market-analysis.html" data-carry-place>'
+        cta = ('<a class="btn btn-primary" href="deal-market-analysis.html" data-carry-place>'
                'Continue to Market Analysis \u2192</a>')
         heading = 'Next &mdash; Market Analysis'
 

@@ -1336,7 +1336,7 @@
     function pmaLink() {
       return '<h2>Primary market area and CHFA requirements</h2><p>Drawing the market area, CHFA’s market study requirements and the PMA checklist sit with the market check, where a site is tested.</p>' +
         '<div class="actions"><a class="button-link" href="#/market?g=' + esc(geoid) + '">Market check for ' + esc(placeShort) + '</a>' +
-        '<a class="button-link secondary" href="' + esc(Pl.LIVE) + 'market-analysis.html#maChfaRequirements">CHFA checklist in Market Analysis ↗</a></div>';
+        '<a class="button-link secondary" href="' + esc(Pl.LIVE) + 'deal-market-analysis.html#maChfaRequirements">CHFA checklist in Market Analysis ↗</a></div>';
     }
 
     // The live chapter's projection table, AMI mix and rent test (js/housing-need-projector.js, js/mix-check.js and
@@ -2558,7 +2558,7 @@
   // the lab records no progress, because visiting a page is not evidence that a step is done.
   var PATH = [
     ['Jurisdiction', 'Pick a town or county', '#/places'], ['Opportunity Finder', 'Places that fit 4% or 9% deals', '#/finder'],
-    ['Needs Assessment', 'Need by income level', 'here'], ['Market Analysis', 'Demand and rents for a site', null, 'market-analysis.html'],
+    ['Needs Assessment', 'Need by income level', 'here'], ['Market Analysis', 'Demand and rents for a site', null, 'deal-market-analysis.html'],
     ['Scenarios', 'Change the forecast', null, 'hna-scenario-builder.html'], ['Deal Calculator', 'Sources, uses and the gap', '#/deal-calculator'],
     ['Recommendation', 'What the data says, and how sure', '#/recommendation']];
   // The working place (paul 11-11: the bar has the menu he wants, but the pick must carry from page to page, and
