@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-15T13:19:34.797596Z",
+  "generated": "2026-11-15T13:30:48.189615Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9039,7 +9039,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1149843
+      "bytes": 1815872
     },
     "data/market/hud_s8_contracts_co.json": {
       "featureCount": 0,
@@ -9089,12 +9089,12 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 774173
+      "bytes": 774177
     },
     "data/market/market-types.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 438029
+      "bytes": 438033
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -9819,7 +9819,7 @@
     "data/policy/incentive-peer-profiles.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41052
+      "bytes": 41056
     },
     "data/policy/jchs-state-of-nations-housing.json": {
       "featureCount": 0,
