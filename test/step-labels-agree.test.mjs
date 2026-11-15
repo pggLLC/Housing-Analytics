@@ -11,6 +11,7 @@
 //    Scenario Builder actually offers as controls.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import vm from 'node:vm';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
@@ -37,6 +38,10 @@ const WRITTEN_FROM = { 'deal-market-analysis.html': 'market-analysis.html' };
 const railStepFor = (f) => steps.find((s) => s.href === f || s.href === WRITTEN_FROM[f] || WRITTEN_FROM[s.href] === f) ||
   (isHnaFamily(f) ? steps.find((s) => isHnaFamily(s.href)) : undefined);
 const pages = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
+// A page that draws the new pages' seven-step bar (hub/step-bar.js) instead of the old one: the bar is drawn by
+// script, and the step it marks is the one whose page is this file (deal-market-analysis.html, paul 15 Nov 2026).
+const newBar = (() => { const win = {}; vm.runInNewContext(read('hub/step-bar.js'), { window: win }); return win.LabStep.PATH; })();
+const newBarStep = (f) => newBar.findIndex((s) => s[3] === f) + 1;
 let footers = 0;
 for (const f of pages) {
   const html = read(f);
@@ -55,6 +60,12 @@ for (const f of pages) {
     // checked separately: each must be unique, and they must be the same item.
     const lit = doc.querySelectorAll('.wf-step--active');
     const current = doc.querySelectorAll('.wf-step[aria-current="step"]');
+    if (!lit.length && !current.length && doc.getElementById('maStepBar') && /src="hub\/step-bar\.js"/.test(html)) {
+      const n = newBarStep(f), canonical = railStepFor(f);
+      assert.equal(Number(said[1]), n, `${f}: footer says step ${said[1]}, the new pages' bar marks step ${n}`);
+      assert(canonical && canonical.num === n, `${f}: the new pages' bar marks step ${n} but the canonical rail (workflow-progress.js) makes it step ${canonical && canonical.num}`);
+      continue;
+    }
     assert.equal(lit.length, 1, `${f}: expected one highlighted rail step, found ${lit.length}`);
     assert.equal(current.length, 1, `${f}: expected one aria-current rail step, found ${current.length}`);
     assert(lit[0] === current[0], `${f}: the highlighted rail step and the aria-current one are different items`);

@@ -269,7 +269,7 @@
         {
           "file": "scripts/hna/build_chas_affordable_available.py",
           "function": "compute",
-          "sha": "3b91ae689d1a9626"
+          "sha": "5a6493d56555216f"
         },
         {
           "file": "scripts/hna/build_acs_reliability.py",
@@ -282,7 +282,7 @@
           "sha": "e16719c5d9a3048a"
         }
       ],
-      "reviewed": "2026-11-05"
+      "reviewed": "2026-11-15"
     },
     {
       "section": "m-footprint",

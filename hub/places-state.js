@@ -102,15 +102,19 @@
   function scenario(params) {
     var s = UI.load({ ranking: 'data/hna/ranking-index.json', fe: 'data/hna/forecast-error.json' });
     var title = 'Scenario builder';
-    if (!s.data) return waiting(title, s);
+    // Step 5 of the seven steps: the bar shows from the first draw, so nothing moves when the forecast loads. With
+    // no place in the address the builder opens on the working place, as every other step does.
+    var St = global.LabStep, asked = params.get('g'), work = St && St.working ? St.working() : null;
+    var bar = St ? St.path(true, '#/places/scenario', asked && /^08\d{3}(\d{2})?$/.test(asked) ? asked : undefined) : '';
+    if (!s.data) return waiting(title, s) + bar;
     var SB = global.ScenarioBuilder, CCM = global.CohortComponentModel;
     var head = T.head({
       kind: 'tool', crumbs: T.trail('places', title), title: title,
       answer: 'Change the State Demography Office forecast for any Colorado county, town or CDP and see how many homes it would need.',
       meta: 'The State Demography Office’s cohort model. At 100% on every setting the figures match the needs assessment.'
-    });
+    }) + bar;
     if (!SB || !CCM) return head + '<p class="callout">The forecast model did not load.</p>';
-    var g = params.get('g') || '08077';
+    var g = asked || (work && work.geoid) || '08077';
     var r = rankList(s.data.ranking).filter(function (x) { return x.geoid === g; })[0];
     if (!r) return head + placeSelect('sc-g', s.data.ranking, '') + '<p class="callout">No place with that code. Pick one above.</p>';
     var m = r.metrics || {};

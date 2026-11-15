@@ -154,7 +154,9 @@ assert.deepEqual(doorsShown, Object.entries(DOORS), 'the doors Home offers must 
 const before = home.text(blank.slice(0, blank.indexOf('id="home-place"')));
 assert(blank.indexOf('id="home-place"') > 0 && before.length < 420,
   `the town search must come before everything but the headline and a short opening (${before.length} characters come first)`);
-assert(blank.indexOf('id="home-place"') < blank.indexOf('<figure'), 'the town search must come before the first map');
+// Since 15 Nov 2026 Home draws no map (paul: the county maps live on Places and need); if one comes back, the
+// search still comes first.
+assert(blank.indexOf('<figure') === -1 || blank.indexOf('id="home-place"') < blank.indexOf('<figure'), 'the town search must come before the first map');
 assert(!/class="home-answer"/.test(blank), 'no answer card before a town is picked');
 
 // The card as drawn for a town and for a county: every fact the engine gives is on it with its source, and

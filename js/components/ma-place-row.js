@@ -67,7 +67,7 @@
     var list = projects().slice(0, 3);
     var cur = activeId();
     var html = '<p class="ma-place-row__place">' +
-      (place ? 'Working on: <strong>' + esc(place) + '</strong>' : 'No place chosen yet.') + '</p>' +
+      (place ? 'Working on: <strong>' + esc(place) + '</strong>' : 'No saved project is open.') + '</p>' +
       '<details class="ma-place-row__projects"><summary>Saved projects</summary><div class="ma-place-row__menu">';
     if (list.length) {
       html += '<p class="ma-place-row__label" id="maPlaceRowLabel">Recent projects</p><ul aria-labelledby="maPlaceRowLabel">';

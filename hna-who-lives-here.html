@@ -2095,8 +2095,12 @@
     // 1. Prefer explicit URL params (?fips=0823020&geoType=place&auto=1)
     try {
       var sp = new URLSearchParams(window.location.search);
+      // The controller owns regional/combined selection; a saved county must not replace it.
+      if (sp.has('region') || sp.has('geos')) return null;
       var f  = sp.get('fips') || sp.get('geoid');
       var t  = sp.get('geoType');
+      // Statewide stays on this page after the hub cutover; do not replace it with a saved town.
+      if (f === '08')                 return { fips: f, geoType: 'state' };
       if (f && /^\d{5}$/.test(f))      return { fips: f, geoType: t || 'county' };
       if (f && /^\d{7}$/.test(f))      return { fips: f, geoType: t || 'place'  };
     } catch (_) {}

@@ -108,8 +108,8 @@ async function renderHome(query) {
 }
 // Home as a returning visitor sees it: this browser last worked on `place` ({ geoid, label }).
 async function renderHomeReturning(place, query) {
-  const key = (/var WORK_KEY = '([^']+)'/.exec(fs.readFileSync(at('hub/hna.js'), 'utf8')) || [])[1];
-  if (!key) throw new Error('hub/hna.js no longer names the key it keeps the working place under');
+  const key = (/var WORK_KEY = '([^']+)'/.exec(fs.readFileSync(at('hub/step-bar.js'), 'utf8')) || [])[1];
+  if (!key) throw new Error('hub/step-bar.js no longer names the key it keeps the working place under');
   return renderHomeStoring({ [key]: JSON.stringify(place) }, query);
 }
 // Home in a browser that holds `store` (key: the stored text) and nothing else.

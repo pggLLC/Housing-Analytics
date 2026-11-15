@@ -119,9 +119,25 @@
   // Conditions" tabs (with its policy simulator) are the view's snapshot tab, and "Market patterns" is its patterns tab.
   var DD_OLD = { 'state-comparison': 'snapshot', 'policy-simulator': 'snapshot', 'types': 'patterns' };
   var CO_GEO = /^08\d{3}(\d{2})?$/;
-  // The place this browser last picked on the old pages (js/workflow-state-core.js: the active project's id under
-  // coho_wf_active, the project under coho_wf_project_<id>, its place under .jurisdiction). Read only, never written.
+  // The place this browser is working on. The hubs and the member site keep it under coho-lab-working and
+  // coho-member-place as {geoid, at}, and the newer of the two wins (hub/step-bar.js working()). Only a browser that
+  // has neither falls back to the place last picked on the old pages (js/workflow-state-core.js: the active
+  // project's id under coho_wf_active, the project under coho_wf_project_<id>, its place under .jurisdiction).
+  // The hub place comes first: a project left on the old pages sent a member who had since picked another place
+  // back to the old one, and the place page then saved it over theirs (member live check, 15 Nov 2026: El Paso
+  // over Carbondale). Read only, never written.
+  function keptPlace(key) {
+    try {
+      var x = JSON.parse(window.localStorage.getItem(key) || 'null');
+      var g = x && typeof x === 'object' ? String(x.geoid || '') : '';
+      var at = x ? Number(x.at) : 0;
+      return CO_GEO.test(g) ? { geoid: g, at: isFinite(at) && at > 0 ? at : 0 } : null;
+    } catch (e) { return null; }
+  }
   function savedPlace() {
+    var member = keptPlace('coho-member-place'), hub = keptPlace('coho-lab-working');
+    var w = member && hub ? (hub.at > member.at ? hub : member) : (member || hub);
+    if (w) return w.geoid;
     try {
       var id = JSON.parse(window.localStorage.getItem('coho_wf_active') || 'null');
       var j = id && (JSON.parse(window.localStorage.getItem('coho_wf_project_' + id) || 'null') || {}).jurisdiction;

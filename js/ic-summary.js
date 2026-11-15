@@ -619,11 +619,14 @@
                  '<td>' + credit + (fact ? '<br><span class="ic-muted" style="font-size:.8125rem">' + fact + '</span>' : '') + '</td>' +
                '</tr>';
       }).join('');
+      // In the same scrolling frame as the page's other tables, so on a phone the table scrolls inside it and the
+      // page does not (Codex on #2878: 623px wide at 390).
       mount.innerHTML =
+        '<div class="table-wrap" role="region" tabindex="0" aria-label="Nearest affordable properties table">' +
         '<table class="ic-peers" style="width:100%">' +
           '<thead><tr><th>Dist</th><th>Program</th><th>Property</th><th class="num">Units</th><th class="num">Year</th><th>Credit / Detail</th></tr></thead>' +
           '<tbody>' + rows + '</tbody>' +
-        '</table>' +
+        '</table></div>' +
         (window.MethodFooter ? window.MethodFooter.html({
           sources: [
             { label: 'CHFA LIHTC + Preservation (live ArcGIS)', url: 'https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/0' },

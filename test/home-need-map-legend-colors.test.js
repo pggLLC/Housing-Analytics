@@ -1,4 +1,5 @@
-// Regression test: the county need map on Home and its legend must use the SAME colors for the SAME bands.
+// Regression test: the county need map (Home until 15 Nov 2026, now Places and need) and its legend must use the
+// SAME colors for the SAME bands.
 //
 // The bug this was written for (old homepage, js/components/home-need-map.js): the legend swatches were written
 // as `var(--good,#16a34a)` and so on, meaning the hex as a fallback, but --good/--accent/--warn/--bad are the
@@ -12,12 +13,14 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-const { renderHome } = require('./helpers/render-home');
+const { renderHome, renderRoute } = require('./helpers/render-home');
 
 (async () => {
-  const html = await renderHome();
+  // Since 15 Nov 2026 the map is on Places and need only (paul: no county map on Home), so it is read there.
+  assert(!/class="need-map county-need"/.test(await renderHome()), 'Home draws the county need map again; it lives on Places and need');
+  const html = await renderRoute('#/places');
   const figure = (/<figure class="need-map county-need"[\s\S]*?<\/figure>/.exec(html) || [])[0];
-  assert(figure, 'Home no longer draws the county need map (figure.need-map.county-need)');
+  assert(figure, 'Places and need no longer draws the county need map (figure.need-map.county-need)');
 
   const fills = [...figure.matchAll(/<a [^>]*data-county="(\d{5})"[^>]*><path [^>]*\bfill="([^"]+)"/g)].map((m) => m[2]);
   assert(fills.length === 64, 'expected 64 county shapes on the map, found ' + fills.length);

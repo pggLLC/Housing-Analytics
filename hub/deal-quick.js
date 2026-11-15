@@ -479,7 +479,17 @@
     };
     return '<details class="quick-pf" data-quick-fold="su"' + (folds.su ? ' open' : '') + '><summary>Sources and uses</summary><div class="su-pair">' +
       tab('Where the money comes from', src) + tab('Where it goes', uses) + '</div>' +
-      '<p class="note">Costs are the full calculator’s example budget, each line keeping its share of your total' + (q.land != null ? ', with your land cost' : '') + '. Itemize them in the full calculator.</p></details>';
+      '<p class="note">Costs are the full calculator’s example budget, each line keeping its share of your total' + (q.land != null ? ', with your land cost' : '') + '. Itemize them in the full calculator.</p>' +
+      suSources() + '</details>';
+  }
+  // The dated sources behind the two tables (format review, paul 11-12: every figure carries one): the credit price
+  // and the loan rate, unless the visitor set them; the rest is the visitor's own entries and the example budget.
+  function suSources() {
+    var eqMeta = data.equity && data.equity.meta || {}, rate = permRate(data.fred, data.assumptions), T = q.terms || {};
+    var cites = ['your entries and the full calculator’s example budget'];
+    if (!(q.fedPrice > 0) && eqMeta.vintage) cites.push('federal credit price, the <a href="' + esc(eqMeta.source_url || '') + '">Novogradac</a> national average, ' + esc(eqMeta.vintage));
+    if (!T.rate && rate && rate.t10) cites.push('loan rate, the 10-year Treasury on ' + esc(rate.t10.date || '') + ' (<a href="https://fred.stlouisfed.org/series/DGS10">FRED</a>) plus a COHO spread');
+    return '<p class="metric-source">Sources: ' + cites.join('; ') + '.</p>';
   }
 
   // Every assumption the estimate used, one line each with its source, so nothing is silent.

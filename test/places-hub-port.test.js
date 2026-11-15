@@ -116,9 +116,10 @@ test('a forwarded route keeps the place and its own settings', () => {
   ];
   for (const [from, want] of cases) assert.equal(P.href(from), want, from);
   assert.ok(/^https:\/\//.test(P.href('#/members?g=08077')) && !/geoid/.test(P.href('#/members?g=08077')), 'a member-site link gains a place');
-  // Every lab step on a place page names the place (stepPath in hub/hna.js).
-  const hna = hubJs.find(([f]) => f === 'hna.js')[1];
+  // Every lab step names the place (stepPath in hub/step-bar.js, the bar every step page draws).
+  const hna = hubJs.find(([f]) => f === 'step-bar.js')[1];
   const carried = {
+    '#/places/scenario': "s[2] === '#/places/scenario') s = [s[0], s[1], '#/places/scenario?g=' + g]",
     '#/deal-calculator': "s[2] === '#/deal-calculator') s = [s[0], s[1], '#/deal-calculator?g=' + g]",
     '#/recommendation': "s[2] === '#/recommendation') s = [s[0], s[1], '#/recommendation?g=' + g]",
     '#/finder': "s[2] === '#/finder') s = [s[0], s[1], '#/finder?q=' + encodeURIComponent(w.label) + '&g=' + g]",

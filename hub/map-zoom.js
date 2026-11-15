@@ -82,6 +82,9 @@
     // ---- tooltip ----
     var current = null;
     function show(el, x, y) {
+      // One shape is lit at a time: moving straight from one county to the next puts the last one back (paul,
+      // 15 Nov: outlines stayed lit after the cursor crossed them).
+      if (current && current !== el) current.classList.remove('is-tipped');
       current = el;
       tip.textContent = el.getAttribute('data-tip');
       tip.hidden = false;

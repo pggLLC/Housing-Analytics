@@ -9,8 +9,8 @@
   "pages": {
     "index.html": {
       "ready": {
-        "selector": "figure.county-need a[data-county] path",
-        "min": 64
+        "selector": ".hh-facts li .hh-n",
+        "min": 4
       }
     },
     "select-jurisdiction.html": {

@@ -159,7 +159,8 @@
   var SRC = {
     acsGap: 'https://data.census.gov/table/ACSDT5Y2024.B25118',
     acsRent: 'https://data.census.gov/table/ACSDT5Y2024.B25064',
-    hudIl: 'https://www.huduser.gov/portal/datasets/il.html'
+    hudIl: 'https://www.huduser.gov/portal/datasets/il.html',
+    chas: 'https://www.huduser.gov/portal/datasets/cp.html'
   };
 
   // A source line: text and link, or a list of [text, url] pairs joined with a dot.
@@ -205,6 +206,34 @@
       return { band: b.band, from: p ? p.band : null, rent: b.rent, fromRent: p ? p.rent : null, households: own('households'), homes: own('homes'), cumHouseholds: b.households, cumHomes: b.homes };
     });
   }
+  // Who rents the homes priced for 50-80% AMI, and how many rentals stand vacant, from HUD's own count
+  // (CHAS Tables 15C and 14B, data/hna/chas_affordable_available.json homes_by_rent). The bars above count every
+  // occupied rental at a band's rent as supply, so a band can show more homes than renters while every one of
+  // those homes is rented, often by lower-income renters paying too much (paul 11-15, Fruita check). This line
+  // says who is in them. Missing stays missing: no record, no line.
+  function whoRents(f, d, name) {
+    var aa = d && d.aa, fips = f.rec && f.rec.fips ? String(f.rec.fips) : null;
+    var rec = aa && fips ? (fips.length === 5 ? (aa.counties || {})[fips] : (aa.places || {})[fips]) : null;
+    var byRent = rec && rec.homes_by_rent, t = byRent && byRent['50to80'];
+    if (!t || !t.rented_by) return '';
+    var by = t.rented_by, ok = function (v) { return typeof v === 'number' && isFinite(v) && v >= 0; };
+    var parts = ['le30', '30to50', '50to80', '80to100', 'over100'];
+    if (!parts.every(function (k) { return ok(by[k]); }) || !ok(t.vacant_for_rent)) return '';
+    var below = by.le30 + by['30to50'], mid = by['50to80'], above = by['80to100'] + by.over100;
+    var total = below + mid + above + t.vacant_for_rent;
+    if (!total) return '';
+    // Every vacant-for-rent home counts, including those HUD does not split by rent (no complete kitchen or
+    // plumbing, Table 14B est2): leaving them out would say "none vacant" where HUD reports some (Codex, HA #2881).
+    var vacAll = Object.keys(byRent).reduce(function (s, k) { return s == null || !ok(byRent[k].vacant_for_rent) ? null : s + byRent[k].vacant_for_rent; }, 0);
+    vacAll = vacAll == null || !ok(rec.vacant_for_rent_not_split_by_rent) ? null : vacAll + rec.vacant_for_rent_not_split_by_rent;
+    var vintage = aa.meta && aa.meta.vintage ? ' ' + String(aa.meta.vintage).replace('-', '\u2013') : '';
+    return '<p class="gap-who"><strong>Who rents the homes priced for 50\u201380% AMI?</strong> HUD counts ' + esc(num(total)) + ' rentals at that price in ' + esc(name || 'this place') + ': ' +
+      esc(num(below)) + ' rented by households at or below 50% AMI, who likely pay more than 30% of income; ' + esc(num(mid)) + ' by households at 50\u201380%; ' + esc(num(above)) + ' by households above 80%' +
+      (t.vacant_for_rent ? '; ' + esc(num(t.vacant_for_rent)) + ' vacant for rent' : '') + '. ' +
+      (vacAll == null ? '' : vacAll === 0 ? 'No rental stood vacant for rent at any price. ' : esc(num(vacAll)) + ' rentals stood vacant for rent across all prices. ') +
+      '<span class="note">HUD sizes each income limit to the household, so its groups differ from the bars above. ' + srcLine([['HUD CHAS' + vintage + ', Tables 15C and 14B', SRC.chas]]) + '</span></p>';
+  }
+
   function gapChart(f, at, d) {
     d = d || data;
     var cRec = f.rec && d && d.gapCounty && d.gapCounty.counties.filter(function (c) { return c.fips === f.rec.containing_county_fips; })[0];
@@ -230,13 +259,14 @@
     var what = 'Renter households and the homes priced for them, by income' + (name ? ', ' + name : '');
     return '<figure class="gap-chart"' + (lead ? ' aria-label="' + esc((global.LabTpl && global.LabTpl.alt || function (f, s) { return f + '. Source: ' + s + '.'; })(lead, 'Census ACS, HUD')) + '"' : ' aria-labelledby="gap-chart-title"') + '>' +
       '<figcaption id="gap-chart-title"><strong>' + esc(lead || what) + '</strong>' + (lead ? '<span class="gap-what">' + esc(what) + '</span>' : '') + scope(at || f.at || AT.gap(false)) +
-      '<span class="note">Each row is one income band. A home is priced for a band when its gross rent is no more than 30% of the band\u2019s income limit; renters with higher incomes can also rent it. Running totals, at or below each band, are under each label.</span></figcaption>' +
+      '<span class="note">Each row is one income band. A home is priced for a band when its gross rent is no more than 30% of the band\u2019s income limit; renters with higher incomes can also rent it. Every home counted here is already rented, so more homes than renters in a band does not mean spare homes. Running totals, at or below each band, are under each label.</span></figcaption>' +
       '<ul class="legend"><li><span class="key households"></span>Renter households in the band</li><li><span class="key homes"></span>Homes priced for the band</li></ul>' +
       '<div class="gap-rows">' + rows.map(function (b) {
         return '<div class="gap-row"><p class="gap-band">' + esc(label(b)) + '<span class="note">Rent ' + esc(b.fromRent == null ? 'up to ' + money(b.rent) : money(b.fromRent + 1) + '\u2013' + money(b.rent)) + '</span>' +
-          '<span class="note gap-cum">At or below: ' + esc(num(b.cumHouseholds)) + ' renters, ' + esc(num(b.cumHomes)) + ' homes</span></p>' +
+          '<span class="note gap-cum">At or below: ' + esc(num(b.cumHouseholds)) + ' renters, ' + esc(num(b.cumHomes)) + ' homes</span>' +
+          (b.households != null && b.homes != null && b.homes > b.households ? '<span class="note gap-surplus">Homes at this price, not spare homes: renters at other incomes rent them</span>' : '') + '</p>' +
           '<div class="gap-bars">' + bar('households', b.households, 'Renter households', b) + bar('homes', b.homes, 'Homes priced for the band', b) + '</div></div>';
-      }).join('') + '</div><p class="metric-source">' + srcLine([['Census ACS 2020\u20132024', SRC.acsGap], ['HUD FY2026 income limits', SRC.hudIl]]) + '</p></figure>';
+      }).join('') + '</div><p class="metric-source">' + srcLine([['Census ACS 2020\u20132024', SRC.acsGap], ['HUD FY2026 income limits', SRC.hudIl]]) + '</p>' + whoRents(f, d, name) + '</figure>';
   }
 
   // Gemini round 10, pick B (paul 11-05): the affordability ladder, a strip under 200 px for the first phone

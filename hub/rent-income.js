@@ -153,7 +153,7 @@
     var up = o.extra >= 0, mx = Math.max(o.rp, o.ip, 0.0001), w = function (v) { return Math.max(0, v / mx * 100).toFixed(0); };
     var yrs = nice(o.a.p) + ' to ' + nice(o.b.p);
     var note = o.fell ? '<p class="note">' + esc(title(x)) + '’s figures start in ' + nice(o.a.p) + (x.missing ? ' (' + esc(x.missing.split(';')[0]) + ')' : x.kind === 'town' ? ' (town figures start in 2000, and only for incorporated towns)' : '') + '.</p>' : '';
-    return '<div class="ri-text"><p class="ri-kick">' + esc(title(x)) + (place ? ' · the county ' + esc(place) + ' is in' : '') + '</p>' +
+    return '<div class="ri-text"><p class="ri-kick">' + esc(title(x)) + (place ? ' · the county ' + esc(place) + ' is in' : '') + ' · Renters</p>' +
       '<h3 class="ri-h">' + (up ? 'Rent has grown faster than income' : 'Income has grown faster than rent') + '</h3>' +
       '<p>Since ' + nice(o.a.p) + ', the typical rent went up <strong>' + pct(o.rp) + '</strong> and the typical household’s income went up <strong>' + pct(o.ip) + '</strong>.' +
       (o.rReal != null ? ' After inflation: rent <strong>' + spct(o.rReal) + '</strong>, income <strong>' + spct(o.iReal) + '</strong>.' : '') + '</p>' + note +
@@ -171,8 +171,9 @@
     if (!d) return '<p role="status" class="note">Loading rent and income…</p>';
     if (d.error) return '<p class="note">Rent against income did not load (' + esc(d.error) + ').</p>';
     var x = d.geo[String(fips || '')];
-    if (!x || x.kind !== 'county') return '';
-    return '<section class="ri-card" aria-label="Rent against income in ' + esc(x.n) + ' County">' + cardBody(d, x, '2000', place) +
+    // Colorado ('08') too: Home shows the statewide card alone, with no picker (paul, 15 Nov: one picker on Home).
+    if (!x || (x.kind !== 'county' && x.kind !== 'state')) return '';
+    return '<section class="ri-card" aria-label="Rent against income in ' + esc(title(x)) + '">' + cardBody(d, x, '2000', place) +
       '<div class="ri-foot">' + sourceLine(d) + '<p class="ri-more-link"><a href="#/places/deep-dive">Every county, 1980 to today, on the Colorado deep dive →</a></p></div></section>';
   }
 
