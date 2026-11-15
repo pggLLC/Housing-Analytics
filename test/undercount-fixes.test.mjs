@@ -49,6 +49,11 @@ const inv = read('data/multifamily-inventory-co.json');
 const countyUnits = Object.values(inv.counties).reduce((a, c) => a + c.total_units, 0);
 ok(countyUnits === inv.state.total_units, 'county subtotals add up to the statewide total');
 ok(inv.counties['08031'].total_units > 35000, 'Denver counts its CHFA preservation records');
+// The CHFA award-year chart (census-dashboard.html, places-hub #/places/multifamily) reads yr_pis_distribution. It came out
+// empty while the builder joined on a blank source_id; each tax credit property's own award year now fills it.
+const decades = (r) => Object.values(r.yr_pis_distribution || {}).reduce((a, n) => a + n, 0);
+ok(decades(inv.state) === inv.state.lihtc.properties && inv.state.lihtc.properties > 900, 'every tax credit property is counted in an award decade, statewide');
+ok(Object.values(inv.counties).every((c) => decades(c) === c.lihtc.properties), 'every tax credit property is counted in an award decade, county by county');
 
 // 3. public housing and farm labor housing
 const ph = read('data/affordable-housing/preservation/hud-public-housing.json');
