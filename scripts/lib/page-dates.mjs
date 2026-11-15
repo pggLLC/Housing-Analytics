@@ -40,6 +40,18 @@ export function isStampable(relPath) {
   return true;
 }
 
+// A hub shell (Home and the *-hub.html pages since the November 2026 rebuild)
+// is an empty #main that script fills, so the file's own text says nothing
+// about when what a reader sees last changed: on 15 Nov 2026 the rebuilt Home
+// went live stamped "Last updated November 13, 2026". These pages get no stamp
+// and no sitemap <lastmod>, an unknown date rather than a wrong one; their
+// figures carry their own data dates. Comments are dropped first because the
+// shells describe <main> in one.
+export function isScriptDrawn(html) {
+  const m = /<main\b[^>]*>([\s\S]*?)<\/main>/i.exec(String(html || '').replace(/<!--[\s\S]*?-->/g, ''));
+  return !!m && visibleText(m[1]) === '';
+}
+
 // Documents a reader reads top to bottom: the date goes under the title,
 // where a reader of an article looks for it. Every other page (tools,
 // dashboards, the homepage, place profiles) gets it at the foot of <main>.
