@@ -7720,11 +7720,13 @@
   function _initChfaComparables() {
     var _propsCache = null;
 
+    // The file's build date, for the comparables' source line (site-audit source-lines on HA #2878).
+    var _propsDate = '';
     function _loadProps() {
       if (_propsCache) return Promise.resolve(_propsCache);
       return fetch('data/affordable-housing/properties.json')
         .then(function (r) { return r.json(); })
-        .then(function (j) { _propsCache = (j && j.properties) || []; return _propsCache; })
+        .then(function (j) { _propsCache = (j && j.properties) || []; _propsDate = (j && j.metadata && j.metadata.generated) || ''; return _propsCache; })
         .catch(function (e) {
           console.warn('[DealCalc] CHFA comps fetch failed', e);
           _propsCache = []; return _propsCache;
@@ -7873,7 +7875,8 @@
               '<tbody>' + rows + '</tbody>' +
             '</table>' +
             '<p style="margin:var(--sp2) 0 0;font-size:var(--tiny);color:var(--faint);line-height:1.5;">' +
-              'Source: <a href="https://www.chfainfo.com/rental-housing/housing-credit/" target="_blank" rel="noopener" style="color:var(--accent);">CHFA Housing Tax Credit Properties</a> + HUD Multifamily + CHFA Preservation. ' +
+              'Source: <a href="https://www.chfainfo.com/rental-housing/housing-credit/" target="_blank" rel="noopener" style="color:var(--accent);">CHFA Housing Tax Credit Properties</a> + HUD Multifamily + CHFA Preservation' +
+              (_propsDate && !isNaN(new Date(_propsDate)) ? ', as compiled in <a href="data/affordable-housing/properties.json" style="color:var(--accent);">the site\'s property file</a> on ' + new Date(_propsDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }) : '') + '. ' +
               'Equity pricing, soft-debt stack, and stabilized DSCR are NOT public — these scores match by visible attributes only.' +
             '</p>';
         });

@@ -406,6 +406,11 @@ html.dark-mode .footer-col a:hover { color: #e4f0fc; }
   background: color-mix(in oklab, var(--card) 30%, var(--accent) 70%);
 }
 
+/* Dark mode: the half-accent fill left the light pill text at 4.07:1 (runtime contrast scan on HA #2878, once a
+   statewide or saved place puts a name in the pill). A darker fill keeps it past 4.5:1. */
+html.dark-mode .jurisdiction-pill { background: color-mix(in oklab, var(--card) 75%, var(--accent) 25%); }
+html.dark-mode .jurisdiction-pill:hover { background: color-mix(in oklab, var(--card) 62%, var(--accent) 38%); }
+
 .jurisdiction-pill--empty {
   background: transparent;
   border: 1px dashed var(--border);
