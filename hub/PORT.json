@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "42666290309588da50ea59ceab646525b4f9291d",
+  "commit": "193eaab09d71aef7c759ba816e1e496f7aa591b6",
   "dirty": false
  },
  "files": {
@@ -106,7 +106,7 @@
   "hub/places-combine.js": "b3d53321409c2dd780df591f1871cdd1cc299f7e465e2d726fce08c988dbcdf0",
   "hub/places-more.js": "093069b30899deff9e193dd72d5b02b5eb4f01f4a4b2dfb8711ea15d0603edc0",
   "hub/places-state.js": "5040ac4fed97e661927428e2ac08ca9e9f96e58a9665467a72b3a74951fe36ca",
-  "hub/places.js": "c36bd15fcd7338afb7e4e72fa9a9d39887918b193dde6174e8eb7a1aa88edfd5",
+  "hub/places.js": "2e0221f74dce51c7fd6934879e7796b931845c5507682166ea7af17a0329e4bf",
   "hub/policy-more.js": "e69e6b362fcc7a63fa96f15f35d5d833b5a0d8c46cc34d206cf5a8c8e86c661b",
   "hub/policy.js": "42b786954c8f3b59da65664fc232102b675aeace1cbc30a90f5a90b428f80fe7",
   "hub/profile.css": "d18e7355133687b3c43099751dc234a12da6cbfe743fb65d932e414e171015a2",

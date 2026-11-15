@@ -222,7 +222,10 @@
     var below = by.le30 + by['30to50'], mid = by['50to80'], above = by['80to100'] + by.over100;
     var total = below + mid + above + t.vacant_for_rent;
     if (!total) return '';
+    // Every vacant-for-rent home counts, including those HUD does not split by rent (no complete kitchen or
+    // plumbing, Table 14B est2): leaving them out would say "none vacant" where HUD reports some (Codex, HA #2881).
     var vacAll = Object.keys(byRent).reduce(function (s, k) { return s == null || !ok(byRent[k].vacant_for_rent) ? null : s + byRent[k].vacant_for_rent; }, 0);
+    vacAll = vacAll == null || !ok(rec.vacant_for_rent_not_split_by_rent) ? null : vacAll + rec.vacant_for_rent_not_split_by_rent;
     var vintage = aa.meta && aa.meta.vintage ? ' ' + String(aa.meta.vintage).replace('-', '\u2013') : '';
     return '<p class="gap-who"><strong>Who rents the homes priced for 50\u201380% AMI?</strong> HUD counts ' + esc(num(total)) + ' rentals at that price in ' + esc(name || 'this place') + ': ' +
       esc(num(below)) + ' rented by households at or below 50% AMI, who likely pay more than 30% of income; ' + esc(num(mid)) + ' by households at 50\u201380%; ' + esc(num(above)) + ' by households above 80%' +
