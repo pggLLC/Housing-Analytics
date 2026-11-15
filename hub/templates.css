@@ -360,6 +360,8 @@ html.dark-mode .mb-tiles[data-base="street"] .mb-tile { filter: invert(1) hue-ro
 .map-tip[hidden] { display: none; }
 .pres-map svg { display: block; width: 100%; height: auto; }
 .pm-counties path { fill: var(--paper); stroke: var(--line-strong); stroke-width: .8; }
+/* Outlines that carry no figures under a point layer: no tooltip, no hover, so they never compete with the points. */
+.pm-counties.is-quiet path { pointer-events: none; }
 .pm-layer circle { stroke: var(--halo); stroke-width: .7; fill-opacity: .85; }
 .pm-chfa circle, .pm-key.pm-chfa { fill: var(--src-equity); background: var(--src-equity); }
 .pm-hud circle, .pm-hud path, .pm-key.pm-hud { fill: var(--src-mortgage); background: var(--src-mortgage); }
@@ -627,6 +629,9 @@ th[aria-sort="descending"] > button.th-sort::after { content: "\2193"; color: va
 .event-list { list-style: none; margin: 0 0 1.5rem; padding: 0; border-top: 1px solid var(--line); }
 .event-list li { display: grid; grid-template-columns: 2rem 1fr; gap: .75rem; padding: .75rem 0; border-bottom: 1px solid var(--line); }
 .event-list p { margin: 0 0 .25rem; }
+.event-list li[data-tip-mark] { cursor: pointer; }
+.event-list li.is-tip-row { background: color-mix(in srgb, var(--pine) 12%, transparent); box-shadow: inset 3px 0 0 var(--pine); }
+.ix-ev { cursor: pointer; }
 .event-n { width: 24px; height: 24px; border-radius: 50%; background: var(--pine); color: var(--on-fill); font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; margin-top: .1rem; }
 /* Data sources: freshness bar and status tiles. */
 .fresh-bar { display: flex; height: 14px; border-radius: 7px; overflow: hidden; gap: 2px; margin: .25rem 0 .75rem; }
@@ -991,6 +996,15 @@ th[aria-sort="descending"] > button.th-sort::after { content: "\2193"; color: va
 .cn-panel h3:focus { outline: none; }
 .cn-panel h4 { margin: 1rem 0 0; font-size: 1rem; }
 .cn-now-label { margin: 0; font-size: 14px; font-weight: 600; color: var(--muted); }
+/* Who each county measure counts (paul, 15 Nov): the same tag as Home's numbers. */
+.cn-ten { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: .05rem .4rem; border-radius: 999px; background: var(--tint); color: var(--pine); vertical-align: 1px; }
+.cn-ten-owners { background: color-mix(in srgb, var(--gold) 22%, var(--card)); color: var(--text-rust, var(--ink)); }
+.cn-ten-all-homes, .cn-ten-all-households { background: var(--line); color: var(--ink); }
+.county-need .cn-tenure { display: inline-flex; border: 1px solid var(--pine); border-radius: 8px; overflow: hidden; align-self: center; }
+.county-need .cn-tenure button { border: 0; background: var(--card); color: var(--pine); font: inherit; font-weight: 600; padding: .35rem .8rem; min-height: 44px; cursor: pointer; }
+.county-need .cn-tenure button + button { border-left: 1px solid var(--pine); }
+.county-need .cn-tenure button.is-on { background: var(--pine); color: var(--card); }
+@media (max-width: 480px) { .county-need .cn-tenure { flex: 1 1 100%; order: -2; } .county-need .cn-tenure button { flex: 1; } }
 .cn-big { margin: 0; font-size: 2rem; font-weight: 700; line-height: 1.2; }
 .cn-line { margin: .25rem 0; }
 .cn-src { margin: .25rem 0 0; }

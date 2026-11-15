@@ -868,6 +868,18 @@
     return String(t || '').replace(/\s*(This is a historical [^.]*|These are historical [^.]*|The rate is historical[^.]*)\./g, '').trim();
   }
 
+  // Short chart names for the policy timeline's events (20 characters or fewer), used beside each marker on wide
+  // screens. A `short` field in data/policy/policy-timeline.json wins over these; an event with neither shows its
+  // number only.
+  var EVENT_SHORT = {
+    'covid-pandemic': 'COVID-19 pandemic', 'american-rescue-plan': 'Rescue Plan Act', 'fed-hikes': 'Fed raises rates',
+    'inflation-reduction-act': 'Inflation Reduction', 'prop123': 'Prop 123 approved', 'svb-closure': 'SVB closes',
+    'sb24-174': 'SB24-174 signed', 'fed-cuts': 'Fed cuts rates', 'ahcia-introduced': 'AHCIA introduced',
+    'ahcia-partial-enactment': 'AHCIA partly enacted', 'road-act': 'ROAD to Housing Act'
+  };
+
+  function firstLine(t) { var m = String(t).match(/^.*?\.(?=\s|$)/); return m ? m[0] : String(t); }
+
   function costs() {
     var s = load(COST_FILES);
     if (!s.data) return waiting('Construction costs', s);
@@ -877,12 +889,16 @@
     var base = +obs[0].value;
     var pts = obs.map(function (o) { return [month(o.date), +o.value / base * 100]; });
     var last = obs[obs.length - 1], lastD = month(last.date), rise = (+last.value / base - 1) * 100;
-    var events = tl.events.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }).map(function (e, i) { return { n: i + 1, date: month(e.date), e: e }; });
+    var events = tl.events.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }).map(function (e, i) {
+      var d = month(e.date), host = String(e.source_url || '').replace(/^https?:\/\/(www\.)?/, '').split('/')[0];
+      return { n: i + 1, date: d, e: e, short: e.short || EVENT_SHORT[e.id] || '', row: 'cost-ev-' + (i + 1),
+        tip: (i + 1) + '. ' + e.title + ' · ' + MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear() + ' · ' + firstLine(plainDetail(e.detail)) + (host ? ' · Source: ' + host : '') };
+    });
     var when = MONTHS[lastD.getMonth()] + ' ' + lastD.getFullYear();
     var fredUrl = 'https://fred.stlouisfed.org/series/{id}'.replace('{id}', COST_SERIES);
     var chart = global.LabViz.indexLine({
       title: 'Multifamily construction prices since 2020',
-      scope: '<span class="note">Index, January 2020 = 100. Numbers mark the events listed below.</span>',
+      scope: '<span class="note">Index, January 2020 = 100. Numbers mark the events listed below; point to or tap one for its name and date.</span>',
       answer: 'Building materials for apartments cost ' + Math.round(rise) + '% more in ' + when + ' than in January 2020.',
       label: 'Line chart of the producer price index for multifamily construction inputs, January 2020 to ' + when + ', rising to ' + Math.round(pts[pts.length - 1][1]) + ', with ' + events.length + ' numbered policy events.',
       points: pts, events: events, base: 100,
@@ -890,7 +906,7 @@
     });
     var list = '<ol class="event-list">' + events.map(function (x) {
       var e = x.e;
-      return '<li><span class="event-n" aria-hidden="true">' + x.n + '</span><div><p><strong>' + esc(e.title) + '</strong> <span class="note">' + esc(MONTHS[x.date.getMonth()] + ' ' + x.date.getDate() + ', ' + x.date.getFullYear()) + '</span></p>' +
+      return '<li id="' + x.row + '" data-tip-mark="' + x.row + '"><span class="event-n" aria-hidden="true">' + x.n + '</span><div><p><strong>' + esc(e.title) + '</strong> <span class="note">' + esc(MONTHS[x.date.getMonth()] + ' ' + x.date.getDate() + ', ' + x.date.getFullYear()) + '</span></p>' +
         '<p>' + esc(plainDetail(e.detail)) + ' <a href="' + esc(e.source_url) + '">Source</a></p></div></li>';
     }).join('') + '</ol>';
     // The page story (paul 11-06): the rise since 2020 and the last year, in one line.

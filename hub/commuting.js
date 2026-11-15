@@ -48,7 +48,7 @@
   function map(d, list, byName, sel) {
     var outline = d.counties.features.map(function (f) {
       var rings = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
-      return '<path d="' + rings.map(function (poly) { return poly.map(function (ring) { return 'M' + ring.map(function (c) { return xy(c[0], c[1]).join(' '); }).join('L') + 'Z'; }).join(''); }).join('') + '"><title>' + esc(f.properties.NAMELSAD) + '</title></path>';
+      return '<path d="' + rings.map(function (poly) { return poly.map(function (ring) { return 'M' + ring.map(function (c) { return xy(c[0], c[1]).join(' '); }).join('L') + 'Z'; }).join(''); }).join('') + '"></path>';
     }).join('');
     var flows = '';
     if (sel) {
@@ -71,7 +71,7 @@
         return t.length > 1 ? 'Statewide, people driving 20 to 60 miles in hold the most jobs in ' + bare(t[0].name) + ' (' + pct(t[0].far, t[0].jobs) + ') and ' + bare(t[1].name) + ' (' + pct(t[1].far, t[1].jobs) + ')' : 'Share of each town’s jobs held by people driving 20 to 60 miles in';
       })()) + '</strong><span class="note">' + (sel ? 'This headline is for all of Colorado. ' + esc(bare(sel.name)) + ' is outlined, with lines from the towns that send it the most workers; its own numbers are above. ' : '') + 'One dot per town with 200 or more jobs, sized by its jobs. Select a dot, or pick a town above, to see its numbers and the towns that send it the most workers.</span></figcaption>' +
       '<div class="pm-frame"><svg viewBox="0 0 ' + MAP_W + ' ' + MAP_H + '" role="group" aria-label="Colorado towns shaded by the share of jobs held by people driving 20 to 60 miles in">' +
-      '<g class="pm-counties">' + outline + '</g>' + flows + '<g class="pm-layer cj-dots">' + dots + '</g>' + K.metroBox() + K.cities() + '</svg></div>' +
+      '<g class="pm-counties is-quiet">' + outline + '</g>' + flows + '<g class="pm-layer cj-dots">' + dots + '</g>' + K.metroBox() + K.cities() + '</svg></div>' +
       '<ul class="lb-key">' + BINS.map(function (b) { return '<li><span class="pm-key" style="background:' + b.color + '" aria-hidden="true"></span>' + esc(b.label) + ' <b>' + num(list.filter(function (p) { return binFor(farShare(p)) === b; }).length) + '</b></li>'; }).join('') + '</ul>' +
       // Map kit part 3: the Denver metro close-up, the same towns and shares.
       K.inset({ features: d.counties.features, groups: [{ cls: 'cj-dots', dots: list.slice().sort(function (a, b) { return b.jobs - a.jobs; }).map(function (p) {

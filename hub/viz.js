@@ -79,11 +79,12 @@
     var share = function (v) { if (o.noShare) return ''; var x = Math.round(v / total * 100); return x === 0 && v > 0 ? '<1%' : x + '%'; };
     rows.forEach(function (r, i) {
       var y = 8 + i * 34, w = Math.max(r[1] / max * dw, r[1] > 0 ? 3 : 0);
-      d += T(0, y + 16, r[0], { size: 14 }) + R(lw, y + 3, w, 18, color, { title: r[0] + ': ' + num(r[1]) }) +
-        T(lw + w + 8, y + 17, num(r[1]), { size: 14, w: 700 }) + T(DW, y + 17, share(r[1]), { size: 14, fill: MUT, a: 'end' });
+      var sf = o.fmt || num, stip = r[0] + ': ' + sf(r[1]) + (o.unit ? ' ' + o.unit : '');
+      d += T(0, y + 16, r[0], { size: 14 }) + R(lw, y + 3, w, 18, color, { title: stip }) +
+        T(lw + w + 8, y + 17, sf(r[1]), { size: 14, w: 700 }) + T(DW, y + 17, share(r[1]), { size: 14, fill: MUT, a: 'end' });
       var py = 6 + i * 50, pw = Math.max(r[1] / max * (PW - 70), r[1] > 0 ? 3 : 0);
       p += T(0, py + 14, r[0], { size: 14 }) + T(PW, py + 14, share(r[1]), { fill: MUT, a: 'end' }) +
-        R(0, py + 22, pw, 14, color, { title: r[0] + ': ' + num(r[1]) }) + T(pw + 8, py + 34, num(r[1]), { w: 700 });
+        R(0, py + 22, pw, 14, color, { title: stip }) + T(pw + 8, py + 34, sf(r[1]), { w: 700 });
     });
     return figure({ title: o.title, scope: o.scope, answer: o.answer, note: o.note, source: o.source, dh: 8 + rows.length * 34 + 4, ph: 6 + rows.length * 50, desk: d, phone: p });
   }
@@ -301,10 +302,10 @@
     rows.forEach(function (r, i) {
       var c = o.colorOf ? o.colorOf(r, i) : o.color || RUST;
       var h = 120 * r[1] / max, x = i * cw + cw / 2;
-      d += R(x - Math.min(30, cw * 0.32), 150 - h, Math.min(60, cw * 0.64), h, c, { title: r[0] + ': ' + num(r[1]) }) +
+      d += R(x - Math.min(30, cw * 0.32), 150 - h, Math.min(60, cw * 0.64), h, c, { title: r[0] + ': ' + num(r[1]) + (o.unit ? ' ' + o.unit : '') }) +
         T(x, 142 - h, num(r[1]), { w: 700, a: 'middle' }) + T(x, 170, r[0], { fill: MUT, a: 'middle' });
       var y = pt + 6 + i * 36, w = (PW - 150) * r[1] / max;
-      p += T(0, y + 17, r[0]) + R(96, y + 5, Math.max(w, 2), 16, c, { title: r[0] + ': ' + num(r[1]) }) + T(96 + Math.max(w, 2) + 8, y + 18, num(r[1]), { w: 700 });
+      p += T(0, y + 17, r[0]) + R(96, y + 5, Math.max(w, 2), 16, c, { title: r[0] + ': ' + num(r[1]) + (o.unit ? ' ' + o.unit : '') }) + T(96 + Math.max(w, 2) + 8, y + 18, num(r[1]), { w: 700 });
     });
     // The reference level (a yearly need, say) as a dashed line across the bars, labelled once.
     if (ref) {
@@ -338,16 +339,43 @@
       var path = pts.map(function (p, i) { return (i ? 'L' : 'M') + f1(X(+p[0])) + ' ' + f1(Y(p[1])); }).join('');
       g += '<path d="' + path + '" fill="none" stroke="' + GRN + '" stroke-width="3" stroke-linejoin="round"/>';
       // Each marker sits on the line at its month; where two fall close, the later one lifts above the earlier.
-      var lastX = -99, lift = 0;
+      // Each marker carries the event's full name, date, the index that month and its one-line detail (o.events[].tip).
+      // On desktop its short name (e.short) sits beside it; a name that would run into the one before it is left
+      // off, and the marker keeps its number. On phones the numbers alone mark the line; the list below names them.
+      var lastX = -99, lift = 0, marks = [];
       o.events.forEach(function (e) {
         var t = +e.date; if (t < t0 || t > t1) return;
         var near = pts.reduce(function (b, p) { return Math.abs(+p[0] - t) < Math.abs(+b[0] - t) ? p : b; }, pts[0]);
         var x = X(t), y = Y(near[1]);
         lift = x - lastX < 22 ? lift + 1 : 0; lastX = x;
         var my = y - 20 - lift * 22;
-        g += L(x, y, x, my + 9, PINE) + C(x, my, 10, PINE, HALO, ' stroke-width="1.5"') +
-          '<text x="' + f1(x) + '" y="' + f1(my + 4.5) + '" font-size="13" font-weight="700" fill="' + ON + '" text-anchor="middle">' + e.n + '</text>';
+        var tip = String(e.tip || e.title || ('Event ' + e.n)).replace(/( · Source: [^·]*)?$/, function (src) { return ' · index that month: ' + f1(near[1]) + src; });
+        g += '<g class="ix-ev"' + (e.row ? ' data-tip-row="' + esc(e.row) + '"' : '') + '><title>' + esc(tip) + '</title>' +
+          L(x, y, x, my + 9, PINE) + C(x, my, 10, PINE, HALO, ' stroke-width="1.5"') +
+          '<text x="' + f1(x) + '" y="' + f1(my + 4.5) + '" font-size="13" font-weight="700" fill="' + ON + '" text-anchor="middle">' + e.n + '</text></g>';
+        marks.push({ x: x, y: my, e: e });
       });
+      // A name goes right of its marker, or left when the right is taken, only where it clears every other
+      // marker, every name already placed and the line itself; otherwise the marker keeps its number alone.
+      var boxes = marks.map(function (m) { return [m.x - 11, m.y - 11, m.x + 11, m.y + 11]; });
+      var hits = function (b) {
+        if (b[0] < yw || b[2] > yw + xw + 40) return true;
+        if (boxes.some(function (o) { return b[0] < o[2] && o[0] < b[2] && b[1] < o[3] && o[1] < b[3]; })) return true;
+        return pts.some(function (p) { var px = X(+p[0]), py = Y(p[1]); return px > b[0] && px < b[2] && py > b[1] - 2 && py < b[3] + 2; });
+      };
+      var labs = '';
+      if (!phone) marks.forEach(function (m, i) {
+        if (!m.e.short) return;
+        var w = m.e.short.length * 6.6, own = boxes[i];
+        boxes[i] = [0, 0, 0, 0];
+        var right = [m.x + 13, m.y - 8, m.x + 13 + w, m.y + 6], left = [m.x - 13 - w, m.y - 8, m.x - 13, m.y + 6];
+        var pick = !hits(right) ? 'r' : !hits(left) ? 'l' : '';
+        boxes[i] = own;
+        if (!pick) return;
+        labs += T(pick === 'r' ? m.x + 13 : m.x - 13, m.y + 4, m.e.short, { fill: PINE, a: pick === 'r' ? 'start' : 'end', size: 12 });
+        boxes.push(pick === 'r' ? right : left);
+      });
+      g += '<g class="ix-ev-labels" aria-hidden="true">' + labs + '</g>';
       var gapX = xw / Math.max(1, pts.length - 1);
       pts.forEach(function (q) { g += HIT(X(+q[0]), Y(q[1]), when(q[0]) + ': ' + f1(q[1]) + (o.unit ? ' ' + o.unit : ''), gapX); });
       var last = pts[pts.length - 1];
@@ -473,7 +501,7 @@
       });
       ss.forEach(function (s) {
         var gapX = (W - yw - 10) / Math.max(1, s.points.length - 1);
-        s.points.forEach(function (q) { g += HIT(X(t(q[0])), Y(q[1]), s.label + ', ' + when(q[0]) + ': ' + fmt(q[1]), gapX); });
+        s.points.forEach(function (q) { g += HIT(X(t(q[0])), Y(q[1]), s.label + ', ' + (o.whenOf || when)(q[0]) + ': ' + fmt(q[1]) + (o.unit ? ' ' + o.unit : ''), gapX); });
       });
       // The key sits under the chart, each line with its latest value.
       var cols = phone ? 1 : 2, cw = W / cols, rh = 24;
@@ -524,11 +552,13 @@
       var color = o.colorOf ? o.colorOf(r, i) : o.color || GRN;
       var y = dt + 8 + i * 34, w = Math.max(r[1] / max * dw, r[1] > 0 ? 3 : 0), share = o.noShare ? '' : Math.round(r[1] / total * 1000) / 10 + '%';
       var fmt = o.fmt || num;
-      d += T(0, y + 16, r[0], { size: 14 }) + R(lw, y + 3, w, 18, color, { title: r[0] + ': ' + num(r[1]) }) +
+      // The tooltip reads the value as the bar's label does, with its unit (paul, 15 Nov: "Douglas: 2,193" said nothing).
+      var tip = (o.tipName ? o.tipName(r[0]) : r[0]) + ': ' + fmt(r[1]) + (o.unit ? ' ' + o.unit : '');
+      d += T(0, y + 16, r[0], { size: 14 }) + R(lw, y + 3, w, 18, color, { title: tip }) +
         T(lw + w + 8, y + 17, fmt(r[1]), { size: 14, w: 700 }) + T(DW, y + 17, share, { size: 14, fill: MUT, a: 'end' });
       var py = pt + 6 + i * 50, pw = Math.max(r[1] / max * (PW - 70), r[1] > 0 ? 3 : 0);
       p += T(0, py + 14, r[0], { size: 14 }) + T(PW, py + 14, share, { fill: MUT, a: 'end' }) +
-        R(0, py + 22, pw, 14, color, { title: r[0] + ': ' + num(r[1]) }) + T(pw + 8, py + 34, fmt(r[1]), { w: 700 });
+        R(0, py + 22, pw, 14, color, { title: tip }) + T(pw + 8, py + 34, fmt(r[1]), { w: 700 });
     });
     return figure({ title: o.title, scope: o.scope, answer: o.answer, note: o.note, source: o.source, tiles: o.tiles, label: o.label, dh: dt + 8 + rows.length * 34 + 4, ph: pt + 6 + rows.length * 50, desk: d, phone: p });
   }

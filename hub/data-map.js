@@ -552,7 +552,7 @@
     if (!cs.data || waiting.length) return head + picker + '<p role="status" class="note">Loading ' + esc((waiting.length ? waiting.map(function (L) { return L.label.toLowerCase(); }).join(', ') : 'county outlines')) + '…</p>';
 
     var outline = cs.data.features.map(function (f) {
-      return '<path d="' + pathOf(f.geometry) + '"' + (t && t.kind === 'county' && f.properties.GEOID === t.geoid ? ' class="is-picked"' : '') + '><title>' + esc(f.properties.NAMELSAD) + '</title></path>';
+      return '<path d="' + pathOf(f.geometry) + '"' + (t && t.kind === 'county' && f.properties.GEOID === t.geoid ? ' class="is-picked"' : '') + '><title>' + esc(f.properties.NAMELSAD + ' · tap to see what is true at that spot') + '</title></path>';
     }).join('');
     // Areas under points; within areas, outlines over fills so both read.
     var order = on.slice().sort(function (a, b) { return rank(a) - rank(b); });

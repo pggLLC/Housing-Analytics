@@ -129,7 +129,10 @@
       var lbl = P.length <= 6 || on || k === P.length - 1;
       row = cx - lastX < 40 ? 1 - row : 0; lastX = cx;
       var xl = p.p.length > 4 ? '’' + p.p.slice(2, 4) + '–' + p.p.slice(5) : p.p;
-      return '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + (on ? 6 : 4) + '" class="ri-ln-dot' + (on ? ' ri-ln-on' : '') + '"/>' +
+      // Each point says what it is on hover or tap (paul, 15 Nov: tooltips show the relevant information).
+      var tip = title(x) + ', ' + nice(p.p) + ': a year of median rent was ' + Math.round(share(p) * 100) + '% of median household income' +
+        (p.r != null && p.i != null ? ' (' + m(p.r) + ' a month, ' + m(p.i) + ' a year)' : '') + ' · Renters';
+      return '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + (on ? 6 : 4) + '" class="ri-ln-dot' + (on ? ' ri-ln-on' : '') + '"><title>' + esc(tip) + '</title></circle>' +
         (lbl ? '<text x="' + cx.toFixed(1) + '" y="' + (cy - 10).toFixed(1) + '" class="ri-ln-v' + (on ? ' ri-ln-von' : '') + '">' + Math.round(share(p) * 100) + '%</text>' : '') +
         '<text x="' + cx.toFixed(1) + '" y="' + (H - 18 + row * 13) + '" class="ri-ln-x">' + xl + '</text>';
     }).join('');
@@ -154,10 +157,11 @@
     var yrs = nice(o.a.p) + ' to ' + nice(o.b.p);
     var note = o.fell ? '<p class="note">' + esc(title(x)) + '’s figures start in ' + nice(o.a.p) + (x.missing ? ' (' + esc(x.missing.split(';')[0]) + ')' : x.kind === 'town' ? ' (town figures start in 2000, and only for incorporated towns)' : '') + '.</p>' : '';
     return '<div class="ri-text"><p class="ri-kick">' + esc(title(x)) + (place ? ' · the county ' + esc(place) + ' is in' : '') + ' · Renters</p>' +
-      '<h3 class="ri-h">' + (up ? 'Rent has grown faster than income' : 'Income has grown faster than rent') + '</h3>' +
+      // On a town's page the figures are its county's: the headline names the county, not only the small line above it.
+      '<h3 class="ri-h">' + (place ? 'In ' + esc(title(x)) + ', ' + (up ? 'rent has grown faster than income' : 'income has grown faster than rent') : (up ? 'Rent has grown faster than income' : 'Income has grown faster than rent')) + '</h3>' +
       '<p>Since ' + nice(o.a.p) + ', the typical rent went up <strong>' + pct(o.rp) + '</strong> and the typical household’s income went up <strong>' + pct(o.ip) + '</strong>.' +
       (o.rReal != null ? ' After inflation: rent <strong>' + spct(o.rReal) + '</strong>, income <strong>' + spct(o.iReal) + '</strong>.' : '') + '</p>' + note +
-      '<div class="ri-take"><p class="ri-big' + (up ? '' : ' ri-down') + '">' + sgn(o.extra) + '</p><p>a month: today’s rent of <strong>' + m(o.b.r) + '</strong> against <strong>' + m(o.kept) +
+      '<div class="ri-take"><p class="ri-big' + (up ? '' : ' ri-down') + '">' + sgn(o.extra) + '</p><p>a month: ' + (place ? esc(title(x)) + '’s typical rent today is <strong>' : 'today’s rent of <strong>') + m(o.b.r) + '</strong> against <strong>' + m(o.kept) +
       '</strong> if rent had only kept pace with income.</p></div></div>' +
       '<div class="ri-viz"><p class="ri-vt">Median rent against median income, every Census count we have</p>' + line(x, o) +
       '<p class="ri-lnote">A year of median rent came to <strong>' + sp(o.a) + '</strong> of median household income in ' + nice(o.a.p) + ' and <strong>' + sp(o.b) + '</strong> in ' + nice(o.b.p) + ' (' + pts(o.ds * 100) + '). This compares two medians; it is not the share of income any renter pays.</p>' +
