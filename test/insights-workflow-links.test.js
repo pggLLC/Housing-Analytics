@@ -58,7 +58,17 @@ test('all 12 contextual routes use existing canonical targets and shared page na
       const doc = from === 'deal-calculator.html' ? deal.d : pages.get(from).window.document;
       const links = [...doc.querySelectorAll(`[data-workflow-link="${id}"]`)];
       assert.equal(links.length, 1, `${id}: expected one contextual link`);
-      const a = links[0], href = a.getAttribute('href');
+      const a = links[0];
+      let href = a.getAttribute('href');
+      // Since 2026-11-14 (redirect group A) a link to an old page that forwards to a hub view is pointed at that view
+      // as the page draws it (js/path-resolver.js, which the real deal calculator loads here), so it gets there in one
+      // step. It must reach the view for the expected page; the checks below then read the page the view replaced.
+      const moved = deal.w.COHO_MOVED_PAGES, view = moved && moved.to(expected.split('#')[0], '');
+      if (view && href !== expected) {
+        // A link written as a path stays a path (js/path-resolver.js), so compare where each one leads.
+        assert.equal(new URL(href, doc.location.href).href, new URL(view, doc.location.href).href, `${id}: does not go straight to the view for ${expected}`);
+        href = expected;
+      }
       const [file, anchor] = href.split('#');
       assert.doesNotMatch(file, /^hna-.*\.html$/, `${id}: generated HNA view is not canonical`);
       assert.ok(fs.existsSync(path.join(root, file)), `${id}: missing target file ${file}`);

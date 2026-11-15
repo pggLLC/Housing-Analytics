@@ -13,7 +13,11 @@
   function crumbs(page, extra) { return T.trail('deal', page, extra); }
   function safeUrl(u) { return /^https?:\/\//i.test(String(u || '')) ? String(u) : ''; }
 
-  function list() {
+  // ?county=<name>, as CHFA prints it: the list shows that county's summaries. The Housing Needs Assessment links
+  // to a county's write-ups this way (deal-summary.html?county=, which forwards here with it).
+  var COUNTY = /^[A-Za-z .'-]{2,40}$/;
+
+  function list(params) {
     var s = UI.load({ index: 'data/deals/index.json' });
     if (!s.data) return '<h1>Deal summaries</h1>' + (s.error ? '<p class="callout">' + esc(s.error) + '</p>' : '<p role="status" class="note">Loading…</p>');
     var all = s.data.index.deals.slice().sort(function (a, b) { return (b.year || 0) - (a.year || 0) || String(a.name).localeCompare(String(b.name)); });
@@ -21,6 +25,10 @@
     var latest = all.reduce(function (m, r) { return r.researched_on && r.researched_on > m ? r.researched_on : m; }, '');
     var nine = all.filter(function (r) { return /9%/.test(r.award); }).length, four = all.filter(function (r) { return /4%/.test(r.award); }).length;
     var byYear = UI.tally(all, function (r) { return r.year; }, function () { return 1; }).sort(function (a, b) { return a[0] < b[0] ? -1 : 1; });
+    var want = params && params.get ? String(params.get('county') || '').trim() : '';
+    if (!COUNTY.test(want)) want = '';
+    var mine = want ? all.filter(function (r) { return String(r.county || '').toLowerCase() === want.toLowerCase(); }) : null;
+    if (mine && mine.length) want = mine[0].county;
     var cols = [
       { key: 'name', label: 'Deal', href: function (r) { return '#/deals/' + r.slug; }, tip: 'Project name as CHFA prints it' },
       { key: 'city', label: 'City' }, { key: 'county', label: 'County' },
@@ -28,6 +36,17 @@
       { key: 'year', label: 'Year', num: true },
       { key: 'units', label: 'Homes', num: true, fmt: UI.num, tip: 'Total homes as CHFA prints them' }
     ];
+    // A county's list (?county=) is the page the reader asked for: its own title, its rows, and a way back to every summary.
+    if (mine) {
+      return T.head({
+        kind: 'data', crumbs: crumbs(want + ' County', [{ label: 'Deal summaries', href: '#/deals' }]), title: 'Deal summaries for ' + want + ' County',
+        answer: (mine.length ? UI.num(mine.length) + ' of the ' + UI.num(all.length) + ' sourced summaries of Colorado housing tax credit awards are in ' + esc(want) + ' County.'
+          : 'No summary for ' + esc(want) + ' County yet. Summaries are added in batches.') + ' <a href="#/deals">Show every summary</a>',
+        meta: '<span class="scope-tag">Scope: CHFA awards</span> Researched through ' + esc(latest) + ' from public records. Each summary lists its own dated sources.'
+      }) +
+        (mine.length ? UI.table('deals', 'Deal summaries in ' + want + ' County, newest awards first', cols, mine, { noun: 'deals', placeholder: 'Name, city or credit' }) + T.source('CHFA housing tax credit award reports', AWARDS, latest) : '') +
+        T.next('Next', [{ href: '#/deals', label: 'Every deal summary →' }, { href: '#/deal-calculator', label: 'Test a LIHTC deal', secondary: true }]);
+    }
     return T.head({
       kind: 'data', crumbs: crumbs('Deal summaries'), title: 'Deal summaries',
       answer: 'One sourced summary per Colorado housing tax credit award: the homes, who they serve, the public money and what is still open.',
@@ -110,6 +129,6 @@
       T.next('Next', [{ href: '#/deals', label: 'Every deal summary →' }, { href: '#/deal-calculator', label: 'Test a similar deal', secondary: true }]);
   }
 
-  Shell.views.deals = function (params, parts) { return parts[1] ? deal(parts[1]) : list(); };
+  Shell.views.deals = function (params, parts) { return parts[1] ? deal(parts[1]) : list(params); };
   global.LabDeals = { list: list, deal: deal };
 })(window);

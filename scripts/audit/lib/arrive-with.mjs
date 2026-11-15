@@ -14,6 +14,12 @@ const HNA_STATEWIDE = '?geoid=08&geoType=state';
 // measuring it there: ?classic=1 shows the page as written, not forwarded.
 const GUIDE_AS_WRITTEN = '?classic=1';
 
+// Since 2026-11-14 (redirect group A and county costs) 16 more old pages forward
+// to the hub view that now holds them (js/path-resolver.js MOVED_PAGES). The pages
+// stay in the repo and ?classic=1 still shows each as written, so audits keep
+// measuring them there; the hub pages are audited on their own.
+const MOVED_AS_WRITTEN = '?classic=1';
+
 export const ARRIVE_WITH = Object.freeze({
   'lihtc-guide-for-stakeholders.html':   GUIDE_AS_WRITTEN,
   'affordable-deal-team.html':           GUIDE_AS_WRITTEN,
@@ -30,6 +36,22 @@ export const ARRIVE_WITH = Object.freeze({
   'about.html':                          GUIDE_AS_WRITTEN,
   'housing-help.html':                   GUIDE_AS_WRITTEN,
   'help-for-homebuyers.html':            GUIDE_AS_WRITTEN,
+  'colorado-elections.html':             MOVED_AS_WRITTEN,
+  'commuting.html':                      MOVED_AS_WRITTEN,
+  'compare.html':                        MOVED_AS_WRITTEN,
+  'construction-commodities.html':       MOVED_AS_WRITTEN,
+  'article-pricing.html':                MOVED_AS_WRITTEN,
+  'land-value.html':                     MOVED_AS_WRITTEN,
+  'deal-summary.html':                   MOVED_AS_WRITTEN,
+  'preservation.html':                   MOVED_AS_WRITTEN,
+  'hna-scenario-builder.html':           MOVED_AS_WRITTEN,
+  'recommendation.html':                 MOVED_AS_WRITTEN,
+  'select-jurisdiction.html':            MOVED_AS_WRITTEN,
+  'local-incentives.html':               MOVED_AS_WRITTEN,
+  'policy-briefs.html':                  MOVED_AS_WRITTEN,
+  'data-status.html':                    MOVED_AS_WRITTEN,
+  'data-map-browser.html':               MOVED_AS_WRITTEN,
+  'article-co-housing-costs.html':       MOVED_AS_WRITTEN,
   'housing-needs-assessment.html':       HNA_STATEWIDE,
   'hna-what-housing-exists.html':        HNA_STATEWIDE,
   'hna-who-lives-here.html':             HNA_STATEWIDE,

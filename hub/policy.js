@@ -217,13 +217,13 @@
         { key: 'date', label: 'Date' },
         { key: 'title', label: 'Headline', href: function (r) { return r.link; }, more: function (r) { return r.local; } },
         { key: 'source', label: 'Outlet' },
-        { key: 'check', label: 'Outlet check', tip: 'Checked: COHO has reviewed the outlet. Unverified: not checked yet. Weak sourcing: reviewed, with the reason. The same tags are on the full Housing News page.' },
+        { key: 'check', label: 'Outlet check', tip: 'Checked: COHO has reviewed the outlet. Unverified: not checked yet. Weak sourcing: reviewed, with the reason. The same tags are on the older Housing News page.' },
         { key: 'where', label: 'Where', tip: 'Places named in the story, matched to the 546 Colorado geographies; otherwise its region' }
       ], stories, { noun: 'headlines', placeholder: 'Headline, outlet or place' }) + T.source('Each outlet named in its row, as COHO’s news list gathers them', LIVE + 'data/policy_briefs.json', 'updated ' + sm.generated.slice(0, 10)) +
       UI.bars('Colorado headlines by month', (narrowed ? 'Every headline, not only the ones picked above. ' : '') + 'Stories kept after duplicates and other-state news are removed. The first month starts ' + st[st.length - 1].date + ', so it is partial.', byMonth, num) +
       T.source('COHO news list, counted by month', LIVE + 'data/policy_briefs.json', 'updated ' + sm.generated.slice(0, 10)) +
       '<details class="counted"><summary>How this list is made</summary><p class="note">' + num(st.length) + ' Colorado headlines from ' + num(outlets) + ' outlets, newest ' + esc(st[0].date) + ', each dated and linked to the outlet that ran it. ' +
-      esc(sm.method.split('. ').filter(function (x) { return !/(data|scripts)\//.test(x); }).join('. ').replace(/\.?$/, '.')) + ' Places are matched to Colorado\u2019s counties, towns and CDPs (Census Gazetteer). Other states are left out. The same list is on <a href="' + LIVE + 'policy-briefs.html">the full Housing News page</a>.</p></details></section>' +
+      esc(sm.method.split('. ').filter(function (x) { return !/(data|scripts)\//.test(x); }).join('. ').replace(/\.?$/, '.')) + ' Places are matched to Colorado\u2019s counties, towns and CDPs (Census Gazetteer). Other states are left out. The same list is on <a href="' + LIVE + 'policy-briefs.html?classic=1">the older Housing News page</a>.</p></details></section>' +
       (nat.length ? '<section id="nw-national" aria-labelledby="nw-national-h"><h2 id="nw-national-h">National trends</h2><p class="note">Housing market and homebuilding trends reported by national newspapers and housing research centers. Opinion pieces are left out. They are kept out of the Colorado list above.</p>' +
         '<ul class="pw-list">' + nat.slice(0, 5).map(natRow).join('') + '</ul>' +
         (nat.length > 5 ? '<details class="counted"><summary>' + num(nat.length - 5) + ' more national stories</summary><ul class="pw-list">' + nat.slice(5).map(natRow).join('') + '</ul></details>' : '') + '</section>' : '') +

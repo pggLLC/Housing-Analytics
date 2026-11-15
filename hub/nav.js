@@ -181,5 +181,55 @@
     mark();
   }
 
-  global.LabNav = { MENUS: MENUS, menuFor: menuFor, href: href, LIVE: LIVE };
+  // Old pages whose content now lives in a view, and which forward there on the public site (js/path-resolver.js):
+  // the written guides since 13 Nov 2026, and redirect group A and county costs since 14 Nov (paul). A link to one is pointed at the
+  // view, so the reader takes one step, not two, and a view never sends a reader to a page that sends them back.
+  // A link with ?classic=1 (the page as written) is left alone.
+  var MOVED = {
+    'colorado-elections.html': '#/elections', 'commuting.html': '#/opportunity/commuting', 'compare.html': '#/places/compare',
+    'construction-commodities.html': '#/places/costs', 'article-pricing.html': '#/equity-pricing', 'land-value.html': '#/opportunity/land-value',
+    'deal-summary.html': '#/deals', 'preservation.html': '#/opportunity/preservation', 'hna-scenario-builder.html': '#/places/scenario',
+    'recommendation.html': '#/recommendation', 'select-jurisdiction.html': '#/places', 'local-incentives.html': '#/places/incentives',
+    'policy-briefs.html': '#/news', 'data-status.html': '#/data/status', 'data-map-browser.html': '#/data/map',
+    'article-co-housing-costs.html': '#/places/county-costs',
+    'lihtc-guide-for-stakeholders.html': '#/guide/lihtc-basics', 'affordable-deal-team.html': '#/guide/deal-team',
+    'green-building-guide.html': '#/guide/green-building', 'resident-services.html': '#/guide/resident-services',
+    'cra-expansion-analysis.html': '#/guide/cra-pricing', 'lihtc-enhancement-ahcia.html': '#/guide/ahcia',
+    'article-fair-housing-rollback.html': '#/guide/fair-housing', 'article-federal-rule-changes.html': '#/guide/federal-rules',
+    'housing-authority-guide.html': '#/guide/housing-authority', 'apa-white-paper.html': '#/guide/white-paper',
+    'working-paper.html': '#/guide/working-paper', 'methods.html': '#/guide/methods', 'about.html': '#/guide/about',
+    'housing-help.html': '#/guide/renter-help', 'help-for-homebuyers.html': '#/guide/homebuyer-help'
+  };
+  var GEO = /^\d{5}(\d{2})?$/;
+  function movedHref(href) {
+    var m = /^(?:https:\/\/(?:www\.)?cohoanalytics\.com\/|\.\/)?([a-z0-9-]+\.html)(\?[^#]*)?(?:#(.*))?$/i.exec(String(href || ''));
+    if (!m || !Object.prototype.hasOwnProperty.call(MOVED, m[1].toLowerCase())) return null;
+    var file = m[1].toLowerCase(), q = new URLSearchParams((m[2] || '').slice(1)), to = MOVED[file];
+    if (q.has('classic')) return null;
+    if (file === 'select-jurisdiction.html' && (q.has('next') || q.has('step') || q.has('new'))) return null;
+    var g = function (list) { return list.filter(function (x, i, a) { return x && GEO.test(x) && a.indexOf(x) === i; }); };
+    if (file === 'deal-summary.html' && /^[a-z0-9-]{1,120}$/.test(q.get('d') || '')) return to + '/' + q.get('d');
+    // A county's write-ups (?county=<name>, from the Housing Needs Assessment) open filtered (Codex P2 on HA #2875).
+    if (file === 'deal-summary.html' && /^[A-Za-z .'-]{2,40}$/.test(q.get('county') || '')) return to + '?county=' + encodeURIComponent(q.get('county'));
+    if (file === 'compare.html') {
+      var picked = g(String(q.get('jurisdictions') || '').split(',')).slice(0, 6), t = /^[a-z0-9_-]{1,20}$/.test(q.get('target') || '') ? q.get('target') : '';
+      var qs = [picked.length ? 'g=' + picked.join(',') : '', t ? 't=' + t : ''].filter(Boolean).join('&');
+      return to + (qs ? '?' + qs : '');
+    }
+    if (file === 'hna-scenario-builder.html' || file === 'recommendation.html') { var one = g([q.get('geoid'), q.get('fips')]); return to + (one.length ? '?g=' + one[0] : ''); }
+    // Local incentives keeps its picked town or county in the hash (#j=<geoid>, js/local-incentives.js geoidFromHash).
+    if (file === 'local-incentives.html') { var j = /(?:^|[&?])j=(\d{7}|\d{5})(?!\d)/.exec(m[3] || ''); if (j) return to + '/' + j[1]; }
+    if (/^\/guide\//.test(to.slice(1)) && /^[A-Za-z0-9_-]{1,80}$/.test(m[3] || '')) return to + '?at=' + m[3];
+    return to;
+  }
+  // Points every moved-page link inside a drawn view at its view (the shell calls this after each draw).
+  function retarget(root) {
+    if (!root || !root.querySelectorAll) return;
+    Array.prototype.forEach.call(root.querySelectorAll('a[href]'), function (a) {
+      var to = movedHref(a.getAttribute('href'));
+      if (to) { a.setAttribute('href', to); a.removeAttribute('target'); }
+    });
+  }
+
+  global.LabNav = { MENUS: MENUS, menuFor: menuFor, href: href, LIVE: LIVE, MOVED: MOVED, movedHref: movedHref, retarget: retarget };
 })(window);

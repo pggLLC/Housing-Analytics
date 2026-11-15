@@ -631,7 +631,7 @@
       (insetGroups.length && !zoom ? K.inset({ features: cs.data ? cs.data.features : [], groups: insetGroups }) : '') +
       '<p class="note metric-source">Each layer’s source and date are in the key above. County outlines: US Census TIGER. Town centers: 2024 Census Gazetteer.</p></figure>' +
       herePanel(t, ids, cs.data) + '</div>' +
-      '<p class="note">The older <a href="' + LIVE + 'data-map-browser.html">full Data Map ↗</a> is still there, with its own layer list.</p>' +
+      '<p class="note">The older <a href="' + LIVE + 'data-map-browser.html?classic=1">full Data Map ↗</a> is still there, with its own layer list.</p>' +
       T.next('Next', [{ href: '#/opportunities', label: 'Where homes can be built or kept →' }, { href: '#/data/explorer', label: 'Every data file', secondary: true }]);
   }
   function day(iso) { return iso ? String(iso).slice(0, 10) : null; }

@@ -270,6 +270,9 @@
   // lists them (js/workflow/recommendation-page.js renderProject). Its link opens the tool that saved it.
   // For a project built on these pages, o gives the link's words and the date as the project pages write it.
   function recordedStep(st, tool, o) {
+    // A tool whose old page now forwards to a view (redirect group A) opens that view, without the outside-link arrow.
+    var moved = /^https?:/.test(tool) && global.LabNav && global.LabNav.movedHref && global.LabNav.movedHref(tool);
+    if (moved) tool = moved;
     var fields = (st.fields || []).map(function (f) { return '<div><dt>' + esc(f.label) + '</dt><dd>' + esc(f.value) + '</dd></div>'; }).join('');
     return '<li class="rec-step rec-step-recorded" data-step="' + esc(st.key) + '"><span class="rec-step-name">' + esc(st.label) + '</span>' +
       '<span class="rec-step-state">Recorded' + (st.recordedAt ? ' ' + esc(o ? o.when(st.recordedAt) : String(st.recordedAt).slice(0, 10)) : '') + '</span>' +
@@ -404,6 +407,9 @@
           (why.homes ? 'Save the homes and rents again, then run Financials again.' : 'Run Financials again and save it.') + '</p></li>';
       }
       var href = shown ? null : hub && st.key === 'deal' ? fin : stepHref(st.key, g), live = !href ? (shown ? LIVE : 'https://cohoanalytics.com/') + st.href : null;
+      // A step whose old page now forwards to a view (redirect group A) opens that view, without the outside-link arrow.
+      var moved = live && global.LabNav && global.LabNav.movedHref && global.LabNav.movedHref(live);
+      if (moved) { href = moved; live = null; }
       return '<li class="rec-step rec-step-not_run"' + (shown || hub ? ' data-step="' + esc(st.key) + '"' : '') + '><span class="rec-step-name">' + esc(st.label) + '</span>' +
         '<span class="rec-step-state">Not run</span>' +
         '<a href="' + esc(href || live) + '">Open this step' + (live && /^https?:/.test(live) ? ' ↗' : '') + '</a></li>';

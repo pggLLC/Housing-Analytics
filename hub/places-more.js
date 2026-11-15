@@ -221,10 +221,11 @@
 
   // The deal types the full comparison on cohoanalytics.com ranks by (its ?target= values and labels, js/compare.js).
   var CMP_TARGETS = [['9pct', '9% Competitive'], ['4pct', '4% Bond'], ['preservation', 'Preservation'], ['workforce_resort', 'Workforce / Resort'], ['prop123_local', 'Prop 123 / Local'], ['any', 'Balanced (any)']];
-  // The full comparison's own link: towns and CDPs only (7-digit codes), up to six, and the deal type.
+  // The full comparison's own link: towns and CDPs only (7-digit codes), up to six, and the deal type. It opens the page
+  // as written (?classic=1): compare.html now forwards to this view, and its scores are not on this view yet (Codex P2, #2875).
   function fullCompareHref(geoids, target) {
     var towns = geoids.filter(function (g) { return /^\d{7}$/.test(g); }).slice(0, 6);
-    return towns.length ? LIVE + 'compare.html?jurisdictions=' + towns.join(',') + '&target=' + encodeURIComponent(target) : null;
+    return towns.length ? LIVE + 'compare.html?jurisdictions=' + towns.join(',') + '&target=' + encodeURIComponent(target) + '&classic=1' : null;
   }
 
   // Where one place's figure in one row comes from: survey, period and geography, from the files the figure is read from.

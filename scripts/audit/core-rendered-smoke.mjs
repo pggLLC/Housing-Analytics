@@ -92,7 +92,9 @@ const FLOWS = [
   },
   {
     name: 'Select Jurisdiction',
-    path: '/select-jurisdiction.html',
+    // Since 2026-11-14 the bare address forwards to the Places hub (js/path-resolver.js);
+    // ?classic=1 is the picker as written, which the place pill and the old tools still open.
+    path: '/select-jurisdiction.html?classic=1',
     mustContain: ['Where are you working?', 'Select Jurisdiction'],
     requiredSelectors: ['#workflowProgress', '#sjKnowPath'],
   },

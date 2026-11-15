@@ -428,6 +428,8 @@
     var held = heldFocus();
     main.innerHTML = typeof view === 'function' ? view(route.params, route.parts)
       : VIEWS['not-found'] ? VIEWS['not-found'](route.params, route.parts) : '<h1>Page not found</h1><p class="lede">There is no page at this address.</p><p><a href="#/">Go to Home</a></p>';
+    // A link to an old page that now forwards to a view goes straight to the view (site/nav.js MOVED).
+    if (global.LabNav && global.LabNav.retarget) global.LabNav.retarget(main);
     // The seven-step bar sits in one place on every page that has it: first in the page, just under the main
     // navigation (paul, 12 Nov), with its slim line right after it.
     var spBar = main.querySelector('.step-path');
