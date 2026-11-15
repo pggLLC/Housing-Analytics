@@ -171,6 +171,7 @@
       (T2 && T2.summary ? T2.summary({ from: 'Deadlines and events', href: '#/calendar', title: 'Every CHFA round and hearing still ahead',
         figures: [{ value: String(rows.length), label: rows.length === 1 ? 'date still ahead' : 'dates still ahead' }, (Q.rolling_programs || []).length ? { value: String(Q.rolling_programs.length), label: 'programs open all year' } : null],
         more: 'Check dates on CHFA\u2019s site 60 to 90 days ahead.',
+        also: src ? [{ label: 'CHFA\u2019s own dates and allocation plan', href: src }] : null,
         source: 'CHFA dates and deadlines, and its allocation plan' + (Q.metadata && Q.metadata.generated ? ', ' + longDate(String(Q.metadata.generated).slice(0, 10)) : '') }) : '');
   }
 
