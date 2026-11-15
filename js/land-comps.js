@@ -100,9 +100,8 @@
   // One state-layer feature as a plain sale record. Null when it has no usable price, acres or date.
   function fromFeature(f, subject) {
     var a = (f && f.attributes) || {};
-    var price = num(a.salePrice), acres = num(a.landAcres), date = saleDate(a.saleDate), at = centre(f && f.geometry);
-    var pa = parcelAcres(f), fromShape = !!(pa && pa.fromShape);
-    acres = pa ? pa.acres : NaN;
+    var price = num(a.salePrice), date = saleDate(a.saleDate), at = centre(f && f.geometry);
+    var pa = parcelAcres(f), fromShape = !!(pa && pa.fromShape), acres = pa ? pa.acres : NaN;
     if (!(price >= MIN_PRICE) || !(acres > 0) || !date || !at) return null;
     var rec = {
       county: a.countyName || '', parcel: String(a.parcel_id || a.account || ''),
