@@ -122,7 +122,7 @@
     try {
       var id = JSON.parse(window.localStorage.getItem('coho_wf_active') || 'null');
       var j = id && (JSON.parse(window.localStorage.getItem('coho_wf_project_' + id) || 'null') || {}).jurisdiction;
-      var g = j && j.geoid != null ? String(j.geoid) : '';
+      var g = j ? String(j.geoid || j.fips || '').replace(/\D/g, '') : '';
       return g === '08' || CO_GEO.test(g) ? g : null;
     } catch (e) { return null; }
   }
@@ -169,11 +169,13 @@
       var tab = /^#?affordable-ownership-need-section$/.test(hash || '') ? '/action' : HNA_TAB[file];
       return hg ? 'places-hub.html#/place/' + hg + tab : to;
     }
-    // The investor summary carries its place; one opened from a deal (?dc= or #dc=) stays as written.
+    // The investor summary carries its place; one opened from a deal (?dc= or #dc=) stays as written. With no place in
+    // the address, the old page used the browser's saved workflow place (js/ic-summary.js), and so does the view
+    // (Codex P2 on #2877).
     if (file === 'ic-summary.html') {
       if (q.has('dc') || /(?:^#?|[&?])dc=/.test(hash || '')) return null;
-      var ig = places([q.get('geoid'), q.get('fips')]);
-      return to + (ig.length ? '?g=' + ig[0] : '');
+      var ig = places([q.get('geoid'), q.get('fips')])[0] || savedPlace();
+      return to + (ig && ig !== '08' ? '?g=' + ig : '');
     }
     if (file === 'data-explorer.html' && /^[A-Za-z0-9_./-]{1,200}$/.test(q.get('file') || '') && !/\.\./.test(q.get('file'))) return to + '?file=' + encodeURIComponent(q.get('file'));
     if (file === 'colorado-deep-dive.html') {

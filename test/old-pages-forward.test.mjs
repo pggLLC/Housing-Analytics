@@ -113,6 +113,10 @@ test('groups B and C: each page forwards to its view, carrying its place, chapte
   assert.equal(load(SITE + 'housing-needs-assessment.html#affordable-ownership-need-section', '', false, '08077').went, 'places-hub.html#/place/08077/action', 'ownership need');
   assert.equal(load(SITE + 'hna-what-to-do.html?geoid=0828745', '', false, '08077').went, 'places-hub.html#/place/0828745/action', 'the address wins over the saved place');
   assert.equal(load(SITE + 'ic-summary.html?geoid=0828745').went, 'deal-hub.html#/ic-summary?g=0828745');
+  // With no place, the investor summary opens the place this browser last picked, as js/ic-summary.js did (Codex P2 on #2877).
+  assert.equal(load(SITE + 'ic-summary.html', '', false, '08077').went, 'deal-hub.html#/ic-summary?g=08077', 'investor summary, saved place');
+  assert.equal(load(SITE + 'ic-summary.html?fips=0828745', '', false, '08077').went, 'deal-hub.html#/ic-summary?g=0828745', 'the address wins');
+  assert.equal(load(SITE + 'ic-summary.html', '', false, '08').went, 'deal-hub.html#/ic-summary', 'a saved statewide pick opens the picker');
   assert.equal(load(SITE + 'data-explorer.html?file=hna/summary/0828745.json').went, 'data-hub.html#/data/explorer?file=hna%2Fsummary%2F0828745.json');
   assert.equal(load(SITE + 'data-explorer.html?file=../secrets').went, 'data-hub.html#/data/explorer', 'a file outside data/ is dropped');
   assert.equal(load(SITE + 'colorado-deep-dive.html#tab-funding').went, 'places-hub.html#/places/deep-dive?tab=funding');
