@@ -178,13 +178,15 @@
   // the middle half as a box, the middle as a line, the asking price as a mark.
   function spreadStrip(s) {
     if (!(s.count >= 3) || !(s.ppaMin > 0)) return '';
-    var lo = Math.log(s.ppaMin), hi = Math.log(Math.max(s.ppaMax, s.ask ? s.ask.ppa : 0, s.ppaMin * 1.01));
+    // The scale runs over the sales and the asking price together, and its end labels name its real ends.
+    var bottom = Math.min(s.ppaMin, s.ask && s.ask.ppa > 0 ? s.ask.ppa : Infinity), top = Math.max(s.ppaMax, s.ask ? s.ask.ppa : 0, bottom * 1.01);
+    var lo = Math.log(bottom), hi = Math.log(top);
     var x = function (v) { return Math.max(0, Math.min(100, (Math.log(v) - lo) / (hi - lo) * 100)).toFixed(1) + '%'; };
     var ask = s.ask ? '<span class="lvs-ask" style="left:' + x(s.ask.ppa) + '" title="' + esc('Asking price: ' + perAcre(s.ask.ppa)) + '"></span>' : '';
     return '<div class="lvs-strip" aria-hidden="true"><span class="lvs-track"></span>' +
       '<span class="lvs-box" style="left:' + x(s.q1) + ';width:calc(' + x(s.q3) + ' - ' + x(s.q1) + ')"></span>' +
       '<span class="lvs-mid" style="left:' + x(s.median) + '"></span>' + ask + '</div>' +
-      '<p class="lvs-ends note" aria-hidden="true"><span>' + esc(money(s.ppaMin)) + '</span><span>' + esc(money(s.ppaMax)) + ' an acre</span></p>' +
+      '<p class="lvs-ends note" aria-hidden="true"><span>' + esc(money(bottom)) + '</span><span>' + esc(money(top)) + ' an acre</span></p>' +
       '<p class="note lvs-key"><span class="lvs-ki"><span class="lvs-k lvs-k-box"></span>Middle half of sales</span><span class="lvs-ki"><span class="lvs-k lvs-k-mid"></span>Middle</span>' + (s.ask ? '<span class="lvs-ki"><span class="lvs-k lvs-k-ask"></span>Asking price</span>' : '') + '</p>' +
       '<p class="note">Spread-out scale, so low and high sales both show.</p>';
   }
@@ -255,17 +257,21 @@
       auto = { key: key, state: 'error', summary: null, county: null, error: (e && e.message) || 'The look-up did not finish. Try again.', accessed: '' };
     }).then(function () {
       if (auto.key !== key) return;
-      paintAuto(p);
+      // Paint with the form as it is now: the reader may have changed the price or the deal while the look-up ran.
+      var form = document.querySelector('[data-lv-form]'), now = form ? formParams(form) : p;
+      if (autoKey(now) !== key) { auto = { key: '', state: 'idle', summary: null, county: null, error: '', accessed: '' }; paintAuto(now); return; }
+      paintAuto(now);
       // On a phone the panel sits below the form: bring the answer into view.
       var box = document.querySelector('.lv-auto');
       if (box && global.innerWidth < 860 && box.scrollIntoView) box.scrollIntoView({ block: 'start', behavior: 'smooth' });
     });
   }
+  // The results first: they rank the asking price again from the sales found, and the sales panel shows that rank.
   function paintAuto(p) {
-    var box = document.querySelector('.lv-auto');
-    if (box) box.innerHTML = autoPanel(p);
     var out = document.querySelector('.lv-out');
     if (out && global.LandValueTool) out.innerHTML = results(p);
+    var box = document.querySelector('.lv-auto');
+    if (box) box.innerHTML = autoPanel(p);
   }
 
   // The results panel, for the inputs in p. Drawn with the page, and again on its own after each change.

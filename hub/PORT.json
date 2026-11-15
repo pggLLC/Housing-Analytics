@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "540bde5a9825bfd270a04aaea3df33c05e82968c",
+  "commit": "ecbf43ad2948b119cd86ec202c13807dd9bb81e8",
   "dirty": false
  },
  "files": {
@@ -82,7 +82,7 @@
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
   "hub/lab-config.js": "77eddd18e1611b39193d4c40976501449b931061a5378d415f5cea2c2e740369",
   "hub/lab-wave2.css": "ab1303c77232cd775f5a19296fafd69aaa59cadc4c8da99d6ff869004fb28a76",
-  "hub/land-value.js": "3fa5c61ee8115bdc7ae75fba44ab814d46ee490993c82cb83d8bd457fcb960ca",
+  "hub/land-value.js": "88c43ee04272ef74ec2fd04033e97f9037775dcfeff8b11d4c94e2cb375a8ebe",
   "hub/lender-export.js": "d1e48681ef719397028af4e5bbea04baf62f6b1b24441a7d1f40b034e5eea7da",
   "hub/lender-schedules.js": "d540caedeb111c4440fa773e80a45f85c9ced6d4c0ffe7014e54abb2bbffb0b7",
   "hub/lihtc-history.css": "466ec422410ecd3d0f14cf00089648a29ce0e400774871dde69a775414078d56",
