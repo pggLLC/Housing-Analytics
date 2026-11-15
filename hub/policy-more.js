@@ -726,7 +726,8 @@
       var items = all.filter(function (e) { return e.section === sec[0]; });
       if (!items.length) return '';
       return '<h2>' + esc(sec[1]) + '</h2>' + (sec[2] ? '<p class="note">' + esc(sec[2]) + '</p>' : '') + '<div class="research-cards">' + items.map(function (e) {
-        var lab = LAB_ROUTE[e.url], href = lab || LIVE + e.url;
+        // A page that now forwards to a view (site/nav.js MOVED, redirect group A) opens that view, as a lab card.
+        var lab = LAB_ROUTE[e.url] || (global.LabNav && global.LabNav.movedHref(e.url)) || null, href = lab || LIVE + e.url;
         var dated = e.updated ? 'Updated ' + e.updated : e.published ? 'Published ' + e.published : KEEP[e.maintenance] || '';
         return '<a class="hub-card research-card' + (lab ? '' : ' is-live') + '" href="' + esc(href) + '"><span class="page-kind">' + esc(e.type) + '</span>' +
           '<span class="hub-card-title">' + esc(e.title) + (lab ? '' : ' <span class="live-tag">live site ↗</span>') + '</span>' +

@@ -2549,15 +2549,15 @@
   function downloads(geoid, entry) {
     var g = esc(geoid), same = reportSameSite();
     var full = same
-      ? '<button type="button" class="button-link" data-hna-report="pdf" data-hna-g="' + g + '">Download the full report (PDF)</button>' +
-        '<button type="button" class="button-link" data-hna-report="xlsx" data-hna-g="' + g + '">Download the Excel workbook</button>'
-      : '<a class="button-link" href="' + esc(oldHnaUrl(geoid)) + '" target="_blank" rel="noopener">Full PDF report and Excel workbook: older HNA page for ' + esc(entry.label) + ' ↗</a>';
+      ? '<button type="button" class="button-link" data-hna-report="pdf" data-hna-g="' + g + '">Download the summary report (PDF)</button>' +
+        '<button type="button" class="button-link" data-hna-report="xlsx" data-hna-g="' + g + '">Download the summary workbook (Excel)</button>'
+      : '<a class="button-link" href="' + esc(oldHnaUrl(geoid)) + '" target="_blank" rel="noopener">PDF report and Excel workbook: older HNA page for ' + esc(entry.label) + ' ↗</a>';
     return '<section class="hna-dl" aria-labelledby="hna-dl-h"><h2 id="hna-dl-h">Download this assessment</h2>' +
       '<p class="note">Figures for ' + esc(entry.label) + ' with their sources, as COHO publishes them.</p>' +
       '<div class="actions">' + full + '</div>' +
       '<p class="note hna-report-note">' + (same
-        ? 'The full report and the workbook hold every table and chart in the assessment. Each takes about 15 seconds to build.'
-        : 'Those two files are built on the older page for now, which opens on the same place.') + '</p>' +
+        ? 'Each takes about 15 seconds to build. ' + REPORT_HOLDS
+        : 'Those two files are built on the older page for now, which opens on the same place. ' + REPORT_HOLDS) + '</p>' +
       '<p class="note hna-report-status" role="status" aria-live="polite" data-hna-report-status="' + g + '"></p>' +
       '<div class="actions">' +
       '<button type="button" class="button-link secondary" data-hna-dl="print">Print this page or save as PDF</button>' +
@@ -2568,12 +2568,16 @@
       '<a class="button-link secondary" href="#/places/compare?g=' + g + '&view=blend">Combine with other places →</a></div></section>';
   }
 
-  // The full report and the workbook, from the HNA page's own builder (js/hna/hna-export.js, not changed).
+  // The summary report and the workbook, from the HNA page's own builder (js/hna/hna-export.js, not changed).
   // The HNA page for the place opens in a frame out of sight (?classic=1, so it is never forwarded here); once it
   // has loaded the place, and its LIHTC, QCT and DDA figures (they load after the page settles: the DDA line is
   // filled last), its own download is called. The builder checks again that the page shows the place before it
   // writes, and its own message ("Excel workbook downloaded ✓", or why it did not) is shown here.
-  var REPORT = { pdf: { fn: '__HNA_exportPdf', lib: 'jspdf', what: 'full report' }, xlsx: { fn: '__HNA_exportExcel', lib: 'ExcelJS', what: 'Excel workbook' } };
+  var REPORT = { pdf: { fn: '__HNA_exportPdf', lib: 'jspdf', what: 'summary report' }, xlsx: { fn: '__HNA_exportExcel', lib: 'ExcelJS', what: 'Excel workbook' } };
+  // What the two files hold, in the builder's own terms (js/hna/hna-export.js NOT_IN_ANY and NOT_IN_FILE; Codex P2 on
+  // HA #2875): summary figures and charts, not the whole assessment. qa/place-extras.test.js holds this list to the builder's.
+  var REPORT_HOLDS = 'Both carry the summary figures and charts: the workbook gives each chart on the page a sheet, and the PDF leaves out the income distribution, age of stock, bedroom mix, projection, labor market and wage charts. ' +
+    'Neither holds the maps, HUD and CHFA rent and income limit tables, rent triangulation, second homes and short-term rentals, special needs housing, Proposition 123 compliance, PMA delineation, renter need by bedroom count, affordable ownership need, housing type feasibility, Colorado market conditions or the housing action plan checklist: read those on this page.';
   var reportFrame = null, reportBusy = false;
   // auto=1 makes the HNA page open this place even when the browser has another place saved (js/hna/hna-controller.js
   // gives a saved place priority over geoid otherwise; Codex P1 on HA #2875).
