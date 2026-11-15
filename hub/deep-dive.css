@@ -106,3 +106,7 @@
 .dd-glance { margin: 1rem 0; }
 .dd-glance h2 { font-size: 18px; margin: 0 0 .5rem; }
 .dd-map .dd-kicker { display: block; font-size: 13px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: .15rem; }
+
+/* Summary cards from other pages (duplicates pass, 15 Nov). */
+.dd-cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin: 1rem 0; }
+.dd-cards .sum-card { margin: 0; }
