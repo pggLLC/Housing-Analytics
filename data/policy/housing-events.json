@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-14T11:01:26Z",
-    "as_of": "2026-11-14",
+    "generated": "2026-11-15T11:13:41Z",
+    "as_of": "2026-11-15",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -4573,42 +4573,6 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-chfareach-office-hours-online-meeting-11-17-2025",
       "source": "chfa",
       "category": "compliance"
-    },
-    {
-      "title": "Accelerating Housing Supply: State Chapters Take the Lead",
-      "start": "2025-11-14",
-      "end": null,
-      "time": "11:00",
-      "location": null,
-      "online": false,
-      "organizer": "APA Colorado",
-      "url": null,
-      "source": "apa_colorado",
-      "category": "other"
-    },
-    {
-      "title": "Training Webinar: CHFA FirstStep and CHFA FirstGeneration Webinar",
-      "start": "2025-11-14",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/f5905c78-38a6-404a-b666-141a10fa728e@de029520-7a0e-4208-bc91-86b9369ad432",
-      "source": "chfa",
-      "category": "other"
-    },
-    {
-      "title": "November: Colorado Emergency Rental Assistance Pre-Application Period",
-      "start": "2025-11-12",
-      "end": "2025-11-14",
-      "time": null,
-      "location": null,
-      "online": false,
-      "organizer": "Colorado Division of Housing",
-      "url": "https://doh.colorado.gov/emergency-rental-assistance",
-      "source": "doh",
-      "category": "deadline"
     }
   ]
 }
