@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T04:20:56.237Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T07:17:40.793Z. Do not edit by hand.
 
 ---
 
@@ -2113,7 +2113,7 @@
 | `test/address-geocode.test.js` | 9.2 KB |
 | `test/affordability-defaults-inventory.test.js` | 6.7 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 8.2 KB |
-| `test/agency-funding.test.mjs` | 19.1 KB |
+| `test/agency-funding.test.mjs` | 19.2 KB |
 | `test/ahcia-status.test.mjs` | 7.0 KB |
 | `test/ami-gap-contract.test.js` | 14.7 KB |
 | `test/ami-gap-evidence-language.test.js` | 4.8 KB |
@@ -2204,7 +2204,7 @@
 | `test/data-source-inventory-paths.test.js` | 1.5 KB |
 | `test/data-status-footer-live-date.test.js` | 5.1 KB |
 | `test/data-trust-center-badges.test.js` | 4.3 KB |
-| `test/data-trust-center.test.js` | 4.6 KB |
+| `test/data-trust-center.test.js` | 4.7 KB |
 | `test/dc-constants.test.js` | 6.9 KB |
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
 | `test/dc-peer-deals.test.js` | 9.3 KB |
@@ -2386,7 +2386,7 @@
 | `test/hna-deep-dive-batch2.test.js` | 6.6 KB |
 | `test/hna-dev-context-collision.test.js` | 4.6 KB |
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
-| `test/hna-export-binding-browser.test.js` | 12.5 KB |
+| `test/hna-export-binding-browser.test.js` | 12.7 KB |
 | `test/hna-export-matches-screen.test.js` | 48.0 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.5 KB |
 | `test/hna-functionality-check.js` | 64.6 KB |
@@ -2485,7 +2485,7 @@
 | `test/jurisdiction-whitepaper.test.mjs` | 47.2 KB |
 | `test/kalshi-signing-and-write.test.js` | 11.7 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
-| `test/land-banking-awards.test.mjs` | 39.6 KB |
+| `test/land-banking-awards.test.mjs` | 39.7 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
 | `test/land-value-ask.test.js` | 2.2 KB |
 | `test/leading-signals.test.mjs` | 4.8 KB |
@@ -2522,7 +2522,7 @@
 | `test/market-types.test.mjs` | 10.9 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/member-chrome.test.mjs` | 3.8 KB |
-| `test/member-phone-header.test.mjs` | 10.2 KB |
+| `test/member-phone-header.test.mjs` | 10.3 KB |
 | `test/member-place.test.mjs` | 18.0 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
 | `test/methods-spec-sources.test.mjs` | 6.3 KB |
@@ -2536,7 +2536,7 @@
 | `test/mortgage-rate-one-source.test.js` | 12.7 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/navigation-pill-label.test.js` | 2.7 KB |
-| `test/navigation-reaches-every-page.test.mjs` | 6.7 KB |
+| `test/navigation-reaches-every-page.test.mjs` | 6.9 KB |
 | `test/need-severity-is-place-level.test.mjs` | 16.0 KB |
 | `test/neuro-inclusive-brief.test.mjs` | 5.6 KB |
 | `test/news-local-line-matches-old-page.test.js` | 4.7 KB |
@@ -2546,7 +2546,7 @@
 | `test/no-synthesized-chfa-awards.test.js` | 4.5 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/notify-cancelled-outcome.test.js` | 3.5 KB |
-| `test/old-pages-forward.test.mjs` | 11.7 KB |
+| `test/old-pages-forward.test.mjs` | 20.7 KB |
 | `test/one-canonical-step-sequence.test.mjs` | 6.2 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
@@ -2738,7 +2738,7 @@
 | `test/submittal-review.test.mjs` | 53.9 KB |
 | `test/submittal-tieout.test.mjs` | 14.8 KB |
 | `test/sunday-digest.test.mjs` | 3.3 KB |
-| `test/table-export-rendered.test.js` | 16.1 KB |
+| `test/table-export-rendered.test.js` | 16.2 KB |
 | `test/table-export.test.js` | 25.3 KB |
 | `test/table-header-tips.test.js` | 9.2 KB |
 | `test/table-sort.test.js` | 19.8 KB |
