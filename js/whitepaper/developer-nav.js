@@ -25,6 +25,7 @@
       { href: 'developer-parcel-sales.html', label: 'Parcel sales', private: true },
       { href: 'developer-preservation-first.html', label: 'Preservation first', private: true }] },
     { label: 'Check a site', pages: [
+      { href: 'developer-site-brief.html', label: 'Site brief', private: true },
       { href: 'developer-market-screen.html', label: 'Market screen', private: true },
       { href: 'developer-env-screen.html', label: 'Environmental screen', private: true },
       { href: 'developer-commuters.html', label: 'Commuters', private: true }] },

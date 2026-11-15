@@ -88,18 +88,27 @@
     return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
   }
 
+  // A parcel's acres: the county's figure, or from its shape where the county left acres blank.
+  // { acres, fromShape } or null.
+  function parcelAcres(f) {
+    var a = (f && f.attributes) || {}, acres = num(a.landAcres);
+    if (acres > 0) return { acres: acres, fromShape: false };
+    var at = centre(f && f.geometry), sq = num(a['Shape.STArea()']);
+    return at && sq > 0 ? { acres: sq / sqDegPerAcre(at.lat), fromShape: true } : null;
+  }
+
   // One state-layer feature as a plain sale record. Null when it has no usable price, acres or date.
   function fromFeature(f, subject) {
     var a = (f && f.attributes) || {};
     var price = num(a.salePrice), acres = num(a.landAcres), date = saleDate(a.saleDate), at = centre(f && f.geometry);
-    var fromShape = false;
-    if (!(acres > 0) && at && num(a['Shape.STArea()']) > 0) { acres = num(a['Shape.STArea()']) / sqDegPerAcre(at.lat); fromShape = true; }
+    var pa = parcelAcres(f), fromShape = !!(pa && pa.fromShape);
+    acres = pa ? pa.acres : NaN;
     if (!(price >= MIN_PRICE) || !(acres > 0) || !date || !at) return null;
     var rec = {
       county: a.countyName || '', parcel: String(a.parcel_id || a.account || ''),
       address: [a.situsAdd, a.sitAddCty].filter(Boolean).join(', '),
       acres: acres, acresFromShape: fromShape, price: price, date: date, ppa: price / acres,
-      assessed: num(a.apprValTot), use: a.landUseDsc || a.landUseCde || '',
+      assessed: num(a.apprValTot), use: [a.landUseDsc, a.landUseCde].filter(Boolean).join(' \u00b7 '),
       vacant: isVacant(a.landUseDsc, a.landUseCde, a.countyName), fileDate: a.dateReceived || '',
       lat: at.lat, lon: at.lon, url: a.URL || ''
     };
@@ -222,7 +231,7 @@
 
   // The appraiser's four tests, each marked checked, partly checked or not checked, from what is known.
   // inputs: { zoning: '' | 'mf-right' | 'mf-cup' | 'rezone' | 'mixed' | 'commercial' | 'other',
-  //   zoningSource, acres, homes, residual (most the deal can pay, or null), env (member screen result or null) }
+  //   zoningSource, zoningCode and zoningDesc (the county's recorded code, shown but not read), acres, homes, residual (most the deal can pay, or null), env (member screen result or null) }
   function bestUse(inputs) {
     var i = inputs || {}, z = i.zoning || '';
     var legal = z === 'mf-right' ? { status: 'checked', answer: 'Yes', text: 'Apartments are allowed by right' }
@@ -231,7 +240,8 @@
       : z === 'rezone' ? { status: 'checked', answer: 'Not yet', text: 'The site needs rezoning before apartments are allowed' }
       : z === 'commercial' ? { status: 'partly', answer: 'Not as zoned', text: 'Commercial zoning: apartments need a rezoning or a conversion the town allows' }
       : z === 'other' ? { status: 'partly', answer: 'Unclear', text: 'Check the town’s use table for apartments' }
-      : { status: 'not_checked', answer: 'Not checked', text: 'Zoning not entered' };
+      : i.zoningCode ? { status: 'partly', answer: 'Zoned ' + i.zoningCode, text: 'The county records zoning ' + i.zoningCode + (i.zoningDesc ? ' (' + i.zoningDesc + ')' : '') + '. CoHO does not yet read what each local code allows; check the town\u2019s use table' }
+      : { status: 'not_checked', answer: 'Not checked', text: i.zoningNote || 'Zoning not entered' };
     if (z && i.zoningSource) legal.text += ' (' + i.zoningSource + ')';
     legal.text += '.';
 
@@ -278,10 +288,28 @@
     return q;
   }
 
+  // Owner types the 2026 state law on public and nonprofit land names (school districts, colleges, BOCES, housing
+  // authorities, transit districts, local governments, affordable housing nonprofits), read from the owner's name.
+  // A signal to check, never a finding: names are as the county records them.
+  var PUBLIC_OWNER = [
+    ['housing authority', /HOUSING AUTH|\bHA\b.*HOUSING|HOUSING (DEVELOPMENT|PARTNERS)? ?AUTH/],
+    ['school district', /SCHOOL DIST|\bSCHOOL DISTRICT|\bSD ?\d|\bR-?\d+J?\b.*SCHOOL|BOARD OF EDUCATION/],
+    ['college or university', /UNIVERSITY|COLLEGE|\bBOCES\b|BOARD OF (REGENTS|TRUSTEES)/],
+    ['transit district', /TRANSPORTATION DIST|TRANSIT|\bRTD\b/],
+    ['town, city or county', /^(TOWN|CITY|COUNTY) OF\b|\b(TOWN|CITY) OF [A-Z]|BOARD OF COUNTY COMM|COUNTY COMMISSIONERS|\bCOUNTY OF\b|CITY AND COUNTY/],
+    ['state of Colorado', /^STATE OF COLORADO|STATE BOARD OF LAND|COLORADO STATE LAND|DEPARTMENT OF TRANSPORTATION|\bCDOT\b/],
+    ['housing nonprofit or land trust', /HABITAT FOR HUMANITY|LAND TRUST|COMMUNITY LAND|HOUSING (TRUST|CORP|FOUNDATION)|NEIGHBORWORKS/]
+  ];
+  function ownerType(name) {
+    var n = String(name || '').toUpperCase();
+    for (var i = 0; i < PUBLIC_OWNER.length; i++) if (PUBLIC_OWNER[i][1].test(n)) return PUBLIC_OWNER[i][0];
+    return null;
+  }
+
   return {
     LAYER: LAYER, SOURCE_PAGE: SOURCE_PAGE, STEPS: STEPS, ENOUGH: ENOUGH, MIN_FOR_MIDDLE: MIN_FOR_MIDDLE, MAX_MILES: MAX_MILES,
     NO_VACANT_LABEL: NO_VACANT_LABEL, saleDate: saleDate, isVacant: isVacant, centre: centre, miles: miles,
-    fromFeature: fromFeature, queryParams: queryParams, fetchNear: fetchNear, countyAt: countyAt, sqDegPerAcre: sqDegPerAcre, pick: pick, summarize: summarize,
-    bestUse: bestUse, questions: questions
+    fromFeature: fromFeature, queryParams: queryParams, fetchNear: fetchNear, countyAt: countyAt, sqDegPerAcre: sqDegPerAcre, parcelAcres: parcelAcres, pick: pick, summarize: summarize,
+    bestUse: bestUse, questions: questions, ownerType: ownerType
   };
 });

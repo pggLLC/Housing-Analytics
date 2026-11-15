@@ -47,6 +47,9 @@ const sq = L.sqDegPerAcre(39.7);
 const shaped = L.fromFeature(feat({ a: { landAcres: null, 'Shape.STArea()': sq * 2 }, lat: 39.7 }), { lat: 39.7, lon: -108.5 });
 assert.ok(Math.abs(shaped.acres - 2) < 0.01 && shaped.acresFromShape === true, 'acres come from the shape');
 
+assert.deepStrictEqual(L.parcelAcres({ attributes: { landAcres: 3.5 } }), { acres: 3.5, fromShape: false });
+assert.strictEqual(L.parcelAcres({ attributes: {} }), null);
+
 // ---- distance ----
 assert.ok(Math.abs(L.miles({ lat: 39, lon: -105 }, { lat: 40, lon: -105 }) - 69.1) < 0.2, 'one degree of latitude is about 69 miles');
 
@@ -105,5 +108,22 @@ qs = L.questions({ zoning: 'mf-right', summary: L.summarize(L.pick(subject, five
 assert.ok(qs.indexOf('zoning') < 0 && qs.indexOf('ask-high') >= 0 && qs.indexOf('related') >= 0 && qs.indexOf('few-sales') < 0);
 qs = L.questions({ zoning: 'mf-right', holdingYears: 22, publicOwner: true }).map((x) => x.id);
 assert.ok(qs.indexOf('held') >= 0 && qs.indexOf('public-owner') >= 0);
+
+// ---- recorded zoning code: shown, not read ----
+b = L.bestUse({ zoningCode: 'R-3', zoningDesc: 'Multi-family residential' });
+assert.strictEqual(b[0].result.status, 'partly');
+assert.ok(/R-3/.test(b[0].result.text) && /use table/.test(b[0].result.text));
+assert.strictEqual(L.bestUse({ zoning: 'mf-right', zoningCode: 'R-3' })[0].result.status, 'checked', 'the reader\'s own reading wins');
+
+// ---- owner type: public and nonprofit owners, a signal only ----
+assert.strictEqual(L.ownerType('DURANGO SCHOOL DISTRICT 9-R'), 'school district');
+assert.strictEqual(L.ownerType('HOUSING AUTHORITY OF THE CITY OF ASPEN'), 'housing authority');
+assert.strictEqual(L.ownerType('TOWN OF BAYFIELD'), 'town, city or county');
+assert.strictEqual(L.ownerType('BOARD OF COUNTY COMMISSIONERS OF LA PLATA COUNTY'), 'town, city or county');
+assert.strictEqual(L.ownerType('REGIONAL TRANSPORTATION DISTRICT'), 'transit district');
+assert.strictEqual(L.ownerType('HABITAT FOR HUMANITY OF METRO DENVER INC'), 'housing nonprofit or land trust');
+assert.strictEqual(L.ownerType('SMITH JOHN & MARY'), null);
+assert.strictEqual(L.ownerType('COUNTRY ESTATES LLC'), null, 'COUNTRY is not COUNTY');
+assert.strictEqual(L.ownerType(''), null);
 
 console.log('land-comps: all checks passed');
