@@ -207,7 +207,9 @@
     // program. With no jurisdiction chosen this is null and the fixture's own
     // baseline stands, which is the example study exactly as it shipped.
     var localBaseline = data.localBaseline || null;
-    var derived = ProjectScenario.derive(scenario, OwnershipFinance, localBaseline ? { localBaseline: localBaseline } : {});
+    var deriveOptions = localBaseline ? { localBaseline: localBaseline } : {};
+    if (typeof options.tdcPerUnit === 'number') deriveOptions.tdcPerUnit = options.tdcPerUnit;
+    var derived = ProjectScenario.derive(scenario, OwnershipFinance, deriveOptions);
     var path = SharedEquityLifecycle.SCENARIOS[options.pathKey || 'base'];
     var landRows = LandDisposition.compare(LAND_INPUTS);
     var landOutcomes = landRows.map(function (row) {
@@ -248,6 +250,34 @@
     };
   }
 
+  // The build gap: cost to build one home less the most a household in the
+  // band could pay. It needs the reader's cost, so it stays blank until one is
+  // typed; the example scenarios carry no cost and the page offers no default.
+  function buildGapCell(row) {
+    if (unavailable(row.buildGapPerHome)) return '<span class="ms-unavailable">Enter a cost per home below</span>';
+    if (row.buildGapPerHome === 0) return '<strong>None</strong><span class="ms-assistance-qualifier">the price covers the cost</span>';
+    return `<strong>${display(row.buildGapPerHome, 'money')}</strong><span class="ms-assistance-qualifier">${display(row.buildGapTotal, 'money')} for the ${display(row.count)} homes</span>`;
+  }
+  function renderBuildGap(model) {
+    var t = model.derived.tdcDependent;
+    var entered = model.options && typeof model.options.tdcPerUnit === 'number' ? model.options.tdcPerUnit : '';
+    var input = `<label class="ms-cost-input">Cost to build one home (total development cost, $) <input id="ms-tdc-per-home" type="number" inputmode="numeric" min="0" step="1000" placeholder="e.g. your estimate" value="${entered}"></label>`;
+    var intro = '<h3>Gap to build</h3><p class="ms-plain"><strong>In plain terms:</strong> what it costs to build a home, less what a household in each income group can pay. That difference is the subsidy needed to build and sell it at an affordable price. Include land, construction, fees, financing and sales costs.</p>';
+    if (unavailable(t.projectGap)) {
+      var why = unavailable(t.tdcPerUnit)
+        ? 'Enter your cost per home to see the gap for each income group and for the project.'
+        : 'The prices households can pay could not be worked out for this place, so the gap cannot be either.';
+      return `${intro}${input}<p class="ms-unavailable" data-build-gap="pending">${why}</p>`;
+    }
+    var spare = t.subsidyPerUnit < 0
+      ? `<p>Sales at these prices cover the cost, with ${display(-t.subsidyPerUnit, 'money')} per home to spare.</p>`
+      : '';
+    return `${intro}${input}<dl class="ms-build-gap-summary" data-build-gap="ready"><dt>Cost to build one home</dt><dd>${display(t.tdcPerUnit, 'money')} <span class="ms-assistance-qualifier">your figure</span></dd>`
+      + `<dt>Project gap, if higher-priced homes help pay for lower-priced ones</dt><dd><strong>${display(t.projectGap, 'money')}</strong> ${pill('derived')}</dd>`
+      + `<dt>Project gap, if each income group must cover its own homes</dt><dd>${display(t.bandGapTotal, 'money')} ${pill('derived')}</dd></dl>${spare}`
+      + '<p class="ms-caveat">Prices are the most a household in the middle of each band could pay (the table above). For the funding programs that could cover this gap, use the <a href="deal-calculator.html?mode=ownership">Deal Calculator</a> in For-sale mode.</p>';
+  }
+
   function renderScenario(model, data) {
     var options = data.scenarios.map(function (doc) {
       var selected = scenarioKey(doc) === scenarioKey(model.scenario) ? ' selected' : '';
@@ -258,7 +288,7 @@
     });
     var bandRows = model.derived.bands.map(function (row) {
       var assistance = assistanceForBand(model.scenario, row.band);
-      return `<tr><td>${display(row.count)}</td><td>${display(row.band[0], 'rate')}–${display(row.band[1], 'rate')}</td><td>${display(row.maxAffordablePrice, 'money')}</td><td class="ms-affordability-gap"><strong>${display(row.gapVsLocalPrice, 'money')}</strong></td><td>${assistanceFinding(row, assistance)}</td><td>${pill(row)}</td></tr>`;
+      return `<tr><td>${display(row.count)}</td><td>${display(row.band[0], 'rate')}–${display(row.band[1], 'rate')}</td><td>${display(row.maxAffordablePrice, 'money')}</td><td class="ms-affordability-gap"><strong>${display(row.gapVsLocalPrice, 'money')}</strong></td><td>${assistanceFinding(row, assistance)}</td><td class="ms-build-gap">${buildGapCell(row)}</td><td>${pill(row)}</td></tr>`;
     });
     var atHome = atExampleTown(model, data);
     var partners = model.scenario.partners.map(function (partner) {
@@ -268,7 +298,7 @@
       return `<li><strong>${humanize(partner.role)}</strong>: ${who} — candidate; no commitment has been made</li>`;
     }).join('');
     var pending = model.scenario.meta.owner_inputs_pending;
-    return `<section id="ms-s1" class="chart-card ms-section" data-no-source="estimate: an example project; each row names where its number comes from">${heading('1. The project and who it is priced for', 'scenario and program comparison')}${plain('the first table is the mix of homes in an example project. The second splits the homes by income group (AMI band). For each group it shows the most a household could pay, how far that falls short of the typical local home value (the gap), and whether the down-payment help assumed for the example project could close that gap. That help is an example assumption, not a list of programs available where you are. Use the menu to try other versions of the project.')}<label>Project scenario <select id="ms-scenario-select">${options}</select></label>${table(['Homes', 'Type', 'Size', 'Where the number comes from'], mixRows, 'Unit mix')}${table(['Homes', 'Income group (AMI band)', 'Most they could pay', 'Gap to typical home value', 'Still short after the example\'s down-payment help', 'Where the number comes from'], bandRows, 'AMI comparison')}<div class="ms-grid"><div><h3>Cost per home</h3><p>Total development cost (TDC) per home: ${display(model.derived.tdcDependent.tdcPerUnit, 'money')}</p><p>Public subsidy needed per home: ${display(model.derived.tdcDependent.subsidyPerUnit, 'money')}</p><p><strong>Values still needed from the project sponsor before costs can be worked out:</strong> ${pending.map(function (id) { return plainLabel('pending', id); }).join('; ')}.</p></div><div><h3>Partners</h3><ul>${partners}</ul></div></div></section>`;
+    return `<section id="ms-s1" class="chart-card ms-section" data-no-source="estimate: an example project; each row names where its number comes from">${heading('1. The project and who it is priced for', 'scenario and program comparison')}${plain('the first table is the mix of homes in an example project. The second splits the homes by income group (AMI band). For each group it shows the most a household could pay, how far that falls short of the typical local home value (the gap), and whether the down-payment help assumed for the example project could close that gap. That help is an example assumption, not a list of programs available where you are. Use the menu to try other versions of the project.')}<label>Project scenario <select id="ms-scenario-select">${options}</select></label>${table(['Homes', 'Type', 'Size', 'Where the number comes from'], mixRows, 'Unit mix')}${table(['Homes', 'Income group (AMI band)', 'Most they could pay', 'Gap to typical home value', 'Still short after the example\'s down-payment help', 'Subsidy to build and sell one home', 'Where the number comes from'], bandRows, 'AMI comparison')}<div class="ms-grid"><div>${renderBuildGap(model)}<p><strong>Still needed from the project sponsor to firm up costs:</strong> ${pending.map(function (id) { return plainLabel('pending', id); }).join('; ')}.</p></div><div><h3>Partners</h3><ul>${partners}</ul></div></div></section>`;
   }
 
   function renderLand(model, data) {
@@ -554,6 +584,13 @@
       render(mount, model, data);
       mount.querySelector('#ms-scenario-select').addEventListener('change', function (event) {
         options.scenarioKey = event.target.value; paint();
+      });
+      mount.querySelector('#ms-tdc-per-home').addEventListener('change', function (event) {
+        var value = Number(event.target.value);
+        options.tdcPerUnit = event.target.value !== '' && Number.isFinite(value) && value > 0 ? value : undefined;
+        paint();
+        var again = mount.querySelector('#ms-tdc-per-home');
+        if (again) again.focus();
       });
       mount.querySelector('#ms-path-select').addEventListener('change', function (event) {
         options.pathKey = event.target.value; paint();

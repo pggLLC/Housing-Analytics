@@ -143,7 +143,18 @@ const firstBand = model.derived.bands[0];
 assert(preview.includes(money(firstBand.gapVsLocalPrice)));
 assert(exported.includes(money(firstBand.gapVsLocalPrice)));
 assert(preview.includes('<p><strong>TDC per unit:</strong> Owner input required</p>'));
-assert(preview.includes('<p><strong>Subsidy per unit:</strong> Owner input required</p>'));
+// Build gap: the report carries the page model's figures when a cost is entered,
+// and none of them when it is not.
+{
+  const priced = Page.buildModel(data, { tdcPerUnit: 400000 });
+  const pricedPreview = Report.renderReportPreview(Report.buildReport(priced, meta));
+  const gaps = [priced.derived.tdcDependent.projectGap, priced.derived.tdcDependent.bandGapTotal]
+    .concat(priced.derived.bands.map((row) => row.buildGapPerHome).filter((value) => value > 0));
+  gaps.forEach((value) => {
+    assert(pricedPreview.includes(money(value)), 'priced report shows ' + money(value));
+    assert(!preview.includes(money(value)), 'report without a cost never shows ' + money(value));
+  });
+}
 const engineBoundMoney = money(model.landOutcomes[0].lifecycle.results[5].monthlyHousingCost);
 assert(preview.includes('Monthly housing cost at year 5: ' + engineBoundMoney));
 assert(exported.includes('Monthly housing cost at year 5: ' + engineBoundMoney));
