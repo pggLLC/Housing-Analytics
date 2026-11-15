@@ -30,7 +30,7 @@
       { title: 'Find a site or a property', items: [
         { label: 'Opportunity Finder lite', lab: '#/finder', desc: 'Every town on the facts for 4% and 9% deals. Free.' },
         { label: 'Preservation inventory', lab: '#/opportunity/preservation', desc: 'Affordable homes that could be lost, and when.' },
-        { label: 'Preservation in Colorado', lab: '#/guide/preservation', desc: 'Right to buy, park sales and money to keep homes affordable.' },
+        { draft: true, label: 'Preservation in Colorado', lab: '#/guide/preservation', desc: 'Right to buy, park sales and money to keep homes affordable.' },
         { label: 'CHFA portfolio', lab: '#/opportunity/portfolio', desc: 'Every tax credit property and its homes.' },
         { label: 'Land value', lab: '#/opportunity/land-value', desc: 'Estimate a site’s land value and a negotiation range.' },
         { label: 'Commuting and jobs', lab: '#/opportunity/commuting', desc: 'Where workers live, where the jobs are, and the largest employers.' }] },
@@ -72,7 +72,7 @@
       { title: 'Research', items: [
         { label: 'Research overview', lab: '#/research', desc: 'All research and analysis in one place.' },
         { label: 'How tax credit deals have changed', lab: '#/tax-credit-history', desc: 'Colorado’s housing tax credit since 1987: deal size, bonds, who it serves.' },
-        { label: 'Commuters and capture rates', lab: '#/guide/commuters-capture', desc: 'How workers who drive in can widen a rental\u2019s market, and the proof CHFA asks for.' },
+        { draft: true, label: 'Commuters and capture rates', lab: '#/guide/commuters-capture', desc: 'How workers who drive in can widen a rental\u2019s market, and the proof CHFA asks for.' },
         { label: 'Middle-income rental', lab: '#/middle-income', desc: 'The middle-income credit, Prop 123 Equity and town deed restrictions: who each serves.' },
         { label: 'White paper', lab: '#/guide/white-paper', desc: 'Deciding about housing with public data.' },
         { label: 'Working paper', lab: '#/guide/working-paper', desc: 'What building a public housing-data system taught.' },
@@ -92,6 +92,9 @@
         { label: 'Data status', lab: '#/data/status', desc: 'Freshness checks for every dataset.' }] }
     ] }
   ];
+  // A guide still in draft (site/guides/<slug>.json has no public page yet) shows in the lab menus only. The public
+  // site has no page for it, so its menu link opened nothing there (paul's site sweep, 15 Nov 2026).
+  if (global.LAB_PORT) MENUS.forEach(function (m) { m.groups.forEach(function (g) { g.items = g.items.filter(function (it) { return !it.draft; }); }); });
 
   var esc = function (s) { return global.LabShell.esc(s); };
   // In a port into the public site (window.LAB_PORT), a lab route the hub carries stays a route, one it does

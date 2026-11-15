@@ -35,18 +35,15 @@ assert(!text.includes('Educational Guide'), 'homepage must not describe itself a
   const needPct = Math.round(Number(axis[1]) * 100);
   const oppPct = Math.round(Number(axis[2]) * 100);
   // The explainer is the map's own text for its "Priority score" measure (hub/county-need.js), shown when that
-  // measure is picked; Home also carries a short version it shows if the map cannot load (hub/home.js).
+  // measure is picked. Since 15 Nov 2026 the map is on Places and need only (paul: no county map on Home), so
+  // Home neither draws it nor keeps a short copy of the explainer.
   const mapSrc = fs.readFileSync(path.join(ROOT, 'hub', 'county-need.js'), 'utf8');
   const m = mapSrc.match(/\{ id: 'need', label: '([^']+)'[\s\S]*?what: '([^']+)'/);
   assert(m, 'the county map must keep the need-score explainer (measure "need" in hub/county-need.js)');
-  assert(index.includes(m[1]), 'Home must offer the priority score as a map measure, by the name its explainer uses');
+  assert(!/class="[^"]*\bcounty-need\b/.test(index), 'Home must not draw the county map (it lives on Places and need)');
   assert(/need and opportunity/i.test(m[1]), 'the measure\'s name says the score is need and opportunity, not need alone');
   assert(m[2].includes(`(${needPct}%) is need`), `need-score explainer must give the need share as ${needPct}%`);
   assert(m[2].includes(`(${oppPct}%) is opportunity`), `need-score explainer must give the opportunity share as ${oppPct}%`);
-  const short = hubHome.match(/The priority score is[^']*/);
-  assert(short, 'hub/home.js must keep the short need-score explainer for when the map cannot load');
-  assert(new RegExp(`\\b${needPct}% need\\b`).test(short[0]) && new RegExp(`\\b${oppPct}% opportunity\\b`).test(short[0]) && /not need alone/.test(short[0]),
-    `the short need-score explainer must give the shares as ${needPct}% need and ${oppPct}% opportunity, and say it is not need alone`);
 }
 
 for (const banned of [
