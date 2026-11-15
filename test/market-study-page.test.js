@@ -368,7 +368,7 @@ assert.strictEqual(pkg.scripts['test:market-study-page'], 'node test/market-stud
   // The link must open the calculator the way js/deal-calculator.js reads ownership mode.
   const calcLink = gapDom.mount.querySelector('#ms-s1 a[href^="deal-calculator.html"]');
   assert(calcLink, 'gap links to the Deal Calculator');
-  assert.strictEqual(new URL(calcLink.getAttribute('href'), 'http://x/').searchParams.get('mode'), 'ownership');
+  assert.strictEqual(new URLSearchParams(calcLink.getAttribute('href').split('?')[1] || '').get('mode'), 'ownership');
   assert(fs.readFileSync(path.join(__dirname, '..', 'js', 'deal-calculator.js'), 'utf8').includes('?mode=ownership'), 'calculator still reads mode=ownership');
   assert(!bannedProvenanceTokens.test(text(gapDom.mount)), 'gap uses novice labels');
   field.value = '';
