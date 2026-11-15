@@ -78,9 +78,17 @@ export const ARRIVE_WITH = Object.freeze({
 
 // "page.html", "page.html#tab" or "/page.html" -> the same with the query
 // inserted before any hash.
+// An address that already has a query (a place: ?geoid=...) forwards with it, so a page on the list above gets
+// &classic=1 added and is still measured as written.
 export function arriveUrl(pagePath) {
   const hash = pagePath.indexOf('#');
   const file = hash < 0 ? pagePath : pagePath.slice(0, hash);
+  const rest = hash < 0 ? '' : pagePath.slice(hash);
+  const q = file.indexOf('?');
+  if (q >= 0) {
+    const listed = ARRIVE_WITH[file.slice(0, q).replace(/^\//, '')];
+    return listed && !/[?&]classic=1(?:&|$)/.test(file) ? file + '&classic=1' + rest : pagePath;
+  }
   const query = ARRIVE_WITH[file.replace(/^\//, '')] || '';
-  return file + query + (hash < 0 ? '' : pagePath.slice(hash));
+  return file + query + rest;
 }
