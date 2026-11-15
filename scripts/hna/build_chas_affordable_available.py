@@ -82,6 +82,10 @@ VACANT_RENT = (4, 8, 12, 16)
 T7_RENTER_TOTAL = 108
 T7_RENTER_INCOME = (109, 130, 151, 172, 193)
 TIERS = (('30', 1), ('50', 2), ('80', 3))
+# Who rents the homes in each rent tier (Table 15C) and how many stand vacant
+# for rent (Table 14B). Not cumulative: each rent tier and income group alone.
+RENT_KEYS = ('le30', '30to50', '50to80', 'over80')
+INCOME_KEYS = ('le30', '30to50', '50to80', '80to100', 'over100')
 ROUNDING_TOLERANCE = 25
 
 
@@ -158,10 +162,18 @@ def compute(geoid, t15, t14, t7):
             # None, never 0, when there is nobody in the group to divide by.
             'homes_per_100_households': round(100 * aa / hh, 1) if hh > 0 else None,
         }
+    homes_by_rent = {
+        RENT_KEYS[r]: {
+            'rented_by': {INCOME_KEYS[i]: occupied[r][i] for i in range(len(INCOME_KEYS))},
+            'vacant_for_rent': vacant[r],
+        }
+        for r in range(len(RENT_KEYS))
+    }
     return {
         'renter_homes_not_split_by_rent': t15[2],
         'vacant_for_rent_not_split_by_rent': t14[2],
         'tiers': tiers,
+        'homes_by_rent': homes_by_rent,
     }
 
 
@@ -180,6 +192,13 @@ def total(records):
         t['homes_per_100_households'] = (round(100 * t['affordable_available_homes'] / t['renter_households'], 1)
                                          if t['renter_households'] > 0 else None)
         out['tiers'][tier] = t
+    out['homes_by_rent'] = {
+        rk: {
+            'rented_by': {ik: sum(r['homes_by_rent'][rk]['rented_by'][ik] for r in records) for ik in INCOME_KEYS},
+            'vacant_for_rent': sum(r['homes_by_rent'][rk]['vacant_for_rent'] for r in records),
+        }
+        for rk in RENT_KEYS
+    }
     return out
 
 
@@ -240,7 +259,10 @@ def build():
                        'households can pay cannot close their shortfall. Statewide is computed from the sum of the '
                        '64 counties\' households and homes. Renter households by income are CHAS Table 7 totals, so '
                        'households in homes lacking a complete kitchen or plumbing count; those homes are not split by '
-                       'rent in Table 15C and are left out of the supply. Small places carry wide margins of error.'),
+                       'rent in Table 15C and are left out of the supply. Small places carry wide margins of error. '
+                       'homes_by_rent = renter-occupied homes in each rent tier (rent affordable at <=30%, 30-50%, '
+                       '50-80% or over 80% HAMFI) by the income of the household renting them, and vacant-for-rent '
+                       'homes in that tier; each tier and income group alone, not cumulative (Tables 15C and 14B).'),
             'county_count': len(groups['county']),
             'place_count': len(groups['place']),
         },
