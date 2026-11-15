@@ -25,7 +25,9 @@
  *  9. every menu, step bar, next step and profile link opens the new page, and the scripts that recognise the
  *     Market Analysis link by its file name (carrying the place, saving before leaving) recognise the new name;
  * 10. a link under the built-in calculator opens its numbers in the Deal hub's Financials, on the route the hub
- *     registers, without the page's own address being read as a share link.
+ *     registers, without the page's own address being read as a share link;
+ * 11. a site sent from Market check (?site=lat,lon&sl=) is typed into the page's own address box and found there,
+ *     under the parameter names Market check (hub/market.js) sends, and only on the new page.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -64,7 +66,7 @@ ok(oldIds.size > 200, 'market-analysis.html has far fewer ids than expected (' +
 // 4. The same scripts, in order.
 const scripts = html => [...html.matchAll(/<script[^>]*\ssrc="([^"]+)"/g)].map(m => m[1]);
 const DROPPED = ['js/navigation.js', 'js/dark-mode-toggle.js', 'js/mobile-menu.js'];
-const ADDED = ['js/components/ma-calc-handoff.js', 'js/deal-calculator-share.js', 'js/components/ma-place-row.js', 'hub/lab-config.js', 'hub/page-chrome.js', 'hub/nav.js', 'hub/step-bar.js', 'js/components/ma-step-bar.js'];
+const ADDED = ['js/components/ma-calc-handoff.js', 'js/deal-calculator-share.js', 'js/components/ma-site-link.js', 'js/components/ma-place-row.js', 'hub/lab-config.js', 'hub/page-chrome.js', 'hub/nav.js', 'hub/step-bar.js', 'js/components/ma-step-bar.js'];
 const oldScripts = scripts(oldPage), newScripts = scripts(newPage);
 DROPPED.forEach(f => { ok(oldScripts.includes(f), 'market-analysis.html no longer loads ' + f + '; update the build script'); ok(!newScripts.includes(f), 'the new page still loads ' + f); });
 ADDED.forEach(f => ok(newScripts.includes(f), 'the new page does not load ' + f));
@@ -431,6 +433,65 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   ok(!parts((await run({ subject: null })).a.getAttribute('href')).q.has('subject'), 'with no subject project the link should still open, without one');
   ok(!(await run({ drawn: false })).p && !(await run({ share: false })).p, 'before the calculator is drawn, or without the share script, there should be no link yet');
   opened.forEach(w => w.close()); // the script keeps looking for the calculator for a minute
+}
+
+// 11. A site from Market check. hub/market.js links "Full Market Analysis for this site" to this page with
+//     &site=<lat>,<lon>&sl=<address>; js/components/ma-site-link.js types the point into the page's own address box
+//     as "lat, lon" and presses Find once the data has loaded, so js/market-analysis.js places it and starts the
+//     analysis as for a person pasting coordinates. Nothing in it places a site or runs anything itself.
+{
+  const src = read('js/components/ma-site-link.js');
+  const at = f => newScripts.indexOf(f);
+  ok(at('js/market-analysis.js') >= 0 && at('js/market-analysis.js') < at('js/components/ma-site-link.js'), 'the site link must load after js/market-analysis.js');
+  ok(/<script defer src="js\/components\/ma-site-link\.js"><\/script>/.test(newPage), 'the site link must be deferred');
+  ok(!scripts(oldPage).includes('js/components/ma-site-link.js'), 'the old page itself should not load the site link');
+  // It drives the page's own controls, which must still be on the page.
+  const used = [...new Set([...src.matchAll(/getElementById\('([^']+)'\)/g)].map(m => m[1]))];
+  ok(used.length === 4 && used.every(id => oldIds.has(id)), 'the site link uses ids the page no longer has: ' + used.filter(id => !oldIds.has(id)).join(', '));
+  // The same Colorado box the address search checks, and the status words it writes for a typed point.
+  const engine = read('js/market-analysis.js');
+  const box = /CO_LAT_MIN = ([-\d.]+), CO_LAT_MAX = ([-\d.]+);\s*var CO_LON_MIN = ([-\d.]+), CO_LON_MAX = ([-\d.]+);/.exec(engine);
+  const mine = /latMin: ([-\d.]+), latMax: ([-\d.]+), lonMin: ([-\d.]+), lonMax: ([-\d.]+)/.exec(src);
+  ok(box && mine && box.slice(1).join() === mine.slice(1).join(), 'the site link\'s Colorado box differs from the one js/market-analysis.js checks');
+  ok(/'Pin dropped at '/.test(engine) && /\^Pin dropped/.test(src), 'the address search no longer says "Pin dropped at" for a typed point');
+  // Agreement with Market check: the parameter names it sends are the ones read here, and it never sends ?auto=1
+  // (which would place the town centre over the site).
+  const market = read('hub/market.js');
+  const link = /'deal-market-analysis\.html\?geoid=' \+ encodeURIComponent\(g\) \+ \(lead \? '&(\w+)=' \+ site\.lat\.toFixed\(5\) \+ ',' \+ site\.lon\.toFixed\(5\) \+ '&(\w+)=' \+ encodeURIComponent\(site\.label\)/.exec(market);
+  ok(link, 'hub/market.js no longer builds the Market Analysis link with a site as ?geoid=...&<site>=lat,lon&<label>=...');
+  const reads = [...src.matchAll(/sp\.get\('(\w+)'\)/g)].map(m => m[1]);
+  ok(link && reads.join() === [link[1], link[2]].join(), 'Market check sends ' + (link ? link.slice(1).join(', ') : '?') + ' but the site link reads ' + reads.join(', '));
+  ok(!/deal-market-analysis\.html[^'"]*auto=1/.test(market), 'Market check should never send auto=1 to the full Market Analysis');
+
+  // What it does, in a page with the four controls.
+  const { JSDOM } = await import('jsdom');
+  const opened = [];
+  const run = async (query, { ready = true } = {}) => {
+    const dom = new JSDOM('<!doctype html><body><input id="pmaAddressInput"><button id="pmaAddressSearchBtn">Find</button><p id="pmaAddressStatus"></p><div id="pmaMap"></div></body>',
+      { runScripts: 'outside-only', url: 'https://example.com/deal-market-analysis.html' + query });
+    const w = dom.window; opened.push(w);
+    const pressed = [];
+    w.document.getElementById('pmaAddressSearchBtn').addEventListener('click', () => {
+      const v = w.document.getElementById('pmaAddressInput').value; pressed.push(v);
+      w.document.getElementById('pmaAddressStatus').textContent = 'Pin dropped at ' + v;
+    });
+    let release; const data = ready ? Promise.resolve() : new Promise(r => { release = r; });
+    w.PMAEngine = { whenDataReady: () => data };
+    const later = w.setTimeout.bind(w); w.setTimeout = f => later(f, 0);   // the three-second wait, without waiting
+    w.eval(src);
+    await new Promise(r => setTimeout(r, 50));
+    return { w, pressed, release, status: () => w.document.getElementById('pmaAddressStatus').textContent };
+  };
+  const a = await run('?geoid=0828745&site=39.15887,-108.72898&sl=' + encodeURIComponent('544 Rood Ave, Grand Junction'));
+  ok(a.pressed.join('|') === '39.15887, -108.72898', 'with a site, the point should be typed as "lat, lon" and found once (got ' + a.pressed.join('|') + ')');
+  ok(/^Site from Market check: 544 Rood Ave, Grand Junction\. Pin dropped at /.test(a.status()), 'the status should name the address Market check sent: ' + a.status());
+  ok((await run('?geoid=0828745')).pressed.length === 0, 'with no site, nothing should be typed or found');
+  ok((await run('?site=40.71,-74.01')).pressed.length === 0 && (await run('?site=near+the+river')).pressed.length === 0, 'a point outside Colorado, or not a point, should be left alone');
+  const b = await run('?site=39.15887,-108.72898', { ready: false });
+  ok(b.pressed.length === 0, 'nothing should be found before the page\'s data has loaded');
+  b.release(); await new Promise(r => setTimeout(r, 50));
+  ok(b.pressed.length === 1 && b.status().startsWith('Pin dropped at '), 'once the data has loaded, the point should be found (no label, no "Site from Market check")');
+  opened.forEach(w => w.close());
 }
 
 console.log('market-analysis-hub-page: ' + checks + ' checks passed');

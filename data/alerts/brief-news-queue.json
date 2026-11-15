@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-11-14T11:01:26Z",
-    "as_of": "2026-11-14",
+    "generated": "2026-11-15T11:13:41Z",
+    "as_of": "2026-11-15",
     "stale_days": 30,
-    "events_as_of": "2026-11-14",
+    "events_as_of": "2026-11-15",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,8 +14,16 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
+        {
+          "title": "Colorado Springs pet-related information and events starting Nov. 14",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQcWd3WENPQjVHRHpyNmlTSnRGTDBUMDVjSVlSS1I0RC1UYWtBWjdJX2pMcEVjNlZGVDlZS3Q5NTNJVWNlZ3ZEelYwNi1oSXA4bFFrdWVEQnAzdUxRNVNoWXJEajF0eThqaThTN1JQM2F4SEczaWs2QXlqT1kxLWZvcG1INUN6dGZaN1FpTF9XRFVsSmtiRUNJcVhWdTJpREFt?oc=5",
+          "date": "2026-11-14",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Wendy's Village Teacher Housing Breaks Ground in Colorado Springs",
           "source": "Hoodline",
@@ -374,7 +382,7 @@
       ],
       "events": [],
       "reasons": [
-        "40 new stories naming it",
+        "41 new stories naming it",
         "1 new story about its county",
         "3 older stories not read yet"
       ]
@@ -386,7 +394,7 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "Denver and beyond holiday events",
@@ -582,7 +590,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "The Town of Mt. Crested Butte is accepting applications for a deed-restricted workforce housing unit in Three Seasons. This 2-bedroom, 2-bathroom condominium is available to qualified applicants. Monthly rent is based on household size and the Town's Wor",
@@ -625,7 +633,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "Voters support Pitkin County’s Healthy Community Fund renewal",
@@ -668,7 +676,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "Living in Bayfield Colorado vs Durango: what the price gap buys you",
@@ -700,7 +708,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -733,7 +741,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "Judge rules Ridgway hotel can’t house workers building Telluride’s Four Seasons resort",
@@ -767,7 +775,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -810,7 +818,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "Senator Cortez Masto, Senator Warren tour new Las Vegas affordable housing",
@@ -833,7 +841,7 @@
       "county_fips": "08069",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "Johnson Capital Multifamily and Gershman Investment Corp Close $17.2-M HUD Refinance of Fort Collins Affordable Housing Community",
@@ -856,7 +864,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "Rifle City Council approves ADU code changes, water system improvements",
@@ -879,7 +887,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "Salida City Council Double Header, Regular Session Starts at 6:00 p.m. Tonight - by Merrell Bergin",
@@ -902,7 +910,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "Steamboat Springs launches work with Colorado Energy Office to address workforce housing, climate goals",
@@ -926,7 +934,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -968,7 +976,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [
         {
           "title": "Voters support Pitkin County’s Healthy Community Fund renewal",
@@ -999,7 +1007,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [],
       "events": [],
       "reasons": []
@@ -1011,7 +1019,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [],
       "events": [],
       "reasons": [
@@ -1025,7 +1033,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 27,
+      "days_since_review": 28,
       "stories": [],
       "events": [],
       "reasons": []

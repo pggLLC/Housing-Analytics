@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-08T10:18:54Z",
+  "updated": "2026-11-15T10:44:26Z",
   "source": "kalshi",
   "items": [
     {
@@ -16,10 +16,10 @@
       "outcomes": [
         {
           "name": "Above 679.21",
-          "prob": 0.29,
+          "prob": null,
           "bid": 0.28,
-          "ask": 0.29,
-          "thin": false
+          "ask": 0.39,
+          "thin": true
         }
       ]
     },
@@ -57,17 +57,17 @@
         },
         {
           "name": "Above 32,000",
-          "prob": 0.32,
-          "bid": 0.31,
-          "ask": 0.33,
+          "prob": 0.29,
+          "bid": 0.28,
+          "ask": 0.29,
           "thin": false
         },
         {
           "name": "Above 30,000",
-          "prob": null,
-          "bid": 0.56,
-          "ask": 0.73,
-          "thin": true
+          "prob": 0.7,
+          "bid": 0.69,
+          "ask": 0.7,
+          "thin": false
         }
       ]
     },
@@ -93,7 +93,7 @@
           "name": "Above 7.9%",
           "prob": null,
           "bid": 0.01,
-          "ask": 0.07,
+          "ask": 0.03,
           "thin": true
         },
         {
@@ -107,28 +107,28 @@
           "name": "Above 7.7%",
           "prob": null,
           "bid": 0.01,
-          "ask": 0.12,
+          "ask": 0.25,
           "thin": true
         },
         {
           "name": "Above 7.6%",
           "prob": null,
-          "bid": 0.11,
-          "ask": 0.16,
+          "bid": 0.02,
+          "ask": 0.17,
           "thin": true
         },
         {
           "name": "Above 7.5%",
           "prob": null,
-          "bid": 0.19,
-          "ask": 0.2,
+          "bid": 0.22,
+          "ask": 0.5,
           "thin": true
         },
         {
           "name": "Above 7.4%",
           "prob": null,
-          "bid": 0.29,
-          "ask": 0.49,
+          "bid": 0.37,
+          "ask": 0.68,
           "thin": true
         }
       ]
@@ -146,57 +146,57 @@
       "outcomes": [
         {
           "name": "Above 1.400M",
-          "prob": 0.12,
-          "bid": 0.07,
-          "ask": 0.17,
+          "prob": 0.09,
+          "bid": 0.04,
+          "ask": 0.13,
           "thin": false
         },
         {
           "name": "Above 1.350M",
-          "prob": 0.24,
-          "bid": 0.19,
-          "ask": 0.29,
+          "prob": 0.16,
+          "bid": 0.12,
+          "ask": 0.21,
           "thin": false
         },
         {
           "name": "Above 1.300M",
-          "prob": 0.43,
-          "bid": 0.38,
-          "ask": 0.48,
+          "prob": 0.33,
+          "bid": 0.29,
+          "ask": 0.37,
           "thin": false
         },
         {
           "name": "Above 1.250M",
-          "prob": 0.66,
-          "bid": 0.61,
-          "ask": 0.71,
+          "prob": 0.53,
+          "bid": 0.49,
+          "ask": 0.57,
           "thin": false
         },
         {
           "name": "Above 1.200M",
-          "prob": 0.83,
-          "bid": 0.78,
-          "ask": 0.88,
+          "prob": 0.78,
+          "bid": 0.73,
+          "ask": 0.83,
           "thin": false
         },
         {
           "name": "Above 1.150M",
-          "prob": 0.93,
-          "bid": 0.88,
-          "ask": 0.98,
+          "prob": 0.91,
+          "bid": 0.86,
+          "ask": 0.96,
           "thin": false
         },
         {
           "name": "Above 1.100M",
           "prob": 0.96,
           "bid": 0.93,
-          "ask": 0.98,
+          "ask": 0.99,
           "thin": false
         },
         {
           "name": "Above 1.050M",
-          "prob": 0.97,
-          "bid": 0.94,
+          "prob": 0.99,
+          "bid": 0.98,
           "ask": 0.99,
           "thin": false
         }
@@ -216,50 +216,50 @@
         {
           "name": "Above 1.550M",
           "prob": 0.03,
-          "bid": 0.02,
-          "ask": 0.03,
+          "bid": 0.01,
+          "ask": 0.04,
           "thin": false
         },
         {
           "name": "Above 1.500M",
-          "prob": 0.06,
-          "bid": 0.02,
-          "ask": 0.1,
+          "prob": 0.05,
+          "bid": 0.01,
+          "ask": 0.09,
           "thin": false
         },
         {
           "name": "Above 1.450M",
           "prob": 0.2,
-          "bid": 0.15,
-          "ask": 0.25,
+          "bid": 0.16,
+          "ask": 0.23,
           "thin": false
         },
         {
           "name": "Above 1.400M",
-          "prob": 0.44,
-          "bid": 0.39,
-          "ask": 0.49,
+          "prob": 0.42,
+          "bid": 0.41,
+          "ask": 0.43,
           "thin": false
         },
         {
           "name": "Above 1.350M",
-          "prob": 0.8,
-          "bid": 0.75,
-          "ask": 0.85,
+          "prob": 0.79,
+          "bid": 0.74,
+          "ask": 0.84,
           "thin": false
         },
         {
           "name": "Above 1.300M",
           "prob": 0.95,
-          "bid": 0.91,
-          "ask": 0.98,
+          "bid": 0.9,
+          "ask": 0.99,
           "thin": false
         },
         {
           "name": "Above 1.250M",
-          "prob": 0.96,
-          "bid": 0.94,
-          "ask": 0.98,
+          "prob": 0.99,
+          "bid": 0.98,
+          "ask": 0.99,
           "thin": false
         }
       ]
@@ -269,17 +269,17 @@
       "label": "US median existing-home price, monthly (NAR)",
       "horizon": "month",
       "market": {
-        "id": "KXEXUSHOME-26NOV12-T405000",
-        "title": "Will Median Sales Price of Existing Homes (HOSMEDUSM052N) for October 2026 be above $405,000?",
-        "url": "https://kalshi.com/markets/KXEXUSHOME-26NOV12-T405000",
-        "closes": "2026-11-12T14:59:00Z"
+        "id": "KXEXUSHOME-26DEC09-T435000",
+        "title": "Will Median Sales Price of Existing Homes (HOSMEDUSM052N) for November 2026 be above $435,000?",
+        "url": "https://kalshi.com/markets/KXEXUSHOME-26DEC09-T435000",
+        "closes": "2026-12-09T14:59:00Z"
       },
       "outcomes": [
         {
           "name": "Above $435,000",
-          "prob": 0.02,
+          "prob": 0.03,
           "bid": 0.01,
-          "ask": 0.02,
+          "ask": 0.06,
           "thin": false
         },
         {
@@ -291,52 +291,52 @@
         },
         {
           "name": "Above $425,000",
-          "prob": 0.05,
-          "bid": 0.02,
-          "ask": 0.08,
+          "prob": 0.03,
+          "bid": 0.01,
+          "ask": 0.06,
           "thin": false
         },
         {
           "name": "Above $420,000",
+          "prob": 0.06,
+          "bid": 0.02,
+          "ask": 0.09,
+          "thin": false
+        },
+        {
+          "name": "Above $415,000",
           "prob": 0.2,
           "bid": 0.15,
           "ask": 0.25,
           "thin": false
         },
         {
-          "name": "Above $415,000",
-          "prob": 0.64,
-          "bid": 0.59,
-          "ask": 0.68,
-          "thin": false
-        },
-        {
           "name": "Above $410,000",
-          "prob": 0.93,
-          "bid": 0.88,
-          "ask": 0.97,
+          "prob": 0.57,
+          "bid": 0.52,
+          "ask": 0.62,
           "thin": false
         },
         {
           "name": "Above $405,000",
-          "prob": 0.96,
-          "bid": 0.93,
-          "ask": 0.99,
+          "prob": 0.86,
+          "bid": 0.81,
+          "ask": 0.91,
           "thin": false
         },
         {
           "name": "Above $400,000",
-          "prob": null,
-          "bid": 0.94,
-          "ask": 1,
-          "thin": true
+          "prob": 0.94,
+          "bid": 0.91,
+          "ask": 0.97,
+          "thin": false
         },
         {
           "name": "Above $395,000",
-          "prob": null,
-          "bid": 0.96,
-          "ask": 1,
-          "thin": true
+          "prob": 0.97,
+          "bid": 0.94,
+          "ask": 0.99,
+          "thin": false
         }
       ]
     },
@@ -345,234 +345,115 @@
       "label": "US rent index, monthly (BLS owners' equivalent rent)",
       "horizon": "month",
       "market": {
-        "id": "KXOER-26NOV10-T449.6",
-        "title": "Will CPI-U for Owners' equivalent rent for October 2026 be above 449.6?",
-        "url": "https://kalshi.com/markets/KXOER-26NOV10-T449.6",
-        "closes": "2026-11-10T13:29:00Z"
+        "id": "KXOER-26DEC10-T447.9",
+        "title": "Will CPI-U for Owners' equivalent rent for November 2026 be above 447.9?",
+        "url": "https://kalshi.com/markets/KXOER-26DEC10-T447.9",
+        "closes": "2026-12-10T13:29:00Z"
       },
       "outcomes": [
         {
-          "name": "Above 446.0",
-          "prob": 0.96,
-          "bid": 0.93,
-          "ask": 0.99,
+          "name": "Above 448.9",
+          "prob": 0.03,
+          "bid": 0.01,
+          "ask": 0.06,
           "thin": false
         },
         {
-          "name": "Above 446.1",
-          "prob": 0.95,
-          "bid": 0.9,
-          "ask": 0.99,
+          "name": "Above 448.8",
+          "prob": 0.05,
+          "bid": 0.01,
+          "ask": 0.08,
           "thin": false
         },
         {
-          "name": "Above 446.2",
-          "prob": 0.91,
-          "bid": 0.86,
-          "ask": 0.96,
+          "name": "Above 448.7",
+          "prob": 0.06,
+          "bid": 0.01,
+          "ask": 0.11,
           "thin": false
         },
         {
-          "name": "Above 446.3",
-          "prob": 0.86,
-          "bid": 0.81,
-          "ask": 0.91,
+          "name": "Above 448.6",
+          "prob": 0.09,
+          "bid": 0.05,
+          "ask": 0.13,
           "thin": false
         },
         {
-          "name": "Above 446.4",
-          "prob": 0.78,
-          "bid": 0.73,
-          "ask": 0.83,
+          "name": "Above 448.5",
+          "prob": 0.16,
+          "bid": 0.11,
+          "ask": 0.21,
           "thin": false
         },
         {
-          "name": "Above 446.5",
+          "name": "Above 448.4",
+          "prob": 0.24,
+          "bid": 0.19,
+          "ask": 0.29,
+          "thin": false
+        },
+        {
+          "name": "Above 448.3",
+          "prob": 0.34,
+          "bid": 0.3,
+          "ask": 0.38,
+          "thin": false
+        },
+        {
+          "name": "Above 448.2",
+          "prob": 0.45,
+          "bid": 0.41,
+          "ask": 0.49,
+          "thin": false
+        },
+        {
+          "name": "Above 448.1",
+          "prob": 0.56,
+          "bid": 0.53,
+          "ask": 0.6,
+          "thin": false
+        },
+        {
+          "name": "Above 448.0",
           "prob": 0.69,
           "bid": 0.64,
           "ask": 0.74,
           "thin": false
         },
         {
-          "name": "Above 446.6",
-          "prob": 0.59,
-          "bid": 0.54,
-          "ask": 0.64,
+          "name": "Above 447.9",
+          "prob": 0.8,
+          "bid": 0.75,
+          "ask": 0.84,
           "thin": false
         },
         {
-          "name": "Above 446.7",
-          "prob": 0.48,
-          "bid": 0.43,
-          "ask": 0.53,
+          "name": "Above 447.8",
+          "prob": 0.88,
+          "bid": 0.85,
+          "ask": 0.91,
           "thin": false
         },
         {
-          "name": "Above 446.8",
-          "prob": 0.4,
-          "bid": 0.36,
-          "ask": 0.43,
+          "name": "Above 447.7",
+          "prob": 0.92,
+          "bid": 0.88,
+          "ask": 0.96,
           "thin": false
         },
         {
-          "name": "Above 446.9",
-          "prob": 0.27,
-          "bid": 0.22,
-          "ask": 0.32,
-          "thin": false
-        },
-        {
-          "name": "Above 447.0",
-          "prob": 0.19,
-          "bid": 0.14,
-          "ask": 0.24,
-          "thin": false
-        },
-        {
-          "name": "Above 447.1",
-          "prob": 0.12,
-          "bid": 0.07,
-          "ask": 0.17,
-          "thin": false
-        },
-        {
-          "name": "Above 447.2",
-          "prob": 0.08,
-          "bid": 0.04,
-          "ask": 0.12,
-          "thin": false
-        },
-        {
-          "name": "Above 447.3",
-          "prob": 0.06,
-          "bid": 0.02,
-          "ask": 0.09,
-          "thin": false
-        },
-        {
-          "name": "Above 447.4",
-          "prob": 0.03,
-          "bid": 0.01,
-          "ask": 0.06,
+          "name": "Above 447.6",
+          "prob": 0.95,
+          "bid": 0.91,
+          "ask": 0.99,
           "thin": false
         },
         {
           "name": "Above 447.5",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.06,
-          "thin": true
-        },
-        {
-          "name": "Above 450.0",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.02,
-          "thin": true
-        },
-        {
-          "name": "Above 449.9",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.04,
-          "thin": true
-        },
-        {
-          "name": "Above 449.8",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.03,
-          "thin": true
-        },
-        {
-          "name": "Above 449.7",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.01,
-          "thin": true
-        },
-        {
-          "name": "Above 449.6",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.04,
-          "thin": true
-        },
-        {
-          "name": "Above 449.5",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.05,
-          "thin": true
-        },
-        {
-          "name": "Above 449.4",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.05,
-          "thin": true
-        },
-        {
-          "name": "Above 449.3",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.05,
-          "thin": true
-        },
-        {
-          "name": "Above 449.2",
-          "prob": 0.03,
-          "bid": 0.01,
-          "ask": 0.05,
-          "thin": false
-        },
-        {
-          "name": "Above 449.1",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.05,
-          "thin": true
-        },
-        {
-          "name": "Above 449.0",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.05,
-          "thin": true
-        },
-        {
-          "name": "Above 448.9",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.03,
-          "thin": true
-        },
-        {
-          "name": "Above 448.8",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.05,
-          "thin": true
-        },
-        {
-          "name": "Above 448.7",
-          "prob": null,
-          "bid": 0,
-          "ask": 0.02,
-          "thin": true
-        },
-        {
-          "name": "Above 448.6",
-          "prob": 0.03,
-          "bid": 0.01,
-          "ask": 0.04,
-          "thin": false
-        },
-        {
-          "name": "Above 448.5",
-          "prob": 0.03,
-          "bid": 0.01,
-          "ask": 0.04,
+          "prob": 0.97,
+          "bid": 0.94,
+          "ask": 0.99,
           "thin": false
         }
       ]

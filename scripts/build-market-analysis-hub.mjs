@@ -23,6 +23,8 @@
 //   7. the seven-step bar is the new pages' own (hub/step-bar.js, drawn by js/components/ma-step-bar.js), the same
 //      bar in the same place as on every other step, where the old page has its own (paul, 15 Nov: the bar looked
 //      and sat differently here, and its Scenarios step led to a page without one)
+//   8. a site sent from Market check (?site=lat,lon&sl=) is typed into the page's own address box as "lat, lon"
+//      and found there, as a person pasting coordinates would (js/components/ma-site-link.js)
 // The body and every script of the tool are carried as they are.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -122,6 +124,9 @@ export function build(src, hubPage, palette) {
   //    script opening this page's own address as a share link, then js/deal-calculator-share.js (unchanged, the
   //    file deal-calculator.html loads) builds the link's settings by the rules "Copy link" uses.
   swap(/<\/body>/, '<script defer src="js/components/ma-calc-handoff.js"></script>\n<script defer src="js/deal-calculator-share.js"></script>\n</body>', 'a closing body tag');
+  // 8. A site Market check sends: typed into the page's own address box once the data has loaded. Deferred, last of
+  //    the page's own scripts, before the new header's.
+  swap(/<\/body>/, '<script defer src="js/components/ma-site-link.js"></script>\n</body>', 'a closing body tag');
   swap(/<\/body>/, '<script src="js/components/ma-place-row.js"></script>\n<script src="hub/lab-config.js"></script>\n<script src="hub/page-chrome.js"></script>\n<script src="hub/nav.js"></script>\n</body>', 'a closing body tag');
   // 7. The seven-step bar: the old page's bar (a block above <main> that js/components/workflow-progress.js ticks)
   //    gives way to an empty block in the same place, which js/components/ma-step-bar.js fills with the new pages'
