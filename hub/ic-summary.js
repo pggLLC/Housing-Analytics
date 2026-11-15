@@ -161,17 +161,17 @@
       return { date: e.date, when: longDate(e.date) + (e.date_end ? ' to ' + longDate(e.date_end) : ''), name: e.name, url: e.url,
         status: e.qap_status === 'draft' ? 'Draft plan' : e.date_precision === 'estimated' ? 'Estimated' : 'Set' };
     });
-    var src = Q.metadata && Q.metadata.source_url;
+    var src = Q.metadata && Q.metadata.source_url, T2 = global.LabTpl;
+    // Batch 2 (paul 15 Nov, one home per analysis): the full calendar lives on Deadlines and events, read from the same
+    // file. Here: the next deadline, the two dates after it, and a card to the rest.
+    var two = rows.filter(function (x) { return !(next && x.date === next.date && x.name === next.name); }).slice(0, 2);
     return '<h2>Tax credit calendar: the next CHFA deadlines</h2>' +
       (next ? '<div class="metrics">' + metric('Next deadline', longDate(next.date), next.name) + metric('Days to go', num(days)) + '</div>' : '<p class="note">No CHFA deadline on the calendar yet.</p>') +
-      (rows.length ? UI.table('ic-qap', 'CHFA rounds and hearings still ahead', [
-        { key: 'when', label: 'Date' }, { key: 'name', label: 'What', href: function (x) { return x.url; } }, { key: 'status', label: 'Date is', tip: 'Draft plan: from a plan CHFA had not adopted when checked. Estimated: CHFA has not published it; inferred from past rounds.' }
-      ], rows, { noun: 'dates', placeholder: 'Round or program' }) + T.source('CHFA dates and deadlines, and its allocation plan', src, Q.metadata && Q.metadata.generated) : '') +
-      ((Q.rolling_programs || []).length ? '<h3>Open all year</h3><ul class="ic-programs">' + Q.rolling_programs.map(function (p) {
-        return '<li><strong>' + link(p.name, p.url) + '</strong><p>' + esc(clean(p.description)) + '</p></li>';
-      }).join('') + '</ul>' : '') +
-      '<p class="hint">Check dates on CHFA’s site 60 to 90 days ahead.</p>' +
-      T.source('CHFA dates and deadlines, and its allocation plan', src, Q.metadata && Q.metadata.generated);
+      (two.length ? '<ul class="ic-next">' + two.map(function (x) { return '<li><strong>' + esc(x.when) + '</strong> ' + (x.url ? link(x.name, x.url) : esc(x.name)) + ' <span class="note">(' + esc(x.status) + ')</span></li>'; }).join('') + '</ul>' : '') +
+      (T2 && T2.summary ? T2.summary({ from: 'Deadlines and events', href: '#/calendar', title: 'Every CHFA round and hearing still ahead',
+        figures: [{ value: String(rows.length), label: rows.length === 1 ? 'date still ahead' : 'dates still ahead' }, (Q.rolling_programs || []).length ? { value: String(Q.rolling_programs.length), label: 'programs open all year' } : null],
+        more: 'Check dates on CHFA\u2019s site 60 to 90 days ahead.',
+        source: 'CHFA dates and deadlines, and its allocation plan' + (Q.metadata && Q.metadata.generated ? ', ' + longDate(String(Q.metadata.generated).slice(0, 10)) : '') }) : '');
   }
 
   var RESTRICTION = {

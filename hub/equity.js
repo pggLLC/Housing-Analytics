@@ -446,7 +446,23 @@
       ', read 2026-10-23. “Which way it pushes price” is the site’s reading, not a published estimate.</p>';
   }
 
+  // Batch 2 (paul 15 Nov, one home per analysis): the law watch is drawn in full on Legislation, from the same
+  // record (data/policy/tax-credit-legislation.json). Here it is a card: the count by status of the laws that move
+  // credit prices, the newest enacted ones by name, and a link. lawWatchFull stays for a page that wants the list.
   function lawWatch(law) {
+    var T = global.LabTpl, m = law.meta || {}, e = law.entries.filter(function (x) { return WATCH_SCOPES.indexOf(x.scope) > -1; });
+    if (!T || !T.summary) return lawWatchFull(law);
+    var figs = Object.keys(STATUS).map(function (k) { var n = e.filter(function (x) { return x.status === k; }).length; return n ? { value: String(n), label: STATUS[k].toLowerCase() } : null; }).filter(Boolean);
+    var named = e.filter(function (x) { return x.status === 'enacted'; }).sort(function (a, b) { return String(b.effective_date || '') < String(a.effective_date || '') ? -1 : 1; }).slice(0, 3).map(function (x) { return x.title; });
+    return T.summary({ from: 'Legislation', href: '#/legislation', title: e.length + ' laws and rules that move tax credit prices',
+      figures: figs, more: named.length ? 'Newest in effect: ' + named.join('; ') + '. Each one, with what it does to prices and its official source, is on Legislation.' : null,
+      source: 'Official federal and Colorado sources, checked ' + day(m.last_verified) + '; next review by ' + day(m.review_by) });
+  }
+  function day(iso) {
+    var p = String(iso || '').split('-'), M = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return p.length === 3 && M[+p[1] - 1] ? +p[2] + ' ' + M[+p[1] - 1] + ' ' + p[0] : String(iso || '');
+  }
+  function lawWatchFull(law) {
     var m = law.meta || {}, e = law.entries.filter(function (x) { return WATCH_SCOPES.indexOf(x.scope) > -1; });
     var tally = Object.keys(STATUS).map(function (k) { var n = e.filter(function (x) { return x.status === k; }).length; return n ? n + ' ' + STATUS[k].toLowerCase() : ''; }).filter(Boolean).join(', ');
     return '<p>' + e.length + ' federal and Colorado laws and rules that move credit prices: ' + esc(tally) + '. Checked ' + esc(m.last_verified || '') + '; next review by ' + esc(m.review_by || '') + '.</p>' +

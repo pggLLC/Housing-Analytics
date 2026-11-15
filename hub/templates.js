@@ -101,6 +101,26 @@
   }
 
 
+  // Summary card (duplicates batch 2, paul 15 Nov): an analysis drawn in full on one home page shows up elsewhere as
+  // this card. It names its home ("From: …"), carries two or three of the home's own figures with who they count,
+  // the source and year, and opens the home at that section. The caller passes figures it read from the same file
+  // the home draws, so the card cannot disagree with it. o: { from, href, title, figures: [{ value, label, tenure }],
+  // source, more, also: [{ label, href }] }. A card with no figure to show still links on.
+  function summary(o) {
+    var figs = (o.figures || []).filter(function (f) { return f && f.value != null && f.value !== ''; });
+    return '<aside class="sum-card" aria-label="' + esc('Summary from ' + o.from) + '">' +
+      '<p class="sum-from">From: <a href="' + esc(o.href) + '">' + esc(o.from) + '</a></p>' +
+      (o.title ? '<h3 class="sum-title">' + esc(o.title) + '</h3>' : '') +
+      (figs.length ? '<ul class="sum-figs">' + figs.map(function (f) {
+        return '<li><span class="sum-v">' + esc(f.value) + '</span><span class="sum-l">' + esc(f.label) +
+          (f.tenure ? ' <span class="cn-ten">' + esc(f.tenure) + '</span>' : '') + '</span></li>';
+      }).join('') + '</ul>' : '') +
+      (o.more ? '<p class="sum-more">' + esc(o.more) + '</p>' : '') +
+      (o.source ? '<p class="sum-src">Source: ' + esc(o.source) + '</p>' : '') +
+      '<p class="sum-go"><a href="' + esc(o.href) + '">Open ' + esc(o.from) + ' →</a>' +
+      (o.also || []).map(function (a) { return ' <a href="' + esc(a.href) + '">' + esc(a.label) + ' →</a>'; }).join('') + '</p></aside>';
+  }
+
   // A section folded shut on a long page: the title and a one-line answer show, and the full section opens below.
   // Nothing is removed: the folded part is on the page, opens on tap, on a jump link to anything inside it, on
   // find-in-page, and for printing. o: { id, level (2 by default, 3 for a part), open }.
@@ -493,5 +513,5 @@
     var cut = f0.slice(0, ALT_MAX - 1); return cut.slice(0, cut.lastIndexOf(' ')) + '\u2026';
   }
 
-  global.LabTpl = { newest: newest, stamp: stamp, means: means, terms: terms, alt: alt, ALT_MAX: ALT_MAX, gapTone: gapTone, toneBadge: toneBadge, crumbs: crumbs, trail: trail, head: head, factStrip: factStrip, onThisPage: onThisPage, pageTabs: pageTabs, next: next, source: source, fold: fold, foldHtml: foldHtml, openAround: openAround, printBar: printBar, foldSources: foldSources, sortable: sortable };
+  global.LabTpl = { summary: summary, newest: newest, stamp: stamp, means: means, terms: terms, alt: alt, ALT_MAX: ALT_MAX, gapTone: gapTone, toneBadge: toneBadge, crumbs: crumbs, trail: trail, head: head, factStrip: factStrip, onThisPage: onThisPage, pageTabs: pageTabs, next: next, source: source, fold: fold, foldHtml: foldHtml, openAround: openAround, printBar: printBar, foldSources: foldSources, sortable: sortable };
 })(window);

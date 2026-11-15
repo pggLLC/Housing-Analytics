@@ -383,6 +383,10 @@
     });
   }
   function view(c, geoid, tab, entry, place) {
+    // 'futureBrief': the forecast's headline figures and chart with a card to the full chapter, for the Free report
+    // (duplicates batch 2, item 2), so the report no longer carries a second full copy of "Where it's heading".
+    var brief = tab === 'futureBrief';
+    if (brief) tab = 'future';
     var d = c.digest.metrics;
     var p = c.summary.acsProfile || {};
     var m = function (k) { return d[k] && d[k].value != null ? d[k] : null; };
@@ -628,23 +632,43 @@
 
     // Commuting: residents who work elsewhere and workers who come in, from the LEHD origin-destination flows
     // (the place file for a town, the county's own LEHD file for a county).
-    function commuting(title) {
+    function flowsHere() {
       var f, yr, url = LINKS.lodes;
       if (isCounty) {
         f = extraFile(EXTRA.lehd(geoid));
-        if (!f || f.within == null) return '';
+        if (!f || f.within == null) return null;
         yr = f.year; url = (f.source && f.source.url) || url;
       } else {
         var fl = extraFile(EXTRA.flows);
-        if (!fl || !fl.places || !fl.places[geoid]) return '';
+        if (!fl || !fl.places || !fl.places[geoid]) return null;
         f = fl.places[geoid]; yr = fl.meta && fl.meta.year;
       }
-      if (!Viz) return '';
+      return { f: f, yr: yr, url: url };
+    }
+    function commuting(title) {
+      var fh = flowsHere();
+      if (!fh || !Viz) return '';
+      var f = fh.f, yr = fh.yr, url = fh.url;
       var res = f.within + f.outflow;
       keep('outflow', num(f.outflow), 'working residents who work somewhere else', ['LEHD LODES ' + (yr ? yr + ' ' : '') + 'origin-destination flows', url]);
       return Viz.commute({ title: title || 'Who commutes in and out', scope: Pl.scope(here), flows: f,
         answer: res > 0 ? num(f.outflow) + ' of ' + num(res) + ' working residents work outside ' + (isCounty ? entry.label : placeShort) + '; ' + num(f.inflow) + ' workers come in.' : null,
         source: Pl.srcLine('LEHD LODES ' + (yr ? yr + ' ' : '') + 'origin-destination flows', url) });
+    }
+
+    // The commute picture is drawn in full once, in the people chapter; elsewhere it is this card, read from the same
+    // LEHD file (duplicates batch 2, item 11).
+    function commuteCard() {
+      var T = global.LabTpl, fh = flowsHere();
+      if (!T || !T.summary) return commuting('Commuting inflow and outflow');
+      var f = fh && fh.f, res = f ? f.within + f.outflow : 0;
+      if (f) keep('outflow', num(f.outflow), 'working residents who work somewhere else', ['LEHD LODES ' + (fh.yr ? fh.yr + ' ' : '') + 'origin-destination flows', fh.url]);
+      return T.summary({ from: 'Who lives here: work and commuting', href: '#/place/' + geoid + '/people?at=sec-work-and-commuting',
+        title: 'Who commutes in and out',
+        figures: f ? [{ value: num(f.outflow), label: 'of ' + num(res) + ' working residents work somewhere else' }, { value: num(f.inflow), label: 'workers come in from elsewhere' }] : [],
+        source: fh ? 'LEHD LODES ' + (fh.yr ? fh.yr + ' ' : '') + 'origin-destination flows' : null,
+        more: 'The full chart, with where they go and where they come from, is on the people chapter.',
+        also: [{ label: 'Commuting across Colorado', href: '#/opportunity/commuting' + (isCounty ? '' : '?town=' + encodeURIComponent(geoid) + '&at=cj-town') }] });
     }
 
     // The place against its county on six measures, each marked better, worse or similar in words.
@@ -1835,11 +1859,13 @@
         mc('Renter-occupied homes', 'pct_renters', function (x) { return pct(x); }) +
         (need == null ? '' : Pl.card('Income needed to buy', money(need), gapNote, sourceOf(hm, ctx) + '; ' + (OF.MORTGAGE_RATE.rateAnnual * 100).toFixed(2) + '% rate, ' + OF.MORTGAGE_RATE.source, sourceUrl(hm, ctx), buyScope())) +
         Pl.card('Mean commute', commute == null ? null : Math.round(commute) + ' min', 'One way, for workers who live here', acs + ', S0801', acsUrl('S0801'), here) +
-        '</div>' + versusCounty() + '<h2>Need at a glance</h2><div class="metrics">' +
+        '</div>' + versusCounty() + '<h2>Need at a glance: renters and owners</h2><div class="metrics">' +
         mc('Renters minus homes priced for them, at or below 30% AMI', 'ami_gap_30pct', num, 'Some of those homes are rented by higher-income households. AMI is area median income, set by HUD for the county.') +
         mc('Renters minus homes priced for them, at or below 60% AMI', 'ami_gap_60pct', num) +
         mc('Renters paying over 30% of income', 'pct_cost_burdened', function (x) { return pct(x); }) +
-        mc('Homes needed over 20 years', 'future_units_needed_20yr', needNum, smallRec() ? 'Fewer than 250 households: see the county' : needWhy('Resident growth plus in-commuters, from the State Demography Office forecast')) +
+        // Batch 2 (paul 15 Nov): the owner side, so the glance is not renters only.
+        mc('Owners paying over 30% of income', 'pct_owner_burdened_30plus', function (x) { return pct(x); }) +
+        mc('Homes needed over 20 years, rented and owned', 'future_units_needed_20yr', needNum, smallRec() ? 'Fewer than 250 households: see the county' : needWhy('Resident growth plus in-commuters, from the State Demography Office forecast')) +
         '</div>' +
         '<div class="metrics">' +
         mc('HNA priority score (need and opportunity)', 'overall_need_score', function (x) { return Number(x).toFixed(1); }, 'From 0 to 100: 55% need, 45% opportunity, so not need alone') +
@@ -2343,9 +2369,19 @@
         '</div>' + outlook() +
         '<h2>Population projection by scenario</h2>' + projectionRange() + homesByYear() + demandByIncome() + scenarioTable() +
         '<h2>Labor market context</h2>' + payBands() + industries() + employers() + wagesVsHousing() + housingWage() +
-        '<h2>Commuting</h2>' + modeShare() + commuting('Commuting inflow and outflow') +
+        '<h2>Commuting</h2>' + modeShare() + commuteCard() +
         '<h2>Economic indicators</h2>' + jobTrend() + payTrend() + marketCall() +
         downtown();
+    };
+
+    t.futureBrief = function () {
+      var T = global.LabTpl, link = '#/place/' + geoid + '/future';
+      return '<div class="metrics">' +
+        mc('Population in 20 years', 'population_projection_20yr', num) +
+        mc('Homes needed over 20 years', 'future_units_needed_20yr', needNum, smallRec() ? 'Fewer than 250 households: see the county' : needWhy('Rented and owned: resident growth plus in-commuters who would move closer')) +
+        '</div>' + outlook() +
+        (T && T.summary ? T.summary({ from: 'Where it\u2019s heading', href: link, title: 'The rest of the 20-year forecast',
+          more: 'Population by scenario, homes needed by year and by income, jobs and wages, commuting and economic trends, for ' + entry.label + '.' }) : '');
     };
 
     t.action = function () {
@@ -2433,7 +2469,8 @@
     // The page lifts the strip to just under its head (see the place view below), so it shows on the first screen.
     var intro = (strip ? '<!--first-strip-->' + strip + '<!--/first-strip-->' : '') + '<div class="chapter-intro"><p class="chapter-ask">' + esc(ASKS[tab]) + '</p>' +
       (finding ? '<p class="chapter-finding">' + esc(finding) + '</p>' : '') + '</div>';
-    var body = t[tab]();
+    var body = brief ? t.futureBrief() : t[tab]();
+    if (brief) return intro + body;
     // Rent against income for the county (a town uses its county's: the ACS series is county-level here).
     var rentCard = tab === 'afford' && global.LabRentIncome ? global.LabRentIncome.card(isCounty ? geoid : place && place.rec && place.rec.containing_county_fips, isCounty ? null : name) : '';
     return intro + (tab === 'afford' ? amiLine() : '') + rentCard + body + recap(tab) + (tab === 'overview' ? sourcesMethod() : '');
