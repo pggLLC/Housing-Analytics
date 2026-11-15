@@ -48,13 +48,15 @@
   function map(d, list, byName, sel) {
     var outline = d.counties.features.map(function (f) {
       var rings = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
-      return '<path d="' + rings.map(function (poly) { return poly.map(function (ring) { return 'M' + ring.map(function (c) { return xy(c[0], c[1]).join(' '); }).join('L') + 'Z'; }).join(''); }).join('') + '"><title>' + esc(f.properties.NAMELSAD) + '</title></path>';
+      return '<path d="' + rings.map(function (poly) { return poly.map(function (ring) { return 'M' + ring.map(function (c) { return xy(c[0], c[1]).join(' '); }).join('L') + 'Z'; }).join(''); }).join('') + '"></path>';
     }).join('');
     var flows = '';
     if (sel) {
       var max = sel.from.length ? sel.from[0][1] : 1, to = xy(sel.lon, sel.lat);
       flows = '<g class="cj-flows-lines">' + sel.from.map(function (f) {
-        var o = byName[String(f[0]).toLowerCase()];
+        // Homes in another state are named by county ("San Juan County, NM") and drawn from that county's point.
+        var pt = (d.commute.other_state_points || {})[f[0]];
+        var o = byName[String(f[0]).toLowerCase()] || (pt ? { lat: pt[0], lon: pt[1] } : null);
         if (!o) return '';
         var a = xy(o.lon, o.lat);
         return '<line x1="' + a[0] + '" y1="' + a[1] + '" x2="' + to[0] + '" y2="' + to[1] + '" stroke-width="' + (1.5 + 6 * f[1] / max).toFixed(1) + '"><title>' + esc(bare(f[0]) + ' to ' + bare(sel.name) + ': ' + num(f[1]) + ' workers') + '</title></line>';
@@ -71,7 +73,7 @@
         return t.length > 1 ? 'Statewide, people driving 20 to 60 miles in hold the most jobs in ' + bare(t[0].name) + ' (' + pct(t[0].far, t[0].jobs) + ') and ' + bare(t[1].name) + ' (' + pct(t[1].far, t[1].jobs) + ')' : 'Share of each town’s jobs held by people driving 20 to 60 miles in';
       })()) + '</strong><span class="note">' + (sel ? 'This headline is for all of Colorado. ' + esc(bare(sel.name)) + ' is outlined, with lines from the towns that send it the most workers; its own numbers are above. ' : '') + 'One dot per town with 200 or more jobs, sized by its jobs. Select a dot, or pick a town above, to see its numbers and the towns that send it the most workers.</span></figcaption>' +
       '<div class="pm-frame"><svg viewBox="0 0 ' + MAP_W + ' ' + MAP_H + '" role="group" aria-label="Colorado towns shaded by the share of jobs held by people driving 20 to 60 miles in">' +
-      '<g class="pm-counties">' + outline + '</g>' + flows + '<g class="pm-layer cj-dots">' + dots + '</g>' + K.metroBox() + K.cities() + '</svg></div>' +
+      '<g class="pm-counties is-quiet">' + outline + '</g>' + flows + '<g class="pm-layer cj-dots">' + dots + '</g>' + K.metroBox() + K.cities() + '</svg></div>' +
       '<ul class="lb-key">' + BINS.map(function (b) { return '<li><span class="pm-key" style="background:' + b.color + '" aria-hidden="true"></span>' + esc(b.label) + ' <b>' + num(list.filter(function (p) { return binFor(farShare(p)) === b; }).length) + '</b></li>'; }).join('') + '</ul>' +
       // Map kit part 3: the Denver metro close-up, the same towns and shares.
       K.inset({ features: d.counties.features, groups: [{ cls: 'cj-dots', dots: list.slice().sort(function (a, b) { return b.jobs - a.jobs; }).map(function (p) {
@@ -88,11 +90,13 @@
     var flow = function (title, rows) { return UI.bars(title, 'The five largest, workers', rows.map(function (f) { return [bare(f[0]), f[1]]; }), num); };
     return '<div class="cj-detail"><h3>' + esc(bare(p.name)) + '</h3><p class="chapter-finding">' + esc(answer(p)) + '</p><ul class="cj-stats">' +
       stat(num(p.jobs), 'jobs in town (primary jobs)') +
-      stat(pct(p.in_commuters, p.jobs), 'held by people who live elsewhere (' + num(p.in_commuters) + ')') +
+      stat(pct(p.in_commuters, p.jobs), 'held by people who live elsewhere (' + num(p.in_commuters) +
+        (p.in_other_state ? ', of whom ' + num(p.in_other_state) + ' live in another state' : '') + ')') +
       stat(num(p.far), 'drive in from 20 to 60 miles; ' + num(p.far_low) + ' of them earn $3,333 a month or less') +
       (c ? stat(c, 'a year for a typical 20 to 60 mile commuter (' + p.median_far_miles + ' miles each way, straight line, 240 days, IRS rate)') : '') +
       stat(num(p.long), 'recorded 60+ miles away; many are not daily trips, so they are not costed') +
-      stat(pct(p.out_commuters, p.residents), 'of working residents work in another Colorado town (' + num(p.out_commuters) + ' of ' + num(p.residents) + ')') +
+      stat(pct(p.out_commuters, p.residents), 'of working residents work in another town (' + num(p.out_commuters) + ' of ' + num(p.residents) +
+        (p.out_other_state ? '; ' + num(p.out_other_state) + ' of them in another state' : '') + ')') +
       '</ul><div class="chart-pair">' + flow('Where its in-commuters live', p.from) + flow('Where its residents work', p.to) + '</div>' +
       (UI.placeFor(bare(p.name)) ? '<p><a class="button-link secondary" href="' + esc(UI.placeFor(bare(p.name))) + '">Housing need in ' + esc(bare(p.name)) + '</a></p>' : '') + '</div>';
   }
@@ -174,7 +178,7 @@
         { key: 'farLow', label: 'Of them lower-paid', num: true, fmt: num, tip: '$3,333 a month or less, LODES’s lower two pay bands' },
         { key: 'miles', label: 'Typical miles', num: true, tip: 'Median one-way straight-line miles for the 20 to 60 mile commuters' },
         { key: 'cost', label: 'Yearly drive cost', num: true, fmt: UI.money, tip: 'Typical miles, both ways, 240 days, at the IRS rate of 76 cents a mile' },
-        { key: 'out', label: 'Residents working elsewhere', num: true, fmt: function (v) { return v + '%'; }, tip: 'Share of working residents whose job is in another Colorado town' }
+        { key: 'out', label: 'Residents working elsewhere', num: true, fmt: function (v) { return v + '%'; }, tip: 'Share of working residents whose job is in another town, in Colorado or another state' }
       ], rows, { noun: 'towns', placeholder: 'Town name' }) + sourceLine(meta) + '</section>' +
       employers(d.employers, q.get('area')) +
       '<section id="cj-why" tabindex="-1"><h2>Why it matters for housing</h2><ul class="opp-points">' +

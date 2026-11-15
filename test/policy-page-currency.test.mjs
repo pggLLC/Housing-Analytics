@@ -36,7 +36,7 @@ assert(road, 'the watchlist has no hr6644-road-act record for the ROAD Act secti
   assert(updated, 'the page no longer prints "Updated: <date>"; point this guard at what replaced it');
   assert.equal(toIso(updated[1]), road.last_verified,
     `the page says "Updated: ${updated[1]}" but the ROAD Act record was last verified ${road.last_verified}: re-check both together`);
-  const rechecked = [...page.matchAll(new RegExp(`re-checked (?:on )?(${MONTH_RE} \\d{1,2}, \\d{4})`, 'g'))].map((m) => m[1]);
+  const rechecked = [...page.matchAll(new RegExp(`(?:re-checked|last checked) (?:on )?(${MONTH_RE} \\d{1,2}, \\d{4})`, 'gi'))].map((m) => m[1]);
   assert(rechecked.length >= 2, `expected the status callout and the disclaimer to name the re-check date; found ${rechecked.length}`);
   for (const d of rechecked) assert.equal(toIso(d), road.last_verified, `the page says re-checked ${d}; the record says ${road.last_verified}`);
   const status = page.match(new RegExp(`H\\.R\\. 6644 Status: Enacted (${MONTH_RE} \\d{1,2}, \\d{4})`));

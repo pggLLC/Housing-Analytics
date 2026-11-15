@@ -1015,7 +1015,8 @@
     if (!rec && !areas.length && !(top && top.workers / top.of >= TOP_WORKPLACE_SHOWN)) return null;
     return {
       topWorkplace: top,
-      commute: rec ? { name: rec.name, jobs: rec.jobs, inCommuters: rec.in_commuters, far: rec.far, farLow: rec.far_low, long: rec.long,
+      commute: rec ? { name: rec.name, jobs: rec.jobs, inCommuters: rec.in_commuters, inOtherState: rec.in_other_state || 0,
+        outOtherState: rec.out_other_state || 0, far: rec.far, farLow: rec.far_low, long: rec.long,
         medianFar: rec.median_far_miles, residents: rec.residents, outCommuters: rec.out_commuters, from: rec.from || [], to: rec.to || [],
         county: !!(C.counties || {})[row.geoid] || !(C.places || {})[row.geoid], year: (C.meta || {}).lodes_year || null } : null,
       areas: areas.map(function (a) { return { area: a.area, asOf: a.as_of, rows: a.rows || [], filer: (a.source || {}).filer, url: safeHref((a.source || {}).url), page: (a.source || {}).pdf_page || null }; }),
@@ -1856,15 +1857,17 @@
       h += (c.name !== m.name ? '<p class="wp-note">Figures for ' + esc(c.name) + '.</p>' : '') +
         '<table><tbody>' +
         row2('Primary jobs located here', fmtInt(c.jobs)) +
-        row2('Held by people who live elsewhere', fmtInt(c.inCommuters) + ' (' + pct(c.inCommuters, c.jobs) + ')') +
+        row2('Held by people who live elsewhere', fmtInt(c.inCommuters) + ' (' + pct(c.inCommuters, c.jobs) + ')' +
+          (c.inOtherState ? ', of whom ' + fmtInt(c.inOtherState) + ' live in another state' : '')) +
         row2('Driving in from 20 to 60 miles', fmtInt(c.far) + ', of whom ' + fmtInt(c.farLow) + ' earn $3,333 a month or less' + (c.medianFar ? '; typical ' + c.medianFar + ' straight-line miles' : '')) +
         row2('Recorded 60+ miles away (many not daily)', fmtInt(c.long)) +
-        row2(c.county ? 'Working residents who work in another Colorado county' : 'Working residents who work in another town', fmtInt(c.outCommuters) + ' of ' + fmtInt(c.residents)) +
+        row2(c.county ? 'Working residents who work in another county' : 'Working residents who work in another town', fmtInt(c.outCommuters) + ' of ' + fmtInt(c.residents) +
+          (c.outOtherState ? ' (' + fmtInt(c.outOtherState) + ' in another state)' : '')) +
         row2('Where in-commuters live', c.from.map(function (f) { return esc(f[0]) + ' ' + fmtInt(f[1]); }).join('; ') || NA) +
         (c.county ? '' : row2('Where working residents work', c.to.map(function (f) { return esc(f[0]) + ' ' + fmtInt(f[1]); }).join('; ') || NA)) +
         '</tbody></table>' +
         '<p class="wp-meta">In-commuters are the pool a new workforce property can draw from if some move closer. Count them as demand only with comparable-property evidence of tenants moving in (CHFA QAP).</p>' +
-        srcLine('data/market/commute-strength.json (LEHD LODES ' + (c.year || NA) + ' primary jobs, home block to work block, straight-line miles)');
+        srcLine('data/market/commute-strength.json (LEHD LODES ' + (c.year || NA) + ' primary jobs, home block to work block, straight-line miles; homes and jobs in other states included)');
     }
     var t = W.topWorkplace;
     // Printed once one other town employs a fifth or more, the same line Where Should I Build shows.

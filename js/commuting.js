@@ -60,11 +60,13 @@
     var cost = p.median_far_miles ? money(2 * p.median_far_miles * WORKDAYS * IRS_RATE) : null;
     var h = '<h3>' + esc(p.name) + '</h3><ul class="cj-stats">' +
       '<li><b>' + int(p.jobs) + '</b>jobs in town (primary jobs)</li>' +
-      '<li><b>' + pct(p.in_commuters, p.jobs) + '</b>held by people who live elsewhere (' + int(p.in_commuters) + ')</li>' +
+      '<li><b>' + pct(p.in_commuters, p.jobs) + '</b>held by people who live elsewhere (' + int(p.in_commuters) +
+        (p.in_other_state ? ', of whom ' + int(p.in_other_state) + ' live in another state' : '') + ')</li>' +
       '<li><b>' + int(p.far) + '</b>live 20 to 60 miles away (straight line); ' + int(p.far_low) + ' of them earn $3,333 a month or less</li>' +
       (cost ? '<li><b>' + cost + '</b>a year for a typical 20 to 60 mile commuter (' + p.median_far_miles + ' miles each way, straight line, 240 days, IRS rate)</li>' : '') +
       '<li><b>' + int(p.long) + '</b>recorded 60+ miles away; many are not daily trips, so they are not costed</li>' +
-      '<li><b>' + pct(p.out_commuters, p.residents) + '</b>of working residents work in another Colorado town (' + int(p.out_commuters) + ' of ' + int(p.residents) + ')</li>' +
+      '<li><b>' + pct(p.out_commuters, p.residents) + '</b>of working residents work in another town (' + int(p.out_commuters) + ' of ' + int(p.residents) +
+        (p.out_other_state ? '; ' + int(p.out_other_state) + ' of them in another state' : '') + ')</li>' +
       throughItem(p) +
       '</ul><div class="cj-flows">' +
       '<div><h4>Where its in-commuters live</h4><ol>' + p.from.map(function (f) { return '<li>' + esc(f[0]) + ': ' + int(f[1]) + '</li>'; }).join('') + '</ol></div>' +
@@ -121,6 +123,11 @@
       .sort(function (a, b) { return a.name.localeCompare(b.name); });
     var byName = {};
     list.forEach(function (p) { byName[p.name.toLowerCase()] = p; });
+    var elsewhere = {};
+    Object.keys(data.other_state_points || {}).forEach(function (k) {
+      var ll = data.other_state_points[k];
+      elsewhere[k] = { lat: ll[0], lon: ll[1] };
+    });
     // Names carry their kind, "Silverthorne (town)"; a reader who types "Silverthorne" still finds it.
     list.forEach(function (p) {
       var bare = p.name.replace(/\s*\([^)]*\)$/, '').toLowerCase();
@@ -147,7 +154,8 @@
       flowLayer.clearLayers();
       var max = p.from.length ? p.from[0][1] : 1;
       p.from.forEach(function (f) {
-        var o = byName[String(f[0]).toLowerCase()];
+        // Homes in another state are named by county and drawn from that county's point.
+        var o = byName[String(f[0]).toLowerCase()] || elsewhere[f[0]];
         if (!o) return;
         L.polyline([[o.lat, o.lon], [p.lat, p.lon]], { color: '#cc79a7', weight: 2 + 8 * f[1] / max, opacity: 0.85, interactive: false }).addTo(flowLayer);
       });

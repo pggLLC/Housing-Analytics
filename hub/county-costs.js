@@ -181,7 +181,8 @@
     if (!have.length) return '';
     var top = have.slice(0, k), low = have.slice(-k).reverse();
     var bars = function (title, xs, color) {
-      return Viz.orderedBars({ title: title, rows: xs.map(function (r) { return [r.county, M[3](r)]; }), noShare: true, fmt: M[4], color: color });
+      return Viz.orderedBars({ title: title, rows: xs.map(function (r) { return [r.county, M[3](r)]; }), noShare: true, fmt: M[4], color: color,
+        tipName: function (n) { return n + ' County'; }, unit: '· ' + M[1].toLowerCase() + (/ACS 2020–2024/.test(M[5]) ? ' · Census ACS 2020–2024' : '') });
     };
     return '<div class="cc-ends">' + bars('Highest ' + k + ': ' + M[1].toLowerCase(), top, ENDS) + bars('Lowest ' + k + ': ' + M[1].toLowerCase(), low, ENDS) + '</div>' +
       '<p class="note">' + esc(have.length + ' of 64 counties have a figure. ' + M[5].replace(/\.$/, '') + '.') + ' ' + link('Map it →', '#/places/county-costs?m=' + M[0] + '&at=cc-map') + '</p>' +

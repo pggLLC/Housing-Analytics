@@ -186,7 +186,7 @@
     var byFips = {};
     active.forEach(function (p) { var k = p.CNTY_FIPS; if (k) byFips[k] = (byFips[k] || 0) + 1; });
     var max = Math.max.apply(null, Object.keys(byFips).map(function (k) { return byFips[k]; })) || 1;
-    var outline = d.counties.features.map(function (f) { return '<path d="' + pathOf(f.geometry) + '"><title>' + esc(f.properties.NAMELSAD) + '</title></path>'; }).join('');
+    var outline = d.counties.features.map(function (f) { var n = byFips[f.properties.GEOID] || 0; return '<path d="' + pathOf(f.geometry) + '"><title>' + esc(f.properties.NAMELSAD + ': ' + (n ? n + (n === 1 ? ' tax credit property' : ' tax credit properties') + ' in compliance' : 'no tax credit properties in compliance') + ' · CHFA') + '</title></path>'; }).join('');
     var qct = d.qct.features.map(function (f) { return '<path d="' + pathOf(f.geometry) + '"><title>' + esc('Qualified Census Tract ' + f.properties.GEOID) + '</title></path>'; }).join('');
     var dda = d.dda.features.map(function (f) { return '<path d="' + pathOf(f.geometry) + '"><title>' + esc('Difficult Development Area: ' + (f.properties.DDA_NAME || f.properties.NAME)) + '</title></path>'; }).join('');
     var circles = d.counties.features.map(function (f) {
@@ -458,7 +458,7 @@
   function presMap(d) {
     var outline = d.counties.features.map(function (f) {
       var rings = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
-      return '<path d="' + rings.map(function (poly) { return poly.map(function (ring) { return 'M' + ring.map(function (c) { return xy(c).join(' '); }).join('L') + 'Z'; }).join(''); }).join('') + '"><title>' + esc(f.properties.NAMELSAD) + '</title></path>';
+      return '<path d="' + rings.map(function (poly) { return poly.map(function (ring) { return 'M' + ring.map(function (c) { return xy(c).join(' '); }).join('L') + 'Z'; }).join(''); }).join('') + '"></path>';
     }).join('');
     var counts = {}, insetGroups = [];
     var dots = LAYERS.map(function (L) {
@@ -482,7 +482,7 @@
         return '<label class="pm-toggle"><input type="checkbox" checked data-pm-layer="' + L.id + '"><span class="pm-key ' + L.cls + '" aria-hidden="true"></span>' + esc(L.label) + ' (' + num(counts[L.id]) + ')</label>';
       }).join('') + '</fieldset>' +
       '<div class="pm-frame"><svg viewBox="0 0 ' + MAP_W + ' ' + MAP_H + '" role="group" aria-label="Map of Colorado preservation properties by source">' +
-      '<g class="pm-counties">' + outline + '</g>' + dots + K.metroBox() + K.cities() + '</svg></div>' +
+      '<g class="pm-counties is-quiet">' + outline + '</g>' + dots + K.metroBox() + K.cities() + '</svg></div>' +
       K.inset({ features: d.counties.features, groups: insetGroups }) +
       '<p class="note">Mobile home parks are not on this map yet. Their registry is kept by the Colorado Division of Housing and is not in the site’s data. County outlines: US Census TIGER.</p></figure>';
   }
@@ -770,7 +770,7 @@
   function landMap(d, shown, split) {
     var outline = d.counties.features.map(function (f) {
       var rings = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
-      return '<path d="' + rings.map(function (poly) { return poly.map(function (ring) { return 'M' + ring.map(function (c) { return xy(c).join(' '); }).join('L') + 'Z'; }).join(''); }).join('') + '"><title>' + esc(f.properties.NAMELSAD) + '</title></path>';
+      return '<path d="' + rings.map(function (poly) { return poly.map(function (ring) { return 'M' + ring.map(function (c) { return xy(c).join(' '); }).join('L') + 'Z'; }).join(''); }).join('') + '"></path>';
     }).join('');
     var colour = {}; split.keys.forEach(function (k, i) { colour[k] = LB_COLOURS[i % LB_COLOURS.length]; });
     var pins = [], unplaced = 0;
@@ -800,7 +800,7 @@
         return num(shown.length) + ' land banking awards, ' + money(tot) + (homes ? ' for about ' + num(homes) + ' homes' : '') + (unplaced ? '; ' + unplaced + ' have no town to place' : '');
       })()) + '</strong><span class="note">Each pin is an award at the town CHFA names, sized by its estimated homes. Tap or point to a pin for the award; select it to open that place.</span></figcaption>' +
       '<div class="pm-frame"><svg viewBox="0 0 ' + MAP_W + ' ' + MAP_H + '" role="group" aria-label="Map of Proposition 123 land banking awards by town">' +
-      '<g class="pm-counties">' + outline + '</g><g class="pm-layer lb-pins">' + dots + '</g>' + K.cities() + '</svg></div>' +
+      '<g class="pm-counties is-quiet">' + outline + '</g><g class="pm-layer lb-pins">' + dots + '</g>' + K.cities() + '</svg></div>' +
       '<p class="note">Pin colour shows ' + esc(split.label.toLowerCase()) + ' (number of awards):</p><ul class="lb-key">' + key + '</ul>' +
       '<p class="note">' + esc(d.landBank.meta.location_note) + (unplaced ? ' ' + unplaced + (unplaced === 1 ? ' award has' : ' awards have') + ' no town to place.' : '') + ' County outlines: US Census TIGER.</p></figure>';
   }

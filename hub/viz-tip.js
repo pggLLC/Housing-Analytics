@@ -51,15 +51,22 @@
     doc.body.appendChild(tip);
     return tip;
   }
+  // A mark may name a row outside the chart (data-tip-row, e.g. the event list under Construction costs); that row
+  // is highlighted while the mark's label shows, and tapping the row shows the mark.
+  function row(el, lit) {
+    var id = el && el.getAttribute && el.getAttribute('data-tip-row'), r = id && doc.getElementById(id);
+    if (r) r.classList[lit ? 'add' : 'remove']('is-tip-row');
+  }
   function hide() {
-    if (on) on.classList.remove('viz-on');
+    if (on) { on.classList.remove('viz-on'); row(on, false); }
     on = null;
     if (tip) { tip.hidden = true; tip.textContent = ''; }
   }
   function show(el, text) {
     var b = box();
-    if (on && on !== el) on.classList.remove('viz-on');
+    if (on && on !== el) { on.classList.remove('viz-on'); row(on, false); }
     on = el;
+    row(el, true);
     if (el.classList) el.classList.add('viz-on');
     b.textContent = text == null ? titleOf(el) : text;
     b.hidden = false;
@@ -95,6 +102,10 @@
   // A tap shows the value; a tap anywhere else puts it away.
   doc.addEventListener('click', function (ev) {
     var m = markOf(ev.target, ev);
+    if (!m && ev.target.closest && !ev.target.closest('a')) {
+      var r = ev.target.closest('[data-tip-mark]');
+      if (r) m = Array.prototype.filter.call(doc.querySelectorAll('figure.viz svg [data-tip-row="' + r.getAttribute('data-tip-mark') + '"]'), function (x) { return x.getClientRects().length; })[0] || null;
+    }
     if (m) show(m); else hide();
   });
   doc.addEventListener('keydown', function (ev) {

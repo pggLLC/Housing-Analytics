@@ -29,6 +29,7 @@
     acsGap: ['Census ACS 2020–2024 and HUD FY2026 income limits', 'https://data.census.gov/table/ACSDT5Y2024.B25118'],
     acs: ['Census ACS 2020–2024 five-year', 'https://data.census.gov/table/ACSDP5Y2024.DP04'],
     chas: ['HUD CHAS 2018–2022', 'https://www.huduser.gov/portal/datasets/cp.html'],
+    chasOwn: ['HUD CHAS 2018–2022, as summed in the COHO needs ranking', 'https://www.huduser.gov/portal/datasets/cp.html'],
     bps: ['Census Building Permits Survey, 2021–2025', 'https://www.census.gov/construction/bps/'],
     sdo: ['State Demography Office forecast', 'https://demography.dola.colorado.gov/'],
     rank: ['COHO needs ranking', LIVE + 'hna-comparative-analysis.html']
@@ -38,41 +39,49 @@
   var NEED_BANDS = [{ min: 70, label: 'Highest' }, { min: 50, label: 'Elevated' }, { min: 30, label: 'Moderate' }, { min: -Infinity, label: 'Lower' }];
   function needBand(v) { return NEED_BANDS.filter(function (b) { return v >= b.min; })[0]; }
 
-  // worse: which end of the measure is more need. fmt: the homepage's own formats (CountyMeasures.format).
+  // worse: which end of the measure is more need. fmt: the homepage's own formats (CountyMeasures.format). tenure: who
+  // the measure counts, shown beside its name everywhere it appears (paul, 15 Nov: renters or owners clear on every figure).
   var MEASURES = [
-    { id: 'per10', label: 'Homes priced, lowest incomes', worse: 'low',
+    { id: 'per10', label: 'Rental homes priced for the lowest incomes', unit: 'per 10 renter households at or below 30% AMI', tenure: 'Renters', worse: 'low',
       what: 'Homes renting for what households at or below 30% of area median income (AMI) can pay, for every 10 such renter households. Under 10 means more of these renters than homes they can afford.',
       src: [SRC.acsGap] },
-    { id: 'need', label: 'Priority score (need and opportunity)', worse: 'high',
-      what: 'One score from 0 to 100. Just over half (55%) is need: homes short, households overpaying, prices against incomes, expected growth and crowding. The rest (45%) is opportunity: economic mobility, walkability, nearby services and federal tax credit target areas.',
-      src: [SRC.rank] },
-    { id: 'missing_per_100_lte30', label: 'Homes missing, lowest incomes', worse: 'high', fmt: 'num0',
+    { id: 'missing_per_100_lte30', label: 'Rental homes missing, lowest incomes', unit: 'per 100 renter households at or below 30% AMI', tenure: 'Renters', worse: 'high', fmt: 'num0',
       what: 'For every 100 renter households at or below 30% AMI, how many have no affordable home that a higher-income household is not already in.',
       grey: 'Fewer than 100 such households, or most of the homes counted as open are empty units (often seasonal), so a figure here would mislead.',
       src: [SRC.chas] },
-    { id: 'short_per_100_lte50', label: 'Homes still short, low incomes', worse: 'high', fmt: 'num0',
+    { id: 'short_per_100_lte50', label: 'Rental homes still short, low incomes', unit: 'per 100 renter households at or below 50% AMI', tenure: 'Renters', worse: 'high', fmt: 'num0',
       what: 'For every 100 renter households at or below 50% AMI, how many still have no affordable home once every affordable rental is counted, subsidized or market-rate.',
       grey: 'Fewer than 100 such households, or more vacant than occupied affordable rentals, so a figure here would mislead.',
       src: [SRC.chas] },
-    { id: 'rent_to_income', label: 'Rent as a share of income', worse: 'high', fmt: 'pctWhole',
+    { id: 'rent_to_income', label: 'Rent as a share of income', unit: 'of median household income', tenure: 'Renters', worse: 'high', fmt: 'pctWhole',
       what: 'Twelve months of median rent against median household income. A household paying more than 30% of income counts as cost burdened.',
       grey: 'The survey margins for this county are too wide to rank it.',
       src: [SRC.acs] },
-    { id: 'home_value_to_income', label: 'Home price to income', worse: 'high', fmt: 'ratio',
-      what: 'Median home value as a multiple of median household income. Lenders’ rule of thumb is about three times income.',
-      grey: 'The survey margins for this county are too wide to rank it.',
-      src: [SRC.acs] },
-    { id: 'subsidized_per_100_lte80', label: 'Subsidized homes', worse: 'low', fmt: 'num0',
+    { id: 'subsidized_per_100_lte80', label: 'Subsidized rental homes', unit: 'per 100 renter households at or below 80% AMI', tenure: 'Renters', worse: 'low', fmt: 'num0',
       what: 'Income-restricted homes on record (CHFA tax credit and preservation lists, HUD multifamily, USDA Rural Development and a local housing authority roster) for every 100 renter households at or below 80% AMI, the ceiling most of these programs serve. Read it as a rough share.',
       grey: 'Too few such households to compare, or more homes on record than households counted.',
       src: [['CHFA', 'https://www.chfainfo.com/rental-housing/housing-credit/awards'], ['HUD multifamily', 'https://hudgis-hud.opendata.arcgis.com/datasets/HUD::multifamily-properties-assisted/'], ['USDA Rural Development', 'https://www.rd.usda.gov/data-sets/multi-family-housing-rentals'], SRC.chas] },
-    { id: 'build_pace_vs_need', label: 'Building pace against need', worse: 'low', fmt: 'ratio',
+    // The owner match for the renter measures (paul, 15 Nov: renters and owners clear, with the owner side shown).
+    // The county's owner households at every income paying 30% or more of income, from HUD CHAS as the needs
+    // ranking sums it (data/hna/ranking-index.json metrics.pct_owner_burdened_30plus; scripts/hna/build_ranking_index.py).
+    { id: 'owner_burden', label: 'Owners paying 30% or more of income', tenure: 'Owners', worse: 'high', unit: 'of owner households',
+      what: 'Owner households, at every income, whose housing costs (mortgage, taxes, insurance and utilities) take 30% or more of income. The owner side of the cost burden the renter measures show.',
+      src: [SRC.chasOwn] },
+    { id: 'home_value_to_income', label: 'Home price to income', unit: 'median household income', tenure: 'Owners', worse: 'high', fmt: 'ratio',
+      what: 'Median home value as a multiple of median household income. Lenders’ rule of thumb is about three times income.',
+      grey: 'The survey margins for this county are too wide to rank it.',
+      src: [SRC.acs] },
+    { id: 'need', label: 'Priority score (need and opportunity)', unit: 'out of 100', tenure: 'All households', worse: 'high',
+      what: 'One score from 0 to 100. Just over half (55%) is need: homes short, households overpaying, prices against incomes, expected growth and crowding. The rest (45%) is opportunity: economic mobility, walkability, nearby services and federal tax credit target areas.',
+      src: [SRC.rank] },
+    { id: 'build_pace_vs_need', label: 'Building pace against need', unit: 'the homes needed each year', tenure: 'All homes', worse: 'low', fmt: 'ratio',
       what: 'Homes permitted each year (2021–2025 average) against the homes needed each year over the next ten years for household growth. Below 1× is falling behind. In resort counties many new homes are second homes, so a high figure there does not mean residents are housed.',
       grey: 'The forecast needs fewer than 10 new homes a year here, too few to compare: one project swings the figure tenfold.',
       blank: 'The forecast shows no new homes needed here for household growth.',
       src: [SRC.bps, SRC.sdo] }
   ];
   var BY_ID = {}; MEASURES.forEach(function (m) { BY_ID[m.id] = m; });
+  function tenureTag(m) { return '<span class="cn-ten cn-ten-' + m.tenure.replace(/\W+/g, '-').toLowerCase() + '">' + esc(m.tenure) + '</span>'; }
 
   // ---- data ----
   // One request per file: the measures module and this file both read permits.json and the boundaries.
@@ -87,12 +96,15 @@
     if (started) return;
     started = true;
     getJson('data/hna/ranking-index.json').then(function (r) {
-      var by = {};
+      var by = {}, own = {};
       (Array.isArray(r.rankings) ? r.rankings : []).forEach(function (x) {
         var v = x && x.type === 'county' && x.metrics ? Number(x.metrics.overall_need_score) : NaN;
         if (Number.isFinite(v)) by[x.geoid] = v;
+        // 0 is the builder's "no CHAS row", not a county where no owner is cost burdened.
+        var o = x && x.type === 'county' && x.metrics ? Number(x.metrics.pct_owner_burdened_30plus) : NaN;
+        if (Number.isFinite(o) && o > 0) own[x.geoid] = o;
       });
-      ext.need = by;
+      ext.need = by; ext.own = own;
       ext.needDate = String(r.metadata && r.metadata.generatedAt || '').slice(0, 10);
     }).catch(function () { ext.failed.need = true; }).then(refresh);
     getJson('data/hna/permits.json').then(function (p) { ext.permits = p.counties || {}; }).catch(function () {}).then(refresh);
@@ -116,6 +128,7 @@
       return { values: v, unreliable: {}, ready: true };
     }
     if (id === 'need') return { values: ext.need || {}, unreliable: {}, ready: !!ext.need, failed: ext.failed.need };
+    if (id === 'owner_burden') return { values: ext.own || {}, unreliable: {}, ready: !!ext.own, failed: ext.failed.need };
     var ready = !!ext.cm && (id !== 'subsidized_per_100_lte80' || ext.inventory);
     return { values: ready ? ext.cm.values[id] || {} : {}, unreliable: ready ? ext.cm.unreliable[id] || {} : {}, ready: ready, failed: ext.failed[id] };
   }
@@ -124,6 +137,7 @@
     if (v == null) return null;
     if (m.id === 'per10') return v.toFixed(1);
     if (m.id === 'need') return String(Math.round(v * 10) / 10);
+    if (m.id === 'owner_burden') return v.toFixed(1) + '%';
     return global.CountyMeasures.format(v, m.fmt);
   }
 
@@ -190,6 +204,7 @@
     if (m.id === 'short_per_100_lte50') return 'Of every 100 renter households at or below 50% AMI, ' + f + ' still have no affordable home.';
     if (m.id === 'rent_to_income') return 'A year of median rent (' + money(cm.values.median_gross_rent[geoid]) + ' a month) comes to ' + f + ' of the median household income (' + money(cm.values.median_hh_income[geoid]) + ').';
     if (m.id === 'home_value_to_income') return 'The median home (' + money(cm.values.median_home_value[geoid]) + ') is worth ' + f + ' the median household income (' + money(cm.values.median_hh_income[geoid]) + ').';
+    if (m.id === 'owner_burden') return f + ' of owner households in ' + name + ' pay 30% or more of their income for housing.';
     if (m.id === 'subsidized_per_100_lte80') {
       c = cm.detail[geoid];
       return 'There are ' + f + ' income-restricted homes on record for every 100 renter households at or below 80% AMI' + (c ? ' (' + num(c.subsidized) + ' homes, ' + num(c.renters_lte80) + ' households).' : '.');
@@ -243,8 +258,11 @@
     if (trendOn(m)) return { fill: NONE, tip: name + (v != null ? ': ' + fmt(m, v) + ' today' : '') };
     if (!s.ready) return { fill: NONE, tip: name + ': loading' };
     if (v == null) return { fill: NONE, tip: name + ': ' + (m.blank || 'not published') };
-    if (s.unreliable[geoid]) return { fill: GREY, tip: name + ': ' + fmt(m, v) + ', too uncertain to rank' };
-    return { fill: sc.color(v), tip: name + ': ' + fmt(m, v) + ' · ' + m.label.toLowerCase() };
+    if (s.unreliable[geoid]) return { fill: GREY, tip: name + ' · ' + m.tenure + ': ' + m.label.toLowerCase() + ' · ' + fmt(m, v) + (m.unit ? ' ' + m.unit : '') + ', too uncertain to rank · ' + m.src[0][0] };
+    // The tooltip standard (paul, 15 Nov): place, who it counts, the value with its unit, its rank, and the source.
+    var r = rankOf(m, s, geoid);
+    return { fill: sc.color(v), tip: name + ' · ' + m.tenure + ': ' + m.label.toLowerCase() + ' · ' + fmt(m, v) + (m.unit ? ' ' + m.unit : '') +
+      (r ? ' · ' + ordinal(r.n) + ' of ' + r.of + ' (1st = most need)' : '') + ' · ' + m.src[0][0] };
   }
 
   // ---- trend (rent as a share of income only: the one measure with Census history back to 1980) ----
@@ -300,11 +318,21 @@
     return '<p class="cn-line">Trend: rent took ' + r(c.o.a.r * 12 / c.o.a.i) + ' of the typical household’s income in ' + c.o.a.p.replace('-', '–') + ' and ' + r(c.o.b.r * 12 / c.o.b.i) + ' in 2020–24 (' + (ds < 0 ? '−' : '+') + Math.abs(ds).toFixed(1) + ' points). <a href="#/places/deep-dive">1980 to today, every county →</a></p>';
   }
 
+  // Renters, owners or everyone: one tap jumps to that group's first measure; the arrows still step through all of them.
+  var GROUPS = [['Renters', 'Renters'], ['Owners', 'Owners'], ['All', 'All households|All homes']];
+  function groupOf(m) { return GROUPS.filter(function (g) { return g[1].split('|').indexOf(m.tenure) > -1; })[0][0]; }
+  function tenureSwitch(m) {
+    var on = groupOf(m);
+    return '<span class="cn-tenure" role="group" aria-label="Who the measure counts">' + GROUPS.map(function (g) {
+      var first = MEASURES.filter(function (x) { return groupOf(x) === g[0]; })[0];
+      return '<button type="button" data-cn-measure="' + first.id + '" aria-pressed="' + (g[0] === on) + '"' + (g[0] === on ? ' class="is-on"' : '') + '>' + g[0] + '</button>';
+    }).join('') + '</span>';
+  }
   function stepper(m) {
     var i = MEASURES.indexOf(m), n = MEASURES.length;
-    return '<button type="button" class="cn-step" data-cn-step="-1" aria-label="Previous measure">‹</button>' +
+    return tenureSwitch(m) + '<button type="button" class="cn-step" data-cn-step="-1" aria-label="Previous measure">‹</button>' +
       '<label class="cn-pick"><span class="cn-count">Measure ' + (i + 1) + ' of ' + n + '</span><select data-cn-pick>' + MEASURES.map(function (x) {
-        return '<option value="' + x.id + '"' + (x === m ? ' selected' : '') + '>' + esc(x.label) + '</option>';
+        return '<option value="' + x.id + '"' + (x === m ? ' selected' : '') + '>' + esc(x.label + ' (' + x.tenure + ')') + '</option>';
       }).join('') + '</select></label>' +
       '<button type="button" class="cn-step" data-cn-step="1" aria-label="Next measure">›</button>';
   }
@@ -350,10 +378,10 @@
       var val = !s.ready ? (s.failed ? 'did not load' : '…') : xv == null ? 'none' : fmt(x, xv);
       var tag = !s.ready || xv == null ? '' : s.unreliable[g] ? 'too uncertain to rank' : ordinal(r.n) + ' of ' + r.of;
       return '<li><button type="button" data-cn-measure="' + x.id + '"' + (x === m ? ' aria-pressed="true" class="is-on"' : ' aria-pressed="false"') + '>' +
-        '<span class="cn-m">' + esc(x.label) + '</span><span class="cn-v">' + esc(val) + '</span>' + (tag ? '<span class="cn-r">' + esc(tag) + '</span>' : '') + '</button></li>';
+        '<span class="cn-m">' + tenureTag(x) + ' ' + esc(x.label) + '</span><span class="cn-v">' + esc(val) + '</span>' + (tag ? '<span class="cn-r">' + esc(tag) + '</span>' : '') + '</button></li>';
     }).join('');
     return '<h3 class="cn-title" tabindex="-1">' + esc(name) + '</h3>' +
-      '<p class="cn-now-label">' + esc(m.label) + '</p>' + now +
+      '<p class="cn-now-label">' + tenureTag(m) + ' ' + esc(m.label) + '</p>' + now +
       (m.id === 'rent_to_income' ? trendLine(g, name) : '') +
       '<p class="note cn-src metric-source">Source: ' + srcLine(m) + '</p>' +
       countyList(names, g) +
@@ -416,7 +444,7 @@
     // note cell read "No value" beside every figure (Home port check, 13 Nov 2026).
     var noted = rows.some(function (r) { return r[2]; });
     rows = rows.map(function (r) { return noted ? [r[0], r[1], r[2] || 'none'] : [r[0], r[1]]; });
-    return VD.block('Colorado counties, ' + m.label, noted ? ['County', m.label, 'Note'] : ['County', m.label], rows, { fmt: { 1: function (v) { return fmt(m, v); } } });
+    return VD.block('Colorado counties, ' + m.label + ' (' + m.tenure + ')', noted ? ['County', m.label, 'Note'] : ['County', m.label], rows, { fmt: { 1: function (v) { return fmt(m, v); } } });
   }
 
   // Redraw in place: colors, tooltips, key, words and panel. The page itself is not re-rendered, so the map

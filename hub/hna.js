@@ -488,6 +488,7 @@
       var first = place.bands[0];
       return Viz.cumulative({
         title: 'Renter households at or below each income level',
+        unit: 'renter households',
         scope: Pl.scope(here),
         answer: first && first.households != null ? num(first.households) + ' renter households earn 30% of area income or less.' : null,
         rows: place.bands.map(function (b) { return ['\u2264' + b.band + '% AMI', b.households]; }),
@@ -508,7 +509,7 @@
     function householdTypes() {
       var tot = pv('DP02_0001E');
       if (!Viz) return '';
-      var src = Pl.srcLine(acs + ', DP02', acsUrl('DP02')), base = { title: 'Household type mix', scope: Pl.scope(here), color: Viz.COLORS.households, source: src };
+      var src = Pl.srcLine(acs + ', DP02', acsUrl('DP02')), base = { title: 'Household type mix', unit: 'households', scope: Pl.scope(here), color: Viz.COLORS.households, source: src };
       // No household total: the shares have nothing to be shares of, so the chart says so instead of disappearing.
       if (tot == null || !isFinite(tot)) return Viz.unavailable(Object.assign(base, { empty: 'The Census table has no published count of all households for this place, so the household type mix can\u2019t be shown.' }));
       // Each group from its DP02 counts. A count the Census table does not publish stays missing: it is never read
@@ -526,7 +527,7 @@
       if (missing.length === groups.length) return Viz.unavailable(Object.assign(base, { empty: 'The Census table has no published counts for any household type here, so the mix can\u2019t be shown. All ' + num(tot) + ' households are counted in the total above.' }));
       if (missing.length) {
         var names = missing.length > 1 ? missing.slice(0, -1).join(', ') + ' and ' + missing[missing.length - 1] : missing[0];
-        return Viz.sortedBars({ title: 'Household type mix', scope: Pl.scope(here), color: Viz.COLORS.households, total: tot,
+        return Viz.sortedBars({ title: 'Household type mix', unit: 'households', scope: Pl.scope(here), color: Viz.COLORS.households, total: tot,
           answer: 'The largest group can\u2019t be named: the Census table has no published count for ' + names + '.',
           note: 'Shares are of all ' + num(tot) + ' households. \u201cOther (shared, etc.)\u201d is what is left after the groups above, so it is left out until every group has a published count.',
           rows: rows, source: src });
@@ -534,7 +535,7 @@
       var known4 = rows.reduce(function (t, r) { return t + r[1]; }, 0);
       rows.push(['Other (shared, etc.)', Math.max(0, tot - known4)]);
       var top = rows.slice().sort(function (a, b) { return b[1] - a[1]; })[0];
-      return Viz.sortedBars({ title: 'Household type mix', scope: Pl.scope(here), color: Viz.COLORS.households,
+      return Viz.sortedBars({ title: 'Household type mix', unit: 'households', scope: Pl.scope(here), color: Viz.COLORS.households,
         answer: top[0] + ' is the largest group: ' + num(top[1]) + ' of ' + num(tot) + ' households.',
         rows: rows, source: src });
     }
@@ -551,7 +552,7 @@
     };
     var known = function (x) { return x != null; };
     function occupationMix() {
-      var src = Pl.srcLine(acs + ', DP03', acsUrl('DP03')), base = { title: 'Occupation mix', scope: Pl.scope(here), color: Viz && Viz.COLORS.blue, source: src,
+      var src = Pl.srcLine(acs + ', DP03', acsUrl('DP03')), base = { title: 'Occupation mix', scope: Pl.scope(here), unit: 'workers', color: Viz && Viz.COLORS.blue, source: src,
         empty: 'The Census table has no published occupation counts for this place, so the mix can’t be shown.' };
       var gone = missingNames(pf.occupations);
       if (gone && pf.occupations.some(function (r) { return known(r[1]); })) {
@@ -588,7 +589,7 @@
         '<div class="metrics">' + acsCard('Total population', cnt(pf.pop), null, 'DP05') + acsCard('Hispanic or Latino, any race', share(pf.hispanic), null, 'DP05') +
         acsCard('White alone, not Hispanic', share(pf.nhWhite), null, 'DP05') + '</div>' +
         // A missing group is left out, never drawn as 0; shares are then of all residents, so the rest don't grow to fill the gap.
-        draw('sortedBars', { title: 'Residents by race', scope: Pl.scope(here), color: Viz && Viz.COLORS.purple, rows: pf.races.filter(function (r) { return r[1] == null || r[1] > 0; }),
+        draw('sortedBars', { title: 'Residents by race', unit: 'residents', scope: Pl.scope(here), color: Viz && Viz.COLORS.purple, rows: pf.races.filter(function (r) { return r[1] == null || r[1] > 0; }),
           total: gone ? pf.pop : null, noShare: !!gone && !pf.pop, note: gone ? 'No published count for ' + gone + (pf.pop ? '. Shares are of all ' + num(pf.pop) + ' residents.' : '. Counts only.') : null,
           empty: 'The Census table has no published counts by race for this place.', source: Pl.srcLine(acs + ', DP05', acsUrl('DP05')) }) +
         '<p class="note">Hispanic or Latino is an ethnicity that cuts across race: a person can be Hispanic and any race, so it is not one of the bars. ' +
@@ -600,7 +601,7 @@
       return '<h2>Educational attainment</h2><p>Highest schooling finished, for residents 25 and older.</p>' +
         '<div class="metrics">' + acsCard('Residents 25 and older', num(pf.pop25), null, 'DP02') + acsCard('High school graduate or more', pct(pf.hsPlus), null, 'DP02') +
         acsCard('Bachelor\u2019s degree or more', pct(pf.baPlus), null, 'DP02') + acsCard('Graduate or professional degree', pct(pf.grad), null, 'DP02') + '</div>' +
-        draw('orderedBars', { title: 'Highest schooling finished', scope: Pl.scope(here), color: Viz && Viz.COLORS.blue, rows: pf.schooling, total: pf.pop25,
+        draw('orderedBars', { title: 'Highest schooling finished', unit: 'residents 25 and older', scope: Pl.scope(here), color: Viz && Viz.COLORS.blue, rows: pf.schooling, total: pf.pop25,
           note: gone ? 'No published count for ' + gone + '. Shares are of all ' + num(pf.pop25) + ' residents 25 and older.' : null,
           empty: 'The Census table has no published schooling counts for this place.', source: Pl.srcLine(acs + ', DP02', acsUrl('DP02')) });
     }
@@ -620,7 +621,7 @@
         Viz.pyramid({ title: 'Residents by age, ' + cname + ', ' + sya.pyramidYear, scope: scope, rows: g,
           answer: num(g.reduce(function (t, r) { return t + r[1] + r[2]; }, 0)) + ' residents; ' + num(seniors.reduce(function (t, r) { return t + r[1] + r[2]; }, 0)) + ' are 65 or older.', source: src }) +
         '<h3>Senior growth pressure</h3>' +
-        Viz.orderedBars({ title: 'Residents 65 and older by age, ' + cname + ', ' + sya.pyramidYear, scope: scope, color: Viz.COLORS.purple, rows: seniors.map(function (r) { return [r[0], r[1] + r[2]]; }),
+        Viz.orderedBars({ title: 'Residents 65 and older by age, ' + cname + ', ' + sya.pyramidYear, unit: 'residents', scope: scope, color: Viz.COLORS.purple, rows: seniors.map(function (r) { return [r[0], r[1] + r[2]]; }),
           answer: last > 0 && i0 > -1 ? 'The forecast has ' + num(sp.pop65plus[last]) + ' residents 65 and older in ' + sp.years[last] + ' (' + pct(sp.share65plus[last]) + ' of everyone), up from ' + num(sp.pop65plus[i0]) + ' (' + pct(sp.share65plus[i0]) + ') in ' + sp.years[i0] + '.' : null,
           note: 'Shares are of residents 65 and older. Older residents need more accessible, smaller homes and services nearby.', source: src });
     }
@@ -708,7 +709,7 @@
       var rows = STRUCTURE.map(function (b) { return [b[0], pv(b[1])]; });
       if (!Viz || rows.every(function (r) { return r[1] == null; })) return '';
       var tot = rows.reduce(function (t, r) { return t + (r[1] || 0); }, 0), top = rows.slice().sort(function (a, b) { return (b[1] || 0) - (a[1] || 0); })[0];
-      return Viz.sortedBars({ title: 'Homes by type of building', scope: Pl.scope(here),
+      return Viz.sortedBars({ title: 'Homes by type of building', unit: 'homes', scope: Pl.scope(here),
         answer: top[0] + ' homes are ' + Math.round(top[1] / (tot || 1) * 100) + '% of ' + num(tot) + '.',
         rows: rows, note: 'Every bar carries its count and share, so the small types stay readable.', source: Pl.srcLine(acs + ', DP04', acsUrl('DP04')) });
     }
@@ -805,7 +806,7 @@
         if (known(b.work_from_home)) said.push(pct(b.work_from_home / b.total * 100) + (said.length ? '' : ' of ' + num(b.total) + ' workers who live here') + ' work from home');
         var answer = said.length ? said.join('; ') + '.' : 'The Census count for driving alone and working from home is not available for ' + num(b.total) + ' workers who live here.';
         if (said.length === 1) answer = said[0] + '; ' + (known(b.drive) ? 'the work-from-home count' : 'the drive-alone count') + ' is not available.';
-        return Viz.orderedBars({ title: 'Commuting mode share', scope: Pl.scope(here), total: b.total, tiles: tiles, rows: rows,
+        return Viz.orderedBars({ title: 'Commuting mode share', unit: 'workers', scope: Pl.scope(here), total: b.total, tiles: tiles, rows: rows,
           answer: answer,
           note: 'Workers 16 and older who live here, by how they usually get to work.' + (none.length ? ' None reported: ' + none.join(', ') + '.' : '') +
             (unknown.length ? ' Not available in the Census count: ' + unknown.join(', ') + '.' : ''),
@@ -819,7 +820,7 @@
       var missing = have.filter(function (r) { return r[1] == null; }).map(function (r) { return r[0].toLowerCase(); });
       var srows = have.filter(function (r) { return r[1] != null; }).sort(function (x, y) { return y[1] - x[1]; });
       var wfh = have[2][1];
-      return Viz.orderedBars({ title: 'Commuting mode share', scope: Pl.scope(here), tiles: tiles, noShare: true, fmt: function (x) { return pct(x); },
+      return Viz.orderedBars({ title: 'Commuting mode share', unit: 'workers', scope: Pl.scope(here), tiles: tiles, noShare: true, fmt: function (x) { return pct(x); },
         rows: srows,
         answer: pct(s8.S0801_C01_003E) + ' of workers who live here drive alone' + (wfh != null ? ', and ' + pct(wfh) + ' work from home.' : '.'),
         note: 'Shares of workers 16 and older who live here, by how they usually get to work' + (sy ? ', ACS ' + (one ? sy + ' 1-year' : (sy - 4) + '-' + sy + ' 5-year') : '') + '.' +
@@ -846,7 +847,7 @@
       var x = lehdRec();
       if (!Viz || !x) return '';
       var L = x.L, tot = PAY.reduce(function (t, p) { return t + (L[p[1]] || 0); }, 0);
-      return Viz.orderedBars({ title: 'Wage distribution: jobs by pay', scope: lehdScope(x, 'Jobs by pay'), color: Viz.COLORS.blue, rows: PAY.map(function (p) { return [p[0], L[p[1]]]; }),
+      return Viz.orderedBars({ title: 'Wage distribution: jobs by pay', unit: 'jobs', scope: lehdScope(x, 'Jobs by pay'), color: Viz.COLORS.blue, rows: PAY.map(function (p) { return [p[0], L[p[1]]]; }),
         answer: tot ? num(L.CE03) + ' of ' + num(tot) + ' jobs located here (' + Math.round(L.CE03 / tot * 100) + '%) pay over $40,000 a year.' : null,
         note: 'LEHD sorts jobs into three monthly pay bands: $1,250 or less, $1,251 to $3,333, and more. A job counts where the work is, not where the worker lives.', source: lehdSrc(x) });
     }
@@ -854,7 +855,7 @@
       var x = lehdRec();
       if (!Viz || !x || !x.L.industries || !x.L.industries.length) return '';
       var top = x.L.industries.slice(0, 8), t0 = top[0];
-      return Viz.orderedBars({ title: 'Top industries by employment', scope: lehdScope(x, 'Jobs by industry'), total: x.L.C000, rows: top.map(function (r) { return [r.label, r.count]; }),
+      return Viz.orderedBars({ title: 'Top industries by employment', unit: 'jobs', scope: lehdScope(x, 'Jobs by industry'), total: x.L.C000, rows: top.map(function (r) { return [r.label, r.count]; }),
         answer: t0.label + ' is the largest, with ' + num(t0.count) + ' of ' + num(x.L.C000) + ' jobs.',
         note: 'The eight largest of 20 sectors (NAICS two-digit). Shares are of all jobs located here.', source: lehdSrc(x) });
     }
@@ -1001,7 +1002,7 @@
       var hh = T5.map(function (t) { return ((a[t[0]] || {}).total || 0) + ((o[t[0]] || {}).total || 0); }), all = hh.reduce(function (s, x) { return s + x; }, 0);
       if (!all) return '';
       var rows = T5.map(function (t, i) { return [t[1], Math.round(g * hh[i] / all)]; });
-      return Viz.orderedBars({ title: 'Projected housing demand by affordability tier', scope: Pl.scope(scopeOf(d.future_units_growth_20yr, 'future_units_growth_20yr', sctx) || here), total: g, color: Viz.COLORS.homes, rows: rows,
+      return Viz.orderedBars({ title: 'Projected housing demand by affordability tier', unit: 'homes needed (rented and owned)', scope: Pl.scope(scopeOf(d.future_units_growth_20yr, 'future_units_growth_20yr', sctx) || here), total: g, color: Viz.COLORS.homes, rows: rows,
         answer: 'If new households earn like today’s, about ' + num(rows[0][1] + rows[1][1]) + ' of the ' + num(g) + ' added homes are for households at or below 50% AMI.',
         note: 'Today’s renters and owners together, by HUD income tier, applied to the 20-year growth in homes. A planning split, not a forecast of incomes.',
         source: Pl.srcLine([[sourceOf(m('future_units_growth_20yr'), ctx), sourceUrl(m('future_units_growth_20yr'), ctx)], [cr.label, LINKS.chas]]) });
@@ -1094,7 +1095,7 @@
           '<p class="note">' + esc(s[3]) + '</p><p class="metric-source">' + Pl.srcLine(s[4][0], s[4][1]) + '</p></li>';
       }).join('');
       var dp = function (x) { return x == null ? null : x.toFixed(2) + '×'; };
-      return '<h2>Housing need over ' + hz + ' years</h2>' +
+      return '<h2>Housing need over ' + hz + ' years</h2>' + '<p class="note"><span class="cn-ten cn-ten-all-homes">All homes</span> Rented and owned: the forecast counts new households, not whether they will rent or buy.</p>' +
         '<p>The State Demography Office’s forecast turned into homes: households divided by one minus a healthy vacancy rate, less the homes needed today.' + (isCounty ? '' : ' The office forecasts counties only, so a town reads its share of the county.') + '</p>' +
         (lead ? '<p class="callout">' + esc(lead) + '</p>' : '') + assume +
         '<div class="metrics">' +
@@ -1358,7 +1359,7 @@
       var s = r.scenarios, row = function (label, x, k, base) {
         return '<tr' + (base ? ' class="row-strong"' : '') + '><th scope="row">' + esc(label) + '</th><td>' + num(x.yr5) + '</td><td>' + num(x.yr10) + '</td><td>' + num(x.yr20) + '</td><td>' + num(Math.round(r.annualGap * k)) + ' a year</td></tr>';
       };
-      return '<h2>Projected housing need by scenario</h2>' +
+      return '<h2>Projected housing need by scenario</h2>' + '<p class="note"><span class="cn-ten cn-ten-all-homes">All homes</span> Rented and owned: the forecast counts new households, not whether they will rent or buy.</p>' +
         '<p>Homes needed in ' + esc(cname) + ' County to house projected new households at 5, 10 and 20 years. ' +
         (r.needSource === 'dola' ? 'The baseline turns the State Demography Office’s household growth into homes at a healthy vacancy (5% to 7%, from local vacancy). It is COHO’s estimate built on the office’s households, not a figure the office publishes, so it can differ from the 20-year figure above, which adds in-commuters.' : 'From household growth at the rate in the method notes.') +
         (isCounty ? '' : ' The office forecasts counties, so this table is the county’s.') + '</p>' +
@@ -1882,7 +1883,7 @@
       if (rows.every(function (r) { return r[1] == null; })) return '';
       var tot = rows.reduce(function (t, r) { return t + (r[1] || 0); }, 0), pre60 = (pv('DP04_0024E') || 0) + (pv('DP04_0025E') || 0) + (pv('DP04_0026E') || 0), since10 = (pv('DP04_0017E') || 0) + (pv('DP04_0018E') || 0);
       return '<h2>Age of housing stock</h2><p>When the homes were built. Older homes may need repairs; newer ones show how much the place has been building lately.</p>' +
-        draw('orderedBars', { title: 'Homes by year built', scope: Pl.scope(here), color: Viz && Viz.COLORS.homes, rows: rows, total: tot,
+        draw('orderedBars', { title: 'Homes by year built', unit: 'homes', scope: Pl.scope(here), color: Viz && Viz.COLORS.homes, rows: rows, total: tot,
           answer: pct(share(pre60, tot)) + ' of homes were built before 1960; ' + pct(share(since10, tot)) + ' since 2010.',
           note: 'Year built is reported by the household and grouped by decade; the survey does not record condition or renovation.', source: Pl.srcLine(acs + ', DP04', acsUrl('DP04')) });
     }
@@ -1891,7 +1892,7 @@
       if (rows.every(function (r) { return r[1] == null; })) return '';
       var mv = m('median_home_value');
       return '<h2>Home value distribution</h2><p>Owner-occupied homes by the value their owners report. The median alone hides whether the market is thin at lower prices or heavy at the top.</p>' +
-        draw('orderedBars', { title: 'Owner homes by value', scope: Pl.scope(here), color: Viz && Viz.COLORS.homes, rows: rows, total: pv('DP04_0080E'),
+        draw('orderedBars', { title: 'Owner homes by value', unit: 'owner homes', scope: Pl.scope(here), color: Viz && Viz.COLORS.homes, rows: rows, total: pv('DP04_0080E'),
           answer: pv('DP04_0089E') != null ? 'The survey median is ' + money(pv('DP04_0089E')) + '.' : null,
           note: mv ? 'The headline typical value on the Overview (' + money(mv.value) + ') is Zillow\u2019s current index for all homes; these bars are the 2020\u20132024 survey of owners, a different measure and period, so they sit lower.' : null,
           source: Pl.srcLine(acs + ', DP04', acsUrl('DP04')) });
@@ -2263,7 +2264,7 @@
       if (!Viz) return '<h2>Rent burden distribution</h2>' + bars('Renters by share of income spent on rent', 'Percent of renter households. Rent here includes utilities the renter pays.', rows, function (x) { return pct(x); }, null, [acs + ', DP04', acsUrl('DP04')]);
       var over = (rows[4][1] || 0) + (rows[5][1] || 0);
       return '<h2>Rent burden distribution</h2>' + Viz.orderedBars({
-        title: 'Renters by share of income spent on rent', scope: Pl.scope(here), noShare: true, fmt: function (x) { return pct(x); },
+        title: 'Renters by share of income spent on rent', scope: Pl.scope(here), noShare: true, unit: 'of renter households', fmt: function (x) { return pct(x); },
         answer: pct(Math.round(over * 10) / 10) + ' of renter households pay 30% or more of income on rent' + (rows[5][1] != null ? '; ' + pct(rows[5][1]) + ' pay 35% or more.' : '.'),
         keys: [['Under 30% of income', Viz.COLORS.homes], ['30% or more: cost-burdened', Viz.COLORS.households]],
         colorOf: function (r, i) { return i >= 4 ? Viz.COLORS.households : Viz.COLORS.homes; },
@@ -2306,7 +2307,7 @@
       var h = hudRecord(), ok = function (x) { return typeof x === 'number' && isFinite(x) && x >= 0; };
       if (!h || !['30', '50', '80'].some(function (k) { return h.tiers[k] && ok(h.tiers[k].homes_short); })) return '';
       var at = { level: 'calculated', where: isCounty ? 'this county' : 'this place', from: 'HUD CHAS counts of renter households and of homes affordable and available to them' };
-      return '<h2>Homes short: HUD’s count</h2><div class="metrics">' + ['30', '50', '80'].map(function (k) {
+      return '<h2>Rental homes short: HUD’s count</h2><div class="metrics">' + ['30', '50', '80'].map(function (k) {
         var x = h.tiers[k] || {};
         return Pl.card('Homes short for renters at or below ' + k + '% of area median income', ok(x.homes_short) ? num(x.homes_short) : null,
           ok(x.renter_households) && ok(x.affordable_available_homes) ? num(x.affordable_available_homes) + ' homes affordable and available for ' + num(x.renter_households) + ' renter households' : 'HUD does not publish this tier here.',
@@ -2317,7 +2318,7 @@
     t.afford = function () {
       return hudShort() + (place ? '<div class="metrics">' + Pl.gapCard(place.bands[0]) + Pl.gapCard(place.bands[2]) + Pl.gapCard(place.bands[3]) + '</div>' + Pl.gapChart(place) : '') +
         rentalGap() + rentBurdenChart() +
-        '<h2>Who is paying too much</h2><p class="note">These come from two surveys with different years, the Census ACS and HUD’s CHAS. Each card names its own.</p><div class="metrics">' +
+        '<h2>Who is paying too much: renters and owners</h2><p class="note">These come from two surveys with different years, the Census ACS and HUD’s CHAS. Each card names its own.</p><div class="metrics">' +
         mc('Renters paying over 30% of income', 'pct_cost_burdened', function (x) { return pct(x); }) +
         mc('Renters paying over 50% of income', 'pct_renter_severe_burdened', function (x) { return pct(x); }) +
         mc('Owners paying over 30% of income', 'pct_owner_burdened_30plus', function (x) { return pct(x); }) +
