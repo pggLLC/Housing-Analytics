@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T03:04:38.833Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T04:20:56.237Z. Do not edit by hand.
 
 ---
 
@@ -1936,7 +1936,7 @@
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
 | `data/market/zori_rents_co.json` | 24.3 KB | ✅ | — |
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
-| `data/multifamily-inventory-co.json` | 92.5 KB | ✅ | — |
+| `data/multifamily-inventory-co.json` | 100.5 KB | ✅ | — |
 | `data/news-digest/index.json` | 1.2 KB | ✅ | — |
 | `data/paper/compute-footprint.json` | 1.8 KB | ✅ | — |
 | `data/paper/figures.json` | 15.8 KB | ✅ | — |
@@ -2775,7 +2775,7 @@
 | `test/transit-zone.test.js` | 40.2 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/ui-audit-clean.test.js` | 4.3 KB |
-| `test/undercount-fixes.test.mjs` | 7.0 KB |
+| `test/undercount-fixes.test.mjs` | 7.6 KB |
 | `test/unit-mix-validation.test.js` | 4.7 KB |
 | `test/unit-suffix-convention.test.js` | 6.6 KB |
 | `test/unit/cohort-component-model.test.js` | 11.5 KB |

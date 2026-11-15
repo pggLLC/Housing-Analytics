@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-15T03:05:17.676363Z",
+  "generated": "2026-11-15T04:21:26.122776Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1033287
+      "bytes": 1033288
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9299,7 +9299,7 @@
     "data/multifamily-inventory-co.json": {
       "featureCount": 60,
       "placeholder": false,
-      "bytes": 94694
+      "bytes": 102932
     },
     "data/news-digest/index.json": {
       "featureCount": 0,
