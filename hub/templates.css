@@ -1084,6 +1084,9 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
 .sp-where a { color: var(--pine); display: inline-flex; align-items: center; min-height: 44px; }
 .sp-where .sp-place a, .sp-where .sp-clear { margin-left: .4rem; }
 .step-path .sp-all { display: none; }
+/* Rental and for-sale homes: the ownership tools, in a line under the bar (js/components/workflow-progress.js companions). */
+.step-path .sp-also { margin: -.25rem 0 .75rem; font-size: 14px; color: var(--muted); }
+.step-path .sp-also a { color: var(--pine); }
 .sp-sticky { position: fixed; top: var(--hdr-h, 0px); left: 0; right: 0; z-index: 50; background: var(--card); border-bottom: 1px solid var(--line); box-shadow: 0 2px 6px var(--shade-soft);
   padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 .sp-sticky .sp-where { margin: 0; max-width: 72rem; margin-inline: auto; }

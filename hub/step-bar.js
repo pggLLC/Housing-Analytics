@@ -24,6 +24,32 @@
     ['Needs Assessment', 'Need by income level', 'here'], ['Market Analysis', 'Demand and rents for a site', null, 'deal-market-analysis.html'],
     ['Scenarios', 'Change the forecast', '#/places/scenario'], ['Deal Calculator', 'Sources, uses and the gap', '#/deal-calculator'],
     ['Recommendation', 'What the data says, and how sure', '#/recommendation']];
+  // The product a developer chose on the live site (js/components/workflow-progress.js getProduct: the open
+  // project's choice, else this browser's). For-sale homes walk the same seven slots, but four of them are rental
+  // tools, so they open the ownership tools instead; a project with rental and for-sale homes keeps the rental steps
+  // and lists the ownership tools under the bar. The step a page is stays as it is. (Codex P2 on HA #2878: the full
+  // Market Analysis's old rail did this, and the shared bar had dropped it.) Keyed by step, counted from 0.
+  var PRODUCT_KEY = 'coho:guided-product';
+  var PRODUCTS = ['lihtc-rental', 'middle-income-rental', 'for-sale', 'mixed'];
+  var OWN = {
+    1: ['Ownership Need', 'Who can afford to buy here', 'hna-what-to-do.html#affordable-ownership-need-section'],
+    3: ['For-Sale Market Study', 'Buyer demand, capture and resale', 'for-sale-market-study.html'],
+    4: ['Land Value', 'What the land is worth', 'land-value.html'],
+    5: ['For-Sale Feasibility', 'The subsidy gap per home', 'deal-calculator.html?mode=ownership']
+  };
+  function product() {
+    try {
+      var WS = global.WorkflowState, p = WS && typeof WS.get === 'function' ? WS.get('product') : null;
+      if (PRODUCTS.indexOf(p) > -1) return p;
+    } catch (e) { /* no project */ }
+    try { var k = global.localStorage.getItem(PRODUCT_KEY); return PRODUCTS.indexOf(k) > -1 ? k : null; } catch (e) { return null; }
+  }
+  // A live-site page with the place in its address, before any #section.
+  function withPlace(href, g) {
+    if (!g) return href;
+    var h = href.indexOf('#'), hash = h < 0 ? '' : href.slice(h), base = h < 0 ? href : href.slice(0, h);
+    return base + (base.indexOf('?') < 0 ? '?' : '&') + 'geoid=' + g + hash;
+  }
   // The working place (paul 11-11: the bar has the menu he wants, but the pick must carry from page to page, and
   // you should always know which place you are on). The last place a page opened on is kept in this browser; a
   // place in the address always wins and becomes the working place.
@@ -78,13 +104,14 @@
   function stepPath(away, at, geoid) {
     var w = geoid ? setWorking(geoid) || { geoid: geoid, label: geoid } : working();
     var g = w ? encodeURIComponent(w.geoid) : '';
-    // The live-site steps carry the place (?geoid=), so the full tool opens on it, not on a place saved earlier in the browser.
-    var q = w ? '?geoid=' + g : '';
+    var prod = product();
     var hereAt = -1;
     var items = PATH.map(function (s, i) {
       // The step this page is: matched on the step's own route (or, for a live-site step, its file) before the
       // Needs Assessment step is pointed elsewhere, so a page is never two steps at once.
       var isAt = !!at && (s[2] === at || (!s[2] && s[3] === at));
+      // For-sale homes: the ownership tool, on the live site, unless this page is that step.
+      if (prod === 'for-sale' && OWN[i] && !isAt) s = [OWN[i][0], OWN[i][1], null, OWN[i][2]];
       if (away && s[2] === 'here') s = [s[0], s[1], w ? '#/place/' + g : '#/places'];
       if (isAt) s = [s[0], s[1], 'here'];
       // Every lab step opens on the working place.
@@ -99,8 +126,12 @@
       var label = '<span class="sp-n" aria-hidden="true">' + (i + 1) + '</span><span class="sp-title">' + esc(s[0]) + (live ? ' <span class="live-tag">live site ↗</span>' : '') + '</span>' +
         '<span class="sp-text">' + esc(s[1]) + '</span>' + (here ? '<span class="sp-here">You are here</span>' : '');
       return '<li class="' + (here ? 'sp-current' : '') + '"' + (here ? ' aria-current="step"' : '') + '>' +
-        (here ? '<span class="sp-box">' + label + '</span>' : '<a class="sp-box" href="' + esc(live ? LIVE() + s[3] + q : go(s[2])) + '">' + label + '</a>') + '</li>';
+        (here ? '<span class="sp-box">' + label + '</span>' : '<a class="sp-box" href="' + esc(live ? LIVE() + withPlace(s[3], g) : go(s[2])) + '">' + label + '</a>') + '</li>';
     });
+    // Rental and for-sale homes: the ownership tools, listed under the bar.
+    var also = prod === 'mixed' ? '<p class="sp-also">For the for-sale homes, also: ' + Object.keys(OWN).map(function (i) {
+      return '<a href="' + esc(LIVE() + withPlace(OWN[i][2], g)) + '">' + esc(OWN[i][0]) + '</a> (step ' + (+i + 1) + ')';
+    }).join(' · ') + '</p>' : '';
     // One line says where you are: the step, and the place, with a way to change or clear it. The same line rides
     // at the top of the screen once the bar scrolls away (bindStepBar).
     var step = hereAt > -1 ? '<span class="sp-of">Step ' + (hereAt + 1) + ' of ' + PATH.length + ': <strong>' + esc(PATH[hereAt][0]) + '</strong></span>' : '';
@@ -108,7 +139,7 @@
       : 'No place picked yet. <a href="' + esc(go('#/places')) + '">Pick a town or county</a>') + '</span>';
     var where = step + place;
     return '<nav class="step-path" aria-label="From a town to a deal, seven steps"><p class="sp-where">' + where +
-      '<button type="button" class="sp-all" data-sp-all="1" aria-expanded="false">All 7 steps</button></p><ol>' + items.join('') + '</ol></nav>' +
+      '<button type="button" class="sp-all" data-sp-all="1" aria-expanded="false">All 7 steps</button></p><ol>' + items.join('') + '</ol>' + also + '</nav>' +
       '<div class="sp-sticky" data-sp-sticky="1" hidden><p class="sp-where">' + where + '<a class="sp-up" href="#" data-sp-up="1">Steps</a>' +
       '<button type="button" class="sp-toggle" data-sp-fold="1" aria-expanded="' + (spFolded() ? 'false' : 'true') + '">' + (spFolded() ? 'Show steps' : 'Hide') + '</button></p></div>';
   }
@@ -178,5 +209,5 @@
   }
   if (global.LabShell) bindStepBar();
 
-  global.LabStep = { PATH: PATH, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, working: working, setWorking: setWorking, clearWorking: clearWorking, path: stepPath, mount: mount, bind: bindStepBar };
+  global.LabStep = { PATH: PATH, OWN: OWN, product: product, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, working: working, setWorking: setWorking, clearWorking: clearWorking, path: stepPath, mount: mount, bind: bindStepBar };
 })(window);

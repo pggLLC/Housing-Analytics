@@ -109,6 +109,54 @@ ok(/\n  <div id="maStepBar" class="ma-step-bar"><\/div>\n/.test(newPage) && newP
     'js/components/ma-step-bar.js does not draw the bar with this page as the step it is on');
   ok(PATH && PATH.every(s => s[2] || s[3]), 'a step of the new bar links nowhere');
 }
+// The bar follows the page's place and product as they change (Codex P2s on #2878). With no place in the address, it
+// is drawn from the open project or the chosen county, so opening another project draws it again; and a for-sale or
+// mixed product sends four steps to the ownership tools as the old bar did (js/components/workflow-progress.js).
+{
+  const { JSDOM } = await import('jsdom');
+  const dom = new JSDOM('<!doctype html><body><div id="maStepBar" class="ma-step-bar"></div></body>', { runScripts: 'outside-only', url: 'https://cohoanalytics.com/deal-market-analysis.html' });
+  const w = dom.window;
+  let ctx = { geoid: '08077', fips: '08077', displayName: 'Mesa County' };
+  w.JurisdictionUrlContext = { resolveSync: () => ctx };
+  w.LAB_LIVE = '';
+  w.eval(read('hub/step-bar.js'));
+  w.eval(read('js/components/ma-step-bar.js'));
+  // The bar is drawn once the page's deferred scripts have run (DOMContentLoaded), as on the page.
+  if (w.document.readyState === 'loading') await new Promise(r => w.document.addEventListener('DOMContentLoaded', r));
+  const links = () => [...w.document.querySelectorAll('#maStepBar .step-path ol > li')].map(li => { const a = li.querySelector('a.sp-box'); return a ? a.getAttribute('href') : null; });
+  const titles = () => [...w.document.querySelectorAll('#maStepBar .sp-title')].map(t => t.firstChild.textContent.trim());
+  ok(/deal-calculator\?g=08077$/.test(links()[5]), 'the bar is not drawn on the open project (Mesa): ' + links()[5]);
+  ctx = { geoid: '08013', fips: '08013', displayName: 'Boulder County' };
+  w.document.dispatchEvent(new w.CustomEvent('workflow:project-loaded', { detail: { id: 'b' } }));
+  ok(/deal-calculator\?g=08013$/.test(links()[5]) && /Boulder/.test(w.document.querySelector('#maStepBar .sp-place').textContent),
+    'opening another project left the bar on the last one: ' + links()[5] + ' / ' + w.document.querySelector('#maStepBar .sp-place').textContent);
+  ctx = { geoid: '08045', fips: '08045', displayName: 'Garfield County' };
+  w.document.dispatchEvent(new w.CustomEvent('sitestate:county-changed'));
+  ok(/deal-calculator\?g=08045$/.test(links()[5]), 'choosing another county left the bar on the last place: ' + links()[5]);
+  // The old bar's for-sale route, read from the code that drew it.
+  const wp = new JSDOM('<!doctype html><main></main>', { runScripts: 'outside-only', url: 'https://cohoanalytics.com/' });
+  wp.window.localStorage.setItem('coho:guided-product', 'for-sale');
+  wp.window.eval(read('js/components/workflow-progress.js'));
+  const oldRoute = wp.window.WorkflowProgress.routeSteps();
+  w.localStorage.setItem('coho:guided-product', 'for-sale');
+  w.document.dispatchEvent(new w.CustomEvent('workflow:product-changed', { detail: { product: 'for-sale' } }));
+  const t = titles(), l = links();
+  oldRoute.forEach((s, i) => {
+    // This page's own step stays itself, as on the old bar (checked below).
+    if (!s.routed || i === 3) return;
+    ok(t[i] === s.label, 'for-sale step ' + (i + 1) + ' reads "' + t[i] + '"; the old bar read "' + s.label + '"');
+    const want = s.href.replace(/(#.*)?$/, m => (s.href.split('#')[0].includes('?') ? '&' : '?') + 'geoid=08045' + m);
+    ok(l[i] === want, 'for-sale step ' + (i + 1) + ' links ' + l[i] + '; the old bar linked ' + want);
+  });
+  ok(oldRoute.filter(s => s.routed).length === 4, 'the old bar\'s for-sale route no longer replaces four steps; update hub/step-bar.js OWN to match');
+  ok(t[3] === 'Market Analysis' && l[3] === null, 'with a for-sale product this page is no longer its own step');
+  w.localStorage.setItem('coho:guided-product', 'mixed');
+  w.document.dispatchEvent(new w.CustomEvent('workflow:product-changed', { detail: { product: 'mixed' } }));
+  const also = w.document.querySelector('#maStepBar .sp-also');
+  ok(also && [...also.querySelectorAll('a')].map(a => a.textContent).join() === 'Ownership Need,For-Sale Market Study,Land Value,For-Sale Feasibility' && titles()[5] === 'Deal Calculator',
+    'a mixed project does not keep the rental steps and list the ownership tools under the bar');
+  w.close(); wp.window.close();
+}
 // Every other link on the old page is on the new one (the body is identical; this covers head and tail). The old
 // bar's links are the old step pages; the new bar links each step's new page.
 const hrefs = html => new Set([...html.matchAll(/<a\s[^>]*href="([^"]+)"/g)].map(m => m[1]));
