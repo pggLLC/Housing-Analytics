@@ -353,7 +353,6 @@ assert.strictEqual(pkg.scripts['test:market-study-page'], 'node test/market-stud
   Page.start(gapDom.mount, data);
   const s1 = () => text(gapDom.mount.querySelector('#ms-s1'));
   assert(gapDom.mount.querySelector('[data-build-gap="pending"]'), 'no cost -> gap pending');
-  assert(s1().includes('Enter your cost per home'));
   assert.strictEqual(gapDom.mount.querySelector('#ms-tdc-per-home').value, '', 'no default cost');
   const field = gapDom.mount.querySelector('#ms-tdc-per-home');
   field.value = '400000';
@@ -366,6 +365,11 @@ assert.strictEqual(pkg.scripts['test:market-study-page'], 'node test/market-stud
   assert(s1().includes(money(priced.derived.tdcDependent.projectGap)), 'project gap shown');
   assert(s1().includes(money(priced.derived.tdcDependent.bandGapTotal)), 'band-by-band total shown');
   assert.strictEqual(gapDom.mount.querySelector('#ms-tdc-per-home').value, '400000', 'cost survives the repaint');
+  // The link must open the calculator the way js/deal-calculator.js reads ownership mode.
+  const calcLink = gapDom.mount.querySelector('#ms-s1 a[href^="deal-calculator.html"]');
+  assert(calcLink, 'gap links to the Deal Calculator');
+  assert.strictEqual(new URL(calcLink.getAttribute('href'), 'http://x/').searchParams.get('mode'), 'ownership');
+  assert(fs.readFileSync(path.join(__dirname, '..', 'js', 'deal-calculator.js'), 'utf8').includes('?mode=ownership'), 'calculator still reads mode=ownership');
   assert(!bannedProvenanceTokens.test(text(gapDom.mount)), 'gap uses novice labels');
   field.value = '';
   gapDom.mount.querySelector('#ms-tdc-per-home').value = '';

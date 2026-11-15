@@ -275,7 +275,7 @@
     return `${intro}${input}<dl class="ms-build-gap-summary" data-build-gap="ready"><dt>Cost to build one home</dt><dd>${display(t.tdcPerUnit, 'money')} <span class="ms-assistance-qualifier">your figure</span></dd>`
       + `<dt>Project gap, if higher-priced homes help pay for lower-priced ones</dt><dd><strong>${display(t.projectGap, 'money')}</strong> ${pill('derived')}</dd>`
       + `<dt>Project gap, if each income group must cover its own homes</dt><dd>${display(t.bandGapTotal, 'money')} ${pill('derived')}</dd></dl>${spare}`
-      + '<p class="ms-caveat">Prices are the most a household in the middle of each band could pay (the table above). For the funding programs that could cover this gap, use the <a href="deal-calculator.html">Deal Calculator</a> in For-sale mode.</p>';
+      + '<p class="ms-caveat">Prices are the most a household in the middle of each band could pay (the table above). For the funding programs that could cover this gap, use the <a href="deal-calculator.html?mode=ownership">Deal Calculator</a> in For-sale mode.</p>';
   }
 
   function renderScenario(model, data) {
