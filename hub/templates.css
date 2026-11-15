@@ -384,6 +384,9 @@ html.dark-mode .mb-tiles[data-base="street"] .mb-tile { filter: invert(1) hue-ro
 .gap-chart .gap-what { display: block; margin: .25rem 0 0; font-size: .9375rem; font-weight: 400; color: var(--ink); }
 .gap-chart .gap-lead { margin: .5rem 0 .25rem; font-size: 1.0625rem; font-weight: 600; color: var(--ink); max-width: 65ch; }
 .gap-chart .gap-band .gap-cum { display: block; font-size: 13px; }
+.gap-chart .gap-band .gap-surplus { display: block; font-size: 13px; font-style: italic; }
+.gap-chart .gap-who { margin: .75rem 0 0; padding-top: .75rem; border-top: 1px solid var(--line); font-size: .9375rem; max-width: 65ch; }
+.gap-chart .gap-who .note { display: block; margin-top: .25rem; font-size: 13px; }
 
 /* Local incentives: how far the check has got, one stacked bar per scope (blue steps, gray = not checked). */
 .li-coverage { display: grid; gap: .75rem; margin-bottom: 1.5rem; }

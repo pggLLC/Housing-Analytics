@@ -93,6 +93,22 @@ for (const [level, sum, records] of [['county', '050', data.counties], ['place',
         assert.equal(got.homes_per_100_households, null, `${level} ${geoid} ≤${tier}% per 100 is null, never 0, with no households`);
       }
     }
+    // Who rents each rent tier (the band chart's "who rents" line): each cell
+    // is Table 15C's or 14B's own, and the nested cells add up to the tiers.
+    const RENT = ['le30', '30to50', '50to80', 'over80'], INC = ['le30', '30to50', '50to80', '80to100', 'over100'];
+    const t15r = t15.get(id), t14r = t14.get(id);
+    RENT.forEach((rk, r) => {
+      const cell = rec.homes_by_rent && rec.homes_by_rent[rk];
+      assert(cell, `${level} ${geoid}: homes_by_rent ${rk}`);
+      INC.forEach((ik, i) => assert.equal(cell.rented_by[ik], t15r[[4, 25, 46, 67][r] + [1, 5, 9, 13, 17][i]], `${level} ${geoid} rent ${rk} rented by ${ik}`));
+      assert.equal(cell.vacant_for_rent, t14r[[4, 8, 12, 16][r]], `${level} ${geoid} rent ${rk} vacant`);
+    });
+    for (const [tier, k] of Object.entries(TIERS)) {
+      let occ = 0, vac = 0;
+      for (let r = 0; r < k; r++) { vac += rec.homes_by_rent[RENT[r]].vacant_for_rent; for (let i = 0; i < k; i++) occ += rec.homes_by_rent[RENT[r]].rented_by[INC[i]]; }
+      assert.equal(occ, rec.tiers[tier].occupied_by_group, `${level} ${geoid} ≤${tier}%: homes_by_rent adds up to occupied_by_group`);
+      assert.equal(vac, rec.tiers[tier].vacant_for_rent, `${level} ${geoid} ≤${tier}%: homes_by_rent adds up to vacant_for_rent`);
+    }
     checked++;
   }
 }
