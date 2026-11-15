@@ -4,7 +4,7 @@ import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from 'node:fs/promi
 import path from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
-import { contentChangedDate, isArticle, isStampable, parseHistory, stampPage, visibleText } from './lib/page-dates.mjs';
+import { contentChangedDate, isArticle, isScriptDrawn, isStampable, parseHistory, stampPage, visibleText } from './lib/page-dates.mjs';
 import { isSensitive } from './lib/public-sensitive-patterns.mjs';
 import { briefRecords, countyRecords, fundingProgramRecords, glossaryRecords, markdownRecord, pageRecords, redirectAlias, SEARCH_HIDDEN } from './lib/search-index.mjs';
 
@@ -417,6 +417,8 @@ async function stampPageDates() {
       // A page that asks not to be indexed (the deprecated census dashboard,
       // the gated developer pages) does not belong in the sitemap either.
       if (/<meta[^>]+name=["']?robots["']?[^>]+content=["'][^"']*noindex/i.test(html)) continue;
+      // A hub shell's words are drawn by script, so its file date is not the date of what a reader sees.
+      if (isScriptDrawn(html)) continue;
       const iso = lastChanged.get(toPosix(childRel));
       if (!iso) { undated.push(toPosix(childRel)); continue; }
       const next = stampPage(html, iso, { article: isArticle(childRel) });
@@ -472,7 +474,8 @@ async function generateSitemap() {
       const urlPath = childRel === 'index.html' ? '' : toPosix(childRel);
       urls.push({
         loc: `${base}${urlPath}`,
-        lastmod: await gitLastmod(childRel)
+        // A hub shell's file date is not the date of what a reader sees (page-dates.mjs isScriptDrawn).
+        lastmod: isScriptDrawn(html) ? null : await gitLastmod(childRel)
       });
     }
   }

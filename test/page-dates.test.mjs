@@ -6,9 +6,10 @@
 // history, because a shallow clone cannot date anything and must not pretend to.
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
-import { contentChangedDate, formatLongDate, isArticle, isStampable, parseHistory, stampPage, STAMP_CLASS, visibleText } from '../scripts/lib/page-dates.mjs';
+import { contentChangedDate, formatLongDate, isArticle, isScriptDrawn, isStampable, parseHistory, stampPage, STAMP_CLASS, visibleText } from '../scripts/lib/page-dates.mjs';
 
 // parseHistory lists each path's commits newest first.
 const history = parseHistory('@aaa1111 2026-09-25\n\na.html\nb.html\n@bbb2222 2026-07-01\n\na.html\nc.html\n');
@@ -50,6 +51,15 @@ assert(isStampable('index.html') && isStampable('places/0828745.html'));
 assert(!isStampable('404.html') && !isStampable('og-card.html') && !isStampable('places/_template.html'));
 assert(!isStampable('assets/co-housing-costs/maps/x.html'), 'iframe map fragments are not pages');
 assert(!isStampable('research-brief.html'), 'the brief reader dates each brief from its own record');
+// Hub shells: script draws every word into an empty #main, so the file date would be wrong (Home went live on
+// 15 Nov 2026 stamped 13 Nov). A comment that mentions <main> is not the page's main; a page with words is not a shell.
+const SHELL = '<!-- The site uses <main id="main-content">; views draw into #main. -->\n<main id="main-content"><div id="main" tabindex="-1"></div></main>';
+assert(isScriptDrawn(SHELL), 'an empty #main drawn by script is a hub shell');
+assert(!isScriptDrawn('<main><h1>Methods</h1><p>How the figures are made.</p></main>'), 'a page with its own words is not a shell');
+assert(!isScriptDrawn('<body><p>No main element.</p></body>'), 'a page without <main> is not a shell');
+for (const f of ['index.html', 'places-hub.html', 'deal-hub.html', 'opportunities-hub.html', 'data-hub.html', 'policy-hub.html']) {
+  assert(isScriptDrawn(readFileSync(f, 'utf8')), `${f} is a hub shell`);
+}
 assert(isArticle('article-pricing.html') && isArticle('help-for-homebuyers.html') && !isArticle('deal-calculator.html'));
 
 const page = '<html><head><title>t</title></head><body><main><h1>Title</h1><p>Body</p></main></body></html>';
@@ -95,6 +105,11 @@ async function walk(rel = '') {
     // Not served to search or readers as a page of its own: the build skips
     // noindex pages when stamping, exactly as it does for redirects.
     if (/<meta[^>]+name=["']?robots["']?[^>]+content=["'][^"']*noindex/i.test(html)) continue;
+    // A hub shell is not stamped: its file date is not the date of what a reader sees.
+    if (isScriptDrawn(html)) {
+      if (html.includes(`class="${STAMP_CLASS}"`)) wrong.push(`${childRel}: a hub shell carries a "Last updated" stamp`);
+      continue;
+    }
     checked++;
     const m = html.match(new RegExp(`class="${STAMP_CLASS}"[^>]*>Last updated <time datetime="(\\d{4}-\\d{2}-\\d{2})">`));
     if (!m) { missing.push(childRel); continue; }
