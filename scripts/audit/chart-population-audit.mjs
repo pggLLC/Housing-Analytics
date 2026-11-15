@@ -48,6 +48,8 @@ const REPORT_DIR = path.resolve(__dirname, '..', '..', 'audit-report', 'chart-po
 // audit so green CI doesn't depend on Census being up; a separate
 // future pass could add a mocked-API fixture or pre-bake those
 // fields into the cached summaries.
+// Each page is measured as written (?classic=1): since redirect group A (hna-scenario-builder, 15 Nov 2026) and
+// groups B and C (the needs assessment and colorado-deep-dive), the bare address forwards to its hub view.
 const EXPECTED = [
   // ── County selection (Adams 08001): fullest coverage ──
   { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartTenure',           note: 'owner vs renter doughnut' },
@@ -66,21 +68,21 @@ const EXPECTED = [
   // (the site ships no key). It now reads data/market/acs_renter_household_size_co.json.
   { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartBedroomNeed',      note: 'renter need by bedroom (ACS B25009)' },
   // ── Place selection (Paonia 0857300): place-apportioned LEHD ──
-  { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartLehd',         note: 'commute flows (apportioned from Delta)' },
-  { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartWage',         note: 'wage tiers (apportioned)' },
-  { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartIndustry',     note: 'industries (apportioned)' },
-  { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartEmploymentTrend', note: 'employment trend (apportioned)' },
-  { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartBedroomNeed',  note: 'renter need by bedroom (place B25009)' },
+  { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1&classic=1', chart: 'chartLehd',         note: 'commute flows (apportioned from Delta)' },
+  { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1&classic=1', chart: 'chartWage',         note: 'wage tiers (apportioned)' },
+  { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1&classic=1', chart: 'chartIndustry',     note: 'industries (apportioned)' },
+  { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1&classic=1', chart: 'chartEmploymentTrend', note: 'employment trend (apportioned)' },
+  { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1&classic=1', chart: 'chartBedroomNeed',  note: 'renter need by bedroom (place B25009)' },
 
   // ── Scenario Builder (Step 5): projects only a loaded geography ──
   // Until 2026-10-17 the page drew a 36,000-person placeholder before any
   // geography loaded, and this entry audited that placeholder. It now loads
   // Mesa County the way a deep link does.
-  { fixture: 'scenario-builder', url: '/hna-scenario-builder.html?geoType=county&geoid=08077&auto=1', chart: 'sbProjectionChart',
+  { fixture: 'scenario-builder', url: '/hna-scenario-builder.html?geoType=county&geoid=08077&auto=1&classic=1', chart: 'sbProjectionChart',
     note: 'Mesa County projection line' },
   // Most links open the page bare. Until 2026-10-23 that showed "No
   // projection yet"; with nothing remembered it now loads Denver County.
-  { fixture: 'scenario-builder-arrival', url: '/hna-scenario-builder.html', chart: 'sbProjectionChart',
+  { fixture: 'scenario-builder-arrival', url: '/hna-scenario-builder.html?classic=1', chart: 'sbProjectionChart',
     note: 'bare arrival: remembered place, else Denver County' },
 
   // ── Colorado Deep Dive: charts that paint on initial page load ──
@@ -94,13 +96,13 @@ const EXPECTED = [
   // audit fixture wasn't updated, so the workflow has been failing
   // every scheduled run since with `canvas-missing`. Kept the 4 charts
   // that actually render on initial load.
-  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'ami-need-chart',
+  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html?classic=1', chart: 'ami-need-chart',
     note: 'AMI-band need overview' },
-  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'concessions-chart',
+  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html?classic=1', chart: 'concessions-chart',
     note: 'developer concessions trend' },
-  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'foreclosure-chart',
+  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html?classic=1', chart: 'foreclosure-chart',
     note: 'foreclosure rate trend' },
-  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html', chart: 'chartLihtcTimeline',
+  { fixture: 'colorado-deep-dive', url: '/colorado-deep-dive.html?classic=1', chart: 'chartLihtcTimeline',
     note: 'LIHTC allocation timeline' },
 ];
 
