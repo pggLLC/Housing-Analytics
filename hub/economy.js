@@ -43,7 +43,8 @@
       ['WPUIP2312001', 'PPI: Net inputs to nonresidential construction, goods', 'index', '', 'Commercial and public building goods.'],
       ['WPUSI012011', 'PPI: Construction materials (special index)', 'index', '', 'Materials only, all construction.'],
       ['PCU331110331110', 'PPI: Iron and steel mills', 'index', '', 'Rebar, structural steel and framing.'],
-      ['WPU0811', 'PPI: Lumber (lumber and wood products)', 'index', '', 'Framing lumber.'],
+      // FRED's own title for WPU0811: Lumber and Wood Products: Softwood Lumber (the old page's chart, content check gap 8).
+      ['WPU0811', 'PPI: Softwood lumber (lumber and wood products)', 'index', '', 'Framing lumber.'],
       ['PCU327320327320', 'PPI: Ready-mix concrete', 'index', '', 'Foundations and slabs.'],
       ['PCU327310327310', 'PPI: Cement manufacturing', 'index', '', 'Cement, the binder in concrete and block.'],
       ['CES2000000008', 'Construction average hourly earnings (production and nonsupervisory workers)', 'usd', '', 'National trades pay.'],
@@ -339,10 +340,15 @@
     if (!r) return section('econ-census', 'Census snapshot', '', '<p class="callout">The Census state file did not load.</p>');
     var renters = r.occupied_housing_units ? r.renter_occupied / r.occupied_housing_units * 100 : null;
     var built = r.housing_units_year_built_total ? r.built_2020_or_later / r.housing_units_year_built_total * 100 : null;
-    var src = link('Census ACS ' + (r.year - 4) + '–' + r.year + ' 5-year', 'https://data.census.gov/profile/Colorado?g=040XX00US08');
+    // Built 2010 or later, as the old page showed it (js/census-geo.js newer_stock_share: B25034 2010 to 2019 plus 2020 on).
+    var built10 = r.housing_units_year_built_total && r.built_2010_to_2019 != null ? (r.built_2020_or_later + r.built_2010_to_2019) / r.housing_units_year_built_total * 100 : null;
+    // Each tile links its own profile table on data.census.gov, as the old page's tiles did (js/census-geo.js censusTableUrl).
+    var tbl = function (t) { return link('ACS ' + (r.year - 4) + '–' + r.year + ', table ' + t, 'https://data.census.gov/table/ACSDP5Y' + r.year + '.' + t + '?g=0400000US08'); };
     return section('econ-census', 'Census snapshot', 'The households every rate and cost on this page is tested against: Colorado, ACS ' + (r.year - 4) + '–' + r.year + '.',
-      tiles([[num(r.population_total), 'People', src], ['$' + num(r.median_household_income), 'Median household income', src], ['$' + num(r.median_gross_rent), 'Median gross rent', src],
-        ['$' + num(r.median_home_value), 'Median home value (lags the market)', src], [pct(renters), 'Households that rent', src], [pct(built), 'Homes built 2020 or later', src]]) +
+      tiles([[num(r.population_total), 'People', tbl('DP05')], ['$' + num(r.median_household_income), 'Median household income', tbl('DP03')], ['$' + num(r.median_gross_rent), 'Median gross rent', tbl('DP04')],
+        ['$' + num(r.median_home_value), 'Median home value (lags the market)', tbl('DP04')], [pct(renters), 'Households that rent', tbl('DP04')],
+        built10 != null ? [pct(built10), 'Homes built 2010 or later', tbl('DP04')] : null, [pct(built), 'Homes built 2020 or later', tbl('DP04')]]) +
+      '<p>' + link('Colorado’s full profile on data.census.gov', 'https://data.census.gov/profile?g=0400000US08') + '.</p>' +
       '<p>County, city and town figures are in each place’s <a href="#/places">needs assessment</a> and in <a href="#/places/county-costs">housing costs by county</a>.</p>' +
       '<p class="metric-source">' + link('U.S. Census Bureau API, ACS 5-year', 'https://www.census.gov/data/developers/data-sets/acs-5year.html') + ' (tables B01001, B19013, B25064, B25077, B25003, B25034), pulled ' + esc(String(c.meta.pulled_at_utc || '').slice(0, 10)) + '.</p>');
   }
@@ -431,8 +437,9 @@
     if (!ms.length) body = '<p class="econ-what">No prices in the data yet.</p>';
     else if (e.role === 'recession' || e.role === 'up-down') {
       var y = e.role === 'up-down' ? (ms.filter(function (m) { return /up/i.test(m.q); })[0] || ms[0]).prob : ms[ms.length - 1].prob;
-      head = all ? 'Settled' : Math.round(y * 100) + '% ' + (e.role === 'up-down' ? 'up' : 'yes');
-      body = bars([{ label: e.role === 'up-down' ? 'Up' : 'Yes', prob: y, settled: all }]);
+      // A recession market shows both sides, Yes and No, as the old page did (No is 1 less Yes there too).
+      head = all ? 'Settled' : Math.round(y * 100) + '% ' + (e.role === 'up-down' ? 'up' : 'yes, ' + Math.round((1 - y) * 100) + '% no');
+      body = bars([{ label: e.role === 'up-down' ? 'Up' : 'Yes', prob: y, settled: all }].concat(e.role === 'recession' ? [{ label: 'No', prob: 1 - y, settled: all }] : []));
     } else if (e.role === 'fed-decision-pair') {
       var hold = ms.filter(function (m) { return /no change/i.test(m.q); })[0];
       head = all ? 'Settled' : hold ? Math.round(hold.prob * 100) + '% hold' : '';

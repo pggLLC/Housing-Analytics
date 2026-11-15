@@ -248,7 +248,7 @@
     var attention = all.filter(function (s) { return s.status === 'stale' || s.status === 'aging' || s.status === 'unavailable'; });
     var pick = get('source'), picked = pick && all.filter(function (s) { return s.id === pick; })[0];
     var rows = all.map(function (s) {
-      return { id: s.id, name: plain(s.name), category: plain(s.category), provider: plain(s.provider), format: s.format, updated: s.lastUpdated, every: s.updateFrequency, status: s.status, statusLabel: (STATUS[s.status] || [s.status])[0], fresh: s.freshnessScore, cov: COV[coverage(s)][0], geo: s.geoUnit };
+      return { id: s.id, name: plain(s.name), category: plain(s.category), provider: plain(s.provider), url: safe(s.url), format: s.format, updated: s.lastUpdated, every: s.updateFrequency, status: s.status, statusLabel: (STATUS[s.status] || [s.status])[0], fresh: s.freshnessScore, cov: COV[coverage(s)][0], geo: s.geoUnit };
     });
     var apis = I.getApiSources ? I.getApiSources().filter(function (s) { return safe(s.apiEndpoint); }) : [];
     var newest = all.reduce(function (m, s) { return s.lastUpdated && s.lastUpdated > m ? s.lastUpdated : m; }, '');
@@ -278,7 +278,8 @@
       UI.table('sources', 'Every data source, as the registry lists it', [
         { key: 'name', label: 'Source', href: function (r) { return '#/data/sources?source=' + encodeURIComponent(r.id); } },
         { key: 'category', label: 'Group' },
-        { key: 'provider', label: 'Published by' },
+        // Each publisher's name links to its page for the source, as on the full Data sources page (content check gap 5).
+        { key: 'provider', label: 'Published by', tip: 'Opens the publisher’s page for this source', href: function (r) { return r.url; } },
         { key: 'format', label: 'Format' },
         { key: 'updated', label: 'Brought in', tip: 'Date the site last refreshed its copy' },
         { key: 'every', label: 'Expected', tip: 'How often the source changes, as the registry declares it' },

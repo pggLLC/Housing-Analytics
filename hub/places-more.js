@@ -171,10 +171,11 @@
     // The page story (paul 11-06): name who leads, and who leads on need alone, so the 55/45 split shows in one line.
     var needLead = rows.filter(function (r) { return r.need != null; }).sort(function (a, b) { return b.need - a.need; })[0];
     var lead = rows[0];
-    var answer = lead ? esc(lead.name) + ' ranks first of ' + num(rows.length) + ' Colorado places on the HNA\u2019s priority score' +
+    // Content check 14 Nov (Codex): CDP and HNA are spelled out the first time the page uses them.
+    var answer = lead ? esc(lead.name) + ' ranks first of ' + num(rows.length) + ' Colorado counties, towns and census-designated places (CDPs) on the Housing Needs Assessment (HNA) priority score' +
       (needLead && needLead !== lead ? '. On need alone, ' + esc(needLead.name) + ' ranks first' : '') +
       '. The score is 55% need and 45% opportunity, so places with more services rank higher.' :
-      'Every Colorado county, town and CDP in the HNA’s priority order. The priority score is 55% need and 45% opportunity (mobility, walkability, services, QCT and DDA areas), so places with more amenities rank higher. The Community need column is need alone.';
+      'Every Colorado county, town and census-designated place (CDP) in the Housing Needs Assessment (HNA) priority order. The priority score is 55% need and 45% opportunity (mobility, walkability, services, QCT and DDA areas), so places with more amenities rank higher. The Community need column is need alone.';
     return T.head({
       kind: 'data', crumbs: crumbs('HNA ranking'), title: 'HNA ranking',
       answer: answer,

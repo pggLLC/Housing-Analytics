@@ -1751,6 +1751,57 @@
 
     // Actions commonly used to meet documented need, as the live checklist lists them. Ticks are kept in
     // this browser, for this place, like the live page; they record what the reader marked, nothing more.
+    // Local partners (content check gap 3): the people and places to talk to about housing here, from the HNA page's own
+    // record of them (data/hna/local-resources.json, as js/hna/hna-renderers.js _renderLocalResourcesData reads it) and
+    // its community institution searches (_renderCommunityInstitutionsSection, built by the site's js/components/search-links.js).
+    // A town with no entry of its own shows its county's; a town's own entry takes only the fields it lacks from the
+    // county (issue #1540), as on the HNA page. Named staff stay off this public page. Lenders and major employers are
+    // on the Investor summary; the housing authority phone list stays on the older page for now, labelled as such.
+    function localPartners() {
+      var LR = 'data/hna/local-resources.json', lr = extraFile(LR);
+      if (!lr) return '';
+      var SL = global.SearchLinks;
+      if (!SL) needScript('js/components/search-links.js');
+      var own = isCounty ? lr['county:' + geoid] : (lr['place:' + geoid] || lr['cdp:' + geoid] || null);
+      var county = !isCounty && fips ? lr['county:' + fips] || null : null, r = own, fromCounty = false, inherited = [];
+      var has = function (o, f) { var x = o && o[f]; return Array.isArray(x) ? x.length > 0 : x !== undefined && x !== null; };
+      if (!r && county) { r = county; fromCounty = true; }
+      else if (r && county) {
+        var merged = Object.assign({}, r);
+        (has(r, 'housingLead') || has(r, 'housingAuthority') ? ['contacts', 'housingPlans', 'advocacy'] : ['housingLead', 'housingAuthority', 'contacts', 'housingPlans', 'advocacy'])
+          .forEach(function (f) { if (!has(merged, f) && has(county, f)) { merged[f] = county[f]; inherited.push(f); } });
+        r = merged;
+      }
+      r = r || {};
+      var jur = isCounty ? String(entry.label) : placeShort, G = 'https://www.google.com/search?q=', M = 'https://www.google.com/maps/search/?api=1&query=', enc = encodeURIComponent;
+      var link = function (href, text) { return href && /^https?:\/\//.test(href) ? '<a href="' + esc(href) + '" rel="noopener">' + esc(text) + '</a>' : esc(text); };
+      var search = function (ctx, fallback) { return SL ? SL.build({ jurisdictionName: jur, context: ctx }).url : G + enc(fallback); };
+      var orgs = (r.housingAuthority || []).map(function (h) { return '<li>' + link(h.url, h.name) + '</li>'; }).join('');
+      var groups = (r.advocacy || []).map(function (a) { return '<li>' + link(a.url, a.name) + '</li>'; }).join('');
+      var sd = r.schoolDistrict && r.schoolDistrict.name ? r.schoolDistrict : null, hosp = r.hospital && r.hospital.name ? r.hospital : null;
+      var inst = [
+        sd ? ['School district', link(sd.url || G + enc('"' + sd.name + '" Colorado'), sd.name), 'Districts increasingly run workforce housing programs for teachers.']
+          : ['School district', link(search('school-district', '"' + jur + '" Colorado school district'), 'Find the school district serving ' + jur), 'Districts increasingly run workforce housing programs for teachers.'],
+        ['Churches', link(M + enc('churches near ' + jur + ', Colorado'), 'Churches in ' + jur), 'Faith-based partners often own land that could be built on, and some run housing ministries.'],
+        hosp ? ['Hospital', link(hosp.url || G + enc('"' + hosp.name + '" Colorado'), hosp.name), 'Often the largest local employer; many run workforce housing programs.']
+          : ['Hospitals', link(M + enc('hospitals near ' + jur + ', Colorado'), 'Hospitals near ' + jur), 'Often the largest local employer; many run workforce housing programs.'],
+        ['Public library', link(search('public-library', '"' + jur + '" Colorado public library'), jur + ' public library'), 'Where town halls are held and housing notices are posted.'],
+        ['Community or rec center', link(search('community-center', '"' + jur + '" Colorado community center OR rec center'), 'Community and rec centers in ' + jur), 'A place to hold housing conversations.']
+      ];
+      var note = fromCounty ? '<p class="note">' + esc(jur) + ' has no entry of its own yet, so these are ' + esc(countyName || 'the county') + '’s.</p>'
+        : inherited.length ? '<p class="note">Some of these are ' + esc(countyName || 'the county') + '’s, because ' + esc(jur) + ' has none of its own on file.</p>' : '';
+      var classic = 'housing-needs-assessment.html?geoid=' + enc(geoid) + '&auto=1&classic=1#housingAuthorityResults';
+      return fold('<h2>Local partners</h2><p>Who to talk to about housing in ' + esc(jur) + ', and the local institutions that often own land, host meetings or house their own staff.</p>' + note +
+        '<div class="chart-pair"><div><h3>Housing authorities</h3>' + (orgs ? '<ul>' + orgs + '</ul>' : '<p class="note">None on file for ' + esc(jur) + '.</p>') +
+        '<h3>Local housing groups</h3>' + (groups ? '<ul>' + groups + '</ul>' : '<p class="note">None on file for ' + esc(jur) + '.</p>') + '</div>' +
+        '<div><h3>Community institutions and faith-based partners</h3><ul class="lp-inst">' + inst.map(function (x) {
+          return '<li><span class="lp-kind">' + esc(x[0]) + '</span> ' + x[1] + '<span class="pl-def">' + esc(x[2]) + '</span></li>';
+        }).join('') + '</ul><p class="note">Searches are limited to ' + esc(jur) + ', Colorado.</p></div></div>' +
+        '<p class="metric-source">' + Pl.srcLine([['COHO local resources record (housing authorities checked ' + (((r.housingAuthority || [])[0] || {}).capacity_last_verified || 'no date in the source file') + ')', Pl.LIVE + LR]]) + '</p>' +
+        '<p>Lenders, capital partners and major employers: <a href="#/ic-summary?g=' + esc(geoid) + '">Investor summary for ' + esc(jur) + ' →</a>. ' +
+        'Phone numbers for the housing authorities that serve ' + esc(countyName || jur) + ', with seven statewide contacts, are on <a href="' + esc(Pl.LIVE + classic) + '" rel="noopener">the older Housing Needs Assessment page for now ↗</a>.</p>',
+        'Housing authorities, local housing groups and community institutions in ' + jur + '.');
+    }
     function actionPlan() {
       var done = planTicks(geoid), n = ACTIONS.reduce(function (t, g) { return t + g[1].filter(function (a) { return done[a[0]]; }).length; }, 0), all = ACTIONS.reduce(function (t, g) { return t + g[1].length; }, 0);
       return fold('<h2>Housing action plan checklist</h2><p>Actions commonly used to meet documented housing need. Ticks stay in this browser, for this place.</p>' +
@@ -2306,7 +2357,7 @@
         mc('Years since that award', 'drought_years', num) +
         mc('9% awards in town', 'lihtc_9pct_count', num) +
         mc('Latest award within ' + (v('regional_pma_miles') || 25) + ' miles', 'regional_latest_lihtc_year', String) +
-        '</div>', [v('ownership_need_recommendation'), v('latest_lihtc_year') ? 'last tax credit award in town ' + v('latest_lihtc_year') : 'no tax credit award in town on file'].filter(Boolean).join('; ') + '.') + actionPlan() +
+        '</div>', [v('ownership_need_recommendation'), v('latest_lihtc_year') ? 'last tax credit award in town ' + v('latest_lihtc_year') : 'no tax credit award in town on file'].filter(Boolean).join('; ') + '.') + actionPlan() + localPartners() +
         '<div class="callout">These are the HNA\u2019s own readings, not a recommendation for a site. To test a site, start a project from this place.</div>';
     };
 

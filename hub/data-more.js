@@ -395,7 +395,8 @@
     return T.head({
       kind: 'data', crumbs: T.trail('data', 'Data explorer'), title: 'Data explorer',
       answer: 'Every data file behind the site’s pages: what it holds, how big it is and when it last changed. Pick a file to see its fields.',
-      meta: '<span class="scope-tag">List made ' + esc(day(m.meta.generated_at)) + '</span> Files that feed member tools are not listed.',
+      // The old explorer listed every file; these are left out on purpose and counted (content check gap 15).
+      meta: '<span class="scope-tag">List made ' + esc(day(m.meta.generated_at)) + '</span> ' + (m.files.length - all.length ? num(m.files.length - all.length) + ' files that feed member tools are not listed.' : 'Every file is listed.'),
       facts: [
         { value: num(all.length), label: 'Data files', source: 'COHO file list', href: LIVE + 'data-explorer.html' },
         { value: mb(all.reduce(function (a, x) { return a + x.size_bytes; }, 0)), label: 'In all', source: 'COHO file list', href: LIVE + 'data-explorer.html' },
