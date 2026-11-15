@@ -45,10 +45,11 @@
   function pct(v) { return v == null ? null : (Math.round(v * 10) / 10) + '%'; }
 
   // The place picker both pages open on: no figures until a place is chosen (as the HNA starts, paul 26 Oct).
-  function picker(route, title, answer, q, menu) {
+  // before: a block above the place search (the Market check's site box); the search then reads as the other way in.
+  function picker(route, title, answer, q, menu, before) {
     var hits = q ? Shell.catalog().entries.filter(function (e) { return e.geoid; }).filter(Shell.matches(q)).slice(0, 12) : [];
-    return T.head({ kind: 'tool', crumbs: T.trail(menu || 'deal', title), title: title, answer: answer }) +
-      '<form class="search" role="search" data-pick="' + route + '"><label for="' + route + '-q">Pick a town, city or county</label>' +
+    return T.head({ kind: 'tool', crumbs: T.trail(menu || 'deal', title), title: title, answer: answer }) + (before || '') +
+      '<form class="search" role="search" data-pick="' + route + '"><label for="' + route + '-q">' + (before ? 'Or a whole town, city or county' : 'Pick a town, city or county') + '</label>' +
       '<input id="' + route + '-q" name="q" type="search" autocomplete="off" value="' + esc(q || '') + '" placeholder="For example Fruita or Mesa County"></form>' +
       (q ? (hits.length ? '<ul class="route-list">' + hits.map(function (e) { return '<li><a href="#/' + route + '?g=' + esc(e.geoid) + '">' + esc(e.label) + '</a></li>'; }).join('') + '</ul>'
         : '<p class="note">No Colorado place matches that name.</p>')
@@ -185,7 +186,8 @@
 
   function market(params) {
     var g = params.get('g');
-    if (!g) return picker('market', 'Market check', 'Renters, rents, tax credit supply and a capture rate for any Colorado place, from public data.', params.get('q'));
+    // A site first (paul, 15 Nov 2026: "Market check should allow a site (address)"), then a whole town or county.
+    if (!g) return picker('market', 'Market check', 'Renters, rents, tax credit supply and a capture rate for a site or any Colorado place, from public data.', params.get('q'), null, siteFormHtml('', null, true));
     var s = gather(g, 'Market check');
     if (s.html) return s.html;
     if (global.LabHna && global.LabHna.setWorking) global.LabHna.setWorking(g); // the market check's place becomes the working place
@@ -194,6 +196,10 @@
     var rent = rentPart(s), supply = supplyPart(s);
     var units = Math.max(1, Math.min(1000, Math.round(+params.get('u')) || 60)), tier = CAP_TIERS.indexOf(+params.get('t')) > -1 ? +params.get('t') : 60;
     var cap = capturePart(s, units, tier);
+    // With a site, the page answers for the site's market area first: the census tracts suggested round it (or as
+    // set on the map), counted by the same engine in site/tract-capture.js. Town and county figures follow.
+    var site = siteOf(params), lead = !!(site && global.LabTractCapture);
+    var maHref = LIVE + 'deal-market-analysis.html?geoid=' + encodeURIComponent(g) + (lead ? '&site=' + site.lat.toFixed(5) + ',' + site.lon.toFixed(5) + '&sl=' + encodeURIComponent(site.label) : '');
 
     var facts = [
       { value: b60 ? num(b60.households) : '—', label: 'Renter households at or below 60% AMI' + (s.isCounty ? '' : ', ' + s.name), source: 'Census ACS 2020–2024', href: Pl.SRC.acsGap },
@@ -201,24 +207,33 @@
       { value: num(s.county.lowIncomeHomes), label: 'Tax credit homes in compliance, ' + s.countyName, source: 'CHFA property list', href: s.d.lihtc.source },
       { value: vac ? pct(vac.value) : '—', label: 'Homes vacant and for rent or sale' + (s.isCounty ? '' : ', ' + s.name), source: 'Census ACS 2020–2024', href: LINKS.acsRent }
     ];
-    return T.head({
+    var county = siteCounty(params, s);
+    var head = lead ? T.head({
+      kind: 'tool', crumbs: T.trail('deal', 'Market check', [{ label: 'Pick a place', href: '#/market' }]), title: 'Market check: ' + siteTitle(site),
+      answer: esc(siteWhere(site, s, county)) + ' <a href="#/market">Change site</a>',
+      meta: '<span class="scope-tag">Free screen, not a market study</span> <span data-mk-area-scope>' + esc(areaScope(null)) + '</span> Town and county figures follow for comparison.',
+      aside: siteFacts(site, units, tier, cap, county) +
+        '<div class="actions mk-lead-actions"><a class="button-link" href="' + esc(maHref) + '" rel="noopener">Full Market Analysis for this site ↗</a>' +
+        '<a class="button-link secondary" href="' + esc(useHere(params)) + '">Use this site in a project</a></div>'
+    }) + tractSection(params, s, g) : T.head({
       kind: 'tool', crumbs: T.trail('deal', 'Market check', [{ label: 'Pick a place', href: '#/market' }]), title: 'Market check: ' + s.entry.label,
       answer: 'Who rents here, what they can pay, how rents compare with what a tax credit home can charge, how much tax credit housing the county has, and the capture rate a project would need.',
       meta: '<span class="scope-tag">Free screen, not a market study</span> Town figures are for ' + esc(s.entry.label) + '. Supply and the tax credit rent limit are county-wide, the closest public stand-in for a market area.',
       facts: facts
-    }) +
+    });
+    return head +
       '<h2>Renters and the homes priced for them</h2>' + (s.place ? Pl.gapChart(s.place, null, s.d) : '<p class="note">The income gap file has no row for this place.</p>') +
       '<h2>Rents</h2>' + rent.fig +
       '<h2>Tax credit supply in ' + esc(s.countyName) + '</h2>' + supply.html +
       '<h2>Capture rate</h2>' + cap.html +
       '<h2 id="mk-pma">Draw the market area</h2>' +
-      '<p>This screen uses the whole county. A CHFA market study needs a primary market area drawn round the site from whole census tracts; CHFA does not accept a radius. The full Market Analysis draws it: place the site, add or drop tracts, and note the natural barriers, school districts, town lines or commute patterns that justify the edge. Demand by income and bedroom size, capture and nearby comparables then count only what is inside it.</p>' +
-      '<p><a href="' + LIVE + 'deal-market-analysis.html?geoid=' + encodeURIComponent(g) + '" rel="noopener">Open the full Market Analysis and draw the market area ↗</a></p>' +
+      '<p>' + (lead ? 'The figures at the top use the census tracts COHO suggests round the site; the capture rate above uses the whole county. ' : 'This screen uses the whole county. ') + 'A CHFA market study needs a primary market area drawn round the site from whole census tracts; CHFA does not accept a radius. The full Market Analysis draws it: place the site, add or drop tracts, and note the natural barriers, school districts, town lines or commute patterns that justify the edge. Demand by income and bedroom size, capture and nearby comparables then count only what is inside it.</p>' +
+      '<p><a href="' + esc(maHref) + '" rel="noopener">Open the full Market Analysis and draw the market area ↗</a></p>' +
       '<p>Members can then start a <a href="' + CHFA_DRAFT + '" rel="noopener">CHFA-format market study ↗</a>: CHFA\u2019s nine sections in order, the tables public data can fill, six maps, and a Word file for a CHFA-approved analyst to finish. It supports the study; it is not the study CHFA accepts.</p>' +
       '<p class="metric-source">' + Pl.srcLine('CHFA Market Study Guide, Appendix A to the 2027–28 QAP (adopted 25 September 2026, approved 23 October 2026)', 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf') + '</p>' +
-      tractSection(params, s, g) +
+      (lead ? '' : tractSection(params, s, g)) +
       useSection(params, s, g) +
-      T.next('Next', [{ href: '#/report?g=' + encodeURIComponent(g), label: 'Free report for ' + s.name }, { href: LIVE + 'deal-market-analysis.html?geoid=' + encodeURIComponent(g), label: 'Full Market Analysis ↗', secondary: true }, { href: '#/for-sale?g=' + encodeURIComponent(g), label: 'For-sale and ownership here', secondary: true }]);
+      T.next('Next', [{ href: '#/report?g=' + encodeURIComponent(g), label: 'Free report for ' + s.name }, { href: maHref, label: 'Full Market Analysis ↗', secondary: true }, { href: '#/for-sale?g=' + encodeURIComponent(g), label: 'For-sale and ownership here', secondary: true }]);
   }
 
   // ---- For-sale and ownership ----------------------------------------------------------------
@@ -379,6 +394,69 @@
     q.set('at', 'mk-use');
     return '#/market?' + q.toString();
   }
+  // ---- A site's head: its own market area first (paul, 15 Nov 2026) ------------------------------------------
+  // The title names the site, not the town; the line under it the town and county it stands in. The four figures are
+  // the ones the market-area box below draws (LabTractCapture.now), filled in when it has counted, so the head and
+  // the box can never disagree. The county's capture rate stands beside the site's, for comparison.
+  // Shares as each part of the page writes them: the market-area box one decimal always (tract-capture.js), the
+  // county capture rate as its own section does (capturePart).
+  function shareBox(x) { return x == null || !isFinite(x) ? '—' : (Math.round(x * 1000) / 10).toFixed(1) + '%'; }
+  function shareCounty(x) { return (Math.round(x * 1000) / 10).toFixed(1).replace(/\.0$/, '') + '%'; }
+  // The US Census Geocoder answers in capitals ("544 ROOD AVE"); a title reads them as words ("544 Rood Ave"), with
+  // compass points as written (N, SW) and ordinals in lower case (5th).
+  function tidy(text) {
+    if (/[a-z]/.test(text)) return text;
+    return text.toLowerCase().replace(/\b([a-z])([a-z]*)\b/g, function (w, a, b) {
+      return /^(n|s|e|w|ne|nw|se|sw|co|us|sh|cr)$/.test(w) ? w.toUpperCase() : a.toUpperCase() + b;
+    });
+  }
+  function siteTitle(site) {
+    var first = tidy(String(site.label || '').split(',')[0].trim());
+    return first && !/^-?\d+(\.\d+)?$/.test(first) ? first : 'a site at ' + site.lat.toFixed(5) + ', ' + site.lon.toFixed(5);
+  }
+  function siteWhere(site, s, county) {
+    var town = String(s.entry.geoid).length === 7 ? s.entry.label : null;
+    return 'In ' + (town ? town + ', ' : '') + county.name + '.';
+  }
+  function areaScope(now) {
+    var n = now && now.tracts;
+    if (!n) return 'Figures at the top are for the census tracts COHO suggests round the site, as soon as they are worked out (map below).';
+    return 'Figures at the top are for ' + (now.edited ? 'your market area: ' : 'the site’s suggested market area: ') + n + (n === 1 ? ' whole census tract' : ' whole census tracts') + ' round it (map below).';
+  }
+  // The project form further down, with everything in the address kept (the market area as set on the map too).
+  function useHere(params) { var q = new URLSearchParams(params); q.set('at', 'mk-use'); return '#/market?' + q.toString(); }
+  function siteFacts(site, units, tier, cap, county) {
+    var key = global.LabTractCapture.keyOf(site);
+    var li = function (k, label, source) {
+      return '<li><span class="fact-value" data-mk-area="' + k + '">…</span><span class="fact-label" data-mk-area-label="' + k + '">' + esc(label) + '</span><span class="fact-source">' + esc(source) + '</span></li>';
+    };
+    return '<ul class="fact-strip mk-site-facts" data-mk-area-for="' + esc(key) + '" data-units="' + units + '" data-tier="' + tier + '"' +
+      ' data-county-cap="' + esc(cap.capture != null ? shareCounty(cap.capture) : '') + '" data-county="' + esc(county.name) + '">' +
+      li('qualified', 'Renter households who qualify for a ' + tier + '% AMI home, market area', 'Census ACS 2020–2024, CHFA rules') +
+      li('capture', 'Capture rate, ' + num(units) + ' homes at ' + tier + '% AMI', 'COHO capture engine') +
+      li('existing', 'Tax credit homes in the market area', 'HUD tax credit property list') +
+      li('pen', 'Penetration, all tax credit homes (CHFA line: 85%)', 'COHO capture engine') + '</ul>';
+  }
+  function fillSiteFacts() {
+    var TC = global.LabTractCapture, ul = document.querySelector && document.querySelector('[data-mk-area-for]');
+    if (!TC || !ul) return;
+    var site = siteOf(mp());
+    if (!site || TC.keyOf(site) !== ul.getAttribute('data-mk-area-for')) return;
+    var now = TC.now(site);
+    if (!now) return;
+    var m = now.m, set = function (k, v, label) {
+      var e = ul.querySelector('[data-mk-area="' + k + '"]'); if (e) e.textContent = v;
+      var l = label && ul.querySelector('[data-mk-area-label="' + k + '"]'); if (l) l.textContent = label;
+    };
+    var cc = ul.getAttribute('data-county-cap'), tier = ul.getAttribute('data-tier'), units = +ul.getAttribute('data-units');
+    set('qualified', m ? num(m.qualified) : '—');
+    set('capture', m && m.capture != null ? shareBox(m.capture) : '—', 'Capture rate, ' + num(units) + ' homes at ' + tier + '% AMI' + (cc ? ' (' + ul.getAttribute('data-county') + ': ' + cc + ')' : ''));
+    set('existing', m ? num(m.existing) : '—', 'Tax credit homes in the market area' + (m ? ', ' + num(m.projects) + (m.projects === 1 ? ' property' : ' properties') : ''));
+    set('pen', m && m.pen != null ? shareBox(m.pen) : '—');
+    var sc = document.querySelector('[data-mk-area-scope]'); if (sc) sc.textContent = areaScope(now);
+  }
+  document.addEventListener('tc:drawn', fillSiteFacts);
+
   // Suggested market area round the site, with a tap map and capture as tracts go in or out (site/tract-capture.js).
   var TCF = global.LabTractCapture ? global.LabTractCapture.FILES : {};
   function tractSection(params, s, g) {
@@ -393,6 +471,18 @@
     return head + '<p>Whole census tracts round ' + esc(site.label) + ', each with the reason it is in or out. Tap a tract to see what it does to the capture rate; the project is ' + num(units) + ' homes at ' + tier + '% AMI, as set under Capture rate.</p>' +
       TC.section({ s: s, site: site, units: units, tier: tier, edited: TC.parseList(params.get('tr')), ta: params.get('ta') });
   }
+  // The site box: an address (US Census Geocoder, then OpenStreetMap), where you are, or a tap on a map. start: the
+  // Market check's first screen, where it is the first way in rather than an option under a place.
+  function siteFormHtml(g, site, start) {
+    return '<form class="stack' + (start ? ' search mk-start' : '') + '" data-mk-site="' + esc(g) + '" autocomplete="off">' +
+      '<label for="mk-site-q">' + (start ? 'A site: its address' : 'Site address') + '</label>' +
+      '<div class="dm-search-row"><input id="mk-site-q" name="mkq" type="search" value="' + esc(site ? site.label : '') + '" placeholder="e.g. 250 N 5th St, Grand Junction" aria-describedby="mk-site-help"><button type="submit">Find</button></div>' +
+      // Or where you are, or a tap on a map (LabPickSite): the county and town are worked out in the browser.
+      (global.LabPickSite ? '<div class="actions mk-pick"><button type="button" class="button-link secondary" data-mk-pick="locate">Use my location</button>' +
+        '<button type="button" class="button-link secondary" data-mk-pick="map">Pick on the map</button></div>' : '') +
+      '<p class="note" id="mk-site-help">' + (start ? '' : 'Optional. ') + 'Addresses go to the free <a href="https://geocoding.geo.census.gov/geocoder/" rel="noopener">US Census Geocoder</a> when you press Find, and to <a href="https://nominatim.openstreetmap.org/" rel="noopener">OpenStreetMap</a> if Census has no match.' + (start ? ' The town and county are worked out in your browser.' : '') + '</p>' +
+      '<p class="mk-site-status note" aria-live="polite">' + (site ? 'Site: ' + esc(site.label) + ' (' + site.lat.toFixed(5) + ', ' + site.lon.toFixed(5) + ').' : '') + '</p></form>';
+  }
   function useSection(params, s, g) {
     var site = siteOf(params), r = radiusOf(params, site), county = siteCounty(params, s);
     var done = params.get('added');
@@ -404,14 +494,7 @@
     }
     var cent = site && r ? UI.load(CENTROIDS) : { data: { cent: {} } };
     var area = cent.data ? areaFor(s, site, r, cent.data.cent, county) : null;
-    var siteForm = '<form class="stack" data-mk-site="' + esc(g) + '" autocomplete="off">' +
-      '<label for="mk-site-q">Site address</label>' +
-      '<div class="dm-search-row"><input id="mk-site-q" name="mkq" type="search" value="' + esc(site ? site.label : '') + '" placeholder="e.g. 250 N 5th St, Grand Junction" aria-describedby="mk-site-help"><button type="submit">Find</button></div>' +
-      // Or where you are, or a tap on a map (LabPickSite): the county and town are worked out in the browser.
-      (global.LabPickSite ? '<div class="actions mk-pick"><button type="button" class="button-link secondary" data-mk-pick="locate">Use my location</button>' +
-        '<button type="button" class="button-link secondary" data-mk-pick="map">Pick on the map</button></div>' : '') +
-      '<p class="note" id="mk-site-help">Optional. Addresses go to the free <a href="https://geocoding.geo.census.gov/geocoder/" rel="noopener">US Census Geocoder</a> when you press Find, and to <a href="https://nominatim.openstreetmap.org/" rel="noopener">OpenStreetMap</a> if Census has no match.</p>' +
-      '<p class="mk-site-status note" aria-live="polite">' + (site ? 'Site: ' + esc(site.label) + ' (' + site.lat.toFixed(5) + ', ' + site.lon.toFixed(5) + ').' : '') + '</p></form>';
+    var siteForm = siteFormHtml(g, site, false);
     var radios = '<fieldset><legend>Market area</legend>' + RADII.map(function (m) {
       var dis = m && !site;
       return '<label><input type="radio" name="mk-r" value="' + m + '"' + (m === r ? ' checked' : '') + (dis ? ' disabled' : '') + '> ' +
@@ -461,7 +544,7 @@
           // Just over the state line (inside the rough box above): the page and its place stay as they were.
           if (!d || d.outside || !(d.placeGeoid || d.countyFips)) { say('That address is outside Colorado. COHO covers Colorado only.'); return; }
           var q = mp();
-          setParams({ g: d.placeGeoid || d.countyFips, site: hit.lat.toFixed(5) + ',' + hit.lon.toFixed(5), sl: hit.label || text, ss: hit.source || null, sc: d.countyFips || null, r: q.get('r') && q.get('r') !== '0' ? q.get('r') : '5', added: null });
+          setParams({ q: null, g: d.placeGeoid || d.countyFips, site: hit.lat.toFixed(5) + ',' + hit.lon.toFixed(5), sl: hit.label || text, ss: hit.source || null, sc: d.countyFips || null, r: q.get('r') && q.get('r') !== '0' ? q.get('r') : '5', added: null });
         }, function () { say('That address could not be placed in a Colorado town or county. Check the street name and town.'); });
       }, function () { say('The address lookup did not answer. Try again in a moment.'); });
       return;
@@ -530,7 +613,7 @@
     var q = mp(), r = RADII.indexOf(+q.get('r')) > -1 && +q.get('r') ? +q.get('r') : 5;
     global.LabPickSite.open(function (hit) {
       if (!hit) return;
-      setParams({ g: hit.placeGeoid || hit.countyFips, site: hit.lat.toFixed(5) + ',' + hit.lon.toFixed(5), sl: hit.label,
+      setParams({ q: null, g: hit.placeGeoid || hit.countyFips, site: hit.lat.toFixed(5) + ',' + hit.lon.toFixed(5), sl: hit.label,
         ss: hit.source === 'device' ? 'device' : 'map', sc: hit.countyFips || null, r: hit.radiusMiles || 0, added: null, at: 'mk-use' });
     }, { mode: b.getAttribute('data-mk-pick'), radius: r });
   });

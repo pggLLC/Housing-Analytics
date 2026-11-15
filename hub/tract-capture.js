@@ -626,7 +626,7 @@
   function draw(b) {
     var ctx = b.ctx, list = chosen(b), m = measure(b, list), E = global.PMAMarketScoring;
     var line = (E && E.CHFA_CAPTURE_LIMIT) || 0.85;
-    b.now = m;
+    b.now = m; b.count = list.length;
     var nSug = b.sug.tracts.filter(function (t) { return t.suggested; }).length;
     var head = b.picked ? 'Your market area: ' + list.length + (list.length === 1 ? ' tract' : ' tracts') + ' (the suggestion had ' + nSug + ').'
       : 'Suggested market area: ' + list.length + (list.length === 1 ? ' whole census tract' : ' whole census tracts') + ' round the site.';
@@ -645,6 +645,8 @@
     drawHow(b);
     paint(b);
     curve(b);
+    // The Market check's head shows these same counts (site/market.js, siteFacts): tell it they changed.
+    try { doc.dispatchEvent(new global.CustomEvent('tc:drawn', { detail: { key: b.key } })); } catch (e) { /* no CustomEvent: the head keeps its last figures */ }
   }
 
   // What one tract does: the area with it and without it, counted by the same engine.
@@ -793,6 +795,12 @@
     Object.keys(b.layers).forEach(function (g) { b.layers[g].setStyle(style(b, g)); });
   }
 
+  // The counts the box last drew for a site: { m (measure's result, or null with no tract), tracts, edited }, or null
+  // before the box has worked out its suggestion. The Market check's head reads these, so it never counts on its own.
+  function now(site) {
+    var b = site && boxes[keyOf(site)];
+    return b && b.sug && b.count != null ? { m: b.now || null, tracts: b.count, edited: !!b.picked, key: b.key } : null;
+  }
   // The tract list the "Use in project" form stores: the edited list from the address, else the suggestion once
   // it has been worked out; null while it is still loading.
   function current(site, edited) {
@@ -846,5 +854,5 @@
     if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', start); else start();
   }
 
-  global.LabTractCapture = { section: section, suggest: suggest, current: current, record: record, pickedArea: pickedArea, needsReason: needsReason, parseList: parseList, RULES: RULES, FILES: FILES, mountAll: mountAll };
+  global.LabTractCapture = { section: section, suggest: suggest, current: current, now: now, keyOf: keyOf, record: record, pickedArea: pickedArea, needsReason: needsReason, parseList: parseList, RULES: RULES, FILES: FILES, mountAll: mountAll };
 })(window);

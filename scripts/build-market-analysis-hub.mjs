@@ -20,6 +20,8 @@
 //      list of recent projects (js/components/ma-place-row.js fills it)
 //   6. a link under the built-in Deal Calculator that opens its numbers in the Deal hub's Financials
 //      (js/components/ma-calc-handoff.js, with js/deal-calculator-share.js loaded unchanged)
+//   7. a site sent from Market check (?site=lat,lon&sl=) is typed into the page's own address box as "lat, lon"
+//      and found there, as a person pasting coordinates would (js/components/ma-site-link.js)
 // The seven-step bar, the body and every script of the tool are carried as they are.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -119,6 +121,9 @@ export function build(src, hubPage, palette) {
   //    script opening this page's own address as a share link, then js/deal-calculator-share.js (unchanged, the
   //    file deal-calculator.html loads) builds the link's settings by the rules "Copy link" uses.
   swap(/<\/body>/, '<script defer src="js/components/ma-calc-handoff.js"></script>\n<script defer src="js/deal-calculator-share.js"></script>\n</body>', 'a closing body tag');
+  // 7. A site Market check sends: typed into the page's own address box once the data has loaded. Deferred, last of
+  //    the page's own scripts, before the new header's.
+  swap(/<\/body>/, '<script defer src="js/components/ma-site-link.js"></script>\n</body>', 'a closing body tag');
   swap(/<\/body>/, '<script src="js/components/ma-place-row.js"></script>\n<script src="hub/lab-config.js"></script>\n<script src="hub/page-chrome.js"></script>\n<script src="hub/nav.js"></script>\n</body>', 'a closing body tag');
 
   // 4. Where the page sits in the new site (the new pages' trail). The seven-step bar above <main> stays as it is:

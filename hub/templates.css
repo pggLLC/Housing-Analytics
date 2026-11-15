@@ -822,6 +822,17 @@ th[aria-sort="descending"] > button.th-sort::after { content: "\2193"; color: va
 .dm-search { display: grid; gap: .35rem; margin: 0 0 .75rem; position: relative; max-width: 760px; }
 .dm-search label { font-weight: 600; color: var(--ink); }
 .dm-search-row { display: flex; gap: .4rem; }
+/* Market check's first screen: the site box above the town or county search (paul, 15 Nov 2026). */
+.search.mk-start { display: grid; gap: .5rem; margin-bottom: 1rem; }
+.mk-start label { margin: 0; }
+.mk-start .dm-search-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .5rem; }
+.mk-start .dm-search-row input { width: 100%; min-height: 44px; }
+.mk-start button[type="submit"] { min-height: 44px; padding: 0 1.1rem; font: inherit; font-weight: 600; color: var(--on-fill); background: var(--green); border: 0; border-radius: 6px; cursor: pointer; }
+.mk-start .mk-pick { margin: 0; }
+.mk-start p { margin: 0; }
+.mk-start .mk-site-status:empty { display: none; }
+/* A site's head: the market-area figures, then Full Market Analysis and Use in a project. */
+.mk-lead-actions { margin-top: 1rem; }
 .dm-search input { flex: 1; min-width: 0; min-height: 44px; padding: 0 .75rem; font: inherit; font-size: 16px; color: var(--ink); background: var(--card); border: 1px solid var(--line-strong); border-radius: 8px; }
 .dm-search button[type="submit"] { min-height: 44px; padding: 0 1rem; font: inherit; font-weight: 600; color: var(--on-fill); background: var(--green); border: 0; border-radius: 8px; cursor: pointer; }
 .dm-search .note, .dm-status { margin: 0; }
