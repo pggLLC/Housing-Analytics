@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-15T13:30:48.189615Z",
+  "generated": "2026-11-15T14:42:37.327544Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -289,7 +289,7 @@
     "data/co-county-demographics.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 49088
+      "bytes": 40281
     },
     "data/co-county-economic-indicators.json": {
       "featureCount": 64,
@@ -1159,7 +1159,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 311163
+      "bytes": 311322
     },
     "data/entitled-land/findings.json": {
       "featureCount": 0,
