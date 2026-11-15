@@ -402,7 +402,10 @@
     var allYears = d._awards.map(function (a) { return a.year; }).filter(function (y) { return y != null; });
     var minY = Math.min.apply(null, allYears), maxY = Math.max.apply(null, allYears);
     var yr = function (k, dflt) { var v = Number(params.get('f.' + k)); return v >= minY && v <= maxY ? v : dflt; };
-    var from = yr('from', minY), to = yr('to', maxY);
+    // The live page opens on 2023 to the latest year (js/agency-funding.js: "Prop 123 money starts in 2023, so the
+    // default compares all three agencies over the same years"); content check gap 4, paul 14 Nov.
+    var fromDflt = Math.min(Math.max(minY, 2023), maxY);
+    var from = yr('from', fromDflt), to = yr('to', maxY);
     if (from > to) to = from;
     var narrowed = from > minY || to < maxY;
     var base = narrowed ? M.filter(d._awards, { from: from, to: to }) : d._awards;
@@ -410,7 +413,7 @@
       var o = ''; for (var y = minY; y <= maxY; y++) o += '<option value="' + y + '"' + (y === cur ? ' selected' : '') + '>' + y + '</option>';
       return '<label class="opp-menu"><span>' + label + '</span><select data-opp-menu="' + k + '" data-default="' + dflt + '">' + o + '</select></label>';
     };
-    var yearPick = '<div class="opp-menus" role="group" aria-label="Years">' + yearMenu('from', 'From year', from, minY) + yearMenu('to', 'To year', to, maxY) + '</div>';
+    var yearPick = '<div class="opp-menus" role="group" aria-label="Years">' + yearMenu('from', 'From year', from, fromDflt) + yearMenu('to', 'To year', to, maxY) + '</div>';
     var all = M.filter(base, { agency: agency });
     var picked = county ? M.filter(all, { county: county }) : all;
     var sum = M.summarise(picked);
@@ -420,6 +423,14 @@
     var byCounty = M.group(all, 'county').filter(function (g) { return g.key !== '_none'; });
     var finding = (agency === 'ALL' ? 'Awards from CHFA, OEDIT and DOLA' : M.AGENCIES[agency].label + ' awards') + ' in ' + where + (span ? ', ' + span : '') + ': ' +
       measureText(sum, agency) + ' across ' + num(sum.awards) + ' awards' + (county ? '.' : ', in ' + byCounty.length + ' of 64 counties.');
+    // Per resident, as the live page's answer line says it (js/agency-funding.js renderAnswer): Colorado's population is
+    // the sum of the county populations in the demographics file; a county uses its own.
+    var pop = county ? d._counties[county].population : Object.keys(d._counties).reduce(function (t, k) { return t + (d._counties[k].population || 0); }, 0) || null;
+    var perOf = function (v) { var r = M.perResident(v, pop); return r == null ? null : agency === 'ALL' ? r * 1000 : r; };
+    var perHere = sum.awards && pop ? perOf(M.measureOf(sum, agency)) : null;
+    if (perHere != null) finding += agency === 'ALL' && sum.dollars != null
+      ? ' That is $' + num(Math.round(sum.dollars / pop)) + ' per resident in grants and loans, and ' + perHere.toFixed(1) + ' homes per 1,000 residents.'
+      : ' That is ' + (agency === 'ALL' ? perHere.toFixed(1) + ' homes per 1,000 residents' : '$' + (perHere >= 100 ? num(perHere) : perHere.toFixed(2)) + (agency === 'CHFA' ? ' a year in tax credits' : '') + ' per resident') + '.';
     var q = function (k, v) { var p = new URLSearchParams(params); if (v == null) p.delete(k); else p.set(k, v); var x = p.toString(); return '#/money' + (x ? '?' + x : ''); };
     var chips = '<nav class="dm-chips" aria-label="Which agency"><ul>' + [['ALL', 'All three, in homes']].concat(AGENCY_ORDER.map(function (k) { return [k, M.AGENCIES[k].label]; })).map(function (c) {
       return '<li><a href="' + esc(q('agency', c[0] === 'ALL' ? null : c[0])) + '"' + (c[0] === agency ? ' class="is-on" aria-current="true"' : '') + '>' + esc(c[1]) + '</a></li>';
@@ -709,6 +720,25 @@
       T.next('Next', [{ href: '#/research', label: 'All research →' }, { href: '#/news', label: 'Housing news', secondary: true }]);
   }
 
+  // The publishers the research draws on, as the old Research page listed them under "Data Sources & Methodology"
+  // (insights.html; content check gap 7). Each link was checked on 15 Nov 2026.
+  var RESEARCH_SOURCES = [
+    ['Novogradac', 'Tax credit equity prices and investor surveys', [['LIHTC resource center', 'https://www.novoco.com/resource-centers/affordable-housing-tax-credits'], ['QCT and DDA mapping tool', 'https://www.novoco.com/resource-centers/affordable-housing-tax-credits/qct-dda-mapping-tool']]],
+    ['HUD LIHTC database', 'Tax credit allocations, project by project', [['Dataset page', 'https://www.huduser.gov/portal/datasets/lihtc.html'], ['Query tool', 'https://www.huduser.gov/lihtc/']]],
+    ['NCSHA', 'State allocation plans and award announcements', [['NCSHA on the Housing Credit', 'https://www.ncsha.org/advocacy-issues/housing-credit/']]],
+    ['U.S. Census Bureau', 'Housing starts and population trends', [['New residential construction', 'https://www.census.gov/construction/nrc/']]],
+    ['Federal Reserve Bank of St. Louis (FRED)', 'Economic indicators and interest rates', [['FRED', 'https://fred.stlouisfed.org']]],
+    ['Bureau of Labor Statistics', 'Producer prices for building materials, and jobs', [['Producer price indexes', 'https://www.bls.gov/ppi']]],
+    ['NCUA', 'Community development grants for credit unions', [['NCUA grants', 'https://ncua.gov/support-services/credit-union-resources-expansion/grants-loans/grants']]],
+    ['FFIEC', 'Community Reinvestment Act lending data', [['CRA reports', 'https://www.ffiec.gov/craadweb/main.aspx']]]
+  ];
+  function researchSources() {
+    return '<section class="rs-sources" id="rs-sources"><h2>Data sources and methods</h2><p class="note">Where the research above draws its figures from.</p><ul class="rs-src-list">' +
+      RESEARCH_SOURCES.map(function (r) {
+        return '<li><strong>' + esc(r[0]) + '</strong>: ' + esc(r[1]) + '. ' + r[2].map(function (l) { return '<a href="' + esc(l[1]) + '">' + esc(l[0]) + ' ↗</a>'; }).join(' · ') + '</li>';
+      }).join('') + '</ul><p class="callout"><strong>Not advice.</strong> All data and analysis here is for information and learning. It is not investment advice, legal guidance or an underwriting recommendation. Ask qualified advisors about a specific project.</p></section>';
+  }
+
   function research(params, parts) {
     if (parts && parts[1] === 'brief') return brief(decodeURIComponent(parts[2] || ''));
     var s = UI.load({ cat: 'data/insights/catalog.json', feed: BRIEFS });
@@ -734,7 +764,7 @@
           '<span class="hub-card-desc">' + esc(e.summary) + '</span>' +
           '<span class="research-meta">' + esc([dated, (e.sources || []).slice(0, 4).join(', ')].filter(Boolean).join(' · ')) + '</span></a>';
       }).join('') + '</div>';
-    }).join('') + snapshot() +
+    }).join('') + snapshot() + researchSources() +
       T.source('COHO research catalog', LIVE + 'insights.html', s.data.cat.meta && s.data.cat.meta.updated) +
       T.next('Next', [{ href: '#/equity-pricing', label: 'Tax credit prices now →' }, { href: '#/news', label: 'Housing news', secondary: true }]);
   }

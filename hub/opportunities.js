@@ -357,7 +357,7 @@
       '<section id="pf-about" tabindex="-1"><h2>About the columns</h2>' +
       '<p><strong>Location.</strong> CHFA’s feed publishes no property website, so Map opens Google Maps at the coordinates CHFA publishes for the property. The property’s own listing is usually one click away there. A property with no coordinates is looked up by street address, and one with neither shows a dash rather than a guessed location.</p>' +
       '<p><strong>Development, setting, serves and income.</strong> Each uses a field CHFA publishes for every property. Development is the kind of deal (new construction, rehab of an existing building, or both), not the building form: CHFA publishes no building type. Serves and income targeting match a property with at least one home in that group. A few properties have no population or income breakdown in CHFA’s data; they appear under “Any” but drop out when you pick a group, because the source does not say whether they serve it.</p>' +
-      '<p><strong>Basis boost.</strong> Whether the deal took the 30% increase in eligible basis, as reported to HUD’s LIHTC database (HUD’s records run through properties that opened in 2024, updated April 2026). A boost can come from a QCT, a DDA or a state designation under IRC 42(d)(5)(B)(v), so “Yes” does not by itself mean the site is in a QCT or DDA. CHFA’s feed carries DDA and QCT columns but publishes no values in them, and each deal turns on the designation in force at its allocation. The lists are redrawn every year and these properties were allocated between ' + y0 + ' and ' + y1 + ', so no QCT or DDA badge is drawn from today’s boundaries. Deals HUD has not yet recorded, mostly those awarded since 2021, show Not published rather than a blank, because a blank reads as “no”.</p>' +
+      '<p><strong>Basis boost.</strong> Whether the deal took the 30% increase in eligible basis, as reported to HUD’s LIHTC database (HUD’s records run through properties that opened in 2024, updated April 2026). A boost can come from a QCT, a DDA or a state designation under <a href="https://www.law.cornell.edu/uscode/text/26/42">IRC 42(d)(5)(B)(v)</a>, so “Yes” does not by itself mean the site is in a QCT or DDA. CHFA’s feed carries DDA and QCT columns but publishes no values in them, and each deal turns on the designation in force at its allocation. The lists are redrawn every year and these properties were allocated between ' + y0 + ' and ' + y1 + ', so no QCT or DDA badge is drawn from today’s boundaries. Deals HUD has not yet recorded, mostly those awarded since 2021, show Not published rather than a blank, because a blank reads as “no”.</p>' +
       '<p><strong>Award year</strong> is the year CHFA awarded the credits. CHFA’s feed publishes no placed-in-service year, and a property typically opens two to three years after its award, so a recent award year can be a project still under construction. Data may lag the current allocation year by 12 to 18 months.</p></section>' +
       T.source(LIHTC_SRC, L.d.lihtc.source, f.fetched) +
       T.source('HUD LIHTC database (basis boost)', 'https://www.huduser.gov/portal/datasets/lihtc.html', 'records through properties placed in service in 2024') +
@@ -835,7 +835,10 @@
     var rows = shown.map(function (x) {
       var a = x.a;
       return { round: x.round, project: x.project, url: a.source_url, status: lbStatusText(x), sponsor: x.sponsor, holder: x.holder ? LB_HOLDER[x.holder] : null, location: a.location, purpose: x.purpose, amount: a.amount_awarded, homes: a.estimated_units, printed: a.source_quote,
-        sources: x.s && x.s.sources ? x.s.sources.map(function (q) { return q.title + ' ' + q.url; }).join('; ') : null, sourceList: x.s && x.s.sources ? x.s.sources : [] };
+        sources: x.s && x.s.sources ? x.s.sources.map(function (q) { return q.title + ' ' + q.url; }).join('; ') : null, sourceList: x.s && x.s.sources ? x.s.sources : [],
+        // Where a grantee's kind (town, county or housing authority) comes from a record, that record is linked, as on
+        // the old awards page (content check gap 16: one grantee is known only from a HUD archive page).
+        holderSources: x.s && x.s.holder && x.s.holder.how === 'source' && x.s.holder.source ? [x.s.holder.source] : [] };
     });
     var byRound = lb.rounds.map(function (r) { return [r.label, d.landBank.awards.filter(function (a) { return a.round === r.id; }).reduce(function (t, a) { return t + a.amount_awarded; }, 0)]; });
     var byPurpose = UI.tally(lb.awards, function (x) { return x.purpose; }, function (x) { return x.a.estimated_units; });
@@ -885,7 +888,7 @@
         { key: 'project', label: 'Project', href: function (r) { return r.url; }, tip: 'Links to the CHFA award list (PDF) for its round' },
         { key: 'status', label: 'Status', tip: lb.meta.note || 'Where the project on the site stands', more: function (r) { return lbSourceLinks(r.sourceList); } },
         { key: 'sponsor', label: 'Received by' },
-        { key: 'holder', label: 'Held by', tip: lb.meta.holder_note || 'Kind of grantee' },
+        { key: 'holder', label: 'Held by', tip: lb.meta.holder_note || 'Kind of grantee', more: function (r) { return lbSourceLinks(r.holderSources); } },
         { key: 'location', label: 'Town' },
         { key: 'purpose', label: 'Homes planned' },
         { key: 'amount', label: 'Awarded', num: true, fmt: money },

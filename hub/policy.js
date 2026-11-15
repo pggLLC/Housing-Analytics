@@ -344,7 +344,9 @@
       cards +
       roadSections() +
       '<h2>ROAD to Housing Act: enactment timeline</h2><ol class="timeline-list">' + ROAD_TIMELINE.map(function (r) { return '<li><strong>' + esc(r[0]) + ':</strong> ' + esc(r[1]) + '</li>'; }).join('') + '</ol>' +
-      '<p class="note">Sources: <a href="https://www.govtrack.us/congress/bills/119/hr6644">GovTrack, H.R. 6644 status</a>; <a href="https://www.govinfo.gov/content/pkg/PLAW-119publ101/html/PLAW-119publ101.htm">Public Law 119-101 (GovInfo)</a>.</p>' +
+      '<p class="note">Sources: <a href="https://www.govtrack.us/congress/bills/119/hr6644">GovTrack, H.R. 6644 status</a>; <a href="https://www.govinfo.gov/content/pkg/PLAW-119publ101/html/PLAW-119publ101.htm">Public Law 119-101 (GovInfo)</a>.' +
+        // Content check gap 16 (14 Nov): the program pages the old legislation page linked; each resolved on 14 Nov 2026.
+        ' Programs the law touches: <a href="https://www.hud.gov/hud-partners/community-affordable-housing-programs">HUD HOME Program</a>; <a href="https://www.huduser.gov/portal/datasets/lihtc.html">HUD LIHTC dataset</a> (<a href="https://www.huduser.gov/lihtc/">query tool</a>); <a href="https://www.chfainfo.com/arh/lihtc">CHFA Housing Tax Credits</a>.</p>' +
       // Folds shut behind its title and a one-line answer (paul, 10 Nov: phone length).
       T.fold('Colorado policy watch', 'Colorado housing laws and CHFA allocation plan changes COHO has checked, each with its source. As of ' + esc(w.meta.as_of) + '.',
         watchList(w, { law: 'Colorado housing laws, 2026 session', qap: 'CHFA allocation plan' }) +

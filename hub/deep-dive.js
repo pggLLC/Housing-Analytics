@@ -252,8 +252,8 @@
         kpis([
           { label: h.date.slice(0, 4) === '2026' ? '2026 federal housing credit ceiling' : co.name + ' credit ceiling', value: '$' + (co.allocation / 1e6).toFixed(1) + 'M', detail: 'Colorado’s yearly 9% credit authority ($' + (co.allocation / co.population).toFixed(3) + ' per resident)', src: d.alloc.source.name, href: d.alloc.source.url },
           { label: 'CHFA tax credit properties', value: num(feats.length), detail: 'All Colorado properties in CHFA’s housing credit list', src: 'CHFA HousingTaxCreditProperties, fetched ' + day(d.lihtc.fetchedAt), href: 'https://www.chfainfo.com/rental-housing/housing-credit' },
-          { label: 'Metro Denver apartment vacancy (' + av + ')', value: plain(am.stabilized_vacancy_pct), detail: 'Of stabilized units · ' + plain(am.stabilized_vacancy_prior_quarter_pct) + ' last quarter · ' + plain(am.stabilized_vacancy_year_ago_pct) + ' a year ago', src: 'AAMD Vacancy & Rent Report', href: d.aamd.meta.source_landing_url },
-          { label: 'Average monthly concession (' + av + ')', value: money(am.average_concession), detail: 'Denver metro, per unit (' + plain(am.concession_pct_of_gross_rent) + ' of gross rent)', src: 'AAMD Vacancy & Rent Report', href: d.aamd.meta.source_landing_url }
+          { label: 'Metro Denver apartment vacancy (' + av + ')', value: plain(am.stabilized_vacancy_pct), detail: 'Of stabilized units · ' + plain(am.stabilized_vacancy_prior_quarter_pct) + ' last quarter · ' + plain(am.stabilized_vacancy_year_ago_pct) + ' a year ago', src: 'AAMD Vacancy & Rent Report', href: d.aamd.meta.source_url || d.aamd.meta.source_landing_url },
+          { label: 'Average monthly concession (' + av + ')', value: money(am.average_concession), detail: 'Denver metro, per unit (' + plain(am.concession_pct_of_gross_rent) + ' of gross rent)', src: 'AAMD Vacancy & Rent Report', href: d.aamd.meta.source_url || d.aamd.meta.source_landing_url }
         ]), 3) +
       sec('map', 'Interactive map: DDAs, QCTs and LIHTC projects', '<p>' + esc(mapIntro) + '</p>' +
         picker('dd-map-pick', 'map', 'Show one county', [['', 'All of Colorado']].concat(Object.keys(names).sort(function (a, b) { return names[a] < names[b] ? -1 : 1; }).map(function (k) { return [k, names[k] + ' County']; })), picked) +
@@ -403,7 +403,7 @@
           '<p><strong>Impact:</strong> ' + esc(STATIC.concessionImpact) + '</p>' +
           UI.table('dd-aamd', 'Stabilized vacancy and average rent by county, ' + av, [{ key: 'c', label: 'County' }, { key: 'v', label: 'Stabilized vacancy', num: true, fmt: plain }, { key: 'r', label: 'Average rent', num: true, fmt: money }],
             Object.keys(d.aamd.counties).map(function (k) { return { c: k, v: d.aamd.counties[k].stabilized_vacancy_pct, r: d.aamd.counties[k].average_rent }; }), { noun: 'counties', placeholder: 'County' }) +
-          src(d.aamd.meta.source + ' (' + d.aamd.meta.capture + ')', d.aamd.meta.source_landing_url, av + ', checked ' + day(d.aamd.meta.last_verified)), 3) +
+          src(d.aamd.meta.source + ' (' + d.aamd.meta.capture + ')', d.aamd.meta.source_url || d.aamd.meta.source_landing_url, av + ', checked ' + day(d.aamd.meta.last_verified)), 3) +
         sec('con-trend', 'Denver metro concession trends', Viz.timeLines({ title: 'Average monthly concession, Denver metro, ' + STATIC.concessionTrend.years[0] + ' to ' + STATIC.concessionTrend.years[3], answer: 'Concessions grew from $' + STATIC.concessionTrend.values[0] + ' to $' + STATIC.concessionTrend.values[3] + ' a month.',
           series: [{ label: 'Average concession', color: C.homes || 'var(--pine)', points: STATIC.concessionTrend.years.map(function (y, i) { return [y, STATIC.concessionTrend.values[i]]; }) }], fmt: function (v) { return '$' + Math.round(v); }, source: ext('https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily', 'CBRE Multifamily Outlook 2025') }) +
           staticTag('Typed in by hand, not read from a data file. The original chart names the AAMD Q4 2025 series and CBRE Multifamily Outlook 2025 as its sources; neither is confirmed here.'), 3) +
@@ -462,7 +462,12 @@
     ['https://www.huduser.gov/portal/sadda/sadda_qct.html', 'HUD QCT/DDA Designations', '2026 DDA and QCT designations (effective January 1, 2026); Federal Register notice (September 30, 2025)'],
     ['https://www.novoco.com/resource-centers/affordable-housing-tax-credits/qct-dda-mapping-tool', 'Novogradac QCT/DDA Mapping Tool', 'Interactive mapping of qualified census tracts and difficult development areas'],
     ['https://www.huduser.gov/portal/datasets/il.html', 'HUD Income Limits', 'FY2026 county income limits'],
-    ['https://www.huduser.gov/portal/datasets/lihtc.html', 'HUD LIHTC Dataset', 'Project-level allocation data (query tool: huduser.gov/lihtc)'],
+    ['https://www.huduser.gov/portal/datasets/lihtc.html', 'HUD LIHTC Dataset', 'Project-level allocation data'],
+    // The old page's other publisher links (content check gap 10): the query tool, DOLA demography, Zillow and Realtor.com.
+    ['https://lihtc.huduser.gov/', 'HUD Tax Credit Database', 'Query tool for tax credit projects by state, county and year'],
+    ['https://demography.dola.colorado.gov/', 'DOLA State Demography Office', 'Population and household estimates and projections by county'],
+    ['https://www.zillow.com/research/data/', 'Zillow research data', 'Observed rent index (ZORI) and home value index (ZHVI) by county'],
+    ['https://www.realtor.com/research/data/', 'Realtor.com research data', 'Monthly listings, list prices and days on market by county'],
     ['https://www.chfainfo.com/arh/lihtc', 'CHFA', 'Colorado Housing and Finance Authority LIHTC program data and priorities'],
     ['https://cdola.colorado.gov/prop123', 'DOLA Proposition 123', 'Local government affordable housing commitment data'],
     ['https://www.census.gov/programs-surveys/acs/', 'ACS (American Community Survey)', 'Renter household income distribution (B25118), all-tenure household income (B19001), gross rent by unit (B25063)'],
@@ -486,7 +491,7 @@
         sec('key-metrics', 'Key Colorado metrics', kpis([
           { label: 'Colorado 9% credit ceiling (' + d.alloc.year + ')', value: '$' + (co.allocation / 1e6).toFixed(1) + 'M', detail: 'Yearly credit, before carryforward and returns', src: 'IRS Notice 2026-22', href: d.alloc.source.populationUrl },
           { label: 'Federal credit per resident (' + d.alloc.year + ')', value: '$' + co.perCapita.toFixed(2), detail: co.basis === 'per-capita' ? 'The per-capita amount, not the small-state minimum' : co.basis, src: 'IRS Rev. Proc. 2025-32', href: d.alloc.source.url },
-          { label: 'Multifamily vacancy rate', value: plain(am.stabilized_vacancy_pct), detail: 'Metro Denver, ' + d.aamd.meta.vintage, src: 'AAMD', href: d.aamd.meta.source_landing_url },
+          { label: 'Multifamily vacancy rate', value: plain(am.stabilized_vacancy_pct), detail: 'Metro Denver, ' + d.aamd.meta.vintage, src: 'AAMD', href: d.aamd.meta.source_url || d.aamd.meta.source_landing_url },
           { label: 'Credit pricing (Colorado)', value: '$' + coP.median_all_credits.toFixed(2), detail: 'Median, all credit types · 9% market reference $' + nov.national_avg.credit_9pct.toFixed(2), src: 'Novogradac ' + d.nov.meta.vintage, href: d.nov.meta.source_url },
           { label: 'Unemployment rate', value: un == null ? null : un.toFixed(1) + '%', detail: 'Average of the county rates, BLS LAUS 2025', src: 'BLS LAUS', href: 'https://www.bls.gov/lau/' },
           { label: 'Foreclosure risk', value: /low/i.test(fs.risk_label) ? 'Low' : fs.risk_label, detail: fs.latest_foreclosure_process_pct + '% in the foreclosure process, ' + fs.latest_period, src: 'FHFA NMDB', href: d.fc.meta.source_landing_url }
@@ -648,7 +653,8 @@
         src('Source: BLS LAUS (unemployment and employed residents, counted where people live), ACS 2020–2024 (affordability, population): ' + d.ind.source, 'https://www.bls.gov/lau/', 'data as of ' + d.ind.updated)) +
       sec('lihtc-trend', 'LIHTC historical trend' + (trend && trend.range ? ' (' + trend.range + ')' : ''), (trendChart || (failed('js/components/lihtc-by-year.js') ? missing('The LIHTC trend chart') : trend ? '<p class="note">CHFA’s list has no tax credit projects by award year for ' + (county ? esc(county) : 'Colorado') + '.</p>' : '<p role="status" class="note">Loading the CHFA series…</p>')) +
         '<p class="note">Milestones on the timeline tab: ' + esc(events.join(' · ')) + '.</p>' +
-        src('Source: CHFA housing tax credit properties, ArcGIS FeatureServer (public)', 'https://www.chfainfo.com/rental-housing/housing-credit', 'fetched ' + day(d.lihtc.fetchedAt))) +
+        // The layer the file is fetched from, as the old page linked it (content check gap 10).
+        src('Source: CHFA housing tax credit properties, ArcGIS FeatureServer (public)', /^https:\/\/services\d*\.arcgis\.com\//.test(d.lihtc.source || '') ? String(d.lihtc.source).replace(/\/layers$/, '/0') : 'https://www.chfainfo.com/rental-housing/housing-credit', 'fetched ' + day(d.lihtc.fetchedAt))) +
       sec('site-sel', 'Site selection tool', '<p>Ready to test a specific site? The market check draws a primary market area around it and reads the capture rate, competing projects and QCT/DDA status. For statewide tax credit, Prop 123 and QCT/DDA map layers, see the overview tab and the data map.</p>' +
         '<div class="actions"><a class="button-link" href="#/market">Market check →</a><a class="button-link secondary" href="#/data/map?layer=qct">Data map</a></div>') +
       sec('sig-sources', 'Data sources', list([ext('https://data.census.gov/', 'ACS 5-year, Census Bureau (B25070, B25014, B11001)'), ext('https://www.huduser.gov/portal/datasets/lihtc.html', 'HUD LIHTC tax credit database'), ext('https://www.chfainfo.com/', 'CHFA, Colorado Housing and Finance Authority'),

@@ -431,7 +431,7 @@
     var P = [
       ['need', 'See a place’s needs', 'Who lives there, what they earn, and how many homes are missing at each income.', '#/places', 'Start here: pick a town or county'],
       ['deal', 'Test whether a project works', 'Rents, costs, tax credits and debt for an affordable housing project, and whether there is a gap.', '#/projects', 'Open Build a deal'],
-      ['site', 'Find where to build', 'Every town scored on the facts that matter for a tax credit project, and homes that could be kept affordable.', '#/opportunities', 'Open Opportunities']
+      ['site', 'Find where to build', 'Every town and CDP on the facts that matter for a tax credit project, sorted your way with no score, and homes that could be kept affordable.', '#/opportunities', 'Open Opportunities']
     ];
     var ICON = { need: 'need', deal: 'credit', site: 'place' };
     return '<section class="hh-paths" aria-label="Where to start"><ul>' + P.map(function (p) {
@@ -536,7 +536,8 @@
       '<p class="count" role="status">' + classes.length + (classes.length === 1 ? ' provider' : ' providers') + ', ' + esc(rlabel) + '.</p>' +
       '<div class="table-scroll"><table><thead><tr><th scope="col">Provider</th><th scope="col">Area</th><th scope="col">What they offer</th><th scope="col">Phone</th></tr></thead><tbody>' +
       classes.map(function (h) {
-        return '<tr><th scope="row"><a href="' + esc(h.url) + '">' + esc(h.name) + '</a></th><td>' + esc(h.area || '') + '</td><td>' + esc(h.offers || '') + '</td><td>' + esc(h.phone || '') + '</td></tr>';
+        // Where a listing comes from a page other than the provider's own (a city or county list), that page is linked too, as on the old page.
+        return '<tr><th scope="row"><a href="' + esc(h.url) + '">' + esc(h.name) + '</a></th><td>' + esc(h.area || '') + '</td><td>' + esc(h.offers || '') + (h.source_url && h.source_url !== h.url ? ' <a class="help-src" href="' + esc(h.source_url) + '">Source</a>' : '') + '</td><td>' + esc(h.phone || '') + '</td></tr>';
       }).join('') + '</tbody></table></div>' +
       '<p class="metric-source"><a href="' + esc(w.local_help_meta.source_url) + '">CHFA homebuyer education provider list</a> · COHO program watchlist, checked ' + esc(w.meta.last_verified) + '</p>';
   }
@@ -584,7 +585,8 @@
 
     var own = '<h2 id="help-own" tabindex="-1">Keeping your home</h2><div class="help-cards">' + owner.map(programCard).join('') +
       helpCard({ title: 'Behind on the mortgage', phone: null, text: 'The Division of Housing lists free foreclosure counseling and legal help.', link: ['Foreclosures, evictions and legal help', 'https://doh.colorado.gov/foreclosures-evictions-and-legal-help'] }) + '</div>' +
-      (notNow.length ? '<p class="note">Not available now: ' + esc(notNow.map(function (p) { return p.name + ' (' + (p.status === 'VERIFY' ? 'being checked' : p.status) + ')'; }).join('; ')) + '.</p>' : '');
+      // Each links its official source, as the old Help for Homebuyers page did (content check gap 11).
+      (notNow.length ? '<p class="note">Not available now: ' + notNow.map(function (p) { return (p.source_url ? '<a href="' + esc(p.source_url) + '">' + esc(p.name) + '</a>' : esc(p.name)) + ' (' + esc(p.status === 'VERIFY' ? 'being checked' : p.status) + ')'; }).join('; ') + '.</p>' : '');
 
     return head + paths + rent + buy + own +
       '<h2>More help pages</h2>' + Shell.list(Shell.inHub('assistance')) +

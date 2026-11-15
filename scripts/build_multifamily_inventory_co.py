@@ -109,7 +109,14 @@ def _accumulate(bucket: dict, prop: dict, lihtc_lookup: dict):
         if "lihtc-toc-paired" in pt_set:
             bucket["lihtc"]["toc_paired"] += 1
 
-        # CHFA raw lookup gives us QCT / DDA / NON_PROF + YR_PIS
+        # The decade of the CHFA award, from the property's own award_year (CHFA AwardYear). It used to come from the
+        # raw feed's YR_PIS through source_id, which properties.json leaves blank, so every decade count came out
+        # empty and the award-year chart was hidden. The key keeps its old name because the pages read it.
+        dec = _decade(prop.get("award_year"))
+        if dec:
+            bucket["yr_pis_distribution"][str(dec)] += 1
+
+        # CHFA raw lookup gives us QCT / DDA / NON_PROF
         chfa_id = prop.get("source_id")
         raw = lihtc_lookup.get(chfa_id)
         if raw:
@@ -119,9 +126,6 @@ def _accumulate(bucket: dict, prop: dict, lihtc_lookup: dict):
                 bucket["dda"] += 1
             if str(raw.get("NON_PROF", "")).upper() in ("Y", "1", "TRUE"):
                 bucket["nonprofit"] += 1
-            dec = _decade(raw.get("YR_PIS"))
-            if dec:
-                bucket["yr_pis_distribution"][str(dec)] += 1
 
     if "preservation-candidate" in pt_set:
         bucket["preservation_candidates"] += 1

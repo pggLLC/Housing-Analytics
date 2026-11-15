@@ -1,7 +1,7 @@
 // Investor summary (#/ic-summary?g=<geoid>): one place's facts laid out for an investment committee, from the files the
 // live page reads (js/ic-summary.js): the HNA ranking, renters against homes priced for them by AMI, tax credit
 // properties nearby (CHFA), HUD's QCTs and DDAs, the county's awards against need, and the local housing
-// contacts on record. Named people are never shown; the organisations are. The second half reads the files the live
+// contacts on record. Named people are never shown; the organizations are. The second half reads the files the live
 // page's components read: anchor employers (local-resources), capital partners, tax breaks and fee waivers, the CHFA
 // round calendar, resort housing programs, peers in the county (place-lehd) and the affordable properties list.
 (function (global) {
@@ -15,7 +15,7 @@
     ranking: 'data/hna/ranking-index.json', amiPlace: 'data/co_ami_gap_by_place.json', amiCounty: 'data/co_ami_gap_by_county.json',
     lihtc: 'data/chfa-lihtc.json', centroids: 'data/co-place-centroids.json', local: 'data/hna/local-resources.json',
     dda: 'data/dda-colorado.json', qct: 'data/qct-colorado.json', fvn: 'data/derived/funding-vs-need.json',
-    counties: 'data/boundaries/counties_co.geojson'
+    counties: 'data/boundaries/counties_co.geojson', od: 'data/hna/place-od-flows.json'
   };
   // The live page's second-half components, loaded after the top of the page draws.
   var MORE = {
@@ -335,7 +335,7 @@
     var fc = d.fvn.counties.filter(function (x) { return x.fips === fips; })[0], w = d.fvn.meta.window;
     var QUAD = { underserved: 'high need, little funding', aligned: 'high need, funded', 'funded-above-need': 'funded beyond need', 'low-need-low-funding': 'low need, little funding', 'not-computable': 'not computable' };
 
-    // Local housing organisations on record (organisations only; never named people).
+    // Local housing organizations on record (organizations only; never named people).
     var lr = (!isCounty && d.local['place:' + g]) || d.local[(r.type === 'cdp' ? 'cdp:' : 'place:') + g] || d.local['county:' + fips] || null;
     var lrCounty = lr && lr === d.local['county:' + fips] && !isCounty;
     var orgs = lr ? (lr.housingAuthority || []).map(function (h) { return [h.name, h.url]; }).concat(lr.housingLead && lr.housingLead.name ? [[lr.housingLead.name, lr.housingLead.url]] : [])
@@ -364,6 +364,33 @@
         awardHistory(x.props, name, fips, isCounty, cname) + comps(withBridge(x.props, x.bridge), d, g, fips, name);
     }
 
+    // The commute pattern, as the live page draws it (js/ic-summary.js renderCommute): the place's LEHD record
+    // (place-lehd, in the second half) when it has loaded, else the origin-destination flows file. Both count
+    // LODES jobs block by block. A county has no flows record, as on the live page.
+    var od = d.od || {}, pl = M.data && M.data.lehd && M.data.lehd.places && M.data.lehd.places[g], L = !isCounty && pl && pl.lehd, o = !isCounty && od.places && od.places[g];
+    var f = L ? { within: +L.within || 0, inflow: +L.inflow || 0, outflow: +L.outflow || 0, jobs: +L.jobs || +L.C000 || 0, how: L.flows_source } :
+      o ? { within: +o.within || 0, inflow: +o.inflow || 0, outflow: +o.outflow || 0, jobs: +o.jobs || 0, how: 'block-od' } : null;
+    function commute() {
+      var year = (od.meta && od.meta.year) || '', when = String((L ? M.data.lehd.meta && M.data.lehd.meta.generated_at : od.meta && od.meta.generated_at) || '').slice(0, 10) || null;
+      var src = T.source('LEHD LODES ' + year + ' origin-destination data' + (f && f.how === 'tract-lodes' ? ', estimated from census tracts' : ''), 'https://lehd.ces.census.gov/data/', when);
+      if (!f) return '<p class="note">' + (isCounty ? 'Commute flows are counted for towns and CDPs. Pick one in ' + esc(name) + ' to see where its workers live.' : 'No commute flows on file for ' + esc(name) + '.') + '</p>' + src;
+      var pattern;
+      if (f.within + f.inflow + f.outflow === 0) pattern = 'No commute flows recorded.';
+      else if (f.inflow > f.outflow * 1.5 && f.inflow > f.within) pattern = '<strong>Job hub:</strong> ' + num(f.inflow) + ' workers commute in, more than one and a half times the ' + num(f.outflow) + ' residents who commute out. Workers come here from elsewhere, so demand for affordable rentals comes from the workforce.';
+      else if (f.outflow > f.inflow * 1.5 && f.outflow > f.within) pattern = '<strong>Bedroom community:</strong> ' + num(f.outflow) + ' residents commute out for work, more than one and a half times the ' + num(f.inflow) + ' workers who commute in. Demand for affordable rentals here comes from housing pressure: residents priced out of the towns where the jobs are.';
+      // Balanced, by the live page's rule: neither flow is both one and a half times the other and larger than the
+      // number who live and work here. Say only what that rule shows (Codex P2 on HA #2876: Commerce City has 3,223
+      // living and working there against about 32,000 commuting each way, so "about as many" was wrong).
+      else {
+        var big = Math.max(f.inflow, f.outflow), small = Math.min(f.inflow, f.outflow), way = f.inflow >= f.outflow ? 'in' : 'out';
+        pattern = '<strong>Balanced live and work:</strong> ' + (big === 0 ? num(f.within) + ' people live and work here, and no commute in or out is recorded.'
+          : big <= small * 1.5 ? num(f.inflow) + ' workers commute in and ' + num(f.outflow) + ' residents commute out, within one and a half times of each other. ' + num(f.within) + ' people live and work here.'
+          : num(f.within) + ' people live and work here, at least as many as the ' + num(big) + ' who commute ' + way + '.');
+      }
+      return '<h3>Commute pattern</h3><div class="metrics">' + metric('Live and work here', num(f.within)) + metric('Commute in', num(f.inflow), 'Work here, live elsewhere') +
+        metric('Commute out', num(f.outflow), 'Live here, work elsewhere') + metric('Jobs here', num(f.jobs)) + '</div><p class="callout ic-flow">' + pattern + '</p>' + src;
+    }
+
     var where = isCounty ? 'in ' + name : 'within ' + RADIUS + ' miles';
     var finding = name + ' ranks ' + num(r.rank) + ' of ' + num(list.length) + ' Colorado counties, towns and CDPs on housing need. ' +
       (at60 && at60.short != null ? (at60.short > 0 ? num(at60.short) + ' more renter households at or below 60% AMI than homes priced for them. ' : 'At 60% AMI, homes priced for renters outnumber renter households. ') : '') +
@@ -383,8 +410,8 @@
         { key: 'short', label: 'Short', num: true, fmt: function (v) { return v > 0 ? num(v) : 'None'; }, tip: 'Renter households less homes priced for them; none means homes outnumber households' }
       ], amiRows, { noun: 'income bands', placeholder: 'Income' }) + '<p class="note metric-source">' + esc(survey) + ' with HUD ' + esc(d.amiPlace.meta.hud_income_limits_year) + ' income limits for ' + esc(cname) + '. Each band includes the ones below it.</p>' :
         '<p class="note">No income-band figures on file for ' + esc(name) + '.</p>') +
-      '<h2>Workers and commuting</h2><div class="metrics">' + metric('People who commute in', num(m.in_commuters)) + metric('Jobs held by in-commuters', pct1(m.commute_ratio), 'Of all jobs here') + metric('Low-wage jobs here', num(m.local_low_wage_jobs), 'Paying $1,250 a month or less') + '</div>' +
-      T.source('LEHD LODES origin-destination data', 'https://lehd.ces.census.gov/data/', null) +
+      '<h2>Workers and commuting</h2><div class="metrics">' + (f ? '' : metric('People who commute in', num(m.in_commuters))) + metric('Jobs held by in-commuters', pct1(m.commute_ratio), 'Of all jobs here') + metric('Low-wage jobs here', num(m.local_low_wage_jobs), 'Paying $1,250 a month or less') + '</div>' +
+      commute() +
       '<h2>Competition</h2><div class="metrics">' + (isCounty ? '' : metric('Tax credit properties in ' + name, num(inPlace.n), num(inPlace.u) + ' affordable homes')) +
       metric('In ' + cname, num(inCounty.n), num(inCounty.u) + ' affordable homes' + (isCounty ? ', ' + num(recent) + ' in service in the last ten years' : '')) +
       (isCounty ? '' : metric('Within ' + RADIUS + ' miles', num(near.length), num(nearUnits) + ' affordable homes, ' + num(recent) + ' in service in the last ten years')) + '</div>' +
@@ -401,7 +428,7 @@
         '<p>Against the other counties, ' + esc(cname) + ' is ' + esc(QUAD[fc.quadrant] || fc.quadrant) + '. <a href="#/places/deep-dive">How counties compare →</a></p>' +
         T.source('CHFA and OEDIT award lists', '#/money?county=' + fips, String(d.fvn.meta.generatedAt).slice(0, 10)) : '') +
       '<h2>Local partners</h2>' + (lr ? '<dl class="ic-civic"><dt>Prop 123 commitment</dt><dd>' + (lr.prop123 ? '<a href="' + esc(lr.prop123.link) + '">' + esc(lr.prop123.status) + '</a>' : 'Not on file') + (lrCounty ? ' (county record)' : '') + '</dd>' +
-        '<dt>Housing organisations</dt><dd>' + (orgs.length ? orgs.map(function (o) { return o[1] ? '<a href="' + esc(o[1]) + '">' + esc(o[0]) + '</a>' : esc(o[0]); }).join(', ') : 'None on file') + '</dd>' +
+        '<dt>Housing organizations</dt><dd>' + (orgs.length ? orgs.map(function (o) { return o[1] ? '<a href="' + esc(o[1]) + '">' + esc(o[0]) + '</a>' : esc(o[0]); }).join(', ') : 'None on file') + '</dd>' +
         '<dt>Housing plans</dt><dd>' + (plans.length ? plans.slice(0, 4).map(function (p) { return (p.url ? '<a href="' + esc(p.url) + '">' + esc(p.name || p.type) + '</a>' : esc(p.name || p.type)) + (p.year ? ' (' + esc(p.year) + ')' : ''); }).join('; ') : 'None on file') + '</dd></dl>' +
         '<p><a href="#/places/incentives/' + esc(g) + '">Local housing incentives on record →</a></p>' : '<p class="note">No local housing records on file for ' + esc(name) + '.</p>') +
       second() +

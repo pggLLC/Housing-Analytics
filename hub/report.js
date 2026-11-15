@@ -46,7 +46,7 @@
     if (!global.OwnershipFinance) return T.head({ kind: 'tool', crumbs: T.trail('places', TITLE), title: TITLE }) + '<p class="callout">The site’s ownership engine did not load.</p>';
 
     var v = function (k) { var m = M.metric(s.c, k); return m ? m.value : null; };
-    var name = s.name, here = s.isCounty ? Pl.AT.county : Pl.AT.place;
+    var name = s.name;
     var asOf = global.LAB_DATA_AS_OF ? new Date(global.LAB_DATA_AS_OF + 'T12:00:00Z') : new Date();
     var dated = asOf.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
     var tally = st && st.file ? global.LabStrength.tally(g) : null, grade = st && st.file ? global.LabStrength.grade(tally) : null;
@@ -75,7 +75,7 @@
         tile('Renters paying over 30% of income', pct(v('pct_cost_burdened')), 'Source: ' + (srcOf(s, 'pct_cost_burdened') || '')),
         tile('Homes vacant, for rent or sale', pct(vac), 'Source: ' + (srcOf(s, 'active_market_vacancy_rate_pct') || ''), 'No vacancy figure is published for this place.')
       ]) +
-      (s.place ? Pl.gapChart(s.place, here, s.d) : '<p class="note">The income gap file has no row for this place.</p>');
+      (s.place ? Pl.gapChart(s.place, null, s.d) : '<p class="note">The income gap file has no row for this place.</p>');
 
     // 2. Who can afford what: renters by the gap above, buyers by the ownership engine.
     var r = M.reachPart(s);
