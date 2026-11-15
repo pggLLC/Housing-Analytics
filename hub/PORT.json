@@ -21,12 +21,12 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "193eaab09d71aef7c759ba816e1e496f7aa591b6",
+  "commit": "55b2caf29c1a76ffdc9c29f1a9f436659ad0f705",
   "dirty": false
  },
  "files": {
-  "data-hub.html": "a7fad0cb02f266a5eb973a1838a55470ff371fbf185578efd351ab5d5a6e0e5c",
-  "deal-hub.html": "9c00c8b607e6b0f859c576b47093958b2a59f9ce7722bcb81cd82a95698610f4",
+  "data-hub.html": "d459498effe6b05aaae5f95ca9537fa04fa9b5508d9b05390d9c483a91155a16",
+  "deal-hub.html": "b97dca8caad722530d34b5f66e8c89807b9b0871b8defe34333b59e19fb60869",
   "hub/access.js": "8ccf6a2320fbdc280ddcb2632284e0449aa9e0d64306d2fa9c7f86d1134faa1d",
   "hub/attract-housing.css": "28bcd998512f3ce04d0a3e094e614dbfa727e9266f6765bdef65484515887161",
   "hub/attract-housing.js": "9b33f4d813797798b92d674f7dfe80a1f7b8e8c0fc1c0aa0235498b4e754a7c7",
@@ -82,7 +82,7 @@
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
   "hub/lab-config.js": "77eddd18e1611b39193d4c40976501449b931061a5378d415f5cea2c2e740369",
   "hub/lab-wave2.css": "ab1303c77232cd775f5a19296fafd69aaa59cadc4c8da99d6ff869004fb28a76",
-  "hub/land-value.js": "acd0c8b2f777bdffca9568c1d77e8c0d54e4b847217e28b68b6fc442ed4b1220",
+  "hub/land-value.js": "3fa5c61ee8115bdc7ae75fba44ab814d46ee490993c82cb83d8bd457fcb960ca",
   "hub/lender-export.js": "d1e48681ef719397028af4e5bbea04baf62f6b1b24441a7d1f40b034e5eea7da",
   "hub/lender-schedules.js": "d540caedeb111c4440fa773e80a45f85c9ced6d4c0ffe7014e54abb2bbffb0b7",
   "hub/lihtc-history.css": "466ec422410ecd3d0f14cf00089648a29ce0e400774871dde69a775414078d56",
@@ -124,7 +124,7 @@
   "hub/start-numbers.js": "50205a8ddccc79283c6b218811aa6f82a912749a1952ea4d843a4d38610183ea",
   "hub/step-bar.js": "78611fdcc99c50831aee46628d867c6e9daf82883c783906dc4a92d6fd9a3620",
   "hub/strength.js": "10f09b6b204f00e1689748a2696efcd6424bd9e327d5b0f444e6dde011deabb7",
-  "hub/templates.css": "b6d62dc88d63641d3aa5ba4b6c606a3d5c86f0fd419dd7f5b1401f4a8278e33a",
+  "hub/templates.css": "e3fe9ece16928a7d6f90ed252cfe90a4ec7f501ef99614abb2d4619116ed01d5",
   "hub/templates.js": "2b2ccd1d555356dc2f08975d28088cf689d982a7bd6568b5915cefb06a20b715",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
@@ -136,10 +136,10 @@
   "hub/viz.js": "9468c01dbce06d23ec374a5a48d439d4bfc0e814d15d9c6bff6111bfeccf68ce",
   "hub/walk-bike.css": "3585a8a901f75a73a5ca304ab3a90d6b78562dac77471efd0e7ecd4d06ead2ea",
   "hub/walk-bike.js": "9f42a9df64bf1965fa777ce88c8391b6d274449a505cd4a80fbdb980aadf5fa3",
-  "index.html": "33cc49faa460aa474065db6a00697ae50bc73ff58b8885e0a3b36805a13cce01",
-  "opportunities-hub.html": "92bf27735cc41e956b84fb26477c06dea08c6b0bb705ebad20341518e63a67ad",
-  "places-hub.html": "10168e1145855f89dbe065b3285738228edefccfb51a0bffc810a7783356a5af",
-  "policy-hub.html": "438fd1b6919100e2213871933c7164ab528d09b57fba9b423abbac21fe7ae923"
+  "index.html": "d2e50b78b8853bb235f91e40ebceb244718b1cea15ecbe518ebf23bec4f3eb8b",
+  "opportunities-hub.html": "411c0a4b04192b43ea5c1621441169eb3504c4db94f7c0f93af321dad33e7807",
+  "places-hub.html": "8d28305bd8b0b5b675bca7fa8f1ae1f174a6d0de725260cda987f9c8bfee30db",
+  "policy-hub.html": "34fb792849130600c1adff8fb1cc2f37f39b302d7e8df441f3a5364a69aba90c"
  },
  "engines": {
   "js/deal-calculator-math.js": "305fc93936feecf0756732ccf52046adfc2af113ab232abe4769b7ff83701612",
@@ -161,11 +161,12 @@
   "js/hna/hna-utils.js": "3e5a137e65091f2c188f314d064244b797957d67b3c14ef5efc0cd49c997acca",
   "js/mix-check.js": "34802c186a18e089d05c7ee5b736c3409427b485ad5c26db874153c353d7efaa",
   "js/mix-check-inputs.js": "84b2ef0f714b800d8f552db186ccc522c907b7e5afa5461ea40d3b49d306cb84",
-  "js/housing-need-projector.js": "460b99d264f0833465790f958b24fab19f21093735e756774b1dc70cdc0af219",
+  "js/housing-need-projector.js": "03bb82c2d2b142065f6fe3cbc908af3971c267c6e4df75b5849e16d8cefb6ccd",
   "js/components/housing-type-need.js": "606ebfa3f16fe291907f66cc98fdeb4e0ff0e36921c76612ffb12abec05a7a8d",
   "js/local-incentives-data.js": "f1ad486017680b9af8781485def973e6f3294634c0ae96542c7e0a27cebc55a5",
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
-  "js/data-source-inventory.js": "38a7b893eac77ff47e1d923d09b6d6a211f0643f8c69c272c3908c919b4e9633",
+  "js/land-comps.js": "f8405a95d09bdf082deb4c02602fabe90e9cbc5502d97d582da5912bef098f4e",
+  "js/data-source-inventory.js": "b81a94835048bce1713223dfdcf064434dd519aaaaa0a4417e24659d953ce798",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
   "js/hna/hna-ownership-need.js": "b33284b054b1120870e2850d8995c990edabf661d42a3a767bf9cc8f98b1f8d0",
   "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",
