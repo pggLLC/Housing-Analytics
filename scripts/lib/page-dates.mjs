@@ -48,8 +48,23 @@ export function isStampable(relPath) {
 // figures carry their own data dates. Comments are dropped first because the
 // shells describe <main> in one.
 export function isScriptDrawn(html) {
-  const m = /<main\b[^>]*>([\s\S]*?)<\/main>/i.exec(String(html || '').replace(/<!--[\s\S]*?-->/g, ''));
+  const m = /<main\b[^>]*>([\s\S]*?)<\/main>/i.exec(withoutComments(String(html || '')));
   return !!m && visibleText(m[1]) === '';
+}
+
+// Cuts every <!-- ... --> span with a plain scan, and everything after an
+// unclosed "<!--". Build-time reading of the repo's own HTML; never output.
+function withoutComments(s) {
+  let out = '';
+  let i = 0;
+  for (;;) {
+    const open = s.indexOf('<!--', i);
+    if (open < 0) return out + s.slice(i);
+    out += s.slice(i, open);
+    const close = s.indexOf('-->', open + 4);
+    if (close < 0) return out;
+    i = close + 3;
+  }
 }
 
 // Documents a reader reads top to bottom: the date goes under the title,
