@@ -21,8 +21,8 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "ecbf43ad2948b119cd86ec202c13807dd9bb81e8",
-  "dirty": true
+  "commit": "ac200cfeaf62579b29a3dc4639452e5c82d2e9ca",
+  "dirty": false
  },
  "files": {
   "data-hub.html": "d459498effe6b05aaae5f95ca9537fa04fa9b5508d9b05390d9c483a91155a16",
@@ -165,8 +165,8 @@
   "js/components/housing-type-need.js": "606ebfa3f16fe291907f66cc98fdeb4e0ff0e36921c76612ffb12abec05a7a8d",
   "js/local-incentives-data.js": "f1ad486017680b9af8781485def973e6f3294634c0ae96542c7e0a27cebc55a5",
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
-  "js/land-comps.js": "07f8a4e959aefca61fa0e8a4ead3ac3c8047edb207720842ef7490cd99fe7424",
-  "js/data-source-inventory.js": "b81a94835048bce1713223dfdcf064434dd519aaaaa0a4417e24659d953ce798",
+  "js/land-comps.js": "f44d06e4a206699667d7ae316db1a65dbffe75a8364b2316c5a91bab55afad4f",
+  "js/data-source-inventory.js": "169ead8cd4a1c4c2cbe0f67d871b63ca3dfb5cb3f8cbf69f97fa6752df1880b6",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
   "js/hna/hna-ownership-need.js": "b33284b054b1120870e2850d8995c990edabf661d42a3a767bf9cc8f98b1f8d0",
   "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",
