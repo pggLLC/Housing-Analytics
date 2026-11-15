@@ -2509,7 +2509,13 @@
     var tab = TABS.some(function (x) { return x.id === parts[2]; }) ? parts[2] : 'overview';
     var entry = Pl.entryFor(geoid);
     var back = '<a class="back-link" href="#/places">← Places and need</a>';
-    if (!entry && String(geoid).length === 5 && !Pl.data().data && !Pl.data().error) return back + '<h1>Loading…</h1><p role="status" class="note">Loading the Housing Needs Assessment…</p>';
+    if (!entry && (String(geoid).length === 5 || String(geoid).length === 7) && !Pl.data().data && !Pl.data().error) return back + '<h1>Loading…</h1><p role="status" class="note">Loading the Housing Needs Assessment…</p>';
+    // A retired place ID opens the place it now is, on the same chapter.
+    var now = !entry && Pl.retiredTo && Pl.retiredTo(geoid);
+    if (now && global.location) {
+      global.location.replace(String(global.location.hash).replace('/place/' + geoid, '/place/' + now));
+      return back + '<h1>Loading…</h1><p role="status" class="note">Loading the Housing Needs Assessment…</p>';
+    }
     if (!entry) return back + '<h1>Place not found</h1><p class="lede">No Colorado place profile has the ID ' + esc(geoid) + '.</p>';
     setWorking(geoid, entry.label); // every chapter of a place's assessment makes it the working place
     var shared = Pl.data();

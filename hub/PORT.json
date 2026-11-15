@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "23b6cfc20b4dc7484ef49b0f99fc74b3201f292d",
+  "commit": "99c9883b6e53aed6522b6643e1ce517406e42971",
   "dirty": false
  },
  "files": {
@@ -74,7 +74,7 @@
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
   "hub/guide.js": "710fed44d84f241b221a1b49b8aaaeb32ca36db9bfa25a298bd775760ba576db",
   "hub/hna-dola.js": "3d98f4185ac1b0decd1974f7f02bae7d450633f73b651652d4046ee8db71662e",
-  "hub/hna.js": "25a804b435b08e8b015f7fcb83af6a1b23528b460971136da4cded0fe6517904",
+  "hub/hna.js": "18fdcaf6215af438d1c66b7a46662f69eea923672cb782c809c12e68737f2d65",
   "hub/home.css": "47c8d4d65023a4e3bf1153eb9fdf2aacceddafe9b5bb0eac8533c77e283e32bb",
   "hub/home.js": "96749268bd590190dd86610d5db1868950a042178caab98c7d7891c36693a425",
   "hub/homes.js": "048cc62e0cfd9789252368d9aecf8e951c96500f207d94bb41f54dc7e6684d2b",
@@ -106,7 +106,7 @@
   "hub/places-combine.js": "b3d53321409c2dd780df591f1871cdd1cc299f7e465e2d726fce08c988dbcdf0",
   "hub/places-more.js": "093069b30899deff9e193dd72d5b02b5eb4f01f4a4b2dfb8711ea15d0603edc0",
   "hub/places-state.js": "084e522a6e98d92c93ef4e20bf0196327243a453d6aab418ff63008056cb1d02",
-  "hub/places.js": "c39f346dc57210a057408de589f923c38350e4afc892d804cb7887703e0c0f59",
+  "hub/places.js": "171c191897b8fa2dc5e87731396179f5863d7dd156b9150b11754f49f10fa509",
   "hub/policy-more.js": "e69e6b362fcc7a63fa96f15f35d5d833b5a0d8c46cc34d206cf5a8c8e86c661b",
   "hub/policy.js": "42b786954c8f3b59da65664fc232102b675aeace1cbc30a90f5a90b428f80fe7",
   "hub/profile.css": "d18e7355133687b3c43099751dc234a12da6cbfe743fb65d932e414e171015a2",
