@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-15",
+  "updated": "2026-11-15",
   "source": "U.S. Census Bureau — American Community Survey 5-Year Estimates (2020-2024)",
   "source_url": "https://data.census.gov/",
   "generator": "scripts/build_co_demographics.py",
@@ -26,7 +26,7 @@
   "household_growth_rate_5yr": 0.105,
   "household_size_avg": 2.42,
   "ami_estimate": 130910,
-  "affordable_rent_60pct": 1740,
+  "affordable_rent_60pct": 1756,
   "fields": {
     "population": "B01003_001E",
     "median_household_income": "B19013_001E",
