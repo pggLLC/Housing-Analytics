@@ -43,8 +43,15 @@ function load(url, html = '', framed = false, saved = null) {
   let went = null;
   const location = { href: u.href, pathname: u.pathname, search: u.search, hash: u.hash, host: u.host, hostname: u.hostname, protocol: u.protocol, replace: (to) => { went = to; } };
   const win = { location, addEventListener() {}, MutationObserver: dom.window.MutationObserver };
-  // A browser that picked a place on the old pages (js/workflow-state-core.js keys).
-  if (saved) win.localStorage = { getItem: (k) => ({ coho_wf_active: '"p1"', coho_wf_project_p1: JSON.stringify({ jurisdiction: { geoid: saved } }) })[k] ?? null };
+  // A browser that picked a place on the old pages (js/workflow-state-core.js keys). An object adds the place the
+  // hubs and the member site keep ({ old, member: {geoid, at}, hub: {geoid, at} }; hub/step-bar.js).
+  if (saved) {
+    const kept = typeof saved === 'string' ? { old: saved } : saved, store = {};
+    if (kept.old) Object.assign(store, { coho_wf_active: '"p1"', coho_wf_project_p1: JSON.stringify({ jurisdiction: { geoid: kept.old } }) });
+    if (kept.member) store['coho-member-place'] = JSON.stringify(kept.member);
+    if (kept.hub) store['coho-lab-working'] = JSON.stringify(kept.hub);
+    win.localStorage = { getItem: (k) => store[k] ?? null };
+  }
   win.self = win; win.top = framed ? {} : win;
   const ctx = vm.createContext({ window: win, document: dom.window.document, URL, URLSearchParams, Array, Object, String, RegExp, setTimeout });
   vm.runInContext(resolver, ctx);
@@ -117,6 +124,24 @@ test('groups B and C: each page forwards to its view, carrying its place, chapte
   assert.equal(load(SITE + 'ic-summary.html', '', false, '08077').went, 'deal-hub.html#/ic-summary?g=08077', 'investor summary, saved place');
   assert.equal(load(SITE + 'ic-summary.html?fips=0828745', '', false, '08077').went, 'deal-hub.html#/ic-summary?g=0828745', 'the address wins');
   assert.equal(load(SITE + 'ic-summary.html', '', false, '08').went, 'deal-hub.html#/ic-summary', 'a saved statewide pick opens the picker');
+  // The place the hubs and the member site are working on comes before a project left on the old pages: the member
+  // live check of 15 Nov 2026 found "Where it's heading" opening El Paso (the old project) over Carbondale (the
+  // member's place), and the place page then saved El Paso over it.
+  const ELPASO = '08041', CARBONDALE = '0812045';
+  assert.equal(load(SITE + 'hna-where-its-heading.html', '', false, { old: ELPASO, member: { geoid: CARBONDALE, name: 'Carbondale', at: 5 } }).went,
+    'places-hub.html#/place/' + CARBONDALE + '/future', "the member's place wins over the old project");
+  assert.equal(load(SITE + 'hna-where-its-heading.html', '', false, { old: ELPASO, hub: { geoid: CARBONDALE, label: 'Carbondale' } }).went,
+    'places-hub.html#/place/' + CARBONDALE + '/future', "the hubs' place wins over the old project, even with no time");
+  assert.equal(load(SITE + 'hna-who-lives-here.html', '', false, { member: { geoid: CARBONDALE, at: 5 }, hub: { geoid: '08077', at: 9 } }).went,
+    'places-hub.html#/place/08077/people', 'of the two, the newer wins');
+  assert.equal(load(SITE + 'hna-who-lives-here.html', '', false, { member: { geoid: CARBONDALE, at: 9 }, hub: { geoid: '08077', at: 5 } }).went,
+    'places-hub.html#/place/' + CARBONDALE + '/people', 'of the two, the newer wins (member)');
+  assert.equal(load(SITE + 'hna-what-to-do.html?geoid=0828745', '', false, { member: { geoid: CARBONDALE, at: 5 } }).went,
+    'places-hub.html#/place/0828745/action', "the address wins over the member's place");
+  assert.equal(load(SITE + 'ic-summary.html', '', false, { old: ELPASO, member: { geoid: CARBONDALE, at: 5 } }).went,
+    'deal-hub.html#/ic-summary?g=' + CARBONDALE, "investor summary, the member's place");
+  assert.equal(load(SITE + 'hna-where-its-heading.html', '', false, { old: ELPASO, member: { geoid: '4805000', at: 5 } }).went,
+    'places-hub.html#/place/' + ELPASO + '/future', 'a kept place outside Colorado is ignored');
   assert.equal(load(SITE + 'data-explorer.html?file=hna/summary/0828745.json').went, 'data-hub.html#/data/explorer?file=hna%2Fsummary%2F0828745.json');
   assert.equal(load(SITE + 'data-explorer.html?file=../secrets').went, 'data-hub.html#/data/explorer', 'a file outside data/ is dropped');
   assert.equal(load(SITE + 'colorado-deep-dive.html#tab-funding').went, 'places-hub.html#/places/deep-dive?tab=funding');
