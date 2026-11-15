@@ -347,4 +347,30 @@ assert.strictEqual(pkg.scripts['test:market-study-page'], 'node test/market-stud
     'market-study-page must run after forsale-capture');
 }
 
+// Build gap: blank until the reader types a cost; then per band and for the project.
+{
+  const gapDom = dom();
+  Page.start(gapDom.mount, data);
+  const s1 = () => text(gapDom.mount.querySelector('#ms-s1'));
+  assert(gapDom.mount.querySelector('[data-build-gap="pending"]'), 'no cost -> gap pending');
+  assert(s1().includes('Enter your cost per home'));
+  assert.strictEqual(gapDom.mount.querySelector('#ms-tdc-per-home').value, '', 'no default cost');
+  const field = gapDom.mount.querySelector('#ms-tdc-per-home');
+  field.value = '400000';
+  field.dispatchEvent(new gapDom.window.Event('change', { bubbles: true }));
+  assert(gapDom.mount.querySelector('[data-build-gap="ready"]'), 'cost entered -> gap shown');
+  const priced = Page.buildModel(data, { tdcPerUnit: 400000 });
+  priced.derived.bands.forEach((row) => {
+    if (row.buildGapPerHome > 0) assert(s1().includes(money(row.buildGapPerHome)), 'band gap shown');
+  });
+  assert(s1().includes(money(priced.derived.tdcDependent.projectGap)), 'project gap shown');
+  assert(s1().includes(money(priced.derived.tdcDependent.bandGapTotal)), 'band-by-band total shown');
+  assert.strictEqual(gapDom.mount.querySelector('#ms-tdc-per-home').value, '400000', 'cost survives the repaint');
+  assert(!bannedProvenanceTokens.test(text(gapDom.mount)), 'gap uses novice labels');
+  field.value = '';
+  gapDom.mount.querySelector('#ms-tdc-per-home').value = '';
+  gapDom.mount.querySelector('#ms-tdc-per-home').dispatchEvent(new gapDom.window.Event('change', { bubbles: true }));
+  assert(gapDom.mount.querySelector('[data-build-gap="pending"]'), 'cleared cost -> back to pending');
+}
+
 console.log('market-study-page tests passed');

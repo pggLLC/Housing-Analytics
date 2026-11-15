@@ -82,6 +82,43 @@ assert.equal(derived.tdcDependent.tdcPerUnit, 'not_available');
 assert.equal(derived.tdcDependent.subsidyPerUnit, 'not_available');
 assert.notEqual(derived.tdcDependent.subsidyPerUnit, 0);
 
+// Build gap: the reader's cost per home, less each band's affordable price.
+// No cost entered -> every gap stays unknown, never $0.
+assert(derived.bands.every((row) => row.buildGapPerHome === 'not_available'));
+assert.equal(derived.tdcDependent.projectGap, 'not_available');
+const withCost = Scenario.derive(baseline, Finance, { tdcPerUnit: 400000 });
+const units = baseline.program.total_units.value;
+let revenue = 0; let bandSum = 0;
+withCost.bands.forEach((row) => {
+  assert.equal(row.buildGapPerHome, Math.max(0, 400000 - row.maxAffordablePrice));
+  assert.equal(row.buildGapTotal, row.buildGapPerHome * row.count);
+  revenue += row.maxAffordablePrice * row.count; bandSum += row.buildGapTotal;
+});
+assert.equal(withCost.tdcDependent.tdcPerUnit, 400000);
+assert.equal(withCost.tdcDependent.tdcSource, 'user_entered');
+assert.equal(withCost.tdcDependent.subsidyPerUnit, (400000 * units - revenue) / units);
+assert.equal(withCost.tdcDependent.projectGap, Math.max(0, 400000 * units - revenue));
+assert.equal(withCost.tdcDependent.bandGapTotal, bandSum);
+assert(withCost.tdcDependent.bandGapTotal >= withCost.tdcDependent.projectGap, 'pooling never needs more than band by band');
+// A cost below every price: no gap anywhere, and the spare shows as negative pooled subsidy.
+const cheap = Scenario.derive(baseline, Finance, { tdcPerUnit: 1000 });
+assert(cheap.bands.every((row) => row.buildGapPerHome === 0));
+assert.equal(cheap.tdcDependent.projectGap, 0);
+assert(cheap.tdcDependent.subsidyPerUnit < 0);
+// Zero, negative or non-numeric costs are ignored, not used.
+['', 0, -5, NaN, '400000'].forEach((bad) => {
+  assert.equal(Scenario.derive(baseline, Finance, { tdcPerUnit: bad }).tdcDependent.projectGap, 'not_available');
+});
+// An unknown price makes the gap unknown rather than counting the price as $0.
+const noPrice = Scenario.derive(missing0(), Finance, { tdcPerUnit: 400000 });
+assert.equal(noPrice.tdcDependent.projectGap, 'not_available');
+assert(noPrice.bands.every((row) => row.buildGapPerHome === 'not_available'));
+function missing0() {
+  const doc = clone(baseline);
+  doc.local_baseline.home_value = { value: null, verify: true, owner_input_required: true, classification: 'not_available' };
+  return doc;
+}
+
 const higherHoa = Scenario.derive(baseline, Finance, { hoaScenario: 'higher_cost' });
 assert(higherHoa.bands.some((row) => row.assistanceRangeCheck === 'insufficient'));
 const missing = clone(baseline);

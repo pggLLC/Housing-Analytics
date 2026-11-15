@@ -162,16 +162,44 @@
       var status = gap == null || !assistance ? 'unknown' : assistance.range[1] >= Math.max(0, gap) ? 'sufficient' : 'insufficient';
       return { band: row.band.slice(), midpoint: midpoint, count: row.count, representativeBedrooms: row.representative_bedrooms, householdSize: householdSize, maxAffordablePrice: maxPrice, gapVsLocalPrice: gap, assistanceRangeCheck: status, classification: 'derived' };
     });
-    var tdc = doc.costs.tdc.value;
+    // Cost to build: options.tdcPerUnit is the reader's own figure for one
+    // home, typed on the page. Without it the scenario's TDC stands, and the
+    // example scenarios carry none. There is deliberately no default cost.
+    var units = doc.program.total_units.value;
+    var readerCost = typeof options.tdcPerUnit === 'number' && isFinite(options.tdcPerUnit) && options.tdcPerUnit > 0;
+    var tdc = readerCost ? options.tdcPerUnit * units : doc.costs.tdc.value;
+    // A band whose price could not be worked out (no AMI or home value) makes
+    // every subsidy figure unknown; counting it as a $0 price would report the
+    // whole cost of those homes as subsidy.
+    var pricesKnown = bands.every(function (row) { return typeof row.maxAffordablePrice === 'number' && isFinite(row.maxAffordablePrice); });
+    var costKnown = tdc != null && isFinite(tdc);
+    var tdcPerUnit = costKnown ? tdc / units : 'not_available';
+    var salesAtAffordablePrices = pricesKnown ? bands.reduce(function (total, row) { return total + row.maxAffordablePrice * row.count; }, 0) : null;
+    bands.forEach(function (row) {
+      // Build gap for one home in the band: what it costs to build, less the
+      // most a household in the middle of the band could pay. Never below 0.
+      row.buildGapPerHome = costKnown && pricesKnown ? Math.max(0, tdcPerUnit - row.maxAffordablePrice) : 'not_available';
+      row.buildGapTotal = typeof row.buildGapPerHome === 'number' ? row.buildGapPerHome * row.count : 'not_available';
+    });
+    var gapsKnown = costKnown && pricesKnown;
     return {
       convention: 'representative-bedroom household size: 1BR→2-person, 2BR→3-person, 3BR→4-person, 4BR→5-person',
       modelId: modelId,
       bands: bands,
-      totalUnits: doc.program.total_units.value,
+      totalUnits: units,
       tdcDependent: {
-        tdcPerUnit: tdc == null ? 'not_available' : tdc / doc.program.total_units.value,
-        subsidyPerUnit: tdc == null ? 'not_available' : tdc / doc.program.total_units.value - bands.reduce(function (total, row) { return total + (row.maxAffordablePrice || 0) * row.count; }, 0) / doc.program.total_units.value,
-        classification: tdc == null ? 'not_available' : 'derived'
+        tdcPerUnit: tdcPerUnit,
+        tdcSource: readerCost ? 'user_entered' : (costKnown ? 'scenario' : 'not_available'),
+        // Pooled across the project: cost less every home's price, per home.
+        // Negative means sales cover the cost with that much to spare.
+        subsidyPerUnit: gapsKnown ? (tdc - salesAtAffordablePrices) / units : 'not_available',
+        // The same, for the whole project, floored at zero: higher-priced
+        // homes help pay for lower-priced ones.
+        projectGap: gapsKnown ? Math.max(0, tdc - salesAtAffordablePrices) : 'not_available',
+        // The sum of each band's own gap: what is needed if no home's price
+        // above cost is used to help another.
+        bandGapTotal: gapsKnown ? bands.reduce(function (total, row) { return total + row.buildGapTotal; }, 0) : 'not_available',
+        classification: gapsKnown ? 'derived' : 'not_available'
       },
       classification: 'derived'
     };
