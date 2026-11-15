@@ -887,6 +887,34 @@ function assertRankingUsesTheSameLedgerAsThePage() {
     'the page and the score are free to disagree again');
 }
 
+// A region or a combined set of places has no single county: the projection section asks for no forecast file (the
+// regional page asked for data/hna/projections/.json and got a 404; Codex on #2878), says why, and still shows the
+// growth-rate estimate it showed before. A county or Colorado still asks for its own file.
+async function assertNoCountyAsksForNoFile() {
+  const run = async (fips) => {
+    const dom = new JSDOM('<main><div id="hnp"></div></main>', { url: 'http://127.0.0.1/housing-needs-assessment.html', runScripts: 'outside-only' });
+    const asked = [];
+    dom.window.fetch = (url) => { asked.push(String(url)); return Promise.resolve({ ok: false, json: () => Promise.resolve(null) }); };
+    dom.window.eval(fs.readFileSync(path.join(ROOT, 'js/housing-need-projector.js'), 'utf8'));
+    dom.window.HousingNeedProjector.renderProjectionSection('hnp', fips, { households: 1000, population: 2500, name: 'Test area' }, { geoType: fips ? 'county' : 'region' });
+    await new Promise((r) => setTimeout(r, 20));
+    const html = dom.window.document.getElementById('hnp').innerHTML;
+    dom.window.close();
+    return { asked, html };
+  };
+  for (const fips of ['', undefined, null]) {
+    const r = await run(fips);
+    assert.deepStrictEqual(r.asked, [], `no county (${JSON.stringify(fips)}): asked for ${r.asked.join(', ')}`);
+    assert(/publishes its household forecast by county/.test(r.html), 'no county: the section does not say the forecast is by county');
+    assert(/<table/.test(r.html), 'no county: the growth-rate projection is no longer shown');
+  }
+  const county = await run('08077');
+  assert.deepStrictEqual(county.asked, ['data/hna/projections/08077.json'], 'a county no longer asks for its own forecast file: ' + county.asked.join(', '));
+  assert(!/publishes its household forecast by county/.test(county.html), 'a county is told it is not a single county');
+  const state = await run('08');
+  assert.deepStrictEqual(state.asked, ['data/hna/projections/08.json'], 'Colorado no longer asks for its forecast file: ' + state.asked.join(', '));
+}
+
 (async function main() {
   assertProjectionData();
   assertRankingUsesTheSameLedgerAsThePage();
@@ -898,6 +926,7 @@ function assertRankingUsesTheSameLedgerAsThePage() {
   await assertCountyCalculatorReadsStoredHouseholds();
   await assertHouseholdChartsFollowHeadshipOption();
   await assertHeadshipChangeIsAnnounced();
+  await assertNoCountyAsksForNoFile();
   console.log(`HNA projection integrity tests passed (Mesa County ${reconciled.countyHeadline}; Milliken ${reconciled.placeHeadline})`);
 })().catch((err) => {
   console.error(err);

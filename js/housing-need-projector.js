@@ -569,6 +569,17 @@
       _injectProjectionHTML(container, result, countyName);
     }
 
+    // The forecast files are by county (and one for Colorado). A region or a combined set of places has no single
+    // county, so there is no file to ask for: the page asked for projections/.json and got a 404 (Codex on #2878).
+    // Say why, and show the growth-rate estimate as before; no county is guessed.
+    if (!/^08(\d{3})?$/.test(String(fips || ''))) {
+      renderWithProj(null);
+      container.insertAdjacentHTML('afterbegin', '<p class="hnp-scope-note" style="font-size:1.133rem;margin-bottom:12px;">' +
+        'The State Demography Office publishes its household forecast by county. This selection is not a single county, ' +
+        'so the projection below uses household growth at the rate shown in the methodology. Pick a county or a town to see its county\u2019s forecast.</p>');
+      return;
+    }
+
     if (typeof fetch === 'function') {
       fetch(dolaUrl)
         .then(function (res) {
