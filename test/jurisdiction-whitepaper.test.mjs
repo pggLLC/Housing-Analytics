@@ -529,7 +529,13 @@ const FIXTURE_LANDSCAPE = { geoid: '0833640', researched: '2026-10-14',
   ok(h.includes('Employer housing: Durango School District 9R') && h.includes('A Person') && h.includes('Housing partner: Regional Housing Alliance'), 'researched employer and partner contacts print');
   ok(!h.includes('No Source'), 'sabotage: a contact without a source never prints');
   const mesa = WP.renderHtml(WP.buildModel(src, '08077', { FundingFit, today: '2026-10-29' }));
-  ok(/work in another Colorado county/.test(mesa) && !/work in another town/.test(mesa), 'a county record says county, not town');
+  ok(/work in another county/.test(mesa) && !/work in another town/.test(mesa), 'a county record says county, not town');
+  // Out-of-state homes count (LODES aux): a La Plata town report says how many in-commuters live in another state.
+  const dgoRec = src.commute && src.commute.places && src.commute.places['0822035'];
+  if (dgoRec && dgoRec.in_other_state) {
+    const dgo = WP.renderHtml(WP.buildModel(src, '0822035', { FundingFit, today: '2026-10-29' }));
+    ok(dgo.includes('of whom ' + dgoRec.in_other_state.toLocaleString('en-US') + ' live in another state'), 'Durango report counts in-commuters who live in another state');
+  }
   ok(/work in another town/.test(WP.renderHtml(bay)), 'a town record says town');
   const den = WP.buildModel(src, '08031', { FundingFit, today: '2026-10-29' });
   ok(den.workforce && den.workforce.commute && den.workforce.areas.length === 0 && !/Largest employers:/.test(WP.renderHtml(den)), 'an area without an employer table shows the commute reading only');

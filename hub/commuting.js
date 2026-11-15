@@ -54,7 +54,9 @@
     if (sel) {
       var max = sel.from.length ? sel.from[0][1] : 1, to = xy(sel.lon, sel.lat);
       flows = '<g class="cj-flows-lines">' + sel.from.map(function (f) {
-        var o = byName[String(f[0]).toLowerCase()];
+        // Homes in another state are named by county ("San Juan County, NM") and drawn from that county's point.
+        var pt = (d.commute.other_state_points || {})[f[0]];
+        var o = byName[String(f[0]).toLowerCase()] || (pt ? { lat: pt[0], lon: pt[1] } : null);
         if (!o) return '';
         var a = xy(o.lon, o.lat);
         return '<line x1="' + a[0] + '" y1="' + a[1] + '" x2="' + to[0] + '" y2="' + to[1] + '" stroke-width="' + (1.5 + 6 * f[1] / max).toFixed(1) + '"><title>' + esc(bare(f[0]) + ' to ' + bare(sel.name) + ': ' + num(f[1]) + ' workers') + '</title></line>';
@@ -88,11 +90,13 @@
     var flow = function (title, rows) { return UI.bars(title, 'The five largest, workers', rows.map(function (f) { return [bare(f[0]), f[1]]; }), num); };
     return '<div class="cj-detail"><h3>' + esc(bare(p.name)) + '</h3><p class="chapter-finding">' + esc(answer(p)) + '</p><ul class="cj-stats">' +
       stat(num(p.jobs), 'jobs in town (primary jobs)') +
-      stat(pct(p.in_commuters, p.jobs), 'held by people who live elsewhere (' + num(p.in_commuters) + ')') +
+      stat(pct(p.in_commuters, p.jobs), 'held by people who live elsewhere (' + num(p.in_commuters) +
+        (p.in_other_state ? ', of whom ' + num(p.in_other_state) + ' live in another state' : '') + ')') +
       stat(num(p.far), 'drive in from 20 to 60 miles; ' + num(p.far_low) + ' of them earn $3,333 a month or less') +
       (c ? stat(c, 'a year for a typical 20 to 60 mile commuter (' + p.median_far_miles + ' miles each way, straight line, 240 days, IRS rate)') : '') +
       stat(num(p.long), 'recorded 60+ miles away; many are not daily trips, so they are not costed') +
-      stat(pct(p.out_commuters, p.residents), 'of working residents work in another Colorado town (' + num(p.out_commuters) + ' of ' + num(p.residents) + ')') +
+      stat(pct(p.out_commuters, p.residents), 'of working residents work in another town (' + num(p.out_commuters) + ' of ' + num(p.residents) +
+        (p.out_other_state ? '; ' + num(p.out_other_state) + ' of them in another state' : '') + ')') +
       '</ul><div class="chart-pair">' + flow('Where its in-commuters live', p.from) + flow('Where its residents work', p.to) + '</div>' +
       (UI.placeFor(bare(p.name)) ? '<p><a class="button-link secondary" href="' + esc(UI.placeFor(bare(p.name))) + '">Housing need in ' + esc(bare(p.name)) + '</a></p>' : '') + '</div>';
   }
@@ -174,7 +178,7 @@
         { key: 'farLow', label: 'Of them lower-paid', num: true, fmt: num, tip: '$3,333 a month or less, LODES’s lower two pay bands' },
         { key: 'miles', label: 'Typical miles', num: true, tip: 'Median one-way straight-line miles for the 20 to 60 mile commuters' },
         { key: 'cost', label: 'Yearly drive cost', num: true, fmt: UI.money, tip: 'Typical miles, both ways, 240 days, at the IRS rate of 76 cents a mile' },
-        { key: 'out', label: 'Residents working elsewhere', num: true, fmt: function (v) { return v + '%'; }, tip: 'Share of working residents whose job is in another Colorado town' }
+        { key: 'out', label: 'Residents working elsewhere', num: true, fmt: function (v) { return v + '%'; }, tip: 'Share of working residents whose job is in another town, in Colorado or another state' }
       ], rows, { noun: 'towns', placeholder: 'Town name' }) + sourceLine(meta) + '</section>' +
       employers(d.employers, q.get('area')) +
       '<section id="cj-why" tabindex="-1"><h2>Why it matters for housing</h2><ul class="opp-points">' +

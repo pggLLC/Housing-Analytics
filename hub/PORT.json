@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "193eaab09d71aef7c759ba816e1e496f7aa591b6",
+  "commit": "c413508235954e063c405cbff396b3afd17db788",
   "dirty": false
  },
  "files": {
@@ -41,7 +41,7 @@
   "hub/calculators.css": "b4b0624c35763939731e648dcd47eb60ee92965fb85ee556abef793151609863",
   "hub/calendar.js": "9fd8e62851166913afee680810c97317642113db4ea3f0e25235e6c0ed05d6b5",
   "hub/change-arrows.js": "3bfb7835e88183749dd64cacc43d91af9ae80d65038bb60ed70190d7755d4f3d",
-  "hub/commuting.js": "55c530d205a76942fa04906892937a96d543ad5f78556403fe179926d27f33f5",
+  "hub/commuting.js": "c0b8449d3cc1c1fecab2597f646beb8bb1473fef9b921c7938d6989dac02426a",
   "hub/compare-records.js": "4a4e20b4c5064680ab87c53bae1dce945a5ce45c090feea7277570556805d1af",
   "hub/components.js": "1a3192c4037be964f0a9447cd5d3d6a1b6795871c6f9d017b640b7f538f38590",
   "hub/county-costs.css": "27d26b7dee75f7fe60d9521925a49b17dfc037bf2c18b3d4aef837ec33e8e575",
@@ -72,7 +72,7 @@
   "hub/finder.js": "b81b2adb1cfba2345594a4babea5c53ec8bb15b9ba8cbdedf9ef3756f2719ba7",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
-  "hub/guide.js": "710fed44d84f241b221a1b49b8aaaeb32ca36db9bfa25a298bd775760ba576db",
+  "hub/guide.js": "d5bbd43553b88bed12652b707e45b87e36eae0cbbfa5a307802604719be4efb8",
   "hub/hna-dola.js": "3d98f4185ac1b0decd1974f7f02bae7d450633f73b651652d4046ee8db71662e",
   "hub/hna.js": "5de5eda0df1b66f0a05b60c3a493dfdb315a0ca335fb32679becc01902941803",
   "hub/home.css": "a178558303c67e69f5e505f974e1aa65ee8a2d824f8144a8e9e755a0ccc8d9bd",
@@ -161,11 +161,11 @@
   "js/hna/hna-utils.js": "3e5a137e65091f2c188f314d064244b797957d67b3c14ef5efc0cd49c997acca",
   "js/mix-check.js": "34802c186a18e089d05c7ee5b736c3409427b485ad5c26db874153c353d7efaa",
   "js/mix-check-inputs.js": "84b2ef0f714b800d8f552db186ccc522c907b7e5afa5461ea40d3b49d306cb84",
-  "js/housing-need-projector.js": "460b99d264f0833465790f958b24fab19f21093735e756774b1dc70cdc0af219",
+  "js/housing-need-projector.js": "03bb82c2d2b142065f6fe3cbc908af3971c267c6e4df75b5849e16d8cefb6ccd",
   "js/components/housing-type-need.js": "606ebfa3f16fe291907f66cc98fdeb4e0ff0e36921c76612ffb12abec05a7a8d",
   "js/local-incentives-data.js": "f1ad486017680b9af8781485def973e6f3294634c0ae96542c7e0a27cebc55a5",
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
-  "js/data-source-inventory.js": "38a7b893eac77ff47e1d923d09b6d6a211f0643f8c69c272c3908c919b4e9633",
+  "js/data-source-inventory.js": "b81a94835048bce1713223dfdcf064434dd519aaaaa0a4417e24659d953ce798",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
   "js/hna/hna-ownership-need.js": "b33284b054b1120870e2850d8995c990edabf661d42a3a767bf9cc8f98b1f8d0",
   "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",
