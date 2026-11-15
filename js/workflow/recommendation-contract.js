@@ -266,7 +266,7 @@
       var cb50 = num(items[1].value);
       var tier = band(cb30, [50, 35, 20], ['High', 'Elevated', 'Moderate', 'Lower']);
       return {
-        verdict: tier + ' cost burden',
+        verdict: tier + ' renter cost burden',
         plain: cb30 + '% of renter households pay more than 30% of income on rent'
           + (cb50 === null ? '' : ', and ' + cb50 + '% pay more than half') + '.'
       };
