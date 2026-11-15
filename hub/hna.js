@@ -2558,7 +2558,8 @@
       '<p class="note hna-report-note">' + (same
         ? 'Each takes about 15 seconds to build. ' + REPORT_HOLDS
         : 'Those two files are built on the older page for now, which opens on the same place. ' + REPORT_HOLDS) + '</p>' +
-      '<p class="note hna-report-status" role="status" aria-live="polite" data-hna-report-status="' + g + '"></p>' +
+      // Styled as .muted, not .note: an empty role="status" .note is how the lab marks a section still loading.
+      '<p class="muted hna-report-status" role="status" aria-live="polite" data-hna-report-status="' + g + '"></p>' +
       '<div class="actions">' +
       '<button type="button" class="button-link secondary" data-hna-dl="print">Print this page or save as PDF</button>' +
       '<button type="button" class="button-link secondary" data-hna-dl="csv" data-hna-g="' + g + '">Download CSV (opens in Excel)</button>' +
