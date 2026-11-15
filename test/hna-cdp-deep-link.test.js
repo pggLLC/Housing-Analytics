@@ -45,6 +45,33 @@ const cdps = [cfg.cdps.find((c) => c.geoid === '0815165'), cfg.cdps[0], cfg.cdps
 assert(cdps.length >= 2 && cdps[0].geoid === '0815165', 'Clifton and other CDPs come from geo-config');
 const town = cfg.places[0];
 
+// Run the controller's actual selection-precedence block, before it fetches or
+// renders figures. An explicit address must agree with the later page helper,
+// even when this browser has a different jurisdiction saved.
+const controller = read('js/hna/hna-controller.js');
+const selectionStart = controller.indexOf('let restoredGeoType = null;');
+const selectionEnd = controller.indexOf('if (restoredGeoType && restoredGeoId) {', selectionStart);
+assert(selectionStart >= 0 && selectionEnd > selectionStart, 'controller selection block found');
+function controllerTarget(search, saved) {
+  const w = {
+    location: { search },
+    WorkflowState: { getJurisdiction: () => saved },
+    SiteState: { getCounty: () => ({ fips: '08031' }) },
+    HNAState: { state: {}, els: {} }
+  };
+  return new Function('window', controller.slice(selectionStart, selectionEnd) +
+    '\nreturn { geoType: restoredGeoType, geoid: restoredGeoId };')(w);
+}
+function pageTarget(page, search, saved) {
+  const w = {
+    location: { search },
+    WorkflowState: { getActiveProject: () => ({ jurisdiction: saved }) },
+    SiteState: { getCounty: () => ({ fips: '08031' }) }
+  };
+  return new Function('window', extractFn(read(page), '_resolveAutoTarget') +
+    '\nreturn _resolveAutoTarget();')(w);
+}
+
 async function run(page, target, priorType) {
   const html = read(page);
   const types = geoTypeOptions(html);
@@ -79,6 +106,30 @@ async function run(page, target, priorType) {
 (async () => {
   let checks = 0;
   for (const page of PAGES) {
+    const saved = { geoType: 'place', geoid: '0828745', placeGeoid: '0828745', countyFips: '08077' };
+    for (const search of ['?geoid=08', '?geoid=08&geoType=state', '?fips=08', '?classic=1&geoid=08', '?geoid=08&auto=1']) {
+      assert.deepEqual(controllerTarget(search, saved), { geoType: 'state', geoid: '08' }, `${page}: explicit statewide address wins over saved Fruita`);
+      const target = pageTarget(page, search, saved);
+      assert.deepEqual(target, { fips: '08', geoType: 'state' }, `${page}: the later helper keeps the same statewide address`);
+      const selected = await run(page, target, 'place');
+      assert.equal(selected.geoid, '08', `${page}: statewide remains selectable`);
+      assert.equal(selected.geoType, 'state', `${page}: statewide keeps its type`);
+      checks++;
+    }
+    for (const [search, geoType, geoid] of [
+      ['?classic=1&geoid=08031', 'county', '08031'],
+      ['?classic=1&geoid=0845970', 'place', '0845970'],
+      ['?classic=1&fips=0815165&geoType=cdp', 'place', '0815165']
+    ]) assert.deepEqual(controllerTarget(search, saved), { geoType, geoid }, `${page}: an explicit geography beats the saved place without auto=1`);
+    assert.deepEqual(controllerTarget('?classic=1', saved), { geoType: 'place', geoid: '0828745' }, `${page}: no explicit geography still uses the saved place`);
+    assert.deepEqual(pageTarget(page, '?classic=1', saved), { fips: '0828745', geoType: 'place' }, `${page}: helper keeps saved-place behavior`);
+    assert.deepEqual(controllerTarget('?region=colorado-river-valley', saved), { geoType: 'place', geoid: 'region:colorado-river-valley' }, `${page}: regional address still wins`);
+    for (const search of ['?region=colorado-river-valley', '?geos=0828745,0815165']) {
+      assert.equal(pageTarget(page, search, { geoType: 'county', geoid: '08077', countyFips: '08077' }), null,
+        `${page}: the later helper leaves the explicit regional/combined selection to the controller`);
+      checks++;
+    }
+    checks += 6;
     for (const cdp of cdps) {
       for (const prior of ['state', 'county']) {
         const r = await run(page, { fips: cdp.geoid, geoType: 'cdp' }, prior);
@@ -95,5 +146,6 @@ async function run(page, target, priorType) {
     assert.equal(c.geoid, cfg.counties[0].geoid, `${page}: county link still selects the county`);
     checks += 2;
   }
-  console.log(`hna-cdp-deep-link: PASS (${checks} selections across ${PAGES.length} pages)`);
+  assert.equal(PAGES.length, 6, 'canonical HNA and all five chapter pages checked');
+  console.log(`hna-cdp-deep-link: PASS (${checks} geography checks across ${PAGES.length} pages)`);
 })().catch((e) => { console.error(e); process.exit(1); });

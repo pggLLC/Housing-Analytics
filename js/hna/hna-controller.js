@@ -5352,13 +5352,10 @@
     let restoredGeoType = null;
     let restoredGeoId   = null;
 
-    // Priority 0: Explicit URL override (?auto=1 from comparative analysis links).
-    // When the user clicks a "View HNA" link from another page, the link sets
-    // ?auto=1 to signal "honor these URL params even if WorkflowState has a
-    // different stale jurisdiction selected." Without this, clicking a link
-    // for Fruita while WorkflowState holds Boulder would silently load Boulder.
+    // Priority 0: An explicit geography in the address wins over the saved
+    // project. This also covers retained statewide and ?classic=1 pages;
+    // old links with auto=1 keep working, but that flag is not required.
     const urlParams = new URLSearchParams(window.location.search);
-    const urlAutoFlag = urlParams.get('auto') === '1';
     let urlGeoType = urlParams.get('geoType');
     const urlGeoid   = urlParams.get('geoid') || urlParams.get('fips');
     const urlRegion  = urlParams.get('region');
@@ -5387,7 +5384,7 @@
       window.HNAState.state.combinedMembers = parts.map(_combinedMemberFromUrlGeoid).slice(0, 6);
       if (window.HNAState.els.combineGeosToggle) window.HNAState.els.combineGeosToggle.checked = true;
     }
-    if (!restoredGeoType && urlAutoFlag && urlGeoType && urlGeoid) {
+    if (!restoredGeoType && urlGeoType && urlGeoid) {
       restoredGeoType = urlGeoType === 'cdp' ? 'place' : urlGeoType;
       restoredGeoId   = urlGeoid;
     }
@@ -5426,15 +5423,7 @@
       }
     }
 
-    // Priority 2: URL parameters without explicit auto flag (legacy fallback).
-    // Reuses the urlParams parsed at Priority 0 — only fires when WorkflowState
-    // wasn't set and the URL had geoType+geoid but no auto=1 marker.
-    if (!restoredGeoType && urlGeoType && urlGeoid) {
-      restoredGeoType = urlGeoType === 'cdp' ? 'place' : urlGeoType; // CDPs use 'place' geoType selector
-      restoredGeoId   = urlGeoid;
-    }
-
-    // Priority 3: SiteState.getCounty (legacy fallback)
+    // Priority 2: SiteState.getCounty (legacy fallback)
     if (!restoredGeoType && window.SiteState && typeof window.SiteState.getCounty === 'function') {
       const county = window.SiteState.getCounty();
       if (county && county.fips) {
