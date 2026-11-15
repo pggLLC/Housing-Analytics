@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T14:54:27.173Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T15:34:08.221Z. Do not edit by hand.
 
 ---
 
@@ -2562,7 +2562,7 @@
 | `test/ownership-rental-separation.test.js` | 16.1 KB |
 | `test/ownership-resale.test.js` | 16.5 KB |
 | `test/package-4-user-visible.test.js` | 7.8 KB |
-| `test/page-dates.test.mjs` | 9.6 KB |
+| `test/page-dates.test.mjs` | 10.8 KB |
 | `test/pages-availability-check.js` | 19.5 KB |
 | `test/pages-deploy-watchdog.test.js` | 10.7 KB |
 | `test/paper-figures-fresh.test.js` | 20.6 KB |
