@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T15:34:08.221Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T16:16:43.302Z. Do not edit by hand.
 
 ---
 
@@ -24,7 +24,7 @@
 | `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 225.7 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 21.0 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1000 B |
-| `commuting.html` | Commuting and Jobs | COHO Analytics | 10.1 KB |
+| `commuting.html` | Commuting and Jobs | COHO Analytics | 10.3 KB |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.5 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.5 KB |
@@ -1097,7 +1097,7 @@
 | `data/hna/lihtc/08121.json` | 249 B | ✅ | 0 features |
 | `data/hna/lihtc/08123.json` | 30.6 KB | ✅ | 29 features |
 | `data/hna/lihtc/08125.json` | 1.3 KB | ✅ | 1 features |
-| `data/hna/local-hna-comparisons.json` | 6.7 KB | ✅ | — |
+| `data/hna/local-hna-comparisons.json` | 6.6 KB | ✅ | — |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 6.5 KB | ✅ | — |
 | `data/hna/local-resources.json` | 181.8 KB | ✅ | — |
@@ -1882,7 +1882,7 @@
 | `data/market/co-urban-renewal-authorities.json` | 12.6 KB | ✅ | — |
 | `data/market/colorado-equity-pricing-factors.json` | 5.3 KB | ✅ | — |
 | `data/market/colorado-foreclosure-performance.json` | 48.4 KB | ✅ | — |
-| `data/market/commute-strength.json` | 142.5 KB | ✅ | — |
+| `data/market/commute-strength.json` | 158.0 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
 | `data/market/developable_land_context_co.json` | 1.37 MB | ✅ | — |
 | `data/market/development-activity.json` | 1.29 MB | ✅ | — |
@@ -1904,7 +1904,7 @@
 | `data/market/lodes_co.json` | 663.8 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
 | `data/market/market-direction.json` | 756.0 KB | ✅ | — |
-| `data/market/market-types.json` | 427.8 KB | ✅ | — |
+| `data/market/market-types.json` | 427.9 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/opportunity_zones_co_2027.json` | 24.1 KB | ✅ | — |
@@ -2174,7 +2174,7 @@
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
 | `test/colorado-guide-detail.test.js` | 13.3 KB |
 | `test/combined-geo.test.js` | 51.0 KB |
-| `test/commuting.test.mjs` | 5.1 KB |
+| `test/commuting.test.mjs` | 6.2 KB |
 | `test/compliance-checklist.test.js` | 24.4 KB |
 | `test/console-audit-exercises-controls.test.js` | 10.1 KB |
 | `test/content-date-freshness.test.mjs` | 7.9 KB |
@@ -2482,7 +2482,7 @@
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 8.9 KB |
-| `test/jurisdiction-whitepaper.test.mjs` | 47.2 KB |
+| `test/jurisdiction-whitepaper.test.mjs` | 47.7 KB |
 | `test/kalshi-signing-and-write.test.js` | 11.7 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-banking-awards.test.mjs` | 39.7 KB |
