@@ -366,7 +366,7 @@
           figures: [
             { value: plain(am.stabilized_vacancy_pct), label: 'Metro Denver apartment vacancy, ' + av.replace(/^(\d{4})-(Q\d)$/, '$2 $1') + ' (AAMD)' },
             { value: money(am.average_concession), label: 'Average concession a month, ' + av.replace(/^(\d{4})-(Q\d)$/, '$2 $1') + ' (AAMD)' },
-            { value: fs.latest_foreclosure_process_pct + '%', label: 'Mortgages in foreclosure, ' + String(fs.latest_period).replace(/^(\d{4})(Q\d)$/, '$2 $1') + ' (FHFA)' },
+            { value: fs.latest_foreclosure_process_pct + '%', label: 'Mortgages in foreclosure, bankruptcy or deed-in-lieu, ' + String(fs.latest_period).replace(/^(\d{4})(Q\d)$/, '$2 $1') + ' (FHFA)' },
             { value: fs.latest_serious_delinquency_pct + '%', label: 'Mortgages 90 days or more late, ' + String(fs.latest_period).replace(/^(\d{4})(Q\d)$/, '$2 $1') + ' (FHFA)' }
           ], more: 'Vacancy and rent by county, and late payments every quarter since 2015.' }) + '</div>') +
       sec('confidence', 'Consumer confidence and market sentiment', '<p>How builders and buyers feel about the market.</p>' +
@@ -429,6 +429,8 @@
     var pj = d.p123.jurisdictions, pc = pj.filter(function (j) { return j.kind === 'county'; }).length;
     var car = d.car, cs = car.statewide, carProjected = car.estimated && (!car.estimated_scopes || car.estimated_scopes.statewide);
     var hm = d.hmdaState, yrs = Object.keys(hm.years).sort(), y = yrs[yrs.length - 1], H = hm.years[y];
+    var top = Object.keys(d.hmdaCounty.counties).map(function (k) { var c = d.hmdaCounty.counties[k], r = c.years[y]; return r ? { county: c.name, orig: r.originations, vol: r.origination_volume_usd / 1e6, den: r.denial_rate * 100, mf: r.multifamily && r.multifamily.originations } : null; })
+      .filter(Boolean).sort(function (a, b) { return b.orig - a.orig; }).slice(0, 10);
     // The key metrics, the simulator and the lending figures were second copies (paul 15 Nov, "Go: fixes and cards"):
     // the metrics and lending live on the Economic dashboard and credit pricing on Tax credit equity markets. The
     // policy simulator is gone: its scenarios were typed in by hand with no dated source ($2.75 a resident against the
@@ -439,11 +441,11 @@
           figures: [
             cour ? { value: (+cour.value).toFixed(1) + '%', label: 'Colorado unemployment, ' + monthOf(cour.date) + ' (BLS)' } : null,
             { value: plain(am.stabilized_vacancy_pct), label: 'Metro Denver apartment vacancy, ' + String(d.aamd.meta.vintage).replace(/^(\d{4})-(Q\d)$/, '$2 $1') + ' (AAMD)' },
-            { value: fs.latest_foreclosure_process_pct + '%', label: 'Mortgages in foreclosure, ' + String(fs.latest_period).replace(/^(\d{4})(Q\d)$/, '$2 $1') + ' (FHFA)' }
+            { value: fs.latest_foreclosure_process_pct + '%', label: 'Mortgages in foreclosure, bankruptcy or deed-in-lieu, ' + String(fs.latest_period).replace(/^(\d{4})(Q\d)$/, '$2 $1') + ' (FHFA)' }
           ] }) +
         card({ from: 'Economic dashboard: mortgage credit', href: '#/places/economy?at=econ-credit', title: 'Home lending in Colorado, ' + y,
           figures: [{ value: num(H.originations), label: 'Home loans made' }, { value: plain(H.denial_rate * 100), label: 'Applications turned down' }],
-          more: 'Every county, multifamily lending and every year since ' + yrs[0] + ' are on the Economic dashboard.', source: 'CFPB HMDA' }) +
+          more: 'Every year since ' + yrs[0] + ' is on the Economic dashboard; lending by county is below.', source: 'CFPB HMDA' }) +
         card({ from: 'Tax credit equity markets', href: '#/equity-pricing', title: 'What a dollar of tax credit sells for',
           figures: [{ value: '$' + coP.median_all_credits.toFixed(2), label: 'Colorado median, all credit types, ' + d.nov.meta.vintage }],
           source: 'Novogradac' }) +
@@ -464,7 +466,14 @@
           { label: 'Active listings', value: cs.active_listings == null ? null : num(cs.active_listings), src: 'CAR', href: car.source_url },
           { label: 'Median days on market', value: cs.median_days_on_market == null ? null : cs.median_days_on_market + ' days', src: 'CAR', href: car.source_url },
           { label: 'Months of supply', value: cs.months_of_supply == null ? null : String(cs.months_of_supply), src: 'CAR', href: car.source_url }
-        ]) + src(car.source, car.source_url, monthOf(car.month) + ', generated ' + day(car.generated_at)), 3);
+        ]) + src(car.source, car.source_url, monthOf(car.month) + ', generated ' + day(car.generated_at)), 3) +
+      // County lending is drawn only here: the Economic dashboard carries the statewide series (Codex P2 on HA #2891).
+      sec('hmda-top', 'Mortgage lending: top 10 counties by originations, ' + y, UI.table('dd-hmda', 'Mortgage originations by county, ' + y, [
+          { key: 'county', label: 'County' }, { key: 'orig', label: 'Originations', num: true, fmt: num }, { key: 'vol', label: 'Volume ($M)', num: true, fmt: num },
+          { key: 'den', label: 'Denial rate', num: true, fmt: function (v) { return plain(v); } }, { key: 'mf', label: 'Multifamily loans', num: true, fmt: num, tip: 'Loans secured by buildings of five or more homes' }
+        ], top, { noun: 'counties', placeholder: 'County' }) +
+        '<p class="note">Denial rate = denials ÷ (originations + approved not accepted + denials). Multifamily = HMDA dwelling category “Multifamily: site-built”.</p>' +
+        src('HMDA mortgage lending by county (CFPB HMDA Data Browser API)', 'https://ffiec.cfpb.gov/data-browser/', 'updated ' + day(d.hmdaCounty.meta.generated_at)), 3);
   }
 
   // ---------- 5. Affordability geography ----------

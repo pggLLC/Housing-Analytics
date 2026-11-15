@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "f0c30ef0d25d350745c88ced692967df2ffb8a16",
+  "commit": "a709373baadad323554456351117c3f11165439b",
   "dirty": false
  },
  "files": {
@@ -60,7 +60,7 @@
   "hub/deal-town.js": "ff1d569519879d746c28fc8bd1ba4fdcadd3d084893bbcdceacb4b99b239a998",
   "hub/deals.js": "83c0306b335903d67893ff0bdc01766750da61d6f3c1bffb6e1381ded20ad1cd",
   "hub/deep-dive.css": "92b76ff0fc6aa72e72dad971fcc9394d3eacb581e75db038b01700b625fcc606",
-  "hub/deep-dive.js": "ff9934f35362f0bf0608e525fb57bce590d144f834978e03444789e2149675ac",
+  "hub/deep-dive.js": "322c02661ffa39b775d63c51ddc237f908f5d1e4664fdff4fc247d4b551be89f",
   "hub/design-guide.css": "0af1c6a4375ac1f7c859c36191b1602b85915ed8ac8b75a8d6a0e8e00fbe02a9",
   "hub/design-guide.js": "cc76b6f718a3b0b197be657af7d5b03f05dc860d9525c658b7ae9f4152fbe9ae",
   "hub/economy.css": "fa070ef297c5247ab1a316c0721ba21dc3bb8db7a6460fc4d3ab3851d2e93ef6",
