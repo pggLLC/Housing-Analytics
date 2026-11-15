@@ -1617,3 +1617,19 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .news-local:empty { display: none; }
 .news-local-name { font-weight: 600; color: var(--ink); }
 .data-table td .news-local { max-width: 48ch; }
+
+/* Summary card: one analysis, shown away from its home page (duplicates batch 2). */
+.sum-card { border: 1px solid var(--line-strong); border-left: 4px solid var(--pine); border-radius: 8px; padding: .9rem 1rem; margin: 1rem 0 1.25rem; background: var(--paper); }
+.sum-card .sum-from { margin: 0 0 .35rem; font-size: .85rem; color: var(--muted); text-transform: none; }
+.sum-card .sum-from a { color: var(--pine); font-weight: 600; }
+.sum-card .sum-title { margin: 0 0 .5rem; font-size: 1.05rem; }
+.sum-card .sum-figs { list-style: none; margin: 0 0 .5rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr)); gap: .5rem 1rem; }
+.sum-card .sum-figs li { display: flex; flex-direction: column; }
+.sum-card .sum-v { font-size: 1.45rem; font-weight: 700; color: var(--ink); line-height: 1.2; }
+.sum-card .sum-l { font-size: .9rem; color: var(--ink); }
+.sum-card .sum-more, .sum-card .sum-src { margin: 0 0 .4rem; font-size: .88rem; color: var(--muted); }
+.sum-card .sum-go { margin: .2rem 0 0; display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; }
+.sum-card .sum-go a { font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
+@media print { .sum-card { break-inside: avoid; } }
+.ic-next { list-style: none; margin: .5rem 0; padding: 0; }
+.ic-next li { padding: .4rem 0; border-bottom: 1px solid var(--line); }

@@ -10,6 +10,15 @@
 
   // Per guide: where it sits, its key facts (each quoted from the guide, with the guide's own source),
   // and where to go next. Facts and the diagram are the lab's additions and say so on the page.
+  function aboutToMethods(title, more) {
+    return function (html) {
+      var T = global.LabTpl;
+      if (!T || !T.summary) return html;
+      return T.summary({ from: 'How the numbers are made (Methods)', href: '#/guide/methods', title: title, more: more }) +
+        '<details class="counted"><summary>The short version on this page</summary>' + html + '</details>';
+    };
+  }
+
   var GUIDES = {
     'lihtc-basics': {
       menu: 'deal',
@@ -61,7 +70,10 @@
     // The full homebuyer page: every program card (open, expired and proposed) and the local help list, as its own
     // page draws them from the site's program file. Housing help (#/assistance) is the short way in.
     'homebuyer-help': { crumbs: [{ label: 'Home', href: '#/' }, { label: 'Housing help', href: '#/assistance' }], introTitle: 'Start here', next: [{ href: '#/assistance', label: 'All housing help \u2192' }, { href: '#/for-sale', label: 'What a household can afford to buy', secondary: true }] },
-    'about': { menu: 'data', diagram: cardsFrom({ from: 'core-sources', title: 'Where the data comes from' }), introTitle: 'In short', next: [{ href: '#/guide/methods', label: 'How the numbers are made \u2192' }, { href: '#/data/sources', label: 'Data sources', secondary: true }] },
+    // Batch 2 (paul 15 Nov, one home per analysis): how the numbers are made lives on Methods. About's Methodology
+    // part becomes a card to it (Site Calculations stays: Methods does not hold those formulas), with About's own short text kept in a fold beneath, so nothing is lost.
+    'about': { menu: 'data', inserts: { 'methodology': aboutToMethods('How COHO builds its figures', 'Tract-to-place apportionment, cost burden, the seven ownership models, the scoring chain, how missing figures are handled, and why each method was chosen.') },
+      diagram: cardsFrom({ from: 'core-sources', title: 'Where the data comes from' }), introTitle: 'In short', next: [{ href: '#/guide/methods', label: 'How the numbers are made \u2192' }, { href: '#/data/sources', label: 'Data sources', secondary: true }] },
     // Written by the lab (no live page has this), from the primary sources each section links.
     'preservation': {
       menu: 'opportunities', introTitle: 'Why it matters',

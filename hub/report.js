@@ -87,7 +87,7 @@
       ]) + (r.fig || '<p class="note">No home value or income limit is published for this place.</p>');
 
     // 3. Twenty-year need: the HNA's own chapter.
-    var three = '<h2>3. Twenty-year need</h2>' + global.LabHna.chapter(s.c, g, 'future', s.entry, s.place);
+    var three = '<h2>3. Twenty-year need</h2><p class="note"><span class="cn-ten">All homes</span> Rented and owned, from the State Demography Office forecast.</p>' + global.LabHna.chapter(s.c, g, 'futureBrief', s.entry, s.place);
 
     // 4. Rental market.
     var rent = M.rentPart(s), supply = M.supplyPart(s);
