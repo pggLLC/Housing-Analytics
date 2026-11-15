@@ -165,15 +165,131 @@
     return rows < MAX_COMPS ? '<button type="button" class="button-link secondary" data-lv-add="1">Add a sale</button>'
       : '<span class="note" tabindex="-1" data-lv-full="1">' + MAX_COMPS + ' sales is the most this page takes.</span>';
   }
+  // ---- Sales found near the site (js/land-comps.js) ------------------------------------------------------------
+  // The free site shows the summary only: how many sales, the rules that picked them, the spread, the middle and
+  // where the asking price ranks. Each sale is listed on the member site brief; the state forbids resale of rows.
+  var auto = { key: '', state: 'idle', summary: null, county: null, error: '', accessed: '' };
+  var MEMBER_BRIEF = 'https://coho-backend.communityplanner.workers.dev/developer-site-brief.html';
+  function autoKey(p) { return (p.get('addr') || '').trim().toLowerCase() + '|' + val(p, 'acres'); }
+  function perAcre(n) { return Number.isFinite(n) ? money(n) + ' an acre' : '—'; }
+  function yr(d) { return d ? d.slice(0, 4) : ''; }
+
+  // A strip of the sales' $ per acre on a spread-out (log) scale, so a $20,000 and a $2 million acre both show:
+  // the middle half as a box, the middle as a line, the asking price as a mark.
+  function spreadStrip(s) {
+    if (!(s.count >= 3) || !(s.ppaMin > 0)) return '';
+    // The scale runs over the sales and the asking price together, and its end labels name its real ends.
+    var bottom = Math.min(s.ppaMin, s.ask && s.ask.ppa > 0 ? s.ask.ppa : Infinity), top = Math.max(s.ppaMax, s.ask ? s.ask.ppa : 0, bottom * 1.01);
+    var lo = Math.log(bottom), hi = Math.log(top);
+    var x = function (v) { return Math.max(0, Math.min(100, (Math.log(v) - lo) / (hi - lo) * 100)).toFixed(1) + '%'; };
+    var ask = s.ask ? '<span class="lvs-ask" style="left:' + x(s.ask.ppa) + '" title="' + esc('Asking price: ' + perAcre(s.ask.ppa)) + '"></span>' : '';
+    return '<div class="lvs-strip" aria-hidden="true"><span class="lvs-track"></span>' +
+      '<span class="lvs-box" style="left:' + x(s.q1) + ';width:calc(' + x(s.q3) + ' - ' + x(s.q1) + ')"></span>' +
+      '<span class="lvs-mid" style="left:' + x(s.median) + '"></span>' + ask + '</div>' +
+      '<p class="lvs-ends note" aria-hidden="true"><span>' + esc(money(bottom)) + '</span><span>' + esc(money(top)) + ' an acre</span></p>' +
+      '<p class="note lvs-key"><span class="lvs-ki"><span class="lvs-k lvs-k-box"></span>Middle half of sales</span><span class="lvs-ki"><span class="lvs-k lvs-k-mid"></span>Middle</span>' + (s.ask ? '<span class="lvs-ki"><span class="lvs-k lvs-k-ask"></span>Asking price</span>' : '') + '</p>' +
+      '<p class="note">Spread-out scale, so low and high sales both show.</p>';
+  }
+
+  function autoPanel(p) {
+    var L = global.LandComps;
+    if (!L || !global.CohoGeocode) return '';
+    var head = '<h2>Land sales near the site</h2>';
+    if (!(p.get('addr') || '').trim()) return head + '<p class="note">Enter the site’s address and acres, then press “Find sales”. CoHO looks up recorded sales of vacant land nearby.</p>';
+    if (!(val(p, 'acres') > 0)) return head + '<p class="note">Enter the site’s acres too, so CoHO can pick land of a similar size.</p>';
+    if (auto.key !== autoKey(p) || auto.state === 'idle') return head + '<p class="note">Press “Find sales” to look up recorded land sales near this address.</p>';
+    if (auto.state === 'busy') return head + '<p class="note" role="status">Looking up sales near the site…</p>';
+    if (auto.state === 'error') return head + '<p class="callout">' + esc(auto.error) + '</p>';
+    var s = auto.summary, r = s.rule, ask = val(p, 'ask');
+    var finding = s.count >= L.MIN_FOR_MIDDLE ? 'Vacant land like this sold for a middle of ' + perAcre(s.median)
+      : s.count ? 'Only ' + s.count + (s.count === 1 ? ' sale' : ' sales') + ' found: too few for a middle value' : 'No recorded vacant-land sales found nearby';
+    var rows = [];
+    if (s.count) rows.push(['Sales found', s.count + ' vacant-land ' + (s.count === 1 ? 'sale' : 'sales') + ' within ' + s.milesMax.toFixed(1) + ' miles, ' + (Math.round(s.acresMin * 10) / 10) + ' to ' + (Math.round(s.acresMax * 10) / 10) + ' acres, sold ' + (yr(s.dateMin) === yr(s.dateMax) ? yr(s.dateMin) : yr(s.dateMin) + ' to ' + yr(s.dateMax)) + '.']);
+    rows.push(['How they were picked', 'Within ' + r.miles + ' miles, ' + r.lo + ' to ' + r.hi + ' times the site’s acres, sold since ' + yr(r.since) + ', vacant land only.' + (s.widened ? ' Widened from 5 miles and 2023 because fewer than ' + L.ENOUGH + ' sales were found.' : '')]);
+    if (s.count >= L.MIN_FOR_MIDDLE) {
+      rows.push(['Middle half', perAcre(s.q1) + ' to ' + perAcre(s.q3) + '. For ' + val(p, 'acres') + ' acres that is ' + money(s.q1 * val(p, 'acres')) + ' to ' + money(s.q3 * val(p, 'acres')) + '.']);
+      rows.push(['Lowest and highest', perAcre(s.ppaMin) + ' and ' + perAcre(s.ppaMax) + '.']);
+    }
+    if (s.ask) rows.push(['Your asking price', perAcre(s.ask.ppa) + ', above ' + s.ask.above + ' of ' + s.ask.of + ' sales.']);
+    else if (s.count && !(ask > 0)) rows.push(['Your asking price', 'Enter it above to see where it ranks.']);
+    var warn = [];
+    if (auto.county && L.NO_VACANT_LABEL.indexOf(auto.county) >= 0) warn.push(auto.county + ' County’s records don’t say which land is vacant, so none of its sales are used. These come from neighbouring counties.');
+    if (auto.truncated) warn.push('There were more sales than one look-up returns, so some may be missing.');
+    var files = s.counties.map(function (c) { return c.county + ' (file received ' + c.fileDate + ')'; }).join(', ');
+    return head + '<figure class="lv-band lvs"><figcaption><strong>' + esc(finding) + '</strong></figcaption>' + spreadStrip(s) +
+      '<dl class="lvs-facts">' + rows.map(function (x) { return '<dt>' + esc(x[0]) + '</dt><dd>' + esc(x[1]) + '</dd>'; }).join('') + '</dl>' +
+      warn.map(function (w) { return '<p class="callout">' + esc(w) + '</p>'; }).join('') +
+      '<p class="note">Source: <a href="' + L.SOURCE_PAGE + '" rel="noopener">State of Colorado public parcels</a>, accessed ' + esc(auto.accessed) + (files ? '. Counties: ' + esc(files) : '') +
+      '. Each parcel shows only its last sale, so land later built on drops out. Prices are as recorded, with no adjustment for time. Sales between relatives can’t be screened out. From records, arithmetic only: not an appraisal.</p>' +
+      '<p class="note">Members see each sale on a map with its county record: <a href="' + MEMBER_BRIEF + '">site brief</a>.</p></figure>';
+  }
+
+  // The four best-use tests and the open questions, from what is known so far.
+  var STATUS = { checked: 'Checked', partly: 'Partly checked', not_checked: 'Not checked' };
+  // key: the current site's look-up key, so a summary from an earlier address or acreage is never used here.
+  function bestUsePanel(st, r, key) {
+    var L = global.LandComps;
+    if (!L) return '';
+    var tests = L.bestUse({ zoning: st.zoning, zoningSource: st.zoning ? 'your entry' : '', acres: st.siteAcres, homes: st.totalUnits, residual: r.res ? r.res.adjustedResidual : null });
+    var qs = L.questions({ zoning: st.zoning, summary: auto.state === 'done' && auto.key === key ? auto.summary : null });
+    return '<section class="lvb"><h2>Best use: a first read</h2><p class="note">The four tests an appraiser uses, marked by how far CoHO can check them.</p><ol class="lvb-tests">' +
+      tests.map(function (t) {
+        return '<li class="lvb-' + t.result.status + '"><span class="lvb-q">' + esc(t.title) + '</span><span class="lvb-a">' + esc(t.result.answer) + '</span>' + (t.result.answer === STATUS[t.result.status] ? '' : '<span class="lvb-s">' + esc(STATUS[t.result.status]) + '</span>') + '<span class="lvb-t note">' + esc(t.result.text) + '</span></li>';
+      }).join('') + '</ol>' +
+      '<h3>What to find out next</h3><ol class="lvb-next">' + qs.map(function (x) { return '<li>' + esc(x.text) + '</li>'; }).join('') + '</ol></section>';
+  }
+
+  // Looks up the sales for the address and acres in p, then redraws the panels.
+  function findSales(p) {
+    var L = global.LandComps, G = global.CohoGeocode;
+    var key = autoKey(p), acres = val(p, 'acres');
+    auto = { key: key, state: 'busy', summary: null, county: null, error: '', accessed: '' };
+    paintAuto(p);
+    G.find(p.get('addr')).then(function (hit) {
+      if (!hit) throw new Error('That address wasn’t found in Colorado. Try adding the town, or a nearby street address.');
+      var subject = { lat: hit.lat, lon: hit.lon, acres: acres };
+      return Promise.all([L.fetchNear(subject), L.countyAt(subject).catch(function () { return null; })]).then(function (x) {
+        if (auto.key !== key) return;
+        var picked = L.pick(subject, x[0].sales);
+        auto = { key: key, state: 'done', summary: L.summarize(picked, subject, val(p, 'ask')), county: x[1], truncated: x[0].truncated, error: '', accessed: x[0].accessed };
+      });
+    }).catch(function (e) {
+      if (auto.key !== key) return;
+      auto = { key: key, state: 'error', summary: null, county: null, error: (e && e.message) || 'The look-up did not finish. Try again.', accessed: '' };
+    }).then(function () {
+      if (auto.key !== key) return;
+      // Paint with the form as it is now: the reader may have changed the price or the deal while the look-up ran.
+      var form = document.querySelector('[data-lv-form]'), now = form ? formParams(form) : p;
+      if (autoKey(now) !== key) { auto = { key: '', state: 'idle', summary: null, county: null, error: '', accessed: '' }; paintAuto(now); return; }
+      paintAuto(now);
+      // On a phone the panel sits below the form: bring the answer into view.
+      var box = document.querySelector('.lv-auto');
+      if (box && global.innerWidth < 860 && box.scrollIntoView) box.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
+  }
+  // The results first: they rank the asking price again from the sales found, and the sales panel shows that rank.
+  function paintAuto(p) {
+    var out = document.querySelector('.lv-out');
+    if (out && global.LandValueTool) out.innerHTML = results(p);
+    var box = document.querySelector('.lv-auto');
+    if (box) box.innerHTML = autoPanel(p);
+  }
+
   // The results panel, for the inputs in p. Drawn with the page, and again on its own after each change.
   function results(p) {
     var st = stateFrom(p), r = result(st);
+    // The asking price can change after a look-up: rank it again from the sales already found.
+    if (auto.state === 'done' && auto.key === autoKey(p) && auto.summary && auto.summary.count && global.LandComps) {
+      var s0 = auto.summary, a = val(p, 'ask');
+      s0.ask = a > 0 && st.siteAcres > 0 && s0.ppaSorted ? { ppa: a / st.siteAcres, above: s0.ppaSorted.filter(function (v) { return v < a / st.siteAcres; }).length, of: s0.count } : null;
+    }
     return '<h2>Land value negotiation support</h2>' + '<div class="metrics">' +
       '<div class="metric"><p class="metric-title">Market value from your sales</p><p class="metric-value">' + esc(r.comps ? money(r.comps.estimatedValue) : '—') + '</p><p class="metric-detail">' + esc(r.comps ? 'Median ' + money(r.comps.medianPerAcre) + ' an acre from ' + r.comps.count + (r.comps.count === 1 ? ' sale' : ' sales') + '. Range ' + money(r.comps.rangeValue.low) + ' to ' + money(r.comps.rangeValue.high) + '.' : 'Enter at least one sale with acres and price.') + '</p></div>' +
       '<div class="metric"><p class="metric-title">Most the deal can pay for land</p><p class="metric-value">' + esc(r.res ? money(r.res.adjustedResidual) : '—') + '</p><p class="metric-detail">' + esc(r.res ? (st.totalUnits > 0 ? money(r.res.perUnit) + ' a home. ' : '') + (st.siteAcres > 0 ? money(r.res.perAcre) + ' an acre. ' : '') + (r.res.adjustedResidual > 0 ? 'Sources minus cost, less off-site and cleanup costs.' : 'As entered, the sources ' + (r.res.grossResidual > 0 ? 'leave ' + money(r.res.grossResidual) + ', which off-site and cleanup costs use up' : 'do not cover the cost before land') + ', so nothing is left for land.') : 'Enter development cost and equity and first mortgage.') + '</p></div>' +
       askCard(r.ask, st.totalUnits) +
       '<div class="metric"><p class="metric-title">How complete the inputs are</p><p class="metric-value">' + esc(CONF[r.conf.level] + ', ' + r.conf.score + ' of 100') + '</p><p class="metric-detail">The tool’s own completeness check: sales, project figures and site details. It is not a measure of accuracy.</p></div>' +
       '</div>' + bandChart(r.band, r.ask) +
+      bestUsePanel(st, r, autoKey(p)) +
       '<p class="note">This page keeps your figures in its link, so you can copy the address to share it. Nothing is saved anywhere else.</p>';
   }
 
@@ -184,6 +300,7 @@
       return '<label class="lv-field"><span>' + esc(f.label) + '</span><input type="number" inputmode="decimal" min="0" step="' + f.step + '" data-lv="' + f.id + '" value="' + esc(p.get(f.id) || '') + '" placeholder="For example ' + esc(f.money ? money(Number(f.ex)) : f.ex) + '"></label>';
     };
     var compRows = '', rows = rowCount(p);
+    if (global.LandComps && global.CohoGeocode && (p.get('addr') || '').trim() && val(p, 'acres') > 0 && auto.key !== autoKey(p)) setTimeout(function () { findSales(p); }, 0);
     for (var i = 1; i <= rows; i++) compRows += compRow(i, p);
     return T.head({
       kind: 'tool', crumbs: T.trail('opportunities', 'Land value'), title: 'Land value',
@@ -192,15 +309,18 @@
       meta: '<span class="scope-tag">Not an appraisal</span> For an offer letter or financing, use an MAI or state-certified appraiser.'
     }) +
       '<div class="lv-layout"><form class="lv-form" data-lv-form="1" data-lv-rows="' + rows + '" onsubmit="return false">' +
-      '<fieldset><legend>The site</legend>' + FIELDS.slice(0, 2).map(input).join('') + input(ASK) +
+      '<fieldset><legend>The site</legend>' +
+      (global.LandComps && global.CohoGeocode ? '<label class="lv-field"><span>Site address</span><input type="text" autocomplete="street-address" data-lv="addr" value="' + esc(p.get('addr') || '') + '" placeholder="For example 1200 Main St, Durango"></label>' : '') +
+      FIELDS.slice(0, 2).map(input).join('') + input(ASK) +
+      (global.LandComps && global.CohoGeocode ? '<p class="lv-add"><button type="button" class="button-link" data-lv-find="1">Find sales near this site</button></p>' : '') +
       '<label class="lv-field"><span>Zoning</span><select data-lv="zoning">' + ZONING.map(function (z) { return '<option value="' + z[0] + '"' + (p.get('zoning') === z[0] ? ' selected' : '') + '>' + esc(z[1]) + '</option>'; }).join('') + '</select></label></fieldset>' +
       '<fieldset><legend>Recent land sales nearby</legend><p class="note">Three or more sales of similar zoning within about five miles. County assessor records and local brokers are the usual sources.</p>' +
       '<div class="table-scroll"><table class="lv-comps" data-no-source="input: sales the visitor enters"><thead><tr><th scope="col">#</th><th scope="col">Address or note</th><th scope="col">Acres</th><th scope="col">Price</th><th scope="col">Year</th></tr></thead><tbody>' + compRows + '</tbody></table></div><p class="lv-add">' + addSale(rows) + '</p></fieldset>' +
       '<fieldset><legend>What the project can pay</legend><p class="note">Take these from the Deal Calculator if you have run the deal.</p>' + FIELDS.slice(2, 8).map(input).join('') + '</fieldset>' +
       '<fieldset><legend>Public land</legend>' + input(FIELDS[8]) + '<p class="note">100% means donated land, 50% half the market price.</p></fieldset>' +
-      '</form><section class="lv-out" aria-live="polite">' + results(p) + '</section></div>' +
+      '</form><div class="lv-side"><section class="lv-auto" aria-live="polite">' + autoPanel(p) + '</section><section class="lv-out" aria-live="polite">' + results(p) + '</section></div></div>' +
       guide() +
-      '<details class="counted"><summary>What this does not cover</summary><p>It does not use live sales or assessor data, entitlement risk or a ground lease. Off-site and cleanup costs count only if you enter them. The arithmetic is the same as the <a href="' + LIVE + '">full Land value tool</a>.</p></details>' +
+      '<details class="counted"><summary>What this does not cover</summary><p>The sales look-up uses each parcel’s last recorded sale in the counties that send prices to the state (22 of 64 counties). It does not cover entitlement risk or a ground lease. Off-site and cleanup costs count only if you enter them. The arithmetic is the same as the <a href="' + LIVE + '">full Land value tool</a>.</p></details>' +
       T.next('Next', [{ href: '#/deal-calculator', label: 'Test the deal with this land cost →' }, { href: '#/opportunity/preservation', label: 'Homes that could be lost', secondary: true }]);
   }
 
@@ -220,12 +340,22 @@
     history.replaceState(null, '', '#/opportunity/land-value' + (String(p) ? '?' + p : ''));
     var out = document.querySelector('.lv-out');
     if (out && global.LandValueTool) out.innerHTML = results(p);
+    var box = document.querySelector('.lv-auto');
+    if (box) box.innerHTML = autoPanel(p);
   }
   document.addEventListener('change', function (ev) {
     var el = ev.target;
     if (!el.dataset || !el.dataset.lv) return;
     var form = el.closest('[data-lv-form]');
     if (form) update(form);
+  });
+  document.addEventListener('click', function (ev) {
+    var b = ev.target.closest && ev.target.closest('[data-lv-find]');
+    var form = b && b.closest('[data-lv-form]');
+    if (!form) return;
+    var p = formParams(form);
+    history.replaceState(null, '', '#/opportunity/land-value' + (String(p) ? '?' + p : ''));
+    findSales(p);
   });
   // "Add a sale": one more row at the foot of the table, with the cursor in it. Nothing typed so far is touched.
   document.addEventListener('click', function (ev) {
@@ -242,5 +372,5 @@
     if (first) first.focus();
   });
 
-  global.LabLandValue = { view: view, stateFrom: stateFrom, result: result, rowCount: rowCount };
+  global.LabLandValue = { view: view, stateFrom: stateFrom, result: result, rowCount: rowCount, autoPanel: autoPanel, findSales: findSales, _auto: function () { return auto; } };
 })(window);
