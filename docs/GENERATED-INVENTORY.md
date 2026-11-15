@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T12:56:34.792Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T13:19:04.280Z. Do not edit by hand.
 
 ---
 
@@ -33,13 +33,13 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.3 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-hub.html` | Data and methods · COHO Analytics | 10.2 KB |
+| `data-hub.html` | Data and methods · COHO Analytics | 10.3 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 85.0 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
 | `deal-hub.html` | Build a deal · COHO Analytics | 10.2 KB |
-| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 161.2 KB |
+| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 159.7 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 7.5 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 60.3 KB |
@@ -58,15 +58,15 @@
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 37.9 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.8 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 148.8 KB |
-| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 149.3 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 187.1 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 179.6 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 147.9 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 149.1 KB |
+| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 149.7 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 187.4 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 179.9 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 148.2 KB |
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 53.4 KB |
 | `housing-help.html` | If You Need Housing Now | COHO Analytics | 17.2 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.7 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 265.3 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 265.6 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 12.2 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.2 KB |
@@ -81,9 +81,9 @@
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 88.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
-| `opportunities-hub.html` | Opportunities · COHO Analytics | 10.2 KB |
+| `opportunities-hub.html` | Opportunities · COHO Analytics | 10.3 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
-| `places-hub.html` | Places and need · COHO Analytics | 10.2 KB |
+| `places-hub.html` | Places and need · COHO Analytics | 10.3 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 53.6 KB |
 | `policy-hub.html` | Policy and research · COHO Analytics | 10.2 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
@@ -136,7 +136,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 693.4 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 683.4 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -345,7 +345,7 @@
 | `data/hna/acs-reliability.json` | 651.1 KB | ✅ | — |
 | `data/hna/benchmarks.json` | 9.1 KB | ✅ | — |
 | `data/hna/chas_affordability_gap.json` | 162.7 KB | ✅ | — |
-| `data/hna/chas_affordable_available.json` | 612.9 KB | ✅ | — |
+| `data/hna/chas_affordable_available.json` | 1.09 MB | ✅ | — |
 | `data/hna/combined-regions.json` | 1.4 KB | ✅ | — |
 | `data/hna/cross-county-places.json` | 9.7 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
@@ -2075,7 +2075,7 @@
 | `data/policy_briefs_curated.json` | 241.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 220.3 KB | ✅ | — |
+| `data/polymarket-history.json` | 222.4 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2153,7 +2153,7 @@
 | `test/census-acs-state-tenure-field.test.js` | 1.2 KB |
 | `test/census-dashboard-scope.test.js` | 2.3 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
-| `test/chas-affordable-available.test.js` | 6.0 KB |
+| `test/chas-affordable-available.test.js` | 7.3 KB |
 | `test/chas-tier-shares.test.js` | 6.9 KB |
 | `test/chfa-award-coverage.test.mjs` | 5.0 KB |
 | `test/chfa-cost-basis-limits.test.js` | 5.7 KB |
@@ -2374,7 +2374,7 @@
 | `test/hna-assumption-defaults.test.js` | 10.7 KB |
 | `test/hna-build-rebase-recovery.test.js` | 8.5 KB |
 | `test/hna-car-loader.test.js` | 5.5 KB |
-| `test/hna-cdp-deep-link.test.js` | 4.9 KB |
+| `test/hna-cdp-deep-link.test.js` | 8.2 KB |
 | `test/hna-chapter-handoff.test.mjs` | 10.8 KB |
 | `test/hna-chas-rerender.test.js` | 2.3 KB |
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
@@ -2411,7 +2411,7 @@
 | `test/hna-phase2-stubs-wired.test.js` | 8.0 KB |
 | `test/hna-phone-speed-f9.test.js` | 11.5 KB |
 | `test/hna-profile-fetch-batches.test.js` | 5.2 KB |
-| `test/hna-projection-integrity.test.js` | 59.7 KB |
+| `test/hna-projection-integrity.test.js` | 61.8 KB |
 | `test/hna-prop123-relationship.test.js` | 17.8 KB |
 | `test/hna-provenance-disclosure.test.js` | 4.0 KB |
 | `test/hna-qct-dda-unavailable.test.js` | 11.0 KB |
@@ -2436,13 +2436,13 @@
 | `test/hna-unknown-geoid.test.js` | 2.8 KB |
 | `test/hna-view-content-parity.test.js` | 6.9 KB |
 | `test/hna-workflow-autosave.test.js` | 4.2 KB |
-| `test/home-answer-card.test.js` | 11.7 KB |
+| `test/home-answer-card.test.js` | 11.9 KB |
 | `test/home-jurisdiction-search.test.js` | 8.7 KB |
-| `test/home-need-map-legend-colors.test.js` | 3.8 KB |
+| `test/home-need-map-legend-colors.test.js` | 4.1 KB |
 | `test/home-step-cards-match-destinations.test.js` | 5.4 KB |
 | `test/home-value-integrity.test.mjs` | 19.1 KB |
 | `test/homeownership-programs.test.js` | 8.7 KB |
-| `test/homepage-claims.test.js` | 22.5 KB |
+| `test/homepage-claims.test.js` | 22.2 KB |
 | `test/homepage-job-routing.test.js` | 13.7 KB |
 | `test/homepage-snapshot.test.js` | 16.8 KB |
 | `test/homes-short-agreement.test.js` | 4.4 KB |
@@ -2511,7 +2511,7 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.4 KB |
-| `test/market-analysis-hub-page.test.mjs` | 33.3 KB |
+| `test/market-analysis-hub-page.test.mjs` | 44.7 KB |
 | `test/market-construction.test.js` | 6.5 KB |
 | `test/market-direction-tab.test.mjs` | 25.6 KB |
 | `test/market-geography-binding.test.mjs` | 17.9 KB |
@@ -2546,7 +2546,7 @@
 | `test/no-synthesized-chfa-awards.test.js` | 4.5 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/notify-cancelled-outcome.test.js` | 3.5 KB |
-| `test/old-pages-forward.test.mjs` | 20.7 KB |
+| `test/old-pages-forward.test.mjs` | 23.0 KB |
 | `test/one-canonical-step-sequence.test.mjs` | 6.2 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
@@ -2590,7 +2590,7 @@
 | `test/place-lehd-apportionment.test.js` | 4.8 KB |
 | `test/place-pages.test.js` | 6.9 KB |
 | `test/place-profile-format.test.mjs` | 7.0 KB |
-| `test/places-hub-port.test.js` | 8.5 KB |
+| `test/places-hub-port.test.js` | 8.6 KB |
 | `test/planned-sources-are-not-unknown.test.js` | 8.1 KB |
 | `test/pma-affordable-supply-label.test.js` | 3.0 KB |
 | `test/pma-affordable-supply-units.test.js` | 9.1 KB |
@@ -2731,7 +2731,7 @@
 | `test/state-allocations-abbr.test.js` | 3.2 KB |
 | `test/state-housing-laws.test.js` | 6.0 KB |
 | `test/step-count-agreement.test.mjs` | 10.8 KB |
-| `test/step-labels-agree.test.mjs` | 5.9 KB |
+| `test/step-labels-agree.test.mjs` | 6.9 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
 | `test/subject-project-linked-place.test.js` | 4.0 KB |
 | `test/submittal-review-round-two.test.mjs` | 9.5 KB |

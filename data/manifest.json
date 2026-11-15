@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-15T13:08:12.104369Z",
+  "generated": "2026-11-15T13:19:34.797596Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1033288
+      "bytes": 1033289
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -1234,7 +1234,7 @@
     "data/hna/chas_affordable_available.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 627655
+      "bytes": 1141034
     },
     "data/hna/combined-regions.json": {
       "featureCount": 0,
@@ -9314,7 +9314,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16182
+      "bytes": 16184
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
