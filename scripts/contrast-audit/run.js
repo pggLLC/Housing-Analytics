@@ -372,7 +372,8 @@ async function auditPage(page, url, doFix) {
   };
 
   for (const pagePath of PAGES) {
-    const url = BASE_URL + '/' + pagePath;
+    // Pages that forward to a hub view (js/path-resolver.js) are measured as written (?classic=1); the hubs are audited on their own.
+    const url = BASE_URL + '/' + pagePath + (/^(economic-dashboard|colorado-deep-dive)\.html$/.test(pagePath) ? '?classic=1' : '');
     let result;
     try {
       result = await auditPage(page, url, FIX_MODE);

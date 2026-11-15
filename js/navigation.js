@@ -38,7 +38,7 @@
       items: [
         { label: "Places and need", href: "places-hub.html", desc: "Start here: one place's need, people, homes and prices", isNew: true },
         { label: "Build a deal", href: "deal-hub.html", desc: "Start here: market check, calculator and recommendation in order", isNew: true },
-        { label: "The Affordable Housing Pipeline",  href: "pipeline.html", desc: "Eight stages from housing need to housing built", isNew: true },
+        { label: "The Affordable Housing Pipeline",  href: "deal-hub.html#/pipeline", desc: "Eight stages from housing need to housing built", isNew: true },
         { label: "LIHTC Guide",             href: "lihtc-guide-for-stakeholders.html", desc: "LIHTC basics. Start here" },
         { label: "— Rental (LIHTC) —", isHeader: true },
         { label: "Select Jurisdiction",     href: "select-jurisdiction.html",       desc: "Step 1: Pick a county or town" },
@@ -51,7 +51,7 @@
         { label: "What to do about it", href: "hna-what-to-do.html", isSub: true, desc: "How much of what, for whom, and what is already available?" },
         { label: "Market Analysis",         href: "deal-market-analysis.html",           desc: "Step 4: Score a site and its market area" },
         { label: "Scenario Builder",        href: "hna-scenario-builder.html",      desc: "Step 5: 20-year demographic projections" },
-        { label: "Funding Sources",         href: "colorado-deep-dive.html#tab-funding", desc: "Colorado programs that fit your project" },
+        { label: "Funding Sources",         href: "places-hub.html#/places/deep-dive?tab=funding", desc: "Colorado programs that fit your project" },
         { label: "Deal Calculator",         href: "deal-calculator.html",           desc: "Step 6: LIHTC pro forma & capital stack" },
         { label: "Recommendation",          href: "recommendation.html",            desc: "Step 7: What the steps add up to" },
         { label: "— For-Sale / Ownership —", isHeader: true },
@@ -66,14 +66,14 @@
       items: [
         { label: "Opportunities", href: "opportunities-hub.html", desc: "Start here: where tax credit deals fit, and what to preserve", isNew: true },
         { label: "Compare Opportunity Scores", href: "places-hub.html#/places/compare",                 desc: "2 to 6 places side by side", isNew: true },
-        { label: "Compare Jurisdictions", href: "hna-comparative-analysis.html", desc: "Rank 546 geographies by housing need" },
-        { label: "Colorado Deep Dive",    href: "colorado-deep-dive.html",        desc: "Market signals, construction costs, LIHTC history, funding sources" },
-        { label: "CHFA Portfolio",        href: "chfa-portfolio.html",            desc: "Browse CHFA LIHTC projects" },
-        { label: "Where Colorado's Housing Money Goes", href: "where-housing-money-goes.html", desc: "Every CHFA, OEDIT and DOLA award by county, town and developer", isNew: true },
+        { label: "Compare Jurisdictions", href: "places-hub.html#/places/ranking", desc: "Rank 546 geographies by housing need" },
+        { label: "Colorado Deep Dive",    href: "places-hub.html#/places/deep-dive",        desc: "Market signals, construction costs, LIHTC history, funding sources" },
+        { label: "CHFA Portfolio",        href: "opportunities-hub.html#/opportunity/portfolio",            desc: "Browse CHFA LIHTC projects" },
+        { label: "Where Colorado's Housing Money Goes", href: "policy-hub.html#/money", desc: "Every CHFA, OEDIT and DOLA award by county, town and developer", isNew: true },
         { label: "Deal Summaries",        href: "deal-summary.html",              desc: "Sourced write-ups of CHFA tax credit awards: mix, money, status", isNew: true },
-        { label: "Prop 123 Land Banking Awards", href: "land-banking-awards.html", desc: "Every Prop 123 land banking award, mapped", isNew: true },
+        { label: "Prop 123 Land Banking Awards", href: "opportunities-hub.html#/opportunity/land-banking", desc: "Every Prop 123 land banking award, mapped", isNew: true },
         { label: "Commuting and Jobs",    href: "opportunities-hub.html#/opportunity/commuting",                 desc: "Who commutes in to work, what it costs, largest employers", isNew: true },
-        { label: "Economic Dashboard",    href: "economic-dashboard.html",        desc: "FRED indicators for deal timing" },
+        { label: "Economic Dashboard",    href: "places-hub.html#/places/economy",        desc: "FRED indicators for deal timing" },
         { label: "Preservation Tracking", href: "opportunities-hub.html#/opportunity/preservation",              desc: "Properties on CHFA's preservation map" },
       ]
     },
@@ -99,8 +99,8 @@
       label: "Data",
       items: [
         { label: "Data and methods", href: "data-hub.html", desc: "Start here: every source, its date, and how it is checked", isNew: true },
-        { label: "Data Trust Center",      href: "data-review-hub.html",           desc: "Sources, freshness and how we check the data" },
-        { label: "File Browser",          href: "data-explorer.html",             desc: "Browse every dataset with previews" },
+        { label: "Data Trust Center",      href: "data-hub.html#/data/trust",           desc: "Sources, freshness and how we check the data" },
+        { label: "File Browser",          href: "data-hub.html#/data/explorer",             desc: "Browse every dataset with previews" },
         { label: "Data Map",              href: "data-hub.html#/data/map",          desc: "LIHTC, QCT/DDA, OZ, amenities, flood zones", isNew: true },
         { label: "Glossary",              href: "#glossary",                      desc: "Plain definitions of tax credit and housing terms" },
       ]
@@ -137,7 +137,18 @@
   // Context links and their agreement guard reuse this source, not a second registry.
   const pageNames = {
     // This dated analysis is linked from Research, not the primary menu.
-    "cra-expansion-analysis.html": "CRA Expansion Impact on LIHTC Pricing"
+    "cra-expansion-analysis.html": "CRA Expansion Impact on LIHTC Pricing",
+    // Since redirect group B (15 Nov 2026) the menus open these pages' views, so their names, as the menus gave them,
+    // are kept here for the context links that still name the pages.
+    "pipeline.html": "The Affordable Housing Pipeline",
+    "hna-comparative-analysis.html": "Compare Jurisdictions",
+    "colorado-deep-dive.html": "Colorado Deep Dive",
+    "chfa-portfolio.html": "CHFA Portfolio",
+    "where-housing-money-goes.html": "Where Colorado's Housing Money Goes",
+    "land-banking-awards.html": "Prop 123 Land Banking Awards",
+    "economic-dashboard.html": "Economic Dashboard",
+    "data-review-hub.html": "Data Trust Center",
+    "data-explorer.html": "File Browser"
   };
   GROUPS.forEach(function (group) {
     group.items.forEach(function (item) {
@@ -559,21 +570,21 @@
         </div>
         <div class="footer-col">
           <strong>Explore</strong>
-          <a href="${normalizeHref('hna-comparative-analysis.html')}">Compare Jurisdictions</a>
-          <a href="${normalizeHref('colorado-deep-dive.html')}">Colorado Deep Dive</a>
-          <a href="${normalizeHref('where-housing-money-goes.html')}">Where Colorado's Housing Money Goes</a>
+          <a href="${normalizeHref('places-hub.html#/places/ranking')}">Compare Jurisdictions</a>
+          <a href="${normalizeHref('places-hub.html#/places/deep-dive')}">Colorado Deep Dive</a>
+          <a href="${normalizeHref('policy-hub.html#/money')}">Where Colorado's Housing Money Goes</a>
         </div>
         <div class="footer-col">
           <strong>Data</strong>
-          <a href="${normalizeHref('data-review-hub.html')}">Data Trust Center</a>
-          <a href="${normalizeHref('data-explorer.html')}">File Browser</a>
+          <a href="${normalizeHref('data-hub.html#/data/trust')}">Data Trust Center</a>
+          <a href="${normalizeHref('data-hub.html#/data/explorer')}">File Browser</a>
           <a href="${normalizeHref('data-hub.html#/data/map')}">Data Map</a>
           <a href="#glossary">Glossary</a>
         </div>
         <div class="footer-col">
           <strong>Insights</strong>
           <a href="${normalizeHref('policy-hub.html#/news')}">Housing News</a>
-          <a href="${normalizeHref('insights.html')}">Research &amp; Analysis</a>
+          <a href="${normalizeHref('policy-hub.html#/research')}">Research &amp; Analysis</a>
           <a href="${normalizeHref('methods.html')}">Methods</a>
           <a href="${normalizeHref('housing-help.html')}">If You Need Housing Now</a>
         </div>

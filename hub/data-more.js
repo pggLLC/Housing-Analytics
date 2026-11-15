@@ -141,7 +141,7 @@
       '<h3 id="dt-scan">Discovery scan</h3><p>The scan looks for ' + r.length + ' known file paths and compares them with the site’s source list. Today: <strong>' + found.length + ' found</strong>, ' + (found.length - pending.length) + ' already registered, ' +
       '<strong>' + pending.length + ' pending review</strong>' + (gone.length ? ', ' + gone.length + ' registered but missing' : '') + ', ' + (r.length - found.length) + ' not on the site.</p>' +
       '<h3>Pending discovery</h3>' + (pending.length ? '<p>Files the site has that are not in its source list yet. On the full Trust Center page a maintainer approves each one to download a patch for the list.</p><ul class="dt-paths">' + pending.map(function (x) { return '<li><code>' + esc(name(x.path)) + '</code></li>'; }).join('') + '</ul>' : '<p>No file is waiting for review.</p>') +
-      '<h3>Discovery configuration</h3><p>The scan settings are for maintainers only. Visitors run it against the source list the site ships with; private audit files are never loaded. <a href="' + LIVE + 'data-review-hub.html">Run the scan on the full Trust Center page ↗</a></p>' +
+      '<h3>Discovery configuration</h3><p>The scan settings are for maintainers only. Visitors run it against the source list the site ships with; private audit files are never loaded. <a href="' + LIVE + 'data-review-hub.html?classic=1">Run the scan on the full Trust Center page ↗</a></p>' +
       '<h3>Probed file paths</h3><ul class="dt-paths">' + r.map(function (x) {
         var w = x.on ? (x.reg ? 'registered' : 'pending review') : 'not on the site';
         return '<li class="dt-' + (x.on ? (x.reg ? 'ok' : 'new') : 'off') + '"><code>' + esc(name(x.path)) + '</code> <span>' + esc(w) + '</span></li>';
@@ -277,7 +277,7 @@
       '<h2>API key setup</h2><p>On the full Data quality page a maintainer can enter a key for testing. It is saved only in that browser and never sent to a server. This site never asks for a key.</p>' +
       '<ul class="pw-list">' + KEYS.map(function (k) {
         return '<li><p><strong>' + esc(k.label) + '</strong> <span class="src-status">' + esc(k.cost) + '</span></p><p class="note">' + esc(k.what) + ' <a href="' + esc(k.href) + '">Get one ↗</a></p></li>';
-      }).join('') + '</ul><p><a href="' + LIVE + 'dashboard-data-quality.html">Key setup on the full Data quality page ↗</a></p></details>';
+      }).join('') + '</ul><p><a href="' + LIVE + 'dashboard-data-quality.html?classic=1">Key setup on the full Data quality page ↗</a></p></details>';
   }
 
   // ---------- Data status ----------

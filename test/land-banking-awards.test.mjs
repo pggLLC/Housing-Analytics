@@ -362,7 +362,8 @@ ledgerAgreement(DATA);
   // Names agree: page title, heading and menu label; the page is in the sitemap and the Funding Sources card links to it.
   const h1 = (PAGE.match(/<h1[^>]*>([^<]+)<\/h1>/) || [])[1];
   const title = ((PAGE.match(/<title>([^|<]+)/) || [])[1] || '').trim();
-  const nav = read('js/navigation.js').match(/label: "([^"]+)",\s*href: "land-banking-awards\.html"/);
+  // Since redirect group B (15 Nov 2026) the menu opens the page's view, under the same name.
+  const nav = read('js/navigation.js').match(/label: "([^"]+)",\s*href: "(?:land-banking-awards\.html|opportunities-hub\.html#\/opportunity\/land-banking)"/);
   ok(h1 && nav && h1 === title && h1 === nav[1], `title, heading and menu label agree ("${title}" / "${h1}" / "${nav && nav[1]}")`);
   ok(read('sitemap.xml').includes('https://cohoanalytics.com/land-banking-awards.html'), 'the page is in the sitemap');
   const guide = json('data/policy/co-developer-funding-guide.json');

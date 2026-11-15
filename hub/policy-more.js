@@ -566,7 +566,7 @@
     var h = '<section class="snap" id="rs-snapshot"><h2>Market data snapshot</h2>' +
       '<p class="note">Prices, risk signals, rates and CHFA dates, each read from a data file with its own date.</p>';
     if (s.error) return h + '<p class="callout">' + esc(s.error) + '</p></section>';
-    if (scriptFailed('js/components/equity-pricing.js') || scriptFailed('js/components/market-pulse.js')) return h + '<p class="callout">The snapshot module did not load. The snapshot is on <a href="' + LIVE + 'insights.html">the full Research page ↗</a>.</p></section>';
+    if (scriptFailed('js/components/equity-pricing.js') || scriptFailed('js/components/market-pulse.js')) return h + '<p class="callout">The snapshot module did not load. The snapshot is on <a href="' + LIVE + 'insights.html?classic=1">the full Research page ↗</a>.</p></section>';
     if (!s.data || !ready || !EP || !MP) return h + '<p class="note">Loading the market snapshot…</p></section>';
     var d = s.data;
     // Credit pricing: QoQ and YoY only where the history ends on the printed quarter at the printed prices.

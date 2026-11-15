@@ -43,7 +43,8 @@ async function open(browser, page) {
     if (!file.startsWith(root + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) return route.fulfill({ status: 404, body: '' });
     return route.fulfill({ body: fs.readFileSync(file), contentType: mime[path.extname(file)] || 'application/octet-stream' });
   });
-  await tab.goto(`${ORIGIN}/${page}`, { waitUntil: 'load', timeout: 90000 });
+  // ?classic=1: each page as written; since 15 Nov 2026 the bare address forwards to its hub view (js/path-resolver.js).
+  await tab.goto(`${ORIGIN}/${page}?classic=1`, { waitUntil: 'load', timeout: 90000 });
   return { tab, errors };
 }
 

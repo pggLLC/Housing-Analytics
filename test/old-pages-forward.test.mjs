@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Redirect group A and county costs (paul, 14 Nov 2026): 16 old pages whose content now lives in a hub view.
+ * Redirect group A and county costs (paul, 14 Nov 2026), then groups B and C (15 Nov 2026, "finish everything else"):
+ * 37 old pages whose content now lives in a hub view.
  *
  * js/path-resolver.js, the first script those pages load, does two things:
  *  1. an old address forwards to its view, carrying a place, a deal or a comparison; never inside a
@@ -36,12 +37,14 @@ const HUBS = JSON.parse(/var HUBS = (\{.*?\}), STARTS = /s.exec(config)[1]);
 const drawn = (page, route) => (HUBS[page] || []).some((re) => new RegExp(re).test(route) || new RegExp(re).test(route + '/'));
 
 // Run js/path-resolver.js as a page at `url` would, with `html` as the page body.
-function load(url, html = '', framed = false) {
+function load(url, html = '', framed = false, saved = null) {
   const u = new URL(url);
   const dom = new JSDOM('<!doctype html><body>' + html + '</body>', { url });
   let went = null;
   const location = { href: u.href, pathname: u.pathname, search: u.search, hash: u.hash, host: u.host, hostname: u.hostname, protocol: u.protocol, replace: (to) => { went = to; } };
   const win = { location, addEventListener() {}, MutationObserver: dom.window.MutationObserver };
+  // A browser that picked a place on the old pages (js/workflow-state-core.js keys).
+  if (saved) win.localStorage = { getItem: (k) => ({ coho_wf_active: '"p1"', coho_wf_project_p1: JSON.stringify({ jurisdiction: { geoid: saved } }) })[k] ?? null };
   win.self = win; win.top = framed ? {} : win;
   const ctx = vm.createContext({ window: win, document: dom.window.document, URL, URLSearchParams, Array, Object, String, RegExp, setTimeout });
   vm.runInContext(resolver, ctx);
@@ -53,7 +56,7 @@ const SITE = 'https://cohoanalytics.com/';
 
 test('every forwarded page exists, loads the forwarding script in its head, and its view is drawn by the hub named', () => {
   const pages = Object.keys(MOVED);
-  assert.equal(pages.length, 16, 'group A is 15 pages, plus county costs');
+  assert.equal(pages.length, 37, 'group A is 15 pages, plus county costs, group B 13 and group C 8');
   for (const p of pages) {
     const html = read(p), head = html.slice(0, html.indexOf('</head>'));
     assert.ok(/<script src="js\/path-resolver\.js"><\/script>/.test(head), p + ' does not load js/path-resolver.js in its head');
@@ -87,20 +90,73 @@ test('an old address forwards, carrying its place, deal or comparison', () => {
   assert.equal(load(SITE + 'local-incentives.html#j=%3Cb%3E').went, 'places-hub.html#/places/incentives', 'a bad pick is dropped');
 });
 
+test('groups B and C: each page forwards to its view, carrying its place, chapter, tab or file', () => {
+  const B = { 'census-dashboard.html': 'places-hub.html#/places/multifamily', 'chfa-portfolio.html': 'opportunities-hub.html#/opportunity/portfolio',
+    'colorado-deep-dive.html': 'places-hub.html#/places/deep-dive', 'economic-dashboard.html': 'places-hub.html#/places/economy',
+    'hna-comparative-analysis.html': 'places-hub.html#/places/ranking', 'insights.html': 'policy-hub.html#/research',
+    'housing-legislation-2026.html': 'policy-hub.html#/legislation', 'land-banking-awards.html': 'opportunities-hub.html#/opportunity/land-banking',
+    'pipeline.html': 'deal-hub.html#/pipeline', 'data-explorer.html': 'data-hub.html#/data/explorer', 'dashboard-data-quality.html': 'data-hub.html#/data/quality',
+    'dashboard-data-sources-ui.html': 'data-hub.html#/data/sources', 'data-review-hub.html': 'data-hub.html#/data/trust',
+    'ic-summary.html': 'deal-hub.html#/ic-summary', 'where-housing-money-goes.html': 'policy-hub.html#/money', 'housing-needs-assessment.html': 'places-hub.html#/places' };
+  for (const [p, to] of Object.entries(B)) assert.equal(load(SITE + p).went, to, p);
+  // The needs assessment and each chapter open the place's page on the same chapter: a town, a county and a CDP.
+  const CH = { 'housing-needs-assessment.html': '', 'hna-who-lives-here.html': '/people', 'hna-what-housing-exists.html': '/housing',
+    'hna-what-households-can-afford.html': '/afford', 'hna-where-its-heading.html': '/future', 'hna-what-to-do.html': '/action' };
+  for (const [p, tab] of Object.entries(CH)) {
+    assert.equal(load(SITE + p + '?geoType=place&geoid=0828745').went, 'places-hub.html#/place/0828745' + tab, p);
+    assert.equal(load(SITE + p + '?geoType=county&geoid=08077').went, 'places-hub.html#/place/08077' + tab, p + ' county');
+    assert.equal(load(SITE + p + '?fips=0815165').went, 'places-hub.html#/place/0815165' + tab, p + ' fips');
+  }
+  assert.equal(load(SITE + 'hna-who-lives-here.html?geoid=4805000').went, 'places-hub.html#/places', 'a place outside Colorado is dropped');
+  // No place in the address: the old page opened the place this browser last picked, and so does the view.
+  assert.equal(load(SITE + 'hna-where-its-heading.html', '', false, '0828745').went, 'places-hub.html#/place/0828745/future', 'the saved place');
+  assert.equal(load(SITE + 'housing-needs-assessment.html#affordable-ownership-need-section', '', false, '08077').went, 'places-hub.html#/place/08077/action', 'ownership need');
+  assert.equal(load(SITE + 'hna-what-to-do.html?geoid=0828745', '', false, '08077').went, 'places-hub.html#/place/0828745/action', 'the address wins over the saved place');
+  assert.equal(load(SITE + 'ic-summary.html?geoid=0828745').went, 'deal-hub.html#/ic-summary?g=0828745');
+  // With no place, the investor summary opens the place this browser last picked, as js/ic-summary.js did (Codex P2 on #2877).
+  assert.equal(load(SITE + 'ic-summary.html', '', false, '08077').went, 'deal-hub.html#/ic-summary?g=08077', 'investor summary, saved place');
+  assert.equal(load(SITE + 'ic-summary.html?fips=0828745', '', false, '08077').went, 'deal-hub.html#/ic-summary?g=0828745', 'the address wins');
+  assert.equal(load(SITE + 'ic-summary.html', '', false, '08').went, 'deal-hub.html#/ic-summary', 'a saved statewide pick opens the picker');
+  assert.equal(load(SITE + 'data-explorer.html?file=hna/summary/0828745.json').went, 'data-hub.html#/data/explorer?file=hna%2Fsummary%2F0828745.json');
+  assert.equal(load(SITE + 'data-explorer.html?file=../secrets').went, 'data-hub.html#/data/explorer', 'a file outside data/ is dropped');
+  assert.equal(load(SITE + 'colorado-deep-dive.html#tab-funding').went, 'places-hub.html#/places/deep-dive?tab=funding');
+  assert.equal(load(SITE + 'colorado-deep-dive.html#tab-nothing').went, 'places-hub.html#/places/deep-dive', 'an unknown tab is dropped');
+  // Old tab names the view calls something else (Codex P2 on #2877). The old dashboard, LIHTC dashboard, allocations,
+  // regional and state allocation map stubs all send people to #tab-state-comparison.
+  assert.equal(load(SITE + 'colorado-deep-dive.html#tab-state-comparison').went, 'places-hub.html#/places/deep-dive?tab=snapshot', 'Colorado Snapshot');
+  assert.equal(load(SITE + 'colorado-deep-dive.html#tab-policy-simulator').went, 'places-hub.html#/places/deep-dive?tab=snapshot', 'Market Conditions');
+  assert.equal(load(SITE + 'colorado-deep-dive.html#tab-types').went, 'places-hub.html#/places/deep-dive?tab=patterns', 'Market patterns');
+  for (const stub of ['dashboard.html', 'LIHTC-dashboard.html', 'lihtc-allocations.html', 'regional.html', 'state-allocation-map.html'])
+    assert.ok(read(stub).includes('colorado-deep-dive.html#tab-state-comparison'), stub + ' no longer sends people to the snapshot tab');
+});
+
+test('groups B and C stay as written where only the old page draws it', () => {
+  // Colorado as a whole (the hubs have no statewide place page), a region or a combined set of places, and a saved statewide pick.
+  for (const q of ['?geoid=08&geoType=state', '?fips=08', '?region=western-slope', '?geos=0828745,0831660', '?combinedMode=sum', '?classic=1'])
+    assert.equal(load(SITE + 'housing-needs-assessment.html' + q).went, null, 'needs assessment ' + q);
+  assert.equal(load(SITE + 'hna-who-lives-here.html', '', false, '08').went, null, 'a saved statewide pick');
+  // An investor summary opened from a deal.
+  for (const u of ['ic-summary.html?dc=abc', 'ic-summary.html#dc=abc', 'ic-summary.html?geoid=0828745#x=1&dc=abc']) assert.equal(load(SITE + u).went, null, u);
+  for (const p of ['economic-dashboard.html', 'data-review-hub.html', 'where-housing-money-goes.html']) assert.equal(load(SITE + p + '?classic=1').went, null, p + ' classic');
+});
+
 test('not forwarded: ?classic=1, inside a frame, the picker while another page uses it, pages that stay', () => {
   assert.equal(load(SITE + 'data-map-browser.html?classic=1').went, null, 'classic');
   assert.equal(load(SITE + 'commuting.html', '', true).went, null, 'frame');
   for (const q of ['?next=market-analysis.html', '?step=2', '?new=1', '?classic=1']) assert.equal(load(SITE + 'select-jurisdiction.html' + q).went, null, 'picker ' + q);
-  for (const p of ['housing-needs-assessment.html', 'market-analysis.html', 'deal-calculator.html', 'economic-dashboard.html']) assert.equal(load(SITE + p).went, null, p);
+  for (const p of ['market-analysis.html', 'deal-calculator.html', 'lihtc-opportunity-finder.html', 'for-sale-market-study.html', 'deal-market-analysis.html']) assert.equal(load(SITE + p).went, null, p);
 });
 
 test('on a page that stays, links to forwarded pages and guides point at the views; others are left alone', () => {
-  const { doc, went } = load(SITE + 'housing-needs-assessment.html?geoid=0828745',
+  const { doc, went } = load(SITE + 'lihtc-opportunity-finder.html',
     '<a id="a" href="preservation.html">x</a><a id="b" href="recommendation.html?geoid=0828745">x</a>' +
     '<a id="c" href="https://cohoanalytics.com/methods.html#m-sampling-error">x</a><a id="d" href="select-jurisdiction.html?classic=1">x</a>' +
     '<a id="e" href="data-map-browser.html?classic=1">x</a><a id="f" href="market-analysis.html">x</a><a id="g" href="#top">x</a>' +
     '<a id="h" href="https://example.com/compare.html">x</a><a id="i" href="select-jurisdiction.html?new=1">x</a>' +
-    '<a id="j" href="local-incentives.html#j=08077">x</a><a id="k" href="deal-summary.html?county=El%20Paso">x</a>');
+    '<a id="j" href="local-incentives.html#j=08077">x</a><a id="k" href="deal-summary.html?county=El%20Paso">x</a>' +
+    '<a id="l" href="hna-who-lives-here.html?geoType=place&geoid=0828745">x</a><a id="m" href="colorado-deep-dive.html#tab-history">x</a>' +
+    '<a id="n" href="housing-needs-assessment.html?geoid=08&geoType=state">x</a><a id="o" href="economic-dashboard.html?classic=1">x</a>' +
+    '<a id="p" href="ic-summary.html?geoid=08077">x</a>');
   assert.equal(went, null);
   const h = (id) => doc.getElementById(id).getAttribute('href');
   // A link written as a path stays a path, so the site audits do not read it as an outside source link.
@@ -109,12 +165,34 @@ test('on a page that stays, links to forwarded pages and guides point at the vie
   assert.equal(h('c'), SITE + 'policy-hub.html#/guide/methods?at=m-sampling-error');
   assert.equal(h('j'), 'places-hub.html#/places/incentives/08077', 'a link to a picked county on local incentives');
   assert.equal(h('k'), 'deal-hub.html#/deals?county=El%20Paso', 'a link to a county\'s deal write-ups');
-  for (const id of ['d', 'e', 'f', 'g', 'h', 'i']) assert.ok(!/-hub\.html/.test(h(id)), id + ' was rewritten to ' + h(id));
+  assert.equal(h('l'), 'places-hub.html#/place/0828745/people', 'a chapter link opens the place on that chapter');
+  assert.equal(h('m'), 'places-hub.html#/places/deep-dive?tab=history');
+  assert.equal(h('p'), 'deal-hub.html#/ic-summary?g=08077');
+  for (const id of ['d', 'e', 'f', 'g', 'h', 'i', 'n', 'o']) assert.ok(!/-hub\.html/.test(h(id)), id + ' was rewritten to ' + h(id));
+});
+
+test('a link with no place waits for the click: it opens the place saved then, not when the page loaded', () => {
+  // The old picker's recent projects save their place as the Resume link is clicked (js/jurisdiction-selector.js), so
+  // a link pointed at the place saved at load would open the wrong place (Codex P2 on #2877).
+  const { doc, went } = load(SITE + 'select-jurisdiction.html?classic=1',
+    '<a id="a" href="housing-needs-assessment.html">x</a><a id="b" href="hna-what-to-do.html#affordable-ownership-need-section">x</a>' +
+    '<a id="c" href="ic-summary.html">x</a><a id="d" href="hna-who-lives-here.html?geoid=0828745">x</a><a id="e" href="ic-summary.html?fips=0828745">x</a>' +
+    '<a id="f" href="colorado-deep-dive.html#tab-types">x</a>', false, '08077');
+  assert.equal(went, null);
+  const h = (id) => doc.getElementById(id).getAttribute('href');
+  for (const id of ['a', 'b', 'c']) assert.ok(!/-hub\.html/.test(h(id)), id + ' was pointed at ' + h(id) + ' as the page loaded');
+  assert.equal(h('d'), 'places-hub.html#/place/0828745/people', 'a link naming its place is still pointed at it');
+  assert.equal(h('e'), 'deal-hub.html#/ic-summary?g=0828745');
+  assert.equal(h('f'), 'places-hub.html#/places/deep-dive?tab=patterns');
+  // Followed, the old page forwards with the place saved by then.
+  assert.equal(load(SITE + 'housing-needs-assessment.html', '', false, '0828745').went, 'places-hub.html#/place/0828745');
+  assert.equal(load(SITE + 'hna-what-to-do.html#affordable-ownership-need-section', '', false, '0828745').went, 'places-hub.html#/place/0828745/action');
+  assert.equal(load(SITE + 'ic-summary.html', '', false, '0828745').went, 'deal-hub.html#/ic-summary?g=0828745');
 });
 
 // A link drawn after the page loads (a chapter's Next link, a deal card) is pointed at its view as it appears; a
 // calculator share link's long hash is not read again for each link (it stalled pages with many links).
-const late = load(SITE + 'housing-needs-assessment.html?geoid=0828745', '<div id="m"></div>');
+const late = load(SITE + 'lihtc-opportunity-finder.html', '<div id="m"></div>');
 const shared = load(SITE + 'deal-calculator.html#v=1&' + 'tdc=20000000&'.repeat(4000), '<a id="a" href="compare.html">x</a><a id="b" href="deal-market-analysis.html#x">x</a>');
 await new Promise((r) => setTimeout(r, 50)); // the pages have finished loading
 late.doc.getElementById('m').innerHTML = '<p><a id="z" href="commuting.html">x</a><a id="y" href="market-analysis.html">x</a></p>';
@@ -141,10 +219,14 @@ test('the old header menus link to the views, and the place pill keeps the old p
   // The old seven-step rail names these pages as its steps, and its menu entries must match the rail
   // (test/step-count-agreement, guided-path-product-routes, place-deals-limits). Their links are pointed at
   // the views as the page draws them or they are used (the check above), not in the menu's source.
-  const RAIL = new Set(['select-jurisdiction.html', 'hna-scenario-builder.html', 'recommendation.html', 'land-value.html', 'deal-summary.html']);
+  const RAIL = new Set(['select-jurisdiction.html', 'hna-scenario-builder.html', 'recommendation.html', 'land-value.html', 'deal-summary.html',
+    // The needs assessment (step 3) and its chapters. A link naming its place is pointed at the view as drawn; one with
+    // no place forwards when followed, with the place the browser has picked by then.
+    'housing-needs-assessment.html', 'hna-who-lives-here.html', 'hna-what-housing-exists.html', 'hna-what-households-can-afford.html',
+    'hna-where-its-heading.html', 'hna-what-to-do.html']);
   // The Insights menu entries likewise: test/insights-nav-labels ties each Insights label to the heading of the page
   // it names, so they keep the old page's file in the menu source and are pointed at the views the same way.
-  const INSIGHTS = new Set(['policy-briefs.html', 'colorado-elections.html', 'local-incentives.html', 'article-pricing.html']);
+  const INSIGHTS = new Set(['policy-briefs.html', 'colorado-elections.html', 'local-incentives.html', 'article-pricing.html', 'insights.html', 'housing-legislation-2026.html']);
   for (const p of Object.keys(MOVED).filter((x) => !RAIL.has(x) && !INSIGHTS.has(x))) {
     const plain = new RegExp('(href: "|normalizeHref\\(\'|root \\+ \')' + p.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&') + '(?!\\?classic|\\?new)', 'g');
     assert.equal((nav.match(plain) || []).length, 0, 'js/navigation.js still links to ' + p);
@@ -152,8 +234,12 @@ test('the old header menus link to the views, and the place pill keeps the old p
   assert.ok(/select-jurisdiction\.html\?classic=1" class="jurisdiction-pill"/.test(nav), 'the place pill');
 });
 
-test('the site audits measure each forwarded page as written (?classic=1), not the hub view it forwards to', () => {
-  for (const p of Object.keys(MOVED)) assert.equal(ARRIVE_WITH[p], '?classic=1', p + ' is not opened with ?classic=1 by scripts/audit/lib/arrive-with.mjs');
+test('the site audits measure each forwarded page as written, not the hub view it forwards to', () => {
+  // ?classic=1, or for the needs assessment pages the statewide address the audits already use, which stays as written.
+  for (const p of Object.keys(MOVED)) {
+    assert.ok(ARRIVE_WITH[p], p + ' has no address in scripts/audit/lib/arrive-with.mjs');
+    assert.equal(load(SITE + p + ARRIVE_WITH[p]).went, null, p + ARRIVE_WITH[p] + ' forwards, so the audits would measure the view');
+  }
 });
 
 if (failed) { console.error(failed + ' check(s) failed'); process.exit(1); }

@@ -182,7 +182,8 @@
   }
 
   // Old pages whose content now lives in a view, and which forward there on the public site (js/path-resolver.js):
-  // the written guides since 13 Nov 2026, and redirect group A and county costs since 14 Nov (paul). A link to one is pointed at the
+  // the written guides since 13 Nov 2026, redirect group A and county costs since 14 Nov, and groups B and C since
+  // 15 Nov (paul: "finish everything else", after the content gaps behind them went live). A link to one is pointed at the
   // view, so the reader takes one step, not two, and a view never sends a reader to a page that sends them back.
   // A link with ?classic=1 (the page as written) is left alone.
   var MOVED = {
@@ -198,8 +199,27 @@
     'article-fair-housing-rollback.html': '#/guide/fair-housing', 'article-federal-rule-changes.html': '#/guide/federal-rules',
     'housing-authority-guide.html': '#/guide/housing-authority', 'apa-white-paper.html': '#/guide/white-paper',
     'working-paper.html': '#/guide/working-paper', 'methods.html': '#/guide/methods', 'about.html': '#/guide/about',
-    'housing-help.html': '#/guide/renter-help', 'help-for-homebuyers.html': '#/guide/homebuyer-help'
+    'housing-help.html': '#/guide/renter-help', 'help-for-homebuyers.html': '#/guide/homebuyer-help',
+    // Group B.
+    'census-dashboard.html': '#/places/multifamily', 'chfa-portfolio.html': '#/opportunity/portfolio', 'colorado-deep-dive.html': '#/places/deep-dive',
+    'economic-dashboard.html': '#/places/economy', 'hna-comparative-analysis.html': '#/places/ranking', 'insights.html': '#/research',
+    'housing-legislation-2026.html': '#/legislation', 'land-banking-awards.html': '#/opportunity/land-banking', 'pipeline.html': '#/pipeline',
+    'data-explorer.html': '#/data/explorer', 'dashboard-data-quality.html': '#/data/quality', 'dashboard-data-sources-ui.html': '#/data/sources',
+    'data-review-hub.html': '#/data/trust',
+    // Group C: the needs assessment and its five chapters open the place's page on the same chapter.
+    'housing-needs-assessment.html': '#/places', 'hna-who-lives-here.html': '#/places', 'hna-what-housing-exists.html': '#/places',
+    'hna-what-households-can-afford.html': '#/places', 'hna-where-its-heading.html': '#/places', 'hna-what-to-do.html': '#/places',
+    'ic-summary.html': '#/ic-summary', 'where-housing-money-goes.html': '#/money'
   };
+  // The place page's chapter for each needs assessment page (site/hna.js TABS).
+  var HNA_TAB = { 'housing-needs-assessment.html': '', 'hna-who-lives-here.html': '/people', 'hna-what-housing-exists.html': '/housing',
+    'hna-what-households-can-afford.html': '/afford', 'hna-where-its-heading.html': '/future', 'hna-what-to-do.html': '/action' };
+  // The deep dive's tabs, which the old page named in its hash (#tab-funding) and the view takes as ?tab=.
+  var DD_TABS = ['deepdive', 'ami-gap', 'market-trends', 'snapshot', 'affordability-geo', 'signals', 'construction', 'history', 'funding', 'market', 'need', 'direction', 'patterns', 'timeline'];
+  // Three old tab names the view calls something else (Codex P2 on HA #2877): the old "Colorado Snapshot" and "Market
+  // Conditions" tabs (with its policy simulator) are the view's snapshot tab, and "Market patterns" is its patterns tab.
+  var DD_OLD = { 'state-comparison': 'snapshot', 'policy-simulator': 'snapshot', 'types': 'patterns' };
+  var CO_GEO = /^08\d{3}(\d{2})?$/;
   var GEO = /^\d{5}(\d{2})?$/;
   function movedHref(href) {
     var m = /^(?:https:\/\/(?:www\.)?cohoanalytics\.com\/|\.\/)?([a-z0-9-]+\.html)(\?[^#]*)?(?:#(.*))?$/i.exec(String(href || ''));
@@ -220,6 +240,26 @@
     // Local incentives keeps its picked town or county in the hash (#j=<geoid>, js/local-incentives.js geoidFromHash).
     if (file === 'local-incentives.html') { var j = /(?:^|[&?])j=(\d{7}|\d{5})(?!\d)/.exec(m[3] || ''); if (j) return to + '/' + j[1]; }
     if (/^\/guide\//.test(to.slice(1)) && /^[A-Za-z0-9_-]{1,80}$/.test(m[3] || '')) return to + '?at=' + m[3];
+    // Group C. A needs assessment page opens the place's page on its chapter. A region or a combined set of places
+    // (?region=, ?geos=, ?combinedMode=) stays on the page as written, which is the only place that draws them.
+    if (Object.prototype.hasOwnProperty.call(HNA_TAB, file)) {
+      // Colorado as a whole has no place page in the hubs, so the statewide assessment (?geoid=08) stays as written too.
+      if (q.has('region') || q.has('geos') || q.has('combinedMode') || q.get('geoid') === '08' || q.get('fips') === '08') return null;
+      var hg = [q.get('geoid'), q.get('fips')].filter(function (x) { return x && CO_GEO.test(x); })[0];
+      // "Ownership Need" opens the assessment at its ownership section, which is on the place's What to do chapter.
+      return hg ? '#/place/' + hg + (/^#?affordable-ownership-need-section$/.test(m[3] || '') ? '/action' : HNA_TAB[file]) : to;
+    }
+    // The investor summary carries its place; one opened from a deal (?dc= or #dc=) stays as written.
+    if (file === 'ic-summary.html') {
+      if (q.has('dc') || /(?:^|[&?])dc=/.test(m[3] || '')) return null;
+      var ig = g([q.get('geoid'), q.get('fips')])[0];
+      return to + (ig ? '?g=' + ig : '');
+    }
+    if (file === 'data-explorer.html' && /^[A-Za-z0-9_./-]{1,200}$/.test(q.get('file') || '') && !/\.\./.test(q.get('file'))) return to + '?file=' + encodeURIComponent(q.get('file'));
+    if (file === 'colorado-deep-dive.html') {
+      var t2 = /^tab-([a-z-]{1,30})$/.exec(m[3] || ''), tn = t2 && (Object.prototype.hasOwnProperty.call(DD_OLD, t2[1]) ? DD_OLD[t2[1]] : t2[1]);
+      if (tn && DD_TABS.indexOf(tn) >= 0) return to + '?tab=' + tn;
+    }
     return to;
   }
   // Points every moved-page link inside a drawn view at its view (the shell calls this after each draw).

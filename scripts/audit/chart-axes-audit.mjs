@@ -63,20 +63,29 @@ const COVERAGE_PATH = path.join(__dirname, 'chart-axes-coverage.json');
 const WRITE_COVERAGE = process.argv.includes('--write-coverage');
 const REPORT_DIR = path.join(ROOT, 'audit-report', 'chart-axes');
 
-// Pages whose charts only render for a chosen geography get one here. The
+// Pages whose charts only render for a chosen geography get one here, opened as written (?classic=1): since
+// redirect groups A, B and C (14 and 15 Nov 2026) the bare addresses forward to hub views. The
 // other HNA chapters open on Colorado statewide (lib/arrive-with.mjs), as they
 // loaded before the HNA started on "pick a place" (2026-10-26).
 const PAGE_URLS = {
-  'housing-needs-assessment.html': 'housing-needs-assessment.html?geoType=county&geoid=08001&auto=1',
+  'housing-needs-assessment.html': 'housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1',
   // No projection before a place loads (#2288); audit Mesa County, as
   // chart-population-audit.mjs does.
-  'hna-scenario-builder.html': 'hna-scenario-builder.html?geoType=county&geoid=08077&auto=1',
+  'hna-scenario-builder.html': 'hna-scenario-builder.html?geoType=county&geoid=08077&auto=1&classic=1',
   // A redirect stub since the merge; its slot audits the tab it now opens.
-  'market-intelligence.html': 'colorado-deep-dive.html#tab-signals',
-  'historical-trends.html': 'colorado-deep-dive.html#tab-history',
+  'market-intelligence.html': 'colorado-deep-dive.html?classic=1#tab-signals',
+  'historical-trends.html': 'colorado-deep-dive.html?classic=1#tab-history',
+  // The other deep dive redirect stubs likewise: since group B the deep dive forwards to its hub view, so each slot
+  // measures the page as written, as it did before.
+  'colorado-market.html': 'colorado-deep-dive.html?classic=1',
+  'LIHTC-dashboard.html': 'colorado-deep-dive.html?classic=1#tab-state-comparison',
+  'dashboard.html': 'colorado-deep-dive.html?classic=1#tab-state-comparison',
+  'lihtc-allocations.html': 'colorado-deep-dive.html?classic=1#tab-state-comparison',
+  'regional.html': 'colorado-deep-dive.html?classic=1#tab-state-comparison',
+  'state-allocation-map.html': 'colorado-deep-dive.html?classic=1#tab-state-comparison',
   // The decade affordability chart renders only for a place (#2387), so the
   // county slot above cannot see it; this slot keeps it under a floor.
-  'housing-needs-assessment.html#place': 'housing-needs-assessment.html?geoType=place&geoid=0831660&auto=1'
+  'housing-needs-assessment.html#place': 'housing-needs-assessment.html?geoType=place&geoid=0831660&auto=1&classic=1'
 };
 
 // Extra slots audited whenever their base page is: a second geography for a

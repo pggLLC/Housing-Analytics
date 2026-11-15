@@ -198,7 +198,8 @@ const h1 = ((html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || '').trim();
 ok(h1.length > 10, 'found the page <h1>');
 ok(new RegExp(`<title>${h1.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} \\|`).test(html), 'the <title> starts with the <h1>');
 const nav = read('js/navigation.js');
-const navLabel = (nav.match(/\{\s*label:\s*"([^"]+)",\s*href:\s*"where-housing-money-goes\.html"/) || [])[1];
+// Since redirect group C (15 Nov 2026) the menu opens the page's view, policy-hub.html#/money, under the same name.
+const navLabel = (nav.match(/\{\s*label:\s*"([^"]+)",\s*href:\s*"(?:where-housing-money-goes\.html|policy-hub\.html#\/money)"/) || [])[1];
 ok(navLabel === h1, `the menu label (${navLabel}) is the page <h1> (${h1})`);
 const unq = (s) => s.replace(/\\'/g, "'");
 const linkers = ['colorado-deep-dive.html', 'sitemap.html', 'js/whitepaper/jurisdiction-whitepaper.js'];

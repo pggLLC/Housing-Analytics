@@ -42,6 +42,8 @@
 .ds-cal-n { font-weight: 700; font-size: 13px; }
 .ds-cal li.ds-cal-1 { background: var(--tint-amber); border-color: var(--c-amber); }
 .ds-cal li.ds-cal-3 { background: var(--tint-green); border-color: var(--c-green); }
+/* On a tinted day the date is body-soft, not --muted: --muted is 4.41:1 on the amber tint, under the 4.5:1 minimum (HA contrast audit, 15 Nov 2026). */
+.ds-cal li.ds-cal-1 .ds-cal-d, .ds-cal li.ds-cal-3 .ds-cal-d { color: var(--ink-soft); }
 .ds-cal li.ds-today { outline: 2px solid var(--green); outline-offset: -2px; }
 .ds-cov-map { margin: 0 0 1.25rem; max-width: 480px; }
 .ds-cov-map svg { width: 100%; height: auto; display: block; }

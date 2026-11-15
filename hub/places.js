@@ -19,7 +19,10 @@
     lihtc: 'data/chfa-lihtc.json',
     chas: 'data/market/chas_co.json',
     aa: 'data/hna/chas_affordable_available.json',
-    counties: 'data/boundaries/counties_co.geojson'
+    counties: 'data/boundaries/counties_co.geojson',
+    // Retired place IDs and the place each now is, as the public site's assessment reads them
+    // (js/hna/hna-controller.js _resolveIncomingGeoid).
+    aliases: 'data/hna/place-phantom-aliases.json'
   };
 
   // What geography a figure is, and how it was derived. The wording, levels and single-tract caveat are the
@@ -320,6 +323,12 @@
       return { geoid: c.fips, label: c.county_name, role: 'county', hub: 'places', path: 'housing-needs-assessment.html?geoid=' + c.fips, href: LIVE + 'housing-needs-assessment.html?geoid=' + c.fips, status: 'current' };
     }) : [];
   }
+  // The place a retired ID now is (Cañon City's old 0810270 is 0811810), or null: an old needs assessment address
+  // with a retired ID opened the current place, and the place page does the same (Codex P2 on HA #2877).
+  function retiredTo(geoid) {
+    var a = data && data.aliases && data.aliases.aliases, to = a && /^\d{7}$/.test(String(geoid)) && Object.prototype.hasOwnProperty.call(a, geoid) ? a[geoid] : null;
+    return to && Shell.catalog().entries.some(function (x) { return x.geoid === to; }) ? to : null;
+  }
   function entryFor(geoid) {
     var e = Shell.catalog().entries.filter(function (x) { return x.geoid === geoid; })[0];
     if (e || String(geoid).length !== 5) return e || null;
@@ -505,7 +514,7 @@
 
   Shell.views.places = placesView;
   Shell.views.place = placeView;
-  global.LabPlaces = { entryFor: entryFor, countyEntries: countyEntries, TERMS: TERMS, bandsOwn: bandsOwn, needMap: needMap, per10: per10, MAP_BINS: MAP_BINS,
+  global.LabPlaces = { entryFor: entryFor, retiredTo: retiredTo, countyEntries: countyEntries, TERMS: TERMS, bandsOwn: bandsOwn, needMap: needMap, per10: per10, MAP_BINS: MAP_BINS,
     shortfall: shortfall, netGap: netGap, gapCard: gapCard, placeFacts: placeFacts, countyFacts: countyFacts, QUESTIONS: QUESTIONS, FILES: FILES, LIVE: LIVE,
     // Shared with hna.js, which builds the place page's chapters.
     data: function () { load(); return { data: data, error: error }; }, card: card, scope: scope, AT: AT, srcLine: srcLine, SRC: SRC, gapCard: gapCard, gapChart: gapChart, ladder: ladder, useHref: useHref, num: num, money: money

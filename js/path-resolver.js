@@ -55,8 +55,9 @@
   } catch (e) { /* the page stays as written */ }
 })();
 
-// Pages whose content now lives in a hub view (paul, 14 Nov 2026: "redirect group A", "redirect county costs"). The content
-// check of 14 Nov 2026 found each page's headings, figures and tables in its view. Two parts:
+// Pages whose content now lives in a hub view (paul, 14 Nov 2026: "redirect group A", "redirect county costs"; 15 Nov 2026:
+// groups B and C, "finish everything else", once the content gaps behind them were live). The content check of 14 Nov
+// 2026 found each page's headings, figures and tables in its view. Two parts:
 //  1. An old address forwards to its view, as the guides do: never inside a frame, never with ?classic=1,
 //     which still opens the page as written. A place, a deal or a comparison in the address goes with it, as do the
 //     town or county picked on local-incentives.html (#j=<geoid>) and a county's deal write-ups (?county=).
@@ -84,12 +85,55 @@
     'data-status.html': 'data-hub.html#/data/status',
     'data-map-browser.html': 'data-hub.html#/data/map',
     // paul, 14 Nov 2026: "redirect county costs" (rechecked on the live site after #2872).
-    'article-co-housing-costs.html': 'places-hub.html#/places/county-costs'
+    'article-co-housing-costs.html': 'places-hub.html#/places/county-costs',
+    // Group B (15 Nov 2026).
+    'census-dashboard.html': 'places-hub.html#/places/multifamily',
+    'chfa-portfolio.html': 'opportunities-hub.html#/opportunity/portfolio',
+    'colorado-deep-dive.html': 'places-hub.html#/places/deep-dive',
+    'economic-dashboard.html': 'places-hub.html#/places/economy',
+    'hna-comparative-analysis.html': 'places-hub.html#/places/ranking',
+    'insights.html': 'policy-hub.html#/research',
+    'housing-legislation-2026.html': 'policy-hub.html#/legislation',
+    'land-banking-awards.html': 'opportunities-hub.html#/opportunity/land-banking',
+    'pipeline.html': 'deal-hub.html#/pipeline',
+    'data-explorer.html': 'data-hub.html#/data/explorer',
+    'dashboard-data-quality.html': 'data-hub.html#/data/quality',
+    'dashboard-data-sources-ui.html': 'data-hub.html#/data/sources',
+    'data-review-hub.html': 'data-hub.html#/data/trust',
+    // Group C (15 Nov 2026): the needs assessment and its five chapters open the place's page on the same chapter.
+    'housing-needs-assessment.html': 'places-hub.html#/places',
+    'hna-who-lives-here.html': 'places-hub.html#/places',
+    'hna-what-housing-exists.html': 'places-hub.html#/places',
+    'hna-what-households-can-afford.html': 'places-hub.html#/places',
+    'hna-where-its-heading.html': 'places-hub.html#/places',
+    'hna-what-to-do.html': 'places-hub.html#/places',
+    'ic-summary.html': 'deal-hub.html#/ic-summary',
+    'where-housing-money-goes.html': 'policy-hub.html#/money'
   };
+  // The place page's chapter for each needs assessment page (hub/hna.js TABS).
+  var HNA_TAB = { 'housing-needs-assessment.html': '', 'hna-who-lives-here.html': '/people', 'hna-what-housing-exists.html': '/housing',
+    'hna-what-households-can-afford.html': '/afford', 'hna-where-its-heading.html': '/future', 'hna-what-to-do.html': '/action' };
+  // The deep dive's tabs (hub/deep-dive.js TABS), named in the old page's hash (#tab-funding) and taken by the view as ?tab=.
+  var DD_TABS = ['deepdive', 'ami-gap', 'market-trends', 'snapshot', 'affordability-geo', 'signals', 'construction', 'history', 'funding', 'market', 'need', 'direction', 'patterns', 'timeline'];
+  // Three old tab names the view calls something else (Codex P2 on #2877): the old "Colorado Snapshot" and "Market
+  // Conditions" tabs (with its policy simulator) are the view's snapshot tab, and "Market patterns" is its patterns tab.
+  var DD_OLD = { 'state-comparison': 'snapshot', 'policy-simulator': 'snapshot', 'types': 'patterns' };
+  var CO_GEO = /^08\d{3}(\d{2})?$/;
+  // The place this browser last picked on the old pages (js/workflow-state-core.js: the active project's id under
+  // coho_wf_active, the project under coho_wf_project_<id>, its place under .jurisdiction). Read only, never written.
+  function savedPlace() {
+    try {
+      var id = JSON.parse(window.localStorage.getItem('coho_wf_active') || 'null');
+      var j = id && (JSON.parse(window.localStorage.getItem('coho_wf_project_' + id) || 'null') || {}).jurisdiction;
+      var g = j ? String(j.geoid || j.fips || '').replace(/\D/g, '') : '';
+      return g === '08' || CO_GEO.test(g) ? g : null;
+    } catch (e) { return null; }
+  }
   var GEO = /^\d{5}(\d{2})?$/;
   var has = function (o, k) { return Object.prototype.hasOwnProperty.call(o, k); };
-  // The view for an old page, its query string and its hash, or null when the page stays as written.
-  function movedTo(file, search, hash) {
+  // The view for an old page, its query string and its hash, or null when the page stays as written. forLink is set
+  // when a link on a page is being pointed at its view, rather than the page itself forwarding.
+  function movedTo(file, search, hash, forLink) {
     if (!has(MOVED_PAGES, file)) return null;
     var q = new URLSearchParams(search || '');
     if (q.has('classic')) return null;
@@ -116,6 +160,39 @@
       var g = places([q.get('geoid'), q.get('fips')]);
       return to + (g.length ? '?g=' + g[0] : '');
     }
+    // Group C. A needs assessment page opens the place's page on its chapter. A region or a combined set of places
+    // (?region=, ?geos=, ?combinedMode=) stays on the page as written, which is the only page that draws them.
+    if (has(HNA_TAB, file)) {
+      // Colorado as a whole has no place page in the hubs, so the statewide assessment (?geoid=08) stays as written too.
+      if (q.has('region') || q.has('geos') || q.has('combinedMode') || q.get('geoid') === '08' || q.get('fips') === '08') return null;
+      // With no place in the address, the old page opened the place this browser last picked (js/hna/hna-controller.js,
+      // WorkflowState); so does the view. Statewide stays as written, as above.
+      // A link with no place is left as written, so it opens the place saved when it is followed, not the one saved
+      // when the page loaded (a recent project's Resume link saves its place on the click; Codex P2 on #2877).
+      var hg = [q.get('geoid'), q.get('fips')].filter(function (x) { return x && CO_GEO.test(x); })[0];
+      if (!hg && forLink) return null;
+      hg = hg || savedPlace();
+      if (hg === '08') return null;
+      // The menus' "Ownership Need" opens the assessment at its ownership section, which is on the place's What to do chapter.
+      var tab = /^#?affordable-ownership-need-section$/.test(hash || '') ? '/action' : HNA_TAB[file];
+      return hg ? 'places-hub.html#/place/' + hg + tab : to;
+    }
+    // The investor summary carries its place; one opened from a deal (?dc= or #dc=) stays as written. With no place in
+    // the address, the old page used the browser's saved workflow place (js/ic-summary.js), and so does the view
+    // (Codex P2 on #2877).
+    if (file === 'ic-summary.html') {
+      if (q.has('dc') || /(?:^#?|[&?])dc=/.test(hash || '')) return null;
+      var ig = places([q.get('geoid'), q.get('fips')])[0];
+      // As for the needs assessment above, a link with no place waits for the click.
+      if (!ig && forLink) return null;
+      ig = ig || savedPlace();
+      return to + (ig && ig !== '08' ? '?g=' + ig : '');
+    }
+    if (file === 'data-explorer.html' && /^[A-Za-z0-9_./-]{1,200}$/.test(q.get('file') || '') && !/\.\./.test(q.get('file'))) return to + '?file=' + encodeURIComponent(q.get('file'));
+    if (file === 'colorado-deep-dive.html') {
+      var t2 = /^#?tab-([a-z-]{1,30})$/.exec(hash || ''), tn = t2 && (has(DD_OLD, t2[1]) ? DD_OLD[t2[1]] : t2[1]);
+      if (tn && DD_TABS.indexOf(tn) >= 0) return to + '?tab=' + tn;
+    }
     return to;
   }
   try {
@@ -138,7 +215,7 @@
       var u;
       try { u = new URL(raw, base); } catch (e) { return; }
       if (u.host !== loc.host && !/^(www\.)?cohoanalytics\.com$/i.test(u.hostname)) return;
-      var f = u.pathname.split('/').pop(), to = movedTo(f, u.search, u.hash);
+      var f = u.pathname.split('/').pop(), to = movedTo(f, u.search, u.hash, true);
       // A written guide (forwarded since 13 Nov 2026) is pointed at its hub view the same way.
       if (!to && G && has(G.pages, f) && !/[?&]classic(=|&|$)/.test(u.search)) {
         var slug = G.pages[f], at = u.hash.slice(1);

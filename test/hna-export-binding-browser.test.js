@@ -77,7 +77,8 @@ async function open(browser) {
     if (!file.startsWith(root + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) return route.fulfill({ status: 404, body: '' });
     return route.fulfill({ body: fs.readFileSync(file), contentType: mime[path.extname(file)] || 'application/octet-stream' });
   });
-  await page.goto(`${ORIGIN}/housing-needs-assessment.html`, { waitUntil: 'domcontentloaded' });
+  // ?classic=1: the page as written; since 15 Nov 2026 the bare address forwards to the place page (js/path-resolver.js).
+  await page.goto(`${ORIGIN}/housing-needs-assessment.html?classic=1`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.HNAController && window.HNAController.whenSettled && window.__HNA_exportJson
     && document.getElementById('geoSelect').options.length > 0);
   await page.waitForLoadState('load');
