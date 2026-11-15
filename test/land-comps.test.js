@@ -24,6 +24,8 @@ assert.strictEqual(L.isVacant('Residential', '1112,1212', 'Mesa'), false);
 assert.strictEqual(L.isVacant('Agricultural', '4147', 'Mesa'), false);
 assert.strictEqual(L.isVacant('Residential', null, 'Adams'), null, 'Adams sends broad classes only');
 assert.strictEqual(L.isVacant(null, null, 'Boulder'), null);
+assert.strictEqual(L.isVacant('Residential', '100', 'Broomfield'), null, 'a local code in the state range proves nothing there');
+assert.strictEqual(L.isVacant('Vacant Land', '100', 'Broomfield'), true, 'vacant text still counts');
 assert.strictEqual(L.isVacant('SFR Grade C', null, 'Denver'), false);
 
 // ---- one feature to a record ----

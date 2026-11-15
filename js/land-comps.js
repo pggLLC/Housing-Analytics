@@ -60,12 +60,13 @@
   // true = vacant land, false = built or not vacant, null = the county's record can't say.
   function isVacant(use, code, county) {
     if (use && /vacant/i.test(use)) return true;
+    // These counties use their own codes, so a number in the state's vacant range there proves nothing.
+    if (NO_VACANT_LABEL.indexOf(county) >= 0) return null;
     var c = String(code == null ? '' : code).split(/[,\s]/)[0];
     if (/^\d{3,4}$/.test(c)) {
       var n = Number(c.length === 3 ? '0' + c : c);
       return n >= 100 && n <= 599;
     }
-    if (NO_VACANT_LABEL.indexOf(county) >= 0) return null;
     if (use) return false;
     return null;
   }
