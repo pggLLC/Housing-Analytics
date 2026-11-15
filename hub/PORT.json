@@ -22,7 +22,7 @@
  ],
  "lab": {
   "commit": "ecbf43ad2948b119cd86ec202c13807dd9bb81e8",
-  "dirty": false
+  "dirty": true
  },
  "files": {
   "data-hub.html": "d459498effe6b05aaae5f95ca9537fa04fa9b5508d9b05390d9c483a91155a16",
@@ -82,7 +82,7 @@
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
   "hub/lab-config.js": "77eddd18e1611b39193d4c40976501449b931061a5378d415f5cea2c2e740369",
   "hub/lab-wave2.css": "ab1303c77232cd775f5a19296fafd69aaa59cadc4c8da99d6ff869004fb28a76",
-  "hub/land-value.js": "88c43ee04272ef74ec2fd04033e97f9037775dcfeff8b11d4c94e2cb375a8ebe",
+  "hub/land-value.js": "6414a742cf76cef6f3a541d20fae15530969b2294f0f30973f8b3a2988a7b003",
   "hub/lender-export.js": "d1e48681ef719397028af4e5bbea04baf62f6b1b24441a7d1f40b034e5eea7da",
   "hub/lender-schedules.js": "d540caedeb111c4440fa773e80a45f85c9ced6d4c0ffe7014e54abb2bbffb0b7",
   "hub/lihtc-history.css": "466ec422410ecd3d0f14cf00089648a29ce0e400774871dde69a775414078d56",
@@ -165,7 +165,7 @@
   "js/components/housing-type-need.js": "606ebfa3f16fe291907f66cc98fdeb4e0ff0e36921c76612ffb12abec05a7a8d",
   "js/local-incentives-data.js": "f1ad486017680b9af8781485def973e6f3294634c0ae96542c7e0a27cebc55a5",
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
-  "js/land-comps.js": "e85f3500b972597fa8c2805742dc2428fd0eb827ef165a88fe3de4353d8851b3",
+  "js/land-comps.js": "07f8a4e959aefca61fa0e8a4ead3ac3c8047edb207720842ef7490cd99fe7424",
   "js/data-source-inventory.js": "b81a94835048bce1713223dfdcf064434dd519aaaaa0a4417e24659d953ce798",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
   "js/hna/hna-ownership-need.js": "b33284b054b1120870e2850d8995c990edabf661d42a3a767bf9cc8f98b1f8d0",

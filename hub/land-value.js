@@ -226,11 +226,12 @@
 
   // The four best-use tests and the open questions, from what is known so far.
   var STATUS = { checked: 'Checked', partly: 'Partly checked', not_checked: 'Not checked' };
-  function bestUsePanel(st, r) {
+  // key: the current site's look-up key, so a summary from an earlier address or acreage is never used here.
+  function bestUsePanel(st, r, key) {
     var L = global.LandComps;
     if (!L) return '';
     var tests = L.bestUse({ zoning: st.zoning, zoningSource: st.zoning ? 'your entry' : '', acres: st.siteAcres, homes: st.totalUnits, residual: r.res ? r.res.adjustedResidual : null });
-    var qs = L.questions({ zoning: st.zoning, summary: auto.state === 'done' ? auto.summary : null });
+    var qs = L.questions({ zoning: st.zoning, summary: auto.state === 'done' && auto.key === key ? auto.summary : null });
     return '<section class="lvb"><h2>Best use: a first read</h2><p class="note">The four tests an appraiser uses, marked by how far CoHO can check them.</p><ol class="lvb-tests">' +
       tests.map(function (t) {
         return '<li class="lvb-' + t.result.status + '"><span class="lvb-q">' + esc(t.title) + '</span><span class="lvb-a">' + esc(t.result.answer) + '</span>' + (t.result.answer === STATUS[t.result.status] ? '' : '<span class="lvb-s">' + esc(STATUS[t.result.status]) + '</span>') + '<span class="lvb-t note">' + esc(t.result.text) + '</span></li>';
@@ -288,7 +289,7 @@
       askCard(r.ask, st.totalUnits) +
       '<div class="metric"><p class="metric-title">How complete the inputs are</p><p class="metric-value">' + esc(CONF[r.conf.level] + ', ' + r.conf.score + ' of 100') + '</p><p class="metric-detail">The tool’s own completeness check: sales, project figures and site details. It is not a measure of accuracy.</p></div>' +
       '</div>' + bandChart(r.band, r.ask) +
-      bestUsePanel(st, r) +
+      bestUsePanel(st, r, autoKey(p)) +
       '<p class="note">This page keeps your figures in its link, so you can copy the address to share it. Nothing is saved anywhere else.</p>';
   }
 
