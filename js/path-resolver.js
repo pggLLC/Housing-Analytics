@@ -58,8 +58,8 @@
 // Pages whose content now lives in a hub view (paul, 14 Nov 2026: "redirect group A", "redirect county costs"). The content
 // check of 14 Nov 2026 found each page's headings, figures and tables in its view. Two parts:
 //  1. An old address forwards to its view, as the guides do: never inside a frame, never with ?classic=1,
-//     which still opens the page as written. A place, a deal or a comparison in the address goes with it, and the
-//     town or county picked on local-incentives.html (#j=<geoid>).
+//     which still opens the page as written. A place, a deal or a comparison in the address goes with it, as do the
+//     town or county picked on local-incentives.html (#j=<geoid>) and a county's deal write-ups (?county=).
 //     select-jurisdiction.html is not forwarded while it picks a place for another page (?next=, ?step=,
 //     ?new=) or with ?classic=1 (the place pill on the pages that stay).
 //  2. On the pages that stay, a link to one of these pages (a menu, a card, a "Next" link) is pointed at
@@ -99,6 +99,8 @@
       return list.filter(function (x, i, a) { return x && GEO.test(x) && a.indexOf(x) === i; });
     };
     if (file === 'deal-summary.html' && /^[a-z0-9-]{1,120}$/.test(q.get('d') || '')) return to + '/' + q.get('d');
+    // A county's write-ups (?county=<name> as CHFA prints it, js/components/place-deals-limits.js) open filtered.
+    if (file === 'deal-summary.html' && /^[A-Za-z .'-]{2,40}$/.test(q.get('county') || '')) return to + '?county=' + encodeURIComponent(q.get('county'));
     if (file === 'compare.html') {
       var picked = places(String(q.get('jurisdictions') || '').split(',')).slice(0, 6);
       var t = /^[a-z0-9_-]{1,20}$/.test(q.get('target') || '') ? q.get('target') : '';

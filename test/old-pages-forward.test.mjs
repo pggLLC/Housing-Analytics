@@ -72,6 +72,9 @@ test('the lab list (hub/nav.js) sends each forwarded page to the same view', () 
 test('an old address forwards, carrying its place, deal or comparison', () => {
   assert.equal(load(SITE + 'policy-briefs.html').went, 'policy-hub.html#/news');
   assert.equal(load(SITE + 'deal-summary.html?d=101-main-frisco').went, 'deal-hub.html#/deals/101-main-frisco');
+  // A county's write-ups, as the Housing Needs Assessment links them (Codex P2 on #2875).
+  assert.equal(load(SITE + 'deal-summary.html?county=La%20Plata').went, 'deal-hub.html#/deals?county=La%20Plata');
+  assert.equal(load(SITE + 'deal-summary.html?county=%3Cb%3E').went, 'deal-hub.html#/deals', 'a bad county is dropped');
   assert.equal(load(SITE + 'compare.html?jurisdictions=0828745,0831660&target=9pct').went, 'places-hub.html#/places/compare?g=0828745,0831660&t=9pct');
   assert.equal(load(SITE + 'hna-scenario-builder.html?geoid=0828745').went, 'places-hub.html#/places/scenario?g=0828745');
   assert.equal(load(SITE + 'recommendation.html?fips=08077').went, 'deal-hub.html#/recommendation?g=08077');
@@ -97,7 +100,7 @@ test('on a page that stays, links to forwarded pages and guides point at the vie
     '<a id="c" href="https://cohoanalytics.com/methods.html#m-sampling-error">x</a><a id="d" href="select-jurisdiction.html?classic=1">x</a>' +
     '<a id="e" href="data-map-browser.html?classic=1">x</a><a id="f" href="market-analysis.html">x</a><a id="g" href="#top">x</a>' +
     '<a id="h" href="https://example.com/compare.html">x</a><a id="i" href="select-jurisdiction.html?new=1">x</a>' +
-    '<a id="j" href="local-incentives.html#j=08077">x</a>');
+    '<a id="j" href="local-incentives.html#j=08077">x</a><a id="k" href="deal-summary.html?county=El%20Paso">x</a>');
   assert.equal(went, null);
   const h = (id) => doc.getElementById(id).getAttribute('href');
   // A link written as a path stays a path, so the site audits do not read it as an outside source link.
@@ -105,6 +108,7 @@ test('on a page that stays, links to forwarded pages and guides point at the vie
   assert.equal(h('b'), 'deal-hub.html#/recommendation?g=0828745');
   assert.equal(h('c'), SITE + 'policy-hub.html#/guide/methods?at=m-sampling-error');
   assert.equal(h('j'), 'places-hub.html#/places/incentives/08077', 'a link to a picked county on local incentives');
+  assert.equal(h('k'), 'deal-hub.html#/deals?county=El%20Paso', 'a link to a county\'s deal write-ups');
   for (const id of ['d', 'e', 'f', 'g', 'h', 'i']) assert.ok(!/-hub\.html/.test(h(id)), id + ' was rewritten to ' + h(id));
 });
 

@@ -209,6 +209,8 @@
     if (file === 'select-jurisdiction.html' && (q.has('next') || q.has('step') || q.has('new'))) return null;
     var g = function (list) { return list.filter(function (x, i, a) { return x && GEO.test(x) && a.indexOf(x) === i; }); };
     if (file === 'deal-summary.html' && /^[a-z0-9-]{1,120}$/.test(q.get('d') || '')) return to + '/' + q.get('d');
+    // A county's write-ups (?county=<name>, from the Housing Needs Assessment) open filtered (Codex P2 on HA #2875).
+    if (file === 'deal-summary.html' && /^[A-Za-z .'-]{2,40}$/.test(q.get('county') || '')) return to + '?county=' + encodeURIComponent(q.get('county'));
     if (file === 'compare.html') {
       var picked = g(String(q.get('jurisdictions') || '').split(',')).slice(0, 6), t = /^[a-z0-9_-]{1,20}$/.test(q.get('target') || '') ? q.get('target') : '';
       var qs = [picked.length ? 'g=' + picked.join(',') : '', t ? 't=' + t : ''].filter(Boolean).join('&');
