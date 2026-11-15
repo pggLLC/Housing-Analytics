@@ -389,7 +389,7 @@
       provider: 'Census Bureau ACS',
       url: 'https://api.census.gov/',
       localFile: 'data/co-demographics.json',
-      lastUpdated: '2026-10-15',
+      lastUpdated: '2026-11-15',
       updateFrequency: 'Annual',
       maxAgeDays: 400,
       geoUnit: 'State',

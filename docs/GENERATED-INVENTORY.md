@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T13:19:04.280Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T14:54:27.173Z. Do not edit by hand.
 
 ---
 
@@ -38,7 +38,7 @@
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
-| `deal-hub.html` | Build a deal · COHO Analytics | 10.2 KB |
+| `deal-hub.html` | Build a deal · COHO Analytics | 10.3 KB |
 | `deal-market-analysis.html` | Market Analysis · COHO Analytics | 159.7 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 7.5 KB |
@@ -68,7 +68,7 @@
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.7 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 265.6 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
-| `index.html` | COHO Analytics · Colorado affordable housing data | 12.2 KB |
+| `index.html` | COHO Analytics · Colorado affordable housing data | 12.3 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.2 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 13.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.3 KB |
@@ -85,7 +85,7 @@
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
 | `places-hub.html` | Places and need · COHO Analytics | 10.3 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 53.6 KB |
-| `policy-hub.html` | Policy and research · COHO Analytics | 10.2 KB |
+| `policy-hub.html` | Policy and research · COHO Analytics | 10.3 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
@@ -158,7 +158,7 @@
 | `data/chfa-lihtc.json` | 966.9 KB | ✅ | 926 features |
 | `data/chfa-qap-calendar.json` | 20.7 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 47.9 KB | ✅ | — |
+| `data/co-county-demographics.json` | 39.3 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 14.5 KB | ✅ | — |
@@ -331,7 +331,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 303.9 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 304.0 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.5 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
@@ -2098,7 +2098,7 @@
 
 ## Test Files
 
-808 test files found.
+809 test files found.
 
 | File | Size |
 |------|------|
@@ -2486,6 +2486,7 @@
 | `test/kalshi-signing-and-write.test.js` | 11.7 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-banking-awards.test.mjs` | 39.7 KB |
+| `test/land-comps.test.js` | 8.4 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
 | `test/land-value-ask.test.js` | 2.2 KB |
 | `test/leading-signals.test.mjs` | 4.8 KB |
