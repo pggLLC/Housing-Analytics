@@ -657,11 +657,17 @@
   // top (40 or 70% AMI) has no band of its own, so the in-commuter views give no figure there rather than count
   // households above the ceiling (Codex, 15 Nov 2026).
   function bandOf(t) { return { 30: 'le30', 50: '30_50', 60: '50_60', 80: '60_80' }[t] || null; }
+  // The engine's own count, or null with its reason (no usable CHFA limits, or tracts without CHAS or PUMS cover):
+  // a missing count stays missing, never a measured zero, as measure() keeps it (Codex, 15 Nov 2026).
   function qual(b, list, tiers) {
     var E = global.PMAMarketScoring, s = b.ctx.s;
-    if (!E || !list.length) return 0;
-    return E.chfaQualifiedRenters(s.x.demand, limitsOf(s), list.map(function (g) { return { geoid: g }; }), tiers, undefined, engineOpts(s.x)).value || 0;
+    if (!E || !list.length) return null;
+    var r = E.chfaQualifiedRenters(s.x.demand, limitsOf(s), list.map(function (g) { return { geoid: g }; }), tiers, undefined, engineOpts(s.x));
+    if (r.value == null) { if (r.reason && b.viewWhy && b.viewWhy.indexOf(r.reason) < 0) b.viewWhy.push(r.reason); return null; }
+    return r.value;
   }
+  // A sum that stays null when either part is unknown.
+  function plusN(x, y) { return x == null || y == null ? null : x + y; }
   // Tax credit homes already in some tracts, with the supply engine's own caveats (a property counted at all its units,
   // or one left out for no count), as measure() and evaluate() keep them (Codex, 15 Nov 2026).
   function supplyIn(b, list) {
@@ -679,18 +685,24 @@
     if (!pf || !g) return null;
     var m = pf.memb && pf.memb.places && pf.memb.places[g], pl = pf.pop && pf.pop.places && pf.pop.places[g], pc = pf.renters && pf.renters.places && pf.renters.places[g];
     if (!m || !pl || !pc || !pc.summary || !(pc.summary.total_renter_hh > 0) || !(pl.place_pop > 0)) return null;
-    var idx = engineOpts(b.ctx.s.x).acsIdx || {}, rent = 0, qT = 0, qA = 0, qP = 0, ex = 0, notes = [];
+    var idx = engineOpts(b.ctx.s.x).acsIdx || {}, rent = 0, qT = 0, qA = 0, qP = 0, ex = 0, seen = 0, notes = [];
     (m.tracts || []).forEach(function (t) {
       var a = idx[t.tract_geoid];
       if (!a) return;
       var ps = a.pop > 0 ? pl.place_pop * (t.share_of_place_area || 0) / a.pop : 0;
       var w = Math.min(1, Math.max(t.share_of_tract_area || 0, ps));
       if (!(w > 0)) return;
-      rent += w * (a.renter_hh || 0);
-      qT += w * qual(b, [t.tract_geoid], [tier]); qA += w * qual(b, [t.tract_geoid], CAP_TIERS); qP += w * qual(b, [t.tract_geoid], PEN_TIERS);
       var sup = supplyIn(b, [t.tract_geoid]);
       ex += w * sup.units; addNotes(notes, sup.notes);
+      // A tract the engine has no count for (no CHAS or PUMS cover) is left out of both sides of the scaling, as the
+      // engine leaves it out of an area; when no tract has a count, the town's count is unknown, not zero.
+      var x = qual(b, [t.tract_geoid], [tier]), y = qual(b, [t.tract_geoid], CAP_TIERS), z = qual(b, [t.tract_geoid], PEN_TIERS);
+      seen++;
+      if (x == null || y == null || z == null) return;
+      rent += w * (a.renter_hh || 0);
+      qT += w * x; qA += w * y; qP += w * z;
     });
+    if (seen && !(rent > 0)) return { renters: pc.summary.total_renter_hh, qT: null, qA: null, pool: null, existing: ex, supplyNotes: notes };
     if (!(rent > 0)) return null;
     var k = pc.summary.total_renter_hh / rent;
     return { renters: pc.summary.total_renter_hh, qT: qT * k, qA: qA * k, pool: qP * k, existing: ex, supplyNotes: notes };
@@ -724,6 +736,7 @@
   }
   function views(b) {
     var ctx = b.ctx, units = ctx.units, tier = ctx.tier, town = siteTown(b), out = [];
+    b.viewWhy = [];
     var area = function (list) {
       var sup = supplyIn(b, list);
       return { qT: qual(b, list, [tier]), qA: qual(b, list, CAP_TIERS), pool: qual(b, list, PEN_TIERS), existing: sup.units, supplyNotes: sup.notes };
@@ -731,7 +744,7 @@
     var wf = workforce(b, town), band = bandOf(tier);
     // t is null where the project's level has no band of its own.
     var add = function (scale) { return wf ? { t: band ? (wf.by[band] || 0) * scale : null, a: ANY_BANDS.reduce(function (s, k) { return s + (wf.by[k] || 0); }, 0) * scale } : null; };
-    var plus = function (x, y) { return y == null ? null : x + y; };
+    var plus = plusN;
     var noBand = function () { return 'In-commuters are counted in pay bands that end at 30, 50, 60 and 80% AMI, so there is no figure for ' + tier + '% AMI homes. Switch to any level, 30\u201380% AMI'; };
     var r = residents(b, town);
     if (r) {
@@ -740,8 +753,8 @@
         var a = add(1), hi = add(VIEW.high / VIEW.move);
         out.push({ id: 'residents-ic', label: 'Residents plus in-commuters', tag: 'local', ic: true,
           who: function (q, mode) { return mode !== 'any' && a.t == null ? noBand() : num(mode === 'any' ? r.qA : r.qT) + ' renter households + ' + num(mode === 'any' ? a.a : a.t) + ' workers’ households who could move in'; },
-          qT: plus(r.qT, a.t), qA: r.qA + a.a, pool: r.pool + a.a, existing: r.existing, supplyNotes: r.supplyNotes,
-          high: { qT: plus(r.qT, hi.t), qA: r.qA + hi.a } });
+          rT: r.qT, rA: r.qA, qT: plus(r.qT, a.t), qA: plus(r.qA, a.a), pool: plus(r.pool, a.a), existing: r.existing, supplyNotes: r.supplyNotes,
+          high: { qT: plus(r.qT, hi.t), qA: plus(r.qA, hi.a) } });
       }
     }
     var loc = chosen(b), L = area(loc);
@@ -755,7 +768,7 @@
         var rt = band ? fw.far * per(band) : null, ra = fw.far * ANY_BANDS.reduce(function (s, k) { return s + per(k); }, 0);
         out.push({ id: 'regional-ic', label: 'Regional plus in-commuters', tag: 'regional', ic: true, far: fw,
           who: function (q, mode) { return mode !== 'any' && rt == null ? noBand() : num(mode === 'any' ? R.qA : R.qT) + ' renter households + ' + num(mode === 'any' ? ra : rt) + ' workers’ households from 15+ miles away who could move in'; },
-          qT: plus(R.qT, rt), qA: R.qA + ra, pool: R.pool + ra, existing: R.existing, supplyNotes: R.supplyNotes });
+          rT: R.qT, rA: R.qA, qT: plus(R.qT, rt), qA: plus(R.qA, ra), pool: plus(R.pool, ra), existing: R.existing, supplyNotes: R.supplyNotes });
       }
     }
     var cty = areaById(b, 'county');
@@ -765,7 +778,7 @@
       v.pen = v.pool > 0 ? (v.existing + units) / v.pool : null;
       if (v.high) { v.high.capT = v.high.qT > 0 ? units / v.high.qT : null; v.high.capA = v.high.qA > 0 ? units / v.high.qA : null; }
     });
-    return { list: out, town: town, wf: wf, residents: !!r };
+    return { list: out, town: town, wf: wf, residents: !!r, why: b.viewWhy.slice() };
   }
   function drawViews(b) {
     var host = b.el.querySelector('.tc-views-body');
@@ -781,7 +794,7 @@
       return '<li class="tc-v' + (v.picked ? ' tc-v-pick' : '') + '" data-view="' + v.id + '"><div class="tc-v-head"><p class="tc-v-name"><strong>' + esc(v.label) + '</strong>' +
         (v.tag === 'local' ? ' <span class="tc-vtag">Local</span>' : v.tag === 'regional' ? ' <span class="tc-vtag tc-vtag-reg">CHFA-style</span>' : '') + '</p>' +
         '<p class="tc-v-num"><strong' + (over ? ' class="tc-over"' : '') + '>' + (cap == null ? '—' : p1(cap)) + '</strong> <span class="note">capture' + (v.pen != null ? ' · penetration ' + p1(v.pen) + (v.supplyNotes.length ? ' <span class="tc-flag tc-flag-note">supply note</span>' : '') : '') + '</span></p></div>' +
-        '<p class="note tc-v-who">' + esc(v.who(q, mode)) + (hi != null ? '. If half of in-commuters would move: ' + p1(hi) + ' capture' : '') + '.' +
+        '<p class="note tc-v-who">' + esc(((mode === 'any' ? ('rA' in v ? v.rA : v.qA) : ('rT' in v ? v.rT : v.qT)) == null ? 'No count of renter households who qualify here' + (V.why.length ? ': ' + V.why.join(' ') : '') : v.who(q, mode))) + (hi != null ? '. If half of in-commuters would move: ' + p1(hi) + ' capture' : '') + '.' +
         (v.supplyNotes.length && v.pen != null ? ' Supply note on penetration: ' + esc(v.supplyNotes.join(' ')) : '') + '</p>' +
         '<div class="cap-track tc-v-track" role="img" aria-label="' + esc(v.label + ': capture ' + (cap == null ? 'not available' : p1(cap)) + ', against CHFA’s 85% line') + '"><span class="cap-fill' + (over ? ' cap-over' : '') + '" style="width:' + w.toFixed(1) + '%"></span><span class="cap-line tc-v-line" style="left:' + lw + '%"></span></div></li>';
     }).join('');
