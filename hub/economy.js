@@ -223,7 +223,9 @@
   function build(fred, labor) {
     var cocons = obs(fred, 'COCONS'), sum = labor && labor.summary, wage = labor && labor.monthly && labor.monthly.SMU08000002000000003;
     var lastWage = wage && wage.observations[wage.observations.length - 1];
-    var read = sum && sum.text ? sum.text : '';
+    // The file's own sentence gives the jobs change without saying it is not seasonally adjusted, beside a card that
+    // is (paul 15 Nov, Deep dive fixes): the reading is put together here with both labelled.
+    var read = sum && sum.period ? 'In ' + MONTH[+sum.period.slice(5, 7) - 1] + ' ' + sum.period.slice(0, 4) + ' (preliminary), Colorado construction hourly pay was ' + signed(sum.laborWageYoyPct) + ' on a year and construction jobs ' + signed(sum.employmentYoyPct) + ' (not seasonally adjusted); prices of inputs to apartment building (U.S.) were ' + signed(sum.materialsYoyPct) + '.' : '';
     var hist = labor && Array.isArray(labor.history) ? labor.history.filter(function (h) { return h.period >= '2019-01'; }) : [];
     var ser = function (k) { return hist.filter(function (h) { return h[k] != null; }).map(function (h) { return [dt(h.period + '-01'), h[k], h.period]; }); };
     var chart = hist.length ? global.LabViz.timeLines({

@@ -153,43 +153,12 @@
   function failed(file) { return engines[file] === 'failed'; }
   // Said in place of a part whose public-site module this copy of the site does not carry.
   function missing(what) { return '<p class="callout">' + esc(what) + ' uses a module this page does not carry yet. It is on ' + ext(DD, 'the full Colorado Deep Dive') + '.</p>'; }
-  // Fixed lists a live module keeps inside itself (the policy simulator's scenarios):
-  // read from the pinned module's own text, so the lab carries what the live page draws, not a copy of it.
-  var literals = {};
-  function literal(file, name) {
-    var k = file + '|' + name;
-    if (!literals[k]) {
-      literals[k] = { data: null, error: null };
-      fetch(VENDOR + file).then(function (r) { if (!r.ok) throw new Error(file + ' ' + r.status); return r.text(); }).then(function (text) {
-        var at = text.indexOf('const ' + name + ' = [');
-        if (at < 0) throw new Error(name + ' not found in ' + file);
-        var i = text.indexOf('[', at), depth = 0, j = i;
-        for (; j < text.length; j++) { var ch = text[j]; if (ch === '[') depth++; else if (ch === ']') { depth--; if (!depth) break; } }
-        // eslint-disable-next-line no-new-func
-        literals[k].data = new Function('return ' + text.slice(i, j + 1))();
-        Shell.render();
-      }).catch(function (e) { literals[k].error = String(e.message || e); Shell.render(); });
-    }
-    return literals[k];
-  }
 
   // ---------- text the live page prints from its own markup ----------
   // Each entry is the live page's wording at the pinned commit (31 Oct 2026), with the source and date it names.
   // qa/deep-dive.test.js checks every entry against colorado-deep-dive.html at the pin.
   var STATIC = {
     homePriceRead: 'Prices are not falling enough to make homes affordable for lower-income households, so the need figures elsewhere on this page still apply. For site-level work, re-run any financial model against current construction costs rather than older estimates.',
-    concessionImpact: 'New luxury properties offering up to 3 months free rent, creating downward pressure on older Class B/C properties throughout the metro.',
-    // Denver metro average monthly concession, 2022 to 2025, as the live chart draws it. The live page labels the
-    // series "AAMD Q4 2025" in its subtitle and cites CBRE Multifamily Outlook 2025 under the chart.
-    concessionTrend: { years: [2022, 2023, 2024, 2025], values: [45, 65, 110, 169] },
-    concessionClass: [['Class A (2020+)', 285, 'Up to 3 months free rent'], ['Class B (2000-2019)', 150, '1-2 months free + gift cards'], ['Class C (pre-2000)', 95, 'Selective incentives + waived fees']],
-    concessionMarkets: [
-      ['Denver Metro', '$169', '9.5%', '4-5 weeks', 'Oversupply (19K units 2024)'],
-      ['Colorado Springs', '$95', '6.2%', '3 weeks', 'Moderate supply increase'],
-      ['Fort Collins', '$110', '7.1%', '3.5 weeks', 'Student housing competition'],
-      ['Boulder', '$125', '6.8%', '3.5 weeks', 'New luxury supply'],
-      ['Pueblo', '$45', '4.1%', '2 weeks', 'Limited new construction']
-    ],
     nahb: ['The NAHB / Wells Fargo Housing Market Index is the standard barometer of US builder sentiment. A reading above 50 means builders see good conditions; below 50 means poor. The series is published monthly but is paywalled behind NAHB membership and is not available via a free public feed.',
       'At time of last review, the national HMI sat in the low-to-mid 40s — consistent with elevated mortgage rates, soft buyer traffic, and the concession environment described above. Builders in mountain-west markets (including Colorado) typically track 2–4 points below the national index in periods of high construction wage pressure.'],
     keyFindings: [
@@ -344,16 +313,10 @@
     Promise.resolve(p).then(function () { mod._labReady = true; Shell.render(); }, function () { mod._labReady = 'failed'; Shell.render(); });
     return false;
   }
-  function unemploymentAvg(ind) {
-    var v = Object.keys(ind.counties).map(function (k) { return ind.counties[k].unemployment_rate; }).filter(function (x) { return x != null && isFinite(x); });
-    return v.length ? v.reduce(function (s, x) { return s + x; }, 0) / v.length : null;
-  }
 
   // ---------- 3. Market trends ----------
   function trends(d) {
     var am = d.aamd.metro, av = d.aamd.meta.vintage, fc = d.fc, fs = fc.summary, ind = d.ind;
-    var un = unemploymentAvg(ind);
-    var fcLine = function (k) { return fc.series[k].points.filter(function (p) { return !p.suppressed && p.value_pct != null; }).map(function (p) { return [p.year + (p.quarter - 1) / 4, p.value_pct]; }); };
     // Market dynamics: four metros from FRED, as the live table reads them.
     var METROS = [['Denver', 'ATNHPIUS19740Q', 'MEDDAYONMAR19740'], ['Colorado Springs', 'ATNHPIUS17820Q', 'MEDDAYONMAR17820'], ['Fort Collins', 'ATNHPIUS22660Q', 'MEDDAYONMAR22660'], ['Grand Junction', 'ATNHPIUS24300Q', 'MEDDAYONMAR24300']];
     var common = function (i) { var c = null; METROS.forEach(function (m) { var o = obs(d.fred, m[i]); var l = o.length ? o[o.length - 1].date : null; if (l && (!c || l < c)) c = l; }); return c; };
@@ -380,9 +343,6 @@
       if (aP) state.push('Homes for sale, ' + monthOf(a.date) + ': ' + num(+a.value) + ' listings, ' + pct(change(+a.value, aP)) + ' on a year earlier.');
       if (c != null && cP != null && aP) state.push('Listings with a price cut, ' + monthOf(a.date) + ': ' + Math.round(c / a.value * 100) + '%, against ' + Math.round(cP / aP * 100) + '% a year earlier.');
     }
-    // Tax credit homes by award year (LI_UNITS by AwardYear), the live timeline chart.
-    var byYear = {}; d.lihtc.features.forEach(function (f) { var p = f.properties, y = p.AwardYear || p.YR_ALLOC; if (y) byYear[y] = (byYear[y] || 0) + (p.LI_UNITS || 0); });
-    var yrs = Object.keys(byYear).map(Number).sort();
     // The affordability ratios and the market health score, from the live modules themselves.
     var AM = engine('js/affordability-metrics-panel.js', 'AffordabilityMetrics'), MH = engine('js/market-health-composite.js', 'MarketHealthComposite');
     var amReady = AM ? startEngine(AM) : failed('js/affordability-metrics-panel.js') ? 'failed' : null, mhReady = MH ? startEngine(MH) : failed('js/market-health-composite.js') ? 'failed' : null;
@@ -398,32 +358,17 @@
     var mhRows = mhReady === true ? MH.computeAll().map(function (c) { return { county: c.name, score: c.composite, job: c.jobGrowth, pop: c.popGrowth, un: c.unempRate, orig: c.origVolume, den: c.denialRate == null ? null : c.denialRate * 100 }; }) : null;
     var waitFor = function (what) { return '<p role="status" class="note">Loading the live ' + esc(what) + '…</p>'; };
     var OF = global.OwnershipFinance && global.OwnershipFinance.MORTGAGE_RATE;
-    return sec('concessions', 'Multifamily concessions analysis', '<p>How much landlords are giving away to fill apartments, from the Apartment Association of Metro Denver’s quarterly report.</p>' +
-        sec('vac-con', 'Vacancy and concessions, ' + av.replace('-', ' '), '<p>Metro Denver stabilized apartment vacancy was ' + plain(am.stabilized_vacancy_pct) + ' in ' + esc(av.replace('-', ' ')) + ', against ' + plain(am.stabilized_vacancy_prior_quarter_pct) + ' the quarter before and ' + plain(am.stabilized_vacancy_year_ago_pct) + ' a year earlier. Concessions averaged ' + money(am.average_concession) + ' a month (' + plain(am.concession_pct_of_gross_rent) + ' of gross rent), against ' + money(am.average_concession_prior_quarter) + ' the quarter before. Effective rents (gross rent net of concessions) were ' + esc(pct(am.effective_rent_yoy_pct)) + ' year over year.</p>' +
-          '<p><strong>Impact:</strong> ' + esc(STATIC.concessionImpact) + '</p>' +
-          UI.table('dd-aamd', 'Stabilized vacancy and average rent by county, ' + av, [{ key: 'c', label: 'County' }, { key: 'v', label: 'Stabilized vacancy', num: true, fmt: plain }, { key: 'r', label: 'Average rent', num: true, fmt: money }],
-            Object.keys(d.aamd.counties).map(function (k) { return { c: k, v: d.aamd.counties[k].stabilized_vacancy_pct, r: d.aamd.counties[k].average_rent }; }), { noun: 'counties', placeholder: 'County' }) +
-          src(d.aamd.meta.source + ' (' + d.aamd.meta.capture + ')', d.aamd.meta.source_url || d.aamd.meta.source_landing_url, av + ', checked ' + day(d.aamd.meta.last_verified)), 3) +
-        sec('con-trend', 'Denver metro concession trends', Viz.timeLines({ title: 'Average monthly concession, Denver metro, ' + STATIC.concessionTrend.years[0] + ' to ' + STATIC.concessionTrend.years[3], answer: 'Concessions grew from $' + STATIC.concessionTrend.values[0] + ' to $' + STATIC.concessionTrend.values[3] + ' a month.',
-          series: [{ label: 'Average concession', color: C.homes || 'var(--pine)', points: STATIC.concessionTrend.years.map(function (y, i) { return [y, STATIC.concessionTrend.values[i]]; }) }], fmt: function (v) { return '$' + Math.round(v); }, source: ext('https://www.cbre.com/insights/books/us-real-estate-market-outlook-2025/multifamily', 'CBRE Multifamily Outlook 2025') }) +
-          staticTag('Typed in by hand, not read from a data file. The original chart names the AAMD Q4 2025 series and CBRE Multifamily Outlook 2025 as its sources; neither is confirmed here.'), 3) +
-        sec('con-class', 'Concessions by property class', UI.bars('Average monthly concession by building age, Q4 2025', 'Denver metro', STATIC.concessionClass.map(function (r) { return [r[0] + ' · ' + r[2], r[1]]; }), money, 'homes') +
-          staticTag('Q4 2025 averages typed in by hand, citing AAMD Q4 2025. The current AAMD quarter above has no class split.'), 3) +
-        sec('con-state', 'Statewide concession comparison', UI.table('dd-con-s', 'Concessions by Colorado market, Q4 2025', [{ key: 0, label: 'Market' }, { key: 1, label: 'Average concession' }, { key: 2, label: '% of gross rent' }, { key: 3, label: 'Free weeks equivalent' }, { key: 4, label: 'Primary driver' }],
-          STATIC.concessionMarkets.map(function (r) { return { 0: r[0], 1: r[1], 2: r[2], 3: r[3], 4: r[4] }; }), { noun: 'markets', placeholder: 'Market' }) +
-          staticTag('Typed in by hand, citing AAMD / Apartment Insights Q4 2025, to be refreshed when AAMD publishes.'), 3)) +
-      sec('foreclosure', 'Foreclosure and distress analysis', '<p>Whether owners are falling behind on mortgages, statewide, from FHFA’s National Mortgage Database.</p>' +
-        sec('fc-process', 'Colorado mortgage foreclosure process', Viz.timeLines({ whenOf: function (x) { var y = Math.floor(x); return y + ' Q' + (Math.round((x - y) * 4) + 1); }, unit: 'of active mortgages', title: 'Share of active Colorado mortgages, by quarter', answer: fs.latest_foreclosure_process_pct + '% in foreclosure, bankruptcy or deed-in-lieu in ' + fs.latest_period + '; ' + fs.latest_serious_delinquency_pct + '% 90+ days late.',
-          series: [{ label: 'Foreclosure, bankruptcy or deed-in-lieu', color: C.rust || 'var(--rust)', points: fcLine('foreclosure_process_pct') }, { label: '90+ days delinquent', color: C.homes || 'var(--pine)', points: fcLine('serious_delinquency_pct') }, { label: '30–89 days delinquent', color: 'var(--c-blue)', dash: true, points: fcLine('early_delinquency_pct') }],
-          fmt: function (v) { return (+v).toFixed(1) + '%'; }, source: ext(fc.meta.source_landing_url, fc.meta.source) + ', data through ' + esc(fc.meta.data_through) + ', checked ' + esc(day(fc.meta.last_verified)) }) +
-          src(fc.meta.source + ', data through ' + fc.meta.data_through, fc.meta.source_landing_url, 'last verified ' + day(fc.meta.last_verified) + ', review by ' + day(fc.meta.review_by)), 3) +
-        sec('fc-risk', 'Foreclosure risk assessment', kpis([
-          { label: 'Overall risk level', value: /low/i.test(fs.risk_label) ? 'Low' : fs.risk_label, detail: fs.risk_label + ' through ' + fs.latest_period + '.', src: 'FHFA NMDB', href: fc.meta.source_landing_url },
-          { label: 'Foreclosure process', value: fs.latest_foreclosure_process_pct + '%', detail: 'Of active Colorado mortgages in foreclosure, bankruptcy or deed-in-lieu, ' + fs.latest_period, src: 'FHFA NMDB', href: fc.meta.source_landing_url },
-          { label: 'Employment', value: un == null ? null : un.toFixed(1) + '%', detail: 'Unemployment, the average of the 64 county rates (BLS LAUS, 2025 annual average)', src: 'BLS LAUS via co-county-economic-indicators.json, ' + ind.updated, href: 'https://www.bls.gov/lau/' },
-          { label: 'Lead indicator', value: fs.latest_serious_delinquency_pct + '%', detail: 'Of active Colorado mortgages 90+ days delinquent, ' + fs.latest_period, src: 'FHFA NMDB', href: fc.meta.source_landing_url }
-        ]), 3) +
-        sec('fc-signal', 'Statewide signal: low foreclosure-process share', '<p>FHFA NMDB statewide mortgage-performance data show ' + fs.latest_foreclosure_process_pct + '% of active Colorado mortgages in foreclosure, bankruptcy or deed-in-lieu in ' + fs.latest_period + ', against a ' + fs.peak_foreclosure_process_pct + '% Colorado peak in ' + fs.peak_foreclosure_process_period + '. ' + esc(fs.interpretation) + '</p><p class="note">Method: ' + esc(fc.meta.methodology) + '</p>', 3)) +
+    // Vacancy, concessions and late mortgages have one home, the Economic dashboard (paul 15 Nov, "Go: fixes and
+    // cards"). The hand-typed Q4 2025 concession trend, class split and market table went with them: the live AAMD
+    // quarter supersedes them.
+    return sec('apartments-mortgages', 'Apartments and mortgages', '<p>Metro Denver apartment vacancy and concessions, and Colorado mortgages behind on payments, are drawn in full on the Economic dashboard.</p>' +
+        '<div class="dd-cards">' + card({ from: 'Economic dashboard: is demand holding?', href: '#/places/economy?at=econ-demand', title: 'Apartments and late mortgages',
+          figures: [
+            { value: plain(am.stabilized_vacancy_pct), label: 'Metro Denver apartment vacancy, ' + av.replace(/^(\d{4})-(Q\d)$/, '$2 $1') + ' (AAMD)' },
+            { value: money(am.average_concession), label: 'Average concession a month, ' + av.replace(/^(\d{4})-(Q\d)$/, '$2 $1') + ' (AAMD)' },
+            { value: fs.latest_foreclosure_process_pct + '%', label: 'Mortgages in foreclosure, bankruptcy or deed-in-lieu, ' + String(fs.latest_period).replace(/^(\d{4})(Q\d)$/, '$2 $1') + ' (FHFA)' },
+            { value: fs.latest_serious_delinquency_pct + '%', label: 'Mortgages 90 days or more late, ' + String(fs.latest_period).replace(/^(\d{4})(Q\d)$/, '$2 $1') + ' (FHFA)' }
+          ], more: 'Vacancy and rent by county, and late payments every quarter since 2015.' }) + '</div>') +
       sec('confidence', 'Consumer confidence and market sentiment', '<p>How builders and buyers feel about the market.</p>' +
         sec('hmi', 'Colorado housing market confidence', '<p>' + esc(STATIC.nahb[0]) + '</p><p>' + esc(STATIC.nahb[1]) + '</p><p>' + ext('https://www.nahb.org/news-and-economics/housing-economics/indices/housing-market-index', 'Read the latest release: NAHB Housing Market Index') + '</p>' +
           staticTag('Builder and buyer sentiment: the NAHB index has no free public feed, so this is an explainer, not a reading.'), 3) +
@@ -437,9 +382,7 @@
           '<p><strong>Denver rents, all renters (BLS):</strong> ' + esc(pct(r24)) + ' in 2024 (dated)' + (rl && rNow != null ? '; ' + esc(pct(rNow)) + ' in ' + rl.date.slice(0, 4) : '') + ', annual average against the year before. BLS publishes this index for the Denver area only.</p>' +
           '<h4>Latest statewide readings</h4>' + list(state.map(esc)) +
           src('FHFA all-transactions house price index, Realtor.com days on market and listings, Census permits and BLS CPI rent, via FRED', 'https://fred.stlouisfed.org/', 'FRED file updated ' + day(d.fred.updated)), 3) +
-        sec('lihtc-alloc', 'LIHTC historical allocations (' + yrs[0] + '–' + yrs[yrs.length - 1] + ')', '<p>Low-income tax credit homes by the year CHFA awarded the credits, not the year they opened.</p>' +
-          UI.bars('Low-income homes awarded each year', 'CHFA award year', yrs.slice().reverse().map(function (y) { return [String(y), byYear[y]]; }), num, 'homes') +
-          src('CHFA LIHTC feed (LI_UNITS by AwardYear)', 'https://www.chfainfo.com/rental-housing/housing-credit', 'fetched ' + day(d.lihtc.fetchedAt)), 3)) +
+        '<p class="note">Tax credit homes by award year are on <a href="#/places/deep-dive?tab=history">Historical trends</a>.</p>') +
       sec('aff-metrics', 'Affordability metrics: per-county ratios', '<p>Three standard affordability ratios per county. Price to income: healthy at 3 or under, stretched over 4.5. Price to rent: 15 or under favors buying, over 20 favors renting. Affordability rate: an estimate of households who can afford the median home at a ' + (rate ? rate.toFixed(2) + '%' : 'current') + ' mortgage rate' + (OF && OF.source ? ' (' + esc(OF.source.label || OF.source.name || OF.source) + ')' : '') + ', with housing costs at 30% of income.</p>' +
         (affRows ? UI.table('dd-aff', 'Affordability ratios by county, least affordable first', [
           { key: 'county', label: 'County' }, { key: 'home', label: 'Median home', num: true, fmt: money, tip: 'County values use the modeled ACS/FHFA cascade, with ACS DP04 as fallback' },
@@ -472,41 +415,42 @@
     ['https://cdola.colorado.gov/prop123', 'DOLA Proposition 123', 'Local government affordable housing commitment data'],
     ['https://www.census.gov/programs-surveys/acs/', 'ACS (American Community Survey)', 'Renter household income distribution (B25118), all-tenure household income (B19001), gross rent by unit (B25063)'],
     ['https://fred.stlouisfed.org', 'Federal Reserve (FRED)', 'Economic indicators: vacancy rates, housing starts, employment'],
-    ['https://coloradorealtors.com/market-trends/', 'Colorado Association of REALTORS (CAR)', '2025 Market Trends Report, concessions data, foreclosure data']
+    ['https://coloradorealtors.com/market-trends/', 'Colorado Association of REALTORS (CAR)', 'Monthly statewide and county market reports']
   ];
+  // A summary card from another page (duplicates pass, paul 15 Nov): the figures it shows are read from the same file
+  // the home page draws, so the two cannot drift. Without the shared card it falls back to a plain link.
+  function card(o) {
+    return T && T.summary ? T.summary(o) : '<p><a href="' + esc(o.href) + '">' + esc(o.from) + ' →</a></p>';
+  }
+  function lastObs(fred, id) { var l = obs(fred, id); return l.length ? l[l.length - 1] : null; }
+
   function snapshot(d) {
-    var co = d.alloc.states.CO, am = d.aamd.metro, nov = d.nov.pricing, coP = nov.by_state.CO, fs = d.fc.summary, un = unemploymentAvg(d.ind);
-    var scen = literal('js/policy-simulator.js', 'SCENARIOS');
-    var sims = scen.data ? scen.data.map(function (s) {
-      // The live module's own derived figures (enrichScenario in js/policy-simulator.js): cost per home, and its return.
-      return { label: s.label, description: s.description, units: s.unitsProduced, cost: s.totalPublicCostM, per: Math.round(s.totalPublicCostM * 1e6 / s.unitsProduced),
-        roi: +(((s.taxRevenueM + s.totalPublicCostM * (s.economicMultiplier - 1)) / s.totalPublicCostM) * 100).toFixed(1), hh: s.householdsServed, ami: s.avgAmiFocus, rural: s.ruralShare };
-    }) : null;
+    var am = d.aamd.metro, nov = d.nov.pricing, coP = nov.by_state.CO, fs = d.fc.summary, cour = lastObs(d.fred, 'COUR');
     var pj = d.p123.jurisdictions, pc = pj.filter(function (j) { return j.kind === 'county'; }).length;
-    var car = d.car, cs = car.statewide;
-    var hm = d.hmdaState, yrs = Object.keys(hm.years).sort(), y = yrs[yrs.length - 1], yp = yrs[yrs.length - 2], H = hm.years[y], HP = hm.years[yp];
+    var car = d.car, cs = car.statewide, carProjected = car.estimated && (!car.estimated_scopes || car.estimated_scopes.statewide);
+    var hm = d.hmdaState, yrs = Object.keys(hm.years).sort(), y = yrs[yrs.length - 1], H = hm.years[y];
     var top = Object.keys(d.hmdaCounty.counties).map(function (k) { var c = d.hmdaCounty.counties[k], r = c.years[y]; return r ? { county: c.name, orig: r.originations, vol: r.origination_volume_usd / 1e6, den: r.denial_rate * 100, mf: r.multifamily && r.multifamily.originations } : null; })
       .filter(Boolean).sort(function (a, b) { return b.orig - a.orig; }).slice(0, 10);
-    return sec('snapshot', 'Colorado snapshot', '<p>Colorado’s credit ceiling, credit per resident, vacancy, credit pricing, employment and foreclosure risk. Each card names its source.</p>' +
-        sec('key-metrics', 'Key Colorado metrics', kpis([
-          { label: 'Colorado 9% credit ceiling (' + d.alloc.year + ')', value: '$' + (co.allocation / 1e6).toFixed(1) + 'M', detail: 'Yearly credit, before carryforward and returns', src: 'IRS Notice 2026-22', href: d.alloc.source.populationUrl },
-          { label: 'Federal credit per resident (' + d.alloc.year + ')', value: '$' + co.perCapita.toFixed(2), detail: co.basis === 'per-capita' ? 'The per-capita amount, not the small-state minimum' : co.basis, src: 'IRS Rev. Proc. 2025-32', href: d.alloc.source.url },
-          { label: 'Multifamily vacancy rate', value: plain(am.stabilized_vacancy_pct), detail: 'Metro Denver, ' + d.aamd.meta.vintage, src: 'AAMD', href: d.aamd.meta.source_url || d.aamd.meta.source_landing_url },
-          { label: 'Credit pricing (Colorado)', value: '$' + coP.median_all_credits.toFixed(2), detail: 'Median, all credit types · 9% market reference $' + nov.national_avg.credit_9pct.toFixed(2), src: 'Novogradac ' + d.nov.meta.vintage, href: d.nov.meta.source_url },
-          { label: 'Unemployment rate', value: un == null ? null : un.toFixed(1) + '%', detail: 'Average of the county rates, BLS LAUS 2025', src: 'BLS LAUS', href: 'https://www.bls.gov/lau/' },
-          { label: 'Foreclosure risk', value: /low/i.test(fs.risk_label) ? 'Low' : fs.risk_label, detail: fs.latest_foreclosure_process_pct + '% in the foreclosure process, ' + fs.latest_period, src: 'FHFA NMDB', href: d.fc.meta.source_landing_url }
-        ]), 3) +
+    // The key metrics, the simulator and the lending figures were second copies (paul 15 Nov, "Go: fixes and cards"):
+    // the metrics and lending live on the Economic dashboard and credit pricing on Tax credit equity markets. The
+    // policy simulator is gone: its scenarios were typed in by hand with no dated source ($2.75 a resident against the
+    // IRS 2026 figure of $3.42), so it could not stay on the page as a reading.
+    return sec('snapshot', 'Colorado snapshot', '<p>Vacancy, jobs, late mortgages, lending and credit pricing each have one home; the cards below show their latest figures. Prop 123 commitments and the REALTORS figures follow.</p>' +
+        '<div class="dd-cards">' +
+        card({ from: 'Economic dashboard: is demand holding?', href: '#/places/economy?at=econ-demand', title: 'Jobs, apartment vacancy and late mortgages',
+          figures: [
+            cour ? { value: (+cour.value).toFixed(1) + '%', label: 'Colorado unemployment, ' + monthOf(cour.date) + ' (BLS)' } : null,
+            { value: plain(am.stabilized_vacancy_pct), label: 'Metro Denver apartment vacancy, ' + String(d.aamd.meta.vintage).replace(/^(\d{4})-(Q\d)$/, '$2 $1') + ' (AAMD)' },
+            { value: fs.latest_foreclosure_process_pct + '%', label: 'Mortgages in foreclosure, bankruptcy or deed-in-lieu, ' + String(fs.latest_period).replace(/^(\d{4})(Q\d)$/, '$2 $1') + ' (FHFA)' }
+          ] }) +
+        card({ from: 'Economic dashboard: mortgage credit', href: '#/places/economy?at=econ-credit', title: 'Home lending in Colorado, ' + y,
+          figures: [{ value: num(H.originations), label: 'Home loans made' }, { value: plain(H.denial_rate * 100), label: 'Applications turned down' }],
+          more: 'Every year since ' + yrs[0] + ' is on the Economic dashboard; lending by county is below.', source: 'CFPB HMDA' }) +
+        card({ from: 'Tax credit equity markets', href: '#/equity-pricing', title: 'What a dollar of tax credit sells for',
+          figures: [{ value: '$' + coP.median_all_credits.toFixed(2), label: 'Colorado median, all credit types, ' + d.nov.meta.vintage }],
+          source: 'Novogradac' }) +
+        '</div>' +
         sec('snap-sources', 'Data sources and methodology', list(SNAPSHOT_SOURCES.map(function (s) { return ext(s[0], s[1]) + ' — ' + esc(s[2]); })) + '<p class="note"><strong>Disclaimer:</strong> ' + esc(STATIC.disclaimer) + '</p>', 3)) +
-      sec('simulator', 'LIHTC policy simulator', '<p>Five Colorado tax credit policy scenarios side by side. They are modelled estimates based on historical program data and policy analysis: illustrative, for comparing policies, not forecasts.</p>' +
-        (scen.error ? '<p class="callout">' + esc(scen.error) + '</p>' : !sims ? '<p role="status" class="note">Loading the scenarios…</p>' :
-          '<div class="dd-scen">' + sims.map(function (s) {
-            return '<div class="dd-scen-card"><p class="lever-title">' + esc(s.label) + '</p><p class="note">' + esc(s.description) + '</p><dl class="dd-dl"><dt>Homes produced</dt><dd>' + num(s.units) + '</dd><dt>Total public cost</dt><dd>$' + num(s.cost) + 'M</dd><dt>Cost per home</dt><dd>' + money(s.per) + '</dd><dt>Return</dt><dd>' + s.roi + '%</dd><dt>Households served</dt><dd>' + num(s.hh) + '</dd><dt>Rural share</dt><dd>' + s.rural + '%</dd><dt>AMI focus</dt><dd>' + s.ami + '%</dd></dl></div>';
-          }).join('') + '</div>' +
-          sec('sim-visual', 'Visual comparison', '<div class="chart-pair">' + UI.bars('Homes produced', 'By scenario', sims.map(function (s) { return [s.label, s.units]; }), num, 'homes') +
-            UI.bars('Cost per home', 'Lower is cheaper', sims.map(function (s) { return [s.label, s.per]; }), money, 'households') + '</div>' +
-            UI.bars('Return on public cost', 'Tax revenue plus the construction multiplier, over cost', sims.map(function (s) { return [s.label, s.roi]; }), function (v) { return v + '%'; }, 'homes') +
-            '<p class="note">Method: unit and cost projections are modelled from CHFA annual reports, the HUD LIHTC database, Urban Institute research and Colorado OEDIT fiscal notes. Return counts direct tax revenue, a construction employment multiplier (IMPLAN) and ongoing property tax. All figures are illustrative estimates.</p>', 3)) +
-        staticTag('The scenario figures are typed in by hand, with no data file or dated source behind them. The per-capita scenario says Colorado’s allocation is $2.75 per resident; the 2026 IRS figure above is $' + co.perCapita.toFixed(2) + '. Treat these as unconfirmed.')) +
       sec('prop123', 'Proposition 123: local government commitments', '<p>' + num(pj.length) + ' jurisdictions (' + pc + ' counties, ' + (pj.length - pc) + ' municipalities) have filed a local government affordable housing commitment with DOLA. ' + num(d.p123.commitment_met_count) + ' are listed as having met it, and ' + num(d.p123.fast_track_count) + ' have adopted a fast-track approval process.</p>' +
         fold('Every jurisdiction and its commitment', num(pj.length) + ' rows, sortable and searchable', UI.table('dd-p123', 'Proposition 123 commitment filings', [
           { key: 'name', label: 'Jurisdiction' }, { key: 'type', label: 'Type' }, { key: 'status', label: 'Status', tip: 'Committed: filed a commitment. Commitment Met: DOLA lists it as fully compliant.' }, { key: 'filing_date', label: 'Filed' },
@@ -514,26 +458,22 @@
         ], pj.map(function (j) { return { name: j.name, type: j.type, status: j.status + (j.compliance_verified && j.compliance_verified.unit_commitment ? ', verified ' + j.compliance_verified.unit_commitment : ''), filing_date: j.filing_date, proposed_units: j.proposed_units, required: j.compliance_verified && j.compliance_verified.required_units_met != null ? j.compliance_verified.required_units_met : null, fast: j.fast_track ? 'Yes' + (j.fast_track_adopted ? ', ' + j.fast_track_adopted : '') : '' }; }), { noun: 'jurisdictions', placeholder: 'Town, county or status' })) +
         '<p><a href="#/places/incentives">Each place’s incentives and commitment →</a></p>' +
         src('DOLA commitment filings and fast-track list', d.p123.source_url, 'updated ' + day(d.p123.updated)), 3) +
-      sec('car', 'Colorado market conditions (CAR)', '<p>Statewide figures from the Colorado Association of REALTORS monthly report for ' + esc(monthOf(car.month)) + '. ' + (car.estimated ? 'Listings and days on market are estimated from CAR’s county reports (' + esc(car.estimate_basis) + '), not figures CAR published for the state. ' : '') + 'Prices stay blank until CAR publishes them.</p>' +
+      sec('car', 'Colorado market conditions (CAR)', carProjected ?
+        '<p>The Colorado Association of REALTORS publishes statewide sales, prices and listings each month. The site’s file for ' + esc(monthOf(car.month)) + ' holds projections from earlier months, not CAR’s own figures, so none are shown here. ' + ext(car.source_url, 'CAR’s monthly market reports') + '.</p>' + src(car.source, car.source_url, 'file for ' + monthOf(car.month) + ', built ' + day(car.generated_at)) :
+        '<p>Statewide figures from the Colorado Association of REALTORS monthly report for ' + esc(monthOf(car.month)) + '.</p>' +
         kpis([
-          { label: 'Median sale price', value: cs.median_sale_price == null ? 'Not yet published by CAR' : money(cs.median_sale_price), src: 'CAR', href: car.source_url },
-          { label: 'Active listings', value: num(cs.active_listings), detail: car.estimated ? 'Estimated' : '', src: 'CAR', href: car.source_url },
-          { label: 'Median days on market', value: cs.median_days_on_market + ' days', detail: car.estimated ? 'Estimated' : '', src: 'CAR', href: car.source_url },
-          { label: 'Months of supply', value: String(cs.months_of_supply), src: 'CAR', href: car.source_url }
-        ]) + src(car.source, car.source_url, monthOf(car.month) + ', generated ' + day(car.generated_at))) +
-      sec('hmda', 'Mortgage credit access (HMDA, CFPB)', '<p>Origination volume, denial rates and multifamily lending from the federal Home Mortgage Disclosure Act data. A rising denial rate or falling origination count signals tighter credit, which comes before slower multifamily starts. Latest: ' + y + ' (years ' + yrs[0] + '–' + y + ').</p>' +
-        kpis([
-          { label: 'Originations (Colorado, ' + y + ')', value: num(H.originations), detail: pct(change(H.originations, HP.originations)) + ' on ' + yp, src: 'CFPB HMDA', href: 'https://ffiec.cfpb.gov/data-browser/' },
-          { label: 'Denial rate', value: plain(H.denial_rate * 100), detail: (H.denial_rate - HP.denial_rate >= 0 ? '+' : '−') + Math.abs((H.denial_rate - HP.denial_rate) * 100).toFixed(1) + ' points on ' + yp, src: 'CFPB HMDA', href: 'https://ffiec.cfpb.gov/data-browser/' },
-          { label: 'Mean loan amount', value: money(H.mean_loan_amount_usd), detail: pct(change(H.mean_loan_amount_usd, HP.mean_loan_amount_usd)) + ' on ' + yp, src: 'CFPB HMDA', href: 'https://ffiec.cfpb.gov/data-browser/' },
-          { label: 'Multifamily originations', value: num(H.multifamily.originations), detail: pct(change(H.multifamily.originations, HP.multifamily.originations)) + ' on ' + yp + ' · closest to tax credit lending', src: 'CFPB HMDA', href: 'https://ffiec.cfpb.gov/data-browser/' }
-        ]) +
-        sec('hmda-top', 'Top 10 counties by origination volume (latest year)', UI.table('dd-hmda', 'Mortgage originations by county, ' + y, [
+          { label: 'Median sale price', value: cs.median_sale_price == null ? null : money(cs.median_sale_price), src: 'CAR', href: car.source_url },
+          { label: 'Active listings', value: cs.active_listings == null ? null : num(cs.active_listings), src: 'CAR', href: car.source_url },
+          { label: 'Median days on market', value: cs.median_days_on_market == null ? null : cs.median_days_on_market + ' days', src: 'CAR', href: car.source_url },
+          { label: 'Months of supply', value: cs.months_of_supply == null ? null : String(cs.months_of_supply), src: 'CAR', href: car.source_url }
+        ]) + src(car.source, car.source_url, monthOf(car.month) + ', generated ' + day(car.generated_at)), 3) +
+      // County lending is drawn only here: the Economic dashboard carries the statewide series (Codex P2 on HA #2891).
+      sec('hmda-top', 'Mortgage lending: top 10 counties by originations, ' + y, UI.table('dd-hmda', 'Mortgage originations by county, ' + y, [
           { key: 'county', label: 'County' }, { key: 'orig', label: 'Originations', num: true, fmt: num }, { key: 'vol', label: 'Volume ($M)', num: true, fmt: num },
           { key: 'den', label: 'Denial rate', num: true, fmt: function (v) { return plain(v); } }, { key: 'mf', label: 'Multifamily loans', num: true, fmt: num, tip: 'Loans secured by buildings of five or more homes' }
         ], top, { noun: 'counties', placeholder: 'County' }) +
-          '<p class="note">Denial rate = denials ÷ (originations + approved not accepted + denials). Mean loan amount is total ÷ count. Multifamily = HMDA dwelling category “Multifamily: site-built”.</p>' +
-          src('HMDA mortgage lending by county (CFPB HMDA Data Browser API)', 'https://ffiec.cfpb.gov/data-browser/', 'updated ' + day(d.hmdaCounty.meta.generated_at)), 3));
+        '<p class="note">Denial rate = denials ÷ (originations + approved not accepted + denials). Multifamily = HMDA dwelling category “Multifamily: site-built”.</p>' +
+        src('HMDA mortgage lending by county (CFPB HMDA Data Browser API)', 'https://ffiec.cfpb.gov/data-browser/', 'updated ' + day(d.hmdaCounty.meta.generated_at)), 3);
   }
 
   // ---------- 5. Affordability geography ----------
@@ -643,7 +583,7 @@
         sec('policy-res', 'Key policy resources', list([ext('https://cdola.colorado.gov/commitment-filings', 'DOLA Prop 123: commitment filings'), ext('https://www.huduser.gov/portal/datasets/lihtc.html', 'HUD LIHTC database'), ext('https://www.chfainfo.com/', 'CHFA: Colorado Housing and Finance Authority'),
           ext('https://leg.colorado.gov/bills/sb23-213', 'SB23-213: land use and TOD rezoning'), ext('https://www.census.gov/programs-surveys/acs/', 'Census ACS: American Community Survey')]) + src('Colorado Prop 123 commitments (DOLA)', d.p123.source_url, 'updated ' + day(d.p123.updated)), 3)) +
       sec('econ', 'Economic health', kpis([
-          { label: 'Unemployment rate', value: econ.unemployment_rate == null ? null : econ.unemployment_rate.toFixed(1) + '%', detail: band(econ.unemployment_rate, [function (v) { return v < 3.8; }, function (v) { return v <= 5.5; }], ['Low', 'Moderate', 'High']) },
+          { label: 'Unemployment rate, 2025 average', value: econ.unemployment_rate == null ? null : econ.unemployment_rate.toFixed(1) + '%', detail: (county ? '' : 'Average of the county rates, not the statewide rate · ') + band(econ.unemployment_rate, [function (v) { return v < 3.8; }, function (v) { return v <= 5.5; }], ['Low', 'Moderate', 'High']) },
           { label: 'Employed residents, 5-year change', value: pct(econ.job_growth_5yr_pct), detail: band(econ.job_growth_5yr_pct, [function (v) { return v >= 8; }, function (v) { return v >= 2; }], ['Strong', 'Moderate', 'Weak']) },
           { label: 'Affordability index', value: econ.affordability_index == null ? null : econ.affordability_index.toFixed(1) + '×', detail: 'Median home price ÷ median household income · ' + band(econ.affordability_index, [function (v) { return v <= 3; }, function (v) { return v <= 6; }], ['Affordable', 'Stretched', 'Unaffordable']) },
           { label: 'Population growth, 5 years', value: pct(econ.population_growth_5yr_pct), detail: band(econ.population_growth_5yr_pct, [function (v) { return v >= 3; }, function (v) { return v >= 0; }], ['Growing', 'Stable', 'Declining']) },
@@ -663,8 +603,8 @@
   }
 
   // ---------- 7. Construction labor and costs ----------
-  function construction(d) {
-    var cc = d.cc, m = cc.monthly, sm = cc.summary;
+  function constructionParts(d) {
+    var cc = d.cc, m = cc.monthly;
     var card = function (id, label, fmt) {
       var s = m[id]; if (!s || !s.latest) return { label: label, value: null, detail: s && s.unavailableReason };
       var y = s.yoy, dv = y ? (y.basis === 'pts' ? (y.value >= 0 ? '+' : '−') + Math.abs(y.value).toFixed(1) + ' pts' : pct(y.value)) : null;
@@ -687,10 +627,11 @@
     }).filter(Boolean);
     var hist = cc.history.slice(-12).reverse();
     var w = function (v) { return v == null ? null : '$' + (+v).toFixed(2); };
-    return sec('cc', 'Construction labor and costs in Colorado', '<p>What it costs to build in Colorado right now. ' + esc(sm.text) + ' Updated monthly after the BLS state jobs release; this file was refreshed ' + esc(day(cc.generatedAt)) + '.</p>') +
-      sec('cc-labor', 'Labor: wage rates and availability', kpis([
+    // Pay, jobs, openings, trade wages and input prices month by month: the Construction costs page draws these
+    // (constructionParts), and this tab shows a card (paul 15 Nov, "Go: fixes and cards").
+    return { labor: sec('cc-labor', 'Labor: wage rates and availability', kpis([
           card('SMU08000002000000003', 'Colorado construction hourly earnings', function (v) { return '$' + v.toFixed(2); }), card('SMU08000002000000011', 'Colorado construction weekly earnings', function (v) { return money(v); }),
-          card('SMU08000002000000001', 'Colorado construction jobs', function (v) { return v.toFixed(1) + 'K'; }), card('LASST080000000000003', 'Colorado unemployment rate', function (v) { return v.toFixed(1) + '%'; }),
+          card('SMU08000002000000001', 'Colorado construction jobs (not seasonally adjusted)', function (v) { return v.toFixed(1) + 'K'; }), card('LASST080000000000003', 'Colorado unemployment rate (seasonally adjusted)', function (v) { return v.toFixed(1) + '%'; }),
           card('JTU230000000000000JOR', 'U.S. construction job openings rate', function (v) { return v.toFixed(1) + '%'; }), card('JTU230000000000000HIR', 'U.S. construction hires rate', function (v) { return v.toFixed(1) + '%'; })
         ]) +
         Viz.timeLines({ title: 'Colorado construction average hourly earnings', answer: '$' + (+wobs[0].value).toFixed(2) + ' in ' + monthOf(wobs[0].period) + ' to $' + (+wobs[wobs.length - 1].value).toFixed(2) + ' in ' + monthOf(wobs[wobs.length - 1].period) + '.', zero: false,
@@ -698,17 +639,28 @@
         src('Source: BLS State Employment & Earnings (CES), BLS LAUS, BLS JOLTS, BLS OEWS; monthly, latest two months preliminary', 'https://www.bls.gov/sae/', 'refreshed ' + day(cc.generatedAt)) +
         sec('cc-trade', 'Hourly wage by trade, ' + o.referencePeriod, UI.table('dd-trade', 'Mean hourly wage by construction trade, Colorado and its metro areas (BLS OEWS)', [{ key: 'trade', label: 'Trade' }].concat(o.areas.map(function (a) { return { key: a.code, label: a.name.replace(', CO', ''), num: true, fmt: w }; }))
           .concat([{ key: 'chg', label: 'Statewide change', num: true, fmt: pct, tip: 'Change in the statewide mean hourly wage from the prior OEWS year' }]), tradeRows, { noun: 'trades', placeholder: 'Trade' }) + src('BLS Occupational Employment and Wage Statistics (OEWS), ' + o.referencePeriod, 'https://www.bls.gov/oes/', 'refreshed ' + day(cc.generatedAt)) +
-          '<p class="note">OEWS mean hourly wages are published once a year for May, so this table changes yearly. ' + esc((tradeRows[0] || {}).chgWhy || '') + ' A dash means BLS suppressed or did not publish the figure.</p>', 3)) +
-      sec('cc-mat', 'Materials: construction input prices', kpis(mats.map(function (s) { return { label: s.label, value: pct(s.yoyPct), detail: s.unavailableReason || 'On a year earlier · ' + monthOf(s.latestPeriod) }; })) +
+          '<p class="note">OEWS mean hourly wages are published once a year for May, so this table changes yearly. ' + esc((tradeRows[0] || {}).chgWhy || '') + ' A dash means BLS suppressed or did not publish the figure.</p>', 3)), mat: sec('cc-mat', 'Materials: construction input prices', kpis(mats.map(function (s) { return { label: s.label, value: pct(s.yoyPct), detail: s.unavailableReason || 'On a year earlier · ' + monthOf(s.latestPeriod) }; })) +
         (idxLines.length ? Viz.timeLines({ title: 'Construction input prices, rebased to ' + monthOf(base) + ' = 100', answer: idxLines.map(function (l) { return l.label + ' ' + l.points[l.points.length - 1][1].toFixed(1); }).join('; ') + '.', zero: false, series: idxLines, fmt: function (v) { return Math.round(v); }, source: ext('https://fred.stlouisfed.org/series/WPUIP231120', 'BLS PPI via FRED') + ', FRED file updated ' + esc(day(d.fred.updated)) }) : '') +
         '<p class="note">Producer price indexes are national. No public price index exists for construction materials in Colorado alone, so these show the direction and size of material cost change, not Colorado price levels.</p>' +
-        src('Source: BLS Producer Price Index via FRED (WPUIP231120 and construction-material commodity indexes), monthly', 'https://fred.stlouisfed.org/', 'FRED file updated ' + day(d.fred.updated))) +
-      sec('cc-month', 'Month by month', UI.table('dd-cc-hist', 'Year-over-year change in Colorado construction wages, jobs and input prices, latest 12 months', [
+        src('Source: BLS Producer Price Index via FRED (WPUIP231120 and construction-material commodity indexes), monthly', 'https://fred.stlouisfed.org/', 'FRED file updated ' + day(d.fred.updated))), month: sec('cc-month', 'Month by month', UI.table('dd-cc-hist', 'Year-over-year change in Colorado construction wages, jobs and input prices, latest 12 months', [
           { key: 'period', label: 'Month', fmt: monthOf }, { key: 'laborWageYoyPct', label: 'Colorado construction hourly earnings', num: true, fmt: pct }, { key: 'employmentYoyPct', label: 'Colorado construction jobs', num: true, fmt: pct },
           { key: 'materialsYoyPct', label: 'Construction input prices (national)', num: true, fmt: pct }
         ], hist, { noun: 'months', placeholder: 'Month' }) +
         fold('Every month since ' + monthOf(cc.history[0].period), num(cc.history.length) + ' months', UI.table('dd-cc-all', 'Every month on record', [{ key: 'period', label: 'Month', fmt: monthOf }, { key: 'laborWageYoyPct', label: 'Hourly earnings', num: true, fmt: pct }, { key: 'employmentYoyPct', label: 'Jobs', num: true, fmt: pct }, { key: 'materialsYoyPct', label: 'Input prices', num: true, fmt: pct }], cc.history.slice().reverse(), { noun: 'months', placeholder: 'Month' })) +
-        src('Colorado Construction Labor & Costs (BLS CES, LAUS, JOLTS, OEWS + BLS PPI via FRED)', 'https://www.bls.gov/sae/', 'updated ' + day(cc.generatedAt)));
+        src('Colorado Construction Labor & Costs (BLS CES, LAUS, JOLTS, OEWS + BLS PPI via FRED)', 'https://www.bls.gov/sae/', 'updated ' + day(cc.generatedAt))) };
+  }
+
+  function construction(d) {
+    var cc = d.cc, m = cc.monthly, wage = m.SMU08000002000000003, jobs = m.SMU08000002000000001, mat = cc.materials.series[0];
+    var at = function (s) { return s && s.latest ? monthOf(s.latest.period) + (s.latest.preliminary ? ', preliminary' : '') : ''; };
+    return sec('cc', 'Construction labor and costs in Colorado', '<p>What it costs to build in Colorado: pay, jobs and trade wages for Colorado, and national building material prices. All of it is on Construction costs.</p>' +
+      '<div class="dd-cards">' + card({ from: 'Construction costs', href: '#/places/costs?at=costs-labor', title: 'Colorado construction pay, jobs and input prices',
+        figures: [
+          wage && wage.latest ? { value: '$' + (+wage.latest.value).toFixed(2), label: 'Average hourly pay, ' + at(wage) } : null,
+          jobs && jobs.latest ? { value: (+jobs.latest.value).toFixed(1) + 'K', label: 'Construction jobs, ' + at(jobs) + ' (not seasonally adjusted)' } : null,
+          mat && mat.yoyPct != null ? { value: pct(mat.yoyPct), label: 'Apartment building input prices on a year, ' + monthOf(mat.latestPeriod) + ' (U.S.)' } : null
+        ], more: 'Weekly pay, job openings and hires, wages for 10 trades, every input price and each month since ' + monthOf(cc.history[0].period) + '.',
+        source: 'BLS, refreshed ' + day(cc.generatedAt) }) + '</div>');
   }
 
   // ---------- 8. Historical trends ----------
@@ -734,9 +686,13 @@
         '<strong>CHFA LIHTC (live)</strong>: ' + num(f.length) + ' Colorado projects, ' + esc(s.range) + ', refreshed weekly from CHFA’s HousingTaxCreditProperties feature service (fetched ' + esc(day(d.lihtc.fetchedAt)) + '). The award year is the year credits were reserved, usually two to three years before a project opens, so the latest rounds are still in construction or lease-up.',
         'Known limits: a history, not a forecast. Application scores and applicant counts are not shown: there is no verified public source for them yet.'
       ])) +
-      sec('awards-year', 'Awards per year, by credit type (' + s.range + ')', '<p>Every Colorado tax credit project in CHFA’s live property feed, by the year its credits were reserved. 9% credits are capped and won in CHFA’s scoring round; 4% credits come with tax-exempt bond financing and skip that round, though the bond cap behind them is limited too. 4% deals are typically about twice the size.</p>' +
-        Viz.stackedBars({ noData: true, title: 'Projects awarded each year, ' + s.range, rows: awardRows.slice(0, 15).map(function (r) { return [String(r.year), [r.n9, r.n4, r.no]]; }), parts: [['9% competitive', 'var(--pine)'], ['4% with bonds', 'var(--c-blue)'], ['Other or mixed', 'var(--grey)']], end: function (r) { return num(r[1].reduce(function (t, x) { return t + (x || 0); }, 0)) + ' projects'; }, answer: 'The latest 15 years; every year is in the table below.', source: '<a href="https://www.chfainfo.com/rental-housing/housing-credit">CHFA HousingTaxCreditProperties_view</a>' + ', fetched ' + esc(day(d.lihtc.fetchedAt)) }) +
-        fold('Show the numbers behind this chart', num(awardRows.length) + ' award years', UI.table('dd-awards', 'Colorado LIHTC awards per year by credit type', [
+      sec('awards-year', 'Awards per year, by credit type (' + s.range + ')', '<div class="dd-cards">' +
+        // The chart is drawn on How tax credit deals have changed, from the same CHFA feed (paul 15 Nov, "Go: fixes and
+        // cards"); every year, with homes by credit type, stays in the table below.
+        card({ from: 'How tax credit deals have changed', href: '#/tax-credit-history', title: 'Properties allocated credits each year, 9% and 4%',
+          figures: [{ value: num(f.length), label: 'Colorado tax credit properties, allocated ' + s.range }, { value: num(s.totals.units.reduce(function (t, u) { return t + (u || 0); }, 0)), label: 'Homes in them' }],
+          more: 'How deals grew, the move from 9% to bonds, who the homes serve and where they went.', source: 'CHFA property feed, fetched ' + day(d.lihtc.fetchedAt) }) + '</div>' +
+        fold('Every award year, by credit type', num(awardRows.length) + ' award years, projects and homes', UI.table('dd-awards', 'Colorado LIHTC awards per year by credit type', [
           { key: 'year', label: 'Award year' }, { key: 'n9', label: '9% projects', num: true }, { key: 'n4', label: '4% projects', num: true }, { key: 'no', label: 'Other', num: true, tip: 'Credit type recorded as neither 9% nor 4%, or as mixed' },
           { key: 'u9', label: '9% homes', num: true, fmt: num }, { key: 'u4', label: '4% homes', num: true, fmt: num }, { key: 'uo', label: 'Other homes', num: true, fmt: num }
         ], awardRows, { noun: 'years', placeholder: 'Year' })) + src('CHFA LIHTC portfolio (CHFA ArcGIS FeatureServer, public)', 'https://www.chfainfo.com/rental-housing/housing-credit', 'fetched ' + day(d.lihtc.fetchedAt))) +
@@ -845,7 +801,7 @@
 
   // ---------- 10. Market overview ----------
   function market(d) {
-    var co = d.alloc.states.CO, feats = d.props.features, ph = d.pricing.quarterly.slice(-12);
+    var co = d.alloc.states.CO, feats = d.props.features, ph = d.pricing.quarterly;
     var groups = {};
     feats.forEach(function (f) { var p = f.properties || {}, mt = STATIC.metroByCounty[(p.CNTY_NAME || '').trim()] || 'Other / Rural'; var x = groups[mt] = groups[mt] || { props: 0, units: 0, li: 0 }; x.props++; x.units += parseInt(p.N_UNITS, 10) || 0; x.li += parseInt(p.LI_UNITS, 10) || 0; });
     var rows = Object.keys(groups).map(function (k) { return { metro: k, props: groups[k].props, units: groups[k].units, li: groups[k].li }; }).sort(function (a, b) { return b.li - a.li; });
@@ -854,12 +810,11 @@
     return sec('mo', 'Market overview', '<p>Colorado’s federal housing credit ceiling for ' + esc(String(d.alloc.year || 2026)) + ' is about ' + esc(compact(co.allocation)) + ' a year ($' + co.perCapita.toFixed(2) + ' per resident), and CHFA awards it in competitive rounds alongside state credits. The Denver metro accounts for the majority of statewide units, with significant development in Colorado Springs, Fort Collins, Boulder and Pueblo. The metro breakdown below comes directly from the CHFA portfolio.</p>' +
         kpis([{ label: 'Federal housing credit ceiling', value: compact(co.allocation), detail: '$' + co.perCapita.toFixed(2) + ' per resident × ' + num(co.population) + ' residents', src: 'IRS', href: d.alloc.source && d.alloc.source.url },
           { label: 'Tax credit properties in CHFA’s portfolio', value: num(feats.length), src: 'CHFA, fetched ' + day(d.props.fetchedAt) }, { label: 'Low-income homes in them', value: num(liAll) }]) +
-        sec('mo-pricing', 'LIHTC credit pricing, recent quarters', staticTag('Recorded quarterly equity price per $1 of credit, 9% and 4%; same series as the Tax credit equity markets page') +
-          Viz.timeLines({ noData: true, whenOf: function (i) { return ph[i] ? String(ph[i].quarter).replace('-', ' ') : String(i); }, unit: 'per $1 of credit', title: 'Equity price per $1 of federal credit, ' + ph[0].quarter + ' to ' + ph[ph.length - 1].quarter, answer: 'Latest ' + ph[ph.length - 1].quarter + ': 9% $' + (+ph[ph.length - 1].nine).toFixed(2) + ', 4% $' + (+ph[ph.length - 1].four).toFixed(2) + '.', zero: false,
-            series: [{ label: '9% credit', color: C.homes || 'var(--pine)', points: ph.map(function (r, i) { return [i, +r.nine]; }) }, { label: '4% credit', color: C.blue || 'var(--c-blue)', points: ph.map(function (r, i) { return [i, +r.four]; }) }], fmt: function (v) { return '$' + v.toFixed(2); },
-            note: 'Quarters left to right: ' + ph.map(function (r) { return r.quarter; }).join(', ') + '.', source: '<a href="#/equity-pricing">Tax credit equity markets</a>, Novogradac series captured ' + esc(day(d.pricing.meta.captured)) }) +
-          fold('Show the numbers behind this chart', ph.length + ' quarters', UI.table('dd-mo-price', 'Recorded 9% and 4% equity pricing by quarter', [{ key: 'quarter', label: 'Quarter' }, { key: 'nine', label: '9%', num: true, fmt: function (v) { return '$' + (+v).toFixed(2); } }, { key: 'four', label: '4%', num: true, fmt: function (v) { return '$' + (+v).toFixed(2); } }], ph.slice().reverse(), { noun: 'quarters', placeholder: 'Quarter' })) +
-          src('COHO equity pricing history', '#/equity-pricing', 'Novogradac series captured ' + day(d.pricing.meta.captured)), 3)) +
+        sec('mo-pricing', 'LIHTC credit pricing, recent quarters', '<div class="dd-cards">' +
+          // Drawn in full on Tax credit equity markets from the same series (paul 15 Nov, "Go: fixes and cards").
+          card({ from: 'Tax credit equity markets', href: '#/equity-pricing', title: 'Equity price per $1 of federal credit, ' + String(ph[ph.length - 1].quarter).replace('-', ' '),
+            figures: [{ value: '$' + (+ph[ph.length - 1].nine).toFixed(2), label: '9% credit' }, { value: '$' + (+ph[ph.length - 1].four).toFixed(2), label: '4% credit' }],
+            more: 'Every quarter since ' + String(d.pricing.quarterly[0].quarter).replace('-', ' ') + ', what moves the price and what state plans assume.', source: 'Novogradac, captured ' + day(d.pricing.meta.captured) }) + '</div>', 3)) +
       sec('mo-findings', 'Key findings', staticTag('COHO’s editorial summary of the CHFA QAP, the Novogradac pricing trend and the CHFA portfolio') + list(STATIC.keyFindings.map(esc))) +
       sec('mo-metro', 'Metro area breakdown', '<p>Aggregated from CHFA’s HousingTaxCreditProperties feed by county, grouped into metro areas. Updates when CHFA refreshes the service.</p>' +
         UI.table('dd-mo-metro', 'CHFA tax credit properties by metro area', [{ key: 'metro', label: 'Metro area', tip: 'Metro area the county is grouped into for this table' }, { key: 'props', label: 'Properties', num: true, fmt: num }, { key: 'units', label: 'Total homes', num: true, fmt: num, tip: 'All homes in those developments, restricted and unrestricted' },
@@ -1131,12 +1086,14 @@
   }
 
   // ---------- 14. Policy timeline ----------
+  // The full list, with each event's source, is on the Economic dashboard and marked on Construction costs' chart,
+  // from the same file (paul 15 Nov, "Go: fixes and cards").
   function timeline(d) {
-    var ev = d.timeline.events.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
-    return sec('pt', 'Policy and economic milestones', '<p>Historical events provide context, not current funding availability.</p>' +
-      fold('Read the timeline and official sources', ev.length + ' events, ' + ev[0].date.slice(0, 4) + ' to ' + ev[ev.length - 1].date.slice(0, 4), '<ol class="dd-timeline">' + ev.map(function (e) {
-        return '<li><p class="dd-tl-when">' + esc(day(e.date)) + ' · ' + esc(e.status) + '</p><p class="dd-tl-what"><strong>' + esc(e.title) + '</strong></p><p>' + esc(e.detail) + '</p><p class="note">' + ext(e.source_url, 'Source') + (e.verified ? ' checked ' + esc(day(e.verified)) : '') + '</p></li>';
-      }).join('') + '</ol>', true));
+    var ev = d.timeline.events.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }), last = ev[ev.length - 1];
+    return sec('pt', 'Policy and economic milestones', '<p>Historical events provide context, not current funding availability.</p><div class="dd-cards">' +
+      card({ from: 'Economic dashboard: policy and economic milestones', href: '#/places/economy?at=econ-timeline', title: ev.length + ' events, ' + ev[0].date.slice(0, 4) + ' to ' + last.date.slice(0, 4),
+        figures: [{ value: day(last.date), label: 'Latest: ' + last.title }], more: 'Each event with what it did and its official source.',
+        source: 'COHO policy timeline, as of ' + day(d.timeline.meta && d.timeline.meta.as_of), also: [{ label: 'The same events on the construction price chart', href: '#/places/costs' }] }) + '</div>');
   }
 
   // ---------- the page: fourteen chapters, each folded, one open ----------
@@ -1155,11 +1112,11 @@
   var TABS = [
     ['deepdive', 'Deep dive', 'The map of tax credit projects, QCTs and DDAs, and Colorado home prices', overview],
     ['ami-gap', 'AMI gap', 'Income limits and the gap between households and homes priced for them', amiGap],
-    ['market-trends', 'Market trends', 'Concessions, foreclosures, builder confidence, metro prices, county ratios', trends],
-    ['snapshot', 'Colorado snapshot', 'Key metrics, the policy simulator, Prop 123, CAR and mortgage lending', snapshot],
+    ['market-trends', 'Market trends', 'Apartments and mortgages, builder confidence, metro prices, county ratios', trends],
+    ['snapshot', 'Colorado snapshot', 'Jobs, vacancy, lending and credit pricing, Prop 123 commitments and CAR', snapshot],
     ['affordability-geo', 'Affordability geography', 'Rent against income by tract, cost burden by county', geography],
     ['signals', 'Market signals', 'Demand, supply, affordable inventory, risk, policy and the economy, statewide or by county', signals],
-    ['construction', 'Construction labor and costs', 'Wages, labor availability and material prices, month by month', construction],
+    ['construction', 'Construction labor and costs', 'Colorado construction pay, jobs and input prices', construction],
     ['history', 'Historical trends', 'CHFA awards by credit type, stock growth, project size and a peer benchmark', history],
     ['funding', 'Funding sources', 'Every program that finances Colorado affordable housing, with a finder', funding],
     ['market', 'Market overview', 'The 2026 allocation, credit pricing, metro breakdown and CHFA priorities', market],
@@ -1278,5 +1235,5 @@
     document.querySelectorAll('[data-dd-tab]').forEach(function (b) { var me = b.getAttribute('data-dd-tab') === id; b.setAttribute('aria-selected', me); b.tabIndex = me ? 0 : -1; });
   }, true);
 
-  global.LabDeepDive = { view: view, TABS: TABS.map(function (t) { return t[0]; }), STATIC: STATIC };
+  global.LabDeepDive = { view: view, constructionParts: function (d) { return constructionParts(d); }, TABS: TABS.map(function (t) { return t[0]; }), STATIC: STATIC };
 })(window);

@@ -776,7 +776,7 @@
   // ---- Construction costs --------------------------------------------------------------------
   // The live page's FRED series for multifamily construction inputs, rebased to January 2020, with the policy
   // timeline's dated events numbered on the line, then the live page's material cards and four charts.
-  var COST_FILES = { fred: 'data/fred-data.json', timeline: 'data/policy/policy-timeline.json' };
+  var COST_FILES = { fred: 'data/fred-data.json', timeline: 'data/policy/policy-timeline.json', cc: 'data/market/co-construction-labor-cost.json' };
   var COST_SERIES = 'WPUIP231120';
   var COST_SRC = LIVE + 'construction-commodities.html';
   function month(d) { var p = String(d).split('-'); return new Date(+p[0], +p[1] - 1, +(p[2] || 1)); }
@@ -920,7 +920,7 @@
     return T.head({
       kind: 'data', crumbs: crumbs('Construction costs'), title: 'Construction costs',
       answer: answer,
-      meta: '<span class="scope-tag">Scope: United States</span> One national price index; Colorado has no state series for construction inputs.',
+      meta: '<span class="scope-tag">Scope: United States and Colorado</span> Material prices are national: Colorado has no state series for construction inputs. Pay, jobs and trade wages are Colorado.',
       facts: [
         { value: '+' + Math.round(rise) + '%', label: 'Since January 2020', source: 'BLS via FRED', href: fredUrl },
         { value: String(Math.round(pts[pts.length - 1][1])), label: 'Index, ' + when, source: 'BLS via FRED', href: fredUrl },
@@ -929,8 +929,19 @@
     }) + chart + means +
       '<h2>What happened along the way</h2>' + list +
       '<p class="note">' + esc(tl.meta.note) + ' Events checked ' + esc(tl.meta.as_of) + '. A marker shows when an event happened, not that it moved prices.</p>' +
-      materials(s.data.fred) +
+      materials(s.data.fred) + labor(s.data) +
       T.next('What to do next', [{ href: '#/deal-calculator', label: 'Test costs in the Deal Calculator →' }, { href: '#/places/incentives', label: 'See which towns offer fee relief', secondary: true }, { href: '#/places/economy', label: 'Rates, permits and jobs', secondary: true }]);
+  }
+
+  // Colorado construction pay, jobs, openings, trade wages and input prices month by month. These were drawn only on
+  // the Colorado deep dive's construction tab; they moved here, their one home, when that tab became a card (paul
+  // 15 Nov, "Go: fixes and cards"). The deep dive draws them (LabDeepDive.constructionParts) from the same file.
+  function labor(data) {
+    var DD = global.LabDeepDive;
+    if (!DD || !DD.constructionParts || !data.cc) return '';
+    var p;
+    try { p = DD.constructionParts({ cc: data.cc, fred: data.fred }); } catch (e) { if (global.console) console.error(e); return ''; }
+    return '<div id="costs-labor" tabindex="-1">' + p.labor + '</div>' + p.mat + p.month;
   }
 
   var SUB = { ranking: ranking, compare: compare, incentives: incentives, costs: costs };
