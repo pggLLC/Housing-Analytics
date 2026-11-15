@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T07:17:40.793Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T12:56:34.792Z. Do not edit by hand.
 
 ---
 
@@ -52,7 +52,7 @@
 | `developer-whitepaper.html` | Jurisdiction Report — COHO Analytics | 908 B |
 | `developer.html` | Developer Home — COHO Analytics | 24.3 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 95.7 KB |
-| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.1 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.6 KB |
 | `green-building-guide.html` | Green Building in a Colorado Deal | COHO Analytics | 16.8 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | COHO Analytics | 6.0 KB |
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
@@ -128,8 +128,8 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 957 B | ✅ | — |
-| `data/alerts/alerts_archive.json` | 2.14 MB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 60.0 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 2.19 MB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 60.5 KB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 5.8 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
 | `data/alerts/outlet-review.json` | 7.9 KB | ✅ | — |
@@ -1858,7 +1858,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0873825.json` | 1.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
-| `data/kalshi/prediction-market.json` | 13.3 KB | ✅ | — |
+| `data/kalshi/prediction-market.json` | 10.9 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 252.3 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
@@ -2034,7 +2034,7 @@
 | `data/policy/green-building.json` | 57.5 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 32.6 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 158.3 KB | ✅ | — |
+| `data/policy/housing-events.json` | 157.2 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/housing-roll-calls.json` | 5.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
@@ -2071,7 +2071,7 @@
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 611.5 KB | ✅ | — |
+| `data/policy_briefs.json` | 610.5 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 241.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
@@ -2517,8 +2517,8 @@
 | `test/market-geography-binding.test.mjs` | 17.9 KB |
 | `test/market-jurisdiction-clears.test.js` | 22.2 KB |
 | `test/market-site-point-persisted.test.js` | 11.7 KB |
-| `test/market-study-page.test.js` | 22.9 KB |
-| `test/market-study-report.test.js` | 30.0 KB |
+| `test/market-study-page.test.js` | 25.0 KB |
+| `test/market-study-report.test.js` | 30.6 KB |
 | `test/market-types.test.mjs` | 10.9 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/member-chrome.test.mjs` | 3.8 KB |
@@ -2639,7 +2639,7 @@
 | `test/production-figure-names-its-reading.test.js` | 11.6 KB |
 | `test/production-need-counts-the-workforce.test.mjs` | 8.8 KB |
 | `test/production-read-names-both-parts.test.js` | 3.9 KB |
-| `test/project-scenario.test.js` | 8.2 KB |
+| `test/project-scenario.test.js` | 10.4 KB |
 | `test/project-teams.test.mjs` | 5.6 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-administration.test.js` | 7.9 KB |
