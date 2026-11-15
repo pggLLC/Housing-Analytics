@@ -427,16 +427,24 @@
     });
     return made.length;
   }
-  // A page opened at ?at=<id> whose target sits in a fold opens that fold, once per address.
-  var atDone = '';
+  // A page opened at ?at=<id> scrolls to that target, opening the fold it sits in, once per address.
+  var atDone = '', atTime = 0, atMoved = false;
   function openAt() {
     var h = location.hash, i = h.indexOf('?');
-    if (i < 0 || atDone === h) return;
+    if (i < 0) return;
     var id = new URLSearchParams(h.slice(i + 1)).get('at'), el = id && document.getElementById(id);
     if (!el) return;
-    atDone = h;
-    if (el.closest('details:not([open])')) { openAround(el); el.scrollIntoView({ block: 'start' }); }
+    // Charts above the target draw after it is found and push it down, so for a few seconds each redraw brings it
+    // back into view, until the reader scrolls on their own.
+    if (atDone === h) {
+      if (atMoved || Date.now() - atTime > 4000 || Math.abs(el.getBoundingClientRect().top) < 80) return;
+    } else { atDone = h; atTime = Date.now(); atMoved = false; }
+    if (el.closest('details:not([open])')) openAround(el);
+    // A summary card links to its home's section (duplicates batch 2), so the target is brought into view whether or
+    // not it sat in a fold.
+    el.scrollIntoView({ block: 'start' });
   }
+  if (typeof global.addEventListener === 'function') ['wheel', 'touchstart', 'keydown'].forEach(function (t) { global.addEventListener(t, function () { atMoved = true; }, { passive: true }); });
   // Printing opens every section fold, and closes again afterwards the ones the reader had shut.
   var printOpened = [];
   if (typeof global.addEventListener === 'function') {

@@ -1890,7 +1890,7 @@
         '<h2>Household income distribution</h2>' +
         bars('Households by income', 'Number of households in each income bracket, the starting point for sizing need by AMI tier', INCOME.map(function (b) { return [b[0], pv(b[1])]; }), num, null, [acs + ', DP03', acsUrl('DP03')]) +
         raceEthnicity() + education() + ages() +
-        '<h2>Work and commuting</h2>' + commuting() + '<div class="metrics">' +
+        '<h2 id="sec-work-and-commuting" tabindex="-1">Work and commuting</h2>' + commuting() + '<div class="metrics">' +
         mc('Low-wage jobs located here', 'local_low_wage_jobs', num) +
         mc('Workers commuting in', 'in_commuters', num) +
         mc('Local jobs held by in-commuters', 'commute_ratio', function (x) { return pct(x, 0); }) +
