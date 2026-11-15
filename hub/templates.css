@@ -1071,6 +1071,12 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
 .page-place .place-tools { gap: .25rem 1.25rem; }
 .page-place .place-tools .actions { margin: 0 0 0 auto; }
 .step-path ol { margin-bottom: .75rem; }
+/* The bar keeps one height and one place on every step (paul, 15 Nov): every box keeps a row for "You are here",
+   so the bar does not grow on the step that has it, and a page head that follows the bar starts below it instead of
+   pulling up over it (its negative top margin meets the main navigation only when there is no bar). */
+.step-path .sp-box { grid-template-rows: auto auto 1fr 1.25rem; align-content: start; }
+.step-path .sp-here { line-height: 1.25rem; }
+.step-path ~ .page-head { margin-top: 0; }
 /* Where you are: the step and the working place, with Change and Clear (paul 11-11). The same line rides at the top
    of the screen once the bar scrolls away. "All 7 steps" is for phones, where the bar shows three. */
 .step-path .sp-where, .sp-sticky .sp-where { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .9rem; margin: 0 0 .5rem; font-size: 14px; }
@@ -1111,7 +1117,18 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
   .step-path li.sp-current:first-child ~ li:nth-child(3) { display: block; }
   .step-path li.sp-current:last-child, .step-path ol:has(li.sp-current:last-child) li:nth-last-child(3) { display: block; }
   .step-path .sp-text, .step-path .sp-here { display: none; }
-  .step-path .sp-box { padding: .4rem .45rem; }
+  /* The line above the boxes keeps one shape on every step: the step and "All 7 steps" on the first row, the place
+     with Change and Clear on the second, so a shorter step name never pulls the place up beside it. */
+  .step-path .sp-where { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: .75rem; row-gap: 0; }
+  .step-path .sp-where .sp-of { grid-column: 1; grid-row: 1; }
+  .step-path .sp-where .sp-all { grid-column: 2; grid-row: 1; }
+  .step-path .sp-where .sp-place { grid-column: 1 / -1; grid-row: 2; }
+  /* Number and name only, and room for a name on two lines, so the three boxes keep one height on every step. */
+  .step-path .sp-box { padding: .4rem .45rem; grid-template-rows: auto auto; }
+  .step-path .sp-title { min-height: 2.4em; }
+  /* The lab's "live site" tag would add a third line to one box; the public site has no such tag. */
+  .step-path .sp-title .live-tag { display: none; }
+  .step-path.sp-open .sp-box { grid-template-rows: auto auto 1fr; }
   /* With no step marked here (no place picked yet), the first three show, so the bar stays one row above the page;
      "All 7 steps" opens every step. */
   .step-path ol:not(:has(.sp-current)) li:nth-child(-n+3), .step-path.sp-open li { display: block; }

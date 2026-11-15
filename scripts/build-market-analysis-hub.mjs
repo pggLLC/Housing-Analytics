@@ -20,7 +20,10 @@
 //      list of recent projects (js/components/ma-place-row.js fills it)
 //   6. a link under the built-in Deal Calculator that opens its numbers in the Deal hub's Financials
 //      (js/components/ma-calc-handoff.js, with js/deal-calculator-share.js loaded unchanged)
-// The seven-step bar, the body and every script of the tool are carried as they are.
+//   7. the seven-step bar is the new pages' own (hub/step-bar.js, drawn by js/components/ma-step-bar.js), the same
+//      bar in the same place as on every other step, where the old page has its own (paul, 15 Nov: the bar looked
+//      and sat differently here, and its Scenarios step led to a page without one)
+// The body and every script of the tool are carried as they are.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -120,9 +123,14 @@ export function build(src, hubPage, palette) {
   //    file deal-calculator.html loads) builds the link's settings by the rules "Copy link" uses.
   swap(/<\/body>/, '<script defer src="js/components/ma-calc-handoff.js"></script>\n<script defer src="js/deal-calculator-share.js"></script>\n</body>', 'a closing body tag');
   swap(/<\/body>/, '<script src="js/components/ma-place-row.js"></script>\n<script src="hub/lab-config.js"></script>\n<script src="hub/page-chrome.js"></script>\n<script src="hub/nav.js"></script>\n</body>', 'a closing body tag');
+  // 7. The seven-step bar: the old page's bar (a block above <main> that js/components/workflow-progress.js ticks)
+  //    gives way to an empty block in the same place, which js/components/ma-step-bar.js fills with the new pages'
+  //    bar (hub/step-bar.js). Its refreshSteps call in the tool's own script finds no old bar and does nothing.
+  swap(/[ \t]*<!-- Workflow progress bar[^\n]*-->\n[ \t]*<div class="wf-progress-wrap" id="maWorkflowProgress">\n[\s\S]*?\n  <\/div>\n/,
+    '  <!-- The seven-step bar, as on every other step: js/components/ma-step-bar.js draws it (hub/step-bar.js). -->\n  <div id="maStepBar" class="ma-step-bar"></div>\n', 'the seven-step bar above <main>');
+  swap(/<\/body>/, '<script src="hub/step-bar.js"></script>\n<script src="js/components/ma-step-bar.js"></script>\n</body>', 'a closing body tag');
 
-  // 4. Where the page sits in the new site (the new pages' trail). The seven-step bar above <main> stays as it is:
-  //    js/components/workflow-progress.js ticks its finished steps and carries the chosen place on its links.
+  // 4. Where the page sits in the new site (the new pages' trail).
   const trail = '<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li><a href="deal-hub.html#/projects">Build a deal</a></li><li><a href="deal-hub.html#/market">Market check</a></li><li><span aria-current="page">Market Analysis</span></li></ol></nav>\n';
   swap(/(<main id="main-content">\n)/, '$1    ' + trail, 'a main');
 

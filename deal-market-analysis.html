@@ -101,45 +101,8 @@
   <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">Dark</button>
 </header>
 
-  <!-- Workflow progress bar (Step 4 of 7) — outside <main class="js-glossary-auto"> so it sticks independently -->
-  <div class="wf-progress-wrap" id="maWorkflowProgress">
-    <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-      <a class="wf-step" href="select-jurisdiction.html" data-step="1">
-        <span class="wf-step__num">1</span>
-        <span class="wf-step__label">Jurisdiction</span>
-      </a>
-      <div class="wf-step-connector"></div>
-      <a class="wf-step" href="lihtc-opportunity-finder.html" data-step="2">
-        <span class="wf-step__num">2</span>
-        <span class="wf-step__label">Opportunity Finder</span>
-      </a>
-      <div class="wf-step-connector"></div>
-      <a class="wf-step" href="hna-what-housing-exists.html" data-step="3">
-        <span class="wf-step__num">3</span>
-        <span class="wf-step__label">Needs Assessment</span>
-      </a>
-      <div class="wf-step-connector"></div>
-      <div class="wf-step wf-step--active" data-step="4" aria-current="step">
-        <span class="wf-step__num">4</span>
-        <span class="wf-step__label">Market Analysis</span>
-      </div>
-      <div class="wf-step-connector"></div>
-      <a class="wf-step" href="hna-scenario-builder.html" data-step="5">
-        <span class="wf-step__num">5</span>
-        <span class="wf-step__label">Scenarios</span>
-      </a>
-      <div class="wf-step-connector"></div>
-      <a class="wf-step" href="deal-calculator.html" data-step="6">
-        <span class="wf-step__num">6</span>
-        <span class="wf-step__label">Deal Calculator</span>
-      </a>
-      <div class="wf-step-connector"></div>
-      <a class="wf-step" href="recommendation.html" data-step="7">
-        <span class="wf-step__num">7</span>
-        <span class="wf-step__label">Recommendation</span>
-      </a>
-    </div>
-  </div>
+  <!-- The seven-step bar, as on every other step: js/components/ma-step-bar.js draws it (hub/step-bar.js). -->
+  <div id="maStepBar" class="ma-step-bar"></div>
 
   <div id="maPlaceRow" class="ma-place-row" role="region" aria-label="Place and saved projects" hidden></div>
   <main id="main-content">
@@ -2489,5 +2452,7 @@
 <script src="hub/lab-config.js"></script>
 <script src="hub/page-chrome.js"></script>
 <script src="hub/nav.js"></script>
+<script src="hub/step-bar.js"></script>
+<script src="js/components/ma-step-bar.js"></script>
 </body>
 </html>
