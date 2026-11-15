@@ -561,7 +561,7 @@
     if (r === 't' && global.LabTractCapture.needsReason && global.LabTractCapture.needsReason(site)) {
       var why = form.querySelector('[data-mk-wait]') || form.appendChild(Object.assign(document.createElement('p'), { className: 'note' }));
       why.setAttribute('data-mk-wait', ''); why.setAttribute('role', 'status');
-      why.textContent = 'You picked another area than the recommended one. Say why under Compare market areas, then add it.';
+      why.textContent = 'You picked an area other than the local or regional one. Say why under Compare market areas, then add it.';
       return;
     }
     if (target.length !== 2 || !area.tracts.length) {
