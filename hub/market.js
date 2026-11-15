@@ -190,7 +190,6 @@
     if (s.html) return s.html;
     if (global.LabHna && global.LabHna.setWorking) global.LabHna.setWorking(g); // the market check's place becomes the working place
     var b60 = s.place ? s.place.bands[3] : null;
-    var here = s.isCounty ? Pl.AT.county : Pl.AT.place;
     var vac = metric(s.c, 'active_market_vacancy_rate_pct');
     var rent = rentPart(s), supply = supplyPart(s);
     var units = Math.max(1, Math.min(1000, Math.round(+params.get('u')) || 60)), tier = CAP_TIERS.indexOf(+params.get('t')) > -1 ? +params.get('t') : 60;
@@ -208,7 +207,7 @@
       meta: '<span class="scope-tag">Free screen, not a market study</span> Town figures are for ' + esc(s.entry.label) + '. Supply and the tax credit rent limit are county-wide, the closest public stand-in for a market area.',
       facts: facts
     }) +
-      '<h2>Renters and the homes priced for them</h2>' + (s.place ? Pl.gapChart(s.place, here, s.d) : '<p class="note">The income gap file has no row for this place.</p>') +
+      '<h2>Renters and the homes priced for them</h2>' + (s.place ? Pl.gapChart(s.place, null, s.d) : '<p class="note">The income gap file has no row for this place.</p>') +
       '<h2>Rents</h2>' + rent.fig +
       '<h2>Tax credit supply in ' + esc(s.countyName) + '</h2>' + supply.html +
       '<h2>Capture rate</h2>' + cap.html +
@@ -236,7 +235,10 @@
     // 3.2: who the homes are priced for.
     var short = bands.filter(function (b) { return b[1] != null && home != null && b[1] < home; });
     var reach = V.reachBars({
-      title: 'What each income can pay, against the typical home', scope: homeM ? Pl.scope({ level: homeM.geography_level === 'county' ? 'county-proxy' : 'place', countyName: s.countyName }) : '',
+      // What each income can pay is worked out by the ownership engine from HUD's income limits, not measured, so
+      // the badge is the calculated one (Codex on live 07c1541). It still says where the typical home comes from.
+      title: 'What each income can pay, against the typical home', scope: Pl.scope({ level: 'calculated', metric: 'What each income can pay', where: s.name,
+        from: 'HUD FY2026 income limits through the site’s ownership engine' + (homeM ? '; the typical home is ' + (homeM.geography_level === 'county' ? s.countyName + '’s figure, standing in for ' + s.name : s.name + '’s own figure') : '') }),
       rows: bands, target: home, targetLabel: 'Typical home',
       answer: home == null ? null : short.length === bands.length ? 'Even a household at 120% AMI falls $' + num(home - bands[3][1]) + ' short of the typical home.'
         : short.length ? 'Households up to ' + short[short.length - 1][0] + ' fall short of the typical home; at 80% AMI the gap is $' + num(home - at80) + '.'

@@ -431,7 +431,7 @@
     var P = [
       ['need', 'See a place’s needs', 'Who lives there, what they earn, and how many homes are missing at each income.', '#/places', 'Start here: pick a town or county'],
       ['deal', 'Test whether a project works', 'Rents, costs, tax credits and debt for an affordable housing project, and whether there is a gap.', '#/projects', 'Open Build a deal'],
-      ['site', 'Find where to build', 'Every town scored on the facts that matter for a tax credit project, and homes that could be kept affordable.', '#/opportunities', 'Open Opportunities']
+      ['site', 'Find where to build', 'Every town and CDP on the facts that matter for a tax credit project, sorted your way with no score, and homes that could be kept affordable.', '#/opportunities', 'Open Opportunities']
     ];
     var ICON = { need: 'need', deal: 'credit', site: 'place' };
     return '<section class="hh-paths" aria-label="Where to start"><ul>' + P.map(function (p) {

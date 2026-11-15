@@ -617,6 +617,14 @@
       '</div>' + (status ? '<p class="note">' + status + '</p>' : '') + (b.note ? '<p class="note">' + esc(b.note) + '</p>' : '') + '</fieldset>';
   }
 
+  // Each slider is named by its own label text (Codex on live 07c1541: six sliders had no accessible name). The label
+  // wraps the value's <output> before the slider, and an <output> is labelable, so the label named the output and
+  // left the slider unnamed. Now the label points at the slider (for=) and the slider names itself from the label's
+  // words (aria-labelledby), so a screen reader hears "Federal 4% credit, slider, 0.85" and not the hint text too.
+  // The slider's id is its name, which slider.js already uses to find its "Now outside it" line.
+  function named(name) { return ' id="' + esc(name) + '" aria-labelledby="' + esc(name) + '-l"'; }
+  function sliderName(name, html) { return '<span id="' + esc(name) + '-l">' + html + '</span>'; }
+
   function stateField(units) {
     var cap = stateCap(q, data.rules, units), gone = stateGone(q, data.rules), r2 = roundTwoCap(data.rules, q.year);
     var yearNote = '<p class="note quick-state-year" data-credit-year="' + esc(String(q.year)) + '">Credit year ' + esc(String(q.year)) + '. ' +
@@ -626,8 +634,8 @@
       : '<div class="field-grid"><label class="field">CHFA application<select name="quick:statePath"><option value="bond_fall"' + (q.state.path === 'bond_fall' ? ' selected' : '') + '>With bonds, fall 2026: $10,000 a home, up to $700,000</option>' +
         '<option value="round_two"' + (q.state.path === 'round_two' ? ' selected' : '') + '>Round Two: ' + (r2 ? 'up to ' + esc(money(r2)) + ' accelerated' : 'no limit this year') + '</option></select></label>' +
         (cap ? (function (v) {
-          return '<label class="field">Annual state credit: <output id="quick-stateAnnual-v">' + esc(money(v)) + '</output>' +
-            '<input name="quick:stateAnnual" type="range" min="0" max="' + cap + '" step="10000" value="' + v + '"' + SL().attrs('money', 'quick-stateAnnual-v') + ' aria-describedby="quick:stateAnnual-target">' +
+          return '<label class="field" for="quick:stateAnnual">' + sliderName('quick:stateAnnual', 'Annual state credit') + ': <output id="quick-stateAnnual-v">' + esc(money(v)) + '</output>' +
+            '<input name="quick:stateAnnual"' + named('quick:stateAnnual') + ' type="range" min="0" max="' + cap + '" step="10000" value="' + v + '"' + SL().attrs('money', 'quick-stateAnnual-v') + ' aria-describedby="quick:stateAnnual-target">' +
             SL().scale({ id: 'quick:stateAnnual', min: 0, max: cap, value: v, mark: cap, markText: 'The most CHFA allows for this application: ' + esc(money(cap)) + ' a year, at the right end.' }) + '</label>';
         })(Math.min(q.state.annual || 0, cap)) : '') + '</div>' + yearNote;
     return '<fieldset class="quick-extra"><legend>Colorado state credit</legend>' +
@@ -643,14 +651,14 @@
     var fed = q.fedPrice > 0 ? q.fedPrice : eq, st = q.state.price !== '' && q.state.price != null ? Number(q.state.price) : STATE_PRICE;
     var slider = function (name, v, min, max, start) {
       var id = name.replace(':', '-') + '-v';
-      return '<input name="' + name + '" type="range" min="' + min + '" max="' + max + '" step="0.01" value="' + v.toFixed(2) + '"' + SL().attrs('price', id) + '>' +
+      return '<input name="' + name + '"' + named(name) + ' type="range" min="' + min + '" max="' + max + '" step="0.01" value="' + v.toFixed(2) + '"' + SL().attrs('price', id) + '>' +
         SL().scale({ id: name, min: min, max: max, value: v, mark: start });
     };
     return '<fieldset class="quick-extra"><legend>Credit prices (equity per dollar of credit)</legend><div class="field-grid">' +
-      '<label class="field">Federal ' + q.credit + '% credit: <output id="quick-fedPrice-v">$' + fed.toFixed(2) + '</output>' + slider('quick:fedPrice', fed, 0.60, 1.05, eq) +
+      '<label class="field" for="quick:fedPrice">' + sliderName('quick:fedPrice', 'Federal ' + q.credit + '% credit') + ': <output id="quick-fedPrice-v">$' + fed.toFixed(2) + '</output>' + slider('quick:fedPrice', fed, 0.60, 1.05, eq) +
         '<span class="hint">' + SL().key('mark') + 'Starts at $' + eq.toFixed(2) + ', the <a href="' + esc(meta.source_url || '') + '">Novogradac</a> national average for ' + q.credit + '% credits, ' + esc(meta.vintage || '') + '.' +
         (q.fedPrice > 0 && q.fedPrice !== eq ? ' <button type="button" class="linklike" data-quick-reset="fed">Back to $' + eq.toFixed(2) + '</button>' : '') + '</span></label>' +
-      (q.state.on ? '<label class="field">Colorado state credit: <output id="quick-statePrice-v">$' + st.toFixed(2) + '</output>' + slider('quick:statePrice', st, 0.50, 1.00, STATE_PRICE) +
+      (q.state.on ? '<label class="field" for="quick:statePrice">' + sliderName('quick:statePrice', 'Colorado state credit') + ': <output id="quick-statePrice-v">$' + st.toFixed(2) + '</output>' + slider('quick:statePrice', st, 0.50, 1.00, STATE_PRICE) +
         '<span class="hint">' + SL().key('mark') + 'Starts at $' + STATE_PRICE.toFixed(2) + ', a COHO starting assumption you can change: our estimate from Colorado tax credit applications. No public source prices the state credit.' +
         (st !== STATE_PRICE ? ' <button type="button" class="linklike" data-quick-reset="state">Back to $' + STATE_PRICE.toFixed(2) + '</button>' : '') + '</span></label>' : '') +
       '</div><p class="note">Replace either with your syndicator’s quote.</p></fieldset>';
@@ -661,7 +669,7 @@
       var c = softCap(d, data.soft, q.tdc), v = (q.soft || {})[d.k] || 0, max = c.max || Math.max(5000000, Math.round(q.tdc * 0.25 / 50000) * 50000);
       v = Math.min(v, max);
       var band = c.max ? [c.min || 0, c.max] : null, name = 'quick:soft:' + d.k, out = 'quick-soft-' + d.k + '-v';
-      return '<label class="field">' + esc(d.label) + ': <output id="' + out + '">' + esc(money(v)) + '</output><input name="' + name + '" type="range" min="0" max="' + max + '" step="25000" value="' + v + '"' + SL().attrs('money', out, band, true) + '>' +
+      return '<label class="field" for="' + name + '">' + sliderName(name, esc(d.label)) + ': <output id="' + out + '">' + esc(money(v)) + '</output><input name="' + name + '"' + named(name) + ' type="range" min="0" max="' + max + '" step="25000" value="' + v + '"' + SL().attrs('money', out, band, true) + '>' +
         SL().scale({ id: name, min: 0, max: max, value: v, band: band, zeroOk: true }) +
         '<span class="hint">' + (band ? SL().key('band') + (band[0] > 0 ? 'The program’s range: ' + esc(money(band[0])) + ' to ' + esc(money(band[1])) + '. ' : 'Up to ' + esc(money(band[1])) + '. ') : '') +
         (c.rule ? esc(c.rule) : c.max ? '' : 'No published limit; enter the award.') +
