@@ -65,11 +65,11 @@
         fetch('guides/legislation-road.json').then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(done, fail);
       }
     }
-    if (road.error) return '<p class="note">The ROAD Act write-up did not load; it is on <a href="' + LIVE + 'housing-legislation-2026.html#road-act">the full Legislation page</a>.</p>';
+    if (road.error) return '<p class="note">The ROAD Act write-up did not load; it is on <a href="' + LIVE + 'housing-legislation-2026.html?classic=1#road-act">the full Legislation page</a>.</p>';
     if (!road.g) return '';
     return '<section id="lg-road" class="guide-body">' + road.g.sections.filter(function (x) { return ROAD_KEEP.indexOf(x.id) > -1; }).map(function (x) {
       return '<h2 id="lg-' + esc(x.id) + '">' + esc(x.id === 'verified-enacted-housing-provisions' ? 'ROAD to Housing Act: what it enacted' : x.title) + '</h2>' + x.html;
-    }).join('') + '<p class="note">From <a href="' + LIVE + 'housing-legislation-2026.html#road-act">the full Legislation page</a>.</p></section>';
+    }).join('') + '<p class="note">From <a href="' + LIVE + 'housing-legislation-2026.html?classic=1#road-act">the full Legislation page</a>.</p></section>';
   }
 
   function natRow(x) {

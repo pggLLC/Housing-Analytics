@@ -332,7 +332,7 @@ if (RUN_BROWSER) {
 
     const PAGE_CONFIGS = [
       {
-        url:   `${BASE_URL}/housing-needs-assessment.html`,
+        url:   `${BASE_URL}/housing-needs-assessment.html?classic=1`,  // the page as written (it forwards to the place page since 15 Nov 2026)
         label: 'Housing Needs Assessment',
         checks: [
           // After initial load the page shows the default geography; verify
@@ -348,7 +348,7 @@ if (RUN_BROWSER) {
         ],
       },
       {
-        url:   `${BASE_URL}/hna-comparative-analysis.html`,
+        url:   `${BASE_URL}/hna-comparative-analysis.html?classic=1`,
         label: 'HNA Comparative Analysis',
         checks: [
           async (page) => {

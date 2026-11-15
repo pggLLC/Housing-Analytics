@@ -57,7 +57,7 @@ async function render(browser, script, md = null, listings = undefined) {
     if (!file.startsWith(ROOT + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) return route.fulfill({ status: 404, body: '' });
     return route.fulfill({ body: fs.readFileSync(file), contentType: mime[path.extname(file)] || 'application/octet-stream' });
   });
-  await tab.goto(`${ORIGIN}/colorado-deep-dive.html#tab-direction`, { waitUntil: 'load', timeout: 90000 });
+  await tab.goto(`${ORIGIN}/colorado-deep-dive.html?classic=1#tab-direction`, { waitUntil: 'load', timeout: 90000 });
   await tab.waitForFunction(() => document.querySelectorAll('#mdCountyBody tr').length > 1, null, { timeout: 30000 }).catch(() => {});
   await tab.waitForFunction(() => ((document.getElementById('mdListingsNote') || {}).textContent || '').trim().length > 0, null, { timeout: 15000 }).catch(() => {});
   const view = await tab.evaluate(async (pick) => {

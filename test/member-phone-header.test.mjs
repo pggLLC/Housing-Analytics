@@ -19,7 +19,8 @@ const NAV = (await import(path.join(ROOT, 'js/whitepaper/developer-nav.js'))).de
 const MEMBER = NAV.PAGES.map((p) => p.href).filter((f) => fs.existsSync(path.join(ROOT, f)));
 // Two public pages that carry the shared header. Home is not one of them since its 13 Nov 2026 rebuild: it is
 // drawn by the hub shell, which has its own header and no chip, so it cannot show whether the chip survived.
-const PUBLIC = ['housing-needs-assessment.html', 'deal-calculator.html'];
+// The needs assessment as written (?classic=1): since 15 Nov 2026 its bare address forwards to the place page.
+const PUBLIC = ['housing-needs-assessment.html?classic=1', 'deal-calculator.html'];
 let checks = 0;
 const ok = (c, m) => { assert.ok(c, m); checks++; };
 

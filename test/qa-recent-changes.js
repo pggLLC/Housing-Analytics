@@ -424,7 +424,7 @@ async function runSmokeTest() {
     const baseUrl = 'http://localhost:9876';
 
     // HNA page — select Delta County and verify several fixes
-    await page.goto(baseUrl + '/housing-needs-assessment.html', { waitUntil: 'networkidle2' });
+    await page.goto(baseUrl + '/housing-needs-assessment.html?classic=1', { waitUntil: 'networkidle2' });
     await page.evaluate(async () => {
       const t = document.getElementById('geoType');
       t.value = 'county'; t.dispatchEvent(new Event('change', { bubbles: true }));

@@ -79,7 +79,8 @@ assert.match(hubHtml, /data-tab="quality"/, 'Quality tab still present');
 
 assert.match(
   navJs,
-  /label: "Data Trust Center",\s*href: "data-review-hub\.html"/,
+  // Since redirect group B (15 Nov 2026) the menu opens the page's view, data-hub.html#/data/trust, under the same name.
+  /label: "Data Trust Center",\s*href: "(?:data-review-hub\.html|data-hub\.html#\/data\/trust)"/,
   'top nav "Data" group label renamed to Data Trust Center'
 );
 assert(!/label: "Data Hub"/.test(navJs), 'old "Data Hub" nav label fully replaced, not left as a second entry');

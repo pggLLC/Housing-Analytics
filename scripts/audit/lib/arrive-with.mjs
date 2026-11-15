@@ -14,7 +14,7 @@ const HNA_STATEWIDE = '?geoid=08&geoType=state';
 // measuring it there: ?classic=1 shows the page as written, not forwarded.
 const GUIDE_AS_WRITTEN = '?classic=1';
 
-// Since 2026-11-14 (redirect group A and county costs) 16 more old pages forward
+// Since 2026-11-14 (redirect group A and county costs) 16 more old pages forward, and since 2026-11-15 groups B and C
 // to the hub view that now holds them (js/path-resolver.js MOVED_PAGES). The pages
 // stay in the repo and ?classic=1 still shows each as written, so audits keep
 // measuring them there; the hub pages are audited on their own.
@@ -52,6 +52,22 @@ export const ARRIVE_WITH = Object.freeze({
   'data-status.html':                    MOVED_AS_WRITTEN,
   'data-map-browser.html':               MOVED_AS_WRITTEN,
   'article-co-housing-costs.html':       MOVED_AS_WRITTEN,
+  // Groups B and C (15 Nov 2026). The needs assessment pages below open statewide (?geoid=08), which stays as written.
+  'census-dashboard.html':               MOVED_AS_WRITTEN,
+  'chfa-portfolio.html':                 MOVED_AS_WRITTEN,
+  'colorado-deep-dive.html':             MOVED_AS_WRITTEN,
+  'economic-dashboard.html':             MOVED_AS_WRITTEN,
+  'hna-comparative-analysis.html':       MOVED_AS_WRITTEN,
+  'insights.html':                       MOVED_AS_WRITTEN,
+  'housing-legislation-2026.html':       MOVED_AS_WRITTEN,
+  'land-banking-awards.html':            MOVED_AS_WRITTEN,
+  'pipeline.html':                       MOVED_AS_WRITTEN,
+  'data-explorer.html':                  MOVED_AS_WRITTEN,
+  'dashboard-data-quality.html':         MOVED_AS_WRITTEN,
+  'dashboard-data-sources-ui.html':      MOVED_AS_WRITTEN,
+  'data-review-hub.html':                MOVED_AS_WRITTEN,
+  'ic-summary.html':                     MOVED_AS_WRITTEN,
+  'where-housing-money-goes.html':       MOVED_AS_WRITTEN,
   'housing-needs-assessment.html':       HNA_STATEWIDE,
   'hna-what-housing-exists.html':        HNA_STATEWIDE,
   'hna-who-lives-here.html':             HNA_STATEWIDE,

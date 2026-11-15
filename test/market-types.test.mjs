@@ -117,7 +117,7 @@ if (chromium) {
     if (!file.startsWith(ROOT + path.sep) || !fs.existsSync(file) || !fs.statSync(file).isFile()) return route.fulfill({ status: 404, body: '' });
     return route.fulfill({ body: fs.readFileSync(file), contentType: mime[path.extname(file)] || 'application/octet-stream' });
   });
-  await tab.goto(`${ORIGIN}/colorado-deep-dive.html#tab-types`, { waitUntil: 'load', timeout: 90000 });
+  await tab.goto(`${ORIGIN}/colorado-deep-dive.html?classic=1#tab-types`, { waitUntil: 'load', timeout: 90000 });
   await tab.waitForFunction(() => document.querySelectorAll('#mtTownBody tr').length > 1, null, { timeout: 30000 });
   const tiles = await tab.$$eval('#mtTiles .mt-tile', (b) => b.map((x) => ({ t: x.dataset.type, n: Number(x.querySelector('.mt-tile-n').textContent) })));
   ok(tiles.length === M.order.length, 'one tile per type');

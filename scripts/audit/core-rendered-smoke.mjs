@@ -34,7 +34,8 @@ const VIEWPORTS = [
 const FLOWS = [
   {
     name: 'HNA default',
-    path: '/housing-needs-assessment.html',
+    // ?classic=1: the page as written; since 2026-11-15 the bare address forwards to the place page.
+    path: '/housing-needs-assessment.html?classic=1',
     mustContain: ['Housing Needs Assessment', 'Screening tool only'],
     requiredSelectors: ['#geoType', '#geoSelect'],
   },
@@ -44,37 +45,37 @@ const FLOWS = [
   // The switcher selector is what proves the view identity actually rendered.
   {
     name: 'HNA view: stock',
-    path: '/hna-what-housing-exists.html',
+    path: '/hna-what-housing-exists.html?classic=1',
     mustContain: ['What housing exists', 'Screening tool only'],
     requiredSelectors: ['#geoType', '#geoSelect', '.hna-view-switcher'],
   },
   {
     name: 'HNA view: people',
-    path: '/hna-who-lives-here.html',
+    path: '/hna-who-lives-here.html?classic=1',
     mustContain: ['Who lives here', 'Screening tool only'],
     requiredSelectors: ['#geoType', '#geoSelect', '.hna-view-switcher'],
   },
   {
     name: 'HNA view: afford',
-    path: '/hna-what-households-can-afford.html',
+    path: '/hna-what-households-can-afford.html?classic=1',
     mustContain: ['What households can afford', 'Screening tool only'],
     requiredSelectors: ['#geoType', '#geoSelect', '.hna-view-switcher'],
   },
   {
     name: 'HNA view: outlook',
-    path: '/hna-where-its-heading.html',
+    path: '/hna-where-its-heading.html?classic=1',
     mustContain: ['Where it\'s heading', 'Screening tool only'],
     requiredSelectors: ['#geoType', '#geoSelect', '.hna-view-switcher'],
   },
   {
     name: 'HNA view: act',
-    path: '/hna-what-to-do.html',
+    path: '/hna-what-to-do.html?classic=1',
     mustContain: ['What to do about it', 'Screening tool only'],
     requiredSelectors: ['#geoType', '#geoSelect', '.hna-view-switcher'],
   },
   {
     name: 'County profile: Boulder County',
-    path: '/housing-needs-assessment.html?geoid=08013&geoType=county&auto=1',
+    path: '/housing-needs-assessment.html?geoid=08013&geoType=county&auto=1&classic=1',
     mustContain: ['Housing Needs Assessment'],
     requiredSelectors: ['#geoType', '#geoSelect'],
   },
@@ -137,7 +138,7 @@ const FLOWS = [
   },
   {
     name: 'Data Trust Center',
-    path: '/data-review-hub.html',
+    path: '/data-review-hub.html?classic=1',
     mustContain: ['Data Trust Center', 'Sources'],
     requiredSelectors: ['#drhStatTotal', '[data-panel="overview"]'],
   },

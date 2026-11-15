@@ -129,7 +129,9 @@ test('the site map page lists every page the menus open', () => {
   const sitemap = fs.readFileSync(path.join(ROOT, 'sitemap.html'), 'utf8');
   const groups = nav.slice(nav.indexOf('const GROUPS'), nav.indexOf('];', nav.indexOf('const GROUPS')));
   const menuPages = new Set([...groups.matchAll(/href:\s*"([^"#?]+\.html)/g)].map((m) => m[1]));
-  assert.ok(menuPages.size > 40, 'could not read the menu from js/navigation.js');
+  // A floor, so a menu the pattern fails to read does not pass as empty. Since redirect groups B and C (15 Nov 2026) many
+  // entries open a view in one of the five hub pages, so the menus name fewer distinct files (36 that day, 45 before).
+  assert.ok(menuPages.size > 30, 'could not read the menu from js/navigation.js');
   const missing = [...menuPages].filter((p) => !sitemap.includes(`href="${p}"`));
   assert.deepEqual(missing, [], `menu pages missing from sitemap.html: ${missing.join(', ')}`);
 });

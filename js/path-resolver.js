@@ -55,8 +55,9 @@
   } catch (e) { /* the page stays as written */ }
 })();
 
-// Pages whose content now lives in a hub view (paul, 14 Nov 2026: "redirect group A", "redirect county costs"). The content
-// check of 14 Nov 2026 found each page's headings, figures and tables in its view. Two parts:
+// Pages whose content now lives in a hub view (paul, 14 Nov 2026: "redirect group A", "redirect county costs"; 15 Nov 2026:
+// groups B and C, "finish everything else", once the content gaps behind them were live). The content check of 14 Nov
+// 2026 found each page's headings, figures and tables in its view. Two parts:
 //  1. An old address forwards to its view, as the guides do: never inside a frame, never with ?classic=1,
 //     which still opens the page as written. A place, a deal or a comparison in the address goes with it, as do the
 //     town or county picked on local-incentives.html (#j=<geoid>) and a county's deal write-ups (?county=).
@@ -84,8 +85,47 @@
     'data-status.html': 'data-hub.html#/data/status',
     'data-map-browser.html': 'data-hub.html#/data/map',
     // paul, 14 Nov 2026: "redirect county costs" (rechecked on the live site after #2872).
-    'article-co-housing-costs.html': 'places-hub.html#/places/county-costs'
+    'article-co-housing-costs.html': 'places-hub.html#/places/county-costs',
+    // Group B (15 Nov 2026).
+    'census-dashboard.html': 'places-hub.html#/places/multifamily',
+    'chfa-portfolio.html': 'opportunities-hub.html#/opportunity/portfolio',
+    'colorado-deep-dive.html': 'places-hub.html#/places/deep-dive',
+    'economic-dashboard.html': 'places-hub.html#/places/economy',
+    'hna-comparative-analysis.html': 'places-hub.html#/places/ranking',
+    'insights.html': 'policy-hub.html#/research',
+    'housing-legislation-2026.html': 'policy-hub.html#/legislation',
+    'land-banking-awards.html': 'opportunities-hub.html#/opportunity/land-banking',
+    'pipeline.html': 'deal-hub.html#/pipeline',
+    'data-explorer.html': 'data-hub.html#/data/explorer',
+    'dashboard-data-quality.html': 'data-hub.html#/data/quality',
+    'dashboard-data-sources-ui.html': 'data-hub.html#/data/sources',
+    'data-review-hub.html': 'data-hub.html#/data/trust',
+    // Group C (15 Nov 2026): the needs assessment and its five chapters open the place's page on the same chapter.
+    'housing-needs-assessment.html': 'places-hub.html#/places',
+    'hna-who-lives-here.html': 'places-hub.html#/places',
+    'hna-what-housing-exists.html': 'places-hub.html#/places',
+    'hna-what-households-can-afford.html': 'places-hub.html#/places',
+    'hna-where-its-heading.html': 'places-hub.html#/places',
+    'hna-what-to-do.html': 'places-hub.html#/places',
+    'ic-summary.html': 'deal-hub.html#/ic-summary',
+    'where-housing-money-goes.html': 'policy-hub.html#/money'
   };
+  // The place page's chapter for each needs assessment page (hub/hna.js TABS).
+  var HNA_TAB = { 'housing-needs-assessment.html': '', 'hna-who-lives-here.html': '/people', 'hna-what-housing-exists.html': '/housing',
+    'hna-what-households-can-afford.html': '/afford', 'hna-where-its-heading.html': '/future', 'hna-what-to-do.html': '/action' };
+  // The deep dive's tabs (hub/deep-dive.js TABS), named in the old page's hash (#tab-funding) and taken by the view as ?tab=.
+  var DD_TABS = ['deepdive', 'ami-gap', 'market-trends', 'snapshot', 'affordability-geo', 'signals', 'construction', 'history', 'funding', 'market', 'need', 'direction', 'patterns', 'timeline'];
+  var CO_GEO = /^08\d{3}(\d{2})?$/;
+  // The place this browser last picked on the old pages (js/workflow-state-core.js: the active project's id under
+  // coho_wf_active, the project under coho_wf_project_<id>, its place under .jurisdiction). Read only, never written.
+  function savedPlace() {
+    try {
+      var id = JSON.parse(window.localStorage.getItem('coho_wf_active') || 'null');
+      var j = id && (JSON.parse(window.localStorage.getItem('coho_wf_project_' + id) || 'null') || {}).jurisdiction;
+      var g = j && j.geoid != null ? String(j.geoid) : '';
+      return g === '08' || CO_GEO.test(g) ? g : null;
+    } catch (e) { return null; }
+  }
   var GEO = /^\d{5}(\d{2})?$/;
   var has = function (o, k) { return Object.prototype.hasOwnProperty.call(o, k); };
   // The view for an old page, its query string and its hash, or null when the page stays as written.
@@ -115,6 +155,30 @@
     if (file === 'hna-scenario-builder.html' || file === 'recommendation.html') {
       var g = places([q.get('geoid'), q.get('fips')]);
       return to + (g.length ? '?g=' + g[0] : '');
+    }
+    // Group C. A needs assessment page opens the place's page on its chapter. A region or a combined set of places
+    // (?region=, ?geos=, ?combinedMode=) stays on the page as written, which is the only page that draws them.
+    if (has(HNA_TAB, file)) {
+      // Colorado as a whole has no place page in the hubs, so the statewide assessment (?geoid=08) stays as written too.
+      if (q.has('region') || q.has('geos') || q.has('combinedMode') || q.get('geoid') === '08' || q.get('fips') === '08') return null;
+      // With no place in the address, the old page opened the place this browser last picked (js/hna/hna-controller.js,
+      // WorkflowState); so does the view. Statewide stays as written, as above.
+      var hg = [q.get('geoid'), q.get('fips')].filter(function (x) { return x && CO_GEO.test(x); })[0] || savedPlace();
+      if (hg === '08') return null;
+      // The menus' "Ownership Need" opens the assessment at its ownership section, which is on the place's What to do chapter.
+      var tab = /^#?affordable-ownership-need-section$/.test(hash || '') ? '/action' : HNA_TAB[file];
+      return hg ? 'places-hub.html#/place/' + hg + tab : to;
+    }
+    // The investor summary carries its place; one opened from a deal (?dc= or #dc=) stays as written.
+    if (file === 'ic-summary.html') {
+      if (q.has('dc') || /(?:^#?|[&?])dc=/.test(hash || '')) return null;
+      var ig = places([q.get('geoid'), q.get('fips')]);
+      return to + (ig.length ? '?g=' + ig[0] : '');
+    }
+    if (file === 'data-explorer.html' && /^[A-Za-z0-9_./-]{1,200}$/.test(q.get('file') || '') && !/\.\./.test(q.get('file'))) return to + '?file=' + encodeURIComponent(q.get('file'));
+    if (file === 'colorado-deep-dive.html') {
+      var t2 = /^#?tab-([a-z-]{1,30})$/.exec(hash || '');
+      if (t2 && DD_TABS.indexOf(t2[1]) >= 0) return to + '?tab=' + t2[1];
     }
     return to;
   }

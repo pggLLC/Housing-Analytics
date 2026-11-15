@@ -50,21 +50,21 @@ const REPORT_DIR = path.resolve(__dirname, '..', '..', 'audit-report', 'chart-po
 // fields into the cached summaries.
 const EXPECTED = [
   // ── County selection (Adams 08001): fullest coverage ──
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartTenure',           note: 'owner vs renter doughnut' },
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartStock',            note: 'housing-stock structure type' },
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartRentBurdenBins',   note: 'rent burden GRAPI bins' },
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartMode',             note: 'commute mode share' },
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartLehd',             note: 'commute inflow/outflow' },
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartPyramid',          note: 'age pyramid (county DOLA)' },
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartSenior',           note: 'senior age cohorts' },
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartWage',             note: 'LEHD WAC wage tiers' },
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartIndustry',         note: 'LEHD top industries' },
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartEmploymentTrend',  note: 'LEHD annualEmployment' },
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartWageTrend',        note: 'LEHD annualWages' },
+  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartTenure',           note: 'owner vs renter doughnut' },
+  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartStock',            note: 'housing-stock structure type' },
+  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartRentBurdenBins',   note: 'rent burden GRAPI bins' },
+  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartMode',             note: 'commute mode share' },
+  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartLehd',             note: 'commute inflow/outflow' },
+  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartPyramid',          note: 'age pyramid (county DOLA)' },
+  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartSenior',           note: 'senior age cohorts' },
+  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartWage',             note: 'LEHD WAC wage tiers' },
+  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartIndustry',         note: 'LEHD top industries' },
+  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartEmploymentTrend',  note: 'LEHD annualEmployment' },
+  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartWageTrend',        note: 'LEHD annualWages' },
   // Renter need by bedroom count read only the live Census API until
   // 2026-10-23, so it was left off this list and sat blank for every visitor
   // (the site ships no key). It now reads data/market/acs_renter_household_size_co.json.
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartBedroomNeed',      note: 'renter need by bedroom (ACS B25009)' },
+  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1&classic=1', chart: 'chartBedroomNeed',      note: 'renter need by bedroom (ACS B25009)' },
   // ── Place selection (Paonia 0857300): place-apportioned LEHD ──
   { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartLehd',         note: 'commute flows (apportioned from Delta)' },
   { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartWage',         note: 'wage tiers (apportioned)' },
