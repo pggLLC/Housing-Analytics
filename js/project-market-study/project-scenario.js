@@ -166,13 +166,13 @@
     // home, typed on the page. Without it the scenario's TDC stands, and the
     // example scenarios carry none. There is deliberately no default cost.
     var units = doc.program.total_units.value;
-    var readerCost = typeof options.tdcPerUnit === 'number' && isFinite(options.tdcPerUnit) && options.tdcPerUnit > 0;
+    var readerCost = typeof options.tdcPerUnit === 'number' && Number.isFinite(options.tdcPerUnit) && options.tdcPerUnit > 0;
     var tdc = readerCost ? options.tdcPerUnit * units : doc.costs.tdc.value;
     // A band whose price could not be worked out (no AMI or home value) makes
     // every subsidy figure unknown; counting it as a $0 price would report the
     // whole cost of those homes as subsidy.
-    var pricesKnown = bands.every(function (row) { return typeof row.maxAffordablePrice === 'number' && isFinite(row.maxAffordablePrice); });
-    var costKnown = tdc != null && isFinite(tdc);
+    var pricesKnown = bands.every(function (row) { return typeof row.maxAffordablePrice === 'number' && Number.isFinite(row.maxAffordablePrice); });
+    var costKnown = typeof tdc === 'number' && Number.isFinite(tdc);
     var tdcPerUnit = costKnown ? tdc / units : 'not_available';
     var salesAtAffordablePrices = pricesKnown ? bands.reduce(function (total, row) { return total + row.maxAffordablePrice * row.count; }, 0) : null;
     bands.forEach(function (row) {

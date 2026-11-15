@@ -587,7 +587,7 @@
       });
       mount.querySelector('#ms-tdc-per-home').addEventListener('change', function (event) {
         var value = Number(event.target.value);
-        options.tdcPerUnit = event.target.value !== '' && isFinite(value) && value > 0 ? value : undefined;
+        options.tdcPerUnit = event.target.value !== '' && Number.isFinite(value) && value > 0 ? value : undefined;
         paint();
         var again = mount.querySelector('#ms-tdc-per-home');
         if (again) again.focus();
