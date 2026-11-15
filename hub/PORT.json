@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "da66d22073c8ad2547a58a0e9393c4dc36fee720",
+  "commit": "94540c7e5dbd83a447d4d28c9b407d3ccad96a7f",
   "dirty": false
  },
  "files": {
@@ -129,7 +129,7 @@
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
   "hub/text-fit.js": "583c08d1ce2e9c0b7fd7cd3baca0bee436da9f3741625d9aa7eb683276ea78f8",
-  "hub/tract-capture.js": "f60994074a4c096939e13c295785feee8bc7ca190b1de5438378e1d6ec8d3395",
+  "hub/tract-capture.js": "13d551da9c348e5aa4acd3b2bcdf9a695fdfe1df6a21a0267b68c0ef9b60fb8d",
   "hub/visual-pass.css": "f8ae913b2ed977b9bf0453da2bdbdbb84e58a7eb61a648af414afe4b98ee6387",
   "hub/viz-data.js": "1e6c2a0dae68aa2e33a0fb7123503fcd7c13bd9c00e6d163a6a1cb214dac33db",
   "hub/viz-tip.js": "4cc8ef6c798b8a9f22560ed26ce8b5ebf4a162e2c7f767abc021684b6387bf46",
