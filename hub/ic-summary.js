@@ -378,7 +378,15 @@
       if (f.within + f.inflow + f.outflow === 0) pattern = 'No commute flows recorded.';
       else if (f.inflow > f.outflow * 1.5 && f.inflow > f.within) pattern = '<strong>Job hub:</strong> ' + num(f.inflow) + ' workers commute in, more than one and a half times the ' + num(f.outflow) + ' residents who commute out. Workers come here from elsewhere, so demand for affordable rentals comes from the workforce.';
       else if (f.outflow > f.inflow * 1.5 && f.outflow > f.within) pattern = '<strong>Bedroom community:</strong> ' + num(f.outflow) + ' residents commute out for work, more than one and a half times the ' + num(f.inflow) + ' workers who commute in. Demand for affordable rentals here comes from housing pressure: residents priced out of the towns where the jobs are.';
-      else pattern = '<strong>Balanced live and work:</strong> ' + num(f.within) + ' people live and work here, about as many as commute in or out.';
+      // Balanced, by the live page's rule: neither flow is both one and a half times the other and larger than the
+      // number who live and work here. Say only what that rule shows (Codex P2 on HA #2876: Commerce City has 3,223
+      // living and working there against about 32,000 commuting each way, so "about as many" was wrong).
+      else {
+        var big = Math.max(f.inflow, f.outflow), small = Math.min(f.inflow, f.outflow), way = f.inflow >= f.outflow ? 'in' : 'out';
+        pattern = '<strong>Balanced live and work:</strong> ' + (big === 0 ? num(f.within) + ' people live and work here, and no commute in or out is recorded.'
+          : big <= small * 1.5 ? num(f.inflow) + ' workers commute in and ' + num(f.outflow) + ' residents commute out, within one and a half times of each other. ' + num(f.within) + ' people live and work here.'
+          : num(f.within) + ' people live and work here, at least as many as the ' + num(big) + ' who commute ' + way + '.');
+      }
       return '<h3>Commute pattern</h3><div class="metrics">' + metric('Live and work here', num(f.within)) + metric('Commute in', num(f.inflow), 'Work here, live elsewhere') +
         metric('Commute out', num(f.outflow), 'Live here, work elsewhere') + metric('Jobs here', num(f.jobs)) + '</div><p class="callout ic-flow">' + pattern + '</p>' + src;
     }
