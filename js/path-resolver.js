@@ -142,7 +142,9 @@
         var slug = G.pages[f], at = u.hash.slice(1);
         to = (has(G.hub, slug) ? G.hub[slug] : 'policy-hub.html') + '#/guide/' + slug + (/^[A-Za-z0-9_-]{1,80}$/.test(at) ? '?at=' + at : '');
       }
-      if (to) a.setAttribute('href', new URL(to, u).href);
+      // A link written as a path stays a path (the site audits count only outside addresses as source links); a
+      // full address stays a full address.
+      if (to) a.setAttribute('href', /^([a-z][a-z0-9+.-]*:|\/\/)/i.test(raw) ? new URL(to, u).href : raw.split(/[?#]/)[0].replace(/[^\/]*$/, '') + to);
     };
     var fixIn = function (root) {
       if (!root || root.nodeType !== 1) return;

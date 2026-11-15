@@ -100,10 +100,11 @@ test('on a page that stays, links to forwarded pages and guides point at the vie
     '<a id="j" href="local-incentives.html#j=08077">x</a>');
   assert.equal(went, null);
   const h = (id) => doc.getElementById(id).getAttribute('href');
-  assert.equal(h('a'), SITE + 'opportunities-hub.html#/opportunity/preservation');
-  assert.equal(h('b'), SITE + 'deal-hub.html#/recommendation?g=0828745');
+  // A link written as a path stays a path, so the site audits do not read it as an outside source link.
+  assert.equal(h('a'), 'opportunities-hub.html#/opportunity/preservation');
+  assert.equal(h('b'), 'deal-hub.html#/recommendation?g=0828745');
   assert.equal(h('c'), SITE + 'policy-hub.html#/guide/methods?at=m-sampling-error');
-  assert.equal(h('j'), SITE + 'places-hub.html#/places/incentives/08077', 'a link to a picked county on local incentives');
+  assert.equal(h('j'), 'places-hub.html#/places/incentives/08077', 'a link to a picked county on local incentives');
   for (const id of ['d', 'e', 'f', 'g', 'h', 'i']) assert.ok(!/-hub\.html/.test(h(id)), id + ' was rewritten to ' + h(id));
 });
 
@@ -117,16 +118,18 @@ await Promise.resolve(); // a MutationObserver answers before the next task
 late.doc.getElementById('y').setAttribute('href', 'hna-scenario-builder.html?geoType=place&geoid=0828745');
 await Promise.resolve();
 test('a link drawn after the page loads is pointed at its view; a long share-link hash does not get in the way', () => {
-  assert.equal(late.doc.getElementById('z').getAttribute('href'), SITE + 'opportunities-hub.html#/opportunity/commuting');
-  assert.equal(late.doc.getElementById('y').getAttribute('href'), SITE + 'places-hub.html#/places/scenario?g=0828745', 'a link whose address changes later');
+  assert.equal(late.doc.getElementById('z').getAttribute('href'), 'opportunities-hub.html#/opportunity/commuting');
+  assert.equal(late.doc.getElementById('y').getAttribute('href'), 'places-hub.html#/places/scenario?g=0828745', 'a link whose address changes later');
   assert.equal(shared.went, null);
-  assert.equal(shared.doc.getElementById('a').getAttribute('href'), SITE + 'places-hub.html#/places/compare');
+  assert.equal(shared.doc.getElementById('a').getAttribute('href'), 'places-hub.html#/places/compare');
   assert.equal(shared.doc.getElementById('b').getAttribute('href'), 'deal-market-analysis.html#x');
 });
 
 test('a page in a subfolder gets the view at the site root', () => {
-  const { doc } = load(SITE + 'places/0828745.html', '<a id="a" href="../local-incentives.html">x</a>');
-  assert.equal(doc.getElementById('a').getAttribute('href'), SITE + 'places-hub.html#/places/incentives');
+  const { doc } = load(SITE + 'places/0828745.html', '<a id="a" href="../local-incentives.html">x</a><a id="b" href="/compare.html">x</a>');
+  assert.equal(doc.getElementById('a').getAttribute('href'), '../places-hub.html#/places/incentives');
+  assert.equal(new URL(doc.getElementById('a').getAttribute('href'), SITE + 'places/0828745.html').href, SITE + 'places-hub.html#/places/incentives');
+  assert.equal(doc.getElementById('b').getAttribute('href'), '/places-hub.html#/places/compare');
 });
 
 test('the old header menus link to the views, and the place pill keeps the old picker for the pages that use it', () => {
