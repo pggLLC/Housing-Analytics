@@ -109,7 +109,7 @@
     });
     rows.sort(function (a, b) { return b[1] - a[1]; });
     return out + Viz.orderedBars({ title: 'Share of a town\u2019s primary jobs held by people who live outside it, 2023', answer: 'In most of these job centers, more than half the jobs go to people who drive in.',
-      rows: rows, noShare: true, color: 'var(--c-green)', fmt: pct, source: 'LEHD LODES 2024, primary jobs, Colorado homes only (' + esc(s.data.commute.meta.lodes_year) + ' file, COHO copy)' });
+      rows: rows, noShare: true, color: 'var(--c-green)', fmt: pct, source: 'LEHD LODES 2024, primary jobs, homes in any state (' + esc(s.data.commute.meta.lodes_year) + ' file, COHO copy)' });
   }
 
   // The guide's three parties and what passes between them, drawn from its own sentences:

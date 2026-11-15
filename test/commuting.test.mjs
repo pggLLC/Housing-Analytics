@@ -47,12 +47,23 @@ for (const [k, p] of [...places, ...counties]) {
   ok(p.far + p.long <= p.in_commuters, `${tag}: far + long <= in-commuters`);
   ok(p.far_low <= p.far && p.in_low <= p.in_commuters, `${tag}: low-paid within totals`);
   ok(p.out_commuters <= p.residents, `${tag}: out-commuters <= residents`);
+  ok(Number.isInteger(p.in_other_state) && p.in_other_state <= p.in_commuters, `${tag}: out-of-state homes within in-commuters`);
+  ok(Number.isInteger(p.out_other_state) && p.out_other_state <= p.out_commuters, `${tag}: out-of-state jobs within out-commuters`);
   ok(p.lat > 36.9 && p.lat < 41.1 && p.lon > -109.1 && p.lon < -102.0, `${tag}: inside Colorado`);
   if (p.far) ok(p.median_far_miles >= FAR && p.median_far_miles < LONG, `${tag}: far median in band`);
   else ok(p.median_far_miles == null, `${tag}: no median without far commuters`);
   ok(p.from.length <= 5 && p.to.length <= 5, `${tag}: top five flows`);
   for (let i = 1; i < p.from.length; i++) ok(p.from[i - 1][1] >= p.from[i][1], `${tag}: origins sorted`);
 }
+
+// 1b. The state line does not cut the count off (LODES aux files, 13 Nov 2026 cross-border check).
+ok(/co_od_aux_JT01_2024/.test(C.meta.source_out_of_state_homes), 'reads Colorado jobs held by people in other states');
+ok(C.meta.states_read.length >= 45 && C.meta.states_read.includes('nm') && C.meta.states_read.includes('wy'), 'reads other states\' aux files');
+ok(C.meta.out_of_state_totals.not_matched === 0, 'every out-of-state home is placed');
+const dgoC = C.places['0822035'];
+ok(dgoC.from[0][0] === 'San Juan County, NM' && dgoC.in_other_state > 1000, 'Durango: San Juan County, NM is the top origin');
+ok(Array.isArray(C.other_state_points['San Juan County, NM']), 'out-of-state origin has a map point');
+for (const [n, ll] of Object.entries(C.other_state_points)) ok(/, [A-Z]{2}$/.test(n) && ll.length === 2, `${n}: named with its state`);
 
 // 2. The headline sentence.
 const bay = places.map(([, p]) => p).find((p) => /^Bayfield/.test(p.name));

@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "fd1192f0f2a1e633498e1f8ecec76c181cf2d660",
+  "commit": "da66d22073c8ad2547a58a0e9393c4dc36fee720",
   "dirty": false
  },
  "files": {
@@ -41,7 +41,7 @@
   "hub/calculators.css": "b4b0624c35763939731e648dcd47eb60ee92965fb85ee556abef793151609863",
   "hub/calendar.js": "9fd8e62851166913afee680810c97317642113db4ea3f0e25235e6c0ed05d6b5",
   "hub/change-arrows.js": "3bfb7835e88183749dd64cacc43d91af9ae80d65038bb60ed70190d7755d4f3d",
-  "hub/commuting.js": "55c530d205a76942fa04906892937a96d543ad5f78556403fe179926d27f33f5",
+  "hub/commuting.js": "c0b8449d3cc1c1fecab2597f646beb8bb1473fef9b921c7938d6989dac02426a",
   "hub/compare-records.js": "4a4e20b4c5064680ab87c53bae1dce945a5ce45c090feea7277570556805d1af",
   "hub/components.js": "1a3192c4037be964f0a9447cd5d3d6a1b6795871c6f9d017b640b7f538f38590",
   "hub/county-costs.css": "27d26b7dee75f7fe60d9521925a49b17dfc037bf2c18b3d4aef837ec33e8e575",
@@ -72,7 +72,7 @@
   "hub/finder.js": "b81b2adb1cfba2345594a4babea5c53ec8bb15b9ba8cbdedf9ef3756f2719ba7",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
-  "hub/guide.js": "710fed44d84f241b221a1b49b8aaaeb32ca36db9bfa25a298bd775760ba576db",
+  "hub/guide.js": "d5bbd43553b88bed12652b707e45b87e36eae0cbbfa5a307802604719be4efb8",
   "hub/hna-dola.js": "3d98f4185ac1b0decd1974f7f02bae7d450633f73b651652d4046ee8db71662e",
   "hub/hna.js": "5de5eda0df1b66f0a05b60c3a493dfdb315a0ca335fb32679becc01902941803",
   "hub/home.css": "a178558303c67e69f5e505f974e1aa65ee8a2d824f8144a8e9e755a0ccc8d9bd",
