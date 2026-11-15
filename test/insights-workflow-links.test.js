@@ -65,7 +65,8 @@ test('all 12 contextual routes use existing canonical targets and shared page na
       // step. It must reach the view for the expected page; the checks below then read the page the view replaced.
       const moved = deal.w.COHO_MOVED_PAGES, view = moved && moved.to(expected.split('#')[0], '');
       if (view && href !== expected) {
-        assert.equal(href, new URL(view, doc.location.href).href, `${id}: does not go straight to the view for ${expected}`);
+        // A link written as a path stays a path (js/path-resolver.js), so compare where each one leads.
+        assert.equal(new URL(href, doc.location.href).href, new URL(view, doc.location.href).href, `${id}: does not go straight to the view for ${expected}`);
         href = expected;
       }
       const [file, anchor] = href.split('#');
