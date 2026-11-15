@@ -115,6 +115,9 @@
     'hna-what-households-can-afford.html': '/afford', 'hna-where-its-heading.html': '/future', 'hna-what-to-do.html': '/action' };
   // The deep dive's tabs (hub/deep-dive.js TABS), named in the old page's hash (#tab-funding) and taken by the view as ?tab=.
   var DD_TABS = ['deepdive', 'ami-gap', 'market-trends', 'snapshot', 'affordability-geo', 'signals', 'construction', 'history', 'funding', 'market', 'need', 'direction', 'patterns', 'timeline'];
+  // Three old tab names the view calls something else (Codex P2 on #2877): the old "Colorado Snapshot" and "Market
+  // Conditions" tabs (with its policy simulator) are the view's snapshot tab, and "Market patterns" is its patterns tab.
+  var DD_OLD = { 'state-comparison': 'snapshot', 'policy-simulator': 'snapshot', 'types': 'patterns' };
   var CO_GEO = /^08\d{3}(\d{2})?$/;
   // The place this browser last picked on the old pages (js/workflow-state-core.js: the active project's id under
   // coho_wf_active, the project under coho_wf_project_<id>, its place under .jurisdiction). Read only, never written.
@@ -128,8 +131,9 @@
   }
   var GEO = /^\d{5}(\d{2})?$/;
   var has = function (o, k) { return Object.prototype.hasOwnProperty.call(o, k); };
-  // The view for an old page, its query string and its hash, or null when the page stays as written.
-  function movedTo(file, search, hash) {
+  // The view for an old page, its query string and its hash, or null when the page stays as written. forLink is set
+  // when a link on a page is being pointed at its view, rather than the page itself forwarding.
+  function movedTo(file, search, hash, forLink) {
     if (!has(MOVED_PAGES, file)) return null;
     var q = new URLSearchParams(search || '');
     if (q.has('classic')) return null;
@@ -163,7 +167,11 @@
       if (q.has('region') || q.has('geos') || q.has('combinedMode') || q.get('geoid') === '08' || q.get('fips') === '08') return null;
       // With no place in the address, the old page opened the place this browser last picked (js/hna/hna-controller.js,
       // WorkflowState); so does the view. Statewide stays as written, as above.
-      var hg = [q.get('geoid'), q.get('fips')].filter(function (x) { return x && CO_GEO.test(x); })[0] || savedPlace();
+      // A link with no place is left as written, so it opens the place saved when it is followed, not the one saved
+      // when the page loaded (a recent project's Resume link saves its place on the click; Codex P2 on #2877).
+      var hg = [q.get('geoid'), q.get('fips')].filter(function (x) { return x && CO_GEO.test(x); })[0];
+      if (!hg && forLink) return null;
+      hg = hg || savedPlace();
       if (hg === '08') return null;
       // The menus' "Ownership Need" opens the assessment at its ownership section, which is on the place's What to do chapter.
       var tab = /^#?affordable-ownership-need-section$/.test(hash || '') ? '/action' : HNA_TAB[file];
@@ -174,13 +182,16 @@
     // (Codex P2 on #2877).
     if (file === 'ic-summary.html') {
       if (q.has('dc') || /(?:^#?|[&?])dc=/.test(hash || '')) return null;
-      var ig = places([q.get('geoid'), q.get('fips')])[0] || savedPlace();
+      var ig = places([q.get('geoid'), q.get('fips')])[0];
+      // As for the needs assessment above, a link with no place waits for the click.
+      if (!ig && forLink) return null;
+      ig = ig || savedPlace();
       return to + (ig && ig !== '08' ? '?g=' + ig : '');
     }
     if (file === 'data-explorer.html' && /^[A-Za-z0-9_./-]{1,200}$/.test(q.get('file') || '') && !/\.\./.test(q.get('file'))) return to + '?file=' + encodeURIComponent(q.get('file'));
     if (file === 'colorado-deep-dive.html') {
-      var t2 = /^#?tab-([a-z-]{1,30})$/.exec(hash || '');
-      if (t2 && DD_TABS.indexOf(t2[1]) >= 0) return to + '?tab=' + t2[1];
+      var t2 = /^#?tab-([a-z-]{1,30})$/.exec(hash || ''), tn = t2 && (has(DD_OLD, t2[1]) ? DD_OLD[t2[1]] : t2[1]);
+      if (tn && DD_TABS.indexOf(tn) >= 0) return to + '?tab=' + tn;
     }
     return to;
   }
@@ -204,7 +215,7 @@
       var u;
       try { u = new URL(raw, base); } catch (e) { return; }
       if (u.host !== loc.host && !/^(www\.)?cohoanalytics\.com$/i.test(u.hostname)) return;
-      var f = u.pathname.split('/').pop(), to = movedTo(f, u.search, u.hash);
+      var f = u.pathname.split('/').pop(), to = movedTo(f, u.search, u.hash, true);
       // A written guide (forwarded since 13 Nov 2026) is pointed at its hub view the same way.
       if (!to && G && has(G.pages, f) && !/[?&]classic(=|&|$)/.test(u.search)) {
         var slug = G.pages[f], at = u.hash.slice(1);

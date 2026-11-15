@@ -121,6 +121,13 @@ test('groups B and C: each page forwards to its view, carrying its place, chapte
   assert.equal(load(SITE + 'data-explorer.html?file=../secrets').went, 'data-hub.html#/data/explorer', 'a file outside data/ is dropped');
   assert.equal(load(SITE + 'colorado-deep-dive.html#tab-funding').went, 'places-hub.html#/places/deep-dive?tab=funding');
   assert.equal(load(SITE + 'colorado-deep-dive.html#tab-nothing').went, 'places-hub.html#/places/deep-dive', 'an unknown tab is dropped');
+  // Old tab names the view calls something else (Codex P2 on #2877). The old dashboard, LIHTC dashboard, allocations,
+  // regional and state allocation map stubs all send people to #tab-state-comparison.
+  assert.equal(load(SITE + 'colorado-deep-dive.html#tab-state-comparison').went, 'places-hub.html#/places/deep-dive?tab=snapshot', 'Colorado Snapshot');
+  assert.equal(load(SITE + 'colorado-deep-dive.html#tab-policy-simulator').went, 'places-hub.html#/places/deep-dive?tab=snapshot', 'Market Conditions');
+  assert.equal(load(SITE + 'colorado-deep-dive.html#tab-types').went, 'places-hub.html#/places/deep-dive?tab=patterns', 'Market patterns');
+  for (const stub of ['dashboard.html', 'LIHTC-dashboard.html', 'lihtc-allocations.html', 'regional.html', 'state-allocation-map.html'])
+    assert.ok(read(stub).includes('colorado-deep-dive.html#tab-state-comparison'), stub + ' no longer sends people to the snapshot tab');
 });
 
 test('groups B and C stay as written where only the old page draws it', () => {
@@ -164,6 +171,25 @@ test('on a page that stays, links to forwarded pages and guides point at the vie
   for (const id of ['d', 'e', 'f', 'g', 'h', 'i', 'n', 'o']) assert.ok(!/-hub\.html/.test(h(id)), id + ' was rewritten to ' + h(id));
 });
 
+test('a link with no place waits for the click: it opens the place saved then, not when the page loaded', () => {
+  // The old picker's recent projects save their place as the Resume link is clicked (js/jurisdiction-selector.js), so
+  // a link pointed at the place saved at load would open the wrong place (Codex P2 on #2877).
+  const { doc, went } = load(SITE + 'select-jurisdiction.html?classic=1',
+    '<a id="a" href="housing-needs-assessment.html">x</a><a id="b" href="hna-what-to-do.html#affordable-ownership-need-section">x</a>' +
+    '<a id="c" href="ic-summary.html">x</a><a id="d" href="hna-who-lives-here.html?geoid=0828745">x</a><a id="e" href="ic-summary.html?fips=0828745">x</a>' +
+    '<a id="f" href="colorado-deep-dive.html#tab-types">x</a>', false, '08077');
+  assert.equal(went, null);
+  const h = (id) => doc.getElementById(id).getAttribute('href');
+  for (const id of ['a', 'b', 'c']) assert.ok(!/-hub\.html/.test(h(id)), id + ' was pointed at ' + h(id) + ' as the page loaded');
+  assert.equal(h('d'), 'places-hub.html#/place/0828745/people', 'a link naming its place is still pointed at it');
+  assert.equal(h('e'), 'deal-hub.html#/ic-summary?g=0828745');
+  assert.equal(h('f'), 'places-hub.html#/places/deep-dive?tab=patterns');
+  // Followed, the old page forwards with the place saved by then.
+  assert.equal(load(SITE + 'housing-needs-assessment.html', '', false, '0828745').went, 'places-hub.html#/place/0828745');
+  assert.equal(load(SITE + 'hna-what-to-do.html#affordable-ownership-need-section', '', false, '0828745').went, 'places-hub.html#/place/0828745/action');
+  assert.equal(load(SITE + 'ic-summary.html', '', false, '0828745').went, 'deal-hub.html#/ic-summary?g=0828745');
+});
+
 // A link drawn after the page loads (a chapter's Next link, a deal card) is pointed at its view as it appears; a
 // calculator share link's long hash is not read again for each link (it stalled pages with many links).
 const late = load(SITE + 'lihtc-opportunity-finder.html', '<div id="m"></div>');
@@ -194,7 +220,8 @@ test('the old header menus link to the views, and the place pill keeps the old p
   // (test/step-count-agreement, guided-path-product-routes, place-deals-limits). Their links are pointed at
   // the views as the page draws them or they are used (the check above), not in the menu's source.
   const RAIL = new Set(['select-jurisdiction.html', 'hna-scenario-builder.html', 'recommendation.html', 'land-value.html', 'deal-summary.html',
-    // The needs assessment (step 3) and its chapters; pointed at the view as used, which also carries the place the browser last picked.
+    // The needs assessment (step 3) and its chapters. A link naming its place is pointed at the view as drawn; one with
+    // no place forwards when followed, with the place the browser has picked by then.
     'housing-needs-assessment.html', 'hna-who-lives-here.html', 'hna-what-housing-exists.html', 'hna-what-households-can-afford.html',
     'hna-where-its-heading.html', 'hna-what-to-do.html']);
   // The Insights menu entries likewise: test/insights-nav-labels ties each Insights label to the heading of the page

@@ -216,6 +216,9 @@
     'hna-what-households-can-afford.html': '/afford', 'hna-where-its-heading.html': '/future', 'hna-what-to-do.html': '/action' };
   // The deep dive's tabs, which the old page named in its hash (#tab-funding) and the view takes as ?tab=.
   var DD_TABS = ['deepdive', 'ami-gap', 'market-trends', 'snapshot', 'affordability-geo', 'signals', 'construction', 'history', 'funding', 'market', 'need', 'direction', 'patterns', 'timeline'];
+  // Three old tab names the view calls something else (Codex P2 on HA #2877): the old "Colorado Snapshot" and "Market
+  // Conditions" tabs (with its policy simulator) are the view's snapshot tab, and "Market patterns" is its patterns tab.
+  var DD_OLD = { 'state-comparison': 'snapshot', 'policy-simulator': 'snapshot', 'types': 'patterns' };
   var CO_GEO = /^08\d{3}(\d{2})?$/;
   var GEO = /^\d{5}(\d{2})?$/;
   function movedHref(href) {
@@ -253,7 +256,10 @@
       return to + (ig ? '?g=' + ig : '');
     }
     if (file === 'data-explorer.html' && /^[A-Za-z0-9_./-]{1,200}$/.test(q.get('file') || '') && !/\.\./.test(q.get('file'))) return to + '?file=' + encodeURIComponent(q.get('file'));
-    if (file === 'colorado-deep-dive.html') { var t2 = /^tab-([a-z-]{1,30})$/.exec(m[3] || ''); if (t2 && DD_TABS.indexOf(t2[1]) >= 0) return to + '?tab=' + t2[1]; }
+    if (file === 'colorado-deep-dive.html') {
+      var t2 = /^tab-([a-z-]{1,30})$/.exec(m[3] || ''), tn = t2 && (Object.prototype.hasOwnProperty.call(DD_OLD, t2[1]) ? DD_OLD[t2[1]] : t2[1]);
+      if (tn && DD_TABS.indexOf(tn) >= 0) return to + '?tab=' + tn;
+    }
     return to;
   }
   // Points every moved-page link inside a drawn view at its view (the shell calls this after each draw).
