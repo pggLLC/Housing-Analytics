@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-14T21:31:07.769Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-15T03:04:38.833Z. Do not edit by hand.
 
 ---
 
@@ -2098,7 +2098,7 @@
 
 ## Test Files
 
-807 test files found.
+808 test files found.
 
 | File | Size |
 |------|------|
@@ -2467,7 +2467,7 @@
 | `test/insights-agreement.test.mjs` | 5.3 KB |
 | `test/insights-market-pulse.test.mjs` | 7.5 KB |
 | `test/insights-nav-labels.test.mjs` | 7.6 KB |
-| `test/insights-workflow-links.test.js` | 9.2 KB |
+| `test/insights-workflow-links.test.js` | 10.0 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/economic-indicators.test.js` | 12.2 KB |
 | `test/integration/hna-ranking.test.js` | 12.4 KB |
@@ -2546,6 +2546,7 @@
 | `test/no-synthesized-chfa-awards.test.js` | 4.5 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/notify-cancelled-outcome.test.js` | 3.5 KB |
+| `test/old-pages-forward.test.mjs` | 11.7 KB |
 | `test/one-canonical-step-sequence.test.mjs` | 6.2 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
