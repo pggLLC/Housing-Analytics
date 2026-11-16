@@ -125,6 +125,14 @@ test('a forwarded route keeps the place and its own settings', () => {
     '#/finder': "s[2] === '#/finder') s = [s[0], s[1], '#/finder?q=' + encodeURIComponent(w.label) + '&g=' + g]",
   };
   for (const [step, code] of Object.entries(carried)) assert.ok(hna.includes(code), 'the ' + step + ' step does not carry the working place');
+  // The same, run: the route the bar and the menus (hub/nav.js) open for each step on a working place.
+  const placed = runHub('step-bar.js').LabStep.placed, fruita = { geoid: '0828745', label: 'Fruita' };
+  const opens = {
+    '#/places/scenario': '#/places/scenario?g=0828745', '#/deal-calculator': '#/deal-calculator?g=0828745',
+    '#/recommendation': '#/recommendation?g=0828745', '#/finder': '#/finder?q=Fruita&g=0828745', '#/market': '#/market',
+  };
+  for (const [step, want] of Object.entries(opens)) assert.equal(placed(step, fruita), want, step + ' on a working place');
+  assert.equal(placed('#/places/scenario', null), '#/places/scenario', 'with no working place a step keeps its route');
 });
 
 test('the scorecard has no second formula on this site', () => {

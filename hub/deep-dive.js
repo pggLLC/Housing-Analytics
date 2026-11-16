@@ -530,7 +530,11 @@
 
   // ---------- 6. Market signals ----------
   function signals(d, params) {
-    var county = params.get('sig') || '', cd = county ? d.cdemo.counties[county] : null, demo = cd || d.demo;
+    // The picker names a county (sig=Mesa). One it does not list, such as a hand-typed code (sig=08077), opens the
+    // statewide view, labeled as statewide, not statewide figures under that name (found in the 2897 live check).
+    var county = params.get('sig') || '';
+    if (county && !Object.prototype.hasOwnProperty.call(d.cdemo.counties, county)) county = '';
+    var cd = county ? d.cdemo.counties[county] : null, demo = cd || d.demo;
     var feats = d.lihtc.features.map(function (f) { return f.properties; }).filter(function (p) { return !county || String(p.CNTY_NAME || '').toLowerCase().indexOf(county.toLowerCase()) > -1; });
     var units = feats.reduce(function (s, p) { return s + (p.N_UNITS || 0); }, 0), li = feats.reduce(function (s, p) { return s + (p.LI_UNITS || 0); }, 0);
     var hh = demo.household_count || demo.households;

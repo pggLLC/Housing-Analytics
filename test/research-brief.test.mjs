@@ -202,7 +202,7 @@ test('screening limitations show the first five dataset gaps and their full coun
 });
 
 test('a brief without a local dataset does not invent a verification date or fee statistics', async (t) => {
-  // A brief that records no check date of its own (some briefs carry `verified`, and those print it).
+  // A brief that records no check date of its own (briefs with a `verified` date show it, rightly).
   const brief = FEED.briefs.find((item) => item.related_data !== 'data/policy/fee-reductions.json' && !item.verified);
   const { doc, requests } = await runPage(t, { id: brief.id });
   assert.equal(requests.length, 1);

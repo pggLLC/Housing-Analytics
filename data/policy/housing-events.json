@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-15T11:13:41Z",
-    "as_of": "2026-11-15",
+    "generated": "2026-11-16T11:44:25Z",
+    "as_of": "2026-11-16",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -64,7 +64,7 @@
       "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
       "status": "ok",
       "listed": 57,
-      "upcoming": 2
+      "upcoming": 3
     },
     {
       "id": "acs",
@@ -404,6 +404,18 @@
       "url": "https://cdola.colorado.gov/calendar",
       "source": "doh",
       "category": "deadline"
+    },
+    {
+      "title": "Federal Reserve rate decision (FOMC meeting)",
+      "start": "2027-03-16",
+      "end": "2027-03-17",
+      "time": null,
+      "location": null,
+      "online": false,
+      "organizer": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "source": "fomc",
+      "category": "release"
     }
   ],
   "past": [

@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-16T10:05:02.456318Z",
+  "generated": "2026-11-16T11:49:47.047379Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1033319
+      "bytes": 1033926
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -99,12 +99,12 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2292220
+      "bytes": 2363896
     },
     "data/alerts/brief-news-queue.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 61983
+      "bytes": 62499
     },
     "data/alerts/outlet-decisions.json": {
       "featureCount": 0,
@@ -9789,7 +9789,7 @@
     "data/policy/housing-events.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 160942
+      "bytes": 161311
     },
     "data/policy/housing-policy-scorecard.json": {
       "featureCount": 0,
@@ -9971,6 +9971,11 @@
       "placeholder": false,
       "bytes": 4929
     },
+    "data/policy/vacancy-tax.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 45804
+    },
     "data/policy/where-to-build-context.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -9979,12 +9984,12 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 625126
+      "bytes": 626381
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 246738
+      "bytes": 276811
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,
