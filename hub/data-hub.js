@@ -315,7 +315,7 @@
       case 'map': return M.map(params);
       case 'quality': return M.quality();
       case 'status': return M.status();
-      case 'glossary': return M.glossary();
+      case 'glossary': return M.glossary(params);
       default: return hub();
     }
   };

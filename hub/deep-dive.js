@@ -734,18 +734,29 @@
   var F_COMPARE = [['administrator', 'Administrator'], ['status', 'Round'], ['award_size', 'Award size'], ['rate', 'Rate'], ['term', 'Term'], ['ami_restriction', 'AMI restriction'], ['affordability_period', 'Affordability period'], ['application_cycle', 'Application cycle']];
   function fType(p) { return (Array.isArray(p.funding_type) ? p.funding_type : [p.funding_type]).filter(Boolean).map(function (t) { return F_TYPE[t] || t; }).join(', '); }
   function srcLinks(list) { return (list || []).map(function (s) { return typeof s === 'string' ? ext(s, s.replace(/^https?:\/\/(www\.)?/, '').slice(0, 60)) : ext(s.url, s.label || s.url); }).join(' · '); }
+  var fundingJumped = '';
   function funding(d, params) {
     var g = d.guide, FF = global.FundingFit, m = g.meta;
     var q = { execution: params.get('fexec') || '', projectType: params.get('ftype') || '', county: params.get('fcounty') || '', openOnly: params.get('fopen') === '1', includeSupport: params.get('fsup') === '1' };
     var picked = (params.get('fcmp') || '').split(',').filter(Boolean).slice(0, 3);
     var byId = {}; g.programs.forEach(function (p) { byId[p.id] = p; });
+    // ?program=<id> (a search result for one program, as the old page's ?program= opened it): that program's card
+    // opens and the page goes to it once.
+    var openId = byId[params.get('program')] ? params.get('program') : '';
+    if (openId && fundingJumped !== openId) {
+      fundingJumped = openId;
+      setTimeout(function () {
+        var el = document.getElementById('dd-prog-' + openId);
+        if (el) { el.scrollIntoView({ block: 'start' }); var s = el.querySelector('summary'); if (s) s.focus({ preventScroll: true }); }
+      }, 0);
+    }
     var names = {}; d.bounds.features.forEach(function (f) { names[f.properties.GEOID] = f.properties.NAME; });
     var countyOpts = Object.keys(names).sort(function (a, b) { return names[a] < names[b] ? -1 : 1; }).map(function (k) { return [k, names[k] + ' County']; });
     var hits = FF ? FF.select(g, { execution: q.execution || null, projectType: q.projectType || null, county: q.county || null, openOnly: q.openOnly, includeSupport: q.includeSupport }) : [];
     var cmpBtn = function (p) { var on = picked.indexOf(p.id) !== -1; return '<button type="button" class="btn-secondary dd-cmp" data-dd-cmp="' + esc(p.id) + '" aria-pressed="' + on + '"' + (!on && picked.length >= 3 ? ' disabled title="Up to three programs side by side"' : '') + '>' + (on ? 'Remove from comparison' : 'Compare this program') + '</button>'; };
     var card = function (p) {
       var head = esc(p.name) + '<span class="fold-take">' + esc(p.administrator) + ' · ' + esc(fType(p)) + ' · ' + esc(F_STATUS[p.status] || p.status) + '</span>';
-      return '<details class="fold dd-fold dd-prog"><summary><span class="fold-title">' + head + '</span></summary><div>' + cmpBtn(p) +
+      return '<details class="fold dd-fold dd-prog" id="dd-prog-' + esc(p.id) + '"' + (p.id === openId ? ' open' : '') + '><summary><span class="fold-title">' + head + '</span></summary><div>' + cmpBtn(p) +
         '<p>Official page: ' + ext(p.official_url, p.official_url.replace(/^https?:\/\/(www\.)?/, '')) + '</p><dl class="dd-dl">' +
         F_FIELDS.map(function (f) { return '<dt>' + esc(f[1]) + '</dt><dd>' + esc(p[f[0]] == null ? 'Not stated' : p[f[0]]) + '</dd>'; }).join('') + '</dl>' +
         '<h4>What to know</h4>' + list((p.key_considerations || []).map(esc)) +
