@@ -51,6 +51,12 @@ export const FILES = [
   // Local support: one row per jurisdiction (adopted plans, council and
   // planning-commission votes). A row past review_by stops earning the
   // Opportunity Finder bonus, so it needs a re-check before then.
+  // Vacancy taxes: the state law, home-rule authority and TABOR records, and every
+  // Colorado vacancy or non-primary home tax measure (research brief co-vacancy-tax-2026).
+  { file: 'data/policy/vacancy-tax.json', key: 'authority', title: 'Vacancy tax law', page: 'research-brief.html?id=co-vacancy-tax-2026', name: (r) => r.title,
+    checked: (r) => r.verification && r.verification.checked, source: (r) => r.source && r.source.url },
+  { file: 'data/policy/vacancy-tax.json', key: 'measures', title: 'Vacancy tax measures', page: 'research-brief.html?id=co-vacancy-tax-2026', name: (r) => `${r.jurisdiction}: ${r.measure}`,
+    checked: (r) => r.verification && r.verification.checked, source: (r) => r.source && r.source.url },
   { file: 'data/policy/local-support.json', key: 'jurisdictions', title: 'Local support (plans and council record)', page: 'lihtc-opportunity-finder.html', name: (r) => r.jurisdiction,
     checked: (r) => r.checked, source: (r) => (r.sources_checked || [])[0] },
 ];

@@ -1,0 +1,1670 @@
+{
+  "schema": "vacancy-tax/1",
+  "meta": {
+    "title": "Colorado vacancy taxes: who can levy one, who has tried, and what it could raise",
+    "as_of": "2026-11-16",
+    "last_verified": "2026-11-16",
+    "review_by": "2027-02-16",
+    "method": "Curated, not a feed. Each authority and measure record was read from its own source on the check date, and its quote is copied from that source. verification.level \"primary\" means the statute, bill, constitution, ballot language or government release; \"reported\" means a named news or tally page. The revenue estimates are not a source record: they are computed by scripts/policy/vacancy-tax.mjs from ACS 2020-2024 5-year table B25004 (data/hna/vacancy-status.json) and B25001 (data/hna/housing-units-b25001.json), using the cases below, which are COHO assumptions.",
+    "renter_owner": "A vacancy tax is paid by the OWNER of a home that is not lived in. Renters pay nothing directly; a home with a long-term tenant counts as occupied.",
+    "estimate": {
+      "rate_usd": 4000,
+      "rate_note": "Boulder 2J rate (2026), used for every place so places compare on one rate.",
+      "base": "ACS vacant homes held for seasonal, recreational or occasional use (B25004_006) plus other vacant (B25004_008). Homes for rent, for sale, rented or sold and not yet occupied, and migrant-worker housing are left out as normal turnover.",
+      "formula": "revenue = (seasonal x seasonal_share + other_vacant x other_share) x collected x rate",
+      "cases": {
+        "low": {
+          "seasonal_share": 0.4,
+          "other_share": 0.2,
+          "collected": 0.6
+        },
+        "middle": {
+          "seasonal_share": 0.6,
+          "other_share": 0.35,
+          "collected": 0.75
+        },
+        "high": {
+          "seasonal_share": 0.8,
+          "other_share": 0.5,
+          "collected": 0.9
+        }
+      },
+      "assumptions_are": "COHO assumptions, not published research: some seasonal homes are lived in more than half the year, rented long-term part of the year or used as short-term rentals; much of other vacant (repairs, estates, owners in care) is what hardship exemptions cover; owners respond by renting, selling or proving occupancy.",
+      "table_floor_usd": 1000000,
+      "share_floor": 0.25,
+      "min_base": 100
+    },
+    "known_gaps": [
+      "ACS counts a home as vacant on the day it was surveyed. A home lived in four months a year can be counted as occupied, so ACS is a cautious base for a 183-day test.",
+      "Small-town seasonal counts carry wide margins of error; treat their dollars as an order of magnitude.",
+      "Short-term rentals are counted as taxable. A town that exempts them, as HB26-1036 would have, has a smaller base; official license counts are on record here only for a few towns.",
+      "Municipal types (home rule or statutory) are from the Wikipedia list of Colorado municipalities, which cites DOLA; DOLA's own list could not be opened from COHO's tools. Check a town's charter before relying on its status.",
+      "Central City (home rule) has no ACS vacancy record in COHO's data and is not estimated.",
+      "No Colorado court has ruled on whether a vacancy excise tax is a non-uniform property tax.",
+      "Boulder's exemptions, proof of occupancy and enforcement are not set until a 2027 ordinance."
+    ]
+  },
+  "authority": [
+    {
+      "id": "hb26-1036",
+      "title": "HB26-1036, local taxes on vacant residential property",
+      "status": "failed",
+      "decided": "2026-02-09",
+      "summary": "Would have let counties and municipalities, with voter approval, levy an excise tax or a vacant-property tax class on vacant homes, short-term rentals excluded, money for affordable, attainable or workforce housing only. Postponed indefinitely in the House Finance Committee.",
+      "source": {
+        "url": "https://leg.colorado.gov/bill_files/116817/download",
+        "title": "HB26-1036 final fiscal note",
+        "publisher": "Colorado Legislative Council Staff",
+        "quote": "This bill was postponed indefinitely by the House Finance Committee on February 9, 2026; therefore, the impacts identified in this analysis do not take effect.",
+        "date": "2026-06-01"
+      },
+      "more_sources": [
+        {
+          "url": "https://s3.us-west-2.amazonaws.com/beta.leg.colorado.gov/fa2b6aeab13c2dd99430e23de5314648",
+          "title": "HB26-1036 introduced text",
+          "publisher": "Colorado General Assembly",
+          "quote": "MAY USE THE REVENUES COLLECTED FROM AN EXCISE TAX IMPOSED PURSUANT TO THIS SECTION ONLY FOR AFFORDABLE, ATTAINABLE, OR WORKFORCE HOUSING, AS DEFINED BY THE COUNTY OR MUNICIPALITY.",
+          "date": "2026-01-14"
+        },
+        {
+          "url": "https://coloradosun.com/2026/02/11/vacancy-tax-legislation-fails/",
+          "title": "Legislature rejects attempt to let Colorado communities increase taxes on often-vacant homes",
+          "publisher": "The Colorado Sun",
+          "quote": "the 11-member House Finance Committee voted 7-4 against the measure",
+          "date": "2026-02-11"
+        }
+      ],
+      "verification": {
+        "checked": "2026-11-16",
+        "level": "primary"
+      },
+      "review_by": "2027-01-20"
+    },
+    {
+      "id": "home-rule",
+      "title": "Home-rule cities and towns (Colo. Const. art. XX, sec. 6)",
+      "status": "in_force",
+      "summary": "Home-rule municipalities hold the power to levy and collect taxes for municipal purposes. With voter approval they can levy a vacancy excise tax without a state law; Boulder did in 2026. Untested in court.",
+      "source": {
+        "url": "https://olls.info/crs/crs2024-title-00.htm",
+        "title": "Colorado Constitution, Article XX, Section 6 (C.R.S. 2024, constitution volume)",
+        "publisher": "Colorado Office of Legislative Legal Services",
+        "quote": "the levy and collection of taxes thereon for municipal purposes"
+      },
+      "more_sources": [
+        {
+          "url": "https://crestedbuttenews.com/2026/03/cb-town-council-open-to-exploring-a-new-tax-on-vacant-homes/",
+          "title": "CB town council open to exploring a new tax on vacant homes",
+          "publisher": "Crested Butte News",
+          "quote": "Because Crested Butte is a home rule municipality, it already has the authority to take such a measure to its voters.",
+          "date": "2026-03-18"
+        }
+      ],
+      "verification": {
+        "checked": "2026-11-16",
+        "level": "primary"
+      },
+      "review_by": "2027-02-16"
+    },
+    {
+      "id": "statutory-and-counties",
+      "title": "Statutory towns, statutory cities and counties",
+      "status": "no_authority",
+      "summary": "They hold only the powers a statute grants. No statute grants a vacancy tax; HB26-1036 would have. A statutory town can adopt a home-rule charter first.",
+      "source": {
+        "url": "https://crestedbuttenews.com/2026/03/cb-town-council-open-to-exploring-a-new-tax-on-vacant-homes/",
+        "title": "CB town council open to exploring a new tax on vacant homes",
+        "publisher": "Crested Butte News",
+        "quote": "State lawmakers earlier this year rejected a bill to allow statutory municipalities and counties to tax vacant residential properties with voter approval.",
+        "date": "2026-03-18"
+      },
+      "verification": {
+        "checked": "2026-11-16",
+        "level": "reported"
+      },
+      "review_by": "2027-01-20"
+    },
+    {
+      "id": "tabor",
+      "title": "TABOR (Colo. Const. art. X, sec. 20)",
+      "status": "in_force",
+      "summary": "Any new tax needs voter approval in advance, decided at a state general election, a biennial local district election, or on the first Tuesday in November of an odd-numbered year; the ballot title must open \"SHALL (DISTRICT) TAXES BE INCREASED\"; keeping money above the revenue limit needs a voter-approved revenue change; debt needs its own approval; new real estate transfer taxes are banned.",
+      "source": {
+        "url": "https://olls.info/crs/crs2024-title-00.htm",
+        "title": "Colorado Constitution, Article X, Section 20 (C.R.S. 2024, constitution volume)",
+        "publisher": "Colorado Office of Legislative Legal Services",
+        "quote": "New or increased transfer tax rates on real property are prohibited."
+      },
+      "verification": {
+        "checked": "2026-11-16",
+        "level": "primary"
+      },
+      "review_by": "2027-02-16",
+      "more_sources": [
+        {
+          "url": "https://olls.info/crs/crs2024-title-00.htm",
+          "title": "Colorado Constitution, Article X, Section 20 (C.R.S. 2024, constitution volume)",
+          "publisher": "Colorado Office of Legislative Legal Services",
+          "quote": "Ballot issues shall be decided in a state general election, biennial local district election, or on the first Tuesday in November of odd-numbered years."
+        }
+      ]
+    },
+    {
+      "id": "uniformity",
+      "title": "Property tax uniformity (Colo. Const. art. X, sec. 3)",
+      "status": "in_force",
+      "summary": "Property taxes must be uniform within a class. A vacancy tax built as a property tax would need a new class from the state; a local tax is built as an excise, and could be challenged as a property tax in disguise.",
+      "source": {
+        "url": "https://olls.info/crs/crs2024-title-00.htm",
+        "title": "Colorado Constitution, Article X, Section 3 (C.R.S. 2024, constitution volume)",
+        "publisher": "Colorado Office of Legislative Legal Services",
+        "quote": "Each property tax levy shall be uniform upon all real and personal property not exempt from taxation under this article"
+      },
+      "verification": {
+        "checked": "2026-11-16",
+        "level": "primary"
+      },
+      "review_by": "2027-02-16"
+    }
+  ],
+  "measures": [
+    {
+      "id": "boulder-2j-2026",
+      "jurisdiction": "City of Boulder",
+      "geoid": "0807850",
+      "government_type": "Home rule city",
+      "measure": "Ballot Issue 2J",
+      "kind": "vacancy_tax",
+      "status": "adopted",
+      "decided": "2026-11-03",
+      "effective": "2028-01-01",
+      "rate": "$4,000 a year per home occupied 183 days or less, rising with Denver-Aurora-Lakewood CPI, never above $7,000",
+      "expected_revenue_usd": 6000000,
+      "expected_revenue_note": "City estimate for 2028, the first full year of collection. The city has not published its method.",
+      "use": "General city services",
+      "for_housing": false,
+      "summary": "Passed November 3, 2026. Owners of homes occupied 183 days or less a year pay $4,000, indexed to CPI and capped at $7,000, from January 1, 2028. Exemptions, proof of occupancy and enforcement come in a council ordinance in 2027.",
+      "source": {
+        "url": "https://bouldercolorado.gov/2026-city-boulder-ballot-measures",
+        "title": "2026 City of Boulder Ballot Measures",
+        "publisher": "City of Boulder",
+        "quote": "by imposing a $4,000 tax on vacant homes that are occupied for 183 days or less per year, with such amount never falling below $4,000 but increasing annually in accordance with the Denver-Aurora-Lakewood consumer price index up to, but never exceeding $7,000"
+      },
+      "more_sources": [
+        {
+          "url": "https://bouldercolorado.gov/news/city-boulder-voters-support-three-ballot-measures-nov-3-2026-election",
+          "title": "City of Boulder voters support three ballot measures",
+          "publisher": "City of Boulder",
+          "quote": "details about the administration of the tax will be determined and an ordinance will be adopted by the City Council in 2027 prior to the Jan 1, 2028 effective date.",
+          "date": "2026-11-04"
+        },
+        {
+          "url": "https://boulderreportinglab.org/2026/11/06/boulders-near-final-election-results-who-won-what-passed-and-what-failed/",
+          "title": "Boulder’s near-final election results",
+          "publisher": "Boulder Reporting Lab",
+          "quote": "Issue 2J, a tax on homes that sit vacant most of the year, passed with 58%.",
+          "date": "2026-11-06"
+        },
+        {
+          "url": "https://boulderreportinglab.org/2026/03/12/boulder-advances-vacant-home-tax-other-potential-2026-ballot-measures/",
+          "title": "Boulder City Council advances vacant home tax, other possible 2026 ballot measures",
+          "publisher": "Boulder Reporting Lab",
+          "quote": "The city’s Utilities Department reviewed water usage data and found about 500 single-family homes that were vacant for more than six months.",
+          "date": "2026-03-12"
+        }
+      ],
+      "verification": {
+        "checked": "2026-11-16",
+        "level": "primary"
+      },
+      "review_by": "2027-02-16"
+    },
+    {
+      "id": "crested-butte-2b-2026",
+      "jurisdiction": "Town of Crested Butte",
+      "geoid": "0818310",
+      "government_type": "Home rule town",
+      "measure": "Ballot Issue 2B",
+      "kind": "non_primary_home_tax",
+      "status": "failing_unofficial",
+      "decided": "2026-11-03",
+      "rate": "$1,400, $2,400 or $3,400 a year per non-primary home by size; $3,000 per vacant lot, indexed to inflation",
+      "expected_revenue_usd": 1250000,
+      "expected_revenue_note": "First full year, as stated on the ballot.",
+      "use": "Capital fund",
+      "for_housing": false,
+      "summary": "Failing with 37.6% yes (384 yes, 637 no) in unofficial results as of November 13, 2026.",
+      "source": {
+        "url": "https://keatingresearch.com/local-ballot-measures/colorado-2026/",
+        "title": "Colorado Local Ballot Measures 2026",
+        "publisher": "Keating Research (tally of county results)",
+        "quote": "Excise tax on non-primary residences and vacant land, dedicated to the capital fund.",
+        "date": "2026-11-13"
+      },
+      "verification": {
+        "checked": "2026-11-16",
+        "level": "reported"
+      },
+      "review_by": "2026-12-10"
+    },
+    {
+      "id": "steamboat-2025",
+      "jurisdiction": "City of Steamboat Springs",
+      "geoid": "0873825",
+      "government_type": "Home rule city",
+      "measure": "Proposed vacancy tax (not referred)",
+      "kind": "vacancy_tax",
+      "status": "not_referred",
+      "decided": "2025-08-12",
+      "rate": "$3,100 a year per home occupied fewer than 183 days",
+      "expected_revenue_usd": 6950000,
+      "expected_revenue_note": "Draft ballot language; staff gave a range of $3.9 million to $10 million.",
+      "use": "General fund",
+      "for_housing": false,
+      "summary": "City council voted 4-3 not to send the tax to the November 2025 ballot.",
+      "source": {
+        "url": "https://www.steamboatpilot.com/news/city-council-narrowly-votes-to-kill-proposed-vacancy-tax-for-november-ballot/",
+        "title": "City council narrowly votes to kill proposed vacancy tax for November ballot",
+        "publisher": "Steamboat Pilot & Today",
+        "quote": "The Steamboat Springs City Council narrowly voted 4–3 to scrap a proposed $3,100 vacancy tax on homes occupied less than half the year",
+        "date": "2025-08-13"
+      },
+      "more_sources": [
+        {
+          "url": "https://www.steamboatpilot.com/news/steamboat-vacancy-tax-taxation-without-representation/",
+          "title": "Steamboat vacancy tax: Taxation without representation?",
+          "publisher": "Steamboat Pilot & Today",
+          "quote": "the tax could generate between $3.9 million and $10 million annually for the city’s general fund",
+          "date": "2025-06-17"
+        }
+      ],
+      "verification": {
+        "checked": "2026-11-16",
+        "level": "reported"
+      },
+      "review_by": "2027-02-16"
+    },
+    {
+      "id": "crested-butte-2c-2021",
+      "jurisdiction": "Town of Crested Butte",
+      "geoid": "0818310",
+      "government_type": "Home rule town",
+      "measure": "Ballot Question 2C, Community Housing Tax",
+      "kind": "non_primary_home_tax",
+      "status": "failed",
+      "decided": "2021-11-02",
+      "rate": "$2,500 a year on homes not occupied by primary residents or rented at least 180 consecutive days",
+      "expected_revenue_usd": null,
+      "expected_revenue_note": "Not stated in the sources read.",
+      "use": "Affordable housing fund",
+      "for_housing": true,
+      "summary": "Defeated 448 to 344.",
+      "source": {
+        "url": "https://crestedbuttenews.com/2026/03/cb-town-council-open-to-exploring-a-new-tax-on-vacant-homes/",
+        "title": "CB town council open to exploring a new tax on vacant homes",
+        "publisher": "Crested Butte News",
+        "quote": "A Crested Butte Community Housing Tax was defeated in 2021 by a vote of 448 to 344.",
+        "date": "2026-03-18"
+      },
+      "verification": {
+        "checked": "2026-11-16",
+        "level": "reported"
+      },
+      "review_by": "2027-02-16"
+    }
+  ],
+  "municipal_types": {
+    "source": {
+      "url": "https://en.wikipedia.org/wiki/Colorado_municipalities",
+      "title": "List of municipalities in Colorado",
+      "publisher": "Wikipedia (cites DOLA, Active Colorado Municipalities)",
+      "quote": "Home rule municipality"
+    },
+    "verification": {
+      "checked": "2026-11-16",
+      "level": "reported"
+    },
+    "places": [
+      {
+        "name": "Aguilar",
+        "geoid": "0800760",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Akron",
+        "geoid": "0800925",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Alamosa",
+        "geoid": "0801090",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Alma",
+        "geoid": "0801530",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Antonito",
+        "geoid": "0802355",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Arriba",
+        "geoid": "0803235",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Arvada",
+        "geoid": "0803455",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Aspen",
+        "geoid": "0803620",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Ault",
+        "geoid": "0803950",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Aurora",
+        "geoid": "0804000",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Avon",
+        "geoid": "0804110",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Basalt",
+        "geoid": "0804935",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Bayfield",
+        "geoid": "0805265",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Bennett",
+        "geoid": "0806090",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Berthoud",
+        "geoid": "0806255",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Bethune",
+        "geoid": "0806530",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Black Hawk",
+        "geoid": "0807025",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Blanca",
+        "geoid": "0807190",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Blue River",
+        "geoid": "0807410",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Bonanza",
+        "geoid": "0807571",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Boone",
+        "geoid": "0807795",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Boulder",
+        "geoid": "0807850",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Bow Mar",
+        "geoid": "0808070",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Branson",
+        "geoid": "0808345",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Breckenridge",
+        "geoid": "0808400",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Brighton",
+        "geoid": "0808675",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Brookside",
+        "geoid": "0809115",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Broomfield",
+        "geoid": "0809280",
+        "type": "Consolidated city and county"
+      },
+      {
+        "name": "Brush",
+        "geoid": "0809555",
+        "type": "Statutory city"
+      },
+      {
+        "name": "Buena Vista",
+        "geoid": "0810105",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Burlington",
+        "geoid": "0810600",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Calhan",
+        "geoid": "0811260",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Campo",
+        "geoid": "0811645",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Carbonate",
+        "geoid": "0812030",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Carbondale",
+        "geoid": "0812045",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Castle Pines",
+        "geoid": "0812387",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Castle Rock",
+        "geoid": "0812415",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Cañon City",
+        "geoid": "0811810",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Cedaredge",
+        "geoid": "0812635",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Centennial",
+        "geoid": "0812815",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Center",
+        "geoid": "0812855",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Cheraw",
+        "geoid": "0813460",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Cherry Hills Village",
+        "geoid": "0813845",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Cheyenne Wells",
+        "geoid": "0814175",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Coal Creek",
+        "geoid": "0815302",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Cokedale",
+        "geoid": "0815550",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Collbran",
+        "geoid": "0815605",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Colorado Springs",
+        "geoid": "0816000",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Columbine Valley",
+        "geoid": "0816385",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Commerce City",
+        "geoid": "0816495",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Cortez",
+        "geoid": "0817375",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Craig",
+        "geoid": "0817760",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Crawford",
+        "geoid": "0817925",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Crested Butte",
+        "geoid": "0818310",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Crestone",
+        "geoid": "0818420",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Cripple Creek",
+        "geoid": "0818530",
+        "type": "Statutory city"
+      },
+      {
+        "name": "Crook",
+        "geoid": "0818640",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Crowley",
+        "geoid": "0818750",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Dacono",
+        "geoid": "0819080",
+        "type": "Home rule city"
+      },
+      {
+        "name": "De Beque",
+        "geoid": "0819355",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Deer Trail",
+        "geoid": "0819630",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Del Norte",
+        "geoid": "0819795",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Delta",
+        "geoid": "0819850",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Denver",
+        "geoid": "0820000",
+        "type": "Consolidated city and county"
+      },
+      {
+        "name": "Dillon",
+        "geoid": "0820440",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Dinosaur",
+        "geoid": "0820495",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Dolores",
+        "geoid": "0820770",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Dove Creek",
+        "geoid": "0821265",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Durango",
+        "geoid": "0822035",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Eads",
+        "geoid": "0822145",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Eagle",
+        "geoid": "0822200",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Eaton",
+        "geoid": "0822860",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Eckley",
+        "geoid": "0823025",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Edgewater",
+        "geoid": "0823135",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Elizabeth",
+        "geoid": "0823740",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Empire",
+        "geoid": "0824620",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Englewood",
+        "geoid": "0824785",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Erie",
+        "geoid": "0824950",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Estes Park",
+        "geoid": "0825115",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Evans",
+        "geoid": "0825280",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Fairplay",
+        "geoid": "0825610",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Federal Heights",
+        "geoid": "0826270",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Firestone",
+        "geoid": "0826600",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Flagler",
+        "geoid": "0826765",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Fleming",
+        "geoid": "0826875",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Florence",
+        "geoid": "0827040",
+        "type": "Statutory city"
+      },
+      {
+        "name": "Fort Collins",
+        "geoid": "0827425",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Fort Lupton",
+        "geoid": "0827700",
+        "type": "Statutory city"
+      },
+      {
+        "name": "Fort Morgan",
+        "geoid": "0827810",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Fountain",
+        "geoid": "0827865",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Fowler",
+        "geoid": "0827975",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Foxfield",
+        "geoid": "0828105",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Fraser",
+        "geoid": "0828305",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Frederick",
+        "geoid": "0828360",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Frisco",
+        "geoid": "0828690",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Fruita",
+        "geoid": "0828745",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Garden City",
+        "geoid": "0829185",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Genoa",
+        "geoid": "0829680",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Georgetown",
+        "geoid": "0829735",
+        "type": "Territorial charter municipality"
+      },
+      {
+        "name": "Gilcrest",
+        "geoid": "0829955",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Glendale",
+        "geoid": "0830340",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Glenwood Springs",
+        "geoid": "0830780",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Golden",
+        "geoid": "0830835",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Granada",
+        "geoid": "0831550",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Granby",
+        "geoid": "0831605",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Grand Junction",
+        "geoid": "0831660",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Grand Lake",
+        "geoid": "0831715",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Greeley",
+        "geoid": "0832155",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Green Mountain Falls",
+        "geoid": "0832650",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Greenwood Village",
+        "geoid": "0833035",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Grover",
+        "geoid": "0833310",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Gunnison",
+        "geoid": "0833640",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Gypsum",
+        "geoid": "0833695",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Haswell",
+        "geoid": "0834740",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Haxtun",
+        "geoid": "0834960",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Hayden",
+        "geoid": "0835070",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Hillrose",
+        "geoid": "0836610",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Holly",
+        "geoid": "0837215",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Holyoke",
+        "geoid": "0837270",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Hooper",
+        "geoid": "0837380",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Hot Sulphur Springs",
+        "geoid": "0837600",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Hotchkiss",
+        "geoid": "0837545",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Hudson",
+        "geoid": "0837820",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Hugo",
+        "geoid": "0837875",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Idaho Springs",
+        "geoid": "0838370",
+        "type": "Statutory city"
+      },
+      {
+        "name": "Ignacio",
+        "geoid": "0838535",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Iliff",
+        "geoid": "0838590",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Jamestown",
+        "geoid": "0839195",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Johnstown",
+        "geoid": "0839855",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Julesburg",
+        "geoid": "0839965",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Keenesburg",
+        "geoid": "0840185",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Kersey",
+        "geoid": "0840515",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Keystone",
+        "geoid": "0840550",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Kim",
+        "geoid": "0840570",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Kiowa",
+        "geoid": "0840790",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Kit Carson",
+        "geoid": "0841010",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Kremmling",
+        "geoid": "0841560",
+        "type": "Statutory town"
+      },
+      {
+        "name": "La Jara",
+        "geoid": "0842055",
+        "type": "Statutory town"
+      },
+      {
+        "name": "La Junta",
+        "geoid": "0842110",
+        "type": "Home rule city"
+      },
+      {
+        "name": "La Veta",
+        "geoid": "0844100",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Lafayette",
+        "geoid": "0841835",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Lake City",
+        "geoid": "0842330",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Lakeside",
+        "geoid": "0842495",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Lakewood",
+        "geoid": "0843000",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Lamar",
+        "geoid": "0843110",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Larkspur",
+        "geoid": "0843550",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Las Animas",
+        "geoid": "0843660",
+        "type": "Statutory city"
+      },
+      {
+        "name": "Leadville",
+        "geoid": "0844320",
+        "type": "Statutory city"
+      },
+      {
+        "name": "Limon",
+        "geoid": "0844980",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Littleton",
+        "geoid": "0845255",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Lochbuie",
+        "geoid": "0845530",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Log Lane Village",
+        "geoid": "0845695",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Lone Tree",
+        "geoid": "0845955",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Longmont",
+        "geoid": "0845970",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Louisville",
+        "geoid": "0846355",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Loveland",
+        "geoid": "0846465",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Lyons",
+        "geoid": "0847070",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Manassa",
+        "geoid": "0848060",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Mancos",
+        "geoid": "0848115",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Manitou Springs",
+        "geoid": "0848445",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Manzanola",
+        "geoid": "0848500",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Marble",
+        "geoid": "0848555",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Mead",
+        "geoid": "0849600",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Meeker",
+        "geoid": "0849875",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Merino",
+        "geoid": "0850040",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Milliken",
+        "geoid": "0850480",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Minturn",
+        "geoid": "0850920",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Moffat",
+        "geoid": "0851250",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Monte Vista",
+        "geoid": "0851635",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Montezuma",
+        "geoid": "0851690",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Montrose",
+        "geoid": "0851745",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Monument",
+        "geoid": "0851800",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Morrison",
+        "geoid": "0852075",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Mount Crested Butte",
+        "geoid": "0852570",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Mountain View",
+        "geoid": "0852350",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Mountain Village",
+        "geoid": "0852550",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Naturita",
+        "geoid": "0853120",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Nederland",
+        "geoid": "0853175",
+        "type": "Statutory town"
+      },
+      {
+        "name": "New Castle",
+        "geoid": "0853395",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Northglenn",
+        "geoid": "0854330",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Norwood",
+        "geoid": "0854880",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Nucla",
+        "geoid": "0854935",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Nunn",
+        "geoid": "0855045",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Oak Creek",
+        "geoid": "0855155",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Olathe",
+        "geoid": "0855540",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Olney Springs",
+        "geoid": "0855705",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Ophir",
+        "geoid": "0855870",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Orchard City",
+        "geoid": "0855980",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Ordway",
+        "geoid": "0856145",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Otis",
+        "geoid": "0856365",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Ouray",
+        "geoid": "0856420",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Ovid",
+        "geoid": "0856475",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Pagosa Springs",
+        "geoid": "0856860",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Palisade",
+        "geoid": "0856970",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Palmer Lake",
+        "geoid": "0857025",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Paoli",
+        "geoid": "0857245",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Paonia",
+        "geoid": "0857300",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Parachute",
+        "geoid": "0857400",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Parker",
+        "geoid": "0857630",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Peetz",
+        "geoid": "0858235",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Pierce",
+        "geoid": "0859005",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Pitkin",
+        "geoid": "0859830",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Platteville",
+        "geoid": "0860160",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Poncha Springs",
+        "geoid": "0860600",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Pritchett",
+        "geoid": "0861315",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Pueblo",
+        "geoid": "0862000",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Ramah",
+        "geoid": "0862660",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Rangely",
+        "geoid": "0862880",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Red Cliff",
+        "geoid": "0863265",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Rico",
+        "geoid": "0864090",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Ridgway",
+        "geoid": "0864200",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Rifle",
+        "geoid": "0864255",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Rockvale",
+        "geoid": "0864970",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Rocky Ford",
+        "geoid": "0865190",
+        "type": "Statutory city"
+      },
+      {
+        "name": "Romeo",
+        "geoid": "0865740",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Rye",
+        "geoid": "0866895",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Saguache",
+        "geoid": "0867005",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Salida",
+        "geoid": "0867280",
+        "type": "Statutory city"
+      },
+      {
+        "name": "San Luis",
+        "geoid": "0868105",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Sanford",
+        "geoid": "0867830",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Sawpit",
+        "geoid": "0868655",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Sedgwick",
+        "geoid": "0868930",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Seibert",
+        "geoid": "0869040",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Severance",
+        "geoid": "0869150",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Sheridan",
+        "geoid": "0869645",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Sheridan Lake",
+        "geoid": "0869700",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Silt",
+        "geoid": "0870195",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Silver Cliff",
+        "geoid": "0870250",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Silver Plume",
+        "geoid": "0870360",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Silverthorne",
+        "geoid": "0870525",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Silverton",
+        "geoid": "0870580",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Simla",
+        "geoid": "0870635",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Snowmass Village",
+        "geoid": "0871755",
+        "type": "Home rule town"
+      },
+      {
+        "name": "South Fork",
+        "geoid": "0872395",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Springfield",
+        "geoid": "0873330",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Starkville",
+        "geoid": "0873715",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Steamboat Springs",
+        "geoid": "0873825",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Sterling",
+        "geoid": "0873935",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Stratton",
+        "geoid": "0874485",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Sugar City",
+        "geoid": "0874815",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Superior",
+        "geoid": "0875640",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Swink",
+        "geoid": "0875970",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Telluride",
+        "geoid": "0876795",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Thornton",
+        "geoid": "0877290",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Timnath",
+        "geoid": "0877510",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Trinidad",
+        "geoid": "0878610",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Two Buttes",
+        "geoid": "0879270",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Vail",
+        "geoid": "0880040",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Victor",
+        "geoid": "0880865",
+        "type": "Statutory city"
+      },
+      {
+        "name": "Vilas",
+        "geoid": "0881030",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Vona",
+        "geoid": "0881690",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Walden",
+        "geoid": "0882130",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Walsenburg",
+        "geoid": "0882350",
+        "type": "Statutory city"
+      },
+      {
+        "name": "Walsh",
+        "geoid": "0882460",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Ward",
+        "geoid": "0882735",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Wellington",
+        "geoid": "0883230",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Westcliffe",
+        "geoid": "0883450",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Westminster",
+        "geoid": "0883835",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Wheat Ridge",
+        "geoid": "0884440",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Wiggins",
+        "geoid": "0884770",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Wiley",
+        "geoid": "0885045",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Williamsburg",
+        "geoid": "0885155",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Windsor",
+        "geoid": "0885485",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Winter Park",
+        "geoid": "0885705",
+        "type": "Home rule town"
+      },
+      {
+        "name": "Woodland Park",
+        "geoid": "0886090",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Wray",
+        "geoid": "0886310",
+        "type": "Home rule city"
+      },
+      {
+        "name": "Yampa",
+        "geoid": "0886475",
+        "type": "Statutory town"
+      },
+      {
+        "name": "Yuma",
+        "geoid": "0886750",
+        "type": "Home rule city"
+      }
+    ]
+  }
+}

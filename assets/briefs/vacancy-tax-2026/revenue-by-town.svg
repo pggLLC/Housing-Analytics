@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 686" width="420" height="686" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title id="t">What a $4,000 vacancy tax could raise a year</title>
+<desc id="d">Dot-and-range chart of the yearly revenue a $4,000 vacancy tax could raise, paid by owners of vacant homes, in the 15 home-rule places with the largest middle case. Denver: middle $12.0M, range $5.9M to $20.1M; Breckenridge: middle $8.1M, range $4.3M to $13.0M; Vail: middle $6.3M, range $3.4M to $10.1M; Steamboat Springs: middle $6.1M, range $3.3M to $9.9M; Colorado Springs: middle $4.7M, range $2.3M to $7.8M; Keystone: middle $3.9M, range $2.1M to $6.2M; Winter Park: middle $3.7M, range $2.0M to $5.9M; Frisco: middle $3.5M, range $1.8M to $5.5M; Aurora: middle $2.9M, range $1.4M to $4.9M; Avon: middle $2.8M, range $1.5M to $4.6M; Pueblo: middle $2.7M, range $1.3M to $4.7M; Aspen: middle $2.7M, range $1.4M to $4.3M; Snowmass Village: middle $1.9M, range $988K to $3.0M; Lakewood: middle $1.7M, range $815K to $2.9M; Mount Crested Butte: middle $1.7M, range $887K to $2.7M.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="16.0" y="24.0" font-size="16" font-weight="700" fill="#1d2329" text-anchor="start">What a $4,000 vacancy tax could raise a year</text>
+<text x="16.0" y="44.0" font-size="12" font-weight="400" fill="#55606b" text-anchor="start">Home-rule places. Dot: middle case. Line: low to high case.</text>
+<text x="16.0" y="62.0" font-size="12" font-weight="400" fill="#55606b" text-anchor="start">Paid by owners of vacant homes; renters pay nothing.</text>
+<line x1="16.0" x2="16.0" y1="78" y2="626" stroke="#e3e6ea"/>
+<text x="16.0" y="642.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="middle">$0</text>
+<line x1="99.8" x2="99.8" y1="78" y2="626" stroke="#e3e6ea"/>
+<text x="99.8" y="642.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="middle">$5M</text>
+<line x1="183.6" x2="183.6" y1="78" y2="626" stroke="#e3e6ea"/>
+<text x="183.6" y="642.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="middle">$10M</text>
+<line x1="267.3" x2="267.3" y1="78" y2="626" stroke="#e3e6ea"/>
+<text x="267.3" y="642.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="middle">$15M</text>
+<line x1="351.1" x2="351.1" y1="78" y2="626" stroke="#e3e6ea"/>
+<text x="351.1" y="642.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="middle">$20M</text>
+<text x="16.0" y="90.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Denver</text>
+<line x1="114.4" x2="352.0" y1="104" y2="104" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="217.5" cy="104" r="5.5" fill="#1f5f99"/>
+<text x="360.0" y="108.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$12.0M</text>
+<text x="16.0" y="126.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Breckenridge</text>
+<line x1="88.3" x2="234.0" y1="140" y2="140" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="152.0" cy="140" r="5.5" fill="#1f5f99"/>
+<text x="242.0" y="144.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$8.1M</text>
+<text x="16.0" y="162.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Vail</text>
+<line x1="72.3" x2="185.2" y1="176" y2="176" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="121.7" cy="176" r="5.5" fill="#1f5f99"/>
+<text x="193.2" y="180.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$6.3M</text>
+<text x="16.0" y="198.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Steamboat Springs</text>
+<line x1="70.5" x2="181.5" y1="212" y2="212" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="119.0" cy="212" r="5.5" fill="#1f5f99"/>
+<text x="189.5" y="216.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$6.1M</text>
+<text x="16.0" y="234.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Colorado Springs</text>
+<line x1="54.1" x2="147.2" y1="248" y2="248" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="94.5" cy="248" r="5.5" fill="#1f5f99"/>
+<text x="155.2" y="252.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$4.7M</text>
+<text x="16.0" y="270.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Keystone</text>
+<line x1="50.7" x2="120.1" y1="284" y2="284" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="81.1" cy="284" r="5.5" fill="#1f5f99"/>
+<text x="128.1" y="288.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$3.9M</text>
+<text x="16.0" y="306.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Winter Park</text>
+<line x1="48.9" x2="114.7" y1="320" y2="320" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="77.7" cy="320" r="5.5" fill="#1f5f99"/>
+<text x="122.7" y="324.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$3.7M</text>
+<text x="16.0" y="342.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Frisco</text>
+<line x1="46.7" x2="108.8" y1="356" y2="356" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="73.9" cy="356" r="5.5" fill="#1f5f99"/>
+<text x="116.8" y="360.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$3.5M</text>
+<text x="16.0" y="378.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Aurora</text>
+<line x1="39.5" x2="97.5" y1="392" y2="392" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="64.7" cy="392" r="5.5" fill="#1f5f99"/>
+<text x="105.5" y="396.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$2.9M</text>
+<text x="16.0" y="414.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Avon</text>
+<line x1="41.2" x2="92.5" y1="428" y2="428" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="63.6" cy="428" r="5.5" fill="#1f5f99"/>
+<text x="100.5" y="432.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$2.8M</text>
+<text x="16.0" y="450.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Pueblo</text>
+<line x1="37.8" x2="93.9" y1="464" y2="464" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="62.1" cy="464" r="5.5" fill="#1f5f99"/>
+<text x="101.9" y="468.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$2.7M</text>
+<text x="16.0" y="486.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Aspen</text>
+<line x1="40.0" x2="88.4" y1="500" y2="500" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="61.1" cy="500" r="5.5" fill="#1f5f99"/>
+<text x="96.4" y="504.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$2.7M</text>
+<text x="16.0" y="522.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Snowmass Village</text>
+<line x1="32.6" x2="66.0" y1="536" y2="536" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="47.2" cy="536" r="5.5" fill="#1f5f99"/>
+<text x="74.0" y="540.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$1.9M</text>
+<text x="16.0" y="558.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Lakewood</text>
+<line x1="29.7" x2="64.4" y1="572" y2="572" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="44.7" cy="572" r="5.5" fill="#1f5f99"/>
+<text x="72.4" y="576.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$1.7M</text>
+<text x="16.0" y="594.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Mount Crested Butte</text>
+<line x1="30.9" x2="60.7" y1="608" y2="608" stroke="#1f5f99" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round"/>
+<circle cx="43.9" cy="608" r="5.5" fill="#1f5f99"/>
+<text x="68.7" y="612.0" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">$1.7M</text>
+<text x="16.0" y="674.0" font-size="10" font-weight="400" fill="#55606b" text-anchor="start">Source: COHO estimate, ACS 2020-2024 B25004 and B25001. As of 2026-11-16.</text>
+</svg>

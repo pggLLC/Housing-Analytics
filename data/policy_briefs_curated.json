@@ -1,10 +1,615 @@
 {
   "meta": {
-    "updated": "2026-11-04T00:00:00Z",
-    "brief_count": 13,
+    "updated": "2026-11-16T00:00:00Z",
+    "brief_count": 14,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
+    {
+      "id": "co-vacancy-tax-2026",
+      "title": "Vacancy taxes in Colorado: who can levy one, Boulder's 2J, and what it could raise",
+      "policy_topic": "Local Housing Funds",
+      "is_curated": true,
+      "source_reviewed": true,
+      "verified": "2026-11-16",
+      "takeaway": "Colorado has no state law that lets every town tax empty homes: HB26-1036, which would have, died in committee on February 9, 2026. Home-rule cities and towns can still ask their own voters, and Boulder's did on November 3, 2026, by passing 2J, a tax on homes occupied 183 days or less a year. The owners of empty homes pay it; renters do not.",
+      "summary": "Boulder voters passed Ballot Issue 2J with 58% in unofficial results. It charges the owner $4,000 a year for a home occupied 183 days or less, rising with inflation but never above $7,000, starting January 1, 2028. The money goes to general city services, not housing. Steamboat Springs drafted a $3,100 tax in 2025, but its council voted 4-3 not to send it to voters. Crested Butte voters turned down a housing tax on non-primary homes in 2021, 448 to 344, and a second version, 2B, was failing in the November 2026 unofficial count. Below, COHO estimates what a tax at Boulder's rate could raise in each home-rule town, using Census counts of second homes and other vacant homes.",
+      "implications": "For a town: only a home-rule municipality can levy a vacancy tax today, and only after a TABOR election. A statutory town would have to adopt a home-rule charter first. If the money should go to housing, the ballot question has to say so; Boulder's does not. A tax that works shrinks its own base as owners rent or sell, so it is a shaky base for long-term debt. For renters: the tax falls on owners, and a home with a long-term tenant counts as occupied. Its housing effect is homes coming back onto the rental market. For owners: heirs, owners renovating and older owners in care are in the same Census count as second-home owners, so the exemptions decide who pays.",
+      "related_data": "data/policy/vacancy-tax.json",
+      "sources": [
+        "Colorado General Assembly",
+        "Colorado Constitution",
+        "City of Boulder",
+        "U.S. Census Bureau, American Community Survey",
+        "Colorado news coverage"
+      ],
+      "sections": [
+        {
+          "id": "law",
+          "heading": "What Colorado law allows",
+          "items": [
+            "HB26-1036 would have let counties and municipalities tax vacant homes with voter approval, short-term rentals excluded, and limited the money to affordable, attainable or workforce housing. The House Finance Committee voted 7-4 against it, and it was postponed indefinitely on February 9, 2026.",
+            "Home-rule cities and towns hold the power to levy taxes for municipal purposes under Article XX, Section 6 of the Colorado Constitution, so they can ask their voters for a vacancy excise tax without a state law. Boulder did. The Crested Butte News reported that, as a home-rule town, Crested Butte already has the authority.",
+            "Statutory towns, statutory cities and counties hold only the powers a statute grants, and no statute grants this one. A statutory town can adopt a home-rule charter first.",
+            "TABOR requires voter approval in advance, decided at a state general election, a biennial local district election or a November election in an odd-numbered year; a ballot title that opens \"Shall (district) taxes be increased,\" and voter approval to keep money above the revenue limit or to repay debt from the tax. It bans new real estate transfer taxes, so a vacancy tax cannot be built as one.",
+            "Property taxes must be uniform within a class (Article X, Section 3), so a local vacancy tax is written as an excise tax. No Colorado court has ruled on whether that holds."
+          ]
+        },
+        {
+          "id": "boulder",
+          "heading": "How Boulder's 2J works",
+          "items": [
+            "Who pays: the owner of a home occupied 183 days or less in a year.",
+            "Rate: $4,000 a year, rising with the Denver-Aurora-Lakewood consumer price index, never above $7,000.",
+            "Where the money goes: general city services, including police and fire, parks and recreation, and transportation. The ballot does not dedicate it to housing.",
+            "Expected revenue: the ballot states $6,000,000 in 2028, the first full year of collection. The city has not published how it reached that figure, and COHO's estimate below is lower.",
+            "Start: January 1, 2028. Council adopts an ordinance in 2027 that sets how the tax is run, including any exemptions and how occupancy is proved.",
+            "TABOR: voters also approved keeping and spending the money as a voter-approved revenue change."
+          ]
+        },
+        {
+          "id": "tried",
+          "heading": "Who has tried it in Colorado",
+          "paragraphs": [
+            "Boulder is the only Colorado government with an adopted vacancy tax. Each row is a record in this brief's data file, with its source listed below."
+          ],
+          "table": {
+            "caption": "Colorado vacancy and non-primary home tax measures",
+            "columns": [
+              "Jurisdiction",
+              "What happened",
+              "Rate (paid by owners)",
+              "Expected revenue",
+              "Money goes to"
+            ],
+            "rows": [
+              [
+                "City of Boulder",
+                "Ballot Issue 2J: Adopted by voters, November 3, 2026",
+                "$4,000 a year per home occupied 183 days or less, rising with Denver-Aurora-Lakewood CPI, never above $7,000",
+                "$6,000,000 a year. City estimate for 2028, the first full year of collection. The city has not published its method.",
+                "General city services"
+              ],
+              [
+                "Town of Crested Butte",
+                "Ballot Issue 2B: Failing (unofficial count), November 3, 2026",
+                "$1,400, $2,400 or $3,400 a year per non-primary home by size; $3,000 per vacant lot, indexed to inflation",
+                "$1,250,000 a year. First full year, as stated on the ballot.",
+                "Capital fund"
+              ],
+              [
+                "City of Steamboat Springs",
+                "Proposed vacancy tax (not referred): Council did not send it to voters, August 12, 2025",
+                "$3,100 a year per home occupied fewer than 183 days",
+                "$6,950,000 a year. Draft ballot language; staff gave a range of $3.9 million to $10 million.",
+                "General fund"
+              ],
+              [
+                "Town of Crested Butte",
+                "Ballot Question 2C, Community Housing Tax: Failed at the ballot, November 2, 2021",
+                "$2,500 a year on homes not occupied by primary residents or rented at least 180 consecutive days",
+                "Not stated in the sources read.",
+                "Affordable housing fund"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "estimates",
+          "heading": "What a vacancy tax could raise in home-rule towns",
+          "paragraphs": [
+            "Each figure is a yearly estimate at Boulder's $4,000 rate, paid by owners of vacant homes, not renters. The base is Census ACS 2020-2024 homes held for seasonal, recreational or occasional use, plus other vacant homes. The middle case assumes some of those homes are exempt or lived in more than half the year, and that some owners rent or sell instead.",
+            "Listed: home-rule places that could raise a million dollars or more in the middle case, or that have a quarter or more of their homes in the base. In most Front Range cities, the base is mostly other vacant homes (being repaired, held in estates, owners in care) rather than second homes, so the exemptions would decide what they raise."
+          ],
+          "figure": {
+            "src": "assets/briefs/vacancy-tax-2026/revenue-by-town.svg",
+            "alt": "Dot-and-range chart of the yearly revenue a $4,000 vacancy tax could raise, paid by owners of vacant homes, in the 15 home-rule places with the largest middle case. Denver: middle $12.0M, range $5.9M to $20.1M; Breckenridge: middle $8.1M, range $4.3M to $13.0M; Vail: middle $6.3M, range $3.4M to $10.1M; Steamboat Springs: middle $6.1M, range $3.3M to $9.9M; Colorado Springs: middle $4.7M, range $2.3M to $7.8M; Keystone: middle $3.9M, range $2.1M to $6.2M; Winter Park: middle $3.7M, range $2.0M to $5.9M; Frisco: middle $3.5M, range $1.8M to $5.5M; Aurora: middle $2.9M, range $1.4M to $4.9M; Avon: middle $2.8M, range $1.5M to $4.6M; Pueblo: middle $2.7M, range $1.3M to $4.7M; Aspen: middle $2.7M, range $1.4M to $4.3M; Snowmass Village: middle $1.9M, range $988K to $3.0M; Lakewood: middle $1.7M, range $815K to $2.9M; Mount Crested Butte: middle $1.7M, range $887K to $2.7M.",
+            "caption": "COHO estimate from Census ACS 2020-2024 tables B25004 and B25001, at Boulder's rate. The cases are COHO assumptions, set out under How the estimate works.",
+            "source": {
+              "text": "Census table B25004",
+              "url": "https://censusreporter.org/tables/B25004/"
+            }
+          },
+          "table": {
+            "caption": "Home-rule places: yearly revenue paid by owners of vacant homes, at $4,000 a home",
+            "columns": [
+              "Place",
+              "Middle case a year (low to high)",
+              "Share of all homes in the base",
+              "Second homes (ACS, ± margin)"
+            ],
+            "rows": [
+              [
+                "Denver",
+                "$12.0M ($5.9M to $20.1M)",
+                "3%",
+                "2,747 (±559)"
+              ],
+              [
+                "Breckenridge",
+                "$8.1M ($4.3M to $13.0M)",
+                "58%",
+                "4,406 (±343)"
+              ],
+              [
+                "Vail",
+                "$6.3M ($3.4M to $10.1M)",
+                "52%",
+                "3,465 (±271)"
+              ],
+              [
+                "Steamboat Springs",
+                "$6.1M ($3.3M to $9.9M)",
+                "32%",
+                "3,224 (±390)"
+              ],
+              [
+                "Colorado Springs",
+                "$4.7M ($2.3M to $7.8M)",
+                "2%",
+                "974 (±290)"
+              ],
+              [
+                "Keystone",
+                "$3.9M ($2.1M to $6.2M)",
+                "60%",
+                "2,158 (±308)"
+              ],
+              [
+                "Winter Park",
+                "$3.7M ($2.0M to $5.9M)",
+                "72%",
+                "2,034 (±214)"
+              ],
+              [
+                "Frisco",
+                "$3.5M ($1.8M to $5.5M)",
+                "55%",
+                "1,858 (±218)"
+              ],
+              [
+                "Aurora",
+                "$2.9M ($1.4M to $4.9M)",
+                "2%",
+                "557 (±250)"
+              ],
+              [
+                "Avon",
+                "$2.8M ($1.5M to $4.6M)",
+                "37%",
+                "1,505 (±270)"
+              ],
+              [
+                "Pueblo",
+                "$2.7M ($1.3M to $4.7M)",
+                "5%",
+                "308 (±126)"
+              ],
+              [
+                "Aspen",
+                "$2.7M ($1.4M to $4.3M)",
+                "25%",
+                "1,453 (±313)"
+              ],
+              [
+                "Snowmass Village",
+                "$1.9M ($988K to $3.0M)",
+                "36%",
+                "999 (±267)"
+              ],
+              [
+                "Lakewood",
+                "$1.7M ($815K to $2.9M)",
+                "2%",
+                "234 (±150)"
+              ],
+              [
+                "Mount Crested Butte",
+                "$1.7M ($887K to $2.7M)",
+                "58%",
+                "918 (±166)"
+              ],
+              [
+                "Boulder",
+                "$1.6M ($804K to $2.7M)",
+                "3%",
+                "432 (±183)"
+              ],
+              [
+                "Silverthorne",
+                "$1.4M ($755K to $2.3M)",
+                "28%",
+                "757 (±221)"
+              ],
+              [
+                "Dillon",
+                "$1.3M ($704K to $2.1M)",
+                "62%",
+                "703 (±115)"
+              ],
+              [
+                "Westminster",
+                "$1.3M ($636K to $2.2M)",
+                "2%",
+                "305 (±202)"
+              ],
+              [
+                "Fort Collins",
+                "$1.2M ($578K to $1.9M)",
+                "1%",
+                "371 (±163)"
+              ],
+              [
+                "Grand Junction",
+                "$1.1M ($580K to $1.9M)",
+                "3%",
+                "421 (±205)"
+              ],
+              [
+                "Arvada",
+                "$1.1M ($534K to $1.9M)",
+                "2%",
+                "160 (±93)"
+              ],
+              [
+                "Mountain Village",
+                "$1.1M ($584K to $1.8M)",
+                "27%",
+                "603 (±109)"
+              ],
+              [
+                "Telluride",
+                "$1.1M ($557K to $1.7M)",
+                "32%",
+                "559 (±155)"
+              ],
+              [
+                "Crested Butte",
+                "$757K ($401K to $1.2M)",
+                "37%",
+                "403 (±118)"
+              ],
+              [
+                "Ouray",
+                "$420K ($222K to $674K)",
+                "30%",
+                "222 (±77)"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "statutory",
+          "heading": "High-vacancy towns that would need a home-rule charter first",
+          "paragraphs": [
+            "These statutory towns and cities have a quarter or more of their homes in the base but cannot levy a vacancy tax under current law. The figure is what a tax could raise if they adopted a home-rule charter and their voters approved one."
+          ],
+          "table": {
+            "caption": "Statutory places with a large base",
+            "columns": [
+              "Place",
+              "Middle case a year",
+              "Share of all homes in the base",
+              "Second homes (ACS, ± margin)"
+            ],
+            "rows": [
+              [
+                "Estes Park (statutory town)",
+                "$1.8M",
+                "26%",
+                "991 (±314)"
+              ],
+              [
+                "Fraser (statutory town)",
+                "$1.3M",
+                "52%",
+                "731 (±131)"
+              ],
+              [
+                "Granby (statutory town)",
+                "$1.3M",
+                "36%",
+                "675 (±160)"
+              ],
+              [
+                "Grand Lake (statutory town)",
+                "$1.0M",
+                "73%",
+                "567 (±101)"
+              ],
+              [
+                "South Fork (statutory town)",
+                "$671K",
+                "48%",
+                "373 (±117)"
+              ],
+              [
+                "Blue River (statutory town)",
+                "$635K",
+                "42%",
+                "353 (±81)"
+              ],
+              [
+                "Green Mountain Falls (statutory town)",
+                "$378K",
+                "48%",
+                "210 (±64)"
+              ],
+              [
+                "Lake City (statutory town)",
+                "$378K",
+                "42%",
+                "208 (±46)"
+              ],
+              [
+                "Silverton (statutory town)",
+                "$271K",
+                "29%",
+                "137 (±46)"
+              ],
+              [
+                "Pitkin (statutory town)",
+                "$263K",
+                "73%",
+                "141 (±36)"
+              ],
+              [
+                "Westcliffe (statutory town)",
+                "$167K",
+                "27%",
+                "79 (±45)"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "method",
+          "heading": "How the estimate works",
+          "paragraphs": [
+            "Revenue equals second homes times the share that would owe, plus other vacant homes times the share that would owe, times the share collected, times the rate. The shares below are COHO assumptions, not published research: some second homes are lived in more than half the year, rented long term part of the year or used as short-term rentals; much of the other vacant count is what hardship exemptions cover; and owners respond by renting, selling or proving occupancy.",
+            "Two local checks support the middle case. In Boulder, before collection, it counts about as many owing homes as the city's water-use count of about 500 single-family homes vacant more than six months. In Steamboat Springs, at the city's $3,100 rate, it lands inside the city staff's range."
+          ],
+          "table": {
+            "caption": "Cases used in the estimate",
+            "columns": [
+              "Case",
+              "Second homes that owe",
+              "Other vacant homes that owe",
+              "Share collected"
+            ],
+            "rows": [
+              [
+                "Low",
+                "40%",
+                "20%",
+                "60%"
+              ],
+              [
+                "Middle",
+                "60%",
+                "35%",
+                "75%"
+              ],
+              [
+                "High",
+                "80%",
+                "50%",
+                "90%"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "renters-owners",
+          "heading": "Who it reaches: renters and owners",
+          "items": [
+            "Renters pay nothing directly. A home with a long-term tenant counts as occupied, so the tax applies only while a home sits empty.",
+            "If owners rent rather than pay, more homes come onto the rental market. That is the tax's main housing effect, separate from where the money goes.",
+            "A landlord whose unit sits empty more than half the year between tenants would owe the tax unless an exemption covers it. Boulder's 2027 ordinance will decide this.",
+            "Second-home owners are the main target, and many cannot vote in the town that taxes them.",
+            "Heirs, owners renovating and older owners in care fall into the Census other vacant count. Without hardship exemptions they would pay too."
+          ]
+        },
+        {
+          "id": "limits",
+          "heading": "Limits of this brief",
+          "items": [
+            "ACS counts a home as vacant on the day it was surveyed. A home lived in four months a year can be counted as occupied, so ACS is a cautious base for a 183-day test.",
+            "Small-town seasonal counts carry wide margins of error; treat their dollars as an order of magnitude.",
+            "Short-term rentals are counted as taxable. A town that exempts them, as HB26-1036 would have, has a smaller base; official license counts are on record here only for a few towns.",
+            "Municipal types (home rule or statutory) are from the Wikipedia list of Colorado municipalities, which cites DOLA; DOLA's own list could not be opened from COHO's tools. Check a town's charter before relying on its status.",
+            "Central City (home rule) has no ACS vacancy record in COHO's data and is not estimated.",
+            "No Colorado court has ruled on whether a vacancy excise tax is a non-uniform property tax.",
+            "Boulder's exemptions, proof of occupancy and enforcement are not set until a 2027 ordinance."
+          ]
+        },
+        {
+          "id": "watch",
+          "heading": "How COHO keeps this current",
+          "items": [
+            "Each law and measure record names its source and a review date; the daily source watch re-checks those pages and reports a change.",
+            "Each January COHO searches for new vacancy tax bills, and each November for local ballot results, and adds any vacancy tax a Colorado town or county refers to its voters.",
+            "Boulder's 2027 ordinance will be added when council adopts it."
+          ]
+        }
+      ],
+      "articles": [
+        {
+          "title": "HB26-1036 final fiscal note",
+          "source": "Colorado Legislative Council Staff",
+          "date": "2026-06-01",
+          "link": "https://leg.colorado.gov/bill_files/116817/download"
+        },
+        {
+          "title": "HB26-1036 introduced text",
+          "source": "Colorado General Assembly",
+          "date": "2026-01-14",
+          "link": "https://s3.us-west-2.amazonaws.com/beta.leg.colorado.gov/fa2b6aeab13c2dd99430e23de5314648"
+        },
+        {
+          "title": "Legislature rejects attempt to let Colorado communities increase taxes on often-vacant homes",
+          "source": "The Colorado Sun",
+          "date": "2026-02-11",
+          "link": "https://coloradosun.com/2026/02/11/vacancy-tax-legislation-fails/"
+        },
+        {
+          "title": "Colorado Constitution, Article XX, Section 6",
+          "source": "Colorado Office of Legislative Legal Services (C.R.S. 2024)",
+          "link": "https://olls.info/crs/crs2024-title-00.htm"
+        },
+        {
+          "title": "CB town council open to exploring a new tax on vacant homes",
+          "source": "Crested Butte News",
+          "date": "2026-03-18",
+          "link": "https://crestedbuttenews.com/2026/03/cb-town-council-open-to-exploring-a-new-tax-on-vacant-homes/"
+        },
+        {
+          "title": "Colorado Constitution, Article X, Section 20",
+          "source": "Colorado Office of Legislative Legal Services (C.R.S. 2024)",
+          "link": "https://olls.info/crs/crs2024-title-00.htm"
+        },
+        {
+          "title": "Colorado Constitution, Article X, Section 3",
+          "source": "Colorado Office of Legislative Legal Services (C.R.S. 2024)",
+          "link": "https://olls.info/crs/crs2024-title-00.htm"
+        },
+        {
+          "title": "2026 City of Boulder Ballot Measures",
+          "source": "City of Boulder",
+          "link": "https://bouldercolorado.gov/2026-city-boulder-ballot-measures"
+        },
+        {
+          "title": "City of Boulder voters support three ballot measures",
+          "source": "City of Boulder",
+          "date": "2026-11-04",
+          "link": "https://bouldercolorado.gov/news/city-boulder-voters-support-three-ballot-measures-nov-3-2026-election"
+        },
+        {
+          "title": "Boulder’s near-final election results",
+          "source": "Boulder Reporting Lab",
+          "date": "2026-11-06",
+          "link": "https://boulderreportinglab.org/2026/11/06/boulders-near-final-election-results-who-won-what-passed-and-what-failed/"
+        },
+        {
+          "title": "Colorado Local Ballot Measures 2026",
+          "source": "Keating Research (tally of county results)",
+          "date": "2026-11-13",
+          "link": "https://keatingresearch.com/local-ballot-measures/colorado-2026/"
+        },
+        {
+          "title": "City council narrowly votes to kill proposed vacancy tax for November ballot",
+          "source": "Steamboat Pilot & Today",
+          "date": "2025-08-13",
+          "link": "https://www.steamboatpilot.com/news/city-council-narrowly-votes-to-kill-proposed-vacancy-tax-for-november-ballot/"
+        },
+        {
+          "title": "Steamboat vacancy tax: Taxation without representation?",
+          "source": "Steamboat Pilot & Today",
+          "date": "2025-06-17",
+          "link": "https://www.steamboatpilot.com/news/steamboat-vacancy-tax-taxation-without-representation/"
+        },
+        {
+          "title": "List of municipalities in Colorado",
+          "source": "Wikipedia (cites DOLA, Active Colorado Municipalities)",
+          "link": "https://en.wikipedia.org/wiki/Colorado_municipalities"
+        },
+        {
+          "title": "Boulder City Council advances vacant home tax, other possible 2026 ballot measures",
+          "source": "Boulder Reporting Lab",
+          "date": "2026-03-12",
+          "link": "https://boulderreportinglab.org/2026/03/12/boulder-advances-vacant-home-tax-other-potential-2026-ballot-measures/"
+        },
+        {
+          "title": "ACS 2020-2024 5-year, table B25004: Vacancy status",
+          "source": "U.S. Census Bureau, via Census Reporter",
+          "link": "https://censusreporter.org/tables/B25004/"
+        }
+      ],
+      "source_quotes": [
+        {
+          "link": "https://leg.colorado.gov/bill_files/116817/download",
+          "quote": "This bill was postponed indefinitely by the House Finance Committee on February 9, 2026; therefore, the impacts identified in this analysis do not take effect."
+        },
+        {
+          "link": "https://s3.us-west-2.amazonaws.com/beta.leg.colorado.gov/fa2b6aeab13c2dd99430e23de5314648",
+          "quote": "MAY USE THE REVENUES COLLECTED FROM AN EXCISE TAX IMPOSED PURSUANT TO THIS SECTION ONLY FOR AFFORDABLE, ATTAINABLE, OR WORKFORCE HOUSING, AS DEFINED BY THE COUNTY OR MUNICIPALITY."
+        },
+        {
+          "link": "https://coloradosun.com/2026/02/11/vacancy-tax-legislation-fails/",
+          "quote": "the 11-member House Finance Committee voted 7-4 against the measure"
+        },
+        {
+          "link": "https://olls.info/crs/crs2024-title-00.htm",
+          "quote": "the levy and collection of taxes thereon for municipal purposes"
+        },
+        {
+          "link": "https://crestedbuttenews.com/2026/03/cb-town-council-open-to-exploring-a-new-tax-on-vacant-homes/",
+          "quote": "Because Crested Butte is a home rule municipality, it already has the authority to take such a measure to its voters."
+        },
+        {
+          "link": "https://crestedbuttenews.com/2026/03/cb-town-council-open-to-exploring-a-new-tax-on-vacant-homes/",
+          "quote": "State lawmakers earlier this year rejected a bill to allow statutory municipalities and counties to tax vacant residential properties with voter approval."
+        },
+        {
+          "link": "https://olls.info/crs/crs2024-title-00.htm",
+          "quote": "New or increased transfer tax rates on real property are prohibited."
+        },
+        {
+          "link": "https://olls.info/crs/crs2024-title-00.htm",
+          "quote": "Each property tax levy shall be uniform upon all real and personal property not exempt from taxation under this article"
+        },
+        {
+          "link": "https://olls.info/crs/crs2024-title-00.htm",
+          "quote": "Ballot issues shall be decided in a state general election, biennial local district election, or on the first Tuesday in November of odd-numbered years."
+        },
+        {
+          "link": "https://bouldercolorado.gov/2026-city-boulder-ballot-measures",
+          "quote": "by imposing a $4,000 tax on vacant homes that are occupied for 183 days or less per year, with such amount never falling below $4,000 but increasing annually in accordance with the Denver-Aurora-Lakewood consumer price index up to, but never exceeding $7,000"
+        },
+        {
+          "link": "https://bouldercolorado.gov/news/city-boulder-voters-support-three-ballot-measures-nov-3-2026-election",
+          "quote": "details about the administration of the tax will be determined and an ordinance will be adopted by the City Council in 2027 prior to the Jan 1, 2028 effective date."
+        },
+        {
+          "link": "https://boulderreportinglab.org/2026/11/06/boulders-near-final-election-results-who-won-what-passed-and-what-failed/",
+          "quote": "Issue 2J, a tax on homes that sit vacant most of the year, passed with 58%."
+        },
+        {
+          "link": "https://keatingresearch.com/local-ballot-measures/colorado-2026/",
+          "quote": "Excise tax on non-primary residences and vacant land, dedicated to the capital fund."
+        },
+        {
+          "link": "https://www.steamboatpilot.com/news/city-council-narrowly-votes-to-kill-proposed-vacancy-tax-for-november-ballot/",
+          "quote": "The Steamboat Springs City Council narrowly voted 4–3 to scrap a proposed $3,100 vacancy tax on homes occupied less than half the year"
+        },
+        {
+          "link": "https://www.steamboatpilot.com/news/steamboat-vacancy-tax-taxation-without-representation/",
+          "quote": "the tax could generate between $3.9 million and $10 million annually for the city’s general fund"
+        },
+        {
+          "link": "https://crestedbuttenews.com/2026/03/cb-town-council-open-to-exploring-a-new-tax-on-vacant-homes/",
+          "quote": "A Crested Butte Community Housing Tax was defeated in 2021 by a vote of 448 to 344."
+        },
+        {
+          "link": "https://en.wikipedia.org/wiki/Colorado_municipalities",
+          "quote": "Home rule municipality"
+        },
+        {
+          "link": "https://bouldercolorado.gov/2026-city-boulder-ballot-measures",
+          "quote": "Shall the City of Boulder taxes be increased $6,000,000 annually (which amount represents estimated revenues in 2028, the first full fiscal year of collection), and by such amounts raised annually thereafter, by imposing a $4,000 tax on vacant homes that are occupied for 183 days or less per year"
+        },
+        {
+          "link": "https://boulderreportinglab.org/2026/03/12/boulder-advances-vacant-home-tax-other-potential-2026-ballot-measures/",
+          "quote": "The city’s Utilities Department reviewed water usage data and found about 500 single-family homes that were vacant for more than six months."
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "Colorado",
+        "Statewide"
+      ],
+      "generated": "2026-11-16T00:00:00Z"
+    },
     {
       "id": "federal-midterms-2026-housing",
       "title": "2026 midterms: Democrats projected to win Congress (unofficial); what it means for affordable housing in Colorado",
