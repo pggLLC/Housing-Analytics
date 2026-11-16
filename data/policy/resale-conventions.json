@@ -67,7 +67,7 @@
       "evidence_basis": "named_unretrieved",
       "verify": true,
       "appreciation_share": 0.25,
-      "share_label": "25% homeowner share - VERIFY against primary land-lease or pricing document",
+      "share_label": "25% homeowner share (an assumption: the land trust's own resale terms were not available to confirm it)",
       "calculation_note": "Purchase price plus homeowner share of user-supplied or historical market appreciation, plus entered selling costs.",
       "screening_note": "Elevation's public page confirms a shared-equity resale formula; the 25% share needs primary document confirmation before underwriting."
     },
