@@ -459,7 +459,7 @@
         '<p><a href="#/places/incentives">Each place’s incentives and commitment →</a></p>' +
         src('DOLA commitment filings and fast-track list', d.p123.source_url, 'updated ' + day(d.p123.updated)), 3) +
       sec('car', 'Colorado market conditions (CAR)', carProjected ?
-        '<p>The Colorado Association of REALTORS publishes statewide sales, prices and listings each month. The site’s file for ' + esc(monthOf(car.month)) + ' holds projections from earlier months, not CAR’s own figures, so none are shown here. ' + ext(car.source_url, 'CAR’s monthly market reports') + '.</p>' + src(car.source, car.source_url, 'file for ' + monthOf(car.month) + ', built ' + day(car.generated_at)) :
+        '<p>The Colorado Association of REALTORS publishes statewide sales, prices and listings each month: ' + ext(car.source_url, 'CAR’s monthly market reports') + '. The site has no confirmed CAR figures for ' + esc(monthOf(car.month)) + ', so none are shown here.</p>' :
         '<p>Statewide figures from the Colorado Association of REALTORS monthly report for ' + esc(monthOf(car.month)) + '.</p>' +
         kpis([
           { label: 'Median sale price', value: cs.median_sale_price == null ? null : money(cs.median_sale_price), src: 'CAR', href: car.source_url },
@@ -656,9 +656,9 @@
     return sec('cc', 'Construction labor and costs in Colorado', '<p>What it costs to build in Colorado: pay, jobs and trade wages for Colorado, and national building material prices. All of it is on Construction costs.</p>' +
       '<div class="dd-cards">' + card({ from: 'Construction costs', href: '#/places/costs?at=costs-labor', title: 'Colorado construction pay, jobs and input prices',
         figures: [
-          wage && wage.latest ? { value: '$' + (+wage.latest.value).toFixed(2), label: 'Average hourly pay, ' + at(wage) } : null,
+          wage && wage.latest ? { value: '$' + (+wage.latest.value).toFixed(2), label: 'Average hourly pay, ' + at(wage) + ' (not seasonally adjusted)' } : null,
           jobs && jobs.latest ? { value: (+jobs.latest.value).toFixed(1) + 'K', label: 'Construction jobs, ' + at(jobs) + ' (not seasonally adjusted)' } : null,
-          mat && mat.yoyPct != null ? { value: pct(mat.yoyPct), label: 'Apartment building input prices on a year, ' + monthOf(mat.latestPeriod) + ' (U.S.)' } : null
+          mat && mat.yoyPct != null ? { value: pct(mat.yoyPct), label: 'Apartment building input prices over the past year, to ' + monthOf(mat.latestPeriod) + ' (U.S.)' } : null
         ], more: 'Weekly pay, job openings and hires, wages for 10 trades, every input price and each month since ' + monthOf(cc.history[0].period) + '.',
         source: 'BLS, refreshed ' + day(cc.generatedAt) }) + '</div>');
   }
