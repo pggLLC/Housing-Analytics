@@ -10,6 +10,11 @@
     return new URLSearchParams(h.indexOf('v=1&') === 0 ? h.slice(4) : (loc.search || ''));
   }
   window.DealCalcLinkParams = linkParams;
+  // A site opened from Market Analysis's Compare Sites (?site-lat=&site-lon=). Null without a finite point.
+  function linkedSitePoint() {
+    var lp = linkParams(), la = parseFloat(lp.get('site-lat')), lo = parseFloat(lp.get('site-lon'));
+    return Number.isFinite(la) && Number.isFinite(lo) ? { lat: la, lon: lo } : null;
+  }
   function _linkHasEquityPrice() { return linkParams().has('equity-price'); }
   function loanTypeOptions(selected) {
     return Object.keys(dealEngine().LOAN_TYPES).map(function (key) {
@@ -6468,6 +6473,9 @@
         // jurisdiction, which would otherwise re-select a different county
         // after the link hydrated — or none, leaving every output at "—".
         if (window.__DealCalcSharedCounty && _selectCounty(window.__DealCalcSharedCounty)) return;
+        // A linked site's county comes from its coordinates (_wireCountyDetect), not from the county this
+        // browser last used: the stored jurisdiction must not overwrite it (Codex review of #2902).
+        if (linkedSitePoint()) return;
         var _fallbackCounty = function () {
           // Pre-select the jurisdiction county so user doesn't re-enter it.
           // GEO-1 writes a canonical countyFips for place/CDP selections;
@@ -6958,9 +6966,9 @@
     // carries ?site-lat=&site-lon=. Fill the coordinates and pick the county from them, once the county list
     // has loaded. A link that also names a county keeps that county.
     (function () {
-      var lp = linkParams();
-      var la = parseFloat(lp.get('site-lat')), lo = parseFloat(lp.get('site-lon'));
-      if (!Number.isFinite(la) || !Number.isFinite(lo)) return;
+      var lp = linkParams(), pt = linkedSitePoint();
+      if (!pt) return;
+      var la = pt.lat, lo = pt.lon;
       latEl.value = la.toFixed(6); lonEl.value = lo.toFixed(6);
       var box = latEl.closest ? latEl.closest('details') : null;
       if (box) box.open = true;
