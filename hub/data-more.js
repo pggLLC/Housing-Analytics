@@ -1,8 +1,9 @@
-// Data and methods, the five pages the live site keeps under its Data menu: Trust center (#/data/trust),
-// Data explorer (#/data/explorer), Data map (#/data/map), Data quality (#/data/quality) and Data status
-// (#/data/status). Every figure is read from the site's own files: the file list (data/_manifest.json), the
-// nightly check results (data/_qa-status.json), place coverage (data/hna/place-chas-coverage-stats.json),
-// the source registry (js/data-source-inventory.js) and the dataset checks in js/data-quality-check.js.
+// Data and methods: Trust center (#/data/trust), Data explorer (#/data/explorer) and Data map (#/data/map). The old
+// Data quality and Data status pages are sections of the Trust center now (duplicates batch 3, paul 16 Nov 2026), and
+// their addresses (#/data/quality, #/data/status) open it at those sections. Every figure is read from the site's own
+// files: the file list (data/_manifest.json), the nightly check results (data/_qa-status.json), place coverage
+// (data/hna/place-chas-coverage-stats.json), the source registry (js/data-source-inventory.js) and the dataset checks
+// in js/data-quality-check.js.
 (function (global) {
   'use strict';
 
@@ -15,6 +16,8 @@
 
   function day(iso) { return iso ? String(iso).slice(0, 10) : null; }
   function mb(bytes) { return bytes >= 1e6 ? (bytes / 1e6).toFixed(bytes >= 1e8 ? 0 : 1) + ' MB' : Math.max(1, Math.round(bytes / 1e3)) + ' KB'; }
+  // A page's own sections, set inside a fold, sit one heading level down.
+  function h3(html) { return String(html).replace(/<h2(\s|>)/g, '<h3$1').replace(/<\/h2>/g, '</h3>'); }
   function loading(title, s) {
     var head = T.head({ kind: 'data', crumbs: T.trail('data', title), title: title });
     if (s.error) return head + '<p class="callout">' + esc(s.error) + '</p>';
@@ -56,7 +59,7 @@
 
   // ---------- Trust center ----------
   function trust() {
-    var s = UI.load({ qa: 'data/_qa-status.json', files: 'data/_manifest.json', reg: 'data/manifest.json' });
+    var s = UI.load({ qa: 'data/_qa-status.json', files: 'data/_manifest.json', reg: 'data/manifest.json', cov: 'data/hna/place-chas-coverage-stats.json' });
     if (!s.data) return loading('Trust center', s);
     var qa = s.data.qa, I = global.DataSourceInventory, stats = I ? I.getStats() : null;
     var ok = passed(qa), when = day(qa.generated_at);
@@ -66,7 +69,7 @@
     var steps = [
       { n: '1', title: 'A public agency publishes it', detail: stats ? num(stats.total) + ' sources, each with its publisher' : 'Each source names its publisher', href: '#/data/sources', go: 'Data sources' },
       { n: '2', title: 'The site keeps a dated copy', detail: num(s.data.files.files.filter(function (f) { return !MEMBER.test(f.path); }).length) + ' files, each with its update date', href: '#/data/explorer', go: 'Data explorer' },
-      { n: '3', title: 'Five checks run on the copies', detail: ok + ' of 5 passed, ' + when, href: '#/data/quality', go: 'Data quality' },
+      { n: '3', title: 'Five checks run on the copies', detail: ok + ' of 5 passed, ' + when, href: '#/data/trust?at=trust-checks', go: 'The checks' },
       { n: '4', title: 'Each figure shows its source', detail: 'Publisher and date under every number', href: '#/guide/methods', go: 'Methods' }
     ];
     return T.head({
@@ -80,12 +83,13 @@
           '<span class="ts-detail">' + esc(x.detail) + '</span><span class="ts-go">' + esc(x.go) + ' →</span></a></li>';
       }).join('') + '</ol>' +
       '<h2>Look closer</h2><div class="hub-cards">' + [
-        ['#/data/status', 'Data status', 'The four datasets the main tools need, checked in your browser now.'],
         ['#/data/map', 'Data map', 'Every map layer the site keeps, drawn over Colorado’s counties.'],
         ['#/data/sources', 'Data sources', 'Each source’s publisher, last update and expected cadence.'],
-        ['#/data/quality', 'Data quality', 'The five checks in detail, and place coverage.']
+        ['#/data/explorer', 'Data explorer', 'Every data file behind the site, with previews.']
       ].map(function (c) { return '<a class="hub-card" href="' + c[0] + '"><span class="hub-card-title">' + esc(c[1]) + '</span><span class="hub-card-desc">' + esc(c[2]) + '</span></a>'; }).join('') + '</div>' +
       healthOverview(stats) +
+      // Data quality and Data status, folded in as sections (duplicates batch 3); their addresses open them here.
+      quality(s) + status() +
       '<h3>Raw files</h3><p>The site’s own lists of its data files, as it publishes them: <a href="' + LIVE + 'data/manifest.json">the source list ↗</a> and <a href="' + LIVE + 'data/_manifest.json">every file with its size and fields ↗</a>. The <a href="#/data/explorer">Data explorer</a> reads the second one.</p>' +
       maintainers(s.data) +
       T.source('COHO nightly data checks', LIVE + 'data-review-hub.html', when) +
@@ -149,9 +153,9 @@
   }
 
   // ---------- Data quality ----------
-  function quality() {
-    var s = UI.load({ qa: 'data/_qa-status.json', cov: 'data/hna/place-chas-coverage-stats.json' });
-    if (!s.data) return loading('Data quality', s);
+  // ---------- The nightly checks, in detail (folded into the Trust center, duplicates batch 3) ----------
+  // Was the Data quality page (#/data/quality, which now opens the Trust center at this section).
+  function quality(s) {
     var qa = s.data.qa, cov = s.data.cov, when = day(qa.generated_at), ok = passed(qa);
     var fr = qa.layers.freshness || {}, files = fr.files || [];
     var tot = cov.totals || {};
@@ -159,16 +163,9 @@
     var frRows = files.map(function (f) {
       return { file: String(f.file || '').replace(/^data\//, ''), age: f.ageDays, sla: f.slaDays, status: f.status === 'OK' ? 'Within window' : f.status === 'STALE' ? 'Past window' : f.status, from: String(f.source || '').replace(/^field:/, '') };
     });
-    return T.head({
-      kind: 'data', crumbs: T.trail('data', 'Data quality'), title: 'Data quality',
-      answer: 'The five checks the site runs on its data every night, what each one catches, and how many places have their own figures.',
-      meta: '<span class="scope-tag">Checked ' + esc(when) + '</span>',
-      facts: [
-        { value: ok + ' of 5', label: 'Checks passed', source: 'COHO nightly data checks', href: LIVE + 'dashboard-data-quality.html' },
-        { value: num(fr.ok || 0) + ' of ' + num(files.length), label: 'Tracked files within their refresh window', source: 'COHO nightly data checks', href: LIVE + 'dashboard-data-quality.html' },
-        { value: (tot.coverage_pct != null ? tot.coverage_pct + '%' : null), label: 'Of ' + num(tot.registry_places) + ' places with their own affordability figures', source: 'COHO place coverage', href: LIVE + 'dashboard-data-quality.html' }
-      ]
-    }) +
+    var lead = '<p>' + ok + ' of 5 checks passed on ' + esc(when) + '. ' + num(fr.ok || 0) + ' of ' + num(files.length) + ' tracked files are within their refresh window' +
+      (tot.coverage_pct != null ? ', and ' + tot.coverage_pct + '% of ' + num(tot.registry_places) + ' places have their own affordability figures' : '') + '.</p>';
+    return T.fold('The nightly checks, in detail', esc(ok + ' of 5 passed, ' + when + '. Each check, each tracked file and place coverage.'), lead + h3(
       '<h2>The five checks</h2>' + checkList(qa) +
       '<h2>Files with a refresh window</h2>' +
       '<div data-no-source="catalog: the site’s own file checks, run when this page opens">' + UI.table('fresh', 'Tracked files, their age and the window each is allowed', [
@@ -186,9 +183,9 @@
         { key: 'name', label: 'County' }, { key: 'total_places', label: 'Places', num: true }, { key: 'uncovered', label: 'Falling back', num: true }
       ], short, { noun: 'counties', placeholder: 'County' }) : '<p class="note">No county has a place that falls back.</p>') +
       T.source('COHO place coverage, from HUD CHAS 2018–2022 tracts and Census TIGER 2024 places', LIVE + 'dashboard-data-quality.html', day(cov.meta && cov.meta.generated_at)) +
-      sourceHealth() + pipelineLog(qa) + apiSetup() +
-      T.next('Next', [{ href: '#/data/status', label: 'Data status →' }, { href: '#/data/sources', label: 'Data sources', secondary: true }]);
+      sourceHealth() + pipelineLog(qa) + apiSetup()), { id: 'trust-checks' });
   }
+
 
   // The four buckets every registry place falls into (js/place-chas-coverage-panel.js), with what each means.
   function placeBuckets(t, cov) {
@@ -284,26 +281,32 @@
   // The live page's own checks (js/data-quality-check.js), run here against the site's copy of each file.
   var dq = { reports: null, error: null, started: false };
   var FRESH = { fresh: 'Fresh', aging: 'Aging', stale: 'Stale', unknown: 'No date in file' };
+  // ---------- Today's check of the main datasets (folded into the Trust center, duplicates batch 3) ----------
+  // Was the Data status page (#/data/status, which now opens the Trust center at this section). The check reads
+  // about 2.5 MB of files in the reader's browser, so it runs when the section is opened or asked for, not with
+  // every visit to the Trust center; a link to the section (?at=trust-today) runs it straight away.
+  function startChecks() {
+    var D = global.DataQuality;
+    if (!D || dq.started) return;
+    dq.started = true;
+    D.runAll().then(function (r) { dq.reports = r; Shell.render(); }, function (e) { dq.error = String(e && e.message || e); Shell.render(); });
+  }
   function status() {
     var D = global.DataQuality;
-    var head = T.head({
-      kind: 'data', crumbs: T.trail('data', 'Data status'), title: 'Data status',
-      answer: 'Whether the four datasets the main tools depend on load, hold what they should, and are recent enough for how often they change.',
-      // The checks run in the browser when the page opens, as on the live page, so the stamp is today.
-      meta: dq.reports ? T.stamp('Checked', new Date().toLocaleDateString('en-CA', { timeZone: 'America/Denver' })) : ''
-    });
-    if (!D) return head + '<p class="callout">The site’s data checks did not load.</p>';
-    if (!dq.started) {
-      dq.started = true;
-      D.runAll().then(function (r) { dq.reports = r; Shell.render(); }, function (e) { dq.error = String(e && e.message || e); Shell.render(); });
-    }
-    if (dq.error) return head + '<p class="callout">The checks did not finish (' + esc(dq.error) + ').</p>';
-    if (!dq.reports) return head + '<p role="status" class="note">Checking each dataset…</p>';
+    var wrap = function (inner) {
+      return T.fold('Today’s check of the main datasets', 'Whether the four datasets the main tools depend on load, hold what they should, and are recent enough for how often they change.',
+        inner + h3(contentFreshness()), { id: 'trust-today' });
+    };
+    if (!D) return wrap('<p class="callout">The site’s data checks did not load.</p>');
+    if (/[?&]at=trust-today(&|$)/.test(String(global.location && global.location.hash || ''))) startChecks();
+    if (dq.error) return wrap('<p class="callout">The checks did not finish (' + esc(dq.error) + ').</p>');
+    if (!dq.started) return wrap('<p>The check opens the site’s copy of each file in your browser (about 2.5 MB), so it runs when you ask.</p><p><button type="button" class="button-link secondary" data-dq-run>Check the four datasets now</button></p>');
+    if (!dq.reports) return wrap('<p role="status" class="note">Checking each dataset…</p>');
     var r = dq.reports, good = r.filter(function (x) { return x.ok; }).length;
     var by = function (k) { return r.filter(function (x) { return x.freshness === k; }).length; };
     var ages = [['fresh', 'fresh'], ['aging', 'aging'], ['stale', 'stale'], ['unknown', 'without a date the check can read']].filter(function (k) { return by(k[0]); })
       .map(function (k) { return by(k[0]) + ' ' + k[1]; });
-    return head +
+    return wrap('<p class="note">' + T.stamp('Checked', new Date().toLocaleDateString('en-CA', { timeZone: 'America/Denver' })) + '</p>' + h3(
       UI.intro('Are the datasets behind the main tools healthy today?', good + ' of ' + r.length + ' datasets pass their checks' + (function () {
         var warn = r.filter(function (x) { return !x.ok && !x.critical; }).length, err = r.filter(function (x) { return !x.ok && x.critical; }).length;
         return warn || err ? ' (' + [warn ? warn + ' with a warning' : '', err ? err + ' with an error' : ''].filter(Boolean).join(', ') + ')' : '';
@@ -316,7 +319,7 @@
           (x.message ? '<p class="note">' + esc(x.message) + '</p>' : '') +
           (x.sourceUrl ? '<p class="metric-source"><a href="' + esc(x.sourceUrl) + '">' + esc(x.sourceLabel || 'Source') + '</a></p>' : '') + '</li>';
       }).join('') + '</ul>' +
-      '<p class="note">Checked in your browser when this page opened, against the site’s copy of each file. “Fresh”, “Aging” and “Stale” use each dataset’s own window: FRED weekly, CHFA tax credit properties every two weeks, county boundaries and the county affordability gap yearly. A stale file is older than its source usually updates, not a broken page; the site keeps the last good copy. The checks re-read the files; they do not fetch new data, which the scheduled builds do.</p>' +
+      '<p class="note">Checked in your browser when you ran the check, against the site’s copy of each file. “Fresh”, “Aging” and “Stale” use each dataset’s own window: FRED weekly, CHFA tax credit properties every two weeks, county boundaries and the county affordability gap yearly. A stale file is older than its source usually updates, not a broken page; the site keeps the last good copy. The checks re-read the files; they do not fetch new data, which the scheduled builds do.</p>' +
       '<h2>All data sources</h2><p>What is fresh, and what is estimated or aging? Every dataset the main tools rely on, one row each.</p>' +
       '<div data-no-source="catalog: the site’s own dataset checks, run when this page opens">' + UI.table('dqall', 'The datasets behind the main tools and their checks', [
         { key: 'label', label: 'Dataset' },
@@ -328,8 +331,17 @@
       ], r.map(function (x) {
         return { label: x.label, result: x.ok ? 'Passes' : x.critical ? 'Error' : 'Warning', n: x.featureCount > 0 ? x.featureCount : null, asOf: x.dataAsOf ? day(x.dataAsOf) : null, age: FRESH[x.freshness] || x.freshness, msg: x.message || null };
       }), { noun: 'datasets', placeholder: 'Dataset' }) + '</div>' +
-      contentFreshness() +
-      T.next('Next', [{ href: '#/data/quality', label: 'Data quality →' }, { href: '#/data/sources', label: 'Every source', secondary: true }]);
+      ''));
+  }
+
+  if (typeof document !== 'undefined' && document.addEventListener) {
+    document.addEventListener('click', function (ev) {
+      if (ev.target && ev.target.closest && ev.target.closest('[data-dq-run]')) { ev.preventDefault(); startChecks(); Shell.render(); }
+    });
+    document.addEventListener('toggle', function (ev) {
+      var d = ev.target;
+      if (d && d.getAttribute && d.getAttribute('data-fold') === 'trust-today' && d.open && !dq.started) { startChecks(); Shell.render(); }
+    }, true);
   }
 
   // ---------- Content freshness ----------

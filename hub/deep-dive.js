@@ -599,7 +599,7 @@
         '<div class="actions"><a class="button-link" href="#/market">Market check →</a><a class="button-link secondary" href="#/data/map?layer=qct">Data map</a></div>') +
       sec('sig-sources', 'Data sources', list([ext('https://data.census.gov/', 'ACS 5-year, Census Bureau (B25070, B25014, B11001)'), ext('https://www.huduser.gov/portal/datasets/lihtc.html', 'HUD LIHTC tax credit database'), ext('https://www.chfainfo.com/', 'CHFA, Colorado Housing and Finance Authority'),
         ext('https://fred.stlouisfed.org/', 'FRED economic series and housing starts'), ext('https://www.bls.gov/lau/', 'BLS LAUS unemployment and employed residents'), ext('https://cdola.colorado.gov/commitment-filings', 'Prop 123: DOLA commitment filings'), ext('https://lehd.ces.census.gov/', 'LEHD / LODES commuting flows')]) +
-        '<p><a href="#/data/sources">Every data source →</a> · <a href="#/data/status">Data freshness →</a></p>');
+        '<p><a href="#/data/sources">Every data source →</a> · <a href="#/data/trust?at=trust-today">Data freshness →</a></p>');
   }
 
   // ---------- 7. Construction labor and costs ----------

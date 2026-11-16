@@ -292,7 +292,7 @@
 
   // The tools the old home page listed as quick links, each at its rebuilt page.
   var QUICK = [['Needs Assessment', '#/places'], ['Compare', '#/places/ranking'], ['Opportunity Finder', '#/finder'], ['Preservation', '#/opportunity/preservation'],
-    ['Ownership Need', '#/for-sale'], ['For-Sale Market Study', '#/for-sale'], ['Market Analysis', '#/market'], ['Deal Calculator', '#/deal-calculator'],
+    ['Ownership Need', '#/for-sale'], ['For-Sale Market Study', '#/for-sale'], ['Market check', '#/market'], ['Deal Calculator', '#/deal-calculator'],
     ['Scenario Builder', '#/places/scenario'], ['Recommendation', '#/recommendation'], ['Land Value', '#/opportunity/land-value'], ['Data Map', '#/data/map'], ['Data Trust Center', '#/data/trust']];
   function quick(g) {
     var seen = {};
@@ -490,7 +490,7 @@
       '<p class="ha-lede">Statewide, for renters and for owners. For your own town, use the search at the top.</p>' +
       (global.LabRentIncome ? global.LabRentIncome.card('08') : '') + ownCard(f) + '</section>' +
       everything() +
-      '<p class="callout home-member"><strong>For developers and housing teams.</strong> Market Analysis and the for-sale study are free in a basic form here. Members get the full versions, site dossiers and deal workbooks. <a href="#/members">Member tools</a></p>' +
+      '<p class="callout home-member"><strong>For developers and housing teams.</strong> The Market check and the for-sale study are free here. Members get the full versions, site dossiers and deal workbooks. <a href="#/members">Member tools</a></p>' +
       figures + (f ? '<details class="home-about home-counted"><summary>How the Colorado numbers are counted, and more of them</summary>' + glance(f) + moreNumbers(f) + '</details>' : '') +
       '<details class="home-about" id="home-about"><summary>How COHO works, who it is for, and the research behind it</summary>' + steps() + paths() + audiences() + research() + '</details>' +
       '<p><a href="' + esc(LIVE + 'places/index.html') + '">Local housing profiles</a>: a short page for every Colorado town and county.</p>' +
@@ -723,18 +723,18 @@
   // sitemap.html's four groups and their pages, each opened in the lab where the lab has it.
   var SITEMAP = [
     ['Analysis tools', [['Housing needs assessment', 'County and town needs assessment', '#/places'], ['Select a jurisdiction', 'Choose a county, town or CDP', '#/places'], ['Place profiles', 'One page for every Colorado city, town and CDP', '#/places'],
-      ['Opportunity Finder', 'Rank places for tax credit opportunity (free version; full Finder for members)', '#/finder'], ['Compare places', 'Side-by-side comparison', '#/places/compare'], ['Market analysis', 'Market area and feasibility (free market check; full study for members)', '#/market'],
+      ['Opportunity Finder', 'Rank places for tax credit opportunity (free version; full Finder for members)', '#/finder'], ['Compare places', 'Side-by-side comparison', '#/places/compare'], ['Market check', 'Market area and feasibility, free (the full Market Analysis is step 4 of Build a deal)', '#/market'],
       ['Scenario builder', '20-year population and housing forecasts', '#/places/scenario'], ['Deal Calculator', 'Tax credit pro forma and capital stack', '#/deal-calculator'], ['Land value and negotiation', 'Market comps and residual land bid', '#/opportunity/land-value'],
       ['Colorado deep dive', 'Market signals, construction labor and costs, tax credit history, counties', '#/places/deep-dive']]],
     ['Dashboards', [['Economic dashboard', 'FRED economic indicators', '#/places/economy'], ['CHFA portfolio', 'CHFA tax credit projects', '#/opportunity/portfolio'], ['Where Colorado’s housing money goes', 'State housing awards by place and developer', '#/money'],
       ['Prop 123 land banking awards', 'Where Prop 123 has paid for land', '#/opportunity/land-banking'], ['Commuting and jobs', 'Who drives in to work, and the largest employers', '#/opportunity/commuting'], ['Preservation tracking', 'Federal subsidy contracts ending', '#/opportunity/preservation']]],
-    ['Insights', [['Research and analysis', 'Dated analysis and research briefs', '#/research'], ['LIHTC guide', 'Tax credit basics for stakeholders', '#/guide/lihtc-basics'], ['Who does what in a Colorado affordable deal', 'Bankers, syndicators, lawyers, community work and CRA', '#/guide/deal-team'],
+    ['Insights', [['Research and analysis', 'Dated analysis and research briefs', '#/guides?at=research-all'], ['LIHTC guide', 'Tax credit basics for stakeholders', '#/guide/lihtc-basics'], ['Who does what in a Colorado affordable deal', 'Bankers, syndicators, lawyers, community work and CRA', '#/guide/deal-team'],
       ['Green building in a Colorado deal', 'CHFA rules, utility allowances, programs', '#/guide/green-building'], ['Affordable Housing Credit Improvement Act', 'Enacted provisions and pending bills', '#/guide/ahcia'], ['Policy and legislation', 'Laws, rules and CHFA plan changes we track', '#/legislation'],
       ['If you need housing now', 'Rent help, eviction help and vouchers, in English and Spanish', '#/guide/renter-help'], ['Help for homebuyers', 'Credits, grants and down payment help', '#/assistance'], ['Starting a housing authority', 'Colorado steps, the board, and tax exemptions', '#/guide/housing-authority'],
       ['Housing news', 'Headlines, newest first, with a policy watch', '#/news'], ['Colorado elections', '2026 ballot, candidates, housing officials', '#/elections'], ['White paper for planners', 'A finding in plain language', '#/guide/white-paper'],
       ['Working paper', 'Why the system works the way it does', '#/guide/working-paper'], ['Methods', 'Every formula, to check a number', '#/guide/methods'], ['Tax credit equity markets', 'Equity pricing history and benchmarks', '#/equity-pricing'],
       ['CRA expansion and tax credit pricing', 'Hypothetical CRA pricing scenarios', '#/guide/cra-pricing'], ['Needs ranking', 'Statewide needs ranking', '#/places/ranking']]],
-    ['About', [['Home', 'Platform overview', '#/'], ['About COHO Analytics', 'Platform and method', '#/guide/about'], ['Data health', 'Pipeline status and data freshness', '#/data/status'], ['Data trust center', 'Sources, freshness and checks', '#/data/trust'],
+    ['About', [['Home', 'Platform overview', '#/'], ['About COHO Analytics', 'Platform and method', '#/guide/about'], ['Data health', 'Pipeline status and data freshness', '#/data/trust?at=trust-today'], ['Data trust center', 'Sources, freshness and checks', '#/data/trust'],
       ['File browser', 'Browse datasets with previews', '#/data/explorer'], ['Data map', 'Datasets on a map', '#/data/map'], ['Affordable housing pipeline', 'From need to homes, step by step', '#/pipeline'], ['Privacy policy', 'Data and privacy', '#/privacy']]]
   ];
   function sitemap() {

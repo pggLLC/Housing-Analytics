@@ -68,6 +68,8 @@ export const ARRIVE_WITH = Object.freeze({
   'data-review-hub.html':                MOVED_AS_WRITTEN,
   'ic-summary.html':                     MOVED_AS_WRITTEN,
   'where-housing-money-goes.html':       MOVED_AS_WRITTEN,
+  // Duplicates batch 3 (16 Nov 2026).
+  'sunday-digest.html':                  MOVED_AS_WRITTEN,
   'housing-needs-assessment.html':       HNA_STATEWIDE,
   'hna-what-housing-exists.html':        HNA_STATEWIDE,
   'hna-who-lives-here.html':             HNA_STATEWIDE,
