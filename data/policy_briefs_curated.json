@@ -62,7 +62,7 @@
           "items": [
             "What can be leased: a ranger station, work center, dwelling or other administrative site and the land under or next to it, plus no more than 10 isolated, undeveloped parcels of 40 acres or less each fiscal year, nationwide. Wilderness, wild and scenic rivers, national monuments and land set aside for recreation are excluded.",
             "Size: one lease may not exceed 40 acres.",
-            "Term: not more than 100 years, with renewal while the use continues and the lessee complies. Before 2025 the statute set no term; the 2023 Dillon lease runs 50 years.",
+            "Term: not more than 100 years. Each lease must allow the use to be reauthorized, possibly on new terms, if the site is still used as authorized, the new use fits the forest's land management plan and the lessee has kept to the lease. Renewal is not automatic. Before 2025 the statute set no term; the 2023 Dillon lease runs 50 years.",
             "First offer: the Forest Service must offer the lease to the town or county where the site is before anyone else.",
             "Rent: at least market value, in cash or in kind. In-kind rent can be new facilities \"such as housing\" for Forest Service staff.",
             "Local rules: the lessee follows state and local zoning, building codes and permits.",
@@ -89,7 +89,7 @@
           "id": "counties",
           "heading": "Colorado counties that could use it",
           "paragraphs": [
-            "46 of Colorado's 64 counties hold national forest land, 41 have a Forest Service office or work center, and 66 of the state's 272 towns and cities have national forest land within a mile of their center. The table lists the counties where a lease has been tried or explored, then the counties where this site's own data shows the clearest fit: a Forest Service office in a town, workers commuting in, and renters without an affordable home. It is a screen, not a ranking, and no site in it has been offered for lease.",
+            "46 of Colorado's 64 counties hold national forest land, 41 have a Forest Service office or work center, and 66 of the state's 272 towns and cities have national forest land within a mile of their center. The table lists the counties where a lease has been tried or explored, then the counties where this site's own data shows the clearest fit: a Forest Service office in a town, workers commuting in, and renters without an affordable home. It is a screen, not a ranking. Apart from Summit County's signed Dillon lease, no site in it is known to have been offered for lease.",
             "Every project on record is rental housing: the land stays federal and the homes are rented. Nothing on record uses these leases for homes people own."
           ],
           "table": {
@@ -99,7 +99,7 @@
               "Forest Service offices in",
               "Forest share of land",
               "Worker households to house now",
-              "Renters short of a home, 50% of income or less",
+              "Renters short of a home, income at or below 50% of area median",
               "Boost area (DDA), 2026",
               "Lease on record"
             ],
@@ -214,7 +214,7 @@
               ]
             ]
           },
-          "note": "Worker households to house now: commuting households at or below 120% of area median income, if one in four moved closer (this site's Housing Needs Assessment, LEHD and ACS 2020-2024). Renter shortfall: HUD CHAS 2018-2022 \"affordable and available\" homes, renters only. Boost area: HUD's nonmetro Difficult Development Areas, where a tax-credit project may raise its eligible basis up to 130 percent; the 2027 list applies to credits allocated after December 31, 2026. Offices and forest acres: Forest Service data read November 16, 2026."
+          "note": "Worker households to house now: commuting households at or below 120% of area median income, if one in four moved closer (this site's Housing Needs Assessment, LEHD and ACS 2020-2024). Renter shortfall: renter households with income at or below 50% of HUD area median family income, less the homes affordable and available to them (HUD CHAS 2018-2022), renters only. Boost area: HUD's nonmetro Difficult Development Areas, where a tax-credit project may raise its eligible basis up to 130 percent; the 2027 list applies to credits allocated after December 31, 2026. Offices and forest acres: Forest Service data read November 16, 2026."
         },
         {
           "id": "left-off",
@@ -412,6 +412,14 @@
         {
           "link": "https://www.govinfo.gov/content/pkg/PLAW-118publ234/html/PLAW-118publ234.htm",
           "quote": "The term of a lease of an administrative site under this section shall be not more than 100 years."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-118publ234/html/PLAW-118publ234.htm",
+          "quote": "use of the administrative site, at the time of reauthorization, is still being used for the purposes authorized; ``(ii) use to be authorized under the new lease is consistent with the applicable land management plan; and ``(iii) lessee is in compliance with all the terms of the existing lease."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-118publ234/html/PLAW-118publ234.htm",
+          "quote": "A reauthorization of use under subparagraph (B) may include new terms in the use, as determined by the Chief of the Forest Service, or their designee."
         },
         {
           "link": "https://www.govinfo.gov/content/pkg/PLAW-118publ234/html/PLAW-118publ234.htm",

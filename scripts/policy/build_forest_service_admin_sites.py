@@ -56,6 +56,7 @@ def get(url, params, tries=3):
         except Exception:  # noqa: BLE001 - retried, then raised
             if attempt == tries - 1:
                 raise
+    raise RuntimeError(f'{url}: no attempts made')
 
 
 def point_in_ring(x, y, ring):
