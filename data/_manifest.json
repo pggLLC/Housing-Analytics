@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-15T23:58:17.147Z",
+    "generated_at": "2026-11-16T03:34:01.473Z",
     "root": "data/",
     "file_count": 2032,
-    "total_size_bytes": 228897817,
+    "total_size_bytes": 228897845,
     "kinds": {
       "json": 1983,
       "geojson": 35,
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-15T23:58:12.257Z",
+      "mtime": "2026-11-16T03:33:57.227Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -40267,7 +40267,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-15T23:58:14.646Z",
+      "mtime": "2026-11-16T03:33:59.444Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40291,7 +40291,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-15T23:58:14.067Z",
+      "mtime": "2026-11-16T03:33:58.900Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -43317,8 +43317,8 @@
     {
       "path": "policy/resale-conventions.json",
       "kind": "json",
-      "size_bytes": 7744,
-      "mtime": "2026-10-21T11:12:41.460Z",
+      "size_bytes": 7772,
+      "mtime": "2026-11-16T03:32:04.742Z",
       "shape": "object",
       "keys": [
         "schema",
