@@ -456,7 +456,7 @@
         // counted" note are in that section.
         (aa30 ? T.summary({ from: 'Colorado deep dive: renters and homes, statewide', href: '#/places/deep-dive?tab=need&at=dd-fvn-ami',
           figures: [{ value: num(aa30.homes_short), label: 'Homes short for renters at or below 30% AMI, Colorado', tenure: 'Renters' }],
-          source: 'HUD CHAS ' + (aaYears || ''), more: 'The statewide counts, both ways of counting and why they differ.' }) : '') +
+          source: 'HUD CHAS ' + (aaYears || ''), sourceHref: 'https://www.huduser.gov/portal/datasets/cp.html', more: 'The statewide counts, both ways of counting and why they differ.' }) : '') +
         '<h2>Where renters at or below 30% AMI most outnumber the homes priced for them</h2>' +
         '<p class="note">Shortfall: renter households minus homes priced for them, for each Colorado place where renters outnumber homes. Larger places lead because they have more renters.</p>' +
         '<ol class="rank">' + top.map(function (x) {
