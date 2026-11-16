@@ -716,7 +716,11 @@
     if (u === 'places/index.html') return '#/places';
     m = /^research-brief\.html\?id=([A-Za-z0-9_-]{1,120})$/.exec(u);
     if (m) return '#/research/brief/' + m[1];
-    if (/^index\.html#glossary(=|$)/.test(u)) return '#/data/glossary';
+    // A glossary term opens the glossary on that term; a funding program opens the deep dive's funding tab on it.
+    m = /^index\.html#glossary(?:=(.*))?$/.exec(u);
+    if (m) { var term = ''; try { term = decodeURIComponent(m[1] || ''); } catch (e) { term = ''; } return '#/data/glossary' + (term ? '?term=' + encodeURIComponent(term) : ''); }
+    m = /^colorado-deep-dive\.html\?program=([a-z0-9-]{1,80})(?:#tab-funding)?$/.exec(u);
+    if (m) return '#/places/deep-dive?tab=funding&program=' + m[1];
     var moved = global.LabNav && global.LabNav.movedHref(u);
     if (moved) return moved;
     var file = /^([a-z0-9-]+\.html)$/i.exec(u);

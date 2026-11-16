@@ -351,17 +351,22 @@
 
   // ---------- Glossary ----------
   // The live site's Glossary panel (js/glossary.js) as a page: every term in data/glossary.json, in the file's
-  // own words, with a filter. No term or definition is written here.
-  function glossary() {
+  // own words, with a filter. No term or definition is written here. ?term=<term> (a search result for one term, as
+  // the live panel's #glossary=<term> opened it) shows that term's definition first, above the list.
+  function glossary(params) {
     var s = UI.load({ g: 'data/glossary.json' });
     if (!s.data) return loading('Glossary', s);
     var terms = (s.data.g.terms || []).slice().sort(function (a, b) { return String(a.term).localeCompare(String(b.term), 'en', { sensitivity: 'base' }); });
     var rows = terms.map(function (t) { return { term: t.term, full: t.full || '', def: t.definition || t.short || '' }; });
+    var want = String((params && params.get('term')) || '').toLowerCase();
+    var picked = want && rows.filter(function (r) { return String(r.term).toLowerCase() === want; })[0];
     return T.head({
       kind: 'data', crumbs: T.trail('data', 'Glossary'), title: 'Glossary',
       answer: 'Plain definitions of the ' + num(rows.length) + ' tax credit and housing terms used on this site.',
       meta: day(s.data.g.updated) ? T.stamp('Updated', day(s.data.g.updated)) : ''
     }) +
+      (picked ? '<section class="callout gloss-pick" id="gloss-pick" aria-labelledby="gloss-pick-h" data-no-source="definition: plain-language terms"><h2 id="gloss-pick-h">' + esc(picked.term) +
+        (picked.full ? ' <span class="note">(' + esc(picked.full) + ')</span>' : '') + '</h2><p>' + esc(picked.def) + '</p></section>' : '') +
       '<div data-no-source="definition: plain-language terms">' + UI.table('gloss', 'Housing and tax credit terms', [
         { key: 'term', label: 'Term', tip: 'The term or its initials, as pages print it' },
         { key: 'full', label: 'Stands for', tip: 'The full name, where the term is a short form' },
