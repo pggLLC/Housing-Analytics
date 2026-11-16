@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-16T13:58:06.107Z",
+    "generated_at": "2026-11-16T15:36:58.822Z",
     "root": "data/",
     "file_count": 2034,
     "total_size_bytes": 229118616,
@@ -40267,7 +40267,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-16T13:42:04.846Z",
+      "mtime": "2026-11-16T15:36:56.243Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40291,7 +40291,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-16T13:42:04.281Z",
+      "mtime": "2026-11-16T15:36:55.684Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
