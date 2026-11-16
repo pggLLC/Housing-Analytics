@@ -134,6 +134,11 @@
   box-shadow: var(--focus-ring);
 }
 
+/* The site pin: a dot that can be dragged to the right spot (paul, 16 Nov 2026). */
+.pma-site-pin { width: 18px !important; height: 18px !important; margin: -9px 0 0 -9px !important; border-radius: 50%; background: var(--accent); border: 3px solid var(--card, #fff); box-shadow: 0 0 0 2px var(--accent), 0 1px 4px rgba(0, 0, 0, .35); cursor: grab; }
+.pma-site-pin:active { cursor: grabbing; }
+.pma-save-site { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: .5rem 0; font-size: .8125rem; color: var(--muted); }
+.pma-save-site[hidden] { display: none; }
 .pma-map-hint {
   padding: 0.4rem 1rem;
   font-size: var(--tiny);

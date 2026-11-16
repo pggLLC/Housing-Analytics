@@ -182,6 +182,9 @@
     // Show/hide save button based on whether a scored site exists
     var hasScore = !!_captureSnapshot();
     if (saveButtons) saveButtons.style.display = hasScore ? 'flex' : 'none';
+    // The same save, under the map, once a site is scored (paul, 16 Nov 2026).
+    var mapRow = document.getElementById('pmaSaveSiteRow');
+    if (mapRow) mapRow.hidden = !hasScore;
 
     if (_sites.length === 0) {
       tableMount.innerHTML = '<p class="ma-section-placeholder">Score a site above, then click "Save Current Site" to begin comparing locations.</p>';
@@ -320,6 +323,23 @@
           confirmEl.style.display = 'inline';
           setTimeout(function () { confirmEl.style.display = 'none'; }, 2000);
         }
+      });
+    }
+
+    // Each new site starts unsaved: say so when it is a transient one (Use my location, or a link).
+    document.addEventListener('pma:site-placed', function () {
+      var note = document.getElementById('pmaSaveSiteNote');
+      if (note) note.innerHTML = (global.CohoSiteTransient ? 'This check is not saved. ' : '') +
+        'Save it to compare sites later in <a href="#maSiteComparison">Compare Sites</a>; saved sites stay in this browser only.';
+    });
+    var mapSave = document.getElementById('pmaSaveSiteBtn');
+    if (mapSave && saveBtn) {
+      mapSave.addEventListener('click', function () {
+        var before = _sites.length, snap = _captureSnapshot();
+        if (!snap) return;
+        saveBtn.click();
+        var note = document.getElementById('pmaSaveSiteNote');
+        if (note) note.innerHTML = 'Saved. ' + _sites.length + (_sites.length === 1 ? ' site' : ' sites') + ' in <a href="#maSiteComparison">Compare Sites</a>, kept in this browser only' + (before >= MAX_SITES ? ' (the oldest was dropped; the table holds ' + MAX_SITES + ')' : '') + '.';
       });
     }
 

@@ -162,6 +162,9 @@
    */
   function saveLastResult(lat, lon, options, scoreRun) {
     if (lat == null || lon == null || !scoreRun) return;
+    // A site from Use my location or a ?lat=&lon= link is not kept unless the
+    // person saves it to Compare Sites (paul, 16 Nov 2026).
+    if (window.CohoSiteTransient) return;
     var jurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
       ? window.WorkflowState.getJurisdiction() : null;
     var entry = {

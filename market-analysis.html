@@ -424,7 +424,11 @@
                 style="font-size:.8125rem;color:var(--muted);flex-basis:100%"></span>
         </div>
         <div id="pmaMap" role="application" aria-label="Colorado map — click to place a site marker"></div>
-        <div class="pma-map-hint">Click anywhere on the map to place a site — or type an address above. Uses the free US Census Geocoder (no API key required).</div>
+        <div class="pma-map-hint">Click anywhere on the map to place a site — or type an address above. Drag the pin to move it to the right spot. Uses the free US Census Geocoder (no API key required).</div>
+        <div class="pma-save-site" id="pmaSaveSiteRow" hidden>
+          <button type="button" id="pmaSaveSiteBtn" class="btn btn-sm">Save this site to compare</button>
+          <span id="pmaSaveSiteNote" role="status" aria-live="polite">Save it to compare sites later in <a href="#maSiteComparison">Compare Sites</a>; saved sites stay in this browser only.</span>
+        </div>
 
         <!-- ── Boundary overlays ── -->
         <details class="map-layer-details map-layer-section">
