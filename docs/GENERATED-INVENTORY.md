@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T10:04:10.403Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T11:31:05.918Z. Do not edit by hand.
 
 ---
 
@@ -2591,7 +2591,7 @@
 | `test/place-lehd-apportionment.test.js` | 4.8 KB |
 | `test/place-pages.test.js` | 6.9 KB |
 | `test/place-profile-format.test.mjs` | 7.0 KB |
-| `test/places-hub-port.test.js` | 8.6 KB |
+| `test/places-hub-port.test.js` | 9.3 KB |
 | `test/planned-sources-are-not-unknown.test.js` | 8.1 KB |
 | `test/pma-affordable-supply-label.test.js` | 3.0 KB |
 | `test/pma-affordable-supply-units.test.js` | 9.1 KB |
