@@ -759,10 +759,10 @@
     var secs = (s.data.cat.meta && s.data.cat.meta.sections || []).map(function (x) { return [x.key, x.label, x.note]; });
     if (!secs.length) secs = SECTIONS;
     var briefs = briefList(s.data.feed).slice().sort(function (a, b) { return String(b.generated || '').localeCompare(String(a.generated || '')); });
-    return wrap(h3((briefs.length ? '<h2>Research briefs</h2><p class="note">Source-reviewed briefs on federal and Colorado housing policy, each linked to the laws and documents it reads.</p><div class="research-cards">' + briefs.map(briefCard).join('') + '</div>' : '') + secs.map(function (sec) {
+    return wrap(h3((briefs.length ? '<h2>Research briefs</h2><p class="note">Source-reviewed briefs on federal and Colorado housing policy, each linked to the laws and documents it reads.</p><div class="research-cards" data-no-source="catalog: COHO’s research list; each entry carries its own date and sources">' + briefs.map(briefCard).join('') + '</div>' : '') + secs.map(function (sec) {
       var items = all.filter(function (e) { return e.section === sec[0]; });
       if (!items.length) return '';
-      return '<h2>' + esc(sec[1]) + '</h2>' + (sec[2] ? '<p class="note">' + esc(sec[2]) + '</p>' : '') + '<div class="research-cards">' + items.map(function (e) {
+      return '<h2>' + esc(sec[1]) + '</h2>' + (sec[2] ? '<p class="note">' + esc(sec[2]) + '</p>' : '') + '<div class="research-cards" data-no-source="catalog: COHO’s research list; each entry carries its own date and sources">' + items.map(function (e) {
         // A page that now forwards to a view (site/nav.js MOVED, redirect group A) opens that view, as a lab card.
         var lab = LAB_ROUTE[e.url] || (global.LabNav && global.LabNav.movedHref(e.url)) || null, href = lab || LIVE + e.url;
         var dated = e.updated ? 'Updated ' + e.updated : e.published ? 'Published ' + e.published : KEEP[e.maintenance] || '';
