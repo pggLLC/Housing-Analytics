@@ -420,35 +420,18 @@
     });
     var named = {};
     var T = global.LabTpl;
-    var st = data && data.gapCounty.statewide;
     // The one headline for homes short at 30% AMI is HUD CHAS affordable-and-available, as on the lab's Home.
-    // The ACS figures below are the same question measured another way, and are labelled as such.
     var aa30 = data && data.aa && data.aa.statewide && data.aa.statewide.tiers ? data.aa.statewide.tiers['30'] : null;
     var aaYears = data && data.aa && data.aa.meta ? data.aa.meta.vintage : null;
-    // The page story (paul 11-06): the finding leads, the map that proves it comes next, then the figures behind it.
-    var short30 = 0, counted30 = 0;
-    ((data && data.gapCounty.counties) || []).forEach(function (c) {
-      var h = c.households_le_ami_pct && c.households_le_ami_pct['30'], u = c.units_priced_affordable_le_ami_pct && c.units_priced_affordable_le_ami_pct['30'];
-      if (h == null || u == null) return;
-      counted30++; if (h > u) short30++;
-    });
-    var facts = st ? [
-        { value: num(st.renter_households_total), label: 'Renter households in Colorado', source: 'Census ACS 2020\u20132024', href: SRC.acsGap },
-        { value: num(st.households_le_ami_pct['30']), label: 'Renters at or below 30% AMI', source: 'Census ACS 2020\u20132024', href: SRC.acsGap },
-        { value: num(st.units_priced_affordable_le_ami_pct['30']), label: 'Homes priced for them', source: 'Census ACS 2020\u20132024', href: SRC.acsGap },
-        aa30 ? { value: num(aa30.homes_short), label: 'Homes short for renters at or below 30% AMI', source: 'HUD CHAS ' + (aaYears || ''), href: 'https://www.huduser.gov/portal/datasets/cp.html' } : null,
-        { value: num(matched(st, '30')), label: 'Homes short on the ACS count, at least (another measure)', source: 'Census ACS and HUD FY2026', href: SRC.hudIl }
-      ].filter(Boolean) : null;
     var head = T.head({
       kind: 'hub', crumbs: [{ label: 'Home', href: '#/' }, { label: 'Places and need' }], title: 'Places and need',
-      answer: counted30 ? num(short30) + ' of Colorado\u2019s ' + num(counted30) + ' counties have fewer homes than renters at the lowest incomes. Find your town or county to see its own gap.' :
-        'Where Colorado renters most outnumber the homes they can afford, and the full needs assessment for any town, county or CDP.',
+      answer: 'Find your town or county for its renters, homes and housing need: ' + num(profiles.length) + ' Colorado places, or pick a county on the map.',
       meta: '<span class="scope-tag">Scope: Colorado, by county and place</span> Census ACS 2020\u20132024 with HUD FY2026 income limits.',
       aside: T.terms(TERMS)
     }) + (global.LabHna ? global.LabHna.stepPath(true, '#/places') : '') + Shell.searchBox('place-q', 'Find a town or county', q, 'For example Fruita or 0828745');
     var working = global.LabHna && global.LabHna.working ? global.LabHna.working() : null;
     var means = T.means([
-      { text: 'Where renters at or below 30% AMI outnumber the homes priced for them, the rest live in homes priced for higher incomes and pay more than they can afford.' }
+      { text: 'Each place has its own count of renters and the homes priced for them, so the need you see is that town\u2019s or county\u2019s, not the state\u2019s.' }
     ]);
 
     var results = '';
@@ -467,8 +450,13 @@
       }).filter(function (x) { return x.s != null && x.s > 0; }).sort(function (a, b) { return b.s - a.s; }).slice(0, 8);
       var topMax = top.length ? top[0].s : 1;
       glance = '<h2>Housing need by county: renters and owners</h2>' + (global.LabCountyNeed ? global.LabCountyNeed.figure(data, params) : needMap(data)) +
-        (facts ? '<h2>Colorado, statewide</h2>' + T.factStrip(facts) : '') + means +
-        '<details class="counted"><summary>How this is counted</summary>' + (aa30 ? '<p>The headline, ' + num(aa30.homes_short) + ' homes short, is HUD\u2019s CHAS count (' + esc(aaYears || '') + '): renter households at or below 30% of area median income less the homes they can afford that are vacant or rented by someone in that group. The map and lists below use the ACS count, which is newer and reaches every town, so its totals differ. Why they differ: the ACS count includes cheap homes rented by higher-income households and uses one statewide AMI; CHAS uses each county\u2019s own limits and older survey years.</p>' : '') + '<p>The ACS count: renter households earning up to 30% of area median income, minus the homes that rent for what they can afford, and minus homes rented for no cash rent, whose occupants are counted among those households. Each home counts only for households who can afford its rent, cheapest homes to the lowest incomes first. Counted homes are renter-occupied, not necessarily vacant or available, and some are rented by higher-income households. Everyone is measured against one statewide AMI (' + esc(money(st.ami_4person)) + ' for a family of four, HUD FY2026), so the figure differs from HUD\u2019s CHAS count, which uses older survey years and each county\u2019s own limits. </p></details>' +
+        means +
+        // Colorado as a whole lives on the Deep dive's Funding vs need tab (paul, 16 Nov 2026: statewide figures are not
+        // much help on the page where a reader picks a place). One card links there; every figure and the "How this is
+        // counted" note are in that section.
+        (aa30 ? T.summary({ from: 'Colorado deep dive: renters and homes, statewide', href: '#/places/deep-dive?tab=need&at=dd-fvn-ami',
+          figures: [{ value: num(aa30.homes_short), label: 'Homes short for renters at or below 30% AMI, Colorado', tenure: 'Renters' }],
+          source: 'HUD CHAS ' + (aaYears || ''), more: 'The statewide counts, both ways of counting and why they differ.' }) : '') +
         '<h2>Where renters at or below 30% AMI most outnumber the homes priced for them</h2>' +
         '<p class="note">Shortfall: renter households minus homes priced for them, for each Colorado place where renters outnumber homes. Larger places lead because they have more renters.</p>' +
         '<ol class="rank">' + top.map(function (x) {
@@ -492,7 +480,7 @@
 
     // Saved projects sit under the first answer; with none yet, the short note goes to the foot of the page.
     var recent = !q ? recentProjects() : null;
-    return head + results + glance + (recent && recent.has ? recent.html : '') + groups + (rest.length ? '<h2>More tools</h2>' + Shell.list(rest) : '') +
+    return head + results + (recent && recent.has ? recent.html : '') + glance + groups + (rest.length ? '<h2>More tools</h2>' + Shell.list(rest) : '') +
       (!q ? notSure() : '') + (recent && !recent.has ? recent.html : '') +
       (!q ? '<p class="count">' + profiles.length + ' place profiles. Type a name above to find one.</p>' : '') +
       // The first link opens the place being worked on (member rehearsal, 13 Nov 2026: it read Fruita whatever
