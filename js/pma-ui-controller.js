@@ -1475,6 +1475,12 @@
   function _writePermalink(lat, lon, options) {
     try {
       if (typeof window === 'undefined' || !window.history || !window.history.replaceState) return;
+      // A transient site (Use my location, or a ?lat=&lon= link) is not kept in the address either; an older
+      // #pma= link is dropped so a reload cannot reopen a different point (Codex review of #2902).
+      if (window.CohoSiteTransient) {
+        if (/^#pma=/.test(window.location.hash || '')) window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        return;
+      }
       var parts = [
         lat.toFixed(6),
         lon.toFixed(6),

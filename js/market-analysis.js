@@ -5100,7 +5100,7 @@
     // The pin can be dragged to the right parcel or corner; letting go checks the new point (paul, 16 Nov 2026).
     siteMarker = L.marker([lat, lon], {
       pane: 'pointsPane', draggable: true, keyboard: true, title: 'The site: drag to move it',
-      alt: 'Site pin', icon: L.divIcon({ className: 'pma-site-pin', iconSize: [18, 18] })
+      alt: 'Site pin', icon: L.divIcon({ className: 'pma-site-pin', iconSize: [44, 44], iconAnchor: [22, 22] })
     }).addTo(map);
     siteMarker.on('dragend', function (ev) {
       var p = ev.target.getLatLng(), box = document.getElementById('pmaAddressInput'), st = document.getElementById('pmaAddressStatus');

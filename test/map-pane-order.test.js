@@ -62,8 +62,10 @@ assert(countPane(lof, 'pointsPane') >= 2, 'LOF assigns circle markers to pointsP
 assert(countPane(pma, 'fillsPane') >= 6, 'PMA assigns polygon/vector fills to fillsPane');
 // Marker sources can be removed (for example, the unclassified transit
 // fallback). Match the remaining constructors instead of pinning that count.
+// The draggable site pin (L.marker) sits in pointsPane too.
 const pmaCircleMarkers = (pma.match(/\bL\.circleMarker\(/g) || []).length;
+const pmaMarkers = (pma.match(/\bL\.marker\(/g) || []).length;
 assert(pmaCircleMarkers > 0, 'PMA circle marker constructors are present');
-assert.strictEqual(countPane(pma, 'pointsPane'), pmaCircleMarkers, 'PMA assigns every circle marker constructor to pointsPane');
+assert.strictEqual(countPane(pma, 'pointsPane'), pmaCircleMarkers + pmaMarkers, 'PMA assigns every circle marker and marker constructor to pointsPane');
 
 console.log('map-pane-order: shared Leaflet pane stack is wired for LOF and PMA');
