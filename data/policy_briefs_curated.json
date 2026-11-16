@@ -1,10 +1,512 @@
 {
   "meta": {
     "updated": "2026-11-16T00:00:00Z",
-    "brief_count": 14,
+    "brief_count": 15,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
+    {
+      "id": "forest-service-admin-site-leases-2026",
+      "title": "Forest Service land leases for housing: what the December 2 rule changes and which Colorado counties could use it",
+      "policy_topic": "Colorado Housing Policy & LIHTC",
+      "is_curated": true,
+      "source_reviewed": true,
+      "generated": "2026-11-16T00:00:00Z",
+      "verified": "2026-11-16",
+      "takeaway": "From December 2, 2026, a lease of a Forest Service administrative site can back a loan. A final rule takes these leases out of the special-use rules that let the Forest Service end a lease on its own and kept lenders away. The window is short: the law lets the Forest Service sign new leases only until October 1, 2028. In Colorado, Summit and Routt counties have already tried and stalled over financing, and eight more mountain counties have offices in town, commuting workers and renters short of homes.",
+      "summary": "The final rule, Administrative Site Leases (91 FR 68887), was published November 2, 2026 and takes effect December 2, 2026. It moves leases of Forest Service administrative sites (ranger stations, work centers, old dwellings and the land around them) out of the special-use permit rules. Under those rules a lease could not serve as loan collateral, could not readily be assigned, and could be ended by the Forest Service on its own, and the rule says those terms \"limit financing options.\" The housing power itself comes from section 8623 of the 2018 Farm Bill: leases of up to 100 years and up to 40 acres, offered first to the town or county, with rent paid in cash or in housing for Forest Service staff. Colorado has the first lease signed under that law, Summit County's Dillon Work Center (September 27, 2023), and its housing has not been built.",
+      "implications": "For a town or county with a Forest Service office or work center, the first step is to ask the forest supervisor whether the site is on the regional forester's list, because the town or county gets the first offer. A lender can now take the leasehold as collateral, so a tax-credit or locally funded rental project can be financed the usual way, subject to each lease's terms. Leave time: a site needs an appraisal, NEPA review and public notice, and new leases must be signed before October 1, 2028. Check with counsel whether the statute's bar on federal cash payments reaches rental assistance before counting on vouchers.",
+      "related_data": "data/policy/forest-service-admin-sites.json",
+      "sources": [
+        "Federal Register",
+        "U.S. Government Publishing Office",
+        "USDA Forest Service",
+        "Summit County",
+        "Vail Daily",
+        "Aspen Times",
+        "Summit Daily",
+        "CHFA",
+        "HUD"
+      ],
+      "regions": [
+        "Colorado",
+        "Summit County",
+        "Routt County",
+        "Eagle County",
+        "Pitkin County",
+        "La Plata County",
+        "Garfield County",
+        "Chaffee County",
+        "Gunnison County",
+        "Grand County",
+        "Archuleta County",
+        "Clear Creek County",
+        "Lake County"
+      ],
+      "sections": [
+        {
+          "id": "rule",
+          "heading": "What the rule changes",
+          "paragraphs": [
+            "The rule removes administrative site leases from the Forest Service's special-use regulations (36 CFR 251.50 and 251.51). It covers leases under the 2018 Farm Bill (Pub. L. 115-334, sec. 8623) and the 2005 Forest Service Facility Realignment and Enhancement Act (Pub. L. 109-54). It was adopted unchanged from the May 6, 2026 proposal after 25 comments: 8 for, 17 against.",
+            "Under the old rules a lease could not serve as loan collateral, could not easily be assigned, and could be ended by the Forest Service on its own. The rule says those terms \"limit financing options.\" Lender step-in and default terms now go in each lease.",
+            "What it does not do: it does not authorize land sales, and leases still need NEPA review, historic-preservation review, public notice and local consultation. A loan against the lease does not touch the federal title to the land. Existing permits stay as written unless both sides agree to replace them with a lease."
+          ]
+        },
+        {
+          "id": "law",
+          "heading": "What the law allows",
+          "paragraphs": [
+            "The housing power is in the statute, not the rule. Section 8623, as the EXPLORE Act amended it in January 2025, sets these terms:"
+          ],
+          "items": [
+            "What can be leased: a ranger station, work center, dwelling or other administrative site and the land under or next to it, plus no more than 10 isolated, undeveloped parcels of 40 acres or less each fiscal year, nationwide. Wilderness, wild and scenic rivers, national monuments and land set aside for recreation are excluded.",
+            "Size: one lease may not exceed 40 acres.",
+            "Term: not more than 100 years. Each lease must allow the use to be reauthorized, possibly on new terms, if the site is still used as authorized, the new use fits the forest's land management plan and the lessee has kept to the lease. Renewal is not automatic. Before 2025 the statute set no term; the 2023 Dillon lease runs 50 years.",
+            "First offer: the Forest Service must offer the lease to the town or county where the site is before anyone else.",
+            "Rent: at least market value, in cash or in kind. In-kind rent can be new facilities \"such as housing\" for Forest Service staff.",
+            "Local rules: the lessee follows state and local zoning, building codes and permits.",
+            "Who picks sites: a regional forester recommends the sites in the region that can be leased."
+          ]
+        },
+        {
+          "id": "deadline",
+          "heading": "The deadline: October 1, 2028",
+          "paragraphs": [
+            "The authority to sign new leases under section 8623 expires October 1, 2028; leases signed before then stand. It lapsed once before, on October 1, 2023, and stalled the Steamboat Springs project until Congress restored it in January 2025.",
+            "The second authority, the 2005 act, was extended through September 30, 2026 by the 2026 appropriations act. This brief has not confirmed whether the current stopgap funding law carries it past that date, so treat it as unconfirmed."
+          ]
+        },
+        {
+          "id": "tried",
+          "heading": "Where Colorado has tried it",
+          "paragraphs": [
+            "Summit County signed the first lease under the law on September 27, 2023: 50 years for the 11-acre Dillon Work Center, for up to 177 rental homes, with rent paid in housing for Forest Service staff. Most units are for Summit County workers and residents who qualify. A 162-unit plan at 80% to 120% of area median income fell through last year over financing, and the county is now in talks with a new developer.",
+            "In Steamboat Springs, the Yampa Valley Housing Authority worked for years on an 8-acre site on Hilltop Parkway for up to 84 apartments at 50% to 140% of area median income. The city manager said the inability to solve the leasing issues proved \"fatal\" to the project. Eagle and Pitkin counties explored leases in 2024 but did not sign one."
+          ]
+        },
+        {
+          "id": "counties",
+          "heading": "Colorado counties that could use it",
+          "paragraphs": [
+            "46 of Colorado's 64 counties hold national forest land, 41 have a Forest Service office or work center, and 66 of the state's 272 towns and cities have national forest land within a mile of their center. The table lists the counties where a lease has been tried or explored, then the counties where this site's own data shows the clearest fit: a Forest Service office in a town, workers commuting in, and renters without an affordable home. It is a screen, not a ranking. Apart from Summit County's signed Dillon lease, no site in it is known to have been offered for lease.",
+            "Every project on record is rental housing: the land stays federal and the homes are rented. Nothing on record uses these leases for homes people own."
+          ],
+          "table": {
+            "caption": "Counties to watch for Forest Service site leases (data as of November 16, 2026)",
+            "columns": [
+              "County",
+              "Forest Service offices in",
+              "Forest share of land",
+              "Worker households to house now",
+              "Renters short of a home, income at or below 50% of area median",
+              "Boost area (DDA), 2026",
+              "Lease on record"
+            ],
+            "rows": [
+              [
+                "Summit",
+                "Silverthorne",
+                "80%",
+                "1,298",
+                "255",
+                "Yes",
+                "Signed 2023; not built"
+              ],
+              [
+                "Routt",
+                "Steamboat Springs, Yampa",
+                "39%",
+                "539",
+                "205",
+                "Yes",
+                "Tried; stalled"
+              ],
+              [
+                "Eagle",
+                "Eagle, Minturn",
+                "56%",
+                "1,499",
+                "1,220",
+                "Yes",
+                "Explored 2024"
+              ],
+              [
+                "Pitkin",
+                "Aspen",
+                "80%",
+                "1,061",
+                "260",
+                "Yes",
+                "Explored 2024"
+              ],
+              [
+                "La Plata",
+                "Bayfield, Durango, Ignacio",
+                "37%",
+                "743",
+                "1,225",
+                "Yes",
+                "None found"
+              ],
+              [
+                "Garfield",
+                "Carbondale, Glenwood Springs, Rifle",
+                "27%",
+                "647",
+                "780",
+                "Yes",
+                "None found"
+              ],
+              [
+                "Chaffee",
+                "Salida",
+                "69%",
+                "280",
+                "460",
+                "No; added for 2027",
+                "None found"
+              ],
+              [
+                "Gunnison",
+                "Gunnison",
+                "61%",
+                "302",
+                "440",
+                "No",
+                "None found"
+              ],
+              [
+                "Grand",
+                "Fraser, Granby",
+                "48%",
+                "321",
+                "61",
+                "No",
+                "None found"
+              ],
+              [
+                "Archuleta",
+                "Pagosa Springs",
+                "49%",
+                "123",
+                "215",
+                "No; added for 2027",
+                "None found"
+              ],
+              [
+                "Clear Creek",
+                "Idaho Springs",
+                "69%",
+                "190",
+                "97",
+                "No",
+                "None found"
+              ],
+              [
+                "Lake",
+                "Leadville",
+                "67%",
+                "82",
+                "55",
+                "No",
+                "None found"
+              ]
+            ]
+          },
+          "note": "Worker households to house now: commuting households at or below 120% of area median income, if one in four moved closer (this site's Housing Needs Assessment, LEHD and ACS 2020-2024). Renter shortfall: renter households with income at or below 50% of HUD area median family income, less the homes affordable and available to them (HUD CHAS 2018-2022), renters only. Boost area: HUD's nonmetro Difficult Development Areas, where a tax-credit project may raise its eligible basis up to 130 percent; the 2027 list applies to credits allocated after December 31, 2026. Offices and forest acres: Forest Service data read November 16, 2026."
+        },
+        {
+          "id": "left-off",
+          "heading": "Counties left off the table, and why",
+          "items": [
+            "Front Range counties (Larimer, Boulder, Jefferson, El Paso, Douglas) have the largest measured need, but their Forest Service offices sit in cities with other public and private land. Fort Collins has a named Forest Service administrative site.",
+            "Mineral, Hinsdale, San Juan, Jackson and Rio Blanco are mostly forest but show little measured need for worker or renter housing.",
+            "San Miguel's only Forest Service office is in Norwood, far from the Telluride jobs, and the county is dropped from the boost-area list for 2027."
+          ]
+        },
+        {
+          "id": "questions",
+          "heading": "Open questions before anyone signs",
+          "items": [
+            "Rental help: the statute says no federal agency \"shall make any cash payments relating to the use or occupancy\" of a site improved or constructed under it. Read plainly, that could reach housing vouchers or USDA rental assistance in these homes. The rule does not address it. Ask counsel before counting on rental assistance.",
+            "Tax credits need a long lease: CHFA's 2027-2028 plan scores 15 years of compliance plus 25 years of extended use, and does not count a letter of intent as site control. A lease of 50 to 100 years can cover that; any lender's own minimum term is not checked here.",
+            "An office is not an offer: the office list includes buildings the Forest Service rents from others, and only a regional forester can recommend a site.",
+            "Forest land near a town is a lead, not a site: the isolated-parcel route allows only 10 parcels a year, nationwide."
+          ]
+        },
+        {
+          "id": "using-it",
+          "heading": "Using it on this site",
+          "items": [
+            "Housing Needs Assessment for each county above: the worker and renter figures in the table, with their margins.",
+            "Policy and research: the workforce housing brief explains how resort towns house workers above tax-credit incomes.",
+            "Funding: the 2027-2028 CHFA plan pages show how a boost area changes a tax-credit deal."
+          ]
+        },
+        {
+          "id": "limits",
+          "heading": "Limits of this brief",
+          "items": [
+            "Office counts and forest acres come from the Forest Service's public map services; one office record had coordinates in the wrong county, so offices are placed by their listed town.",
+            "Distances are from each town's center point, so a town with forest at its edge can be missed.",
+            "Project status comes from county and Forest Service pages and dated news reports; a project with no public record is not in the table.",
+            "This is not legal advice."
+          ]
+        }
+      ],
+      "articles": [
+        {
+          "title": "Administrative Site Leases (final rule), 91 FR 68887",
+          "source": "Federal Register (USDA Forest Service)",
+          "link": "https://www.govinfo.gov/content/pkg/FR-2026-11-02/html/2026-22296.htm",
+          "date": "2026-11-02"
+        },
+        {
+          "title": "Forest Service finalizes Administrative Site Leasing rule",
+          "source": "USDA Forest Service",
+          "link": "https://www.fs.usda.gov/about-agency/newsroom/releases/forest-service-finalizes-administrative-site-leasing-rule-reduce",
+          "date": "2026-10-30"
+        },
+        {
+          "title": "Agriculture Improvement Act of 2018, Pub. L. 115-334, sec. 8623 (Authorization for lease of Forest Service sites)",
+          "source": "U.S. Government Publishing Office",
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-115publ334/html/PLAW-115publ334.htm",
+          "date": "2018-12-20"
+        },
+        {
+          "title": "EXPLORE Act, Pub. L. 118-234, sec. 151 (amends sec. 8623)",
+          "source": "U.S. Government Publishing Office",
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-118publ234/html/PLAW-118publ234.htm",
+          "date": "2025-01-04"
+        },
+        {
+          "title": "Appropriations Act, 2026, Pub. L. 119-74, sec. 418 (Forest Service Facility Realignment and Enhancement Act authority)",
+          "source": "U.S. Government Publishing Office",
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ74/html/PLAW-119publ74.htm",
+          "date": "2026-01-23"
+        },
+        {
+          "title": "USFS Dillon Work Center",
+          "source": "Summit County",
+          "link": "https://www.summitcountyco.gov/services/housing/housing_projects/usfs_dillon_work_center.php",
+          "date": ""
+        },
+        {
+          "title": "A blueprint for partnering with local communities on housing",
+          "source": "USDA Forest Service",
+          "link": "https://www.fs.usda.gov/inside-fs/delivering-mission/excel/blueprint-partnering-local-communities-housing",
+          "date": "2023-11-03"
+        },
+        {
+          "title": "Here's a look at the country's first-ever workforce housing complex set to be built on U.S. Forest Service land",
+          "source": "Vail Daily",
+          "link": "https://www.vaildaily.com/news/heres-a-look-at-the-countrys-first-ever-workforce-housing-complex-set-to-be-built-on-u-s-forest-service-land/",
+          "date": "2024-05-28"
+        },
+        {
+          "title": "U.S. Forest Service loses ability to lease land for affordable housing after Congress fails to renew measure",
+          "source": "Aspen Times",
+          "link": "https://www.aspentimes.com/news/us-forest-service-housing-farm-bill/",
+          "date": "2024-09-30"
+        },
+        {
+          "title": "Colorado mountain leaders believe a new U.S. Forest Service rule could be a 'gamechanger' for affordable housing projects on federal land",
+          "source": "Summit Daily",
+          "link": "https://www.summitdaily.com/news/usfs-rule-colorado-mountain-affordable-housing-projects/",
+          "date": "2026-11-12"
+        },
+        {
+          "title": "CHFA 2027-2028 Qualified Allocation Plan (adopted)",
+          "source": "Colorado Housing and Finance Authority",
+          "link": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+          "date": "2026-10-30"
+        },
+        {
+          "title": "Designation of Difficult Development Areas and Qualified Census Tracts for 2027, 91 FR 63573",
+          "source": "Federal Register (HUD)",
+          "link": "https://www.govinfo.gov/content/pkg/FR-2026-10-06/html/2026-20390.htm",
+          "date": "2026-10-06"
+        },
+        {
+          "title": "Difficult Development Areas layer (holds the 2027 nonmetro list since October 23, 2026)",
+          "source": "HUD (ArcGIS)",
+          "link": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0",
+          "date": "2026-11-16"
+        },
+        {
+          "title": "Forest Service office locations",
+          "source": "USDA Forest Service (EDW)",
+          "link": "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_FSOfficeLocations_01/MapServer/0",
+          "date": "2026-11-16"
+        },
+        {
+          "title": "National Forest System land area statistics",
+          "source": "USDA Forest Service (EDW)",
+          "link": "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_LandsAreaStatistics_01/MapServer/0",
+          "date": "2026-11-16"
+        }
+      ],
+      "alert_count": 15,
+      "source_quotes": [
+        {
+          "link": "https://www.govinfo.gov/content/pkg/FR-2026-11-02/html/2026-22296.htm",
+          "quote": "SUMMARY: The United States Department of Agriculture (Department), Forest Service (Forest Service or Agency), this final rule will exempt administrative site leases from the regulations for special uses."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/FR-2026-11-02/html/2026-22296.htm",
+          "quote": "DATES: The final rule is effective December 2, 2026."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/FR-2026-11-02/html/2026-22296.htm",
+          "quote": "For example, special use authorization regulatory requirements, constrain the use of the leasehold interest as collateral for loans, limits assignment and transfer of the lease, and provides for unilateral termination of the authorization by the Forest Service. These requirements limit financing options and negatively impact the marketability of leasing projects."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/FR-2026-11-02/html/2026-22296.htm",
+          "quote": "Without this regulatory change, agency partners will continue to face challenges in obtaining the financing needed to pursue affordable housing and other projects under these authorities."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/FR-2026-11-02/html/2026-22296.htm",
+          "quote": "The agency received 25 comments; 8 were supportive of the proposed change and 17 were not."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/FR-2026-11-02/html/2026-22296.htm",
+          "quote": "After reviewing all comments, the Department is adopting the proposed rule without change."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/FR-2026-11-02/html/2026-22296.htm",
+          "quote": "The rule does not authorize land sales, change existing land-disposal authority, or exempt administrative-site leasing projects from National Historic Preservation Act (NHPA), Archaeological Resources Protection Act (ARPA), National Environmental Policy Act (NEPA), public notice, local-government consultation, or other applicable statutory requirements."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/FR-2026-11-02/html/2026-22296.htm",
+          "quote": "Use of a leasehold interest as collateral would not convey or encumber title to the underlying National Forest System land. Any collateral, assignment, transfer, default, or lender step-in provisions would be governed by and subject to the lease terms and the applicable statutory authority"
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/FR-2026-11-02/html/2026-22296.htm",
+          "quote": "Existing special use authorizations for administrative site leasing may remain in effect under their original terms or, at the authorized officer's discretion, be replaced, upon mutual agreement with the lessee, by a lease issued under the applicable statutory authority after satisfaction of all applicable requirements."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-115publ334/html/PLAW-115publ334.htm",
+          "quote": "(iii) for each fiscal year, not more than 10 isolated, undeveloped parcels of not more than 40 acres each."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-115publ334/html/PLAW-115publ334.htm",
+          "quote": "(1) Size.--An administrative site or compound of administrative sites under a single lease under this section may not exceed 40 acres."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-115publ334/html/PLAW-115publ334.htm",
+          "quote": "the Secretary shall offer to lease an administrative site to the municipality or county in which the administrative site is located before seeking to lease the administrative site to any other person."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-115publ334/html/PLAW-115publ334.htm",
+          "quote": "A person that leases an administrative site under this section shall comply with all applicable State and local zoning laws, building codes, and permit requirements for any construction activities that occur on the administrative site."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-115publ334/html/PLAW-115publ334.htm",
+          "quote": "(c) Identification of Eligible Sites.--A regional forester, in consultation with forest supervisors in the region, may submit to the Secretary a recommendation for administrative sites in the region that the regional forester considers eligible for leasing under this section."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-115publ334/html/PLAW-115publ334.htm",
+          "quote": "(g) Prohibition.--No agency of the Federal Government shall make any cash payments to a leaseholder relating to the use or occupancy of any administrative site or facility that has been improved under this section."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-118publ234/html/PLAW-118publ234.htm",
+          "quote": "The term of a lease of an administrative site under this section shall be not more than 100 years."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-118publ234/html/PLAW-118publ234.htm",
+          "quote": "use of the administrative site, at the time of reauthorization, is still being used for the purposes authorized; ``(ii) use to be authorized under the new lease is consistent with the applicable land management plan; and ``(iii) lessee is in compliance with all the terms of the existing lease."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-118publ234/html/PLAW-118publ234.htm",
+          "quote": "A reauthorization of use under subparagraph (B) may include new terms in the use, as determined by the Chief of the Forest Service, or their designee."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-118publ234/html/PLAW-118publ234.htm",
+          "quote": "in subsection (g), by-- (A) striking ``to a leaseholder'' after ``payments''; and (B) inserting ``or constructed'' after ``improved''"
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-118publ234/html/PLAW-118publ234.htm",
+          "quote": "in subsection (i), by striking ``2023'' each place it appears and inserting ``2028''."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-118publ234/html/PLAW-118publ234.htm",
+          "quote": "in subclause (I), by inserting ``such as housing,'' after ``improvements,''"
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-115publ334/html/PLAW-115publ334.htm",
+          "quote": "(1) In general.--The authority of the Secretary to make a lease of an administrative site under this section expires on October 1, 2023."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ74/html/PLAW-119publ74.htm",
+          "quote": "Section 503(f) of Public Law 109-54 (16 U.S.C. 580d note) shall be applied by substituting \"September 30, 2026\" for \"September 30, 2019\"."
+        },
+        {
+          "link": "https://www.fs.usda.gov/about-agency/newsroom/releases/forest-service-finalizes-administrative-site-leasing-rule-reduce",
+          "quote": "an important step toward making eligible administrative sites available for potential housing developments for employees and community members."
+        },
+        {
+          "link": "https://www.summitcountyco.gov/services/housing/housing_projects/usfs_dillon_work_center.php",
+          "quote": "On September 27, 2023, Summit County signed the first of its kind ground lease with the USFS to redevelop the site for workforce housing and an administrative facility."
+        },
+        {
+          "link": "https://www.fs.usda.gov/inside-fs/delivering-mission/excel/blueprint-partnering-local-communities-housing",
+          "quote": "the forest and Summit County signed a 50-year lease for the development of affordable workforce housing at the forest's aging Dillon Work Center Administrative Site. Under the lease, the county will develop up to 177 workforce housing units on the 11-acre property and will essentially \"pay rent\" to the Forest Service by providing a certain number of units and space for Forest Service housing."
+        },
+        {
+          "link": "https://www.fs.usda.gov/inside-fs/delivering-mission/excel/blueprint-partnering-local-communities-housing",
+          "quote": "The majority of the units will be available for Summit County employees and other Summit County residents who qualify."
+        },
+        {
+          "link": "https://www.vaildaily.com/news/heres-a-look-at-the-countrys-first-ever-workforce-housing-complex-set-to-be-built-on-u-s-forest-service-land/",
+          "quote": "officials presented plans for a 162-unit income-based rental complex slated to be built on Dillon Ranger District land"
+        },
+        {
+          "link": "https://www.vaildaily.com/news/heres-a-look-at-the-countrys-first-ever-workforce-housing-complex-set-to-be-built-on-u-s-forest-service-land/",
+          "quote": "The targeted area median income range, Lesmes added, is 80% and 120%."
+        },
+        {
+          "link": "https://www.aspentimes.com/news/us-forest-service-housing-farm-bill/",
+          "quote": "The Yampa Valley Housing Authority is currently pursuing plans to build up to 84 apartments on a vacant 8-acre Forest Service site. The units would be reserved for some local Forest Service employees as well as area residents earning between 50% and 140% of the area's median income."
+        },
+        {
+          "link": "https://www.aspentimes.com/news/us-forest-service-housing-farm-bill/",
+          "quote": "Other Colorado communities, including Eagle and Pitkin counties, have explored the idea of leasing Forest Service land for housing projects but have not advanced to the stage of signing a lease."
+        },
+        {
+          "link": "https://www.aspentimes.com/news/us-forest-service-housing-farm-bill/",
+          "quote": "A key tool for building affordable housing in Colorado's mountain resort communities will be put on ice after Congress failed to renew the measure ahead of a Sept. 30 deadline."
+        },
+        {
+          "link": "https://www.summitdaily.com/news/usfs-rule-colorado-mountain-affordable-housing-projects/",
+          "quote": "After several years of working with the Forest Service on a proposed workforce housing project on an 8-acre administrative site on Hilltop Parkway within the city limits of Steamboat Springs, Leeson said the inability to solve the leasing issues proved \"fatal\" to the project."
+        },
+        {
+          "link": "https://www.summitdaily.com/news/usfs-rule-colorado-mountain-affordable-housing-projects/",
+          "quote": "A proposed project to build 162 units of workforce housing on a Forest Service administrative site outside of Dillon also fell through last year over challenges with financing the project. Since then, the Summit County government has entered into talks with a new developer for the project, but has not signed a formal development agreement."
+        },
+        {
+          "link": "https://www.summitdaily.com/news/usfs-rule-colorado-mountain-affordable-housing-projects/",
+          "quote": "\"Notably, the extended lease term has the potential to be a gamechanger for new projects, as a longer term opens a broader pool of funding.\""
+        },
+        {
+          "link": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+          "quote": "15 Years of Compliance + 25 Years of Extended Use - 40 points"
+        },
+        {
+          "link": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+          "quote": "Letters of Intent are not valid forms of site Control."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/FR-2026-10-06/html/2026-20390.htm",
+          "quote": "In the case of buildings located in designated DDAs or designated QCTs, or for credits awarded from the state's per capita allocation, to buildings designated by the state agency, eligible basis may be increased up to 130 percent from what it would otherwise be."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/FR-2026-10-06/html/2026-20390.htm",
+          "quote": "The 2027 lists of QCTs and DDAs are effective: (1) for allocations of credit after December 31, 2026; or (2) for purposes of IRC Section 42(h)(4), if the bonds are issued and the building is placed in service after December 31, 2026."
+        }
+      ]
+    },
     {
       "id": "co-vacancy-tax-2026",
       "title": "Vacancy taxes in Colorado: who can levy one, Boulder's 2J, and what it could raise",
