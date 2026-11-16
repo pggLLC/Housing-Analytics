@@ -209,6 +209,19 @@
     btn.setAttribute('aria-expanded', String(on));
     if (on) refresh();
     document.getElementById(btn.getAttribute('aria-controls')).hidden = !on;
+    if (on) fit();
+  }
+
+  // A long menu scrolls inside the screen (paul, 16 Nov 2026): the open menu is as tall as the room from its top to the
+  // bottom of the screen, and scrolls past that (templates.css). Fitted again when the window is resized or the page
+  // scrolls under it. Below 1180px the menus sit in the Menu list, which scrolls as a whole, so the height is let go.
+  function fit() {
+    var btn = document.querySelector('.menu-button[aria-expanded="true"]');
+    var panel = btn && document.getElementById(btn.getAttribute('aria-controls'));
+    if (!panel || panel.hidden) return;
+    if (getComputedStyle(panel).position !== 'absolute') { panel.style.maxHeight = ''; return; }
+    var top = Math.max(0, panel.getBoundingClientRect().top);
+    panel.style.maxHeight = Math.max(160, window.innerHeight - top) + 'px';
   }
 
   function menuFor(view) {
@@ -247,6 +260,8 @@
       if (open) { closeAll(); open.focus(); }
     });
     window.addEventListener('hashchange', mark);
+    window.addEventListener('resize', fit);
+    window.addEventListener('scroll', fit, { passive: true });
     mark();
   }
 
