@@ -31,7 +31,7 @@
             "HB26-1036 would have let counties and municipalities tax vacant homes with voter approval, short-term rentals excluded, and limited the money to affordable, attainable or workforce housing. The House Finance Committee voted 7-4 against it, and it was postponed indefinitely on February 9, 2026.",
             "Home-rule cities and towns hold the power to levy taxes for municipal purposes under Article XX, Section 6 of the Colorado Constitution, so they can ask their voters for a vacancy excise tax without a state law. Boulder did. The Crested Butte News reported that, as a home-rule town, Crested Butte already has the authority.",
             "Statutory towns, statutory cities and counties hold only the powers a statute grants, and no statute grants this one. A statutory town can adopt a home-rule charter first.",
-            "TABOR requires voter approval in advance at a November election, a ballot title that opens \"Shall (district) taxes be increased,\" and voter approval to keep money above the revenue limit or to repay debt from the tax. It bans new real estate transfer taxes, so a vacancy tax cannot be built as one.",
+            "TABOR requires voter approval in advance, decided at a state general election, a biennial local district election or a November election in an odd-numbered year; a ballot title that opens \"Shall (district) taxes be increased,\" and voter approval to keep money above the revenue limit or to repay debt from the tax. It bans new real estate transfer taxes, so a vacancy tax cannot be built as one.",
             "Property taxes must be uniform within a class (Article X, Section 3), so a local vacancy tax is written as an excise tax. No Colorado court has ruled on whether that holds."
           ]
         },
@@ -454,8 +454,8 @@
         },
         {
           "title": "Colorado Constitution, Article XX, Section 6",
-          "source": "Colorado Constitution (via FindLaw)",
-          "link": "https://codes.findlaw.com/co/colorado-constitution-of-1876/co-const-art-xx-sect-6/"
+          "source": "Colorado Office of Legislative Legal Services (C.R.S. 2024)",
+          "link": "https://olls.info/crs/crs2024-title-00.htm"
         },
         {
           "title": "CB town council open to exploring a new tax on vacant homes",
@@ -465,13 +465,13 @@
         },
         {
           "title": "Colorado Constitution, Article X, Section 20",
-          "source": "Colorado Secretary of State",
-          "link": "https://coloradosos.gov/pubs/info_center/laws/COConstitution/ArticleXSection20.html"
+          "source": "Colorado Office of Legislative Legal Services (C.R.S. 2024)",
+          "link": "https://olls.info/crs/crs2024-title-00.htm"
         },
         {
           "title": "Colorado Constitution, Article X, Section 3",
-          "source": "Colorado Constitution (via FindLaw)",
-          "link": "https://codes.findlaw.com/co/colorado-constitution-of-1876/co-const-art-x-sect-3/"
+          "source": "Colorado Office of Legislative Legal Services (C.R.S. 2024)",
+          "link": "https://olls.info/crs/crs2024-title-00.htm"
         },
         {
           "title": "2026 City of Boulder Ballot Measures",
@@ -539,7 +539,7 @@
           "quote": "the 11-member House Finance Committee voted 7-4 against the measure"
         },
         {
-          "link": "https://codes.findlaw.com/co/colorado-constitution-of-1876/co-const-art-xx-sect-6/",
+          "link": "https://olls.info/crs/crs2024-title-00.htm",
           "quote": "the levy and collection of taxes thereon for municipal purposes"
         },
         {
@@ -551,12 +551,16 @@
           "quote": "State lawmakers earlier this year rejected a bill to allow statutory municipalities and counties to tax vacant residential properties with voter approval."
         },
         {
-          "link": "https://coloradosos.gov/pubs/info_center/laws/COConstitution/ArticleXSection20.html",
+          "link": "https://olls.info/crs/crs2024-title-00.htm",
           "quote": "New or increased transfer tax rates on real property are prohibited."
         },
         {
-          "link": "https://codes.findlaw.com/co/colorado-constitution-of-1876/co-const-art-x-sect-3/",
+          "link": "https://olls.info/crs/crs2024-title-00.htm",
           "quote": "Each property tax levy shall be uniform upon all real and personal property not exempt from taxation under this article"
+        },
+        {
+          "link": "https://olls.info/crs/crs2024-title-00.htm",
+          "quote": "Ballot issues shall be decided in a state general election, biennial local district election, or on the first Tuesday in November of odd-numbered years."
         },
         {
           "link": "https://bouldercolorado.gov/2026-city-boulder-ballot-measures",

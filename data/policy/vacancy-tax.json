@@ -86,9 +86,9 @@
       "status": "in_force",
       "summary": "Home-rule municipalities hold the power to levy and collect taxes for municipal purposes. With voter approval they can levy a vacancy excise tax without a state law; Boulder did in 2026. Untested in court.",
       "source": {
-        "url": "https://codes.findlaw.com/co/colorado-constitution-of-1876/co-const-art-xx-sect-6/",
-        "title": "Colorado Constitution, Article XX, Section 6",
-        "publisher": "Colorado Constitution (via FindLaw)",
+        "url": "https://olls.info/crs/crs2024-title-00.htm",
+        "title": "Colorado Constitution, Article XX, Section 6 (C.R.S. 2024, constitution volume)",
+        "publisher": "Colorado Office of Legislative Legal Services",
         "quote": "the levy and collection of taxes thereon for municipal purposes"
       },
       "more_sources": [
@@ -128,18 +128,26 @@
       "id": "tabor",
       "title": "TABOR (Colo. Const. art. X, sec. 20)",
       "status": "in_force",
-      "summary": "Any new tax needs voter approval in advance at a November election; the ballot title must open \"SHALL (DISTRICT) TAXES BE INCREASED\"; keeping money above the revenue limit needs a voter-approved revenue change; debt needs its own approval; new real estate transfer taxes are banned.",
+      "summary": "Any new tax needs voter approval in advance, decided at a state general election, a biennial local district election, or on the first Tuesday in November of an odd-numbered year; the ballot title must open \"SHALL (DISTRICT) TAXES BE INCREASED\"; keeping money above the revenue limit needs a voter-approved revenue change; debt needs its own approval; new real estate transfer taxes are banned.",
       "source": {
-        "url": "https://coloradosos.gov/pubs/info_center/laws/COConstitution/ArticleXSection20.html",
-        "title": "Colorado Constitution, Article X, Section 20",
-        "publisher": "Colorado Secretary of State",
+        "url": "https://olls.info/crs/crs2024-title-00.htm",
+        "title": "Colorado Constitution, Article X, Section 20 (C.R.S. 2024, constitution volume)",
+        "publisher": "Colorado Office of Legislative Legal Services",
         "quote": "New or increased transfer tax rates on real property are prohibited."
       },
       "verification": {
         "checked": "2026-11-16",
         "level": "primary"
       },
-      "review_by": "2027-02-16"
+      "review_by": "2027-02-16",
+      "more_sources": [
+        {
+          "url": "https://olls.info/crs/crs2024-title-00.htm",
+          "title": "Colorado Constitution, Article X, Section 20 (C.R.S. 2024, constitution volume)",
+          "publisher": "Colorado Office of Legislative Legal Services",
+          "quote": "Ballot issues shall be decided in a state general election, biennial local district election, or on the first Tuesday in November of odd-numbered years."
+        }
+      ]
     },
     {
       "id": "uniformity",
@@ -147,9 +155,9 @@
       "status": "in_force",
       "summary": "Property taxes must be uniform within a class. A vacancy tax built as a property tax would need a new class from the state; a local tax is built as an excise, and could be challenged as a property tax in disguise.",
       "source": {
-        "url": "https://codes.findlaw.com/co/colorado-constitution-of-1876/co-const-art-x-sect-3/",
-        "title": "Colorado Constitution, Article X, Section 3",
-        "publisher": "Colorado Constitution (via FindLaw)",
+        "url": "https://olls.info/crs/crs2024-title-00.htm",
+        "title": "Colorado Constitution, Article X, Section 3 (C.R.S. 2024, constitution volume)",
+        "publisher": "Colorado Office of Legislative Legal Services",
         "quote": "Each property tax levy shall be uniform upon all real and personal property not exempt from taxation under this article"
       },
       "verification": {
