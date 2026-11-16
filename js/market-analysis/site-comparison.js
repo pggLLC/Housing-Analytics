@@ -115,6 +115,16 @@
 
   // ── Helpers ────────────────────────────────────────────────────────
 
+  // Open a saved site in the Deal Calculator (paul, 16 Nov 2026): the calculator fills the site's
+  // coordinates and picks its county from them, so a deal can be run per site and compared as
+  // Scenario A and B there. Only when the person follows the link.
+  function _dealLink(s) {
+    var lat = Number(s && s.lat), lon = Number(s && s.lon);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return '';
+    return '<a class="sc-deal-link" href="deal-calculator.html?site-lat=' + lat.toFixed(6) + '&amp;site-lon=' + lon.toFixed(6) +
+      '" title="Run a deal at this site">Open in Deal Calculator</a>';
+  }
+
   function _scoreOrNull(v) {
     return (typeof v === 'number' && isFinite(v)) ? v : null;
   }
@@ -234,6 +244,7 @@
           '<div class="sc-site-label">' + _esc(s.label) + '</div>' +
           '<div class="sc-site-coords">' + _esc(_fmtCoord(s.lat)) + ', ' + _esc(_fmtCoord(s.lon)) +
             (s.bufferMiles ? ' &middot; ' + _esc(String(s.bufferMiles)) + ' mi' : '') + '</div>' +
+          _dealLink(s) +
         '</td>' +
         '<td><strong>' + _esc(_fmtScore(s.finalScore)) + '</strong></td>' +
         '<td><span class="sc-band ' + _bandClass(s.band) + '">' + _esc(s.band || '—') + '</span></td>' +

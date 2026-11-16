@@ -1116,6 +1116,7 @@ label:has(.map-layer-cb:disabled) { opacity: .6; cursor: not-allowed; }
   font-size: .8125rem;
   color: var(--faint);
 }
+.sc-deal-link { display: inline-block; margin-top: .2rem; font-size: var(--tiny); font-weight: 600; }
 .sc-band {
   display: inline-block;
   padding: 2px 8px;

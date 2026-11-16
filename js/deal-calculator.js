@@ -6954,6 +6954,24 @@
       runLookup(lat, lon);
     });
 
+    // A saved site opened from Market Analysis's Compare Sites ("Open in Deal Calculator", paul 16 Nov 2026)
+    // carries ?site-lat=&site-lon=. Fill the coordinates and pick the county from them, once the county list
+    // has loaded. A link that also names a county keeps that county.
+    (function () {
+      var lp = linkParams();
+      var la = parseFloat(lp.get('site-lat')), lo = parseFloat(lp.get('site-lon'));
+      if (!Number.isFinite(la) || !Number.isFinite(lo)) return;
+      latEl.value = la.toFixed(6); lonEl.value = lo.toFixed(6);
+      var box = latEl.closest ? latEl.closest('details') : null;
+      if (box) box.open = true;
+      if (lp.get('county-select')) return;
+      var tries = 0;
+      (function whenListed() {
+        if (countySel.options.length > 1 || ++tries > 40) { runLookup(la, lo); return; }
+        setTimeout(whenListed, 250);
+      }());
+    }());
+
     if (geoBtn) {
       geoBtn.addEventListener('click', function () {
         if (!navigator.geolocation) {
