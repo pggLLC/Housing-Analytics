@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T03:33:20.946Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T04:04:25.713Z. Do not edit by hand.
 
 ---
 
@@ -159,7 +159,7 @@
 | `data/chfa-qap-calendar.json` | 20.7 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 39.3 KB | ✅ | — |
-| `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
+| `data/co-county-economic-indicators.json` | 14.9 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 14.5 KB | ✅ | — |
 | `data/co-housing-costs/county-trends.json` | 55.7 KB | ✅ | — |
