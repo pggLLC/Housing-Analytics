@@ -108,8 +108,16 @@
     'hna-where-its-heading.html': 'places-hub.html#/places',
     'hna-what-to-do.html': 'places-hub.html#/places',
     'ic-summary.html': 'deal-hub.html#/ic-summary',
-    'where-housing-money-goes.html': 'policy-hub.html#/money'
+    'where-housing-money-goes.html': 'policy-hub.html#/money',
+    // Duplicates batch 3 (16 Nov 2026): the weekly digest and its earlier editions are the Sunday digest view.
+    'sunday-digest.html': 'policy-hub.html#/digest'
   };
+  // Pages that stay at their own address, but whose links on other pages open the newer copy of the same tool, with the
+  // same query and hash. Duplicates batch 3 (16 Nov 2026): market-analysis.html is the page the full Market Analysis is
+  // kept on, and deal-market-analysis.html is built from it (scripts/build-market-analysis-hub.mjs) in the new pages'
+  // header and step bar; every menu already opens the new one. The old page itself does not forward, because the
+  // member site's Market screen engine loads it by name (coho-backend engines/market-screen).
+  var LINK_TO = { 'market-analysis.html': 'deal-market-analysis.html' };
   // The place page's chapter for each needs assessment page (hub/hna.js TABS).
   var HNA_TAB = { 'housing-needs-assessment.html': '', 'hna-who-lives-here.html': '/people', 'hna-what-housing-exists.html': '/housing',
     'hna-what-households-can-afford.html': '/afford', 'hna-where-its-heading.html': '/future', 'hna-what-to-do.html': '/action' };
@@ -204,6 +212,8 @@
       ig = ig || savedPlace();
       return to + (ig && ig !== '08' ? '?g=' + ig : '');
     }
+    // An edition of the digest (?date=YYYY-MM-DD, as the Sunday email links it) opens that edition.
+    if (file === 'sunday-digest.html' && /^\d{4}-\d{2}-\d{2}$/.test(q.get('date') || '')) return to + '?date=' + q.get('date');
     if (file === 'data-explorer.html' && /^[A-Za-z0-9_./-]{1,200}$/.test(q.get('file') || '') && !/\.\./.test(q.get('file'))) return to + '?file=' + encodeURIComponent(q.get('file'));
     if (file === 'colorado-deep-dive.html') {
       var t2 = /^#?tab-([a-z-]{1,30})$/.exec(hash || ''), tn = t2 && (has(DD_OLD, t2[1]) ? DD_OLD[t2[1]] : t2[1]);
@@ -227,11 +237,12 @@
       if (!raw || raw.charAt(0) === '#' || /^(mailto|tel|javascript):/i.test(raw)) return;
       // Only a link naming a forwarded page or a guide is read further.
       var name = /([^\/]+\.html)$/.exec(raw.split(/[?#]/)[0]);
-      if (!name || !(has(MOVED_PAGES, name[1]) || (G && has(G.pages, name[1])))) return;
+      if (!name || !(has(MOVED_PAGES, name[1]) || has(LINK_TO, name[1]) || (G && has(G.pages, name[1])))) return;
       var u;
       try { u = new URL(raw, base); } catch (e) { return; }
       if (u.host !== loc.host && !/^(www\.)?cohoanalytics\.com$/i.test(u.hostname)) return;
       var f = u.pathname.split('/').pop(), to = movedTo(f, u.search, u.hash, true);
+      if (!to && has(LINK_TO, f) && !new URLSearchParams(u.search).has('classic')) to = LINK_TO[f] + u.search + u.hash;
       // A written guide (forwarded since 13 Nov 2026) is pointed at its hub view the same way.
       if (!to && G && has(G.pages, f) && !/[?&]classic(=|&|$)/.test(u.search)) {
         var slug = G.pages[f], at = u.hash.slice(1);

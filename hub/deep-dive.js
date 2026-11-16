@@ -541,7 +541,10 @@
     var rentNow = demo.median_gross_rent_current || demo.median_gross_rent, rentPrior = demo.median_gross_rent_prior;
     var ind = county ? d.ind.counties[county] : null, st = d.acsState.data.filter(function (r) { return r.state_fips === '08'; })[0];
     var avg = function (f) { var v = Object.keys(d.ind.counties).map(function (k) { return d.ind.counties[k][f]; }).filter(function (x) { return x != null; }); return v.length ? v.reduce(function (s, x) { return s + x; }, 0) / v.length : null; };
-    var econ = ind || { unemployment_rate: avg('unemployment_rate'), job_growth_5yr_pct: avg('job_growth_5yr_pct'), population_growth_5yr_pct: avg('population_growth_5yr_pct'),
+    // Statewide unemployment is the official BLS rate for Colorado (LAUS, via FRED COUR), not an average of the county
+    // rates (paul 16 Nov). A county view keeps that county's own LAUS rate, the finer-grained figure.
+    var cour = lastObs(d.fred, 'COUR');
+    var econ = ind || { unemployment_rate: cour ? +cour.value : null, job_growth_5yr_pct: avg('job_growth_5yr_pct'), population_growth_5yr_pct: avg('population_growth_5yr_pct'),
       median_home_price: st ? +st.median_home_value : null, median_hh_income: st ? +st.median_household_income : null, affordability_index: st ? st.median_home_value / st.median_household_income : null };
     var band = function (v, cuts, words) { if (v == null) return ''; for (var i = 0; i < cuts.length; i++) if (cuts[i](v)) return words[i]; return words[words.length - 1]; };
     var LBY = engine('js/components/lihtc-by-year.js', 'LihtcByYear');
@@ -583,14 +586,14 @@
         sec('policy-res', 'Key policy resources', list([ext('https://cdola.colorado.gov/commitment-filings', 'DOLA Prop 123: commitment filings'), ext('https://www.huduser.gov/portal/datasets/lihtc.html', 'HUD LIHTC database'), ext('https://www.chfainfo.com/', 'CHFA: Colorado Housing and Finance Authority'),
           ext('https://leg.colorado.gov/bills/sb23-213', 'SB23-213: land use and TOD rezoning'), ext('https://www.census.gov/programs-surveys/acs/', 'Census ACS: American Community Survey')]) + src('Colorado Prop 123 commitments (DOLA)', d.p123.source_url, 'updated ' + day(d.p123.updated)), 3)) +
       sec('econ', 'Economic health', kpis([
-          { label: 'Unemployment rate, 2025 average', value: econ.unemployment_rate == null ? null : econ.unemployment_rate.toFixed(1) + '%', detail: (county ? '' : 'Average of the county rates, not the statewide rate · ') + band(econ.unemployment_rate, [function (v) { return v < 3.8; }, function (v) { return v <= 5.5; }], ['Low', 'Moderate', 'High']) },
+          { label: county ? 'Unemployment rate, 2025 average' : 'Colorado unemployment rate, ' + (cour ? monthOf(cour.date) : 'latest month'), value: econ.unemployment_rate == null ? null : econ.unemployment_rate.toFixed(1) + '%', detail: (county ? county + ' County (BLS LAUS) · ' : 'BLS statewide rate, seasonally adjusted · ') + band(econ.unemployment_rate, [function (v) { return v < 3.8; }, function (v) { return v <= 5.5; }], ['Low', 'Moderate', 'High']) },
           { label: 'Employed residents, 5-year change', value: pct(econ.job_growth_5yr_pct), detail: band(econ.job_growth_5yr_pct, [function (v) { return v >= 8; }, function (v) { return v >= 2; }], ['Strong', 'Moderate', 'Weak']) },
           { label: 'Affordability index', value: econ.affordability_index == null ? null : econ.affordability_index.toFixed(1) + '×', detail: 'Median home price ÷ median household income · ' + band(econ.affordability_index, [function (v) { return v <= 3; }, function (v) { return v <= 6; }], ['Affordable', 'Stretched', 'Unaffordable']) },
           { label: 'Population growth, 5 years', value: pct(econ.population_growth_5yr_pct), detail: band(econ.population_growth_5yr_pct, [function (v) { return v >= 3; }, function (v) { return v >= 0; }], ['Growing', 'Stable', 'Declining']) },
           { label: 'Median home price', value: money(econ.median_home_price), detail: county ? county + ' County (ACS 2020–2024)' : 'Colorado (ACS ' + (st ? (st.year - 4) + '–' + st.year : '5-year') + ')' },
           { label: 'Median household income', value: money(econ.median_hh_income), detail: county ? county + ' County (ACS 2020–2024)' : 'Colorado (ACS 5-year)' }
-        ]) + '<p class="note">' + (county ? '' : 'Statewide unemployment, job and population growth are the averages of the county figures. ') + 'Affordability index = median home price ÷ median household income.</p>' +
-        src('Source: BLS LAUS (unemployment and employed residents, counted where people live), ACS 2020–2024 (affordability, population): ' + d.ind.source, 'https://www.bls.gov/lau/', 'data as of ' + d.ind.updated)) +
+        ]) + '<p class="note">' + (county ? '' : 'Statewide job and population growth are the averages of the county figures. ') + 'Affordability index = median home price ÷ median household income.</p>' +
+        src('Source: BLS LAUS (unemployment and employed residents, counted where people live), ACS 2020–2024 (affordability, population): ' + d.ind.source + (county ? '' : '; statewide unemployment: BLS LAUS via FRED COUR, file updated ' + day(d.fred.updated)), 'https://www.bls.gov/lau/', 'data as of ' + d.ind.updated)) +
       sec('lihtc-trend', 'LIHTC historical trend' + (trend && trend.range ? ' (' + trend.range + ')' : ''), (trendChart || (failed('js/components/lihtc-by-year.js') ? missing('The LIHTC trend chart') : trend ? '<p class="note">CHFA’s list has no tax credit projects by award year for ' + (county ? esc(county) : 'Colorado') + '.</p>' : '<p role="status" class="note">Loading the CHFA series…</p>')) +
         '<p class="note">Milestones on the timeline tab: ' + esc(events.join(' · ')) + '.</p>' +
         // The layer the file is fetched from, as the old page linked it (content check gap 10).
@@ -599,7 +602,7 @@
         '<div class="actions"><a class="button-link" href="#/market">Market check →</a><a class="button-link secondary" href="#/data/map?layer=qct">Data map</a></div>') +
       sec('sig-sources', 'Data sources', list([ext('https://data.census.gov/', 'ACS 5-year, Census Bureau (B25070, B25014, B11001)'), ext('https://www.huduser.gov/portal/datasets/lihtc.html', 'HUD LIHTC tax credit database'), ext('https://www.chfainfo.com/', 'CHFA, Colorado Housing and Finance Authority'),
         ext('https://fred.stlouisfed.org/', 'FRED economic series and housing starts'), ext('https://www.bls.gov/lau/', 'BLS LAUS unemployment and employed residents'), ext('https://cdola.colorado.gov/commitment-filings', 'Prop 123: DOLA commitment filings'), ext('https://lehd.ces.census.gov/', 'LEHD / LODES commuting flows')]) +
-        '<p><a href="#/data/sources">Every data source →</a> · <a href="#/data/status">Data freshness →</a></p>');
+        '<p><a href="#/data/sources">Every data source →</a> · <a href="#/data/trust?at=trust-today">Data freshness →</a></p>');
   }
 
   // ---------- 7. Construction labor and costs ----------

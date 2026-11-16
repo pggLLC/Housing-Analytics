@@ -227,7 +227,7 @@
       (nat.length ? '<section id="nw-national" aria-labelledby="nw-national-h"><h2 id="nw-national-h">National trends</h2><p class="note">Housing market and homebuilding trends reported by national newspapers and housing research centers. Opinion pieces are left out. They are kept out of the Colorado list above.</p>' +
         '<ul class="pw-list">' + nat.slice(0, 5).map(natRow).join('') + '</ul>' +
         (nat.length > 5 ? '<details class="counted"><summary>' + num(nat.length - 5) + ' more national stories</summary><ul class="pw-list">' + nat.slice(5).map(natRow).join('') + '</ul></details>' : '') + '</section>' : '') +
-      '<p class="note">For the week in one read, see the <a href="' + LIVE + 'sunday-digest.html">Sunday digest</a>, a short summary of Colorado housing news each Sunday.</p>' +
+      '<p class="note">For the week in one read, see the <a href="#/digest">Sunday digest</a>, a short summary of Colorado housing news each Sunday.</p>' +
       '<p class="note">Event dates and law deadlines are on <a href="#/calendar">Deadlines and events</a>. The laws themselves are on <a href="#/legislation">Legislation</a>, and the state\u2019s housing appointments on <a href="#/housing-posts">Who holds housing posts</a>.</p>' +
       T.next('Next', [{ href: '#/calendar', label: 'Deadlines and events \u2192' }, { href: '#/legislation', label: 'Laws COHO tracks', secondary: true }]);
   }
@@ -366,6 +366,8 @@
     var rest = LIVE_HUB ? LIVE_HUB().replace(/^[\s\S]*?<\/header>/, '') : '';
     return T.head({ kind: 'hub', crumbs: [{ label: 'Home', href: '#/' }, { label: m.title }], title: m.title, answer: esc(m.question) }) +
       m.groups.map(function (g) { return '<h2>' + esc(g.title) + '</h2><div class="hub-cards">' + g.items.map(card).join('') + '</div>'; }).join('') +
+      // The research list, which was its own Research overview page (duplicates batch 3).
+      (global.LabPolicyMore && global.LabPolicyMore.researchSection ? global.LabPolicyMore.researchSection() : '') +
       '<details class="counted"><summary>Every page under this menu</summary>' + rest + '</details>';
   }
 

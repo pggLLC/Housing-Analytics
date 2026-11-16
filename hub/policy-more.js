@@ -695,7 +695,7 @@
     if (s.error) return T.head({ kind: 'guide', crumbs: crumbs, title: 'Research brief' }) + '<p class="callout">' + esc(s.error) + '</p>';
     if (!s.data) return T.head({ kind: 'guide', crumbs: crumbs, title: 'Research brief' }) + '<p role="status" class="note">Loading the brief…</p>';
     var b = briefList(s.data.feed).filter(function (x) { return x.id === id; })[0];
-    if (!b) return T.head({ kind: 'guide', crumbs: crumbs, title: 'Brief not found' }) + '<p>This research brief is not in the list. <a href="#/research">All research</a></p>';
+    if (!b) return T.head({ kind: 'guide', crumbs: crumbs, title: 'Brief not found' }) + '<p>This research brief is not in the list. <a href="#/guides?at=research-all">All research</a></p>';
     var fees = null;
     if (b.related_data === 'data/policy/fee-reductions.json') {
       var f = UI.load({ fees: 'data/policy/fee-reductions.json' });
@@ -717,7 +717,7 @@
         var href = safeHref(a.link), t = esc(a.title || a.link || 'Source');
         return '<li>' + (href ? '<a href="' + esc(href) + '">' + t + '</a>' : t + ' (link unavailable)') + ([a.source, a.date].filter(Boolean).length ? '<span class="research-meta">' + esc([a.source, a.date].filter(Boolean).join(' · ')) + '</span>' : '') + '</li>';
       }).join('') + '</ol>') + '</section></article>' +
-      T.next('Next', [{ href: '#/research', label: 'All research →' }, { href: '#/news', label: 'Housing news', secondary: true }]);
+      T.next('Next', [{ href: '#/guides?at=research-all', label: 'All research →' }, { href: '#/news', label: 'Housing news', secondary: true }]);
   }
 
   // The publishers the research draws on, as the old Research page listed them under "Data Sources & Methodology"
@@ -739,23 +739,30 @@
       }).join('') + '</ul><p class="callout"><strong>Not advice.</strong> All data and analysis here is for information and learning. It is not investment advice, legal guidance or an underwriting recommendation. Ask qualified advisors about a specific project.</p></section>';
   }
 
+  // Research overview, folded into the Policy & research landing (duplicates batch 3, paul 16 Nov 2026): the landing is
+  // the one index of the menu's pages and the research. #/research opens the landing at this section; a brief keeps
+  // its own address (#/research/brief/<id>).
   function research(params, parts) {
     if (parts && parts[1] === 'brief') return brief(decodeURIComponent(parts[2] || ''));
+    history.replaceState(null, '', '#/guides?at=research-all');
+    return Shell.views.guides();
+  }
+  function h3(html) { return String(html).replace(/<h2(\s|>)/g, '<h3$1').replace(/<\/h2>/g, '</h3>'); }
+  function researchSection() {
     var s = UI.load({ cat: 'data/insights/catalog.json', feed: BRIEFS });
-    var head = T.head({
-      kind: 'hub', crumbs: T.trail('policy', 'Research overview'), title: 'Research overview',
-      answer: 'COHO’s analysis, papers and reference on Colorado affordable housing, each with its date and what it draws on.'
-    });
-    if (s.error) return head + '<p class="callout">' + esc(s.error) + '</p>';
-    if (!s.data) return head + '<p role="status" class="note">Loading the research list…</p>';
+    var wrap = function (inner) {
+      return T.fold('All research, papers and briefs', 'COHO’s analysis, papers and reference on Colorado affordable housing, each with its date and what it draws on.', inner, { id: 'research-all' });
+    };
+    if (s.error) return wrap('<p class="callout">' + esc(s.error) + '</p>');
+    if (!s.data) return wrap('<p role="status" class="note">Loading the research list…</p>');
     var all = s.data.cat.entries;
     var secs = (s.data.cat.meta && s.data.cat.meta.sections || []).map(function (x) { return [x.key, x.label, x.note]; });
     if (!secs.length) secs = SECTIONS;
     var briefs = briefList(s.data.feed).slice().sort(function (a, b) { return String(b.generated || '').localeCompare(String(a.generated || '')); });
-    return head + (briefs.length ? '<h2>Research briefs</h2><p class="note">Source-reviewed briefs on federal and Colorado housing policy, each linked to the laws and documents it reads.</p><div class="research-cards">' + briefs.map(briefCard).join('') + '</div>' : '') + secs.map(function (sec) {
+    return wrap(h3((briefs.length ? '<h2>Research briefs</h2><p class="note">Source-reviewed briefs on federal and Colorado housing policy, each linked to the laws and documents it reads.</p><div class="research-cards" data-no-source="catalog: COHO’s research list; each entry carries its own date and sources">' + briefs.map(briefCard).join('') + '</div>' : '') + secs.map(function (sec) {
       var items = all.filter(function (e) { return e.section === sec[0]; });
       if (!items.length) return '';
-      return '<h2>' + esc(sec[1]) + '</h2>' + (sec[2] ? '<p class="note">' + esc(sec[2]) + '</p>' : '') + '<div class="research-cards">' + items.map(function (e) {
+      return '<h2>' + esc(sec[1]) + '</h2>' + (sec[2] ? '<p class="note">' + esc(sec[2]) + '</p>' : '') + '<div class="research-cards" data-no-source="catalog: COHO’s research list; each entry carries its own date and sources">' + items.map(function (e) {
         // A page that now forwards to a view (site/nav.js MOVED, redirect group A) opens that view, as a lab card.
         var lab = LAB_ROUTE[e.url] || (global.LabNav && global.LabNav.movedHref(e.url)) || null, href = lab || LIVE + e.url;
         var dated = e.updated ? 'Updated ' + e.updated : e.published ? 'Published ' + e.published : KEEP[e.maintenance] || '';
@@ -765,9 +772,9 @@
           '<span class="research-meta">' + esc([dated, (e.sources || []).slice(0, 4).join(', ')].filter(Boolean).join(' · ')) + '</span></a>';
       }).join('') + '</div>';
     }).join('') + snapshot() + researchSources() +
-      T.source('COHO research catalog', LIVE + 'insights.html', s.data.cat.meta && s.data.cat.meta.updated) +
-      T.next('Next', [{ href: '#/equity-pricing', label: 'Tax credit prices now →' }, { href: '#/news', label: 'Housing news', secondary: true }]);
+      T.source('COHO research catalog', LIVE + 'insights.html', s.data.cat.meta && s.data.cat.meta.updated)));
   }
+
 
   // The live module links its summary to "#ballot-coverage", which the lab's router would read as a page:
   // open the coverage table and scroll to it instead.
@@ -859,7 +866,7 @@
       (eds.length > 1 ? '<section id="dg-past"><h2>Earlier editions</h2><ul>' + eds.map(function (e) {
         return '<li><a href="#/digest?date=' + esc(e.date) + '"' + (e.date === ed.date ? ' aria-current="page"' : '') + '>' + esc(longDate(e.window_start)) + ' to ' + esc(longDate(e.window_end)) + '</a></li>';
       }).join('') + '</ul></section>' : '') +
-      T.source('COHO Sunday digest, written from official releases and checked newsrooms', LIVE + 'sunday-digest.html?date=' + ed.date, s.data.idx.meta && s.data.idx.meta.updated) +
+      T.source('COHO Sunday digest, written from official releases and checked newsrooms', LIVE + 'sunday-digest.html?classic=1&date=' + ed.date, s.data.idx.meta && s.data.idx.meta.updated) +
       T.next('Next', [{ href: '#/news', label: 'All headlines →' }, { href: '#/calendar', label: 'Deadlines and events', secondary: true }]);
   }
 
@@ -867,5 +874,5 @@
   Shell.views.digest = digest;
   Shell.views.money = moneyPage;
   Shell.views.research = research;
-  global.LabPolicyMore = { ballotSummary: ballotSummary, BALLOT_FILES: BALLOT_FILES, elections: elections, money: moneyPage, research: research, LAB_ROUTE: LAB_ROUTE, ELECTION: ELECTION };
+  global.LabPolicyMore = { researchSection: researchSection, ballotSummary: ballotSummary, BALLOT_FILES: BALLOT_FILES, elections: elections, money: moneyPage, research: research, LAB_ROUTE: LAB_ROUTE, ELECTION: ELECTION };
 })(window);
