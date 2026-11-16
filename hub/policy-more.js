@@ -678,6 +678,13 @@
         h += '<div class="table-scroll"><table class="brief-text-table">' + (t.caption ? '<caption>' + esc(t.caption) + '</caption>' : '') + '<thead><tr>' + t.columns.map(function (c) { return '<th scope="col">' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' +
           t.rows.map(function (r) { return '<tr>' + (Array.isArray(r) ? r : []).map(function (c, i) { return i ? '<td>' + esc(String(c)) + '</td>' : '<th scope="row">' + esc(String(c)) + '</th>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
       }
+      // A picture the public site builds from its own data (an SVG under assets/briefs/), read from the copied
+      // data like the reader does; the alt text carries every number and the caption names the source.
+      var fg = it.figure;
+      if (fg && typeof fg.src === 'string' && /^assets\/briefs\/[\w\-\/]+\.svg$/.test(fg.src) && typeof fg.alt === 'string' && fg.alt) {
+        h += '<figure class="brief-figure" data-figure="' + esc(it.id) + '"><img src="' + esc(VENDOR + fg.src) + '" alt="' + esc(fg.alt) + '" loading="lazy" decoding="async">' +
+          '<figcaption>' + esc(fg.caption || '') + (fg.source && safeHref(fg.source.url) ? ' <a href="' + esc(safeHref(fg.source.url)) + '">' + esc(fg.source.text || 'Source') + '</a>' : '') + '</figcaption></figure>';
+      }
       var st = it.steps;
       if (st && Array.isArray(st.items) && st.items.length) {
         h += '<figure class="brief-steps">' + (st.caption ? '<figcaption>' + esc(st.caption) + '</figcaption>' : '') + '<ol>' + st.items.filter(function (x) { return x && typeof x.label === 'string'; }).map(function (x) {

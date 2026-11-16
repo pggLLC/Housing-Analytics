@@ -36,6 +36,19 @@
   background: var(--card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line-strong);
   box-shadow: 0 18px 32px -18px var(--shade);
 }
+/* A long menu scrolls inside the screen (paul, 16 Nov 2026: "when a navigation menu extends below the visible view, add
+   scroll"). The header stays at the top, so on a short screen the last links of Places and Build a deal sat below the
+   bottom with no way to reach them. nav.js fits the height to the room under the header as the menu opens; this is the
+   fallback. A soft shade at the top or bottom edge shows there is more to scroll to, and goes when there is not. */
+.mega {
+  max-height: calc(100vh - 4.5rem); max-height: calc(100dvh - 4.5rem); overflow-y: auto; overscroll-behavior: contain;
+  background:
+    linear-gradient(var(--card) 30%, transparent) top / 100% 2.5rem no-repeat local,
+    linear-gradient(transparent, var(--card) 70%) bottom / 100% 2.5rem no-repeat local,
+    radial-gradient(farthest-side at 50% 0, var(--shade), transparent) top / 100% .9rem no-repeat scroll,
+    radial-gradient(farthest-side at 50% 100%, var(--shade), transparent) bottom / 100% .9rem no-repeat scroll,
+    var(--card);
+}
 .mega-inner {
   max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: minmax(200px, 1fr) repeat(2, minmax(0, 1.5fr)); gap: 1.5rem 2.5rem;
   padding: 1.75rem 16px 2rem;
@@ -78,7 +91,7 @@
   .menus { flex-direction: column; gap: 0; }
   .menu-button { width: 100%; justify-content: space-between; padding: 0 .5rem; font-size: 16px; border-bottom: 1px solid var(--line); }
   .menu-button[aria-current="true"] { border-bottom-color: var(--line); box-shadow: inset 3px 0 0 var(--green); padding-left: .75rem; }
-  .mega { position: static; box-shadow: none; border: 0; }
+  .mega { position: static; box-shadow: none; border: 0; max-height: none; overflow: visible; background: var(--card); }
   .mega-inner { grid-template-columns: 1fr; padding: .75rem .25rem 1.25rem; gap: 1rem; }
   .mega-intro { border-right: 0; padding-right: 0; }
   .mega-question { font-size: 17px; margin-bottom: .25rem; }
@@ -1008,6 +1021,9 @@ th[aria-sort="descending"] > button.th-sort::after { content: "\2193"; color: va
 .brief .brief-steps ol { display: grid; gap: .5rem; padding-left: 1.25rem; }
 .brief .brief-step-level { display: inline-block; font-size: .75rem; letter-spacing: .04em; text-transform: uppercase; color: var(--green); }
 .brief .brief-steps-ends { display: flex; justify-content: space-between; font-size: .8125rem; color: var(--muted, var(--muted)); }
+.brief .brief-figure { margin: 1.25rem 0; }
+.brief .brief-figure img { display: block; width: 100%; max-width: 640px; height: auto; border: 1px solid var(--line); border-radius: 8px; background: #ffffff; }
+.brief .brief-figure figcaption { font-size: .8125rem; color: var(--muted); margin-top: .5rem; max-width: 640px; }
 .brief .brief-sources li { margin-bottom: .5rem; }
 .brief .brief-sources .research-meta { display: block; font-size: .8125rem; }
 .brief .brief-text-table th[scope="row"] { font-weight: 600; }
