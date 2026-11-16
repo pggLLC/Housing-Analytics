@@ -98,6 +98,16 @@
   function clearWorking() {
     try { global.localStorage.removeItem(WORK_KEY); global.localStorage.removeItem(MEMBER_KEY); } catch (e) { /* nothing kept */ }
   }
+  // A step's lab route on the working place w ({geoid, label}). The bar and the menus (site/nav.js) both open a step
+  // here, so the two cannot drift. The place goes as g on every lab step, so a page that forwards to the live site
+  // opens on it (QA/QC F01, 12 Nov: the Deal Calculator step opened on a county saved earlier in the browser).
+  function placed(route, w) {
+    if (!w || !route) return route;
+    var g = encodeURIComponent(w.geoid);
+    if (route === '#/finder') return '#/finder?q=' + encodeURIComponent(w.label) + '&g=' + g;
+    if (route === '#/recommendation' || route === '#/deal-calculator' || route === '#/places/scenario') return route + '?g=' + g;
+    return route;
+  }
   // away: drawn off the HNA, so the HNA step links to its picker; at: the lab route that is "you are here" instead;
   // geoid: the place this page is on (it becomes the working place). Without one, the bar uses the working place,
   // and offers Clear; a page that is about one place offers only Change.
@@ -115,12 +125,7 @@
       if (away && s[2] === 'here') s = [s[0], s[1], w ? '#/place/' + g : '#/places'];
       if (isAt) s = [s[0], s[1], 'here'];
       // Every lab step opens on the working place.
-      // The place goes as g on every lab step, so a page that forwards to the live site opens on it (QA/QC F01,
-      // 12 Nov: the Deal Calculator step opened on a county saved earlier in the browser).
-      if (w && s[2] === '#/finder') s = [s[0], s[1], '#/finder?q=' + encodeURIComponent(w.label) + '&g=' + g];
-      if (w && s[2] === '#/recommendation') s = [s[0], s[1], '#/recommendation?g=' + g];
-      if (w && s[2] === '#/deal-calculator') s = [s[0], s[1], '#/deal-calculator?g=' + g];
-      if (w && s[2] === '#/places/scenario') s = [s[0], s[1], '#/places/scenario?g=' + g];
+      if (w && s[2] && s[2] !== 'here') s = [s[0], s[1], placed(s[2], w)];
       var here = s[2] === 'here', live = !s[2];
       if (here) hereAt = i;
       var label = '<span class="sp-n" aria-hidden="true">' + (i + 1) + '</span><span class="sp-title">' + esc(s[0]) + (live ? ' <span class="live-tag">live site ↗</span>' : '') + '</span>' +
@@ -209,5 +214,5 @@
   }
   if (global.LabShell) bindStepBar();
 
-  global.LabStep = { PATH: PATH, OWN: OWN, product: product, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, working: working, setWorking: setWorking, clearWorking: clearWorking, path: stepPath, mount: mount, bind: bindStepBar };
+  global.LabStep = { PATH: PATH, OWN: OWN, product: product, placed: placed, withPlace: withPlace, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, working: working, setWorking: setWorking, clearWorking: clearWorking, path: stepPath, mount: mount, bind: bindStepBar };
 })(window);

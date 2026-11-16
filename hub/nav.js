@@ -7,16 +7,20 @@
   var LIVE = global.LAB_LIVE != null ? global.LAB_LIVE : 'https://cohoanalytics.com/';
 
   // lab: a lab route. path: a live page, linked as cohoanalytics.com shows it today.
+  // step: the item is that step of the seven from a town to a deal (site/step-bar.js PATH, counted from 0). The menu
+  // steps (paul, 16 Nov 2026: "build the menu steps"): a step's item takes the step bar's name, says it is one of the
+  // seven steps, and opens on the working place as the bar does. The seven sit in three menus, by what they answer;
+  // the line under each ties them together. No step numbers: "1, 3, 5" in one menu reads oddly.
   var MENUS = [
     { id: 'places', title: 'Places and need', question: 'Where is the need, and how big is it?', hub: '#/places', views: ['places', 'place', 'report'], groups: [
       { title: 'Look up a place', items: [
-        { label: 'Find a place', lab: '#/places', desc: 'Any Colorado town, county or CDP, with its full needs assessment.' },
-        { label: 'Housing Needs Assessment', lab: '#/place/0828745', desc: 'Six chapters per place. Fruita is the sample.' },
+        { step: 0, label: 'Jurisdiction', lab: '#/places', desc: 'Find any Colorado town, county or CDP, with its full needs assessment.' },
+        { step: 2, label: 'Needs Assessment', lab: '#/place/0828745', desc: 'The housing needs assessment: six chapters per place, need by income level.' },
         { label: 'Free report', lab: '#/report', desc: 'A printable needs and market summary for any place. Free.' },
         { label: 'Walking and biking', lab: '#/places/walk-bike', desc: 'How many homes can walk or bike to groceries, schools, care and jobs.' },
         { label: 'Compare places', lab: '#/places/compare', desc: 'Two to six places side by side.' },
         { label: 'HNA ranking', lab: '#/places/ranking', desc: 'Every county, town and CDP ranked on housing need.' },
-        { label: 'Scenario builder', lab: '#/places/scenario', desc: 'Change the state forecast and see the homes needed.' }] },
+        { step: 4, label: 'Scenarios', lab: '#/places/scenario', desc: 'Change the state forecast and see the homes needed.' }] },
       { title: 'The state picture', items: [
         { label: 'Colorado deep dive', lab: '#/places/deep-dive', desc: 'County markets: tax credit pipeline, AMI gap, QCTs and DDAs.' },
         { label: 'Economic dashboard', lab: '#/places/economy', desc: 'Rates, costs, jobs and inflation that shape deals.' },
@@ -28,7 +32,7 @@
     ] },
     { id: 'opportunities', title: 'Opportunities', question: 'Where can homes be built or kept affordable?', hub: '#/opportunities', views: ['opportunities', 'opportunity', 'finder'], groups: [
       { title: 'Find a site or a property', items: [
-        { label: 'Opportunity Finder lite', lab: '#/finder', desc: 'Every town on the facts for 4% and 9% deals. Free.' },
+        { step: 1, label: 'Opportunity Finder', lab: '#/finder', desc: 'Every town on the facts for 4% and 9% deals. Free.' },
         { label: 'Preservation inventory', lab: '#/opportunity/preservation', desc: 'Affordable homes that could be lost, and when.' },
         { draft: true, label: 'Preservation in Colorado', lab: '#/guide/preservation', desc: 'Right to buy, park sales and money to keep homes affordable.' },
         { label: 'CHFA portfolio', lab: '#/opportunity/portfolio', desc: 'Every tax credit property and its homes.' },
@@ -40,10 +44,11 @@
     ] },
     { id: 'deal', title: 'Build a deal', question: 'Does this project pencil, and who does what?', hub: '#/projects', views: ['projects', 'project', 'homes', 'handoff', 'convert', 'financials', 'open-deal', 'open-calc', 'deal-calculator', 'sale-deal', 'use', 'deals', 'equity-pricing', 'pipeline', 'market', 'for-sale', 'recommendation', 'ic-summary', 'design'], groups: [
       { title: 'Tools', items: [
-        { label: 'Deal Calculator', lab: '#/deal-calculator', desc: 'Sources and uses, credits, debt and the gap.' },
+        { step: 5, label: 'Deal Calculator', lab: '#/deal-calculator', desc: 'Sources and uses, credits, debt and the gap.' },
         { label: 'Market check', lab: '#/market', desc: 'Renters, rents, supply and a capture rate for any place. Free.' },
+        { step: 3, label: 'Market Analysis', path: 'deal-market-analysis.html', desc: 'The full study for one site: market area, demand, rents and capture. A member tool, open to all for now.' },
         { label: 'For-sale and ownership', lab: '#/for-sale', desc: 'What each income can pay for a home, and resale formulas. Free.' },
-        { label: 'Recommendation', lab: '#/recommendation', desc: 'What the public data says a place needs, and how sure. Free.' },
+        { step: 6, label: 'Recommendation', lab: '#/recommendation', desc: 'What the public data says a place needs, and how sure. Free.' },
         { label: 'Deal summaries', lab: '#/deals', desc: 'One sourced summary per Colorado tax credit award.' },
         { label: 'Investor summary', lab: '#/ic-summary', desc: 'One place on one page, for lenders and investors.' },
         { label: 'Your projects', lab: '#/projects', desc: 'Projects saved in this browser.' }] },
@@ -100,6 +105,67 @@
   var PORT = global.LAB_PORT || null;
   function href(it) { return it.lab ? (PORT ? PORT.href(it.lab) : it.lab) : LIVE + it.path; }
   function isLive(it) { return !PORT && !it.lab; }
+  // Every item, in menu order; a drawn link names its item by its place here (data-item).
+  var FLAT = [];
+  MENUS.forEach(function (m) { m.groups.forEach(function (g) { g.items.forEach(function (it) { FLAT.push(it); }); }); });
+
+  // The menu steps. The working place is the step bar's (site/step-bar.js, which loads after this file), read when
+  // a menu opens, so a place picked on any page carries. Without one a step opens as listed: the Needs Assessment on
+  // Fruita, the sample.
+  function working() { var S = global.LabStep; return S && S.working ? S.working() : null; }
+  function stepHref(it, w) {
+    var S = global.LabStep;
+    if (it.step == null || !w || !S || !S.placed) return href(it);
+    if (it.path) return LIVE + S.withPlace(it.path, encodeURIComponent(w.geoid));
+    var route = it.step === 2 ? '#/place/' + encodeURIComponent(w.geoid) : S.placed(it.lab, w);
+    return (PORT ? PORT.href(route) : route) || href(it);
+  }
+  function stepNote(it, w) {
+    return 'One of the 7 steps' + (it.step === 0 ? '' : w ? ' · opens on ' + w.label : it.step === 2 ? ' · opens on Fruita, the sample' : '');
+  }
+  // The item for the page you are on: the full Market Analysis by its file, a place's page (any chapter) as the Needs
+  // Assessment, an item with a query only at that exact address, and otherwise the longest route the address starts
+  // with. Jurisdiction (#/places) is marked on its own page only, not on every Places page under it.
+  function hereItem() {
+    var hash = location.hash || '#/', at = hash.split('?')[0], file = location.pathname.split('/').pop() || 'index.html';
+    var best = null, len = -1;
+    FLAT.forEach(function (it) {
+      var hit, l;
+      if (it.path) { hit = file === it.path; l = 1000; }
+      else if (it.lab.indexOf('?') > -1) { hit = hash === it.lab; l = it.lab.length; }
+      else if (it.step === 2) { hit = /^#\/place\/\d/.test(at); l = it.lab.length; }
+      else if (it.step === 0) { hit = at === it.lab || at === it.lab + '/'; l = it.lab.length; }
+      else { hit = at === it.lab || at.indexOf(it.lab + '/') === 0; l = it.lab.length; }
+      if (hit && l > len) { best = it; len = l; }
+    });
+    return best;
+  }
+  // Sets each step's link and line, and marks the page you are on "You are here". Run when a menu opens and when the
+  // page changes; the menus are drawn once.
+  function refresh() {
+    var nav = document.getElementById('site-nav');
+    if (!nav || !nav.querySelectorAll) return;
+    var w = working(), here = hereItem();
+    Array.prototype.forEach.call(nav.querySelectorAll('a[data-item]'), function (a) {
+      var it = FLAT[+a.getAttribute('data-item')];
+      if (!it) return;
+      if (it.step != null) {
+        a.setAttribute('href', stepHref(it, w));
+        var note = a.querySelector('.mega-step');
+        if (note) note.textContent = stepNote(it, w);
+      }
+      var tag = a.querySelector('.mega-here');
+      if (it === here) {
+        a.classList.add('is-here');
+        a.setAttribute('aria-current', 'page');
+        if (!tag) { tag = document.createElement('span'); tag.className = 'mega-here'; tag.textContent = 'You are here'; a.querySelector('.mega-label').appendChild(tag); }
+      } else {
+        a.classList.remove('is-here');
+        a.removeAttribute('aria-current');
+        if (tag) tag.parentNode.removeChild(tag);
+      }
+    });
+  }
 
   function panel(m) {
     return '<div class="mega" id="mega-' + m.id + '" hidden><div class="mega-inner">' +
@@ -109,9 +175,9 @@
         var items = g.items.filter(function (it) { return href(it) != null; });
         if (!items.length) return '';
         return '<div class="mega-group"><h2 class="mega-title">' + esc(g.title) + '</h2><ul>' + items.map(function (it) {
-          return '<li><a href="' + esc(href(it)) + '"' + (isLive(it) ? ' class="is-live"' : '') + '><span class="mega-label">' + esc(it.label) +
+          return '<li><a href="' + esc(href(it)) + '" data-item="' + FLAT.indexOf(it) + '"' + (isLive(it) ? ' class="is-live"' : '') + '><span class="mega-label">' + esc(it.label) +
             (isLive(it) ? '<span class="live-tag" aria-label="opens the live site">live site ↗</span>' : '') + '</span>' +
-            '<span class="mega-desc">' + esc(it.desc) + '</span></a></li>';
+            '<span class="mega-desc">' + esc(it.desc) + '</span>' + (it.step != null ? '<span class="mega-step">' + esc(stepNote(it, null)) + '</span>' : '') + '</a></li>';
         }).join('') + '</ul></div>';
       }).join('') + '</div></div>';
   }
@@ -141,6 +207,7 @@
     closeAll(btn);
     var on = open == null ? btn.getAttribute('aria-expanded') !== 'true' : open;
     btn.setAttribute('aria-expanded', String(on));
+    if (on) refresh();
     document.getElementById(btn.getAttribute('aria-controls')).hidden = !on;
   }
 
@@ -162,6 +229,7 @@
       if (m && b.dataset.menu === m.id) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
     });
     closeAll();
+    refresh();
   }
 
   // The page wires the menus; the checks in qa/ load this file for its menu list only.
@@ -267,14 +335,27 @@
     }
     return to;
   }
+  // A page that stays at its own address, but whose links open the newer copy of the same tool, with the same query
+  // and hash, as js/path-resolver.js LINK_TO does on the public site's own pages (duplicates batch 3). The old Market
+  // Analysis stays because the member site's Market screen engine loads it by name; ?classic=1 opens it as written.
+  // The views needed it too: the Methods guide's link opened the old page (found in the 2897 live check, 16 Nov 2026).
+  var LINK_TO = { 'market-analysis.html': 'deal-market-analysis.html' };
+  function linkTo(href) {
+    var m = /^((?:https:\/\/(?:www\.)?cohoanalytics\.com\/|\.\/)?)([a-z0-9-]+\.html)((?:\?[^#]*)?(?:#.*)?)$/i.exec(String(href || ''));
+    if (!m || !Object.prototype.hasOwnProperty.call(LINK_TO, m[2].toLowerCase())) return null;
+    if (/^\?(?:[^#]*&)?classic(?:[=&#]|$)/.test(m[3])) return null;
+    return m[1] + LINK_TO[m[2].toLowerCase()] + m[3];
+  }
   // Points every moved-page link inside a drawn view at its view (the shell calls this after each draw).
   function retarget(root) {
     if (!root || !root.querySelectorAll) return;
     Array.prototype.forEach.call(root.querySelectorAll('a[href]'), function (a) {
       var to = movedHref(a.getAttribute('href'));
-      if (to) { a.setAttribute('href', to); a.removeAttribute('target'); }
+      if (to) { a.setAttribute('href', to); a.removeAttribute('target'); return; }
+      var copy = linkTo(a.getAttribute('href'));
+      if (copy) a.setAttribute('href', copy);
     });
   }
 
-  global.LabNav = { MENUS: MENUS, menuFor: menuFor, href: href, LIVE: LIVE, MOVED: MOVED, movedHref: movedHref, retarget: retarget };
+  global.LabNav = { MENUS: MENUS, menuFor: menuFor, href: href, stepHref: stepHref, hereItem: hereItem, refresh: refresh, LIVE: LIVE, MOVED: MOVED, movedHref: movedHref, linkTo: linkTo, retarget: retarget };
 })(window);
