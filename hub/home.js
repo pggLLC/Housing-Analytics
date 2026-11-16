@@ -679,19 +679,88 @@
     Shell.catalog().entries.filter(function (e) { return e.role === 'generated-place' && e.geoid; }).forEach(function (e) {
       add({ t: e.label, u: '#/place/' + e.geoid, d: '', kind: 'Place profile' });
     });
+    addSiteIndex(out);
     return out;
+  }
+
+  // The rest of what the site's own search finds (Housing-Analytics search-index.json, built by
+  // scripts/build-public-site.mjs from scripts/lib/search-index.mjs): the glossary's terms, the deep dive's funding
+  // programs, the research briefs and the method notes, and the headings and words of every page. Each opens its new
+  // view where there is one. A page already listed above keeps one entry and gains that page's words, so a search
+  // for a heading on it still finds it. Without the file (the bare lab) the list above is the whole search.
+  var SITE_INDEX = { data: null, asked: false };
+  function siteIndex() {
+    if (!SITE_INDEX.asked) {
+      SITE_INDEX.asked = true;
+      fetch((global.LAB_VENDOR || '') + 'search-index.json').then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+        .then(function (j) { SITE_INDEX.data = Array.isArray(j) ? j : []; if (/^#\/search/.test(location.hash)) Shell.render(); }, function () { SITE_INDEX.data = []; });
+    }
+    return SITE_INDEX.data || [];
+  }
+  // A page of the old site whose lab route is drawn by a hub page (the port's FORWARD map read backwards), so a
+  // result opens the new view, not the page it replaced.
+  function rebuiltRoute(file) {
+    var port = global.LAB_PORT;
+    if (!port || !port.FORWARD) return null;
+    var hit = null;
+    Object.keys(port.FORWARD).forEach(function (route) {
+      if (!hit && port.FORWARD[route] === file && (port.carries(route) || port.hubFor(route))) hit = route;
+    });
+    return hit;
+  }
+  function siteIndexHref(u) {
+    u = String(u || '');
+    if (/^https?:/.test(u)) return u;
+    var m = /^places\/(\d{5}|\d{7})\.html$/.exec(u);
+    if (m) return '#/place/' + m[1];
+    if (u === 'places/index.html') return '#/places';
+    m = /^research-brief\.html\?id=([A-Za-z0-9_-]{1,120})$/.exec(u);
+    if (m) return '#/research/brief/' + m[1];
+    if (/^index\.html#glossary(=|$)/.test(u)) return '#/data/glossary';
+    var moved = global.LabNav && global.LabNav.movedHref(u);
+    if (moved) return moved;
+    var file = /^([a-z0-9-]+\.html)$/i.exec(u);
+    var route = file && rebuiltRoute(file[1].toLowerCase());
+    if (route) return route;
+    return ((global.LabNav && global.LabNav.LIVE) || '') + u;
+  }
+  function siteIndexTag(u) {
+    if (/^index\.html#glossary=/.test(u)) return 'Glossary';
+    if (/[?&]program=/.test(u)) return 'Funding program';
+    if (/^research-brief\.html/.test(u)) return 'Research brief';
+    if (/^docs\//.test(u)) return 'Method note';
+    return '';
+  }
+  function addSiteIndex(out) {
+    var byHref = {}, seen = {};
+    out.forEach(function (r) { if (!byHref[r.u]) byHref[r.u] = r; seen[r.u + ' ' + fold(r.t)] = true; });
+    siteIndex().forEach(function (x) {
+      if (!x || !x.u || /^search\.html/.test(x.u)) return;
+      var u = siteIndexHref(x.u), tag = siteIndexTag(x.u), words = [x.k, x.b].filter(Boolean).join(' ');
+      var title = String(x.t || '').replace(/\s*\|\s*COHO[^|]*$/, '');
+      if (SEARCH_HIDDEN.indexOf(u) > -1) return;
+      // A page the list already has: one entry, with this page's headings and words added.
+      if (!tag && byHref[u]) { byHref[u].b = [byHref[u].b, words].filter(Boolean).join(' '); return; }
+      var key = u + ' ' + fold(title);
+      if (seen[key]) return;
+      seen[key] = true;
+      var r = { t: title, u: u, d: x.d || '', k: '', a: x.a || '', b: words, tag: tag };
+      if (!tag) byHref[u] = r;
+      out.push(r);
+    });
   }
   function fold(text) { return String(text || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
   // Every word must appear (AND). A title hit at the start of a word scores most, then the reader words,
-  // then the menu group, then the one-line description. Places and counties match on their name only.
+  // then the menu group, then the one-line description, then the page's own headings and words (from the site's
+  // search index). Places and counties match on their name only.
   function scoreRecord(r, words) {
-    var t = fold(r.t), a = fold(r.a), k = fold(r.k), d = fold(r.d), s = 0;
+    var t = fold(r.t), a = fold(r.a), k = fold(r.k), d = fold(r.d), b = fold(r.b), s = 0;
     for (var i = 0; i < words.length; i++) {
       var w = words[i], start = new RegExp('(^|[^a-z0-9])' + w);
-      var inT = start.test(t), inA = start.test(a), inK = start.test(k), inD = start.test(d);
+      var inT = start.test(t), inA = start.test(a), inK = start.test(k), inD = start.test(d), inB = !!b && start.test(b);
       if (r.kind && !inT) return 0;
-      if (!inT && !inA && !inK && !inD) return 0;
-      s += (t.indexOf(w) === 0 ? 14 : inT ? 9 : 0) + (inA ? 6 : 0) + (inK ? 3 : 0) + (inD ? 2 : 0);
+      if (!inT && !inA && !inK && !inD && !inB) return 0;
+      s += (t.indexOf(w) === 0 ? 14 : inT ? 9 : 0) + (inA ? 6 : 0) + (inK ? 3 : 0) + (inD ? 2 : 0) + (inB ? 1 : 0);
     }
     return r.kind === 'Place profile' ? s * 0.9 : s;
   }
@@ -708,12 +777,13 @@
     var hits = q ? rankSearch(records, q) : [];
     var words = fold(q).split(/\s+/).filter(Boolean);
     var srcHits = q ? srcs.filter(function (s) { var hay = fold((s.name || '') + ' ' + (s.provider || '') + ' ' + (s.category || '') + ' ' + (s.id || '')); return words.every(function (w) { return hay.indexOf(w) > -1; }); }) : [];
-    var places = records.filter(function (r) { return r.kind; }).length;
-    var body = !q ? '<p class="count">Type a place (for example Silt), a topic (LIHTC, AMI, rent burden) or a page name. ' + (records.length - places) + ' pages, ' + places + ' places and counties' + (srcs.length ? ', and ' + srcs.length + ' data sources' : '') + '.</p>' +
+    var places = records.filter(function (r) { return r.kind; }).length, terms = records.filter(function (r) { return r.tag; }).length;
+    var body = !q ? '<p class="count">Type a place (for example Silt), a topic (LIHTC, AMI, rent burden) or a page name. ' + (records.length - places - terms) + ' pages, ' +
+        (terms ? terms + ' glossary terms, funding programs, research briefs and method notes, ' : '') + places + ' places and counties' + (srcs.length ? ', and ' + srcs.length + ' data sources' : '') + '.</p>' +
         '<p class="note">Try: <a href="#/search?q=Silt">Silt</a> · <a href="#/search?q=LIHTC">LIHTC</a> · <a href="#/search?q=AMI">AMI</a> · <a href="#/search?q=preservation">preservation</a></p>'
       : '<p class="count" role="status">' + (hits.length + srcHits.length === 0 ? 'No matches. Try fewer words.' : (hits.length ? hits.length + (hits.length === 1 ? ' result' : ' results') : '') + (hits.length && srcHits.length ? ' and ' : '') + (srcHits.length ? srcHits.length + (srcHits.length === 1 ? ' data source' : ' data sources') : '') + '.') + '</p>' +
-        (hits.length ? '<h2>Pages and places</h2><ul class="route-list">' + hits.slice(0, 50).map(function (r) {
-          return '<li><a href="' + esc(r.u) + '">' + esc(r.t) + '</a>' + (r.kind ? '<span class="status">' + esc(r.kind) + '</span>' : '') + (r.d ? '<p class="note">' + esc(r.d) + '</p>' : '') + '</li>';
+        (hits.length ? '<h2>Pages, places and terms</h2><ul class="route-list">' + hits.slice(0, 50).map(function (r) {
+          return '<li><a href="' + esc(r.u) + '">' + esc(r.t) + '</a>' + (r.kind || r.tag ? '<span class="status">' + esc(r.kind || r.tag) + '</span>' : '') + (r.d ? '<p class="note">' + esc(r.d) + '</p>' : '') + '</li>';
         }).join('') + '</ul>' + (hits.length > 50 ? '<p class="note">Showing 50 of ' + hits.length + '. Type more to narrow the list.</p>' : '') : '') +
         (srcHits.length ? '<h2>Data sources</h2><ul class="route-list">' + srcHits.slice(0, 20).map(function (s) { return '<li><a href="#/data/sources?source=' + esc(encodeURIComponent(s.id)) + '">' + esc(s.name || s.id) + '</a><p class="note">' + esc([s.provider, s.category].filter(Boolean).join(' · ')) + '</p></li>'; }).join('') + '</ul>' : '');
     return utilHead('Search the site', 'Find any Colorado place, county, tool, guide or data source. Type a place, a topic or a page name.') +
