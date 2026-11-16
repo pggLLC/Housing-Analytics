@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T04:52:56.375Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T10:04:10.403Z. Do not edit by hand.
 
 ---
 
@@ -2547,7 +2547,7 @@
 | `test/no-synthesized-chfa-awards.test.js` | 4.5 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/notify-cancelled-outcome.test.js` | 3.5 KB |
-| `test/old-pages-forward.test.mjs` | 23.0 KB |
+| `test/old-pages-forward.test.mjs` | 24.5 KB |
 | `test/one-canonical-step-sequence.test.mjs` | 6.2 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
