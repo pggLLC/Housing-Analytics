@@ -3831,6 +3831,36 @@
     input.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') { e.preventDefault(); _submit(); }
     });
+
+    // "Use my location" (paul, 16 Nov 2026): the device's position, read once on the press, dropped as a pin the
+    // same way as typed coordinates. Not stored and not sent anywhere; the browser asks permission first.
+    var locBtn = document.getElementById('pmaLocateBtn');
+    if (locBtn) locBtn.addEventListener('click', function () {
+      if (!navigator.geolocation) { _setStatus('This browser does not share a location. Type an address or click the map.', 'error'); return; }
+      if (!dataLoaded) { _setStatus('Data is still loading — wait a moment then try again.', 'error'); return; }
+      locBtn.disabled = true;
+      _setStatus('Asking your device where you are…', 'info');
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        locBtn.disabled = false;
+        var lat = pos.coords.latitude, lon = pos.coords.longitude, acc = pos.coords.accuracy;
+        if (!(lat >= CO_LAT_MIN && lat <= CO_LAT_MAX && lon >= CO_LON_MIN && lon <= CO_LON_MAX)) {
+          _setStatus('You are outside Colorado (' + lat.toFixed(3) + ', ' + lon.toFixed(3) + '). Type a Colorado address or click the map.', 'error');
+          return;
+        }
+        input.value = lat.toFixed(5) + ', ' + lon.toFixed(5);
+        map.setView([lat, lon], 15);
+        placeSiteMarker(lat, lon);
+        analyzeNewSite(lat, lon);
+        var within = Number.isFinite(acc) ? (acc >= 1000 ? (Math.round(acc / 100) / 10) + ' km' : Math.round(acc) + ' m') : '';
+        _setStatus('Pin dropped at your location (' + lat.toFixed(4) + ', ' + lon.toFixed(4) + ')' +
+          (within ? ', within ' + within + '.' : '.') +
+          (!Number.isFinite(acc) || acc > 200 ? ' That is rough, so check the pin on the map before you rely on it.' : ''), 'ok');
+      }, function (e) {
+        locBtn.disabled = false;
+        var why = { 1: 'Location is turned off for this site. Allow it in the browser, or type an address.', 2: 'Your device could not find its position. Type an address or click the map.', 3: 'Finding your position took too long. Try again, or type an address.' };
+        _setStatus(why[e && e.code] || 'Your position is not available. Type an address or click the map.', 'error');
+      }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
+    });
   }
 
   /* ── Overlay layer styles ────────────────────────────────────────── */
