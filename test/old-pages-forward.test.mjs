@@ -63,7 +63,7 @@ const SITE = 'https://cohoanalytics.com/';
 
 test('every forwarded page exists, loads the forwarding script in its head, and its view is drawn by the hub named', () => {
   const pages = Object.keys(MOVED);
-  assert.equal(pages.length, 37, 'group A is 15 pages, plus county costs, group B 13 and group C 8');
+  assert.equal(pages.length, 38, 'group A is 15 pages, plus county costs, group B 13, group C 8 and the Sunday digest (duplicates batch 3)');
   for (const p of pages) {
     const html = read(p), head = html.slice(0, html.indexOf('</head>'));
     assert.ok(/<script src="js\/path-resolver\.js"><\/script>/.test(head), p + ' does not load js/path-resolver.js in its head');
@@ -153,6 +153,21 @@ test('groups B and C: each page forwards to its view, carrying its place, chapte
   assert.equal(load(SITE + 'colorado-deep-dive.html#tab-types').went, 'places-hub.html#/places/deep-dive?tab=patterns', 'Market patterns');
   for (const stub of ['dashboard.html', 'LIHTC-dashboard.html', 'lihtc-allocations.html', 'regional.html', 'state-allocation-map.html'])
     assert.ok(read(stub).includes('colorado-deep-dive.html#tab-state-comparison'), stub + ' no longer sends people to the snapshot tab');
+});
+
+test('duplicates batch 3: the Sunday digest forwards to its view, carrying the edition the Sunday email links', () => {
+  assert.equal(load(SITE + 'sunday-digest.html').went, 'policy-hub.html#/digest');
+  assert.equal(load(SITE + 'sunday-digest.html?date=2026-11-08').went, 'policy-hub.html#/digest?date=2026-11-08');
+  assert.equal(load(SITE + 'sunday-digest.html?date=x<y').went, 'policy-hub.html#/digest', 'a malformed date is dropped');
+  assert.equal(load(SITE + 'sunday-digest.html?classic=1&date=2026-11-08').went, null, '?classic=1 keeps the page as written');
+});
+
+test('duplicates batch 3: links to the old Market Analysis open the new copy of the tool; the old page itself stays', () => {
+  assert.equal(load(SITE + 'market-analysis.html').went, null, 'the member Market screen engine loads market-analysis.html by name');
+  const { doc } = load(SITE + 'methods.html', '<a id="a" href="market-analysis.html?geoid=08077#pma">x</a><a id="b" href="market-analysis.html?classic=1">y</a><a id="c" href="https://cohoanalytics.com/market-analysis.html">z</a>');
+  assert.equal(doc.getElementById('a').getAttribute('href'), 'deal-market-analysis.html?geoid=08077#pma');
+  assert.equal(doc.getElementById('b').getAttribute('href'), 'market-analysis.html?classic=1');
+  assert.equal(doc.getElementById('c').getAttribute('href'), 'https://cohoanalytics.com/deal-market-analysis.html');
 });
 
 test('groups B and C stay as written where only the old page draws it', () => {
@@ -251,7 +266,7 @@ test('the old header menus link to the views, and the place pill keeps the old p
     'hna-where-its-heading.html', 'hna-what-to-do.html']);
   // The Insights menu entries likewise: test/insights-nav-labels ties each Insights label to the heading of the page
   // it names, so they keep the old page's file in the menu source and are pointed at the views the same way.
-  const INSIGHTS = new Set(['policy-briefs.html', 'colorado-elections.html', 'local-incentives.html', 'article-pricing.html', 'insights.html', 'housing-legislation-2026.html']);
+  const INSIGHTS = new Set(['policy-briefs.html', 'colorado-elections.html', 'local-incentives.html', 'article-pricing.html', 'insights.html', 'housing-legislation-2026.html', 'sunday-digest.html']);
   for (const p of Object.keys(MOVED).filter((x) => !RAIL.has(x) && !INSIGHTS.has(x))) {
     const plain = new RegExp('(href: "|normalizeHref\\(\'|root \\+ \')' + p.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&') + '(?!\\?classic|\\?new)', 'g');
     assert.equal((nav.match(plain) || []).length, 0, 'js/navigation.js still links to ' + p);

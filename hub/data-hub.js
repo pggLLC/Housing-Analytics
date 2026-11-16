@@ -313,8 +313,11 @@
       case 'trust': return M.trust();
       case 'explorer': return M.explorer(params);
       case 'map': return M.map(params);
-      case 'quality': return M.quality();
-      case 'status': return M.status();
+      // Folded into the Trust center (duplicates batch 3): the old addresses open it at their section, and the address
+      // is rewritten so Back, a copied link and the menu all name the Trust center.
+      case 'quality': case 'status':
+        history.replaceState(null, '', '#/data/trust?at=' + (parts[1] === 'quality' ? 'trust-checks' : 'trust-today'));
+        return M.trust();
       case 'glossary': return M.glossary(params);
       default: return hub();
     }

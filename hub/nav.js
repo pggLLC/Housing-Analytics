@@ -70,7 +70,7 @@
         { label: 'Elections', lab: '#/elections', desc: 'How elections and ballot measures shape housing policy.' },
         { label: 'Where the money goes', lab: '#/money', desc: 'Housing awards from CHFA, OEDIT and others, traced.' }] },
       { title: 'Research', items: [
-        { label: 'Research overview', lab: '#/research', desc: 'All research and analysis in one place.' },
+        { label: 'All research and briefs', lab: '#/guides?at=research-all', desc: 'Every paper, brief and analysis, each with its date.' },
         { label: 'How tax credit deals have changed', lab: '#/tax-credit-history', desc: 'Colorado’s housing tax credit since 1987: deal size, bonds, who it serves.' },
         { draft: true, label: 'Commuters and capture rates', lab: '#/guide/commuters-capture', desc: 'How workers who drive in can widen a rental\u2019s market, and the proof CHFA asks for.' },
         { label: 'Middle-income rental', lab: '#/middle-income', desc: 'The middle-income credit, Prop 123 Equity and town deed restrictions: who each serves.' },
@@ -81,15 +81,13 @@
     { id: 'data', title: 'Data and methods', question: 'Where does each number come from, and can I trust it?', hub: '#/data', views: ['data'], groups: [
       { title: 'How it works', items: [
         { label: 'Methods', lab: '#/guide/methods', desc: 'Every calculation behind the need estimates.' },
-        { label: 'Trust center', lab: '#/data/trust', desc: 'Sources, freshness and QA behind every number.' },
+        { label: 'Trust center', lab: '#/data/trust', desc: 'Sources, freshness, the nightly checks and today’s dataset check.' },
         { label: 'About', lab: '#/guide/about', desc: 'Sources, methods and how the site is built.' },
         { label: 'Glossary', lab: '#/data/glossary', desc: 'Plain definitions of tax credit and housing terms.' }] },
       { title: 'The data', items: [
         { label: 'Data explorer', lab: '#/data/explorer', desc: 'Every data file behind the site, with previews.' },
         { label: 'Data map', lab: '#/data/map', desc: 'Every geographic dataset on a map.' },
-        { label: 'Data sources', lab: '#/data/sources', desc: 'Every source, its freshness and coverage.' },
-        { label: 'Data quality', lab: '#/data/quality', desc: 'Source status and pipeline health.' },
-        { label: 'Data status', lab: '#/data/status', desc: 'Freshness checks for every dataset.' }] }
+        { label: 'Data sources', lab: '#/data/sources', desc: 'Every source, its freshness and coverage.' }] }
     ] }
   ];
   // A guide still in draft (site/guides/<slug>.json has no public page yet) shows in the lab menus only. The public
@@ -212,7 +210,9 @@
     // Group C: the needs assessment and its five chapters open the place's page on the same chapter.
     'housing-needs-assessment.html': '#/places', 'hna-who-lives-here.html': '#/places', 'hna-what-housing-exists.html': '#/places',
     'hna-what-households-can-afford.html': '#/places', 'hna-where-its-heading.html': '#/places', 'hna-what-to-do.html': '#/places',
-    'ic-summary.html': '#/ic-summary', 'where-housing-money-goes.html': '#/money'
+    'ic-summary.html': '#/ic-summary', 'where-housing-money-goes.html': '#/money',
+    // Duplicates batch 3 (16 Nov 2026): the weekly digest and its earlier editions are the Sunday digest view.
+    'sunday-digest.html': '#/digest'
   };
   // The place page's chapter for each needs assessment page (site/hna.js TABS).
   var HNA_TAB = { 'housing-needs-assessment.html': '', 'hna-who-lives-here.html': '/people', 'hna-what-housing-exists.html': '/housing',
@@ -239,6 +239,8 @@
       var qs = [picked.length ? 'g=' + picked.join(',') : '', t ? 't=' + t : ''].filter(Boolean).join('&');
       return to + (qs ? '?' + qs : '');
     }
+    // An edition of the digest (?date=YYYY-MM-DD, as the Sunday email links it) opens that edition.
+    if (file === 'sunday-digest.html' && /^\d{4}-\d{2}-\d{2}$/.test(q.get('date') || '')) return to + '?date=' + q.get('date');
     if (file === 'hna-scenario-builder.html' || file === 'recommendation.html') { var one = g([q.get('geoid'), q.get('fips')]); return to + (one.length ? '?g=' + one[0] : ''); }
     // Local incentives keeps its picked town or county in the hash (#j=<geoid>, js/local-incentives.js geoidFromHash).
     if (file === 'local-incentives.html') { var j = /(?:^|[&?])j=(\d{7}|\d{5})(?!\d)/.exec(m[3] || ''); if (j) return to + '/' + j[1]; }
