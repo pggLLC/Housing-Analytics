@@ -726,7 +726,7 @@
       geoUnit: 'County',
       coverage: 'Colorado — 64 counties',
       features: 64,
-      description: 'BLS Local Area Unemployment Statistics — unemployment rate + 5-yr residential employment growth (replaces deprecated BLS QCEW public endpoint).',
+      description: 'BLS Local Area Unemployment Statistics — unemployment rate and the 5-year change in employed residents.',
       tags: ['bls', 'laus', 'employment', 'unemployment'],
       apiEndpoint: 'https://api.bls.gov/publicAPI/v2/timeseries/data/'
     },
@@ -1252,7 +1252,7 @@
       provider: 'Internal (Generated)',
       url: null,
       localFile: 'data/manifest.json',
-      lastUpdated: '2026-11-15',
+      lastUpdated: '2026-11-16',
       updateFrequency: 'On deploy',
       maxAgeDays: 30,
       geoUnit: 'N/A',

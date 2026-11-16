@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-15T23:58:21.225107Z",
+  "generated": "2026-11-16T04:04:55.382174Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -294,7 +294,7 @@
     "data/co-county-economic-indicators.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 15327
+      "bytes": 15294
     },
     "data/co-demographics.json": {
       "featureCount": 0,
@@ -9914,7 +9914,7 @@
     "data/policy/resale-conventions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7744
+      "bytes": 7772
     },
     "data/policy/research-orgs-housing.json": {
       "featureCount": 0,
