@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T13:41:29.658Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T16:38:11.178Z. Do not edit by hand.
 
 ---
 
@@ -136,7 +136,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 683.4 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 685.8 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -158,7 +158,7 @@
 | `data/chfa-lihtc.json` | 966.9 KB | ✅ | 926 features |
 | `data/chfa-qap-calendar.json` | 20.7 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 39.3 KB | ✅ | — |
+| `data/co-county-demographics.json` | 47.9 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 14.9 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 14.5 KB | ✅ | — |
@@ -2077,7 +2077,7 @@
 | `data/policy_briefs_curated.json` | 302.2 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 222.4 KB | ✅ | — |
+| `data/polymarket-history.json` | 224.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2183,7 +2183,7 @@
 | `test/contrast-audit-settle.test.mjs` | 9.2 KB |
 | `test/contrast-audit-summary.test.js` | 8.3 KB |
 | `test/cost-per-sf-absence.test.js` | 7.0 KB |
-| `test/county-demographics-contract.test.js` | 20.4 KB |
+| `test/county-demographics-contract.test.js` | 23.3 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/county-housing-indicators-sourced.test.mjs` | 12.9 KB |
 | `test/county-trends-acs-agreement.test.js` | 4.5 KB |
