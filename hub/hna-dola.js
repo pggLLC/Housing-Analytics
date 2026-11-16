@@ -209,7 +209,7 @@
       ['III', 'Number of households', 'met', 'Households by size, type, income and tenure (ACS).', 'people'],
       ['IV', 'Jobs by annual wage', 'met', 'Jobs in three pay bands and by industry (LEHD LODES).', 'future'],
       ['V', 'Share of state and regional need, from jobs', o.status && o.status.regional ? 'town' : 'met',
-        o.status && o.status.regional ? 'This government is inside the ' + o.status.regional.title + '; its allocation comes from that study.' : 'Table 3 shows the local study area. In-commuters are counted in the 20-year figure; the statewide HNA is not due until 30 November 2027.', 'future'],
+        o.status && o.status.regional ? 'This government is inside the ' + o.status.regional.title + '; its allocation comes from that study.' : 'Table 3 shows the local study area. In-commuters are counted in the 20-year figure. The state’s own assessment (DOLA, released 9 November 2026) reports four regions, not single counties or towns.', 'future'],
       ['VI', 'Areas at elevated risk of displacement', 'missing', 'Not built yet. DOLA’s tract-level displacement indicators and guidance set out the method.', null],
       ['Rec.', 'Recommended policy and program responses', 'met', 'What to do about it: an action plan checklist, Prop 123 status and local support.', 'action'],
       ['VII', 'Water supply needs (recommended)', 'town', 'Needs the utility’s gallons per person per day.', null],
@@ -272,7 +272,7 @@
     var count = { met: 0, town: 0, missing: 0 };
     rows.forEach(function (r) { count[r[2]]++; });
     h += '<section class="dola-check" aria-labelledby="dola-ck-h"><h2 id="dola-ck-h">DOLA checklist</h2>' +
-      '<p>' + count.met + ' items are met by the HNA’s data, ' + count.town + ' need the town’s own figures and ' + count.missing + ' are not built yet. This is a data start for an SB24-174 assessment, not a DOLA-approved one: only DOLA accepts an assessment.</p>' +
+      '<p>' + count.met + (count.met === 1 ? ' item is' : ' items are') + ' met by the HNA’s data, ' + count.town + (count.town === 1 ? ' needs' : ' need') + ' the town’s own figures and ' + count.missing + (count.missing === 1 ? ' is' : ' are') + ' not built yet. This is a data start for an SB24-174 assessment, not a DOLA-approved one: only DOLA accepts an assessment.</p>' +
       '<div class="table-scroll" role="region" aria-label="DOLA checklist" tabindex="0"><table class="sb174-table"><thead><tr><th scope="col">Item</th><th scope="col">What the law or guide asks</th><th scope="col">Status</th><th scope="col">Where</th></tr></thead><tbody>' +
       rows.map(function (r) {
         var cls = r[2] === 'met' ? 'sb174-yes' : r[2] === 'town' ? 'sb174-part' : 'sb174-no';
