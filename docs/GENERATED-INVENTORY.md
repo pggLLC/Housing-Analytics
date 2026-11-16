@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T11:31:05.918Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T11:48:59.141Z. Do not edit by hand.
 
 ---
 
@@ -105,7 +105,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1984 JSON files found.
+1985 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -128,8 +128,8 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 957 B | ✅ | — |
-| `data/alerts/alerts_archive.json` | 2.19 MB | ✅ | — |
-| `data/alerts/brief-news-queue.json` | 60.5 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 2.25 MB | ✅ | — |
+| `data/alerts/brief-news-queue.json` | 61.0 KB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 5.8 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
 | `data/alerts/outlet-review.json` | 7.9 KB | ✅ | — |
@@ -2034,7 +2034,7 @@
 | `data/policy/green-building.json` | 57.5 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 32.6 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 157.2 KB | ✅ | — |
+| `data/policy/housing-events.json` | 157.5 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/housing-roll-calls.json` | 5.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
@@ -2070,9 +2070,10 @@
 | `data/policy/thiz-map-status.json` | 4.7 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
+| `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 610.5 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 241.0 KB | ✅ | — |
+| `data/policy_briefs.json` | 611.7 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 270.3 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
 | `data/polymarket-history.json` | 222.4 KB | ✅ | — |
@@ -2098,7 +2099,7 @@
 
 ## Test Files
 
-809 test files found.
+810 test files found.
 
 | File | Size |
 |------|------|
@@ -2686,7 +2687,7 @@
 | `test/report-text-cleanup.test.js` | 3.1 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
-| `test/research-brief.test.mjs` | 16.1 KB |
+| `test/research-brief.test.mjs` | 16.2 KB |
 | `test/research-catalog.test.mjs` | 8.9 KB |
 | `test/resident-services.test.mjs` | 10.9 KB |
 | `test/resort-programs.test.mjs` | 7.8 KB |
@@ -2797,6 +2798,7 @@
 | `test/url-health-policy.test.mjs` | 13.9 KB |
 | `test/utility-allowance-absence.test.mjs` | 10.9 KB |
 | `test/utility-allowance-basis.test.js` | 18.8 KB |
+| `test/vacancy-tax-brief.test.mjs` | 9.1 KB |
 | `test/validate-site.js` | 9.6 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/vintage-badge-fresh-on-return.test.js` | 3.1 KB |

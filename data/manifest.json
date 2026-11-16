@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-16T11:44:31.762854Z",
+  "generated": "2026-11-16T11:49:47.047379Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1033319
+      "bytes": 1033926
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9971,6 +9971,11 @@
       "placeholder": false,
       "bytes": 4929
     },
+    "data/policy/vacancy-tax.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 45804
+    },
     "data/policy/where-to-build-context.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -9984,7 +9989,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 246738
+      "bytes": 276811
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,

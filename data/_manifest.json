@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-16T11:44:27.908Z",
+    "generated_at": "2026-11-16T11:49:42.959Z",
     "root": "data/",
-    "file_count": 2032,
-    "total_size_bytes": 228971628,
+    "file_count": 2033,
+    "total_size_bytes": 229047505,
     "kinds": {
-      "json": 1983,
+      "json": 1984,
       "geojson": 35,
       "csv": 14
     }
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-16T11:31:44.344Z",
+      "mtime": "2026-11-16T11:49:38.096Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -40267,7 +40267,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-16T11:31:46.648Z",
+      "mtime": "2026-11-16T11:49:40.625Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40291,7 +40291,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-16T11:31:46.077Z",
+      "mtime": "2026-11-16T11:49:39.977Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -43619,6 +43619,34 @@
       ]
     },
     {
+      "path": "policy/vacancy-tax.json",
+      "kind": "json",
+      "size_bytes": 45804,
+      "mtime": "2026-11-16T11:47:39.514Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "authority",
+        "measures",
+        "municipal_types"
+      ],
+      "key_count": 5,
+      "primary_array_key": "authority",
+      "primary_array_length": 5,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "status",
+        "decided",
+        "summary",
+        "source",
+        "more_sources",
+        "verification",
+        "review_by"
+      ]
+    },
+    {
       "path": "policy/where-to-build-context.json",
       "kind": "json",
       "size_bytes": 34828,
@@ -43666,8 +43694,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 246738,
-      "mtime": "2026-11-05T07:33:15.433Z",
+      "size_bytes": 276811,
+      "mtime": "2026-11-16T11:47:39.517Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43675,20 +43703,20 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 13,
+      "primary_array_length": 14,
       "primary_array_first_keys": [
         "id",
         "title",
         "policy_topic",
         "is_curated",
         "source_reviewed",
+        "verified",
+        "takeaway",
         "summary",
         "implications",
         "related_data",
         "sources",
-        "articles",
-        "alert_count",
-        "regions"
+        "sections"
       ]
     },
     {
