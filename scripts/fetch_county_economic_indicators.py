@@ -530,8 +530,8 @@ def main() -> int:
 
     laus_year = datetime.now(timezone.utc).year - 1
     source_str = (
-        f"BLS LAUS (unemployment {laus_year} annual avg + 5-yr residential "
-        f"employment growth — replaces deprecated BLS QCEW endpoint), "
+        f"BLS LAUS (unemployment, {laus_year} annual average; employed residents, "
+        f"change over 5 years), "
         f"ACS {acs_year_used} 5-year (home price, income, population)"
     )
 
