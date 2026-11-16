@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-16T11:49:47.047379Z",
+  "generated": "2026-11-16T12:33:25.329649Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1033926
+      "bytes": 1034441
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9721,6 +9721,11 @@
       "placeholder": false,
       "bytes": 590501
     },
+    "data/policy/forest-service-admin-sites.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 33523
+    },
     "data/policy/funding-awards/applicant-report-counts.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -9989,7 +9994,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 276811
+      "bytes": 309474
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,

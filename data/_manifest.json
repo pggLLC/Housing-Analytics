@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-16T11:49:42.959Z",
+    "generated_at": "2026-11-16T12:33:22.977Z",
     "root": "data/",
-    "file_count": 2033,
-    "total_size_bytes": 229047505,
+    "file_count": 2034,
+    "total_size_bytes": 229113810,
     "kinds": {
-      "json": 1984,
+      "json": 1985,
       "geojson": 35,
       "csv": 14
     }
@@ -718,7 +718,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-16T11:49:38.096Z",
+      "mtime": "2026-11-16T12:33:19.932Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -38300,8 +38300,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 258357,
-      "mtime": "2026-11-15T15:33:50.512Z",
+      "size_bytes": 258476,
+      "mtime": "2026-11-16T12:32:39.017Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -40267,7 +40267,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-16T11:49:40.625Z",
+      "mtime": "2026-11-16T12:33:21.393Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40291,7 +40291,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-16T11:49:39.977Z",
+      "mtime": "2026-11-16T12:33:21.046Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42423,6 +42423,29 @@
       ]
     },
     {
+      "path": "policy/forest-service-admin-sites.json",
+      "kind": "json",
+      "size_bytes": 33523,
+      "mtime": "2026-11-16T12:32:39.197Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "counties",
+        "offices"
+      ],
+      "key_count": 4,
+      "primary_array_key": "offices",
+      "primary_array_length": 84,
+      "primary_array_first_keys": [
+        "name",
+        "city",
+        "county_geoid",
+        "forest",
+        "district"
+      ]
+    },
+    {
       "path": "policy/funding-awards/applicant-report-counts.json",
       "kind": "json",
       "size_bytes": 3632,
@@ -43694,8 +43717,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 276811,
-      "mtime": "2026-11-16T11:47:39.517Z",
+      "size_bytes": 309474,
+      "mtime": "2026-11-16T12:32:39.212Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43703,20 +43726,20 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 14,
+      "primary_array_length": 15,
       "primary_array_first_keys": [
         "id",
         "title",
         "policy_topic",
         "is_curated",
         "source_reviewed",
+        "generated",
         "verified",
         "takeaway",
         "summary",
         "implications",
         "related_data",
-        "sources",
-        "sections"
+        "sources"
       ]
     },
     {

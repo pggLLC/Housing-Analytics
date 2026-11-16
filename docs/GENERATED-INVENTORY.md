@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T11:48:59.141Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T12:32:54.267Z. Do not edit by hand.
 
 ---
 
@@ -105,11 +105,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1985 JSON files found.
+1986 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1009.1 KB | ✅ | — |
+| `data/_manifest.json` | 1009.7 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -1860,7 +1860,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 10.9 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 252.3 KB | ✅ | — |
+| `data/manifest.json` | 252.4 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -2021,6 +2021,7 @@
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 21.9 KB | ✅ | — |
 | `data/policy/fee-reductions.json` | 576.7 KB | ✅ | — |
+| `data/policy/forest-service-admin-sites.json` | 32.7 KB | ✅ | — |
 | `data/policy/funding-awards/applicant-report-counts.json` | 3.5 KB | ✅ | — |
 | `data/policy/funding-awards/award-rows.json` | 254.7 KB | ✅ | — |
 | `data/policy/funding-awards/developer-aliases.json` | 7.4 KB | ✅ | — |
@@ -2073,7 +2074,7 @@
 | `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
 | `data/policy_briefs.json` | 611.7 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 270.3 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 302.2 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
 | `data/polymarket-history.json` | 222.4 KB | ✅ | — |
@@ -2099,7 +2100,7 @@
 
 ## Test Files
 
-810 test files found.
+811 test files found.
 
 | File | Size |
 |------|------|
@@ -2327,6 +2328,7 @@
 | `test/for-sale-study-follows-jurisdiction.test.mjs` | 34.7 KB |
 | `test/forecast-error-band.test.js` | 9.8 KB |
 | `test/foreclosure-performance.test.js` | 6.8 KB |
+| `test/forest-service-leases-brief.test.mjs` | 8.2 KB |
 | `test/forsale-capture.test.js` | 11.1 KB |
 | `test/fred-commodities-config.test.js` | 4.8 KB |
 | `test/fred-series-label-agreement.test.js` | 5.2 KB |
