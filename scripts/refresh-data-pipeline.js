@@ -205,7 +205,17 @@ function parseAcsRows(rows, year) {
     // denominator, and NOT the same thing as total housing units (B25002_001E).
     const occupiedUnits = num(row, 'B25014_001E');
 
+    // fips and the three B25070 counts match scripts/fetch-county-demographics.js,
+    // which writes the SAME file every Saturday. This script used to leave them
+    // out, so each daily run deleted them again: the statewide burden sum and
+    // the county-costs "N of M renters" line had the counts one day a week.
+    const stateFips  = String(row[idx('state')] || '08').padStart(2, '0');
+    const countyFips = row[idx('county')];
     counties[cName] = {
+      fips:                   countyFips != null ? stateFips + String(countyFips).padStart(3, '0') : null,
+      rent_burden_universe:     totalRenter > 0 ? totalRenter : null,
+      renters_burdened_30_plus: totalRenter > 0 ? burdened30 : null,
+      renters_burdened_50_plus: totalRenter > 0 && severe50 != null ? severe50 : null,
       cost_burdened_pct:      totalRenter ? Math.round((burdened30 / totalRenter) * 1000) / 10 : null,
       severely_burdened_pct:  totalRenter ? Math.round(((severe50 || 0) / totalRenter) * 1000) / 10 : null,
       households:             hh,
@@ -349,7 +359,11 @@ async function main() {
   console.log('\n[pipeline] Refresh complete.');
 }
 
-main().catch(function (err) {
-  console.error('[pipeline] FATAL:', err);
-  process.exit(1);
-});
+module.exports = { parseAcsRows };
+
+if (require.main === module) {
+  main().catch(function (err) {
+    console.error('[pipeline] FATAL:', err);
+    process.exit(1);
+  });
+}

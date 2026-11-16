@@ -34,6 +34,13 @@ const CONTRACT = {
   overcrowding_rate:        ['js/market-intelligence.js'],
   occupied_units:           ['js/market-intelligence.js'],
   acs_year:                 ['test/acs-vintage-label-integrity.test.js'],
+  // The B25070 counts behind the burden shares. They feed the statewide burden
+  // sum and the county-costs "N of M renters" line, and the daily producer used
+  // to drop them six days a week.
+  rent_burden_universe:     ['scripts/fetch-county-demographics.js (statewide sum)'],
+  renters_burdened_30_plus: ['scripts/fetch-county-demographics.js (statewide sum)'],
+  renters_burdened_50_plus: ['scripts/fetch-county-demographics.js (statewide sum)'],
+  fips:                     ['scripts/fetch-county-demographics.js'],
 };
 
 let failures = 0;
@@ -380,6 +387,43 @@ for (const rel of PRODUCERS) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Same rows, same county record. Each producer overwrites `counties` wholesale,
+// so any field one writes and the other doesn't appears on Saturday and vanishes
+// on Sunday. The weekly script's fips and B25070 counts did exactly that. Run
+// both parsers on one fixture and require the same fields and the same values.
+{
+  const { parseAcsRows } = require(path.join(ROOT, 'scripts/refresh-data-pipeline.js'));
+  const { parseCountyRows } = require(path.join(ROOT, 'scripts/fetch-county-demographics.js'));
+  const header = ['NAME',
+    'B25070_007E', 'B25070_008E', 'B25070_009E', 'B25070_010E', 'B25070_001E', 'B25070_011E',
+    'B11001_001E', 'B25014_001E', 'B25014_005E', 'B25014_006E', 'B25014_007E',
+    'B25014_011E', 'B25014_012E', 'B25014_013E', 'B25002_001E', 'B25002_003E',
+    'B25064_001E', 'B19013_001E', 'B25077_001E', 'B01003_001E', 'state', 'county'];
+  // Adams County, ACS 2020-2024 shape (values close to the published file).
+  const row = ['Adams County, Colorado',
+    '6100', '5200', '5016', '16290', '58200', '1377',
+    '188730', '188730', '4100', '900', '300', '2000', '514', '200', '195793', '7063',
+    '1781', '94571', '484200', '530225', '08', '1'];
+  const a = (parseAcsRows([header, row], 2024) || {}).Adams;
+  const b = (parseCountyRows([header, row]) || {}).Adams;
+  if (!a || !b) {
+    fail('one producer parsed no "Adams" record from the fixture row');
+  } else {
+    const ka = Object.keys(a).sort(), kb = Object.keys(b).sort();
+    const onlyA = ka.filter((k) => !kb.includes(k)), onlyB = kb.filter((k) => !ka.includes(k));
+    if (onlyA.length) fail(`only scripts/refresh-data-pipeline.js writes ${onlyA.join(', ')} — the weekly run drops them`);
+    if (onlyB.length) fail(`only scripts/fetch-county-demographics.js writes ${onlyB.join(', ')} — the daily run drops them`);
+    // acs_year comes from the vintage probe in the weekly script, not the row.
+    for (const k of ka.filter((x) => kb.includes(x) && x !== 'acs_year')) {
+      if (JSON.stringify(a[k]) !== JSON.stringify(b[k])) {
+        fail(`producers disagree on "${k}" for the same row: daily ${JSON.stringify(a[k])}, weekly ${JSON.stringify(b[k])}`);
+      }
+    }
+    if (a.fips !== '08001') fail(`daily producer wrote fips ${JSON.stringify(a.fips)} for Adams; expected "08001"`);
+  }
+}
+
 if (failures) { console.error(`\ncounty-demographics-contract: FAIL (${failures})`); process.exit(1); }
 console.log(`  ✓ ${Object.keys(CONTRACT).length} consumer-read fields present across ${names.length} counties`);
 console.log(`  ✓ overcrowding_rate peaks at ${(overMax * 100).toFixed(1)}% — plausible`);
@@ -388,6 +432,7 @@ console.log(`  ✓ anchors: Mesa/Denver/Summit vacancy + overcrowding in range`)
 console.log(`  ✓ ${zeroCounties.length} county(ies) carry a real overcrowded=0 rather than null`);
 console.log(`  ✓ vacancy need-multiplier still discriminates across counties`);
 console.log(`  ✓ both producers agree on scale and overcrowding numerator`);
+console.log(`  ✓ both producers write the same county fields and values from the same row`);
 console.log(`  ✓ overcrowding_rate verified against its own components on every county`);
 console.log(`  ✓ statewide aggregate has its own key + schema, and agrees with co-demographics.json`);
 console.log(`  ✓ one ACS vintage across counties, aggregate and meta label`);
