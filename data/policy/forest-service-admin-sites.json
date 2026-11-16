@@ -1,0 +1,1385 @@
+{
+ "schema": "forest-service-admin-sites/v1",
+ "meta": {
+  "generated": "2026-11-16T10:38:36Z",
+  "built_by": "scripts/policy/build_forest_service_admin_sites.py",
+  "brief": "forest-service-admin-site-leases-2026",
+  "sources": {
+   "nfs_acres": "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_LandsAreaStatistics_01/MapServer/0",
+   "offices": "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_FSOfficeLocations_01/MapServer/0",
+   "land_area": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2024_Gazetteer/2024_Gaz_counties_national.zip",
+   "town_centers": "data/co-place-centroids.json",
+   "county_boundaries": "data/co-county-boundaries.json"
+  },
+  "method": "nfs_acres sums GIS acres of land the Forest Service owns in each county; nfs_share divides it by the Census 2024 Gazetteer land area. Offices are Forest Service records with a forest name or a Forest Service unit name, placed by listed city. towns_within_1_mile lists incorporated towns and cities with Forest Service-owned land within one statute mile of the Census center point.",
+  "limits": [
+   "An office is where Forest Service staff work, not a site offered for lease. The layer includes buildings the Forest Service rents from others, and only a regional forester recommends sites for leasing (Pub. L. 115-334, sec. 8623(c)).",
+   "Distances are from each town's center point, so a town with forest at its edge can be missed.",
+   "Forest land near a town can be leased only as one of no more than 10 isolated, undeveloped parcels of 40 acres or less nationwide each fiscal year (sec. 8623(a)(1)(A)(iii))."
+  ],
+  "county_count": 64,
+  "office_count": 84
+ },
+ "counties": {
+  "08001": {
+   "name": "Adams County",
+   "nfs_acres": 0,
+   "land_acres": 746747,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08003": {
+   "name": "Alamosa County",
+   "nfs_acres": 21375,
+   "land_acres": 462493,
+   "nfs_share": 0.0462,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08005": {
+   "name": "Arapahoe County",
+   "nfs_acres": 0,
+   "land_acres": 510647,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08007": {
+   "name": "Archuleta County",
+   "nfs_acres": 423682,
+   "land_acres": 864056,
+   "nfs_share": 0.4903,
+   "office_count": 2,
+   "office_cities": [
+    "Pagosa Springs"
+   ],
+   "towns_within_1_mile": [
+    "Pagosa Springs town"
+   ]
+  },
+  "08009": {
+   "name": "Baca County",
+   "nfs_acres": 205695,
+   "land_acres": 1635195,
+   "nfs_share": 0.1258,
+   "office_count": 2,
+   "office_cities": [
+    "Springfield"
+   ],
+   "towns_within_1_mile": [
+    "Campo town"
+   ]
+  },
+  "08011": {
+   "name": "Bent County",
+   "nfs_acres": 0,
+   "land_acres": 968222,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08013": {
+   "name": "Boulder County",
+   "nfs_acres": 137714,
+   "land_acres": 464901,
+   "nfs_share": 0.2962,
+   "office_count": 2,
+   "office_cities": [
+    "Boulder",
+    "Nederland"
+   ],
+   "towns_within_1_mile": [
+    "Jamestown town",
+    "Nederland town",
+    "Ward town"
+   ]
+  },
+  "08014": {
+   "name": "Broomfield County",
+   "nfs_acres": 0,
+   "land_acres": 21100,
+   "nfs_share": 0.0,
+   "office_count": 2,
+   "office_cities": [
+    "Broomfield"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08015": {
+   "name": "Chaffee County",
+   "nfs_acres": 448254,
+   "land_acres": 648581,
+   "nfs_share": 0.6911,
+   "office_count": 3,
+   "office_cities": [
+    "Salida"
+   ],
+   "towns_within_1_mile": [
+    "Salida city"
+   ]
+  },
+  "08017": {
+   "name": "Cheyenne County",
+   "nfs_acres": 0,
+   "land_acres": 1138097,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08019": {
+   "name": "Clear Creek County",
+   "nfs_acres": 174688,
+   "land_acres": 252847,
+   "nfs_share": 0.6909,
+   "office_count": 1,
+   "office_cities": [
+    "Idaho Springs"
+   ],
+   "towns_within_1_mile": [
+    "Empire town",
+    "Georgetown town",
+    "Idaho Springs city",
+    "Silver Plume town"
+   ]
+  },
+  "08021": {
+   "name": "Conejos County",
+   "nfs_acres": 301429,
+   "land_acres": 823954,
+   "nfs_share": 0.3658,
+   "office_count": 1,
+   "office_cities": [
+    "La Jara"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08023": {
+   "name": "Costilla County",
+   "nfs_acres": 386,
+   "land_acres": 785660,
+   "nfs_share": 0.0005,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08025": {
+   "name": "Crowley County",
+   "nfs_acres": 0,
+   "land_acres": 503954,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08027": {
+   "name": "Custer County",
+   "nfs_acres": 161009,
+   "land_acres": 472720,
+   "nfs_share": 0.3406,
+   "office_count": 1,
+   "office_cities": [
+    "Westcliffe"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08029": {
+   "name": "Delta County",
+   "nfs_acres": 189325,
+   "land_acres": 730960,
+   "nfs_share": 0.259,
+   "office_count": 3,
+   "office_cities": [
+    "Delta",
+    "Paonia"
+   ],
+   "towns_within_1_mile": [
+    "Delta city",
+    "Paonia town"
+   ]
+  },
+  "08031": {
+   "name": "Denver County",
+   "nfs_acres": 0,
+   "land_acres": 97967,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08033": {
+   "name": "Dolores County",
+   "nfs_acres": 330520,
+   "land_acres": 682989,
+   "nfs_share": 0.4839,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": [
+    "Rico town"
+   ]
+  },
+  "08035": {
+   "name": "Douglas County",
+   "nfs_acres": 141149,
+   "land_acres": 538168,
+   "nfs_share": 0.2623,
+   "office_count": 1,
+   "office_cities": [
+    "Sedalia"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08037": {
+   "name": "Eagle County",
+   "nfs_acres": 598699,
+   "land_acres": 1078061,
+   "nfs_share": 0.5553,
+   "office_count": 2,
+   "office_cities": [
+    "Eagle",
+    "Minturn"
+   ],
+   "towns_within_1_mile": [
+    "Avon town",
+    "Eagle town",
+    "Minturn town",
+    "Red Cliff town",
+    "Vail town"
+   ]
+  },
+  "08039": {
+   "name": "Elbert County",
+   "nfs_acres": 0,
+   "land_acres": 1184055,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08041": {
+   "name": "El Paso County",
+   "nfs_acres": 96193,
+   "land_acres": 1360906,
+   "nfs_share": 0.0707,
+   "office_count": 2,
+   "office_cities": [
+    "Colorado Springs",
+    "Monument"
+   ],
+   "towns_within_1_mile": [
+    "Green Mountain Falls town",
+    "Palmer Lake town"
+   ]
+  },
+  "08043": {
+   "name": "Fremont County",
+   "nfs_acres": 98631,
+   "land_acres": 981654,
+   "nfs_share": 0.1005,
+   "office_count": 1,
+   "office_cities": [
+    "Canon City"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08045": {
+   "name": "Garfield County",
+   "nfs_acres": 517346,
+   "land_acres": 1886352,
+   "nfs_share": 0.2743,
+   "office_count": 6,
+   "office_cities": [
+    "Carbondale",
+    "Glenwood Springs",
+    "Rifle"
+   ],
+   "towns_within_1_mile": [
+    "Carbonate town",
+    "Carbondale town",
+    "Glenwood Springs city"
+   ]
+  },
+  "08047": {
+   "name": "Gilpin County",
+   "nfs_acres": 42279,
+   "land_acres": 96014,
+   "nfs_share": 0.4403,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08049": {
+   "name": "Grand County",
+   "nfs_acres": 569269,
+   "land_acres": 1181726,
+   "nfs_share": 0.4817,
+   "office_count": 2,
+   "office_cities": [
+    "Fraser",
+    "Granby"
+   ],
+   "towns_within_1_mile": [
+    "Grand Lake town",
+    "Kremmling town",
+    "Winter Park town"
+   ]
+  },
+  "08051": {
+   "name": "Gunnison County",
+   "nfs_acres": 1268483,
+   "land_acres": 2073050,
+   "nfs_share": 0.6119,
+   "office_count": 2,
+   "office_cities": [
+    "Gunnison"
+   ],
+   "towns_within_1_mile": [
+    "Crested Butte town",
+    "Gunnison city",
+    "Marble town",
+    "Mount Crested Butte town",
+    "Pitkin town"
+   ]
+  },
+  "08053": {
+   "name": "Hinsdale County",
+   "nfs_acres": 559706,
+   "land_acres": 715028,
+   "nfs_share": 0.7828,
+   "office_count": 1,
+   "office_cities": [
+    "Lake City"
+   ],
+   "towns_within_1_mile": [
+    "Lake City town"
+   ]
+  },
+  "08055": {
+   "name": "Huerfano County",
+   "nfs_acres": 141910,
+   "land_acres": 1018261,
+   "nfs_share": 0.1394,
+   "office_count": 1,
+   "office_cities": [
+    "La Veta"
+   ],
+   "towns_within_1_mile": [
+    "La Veta town"
+   ]
+  },
+  "08057": {
+   "name": "Jackson County",
+   "nfs_acres": 333676,
+   "land_acres": 1032784,
+   "nfs_share": 0.3231,
+   "office_count": 1,
+   "office_cities": [
+    "Walden"
+   ],
+   "towns_within_1_mile": [
+    "Walden town"
+   ]
+  },
+  "08059": {
+   "name": "Jefferson County",
+   "nfs_acres": 103449,
+   "land_acres": 489210,
+   "nfs_share": 0.2115,
+   "office_count": 7,
+   "office_cities": [
+    "Buffalo Creek",
+    "Conifer",
+    "Golden",
+    "Lakewood"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08061": {
+   "name": "Kiowa County",
+   "nfs_acres": 0,
+   "land_acres": 1131398,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08063": {
+   "name": "Kit Carson County",
+   "nfs_acres": 0,
+   "land_acres": 1382926,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08065": {
+   "name": "Lake County",
+   "nfs_acres": 161168,
+   "land_acres": 241228,
+   "nfs_share": 0.6681,
+   "office_count": 1,
+   "office_cities": [
+    "Leadville"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08067": {
+   "name": "La Plata County",
+   "nfs_acres": 400579,
+   "land_acres": 1081396,
+   "nfs_share": 0.3704,
+   "office_count": 4,
+   "office_cities": [
+    "Bayfield",
+    "Durango",
+    "Ignacio"
+   ],
+   "towns_within_1_mile": [
+    "Bayfield town",
+    "Durango city"
+   ]
+  },
+  "08069": {
+   "name": "Larimer County",
+   "nfs_acres": 647325,
+   "land_acres": 1661277,
+   "nfs_share": 0.3897,
+   "office_count": 8,
+   "office_cities": [
+    "Fort Collins",
+    "Red Feather Lakes"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08071": {
+   "name": "Las Animas County",
+   "nfs_acres": 88179,
+   "land_acres": 3054680,
+   "nfs_share": 0.0289,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": [
+    "Kim town"
+   ]
+  },
+  "08073": {
+   "name": "Lincoln County",
+   "nfs_acres": 0,
+   "land_acres": 1649747,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08075": {
+   "name": "Logan County",
+   "nfs_acres": 0,
+   "land_acres": 1176703,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08077": {
+   "name": "Mesa County",
+   "nfs_acres": 551306,
+   "land_acres": 2130382,
+   "nfs_share": 0.2588,
+   "office_count": 4,
+   "office_cities": [
+    "Collbran",
+    "Grand Junction"
+   ],
+   "towns_within_1_mile": [
+    "Collbran town"
+   ]
+  },
+  "08079": {
+   "name": "Mineral County",
+   "nfs_acres": 522338,
+   "land_acres": 560487,
+   "nfs_share": 0.9319,
+   "office_count": 1,
+   "office_cities": [
+    "Creede"
+   ],
+   "towns_within_1_mile": [
+    "City of Creede town"
+   ]
+  },
+  "08081": {
+   "name": "Moffat County",
+   "nfs_acres": 41568,
+   "land_acres": 3035676,
+   "nfs_share": 0.0137,
+   "office_count": 1,
+   "office_cities": [
+    "Craig"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08083": {
+   "name": "Montezuma County",
+   "nfs_acres": 256678,
+   "land_acres": 1298783,
+   "nfs_share": 0.1976,
+   "office_count": 1,
+   "office_cities": [
+    "Dolores"
+   ],
+   "towns_within_1_mile": [
+    "Dolores town",
+    "Mancos town"
+   ]
+  },
+  "08085": {
+   "name": "Montrose County",
+   "nfs_acres": 328069,
+   "land_acres": 1434205,
+   "nfs_share": 0.2287,
+   "office_count": 2,
+   "office_cities": [
+    "Montrose"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08087": {
+   "name": "Morgan County",
+   "nfs_acres": 0,
+   "land_acres": 819511,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08089": {
+   "name": "Otero County",
+   "nfs_acres": 172680,
+   "land_acres": 807645,
+   "nfs_share": 0.2138,
+   "office_count": 1,
+   "office_cities": [
+    "La Junta"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08091": {
+   "name": "Ouray County",
+   "nfs_acres": 132266,
+   "land_acres": 346030,
+   "nfs_share": 0.3822,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": [
+    "Ouray city"
+   ]
+  },
+  "08093": {
+   "name": "Park County",
+   "nfs_acres": 642906,
+   "land_acres": 1403847,
+   "nfs_share": 0.458,
+   "office_count": 3,
+   "office_cities": [
+    "Fairplay",
+    "Lake George"
+   ],
+   "towns_within_1_mile": [
+    "Alma town",
+    "Fairplay town"
+   ]
+  },
+  "08095": {
+   "name": "Phillips County",
+   "nfs_acres": 0,
+   "land_acres": 440274,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08097": {
+   "name": "Pitkin County",
+   "nfs_acres": 495229,
+   "land_acres": 621249,
+   "nfs_share": 0.7972,
+   "office_count": 1,
+   "office_cities": [
+    "Aspen"
+   ],
+   "towns_within_1_mile": [
+    "Aspen city",
+    "Snowmass Village town"
+   ]
+  },
+  "08099": {
+   "name": "Prowers County",
+   "nfs_acres": 0,
+   "land_acres": 1048581,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08101": {
+   "name": "Pueblo County",
+   "nfs_acres": 32610,
+   "land_acres": 1527418,
+   "nfs_share": 0.0213,
+   "office_count": 2,
+   "office_cities": [
+    "Pueblo"
+   ],
+   "towns_within_1_mile": [
+    "Pueblo city"
+   ]
+  },
+  "08103": {
+   "name": "Rio Blanco County",
+   "nfs_acres": 358899,
+   "land_acres": 2061421,
+   "nfs_share": 0.1741,
+   "office_count": 1,
+   "office_cities": [
+    "Meeker"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08105": {
+   "name": "Rio Grande County",
+   "nfs_acres": 276999,
+   "land_acres": 583652,
+   "nfs_share": 0.4746,
+   "office_count": 2,
+   "office_cities": [
+    "Del Norte"
+   ],
+   "towns_within_1_mile": [
+    "Del Norte town",
+    "South Fork town"
+   ]
+  },
+  "08107": {
+   "name": "Routt County",
+   "nfs_acres": 584108,
+   "land_acres": 1511693,
+   "nfs_share": 0.3864,
+   "office_count": 2,
+   "office_cities": [
+    "Steamboat Springs",
+    "Yampa"
+   ],
+   "towns_within_1_mile": [
+    "Steamboat Springs city",
+    "Yampa town"
+   ]
+  },
+  "08109": {
+   "name": "Saguache County",
+   "nfs_acres": 950819,
+   "land_acres": 2027882,
+   "nfs_share": 0.4689,
+   "office_count": 1,
+   "office_cities": [
+    "Saguache"
+   ],
+   "towns_within_1_mile": [
+    "Bonanza town",
+    "Crestone town",
+    "Saguache town"
+   ]
+  },
+  "08111": {
+   "name": "San Juan County",
+   "nfs_acres": 177620,
+   "land_acres": 248010,
+   "nfs_share": 0.7162,
+   "office_count": 1,
+   "office_cities": [
+    "Silverton"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08113": {
+   "name": "San Miguel County",
+   "nfs_acres": 173923,
+   "land_acres": 823504,
+   "nfs_share": 0.2112,
+   "office_count": 1,
+   "office_cities": [
+    "Norwood"
+   ],
+   "towns_within_1_mile": [
+    "Mountain Village town",
+    "Norwood town",
+    "Ophir town",
+    "Sawpit town",
+    "Telluride town"
+   ]
+  },
+  "08115": {
+   "name": "Sedgwick County",
+   "nfs_acres": 0,
+   "land_acres": 350746,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08117": {
+   "name": "Summit County",
+   "nfs_acres": 312792,
+   "land_acres": 389330,
+   "nfs_share": 0.8034,
+   "office_count": 1,
+   "office_cities": [
+    "Silverthorne"
+   ],
+   "towns_within_1_mile": [
+    "Blue River town",
+    "Breckenridge town",
+    "Dillon town",
+    "Frisco town",
+    "Montezuma town",
+    "Silverthorne town"
+   ]
+  },
+  "08119": {
+   "name": "Teller County",
+   "nfs_acres": 124564,
+   "land_acres": 356570,
+   "nfs_share": 0.3493,
+   "office_count": 2,
+   "office_cities": [
+    "Woodland Park"
+   ],
+   "towns_within_1_mile": []
+  },
+  "08121": {
+   "name": "Washington County",
+   "nfs_acres": 0,
+   "land_acres": 1611574,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  },
+  "08123": {
+   "name": "Weld County",
+   "nfs_acres": 192949,
+   "land_acres": 2550373,
+   "nfs_share": 0.0757,
+   "office_count": 1,
+   "office_cities": [
+    "Ault"
+   ],
+   "towns_within_1_mile": [
+    "Raymer (New Raymer) town"
+   ]
+  },
+  "08125": {
+   "name": "Yuma County",
+   "nfs_acres": 0,
+   "land_acres": 1513215,
+   "nfs_share": 0.0,
+   "office_count": 0,
+   "office_cities": [],
+   "towns_within_1_mile": []
+  }
+ },
+ "offices": [
+  {
+   "name": "Pagosa Ranger District",
+   "city": "Pagosa Springs",
+   "county_geoid": "08007",
+   "forest": "San Juan National Forest",
+   "district": "Pagosa Ranger District"
+  },
+  {
+   "name": "Pagosa Ranger District-Merlin Building",
+   "city": "Pagosa Springs",
+   "county_geoid": "08007",
+   "forest": "San Juan National Forest",
+   "district": "Pagosa Ranger District"
+  },
+  {
+   "name": "Comanche National Grassland-Carrizo Unit",
+   "city": "Springfield",
+   "county_geoid": "08009",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": null
+  },
+  {
+   "name": "Comanche National Grassland-Carrizo Unit-Carrizo Work Center",
+   "city": "Springfield",
+   "county_geoid": "08009",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "Comanche National Grassland"
+  },
+  {
+   "name": "Boulder Ranger District",
+   "city": "Boulder",
+   "county_geoid": "08013",
+   "forest": "Arapaho and Roosevelt National Forests and Pawnee",
+   "district": "Boulder Ranger District"
+  },
+  {
+   "name": "Sulphur Ranger District-Nederland Work Center",
+   "city": "Nederland",
+   "county_geoid": "08013",
+   "forest": "Arapaho and Roosevelt National Forests and Pawnee",
+   "district": "Sulphur Ranger District"
+  },
+  {
+   "name": "Boulder Ranger District-Jeffco Air Tanker Base",
+   "city": "Broomfield",
+   "county_geoid": "08014",
+   "forest": "Arapaho and Roosevelt National Forests and Pawnee",
+   "district": "Boulder Ranger District"
+  },
+  {
+   "name": "Region 2 Aviation Group",
+   "city": "Broomfield",
+   "county_geoid": "08014",
+   "forest": "Arapaho and Roosevelt National Forests and Pawnee",
+   "district": null
+  },
+  {
+   "name": "C Street Work Center",
+   "city": "Salida",
+   "county_geoid": "08015",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "Salida Ranger District"
+  },
+  {
+   "name": "Salida Ranger District",
+   "city": "Salida",
+   "county_geoid": "08015",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "Salida Ranger District"
+  },
+  {
+   "name": "Salida Ranger District-Salida Fire Center",
+   "city": "Salida",
+   "county_geoid": "08015",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "Salida Ranger District"
+  },
+  {
+   "name": "Clear Creek Ranger District",
+   "city": "Idaho Springs",
+   "county_geoid": "08019",
+   "forest": "Arapaho and Roosevelt National Forests and Pawnee",
+   "district": "Clear Creek Ranger District"
+  },
+  {
+   "name": "Conejos Peak Ranger District",
+   "city": "La Jara",
+   "county_geoid": "08021",
+   "forest": "Rio Grande National Forest",
+   "district": "Conejos Peak Ranger District"
+  },
+  {
+   "name": "Pikes Peak Ranger District-Westcliffe Work Center",
+   "city": "Westcliffe",
+   "county_geoid": "08027",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "Pikes Peak Ranger District"
+  },
+  {
+   "name": "Grand Mesa, Uncompahgre and Gunnison National Forests",
+   "city": "Delta",
+   "county_geoid": "08029",
+   "forest": "Grand Mesa, Uncompahgre & Gunnison National Forest",
+   "district": null
+  },
+  {
+   "name": "North Delta Yard",
+   "city": "Delta",
+   "county_geoid": "08029",
+   "forest": "Grand Mesa, Uncompahgre & Gunnison National Forest",
+   "district": "Delta Ranger District"
+  },
+  {
+   "name": "Paonia Ranger District",
+   "city": "Paonia",
+   "county_geoid": "08029",
+   "forest": "Grand Mesa, Uncompahgre & Gunnison National Forest",
+   "district": "Paonia Ranger District"
+  },
+  {
+   "name": "South Platte Ranger District-Indian Creek Work Center",
+   "city": "Sedalia",
+   "county_geoid": "08035",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "South Platte Ranger District"
+  },
+  {
+   "name": "Eagle Ranger District",
+   "city": "Eagle",
+   "county_geoid": "08037",
+   "forest": "White River National Forest",
+   "district": "Eagle Ranger District"
+  },
+  {
+   "name": "Holy Cross Ranger District",
+   "city": "Minturn",
+   "county_geoid": "08037",
+   "forest": "White River National Forest",
+   "district": "Holy Cross Ranger District"
+  },
+  {
+   "name": "Pikes Peak Ranger District",
+   "city": "Colorado Springs",
+   "county_geoid": "08041",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "Pikes Peak Ranger District"
+  },
+  {
+   "name": "Pikes Peak Ranger District-Monument Fire Center",
+   "city": "Monument",
+   "county_geoid": "08041",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "Pikes Peak Ranger District"
+  },
+  {
+   "name": "San Carlos Ranger District",
+   "city": "Canon City",
+   "county_geoid": "08043",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "San Carlos Ranger District"
+  },
+  {
+   "name": "Sopris Ranger District",
+   "city": "Carbondale",
+   "county_geoid": "08045",
+   "forest": "White River National Forest",
+   "district": "Sopris Ranger District"
+  },
+  {
+   "name": "White River National Forest",
+   "city": "Glenwood Springs",
+   "county_geoid": "08045",
+   "forest": "White River National Forest",
+   "district": null
+  },
+  {
+   "name": "White River National Forest Midland Office",
+   "city": "Glenwood Springs",
+   "county_geoid": "08045",
+   "forest": "White River National Forest",
+   "district": null
+  },
+  {
+   "name": "White River National Forest Shop",
+   "city": "Glenwood Springs",
+   "county_geoid": "08045",
+   "forest": "White River National Forest",
+   "district": null
+  },
+  {
+   "name": "Rifle Ranger District",
+   "city": "Rifle",
+   "county_geoid": "08045",
+   "forest": "White River National Forest",
+   "district": "Rifle Ranger District"
+  },
+  {
+   "name": "Rifle Ranger District-Rifle Air Center",
+   "city": "Rifle",
+   "county_geoid": "08045",
+   "forest": "White River National Forest",
+   "district": "Rifle Ranger District"
+  },
+  {
+   "name": "RMRS-Fraser Experimental Forest",
+   "city": "Fraser",
+   "county_geoid": "08049",
+   "forest": null,
+   "district": null
+  },
+  {
+   "name": "Sulphur Ranger District",
+   "city": "Granby",
+   "county_geoid": "08049",
+   "forest": "Arapaho and Roosevelt National Forests and Pawnee",
+   "district": "Sulphur Ranger District"
+  },
+  {
+   "name": "Gunnison Ranger District",
+   "city": "Gunnison",
+   "county_geoid": "08051",
+   "forest": "Grand Mesa, Uncompahgre & Gunnison National Forest",
+   "district": "Gunnison Ranger District"
+  },
+  {
+   "name": "Gunnison Ranger District-Gunnison Service Center",
+   "city": "Gunnison",
+   "county_geoid": "08051",
+   "forest": "Grand Mesa, Uncompahgre & Gunnison National Forest",
+   "district": "Gunnison Ranger District"
+  },
+  {
+   "name": "Gunnison Ranger District-Silver Thread Interpretive Center",
+   "city": "Lake City",
+   "county_geoid": "08053",
+   "forest": "Grand Mesa, Uncompahgre & Gunnison National Forest",
+   "district": "Gunnison Ranger District"
+  },
+  {
+   "name": "San Carlos Ranger District-La Veta Work Center",
+   "city": "La Veta",
+   "county_geoid": "08055",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "San Carlos Ranger District"
+  },
+  {
+   "name": "Parks Ranger District-Walden Office",
+   "city": "Walden",
+   "county_geoid": "08057",
+   "forest": "Medicine Bow-Routt National Forests & Thunder Basi",
+   "district": "Parks Ranger District"
+  },
+  {
+   "name": "South Platte Ranger District-Buffalo Creek Work Center",
+   "city": "Buffalo Creek",
+   "county_geoid": "08059",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "South Platte Ranger District"
+  },
+  {
+   "name": "South Platte Ranger District",
+   "city": "Conifer",
+   "county_geoid": "08059",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "South Platte Ranger District"
+  },
+  {
+   "name": "Job Corps National Office",
+   "city": "Golden",
+   "county_geoid": "08059",
+   "forest": null,
+   "district": null
+  },
+  {
+   "name": "Region 2 Regional Office",
+   "city": "Lakewood",
+   "county_geoid": "08059",
+   "forest": null,
+   "district": null
+  },
+  {
+   "name": "Region 2 State and Private Forestry",
+   "city": "Lakewood",
+   "county_geoid": "08059",
+   "forest": null,
+   "district": null
+  },
+  {
+   "name": "Rocky Mountain Area Incident Support Cache",
+   "city": "Lakewood",
+   "county_geoid": "08059",
+   "forest": "Arapaho and Roosevelt National Forests and Pawnee",
+   "district": null
+  },
+  {
+   "name": "WO National Business Center",
+   "city": "Lakewood",
+   "county_geoid": "08059",
+   "forest": null,
+   "district": null
+  },
+  {
+   "name": "Leadville Ranger District",
+   "city": "Leadville",
+   "county_geoid": "08065",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "Leadville Ranger District"
+  },
+  {
+   "name": "Columbine Ranger District",
+   "city": "Bayfield",
+   "county_geoid": "08067",
+   "forest": "San Juan National Forest",
+   "district": "Columbine Ranger District"
+  },
+  {
+   "name": "Columbine Ranger District West",
+   "city": "Durango",
+   "county_geoid": "08067",
+   "forest": "San Juan National Forest",
+   "district": "Columbine Ranger District"
+  },
+  {
+   "name": "San Juan National Forest",
+   "city": "Durango",
+   "county_geoid": "08067",
+   "forest": "San Juan National Forest",
+   "district": null
+  },
+  {
+   "name": "Columbine Ranger District West-Durango Air Tanker Base",
+   "city": "Ignacio",
+   "county_geoid": "08067",
+   "forest": "San Juan National Forest",
+   "district": "Columbine Ranger District"
+  },
+  {
+   "name": "Arapaho & Roosevelt National Forests and Canyon Lakes Ranger District",
+   "city": "Fort Collins",
+   "county_geoid": "08069",
+   "forest": "Arapaho and Roosevelt National Forests and Pawnee",
+   "district": null
+  },
+  {
+   "name": "Canyon Lakes Ranger District",
+   "city": "Fort Collins",
+   "county_geoid": "08069",
+   "forest": "Arapaho and Roosevelt National Forests and Pawnee",
+   "district": "Canyon Lakes Ranger District"
+  },
+  {
+   "name": "Canyon Lakes Ranger District Administration Site",
+   "city": "Fort Collins",
+   "county_geoid": "08069",
+   "forest": "Arapaho and Roosevelt National Forests and Pawnee",
+   "district": "Canyon Lakes Ranger District"
+  },
+  {
+   "name": "Fort Collins Administrative Site",
+   "city": "Fort Collins",
+   "county_geoid": "08069",
+   "forest": null,
+   "district": null
+  },
+  {
+   "name": "Fort Collins Interagency Dispatch Center",
+   "city": "Fort Collins",
+   "county_geoid": "08069",
+   "forest": "Arapaho and Roosevelt National Forests and Pawnee",
+   "district": null
+  },
+  {
+   "name": "RMRS-Forestry Sciences Laboratory-Fort Collins",
+   "city": "Fort Collins",
+   "county_geoid": "08069",
+   "forest": null,
+   "district": null
+  },
+  {
+   "name": "RMRS-Rocky Mountain Research Station",
+   "city": "Fort Collins",
+   "county_geoid": "08069",
+   "forest": null,
+   "district": null
+  },
+  {
+   "name": "Canyon Lakes Ranger District-Red Feather Work Center",
+   "city": "Red Feather Lakes",
+   "county_geoid": "08069",
+   "forest": "Arapaho and Roosevelt National Forests and Pawnee",
+   "district": "Canyon Lakes Ranger District"
+  },
+  {
+   "name": "Collbran Job Corps Center",
+   "city": "Collbran",
+   "county_geoid": "08077",
+   "forest": null,
+   "district": null
+  },
+  {
+   "name": "Grand Valley Ranger District-Collbran Work Center",
+   "city": "Collbran",
+   "county_geoid": "08077",
+   "forest": "Grand Mesa, Uncompahgre & Gunnison National Forest",
+   "district": "Grand Valley Ranger District"
+  },
+  {
+   "name": "Grand Junction Interagency Dispatch",
+   "city": "Grand Junction",
+   "county_geoid": "08077",
+   "forest": "Grand Mesa, Uncompahgre & Gunnison National Forest",
+   "district": null
+  },
+  {
+   "name": "Grand Valley Ranger District",
+   "city": "Grand Junction",
+   "county_geoid": "08077",
+   "forest": "Grand Mesa, Uncompahgre & Gunnison National Forest",
+   "district": "Grand Valley Ranger District"
+  },
+  {
+   "name": "Divide Ranger District-Creede Office",
+   "city": "Creede",
+   "county_geoid": "08079",
+   "forest": "Rio Grande National Forest",
+   "district": "Divide Ranger District"
+  },
+  {
+   "name": "Northwest Colorado Interagency Fire Dispatch",
+   "city": "Craig",
+   "county_geoid": "08081",
+   "forest": "Medicine Bow-Routt National Forests & Thunder Basi",
+   "district": null
+  },
+  {
+   "name": "Dolores Ranger District",
+   "city": "Dolores",
+   "county_geoid": "08083",
+   "forest": "San Juan National Forest",
+   "district": "Mancos/Dolores  Ranger District"
+  },
+  {
+   "name": "Ouray Ranger District",
+   "city": "Montrose",
+   "county_geoid": "08085",
+   "forest": "Grand Mesa, Uncompahgre & Gunnison National Forest",
+   "district": "Ouray Ranger District"
+  },
+  {
+   "name": "Ouray Ranger District-Montrose Interagency Dispatch Center",
+   "city": "Montrose",
+   "county_geoid": "08085",
+   "forest": "Grand Mesa, Uncompahgre & Gunnison National Forest",
+   "district": "Ouray Ranger District"
+  },
+  {
+   "name": "Comanche National Grassland-Timpas Unit",
+   "city": "La Junta",
+   "county_geoid": "08089",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": null
+  },
+  {
+   "name": "South Park Ranger District",
+   "city": "Fairplay",
+   "county_geoid": "08093",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "South Park Ranger District"
+  },
+  {
+   "name": "South Park Ranger District-Lake George Work Center",
+   "city": "Lake George",
+   "county_geoid": "08093",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "South Park Ranger District"
+  },
+  {
+   "name": "South Park Ranger District-Wilkerson Pass Visitor Center",
+   "city": "Lake George",
+   "county_geoid": "08093",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "South Park Ranger District"
+  },
+  {
+   "name": "Aspen Ranger District",
+   "city": "Aspen",
+   "county_geoid": "08097",
+   "forest": "White River National Forest",
+   "district": "Aspen Ranger District"
+  },
+  {
+   "name": "Pike-San Isabel National Forests & Grasslands",
+   "city": "Pueblo",
+   "county_geoid": "08101",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": null
+  },
+  {
+   "name": "Pikes Peak Ranger District-Pueblo Fleet Shop",
+   "city": "Pueblo",
+   "county_geoid": "08101",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "Pikes Peak Ranger District"
+  },
+  {
+   "name": "Blanco Ranger District",
+   "city": "Meeker",
+   "county_geoid": "08103",
+   "forest": "White River National Forest",
+   "district": "Blanco Ranger District"
+  },
+  {
+   "name": "Divide Ranger District",
+   "city": "Del Norte",
+   "county_geoid": "08105",
+   "forest": "Rio Grande National Forest",
+   "district": "Divide Ranger District"
+  },
+  {
+   "name": "Rio Grande National Forest",
+   "city": "Del Norte",
+   "county_geoid": "08105",
+   "forest": "Rio Grande National Forest",
+   "district": null
+  },
+  {
+   "name": "Hahns Peak-Bears Ears Ranger District",
+   "city": "Steamboat Springs",
+   "county_geoid": "08107",
+   "forest": "Medicine Bow-Routt National Forests & Thunder Basi",
+   "district": "Hahns Peak-Bears Ears Ranger District"
+  },
+  {
+   "name": "Yampa Ranger District",
+   "city": "Yampa",
+   "county_geoid": "08107",
+   "forest": "Medicine Bow-Routt National Forests & Thunder Basi",
+   "district": "Yampa Ranger District"
+  },
+  {
+   "name": "Saguache Ranger District",
+   "city": "Saguache",
+   "county_geoid": "08109",
+   "forest": "Rio Grande National Forest",
+   "district": "Saguache Ranger District"
+  },
+  {
+   "name": "Columbine Ranger District-Columbine VC and Admin Office",
+   "city": "Silverton",
+   "county_geoid": "08111",
+   "forest": "San Juan National Forest",
+   "district": "Columbine Ranger District"
+  },
+  {
+   "name": "Norwood Ranger District",
+   "city": "Norwood",
+   "county_geoid": "08113",
+   "forest": "Grand Mesa, Uncompahgre & Gunnison National Forest",
+   "district": "Norwood Ranger District"
+  },
+  {
+   "name": "Dillon Ranger District R2-CO",
+   "city": "Silverthorne",
+   "county_geoid": "08117",
+   "forest": "White River National Forest",
+   "district": "Dillon Ranger District"
+  },
+  {
+   "name": "Pikes Peak Ranger District-Woodland Park Work Center",
+   "city": "Woodland Park",
+   "county_geoid": "08119",
+   "forest": "Pike-San Isabel National Forests & Cimarron-Comanc",
+   "district": "Pikes Peak Ranger District"
+  },
+  {
+   "name": "RMRS-Manitou Experimental Forest",
+   "city": "Woodland Park",
+   "county_geoid": "08119",
+   "forest": null,
+   "district": null
+  },
+  {
+   "name": "Pawnee National Grassland Ranger Station",
+   "city": "Ault",
+   "county_geoid": "08123",
+   "forest": "Arapaho and Roosevelt National Forests and Pawnee",
+   "district": null
+  }
+ ]
+}
