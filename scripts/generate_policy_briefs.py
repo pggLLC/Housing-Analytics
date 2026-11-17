@@ -1032,6 +1032,8 @@ def with_agency_releases(stories: list[dict], geos: dict, prior: dict | None) ->
         block = agency_releases.collect(prior, today.isoformat())
     by_key = {norm_title(s['title']) for s in stories}
     by_link = {_link_key(s.get('link', '')) for s in stories if s.get('link')}
+    # a release an outlet story already carries as other coverage is that story
+    by_link |= {_link_key(a['link']) for s in stories for a in s.get('also') or [] if a.get('link')}
     out = list(stories)
     since = date.fromordinal(today.toordinal() - AGENCY_DAYS).isoformat()
     for st in agency_releases.agency_stories(block, since):

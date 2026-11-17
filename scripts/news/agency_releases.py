@@ -129,6 +129,9 @@ def collect(prior: dict | None, today: str, fetcher=fetch) -> dict:
             found, status = [], f'{exc.__class__.__name__}: {exc}'[:160]
         statuses.append({'id': src['id'], 'name': src['name'], 'url': src['url'], 'status': status, 'items': len(found)})
         if status != 'ok':
+            # A refusal or timeout keeps what the last run found there, so an
+            # agency-only release does not drop off the list for a night.
+            items.extend(it for it in prior.get('items') or [] if it.get('source') == src['name'])
             continue
         first_read = src['id'] not in known_sources
         read_ok.add(src['id'])
@@ -184,9 +187,11 @@ def summarize_today(stories: list[dict], agency: dict, now: dt.datetime | None =
     now = (now or dt.datetime.now(dt.timezone.utc)).astimezone(DENVER)
     today = now.date()
     since = (today - dt.timedelta(days=1)).isoformat()
-    co = [s for s in stories if s.get('scope') != 'national' and s.get('title') and (s.get('date') or '') >= since]
+    end = today.isoformat()
+    inside = lambda d: bool(d) and since <= d <= end  # today and yesterday, never a future date
+    co = [s for s in stories if s.get('scope') != 'national' and s.get('title') and inside(s.get('date'))]
     news = [s for s in co if not s.get('agency')]
-    ag = [it for it in agency.get('items', []) if it.get('date') and it['date'] >= since]
+    ag = [it for it in agency.get('items', []) if inside(it.get('date'))]
     rank = sorted(news, key=lambda s: (s.get('sourcing', 'checked') == 'checked', len(s.get('also') or []), s.get('date') or ''), reverse=True)
     top = [{'title': s['title'], 'link': s.get('link', ''), 'source': s.get('source', ''), 'outlets': 1 + len(s.get('also') or []), 'date': s.get('date')}
            for s in rank[:3]]

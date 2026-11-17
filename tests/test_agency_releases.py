@@ -110,3 +110,34 @@ def test_the_published_file_carries_the_blocks():
     links = {s['link'] for s in d['stories']}
     for it in d['today']['agency']:
         assert it['link'] in links, 'an agency release in the summary is also in the list'
+
+
+def test_a_future_dated_story_is_not_new_today():
+    t = ar.summarize_today([{'title': 'Tomorrow', 'source': 'X', 'date': '2026-11-18', 'scope': 'colorado', 'also': []}],
+                           {'items': [{'agency': 'DOLA', 'title': 'Later', 'link': 'l', 'date': '2026-11-18', 'date_basis': 'first_seen'}]},
+                           dt.datetime(2026, 11, 17, 3, 0, tzinfo=dt.timezone.utc))
+    assert t['counts'] == {'stories': 0, 'agency': 0}
+
+
+def test_a_failed_source_keeps_its_last_items():
+    first = ar.collect(None, '2026-11-16', fetcher(PAGES))
+    pages = {k: v for k, v in PAGES.items() if k != 'chfa-news'}
+    second = ar.collect(json.loads(json.dumps(first)), '2026-11-17', fetcher(pages))
+    assert any('Round Two' in i['title'] for i in second['items'])
+    assert next(s for s in second['sources'] if s['id'] == 'chfa-news')['status'] != 'ok'
+
+
+def test_a_release_already_carried_as_other_coverage_is_not_added_again():
+    import generate_policy_briefs as gpb
+    import os
+    link = 'https://www.chfainfo.com/chfa-news/11162026-2026-round-two-htc-awards'
+    stories = [{'title': 'State awards tax credits for 845 homes', 'source': 'Denver Post', 'date': '2026-11-16', 'scope': 'colorado',
+                'link': 'https://example.com/a', 'also': [{'source': 'CHFA', 'link': link}], 'places': [], 'regions': [], 'programs': []}]
+    prior = {'items': [{'agency': 'CHFA', 'source': 'CHFA newsroom', 'title': 'CHFA Announces 2026 Round Two Housing Tax Credit Awards',
+                        'link': link, 'date': '2026-11-16', 'date_basis': 'posted', 'kind': 'release'}]}
+    os.environ['NEWS_AGENCY_OFFLINE'] = '1'
+    try:
+        out, _, _ = gpb.with_agency_releases(stories, gpb.load_geographies(), prior)
+    finally:
+        del os.environ['NEWS_AGENCY_OFFLINE']
+    assert len(out) == 1
