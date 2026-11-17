@@ -70,10 +70,25 @@
   // What the reason in the rationale box carries, whatever its wording: where the area came from, its name on Market
   // check and how many whole tracts it has. The test checks the written reason against this, not against a sentence.
   var FROM = 'Market check';
+  var PREFIX = 'Market area from ' + FROM;
+  var EARLIER = 'Earlier note, for the tracts before this market area came in: ';
   function reason(areaLabel, n) {
-    return 'Market area from ' + FROM + (areaLabel ? ': ' + areaLabel : '') + ', ' + n +
+    return PREFIX + (areaLabel ? ': ' + areaLabel : '') + ', ' + n +
       (n === 1 ? ' whole census tract' : ' whole census tracts') + '. ' + FROM + ' lists each tract and the reason it is in or out.' +
       ' COHO screening rules, not a CHFA market area until a CHFA-approved analyst draws one.';
+  }
+
+  // The rationale that goes with an imported area. The tracts are replaced, so a reason left by an earlier import is
+  // replaced too (it names another area). An analyst's own note is kept, below the new reason and marked as written for
+  // the tracts before, so nothing they wrote is lost and nothing describes the wrong boundary as current.
+  function rationaleFor(why, old) {
+    old = String(old || '').trim();
+    if (!old) return why;
+    if (old.indexOf(PREFIX) === 0) {
+      var k = old.indexOf('\n\n' + EARLIER);
+      return k >= 0 ? why + old.slice(k) : why;
+    }
+    return why + '\n\n' + EARLIER + old;
   }
 
   // The picker has finished loading round this site. It says where it last loaded, so a rural site where nothing could
@@ -99,13 +114,14 @@
       }
       var n = s.tracts.length && typeof picker.setSelection === 'function' ? picker.setSelection(s.tracts) : 0;
       if (n > 0) {
-        var why = reason(s.areaLabel, n);
         var ta = document.getElementById('pmaTractRationale');
-        if (ta && !ta.value.trim()) {
-          ta.value = why;
+        var old = (ta && ta.value.trim()) || (typeof picker.getRationale === 'function' ? picker.getRationale() : '');
+        var text = rationaleFor(reason(s.areaLabel, n), old);
+        if (ta) {
+          ta.value = text;
           try { ta.dispatchEvent(new Event('input', { bubbles: true })); } catch (_) { /* old browser: set it directly below */ }
         }
-        if (typeof picker.getRationale === 'function' && !picker.getRationale() && typeof picker.setRationale === 'function') picker.setRationale(why);
+        if (typeof picker.setRationale === 'function') picker.setRationale(text);
       }
       // Nothing to run on: no market area came with the link and nothing near the site could be picked. Run Analysis
       // is left for the reader, who can pick tracts on the map.
@@ -114,7 +130,7 @@
     })();
   }
 
-  window.MASiteLink = { FROM: FROM, reason: reason };
+  window.MASiteLink = { FROM: FROM, reason: reason, rationaleFor: rationaleFor };
 
   function start() {
     var s = site();

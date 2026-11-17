@@ -500,11 +500,11 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   // With the market area: once the picker has loaded round the site, Market check's tracts replace its pick, the reason
   // is written, and Run Analysis is pressed once. Without it, the 4-mile pick runs as it stands.
   ok(/readyAt:\s+readyAt,/.test(picker) && /_readyAt = \{ lat: lat, lon: lon \};/.test(picker), 'js/pma-tract-picker.js no longer says where it finished loading (readyAt), which the site link waits on');
-  const withPicker = async (query, { count = 5, at = [37.2256, -107.5981] } = {}) => {
-    const got = { set: null, why: '', runs: 0 };
+  const withPicker = async (query, { count = 5, at = [37.2256, -107.5981], pre = '' } = {}) => {
+    const got = { set: null, why: pre, runs: 0 };
     const r = await run(query, { setup: (w) => {
       const d = w.document, btn = d.createElement('button'), ta = d.createElement('textarea');
-      btn.id = 'pmaRunBtn'; ta.id = 'pmaTractRationale'; d.body.append(btn, ta);
+      btn.id = 'pmaRunBtn'; ta.id = 'pmaTractRationale'; ta.value = pre; d.body.append(btn, ta);
       btn.addEventListener('click', () => { got.runs++; });
       let n = count;
       w.PMATractPicker = { getCount: () => n, readyAt: () => (at ? { lat: at[0], lon: at[1] } : null),
@@ -538,6 +538,17 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   ok(k.set === null && k.runs === 0, 'a picker loaded round another point should be waited on, not used');
   const m = await withPicker('?site=37.2256,-107.5981&tr=067940600', { at: null });
   ok(m.set === null && m.runs === 0, 'a picker that has not loaded should be waited on');
+  // A second Market check link for the same site (the picker restores the saved reason): a reason left by the earlier
+  // import names another area, so it is replaced; an analyst's own note is kept, once, after the new reason (Codex).
+  const local = L.reason('Local market area', 2), regional = '?site=37.2256,-107.5981&tr=067940600.067940700.067940800&tl=' + encodeURIComponent('Regional market area');
+  const r1 = await withPicker(regional, { pre: local });
+  ok(r1.ta === L.reason('Regional market area', 3) && r1.why === r1.ta && !r1.ta.includes('Local market area'), 'a reason from an earlier import should be replaced: ' + r1.ta);
+  const ownNote = 'Kept the river tracts: the bridge at 5th St connects them.';
+  const r2 = await withPicker(regional, { pre: ownNote });
+  ok(r2.ta.startsWith(L.reason('Regional market area', 3)) && r2.ta.split(ownNote).length === 2 && r2.why === r2.ta, 'an analyst\'s own note should be kept once, after the new reason: ' + r2.ta);
+  const r3 = await withPicker('?site=37.2256,-107.5981&tr=067940600&tl=' + encodeURIComponent('Local market area'), { pre: r2.ta });
+  ok(r3.ta.startsWith(L.reason('Local market area', 1)) && !r3.ta.includes('Regional market area') && r3.ta.split(ownNote).length === 2, 'importing again should keep the analyst\'s note once and drop the earlier area: ' + r3.ta);
+  ok(L.rationaleFor(local, '') === local, 'with nothing written before, the reason is the rationale');
   // The real picker, in a page of its own with a minimal Leaflet (as test/pma-natural-features.test.js uses). It says
   // where it finished loading, and a market area that reaches past its 12-mile layer gets a shape for every far tract,
   // so each can be clicked like the rest (Codex on #2923: Mesa County from Grand Junction).
