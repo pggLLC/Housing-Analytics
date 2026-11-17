@@ -166,6 +166,9 @@ def with_summaries(today: dict, cache: dict | None, fetcher=fetch) -> tuple[dict
     cache = dict(cache or {})
     keep = {}
     for group in ('agency', 'top'):
+        # copies: the agency items are the agency block's own records, which must not carry summaries
+        today[group] = [{k: v for k, v in it.items() if k not in ('summary', 'ai')} for it in today.get(group) or []]
+    for group in ('agency', 'top'):
         for it in today.get(group) or []:
             key = it.get('link') or it.get('title')
             if key not in cache or cache[key].get('basis') == 'not found':
@@ -218,6 +221,28 @@ def _openai(prompt: str, api_key: str) -> str:
         return json.loads(res.read())['choices'][0]['message']['content']
 
 
+# Framing the model adds on its own ("which is important for renters", "which could affect civil
+# rights protections", the first live run, 17 Nov 2026) is dropped: such words, or more than a few
+# content words the source never uses, and the quote shows instead.
+_FRAMING_RE = re.compile(r'\b(important|significant|crucial|critical|vital|key|major|highlight\w*|underscor\w*|'
+                         r'could|may|might|would|likely|potentially|impact\w*|affect\w*|benefit\w*|aim\w* to|'
+                         r'help\w*|seeking|struggl\w*|concern\w*)\b', re.I)
+_COMMON = {'the', 'and', 'for', 'with', 'from', 'that', 'this', 'are', 'was', 'were', 'has', 'have', 'its', 'their',
+           'they', 'will', 'new', 'says', 'said', 'about', 'into', 'over', 'more', 'than', 'also', 'which', 'who',
+           'state', 'colorado', 'story', 'reports', 'report'}
+
+
+def _stems(s: str) -> set:
+    return {w[:5] for w in re.findall(r"[a-z]+", s.lower()) if len(w) > 3 and w not in _COMMON}
+
+
+def grounded(sentence: str, source: str, allow: int = 3) -> bool:
+    """True when the sentence adds no framing and at most `allow` content words the source lacks."""
+    if _FRAMING_RE.search(sentence) and not _FRAMING_RE.search(source):
+        return False
+    return len(_stems(sentence) - _stems(source)) <= allow
+
+
 def with_ai(today: dict, cache: dict, api_key: str, ask=None) -> dict:
     """Add `ai` (one sentence) to each story that has its own summary text."""
     import json
@@ -227,16 +252,17 @@ def with_ai(today: dict, cache: dict, api_key: str, ask=None) -> dict:
     for it in items:
         key = it.get('link') or it.get('title')
         hit = (cache.get(key) or {}).get('ai')
-        if hit and hit.get('from') == it['summary']['text']:
+        if hit and hit.get('from') == it['summary']['text'] and grounded(hit['text'], it['title'] + ' ' + hit['from']):
             it['ai'] = hit['text']
         else:
             todo.append(it)
     if todo and api_key:
         src = '\n'.join(f'{i}. Headline: {it["title"]}\n   Its own summary: {it["summary"]["text"]}' for i, it in enumerate(todo))
-        prompt = ('For each Colorado housing news item below, write one plain sentence (at most 30 words) saying what '
-                  'the story reports and, if the text says, why it matters to renters, owners or builders. Use only '
-                  'the headline and summary given; add no facts, numbers, names or opinions of your own. Plain '
-                  'everyday words. Reply as JSON: {"items": [{"n": <number>, "sentence": "..."}]}.\n\n' + src)
+        prompt = ('For each Colorado housing news item below, restate in one plain sentence (at most 30 words) what '
+                  'the story reports. Use only the words and facts in the headline and summary given. Do not add why '
+                  'it matters, who it affects, what it could lead to, or any judgment such as "important". No new '
+                  'facts, numbers or names. Plain everyday words. Reply as JSON: '
+                  '{"items": [{"n": <number>, "sentence": "..."}]}.\n\n' + src)
         try:
             got = {int(x['n']): str(x['sentence']).strip() for x in json.loads(ask(prompt, api_key)).get('items', [])}
         except Exception as e:  # never fatal: the quotes stay
@@ -245,7 +271,7 @@ def with_ai(today: dict, cache: dict, api_key: str, ask=None) -> dict:
         for i, it in enumerate(todo):
             s = got.get(i, '')
             source = it['title'] + ' ' + it['summary']['text']
-            if s and len(s) < 400 and _numbers(s) <= _numbers(source):
+            if s and len(s) < 400 and _numbers(s) <= _numbers(source) and grounded(s, source):
                 it['ai'] = s
                 key = it.get('link') or it.get('title')
                 cache.setdefault(key, dict(it['summary']))['ai'] = {'text': s, 'from': it['summary']['text'], 'model': AI_MODEL}

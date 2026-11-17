@@ -144,3 +144,16 @@ def test_a_release_already_carried_as_other_coverage_is_not_added_again():
     finally:
         del os.environ['NEWS_AGENCY_OFFLINE']
     assert len(out) == 1
+
+
+def test_today_top_needs_a_housing_headline_and_counts_one_story_once():
+    now = dt.datetime(2026, 11, 17, 6, tzinfo=dt.timezone.utc)
+    stories = [
+        {'title': '34% of Colorado households are cost-burdened, new state housing study finds', 'source': 'A', 'date': '2026-11-16', 'also': [{}, {}]},
+        {'title': 'Court weighs lawsuit over Colorado’s transgender pronouns law', 'source': 'B', 'date': '2026-11-16'},
+        {'title': 'Nearly 34% of Colorado households are spending too much on housing, new state report finds', 'source': 'C', 'date': '2026-11-16'},
+        {'title': 'Denver approves 200 affordable rental homes', 'source': 'D', 'date': '2026-11-16'},
+    ]
+    t = ar.summarize_today(stories, {'items': []}, now, about=lambda title: 'hous' in title.lower() or 'rental' in title.lower())
+    assert [x['source'] for x in t['top']] == ['A', 'D']
+    assert t['top'][0]['outlets'] == 4

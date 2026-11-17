@@ -175,7 +175,22 @@ def _fmt_day(d: dt.date) -> str:
     return d.strftime('%A, %B ') + str(d.day)
 
 
-def summarize_today(stories: list[dict], agency: dict, now: dt.datetime | None = None) -> dict:
+_STOP = {'the', 'and', 'for', 'with', 'new', 'finds', 'says', 'colorado', 'from', 'are', 'that', 'this', 'over', 'into', 'after'}
+
+
+def _content(title: str) -> set:
+    return {w[:5] for w in re.findall(r'[a-z0-9%]+', (title or '').lower().replace('\u200b', '')) if len(w) > 2 and w not in _STOP}
+
+
+def same_story(a: str, b: str) -> bool:
+    """Two headlines for one story: a shared percent figure, or half the word stems in common."""
+    pa, pb = set(re.findall(r'\d+(?:\.\d+)?%', a or '')), set(re.findall(r'\d+(?:\.\d+)?%', b or ''))
+    wa, wb = _content(a), _content(b)
+    overlap = len(wa & wb) / max(1, min(len(wa), len(wb)))
+    return bool(pa & pb) and overlap >= 0.3 or overlap >= 0.5
+
+
+def summarize_today(stories: list[dict], agency: dict, now: dt.datetime | None = None, about=None) -> dict:
     """The day's summary, from the data only.
 
     The window is today and yesterday in Mountain Time, since the news run
@@ -193,9 +208,20 @@ def summarize_today(stories: list[dict], agency: dict, now: dt.datetime | None =
     news = [s for s in co if not s.get('agency')]
     ag = [it for it in agency.get('items', []) if inside(it.get('date'))]
     rank = sorted(news, key=lambda s: (s.get('sourcing', 'checked') == 'checked', len(s.get('also') or []), s.get('date') or ''), reverse=True)
-    top = [{'title': s['title'], 'link': s.get('link', ''), 'source': s.get('source', ''), 'source_domain': s.get('source_domain', ''),
-            'outlets': 1 + len(s.get('also') or []), 'date': s.get('date')}
-           for s in rank[:3]]
+    # Top stories must say housing in the headline (`about`), and one story told by two outlets
+    # under different headlines counts once (17 Nov: a state study led twice, and a court case
+    # about a pronouns law made the top three).
+    top = []
+    for s in rank:
+        if about and not about(s['title']):
+            continue
+        twin = next((t for t in top if same_story(t['title'], s['title'])), None)
+        if twin:
+            twin['outlets'] += 1 + len(s.get('also') or [])
+            continue
+        if len(top) < 3:
+            top.append({'title': s['title'], 'link': s.get('link', ''), 'source': s.get('source', ''), 'source_domain': s.get('source_domain', ''),
+                        'outlets': 1 + len(s.get('also') or []), 'date': s.get('date')})
     places: dict = {}
     for s in news:
         for p in s.get('places') or []:
