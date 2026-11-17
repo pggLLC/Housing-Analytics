@@ -1931,7 +1931,7 @@
       provider: 'U.S. Census Bureau, American Community Survey 5-year',
       url: 'https://data.census.gov/table/ACSDT5Y2024.B25119',
       localFile: 'data/hna/tenure-income.json',
-      lastUpdated: '2026-11-16',
+      lastUpdated: '2026-11-17',
       updateFrequency: 'Annual (each ACS 5-year release)',
       maxAgeDays: 400,
       geoUnit: 'State / County / Place',
