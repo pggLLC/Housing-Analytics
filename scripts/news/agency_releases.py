@@ -182,10 +182,24 @@ def _content(title: str) -> set:
     return {w[:5] for w in re.findall(r'[a-z0-9%]+', (title or '').lower().replace('\u200b', '')) if len(w) > 2 and w not in _STOP}
 
 
+def _names(title: str) -> set:
+    """Capitalised words (places, agencies, people), as lowercase stems."""
+    return {w.lower()[:5] for w in re.findall(r"[A-Z][A-Za-z]+", title or '') if len(w) > 2 and w.lower() not in _STOP}
+
+
 def same_story(a: str, b: str) -> bool:
-    """Two headlines for one story: a shared percent figure, or half the word stems in common."""
-    pa, pb = set(re.findall(r'\d+(?:\.\d+)?%', a or '')), set(re.findall(r'\d+(?:\.\d+)?%', b or ''))
+    """Two headlines for one story: a shared percent figure, or half the word stems in common.
+
+    Never when their figures disagree ("200 homes" vs "100 homes") or each names someone or
+    somewhere the other does not ("Denver approves..." vs "Boulder approves...").
+    """
+    na, nb = set(re.findall(r'\d+(?:\.\d+)?%?', a or '')), set(re.findall(r'\d+(?:\.\d+)?%?', b or ''))
+    if na and nb and not na & nb:
+        return False
     wa, wb = _content(a), _content(b)
+    if (_names(a) - wb) and (_names(b) - wa):
+        return False
+    pa, pb = {n for n in na if n.endswith('%')}, {n for n in nb if n.endswith('%')}
     overlap = len(wa & wb) / max(1, min(len(wa), len(wb)))
     return bool(pa & pb) and overlap >= 0.3 or overlap >= 0.5
 
@@ -211,17 +225,19 @@ def summarize_today(stories: list[dict], agency: dict, now: dt.datetime | None =
     # Top stories must say housing in the headline (`about`), and one story told by two outlets
     # under different headlines counts once (17 Nov: a state study led twice, and a court case
     # about a pronouns law made the top three).
-    top = []
+    # Group every eligible story first, so a story told under several headlines ranks by its
+    # combined coverage (Codex review of #2913), then take the three most covered.
+    groups: list[list[dict]] = []
     for s in rank:
         if about and not about(s['title']):
             continue
-        twin = next((t for t in top if same_story(t['title'], s['title'])), None)
-        if twin:
-            twin['outlets'] += 1 + len(s.get('also') or [])
-            continue
-        if len(top) < 3:
-            top.append({'title': s['title'], 'link': s.get('link', ''), 'source': s.get('source', ''), 'source_domain': s.get('source_domain', ''),
-                        'outlets': 1 + len(s.get('also') or []), 'date': s.get('date')})
+        g = next((g for g in groups if any(same_story(m['title'], s['title']) for m in g)), None)
+        (g.append(s) if g else groups.append([s]))
+    covered = lambda g: sum(1 + len(m.get('also') or []) for m in g)
+    groups.sort(key=lambda g: (g[0].get('sourcing', 'checked') == 'checked', covered(g), g[0].get('date') or ''), reverse=True)
+    top = [{'title': g[0]['title'], 'link': g[0].get('link', ''), 'source': g[0].get('source', ''),
+            'source_domain': g[0].get('source_domain', ''), 'outlets': covered(g), 'date': g[0].get('date')}
+           for g in groups[:3]]
     places: dict = {}
     for s in news:
         for p in s.get('places') or []:

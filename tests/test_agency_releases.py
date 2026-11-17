@@ -157,3 +157,22 @@ def test_today_top_needs_a_housing_headline_and_counts_one_story_once():
     t = ar.summarize_today(stories, {'items': []}, now, about=lambda title: 'hous' in title.lower() or 'rental' in title.lower())
     assert [x['source'] for x in t['top']] == ['A', 'D']
     assert t['top'][0]['outlets'] == 4
+
+
+def test_same_story_keeps_distinct_projects_apart():
+    assert not ar.same_story('Denver approves 200 affordable rental homes', 'Boulder approves 100 affordable rental homes')
+    assert not ar.same_story('Denver approves affordable rental homes', 'Boulder approves affordable rental homes')
+    assert ar.same_story('Denver housing complex receives mail again after USPS stopped delivering',
+                         'Mail delivery resumes months later for residents of Denver housing complex')
+
+
+def test_a_story_told_under_many_headlines_ranks_by_its_total_coverage():
+    now = dt.datetime(2026, 11, 17, 6, tzinfo=dt.timezone.utc)
+    hdr = lambda src, title, n=0: {'title': title, 'source': src, 'date': '2026-11-16', 'also': [{}] * n}
+    stories = [hdr('A', 'Aurora rent cap housing vote set', 1), hdr('B', 'Pueblo opens housing shelter', 1),
+               hdr('C', 'Greeley housing land deal closes', 1), hdr('D', 'Mesa County housing levy fails', 1),
+               hdr('E', '34% of households cost-burdened, housing study finds'),
+               hdr('F', 'Nearly 34% of households spend too much on housing, study finds'),
+               hdr('G', 'Housing study: 34% of households cost-burdened')]
+    t = ar.summarize_today(stories, {'items': []}, now, about=lambda title: 'housing' in title.lower())
+    assert t['top'][0]['source'] == 'E' and t['top'][0]['outlets'] == 3
