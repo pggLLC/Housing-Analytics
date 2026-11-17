@@ -1,10 +1,733 @@
 {
   "meta": {
     "updated": "2026-11-17T00:00:00Z",
-    "brief_count": 17,
+    "brief_count": 18,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
+    {
+      "id": "tariffs-construction-costs-2026",
+      "title": "Tariffs and the cost of building homes: what rose, what did not, and whether it built anything",
+      "policy_topic": "Construction Costs",
+      "is_curated": true,
+      "source_reviewed": true,
+      "generated": "2026-11-17T00:00:00Z",
+      "verified": "2026-11-17",
+      "takeaway": "The metal in a building costs much more than a year ago, with tariffs of up to 50% and war-driven fuel costs both in force: steel mill products are up 32.9%, and copper, aluminum and wire roughly a fifth to a quarter (Bureau of Labor Statistics, October 2026). The price data does not show how much of that is tariffs. Cement, drywall and factory prices for appliances are flat. US steel output is up 5.9% this year, but sawmills shrank and fewer homes were started. The costs fall on rental and for-sale homes alike.",
+      "summary": "The Supreme Court struck down the broad 2025 tariffs on February 20, 2026. The product tariffs that reach building materials were not part of that case and remain: 50% on steel, aluminum and copper products, 10% on softwood lumber plus 24.75% in trade duties on most Canadian lumber, and 25% on kitchen cabinets and vanities, set to double on January 1, 2027. A war in the Middle East began in late February 2026, and diesel is up 115.2% in a year. The cost of what goes into a new home is up 10.4%, and no source separates tariffs from fuel and freight in that figure.",
+      "implications": "For a Colorado tax credit building: rents cannot go above a legal limit, so the part of a cost increase that rents within the limit cannot cover becomes funding gap. Wood-frame walk-ups, the usual rural building, use little structural steel; their exposure is wiring, electrical panels, heating and cooling, plumbing, metal roofing, rebar, cabinets and appliances. Plan imported cabinet orders around the January 1, 2027 increase, and treat a cost estimate older than about six months as low on metal and electrical items. Denver non-residential building costs rose 6.84% in a year on Mortenson's index, whose authors say the July 2026 tariff changes were not yet in those prices.",
+      "related_data": "data/policy/tariffs-construction-costs.json",
+      "sources": [
+        "U.S. Bureau of Labor Statistics",
+        "U.S. Customs and Border Protection",
+        "Global Affairs Canada",
+        "National Association of Home Builders",
+        "Associated General Contractors of America",
+        "U.S. Census Bureau",
+        "Federal Reserve Bank of Chicago",
+        "Trade law firm and industry summaries"
+      ],
+      "regions": [
+        "Colorado",
+        "Statewide"
+      ],
+      "sections": [
+        {
+          "id": "short",
+          "heading": "The short version",
+          "items": [
+            "Metal rose most, while tariffs and war-driven fuel costs were both in force. Steel mill products are up 32.9% in a year and 52.8% since January 2025, the last month before the new tariffs. Wire, electrical panels, sheet metal and metal doors followed.",
+            "Almost nothing got cheaper. Cement, drywall, brick and factory prices for major appliances barely moved.",
+            "Lumber is the one relief. Framing lumber sold for $443.65 per thousand board feet on November 13, 2026, down 1.2% from a year earlier, and the duty on most Canadian lumber fell from 35.16% to 24.75% in October 2026.",
+            "Steel mills gained; wood and housing did not. Raw steel output is up 5.9% this year. Sawmill capacity fell 6.0%, and single-family home starts are down 4.0%.",
+            "Fuel rose at the same time. Diesel more than doubled in the year after a war began in late February 2026, which raises the cost of freight and of anything made with heat."
+          ]
+        },
+        {
+          "id": "tariffs",
+          "heading": "Tariffs in force on building materials",
+          "paragraphs": [
+            "The broad tariffs of 2025 ended when the Supreme Court ruled against them on February 20, 2026. The ones below still apply; each row's source is listed at the end. Most were set product by product on national-security grounds, under a law known as Section 232. Canadian lumber also carries older trade duties that are reset every year."
+          ],
+          "table": {
+            "caption": "Tariffs that reach building materials",
+            "columns": [
+              "Material",
+              "Tariff on imports",
+              "What comes next"
+            ],
+            "rows": [
+              [
+                "Steel, aluminum and copper products",
+                "50% of the full value for listed products made almost entirely of these metals. 25% for listed products made substantially of them. Listed products outside the metal chapters of the tariff schedule are exempt when the metal is under 15 percent of their weight. 10% if the metal was made in the US. Rates of up to 50% began in 2025, and are charged on full value since April 6, 2026.",
+                "No end date"
+              ],
+              [
+                "Electrical grid equipment and some heating and cooling equipment",
+                "15% (a temporary lower rate). Since April 6 and June 8, 2026.",
+                "Lower rate ends December 31, 2027"
+              ],
+              [
+                "Softwood lumber from Canada",
+                "34.75% for most mills: 24.75% in trade duties plus the 10% lumber tariff. Duties were cut from 35.16% in October 2026.",
+                "The next yearly duty review is under way"
+              ],
+              [
+                "Softwood lumber from any country",
+                "10%. Since October 14, 2025.",
+                "No change announced"
+              ],
+              [
+                "Kitchen cabinets and bathroom vanities",
+                "25%. Since October 14, 2025.",
+                "Doubles to 50% on January 1, 2027"
+              ],
+              [
+                "Most other imports",
+                "10% or 12.5%. Goods that qualify under the US, Mexico and Canada trade agreement are exempt, and so are goods already under a product tariff above. Since July 24, 2026.",
+                "More tariffs are under study, with no date"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "up",
+          "heading": "What costs more",
+          "paragraphs": [
+            "Each figure is the change in what US producers charge, from the Bureau of Labor Statistics Producer Price Index. The index covers metal made in the US, so the rise reaches domestic metal too. It does not show why: a tariff can give US producers room to raise prices, and their own fuel and input costs rose as well. The last column is COHO's read, not a forecast from a source.",
+            "Not all of this is tariffs. Diesel is up 115.2% in a year, and the National Association of Home Builders (NAHB) puts building materials without energy at 5.8% higher than a year ago. The contractors' association calls it \"a double whammy of tariff- and war-induced materials cost increases.\""
+          ],
+          "figure": {
+            "src": "assets/briefs/tariffs-2026/price-changes.svg",
+            "alt": "Bar chart of the change in US producer prices for 17 building materials from October 2025 to October 2026. Steel mill products: +32.9%; Copper and brass shapes (pipe, tube, sheet): +23.9%; Aluminum shapes (sheet, bar, extrusions): +23.3%; Electrical wire and cable: +19.6%; Plywood: +16.9%; Switchgear and electrical panels: +12.7%; Softwood lumber: +10.6%; Sheet metal products: +7.8%; Metal doors, frames and trim: +7.3%; Transformers: +5.6%; Plumbing fittings and trim: +5.1%; Air conditioning and refrigeration equipment: +4.1%; Ready-mix concrete: +2.4%; Brick and clay tile: +1.3%; Gypsum products (drywall): +0.9%; Major appliances (factory price): -0.2%; Cement: -0.4%.",
+            "caption": "Change in US producer prices over one year. Source: U.S. Bureau of Labor Statistics Producer Price Index, not seasonally adjusted."
+          },
+          "table": {
+            "caption": "Materials that rose",
+            "columns": [
+              "Material",
+              "Price change to October 2026",
+              "Will it last? (COHO's read)"
+            ],
+            "rows": [
+              [
+                "Steel mill products",
+                "+32.9% in one year. +52.8% since January 2025.",
+                "Likely to last. The 50% tariff has no end date."
+              ],
+              [
+                "Copper and brass shapes (pipe, tube, sheet)",
+                "+23.9% in one year. +28.4% since January 2025.",
+                "Likely to last. Tariff plus heavy demand from power projects."
+              ],
+              [
+                "Aluminum shapes (sheet, bar, extrusions)",
+                "+23.3% in one year. +50.5% since January 2025.",
+                "Likely to last. The 50% tariff has no end date."
+              ],
+              [
+                "Electrical wire and cable",
+                "+19.6% in one year. +32.9% since January 2025.",
+                "Likely to last. Follows copper and aluminum."
+              ],
+              [
+                "Plywood",
+                "+16.9% in one year. +17.6% since January 2025.",
+                "Unclear. Most of the rise came after June 2026."
+              ],
+              [
+                "Switchgear and electrical panels",
+                "+12.7% in one year. +23.7% since January 2025.",
+                "Likely to last. Long waits as well as high prices."
+              ],
+              [
+                "Softwood lumber",
+                "+10.6% in one year. +3.8% since January 2025.",
+                "Easing. Mill prices have fallen since July 2026."
+              ],
+              [
+                "Sheet metal products",
+                "+7.8% in one year. +14.1% since January 2025.",
+                "Likely to last. Follows steel and aluminum."
+              ],
+              [
+                "Metal doors, frames and trim",
+                "+7.3% in one year. +19.8% since January 2025.",
+                "Likely to last. Follows steel and aluminum."
+              ],
+              [
+                "Transformers",
+                "+5.6% in one year. +11.4% since January 2025.",
+                "Likely to last. The temporary 15% rate ends in 2027."
+              ],
+              [
+                "Plumbing fittings and trim",
+                "+5.1% in one year. +10.4% since January 2025.",
+                "Probably lasts. Follows copper and brass."
+              ],
+              [
+                "Air conditioning and refrigeration equipment",
+                "+4.1% in one year. +9.5% since January 2025.",
+                "Probably lasts. The temporary 15% rate ends in 2027."
+              ]
+            ]
+          },
+          "see_also": {
+            "text": "See material prices month by month on the construction costs page",
+            "href": "places-hub.html#/places/costs"
+          }
+        },
+        {
+          "id": "flat",
+          "heading": "What did not rise",
+          "paragraphs": [
+            "Heavy materials made close to where they are used have little tariff exposure, and they barely moved. Factory prices for major appliances are flat too, even though appliances contain taxed steel. The cause is not established.",
+            "Lumber eased as demand weakened and a duty fell. Framing lumber was down 11.1% in a month by mid November 2026. In October 2026 the duty on most Canadian mills was cut from 35.16% to 24.75%. The 10% lumber tariff still sits on top, for 34.75% in all."
+          ],
+          "table": {
+            "caption": "Materials that held flat",
+            "columns": [
+              "Material",
+              "Price change to October 2026",
+              "Why (COHO's read)"
+            ],
+            "rows": [
+              [
+                "Ready-mix concrete",
+                "+2.4% in one year. +1.2% since January 2025.",
+                "Made near where it is used. Delivery fuel costs more."
+              ],
+              [
+                "Brick and clay tile",
+                "+1.3% in one year. +2.1% since January 2025.",
+                "Made near where it is used."
+              ],
+              [
+                "Gypsum products (drywall)",
+                "+0.9% in one year. +1.4% since January 2025.",
+                "Made near where it is used."
+              ],
+              [
+                "Major appliances (factory price)",
+                "-0.2% in one year. +2.5% since January 2025.",
+                "Cause not established. Tariffs have not shown up in this price."
+              ],
+              [
+                "Cement",
+                "-0.4% in one year. -0.1% since January 2025.",
+                "Made near where it is used."
+              ]
+            ]
+          }
+        },
+        {
+          "id": "production",
+          "heading": "Did tariffs build anything?",
+          "paragraphs": [
+            "Steel is the clearest gain and wood the clearest loss. Housing itself shrank. The data cannot show how much of that was tariffs."
+          ],
+          "table": {
+            "caption": "Production, jobs and home building",
+            "columns": [
+              "What",
+              "Result",
+              "Source"
+            ],
+            "rows": [
+              [
+                "Raw steel made in the US",
+                "Up 5.9% this year through November 14, 2026. Mills ran at 79.5% of capacity, against 76.9% a year earlier.",
+                "SteelOrbis"
+              ],
+              [
+                "Jobs making steel, aluminum and other primary metals",
+                "373,600 in October 2026, up 9,700 (2.7%) since January 2025.",
+                "U.S. Bureau of Labor Statistics"
+              ],
+              [
+                "US sawmills",
+                "Capacity fell 6.0% in a year, by a builders' association estimate for early 2026.",
+                "National Association of Home Builders"
+              ],
+              [
+                "Jobs making wood products",
+                "393,900 in October 2026, down 15,200 (3.7%) since January 2025.",
+                "U.S. Bureau of Labor Statistics"
+              ],
+              [
+                "Single-family homes started (US)",
+                "Down 4.0% this year through September 2026.",
+                "National Association of Home Builders"
+              ],
+              [
+                "Apartments and condos started (US)",
+                "A pace of 362,000 a year in September 2026. Activity is 24.9% lower than a year earlier.",
+                "National Association of Home Builders"
+              ],
+              [
+                "Homes finished (US)",
+                "Down 12.5% this year through September 2026.",
+                "National Association of Home Builders"
+              ],
+              [
+                "Homes permitted in Colorado, January through September",
+                "23,181 from January through September 2026, down 3.3% from 23,979 in the same months of 2025.",
+                "U.S. Census Bureau"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "why",
+          "heading": "Why prices may have risen more than production",
+          "items": [
+            "Few building materials are imported. NAHB estimates that approximately 7% of the goods in a new home came from another country. Yet prices for US-made metal rose too. One possible reason is that a tariff on imports gives US producers room to raise prices. Higher fuel and input costs are another, and the price data cannot separate them.",
+            "A Federal Reserve Bank of Chicago study of the 2025 tariffs found \"neither the clear employment gains that tariff proponents anticipated nor the significant job losses that critics feared.\"",
+            "Projects are being stopped. In a contractor survey in summer 2026, 55% of firms had a project cancelled, postponed or scaled back in six months."
+          ]
+        },
+        {
+          "id": "colorado",
+          "heading": "What it means for a Colorado affordable building",
+          "paragraphs": [
+            "This is an illustration from public indexes, not a figure from any project. It takes a low and a high share of a construction contract that goes to materials, and applies the past year's rise in material prices. To use it, multiply the last row by your own cost per square foot and divide by 100. The high case includes fuel, so tariffs are only part of it."
+          ],
+          "table": {
+            "caption": "Added cost from one year of price increases",
+            "columns": [
+              "Step",
+              "Low case",
+              "High case"
+            ],
+            "rows": [
+              [
+                "Materials as a share of the construction contract (COHO assumption)",
+                "40%",
+                "50%"
+              ],
+              [
+                "Rise in material prices in one year",
+                "5.8% (Building materials without energy, one year (NAHB from BLS data))",
+                "9.3% (Goods used in apartment construction, with fuel, one year (BLS))"
+              ],
+              [
+                "Added cost for each $100 per square foot of contract",
+                "$2.30",
+                "$4.70"
+              ]
+            ]
+          },
+          "items": [
+            "Rents in tax credit homes cannot go above limits set from area incomes. The part of a cost increase that rents within those limits cannot cover becomes funding gap.",
+            "Most rural Colorado tax credit buildings are wood-frame walk-ups, which use little structural steel. Their exposure is wiring, electrical panels, heating and cooling, plumbing, metal roofing, rebar, cabinets and appliances.",
+            "Denver non-residential building costs rose 6.84% in the year to mid 2026 on Mortenson's index. Its authors say the July 2026 tariff changes were \"not yet reflected in second-quarter pricing.\"",
+            "Colorado permitted fewer homes this year than last. The count is in the production table above."
+          ]
+        },
+        {
+          "id": "renters-owners",
+          "heading": "Who it reaches: renters and owners",
+          "items": [
+            "Renters in income-restricted homes do not pay more than their rent limit allows. The limit follows area incomes, not building cost. A building that charges less than its limit can raise rents up to it. The effect is fewer homes built for the same public money.",
+            "Buyers of new for-sale homes can see it in the price, and so can owners who remodel.",
+            "The price figures in this brief are for materials. They are the same for a rental building and a for-sale home."
+          ]
+        },
+        {
+          "id": "watch",
+          "heading": "Dates to watch",
+          "items": [
+            "January 1, 2027: the tariff on kitchen cabinets and vanities doubles to 50%.",
+            "December 31, 2027: the temporary 15% rate on electrical grid equipment and some heating and cooling equipment ends.",
+            "Canadian lumber: the next yearly duty review is under way, and home builders are pressing for a new lumber agreement with Canada.",
+            "Congress: the Housing Tariff Exclusion Act would exempt many home building materials. It has been introduced, not passed.",
+            "The war: if it ends, fuel and freight could ease. The metal tariffs would stay."
+          ]
+        },
+        {
+          "id": "limits",
+          "heading": "Limits of this brief",
+          "items": [
+            "No source separates how much of each price increase is tariff and how much is the fuel and freight cost of the war. This brief reports both and does not split them.",
+            "Producer price indexes track what US producers charge nationally. They are not Colorado prices and not what a builder pays after markups and delivery.",
+            "The materials share of a contract (40% to 50%) is a COHO assumption. A real bid will differ by building type.",
+            "The tariff rate now charged on finished appliances was not confirmed against the current federal product list, so this brief gives the price series only.",
+            "The Denver cost index covers non-residential building. It is used as the nearest public Colorado measure, not as an apartment cost index.",
+            "A plan to restart idled aluminum smelting in South Carolina by June 30, 2026 was announced in August 2025. This brief did not confirm it was finished.",
+            "Housing starts can fall for many reasons, such as interest rates, fuel and labor costs. The data cannot show how much was tariffs."
+          ]
+        },
+        {
+          "id": "current",
+          "heading": "How COHO keeps this current",
+          "items": [
+            "Each tariff record names its source and a review date; the daily source watch re-checks those pages and reports a change.",
+            "Price changes are computed from stored Bureau of Labor Statistics index values, which carry a check date. They change only when the data file is updated."
+          ]
+        }
+      ],
+      "articles": [
+        {
+          "title": "CSMS # 68253075 - Guidance: Section 232 Duties on Imports of Aluminum, Steel, and Copper",
+          "source": "U.S. Customs and Border Protection",
+          "link": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4117593"
+        },
+        {
+          "title": "U.S. Adjusts Section 232 Metal Tariffs",
+          "source": "GHY International",
+          "date": "2026-08-31",
+          "link": "https://www.ghy.com/trade-compliance/us-adjusts-section-232-tariffs-on-aluminum-steel-and-copper-full-customs-value-now-applies/"
+        },
+        {
+          "title": "U.S. Copper Imports Subject to 50% Tariff",
+          "source": "GHY International",
+          "date": "2025-07-30",
+          "link": "https://www.ghy.com/trade-compliance/us-copper-imports-subject-to-50-tariff-effective-aug-1/"
+        },
+        {
+          "title": "President Trump Modifies Section 232 Tariffs on Aluminum, Copper and Steel Imports",
+          "source": "Thompson Hine SmarTrade",
+          "date": "2026-06-10",
+          "link": "https://www.thompsonhinesmartrade.com/2026/06/president-trump-modifies-section-232-tariffs-on-aluminum-copper-and-steel-imports/"
+        },
+        {
+          "title": "Softwood lumber recent developments: final results of the seventh administrative reviews",
+          "source": "Global Affairs Canada",
+          "date": "2026-10-14",
+          "link": "https://www.international.gc.ca/controls-controles/softwood-bois_oeuvre/recent.aspx?lang=eng"
+        },
+        {
+          "title": "U.S. Cuts Duties on Canadian Lumber",
+          "source": "National Association of Home Builders",
+          "date": "2026-10-16",
+          "link": "https://www.nahb.org/blog/2026/10/canadian-lumber-antidumping-countervailing-duties"
+        },
+        {
+          "title": "President Trump Delays Section 232 Tariff Increase on Wood Furniture, Cabinets and Vanities",
+          "source": "Thompson Hine SmarTrade",
+          "date": "2026-01-05",
+          "link": "https://www.thompsonhinesmartrade.com/2026/01/president-trump-delays-section-232-tariff-increase-on-wood-furniture-cabinets-and-vanities/"
+        },
+        {
+          "title": "US Administration Rebuilds Global Tariff Program Under Section 301",
+          "source": "Morgan Lewis",
+          "date": "2026-07-27",
+          "link": "https://www.morganlewis.com/pubs/2026/07/us-administration-rebuilds-global-tariff-program-under-section-301"
+        },
+        {
+          "title": "US Trade Court Strikes Down Section 122 Tariffs",
+          "source": "Skadden",
+          "link": "https://www.skadden.com/insights/publications/2026/05/us-trade-court-strikes-down-section-122-tariffs"
+        },
+        {
+          "title": "US raw steel production increases by 6.0 percent - week 46, 2026",
+          "source": "SteelOrbis, reporting American Iron and Steel Institute data",
+          "link": "https://www.steelorbis.com/steel-news/latest-news/us-raw-steel-production-increases-by-60-percent-week-46-2026-1491317.htm"
+        },
+        {
+          "title": "U.S. Sawmill Output Continues to Shrink",
+          "source": "National Association of Home Builders",
+          "date": "2026-07-02",
+          "link": "https://www.nahb.org/blog/2026/07/us-sawmill-output-shrinks"
+        },
+        {
+          "title": "Single-Family Starts Down as Affordability Challenges Persist",
+          "source": "National Association of Home Builders, Eye On Housing, from Census Bureau and HUD data",
+          "date": "2026-10-20",
+          "link": "https://eyeonhousing.org/2026/10/single-family-starts-down-as-affordability-challenges-persist/"
+        },
+        {
+          "title": "Building Material Price Inflation Remains High Despite Energy Price Declines",
+          "source": "National Association of Home Builders, Eye On Housing",
+          "date": "2026-11-13",
+          "link": "https://eyeonhousing.org/2026/11/building-material-price-inflation-remains-high-despite-energy-price-declines/"
+        },
+        {
+          "title": "Construction Input Costs Rise 11.9% From September 2025 To September 2026",
+          "source": "Associated General Contractors of America",
+          "date": "2026-10-15",
+          "link": "https://www.agc.org/news/2026/10/15/construction-input-costs-rise-119-september-2025-september-2026-price-increases-spread-fuel-metals"
+        },
+        {
+          "title": "Construction Input Costs Climb 8.9% Between August 2025 And August 2026; Association Survey Finds War And Tariff Impacts Are Disrupting Projects",
+          "source": "Associated General Contractors of America",
+          "date": "2026-09-10",
+          "link": "https://www.agc.org/news/2026/09/10/construction-input-costs-climb-89-between-august-2025-and-august-2026-association-survey-finds-war"
+        },
+        {
+          "title": "Middle East Conflict Drags on While Energy Risks Escalate",
+          "source": "ConstructConnect",
+          "date": "2026-09-24",
+          "link": "https://news.constructconnect.com/middle-east-conflict-enters-sixth-month-as-energy-risks-escalate"
+        },
+        {
+          "title": "Framing Lumber Prices",
+          "source": "National Association of Home Builders",
+          "date": "2026-11-16",
+          "link": "https://www.nahb.org/news-and-economics/housing-economics/national-statistics/framing-lumber-prices"
+        },
+        {
+          "title": "The Impact of Tariffs on Home Building",
+          "source": "National Association of Home Builders",
+          "link": "https://www.nahb.org/-/media/NAHB/advocacy/docs/top-priorities/lumber/impact-of-tariffs.pdf?rev=7aee8e16b0614a1c9936d3034f5aa7da"
+        },
+        {
+          "title": "The Short-Run Employment Effects of the 2025 U.S. Tariffs",
+          "source": "Federal Reserve Bank of Chicago",
+          "link": "https://www.chicagofed.org/publications/chicago-fed-insights/2026/2025-tariffs-short-run-employment-effects"
+        },
+        {
+          "title": "Construction Cost Index, Denver, Q3 2026",
+          "source": "Mortenson",
+          "link": "https://www.mortenson.com/content/dam/mortenson/global-assets/archive/files/campaigns/recurring/cost-index/2026-q3/construction-cost-index-denver-q3-2026.pdf"
+        },
+        {
+          "title": "Producer Price Index series WPU1017",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU1017"
+        },
+        {
+          "title": "Producer Price Index series WPU102502",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU102502"
+        },
+        {
+          "title": "Producer Price Index series WPU102501",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU102501"
+        },
+        {
+          "title": "Producer Price Index series WPU1026",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU1026"
+        },
+        {
+          "title": "Producer Price Index series WPU083",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU083"
+        },
+        {
+          "title": "Producer Price Index series WPU1175",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU1175"
+        },
+        {
+          "title": "Producer Price Index series WPU0811",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU0811"
+        },
+        {
+          "title": "Producer Price Index series WPU1073",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU1073"
+        },
+        {
+          "title": "Producer Price Index series WPU1071",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU1071"
+        },
+        {
+          "title": "Producer Price Index series WPU1174",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU1174"
+        },
+        {
+          "title": "Producer Price Index series WPU1054",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU1054"
+        },
+        {
+          "title": "Producer Price Index series WPU1148",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU1148"
+        },
+        {
+          "title": "Producer Price Index series WPU1333",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU1333"
+        },
+        {
+          "title": "Producer Price Index series WPU1342",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU1342"
+        },
+        {
+          "title": "Producer Price Index series WPU137",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU137"
+        },
+        {
+          "title": "Producer Price Index series WPU1241",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU1241"
+        },
+        {
+          "title": "Producer Price Index series WPU1322",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU1322"
+        },
+        {
+          "title": "Net Inputs to Multifamily Residential Construction, Goods",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPUIP2311201"
+        },
+        {
+          "title": "Producer Price Index: No. 2 Diesel Fuel",
+          "source": "U.S. Bureau of Labor Statistics, Producer Price Index (read from FRED, Federal Reserve Bank of St. Louis)",
+          "link": "https://fred.stlouisfed.org/series/WPU057303"
+        },
+        {
+          "title": "All Employees, Primary Metal Manufacturing",
+          "source": "U.S. Bureau of Labor Statistics, Current Employment Statistics (read from FRED)",
+          "link": "https://fred.stlouisfed.org/series/CES3133100001"
+        },
+        {
+          "title": "All Employees, Wood Product Manufacturing",
+          "source": "U.S. Bureau of Labor Statistics, Current Employment Statistics (read from FRED)",
+          "link": "https://fred.stlouisfed.org/series/CES3132100001"
+        },
+        {
+          "title": "New Private Housing Units Authorized by Building Permits for Colorado",
+          "source": "U.S. Census Bureau, Building Permits Survey (read from FRED)",
+          "link": "https://fred.stlouisfed.org/series/COBPPRIV"
+        }
+      ],
+      "source_quotes": [
+        {
+          "link": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4117593",
+          "quote": "This proclamation imposes 10-50% additional duties on the full customs value of certain imports of steel, aluminum, copper articles (metal articles) and their derivatives from all countries, effective April 6, 2026."
+        },
+        {
+          "link": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4117593",
+          "quote": "In addition, goods specified in the annexes to the Proclamation, except those classifiable in Chapters 72, 73, 74, and 76 of the Harmonized Tariff Schedule of the United States (HTSUS), that contain less than 15 percent of the aggregate weight of the applicable metal(s) shall not be subject to the duties imposed by the Proclamation."
+        },
+        {
+          "link": "https://www.ghy.com/trade-compliance/us-adjusts-section-232-tariffs-on-aluminum-steel-and-copper-full-customs-value-now-applies/",
+          "quote": "Products that are made entirely or almost entirely of aluminum, steel, or copper pay a flat 50% on their full customs value."
+        },
+        {
+          "link": "https://www.ghy.com/trade-compliance/us-adjusts-section-232-tariffs-on-aluminum-steel-and-copper-full-customs-value-now-applies/",
+          "quote": "Derivative articles substantially made of steel, aluminum, or copper pay a flat 25% on their full customs value."
+        },
+        {
+          "link": "https://www.ghy.com/trade-compliance/us-copper-imports-subject-to-50-tariff-effective-aug-1/",
+          "quote": "50% tariff applies to semi-finished copper products and copper-intensive derivatives Effective August 1, 2025"
+        },
+        {
+          "link": "https://www.ghy.com/trade-compliance/us-adjusts-section-232-tariffs-on-aluminum-steel-and-copper-full-customs-value-now-applies/",
+          "quote": "15% transitional rate: Metal-intensive industrial equipment and electrical grid equipment through December 31, 2027, to support the ongoing US industrial base buildout."
+        },
+        {
+          "link": "https://www.thompsonhinesmartrade.com/2026/06/president-trump-modifies-section-232-tariffs-on-aluminum-copper-and-steel-imports/",
+          "quote": "The modified tariff rates went into effect on June 8, 2026, and will expire on December 31, 2027."
+        },
+        {
+          "link": "https://www.international.gc.ca/controls-controles/softwood-bois_oeuvre/recent.aspx?lang=eng",
+          "quote": "All Others 10.64% 14.11% 24.75%"
+        },
+        {
+          "link": "https://www.nahb.org/blog/2026/10/canadian-lumber-antidumping-countervailing-duties",
+          "quote": "Total duties on lumber imports are 34.75%, however, because the Trump administration imposed a separate 10% tariff on timber and softwood lumber after a Section 232 national security investigation."
+        },
+        {
+          "link": "https://www.international.gc.ca/controls-controles/softwood-bois_oeuvre/recent.aspx?lang=eng",
+          "quote": "All Others 20.53% 14.63% 35.16%"
+        },
+        {
+          "link": "https://www.international.gc.ca/controls-controles/softwood-bois_oeuvre/recent.aspx?lang=eng",
+          "quote": "10% global tariff on imports of timber (logs) and softwood lumber;"
+        },
+        {
+          "link": "https://www.international.gc.ca/controls-controles/softwood-bois_oeuvre/recent.aspx?lang=eng",
+          "quote": "25% global tariff on kitchen cabinets and vanities, which will increase to 50% on January 1, 2027."
+        },
+        {
+          "link": "https://www.thompsonhinesmartrade.com/2026/01/president-trump-delays-section-232-tariff-increase-on-wood-furniture-cabinets-and-vanities/",
+          "quote": "President Trump has delayed for one year – until January 1, 2027 – an increase to 50% of these Section 232 tariffs. The tariff rates will remain at 25%."
+        },
+        {
+          "link": "https://www.morganlewis.com/pubs/2026/07/us-administration-rebuilds-global-tariff-program-under-section-301",
+          "quote": "Effective July 24, 2026, the new duties generally impose tariffs of 10% or 12.5% on imports from 60 trading partners that account for approximately 99.4% of US imports, subject to significant product and country-specific exceptions."
+        },
+        {
+          "link": "https://www.morganlewis.com/pubs/2026/07/us-administration-rebuilds-global-tariff-program-under-section-301",
+          "quote": "Exemptions include articles already subject to Section 232 trade measures, including covered steel, aluminum, automobiles, automotive parts, copper products, and certain other products. Certain qualifying goods from Canada and Mexico also remain outside the new duties, including products receiving preferential treatment under the United States–Mexico–Canada Agreement (USMCA)."
+        },
+        {
+          "link": "https://www.skadden.com/insights/publications/2026/05/us-trade-court-strikes-down-section-122-tariffs",
+          "quote": "The administration had turned to Section 122 immediately after the U.S. Supreme Court on February 20, 2026, invalidated tariffs imposed under the International Emergency Economic Powers Act."
+        },
+        {
+          "link": "https://www.steelorbis.com/steel-news/latest-news/us-raw-steel-production-increases-by-60-percent-week-46-2026-1491317.htm",
+          "quote": "Adjusted year-to-date production through November 14, 2026, was 83.423 million net tons, at a capacity utilization rate of 79.5 percent. That is up 5.9 percent from 78.748 million net tons during the same period last year, when the capacity utilization rate was 76.9 percent."
+        },
+        {
+          "link": "https://www.nahb.org/blog/2026/07/us-sawmill-output-shrinks",
+          "quote": "Based on the Census Bureau and Federal Reserve data, NAHB estimates that U.S. sawmills' full production capacity fell 6.0% over the year."
+        },
+        {
+          "link": "https://eyeonhousing.org/2026/10/single-family-starts-down-as-affordability-challenges-persist/",
+          "quote": "On a year-to-date basis, single-family starts are down 4.0%, reflecting continued challenges facing home builders"
+        },
+        {
+          "link": "https://eyeonhousing.org/2026/10/single-family-starts-down-as-affordability-challenges-persist/",
+          "quote": "Multifamily starts, which include apartment buildings and condominiums, decreased 6.7% from August to September to an annualized 362,000 pace. The three-month moving average for multifamily construction has trended lower to 415,000 units, and activity is 24.9% lower compared to year-earlier levels."
+        },
+        {
+          "link": "https://eyeonhousing.org/2026/10/single-family-starts-down-as-affordability-challenges-persist/",
+          "quote": "On a year-to-date basis, total completions across both sectors was down 12.5%."
+        },
+        {
+          "link": "https://eyeonhousing.org/2026/11/building-material-price-inflation-remains-high-despite-energy-price-declines/",
+          "quote": "Building material prices were up 0.5% in October and up 5.8% compared to one year ago."
+        },
+        {
+          "link": "https://eyeonhousing.org/2026/11/building-material-price-inflation-remains-high-despite-energy-price-declines/",
+          "quote": "Combining goods and services, the price index for inputs to new residential construction was up 0.3% in October and 10.4% higher than last year."
+        },
+        {
+          "link": "https://eyeonhousing.org/2026/11/building-material-price-inflation-remains-high-despite-energy-price-declines/",
+          "quote": "Energy prices fell monthly as No. 2 diesel fuel prices fell 4.6% over the month but was a substantial 115.2% higher than a year ago."
+        },
+        {
+          "link": "https://www.agc.org/news/2026/10/15/construction-input-costs-rise-119-september-2025-september-2026-price-increases-spread-fuel-metals",
+          "quote": "Construction firms are being hit by a double whammy of tariff- and war-induced materials cost increases as higher metals and fuel costs permeate an ever-wider range of prices"
+        },
+        {
+          "link": "https://www.agc.org/news/2026/09/10/construction-input-costs-climb-89-between-august-2025-and-august-2026-association-survey-finds-war",
+          "quote": "More than half—55%—of respondents to the association’s recent survey reported having projects canceled, postponed or scaled back in the past six months."
+        },
+        {
+          "link": "https://news.constructconnect.com/middle-east-conflict-enters-sixth-month-as-energy-risks-escalate",
+          "quote": "The war in the Middle East which began in late February initially between the US, Israel and Iran has now entered its seventh month."
+        },
+        {
+          "link": "https://www.nahb.org/news-and-economics/housing-economics/national-statistics/framing-lumber-prices",
+          "quote": "The price of framing lumber decreased from the week prior to $443.65 per 1,000 board feet on November 13, according to Madison’s™ Lumber Price Index . Comparatively, this price was: Down 1.2% week over week Down 11.1% month over month Down 1.2% year over year"
+        },
+        {
+          "link": "https://www.nahb.org/-/media/NAHB/advocacy/docs/top-priorities/lumber/impact-of-tariffs.pdf?rev=7aee8e16b0614a1c9936d3034f5aa7da",
+          "quote": "NAHB estimates that approximately 7% of all goods used in new residential construction originated in a foreign nation in 2025."
+        },
+        {
+          "link": "https://www.chicagofed.org/publications/chicago-fed-insights/2026/2025-tariffs-short-run-employment-effects",
+          "quote": "For now, the short-run data reveal neither the clear employment gains that tariff proponents anticipated nor the significant job losses that critics feared."
+        },
+        {
+          "link": "https://www.mortenson.com/content/dam/mortenson/global-assets/archive/files/campaigns/recurring/cost-index/2026-q3/construction-cost-index-denver-q3-2026.pdf",
+          "quote": "Non-residential construction costs tracked by the Mortenson Construction Cost Index increased +1.37% in Denver during the quarter and +6.84% over the past twelve months."
+        },
+        {
+          "link": "https://www.mortenson.com/content/dam/mortenson/global-assets/archive/files/campaigns/recurring/cost-index/2026-q3/construction-cost-index-denver-q3-2026.pdf",
+          "quote": "The full impact of these changes was not yet reflected in second-quarter pricing and may become clearer in coming periods"
+        },
+        {
+          "link": "https://www.nahb.org/blog/2026/10/canadian-lumber-antidumping-countervailing-duties",
+          "quote": "lawmakers in both chambers introduced the Housing Tariff Exclusion Act , which would exempt many home building materials from current and future Trump administration tariffs."
+        }
+      ],
+      "alert_count": 0
+    },
     {
       "id": "co-growth-housing-balance-2026",
       "title": "Growth and homes for local workers: how Colorado towns keep the balance",

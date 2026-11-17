@@ -880,8 +880,21 @@
 
   function firstLine(t) { var m = String(t).match(/^.*?\.(?=\s|$)/); return m ? m[0] : String(t); }
 
+  // What the tariffs research brief concluded, under the price chart, with a link to the brief. The lines come
+  // from a file the brief's own builder writes (Housing-Analytics scripts/policy/build_tariffs_brief.mjs), so this
+  // page and the brief cannot disagree. Loaded on its own, so the page draws without it.
+  var TARIFF_FILES = { note: 'data/policy/tariffs-cost-note.json' };
+  function tariffNote() {
+    var s = load(TARIFF_FILES), n = s.data && s.data.note;
+    if (!n || !n.lines || !n.lines.length || !n.brief) return '';
+    return '<section class="tariff-note" id="costs-tariffs" tabindex="-1"><h2>' + esc(n.title) + '</h2>' +
+      '<ul>' + n.lines.map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul>' +
+      '<p><a href="' + esc(LIVE + n.brief.href) + '">Read the research brief: ' + esc(n.brief.title) + ' ↗</a></p>' +
+      '<p class="metric-source">Source: <a href="' + esc(n.source.url) + '">' + esc(n.source.text) + '</a>' + (n.note ? ' ' + esc(n.note) : '') + '</p></section>';
+  }
+
   function costs() {
-    var s = load(COST_FILES);
+    var s = load(COST_FILES), tariffs = tariffNote();
     if (!s.data) return waiting('Construction costs', s);
     var ser = s.data.fred.series[COST_SERIES], tl = s.data.timeline;
     var obs = (ser && ser.observations || []).filter(function (o) { return o.date >= '2020-01-01' && o.value !== '.' && o.value != null; });
@@ -926,7 +939,7 @@
         { value: String(Math.round(pts[pts.length - 1][1])), label: 'Index, ' + when, source: 'BLS via FRED', href: fredUrl },
         { value: String(events.length), label: 'Events marked', source: 'Policy timeline', href: COST_SRC }
       ]
-    }) + chart + means +
+    }) + chart + means + tariffs +
       '<h2>What happened along the way</h2>' + list +
       '<p class="note">' + esc(tl.meta.note) + ' Events checked ' + esc(tl.meta.as_of) + '. A marker shows when an event happened, not that it moved prices.</p>' +
       materials(s.data.fred) + labor(s.data) +
@@ -950,5 +963,5 @@
     var f = parts && SUB[parts[1]];
     return f ? f(params, parts) : hub(params, parts);
   };
-  global.LabPlacesMore = { CMP_DEAL_FILES: CMP_DEAL_FILES, DEAL_GROUPS: DEAL_GROUPS, CMP_TARGETS: CMP_TARGETS, fullCompareHref: fullCompareHref, cmpSource: cmpSource, RANK_FILES: RANK_FILES, RANKING_VIEW_FILES: RANKING_VIEW_FILES, LENSES: LENSES, COMMIT_DIMS: COMMIT_DIMS, COST_FILES: COST_FILES, LI_FILES: LI_FILES, TAX_FILES: TAX_FILES, ranking: ranking, compare: compare, incentives: incentives, jurisdiction: jurisdiction, CMP_ROWS: CMP_ROWS };
+  global.LabPlacesMore = { CMP_DEAL_FILES: CMP_DEAL_FILES, DEAL_GROUPS: DEAL_GROUPS, CMP_TARGETS: CMP_TARGETS, fullCompareHref: fullCompareHref, cmpSource: cmpSource, RANK_FILES: RANK_FILES, RANKING_VIEW_FILES: RANKING_VIEW_FILES, LENSES: LENSES, COMMIT_DIMS: COMMIT_DIMS, COST_FILES: COST_FILES, TARIFF_FILES: TARIFF_FILES, LI_FILES: LI_FILES, TAX_FILES: TAX_FILES, ranking: ranking, compare: compare, incentives: incentives, jurisdiction: jurisdiction, CMP_ROWS: CMP_ROWS };
 })(window);

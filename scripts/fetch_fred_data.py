@@ -50,7 +50,7 @@ SERIES = {
     "PCU327420327420": ("Gypsum Product Manufacturing", "PCU32742032742012"),
     "PCU324121324121": ("Asphalt Paving", "PCU32412132412121"), "WPU1392": ("Insulation Materials", "PCU32721432721412"),
     "PCU3211133211133": ("Softwood Lumber PPI", "PCU32121132121103"), "WPU0811": ("PPI: Lumber", None),
-    "WPU0812": ("PPI: Plywood", None), "WPU057303": ("PPI: Diesel Fuel", None),
+    "WPU0812": ("PPI: Hardwood Lumber", None), "WPU057303": ("PPI: Diesel Fuel", None),
     "WPU0531": ("Natural Gas", None), "CES2000000003": ("Construction Avg Hourly Earnings", None),
     "COUR": ("CO Unemployment Rate (Colorado, SA)", None), "COCONS": ("CO Construction Employment", None),
     "COPOP": ("CO Population", None), "MEHOINUSCOA646N": ("CO Median Household Income", None),

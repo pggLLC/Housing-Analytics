@@ -53,9 +53,9 @@ const FREDCommodities = {
         },
         plywoodSheathing: {
             id: 'WPU0812',
-            name: 'Plywood Sheathing',
+            name: 'Hardwood Lumber',
             category: 'Wood Products',
-            impact: 'Subflooring, roof decking',
+            impact: 'Flooring, trim, cabinets',
             share: '5-8%'
         },
         concreteProducts: {
