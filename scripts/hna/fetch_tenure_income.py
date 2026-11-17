@@ -27,16 +27,17 @@ VARS = {'B25119_001E': 'all', 'B25119_002E': 'owner', 'B25119_003E': 'renter',
 
 
 def get(url):
+    last = None
     for i in range(4):
         try:
             req = urllib.request.Request(url, headers={'User-Agent': 'coho-data-build/1.0'})
             with urllib.request.urlopen(req, timeout=60) as r:
                 return json.load(r)
         except Exception as e:  # noqa: BLE001
-            if i == 3:
-                raise
+            last = e
             print(f'retry {i + 1}: {e}', file=sys.stderr)
             time.sleep(2 ** i)
+    raise last
 
 
 def clean(v):

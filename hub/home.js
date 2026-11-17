@@ -147,10 +147,10 @@
     return '<section class="home-glance" aria-labelledby="h-glance"><h2 id="h-glance">Colorado at a glance</h2><div class="hg-grid">' + cards.join('') + '</div>' +
       '<div class="hg-read"><p><strong>Why this matters.</strong> The shortfall is deepest for the lowest-income renters, and new tax-credit homes cover only part of each year’s growth in low-income renters, so building at today’s pace does not keep up with new demand, let alone the existing shortfall.</p>' +
       '<p><strong>What to decide.</strong> Which income band a project should serve, and whether to add new homes or keep existing affordable ones. Statewide figures hide wide local differences, so check your town’s numbers before you decide.</p></div>' +
-      '<p class="hg-burden">' + (fin(f.allBurdened) ? 'About <strong>' + num(Math.round(f.allBurdened / 1000) * 1000) + '</strong> Colorado households, ' +
+      '<p class="hg-burden">Across Colorado, roughly half of renters spend more than 30% of their income on rent (<a href="' + HSRC.b25070 + '">ACS 2020–2024</a>). ' + (fin(f.allBurdened) ? 'Counting homeowners too, about <strong>' + num(Math.round(f.allBurdened / 1000) * 1000) + '</strong> Colorado households, ' +
         (fin(f.allBurdenedShare) && f.allBurdenedShare > 0.28 && f.allBurdenedShare < 0.34 ? 'nearly 1 in 3' : Math.round(f.allBurdenedShare * 100) + '%') + ', pay 30% or more of their income for housing' +
         (fin(f.rentBurdened) && fin(f.ownBurdened) ? ': <strong>' + num(f.rentBurdened) + ' renter households</strong> (' + Math.round(f.rentBurdenedShare * 100) + '% of renters) and <strong>' + num(f.ownBurdened) + ' owner households</strong> (' + Math.round(f.ownBurdenedShare * 100) + '% of owners)' : '') +
-        ' (<a href="' + HSRC.chas + '">HUD CHAS 2018–2022</a>). The renter share runs higher on the newer ACS count above, which counts renters only.' : 'Cost burden for owners and renters is not available.') + '</p>' +
+        ' (<a href="' + HSRC.chas + '">HUD CHAS 2018–2022</a>). The two renter shares differ because the years and the way income is counted differ.' : 'Cost burden for owners and renters is not available.') + '</p>' +
       '<p class="note">Educational; not a substitute for lender underwriting or legal advice.</p></section>';
   }
 
