@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-17T05:01:23.143Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-17T10:57:20.338Z. Do not edit by hand.
 
 ---
 
@@ -39,7 +39,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
 | `deal-hub.html` | Build a deal · COHO Analytics | 10.3 KB |
-| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 159.7 KB |
+| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 160.5 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `developer-about.html` | About the developer site — COHO Analytics | 7.5 KB |
 | `developer-brief.html` | Jurisdiction Report — COHO Analytics | 60.3 KB |
@@ -77,7 +77,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 78.5 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.5 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.6 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 157.4 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 158.3 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 88.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -109,7 +109,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1010.2 KB | ✅ | — |
+| `data/_manifest.json` | 1011.1 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-two.json` | 29.2 KB | ✅ | — |
@@ -1861,7 +1861,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 10.9 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 252.5 KB | ✅ | — |
+| `data/manifest.json` | 252.7 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -2516,7 +2516,7 @@
 | `test/lodes-tract-od.test.js` | 5.6 KB |
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
-| `test/map-pane-order.test.js` | 3.4 KB |
+| `test/map-pane-order.test.js` | 3.6 KB |
 | `test/market-analysis-hub-page.test.mjs` | 44.7 KB |
 | `test/market-construction.test.js` | 6.5 KB |
 | `test/market-direction-tab.test.mjs` | 25.6 KB |
