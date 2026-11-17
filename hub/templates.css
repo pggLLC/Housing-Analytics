@@ -1137,7 +1137,7 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
 .news-today p { margin: .25rem 0; }
 .news-today ul { margin: .4rem 0; padding-left: 1.1rem; display: grid; gap: .35rem; }
 .news-today li { min-width: 0; overflow-wrap: anywhere; }
-.news-today-tag { display: inline-block; font-size: .75rem; font-weight: 700; padding: 0 .4rem; border-radius: 4px; background: var(--accent-soft, #e6f2ef); color: var(--accent-ink, #0b4f44); }
+.news-today-tag { display: inline-block; font-size: .75rem; font-weight: 700; padding: 0 .4rem; border-radius: 4px; background: var(--tint); color: var(--pine); }
 .news-top { list-style: none; padding: 0; margin: 0 0 1.5rem; display: grid; gap: 0; border-top: 1px solid var(--line); }
 .news-top li { padding: .7rem 0; border-bottom: 1px solid var(--line); min-width: 0; }
 .news-top p { margin: 0; }
