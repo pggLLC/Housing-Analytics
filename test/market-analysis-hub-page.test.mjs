@@ -538,6 +538,44 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   ok(k.set === null && k.runs === 0, 'a picker loaded round another point should be waited on, not used');
   const m = await withPicker('?site=37.2256,-107.5981&tr=067940600', { at: null });
   ok(m.set === null && m.runs === 0, 'a picker that has not loaded should be waited on');
+  // The real picker, in a page of its own with a minimal Leaflet (as test/pma-natural-features.test.js uses). It says
+  // where it finished loading, and a market area that reaches past its 12-mile layer gets a shape for every far tract,
+  // so each can be clicked like the rest (Codex on #2923: Mesa County from Grand Junction).
+  {
+    const pw = new JSDOM('<!doctype html><body></body>', { runScripts: 'outside-only', url: 'https://example.com/deal-market-analysis.html' }).window;
+    opened.push(pw);
+    const shapes = [];
+    pw.fetch = async (u) => ({ ok: true, json: async () => JSON.parse(read(String(u))) });
+    pw.L = {
+      geoJSON(fc, opts) {
+        const add = (c) => c.features.forEach((feature) => {
+          const layer = { feature, on() {}, setStyle() {}, bindTooltip() {} };
+          if (opts && opts.onEachFeature) opts.onEachFeature(feature, layer);
+          shapes.push(layer);
+        });
+        add(fc);
+        const group = { eachLayer: (fn) => shapes.forEach(fn), addTo() { return group; }, addData(c) { add(c); return group; } };
+        return group;
+      },
+      polyline: () => ({}), layerGroup: () => ({ addTo() { return this; } }), DomEvent: { stopPropagation() {} }
+    };
+    pw.console = { log() {}, warn() {}, error() {} };
+    pw.eval(read('js/pma-tract-picker.js'));
+    const P = pw.PMATractPicker, GJ = { lat: 39.0639, lon: -108.5506 }, fakeMap = { removeLayer() {} };
+    ok(P.readyAt() === null, 'before it loads, the picker should say it has not loaded');
+    await P.init(fakeMap, GJ.lat, GJ.lon);
+    ok(P.readyAt() && P.readyAt().lat === GJ.lat && P.readyAt().lon === GJ.lon, 'once loaded, the picker should say where');
+    const gid = (f) => f.properties.GEOID || f.properties.geoid || f.properties.GEOID20;
+    const mesa = JSON.parse(read('data/market/tract_boundaries_co.geojson')).features.map(gid).filter((g) => /^08077/.test(g));
+    const before = new Set(shapes.map((l) => gid(l.feature)));
+    const far = mesa.filter((g) => !before.has(g));
+    ok(far.length >= 1, 'non-vacuity: some Mesa County tracts lie past the 12-mile layer at Grand Junction (' + far.length + ')');
+    ok(P.setSelection(mesa) === mesa.length, 'the whole county should be selected');
+    const after = shapes.map((l) => gid(l.feature));
+    ok(mesa.every((g) => after.includes(g)) && after.length === new Set(after).size, 'every selected tract should have one shape to click (missing ' + mesa.filter((g) => !after.includes(g)).join(', ') + ')');
+    P.clear(fakeMap);
+    ok(P.readyAt() === null, 'clearing the picker should forget where it loaded');
+  }
   opened.forEach(w => w.close());
 }
 

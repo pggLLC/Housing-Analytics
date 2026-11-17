@@ -643,6 +643,18 @@
   // differs from the 4-mile auto-pick counts as curated, as a hand edit does.
   function setSelection(geoids) {
     _selected = new Set((geoids || []).map(String).filter(function (g) { return /^\d{11}$/.test(g); }));
+    // A regional or county area can reach past the 12-mile layer drawn at init. Draw those tracts too, so each one can
+    // be clicked, inspected and removed like the rest (the layer's own style and click handlers apply to added data).
+    if (_tractLayer && typeof _tractLayer.addData === 'function' && typeof _tractLayer.eachLayer === 'function' &&
+        _boundariesCache && Array.isArray(_boundariesCache.features)) {
+      var drawn = new Set();
+      _tractLayer.eachLayer(function (layer) { var g = layer && _featureGeoid(layer.feature); if (g) drawn.add(g); });
+      var missing = _boundariesCache.features.filter(function (f) {
+        var g = _featureGeoid(f);
+        return g && _selected.has(g) && !drawn.has(g);
+      });
+      if (missing.length) _tractLayer.addData({ type: 'FeatureCollection', features: missing });
+    }
     _restyleAll();
     _changed();
     return _selected.size;
