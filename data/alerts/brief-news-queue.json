@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated": "2026-11-16T11:44:25Z",
-    "as_of": "2026-11-16",
+    "generated": "2026-11-17T11:17:49Z",
+    "as_of": "2026-11-17",
     "stale_days": 30,
-    "events_as_of": "2026-11-16",
+    "events_as_of": "2026-11-17",
     "method": "Headlines from data/policy_briefs.json dated on or after each brief's last review (last_curated), matched by the places the news pipeline tagged in them. Stories recorded in data/jurisdiction-briefs/_news-used.json as used or dismissed are left out; stories recorded there as unread stay in until someone reads them. Headlines are leads for a reviewer, not sources: a brief claim still needs the article and its quote in _verified/."
   },
   "briefs": [
@@ -14,8 +14,16 @@
       "county_fips": "08041",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
+        {
+          "title": "Former State Rep. Dan Nordberg announces candidacy for Colorado Springs mayor",
+          "source": "KKTV",
+          "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOVHRZZ2lDNmR0TXB2cTAwUHlmZXZnMkdhdjhGLUUzV2p5RlR2ZU9EQlBIdEtsMkppUmN1ak9aUDFROTJjdW5sYmtSaVY4RXp2eE4xWWQ3SjZEVk1jcUlQRGpTZjA2MUFXQWdHNDhMNG9aT2tTa0FiQXo2Z2lJSUhLMXpCd1hCSElOcEp2SFJNM3o0NXBfWlVrMGdHbHdCLVpHbjVnWWVRbW3SAbwBQVVfeXFMT0lGLTVqRzVZV3pZTTBJcmVYTXN2WnNSMEwxdG9KazNMdmpQNHd0R3JjdDZRdVlvS05ZX0ZiOXRLWkR4SWtKNV9MX09qM1lXVG1OcnJaaU5fVWM3SGxZNU8zdXFweEEzRDRpcW1LZlh4ZllBU3VKVGo4WTMxM0FPZGhFN3Y2b0hXeEtnNkZFY1dDRWF0d0o1eGxiNU9aYmVfaUFyQVBDTFVEZXdlaFhmRVNVUUpFV2prX2tUcV8?oc=5",
+          "date": "2026-11-16",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Colorado Springs pet-related information and events starting Nov. 14",
           "source": "Colorado Springs Gazette",
@@ -82,19 +90,23 @@
         },
         {
           "title": "Colorado Springs Utilities’ 2027 budget gets first approval vote",
-          "source": "Colorado Springs Gazette",
-          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPc0ljMVNtWTY4SkZsOF84R21OY1NBMGJkOGhXTkwxR3VIeFRmV2V1ekZNb0hJQ281VWFEbWV1SVhQMklCa0NTejhqc0FyaWF3SFUtNFNTUzJ6VmZuOUdoMnNncEs5aFhnWERYZXlrUHhOMHhMOVBXVUd1S0hlcnJOYnJwblVadld1bzVIQ3hHaHIwWXg1Q1NBdzk5bw?oc=5",
+          "source": "Colorado Politics",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNeWtubmhYVUxhZ2owaDlLTEx6eGZ3NF9RMllNVFVlNlV3X1AyWWkyUHI1VmIyOG9PR3VNU1Z5RmRqWWVwZGRSWGdXcmV0Yjc1aF9sMGpVNVIzQVBIbkdBMi1vRTk5Q2ktZGhXT1gwUURkQXdoc2xKOFRGRmU2WWUydVo5RGFod2szelZObXpKd3hsV2E3VmFMRXpqVks4WFJpTnkwNmtSZmNTNWI5?oc=5",
           "date": "2026-11-10",
           "match": "place",
-          "also": []
+          "also": [
+            "Colorado Springs Gazette"
+          ]
         },
         {
           "title": "Soldiers celebrate heritage with march through Colorado Springs",
-          "source": "Colorado Springs Gazette",
-          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNZFFnU01UZTk0Tm1UUUNoZnZuWFgyN0ljanRYSVJwYzROV05kaGtaU2xkWmxTODVoOE5BaHQ1YUNtalFJa2RvNTVMd29Ba2pjTTFfTkJTQ0VDME43T2htZVhLTDI2ZmlpSEU2RU1VX3VDTlExMkR4NmZmblNYS19OeHh1dkZCdGhFejYzWG41SDZ3WWtIUm56S1FhRQ?oc=5",
+          "source": "Colorado Politics",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOYy13aDhMV3g1ZndELU8xZDhLdF8wS29zTTJQX2JPWkRsM1h1dTlsYmI3clBxaEpReUxZZjdoZFQ5Ri1kNHl0N09XQjY4Q0dmQXlLWGFxWGNnWnVXbTVQQTlMN3ExMHBZSk1YalZNaDh0MUlZbkhRUWQzNG9LU18zczUwZzZ1OGxQbTN1T0k1OThjTi1Uc29hUm1YeExzVUxMTEo3enZDYmdXckFV?oc=5",
           "date": "2026-11-10",
           "match": "place",
-          "also": []
+          "also": [
+            "Colorado Springs Gazette"
+          ]
         },
         {
           "title": "Colorado Springs and beyond holiday events",
@@ -390,7 +402,7 @@
       ],
       "events": [],
       "reasons": [
-        "42 new stories naming it",
+        "43 new stories naming it",
         "1 new story about its county",
         "3 older stories not read yet"
       ]
@@ -402,8 +414,32 @@
       "county_fips": "08031",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
+        {
+          "title": "Developer pushes 10th Circuit to reappraise Denver’s affordable housing scheme",
+          "source": "Courthouse News Service",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQSzZDOWdWaHZlVm82amJhOGxEdW5HWkZtUDRjdHNaMzFEc0tfMDdhVzRoVzdEZWlEWjJSXzExMy10Z3N6TUxMRlpEdUdyNTJYNG1BWHFXRVZuZ2xiZExzcG5MT01OVS1uTjVRRldQSms3Q1hsLVBmeVIzTDRWdGw3elVsaW9LUmU4eUpPTUg5NnlTdnNaZjZCU2cxWmJuakFLT0FKOThrZHRJZEYz?oc=5",
+          "date": "2026-11-16",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Denver housing complex receives mail again after USPS stopped delivering for months",
+          "source": "CBS News",
+          "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPTmRSTldxYUh6TVp2eW5BY2trRUc5bHlkZmFfR09kek1POTZPMThsbGNOUlpXYjdEclM3QlFsNHhFa1pzdFVSMFA0bDRFWjlSRjA0THRrUFc2YkZSUmw2dEp1RFMwXzJYOHg0SVNpUFcxQnFicW9Fdm82X0pKTlFKaVBPOFdIZG50VUdIUERvblpBUWp0SEN0MGRjbUdZUHF1a0xoNHNfUXJSYVFCcHR3?oc=5",
+          "date": "2026-11-16",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Mail delivery resumes months later for residents of Denver housing complex",
+          "source": "CBS News",
+          "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOSTQwa0dJb2wwREtZNHVwVFdXelFodHFLVnNxS0xzMm5WRWJ4S3EtWU4tbVF0VzNxRlNPc3NZVmVhLUVZRWRpenM4WGZGSnhsMkJONTNWOVU5d1BlWkRXTWl4aTRnSW8zU2RHMHAwWklQc0g4Wmp6d2tYTHNDRFRieTgwdnNPVDc1bGhKOFFKdlViUXZOZDlmRUF3OHhhaFhBenN3NEVvd1d6Q192YVZ5OWNLa25VRUk?oc=5",
+          "date": "2026-11-16",
+          "match": "place",
+          "also": []
+        },
         {
           "title": "Denver and beyond holiday events",
           "source": "Denver Gazette",
@@ -587,7 +623,7 @@
       ],
       "events": [],
       "reasons": [
-        "18 new stories naming it",
+        "21 new stories naming it",
         "4 older stories not read yet"
       ]
     },
@@ -598,7 +634,7 @@
       "county_fips": "08051",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
         {
           "title": "The Town of Mt. Crested Butte is accepting applications for a deed-restricted workforce housing unit in Three Seasons. This 2-bedroom, 2-bathroom condominium is available to qualified applicants. Monthly rent is based on household size and the Town's Wor",
@@ -641,7 +677,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
         {
           "title": "Voters support Pitkin County’s Healthy Community Fund renewal",
@@ -684,7 +720,7 @@
       "county_fips": "08067",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
         {
           "title": "Living in Bayfield Colorado vs Durango: what the price gap buys you",
@@ -710,13 +746,44 @@
       ]
     },
     {
+      "geoid": "0827425",
+      "jurisdiction": "City of Fort Collins",
+      "scope": "place",
+      "county_fips": "08069",
+      "published": true,
+      "last_curated": "2026-10-18",
+      "days_since_review": 30,
+      "stories": [
+        {
+          "title": "Fort Collins Affordable Housing Community Refinanced with $17.2M HUD Loan",
+          "source": "Connect CRE",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPSVhMYl9yYk9wc1BZaHEzcGNranhWeXpJZVQwbFNjU0dlUWpvQ1VFTU9ib24wcVZna1pkYWZfZ2RmZFpOcVo4eGRJRGZmSzNzb1VUcWZsQjdkU0Vwb3BzU0ZRZlp3MWh2RXVwbjB0aDJ1QldvMUVxbk1Qb1FKeW8xWEhlWnZCdDF2R3BJbXNwczVqSXVROE9lNEktSVBEbW50N2tyNUp0RjBjcHdX?oc=5",
+          "date": "2026-11-17",
+          "match": "place",
+          "also": []
+        },
+        {
+          "title": "Johnson Capital Multifamily and Gershman Investment Corp Close $17.2-M HUD Refinance of Fort Collins Affordable Housing Community",
+          "source": "Yield PRO",
+          "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1ISWpoMlpyVm15R2puS2pIN1pCOEFoVVBzZFRNR0dldjRaMWJfTXVjdW90aXlyb1VMclNiYlA4aE1sSHB3eV80RVFDN3JUekpyalJURXJRZkJwVmF4?oc=5",
+          "date": "2026-11-11",
+          "match": "place",
+          "also": []
+        }
+      ],
+      "events": [],
+      "reasons": [
+        "2 new stories naming it"
+      ]
+    },
+    {
       "geoid": "0830780",
       "jurisdiction": "City of Glenwood Springs",
       "scope": "place",
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -749,7 +816,7 @@
       "county_fips": "08113",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
         {
           "title": "Judge rules Ridgway hotel can’t house workers building Telluride’s Four Seasons resort",
@@ -783,7 +850,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
         {
           "title": "Annum Housing Expands to Colorado with Aspen School District, Bringing Its Housing Navigator to Teachers in One of the State's Most Expensive Rental Markets",
@@ -826,7 +893,7 @@
       "county_fips": "08083",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
         {
           "title": "Senator Cortez Masto, Senator Warren tour new Las Vegas affordable housing",
@@ -843,36 +910,13 @@
       ]
     },
     {
-      "geoid": "0827425",
-      "jurisdiction": "City of Fort Collins",
-      "scope": "place",
-      "county_fips": "08069",
-      "published": true,
-      "last_curated": "2026-10-18",
-      "days_since_review": 29,
-      "stories": [
-        {
-          "title": "Johnson Capital Multifamily and Gershman Investment Corp Close $17.2-M HUD Refinance of Fort Collins Affordable Housing Community",
-          "source": "Yield PRO",
-          "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1ISWpoMlpyVm15R2puS2pIN1pCOEFoVVBzZFRNR0dldjRaMWJfTXVjdW90aXlyb1VMclNiYlA4aE1sSHB3eV80RVFDN3JUekpyalJURXJRZkJwVmF4?oc=5",
-          "date": "2026-11-11",
-          "match": "place",
-          "also": []
-        }
-      ],
-      "events": [],
-      "reasons": [
-        "1 new story naming it"
-      ]
-    },
-    {
       "geoid": "0864255",
       "jurisdiction": "City of Rifle",
       "scope": "place",
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
         {
           "title": "Rifle City Council approves ADU code changes, water system improvements",
@@ -895,7 +939,7 @@
       "county_fips": "08015",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
         {
           "title": "Salida City Council Double Header, Regular Session Starts at 6:00 p.m. Tonight - by Merrell Bergin",
@@ -918,7 +962,7 @@
       "county_fips": "08107",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
         {
           "title": "Steamboat Springs launches work with Colorado Energy Office to address workforce housing, climate goals",
@@ -942,7 +986,7 @@
       "county_fips": "08045",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
         {
           "title": "Glenwood Springs senior housing residents frustrated by chronic elevator outages",
@@ -984,7 +1028,7 @@
       "county_fips": "08097",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [
         {
           "title": "Voters support Pitkin County’s Healthy Community Fund renewal",
@@ -1015,7 +1059,7 @@
       "county_fips": "08077",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [],
       "events": [],
       "reasons": []
@@ -1027,7 +1071,7 @@
       "county_fips": "08015",
       "published": false,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [],
       "events": [],
       "reasons": [
@@ -1041,7 +1085,7 @@
       "county_fips": "08045",
       "published": true,
       "last_curated": "2026-10-18",
-      "days_since_review": 29,
+      "days_since_review": 30,
       "stories": [],
       "events": [],
       "reasons": []

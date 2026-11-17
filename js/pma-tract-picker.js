@@ -89,6 +89,8 @@
   var STORAGE_KEY = 'coho.pmaTractPicker.v1';
 
   function _persist() {
+    // A transient site (Use my location, or a point opened from a link) is not kept in the browser's storage.
+    if (typeof window !== 'undefined' && window.CohoSiteTransient) return;
     try {
       var payload = {
         siteCenter: _siteCenter,

@@ -3831,6 +3831,58 @@
     input.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') { e.preventDefault(); _submit(); }
     });
+
+    // "Use my location" (paul, 16 Nov 2026): the device's position, read once on the press, dropped as a pin the
+    // same way as typed coordinates. Not stored and not sent anywhere; the browser asks permission first.
+    var locBtn = document.getElementById('pmaLocateBtn');
+    if (locBtn) locBtn.addEventListener('click', function () {
+      if (!navigator.geolocation) { _setStatus('This browser does not share a location. Type an address or click the map.', 'error'); return; }
+      if (!dataLoaded) { _setStatus('Data is still loading — wait a moment then try again.', 'error'); return; }
+      locBtn.disabled = true;
+      _setStatus('Asking your device where you are…', 'info');
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        locBtn.disabled = false;
+        var lat = pos.coords.latitude, lon = pos.coords.longitude, acc = pos.coords.accuracy;
+        if (!(lat >= CO_LAT_MIN && lat <= CO_LAT_MAX && lon >= CO_LON_MIN && lon <= CO_LON_MAX)) {
+          _setStatus('You are outside Colorado (' + lat.toFixed(3) + ', ' + lon.toFixed(3) + '). Type a Colorado address or click the map.', 'error');
+          return;
+        }
+        input.value = lat.toFixed(5) + ', ' + lon.toFixed(5);
+        map.setView([lat, lon], 15);
+        placeSiteMarker(lat, lon, { transient: true });
+        analyzeNewSite(lat, lon);
+        var within = Number.isFinite(acc) ? (acc >= 1000 ? (Math.round(acc / 100) / 10) + ' km' : Math.round(acc) + ' m') : '';
+        _setStatus('Pin dropped at your location (' + lat.toFixed(4) + ', ' + lon.toFixed(4) + ')' +
+          (within ? ', within ' + within + '.' : '.') +
+          (!Number.isFinite(acc) || acc > 200 ? ' That is rough, so check the pin on the map before you rely on it.' : '') +
+          ' Drag the pin to adjust. This check is not saved unless you save it.', 'ok');
+      }, function (e) {
+        locBtn.disabled = false;
+        var why = { 1: 'Location is turned off for this site. Allow it in the browser, or type an address.', 2: 'Your device could not find its position. Type an address or click the map.', 3: 'Finding your position took too long. Try again, or type an address.' };
+        _setStatus(why[e && e.code] || 'Your position is not available. Type an address or click the map.', 'error');
+      }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
+    });
+
+    // A point in the address (?lat=..&lon=..), as the member Site brief and Environmental screen link here with
+    // "Compare this site": checked once the data is in, for this visit only, until the person saves it.
+    var q = null;
+    try { q = new URLSearchParams(window.location.search); } catch (_) {}
+    var qLat = q ? parseFloat(q.get('lat')) : NaN, qLon = q ? parseFloat(q.get('lon')) : NaN;
+    if (q && q.get('auto') !== '1' && Number.isFinite(qLat) && Number.isFinite(qLon)) {
+      if (!(qLat >= CO_LAT_MIN && qLat <= CO_LAT_MAX && qLon >= CO_LON_MIN && qLon <= CO_LON_MAX)) {
+        _setStatus('The point in this link (' + qLat + ', ' + qLon + ') is outside Colorado.', 'error');
+      } else {
+        var tries = 0;
+        (function openLinked() {
+          if (!dataLoaded) { if (++tries < 120) setTimeout(openLinked, 500); return; }
+          input.value = qLat.toFixed(5) + ', ' + qLon.toFixed(5);
+          map.setView([qLat, qLon], 15);
+          placeSiteMarker(qLat, qLon, { transient: true });
+          analyzeNewSite(qLat, qLon);
+          _setStatus('Opened at the point from the link (' + qLat.toFixed(4) + ', ' + qLon.toFixed(4) + '). Drag the pin to adjust. This check is not saved unless you save it.', 'ok');
+        })();
+      }
+    }
   }
 
   /* ── Overlay layer styles ────────────────────────────────────────── */
@@ -5022,6 +5074,11 @@
 
   function placeSiteMarker(lat, lon, opts) {
     contextRevision++;
+    // A transient site (Use my location, or a point opened from a link) is screened for this visit only: the
+    // page's own browser storage skips it (js/site-state.js setPmaResults, js/pma-tract-picker.js, js/market-analysis-cache-fix.js) until the
+    // person saves it to Compare Sites (paul, 16 Nov 2026: "Initial screening doesn't save, but user saves to
+    // compare sites later"). Map clicks and typed addresses are kept as before.
+    window.CohoSiteTransient = !!(opts && opts.transient);
     siteLatLng = { lat: lat, lon: lon };
     _jurisdictionCentroid = (opts && opts.jurisdictionCentroid) ? { lat: lat, lon: lon } : null;
     // Keep PMAEngine shim up-to-date so other modules can read last site coords.
@@ -5040,11 +5097,23 @@
     if (todCircle) { map.removeLayer(todCircle); todCircle = null; }
     if (todMarkers) map.removeLayer(todMarkers);
 
-    siteMarker = L.circleMarker([lat, lon], {
-      pane: 'pointsPane',
-      radius: 8, color: 'var(--accent)', fillColor: 'var(--accent)',
-      fillOpacity: 0.9, weight: 2
+    // The pin can be dragged to the right parcel or corner; letting go checks the new point (paul, 16 Nov 2026).
+    siteMarker = L.marker([lat, lon], {
+      pane: 'pointsPane', draggable: true, keyboard: true, title: 'The site: drag to move it',
+      alt: 'Site pin', icon: L.divIcon({ className: 'pma-site-pin', iconSize: [44, 44], iconAnchor: [22, 22] })
     }).addTo(map);
+    siteMarker.on('dragend', function (ev) {
+      var p = ev.target.getLatLng(), box = document.getElementById('pmaAddressInput'), st = document.getElementById('pmaAddressStatus');
+      if (!(p.lat >= 36.9 && p.lat <= 41.1 && p.lng >= -109.1 && p.lng <= -101.9)) {
+        ev.target.setLatLng([lat, lon]);
+        if (st) st.textContent = 'That spot is outside Colorado; the pin went back.';
+        return;
+      }
+      if (box) box.value = p.lat.toFixed(5) + ', ' + p.lng.toFixed(5);
+      placeSiteMarker(p.lat, p.lng, { transient: !!window.CohoSiteTransient });
+      analyzeNewSite(p.lat, p.lng);
+      if (st) st.textContent = 'Pin moved to ' + p.lat.toFixed(4) + ', ' + p.lng.toFixed(4) + '. Checking the new spot.';
+    });
 
     var radiusMeters = bufferMiles * 1609.34;
     bufferCircle = L.circle([lat, lon], {
@@ -5446,7 +5515,7 @@
       bufferMiles = parseInt(sel.value, 10) || 3;
       if (siteLatLng) {
         // Same point, new buffer: a centroid stays a centroid.
-        placeSiteMarker(siteLatLng.lat, siteLatLng.lon, { jurisdictionCentroid: !!_jurisdictionCentroid });
+        placeSiteMarker(siteLatLng.lat, siteLatLng.lon, { jurisdictionCentroid: !!_jurisdictionCentroid, transient: !!window.CohoSiteTransient });
         runAnalysis(siteLatLng.lat, siteLatLng.lon);
       }
     });

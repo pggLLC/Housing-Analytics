@@ -193,7 +193,8 @@ def summarize_today(stories: list[dict], agency: dict, now: dt.datetime | None =
     news = [s for s in co if not s.get('agency')]
     ag = [it for it in agency.get('items', []) if inside(it.get('date'))]
     rank = sorted(news, key=lambda s: (s.get('sourcing', 'checked') == 'checked', len(s.get('also') or []), s.get('date') or ''), reverse=True)
-    top = [{'title': s['title'], 'link': s.get('link', ''), 'source': s.get('source', ''), 'outlets': 1 + len(s.get('also') or []), 'date': s.get('date')}
+    top = [{'title': s['title'], 'link': s.get('link', ''), 'source': s.get('source', ''), 'source_domain': s.get('source_domain', ''),
+            'outlets': 1 + len(s.get('also') or []), 'date': s.get('date')}
            for s in rank[:3]]
     places: dict = {}
     for s in news:
