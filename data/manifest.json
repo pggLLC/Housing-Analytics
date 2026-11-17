@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-17T13:06:52.719699Z",
+  "generated": "2026-11-17T13:17:02.346394Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1035343
+      "bytes": 1036065
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -8526,6 +8526,11 @@
       "placeholder": false,
       "bytes": 4432
     },
+    "data/hna/tenure-income.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 77848
+    },
     "data/hna/transit-zone-by-geography.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -8930,6 +8935,11 @@
       "featureCount": 64,
       "placeholder": false,
       "bytes": 161741
+    },
+    "data/market/commute-time-cost.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 212799
     },
     "data/market/commuting_co.geojson": {
       "featureCount": 1447,
