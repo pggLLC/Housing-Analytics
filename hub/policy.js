@@ -165,10 +165,18 @@
     var hm = /T(\d{2}):(\d{2})/.exec(t.as_of || '');
     var clock = hm ? ((+hm[1] % 12) || 12) + ':' + hm[2] + (+hm[1] < 12 ? ' am' : ' pm') : '';
     var link = function (title, href) { var h = safe(href); return h ? '<a href="' + esc(h) + '">' + esc(title) + '</a>' : esc(title); };
+    // paul, 2026-11-17: say what each story says, not just link it. The quote is the story's own summary
+    // (the outlet's description of its article, or the release's own words), found by the news script.
+    // paul chose "AI-written, labelled": a sentence the news script had AI write is marked AI; otherwise the quote shows.
+    var said = function (it) {
+      if (it.ai) return '<p class="news-quote"><span class="news-ai" title="Written by AI from this story\u2019s own summary">AI</span> ' + esc(it.ai) + '</p>';
+      var q = it.summary && it.summary.text; return q ? '<p class="news-quote">\u201c' + esc(q) + '\u201d</p>' : '';
+    };
+    var href = function (it) { return (it.summary && safe(it.summary.link)) || it.link; };
     var rows = (t.agency || []).map(function (a) {
-      return '<li><span class="news-today-tag">' + esc(a.agency) + '</span> ' + link(a.title, a.link) + ' <span class="news-date">' + (a.date_basis === 'first_seen' ? 'first seen ' : 'posted ') + esc(a.date) + '</span></li>';
+      return '<li><span class="news-today-tag">' + esc(a.agency) + '</span> ' + link(a.title, href(a)) + ' <span class="news-date">' + (a.date_basis === 'first_seen' ? 'first seen ' : 'posted ') + esc(a.date) + '</span>' + said(a) + '</li>';
     }).concat((t.top || []).map(function (x) {
-      return '<li>' + link(x.title, x.link) + ' <span class="news-date">' + esc(x.source) + (x.outlets > 1 ? ' and ' + num(x.outlets - 1) + ' more outlet' + (x.outlets > 2 ? 's' : '') : '') + '</span></li>';
+      return '<li>' + link(x.title, href(x)) + ' <span class="news-date">' + esc(x.source) + (x.outlets > 1 ? ' and ' + num(x.outlets - 1) + ' more outlet' + (x.outlets > 2 ? 's' : '') : '') + '</span>' + said(x) + '</li>';
     }));
     var n = (t.counts && t.counts.stories) || 0;
     var lead = n ? num(n) + ' new Colorado housing ' + (n === 1 ? 'story' : 'stories') + ' since yesterday' + ((t.agency || []).length ? ', and ' + num(t.agency.length) + ' agency release' + (t.agency.length > 1 ? 's' : '') : '') + '.'
@@ -176,7 +184,7 @@
     var places = (t.places || []).length ? '<p class="note">In the news: ' + t.places.map(function (p) { return esc(p.name) + ' (' + num(p.stories) + ')'; }).join(', ') + '.</p>' : '';
     return '<section id="nw-today" class="news-today" aria-labelledby="nw-today-h"><h2 id="nw-today-h">Today in Colorado housing</h2>' +
       '<p class="news-date">As of ' + esc(day) + (clock ? ', ' + esc(clock) + ' Mountain Time' : '') + '</p><p>' + lead + '</p>' + (rows.length ? '<ul>' + rows.join('') + '</ul>' : '') + places +
-      '<p class="note">Written by the news script from the stories below and the CHFA, DOLA, OEDIT and Governor\u2019s Office pages, with no AI. Top stories are the ones the most outlets ran.</p></section>';
+      '<p class="note">' + esc(t.method || 'Written by the news script, with no AI.') + '</p></section>';
   }
   function newsCheck(x) { return x.sourcing === 'unverified' || x.sourcing === 'weak' ? x.sourcing : 'checked'; }
   function news(params) {
