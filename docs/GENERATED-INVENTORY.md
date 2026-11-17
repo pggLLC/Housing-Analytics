@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-17T13:56:09.105Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-17T14:39:45.402Z. Do not edit by hand.
 
 ---
 
@@ -15,7 +15,7 @@
 | `about.html` | About | COHO Analytics | 19.3 KB |
 | `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.7 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 47.6 KB |
-| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.1 KB |
+| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.5 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 23.2 KB |
 | `article-federal-rule-changes.html` | Federal Rule Changes That Would Help Affordable Housing | COHO Analytics | 86.1 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
@@ -27,7 +27,7 @@
 | `commuting.html` | Commuting and Jobs | COHO Analytics | 10.3 KB |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.5 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
-| `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.5 KB |
+| `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 16.1 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact on LIHTC Pricing | COHO Analytics | 28.3 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.7 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.3 KB |
@@ -105,7 +105,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1989 JSON files found.
+1991 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -2069,6 +2069,8 @@
 | `data/policy/soft-funding-status.json` | 45.8 KB | ✅ | — |
 | `data/policy/state-housing-laws.json` | 195.0 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
+| `data/policy/tariffs-construction-costs.json` | 32.3 KB | ✅ | — |
+| `data/policy/tariffs-cost-note.json` | 2.0 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 40.7 KB | ✅ | — |
 | `data/policy/tax-exemption-routes.json` | 20.8 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 4.7 KB | ✅ | — |
@@ -2077,7 +2079,7 @@
 | `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
 | `data/policy_briefs.json` | 655.1 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 393.4 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 437.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
 | `data/polymarket-history.json` | 224.6 KB | ✅ | — |
@@ -2103,7 +2105,7 @@
 
 ## Test Files
 
-816 test files found.
+817 test files found.
 
 | File | Size |
 |------|------|
@@ -2521,7 +2523,7 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.6 KB |
-| `test/market-analysis-hub-page.test.mjs` | 44.7 KB |
+| `test/market-analysis-hub-page.test.mjs` | 56.2 KB |
 | `test/market-construction.test.js` | 6.5 KB |
 | `test/market-direction-tab.test.mjs` | 25.6 KB |
 | `test/market-geography-binding.test.mjs` | 17.9 KB |
@@ -2752,6 +2754,7 @@
 | `test/table-export.test.js` | 25.3 KB |
 | `test/table-header-tips.test.js` | 9.2 KB |
 | `test/table-sort.test.js` | 19.8 KB |
+| `test/tariffs-brief.test.mjs` | 19.3 KB |
 | `test/tax-credit-equity-markets.test.js` | 12.8 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |

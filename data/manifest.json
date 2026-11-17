@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-17T14:20:21.560408Z",
+  "generated": "2026-11-17T14:40:25.029398Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1036065
+      "bytes": 1037107
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9961,6 +9961,16 @@
       "placeholder": false,
       "bytes": 1878
     },
+    "data/policy/tariffs-construction-costs.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 33025
+    },
+    "data/policy/tariffs-cost-note.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 2031
+    },
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -10009,7 +10019,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 402826
+      "bytes": 447442
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,

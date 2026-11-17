@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-17T13:56:53.854Z",
+    "generated_at": "2026-11-17T14:40:22.018Z",
     "root": "data/",
-    "file_count": 2037,
-    "total_size_bytes": 229884514,
+    "file_count": 2039,
+    "total_size_bytes": 229964445,
     "kinds": {
-      "json": 1988,
+      "json": 1990,
       "geojson": 35,
       "csv": 14
     }
@@ -747,7 +747,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-17T13:56:48.737Z",
+      "mtime": "2026-11-17T14:40:18.382Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6850,8 +6850,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1304681,
-      "mtime": "2026-11-16T13:41:13.651Z",
+      "size_bytes": 1304940,
+      "mtime": "2026-11-17T14:38:39.773Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -38345,7 +38345,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 259002,
-      "mtime": "2026-11-17T13:55:50.223Z",
+      "mtime": "2026-11-17T14:39:45.359Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -40333,7 +40333,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-17T13:56:51.101Z",
+      "mtime": "2026-11-17T14:40:20.252Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40357,7 +40357,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-17T13:56:50.514Z",
+      "mtime": "2026-11-17T14:40:19.819Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -43555,6 +43555,53 @@
       ]
     },
     {
+      "path": "policy/tariffs-construction-costs.json",
+      "kind": "json",
+      "size_bytes": 33025,
+      "mtime": "2026-11-17T14:38:40.217Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "tariffs",
+        "prices",
+        "context_series",
+        "colorado_permits",
+        "production"
+      ],
+      "key_count": 7,
+      "primary_array_key": "prices",
+      "primary_array_length": 17,
+      "primary_array_first_keys": [
+        "id",
+        "label",
+        "group",
+        "metal",
+        "index",
+        "outlook",
+        "source"
+      ]
+    },
+    {
+      "path": "policy/tariffs-cost-note.json",
+      "kind": "json",
+      "size_bytes": 2031,
+      "mtime": "2026-11-17T14:38:40.217Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "title",
+        "lines",
+        "source",
+        "note",
+        "brief"
+      ],
+      "key_count": 6,
+      "primary_array_key": "lines",
+      "primary_array_length": 7,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
       "size_bytes": 41714,
@@ -43785,8 +43832,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 402826,
-      "mtime": "2026-11-17T12:21:35.237Z",
+      "size_bytes": 447442,
+      "mtime": "2026-11-17T14:38:40.226Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43794,7 +43841,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 17,
+      "primary_array_length": 18,
       "primary_array_first_keys": [
         "id",
         "title",
@@ -43807,7 +43854,7 @@
         "summary",
         "implications",
         "related_data",
-        "sections"
+        "sources"
       ]
     },
     {
