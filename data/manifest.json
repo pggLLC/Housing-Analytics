@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-16T17:25:56.333595Z",
+  "generated": "2026-11-17T05:02:02.869187Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1034441
+      "bytes": 1035341
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -15,6 +15,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 16168
+    },
+    "data/affordable-housing/chfa-awards/2026-round-two.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 29933
     },
     "data/affordable-housing/lihtc/chfa-properties.json": {
       "featureCount": 926,
@@ -1134,7 +1139,7 @@
     "data/derived/funding-vs-need.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 138430
+      "bytes": 138429
     },
     "data/derived/market-analysis/market_demand.json": {
       "featureCount": 0,
@@ -8679,7 +8684,7 @@
     "data/jurisdiction-briefs/_lihtc-applications.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 421578
+      "bytes": 441908
     },
     "data/jurisdiction-briefs/_liveness.json": {
       "featureCount": 0,
@@ -8694,7 +8699,7 @@
     "data/jurisdiction-briefs/_round-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 304383
+      "bytes": 413366
     },
     "data/jurisdiction-briefs/_schema.json": {
       "featureCount": 0,
@@ -8944,7 +8949,7 @@
     "data/market/development-activity.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1356698
+      "bytes": 1374939
     },
     "data/market/dola_demographics_co.json": {
       "featureCount": 64,
@@ -9089,7 +9094,7 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 774177
+      "bytes": 773572
     },
     "data/market/market-types.json": {
       "featureCount": 0,
@@ -9244,7 +9249,7 @@
     "data/market/unfunded-application-points.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 43744
+      "bytes": 57791
     },
     "data/market/utility_capacity_co.geojson": {
       "featureCount": 351,
@@ -9729,12 +9734,12 @@
     "data/policy/funding-awards/applicant-report-counts.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3632
+      "bytes": 4100
     },
     "data/policy/funding-awards/award-rows.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 260805
+      "bytes": 266993
     },
     "data/policy/funding-awards/developer-aliases.json": {
       "featureCount": 0,
@@ -9744,7 +9749,7 @@
     "data/policy/funding-awards/documents.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 48891
+      "bytes": 51405
     },
     "data/policy/funding-awards/dola-awards.json": {
       "featureCount": 0,
@@ -9764,7 +9769,7 @@
     "data/policy/funding-awards/ledger.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 374424
+      "bytes": 394685
     },
     "data/policy/funding-awards/reviewed-documents.json": {
       "featureCount": 0,
@@ -9849,7 +9854,7 @@
     "data/policy/leading-signals.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 224287
+      "bytes": 217420
     },
     "data/policy/lihtc-assumptions.json": {
       "featureCount": 0,
@@ -9904,7 +9909,7 @@
     "data/policy/prop123-land-banking-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36730
+      "bytes": 36902
     },
     "data/policy/prop123-rental-rules.json": {
       "featureCount": 0,
@@ -9989,12 +9994,12 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 626381
+      "bytes": 647107
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 309474
+      "bytes": 332692
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,

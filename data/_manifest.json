@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-16T16:38:48.612Z",
+    "generated_at": "2026-11-17T05:01:59.817Z",
     "root": "data/",
-    "file_count": 2034,
-    "total_size_bytes": 229127400,
+    "file_count": 2035,
+    "total_size_bytes": 229385317,
     "kinds": {
-      "json": 1985,
+      "json": 1986,
       "geojson": 35,
       "csv": 14
     }
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7517,
-      "mtime": "2026-11-15T15:33:50.161Z",
+      "size_bytes": 7519,
+      "mtime": "2026-11-17T05:00:14.589Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -55,6 +55,35 @@
         "state_credit",
         "toc_credit",
         "mihtc_credit"
+      ]
+    },
+    {
+      "path": "affordable-housing/chfa-awards/2026-round-two.json",
+      "kind": "json",
+      "size_bytes": 29933,
+      "mtime": "2026-11-17T05:00:14.591Z",
+      "shape": "object",
+      "keys": [
+        "metadata",
+        "awards",
+        "not_awarded"
+      ],
+      "key_count": 3,
+      "primary_array_key": "not_awarded",
+      "primary_array_length": 17,
+      "primary_array_first_keys": [
+        "name",
+        "address",
+        "city",
+        "county",
+        "county_fips",
+        "sponsor",
+        "building_type",
+        "resident_type",
+        "total_units",
+        "federal_4pct_requested",
+        "accelerated_state_requested",
+        "standard_state_requested"
       ]
     },
     {
@@ -718,7 +747,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-16T16:38:44.679Z",
+      "mtime": "2026-11-17T05:01:56.107Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6498,8 +6527,8 @@
     {
       "path": "derived/funding-vs-need.json",
       "kind": "json",
-      "size_bytes": 138430,
-      "mtime": "2026-11-15T13:46:58.197Z",
+      "size_bytes": 138429,
+      "mtime": "2026-11-17T05:00:14.686Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -6605,8 +6634,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 311322,
-      "mtime": "2026-11-15T14:54:10.156Z",
+      "size_bytes": 311629,
+      "mtime": "2026-11-17T05:00:14.695Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -6621,7 +6650,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 2005,
+      "primary_array_length": 2007,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -37608,8 +37637,8 @@
     {
       "path": "jurisdiction-briefs/_lihtc-applications.json",
       "kind": "json",
-      "size_bytes": 421578,
-      "mtime": "2026-10-18T14:07:53.507Z",
+      "size_bytes": 441908,
+      "mtime": "2026-11-17T05:00:14.919Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -37682,8 +37711,8 @@
     {
       "path": "jurisdiction-briefs/_round-watch.json",
       "kind": "json",
-      "size_bytes": 304383,
-      "mtime": "2026-11-15T13:26:39.961Z",
+      "size_bytes": 413366,
+      "mtime": "2026-11-17T05:00:14.922Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -38301,7 +38330,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 258611,
-      "mtime": "2026-11-16T13:41:13.877Z",
+      "mtime": "2026-11-17T05:01:23.096Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -38828,8 +38857,8 @@
     {
       "path": "market/development-activity.json",
       "kind": "json",
-      "size_bytes": 1356698,
-      "mtime": "2026-11-15T13:26:39.520Z",
+      "size_bytes": 1374939,
+      "mtime": "2026-11-17T05:00:14.950Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39392,8 +39421,8 @@
     {
       "path": "market/market-direction.json",
       "kind": "json",
-      "size_bytes": 774177,
-      "mtime": "2026-11-15T13:26:41.193Z",
+      "size_bytes": 773572,
+      "mtime": "2026-11-17T05:00:15.029Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39973,8 +40002,8 @@
     {
       "path": "market/unfunded-application-points.json",
       "kind": "json",
-      "size_bytes": 43744,
-      "mtime": "2026-11-05T03:13:38.320Z",
+      "size_bytes": 57791,
+      "mtime": "2026-11-17T05:00:15.110Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39983,14 +40012,21 @@
         "dropped"
       ],
       "key_count": 4,
-      "primary_array_key": "dropped",
+      "primary_array_key": "points",
       "primary_array_length": 57,
       "primary_array_first_keys": [
         "name",
+        "address",
         "city",
+        "county_fips",
         "year",
+        "round_label",
         "credit_type",
-        "why_dropped"
+        "total_units",
+        "restricted_units",
+        "outcome",
+        "source_url",
+        "lat"
       ]
     },
     {
@@ -40267,7 +40303,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-16T16:38:46.641Z",
+      "mtime": "2026-11-17T05:01:58.024Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40291,7 +40327,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-16T16:38:46.175Z",
+      "mtime": "2026-11-17T05:01:57.570Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42448,8 +42484,8 @@
     {
       "path": "policy/funding-awards/applicant-report-counts.json",
       "kind": "json",
-      "size_bytes": 3632,
-      "mtime": "2026-11-11T01:05:40.956Z",
+      "size_bytes": 4100,
+      "mtime": "2026-11-17T05:00:15.134Z",
       "shape": "object",
       "keys": [
         "meta"
@@ -42462,8 +42498,8 @@
     {
       "path": "policy/funding-awards/award-rows.json",
       "kind": "json",
-      "size_bytes": 260805,
-      "mtime": "2026-10-18T15:35:08.185Z",
+      "size_bytes": 266993,
+      "mtime": "2026-11-17T05:00:15.135Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42472,7 +42508,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "rows",
-      "primary_array_length": 458,
+      "primary_array_length": 467,
       "primary_array_first_keys": [
         "key",
         "source_file",
@@ -42501,8 +42537,8 @@
     {
       "path": "policy/funding-awards/documents.json",
       "kind": "json",
-      "size_bytes": 48891,
-      "mtime": "2026-10-22T10:35:40.764Z",
+      "size_bytes": 51405,
+      "mtime": "2026-11-17T05:00:15.135Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42510,7 +42546,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "documents",
-      "primary_array_length": 42,
+      "primary_array_length": 43,
       "primary_array_first_keys": [
         "file",
         "url",
@@ -42591,8 +42627,8 @@
     {
       "path": "policy/funding-awards/ledger.json",
       "kind": "json",
-      "size_bytes": 374424,
-      "mtime": "2026-10-18T15:35:08.186Z",
+      "size_bytes": 394685,
+      "mtime": "2026-11-17T05:00:15.136Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42600,7 +42636,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "awards",
-      "primary_array_length": 458,
+      "primary_array_length": 467,
       "primary_array_first_keys": [
         "agency",
         "program",
@@ -42962,8 +42998,8 @@
     {
       "path": "policy/leading-signals.json",
       "kind": "json",
-      "size_bytes": 224287,
-      "mtime": "2026-11-15T13:26:41.361Z",
+      "size_bytes": 217420,
+      "mtime": "2026-11-17T05:00:15.139Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43257,8 +43293,8 @@
     {
       "path": "policy/prop123-land-banking-status.json",
       "kind": "json",
-      "size_bytes": 36730,
-      "mtime": "2026-11-15T13:26:40.143Z",
+      "size_bytes": 36902,
+      "mtime": "2026-11-17T05:00:15.141Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43688,18 +43724,20 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 626381,
-      "mtime": "2026-11-16T11:44:19.544Z",
+      "size_bytes": 647107,
+      "mtime": "2026-11-17T05:00:15.149Z",
       "shape": "object",
       "keys": [
         "meta",
         "briefs",
         "stories",
-        "stories_meta"
+        "stories_meta",
+        "agency",
+        "today"
       ],
-      "key_count": 4,
+      "key_count": 6,
       "primary_array_key": "stories",
-      "primary_array_length": 514,
+      "primary_array_length": 515,
       "primary_array_first_keys": [
         "title",
         "source",
@@ -43717,8 +43755,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 309474,
-      "mtime": "2026-11-16T12:32:39.212Z",
+      "size_bytes": 332692,
+      "mtime": "2026-11-17T05:00:15.150Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43726,7 +43764,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 15,
+      "primary_array_length": 16,
       "primary_array_first_keys": [
         "id",
         "title",
