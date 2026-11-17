@@ -47,6 +47,13 @@
     chas: 'https://www.huduser.gov/portal/datasets/cp.html', dola: 'https://demography.dola.colorado.gov/',
     chfa: 'https://www.chfainfo.com/rental-housing/housing-credit'
   };
+  // The state's own 2026 count (paul, 17 Nov "fix the home burden line"): Colorado Housing Needs Assessment, Statewide
+  // Analysis, State Demography Office and Division of Housing, Nov 2026, p.10 ("Nearly 34% ... renters (49%) ... owners
+  // (25%) ... 843,100 households"). The report, not the press release (842,900 / 26%), is the source of record.
+  var STATE_HNA = {
+    households: 843100, allPct: 34, renterPct: 49, ownerPct: 25, year: 2026,
+    cite: '<a href="https://drive.google.com/uc?export=download&id=1T9pIRab6usCUyPfg7C3n-D9YSDTD3IS4">Colorado Housing Needs Assessment, DOLA, Nov 2026, p.10</a>'
+  };
   function fin(v) { return typeof v === 'number' && isFinite(v); }
   function cnt(v) { return fin(v) && v >= 0 ? num(v) : '—'; }
 
@@ -80,10 +87,13 @@
     f.renterGrowth = Number(v.annual_le60_renter_household_growth); f.coverage = Number(v.lihtc_new_construction_coverage_of_le60_renter_growth);
     // Owners and renters together who pay 30% or more (HUD CHAS), summed over the 64 counties: the live page's
     // "nearly 1 in 3 Colorado households, about 694,000".
-    var burdened = 0, all = 0;
+    var burdened = 0, all = 0, rB = 0, rAll = 0;
     var cs = d.burden && d.burden.counties; cs = cs ? (Array.isArray(cs) ? cs : Object.keys(cs).map(function (k) { return cs[k]; })) : [];
-    cs.forEach(function (c) { ['renter_hh_by_ami', 'owner_hh_by_ami'].forEach(function (k) { var x = c[k] || {}; Object.keys(x).forEach(function (b) { burdened += x[b].cost_burdened_30pct || 0; all += x[b].total || 0; }); }); });
+    cs.forEach(function (c) { ['renter_hh_by_ami', 'owner_hh_by_ami'].forEach(function (k) { var x = c[k] || {}; Object.keys(x).forEach(function (b) {
+      var cb = x[b].cost_burdened_30pct || 0, tot = x[b].total || 0; burdened += cb; all += tot; if (k === 'renter_hh_by_ami') { rB += cb; rAll += tot; } }); }); });
     f.allBurdened = burdened > 0 ? burdened : NaN; f.allBurdenedShare = all > 0 ? burdened / all : NaN;
+    // Renters alone in the same HUD count, so the page can say why it sits below the Census survey's share (paul, 17 Nov).
+    f.renterBurdenChas = rAll > 0 ? rB / rAll * 100 : NaN;
     return f;
   }
 
@@ -109,7 +119,8 @@
       glanceCard({ title: 'Renters paying 30% or more of income', value: fin(f.burden) && f.burden > 0 ? f.burden.toFixed(1) + '%' : '—',
         plain: 'The usual line for cost burden: rent and utilities take 30% or more of the household’s income.',
         graphic: fin(f.burden) ? per100Bar(f.burden, Math.round(f.burden) + ' of every 100 renter households').replace('homes</span><span>per <b>100</b> households', 'renters</span><span>of every <b>100</b>') : '',
-        how: 'Share of Colorado renter households whose gross rent is 30% or more of household income.',
+        how: 'Share of Colorado renter households whose gross rent (rent plus utilities) is 30% or more of household income. The Census leaves out renters whose share can’t be computed, such as those with no income or no cash rent, so this runs a little above HUD’s count' +
+          (fin(f.renterBurdenChas) ? ' of ' + f.renterBurdenChas.toFixed(1) + '% (CHAS ' + esc(f.chasVintage) + ')' : '') + ' and close to the state’s 49% for 2026 (' + STATE_HNA.cite + ').',
         src: '<a href="' + HSRC.b25070 + '">ACS 2020–2024, table B25070</a>' }),
       glanceCard({ title: 'Homes short for renters ≤30% AMI', value: cnt(t30.homes_short),
         plain: 'Homes Colorado lacks for renters earning 30% or less of area median income (AMI), counting only homes they can afford that higher earners don’t already rent.',
@@ -133,9 +144,11 @@
     return '<section class="home-glance" aria-labelledby="h-glance"><h2 id="h-glance">Colorado at a glance</h2><div class="hg-grid">' + cards.join('') + '</div>' +
       '<div class="hg-read"><p><strong>Why this matters.</strong> The shortfall is deepest for the lowest-income renters, and new tax-credit homes cover only part of each year’s growth in low-income renters, so building at today’s pace does not keep up with new demand, let alone the existing shortfall.</p>' +
       '<p><strong>What to decide.</strong> Which income band a project should serve, and whether to add new homes or keep existing affordable ones. Statewide figures hide wide local differences, so check your town’s numbers before you decide.</p></div>' +
-      '<p class="hg-burden">Across Colorado, roughly half of renters spend more than 30% of their income on rent (<a href="' + HSRC.b25070 + '">ACS 2020–2024</a>). Counting homeowners too, ' +
-      (fin(f.allBurdenedShare) && f.allBurdenedShare > 0.28 && f.allBurdenedShare < 0.34 ? 'nearly 1 in 3' : (fin(f.allBurdenedShare) ? Math.round(f.allBurdenedShare * 100) + '% of' : 'many')) +
-      ' Colorado households, about <strong>' + (fin(f.allBurdened) ? num(Math.round(f.allBurdened / 1000) * 1000) : '—') + '</strong>, carry that cost burden (<a href="' + HSRC.chas + '">HUD CHAS 2018–2022</a>).</p>' +
+      '<p class="hg-burden">Across Colorado, roughly half of <strong>renters</strong> pay 30% or more of their income for housing (' + (fin(f.burden) ? f.burden.toFixed(1) + '% in ' : '') + '<a href="' + HSRC.b25070 + '">ACS 2020–2024</a>' +
+        (fin(f.renterBurdenChas) ? '; ' + f.renterBurdenChas.toFixed(1) + '% in HUD CHAS ' + esc(f.chasVintage) : '') + '). Counting <strong>homeowners</strong> too, the state’s housing needs assessment counts <strong>' + num(STATE_HNA.households) + '</strong> cost-burdened households in ' + STATE_HNA.year +
+        ', about ' + STATE_HNA.allPct + '%: ' + STATE_HNA.renterPct + '% of renters and ' + STATE_HNA.ownerPct + '% of owners (' + STATE_HNA.cite + '). HUD’s count from earlier years puts it at ' +
+        (fin(f.allBurdenedShare) && f.allBurdenedShare > 0.28 && f.allBurdenedShare < 0.34 ? 'nearly 1 in 3' : (fin(f.allBurdenedShare) ? Math.round(f.allBurdenedShare * 100) + '% of' : 'many')) +
+        ' households, about <strong>' + (fin(f.allBurdened) ? num(Math.round(f.allBurdened / 1000) * 1000) : '—') + '</strong> (<a href="' + HSRC.chas + '">HUD CHAS ' + esc(f.chasVintage) + '</a>). The state’s figure is newer, not a correction: it adds two more years of rising rents, insurance and property taxes.</p>' +
       '<p class="note">Educational; not a substitute for lender underwriting or legal advice.</p></section>';
   }
 
