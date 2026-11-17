@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "bfbda04448d384a7717b809f14141655923959cf",
+  "commit": "03450329d63b8f4f426715ab19741da52db1657d",
   "dirty": false
  },
  "files": {
@@ -41,7 +41,7 @@
   "hub/calculators.css": "b4b0624c35763939731e648dcd47eb60ee92965fb85ee556abef793151609863",
   "hub/calendar.js": "9fd8e62851166913afee680810c97317642113db4ea3f0e25235e6c0ed05d6b5",
   "hub/change-arrows.js": "3bfb7835e88183749dd64cacc43d91af9ae80d65038bb60ed70190d7755d4f3d",
-  "hub/commuting.js": "3c8baeb40ee627fe76810ef366a38764a84a71772ec83f14efc6ae64c128848f",
+  "hub/commuting.js": "3824fe78e1e8da88acd878644c8a0cf8f6c2728dd5d77eb9df5aa521fd70cb51",
   "hub/compare-records.js": "4a4e20b4c5064680ab87c53bae1dce945a5ce45c090feea7277570556805d1af",
   "hub/components.js": "1a3192c4037be964f0a9447cd5d3d6a1b6795871c6f9d017b640b7f538f38590",
   "hub/county-costs.css": "27d26b7dee75f7fe60d9521925a49b17dfc037bf2c18b3d4aef837ec33e8e575",
@@ -96,7 +96,7 @@
   "hub/middle-income.js": "5301fa977060cca905ef65201fcdf54cc58f3f831580abcd49f5b3088835bb29",
   "hub/nav.js": "438f02ddd4410e7a222a048ef4f7687116ee896cdd7dd6f489d06ea48cd77c89",
   "hub/need-scorecard.js": "a8c89af9acc59264b61eb5ccb5d8f553bc49ac1dfbff5d15a4fa95914ddf16a0",
-  "hub/opportunities.css": "7fa3422f7362ac21115d41e1fa0ddd1872f791a04c177e681728ccdb25220a1d",
+  "hub/opportunities.css": "b7b7f9ef797005f6477d2b1294aaf25b70f0df0da49283fc56113dce709dba2e",
   "hub/opportunities.js": "1d82a8b45be3ee0dceddb8245936504c81cbb5c0795fa2b112cf0511f4f2514a",
   "hub/page-chrome.js": "6fb948627686c77a38a591d3a367104656c298d14e1f45c44e755d50e10793e3",
   "hub/palette.css": "2b724ff90242e19a5ae5dca3102a4d892429dc4964544e1303c28648fc3a4c38",
@@ -166,7 +166,7 @@
   "js/local-incentives-data.js": "f1ad486017680b9af8781485def973e6f3294634c0ae96542c7e0a27cebc55a5",
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
   "js/land-comps.js": "f44d06e4a206699667d7ae316db1a65dbffe75a8364b2316c5a91bab55afad4f",
-  "js/data-source-inventory.js": "7329ab473abf3a1fc39a2cd2a36659b8be29f656a914e65b4e4942ef22dd3759",
+  "js/data-source-inventory.js": "4bb8344b10504f347a648be7872f897e6722e46281956620f4e40b2406a097ca",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
   "js/hna/hna-ownership-need.js": "b33284b054b1120870e2850d8995c990edabf661d42a3a767bf9cc8f98b1f8d0",
   "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",

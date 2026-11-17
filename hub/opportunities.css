@@ -40,3 +40,46 @@
 .cj-stats { list-style: none; padding: 0; margin: .75rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); gap: .5rem; }
 .cj-stats li { background: var(--card); border: 1px solid var(--line); border-top: 3px solid var(--green); border-radius: 8px; padding: .7rem .85rem; display: grid; gap: .15rem; font-size: 14px; color: var(--ink-soft); }
 .cj-stats b { font-size: 22px; color: var(--ink); font-variant-numeric: tabular-nums; }
+/* Commuting and jobs, a picked town: travel time, drive cost and the town's own commute map (17 Nov 2026). */
+.cj-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: .9rem 1rem; margin: 0 0 1rem; }
+.cj-card > .cc-kicker { display: block; margin: 0 0 .2rem; }
+.cj-head { font-size: 17px; font-weight: 700; color: var(--ink); margin: .2rem 0 .75rem; line-height: 1.35; }
+.cj-bar-title { font-size: 14px; font-weight: 600; margin: .6rem 0 .3rem; color: var(--ink); }
+.cj-bar-title span { color: var(--muted); font-weight: 400; }
+.cj-bar { display: flex; gap: 2px; height: 28px; border-radius: 6px; overflow: hidden; background: var(--card); }
+.cj-bar span { display: block; height: 100%; min-width: 2px; }
+.cj-key, .cj-costs, .cj-places { list-style: none; padding: 0; margin: .7rem 0 0; font-size: 14px; }
+.cj-key li { display: grid; grid-template-columns: 14px 1fr auto; gap: .5rem; align-items: center; padding: .3rem 0; border-bottom: 1px dashed var(--line); }
+.cj-key li:last-child { border-bottom: 0; }
+.cj-key i { width: 12px; height: 12px; border-radius: 3px; display: block; }
+.cj-key b { font-variant-numeric: tabular-nums; }
+.cj-key .cj-key-head { color: var(--muted); font-size: 12px; grid-template-columns: 1fr auto; }
+.cj-costs li { padding: .55rem 0; border-bottom: 1px dashed var(--line); }
+.cj-cost-top { display: flex; justify-content: space-between; gap: .5rem; margin: 0; font-size: 14px; }
+.cj-cost-top span { color: var(--muted); font-size: 13px; text-align: right; }
+.cj-cost-bar { display: flex; gap: 2px; height: 14px; margin: .35rem 0 .25rem; background: var(--track, var(--line)); border-radius: 4px; overflow: hidden; }
+.cj-cost-bar .lo, .cj-cost-key .lo { background: var(--c-amber); }
+.cj-cost-bar .hi, .cj-cost-key .hi { background: var(--gold); }
+.cj-cost-text { margin: 0; font-size: 13.5px; }
+.cj-cost-key { display: flex; flex-wrap: wrap; gap: .4rem 1rem; font-size: 13px; margin: .6rem 0 0; }
+.cj-cost-key i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: .35rem; vertical-align: -1px; }
+.cj-town-map .pm-frame { max-width: 760px; }
+.cj-dir { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: .3rem 0 .6rem; }
+.cj-dir a { padding: .45rem .8rem; font-size: 14px; font-weight: 700; color: var(--ink); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+.cj-dir a.is-on { background: var(--pine); color: var(--on-fill, var(--card)); }
+.cj-arrows path { fill: none; stroke: var(--map-5); stroke-opacity: .85; stroke-linecap: round; }
+.cj-arrows.is-out path { stroke: var(--rust); }
+#cj-head-in path { fill: var(--map-5); }
+#cj-head-out path { fill: var(--rust); }
+.cj-marks circle { fill: var(--card); stroke: var(--map-5); stroke-width: 6; }
+.cj-marks.is-out circle { stroke: var(--rust); }
+.cj-marks text { font-size: 30px; font-weight: 800; fill: var(--ink); text-anchor: middle; }
+.cj-home circle { fill: var(--rust); stroke: var(--card); stroke-width: 5; }
+.cj-home text { font-size: 34px; font-weight: 800; fill: var(--ink); text-anchor: middle; stroke: var(--halo); stroke-width: 9; stroke-linejoin: round; paint-order: stroke; }
+.cj-places li { display: grid; grid-template-columns: auto 1fr auto; gap: .5rem; align-items: center; padding: .35rem 0; border-bottom: 1px dashed var(--line); }
+.cj-places i { font-style: normal; font-weight: 800; width: 1.6rem; height: 1.6rem; border-radius: 50%; border: 2px solid var(--map-5); display: inline-grid; place-items: center; font-size: 13px; }
+.cj-places span { font-variant-numeric: tabular-nums; font-weight: 600; }
+.cj-far-list li { grid-template-columns: 1fr auto; }
+.cj-far { margin: .7rem 0 0; font-size: 14px; }
+.cj-bal { min-width: 0; }
+.cj-places.is-out i { border-color: var(--rust); }
