@@ -73,7 +73,7 @@ SOURCES = [
         'program_family': 'housing-tax-credit',
         'index_url': 'https://www.chfainfo.com/rental-housing/housing-credit/awards',
         # Award reports only: applicant, LOI and status reports list requests, not awards.
-        'link_pattern': re.compile(r'/getattachment/[^"\s]*award[^"\s]*\.pdf', re.I),
+        'link_pattern': re.compile(r'/(?:getattachment|getContentAsset)/[^"\s]*award[^"\s]*\.pdf', re.I),
     },
     {
         'agency': 'OEDIT / CHFA (Prop 123 AHFF)',

@@ -26,7 +26,7 @@
         { value: 'About $90K/yr', label: '9% credit for each $1M of eligible basis, for 10 years', source: 'IRC §42(b)', href: 'https://www.law.cornell.edu/uscode/text/26/42' },
         { value: 'About $40K/yr', label: '4% credit for each $1M of eligible basis, for 10 years', source: 'IRC §42(b)', href: 'https://www.law.cornell.edu/uscode/text/26/42' },
         { value: '14 of 32', label: '9% applications CHFA funded in 2026', source: 'CHFA applicant and award reports', href: 'https://www.chfainfo.com/rental-housing/housing-credit/awards' },
-        { value: '9 of 21', label: '4% + state credit applications CHFA funded in Round Two, 2025 (2026 awards pending)', source: 'CHFA applicant and award reports', href: 'https://www.chfainfo.com/rental-housing/housing-credit/awards' },
+        { value: '9 of 26', label: '4% + state credit applications CHFA funded in Round Two, 2026 (9 of 21 in 2025)', source: 'CHFA applicant and award reports', href: 'https://www.chfainfo.com/rental-housing/housing-credit/awards' },
         { value: '30 years', label: 'Colorado minimum affordability (15 compliance + 15 extended use)', source: 'CHFA QAP', href: 'https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan' }
       ],
       diagram: function (g) { return partners() + payStack(g) + creditCompare(g); },

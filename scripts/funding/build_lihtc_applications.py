@@ -85,7 +85,7 @@ SOURCE = {
     'agency': 'CHFA',
     'program_family': 'housing-tax-credit',
     'index_url': 'https://www.chfainfo.com/rental-housing/housing-credit/awards',
-    'link_pattern': re.compile(r'/getattachment/[^"\s]*applicant-report[^"\s]*\.pdf', re.I),
+    'link_pattern': re.compile(r'/(?:getattachment|getContentAsset)/[^"\s]*applicant-report[^"\s]*\.pdf', re.I),
 }
 # Rounds kept: the latest year CHFA has published an applicant report for and
 # the three before it (four years; the owner's choice, 2026-10-14).

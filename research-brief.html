@@ -191,6 +191,20 @@
           });
       }
 
+      // The CHFA 2026 Round Two map (js/chfa-round-two-map.js): awards and applications
+      // not awarded, from the round's data file. Loads only for the brief that has it.
+      function chfaRoundTwoMap(mount) {
+        mount.textContent = 'Loading the map\u2026';
+        Promise.all([loadAsset('js/vendor/leaflet.css'), loadAsset('js/vendor/leaflet.js')])
+          .then(function () { return Promise.all([loadAsset('js/config/basemaps.js'), loadAsset('js/chfa-round-two-map.js')]); })
+          .then(function () { return window.ChfaRoundTwoMap.render(mount); })
+          .catch(function (error) {
+            mount.textContent = '';
+            var p = el('p', 'Map unavailable. ' + error.message + ' The tables below list every award and application.', mount, 'brief-note');
+            p.setAttribute('data-crt-state', 'unavailable');
+          });
+      }
+
       async function readJson(file) {
         try {
           var response = await (window.fetchWithTimeout || window.fetch)(file, {}, 15000);
@@ -286,6 +300,7 @@
             item.items.forEach(function (text) { el('li', text, ul); });
           }
           if (item.map === 'transit-zone-screen') transitZoneMap(el('div', undefined, node, 'brief-map'));
+          if (item.map === 'chfa-round-two') chfaRoundTwoMap(el('div', undefined, node, 'brief-map'));
           var spec = item.table;
           if (spec && Array.isArray(spec.columns) && Array.isArray(spec.rows)) {
             // Wide tables scroll inside their own box on a phone instead of widening the page.

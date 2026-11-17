@@ -1,10 +1,531 @@
 {
   "meta": {
     "updated": "2026-11-16T00:00:00Z",
-    "brief_count": 15,
+    "brief_count": 16,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
+    {
+      "id": "chfa-2026-round-two-awards",
+      "title": "CHFA 2026 Round Two tax credit awards: who won, where, and who did not",
+      "policy_topic": "Colorado Housing Policy & LIHTC",
+      "is_curated": true,
+      "source_reviewed": true,
+      "generated": "2026-11-16T00:00:00Z",
+      "verified": "2026-11-17",
+      "takeaway": "Colorado's housing finance agency (CHFA) reserved federal 4% and state housing tax credits for nine of 26 applications on November 16, 2026: 845 new rental homes, 8 of the 9 buildings in metro Denver. State credit was the limit, and no rural project won.",
+      "summary": "CHFA says the nine developments will support the new construction of 845 affordable rental units and raise more than $234 million in private equity. CHFA's award report lists the yearly credits: $19,668,117 in federal 4% credit, $11,700,000 in accelerated state credit, $4,200,000 in standard state credit and $774,000 in Transit-Oriented Communities credit, with $146,387,212 in private activity bonds. All 845 homes are rentals with income limits; this round funds no homes for sale.",
+      "implications": "Expect a crowded 2027 Round Two: 17 applications with 1,882 homes missed this year, and five of this year's nine winners had missed in 2025 and come back. Plan the gap around the state credit cap, show local backing early, and expect smaller buildings with deep income targeting and named services to compete best. Round Two did not reach a small town this year; for a rural 4% deal, size and gap money need solving before applying.",
+      "related_data": "data/affordable-housing/chfa-awards/2026-round-two.json",
+      "sources": [
+        "CHFA"
+      ],
+      "regions": [
+        "Colorado",
+        "Statewide",
+        "Denver County",
+        "Boulder County",
+        "Broomfield County",
+        "Douglas County",
+        "Jefferson County",
+        "Mesa County",
+        "Adams County",
+        "Arapahoe County"
+      ],
+      "sections": [
+        {
+          "id": "short",
+          "heading": "The short version",
+          "items": [
+            "Nine of 26 applications won. CHFA reserved federal 4% and Colorado state housing tax credits for nine new rental buildings with 845 homes, all with income limits for renters. 17 applications with 1,882 rental homes did not get credits this round.",
+            "State credit was the limit. Every winner got the full $1.3M accelerated state credit. CHFA awarded $11.7M of the $33.8M in accelerated state credit that applicants asked for, about 35%.",
+            "Eight of nine are in metro Denver (783 homes). The other is 62 homes for older adults and veterans leaving homelessness in Grand Junction. No rural or mountain project won; the only rural application, in Cortez, did not.",
+            "53% of the homes (450) are for renters at or below 50% of area median income (AMI), and 17% (141) are at 30%. The average is about 52% AMI.",
+            "Five of the nine winners had applied in 2025 Round Two and not won. Housing authorities and nonprofits sponsored seven of the nine."
+          ]
+        },
+        {
+          "id": "map",
+          "heading": "Where the awards went",
+          "paragraphs": [
+            "Filled dots are the nine awards; dashed rings are the 17 applications that did not win. Tap or hover a dot for the building, its homes, its income mix or what it asked for, and its sponsor. Dot size follows the number of homes."
+          ],
+          "map": "chfa-round-two",
+          "note": "Awards are placed at their CHFA address: 7 by the Census Geocoder and 2 on their new street (OpenStreetMap). Applications not awarded are at their CHFA address, three at the intersection CHFA lists and one at its town centre."
+        },
+        {
+          "id": "awards",
+          "heading": "The nine awards",
+          "table": {
+            "caption": "2026 Round Two awards (CHFA award report as of 2026-11-10). Credits are yearly amounts.",
+            "columns": [
+              "Building",
+              "Where",
+              "Rental homes",
+              "Who it serves",
+              "Income mix (homes at each AMI limit)",
+              "Federal 4% credit a year",
+              "State credits a year",
+              "Sponsor (as CHFA lists it)"
+            ],
+            "rows": [
+              [
+                "4745 N Federal Blvd",
+                "Denver, Denver County",
+                "109",
+                "Families, supportive housing",
+                "48 at 30%, 18 at 50%, 43 at 60%",
+                "$1,996,411",
+                "$2,118,000",
+                "Colorado Coalition for the Homeless"
+              ],
+              [
+                "Alpine Balsam",
+                "Boulder, Boulder County",
+                "55",
+                "Adults 62+, with homes for people with disabilities",
+                "9 at 30%, 6 at 40%, 40 at 50%",
+                "$1,577,561",
+                "$1,410,000",
+                "Boulder Housing Partners"
+              ],
+              [
+                "Baseline Family Apartments",
+                "Broomfield, Broomfield County",
+                "169",
+                "Families and individuals",
+                "17 at 30%, 10 at 40%, 16 at 50%, 100 at 60%, 26 at 70%",
+                "$3,660,723",
+                "$1,300,000",
+                "Lincoln Avenue Communities"
+              ],
+              [
+                "Castleton Heights",
+                "Castle Rock, Douglas County",
+                "80",
+                "Families and individuals",
+                "8 at 30%, 8 at 40%, 28 at 50%, 18 at 60%, 18 at 80%",
+                "$1,711,780",
+                "$1,900,000",
+                "TWG Development, LLC"
+              ],
+              [
+                "Cedar Gardens",
+                "Lakewood, Jefferson County",
+                "84",
+                "Families and individuals",
+                "13 at 30%, 17 at 40%, 54 at 50%",
+                "$1,951,562",
+                "$2,068,000",
+                "Metro West Housing Solutions"
+              ],
+              [
+                "Haven at Salt Flats",
+                "Grand Junction, Mesa County",
+                "62",
+                "Older adults and veterans leaving homelessness",
+                "13 at 30%, 25 at 50%, 24 at 60%",
+                "$1,285,707",
+                "$1,900,000",
+                "Volunteers of America National Services"
+              ],
+              [
+                "Metro Caring Housing",
+                "Denver, Denver County",
+                "139",
+                "Families and individuals",
+                "14 at 30%, 10 at 40%, 24 at 50%, 79 at 60%, 12 at 70%",
+                "$4,096,657",
+                "$2,178,000",
+                "Metro Caring"
+              ],
+              [
+                "Stanley 98",
+                "Aurora, Adams County",
+                "75",
+                "Families and individuals",
+                "9 at 30%, 7 at 40%, 21 at 50%, 38 at 60%",
+                "$1,836,829",
+                "$1,900,000",
+                "Aurora Housing Authority"
+              ],
+              [
+                "Starlight",
+                "Littleton, Arapahoe County",
+                "72",
+                "Families and individuals",
+                "10 at 30%, 25 at 50%, 21 at 60%, 16 at 70%",
+                "$1,550,888",
+                "$1,900,000",
+                "South Metro Housing Options"
+              ]
+            ]
+          },
+          "note": "Credits are yearly amounts CHFA reserves, not grants. State credits are accelerated plus standard state credit plus Transit-Oriented Communities credit. CHFA's award report prints a federal total of $19,668,117; its rows add to $19,668,118 because of rounding in the report."
+        },
+        {
+          "id": "income",
+          "heading": "Who the homes are for",
+          "paragraphs": [
+            "Rent limits follow a household's income as a share of area median income. 53% of the homes are at or below 50% AMI. The 141 homes at 30% are where the state housing vouchers, veterans' VASH vouchers and foster youth vouchers sit. 72 homes (9%) are at 70% or 80%, which income averaging allows when a building's average stays at or below 60%."
+          ],
+          "table": {
+            "caption": "Income limits of the 845 homes (CHFA award descriptions)",
+            "columns": [
+              "Rent and income limit",
+              "Rental homes",
+              "Share"
+            ],
+            "rows": [
+              [
+                "30% of AMI",
+                "141",
+                "17%"
+              ],
+              [
+                "40% of AMI",
+                "58",
+                "7%"
+              ],
+              [
+                "50% of AMI",
+                "251",
+                "30%"
+              ],
+              [
+                "60% of AMI",
+                "323",
+                "38%"
+              ],
+              [
+                "70% of AMI",
+                "54",
+                "6%"
+              ],
+              [
+                "80% of AMI",
+                "18",
+                "2%"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "not-awarded",
+          "heading": "The 17 that were not awarded",
+          "paragraphs": [
+            "17 applications with 1,882 rental homes did not get credits. Together they asked for $38.3M a year in federal 4% credit, $22.1M in accelerated state credit, $10.0M in standard state credit and $2.2M in Transit-Oriented Communities credit. CHFA does not publish scores, so these patterns describe who missed, not why."
+          ],
+          "items": [
+            "Bigger buildings missed more often. The typical application that missed had 110 homes; the typical winner had 80. Of the nine applications with 117 or more homes, seven missed.",
+            "Adams County went 1 for 6: five applications there missed (Brighton, Commerce City, Westminster and two with Denver mailing addresses). Both Colorado Springs applications missed, as did Fort Collins, Louisville and Cortez.",
+            "Asking for less federal credit did not decide it. Applications that missed asked for about the same federal credit per home as the winners got (typical $19,973 against $21,661). Every one of the 17 asked for the $1,300,000 accelerated state credit, and 10 also asked for Transit-Oriented Communities credit.",
+            "Three were repeat tries. Ironton Apartments: also not awarded in 2026 Round One (9%), as 10660 E Colfax. Reserves at Green Valley Ranch Phase II: also not awarded in 2024 and 2025 Round Two. Ridge: the same address applied in 2025 Round Two as A Line Flats and was not awarded.",
+            "The only rehab application and the only rural application both missed: 1218-1268 Dallas Street in Aurora (59 homes) and Park Village on 7th in Cortez (70 homes)."
+          ],
+          "table": {
+            "caption": "Applications not awarded (CHFA applicant report as of 2026-08-11)",
+            "columns": [
+              "Building",
+              "Where",
+              "Rental homes",
+              "Type",
+              "Federal 4% asked a year",
+              "State credits asked a year",
+              "Sponsor (as CHFA lists it)",
+              "Earlier tries"
+            ],
+            "rows": [
+              [
+                "1218-1268 Dallas Street",
+                "Aurora, Arapahoe County",
+                "59",
+                "Rehab only, families",
+                "$767,026",
+                "$1,900,000",
+                "East Colfax Community Collective",
+                ""
+              ],
+              [
+                "Adams Point",
+                "Brighton, Adams County",
+                "66",
+                "New construction, families",
+                "$1,140,745",
+                "$1,900,000",
+                "Brighton Housing Authority",
+                ""
+              ],
+              [
+                "Bristlecone Apartments",
+                "Fort Collins, Larimer County",
+                "112",
+                "New construction, families",
+                "$2,491,627",
+                "$2,124,000",
+                "MJT Properties, Inc.",
+                ""
+              ],
+              [
+                "Canope",
+                "Colorado Springs, El Paso County",
+                "125",
+                "New construction, families",
+                "$2,679,225",
+                "$1,948,956",
+                "Narrate Holdings",
+                ""
+              ],
+              [
+                "Centennial Valley Apartments",
+                "Louisville, Boulder County",
+                "100",
+                "New construction, families",
+                "$1,669,431",
+                "$2,100,000",
+                "Koelbel and Company",
+                ""
+              ],
+              [
+                "Cornerstone 104",
+                "Commerce City, Adams County",
+                "234",
+                "New construction, families",
+                "$3,217,256",
+                "$1,900,000",
+                "Kittle Property Group",
+                ""
+              ],
+              [
+                "Generations at Tapestry",
+                "Denver, Denver County",
+                "78",
+                "New construction, families",
+                "$2,345,844",
+                "$2,056,000",
+                "Gorman & Company, LLC",
+                ""
+              ],
+              [
+                "Ironton Apartments",
+                "Aurora, Arapahoe County",
+                "147",
+                "New construction, families",
+                "$2,853,317",
+                "$2,194,000",
+                "Columbia Ventures",
+                "Also not awarded in 2026 Round One (9%), as 10660 E Colfax."
+              ],
+              [
+                "Irving Street Senior Apartments",
+                "Westminster, Adams County",
+                "103",
+                "New construction, older adults",
+                "$2,139,485",
+                "$2,106,000",
+                "Wazee Partners, LLC",
+                ""
+              ],
+              [
+                "Park Village on 7th",
+                "Cortez, Montezuma County",
+                "70",
+                "New construction, families",
+                "$1,398,083",
+                "$1,899,030",
+                "Evergreen Real Estate Group",
+                ""
+              ],
+              [
+                "Platte River Commons",
+                "Denver, Denver County",
+                "110",
+                "New construction, families",
+                "$2,334,584",
+                "$2,120,000",
+                "Archway Investment Corporation",
+                ""
+              ],
+              [
+                "Reserves at Green Valley Ranch Phase II",
+                "Denver, Denver County",
+                "120",
+                "New construction, families",
+                "$2,315,543",
+                "$1,900,000",
+                "Overland Property Group",
+                "Also not awarded in 2024 and 2025 Round Two."
+              ],
+              [
+                "Ridge",
+                "Denver, Denver County",
+                "140",
+                "New construction, families",
+                "$4,088,715",
+                "$2,179,015",
+                "CrossPurpose",
+                "The same address applied in 2025 Round Two as A Line Flats and was not awarded."
+              ],
+              [
+                "Vantage Pointe Residences",
+                "Denver address, Adams County",
+                "131",
+                "New construction, families",
+                "$2,768,455",
+                "$2,162,000",
+                "Northpointe Development II Corporation",
+                ""
+              ],
+              [
+                "Villaggio St Carlo",
+                "Denver, Denver County",
+                "75",
+                "New construction, families",
+                "$1,371,203",
+                "$2,050,000",
+                "Catholic Charities Housing",
+                ""
+              ],
+              [
+                "Volta II",
+                "Colorado Springs, El Paso County",
+                "95",
+                "New construction, families and older adults",
+                "$1,729,770",
+                "$1,899,200",
+                "Community Development Partners",
+                ""
+              ],
+              [
+                "Welby",
+                "Denver address, Adams County",
+                "117",
+                "New construction, families",
+                "$2,997,728",
+                "$1,899,454",
+                "Maiker Housing Partners",
+                ""
+              ]
+            ]
+          }
+        },
+        {
+          "id": "history",
+          "heading": "Rural and metro, four years of Round Two",
+          "paragraphs": [
+            "2026 is the first of these years with no Round Two award outside a metro area (2023, 2024 and 2025 each had at least one). Only one of the 26 applications this year was rural, so the gap is as much about who applied as about who won. Round Two pairs 4% credit with tax-exempt bonds, and bond deals need enough homes to carry fixed costs, which works against small towns."
+          ],
+          "table": {
+            "caption": "Round Two (federal 4% + state credit) by year",
+            "columns": [
+              "Year",
+              "Applications",
+              "Awards",
+              "Rental homes awarded",
+              "Awards outside metro areas"
+            ],
+            "rows": [
+              [
+                "2023",
+                "35",
+                "10",
+                "1,110",
+                "Fort Morgan, Montrose"
+              ],
+              [
+                "2024",
+                "32",
+                "10",
+                "1,169",
+                "Glenwood Springs, Granby"
+              ],
+              [
+                "2025",
+                "21",
+                "9",
+                "840",
+                "Sterling"
+              ],
+              [
+                "2026",
+                "26",
+                "9",
+                "845",
+                "None"
+              ]
+            ]
+          },
+          "note": "Metro areas here are metro Denver (Adams, Arapahoe, Boulder, Broomfield, Denver, Douglas and Jefferson counties) and El Paso, Larimer, Weld, Pueblo and Mesa counties. Applications are the rows of each year’s CHFA applicant report; awards and homes are the rows of each year’s award report."
+        },
+        {
+          "id": "developers",
+          "heading": "What it means for Colorado developers",
+          "items": [
+            "State credit is the bottleneck. Applicants asked for $33.8M in accelerated state credit and CHFA awarded $11.7M. A 4% deal's gap has to close with the $1,300,000 cap in mind.",
+            "Coming back works. Five of the nine winners (Castleton Heights, Haven at Salt Flats, Metro Caring Housing, Stanley 98 and Starlight) missed in 2025 Round Two and won on reapplying.",
+            "Local backing shows up in most winners: donated land (Boulder, Denver, Littleton) and city or county money (Aurora, Boulder, Grand Junction, Lakewood, Littleton) appear in CHFA’s descriptions.",
+            "Every winner has homes at 30% AMI and a named service plan, and five of the nine pair them with vouchers.",
+            "Transit-Oriented Communities credit went to four infill sites (Denver, Boulder and Lakewood), $774,000 in all.",
+            "Round One (9%) remains the more common path for small towns: 2026 Round One awards went to Divide, Towaoc, Cañon City, Montrose and Clifton, among others."
+          ]
+        },
+        {
+          "id": "limits",
+          "heading": "Limits of this brief",
+          "items": [
+            "The award report lists $1,285,707 federal 4% credit; CHFA’s award descriptions page lists $1,479,881 (the August request). This file uses the award report, whose rows add to its printed total.",
+            "CHFA does not publish scores or reasons, so the patterns among applications that missed are descriptions, not causes.",
+            "Sponsor names are as CHFA lists them. Contact names, emails and phone numbers in CHFA’s reports are left out.",
+            "CHFA’s property feed does not carry 2026 awards yet; this brief and the site’s maps read the award report until it does."
+          ]
+        }
+      ],
+      "articles": [
+        {
+          "title": "CHFA Announces 2026 Round Two Housing Tax Credit Awards",
+          "source": "CHFA",
+          "date": "2026-11-16",
+          "link": "https://www.chfainfo.com/chfa-news/11162026-2026-round-two-htc-awards"
+        },
+        {
+          "title": "2026 Round Two Award Report",
+          "source": "CHFA",
+          "date": "2026-11-10",
+          "link": "https://www.chfainfo.com/getContentAsset/8211a644-1911-4044-a07f-5847fe1e283c/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
+        },
+        {
+          "title": "2026 Round Two Award Descriptions",
+          "source": "CHFA",
+          "date": "2026-11-17",
+          "link": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-two-award-descriptions"
+        },
+        {
+          "title": "2026 Round Two Applicant Report",
+          "source": "CHFA",
+          "date": "2026-08-11",
+          "link": "https://www.chfainfo.com/getContentAsset/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2026-HTC-Round-Two-Applicant-Report.pdf"
+        }
+      ],
+      "source_quotes": [
+        {
+          "link": "https://www.chfainfo.com/chfa-news/11162026-2026-round-two-htc-awards",
+          "quote": "nine developments will be awarded a reservation of federal and state Housing Tax Credits to support the new construction of 845 affordable rental units. The total private sector equity estimated to be raised by the credit awarded during this round exceeds $234 million."
+        },
+        {
+          "link": "https://www.chfainfo.com/getContentAsset/8211a644-1911-4044-a07f-5847fe1e283c/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+          "quote": "TOTALS: 845 845 $19,668,117 $11,700,000 $4,200,000 $774,000 $146,387,212"
+        },
+        {
+          "link": "https://www.chfainfo.com/getContentAsset/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2026-HTC-Round-Two-Applicant-Report.pdf",
+          "quote": "TOTALS 2,727 2,727 $58,114,232 $434,546,368 $33,800,000 $14,195,655 $3,016,000"
+        },
+        {
+          "link": "https://www.chfainfo.com/rental-housing/housing-credit/2026-round-two-award-descriptions",
+          "quote": "4745 N Federal Blvd: \"109 Units: 14 One-bedroom; 67 Two-bedroom; 24 Three-bedroom; 4 Four-bedroom\" and \"48 @ 30% AMI; 18 @ 50% AMI; 43 @ 60% AMI\""
+        }
+      ],
+      "alert_count": 0
+    },
     {
       "id": "forest-service-admin-site-leases-2026",
       "title": "Forest Service land leases for housing: what the December 2 rule changes and which Colorado counties could use it",

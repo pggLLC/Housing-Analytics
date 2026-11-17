@@ -54,6 +54,15 @@
         var pt = p.program_type || [];
         return pt.includes('chfa-2026-r1-bridge');
     }},
+    // 2026 Round Two bridge (data/affordable-housing/chfa-awards/2026-round-two.json):
+    // the nine 4% + state awards CHFA announced 2026-11-16, kept apart from
+    // Round One so a reader can tell the two rounds on the map.
+    { key: '2026r2_bridge', label: '2026 R2 (pending CHFA feed)', color: '#84cc16',
+      desc: 'CHFA 2026 Round Two award (federal 4% + Colorado state credit), announced 2026-11-16. Coordinates from the CHFA Award Report addresses: 7 geocoded by the Census to the address, 2 new streets placed on the street by OpenStreetMap (geo_precision="street"). Superseded when CHFA\'s live HousingTaxCreditProperties_view feed picks these up.',
+      match: function (p) {
+        var pt = p.program_type || [];
+        return pt.includes('chfa-2026-r2-bridge');
+    }},
     // F129 — Recent awards (2025 + 2026 R1, R2). User-visibility ask: these
     // should read as DISTINCT from the historical 1987-2024 portfolio because
     // they're the freshest pipeline news and likely what a developer scoping
@@ -74,7 +83,7 @@
         // still in their compliance period and would over-color the
         // map with deals that are NOT recent awards.
         var pt = p.program_type || [];
-        if (pt.includes('chfa-2026-r1-bridge')) return false;
+        if (pt.includes('chfa-2026-r1-bridge') || pt.includes('chfa-2026-r2-bridge')) return false;
         var y = Number(p.award_year) || Number(p.reservation_year);
         return isFinite(y) && y >= 2025;
     }},
@@ -182,6 +191,9 @@
     // claims them (yellow markers, distinct from the orange/red 9% colors).
     var bridgeUrl = _resolvePath('data/affordable-housing/chfa-awards/2026-round-one.json');
     var bridgeP = fetch(bridgeUrl).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+    // 2026 Round Two bridge, same shape, tagged chfa-2026-r2-bridge.
+    var bridge2Url = _resolvePath('data/affordable-housing/chfa-awards/2026-round-two.json');
+    var bridge2P = fetch(bridge2Url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
     _propsPromise = fetch(manifestUrl, { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .catch(function () { return null; })
@@ -191,16 +203,18 @@
                   (v ? '?v=' + encodeURIComponent(v) : '');
         return Promise.all([
           fetch(url).then(function (r) { return r.ok ? r.json() : null; }),
-          bridgeP
+          bridgeP,
+          bridge2P
         ]).then(function (parts) {
           var d = parts[0];
-          var bridge = parts[1];
           var props = (d && d.properties) ? d.properties : [];
           // Merge bridge awards as property-shaped records.
-          if (bridge && Array.isArray(bridge.awards)) {
+          [[parts[1], 'chfa-2026-r1-bridge'], [parts[2], 'chfa-2026-r2-bridge']].forEach(function (pair) {
+            var bridge = pair[0], tag = pair[1];
+            if (!bridge || !Array.isArray(bridge.awards)) return;
             bridge.awards.forEach(function (a) {
               if (!_hasFiniteCoordinate(a.lat) || !_hasFiniteCoordinate(a.lon)) return;
-              var pt = ['chfa-2026-r1-bridge'];
+              var pt = [tag];
               if (a.federal_9pct_credit) pt.push('lihtc-9pct');
               if (a.federal_4pct_credit) pt.push('lihtc-4pct');
               if (a.state_credit) pt.push('lihtc-state-paired');
@@ -219,12 +233,12 @@
                 sponsor: a.sponsor,
                 geo_precision: a.geo_precision,  // 'address' or 'city_centroid'
                 fallback_city: a.fallback_city || null,
-                _source: 'chfa-2026-r1-bridge',
+                _source: tag,
                 _bridge: true,
                 description: a.description
               });
             });
-          }
+          });
           _propsData = props;
           return _propsData;
         });
@@ -321,14 +335,16 @@
     // F123 — bridge entries show their geocoding precision so users know
     // whether the marker is on the actual site or just the city centroid.
     var precisionLine = '';
-    if (p._source === 'chfa-2026-r1-bridge') {
+    if (p._source === 'chfa-2026-r1-bridge' || p._source === 'chfa-2026-r2-bridge') {
       var unitsTxt = p.total_units ? p.total_units + ' u · ' : '';
       var sponsorTxt = p.sponsor ? '<div style="font-size:10.5px;opacity:.8;margin-top:2px">Sponsor: ' + _esc(p.sponsor) + '</div>' : '';
       precisionLine =
         '<div style="font-size:10.5px;margin-top:3px;color:' + cat.color + ';font-weight:600;max-width:260px">' +
           unitsTxt + (p.geo_precision === 'city_centroid'
             ? '⚠ City-centroid approximation (' + _esc(p.fallback_city || p.city || '') + ')'
-            : '✓ Address-precision (CHFA Award Report)')  +
+            : p.geo_precision === 'street'
+              ? 'Placed on the street (new address, not yet in the Census file)'
+              : '✓ Address-precision (CHFA Award Report)')  +
         '</div>' + sponsorTxt;
     }
     return (
@@ -528,6 +544,7 @@
     // Resolve which buckets to show. Default: everything.
     var showMap = {
       '2026r1_bridge': opts.show2026R1Bridge !== false, // F123
+      '2026r2_bridge': opts.show2026R2Bridge !== false,
       'recent_award':  opts.showRecentAward  !== false, // F129
       '9pct':         opts.show9pct         !== false,
       '4pct':         opts.show4pct         !== false,
@@ -569,7 +586,7 @@
         // the dense site-precision points. City-centroid fallback (5 of
         // the 14) gets an additional dashed outer ring via a paired
         // outline marker so users see two co-located rings when zoomed in.
-        var isBridge = p._source === 'chfa-2026-r1-bridge';
+        var isBridge = p._source === 'chfa-2026-r1-bridge' || p._source === 'chfa-2026-r2-bridge';
         var isCityCentroid = p.geo_precision === 'city_centroid';
         var marker = global.L.circleMarker([p.lat, p.lng], {
           pane: paneName,
