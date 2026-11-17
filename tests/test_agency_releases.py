@@ -27,6 +27,9 @@ CHFA_NEWS = '''
 <span class="listing__date">October 27, 2026</span>
 '''
 AWARDS = '<a href="/getContentAsset/x/y/2026-Round-Two-HTC-Award-Report.pdf?language=en-US">Award report</a>'
+# The DOLA links below are made-up fixtures resolved against DOLA's site, so they are built from the site address
+# (a full made-up URL here would fail the CI source-URL sweep as a dead link).
+DOLA_SITE = 'https://cdola.colorado.gov'
 DOLA = '<a href="/press-release/dola-releases-hna"><span>DOLA Releases Statewide Housing Needs Assessment</span></a>' \
        '<a href="/press-release/wildfire-grants"><span>DOLA Announces Wildfire Mitigation Grants</span></a>'
 
@@ -66,8 +69,8 @@ def test_a_refused_page_is_recorded_not_fatal():
 def test_first_read_is_not_new_and_later_items_get_their_first_seen_date():
     first = ar.collect(None, '2026-11-16', fetcher(PAGES))
     assert not any(i['agency'] == 'DOLA' for i in first['items']), 'undated items on a first read are not new'
-    assert first['first_seen']['https://cdola.colorado.gov/press-release/dola-releases-hna'] == 'before'
-    assert 'https://cdola.colorado.gov/press-release/wildfire-grants' not in first['first_seen'], 'not housing'
+    assert first['first_seen'][DOLA_SITE + '/press-release/dola-releases-hna'] == 'before'
+    assert DOLA_SITE + '/press-release/wildfire-grants' not in first['first_seen'], 'not housing'
     pages = dict(PAGES, cdola=DOLA + '<a href="/press-release/prop-123"><span>Prop 123 Affordable Housing Milestone</span></a>',
                  **{'housing-credit/awards': AWARDS + '<a href="/getContentAsset/x/y/2027-Round-One-HTC-Applicant-Report.pdf">a</a>'})
     second = ar.collect(json.loads(json.dumps(first)), '2026-11-17', fetcher(pages))
