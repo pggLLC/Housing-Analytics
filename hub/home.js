@@ -43,7 +43,7 @@
   }
   var HSRC = {
     dp04: 'https://data.census.gov/table/ACSDP5Y2024.DP04', dp03: 'https://data.census.gov/table/ACSDP5Y2024.DP03',
-    b25070: 'https://data.census.gov/table/ACSDT5Y2024.B25070', b25118: 'https://data.census.gov/table/ACSDT5Y2024.B25118',
+    b25070: 'https://data.census.gov/table/ACSDT5Y2024.B25070', b25119: 'https://data.census.gov/table/ACSDT5Y2024.B25119', b25118: 'https://data.census.gov/table/ACSDT5Y2024.B25118',
     chas: 'https://www.huduser.gov/portal/datasets/cp.html', dola: 'https://demography.dola.colorado.gov/',
     chfa: 'https://www.chfainfo.com/rental-housing/housing-credit'
   };
@@ -80,10 +80,19 @@
     f.renterGrowth = Number(v.annual_le60_renter_household_growth); f.coverage = Number(v.lihtc_new_construction_coverage_of_le60_renter_growth);
     // Owners and renters together who pay 30% or more (HUD CHAS), summed over the 64 counties: the live page's
     // "nearly 1 in 3 Colorado households, about 694,000".
-    var burdened = 0, all = 0;
+    // Split by tenure (paul, 16 Nov: renters and owners side by side wherever the data allows).
+    var burdened = 0, all = 0, by = { renter_hh_by_ami: [0, 0], owner_hh_by_ami: [0, 0] };
     var cs = d.burden && d.burden.counties; cs = cs ? (Array.isArray(cs) ? cs : Object.keys(cs).map(function (k) { return cs[k]; })) : [];
-    cs.forEach(function (c) { ['renter_hh_by_ami', 'owner_hh_by_ami'].forEach(function (k) { var x = c[k] || {}; Object.keys(x).forEach(function (b) { burdened += x[b].cost_burdened_30pct || 0; all += x[b].total || 0; }); }); });
+    cs.forEach(function (c) { Object.keys(by).forEach(function (k) { var x = c[k] || {}; Object.keys(x).forEach(function (b) { by[k][0] += x[b].cost_burdened_30pct || 0; by[k][1] += x[b].total || 0; burdened += x[b].cost_burdened_30pct || 0; all += x[b].total || 0; }); }); });
     f.allBurdened = burdened > 0 ? burdened : NaN; f.allBurdenedShare = all > 0 ? burdened / all : NaN;
+    f.rentBurdened = by.renter_hh_by_ami[0] > 0 ? by.renter_hh_by_ami[0] : NaN; f.rentBurdenedShare = by.renter_hh_by_ami[1] > 0 ? by.renter_hh_by_ami[0] / by.renter_hh_by_ami[1] : NaN;
+    f.ownBurdened = by.owner_hh_by_ami[0] > 0 ? by.owner_hh_by_ami[0] : NaN; f.ownBurdenedShare = by.owner_hh_by_ami[1] > 0 ? by.owner_hh_by_ami[0] / by.owner_hh_by_ami[1] : NaN;
+    // The owner gap: what it takes to buy the typical home, against what owners and renters earn (ACS B25119).
+    var ti = d.tenure && d.tenure.geos && d.tenure.geos['08'];
+    f.incOwner = ti && ti.owner > 0 ? ti.owner : NaN; f.incRenter = ti && ti.renter > 0 ? ti.renter : NaN;
+    f.tenureYears = d.tenure && d.tenure.meta ? d.tenure.meta.vintage : '';
+    f.rentMed = d.sum && d.sum.acsProfile ? Number(d.sum.acsProfile.DP04_0134E) : NaN;
+    f.og = global.LabTpl.ownerGap(f.value, f.rentMed);
     return f;
   }
 
@@ -111,6 +120,11 @@
         graphic: fin(f.burden) ? per100Bar(f.burden, Math.round(f.burden) + ' of every 100 renter households').replace('homes</span><span>per <b>100</b> households', 'renters</span><span>of every <b>100</b>') : '',
         how: 'Share of Colorado renter households whose gross rent is 30% or more of household income.',
         src: '<a href="' + HSRC.b25070 + '">ACS 2020–2024, table B25070</a>' }),
+      glanceCard({ title: 'Owners paying 30% or more of income', value: fin(f.ownBurdenedShare) ? (f.ownBurdenedShare * 100).toFixed(1) + '%' : '—',
+        plain: 'The same line for owners: the mortgage, taxes, insurance and utilities take 30% or more of the household’s income.',
+        graphic: fin(f.ownBurdenedShare) ? per100Bar(f.ownBurdenedShare * 100, Math.round(f.ownBurdenedShare * 100) + ' of every 100 owner households').replace('homes</span><span>per <b>100</b> households', 'owners</span><span>of every <b>100</b>') : '',
+        how: 'Share of Colorado owner households whose housing costs are 30% or more of household income: ' + cnt(f.ownBurdened) + ' owner households. HUD’s CHAS count; for renters it gives ' + (fin(f.rentBurdenedShare) ? (f.rentBurdenedShare * 100).toFixed(1) + '%' : '—') + ', lower than the ACS figure beside it because the years and the way income is counted differ.',
+        src: '<a href="' + HSRC.chas + '">HUD CHAS ' + esc(f.chasVintage) + '</a>' }),
       glanceCard({ title: 'Homes short for renters ≤30% AMI', value: cnt(t30.homes_short),
         plain: 'Homes Colorado lacks for renters earning 30% or less of area median income (AMI), counting only homes they can afford that higher earners don’t already rent.',
         graphic: per100Bar(t30.homes_per_100_households, Math.round(t30.homes_per_100_households) + ' affordable, available homes for every 100 renter households at or below 30% of area median income'),
@@ -133,9 +147,10 @@
     return '<section class="home-glance" aria-labelledby="h-glance"><h2 id="h-glance">Colorado at a glance</h2><div class="hg-grid">' + cards.join('') + '</div>' +
       '<div class="hg-read"><p><strong>Why this matters.</strong> The shortfall is deepest for the lowest-income renters, and new tax-credit homes cover only part of each year’s growth in low-income renters, so building at today’s pace does not keep up with new demand, let alone the existing shortfall.</p>' +
       '<p><strong>What to decide.</strong> Which income band a project should serve, and whether to add new homes or keep existing affordable ones. Statewide figures hide wide local differences, so check your town’s numbers before you decide.</p></div>' +
-      '<p class="hg-burden">Across Colorado, roughly half of renters spend more than 30% of their income on rent (<a href="' + HSRC.b25070 + '">ACS 2020–2024</a>). Counting homeowners too, ' +
-      (fin(f.allBurdenedShare) && f.allBurdenedShare > 0.28 && f.allBurdenedShare < 0.34 ? 'nearly 1 in 3' : (fin(f.allBurdenedShare) ? Math.round(f.allBurdenedShare * 100) + '% of' : 'many')) +
-      ' Colorado households, about <strong>' + (fin(f.allBurdened) ? num(Math.round(f.allBurdened / 1000) * 1000) : '—') + '</strong>, carry that cost burden (<a href="' + HSRC.chas + '">HUD CHAS 2018–2022</a>).</p>' +
+      '<p class="hg-burden">' + (fin(f.allBurdened) ? 'About <strong>' + num(Math.round(f.allBurdened / 1000) * 1000) + '</strong> Colorado households, ' +
+        (fin(f.allBurdenedShare) && f.allBurdenedShare > 0.28 && f.allBurdenedShare < 0.34 ? 'nearly 1 in 3' : Math.round(f.allBurdenedShare * 100) + '%') + ', pay 30% or more of their income for housing' +
+        (fin(f.rentBurdened) && fin(f.ownBurdened) ? ': <strong>' + num(f.rentBurdened) + ' renter households</strong> (' + Math.round(f.rentBurdenedShare * 100) + '% of renters) and <strong>' + num(f.ownBurdened) + ' owner households</strong> (' + Math.round(f.ownBurdenedShare * 100) + '% of owners)' : '') +
+        ' (<a href="' + HSRC.chas + '">HUD CHAS 2018–2022</a>). The renter share runs higher on the newer ACS count above, which counts renters only.' : 'Cost burden for owners and renters is not available.') + '</p>' +
       '<p class="note">Educational; not a substitute for lender underwriting or legal advice.</p></section>';
   }
 
@@ -435,7 +450,8 @@
     return '<section class="ri-card hw-own" aria-label="Home prices against income in Colorado"><div class="ri-text"><p class="ri-kick">Colorado · Owners</p>' +
       '<h3 class="ri-h">A typical home costs ' + r.toFixed(1) + ' years of a typical income</h3>' +
       '<p>The typical owner’s home in Colorado is valued at <strong>$' + num(f.value) + '</strong>. The typical household earns <strong>$' + num(f.income) + '</strong> a year.</p>' +
-      '<div class="ri-take"><p class="ri-big">' + r.toFixed(1) + '×</p><p>income, for the typical home. Buyers also need a down payment, and the monthly cost moves with mortgage rates.</p></div></div>' +
+      '<div class="ri-take"><p class="ri-big">' + r.toFixed(1) + '×</p><p>income, for the typical home. Buyers also need a down payment, and the monthly cost moves with mortgage rates.</p></div>' +
+      ownGap(f) + '</div>' +
       '<div class="ri-viz"><p class="ri-vt">Typical home value against typical household income, 2020–2024</p>' +
       '<div class="ri-cmp-wrap" role="img" aria-label="' + esc('Colorado, 2020–2024: typical home value $' + num(f.value) + ', typical household income $' + num(f.income) + ' a year, ' + r.toFixed(1) + ' times.') + '">' +
       '<div class="ri-cmp"><span class="ri-t">Typical home value</span><b>$' + num(f.value) + '</b><span class="ri-bar ri-rent" style="width:100%"></span></div>' +
@@ -443,6 +459,18 @@
       '<p class="ri-lnote">This compares two medians. Home values are what owners told the Census Bureau their home is worth; it is not a sale price.</p></div>' +
       '<div class="ri-foot"><p class="metric-source">Source: <a href="' + HSRC.dp04 + '">ACS 2020–2024 5-year, DP04</a> (median value, owner-occupied homes) and <a href="' + HSRC.dp03 + '">DP03</a> (median household income), Colorado.</p>' +
       '<p class="ri-more-link"><a href="#/for-sale">What each income can pay for a home, town by town →</a></p></div></section>';
+  }
+
+  // The owner gap beside the rent gap: the income the typical home and the typical rent take, against what owner
+  // and renter households earn (ACS B25119). Colorado only, like the card it sits in.
+  function ownGap(f) {
+    var g = f.og || {};
+    if (!g.buy || !fin(f.incRenter) || !fin(f.incOwner)) return '';
+    return '<div class="ri-owngap"><p class="ri-vt">Income it takes, against what households earn</p><ul class="ri-owngap-list">' +
+      '<li><span class="hh-tag hh-tag-owners">Buying</span> The typical home takes about <strong>$' + num(g.buy) + '</strong> a year. Renter households, the would-be first-time buyers, earn <strong>$' + num(f.incRenter) + '</strong>: <strong>$' + num(global.LabTpl.short(g.buy, f.incRenter)) + '</strong> short. Owner households earn $' + num(f.incOwner) + '.</li>' +
+      (g.rent ? '<li><span class="hh-tag hh-tag-renters">Renting</span> The typical rent ($' + num(f.rentMed) + ' a month) takes about <strong>$' + num(g.rent) + '</strong> a year. Renter households earn $' + num(f.incRenter) + (global.LabTpl.short(g.rent, f.incRenter) ? ': <strong>$' + num(global.LabTpl.short(g.rent, f.incRenter)) + '</strong> short.' : ', enough.') + '</li>' : '') + '</ul>' +
+      '<p class="ri-lnote">Buying at ' + (g.rate ? (g.rate * 100).toFixed(2) + '%' : 'today’s rate') + ' for 30 years (Freddie Mac, week of ' + esc(g.week || '') + '), ' + Math.round((g.down || 0.1) * 100) + '% down, with taxes, insurance and mortgage insurance, at 30% of income. Renting at 30% of income. Typical means the median. These are two prices against two incomes, not a count of homes.</p>' +
+      '<p class="metric-source">Source: <a href="' + HSRC.b25119 + '">ACS ' + esc(f.tenureYears || '2020–2024') + ' 5-year, B25119</a> (median income of renter and owner households), <a href="' + HSRC.dp04 + '">DP04</a> (median value and rent), <a href="https://www.freddiemac.com/pmms">Freddie Mac PMMS</a>, week of ' + esc(g.week || '') + '.</p></div>';
   }
 
   // Every hub and tool, read from the menus so it never drifts from them (paul, 15 Nov: an inventory on Home).
@@ -471,7 +499,9 @@
     params = params || new URLSearchParams();
     var r = Shell.recent ? Shell.recent() : [];
     var x = UI.load(HOME_FILES), sum = stateSummary().data;
-    var f = x.data ? homeFigures(Object.assign({ sum: sum || null }, x.data)) : null;
+    // Incomes by tenure load on their own, so Home draws without them (the owner lines wait for them).
+    var ten = UI.load({ tenure: 'data/hna/tenure-income.json' });
+    var f = x.data ? homeFigures(Object.assign({ sum: sum || null, tenure: ten.data && ten.data.tenure }, x.data)) : null;
     var figures = x.error ? '<p class="callout">' + esc(x.error) + '</p>' : !f ? '<p role="status" class="note">Loading Colorado’s figures…</p>' : '';
     var g = params.get('town');
     return '<section class="home-hero hh-warm" aria-labelledby="home-h1"><div class="hh-copy"><p class="hh-kicker">COHO Analytics · Colorado housing</p>' +

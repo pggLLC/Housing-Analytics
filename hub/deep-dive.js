@@ -916,6 +916,33 @@
     return '<p class="note">' + out.length + (out.length === 1 ? ' county is' : ' counties are') + ' in no group: ' +
       Object.keys(why).map(function (r) { return why[r].sort().join(', ') + ' (' + r + ')'; }).join('; ') + '.</p>';
   }
+  // Owners beside renters (paul, 16 Nov: "go owner gap with B25119"). Not a "homes short" count: the for-sale
+  // screen compares buyers with homes owners already live in and reads 0 almost everywhere, so the owner gap is
+  // a price gap (the State HNA's measure, Figure 33): the income the typical home takes, against what owner and
+  // renter households earn, and the top price each income can pay. Cost burden by tenure is HUD CHAS.
+  function ownersSec(d) {
+    var O = global.HNAOwnershipNeed, co = (d.acsState && d.acsState.data || []).filter(function (r) { return r.state_fips === '08'; })[0];
+    var tl = UI.load({ tenure: 'data/hna/tenure-income.json' }), tf = tl.data && tl.data.tenure;
+    var ti = tf && tf.geos && tf.geos['08'], cs = d.chas && d.chas.state, ami4 = d.gap && d.gap.statewide && Number(d.gap.statewide.ami_4person);
+    if (!O || !co || !ti || !cs) return '';
+    var g = T.ownerGap(co.median_home_value, co.median_gross_rent);
+    // Summed over the 64 counties, as Home sums them, so the two pages print the same counts.
+    var cc = d.chas.counties || {}, cl = Array.isArray(cc) ? cc : Object.keys(cc).map(function (k) { return cc[k]; });
+    var tot = function (k, f) { return cl.reduce(function (s, c) { var x = c[k] || {}; return s + Object.keys(x).reduce(function (a, b) { return a + (x[b][f] || 0); }, 0); }, 0); };
+    var ob = tot('owner_hh_by_ami', 'cost_burdened_30pct'), oa = tot('owner_hh_by_ami', 'total'), rb = tot('renter_hh_by_ami', 'cost_burdened_30pct'), ra = tot('renter_hh_by_ami', 'total');
+    var rows = [0.8, 1, 1.2].map(function (p) {
+      var inc = ami4 * p, price = O.maxAffordablePrice(ami4, p);
+      return { band: Math.round(p * 100) + '% AMI', inc: Math.round(inc), price: price, typ: price >= co.median_home_value ? 'Yes' : 'No, $' + num(Math.round((co.median_home_value - price) / 100) * 100) + ' short' };
+    });
+    var cy = d.chas.meta && d.chas.meta.vintage, yrs = (tf.meta && tf.meta.vintage) || '2020–2024';
+    return sec('fvn-own', 'Owners and the homes they can buy, statewide',
+      '<p>Buying Colorado’s typical home ($' + num(co.median_home_value) + ') takes about <strong>$' + num(g.buy) + ' a year</strong> of income. Renter households, who are most first-time buyers, earn a median <strong>$' + num(ti.renter) + '</strong>, so they fall <strong>$' + num(T.short(g.buy, ti.renter)) + '</strong> short. Owner households earn $' + num(ti.owner) + '. For renting, the typical rent takes $' + num(g.rent) + ' a year, $' + num(T.short(g.rent, ti.renter)) + ' more than renters earn.</p>' +
+      '<p>' + num(ob) + ' owner households (' + (ob / oa * 100).toFixed(1) + '%) pay 30% or more of income for housing, against ' + num(rb) + ' renter households (' + (rb / ra * 100).toFixed(1) + '%) on the same HUD count (' + esc(cy || '') + ').</p>' +
+      '<p class="note">There is no “homes short for buyers” figure here on purpose. Almost every home priced for a moderate income is already lived in by its owner, so counting those homes against renters who might buy shows no shortage, and that would mislead. The gap for buyers is the price.</p>' +
+      UI.table('dd-own', 'What each income can pay for a home, Colorado', [{ key: 'band', label: 'Income' }, { key: 'inc', label: 'Household income (4 people)', num: true, fmt: money }, { key: 'price', label: 'Top home price', num: true, fmt: money }, { key: 'typ', label: 'Can buy the typical home?' }], rows, { noun: 'income bands', placeholder: 'Income' }) +
+      '<p class="note">At ' + (g.rate * 100).toFixed(2) + '% for 30 years (Freddie Mac, week of ' + esc(g.week) + '), ' + Math.round((g.down || 0.1) * 100) + '% down, with taxes, insurance and mortgage insurance, at 30% of income, using the site’s ownership calculator. The 4-person AMI is HUD’s statewide figure, $' + num(ami4) + '.</p>' +
+      src('ACS ' + yrs + ' B25119 (income by tenure), B25077 and B25064 (median value and rent); HUD CHAS ' + (cy || '') + '; Freddie Mac PMMS', T.B25119_URL, 'week of ' + g.week), 3);
+  }
   function need(d, params) {
     var fvn = d.fvn, ami = d.gap, st = ami.statewide, sw = fvn.statewide, w = fvn.meta.window, split = fvn.meta.quadrant_split;
     var quadOn = params.get('quad');
@@ -939,7 +966,7 @@
         sec('fvn-ami', 'Renters and the homes priced for them, statewide', (c30 ? '<p>Colorado is <strong>' + num(c30.homes_short) + ' homes short</strong> for renters at or below 30% of area median income on HUD\u2019s CHAS count (' + esc(chasYears(d)) + '), the one headline figure this site uses. It counts only homes those renters can afford that are vacant or rented by someone in the group.</p>' : '') +
           '<p>The ACS count below is newer and reaches every county, so the groups on this page use it. At 30% of area median income, ' + num(st.households_le_ami_pct[30]) + ' renter households compete for ' + num(st.units_priced_affordable_le_ami_pct[30]) + ' homes priced for them, a shortfall of ' + num(gap30) + ' on this count. It is larger because it includes cheap homes rented by higher-income households and measures everyone against one statewide AMI. The shortfall shrinks with income and turns to a surplus near 70% AMI.</p>' +
           UI.table('dd-ami', 'Renters against homes priced for them, by income', [{ key: 'band', label: 'Income' }, { key: 'rent', label: 'Rent they can pay', num: true, fmt: money }, { key: 'hh', label: 'Renter households', num: true, fmt: num }, { key: 'units', label: 'Homes priced for them', num: true, fmt: num },
-            { key: 'gap', label: 'Homes minus households', num: true, fmt: function (v) { return (v > 0 ? '+' : '') + num(v); }, tip: 'Negative means more households than homes' }], amiRows, { noun: 'income bands', placeholder: 'Income' }) + src('ACS ' + ami.meta.acs_year + ' B25118 and B25063 with HUD FY' + ami.meta.hud_income_limits_year + ' income limits', ami.sources[2].url, 'built ' + day(ami.meta.generated_at)), 3)) +
+            { key: 'gap', label: 'Homes minus households', num: true, fmt: function (v) { return (v > 0 ? '+' : '') + num(v); }, tip: 'Negative means more households than homes' }], amiRows, { noun: 'income bands', placeholder: 'Income' }) + src('ACS ' + ami.meta.acs_year + ' B25118 and B25063 with HUD FY' + ami.meta.hud_income_limits_year + ' income limits', ami.sources[2].url, 'built ' + day(ami.meta.generated_at)), 3) + ownersSec(d)) +
       sec('fvn-scatter', 'Rental need against funding received, by county', '<p class="note">Need: renter households at or below 30% AMI minus homes priced for them (the ACS count, ' + esc(ami.meta.acs_year) + ' with HUD income limits, via the ranking index), not HUD\u2019s CHAS count, so a county\u2019s group can differ on that measure.' + esc(chasOutNote(d)) + ' Funding: LIHTC units in CHFA round award reports since ' + w.first_year + (hasBonds(sw) ? ', plus 4% bond deals awarded outside the rounds.</p>' : '; 4% bond deals outside the rounds are not counted.</p>') +
         scatter({ title: 'Homes short at 30% AMI per 1,000 residents, against tax credit homes per 100 short', answer: 'Scatter of ' + pts.length + ' counties. ' + ['underserved', 'aligned', 'funded-above-need', 'low-need-low-funding'].map(function (k) { return QUAD[k][0] + ': ' + sw.quadrants[k]; }).join('; ') + '.',
           points: pts, sx: split.gap_per_1000_residents, sy: split.lihtc_units_per_100_gap, xLabel: 'Homes short at 30% AMI per 1,000 residents', yLabel: 'Tax credit homes per 100 short', xShort: 'Short at 30% AMI, per 1,000 residents', legend: ['underserved', 'aligned', 'funded-above-need', 'low-need-low-funding'].map(function (k) { return [QUAD[k][2], QUAD[k][0]]; }).concat([['var(--slate-text)', 'Dashed: county medians']]) }) +

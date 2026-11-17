@@ -1586,12 +1586,15 @@
       var rows = (r.priceBandScreen && r.priceBandScreen.rows) || [];
       var NAME = { lte80: '80% AMI or less', '81to100': '81–100% AMI', '101to120': '101–120% AMI' };
       var gapNote = false;
-      var table = rows.length ? '<div class="table-scroll"><table><caption>Possible buyers and homes, by price band</caption><thead><tr><th scope="col">Price band</th><th scope="col">Top price</th><th scope="col" title="Renter households earning in the band: a possible buyer pool, not committed demand">Renter households in the band</th><th scope="col">Homes valued in the band</th><th scope="col">Buyers beyond homes</th></tr></thead><tbody>' +
+      var table = rows.length ? '<div class="table-scroll"><table><caption>Possible buyers and homes, by price band</caption><thead><tr><th scope="col">Price band</th><th scope="col">Top price</th><th scope="col" title="Renter households earning in the band: a possible buyer pool, not committed demand">Renter households in the band</th><th scope="col">Homes valued in the band</th></tr></thead><tbody>' +
         rows.map(function (x) {
           var na = x.potentialBuyerPoolHouseholds == null; if (na) gapNote = true;
-          return '<tr><th scope="row">' + esc(NAME[x.key] || x.label) + '</th><td>' + money(x.maxAffordablePrice) + '</td><td>' + (na ? 'Not counted' : num(Math.round(x.potentialBuyerPoolHouseholds))) + '</td><td>' + (x.ownerValueSupplyUnits == null ? '—' : num(Math.round(x.ownerValueSupplyUnits))) + '</td><td>' + (x.currentGapHouseholds == null ? '—' : num(Math.round(x.currentGapHouseholds))) + '</td></tr>';
+          return '<tr><th scope="row">' + esc(NAME[x.key] || x.label) + '</th><td>' + money(x.maxAffordablePrice) + '</td><td>' + (na ? 'Not counted' : num(Math.round(x.potentialBuyerPoolHouseholds))) + '</td><td>' + (x.ownerValueSupplyUnits == null ? '—' : num(Math.round(x.ownerValueSupplyUnits))) + '</td></tr>';
         }).join('') + '</tbody></table></div>' +
         (gapNote ? '<p class="note">HUD’s CHAS income bands stop at 100% AMI, so renters above it are not counted.</p>' : '') +
+        // No "buyers beyond homes" column (paul, 16 Nov, owner gap): the homes are ones owners already live in, not homes
+        // for sale, so the difference read 0 almost everywhere and suggested no shortage. The price is the gap.
+        '<p class="note">These homes are mostly lived in by their owners, not for sale, so the two counts are not a shortage. For buyers the gap is the price: see what each income can pay on <a href="#/for-sale?g=' + esc(geoid) + '">For-sale and ownership</a>.</p>' +
         (src ? '<p class="metric-source">' + src + '</p>' : '')
         : '<p class="note">No price bands here: there is no four-person AMI to set them.</p>';
       return '<h3>If you are taking this further</h3>' +
