@@ -74,7 +74,7 @@ function prose() {
   }
   return squash(parts.join(' '));
 }
-const SPELLED = [[/sixty percent/gi, '60%'], [/one hundred percent/gi, '100%'], [/thirty percent/gi, '30%'], [/TEN ONE-HUNDREDTHS/g, '10%'], [/FIFTEEN ONE-HUNDREDTHS/g, '15%'], [/TWENTY ONE-HUNDREDTHS/g, '20%'], [/NOT LESS THAN FIVE UNITS/g, 'five'], [/(\d+(?:\.\d+)?) percent/gi, '$1%'], [/nearly \$950,000/g, '$950,000'], [/2 to 4%/g, '2% 4%'], [/ONE HUNDRED UNITS AND NOT LESS THAN FIFTEEN UNITS/g, '100 15']];
+const SPELLED = [[/AT LEAST ONE PERCENT/g, '1%'], [/FIVE THOUSAND/g, '5,000'], [/ONE THOUSAND/g, '1,000'], [/sixty percent/gi, '60%'], [/one hundred percent/gi, '100%'], [/thirty percent/gi, '30%'], [/TEN ONE-HUNDREDTHS/g, '10%'], [/FIFTEEN ONE-HUNDREDTHS/g, '15%'], [/TWENTY ONE-HUNDREDTHS/g, '20%'], [/NOT LESS THAN FIVE UNITS/g, 'five'], [/(\d+(?:\.\d+)?) percent/gi, '$1%'], [/nearly \$950,000/g, '$950,000'], [/2 to 4%/g, '2% 4%'], [/ONE HUNDRED UNITS AND NOT LESS THAN FIFTEEN UNITS/g, '100 15']];
 const FIGURE = /\$\d[\d,]*(?:\.\d+)?(?: million)?|\d+(?:\.\d+)?%|\b\d{1,3}(?:,\d{3})+\b|\b(?!(?:19|20)\d{2}\b)[1-9]\d+\b/g;
 
 test('every figure in the prose sits in a recorded quote from a cited source', () => {

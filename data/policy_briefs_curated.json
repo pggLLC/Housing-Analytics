@@ -50,7 +50,7 @@
               [
                 "Outside and institutional investment",
                 "Bidding against first-time buyers; rent pressure when older buildings change hands",
-                "Local right to buy older apartments; federal limit on large buyers of single-family homes; for-cause eviction (renters and first-time buyers)"
+                "Local right to buy older apartments; federal limit on large buyers of single-family homes from 2027; for-cause eviction (renters and first-time buyers)"
               ],
               [
                 "State money for development",
@@ -60,7 +60,7 @@
               [
                 "Second homes",
                 "Fewer homes left for year-round residents",
-                "Buying deed restrictions on existing homes; land trusts and public land (owners and buyers)"
+                "Buying deed restrictions on existing homes; land trusts and public land (owners and buyers; land banks can also serve renters)"
               ]
             ]
           }
@@ -70,7 +70,7 @@
           "heading": "Start with the local jobs-and-homes balance",
           "paragraphs": [
             "A fee or tax is fairest when it is tied to a measured need. The first step is one table for the town or county: for each income level, how many local workers there are, and how many homes they can afford and actually get. Count renters and owners separately, because the tools that help each are different.",
-            "Most towns are building this now. Under SB24-174, municipalities and counties with more than 1,000 residents must send a housing needs assessment to DOLA by December 31, 2026, and those with 5,000 or more people must adopt a housing action plan by January 1, 2028.",
+            "Most towns are building this now. Under SB24-174, a city, town or county of 1,000 people or more (for a county, only its unincorporated residents count) must send a housing needs assessment to DOLA by December 31, 2026, on its own or through a regional assessment. A place that lost at least 1% of its population in the last census is exempt. Housing action plans are due by January 1, 2028 from places of 5,000 or more, and from places of 1,000 or more that joined a regional assessment or count as rural resort communities.",
             "The state now links housing to jobs too. HB26-1313, approved May 26, 2026, changes the Proposition 123 commitment from 2027. A town's target becomes its average yearly home permits over the past three years, times the years it commits to, times 10%, 15% or 20%, depending on whether job growth in its county is well below, close to or well above the statewide median. Until then the commitment is a 3% annual increase in affordable homes."
           ],
           "items": [
@@ -404,7 +404,7 @@
           "heading": "Guardrails on investors",
           "items": [
             "Right to buy older apartments: under HB24-1175, approved May 30, 2024, the local government has a right of first refusal, with a matched offer, when existing affordable housing of five or more units is sold, and a right of first offer on other rental buildings of 15 to 100 units, to keep them affordable. Both rights end December 31, 2029. Adams County kept its right of first offer under the state's 2024 Rights to Property for Affordable Housing law and assigned its right of first refusal for unincorporated properties to Maiker Housing Partners.",
-            "Federal limit on large buyers: the 21st Century ROAD to Housing Act became law on July 11, 2026. An investor controlling 350 or more single-family homes may not buy more, with exceptions such as newly built homes. Build-to-rent investment stays open.",
+            "Federal limit on large buyers: the 21st Century ROAD to Housing Act became law on July 11, 2026. From January 7, 2027, 180 days later, an investor controlling 350 or more single-family homes will not be allowed to buy more, with exceptions such as newly built homes. Build-to-rent investment stays open.",
             "Renters already housed: HB24-1098, approved April 19, 2024, requires a landlord to have cause to evict.",
             "How big is corporate ownership? A state task force counted 49,278 corporate-owned homes in 2023 in the 17 counties with 90% of Colorado's homes, about 3% of homes that owners could live in. Eagle County had the highest share."
           ]
@@ -481,6 +481,11 @@
           "title": "Research Corner: Corporate ownership in Colorado's housing market (Feb. 3, 2026)",
           "source": "Colorado Municipal League",
           "link": "https://www.cml.org/home/publications-news/article-detail/research-corner-corporate-ownership-in-colorado-housing-market"
+        },
+        {
+          "title": "SB24-174 as signed",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/sites/default/files/2024a_174_signed.pdf"
         },
         {
           "title": "Housing Plans (SB24-174)",
@@ -762,12 +767,20 @@
           "quote": "49,278 units"
         },
         {
-          "link": "https://cdola.colorado.gov/housing-plans",
-          "quote": "Municipalities with more than 1,000 residents,"
+          "link": "https://leg.colorado.gov/sites/default/files/2024a_174_signed.pdf",
+          "quote": "THE LOCAL GOVERNMENT HAS A POPULATION OF LESS THAN ONE THOUSAND, OR HAS EXPERIENCED A NEGATIVE POPULATION CHANGE OF AT LEAST ONE PERCENT IN THE MOST RECENT DECENNIAL CENSUS"
         },
         {
-          "link": "https://cdola.colorado.gov/housing-plans",
-          "quote": "Counties with more than 1,000 residents"
+          "link": "https://leg.colorado.gov/sites/default/files/2024a_174_signed.pdf",
+          "quote": "A COUNTY'S POPULATION INCLUDES ONLY THE POPULATION WITHIN A COUNTY'S UNINCORPORATED TERRITORY."
+        },
+        {
+          "link": "https://leg.colorado.gov/sites/default/files/2024a_174_signed.pdf",
+          "quote": "THE LOCAL GOVERNMENT PARTICIPATES IN THE CREATION OF A REGIONAL HOUSING NEEDS ASSESSMENT"
+        },
+        {
+          "link": "https://leg.colorado.gov/sites/default/files/2024a_174_signed.pdf",
+          "quote": "(I) FIVE THOUSAND OR MORE; OR (II) ONE THOUSAND OR MORE AND EITHER PARTICIPATED IN A REGIONAL HOUSING NEEDS ASSESSMENT OR WOULD HAVE BEEN DEEMED, AS OF JANUARY 1, 2024, TO BE A RURAL RESORT COMMUNITY"
         },
         {
           "link": "https://cdola.colorado.gov/housing-plans",
@@ -1000,6 +1013,10 @@
         {
           "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ101/html/PLAW-119publ101.htm",
           "quote": "July 11, 2026 -  [H.R. 6644]"
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ101/html/PLAW-119publ101.htm",
+          "quote": "shall take effect on the date that is 180 days after the date of enactment of this Act"
         },
         {
           "link": "https://leg.colorado.gov/laws/session-laws/HB24-1098/113/download",
