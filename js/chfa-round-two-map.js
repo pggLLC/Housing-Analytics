@@ -42,7 +42,7 @@
       .map(function (b) { return a.ami_mix[b] + ' at ' + b + '%'; }).join(', ');
     return '<strong>' + esc(a.name) + '</strong><br>' +
       'Awarded · ' + esc(where(a)) + '<br>' +
-      esc(a.total_units) + ' rental homes<br>' +
+      esc(a.total_units) + ' rental homes' + (a.set_aside ? '; ' + esc(a.set_aside) : '') + '<br>' +
       'Income limits (AMI): ' + esc(mix) + '<br>' +
       'Federal 4% credit ' + usd(a.federal_4pct_credit) + ' a year · state credits ' + usd(state) + ' a year<br>' +
       'Sponsor: ' + esc(a.sponsor) +

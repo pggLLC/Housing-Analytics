@@ -143,7 +143,7 @@ export function buildBrief(bridge, ledger, counts) {
       a.name,
       `${a.city}, ${a.county} County`,
       fmt(a.total_units),
-      SERVES[a.type] || 'Families and individuals',
+      (SERVES[a.type] || 'Families and individuals') + (a.set_aside ? `; ${a.set_aside}` : ''),
       AMI_BANDS.filter((b) => a.ami_mix[b]).map((b) => `${a.ami_mix[b]} at ${b}%`).join(', '),
       usd(a.federal_4pct_credit),
       usd(stateTotal(a)),

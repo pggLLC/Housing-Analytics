@@ -48,6 +48,18 @@ test('every award\'s income mix adds up to its homes, and quotes CHFA\'s line', 
   }
 });
 
+test('a set-aside CHFA describes is shown, and its number is CHFA\'s', () => {
+  const words = { 8: 'eight', 15: '15' };
+  const rows = buildBrief(R2, json(LEDGER), json(COUNTS)).sections.find((s) => s.id === 'awards').table.rows;
+  for (const a of R2.awards) {
+    if (/set aside to serve households|Foster Youth/i.test(a.description)) assert.ok(a.set_aside, `${a.name}: CHFA lists a set-aside`);
+    if (!a.set_aside) continue;
+    const n = Number(a.set_aside.match(/\d+/)[0]);
+    assert.ok(a.description.includes(words[n] || String(n)), `${a.name}: ${n} is in CHFA's description`);
+    assert.ok(rows.find((r) => r[0] === a.name)[3].endsWith(a.set_aside), `${a.name}: shown in Who it serves`);
+  }
+});
+
 test('applications not awarded and awards add up to the applicant report', () => {
   const T = M.applicant_report_totals;
   assert.ok(M.source_quotes.applicant_report_totals.includes(T.total_units.toLocaleString('en-US')));
