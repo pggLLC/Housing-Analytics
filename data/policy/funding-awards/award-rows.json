@@ -1,7 +1,7 @@
 {
   "meta": {
     "generator": "scripts/funding/build_award_rows.py",
-    "ledger_generated_at": "2026-11-17T03:20:58Z",
+    "ledger_generated_at": "2026-11-17T04:20:50Z",
     "method": "Each award PDF read as tables with pdfplumber; each ledger award matched to the printed row that carries both its amount and its unit count. Contact columns are never read. The quote is the row as printed, heading by heading.",
     "rows": 467,
     "unmatched": 0,
