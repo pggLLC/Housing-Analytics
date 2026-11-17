@@ -81,6 +81,58 @@
           ]
         },
         {
+          "id": "fit",
+          "heading": "Fit the tools to the place",
+          "paragraphs": [
+            "The same tool can work well in one town and do little in the next. Fees on new building only raise money where building happens, so a town that is barely growing, or has no room to grow, needs a different mix from a fast-growing one. Four things tell a town which kind it is: how many homes it has permitted in recent years, how fast jobs are growing in its county compared with the state, how much buildable land is left inside or next to it, and how many of its workers live somewhere else.",
+            "The state already sizes Proposition 123 this way. From 2027 a town's target is built from its own recent home permits and its county's job growth, so a town that builds little gets a smaller target, and one that is adding jobs quickly gets a larger one."
+          ],
+          "table": {
+            "caption": "Which tools fit which kind of place",
+            "columns": [
+              "Kind of place",
+              "Tools that fit",
+              "Tools that do little there"
+            ],
+            "rows": [
+              [
+                "Growing, with land to build on",
+                "Linkage fees and inclusionary housing, set from a nexus study; housing conditions when land is annexed; land banking ahead of growth",
+                "Buy-downs alone, which cannot keep pace with new jobs"
+              ],
+              [
+                "Slow-growing or shrinking",
+                "Fixing and keeping the homes it has; buying deed restrictions; the right to buy older apartments; a regional housing authority shared with neighbors; holding land for later",
+                "Linkage fees and inclusionary rules, which raise little when little is built and can stop the few projects that come"
+              ],
+              [
+                "Land-locked (public land, steep ground or water limits all around)",
+                "More homes on the land it has: infill, accessory dwellings, converting buildings, homes on land owned by school districts, housing authorities and other public owners; Forest Service site leases; buy-downs and short-term rental caps that keep existing homes for locals; working with the towns where its workers live",
+                "Annexation and large new subdivisions; fees that assume steady new building"
+              ],
+              [
+                "Resort town with many second homes",
+                "Short-term rental and lodging taxes; neighborhood caps; buy-downs that keep existing homes for local workers",
+                "Rental-only tools that leave out workers who want to buy"
+              ],
+              [
+                "Bedroom town where many residents work elsewhere",
+                "Regional agreements, so the towns where the jobs are help pay; keeping homes affordable for the renters and owners already there",
+                "A local linkage fee, since the jobs that create the need are in another town"
+              ]
+            ]
+          },
+          "items": [
+            "In a land-locked town the gap often has to be met partly by its neighbors. Count the workers who commute in, and agree with the towns they live in on who builds and who pays.",
+            "A small or slow-growing town should be careful with fees. Breckenridge, a busy resort town, still found its rule for new businesses produced two homes in five years and stopped some businesses from opening.",
+            "Accessory dwellings are allowed wherever single-family homes are allowed in the places HB24-1152 covers, which helps towns with little open land add homes without new subdivisions."
+          ],
+          "see_also": {
+            "text": "For towns next to national forest, see the brief on Forest Service site leases for housing.",
+            "href": "research-brief.html?id=forest-service-admin-site-leases-2026"
+          }
+        },
+        {
           "id": "linkage",
           "heading": "Linkage fees and housing mitigation",
           "paragraphs": [
