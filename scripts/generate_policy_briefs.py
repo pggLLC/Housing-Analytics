@@ -38,6 +38,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / 'scripts' / 'news'))
 import outlets as outlet_register  # noqa: E402  (scripts/news/outlets.py)
 import agency_releases  # noqa: E402  (scripts/news/agency_releases.py)
+import story_summaries  # noqa: E402  (scripts/news/story_summaries.py)
 ALERTS_FILE = REPO_ROOT / 'data' / 'alerts' / 'alerts_archive.json'
 TOOL_WATCH_FILE = REPO_ROOT / 'data' / 'policy' / 'tool-watch.json'
 OUT_FILE = REPO_ROOT / 'data' / 'policy_briefs.json'
@@ -1045,7 +1046,20 @@ def with_agency_releases(stories: list[dict], geos: dict, prior: dict | None) ->
         st['programs'] = [name for name, rx in PROGRAMS if rx.search(st['title'])]
         out.append(st)
     out.sort(key=lambda s: s['date'], reverse=True)
-    return out, block, agency_releases.summarize_today(out, block)
+    summary = agency_releases.summarize_today(out, block)
+    # Each story's own summary, quoted (scripts/news/story_summaries.py); cached in the block.
+    cache = (prior or {}).get('summaries') or {}
+    if os.environ.get('NEWS_AGENCY_OFFLINE') == '1':
+        summary, block['summaries'] = story_summaries.with_summaries(summary, cache, fetcher=_offline)
+    else:
+        summary, block['summaries'] = story_summaries.with_summaries(summary, cache)
+    # paul, 2026-11-17: "AI-written, labelled". One sentence per story, from its own summary only.
+    summary = story_summaries.with_ai(summary, block['summaries'], os.environ.get('OPENAI_API_KEY', '').strip())
+    return out, block, summary
+
+
+def _offline(url: str) -> str:
+    raise OSError('offline')
 
 
 def load_alerts() -> list[dict]:
