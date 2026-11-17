@@ -233,8 +233,8 @@
     var nm = bare(p.name), J = p.jobs, R = p.residents, both = J - p.in_commuters, mx = Math.max(J, R);
     if (!J || !R) return '';
     var r = J / R;
-    var head = r >= 1.15 ? nm + ' has about ' + r.toFixed(1) + ' jobs for every working resident, so most of its workers have to come from somewhere else.'
-      : r <= 0.87 ? nm + ' has about ' + (1 / r).toFixed(1) + ' working residents for every job, so many of its residents work somewhere else.'
+    var head = r >= 1.15 ? nm + ' has about ' + r.toFixed(1) + ' jobs for every working resident. ' + pct(p.in_commuters, J) + ' of its jobs are held by people who live somewhere else.'
+      : r <= 0.87 ? nm + ' has about ' + (1 / r).toFixed(1) + ' working residents for every job. ' + pct(p.out_commuters, R) + ' of its working residents work in another town.'
       : nm + ' has about one job for every working resident.';
     var row = function (label, total, parts) {
       return '<p class="cj-bar-title">' + esc(label) + ' <span>' + num(total) + '</span></p><div class="cj-bar cj-bal" style="width:' + (100 * total / mx).toFixed(1) + '%">' +
