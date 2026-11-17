@@ -115,7 +115,7 @@
       var n = s.tracts.length && typeof picker.setSelection === 'function' ? picker.setSelection(s.tracts) : 0;
       if (n > 0) {
         var ta = document.getElementById('pmaTractRationale');
-        var old = (ta && ta.value.trim()) || (typeof picker.getRationale === 'function' ? picker.getRationale() : '');
+        var old = (typeof picker.getRationale === 'function' ? picker.getRationale() : '') || (ta ? ta.value : '');
         var text = rationaleFor(reason(s.areaLabel, n), old);
         if (ta) {
           ta.value = text;

@@ -11,6 +11,9 @@
       "title": "Tariffs and material prices",
       "caution": "Tariffs of up to 50% on steel, aluminum and copper and war-driven fuel costs are both in force. The price data does not show how much of the rise is tariffs.",
       "fuel_series": "WPU057303",
+   "fuel_name": "diesel",
+   "cause_split": false,
+   "contract": "fuel_name is the word the ranking line uses for the fuel series, which its label must carry. cause_split false records that the price data does not split the rise between tariffs and fuel, so no line of the note may say which caused it.",
       "production_ids": [
         "raw-steel",
         "sawmills",

@@ -169,7 +169,7 @@ export function costNote(rows, data, brief) {
     },
     title: cn.title,
     lines: [
-      `Among the ${rows.length} building materials the brief tracks, the largest price rises from ${L[m.year_ago]} to ${L[m.latest]} were ${listed(top)}. Fuel rose more: diesel is up ${change(fuel.index[m.year_ago], fuel.index[m.latest]).toFixed(1)}%.`,
+      `Among the ${rows.length} building materials the brief tracks, the largest price rises from ${L[m.year_ago]} to ${L[m.latest]} were ${listed(top)}. Fuel rose more: ${cn.fuel_name} is up ${change(fuel.index[m.year_ago], fuel.index[m.latest]).toFixed(1)}%.`,
       `Prices moved less than 3% for ${listed(flat)}.`,
       cn.caution,
       ...made,

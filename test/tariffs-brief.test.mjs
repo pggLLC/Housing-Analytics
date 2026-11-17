@@ -210,17 +210,27 @@ test('the cost pages show the brief\'s conclusions, and the brief links back', a
     assert.ok(i > at, `the first line does not carry "${want}" in order`);
     at = i;
   }
-  // The ranking says it covers the materials tracked, and names fuel, which rose more.
-  assert.ok(note.lines[0].startsWith(`Among the ${D.prices.length} building materials the brief tracks,`));
-  const fuel = D.context_series.find((x) => x.id === D.meta.cost_note.fuel_series);
-  assert.match(fuel.label, /diesel/i);
+  // The ranking's scope, months and the fuel beside it, checked against the data file, not the sentence: the line
+  // states how many materials were ranked and the two months, and after the three it names the fuel the data file
+  // records (cost_note.fuel_name, which that series' label carries) with the series' own rise, larger than the top one.
+  const cn = D.meta.cost_note;
+  const whole = (line, n) => new RegExp(`(^|[^\\d.,])${n}(?![\\d.,]?\\d)`).test(line);
+  assert.ok(whole(note.lines[0], D.prices.length), `the first line does not say it ranks the ${D.prices.length} materials tracked`);
+  for (const mo of [yearAgo, latest]) assert.ok(note.lines[0].includes(D.meta.month_labels[mo]), `the first line does not name ${D.meta.month_labels[mo]}`);
+  const fuel = D.context_series.find((x) => x.id === cn.fuel_series);
+  assert.ok(cn.fuel_name && fuel.label.toLowerCase().includes(cn.fuel_name.toLowerCase()), `cost_note.fuel_name is not the series ${cn.fuel_series} names`);
   const fuelRise = fuel.index[latest] / fuel.index[yearAgo] - 1;
   assert.ok(fuelRise > ranked[0].v, 'fuel no longer rose more than the top material');
-  assert.ok(note.lines[0].endsWith(`Fuel rose more: diesel is up ${(Math.round(fuelRise * 1000) / 10).toFixed(1)}%.`));
+  const fuelAt = note.lines[0].indexOf(cn.fuel_name, at);
+  assert.ok(fuelAt > at && note.lines[0].indexOf(`${(Math.round(fuelRise * 1000) / 10).toFixed(1)}%`, fuelAt) > fuelAt, 'the first line does not name the fuel, with its own rise, after the ranking');
   for (const p of D.prices.filter((x) => x.group === 'flat')) assert.ok(note.lines[1].toLowerCase().includes(p.label.toLowerCase()), `${p.label} is not in the flat line`);
-  // The hand-written caution claims no cause, and its rate is one a tariff record states.
+  // The data file records that the rise is not split between tariffs and fuel (cost_note.cause_split false), so no line
+  // of the note says which caused it, whatever its wording; the hand-written caution is shown, and its rate is one a
+  // tariff record states.
+  assert.equal(cn.cause_split, false);
+  const CAUSAL = /\b(because|due to|caused by|driven by|as a result of|the result of|blamed? on|thanks to|owing to)\b/i;
+  for (const l of note.lines) assert.ok(!CAUSAL.test(l), `a cost note line says what caused the rise: ${l}`);
   assert.ok(note.lines.includes(D.meta.cost_note.caution));
-  assert.match(D.meta.cost_note.caution, /does not show how much of the rise is tariffs/);
   for (const rate of D.meta.cost_note.caution.match(/\d+%/g)) assert.ok(D.tariffs.some((x) => x.rate.includes(rate)), `${rate} is in no tariff record`);
   for (const id of D.meta.cost_note.production_ids) {
     const p = D.production.find((x) => x.id === id);

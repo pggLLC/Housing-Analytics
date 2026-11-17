@@ -571,6 +571,7 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
       polyline: () => ({}), layerGroup: () => ({ addTo() { return this; } }), DomEvent: { stopPropagation() {} }
     };
     pw.console = { log() {}, warn() {}, error() {} };
+    pw.eval(read('js/pma-barriers.js'));
     pw.eval(read('js/pma-tract-picker.js'));
     const P = pw.PMATractPicker, GJ = { lat: 39.0639, lon: -108.5506 }, fakeMap = { removeLayer() {} };
     ok(P.readyAt() === null, 'before it loads, the picker should say it has not loaded');
@@ -580,10 +581,23 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
     const mesa = JSON.parse(read('data/market/tract_boundaries_co.geojson')).features.map(gid).filter((g) => /^08077/.test(g));
     const before = new Set(shapes.map((l) => gid(l.feature)));
     const far = mesa.filter((g) => !before.has(g));
+    // Natural features applied to the 4-mile pick before the area comes in (Codex): that state belongs to the old
+    // tracts, so the import drops it, and turning the option off keeps the imported area.
+    const nfBefore = await P.proposeNaturalFeatures();
+    ok(nfBefore.status === 'proposed' && nfBefore.tracts.length >= 1, 'non-vacuity: Grand Junction has tracts across the river to propose (' + nfBefore.status + ')');
+    P.applyNaturalFeatures();
+    ok(P.getNaturalFeatures().status === 'applied', 'non-vacuity: the exclusions are applied before the import');
     ok(far.length >= 1, 'non-vacuity: some Mesa County tracts lie past the 12-mile layer at Grand Junction (' + far.length + ')');
     ok(P.setSelection(mesa) === mesa.length, 'the whole county should be selected');
     const after = shapes.map((l) => gid(l.feature));
     ok(mesa.every((g) => after.includes(g)) && after.length === new Set(after).size, 'every selected tract should have one shape to click (missing ' + mesa.filter((g) => !after.includes(g)).join(', ') + ')');
+    ok(P.getNaturalFeatures().status === 'off', 'the imported area should drop the natural-feature state of the tracts before it (' + P.getNaturalFeatures().status + ')');
+    P.turnOffNaturalFeatures();
+    ok(P.getSelectedGeoids().slice().sort().join() === mesa.slice().sort().join(), 'turning the option off should keep the imported area, not bring back the tracts before it');
+    // A proposal still loading when the area comes in is dropped.
+    const pending = P.proposeNaturalFeatures();
+    P.setSelection(mesa.slice(0, 5));
+    ok((await pending).status === 'off' && P.getSelectedGeoids().length === 5, 'a proposal pending for the old tracts should be dropped by the import');
     P.clear(fakeMap);
     ok(P.readyAt() === null, 'clearing the picker should forget where it loaded');
   }

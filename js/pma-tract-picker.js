@@ -655,6 +655,14 @@
       });
       if (missing.length) _tractLayer.addData({ type: 'FeatureCollection', features: missing });
     }
+    // Natural-feature state restored for the earlier selection (its proposal, exclusions and pre-Apply snapshot)
+    // belongs to tracts no longer selected: drop it, and any pending proposal, as turning the option off does, so the
+    // report does not credit exclusions to this area and Off cannot bring the old tracts back. Its sentence leaves
+    // the rationale with it.
+    var marker = _nf.rationaleSummary;
+    _nf = _nfOff();
+    _nf.rationaleSummary = marker;
+    _nfGen++;
     _restyleAll();
     _changed();
     return _selected.size;
