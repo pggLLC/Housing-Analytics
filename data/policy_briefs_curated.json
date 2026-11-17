@@ -13,7 +13,7 @@
       "source_reviewed": true,
       "generated": "2026-11-17T00:00:00Z",
       "verified": "2026-11-17",
-      "takeaway": "Tariffs have made the metal in a building much more expensive: steel mill products cost 32.9% more than a year ago, and copper, aluminum and wire roughly a fifth to a quarter more (Bureau of Labor Statistics, October 2026). Cement, drywall and factory prices for appliances are flat. US steel output is up 5.9% this year, but sawmills shrank and fewer homes were started. The costs fall on rental and for-sale homes alike.",
+      "takeaway": "The metal in a building costs much more than a year ago, with tariffs of up to 50% and war-driven fuel costs both in force: steel mill products are up 32.9%, and copper, aluminum and wire roughly a fifth to a quarter (Bureau of Labor Statistics, October 2026). The price data does not show how much of that is tariffs. Cement, drywall and factory prices for appliances are flat. US steel output is up 5.9% this year, but sawmills shrank and fewer homes were started. The costs fall on rental and for-sale homes alike.",
       "summary": "The Supreme Court struck down the broad 2025 tariffs on February 20, 2026. The product tariffs that reach building materials were not part of that case and remain: 50% on steel, aluminum and copper products, 10% on softwood lumber plus 24.75% in trade duties on most Canadian lumber, and 25% on kitchen cabinets and vanities, set to double on January 1, 2027. A war in the Middle East that began in late February 2026 pushed diesel up 115.2% in a year. Fuel and freight explain part of the 10.4% rise in the cost of what goes into a new home, and no source separates the two causes.",
       "implications": "For a Colorado tax credit building: rents are capped, so a cost increase cannot be earned back from renters and becomes funding gap. Wood-frame walk-ups, the usual rural building, use little structural steel; their exposure is wiring, electrical panels, heating and cooling, plumbing, metal roofing, rebar, cabinets and appliances. Plan imported cabinet orders around the January 1, 2027 increase, and treat a cost estimate older than about six months as low on metal and electrical items. Denver non-residential building costs rose 6.84% in a year on Mortenson's index, whose authors say the July 2026 tariff changes were not yet in those prices.",
       "related_data": "data/policy/tariffs-construction-costs.json",
@@ -36,7 +36,7 @@
           "id": "short",
           "heading": "The short version",
           "items": [
-            "Metal rose most. Steel mill products are up 32.9% in a year and 52.8% since January 2025, the last month before the new tariffs. Wire, electrical panels, sheet metal and metal doors followed.",
+            "Metal rose most, while tariffs and war-driven fuel costs were both in force. Steel mill products are up 32.9% in a year and 52.8% since January 2025, the last month before the new tariffs. Wire, electrical panels, sheet metal and metal doors followed.",
             "Almost nothing got cheaper. Cement, drywall, brick and factory prices for major appliances barely moved.",
             "Lumber is the one relief. Framing lumber sold for $443.65 per thousand board feet on November 13, 2026, down 1.2% from a year earlier, and the duty on most Canadian lumber fell from 35.16% to 24.75% in October 2026.",
             "Steel mills gained; wood and housing did not. Raw steel output is up 5.9% this year. Sawmill capacity fell 6.0%, and single-family home starts are down 4.0%.",
@@ -59,7 +59,7 @@
             "rows": [
               [
                 "Steel, aluminum and copper products",
-                "50% of the full value. 25% for goods partly made of these metals. 10% if the metal was made in the US. Rates of up to 50% began in 2025, and are charged on full value since April 6, 2026.",
+                "50% of the full value for listed products made almost entirely of these metals. 25% for listed products made substantially of them. Listed products outside the metal chapters of the tariff schedule are exempt when the metal is under 15 percent of their weight. 10% if the metal was made in the US. Rates of up to 50% began in 2025, and are charged on full value since April 6, 2026.",
                 "No end date"
               ],
               [
@@ -99,7 +99,7 @@
           ],
           "figure": {
             "src": "assets/briefs/tariffs-2026/price-changes.svg",
-            "alt": "Bar chart of the change in US producer prices for 17 building materials from October 2025 to October 2026. Steel mill products: +32.9%; Copper and brass shapes (pipe, tube, sheet): +23.9%; Aluminum shapes (sheet, bar, extrusions): +23.3%; Electrical wire and cable: +19.6%; Plywood: +16.9%; Switchgear and electrical panels: +12.7%; Softwood lumber: +10.6%; Sheet metal products: +7.8%; Metal doors, frames and trim: +7.3%; Transformers: +5.6%; Plumbing fittings and trim: +5.1%; Heating, cooling and refrigeration equipment: +4.1%; Ready-mix concrete: +2.4%; Brick and clay tile: +1.3%; Gypsum products (drywall): +0.9%; Major appliances (factory price): -0.2%; Cement: -0.4%.",
+            "alt": "Bar chart of the change in US producer prices for 17 building materials from October 2025 to October 2026. Steel mill products: +32.9%; Copper and brass shapes (pipe, tube, sheet): +23.9%; Aluminum shapes (sheet, bar, extrusions): +23.3%; Electrical wire and cable: +19.6%; Plywood: +16.9%; Switchgear and electrical panels: +12.7%; Softwood lumber: +10.6%; Sheet metal products: +7.8%; Metal doors, frames and trim: +7.3%; Transformers: +5.6%; Plumbing fittings and trim: +5.1%; Air conditioning and refrigeration equipment: +4.1%; Ready-mix concrete: +2.4%; Brick and clay tile: +1.3%; Gypsum products (drywall): +0.9%; Major appliances (factory price): -0.2%; Cement: -0.4%.",
             "caption": "Change in US producer prices over one year. Source: U.S. Bureau of Labor Statistics Producer Price Index, not seasonally adjusted."
           },
           "table": {
@@ -166,7 +166,7 @@
                 "Probably lasts. Follows copper and brass."
               ],
               [
-                "Heating, cooling and refrigeration equipment",
+                "Air conditioning and refrigeration equipment",
                 "+4.1% in one year. +9.5% since January 2025.",
                 "Probably lasts. The temporary 15% rate ends in 2027."
               ]
@@ -178,7 +178,7 @@
           "heading": "What did not rise",
           "paragraphs": [
             "Heavy materials made close to where they are used have little tariff exposure, and they barely moved. Factory prices for major appliances are flat too, even though appliances contain taxed steel. The cause is not established.",
-            "Lumber eased because demand is weak and a duty fell, not because a tariff worked. Framing lumber was down 11.1% in a month by mid November 2026. In October 2026 the duty on most Canadian mills was cut from 35.16% to 24.75%. The 10% lumber tariff still sits on top, for 34.75% in all."
+            "Lumber eased as demand weakened and a duty fell. Framing lumber was down 11.1% in a month by mid November 2026. In October 2026 the duty on most Canadian mills was cut from 35.16% to 24.75%. The 10% lumber tariff still sits on top, for 34.75% in all."
           ],
           "table": {
             "caption": "Materials that held flat",
@@ -592,6 +592,10 @@
         {
           "link": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4117593",
           "quote": "This proclamation imposes 10-50% additional duties on the full customs value of certain imports of steel, aluminum, copper articles (metal articles) and their derivatives from all countries, effective April 6, 2026."
+        },
+        {
+          "link": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4117593",
+          "quote": "In addition, goods specified in the annexes to the Proclamation, except those classifiable in Chapters 72, 73, 74, and 76 of the Harmonized Tariff Schedule of the United States (HTSUS), that contain less than 15 percent of the aggregate weight of the applicable metal(s) shall not be subject to the duties imposed by the Proclamation."
         },
         {
           "link": "https://www.ghy.com/trade-compliance/us-adjusts-section-232-tariffs-on-aluminum-steel-and-copper-full-customs-value-now-applies/",

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 692" width="420" height="692" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
 <title id="t">Building material prices, change in one year</title>
-<desc id="d">Bar chart of the change in US producer prices for 17 building materials from October 2025 to October 2026. Steel mill products: +32.9%; Copper and brass shapes (pipe, tube, sheet): +23.9%; Aluminum shapes (sheet, bar, extrusions): +23.3%; Electrical wire and cable: +19.6%; Plywood: +16.9%; Switchgear and electrical panels: +12.7%; Softwood lumber: +10.6%; Sheet metal products: +7.8%; Metal doors, frames and trim: +7.3%; Transformers: +5.6%; Plumbing fittings and trim: +5.1%; Heating, cooling and refrigeration equipment: +4.1%; Ready-mix concrete: +2.4%; Brick and clay tile: +1.3%; Gypsum products (drywall): +0.9%; Major appliances (factory price): -0.2%; Cement: -0.4%.</desc>
+<desc id="d">Bar chart of the change in US producer prices for 17 building materials from October 2025 to October 2026. Steel mill products: +32.9%; Copper and brass shapes (pipe, tube, sheet): +23.9%; Aluminum shapes (sheet, bar, extrusions): +23.3%; Electrical wire and cable: +19.6%; Plywood: +16.9%; Switchgear and electrical panels: +12.7%; Softwood lumber: +10.6%; Sheet metal products: +7.8%; Metal doors, frames and trim: +7.3%; Transformers: +5.6%; Plumbing fittings and trim: +5.1%; Air conditioning and refrigeration equipment: +4.1%; Ready-mix concrete: +2.4%; Brick and clay tile: +1.3%; Gypsum products (drywall): +0.9%; Major appliances (factory price): -0.2%; Cement: -0.4%.</desc>
 <rect width="100%" height="100%" fill="#ffffff"/>
 <text x="16.0" y="24.0" font-size="16" font-weight="700" fill="#1d2329" text-anchor="start">Building material prices, change in one year</text>
 <text x="16.0" y="44.0" font-size="12" font-weight="400" fill="#55606b" text-anchor="start">US producer prices, October 2025 to October 2026.</text>
@@ -38,7 +38,7 @@
 <text x="16.0" y="422.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Plumbing fittings and trim</text>
 <rect x="16" y="428" width="50.8" height="12" rx="2" fill="#1f5f99"/>
 <text x="74.8" y="438.5" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">+5.1%</text>
-<text x="16.0" y="456.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Heating, cooling and refrigeration equipment</text>
+<text x="16.0" y="456.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Air conditioning and refrigeration equipment</text>
 <rect x="16" y="462" width="40.9" height="12" rx="2" fill="#8fb3d1"/>
 <text x="64.9" y="472.5" font-size="12" font-weight="700" fill="#1d2329" text-anchor="start">+4.1%</text>
 <text x="16.0" y="490.0" font-size="12" font-weight="600" fill="#1d2329" text-anchor="start">Ready-mix concrete</text>

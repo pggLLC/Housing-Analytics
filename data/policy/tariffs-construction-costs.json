@@ -47,7 +47,7 @@
     {
       "id": "metals-232",
       "title": "Steel, aluminum and copper products",
-      "rate": "50% of the full value. 25% for goods partly made of these metals. 10% if the metal was made in the US.",
+      "rate": "50% of the full value for listed products made almost entirely of these metals. 25% for listed products made substantially of them. Listed products outside the metal chapters of the tariff schedule are exempt when the metal is under 15 percent of their weight. 10% if the metal was made in the US.",
       "since": "Rates of up to 50% began in 2025, and are charged on full value since April 6, 2026.",
       "next": "No end date",
       "status": "in_force",
@@ -58,6 +58,12 @@
         "quote": "This proclamation imposes 10-50% additional duties on the full customs value of certain imports of steel, aluminum, copper articles (metal articles) and their derivatives from all countries, effective April 6, 2026."
       },
       "more_sources": [
+        {
+          "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/4117593",
+          "title": "CSMS # 68253075 - Guidance: Section 232 Duties on Imports of Aluminum, Steel, and Copper",
+          "publisher": "U.S. Customs and Border Protection",
+          "quote": "In addition, goods specified in the annexes to the Proclamation, except those classifiable in Chapters 72, 73, 74, and 76 of the Harmonized Tariff Schedule of the United States (HTSUS), that contain less than 15 percent of the aggregate weight of the applicable metal(s) shall not be subject to the duties imposed by the Proclamation."
+        },
         {
           "url": "https://www.ghy.com/trade-compliance/us-adjusts-section-232-tariffs-on-aluminum-steel-and-copper-full-customs-value-now-applies/",
           "title": "U.S. Adjusts Section 232 Metal Tariffs",
@@ -426,7 +432,7 @@
     },
     {
       "id": "WPU1148",
-      "label": "Heating, cooling and refrigeration equipment",
+      "label": "Air conditioning and refrigeration equipment",
       "group": "up",
       "metal": false,
       "index": {
