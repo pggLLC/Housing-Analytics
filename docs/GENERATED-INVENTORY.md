@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-17T11:46:01.526Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-17T12:07:46.852Z. Do not edit by hand.
 
 ---
 
@@ -2846,7 +2846,7 @@
 | `tests/policy_schema.py` | 13.8 KB |
 | `tests/test_acs_reliability.py` | 18.1 KB |
 | `tests/test_acs_vintage_var_aliases.py` | 4.2 KB |
-| `tests/test_agency_releases.py` | 7.9 KB |
+| `tests/test_agency_releases.py` | 11.4 KB |
 | `tests/test_award_rows.py` | 4.3 KB |
 | `tests/test_bps_monthly.py` | 6.4 KB |
 | `tests/test_brief_news_queue.py` | 6.6 KB |
@@ -2912,7 +2912,7 @@
 | `tests/test_stage2_temporal.py` | 38.1 KB |
 | `tests/test_stage3_accessibility.py` | 24.1 KB |
 | `tests/test_stage3_visualization.py` | 17.7 KB |
-| `tests/test_story_summaries.py` | 6.2 KB |
+| `tests/test_story_summaries.py` | 7.6 KB |
 | `tests/test_tax_exemption_routes.py` | 4.5 KB |
 | `tests/test_transit_stop_gate.py` | 9.2 KB |
 | `tests/test_transit_stop_selection.py` | 15.9 KB |
