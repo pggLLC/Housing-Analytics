@@ -10,13 +10,14 @@
       "about": "The lines the construction cost pages show under the material prices. The caution is written by hand; the other lines are built from the prices and production records below.",
       "title": "Tariffs and material prices",
       "caution": "Tariffs of up to 50% on steel, aluminum and copper and war-driven fuel costs are both in force. The price data does not show how much of the rise is tariffs.",
+      "fuel_series": "WPU057303",
       "production_ids": [
         "raw-steel",
         "sawmills",
         "single-family-starts"
       ]
     },
-    "renter_owner": "Material costs apply to every new home, rental or for sale. In income-restricted rental homes the rent is capped, so renters do not pay the increase; it becomes funding gap for the building. Buyers of new for-sale homes can see it in the price.",
+    "renter_owner": "Material costs apply to every new home, rental or for sale. In income-restricted rental homes the rent cannot go above a legal limit, so the part of a cost increase that rents within the limit cannot cover becomes funding gap for the building. Buyers of new for-sale homes can see it in the price.",
     "months": {
       "baseline": "2025-01",
       "year_ago": "2025-10",

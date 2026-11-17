@@ -193,6 +193,13 @@ test('the cost pages show the brief\'s conclusions, and the brief links back', a
     assert.ok(i > at, `the first line does not carry "${want}" in order`);
     at = i;
   }
+  // The ranking says it covers the materials tracked, and names fuel, which rose more.
+  assert.ok(note.lines[0].startsWith(`Among the ${D.prices.length} building materials the brief tracks,`));
+  const fuel = D.context_series.find((x) => x.id === D.meta.cost_note.fuel_series);
+  assert.match(fuel.label, /diesel/i);
+  const fuelRise = fuel.index[latest] / fuel.index[yearAgo] - 1;
+  assert.ok(fuelRise > ranked[0].v, 'fuel no longer rose more than the top material');
+  assert.ok(note.lines[0].endsWith(`Fuel rose more: diesel is up ${(Math.round(fuelRise * 1000) / 10).toFixed(1)}%.`));
   for (const p of D.prices.filter((x) => x.group === 'flat')) assert.ok(note.lines[1].toLowerCase().includes(p.label.toLowerCase()), `${p.label} is not in the flat line`);
   // The hand-written caution claims no cause, and its rate is one a tariff record states.
   assert.ok(note.lines.includes(D.meta.cost_note.caution));

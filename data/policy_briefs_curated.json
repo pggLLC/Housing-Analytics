@@ -15,7 +15,7 @@
       "verified": "2026-11-17",
       "takeaway": "The metal in a building costs much more than a year ago, with tariffs of up to 50% and war-driven fuel costs both in force: steel mill products are up 32.9%, and copper, aluminum and wire roughly a fifth to a quarter (Bureau of Labor Statistics, October 2026). The price data does not show how much of that is tariffs. Cement, drywall and factory prices for appliances are flat. US steel output is up 5.9% this year, but sawmills shrank and fewer homes were started. The costs fall on rental and for-sale homes alike.",
       "summary": "The Supreme Court struck down the broad 2025 tariffs on February 20, 2026. The product tariffs that reach building materials were not part of that case and remain: 50% on steel, aluminum and copper products, 10% on softwood lumber plus 24.75% in trade duties on most Canadian lumber, and 25% on kitchen cabinets and vanities, set to double on January 1, 2027. A war in the Middle East began in late February 2026, and diesel is up 115.2% in a year. The cost of what goes into a new home is up 10.4%, and no source separates tariffs from fuel and freight in that figure.",
-      "implications": "For a Colorado tax credit building: rents are capped, so a cost increase cannot be earned back from renters and becomes funding gap. Wood-frame walk-ups, the usual rural building, use little structural steel; their exposure is wiring, electrical panels, heating and cooling, plumbing, metal roofing, rebar, cabinets and appliances. Plan imported cabinet orders around the January 1, 2027 increase, and treat a cost estimate older than about six months as low on metal and electrical items. Denver non-residential building costs rose 6.84% in a year on Mortenson's index, whose authors say the July 2026 tariff changes were not yet in those prices.",
+      "implications": "For a Colorado tax credit building: rents cannot go above a legal limit, so the part of a cost increase that rents within the limit cannot cover becomes funding gap. Wood-frame walk-ups, the usual rural building, use little structural steel; their exposure is wiring, electrical panels, heating and cooling, plumbing, metal roofing, rebar, cabinets and appliances. Plan imported cabinet orders around the January 1, 2027 increase, and treat a cost estimate older than about six months as low on metal and electrical items. Denver non-residential building costs rose 6.84% in a year on Mortenson's index, whose authors say the July 2026 tariff changes were not yet in those prices.",
       "related_data": "data/policy/tariffs-construction-costs.json",
       "sources": [
         "U.S. Bureau of Labor Statistics",
@@ -318,7 +318,7 @@
             ]
           },
           "items": [
-            "Rents in tax credit homes follow income limits, so a cost increase cannot be earned back from renters. It becomes funding gap.",
+            "Rents in tax credit homes cannot go above limits set from area incomes. The part of a cost increase that rents within those limits cannot cover becomes funding gap.",
             "Most rural Colorado tax credit buildings are wood-frame walk-ups, which use little structural steel. Their exposure is wiring, electrical panels, heating and cooling, plumbing, metal roofing, rebar, cabinets and appliances.",
             "Denver non-residential building costs rose 6.84% in the year to mid 2026 on Mortenson's index. Its authors say the July 2026 tariff changes were \"not yet reflected in second-quarter pricing.\"",
             "Colorado permitted fewer homes this year than last. The count is in the production table above."
@@ -328,7 +328,7 @@
           "id": "renters-owners",
           "heading": "Who it reaches: renters and owners",
           "items": [
-            "Renters in income-restricted homes do not pay the increase. Their rent follows income limits, not building cost. The effect is fewer homes built for the same public money.",
+            "Renters in income-restricted homes do not pay more than their rent limit allows. The limit follows area incomes, not building cost. A building that charges less than its limit can raise rents up to it. The effect is fewer homes built for the same public money.",
             "Buyers of new for-sale homes can see it in the price, and so can owners who remodel.",
             "The price figures in this brief are for materials. They are the same for a rental building and a for-sale home."
           ]

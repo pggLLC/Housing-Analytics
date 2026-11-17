@@ -146,12 +146,13 @@ const firstSentence = (s) => (String(s).match(/^.*?\.(?=\s|$)/) || [String(s)])[
 
 /**
  * The brief's conclusions for the construction cost pages: the three largest one-year
- * rises, what held flat, the hand-written caution, what production did and who pays.
+ * rises among the materials tracked (with fuel, which rose more, named beside them), what held flat, the hand-written caution, what production did and who pays.
  */
 export function costNote(rows, data, brief) {
   const L = data.meta.month_labels;
   const m = data.meta.months;
   const cn = data.meta.cost_note;
+  const fuel = series(data, cn.fuel_series);
   const plain = (label) => lowerFirst(label.replace(/\s*\([^)]*\)/g, ''));
   const top = rows.slice(0, 3).map((r) => `${plain(r.label)} (${signed(r.year)})`);
   const flat = rows.filter((r) => r.group === 'flat').map((r) => lowerFirst(r.label));
@@ -168,7 +169,7 @@ export function costNote(rows, data, brief) {
     },
     title: cn.title,
     lines: [
-      `The largest price rises from ${L[m.year_ago]} to ${L[m.latest]} were ${listed(top)}.`,
+      `Among the ${rows.length} building materials the brief tracks, the largest price rises from ${L[m.year_ago]} to ${L[m.latest]} were ${listed(top)}. Fuel rose more: diesel is up ${change(fuel.index[m.year_ago], fuel.index[m.latest]).toFixed(1)}%.`,
       `Prices moved less than 3% for ${listed(flat)}.`,
       cn.caution,
       ...made,
