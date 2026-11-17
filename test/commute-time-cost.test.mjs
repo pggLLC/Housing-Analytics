@@ -84,8 +84,10 @@ for (const [g, e] of Object.entries(T.places)) {
 ok(routed > 2000, `routed drives ${routed}`);
 
 // The Meeker-Rangely detour (139 road miles for about 60 by SH 64 and SH 13) is withheld, not published.
-const mr = Object.values(T.places).flatMap((e) => e.from.concat(e.to)).filter((r) => /^(Meeker|Rangely) \(town\)$/.test(r[0]));
-ok(mr.length > 0 && mr.every((r) => r[2] == null || r[3] < 80), 'Meeker-Rangely detour withheld');
+const town = (n) => Object.keys(C.places).find((g) => C.places[g].name === n);
+const mr = [['Meeker (town)', 'Rangely (town)'], ['Rangely (town)', 'Meeker (town)']]
+  .flatMap(([a, b]) => T.places[town(a)].from.concat(T.places[town(a)].to).filter((r) => r[0] === b));
+ok(mr.length > 0 && mr.every((r) => r[2] == null && r[3] == null), 'Meeker-Rangely detour withheld');
 ok(T.meta.not_shown_detour.some((r) => r[0] === 'Meeker (town)' && r[1] === 'Rangely (town)'), 'detour listed in meta');
 
 // 4. Another state's county starts where its people live.
