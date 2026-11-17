@@ -190,7 +190,7 @@ def test_title_case_headlines_still_match_with_the_corpus():
     a = 'Denver Housing Complex Receives Mail Again After USPS Stopped Delivering'
     b = 'Mail Delivery Resumes Months Later For Residents Of Denver Housing Complex'
     # the real corpus is hundreds of headlines, most in sentence case
-    ordinary = ar.ordinary_words(['Residents say the city resumes work months later', 'A store receives a permit again',
+    ordinary = ar.ordinary_words(['Some residents say the city resumes work months later', 'A store receives a permit again',
                                   'Mail delivery stopped after the flood'])
     assert ar.same_story(a, b, ordinary)
     assert not ar.same_story('Denver Approves Affordable Rental Homes', 'Boulder Approves Affordable Rental Homes',
