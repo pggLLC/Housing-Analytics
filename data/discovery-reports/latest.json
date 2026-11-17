@@ -1,26 +1,32 @@
 {
-  "scanTimestamp": "2026-11-16T16:57:44.970Z",
-  "totalScanned": 2039,
-  "newSourceCount": 2007,
+  "scanTimestamp": "2026-11-17T16:51:16.024Z",
+  "totalScanned": 2044,
+  "newSourceCount": 2012,
   "existingCount": 31,
   "staleCount": 0,
   "agingCount": 1,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1034441,
+      "sizeBytes": 1037107,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7517,
+      "sizeBytes": 7519,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/affordable-housing/chfa-awards/2026-round-one.json",
       "sizeBytes": 16168,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/affordable-housing/chfa-awards/2026-round-two.json",
+      "sizeBytes": 29933,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -122,13 +128,13 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 2363896,
+      "sizeBytes": 2471480,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/alerts/brief-news-queue.json",
-      "sizeBytes": 62499,
+      "sizeBytes": 65587,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -146,7 +152,7 @@
     },
     {
       "path": "data/alerts/outlet-review.json",
-      "sizeBytes": 8134,
+      "sizeBytes": 10874,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -182,7 +188,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 702292,
+      "sizeBytes": 719719,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1262,7 +1268,7 @@
     },
     {
       "path": "data/derived/funding-vs-need.json",
-      "sizeBytes": 138430,
+      "sizeBytes": 138429,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1292,7 +1298,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 311322,
+      "sizeBytes": 311629,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10183,6 +10189,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/hna/tenure-income.json",
+      "sizeBytes": 77848,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/hna/transit-zone-by-geography.json",
       "sizeBytes": 399317,
       "inDataManifest": false,
@@ -10364,7 +10376,7 @@
     },
     {
       "path": "data/jurisdiction-briefs/_lihtc-applications.json",
-      "sizeBytes": 421578,
+      "sizeBytes": 441908,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10382,7 +10394,7 @@
     },
     {
       "path": "data/jurisdiction-briefs/_round-watch.json",
-      "sizeBytes": 304383,
+      "sizeBytes": 413366,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10651,6 +10663,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/commute-time-cost.json",
+      "sizeBytes": 212799,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/commuting_co.geojson",
       "sizeBytes": 582520,
       "inDataManifest": false,
@@ -10670,7 +10688,7 @@
     },
     {
       "path": "data/market/development-activity.json",
-      "sizeBytes": 1356698,
+      "sizeBytes": 1374939,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10838,7 +10856,7 @@
     },
     {
       "path": "data/market/market-direction.json",
-      "sizeBytes": 774177,
+      "sizeBytes": 773572,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11072,7 +11090,7 @@
     },
     {
       "path": "data/news-digest/index.json",
-      "sizeBytes": 1179,
+      "sizeBytes": 2095,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11582,13 +11600,13 @@
     },
     {
       "path": "data/policy/funding-awards/applicant-report-counts.json",
-      "sizeBytes": 3632,
+      "sizeBytes": 4100,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/funding-awards/award-rows.json",
-      "sizeBytes": 260805,
+      "sizeBytes": 266993,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11600,7 +11618,7 @@
     },
     {
       "path": "data/policy/funding-awards/documents.json",
-      "sizeBytes": 48891,
+      "sizeBytes": 51405,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11624,7 +11642,7 @@
     },
     {
       "path": "data/policy/funding-awards/ledger.json",
-      "sizeBytes": 374424,
+      "sizeBytes": 394685,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11726,7 +11744,7 @@
     },
     {
       "path": "data/policy/leading-signals.json",
-      "sizeBytes": 224287,
+      "sizeBytes": 217420,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11804,7 +11822,7 @@
     },
     {
       "path": "data/policy/prop123-land-banking-status.json",
-      "sizeBytes": 36730,
+      "sizeBytes": 36902,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11847,6 +11865,18 @@
     {
       "path": "data/policy/stewardship-providers.json",
       "sizeBytes": 1878,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/tariffs-construction-costs.json",
+      "sizeBytes": 33025,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/tariffs-cost-note.json",
+      "sizeBytes": 2031,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11900,13 +11930,13 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 626381,
+      "sizeBytes": 670804,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy_briefs_curated.json",
-      "sizeBytes": 309474,
+      "sizeBytes": 447442,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11918,13 +11948,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20483,
+      "sizeBytes": 20476,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 230003,
+      "sizeBytes": 232233,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -12054,7 +12084,7 @@
     {
       "path": "data/car-market.json",
       "name": "Colorado Association of Realtors (CAR) — Statewide Market Summary",
-      "daysSince": 288
+      "daysSince": 289
     }
   ]
 }
