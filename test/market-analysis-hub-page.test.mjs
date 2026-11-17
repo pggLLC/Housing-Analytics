@@ -471,7 +471,7 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   // What it does, in a page with the four controls.
   const { JSDOM } = await import('jsdom');
   const opened = [];
-  const run = async (query, { ready = true } = {}) => {
+  const run = async (query, { ready = true, setup } = {}) => {
     const dom = new JSDOM('<!doctype html><body><input id="pmaAddressInput"><button id="pmaAddressSearchBtn">Find</button><p id="pmaAddressStatus"></p><div id="pmaMap"></div></body>',
       { runScripts: 'outside-only', url: 'https://example.com/deal-market-analysis.html' + query });
     const w = dom.window; opened.push(w);
@@ -483,6 +483,7 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
     let release; const data = ready ? Promise.resolve() : new Promise(r => { release = r; });
     w.PMAEngine = { whenDataReady: () => data };
     const later = w.setTimeout.bind(w); w.setTimeout = f => later(f, 0);   // the three-second wait, without waiting
+    if (setup) setup(w);
     w.eval(src);
     await new Promise(r => setTimeout(r, 50));
     return { w, pressed, release, status: () => w.document.getElementById('pmaAddressStatus').textContent };
@@ -496,26 +497,47 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   ok(b.pressed.length === 0, 'nothing should be found before the page\'s data has loaded');
   b.release(); await new Promise(r => setTimeout(r, 50));
   ok(b.pressed.length === 1 && b.status().startsWith('Pin dropped at '), 'once the data has loaded, the point should be found (no label, no "Site from Market check")');
-  // With the market area: once the picker has tracts, Market check's tracts replace them, the reason is written, and
-  // Run Analysis is pressed once. Without it, the 4-mile pick runs as it stands.
-  const withPicker = async (query) => {
-    const r = await run(query);
-    const d = r.w.document, btn = d.createElement('button'), ta = d.createElement('textarea');
-    btn.id = 'pmaRunBtn'; ta.id = 'pmaTractRationale'; d.body.append(btn, ta);
+  // With the market area: once the picker has loaded round the site, Market check's tracts replace its pick, the reason
+  // is written, and Run Analysis is pressed once. Without it, the 4-mile pick runs as it stands.
+  ok(/readyAt:\s+readyAt,/.test(picker) && /_readyAt = \{ lat: lat, lon: lon \};/.test(picker), 'js/pma-tract-picker.js no longer says where it finished loading (readyAt), which the site link waits on');
+  const withPicker = async (query, { count = 5, at = [37.2256, -107.5981] } = {}) => {
     const got = { set: null, why: '', runs: 0 };
-    btn.addEventListener('click', () => { got.runs++; });
-    r.w.PMATractPicker = { getCount: () => 5, setSelection: g => { got.set = g; return g.length; }, getRationale: () => got.why, setRationale: t => { got.why = t; } };
+    const r = await run(query, { setup: (w) => {
+      const d = w.document, btn = d.createElement('button'), ta = d.createElement('textarea');
+      btn.id = 'pmaRunBtn'; ta.id = 'pmaTractRationale'; d.body.append(btn, ta);
+      btn.addEventListener('click', () => { got.runs++; });
+      let n = count;
+      w.PMATractPicker = { getCount: () => n, readyAt: () => (at ? { lat: at[0], lon: at[1] } : null),
+        setSelection: g => { got.set = g; n = g.length; return g.length; }, getRationale: () => got.why, setRationale: t => { got.why = t; } };
+      got.ta = () => ta.value;
+    } });
     await new Promise(res => setTimeout(res, 50));
-    got.ta = ta.value; return got;
+    got.ta = got.ta(); got.w = r.w; return got;
   };
   const c = await withPicker('?site=37.2256,-107.5981&tr=067940600.067940700&tl=' + encodeURIComponent('Local market area'));
   ok(c.set && c.set.join() === '08067940600,08067940700', 'the market area\'s tracts should replace the picker\'s (got ' + c.set + ')');
-  ok(/^Market area from Market check: Local market area, 2 whole census tracts\./.test(c.ta) && c.why === c.ta, 'the reason should name the market area: ' + c.ta);
+  // The reason agrees with the market area that came in (its name, its tract count, where it came from) and is the one
+  // the site link builds; the box and the picker hold the same text. Its wording is free.
+  const L = c.w.MASiteLink;
+  ok(L && typeof L.reason === 'function' && c.ta === L.reason('Local market area', c.set.length), 'the reason should be the one the site link builds for this market area: ' + c.ta);
+  ok(c.ta.includes('Local market area') && new RegExp('\\b' + c.set.length + '\\b').test(c.ta) && c.ta.includes(L.FROM) && L.FROM === 'Market check', 'the reason should carry the area\'s name, its tract count and where it came from: ' + c.ta);
+  ok(c.why === c.ta, 'the rationale box and the picker should hold the same reason');
   ok(c.runs === 1, 'the analysis should run once (ran ' + c.runs + ')');
   const e = await withPicker('?site=37.2256,-107.5981');
   ok(e.set === null && e.runs === 1 && e.ta === '', 'with no market area, the picker\'s own tracts should run unchanged');
   const f = await withPicker('?site=37.2256,-107.5981&tr=12345.abc');
   ok(f.set === null && f.runs === 1, 'tract numbers that are not 9 digits should be ignored');
+  // A rural site where nothing could be picked (no centroid within 12 miles): the market area still comes in and runs.
+  const g = await withPicker('?site=37.7666,-108.9067&tr=033972100&tl=' + encodeURIComponent('Dove Creek area'), { count: 0, at: [37.7666, -108.9067] });
+  ok(g.set && g.set.join() === '08033972100' && g.runs === 1, 'with an empty auto-pick, the market area should still be put in and run (set ' + g.set + ', ran ' + g.runs + ')');
+  // Nothing to run on (no market area, nothing picked): Run Analysis is left for the reader.
+  const h = await withPicker('?site=37.7666,-108.9067', { count: 0, at: [37.7666, -108.9067] });
+  ok(h.runs === 0, 'with no market area and nothing picked, the analysis should not be run (ran ' + h.runs + ')');
+  // The picker loaded round another point (or not yet): wait, put nothing in, run nothing.
+  const k = await withPicker('?site=37.2256,-107.5981&tr=067940600', { at: [39.7392, -104.9903] });
+  ok(k.set === null && k.runs === 0, 'a picker loaded round another point should be waited on, not used');
+  const m = await withPicker('?site=37.2256,-107.5981&tr=067940600', { at: null });
+  ok(m.set === null && m.runs === 0, 'a picker that has not loaded should be waited on');
   opened.forEach(w => w.close());
 }
 

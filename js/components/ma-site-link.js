@@ -67,20 +67,39 @@
     }, 250);
   }
 
-  // Once the tract picker has drawn the tracts round the placed site, put Market check's tracts in, say where they came
-  // from, and press Run Analysis. Gives up quietly after 30 seconds (the reader can still press it).
+  // What the reason in the rationale box carries, whatever its wording: where the area came from, its name on Market
+  // check and how many whole tracts it has. The test checks the written reason against this, not against a sentence.
+  var FROM = 'Market check';
+  function reason(areaLabel, n) {
+    return 'Market area from ' + FROM + (areaLabel ? ': ' + areaLabel : '') + ', ' + n +
+      (n === 1 ? ' whole census tract' : ' whole census tracts') + '. ' + FROM + ' lists each tract and the reason it is in or out.' +
+      ' COHO screening rules, not a CHFA market area until a CHFA-approved analyst draws one.';
+  }
+
+  // The picker has finished loading round this site. It says where it last loaded, so a rural site where nothing could
+  // be picked (no tract centroid within 12 miles) still counts, and a load round an earlier point does not. A picker
+  // from before readyAt: wait for its first tract, as before.
+  function loaded(picker, s) {
+    if (typeof picker.readyAt === 'function') {
+      var at = picker.readyAt();
+      return !!at && Math.abs(at.lat - s.lat) < 1e-3 && Math.abs(at.lon - s.lon) < 1e-3;
+    }
+    return typeof picker.getCount === 'function' && picker.getCount() > 0;
+  }
+
+  // Once the tract picker has loaded round the placed site, put Market check's tracts in, say where they came from,
+  // and press Run Analysis. Gives up quietly after 30 seconds (the reader can still press it).
   function run(s) {
     var tries = 0;
     (function wait() {
       var picker = window.PMATractPicker, btn = document.getElementById('pmaRunBtn');
-      if (!picker || typeof picker.getCount !== 'function' || !btn || picker.getCount() < 1) {
+      if (!picker || !btn || !loaded(picker, s)) {
         if (++tries < 60) setTimeout(wait, 500);
         return;
       }
-      if (s.tracts.length && typeof picker.setSelection === 'function' && picker.setSelection(s.tracts) > 0) {
-        var why = 'Market area from Market check' + (s.areaLabel ? ': ' + s.areaLabel : '') + ', ' + s.tracts.length +
-          (s.tracts.length === 1 ? ' whole census tract' : ' whole census tracts') + '. Market check lists each tract and the reason it is in or out.' +
-          ' COHO screening rules, not a CHFA market area until a CHFA-approved analyst draws one.';
+      var n = s.tracts.length && typeof picker.setSelection === 'function' ? picker.setSelection(s.tracts) : 0;
+      if (n > 0) {
+        var why = reason(s.areaLabel, n);
         var ta = document.getElementById('pmaTractRationale');
         if (ta && !ta.value.trim()) {
           ta.value = why;
@@ -88,9 +107,14 @@
         }
         if (typeof picker.getRationale === 'function' && !picker.getRationale() && typeof picker.setRationale === 'function') picker.setRationale(why);
       }
+      // Nothing to run on: no market area came with the link and nothing near the site could be picked. Run Analysis
+      // is left for the reader, who can pick tracts on the map.
+      if (typeof picker.getCount === 'function' && picker.getCount() < 1) return;
       btn.click();
     })();
   }
+
+  window.MASiteLink = { FROM: FROM, reason: reason };
 
   function start() {
     var s = site();

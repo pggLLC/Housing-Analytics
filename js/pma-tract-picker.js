@@ -76,6 +76,7 @@
   var _rationale        = '';         // analyst's per-PMA boundary rationale (CHFA Appendix A)
   var _onChange         = null;       // user callback(selectedGeoids)
   var _siteCenter       = null;       // { lat, lon }
+  var _readyAt          = null;       // { lat, lon } of the last init that finished loading, or null
   var _barriersCache    = null;       // { features, generated }, or false when the file failed
   var _nf               = _nfOff();   // natural-feature option state (see getNaturalFeatures)
   var _nfGen            = 0;          // bumped on off/clear, so a late proposal is dropped
@@ -392,6 +393,8 @@
 
       if (typeof _onChange === 'function') _onChange(Array.from(_selected));
 
+      _readyAt = { lat: lat, lon: lon };
+
       console.log('[PMATractPicker] init: ' + nearby.length + ' visible, ' +
         _selected.size + ' pre-selected near ' + lat.toFixed(4) + ',' + lon.toFixed(4));
 
@@ -529,6 +532,7 @@
     _autoSelected = new Set();
     _rationale    = '';
     _siteCenter   = null;
+    _readyAt      = null;
     _nf           = _nfOff();
     _nfGen++;
   }
@@ -583,6 +587,13 @@
 
   function getCount() {
     return _selected.size;
+  }
+
+  // Where the picker last finished loading, even when nothing near the site could be picked (a rural site with no
+  // tract centroid within 12 miles). Null before the first load and after clear(). Market check's link waits on this
+  // (js/components/ma-site-link.js), not on the selection count.
+  function readyAt() {
+    return _readyAt ? { lat: _readyAt.lat, lon: _readyAt.lon } : null;
   }
 
   /**
@@ -853,6 +864,7 @@
     clear:               clear,
     getSelectedGeoids:   getSelectedGeoids,
     getCount:            getCount,
+    readyAt:             readyAt,
     clearSelection:      clearSelection,
     setSelection:        setSelection,
     getBoundary:         getBoundary,
