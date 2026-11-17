@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-16T13:33:31.051648Z",
+  "generated": "2026-11-16T17:25:56.333595Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9,7 +9,7 @@
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7517
+      "bytes": 7519
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -174,7 +174,7 @@
     "data/audit/funding-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 699848
+      "bytes": 702292
     },
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
@@ -289,7 +289,7 @@
     "data/co-county-demographics.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 40281
+      "bytes": 49065
     },
     "data/co-county-economic-indicators.json": {
       "featureCount": 64,
@@ -1159,7 +1159,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 311322
+      "bytes": 311629
     },
     "data/entitled-land/findings.json": {
       "featureCount": 0,
@@ -10004,12 +10004,12 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20493
+      "bytes": 20483
     },
     "data/polymarket-history.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 227773
+      "bytes": 230003
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,

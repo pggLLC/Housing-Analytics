@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "61c71cf7619b6ccd7234dec3c420ffe14e8fff8c",
+  "commit": "9e94406f5325df9adc8d7cecda8910da96053a98",
   "dirty": false
  },
  "files": {
@@ -72,7 +72,7 @@
   "hub/finder.js": "b81b2adb1cfba2345594a4babea5c53ec8bb15b9ba8cbdedf9ef3756f2719ba7",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
-  "hub/guide.js": "c76346bcabdb006ca7bb63f92d45c7782cca15ec4021346fa6f407ae7b66a4f8",
+  "hub/guide.js": "6521f7e1c1bd65c9632991665db2cfff699e248197f947515f0c9529ef28df5c",
   "hub/hna-dola.js": "fbd5032131872fdd0b9ba6bd5b3015ee19dd6756abdd48caaa7143048f64cdc7",
   "hub/hna.js": "21c86f1db82e8333a57b5ede692196928724b5ee9316cd5e655eba9a544e0b5f",
   "hub/home.css": "a178558303c67e69f5e505f974e1aa65ee8a2d824f8144a8e9e755a0ccc8d9bd",
@@ -108,7 +108,7 @@
   "hub/places-state.js": "5040ac4fed97e661927428e2ac08ca9e9f96e58a9665467a72b3a74951fe36ca",
   "hub/places.js": "2a691c359ded2c6b1005223bb55d5764e6cd7128eff90c96bd9ebd1d0afa06f1",
   "hub/policy-more.js": "65e200026f3f73eaff1dd2f224a50427ab258000cbea03d8d060f53386ff3f99",
-  "hub/policy.js": "87156b959497a96ea5fa453f4425eba1f3605c3c991f55bd6ad01496ee15a366",
+  "hub/policy.js": "02d2a367d03b876d542c3069c3d11e7d51d715443deafa2af5d9833c1fb5104c",
   "hub/profile.css": "d18e7355133687b3c43099751dc234a12da6cbfe743fb65d932e414e171015a2",
   "hub/project-store.js": "f05e2135eb76a37550cc142ccbd552e35712bc83836e0a7125389ea69de5ff91",
   "hub/redraw.js": "0aa306638ac0e4dd3ca9a88c54459bdf16d7f486ae4c3ed3472c23e532622c16",
@@ -124,7 +124,7 @@
   "hub/start-numbers.js": "50205a8ddccc79283c6b218811aa6f82a912749a1952ea4d843a4d38610183ea",
   "hub/step-bar.js": "6dfdac56a129ba2d79043205800b4cfd91950477dd0b29ec278c61888eb15fc6",
   "hub/strength.js": "10f09b6b204f00e1689748a2696efcd6424bd9e327d5b0f444e6dde011deabb7",
-  "hub/templates.css": "9156251ec2aca84cee878ed4764a8b4c77d66502c01d25f2d598a178a32add55",
+  "hub/templates.css": "ec3eafa77e81e6ddb36e1727eb34f75803c0030ba4fa80a8e2f2bf89bf440885",
   "hub/templates.js": "34848c7754d6dcaa8d295e08dc698bfabb0e59e2756182b9482d4c9c02430923",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
@@ -166,7 +166,7 @@
   "js/local-incentives-data.js": "f1ad486017680b9af8781485def973e6f3294634c0ae96542c7e0a27cebc55a5",
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
   "js/land-comps.js": "f44d06e4a206699667d7ae316db1a65dbffe75a8364b2316c5a91bab55afad4f",
-  "js/data-source-inventory.js": "7329ab473abf3a1fc39a2cd2a36659b8be29f656a914e65b4e4942ef22dd3759",
+  "js/data-source-inventory.js": "01478f1a84b6edbee0d583af0a025b34e0cff77f4fe86b9b6892123e54191bed",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
   "js/hna/hna-ownership-need.js": "b33284b054b1120870e2850d8995c990edabf661d42a3a767bf9cc8f98b1f8d0",
   "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",
@@ -199,7 +199,7 @@
   "js/affordability-metrics-panel.js": "f7532400acf4e2f7569032471f21856af44afcc3edea17a9e15463aa2730956d",
   "js/market-health-composite.js": "e9554dbeb1bba7927f7099c0a902b35d7a20c1b58cd7ac5b317e0eda69847e90",
   "js/policy-simulator.js": "80ed956e69203df36004c66eea273570ac8344136c722dd60a01fd703173b85b",
-  "js/components/affordable-housing-layer.js": "e433d17e95ef4e646e8dc9905f2b2180ea77355e4e0de433c20b39851426d3eb",
+  "js/components/affordable-housing-layer.js": "45f23e31ac0fbbefc5fcb07014d699e8ce67e78ae2a9aa3b9dee5abea3ed2de0",
   "js/hna/hna-ownership-strategy.js": "e7194b52b59e709a48a76c00cf85800ebf0c55faf7d5cf066297f2dc92b90773",
   "js/components/search-links.js": "baf9e0f650686161dc051432ba1a222bd15d6dc7cc2c635491418d923e259ebf",
   "js/components/development-realism.js": "174e35387989e2a1da198bcf53856688914add0b697bfa13e1f0b04e1e81ccb9",

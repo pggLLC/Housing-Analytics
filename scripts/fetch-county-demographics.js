@@ -345,4 +345,6 @@ function run() {
     });
 }
 
-run();
+module.exports = { parseCountyRows };
+
+if (require.main === module) run();

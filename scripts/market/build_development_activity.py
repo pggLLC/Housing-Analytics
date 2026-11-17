@@ -215,6 +215,11 @@ def money(v) -> str | None:
     return f'${v:,}' if isinstance(v, (int, float)) and v > 0 else None
 
 
+
+def _report_file(url):
+    """A report's file name, lower case: the same PDF under either CHFA address."""
+    return ((url or '').split('?')[0].rstrip('/').rsplit('/', 1)[-1]).lower() or None
+
 class Ledger:
     def __init__(self, excluded: set[str], places: dict[str, str], county_names: dict[str, str]):
         self.projects: list[dict] = []
@@ -305,10 +310,13 @@ class Ledger:
                  '_name_n': name_n, '_city_n': city_n}
             self.projects.append(p)
         # a supplemental reading of a report the award ledger already carries
-        # (the 2026 Round One file) adds nothing; the ledger's printed row wins
+        # (the 2026 Round One file) adds nothing; the ledger's printed row wins.
+        # The report is matched by its file name: CHFA moved its PDFs from
+        # /getattachment/ to /getContentAsset/ in Nov 2026, so the same report
+        # can carry two addresses.
         if event.pop('_supplement', False) and any(
-                (e['agency'], e.get('year'), e['stage'], e.get('source_url'))
-                == (event['agency'], event.get('year'), event['stage'], event.get('source_url'))
+                (e['agency'], e.get('year'), e['stage'], _report_file(e.get('source_url')))
+                == (event['agency'], event.get('year'), event['stage'], _report_file(event.get('source_url')))
                 for e in p['events']):
             self.supplement_duplicates += 1
             return

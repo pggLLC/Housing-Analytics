@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T12:32:54.267Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-16T16:38:11.178Z. Do not edit by hand.
 
 ---
 
@@ -109,7 +109,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1009.7 KB | ✅ | — |
+| `data/_manifest.json` | 1010.2 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 966.9 KB | ✅ | 926 features |
@@ -136,7 +136,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 683.4 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 685.8 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -158,7 +158,7 @@
 | `data/chfa-lihtc.json` | 966.9 KB | ✅ | 926 features |
 | `data/chfa-qap-calendar.json` | 20.7 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 39.3 KB | ✅ | — |
+| `data/co-county-demographics.json` | 47.9 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 14.9 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 14.5 KB | ✅ | — |
@@ -1860,7 +1860,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 10.9 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 252.4 KB | ✅ | — |
+| `data/manifest.json` | 252.5 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -2077,7 +2077,7 @@
 | `data/policy_briefs_curated.json` | 302.2 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 222.4 KB | ✅ | — |
+| `data/polymarket-history.json` | 224.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2183,7 +2183,7 @@
 | `test/contrast-audit-settle.test.mjs` | 9.2 KB |
 | `test/contrast-audit-summary.test.js` | 8.3 KB |
 | `test/cost-per-sf-absence.test.js` | 7.0 KB |
-| `test/county-demographics-contract.test.js` | 20.4 KB |
+| `test/county-demographics-contract.test.js` | 23.3 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/county-housing-indicators-sourced.test.mjs` | 12.9 KB |
 | `test/county-trends-acs-agreement.test.js` | 4.5 KB |
