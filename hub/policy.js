@@ -162,6 +162,8 @@
   function newsToday(t) {
     if (!t || !t.date) return '';
     var day = new Date(t.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    var hm = /T(\d{2}):(\d{2})/.exec(t.as_of || '');
+    var clock = hm ? ((+hm[1] % 12) || 12) + ':' + hm[2] + (+hm[1] < 12 ? ' am' : ' pm') : '';
     var link = function (title, href) { var h = safe(href); return h ? '<a href="' + esc(h) + '">' + esc(title) + '</a>' : esc(title); };
     var rows = (t.agency || []).map(function (a) {
       return '<li><span class="news-today-tag">' + esc(a.agency) + '</span> ' + link(a.title, a.link) + ' <span class="news-date">' + (a.date_basis === 'first_seen' ? 'first seen ' : 'posted ') + esc(a.date) + '</span></li>';
@@ -173,7 +175,7 @@
       : (t.agency || []).length ? 'No new outlet stories since yesterday; ' + num(t.agency.length) + ' agency release' + (t.agency.length > 1 ? 's' : '') + '.' : esc((t.lines || [])[0] || 'No new Colorado housing stories since yesterday.');
     var places = (t.places || []).length ? '<p class="note">In the news: ' + t.places.map(function (p) { return esc(p.name) + ' (' + num(p.stories) + ')'; }).join(', ') + '.</p>' : '';
     return '<section id="nw-today" class="news-today" aria-labelledby="nw-today-h"><h2 id="nw-today-h">Today in Colorado housing</h2>' +
-      '<p class="news-date">' + esc(day) + '</p><p>' + lead + '</p>' + (rows.length ? '<ul>' + rows.join('') + '</ul>' : '') + places +
+      '<p class="news-date">As of ' + esc(day) + (clock ? ', ' + esc(clock) + ' Mountain Time' : '') + '</p><p>' + lead + '</p>' + (rows.length ? '<ul>' + rows.join('') + '</ul>' : '') + places +
       '<p class="note">Written by the news script from the stories below and the CHFA, DOLA, OEDIT and Governor\u2019s Office pages, with no AI. Top stories are the ones the most outlets ran.</p></section>';
   }
   function newsCheck(x) { return x.sourcing === 'unverified' || x.sourcing === 'weak' ? x.sourcing : 'checked'; }
