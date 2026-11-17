@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "72127a5ada3d4dd1887d1347692d06c4c8ee59ea",
+  "commit": "9b42d08618d6e90b898a424f63e47360a1309429",
   "dirty": false
  },
  "files": {
@@ -41,7 +41,7 @@
   "hub/calculators.css": "b4b0624c35763939731e648dcd47eb60ee92965fb85ee556abef793151609863",
   "hub/calendar.js": "9fd8e62851166913afee680810c97317642113db4ea3f0e25235e6c0ed05d6b5",
   "hub/change-arrows.js": "3bfb7835e88183749dd64cacc43d91af9ae80d65038bb60ed70190d7755d4f3d",
-  "hub/commuting.js": "8058696b72c5a70aa09d7a90cddb4b61592e30b8350b0d099b022e72fef6a9d6",
+  "hub/commuting.js": "77cfb78a1dcc54e5468c6228e7ac82cd9b6f62eb70660c77de2cd496ba0a2d82",
   "hub/compare-records.js": "4a4e20b4c5064680ab87c53bae1dce945a5ce45c090feea7277570556805d1af",
   "hub/components.js": "1a3192c4037be964f0a9447cd5d3d6a1b6795871c6f9d017b640b7f538f38590",
   "hub/county-costs.css": "27d26b7dee75f7fe60d9521925a49b17dfc037bf2c18b3d4aef837ec33e8e575",
@@ -91,7 +91,7 @@
   "hub/map-base.js": "cbb667abc88877093c487ec239a8af62c291303f682c6114ca0c49da75c15d3f",
   "hub/map-kit.js": "e70fb1db58bf10e7d487c03c4cb1f31757c22762f86b37bc4c11e77d3629a945",
   "hub/map-zoom.js": "854ba56f8749d75876c408596354074fc80a1b0621ae09a6a0306324ebc0a6eb",
-  "hub/market.js": "1387154650fd091caf8470ce8915ddce5937673a25a2a4f1245a573e69e91c4e",
+  "hub/market.js": "3108070e150abdd01b16632cac330ab74a7f11ee5fa5a62e1d45de0acb54a0e1",
   "hub/middle-income.css": "d6ee8edc88955d68fc798e4ed247954c3d0900fd11bf62fba990ad09855ed22e",
   "hub/middle-income.js": "5301fa977060cca905ef65201fcdf54cc58f3f831580abcd49f5b3088835bb29",
   "hub/nav.js": "438f02ddd4410e7a222a048ef4f7687116ee896cdd7dd6f489d06ea48cd77c89",
