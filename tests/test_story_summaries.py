@@ -133,3 +133,26 @@ def test_description_with_an_apostrophe_is_read_whole():
 def test_numbers_ignore_sentence_punctuation():
     assert ss._numbers('rental units to 845.') == ss._numbers('The awards support 845 rental units.') == {'845'}
     assert ss._numbers('1,200 homes at 4.5%.') == {'1200', '4.5'}
+
+
+def test_ai_framing_is_dropped_and_the_quote_shows():
+    src = 'Court weighs lawsuit over a state law A judge heard arguments Monday in a lawsuit brought by two businesses.'
+    assert not ss.grounded('A court is weighing a lawsuit from businesses, which could affect civil rights protections.', src)
+    assert not ss.grounded('Nine homes were funded, which is important for renters.', 'Nine homes were funded.')
+    assert ss.grounded('A judge heard arguments in a lawsuit brought by two businesses.', src)
+    ask = lambda p, k: '{"items": [{"n": 0, "sentence": "Sales fell 19%, which is important for buyers."}]}'
+    t = ss.with_ai(_today(), {}, 'k', ask)
+    assert 'ai' not in t['top'][0] and t['ai']['count'] == 0
+
+
+def test_cached_line_that_fails_the_check_is_not_shown():
+    item = _today()
+    key = 'https://example.com/a'
+    cache = {key: {'ai': {'text': 'Sales fell 19%, which could hurt buyers.', 'from': item['top'][0]['summary']['text']}}}
+    t = ss.with_ai(item, cache, '', None)
+    assert 'ai' not in t['top'][0]
+
+
+def test_one_framing_word_in_the_source_does_not_allow_others():
+    assert not ss.grounded('Nine homes were funded, which is important for renters.', 'The agency will help fund nine homes.')
+    assert ss.grounded('The agency will help fund nine homes.', 'The agency will help fund nine homes for renters.')

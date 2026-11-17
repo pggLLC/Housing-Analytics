@@ -144,3 +144,54 @@ def test_a_release_already_carried_as_other_coverage_is_not_added_again():
     finally:
         del os.environ['NEWS_AGENCY_OFFLINE']
     assert len(out) == 1
+
+
+def test_today_top_needs_a_housing_headline_and_counts_one_story_once():
+    now = dt.datetime(2026, 11, 17, 6, tzinfo=dt.timezone.utc)
+    stories = [
+        {'title': '34% of Colorado households are cost-burdened, new state housing study finds', 'source': 'A', 'date': '2026-11-16', 'also': [{}, {}]},
+        {'title': 'Court weighs lawsuit over Colorado’s transgender pronouns law', 'source': 'B', 'date': '2026-11-16'},
+        {'title': 'Nearly 34% of Colorado households are spending too much on housing, new state report finds', 'source': 'C', 'date': '2026-11-16'},
+        {'title': 'Denver approves 200 affordable rental homes', 'source': 'D', 'date': '2026-11-16'},
+    ]
+    t = ar.summarize_today(stories, {'items': []}, now, about=lambda title: 'hous' in title.lower() or 'rental' in title.lower())
+    assert [x['source'] for x in t['top']] == ['A', 'D']
+    assert t['top'][0]['outlets'] == 4
+
+
+def test_same_story_keeps_distinct_projects_apart():
+    assert not ar.same_story('Denver approves 200 affordable rental homes', 'Boulder approves 100 affordable rental homes')
+    assert not ar.same_story('Denver approves affordable rental homes', 'Boulder approves affordable rental homes')
+    assert ar.same_story('Denver housing complex receives mail again after USPS stopped delivering',
+                         'Mail delivery resumes months later for residents of Denver housing complex')
+
+
+def test_a_story_told_under_many_headlines_ranks_by_its_total_coverage():
+    now = dt.datetime(2026, 11, 17, 6, tzinfo=dt.timezone.utc)
+    hdr = lambda src, title, n=0: {'title': title, 'source': src, 'date': '2026-11-16', 'also': [{}] * n}
+    stories = [hdr('A', 'Aurora rent cap housing vote set', 1), hdr('B', 'Pueblo opens housing shelter', 1),
+               hdr('C', 'Greeley housing land deal closes', 1), hdr('D', 'Mesa County housing levy fails', 1),
+               hdr('E', '34% of households cost-burdened, housing study finds'),
+               hdr('F', 'Nearly 34% of households spend too much on housing, study finds'),
+               hdr('G', 'Housing study: 34% of households cost-burdened')]
+    t = ar.summarize_today(stories, {'items': []}, now, about=lambda title: 'housing' in title.lower())
+    assert t['top'][0]['source'] == 'E' and t['top'][0]['outlets'] == 3
+
+
+def test_coverage_counts_each_publisher_once():
+    now = dt.datetime(2026, 11, 17, 6, tzinfo=dt.timezone.utc)
+    stories = [{'title': 'Denver housing complex receives mail again after USPS stopped delivering', 'source': 'CBS', 'date': '2026-11-16'},
+               {'title': 'Mail delivery resumes months later for residents of Denver housing complex', 'source': 'CBS', 'date': '2026-11-16'}]
+    t = ar.summarize_today(stories, {'items': []}, now, about=lambda title: True)
+    assert t['top'][0]['outlets'] == 1 and len(t['top']) == 1
+
+
+def test_title_case_headlines_still_match_with_the_corpus():
+    a = 'Denver Housing Complex Receives Mail Again After USPS Stopped Delivering'
+    b = 'Mail Delivery Resumes Months Later For Residents Of Denver Housing Complex'
+    # the real corpus is hundreds of headlines, most in sentence case
+    ordinary = ar.ordinary_words(['Some residents say the city resumes work months later', 'A store receives a permit again',
+                                  'Mail delivery stopped after the flood'])
+    assert ar.same_story(a, b, ordinary)
+    assert not ar.same_story('Denver Approves Affordable Rental Homes', 'Boulder Approves Affordable Rental Homes',
+                             ar.ordinary_words(['council approves affordable rental homes']))

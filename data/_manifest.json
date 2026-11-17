@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-17T11:46:44.841Z",
+    "generated_at": "2026-11-17T12:22:28.220Z",
     "root": "data/",
     "file_count": 2035,
-    "total_size_bytes": 229501522,
+    "total_size_bytes": 229592707,
     "kinds": {
       "json": 1986,
       "geojson": 35,
@@ -400,8 +400,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 2450154,
-      "mtime": "2026-11-17T11:17:50.503Z",
+      "size_bytes": 2471480,
+      "mtime": "2026-11-17T12:09:20.733Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -409,7 +409,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 3675,
+      "primary_array_length": 3707,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -425,7 +425,7 @@
       "path": "alerts/brief-news-queue.json",
       "kind": "json",
       "size_bytes": 65587,
-      "mtime": "2026-11-17T11:17:50.504Z",
+      "mtime": "2026-11-17T12:09:20.733Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -491,7 +491,7 @@
       "path": "alerts/outlet-review.json",
       "kind": "json",
       "size_bytes": 10874,
-      "mtime": "2026-11-17T11:17:50.504Z",
+      "mtime": "2026-11-17T12:09:20.733Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -515,7 +515,7 @@
       "path": "alerts/owner-news.json",
       "kind": "json",
       "size_bytes": 324,
-      "mtime": "2026-11-17T11:17:50.504Z",
+      "mtime": "2026-11-17T12:09:20.733Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -747,7 +747,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-17T11:46:40.053Z",
+      "mtime": "2026-11-17T12:22:24.062Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -40303,7 +40303,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-17T11:46:42.438Z",
+      "mtime": "2026-11-17T12:22:25.987Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40327,7 +40327,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-17T11:46:41.852Z",
+      "mtime": "2026-11-17T12:22:25.519Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42778,7 +42778,7 @@
       "path": "policy/housing-events.json",
       "kind": "json",
       "size_bytes": 161311,
-      "mtime": "2026-11-17T11:17:50.504Z",
+      "mtime": "2026-11-17T12:09:20.734Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43724,8 +43724,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 671079,
-      "mtime": "2026-11-17T11:17:50.506Z",
+      "size_bytes": 670804,
+      "mtime": "2026-11-17T12:09:20.736Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43737,7 +43737,7 @@
       ],
       "key_count": 6,
       "primary_array_key": "stories",
-      "primary_array_length": 524,
+      "primary_array_length": 525,
       "primary_array_first_keys": [
         "title",
         "source",
@@ -43755,8 +43755,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 332692,
-      "mtime": "2026-11-17T05:00:15.150Z",
+      "size_bytes": 402826,
+      "mtime": "2026-11-17T12:21:35.237Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43764,7 +43764,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 16,
+      "primary_array_length": 17,
       "primary_array_first_keys": [
         "id",
         "title",
@@ -43777,7 +43777,7 @@
         "summary",
         "implications",
         "related_data",
-        "sources"
+        "sections"
       ]
     },
     {

@@ -1,25 +1,31 @@
 {
   "meta": {
-    "generated": "2026-11-17T11:17:42Z",
+    "generated": "2026-11-17T12:09:12Z",
     "brief_count": 10,
-    "source_alerts": 3680,
+    "source_alerts": 3712,
     "methodology": "Policy briefs generated using GPT-4o-mini (LLM-assisted mode)."
   },
   "briefs": [
     {
-      "title": "Addressing Colorado's Housing Crisis: 34% of Households Cost-Burdened",
+      "title": "Addressing Colorado's Housing Affordability Crisis: A Call for Action",
       "policy_topic": "General",
-      "summary": "A recent state housing study reveals that 34% of Colorado households are cost-burdened, spending more than 30% of their income on housing. This alarming statistic highlights the growing affordability crisis affecting many residents, particularly in urban areas where housing costs continue to rise. The situation demands urgent policy interventions to ensure housing stability and accessibility for all Coloradans.",
-      "implications": "Policymakers should prioritize the development of affordable housing initiatives, including incentives for developers to create low-income units and increased funding for housing assistance programs. Additionally, measures to enhance tenant protections and stabilize rents could alleviate the financial burden on vulnerable households. Collaborative efforts between state and local governments are essential to address the root causes of housing unaffordability and ensure equitable access to housing.",
+      "summary": "Recent reports reveal that nearly 34% of Colorado households are cost-burdened, spending an excessive portion of their income on housing. This alarming statistic highlights the urgent need for effective housing policies and programs to enhance affordability and stability for residents. Initiatives like the Empty Stocking Fund by Partners in Housing are paving the way for solutions, but broader systemic changes are necessary.",
+      "implications": "Policymakers must prioritize the development of affordable housing units and consider implementing rent control measures to alleviate the financial burden on households. Additionally, increasing funding for housing assistance programs and exploring innovative partnerships with non-profits can enhance support for vulnerable populations. Immediate action is essential to ensure that all Colorado residents have access to stable and affordable housing.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
-        "KOAA News 5",
-        "Hoodline",
-        "AOL.com",
-        "KKTV",
-        "The Grand Junction Daily Sentinel"
+        "The Grand Junction Daily Sentinel",
+        "Colorado Springs Gazette",
+        "CBS News",
+        "Colorado Politics",
+        "KKTV"
       ],
       "articles": [
+        {
+          "title": "Empty Stocking Fund: Partners in Housing paves pathways to stability - Colorado Springs Gazette",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNbGswVi1JdUMtNFIwUEpZeFZXcFVjLXludGFiUHZMNWx6RFNJNE9Zbnl5NFRySGVHT01Ubm9aeHJ5REl6NFhTblZTVTZYdVllYW5PR2xMNnRlNGJibzU2ZTliZ0JMNWY2cUp0aThocDY5eExtQlZ4bHE5a3dBbVJqQXhrekZQQWJ1QmswRjBlNkN2WG1lNFdaYUEzYkIxZTlE?oc=5",
+          "date": "2026-11-17"
+        },
         {
           "title": "34% of Colorado households are cost-burdened, new state housing\u200b study finds - The Grand Junction Daily Sentinel",
           "source": "The Grand Junction Daily Sentinel",
@@ -1815,28 +1821,28 @@
           "date": "2026-08-19"
         }
       ],
-      "alert_count": 299,
+      "alert_count": 300,
       "regions": [
-        "Denver",
-        "Colorado Springs",
-        "Statewide",
+        "Colorado",
         "Grand Junction",
-        "Colorado"
+        "Denver",
+        "Statewide",
+        "Colorado Springs"
       ],
-      "generated": "2026-11-17T11:17:07Z"
+      "generated": "2026-11-17T12:08:38Z"
     },
     {
-      "title": "Advancements and Challenges in Colorado's Affordable Housing Landscape",
+      "title": "Advancements and Challenges in Affordable Housing Initiatives Across Colorado",
       "policy_topic": "Affordable Housing",
-      "summary": "Recent developments in Colorado's affordable housing sector highlight both progress and ongoing challenges. Notable initiatives include the refinancing of a Fort Collins community with a $17.2 million HUD loan and the groundbreaking of affordable housing for teachers. Additionally, new federal regulations may facilitate the construction of affordable housing on federal land, particularly in mountain towns.",
-      "implications": "To capitalize on these advancements, policymakers should prioritize the integration of federal land use regulations into local housing strategies, ensuring that affordable housing projects are expedited. Furthermore, continued support for innovative funding mechanisms, such as Opportunity Zone funding, is essential to sustain momentum. Engaging with developers to reassess existing affordable housing schemes will also be crucial in addressing community needs and enhancing housing accessibility.",
+      "summary": "Recent developments in Colorado's affordable housing sector highlight both progress and ongoing challenges. Key initiatives include the refinancing of a Fort Collins community with a $17.2 million HUD loan, new opportunities for building on federal land in mountain towns, and significant grants aimed at converting luxury projects into affordable housing. However, legal challenges to Denver's affordable housing scheme indicate that policy frameworks may require further refinement to meet community needs.",
+      "implications": "To enhance the effectiveness of affordable housing initiatives, policymakers should prioritize the integration of flexible financing options and streamline regulatory processes, particularly for projects on federal land. Additionally, addressing legal challenges proactively will be crucial to ensure that innovative housing solutions can be implemented without delay. Collaboration between local governments, developers, and community organizations will be essential to create sustainable and inclusive housing strategies.",
       "related_data": "data/market/hud_lihtc_co.geojson",
       "sources": [
-        "Unofficial Networks",
-        "HUD User (.gov)",
+        "Sentinel Colorado",
         "Courthouse News Service",
-        "9News",
-        "Yield PRO"
+        "FOX21 News Colorado",
+        "Connect CRE",
+        "9News"
       ],
       "articles": [
         {
@@ -2340,24 +2346,24 @@
       ],
       "alert_count": 83,
       "regions": [
-        "Denver",
+        "Fort Collins",
         "Statewide",
-        "Fort Collins"
+        "Denver"
       ],
-      "generated": "2026-11-17T11:17:11Z"
+      "generated": "2026-11-17T12:08:42Z"
     },
     {
       "title": "Colorado Housing Market Faces Significant Slowdown Amid High Mortgage Rates",
       "policy_topic": "Housing Market",
-      "summary": "Recent reports indicate a 19% decline in home sales across Colorado in October, attributed to persistently high mortgage rates that are deterring potential buyers. While median home prices have remained stable, the overall market sentiment is characterized by fear and uncertainty, leading to a notable pullback from both buyers and sellers. The Pikes Peak region, however, has seen an increase in listings, suggesting a potential shift in market dynamics.",
-      "implications": "Policymakers should consider implementing measures to alleviate the impact of high mortgage rates, such as introducing targeted financial assistance programs for first-time homebuyers. Additionally, fostering a more balanced housing supply through zoning reforms and incentivizing new construction could help stimulate market activity. Engaging with stakeholders in the real estate sector to develop strategies that address buyer hesitance and promote confidence in the housing market will be crucial.",
+      "summary": "Recent reports indicate a 19% decline in home sales across Colorado in October, attributed to soaring mortgage rates that are deterring potential buyers. While median home prices have remained stable, the overall market sentiment is characterized by fear and uncertainty, leading to a notable pullback from both buyers and sellers. The Pikes Peak region, however, has seen an increase in listings, suggesting a potential shift in market dynamics.",
+      "implications": "Policymakers should consider implementing measures to alleviate the burden of high mortgage rates, such as promoting affordable financing options or providing incentives for first-time homebuyers. Additionally, increasing the availability of affordable housing units could help stabilize the market and encourage more transactions. Engaging with local real estate stakeholders to monitor trends and adjust policies accordingly will be crucial in navigating this cooling market.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
+        "The Grand Junction Daily Sentinel",
+        "The Denver Post",
         "Norada Real Estate Investments",
-        "Just The News",
-        "KOAA News 5",
         "9News",
-        "Common Sense Institute"
+        "KOAA News 5"
       ],
       "articles": [
         {
@@ -2525,25 +2531,25 @@
       ],
       "alert_count": 27,
       "regions": [
-        "Denver",
-        "Colorado",
+        "Grand Junction",
         "Statewide",
-        "Grand Junction"
+        "Colorado",
+        "Denver"
       ],
-      "generated": "2026-11-17T11:17:16Z"
+      "generated": "2026-11-17T12:08:47Z"
     },
     {
-      "title": "Addressing Colorado's Housing Affordability Crisis: Strategies for Tenants and Homeownership Pathways",
+      "title": "Navigating Colorado's Housing Landscape: Opportunities and Challenges for Renters and Homeownership",
       "policy_topic": "Rent & Tenants",
-      "summary": "Recent developments in Colorado highlight the ongoing challenges and innovative solutions in the housing sector. Initiatives like Archway Communities are paving the way for families to transition from affordable renting to homeownership, while legal actions address misleading rental practices. Additionally, local governments are grappling with rent increases and temporary rental assistance funding amidst rising housing costs.",
-      "implications": "Policymakers should consider expanding support for programs that facilitate pathways to homeownership for low-income families, ensuring that affordable rental options remain available. Furthermore, stricter regulations on rental advertising and transparent communication about rent increases are essential to protect tenants. Local governments must prioritize funding for temporary rental assistance to mitigate the impact of rising housing costs on vulnerable populations.",
+      "summary": "Recent developments in Colorado highlight both innovative pathways to homeownership for renters and ongoing challenges in the rental market. Initiatives like Archway Communities are paving the way for families to transition from affordable renting to owning homes, while legal and regulatory issues, such as false advertising in rentals and short-term rental regulations, continue to impact tenants. Additionally, local governments are grappling with funding for temporary rental assistance amidst rising living costs.",
+      "implications": "Policymakers should prioritize the expansion of programs that facilitate pathways to homeownership for low-income renters, ensuring that initiatives like those from Archway Communities receive adequate support. Furthermore, addressing the legal issues surrounding rental advertising and short-term rentals is crucial to protect tenants' rights and maintain market integrity. Local governments must also consider increasing funding for rental assistance programs to alleviate immediate housing pressures on vulnerable populations.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
+        "StreetInsider",
+        "The Denver Post",
         "PRWeb",
-        "Gunnison Country Times",
         "Colorado Springs Gazette",
-        "Colorado Politics",
-        "The Denver Post"
+        "CBS News"
       ],
       "articles": [
         {
@@ -2675,25 +2681,25 @@
       ],
       "alert_count": 21,
       "regions": [
-        "Denver",
-        "Colorado",
         "Statewide",
-        "Colorado Springs"
+        "Colorado Springs",
+        "Colorado",
+        "Denver"
       ],
-      "generated": "2026-11-17T11:17:19Z"
+      "generated": "2026-11-17T12:08:50Z"
     },
     {
-      "title": "Navigating Colorado's Housing Development Challenges Amidst Declining Permits and Rising Water Fees",
+      "title": "Colorado's Housing Development Faces Challenges Amid Declining Permits and Rising Fees",
       "policy_topic": "Construction & Permitting",
-      "summary": "Recent trends in Colorado's housing market indicate a significant decline in single-family building permits, down nearly 43% since 2021, exacerbated by increasing water fees impacting development viability. Local governments are grappling with the dual pressures of affordability and sustainable growth, as seen in various community discussions and initiatives aimed at improving housing conditions. The situation calls for a comprehensive approach to address both the regulatory environment and the financial barriers facing developers.",
-      "implications": "Policymakers should consider revising water fee structures to incentivize development while ensuring sustainable resource management. Additionally, fostering collaboration between local governments, developers, and community organizations can lead to innovative solutions that balance housing affordability with environmental concerns. Establishing a task force to explore alternative funding mechanisms for affordable housing projects could also be beneficial in mitigating the current decline in construction activity.",
+      "summary": "Recent reports indicate a significant decline in single-family building permits in Colorado, dropping nearly 43% since 2021. Concurrently, rising water fees are impacting housing development, complicating efforts to address the state's affordability crisis. Local governments are grappling with the balance between necessary infrastructure funding and the need for increased housing supply.",
+      "implications": "Policymakers should consider revising water fee structures to promote housing development while ensuring sustainable resource management. Additionally, incentives for affordable housing projects could be implemented to stimulate construction activity. Engaging community stakeholders in discussions about development fees may also yield innovative solutions to the housing challenges faced by various regions in Colorado.",
       "related_data": "data/market/hud_lihtc_co.geojson",
       "sources": [
-        "The Telluride Times",
         "Colorado Public Radio",
-        "Post Independent",
-        "Denver Gazette",
-        "Knoxville News Sentinel"
+        "Knoxville News Sentinel",
+        "The Telluride Times",
+        "ColoradoBiz",
+        "Denver Gazette"
       ],
       "articles": [
         {
@@ -2801,25 +2807,25 @@
       ],
       "alert_count": 17,
       "regions": [
-        "Denver",
-        "Colorado",
         "Statewide",
-        "Colorado Springs"
+        "Colorado Springs",
+        "Colorado",
+        "Denver"
       ],
-      "generated": "2026-11-17T11:17:22Z"
+      "generated": "2026-11-17T12:08:53Z"
     },
     {
       "title": "Addressing the Homelessness Crisis in Colorado: Urgent Action Required",
       "policy_topic": "Homelessness",
-      "summary": "Recent reports indicate that Denver's shelters are nearing capacity, with 96% occupancy and limited transitions to stable housing. Additionally, the closure of Englewood's only overnight shelter and the winding down of Bridge House operations highlight the urgent need for sustainable solutions. While Denver has received national recognition for its homelessness strategies, local feedback and funding discussions reveal a critical gap in effective implementation.",
-      "implications": "To address the homelessness crisis effectively, Colorado must prioritize the development of permanent supportive housing and increase funding for mental health and addiction services. Engaging community stakeholders in the planning process will ensure that solutions are tailored to local needs. Immediate action is necessary to prevent further shelter closures and to create pathways for individuals experiencing homelessness to achieve stable housing.",
+      "summary": "Recent reports indicate that Denver's shelters are nearing capacity with 96% occupancy, while the closure of Englewood's only overnight shelter exacerbates the crisis. Despite national recognition for its efforts, the city faces challenges in transitioning residents to stable housing, highlighting the need for a comprehensive approach to homelessness. Public feedback on funding and innovative programs like Arvada's Suburban Studios suggest a community-driven response is essential.",
+      "implications": "To effectively combat homelessness, Colorado must prioritize the development of affordable housing options and supportive services that facilitate transitions from shelters to permanent residences. Engaging the public in funding discussions can help identify community needs and allocate resources more effectively. Policymakers should also consider replicating successful models from Denver in other regions to create a cohesive statewide strategy.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
-        "Planetizen",
-        "9NEWS",
         "Westword",
-        "Colorado Springs Gazette",
-        "FOX21 News Colorado"
+        "The New York Times",
+        "Arvada Press",
+        "FOX21 News Colorado",
+        "Colorado Springs Gazette"
       ],
       "articles": [
         {
@@ -2891,25 +2897,25 @@
       ],
       "alert_count": 11,
       "regions": [
-        "Denver",
-        "Colorado",
         "Statewide",
-        "Colorado Springs"
+        "Colorado Springs",
+        "Colorado",
+        "Denver"
       ],
-      "generated": "2026-11-17T11:17:27Z"
+      "generated": "2026-11-17T12:08:57Z"
     },
     {
       "title": "Navigating Zoning Challenges to Enhance Housing Density in Colorado",
       "policy_topic": "Zoning & Land Use",
-      "summary": "Recent developments in Colorado highlight a growing push for increased residential density amid local zoning challenges. Key actions include the approval of rezoning for nearly 100 homes in Garfield County and the Colorado Springs City Council's zoning plan for over 1,000 acres, reflecting a trend towards accommodating more housing. However, proposals like Denver's 'Unlocking Housing Choices' faced setbacks, indicating the complexities of local governance in housing policy.",
-      "implications": "To effectively address housing shortages, policymakers must streamline zoning processes and encourage local governments to adopt more flexible land use regulations. Engaging communities in discussions about density can help mitigate opposition and foster acceptance of new housing developments. Additionally, leveraging federal support for manufactured housing can bridge gaps in local zoning hurdles, promoting diverse housing options across Colorado.",
+      "summary": "Recent developments in Colorado highlight the ongoing tension between local zoning regulations and the need for increased housing density. From the approval of nearly 100 homes in Garfield County to the scaling back of Denver's citywide upzoning initiative, local governments are grappling with the balance of community needs and housing demands. Additionally, federal efforts to promote manufactured housing face significant local zoning hurdles that could impede progress.",
+      "implications": "Policymakers should prioritize the alignment of local zoning codes with state and federal housing initiatives to facilitate the construction of affordable housing. Engaging community stakeholders in the rezoning process can help address concerns while promoting residential density. Furthermore, local governments should consider adopting flexible zoning practices that accommodate diverse housing types, including manufactured homes, to meet the growing demand.",
       "related_data": "data/policy/prop123_jurisdictions.json",
       "sources": [
-        "Denverite",
-        "Jefferson County",
+        "Colorado Springs Gazette",
         "KRDO",
-        "AspenTimes.com",
-        "Colorado Springs Gazette"
+        "PostIndependent.com",
+        "Denverite",
+        "The Korea Daily"
       ],
       "articles": [
         {
@@ -2957,11 +2963,11 @@
       ],
       "alert_count": 7,
       "regions": [
-        "Denver",
+        "Colorado Springs",
         "Colorado",
-        "Colorado Springs"
+        "Denver"
       ],
-      "generated": "2026-11-17T11:17:31Z"
+      "generated": "2026-11-17T12:09:00Z"
     },
     {
       "title": "Affordable Housing Tool Evaluations \u2014 November 2026",
@@ -3010,17 +3016,17 @@
       "regions": [
         "National tool evaluation"
       ],
-      "generated": "2026-11-17T11:17:31Z"
+      "generated": "2026-11-17T12:09:00Z"
     },
     {
-      "title": "Funding Boost for Infrastructure and Workforce Housing in Colorado",
+      "title": "Colorado's Infrastructure Funding: A Catalyst for Workforce Housing Development",
       "policy_topic": "Infrastructure & Funding",
-      "summary": "Recent funding announcements highlight a significant $10 million investment in infrastructure for a Colorado city, alongside a strategic prioritization of workforce housing in Grand Lake. These developments indicate a growing recognition of the need for sustainable community planning that supports both residents and local economies.",
-      "implications": "Local governments should leverage this funding to enhance infrastructure while ensuring that workforce housing initiatives are integrated into broader development plans. Policymakers must collaborate with stakeholders to create a balanced approach that addresses housing shortages and infrastructure needs, ultimately fostering community resilience and economic growth.",
+      "summary": "Recent funding of $10 million allocated to Colorado City highlights a growing commitment to improving infrastructure. Additionally, Grand Lake trustees are prioritizing workforce housing and infrastructure development over resort concepts, signaling a shift towards addressing local housing needs. These developments indicate a strategic focus on enhancing community resilience and livability through targeted investments.",
+      "implications": "Local governments should leverage the recent funding to create a comprehensive infrastructure plan that supports workforce housing initiatives. Policymakers must prioritize collaboration with developers and stakeholders to ensure that infrastructure improvements align with housing needs. Furthermore, ongoing assessment of community needs will be essential to adapt strategies and maximize the impact of these investments.",
       "related_data": "data/policy/funding-watch-sources.json",
       "sources": [
-        "KTXS",
-        "SkyHiNews.com"
+        "SkyHiNews.com",
+        "KTXS"
       ],
       "articles": [
         {
@@ -3038,16 +3044,16 @@
       ],
       "alert_count": 2,
       "regions": [
-        "Colorado",
-        "Statewide"
+        "Statewide",
+        "Colorado"
       ],
-      "generated": "2026-11-17T11:17:32Z"
+      "generated": "2026-11-17T12:09:03Z"
     },
     {
       "title": "Salida City Council Pursues Housing Credits to Fulfill Proposition 123 Commitment",
       "policy_topic": "Housing Policy",
-      "summary": "The Salida City Council is actively seeking six housing credits from Buena Vista as part of its commitment to Proposition 123, aimed at addressing housing shortages in the region. This initiative highlights the collaborative efforts between municipalities to tackle affordable housing challenges in Colorado. The move underscores the urgency of meeting housing demands while adhering to state mandates.",
-      "implications": "Local governments should prioritize inter-municipal cooperation to maximize housing resources and meet state housing commitments. Policymakers may consider creating frameworks for credit exchanges and partnerships to streamline housing development efforts. Additionally, enhancing communication between cities could foster innovative solutions to address the ongoing housing crisis.",
+      "summary": "The Salida City Council is actively seeking six housing credits from Buena Vista as part of its commitment to Proposition 123, which aims to enhance affordable housing options in the region. This initiative reflects the growing urgency among Colorado municipalities to address housing shortages and meet state-level commitments to affordable housing development.",
+      "implications": "Local governments should collaborate more effectively to share resources and credits that facilitate affordable housing projects. Additionally, policymakers must consider expanding funding and support mechanisms for municipalities to enhance their capacity to meet housing demands, ensuring that commitments like Proposition 123 are not only met but exceeded.",
       "related_data": "data/policy/prop123_jurisdictions.json",
       "sources": [
         "Ark Valley Voice"
@@ -3064,10 +3070,23 @@
       "regions": [
         "Colorado"
       ],
-      "generated": "2026-11-17T11:17:35Z"
+      "generated": "2026-11-17T12:09:06Z"
     }
   ],
   "stories": [
+    {
+      "title": "Empty Stocking Fund: Partners in Housing paves pathways to stability",
+      "source": "Colorado Springs Gazette",
+      "sourcing": "checked",
+      "source_domain": "gazette.com",
+      "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNbGswVi1JdUMtNFIwUEpZeFZXcFVjLXludGFiUHZMNWx6RFNJNE9Zbnl5NFRySGVHT01Ubm9aeHJ5REl6NFhTblZTVTZYdVllYW5PR2xMNnRlNGJibzU2ZTliZ0JMNWY2cUp0aThocDY5eExtQlZ4bHE5a3dBbVJqQXhrekZQQWJ1QmswRjBlNkN2WG1lNFdaYUEzYkIxZTlE?oc=5",
+      "date": "2026-11-17",
+      "scope": "colorado",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": []
+    },
     {
       "title": "34% of Colorado households are cost-burdened, new state housing\u200b study finds",
       "source": "The Grand Junction Daily Sentinel",
@@ -11764,19 +11783,19 @@
     }
   ],
   "stories_meta": {
-    "generated": "2026-11-17T11:17:42Z",
-    "source_alerts": 3675,
-    "out_of_scope": 3098,
+    "generated": "2026-11-17T12:09:12Z",
+    "source_alerts": 3707,
+    "out_of_scope": 3129,
     "merged_duplicates": 54,
     "blocked_outlets": 1,
     "method": "One story per headline, newest first. Other-state news is left out. Places are matched against the 546 geographies in data/hna/geo-config.json; regions follow the county map in scripts/hna/build_ranking_index.py. Each publisher is looked up in data/alerts/outlet-register.json: checked outlets carry no tag, others are tagged \"Unverified outlet\" or \"Weak sourcing\", and documented imposter sites are left out."
   },
   "today": {
-    "as_of": "2026-11-17T04:17:37-0700",
+    "as_of": "2026-11-17T05:09:08-0700",
     "date": "2026-11-17",
     "since": "2026-11-16",
     "counts": {
-      "stories": 13,
+      "stories": 14,
       "agency": 1
     },
     "agency": [
@@ -11793,12 +11812,12 @@
           "link": "https://www.chfainfo.com/chfa-news/11162026-2026-round-two-htc-awards",
           "basis": "release",
           "ai": {
-            "text": "CHFA announced nine developments will receive tax credits to help build 845 affordable rental units, which is important for renters seeking affordable housing.",
+            "text": "CHFA will award nine developments federal and state Housing Tax Credits for the construction of 845 affordable rental units.",
             "from": "CHFA is pleased to announce nine developments will be awarded a reservation of federal and state Housing Tax Credits to support the new construction of 845 affordable rental units.",
             "model": "gpt-4o-mini"
           }
         },
-        "ai": "CHFA announced nine developments will receive tax credits to help build 845 affordable rental units, which is important for renters seeking affordable housing."
+        "ai": "CHFA will award nine developments federal and state Housing Tax Credits for the construction of 845 affordable rental units."
       }
     ],
     "top": [
@@ -11807,7 +11826,7 @@
         "link": "https://news.google.com/rss/articles/CBMiggJBVV95cUxOSUZCUERRNFdEbmZqelVRWTF0M2ptb1NfQlBxU0FtNGJvVkxoelV1TVpXOXo0bUlHOWJNc3NvbUZScFpscUxwTkZWWFFiMXlucXc0QzVWOUN5dE9KUlBjbHp5YktXdV9NbjFscnpoTjhkMFR2QUprUzZoRG9jSEpUSzZpU1pURU9zdXNYYmdLT1NQanRNRVVLUzhEZUV5N08wcmZHMVBvSFY5RjRYLWJkeUFnQURBZENsSmJFaVNoUWV5clNRVFo4XzBoVlZJRnFhdE4tOUZxTGpPMjhnMTdCWWlaZ0pWelRKcjJaLVAzMkZwMXo4VEh5eWhXMnZSa1daWHfSAYcCQVVfeXFMTUhyRGhWekZXRGFTOWdSQ1VlUWVNbVFvbDZ1VEpWWnJTenFpTEdGT1lmdUtIcGRMbC05OEpFOU1mZnBNYkVUaHNvM2FKajlDS2cxejZUS25ScW5IcVowaE9sYTc5aWt1bXFZZDUtdlpaSEJYRlpUQ2dzcUxOZWMxUlVabFVwc2xOZW90Qy1iRmlhWXhSOGp6TmtDSGsxYzV0YXBHaWZkakkxb2h0UFhESURIQ2VfQWZGWlphQVh0LUQ2QTE0bXI1Mi1iOGJQSmdhdkM0UHlCNW5XbzY2amNVV2FobkNqdHJRTlkzM3BaTmRQc3BYY1VzRVJoRFM1VVNKSEoxaVQ0MjQ?oc=5",
         "source": "The Grand Junction Daily Sentinel",
         "source_domain": "gjsentinel.com",
-        "outlets": 3,
+        "outlets": 4,
         "date": "2026-11-17",
         "summary": {
           "text": "",
@@ -11816,31 +11835,31 @@
         }
       },
       {
-        "title": "Court weighs lawsuit over Colorado\u2019s transgender pronouns law",
-        "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQd2ZyaDZuVmVKbmZxQ0l3cGdNWGNsTy1aNjdOaUw2Y3FuOGhsYVRyQk9hc09scmtQaUFsazV5SlRGMHU1cVFVTDdnakxxX3RLZ3BzTHpzSzhrQlQtaW1lU2VERnYxeTY5SGJHNXdkZGVrTW5ReXhKRkNXanhFNXRFLW80X3V6eWYxR1pJZVc2bUdFc1pMcnRSN1MzOGt0NW9fRHdKMHBHbXQ?oc=5",
-        "source": "Colorado Politics",
-        "source_domain": "coloradopolitics.com",
+        "title": "Empty Stocking Fund: Partners in Housing paves pathways to stability",
+        "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNbGswVi1JdUMtNFIwUEpZeFZXcFVjLXludGFiUHZMNWx6RFNJNE9Zbnl5NFRySGVHT01Ubm9aeHJ5REl6NFhTblZTVTZYdVllYW5PR2xMNnRlNGJibzU2ZTliZ0JMNWY2cUp0aThocDY5eExtQlZ4bHE5a3dBbVJqQXhrekZQQWJ1QmswRjBlNkN2WG1lNFdaYUEzYkIxZTlE?oc=5",
+        "source": "Colorado Springs Gazette",
+        "source_domain": "gazette.com",
         "outlets": 1,
         "date": "2026-11-17",
         "summary": {
-          "text": "A Denver District Court judge heard oral arguments Monday in a lawsuit brought by a pair of Colorado businesses who argued that the state's civil rights expansions for transgender individuals are unconstitutional.",
-          "link": "https://www.coloradopolitics.com/2026/11/16/court-weighs-lawsuit-over-colorados-transgender-pronouns-law/",
+          "text": "Fed up with years of domestic abuse, Angie and her 6-year-old son left home and turned to Partners in Housing in Colorado Springs for help. Partners in Housing got Angie and her son into the agency\u2019s Family Self-Sufficiency Program and moved them into a housing unit.",
+          "link": "https://gazette.com/2026/11/17/empty-stocking-fund-partners-in-housing-paves-pathways-to-stability/",
           "basis": "outlet",
           "ai": {
-            "text": "A court is considering a lawsuit from businesses challenging Colorado's law on transgender pronouns, which could affect civil rights protections.",
-            "from": "A Denver District Court judge heard oral arguments Monday in a lawsuit brought by a pair of Colorado businesses who argued that the state's civil rights expansions for transgender individuals are unconstitutional.",
+            "text": "Angie and her son received help from Partners in Housing in Colorado Springs to find stability and housing.",
+            "from": "Fed up with years of domestic abuse, Angie and her 6-year-old son left home and turned to Partners in Housing in Colorado Springs for help. Partners in Housing got Angie and her son into the agency\u2019s Family Self-Sufficiency Program and moved them into a housing unit.",
             "model": "gpt-4o-mini"
           }
         },
-        "ai": "A court is considering a lawsuit from businesses challenging Colorado's law on transgender pronouns, which could affect civil rights protections."
+        "ai": "Angie and her son received help from Partners in Housing in Colorado Springs to find stability and housing."
       },
       {
-        "title": "Nearly 34% of Colorado households are spending too much on housing, new state report finds",
-        "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPbGNtRWZKMmNoNWtZaGRQbkNzUHdaTGZFNDBmYXJhcndSMUpOc3RLMmdYbjRVZ0dEUEc4RGg4bTF5WkU3cTFqZERmNnJxMTBhald5WTFCQWZ0RDB2YllFM1h3V2JSd0s5dUJHNlp3eVV4LWdBLWx3N0pqYUxvSENNUGFfNnROYW9EQXdYcVhncEZtSmZYWEhlMHg0d0x5Zkh6b19jUzZEQWdDaW4wU0REbEwxSEJjUdIBygFBVV95cUxQMEgwUGNTLVFzNlBkUnpqbWlSalJ6Zk5yaXg3VFVYcm5EcUNpM1lvaV9uQUxjeDFQVHZaV3FNaTFoWF9xY05UZXlVQ2k1dmNEb1lTckFlMV9YVGRjWFhJRXhUdGxBTThsdE4zR0NDYnMtcEREcVRfNl9nTWY2ZWVOczNaM1lXcnpnV0xsdENURFdPUEo4Q3owLUstQjJQcm03ODctQnFQTjl4MUQzbUoyMG5wOU9ZeXN2SEV1U3BXbWhza0lJVFNpbXpn?oc=5",
-        "source": "KKTV",
-        "source_domain": "kktv.com",
+        "title": "Denver housing complex receives mail again after USPS stopped delivering for months",
+        "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPTmRSTldxYUh6TVp2eW5BY2trRUc5bHlkZmFfR09kek1POTZPMThsbGNOUlpXYjdEclM3QlFsNHhFa1pzdFVSMFA0bDRFWjlSRjA0THRrUFc2YkZSUmw2dEp1RFMwXzJYOHg0SVNpUFcxQnFicW9Fdm82X0pKTlFKaVBPOFdIZG50VUdIUERvblpBUWp0SEN0MGRjbUdZUHF1a0xoNHNfUXJSYVFCcHR3?oc=5",
+        "source": "CBS News",
+        "source_domain": "cbsnews.com",
         "outlets": 1,
-        "date": "2026-11-17",
+        "date": "2026-11-16",
         "summary": {
           "text": "",
           "link": "",
@@ -11868,18 +11887,18 @@
     ],
     "lines": [
       "CHFA: CHFA Announces 2026 Round Two Housing Tax Credit Awards (posted 2026-11-16).",
-      "13 new Colorado housing stories since Monday, November 16.",
-      "34% of Colorado households are cost-burdened, new state housing\u200b study finds (The Grand Junction Daily Sentinel, and 2 more outlets).",
-      "Court weighs lawsuit over Colorado\u2019s transgender pronouns law (Colorado Politics).",
-      "Nearly 34% of Colorado households are spending too much on housing, new state report finds (KKTV).",
+      "14 new Colorado housing stories since Monday, November 16.",
+      "34% of Colorado households are cost-burdened, new state housing\u200b study finds (The Grand Junction Daily Sentinel, and 3 more outlets).",
+      "Empty Stocking Fund: Partners in Housing paves pathways to stability (Colorado Springs Gazette).",
+      "Denver housing complex receives mail again after USPS stopped delivering for months (CBS News).",
       "Places in the news: Denver (3), Breckenridge (1), Colorado Springs (1), Fort Collins (1)."
     ],
     "method": "The one-line summaries marked AI are written by AI (gpt-4o-mini) from only each story's headline and its own description; check the source before relying on them. A story the news script could not read shows its headline only. Window: today and yesterday, Mountain Time. Top stories are the ones the most outlets ran.",
     "summary_lines": [
       "CHFA: CHFA Announces 2026 Round Two Housing Tax Credit Awards. \u201cCHFA is pleased to announce nine developments will be awarded a reservation of federal and state Housing Tax Credits to support the new construction of 845 affordable rental units.\u201d",
       "The Grand Junction Daily Sentinel: 34% of Colorado households are cost-burdened, new state housing\u200b study finds.",
-      "Colorado Politics: Court weighs lawsuit over Colorado\u2019s transgender pronouns law. \u201cA Denver District Court judge heard oral arguments Monday in a lawsuit brought by a pair of Colorado businesses who argued that the state's civil rights expansions for transgender individuals are unconstitutional.\u201d",
-      "KKTV: Nearly 34% of Colorado households are spending too much on housing, new state report finds."
+      "Colorado Springs Gazette: Empty Stocking Fund: Partners in Housing paves pathways to stability. \u201cFed up with years of domestic abuse, Angie and her 6-year-old son left home and turned to Partners in Housing in Colorado Springs for help. Partners in Housing got Angie and her son into the agency\u2019s Family Self-Sufficiency Program and moved them into a housing unit.\u201d",
+      "CBS News: Denver housing complex receives mail again after USPS stopped delivering for months."
     ],
     "ai": {
       "model": "gpt-4o-mini",
@@ -11887,7 +11906,7 @@
     }
   },
   "agency": {
-    "checked": "2026-11-17T11:17:37Z",
+    "checked": "2026-11-17T12:09:08Z",
     "sources": [
       {
         "id": "chfa-news",
@@ -11939,18 +11958,7 @@
         "link": "https://www.chfainfo.com/chfa-news/11162026-2026-round-two-htc-awards",
         "date": "2026-11-16",
         "date_basis": "posted",
-        "kind": "release",
-        "summary": {
-          "text": "CHFA is pleased to announce nine developments will be awarded a reservation of federal and state Housing Tax Credits to support the new construction of 845 affordable rental units.",
-          "link": "https://www.chfainfo.com/chfa-news/11162026-2026-round-two-htc-awards",
-          "basis": "release",
-          "ai": {
-            "text": "CHFA announced nine developments will receive tax credits to help build 845 affordable rental units, which is important for renters seeking affordable housing.",
-            "from": "CHFA is pleased to announce nine developments will be awarded a reservation of federal and state Housing Tax Credits to support the new construction of 845 affordable rental units.",
-            "model": "gpt-4o-mini"
-          }
-        },
-        "ai": "CHFA announced nine developments will receive tax credits to help build 845 affordable rental units, which is important for renters seeking affordable housing."
+        "kind": "release"
       },
       {
         "agency": "CHFA",
@@ -12085,7 +12093,7 @@
         "link": "https://www.chfainfo.com/chfa-news/11162026-2026-round-two-htc-awards",
         "basis": "release",
         "ai": {
-          "text": "CHFA announced nine developments will receive tax credits to help build 845 affordable rental units, which is important for renters seeking affordable housing.",
+          "text": "CHFA will award nine developments federal and state Housing Tax Credits for the construction of 845 affordable rental units.",
           "from": "CHFA is pleased to announce nine developments will be awarded a reservation of federal and state Housing Tax Credits to support the new construction of 845 affordable rental units.",
           "model": "gpt-4o-mini"
         }
@@ -12095,17 +12103,17 @@
         "link": "",
         "basis": "not found"
       },
-      "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQd2ZyaDZuVmVKbmZxQ0l3cGdNWGNsTy1aNjdOaUw2Y3FuOGhsYVRyQk9hc09scmtQaUFsazV5SlRGMHU1cVFVTDdnakxxX3RLZ3BzTHpzSzhrQlQtaW1lU2VERnYxeTY5SGJHNXdkZGVrTW5ReXhKRkNXanhFNXRFLW80X3V6eWYxR1pJZVc2bUdFc1pMcnRSN1MzOGt0NW9fRHdKMHBHbXQ?oc=5": {
-        "text": "A Denver District Court judge heard oral arguments Monday in a lawsuit brought by a pair of Colorado businesses who argued that the state's civil rights expansions for transgender individuals are unconstitutional.",
-        "link": "https://www.coloradopolitics.com/2026/11/16/court-weighs-lawsuit-over-colorados-transgender-pronouns-law/",
+      "https://news.google.com/rss/articles/CBMioAFBVV95cUxNbGswVi1JdUMtNFIwUEpZeFZXcFVjLXludGFiUHZMNWx6RFNJNE9Zbnl5NFRySGVHT01Ubm9aeHJ5REl6NFhTblZTVTZYdVllYW5PR2xMNnRlNGJibzU2ZTliZ0JMNWY2cUp0aThocDY5eExtQlZ4bHE5a3dBbVJqQXhrekZQQWJ1QmswRjBlNkN2WG1lNFdaYUEzYkIxZTlE?oc=5": {
+        "text": "Fed up with years of domestic abuse, Angie and her 6-year-old son left home and turned to Partners in Housing in Colorado Springs for help. Partners in Housing got Angie and her son into the agency\u2019s Family Self-Sufficiency Program and moved them into a housing unit.",
+        "link": "https://gazette.com/2026/11/17/empty-stocking-fund-partners-in-housing-paves-pathways-to-stability/",
         "basis": "outlet",
         "ai": {
-          "text": "A court is considering a lawsuit from businesses challenging Colorado's law on transgender pronouns, which could affect civil rights protections.",
-          "from": "A Denver District Court judge heard oral arguments Monday in a lawsuit brought by a pair of Colorado businesses who argued that the state's civil rights expansions for transgender individuals are unconstitutional.",
+          "text": "Angie and her son received help from Partners in Housing in Colorado Springs to find stability and housing.",
+          "from": "Fed up with years of domestic abuse, Angie and her 6-year-old son left home and turned to Partners in Housing in Colorado Springs for help. Partners in Housing got Angie and her son into the agency\u2019s Family Self-Sufficiency Program and moved them into a housing unit.",
           "model": "gpt-4o-mini"
         }
       },
-      "https://news.google.com/rss/articles/CBMitgFBVV95cUxPbGNtRWZKMmNoNWtZaGRQbkNzUHdaTGZFNDBmYXJhcndSMUpOc3RLMmdYbjRVZ0dEUEc4RGg4bTF5WkU3cTFqZERmNnJxMTBhald5WTFCQWZ0RDB2YllFM1h3V2JSd0s5dUJHNlp3eVV4LWdBLWx3N0pqYUxvSENNUGFfNnROYW9EQXdYcVhncEZtSmZYWEhlMHg0d0x5Zkh6b19jUzZEQWdDaW4wU0REbEwxSEJjUdIBygFBVV95cUxQMEgwUGNTLVFzNlBkUnpqbWlSalJ6Zk5yaXg3VFVYcm5EcUNpM1lvaV9uQUxjeDFQVHZaV3FNaTFoWF9xY05UZXlVQ2k1dmNEb1lTckFlMV9YVGRjWFhJRXhUdGxBTThsdE4zR0NDYnMtcEREcVRfNl9nTWY2ZWVOczNaM1lXcnpnV0xsdENURFdPUEo4Q3owLUstQjJQcm03ODctQnFQTjl4MUQzbUoyMG5wOU9ZeXN2SEV1U3BXbWhza0lJVFNpbXpn?oc=5": {
+      "https://news.google.com/rss/articles/CBMirwFBVV95cUxPTmRSTldxYUh6TVp2eW5BY2trRUc5bHlkZmFfR09kek1POTZPMThsbGNOUlpXYjdEclM3QlFsNHhFa1pzdFVSMFA0bDRFWjlSRjA0THRrUFc2YkZSUmw2dEp1RFMwXzJYOHg0SVNpUFcxQnFicW9Fdm82X0pKTlFKaVBPOFdIZG50VUdIUERvblpBUWp0SEN0MGRjbUdZUHF1a0xoNHNfUXJSYVFCcHR3?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found"
