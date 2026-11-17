@@ -37,7 +37,7 @@ def get(url):
             last = e
             print(f'retry {i + 1}: {e}', file=sys.stderr)
             time.sleep(2 ** i)
-    raise last
+    raise RuntimeError(f'{url}: failed after 4 tries') from last
 
 
 def clean(v):
