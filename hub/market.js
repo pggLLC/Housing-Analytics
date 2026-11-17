@@ -606,6 +606,26 @@
     setParams({ added: (site ? 'Site: ' + site.label + '. ' : '') + 'Market area: ' + area.areaLabel + ', ' + area.tracts.length + ' tracts.', p: pid, s: sid });
   });
   // "Use my location" / "Pick on the map": the site, its county or town as the page's place, and the radius picked.
+  // The full Market Analysis opens on the site and runs its market area analysis on the tracts picked here (paul,
+  // 17 Nov 2026: the site "should [transfer] and run the pma"). The link takes the market area as it is when followed,
+  // since a map edit or a pick in the comparison changes it without drawing the page again: tr= (tract numbers without
+  // the leading 08) and tl= (the area's name), read there by js/components/ma-site-link.js.
+  function maWithArea(a) {
+    var TC = global.LabTractCapture, href = a.getAttribute('href') || '';
+    if (!TC || !TC.pickedArea || !/deal-market-analysis\.html\?/.test(href) || !/[?&]site=/.test(href)) return;
+    var i = href.indexOf('?'), q = new URLSearchParams(href.slice(i + 1)), site = siteOf(q);
+    var pa = site ? TC.pickedArea(site) : null;
+    if (!pa || !pa.list || !pa.list.length) return;
+    q.set('tr', pa.list.map(function (g) { return String(g).replace(/^08/, ''); }).join('.'));
+    q.set('tl', pa.label);
+    a.setAttribute('href', href.slice(0, i + 1) + q.toString());
+  }
+  ['pointerdown', 'focusin', 'click'].forEach(function (type) {
+    document.addEventListener(type, function (ev) {
+      var a = ev.target && ev.target.closest && ev.target.closest('a[href*="deal-market-analysis.html"]');
+      if (a) maWithArea(a);
+    }, true);
+  });
   document.addEventListener('click', function (ev) {
     var b = ev.target.closest && ev.target.closest('[data-mk-pick]');
     if (!b || !global.LabPickSite) return;

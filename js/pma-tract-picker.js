@@ -627,6 +627,16 @@
     _changed();
   }
 
+  // Replace the selection with whole tracts chosen elsewhere: Market check's market area, opened here from its
+  // "Full Market Analysis" link (js/components/ma-site-link.js). Only 11-digit tract GEOIDs are taken. A list that
+  // differs from the 4-mile auto-pick counts as curated, as a hand edit does.
+  function setSelection(geoids) {
+    _selected = new Set((geoids || []).map(String).filter(function (g) { return /^\d{11}$/.test(g); }));
+    _restyleAll();
+    _changed();
+    return _selected.size;
+  }
+
   /* ── Natural features as a market-area limit ─────────────────────── */
   // Off by default. Turned on, COHO proposes the selected tracts that a
   // supported feature separates from the site (PMABarriers.
@@ -844,6 +854,7 @@
     getSelectedGeoids:   getSelectedGeoids,
     getCount:            getCount,
     clearSelection:      clearSelection,
+    setSelection:        setSelection,
     getBoundary:         getBoundary,
     wasCurated:          wasCurated,
     setRationale:        setRationale,

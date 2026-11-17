@@ -447,7 +447,7 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   ok(!scripts(oldPage).includes('js/components/ma-site-link.js'), 'the old page itself should not load the site link');
   // It drives the page's own controls, which must still be on the page.
   const used = [...new Set([...src.matchAll(/getElementById\('([^']+)'\)/g)].map(m => m[1]))];
-  ok(used.length === 4 && used.every(id => oldIds.has(id)), 'the site link uses ids the page no longer has: ' + used.filter(id => !oldIds.has(id)).join(', '));
+  ok(used.length === 6 && used.every(id => oldIds.has(id)), 'the site link uses ids the page no longer has: ' + used.filter(id => !oldIds.has(id)).join(', '));
   // The same Colorado box the address search checks, and the status words it writes for a typed point.
   const engine = read('js/market-analysis.js');
   const box = /CO_LAT_MIN = ([-\d.]+), CO_LAT_MAX = ([-\d.]+);\s*var CO_LON_MIN = ([-\d.]+), CO_LON_MAX = ([-\d.]+);/.exec(engine);
@@ -460,7 +460,12 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   const link = /'deal-market-analysis\.html\?geoid=' \+ encodeURIComponent\(g\) \+ \(lead \? '&(\w+)=' \+ site\.lat\.toFixed\(5\) \+ ',' \+ site\.lon\.toFixed\(5\) \+ '&(\w+)=' \+ encodeURIComponent\(site\.label\)/.exec(market);
   ok(link, 'hub/market.js no longer builds the Market Analysis link with a site as ?geoid=...&<site>=lat,lon&<label>=...');
   const reads = [...src.matchAll(/sp\.get\('(\w+)'\)/g)].map(m => m[1]);
-  ok(link && reads.join() === [link[1], link[2]].join(), 'Market check sends ' + (link ? link.slice(1).join(', ') : '?') + ' but the site link reads ' + reads.join(', '));
+  ok(link && reads.slice().sort().join() === [link[1], link[2], 'tr', 'tl'].sort().join(), 'Market check sends ' + (link ? link.slice(1).join(', ') : '?') + ' but the site link reads ' + reads.join(', '));
+  // And the market area (paul, 17 Nov 2026: the site should transfer and run the PMA): Market check adds the picked
+  // tracts as tr= and the area's name as tl= when the link is followed.
+  ok(/q\.set\('tr', /.test(market) && /q\.set\('tl', /.test(market), 'hub/market.js no longer adds the market area (tr=, tl=) to the Market Analysis link');
+  const picker = read('js/pma-tract-picker.js');
+  ok(/setSelection:\s+setSelection,/.test(picker), 'js/pma-tract-picker.js no longer exposes setSelection for the market area from Market check');
   ok(!/deal-market-analysis\.html[^'"]*auto=1/.test(market), 'Market check should never send auto=1 to the full Market Analysis');
 
   // What it does, in a page with the four controls.
@@ -491,6 +496,26 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   ok(b.pressed.length === 0, 'nothing should be found before the page\'s data has loaded');
   b.release(); await new Promise(r => setTimeout(r, 50));
   ok(b.pressed.length === 1 && b.status().startsWith('Pin dropped at '), 'once the data has loaded, the point should be found (no label, no "Site from Market check")');
+  // With the market area: once the picker has tracts, Market check's tracts replace them, the reason is written, and
+  // Run Analysis is pressed once. Without it, the 4-mile pick runs as it stands.
+  const withPicker = async (query) => {
+    const r = await run(query);
+    const d = r.w.document, btn = d.createElement('button'), ta = d.createElement('textarea');
+    btn.id = 'pmaRunBtn'; ta.id = 'pmaTractRationale'; d.body.append(btn, ta);
+    const got = { set: null, why: '', runs: 0 };
+    btn.addEventListener('click', () => { got.runs++; });
+    r.w.PMATractPicker = { getCount: () => 5, setSelection: g => { got.set = g; return g.length; }, getRationale: () => got.why, setRationale: t => { got.why = t; } };
+    await new Promise(res => setTimeout(res, 50));
+    got.ta = ta.value; return got;
+  };
+  const c = await withPicker('?site=37.2256,-107.5981&tr=067940600.067940700&tl=' + encodeURIComponent('Local market area'));
+  ok(c.set && c.set.join() === '08067940600,08067940700', 'the market area\'s tracts should replace the picker\'s (got ' + c.set + ')');
+  ok(/^Market area from Market check: Local market area, 2 whole census tracts\./.test(c.ta) && c.why === c.ta, 'the reason should name the market area: ' + c.ta);
+  ok(c.runs === 1, 'the analysis should run once (ran ' + c.runs + ')');
+  const e = await withPicker('?site=37.2256,-107.5981');
+  ok(e.set === null && e.runs === 1 && e.ta === '', 'with no market area, the picker\'s own tracts should run unchanged');
+  const f = await withPicker('?site=37.2256,-107.5981&tr=12345.abc');
+  ok(f.set === null && f.runs === 1, 'tract numbers that are not 9 digits should be ignored');
   opened.forEach(w => w.close());
 }
 
