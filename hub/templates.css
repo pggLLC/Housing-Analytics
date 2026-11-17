@@ -1132,9 +1132,10 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
 .news-pick .news-pick-label { margin: 0; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
 .news-pick .news-n { font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 400; }
 .news-pick .chapter-finding { margin: .75rem 0 0; }
-.news-today { border: 1px solid var(--line); border-left: 4px solid var(--accent, #0f6b5c); border-radius: 8px; padding: .8rem 1rem; margin: 0 0 1.25rem; background: var(--surface, #fff); }
-.news-today h2 { margin: 0 0 .15rem; font-size: 1.15rem; }
+.news-today { border: 1px solid var(--line); border-left: 4px solid var(--pine); border-radius: 8px; padding: .8rem 1rem; margin: 0 0 1.25rem; background: var(--card); color: var(--ink); }
+.news-today h2 { margin: 0 0 .15rem; font-size: 1.15rem; color: var(--ink); }
 .news-today p { margin: .25rem 0; }
+.news-today .news-date, .news-today .note { color: var(--muted); }
 .news-today ul { margin: .4rem 0; padding-left: 1.1rem; display: grid; gap: .35rem; }
 .news-today li { min-width: 0; overflow-wrap: anywhere; }
 .news-today-tag { display: inline-block; font-size: .75rem; font-weight: 700; padding: 0 .4rem; border-radius: 4px; background: var(--tint); color: var(--pine); }
