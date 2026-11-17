@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-17T12:09:25.406196Z",
+  "generated": "2026-11-17T12:22:31.261827Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1035342
+      "bytes": 1035343
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -9999,7 +9999,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 332692
+      "bytes": 402826
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,

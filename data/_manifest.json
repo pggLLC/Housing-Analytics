@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-17T12:09:22.055Z",
+    "generated_at": "2026-11-17T12:22:28.220Z",
     "root": "data/",
     "file_count": 2035,
-    "total_size_bytes": 229522573,
+    "total_size_bytes": 229592707,
     "kinds": {
       "json": 1986,
       "geojson": 35,
@@ -747,7 +747,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-17T12:08:19.853Z",
+      "mtime": "2026-11-17T12:22:24.062Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -40303,7 +40303,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-17T12:08:21.734Z",
+      "mtime": "2026-11-17T12:22:25.987Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40327,7 +40327,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-17T12:08:21.299Z",
+      "mtime": "2026-11-17T12:22:25.519Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -43755,8 +43755,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 332692,
-      "mtime": "2026-11-17T05:00:15.150Z",
+      "size_bytes": 402826,
+      "mtime": "2026-11-17T12:21:35.237Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43764,7 +43764,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 16,
+      "primary_array_length": 17,
       "primary_array_first_keys": [
         "id",
         "title",
@@ -43777,7 +43777,7 @@
         "summary",
         "implications",
         "related_data",
-        "sources"
+        "sections"
       ]
     },
     {

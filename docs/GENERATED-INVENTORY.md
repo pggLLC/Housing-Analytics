@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-17T12:07:46.852Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-17T12:21:51.060Z. Do not edit by hand.
 
 ---
 
@@ -129,7 +129,7 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 957 B | ✅ | — |
-| `data/alerts/alerts_archive.json` | 2.34 MB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 2.36 MB | ✅ | — |
 | `data/alerts/brief-news-queue.json` | 64.0 KB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 5.8 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
@@ -2074,8 +2074,8 @@
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 655.4 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 324.9 KB | ✅ | — |
+| `data/policy_briefs.json` | 655.1 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 393.4 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
 | `data/polymarket-history.json` | 224.6 KB | ✅ | — |
@@ -2101,7 +2101,7 @@
 
 ## Test Files
 
-814 test files found.
+815 test files found.
 
 | File | Size |
 |------|------|
@@ -2352,6 +2352,7 @@
 | `test/glossary-style.test.js` | 7.9 KB |
 | `test/glossary-sync.test.mjs` | 2.9 KB |
 | `test/green-building-guide.test.mjs` | 36.2 KB |
+| `test/growth-balance-brief.test.mjs` | 6.6 KB |
 | `test/growth-figure-agrees.test.js` | 15.7 KB |
 | `test/guided-path-a11y.test.js` | 3.4 KB |
 | `test/guided-path-enters-the-chapters.test.mjs` | 10.6 KB |
