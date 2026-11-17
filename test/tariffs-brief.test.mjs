@@ -87,6 +87,11 @@ test('the price changes, recomputed here from the stored index values', () => {
     return `${r > 0 ? '+' : r < 0 ? '-' : ''}${Math.abs(r).toFixed(1)}%`;
   };
   const byLabel = new Map(D.prices.map((p) => [p.label, p]));
+  const FIG = /[+-]?\d+(?:\.\d+)?%/g;
+  // The one-year change is twelve months to the latest month, which the table's column names.
+  const months = (ym) => { const [y, m] = ym.split('-').map(Number); return y * 12 + m; };
+  assert.equal(months(latest) - months(yearAgo), 12, 'the one-year change is not twelve months');
+  for (const id of ['up', 'flat']) assert.ok(section(id).table.columns.some((c) => c.includes(D.meta.month_labels[latest])), `${id}: the table does not name ${D.meta.month_labels[latest]}`);
   for (const id of ['up', 'flat']) {
     let prev = Infinity;
     for (const row of section(id).table.rows) {
@@ -95,14 +100,18 @@ test('the price changes, recomputed here from the stored index values', () => {
       assert.equal(p.group, id, `${row[0]}: wrong table`);
       assert.match(p.source.url, /^https:\/\/fred\.stlouisfed\.org\/series\//);
       for (const m of [baseline, yearAgo, latest]) assert.ok(p.index[m] > 0, `${p.id}: no value for ${m}`);
-      assert.equal(row[1], `${fmt(p.index[yearAgo], p.index[latest])} in one year. ${fmt(p.index[baseline], p.index[latest])} since ${D.meta.month_labels[baseline]}.`, `${row[0]}: price change`);
+      // The cell gives the one-year change, then the change since the baseline month, which it names: the figures and
+      // periods are checked against the stored index values, not the sentence round them.
+      const oneYear = fmt(p.index[yearAgo], p.index[latest]), sinceBase = fmt(p.index[baseline], p.index[latest]);
+      assert.deepEqual(row[1].match(FIG) || [], [oneYear, sinceBase], `${row[0]}: the cell should give ${oneYear} for the year, then ${sinceBase} since the baseline`);
+      assert.ok(row[1].indexOf(D.meta.month_labels[baseline], row[1].lastIndexOf(sinceBase)) > 0, `${row[0]}: the change since the baseline does not name ${D.meta.month_labels[baseline]}`);
       const year = p.index[latest] / p.index[yearAgo];
       assert.ok(year <= prev, `${id}: rows are not in descending order`);
       prev = year;
     }
   }
   // Steel mill products, by hand: 399.645 / 300.665 = 1.3292, so +32.9%.
-  assert.ok(section('up').table.rows.find((r) => r[0] === 'Steel mill products')[1].startsWith('+32.9% in one year.'));
+  assert.equal((section('up').table.rows.find((r) => r[0] === 'Steel mill products')[1].match(FIG) || [])[0], '+32.9%');
   // A material in the "held flat" table moved less than 3% in the year; one in the "rose" table moved more.
   for (const p of D.prices) {
     const year = Math.abs(p.index[latest] / p.index[yearAgo] - 1) * 100;
