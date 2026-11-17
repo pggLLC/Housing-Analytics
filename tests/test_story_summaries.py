@@ -123,3 +123,8 @@ def test_no_key_or_ai_failure_keeps_the_quotes():
     assert ss.with_ai(_today(), {}, '')['ai']['count'] == 0
     boom = lambda p, k: (_ for _ in ()).throw(OSError('down'))
     assert ss.with_ai(_today(), {}, 'k', boom)['ai']['count'] == 0
+
+
+def test_description_with_an_apostrophe_is_read_whole():
+    page = '<head><meta property="og:description" content="The project adds 80 rental homes to Colorado\'s housing supply."></head>'
+    assert ss.page_description(page) == "The project adds 80 rental homes to Colorado's housing supply."

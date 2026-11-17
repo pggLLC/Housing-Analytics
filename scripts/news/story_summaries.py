@@ -21,6 +21,7 @@ data/policy_briefs.json, so each article is read once.
 from __future__ import annotations
 
 import html
+from html.parser import HTMLParser
 import re
 import urllib.error
 import urllib.parse
@@ -85,13 +86,30 @@ def same_headline(a: str, b: str) -> bool:
     return bool(wa) and len(wa & wb) / max(len(wa), 1) >= 0.8
 
 
+class _Meta(HTMLParser):
+    """Meta tags by property/name, parsed properly (a quoted value may hold the other quote)."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.meta = {}
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'meta':
+            a = dict(attrs)
+            key = (a.get('property') or a.get('name') or '').lower()
+            if key and a.get('content') and key not in self.meta:
+                self.meta[key] = a['content']
+
+
 def page_description(page: str) -> str:
-    for pat in (r'<meta[^>]+property=["\']og:description["\'][^>]+content=["\']([^"\']*)',
-                r'<meta[^>]+content=["\']([^"\']*)["\'][^>]+property=["\']og:description',
-                r'<meta[^>]+name=["\']description["\'][^>]+content=["\']([^"\']*)'):
-        m = re.search(pat, page, re.I)
-        if m and len(clean(m.group(1))) > 40:
-            return clean(m.group(1))
+    head = page[:page.lower().find('</head>')] if '</head>' in page.lower() else page[:200_000]
+    mp = _Meta()
+    try:
+        mp.feed(head)
+    except Exception:
+        pass
+    for key in ('og:description', 'description'):
+        if len(clean(mp.meta.get(key, ''))) > 40:
+            return clean(mp.meta[key])
     body = re.search(r'<(?:article|main)\b.*?</(?:article|main)>', page, re.S | re.I)
     for p in re.findall(r'<p\b[^>]*>(.*?)</p>', body.group(0) if body else page, re.S | re.I):
         t = clean(p)
