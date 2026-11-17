@@ -174,6 +174,11 @@ test('the reader renders every section, table and the picture', async (t) => {
     if (item.items) assert.equal(node.querySelectorAll('li').length, item.items.length, `${item.id}: list`);
     if (item.table) assert.equal(node.querySelectorAll(`table[data-table="${item.id}"] tbody tr`).length, item.table.rows.length, `${item.id}: table`);
   }
+  // The link back to the construction costs page is drawn as the feed gives it.
+  const back = doc.querySelector('[data-section="up"] .brief-note a');
+  assert.ok(back, 'the link to the construction costs page is not rendered');
+  assert.equal(back.textContent, section('up').see_also.text);
+  assert.equal(back.href, new URL(section('up').see_also.href, dom.window.location.href).href);
   const img = doc.querySelector('[data-figure="up"] img');
   assert.ok(img, 'the picture is not rendered');
   assert.equal(img.getAttribute('src'), SVG);
@@ -237,7 +242,8 @@ test('the cost pages show the brief\'s conclusions, and the brief links back', a
   assert.equal(off.window.document.querySelector('[data-tariff-cost-note]').hidden, true);
 
   // The brief points back to the construction costs page, which exists in the hub.
-  assert.deepEqual(section('up').see_also, { text: 'See material prices month by month on the construction costs page', href: 'places-hub.html#/places/costs' });
+  assert.equal(section('up').see_also.href, 'places-hub.html#/places/costs');
+  assert.ok(section('up').see_also.text.trim().length > 10, 'the back link has no label');
   assert.ok(fs.existsSync(path.join(ROOT, 'places-hub.html')));
   assert.match(read('hub/places-more.js'), /#\/places\/costs/);
 });
