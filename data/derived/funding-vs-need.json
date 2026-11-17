@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-15T13:41:58Z",
+  "generatedAt": "2026-11-17T03:20:58Z",
   "generator": "scripts/funding/build_funding_vs_need.mjs",
   "window": {
    "first_year": 2016,
@@ -1251,9 +1251,9 @@
   ],
   "quadrant_split": {
    "gap_per_1000_residents": 15.9,
-   "lihtc_units_per_100_gap": 17.3
+   "lihtc_units_per_100_gap": 17.6
   },
-  "quadrant_method": "Counties split at the median of need per 1,000 residents (15.9) and of LIHTC units per 100 gap households (17.3).",
+  "quadrant_method": "Counties split at the median of need per 1,000 residents (15.9) and of LIHTC units per 100 gap households (17.6).",
   "flag_method": "high-vacancy: active-market vacancy (ACS B25004 for-rent plus for-sale-only, over all units) at or above the county 75th percentile, 2.4%. building-ahead: permits over the last five years at least 2× DOLA's projected annual household growth. Flags describe the market; they are not a judgment that any project was wasted.",
   "credit_note": "Credit amounts are the ANNUAL credit CHFA awards (claimed over 10 years federally); Prop 123 amounts are dollars awarded, or requested where a preliminary selection list prints only the request.",
   "unplaced_awards": 7,
@@ -1280,11 +1280,11 @@
   "documents_needing_review": []
  },
  "statewide": {
-  "tax_credit_awards": 316,
-  "round_report_lihtc_units": 25619,
+  "tax_credit_awards": 325,
+  "round_report_lihtc_units": 26464,
   "bond_deals_outside_rounds": 122,
   "bond_units_outside_rounds": 14057,
-  "lihtc_units": 39676,
+  "lihtc_units": 40521,
   "prop123_awards": 134,
   "prop123_dollars": 442443919,
   "prop123_mixed_income_share_pct": 24.6,
@@ -1407,9 +1407,9 @@
    },
    {
     "year": 2026,
-    "tax_credit_awards": 22,
-    "lihtc_units": 1277,
-    "round_report_lihtc_units": 1277,
+    "tax_credit_awards": 31,
+    "lihtc_units": 2122,
+    "round_report_lihtc_units": 2122,
     "bond_deals_outside_rounds": 0,
     "bond_units_outside_rounds": 0,
     "prop123_awards": 0,
@@ -1443,25 +1443,25 @@
     "chfa_60ami_max_rent_2br": 2025
    },
    "funding": {
-    "tax_credit_awards": 27,
-    "lihtc_units": 3331,
-    "round_report_lihtc_units": 1723,
+    "tax_credit_awards": 28,
+    "lihtc_units": 3386,
+    "round_report_lihtc_units": 1778,
     "bond_deals_outside_rounds": 18,
     "bond_units_outside_rounds": 1608,
     "lihtc_9pct_units": 394,
     "federal_9pct_credit_annual": 9632834,
-    "federal_4pct_credit_annual": 20406428,
-    "state_credit_annual": 14227165,
+    "federal_4pct_credit_annual": 21983989,
+    "state_credit_annual": 15527165,
     "mihtc_credit_annual": 0,
-    "toc_credit_annual": 121200,
+    "toc_credit_annual": 231200,
     "prop123_awards": 6,
     "prop123_dollars": 24158333,
     "prop123_units": 458,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 1558333,
-    "lihtc_units_per_100_gap": 22.6,
+    "lihtc_units_per_100_gap": 23,
     "federal_9pct_credit_per_unit_annual": 24449,
-    "share_of_state_lihtc_units": 8.42
+    "share_of_state_lihtc_units": 8.38
    },
    "flags": [
     {
@@ -1497,15 +1497,15 @@
     "chfa_60ami_max_rent_2br": 1944
    },
    "funding": {
-    "tax_credit_awards": 27,
-    "lihtc_units": 3622,
-    "round_report_lihtc_units": 2759,
+    "tax_credit_awards": 29,
+    "lihtc_units": 3769,
+    "round_report_lihtc_units": 2906,
     "bond_deals_outside_rounds": 7,
     "bond_units_outside_rounds": 863,
     "lihtc_9pct_units": 582,
     "federal_9pct_credit_annual": 15145260,
-    "federal_4pct_credit_annual": 35916835,
-    "state_credit_annual": 12149630,
+    "federal_4pct_credit_annual": 39304552,
+    "state_credit_annual": 15949630,
     "mihtc_credit_annual": 0,
     "toc_credit_annual": 292000,
     "prop123_awards": 8,
@@ -1513,9 +1513,9 @@
     "prop123_units": 955,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 17.3,
+    "lihtc_units_per_100_gap": 18,
     "federal_9pct_credit_per_unit_annual": 26023,
-    "share_of_state_lihtc_units": 9.15
+    "share_of_state_lihtc_units": 9.33
    },
    "flags": [],
    "quadrant": "aligned"
@@ -1545,25 +1545,25 @@
     "chfa_60ami_max_rent_2br": 1944
    },
    "funding": {
-    "tax_credit_awards": 25,
-    "lihtc_units": 3081,
-    "round_report_lihtc_units": 2099,
+    "tax_credit_awards": 26,
+    "lihtc_units": 3165,
+    "round_report_lihtc_units": 2183,
     "bond_deals_outside_rounds": 8,
     "bond_units_outside_rounds": 982,
     "lihtc_9pct_units": 578,
     "federal_9pct_credit_annual": 14115214,
-    "federal_4pct_credit_annual": 22457061,
-    "state_credit_annual": 10534175,
+    "federal_4pct_credit_annual": 24408623,
+    "state_credit_annual": 12434175,
     "mihtc_credit_annual": 0,
-    "toc_credit_annual": 192400,
+    "toc_credit_annual": 360400,
     "prop123_awards": 13,
     "prop123_dollars": 25431360,
     "prop123_units": 823,
     "prop123_mixed_income_dollars": 1881360,
     "prop123_homeownership_dollars": 5450000,
-    "lihtc_units_per_100_gap": 21.7,
+    "lihtc_units_per_100_gap": 22.3,
     "federal_9pct_credit_per_unit_annual": 24421,
-    "share_of_state_lihtc_units": 7.79
+    "share_of_state_lihtc_units": 7.83
    },
    "flags": [],
    "quadrant": "aligned"
@@ -1612,7 +1612,7 @@
     "lihtc_units_per_100_gap": 15.9,
     "federal_9pct_credit_per_unit_annual": null,
     "federal_9pct_credit_per_unit_unavailable_reason": "no 9% awards in the window",
-    "share_of_state_lihtc_units": 0.68
+    "share_of_state_lihtc_units": 0.67
    },
    "flags": [
     {
@@ -1665,7 +1665,7 @@
     "prop123_homeownership_dollars": 2050000,
     "lihtc_units_per_100_gap": 57.7,
     "federal_9pct_credit_per_unit_annual": 24237,
-    "share_of_state_lihtc_units": 0.67
+    "share_of_state_lihtc_units": 0.66
    },
    "flags": [
     {
@@ -1723,7 +1723,7 @@
     "prop123_homeownership_dollars": 890000,
     "lihtc_units_per_100_gap": 19.5,
     "federal_9pct_credit_per_unit_annual": 24613,
-    "share_of_state_lihtc_units": 6.14
+    "share_of_state_lihtc_units": 6.01
    },
    "flags": [],
    "quadrant": "aligned"
@@ -1771,7 +1771,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 27.2,
     "federal_9pct_credit_per_unit_annual": 28125,
-    "share_of_state_lihtc_units": 0.31
+    "share_of_state_lihtc_units": 0.3
    },
    "flags": [
     {
@@ -1829,7 +1829,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 35.5,
     "federal_9pct_credit_per_unit_annual": 23400,
-    "share_of_state_lihtc_units": 12.28
+    "share_of_state_lihtc_units": 12.03
    },
    "flags": [],
    "quadrant": "aligned"
@@ -1859,25 +1859,25 @@
     "chfa_60ami_max_rent_2br": 1944
    },
    "funding": {
-    "tax_credit_awards": 79,
-    "lihtc_units": 10438,
-    "round_report_lihtc_units": 7430,
+    "tax_credit_awards": 81,
+    "lihtc_units": 10686,
+    "round_report_lihtc_units": 7678,
     "bond_deals_outside_rounds": 29,
     "bond_units_outside_rounds": 3008,
     "lihtc_9pct_units": 1994,
     "federal_9pct_credit_annual": 42664340,
-    "federal_4pct_credit_annual": 89657091,
-    "state_credit_annual": 45440613,
+    "federal_4pct_credit_annual": 95750159,
+    "state_credit_annual": 49240613,
     "mihtc_credit_annual": 1640026,
-    "toc_credit_annual": 1451900,
+    "toc_credit_annual": 1947900,
     "prop123_awards": 29,
     "prop123_dollars": 123740391,
     "prop123_units": 3326,
     "prop123_mixed_income_dollars": 32699545,
     "prop123_homeownership_dollars": 1975000,
-    "lihtc_units_per_100_gap": 35.9,
+    "lihtc_units_per_100_gap": 36.8,
     "federal_9pct_credit_per_unit_annual": 21396,
-    "share_of_state_lihtc_units": 26.38
+    "share_of_state_lihtc_units": 26.44
    },
    "flags": [
     {
@@ -1912,15 +1912,15 @@
     "chfa_60ami_max_rent_2br": 1944
    },
    "funding": {
-    "tax_credit_awards": 7,
-    "lihtc_units": 1649,
-    "round_report_lihtc_units": 948,
+    "tax_credit_awards": 8,
+    "lihtc_units": 1729,
+    "round_report_lihtc_units": 1028,
     "bond_deals_outside_rounds": 4,
     "bond_units_outside_rounds": 701,
     "lihtc_9pct_units": 120,
     "federal_9pct_credit_annual": 2513115,
-    "federal_4pct_credit_annual": 15380792,
-    "state_credit_annual": 1700000,
+    "federal_4pct_credit_annual": 17092572,
+    "state_credit_annual": 3600000,
     "mihtc_credit_annual": 0,
     "toc_credit_annual": 0,
     "prop123_awards": 3,
@@ -1928,9 +1928,9 @@
     "prop123_units": 333,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 29.5,
+    "lihtc_units_per_100_gap": 31,
     "federal_9pct_credit_per_unit_annual": 20943,
-    "share_of_state_lihtc_units": 4.17
+    "share_of_state_lihtc_units": 4.28
    },
    "flags": [],
    "quadrant": "funded-above-need"
@@ -1978,7 +1978,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 22.9,
     "federal_9pct_credit_per_unit_annual": 24838,
-    "share_of_state_lihtc_units": 10.33
+    "share_of_state_lihtc_units": 10.11
    },
    "flags": [],
    "quadrant": "aligned"
@@ -2062,15 +2062,15 @@
     "chfa_60ami_max_rent_2br": 1944
    },
    "funding": {
-    "tax_credit_awards": 4,
-    "lihtc_units": 498,
-    "round_report_lihtc_units": 290,
+    "tax_credit_awards": 5,
+    "lihtc_units": 667,
+    "round_report_lihtc_units": 459,
     "bond_deals_outside_rounds": 2,
     "bond_units_outside_rounds": 208,
     "lihtc_9pct_units": 138,
     "federal_9pct_credit_annual": 3954996,
-    "federal_4pct_credit_annual": 2182105,
-    "state_credit_annual": 1500000,
+    "federal_4pct_credit_annual": 5842828,
+    "state_credit_annual": 2800000,
     "mihtc_credit_annual": 0,
     "toc_credit_annual": 0,
     "prop123_awards": 2,
@@ -2078,9 +2078,9 @@
     "prop123_units": 82,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 26.4,
+    "lihtc_units_per_100_gap": 35.3,
     "federal_9pct_credit_per_unit_annual": 28659,
-    "share_of_state_lihtc_units": 1.26
+    "share_of_state_lihtc_units": 1.65
    },
    "flags": [],
    "quadrant": "aligned"
@@ -2128,7 +2128,7 @@
     "prop123_homeownership_dollars": 1550000,
     "lihtc_units_per_100_gap": 22.4,
     "federal_9pct_credit_per_unit_annual": 24302,
-    "share_of_state_lihtc_units": 0.8
+    "share_of_state_lihtc_units": 0.78
    },
    "flags": [],
    "quadrant": "aligned"
@@ -2176,7 +2176,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 17.2,
     "federal_9pct_credit_per_unit_annual": 24095,
-    "share_of_state_lihtc_units": 2.59
+    "share_of_state_lihtc_units": 2.53
    },
    "flags": [],
    "quadrant": "underserved"
@@ -2273,7 +2273,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 23.4,
     "federal_9pct_credit_per_unit_annual": 24369,
-    "share_of_state_lihtc_units": 0.28
+    "share_of_state_lihtc_units": 0.27
    },
    "flags": [
     {
@@ -2327,7 +2327,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 50.8,
     "federal_9pct_credit_per_unit_annual": 26667,
-    "share_of_state_lihtc_units": 0.08
+    "share_of_state_lihtc_units": 0.07
    },
    "flags": [
     {
@@ -2367,15 +2367,15 @@
     "chfa_60ami_max_rent_2br": 1359
    },
    "funding": {
-    "tax_credit_awards": 7,
-    "lihtc_units": 633,
-    "round_report_lihtc_units": 468,
+    "tax_credit_awards": 8,
+    "lihtc_units": 695,
+    "round_report_lihtc_units": 530,
     "bond_deals_outside_rounds": 1,
     "bond_units_outside_rounds": 165,
     "lihtc_9pct_units": 324,
     "federal_9pct_credit_annual": 8065405,
-    "federal_4pct_credit_annual": 2114729,
-    "state_credit_annual": 1900000,
+    "federal_4pct_credit_annual": 3400436,
+    "state_credit_annual": 3800000,
     "mihtc_credit_annual": 0,
     "toc_credit_annual": 0,
     "prop123_awards": 7,
@@ -2383,9 +2383,9 @@
     "prop123_units": 936,
     "prop123_mixed_income_dollars": 18997474,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 20.4,
+    "lihtc_units_per_100_gap": 22.4,
     "federal_9pct_credit_per_unit_annual": 24893,
-    "share_of_state_lihtc_units": 1.6
+    "share_of_state_lihtc_units": 1.72
    },
    "flags": [],
    "quadrant": "aligned"
@@ -2433,7 +2433,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 32.7,
     "federal_9pct_credit_per_unit_annual": 22629,
-    "share_of_state_lihtc_units": 0.33
+    "share_of_state_lihtc_units": 0.32
    },
    "flags": [],
    "quadrant": "aligned"
@@ -2481,7 +2481,7 @@
     "prop123_homeownership_dollars": 720000,
     "lihtc_units_per_100_gap": 53.3,
     "federal_9pct_credit_per_unit_annual": 25790,
-    "share_of_state_lihtc_units": 1.11
+    "share_of_state_lihtc_units": 1.08
    },
    "flags": [],
    "quadrant": "funded-above-need"
@@ -2577,7 +2577,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 12.1,
     "federal_9pct_credit_per_unit_annual": 23083,
-    "share_of_state_lihtc_units": 1.4
+    "share_of_state_lihtc_units": 1.37
    },
    "flags": [],
    "quadrant": "underserved"
@@ -2674,7 +2674,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 15.1,
     "federal_9pct_credit_per_unit_annual": 30811,
-    "share_of_state_lihtc_units": 0.18
+    "share_of_state_lihtc_units": 0.17
    },
    "flags": [
     {
@@ -2732,7 +2732,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 37.2,
     "federal_9pct_credit_per_unit_annual": 22500,
-    "share_of_state_lihtc_units": 0.32
+    "share_of_state_lihtc_units": 0.31
    },
    "flags": [
     {
@@ -2893,7 +2893,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 51,
     "federal_9pct_credit_per_unit_annual": 29688,
-    "share_of_state_lihtc_units": 0.68
+    "share_of_state_lihtc_units": 0.66
    },
    "flags": [],
    "quadrant": "funded-above-need"
@@ -3269,7 +3269,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 30.9,
     "federal_9pct_credit_per_unit_annual": 28663,
-    "share_of_state_lihtc_units": 0.38
+    "share_of_state_lihtc_units": 0.37
    },
    "flags": [],
    "quadrant": "aligned"
@@ -3317,7 +3317,7 @@
     "prop123_homeownership_dollars": 0,
     "lihtc_units_per_100_gap": 34.9,
     "federal_9pct_credit_per_unit_annual": 28722,
-    "share_of_state_lihtc_units": 0.42
+    "share_of_state_lihtc_units": 0.41
    },
    "flags": [
     {
@@ -3792,7 +3792,7 @@
     "lihtc_units_per_100_gap": null,
     "lihtc_units_per_100_gap_unavailable_reason": "the measured ≤30% AMI gap is zero",
     "federal_9pct_credit_per_unit_annual": 31000,
-    "share_of_state_lihtc_units": 0.08
+    "share_of_state_lihtc_units": 0.07
    },
    "flags": [
     {
@@ -3949,7 +3949,7 @@
     "prop123_homeownership_dollars": 750000,
     "lihtc_units_per_100_gap": 72.3,
     "federal_9pct_credit_per_unit_annual": 33890,
-    "share_of_state_lihtc_units": 0.36
+    "share_of_state_lihtc_units": 0.35
    },
    "flags": [],
    "quadrant": "funded-above-need"

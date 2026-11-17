@@ -111,8 +111,8 @@
         dots.push(m);
         return m;
       }
-      data.not_awarded.forEach(function (a) { if (isFinite(a.lat) && isFinite(a.lon)) dot(a, lostTip(a), false); });
-      data.awards.forEach(function (a) { if (isFinite(a.lat) && isFinite(a.lon)) dot(a, awardTip(a), true); });
+      data.not_awarded.forEach(function (a) { if (Number.isFinite(a.lat) && Number.isFinite(a.lon)) dot(a, lostTip(a), false); });
+      data.awards.forEach(function (a) { if (Number.isFinite(a.lat) && Number.isFinite(a.lon)) dot(a, awardTip(a), true); });
       var all = L.featureGroup(dots).getBounds().pad(0.08);
       map.fitBounds(all);
       mount.querySelectorAll('[data-crt-view]').forEach(function (b) {
@@ -120,6 +120,10 @@
           if (b.getAttribute('data-crt-view') === 'metro') map.fitBounds(METRO); else map.fitBounds(all);
         });
       });
+      // The brief can open with the map below the fold or in a narrow column:
+      // re-measure when the box changes size, so no tiles are left unrequested.
+      if (root.ResizeObserver) new root.ResizeObserver(function () { map.invalidateSize(); }).observe(el);
+      else setTimeout(function () { map.invalidateSize(); }, 0);
       mount.setAttribute('data-crt-state', 'ok');
       mount.setAttribute('data-crt-dots', String(dots.length));
       return 'ok';

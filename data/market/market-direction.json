@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-11-15T13:11:55.147Z",
+  "generated_at": "2026-11-17T03:23:10Z",
   "generated_at_note": "the newest of the input files' own stamps, not the time this ran",
   "generator": "scripts/market/build_market_direction.py",
   "title": "Colorado county housing market direction and tax-credit rent edge",
@@ -261,14 +261,9 @@
       "homes": 505,
       "projects_without_homes": 0
      },
-     "applied": {
-      "projects": 3,
-      "homes": 431,
-      "projects_without_homes": 0
-     },
      "not_funded": {
-      "projects": 3,
-      "homes": 289,
+      "projects": 6,
+      "homes": 720,
       "projects_without_homes": 0
      },
      "letter_of_intent": {
@@ -818,8 +813,8 @@
     "multi_county_projects": 0,
     "by_stage": {
      "funded": {
-      "projects": 15,
-      "homes": 952,
+      "projects": 16,
+      "homes": 1007,
       "projects_without_homes": 0
      },
      "land_funded": {
@@ -828,13 +823,13 @@
       "projects_without_homes": 0
      },
      "applied": {
-      "projects": 3,
-      "homes": 185,
+      "projects": 1,
+      "homes": 30,
       "projects_without_homes": 0
      },
      "not_funded": {
-      "projects": 1,
-      "homes": 113,
+      "projects": 2,
+      "homes": 213,
       "projects_without_homes": 0
      }
     }
@@ -921,18 +916,13 @@
     "multi_county_projects": 0,
     "by_stage": {
      "funded": {
-      "projects": 4,
-      "homes": 214,
+      "projects": 5,
+      "homes": 383,
       "projects_without_homes": 0
      },
      "land_funded": {
       "projects": 1,
       "homes": 72,
-      "projects_without_homes": 0
-     },
-     "applied": {
-      "projects": 1,
-      "homes": 169,
       "projects_without_homes": 0
      },
      "not_funded": {
@@ -1737,23 +1727,23 @@
       "projects_without_homes": 0
      },
      "funded": {
-      "projects": 55,
-      "homes": 5659,
+      "projects": 56,
+      "homes": 5798,
       "projects_without_homes": 0
      },
      "land_funded": {
-      "projects": 10,
-      "homes": 974,
+      "projects": 9,
+      "homes": 835,
       "projects_without_homes": 0
      },
      "applied": {
-      "projects": 4,
-      "homes": 531,
+      "projects": 1,
+      "homes": 238,
       "projects_without_homes": 0
      },
      "not_funded": {
-      "projects": 17,
-      "homes": 1760,
+      "projects": 20,
+      "homes": 2053,
       "projects_without_homes": 0
      },
      "letter_of_intent": {
@@ -1931,13 +1921,8 @@
     "multi_county_projects": 0,
     "by_stage": {
      "funded": {
-      "projects": 7,
-      "homes": 729,
-      "projects_without_homes": 0
-     },
-     "applied": {
-      "projects": 1,
-      "homes": 80,
+      "projects": 8,
+      "homes": 809,
       "projects_without_homes": 0
      },
      "not_funded": {
@@ -2219,14 +2204,9 @@
       "homes": 18,
       "projects_without_homes": 0
      },
-     "applied": {
-      "projects": 2,
-      "homes": 220,
-      "projects_without_homes": 0
-     },
      "not_funded": {
-      "projects": 2,
-      "homes": 126,
+      "projects": 4,
+      "homes": 346,
       "projects_without_homes": 0
      }
     }
@@ -3046,18 +3026,13 @@
       "projects_without_homes": 0
      },
      "funded": {
-      "projects": 16,
-      "homes": 1354,
+      "projects": 17,
+      "homes": 1438,
       "projects_without_homes": 0
      },
      "land_funded": {
       "projects": 5,
       "homes": 127,
-      "projects_without_homes": 0
-     },
-     "applied": {
-      "projects": 1,
-      "homes": 84,
       "projects_without_homes": 0
      },
      "not_funded": {
@@ -3517,14 +3492,9 @@
       "homes": 160,
       "projects_without_homes": 0
      },
-     "applied": {
-      "projects": 1,
-      "homes": 112,
-      "projects_without_homes": 0
-     },
      "not_funded": {
-      "projects": 1,
-      "homes": 48,
+      "projects": 2,
+      "homes": 160,
       "projects_without_homes": 0
      },
      "letter_of_intent": {
@@ -4174,7 +4144,7 @@
       "homes": 30,
       "projects_without_homes": 0
      },
-     "applied": {
+     "not_funded": {
       "projects": 1,
       "homes": 70,
       "projects_without_homes": 0
