@@ -105,7 +105,7 @@
   // this card. It names its home ("From: …"), carries two or three of the home's own figures with who they count,
   // the source and year, and opens the home at that section. The caller passes figures it read from the same file
   // the home draws, so the card cannot disagree with it. o: { from, href, title, figures: [{ value, label, tenure }],
-  // source, more, also: [{ label, href }] }. A card with no figure to show still links on.
+  // source, sourceHref (links the source line), more, also: [{ label, href }] }. A card with no figure to show still links on.
   function summary(o) {
     var figs = (o.figures || []).filter(function (f) { return f && f.value != null && f.value !== ''; });
     return '<aside class="sum-card" aria-label="' + esc('Summary from ' + o.from) + '">' +
@@ -116,7 +116,7 @@
           (f.tenure ? ' <span class="cn-ten">' + esc(f.tenure) + '</span>' : '') + '</span></li>';
       }).join('') + '</ul>' : '') +
       (o.more ? '<p class="sum-more">' + esc(o.more) + '</p>' : '') +
-      (o.source ? '<p class="sum-src">Source: ' + esc(o.source) + '</p>' : '') +
+      (o.source ? '<p class="sum-src">Source: ' + (o.sourceHref ? '<a href="' + esc(o.sourceHref) + '">' + esc(o.source) + '</a>' : esc(o.source)) + '</p>' : '') +
       '<p class="sum-go"><a href="' + esc(o.href) + '">Open ' + esc(o.from) + ' →</a>' +
       (o.also || []).map(function (a) { return ' <a href="' + esc(a.href) + '">' + esc(a.label) + ' →</a>'; }).join('') + '</p></aside>';
   }

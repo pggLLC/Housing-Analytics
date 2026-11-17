@@ -106,6 +106,8 @@ def page_description(page: str) -> str:
     try:
         mp.feed(head)
     except Exception:
+        # A malformed page head is not an error: fall through to the first-paragraph fallback below,
+        # so one bad page never stops the news run.
         pass
     for key in ('og:description', 'description'):
         if len(clean(mp.meta.get(key, ''))) > 40:
