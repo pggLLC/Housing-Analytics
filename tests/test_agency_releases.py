@@ -184,3 +184,14 @@ def test_coverage_counts_each_publisher_once():
                {'title': 'Mail delivery resumes months later for residents of Denver housing complex', 'source': 'CBS', 'date': '2026-11-16'}]
     t = ar.summarize_today(stories, {'items': []}, now, about=lambda title: True)
     assert t['top'][0]['outlets'] == 1 and len(t['top']) == 1
+
+
+def test_title_case_headlines_still_match_with_the_corpus():
+    a = 'Denver Housing Complex Receives Mail Again After USPS Stopped Delivering'
+    b = 'Mail Delivery Resumes Months Later For Residents Of Denver Housing Complex'
+    # the real corpus is hundreds of headlines, most in sentence case
+    ordinary = ar.ordinary_words(['Residents say the city resumes work months later', 'A store receives a permit again',
+                                  'Mail delivery stopped after the flood'])
+    assert ar.same_story(a, b, ordinary)
+    assert not ar.same_story('Denver Approves Affordable Rental Homes', 'Boulder Approves Affordable Rental Homes',
+                             ar.ordinary_words(['council approves affordable rental homes']))

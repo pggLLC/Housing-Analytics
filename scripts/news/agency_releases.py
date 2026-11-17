@@ -182,12 +182,22 @@ def _content(title: str) -> set:
     return {w[:5] for w in re.findall(r'[a-z0-9%]+', (title or '').lower().replace('\u200b', '')) if len(w) > 2 and w not in _STOP}
 
 
-def _names(title: str) -> set:
-    """Capitalised words (places, agencies, people), as lowercase stems."""
-    return {w.lower()[:5] for w in re.findall(r"[A-Z][A-Za-z]+", title or '') if len(w) > 2 and w.lower() not in _STOP}
+def _names(title: str, ordinary: frozenset = frozenset()) -> set:
+    """Capitalised words (places, agencies, people), as lowercase stems.
+
+    `ordinary` holds words other headlines write in lower case, so a title-case headline's
+    "Receives" or "Residents" is not taken for a name.
+    """
+    return {w.lower()[:5] for w in re.findall(r"[A-Z][A-Za-z]+", title or '')
+            if len(w) > 2 and w.lower() not in _STOP and w.lower() not in ordinary}
 
 
-def same_story(a: str, b: str) -> bool:
+def ordinary_words(titles) -> frozenset:
+    """Words seen in lower case in any of these headlines."""
+    return frozenset(w for t in titles for w in re.findall(r"\b[a-z][a-z]+\b", t or ''))
+
+
+def same_story(a: str, b: str, ordinary: frozenset = frozenset()) -> bool:
     """Two headlines for one story: a shared percent figure, or half the word stems in common.
 
     Never when their figures disagree ("200 homes" vs "100 homes") or each names someone or
@@ -197,7 +207,7 @@ def same_story(a: str, b: str) -> bool:
     if na and nb and not na & nb:
         return False
     wa, wb = _content(a), _content(b)
-    if (_names(a) - wb) and (_names(b) - wa):
+    if (_names(a, ordinary) - wb) and (_names(b, ordinary) - wa):
         return False
     pa, pb = {n for n in na if n.endswith('%')}, {n for n in nb if n.endswith('%')}
     overlap = len(wa & wb) / max(1, min(len(wa), len(wb)))
@@ -227,11 +237,12 @@ def summarize_today(stories: list[dict], agency: dict, now: dt.datetime | None =
     # about a pronouns law made the top three).
     # Group every eligible story first, so a story told under several headlines ranks by its
     # combined coverage (Codex review of #2913), then take the three most covered.
+    ordinary = ordinary_words(s['title'] for s in stories)
     groups: list[list[dict]] = []
     for s in rank:
         if about and not about(s['title']):
             continue
-        g = next((g for g in groups if any(same_story(m['title'], s['title']) for m in g)), None)
+        g = next((g for g in groups if any(same_story(m['title'], s['title'], ordinary) for m in g)), None)
         (g.append(s) if g else groups.append([s]))
     def covered(g):  # distinct publishers across the group (one outlet's two headlines count once)
         names = {(m.get('source') or m.get('link') or id(m)) for m in g}
