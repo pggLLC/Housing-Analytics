@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "about": "Built by scripts/policy/build_tariffs_brief.mjs from data/policy/tariffs-construction-costs.json. Do not edit by hand.",
+    "as_of": "2026-11-17",
+    "review_by": "2026-12-20"
+  },
+  "title": "Tariffs and material prices",
+  "lines": [
+    "The largest price rises from October 2025 to October 2026 were steel mill products (+32.9%), copper and brass shapes (+23.9%) and aluminum shapes (+23.3%).",
+    "Prices moved less than 3% for ready-mix concrete, brick and clay tile, gypsum products (drywall), major appliances (factory price) and cement.",
+    "Tariffs of up to 50% on steel, aluminum and copper and war-driven fuel costs are both in force. The price data does not show how much of the rise is tariffs.",
+    "Raw steel made in the US: up 5.9% this year through November 14, 2026.",
+    "US sawmills: capacity fell 6.0% in a year, by a builders' association estimate for early 2026.",
+    "Single-family homes started (US): down 4.0% this year through September 2026.",
+    "Material costs apply to every new home, rental or for sale. In income-restricted rental homes the rent is capped, so renters do not pay the increase; it becomes funding gap for the building. Buyers of new for-sale homes can see it in the price."
+  ],
+  "source": {
+    "text": "U.S. Bureau of Labor Statistics Producer Price Index, October 2026; production figures from the sources in the brief. Checked 2026-11-17.",
+    "url": "https://www.bls.gov/ppi/"
+  },
+  "note": "The brief reads Bureau of Labor Statistics commodity price series, so a figure here can differ a little from the industry series shown elsewhere on this page.",
+  "brief": {
+    "id": "tariffs-construction-costs-2026",
+    "title": "Tariffs and the cost of building homes: what rose, what did not, and whether it built anything",
+    "href": "research-brief.html?id=tariffs-construction-costs-2026"
+  }
+}

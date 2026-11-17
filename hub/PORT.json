@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "07a60b323f654abce0607d6ad244ce12ea1663e2",
+  "commit": "fd05d48a1376e203939e95d9d0158ad1953ea135",
   "dirty": false
  },
  "files": {
@@ -104,7 +104,7 @@
   "hub/pipeline.js": "8d59934c2cd081e69df36e2fc159b5cf8ac1bc68963d05efca202049575e1ac7",
   "hub/place-list.js": "a4410f06be16d7f716696726f8393e9babe3e7973227cfcbd04ea1339c729f95",
   "hub/places-combine.js": "b3d53321409c2dd780df591f1871cdd1cc299f7e465e2d726fce08c988dbcdf0",
-  "hub/places-more.js": "b148e0d261616efac612eb13f42ce6166bd3d1762fa1432322d8ef1ce2d2d453",
+  "hub/places-more.js": "4924f7c14c6c0731d16ac316cdee5b62460002c224d4248b4d5124fe8e7af3db",
   "hub/places-state.js": "5040ac4fed97e661927428e2ac08ca9e9f96e58a9665467a72b3a74951fe36ca",
   "hub/places.js": "2a691c359ded2c6b1005223bb55d5764e6cd7128eff90c96bd9ebd1d0afa06f1",
   "hub/policy-more.js": "65e200026f3f73eaff1dd2f224a50427ab258000cbea03d8d060f53386ff3f99",
@@ -120,7 +120,7 @@
   "hub/shell.css": "d21d4b2c03ae3e3d1be3260763e42decbb9d405706b8bdb79aa6d938494d280b",
   "hub/shell.js": "1749247aa9ca6aa960c5e7d72eb8719d177b58ce30e969c19971635c738c44d7",
   "hub/slider.js": "8af257af0c99e0dd98be109775e5e0c8abc6c61b77e2ad2eae90351001d3c76e",
-  "hub/small-pages.css": "c873d07280dbee49b8c1446e21377f83a31b1be765d3bad3ad868127afdffd15",
+  "hub/small-pages.css": "01c03c267e836964d60cf723e0fb1ba0c1e6bc13a3ef7b1b3cb10bd179d5c9d8",
   "hub/start-numbers.js": "50205a8ddccc79283c6b218811aa6f82a912749a1952ea4d843a4d38610183ea",
   "hub/step-bar.js": "6dfdac56a129ba2d79043205800b4cfd91950477dd0b29ec278c61888eb15fc6",
   "hub/strength.js": "10f09b6b204f00e1689748a2696efcd6424bd9e327d5b0f444e6dde011deabb7",
@@ -190,7 +190,7 @@
   "js/vendor/leaflet.css": "a7837102824184820dfa198d1ebcd109ff6d0ff9a2672a074b9a1b4d147d04c6",
   "js/pma-barriers.js": "c061ecf0ba1bad50996d981558542b2da528f6ea5d57af9c89039bd3d4cc8e51",
   "js/market-analysis-supply.js": "9b388a34c5176eac431cfdbd2bf72467e5fbd338f649ba6e0269275aa88ff3b1",
-  "js/fred-commodities.js": "1e88affcf174035eef5de095447ad5fa02f334dea8726e348b0ea8878f5b4c28",
+  "js/fred-commodities.js": "1282a56d027a8d77b760adc3785122055759439890ee8c27b5a6a2a77a63e42f",
   "js/components/equity-pricing.js": "7d8ba1c5c408b51949f6605dfa0cfb8a09f4c74e5d32f3518c3452a63a4240bf",
   "js/components/market-pulse.js": "46c29a2f5ede3d77b03f6b255b2cc56dee869130f61d908ddd7dead9c663d8c9",
   "js/components/lihtc-by-year.js": "2af4c9a02163f4d4ae72264be71180b643126ca76c6f6df1b194d56ec1611299",

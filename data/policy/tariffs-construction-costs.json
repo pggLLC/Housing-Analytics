@@ -6,6 +6,16 @@
     "last_verified": "2026-11-17",
     "review_by": "2026-12-20",
     "method": "Curated, not a feed. Each tariff and production record was read from its own source on the check date, and its quote is copied from that source. verification.level \"primary\" means a government notice or agency data release; \"reported\" means a named law-firm, trade-association or news page. Price changes are not quotes: they are computed by scripts/policy/build_tariffs_brief.mjs from the Bureau of Labor Statistics Producer Price Index values stored in prices[].index (not seasonally adjusted, read from FRED on the check date). The baseline month is the last month before the 2025 tariffs began.",
+    "cost_note": {
+      "about": "The lines the construction cost pages show under the material prices. The caution is written by hand; the other lines are built from the prices and production records below.",
+      "title": "Tariffs and material prices",
+      "caution": "Tariffs of up to 50% on steel, aluminum and copper and war-driven fuel costs are both in force. The price data does not show how much of the rise is tariffs.",
+      "production_ids": [
+        "raw-steel",
+        "sawmills",
+        "single-family-starts"
+      ]
+    },
     "renter_owner": "Material costs apply to every new home, rental or for sale. In income-restricted rental homes the rent is capped, so renters do not pay the increase; it becomes funding gap for the building. Buyers of new for-sale homes can see it in the price.",
     "months": {
       "baseline": "2025-01",

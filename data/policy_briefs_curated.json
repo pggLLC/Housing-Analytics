@@ -171,6 +171,10 @@
                 "Probably lasts. The temporary 15% rate ends in 2027."
               ]
             ]
+          },
+          "see_also": {
+            "text": "See material prices month by month on the construction costs page",
+            "href": "places-hub.html#/places/costs"
           }
         },
         {

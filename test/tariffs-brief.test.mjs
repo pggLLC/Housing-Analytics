@@ -11,7 +11,9 @@
  *   - every dollar, percent or count in the prose sits in a recorded quote from a
  *     cited source or in a table the builder computed;
  *   - the brief says who the cost reaches, renters and owners;
- *   - the reader renders every section, table and the picture.
+ *   - the reader renders every section, table and the picture;
+ *   - the construction cost pages show the brief's conclusions from a note file the
+ *     builder makes, and the brief links back to the construction costs page.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -19,7 +21,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
-import { build, BRIEF_ID, FEED, DATA, SVG } from '../scripts/policy/build_tariffs_brief.mjs';
+import { build, BRIEF_ID, FEED, DATA, SVG, NOTE } from '../scripts/policy/build_tariffs_brief.mjs';
 import { FILES } from '../scripts/audit/policy-review-reminders.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -70,6 +72,7 @@ test('the tables, picture and limits are what the builder makes from the committ
   const out = build();
   assert.equal(read(FEED), out[FEED], `${FEED} is stale: run node scripts/policy/build_tariffs_brief.mjs`);
   assert.equal(read(SVG), out[SVG], `${SVG} is stale: run node scripts/policy/build_tariffs_brief.mjs`);
+  assert.equal(read(NOTE), out[NOTE], `${NOTE} is stale: run node scripts/policy/build_tariffs_brief.mjs`);
   assert.deepEqual(section('limits').items, D.meta.known_gaps);
   assert.equal(section('tariffs').table.rows.length, D.tariffs.length);
   assert.equal(section('up').table.rows.length + section('flat').table.rows.length, D.prices.length);
@@ -175,4 +178,68 @@ test('the reader renders every section, table and the picture', async (t) => {
   assert.ok(img, 'the picture is not rendered');
   assert.equal(img.getAttribute('src'), SVG);
   assert.equal(doc.querySelectorAll('#brief-sources li').length, brief.articles.length);
+});
+
+test('the cost pages show the brief\'s conclusions, and the brief links back', async (t) => {
+  const note = json(NOTE);
+  const { year_ago: yearAgo, latest } = D.meta.months;
+  // The three largest rises, recomputed here, in order, each with its figure.
+  const ranked = D.prices.map((p) => ({ p, v: p.index[latest] / p.index[yearAgo] - 1 })).sort((a, b) => b.v - a.v);
+  let at = -1;
+  for (const { p, v } of ranked.slice(0, 3)) {
+    const name = p.label.replace(/\s*\([^)]*\)/g, '');
+    const want = `${name[0].toLowerCase()}${name.slice(1)} (+${(Math.round(v * 1000) / 10).toFixed(1)}%)`;
+    const i = note.lines[0].indexOf(want);
+    assert.ok(i > at, `the first line does not carry "${want}" in order`);
+    at = i;
+  }
+  for (const p of D.prices.filter((x) => x.group === 'flat')) assert.ok(note.lines[1].toLowerCase().includes(p.label.toLowerCase()), `${p.label} is not in the flat line`);
+  // The hand-written caution claims no cause, and its rate is one a tariff record states.
+  assert.ok(note.lines.includes(D.meta.cost_note.caution));
+  assert.match(D.meta.cost_note.caution, /does not show how much of the rise is tariffs/);
+  for (const rate of D.meta.cost_note.caution.match(/\d+%/g)) assert.ok(D.tariffs.some((x) => x.rate.includes(rate)), `${rate} is in no tariff record`);
+  for (const id of D.meta.cost_note.production_ids) {
+    const p = D.production.find((x) => x.id === id);
+    assert.ok(note.lines.some((l) => l.startsWith(`${p.title}: `) && p.result.toLowerCase().startsWith(l.slice(p.title.length + 2).toLowerCase())), `${id} is not in the note as recorded`);
+  }
+  assert.ok(note.lines.includes(D.meta.renter_owner), 'the note does not say who pays, renters and owners');
+  assert.equal(note.brief.href, `research-brief.html?id=${BRIEF_ID}`);
+  assert.equal(note.brief.title, brief.title);
+  assert.equal(note.meta.as_of, D.meta.as_of);
+
+  // The classic construction costs page draws the note; both cost pages link to the brief.
+  const page = read('construction-commodities.html');
+  assert.match(page, /<div class="chart-section" data-tariff-cost-note hidden><\/div>/);
+  assert.match(page, /<script defer src="js\/tariff-cost-note\.js"><\/script>/);
+  for (const f of ['construction-commodities.html', 'article-co-housing-costs.html']) assert.ok(read(f).includes(`research-brief.html?id=${BRIEF_ID}`), `${f} does not link to the brief`);
+  const dom = new JSDOM('<main><div data-tariff-cost-note hidden></div></main>', { url: 'https://pggllc.github.io/Housing-Analytics/construction-commodities.html', runScripts: 'outside-only' });
+  t.after(() => dom.window.close());
+  dom.window.fetch = async (f) => ({ ok: f === 'data/policy/tariffs-cost-note.json', status: 404, json: async () => structuredClone(note) });
+  dom.window.eval(read('js/tariff-cost-note.js'));
+  assert.equal(await dom.window.TariffCostNote.init(dom.window.document), 1);
+  const host = dom.window.document.querySelector('[data-tariff-cost-note]');
+  assert.equal(host.hidden, false);
+  assert.deepEqual([...host.querySelectorAll('li')].map((li) => li.textContent), note.lines);
+  assert.equal(host.querySelector('p a').getAttribute('href'), note.brief.href);
+  // A file that does not load leaves the box hidden and empty.
+  const off = new JSDOM('<div data-tariff-cost-note hidden></div>', { url: 'https://pggllc.github.io/Housing-Analytics/x.html', runScripts: 'outside-only' });
+  t.after(() => off.window.close());
+  off.window.fetch = async () => ({ ok: false, status: 404 });
+  off.window.eval(read('js/tariff-cost-note.js'));
+  assert.equal(await off.window.TariffCostNote.init(off.window.document), 0);
+  assert.equal(off.window.document.querySelector('[data-tariff-cost-note]').hidden, true);
+
+  // The brief points back to the construction costs page, which exists in the hub.
+  assert.deepEqual(section('up').see_also, { text: 'See material prices month by month on the construction costs page', href: 'places-hub.html#/places/costs' });
+  assert.ok(fs.existsSync(path.join(ROOT, 'places-hub.html')));
+  assert.match(read('hub/places-more.js'), /#\/places\/costs/);
+});
+
+test('the material cards name each series as the Bureau of Labor Statistics does', () => {
+  // WPU0812 is hardwood lumber; plywood is WPU083. The card must not call it plywood.
+  const src = read('js/fred-commodities.js');
+  const name = src.match(/id: 'WPU0812',\s*name: '([^']+)'/)[1];
+  assert.equal(name, 'Hardwood Lumber');
+  assert.match(read('scripts/fetch_fred_data.py'), /"WPU0812": \("PPI: Hardwood Lumber"/);
+  assert.ok(!/WPU0812[^<]*Plywood/.test(read('construction-commodities.html')));
 });

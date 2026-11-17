@@ -5,6 +5,9 @@
 // data/policy/tariffs-construction-costs.json: the tariffs in force, the Bureau
 // of Labor Statistics price index values, the production records and the
 // Colorado permit counts.
+// It also writes data/policy/tariffs-cost-note.json: the brief's conclusions as a few
+// plain lines, which the construction cost pages show with a link to the brief, so
+// those pages and the brief cannot disagree.
 // The prose is written by hand in the feed; every table, the picture, its alt
 // text and the limits list are rebuilt here so a data change cannot leave them stale.
 //
@@ -20,6 +23,7 @@ export const BRIEF_ID = 'tariffs-construction-costs-2026';
 export const FEED = 'data/policy_briefs_curated.json';
 export const DATA = 'data/policy/tariffs-construction-costs.json';
 export const SVG = 'assets/briefs/tariffs-2026/price-changes.svg';
+export const NOTE = 'data/policy/tariffs-cost-note.json';
 
 const read = (f) => JSON.parse(readFileSync(join(ROOT, f), 'utf8'));
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -136,6 +140,49 @@ export function figureSvg(rows, data) {
   return out.join('\n') + '\n';
 }
 
+const lowerFirst = (s) => (/^[A-Z][a-z]/.test(s) ? s[0].toLowerCase() + s.slice(1) : s);
+const listed = (a) => (a.length > 1 ? `${a.slice(0, -1).join(', ')} and ${a.at(-1)}` : a[0] || '');
+const firstSentence = (s) => (String(s).match(/^.*?\.(?=\s|$)/) || [String(s)])[0];
+
+/**
+ * The brief's conclusions for the construction cost pages: the three largest one-year
+ * rises, what held flat, the hand-written caution, what production did and who pays.
+ */
+export function costNote(rows, data, brief) {
+  const L = data.meta.month_labels;
+  const m = data.meta.months;
+  const cn = data.meta.cost_note;
+  const plain = (label) => lowerFirst(label.replace(/\s*\([^)]*\)/g, ''));
+  const top = rows.slice(0, 3).map((r) => `${plain(r.label)} (${signed(r.year)})`);
+  const flat = rows.filter((r) => r.group === 'flat').map((r) => lowerFirst(r.label));
+  const made = cn.production_ids.map((id) => {
+    const p = data.production.find((x) => x.id === id);
+    if (!p) throw new Error(`${DATA}: cost_note names no production record ${id}`);
+    return `${p.title}: ${lowerFirst(firstSentence(p.result))}`;
+  });
+  return {
+    meta: {
+      about: `Built by scripts/policy/build_tariffs_brief.mjs from ${DATA}. Do not edit by hand.`,
+      as_of: data.meta.as_of,
+      review_by: data.meta.review_by,
+    },
+    title: cn.title,
+    lines: [
+      `The largest price rises from ${L[m.year_ago]} to ${L[m.latest]} were ${listed(top)}.`,
+      `Prices moved less than 3% for ${listed(flat)}.`,
+      cn.caution,
+      ...made,
+      data.meta.renter_owner,
+    ],
+    source: {
+      text: `U.S. Bureau of Labor Statistics Producer Price Index, ${L[m.latest]}; production figures from the sources in the brief. Checked ${data.meta.as_of}.`,
+      url: 'https://www.bls.gov/ppi/',
+    },
+    note: 'The brief reads Bureau of Labor Statistics commodity price series, so a figure here can differ a little from the industry series shown elsewhere on this page.',
+    brief: { id: BRIEF_ID, title: brief.title, href: `research-brief.html?id=${BRIEF_ID}` },
+  };
+}
+
 export function build() {
   const data = read(DATA);
   const feed = read(FEED);
@@ -160,6 +207,7 @@ export function build() {
   return {
     [FEED]: JSON.stringify(feed, null, 2) + '\n',
     [SVG]: figureSvg(rows, data),
+    [NOTE]: JSON.stringify(costNote(rows, data, brief), null, 2) + '\n',
   };
 }
 

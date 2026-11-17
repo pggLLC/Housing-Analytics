@@ -15,6 +15,10 @@
 .mat-yoy.up { color: var(--text-red); }
 .mat-yoy.down { color: var(--text-green); }
 .mat-chart { margin: 0 0 1.5rem; }
+/* The tariffs brief's conclusions on Construction costs. */
+.tariff-note { margin: 0 0 1.5rem; }
+.tariff-note ul { margin: 0 0 .75rem; padding-left: 1.1rem; }
+.tariff-note li { margin: .3rem 0; line-height: 1.5; overflow-wrap: anywhere; }
 .mat-table td, .mat-table th, .snap-table td, .snap-table th { padding: .4rem .6rem; }
 .mat-sources { margin: .5rem 0; padding-left: 1.2rem; font-size: 15px; }
 
