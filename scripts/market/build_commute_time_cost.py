@@ -365,8 +365,8 @@ def main() -> None:
                 'osm_copyright_url': 'https://www.openstreetmap.org/copyright',
             },
             'start_points': {
-                'colorado': 'a home town starts at the Census block nearest the job-weighted centre of its home blocks, and a work town ends at the block nearest the centre of its work blocks: LODES ' + str(C['meta']['lodes_year']) + ' (' + LODES_OD.format(y=C['meta']['lodes_year']) + ', block points from ' + LODES_XWALK + '); a town with no blocks uses its Census Gazetteer internal point (' + GAZ_PLACES + ')',
-                'other_states': CENPOP_COUNTY.format(st='{state fips}'),
+                'colorado': 'a home town starts at the Census block nearest the job-weighted centre of its home blocks, and a work town ends at the block nearest the centre of its work blocks: LODES ' + str(C['meta']['lodes_year']) + ' (' + LODES_OD.format(y=C['meta']['lodes_year']) + ' with block points from ' + LODES_XWALK + '); a town with no blocks uses its Census Gazetteer internal point (' + GAZ_PLACES + ')',
+                'other_states': 'a home county in another state starts at its 2020 centre of population: file CenPop2020_Mean_CO followed by the state FIPS code, in ' + CENPOP_COUNTY.rsplit('/', 1)[0] + '/',
                 'town_ends': 'each town\'s own ends are in jobs_at and homes_at',
             },
             'unrouted': sorted(missing),
