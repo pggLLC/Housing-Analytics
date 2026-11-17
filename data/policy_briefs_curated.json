@@ -14,7 +14,7 @@
       "generated": "2026-11-17T00:00:00Z",
       "verified": "2026-11-17",
       "takeaway": "The metal in a building costs much more than a year ago, with tariffs of up to 50% and war-driven fuel costs both in force: steel mill products are up 32.9%, and copper, aluminum and wire roughly a fifth to a quarter (Bureau of Labor Statistics, October 2026). The price data does not show how much of that is tariffs. Cement, drywall and factory prices for appliances are flat. US steel output is up 5.9% this year, but sawmills shrank and fewer homes were started. The costs fall on rental and for-sale homes alike.",
-      "summary": "The Supreme Court struck down the broad 2025 tariffs on February 20, 2026. The product tariffs that reach building materials were not part of that case and remain: 50% on steel, aluminum and copper products, 10% on softwood lumber plus 24.75% in trade duties on most Canadian lumber, and 25% on kitchen cabinets and vanities, set to double on January 1, 2027. A war in the Middle East that began in late February 2026 pushed diesel up 115.2% in a year. Fuel and freight explain part of the 10.4% rise in the cost of what goes into a new home, and no source separates the two causes.",
+      "summary": "The Supreme Court struck down the broad 2025 tariffs on February 20, 2026. The product tariffs that reach building materials were not part of that case and remain: 50% on steel, aluminum and copper products, 10% on softwood lumber plus 24.75% in trade duties on most Canadian lumber, and 25% on kitchen cabinets and vanities, set to double on January 1, 2027. A war in the Middle East began in late February 2026, and diesel is up 115.2% in a year. The cost of what goes into a new home is up 10.4%, and no source separates tariffs from fuel and freight in that figure.",
       "implications": "For a Colorado tax credit building: rents are capped, so a cost increase cannot be earned back from renters and becomes funding gap. Wood-frame walk-ups, the usual rural building, use little structural steel; their exposure is wiring, electrical panels, heating and cooling, plumbing, metal roofing, rebar, cabinets and appliances. Plan imported cabinet orders around the January 1, 2027 increase, and treat a cost estimate older than about six months as low on metal and electrical items. Denver non-residential building costs rose 6.84% in a year on Mortenson's index, whose authors say the July 2026 tariff changes were not yet in those prices.",
       "related_data": "data/policy/tariffs-construction-costs.json",
       "sources": [
@@ -40,7 +40,7 @@
             "Almost nothing got cheaper. Cement, drywall, brick and factory prices for major appliances barely moved.",
             "Lumber is the one relief. Framing lumber sold for $443.65 per thousand board feet on November 13, 2026, down 1.2% from a year earlier, and the duty on most Canadian lumber fell from 35.16% to 24.75% in October 2026.",
             "Steel mills gained; wood and housing did not. Raw steel output is up 5.9% this year. Sawmill capacity fell 6.0%, and single-family home starts are down 4.0%.",
-            "Fuel is the other cause. A war that began in late February 2026 more than doubled diesel prices, which raises the cost of freight and of anything made with heat."
+            "Fuel rose at the same time. Diesel more than doubled in the year after a war began in late February 2026, which raises the cost of freight and of anything made with heat."
           ]
         },
         {
@@ -94,8 +94,8 @@
           "id": "up",
           "heading": "What costs more",
           "paragraphs": [
-            "Each figure is the change in what US producers charge, from the Bureau of Labor Statistics Producer Price Index. When imports are taxed, US producers can raise their prices too, so builders pay more for domestic metal as well. The last column is COHO's read, not a forecast from a source.",
-            "Not all of this is tariffs. Diesel is up 115.2% in a year because of the war, and the National Association of Home Builders (NAHB) puts building materials without energy at 5.8% higher than a year ago. The contractors' association calls it \"a double whammy of tariff- and war-induced materials cost increases.\""
+            "Each figure is the change in what US producers charge, from the Bureau of Labor Statistics Producer Price Index. The index covers metal made in the US, so the rise reaches domestic metal too. It does not show why: a tariff can give US producers room to raise prices, and their own fuel and input costs rose as well. The last column is COHO's read, not a forecast from a source.",
+            "Not all of this is tariffs. Diesel is up 115.2% in a year, and the National Association of Home Builders (NAHB) puts building materials without energy at 5.8% higher than a year ago. The contractors' association calls it \"a double whammy of tariff- and war-induced materials cost increases.\""
           ],
           "figure": {
             "src": "assets/briefs/tariffs-2026/price-changes.svg",
@@ -220,7 +220,7 @@
           "id": "production",
           "heading": "Did tariffs build anything?",
           "paragraphs": [
-            "Steel is the clearest gain and wood the clearest loss. Housing itself shrank, for several reasons at once: interest rates, fuel, labor and tariffs. The data cannot show how much was tariffs."
+            "Steel is the clearest gain and wood the clearest loss. Housing itself shrank. The data cannot show how much of that was tariffs."
           ],
           "table": {
             "caption": "Production, jobs and home building",
@@ -275,11 +275,11 @@
         },
         {
           "id": "why",
-          "heading": "Why prices rose more than production",
+          "heading": "Why prices may have risen more than production",
           "items": [
-            "Few building materials are imported. NAHB estimates that approximately 7% of the goods in a new home came from another country. But protected US producers raised their own prices, so the increase reached domestic metal too.",
+            "Few building materials are imported. NAHB estimates that approximately 7% of the goods in a new home came from another country. Yet prices for US-made metal rose too. One possible reason is that a tariff on imports gives US producers room to raise prices. Higher fuel and input costs are another, and the price data cannot separate them.",
             "A Federal Reserve Bank of Chicago study of the 2025 tariffs found \"neither the clear employment gains that tariff proponents anticipated nor the significant job losses that critics feared.\"",
-            "Higher costs stop projects. In a contractor survey in summer 2026, 55% of firms had a project cancelled, postponed or scaled back in six months."
+            "Projects are being stopped. In a contractor survey in summer 2026, 55% of firms had a project cancelled, postponed or scaled back in six months."
           ]
         },
         {
@@ -337,7 +337,7 @@
             "December 31, 2027: the temporary 15% rate on electrical grid equipment and some heating and cooling equipment ends.",
             "Canadian lumber: the next yearly duty review is under way, and home builders are pressing for a new lumber agreement with Canada.",
             "Congress: the Housing Tariff Exclusion Act would exempt many home building materials. It has been introduced, not passed.",
-            "The war: if it ends, fuel and freight could ease. The metal tariffs would not."
+            "The war: if it ends, fuel and freight could ease. The metal tariffs would stay."
           ]
         },
         {
@@ -350,7 +350,7 @@
             "The tariff rate now charged on finished appliances was not confirmed against the current federal product list, so this brief gives the price series only.",
             "The Denver cost index covers non-residential building. It is used as the nearest public Colorado measure, not as an apartment cost index.",
             "A plan to restart idled aluminum smelting in South Carolina by June 30, 2026 was announced in August 2025. This brief did not confirm it was finished.",
-            "Housing starts fell for several reasons at once, including interest rates, fuel and labor. The data cannot show how much was tariffs."
+            "Housing starts can fall for many reasons, such as interest rates, fuel and labor costs. The data cannot show how much was tariffs."
           ]
         },
         {
