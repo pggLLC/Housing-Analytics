@@ -398,11 +398,20 @@
                   aria-label="Find &amp; drop pin: geocode the address and mark the site">
             Find &amp; drop pin
           </button>
+          <button id="pmaLocateBtn" type="button"
+                  style="padding:.35rem .85rem;font-size:.8125rem;font-weight:700;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:4px;cursor:pointer"
+                  aria-label="Use my location: drop the pin where this device is">
+            Use my location
+          </button>
           <span id="pmaAddressStatus" role="status" aria-live="polite"
                 style="font-size:.8125rem;color:var(--muted);flex-basis:100%"></span>
         </div>
         <div id="pmaMap" role="application" aria-label="Colorado map — click to place a site marker"></div>
-        <div class="pma-map-hint">Click anywhere on the map to place a site — or type an address above. Uses the free US Census Geocoder (no API key required).</div>
+        <div class="pma-map-hint">Click anywhere on the map to place a site — or type an address above. Drag the pin to move it to the right spot. Uses the free US Census Geocoder (no API key required).</div>
+        <div class="pma-save-site" id="pmaSaveSiteRow" hidden>
+          <button type="button" id="pmaSaveSiteBtn" class="btn btn-sm">Save this site to compare</button>
+          <span id="pmaSaveSiteNote" role="status" aria-live="polite">Save it to compare sites later in <a href="#maSiteComparison">Compare Sites</a>; saved sites stay in this browser only.</span>
+        </div>
 
         <!-- ── Boundary overlays ── -->
         <details class="map-layer-details map-layer-section">
@@ -1414,7 +1423,7 @@
     <section class="ma-report-section" id="maSiteComparison" aria-labelledby="maSiteCompHeading">
       <h2 id="maSiteCompHeading">Site Comparison</h2>
       <p style="font-size:.82rem;color:var(--muted);margin-bottom:.75rem;">
-        Save scored sites and compare them side by side. Each site captures its full 6-dimension score, location, QCT/DDA status, and gap coverage.
+        Save scored sites and compare them side by side. Each site captures its full 6-dimension score, location, QCT/DDA status, and gap coverage. To compare deals by location, open a saved site in the Deal Calculator, run the deal, and keep it as Scenario A or B there.
       </p>
       <div id="siteCompSetupBar">
         <div class="sc-save-btns" id="scSaveButtons" style="display:none;">

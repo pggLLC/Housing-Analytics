@@ -159,7 +159,10 @@
     /* ── PMA Results ─────────────────────────────────────────────────────── */
 
     setPmaResults: function (results) {
-      _set('pmaResults', results);
+      // A transient site (Use my location, or a point opened from a link; js/market-analysis.js placeSiteMarker)
+      // is kept in memory for this visit only, never in the browser's storage, until the person saves it to
+      // Compare Sites.
+      _set('pmaResults', results, global.CohoSiteTransient ? false : undefined);
     },
 
     getPmaResults: function () {
