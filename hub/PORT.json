@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "b122aba5185f4d614c0abdd82cc5274b407fd90f",
+  "commit": "871091b1cb6f55a87c6594ab88ac4fced4662998",
   "dirty": false
  },
  "files": {
@@ -41,7 +41,7 @@
   "hub/calculators.css": "b4b0624c35763939731e648dcd47eb60ee92965fb85ee556abef793151609863",
   "hub/calendar.js": "9fd8e62851166913afee680810c97317642113db4ea3f0e25235e6c0ed05d6b5",
   "hub/change-arrows.js": "3bfb7835e88183749dd64cacc43d91af9ae80d65038bb60ed70190d7755d4f3d",
-  "hub/commuting.js": "8058696b72c5a70aa09d7a90cddb4b61592e30b8350b0d099b022e72fef6a9d6",
+  "hub/commuting.js": "50858fbdfc652126a67a43d7c20c88798882150aef5e96532337220264b0b8da",
   "hub/compare-records.js": "4a4e20b4c5064680ab87c53bae1dce945a5ce45c090feea7277570556805d1af",
   "hub/components.js": "1a3192c4037be964f0a9447cd5d3d6a1b6795871c6f9d017b640b7f538f38590",
   "hub/county-costs.css": "27d26b7dee75f7fe60d9521925a49b17dfc037bf2c18b3d4aef837ec33e8e575",
@@ -166,7 +166,7 @@
   "js/local-incentives-data.js": "f1ad486017680b9af8781485def973e6f3294634c0ae96542c7e0a27cebc55a5",
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
   "js/land-comps.js": "f44d06e4a206699667d7ae316db1a65dbffe75a8364b2316c5a91bab55afad4f",
-  "js/data-source-inventory.js": "9be313fdf8624412c187b25cf32fb1b969c86242580a9be5bc9597df592f3adb",
+  "js/data-source-inventory.js": "1329010b8bcf0d7c5c47d41c53ed8682990836d7cd2934689851bfd29bed4c99",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
   "js/hna/hna-ownership-need.js": "b33284b054b1120870e2850d8995c990edabf661d42a3a767bf9cc8f98b1f8d0",
   "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",
