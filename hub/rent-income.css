@@ -13,6 +13,10 @@
 .ri-h { margin: .15rem 0 .5rem; font-size: 1.35rem; line-height: 1.25; text-wrap: balance; }
 .ri-take { background: var(--tint); border-left: 4px solid var(--rust); padding: .6rem .8rem; border-radius: 0 8px 8px 0; }
 .ri-take p { margin: 0; }
+/* The owner gap lines under Home's owners card (home.js ownGap). Not .ri-gap: that is the rent chart's band. */
+.ri-owngap { margin-top: 1rem; }
+.ri-owngap-list { margin: 0 0 .6rem; padding-left: 1.1rem; }
+.ri-owngap-list li { margin-bottom: .45rem; }
 .ri-big { font-size: 2.3rem; font-weight: 800; line-height: 1.05; color: var(--text-rust); font-variant-numeric: tabular-nums; margin: 0 0 .2rem !important; }
 .ri-big.ri-down { color: var(--c-blue); }
 .ri-vt { margin: 0 0 .75rem; font-size: 14px; font-weight: 600; color: var(--ink); }
