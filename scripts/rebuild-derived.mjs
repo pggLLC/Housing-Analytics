@@ -219,6 +219,7 @@ export const NOT_DERIVED = {
   'scripts/build_rent_burden_crosscheck.mjs': 'fetches ACS B25070 from the Census API',
   'scripts/fetch-pab-allocations.mjs': 'fetches PAB allocations from the network',
   'scripts/market/build_commute_strength.py': 'downloads the LEHD LODES 2024 origin-destination file and crosswalk over the network',
+  'scripts/market/build_commute_time_cost.py': 'downloads ACS travel-time tables and LODES files and routes drives over the network (OSRM); reads the ranking index only to name towns as build_commute_strength.py does',
   'scripts/market/build_tract_workplaces.py': 'downloads LODES origin-destination files from the network; reads the index only for place names',
   'scripts/policy/build_job_access.py': 'routes drive times through OSRM over the network; reads the index only for the geography list and populations',
   'scripts/market/build_local_players.py': 'queries the Colorado parcel service and HUD and IRS lists over the network; reads the index only for place names and counties',

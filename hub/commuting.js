@@ -24,6 +24,19 @@
     { max: Infinity, color: 'var(--cat-5)', label: '25% or more' }
   ];
   var IRS_URL = 'https://www.journalofaccountancy.com/news/2026/jul/irs-raises-standard-mileage-rates-for-remainder-of-2026/';
+  // Time and cost (paul, 17 Nov 2026: "commute times would be better than distance... and the cost associated with
+  // commuting and low paid jobs... causing economic stress"). Travel times are the Census Bureau's own (ACS); drive
+  // minutes and road miles per home town come from data/market/commute-time-cost.json. The drive is priced two ways:
+  // gas and upkeep only, AAA Your Driving Costs (September 2025): fuel 13 cents + maintenance, repair and tires
+  // 11.04 cents a mile; and the full cost of a car, the IRS rate above. Pay is a full-time year at Colorado's 2026
+  // minimum wage, $15.16 an hour (COMPS Order #40, Rule 3), 2,080 hours.
+  var TIME_FILES = { tc: 'data/market/commute-time-cost.json' };
+  var RUN_RATE = 0.2404, MIN_WAGE = 15.16, YEAR_HOURS = 2080, MIN_YEAR = MIN_WAGE * YEAR_HOURS;
+  var AAA_URL = 'https://newsroom.aaa.com/wp-content/uploads/2025/09/UPDATE-AAA-Fact-Sheet-Your-Driving-Cost-9.2025-1.pdf';
+  var WAGE_URL = 'https://cdle.colorado.gov/sites/cdle/files/2026_comps_order_poster_english_%5Baccessible%5D.pdf';
+  // A drive longer than this is not costed as a daily commute (LODES places some workers at a main office).
+  var DAILY_MAX_MIN = 90;
+  var TIME_COLORS = ['var(--map-1)', 'var(--map-2)', 'var(--map-3)', 'var(--map-4)', 'var(--map-5)'];
 
   function pct(a, b) { return b ? Math.round(100 * a / b) + '%' : '–'; }
   function cost(miles) { return miles ? '$' + (Math.round(2 * miles * WORKDAYS * IRS_RATE / 10) * 10).toLocaleString('en-US') : null; }
@@ -84,11 +97,187 @@
         list.slice().sort(function (a, b) { return b.jobs - a.jobs; }).map(function (p) { return [bare(p.name), p.jobs, p.far, p.jobs ? Math.round(p.far / p.jobs * 1000) / 10 : null]; })) : '') + '</figure>';
   }
 
-  function detail(p) {
+  // ---------- time, cost and the town map (17 Nov 2026) ----------
+  function round10(v) { return Math.round(v / 10) * 10; }
+  function dollars(v) { return '$' + round10(v).toLocaleString('en-US'); }
+  function yearCost(miles, rate) { return 2 * miles * WORKDAYS * rate; }
+  function share(v) { return Math.round(100 * v / MIN_YEAR) + '%'; }
+  // The new file is newer than the lab's pinned data copy: the public site (LAB_PORT) and the preview (which takes
+  // data from Housing-Analytics main, LAB_DATA_AS_OF) read it; the bare lab at the pin shows the page without it.
+  function timeData() {
+    if (!global.LAB_PORT && !global.LAB_DATA_AS_OF) return null;
+    var s = UI.load(TIME_FILES);
+    return s.data ? s.data.tc : (s.error ? { error: s.error } : { loading: true });
+  }
+  function moeOf(list) { return Math.round(Math.sqrt(list.reduce(function (t, b) { return t + (b[2] || 0) * (b[2] || 0); }, 0))); }
+  function longShare(side) { return side.bands.slice(2).reduce(function (t, b) { return t + b[1]; }, 0) / side.total[0]; }
+
+  // A segmented bar drawn as SVG inside figure.viz, so the house tooltip (site/viz-tip.js) shows each part's count
+  // on hover, on a tap and from the keyboard (Codex on HA #2916: spans outside figure.viz showed nothing).
+  // parts: [[value, colour, tip], ...]; widths are shares of total; style sets the bar's own width.
+  function segBar(parts, total, label, style) {
+    var x = 0;
+    return '<figure class="viz cj-barfig"' + (style ? ' style="' + style + '"' : '') + '><svg class="cj-bar" role="img" aria-label="' + esc(label) + '" height="28">' +
+      parts.map(function (q) {
+        if (!q[0]) return '';
+        var w = 100 * q[0] / total, r = '<rect x="' + x.toFixed(2) + '%" y="0" width="' + w.toFixed(2) + '%" height="100%" fill="' + q[1] + '" data-tip="' + esc(q[2]) + '"></rect>';
+        x += w; return r;
+      }).join('') + '</svg></figure>';
+  }
+
+  function timeCard(tc, p) {
+    var e = tc.places[p.geoid] || {}, w = e.work, h = e.home, nm = bare(p.name), A = tc.meta.acs;
+    if (!w && !h) return '<div class="cj-card"><p class="cc-kicker">How long the trip to work takes</p><p class="note">The Census Bureau does not publish travel times for ' + esc(nm) + '.</p></div>';
+    var labels = A.bands.map(function (b) { return b[1]; });
+    var bar = function (side, title) {
+      if (!side) return '<p class="cj-bar-title">' + esc(title) + '</p><p class="note">Not published for this town.</p>';
+      return '<p class="cj-bar-title">' + esc(title) + ' <span>' + num(side.total[0]) + ' workers</span></p>' +
+        segBar(side.bands.map(function (b, i) { return [b[1], TIME_COLORS[i], title + ', ' + labels[i].toLowerCase() + ': ' + num(b[1]) + ' (±' + num(b[2]) + ')']; }), side.total[0],
+          title + ': ' + side.bands.map(function (b, i) { return labels[i] + ' ' + Math.round(100 * b[1] / side.total[0]) + '%'; }).join(', '));
+    };
+    var pc = function (side, i) { return side ? Math.round(100 * side.bands[i][1] / side.total[0]) + '%' : '–'; };
+    var head;
+    if (w && h) head = Math.round(100 * longShare(w)) + '% of people who work in ' + nm + ' travel 30 minutes or more each way. Of people who live there, ' + Math.round(100 * longShare(h)) + '% do.';
+    else if (w) head = Math.round(100 * longShare(w)) + '% of people who work in ' + nm + ' travel 30 minutes or more each way.';
+    else head = Math.round(100 * longShare(h)) + '% of people who live in ' + nm + ' travel 30 minutes or more each way to work.';
+    // A rough estimate says so: the 30-minute-plus share's margin is more than a third of the estimate.
+    var rough = [w, h].some(function (s) { if (!s) return false; var b = s.bands.slice(2), est = b.reduce(function (t, x) { return t + x[1]; }, 0); return est && moeOf(b) > est / 3; });
+    return '<div class="cj-card"><p class="cc-kicker">How long the trip to work takes</p><p class="cj-head">' + esc(head) + '</p>' +
+      bar(w, 'Work in ' + nm) + bar(h, 'Live in ' + nm) +
+      '<ul class="cj-key"><li class="cj-key-head"><span>One way</span><b>Work · Live</b></li>' + labels.map(function (l, i) {
+        return '<li><i style="background:' + TIME_COLORS[i] + '" aria-hidden="true"></i><span>' + esc(l) + '</span><b>' + pc(w, i) + ' · ' + pc(h, i) + '</b></li>';
+      }).join('') + '</ul>' +
+      (rough ? '<p class="note">Small survey samples here: treat these shares as rough. Tap a bar for each count and its margin of error.</p>' : '') +
+      '<p class="note metric-source">Source: U.S. Census Bureau, ' + esc(A.label) + ', <a href="' + esc(A.work.url) + '">table ' + esc(A.work.table) + '</a> (by where people work) and <a href="' + esc(A.home.url) + '">table ' + esc(A.home.table) + '</a> (by where they live). Workers who do not work from home, every way of getting there, one way.</p>' +
+      (global.LabVizData ? global.LabVizData.block('How long the trip to work takes, ' + nm, ['Minutes, one way', 'Work here', 'Margin (±)', 'Live here', 'Margin (±)'],
+        labels.map(function (l, i) { return [l, w ? w.bands[i][1] : null, w ? w.bands[i][2] : null, h ? h.bands[i][1] : null, h ? h.bands[i][2] : null]; })) : '') + '</div>';
+  }
+
+  function costRows(tc, p) {
+    var e = tc.places[p.geoid];
+    return ((e && e.from) || []).filter(function (r) { return r[2] != null && r[3] != null && r[2] <= DAILY_MAX_MIN; });
+  }
+  function costCard(tc, p) {
+    var rows = costRows(tc, p), nm = bare(p.name);
+    if (!rows.length) return '';
+    var top = rows.slice().sort(function (a, b) { return b[1] - a[1]; })[0];
+    var scale = Math.max(0.5, Math.max.apply(null, rows.map(function (r) { return yearCost(r[3], IRS_RATE) / MIN_YEAR; })));
+    var hours = function (r) { return Math.round(2 * r[2] * WORKDAYS / 60); };
+    var head = 'A full-time worker on Colorado’s $' + MIN_WAGE.toFixed(2) + ' minimum wage who drives in from ' + bare(top[0]) + ' spends ' + share(yearCost(top[3], RUN_RATE)).replace('%', '') + ' to ' + share(yearCost(top[3], IRS_RATE)) + ' of their pay on the drive, and ' + num(hours(top)) + ' hours a year in the car.';
+    return '<div class="cj-card"><p class="cc-kicker">What the drive costs a lower-paid worker</p><p class="cj-head">' + esc(head) + '</p>' +
+      '<p>' + num(p.in_low) + ' of the ' + num(p.in_commuters) + ' people who drive in to ' + esc(nm) + ' earn $3,333 a month or less.</p>' +
+      '<ul class="cj-costs">' + rows.map(function (r) {
+        var lo = yearCost(r[3], RUN_RATE), hi = yearCost(r[3], IRS_RATE);
+        return '<li><p class="cj-cost-top"><b>' + esc(bare(r[0])) + '</b><span>' + num(r[1]) + ' workers · ' + Math.round(r[2]) + ' min · ' + Math.round(r[3]) + ' road miles</span></p>' +
+          '<div class="cj-cost-bar" aria-hidden="true"><span class="lo" style="width:' + (100 * lo / MIN_YEAR / scale).toFixed(1) + '%"></span><span class="hi" style="width:' + (100 * (hi - lo) / MIN_YEAR / scale).toFixed(1) + '%"></span></div>' +
+          '<p class="cj-cost-text">' + dollars(lo) + ' to ' + dollars(hi) + ' a year, <b>' + share(lo).replace('%', '') + ' to ' + share(hi) + '</b> of a minimum-wage year · ' + num(hours(r)) + ' hours in the car</p></li>';
+      }).join('') + '</ul>' +
+      '<p class="cj-cost-key" aria-hidden="true"><span><i class="lo"></i>Gas and upkeep only</span><span><i class="hi"></i>Full cost of the car</span></p>' +
+      '<p class="note">Each bar is a share of a full-time minimum-wage year ($' + MIN_WAGE.toFixed(2) + ' × 2,080 hours = ' + dollars(MIN_YEAR) + '). Round trip, ' + WORKDAYS + ' workdays. Drives over ' + DAILY_MAX_MIN + ' minutes are not costed. The minimum wage is an example worker, not what these commuters earn.</p>' +
+      '<p class="note metric-source">Sources: gas and upkeep 24 cents a mile (<a href="' + AAA_URL + '">AAA Your Driving Costs, September 2025</a>: fuel 13 cents, maintenance, repair and tires 11 cents); full cost 76 cents a mile (IRS rate from 1 July 2026, <a href="' + IRS_URL + '">Journal of Accountancy</a>); minimum wage (<a href="' + WAGE_URL + '">Colorado COMPS Order #40, 2026</a>); drive minutes and road miles routed over <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> (OSRM, no traffic), from each home town to where the jobs are, built ' + esc(tc.meta.generated) + '; workers and pay band: LEHD LODES ' + esc(tc.meta.lodes_year) + '.</p>' +
+      (global.LabVizData ? global.LabVizData.block('What the drive into ' + nm + ' costs', ['Home town', 'Workers', 'Drive (min)', 'Road miles', 'Gas and upkeep a year ($)', 'Full cost a year ($)', 'Share of a minimum-wage year (%)', 'Hours in the car a year'],
+        rows.map(function (r) { return [bare(r[0]), r[1], r[2], r[3], round10(yearCost(r[3], RUN_RATE)), round10(yearCost(r[3], IRS_RATE)), Math.round(100 * yearCost(r[3], RUN_RATE) / MIN_YEAR) + ' to ' + Math.round(100 * yearCost(r[3], IRS_RATE) / MIN_YEAR), Math.round(2 * r[2] * WORKDAYS / 60)]; })) : '') + '</div>';
+  }
+
+  // The town's own commute map: its home towns (or its residents' work towns) with an arrow each, sized by workers,
+  // on the street map (site/map-base.js reads data-geo). Places beyond the daily drive are listed under the map.
+  function townMap(tc, p, dir) {
+    var e = tc.places[p.geoid], out = dir === 'out', nm = bare(p.name);
+    var all = ((e && (out ? e.to : e.from)) || []);
+    var near = all.filter(function (r) { return r[4] != null && r[2] != null && r[2] <= DAILY_MAX_MIN; });
+    // Routed but longer than a daily drive, apart from rows with no drive at all (the builder withheld a route it
+    // could not trust, or found no start point): those say so and are never called a main-office address.
+    var far = all.filter(function (r) { return near.indexOf(r) < 0 && r[2] != null; });
+    var none = all.filter(function (r) { return r[2] == null; });
+    var toggle = '<p class="cj-dir" role="group" aria-label="Which way">' + [['in', 'Coming in'], ['out', 'Going out']].map(function (o) {
+      return '<a href="' + esc('#/opportunity/commuting?town=' + encodeURIComponent(p.geoid) + (o[0] === 'out' ? '&dir=out' : '') + '&at=cj-town-map') + '"' + ((o[0] === 'out') === out ? ' aria-current="true" class="is-on"' : '') + '>' + o[1] + '</a>';
+    }).join('') + '</p>';
+    var title = out ? 'Where ' + nm + '’s residents work' : 'Where ' + nm + '’s in-commuters live';
+    var shown = all.reduce(function (t, r) { return t + r[1]; }, 0), total = out ? p.out_commuters : p.in_commuters;
+    var listOf = function (rows, numbered) { return rows.map(function (r, i) { return '<li>' + (numbered ? '<i aria-hidden="true">' + (i + 1) + '</i>' : '') + '<b>' + esc(bare(r[0])) + '</b><span>' + num(r[1]) + ' workers' + (r[2] != null ? ' · ' + Math.round(r[2]) + ' min' : '') + '</span></li>'; }).join(''); };
+    var svg = '';
+    if (near.length) {
+      // The town's own end: where its jobs are for people coming in, where its residents live for people going out.
+      var end = (out ? e.homes_at : e.jobs_at) || [p.lat, p.lon];
+      var pts = [end].concat(near.map(function (r) { return [r[4], r[5]]; }));
+      var w = 180, ea = -180, so = 90, no = -90;
+      pts.forEach(function (q) { w = Math.min(w, q[1]); ea = Math.max(ea, q[1]); so = Math.min(so, q[0]); no = Math.max(no, q[0]); });
+      var lat0 = (so + no) / 2, k = Math.cos(lat0 * Math.PI / 180);
+      // At least 25 miles across, then a margin so arrows and numbers stay inside.
+      var minLat = 25 / 69, minLon = 25 / (69 * k);
+      if (no - so < minLat) { var c1 = (no + so) / 2; so = c1 - minLat / 2; no = c1 + minLat / 2; }
+      if (ea - w < minLon) { var c2 = (ea + w) / 2; w = c2 - minLon / 2; ea = c2 + minLon / 2; }
+      var padLat = (no - so) * 0.14, padLon = (ea - w) * 0.14;
+      w -= padLon; ea += padLon; so -= padLat; no += padLat;
+      var W = 720, H = Math.max(420, Math.min(720, Math.round(W * (no - so) / ((ea - w) * k))));
+      var sc = Math.min(W / ((ea - w) * k), H / (no - so)), ox = (W - (ea - w) * k * sc) / 2, oy = (H - (no - so) * sc) / 2;
+      var X = function (lon) { return ox + (lon - w) * k * sc; }, Y = function (lat) { return oy + (no - lat) * sc; };
+      var geo = [w - ox / (k * sc), no - (H - oy) / sc, w + (W - ox) / (k * sc), no + oy / sc].map(function (v) { return v.toFixed(5); }).join(' ');
+      var hx = X(end[1]), hy = Y(end[0]), max = Math.max.apply(null, near.map(function (r) { return r[1]; }));
+      var arrows = near.map(function (r) {
+        var a = [X(r[5]), Y(r[4])], b = [hx, hy];
+        if (out) { var t = a; a = b; b = t; }
+        var dx = b[0] - a[0], dy = b[1] - a[1], L = Math.sqrt(dx * dx + dy * dy) || 1, bend = 0.18 * L;
+        var cx = (a[0] + b[0]) / 2 - dy / L * bend, cy = (a[1] + b[1]) / 2 + dx / L * bend;
+        // Stop short of the end marker so the arrowhead shows.
+        var ex = b[0] - cx, ey = b[1] - cy, el = Math.sqrt(ex * ex + ey * ey) || 1, stop = out ? 32 : 26;
+        var bx = b[0] - ex / el * stop, by = b[1] - ey / el * stop;
+        return '<path d="M' + a[0].toFixed(1) + ' ' + a[1].toFixed(1) + 'Q' + cx.toFixed(1) + ' ' + cy.toFixed(1) + ' ' + bx.toFixed(1) + ' ' + by.toFixed(1) + '" stroke-width="' + (5 + 18 * r[1] / max).toFixed(1) + '" marker-end="url(#cj-head-' + (out ? 'out' : 'in') + ')" data-tip="' + esc((out ? nm + ' to ' + bare(r[0]) : bare(r[0]) + ' to ' + nm) + ': ' + num(r[1]) + ' workers, ' + Math.round(r[2]) + ' minutes') + '"></path>';
+      }).join('');
+      var marks = near.map(function (r, i) {
+        var x = X(r[5]).toFixed(1), y = Y(r[4]).toFixed(1);
+        return '<g data-tip="' + esc(bare(r[0]) + ': ' + num(r[1]) + ' workers, ' + Math.round(r[2]) + ' minutes') + '"><circle cx="' + x + '" cy="' + y + '" r="28"></circle><text x="' + x + '" y="' + (+y + 11).toFixed(1) + '">' + (i + 1) + '</text></g>';
+      }).join('');
+      svg = '<div class="pm-frame"><svg viewBox="0 0 ' + W + ' ' + H + '" data-geo="' + geo + '" role="img" aria-label="' + esc(title + ': ' + near.map(function (r) { return bare(r[0]) + ' ' + num(r[1]) + ' workers'; }).join(', ')) + '">' +
+        '<defs><marker id="cj-head-' + (out ? 'out' : 'in') + '" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="30" markerHeight="30" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z"></path></marker></defs>' +
+        '<g class="cj-arrows' + (out ? ' is-out' : '') + '">' + arrows + '</g><g class="cj-marks' + (out ? ' is-out' : '') + '">' + marks + '</g>' +
+        '<g class="cj-home" data-geo-size="1"><circle cx="' + hx.toFixed(1) + '" cy="' + hy.toFixed(1) + '" r="18"></circle><text x="' + hx.toFixed(1) + '" y="' + (hy + 56).toFixed(1) + '"' + (hx > W * 0.7 ? ' style="text-anchor:end"' : hx < W * 0.3 ? ' style="text-anchor:start"' : '') + '>' + esc(nm) + '</text></g></svg></div>';
+    }
+    return '<figure class="pres-map cj-town-map" id="cj-town-map" tabindex="-1"><figcaption><span class="cc-kicker">Commute map</span><strong>' + esc(title) + '</strong></figcaption>' + toggle + svg +
+      (near.length ? '<ol class="cj-places' + (out ? ' is-out' : '') + '">' + listOf(near, true) + '</ol>' : '<p class="note">None of the largest ' + (out ? 'work towns' : 'home towns') + ' is a daily drive away.</p>') +
+      (far.length ? '<p class="cj-far"><b>Farther than a daily drive:</b></p><ul class="cj-places cj-far-list">' + listOf(far, false) + '</ul><p class="note">Trips this long are often a main-office address, not a daily drive.</p>' : '') +
+      (none.length ? '<p class="cj-far"><b>Drive time not available:</b></p><ul class="cj-places cj-far-list">' + listOf(none, false) + '</ul><p class="note">The road router gave a route for ' + (none.length > 1 ? 'these' : 'this one') + ' that could not be trusted (a long detour or a very slow road), so no time or cost is shown.</p>' : '') +
+      '<p class="note">Arrow width shows workers. These are the five places that send ' + (out ? 'it' : 'it') + ' the most workers' + (out ? ' (its residents’ five largest work towns)' : '') + ': ' + num(shown) + ' of its ' + num(total) + (out ? ' residents who work in another town' : ' in-commuters') + '. Minutes are the drive with no traffic.</p>' +
+      '<p class="note metric-source">Source: LEHD LODES ' + esc(tc.meta.lodes_year) + ', primary jobs; drive times over OpenStreetMap (OSRM), built ' + esc(tc.meta.generated) + '.</p></figure>';
+  }
+
+  // Jobs against the people who live here (option C, paul "build c", 17 Nov 2026): two bars on one scale, the
+  // jobs in town and the town's working residents, each split by who stays. Every number is in the commute file.
+  function balanceCard(p) {
+    var nm = bare(p.name), J = p.jobs, R = p.residents, both = J - p.in_commuters, mx = Math.max(J, R);
+    if (!J || !R) return '';
+    var r = J / R;
+    var head = r >= 1.15 ? nm + ' has about ' + r.toFixed(1) + ' jobs for every working resident. ' + pct(p.in_commuters, J) + ' of its jobs are held by people who live somewhere else.'
+      : r <= 0.87 ? nm + ' has about ' + (1 / r).toFixed(1) + ' working residents for every job. ' + pct(p.out_commuters, R) + ' of its working residents work in another town.'
+      : nm + ' has about one job for every working resident.';
+    var row = function (label, total, parts) {
+      return '<p class="cj-bar-title">' + esc(label) + ' <span>' + num(total) + '</span></p>' +
+        segBar(parts.map(function (x) { return [x[0], x[1], x[2] + ': ' + num(x[0])]; }), total,
+          label + ': ' + parts.map(function (x) { return x[2].toLowerCase() + ' ' + num(x[0]); }).join(', '), 'width:' + (100 * total / mx).toFixed(1) + '%');
+    };
+    return '<div class="cj-card"><p class="cc-kicker">Jobs and the people who live here</p><p class="cj-head">' + esc(head) + '</p>' +
+      row('Jobs in ' + nm, J, [[both, 'var(--map-5)', 'Held by people who live in town'], [p.in_commuters, 'var(--map-1)', 'Held by people who live somewhere else']]) +
+      row('Working residents', R, [[both, 'var(--map-5)', 'Work in town'], [p.out_commuters, 'var(--gold)', 'Work in another town']]) +
+      '<ul class="cj-key"><li><i style="background:var(--map-5)" aria-hidden="true"></i><span>Live and work in ' + esc(nm) + '</span><b>' + num(both) + '</b></li>' +
+      '<li><i style="background:var(--map-1)" aria-hidden="true"></i><span>Jobs held by people who live somewhere else</span><b>' + num(p.in_commuters) + '</b></li>' +
+      '<li><i style="background:var(--gold)" aria-hidden="true"></i><span>Residents who work in another town</span><b>' + num(p.out_commuters) + '</b></li></ul>' +
+      '<p class="note metric-source">Source: LEHD LODES ' + esc(lodesYear) + ', primary jobs, so each worker counts once.</p></div>';
+  }
+  var lodesYear = '';
+
+  function timeAndCost(p, dir) {
+    var tc = timeData();
+    if (!tc) return balanceCard(p);
+    if (tc.loading) return balanceCard(p) + '<p role="status" class="note">Loading travel times…</p>';
+    if (tc.error) return balanceCard(p) + '<p class="note">' + esc(tc.error) + '</p>';
+    return timeCard(tc, p) + balanceCard(p) + costCard(tc, p) + townMap(tc, p, dir);
+  }
+
+  function detail(p, dir) {
     var c = cost(p.median_far_miles);
     var stat = function (v, t) { return '<li><b>' + esc(v) + '</b><span>' + esc(t) + '</span></li>'; };
     var flow = function (title, rows) { return UI.bars(title, 'The five largest, workers', rows.map(function (f) { return [bare(f[0]), f[1]]; }), num); };
-    return '<div class="cj-detail"><h3>' + esc(bare(p.name)) + '</h3><p class="chapter-finding">' + esc(answer(p)) + '</p><ul class="cj-stats">' +
+    return '<div class="cj-detail"><h3>' + esc(bare(p.name)) + '</h3><p class="chapter-finding">' + esc(answer(p)) + '</p>' + timeAndCost(p, dir) + '<ul class="cj-stats">' +
       stat(num(p.jobs), 'jobs in town (primary jobs)') +
       stat(pct(p.in_commuters, p.jobs), 'held by people who live elsewhere (' + num(p.in_commuters) +
         (p.in_other_state ? ', of whom ' + num(p.in_other_state) + ' live in another state' : '') + ')') +
@@ -117,6 +306,7 @@
     if (!k) return;
     var p = params();
     p.delete('at');
+    if (k === 'town') p.delete('dir');
     if (ev.target.value) p.set(k, ev.target.value); else p.delete(k);
     history.replaceState(null, '', '#/opportunity/commuting' + (p.toString() ? '?' + p.toString() : ''));
     Shell.render();
@@ -141,6 +331,7 @@
     if (s.error) return head() + '<p class="callout">' + esc(s.error) + '</p>';
     if (!s.data) return head() + '<p role="status" class="note">Loading the public records…</p>';
     var d = s.data, meta = d.commute.meta, places = d.commute.places;
+    lodesYear = meta.lodes_year;
     var list = Object.keys(places).map(function (k) { var p = places[k]; p.geoid = k; return p; }).sort(function (a, b) { return a.name.localeCompare(b.name); });
     var byName = {};
     list.forEach(function (p) { byName[p.name.toLowerCase()] = p; });
@@ -164,7 +355,7 @@
       T.onThisPage([{ id: 'cj-town', title: 'Who drives in to work' }, { id: 'cj-employers', title: 'Largest employers' }, { id: 'cj-why', title: 'Why it matters for housing' }, { id: 'cj-tools', title: 'Run it yourself' }, { id: 'cj-about', title: 'About this data' }], true) +
       '<section id="cj-town" tabindex="-1"><h2>Who drives in to work</h2>' +
       picker('town', 'Find a town', [['', 'Pick one of ' + list.length + ' towns']].concat(list.map(function (p) { return [p.geoid, bare(p.name) + (p.name !== bare(p.name) ? ' ' + p.name.slice(bare(p.name).length).trim() : '')]; })), sel ? sel.geoid : '') +
-      (sel ? detail(sel) : '<p class="chapter-finding">Pick a town, or select one on the map. ' + num(list.length) + ' towns with 200 or more jobs are shown.</p>') +
+      (sel ? detail(sel, q.get('dir')) : '<p class="chapter-finding">Pick a town, or select one on the map. ' + num(list.length) + ' towns with 200 or more jobs are shown.</p>') +
       map(d, list, byName, sel) +
       sourceLine(meta) +
       UI.bars('Towns where the most jobs are held by 20 to 60 mile commuters', 'Share of each town’s primary jobs; the 12 highest', top.map(function (p) { return [bare(p.name), Math.round(1000 * farShare(p)) / 10]; }), function (v) { return v.toFixed(1) + '%'; }) +
@@ -194,8 +385,9 @@
       '<li><a href="https://j2jexplorer.ces.census.gov/">Job-to-Job Explorer</a>: how many workers change jobs, and between which states and metros.</li>' +
       '</ul></section>' +
       '<section id="cj-about" tabindex="-1"><h2>About this data</h2>' +
-      '<p>Commute counts are from the Census Bureau’s LEHD LODES ' + esc(meta.lodes_year) + ' origin-destination file (primary jobs, so each worker counts once), home block to work block, matched to towns with the <a href="' + esc(meta.crosswalk) + '">LEHD crosswalk</a>. LODES covers jobs in Colorado held by people who live in Colorado and lags two to three years.</p>' +
+      '<p>Commute counts are from the Census Bureau’s LEHD LODES ' + esc(meta.lodes_year) + ' origin-destination file (primary jobs, so each worker counts once), home block to work block, matched to towns with the <a href="' + esc(meta.crosswalk) + '">LEHD crosswalk</a>. It counts Colorado jobs held by people who live in another state, and Colorado residents whose job is in another state, naming each home or job by its county. LODES lags two to three years.</p>' +
       '<p>Distances are straight lines between blocks. Roads are longer, so every cost on this page is a floor. LODES places some workers at an employer’s main office, so trips recorded at 60 miles or more include people who do not drive that far every day. The page counts them apart and never costs them.</p>' +
+      '<p>Travel times are the Census Bureau’s American Community Survey: how long people say the trip to work takes, one way, by any means, for people who work in a town (table B08603) and people who live in it (table B08303). They cover every job, not only the primary jobs LODES counts, so the two sets of numbers do not add up to each other. Drive minutes and road miles for each home town are routed over OpenStreetMap with no traffic, from a Colorado town’s Census point (a county’s 2020 centre of population for homes in another state) to where the town’s jobs are.</p>' +
       '<p>Lower-paid means $3,333 a month or less, LODES’s lower two pay bands. Towns with fewer than ' + num(meta.min_jobs) + ' primary jobs are left out.</p>' +
       '<p>Employer tables are copied from the “Principal Employers” schedules that counties, cities and school districts print in their annual comprehensive financial reports, filed with the <a href="' + esc(d.employers.meta.library) + '">Office of the State Auditor</a>. Most filings do not include the schedule, so ' + num((d.employers.areas || []).length) + ' areas are covered so far.</p>' +
       '<p>The market study’s capture stack adds a second line, capture with relocation. It grows the county renter pool only by the share of tenants from outside the county documented at a comparable Colorado property, uses the low end of that range, and caps the added households at the county’s lower-paid workers who drive 20 to 60 miles in. CHFA allows in-migration only when comparable projects show it, so a county with no such comparable gets no relocation number. Comparables measured from outside a project’s market area are listed but not applied, because a market area is smaller than a county. The comparables are in <a href="https://cohoanalytics.com/data/market/relocation-comparables.json">relocation-comparables.json</a>, each with its quote and page.</p>' +
@@ -205,5 +397,5 @@
       T.next('Next', [{ href: '#/market', label: 'Check a market →' }, { href: '#/guide/commuters-capture', label: 'Commuters and capture rates', secondary: true }, { href: '#/places', label: 'Find a place', secondary: true }, { href: '#/opportunities', label: 'Back to Opportunities', secondary: true }]);
   }
 
-  global.LabCommuting = { view: view, FILES: FILES, answer: answer, cost: cost, binFor: binFor, BINS: BINS, IRS_RATE: IRS_RATE, WORKDAYS: WORKDAYS };
+  global.LabCommuting = { view: view, balanceCard: balanceCard, FILES: FILES, TIME_FILES: TIME_FILES, RUN_RATE: RUN_RATE, MIN_WAGE: MIN_WAGE, MIN_YEAR: MIN_YEAR, DAILY_MAX_MIN: DAILY_MAX_MIN, yearCost: yearCost, answer: answer, cost: cost, binFor: binFor, BINS: BINS, IRS_RATE: IRS_RATE, WORKDAYS: WORKDAYS };
 })(window);
