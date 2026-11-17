@@ -203,7 +203,8 @@ AI_MODEL = 'gpt-4o-mini'
 
 
 def _numbers(s: str) -> set:
-    return set(re.findall(r'\d[\d,.]*', s.replace(',', '')))
+    # whole values only: 1,200 -> 1200, 4.5 stays, a sentence's closing period is not part of the number
+    return set(re.findall(r'\d+(?:\.\d+)?', re.sub(r'(?<=\d),(?=\d{3})', '', s)))
 
 
 def _openai(prompt: str, api_key: str) -> str:

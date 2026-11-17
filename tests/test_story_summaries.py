@@ -128,3 +128,8 @@ def test_no_key_or_ai_failure_keeps_the_quotes():
 def test_description_with_an_apostrophe_is_read_whole():
     page = '<head><meta property="og:description" content="The project adds 80 rental homes to Colorado\'s housing supply."></head>'
     assert ss.page_description(page) == "The project adds 80 rental homes to Colorado's housing supply."
+
+
+def test_numbers_ignore_sentence_punctuation():
+    assert ss._numbers('rental units to 845.') == ss._numbers('The awards support 845 rental units.') == {'845'}
+    assert ss._numbers('1,200 homes at 4.5%.') == {'1200', '4.5'}
