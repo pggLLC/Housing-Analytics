@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-11-17T03:20:58Z",
+  "generated_at": "2026-11-17T04:20:50Z",
   "generator": "scripts/funding/build_funding_awards.py",
   "sources": [
    "https://www.chfainfo.com/rental-housing/housing-credit/awards",
@@ -11583,7 +11583,7 @@
    "name": "Stanley 98",
    "sponsor": "Aurora Housing Authority",
    "location": "Aurora",
-   "county_fips": "08005",
+   "county_fips": "08001",
    "total_units": 75,
    "restricted_units": 75,
    "detail": null,
@@ -11598,7 +11598,7 @@
    "amount_requested": null,
    "bond_amount": 11000000,
    "federal_credit_type": "4%",
-   "county_method": "location matched to a place"
+   "county_method": "CHFA address point (2026 bridge file)"
   },
   {
    "agency": "CHFA",

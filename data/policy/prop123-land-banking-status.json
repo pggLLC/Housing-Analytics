@@ -3,7 +3,7 @@
     "generator": "scripts/funding/build_land_banking_status.py",
     "generated_from": {
       "awards": "2026-11-12",
-      "ledger": "2026-11-15T13:11:55.147Z",
+      "ledger": "2026-11-17T03:23:10Z",
       "research_checked": "2026-10-22"
     },
     "labels": {
@@ -16,8 +16,8 @@
       "none": "No later state funding on record"
     },
     "counts": {
-      "financed": 10,
-      "applied": 3,
+      "financed": 11,
+      "applied": 2,
       "partner": 3,
       "seeking": 0,
       "not_funded": 1,
@@ -43,7 +43,7 @@
       "sources": [
         {
           "title": "CHFA LIHTC 9% + state, 2025",
-          "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+          "url": "https://www.chfainfo.com/getContentAsset/b90453bd-52f8-491f-be44-c7a431440afc/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
         },
         {
           "title": "DOLA Housing Development Grant, 2025",
@@ -279,7 +279,7 @@
         },
         {
           "title": "CHFA LIHTC 4% + state, 2025",
-          "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf"
+          "url": "https://www.chfainfo.com/getContentAsset/a9fca2aa-7fde-4400-8a97-b02340419c92/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2025-Round-Two-Award-Report.pdf"
         }
       ],
       "quote": "Project: Village on Eastbrook; Town: Fort Collins; Program: Housing Development Grant (HDG); Amount: $995,000; Amount basis: awarded; Homes: 73; Announced: 2026-04-14; Source: State Housing Board vote summary, meeting of 2026-04-14 (printed in the 2026-05-05 board packet)",
@@ -397,7 +397,7 @@
       "sources": [
         {
           "title": "CHFA LIHTC 4% + state, 2025",
-          "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+          "url": "https://www.chfainfo.com/getContentAsset/34a30942-e08d-494a-8bc7-f236ebf01e98/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/federal-4-housing-tax-credit-award-report.pdf"
         }
       ],
       "quote": "Cycle Year: 2025; Resident Type: Family; Building Type: New Construction; Property Name: Bradley Ridge; Address: Legacy Hill Drive & Bradley Landing Blvd; City: Colorado Springs; County: El Paso; QCT: No; DDA: No; SADDA: Yes; Federal 4% Credit Amount Issued *: $7,005,107; PAB Issuer **: City of Colorado Springs; PAB Amount ***: $76,832,223; Total Units: 336; LI Units: 336; Sect. 8: No",
@@ -474,7 +474,7 @@
       "sources": [
         {
           "title": "CHFA LIHTC 4% + state, 2025",
-          "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf"
+          "url": "https://www.chfainfo.com/getContentAsset/34a30942-e08d-494a-8bc7-f236ebf01e98/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/federal-4-housing-tax-credit-award-report.pdf"
         }
       ],
       "quote": "Cycle Year: 2025; Resident Type: Family; Building Type: New Construction; Property Name: Flats at Sand Creek; Address: NEC Peterson Rd & N Carefree Cir; City: Colorado Springs; County: El Paso; QCT: No; DDA: No; SADDA: Yes; Federal 4% Credit Amount Issued *: $3,015,572; PAB Issuer **: El Paso County; PAB Amount ***: $31,150,339; Total Units: 144; LI Units: 144; Sect. 8: No",
@@ -506,7 +506,7 @@
       "sources": [
         {
           "title": "CHFA Housing tax credit 9% application, 2026",
-          "url": "https://www.chfainfo.com/getattachment/3acaed95-5acb-4f91-8a38-432185307e69/2026-HTC-Round-One-Applicant-Report.pdf"
+          "url": "https://www.chfainfo.com/getContentAsset/3acaed95-5acb-4f91-8a38-432185307e69/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2026-HTC-Round-One-Applicant-Report.pdf"
         }
       ],
       "quote": "Type: N,I/F,SP; Name: Liberty House Apartments; Address: 1500 Hooker; City: Denver; Total Units: 63; LI Units: 63; Federal 9% Credit Requested: $1,642,352; Standard State Credit Requested: $500,000; TOC Credit Requested: $126,000",
@@ -546,18 +546,18 @@
       }
     },
     "fy24-25-metro-caring-affordable-housing": {
-      "status": "applied",
-      "text": "Metro Caring Housing: Housing tax credit 4% application (2026).",
+      "status": "financed",
+      "text": "Metro Caring Housing: LIHTC 4% + state (2026).",
       "sources": [
         {
-          "title": "CHFA Housing tax credit 4% application, 2026",
-          "url": "https://www.chfainfo.com/getattachment/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/2026-HTC-Round-Two-Applicant-Report.pdf"
+          "title": "CHFA LIHTC 4% + state, 2026",
+          "url": "https://www.chfainfo.com/getContentAsset/8211a644-1911-4044-a07f-5847fe1e283c/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf"
         }
       ],
-      "quote": "Building Type: N; Resident Type: I/F; Name: Metro Caring Housing; Address: 1100 E 18th Avenue; City: Denver; Total Units: 139; LI Units: 139; Federal 4% Credit Requested: $4,036,080; PAB Issuer: City and County of Denver; PAB Requested: $25,500,000; Accelerated State Credit Requested: $1,300,000; Standard State Credit Requested: $600,000; TOC Credit Requested: $278,000",
+      "quote": "Type: N,I/F; Name: Metro Caring Housing; Address: 1100 E 18th Ave; City: Denver; Total Units: 139; Total LI Units: 139; Federal 4% Credit Awarded: $4,096,657; Accelerated State Credit Awarded: $1,300,000; Standard State Credit Awarded: $600,000; TOC Credit Awarded: $278,000; PAB Amount: $25,500,000; Bond Issuer: City and County of Denver",
       "from": "ledger",
       "ledger_project": "metro-caring-housing-08031",
-      "label": "Applied for building money",
+      "label": "Building money awarded",
       "holder": {
         "type": "nonprofit",
         "label": "Nonprofit or other organization",

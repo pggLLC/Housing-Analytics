@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-11-17T03:20:58Z",
+  "generatedAt": "2026-11-17T04:20:50Z",
   "generator": "scripts/funding/build_funding_vs_need.mjs",
   "window": {
    "first_year": 2016,
@@ -1251,9 +1251,9 @@
   ],
   "quadrant_split": {
    "gap_per_1000_residents": 15.9,
-   "lihtc_units_per_100_gap": 17.6
+   "lihtc_units_per_100_gap": 17.4
   },
-  "quadrant_method": "Counties split at the median of need per 1,000 residents (15.9) and of LIHTC units per 100 gap households (17.6).",
+  "quadrant_method": "Counties split at the median of need per 1,000 residents (15.9) and of LIHTC units per 100 gap households (17.4).",
   "flag_method": "high-vacancy: active-market vacancy (ACS B25004 for-rent plus for-sale-only, over all units) at or above the county 75th percentile, 2.4%. building-ahead: permits over the last five years at least 2× DOLA's projected annual household growth. Flags describe the market; they are not a judgment that any project was wasted.",
   "credit_note": "Credit amounts are the ANNUAL credit CHFA awards (claimed over 10 years federally); Prop 123 amounts are dollars awarded, or requested where a preliminary selection list prints only the request.",
   "unplaced_awards": 7,
@@ -1497,15 +1497,15 @@
     "chfa_60ami_max_rent_2br": 1944
    },
    "funding": {
-    "tax_credit_awards": 29,
-    "lihtc_units": 3769,
-    "round_report_lihtc_units": 2906,
+    "tax_credit_awards": 28,
+    "lihtc_units": 3694,
+    "round_report_lihtc_units": 2831,
     "bond_deals_outside_rounds": 7,
     "bond_units_outside_rounds": 863,
     "lihtc_9pct_units": 582,
     "federal_9pct_credit_annual": 15145260,
-    "federal_4pct_credit_annual": 39304552,
-    "state_credit_annual": 15949630,
+    "federal_4pct_credit_annual": 37467723,
+    "state_credit_annual": 14049630,
     "mihtc_credit_annual": 0,
     "toc_credit_annual": 292000,
     "prop123_awards": 8,
@@ -1513,9 +1513,9 @@
     "prop123_units": 955,
     "prop123_mixed_income_dollars": 0,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 18,
+    "lihtc_units_per_100_gap": 17.6,
     "federal_9pct_credit_per_unit_annual": 26023,
-    "share_of_state_lihtc_units": 9.33
+    "share_of_state_lihtc_units": 9.14
    },
    "flags": [],
    "quadrant": "aligned"
@@ -1811,15 +1811,15 @@
     "chfa_60ami_max_rent_2br": 1944
    },
    "funding": {
-    "tax_credit_awards": 26,
-    "lihtc_units": 4860,
-    "round_report_lihtc_units": 2343,
+    "tax_credit_awards": 27,
+    "lihtc_units": 4935,
+    "round_report_lihtc_units": 2418,
     "bond_deals_outside_rounds": 16,
     "bond_units_outside_rounds": 2517,
     "lihtc_9pct_units": 301,
     "federal_9pct_credit_annual": 7043280,
-    "federal_4pct_credit_annual": 33198906,
-    "state_credit_annual": 11505150,
+    "federal_4pct_credit_annual": 35035735,
+    "state_credit_annual": 13405150,
     "mihtc_credit_annual": 1650000,
     "toc_credit_annual": 135200,
     "prop123_awards": 5,
@@ -1827,9 +1827,9 @@
     "prop123_units": 745,
     "prop123_mixed_income_dollars": 3000000,
     "prop123_homeownership_dollars": 0,
-    "lihtc_units_per_100_gap": 35.5,
+    "lihtc_units_per_100_gap": 36.1,
     "federal_9pct_credit_per_unit_annual": 23400,
-    "share_of_state_lihtc_units": 12.03
+    "share_of_state_lihtc_units": 12.21
    },
    "flags": [],
    "quadrant": "aligned"
