@@ -222,7 +222,7 @@ test('the cost pages show the brief\'s conclusions, and the brief links back', a
   assert.deepEqual([...host.querySelectorAll('li')].map((li) => li.textContent), note.lines);
   assert.equal(host.querySelector('p a').getAttribute('href'), note.brief.href);
   // A file that does not load leaves the box hidden and empty.
-  const off = new JSDOM('<div data-tariff-cost-note hidden></div>', { url: 'https://pggllc.github.io/Housing-Analytics/x.html', runScripts: 'outside-only' });
+  const off = new JSDOM('<div data-tariff-cost-note hidden></div>', { url: 'https://pggllc.github.io/Housing-Analytics/construction-commodities.html', runScripts: 'outside-only' });
   t.after(() => off.window.close());
   off.window.fetch = async () => ({ ok: false, status: 404 });
   off.window.eval(read('js/tariff-cost-note.js'));
