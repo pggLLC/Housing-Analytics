@@ -37,6 +37,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / 'scripts' / 'news'))
 import outlets as outlet_register  # noqa: E402  (scripts/news/outlets.py)
+import agency_releases  # noqa: E402  (scripts/news/agency_releases.py)
 ALERTS_FILE = REPO_ROOT / 'data' / 'alerts' / 'alerts_archive.json'
 TOOL_WATCH_FILE = REPO_ROOT / 'data' / 'policy' / 'tool-watch.json'
 OUT_FILE = REPO_ROOT / 'data' / 'policy_briefs.json'
@@ -1011,6 +1012,40 @@ def with_owner_picks(stories: list[dict], geos: dict, path: str | None = None) -
     return out
 
 
+AGENCY_DAYS = 7  # agency releases stay in the story list for a week
+
+
+def with_agency_releases(stories: list[dict], geos: dict, prior: dict | None) -> tuple[list[dict], dict, dict]:
+    """Add the agencies' own releases to the stories, and write the day's summary.
+
+    paul, 2026-11-17: the news missed CHFA's 2026 Round Two awards, which no
+    outlet the searches read had covered. scripts/news/agency_releases.py reads
+    CHFA, DOLA, OEDIT and the Governor's newsroom directly. Its state (which
+    links were seen, and when) is kept in the `agency` block of the output, so
+    the daily workflow needs no change. NEWS_AGENCY_OFFLINE=1 skips the reads
+    and keeps the last block (tests, local runs without network).
+    """
+    today = datetime.now(timezone.utc).astimezone(agency_releases.DENVER).date()
+    if os.environ.get('NEWS_AGENCY_OFFLINE') == '1':
+        block = prior or {'items': [], 'sources': [], 'sources_read': [], 'first_seen': {}}
+    else:
+        block = agency_releases.collect(prior, today.isoformat())
+    by_key = {norm_title(s['title']) for s in stories}
+    by_link = {_link_key(s.get('link', '')) for s in stories if s.get('link')}
+    out = list(stories)
+    since = date.fromordinal(today.toordinal() - AGENCY_DAYS).isoformat()
+    for st in agency_releases.agency_stories(block, since):
+        if norm_title(st['title']) in by_key or _link_key(st['link']) in by_link:
+            continue
+        places, _ = find_places(st['title'], geos, st['source'], True)
+        st['places'] = [{'geoid': g['geoid'], 'name': g['name'], 'type': g['type']} for g in places]
+        st['regions'] = list(dict.fromkeys(g['region'] for g in places if g.get('region')))
+        st['programs'] = [name for name, rx in PROGRAMS if rx.search(st['title'])]
+        out.append(st)
+    out.sort(key=lambda s: s['date'], reverse=True)
+    return out, block, agency_releases.summarize_today(out, block)
+
+
 def load_alerts() -> list[dict]:
     alerts_data = load_json_safe(ALERTS_FILE)
     if isinstance(alerts_data, dict):
@@ -1034,6 +1069,7 @@ def refresh_stories_only() -> int:
     geos = load_geographies()
     stories, counts = build_stories(load_alerts(), geos)
     stories = with_owner_picks(stories, geos)
+    stories, existing['agency'], existing['today'] = with_agency_releases(stories, geos, existing.get('agency'))
     existing['stories'] = stories
     # A brief written before a scope rule changed can still list a headline the
     # rule now leaves out (Pasadena's "E. Colorado Blvd." on 2026-10-19): drop
@@ -1098,6 +1134,9 @@ def main() -> int:
 
     stories, story_counts = build_stories(alerts, geos)
     stories = with_owner_picks(stories, geos)
+    prior = load_json_safe(OUT_FILE)
+    stories, agency, today = with_agency_releases(stories, geos, prior.get('agency') if isinstance(prior, dict) else None)
+    print(f'  Agency releases: {len(agency.get("items", []))} listed; today: {len(today["lines"])} summary line(s)')
     print(f'  Stories: {len(stories)} ({story_counts["merged"]} duplicate headline(s) merged, '
           f'{story_counts["out_of_scope"]} out of scope)')
 
@@ -1116,6 +1155,8 @@ def main() -> int:
         'briefs': briefs,
         'stories': stories,
         'stories_meta': stories_meta(story_counts),
+        'today': today,
+        'agency': agency,
     }
 
     OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
