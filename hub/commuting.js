@@ -112,14 +112,28 @@
   function moeOf(list) { return Math.round(Math.sqrt(list.reduce(function (t, b) { return t + (b[2] || 0) * (b[2] || 0); }, 0))); }
   function longShare(side) { return side.bands.slice(2).reduce(function (t, b) { return t + b[1]; }, 0) / side.total[0]; }
 
+  // A segmented bar drawn as SVG inside figure.viz, so the house tooltip (site/viz-tip.js) shows each part's count
+  // on hover, on a tap and from the keyboard (Codex on HA #2916: spans outside figure.viz showed nothing).
+  // parts: [[value, colour, tip], ...]; widths are shares of total; style sets the bar's own width.
+  function segBar(parts, total, label, style) {
+    var x = 0;
+    return '<figure class="viz cj-barfig"' + (style ? ' style="' + style + '"' : '') + '><svg class="cj-bar" role="img" aria-label="' + esc(label) + '" height="28">' +
+      parts.map(function (q) {
+        if (!q[0]) return '';
+        var w = 100 * q[0] / total, r = '<rect x="' + x.toFixed(2) + '%" y="0" width="' + w.toFixed(2) + '%" height="100%" fill="' + q[1] + '" data-tip="' + esc(q[2]) + '"></rect>';
+        x += w; return r;
+      }).join('') + '</svg></figure>';
+  }
+
   function timeCard(tc, p) {
     var e = tc.places[p.geoid] || {}, w = e.work, h = e.home, nm = bare(p.name), A = tc.meta.acs;
     if (!w && !h) return '<div class="cj-card"><p class="cc-kicker">How long the trip to work takes</p><p class="note">The Census Bureau does not publish travel times for ' + esc(nm) + '.</p></div>';
     var labels = A.bands.map(function (b) { return b[1]; });
     var bar = function (side, title) {
       if (!side) return '<p class="cj-bar-title">' + esc(title) + '</p><p class="note">Not published for this town.</p>';
-      return '<p class="cj-bar-title">' + esc(title) + ' <span>' + num(side.total[0]) + ' workers</span></p><div class="cj-bar" role="img" aria-label="' + esc(title + ': ' + side.bands.map(function (b, i) { return labels[i] + ' ' + Math.round(100 * b[1] / side.total[0]) + '%'; }).join(', ')) + '">' +
-        side.bands.map(function (b, i) { return b[1] ? '<span style="width:' + (100 * b[1] / side.total[0]).toFixed(2) + '%;background:' + TIME_COLORS[i] + '" data-tip="' + esc(title + ', ' + labels[i].toLowerCase() + ': ' + num(b[1]) + ' (±' + num(b[2]) + ')') + '"></span>' : ''; }).join('') + '</div>';
+      return '<p class="cj-bar-title">' + esc(title) + ' <span>' + num(side.total[0]) + ' workers</span></p>' +
+        segBar(side.bands.map(function (b, i) { return [b[1], TIME_COLORS[i], title + ', ' + labels[i].toLowerCase() + ': ' + num(b[1]) + ' (±' + num(b[2]) + ')']; }), side.total[0],
+          title + ': ' + side.bands.map(function (b, i) { return labels[i] + ' ' + Math.round(100 * b[1] / side.total[0]) + '%'; }).join(', '));
     };
     var pc = function (side, i) { return side ? Math.round(100 * side.bands[i][1] / side.total[0]) + '%' : '–'; };
     var head;
@@ -237,8 +251,9 @@
       : r <= 0.87 ? nm + ' has about ' + (1 / r).toFixed(1) + ' working residents for every job. ' + pct(p.out_commuters, R) + ' of its working residents work in another town.'
       : nm + ' has about one job for every working resident.';
     var row = function (label, total, parts) {
-      return '<p class="cj-bar-title">' + esc(label) + ' <span>' + num(total) + '</span></p><div class="cj-bar cj-bal" style="width:' + (100 * total / mx).toFixed(1) + '%">' +
-        parts.map(function (x) { return '<span style="width:' + (100 * x[0] / total).toFixed(2) + '%;background:' + x[1] + '" data-tip="' + esc(x[2] + ': ' + num(x[0])) + '"></span>'; }).join('') + '</div>';
+      return '<p class="cj-bar-title">' + esc(label) + ' <span>' + num(total) + '</span></p>' +
+        segBar(parts.map(function (x) { return [x[0], x[1], x[2] + ': ' + num(x[0])]; }), total,
+          label + ': ' + parts.map(function (x) { return x[2].toLowerCase() + ' ' + num(x[0]); }).join(', '), 'width:' + (100 * total / mx).toFixed(1) + '%');
     };
     return '<div class="cj-card"><p class="cc-kicker">Jobs and the people who live here</p><p class="cj-head">' + esc(head) + '</p>' +
       row('Jobs in ' + nm, J, [[both, 'var(--map-5)', 'Held by people who live in town'], [p.in_commuters, 'var(--map-1)', 'Held by people who live somewhere else']]) +
