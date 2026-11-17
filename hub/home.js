@@ -148,7 +148,7 @@
         (fin(f.renterBurdenChas) ? '; ' + f.renterBurdenChas.toFixed(1) + '% in HUD CHAS ' + esc(f.chasVintage) : '') + '). Counting <strong>homeowners</strong> too, the state’s housing needs assessment counts <strong>' + num(STATE_HNA.households) + '</strong> cost-burdened households in ' + STATE_HNA.year +
         ', about ' + STATE_HNA.allPct + '%: ' + STATE_HNA.renterPct + '% of renters and ' + STATE_HNA.ownerPct + '% of owners (' + STATE_HNA.cite + '). HUD’s count from earlier years puts it at ' +
         (fin(f.allBurdenedShare) && f.allBurdenedShare > 0.28 && f.allBurdenedShare < 0.34 ? 'nearly 1 in 3' : (fin(f.allBurdenedShare) ? Math.round(f.allBurdenedShare * 100) + '% of' : 'many')) +
-        ' households, about <strong>' + (fin(f.allBurdened) ? num(Math.round(f.allBurdened / 1000) * 1000) : '—') + '</strong> (<a href="' + HSRC.chas + '">HUD CHAS ' + esc(f.chasVintage) + '</a>). The state’s figure is newer, not a correction: it adds two more years of rising rents, insurance and property taxes.</p>' +
+        ' households, about <strong>' + (fin(f.allBurdened) ? num(Math.round(f.allBurdened / 1000) * 1000) : '—') + '</strong> (<a href="' + HSRC.chas + '">HUD CHAS ' + esc(f.chasVintage) + '</a>). The state’s count applies Census survey data from 2022 to 2024 to 2026 households, so it is a newer count, not a correction of HUD’s.</p>' +
       '<p class="note">Educational; not a substitute for lender underwriting or legal advice.</p></section>';
   }
 
