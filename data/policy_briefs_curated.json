@@ -1,10 +1,970 @@
 {
   "meta": {
-    "updated": "2026-11-16T00:00:00Z",
-    "brief_count": 16,
+    "updated": "2026-11-17T00:00:00Z",
+    "brief_count": 17,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
+    {
+      "id": "co-growth-housing-balance-2026",
+      "title": "Growth and homes for local workers: how Colorado towns keep the balance",
+      "policy_topic": "Colorado Housing Policy & LIHTC",
+      "is_curated": true,
+      "source_reviewed": true,
+      "generated": "2026-11-17T00:00:00Z",
+      "verified": "2026-11-17",
+      "takeaway": "Short-term rentals, outside investment, new businesses and state money bring money into a town, and each can also take homes from the people who work there. Colorado towns keep the balance by pairing each one with a housing tool, sized to a measured gap in homes for local workers, with renters and owners counted separately. No single tool is enough.",
+      "summary": "Colorado law gives towns and counties most of what they need. HB21-1117 lets them require affordable homes in new rental projects, as long as builders can pay a fee instead. Voters in Steamboat Springs, Summit County, Crested Butte, Ouray, Aspen and other places have approved short-term rental or lodging taxes for worker housing. HB24-1175 gives a local government a right to buy older apartment buildings and existing affordable housing when they are sold, so it can keep them affordable. And from January 1, 2027, HB26-1313 ties each town's Proposition 123 target to its recent home permits and to how fast jobs are growing in its county. Breckenridge, which uses nearly every tool, has about 1,700 of its estimated 2,300 resident-occupied homes deed-restricted for local workers.",
+      "implications": "For a town, the useful question is not whether growth is good but who it houses. A linkage fee or mitigation rule mostly pays for rental homes for the lower-wage workers new businesses hire. Buying deed restrictions on existing homes mostly helps owners and buyers near or above the area median income. Proposition 123 money reaches renters at or below 60% of area median income and buyers at or below 100%. A town that uses only one tool leaves someone out. Fees also have limits: Breckenridge's rule for new businesses produced two homes in five years, and the council moved to narrow it in February 2026. Rates, caps and program terms change often, so check each one with the town before relying on it.",
+      "related_data": "data/policy/local-housing-funds.json",
+      "sections": [
+        {
+          "id": "match",
+          "heading": "Match each source of growth with a housing tool",
+          "paragraphs": [
+            "Each of these brings money into a town: visitor spending, jobs, investment and public funding. Each row says what it can cost the people who work there and the tool Colorado places use to answer it. The sections below give the examples."
+          ],
+          "table": {
+            "caption": "Sources of growth and the housing tool that answers each one",
+            "columns": [
+              "Source of growth",
+              "Risk to local workers",
+              "Matching tool (mostly helps)"
+            ],
+            "rows": [
+              [
+                "Short-term rentals",
+                "Homes renters lived in become visitor lodging",
+                "Short-term rental or lodging tax for housing; caps in neighborhoods where locals live (renters, and owners where the money funds buy-downs)"
+              ],
+              [
+                "New offices, shops and hotels",
+                "New jobs, many at lower wages, with no homes to match",
+                "Linkage fee or housing mitigation on new commercial space (renters)"
+              ],
+              [
+                "Large new residential projects",
+                "New homes priced above what local workers earn",
+                "Inclusionary housing, with a fee as the alternative (renters and buyers)"
+              ],
+              [
+                "Outside and institutional investment",
+                "Bidding against first-time buyers; rent pressure when older buildings change hands",
+                "Local right to buy older apartments; federal limit on large buyers of single-family homes; for-cause eviction (renters and first-time buyers)"
+              ],
+              [
+                "State money for development",
+                "Help that may not reach local workers or the lowest incomes",
+                "Income limits and long restrictions that come with the money; local commitments (renters and buyers, by income)"
+              ],
+              [
+                "Second homes",
+                "Fewer homes left for year-round residents",
+                "Buying deed restrictions on existing homes; land trusts and public land (owners and buyers)"
+              ]
+            ]
+          }
+        },
+        {
+          "id": "balance",
+          "heading": "Start with the local jobs-and-homes balance",
+          "paragraphs": [
+            "A fee or tax is fairest when it is tied to a measured need. The first step is one table for the town or county: for each income level, how many local workers there are, and how many homes they can afford and actually get. Count renters and owners separately, because the tools that help each are different.",
+            "Most towns are building this now. Under SB24-174, municipalities and counties with more than 1,000 residents must send a housing needs assessment to DOLA by December 31, 2026, and those with 5,000 or more people must adopt a housing action plan by January 1, 2028.",
+            "The state now links housing to jobs too. HB26-1313, approved May 26, 2026, changes the Proposition 123 commitment from 2027. A town's target becomes its average yearly home permits over the past three years, times the years it commits to, times 10%, 15% or 20%, depending on whether job growth in its county is well below, close to or well above the statewide median. Until then the commitment is a 3% annual increase in affordable homes."
+          ],
+          "items": [
+            "Jobs by wage, and where those workers live: Census commuting data (LEHD) and state wage data. Many low-wage in-commuters signal a hidden gap.",
+            "Households by income, renters and owners: HUD CHAS tables, which also count the rental homes that are affordable and available to each income level.",
+            "Homes for sale: the income needed to buy a typical home, compared with what local workers earn.",
+            "The gap at each income level then sets the dial. A large gap below 60% of area median income points to rental tools and state money. A large gap near or above the area median income points to ownership tools such as deed-restriction buy-downs and land trusts."
+          ]
+        },
+        {
+          "id": "linkage",
+          "heading": "Linkage fees and housing mitigation",
+          "paragraphs": [
+            "A linkage fee charges new commercial space (and sometimes small homes) for the housing need its jobs create. Mountain towns often use a stronger version that requires housing for a share of the workers a project brings. Both mainly pay for rental homes for lower-wage workers. These are the linkage fees on record in this site's local housing funds data:"
+          ],
+          "table": {
+            "caption": "Linkage fees on record",
+            "columns": [
+              "Jurisdiction",
+              "Status",
+              "What it charges"
+            ],
+            "rows": [
+              [
+                "City and County of Denver",
+                "In effect",
+                "Denver charges an affordable housing linkage fee per square foot of new floor area, phased up to $5.00 (small dwellings) through $9.00 (commercial uses in high market areas) by July 2025 and indexed to CPI from July 2026; residential projects may instead comply with mandatory affordable housing."
+              ],
+              [
+                "City of Boulder",
+                "In effect",
+                "Boulder's capital facility impact fee includes an affordable housing (commercial linkage) component of $36.64 per square foot for office, $24.43 for retail/restaurant and hospital, $21.37 light industrial and $12.21 institutional/warehousing, plus $11 per square foot on large single-unit expansions and replacements."
+              ],
+              [
+                "Summit County",
+                "In effect",
+                "The same voter-approved 5A measure authorizes an affordable-housing Development Impact Fee of two dollars or less per square foot on new construction and additions, which owners may avoid by voluntarily imposing a private transfer fee on later sales."
+              ],
+              [
+                "Gunnison County",
+                "In effect",
+                "Gunnison County's 2006 Essential Housing linkage amendment imposes a Workforce Housing Fee on new residential, commercial and industrial construction (and residential additions over 500 sq ft) in unincorporated areas, based on employees generated."
+              ]
+            ]
+          },
+          "items": [
+            "Vail: each new or redeveloped commercial project must provide employee housing for 20% of the employees it generates, under the town code.",
+            "Breckenridge: since 2020, new businesses must house about 35% of the staff they are expected to add, by building, buying or paying a fee. In five years it produced two homes and one fee of about $43,000. On February 10, 2026 the council agreed to change the rule, starting with businesses that move into existing space.",
+            "Pitkin County: since 2020 its Employee Housing Impact Fee charges home building for the workers it creates. On April 30, 2026 the Court of Appeals upheld a fee of nearly $950,000 on a home that was torn down and rebuilt.",
+            "The lesson: a fee set from a nexus study, and kept well below what a business can bear, raises money; one set too high stops the project it was meant to charge."
+          ]
+        },
+        {
+          "id": "str",
+          "heading": "Short-term rental taxes and neighborhood caps",
+          "paragraphs": [
+            "Voters across the mountains have taxed short-term rentals and lodging to pay for worker housing, and some places cap how many homes can be rented to visitors. These are the lodging and short-term rental taxes on record in this site's local housing funds data:"
+          ],
+          "table": {
+            "caption": "Lodging and short-term rental taxes on record",
+            "columns": [
+              "Jurisdiction",
+              "Status",
+              "What it does"
+            ],
+            "rows": [
+              [
+                "Summit County",
+                "In effect",
+                "Summit County voters passed Referred Measure 1A in 2022 authorizing a short-term rental lodging tax for local-worker housing and childcare; the county lists a 2% lodging tax in unincorporated Summit County effective January 1, 2023."
+              ],
+              [
+                "Town of Frisco",
+                "In effect",
+                "Frisco voters approved Ballot Question 2A on April 5, 2022 (539 to 301, unofficial), a new 5% excise tax on short-term rentals effective June 1, 2022, spent solely on affordable housing; it does not apply to hotels and motels."
+              ],
+              [
+                "Town of Vail",
+                "Failed at the ballot",
+                "Vail Ballot Issue 2A (November 2025), a proposed 6% excise tax on short-term rentals for workforce housing, was defeated 916 to 881."
+              ],
+              [
+                "Eagle County",
+                "In effect",
+                "Eagle County Ballot Issue 1A (2022) created a 2% lodging excise tax on stays under 30 days in unincorporated Eagle County and Gypsum, with 90% for local-workforce childcare and affordable housing and 10% for tourism marketing. Voters added another 2% in 2025, for 4% total; the county describes the support that increase funds as childcare and public safety, so it is not counted as housing money."
+              ],
+              [
+                "City of Aspen",
+                "In effect",
+                "Aspen's voter-approved short-term rental tax (Resolution 106-2022) charges 5% on owner-occupied and lodge-exempt STRs and 10% on investment/second-home STRs for stays from May 1, 2023, with at least 70% of receipts required for community affordable housing."
+              ],
+              [
+                "Town of Telluride",
+                "In effect",
+                "Telluride voters approved Ballot Issue 300 in November 2019, a citizen-initiated 2.5% short-term rental tax for the town's Affordable Housing Fund that excludes hotel rooms; it took effect in January 2020."
+              ],
+              [
+                "City of Steamboat Springs",
+                "In effect",
+                "Steamboat Springs voters approved a 9% short-term rental tax in November 2022, effective January 1, 2023, restricted to increasing affordable and attainable housing; the Short-Term Rental Tax Fund is projected to end 2026 with a $52.6M reserve."
+              ],
+              [
+                "Town of Crested Butte",
+                "In effect",
+                "Crested Butte voters passed Ballot Initiative 2D on November 2, 2021, a 7.5% excise tax on vacation and short-term rentals from January 1, 2022, dedicated to the Affordable Housing Fund and barred from general operations."
+              ],
+              [
+                "Town of Avon",
+                "In effect",
+                "Avon dedicates its 2% short-term rental excise tax to the Community Housing Fund."
+              ],
+              [
+                "City of Durango",
+                "In effect",
+                "Durango 2022 Ballot Question 2A let the city keep 2021-2022 lodgers' tax revenue above estimates from the 3.25% increase and spend it 66% on affordable and workforce housing programs; CHFA lists it as passed."
+              ],
+              [
+                "La Plata County",
+                "In effect",
+                "La Plata County voters passed Ballot Issue 1A in November 2024, allowing revenue from the county's existing lodging tax to support workforce housing and other community improvements."
+              ],
+              [
+                "City of Glenwood Springs",
+                "In effect",
+                "Glenwood Springs voters approved Ballot Measure 2C in 2022, a 2.5% accommodations tax on stays under 30 days (hotels, motels and short-term rentals) deposited in a dedicated Workforce Housing Fund and set to end in fiscal year 2042."
+              ],
+              [
+                "City of Fruita",
+                "In effect",
+                "Fruita's 6% lodging tax applies to hotels and vacation rentals. Half goes to marketing; the other 3% goes to Economic Development and Public Places, whose listed uses include attainable housing. No share is set aside for housing by law, but the city has used this money for housing: $325,000 of the $400,000 it put into The Oaks redevelopment in its 2025 budget came from lodging tax."
+              ],
+              [
+                "City of Montrose",
+                "In effect",
+                "Montrose voters approved Ballot Issue 2A in November 2024 (5,941 to 5,698), raising the city hotel room tax from 0.9% to 6% from January 1, 2025, with 33% of the tax set aside for incentives for affordable housing."
+              ]
+            ]
+          },
+          "items": [
+            "Steamboat Springs: voters dedicated 75% of the 9% short-term rental tax to Brown Ranch, a plan for 2,264 homes, but rejected its annexation in March 2024, 2,903 to 2,094. The city still collected an estimated $14.8 million from the tax in 2024 and gave $5 million to the Yampa Valley Housing Authority's Cottonwoods project for affordable homeownership.",
+            "Summit County: on February 15, 2023 commissioners capped short-term rental licenses outside towns by basin: 18% for Upper Blue, 15% for Lower Blue, 6% for Ten Mile and 5% for Snake River.",
+            "Crested Butte caps short-term rentals at 30% of local housing, 212 rentals. Ouray caps them at 120 and has a 15% tax, half for housing.",
+            "HB25-1247 lets county voters raise the lodging tax in unincorporated areas from 2% up to 6%. In November 2025, increases passed in Eagle, Gilpin, Hinsdale, Ouray, Routt and Park counties and failed in Chaffee and Custer. Eagle County took housing out of its measure to put childcare first, so a housing share has to be written into the ballot question or it can drop out."
+          ]
+        },
+        {
+          "id": "inclusionary",
+          "heading": "Affordable homes in new projects (inclusionary housing)",
+          "paragraphs": [
+            "HB21-1117 lets local governments require affordable units in new rental projects, and builders must be offered a fee in lieu as an alternative. These rules reach both renters and buyers."
+          ],
+          "items": [
+            "Denver: new market-rate projects of ten or more homes include affordable homes on site. For rentals, 8% at 60% AMI in typical markets and 10% in high markets; for ownership, 8% or 10% at 80% AMI. Other options trade a higher share for a higher average income limit.",
+            "Boulder: 25% of homes in projects of five or more, and 20% in smaller ones, must be permanently affordable.",
+            "Longmont: 12% of new homes, affordable to buyers at or below 80% AMI and renters at or below 50% AMI.",
+            "Glenwood Springs: 20% of new homes meet community housing standards and 10% are leased or sold at 100% of area median income.",
+            "Superior: 15% of projects of 10 or more homes, at 80% of area median income."
+          ],
+          "table": {
+            "caption": "Fees in lieu of affordable homes on record",
+            "columns": [
+              "Jurisdiction",
+              "Status",
+              "What it charges"
+            ],
+            "rows": [
+              [
+                "City and County of Denver",
+                "In effect",
+                "Under Expanding Housing Affordability, Denver developers may pay a fee in lieu per required income-restricted unit ($311,000 rental / $478,000 ownership in high market areas; $250,000-$408,000 in typical areas) into the Mandatory Affordable Housing Special Revenue Fund."
+              ],
+              [
+                "City of Boulder",
+                "In effect",
+                "Boulder developers may satisfy inclusionary housing by paying cash-in-lieu into the Affordable Housing Fund, at a per-square-foot rate the city manager sets and may escalate each January 1."
+              ],
+              [
+                "City of Longmont",
+                "In effect",
+                "Longmont lets developers meet its 12 percent inclusionary requirement by paying a fee in lieu into the Affordable Housing Fund, currently $13.50 per square foot of finished for-sale housing and $5.93 for rental, recalculated every three years."
+              ]
+            ]
+          }
+        },
+        {
+          "id": "state-money",
+          "heading": "Conditions on state money",
+          "paragraphs": [
+            "Proposition 123 money comes with conditions. Rental homes must be affordable at or below 60% of area median income and buyer homes at or below 100%, each costing the household less than 30% of its income. To be eligible, a town files a commitment to grow its affordable homes. In the first cycle, 217 local governments filed commitments for 22,988 homes, and 156 had filed for 2027 to 2029 by the November 1, 2026 deadline.",
+            "A town can add its own conditions to the money it controls: a preference for people who work locally, long or permanent deed restrictions, and a share of homes at the income levels where its own gap is largest. This brief found no Colorado housing program that ties funding to construction wages or local hiring; that option is not confirmed here."
+          ]
+        },
+        {
+          "id": "deeds",
+          "heading": "Buying deed restrictions on existing homes",
+          "paragraphs": [
+            "The town pays an owner or buyer to record a permanent restriction: usually that someone who works locally must live there, and sometimes a cap on the resale price. In resort markets it is often the fastest way to keep homes for local workers, and it mainly helps owners and buyers. Vail InDEED, for example, has funded restrictions on 178 homes for $13,064,618 toward a goal of 1,000 by 2027, requiring occupants who work at least 30 hours a week in Eagle County. These are the deed-restriction programs on record:"
+          ],
+          "table": {
+            "caption": "Deed-restriction and buy-down programs on record",
+            "columns": [
+              "Jurisdiction",
+              "Status",
+              "What it does"
+            ],
+            "rows": [
+              [
+                "Summit County",
+                "In effect",
+                "Through Housing Helps, Summit County pays buyers 10%-25% of a home's value to record a local-worker deed restriction on a market-rate home: 10-15% for a light restriction, 15-25% for one with a 3% annual appreciation cap; the money is not a loan."
+              ],
+              [
+                "Town of Breckenridge",
+                "In effect",
+                "Breckenridge's Housing Helps program, created by Resolution 17 (Series 2019), pays owners, buyers and local businesses 15-25% for a deed restriction on unrestricted homes: 15% for a light work-requirement restriction, 20-25% for a full restriction with a 3% appreciation cap."
+              ],
+              [
+                "Town of Frisco",
+                "In effect",
+                "Frisco's Housing Helps program (framework set by Resolution 19-31, August 2019) pays buyers and owners for deed restrictions on unrestricted homes and funds town buy-downs, using voter-approved 5A funds and the 5% STR excise tax."
+              ],
+              [
+                "Town of Vail",
+                "In effect",
+                "Vail InDEED, begun in 2017, pays homeowners and buyers for a perpetual deed restriction requiring occupancy by people working in Eagle County; per Vail Daily the town provides 20% of market value with no income or appreciation caps."
+              ],
+              [
+                "Town of Vail",
+                "In effect",
+                "Under Good Deeds Vail (2026), the Town of Vail and the Eagle County Housing and Development Authority each contribute up to 15% of a home's price (max $1.25 million) for a combined buy-down of up to 30%, capped at $375,000, in exchange for a price-capped deed restriction."
+              ],
+              [
+                "Eagle County",
+                "In effect",
+                "Eagle County Good Deeds (since 2021, run by the Eagle County Housing and Development Authority) pays 15% of the purchase price, up to $187,500, for a perpetual price-capped deed restriction on open-market homes up to $1,250,000; ECHDA added $2.5 million in 2026 after its initial $4 million budget was nearly depleted."
+              ],
+              [
+                "Town of Avon",
+                "In effect",
+                "Mi Casa Avon pays home buyers a 12% match, up to $150,000, for a perpetual resident-occupied deed restriction limiting ownership and use to full-time Eagle County employees, with no appreciation cap; 56 units were added from 2020 to 2025."
+              ],
+              [
+                "Town of Avon",
+                "In effect",
+                "Good Deeds Avon pays 30% of the purchase price, capped at $375,000 (15% from the Town, 15% from ECHDA), on homes up to $1,250,000 in exchange for a price-capped deed restriction with 0-3% annual appreciation."
+              ]
+            ]
+          }
+        },
+        {
+          "id": "land",
+          "heading": "Land trusts and public land",
+          "paragraphs": [
+            "When land is held for housing for good, the public help stays with the home instead of going to the first owner who sells. This mainly serves buyers and renters at moderate incomes. Land on record in this site's data:"
+          ],
+          "table": {
+            "caption": "Land banks and public land for housing on record",
+            "columns": [
+              "Jurisdiction",
+              "Status",
+              "What it does"
+            ],
+            "rows": [
+              [
+                "City of Fort Collins",
+                "In effect",
+                "Fort Collins's land bank buys land near transit, schools, parks, jobs and shopping, paid from the Affordable Housing Fund or General Fund, and sells it only to housing providers bound to build rentals for households at or below 60 percent of AMI or ownership homes at or below 80 percent."
+              ],
+              [
+                "City of Grand Junction",
+                "In effect",
+                "Grand Junction is buying the 21.45-acre Salt Flats site for future affordable and attainable housing; the $3.2 million purchase is supported by a $2.2 million state Prop 123 land banking grant."
+              ]
+            ]
+          }
+        },
+        {
+          "id": "investors",
+          "heading": "Guardrails on investors",
+          "items": [
+            "Right to buy older apartments: under HB24-1175, approved May 30, 2024, the local government has a right of first refusal, with a matched offer, when existing affordable housing of five or more units is sold, and a right of first offer on other rental buildings of 15 to 100 units, to keep them affordable. Both rights end December 31, 2029. Adams County kept its right of first offer under the state's 2024 Rights to Property for Affordable Housing law and assigned its right of first refusal for unincorporated properties to Maiker Housing Partners.",
+            "Federal limit on large buyers: the 21st Century ROAD to Housing Act became law on July 11, 2026. An investor controlling 350 or more single-family homes may not buy more, with exceptions such as newly built homes. Build-to-rent investment stays open.",
+            "Renters already housed: HB24-1098, approved April 19, 2024, requires a landlord to have cause to evict.",
+            "How big is corporate ownership? A state task force counted 49,278 corporate-owned homes in 2023 in the 17 counties with 90% of Colorado's homes, about 3% of homes that owners could live in. Eagle County had the highest share."
+          ]
+        },
+        {
+          "id": "fair",
+          "heading": "Keeping it fair",
+          "items": [
+            "Serve each income level where the gap is. Rental tools reach the lowest incomes; buy-downs and land trusts mostly reach households near or above the median. A package that funds only ownership leaves most renters out.",
+            "Report results for renters and owners separately, never as one count.",
+            "Prefer people who work locally, not only low incomes. Occupancy rules such as Vail's keep homes for the workforce. Review any preference rule for fair housing before adopting it.",
+            "Protect people already housed. New taxes and fees pay for new homes; the right to buy older apartments and for-cause eviction protect renters who live there now.",
+            "Track each year: homes funded and preserved by tool, renters and owners, income levels served, how many occupants work locally, and money raised against the measured gap. Breckenridge raises over $13 million a year for housing and a 2023 study still found it needs about 1,200 more homes for its workforce."
+          ]
+        },
+        {
+          "id": "limits",
+          "heading": "What this brief does not show",
+          "items": [
+            "It does not rank towns or score whether a package is enough; that depends on each place's own gap.",
+            "It does not list every Colorado program. The tables show what is on record in this site's local housing funds data, and \"not on record\" is not proof a place has none.",
+            "Fee rates, caps and program terms change often; check the current terms with the town.",
+            "Outcomes still open: the San Miguel County employee housing fee appeal and a 2025 lawsuit over Denver's affordable housing rules. This brief does not report how they end."
+          ]
+        }
+      ],
+      "sources": [
+        "Adams County",
+        "CHFA",
+        "City and County of Denver",
+        "City of Aspen",
+        "City of Boulder",
+        "City of Durango",
+        "City of Fort Collins",
+        "City of Fruita",
+        "City of Glenwood Springs",
+        "City of Grand Junction",
+        "City of Longmont",
+        "City of Montrose",
+        "City of Steamboat Springs",
+        "Colorado Department of Local Affairs",
+        "Colorado General Assembly",
+        "Colorado Municipal League",
+        "Colorado Politics",
+        "Colorado Secretary of State",
+        "Eagle County",
+        "Gunnison County",
+        "High Country News",
+        "KUNC",
+        "Kaplan Kirsch",
+        "La Plata County",
+        "Otten Johnson",
+        "Steamboat Pilot & Today",
+        "Steamboat Pilot & Today, via Ground News",
+        "Summit County",
+        "Summit Daily",
+        "The Colorado Sun",
+        "Town of Avon",
+        "Town of Breckenridge",
+        "Town of Crested Butte",
+        "Town of Frisco",
+        "Town of Telluride",
+        "Town of Vail",
+        "Town of Vail (American Legal Publishing)",
+        "U.S. Government Publishing Office"
+      ],
+      "articles": [
+        {
+          "title": "How a Colorado ski town reserved almost 75% of its full-time housing for workforce (Feb. 10, 2026)",
+          "source": "High Country News",
+          "link": "https://www.hcn.org/articles/how-a-colorado-ski-town-reserved-almost-75-of-its-full-time-housing-for-workforce"
+        },
+        {
+          "title": "Research Corner: Corporate ownership in Colorado's housing market (Feb. 3, 2026)",
+          "source": "Colorado Municipal League",
+          "link": "https://www.cml.org/home/publications-news/article-detail/research-corner-corporate-ownership-in-colorado-housing-market"
+        },
+        {
+          "title": "Housing Plans (SB24-174)",
+          "source": "Colorado Department of Local Affairs",
+          "link": "https://cdola.colorado.gov/housing-plans"
+        },
+        {
+          "title": "HB26-1313, 2026 Session Laws chapter 154",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1313/154/download"
+        },
+        {
+          "title": "Initiative #108 final text (Proposition 123)",
+          "source": "Colorado Secretary of State",
+          "link": "https://www.sos.state.co.us/pubs/elections/Initiatives/titleBoard/filings/2021-2022/108Final.pdf"
+        },
+        {
+          "title": "Proposition 123 commitment filings",
+          "source": "Colorado Department of Local Affairs",
+          "link": "https://cdola.colorado.gov/commitment-filings"
+        },
+        {
+          "title": "Breckenridge eyes changing policy that requires certain businesses to invest in workforce housing (Feb. 15, 2026)",
+          "source": "KUNC",
+          "link": "https://www.kunc.org/news/2026-02-15/breckenridge-eyes-changing-policy-that-requires-certain-businesses-to-invest-in-workforce-housing-due-to-unintended-consequences"
+        },
+        {
+          "title": "Vail Town Code, Title 12, Chapter 23: Commercial linkage",
+          "source": "Town of Vail (American Legal Publishing)",
+          "link": "https://codelibrary.amlegal.com/codes/vailco/latest/vail_co/0-0-0-12615"
+        },
+        {
+          "title": "Development fees not limited to brand new construction, Colorado court rules (May 16, 2026)",
+          "source": "Colorado Politics",
+          "link": "https://www.coloradopolitics.com/2026/05/16/development-fees-not-limited-to-brand-new-construction-colorado-court-rules/"
+        },
+        {
+          "title": "Election results affecting affordable housing (Nov. 30, 2022)",
+          "source": "CHFA",
+          "link": "https://www.chfainfo.com/community-partnerships/public-policy/cc-nov2022-election-results"
+        },
+        {
+          "title": "Summit County commissioners approve package of short-term rental regulations (Feb. 2023)",
+          "source": "Summit Daily",
+          "link": "https://www.summitdaily.com/news/summit-county-commissioners-approve-package-of-short-term-rental-regulations-despite-complaints-ending-a-monthslong-initiative/"
+        },
+        {
+          "title": "Is a 20% tax on STRs too much? Not for Crested Butte and Ouray (June 2022)",
+          "source": "Steamboat Pilot & Today",
+          "link": "https://www.steamboatpilot.com/news/is-a-20-tax-on-strs-too-much-not-for-crested-butte-and-ouray/"
+        },
+        {
+          "title": "A Colorado ski town had an answer to its affordable housing crisis. Then voters shut it down. (2024)",
+          "source": "The Colorado Sun",
+          "link": "https://coloradosun.com/2024/10/10/a-colorado-ski-town-had-an-answer-to-its-affordable-housing-crisis-then-voters-shut-it-down/"
+        },
+        {
+          "title": "Steamboat allocates $5 million in short-term rental tax revenue to housing authority for Cottonwoods project (Jan. 30, 2025)",
+          "source": "Steamboat Pilot & Today, via Ground News",
+          "link": "https://ground.news/article/steamboat-allocates-5-million-in-short-term-rental-tax-revenue-to-housing-authority-for-cottonwoods-project"
+        },
+        {
+          "title": "Lawmakers approve bill allowing Colorado county voters to triple lodging taxes from 2% to 6% (2025)",
+          "source": "Summit Daily",
+          "link": "https://summitdaily.com/news/colorado-lodging-tax-bill-approved-vote-increase"
+        },
+        {
+          "title": "6 mountain communities increase lodging taxes, 2 reject the tax hike (Nov. 9, 2025)",
+          "source": "Colorado Politics",
+          "link": "https://www.coloradopolitics.com/2025/11/09/6-mountain-communities-increase-lodging-taxes-2-reject-the-tax-hike/"
+        },
+        {
+          "title": "Colorado inclusionary housing reform: local policy takes shape (Nov. 1, 2021)",
+          "source": "Otten Johnson",
+          "link": "https://www.ottenjohnson.com/insight/colorado-inclusionary-housing-reform-local-policy-takes-shape/"
+        },
+        {
+          "title": "Denver City Council adopts mandatory affordable housing requirements (June 2022)",
+          "source": "Kaplan Kirsch",
+          "link": "https://www.kaplankirsch.com/resources-and-news/denver-city-council-adopts-mandatory-affordable-housing-requirements/"
+        },
+        {
+          "title": "Vail InDEED program",
+          "source": "Town of Vail",
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program"
+        },
+        {
+          "title": "HB24-1175, 2024 Session Laws chapter 286",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/laws/session-laws/HB24-1175/286/download"
+        },
+        {
+          "title": "Public Law 119-101, 21st Century ROAD to Housing Act",
+          "source": "U.S. Government Publishing Office",
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ101/html/PLAW-119publ101.htm"
+        },
+        {
+          "title": "HB24-1098, 2024 Session Laws chapter 113",
+          "source": "Colorado General Assembly",
+          "link": "https://leg.colorado.gov/laws/session-laws/HB24-1098/113/download"
+        },
+        {
+          "title": "Denver Revised Municipal Code ch. 27, art. V (Municode API)",
+          "source": "City and County of Denver",
+          "link": "https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=TITIIREMUCO_CH27HO_ARTVDEFUAFHO"
+        },
+        {
+          "title": "Boulder Revised Code 4-20-62 and ch. 8-9 (Municode API)",
+          "source": "City of Boulder",
+          "link": "https://library.municode.com/co/boulder/codes/municipal_code?nodeId=TIT4LIPE_CH20FE"
+        },
+        {
+          "title": "Summit County Housing - Impact Fee",
+          "source": "Summit County",
+          "link": "https://www.summitcountyco.gov/services/housing/property_deed_restrictions/impact_fee.php"
+        },
+        {
+          "title": "Gunnison County Essential Housing Linkage Amendment to the Land Use Resolution (adopted 06/13/06)",
+          "source": "Gunnison County",
+          "link": "https://gunnisoncounty.org/DocumentCenter/View/2080/Essential-Housing-Linkage-Amendment-June-2006"
+        },
+        {
+          "title": "Summit County Finance - Sales Tax",
+          "source": "Summit County",
+          "link": "https://www.summitcountyco.gov/services/finance/sales_tax.php"
+        },
+        {
+          "title": "Town of Frisco: Unofficial Election Results for April 5, 2022 Municipal Election",
+          "source": "Town of Frisco",
+          "link": "https://www.friscogov.com/?p=7471"
+        },
+        {
+          "title": "Colorado Sun: Vail voters reject plan to tax short-term rentals to support housing",
+          "source": "Town of Vail",
+          "link": "https://coloradosun.com/2025/11/17/vail-voters-reject-plan-to-tax-short-term-rentals"
+        },
+        {
+          "title": "Eagle County: soliciting pro and con statements on two ballot measures (2022)",
+          "source": "Eagle County",
+          "link": "https://www.eaglecounty.us/news_detail_T24_R44.php"
+        },
+        {
+          "title": "City of Aspen - Lodging and Short Term Rental Taxes",
+          "source": "City of Aspen",
+          "link": "https://aspen.gov/1427/Lodging-and-Short-Term-Rental-Taxes"
+        },
+        {
+          "title": "Telluride Daily Planet: Short-term rental tax passes (Nov 2019)",
+          "source": "Town of Telluride",
+          "link": "https://www.telluridenews.com/news/article_7879c028-0061-11ea-88f2-77f970e4be57.html"
+        },
+        {
+          "title": "City of Steamboat Springs 2026 Budget Letter",
+          "source": "City of Steamboat Springs",
+          "link": "https://www.steamboatsprings.net/DocumentCenter/View/41217/2026-Budget-Letter-Retreat-Remediated"
+        },
+        {
+          "title": "Town of Crested Butte - Tax Information",
+          "source": "Town of Crested Butte",
+          "link": "https://townofcrestedbutte.colorado.gov/government/tax-information"
+        },
+        {
+          "title": "Town of Avon 2026 Community Housing Plan (Council 9-8, final)",
+          "source": "Town of Avon",
+          "link": "https://avon.org/DocumentCenter/View/26559/2026-Community-Housing-Plan-Council-9-8--FINAL"
+        },
+        {
+          "title": "City of Durango - 2022 election (ballot language)",
+          "source": "City of Durango",
+          "link": "https://www.durangoco.gov/1630/2022-election"
+        },
+        {
+          "title": "CHFA: December 2024 ballot measures impact housing and economic development",
+          "source": "La Plata County",
+          "link": "https://chfainfo.com/community-partnerships/public-policy/cc-dec2024-election-results"
+        },
+        {
+          "title": "City of Glenwood Springs - Workforce Housing Fund (AKA 2c Budget)",
+          "source": "City of Glenwood Springs",
+          "link": "https://cogs.us/844/Workforce-Housing-Fund-AKA-2c-Budget"
+        },
+        {
+          "title": "City of Fruita - Short-term rental FAQ (lodging tax)",
+          "source": "City of Fruita",
+          "link": "https://www.fruita.org/m/faq"
+        },
+        {
+          "title": "City of Montrose Ordinance 2671, Amending 5-2-1 and 5-2-5, Increasing Hotel Room Tax",
+          "source": "City of Montrose",
+          "link": "https://www.cityofmontrose.org/DocumentCenter/View/52650/Ordinance-2671---Amending-5-2-1-and-5-2-5-Increasing-Hotel-Room-Tax"
+        },
+        {
+          "title": "Boulder Revised Code ch. 9-13 (Municode API)",
+          "source": "City of Boulder",
+          "link": "https://library.municode.com/co/boulder/codes/municipal_code?nodeId=TIT9LAUSCO_CH13INHO"
+        },
+        {
+          "title": "Longmont Municipal Code 15.05.220 Inclusionary housing (Municode API)",
+          "source": "City of Longmont",
+          "link": "https://library.municode.com/co/longmont/codes/code_of_ordinances?nodeId=PTIICOOR_TIT15LADECO_CH15.05DEST_S15.05.220INHO"
+        },
+        {
+          "title": "Summit County Housing - Housing Helps",
+          "source": "Summit County",
+          "link": "https://www.summitcountyco.gov/services/housing/housing_helps.php"
+        },
+        {
+          "title": "Town of Breckenridge Housing - Housing Helps",
+          "source": "Town of Breckenridge",
+          "link": "https://www.townofbreckhousing.com/housing-helps"
+        },
+        {
+          "title": "Town of Frisco - Workforce & Affordable Housing",
+          "source": "Town of Frisco",
+          "link": "https://www.friscogov.com/departments/community-development/workforce-and-affordable-housing/"
+        },
+        {
+          "title": "Vail Daily: Good Deeds Vail partnership with Eagle County",
+          "source": "Town of Vail",
+          "link": "https://www.vaildaily.com/news/good-deeds-vail-partnership-with-eagle-county-looks-to-bring-more-locals-back-into-town/"
+        },
+        {
+          "title": "Housing Eagle County - Good Deeds",
+          "source": "Eagle County",
+          "link": "https://www.housingeaglecounty.com/gooddeeds"
+        },
+        {
+          "title": "Town of Avon - Housing",
+          "source": "Town of Avon",
+          "link": "https://www.avon.org/2382/Housing"
+        },
+        {
+          "title": "Fort Collins Municipal Code ch. 23, art. XIII Land Banking (Municode API)",
+          "source": "City of Fort Collins",
+          "link": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH23PUPR_ARTXIIILABA"
+        },
+        {
+          "title": "City of Grand Junction Resolution 95-24 (CHFA Prop 123 land banking grant contract)",
+          "source": "City of Grand Junction",
+          "link": "https://trim22-web.gjcity.org/GJ_WebDrawer/Record/1142690/File/document"
+        },
+        {
+          "title": "Adams County Housing Policy & Community Investments page",
+          "source": "Adams County",
+          "link": "https://adamscountyco.gov/our-county/community-economic-development/housing-policy-and-community-investments/"
+        }
+      ],
+      "source_quotes": [
+        {
+          "link": "https://www.hcn.org/articles/how-a-colorado-ski-town-reserved-almost-75-of-its-full-time-housing-for-workforce",
+          "quote": "Today, about 1,700 of the estimated 2,300 resident-occupied homes in Breckenridge are deed-restricted for the local workforce."
+        },
+        {
+          "link": "https://www.hcn.org/articles/how-a-colorado-ski-town-reserved-almost-75-of-its-full-time-housing-for-workforce",
+          "quote": "Most of Breckenridge’s housing still caters to tourists, with 68% of its units being second homes or vacation rentals."
+        },
+        {
+          "link": "https://www.hcn.org/articles/how-a-colorado-ski-town-reserved-almost-75-of-its-full-time-housing-for-workforce",
+          "quote": "Altogether, this generates over $13 million annually, all of which goes into a housing fund that supports programs like Housing Helps."
+        },
+        {
+          "link": "https://www.hcn.org/articles/how-a-colorado-ski-town-reserved-almost-75-of-its-full-time-housing-for-workforce",
+          "quote": "The town still needs about 1,200 more units to house its workforce, according to a 2023 study."
+        },
+        {
+          "link": "https://www.cml.org/home/publications-news/article-detail/research-corner-corporate-ownership-in-colorado-housing-market",
+          "quote": "The total number of corporate-owned units in 2023 across the 17 counties in Colorado where 90% of the state’s housing units and population are located."
+        },
+        {
+          "link": "https://www.cml.org/home/publications-news/article-detail/research-corner-corporate-ownership-in-colorado-housing-market",
+          "quote": "3% The share of corporate owned housing across all “owner occupiable” units in Colorado."
+        },
+        {
+          "link": "https://www.cml.org/home/publications-news/article-detail/research-corner-corporate-ownership-in-colorado-housing-market",
+          "quote": "Metro Denver had the highest absolute number of corporate owned units, while Eagle County had the highest share of corporate owned units."
+        },
+        {
+          "link": "https://www.cml.org/home/publications-news/article-detail/research-corner-corporate-ownership-in-colorado-housing-market",
+          "quote": "49,278 units"
+        },
+        {
+          "link": "https://cdola.colorado.gov/housing-plans",
+          "quote": "Municipalities with more than 1,000 residents,"
+        },
+        {
+          "link": "https://cdola.colorado.gov/housing-plans",
+          "quote": "Counties with more than 1,000 residents"
+        },
+        {
+          "link": "https://cdola.colorado.gov/housing-plans",
+          "quote": "submit these plans to DOLA by December 31, 2026 and at least every 6 years thereafter."
+        },
+        {
+          "link": "https://cdola.colorado.gov/housing-plans",
+          "quote": "With populations of 5,000 or more"
+        },
+        {
+          "link": "https://cdola.colorado.gov/housing-plans",
+          "quote": "Housing action plan posted locally and submitted to DOLA by January 1, 2028 (and at least every 6 years thereafter)"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1313/154/download",
+          "quote": "THE TARGET INCREASE NUMBER EQUALS THE AVERAGE ANNUAL NUMBER OF PERMITS FOR NEW HOUSING UNITS OR FUNCTIONAL EQUIVALENTS OF PERMITS FOR NEW HOUSING UNITS THAT HAVE BEEN ISSUED OVER THE PAST THREE YEARS WITHIN THE JURISDICTION OF THE LOCAL GOVERNMENT, MULTIPLIED BY THE NUMBER OF YEARS OF THE UPCOMING THREE -YEAR CYCLE TO WHICH A LOCAL GOVERNMENT IS COMMITTING, MULTIPLIED BY :"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1313/154/download",
+          "quote": "(I) TEN ONE-HUNDREDTHS IF THE AVERAGE ANNUAL JOB GROWTH RATE OVER THE PAST THREE YEARS , AS RECORDED BY THE STATE DEMOGRAPHY OFFICE FOR THE COUNTY IN WHICH THE LOCAL GOVERNMENT IS LOCATED , IS SIGNIFICANTLY LOWER THAN THE STATEWIDE MEDIAN ANNUAL JOB GROWTH RATE OVER THE PAST THREE YEARS"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1313/154/download",
+          "quote": "(II) FIFTEEN ONE-HUNDREDTHS IF THE AVERAGE ANNUAL JOB GROWTH RATE OVER THE PAST THREE YEARS , AS RECORDED BY THE STATE DEMOGRAPHY OFFICE FOR THE COUNTY IN WHICH THE LOCAL GOVERNMENT IS LOCATED , IS CLOSE TO THE STATEWIDE MEDIAN ANNUAL JOB GROWTH RATE"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1313/154/download",
+          "quote": "(III) TWENTY ONE-HUNDREDTHS IF THE AVERAGE ANNUAL JOB GROWTH RATE OVER THE PAST THREE YEARS, AS RECORDED BY THE STATE DEMOGRAPHY OFFICE FOR THE COUNTY IN WHICH THE LOCAL GOVERNMENT IS LOCATED , IS SIGNIFICANTLY HIGHER THAN THE STATEWIDE MEDIAN ANNUAL JOB GROWTH RATE"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1313/154/download",
+          "quote": "(d.5) FOR THE THREE-YEAR CYCLE BEGINNING ON JANUARY 1, 2027, AND FOR EACH THREE -YEAR CYCLE THEREAFTER"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB26-1313/154/download",
+          "quote": "Approved: May 26, 2026"
+        },
+        {
+          "link": "https://www.sos.state.co.us/pubs/elections/Initiatives/titleBoard/filings/2021-2022/108Final.pdf",
+          "quote": "“AFFORDABLE HOUSING” MEANS RENTAL HOUSING AFFORDABLE TO A HOUSEHOLD WITH AN ANNUAL INCOME OF AT OR BELOW SIXTY PERCENT OF THE AREA MEDIAN INCOME, AND THAT COSTS THE HOUSEHOLD LESS THAN THIRTY PERCENT OF ITS MONTHLY INCOME."
+        },
+        {
+          "link": "https://www.sos.state.co.us/pubs/elections/Initiatives/titleBoard/filings/2021-2022/108Final.pdf",
+          "quote": "“AFFORDABLE HOUSING” ALSO MEANS FOR-SALE HOUSING THAT COULD BE PURCHASED BY A HOUSEHOLD WITH AN ANNUAL INCOME OF AT OR BELOW ONE HUNDRED PERCENT OF THE AREA MEDIAN INCOME, FOR WHICH THE MORTGAGE PAYMENT COSTS THE HOUSEHOLD LESS THAN THIRTY PERCENT OF ITS MONTHLY INCOME."
+        },
+        {
+          "link": "https://cdola.colorado.gov/commitment-filings",
+          "quote": "3% annual affordable housing unit increase"
+        },
+        {
+          "link": "https://www.kunc.org/news/2026-02-15/breckenridge-eyes-changing-policy-that-requires-certain-businesses-to-invest-in-workforce-housing-due-to-unintended-consequences",
+          "quote": "The policy currently requires an employer to provide housing for around 35% of the staff its business will generate and that is determined by a formula that considers numerous factors, such as size and type of business."
+        },
+        {
+          "link": "https://www.kunc.org/news/2026-02-15/breckenridge-eyes-changing-policy-that-requires-certain-businesses-to-invest-in-workforce-housing-due-to-unintended-consequences",
+          "quote": "She said the town has only gained two new housing units and one payment-in-lieu free of around $43,000 from the policy over the last five years."
+        },
+        {
+          "link": "https://www.kunc.org/news/2026-02-15/breckenridge-eyes-changing-policy-that-requires-certain-businesses-to-invest-in-workforce-housing-due-to-unintended-consequences",
+          "quote": "Breckenridge Town Council took staff members' recommendation to amend the town's employee housing impact mitigation policy at a Tuesday, Feb. 10, meeting."
+        },
+        {
+          "link": "https://www.kunc.org/news/2026-02-15/breckenridge-eyes-changing-policy-that-requires-certain-businesses-to-invest-in-workforce-housing-due-to-unintended-consequences",
+          "quote": "The town adopted the policy in 2020."
+        },
+        {
+          "link": "https://codelibrary.amlegal.com/codes/vailco/latest/vail_co/0-0-0-12615",
+          "quote": "Each commercial development or redevelopment shall mitigate its impact on employee housing by providing EHUs for 20% of the employees generated, pursuant to Table 23-1 of this section, or the nexus study, in accordance with the requirements of this chapter."
+        },
+        {
+          "link": "https://www.coloradopolitics.com/2026/05/16/development-fees-not-limited-to-brand-new-construction-colorado-court-rules/",
+          "quote": "A property owner challenged Pitkin County’s imposition of a nearly $950,000 impact fee on a project that would demolish an existing single-family home and replace it with a new one."
+        },
+        {
+          "link": "https://www.coloradopolitics.com/2026/05/16/development-fees-not-limited-to-brand-new-construction-colorado-court-rules/",
+          "quote": "Decided: April 30, 2026"
+        },
+        {
+          "link": "https://www.coloradopolitics.com/2026/05/16/development-fees-not-limited-to-brand-new-construction-colorado-court-rules/",
+          "quote": "In 2020, Pitkin County imposed an Employee Housing Impact Fee based on the economic impact from residential construction."
+        },
+        {
+          "link": "https://www.chfainfo.com/community-partnerships/public-policy/cc-nov2022-election-results",
+          "quote": "These included ballot measure 2A in Steamboat Springs which creates a new 9 percent tax on short-term rentals with revenue dedicated to increasing affordable and attainable housing."
+        },
+        {
+          "link": "https://www.chfainfo.com/community-partnerships/public-policy/cc-nov2022-election-results",
+          "quote": "Summit County Referred Measure 1A: Authorizing Short-Term Rental Lodging Tax to Provide Local Workers with Affordable Housing and Childcare to Support Our Quality of Life and Other Authorized Purposes - Passed"
+        },
+        {
+          "link": "https://www.summitdaily.com/news/summit-county-commissioners-approve-package-of-short-term-rental-regulations-despite-complaints-ending-a-monthslong-initiative/",
+          "quote": "Specifically, the caps will be set at 18% for Upper Blue basin, 15% for Lower Blue, 6% for Ten Mile and 5% for Snake River."
+        },
+        {
+          "link": "https://www.summitdaily.com/news/summit-county-commissioners-approve-package-of-short-term-rental-regulations-despite-complaints-ending-a-monthslong-initiative/",
+          "quote": "During a Feb. 15 public meeting, commissioners voted unanimously to implement license caps and limit short-term bookings while carving out some exceptions for certain residents"
+        },
+        {
+          "link": "https://www.steamboatpilot.com/news/is-a-20-tax-on-strs-too-much-not-for-crested-butte-and-ouray/",
+          "quote": "The town also has a cap on these rentals at 30% of the local housing stock. That limit is 212 rentals, but Treadwell says it grows as more units are built."
+        },
+        {
+          "link": "https://www.steamboatpilot.com/news/is-a-20-tax-on-strs-too-much-not-for-crested-butte-and-ouray/",
+          "quote": "Ouray has an even higher, 15% tax on short-term rentals, which puts the effective tax rate for rentals in the city to 27.95%. This was approved by voters last year and went into effect this year. Ouray also has a cap on short-term rentals, maxing out at 120 total."
+        },
+        {
+          "link": "https://www.steamboatpilot.com/news/is-a-20-tax-on-strs-too-much-not-for-crested-butte-and-ouray/",
+          "quote": "Half the revenue is earmarked for housing, and the other half pays for water and wastewater infrastructure."
+        },
+        {
+          "link": "https://coloradosun.com/2024/10/10/a-colorado-ski-town-had-an-answer-to-its-affordable-housing-crisis-then-voters-shut-it-down/",
+          "quote": "Additional revenue came from the tax on short-term rentals that voters approved in 2022 and again in 2023, dedicating 75% of the tax to help fund the Brown Ranch project."
+        },
+        {
+          "link": "https://coloradosun.com/2024/10/10/a-colorado-ski-town-had-an-answer-to-its-affordable-housing-crisis-then-voters-shut-it-down/",
+          "quote": "In March, the anti-annexation campaign won that vote, 2,903 to 2,094."
+        },
+        {
+          "link": "https://coloradosun.com/2024/10/10/a-colorado-ski-town-had-an-answer-to-its-affordable-housing-crisis-then-voters-shut-it-down/",
+          "quote": "The plan called for a phased development that would ultimately build 2,264 residences over 20 years"
+        },
+        {
+          "link": "https://ground.news/article/steamboat-allocates-5-million-in-short-term-rental-tax-revenue-to-housing-authority-for-cottonwoods-project",
+          "quote": "Steamboat Springs City Council has approved a $5 million allocation to the Yampa Valley Housing Authority to support construction of its Cottonwoods at Mid Valley Project. The funding is being drawn from the city’s estimated $14.8 million in short-term rental tax revenue collected in 2024 and will support the project’s affordable homeownership opportunities in its second phase of construction."
+        },
+        {
+          "link": "https://summitdaily.com/news/colorado-lodging-tax-bill-approved-vote-increase",
+          "quote": "Currently, counties cannot ask voters to approve more than a 2% lodging tax in unincorporated areas, while towns and cities can ask for as much as 6%. Under House Bill 1247, counties would be able to seek up to 6% and be given more latitude for how to spend that revenue."
+        },
+        {
+          "link": "https://www.coloradopolitics.com/2025/11/09/6-mountain-communities-increase-lodging-taxes-2-reject-the-tax-hike/",
+          "quote": "Lodging tax increases passed in Eagle, Gilpin, Hinsdale, Ouray, Routt and Park but failed in Chaffee and Custer counties."
+        },
+        {
+          "link": "https://www.coloradopolitics.com/2025/11/09/6-mountain-communities-increase-lodging-taxes-2-reject-the-tax-hike/",
+          "quote": "Housing was included on 1A, but Scherr said that it was pulled out due to a study that Eagle County had done, which showed that the timeliest need was for childcare."
+        },
+        {
+          "link": "https://www.coloradopolitics.com/2025/11/09/6-mountain-communities-increase-lodging-taxes-2-reject-the-tax-hike/",
+          "quote": "In Eagle County, 50.5% of voters voted for 1A, raising lodging taxes from 2 to 4% with an annual yield of $4.5 million."
+        },
+        {
+          "link": "https://www.ottenjohnson.com/insight/colorado-inclusionary-housing-reform-local-policy-takes-shape/",
+          "quote": "In May, Governor Jared Polis signed into law HB21-1117, (opens in a new tab) which allows local governments to require rental housing developers to provide affordable units in new development projects."
+        },
+        {
+          "link": "https://www.ottenjohnson.com/insight/colorado-inclusionary-housing-reform-local-policy-takes-shape/",
+          "quote": "As required by HB21-1117, a fee-in-lieu option is available for development that would otherwise be subject to the mandatory inclusionary housing."
+        },
+        {
+          "link": "https://www.ottenjohnson.com/insight/colorado-inclusionary-housing-reform-local-policy-takes-shape/",
+          "quote": "Boulder’s current Inclusionary Housing Program requires developments of five or more dwelling units provide 25% and four or fewer dwelling units provide 20% of all new residential development (for sale and rental units) as permanently affordable housing."
+        },
+        {
+          "link": "https://www.ottenjohnson.com/insight/colorado-inclusionary-housing-reform-local-policy-takes-shape/",
+          "quote": "Glenwood Springs adopted Ordinance 1-2021 this past March, which requires 20% of new units within residential developments to meet certain “community housing” standards and 10% of new units to be leased or sold at 100% of the area median income."
+        },
+        {
+          "link": "https://www.ottenjohnson.com/insight/colorado-inclusionary-housing-reform-local-policy-takes-shape/",
+          "quote": "Longmont’s current Inclusionary Housing Ordinance requires the provision, or the equivalent, of 12% of units, in new residential developments be affordable to low- and moderate-income buyers. Longmont defines affordable as at or below 80% AMI and units rented to households at or below 50% AMI."
+        },
+        {
+          "link": "https://www.ottenjohnson.com/insight/colorado-inclusionary-housing-reform-local-policy-takes-shape/",
+          "quote": "Superior adopted Ordinance 0-18 in 2020, which requires 15% of new residential developments (with 10 or more units) be leased or sold at 80% of the area median income."
+        },
+        {
+          "link": "https://www.kaplankirsch.com/resources-and-news/denver-city-council-adopts-mandatory-affordable-housing-requirements/",
+          "quote": "The legislation requires new market-rate housing developments of ten or more units to provide on-site affordable units"
+        },
+        {
+          "link": "https://www.kaplankirsch.com/resources-and-news/denver-city-council-adopts-mandatory-affordable-housing-requirements/",
+          "quote": "In high markets, provide 10% of total units at 60% AMI"
+        },
+        {
+          "link": "https://www.kaplankirsch.com/resources-and-news/denver-city-council-adopts-mandatory-affordable-housing-requirements/",
+          "quote": "In typical markets, provide 8% of total units at 60% AMI"
+        },
+        {
+          "link": "https://www.kaplankirsch.com/resources-and-news/denver-city-council-adopts-mandatory-affordable-housing-requirements/",
+          "quote": "In high markets, provide 10% of total units at 80% AMI"
+        },
+        {
+          "link": "https://www.kaplankirsch.com/resources-and-news/denver-city-council-adopts-mandatory-affordable-housing-requirements/",
+          "quote": "In typical markets, provide 8% of total units at 80% AMI"
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "From the inception of the program in 2018, the stated goal of the plan is to acquire 1,000 net new deed-restrictions on homes in Vail by the year 2027."
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "Sq. Ft. # Units # Bedrooms Funded to Date 149,768 178 286 $13,064,618"
+        },
+        {
+          "link": "https://www.vail.gov/government/departments/housing/vail-indeed-program",
+          "quote": "1) The property must be occupied as a primary residence by individuals who work a minimum of 30 hours per week in Eagle County."
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB24-1175/286/download",
+          "quote": "\"QUALIFYING PROPERTY \" MEANS A MULTIFAMILY RESIDENTIAL OR MIXED -USE RENTAL PROPERTY CONSISTING OF NOT LESS THAN FIVE UNITS THAT IS EXISTING AFFORDABLE HOUSING"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB24-1175/286/download",
+          "quote": "THE LOCAL GOVERNMENT FOR THE JURISDICTION IN WHICH A QUALIFYING PROPERTY IS LOCATED HAS A RIGHT OF FIRST REFUSAL TO PURCHASE THE QUALIFYING PROPERTY WITH A MATCHED OFFER ."
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB24-1175/286/download",
+          "quote": "RESIDENTIAL OR MIXED -USE RENTAL PROPERTY CONSISTING OF NOT MORE THAN ONE HUNDRED UNITS AND NOT LESS THAN FIFTEEN UNITS AND EXCLUDING EXISTING AFFORDABLE HOUSING"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB24-1175/286/download",
+          "quote": "TERMINATE ON DECEMBER 31, 2029."
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB24-1175/286/download",
+          "quote": "Approved: May 30, 2024"
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ101/html/PLAW-119publ101.htm",
+          "quote": "No large institutional investor may purchase, or enter into a contract to directly or indirectly purchase, any single-family home."
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ101/html/PLAW-119publ101.htm",
+          "quote": "not less than 350 single-family homes in the aggregate"
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ101/html/PLAW-119publ101.htm",
+          "quote": "newly constructed, renovated, or a rental conversion for sale by a large institutional investor and not as a residence rented pending sale"
+        },
+        {
+          "link": "https://www.govinfo.gov/content/pkg/PLAW-119publ101/html/PLAW-119publ101.htm",
+          "quote": "July 11, 2026 -  [H.R. 6644]"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB24-1098/113/download",
+          "quote": "FOR CAUSE EVICTION POLICY"
+        },
+        {
+          "link": "https://leg.colorado.gov/laws/session-laws/HB24-1098/113/download",
+          "quote": "Approved: April 19, 2024"
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "Colorado",
+        "Mountain resort communities",
+        "Front Range"
+      ]
+    },
     {
       "id": "chfa-2026-round-two-awards",
       "title": "CHFA 2026 Round Two tax credit awards: who won, where, and who did not",
@@ -4102,7 +5062,7 @@
           "items": [
             "HB22-1117, signed March 31, 2022, added housing and child care for the tourism-related workforce, including seasonal workers, and for other workers in the community to the purposes a county lodging tax and a local marketing district tax may fund.",
             "When a county lodging tax is created or its uses are expanded after January 1, 2022, at least 10% of its revenue must still go to advertising and marketing local tourism; a marketing district must keep at least 10% for its pre-2022 purposes. The law sets no minimum share for housing.",
-            "A county lodging tax is capped at 2% and does not apply inside a municipality that levies its own lodging tax, which is why most of the town taxes below are the town's own excise tax.",
+            "A county lodging tax was capped at 2% until HB25-1247 (2025) let county voters raise it to as much as 6% in unincorporated areas. It does not apply inside a municipality that levies its own lodging tax, which is why most of the town taxes below are the town's own excise tax.",
             "Any new tax or tax rate increase needs voter approval in advance under the Taxpayer's Bill of Rights, so every tax in the next section went to an election.",
             "The Colorado Department of Revenue does not administer municipal lodging taxes; its DR 1003 table lists the lodging tax rates it does track."
           ]
@@ -4559,6 +5519,11 @@
           "title": "Ordinance 2671: Amending 5-2-1 and 5-2-5, Increasing Hotel Room Tax",
           "source": "City of Montrose",
           "link": "https://www.cityofmontrose.org/DocumentCenter/View/52650/Ordinance-2671---Amending-5-2-1-and-5-2-5-Increasing-Hotel-Room-Tax"
+        },
+        {
+          "title": "Lawmakers approve bill allowing Colorado county voters to triple lodging taxes from 2% to 6% (2025)",
+          "source": "Summit Daily",
+          "link": "https://summitdaily.com/news/colorado-lodging-tax-bill-approved-vote-increase"
         }
       ],
       "source_quotes": [
@@ -5013,6 +5978,10 @@
         {
           "link": "https://townofcrestedbutte.colorado.gov/community-services/community-housing",
           "quote": "The Town of Crested Butte received nine parcels of land to be developed for various public uses through the Slate River Annexation in 2020. Parcels 5 & 3 were specifically designated for development as affordable housing."
+        },
+        {
+          "link": "https://summitdaily.com/news/colorado-lodging-tax-bill-approved-vote-increase",
+          "quote": "Currently, counties cannot ask voters to approve more than a 2% lodging tax in unincorporated areas, while towns and cities can ask for as much as 6%. Under House Bill 1247, counties would be able to seek up to 6% and be given more latitude for how to spend that revenue."
         }
       ],
       "alert_count": 0,
