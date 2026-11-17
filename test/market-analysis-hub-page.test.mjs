@@ -448,6 +448,8 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   // It drives the page's own controls, which must still be on the page.
   const used = [...new Set([...src.matchAll(/getElementById\('([^']+)'\)/g)].map(m => m[1]))];
   ok(used.length === 6 && used.every(id => oldIds.has(id)), 'the site link uses ids the page no longer has: ' + used.filter(id => !oldIds.has(id)).join(', '));
+  // And the page's Tract tab and the controller's method, which it reads to run an imported area in tract mode.
+  ok(/data-pma-method="tract"/.test(oldPage) && /data-pma-method="tract"/.test(newPage) && /getMethod:\s+function \(\) \{ return _method; \}/.test(read('js/pma-ui-controller.js')), 'the site link presses a Tract tab and reads PMAUIController.getMethod, which the page no longer has');
   // The same Colorado box the address search checks, and the status words it writes for a typed point.
   const engine = read('js/market-analysis.js');
   const box = /CO_LAT_MIN = ([-\d.]+), CO_LAT_MAX = ([-\d.]+);\s*var CO_LON_MIN = ([-\d.]+), CO_LON_MAX = ([-\d.]+);/.exec(engine);
@@ -500,14 +502,21 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   // With the market area: once the picker has loaded round the site, Market check's tracts replace its pick, the reason
   // is written, and Run Analysis is pressed once. Without it, the 4-mile pick runs as it stands.
   ok(/readyAt:\s+readyAt,/.test(picker) && /_readyAt = \{ lat: lat, lon: lon \};/.test(picker), 'js/pma-tract-picker.js no longer says where it finished loading (readyAt), which the site link waits on');
-  const withPicker = async (query, { count = 5, at = [37.2256, -107.5981], pre = '' } = {}) => {
-    const got = { set: null, why: pre, runs: 0 };
+  const withPicker = async (query, { count = 5, at = [37.2256, -107.5981], pre = '', method = null } = {}) => {
+    const got = { set: null, why: pre, runs: 0, tabs: 0 };
     const r = await run(query, { setup: (w) => {
       const d = w.document, btn = d.createElement('button'), ta = d.createElement('textarea');
       btn.id = 'pmaRunBtn'; ta.id = 'pmaTractRationale'; ta.value = pre; d.body.append(btn, ta);
       btn.addEventListener('click', () => { got.runs++; });
-      let n = count;
-      w.PMATractPicker = { getCount: () => n, readyAt: () => (at ? { lat: at[0], lon: at[1] } : null),
+      let n = count, loadedAt = method && method !== 'tract' ? null : at;
+      if (method) {
+        // The page's method tabs: pressing Tract starts the picker at the site, as js/pma-ui-controller.js does.
+        let current = method;
+        const tab = d.createElement('button'); tab.dataset.pmaMethod = 'tract'; d.body.append(tab);
+        tab.addEventListener('click', () => { got.tabs++; current = 'tract'; loadedAt = at; });
+        w.PMAUIController = { getMethod: () => current };
+      }
+      w.PMATractPicker = { getCount: () => n, readyAt: () => (loadedAt ? { lat: loadedAt[0], lon: loadedAt[1] } : null),
         setSelection: g => { got.set = g; n = g.length; return g.length; }, getRationale: () => got.why, setRationale: t => { got.why = t; } };
       got.ta = () => ta.value;
     } });
@@ -549,6 +558,14 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   const r3 = await withPicker('?site=37.2256,-107.5981&tr=067940600&tl=' + encodeURIComponent('Local market area'), { pre: r2.ta });
   ok(r3.ta.startsWith(L.reason('Local market area', 1)) && !r3.ta.includes('Regional market area') && r3.ta.split(ownNote).length === 2, 'importing again should keep the analyst\'s note once and drop the earlier area: ' + r3.ta);
   ok(L.rationaleFor(local, '') === local, 'with nothing written before, the reason is the rationale');
+  // A saved run restored the Hybrid tab, where the picker never loads (Codex): with tracts, the Tract tab is pressed
+  // once and the area runs; without tracts, the restored method is left alone.
+  const hy = await withPicker('?site=37.2256,-107.5981&tr=067940600&tl=' + encodeURIComponent('Local market area'), { method: 'hybrid' });
+  ok(hy.tabs === 1 && hy.set && hy.set.join() === '08067940600' && hy.runs === 1, 'from a restored Hybrid tab, the Tract tab should be pressed once and the area run (tabs ' + hy.tabs + ', set ' + hy.set + ', ran ' + hy.runs + ')');
+  const tr = await withPicker('?site=37.2256,-107.5981&tr=067940600', { method: 'tract' });
+  ok(tr.tabs === 0 && tr.runs === 1, 'already in tract mode, no tab should be pressed');
+  const old = await withPicker('?site=37.2256,-107.5981', { method: 'commuting' });
+  ok(old.tabs === 0 && old.set === null, 'a link without tracts should leave the restored method alone');
   // The real picker, in a page of its own with a minimal Leaflet (as test/pma-natural-features.test.js uses). It says
   // where it finished loading, and a market area that reaches past its 12-mile layer gets a shape for every far tract,
   // so each can be clicked like the rest (Codex on #2923: Mesa County from Grand Junction).

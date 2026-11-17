@@ -106,6 +106,13 @@
   // and press Run Analysis. Gives up quietly after 30 seconds (the reader can still press it).
   function run(s) {
     var tries = 0;
+    // The area is a set of tracts, so the analysis runs in tract mode. A returning visitor's saved run can restore the
+    // Hybrid or Commuting tab, where the picker never loads; press the page's own Tract tab, which starts the picker at
+    // the placed site (or makes placing it do so). A link without tracts leaves the restored method as it is.
+    if (s.tracts.length) {
+      var ui = window.PMAUIController, tab = document.querySelector('[data-pma-method="tract"]');
+      if (ui && typeof ui.getMethod === 'function' && ui.getMethod() !== 'tract' && tab) tab.click();
+    }
     (function wait() {
       var picker = window.PMATractPicker, btn = document.getElementById('pmaRunBtn');
       if (!picker || !btn || !loaded(picker, s)) {
