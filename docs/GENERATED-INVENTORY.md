@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-17T13:06:22.305Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-17T13:16:21.012Z. Do not edit by hand.
 
 ---
 
@@ -105,7 +105,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1987 JSON files found.
+1989 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1804,6 +1804,7 @@
 | `data/hna/summary/0886310.json` | 4.3 KB | ✅ | — |
 | `data/hna/summary/0886475.json` | 4.2 KB | ✅ | — |
 | `data/hna/summary/0886750.json` | 4.3 KB | ✅ | — |
+| `data/hna/tenure-income.json` | 76.0 KB | ✅ | — |
 | `data/hna/transit-zone-by-geography.json` | 390.0 KB | ✅ | — |
 | `data/hna/transit-zone-map.json` | 438.7 KB | ✅ | — |
 | `data/hna/vacancy-status.json` | 458.0 KB | ✅ | — |
@@ -1884,6 +1885,7 @@
 | `data/market/colorado-equity-pricing-factors.json` | 5.3 KB | ✅ | — |
 | `data/market/colorado-foreclosure-performance.json` | 48.4 KB | ✅ | — |
 | `data/market/commute-strength.json` | 158.0 KB | ✅ | — |
+| `data/market/commute-time-cost.json` | 207.8 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
 | `data/market/developable_land_context_co.json` | 1.37 MB | ✅ | — |
 | `data/market/development-activity.json` | 1.31 MB | ✅ | — |
@@ -2101,7 +2103,7 @@
 
 ## Test Files
 
-815 test files found.
+816 test files found.
 
 | File | Size |
 |------|------|
@@ -2178,6 +2180,7 @@
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
 | `test/colorado-guide-detail.test.js` | 13.3 KB |
 | `test/combined-geo.test.js` | 51.0 KB |
+| `test/commute-time-cost.test.mjs` | 6.1 KB |
 | `test/commuting.test.mjs` | 6.2 KB |
 | `test/compliance-checklist.test.js` | 24.4 KB |
 | `test/console-audit-exercises-controls.test.js` | 10.1 KB |
@@ -2448,7 +2451,7 @@
 | `test/home-step-cards-match-destinations.test.js` | 5.4 KB |
 | `test/home-value-integrity.test.mjs` | 19.1 KB |
 | `test/homeownership-programs.test.js` | 8.7 KB |
-| `test/homepage-claims.test.js` | 22.2 KB |
+| `test/homepage-claims.test.js` | 23.0 KB |
 | `test/homepage-job-routing.test.js` | 13.7 KB |
 | `test/homepage-snapshot.test.js` | 16.8 KB |
 | `test/homes-short-agreement.test.js` | 4.4 KB |
