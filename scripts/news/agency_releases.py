@@ -233,7 +233,10 @@ def summarize_today(stories: list[dict], agency: dict, now: dt.datetime | None =
             continue
         g = next((g for g in groups if any(same_story(m['title'], s['title']) for m in g)), None)
         (g.append(s) if g else groups.append([s]))
-    covered = lambda g: sum(1 + len(m.get('also') or []) for m in g)
+    def covered(g):  # distinct publishers across the group (one outlet's two headlines count once)
+        names = {(m.get('source') or m.get('link') or id(m)) for m in g}
+        names |= {(a.get('source') or a.get('link') or id(a)) for m in g for a in m.get('also') or []}
+        return len(names)
     groups.sort(key=lambda g: (g[0].get('sourcing', 'checked') == 'checked', covered(g), g[0].get('date') or ''), reverse=True)
     top = [{'title': g[0]['title'], 'link': g[0].get('link', ''), 'source': g[0].get('source', ''),
             'source_domain': g[0].get('source_domain', ''), 'outlets': covered(g), 'date': g[0].get('date')}

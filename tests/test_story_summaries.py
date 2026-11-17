@@ -151,3 +151,8 @@ def test_cached_line_that_fails_the_check_is_not_shown():
     cache = {key: {'ai': {'text': 'Sales fell 19%, which could hurt buyers.', 'from': item['top'][0]['summary']['text']}}}
     t = ss.with_ai(item, cache, '', None)
     assert 'ai' not in t['top'][0]
+
+
+def test_one_framing_word_in_the_source_does_not_allow_others():
+    assert not ss.grounded('Nine homes were funded, which is important for renters.', 'The agency will help fund nine homes.')
+    assert ss.grounded('The agency will help fund nine homes.', 'The agency will help fund nine homes for renters.')

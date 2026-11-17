@@ -238,8 +238,9 @@ def _stems(s: str) -> set:
 
 def grounded(sentence: str, source: str, allow: int = 3) -> bool:
     """True when the sentence adds no framing and at most `allow` content words the source lacks."""
-    if _FRAMING_RE.search(sentence) and not _FRAMING_RE.search(source):
-        return False
+    used = {m.group(0).lower()[:5] for m in _FRAMING_RE.finditer(sentence)}
+    if used - {m.group(0).lower()[:5] for m in _FRAMING_RE.finditer(source)}:
+        return False  # a framing word the source itself does not use
     return len(_stems(sentence) - _stems(source)) <= allow
 
 

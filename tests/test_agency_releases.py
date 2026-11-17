@@ -176,3 +176,11 @@ def test_a_story_told_under_many_headlines_ranks_by_its_total_coverage():
                hdr('G', 'Housing study: 34% of households cost-burdened')]
     t = ar.summarize_today(stories, {'items': []}, now, about=lambda title: 'housing' in title.lower())
     assert t['top'][0]['source'] == 'E' and t['top'][0]['outlets'] == 3
+
+
+def test_coverage_counts_each_publisher_once():
+    now = dt.datetime(2026, 11, 17, 6, tzinfo=dt.timezone.utc)
+    stories = [{'title': 'Denver housing complex receives mail again after USPS stopped delivering', 'source': 'CBS', 'date': '2026-11-16'},
+               {'title': 'Mail delivery resumes months later for residents of Denver housing complex', 'source': 'CBS', 'date': '2026-11-16'}]
+    t = ar.summarize_today(stories, {'items': []}, now, about=lambda title: True)
+    assert t['top'][0]['outlets'] == 1 and len(t['top']) == 1
