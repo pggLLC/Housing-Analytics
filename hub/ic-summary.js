@@ -228,11 +228,13 @@
     var h = '<h2>CHFA tax credit award history</h2>';
     if (!rows.length) return h + '<p class="note">No CHFA tax credit awards on file for ' + esc(isCounty ? name : name + ' or ' + cname) + '.</p>';
     var units = rows.reduce(function (t, x) { return t + x.units; }, 0);
+    // A property opens COHO's sourced deal summary where one is written for that award.
+    rows.forEach(function (x) { x.deal = global.LabDeals ? global.LabDeals.summaryHref({ agency: 'CHFA', year: x.year, name: x.name }) : null; });
     return fold(h + '<div class="metrics">' + metric('Awards', num(rows.length), isCounty ? 'In ' + name : 'In ' + name + ' and the rest of ' + cname) + metric('Homes', num(units)) +
       metric('9% awards', num(rows.filter(function (x) { return x.nine; }).length)) + metric('4% awards', num(rows.filter(function (x) { return x.four; }).length)) + '</div>' +
       awardsByYear(rows, isCounty ? name : name + ' and ' + cname) +
       UI.table('ic-awards', 'CHFA tax credit awards, newest first', [
-        { key: 'year', label: 'Year', num: true }, { key: 'name', label: 'Property' }, { key: 'city', label: 'Town' },
+        { key: 'year', label: 'Year', num: true }, { key: 'name', label: 'Property', href: function (r) { return r.deal; }, tip: 'A linked name opens COHO’s sourced deal summary' }, { key: 'city', label: 'Town' },
         { key: 'units', label: 'Homes', num: true, fmt: num }, { key: 'credit', label: 'Credit' }
       ], rows, { noun: 'awards', placeholder: 'Property or town' }) +
       T.source('CHFA tax credit properties, merged with HUD and USDA records', 'https://www.chfainfo.com/rental-housing/housing-credit', String(P.metadata && (P.metadata.generated || P.metadata.generatedAt) || '').slice(0, 10) || null),
@@ -283,7 +285,7 @@
         '<p class="note">' + esc(name) + ' has no single middle point on file, so the nearest properties are not ranked. The award history above lists the county’s.</p>') +
       '<h3>Recent CHFA tax credit awards within ' + COMP_RADIUS + ' miles</h3>' +
       (recent.length ? UI.table('ic-recent', 'CHFA tax credit awards since ' + COMP_SINCE + ' within ' + COMP_RADIUS + ' miles, newest first', [
-        { key: 'name', label: 'Property' }, { key: 'city', label: 'Town' }, { key: 'year', label: 'Award year', num: true, tip: 'The year CHFA awarded the credits. A property usually opens two to three years later.' },
+        { key: 'name', label: 'Property', href: function (r) { return global.LabDeals ? global.LabDeals.summaryHref({ agency: 'CHFA', year: r.year, name: r.name }) : null; }, tip: 'A linked name opens COHO’s sourced deal summary' }, { key: 'city', label: 'Town' }, { key: 'year', label: 'Award year', num: true, tip: 'The year CHFA awarded the credits. A property usually opens two to three years later.' },
         { key: 'units', label: 'Affordable homes', num: true, fmt: num }, { key: 'credit', label: 'Credit' }, { key: 'mi', label: 'Miles', num: true, fmt: function (v) { return v.toFixed(1); } }
       ], recent, { noun: 'awards', placeholder: 'Property or town' }) : '<p class="note">No CHFA tax credit award within ' + COMP_RADIUS + ' miles since ' + COMP_SINCE + '.</p>') +
       T.source('CHFA housing tax credit properties', d.lihtc.source, String(d.lihtc.fetchedAt).slice(0, 10));

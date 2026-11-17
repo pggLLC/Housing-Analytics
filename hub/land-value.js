@@ -221,7 +221,8 @@
       warn.map(function (w) { return '<p class="callout">' + esc(w) + '</p>'; }).join('') +
       '<p class="note">Source: <a href="' + L.SOURCE_PAGE + '" rel="noopener">State of Colorado public parcels</a>, accessed ' + esc(auto.accessed) + (files ? '. Counties: ' + esc(files) : '') +
       '. Each parcel shows only its last sale, so land later built on drops out. Prices are as recorded, with no adjustment for time. Sales between relatives can’t be screened out. From records, arithmetic only: not an appraisal.</p>' +
-      '<p class="note">Members see each sale on a map with its county record: <a href="' + MEMBER_BRIEF + '">site brief</a>.</p></figure>';
+      '<p class="note">Members see each sale on a map with its county record: <a href="' + MEMBER_BRIEF + '">site brief</a>.</p>' +
+      '<p class="note">Public land for housing: from December 2, 2026, a lease of a Forest Service administrative site can back a loan. <a href="#/research/brief/forest-service-admin-site-leases-2026">Which Colorado counties could use it</a>.</p></figure>';
   }
 
   // The four best-use tests and the open questions, from what is known so far.

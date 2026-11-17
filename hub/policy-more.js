@@ -45,7 +45,9 @@
     ['#/places', 'Housing needs assessment', 'The housing gaps policy has to close, for any Colorado place.'],
     ['#/places/economy', 'Economic dashboard', 'Housing costs next to the wider economy that elections respond to.'],
     ['#/news', 'Housing news', 'Colorado housing headlines, newest first.'],
-    ['#/legislation', 'Policy and legislation', 'The federal and Colorado laws, rules and CHFA plan changes COHO tracks.']
+    ['#/legislation', 'Policy and legislation', 'The federal and Colorado laws, rules and CHFA plan changes COHO tracks.'],
+    ['#/research/brief/federal-midterms-2026-housing', '2026 midterms and housing', 'What the projected November 2026 congressional results could mean for federal housing money in Colorado.'],
+    ['#/research/brief/co-vacancy-tax-2026', 'Vacancy taxes in Colorado', 'Who can tax empty homes, and what Boulder’s 2J, passed November 3, 2026, could raise.']
   ];
   function denverToday() {
     var p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Denver', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
@@ -483,7 +485,7 @@
         ['County', unit.replace(/^./, function (c) { return c.toUpperCase(); })],
         d.boundaries.features.map(function (f) { return [f.properties.NAME + ' County', val[f.properties.GEOID] == null ? null : val[f.properties.GEOID]]; }).sort(function (a, b) { return a[0] < b[0] ? -1 : 1; })) : '') + '</figure>';
     var rows = picked.map(function (a) {
-      return { name: a.name, town: a.town, county: a.county, agency: a.agency, program: a.program, year: a.yearLabel, homes: a.homes, amount: a.agency === 'CHFA' ? a.credits : a.dollars,
+      return { deal: global.LabDeals ? global.LabDeals.summaryHref(a) : null, name: a.name, town: a.town, county: a.county, agency: a.agency, program: a.program, year: a.yearLabel, homes: a.homes, amount: a.agency === 'CHFA' ? a.credits : a.dollars,
         amountNote: a.agency === 'CHFA' ? 'credits a year' : (a.dollarsBasis === 'requested' ? 'requested' : ''), url: a.sourceUrl, source: a.sourceTitle, developer: a.developer };
     });
     return headFor({ ledger: s.data.ledger, rows: s.data.rows, dola: s.data.dola, documents: s.data.documents }) + chips + yearPick + UI.intro('Where has state housing money gone?', finding) +
@@ -492,14 +494,15 @@
       matrix(d, county ? M.filter(base, { county: county }) : base, MATRIX_ROWS[params.get('rows')] ? params.get('rows') : (county ? 'town' : 'county'), q) + T.source('CHFA, OEDIT and DOLA award lists, as gathered by COHO', LIVE + 'where-housing-money-goes.html', day(d.ledger.meta && d.ledger.meta.generated_at)) +
       '<h2>Every award' + (county ? ' in ' + esc(where) : '') + '</h2>' +
       UI.table('money-awards', 'Each award, as its list prints it', [
-        { key: 'name', label: 'Project', href: function (r) { return r.url; } },
+        { key: 'name', label: 'Project', href: function (r) { return r.deal; }, tip: 'The project as the award list prints it. A linked name opens COHO’s sourced deal summary.' },
         { key: 'town', label: 'Town' },
         { key: 'agency', label: 'Agency' },
         { key: 'program', label: 'Program' },
         { key: 'year', label: 'Year' },
         { key: 'homes', label: 'Homes', num: true, fmt: num },
         { key: 'amount', label: 'Amount', num: true, fmt: function (v, r) { return money(v) + (r.amountNote ? ' (' + r.amountNote + ')' : ''); } },
-        { key: 'developer', label: 'Developer or grantee' }
+        { key: 'developer', label: 'Developer or grantee' },
+        { key: 'source', label: 'Award list', href: function (r) { return r.url; }, tip: 'The agency’s award report or announcement this row is read from' }
       ], rows, { noun: 'awards', placeholder: 'Project, town or developer' }) +
       (M.csv ? '<p class="viz-data-csv"><a class="button-link secondary" download="colorado-housing-awards' + (agency === 'ALL' ? '' : '-' + agency.toLowerCase()) + (county ? '-' + county : '') + '.csv" href="data:text/csv;charset=utf-8,' + encodeURIComponent('\ufeff' + M.csv(picked)) + '">Download these ' + num(picked.length) + ' awards as CSV</a></p>' : '') +
       '<p class="note">From CHFA’s award reports (2016 to 2026), Prop 123 fund selection lists from OEDIT (FY23-24 to FY25-26), and DOLA announcements read by hand, which are partial. Tax credits are not dollars: CHFA prints the credit each project claims a year, so credits are never added to grants and loans, and “all three” is counted in homes. A project funded by two agencies counts under each. Land banking homes are estimates.</p>' +

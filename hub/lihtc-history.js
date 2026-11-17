@@ -236,7 +236,7 @@
       sec('lh-story', 'The short story', findings(a)) +
       sizeSection(a) + creditSection(a) + rehabSection(a) + popSection(a) + amiSection(a) + whereSection(a) + rulesSection() + shapesSection(a) +
       pricingSection(s.data.hist, s.data.bench) + limitsSection(a) +
-      T.next('Next', [{ href: '#/opportunity/portfolio', label: 'See every property →' }, { href: '#/equity-pricing', label: 'Tax credit equity markets', secondary: true }]);
+      T.next('Next', [{ href: '#/opportunity/portfolio', label: 'See every property →' }, { href: '#/research/brief/chfa-2026-round-two-awards', label: 'The latest round: CHFA 2026 Round Two awards', secondary: true }, { href: '#/equity-pricing', label: 'Tax credit equity markets', secondary: true }]);
   }
 
   Shell.views['tax-credit-history'] = view;

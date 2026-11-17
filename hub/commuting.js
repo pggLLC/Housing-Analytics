@@ -237,7 +237,7 @@
       (near.length ? '<ol class="cj-places' + (out ? ' is-out' : '') + '">' + listOf(near, true) + '</ol>' : '<p class="note">None of the largest ' + (out ? 'work towns' : 'home towns') + ' is a daily drive away.</p>') +
       (far.length ? '<p class="cj-far"><b>Farther than a daily drive:</b></p><ul class="cj-places cj-far-list">' + listOf(far, false) + '</ul><p class="note">Trips this long are often a main-office address, not a daily drive.</p>' : '') +
       (none.length ? '<p class="cj-far"><b>Drive time not available:</b></p><ul class="cj-places cj-far-list">' + listOf(none, false) + '</ul><p class="note">The road router gave a route for ' + (none.length > 1 ? 'these' : 'this one') + ' that could not be trusted (a long detour or a very slow road), so no time or cost is shown.</p>' : '') +
-      '<p class="note">Arrow width shows workers. These are the five places that send ' + (out ? 'it' : 'it') + ' the most workers' + (out ? ' (its residents’ five largest work towns)' : '') + ': ' + num(shown) + ' of its ' + num(total) + (out ? ' residents who work in another town' : ' in-commuters') + '. Minutes are the drive with no traffic.</p>' +
+      '<p class="note">Arrow width shows workers. ' + (out ? 'These are the five places that employ the most of its residents' : 'These are the five places that send it the most workers') + ': ' + num(shown) + ' of its ' + num(total) + (out ? ' residents who work in another town' : ' in-commuters') + '. Minutes are the drive with no traffic.</p>' +
       '<p class="note metric-source">Source: LEHD LODES ' + esc(tc.meta.lodes_year) + ', primary jobs; drive times over OpenStreetMap (OSRM), built ' + esc(tc.meta.generated) + '.</p></figure>';
   }
 

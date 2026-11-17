@@ -1965,7 +1965,7 @@
           return '<li class="li-item"><p class="li-what"><strong>' + esc(x.jurisdiction) + '</strong> \u00b7 ' + esc(x.rate_text) + ' <span class="scope-tag">' + esc(x.status === 'adopted' ? 'In effect' : x.status) + '</span></p><p>' + esc(x.summary) + '</p>' +
             '<p class="note"><a href="' + esc(x.source_url) + '">' + esc(x.source_label) + '</a>, checked ' + esc(x.checked) + '</p></li>';
         }).join('') + '</ul>' : '<p class="note">No lodging or short-term rental tax for housing is on record here. A place with no record has not been shown to have none.</p>') +
-        '<p class="note">How resort towns house workers without tax credits: <a href="#/research/brief/workforce-housing-without-tax-credits-2026">Local workforce housing without tax credits</a>.</p>';
+        '<p class="note">How resort towns house workers without tax credits: <a href="#/research/brief/workforce-housing-without-tax-credits-2026">Local workforce housing without tax credits</a>. How towns pair short-term rentals, outside investment and new businesses with a housing tool: <a href="#/research/brief/co-growth-housing-balance-2026">Growth and homes for local workers</a>.</p>';
     }
     // Tax credit properties in the place and county, Qualified Census Tracts among the place's own tracts, and DDA status.
     function creditOverlays() {

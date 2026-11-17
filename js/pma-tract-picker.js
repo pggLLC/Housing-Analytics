@@ -76,6 +76,7 @@
   var _rationale        = '';         // analyst's per-PMA boundary rationale (CHFA Appendix A)
   var _onChange         = null;       // user callback(selectedGeoids)
   var _siteCenter       = null;       // { lat, lon }
+  var _readyAt          = null;       // { lat, lon } of the last init that finished loading, or null
   var _barriersCache    = null;       // { features, generated }, or false when the file failed
   var _nf               = _nfOff();   // natural-feature option state (see getNaturalFeatures)
   var _nfGen            = 0;          // bumped on off/clear, so a late proposal is dropped
@@ -392,6 +393,8 @@
 
       if (typeof _onChange === 'function') _onChange(Array.from(_selected));
 
+      _readyAt = { lat: lat, lon: lon };
+
       console.log('[PMATractPicker] init: ' + nearby.length + ' visible, ' +
         _selected.size + ' pre-selected near ' + lat.toFixed(4) + ',' + lon.toFixed(4));
 
@@ -529,6 +532,7 @@
     _autoSelected = new Set();
     _rationale    = '';
     _siteCenter   = null;
+    _readyAt      = null;
     _nf           = _nfOff();
     _nfGen++;
   }
@@ -585,6 +589,13 @@
     return _selected.size;
   }
 
+  // Where the picker last finished loading, even when nothing near the site could be picked (a rural site with no
+  // tract centroid within 12 miles). Null before the first load and after clear(). Market check's link waits on this
+  // (js/components/ma-site-link.js), not on the selection count.
+  function readyAt() {
+    return _readyAt ? { lat: _readyAt.lat, lon: _readyAt.lon } : null;
+  }
+
   /**
    * Build a GeoJSON FeatureCollection of the selected whole-tract polygons.
    * Leaflet can render this directly, and downstream aggregation can use the
@@ -625,6 +636,36 @@
     _selected = new Set();
     _restyleAll();
     _changed();
+  }
+
+  // Replace the selection with whole tracts chosen elsewhere: Market check's market area, opened here from its
+  // "Full Market Analysis" link (js/components/ma-site-link.js). Only 11-digit tract GEOIDs are taken. A list that
+  // differs from the 4-mile auto-pick counts as curated, as a hand edit does.
+  function setSelection(geoids) {
+    _selected = new Set((geoids || []).map(String).filter(function (g) { return /^\d{11}$/.test(g); }));
+    // A regional or county area can reach past the 12-mile layer drawn at init. Draw those tracts too, so each one can
+    // be clicked, inspected and removed like the rest (the layer's own style and click handlers apply to added data).
+    if (_tractLayer && typeof _tractLayer.addData === 'function' && typeof _tractLayer.eachLayer === 'function' &&
+        _boundariesCache && Array.isArray(_boundariesCache.features)) {
+      var drawn = new Set();
+      _tractLayer.eachLayer(function (layer) { var g = layer && _featureGeoid(layer.feature); if (g) drawn.add(g); });
+      var missing = _boundariesCache.features.filter(function (f) {
+        var g = _featureGeoid(f);
+        return g && _selected.has(g) && !drawn.has(g);
+      });
+      if (missing.length) _tractLayer.addData({ type: 'FeatureCollection', features: missing });
+    }
+    // Natural-feature state restored for the earlier selection (its proposal, exclusions and pre-Apply snapshot)
+    // belongs to tracts no longer selected: drop it, and any pending proposal, as turning the option off does, so the
+    // report does not credit exclusions to this area and Off cannot bring the old tracts back. Its sentence leaves
+    // the rationale with it.
+    var marker = _nf.rationaleSummary;
+    _nf = _nfOff();
+    _nf.rationaleSummary = marker;
+    _nfGen++;
+    _restyleAll();
+    _changed();
+    return _selected.size;
   }
 
   /* ── Natural features as a market-area limit ─────────────────────── */
@@ -843,7 +884,9 @@
     clear:               clear,
     getSelectedGeoids:   getSelectedGeoids,
     getCount:            getCount,
+    readyAt:             readyAt,
     clearSelection:      clearSelection,
+    setSelection:        setSelection,
     getBoundary:         getBoundary,
     wasCurated:          wasCurated,
     setRationale:        setRationale,

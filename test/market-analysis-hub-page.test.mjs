@@ -447,7 +447,9 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   ok(!scripts(oldPage).includes('js/components/ma-site-link.js'), 'the old page itself should not load the site link');
   // It drives the page's own controls, which must still be on the page.
   const used = [...new Set([...src.matchAll(/getElementById\('([^']+)'\)/g)].map(m => m[1]))];
-  ok(used.length === 4 && used.every(id => oldIds.has(id)), 'the site link uses ids the page no longer has: ' + used.filter(id => !oldIds.has(id)).join(', '));
+  ok(used.length === 6 && used.every(id => oldIds.has(id)), 'the site link uses ids the page no longer has: ' + used.filter(id => !oldIds.has(id)).join(', '));
+  // And the page's Tract tab and the controller's method, which it reads to run an imported area in tract mode.
+  ok(/data-pma-method="tract"/.test(oldPage) && /data-pma-method="tract"/.test(newPage) && /getMethod:\s+function \(\) \{ return _method; \}/.test(read('js/pma-ui-controller.js')), 'the site link presses a Tract tab and reads PMAUIController.getMethod, which the page no longer has');
   // The same Colorado box the address search checks, and the status words it writes for a typed point.
   const engine = read('js/market-analysis.js');
   const box = /CO_LAT_MIN = ([-\d.]+), CO_LAT_MAX = ([-\d.]+);\s*var CO_LON_MIN = ([-\d.]+), CO_LON_MAX = ([-\d.]+);/.exec(engine);
@@ -460,13 +462,18 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   const link = /'deal-market-analysis\.html\?geoid=' \+ encodeURIComponent\(g\) \+ \(lead \? '&(\w+)=' \+ site\.lat\.toFixed\(5\) \+ ',' \+ site\.lon\.toFixed\(5\) \+ '&(\w+)=' \+ encodeURIComponent\(site\.label\)/.exec(market);
   ok(link, 'hub/market.js no longer builds the Market Analysis link with a site as ?geoid=...&<site>=lat,lon&<label>=...');
   const reads = [...src.matchAll(/sp\.get\('(\w+)'\)/g)].map(m => m[1]);
-  ok(link && reads.join() === [link[1], link[2]].join(), 'Market check sends ' + (link ? link.slice(1).join(', ') : '?') + ' but the site link reads ' + reads.join(', '));
+  ok(link && reads.slice().sort().join() === [link[1], link[2], 'tr', 'tl'].sort().join(), 'Market check sends ' + (link ? link.slice(1).join(', ') : '?') + ' but the site link reads ' + reads.join(', '));
+  // And the market area (paul, 17 Nov 2026: the site should transfer and run the PMA): Market check adds the picked
+  // tracts as tr= and the area's name as tl= when the link is followed.
+  ok(/q\.set\('tr', /.test(market) && /q\.set\('tl', /.test(market), 'hub/market.js no longer adds the market area (tr=, tl=) to the Market Analysis link');
+  const picker = read('js/pma-tract-picker.js');
+  ok(/setSelection:\s+setSelection,/.test(picker), 'js/pma-tract-picker.js no longer exposes setSelection for the market area from Market check');
   ok(!/deal-market-analysis\.html[^'"]*auto=1/.test(market), 'Market check should never send auto=1 to the full Market Analysis');
 
   // What it does, in a page with the four controls.
   const { JSDOM } = await import('jsdom');
   const opened = [];
-  const run = async (query, { ready = true } = {}) => {
+  const run = async (query, { ready = true, setup } = {}) => {
     const dom = new JSDOM('<!doctype html><body><input id="pmaAddressInput"><button id="pmaAddressSearchBtn">Find</button><p id="pmaAddressStatus"></p><div id="pmaMap"></div></body>',
       { runScripts: 'outside-only', url: 'https://example.com/deal-market-analysis.html' + query });
     const w = dom.window; opened.push(w);
@@ -478,6 +485,7 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
     let release; const data = ready ? Promise.resolve() : new Promise(r => { release = r; });
     w.PMAEngine = { whenDataReady: () => data };
     const later = w.setTimeout.bind(w); w.setTimeout = f => later(f, 0);   // the three-second wait, without waiting
+    if (setup) setup(w);
     w.eval(src);
     await new Promise(r => setTimeout(r, 50));
     return { w, pressed, release, status: () => w.document.getElementById('pmaAddressStatus').textContent };
@@ -491,6 +499,125 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6
   ok(b.pressed.length === 0, 'nothing should be found before the page\'s data has loaded');
   b.release(); await new Promise(r => setTimeout(r, 50));
   ok(b.pressed.length === 1 && b.status().startsWith('Pin dropped at '), 'once the data has loaded, the point should be found (no label, no "Site from Market check")');
+  // With the market area: once the picker has loaded round the site, Market check's tracts replace its pick, the reason
+  // is written, and Run Analysis is pressed once. Without it, the 4-mile pick runs as it stands.
+  ok(/readyAt:\s+readyAt,/.test(picker) && /_readyAt = \{ lat: lat, lon: lon \};/.test(picker), 'js/pma-tract-picker.js no longer says where it finished loading (readyAt), which the site link waits on');
+  const withPicker = async (query, { count = 5, at = [37.2256, -107.5981], pre = '', method = null } = {}) => {
+    const got = { set: null, why: pre, runs: 0, tabs: 0 };
+    const r = await run(query, { setup: (w) => {
+      const d = w.document, btn = d.createElement('button'), ta = d.createElement('textarea');
+      btn.id = 'pmaRunBtn'; ta.id = 'pmaTractRationale'; ta.value = pre; d.body.append(btn, ta);
+      btn.addEventListener('click', () => { got.runs++; });
+      let n = count, loadedAt = method && method !== 'tract' ? null : at;
+      if (method) {
+        // The page's method tabs: pressing Tract starts the picker at the site, as js/pma-ui-controller.js does.
+        let current = method;
+        const tab = d.createElement('button'); tab.dataset.pmaMethod = 'tract'; d.body.append(tab);
+        tab.addEventListener('click', () => { got.tabs++; current = 'tract'; loadedAt = at; });
+        w.PMAUIController = { getMethod: () => current };
+      }
+      w.PMATractPicker = { getCount: () => n, readyAt: () => (loadedAt ? { lat: loadedAt[0], lon: loadedAt[1] } : null),
+        setSelection: g => { got.set = g; n = g.length; return g.length; }, getRationale: () => got.why, setRationale: t => { got.why = t; } };
+      got.ta = () => ta.value;
+    } });
+    await new Promise(res => setTimeout(res, 50));
+    got.ta = got.ta(); got.w = r.w; return got;
+  };
+  const c = await withPicker('?site=37.2256,-107.5981&tr=067940600.067940700&tl=' + encodeURIComponent('Local market area'));
+  ok(c.set && c.set.join() === '08067940600,08067940700', 'the market area\'s tracts should replace the picker\'s (got ' + c.set + ')');
+  // The reason agrees with the market area that came in (its name, its tract count, where it came from) and is the one
+  // the site link builds; the box and the picker hold the same text. Its wording is free.
+  const L = c.w.MASiteLink;
+  ok(L && typeof L.reason === 'function' && c.ta === L.reason('Local market area', c.set.length), 'the reason should be the one the site link builds for this market area: ' + c.ta);
+  ok(c.ta.includes('Local market area') && new RegExp('\\b' + c.set.length + '\\b').test(c.ta) && c.ta.includes(L.FROM) && L.FROM === 'Market check', 'the reason should carry the area\'s name, its tract count and where it came from: ' + c.ta);
+  ok(c.why === c.ta, 'the rationale box and the picker should hold the same reason');
+  ok(c.runs === 1, 'the analysis should run once (ran ' + c.runs + ')');
+  const e = await withPicker('?site=37.2256,-107.5981');
+  ok(e.set === null && e.runs === 1 && e.ta === '', 'with no market area, the picker\'s own tracts should run unchanged');
+  const f = await withPicker('?site=37.2256,-107.5981&tr=12345.abc');
+  ok(f.set === null && f.runs === 1, 'tract numbers that are not 9 digits should be ignored');
+  // A rural site where nothing could be picked (no centroid within 12 miles): the market area still comes in and runs.
+  const g = await withPicker('?site=37.7666,-108.9067&tr=033972100&tl=' + encodeURIComponent('Dove Creek area'), { count: 0, at: [37.7666, -108.9067] });
+  ok(g.set && g.set.join() === '08033972100' && g.runs === 1, 'with an empty auto-pick, the market area should still be put in and run (set ' + g.set + ', ran ' + g.runs + ')');
+  // Nothing to run on (no market area, nothing picked): Run Analysis is left for the reader.
+  const h = await withPicker('?site=37.7666,-108.9067', { count: 0, at: [37.7666, -108.9067] });
+  ok(h.runs === 0, 'with no market area and nothing picked, the analysis should not be run (ran ' + h.runs + ')');
+  // The picker loaded round another point (or not yet): wait, put nothing in, run nothing.
+  const k = await withPicker('?site=37.2256,-107.5981&tr=067940600', { at: [39.7392, -104.9903] });
+  ok(k.set === null && k.runs === 0, 'a picker loaded round another point should be waited on, not used');
+  const m = await withPicker('?site=37.2256,-107.5981&tr=067940600', { at: null });
+  ok(m.set === null && m.runs === 0, 'a picker that has not loaded should be waited on');
+  // A second Market check link for the same site (the picker restores the saved reason): a reason left by the earlier
+  // import names another area, so it is replaced; an analyst's own note is kept, once, after the new reason (Codex).
+  const local = L.reason('Local market area', 2), regional = '?site=37.2256,-107.5981&tr=067940600.067940700.067940800&tl=' + encodeURIComponent('Regional market area');
+  const r1 = await withPicker(regional, { pre: local });
+  ok(r1.ta === L.reason('Regional market area', 3) && r1.why === r1.ta && !r1.ta.includes('Local market area'), 'a reason from an earlier import should be replaced: ' + r1.ta);
+  const ownNote = 'Kept the river tracts: the bridge at 5th St connects them.';
+  const r2 = await withPicker(regional, { pre: ownNote });
+  ok(r2.ta.startsWith(L.reason('Regional market area', 3)) && r2.ta.split(ownNote).length === 2 && r2.why === r2.ta, 'an analyst\'s own note should be kept once, after the new reason: ' + r2.ta);
+  const r3 = await withPicker('?site=37.2256,-107.5981&tr=067940600&tl=' + encodeURIComponent('Local market area'), { pre: r2.ta });
+  ok(r3.ta.startsWith(L.reason('Local market area', 1)) && !r3.ta.includes('Regional market area') && r3.ta.split(ownNote).length === 2, 'importing again should keep the analyst\'s note once and drop the earlier area: ' + r3.ta);
+  ok(L.rationaleFor(local, '') === local, 'with nothing written before, the reason is the rationale');
+  // A saved run restored the Hybrid tab, where the picker never loads (Codex): with tracts, the Tract tab is pressed
+  // once and the area runs; without tracts, the restored method is left alone.
+  const hy = await withPicker('?site=37.2256,-107.5981&tr=067940600&tl=' + encodeURIComponent('Local market area'), { method: 'hybrid' });
+  ok(hy.tabs === 1 && hy.set && hy.set.join() === '08067940600' && hy.runs === 1, 'from a restored Hybrid tab, the Tract tab should be pressed once and the area run (tabs ' + hy.tabs + ', set ' + hy.set + ', ran ' + hy.runs + ')');
+  const tr = await withPicker('?site=37.2256,-107.5981&tr=067940600', { method: 'tract' });
+  ok(tr.tabs === 0 && tr.runs === 1, 'already in tract mode, no tab should be pressed');
+  const old = await withPicker('?site=37.2256,-107.5981', { method: 'commuting' });
+  ok(old.tabs === 0 && old.set === null, 'a link without tracts should leave the restored method alone');
+  // The real picker, in a page of its own with a minimal Leaflet (as test/pma-natural-features.test.js uses). It says
+  // where it finished loading, and a market area that reaches past its 12-mile layer gets a shape for every far tract,
+  // so each can be clicked like the rest (Codex on #2923: Mesa County from Grand Junction).
+  {
+    const pw = new JSDOM('<!doctype html><body></body>', { runScripts: 'outside-only', url: 'https://example.com/deal-market-analysis.html' }).window;
+    opened.push(pw);
+    const shapes = [];
+    pw.fetch = async (u) => ({ ok: true, json: async () => JSON.parse(read(String(u))) });
+    pw.L = {
+      geoJSON(fc, opts) {
+        const add = (c) => c.features.forEach((feature) => {
+          const layer = { feature, on() {}, setStyle() {}, bindTooltip() {} };
+          if (opts && opts.onEachFeature) opts.onEachFeature(feature, layer);
+          shapes.push(layer);
+        });
+        add(fc);
+        const group = { eachLayer: (fn) => shapes.forEach(fn), addTo() { return group; }, addData(c) { add(c); return group; } };
+        return group;
+      },
+      polyline: () => ({}), layerGroup: () => ({ addTo() { return this; } }), DomEvent: { stopPropagation() {} }
+    };
+    pw.console = { log() {}, warn() {}, error() {} };
+    pw.eval(read('js/pma-barriers.js'));
+    pw.eval(read('js/pma-tract-picker.js'));
+    const P = pw.PMATractPicker, GJ = { lat: 39.0639, lon: -108.5506 }, fakeMap = { removeLayer() {} };
+    ok(P.readyAt() === null, 'before it loads, the picker should say it has not loaded');
+    await P.init(fakeMap, GJ.lat, GJ.lon);
+    ok(P.readyAt() && P.readyAt().lat === GJ.lat && P.readyAt().lon === GJ.lon, 'once loaded, the picker should say where');
+    const gid = (f) => f.properties.GEOID || f.properties.geoid || f.properties.GEOID20;
+    const mesa = JSON.parse(read('data/market/tract_boundaries_co.geojson')).features.map(gid).filter((g) => /^08077/.test(g));
+    const before = new Set(shapes.map((l) => gid(l.feature)));
+    const far = mesa.filter((g) => !before.has(g));
+    // Natural features applied to the 4-mile pick before the area comes in (Codex): that state belongs to the old
+    // tracts, so the import drops it, and turning the option off keeps the imported area.
+    const nfBefore = await P.proposeNaturalFeatures();
+    ok(nfBefore.status === 'proposed' && nfBefore.tracts.length >= 1, 'non-vacuity: Grand Junction has tracts across the river to propose (' + nfBefore.status + ')');
+    P.applyNaturalFeatures();
+    ok(P.getNaturalFeatures().status === 'applied', 'non-vacuity: the exclusions are applied before the import');
+    ok(far.length >= 1, 'non-vacuity: some Mesa County tracts lie past the 12-mile layer at Grand Junction (' + far.length + ')');
+    ok(P.setSelection(mesa) === mesa.length, 'the whole county should be selected');
+    const after = shapes.map((l) => gid(l.feature));
+    ok(mesa.every((g) => after.includes(g)) && after.length === new Set(after).size, 'every selected tract should have one shape to click (missing ' + mesa.filter((g) => !after.includes(g)).join(', ') + ')');
+    ok(P.getNaturalFeatures().status === 'off', 'the imported area should drop the natural-feature state of the tracts before it (' + P.getNaturalFeatures().status + ')');
+    P.turnOffNaturalFeatures();
+    ok(P.getSelectedGeoids().slice().sort().join() === mesa.slice().sort().join(), 'turning the option off should keep the imported area, not bring back the tracts before it');
+    // A proposal still loading when the area comes in is dropped.
+    const pending = P.proposeNaturalFeatures();
+    P.setSelection(mesa.slice(0, 5));
+    ok((await pending).status === 'off' && P.getSelectedGeoids().length === 5, 'a proposal pending for the old tracts should be dropped by the import');
+    P.clear(fakeMap);
+    ok(P.readyAt() === null, 'clearing the picker should forget where it loaded');
+  }
   opened.forEach(w => w.close());
 }
 

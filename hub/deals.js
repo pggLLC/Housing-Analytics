@@ -129,6 +129,28 @@
       T.next('Next', [{ href: '#/deals', label: 'Every deal summary →' }, { href: '#/deal-calculator', label: 'Test a similar deal', secondary: true }]);
   }
 
+  // The summary for one award row, as the live Where the money goes page matches it (js/agency-funding.js dealFor):
+  // same agency and year, and the same name, or one name starting the other when the ledger cuts a long name short.
+  function normName(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); }
+  function dealFor(deals, a) {
+    var n = normName(a && a.name);
+    if (!n || !deals) return null;
+    for (var i = 0; i < deals.length; i++) {
+      var m = deals[i].match || {};
+      if (m.agency !== a.agency || (m.year && a.year && Number(m.year) !== Number(a.year))) continue;
+      var hit = (m.names || []).some(function (x) { var k = normName(x); return k === n || (n.length >= 12 && k.indexOf(n) === 0) || (k.length >= 12 && n.indexOf(k) === 0); });
+      if (hit) return deals[i];
+    }
+    return null;
+  }
+
   Shell.views.deals = function (params, parts) { return parts[1] ? deal(parts[1]) : list(params); };
-  global.LabDeals = { list: list, deal: deal };
+  // The summary page for one award row ('#/deals/<slug>'), or null. Loads the index the way the list does (UI.load keys a
+  // load by its file paths, so every caller must name the file 'index'), and redraws when it arrives.
+  function summaryHref(a) {
+    var s = UI.load({ index: 'data/deals/index.json' });
+    var dl = s.data && s.data.index ? dealFor(s.data.index.deals, a) : null;
+    return dl ? '#/deals/' + dl.slug : null;
+  }
+  global.LabDeals = { list: list, deal: deal, dealFor: dealFor, summaryHref: summaryHref };
 })(window);

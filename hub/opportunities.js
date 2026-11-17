@@ -920,13 +920,15 @@
     var L = loading('2026 Round One tax credit awards');
     if (L.html) return L.html;
     var m = L.d.roundOne.metadata, awards = L.d.roundOne.awards;
+    // Each development opens its COHO deal summary where one is written; otherwise its town.
+    var summaryOf = function (r) { return global.LabDeals ? global.LabDeals.summaryHref({ agency: 'CHFA', year: 2026, name: r.name }) : null; };
     return frame('2026 Round One tax credit awards') +
       '<p class="lede">Announced by CHFA on ' + esc(m.announcement_date) + '.</p>' +
       UI.intro('Which developments won tax credits this spring, where, and how big they are.',
         num(m.parsed_count) + ' developments won credits for ' + num(m.press_release_total_units) + ' homes and about $' + m.press_release_total_equity_M + ' million in equity.') +
       UI.bars('Homes in each award', null, awards.map(function (a) { return [a.name + ', ' + a.city, a.total_units]; }).sort(function (a, b) { return b[1] - a[1]; }), num) +
       UI.table('r1', '2026 Round One awards', [
-        { key: 'name', label: 'Development', href: function (r) { return UI.placeFor(r.city); } },
+        { key: 'name', label: 'Development', href: function (r) { return summaryOf(r) || UI.placeFor(r.city); }, tip: 'Opens COHO’s sourced deal summary where one is written, otherwise the town' },
         { key: 'city', label: 'City' },
         { key: 'county', label: 'County' },
         { key: 'sponsor', label: 'Sponsor' },
