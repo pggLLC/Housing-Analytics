@@ -1,9 +1,9 @@
 {
   "meta": {
     "generator": "scripts/funding/build_award_rows.py",
-    "ledger_generated_at": "2026-10-18T12:19:29Z",
+    "ledger_generated_at": "2026-11-17T04:20:50Z",
     "method": "Each award PDF read as tables with pdfplumber; each ledger award matched to the printed row that carries both its amount and its unit count. Contact columns are never read. The quote is the row as printed, heading by heading.",
-    "rows": 458,
+    "rows": 467,
     "unmatched": 0,
     "sponsors_from_applications": 2
   },
@@ -2416,6 +2416,87 @@
       "sponsor_heading": "Sponsor",
       "location": "Lafayette",
       "quote": "Type: N, SP; Name: Willoughby Corner Phase 2; Address: 678 Willoughby Drive; City: Lafayette; Total Units: 32; Total LI Units: 32; Federal 9% Credit Awarded: $1,582,767; Standard State Credit Awarded: $500,000; TOC Credit Awarded: $64,000; Sponsor: Boulder County Housing Authority (BCHA)"
+    },
+    {
+      "key": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf|1996411|109#1",
+      "source_file": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+      "name": "4745 N Federal Blvd",
+      "sponsor": "Colorado Coalition for the Homeless",
+      "sponsor_heading": "Sponsor",
+      "location": "Denver",
+      "quote": "Type: N,I/F,SH; Name: 4745 N Federal Blvd; Address: 4745 N Federal Boulevard; City: Denver; Total Units: 109; Total LI Units: 109; Federal 4% Credit Awarded: $1,996,411; Accelerated State Credit Awarded: $1,300,000; Standard State Credit Awarded: $600,000; TOC Credit Awarded: $218,000; PAB Amount: $20,000,000; Bond Issuer: CHFA; Sponsor: Colorado Coalition for the Homeless"
+    },
+    {
+      "key": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf|1577561|55#1",
+      "source_file": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+      "name": "Alpine Balsam",
+      "sponsor": "Boulder Housing Partners",
+      "sponsor_heading": "Sponsor",
+      "location": "Boulder",
+      "quote": "Type: N,OA,SP; Name: Alpine Balsam; Address: 1055 Alpine Avenue; City: Boulder; Total Units: 55; Total LI Units: 55; Federal 4% Credit Awarded: $1,577,561; Accelerated State Credit Awarded: $1,300,000; TOC Credit Awarded: $110,000; PAB Amount: $9,400,000; Bond Issuer: Boulder Housing Partners; Sponsor: Boulder Housing Partners"
+    },
+    {
+      "key": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf|3660723|169#1",
+      "source_file": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+      "name": "Baseline Family Apartments",
+      "sponsor": "Lincoln Avenue Communities",
+      "sponsor_heading": "Sponsor",
+      "location": "Broomfield",
+      "quote": "Type: N,I/F; Name: Baseline Family Apartments; Address: 16453 Peak Street; City: Broomfield; Total Units: 169; Total LI Units: 169; Federal 4% Credit Awarded: $3,660,723; Accelerated State Credit Awarded: $1,300,000; PAB Amount: $33,320,000; Bond Issuer: Broomfield Housing Alliance; Sponsor: Lincoln Avenue Communities"
+    },
+    {
+      "key": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf|1711780|80#1",
+      "source_file": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+      "name": "Castleton Heights",
+      "sponsor": "TWG Development, LLC",
+      "sponsor_heading": "Sponsor",
+      "location": "Castle Rock",
+      "quote": "Type: N,I/F; Name: Castleton Heights; Address: 3161 North Castleton Court; City: Castle Rock; Total Units: 80; Total LI Units: 80; Federal 4% Credit Awarded: $1,711,780; Accelerated State Credit Awarded: $1,300,000; Standard State Credit Awarded: $600,000; PAB Amount: $12,167,212; Bond Issuer: Douglas County Housing Partnership; Sponsor: TWG Development, LLC"
+    },
+    {
+      "key": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf|1951562|84#1",
+      "source_file": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+      "name": "Cedar Gardens",
+      "sponsor": "Metro West Housing Solutions",
+      "sponsor_heading": "Sponsor",
+      "location": "Lakewood",
+      "quote": "Type: N,I/F; Name: Cedar Gardens; Address: 6990 W Cedar Avenue; City: Lakewood; Total Units: 84; Total LI Units: 84; Federal 4% Credit Awarded: $1,951,562; Accelerated State Credit Awarded: $1,300,000; Standard State Credit Awarded: $600,000; TOC Credit Awarded: $168,000; PAB Amount: $18,000,000; Bond Issuer: Metro West Housing Solutions; Sponsor: Metro West Housing Solutions"
+    },
+    {
+      "key": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf|1285707|62#1",
+      "source_file": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+      "name": "Haven at Salt Flats",
+      "sponsor": "Volunteers of America National Services",
+      "sponsor_heading": "Sponsor",
+      "location": "Grand Junction",
+      "quote": "Type: N,OA,V; Name: Haven at Salt Flats; Address: 450 28 Road; City: Grand Junction; Total Units: 62; Total LI Units: 62; Federal 4% Credit Awarded: $1,285,707; Accelerated State Credit Awarded: $1,300,000; Standard State Credit Awarded: $600,000; PAB Amount: $8,000,000; Bond Issuer: Grand Junction Housing Authority; Sponsor: Volunteers of America National Services"
+    },
+    {
+      "key": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf|4096657|139#1",
+      "source_file": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+      "name": "Metro Caring Housing",
+      "sponsor": "Metro Caring",
+      "sponsor_heading": "Sponsor",
+      "location": "Denver",
+      "quote": "Type: N,I/F; Name: Metro Caring Housing; Address: 1100 E 18th Ave; City: Denver; Total Units: 139; Total LI Units: 139; Federal 4% Credit Awarded: $4,096,657; Accelerated State Credit Awarded: $1,300,000; Standard State Credit Awarded: $600,000; TOC Credit Awarded: $278,000; PAB Amount: $25,500,000; Bond Issuer: City and County of Denver; Sponsor: Metro Caring"
+    },
+    {
+      "key": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf|1836829|75#1",
+      "source_file": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+      "name": "Stanley 98",
+      "sponsor": "Aurora Housing Authority",
+      "sponsor_heading": "Sponsor",
+      "location": "Aurora",
+      "quote": "Type: N,I/F; Name: Stanley 98; Address: 2520 N Jamaica Street; City: Aurora; Total Units: 75; Total LI Units: 75; Federal 4% Credit Awarded: $1,836,829; Accelerated State Credit Awarded: $1,300,000; Standard State Credit Awarded: $600,000; PAB Amount: $11,000,000; Bond Issuer: Aurora Housing Authority; Sponsor: Aurora Housing Authority"
+    },
+    {
+      "key": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf|1550888|72#1",
+      "source_file": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+      "name": "Starlight",
+      "sponsor": "South Metro Housing Options",
+      "sponsor_heading": "Sponsor",
+      "location": "Littleton",
+      "quote": "Type: N,I/F; Name: Starlight; Address: 439 & 589 W Littleton Boulevard; City: Littleton; Total Units: 72; Total LI Units: 72; Federal 4% Credit Awarded: $1,550,888; Accelerated State Credit Awarded: $1,300,000; Standard State Credit Awarded: $600,000; PAB Amount: $9,000,000; Bond Issuer: South Metro Housing Options; Sponsor: South Metro Housing Options"
     },
     {
       "key": "FY23-24-LandBankingAwards.pdf|5000000|52#1",

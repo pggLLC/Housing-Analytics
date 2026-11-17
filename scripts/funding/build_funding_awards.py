@@ -73,7 +73,7 @@ SOURCES = [
         'program_family': 'housing-tax-credit',
         'index_url': 'https://www.chfainfo.com/rental-housing/housing-credit/awards',
         # Award reports only: applicant, LOI and status reports list requests, not awards.
-        'link_pattern': re.compile(r'/getattachment/[^"\s]*award[^"\s]*\.pdf', re.I),
+        'link_pattern': re.compile(r'/(?:getattachment|getContentAsset)/[^"\s]*award[^"\s]*\.pdf', re.I),
     },
     {
         'agency': 'OEDIT / CHFA (Prop 123 AHFF)',
@@ -747,6 +747,32 @@ def assign_county(rec: dict, counties: dict, places: dict, names: dict) -> None:
         f'"{loc}" is not a Colorado place or county this site knows' if loc else 'no location printed')
 
 
+# CHFA's 2026 bridge files carry each award's printed address, placed on the
+# map and attributed to a county by point-in-polygon. A town that spans
+# counties is matched to one county by name (Aurora -> Arapahoe), so an award
+# whose address point is in the other county (Stanley 98, 2520 N Jamaica St,
+# in Adams) takes the point's county.
+BRIDGE_FILES = {(2026, 1): '2026-round-one.json', (2026, 2): '2026-round-two.json'}
+_BRIDGE: dict = {}
+
+
+def point_county(rec: dict, agency: str, year, rnd) -> None:
+    f = BRIDGE_FILES.get((year, rnd)) if agency == 'CHFA' else None
+    if not f or not rec.get('name'):
+        return
+    if f not in _BRIDGE:
+        try:
+            with open(os.path.join(ROOT, 'data', 'affordable-housing', 'chfa-awards', f), encoding='utf-8') as fh:
+                _BRIDGE[f] = {norm(a['name']): a for a in json.load(fh).get('awards', [])}
+        except (OSError, ValueError):
+            _BRIDGE[f] = {}
+    a = _BRIDGE[f].get(norm(rec['name']))
+    if a and a.get('geo_precision') in ('address', 'street') and a.get('county_fips') \
+            and a['county_fips'] != rec.get('county_fips') and rec.get('county_method') != 'county column':
+        rec['county_fips'], rec['county_method'] = a['county_fips'], 'CHFA address point (2026 bridge file)'
+        rec.pop('county_unavailable_reason', None)
+
+
 # ── main ─────────────────────────────────────────────────────────────────────
 
 AMOUNT_FIELDS = ('federal_credit', 'state_credit', 'toc_credit', 'mihtc_credit',
@@ -852,6 +878,7 @@ def build(docs: list[dict], cache: str) -> tuple[list[dict], list[dict]]:
                 r['county_unavailable_reason'] = 'modular factory financing, not a housing site'
             year = int_value(r.get('award_year') or '') if r.get('award_year') else None
             year = year if year and 1985 < year < 2100 else meta['year']
+            point_county(r, doc['agency'], year, meta.get('round'))
             if year is None or year < FIRST_YEAR:
                 continue
             row = {

@@ -1,10 +1,10 @@
 {
  "meta": {
-  "generated_at": "2026-10-18T12:19:29Z",
+  "generated_at": "2026-11-17T04:20:50Z",
   "discovery": [
    {
     "index_url": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
-    "documents": 27,
+    "documents": 28,
     "status": "ok"
    },
    {
@@ -17,7 +17,7 @@
  "documents": [
   {
    "file": "federal-4-housing-tax-credit-award-report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/34a30942-e08d-494a-8bc7-f236ebf01e98/federal-4-housing-tax-credit-award-report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/34a30942-e08d-494a-8bc7-f236ebf01e98/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/federal-4-housing-tax-credit-award-report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "8bfc7ae1918116d5fd99dca3a60e38401de04ee1c2faa2f649d0ee0823c3bd38",
@@ -32,7 +32,7 @@
   },
   {
    "file": "2015-4-and-State-AND-4-and-CDBG-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/e0a3e6f5-143f-4a30-b1ea-4c0490b85247/2015-4-and-State-AND-4-and-CDBG-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/e0a3e6f5-143f-4a30-b1ea-4c0490b85247/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2015-4-and-State-AND-4-and-CDBG-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "d640b28621c2169aad7cb22e203e95cabd08f3470554f2e5b0c1efc6adf52bb0",
@@ -72,7 +72,7 @@
   },
   {
    "file": "2015CompetitiveAwardReport.pdf",
-   "url": "https://www.chfainfo.com/getattachment/e45e770d-8dd8-4a97-a54e-93bea5bef896/2015CompetitiveAwardReport.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/e45e770d-8dd8-4a97-a54e-93bea5bef896/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2015CompetitiveAwardReport.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "0c7eb35f48711cd384c1ab247d22f1c1a88fa8a29969c92e07aa71af289d46fa",
@@ -100,7 +100,7 @@
   },
   {
    "file": "4-and-State-AND-4-and-CDBG-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/d7263666-7bf5-421e-8d34-fcdcbbe56afc/4-and-State-AND-4-and-CDBG-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/d7263666-7bf5-421e-8d34-fcdcbbe56afc/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/4-and-State-AND-4-and-CDBG-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "814194d94e0e2ad905a88b29fabf2f9eaa87d6b7d40a20de33a52f1ec0e6f7e6",
@@ -140,7 +140,7 @@
   },
   {
    "file": "2016-Round-2-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/8dbb8512-b3bd-4f66-af97-769082377f3f/2016-Round-2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/8dbb8512-b3bd-4f66-af97-769082377f3f/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2016-Round-2-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "431af179ba3f33abc136a563416589426c0eff5e94fec8b0c7cb73ce4a93c0e7",
@@ -174,7 +174,7 @@
   },
   {
    "file": "2016-Round1-4-State-4-CDBG-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/e7116376-ce90-4843-b4d7-5620dd769d41/2016-Round1-4-State-4-CDBG-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/e7116376-ce90-4843-b4d7-5620dd769d41/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2016-Round1-4-State-4-CDBG-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "690bc7e641db22a878e622d5768fd61810b5d93403ee7e23c048dd41b25a3bf5",
@@ -214,7 +214,7 @@
   },
   {
    "file": "2017-Round-1-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/85345ccc-49f6-44a1-8fd5-216654a6ba83/2017-Round-1-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/85345ccc-49f6-44a1-8fd5-216654a6ba83/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2017-Round-1-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "d5144e2a408c7930710918b25dfe5d4ee49d98338fdca14a1706113c91615755",
@@ -248,7 +248,7 @@
   },
   {
    "file": "2017-Round-2-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/d9d4c3da-75ac-4af7-9dde-ed216341f3bb/2017-Round-2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/d9d4c3da-75ac-4af7-9dde-ed216341f3bb/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2017-Round-2-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "31235b5aa43996cd278d32c691665f0a614848fe6eba9626318b9f2adf4d58e5",
@@ -276,7 +276,7 @@
   },
   {
    "file": "2018-LIHTC-Round2-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/44c169f3-dacc-4b82-bd62-a34b6283f9f6/2018-LIHTC-Round2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/44c169f3-dacc-4b82-bd62-a34b6283f9f6/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2018-LIHTC-Round2-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "9efb51f7784506fee25be4fdbb2d776362886dc368be2cf8fbf742f6015d53fe",
@@ -354,7 +354,7 @@
   },
   {
    "file": "2018-Round-1-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/b0c2cd4c-f869-42a3-9b00-115d4690a32c/2018-Round-1-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/b0c2cd4c-f869-42a3-9b00-115d4690a32c/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2018-Round-1-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "710d5dc8d76453461d9f914e25c4d3803de861e63d6c28e9c1a6436808f6d704",
@@ -394,7 +394,7 @@
   },
   {
    "file": "2019-Round-1-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/13961f36-541f-4cad-8e41-64bacb1ca1c9/2019-Round-1-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/13961f36-541f-4cad-8e41-64bacb1ca1c9/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2019-Round-1-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "88e2e1c7a555a190ca2d7a238114138393151c6d611450ac8d57ff8fae08f813",
@@ -497,7 +497,7 @@
   },
   {
    "file": "2019-Round-2-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/52b45440-7788-4762-9a75-c9c632623a8f/2019-Round-2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/52b45440-7788-4762-9a75-c9c632623a8f/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2019-Round-2-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "c4afd806315ea95cccac520d4323da9e5adb7a780751cc2d7316fd73e40d54ff",
@@ -525,7 +525,7 @@
   },
   {
    "file": "2020-Round-1-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/3cc9acfe-0e46-455d-ac37-a2167b823a9d/2020-Round-1-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/3cc9acfe-0e46-455d-ac37-a2167b823a9d/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2020-Round-1-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "fd6c65e3253068366d67067e5070324b6e3869bcf44465ef29c170f9ec6227ab",
@@ -559,7 +559,7 @@
   },
   {
    "file": "2020-Round-2-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/1891e481-b584-4155-962c-3f3bbff94357/2020-Round-2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/1891e481-b584-4155-962c-3f3bbff94357/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2020-Round-2-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "889db79ef22a05a0afbd052b3d26ecff8a7de57fdcbe969e8c40d9e47b0d1674",
@@ -655,7 +655,7 @@
   },
   {
    "file": "2021-Round-1-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/73c04756-71db-42a0-a4fb-1d3a5f0ffb83/2021-Round-1-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/73c04756-71db-42a0-a4fb-1d3a5f0ffb83/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2021-Round-1-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "7c6e89d0090c27d6817bb51321e7e6796b39517a0c07aefcc3757d5bb9aca38c",
@@ -689,7 +689,7 @@
   },
   {
    "file": "2021-Round-2-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/50dd8292-24b8-4ed9-b285-304b4401ae87/2021-Round-2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/50dd8292-24b8-4ed9-b285-304b4401ae87/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2021-Round-2-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "494719c732eea37b303591281b7f1b9653d498ad8e90f6f05d7df8b4f1964c83",
@@ -804,7 +804,7 @@
   },
   {
    "file": "2022-Round-1-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/2022-Round-1-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2022-Round-1-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "4dbad778270275b6394932cec646921a0b5822d90ca75f16e8e0edea5acc9b75",
@@ -838,7 +838,7 @@
   },
   {
    "file": "2022-Round-2-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/5e11c07a-670e-42b2-b978-53f0a2db1635/2022-Round-2-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/5e11c07a-670e-42b2-b978-53f0a2db1635/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2022-Round-2-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "8d0cf77bd0cb2e6c35193ca547edd24294a13c8ba0aff8dd95c0bc9dea85b643",
@@ -934,7 +934,7 @@
   },
   {
    "file": "2023-Round-1-Housing-Tax-Credit-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/037e65b5-e51c-4920-864a-41ac174b6558/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/037e65b5-e51c-4920-864a-41ac174b6558/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "e50d178121b8554bb76395238197c3696a9c01a7c06f277de35a0c4bfb9f70b2",
@@ -968,7 +968,7 @@
   },
   {
    "file": "2023-Round-2-Housing-Tax-Credit-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "d6a3d1110b890ad4f11d8dcbb7961deb9bc8b2f7282671baf02bd47ab01ef2b2",
@@ -1014,7 +1014,7 @@
   },
   {
    "file": "2024-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/a87d0b61-b330-44f7-9a73-382779f7ef11/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/a87d0b61-b330-44f7-9a73-382779f7ef11/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "48e639780957fba6f27ce09acf0e0912e8f7bfc114048dc489d64eee1e7396b7",
@@ -1054,7 +1054,7 @@
   },
   {
    "file": "2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/c579304d-6db4-4e17-90ab-727158c22d13/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/c579304d-6db4-4e17-90ab-727158c22d13/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "6af39918de5160eecc7e2ceb53b35d8dc678f54112f66e0d8165eb7fa6d5c243",
@@ -1100,7 +1100,7 @@
   },
   {
    "file": "2025-MIHTC-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/44641e72-053a-42e7-8be0-5e613d51b242/2025-MIHTC-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/44641e72-053a-42e7-8be0-5e613d51b242/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2025-MIHTC-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "5b1e43ab0189583c02b1514dd1eed814c3c336af74866b525ba74ff2ee77883c",
@@ -1134,7 +1134,7 @@
   },
   {
    "file": "2025-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/b90453bd-52f8-491f-be44-c7a431440afc/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/b90453bd-52f8-491f-be44-c7a431440afc/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "a9f4f8ba430cfc85d3861ade862637cfc54a1f1251200e5589140370f2899b43",
@@ -1180,7 +1180,7 @@
   },
   {
    "file": "2025-Round-Two-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/a9fca2aa-7fde-4400-8a97-b02340419c92/2025-Round-Two-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/a9fca2aa-7fde-4400-8a97-b02340419c92/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2025-Round-Two-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "fe71ab2a68fd05f60243f44db0562eff038173608864154d17760504d678ef31",
@@ -1232,7 +1232,7 @@
   },
   {
    "file": "2026-MIHTC-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/743ba3e4-5c64-4b1a-84d5-85d209bd1990/2026-MIHTC-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/743ba3e4-5c64-4b1a-84d5-85d209bd1990/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2026-MIHTC-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "b82a3e2e46878446590374546a3748c7efe23eade03e60a3909df86836e1f5b8",
@@ -1266,7 +1266,7 @@
   },
   {
    "file": "2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
-   "url": "https://www.chfainfo.com/getattachment/307fc9f0-5255-4afa-a86d-301dd2be20fa/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/307fc9f0-5255-4afa-a86d-301dd2be20fa/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf",
    "agency": "CHFA",
    "program_family": "housing-tax-credit",
    "sha256": "a265e5b6816227b1b2d5d0ac3d9fd1768f72a06c92e771efd56aeaaf1f503b5d",
@@ -1309,6 +1309,58 @@
     }
    ],
    "rows_checked": 14
+  },
+  {
+   "file": "2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+   "url": "https://www.chfainfo.com/getContentAsset/8211a644-1911-4044-a07f-5847fe1e283c/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf",
+   "agency": "CHFA",
+   "program_family": "housing-tax-credit",
+   "sha256": "56cc822ba104e9e8c5749e744b7ed005d39529d50a0255f35c7144935dd0c7ce",
+   "year": 2026,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "title": "Colorado Housing and Finance Authority | 2026 Round Two - Award Report | Federal 4% and Accelerated State Housing Tax Credit | (with Standard State Credit and/or Transit-oriented Communities (TOC) Credit, if applicable)",
+   "rows": 9,
+   "status": "ok",
+   "checks": [
+    {
+     "field": "restricted_units",
+     "pdf_total": 845,
+     "parsed_total": 845,
+     "ok": true
+    },
+    {
+     "field": "total_units",
+     "pdf_total": 845,
+     "parsed_total": 845,
+     "ok": true
+    },
+    {
+     "field": "bond_amount",
+     "pdf_total": 146387212,
+     "parsed_total": 146387212,
+     "ok": true
+    },
+    {
+     "field": "federal_credit",
+     "pdf_total": 19668117,
+     "parsed_total": 19668118,
+     "ok": true
+    },
+    {
+     "field": "state_credit",
+     "pdf_total": 15900000,
+     "parsed_total": 15900000,
+     "ok": true
+    },
+    {
+     "field": "toc_credit",
+     "pdf_total": 774000,
+     "parsed_total": 774000,
+     "ok": true
+    }
+   ],
+   "rows_checked": 9
   },
   {
    "file": "FY23-24-LandBankingAwards.pdf",
