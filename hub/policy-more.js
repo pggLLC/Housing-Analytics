@@ -45,7 +45,9 @@
     ['#/places', 'Housing needs assessment', 'The housing gaps policy has to close, for any Colorado place.'],
     ['#/places/economy', 'Economic dashboard', 'Housing costs next to the wider economy that elections respond to.'],
     ['#/news', 'Housing news', 'Colorado housing headlines, newest first.'],
-    ['#/legislation', 'Policy and legislation', 'The federal and Colorado laws, rules and CHFA plan changes COHO tracks.']
+    ['#/legislation', 'Policy and legislation', 'The federal and Colorado laws, rules and CHFA plan changes COHO tracks.'],
+    ['#/research/brief/federal-midterms-2026-housing', '2026 midterms and housing', 'What the projected November 2026 congressional results could mean for federal housing money in Colorado.'],
+    ['#/research/brief/co-vacancy-tax-2026', 'Vacancy taxes in Colorado', 'Who can tax empty homes, and what Boulder’s 2J, passed November 3, 2026, could raise.']
   ];
   function denverToday() {
     var p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Denver', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());

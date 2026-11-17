@@ -633,6 +633,7 @@
       T.means([
         { text: 'Fee relief, land and local money lower what a project costs or add funds to it, and both CHFA and Prop 123 look for something local in a project.' }
       ]) +
+      '<p class="note">Research on these tools: <a href="#/research/brief/co-fee-reductions-2026">what Colorado towns waive in fees, and who pays</a>; <a href="#/research/brief/co-vacancy-tax-2026">vacancy taxes and Boulder’s 2J</a>; <a href="#/research/brief/co-growth-housing-balance-2026">pairing growth with a housing tool</a>.</p>' +
       '<details class="fold"><summary><span class="fold-title">How to read this page</span><span class="fold-take">Where each record comes from, and what a blank means.</span></summary><div class="fold-body"><p>Each record was read from the jurisdiction’s own code, ordinance, fee schedule, ballot result or program page. A figure the source does not publish is left blank rather than estimated.</p>' +
       '<p>A jurisdiction with no record has <strong>not</strong> been shown to have no program. Every jurisdiction is marked verified records, checked and none found, source could not be read, or not checked yet.</p>' +
       '<p>Resort towns pay for workforce housing mostly with lodging and short-term rental taxes: <a href="#/research/brief/workforce-housing-without-tax-credits-2026">read the brief on local workforce housing without tax credits</a>.</p></div></details>' +
