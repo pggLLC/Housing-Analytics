@@ -17,7 +17,18 @@
         "single-family-starts"
       ]
     },
-    "renter_owner": "Material costs apply to every new home, rental or for sale. In income-restricted rental homes the rent cannot go above a legal limit, so the part of a cost increase that rents within the limit cannot cover becomes funding gap for the building. Buyers of new for-sale homes can see it in the price.",
+    "renter_owner": {
+      "about": "Who the cost reaches, written once. scripts/policy/build_tariffs_brief.mjs writes renters, owners and both into the brief section on renters and owners and note into the construction cost note, and stops if the brief takeaway does not end with reach. Reword here, and the three move together.",
+      "applies_to": [
+        "rental",
+        "for_sale"
+      ],
+      "reach": "The costs fall on rental and for-sale homes alike.",
+      "renters": "Renters in income-restricted homes do not pay more than their rent limit allows. The limit follows area incomes, not building cost. A building that charges less than its limit can raise rents up to it. The effect is fewer homes built for the same public money.",
+      "owners": "Buyers of new for-sale homes can see it in the price, and so can owners who remodel.",
+      "both": "The price figures in this brief are for materials. They are the same for a rental building and a for-sale home.",
+      "note": "Material costs apply to every new home, rental or for sale. In income-restricted rental homes the rent cannot go above a legal limit, so the part of a cost increase that rents within the limit cannot cover becomes funding gap for the building. Buyers of new for-sale homes can see it in the price."
+    },
     "months": {
       "baseline": "2025-01",
       "year_ago": "2025-10",

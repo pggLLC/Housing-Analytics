@@ -10,7 +10,8 @@
  *     independently of the builder;
  *   - every dollar, percent or count in the prose sits in a recorded quote from a
  *     cited source or in a table the builder computed;
- *   - the brief says who the cost reaches, renters and owners;
+ *   - the brief says who the cost reaches, renters and owners, from one contract in the
+ *     data file that the brief's section, its takeaway and the cost note all carry;
  *   - the reader renders every section, table and the picture;
  *   - the construction cost pages show the brief's conclusions from a note file the
  *     builder makes, and the brief links back to the construction costs page.
@@ -21,7 +22,7 @@ import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
-import { build, BRIEF_ID, FEED, DATA, SVG, NOTE } from '../scripts/policy/build_tariffs_brief.mjs';
+import { build, whoItReaches, BRIEF_ID, FEED, DATA, SVG, NOTE } from '../scripts/policy/build_tariffs_brief.mjs';
 import { FILES } from '../scripts/audit/policy-review-reminders.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -146,12 +147,23 @@ test('every figure in the prose sits in a recorded quote or a computed table', (
   for (const f of figures) assert.ok(known.includes(f), `${f} is in the brief but in no source quote or computed table`);
 });
 
-test('the brief says who the cost reaches, renters and owners', () => {
-  assert.match(brief.takeaway, /rental and for-sale homes alike/);
-  const who = section('renters-owners').items.join(' ');
-  assert.match(who, /Renters in income-restricted homes do not pay/);
-  assert.match(who, /Buyers of new for-sale homes/);
-  assert.ok(D.meta.renter_owner.length > 40);
+test('the brief says who the cost reaches, renters and owners, as the data file records it once', () => {
+  // The contract: one record that covers rental and for-sale homes, with a line for renters, one for owners and one for both.
+  const ro = D.meta.renter_owner;
+  assert.deepEqual([...ro.applies_to].sort(), ['for_sale', 'rental'], 'the contract must cover rental and for-sale homes');
+  for (const k of ['reach', 'renters', 'owners', 'both', 'note']) assert.ok(typeof ro[k] === 'string' && ro[k].trim().length > 20, `meta.renter_owner.${k} is missing`);
+  assert.equal(new Set([ro.renters, ro.owners, ro.both]).size, 3, 'the renter, owner and shared lines must each say something');
+  // The brief's section and takeaway carry the contract, and the builder makes the section from it; the cost note
+  // carries it too (checked with the cost pages below). Rewording the contract moves all three together, and none can say otherwise.
+  assert.deepEqual(section('renters-owners').items, [ro.renters, ro.owners, ro.both]);
+  assert.ok(brief.takeaway.endsWith(ro.reach), 'the takeaway does not end with the contract\'s reach line');
+  // The builder makes the section from the contract, whatever it held before.
+  const draft = structuredClone(brief);
+  draft.sections.find((x) => x.id === 'renters-owners').items = ['Renters pay the full cost increase.'];
+  assert.deepEqual(whoItReaches(draft, D).sections.find((x) => x.id === 'renters-owners').items, [ro.renters, ro.owners, ro.both]);
+  // A takeaway that drops or contradicts the reach line does not build.
+  draft.takeaway = brief.takeaway.slice(0, -ro.reach.length) + 'The costs fall only on for-sale homes.';
+  assert.throws(() => whoItReaches(draft, D), /takeaway must end with meta\.renter_owner\.reach/);
 });
 
 test('the reader renders every section, table and the picture', async (t) => {
@@ -214,7 +226,7 @@ test('the cost pages show the brief\'s conclusions, and the brief links back', a
     const p = D.production.find((x) => x.id === id);
     assert.ok(note.lines.some((l) => l.startsWith(`${p.title}: `) && p.result.toLowerCase().startsWith(l.slice(p.title.length + 2).toLowerCase())), `${id} is not in the note as recorded`);
   }
-  assert.ok(note.lines.includes(D.meta.renter_owner), 'the note does not say who pays, renters and owners');
+  assert.ok(note.lines.includes(D.meta.renter_owner.note), 'the note does not say who pays, renters and owners');
   assert.equal(note.brief.href, `research-brief.html?id=${BRIEF_ID}`);
   assert.equal(note.brief.title, brief.title);
   assert.equal(note.meta.as_of, D.meta.as_of);

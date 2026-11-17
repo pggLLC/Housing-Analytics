@@ -173,7 +173,7 @@ export function costNote(rows, data, brief) {
       `Prices moved less than 3% for ${listed(flat)}.`,
       cn.caution,
       ...made,
-      data.meta.renter_owner,
+      data.meta.renter_owner.note,
     ],
     source: {
       text: `U.S. Bureau of Labor Statistics Producer Price Index, ${L[m.latest]}; production figures from the sources in the brief. Checked ${data.meta.as_of}.`,
@@ -182,6 +182,19 @@ export function costNote(rows, data, brief) {
     note: 'The brief reads Bureau of Labor Statistics commodity price series, so a figure here can differ a little from the industry series shown elsewhere on this page.',
     brief: { id: BRIEF_ID, title: brief.title, href: `research-brief.html?id=${BRIEF_ID}` },
   };
+}
+
+/**
+ * Who the cost reaches is written once, in meta.renter_owner: the brief's renters-and-owners section is made
+ * from it, the takeaway must end with its reach line, and the cost note carries its note line.
+ */
+export function whoItReaches(brief, data) {
+  const ro = data.meta.renter_owner;
+  const s = brief.sections.find((x) => x.id === 'renters-owners');
+  if (!s) throw new Error(`${BRIEF_ID}: no section renters-owners`);
+  s.items = [ro.renters, ro.owners, ro.both];
+  if (!brief.takeaway.endsWith(ro.reach)) throw new Error(`${BRIEF_ID}: the takeaway must end with meta.renter_owner.reach in ${DATA}`);
+  return brief;
 }
 
 export function build() {
@@ -203,6 +216,7 @@ export function build() {
   sec('production').table.rows = productionRows(data);
   sec('colorado').table.rows = illustration(data).rows;
   sec('limits').items = [...data.meta.known_gaps];
+  whoItReaches(brief, data);
   brief.verified = data.meta.as_of;
   feed.meta.brief_count = feed.briefs.length;
   return {
