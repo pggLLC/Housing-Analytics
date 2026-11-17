@@ -97,6 +97,16 @@ const fact = (re, what) => { const f = facts.find((x) => re.test(x.label)); asse
   assert(!leadText.includes(n(Number(json('data/hna/summary/08.json').acsProfile.DP02_0001E))), 'cost-burden sentence must not mix in the ACS household total');
 }
 
+// The state's own 2026 count beside HUD's (paul, 17 Nov "fix the home burden line"). The figures are the
+// report's, not the press release's: Colorado Housing Needs Assessment, Statewide Analysis, Nov 2026, p.10,
+// "Nearly 34% ... renters (49%) ... owners (25%) ... 843,100 households". Renters and owners stay named.
+{
+  const lead = home.text((/<p class="hg-burden">([\s\S]*?)<\/p>/.exec(index) || [])[1] || '');
+  assert(lead.includes('843,100') && lead.includes('34%') && lead.includes('49% of renters') && lead.includes('25% of owners'), 'Home burden line must give the state assessment count: 843,100 households, 34%, renters 49%, owners 25%');
+  assert(/Colorado Housing Needs Assessment, DOLA, Nov 2026, p\.10/.test(lead), 'the state figure must cite the report and its page');
+  assert(!/842,900|26% of owners/.test(lead), 'cite the report, not the press release (842,900 / 26%)');
+}
+
 // The two cumulative AMI figures. What is pinned below is what each has to AGREE with — the data file it is
 // drawn from, and the other figure — never the sentence used to say it (#1746: three copy edits on 2026-09-22
 // were each held by this block asserting the previous wording). Reword freely. A rewording that drops the tier

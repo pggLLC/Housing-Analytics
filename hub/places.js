@@ -19,6 +19,9 @@
     lihtc: 'data/chfa-lihtc.json',
     chas: 'data/market/chas_co.json',
     aa: 'data/hna/chas_affordable_available.json',
+    // The owner figure on the Colorado card (paul, 16 Nov: renters and owners side by side): the typical home's value
+    // (ACS B25077); renter households' income (ACS B25119) loads on its own, below.
+    acsState: 'data/census-acs-state.json',
     counties: 'data/boundaries/counties_co.geojson',
     // Retired place IDs and the place each now is, as the public site's assessment reads them
     // (js/hna/hna-controller.js _resolveIncomingGeoid).
@@ -423,6 +426,11 @@
     // The one headline for homes short at 30% AMI is HUD CHAS affordable-and-available, as on the lab's Home.
     var aa30 = data && data.aa && data.aa.statewide && data.aa.statewide.tiers ? data.aa.statewide.tiers['30'] : null;
     var aaYears = data && data.aa && data.aa.meta ? data.aa.meta.vintage : null;
+    var coAcs = data && data.acsState && (data.acsState.data || []).filter(function (r) { return r.state_fips === '08'; })[0];
+    var tl = global.LabUI.load({ tenure: 'data/hna/tenure-income.json' }), tf = tl.data && tl.data.tenure;
+    var coTen = tf && tf.geos && tf.geos['08'];
+    var coBuy = coAcs ? T.ownerGap(coAcs.median_home_value).buy : null;
+    var buyShort = coBuy && coTen ? T.short(coBuy, coTen.renter) || null : null;
     var head = T.head({
       kind: 'hub', crumbs: [{ label: 'Home', href: '#/' }, { label: 'Places and need' }], title: 'Places and need',
       answer: 'Find your town or county for its renters, homes and housing need: ' + num(profiles.length) + ' Colorado places, or pick a county on the map.',
@@ -454,9 +462,11 @@
         // Colorado as a whole lives on the Deep dive's Funding vs need tab (paul, 16 Nov 2026: statewide figures are not
         // much help on the page where a reader picks a place). One card links there; every figure and the "How this is
         // counted" note are in that section.
-        (aa30 ? T.summary({ from: 'Colorado deep dive: renters and homes, statewide', href: '#/places/deep-dive?tab=need&at=dd-fvn-ami',
-          figures: [{ value: num(aa30.homes_short), label: 'Homes short for renters at or below 30% AMI, Colorado', tenure: 'Renters' }],
-          source: 'HUD CHAS ' + (aaYears || ''), sourceHref: 'https://www.huduser.gov/portal/datasets/cp.html', more: 'The statewide counts, both ways of counting and why they differ.' }) : '') +
+        (aa30 ? T.summary({ from: 'Colorado deep dive: renters, owners and homes, statewide', href: '#/places/deep-dive?tab=need&at=dd-fvn-ami',
+          figures: [{ value: num(aa30.homes_short), label: 'Homes short for renters at or below 30% AMI, Colorado', tenure: 'Renters' },
+            buyShort ? { value: '$' + num(buyShort), label: 'More income a typical renter household needs to buy Colorado’s typical home', tenure: 'Owners' } : null],
+          source: 'HUD CHAS ' + (aaYears || '') + (buyShort ? '; ACS ' + ((tf.meta && tf.meta.vintage) || '') + ' B25119 and B25077' : ''), sourceHref: 'https://www.huduser.gov/portal/datasets/cp.html',
+          more: 'The statewide counts for renters and owners, both ways of counting renters, and why there is no “homes short” figure for buyers.' }) : '') +
         '<h2>Where renters at or below 30% AMI most outnumber the homes priced for them</h2>' +
         '<p class="note">Shortfall: renter households minus homes priced for them, for each Colorado place where renters outnumber homes. Larger places lead because they have more renters.</p>' +
         '<ol class="rank">' + top.map(function (x) {

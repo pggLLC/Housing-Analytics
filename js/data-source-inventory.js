@@ -1922,6 +1922,24 @@
       description: 'One median home value per geography, taking Zillow ZHVI where it exists, then an FHFA-anchored ACS value, then raw ACS, with the source and as-of date recorded for each.',
       tags: ['home-value', 'zhvi', 'acs', 'fhfa'],
       apiEndpoint: null
+    },
+    {
+      id: 'acs-b25119-tenure-income',
+      name: 'Median Household Income by Tenure (ACS B25119)',
+      category: 'Demographics',
+      format: 'JSON',
+      provider: 'U.S. Census Bureau, American Community Survey 5-year',
+      url: 'https://data.census.gov/table/ACSDT5Y2024.B25119',
+      localFile: 'data/hna/tenure-income.json',
+      lastUpdated: '2026-11-16',
+      updateFrequency: 'Annual (each ACS 5-year release)',
+      maxAgeDays: 400,
+      geoUnit: 'State / County / Place',
+      coverage: 'Colorado, all 64 counties and 482 places',
+      features: 547,
+      description: 'Median income of owner households and of renter households, with margins of error. Used for the owner gap: the income it takes to buy the typical home against what renters and owners earn. Built by scripts/hna/fetch_tenure_income.py.',
+      tags: ['income', 'tenure', 'acs', 'owners', 'renters'],
+      apiEndpoint: 'https://api.census.gov/data/2024/acs/acs5'
     }
   ];
 
