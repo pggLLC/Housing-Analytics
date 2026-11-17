@@ -78,6 +78,7 @@ const JSON_COUNT_PATHS = {
   'hud-chas-co': 'counties',
   'hna-ranking-index': 'rankings',
   'home-value-cascade': ['counties', 'places'],
+  'acs-b25119-tenure-income': 'geos',
 };
 
 // These count per-county files present in a directory against the geo-config

@@ -1,0 +1,4389 @@
+{
+ "meta": {
+  "source": "U.S. Census Bureau, American Community Survey 5-year, table B25119 (median household income by tenure, inflation-adjusted dollars)",
+  "url": "https://data.census.gov/table/ACSDT5Y2024.B25119",
+  "vintage": "2020-2024",
+  "fetched": "2026-11-16T12:18:45Z",
+  "via": "https://censusreporter.org/tables/B25119/ (acs2024_5yr)",
+  "fields": "all = all households (equals DP03_0062E); owner = owner-occupied; renter = renter-occupied; *_moe = 90% margin of error",
+  "missing": []
+ },
+ "geos": {
+  "08": {
+   "all": 95470,
+   "owner": 117732,
+   "renter": 63537,
+   "all_moe": 578,
+   "owner_moe": 838,
+   "renter_moe": 555
+  },
+  "08001": {
+   "all": 94571,
+   "owner": 115401,
+   "renter": 61177,
+   "all_moe": 1524,
+   "owner_moe": 2202,
+   "renter_moe": 2568
+  },
+  "08003": {
+   "all": 55397,
+   "owner": 64713,
+   "renter": 47939,
+   "all_moe": 4512,
+   "owner_moe": 5755,
+   "renter_moe": 5035
+  },
+  "0800320": {
+   "all": 142361,
+   "owner": 131622,
+   "renter": 143872,
+   "all_moe": 22221,
+   "owner_moe": 21149,
+   "renter_moe": 902
+  },
+  "08005": {
+   "all": 101087,
+   "owner": 127117,
+   "renter": 67407,
+   "all_moe": 1532,
+   "owner_moe": 1810,
+   "renter_moe": 2018
+  },
+  "0800620": {
+   "all": 74853,
+   "owner": 80313,
+   "renter": null,
+   "all_moe": 43888,
+   "owner_moe": 58110,
+   "renter_moe": null
+  },
+  "08007": {
+   "all": 83065,
+   "owner": 84735,
+   "renter": 61047,
+   "all_moe": 7046,
+   "owner_moe": 5861,
+   "renter_moe": 15802
+  },
+  "0800760": {
+   "all": 28795,
+   "owner": 29127,
+   "renter": 25000,
+   "all_moe": 902,
+   "owner_moe": 881,
+   "renter_moe": 14660
+  },
+  "0800870": {
+   "all": 69474,
+   "owner": null,
+   "renter": 69474,
+   "all_moe": 32777,
+   "owner_moe": null,
+   "renter_moe": 32777
+  },
+  "08009": {
+   "all": 46215,
+   "owner": 54754,
+   "renter": 22500,
+   "all_moe": 8944,
+   "owner_moe": 10189,
+   "renter_moe": 5879
+  },
+  "0800925": {
+   "all": 57321,
+   "owner": 63750,
+   "renter": 50750,
+   "all_moe": 9576,
+   "owner_moe": 11902,
+   "renter_moe": 11228
+  },
+  "0801090": {
+   "all": 49688,
+   "owner": 56580,
+   "renter": 47511,
+   "all_moe": 6281,
+   "owner_moe": 10000,
+   "renter_moe": 12533
+  },
+  "08011": {
+   "all": 50179,
+   "owner": 60625,
+   "renter": 40839,
+   "all_moe": 7108,
+   "owner_moe": 14000,
+   "renter_moe": 8043
+  },
+  "0801145": {
+   "all": 76683,
+   "owner": 75962,
+   "renter": 81172,
+   "all_moe": 25600,
+   "owner_moe": 41914,
+   "renter_moe": 22963
+  },
+  "08013": {
+   "all": 103994,
+   "owner": 141555,
+   "renter": 63666,
+   "all_moe": 2268,
+   "owner_moe": 3346,
+   "renter_moe": 1864
+  },
+  "08014": {
+   "all": 123874,
+   "owner": 154033,
+   "renter": 90878,
+   "all_moe": 3714,
+   "owner_moe": 5741,
+   "renter_moe": 2841
+  },
+  "0801420": {
+   "all": 108056,
+   "owner": 131065,
+   "renter": 54327,
+   "all_moe": 37679,
+   "owner_moe": 39897,
+   "renter_moe": 24831
+  },
+  "08015": {
+   "all": 84132,
+   "owner": 93960,
+   "renter": 62500,
+   "all_moe": 7235,
+   "owner_moe": 7227,
+   "renter_moe": 8966
+  },
+  "0801530": {
+   "all": null,
+   "owner": 130804,
+   "renter": 41513,
+   "all_moe": null,
+   "owner_moe": 79260,
+   "renter_moe": 9676
+  },
+  "0801640": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "08017": {
+   "all": 70865,
+   "owner": 80556,
+   "renter": 48967,
+   "all_moe": 12520,
+   "owner_moe": 19527,
+   "renter_moe": 15526
+  },
+  "0801740": {
+   "all": 149327,
+   "owner": 212788,
+   "renter": 73523,
+   "all_moe": 99491,
+   "owner_moe": 78313,
+   "renter_moe": 27320
+  },
+  "08019": {
+   "all": 94577,
+   "owner": 108365,
+   "renter": 67050,
+   "all_moe": 16910,
+   "owner_moe": 24716,
+   "renter_moe": 24703
+  },
+  "0801915": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "08021": {
+   "all": 50978,
+   "owner": 58475,
+   "renter": 33750,
+   "all_moe": 7913,
+   "owner_moe": 5588,
+   "renter_moe": 7690
+  },
+  "08023": {
+   "all": 36861,
+   "owner": 39514,
+   "renter": 25882,
+   "all_moe": 6112,
+   "owner_moe": 11449,
+   "renter_moe": 22745
+  },
+  "0802355": {
+   "all": 35083,
+   "owner": 35500,
+   "renter": null,
+   "all_moe": 6599,
+   "owner_moe": 6291,
+   "renter_moe": null
+  },
+  "08025": {
+   "all": 48826,
+   "owner": 54583,
+   "renter": 28500,
+   "all_moe": 2849,
+   "owner_moe": 15905,
+   "renter_moe": 14234
+  },
+  "0802575": {
+   "all": 130545,
+   "owner": 143276,
+   "renter": 101250,
+   "all_moe": 13630,
+   "owner_moe": 29759,
+   "renter_moe": 24939
+  },
+  "08027": {
+   "all": 72674,
+   "owner": 76132,
+   "renter": 31929,
+   "all_moe": 7045,
+   "owner_moe": 8723,
+   "renter_moe": 23986
+  },
+  "0802850": {
+   "all": 106667,
+   "owner": 106667,
+   "renter": null,
+   "all_moe": 22372,
+   "owner_moe": 22372,
+   "renter_moe": null
+  },
+  "08029": {
+   "all": 57774,
+   "owner": 64357,
+   "renter": 40842,
+   "all_moe": 4050,
+   "owner_moe": 3779,
+   "renter_moe": 9026
+  },
+  "0802905": {
+   "all": 42262,
+   "owner": 42143,
+   "renter": null,
+   "all_moe": 8582,
+   "owner_moe": 14758,
+   "renter_moe": null
+  },
+  "0803015": {
+   "all": 83689,
+   "owner": 90581,
+   "renter": null,
+   "all_moe": 9723,
+   "owner_moe": 10749,
+   "renter_moe": null
+  },
+  "08031": {
+   "all": 94718,
+   "owner": 131778,
+   "renter": 71437,
+   "all_moe": 1644,
+   "owner_moe": 2820,
+   "renter_moe": 1311
+  },
+  "0803235": {
+   "all": 43555,
+   "owner": 43633,
+   "renter": null,
+   "all_moe": 7782,
+   "owner_moe": 7013,
+   "renter_moe": null
+  },
+  "08033": {
+   "all": 64907,
+   "owner": 70158,
+   "renter": 41333,
+   "all_moe": 13244,
+   "owner_moe": 10951,
+   "renter_moe": 26226
+  },
+  "0803455": {
+   "all": 117348,
+   "owner": 137910,
+   "renter": 72846,
+   "all_moe": 3724,
+   "owner_moe": 4610,
+   "renter_moe": 5328
+  },
+  "08035": {
+   "all": 149594,
+   "owner": 169775,
+   "renter": 91018,
+   "all_moe": 2519,
+   "owner_moe": 2877,
+   "renter_moe": 3746
+  },
+  "0803620": {
+   "all": 74033,
+   "owner": 107500,
+   "renter": 60592,
+   "all_moe": 11496,
+   "owner_moe": 23470,
+   "renter_moe": 10531
+  },
+  "08037": {
+   "all": 104096,
+   "owner": 125102,
+   "renter": 62080,
+   "all_moe": 5224,
+   "owner_moe": 11352,
+   "renter_moe": 4148
+  },
+  "0803730": {
+   "all": 104167,
+   "owner": 105673,
+   "renter": null,
+   "all_moe": 52230,
+   "owner_moe": 59107,
+   "renter_moe": null
+  },
+  "0803840": {
+   "all": 40694,
+   "owner": 40694,
+   "renter": null,
+   "all_moe": 4266,
+   "owner_moe": 4266,
+   "renter_moe": null
+  },
+  "08039": {
+   "all": 132685,
+   "owner": 134673,
+   "renter": 49441,
+   "all_moe": 7368,
+   "owner_moe": 6896,
+   "renter_moe": 11580
+  },
+  "0803950": {
+   "all": 95049,
+   "owner": 96250,
+   "renter": null,
+   "all_moe": 15352,
+   "owner_moe": 10732,
+   "renter_moe": null
+  },
+  "0804000": {
+   "all": 88368,
+   "owner": 110274,
+   "renter": 60683,
+   "all_moe": 2017,
+   "owner_moe": 2407,
+   "renter_moe": 2540
+  },
+  "08041": {
+   "all": 90363,
+   "owner": 112487,
+   "renter": 61925,
+   "all_moe": 1401,
+   "owner_moe": 1846,
+   "renter_moe": 1375
+  },
+  "0804110": {
+   "all": 89027,
+   "owner": 103826,
+   "renter": 56260,
+   "all_moe": 16547,
+   "owner_moe": 34070,
+   "renter_moe": 39631
+  },
+  "0804165": {
+   "all": 96391,
+   "owner": 96492,
+   "renter": null,
+   "all_moe": 13549,
+   "owner_moe": 2032,
+   "renter_moe": null
+  },
+  "08043": {
+   "all": 62664,
+   "owner": 71839,
+   "renter": 37684,
+   "all_moe": 4433,
+   "owner_moe": 4224,
+   "renter_moe": 10994
+  },
+  "08045": {
+   "all": 91131,
+   "owner": 105504,
+   "renter": 68663,
+   "all_moe": 5607,
+   "owner_moe": 5471,
+   "renter_moe": 5259
+  },
+  "0804620": {
+   "all": 115521,
+   "owner": 115521,
+   "renter": null,
+   "all_moe": 64823,
+   "owner_moe": 64823,
+   "renter_moe": null
+  },
+  "08047": {
+   "all": 95361,
+   "owner": 96807,
+   "renter": 80395,
+   "all_moe": 18874,
+   "owner_moe": 19259,
+   "renter_moe": 11465
+  },
+  "08049": {
+   "all": 88612,
+   "owner": 102383,
+   "renter": 66102,
+   "all_moe": 8655,
+   "owner_moe": 12994,
+   "renter_moe": 11770
+  },
+  "0804935": {
+   "all": 105855,
+   "owner": 103221,
+   "renter": 121004,
+   "all_moe": 24487,
+   "owner_moe": 29744,
+   "renter_moe": 26844
+  },
+  "08051": {
+   "all": 84527,
+   "owner": 97433,
+   "renter": 51528,
+   "all_moe": 10945,
+   "owner_moe": 9943,
+   "renter_moe": 20355
+  },
+  "0805120": {
+   "all": 76152,
+   "owner": 83150,
+   "renter": 68413,
+   "all_moe": 16297,
+   "owner_moe": 16537,
+   "renter_moe": 21457
+  },
+  "0805265": {
+   "all": 93125,
+   "owner": 105625,
+   "renter": 85806,
+   "all_moe": 17183,
+   "owner_moe": 23278,
+   "renter_moe": 36810
+  },
+  "08053": {
+   "all": 75972,
+   "owner": 80156,
+   "renter": 61570,
+   "all_moe": 34687,
+   "owner_moe": 29911,
+   "renter_moe": 1587
+  },
+  "08055": {
+   "all": 52526,
+   "owner": 57364,
+   "renter": 42131,
+   "all_moe": 5017,
+   "owner_moe": 8502,
+   "renter_moe": 16947
+  },
+  "08057": {
+   "all": 47667,
+   "owner": 55357,
+   "renter": null,
+   "all_moe": 22569,
+   "owner_moe": 26310,
+   "renter_moe": null
+  },
+  "08059": {
+   "all": 110656,
+   "owner": 133541,
+   "renter": 69953,
+   "all_moe": 1614,
+   "owner_moe": 1662,
+   "renter_moe": 2101
+  },
+  "0806090": {
+   "all": 107736,
+   "owner": 112396,
+   "renter": 86458,
+   "all_moe": 12798,
+   "owner_moe": 12073,
+   "renter_moe": 36478
+  },
+  "08061": {
+   "all": 58618,
+   "owner": 62250,
+   "renter": 54792,
+   "all_moe": 7747,
+   "owner_moe": 19529,
+   "renter_moe": 11459
+  },
+  "0806172": {
+   "all": 84637,
+   "owner": 90108,
+   "renter": 65645,
+   "all_moe": 9238,
+   "owner_moe": 7766,
+   "renter_moe": 27315
+  },
+  "0806255": {
+   "all": 119385,
+   "owner": 126471,
+   "renter": 95494,
+   "all_moe": 12944,
+   "owner_moe": 21450,
+   "renter_moe": 50797
+  },
+  "08063": {
+   "all": 70259,
+   "owner": 75219,
+   "renter": 57466,
+   "all_moe": 10367,
+   "owner_moe": 6923,
+   "renter_moe": 5325
+  },
+  "08065": {
+   "all": 96575,
+   "owner": 105073,
+   "renter": 61593,
+   "all_moe": 10498,
+   "owner_moe": 14528,
+   "renter_moe": 13504
+  },
+  "0806530": {
+   "all": 34688,
+   "owner": 32813,
+   "renter": null,
+   "all_moe": 23279,
+   "owner_moe": 28728,
+   "renter_moe": null
+  },
+  "0806602": {
+   "all": 52796,
+   "owner": 53882,
+   "renter": null,
+   "all_moe": 15907,
+   "owner_moe": 16633,
+   "renter_moe": null
+  },
+  "08067": {
+   "all": 86056,
+   "owner": 99614,
+   "renter": 49974,
+   "all_moe": 3029,
+   "owner_moe": 4911,
+   "renter_moe": 5359
+  },
+  "08069": {
+   "all": 93765,
+   "owner": 119525,
+   "renter": 60436,
+   "all_moe": 1936,
+   "owner_moe": 2960,
+   "renter_moe": 1996
+  },
+  "0806970": {
+   "all": 145460,
+   "owner": 148393,
+   "renter": 74000,
+   "all_moe": 14041,
+   "owner_moe": 14741,
+   "renter_moe": 18996
+  },
+  "0807025": {
+   "all": 116806,
+   "owner": 130750,
+   "renter": null,
+   "all_moe": 58473,
+   "owner_moe": 35553,
+   "renter_moe": null
+  },
+  "08071": {
+   "all": 52074,
+   "owner": 65707,
+   "renter": 35134,
+   "all_moe": 5521,
+   "owner_moe": 5823,
+   "renter_moe": 4142
+  },
+  "0807190": {
+   "all": 68000,
+   "owner": 67750,
+   "renter": null,
+   "all_moe": 40598,
+   "owner_moe": 44882,
+   "renter_moe": null
+  },
+  "0807245": {
+   "all": 52667,
+   "owner": 56719,
+   "renter": 27917,
+   "all_moe": 11003,
+   "owner_moe": 13384,
+   "renter_moe": 25242
+  },
+  "08073": {
+   "all": 62861,
+   "owner": 66038,
+   "renter": 48523,
+   "all_moe": 10620,
+   "owner_moe": 3804,
+   "renter_moe": 12136
+  },
+  "0807410": {
+   "all": 134250,
+   "owner": 135625,
+   "renter": 122024,
+   "all_moe": 49983,
+   "owner_moe": 81605,
+   "renter_moe": 76696
+  },
+  "0807420": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0807455": {
+   "all": 80100,
+   "owner": 80100,
+   "renter": null,
+   "all_moe": 36253,
+   "owner_moe": 36253,
+   "renter_moe": null
+  },
+  "08075": {
+   "all": 51829,
+   "owner": 66956,
+   "renter": 39414,
+   "all_moe": 7707,
+   "owner_moe": 5032,
+   "renter_moe": 2707
+  },
+  "0807571": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0807580": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "08077": {
+   "all": 73658,
+   "owner": 87671,
+   "renter": 46953,
+   "all_moe": 2093,
+   "owner_moe": 2593,
+   "renter_moe": 3354
+  },
+  "0807795": {
+   "all": 77793,
+   "owner": 77846,
+   "renter": null,
+   "all_moe": 36423,
+   "owner_moe": 30619,
+   "renter_moe": null
+  },
+  "0807850": {
+   "all": 87493,
+   "owner": 157042,
+   "renter": 48546,
+   "all_moe": 6221,
+   "owner_moe": 8444,
+   "renter_moe": 5736
+  },
+  "08079": {
+   "all": 56250,
+   "owner": 79750,
+   "renter": 38750,
+   "all_moe": 12789,
+   "owner_moe": 35289,
+   "renter_moe": 25714
+  },
+  "0808070": {
+   "all": 241583,
+   "owner": 241923,
+   "renter": null,
+   "all_moe": 31373,
+   "owner_moe": 33992,
+   "renter_moe": null
+  },
+  "08081": {
+   "all": 73849,
+   "owner": 83953,
+   "renter": 46263,
+   "all_moe": 8536,
+   "owner_moe": 12941,
+   "renter_moe": 19937
+  },
+  "0808290": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "08083": {
+   "all": 65244,
+   "owner": 74283,
+   "renter": 32773,
+   "all_moe": 4313,
+   "owner_moe": 5433,
+   "renter_moe": 7781
+  },
+  "0808345": {
+   "all": 34063,
+   "owner": null,
+   "renter": null,
+   "all_moe": 19982,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0808400": {
+   "all": 138191,
+   "owner": 174600,
+   "renter": 71658,
+   "all_moe": 74981,
+   "owner_moe": 51729,
+   "renter_moe": 30057
+  },
+  "08085": {
+   "all": 72120,
+   "owner": 80116,
+   "renter": 46997,
+   "all_moe": 2832,
+   "owner_moe": 5362,
+   "renter_moe": 10261
+  },
+  "0808530": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0808620": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0808675": {
+   "all": 107679,
+   "owner": 132218,
+   "renter": 67392,
+   "all_moe": 7868,
+   "owner_moe": 7655,
+   "renter_moe": 10078
+  },
+  "08087": {
+   "all": 73278,
+   "owner": 83160,
+   "renter": 41932,
+   "all_moe": 2653,
+   "owner_moe": 3541,
+   "renter_moe": 10969
+  },
+  "08089": {
+   "all": 54037,
+   "owner": 64915,
+   "renter": 36181,
+   "all_moe": 5856,
+   "owner_moe": 10947,
+   "renter_moe": 4454
+  },
+  "0808950": {
+   "all": 116528,
+   "owner": 116890,
+   "renter": null,
+   "all_moe": 1389,
+   "owner_moe": 35799,
+   "renter_moe": null
+  },
+  "08091": {
+   "all": 91020,
+   "owner": 97625,
+   "renter": 75526,
+   "all_moe": 11186,
+   "owner_moe": 11728,
+   "renter_moe": 26562
+  },
+  "0809115": {
+   "all": 62813,
+   "owner": 60000,
+   "renter": null,
+   "all_moe": 22672,
+   "owner_moe": 27726,
+   "renter_moe": null
+  },
+  "0809280": {
+   "all": 123874,
+   "owner": 154033,
+   "renter": 90878,
+   "all_moe": 3714,
+   "owner_moe": 5741,
+   "renter_moe": 2841
+  },
+  "08093": {
+   "all": 103670,
+   "owner": 113701,
+   "renter": 74886,
+   "all_moe": 17612,
+   "owner_moe": 11800,
+   "renter_moe": 38329
+  },
+  "08095": {
+   "all": 64674,
+   "owner": 79712,
+   "renter": 46497,
+   "all_moe": 19227,
+   "owner_moe": 18300,
+   "renter_moe": 5019
+  },
+  "0809555": {
+   "all": 73382,
+   "owner": 87022,
+   "renter": null,
+   "all_moe": 8196,
+   "owner_moe": 10549,
+   "renter_moe": null
+  },
+  "08097": {
+   "all": 102645,
+   "owner": 123214,
+   "renter": 65531,
+   "all_moe": 7295,
+   "owner_moe": 15683,
+   "renter_moe": 11709
+  },
+  "08099": {
+   "all": 53508,
+   "owner": 70958,
+   "renter": 35250,
+   "all_moe": 6697,
+   "owner_moe": 9864,
+   "renter_moe": 7740
+  },
+  "08101": {
+   "all": 64010,
+   "owner": 78429,
+   "renter": 39504,
+   "all_moe": 2208,
+   "owner_moe": 2012,
+   "renter_moe": 2718
+  },
+  "0810105": {
+   "all": 78323,
+   "owner": 82585,
+   "renter": 64178,
+   "all_moe": 18483,
+   "owner_moe": 36592,
+   "renter_moe": 51560
+  },
+  "08103": {
+   "all": 65473,
+   "owner": 74734,
+   "renter": 53125,
+   "all_moe": 8193,
+   "owner_moe": 8898,
+   "renter_moe": 11438
+  },
+  "08105": {
+   "all": 64411,
+   "owner": 73100,
+   "renter": 41688,
+   "all_moe": 8434,
+   "owner_moe": 9281,
+   "renter_moe": 16436
+  },
+  "0810600": {
+   "all": 74308,
+   "owner": 83611,
+   "renter": 57759,
+   "all_moe": 15803,
+   "owner_moe": 17589,
+   "renter_moe": 16198
+  },
+  "08107": {
+   "all": 106489,
+   "owner": 124375,
+   "renter": 70238,
+   "all_moe": 9881,
+   "owner_moe": 6424,
+   "renter_moe": 14336
+  },
+  "08109": {
+   "all": 50082,
+   "owner": 58802,
+   "renter": 25167,
+   "all_moe": 9396,
+   "owner_moe": 9560,
+   "renter_moe": 13626
+  },
+  "0810985": {
+   "all": 93571,
+   "owner": 107396,
+   "renter": 49508,
+   "all_moe": 30238,
+   "owner_moe": 42345,
+   "renter_moe": 9681
+  },
+  "08111": {
+   "all": 77824,
+   "owner": 92361,
+   "renter": 50000,
+   "all_moe": 31042,
+   "owner_moe": 14532,
+   "renter_moe": 38757
+  },
+  "0811260": {
+   "all": 62321,
+   "owner": 79688,
+   "renter": 29083,
+   "all_moe": 22100,
+   "owner_moe": 27763,
+   "renter_moe": 12767
+  },
+  "08113": {
+   "all": 79024,
+   "owner": 108938,
+   "renter": 51406,
+   "all_moe": 10732,
+   "owner_moe": 32062,
+   "renter_moe": 21308
+  },
+  "08115": {
+   "all": 52386,
+   "owner": 64250,
+   "renter": 29063,
+   "all_moe": 5952,
+   "owner_moe": 10878,
+   "renter_moe": 7550
+  },
+  "0811645": {
+   "all": 53125,
+   "owner": 34464,
+   "renter": null,
+   "all_moe": 40478,
+   "owner_moe": 30732,
+   "renter_moe": null
+  },
+  "08117": {
+   "all": 109773,
+   "owner": 136000,
+   "renter": 71386,
+   "all_moe": 11445,
+   "owner_moe": 14524,
+   "renter_moe": 7258
+  },
+  "0811810": {
+   "all": 64787,
+   "owner": 71616,
+   "renter": 40017,
+   "all_moe": 9615,
+   "owner_moe": 4690,
+   "renter_moe": 20368
+  },
+  "08119": {
+   "all": 85361,
+   "owner": 90017,
+   "renter": 58413,
+   "all_moe": 5719,
+   "owner_moe": 5045,
+   "renter_moe": 5487
+  },
+  "0811975": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0812030": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0812045": {
+   "all": 108324,
+   "owner": 125121,
+   "renter": 87348,
+   "all_moe": 12791,
+   "owner_moe": 31168,
+   "renter_moe": 35062
+  },
+  "08121": {
+   "all": 67167,
+   "owner": 70000,
+   "renter": 49375,
+   "all_moe": 4701,
+   "owner_moe": 3713,
+   "renter_moe": 11923
+  },
+  "08123": {
+   "all": 97097,
+   "owner": 113420,
+   "renter": 54856,
+   "all_moe": 2383,
+   "owner_moe": 3496,
+   "renter_moe": 2911
+  },
+  "0812325": {
+   "all": 119531,
+   "owner": 138899,
+   "renter": null,
+   "all_moe": 66580,
+   "owner_moe": 33563,
+   "renter_moe": null
+  },
+  "0812387": {
+   "all": 191229,
+   "owner": 215313,
+   "renter": 57885,
+   "all_moe": 15186,
+   "owner_moe": 24271,
+   "renter_moe": 33606
+  },
+  "0812393": {
+   "all": 250001,
+   "owner": 250001,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0812415": {
+   "all": 145197,
+   "owner": 162604,
+   "renter": 66167,
+   "all_moe": 7924,
+   "owner_moe": 6784,
+   "renter_moe": 12078
+  },
+  "0812450": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0812460": {
+   "all": 211154,
+   "owner": 212019,
+   "renter": null,
+   "all_moe": 210758,
+   "owner_moe": 103707,
+   "renter_moe": null
+  },
+  "0812470": {
+   "all": 44769,
+   "owner": null,
+   "renter": null,
+   "all_moe": 15415,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "08125": {
+   "all": 60545,
+   "owner": 76209,
+   "renter": 38428,
+   "all_moe": 5342,
+   "owner_moe": 14706,
+   "renter_moe": 15953
+  },
+  "0812635": {
+   "all": 47614,
+   "owner": 60000,
+   "renter": 27292,
+   "all_moe": 15656,
+   "owner_moe": 11967,
+   "renter_moe": 10632
+  },
+  "0812815": {
+   "all": 131928,
+   "owner": 148907,
+   "renter": 86880,
+   "all_moe": 5953,
+   "owner_moe": 5152,
+   "renter_moe": 3873
+  },
+  "0812855": {
+   "all": 45750,
+   "owner": 58042,
+   "renter": null,
+   "all_moe": 22835,
+   "owner_moe": 6168,
+   "renter_moe": null
+  },
+  "0812900": {
+   "all": 61622,
+   "owner": 127723,
+   "renter": null,
+   "all_moe": 30650,
+   "owner_moe": 97390,
+   "renter_moe": null
+  },
+  "0812945": {
+   "all": null,
+   "owner": 110978,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": 54450,
+   "renter_moe": null
+  },
+  "0813460": {
+   "all": 52857,
+   "owner": 54643,
+   "renter": 31250,
+   "all_moe": 26509,
+   "owner_moe": 21990,
+   "renter_moe": 23256
+  },
+  "0813590": {
+   "all": 153776,
+   "owner": 183292,
+   "renter": 77644,
+   "all_moe": 18341,
+   "owner_moe": 25172,
+   "renter_moe": 19051
+  },
+  "0813845": {
+   "all": 250001,
+   "owner": 250001,
+   "renter": 58269,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": 26609
+  },
+  "0814175": {
+   "all": 72759,
+   "owner": 73984,
+   "renter": 48984,
+   "all_moe": 25086,
+   "owner_moe": 27436,
+   "renter_moe": 41506
+  },
+  "0814587": {
+   "all": 80808,
+   "owner": 95470,
+   "renter": 56147,
+   "all_moe": 5358,
+   "owner_moe": 8343,
+   "renter_moe": 6566
+  },
+  "0814765": {
+   "all": 45938,
+   "owner": 52917,
+   "renter": null,
+   "all_moe": 32635,
+   "owner_moe": 42582,
+   "renter_moe": null
+  },
+  "0815165": {
+   "all": 52100,
+   "owner": 59262,
+   "renter": 39628,
+   "all_moe": 4948,
+   "owner_moe": 10732,
+   "renter_moe": 12571
+  },
+  "0815302": {
+   "all": 134250,
+   "owner": 137549,
+   "renter": 89167,
+   "all_moe": 29093,
+   "owner_moe": 21344,
+   "renter_moe": 45534
+  },
+  "0815330": {
+   "all": 34000,
+   "owner": 40156,
+   "renter": 18438,
+   "all_moe": 18812,
+   "owner_moe": 34398,
+   "renter_moe": 16699
+  },
+  "0815440": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0815550": {
+   "all": 50952,
+   "owner": 77679,
+   "renter": 42284,
+   "all_moe": 13565,
+   "owner_moe": 46652,
+   "renter_moe": 17613
+  },
+  "0815605": {
+   "all": 50833,
+   "owner": 52500,
+   "renter": null,
+   "all_moe": 16471,
+   "owner_moe": 17030,
+   "renter_moe": null
+  },
+  "0815825": {
+   "all": 128750,
+   "owner": 128750,
+   "renter": null,
+   "all_moe": 25597,
+   "owner_moe": 25597,
+   "renter_moe": null
+  },
+  "0815935": {
+   "all": 44868,
+   "owner": null,
+   "renter": null,
+   "all_moe": 29065,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0816000": {
+   "all": 84818,
+   "owner": 109684,
+   "renter": 61410,
+   "all_moe": 1638,
+   "owner_moe": 2731,
+   "renter_moe": 1584
+  },
+  "0816110": {
+   "all": 131232,
+   "owner": 141941,
+   "renter": 60990,
+   "all_moe": 8196,
+   "owner_moe": 11936,
+   "renter_moe": 9961
+  },
+  "0816385": {
+   "all": 250001,
+   "owner": 250001,
+   "renter": 54125,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": 31810
+  },
+  "0816465": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0816495": {
+   "all": 111972,
+   "owner": 130457,
+   "renter": 59609,
+   "all_moe": 8786,
+   "owner_moe": 6652,
+   "renter_moe": 16255
+  },
+  "0816715": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0817100": {
+   "all": null,
+   "owner": 58542,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": 48387,
+   "renter_moe": null
+  },
+  "0817150": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0817375": {
+   "all": 54247,
+   "owner": 63931,
+   "renter": 34257,
+   "all_moe": 7098,
+   "owner_moe": 11007,
+   "renter_moe": 11549
+  },
+  "0817485": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0817760": {
+   "all": 72636,
+   "owner": 84141,
+   "renter": 46740,
+   "all_moe": 11009,
+   "owner_moe": 13320,
+   "renter_moe": 26672
+  },
+  "0817925": {
+   "all": 58160,
+   "owner": 58368,
+   "renter": null,
+   "all_moe": 8993,
+   "owner_moe": 5253,
+   "renter_moe": null
+  },
+  "0818310": {
+   "all": 74479,
+   "owner": 109479,
+   "renter": null,
+   "all_moe": 41794,
+   "owner_moe": 67565,
+   "renter_moe": null
+  },
+  "0818420": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0818530": {
+   "all": 41840,
+   "owner": 48598,
+   "renter": null,
+   "all_moe": 9391,
+   "owner_moe": 16560,
+   "renter_moe": null
+  },
+  "0818585": {
+   "all": 172574,
+   "owner": 173235,
+   "renter": null,
+   "all_moe": 97821,
+   "owner_moe": 90702,
+   "renter_moe": null
+  },
+  "0818640": {
+   "all": 31944,
+   "owner": null,
+   "renter": 30139,
+   "all_moe": 17403,
+   "owner_moe": null,
+   "renter_moe": 11844
+  },
+  "0818750": {
+   "all": 41250,
+   "owner": 48750,
+   "renter": 19792,
+   "all_moe": 17230,
+   "owner_moe": 19778,
+   "renter_moe": 17056
+  },
+  "0819080": {
+   "all": 104559,
+   "owner": 110521,
+   "renter": 65625,
+   "all_moe": 6862,
+   "owner_moe": 14260,
+   "renter_moe": 30218
+  },
+  "0819150": {
+   "all": 120822,
+   "owner": 131126,
+   "renter": 77228,
+   "all_moe": 5597,
+   "owner_moe": 3912,
+   "renter_moe": 6468
+  },
+  "0819355": {
+   "all": 63558,
+   "owner": 64063,
+   "renter": 63333,
+   "all_moe": 9314,
+   "owner_moe": 14403,
+   "renter_moe": 19282
+  },
+  "0819630": {
+   "all": 73906,
+   "owner": 90000,
+   "renter": 43125,
+   "all_moe": 24246,
+   "owner_moe": 27307,
+   "renter_moe": 37109
+  },
+  "0819795": {
+   "all": 40700,
+   "owner": 47266,
+   "renter": 23940,
+   "all_moe": 7687,
+   "owner_moe": 14014,
+   "renter_moe": 6167
+  },
+  "0819850": {
+   "all": 45250,
+   "owner": 51007,
+   "renter": 35310,
+   "all_moe": 7512,
+   "owner_moe": 6437,
+   "renter_moe": 10613
+  },
+  "0820000": {
+   "all": 94718,
+   "owner": 131778,
+   "renter": 71437,
+   "all_moe": 1644,
+   "owner_moe": 2820,
+   "renter_moe": 1311
+  },
+  "0820275": {
+   "all": 82138,
+   "owner": 81550,
+   "renter": 96354,
+   "all_moe": 16245,
+   "owner_moe": 12909,
+   "renter_moe": 37409
+  },
+  "0820440": {
+   "all": 111250,
+   "owner": 126875,
+   "renter": 76063,
+   "all_moe": 26434,
+   "owner_moe": 46968,
+   "renter_moe": 36420
+  },
+  "0820495": {
+   "all": 51032,
+   "owner": 51076,
+   "renter": null,
+   "all_moe": 5604,
+   "owner_moe": 745,
+   "renter_moe": null
+  },
+  "0820605": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0820770": {
+   "all": 34861,
+   "owner": 58672,
+   "renter": 26275,
+   "all_moe": 16397,
+   "owner_moe": 37616,
+   "renter_moe": 975
+  },
+  "0821155": {
+   "all": 84439,
+   "owner": 89625,
+   "renter": 58511,
+   "all_moe": 20658,
+   "owner_moe": 26961,
+   "renter_moe": 15729
+  },
+  "0821265": {
+   "all": 62831,
+   "owner": 64522,
+   "renter": 41000,
+   "all_moe": 45129,
+   "owner_moe": 24354,
+   "renter_moe": 32100
+  },
+  "0821330": {
+   "all": 81524,
+   "owner": 97788,
+   "renter": 78136,
+   "all_moe": 14182,
+   "owner_moe": 9893,
+   "renter_moe": 32095
+  },
+  "0821390": {
+   "all": 57784,
+   "owner": 58636,
+   "renter": null,
+   "all_moe": 33651,
+   "owner_moe": 27830,
+   "renter_moe": null
+  },
+  "0822035": {
+   "all": 78602,
+   "owner": 110833,
+   "renter": 49839,
+   "all_moe": 9139,
+   "owner_moe": 16210,
+   "renter_moe": 10279
+  },
+  "0822145": {
+   "all": 59479,
+   "owner": 71667,
+   "renter": 58021,
+   "all_moe": 20637,
+   "owner_moe": 38790,
+   "renter_moe": 49726
+  },
+  "0822200": {
+   "all": 110398,
+   "owner": 154495,
+   "renter": 48393,
+   "all_moe": 11619,
+   "owner_moe": 71300,
+   "renter_moe": 32487
+  },
+  "0822575": {
+   "all": 106920,
+   "owner": 225536,
+   "renter": null,
+   "all_moe": 46326,
+   "owner_moe": 167638,
+   "renter_moe": null
+  },
+  "0822860": {
+   "all": 106294,
+   "owner": 107235,
+   "renter": 49762,
+   "all_moe": 9083,
+   "owner_moe": 11072,
+   "renter_moe": 29728
+  },
+  "0822882": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0823025": {
+   "all": 60125,
+   "owner": 59688,
+   "renter": 60278,
+   "all_moe": 17925,
+   "owner_moe": 41108,
+   "renter_moe": 33026
+  },
+  "0823135": {
+   "all": 76591,
+   "owner": 125302,
+   "renter": 53575,
+   "all_moe": 7890,
+   "owner_moe": 20312,
+   "renter_moe": 14334
+  },
+  "0823300": {
+   "all": 81909,
+   "owner": 113917,
+   "renter": 49364,
+   "all_moe": 15161,
+   "owner_moe": 24574,
+   "renter_moe": 20634
+  },
+  "0823520": {
+   "all": 69167,
+   "owner": 54732,
+   "renter": 76094,
+   "all_moe": 27176,
+   "owner_moe": 53808,
+   "renter_moe": 19130
+  },
+  "0823575": {
+   "all": null,
+   "owner": 39907,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": 22470,
+   "renter_moe": null
+  },
+  "0823630": {
+   "all": 133008,
+   "owner": 133008,
+   "renter": null,
+   "all_moe": 78792,
+   "owner_moe": 78792,
+   "renter_moe": null
+  },
+  "0823740": {
+   "all": 112986,
+   "owner": 112750,
+   "renter": 114167,
+   "all_moe": 9386,
+   "owner_moe": 10973,
+   "renter_moe": 72703
+  },
+  "0823795": {
+   "all": 103042,
+   "owner": 155050,
+   "renter": 42055,
+   "all_moe": 48279,
+   "owner_moe": 69411,
+   "renter_moe": 23873
+  },
+  "0824235": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0824290": {
+   "all": 108571,
+   "owner": 109107,
+   "renter": null,
+   "all_moe": 16693,
+   "owner_moe": 12490,
+   "renter_moe": null
+  },
+  "0824620": {
+   "all": 66797,
+   "owner": 72917,
+   "renter": 66492,
+   "all_moe": 6426,
+   "owner_moe": 21235,
+   "renter_moe": 2267
+  },
+  "0824785": {
+   "all": 86800,
+   "owner": 127429,
+   "renter": 66178,
+   "all_moe": 5338,
+   "owner_moe": 9169,
+   "renter_moe": 2795
+  },
+  "0824950": {
+   "all": 173349,
+   "owner": 182163,
+   "renter": 120725,
+   "all_moe": 9854,
+   "owner_moe": 15081,
+   "renter_moe": 21256
+  },
+  "0825115": {
+   "all": 85956,
+   "owner": 99880,
+   "renter": 60506,
+   "all_moe": 17627,
+   "owner_moe": 24350,
+   "renter_moe": 23996
+  },
+  "0825280": {
+   "all": 75563,
+   "owner": 88641,
+   "renter": 66406,
+   "all_moe": 7078,
+   "owner_moe": 16137,
+   "renter_moe": 9824
+  },
+  "0825390": {
+   "all": 150417,
+   "owner": 157431,
+   "renter": 97083,
+   "all_moe": 27769,
+   "owner_moe": 16997,
+   "renter_moe": 17784
+  },
+  "0825550": {
+   "all": 163600,
+   "owner": 168283,
+   "renter": 125134,
+   "all_moe": 17599,
+   "owner_moe": 17395,
+   "renter_moe": 24606
+  },
+  "0825610": {
+   "all": 107976,
+   "owner": 117621,
+   "renter": 107771,
+   "all_moe": 24538,
+   "owner_moe": 47915,
+   "renter_moe": 28948
+  },
+  "0826270": {
+   "all": 56597,
+   "owner": 60885,
+   "renter": 46344,
+   "all_moe": 6116,
+   "owner_moe": 12350,
+   "renter_moe": 11968
+  },
+  "0826600": {
+   "all": 120150,
+   "owner": 128179,
+   "renter": 90069,
+   "all_moe": 10198,
+   "owner_moe": 8131,
+   "renter_moe": 21430
+  },
+  "0826765": {
+   "all": 48500,
+   "owner": 42031,
+   "renter": 50924,
+   "all_moe": 15232,
+   "owner_moe": 16445,
+   "renter_moe": 30651
+  },
+  "0826875": {
+   "all": 52143,
+   "owner": 61563,
+   "renter": 47917,
+   "all_moe": 14968,
+   "owner_moe": 20453,
+   "renter_moe": 19373
+  },
+  "0827040": {
+   "all": 50262,
+   "owner": 57297,
+   "renter": 33495,
+   "all_moe": 7379,
+   "owner_moe": 9914,
+   "renter_moe": 7138
+  },
+  "0827095": {
+   "all": 96173,
+   "owner": null,
+   "renter": null,
+   "all_moe": 1014,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0827175": {
+   "all": 182981,
+   "owner": 184455,
+   "renter": 34242,
+   "all_moe": 18090,
+   "owner_moe": 42954,
+   "renter_moe": 13393
+  },
+  "0827370": {
+   "all": 66237,
+   "owner": null,
+   "renter": 66237,
+   "all_moe": 8406,
+   "owner_moe": null,
+   "renter_moe": 8406
+  },
+  "0827425": {
+   "all": 85070,
+   "owner": 127625,
+   "renter": 56735,
+   "all_moe": 2468,
+   "owner_moe": 4671,
+   "renter_moe": 2782
+  },
+  "0827535": {
+   "all": null,
+   "owner": 38214,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": 27567,
+   "renter_moe": null
+  },
+  "0827700": {
+   "all": 80889,
+   "owner": 97401,
+   "renter": 41417,
+   "all_moe": 17011,
+   "owner_moe": 7653,
+   "renter_moe": 13301
+  },
+  "0827810": {
+   "all": 64158,
+   "owner": 80052,
+   "renter": 46885,
+   "all_moe": 7356,
+   "owner_moe": 11408,
+   "renter_moe": 17069
+  },
+  "0827865": {
+   "all": 86242,
+   "owner": 99667,
+   "renter": 53898,
+   "all_moe": 6912,
+   "owner_moe": 6064,
+   "renter_moe": 7685
+  },
+  "0827950": {
+   "all": 80903,
+   "owner": 129609,
+   "renter": 66647,
+   "all_moe": 4372,
+   "owner_moe": 34263,
+   "renter_moe": 11687
+  },
+  "0827975": {
+   "all": 44048,
+   "owner": 63929,
+   "renter": 28000,
+   "all_moe": 21859,
+   "owner_moe": 38685,
+   "renter_moe": 26478
+  },
+  "0828105": {
+   "all": 200938,
+   "owner": 201146,
+   "renter": null,
+   "all_moe": 34572,
+   "owner_moe": 32569,
+   "renter_moe": null
+  },
+  "0828250": {
+   "all": 250001,
+   "owner": 250001,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0828305": {
+   "all": 89980,
+   "owner": 133607,
+   "renter": 87647,
+   "all_moe": 16587,
+   "owner_moe": 36896,
+   "renter_moe": 20010
+  },
+  "0828360": {
+   "all": 129460,
+   "owner": 131250,
+   "renter": 112557,
+   "all_moe": 8778,
+   "owner_moe": 8410,
+   "renter_moe": 62042
+  },
+  "0828690": {
+   "all": 113506,
+   "owner": 107661,
+   "renter": 135799,
+   "all_moe": 36641,
+   "owner_moe": 40228,
+   "renter_moe": 51385
+  },
+  "0828745": {
+   "all": 87184,
+   "owner": 89641,
+   "renter": 48393,
+   "all_moe": 3356,
+   "owner_moe": 6933,
+   "renter_moe": 14697
+  },
+  "0828800": {
+   "all": 77887,
+   "owner": 78260,
+   "renter": 61750,
+   "all_moe": 6685,
+   "owner_moe": 6235,
+   "renter_moe": 35387
+  },
+  "0828830": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0829185": {
+   "all": 41250,
+   "owner": 99219,
+   "renter": 33750,
+   "all_moe": 31018,
+   "owner_moe": 25438,
+   "renter_moe": 31896
+  },
+  "0829240": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0829295": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0829625": {
+   "all": 186667,
+   "owner": 190107,
+   "renter": null,
+   "all_moe": 25501,
+   "owner_moe": 39945,
+   "renter_moe": null
+  },
+  "0829680": {
+   "all": 63125,
+   "owner": 68611,
+   "renter": null,
+   "all_moe": 31804,
+   "owner_moe": 32727,
+   "renter_moe": null
+  },
+  "0829735": {
+   "all": 79118,
+   "owner": 93000,
+   "renter": 40357,
+   "all_moe": 36945,
+   "owner_moe": 43287,
+   "renter_moe": 31841
+  },
+  "0829845": {
+   "all": 76181,
+   "owner": 76597,
+   "renter": null,
+   "all_moe": 33430,
+   "owner_moe": 11953,
+   "renter_moe": null
+  },
+  "0829955": {
+   "all": null,
+   "owner": 62917,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": 46497,
+   "renter_moe": null
+  },
+  "0830340": {
+   "all": 71250,
+   "owner": 101912,
+   "renter": 69583,
+   "all_moe": 10125,
+   "owner_moe": 45964,
+   "renter_moe": 9797
+  },
+  "0830350": {
+   "all": 199063,
+   "owner": 199063,
+   "renter": null,
+   "all_moe": 71389,
+   "owner_moe": 71389,
+   "renter_moe": null
+  },
+  "0830420": {
+   "all": 139653,
+   "owner": 155139,
+   "renter": 54167,
+   "all_moe": 17784,
+   "owner_moe": 12832,
+   "renter_moe": 40254
+  },
+  "0830780": {
+   "all": 91481,
+   "owner": 115361,
+   "renter": 69043,
+   "all_moe": 13278,
+   "owner_moe": 15952,
+   "renter_moe": 18090
+  },
+  "0830835": {
+   "all": 98582,
+   "owner": 139224,
+   "renter": 68139,
+   "all_moe": 10849,
+   "owner_moe": 12708,
+   "renter_moe": 13210
+  },
+  "0830890": {
+   "all": null,
+   "owner": 87050,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": 35149,
+   "renter_moe": null
+  },
+  "0830945": {
+   "all": null,
+   "owner": 158611,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": 124796,
+   "renter_moe": null
+  },
+  "0831550": {
+   "all": 49250,
+   "owner": null,
+   "renter": null,
+   "all_moe": 31977,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0831605": {
+   "all": 72926,
+   "owner": 87465,
+   "renter": 61784,
+   "all_moe": 16199,
+   "owner_moe": 36524,
+   "renter_moe": 8892
+  },
+  "0831660": {
+   "all": 70080,
+   "owner": 93424,
+   "renter": 45977,
+   "all_moe": 4840,
+   "owner_moe": 4501,
+   "renter_moe": 3073
+  },
+  "0831715": {
+   "all": 103750,
+   "owner": 103750,
+   "renter": null,
+   "all_moe": 49243,
+   "owner_moe": 61900,
+   "renter_moe": null
+  },
+  "0831935": {
+   "all": 180625,
+   "owner": 180625,
+   "renter": null,
+   "all_moe": 60885,
+   "owner_moe": 60885,
+   "renter_moe": null
+  },
+  "0832155": {
+   "all": 69881,
+   "owner": 94595,
+   "renter": 45442,
+   "all_moe": 2819,
+   "owner_moe": 4802,
+   "renter_moe": 2727
+  },
+  "0832650": {
+   "all": 101827,
+   "owner": 100192,
+   "renter": 108917,
+   "all_moe": 44101,
+   "owner_moe": 54395,
+   "renter_moe": 96547
+  },
+  "0833035": {
+   "all": 149029,
+   "owner": 231468,
+   "renter": 90481,
+   "all_moe": 10479,
+   "owner_moe": 11709,
+   "renter_moe": 15315
+  },
+  "0833310": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0833420": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0833502": {
+   "all": 109407,
+   "owner": 148359,
+   "renter": 86577,
+   "all_moe": 13543,
+   "owner_moe": 24589,
+   "renter_moe": 11903
+  },
+  "0833640": {
+   "all": 62189,
+   "owner": 92850,
+   "renter": 40938,
+   "all_moe": 14147,
+   "owner_moe": 18744,
+   "renter_moe": 12363
+  },
+  "0833695": {
+   "all": 115564,
+   "owner": 154043,
+   "renter": 67740,
+   "all_moe": 32604,
+   "owner_moe": 51301,
+   "renter_moe": 15455
+  },
+  "0834520": {
+   "all": 12955,
+   "owner": null,
+   "renter": null,
+   "all_moe": 1777,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0834630": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0834685": {
+   "all": null,
+   "owner": 57625,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": 46873,
+   "renter_moe": null
+  },
+  "0834740": {
+   "all": null,
+   "owner": 80000,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": 69676,
+   "renter_moe": null
+  },
+  "0834960": {
+   "all": 63375,
+   "owner": 80313,
+   "renter": 11851,
+   "all_moe": 23097,
+   "owner_moe": 16232,
+   "renter_moe": 9423
+  },
+  "0835070": {
+   "all": 90804,
+   "owner": 100329,
+   "renter": 90357,
+   "all_moe": 35138,
+   "owner_moe": 43972,
+   "renter_moe": 40824
+  },
+  "0835400": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0835860": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0836410": {
+   "all": 159307,
+   "owner": 172690,
+   "renter": 108438,
+   "all_moe": 4781,
+   "owner_moe": 4473,
+   "renter_moe": 10100
+  },
+  "0836610": {
+   "all": 75625,
+   "owner": 100417,
+   "renter": 37500,
+   "all_moe": 30721,
+   "owner_moe": 45046,
+   "renter_moe": 10914
+  },
+  "0836940": {
+   "all": 78750,
+   "owner": 85938,
+   "renter": null,
+   "all_moe": 22330,
+   "owner_moe": 43375,
+   "renter_moe": null
+  },
+  "0837215": {
+   "all": 33750,
+   "owner": 53125,
+   "renter": 11997,
+   "all_moe": 23943,
+   "owner_moe": 40510,
+   "renter_moe": 4497
+  },
+  "0837220": {
+   "all": 122391,
+   "owner": 137000,
+   "renter": 73810,
+   "all_moe": 23781,
+   "owner_moe": 33210,
+   "renter_moe": 69300
+  },
+  "0837270": {
+   "all": 52482,
+   "owner": 59583,
+   "renter": 47019,
+   "all_moe": 14956,
+   "owner_moe": 19219,
+   "renter_moe": 12320
+  },
+  "0837380": {
+   "all": 46875,
+   "owner": 54792,
+   "renter": null,
+   "all_moe": 13925,
+   "owner_moe": 17520,
+   "renter_moe": null
+  },
+  "0837545": {
+   "all": 54545,
+   "owner": 72143,
+   "renter": 38929,
+   "all_moe": 27818,
+   "owner_moe": 35040,
+   "renter_moe": 31400
+  },
+  "0837600": {
+   "all": 106600,
+   "owner": 106850,
+   "renter": 98750,
+   "all_moe": 14818,
+   "owner_moe": 15167,
+   "renter_moe": 83916
+  },
+  "0837655": {
+   "all": 60386,
+   "owner": null,
+   "renter": 60110,
+   "all_moe": 7319,
+   "owner_moe": null,
+   "renter_moe": 14184
+  },
+  "0837820": {
+   "all": 81250,
+   "owner": 93036,
+   "renter": null,
+   "all_moe": 21438,
+   "owner_moe": 33673,
+   "renter_moe": null
+  },
+  "0837875": {
+   "all": 48958,
+   "owner": null,
+   "renter": 83750,
+   "all_moe": 37562,
+   "owner_moe": null,
+   "renter_moe": 76790
+  },
+  "0838370": {
+   "all": 89436,
+   "owner": 89408,
+   "renter": 89453,
+   "all_moe": 12275,
+   "owner_moe": 44859,
+   "renter_moe": 40673
+  },
+  "0838425": {
+   "all": 146250,
+   "owner": null,
+   "renter": 147000,
+   "all_moe": 77759,
+   "owner_moe": null,
+   "renter_moe": 104244
+  },
+  "0838480": {
+   "all": null,
+   "owner": 250001,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0838535": {
+   "all": 67593,
+   "owner": 86429,
+   "renter": 37365,
+   "all_moe": 30041,
+   "owner_moe": 23508,
+   "renter_moe": 3181
+  },
+  "0838590": {
+   "all": 57500,
+   "owner": 77634,
+   "renter": 52361,
+   "all_moe": 36744,
+   "owner_moe": 23773,
+   "renter_moe": 21311
+  },
+  "0838810": {
+   "all": 178980,
+   "owner": 235500,
+   "renter": null,
+   "all_moe": 135876,
+   "owner_moe": 141804,
+   "renter_moe": null
+  },
+  "0838910": {
+   "all": 109135,
+   "owner": 153021,
+   "renter": 103068,
+   "all_moe": 32508,
+   "owner_moe": 58725,
+   "renter_moe": 18589
+  },
+  "0839160": {
+   "all": 46458,
+   "owner": 47500,
+   "renter": null,
+   "all_moe": 25208,
+   "owner_moe": 37874,
+   "renter_moe": null
+  },
+  "0839195": {
+   "all": 149375,
+   "owner": 156563,
+   "renter": null,
+   "all_moe": 36768,
+   "owner_moe": 53883,
+   "renter_moe": null
+  },
+  "0839250": {
+   "all": 33242,
+   "owner": 33242,
+   "renter": null,
+   "all_moe": 27413,
+   "owner_moe": 27413,
+   "renter_moe": null
+  },
+  "0839745": {
+   "all": 56250,
+   "owner": 44583,
+   "renter": null,
+   "all_moe": 28435,
+   "owner_moe": 28773,
+   "renter_moe": null
+  },
+  "0839800": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0839855": {
+   "all": 128995,
+   "owner": 139895,
+   "renter": 73571,
+   "all_moe": 9061,
+   "owner_moe": 10181,
+   "renter_moe": 33309
+  },
+  "0839965": {
+   "all": 43500,
+   "owner": 60417,
+   "renter": 23092,
+   "all_moe": 13282,
+   "owner_moe": 15824,
+   "renter_moe": 3928
+  },
+  "0840185": {
+   "all": 83950,
+   "owner": 92639,
+   "renter": 59737,
+   "all_moe": 25236,
+   "owner_moe": 31646,
+   "renter_moe": 27733
+  },
+  "0840377": {
+   "all": 118269,
+   "owner": 125017,
+   "renter": 98219,
+   "all_moe": 5905,
+   "owner_moe": 9164,
+   "renter_moe": 16512
+  },
+  "0840515": {
+   "all": 68281,
+   "owner": 88125,
+   "renter": 22454,
+   "all_moe": 19339,
+   "owner_moe": 23915,
+   "renter_moe": 8522
+  },
+  "0840550": {
+   "all": 51591,
+   "owner": 172222,
+   "renter": 50921,
+   "all_moe": 9145,
+   "owner_moe": 95728,
+   "renter_moe": 8044
+  },
+  "0840570": {
+   "all": 28125,
+   "owner": 27813,
+   "renter": 52917,
+   "all_moe": 17323,
+   "owner_moe": 15870,
+   "renter_moe": 52557
+  },
+  "0840790": {
+   "all": 92625,
+   "owner": 102734,
+   "renter": 43929,
+   "all_moe": 26180,
+   "owner_moe": 32010,
+   "renter_moe": 33854
+  },
+  "0840900": {
+   "all": 97857,
+   "owner": 98393,
+   "renter": null,
+   "all_moe": 60804,
+   "owner_moe": 47672,
+   "renter_moe": null
+  },
+  "0841010": {
+   "all": 59875,
+   "owner": 81875,
+   "renter": 42344,
+   "all_moe": 24395,
+   "owner_moe": 75051,
+   "renter_moe": 11804
+  },
+  "0841065": {
+   "all": 222500,
+   "owner": 209038,
+   "renter": null,
+   "all_moe": 61634,
+   "owner_moe": 60649,
+   "renter_moe": null
+  },
+  "0841560": {
+   "all": 77407,
+   "owner": 83359,
+   "renter": 76417,
+   "all_moe": 24302,
+   "owner_moe": 36693,
+   "renter_moe": 31280
+  },
+  "0841835": {
+   "all": 119040,
+   "owner": 149813,
+   "renter": 79025,
+   "all_moe": 10187,
+   "owner_moe": 19236,
+   "renter_moe": 7381
+  },
+  "0842000": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0842055": {
+   "all": null,
+   "owner": 81250,
+   "renter": 22614,
+   "all_moe": null,
+   "owner_moe": 26165,
+   "renter_moe": 6939
+  },
+  "0842110": {
+   "all": 52315,
+   "owner": 75925,
+   "renter": 31283,
+   "all_moe": 7059,
+   "owner_moe": 21754,
+   "renter_moe": 4846
+  },
+  "0842165": {
+   "all": 83701,
+   "owner": 83701,
+   "renter": null,
+   "all_moe": 519,
+   "owner_moe": 519,
+   "renter_moe": null
+  },
+  "0842330": {
+   "all": 61919,
+   "owner": 75556,
+   "renter": 61802,
+   "all_moe": 29204,
+   "owner_moe": 54657,
+   "renter_moe": 28151
+  },
+  "0842495": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0843000": {
+   "all": 89792,
+   "owner": 114634,
+   "renter": 65801,
+   "all_moe": 3394,
+   "owner_moe": 3647,
+   "renter_moe": 3278
+  },
+  "0843110": {
+   "all": 53188,
+   "owner": 67356,
+   "renter": 34702,
+   "all_moe": 9608,
+   "owner_moe": 15349,
+   "renter_moe": 8672
+  },
+  "0843220": {
+   "all": 87313,
+   "owner": 111336,
+   "renter": 62632,
+   "all_moe": 40467,
+   "owner_moe": 35548,
+   "renter_moe": 36317
+  },
+  "0843550": {
+   "all": 70417,
+   "owner": 73333,
+   "renter": null,
+   "all_moe": 34231,
+   "owner_moe": 50123,
+   "renter_moe": null
+  },
+  "0843605": {
+   "all": 95833,
+   "owner": 98472,
+   "renter": 83889,
+   "all_moe": 14491,
+   "owner_moe": 16212,
+   "renter_moe": 17944
+  },
+  "0843660": {
+   "all": 51875,
+   "owner": 68125,
+   "renter": 34531,
+   "all_moe": 10249,
+   "owner_moe": 16518,
+   "renter_moe": 26021
+  },
+  "0844100": {
+   "all": 52804,
+   "owner": 53678,
+   "renter": 28145,
+   "all_moe": 10885,
+   "owner_moe": 2267,
+   "renter_moe": 18459
+  },
+  "0844265": {
+   "all": 41841,
+   "owner": 41682,
+   "renter": null,
+   "all_moe": 28329,
+   "owner_moe": 29781,
+   "renter_moe": null
+  },
+  "0844270": {
+   "all": 147625,
+   "owner": 147625,
+   "renter": null,
+   "all_moe": 87352,
+   "owner_moe": 87352,
+   "renter_moe": null
+  },
+  "0844320": {
+   "all": 86350,
+   "owner": 116389,
+   "renter": 60688,
+   "all_moe": 36202,
+   "owner_moe": 46938,
+   "renter_moe": 43639
+  },
+  "0844375": {
+   "all": 97604,
+   "owner": 98464,
+   "renter": 74103,
+   "all_moe": 21540,
+   "owner_moe": 8908,
+   "renter_moe": 26425
+  },
+  "0844595": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0844695": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0844980": {
+   "all": 65776,
+   "owner": 67241,
+   "renter": null,
+   "all_moe": 19539,
+   "owner_moe": 22514,
+   "renter_moe": null
+  },
+  "0845145": {
+   "all": 60036,
+   "owner": 67143,
+   "renter": 26458,
+   "all_moe": 12355,
+   "owner_moe": 25046,
+   "renter_moe": 16848
+  },
+  "0845255": {
+   "all": 98839,
+   "owner": 130231,
+   "renter": 62189,
+   "all_moe": 6470,
+   "owner_moe": 6151,
+   "renter_moe": 6422
+  },
+  "0845530": {
+   "all": 97009,
+   "owner": 95040,
+   "renter": 128929,
+   "all_moe": 24552,
+   "owner_moe": 20880,
+   "renter_moe": 35252
+  },
+  "0845680": {
+   "all": 89297,
+   "owner": 89297,
+   "renter": null,
+   "all_moe": 33531,
+   "owner_moe": 33531,
+   "renter_moe": null
+  },
+  "0845695": {
+   "all": 61250,
+   "owner": 69028,
+   "renter": 37708,
+   "all_moe": 25986,
+   "owner_moe": 7714,
+   "renter_moe": 14708
+  },
+  "0845750": {
+   "all": 141023,
+   "owner": 136176,
+   "renter": null,
+   "all_moe": 88626,
+   "owner_moe": 109151,
+   "renter_moe": null
+  },
+  "0845955": {
+   "all": 123741,
+   "owner": 164200,
+   "renter": 102028,
+   "all_moe": 17393,
+   "owner_moe": 24871,
+   "renter_moe": 12670
+  },
+  "0845970": {
+   "all": 90671,
+   "owner": 114761,
+   "renter": 64457,
+   "all_moe": 2975,
+   "owner_moe": 6517,
+   "renter_moe": 2578
+  },
+  "0846355": {
+   "all": 147319,
+   "owner": 175990,
+   "renter": 100602,
+   "all_moe": 14349,
+   "owner_moe": 9865,
+   "renter_moe": 13926
+  },
+  "0846410": {
+   "all": 145380,
+   "owner": 146250,
+   "renter": null,
+   "all_moe": 83275,
+   "owner_moe": 34393,
+   "renter_moe": null
+  },
+  "0846465": {
+   "all": 84604,
+   "owner": 98601,
+   "renter": 62919,
+   "all_moe": 4517,
+   "owner_moe": 3998,
+   "renter_moe": 6163
+  },
+  "0847015": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0847070": {
+   "all": 122837,
+   "owner": 127656,
+   "renter": 57679,
+   "all_moe": 37933,
+   "owner_moe": 38575,
+   "renter_moe": 42984
+  },
+  "0847235": {
+   "all": 59236,
+   "owner": 59236,
+   "renter": null,
+   "all_moe": 17846,
+   "owner_moe": 29509,
+   "renter_moe": null
+  },
+  "0847345": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0848060": {
+   "all": 60250,
+   "owner": 66979,
+   "renter": 35893,
+   "all_moe": 8864,
+   "owner_moe": 12989,
+   "renter_moe": 27256
+  },
+  "0848115": {
+   "all": 65833,
+   "owner": 70972,
+   "renter": 27232,
+   "all_moe": 8687,
+   "owner_moe": 7257,
+   "renter_moe": 9788
+  },
+  "0848445": {
+   "all": 85000,
+   "owner": 111546,
+   "renter": 42434,
+   "all_moe": 20176,
+   "owner_moe": 1989,
+   "renter_moe": 19337
+  },
+  "0848500": {
+   "all": 36010,
+   "owner": 48438,
+   "renter": 35433,
+   "all_moe": 4789,
+   "owner_moe": 27831,
+   "renter_moe": 17087
+  },
+  "0848555": {
+   "all": 170793,
+   "owner": 137679,
+   "renter": 171250,
+   "all_moe": 41903,
+   "owner_moe": 66219,
+   "renter_moe": 318
+  },
+  "0848940": {
+   "all": 56719,
+   "owner": 56250,
+   "renter": null,
+   "all_moe": 23127,
+   "owner_moe": 24187,
+   "renter_moe": null
+  },
+  "0849215": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0849325": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0849490": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0849600": {
+   "all": 125357,
+   "owner": 130203,
+   "renter": 83642,
+   "all_moe": 18451,
+   "owner_moe": 19362,
+   "renter_moe": 14805
+  },
+  "0849875": {
+   "all": 66548,
+   "owner": 74063,
+   "renter": 49292,
+   "all_moe": 19381,
+   "owner_moe": 19455,
+   "renter_moe": 20513
+  },
+  "0850012": {
+   "all": 89877,
+   "owner": 149063,
+   "renter": 79904,
+   "all_moe": 11518,
+   "owner_moe": 66562,
+   "renter_moe": 19733
+  },
+  "0850026": {
+   "all": 190833,
+   "owner": 199531,
+   "renter": 122976,
+   "all_moe": 60641,
+   "owner_moe": 52773,
+   "renter_moe": 39137
+  },
+  "0850040": {
+   "all": 61875,
+   "owner": 61042,
+   "renter": 68500,
+   "all_moe": 37416,
+   "owner_moe": 41187,
+   "renter_moe": 59161
+  },
+  "0850380": {
+   "all": 87176,
+   "owner": 90400,
+   "renter": null,
+   "all_moe": 12796,
+   "owner_moe": 15107,
+   "renter_moe": null
+  },
+  "0850480": {
+   "all": 107500,
+   "owner": 114063,
+   "renter": 80683,
+   "all_moe": 34257,
+   "owner_moe": 37582,
+   "renter_moe": 59627
+  },
+  "0850920": {
+   "all": 111944,
+   "owner": 116339,
+   "renter": 87031,
+   "all_moe": 26293,
+   "owner_moe": 85313,
+   "renter_moe": 51798
+  },
+  "0851250": {
+   "all": null,
+   "owner": 45417,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": 41009,
+   "renter_moe": null
+  },
+  "0851635": {
+   "all": 61684,
+   "owner": 71309,
+   "renter": 22432,
+   "all_moe": 14287,
+   "owner_moe": 21513,
+   "renter_moe": 15386
+  },
+  "0851690": {
+   "all": 130357,
+   "owner": null,
+   "renter": 130714,
+   "all_moe": 72941,
+   "owner_moe": null,
+   "renter_moe": 76999
+  },
+  "0851745": {
+   "all": 70386,
+   "owner": 80681,
+   "renter": 44764,
+   "all_moe": 5938,
+   "owner_moe": 5553,
+   "renter_moe": 7122
+  },
+  "0851800": {
+   "all": 128816,
+   "owner": 140962,
+   "renter": 75282,
+   "all_moe": 13478,
+   "owner_moe": 35720,
+   "renter_moe": 32558
+  },
+  "0851975": {
+   "all": 144740,
+   "owner": 144740,
+   "renter": null,
+   "all_moe": 113668,
+   "owner_moe": 113815,
+   "renter_moe": null
+  },
+  "0852075": {
+   "all": 122083,
+   "owner": 129375,
+   "renter": null,
+   "all_moe": 15736,
+   "owner_moe": 54087,
+   "renter_moe": null
+  },
+  "0852210": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0852350": {
+   "all": 106875,
+   "owner": 110714,
+   "renter": 99167,
+   "all_moe": 31814,
+   "owner_moe": 38862,
+   "renter_moe": 62100
+  },
+  "0852550": {
+   "all": 52923,
+   "owner": 250001,
+   "renter": 38056,
+   "all_moe": 24639,
+   "owner_moe": null,
+   "renter_moe": 26860
+  },
+  "0852570": {
+   "all": 85357,
+   "owner": 79893,
+   "renter": null,
+   "all_moe": 29037,
+   "owner_moe": 40374,
+   "renter_moe": null
+  },
+  "0852820": {
+   "all": 141036,
+   "owner": 141286,
+   "renter": null,
+   "all_moe": 36834,
+   "owner_moe": 27062,
+   "renter_moe": null
+  },
+  "0853010": {
+   "all": 30040,
+   "owner": 30040,
+   "renter": null,
+   "all_moe": 4645,
+   "owner_moe": 4645,
+   "renter_moe": null
+  },
+  "0853120": {
+   "all": 27917,
+   "owner": 29688,
+   "renter": null,
+   "all_moe": 13537,
+   "owner_moe": 13740,
+   "renter_moe": null
+  },
+  "0853175": {
+   "all": 122917,
+   "owner": 150417,
+   "renter": 81607,
+   "all_moe": 17026,
+   "owner_moe": 19764,
+   "renter_moe": 19355
+  },
+  "0853395": {
+   "all": 80084,
+   "owner": 84861,
+   "renter": 42221,
+   "all_moe": 16383,
+   "owner_moe": 33818,
+   "renter_moe": 28244
+  },
+  "0853780": {
+   "all": 146492,
+   "owner": 173165,
+   "renter": 45307,
+   "all_moe": 11590,
+   "owner_moe": 40340,
+   "renter_moe": 31860
+  },
+  "0853875": {
+   "all": 158377,
+   "owner": 158776,
+   "renter": null,
+   "all_moe": 18965,
+   "owner_moe": 1005,
+   "renter_moe": null
+  },
+  "0853945": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0854330": {
+   "all": 84030,
+   "owner": 110150,
+   "renter": 56361,
+   "all_moe": 4475,
+   "owner_moe": 8498,
+   "renter_moe": 9496
+  },
+  "0854495": {
+   "all": 47941,
+   "owner": 36042,
+   "renter": 62961,
+   "all_moe": 17079,
+   "owner_moe": 20924,
+   "renter_moe": 31507
+  },
+  "0854750": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0854880": {
+   "all": 57417,
+   "owner": 55250,
+   "renter": null,
+   "all_moe": 8948,
+   "owner_moe": 19319,
+   "renter_moe": null
+  },
+  "0854935": {
+   "all": 42857,
+   "owner": 39839,
+   "renter": null,
+   "all_moe": 16745,
+   "owner_moe": 19556,
+   "renter_moe": null
+  },
+  "0855045": {
+   "all": 111875,
+   "owner": 112750,
+   "renter": null,
+   "all_moe": 29441,
+   "owner_moe": 28230,
+   "renter_moe": null
+  },
+  "0855155": {
+   "all": 85313,
+   "owner": 91818,
+   "renter": 44444,
+   "all_moe": 15004,
+   "owner_moe": 22761,
+   "renter_moe": 23339
+  },
+  "0855540": {
+   "all": 55767,
+   "owner": 57188,
+   "renter": 46667,
+   "all_moe": 19007,
+   "owner_moe": 22698,
+   "renter_moe": 33410
+  },
+  "0855705": {
+   "all": 48500,
+   "owner": 48500,
+   "renter": null,
+   "all_moe": 40223,
+   "owner_moe": 34730,
+   "renter_moe": null
+  },
+  "0855870": {
+   "all": 135179,
+   "owner": 164167,
+   "renter": null,
+   "all_moe": 43331,
+   "owner_moe": 57368,
+   "renter_moe": null
+  },
+  "0855925": {
+   "all": 39250,
+   "owner": 39625,
+   "renter": null,
+   "all_moe": 11345,
+   "owner_moe": 13268,
+   "renter_moe": null
+  },
+  "0855980": {
+   "all": 55960,
+   "owner": 67112,
+   "renter": null,
+   "all_moe": 9415,
+   "owner_moe": 15732,
+   "renter_moe": null
+  },
+  "0856035": {
+   "all": 80359,
+   "owner": 82328,
+   "renter": 57000,
+   "all_moe": 11763,
+   "owner_moe": 8914,
+   "renter_moe": 18890
+  },
+  "0856145": {
+   "all": 54583,
+   "owner": 62500,
+   "renter": 35268,
+   "all_moe": 14128,
+   "owner_moe": 16110,
+   "renter_moe": 17410
+  },
+  "0856365": {
+   "all": 55962,
+   "owner": 60208,
+   "renter": null,
+   "all_moe": 6546,
+   "owner_moe": 10356,
+   "renter_moe": null
+  },
+  "0856420": {
+   "all": 78182,
+   "owner": 72067,
+   "renter": 79375,
+   "all_moe": 13426,
+   "owner_moe": 24860,
+   "renter_moe": 27762
+  },
+  "0856475": {
+   "all": 44375,
+   "owner": 51500,
+   "renter": 32708,
+   "all_moe": 10336,
+   "owner_moe": 18164,
+   "renter_moe": 11353
+  },
+  "0856695": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0856860": {
+   "all": 50785,
+   "owner": 39688,
+   "renter": 51974,
+   "all_moe": 14790,
+   "owner_moe": 29595,
+   "renter_moe": 16226
+  },
+  "0856970": {
+   "all": 80587,
+   "owner": 86804,
+   "renter": 60221,
+   "all_moe": 29239,
+   "owner_moe": 17989,
+   "renter_moe": 19551
+  },
+  "0857025": {
+   "all": 125357,
+   "owner": 125393,
+   "renter": 112431,
+   "all_moe": 22391,
+   "owner_moe": 21922,
+   "renter_moe": 79747
+  },
+  "0857245": {
+   "all": 99444,
+   "owner": 98889,
+   "renter": null,
+   "all_moe": 24591,
+   "owner_moe": 18339,
+   "renter_moe": null
+  },
+  "0857300": {
+   "all": 59574,
+   "owner": 57961,
+   "renter": null,
+   "all_moe": 9042,
+   "owner_moe": 12617,
+   "renter_moe": null
+  },
+  "0857400": {
+   "all": 58778,
+   "owner": 98750,
+   "renter": null,
+   "all_moe": 16117,
+   "owner_moe": 50146,
+   "renter_moe": null
+  },
+  "0857445": {
+   "all": 230268,
+   "owner": 230268,
+   "renter": null,
+   "all_moe": 112567,
+   "owner_moe": 112596,
+   "renter_moe": null
+  },
+  "0857465": {
+   "all": 72212,
+   "owner": 82200,
+   "renter": 19241,
+   "all_moe": 25433,
+   "owner_moe": 44758,
+   "renter_moe": 4420
+  },
+  "0857630": {
+   "all": 133369,
+   "owner": 158655,
+   "renter": 88361,
+   "all_moe": 3893,
+   "owner_moe": 9460,
+   "renter_moe": 7702
+  },
+  "0857850": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0858235": {
+   "all": 52500,
+   "owner": 56875,
+   "renter": null,
+   "all_moe": 29129,
+   "owner_moe": 36207,
+   "renter_moe": null
+  },
+  "0858400": {
+   "all": 88109,
+   "owner": 93327,
+   "renter": 35064,
+   "all_moe": 17560,
+   "owner_moe": 12736,
+   "renter_moe": 31421
+  },
+  "0858510": {
+   "all": null,
+   "owner": 123125,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": 122510,
+   "renter_moe": null
+  },
+  "0858592": {
+   "all": 158214,
+   "owner": 159286,
+   "renter": null,
+   "all_moe": 30326,
+   "owner_moe": 31787,
+   "renter_moe": null
+  },
+  "0858675": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0858785": {
+   "all": 87232,
+   "owner": 142656,
+   "renter": null,
+   "all_moe": 71686,
+   "owner_moe": 128363,
+   "renter_moe": null
+  },
+  "0858960": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0859005": {
+   "all": 61250,
+   "owner": 68487,
+   "renter": 53636,
+   "all_moe": 8557,
+   "owner_moe": 18896,
+   "renter_moe": 52733
+  },
+  "0859240": {
+   "all": 63606,
+   "owner": 63966,
+   "renter": null,
+   "all_moe": 18598,
+   "owner_moe": 61550,
+   "renter_moe": null
+  },
+  "0859520": {
+   "all": 127104,
+   "owner": 127104,
+   "renter": null,
+   "all_moe": 24886,
+   "owner_moe": 24886,
+   "renter_moe": null
+  },
+  "0859830": {
+   "all": 85729,
+   "owner": 85556,
+   "renter": null,
+   "all_moe": 35871,
+   "owner_moe": 52911,
+   "renter_moe": null
+  },
+  "0859885": {
+   "all": 105972,
+   "owner": 105486,
+   "renter": null,
+   "all_moe": 89947,
+   "owner_moe": 85423,
+   "renter_moe": null
+  },
+  "0860160": {
+   "all": 74500,
+   "owner": 80317,
+   "renter": 50905,
+   "all_moe": 12140,
+   "owner_moe": 11345,
+   "renter_moe": 23241
+  },
+  "0860600": {
+   "all": 97139,
+   "owner": 97452,
+   "renter": 79432,
+   "all_moe": 34682,
+   "owner_moe": 38735,
+   "renter_moe": 63244
+  },
+  "0860655": {
+   "all": 132154,
+   "owner": 131543,
+   "renter": null,
+   "all_moe": 16230,
+   "owner_moe": 19002,
+   "renter_moe": null
+  },
+  "0860765": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0861315": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0862000": {
+   "all": 56664,
+   "owner": 69902,
+   "renter": 37769,
+   "all_moe": 2076,
+   "owner_moe": 3527,
+   "renter_moe": 2886
+  },
+  "0862220": {
+   "all": 96810,
+   "owner": 103432,
+   "renter": 49757,
+   "all_moe": 10705,
+   "owner_moe": 9518,
+   "renter_moe": 18136
+  },
+  "0862660": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0862880": {
+   "all": 66389,
+   "owner": 73636,
+   "renter": 36250,
+   "all_moe": 14831,
+   "owner_moe": 13720,
+   "renter_moe": 31415
+  },
+  "0863045": {
+   "all": 36875,
+   "owner": 55625,
+   "renter": null,
+   "all_moe": 21405,
+   "owner_moe": 40100,
+   "renter_moe": null
+  },
+  "0863265": {
+   "all": 72125,
+   "owner": null,
+   "renter": 50875,
+   "all_moe": 42319,
+   "owner_moe": null,
+   "renter_moe": 28734
+  },
+  "0863320": {
+   "all": 138696,
+   "owner": 138696,
+   "renter": null,
+   "all_moe": 97287,
+   "owner_moe": 97287,
+   "renter_moe": null
+  },
+  "0863375": {
+   "all": 92391,
+   "owner": 100893,
+   "renter": 51754,
+   "all_moe": 25592,
+   "owner_moe": 21468,
+   "renter_moe": 8152
+  },
+  "0863650": {
+   "all": 114479,
+   "owner": 114479,
+   "renter": null,
+   "all_moe": 83082,
+   "owner_moe": 83082,
+   "renter_moe": null
+  },
+  "0863705": {
+   "all": 56833,
+   "owner": 58654,
+   "renter": null,
+   "all_moe": 21191,
+   "owner_moe": 58264,
+   "renter_moe": null
+  },
+  "0864090": {
+   "all": 104250,
+   "owner": 104500,
+   "renter": null,
+   "all_moe": 60411,
+   "owner_moe": 80581,
+   "renter_moe": null
+  },
+  "0864200": {
+   "all": 83750,
+   "owner": 87750,
+   "renter": null,
+   "all_moe": 20693,
+   "owner_moe": 33615,
+   "renter_moe": null
+  },
+  "0864255": {
+   "all": 80000,
+   "owner": 92112,
+   "renter": 50425,
+   "all_moe": 8596,
+   "owner_moe": 19786,
+   "renter_moe": 22264
+  },
+  "0864870": {
+   "all": 146250,
+   "owner": 146250,
+   "renter": null,
+   "all_moe": 110918,
+   "owner_moe": 111022,
+   "renter_moe": null
+  },
+  "0864970": {
+   "all": 46250,
+   "owner": 50250,
+   "renter": 22917,
+   "all_moe": 16997,
+   "owner_moe": 16970,
+   "renter_moe": 4857
+  },
+  "0865190": {
+   "all": 40655,
+   "owner": 53606,
+   "renter": 21929,
+   "all_moe": 15660,
+   "owner_moe": 18019,
+   "renter_moe": 14226
+  },
+  "0865685": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0865740": {
+   "all": 45469,
+   "owner": 43456,
+   "renter": 47109,
+   "all_moe": 7785,
+   "owner_moe": 9376,
+   "renter_moe": 18605
+  },
+  "0866197": {
+   "all": 173083,
+   "owner": 173200,
+   "renter": null,
+   "all_moe": 11749,
+   "owner_moe": 11866,
+   "renter_moe": null
+  },
+  "0866895": {
+   "all": null,
+   "owner": 42292,
+   "renter": 12404,
+   "all_moe": null,
+   "owner_moe": 24680,
+   "renter_moe": 6650
+  },
+  "0866995": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0867005": {
+   "all": 58352,
+   "owner": 80223,
+   "renter": null,
+   "all_moe": 34975,
+   "owner_moe": 50910,
+   "renter_moe": null
+  },
+  "0867040": {
+   "all": 188125,
+   "owner": null,
+   "renter": null,
+   "all_moe": 97669,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0867142": {
+   "all": 25357,
+   "owner": null,
+   "renter": null,
+   "all_moe": 23637,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0867280": {
+   "all": 70045,
+   "owner": 86677,
+   "renter": 49688,
+   "all_moe": 12816,
+   "owner_moe": 17620,
+   "renter_moe": 12721
+  },
+  "0867445": {
+   "all": 51714,
+   "owner": 51714,
+   "renter": null,
+   "all_moe": 12896,
+   "owner_moe": 11963,
+   "renter_moe": null
+  },
+  "0867500": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0867830": {
+   "all": 42143,
+   "owner": 60143,
+   "renter": 16000,
+   "all_moe": 20833,
+   "owner_moe": 9966,
+   "renter_moe": 9584
+  },
+  "0868105": {
+   "all": 26708,
+   "owner": 26542,
+   "renter": 39500,
+   "all_moe": 2437,
+   "owner_moe": 825,
+   "renter_moe": 38123
+  },
+  "0868655": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0868847": {
+   "all": 91142,
+   "owner": 97748,
+   "renter": 67282,
+   "all_moe": 5192,
+   "owner_moe": 8368,
+   "renter_moe": 11702
+  },
+  "0868875": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0868930": {
+   "all": 53750,
+   "owner": 53750,
+   "renter": null,
+   "all_moe": 45791,
+   "owner_moe": 48477,
+   "renter_moe": null
+  },
+  "0868985": {
+   "all": 79141,
+   "owner": 78906,
+   "renter": null,
+   "all_moe": 10414,
+   "owner_moe": 7784,
+   "renter_moe": null
+  },
+  "0869040": {
+   "all": 48750,
+   "owner": 46250,
+   "renter": 66250,
+   "all_moe": 19416,
+   "owner_moe": 25008,
+   "renter_moe": 40838
+  },
+  "0869110": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0869150": {
+   "all": 124572,
+   "owner": 123966,
+   "renter": 131006,
+   "all_moe": 11790,
+   "owner_moe": 11318,
+   "renter_moe": 52752
+  },
+  "0869480": {
+   "all": 86250,
+   "owner": 98289,
+   "renter": 77756,
+   "all_moe": 18298,
+   "owner_moe": 45816,
+   "renter_moe": 15541
+  },
+  "0869645": {
+   "all": 60608,
+   "owner": 77073,
+   "renter": 50739,
+   "all_moe": 7538,
+   "owner_moe": 11410,
+   "renter_moe": 15230
+  },
+  "0869700": {
+   "all": 41406,
+   "owner": null,
+   "renter": 42031,
+   "all_moe": 2273,
+   "owner_moe": null,
+   "renter_moe": 9027
+  },
+  "0869810": {
+   "all": 75327,
+   "owner": 85833,
+   "renter": 66204,
+   "all_moe": 6443,
+   "owner_moe": 11724,
+   "renter_moe": 17485
+  },
+  "0870112": {
+   "all": 158183,
+   "owner": 171953,
+   "renter": 48484,
+   "all_moe": 13211,
+   "owner_moe": 47706,
+   "renter_moe": 32884
+  },
+  "0870195": {
+   "all": 93690,
+   "owner": 111875,
+   "renter": 67237,
+   "all_moe": 9644,
+   "owner_moe": 32595,
+   "renter_moe": 23187
+  },
+  "0870250": {
+   "all": 33000,
+   "owner": 48750,
+   "renter": 25648,
+   "all_moe": 15021,
+   "owner_moe": 24540,
+   "renter_moe": 3054
+  },
+  "0870360": {
+   "all": 52083,
+   "owner": null,
+   "renter": 52125,
+   "all_moe": 36028,
+   "owner_moe": null,
+   "renter_moe": 7116
+  },
+  "0870525": {
+   "all": 125478,
+   "owner": 133958,
+   "renter": 33929,
+   "all_moe": 35555,
+   "owner_moe": 19986,
+   "renter_moe": 27313
+  },
+  "0870580": {
+   "all": 77546,
+   "owner": 91528,
+   "renter": 50000,
+   "all_moe": 38216,
+   "owner_moe": 12789,
+   "renter_moe": 38757
+  },
+  "0870635": {
+   "all": 44688,
+   "owner": null,
+   "renter": 44167,
+   "all_moe": 12929,
+   "owner_moe": null,
+   "renter_moe": 12694
+  },
+  "0871625": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0871755": {
+   "all": 102959,
+   "owner": 130536,
+   "renter": 99899,
+   "all_moe": 12846,
+   "owner_moe": 121022,
+   "renter_moe": 32974
+  },
+  "0871790": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0871845": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0872320": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0872395": {
+   "all": 76250,
+   "owner": 70119,
+   "renter": 99214,
+   "all_moe": 31056,
+   "owner_moe": 18702,
+   "renter_moe": 78072
+  },
+  "0873330": {
+   "all": 48295,
+   "owner": 59531,
+   "renter": 29315,
+   "all_moe": 8424,
+   "owner_moe": 19621,
+   "renter_moe": 5212
+  },
+  "0873715": {
+   "all": 67727,
+   "owner": 75455,
+   "renter": null,
+   "all_moe": 59796,
+   "owner_moe": 60743,
+   "renter_moe": null
+  },
+  "0873825": {
+   "all": 104964,
+   "owner": 128382,
+   "renter": 64162,
+   "all_moe": 16551,
+   "owner_moe": 7648,
+   "renter_moe": 19613
+  },
+  "0873925": {
+   "all": 223839,
+   "owner": 224911,
+   "renter": null,
+   "all_moe": 46744,
+   "owner_moe": 44921,
+   "renter_moe": null
+  },
+  "0873935": {
+   "all": 43283,
+   "owner": 49512,
+   "renter": 38889,
+   "all_moe": 3767,
+   "owner_moe": 7911,
+   "renter_moe": 2519
+  },
+  "0873943": {
+   "all": 206719,
+   "owner": 201711,
+   "renter": 250001,
+   "all_moe": 20102,
+   "owner_moe": 16392,
+   "renter_moe": null
+  },
+  "0874080": {
+   "all": 159086,
+   "owner": 163618,
+   "renter": 116538,
+   "all_moe": 9891,
+   "owner_moe": 13165,
+   "renter_moe": 53803
+  },
+  "0874275": {
+   "all": 25583,
+   "owner": 14063,
+   "renter": null,
+   "all_moe": 16261,
+   "owner_moe": 1255,
+   "renter_moe": null
+  },
+  "0874375": {
+   "all": 117845,
+   "owner": 122005,
+   "renter": null,
+   "all_moe": 51416,
+   "owner_moe": 27486,
+   "renter_moe": null
+  },
+  "0874430": {
+   "all": 65000,
+   "owner": 73026,
+   "renter": 46373,
+   "all_moe": 12840,
+   "owner_moe": 4537,
+   "renter_moe": 14625
+  },
+  "0874485": {
+   "all": 61583,
+   "owner": 67625,
+   "renter": 56959,
+   "all_moe": 14155,
+   "owner_moe": 12309,
+   "renter_moe": 12450
+  },
+  "0874815": {
+   "all": 47798,
+   "owner": 47763,
+   "renter": 48125,
+   "all_moe": 17979,
+   "owner_moe": 22414,
+   "renter_moe": 35604
+  },
+  "0874980": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0875585": {
+   "all": null,
+   "owner": 173958,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": 142769,
+   "renter_moe": null
+  },
+  "0875640": {
+   "all": 159434,
+   "owner": 200871,
+   "renter": 117463,
+   "all_moe": 14403,
+   "owner_moe": 23337,
+   "renter_moe": 16591
+  },
+  "0875970": {
+   "all": 44219,
+   "owner": 48750,
+   "renter": null,
+   "all_moe": 17487,
+   "owner_moe": 20294,
+   "renter_moe": null
+  },
+  "0876190": {
+   "all": 111198,
+   "owner": 125549,
+   "renter": null,
+   "all_moe": 77148,
+   "owner_moe": 35084,
+   "renter_moe": null
+  },
+  "0876325": {
+   "all": 203110,
+   "owner": 203110,
+   "renter": null,
+   "all_moe": 177857,
+   "owner_moe": 177858,
+   "renter_moe": null
+  },
+  "0876795": {
+   "all": 102405,
+   "owner": 102247,
+   "renter": 107931,
+   "all_moe": 40795,
+   "owner_moe": 67535,
+   "renter_moe": 45746
+  },
+  "0877235": {
+   "all": 194446,
+   "owner": 195739,
+   "renter": 123102,
+   "all_moe": 16466,
+   "owner_moe": 14145,
+   "renter_moe": 52261
+  },
+  "0877290": {
+   "all": 103088,
+   "owner": 120794,
+   "renter": 67730,
+   "all_moe": 2467,
+   "owner_moe": 2888,
+   "renter_moe": 4434
+  },
+  "0877510": {
+   "all": 178257,
+   "owner": 186901,
+   "renter": 75947,
+   "all_moe": 13812,
+   "owner_moe": 30471,
+   "renter_moe": 41591
+  },
+  "0877757": {
+   "all": 194362,
+   "owner": 194923,
+   "renter": null,
+   "all_moe": 23370,
+   "owner_moe": 22378,
+   "renter_moe": null
+  },
+  "0878280": {
+   "all": 22955,
+   "owner": null,
+   "renter": 22917,
+   "all_moe": 14160,
+   "owner_moe": null,
+   "renter_moe": 13547
+  },
+  "0878335": {
+   "all": null,
+   "owner": null,
+   "renter": 70313,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": 38811
+  },
+  "0878345": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0878610": {
+   "all": 52273,
+   "owner": 68628,
+   "renter": 34091,
+   "all_moe": 8603,
+   "owner_moe": 5260,
+   "renter_moe": 7387
+  },
+  "0879100": {
+   "all": 95583,
+   "owner": 117868,
+   "renter": 45298,
+   "all_moe": 20439,
+   "owner_moe": 22754,
+   "renter_moe": 21348
+  },
+  "0879105": {
+   "all": 142601,
+   "owner": 142601,
+   "renter": null,
+   "all_moe": 78058,
+   "owner_moe": 78058,
+   "renter_moe": null
+  },
+  "0879270": {
+   "all": 25000,
+   "owner": 25000,
+   "renter": null,
+   "all_moe": 22791,
+   "owner_moe": 22791,
+   "renter_moe": null
+  },
+  "0879785": {
+   "all": 186071,
+   "owner": 190600,
+   "renter": 105897,
+   "all_moe": 72889,
+   "owner_moe": 25420,
+   "renter_moe": 99309
+  },
+  "0879800": {
+   "all": 250001,
+   "owner": 250001,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0880040": {
+   "all": 98893,
+   "owner": 128693,
+   "renter": 62604,
+   "all_moe": 17747,
+   "owner_moe": 25228,
+   "renter_moe": 24371
+  },
+  "0880095": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0880370": {
+   "all": 75357,
+   "owner": 75357,
+   "renter": null,
+   "all_moe": 64268,
+   "owner_moe": 64268,
+   "renter_moe": null
+  },
+  "0880755": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0880865": {
+   "all": 55521,
+   "owner": 44091,
+   "renter": null,
+   "all_moe": 25015,
+   "owner_moe": 17215,
+   "renter_moe": null
+  },
+  "0881030": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0881305": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0881690": {
+   "all": 78750,
+   "owner": 103125,
+   "renter": 73125,
+   "all_moe": 35894,
+   "owner_moe": 36602,
+   "renter_moe": 52411
+  },
+  "0882130": {
+   "all": 40972,
+   "owner": 41319,
+   "renter": null,
+   "all_moe": 20538,
+   "owner_moe": 18906,
+   "renter_moe": null
+  },
+  "0882350": {
+   "all": 51474,
+   "owner": 61391,
+   "renter": 40881,
+   "all_moe": 18685,
+   "owner_moe": 14992,
+   "renter_moe": 22045
+  },
+  "0882460": {
+   "all": 24196,
+   "owner": 53523,
+   "renter": 15855,
+   "all_moe": 15214,
+   "owner_moe": 16974,
+   "renter_moe": 3100
+  },
+  "0882735": {
+   "all": 56875,
+   "owner": 57083,
+   "renter": null,
+   "all_moe": 23575,
+   "owner_moe": 29947,
+   "renter_moe": null
+  },
+  "0882900": {
+   "all": 158173,
+   "owner": 158173,
+   "renter": null,
+   "all_moe": 21185,
+   "owner_moe": 21185,
+   "renter_moe": null
+  },
+  "0883120": {
+   "all": 80026,
+   "owner": 88191,
+   "renter": 53261,
+   "all_moe": 13283,
+   "owner_moe": 10174,
+   "renter_moe": 18025
+  },
+  "0883175": {
+   "all": 50147,
+   "owner": 47500,
+   "renter": null,
+   "all_moe": 25807,
+   "owner_moe": 16653,
+   "renter_moe": null
+  },
+  "0883230": {
+   "all": 107017,
+   "owner": 108384,
+   "renter": 74973,
+   "all_moe": 4808,
+   "owner_moe": 6989,
+   "renter_moe": 37066
+  },
+  "0883450": {
+   "all": 53929,
+   "owner": 73750,
+   "renter": null,
+   "all_moe": 26597,
+   "owner_moe": 37094,
+   "renter_moe": null
+  },
+  "0883500": {
+   "all": 104750,
+   "owner": null,
+   "renter": null,
+   "all_moe": 47620,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0883835": {
+   "all": 100272,
+   "owner": 124160,
+   "renter": 71924,
+   "all_moe": 3946,
+   "owner_moe": 3618,
+   "renter_moe": 4711
+  },
+  "0884000": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0884042": {
+   "all": 95817,
+   "owner": 110625,
+   "renter": null,
+   "all_moe": 18795,
+   "owner_moe": 36346,
+   "renter_moe": null
+  },
+  "0884440": {
+   "all": 90564,
+   "owner": 123908,
+   "renter": 55083,
+   "all_moe": 8597,
+   "owner_moe": 7079,
+   "renter_moe": 7314
+  },
+  "0884770": {
+   "all": 91681,
+   "owner": 93333,
+   "renter": 88438,
+   "all_moe": 7998,
+   "owner_moe": 11990,
+   "renter_moe": 25763
+  },
+  "0885045": {
+   "all": 60114,
+   "owner": 63125,
+   "renter": 51875,
+   "all_moe": 8496,
+   "owner_moe": 15657,
+   "renter_moe": 17196
+  },
+  "0885155": {
+   "all": 50250,
+   "owner": 40000,
+   "renter": 56771,
+   "all_moe": 14723,
+   "owner_moe": 21538,
+   "renter_moe": 34832
+  },
+  "0885485": {
+   "all": 127028,
+   "owner": 150072,
+   "renter": 66483,
+   "all_moe": 5803,
+   "owner_moe": 6674,
+   "renter_moe": 10164
+  },
+  "0885705": {
+   "all": 68828,
+   "owner": null,
+   "renter": 83286,
+   "all_moe": 37446,
+   "owner_moe": null,
+   "renter_moe": 34502
+  },
+  "0885760": {
+   "all": null,
+   "owner": null,
+   "renter": null,
+   "all_moe": null,
+   "owner_moe": null,
+   "renter_moe": null
+  },
+  "0886090": {
+   "all": 99238,
+   "owner": 108312,
+   "renter": 59447,
+   "all_moe": 12887,
+   "owner_moe": 7538,
+   "renter_moe": 12590
+  },
+  "0886117": {
+   "all": 171875,
+   "owner": 172104,
+   "renter": 162070,
+   "all_moe": 14926,
+   "owner_moe": 17025,
+   "renter_moe": 76366
+  },
+  "0886200": {
+   "all": 92895,
+   "owner": 92895,
+   "renter": null,
+   "all_moe": 48404,
+   "owner_moe": 48404,
+   "renter_moe": null
+  },
+  "0886310": {
+   "all": 57171,
+   "owner": 90580,
+   "renter": 27012,
+   "all_moe": 13187,
+   "owner_moe": 23616,
+   "renter_moe": 16277
+  },
+  "0886475": {
+   "all": 75109,
+   "owner": 75435,
+   "renter": null,
+   "all_moe": 29934,
+   "owner_moe": 29238,
+   "renter_moe": null
+  },
+  "0886750": {
+   "all": 48338,
+   "owner": 61765,
+   "renter": null,
+   "all_moe": 11303,
+   "owner_moe": 14214,
+   "renter_moe": null
+  }
+ }
+}

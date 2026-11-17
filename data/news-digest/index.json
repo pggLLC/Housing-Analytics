@@ -2,9 +2,23 @@
   "meta": {
     "description": "Sunday digest of Colorado affordable housing news. One edition per week, Monday to Sunday, written from official releases and checked newsrooms. Each edition is a Markdown file in this folder.",
     "schedule": "Sundays, about 6:40 am Mountain Time; published on the site when the weekly pull request merges",
-    "updated": "2026-11-08"
+    "updated": "2026-11-15"
   },
   "editions": [
+    {
+      "date": "2026-11-15",
+      "window_start": "2026-11-09",
+      "window_end": "2026-11-15",
+      "title": "Colorado Housing Week: Nov 9 – 15, 2026",
+      "file": "data/news-digest/2026-11-15.md",
+      "summary": [
+        "DOLA's first statewide housing needs assessment: one in three households is cost-burdened, and the state needs about 30,600 new homes a year through 2036.",
+        "The flood damage count now includes households, through FEMA's Individual Assistance program; 311 displaced households have had emergency lodging.",
+        "A final Forest Service rule lets administrative site leases back a loan, taking effect around Dec 2.",
+        "The Senate advanced a permitting bill that reaches HOME and CDBG projects, 73–25; Hickenlooper voted yes and Bennet no.",
+        "The 30-year rate fell to 7.11%, and Colorado home sales fell nearly 19% from last October."
+      ]
+    },
     {
       "date": "2026-11-08",
       "window_start": "2026-11-02",

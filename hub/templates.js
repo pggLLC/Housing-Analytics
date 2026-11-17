@@ -521,5 +521,27 @@
     var cut = f0.slice(0, ALT_MAX - 1); return cut.slice(0, cut.lastIndexOf(' ')) + '\u2026';
   }
 
-  global.LabTpl = { summary: summary, newest: newest, stamp: stamp, means: means, terms: terms, alt: alt, ALT_MAX: ALT_MAX, gapTone: gapTone, toneBadge: toneBadge, crumbs: crumbs, trail: trail, head: head, factStrip: factStrip, onThisPage: onThisPage, pageTabs: pageTabs, next: next, source: source, fold: fold, foldHtml: foldHtml, openAround: openAround, printBar: printBar, foldSources: foldSources, sortable: sortable };
+  // The owner gap (paul, 16 Nov: "go owner gap with B25119"). The income it takes to buy a home of a given value,
+  // from the public site's own engine (js/hna/hna-ownership-need.js incomeNeededForHomeValue, which uses
+  // js/hna/ownership-finance.js: Freddie Mac PMMS 30-year rate, 30 years, 10% down, 30% of income, tax,
+  // insurance and PMI), and the income a rent takes at 30% of income. Owner and renter incomes are ACS B25119.
+  // There is no "homes short for buyers" count: occupied homes are not for sale, so that screen reads 0 almost
+  // everywhere (proposal: cutover/owner-gap-2026-11-16).
+  function ownerGap(value, rent) {
+    var O = global.HNAOwnershipNeed, F = global.OwnershipFinance;
+    var need = O && value > 0 ? O.incomeNeededForHomeValue(value) : null;
+    var a = O && O.CONSTANTS ? O.CONSTANTS.affordabilityAssumptions || {} : {}, r = F && F.MORTGAGE_RATE;
+    return { buy: need > 0 ? Math.round(need / 100) * 100 : null, rent: rent > 0 ? Math.round(rent * 12 / 0.3 / 100) * 100 : null,
+      rate: r ? r.rateAnnual : a.pmms30YearRate, week: weekOf(r ? r.week : a.pmmsDate),
+      rateSource: r ? r.source : a.pmmsSource, down: a.downPaymentRate != null ? a.downPaymentRate : a.downPaymentPct };
+  }
+  // The gap between an income it takes (rounded to $100) and a median income, to the same $100.
+  function short(need, have) { return need > 0 && have > 0 && need > have ? Math.round((need - have) / 100) * 100 : 0; }
+  function weekOf(iso) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+    return m ? ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][+m[2] - 1] + ' ' + (+m[3]) + ', ' + m[1] : (iso || '');
+  }
+  var B25119_URL = 'https://data.census.gov/table/ACSDT5Y2024.B25119';
+
+  global.LabTpl = { summary: summary, ownerGap: ownerGap, short: short, B25119_URL: B25119_URL, newest: newest, stamp: stamp, means: means, terms: terms, alt: alt, ALT_MAX: ALT_MAX, gapTone: gapTone, toneBadge: toneBadge, crumbs: crumbs, trail: trail, head: head, factStrip: factStrip, onThisPage: onThisPage, pageTabs: pageTabs, next: next, source: source, fold: fold, foldHtml: foldHtml, openAround: openAround, printBar: printBar, foldSources: foldSources, sortable: sortable };
 })(window);
