@@ -3026,6 +3026,24 @@
       "also": []
     },
     {
+      "title": "CHFA Announces 2026 Round Two Housing Tax Credit Awards",
+      "source": "CHFA",
+      "sourcing": "checked",
+      "source_domain": "www.chfainfo.com",
+      "link": "https://www.chfainfo.com/chfa-news/11162026-2026-round-two-htc-awards",
+      "date": "2026-11-16",
+      "scope": "colorado",
+      "programs": [
+        "LIHTC",
+        "CHFA"
+      ],
+      "places": [],
+      "regions": [],
+      "also": [],
+      "agency": true,
+      "date_basis": "posted"
+    },
+    {
       "title": "After the flood: Colorado communities struggle with daunting recovery",
       "source": "Colorado Springs Gazette",
       "sourcing": "checked",
@@ -11504,11 +11522,246 @@
     }
   ],
   "stories_meta": {
-    "generated": "2026-11-16T11:44:19Z",
+    "generated": "2026-11-17T03:41:45Z",
     "source_alerts": 3547,
     "out_of_scope": 2983,
     "merged_duplicates": 50,
     "blocked_outlets": 1,
     "method": "One story per headline, newest first. Other-state news is left out. Places are matched against the 546 geographies in data/hna/geo-config.json; regions follow the county map in scripts/hna/build_ranking_index.py. Each publisher is looked up in data/alerts/outlet-register.json: checked outlets carry no tag, others are tagged \"Unverified outlet\" or \"Weak sourcing\", and documented imposter sites are left out."
+  },
+  "agency": {
+    "checked": "2026-11-17T03:41:45Z",
+    "sources": [
+      {
+        "id": "chfa-news",
+        "name": "CHFA newsroom",
+        "url": "https://www.chfainfo.com/chfa-news",
+        "status": "ok",
+        "items": 125
+      },
+      {
+        "id": "chfa-awards",
+        "name": "CHFA housing tax credit awards page",
+        "url": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
+        "status": "ok",
+        "items": 50
+      },
+      {
+        "id": "dola",
+        "name": "DOLA press releases",
+        "url": "https://cdola.colorado.gov/category/press-release",
+        "status": "ok",
+        "items": 10
+      },
+      {
+        "id": "oedit",
+        "name": "OEDIT press releases",
+        "url": "https://oedit.colorado.gov/category/press-release",
+        "status": "HTTPError: HTTP Error 403: Forbidden",
+        "items": 0
+      },
+      {
+        "id": "governor",
+        "name": "Governor\u2019s newsroom",
+        "url": "https://www.colorado.gov/governor/news",
+        "status": "ok",
+        "items": 10
+      }
+    ],
+    "sources_read": [
+      "chfa-awards",
+      "chfa-news",
+      "dola",
+      "governor"
+    ],
+    "items": [
+      {
+        "agency": "CHFA",
+        "source": "CHFA newsroom",
+        "title": "CHFA Announces 2026 Round Two Housing Tax Credit Awards",
+        "link": "https://www.chfainfo.com/chfa-news/11162026-2026-round-two-htc-awards",
+        "date": "2026-11-16",
+        "date_basis": "posted",
+        "kind": "release"
+      },
+      {
+        "agency": "CHFA",
+        "source": "CHFA newsroom",
+        "title": "Financing Supports Construction of 40 Affordable Homes in Golden",
+        "link": "https://www.chfainfo.com/chfa-news/10272026-drive-it-home-prosper-at-golden",
+        "date": "2026-10-27",
+        "date_basis": "posted",
+        "kind": "release"
+      },
+      {
+        "agency": "CHFA",
+        "source": "CHFA newsroom",
+        "title": "CHFA Donates Over $1.4 Million to 134 Colorado Nonprofits",
+        "link": "https://www.chfainfo.com/chfa-news/10162026-direct-effect-2026-round-2-recipients",
+        "date": "2026-10-16",
+        "date_basis": "posted",
+        "kind": "release"
+      }
+    ],
+    "first_seen": {
+      "https://www.chfainfo.com/chfa-news/11162026-2026-round-two-htc-awards": "before",
+      "https://www.chfainfo.com/chfa-news/10272026-drive-it-home-prosper-at-golden": "before",
+      "https://www.chfainfo.com/chfa-news/10162026-direct-effect-2026-round-2-recipients": "before",
+      "https://www.chfainfo.com/chfa-news/09182026-golf-tournament": "before",
+      "https://www.chfainfo.com/chfa-news/09012026-ptarmigan-flats": "before",
+      "https://www.chfainfo.com/chfa-news/07312026-direct-effect-2026-round-1-recipients": "before",
+      "https://www.chfainfo.com/chfa-news/07292026-2026-mihtc-awards": "before",
+      "https://www.chfainfo.com/chfa-news/072720260-new-crms": "before",
+      "https://www.chfainfo.com/chfa-news/07212026-schools-to-home": "before",
+      "https://www.chfainfo.com/chfa-news/06092026-drive-it-home": "before",
+      "https://www.chfainfo.com/chfa-news/05212026-2026-r1-housing-tax-credits": "before",
+      "https://www.chfainfo.com/chfa-news/01072026-nmtc-cgr": "before",
+      "https://www.chfainfo.com/chfa-news/01062026-chfa-board-new-members": "before",
+      "https://www.chfainfo.com/chfa-news/12222025-like-it-forward-2025-results": "before",
+      "https://www.chfainfo.com/chfa-news/12122025-direct-effect-2025-round-2-recipients": "before",
+      "https://www.chfainfo.com/chfa-news/11052025-2025-r2-htc-awards": "before",
+      "https://www.chfainfo.com/chfa-news/09232025-zogo": "before",
+      "https://www.chfainfo.com/chfa-news/07312025-direct-effect-2025-round-1-recipients": "before",
+      "https://www.chfainfo.com/chfa-news/07242025-2025-mihtc-awards": "before",
+      "https://www.chfainfo.com/chfa-news/07-11-2025-rent-reporting-esusu-partnership": "before",
+      "https://www.chfainfo.com/chfa-news/07082025-new-returning-board-members": "before",
+      "https://www.chfainfo.com/chfa-news/05092025-2025-htc-round-one": "before",
+      "https://www.chfainfo.com/chfa-news/04222025-chief-financial-officer": "before",
+      "https://www.chfainfo.com/chfa-news/03142025-new-board-member": "before",
+      "https://oedit.colorado.gov/press-release/new-proposition-123-land-banking-awards-to-support-1455-new-affordable-housing": "before",
+      "https://oedit.colorado.gov/press-release/supporting-rural-housing-colorado-announces-eight-new-recipients-of-prop-123-land": "before",
+      "https://oedit.colorado.gov/press-release/more-housing-now-prop-123-funds-to-support-11-new-affordable-housing-developments": "before",
+      "https://oedit.colorado.gov/press-release/proposition-123-equity-funds-to-support-affordable-housing-in-four-communities-across": "before",
+      "https://oedit.colorado.gov/press-release/housing-coloradans-can-afford-proposition-123-concessionary-debt-funds-to-support-the-creation-of-911-rental-units": "before",
+      "https://oedit.colorado.gov/press-release/gov-polis-announces-colorado-renter-rewards-nations-first-state-cash-back-and-savings": "before",
+      "https://oedit.colorado.gov/press-release/creating-jobs-and-homes-state-announces-loans-and-grants-to-boost-off-site": "before",
+      "https://governorsoffice.colorado.gov/governor/news/five-new-proposition-123-equity-program-selections-support-housing-coloradans-can-afford": "before",
+      "https://cdola.colorado.gov/press-release/the-state-of-colorado-chfa-and-denver-launch-first-step-towards-a-common-application": "before",
+      "https://oedit.colorado.gov/press-release/housing-coloradans-can-afford-proposition-123-concessionary-debt-funds-to-support-the": "before",
+      "https://oedit.colorado.gov/press-release/proposition-123-equity-program-to-support-1017-affordable-housing-units-across": "before",
+      "https://www.colorado.gov/governor/news/proposition-123-land-banking-funds-support-new-housing-options-coloradans-can-afford-across": "before",
+      "https://www.colorado.gov/governor/news/funding-housing-coloradans-can-afford-strategic-investment-round-proposition-123-equity": "before",
+      "https://www.colorado.gov/governor/news/more-housing-now-proposition-123-funds-help-create-628-affordable-housing-units": "before",
+      "https://www.colorado.gov/governor/news/11526-creating-housing-and-jobs-polis-administration-announces-modular-housing-loans-create": "before",
+      "https://www.colorado.gov/governor/news/11451-laying-groundwork-more-housing-affordable-polis-administration-announces-first": "before",
+      "https://www.enterprisecommunity.org/blog/decarbonizing-multifamily-housing-how-state-finance-agencies-are-gearing-ira": "before",
+      "https://etypeproductionstorage1.blob.core.windows.net/$web/Production_Prod/Jobs/702/2023-10-30/370091/FlippingBook/Colorado-Real-Estate-Journal_370091/84/index.html": "before",
+      "https://coloradosun.com/2023/05/05/first-time-buyers-colorado-housing-market": "before",
+      "https://oedit.colorado.gov/press-release/creating-jobs-and-affordable-housing-polis-administration-announces-innovative": "before",
+      "https://warrenvillage.org/wp-content/uploads/2022/11/Warren-Village-Announces-26M-Award-for-New-Affordable-Housing-Facility.pdf": "before",
+      "https://businessden.com/2022/11/23/13-colorado-housing-projects-awarded-state-and-federal-tax-credits": "before",
+      "https://www.denver7.com/news/front-range/denver/new-mixed-income-apartment-complex-opens-in-green-valley-ranch": "before",
+      "https://rocusa.org/news/innovative-funding-pool-enables-low-income-colorado-homeowners-in-mobile-home-parks-to-capitalize-on-2020-community-purchase-law": "before",
+      "https://www.housingfinance.com/developments/workforce-housing-being-developed-in-colorado-resort-town_o": "before",
+      "https://www.chfainfo.com/getContentAsset/8211a644-1911-4044-a07f-5847fe1e283c/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2026-Round-Two-Housing-Tax-Credit-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/86a9169d-7951-4ffc-a9aa-b984d7833805/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/CHFA-Rolling-MIHTC-LOI-and-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/3adb001c-dcd8-48e6-bdd9-88bf191ee7cd/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2026-HTC-Round-Two-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/743ba3e4-5c64-4b1a-84d5-85d209bd1990/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2026-MIHTC-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/3ccf8430-1d3a-4189-89dc-e58acefc3b1b/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2026-MIHTC-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/307fc9f0-5255-4afa-a86d-301dd2be20fa/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/3acaed95-5acb-4f91-8a38-432185307e69/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2026-HTC-Round-One-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/34a30942-e08d-494a-8bc7-f236ebf01e98/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/federal-4-housing-tax-credit-award-report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/a9fca2aa-7fde-4400-8a97-b02340419c92/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2025-Round-Two-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/e2f4bc04-d8d0-403a-8775-5e8878502f01/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2025-HTC-Round-Two-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/44641e72-053a-42e7-8be0-5e613d51b242/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2025-MIHTC-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/dbf5e2bf-6bab-4be0-87cd-b76b4b2da655/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2025-MIHTC-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/b90453bd-52f8-491f-be44-c7a431440afc/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/ad653f50-19f1-4672-a5e0-73fea5aae7d3/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2025-HTC-Round-One-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/c579304d-6db4-4e17-90ab-727158c22d13/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2024-Round-Two-Housing-Tax-Credit-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/93df69bd-343e-4f1b-81c0-4960b5fe1fba/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2024-HTC-Round-Two-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/a87d0b61-b330-44f7-9a73-382779f7ef11/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/154a5ab0-a93e-48b5-84bb-9f1fca061439/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2024-HTC-Round-One-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/752a4aa7-ed6c-4e6f-b279-f6a68cd7cd0f/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2023-Round-2-Housing-Tax-Credit-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/8ee6ea28-1054-48a8-a1c7-b7c1ed68dbc6/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2023-HTC-Round-Two-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/037e65b5-e51c-4920-864a-41ac174b6558/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/8311f5ac-13b7-4075-a7ab-98496cee9495/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2023-HTC-Round-One-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/5e11c07a-670e-42b2-b978-53f0a2db1635/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2022-Round-2-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/5dd1a6f7-79cd-4020-b9f2-e404897712f4/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2022-HTC-Round-2-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2022-Round-1-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/a5bd1311-e59e-42db-82b1-b5e6d0e9fd26/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2022-HTC-Round-1-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/50dd8292-24b8-4ed9-b285-304b4401ae87/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2021-Round-2-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/29533140-f19c-40f7-9c5f-70c9d9b295b5/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2021-Round-2-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/73c04756-71db-42a0-a4fb-1d3a5f0ffb83/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2021-Round-1-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/95a9e1ed-e93e-4905-81cc-37ca967dc28b/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2021-Round-1-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/1891e481-b584-4155-962c-3f3bbff94357/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2020-Round-2-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/a5091694-72d8-49bd-8dd0-3bf4a996d987/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2020-Round-2-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/3cc9acfe-0e46-455d-ac37-a2167b823a9d/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2020-Round-1-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/d074b658-2665-405e-95b2-8ca71095d443/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2020-Round-1-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/52b45440-7788-4762-9a75-c9c632623a8f/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2019-Round-2-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/23cef9df-ef99-4de1-9056-749e9c40f9f4/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2019-Round-2-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/13961f36-541f-4cad-8e41-64bacb1ca1c9/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2019-Round-1-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/97cbc6ea-9c08-41e1-b06f-e543f54e38fb/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2019-Round-1-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/44c169f3-dacc-4b82-bd62-a34b6283f9f6/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2018-LIHTC-Round2-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/4c157ea7-83fb-487b-83cf-3161358b7c48/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2018-Round-2-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/b0c2cd4c-f869-42a3-9b00-115d4690a32c/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2018-Round-1-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/7e96a9ca-24b9-4cac-9710-fa464a2a56c3/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2018-Round-1-Applicant-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/d9d4c3da-75ac-4af7-9dde-ed216341f3bb/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2017-Round-2-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/85345ccc-49f6-44a1-8fd5-216654a6ba83/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2017-Round-1-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/8dbb8512-b3bd-4f66-af97-769082377f3f/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2016-Round-2-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/e7116376-ce90-4843-b4d7-5620dd769d41/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2016-Round1-4-State-4-CDBG-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/e45e770d-8dd8-4a97-a54e-93bea5bef896/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2015CompetitiveAwardReport.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/e0a3e6f5-143f-4a30-b1ea-4c0490b85247/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2015-4-and-State-AND-4-and-CDBG-Award-Report.pdf": "before",
+      "https://www.chfainfo.com/getContentAsset/d7263666-7bf5-421e-8d34-fcdcbbe56afc/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/4-and-State-AND-4-and-CDBG-Award-Report.pdf": "before",
+      "https://cdola.colorado.gov/press-release/dola-releases-first-ever-statewide-housing-needs-assessment": "before",
+      "https://cdola.colorado.gov/press-release/state-of-colorado-denver-and-chfa-launch-common-application-to-accelerate-affordable": "before",
+      "https://cdola.colorado.gov/press-release/department-of-local-affairs-announces-awards-for-latest-housing-planning-grant-1": "before",
+      "https://cdola.colorado.gov/press-release/dola-announces-major-statewide-milestone-in-proposition-123-affordable-housing-goals": "before",
+      "https://cdola.colorado.gov/press-release/historic-agreement-coordinates-housing-funding-to-deliver-more-affordable-homes-each": "before",
+      "https://cdola.colorado.gov/press-release/governor-polis-and-department-of-local-affairs-celebrate-prop-123-milestone-clearing": "before",
+      "https://cdola.colorado.gov/press-release/new-division-of-housing-funding-directory-streamlines-search-for-affordable-housing": "before"
+    }
+  },
+  "today": {
+    "as_of": "2026-11-16T20:41:45-0700",
+    "date": "2026-11-16",
+    "since": "2026-11-15",
+    "counts": {
+      "stories": 3,
+      "agency": 1
+    },
+    "agency": [
+      {
+        "agency": "CHFA",
+        "source": "CHFA newsroom",
+        "title": "CHFA Announces 2026 Round Two Housing Tax Credit Awards",
+        "link": "https://www.chfainfo.com/chfa-news/11162026-2026-round-two-htc-awards",
+        "date": "2026-11-16",
+        "date_basis": "posted",
+        "kind": "release"
+      }
+    ],
+    "top": [
+      {
+        "title": "Colorado home sales fell 19% in October, median prices were flat",
+        "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPWmNoLXJINlJ1Wk9ZSEdDNWRxSGlJS2J1N3NrYTFVTi1lQWZKSU5Zd2hsVVpTMTBKTFZQdkxrSlFfdnYxNlZ5TXo5c2V2VkRkQlFDZWdDZkNqSWlCUzB2RmJhNl9SYVZudF93ZHVDU1ZLZjdRRjdiNUJmZlpNTVFiemRJMnlVak9lSGFF?oc=5",
+        "source": "The Colorado Sun",
+        "outlets": 1,
+        "date": "2026-11-16"
+      },
+      {
+        "title": "One-on-one: Mobolade discusses unfinished campaign promises, staffing changes, and audits",
+        "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNNEtsSWhNXzRuNmZyNUpnV2JnSlAzX2ZURjNQR0FKVWljVlF2NFF2Vk1qYnBwUE01WUxhbGNHaV9lSUNxSnZrXzRLVjlFY2tJZm5nZUd5U28xZlc3RWhWek9JeDloSjN3d09qTmpUN0ZtckV1M0FZbjZqVkVTOVJoZTY0VkMyMk53MzJHTng1aHBjUGpnbU9zRFRqejVaWHQzM09kVHcteFNfdU1PZnFrLTlwN2xYeTlteGpneWxwMXZZZ2ZabGNSMjZicw?oc=5",
+        "source": "KOAA News 5",
+        "outlets": 1,
+        "date": "2026-11-16"
+      },
+      {
+        "title": "After the flood: Colorado communities struggle with daunting recovery",
+        "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNNVlYd2UtV04yM25DaHo3UFp5N2paRlVQS2ZKUGI1Q29fSVBIaWNZZjRUMWRrcWlweHdla3dDcjNYc1Y1UUczWWRSNzF3dlMxY0lKcExKaHdmRmM2TWx0UTZGUER3cTdULU9FNUhtUE4wS1Vpd09Wb0JGT1lDajFoM1ZOcUNKekZoYTNPTVNRaldOSExCSlZBOXkwMmlGTy1pblE?oc=5",
+        "source": "Colorado Springs Gazette",
+        "outlets": 1,
+        "date": "2026-11-15"
+      }
+    ],
+    "places": [],
+    "lines": [
+      "CHFA: CHFA Announces 2026 Round Two Housing Tax Credit Awards (posted 2026-11-16).",
+      "3 new Colorado housing stories since Sunday, November 15.",
+      "Colorado home sales fell 19% in October, median prices were flat (The Colorado Sun).",
+      "One-on-one: Mobolade discusses unfinished campaign promises, staffing changes, and audits (KOAA News 5).",
+      "After the flood: Colorado communities struggle with daunting recovery (Colorado Springs Gazette)."
+    ],
+    "method": "Written by the news script from the stories and agency pages it read; no AI writing. Window: today and yesterday, Mountain Time. Most covered = most outlets on one story, checked outlets first."
   }
 }

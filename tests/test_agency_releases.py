@@ -1,0 +1,112 @@
+"""Agency releases and the day's summary — scripts/news/agency_releases.py.
+
+paul, 2026-11-17: the daily news missed CHFA's 2026 Round Two awards because no
+outlet had covered them. These tests pin the rules: agency pages are read
+directly, a refused page is recorded and never fatal, nothing on a page read for
+the first time is called new, meeting notices are left out, and the summary is
+built from the data alone.
+"""
+
+import datetime as dt
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / 'scripts' / 'news'))
+sys.path.insert(0, str(ROOT / 'scripts'))
+
+import agency_releases as ar  # noqa: E402
+
+CHFA_NEWS = '''
+<h3><a href="/chfa-news/11162026-2026-round-two-htc-awards">CHFA Announces 2026 Round Two Housing Tax Credit Awards</a></h3>
+<p class="x">teaser</p><span class="listing__date">November 16, 2026</span>
+<h3><a href="/getContentAsset/a/b/November-Board.pdf?language=en-US">November 2026 CHFA Board of Directors Meeting (PDF)</a></h3>
+<span class="listing__date">November 19, 2026</span>
+<h3><a href="/chfa-news/10272026-golden">Financing Supports Construction of 40 Affordable Homes in Golden</a></h3>
+<span class="listing__date">October 27, 2026</span>
+'''
+AWARDS = '<a href="/getContentAsset/x/y/2026-Round-Two-HTC-Award-Report.pdf?language=en-US">Award report</a>'
+DOLA = '<a href="/press-release/dola-releases-hna"><span>DOLA Releases Statewide Housing Needs Assessment</span></a>' \
+       '<a href="/press-release/wildfire-grants"><span>DOLA Announces Wildfire Mitigation Grants</span></a>'
+
+
+def fetcher(pages):
+    def f(url):
+        for key, page in pages.items():
+            if key in url:
+                if isinstance(page, Exception):
+                    raise page
+                return page
+        raise OSError('HTTP Error 403: Forbidden')
+    return f
+
+
+PAGES = {'chfa-news': CHFA_NEWS, 'housing-credit/awards': AWARDS, 'cdola': DOLA}
+
+
+def test_dated_release_is_kept_and_meetings_and_future_dates_are_not():
+    block = ar.collect(None, '2026-11-16', fetcher(PAGES))
+    titles = [i['title'] for i in block['items']]
+    assert 'CHFA Announces 2026 Round Two Housing Tax Credit Awards' in titles
+    assert not any('Meeting' in t for t in titles)
+    r2 = next(i for i in block['items'] if 'Round Two' in i['title'])
+    assert r2['date'] == '2026-11-16' and r2['date_basis'] == 'posted'
+    assert r2['link'] == 'https://www.chfainfo.com/chfa-news/11162026-2026-round-two-htc-awards'
+
+
+def test_a_refused_page_is_recorded_not_fatal():
+    block = ar.collect(None, '2026-11-16', fetcher(PAGES))
+    status = {s['id']: s['status'] for s in block['sources']}
+    assert status['chfa-news'] == 'ok'
+    assert status['oedit'].startswith(('OSError', 'HTTPError')) and status['governor'] != 'ok'
+    assert 'oedit' not in block['sources_read']
+
+
+def test_first_read_is_not_new_and_later_items_get_their_first_seen_date():
+    first = ar.collect(None, '2026-11-16', fetcher(PAGES))
+    assert not any(i['agency'] == 'DOLA' for i in first['items']), 'undated items on a first read are not new'
+    assert first['first_seen']['https://cdola.colorado.gov/press-release/dola-releases-hna'] == 'before'
+    assert 'https://cdola.colorado.gov/press-release/wildfire-grants' not in first['first_seen'], 'not housing'
+    pages = dict(PAGES, cdola=DOLA + '<a href="/press-release/prop-123"><span>Prop 123 Affordable Housing Milestone</span></a>',
+                 **{'housing-credit/awards': AWARDS + '<a href="/getContentAsset/x/y/2027-Round-One-HTC-Applicant-Report.pdf">a</a>'})
+    second = ar.collect(json.loads(json.dumps(first)), '2026-11-17', fetcher(pages))
+    new = {i['title']: i for i in second['items'] if i['date_basis'] == 'first_seen'}
+    assert new['Prop 123 Affordable Housing Milestone']['date'] == '2026-11-17'
+    assert any('Applicant Report' in t for t in new)
+    assert 'DOLA Releases Statewide Housing Needs Assessment' not in new
+
+
+def test_summary_puts_agency_first_and_counts_only_new_stories():
+    block = ar.collect(None, '2026-11-16', fetcher(PAGES))
+    stories = [
+        {'title': 'Rents fall in Denver', 'source': 'Denver Post', 'sourcing': 'checked', 'date': '2026-11-16', 'scope': 'colorado',
+         'also': [{'link': 'x'}, {'link': 'y'}], 'places': [{'name': 'Denver', 'type': 'county'}], 'link': 'https://example.com/a'},
+        {'title': 'Old story', 'source': 'Sun', 'date': '2026-11-10', 'scope': 'colorado', 'also': [], 'places': []},
+        {'title': 'National rates', 'source': 'WSJ', 'date': '2026-11-16', 'scope': 'national', 'also': [], 'places': []},
+    ]
+    now = dt.datetime(2026, 11, 17, 3, 30, tzinfo=dt.timezone.utc)  # 8:30 pm Monday in Denver
+    t = ar.summarize_today(stories, block, now)
+    assert t['date'] == '2026-11-16' and t['since'] == '2026-11-15'
+    assert t['counts'] == {'stories': 1, 'agency': 1}
+    assert t['lines'][0].startswith('CHFA: CHFA Announces 2026 Round Two')
+    assert t['lines'][1] == '1 new Colorado housing story since Sunday, November 15.'
+    assert t['lines'][2] == 'Rents fall in Denver (Denver Post, and 2 more outlets).'
+    assert t['top'][0]['outlets'] == 3
+    assert t['places'] == [{'name': 'Denver', 'stories': 1}]
+    assert 'no AI' in t['method']
+
+
+def test_quiet_day_says_so():
+    t = ar.summarize_today([{'title': 'Old', 'date': '2026-11-01', 'scope': 'colorado'}], {'items': []},
+                           dt.datetime(2026, 11, 17, 3, 0, tzinfo=dt.timezone.utc))
+    assert t['lines'] == ['No new Colorado housing stories or agency releases since yesterday. The latest story is from 2026-11-01.']
+
+
+def test_the_published_file_carries_the_blocks():
+    d = json.loads((ROOT / 'data' / 'policy_briefs.json').read_text())
+    assert {'lines', 'counts', 'top', 'agency', 'method'} <= set(d['today'])
+    assert {s['id'] for s in d['agency']['sources']} == {s['id'] for s in ar.SOURCES}
+    links = {s['link'] for s in d['stories']}
+    for it in d['today']['agency']:
+        assert it['link'] in links, 'an agency release in the summary is also in the list'

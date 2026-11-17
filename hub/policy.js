@@ -155,6 +155,27 @@
   document.addEventListener('click', function (ev) { if (ev.target.closest && ev.target.closest('#nw-latest [data-unclip], #nw-latest th button')) newsFillSoon(); }, true); // capture: "Show all" removes its button first
   document.addEventListener('input', function (ev) { if (ev.target.closest && ev.target.closest('#nw-latest')) newsFillSoon(); });
 
+  // "Today in Colorado housing" (paul, 2026-11-17): the news script writes it
+  // from the stories and the agencies' own pages, with no AI writing
+  // (scripts/news/agency_releases.py in Housing-Analytics). Agency releases
+  // come first, since no outlet may have covered them yet.
+  function newsToday(t) {
+    if (!t || !t.date) return '';
+    var day = new Date(t.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    var link = function (title, href) { var h = safe(href); return h ? '<a href="' + esc(h) + '">' + esc(title) + '</a>' : esc(title); };
+    var rows = (t.agency || []).map(function (a) {
+      return '<li><span class="news-today-tag">' + esc(a.agency) + '</span> ' + link(a.title, a.link) + ' <span class="news-date">' + (a.date_basis === 'first_seen' ? 'first seen ' : 'posted ') + esc(a.date) + '</span></li>';
+    }).concat((t.top || []).map(function (x) {
+      return '<li>' + link(x.title, x.link) + ' <span class="news-date">' + esc(x.source) + (x.outlets > 1 ? ' and ' + num(x.outlets - 1) + ' more outlet' + (x.outlets > 2 ? 's' : '') : '') + '</span></li>';
+    }));
+    var n = (t.counts && t.counts.stories) || 0;
+    var lead = n ? num(n) + ' new Colorado housing ' + (n === 1 ? 'story' : 'stories') + ' since yesterday' + ((t.agency || []).length ? ', and ' + num(t.agency.length) + ' agency release' + (t.agency.length > 1 ? 's' : '') : '') + '.'
+      : (t.agency || []).length ? 'No new outlet stories since yesterday; ' + num(t.agency.length) + ' agency release' + (t.agency.length > 1 ? 's' : '') + '.' : esc((t.lines || [])[0] || 'No new Colorado housing stories since yesterday.');
+    var places = (t.places || []).length ? '<p class="note">In the news: ' + t.places.map(function (p) { return esc(p.name) + ' (' + num(p.stories) + ')'; }).join(', ') + '.</p>' : '';
+    return '<section id="nw-today" class="news-today" aria-labelledby="nw-today-h"><h2 id="nw-today-h">Today in Colorado housing</h2>' +
+      '<p class="news-date">' + esc(day) + '</p><p>' + lead + '</p>' + (rows.length ? '<ul>' + rows.join('') + '</ul>' : '') + places +
+      '<p class="note">Written by the news script from the stories below and the CHFA, DOLA, OEDIT and Governor\u2019s Office pages, with no AI. Top stories are the ones the most outlets ran.</p></section>';
+  }
   function newsCheck(x) { return x.sourcing === 'unverified' || x.sourcing === 'weak' ? x.sourcing : 'checked'; }
   function news(params) {
     params = params || new URLSearchParams();
@@ -206,6 +227,7 @@
       kind: 'data', crumbs: T.trail('policy', 'Housing news'), title: 'Housing news',
       meta: '<span class="scope-tag">Colorado</span> Updated ' + esc(sm.generated.slice(0, 10)) + '.'
     }) +
+      (narrowed ? '' : newsToday(s.data.briefs.today)) +
       pick +
       (!top.length ? '' : '<section id="nw-top" aria-labelledby="nw-top-h"><h2 id="nw-top-h" class="visually-hidden">Latest stories</h2><ol class="news-top">' + top.map(function (r) {
         return '<li><p class="news-date">' + esc(r.date) + ' · ' + esc(r.source) + (r.check !== 'Checked' ? ' · <span class="news-check">' + esc(r.check) + '</span>' : '') + '</p><p class="news-head">' + (r.link ? '<a href="' + esc(r.link) + '">' + esc(r.title) + '</a>' : esc(r.title)) + '</p>' +
