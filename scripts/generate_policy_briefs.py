@@ -542,6 +542,11 @@ def is_national_trend(title: str, source: str) -> bool:
     return bool(NATIONAL_TREND_RE.search(title)) and not NATIONAL_SKIP_RE.search(title)
 
 
+def says_housing(title: str) -> bool:
+    """The headline itself names housing (a strong HOUSING_TITLE_RE match): the bar for the Today box's top stories."""
+    return any(not WEAK_HOUSING_RE.fullmatch(m.group(0)) for m in HOUSING_TITLE_RE.finditer(title or ''))
+
+
 def is_housing_headline(title: str, source: str = '') -> bool:
     title = title or ''
     if INCIDENT_RE.search(title) and not HOUSING_POLICY_RE.search(title):
@@ -1046,7 +1051,10 @@ def with_agency_releases(stories: list[dict], geos: dict, prior: dict | None) ->
         st['programs'] = [name for name, rx in PROGRAMS if rx.search(st['title'])]
         out.append(st)
     out.sort(key=lambda s: s['date'], reverse=True)
-    summary = agency_releases.summarize_today(out, block)
+    for it in block.get('items', []):  # the first run (17 Nov) wrote summaries onto these records
+        it.pop('summary', None)
+        it.pop('ai', None)
+    summary = agency_releases.summarize_today(out, block, about=says_housing)
     # Each story's own summary, quoted (scripts/news/story_summaries.py); cached in the block.
     cache = (prior or {}).get('summaries') or {}
     if os.environ.get('NEWS_AGENCY_OFFLINE') == '1':

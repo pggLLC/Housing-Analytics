@@ -175,7 +175,46 @@ def _fmt_day(d: dt.date) -> str:
     return d.strftime('%A, %B ') + str(d.day)
 
 
-def summarize_today(stories: list[dict], agency: dict, now: dt.datetime | None = None) -> dict:
+_STOP = {'the', 'and', 'for', 'with', 'new', 'finds', 'says', 'colorado', 'from', 'are', 'that', 'this', 'over', 'into', 'after'}
+
+
+def _content(title: str) -> set:
+    return {w[:5] for w in re.findall(r'[a-z0-9%]+', (title or '').lower().replace('\u200b', '')) if len(w) > 2 and w not in _STOP}
+
+
+def _names(title: str, ordinary: frozenset = frozenset()) -> set:
+    """Capitalised words (places, agencies, people), as lowercase stems.
+
+    `ordinary` holds words other headlines write in lower case, so a title-case headline's
+    "Receives" or "Residents" is not taken for a name.
+    """
+    return {w.lower()[:5] for w in re.findall(r"[A-Z][A-Za-z]+", title or '')
+            if len(w) > 2 and w.lower() not in _STOP and w.lower() not in ordinary}
+
+
+def ordinary_words(titles) -> frozenset:
+    """Words seen in lower case in any of these headlines."""
+    return frozenset(w for t in titles for w in re.findall(r"\b[a-z][a-z]+\b", t or ''))
+
+
+def same_story(a: str, b: str, ordinary: frozenset = frozenset()) -> bool:
+    """Two headlines for one story: a shared percent figure, or half the word stems in common.
+
+    Never when their figures disagree ("200 homes" vs "100 homes") or each names someone or
+    somewhere the other does not ("Denver approves..." vs "Boulder approves...").
+    """
+    na, nb = set(re.findall(r'\d+(?:\.\d+)?%?', a or '')), set(re.findall(r'\d+(?:\.\d+)?%?', b or ''))
+    if na and nb and not na & nb:
+        return False
+    wa, wb = _content(a), _content(b)
+    if (_names(a, ordinary) - wb) and (_names(b, ordinary) - wa):
+        return False
+    pa, pb = {n for n in na if n.endswith('%')}, {n for n in nb if n.endswith('%')}
+    overlap = len(wa & wb) / max(1, min(len(wa), len(wb)))
+    return bool(pa & pb) and overlap >= 0.3 or overlap >= 0.5
+
+
+def summarize_today(stories: list[dict], agency: dict, now: dt.datetime | None = None, about=None) -> dict:
     """The day's summary, from the data only.
 
     The window is today and yesterday in Mountain Time, since the news run
@@ -193,9 +232,26 @@ def summarize_today(stories: list[dict], agency: dict, now: dt.datetime | None =
     news = [s for s in co if not s.get('agency')]
     ag = [it for it in agency.get('items', []) if inside(it.get('date'))]
     rank = sorted(news, key=lambda s: (s.get('sourcing', 'checked') == 'checked', len(s.get('also') or []), s.get('date') or ''), reverse=True)
-    top = [{'title': s['title'], 'link': s.get('link', ''), 'source': s.get('source', ''), 'source_domain': s.get('source_domain', ''),
-            'outlets': 1 + len(s.get('also') or []), 'date': s.get('date')}
-           for s in rank[:3]]
+    # Top stories must say housing in the headline (`about`), and one story told by two outlets
+    # under different headlines counts once (17 Nov: a state study led twice, and a court case
+    # about a pronouns law made the top three).
+    # Group every eligible story first, so a story told under several headlines ranks by its
+    # combined coverage (Codex review of #2913), then take the three most covered.
+    ordinary = ordinary_words(s['title'] for s in stories)
+    groups: list[list[dict]] = []
+    for s in rank:
+        if about and not about(s['title']):
+            continue
+        g = next((g for g in groups if any(same_story(m['title'], s['title'], ordinary) for m in g)), None)
+        (g.append(s) if g else groups.append([s]))
+    def covered(g):  # distinct publishers across the group (one outlet's two headlines count once)
+        names = {(m.get('source') or m.get('link') or id(m)) for m in g}
+        names |= {(a.get('source') or a.get('link') or id(a)) for m in g for a in m.get('also') or []}
+        return len(names)
+    groups.sort(key=lambda g: (g[0].get('sourcing', 'checked') == 'checked', covered(g), g[0].get('date') or ''), reverse=True)
+    top = [{'title': g[0]['title'], 'link': g[0].get('link', ''), 'source': g[0].get('source', ''),
+            'source_domain': g[0].get('source_domain', ''), 'outlets': covered(g), 'date': g[0].get('date')}
+           for g in groups[:3]]
     places: dict = {}
     for s in news:
         for p in s.get('places') or []:
