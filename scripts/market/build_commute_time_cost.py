@@ -77,6 +77,10 @@ MAX_SNAP_M = 1609
 # router took a dirt or closed-road detour (OpenStreetMap had CO-145 near Placerville routing Norwood to Telluride,
 # 33 miles, at 139 minutes). Such a drive is left out rather than shown.
 SLOW_MILES, SLOW_MPH = 10, 20
+# Nor is a drive whose road is over 2.5 times the straight line when the ends are 20+ miles apart: OpenStreetMap
+# routing sent Meeker to Rangely 139 miles round by I-70 (SH 64 and SH 13 make it about 60; Codex on HA #2916).
+# Shorter hops can genuinely wind (Ouray to Telluride is 5 times the line, round by Ridgway), so they are kept.
+DETOUR_LINE_MILES, DETOUR_RATIO = 20, 2.5
 CENPOP_COUNTY = 'https://www2.census.gov/geo/docs/reference/cenpop2020/county/CenPop2020_Mean_CO{st}.txt'
 STATE_FIPS = {'AL': '01', 'AZ': '04', 'AR': '05', 'CA': '06', 'CO': '08', 'CT': '09', 'DE': '10', 'DC': '11', 'FL': '12',
               'GA': '13', 'HI': '15', 'ID': '16', 'IL': '17', 'IN': '18', 'IA': '19', 'KS': '20', 'KY': '21', 'LA': '22',
@@ -309,13 +313,21 @@ def main() -> None:
             if snap(i) > MAX_SNAP_M:
                 far_snap.append([n, round(snap(i))])
                 sec = met = None
+            elif met is not None and line_miles(pt, home) >= DETOUR_LINE_MILES and met / METERS_PER_MILE > DETOUR_RATIO * line_miles(pt, home):
+                detours.append([cur[0], n, round(sec / 60, 1), round(met / METERS_PER_MILE, 1), round(line_miles(pt, home), 1)])
+                sec = met = None
             elif met is not None and sec and met / METERS_PER_MILE >= SLOW_MILES and (met / METERS_PER_MILE) / (sec / 3600) < SLOW_MPH:
                 too_slow.append([cur[0], n, round(sec / 60, 1), round(met / METERS_PER_MILE, 1)])
                 sec = met = None
             out.append([n, c, None if sec is None else round(sec / 60, 1), None if met is None else round(met / METERS_PER_MILE, 1), round(pt[0], 4), round(pt[1], 4)])
         return out
 
-    far_snap, too_slow, cur = [], [], ['']
+    far_snap, too_slow, detours, cur = [], [], [], ['']
+
+    def line_miles(a, b):
+        r = math.radians
+        h = math.sin(r(b[0] - a[0]) / 2) ** 2 + math.cos(r(a[0])) * math.cos(r(b[0])) * math.sin(r(b[1] - a[1]) / 2) ** 2
+        return 2 * 3958.8 * math.asin(math.sqrt(h))
     result = {}
     for geoid, p in sorted(places.items()):
         name = p['name']
@@ -360,6 +372,8 @@ def main() -> None:
             'unrouted': sorted(missing),
             'not_routed_far_from_road': far_snap,
             'not_shown_too_slow': too_slow,
+            'not_shown_detour': detours,
+            'detour_rule': f'drives whose road is over {DETOUR_RATIO} times the straight line, with ends {DETOUR_LINE_MILES}+ miles apart, are left out',
             'slow_rule': f'drives of {SLOW_MILES}+ road miles averaging under {SLOW_MPH} mph are left out',
             'start_kinds': {k: sum(1 for v in starts.values() if v[2] == k) for k in ('residents', 'gazetteer', 'population_centre')},
             'places_with_acs_work': sum(1 for v in result.values() if v['work']),

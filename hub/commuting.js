@@ -171,7 +171,10 @@
     var e = tc.places[p.geoid], out = dir === 'out', nm = bare(p.name);
     var all = ((e && (out ? e.to : e.from)) || []);
     var near = all.filter(function (r) { return r[4] != null && r[2] != null && r[2] <= DAILY_MAX_MIN; });
-    var far = all.filter(function (r) { return near.indexOf(r) < 0; });
+    // Routed but longer than a daily drive, apart from rows with no drive at all (the builder withheld a route it
+    // could not trust, or found no start point): those say so and are never called a main-office address.
+    var far = all.filter(function (r) { return near.indexOf(r) < 0 && r[2] != null; });
+    var none = all.filter(function (r) { return r[2] == null; });
     var toggle = '<p class="cj-dir" role="group" aria-label="Which way">' + [['in', 'Coming in'], ['out', 'Going out']].map(function (o) {
       return '<a href="' + esc('#/opportunity/commuting?town=' + encodeURIComponent(p.geoid) + (o[0] === 'out' ? '&dir=out' : '') + '&at=cj-town-map') + '"' + ((o[0] === 'out') === out ? ' aria-current="true" class="is-on"' : '') + '>' + o[1] + '</a>';
     }).join('') + '</p>';
@@ -219,6 +222,7 @@
     return '<figure class="pres-map cj-town-map" id="cj-town-map" tabindex="-1"><figcaption><span class="cc-kicker">Commute map</span><strong>' + esc(title) + '</strong></figcaption>' + toggle + svg +
       (near.length ? '<ol class="cj-places' + (out ? ' is-out' : '') + '">' + listOf(near, true) + '</ol>' : '<p class="note">None of the largest ' + (out ? 'work towns' : 'home towns') + ' is a daily drive away.</p>') +
       (far.length ? '<p class="cj-far"><b>Farther than a daily drive:</b></p><ul class="cj-places cj-far-list">' + listOf(far, false) + '</ul><p class="note">Trips this long are often a main-office address, not a daily drive.</p>' : '') +
+      (none.length ? '<p class="cj-far"><b>Drive time not available:</b></p><ul class="cj-places cj-far-list">' + listOf(none, false) + '</ul><p class="note">The road router gave a route for ' + (none.length > 1 ? 'these' : 'this one') + ' that could not be trusted (a long detour or a very slow road), so no time or cost is shown.</p>' : '') +
       '<p class="note">Arrow width shows workers. These are the five places that send ' + (out ? 'it' : 'it') + ' the most workers' + (out ? ' (its residents’ five largest work towns)' : '') + ': ' + num(shown) + ' of its ' + num(total) + (out ? ' residents who work in another town' : ' in-commuters') + '. Minutes are the drive with no traffic.</p>' +
       '<p class="note metric-source">Source: LEHD LODES ' + esc(tc.meta.lodes_year) + ', primary jobs; drive times over OpenStreetMap (OSRM), built ' + esc(tc.meta.generated) + '.</p></figure>';
   }

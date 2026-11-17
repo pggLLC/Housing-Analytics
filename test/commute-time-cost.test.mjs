@@ -11,7 +11,8 @@
  *   3. every routed drive is plausible: minutes > 0, road miles at least the straight line between its two
  *      ends (a road cannot be shorter) and under 5.5 times it (Ouray to Telluride is 5 times: the road goes
  *      round by Ridgway), and an average speed of at least 12 mph over any drive of 3 miles or more and 20 mph over 10 miles or more
- *      (the builder leaves slower drives out as router detours and lists them in meta.not_shown_too_slow);
+ *      (the builder leaves slower drives out as router detours and lists them in meta.not_shown_too_slow), and
+ *      no more than 2.5 times the line when the ends are 20+ miles apart (meta.not_shown_detour);
  *   4. homes in another state start at the county's 2020 centre of population (San Juan County, NM);
  *   5. the meta names the router, the OSM licence and both ACS files.
  */
@@ -75,11 +76,17 @@ for (const [g, e] of Object.entries(T.places)) {
       ok(r[3] >= line * 0.98 - 0.5, `${g} ${r[0]}: road ${r[3]} mi shorter than the straight line ${line.toFixed(1)}`);
       ok(r[3] < 3 || r[3] / (r[2] / 60) >= 12, `${g} ${r[0]}: ${r[3]} mi in ${r[2]} min is under 12 mph`);
       ok(r[3] < 10 || r[3] / (r[2] / 60) >= 20, `${g} ${r[0]}: ${r[3]} mi in ${r[2]} min is under 20 mph (the builder's slow rule)`);
+      ok(line < 20 || r[3] <= line * 2.5, `${g} ${r[0]}: road ${r[3]} mi over 2.5 times a ${line.toFixed(1)}-mile line (the builder's detour rule)`);
       ok(line < 2 || r[3] <= line * 5.5, `${g} ${r[0]}: road ${r[3]} mi over 5.5 times the straight line ${line.toFixed(1)}`);
     }
   }
 }
 ok(routed > 2000, `routed drives ${routed}`);
+
+// The Meeker-Rangely detour (139 road miles for about 60 by SH 64 and SH 13) is withheld, not published.
+const mr = Object.values(T.places).flatMap((e) => e.from.concat(e.to)).filter((r) => /^(Meeker|Rangely) \(town\)$/.test(r[0]));
+ok(mr.length > 0 && mr.every((r) => r[2] == null || r[3] < 80), 'Meeker-Rangely detour withheld');
+ok(T.meta.not_shown_detour.some((r) => r[0] === 'Meeker (town)' && r[1] === 'Rangely (town)'), 'detour listed in meta');
 
 // 4. Another state's county starts where its people live.
 const sj = T.places['0822035'].from.find((r) => r[0] === 'San Juan County, NM');
