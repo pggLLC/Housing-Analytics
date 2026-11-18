@@ -187,3 +187,12 @@ def test_a_story_not_found_is_tried_again_only_the_next_day():
     ss._robots.clear()
     ss.summarize_items([dict(items[0])], cache, f, today='2026-11-19')
     assert len(calls) > n
+
+
+def test_stories_never_tried_come_before_daily_retries():
+    f = fake({'robots.txt': '', '?s=': SEARCH, 'home-sales': ARTICLE})
+    failed = [{'title': f'Unreadable {i}', 'link': f'https://example.com/u{i}'} for i in range(3)]
+    cache = {x['link']: {'text': '', 'link': '', 'basis': 'not found', 'checked': '2026-11-17'} for x in failed}
+    new = {'title': TITLE, 'link': 'https://example.com/new', 'source_domain': 'example.com'}
+    ss.summarize_items(failed + [new], cache, f, today='2026-11-18', budget=[1])
+    assert new['summary']['basis'] == 'outlet'

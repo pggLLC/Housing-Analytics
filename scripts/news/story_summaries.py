@@ -171,7 +171,11 @@ def summarize_items(items: list[dict], cache: dict, fetcher=fetch, agency: bool 
     counting the lookups this run may still make, so one run never reads hundreds of pages.
     """
     keep = {}
-    for it in items:
+    # first attempts before daily retries of stories not found, so a run of unreadable
+    # outlets cannot hold back stories never tried (Codex review of #2934)
+    fresh = [it for it in items if (it.get('link') or it.get('title')) not in cache]
+    retry = [it for it in items if (it.get('link') or it.get('title')) in cache]
+    for it in fresh + retry:
         key = it.get('link') or it.get('title')
         hit = cache.get(key)
         stale = hit is None or hit.get('basis') == 'not found' and hit.get('checked', '') != today
@@ -236,7 +240,7 @@ def _numbers(s: str) -> set:
 
 def _openai(prompt: str, api_key: str) -> str:
     import json
-    body = json.dumps({'model': AI_MODEL, 'temperature': 0.2, 'max_tokens': 600,
+    body = json.dumps({'model': AI_MODEL, 'temperature': 0.2, 'max_tokens': 1600,
                        'response_format': {'type': 'json_object'},
                        'messages': [{'role': 'user', 'content': prompt}]}).encode()
     req = urllib.request.Request('https://api.openai.com/v1/chat/completions', data=body, method='POST',
