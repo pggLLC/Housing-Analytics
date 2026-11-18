@@ -449,8 +449,8 @@
   // Batch 2 (paul 15 Nov, one home per analysis): the law watch is drawn in full on Legislation, from the same
   // record (data/policy/tax-credit-legislation.json). Here it is a card: the count by status of the laws that move
   // credit prices, the newest enacted ones by name, and a link. lawWatchFull stays for a page that wants the list.
-  function lawWatch(law) {
-    var T = global.LabTpl, m = law.meta || {}, e = law.entries.filter(function (x) { return WATCH_SCOPES.indexOf(x.scope) > -1; });
+  function lawWatch(law, scopes) {
+    var T = global.LabTpl, m = law.meta || {}, e = law.entries.filter(function (x) { return (scopes || WATCH_SCOPES).indexOf(x.scope) > -1; });
     if (!T || !T.summary) return lawWatchFull(law);
     var figs = Object.keys(STATUS).map(function (k) { var n = e.filter(function (x) { return x.status === k; }).length; return n ? { value: String(n), label: STATUS[k].toLowerCase() } : null; }).filter(Boolean);
     var named = e.filter(function (x) { return x.status === 'enacted'; }).sort(function (a, b) { return String(b.effective_date || '') < String(a.effective_date || '') ? -1 : 1; }).slice(0, 3).map(function (x) { return x.title; });
@@ -536,5 +536,5 @@
   }
 
   Shell.views['equity-pricing'] = view;
-  global.LabEquity = { view: view, FILES: FILES, MARKET_FILES: MARKET_FILES, STATS: STATS, CREDITS: CREDITS, RATE_SERIES: RATE_SERIES, WATCH_SCOPES: WATCH_SCOPES };
+  global.LabEquity = { view: view, lawWatch: lawWatch, FILES: FILES, MARKET_FILES: MARKET_FILES, STATS: STATS, CREDITS: CREDITS, RATE_SERIES: RATE_SERIES, WATCH_SCOPES: WATCH_SCOPES };
 })(window);

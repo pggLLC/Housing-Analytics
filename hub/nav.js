@@ -18,8 +18,8 @@
         { step: 2, label: 'Needs Assessment', lab: '#/place/0828745', desc: 'The housing needs assessment: six chapters per place, need by income level.' },
         { label: 'Free report', lab: '#/report', desc: 'A printable needs and market summary for any place. Free.' },
         { label: 'Walking and biking', lab: '#/places/walk-bike', desc: 'How many homes can walk or bike to groceries, schools, care and jobs.' },
-        { label: 'Compare places', lab: '#/places/compare', desc: 'Two to six places side by side.' },
-        { label: 'HNA ranking', lab: '#/places/ranking', desc: 'Every county, town and CDP ranked on housing need.' },
+        { label: 'Compare 2–6 places', lab: '#/places/compare', desc: 'Two to six places side by side, figure by figure.' },
+        { label: 'Rank every place', lab: '#/places/ranking', desc: 'Every county, town and CDP ranked on housing need (HNA ranking).' },
         { step: 4, label: 'Scenarios', lab: '#/places/scenario', desc: 'Change the state forecast and see the homes needed.' }] },
       { title: 'The state picture', items: [
         { label: 'Colorado deep dive', lab: '#/places/deep-dive', desc: 'County markets: tax credit pipeline, AMI gap, QCTs and DDAs.' },
@@ -39,7 +39,7 @@
         { label: 'Land value', lab: '#/opportunity/land-value', desc: 'Estimate a site’s land value and a negotiation range.' },
         { label: 'Commuting and jobs', lab: '#/opportunity/commuting', desc: 'Where workers live, where the jobs are, and the largest employers.' }] },
       { title: 'Where the money went', items: [
-        { label: '2026 Round One awards', lab: '#/opportunity/round-one', desc: 'CHFA’s latest tax credit awards.' },
+        { label: '2026 Round One awards', lab: '#/deals?round=2026-1', desc: 'CHFA’s latest tax credit awards.' },
         { label: 'Prop 123 land banking', lab: '#/opportunity/land-banking', desc: 'State awards to buy land for future homes.' }] }
     ] },
     { id: 'deal', title: 'Build a deal', question: 'Does this project pencil, and who does what?', hub: '#/projects', views: ['projects', 'project', 'homes', 'handoff', 'convert', 'financials', 'open-deal', 'open-calc', 'deal-calculator', 'sale-deal', 'use', 'deals', 'equity-pricing', 'pipeline', 'market', 'for-sale', 'recommendation', 'ic-summary', 'design'], groups: [

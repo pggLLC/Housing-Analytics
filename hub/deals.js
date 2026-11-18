@@ -17,6 +17,47 @@
   // to a county's write-ups this way (deal-summary.html?county=, which forwards here with it).
   var COUNTY = /^[A-Za-z .'-]{2,40}$/;
 
+  // ?round=<year>-<n>: one CHFA competitive round, read from CHFA's own award list for that round. This was the
+  // 2026 Round One page (#/opportunity/round-one, which forwards here): one home for awards is Deal summaries
+  // (one-home proposal item 4, paul "go remaining duplicates", 18 Nov 2026). Every column it showed is kept.
+  var ROUNDS = {
+    '2026-1': { label: '2026 Round One', file: 'data/affordable-housing/chfa-awards/2026-round-one.json' },
+    '2026-2': { label: '2026 Round Two', file: 'data/affordable-housing/chfa-awards/2026-round-two.json' }
+  };
+  function roundLinks(cur) {
+    return '<p class="note">By round: ' + ['<a href="#/deals"' + (cur ? '' : ' aria-current="page"') + '>Every summary</a>'].concat(Object.keys(ROUNDS).map(function (k) {
+      return '<a href="#/deals?round=' + k + '"' + (k === cur ? ' aria-current="page"' : '') + '>' + esc(ROUNDS[k].label) + ' awards</a>';
+    })).join(' · ') + '</p>';
+  }
+  function round(key) {
+    var R = ROUNDS[key], title = R.label + ' tax credit awards';
+    var s = UI.load({ round: R.file });
+    var head = function (answer, meta) { return T.head({ kind: 'data', crumbs: crumbs(R.label, [{ label: 'Deal summaries', href: '#/deals' }]), title: title, answer: answer, meta: meta }); };
+    if (!s.data) return head('CHFA’s ' + R.label + ' housing tax credit awards.') + (s.error ? '<p class="callout">' + esc(s.error) + '</p>' : '<p role="status" class="note">Loading…</p>');
+    var m = s.data.round.metadata, awards = s.data.round.awards || [];
+    var year = Number(key.split('-')[0]);
+    var summaryOf = function (r) { return summaryHref({ agency: 'CHFA', year: year, name: r.name }); };
+    var written = awards.filter(summaryOf).length;
+    var homes = awards.reduce(function (t, a) { return t + (Number(a.total_units) || 0); }, 0);
+    var anyFour = awards.some(function (a) { return a.federal_4pct_credit; }), anyNine = awards.some(function (a) { return a.federal_9pct_credit; });
+    var cols = [
+      { key: 'name', label: 'Development', href: function (r) { return summaryOf(r) || UI.placeFor(r.city); }, tip: 'Opens COHO’s sourced deal summary where one is written, otherwise the town' },
+      { key: 'city', label: 'City' }, { key: 'county', label: 'County' }, { key: 'sponsor', label: 'Sponsor' },
+      { key: 'total_units', label: 'Homes', num: true, fmt: UI.num }
+    ].concat(anyNine ? [{ key: 'federal_9pct_credit', label: '9% credit', num: true, fmt: UI.money, tip: 'Annual federal 9% credit awarded' }] : [])
+      .concat(anyFour ? [{ key: 'federal_4pct_credit', label: '4% credit', num: true, fmt: UI.money, tip: 'Annual federal 4% credit, where listed' }] : [])
+      .concat([{ key: 'state_credit', label: 'State credit', num: true, fmt: UI.money, tip: 'Colorado state credit awarded' }, { key: 'unit_mix_raw', label: 'Unit mix' }]);
+    var srcs = [[m.source_url, 'CHFA award descriptions'], [m.press_release_url, 'press release'], [m.pdf_report_url, 'award report']].filter(function (x) { return safeUrl(x[0]); });
+    var total = m.press_release_total_units || homes;
+    return head(UI.num(m.parsed_count || awards.length) + ' developments won credits for ' + UI.num(total) + ' homes' + (m.press_release_total_equity_M ? ' and about $' + esc(m.press_release_total_equity_M) + ' million in equity' : '') + '. Announced by CHFA on ' + esc(m.announcement_date) + '.',
+      '<span class="scope-tag">Scope: CHFA ' + esc(R.label) + '</span> ' + UI.num(written) + ' of ' + UI.num(awards.length) + ' have a COHO deal summary so far.') +
+      roundLinks(key) +
+      UI.bars('Homes in each award', null, awards.map(function (a) { return [a.name + ', ' + a.city, a.total_units]; }).sort(function (a, b) { return b[1] - a[1]; }), UI.num) +
+      UI.table('r1', R.label + ' awards', cols, awards, { noun: 'awards', placeholder: 'Name, city or sponsor' }) +
+      '<p class="note metric-source">' + (m.note ? esc(m.note) + ' ' : '') + 'Sources: ' + srcs.map(function (x) { return '<a href="' + esc(x[0]) + '">' + esc(x[1]) + '</a>'; }).join(' and ') + ', announced ' + esc(m.announcement_date) + '.</p>' +
+      T.next('Next', [{ href: '#/deals', label: 'Every deal summary →' }, { href: '#/opportunity/portfolio', label: 'Whole tax credit portfolio', secondary: true }]);
+  }
+
   function list(params) {
     var s = UI.load({ index: 'data/deals/index.json' });
     if (!s.data) return '<h1>Deal summaries</h1>' + (s.error ? '<p class="callout">' + esc(s.error) + '</p>' : '<p role="status" class="note">Loading…</p>');
@@ -25,6 +66,8 @@
     var latest = all.reduce(function (m, r) { return r.researched_on && r.researched_on > m ? r.researched_on : m; }, '');
     var nine = all.filter(function (r) { return /9%/.test(r.award); }).length, four = all.filter(function (r) { return /4%/.test(r.award); }).length;
     var byYear = UI.tally(all, function (r) { return r.year; }, function () { return 1; }).sort(function (a, b) { return a[0] < b[0] ? -1 : 1; });
+    var rk = params && params.get ? String(params.get('round') || '') : '';
+    if (ROUNDS[rk]) return round(rk);
     var want = params && params.get ? String(params.get('county') || '').trim() : '';
     if (!COUNTY.test(want)) want = '';
     var mine = want ? all.filter(function (r) { return String(r.county || '').toLowerCase() === want.toLowerCase(); }) : null;
@@ -59,9 +102,9 @@
       ]
     }) +
       UI.bars('Summaries by award year', 'Counts of summaries, not of all awards', byYear.map(function (r) { return [String(r[0]), r[1]]; }), UI.num) + T.source('CHFA housing tax credit award reports', AWARDS, latest) +
-      '<h2>Every summary</h2>' + UI.table('deals', 'Every deal summary, newest awards first', cols, all, { noun: 'deals', placeholder: 'Name, city, county or credit' }) +
+      '<h2>Every summary</h2>' + roundLinks('') + UI.table('deals', 'Every deal summary, newest awards first', cols, all, { noun: 'deals', placeholder: 'Name, city, county or credit' }) +
       T.source('CHFA housing tax credit award reports', AWARDS, latest) +
-      T.next('Next', [{ href: '#/deal-calculator', label: 'Test a LIHTC deal →' }, { href: '#/opportunity/round-one', label: '2026 Round One awards', secondary: true }]);
+      T.next('Next', [{ href: '#/deal-calculator', label: 'Test a LIHTC deal →' }, { href: '#/deals?round=2026-1', label: '2026 Round One awards', secondary: true }]);
   }
 
   function load(slug) {
