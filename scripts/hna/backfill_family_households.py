@@ -14,6 +14,9 @@ downloaded copy with --file, or let the script fetch it.
 
     python3 scripts/hna/backfill_family_households.py [--year 2024] [--file PATH] [--dry]
 
+The state summary (08.json) is skipped: its own ACS 1-year fetch refreshes it,
+and it may carry only fields that fetch covers.
+
 build_hna_data.py never requests these fields, so its merge-preserve step
 carries them from disk on every rebuild. Rerun this when the ACS year moves.
 """
@@ -82,6 +85,8 @@ def main(argv=None) -> int:
             raw = f.read()
         rec = json.loads(raw)
         geoid = (rec.get('geo') or {}).get('geoid') or name[:-5]
+        if len(str(geoid)) == 2:
+            continue  # state: refreshed by its own 1-year fetch
         prof = rec.get('acsProfile')
         row = rows.get(sf_geo_id(geoid))
         if not isinstance(prof, dict) or row is None:

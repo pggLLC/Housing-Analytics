@@ -12,7 +12,7 @@
  *
  * Held here:
  *   1. The family share comes from B11001_002E / B11001_001E, never DP02_0003.
- *   2. Every stored summary carries both B11001 fields, stamped acs5.
+ *   2. Every county and place summary carries both B11001 fields, stamped acs5.
  *   3. With the real summaries, the family and renter-family signals score for
  *      Fruita and Mesa County (6 of 6 signals).
  *   4. Each lane's methodology text lists the weights the score uses, in order.
@@ -54,9 +54,12 @@ test('DP02_0003 (married couples with children) is never read as family househol
   assert.strictEqual(acs.familyHHPct, null);
 });
 
-test('every stored summary carries B11001 households and family households, ACS 5-year', () => {
+test('every county and place summary carries B11001 households and family households, ACS 5-year', () => {
+  // The state summary (08.json) is refreshed by its own ACS 1-year fetch and may
+  // hold only fields that fetch covers (tests/test_build_hna_data_series_stamp.py),
+  // so the 5-year backfill skips it.
   const bad = [];
-  for (const f of fs.readdirSync(SUMMARY_DIR).filter((x) => x.endsWith('.json'))) {
+  for (const f of fs.readdirSync(SUMMARY_DIR).filter((x) => x.endsWith('.json') && x !== '08.json')) {
     const p = (JSON.parse(fs.readFileSync(path.join(SUMMARY_DIR, f), 'utf8')).acsProfile) || {};
     if (!(p.B11001_001E >= 0) || !(p.B11001_002E >= 0) || p.B11001_002E > p.B11001_001E || p._b11001Series !== 'acs5') bad.push(f);
   }
