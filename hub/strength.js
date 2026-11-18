@@ -83,8 +83,12 @@
     // The line stays short (paul 10-26: "most of this text should be in linked footnote"); the counts,
     // tract note and county link go in the footnote the marker jumps to.
     note = (c ? esc(parts.join(', ')) + '. ' : 'No survey margins are published for this place. ') + esc(whose) + context;
+    // One sentence on why a small place's ranges are wider, beside the rating (paul 18 Nov 2026: a planning
+    // commissioner should not read a wide range as a wrong figure). It explains the rating; it hides nothing.
+    var why = '<details class="strength-why"><summary aria-label="Why small places have wider ranges"><span aria-hidden="true">\u24d8</span> Why the ranges</summary>' +
+      '<p>The Census surveys a sample of homes, and a small place has fewer of them in the sample, so its figures come with wider ranges. A wide range means less certainty, not a wrong figure.</p></details>';
     return '<div class="strength strength-' + g + '" role="note"><p><span class="strength-label">Data strength: ' + WORD[g] + mark + '</span></p>' +
-      table + '</div>';
+      why + table + '</div>';
   }
   var note = '';
 

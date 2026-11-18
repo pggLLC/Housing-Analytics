@@ -61,7 +61,7 @@ NARRATIVES = [
 ]
 QAP = {
     'label': 'CHFA 2027-2028 Qualified Allocation Plan',
-    'url': 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf',
+    'url': 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US',
     'quote': 'CHFA prefers, but does not require that Applicants, including those from out of state, use architects and general contractors located in Colorado whenever feasible.',
 }
 

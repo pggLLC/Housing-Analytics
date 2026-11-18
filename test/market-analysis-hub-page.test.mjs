@@ -66,13 +66,13 @@ ok(oldIds.size > 200, 'market-analysis.html has far fewer ids than expected (' +
 // 4. The same scripts, in order.
 const scripts = html => [...html.matchAll(/<script[^>]*\ssrc="([^"]+)"/g)].map(m => m[1]);
 const DROPPED = ['js/navigation.js', 'js/dark-mode-toggle.js', 'js/mobile-menu.js'];
-const ADDED = ['js/components/ma-calc-handoff.js', 'js/deal-calculator-share.js', 'js/components/ma-site-link.js', 'js/components/ma-place-row.js', 'hub/lab-config.js', 'hub/page-chrome.js', 'hub/nav.js', 'hub/step-bar.js', 'js/components/ma-step-bar.js'];
+const ADDED = ['js/components/ma-calc-handoff.js', 'js/deal-calculator-share.js', 'js/components/ma-site-link.js', 'js/components/ma-place-row.js', 'hub/lab-config.js', 'hub/page-chrome.js', 'hub/nav.js', 'hub/step-bar.js', 'js/components/ma-step-bar.js', 'js/components/ma-section-nav.js'];
 const oldScripts = scripts(oldPage), newScripts = scripts(newPage);
 DROPPED.forEach(f => { ok(oldScripts.includes(f), 'market-analysis.html no longer loads ' + f + '; update the build script'); ok(!newScripts.includes(f), 'the new page still loads ' + f); });
 ADDED.forEach(f => ok(newScripts.includes(f), 'the new page does not load ' + f));
 assert.deepEqual(newScripts.filter(f => !ADDED.includes(f)), oldScripts.filter(f => !DROPPED.includes(f)), 'the new page loads different scripts, or in a different order');
 checks++;
-ok(newScripts.slice(-5).join() === 'hub/lab-config.js,hub/page-chrome.js,hub/nav.js,hub/step-bar.js,js/components/ma-step-bar.js', 'the new header\'s scripts, then the seven-step bar\'s, must load last, in order');
+ok(newScripts.slice(-6).join() === 'hub/lab-config.js,hub/page-chrome.js,hub/nav.js,hub/step-bar.js,js/components/ma-step-bar.js,js/components/ma-section-nav.js', 'the new header\'s scripts, then the seven-step bar\'s, then the section row\'s, must load last, in order');
 // The page's own inline scripts ride along unchanged.
 const inline = html => [...html.matchAll(/<script(?![^>]*\ssrc=)[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1].trim()).filter(Boolean);
 const newInline = inline(newPage).filter(s => !/coho-analytics-scheme|glossary-script/.test(s));
@@ -212,7 +212,7 @@ ok(!/hub\/|class="crumbs"|deal-market-analysis/.test(oldPage), 'market-analysis.
 // 7. The place and saved-projects row. The old header's pill (js/navigation.js) names the place and, on a click,
 //    lists up to three saved projects and "New Project". The new header has no pill; the row does both jobs.
 ok(/\n {2}<div id="maPlaceRow" class="ma-place-row" role="region" aria-label="[^"<>]+" hidden><\/div>\n {2}<main id="main-content">\n/.test(newPage), 'the place row is not just above <main>, a named region, empty and hidden until its script fills it');
-ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 6, 'the place row\'s script must load after the tool\'s own scripts and before the new header\'s');
+ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 7, 'the place row\'s script must load after the tool\'s own scripts and before the new header\'s');
 {
   const nav = read('js/navigation.js');
   // What the row copies from the pill. If the pill changes, the row must be looked at again.
