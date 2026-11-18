@@ -461,16 +461,19 @@ function sourceForMetric(metric, entry, summary) {
   // LIHTC counts and recency come from the CHFA tax-credit feed (via
   // augment_ranking_index_recency / augment_lihtc_by_geometry), not the ACS
   // profile the default below would claim. The fields that fold in the 2026
-  // R1 bridge awards say so, because R1 is not in the CHFA feed yet.
+  // R1 and R2 bridge awards say so, because neither round is in the CHFA feed yet.
   if (metric === 'r1_2026_count') {
     return { source_id: 'chfa-2026-r1-awards', geography_level: localLevel(entry), as_of: 'CHFA 2026 Round One award announcement' };
+  }
+  if (metric === 'r2_2026_count') {
+    return { source_id: 'chfa-2026-r2-awards', geography_level: localLevel(entry), as_of: 'CHFA 2026 Round Two award announcement' };
   }
   if (!metric.includes('score') && (metric.includes('lihtc') || LIHTC_RECENCY_METRICS.has(metric))) {
     const withR1 = R1_FOLDED_METRICS.has(metric);
     return {
       source_id: withR1 ? 'chfa-lihtc-and-2026-r1-awards' : 'chfa-lihtc-properties',
       geography_level: localLevel(entry),
-      as_of: withR1 ? 'CHFA LIHTC feed, latest committed, plus 2026 Round One awards' : 'CHFA LIHTC feed, latest committed',
+      as_of: withR1 ? 'CHFA LIHTC feed, latest committed, plus 2026 Round One and Round Two awards' : 'CHFA LIHTC feed, latest committed',
     };
   }
   // Which reading produced future_units_needed_20yr, and the apportionment

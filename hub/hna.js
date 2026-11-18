@@ -95,7 +95,7 @@
       'dola-demographic-projections': dola,
       'dola-projections-plus-lodes-incommuters': dola + '; ' + asOf.split('; ')[1],
       'chfa-lihtc-properties': chfa,
-      'chfa-lihtc-and-2026-r1-awards': chfa + ', and CHFA 2026 Round One awards',
+      'chfa-lihtc-and-2026-r1-awards': chfa + ', and CHFA 2026 Round One and Round Two awards',
       'county-housing-cost-trends-acs-cohorts': 'Census ACS county estimates, 2009, 2014 and 2024',
       'zillow-zhvi-city-index': 'Zillow home value index, ' + asOf
     }[id] || asOf;
@@ -340,6 +340,7 @@
     chas: 'https://www.huduser.gov/portal/datasets/cp.html',
     qct: 'https://www.huduser.gov/portal/datasets/qct.html',
     roundOne: 'https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions',
+    roundTwo: 'https://www.chfainfo.com/rental-housing/housing-credit/2026-round-two-award-descriptions',
     zillow: 'https://www.zillow.com/research/data/',
     acs: 'https://www.census.gov/programs-surveys/acs/data.html',
     methods: 'https://cohoanalytics.com/methods.html'
@@ -365,6 +366,7 @@
     if (/^dola-/.test(id)) return LINKS.dola;
     if (/^(lehd-|lodes-)/.test(id)) return LINKS.lodes;
     if (id === 'chfa-2026-r1-awards') return LINKS.roundOne;
+    if (id === 'chfa-2026-r2-awards') return LINKS.roundTwo;
     if (/^chfa-/.test(id)) return ctx.lihtc || null;
     if (/^zillow-zhvi-city/.test(id)) return LINKS.zillow;
     if (id === 'county-housing-cost-trends-acs-cohorts' || id === 'zillow-zhvi-county-adjusted') return LINKS.acs;
@@ -2024,15 +2026,17 @@
       var A = global.AffordableHousingLayer;
       if (!A) needScript('js/components/affordable-housing-layer.js');
       var pf = extraFile('data/affordable-housing/properties.json'), bf = extraFile(isCounty ? EXTRA.countyShapes : EXTRA.placeShapes);
-      var br = extraFile('data/affordable-housing/chfa-awards/2026-round-one.json');
+      var br = extraFile('data/affordable-housing/chfa-awards/2026-round-one.json'), br2 = extraFile('data/affordable-housing/chfa-awards/2026-round-two.json');
       // HUD's two basis-boost designations, drawn under the dots as the live map's QCT and DDA layers do.
       var qf = extraFile(EXTRA.qct), df = extraFile(EXTRA.dda);
-      if (!pf || !bf || !br || !qf || !df) return '<p role="status" class="note">Loading the property map…</p>';
+      if (!pf || !bf || !br || !br2 || !qf || !df) return '<p role="status" class="note">Loading the property map…</p>';
       var shape = (bf.features || []).filter(function (f) { var q = f.properties || {}; return String(q.geoid || q.GEOID) === String(geoid); })[0];
       if (!shape || !pf.properties) return '';
-      // CHFA's 2026 round-one awards join the list until CHFA's feed carries them, as the live layer merges them.
-      var props = pf.properties.concat(((br && br.awards) || []).filter(function (a) { return isFinite(parseFloat(a.lat)) && isFinite(parseFloat(a.lon)); }).map(function (a) {
-        var pt = ['chfa-2026-r1-bridge'];
+      // CHFA's 2026 Round One and Round Two awards join the list until CHFA's feed carries them, as the live layer merges them.
+      var bridged = [];
+      [[br, 'chfa-2026-r1-bridge'], [br2, 'chfa-2026-r2-bridge']].forEach(function (pair) { ((pair[0] && pair[0].awards) || []).forEach(function (a) { bridged.push([a, pair[1]]); }); });
+      var props = pf.properties.concat(bridged.filter(function (b) { return isFinite(parseFloat(b[0].lat)) && isFinite(parseFloat(b[0].lon)); }).map(function (b) {
+        var a = b[0], pt = [b[1]];
         if (a.federal_9pct_credit) pt.push('lihtc-9pct'); if (a.federal_4pct_credit) pt.push('lihtc-4pct'); if (a.state_credit) pt.push('lihtc-state-paired'); if (a.mihtc_credit) pt.push('lihtc-mihtc');
         return { property_name: a.name, city: a.city, county_fips: a.county_fips, lat: +a.lat, lng: +a.lon, program_type: pt, total_units: a.total_units, award_year: 2026 };
       }));

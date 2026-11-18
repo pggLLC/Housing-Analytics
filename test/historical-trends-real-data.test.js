@@ -76,10 +76,17 @@ assert.strictEqual(r.developments, meta.press_release_total_developments, 'devel
 assert.strictEqual(r.units, meta.press_release_total_units, 'units == CHFA press release');
 
 // 4. Counts hard-coded in the HTML equal what the JS computes.
-const cov = html.match(/coverage: '(\d+) developments, ([\d,]+) units'/);
-assert(cov, 'data-quality coverage string for the round must state developments and units');
-assert.strictEqual(Number(cov[1]), r.developments, 'HTML coverage developments == computed');
-assert.strictEqual(Number(cov[2].replace(/,/g, '')), r.units, 'HTML coverage units == computed');
+// One data-quality source per 2026 round, each naming its round (Round Two added 18 Nov 2026).
+const round2 = readJson('data/affordable-housing/chfa-awards/2026-round-two.json');
+const r2 = summarizeRound(round2, feed);
+assert.strictEqual(r2.developments, round2.metadata.press_release_total_developments, 'Round Two developments == CHFA press release');
+assert.strictEqual(r2.units, round2.metadata.press_release_total_units, 'Round Two units == CHFA press release');
+for (const [label, rr] of [['Round One', r], ['Round Two', r2]]) {
+  const cov = html.match(new RegExp("CHFA 2026 " + label + " award report', status: 'primary', vintage: '2026', coverage: '(\\d+) developments, ([\\d,]+) units'"));
+  assert(cov, 'data-quality coverage string for ' + label + ' must state developments and units');
+  assert.strictEqual(Number(cov[1]), rr.developments, 'HTML coverage developments == computed (' + label + ')');
+  assert.strictEqual(Number(cov[2].replace(/,/g, '')), rr.units, 'HTML coverage units == computed (' + label + ')');
+}
 assert(html.includes('id="htFeedCoverage"'), 'page has a live CHFA coverage output; rendered agreement is checked by policy-timeline-series');
 
 // 5. "about twice the size" agrees with the medians.
@@ -253,7 +260,8 @@ async function renderedBenchmark() {
   sel.dispatchEvent(new page.window.Event('change'));
   const summary = doc.getElementById('benchSummary').textContent;
   const feedRows = feed.filter((f) => f.properties.CNTY_NAME === c);
-  const roundRows = round.awards.filter((a) => a.county === c);
+  // both 2026 rounds join the county benchmark until the feed carries them
+  const roundRows = round.awards.concat(round2.awards).filter((a) => a.county === c);
   const expectCount = feedRows.length + roundRows.length;
   const expectUnits = feedRows.reduce((t, f) => t + (f.properties.N_UNITS || 0), 0) +
     roundRows.reduce((t, a) => t + (a.total_units > 0 ? a.total_units : 0), 0);

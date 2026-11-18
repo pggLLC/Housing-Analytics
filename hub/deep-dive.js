@@ -56,7 +56,7 @@
   function src(text, href, date) { return T.source(text, href, date); }
   // Marks text the live page prints from its own markup (no data file behind it), with the date it gives.
   function staticTag(note) { return '<p class="dd-static"><span class="dd-tag">Static</span> ' + esc(note) + '</p>'; }
-  function list(items) { return '<ul class="dd-list">' + items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>'; }
+  function list(items) { return '<ul class="dd-list">' + items.filter(Boolean).map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>'; }
   // Bars either side of zero: rows [label, value, detail]. Red short, green surplus.
   function diverge(title, note, rows, fmt) {
     var max = Math.max.apply(null, rows.map(function (r) { return Math.abs(r[1] || 0); })) || 1;
@@ -683,16 +683,19 @@
     var cumP = 0, cumU = 0, stock = yrs.map(function (y, i) { cumP += s.totals.projects[i]; cumU += s.totals.units[i] || 0; return { year: y, projects: s.totals.projects[i], units: s.totals.units[i], cp: cumP, cu: cumU }; });
     var last5 = stock.filter(function (r) { return r.year > yrs[yrs.length - 1] - 5; });
     var size = PS.compute(f, LBY);
-    var round = HT._internal.summarizeRound(d.round, f);
+    // Both 2026 rounds bridge the feed; the latest (Round Two) leads the summary (paul, 18 Nov 2026).
+    var round = HT._internal.summarizeRound(d.round, f), round1 = d.round1 ? HT._internal.summarizeRound(d.round1, f) : null;
     var peer = params.get('peer') || '', target = parseInt(params.get('units') || '0', 10) || 0;
     var counties = {}; f.forEach(function (x) { if (x.properties.CNTY_NAME) counties[x.properties.CNTY_NAME] = true; });
     var peers = peer ? f.filter(function (x) { return x.properties.CNTY_NAME === peer; }).map(function (x) { var p = x.properties; return { name: p.PROJECT, city: p.PROJ_CTY, units: p.N_UNITS, li: p.LI_UNITS, year: p.YR_ALLOC, credit: p.CREDIT, from: 'CHFA property feed' }; })
-      .concat(HT._internal.bridgeBenchmarkRows(d.round, f, peer).map(function (r) { return { name: r.name, city: r.city, units: r.units, li: r.liUnits, year: r.yrAlloc, credit: r.credit, from: 'CHFA ' + (round && round.name || 'latest round') + ' award report' }; })) : [];
+      .concat([[d.round, round], [d.round1, round1]].filter(function (x) { return x[0]; }).reduce(function (all, x) { return all.concat(HT._internal.bridgeBenchmarkRows(x[0], f, peer).map(function (r) { return { name: r.name, city: r.city, units: r.units, li: r.liUnits, year: r.yrAlloc, credit: r.credit, from: 'CHFA ' + (x[1] && x[1].name || 'latest round') + ' award report' }; })); }, [])) : [];
     if (target > 0) peers.sort(function (a, b) { if (a.units == null || b.units == null) return (a.units == null) - (b.units == null); return Math.abs(a.units - target) - Math.abs(b.units - target); });
     else peers.sort(function (a, b) { return (b.year || 0) - (a.year || 0); });
     var med = function (a) { return median(a.filter(function (x) { return x != null; })); };
-    return fold('Data quality: ' + (round ? 'both sources current' : 'the CHFA feed') + ' (2 sources)', 'The CHFA property feed and the latest round report', list([
-        '<strong>' + esc(round ? 'CHFA ' + round.name + ' award report' : 'Latest CHFA round') + '</strong>: ' + (round ? num(round.developments) + ' developments, ' + num(round.units) + ' homes, announced ' + esc(day(round.announced)) + '. Parsed from CHFA’s published award report; it bridges the months before the live feed carries the round.' : 'not loaded'),
+    var roundLine = function (r) { return '<strong>' + esc('CHFA ' + r.name + ' award report') + '</strong>: ' + num(r.developments) + ' developments, ' + num(r.units) + ' homes, announced ' + esc(day(r.announced)) + '. Parsed from CHFA’s published award report; it bridges the months before the live feed carries the round.'; };
+    return fold('Data quality: ' + (round ? 'all sources current' : 'the CHFA feed') + ' (' + (1 + (round ? 1 : 0) + (round1 ? 1 : 0)) + ' sources)', 'The CHFA property feed and the 2026 round reports', list([
+        round ? roundLine(round) : '<strong>Latest CHFA round</strong>: not loaded',
+        round1 ? roundLine(round1) : '',
         '<strong>CHFA LIHTC (live)</strong>: ' + num(f.length) + ' Colorado projects, ' + esc(s.range) + ', refreshed weekly from CHFA’s HousingTaxCreditProperties feature service (fetched ' + esc(day(d.lihtc.fetchedAt)) + '). The award year is the year credits were reserved, usually two to three years before a project opens, so the latest rounds are still in construction or lease-up.',
         'Known limits: a history, not a forecast. Application scores and applicant counts are not shown: there is no verified public source for them yet.'
       ])) +
@@ -1154,7 +1157,7 @@
     ind: 'data/co-county-economic-indicators.json', cascade: 'data/hna/home-value-cascade.json', nov: 'data/market/novogradac-equity-pricing.json', p123: 'data/policy/prop123_jurisdictions.json',
     hmdaState: 'data/hmda/co-state-trends.json', hmdaCounty: 'data/hmda/co-county-aggregates.json', tracts: 'data/market/acs_tract_metrics_co.json', cent: 'data/market/tract_centroids_co.json',
     chas: 'data/hna/chas_affordability_gap.json', demo: 'data/co-demographics.json', cdemo: 'data/co-county-demographics.json', acsState: 'data/census-acs-state.json', cc: 'data/market/co-construction-labor-cost.json',
-    round: 'data/affordable-housing/chfa-awards/2026-round-one.json', guide: 'data/policy/co-developer-funding-guide.json', limits: 'data/chfa-income-rent-limits-2026.json', props: 'data/affordable-housing/lihtc/chfa-properties.json',
+    round: 'data/affordable-housing/chfa-awards/2026-round-two.json', round1: 'data/affordable-housing/chfa-awards/2026-round-one.json', guide: 'data/policy/co-developer-funding-guide.json', limits: 'data/chfa-income-rent-limits-2026.json', props: 'data/affordable-housing/lihtc/chfa-properties.json',
     pricing: 'data/market/lihtc-equity-pricing-history.json', fvn: 'data/derived/funding-vs-need.json', aa: 'data/hna/chas_affordable_available.json', zori: 'data/market/zori_rents_co.json', dir: 'data/market/market-direction.json', mt: 'data/market/market-types.json', timeline: 'data/policy/policy-timeline.json'
   };
   var TABS = [
