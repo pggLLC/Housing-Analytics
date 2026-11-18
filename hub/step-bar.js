@@ -186,17 +186,25 @@
       root.style.setProperty('--sp-top', sp + 'px');
       // The tab row's height counts toward where a jump lands only while it is stuck under the bars.
       var tabs = document.querySelector('#main .tabs'), tr = tabs && global.getComputedStyle(tabs).position === 'sticky' ? tabs.getBoundingClientRect() : null;
-      root.style.setProperty('--tabs-h', tr && tr.top <= hdr + sp + 1 ? Math.ceil(tr.height) + 'px' : '0px');
+      var th = tr && tr.top <= hdr + sp + 1 ? Math.ceil(tr.height) : 0;
+      root.style.setProperty('--tabs-h', th + 'px');
+      // A pinned strip (Financials' sources bar) shows once the full one it copies has scrolled up under the bars.
+      Array.prototype.forEach.call(global.document.querySelectorAll('[data-pin-after]'), function (pin) {
+        var full = global.document.querySelector(pin.getAttribute('data-pin-after'));
+        pin.hidden = !full || !full.getClientRects().length || full.getBoundingClientRect().bottom > hdr + sp + th;
+      });
       // The calculator's result strip sticks under the bars too; a field moved into view by keyboard clears it as well.
       var live = global.document.querySelector('.quick-live'), lr = live && live.getClientRects().length ? live.getBoundingClientRect() : null;
-      root.style.setProperty('--live-h', lr && lr.top <= hdr + sp + 1 ? Math.ceil(lr.height) + 'px' : '0px');
+      var pinned = global.document.querySelector('[data-pin-after]:not([hidden])');
+      root.style.setProperty('--live-h', lr && lr.top <= hdr + sp + 1 ? Math.ceil(lr.height) + 'px' : pinned ? Math.ceil(pinned.getBoundingClientRect().height) + 'px' : '0px');
     }
+    bindStepBar.check = check;
     // Keyboard focus never lands under the sticky header, step line, tabs or result strip (WCAG 2.4.11): a field the
     // browser leaves half-covered is scrolled down to just below them. The page region itself is not a field: the
     // shell moves focus to it when the address changes, and a pick on the same page keeps the reader's place.
     global.document.addEventListener('focusin', function (ev) {
       var t = ev.target;
-      if (!t || t.id === 'main' || !t.getBoundingClientRect || (t.closest && t.closest('.site-header, [data-sp-sticky], .step-path, #main .tabs, .quick-live'))) return;
+      if (!t || t.id === 'main' || !t.getBoundingClientRect || (t.closest && t.closest('.site-header, [data-sp-sticky], .step-path, #main .tabs, .quick-live, [data-pin-after]'))) return;
       var cs = global.getComputedStyle(global.document.documentElement), px = function (n) { return parseFloat(cs.getPropertyValue(n)) || 0; };
       var cover = px('--hdr-h') + px('--sp-top') + px('--tabs-h') + px('--live-h');
       var r = t.getBoundingClientRect();
@@ -218,5 +226,6 @@
   }
   if (global.LabShell) bindStepBar();
 
-  global.LabStep = { PATH: PATH, OWN: OWN, product: product, placed: placed, withPlace: withPlace, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, working: working, setWorking: setWorking, clearWorking: clearWorking, path: stepPath, mount: mount, bind: bindStepBar };
+  global.LabStep = { PATH: PATH, OWN: OWN, product: product, placed: placed, withPlace: withPlace, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, working: working, setWorking: setWorking, clearWorking: clearWorking, path: stepPath, mount: mount, bind: bindStepBar,
+    refresh: function () { if (bindStepBar.check) bindStepBar.check(); } };
 })(window);
