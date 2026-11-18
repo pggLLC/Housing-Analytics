@@ -1,11 +1,60 @@
 {
  "metadata": {
+  "verified": "2026-11-18",
   "title": "Where Colorado's housing tax credits go, 2016-2026",
   "generator": "scripts/policy/build_credit_geography_brief.mjs",
   "awards_source": "data/policy/funding-awards/ledger.json",
   "awards_generated_at": "2026-11-17T04:20:50Z",
   "need_source": "data/co-county-demographics.json",
   "need_vintage": "ACS 2024/acs/acs5",
+  "acs_year": 2024,
+  "feed_last_award_year": 2025,
+  "report_links_9pct": [
+   {
+    "year": 2016,
+    "link": "https://www.chfainfo.com/getContentAsset/8dbb8512-b3bd-4f66-af97-769082377f3f/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2016-Round-2-Award-Report.pdf"
+   },
+   {
+    "year": 2017,
+    "link": "https://www.chfainfo.com/getContentAsset/d9d4c3da-75ac-4af7-9dde-ed216341f3bb/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2017-Round-2-Award-Report.pdf"
+   },
+   {
+    "year": 2018,
+    "link": "https://www.chfainfo.com/getContentAsset/44c169f3-dacc-4b82-bd62-a34b6283f9f6/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2018-LIHTC-Round2-Award-Report.pdf"
+   },
+   {
+    "year": 2019,
+    "link": "https://www.chfainfo.com/getContentAsset/52b45440-7788-4762-9a75-c9c632623a8f/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2019-Round-2-Award-Report.pdf"
+   },
+   {
+    "year": 2020,
+    "link": "https://www.chfainfo.com/getContentAsset/3cc9acfe-0e46-455d-ac37-a2167b823a9d/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2020-Round-1-Award-Report.pdf"
+   },
+   {
+    "year": 2021,
+    "link": "https://www.chfainfo.com/getContentAsset/73c04756-71db-42a0-a4fb-1d3a5f0ffb83/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2021-Round-1-Award-Report.pdf"
+   },
+   {
+    "year": 2022,
+    "link": "https://www.chfainfo.com/getContentAsset/2faf4402-3d4d-4e15-8dc9-43d55c164c5a/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2022-Round-1-Award-Report.pdf"
+   },
+   {
+    "year": 2023,
+    "link": "https://www.chfainfo.com/getContentAsset/037e65b5-e51c-4920-864a-41ac174b6558/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2023-Round-1-Housing-Tax-Credit-Award-Report.pdf"
+   },
+   {
+    "year": 2024,
+    "link": "https://www.chfainfo.com/getContentAsset/a87d0b61-b330-44f7-9a73-382779f7ef11/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2024-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+   },
+   {
+    "year": 2025,
+    "link": "https://www.chfainfo.com/getContentAsset/b90453bd-52f8-491f-be44-c7a431440afc/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2025-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+   },
+   {
+    "year": 2026,
+    "link": "https://www.chfainfo.com/getContentAsset/307fc9f0-5255-4afa-a86d-301dd2be20fa/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/2026-Round-One-Housing-Tax-Credit-Award-Report.pdf"
+   }
+  ],
   "region_source": "data/chfa-lihtc.json",
   "years": [
    2016,
@@ -1966,5 +2015,4063 @@
     ]
    }
   ]
- }
+ },
+ "awards_counted": [
+  {
+   "name": "Alameda View Apartments",
+   "year": 2016,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 116,
+   "federal_credit": 1147889,
+   "state_credit": 771750
+  },
+  {
+   "name": "Arroyo Village",
+   "year": 2016,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 130,
+   "federal_credit": 1181541,
+   "state_credit": 1043455
+  },
+  {
+   "name": "Fifty Eight Hundred",
+   "year": 2016,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 152,
+   "federal_credit": 1287726,
+   "state_credit": 800000
+  },
+  {
+   "name": "Lowry Family Housing",
+   "year": 2016,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 71,
+   "federal_credit": 543193,
+   "state_credit": 800000
+  },
+  {
+   "name": "Palo Park Community",
+   "year": 2016,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 35,
+   "federal_credit": 379697,
+   "state_credit": 589591
+  },
+  {
+   "name": "Peakview Trails",
+   "year": 2016,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08123",
+   "homes": 95,
+   "federal_credit": 635718,
+   "state_credit": 987140
+  },
+  {
+   "name": "SPARK_west",
+   "year": 2016,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 45,
+   "federal_credit": 582403,
+   "state_credit": 678982
+  },
+  {
+   "name": "Suites Supportive Housing Community",
+   "year": 2016,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 81,
+   "federal_credit": 373620,
+   "state_credit": 579601
+  },
+  {
+   "name": "Village at Westerly Creek 3",
+   "year": 2016,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 74,
+   "federal_credit": 886487,
+   "state_credit": 700000
+  },
+  {
+   "name": "Village on Horsetooth",
+   "year": 2016,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 95,
+   "federal_credit": 741330,
+   "state_credit": 1123427
+  },
+  {
+   "name": "Vistas at Panorama Pointe",
+   "year": 2016,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 69,
+   "federal_credit": 401909,
+   "state_credit": 480000
+  },
+  {
+   "name": "Windmill Ranch Apartments",
+   "year": 2016,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 96,
+   "federal_credit": 554635,
+   "state_credit": 404795
+  },
+  {
+   "name": "Atlantis Apartments",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 60,
+   "federal_credit": 1194304,
+   "state_credit": 0
+  },
+  {
+   "name": "Attention Homes Apartments",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08013",
+   "homes": 40,
+   "federal_credit": 844130,
+   "state_credit": 0
+  },
+  {
+   "name": "Broadmoor Bluffs Apartments",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08041",
+   "homes": 60,
+   "federal_credit": 1100000,
+   "state_credit": 0
+  },
+  {
+   "name": "Collegiate Commons",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08015",
+   "homes": 48,
+   "federal_credit": 952365,
+   "state_credit": 0
+  },
+  {
+   "name": "Greenway Flats PSH",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08041",
+   "homes": 65,
+   "federal_credit": 1100794,
+   "state_credit": 0
+  },
+  {
+   "name": "Journey Home",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08043",
+   "homes": 30,
+   "federal_credit": 703258,
+   "state_credit": 0
+  },
+  {
+   "name": "Lakota Ridge Senior Housing",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08045",
+   "homes": 50,
+   "federal_credit": 913656,
+   "state_credit": 0
+  },
+  {
+   "name": "Littleton Crossing Apartments",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08005",
+   "homes": 49,
+   "federal_credit": 1240000,
+   "state_credit": 0
+  },
+  {
+   "name": "Paris Family Housing",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08001",
+   "homes": 39,
+   "federal_credit": 553397,
+   "state_credit": 0
+  },
+  {
+   "name": "Roaring Fork Apartments",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08097",
+   "homes": 45,
+   "federal_credit": 1096625,
+   "state_credit": 0
+  },
+  {
+   "name": "SloHi Flats",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 45,
+   "federal_credit": 890601,
+   "state_credit": 0
+  },
+  {
+   "name": "Uplands Townhomes",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08101",
+   "homes": 72,
+   "federal_credit": 1235124,
+   "state_credit": 0
+  },
+  {
+   "name": "Vida at St. Anthony's (9% Portion)",
+   "year": 2016,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 64,
+   "federal_credit": 1250000,
+   "state_credit": 0
+  },
+  {
+   "name": "Brandon Flats",
+   "year": 2017,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 103,
+   "federal_credit": 951336,
+   "state_credit": 1000000
+  },
+  {
+   "name": "El Rancho Flats",
+   "year": 2017,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 54,
+   "federal_credit": 594043,
+   "state_credit": 763210
+  },
+  {
+   "name": "Fall River Apartments",
+   "year": 2017,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 60,
+   "federal_credit": 465550,
+   "state_credit": 720665
+  },
+  {
+   "name": "Flats At Two Creeks",
+   "year": 2017,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 77,
+   "federal_credit": 858014,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Indy Street Flats",
+   "year": 2017,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 114,
+   "federal_credit": 1076161,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Laradon Homes",
+   "year": 2017,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 90,
+   "federal_credit": 1044784,
+   "state_credit": 869064
+  },
+  {
+   "name": "Peoria Crossing, Building",
+   "year": 2017,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 82,
+   "federal_credit": 676916,
+   "state_credit": 975000
+  },
+  {
+   "name": "Platte Valley Homes",
+   "year": 2017,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 68,
+   "federal_credit": 802000,
+   "state_credit": 595000
+  },
+  {
+   "name": "Sheridan Station",
+   "year": 2017,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 133,
+   "federal_credit": 1315031,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Tammen Hall Apartments",
+   "year": 2017,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 49,
+   "federal_credit": 520511,
+   "state_credit": 391667
+  },
+  {
+   "name": "Traditions at Colorado Springs",
+   "year": 2017,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08041",
+   "homes": 178,
+   "federal_credit": 1145277,
+   "state_credit": 442188
+  },
+  {
+   "name": "Village on Shields",
+   "year": 2017,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 282,
+   "federal_credit": 1858210,
+   "state_credit": 1000000
+  },
+  {
+   "name": "A/R,S Valley Sun Village Treadstone Companies",
+   "year": 2017,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08083",
+   "homes": 50,
+   "federal_credit": 535000,
+   "state_credit": 0
+  },
+  {
+   "name": "Adams County Housing Authority N,S Crossing Pointe Phase I",
+   "year": 2017,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08001",
+   "homes": 64,
+   "federal_credit": 1250000,
+   "state_credit": 0
+  },
+  {
+   "name": "Community Housing Development Association N,S Cornell Senior Apartments",
+   "year": 2017,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08005",
+   "homes": 50,
+   "federal_credit": 992180,
+   "state_credit": 0
+  },
+  {
+   "name": "Four Corners Development, LLC N,S Woodgate Trails Apartments",
+   "year": 2017,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08085",
+   "homes": 50,
+   "federal_credit": 1217072,
+   "state_credit": 0
+  },
+  {
+   "name": "Grand Junction Housing Authority N,S Highlands 2",
+   "year": 2017,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08077",
+   "homes": 72,
+   "federal_credit": 1250000,
+   "state_credit": 0
+  },
+  {
+   "name": "N,F Aria Apartments Phase II Rose LLC",
+   "year": 2017,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 65,
+   "federal_credit": 1214217,
+   "state_credit": 0
+  },
+  {
+   "name": "N,F Lumien Apartments II Solvera Advisors",
+   "year": 2017,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08067",
+   "homes": 36,
+   "federal_credit": 951361,
+   "state_credit": 0
+  },
+  {
+   "name": "N,F Trinidad Artspace Lofts Artspace Projects, Inc.",
+   "year": 2017,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08071",
+   "homes": 41,
+   "federal_credit": 1147895,
+   "state_credit": 0
+  },
+  {
+   "name": "N,F Walnut Street Lofts Medici Development LLC",
+   "year": 2017,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 65,
+   "federal_credit": 1198115,
+   "state_credit": 0
+  },
+  {
+   "name": "N,F Wintergreen Apartments Gorman & Company, Inc.",
+   "year": 2017,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08117",
+   "homes": 40,
+   "federal_credit": 831000,
+   "state_credit": 0
+  },
+  {
+   "name": "N,H Freedom Springs Vecino Bond Group, LLC",
+   "year": 2017,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08041",
+   "homes": 50,
+   "federal_credit": 1046580,
+   "state_credit": 0
+  },
+  {
+   "name": "N,H Providence at the Heights Blueline Development",
+   "year": 2017,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08005",
+   "homes": 50,
+   "federal_credit": 1185541,
+   "state_credit": 0
+  },
+  {
+   "name": "Canopy at Red Oak fka: Red Oak Park Phase",
+   "year": 2018,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 41,
+   "federal_credit": 482010,
+   "state_credit": 521696
+  },
+  {
+   "name": "Castle Creek Apartments fka: Aspen Affordable Housing",
+   "year": 2018,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08097",
+   "homes": 24,
+   "federal_credit": 516373,
+   "state_credit": 334356
+  },
+  {
+   "name": "Deanza Vista 2018",
+   "year": 2018,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08015",
+   "homes": 35,
+   "federal_credit": 242430,
+   "state_credit": 372969
+  },
+  {
+   "name": "Emerson Street Apartments",
+   "year": 2018,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 20,
+   "federal_credit": 207852,
+   "state_credit": 311137
+  },
+  {
+   "name": "Olin Hotel Apartments",
+   "year": 2018,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 111,
+   "federal_credit": 669965,
+   "state_credit": 652358
+  },
+  {
+   "name": "Remington fka: DMA Plaza Renovation",
+   "year": 2018,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 124,
+   "federal_credit": 1152252,
+   "state_credit": 993072
+  },
+  {
+   "name": "Residences at Hoffman",
+   "year": 2018,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 85,
+   "federal_credit": 801701,
+   "state_credit": 933673
+  },
+  {
+   "name": "The Colburn",
+   "year": 2018,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 91,
+   "federal_credit": 408796,
+   "state_credit": 628916
+  },
+  {
+   "name": "Alpenglow Village",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08107",
+   "homes": 48,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "GardenWalk of Gunnison",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08051",
+   "homes": 36,
+   "federal_credit": 906737,
+   "state_credit": 0
+  },
+  {
+   "name": "Gateway South",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 58,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Geteway North",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 95,
+   "federal_credit": 1426148,
+   "state_credit": 0
+  },
+  {
+   "name": "Kappa Tower II",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 70,
+   "federal_credit": 1174614,
+   "state_credit": 0
+  },
+  {
+   "name": "Karis Apartments",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08077",
+   "homes": 34,
+   "federal_credit": 910750,
+   "state_credit": 0
+  },
+  {
+   "name": "Libretto Apartments Phase II",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08001",
+   "homes": 42,
+   "federal_credit": 939883,
+   "state_credit": 0
+  },
+  {
+   "name": "Mason Place",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08069",
+   "homes": 60,
+   "federal_credit": 1323763,
+   "state_credit": 0
+  },
+  {
+   "name": "Mirasol III",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08069",
+   "homes": 60,
+   "federal_credit": 1290396,
+   "state_credit": 0
+  },
+  {
+   "name": "Mission Village of Evans",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08123",
+   "homes": 68,
+   "federal_credit": 1300000,
+   "state_credit": 0
+  },
+  {
+   "name": "River Bend Residences",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08019",
+   "homes": 47,
+   "federal_credit": 1157614,
+   "state_credit": 0
+  },
+  {
+   "name": "Sage Corner fka: Indigo",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08059",
+   "homes": 43,
+   "federal_credit": 848405,
+   "state_credit": 0
+  },
+  {
+   "name": "Senior Residences at Three Springs",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08067",
+   "homes": 53,
+   "federal_credit": 1279250,
+   "state_credit": 0
+  },
+  {
+   "name": "Tungsten Village fka: Third Street Community",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08013",
+   "homes": 26,
+   "federal_credit": 597000,
+   "state_credit": 0
+  },
+  {
+   "name": "Uplands Townhomes Phase II",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08101",
+   "homes": 51,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Veterans Renaissance Apartments at Fitzsimons",
+   "year": 2018,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08005",
+   "homes": 59,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "30Pearl Apartments",
+   "year": 2019,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 120,
+   "federal_credit": 1891472,
+   "state_credit": 838020
+  },
+  {
+   "name": "48th and Race",
+   "year": 2019,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 150,
+   "federal_credit": 1426865,
+   "state_credit": 912776
+  },
+  {
+   "name": "7401 Broadway",
+   "year": 2019,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 116,
+   "federal_credit": 1527916,
+   "state_credit": 927779
+  },
+  {
+   "name": "Atruim at Austin Bluffs",
+   "year": 2019,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08041",
+   "homes": 54,
+   "federal_credit": 550582,
+   "state_credit": 834215
+  },
+  {
+   "name": "Capitol Square Apartments",
+   "year": 2019,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 103,
+   "federal_credit": 1213140,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Coffman Street Apartments",
+   "year": 2019,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 73,
+   "federal_credit": 779274,
+   "state_credit": 930000
+  },
+  {
+   "name": "DHA 655 Broadway/Studebaker",
+   "year": 2019,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 143,
+   "federal_credit": 1490047,
+   "state_credit": 815000
+  },
+  {
+   "name": "Edge Phase II",
+   "year": 2019,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 69,
+   "federal_credit": 651340,
+   "state_credit": 995933
+  },
+  {
+   "name": "Legends of Church Ranch",
+   "year": 2019,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 205,
+   "federal_credit": 2260807,
+   "state_credit": 499999
+  },
+  {
+   "name": "Morrison Road",
+   "year": 2019,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 79,
+   "federal_credit": 943721,
+   "state_credit": 800000
+  },
+  {
+   "name": "Thistle scattered sites",
+   "year": 2019,
+   "round": 1,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 159,
+   "federal_credit": 1393960,
+   "state_credit": 850000
+  },
+  {
+   "name": "2814",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08077",
+   "homes": 60,
+   "federal_credit": 1349865,
+   "state_credit": 0
+  },
+  {
+   "name": "Academy Place",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08014",
+   "homes": 49,
+   "federal_credit": 1254749,
+   "state_credit": 0
+  },
+  {
+   "name": "Calkins Commons",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08083",
+   "homes": 42,
+   "federal_credit": 1305885,
+   "state_credit": 0
+  },
+  {
+   "name": "Espero Apartments",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08067",
+   "homes": 40,
+   "federal_credit": 904292,
+   "state_credit": 0
+  },
+  {
+   "name": "Flats at Ford Street",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08059",
+   "homes": 44,
+   "federal_credit": 915000,
+   "state_credit": 0
+  },
+  {
+   "name": "Legacy Senior Residences*",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08059",
+   "homes": 72,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Maxfield Heights",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08045",
+   "homes": 50,
+   "federal_credit": 1194251,
+   "state_credit": 0
+  },
+  {
+   "name": "Mill Apartments",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08049",
+   "homes": 60,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Oakwood Senior II",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08035",
+   "homes": 53,
+   "federal_credit": 1165747,
+   "state_credit": 0
+  },
+  {
+   "name": "Red Hill Lofts",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08045",
+   "homes": 30,
+   "federal_credit": 815214,
+   "state_credit": 0
+  },
+  {
+   "name": "Right Place",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08101",
+   "homes": 35,
+   "federal_credit": 843000,
+   "state_credit": 0
+  },
+  {
+   "name": "Rose Mountain Townhomes fka: Hot Springs Townhomes",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08007",
+   "homes": 34,
+   "federal_credit": 1272162,
+   "state_credit": 0
+  },
+  {
+   "name": "Shooks Run Apartments",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08041",
+   "homes": 40,
+   "federal_credit": 1011891,
+   "state_credit": 0
+  },
+  {
+   "name": "Shoshone",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 53,
+   "federal_credit": 1200000,
+   "state_credit": 0
+  },
+  {
+   "name": "Villas at Mesa Ridge",
+   "year": 2019,
+   "round": 2,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08041",
+   "homes": 60,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Allison Village",
+   "year": 2020,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 100,
+   "federal_credit": 1550817,
+   "state_credit": 700883
+  },
+  {
+   "name": "Anglers Four Hundred",
+   "year": 2020,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08107",
+   "homes": 75,
+   "federal_credit": 1054204,
+   "state_credit": 611857
+  },
+  {
+   "name": "Clara Brown Commons",
+   "year": 2020,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 61,
+   "federal_credit": 1015658,
+   "state_credit": 600014
+  },
+  {
+   "name": "Fitzsimons Veterans Independent Living",
+   "year": 2020,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 59,
+   "federal_credit": 841849,
+   "state_credit": 663000
+  },
+  {
+   "name": "Highland Trails",
+   "year": 2020,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 88,
+   "federal_credit": 1177920,
+   "state_credit": 471654
+  },
+  {
+   "name": "Montbello FreshLo",
+   "year": 2020,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 97,
+   "federal_credit": 1760671,
+   "state_credit": 722063
+  },
+  {
+   "name": "Oak 140",
+   "year": 2020,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 79,
+   "federal_credit": 1254599,
+   "state_credit": 381147
+  },
+  {
+   "name": "Rhonda's Place",
+   "year": 2020,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 49,
+   "federal_credit": 737868,
+   "state_credit": 467481
+  },
+  {
+   "name": "Rose on Colfax",
+   "year": 2020,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 82,
+   "federal_credit": 972089,
+   "state_credit": 903322
+  },
+  {
+   "name": "Village at Solid Rock",
+   "year": 2020,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08041",
+   "homes": 77,
+   "federal_credit": 995933,
+   "state_credit": 642470
+  },
+  {
+   "name": "7900 E. Colfax",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 72,
+   "federal_credit": 1349870,
+   "state_credit": 0
+  },
+  {
+   "name": "Atlantic Senior",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 62,
+   "federal_credit": 1049401,
+   "state_credit": 0
+  },
+  {
+   "name": "Cinnamon Park",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08013",
+   "homes": 25,
+   "federal_credit": 593310,
+   "state_credit": 0
+  },
+  {
+   "name": "Commons",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08041",
+   "homes": 50,
+   "federal_credit": 1049583,
+   "state_credit": 0
+  },
+  {
+   "name": "Confluent Park Apartments",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08015",
+   "homes": 48,
+   "federal_credit": 1220000,
+   "state_credit": 0
+  },
+  {
+   "name": "GreenHaus",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 79,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Iron Horse",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08003",
+   "homes": 40,
+   "federal_credit": 1141509,
+   "state_credit": 0
+  },
+  {
+   "name": "Lamar Crossing Phase II",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08059",
+   "homes": 65,
+   "federal_credit": 1240588,
+   "state_credit": 0
+  },
+  {
+   "name": "McCain Affordable Housing",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08117",
+   "homes": 64,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Point Affordable Apartments",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08005",
+   "homes": 63,
+   "federal_credit": 1192672,
+   "state_credit": 0
+  },
+  {
+   "name": "Renaissance Legacy Lofts",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 64,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Renaissance Legacy Lofts",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 34,
+   "federal_credit": 398808,
+   "state_credit": 0
+  },
+  {
+   "name": "RidgeGate Affordable Apartments",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08035",
+   "homes": 67,
+   "federal_credit": 1347368,
+   "state_credit": 0
+  },
+  {
+   "name": "Ridgway Space to Create",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08091",
+   "homes": 30,
+   "federal_credit": 800018,
+   "state_credit": 0
+  },
+  {
+   "name": "Thrive",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 105,
+   "federal_credit": 1681458,
+   "state_credit": 0
+  },
+  {
+   "name": "VOA Senior Residences",
+   "year": 2020,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08069",
+   "homes": 55,
+   "federal_credit": 1302200,
+   "state_credit": 0
+  },
+  {
+   "name": "1600 Newton",
+   "year": 2021,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 158,
+   "federal_credit": 2820136,
+   "state_credit": 0
+  },
+  {
+   "name": "2700 Wewatta Affordable",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 56,
+   "federal_credit": 684816,
+   "state_credit": 781055
+  },
+  {
+   "name": "All Saints Apartments",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 63,
+   "federal_credit": 588304,
+   "state_credit": 735380
+  },
+  {
+   "name": "Bluebird",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 40,
+   "federal_credit": 586486,
+   "state_credit": 733107
+  },
+  {
+   "name": "Bonsai Apartments",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 149,
+   "federal_credit": 1729349,
+   "state_credit": 995137
+  },
+  {
+   "name": "Eagle Meadow Homes",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 93,
+   "federal_credit": 1562268,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Flo",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 212,
+   "federal_credit": 3874164,
+   "state_credit": 900000
+  },
+  {
+   "name": "Holly38",
+   "year": 2021,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 253,
+   "federal_credit": 3984255,
+   "state_credit": 0
+  },
+  {
+   "name": "Jewell Apartments",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 81,
+   "federal_credit": 1445384,
+   "state_credit": 799070
+  },
+  {
+   "name": "Johnson and Wales Family Housing",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 154,
+   "federal_credit": 1907312,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Krisana",
+   "year": 2021,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 150,
+   "federal_credit": 1371271,
+   "state_credit": 0
+  },
+  {
+   "name": "Mount Calvary Senior",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 60,
+   "federal_credit": 1180147,
+   "state_credit": 662227
+  },
+  {
+   "name": "Mural Apartments",
+   "year": 2021,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 216,
+   "federal_credit": 3552907,
+   "state_credit": 0
+  },
+  {
+   "name": "Paloma Garden",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08041",
+   "homes": 125,
+   "federal_credit": 1489395,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Panorama Heights",
+   "year": 2021,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08041",
+   "homes": 133,
+   "federal_credit": 1726139,
+   "state_credit": 0
+  },
+  {
+   "name": "Park Ridge Apartments - Estes Park",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 31,
+   "federal_credit": 267936,
+   "state_credit": 206789
+  },
+  {
+   "name": "Park Ridge Apartments - Limon Apartments",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08073",
+   "homes": 16,
+   "federal_credit": 109976,
+   "state_credit": 84878
+  },
+  {
+   "name": "Park Ridge Apartments - Platte Valley Terrace",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 45,
+   "federal_credit": 671882,
+   "state_credit": 518548
+  },
+  {
+   "name": "Park Ridge Apartments - Trail Ridge",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 23,
+   "federal_credit": 155206,
+   "state_credit": 119786
+  },
+  {
+   "name": "Peoria Crossing Phase II",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 72,
+   "federal_credit": 943092,
+   "state_credit": 970004
+  },
+  {
+   "name": "Ralston Gardens",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 102,
+   "federal_credit": 1139742,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Sol",
+   "year": 2021,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 132,
+   "federal_credit": 3612490,
+   "state_credit": 0
+  },
+  {
+   "name": "Trails at Lehow",
+   "year": 2021,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 82,
+   "federal_credit": 1708485,
+   "state_credit": 0
+  },
+  {
+   "name": "Wintergreen Ridge",
+   "year": 2021,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08117",
+   "homes": 46,
+   "federal_credit": 879000,
+   "state_credit": 700000
+  },
+  {
+   "name": "2275 Wadsworth",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08059",
+   "homes": 67,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Central Park II",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 90,
+   "federal_credit": 1173896,
+   "state_credit": 0
+  },
+  {
+   "name": "Crawford Townhomes",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08101",
+   "homes": 49,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Deer Run Apartments",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08075",
+   "homes": 50,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Greyhound Park Empowerment Apartments",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08001",
+   "homes": 50,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Joli",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 80,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Northwest Apartments",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08014",
+   "homes": 49,
+   "federal_credit": 1300000,
+   "state_credit": 0
+  },
+  {
+   "name": "Powers and Elati",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08005",
+   "homes": 51,
+   "federal_credit": 1224000,
+   "state_credit": 0
+  },
+  {
+   "name": "Residences at Delta",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08029",
+   "homes": 50,
+   "federal_credit": 1346302,
+   "state_credit": 0
+  },
+  {
+   "name": "Sol",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 130,
+   "federal_credit": 2975223,
+   "state_credit": 0
+  },
+  {
+   "name": "Solid Ground Apartments",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08059",
+   "homes": 40,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "St. Valentine Apartments",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08069",
+   "homes": 54,
+   "federal_credit": 1227708,
+   "state_credit": 0
+  },
+  {
+   "name": "Vance Street Flats",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08059",
+   "homes": 50,
+   "federal_credit": 1220979,
+   "state_credit": 0
+  },
+  {
+   "name": "Vincent Village Apartments",
+   "year": 2021,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08123",
+   "homes": 72,
+   "federal_credit": 1250000,
+   "state_credit": 0
+  },
+  {
+   "name": "Addie at Metro Center",
+   "year": 2022,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 222,
+   "federal_credit": 4593149,
+   "state_credit": 0
+  },
+  {
+   "name": "Artspace Colorado Springs",
+   "year": 2022,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08041",
+   "homes": 51,
+   "federal_credit": 1281899,
+   "state_credit": 0
+  },
+  {
+   "name": "Bentley Commons",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08041",
+   "homes": 192,
+   "federal_credit": 2735647,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Elevate at Aurora",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 137,
+   "federal_credit": 2689571,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Fitzsimons Gateway Apartments",
+   "year": 2022,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 210,
+   "federal_credit": 3541829,
+   "state_credit": 0
+  },
+  {
+   "name": "Heartside Hill",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 71,
+   "federal_credit": 1171431,
+   "state_credit": 989961
+  },
+  {
+   "name": "Irving at Mile High Vista",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 102,
+   "federal_credit": 1934593,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Legacy Senior Residences",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 72,
+   "federal_credit": 1078412,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Marshall Homes",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 85,
+   "federal_credit": 1553542,
+   "state_credit": 648429
+  },
+  {
+   "name": "Meadowmark",
+   "year": 2022,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08035",
+   "homes": 200,
+   "federal_credit": 3091143,
+   "state_credit": 0
+  },
+  {
+   "name": "Overlook at Thornton",
+   "year": 2022,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 160,
+   "federal_credit": 3425457,
+   "state_credit": 0
+  },
+  {
+   "name": "Rally Apartments",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 100,
+   "federal_credit": 1778095,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Reserves at Eagle Point",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 192,
+   "federal_credit": 3276397,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Residences at Durango",
+   "year": 2022,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08067",
+   "homes": 120,
+   "federal_credit": 1322959,
+   "state_credit": 0
+  },
+  {
+   "name": "Residences on Acoma",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 128,
+   "federal_credit": 1619731,
+   "state_credit": 953024
+  },
+  {
+   "name": "Retreat at Brighton Ridge Homes",
+   "year": 2022,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 264,
+   "federal_credit": 4758924,
+   "state_credit": 0
+  },
+  {
+   "name": "RidgeGate Senior",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08035",
+   "homes": 101,
+   "federal_credit": 1845371,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Sable Station",
+   "year": 2022,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 154,
+   "federal_credit": 2197931,
+   "state_credit": 0
+  },
+  {
+   "name": "Smith Ranch Apartments",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08117",
+   "homes": 64,
+   "federal_credit": 1348613,
+   "state_credit": 300000
+  },
+  {
+   "name": "Spine Road Apartments",
+   "year": 2022,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 65,
+   "federal_credit": 973572,
+   "state_credit": 0
+  },
+  {
+   "name": "Warren Village III",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 89,
+   "federal_credit": 2484288,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Willoughby Corner Phase IB Family Apartments",
+   "year": 2022,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 129,
+   "federal_credit": 3099664,
+   "state_credit": 1000000
+  },
+  {
+   "name": "Bluebird Longmont",
+   "year": 2022,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08013",
+   "homes": 55,
+   "federal_credit": 653854,
+   "state_credit": 0
+  },
+  {
+   "name": "Brush Village II",
+   "year": 2022,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08087",
+   "homes": 45,
+   "federal_credit": 1292500,
+   "state_credit": 0
+  },
+  {
+   "name": "Fruita Mews",
+   "year": 2022,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08077",
+   "homes": 44,
+   "federal_credit": 1330877,
+   "state_credit": 0
+  },
+  {
+   "name": "Ives",
+   "year": 2022,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08059",
+   "homes": 49,
+   "federal_credit": 1210000,
+   "state_credit": 0
+  },
+  {
+   "name": "Launchpad Apartments",
+   "year": 2022,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08041",
+   "homes": 50,
+   "federal_credit": 1198000,
+   "state_credit": 0
+  },
+  {
+   "name": "Osborn",
+   "year": 2022,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08089",
+   "homes": 30,
+   "federal_credit": 930000,
+   "state_credit": 0
+  },
+  {
+   "name": "Puwagaan Kaan (Healing Home)",
+   "year": 2022,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08083",
+   "homes": 42,
+   "federal_credit": 1233450,
+   "state_credit": 0
+  },
+  {
+   "name": "Residences at Dry Cedar Creek",
+   "year": 2022,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08085",
+   "homes": 54,
+   "federal_credit": 1349678,
+   "state_credit": 0
+  },
+  {
+   "name": "SP Crossing",
+   "year": 2022,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08001",
+   "homes": 60,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "Silver Key Senior Apartments",
+   "year": 2022,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08041",
+   "homes": 50,
+   "federal_credit": 1312545,
+   "state_credit": 0
+  },
+  {
+   "name": "St. Stephen Apartments",
+   "year": 2022,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 50,
+   "federal_credit": 1255389,
+   "state_credit": 0
+  },
+  {
+   "name": "Willoughby Corner Phase IA Senior",
+   "year": 2022,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08013",
+   "homes": 63,
+   "federal_credit": 1350000,
+   "state_credit": 0
+  },
+  {
+   "name": "901 Navajo Street",
+   "year": 2023,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 190,
+   "federal_credit": 4381283,
+   "state_credit": 1100000
+  },
+  {
+   "name": "Albion Affordable Apartments",
+   "year": 2023,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 169,
+   "federal_credit": 3770714,
+   "state_credit": 1100000
+  },
+  {
+   "name": "Ascent at Hover Crossing",
+   "year": 2023,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 75,
+   "federal_credit": 1296664,
+   "state_credit": 1100000
+  },
+  {
+   "name": "Belmar Groves Apartments",
+   "year": 2023,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 118,
+   "federal_credit": 2296538,
+   "state_credit": 0
+  },
+  {
+   "name": "Chrysalis Apartments",
+   "year": 2023,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 70,
+   "federal_credit": 1138362,
+   "state_credit": 1100000
+  },
+  {
+   "name": "Denver Dry Goods",
+   "year": 2023,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 106,
+   "federal_credit": 2054386,
+   "state_credit": 1100000
+  },
+  {
+   "name": "Edge III",
+   "year": 2023,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 66,
+   "federal_credit": 918458,
+   "state_credit": 999389
+  },
+  {
+   "name": "Gateway Village",
+   "year": 2023,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08087",
+   "homes": 120,
+   "federal_credit": 2163996,
+   "state_credit": 949176
+  },
+  {
+   "name": "Hughes Station",
+   "year": 2023,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 120,
+   "federal_credit": 1185643,
+   "state_credit": 0
+  },
+  {
+   "name": "King's Crossing",
+   "year": 2023,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 178,
+   "federal_credit": 3595286,
+   "state_credit": 1100000
+  },
+  {
+   "name": "Overlook at Uplands",
+   "year": 2023,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 247,
+   "federal_credit": 3899895,
+   "state_credit": 0
+  },
+  {
+   "name": "Rendezvous",
+   "year": 2023,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08085",
+   "homes": 52,
+   "federal_credit": 958961,
+   "state_credit": 1100000
+  },
+  {
+   "name": "Residences at Willow Park",
+   "year": 2023,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 86,
+   "federal_credit": 1511893,
+   "state_credit": 0
+  },
+  {
+   "name": "Royal Pine Apartments",
+   "year": 2023,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08041",
+   "homes": 232,
+   "federal_credit": 3331272,
+   "state_credit": 0
+  },
+  {
+   "name": "Sophia",
+   "year": 2023,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08035",
+   "homes": 158,
+   "federal_credit": 2788896,
+   "state_credit": 0
+  },
+  {
+   "name": "Village at Homewood Point - Phase II",
+   "year": 2023,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08041",
+   "homes": 83,
+   "federal_credit": 1584411,
+   "state_credit": 1100000
+  },
+  {
+   "name": "10th and Sheridan",
+   "year": 2023,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 60,
+   "federal_credit": 1450000,
+   "state_credit": 0
+  },
+  {
+   "name": "Benedict",
+   "year": 2023,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08045",
+   "homes": 34,
+   "federal_credit": 1449710,
+   "state_credit": 0
+  },
+  {
+   "name": "Brigit's Village",
+   "year": 2023,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08123",
+   "homes": 40,
+   "federal_credit": 1420000,
+   "state_credit": 0
+  },
+  {
+   "name": "Diagonal Plaza",
+   "year": 2023,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08013",
+   "homes": 73,
+   "federal_credit": 1450000,
+   "state_credit": 0
+  },
+  {
+   "name": "Henninger Legacy Homes",
+   "year": 2023,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 60,
+   "federal_credit": 1450000,
+   "state_credit": 0
+  },
+  {
+   "name": "Jacoby Meadows",
+   "year": 2023,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08123",
+   "homes": 61,
+   "federal_credit": 1450000,
+   "state_credit": 0
+  },
+  {
+   "name": "Mineral Point",
+   "year": 2023,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08051",
+   "homes": 34,
+   "federal_credit": 1250000,
+   "state_credit": 0
+  },
+  {
+   "name": "Point of the Pines Villas*",
+   "year": 2023,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08041",
+   "homes": 30,
+   "federal_credit": 1144385,
+   "state_credit": 0
+  },
+  {
+   "name": "Rifle Apartments",
+   "year": 2023,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08045",
+   "homes": 60,
+   "federal_credit": 1450000,
+   "state_credit": 0
+  },
+  {
+   "name": "StarRise at North Weld Village",
+   "year": 2023,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08123",
+   "homes": 58,
+   "federal_credit": 1450000,
+   "state_credit": 0
+  },
+  {
+   "name": "Trails at Pagosa Springs",
+   "year": 2023,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08007",
+   "homes": 50,
+   "federal_credit": 1450000,
+   "state_credit": 0
+  },
+  {
+   "name": "Williams Pointe*",
+   "year": 2023,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08059",
+   "homes": 44,
+   "federal_credit": 1430242,
+   "state_credit": 0
+  },
+  {
+   "name": "4340 South Monaco",
+   "year": 2024,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 143,
+   "federal_credit": 2349010,
+   "state_credit": 1800000
+  },
+  {
+   "name": "Compass Pointe",
+   "year": 2024,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08101",
+   "homes": 192,
+   "federal_credit": 3618656,
+   "state_credit": 1800000
+  },
+  {
+   "name": "Creekside Flats",
+   "year": 2024,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 150,
+   "federal_credit": 2994139,
+   "state_credit": 1800000
+  },
+  {
+   "name": "Glenwood Gardens",
+   "year": 2024,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08045",
+   "homes": 80,
+   "federal_credit": 2127517,
+   "state_credit": 1800000
+  },
+  {
+   "name": "Grove in Bloom",
+   "year": 2024,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 264,
+   "federal_credit": 4730725,
+   "state_credit": 1714655
+  },
+  {
+   "name": "Harvest Hill",
+   "year": 2024,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08014",
+   "homes": 152,
+   "federal_credit": 2182105,
+   "state_credit": 800000
+  },
+  {
+   "name": "Jet Wing Flats",
+   "year": 2024,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08041",
+   "homes": 68,
+   "federal_credit": 1355280,
+   "state_credit": 1800000
+  },
+  {
+   "name": "Loretto Heights Family Apartments",
+   "year": 2024,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 100,
+   "federal_credit": 1965071,
+   "state_credit": 800000
+  },
+  {
+   "name": "Maiker Uplands",
+   "year": 2024,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 70,
+   "federal_credit": 1653187,
+   "state_credit": 1786024
+  },
+  {
+   "name": "Marshall Pointe Apartments",
+   "year": 2024,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 260,
+   "federal_credit": 5687557,
+   "state_credit": 700000
+  },
+  {
+   "name": "Stables",
+   "year": 2024,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 85,
+   "federal_credit": 2040378,
+   "state_credit": 1800000
+  },
+  {
+   "name": "Summit at Granby Apartments",
+   "year": 2024,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08049",
+   "homes": 66,
+   "federal_credit": 1505776,
+   "state_credit": 764007
+  },
+  {
+   "name": "Tiara Apartments",
+   "year": 2024,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 50,
+   "federal_credit": 877787,
+   "state_credit": 1330000
+  },
+  {
+   "name": "Vina Senior Residences",
+   "year": 2024,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 102,
+   "federal_credit": 1840510,
+   "state_credit": 800000
+  },
+  {
+   "name": "Weatherstone Apartments",
+   "year": 2024,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 204,
+   "federal_credit": 2959274,
+   "state_credit": 0
+  },
+  {
+   "name": "Annex",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08013",
+   "homes": 30,
+   "federal_credit": 961773,
+   "state_credit": 700000
+  },
+  {
+   "name": "Aster Place",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08045",
+   "homes": 58,
+   "federal_credit": 1450000,
+   "state_credit": 700000
+  },
+  {
+   "name": "Beeler Park Flats",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 64,
+   "federal_credit": 1410698,
+   "state_credit": 700000
+  },
+  {
+   "name": "Current",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08077",
+   "homes": 54,
+   "federal_credit": 1423913,
+   "state_credit": 700000
+  },
+  {
+   "name": "Grove at Cottonwood",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08014",
+   "homes": 40,
+   "federal_credit": 1400247,
+   "state_credit": 700000
+  },
+  {
+   "name": "Iliff Senior Apartments",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 50,
+   "federal_credit": 1396651,
+   "state_credit": 700000
+  },
+  {
+   "name": "Kappa Tower III",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 30,
+   "federal_credit": 941084,
+   "state_credit": 700000
+  },
+  {
+   "name": "Montview Flats",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08005",
+   "homes": 50,
+   "federal_credit": 1352727,
+   "state_credit": 700000
+  },
+  {
+   "name": "Range View",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08109",
+   "homes": 32,
+   "federal_credit": 1340823,
+   "state_credit": 700000
+  },
+  {
+   "name": "Residences at Delta II",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08029",
+   "homes": 50,
+   "federal_credit": 1449981,
+   "state_credit": 700000
+  },
+  {
+   "name": "Sanctuary on Potomac",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08005",
+   "homes": 43,
+   "federal_credit": 1408140,
+   "state_credit": 700000
+  },
+  {
+   "name": "Sunrise at Shiloh Mesa",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08041",
+   "homes": 50,
+   "federal_credit": 1377143,
+   "state_credit": 700000
+  },
+  {
+   "name": "Tax Credit* Paired with 4% Viña Senior Residences",
+   "year": 2024,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 50,
+   "federal_credit": 1333863,
+   "state_credit": 700000
+  },
+  {
+   "name": "1001 Lincoln Street",
+   "year": 2025,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 118,
+   "federal_credit": 2053643,
+   "state_credit": 1800000
+  },
+  {
+   "name": "1139 Delaware Street",
+   "year": 2025,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 80,
+   "federal_credit": 1640385,
+   "state_credit": 1800000
+  },
+  {
+   "name": "34th Street",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 44,
+   "federal_credit": 1448752,
+   "state_credit": 440000
+  },
+  {
+   "name": "4965 Washington Street",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 170,
+   "federal_credit": 5754471,
+   "state_credit": 0
+  },
+  {
+   "name": "Ascent at Salt Flats",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08077",
+   "homes": 144,
+   "federal_credit": 2114729,
+   "state_credit": 700000
+  },
+  {
+   "name": "Atwood Commons",
+   "year": 2025,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 72,
+   "federal_credit": 1386621,
+   "state_credit": 1733276
+  },
+  {
+   "name": "Bradley Ridge",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08041",
+   "homes": 336,
+   "federal_credit": 7005107,
+   "state_credit": 0
+  },
+  {
+   "name": "Central Park Station Phase I",
+   "year": 2025,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 156,
+   "federal_credit": 3153663,
+   "state_credit": 1800000
+  },
+  {
+   "name": "Cole Train",
+   "year": 2025,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 63,
+   "federal_credit": 887121,
+   "state_credit": 1108901
+  },
+  {
+   "name": "Crossbar Commons",
+   "year": 2025,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 104,
+   "federal_credit": 2072238,
+   "state_credit": 1800000
+  },
+  {
+   "name": "Dawson Square",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 35,
+   "federal_credit": 860347,
+   "state_credit": 0
+  },
+  {
+   "name": "Eagle Villas",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08037",
+   "homes": 120,
+   "federal_credit": 2771093,
+   "state_credit": 0
+  },
+  {
+   "name": "Flats at Sand Creek",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08041",
+   "homes": 144,
+   "federal_credit": 3015572,
+   "state_credit": 0
+  },
+  {
+   "name": "Green Valley Vistas",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 156,
+   "federal_credit": 2683018,
+   "state_credit": 0
+  },
+  {
+   "name": "Ives II 4",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 43,
+   "federal_credit": 772287,
+   "state_credit": 650000
+  },
+  {
+   "name": "Link and Pin",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 150,
+   "federal_credit": 2827116,
+   "state_credit": 700000
+  },
+  {
+   "name": "Montview Heights",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 50,
+   "federal_credit": 1460642,
+   "state_credit": 0
+  },
+  {
+   "name": "Ponderosa Pines",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08035",
+   "homes": 204,
+   "federal_credit": 4442978,
+   "state_credit": 700000
+  },
+  {
+   "name": "Squire Village",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 50,
+   "federal_credit": 1144109,
+   "state_credit": 0
+  },
+  {
+   "name": "Sugar Commons",
+   "year": 2025,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08075",
+   "homes": 54,
+   "federal_credit": 1059696,
+   "state_credit": 1324619
+  },
+  {
+   "name": "Tiffany Square",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 51,
+   "federal_credit": 1123495,
+   "state_credit": 0
+  },
+  {
+   "name": "Townview Phase I",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 160,
+   "federal_credit": 2550233,
+   "state_credit": 700000
+  },
+  {
+   "name": "University Building Lofts",
+   "year": 2025,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 120,
+   "federal_credit": 3098211,
+   "state_credit": 1800000
+  },
+  {
+   "name": "Village on Eastbrook",
+   "year": 2025,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 73,
+   "federal_credit": 1251131,
+   "state_credit": 1800000
+  },
+  {
+   "name": "Windtrail Park",
+   "year": 2025,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 50,
+   "federal_credit": 835124,
+   "state_credit": 0
+  },
+  {
+   "name": "101 Main",
+   "year": 2025,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08117",
+   "homes": 52,
+   "federal_credit": 1600000,
+   "state_credit": 650000
+  },
+  {
+   "name": "Arapahoe PSH",
+   "year": 2025,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08005",
+   "homes": 60,
+   "federal_credit": 1600000,
+   "state_credit": 650000
+  },
+  {
+   "name": "Blossom Commons",
+   "year": 2025,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08059",
+   "homes": 50,
+   "federal_credit": 1600000,
+   "state_credit": 650000
+  },
+  {
+   "name": "Kite Route Crossing",
+   "year": 2025,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08013",
+   "homes": 50,
+   "federal_credit": 1600000,
+   "state_credit": 650000
+  },
+  {
+   "name": "Marq",
+   "year": 2025,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08071",
+   "homes": 40,
+   "federal_credit": 1597195,
+   "state_credit": 650000
+  },
+  {
+   "name": "Park Avenue Apartments",
+   "year": 2025,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 60,
+   "federal_credit": 1600000,
+   "state_credit": 650000
+  },
+  {
+   "name": "Ravenfield",
+   "year": 2025,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08001",
+   "homes": 46,
+   "federal_credit": 1600000,
+   "state_credit": 650000
+  },
+  {
+   "name": "Rita Bass Apartments",
+   "year": 2025,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 60,
+   "federal_credit": 1600000,
+   "state_credit": 650000
+  },
+  {
+   "name": "Switchgrass Crossing",
+   "year": 2025,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08069",
+   "homes": 45,
+   "federal_credit": 1600000,
+   "state_credit": 650000
+  },
+  {
+   "name": "Tapestry LIHTC",
+   "year": 2025,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 72,
+   "federal_credit": 1600000,
+   "state_credit": 650000
+  },
+  {
+   "name": "Tax Credit Paired with 4% Ives II",
+   "year": 2025,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08059",
+   "homes": 54,
+   "federal_credit": 1600000,
+   "state_credit": 650000
+  },
+  {
+   "name": "Tierra Azul",
+   "year": 2025,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08003",
+   "homes": 46,
+   "federal_credit": 1600000,
+   "state_credit": 650000
+  },
+  {
+   "name": "4745 N Federal Blvd",
+   "year": 2026,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 109,
+   "federal_credit": 1996411,
+   "state_credit": 1900000
+  },
+  {
+   "name": "Alpine Balsam",
+   "year": 2026,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 55,
+   "federal_credit": 1577561,
+   "state_credit": 1300000
+  },
+  {
+   "name": "Baseline Family Apartments",
+   "year": 2026,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08014",
+   "homes": 169,
+   "federal_credit": 3660723,
+   "state_credit": 1300000
+  },
+  {
+   "name": "Castleton Heights",
+   "year": 2026,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08035",
+   "homes": 80,
+   "federal_credit": 1711780,
+   "state_credit": 1900000
+  },
+  {
+   "name": "Cedar Gardens",
+   "year": 2026,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08059",
+   "homes": 84,
+   "federal_credit": 1951562,
+   "state_credit": 1900000
+  },
+  {
+   "name": "Fairbrooke Heights (scattered site)",
+   "year": 2026,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 36,
+   "federal_credit": 472920,
+   "state_credit": 0
+  },
+  {
+   "name": "FloCrit at Decatur Place",
+   "year": 2026,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 106,
+   "federal_credit": 2429327,
+   "state_credit": 0
+  },
+  {
+   "name": "Greenbriar Apartments (scattered",
+   "year": 2026,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08069",
+   "homes": 40,
+   "federal_credit": 888029,
+   "state_credit": 0
+  },
+  {
+   "name": "Gregory",
+   "year": 2026,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08035",
+   "homes": 165,
+   "federal_credit": 3212404,
+   "state_credit": 0
+  },
+  {
+   "name": "Haven at Salt Flats",
+   "year": 2026,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08077",
+   "homes": 62,
+   "federal_credit": 1285707,
+   "state_credit": 1900000
+  },
+  {
+   "name": "Metro Caring Housing",
+   "year": 2026,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08031",
+   "homes": 139,
+   "federal_credit": 4096657,
+   "state_credit": 1900000
+  },
+  {
+   "name": "Mountain View Plaza (scattered site)",
+   "year": 2026,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 80,
+   "federal_credit": 1427524,
+   "state_credit": 0
+  },
+  {
+   "name": "Parkside Apartments (scattered site)",
+   "year": 2026,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08013",
+   "homes": 50,
+   "federal_credit": 880917,
+   "state_credit": 0
+  },
+  {
+   "name": "Reserve at South Creek",
+   "year": 2026,
+   "round": null,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 166,
+   "federal_credit": 2919135,
+   "state_credit": 0
+  },
+  {
+   "name": "Stanley 98",
+   "year": 2026,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08001",
+   "homes": 75,
+   "federal_credit": 1836829,
+   "state_credit": 1900000
+  },
+  {
+   "name": "Starlight",
+   "year": 2026,
+   "round": 2,
+   "program": "LIHTC 4% + state",
+   "county_fips": "08005",
+   "homes": 72,
+   "federal_credit": 1550888,
+   "state_credit": 1900000
+  },
+  {
+   "name": "123 Manitou",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08041",
+   "homes": 50,
+   "federal_credit": 1613506,
+   "state_credit": 500000
+  },
+  {
+   "name": "Barth Hotel",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 50,
+   "federal_credit": 1450000,
+   "state_credit": 500000
+  },
+  {
+   "name": "Cedar Creek Commons",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08085",
+   "homes": 36,
+   "federal_credit": 1589628,
+   "state_credit": 0
+  },
+  {
+   "name": "Crawford Commons",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08077",
+   "homes": 60,
+   "federal_credit": 1800000,
+   "state_credit": 500000
+  },
+  {
+   "name": "Crossroads at Divide",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08119",
+   "homes": 36,
+   "federal_credit": 1800000,
+   "state_credit": 500000
+  },
+  {
+   "name": "GardenWalk of Cañon City",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08043",
+   "homes": 42,
+   "federal_credit": 1800000,
+   "state_credit": 500000
+  },
+  {
+   "name": "Grove at Pinewood",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08005",
+   "homes": 49,
+   "federal_credit": 1800000,
+   "state_credit": 500000
+  },
+  {
+   "name": "Metro Center Apartments",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08005",
+   "homes": 58,
+   "federal_credit": 1800000,
+   "state_credit": 500000
+  },
+  {
+   "name": "Montbello Townhomes",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 39,
+   "federal_credit": 1800000,
+   "state_credit": 500000
+  },
+  {
+   "name": "SH Commons at Mosaic",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08031",
+   "homes": 58,
+   "federal_credit": 1800000,
+   "state_credit": 500000
+  },
+  {
+   "name": "Silver Key Apartments at North",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08041",
+   "homes": 49,
+   "federal_credit": 1697491,
+   "state_credit": 500000
+  },
+  {
+   "name": "Ute Mountain Homes I",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08083",
+   "homes": 15,
+   "federal_credit": 1196414,
+   "state_credit": 0
+  },
+  {
+   "name": "Wildflower Flats",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08123",
+   "homes": 60,
+   "federal_credit": 1780000,
+   "state_credit": 500000
+  },
+  {
+   "name": "Willoughby Corner Phase 2",
+   "year": 2026,
+   "round": 1,
+   "program": "LIHTC 9% + state",
+   "county_fips": "08013",
+   "homes": 32,
+   "federal_credit": 1582767,
+   "state_credit": 500000
+  }
+ ],
+ "bond_deals_outside_rounds": [
+  {
+   "name": "Aspen Country Inn II",
+   "county_fips": "08097",
+   "award_year": 2016,
+   "homes": 40,
+   "chfa_record_id": 1074
+  },
+  {
+   "name": "Congress Park Commons",
+   "county_fips": "08031",
+   "award_year": 2016,
+   "homes": 32,
+   "chfa_record_id": 337
+  },
+  {
+   "name": "Copper Range Apartments",
+   "county_fips": "08041",
+   "award_year": 2016,
+   "homes": 237,
+   "chfa_record_id": 827
+  },
+  {
+   "name": "Kentucky Circle Village",
+   "county_fips": "08031",
+   "award_year": 2016,
+   "homes": 147,
+   "chfa_record_id": 529
+  },
+  {
+   "name": "Manors I and II",
+   "county_fips": "08045",
+   "award_year": 2016,
+   "homes": 76,
+   "chfa_record_id": 1069
+  },
+  {
+   "name": "Marcella",
+   "county_fips": "08059",
+   "award_year": 2016,
+   "homes": 206,
+   "chfa_record_id": 24
+  },
+  {
+   "name": "Martinez Park & Nettie Moore Apartments",
+   "county_fips": "08031",
+   "award_year": 2016,
+   "homes": 45,
+   "chfa_record_id": 269
+  },
+  {
+   "name": "Maryel Manor Apartments",
+   "county_fips": "08014",
+   "award_year": 2016,
+   "homes": 50,
+   "chfa_record_id": 89
+  },
+  {
+   "name": "North Range Crossings",
+   "county_fips": "08001",
+   "award_year": 2016,
+   "homes": 216,
+   "chfa_record_id": 98
+  },
+  {
+   "name": "Sable Ridge Apartments",
+   "county_fips": "08031",
+   "award_year": 2016,
+   "homes": 60,
+   "chfa_record_id": 524
+  },
+  {
+   "name": "Shorter Arms",
+   "county_fips": "08031",
+   "award_year": 2016,
+   "homes": 41,
+   "chfa_record_id": 304
+  },
+  {
+   "name": "Whitney Young Manor",
+   "county_fips": "08041",
+   "award_year": 2016,
+   "homes": 198,
+   "chfa_record_id": 849
+  },
+  {
+   "name": "William Tell Apartments",
+   "county_fips": "08031",
+   "award_year": 2016,
+   "homes": 81,
+   "chfa_record_id": 406
+  },
+  {
+   "name": "Willow Street Residences II",
+   "county_fips": "08005",
+   "award_year": 2016,
+   "homes": 80,
+   "chfa_record_id": 535
+  },
+  {
+   "name": "Woodlands Apartments",
+   "county_fips": "08069",
+   "award_year": 2016,
+   "homes": 115,
+   "chfa_record_id": 714
+  },
+  {
+   "name": "Woodside Village",
+   "county_fips": "08123",
+   "award_year": 2016,
+   "homes": 160,
+   "chfa_record_id": 776
+  },
+  {
+   "name": "Baker School Apartments",
+   "county_fips": "08001",
+   "award_year": 2017,
+   "homes": 142,
+   "chfa_record_id": 443
+  },
+  {
+   "name": "Copper Stone Apartments",
+   "county_fips": "08013",
+   "award_year": 2017,
+   "homes": 257,
+   "chfa_record_id": 119
+  },
+  {
+   "name": "Corwood Square Correll Apartments",
+   "county_fips": "08013",
+   "award_year": 2017,
+   "homes": 21,
+   "chfa_record_id": 575
+  },
+  {
+   "name": "Corwood Square Pinewood Apartments",
+   "county_fips": "08013",
+   "award_year": 2017,
+   "homes": 23,
+   "chfa_record_id": 573
+  },
+  {
+   "name": "Corwood Square Valmont Square",
+   "county_fips": "08013",
+   "award_year": 2017,
+   "homes": 36,
+   "chfa_record_id": 556
+  },
+  {
+   "name": "East Range Crossings",
+   "county_fips": "08031",
+   "award_year": 2017,
+   "homes": 251,
+   "chfa_record_id": 544
+  },
+  {
+   "name": "Eaton Street Apartments",
+   "county_fips": "08059",
+   "award_year": 2017,
+   "homes": 118,
+   "chfa_record_id": 135
+  },
+  {
+   "name": "Holly Park Apartments",
+   "county_fips": "08001",
+   "award_year": 2017,
+   "homes": 168,
+   "chfa_record_id": 100
+  },
+  {
+   "name": "Lakeview on the Rise",
+   "county_fips": "08069",
+   "award_year": 2017,
+   "homes": 180,
+   "chfa_record_id": 694
+  },
+  {
+   "name": "Larkridge Apartments",
+   "county_fips": "08001",
+   "award_year": 2017,
+   "homes": 338,
+   "chfa_record_id": 113
+  },
+  {
+   "name": "Moline at Stapleton Apartments",
+   "county_fips": "08031",
+   "award_year": 2017,
+   "homes": 180,
+   "chfa_record_id": 597
+  },
+  {
+   "name": "Northern Hotel Apartments",
+   "county_fips": "08069",
+   "award_year": 2017,
+   "homes": 47,
+   "chfa_record_id": 685
+  },
+  {
+   "name": "Quayle",
+   "county_fips": "08031",
+   "award_year": 2017,
+   "homes": 102,
+   "chfa_record_id": 465
+  },
+  {
+   "name": "Sienna on Sloans",
+   "county_fips": "08031",
+   "award_year": 2017,
+   "homes": 49,
+   "chfa_record_id": 267
+  },
+  {
+   "name": "Sierra Vista Apartments",
+   "county_fips": "08005",
+   "award_year": 2017,
+   "homes": 209,
+   "chfa_record_id": 538
+  },
+  {
+   "name": "South Range Crossings",
+   "county_fips": "08035",
+   "award_year": 2017,
+   "homes": 204,
+   "chfa_record_id": 192
+  },
+  {
+   "name": "Villas at Wadsworth Station",
+   "county_fips": "08059",
+   "award_year": 2017,
+   "homes": 100,
+   "chfa_record_id": 369
+  },
+  {
+   "name": "Apex Meridian II",
+   "county_fips": "08035",
+   "award_year": 2018,
+   "homes": 155,
+   "chfa_record_id": 166
+  },
+  {
+   "name": "Aspen Meadows Aurora",
+   "county_fips": "08005",
+   "award_year": 2018,
+   "homes": 100,
+   "chfa_record_id": 63
+  },
+  {
+   "name": "Bustop",
+   "county_fips": "08013",
+   "award_year": 2018,
+   "homes": 53,
+   "chfa_record_id": 591
+  },
+  {
+   "name": "Capitol Hill Apartments",
+   "county_fips": "08031",
+   "award_year": 2018,
+   "homes": 62,
+   "chfa_record_id": 235
+  },
+  {
+   "name": "Ciclo Apartments",
+   "county_fips": "08013",
+   "award_year": 2018,
+   "homes": 38,
+   "chfa_record_id": 561
+  },
+  {
+   "name": "Colorado 7 Cielo Vista",
+   "county_fips": "08109",
+   "award_year": 2018,
+   "homes": 24,
+   "chfa_record_id": 950
+  },
+  {
+   "name": "Colorado 7 Gomez Manor",
+   "county_fips": "08021",
+   "award_year": 2018,
+   "homes": 16,
+   "chfa_record_id": 947
+  },
+  {
+   "name": "Colorado 7 Guadalupe Hacienda",
+   "county_fips": "08021",
+   "award_year": 2018,
+   "homes": 24,
+   "chfa_record_id": 945
+  },
+  {
+   "name": "Colorado 7 Mount Blanca View",
+   "county_fips": "08003",
+   "award_year": 2018,
+   "homes": 50,
+   "chfa_record_id": 940
+  },
+  {
+   "name": "Colorado 7 Sangre De Cristo",
+   "county_fips": "08109",
+   "award_year": 2018,
+   "homes": 16,
+   "chfa_record_id": 952
+  },
+  {
+   "name": "Colorado 7 Valle Vista",
+   "county_fips": "08109",
+   "award_year": 2018,
+   "homes": 20,
+   "chfa_record_id": 954
+  },
+  {
+   "name": "Connections at 6th",
+   "county_fips": "08005",
+   "award_year": 2018,
+   "homes": 68,
+   "chfa_record_id": 62
+  },
+  {
+   "name": "Ellipse Apartments",
+   "county_fips": "08013",
+   "award_year": 2018,
+   "homes": 105,
+   "chfa_record_id": 562
+  },
+  {
+   "name": "Golden West Communities Senior",
+   "county_fips": "08013",
+   "award_year": 2018,
+   "homes": 253,
+   "chfa_record_id": 577
+  },
+  {
+   "name": "Kearney Plaza",
+   "county_fips": "08001",
+   "award_year": 2018,
+   "homes": 50,
+   "chfa_record_id": 103
+  },
+  {
+   "name": "Meadows II",
+   "county_fips": "08069",
+   "award_year": 2018,
+   "homes": 59,
+   "chfa_record_id": 725
+  },
+  {
+   "name": "Park Terrace Apartments",
+   "county_fips": "08059",
+   "award_year": 2018,
+   "homes": 95,
+   "chfa_record_id": 12
+  },
+  {
+   "name": "Reserve at Northglenn",
+   "county_fips": "08001",
+   "award_year": 2018,
+   "homes": 260,
+   "chfa_record_id": 495
+  },
+  {
+   "name": "Spring Creek Gypsum",
+   "county_fips": "08037",
+   "award_year": 2018,
+   "homes": 150,
+   "chfa_record_id": 1087
+  },
+  {
+   "name": "St Mark Village",
+   "county_fips": "08001",
+   "award_year": 2018,
+   "homes": 215,
+   "chfa_record_id": 131
+  },
+  {
+   "name": "Village Crest Apartments",
+   "county_fips": "08001",
+   "award_year": 2018,
+   "homes": 120,
+   "chfa_record_id": 105
+  },
+  {
+   "name": "Aurora Homes",
+   "county_fips": "08005",
+   "award_year": 2019,
+   "homes": 54,
+   "chfa_record_id": 26
+  },
+  {
+   "name": "Casa Del Sol",
+   "county_fips": "08101",
+   "award_year": 2019,
+   "homes": 154,
+   "chfa_record_id": 883
+  },
+  {
+   "name": "Centennial Crossings",
+   "county_fips": "08005",
+   "award_year": 2019,
+   "homes": 209,
+   "chfa_record_id": 82
+  },
+  {
+   "name": "Charity's House Apartments",
+   "county_fips": "08031",
+   "award_year": 2019,
+   "homes": 36,
+   "chfa_record_id": 321
+  },
+  {
+   "name": "Clare Gardens",
+   "county_fips": "08031",
+   "award_year": 2019,
+   "homes": 128,
+   "chfa_record_id": 364
+  },
+  {
+   "name": "Denver Metro Village",
+   "county_fips": "08031",
+   "award_year": 2019,
+   "homes": 210,
+   "chfa_record_id": 254
+  },
+  {
+   "name": "Eiber Village at Garrison Station",
+   "county_fips": "08059",
+   "award_year": 2019,
+   "homes": 49,
+   "chfa_record_id": 383
+  },
+  {
+   "name": "Fields on 15th",
+   "county_fips": "08013",
+   "award_year": 2019,
+   "homes": 88,
+   "chfa_record_id": 661
+  },
+  {
+   "name": "Glen Willow Apartments",
+   "county_fips": "08013",
+   "award_year": 2019,
+   "homes": 34,
+   "chfa_record_id": 572
+  },
+  {
+   "name": "Landing",
+   "county_fips": "08001",
+   "award_year": 2019,
+   "homes": 223,
+   "chfa_record_id": 107
+  },
+  {
+   "name": "Lyons Valley Townhomes",
+   "county_fips": "08013",
+   "award_year": 2019,
+   "homes": 40,
+   "chfa_record_id": 746
+  },
+  {
+   "name": "Notable",
+   "county_fips": "08059",
+   "award_year": 2019,
+   "homes": 218,
+   "chfa_record_id": 602
+  },
+  {
+   "name": "Pancratia Hall Lofts",
+   "county_fips": "08031",
+   "award_year": 2019,
+   "homes": 74,
+   "chfa_record_id": 505
+  },
+  {
+   "name": "Park Avenue West Apartments",
+   "county_fips": "08031",
+   "award_year": 2019,
+   "homes": 122,
+   "chfa_record_id": 334
+  },
+  {
+   "name": "Range View Apartments",
+   "county_fips": "08001",
+   "award_year": 2019,
+   "homes": 220,
+   "chfa_record_id": 46
+  },
+  {
+   "name": "Reserves at Green Valley Ranch",
+   "county_fips": "08031",
+   "award_year": 2019,
+   "homes": 144,
+   "chfa_record_id": 542
+  },
+  {
+   "name": "Sheridan Gardens",
+   "county_fips": "08031",
+   "award_year": 2019,
+   "homes": 48,
+   "chfa_record_id": 158
+  },
+  {
+   "name": "Stella",
+   "county_fips": "08031",
+   "award_year": 2019,
+   "homes": 131,
+   "chfa_record_id": 400
+  },
+  {
+   "name": "Traditions at Lafayette",
+   "county_fips": "08013",
+   "award_year": 2019,
+   "homes": 131,
+   "chfa_record_id": 115
+  },
+  {
+   "name": "West End Communties Canyon Pointe",
+   "county_fips": "08013",
+   "award_year": 2019,
+   "homes": 80,
+   "chfa_record_id": 574
+  },
+  {
+   "name": "Winfield Apartments",
+   "county_fips": "08041",
+   "award_year": 2019,
+   "homes": 160,
+   "chfa_record_id": 867
+  },
+  {
+   "name": "Alpine Vista Apartments",
+   "county_fips": "08041",
+   "award_year": 2020,
+   "homes": 242,
+   "chfa_record_id": 870
+  },
+  {
+   "name": "Aspen Meadows Apartments",
+   "county_fips": "08013",
+   "award_year": 2020,
+   "homes": 50,
+   "chfa_record_id": 658
+  },
+  {
+   "name": "Atlantis Apartments II",
+   "county_fips": "08031",
+   "award_year": 2020,
+   "homes": 84,
+   "chfa_record_id": 464
+  },
+  {
+   "name": "Audrey",
+   "county_fips": "08035",
+   "award_year": 2020,
+   "homes": 134,
+   "chfa_record_id": 189
+  },
+  {
+   "name": "Caesar Square",
+   "county_fips": "08059",
+   "award_year": 2020,
+   "homes": 108,
+   "chfa_record_id": 142
+  },
+  {
+   "name": "Creek at Cottonwood",
+   "county_fips": "08041",
+   "award_year": 2020,
+   "homes": 258,
+   "chfa_record_id": 875
+  },
+  {
+   "name": "Crossing Pointe South",
+   "county_fips": "08001",
+   "award_year": 2020,
+   "homes": 142,
+   "chfa_record_id": 498
+  },
+  {
+   "name": "Grace Apartments",
+   "county_fips": "08031",
+   "award_year": 2020,
+   "homes": 53,
+   "chfa_record_id": 438
+  },
+  {
+   "name": "Madison and Woodlands",
+   "county_fips": "08013",
+   "award_year": 2020,
+   "homes": 68,
+   "chfa_record_id": 593
+  },
+  {
+   "name": "Meadows Townhomes",
+   "county_fips": "08123",
+   "award_year": 2020,
+   "homes": 51,
+   "chfa_record_id": 769
+  },
+  {
+   "name": "Swallow Road",
+   "county_fips": "08069",
+   "award_year": 2020,
+   "homes": 84,
+   "chfa_record_id": 716
+  },
+  {
+   "name": "Tamarin Square",
+   "county_fips": "08067",
+   "award_year": 2020,
+   "homes": 68,
+   "chfa_record_id": 998
+  },
+  {
+   "name": "Academy Heights",
+   "county_fips": "08041",
+   "award_year": 2021,
+   "homes": 199,
+   "chfa_record_id": 847
+  },
+  {
+   "name": "Apex South",
+   "county_fips": "08035",
+   "award_year": 2021,
+   "homes": 208,
+   "chfa_record_id": 168
+  },
+  {
+   "name": "Brookstone Apartments",
+   "county_fips": "08069",
+   "award_year": 2021,
+   "homes": 71,
+   "chfa_record_id": 733
+  },
+  {
+   "name": "Casa Redonda de Vigil",
+   "county_fips": "08001",
+   "award_year": 2021,
+   "homes": 42,
+   "chfa_record_id": 440
+  },
+  {
+   "name": "Central Park III",
+   "county_fips": "08031",
+   "award_year": 2021,
+   "homes": 127,
+   "chfa_record_id": 514
+  },
+  {
+   "name": "Coachlight Apartments",
+   "county_fips": "08069",
+   "award_year": 2021,
+   "homes": 68,
+   "chfa_record_id": 684
+  },
+  {
+   "name": "Copper Platte Apartments",
+   "county_fips": "08123",
+   "award_year": 2021,
+   "homes": 221,
+   "chfa_record_id": 779
+  },
+  {
+   "name": "Crisman II Apartments",
+   "county_fips": "08123",
+   "award_year": 2021,
+   "homes": 83,
+   "chfa_record_id": 657
+  },
+  {
+   "name": "Crosswinds at Arista",
+   "county_fips": "08014",
+   "award_year": 2021,
+   "homes": 158,
+   "chfa_record_id": 97
+  },
+  {
+   "name": "Draper Commons",
+   "county_fips": "08041",
+   "award_year": 2021,
+   "homes": 95,
+   "chfa_record_id": 823
+  },
+  {
+   "name": "Forum Apartments",
+   "county_fips": "08031",
+   "award_year": 2021,
+   "homes": 100,
+   "chfa_record_id": 260
+  },
+  {
+   "name": "Immaculata Plaza",
+   "county_fips": "08123",
+   "award_year": 2021,
+   "homes": 55,
+   "chfa_record_id": 782
+  },
+  {
+   "name": "Interquest Ridge",
+   "county_fips": "08041",
+   "award_year": 2021,
+   "homes": 240,
+   "chfa_record_id": 841
+  },
+  {
+   "name": "Karl's Farm Apartments",
+   "county_fips": "08001",
+   "award_year": 2021,
+   "homes": 162,
+   "chfa_record_id": 528
+  },
+  {
+   "name": "Madison Avenue Apartments",
+   "county_fips": "08069",
+   "award_year": 2021,
+   "homes": 58,
+   "chfa_record_id": 730
+  },
+  {
+   "name": "Northfield Commons",
+   "county_fips": "08069",
+   "award_year": 2021,
+   "homes": 84,
+   "chfa_record_id": 690
+  },
+  {
+   "name": "Off Broadway Lofts",
+   "county_fips": "08031",
+   "award_year": 2021,
+   "homes": 80,
+   "chfa_record_id": 298
+  },
+  {
+   "name": "Pascal Gardens",
+   "county_fips": "08031",
+   "award_year": 2021,
+   "homes": 216,
+   "chfa_record_id": 466
+  },
+  {
+   "name": "San Juan Apartments",
+   "county_fips": "08085",
+   "award_year": 2021,
+   "homes": 76,
+   "chfa_record_id": 1023
+  },
+  {
+   "name": "Tantra Lake Apartments",
+   "county_fips": "08013",
+   "award_year": 2021,
+   "homes": 185,
+   "chfa_record_id": 594
+  },
+  {
+   "name": "Walden 35",
+   "county_fips": "08001",
+   "award_year": 2021,
+   "homes": 100,
+   "chfa_record_id": 60
+  },
+  {
+   "name": "Wildhorse Ridge",
+   "county_fips": "08031",
+   "award_year": 2021,
+   "homes": 119,
+   "chfa_record_id": 543
+  },
+  {
+   "name": "Copper Rose",
+   "county_fips": "08041",
+   "award_year": 2022,
+   "homes": 180,
+   "chfa_record_id": 873
+  },
+  {
+   "name": "Monument Ridge Townhomes",
+   "county_fips": "08077",
+   "award_year": 2022,
+   "homes": 165,
+   "chfa_record_id": 1053
+  },
+  {
+   "name": "Northfield Flats",
+   "county_fips": "08031",
+   "award_year": 2022,
+   "homes": 129,
+   "chfa_record_id": 516
+  },
+  {
+   "name": "Presbyterian Manor",
+   "county_fips": "08013",
+   "award_year": 2022,
+   "homes": 75,
+   "chfa_record_id": 567
+  },
+  {
+   "name": "Ruby Vista",
+   "county_fips": "08031",
+   "award_year": 2022,
+   "homes": 97,
+   "chfa_record_id": 458
+  },
+  {
+   "name": "St. Francis Center West",
+   "county_fips": "08031",
+   "award_year": 2022,
+   "homes": 60,
+   "chfa_record_id": 414
+  },
+  {
+   "name": "Western Apartments",
+   "county_fips": "08071",
+   "award_year": 2022,
+   "homes": 60,
+   "chfa_record_id": 934
+  },
+  {
+   "name": "Windsor Court",
+   "county_fips": "08005",
+   "award_year": 2022,
+   "homes": 143,
+   "chfa_record_id": 35
+  },
+  {
+   "name": "Arvada House",
+   "county_fips": "08059",
+   "award_year": 2023,
+   "homes": 88,
+   "chfa_record_id": 22
+  },
+  {
+   "name": "Junction 72",
+   "county_fips": "08001",
+   "award_year": 2023,
+   "homes": 93,
+   "chfa_record_id": 111
+  },
+  {
+   "name": "Village on Impala",
+   "county_fips": "08069",
+   "award_year": 2023,
+   "homes": 86,
+   "chfa_record_id": 680
+  },
+  {
+   "name": "Village on Main",
+   "county_fips": "08013",
+   "award_year": 2023,
+   "homes": 71,
+   "chfa_record_id": 654
+  },
+  {
+   "name": "Glennpark Village",
+   "county_fips": "08001",
+   "award_year": 2024,
+   "homes": 26,
+   "chfa_record_id": 493
+  }
+ ]
 }

@@ -8,12 +8,17 @@
 //                                            outside its rounds (CHFA tax credit property list, matched to
 //                                            the award reports by matchBondDeals, as Funding vs Need does)
 //   data/boundaries/counties_co.geojson      the 64 county names
-// Every number in the brief is computed here, so a data change cannot leave the
-// prose or a table stale. The words are written here too.
+// It works in two steps, so a weekly data refresh cannot leave the brief stale:
+//   --refresh  recomputes the dated snapshot data/policy/credit-geography.json from
+//              the inputs above, with the awards and bond deals it counted listed in it;
+//   (default)  builds the brief from that snapshot alone.
+// Every number in the brief comes from the snapshot, and the words are written here.
+// Refresh when CHFA announces a round or ACS publishes a new 5-year release.
 //
 // Usage:
-//   node scripts/policy/build_credit_geography_brief.mjs           write
-//   node scripts/policy/build_credit_geography_brief.mjs --check   fail if the committed files differ
+//   node scripts/policy/build_credit_geography_brief.mjs --refresh   recompute the snapshot, then the brief
+//   node scripts/policy/build_credit_geography_brief.mjs             rebuild the brief from the snapshot
+//   node scripts/policy/build_credit_geography_brief.mjs --check     fail if the committed brief differs
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -155,18 +160,25 @@ export function compute(ledger, demo, props, counties) {
       }
     }
   }
-  return { C, R, T, regionOrder, front, rest, byYear, repeats, skipped, returned, years, bond: { candidates: bond.candidates, matched: bond.matched.length, added: bondUsed, feedLastYear: Math.max(...props.features.map((f) => f.properties?.AwardYear).filter(Number.isInteger)) } };
+  return { C, R, T, regionOrder, front, rest, byYear, repeats, skipped, returned, years, used, bond: { candidates: bond.candidates, matched: bond.matched.length, added: bondUsed, feedLastYear: Math.max(...props.features.map((f) => f.properties?.AwardYear).filter(Number.isInteger)) } };
 }
 
-export function dataFile(x, ledger, demo) {
+export function dataFile(x, ledger, demo, verified) {
+  const y0 = x.years[0];
+  const homes = (a) => a.restricted_units ?? a.total_units ?? 0;
   return {
     metadata: {
+      verified,
       title: "Where Colorado's housing tax credits go, 2016-2026",
       generator: 'scripts/policy/build_credit_geography_brief.mjs',
       awards_source: LEDGER,
       awards_generated_at: ledger.meta.generated_at,
       need_source: DEMO,
       need_vintage: `ACS ${demo.meta?.dataset || '5-year'}`,
+      acs_year: demo.statewide?.acs_year ?? null,
+      feed_last_award_year: x.bond.feedLastYear,
+      report_links_9pct: [...new Map(ledger.awards.filter((a) => /^LIHTC 9%/.test(a.program) && a.year >= y0).map((a) => [a.year, a.source_url])).entries()]
+        .sort((a, b) => a[0] - b[0]).map(([year, link]) => ({ year, link })),
       region_source: PROPS,
       years: [x.years[0], x.years[x.years.length - 1]],
       index_note: "index_9 = a county's (or region's) share of Colorado's 9% federal credit divided by its share of Colorado renter households paying 50% or more of income for rent. 1.0 = the state rate.",
@@ -183,11 +195,22 @@ export function dataFile(x, ledger, demo) {
     counties: Object.values(x.C),
     by_year: x.byYear,
     next_year_repeats_outside_front_range: x.repeats,
+    awards_counted: x.used.map((a) => ({ name: a.name, year: a.year, round: a.round ?? null, program: a.program, county_fips: a.county_fips, homes: homes(a), federal_credit: a.federal_credit || 0, state_credit: a.state_credit || 0 })),
+    bond_deals_outside_rounds: x.bond.added.map((d) => ({ name: d.name, county_fips: d.county_fips, award_year: d.award_year, homes: d.homes, chfa_record_id: d.chfa_record_id })),
   };
 }
 
-export function buildBrief(x, ledger, demo) {
-  const needDate = String(demo.meta?.refreshed_utc || demo.updated).slice(0, 10);
+// The brief reads only the snapshot.
+export function buildBrief(D) {
+  const M = D.metadata;
+  const x = {
+    C: Object.fromEntries(D.counties.map((c) => [c.fips, c])),
+    R: Object.fromEntries(D.regions.map((r) => [r.region, r])),
+    T: D.totals, front: D.front_range, rest: D.rest_of_state, byYear: D.by_year,
+    repeats: D.next_year_repeats_outside_front_range, regionOrder: D.regions.map((r) => r.region),
+    skipped: M.skipped_awards, years: D.by_year.map((y) => y.year), bond: { feedLastYear: M.feed_last_award_year },
+  };
+  const verified = M.verified;
   const { C, R, T, front, rest, byYear, repeats, regionOrder } = x;
   const ws = R['Western Slope'];
   const wsCounties = Object.values(C).filter((c) => c.region === 'Western Slope' && c.renters_paying_half >= MIN_SEVERE)
@@ -251,7 +274,7 @@ export function buildBrief(x, ledger, demo) {
     rows: byYear.map((y) => [String(y.year), String(y.awards_9), String(y.counties_9), fmt(y.homes_9), pct0(y.homes_9_outside_front_range, y.homes_9), pct0(y.homes_9_by_region['Western Slope'] || 0, y.homes_9)]),
   };
 
-  const reportLinks = [...new Map(ledger.awards.filter((a) => /^LIHTC 9%/.test(a.program) && a.year >= y0).map((a) => [a.year, a.source_url])).entries()].sort((a, b) => a[0] - b[0]);
+  const reportLinks = M.report_links_9pct.map((r) => [r.year, r.link]);
 
   return {
     id: BRIEF_ID,
@@ -259,10 +282,10 @@ export function buildBrief(x, ledger, demo) {
     policy_topic: 'Colorado Housing Policy & LIHTC',
     is_curated: true,
     source_reviewed: true,
-    generated: ledger.meta.generated_at.slice(0, 10) + 'T00:00:00Z',
-    verified: ledger.meta.generated_at.slice(0, 10),
+    generated: `${verified}T00:00:00Z`,
+    verified,
     takeaway: `CHFA's competitive 9% tax credit reaches well beyond the Front Range: the rest of Colorado has ${pct0(rest.renters_paying_half, T.renters_paying_half)} of renters paying half their income for rent and received ${pct0(rest.credit_9, T.credit_9)} of the 9% credit from ${y0} to ${y1}. The 4% bond credit stays on the Front Range (${pct0(front.homes_4, T.homes_4)} of its homes). Within regions, counties differ a lot, and ${none9.length} counties had no 9% award.`,
-    summary: `This brief adds up every CHFA housing tax credit award from ${y0} to ${y1}, ${fmt(T.awards_9)} 9% awards and ${fmt(T.awards_4 + T.bond_deals_outside_rounds)} 4% deals (${fmt(T.awards_4)} in CHFA's rounds and ${fmt(T.bond_deals_outside_rounds)} bond deals awarded outside them), by county and by CHFA region. It compares them with the renter households in each place that pay 50% or more of their income for rent (American Community Survey 2020-2024, table B25070; renter households are those for which Census computes rent as a share of income). All of these homes are rentals with income limits; tax credits fund no homes for sale. An index of 1.0 means a place got the same share of 9% credit as its share of those renters.`,
+    summary: `This brief adds up every CHFA housing tax credit award from ${y0} to ${y1}, ${fmt(T.awards_9)} 9% awards and ${fmt(T.awards_4 + T.bond_deals_outside_rounds)} 4% deals (${fmt(T.awards_4)} in CHFA's rounds and ${fmt(T.bond_deals_outside_rounds)} bond deals awarded outside them), by county and by CHFA region. It compares them with the renter households in each place that pay 50% or more of their income for rent (American Community Survey ${M.acs_year - 4}-${M.acs_year}, table B25070; renter households are those for which Census computes rent as a share of income). All of these homes are rentals with income limits; tax credits fund no homes for sale. An index of 1.0 means a place got the same share of 9% credit as its share of those renters.`,
     implications: `For a town outside the Front Range, the 9% round is the realistic path: 4% bond deals have rarely reached a small town. Because the 2027-28 plan has no regional set-asides, each year's result depends on who applies, so a region's share swings from year to year. For anyone reading the county table: a high index is not a sign of too much housing, and a low one is not a sign of neglect. A single 50-home award moves a small county a long way, and the index does not count homes funded before ${y0} or by other programs.`,
     related_data: DATA,
     sources: ['CHFA', 'U.S. Census Bureau, American Community Survey'],
@@ -306,31 +329,36 @@ export function buildBrief(x, ledger, demo) {
       },
     ],
     articles: [
-      { title: 'Housing Tax Credit Awards (all years)', source: 'CHFA', date: ledger.meta.generated_at.slice(0, 10), link: 'https://www.chfainfo.com/rental-housing/housing-credit/awards' },
-      ...reportLinks.map(([y, link]) => ({ title: `${y} 9% Housing Tax Credit Award Report (read ${ledger.meta.generated_at.slice(0, 10)})`, source: 'CHFA', date: ledger.meta.generated_at.slice(0, 10), link })),
-      { title: `American Community Survey 2020-2024 5-year, table B25070 (gross rent as a share of household income), read ${needDate}`, source: 'U.S. Census Bureau', date: needDate, link: 'https://data.census.gov/table/ACSDT5Y2024.B25070' },
+      { title: 'Housing Tax Credit Awards (all years)', source: 'CHFA', date: verified, link: 'https://www.chfainfo.com/rental-housing/housing-credit/awards' },
+      ...reportLinks.map(([y, link]) => ({ title: `${y} 9% Housing Tax Credit Award Report (read ${verified})`, source: 'CHFA', date: verified, link })),
+      { title: `American Community Survey ${M.acs_year - 4}-${M.acs_year} 5-year, table B25070 (gross rent as a share of household income), read ${verified}`, source: 'U.S. Census Bureau', date: verified, link: 'https://data.census.gov/table/ACSDT5Y2024.B25070' },
     ],
     alert_count: 0,
   };
 }
 
-export function build() {
+export function snapshot(verified) {
   const ledger = read(LEDGER), demo = read(DEMO);
   const x = compute(ledger, demo, read(PROPS), read(COUNTIES));
+  return dataFile(x, ledger, demo, verified);
+}
+
+export function build({ refresh = false, today = new Date().toISOString().slice(0, 10) } = {}) {
+  const D = refresh ? snapshot(today) : read(DATA);
   const feed = read(FEED);
-  const brief = buildBrief(x, ledger, demo);
+  const brief = buildBrief(D);
   const i = feed.briefs.findIndex((b) => b.id === BRIEF_ID);
   if (i === -1) feed.briefs.unshift(brief); else feed.briefs[i] = brief;
   feed.meta.brief_count = feed.briefs.length;
   return {
-    [DATA]: JSON.stringify(dataFile(x, ledger, demo), null, 1) + '\n',
+    ...(refresh ? { [DATA]: JSON.stringify(D, null, 1) + '\n' } : {}),
     [FEED]: JSON.stringify(feed, null, 2) + '\n',
   };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const files = build();
   const check = process.argv.includes('--check');
+  const files = build({ refresh: !check && process.argv.includes('--refresh') });
   let stale = 0;
   for (const [rel, body] of Object.entries(files)) {
     const full = join(ROOT, rel);

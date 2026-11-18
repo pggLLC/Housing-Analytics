@@ -676,6 +676,8 @@
       var h = '<section id="brief-section-' + esc(it.id) + '"><h2>' + esc(it.heading) + '</h2>' + (it.paragraphs || []).map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
       if (Array.isArray(it.items) && it.items.length) h += (it.items_heading ? '<h3>' + esc(it.items_heading) + '</h3>' : '') + '<ul>' + it.items.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
       if (it.map === 'transit-zone-screen') h += '<p class="note">The full brief draws the transit-stop screen on a map here. A transit-stop screen is not a zone designation; only OEDIT’s Transit and Housing Investment Zone map decides eligibility.</p>';
+      // Other maps draw only in the standalone reader; say so and link it, so a section that asks the reader to tap a map is never left without one.
+      else if (typeof it.map === 'string' && it.map) h += '<p class="note"><a href="' + esc(VENDOR + 'research-brief.html?id=' + encodeURIComponent(b.id) + '#brief-section-' + encodeURIComponent(it.id)) + '">Open the map in the full brief</a>.</p>';
       var t = it.table;
       if (t && Array.isArray(t.columns) && Array.isArray(t.rows)) {
         h += '<div class="table-scroll"><table class="brief-text-table">' + (t.caption ? '<caption>' + esc(t.caption) + '</caption>' : '') + '<thead><tr>' + t.columns.map(function (c) { return '<th scope="col">' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' +
