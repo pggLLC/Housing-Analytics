@@ -92,6 +92,7 @@ const EVIDENCE_OF = {
   older_adults: /\bservices\b/i,
   disability: /\bservices\b/i,
   community: /\b(partner(ed)? with|memberships|meals)\b/i,
+  referred: /\bservices\b/i,
 };
 assert(notes.length >= 5, 'award note scan is vacuous');
 for (const n of notes) {
@@ -106,6 +107,19 @@ for (const n of notes) {
 }
 assert.deepEqual(Object.keys(DOC.awards.models).sort(), Object.keys(EVIDENCE_OF).sort(), 'every award model needs an evidence rule here');
 assert.equal(new Set(notes.map((n) => n.name)).size, notes.length, 'an award is noted twice');
+
+// Round Two notes quote Round Two's descriptions the same way.
+const AWARDS2 = json(DOC.awards_round_two.file);
+const byName2 = new Map(AWARDS2.awards.map((a) => [a.name, a]));
+const notes2 = DOC.awards_round_two.items;
+assert(notes2.length >= 5, 'Round Two award note scan is vacuous');
+for (const n of notes2) {
+  const a = byName2.get(n.name);
+  assert(a, `Round Two award note ${n.name} is not in ${DOC.awards_round_two.file}`);
+  assert(norm(a.description).includes(norm(n.quote)), `${n.name}: quote is not in CHFA's description`);
+  assert(DOC.awards.models[n.model], `${n.name}: unknown model ${n.model}`);
+  assert(EVIDENCE_OF[n.model].test(n.quote), `${n.name}: quote does not show a ${n.model} service`);
+}
 
 // ── 5. The rendered page ───────────────────────────────────────────────────
 // Review warnings are dated in Denver (js/components/review-status.js), so the
@@ -123,7 +137,7 @@ async function renderPage(doc) {
   w.eval(read('js/resident-services.js'));
   const rootEl = w.document.querySelector('[data-resident-services]');
   assert(rootEl, 'the page has no [data-resident-services] root');
-  w.ResidentServices.render(rootEl, doc, AWARDS);
+  w.ResidentServices.render(rootEl, doc, AWARDS, AWARDS2);
   return w.document;
 }
 {
@@ -133,7 +147,9 @@ async function renderPage(doc) {
   const lead = doc.querySelector('[data-rs-award-count]').textContent;
   assert(lead.includes(`${notes.length} of the ${AWARDS.awards.length} developments`), `award lead does not count from the files: "${lead}"`);
   assert(lead.includes(AWARDS.metadata.round), 'award lead does not name the round from the award file');
-  assert.equal(doc.querySelectorAll('[data-rs-awards] tbody tr').length, notes.length, 'award table rows differ from the notes');
+  assert.equal(doc.querySelectorAll('[data-rs-awards] tbody tr').length, notes.length + notes2.length, 'award table rows differ from the notes');
+  const lead2 = doc.querySelector('[data-rs-award-count-two]').textContent;
+  assert(lead2.includes(`${notes2.length} of the ${AWARDS2.awards.length} developments`) && lead2.includes(AWARDS2.metadata.round), `Round Two lead does not count from the files: "${lead2}"`);
   assert.equal(doc.querySelectorAll('[data-review-status]').length, DOC.entries.filter((e) => e.review_by <= today(14)).length,
     'review warnings do not match the records due within 14 days');
 }

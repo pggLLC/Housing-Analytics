@@ -2295,7 +2295,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
      that URL now redirects here (#tab-history). js/historical-trends.js
      renders it on first reveal so Chart.js measures a visible canvas. -->
 <div role="tabpanel" id="tab-history" aria-labelledby="btn-history" hidden>
-  <p class="tab-intro">What past LIHTC deals in Colorado actually looked like, from CHFA's live property feed and its 2026 Round One award report. Four lenses: awards per year by credit type, to calibrate a QAP submission; the stock of LIHTC units by award year, to see when each period added housing; project size by period, credit type and county, to see what a typical deal looks like; and a peer benchmark, to find comparable projects by county and size. Use these figures to check the assumptions in the <a data-workflow-link="history-deal" href="deal-calculator.html">Deal Calculator</a>.</p>
+  <p class="tab-intro">What past LIHTC deals in Colorado actually looked like, from CHFA's live property feed and its 2026 Round One and Round Two award reports. Four lenses: awards per year by credit type, to calibrate a QAP submission; the stock of LIHTC units by award year, to see when each period added housing; project size by period, credit type and county, to see what a typical deal looks like; and a peer benchmark, to find comparable projects by county and size. Use these figures to check the assumptions in the <a data-workflow-link="history-deal" href="deal-calculator.html">Deal Calculator</a>.</p>
   <p class="data-note" role="note" style="margin-top:0;"><strong>Historical data, not forecasts.</strong> These panels describe what happened. They do not predict future awards, pricing or market behavior, and they do not replace a CHFA pre-application meeting or a syndicator's pricing letter.</p>
   <div id="aria-live-region" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
   <div id="htErrorBanner" class="ht-error-banner" hidden></div>
@@ -2309,6 +2309,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     if (window.DataQualitySummary) {
       window.DataQualitySummary.render('htDataQuality', {
         sources: [
+          { name: 'CHFA 2026 Round Two award report', status: 'primary', vintage: '2026', coverage: '9 developments, 845 units', note: 'Parsed from CHFA\u2019s published award report (4% and state credits, announced 2026-11-16); bridges the months before the live feed carries the round' },
           { name: 'CHFA 2026 Round One award report', status: 'primary', vintage: '2026', coverage: '14 developments, 634 units', note: 'Parsed from CHFA\u2019s published award report; bridges the months before the live feed carries the round' },
           { name: 'CHFA LIHTC (live)', status: 'primary', vintage: 'See feed coverage below', coverage: 'CHFA Colorado projects by award year', note: 'Refreshed weekly from CHFA HousingTaxCreditProperties_view feature service; AwardYear is the credits-reserved year (typically 2–3y before placed-in-service) — most recent allocations may not yet appear' }
         ],
@@ -2343,8 +2344,10 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <div id="chfaStats"></div>
     <p style="font-size:.8125rem;color:var(--faint);margin:.75rem 0 0;">
       Chart and typical-deal figures: <a href="data/chfa-lihtc.json">chfa-lihtc.json</a> (CHFA live feed).
-      Latest-round figures: <a href="data/affordable-housing/chfa-awards/2026-round-one.json">2026-round-one.json</a>,
-      parsed from <a href="https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions" target="_blank" rel="noopener">CHFA&rsquo;s 2026 Round One award report</a>.
+      2026 round figures: <a href="data/affordable-housing/chfa-awards/2026-round-two.json">2026-round-two.json</a> and
+      <a href="data/affordable-housing/chfa-awards/2026-round-one.json">2026-round-one.json</a>,
+      parsed from CHFA&rsquo;s <a href="https://www.chfainfo.com/rental-housing/housing-credit/2026-round-two-award-descriptions" target="_blank" rel="noopener">2026 Round Two</a>
+      and <a href="https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions" target="_blank" rel="noopener">2026 Round One</a> award reports.
       Application scores and applicant counts are not shown: we have no verified public source
       for them yet. See the
       <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener">current QAP</a>
@@ -2452,12 +2455,17 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
   <p class="tab-intro">A one-screen summary of Colorado's LIHTC market: this year's CHFA allocation and active portfolio, recent credit pricing, key findings by metro area, and CHFA's 2026 priorities.</p>
 
   <!-- F118-1 — strip was hardcoded $287M/78/8940/$49. Now wired live from
-       CHFA R1 awards JSON + CHFA properties GeoJSON + DOLA population. -->
+       CHFA R1 and R2 awards JSON + CHFA properties GeoJSON + DOLA population. -->
   <div class="stats-strip">
     <div class="stat-card">
       <div class="stat-value" id="moAllocation">—</div>
       <div class="stat-label">2026 Round 1 Credit Awards</div>
       <div style="font-size:.8125rem; color: var(--color-text-muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · federal + state credits, <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA 2026 Round 1</a></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="moAllocation2">—</div>
+      <div class="stat-label">2026 Round 2 Credit Awards</div>
+      <div style="font-size:.8125rem; color: var(--color-text-muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">LIVE</span> · federal 4% + state credits, <a href="https://www.chfainfo.com/rental-housing/housing-credit/2026-round-two-award-descriptions" target="_blank" rel="noopener">CHFA 2026 Round 2</a></div>
     </div>
     <div class="stat-card">
       <div class="stat-value" id="moActiveProjects">—</div>
@@ -2581,6 +2589,17 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
       // Round 1 as CHFA awarded it; no annualizing.
       var elA = document.getElementById('moAllocation');
       if (elA) elA.textContent = '$' + (r1 / 1e6).toFixed(1) + 'M';
+    }).catch(function () {});
+  // Round Two (4% + state, announced 2026-11-16), summed the same way.
+  fetch('data/affordable-housing/chfa-awards/2026-round-two.json', { cache: 'no-cache' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d || !Array.isArray(d.awards)) return;
+      var r2 = d.awards.reduce(function (s, a) {
+        return s + (a.federal_9pct_credit || 0) + (a.state_credit || 0) + (a.federal_4pct_credit || 0);
+      }, 0);
+      var elB = document.getElementById('moAllocation2');
+      if (elB) elB.textContent = '$' + (r2 / 1e6).toFixed(1) + 'M';
     }).catch(function () {});
   fetch('data/allocations.json', { cache: 'no-cache' })
     .then(function (r) { return r.ok ? r.json() : null; })

@@ -19,7 +19,7 @@
         { label: 'Free report', lab: '#/report', desc: 'A printable needs and market summary for any place. Free.' },
         { label: 'Walking and biking', lab: '#/places/walk-bike', desc: 'How many homes can walk or bike to groceries, schools, care and jobs.' },
         { label: 'Compare 2–6 places', lab: '#/places/compare', desc: 'Two to six places side by side, figure by figure.' },
-        { label: 'Rank every place', lab: '#/places/ranking', desc: 'Every county, town and CDP ranked on housing need (HNA ranking).' },
+        { label: 'Rank every place', lab: '#/places/ranking', desc: 'Every county, town and CDP ranked on need and opportunity (HNA ranking, 55% need).' },
         { step: 4, label: 'Scenarios', lab: '#/places/scenario', desc: 'Change the state forecast and see the homes needed.' }] },
       { title: 'The state picture', items: [
         { label: 'Colorado deep dive', lab: '#/places/deep-dive', desc: 'County markets: tax credit pipeline, AMI gap, QCTs and DDAs.' },

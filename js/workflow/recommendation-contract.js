@@ -234,8 +234,11 @@
       return evidence(metrics, key, label, Object.assign({ requestedLevel: level }, options || {}));
     };
 
-    var need = conclusion('need', 'How much housing pressure is there?', [
-      ev('overall_need_score', 'Overall need score'),
+    // overall_need_score is the HNA priority score: 55% need, 45% opportunity, times a data-confidence
+    // multiplier (scripts/hna/build_ranking_index.py). It is named as that, never as need alone, so thin data
+    // or low opportunity cannot read as low need (outside messaging review, 18 Nov 2026).
+    var need = conclusion('need', 'Where does it rank on need and opportunity?', [
+      ev('overall_need_score', 'HNA priority score (55% need, 45% opportunity)'),
       ev('rank', 'Rank among 546 Colorado jurisdictions')
     ], function (items) {
       var score = num(items[0].value);
@@ -244,17 +247,17 @@
       // sentence. Gluing a noun onto it produced "Among the highest in
       // Colorado housing need", so each tier carries its own sentence.
       var TIERS = [
-        { at: 70, verdict: 'Among the highest in Colorado', sentence: 'Housing pressure here is among the highest in the state' },
-        { at: 55, verdict: 'High', sentence: 'Housing pressure here is high' },
-        { at: 40, verdict: 'Moderate', sentence: 'Housing pressure here is moderate' },
-        { at: -Infinity, verdict: 'Lower', sentence: 'Housing pressure here is lower than most of the state' }
+        { at: 70, verdict: 'Among the highest in Colorado', sentence: 'On the HNA priority score it is among the highest in the state' },
+        { at: 55, verdict: 'High', sentence: 'On the HNA priority score it ranks high' },
+        { at: 40, verdict: 'Moderate', sentence: 'On the HNA priority score it ranks in the middle' },
+        { at: -Infinity, verdict: 'Lower', sentence: 'On the HNA priority score it ranks below most of the state' }
       ];
       var tier = TIERS.find(function (row) { return score >= row.at; });
       return {
         verdict: tier.verdict,
         plain: tier.sentence
           + (rank === null ? '' : ', ranked ' + rank + ' of 546 Colorado jurisdictions')
-          + '.'
+          + '. The score is 55% need and 45% opportunity, and thin data lowers it, so a low rank is not low need.'
       };
     });
 
@@ -274,7 +277,7 @@
 
     var production = conclusion('production', 'How many homes are needed?', [
       ev('future_units_needed_20yr', 'Additional homes needed over 20 years'),
-      ev('housing_gap_units', 'Homes missing at the deepest income tier today')
+      ev('housing_gap_units', 'Renters minus homes priced for them, at or below 30% AMI (price-only)')
     ], function (items) {
       var future = num(items[0].value);
       var gap = num(items[1].value);
@@ -295,7 +298,7 @@
       if (future !== null && future < 0) {
         lead = 'The homes needed for projected households fall by about ' + fmt(growth !== null ? growth : future) + ' over 20 years'
           + (withInc ? ', more than the ' + incText : '')
-          + ': a surplus of roughly ' + fmt(future) + ' homes';
+          + ': roughly ' + fmt(future) + ' fewer homes needed for growth';
       } else if (future !== null) {
         var how = '';
         if (withInc && growth >= 0) {
@@ -311,11 +314,12 @@
         verdict: future === null
           ? 'Gap of ' + gap.toLocaleString('en-US') + ' homes today'
           : future < 0
-            ? 'Surplus of ' + fmt(future) + ' homes over 20 years'
+            ? fmt(future) + ' fewer homes needed for growth over 20 years'
             : fmt(future) + ' homes over 20 years',
         plain: lead
-          + (gap === null ? '' : (future === null ? 'A gap of ' : ', against a gap of ')
-            + gap.toLocaleString('en-US') + ' homes at the deepest income tier today') + '.',
+          + (gap === null ? '' : (future === null ? 'A price-only gap of ' : ', against a price-only gap of ')
+            + gap.toLocaleString('en-US') + ' homes at or below 30% AMI today (every rental priced for that income, whoever rents it; HUD\u2019s affordable-and-available count is on the needs assessment)') + '.'
+          + (future !== null && future < 0 ? ' Fewer homes needed for growth is not a count of spare homes, and it does not show that no homes need replacing, preserving or making affordable.' : ''),
         basis: reading
       };
     });

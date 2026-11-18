@@ -16,6 +16,7 @@
   var EXTRA = {
     zori: 'data/market/zori_rents_co.json',
     roundOne: 'data/affordable-housing/chfa-awards/2026-round-one.json',
+    roundTwo: 'data/affordable-housing/chfa-awards/2026-round-two.json',
     resale: 'data/policy/resale-conventions.json',
     demand: 'data/market/chfa_renter_demand_co.json',
     // The live Market Analysis passes these to the capture engine too (js/market-analysis.js _chfaQualifiedRenters):
@@ -107,15 +108,17 @@
   // Supply: tax credit properties in the county, and this year's awards there.
   function supplyPart(s) {
     var proxy = { level: 'county-proxy', countyName: s.countyName };
-    var r1 = s.x.roundOne.awards.filter(function (a) { return a.county_fips === s.fips; });
+    // Both 2026 rounds: the CHFA list carries neither yet (paul, 18 Nov 2026: add Round Two "where it should be")
+    var rounds = [s.x.roundOne, s.x.roundTwo].filter(function (b) { return b && b.awards; });
+    var r1 = [].concat.apply([], rounds.map(function (b) { return b.awards.filter(function (a) { return a.county_fips === s.fips; }).map(function (a) { return Object.assign({ round: b.metadata.round }, a); }); }));
     var lihtc = s.d.lihtc.features.map(function (f) { return f.properties; }).filter(function (p) { return p.CNTY_FIPS === s.fips && p.ComplianceStatus === 'Active Compliance'; });
     var recent = lihtc.filter(function (p) { return +p.AwardYear >= new Date().getFullYear() - 5; }).sort(function (a, b) { return (+b.AwardYear || 0) - (+a.AwardYear || 0); });
     var supplyRows = recent.slice(0, 8).map(function (p) { return '<tr><th scope="row">' + esc(p.PROJECT) + '</th><td>' + esc(p.PROJ_CTY || '') + '</td><td class="num">' + esc(num(p.LI_UNITS)) + '</td><td class="num">' + esc(String(p.AwardYear || '')) + '</td></tr>'; }).join('');
-    var r1Rows = r1.map(function (a) { return '<tr><th scope="row">' + esc(a.name) + '</th><td>' + esc(a.city || '') + '</td><td class="num">' + esc(num(a.total_units)) + '</td><td class="num">2026</td></tr>'; }).join('');
+    var r1Rows = r1.slice().reverse().map(function (a) { return '<tr><th scope="row">' + esc(a.name) + '</th><td>' + esc(a.city || '') + '</td><td class="num">' + esc(num(a.total_units)) + '</td><td class="num">' + esc(a.round) + '</td></tr>'; }).join('');
     var html = '<p>' + esc(s.countyName) + ' has ' + num(lihtc.length) + ' tax credit properties in compliance with ' + num(s.county.lowIncomeHomes) + ' low-income homes' +
-      (r1.length ? '. CHFA’s 2026 Round One added ' + r1.length + (r1.length === 1 ? ' award' : ' awards') + ' here, ' + num(r1.reduce(function (t, a) { return t + (a.total_units || 0); }, 0)) + ' homes.' : '. CHFA’s 2026 Round One made no award here.') + ' ' + Pl.scope(proxy) + '</p>' +
-      (supplyRows || r1Rows ? '<div class="table-scroll"><table><caption>Awarded in the last five years, and 2026 Round One</caption><thead><tr><th scope="col">Property</th><th scope="col">City</th><th scope="col" class="num">Homes</th><th scope="col" class="num">Awarded</th></tr></thead><tbody>' + r1Rows + supplyRows + '</tbody></table></div>' : '') +
-      '<p class="metric-source">' + Pl.srcLine([['CHFA Housing Tax Credit property list, ' + String(s.d.lihtc.fetchedAt).slice(0, 10), s.d.lihtc.source], ['CHFA 2026 Round One awards', s.x.roundOne.metadata.source_url]]) + '</p>';
+      (r1.length ? '. CHFA’s 2026 rounds added ' + r1.length + (r1.length === 1 ? ' award' : ' awards') + ' here, ' + num(r1.reduce(function (t, a) { return t + (a.total_units || 0); }, 0)) + ' homes.' : '. CHFA’s 2026 Round One and Round Two made no award here.') + ' ' + Pl.scope(proxy) + '</p>' +
+      (supplyRows || r1Rows ? '<div class="table-scroll"><table><caption>Awarded in the last five years, and CHFA’s 2026 rounds</caption><thead><tr><th scope="col">Property</th><th scope="col">City</th><th scope="col" class="num">Homes</th><th scope="col" class="num">Awarded</th></tr></thead><tbody>' + r1Rows + supplyRows + '</tbody></table></div>' : '') +
+      '<p class="metric-source">' + Pl.srcLine([['CHFA Housing Tax Credit property list, ' + String(s.d.lihtc.fetchedAt).slice(0, 10), s.d.lihtc.source]].concat(rounds.map(function (b) { return ['CHFA ' + b.metadata.round + ' awards', b.metadata.source_url]; }))) + '</p>';
     return { html: html, lihtc: lihtc, r1: r1 };
   }
 
@@ -230,7 +233,7 @@
       '<p>' + (lead ? 'The figures at the top use the census tracts COHO suggests round the site; the capture rate above uses the whole county. ' : 'This screen uses the whole county. ') + 'A CHFA market study needs a primary market area drawn round the site from whole census tracts; CHFA does not accept a radius. The full Market Analysis draws it: place the site, add or drop tracts, and note the natural barriers, school districts, town lines or commute patterns that justify the edge. Demand by income and bedroom size, capture and nearby comparables then count only what is inside it.</p>' +
       '<p><a href="' + esc(maHref) + '" rel="noopener">Open the full Market Analysis and draw the market area ↗</a></p>' +
       '<p>Members can then start a <a href="' + CHFA_DRAFT + '" rel="noopener">CHFA-format market study ↗</a>: CHFA\u2019s nine sections in order, the tables public data can fill, six maps, and a Word file for a CHFA-approved analyst to finish. It supports the study; it is not the study CHFA accepts.</p>' +
-      '<p class="metric-source">' + Pl.srcLine('CHFA Market Study Guide, Appendix A to the 2027–28 QAP (adopted 25 September 2026, approved 23 October 2026)', 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf') + '</p>' +
+      '<p class="metric-source">' + Pl.srcLine('CHFA Market Study Guide, Appendix A to the 2027–28 QAP (adopted 25 September 2026, approved 23 October 2026)', 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US') + '</p>' +
       (lead ? '' : tractSection(params, s, g)) +
       useSection(params, s, g) +
       T.next('Next', [{ href: '#/report?g=' + encodeURIComponent(g), label: 'Free report for ' + s.name }, { href: maHref, label: 'Full Market Analysis ↗', secondary: true }, { href: '#/for-sale?g=' + encodeURIComponent(g), label: 'For-sale and ownership here', secondary: true }]);

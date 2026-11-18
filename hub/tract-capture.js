@@ -662,7 +662,7 @@
   // which in a small town was the town alone. The local area is picked by default; any area but those two asks why.
   var CAP_TIERS = [30, 40, 50, 60, 70, 80];
   var TEST = { townShare: 0.10, shedTie: 0.10, otherTown: 0.5, room: 0.75 };
-  var MSG = 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf';
+  var MSG = 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US';
   function sorted(list) { var o = {}; list.forEach(function (g) { o[g] = true; }); return Object.keys(o).sort(); }
   function siteTown(b) {
     var g = b.ctx.s && b.ctx.s.entry ? String(b.ctx.s.entry.geoid || '') : '';

@@ -176,13 +176,15 @@
     var br3pShare  = brTotal > 0 ? ((br3 + br4 + br5) / brTotal) * 100 : null;
 
     // Household composition — DP02
-    var familyHHPct  = num(p.DP02_0003PE); // family households (married + other family)
-    // Fallback: derive family-HH share from DP02_0003E count / DP02_0001E total
-    // (the HNA extended fetch returns these but not the PE percentage).
-    if (familyHHPct == null) {
-      var famHH = num(p.DP02_0003E);
-      if (famHH != null && totalHH && totalHH > 0) familyHHPct = (famHH / totalHH) * 100;
-    }
+    // Family households — ACS table B11001 (B11001_002E family households of
+    // B11001_001E all households), written into the summaries by
+    // scripts/hna/backfill_family_households.py. The profile has had no
+    // family-households line since ACS 2019: DP02_0003 now means "married-couple
+    // household with children under 18", and no summary carried it, so this
+    // signal and the renter-family proxy were missing for every place.
+    var famHH = num(p.B11001_002E);
+    var famBase = num(p.B11001_001E);
+    var familyHHPct = (famHH != null && famBase != null && famBase > 0) ? (famHH / famBase) * 100 : null;
     var avgHHSize    = num(p.DP02_0016E);
     // Fallback: pop / households is a reasonable proxy for average HH size when
     // DP02_0016E is missing (slightly biased high because it includes group-quarters
@@ -400,7 +402,7 @@
       indicators: indicators,
       score: agg.score,
       available: agg.available,
-      methodology: 'Weighted blend of severe renter burden (35%), share of renters at 30% AMI or less (20%), ' +
+      methodology: 'Weighted blend of severe renter burden (30%), share of renters at 30% AMI or less (25%), ' +
         'cost burden among renters at 30% AMI or less (20%), poverty rate (15%), and MHI level (10%, ' +
         'lower MHI = more ELI demand). Tracks demand for PSH / extremely-low-income LIHTC at ' +
         '30% AMI rents.',
@@ -479,8 +481,8 @@
       indicators: indicators,
       score: agg.score,
       available: agg.available,
-      methodology: 'Blend of 60–80% AMI renter share (32%), severe renter cost burden (28%), ' +
-        'cost burden inside the 51–80% cohort (15%), renter share of households (10%), home ' +
+      methodology: 'Blend of 60–80% AMI renter share (32%), renter cost burden at 30% or more of income (22%), ' +
+        'cost burden inside the 51–80% cohort (20%), renter share of households (10%), home ' +
         'value to MHI ratio (10%), and a low-attached-stock proxy (5%). The home-value-to-MHI ' +
         'addition catches resort/SF-heavy places where workforce can\'t buy in even when renter ' +
         'share is small.',
@@ -608,9 +610,11 @@
       indicators: indicators,
       score: agg.score,
       available: agg.available,
-      methodology: 'Combines family-HH share (25%), renter-family demand proxy (25%), ' +
-        'average HH size (20%), overcrowding (20%), and a 2–3BR rental deficit derived from ' +
-        'the DP04 bedroom mix (10%).',
+      methodology: 'Combines family-household share (30%, ACS B11001), a renter-family demand proxy ' +
+        '(family share × renter share, 30%), average household size (15%), overcrowding (15%), ' +
+        'renter household count (5%) and a 2–3BR deficit from the DP04 bedroom mix (5%). It ' +
+        'describes who lives here, not cost burden: burden among the lowest-income renters is ' +
+        'scored under deeply affordable rental.',
       lihtcRelevance: 'Family LIHTC scoring (CHFA QAP family set-aside, larger 2–3BR units, ' +
         'children near schools).',
       plainEnglish: function (level) {
@@ -877,7 +881,10 @@
         confidenceReason: conf.confidenceReason,
         lihtcRelevance: cat.lihtcRelevance,
         plainEnglish: cat.plainEnglish(level),
-        methodology: cat.methodology
+        methodology: cat.methodology,
+        // Every signal's weight, in order, so a test can hold the methodology
+        // text to the weights the score actually uses.
+        weights: cat.indicators.map(function (i) { return Math.round(i.weight * 100); })
       };
     });
 

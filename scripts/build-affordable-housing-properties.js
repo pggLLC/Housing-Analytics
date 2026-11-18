@@ -660,8 +660,8 @@ function main() {
 
   // F116 — Watchdog: emit a warning when the CHFA ArcGIS feed has caught
   // up to 2026 awards. The bridge file at data/affordable-housing/chfa-
-  // awards/2026-round-one.json was added because the feed lagged the
-  // 2026 R1 announcement by months. Once any AwardYear >= 2026 appears
+  // awards/2026-round-one.json (and 2026-round-two.json) were added because the feed lagged the
+  // 2026 announcements by months. Once any AwardYear >= 2026 appears
   // in the live feed, the bridge is redundant and should be retired so
   // we don't double-count awards. Surfaced as an actionable warning
   // (not a hard fail) so the build keeps working — operators decide
@@ -671,13 +671,13 @@ function main() {
     return (Number.isFinite(y) && y > max) ? y : max;
   }, 0);
   if (liveMaxAwardYear >= 2026) {
-    const BRIDGE_PATH = path.join(ROOT, 'data/affordable-housing/chfa-awards/2026-round-one.json');
-    const bridgeExists = fs.existsSync(BRIDGE_PATH);
+    const BRIDGE_PATHS = ['one', 'two'].map(function (r) { return path.join(ROOT, 'data/affordable-housing/chfa-awards/2026-round-' + r + '.json'); });
+    const bridgeExists = BRIDGE_PATHS.some(function (b) { return fs.existsSync(b); });
     console.log('');
     console.log('  ⚠ WARNING: CHFA ArcGIS feed has caught up to ' + liveMaxAwardYear + '.');
-    console.log('    The 2026 R1 bridge file is now redundant — consider dropping it:');
+    console.log('    The 2026 Round One and Round Two bridge files may now be redundant — check each round is in the feed, then drop it:');
     if (bridgeExists) {
-      console.log('      git rm ' + path.relative(ROOT, BRIDGE_PATH));
+      BRIDGE_PATHS.filter(function (b) { return fs.existsSync(b); }).forEach(function (b) { console.log('      git rm ' + path.relative(ROOT, b)); });
       console.log('      then remove the soft-load + tagging blocks marked F116/F105 across:');
       console.log('        - js/lihtc-opportunity-finder.js');
       console.log('        - js/compare.js');

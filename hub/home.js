@@ -519,7 +519,7 @@
     var g = params.get('town');
     return '<section class="home-hero hh-warm" aria-labelledby="home-h1"><div class="hh-copy"><p class="hh-kicker">COHO Analytics · Colorado housing</p>' +
       '<h1 id="home-h1">Colorado needs more homes that people can afford.</h1>' +
-      '<p class="lede">Rent has outpaced pay since 2000, and a typical home costs more than five years of a typical income. We bring data and expert analysis to the people who work on housing, from town staff to builders, so communities can plan the homes they need and there is housing with dignity for all.</p></div>' +
+      '<p class="lede">Rent has outpaced pay for ten years and since 2000, and a typical home costs over five years of typical income. We bring data and expert analysis to the people who work on housing, from town staff to builders, so communities can plan the homes they need and there is housing with dignity for all.</p></div>' +
       // The search comes before the county figure, so it is on the first phone screen; a picked town answers here.
       '<div class="hh-find">' + Shell.searchBox('home-place', 'Find your town or county', params.get('q') || '', 'For example Fruita or Mesa County') +
       found(params) + answer(params) + resume(params) +
@@ -652,7 +652,7 @@
     return utilHead('That page is not here', 'There is no page at this address. Pages move when the site changes; the places below are always current.') +
       '<ul class="choices">' +
       Shell.choice('#/places', 'Pick a Colorado place', 'Start a housing needs assessment for a county, city, town or CDP.') +
-      Shell.choice('#/places/ranking', 'Compare ' + allPlaces(), 'Ranked by housing need.') +
+      Shell.choice('#/places/ranking', 'Compare ' + allPlaces(), 'Ranked on need and opportunity.') +
       Shell.choice('#/places', 'Browse place profiles', 'Every city, town and CDP.') +
       Shell.choice('#/search', 'Search the site', 'Pages, data sources and place profiles.') +
       Shell.choice('#/sitemap', 'Site map', 'Every page, listed.') +
@@ -850,7 +850,7 @@
       ['If you need housing now', 'Rent help, eviction help and vouchers, in English and Spanish', '#/guide/renter-help'], ['Help for homebuyers', 'Credits, grants and down payment help', '#/assistance'], ['Starting a housing authority', 'Colorado steps, the board, and tax exemptions', '#/guide/housing-authority'],
       ['Housing news', 'Headlines, newest first, with a policy watch', '#/news'], ['Colorado elections', '2026 ballot, candidates, housing officials', '#/elections'], ['White paper for planners', 'A finding in plain language', '#/guide/white-paper'],
       ['Working paper', 'Why the system works the way it does', '#/guide/working-paper'], ['Methods', 'Every formula, to check a number', '#/guide/methods'], ['Tax credit equity markets', 'Equity pricing history and benchmarks', '#/equity-pricing'],
-      ['CRA expansion and tax credit pricing', 'Hypothetical CRA pricing scenarios', '#/guide/cra-pricing'], ['Needs ranking', 'Statewide needs ranking', '#/places/ranking']]],
+      ['CRA expansion and tax credit pricing', 'Hypothetical CRA pricing scenarios', '#/guide/cra-pricing'], ['Need and opportunity ranking', 'Statewide ranking: 55% need, 45% opportunity', '#/places/ranking']]],
     ['About', [['Home', 'Platform overview', '#/'], ['About COHO Analytics', 'Platform and method', '#/guide/about'], ['Data health', 'Pipeline status and data freshness', '#/data/trust?at=trust-today'], ['Data trust center', 'Sources, freshness and checks', '#/data/trust'],
       ['File browser', 'Browse datasets with previews', '#/data/explorer'], ['Data map', 'Datasets on a map', '#/data/map'], ['Affordable housing pipeline', 'From need to homes, step by step', '#/pipeline'], ['Privacy policy', 'Data and privacy', '#/privacy']]]
   ];

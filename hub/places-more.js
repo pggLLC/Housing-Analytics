@@ -217,7 +217,7 @@
     { label: 'Renters cost burdened', key: 'pct_cost_burdened', fmt: pct, src: 'acs' },
     { label: 'Homes needed over 20 years', key: 'future_units_needed_20yr', fmt: num, src: 'dola' },
     { label: 'Tax credit properties', key: 'lihtc_project_count', fmt: num, src: 'chfa' },
-    { label: 'HNA need rank', key: '_rank', fmt: function (v) { return '#' + v; }, src: 'rank' }
+    { label: 'HNA need and opportunity rank', key: '_rank', fmt: function (v) { return '#' + v; }, src: 'rank' }
   ];
 
   // The deal types the full comparison on cohoanalytics.com ranks by (its ?target= values and labels, js/compare.js).
@@ -274,7 +274,7 @@
     ['Tax credit pipeline', [
       { label: 'Last tax credit award year', key: 'lastYear', cell: function (r) { return r.lastYear || mut('None on record'); }, html: true,
         def: 'The most recent year CHFA reserved housing tax credits for a project here. Award years run two to three years ahead of opening. A town is matched by city name, a county by county code.',
-        src: function (d, r) { return 'CHFA housing tax credit property list, fetched ' + dateOf(d.lihtc.fetchedAt) + (r.county ? ', by county' : ', by city name') + (r.r1Count ? ', with CHFA 2026 Round One awards (announced 2026-05-21)' : ''); }, url: 'https://www.chfainfo.com/rental-housing/housing-credit' },
+        src: function (d, r) { return 'CHFA housing tax credit property list, fetched ' + dateOf(d.lihtc.fetchedAt) + (r.county ? ', by county' : ', by city name') + (r.r1Count || r.r2Count ? ', with CHFA 2026 Round One and Round Two awards (announced 2026-05-21 and 2026-11-16)' : ''); }, url: 'https://www.chfainfo.com/rental-housing/housing-credit' },
       { label: 'Years since the last award', key: 'drought', cell: function (r) { var v = r.droughtYears; return v == null ? mut('No award on record') : v === 0 ? 'Awarded this year' : esc(v + (v === 1 ? ' year' : ' years')) + (v >= 8 ? ' <span class="scope-tag">long gap</span>' : ''); }, html: true,
         def: 'This year minus the last award year. A long gap can mean a town CHFA has not funded lately, or one without a sponsor ready to apply.',
         src: function (d, r) { return r.county ? 'From the CHFA property list, by county' : 'CHFA watch list where the town is on it (' + dateOf(d.watch.meta && d.watch.meta.generated) + '), otherwise the CHFA property list'; }, url: 'https://www.chfainfo.com/rental-housing/housing-credit' },
@@ -283,12 +283,13 @@
         src: function (d) { return 'COHO CHFA watch list, ' + dateOf(d.watch.meta && d.watch.meta.generated) + ', from CHFA public records'; }, url: 'https://www.chfainfo.com/rental-housing/housing-credit' },
       { label: 'Recent CHFA activity', key: 'recent', cell: function (r) {
           var parts = [];
-          if (r.r1Count > 0) parts.push(esc('2026 Round One: ' + r.r1Count + ' award' + (r.r1Count === 1 ? '' : 's') + ', ' + r.r1Units + ' homes'));
+          if (r.r1Count > 0) parts.push(esc('2026 Round One: ' + r.r1Count + (r.r1Count === 1 ? ' award, ' : ' awards, ') + r.r1Units + ' homes'));
+          if (r.r2Count > 0) parts.push(esc('2026 Round Two: ' + r.r2Count + (r.r2Count === 1 ? ' award, ' : ' awards, ') + r.r2Units + ' homes'));
           if (r.lastAwardYear) parts.push(esc('Property list: ' + r.lastAwardYear));
           return parts.length ? parts.join('<br>') : mut('None on record');
         }, html: true,
-        def: 'The latest award year in CHFA’s property list, plus any 2026 Round One awards CHFA announced on 2026-05-21 that the list does not carry yet. A county shows the property list only.',
-        src: function (d, r) { return 'CHFA property list (fetched ' + dateOf(d.lihtc.fetchedAt) + ')' + (r.county ? '' : ' and CHFA 2026 Round One award list'); }, url: 'https://www.chfainfo.com/rental-housing/housing-credit/2026-round-one-award-descriptions' },
+        def: 'The latest award year in CHFA’s property list, plus the 2026 Round One (announced 2026-05-21) and Round Two (2026-11-16) awards the list does not carry yet. A county shows the property list only.',
+        src: function (d, r) { return 'CHFA property list (fetched ' + dateOf(d.lihtc.fetchedAt) + ')' + (r.county ? '' : ' and CHFA 2026 Round One and Round Two award lists'); }, url: 'https://www.chfainfo.com/rental-housing/housing-credit/2026-round-two-award-descriptions' },
       { label: 'Tax credit projects on record', key: 'projects', cell: function (r) { return num(r.projectCount); },
         def: 'How many CHFA tax credit projects are on record here. Fewer can mean more room for a competitive 9% application.',
         src: function (d, r) { return 'CHFA housing tax credit property list, fetched ' + dateOf(d.lihtc.fetchedAt) + (r.county ? ', by county code' : ', by city name'); }, url: 'https://www.chfainfo.com/rental-housing/housing-credit' },
@@ -571,7 +572,7 @@
     { name: 'Finance', what: 'The fee is paid with a loan, or turned into a note the project repays from leftover cash.', law: 'A local loan, or a council agreement to pay the fee from other funds.', credit: 'The fee stays a building cost and earns credit.', back: 'Some or all, as cash allows; often at sale or refinance.', key: true }
   ];
   function feeFinancing() {
-    var QAP = 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf';
+    var QAP = 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US';
     var body = '<p>Three ways to handle an impact fee on an affordable rental:</p><div class="fee-ways">' + FEE_WAYS.map(function (w) {
       return '<section class="fee-way' + (w.key ? ' fee-way-key' : '') + '"><h3>' + esc(w.name) + '</h3><dl>' +
         '<dt>What happens</dt><dd>' + esc(w.what) + '</dd><dt>Colorado law</dt><dd>' + esc(w.law) + '</dd>' +

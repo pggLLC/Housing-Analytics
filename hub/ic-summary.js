@@ -21,7 +21,8 @@
   var MORE = {
     props: 'data/affordable-housing/properties.json', capital: 'data/capital-partners.json', tax: 'data/tax-abatement-inventory.json',
     fees: 'data/policy/fee-reductions.json', qap: 'data/chfa-qap-calendar.json', resort: 'data/resort-workforce-housing-programs.json',
-    lehd: 'data/hna/place-lehd.json', audit: 'data/market/principal-employers.json', geo: 'data/hna/geo-config.json', bridge: 'data/affordable-housing/chfa-awards/2026-round-one.json'
+    lehd: 'data/hna/place-lehd.json', audit: 'data/market/principal-employers.json', geo: 'data/hna/geo-config.json', bridge: 'data/affordable-housing/chfa-awards/2026-round-one.json',
+    bridge2: 'data/affordable-housing/chfa-awards/2026-round-two.json'
   };
   // The live page's capital partner scope (js/ic-summary.js renderCapitalPartners).
   var DEAL_TYPES = ['lihtc-4pct', 'lihtc-state', 'preservation', 'prop123', 'soft-debt', 'equity-syndication'];
@@ -36,10 +37,12 @@
     ahl.onload = ahl.onerror = function () { Shell.render(); };
     document.body.appendChild(ahl);
   }
-  // CHFA's 2026 round-one awards, merged as the live layer merges them until CHFA's feed lists them.
-  function withBridge(P, B) {
-    var extra = ((B && B.awards) || []).filter(function (a) { return a.lat !== null && a.lat !== '' && isFinite(a.lat) && a.lon !== null && a.lon !== '' && isFinite(a.lon); }).map(function (a) {
-      var pt = ['chfa-2026-r1-bridge'];
+  // CHFA's 2026 Round One and Round Two awards, merged as the live layer merges them until CHFA's feed lists them.
+  function withBridge(P, B, B2) {
+    var tagged = [];
+    [[B, 'chfa-2026-r1-bridge'], [B2, 'chfa-2026-r2-bridge']].forEach(function (pair) { ((pair[0] && pair[0].awards) || []).forEach(function (a) { tagged.push(Object.assign({ _tag: pair[1] }, a)); }); });
+    var extra = tagged.filter(function (a) { return a.lat !== null && a.lat !== '' && isFinite(a.lat) && a.lon !== null && a.lon !== '' && isFinite(a.lon); }).map(function (a) {
+      var pt = [a._tag];
       if (a.federal_9pct_credit) pt.push('lihtc-9pct');
       if (a.federal_4pct_credit) pt.push('lihtc-4pct');
       if (a.state_credit) pt.push('lihtc-state-paired');
@@ -337,7 +340,7 @@
 
     // The county's tax credit and Prop 123 awards against its need.
     var fc = d.fvn.counties.filter(function (x) { return x.fips === fips; })[0], w = d.fvn.meta.window;
-    var QUAD = { underserved: 'high need, little funding', aligned: 'high need, funded', 'funded-above-need': 'funded beyond need', 'low-need-low-funding': 'low need, little funding', 'not-computable': 'not computable' };
+    var QUAD = { underserved: 'high need, little funding', aligned: 'high need, funded', 'funded-above-need': 'above-median awards per gap, below-median gap per resident', 'low-need-low-funding': 'low need, little funding', 'not-computable': 'not computable' };
 
     // Local housing organizations on record (organizations only; never named people).
     var lr = (!isCounty && d.local['place:' + g]) || d.local[(r.type === 'cdp' ? 'cdp:' : 'place:') + g] || d.local['county:' + fips] || null;
@@ -363,9 +366,9 @@
         (isCounty ? (peers.length ? '<h2>Peer counties in the ' + esc(r.region || 'same') + ' region</h2>' + UI.table('ic-peers', 'Counties in the ' + (r.region || 'same') + ' region, closest in size', [
           { key: 'name', label: 'County', href: function (y) { return '#/ic-summary?g=' + y.geoid; } }, { key: 'pop', label: 'People', num: true, fmt: num },
           { key: 'rent', label: 'Median rent', num: true, fmt: money }, { key: 'burden', label: 'Renters paying 30%+', num: true, fmt: pct1 },
-          { key: 'gap', label: 'Homes short at 30% AMI', num: true, fmt: num }, { key: 'rank', label: 'Need rank', num: true }
+          { key: 'gap', label: 'Homes short at 30% AMI', num: true, fmt: num }, { key: 'rank', label: 'Need and opportunity rank', num: true }
         ], peers, { noun: 'counties', placeholder: 'County' }) : '') : countyPeers(x, d, g, fips, cname)) +
-        awardHistory(x.props, name, fips, isCounty, cname) + comps(withBridge(x.props, x.bridge), d, g, fips, name);
+        awardHistory(x.props, name, fips, isCounty, cname) + comps(withBridge(x.props, x.bridge, x.bridge2), d, g, fips, name);
     }
 
     // The commute pattern, as the live page draws it (js/ic-summary.js renderCommute): the place's LEHD record
