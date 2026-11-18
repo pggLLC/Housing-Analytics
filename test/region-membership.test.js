@@ -74,10 +74,6 @@ for (const row of rows) {
 }
 assert(compared > 500, `compared ${compared} ranking rows with their county's region`);
 
-// Where to build files each place under the same six regions, from its own copy.
-const whereRegions = require('../js/where-to-build.js').REGIONS;
-assert.deepEqual(whereRegions, REGIONS, 'js/where-to-build.js files each county under the same region as the builder');
-const where = fs.readFileSync('developer-where.html', 'utf8');
-for (const r of Object.keys(REGIONS)) assert(where.includes(`<option value="${r}">${r}</option>`), `Where to build offers ${r}`);
+// Where to build (moved to coho-backend, 18 Nov 2026) checks its own copy of the regions against this builder there.
 
 console.log(`region-membership: PASS (${checked} counties against DOLA, ${compared} ranking rows)`);

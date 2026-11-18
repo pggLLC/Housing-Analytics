@@ -70,24 +70,8 @@ ok(C.throughItem({ geoid: '0805265', name: 'Bayfield (town)' }) === '', 'without
 const page = read('commuting.html') + read('js/commuting.js');
 ok(page.includes('data/market/through-commuters.json'), 'the page loads the through-commuter file');
 
-// ---- 3. The gated Jurisdiction Report.
-const WP = require(join(ROOT, 'js/whitepaper/jurisdiction-whitepaper.js'));
-const FundingFit = require(join(ROOT, 'js/funding-fit.js'));
-const { loadSources } = await import(join(ROOT, 'scripts/whitepaper/build-whitepaper.mjs'));
-const src = loadSources();
-const m = WP.buildModel(src, '0805265', { FundingFit, today: '2026-11-02' });
-const h = WP.renderHtml(m);
-ok(m.relocation && m.relocation.through === bay.through, 'the report reads Bayfield\'s count from the file');
-const low = bay.earnings.le_1250 + bay.earnings['1251_3333'];
-ok(m.relocation.lowPaid === low && m.relocation.renters === Math.round(low * bay.renter_share_at_home), 'the pool steps are computed from the file');
-ok(/Relocation potential/.test(h) && h.includes(bay.through.toLocaleString('en-US')), 'the report prints the relocation section');
-const comps = json('data/market/relocation-comparables.json').comparables.filter((c) => c.county_fips === '08067' && c.measure === 'outside_county');
-if (!comps.length) ok(/No comparable-property evidence/.test(h) && !m.relocation.comparable, 'La Plata has no comparable on file, so no number is added');
-ok(/demonstrated from other comparable projects/.test(h) && /anecdotal evidence is not permitted/.test(h), 'the report quotes CHFA\'s in-migration rule');
-ok(!WP.buildModel(src, '08067', { FundingFit, today: '2026-11-02' }).relocation, 'a county gets no through count (towns only)');
-const noT = JSON.parse(JSON.stringify(src)); delete noT.through;
-ok(!WP.buildModel(noT, '0805265', { FundingFit, today: '2026-11-02' }).relocation, 'without the file the section is left out');
-
+// ---- 3. The gated Jurisdiction Report moved to coho-backend on 18 Nov 2026, with its checks (and the HNA
+// comparison it prints); here, the HNA comparison record against its data files.
 // ---- 4. The HNA comparison.
 const H = json('data/hna/local-hna-comparisons.json');
 const proj = json('data/hna/projections/08067.json');
@@ -111,29 +95,4 @@ for (const hna of H.hnas) {
     if (r.id in coho) ok(Math.abs(r.coho_value - coho[r.id]) < 0.001, `${hna.id}/${r.id}: COHO figure ${r.coho_value} equals its data file (${coho[r.id]})`);
   }
 }
-// The comparison must agree with the HNA record it is rendered from, not with chosen wording.
-const fmtHna = (v) => typeof v === 'number' ? (v < 1 ? Math.round(100 * v) + '%' : v.toLocaleString('en-US')) : String(v);
-const escHtml = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-const section = (html) => { const i = html.indexOf('id="hna-compare"'); if (i < 0) return null; const j = html.indexOf('<h2', i + 1); return html.slice(i, j < 0 ? undefined : j); };
-const hnaFor = (geoid) => H.hnas.find((x) => (x.applies_to || []).includes(geoid));
-function agrees(html, geoid) {
-  const hna = hnaFor(geoid), sec = section(html);
-  ok(hna && sec, `${geoid}: an HNA on file prints a comparison section`);
-  ok(sec.includes(escHtml(hna.date.slice(0, 4))) && sec.includes(escHtml(hna.author)) && sec.includes(escHtml(hna.date)), `${geoid}: the section names the HNA's year, author and date from the record`);
-  const shown = hna.rows.filter((r) => sec.includes(escHtml(r.measure)));
-  ok(shown.length > 0, `${geoid}: the scan found rows to check`);
-  for (const r of shown) {
-    ok(sec.includes(escHtml(r.hna_text || fmtHna(r.hna_value))) && sec.includes(escHtml(r.hna_page)), `${geoid}/${r.id}: HNA figure and page match the record`);
-    ok(sec.includes(escHtml(r.why)), `${geoid}/${r.id}: the reason matches the record`);
-  }
-  return shown.map((r) => r.id);
-}
-const bayRows = agrees(h, '0805265');
-ok(bayRows.length === hnaFor('0805265').rows.length, 'Bayfield shows every row of its HNA');
-ok(section(h).includes(bay.through.toLocaleString('en-US')), 'the relocation row reads the through count from the file');
-const dur = WP.renderHtml(WP.buildModel(src, '0822035', { FundingFit, today: '2026-11-02' }));
-const durRows = agrees(dur, '0822035');
-ok(durRows.every((id) => { const r = hnaFor('0822035').rows.find((x) => x.id === id); return !r.geography || r.geography.length === 5; }), 'Durango gets the county rows, not Bayfield\'s');
-ok(section(WP.renderHtml(WP.buildModel(src, '08077', { FundingFit, today: '2026-11-02' }))) === null && !hnaFor('08077'), 'a county without an HNA on file shows no comparison section');
-
 console.log(`through-commuters: ${checks} checks passed`);

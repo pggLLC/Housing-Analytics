@@ -174,46 +174,8 @@ ledgerAgreement(DATA);
   ok(/^\d{4}-\d{2}-\d{2}$/.test(o.review_by) && o.review_by >= o.checked, 'the open round carries a re-check date');
 }
 
-// ---- 5. The Jurisdiction Report lists the awards in a place with their contacts.
-{
-  const WP = require(join(ROOT, 'js/whitepaper/jurisdiction-whitepaper.js'));
-  const FundingFit = require(join(ROOT, 'js/funding-fit.js'));
-  const { loadSources } = await import(join(ROOT, 'scripts/whitepaper/build-whitepaper.mjs'));
-  const src = loadSources();
-  ok(!src.landBankingContacts, 'the public checkout loads no contacts');
-  src.landBankingContacts = CONTACTS;
-  const leadvilleGeoid = DATA.awards.find((a) => a.places.some((p) => p.name === 'Leadville')).places[0].geoid;
-  const m = WP.buildModel(src, leadvilleGeoid, { FundingFit, today: '2026-10-15' });
-  const here = DATA.awards.filter((a) => a.places.some((p) => p.geoid === leadvilleGeoid));
-  ok(m.prop123.landBanking && m.prop123.landBanking.awards.length === here.length, 'the report lists every award in the place');
-  const html = WP.renderHtml(m);
-  for (const a of here) {
-    const c = CONTACTS.from_award_lists.find((x) => x.award_id === a.id);
-    ok(html.includes(a.project.replace(/&/g, '&amp;')), `report names ${a.project}`);
-    ok(c && html.includes(c.email), `report shows the CHFA-printed contact for ${a.project}`);
-  }
-  const county = WP.buildModel(src, here[0].county_fips[0], { FundingFit, today: '2026-10-15' });
-  ok(county.prop123.landBanking.awards.length >= here.length, 'the county report includes its towns\' awards');
-  const none = clone(src); none.landBankingContacts = null;
-  ok(WP.renderHtml(WP.buildModel(none, leadvilleGeoid, { FundingFit, today: '2026-10-15' })).includes('Contacts not in this copy of the data'), 'missing contacts are said, not hidden');
-}
-
-// ---- 6. "Where to build" finds Prop 123 records for its own names.
-{
-  const W = require(join(ROOT, 'js/where-to-build.js'));
-  const dola = json('data/policy/prop123_jurisdictions.json').jurisdictions;
-  const rankings = json('data/hna/ranking-index.json').rankings;
-  const placeKeys = new Set(rankings.filter((r) => r.type !== 'county').map((r) => W.nameKey(r.name)));
-  const countyKeys = new Set(rankings.filter((r) => r.type === 'county').map((r) => W.nameKey(r.name)));
-  const towns = dola.filter((j) => j.kind === 'municipality');
-  const matched = towns.filter((j) => placeKeys.has(W.nameKey(j.name))).length;
-  ok(towns.length > 100 && matched === towns.length, `the scorer matches ${matched} of ${towns.length} DOLA town filings to a ranked place`);
-  ok(dola.filter((j) => j.kind === 'county').every((j) => countyKeys.has(W.nameKey(j.name))), 'every DOLA county filing matches a ranked county');
-  const naive = towns.filter((j) => placeKeys.has(W.prop123Key(j.name))).length;
-  ok(naive < matched, 'sabotage: the old prefix-only key matches fewer');
-  ok(W.nameKey('Cañon City (city)') === W.nameKey('City of Canon City') && W.nameKey('Mt. Crested Butte (town)') === W.nameKey('Town of Mount Crested Butte'),
-    'accents and Mt./Mount spellings match');
-}
+// ---- 5 and 6 (the Jurisdiction Report's awards and Where to build's Prop 123 records) moved to coho-backend with
+// those pages on 18 Nov 2026.
 
 // ---- 7. The Where to build map agrees with the awards file and keeps contacts honest.
 {
@@ -280,12 +242,7 @@ ledgerAgreement(DATA);
   const narrowed = LBM.filterAwards(DATA.awards, 'leadville');
   ok(narrowed.length > 0 && narrowed.every((a) => /leadville/i.test([a.project, a.sponsor, a.location, ...a.places.map((p) => p.name)].join(' '))), 'search narrows to the town');
 
-  const page = read('developer-where.html');
-  ok(page.includes('data-land-banking-map') && page.includes('js/land-banking-map.js') && page.includes('data-lbm-contacts="data/jurisdiction-briefs/_land-banking-contacts.json"') && page.includes('data-lbm-report="developer-brief.html?geoid="') && page.includes('js/vendor/leaflet.js') && page.includes('data-lbm-detail'),
-    'Where to build carries the map section');
-  ok(page.includes('css/land-banking-map.css') && /#lbmMap \.leaflet-control-zoom a \{[^}]*width:44px;[^}]*height:44px/.test(read('css/land-banking-map.css')), 'the zoom buttons are 44px');
-  ok(page.includes('data-lbm-towns') && /data-lbm-detail[^>]*tabindex="-1"/.test(page), 'the page carries the town list and a focusable details panel');
-  ok(page.indexOf('id="tiers"') < page.indexOf('data-land-banking-map'), 'the shortlist stays above the map');
+  // The page that carries this map (developer-where.html) moved to coho-backend on 18 Nov 2026; its checks went with it.
   // The contacts are gated: the public build leaves out the contacts file and the gated page.
   const pub = read('scripts/build-public-site.mjs');
   ok(pub.includes("'data/jurisdiction-briefs'") && pub.includes("'developer-where.html'"), 'the public build leaves out the gated page and the contacts');

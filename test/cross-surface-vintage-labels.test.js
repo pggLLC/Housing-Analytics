@@ -44,11 +44,7 @@ assertIncludes(hnaExport, `HUD FMR ${FMR_FY}`, 'HNA export FMR vintage');
 assertExcludes(hnaExport, staleHudFmrVintage, 'HNA export stale FMR vintage');
 assertExcludes(hnaExport, staleHudFmrVintageSpaced, 'HNA export stale spaced FMR vintage');
 
-// The jurisdiction report (developer-brief.html) prints HUD vintages from the data
-// file itself (data/hud-fmr-income-limits.json meta), so it carries no year to go stale.
-const developerBrief = read('developer-brief.html') + read('js/whitepaper/jurisdiction-whitepaper.js');
-assert(!/\bFY ?20\d\d\b/.test(developerBrief), 'jurisdiction report hard-codes no HUD fiscal year');
-assert(/fiscal_year/.test(read('js/whitepaper/jurisdiction-whitepaper.js')), 'jurisdiction report reads the FMR vintage from the data');
+// The jurisdiction report (developer-brief.html) moved to coho-backend on 18 Nov 2026, with its vintage checks.
 
 const dealCalculator = read('js/deal-calculator.js');
 assertIncludes(dealCalculator, `HUD FMR ${FMR_FY}`, 'Deal Calculator FMR source link');
@@ -103,7 +99,6 @@ function hasStaleIncomeLimitVintageNearLabel(src) {
 [
   ['housing-needs-assessment.html', hnaHtml],
   ['colorado-deep-dive.html', coloradoDeepDive],
-  ['developer-brief.html', developerBrief],
   ['js/hna/hna-export.js', hnaExport],
 ].forEach(([relPath, src]) => {
   assert(
