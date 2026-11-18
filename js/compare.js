@@ -66,7 +66,9 @@
     // city name; each entry tagged with _source/_bridge so one line of
     // code can drop them when the feed catches up.
     chfa2026R1ByCity: {},
-    chfa2026R1Meta: null
+    chfa2026R1Meta: null,
+    chfa2026R2ByCity: {},
+    chfa2026R2Meta: null
   };
 
   function $(id) { return document.getElementById(id); }
@@ -192,7 +194,10 @@
       soft('data/policy/co-developer-funding-guide.json'),
       // D11 — published ACS total population (DP05_0001E) per place, with
       // the year and series it came from.
-      soft('data/hna/acs-reliability.json')
+      soft('data/hna/acs-reliability.json'),
+      // parts[16]: CHFA 2026 Round Two bridge (nine 4% + state awards,
+      // announced 2026-11-16), read like Round One (parts[12]).
+      soft('data/affordable-housing/chfa-awards/2026-round-two.json')
     ]).then(function (parts) {
       state.acsGeos = (parts[15] && parts[15].geos) || {};
       (parts[0].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID) state.qctTractIds.add(f.properties.GEOID); });
@@ -245,17 +250,19 @@
       // F116 — CHFA 2026 R1 bridge. Tag every record with _source/_bridge
       // so the bridge can be dropped in one line when the ArcGIS feed
       // catches up. Indexed by normalized lowercase city name.
-      var r1 = parts[12];
-      if (r1 && Array.isArray(r1.awards)) {
-        state.chfa2026R1Meta = r1.metadata || null;
-        r1.awards.forEach(function (a) {
-          a._source = 'chfa-2026-r1-bridge';
+      [[parts[12], 'chfa-2026-r1-bridge', 'chfa2026R1ByCity', 'chfa2026R1Meta'],
+       [parts[16], 'chfa-2026-r2-bridge', 'chfa2026R2ByCity', 'chfa2026R2Meta']].forEach(function (b) {
+        var file = b[0];
+        if (!file || !Array.isArray(file.awards)) return;
+        state[b[3]] = file.metadata || null;
+        file.awards.forEach(function (a) {
+          a._source = b[1];
           a._bridge = true;
           var key = (a.city || '').trim().toLowerCase();
           if (!key) return;
-          (state.chfa2026R1ByCity[key] = state.chfa2026R1ByCity[key] || []).push(a);
+          (state[b[2]][key] = state[b[2]][key] || []).push(a);
         });
-      }
+      });
       // F176 — Watchlist index: by place_geoid for fast lookup. Each
       // entry carries drought_years + signal (high/med/low) + prior
       // LIHTC count/mix. Lets the Compare table surface "this place
@@ -315,6 +322,9 @@
     var r1Awards = state.chfa2026R1ByCity[label.toLowerCase()] || [];
     var r1Count = r1Awards.length;
     var r1Units = r1Awards.reduce(function (s, a) { return s + (+a.total_units || 0); }, 0);
+    var r2Awards = state.chfa2026R2ByCity[label.toLowerCase()] || [];
+    var r2Count = r2Awards.length;
+    var r2Units = r2Awards.reduce(function (s, a) { return s + (+a.total_units || 0); }, 0);
 
     // F116 — Award-year-based recency. CHFA's feed has no placed-in-service
     // year: its YR_PIS is AwardYear copied by scripts/fetch-chfa-lihtc.js,
@@ -331,16 +341,22 @@
     // between the OF and Compare pages: a place that won a R1 award shows
     // as "recently funded" (low recency-score) on both pages even before
     // the HUD LIHTC database catches up.
-    var bridgeYear = null;
-    if (r1Awards.length && state.chfa2026R1Meta) {
-      var roundStr = state.chfa2026R1Meta.round || '';
-      var rm = /(\d{4})/.exec(roundStr);
-      if (rm) bridgeYear = parseInt(rm[1], 10);
-      if (bridgeYear == null && typeof state.chfa2026R1Meta.announcement_date === 'string') {
-        var rm2 = /^(\d{4})/.exec(state.chfa2026R1Meta.announcement_date);
-        if (rm2) bridgeYear = parseInt(rm2[1], 10);
+    // Round Two (2026-11-16) is read the same way.
+    function roundYear(meta) {
+      var y = null, rm = /(\d{4})/.exec((meta && meta.round) || '');
+      if (rm) y = parseInt(rm[1], 10);
+      if (y == null && meta && typeof meta.announcement_date === 'string') {
+        var rm2 = /^(\d{4})/.exec(meta.announcement_date);
+        if (rm2) y = parseInt(rm2[1], 10);
       }
+      return y;
     }
+    var bridgeYear = null;
+    [[r1Awards, state.chfa2026R1Meta], [r2Awards, state.chfa2026R2Meta]].forEach(function (b) {
+      if (!b[0].length || !b[1]) return;
+      var y = roundYear(b[1]);
+      if (y != null && (bridgeYear == null || y > bridgeYear)) bridgeYear = y;
+    });
     var lastYear = lastAwardYear;
     if (bridgeYear != null && (lastYear == null || bridgeYear > lastYear)) {
       lastYear = bridgeYear;
@@ -414,11 +430,14 @@
       r1Awards: r1Awards,
       r1Count: r1Count,
       r1Units: r1Units,
+      r2Awards: r2Awards,
+      r2Count: r2Count,
+      r2Units: r2Units,
       // Combined "most-recent CHFA activity year" — picks the highest of
       // (live-feed AwardYear, 2026 if R1 bridge has any).
       latestChfaActivityYear: (function () {
         var ys = [lastYear, lastAwardYear];
-        if (r1Count > 0) ys.push(2026);
+        if (r1Count > 0 || r2Count > 0) ys.push(2026);
         var max = ys.filter(function (y) { return Number.isFinite(y); }).reduce(function (a, b) { return a > b ? a : b; }, -Infinity);
         return max === -Infinity ? null : max;
       }()),
@@ -704,15 +723,18 @@
     // Combines two freshness signals so a stale ArcGIS feed doesn't make
     // an active jurisdiction look dormant:
     //   1. Live feed: latest AwardYear for this place.
-    //   2. Bridge: 2026 R1 awards (announced 2026-05-21).
+    //   2. Bridge: 2026 R1 awards (announced 2026-05-21) and R2 awards (2026-11-16).
     // Renders as e.g. "2026 R1 · 1 award · 50u" or "2024 · live feed".
-    { label: 'Recent CHFA activity', info: 'Combines the live CHFA feed (latest AwardYear) with the 2026 R1 bridge file (14 developments announced 2026-05-21, not yet ingested). Higher year + non-zero R1 count = active CHFA pipeline here. The bridge can be dropped in one line of code (_bridge:true filter) when the ArcGIS feed catches up.',
+    { label: 'Recent CHFA activity', info: 'Combines the live CHFA feed (latest AwardYear) with the 2026 bridge files (Round One: 14 developments announced 2026-05-21; Round Two: 9 developments announced 2026-11-16; neither ingested yet). Higher year + non-zero R1 or R2 count = active CHFA pipeline here. The bridge can be dropped in one line of code (_bridge:true filter) when the ArcGIS feed catches up.',
       fn: function (r) { return r.latestChfaActivityYear || 0; },
       fmt: function (v, r) {
         if (!r) return v;
         var parts = [];
         if (r.r1Count > 0) {
           parts.push('<strong style="color:var(--accent);">2026 R1</strong> · ' + r.r1Count + ' award' + (r.r1Count === 1 ? '' : 's') + ' · ' + r.r1Units + 'u');
+        }
+        if (r.r2Count > 0) {
+          parts.push('<strong style="color:var(--accent);">2026 R2</strong> · ' + r.r2Count + ' award' + (r.r2Count === 1 ? '' : 's') + ' · ' + r.r2Units + 'u');
         }
         if (r.lastAwardYear || r.lastYear) {
           var ly = r.lastAwardYear || r.lastYear;

@@ -13,7 +13,7 @@
     "region": "Front Range",
     "containingCounty": "08101"
   },
-  "metric_count": 148,
+  "metric_count": 149,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -685,7 +685,7 @@
       "geography_level": "place",
       "confidence": "missing",
       "source_id": "chfa-lihtc-and-2026-r1-awards",
-      "as_of": "CHFA LIHTC feed, latest committed, plus 2026 Round One awards",
+      "as_of": "CHFA LIHTC feed, latest committed, plus 2026 Round One and Round Two awards",
       "measure_type": "level"
     },
     "lihtc_project_count": {
@@ -709,7 +709,7 @@
       "geography_level": "place",
       "confidence": "missing",
       "source_id": "chfa-lihtc-and-2026-r1-awards",
-      "as_of": "CHFA LIHTC feed, latest committed, plus 2026 Round One awards",
+      "as_of": "CHFA LIHTC feed, latest committed, plus 2026 Round One and Round Two awards",
       "measure_type": "level"
     },
     "recency_score": {
@@ -725,7 +725,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "chfa-lihtc-and-2026-r1-awards",
-      "as_of": "CHFA LIHTC feed, latest committed, plus 2026 Round One awards",
+      "as_of": "CHFA LIHTC feed, latest committed, plus 2026 Round One and Round Two awards",
       "measure_type": "level"
     },
     "latest_9pct_year": {
@@ -829,7 +829,7 @@
       "geography_level": "place",
       "confidence": "missing",
       "source_id": "chfa-lihtc-and-2026-r1-awards",
-      "as_of": "CHFA LIHTC feed, latest committed, plus 2026 Round One awards",
+      "as_of": "CHFA LIHTC feed, latest committed, plus 2026 Round One and Round Two awards",
       "measure_type": "level"
     },
     "regional_latest_9pct_year": {
@@ -934,6 +934,14 @@
       "confidence": "missing",
       "source_id": "chfa-lihtc-properties",
       "as_of": "CHFA LIHTC feed, latest committed",
+      "measure_type": "level"
+    },
+    "r2_2026_count": {
+      "value": 0,
+      "geography_level": "place",
+      "confidence": "low",
+      "source_id": "chfa-2026-r2-awards",
+      "as_of": "CHFA 2026 Round Two award announcement",
       "measure_type": "level"
     },
     "pct_ami_lte30": {

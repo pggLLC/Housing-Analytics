@@ -5,7 +5,7 @@
     "as_of": "2026-10-11",
     "last_verified": "2026-10-11",
     "review_by": "2026-12-15",
-    "method": "Curated, not a feed. Every record was read from its named source on the check date, and its quote copied from the source text. Every number a record states appears in its own quote (test/resident-services.test.mjs). QAP quotes are checked against the QAP text in data/audit/chfa-qap-watch.json; award quotes against data/affordable-housing/chfa-awards/2026-round-one.json. Evidence strength is this site's reading: strong means a randomized trial or a systematic review agreeing with trials; moderate means a large quasi-experimental study or a trial-based cost analysis; limited means observational, interim or mixed findings.",
+    "method": "Curated, not a feed. Every record was read from its named source on the check date, and its quote copied from the source text. Every number a record states appears in its own quote (test/resident-services.test.mjs). QAP quotes are checked against the QAP text in data/audit/chfa-qap-watch.json; award quotes against data/affordable-housing/chfa-awards/2026-round-one.json and 2026-round-two.json. Evidence strength is this site's reading: strong means a randomized trial or a systematic review agreeing with trials; moderate means a large quasi-experimental study or a trial-based cost analysis; limited means observational, interim or mixed findings.",
     "qap_document": {
       "title": "2025-26 QAP Second Amendment (PDF)",
       "url": "https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf",
@@ -404,7 +404,8 @@
       "resident_services": "Resident services for all residents",
       "disability": "Services for residents with disabilities",
       "older_adults": "Aging-in-place services for older adults",
-      "community": "Partner programs (meals, youth, community)"
+      "community": "Partner programs (meals, youth, community)",
+      "referred": "Services for a referred group (survivors, veterans, foster youth)"
     },
     "items": [
       {
@@ -456,6 +457,51 @@
         "name": "Wildflower Flats",
         "model": "older_adults",
         "quote": "Through a partnership with Eaton Senior Communities, residents will receive onsite services focused on physical fitness and therapy, nutritional programs"
+      }
+    ]
+  },
+  "awards_round_two": {
+    "file": "data/affordable-housing/chfa-awards/2026-round-two.json",
+    "items": [
+      {
+        "name": "4745 N Federal Blvd",
+        "model": "resident_services",
+        "quote": "The sponsor will provide robust supportive resident services through its Family Support Services (FSS) team"
+      },
+      {
+        "name": "Alpine Balsam",
+        "model": "older_adults",
+        "quote": "Resident services will include transportation assistance, fitness and movement classes, benefit acquisition support"
+      },
+      {
+        "name": "Baseline Family Apartments",
+        "model": "resident_services",
+        "quote": "Onsite resident services will include resident engagement and community-building events"
+      },
+      {
+        "name": "Castleton Heights",
+        "model": "referred",
+        "quote": "Residents referred by The Ember Center will receive onsite services such as individual and group therapy and counseling, legal advocacy"
+      },
+      {
+        "name": "Cedar Gardens",
+        "model": "resident_services",
+        "quote": "Residents will have access to a part-time services coordinator who will offer connections to resources, nonprofits"
+      },
+      {
+        "name": "Haven at Salt Flats",
+        "model": "resident_services",
+        "quote": "The sponsor will provide resident services including health, wellness, and financial services"
+      },
+      {
+        "name": "Stanley 98",
+        "model": "resident_services",
+        "quote": "The sponsor will provide 14 Project-based Vouchers as well as resident services through its family services department called Education Community Health Opportunity (ECHO)"
+      },
+      {
+        "name": "Starlight",
+        "model": "resident_services",
+        "quote": "A resident services coordinator will offer onsite support and guidance to all residents"
       }
     ]
   }

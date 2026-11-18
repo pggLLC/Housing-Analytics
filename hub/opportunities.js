@@ -22,8 +22,15 @@
     lihtc: 'data/chfa-lihtc.json',
     preservation: 'data/affordable-housing/preservation/chfa-preservation.json',
     landBank: 'data/policy/prop123-land-banking-awards.json',
-    roundOne: 'data/affordable-housing/chfa-awards/2026-round-one.json'
+    roundOne: 'data/affordable-housing/chfa-awards/2026-round-one.json',
+    roundTwo: 'data/affordable-housing/chfa-awards/2026-round-two.json'
   };
+  // A round's equity as CHFA's press release states it ("$219 million", "more than $234 million").
+  function equityLine(m) {
+    if (m.press_release_total_equity_M != null) return '$' + m.press_release_total_equity_M + ' million in equity';
+    var n = /\$?(\d+)\s*million/i.exec(m.press_release_equity_note || '');
+    return n ? 'more than $' + n[1] + ' million in equity' : 'equity not stated';
+  }
   var AMI_TIERS = [['20% AMI or less', 'lte20'], ['30% AMI', 'ami30'], ['40% AMI', 'ami40'], ['50% AMI', 'ami50'], ['60% AMI', 'ami60'], ['70% AMI', 'ami70'], ['80% AMI', 'ami80'], ['100% AMI', 'ami100'], ['120% AMI', 'ami120']];
   var LIHTC_SRC = 'CHFA Housing Tax Credit Properties feed';
   // The preservation file carries no URL of its own; this is the CHFA layer the live site's fetch script reads.
@@ -142,14 +149,15 @@
     var rest = Shell.list(Shell.catalog().entries.filter(function (e) { return e.hub === 'opportunities' && ['chfa-portfolio.html', 'preservation.html', 'land-banking-awards.html', 'land-value.html'].indexOf(e.path) < 0; }));
     if (s.error) return head + '<p class="callout">' + esc(s.error) + '</p>' + rest;
     if (!s.data) return head + '<p role="status" class="note">Loading the public records…</p>';
-    var d = s.data, f = facts(d), lb = d.landBank.meta, r1 = d.roundOne.metadata;
+    var d = s.data, f = facts(d), lb = d.landBank.meta, r1 = d.roundOne.metadata, r2 = d.roundTwo && d.roundTwo.metadata;
     return head +
       '<h2>Open a record set</h2>' +
       '<div class="metrics">' +
       UI.linkCard('#/opportunity/portfolio', 'Tax credit properties in compliance', num(f.active.length), num(f.activeHomes) + ' low-income homes', LIHTC_SRC + ', ' + f.fetched, d.lihtc.source) +
       UI.linkCard('#/opportunity/preservation', 'Properties on CHFA’s preservation map', num(f.pres.length), num(f.presHomes) + ' homes. About half match a tax credit or USDA record that dates them; the page shows each date', 'CHFA preservation map, no date in the source file', PRES_URL) +
       UI.linkCard('#/opportunity/land-banking', 'Prop 123 land banking awards', num(lb.award_count), UI.millions(lb.total_awarded) + ' for about ' + num(lb.total_estimated_units) + ' future homes', 'CHFA award lists, ' + lb.generated, lb.program_url) +
-      UI.linkCard('#/deals?round=2026-1', '2026 Round One tax credit awards', num(r1.parsed_count), num(r1.press_release_total_units) + ' homes, $' + r1.press_release_total_equity_M + ' million in equity', 'CHFA, ' + r1.announcement_date, r1.source_url) +
+      (r2 ? UI.linkCard('#/deals?round=2026-2', '2026 Round Two tax credit awards', num(r2.parsed_count), num(r2.press_release_total_units) + ' homes, ' + equityLine(r2), 'CHFA, ' + r2.announcement_date, r2.source_url) : '') +
+      UI.linkCard('#/deals?round=2026-1', '2026 Round One tax credit awards', num(r1.parsed_count), num(r1.press_release_total_units) + ' homes, ' + equityLine(r1), 'CHFA, ' + r1.announcement_date, r1.source_url) +
       '</div>' +
       UI.bars('Low-income homes in tax credit properties, by year awarded', 'Five-year periods, all compliance states', UI.tally(f.props, function (p) { var y = p.AwardYear && Math.floor(p.AwardYear / 5) * 5; return !y ? null : y + 4 >= new Date().getFullYear() ? y + ' to date' : y + '–' + (y + 4); }, function (p) { return p.LI_UNITS; })
         .sort(function (a, b) { return a[0] < b[0] ? -1 : 1; }), num) + global.LabTpl.source(LIHTC_SRC, d.lihtc.source, f.fetched) +
@@ -160,7 +168,7 @@
   }
 
   // The portfolio map adds the county outlines and HUD's two designated-area layers.
-  var PORT_FILES = { lihtc: FILES.lihtc, preservation: FILES.preservation, landBank: FILES.landBank, roundOne: FILES.roundOne,
+  var PORT_FILES = { lihtc: FILES.lihtc, preservation: FILES.preservation, landBank: FILES.landBank, roundOne: FILES.roundOne, roundTwo: FILES.roundTwo,
     counties: 'data/boundaries/counties_co.geojson', qct: 'data/qct-colorado.json', dda: 'data/dda-colorado.json' };
   function rings(g) { return g.type === 'Polygon' ? [g.coordinates] : g.type === 'MultiPolygon' ? g.coordinates : []; }
   function pathOf(g) { return rings(g).map(function (poly) { return poly.map(function (ring) { return 'M' + ring.map(function (c) { return xy(c).join(' '); }).join('L') + 'Z'; }).join(''); }).join(''); }
@@ -270,7 +278,7 @@
       return { d: st.data };
     })();
     if (L.html) return L.html;
-    var f = facts(L.d), T = global.LabTpl, r1 = L.d.roundOne;
+    var f = facts(L.d), T = global.LabTpl, rounds = [L.d.roundTwo, L.d.roundOne].filter(function (b) { return b && b.awards; });
     var all = L.d.lihtc.features.map(function (x) { return { p: x.properties, c: x.geometry && x.geometry.coordinates }; });
     var counties = Object.keys(UI.tally(all, function (x) { return x.p.CNTY_NAME; }).reduce(function (o, r) { o[r[0]] = 1; return o; }, {})).sort();
     var years = all.map(function (x) { return awardYear(x.p); }).filter(Boolean);
@@ -295,7 +303,6 @@
     var byCounty = UI.tally(f.active, function (p) { return p.CNTY_NAME; }, function (p) { return p.LI_UNITS; }).slice(0, 12);
     var top = byCounty[0];
     var liveMax = all.reduce(function (m, x) { return x.p.AwardDate && x.p.AwardDate > m ? x.p.AwardDate : m; }, '').slice(0, 10);
-    var r1m = r1.metadata, r1units = r1.awards.reduce(function (s, a) { return s + (+a.total_units || 0); }, 0);
     var sum = function (k) { return sp.reduce(function (s, p) { return s + (parseInt(p[k], 10) || 0); }, 0); };
     var countyCount = Object.keys(sp.reduce(function (o, p) { if (p.CNTY_NAME) o[p.CNTY_NAME] = 1; return o; }, {})).length;
     var SRC = 'CHFA Housing Tax Credit feed, ' + f.fetched;
@@ -348,12 +355,18 @@
       ], rows, { noun: 'properties' }) + T.source(LIHTC_SRC, L.d.lihtc.source, f.fetched) +
       '<p class="note">A property name links to its town’s Housing Needs Assessment when one is published. Newest awards first; sort by any column heading.</p></section>' +
       '<section id="pf-r1" tabindex="-1"><h2>Awards not yet in the feed</h2>' +
-      '<p>Two vintages sit side by side. CHFA’s live feed: latest record dated ' + esc(liveMax) + '. CHFA’s 2026 Round One, announced ' + esc(r1m.announcement_date) + ': ' + num(r1.awards.length) + ' developments, ' + num(r1units) + ' homes, $' + esc(r1m.press_release_total_equity_M) + ' million in equity. The feed usually picks up a round two to three months after CHFA announces it, so these are listed apart and not added to the totals above.</p>' +
-      '<ul class="opp-cards">' + r1.awards.map(function (a) {
-        var c = [a.federal_9pct_credit && '9%: ' + money(+a.federal_9pct_credit), a.federal_4pct_credit && '4%: ' + money(+a.federal_4pct_credit), a.state_credit && 'state: ' + money(+a.state_credit), a.toc_credit && 'TOC: ' + money(+a.toc_credit)].filter(Boolean);
-        return '<li><strong>' + esc(a.name) + '</strong> · ' + esc(a.city || '—') + '<span>' + esc((a.total_units || '—') + ' homes · ' + (a.sponsor || 'Sponsor not named')) + '</span>' + (c.length ? '<span>' + esc(c.join(' · ')) + '</span>' : '') + '</li>';
-      }).join('') + '</ul>' +
-      '<p class="note">Sources: <a href="' + esc(r1m.source_url) + '">CHFA award descriptions</a> and <a href="' + esc(r1m.press_release_url) + '">press release</a>. All 14 are on <a href="#/deals?round=2026-1">Deal summaries, 2026 Round One</a>.</p></section>' +
+      '<p>CHFA’s live feed: latest record dated ' + esc(liveMax) + '. ' + rounds.map(function (b) {
+        var m = b.metadata, units = b.awards.reduce(function (s, a) { return s + (+a.total_units || 0); }, 0);
+        return 'CHFA’s ' + esc(m.round) + ', announced ' + esc(m.announcement_date) + ': ' + num(b.awards.length) + ' developments, ' + num(units) + ' homes, ' + esc(equityLine(m)) + '.';
+      }).join(' ') + ' The feed usually picks up a round two to three months after CHFA announces it, so these are listed apart and not added to the totals above.</p>' +
+      rounds.map(function (b) {
+        var m = b.metadata, key = /two/i.test(m.round) ? '2026-2' : '2026-1';
+        return '<h3>' + esc(m.round) + '</h3><ul class="opp-cards">' + b.awards.map(function (a) {
+          var c = [a.federal_9pct_credit && '9%: ' + money(+a.federal_9pct_credit), a.federal_4pct_credit && '4%: ' + money(+a.federal_4pct_credit), a.state_credit && 'state: ' + money(+a.state_credit), a.toc_credit && 'TOC: ' + money(+a.toc_credit)].filter(Boolean);
+          return '<li><strong>' + esc(a.name) + '</strong> · ' + esc(a.city || '—') + '<span>' + esc((a.total_units || '—') + ' homes · ' + (a.sponsor || 'Sponsor not named')) + '</span>' + (c.length ? '<span>' + esc(c.join(' · ')) + '</span>' : '') + '</li>';
+        }).join('') + '</ul>' +
+          '<p class="note">Sources: <a href="' + esc(m.source_url) + '">CHFA award descriptions</a> and <a href="' + esc(m.press_release_url) + '">press release</a>. All ' + num(b.awards.length) + ' are on <a href="#/deals?round=' + key + '">Deal summaries, ' + esc(m.round) + '</a>.</p>';
+      }).join('') + '</section>' +
       '<section id="pf-about" tabindex="-1"><h2>About the columns</h2>' +
       '<p><strong>Location.</strong> CHFA’s feed publishes no property website, so Map opens Google Maps at the coordinates CHFA publishes for the property. The property’s own listing is usually one click away there. A property with no coordinates is looked up by street address, and one with neither shows a dash rather than a guessed location.</p>' +
       '<p><strong>Development, setting, serves and income.</strong> Each uses a field CHFA publishes for every property. Development is the kind of deal (new construction, rehab of an existing building, or both), not the building form: CHFA publishes no building type. Serves and income targeting match a property with at least one home in that group. A few properties have no population or income breakdown in CHFA’s data; they appear under “Any” but drop out when you pick a group, because the source does not say whether they serve it.</p>' +
@@ -367,7 +380,7 @@
   // Preservation reads three more public files: HUD's assisted properties, USDA's rural rentals and
   // CHFA's award reports (for acquisition and rehab examples).
   var PRES_FILES = {
-    lihtc: FILES.lihtc, preservation: FILES.preservation, landBank: FILES.landBank, roundOne: FILES.roundOne,
+    lihtc: FILES.lihtc, preservation: FILES.preservation, landBank: FILES.landBank, roundOne: FILES.roundOne, roundTwo: FILES.roundTwo,
     hud: 'data/affordable-housing/preservation/hud-multifamily-assisted.json',
     usda: 'data/affordable-housing/preservation/usda-rural-housing.json',
     awards: 'data/policy/funding-awards/award-rows.json',

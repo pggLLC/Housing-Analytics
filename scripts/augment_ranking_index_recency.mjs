@@ -6,13 +6,14 @@
  *   - latest_lihtc_year   (CHFA AwardYear or YR_PIS, whichever is highest)
  *   - lihtc_project_count (count of CHFA LIHTC projects matching this jurisdiction)
  *   - r1_2026_count       (2026 R1 bridge awards in this jurisdiction)
+ *   - r2_2026_count       (2026 R2 bridge awards in this jurisdiction)
  *   - drought_years       (CURRENT_YEAR - latest_lihtc_year, null if never funded)
  *   - recency_score       (F146 formula: min(100, drought × 25); 100 means
  *                          "never funded on record", treated as max opportunity)
- *   - recency_basis       ('award_year' | 'pis_year' | 'r1_bridge' | 'never_funded')
+ *   - recency_basis       ('award_year' | 'pis_year' | 'r1_bridge' | 'r2_bridge' | 'never_funded')
  *
  * Counties are the exception: they aggregate by CHFA's CNTY_FIPS (and
- * 2026 R1 awards by point-in-county-polygon), because a county name never
+ * 2026 R1 and R2 awards by point-in-county-polygon), because a county name never
  * matches a PROJ_CTY.
  *
  * Matches CHFA records to jurisdictions by uppercased city name against
@@ -45,6 +46,7 @@ const MAX_RECENCY_YEARS = 4;  // matches F146 / compare.js / OF
 const RANKING_INDEX_PATH = path.join(REPO_ROOT, 'data', 'hna', 'ranking-index.json');
 const CHFA_PROPS_PATH    = path.join(REPO_ROOT, 'data', 'affordable-housing', 'lihtc', 'chfa-properties.json');
 const R1_BRIDGE_PATH     = path.join(REPO_ROOT, 'data', 'affordable-housing', 'chfa-awards', '2026-round-one.json');
+const R2_BRIDGE_PATH     = path.join(REPO_ROOT, 'data', 'affordable-housing', 'chfa-awards', '2026-round-two.json');
 const CENTROIDS_PATH     = path.join(REPO_ROOT, 'data', 'co-place-centroids.json');
 
 // F240 — Distance threshold for the regional rollup. Matches CHFA's
@@ -80,15 +82,17 @@ function _recencyScore(lastYear) {
 }
 
 async function main() {
-  const [riText, chfaText, r1Text, centText] = await Promise.all([
+  const [riText, chfaText, r1Text, r2Text, centText] = await Promise.all([
     fs.readFile(RANKING_INDEX_PATH, 'utf8'),
     fs.readFile(CHFA_PROPS_PATH, 'utf8'),
     fs.readFile(R1_BRIDGE_PATH, 'utf8'),
+    fs.readFile(R2_BRIDGE_PATH, 'utf8'),
     fs.readFile(CENTROIDS_PATH, 'utf8').catch(() => '{}'),
   ]);
   const ri    = JSON.parse(riText);
   const chfa  = JSON.parse(chfaText);
   const r1    = JSON.parse(r1Text);
+  const r2    = JSON.parse(r2Text);
   const centroids = JSON.parse(centText);
   const countyIdx = await loadCountyIndex(REPO_ROOT);
   // byGeoid → { name, lat, lng } per place. Used for the F240
@@ -178,15 +182,21 @@ async function main() {
   // R1 awards carry coordinates but no county, and a city name cannot stand
   // in for one (Aurora spans three counties), so counties get them by
   // point-in-polygon.
-  const r1ByCity = new Map();
-  const r1ByCounty = new Map();
-  for (const a of (r1.awards || [])) {
-    const city = _normCity(a.city);
-    if (city) r1ByCity.set(city, (r1ByCity.get(city) || 0) + 1);
-    const fips = countyForPoint(countyIdx, Number(a.lon), Number(a.lat));
-    if (fips) r1ByCounty.set(fips, (r1ByCounty.get(fips) || 0) + 1);
-    else console.warn('R1 award outside every county boundary (not counted for any county): ' + a.name);
+  // Round Two (announced 2026-11-16) is counted the same way.
+  function bridgeCounts(bridge, label) {
+    const byCity = new Map(), byCounty = new Map();
+    for (const a of (bridge.awards || [])) {
+      const city = _normCity(a.city);
+      if (city) byCity.set(city, (byCity.get(city) || 0) + 1);
+      const fips = countyForPoint(countyIdx, Number(a.lon), Number(a.lat));
+      if (fips) byCounty.set(fips, (byCounty.get(fips) || 0) + 1);
+      else console.warn(label + ' award outside every county boundary (not counted for any county): ' + a.name);
+    }
+    return [byCity, byCounty];
   }
+  const [r1ByCity, r1ByCounty] = bridgeCounts(r1, 'R1');
+  const [r2ByCity, r2ByCounty] = bridgeCounts(r2, 'R2');
+  const r2Yr  = Number((r2.metadata && r2.metadata.round || '').match(/(\d{4})/)?.[1]) || r1Yr;
 
   // Annotate each ranking entry.
   let touched = 0;
@@ -196,16 +206,18 @@ async function main() {
     const cityKey = _normCity(e.name);
     const chfaAgg = (isCounty ? chfaByCounty.get(e.geoid) : chfaByCity.get(cityKey)) || null;
     const r1n     = (isCounty ? r1ByCounty.get(e.geoid) : r1ByCity.get(cityKey)) || 0;
+    const r2n     = (isCounty ? r2ByCounty.get(e.geoid) : r2ByCity.get(cityKey)) || 0;
 
     const latestAward = chfaAgg && chfaAgg.latestAward;
     const latestPis   = chfaAgg && chfaAgg.latestPis;
     // Newest year wins. R1 bridge counts as a 2026 signal — included so
     // the recency score is consistent with what the OF + Compare pages
     // compute at runtime.
-    const candidates = [latestAward, latestPis, r1n > 0 ? r1Yr : null].filter(y => Number.isFinite(y));
+    const candidates = [latestAward, latestPis, r1n > 0 ? r1Yr : null, r2n > 0 ? r2Yr : null].filter(y => Number.isFinite(y));
     const latest_lihtc_year = candidates.length ? Math.max(...candidates) : null;
     const recency_basis = latest_lihtc_year == null ? 'never_funded'
                         : (r1n > 0 && latest_lihtc_year === r1Yr) ? 'r1_bridge'
+                        : (r2n > 0 && latest_lihtc_year === r2Yr) ? 'r2_bridge'
                         : (latestAward != null && latest_lihtc_year === latestAward) ? 'award_year'
                         : 'pis_year';
     const drought_years = latest_lihtc_year == null ? null : Math.max(0, CURRENT_YEAR - latest_lihtc_year);
@@ -215,6 +227,7 @@ async function main() {
     e.metrics.latest_lihtc_year   = latest_lihtc_year;
     e.metrics.lihtc_project_count = chfaAgg ? chfaAgg.count : 0;
     e.metrics.r1_2026_count       = r1n;
+    e.metrics.r2_2026_count       = r2n;
     e.metrics.drought_years       = drought_years;
     e.metrics.recency_score       = recency_score;
     e.metrics.recency_basis       = recency_basis;
@@ -381,12 +394,13 @@ async function main() {
 
   // Add metric descriptors so consumers can introspect.
   const newMetrics = [
-    { id: 'latest_lihtc_year',   label: 'Latest LIHTC award year', description: 'Highest CHFA AwardYear or YR_PIS for any project in this jurisdiction; folds in 2026 R1 bridge awards.', unit: 'year', sortOrder: 'descending' },
+    { id: 'latest_lihtc_year',   label: 'Latest LIHTC award year', description: 'Highest CHFA AwardYear or YR_PIS for any project in this jurisdiction; folds in 2026 R1 and R2 bridge awards.', unit: 'year', sortOrder: 'descending' },
     { id: 'lihtc_project_count', label: 'LIHTC project count',     description: 'Count of CHFA LIHTC projects: places match on PROJ_CTY; counties count every project whose CHFA CNTY_FIPS is the county.', unit: 'count', sortOrder: 'descending' },
     { id: 'r1_2026_count',       label: '2026 R1 awards',          description: 'Count of 2026 R1 bridge awards in this jurisdiction (not yet ingested into the CHFA ArcGIS feed).', unit: 'count', sortOrder: 'descending' },
+    { id: 'r2_2026_count',       label: '2026 R2 awards',          description: 'Count of 2026 R2 bridge awards in this jurisdiction (not yet ingested into the CHFA ArcGIS feed).', unit: 'count', sortOrder: 'descending' },
     { id: 'drought_years',       label: 'Years since last LIHTC',  description: 'CURRENT_YEAR − latest_lihtc_year. null = never funded on record.', unit: 'years', sortOrder: 'descending' },
     { id: 'recency_score',       label: 'Recency / competition score', description: 'F146 formula: min(100, drought × 25). 100 = never funded (max opportunity); 0 = fresh award.', unit: 'score', sortOrder: 'descending' },
-    { id: 'recency_basis',       label: 'Recency basis',           description: 'Which signal determined latest_lihtc_year: award_year, pis_year, r1_bridge, or never_funded.', unit: 'category', sortOrder: 'ascending' },
+    { id: 'recency_basis',       label: 'Recency basis',           description: 'Which signal determined latest_lihtc_year: award_year, pis_year, r1_bridge, r2_bridge, or never_funded.', unit: 'category', sortOrder: 'ascending' },
     // F234 — Per-credit-type recency. The OF reads these per preset so a
     // recent 9% award doesn't depress 4%-recency, and vice versa.
     { id: 'latest_9pct_year',         label: 'Latest 9% Competitive award', description: 'Most recent award where TypeOfCredits contains "9%" — captures both 9% Competitive and 9% and State combos.', unit: 'year', sortOrder: 'descending' },
