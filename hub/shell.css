@@ -413,6 +413,16 @@ figcaption .geo-chip { align-self: flex-start; }
 .rate-grid td.num { background: color-mix(in srgb, var(--c-green) calc(var(--g, 0) * 70%), transparent); font-weight: 600; }
 .rate-grid td.mid { outline: 3px solid var(--ink); outline-offset: -3px; }
 .rate-grid td[data-covered] { background: var(--geo-local-bg); color: var(--geo-local); }
+/* The sources bar pinned under the header while the full one is out of view (step-bar.js shows it; --live-h makes room). */
+.fin-pin { position: fixed; top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) + var(--tabs-h, 0px)); left: 0; right: 0; z-index: 49; background: var(--card); border-bottom: 1px solid var(--line); box-shadow: 0 2px 6px var(--shade-soft); padding: 0 16px .4rem; }
+.fin-pin[hidden] { display: none; }
+.fin-pin-in { max-width: 72rem; margin-inline: auto; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: .75rem; }
+.fin-pin-k { margin: 0; font-size: 15px; font-weight: 700; color: var(--rust); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.fin-pin-k.ok { color: var(--src-equity); }
+.fin-pin-k.none { color: var(--muted); }
+.fin-pin-up { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 600; }
+.fin-pin-bar { grid-column: 1 / -1; height: 8px; margin: 0; gap: 2px; background: var(--card); border-radius: 4px; }
+@media print { .fin-pin { display: none !important; } }
 @media (min-width: 900px) { .ans { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); } .ans > .ans-card:first-child { grid-row: span 2; } }
 @media (max-width: 420px) { .ans-flow li { grid-template-columns: minmax(0, 6.5rem) minmax(0, 1fr) auto; font-size: 13px; } .ans-tiles b { font-size: 19px; } }
 .home-about { background: var(--card); border: 1px solid var(--line); border-radius: 12px; margin: 1.5rem 0; }

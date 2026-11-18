@@ -1,0 +1,677 @@
+{
+  "meta": {
+    "title": "How the market area changes a tax credit capture rate: a small-town Colorado example",
+    "as_of": "2026-11-18",
+    "last_verified": "2026-11-18",
+    "review_by": "2027-05-18",
+    "method": "The example is a real small town in rural Colorado, within a half-hour drive of a regional city; its name, county and tracts are withheld. The project is the site tool's generic test: 60 family homes, 6 at 30% AMI, 12 at 50% and 42 at 60%. Qualified renter households come from the Housing-Analytics capture engine (js/market-analysis-scoring.js, chfaQualifiedRenters) on HUD CHAS 2018-2022 scaled to ACS 2020-2024 renters, under CHFA 2027-2028 rules (40% rent-to-income, occupancy limits by bedroom). Existing comparable homes are family tax credit homes at 60% AMI or below from the HUD LIHTC database, counted at the AMI levels the project serves. Drive times: 2020 Census blocks routed on the road network (OSRM, free-flow) from the town centre on 17 November 2026. Part-tract designs split each tract by the share of its 2020 population inside (blocks) or by each block group's low-income renters (ACS 2020-2024 B25003 and B19001). Commuter sheds: LODES 2024 tract-to-tract flows. Rental vacancy: ACS 2020-2024 B25004 and B25003. Land is rounded to the nearest 100 square miles and counts to the nearest 10; rates use unrounded counts.",
+    "renter_owner": "Every count is of RENTER households. Owners are not part of tax credit demand.",
+    "project": {
+      "homes": 60,
+      "mix": {
+        "30": 6,
+        "50": 12,
+        "60": 42
+      }
+    },
+    "capture_formula": "CHFA capture = (project homes + existing comparable tax credit homes in the area) / income-qualified renter households (+ documented in-migration, if any). Net of occupied = project homes at 98% occupancy / (qualified - existing comparable homes at 98% occupancy); not a CHFA measure.",
+    "known_gaps": [
+      "The site is withheld, so readers cannot rerun the example; the method can be rerun on any site in Market check.",
+      "CHAS is 2018-2022 and ACS 2020-2024; tract and block-group margins of error are wide, especially for rental vacancy and moves.",
+      "Block groups have no published income by tenure; the low-income renter share uses all households' incomes.",
+      "Drive times are free-flow from the town centre and do not reflect winter roads or traffic.",
+      "The HUD LIHTC database does not flag project-based Section 8 homes, which CHFA leaves out; city-area rates may be overstated.",
+      "Nothing here is a market study; CHFA requires one prepared by an approved analyst who discusses the market area with CHFA first."
+    ]
+  },
+  "rules": [
+    {
+      "id": "whole-tracts",
+      "topic": "Shape of the market area",
+      "rule": "Whole census tracts only; no radius.",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+        "title": "2027-2028 Qualified Allocation Plan, Appendix A Market Study Guide",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 74,
+        "quote": "Radius boundaries are not allowed. The market boundary must include entire census tracts."
+      },
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    },
+    {
+      "id": "majority",
+      "topic": "Who the area must hold",
+      "rule": "The area the project is expected to draw most of its residents from.",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+        "title": "2027-2028 Qualified Allocation Plan, Appendix A Market Study Guide",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 74,
+        "quote": "is expected to draw the majority of its residents"
+      },
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    },
+    {
+      "id": "factors",
+      "topic": "What to weigh",
+      "rule": "Town, county and tract lines; natural and physical barriers; socioeconomic ties; school districts.",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+        "title": "2027-2028 Qualified Allocation Plan, Appendix A Market Study Guide",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 74,
+        "quote": "School district boundaries."
+      },
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    },
+    {
+      "id": "renters",
+      "topic": "Who counts as demand",
+      "rule": "Renter households living in the area today who can pay the maximum gross rent at no more than 40% of income.",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+        "title": "2027-2028 Qualified Allocation Plan, Appendix A Market Study Guide",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 83,
+        "quote": "The assumption that tenants are paying no more than 40 percent of their income for the maximum allowed Housing Tax Credit rent"
+      },
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    },
+    {
+      "id": "comparable",
+      "topic": "Existing supply",
+      "rule": "Count existing comparable tax credit homes in the area; family projects compare with family homes; project-based Section 8 homes come out.",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+        "title": "2027-2028 Qualified Allocation Plan, Appendix A Market Study Guide",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 83,
+        "quote": "Only comparable Housing Tax Credit units should be used in the analysis"
+      },
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    },
+    {
+      "id": "by-ami",
+      "topic": "By income level",
+      "rule": "Show demand and capture for each AMI level the project serves.",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+        "title": "2027-2028 Qualified Allocation Plan, Appendix A Market Study Guide",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 82,
+        "quote": "Demand and capture rates should be estimated for each AMI category that the proposed project will target"
+      },
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    },
+    {
+      "id": "in-migration",
+      "topic": "In-migration",
+      "rule": "Allowed only when shown from comparable projects and discussed with CHFA's Staff Appraiser; never anecdotal.",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+        "title": "2027-2028 Qualified Allocation Plan, Appendix A Market Study Guide",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 83,
+        "quote": "In-migration can be used when it is demonstrated from other comparable projects."
+      },
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    },
+    {
+      "id": "limit",
+      "topic": "The limit",
+      "rule": "Capture above 85% is not accepted without more data supporting demand.",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+        "title": "2027-2028 Qualified Allocation Plan",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 9,
+        "quote": "A project with capture rates that exceed 85 percent will not be accepted without additional data to support demand."
+      },
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    },
+    {
+      "id": "vacancy",
+      "topic": "Vacancy",
+      "rule": "CHFA favors a market area with low vacancy and few concessions; the study reports comparable vacancy by unit type with two years of history.",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf",
+        "title": "2027-2028 Qualified Allocation Plan",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 9,
+        "quote": "CHFA will look more favorably on a project that is in a PMA where there are lower vacancy rates and fewer concessions or reduced rents."
+      },
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    }
+  ],
+  "precedents": [
+    {
+      "id": "nest-10th",
+      "project": "The Nest at 10th",
+      "round": "2023 Round Two",
+      "setting": "Family homes near a light rail station",
+      "in_migration": "30%",
+      "capture": "17.3% overall",
+      "basis": "Typical of a transit site",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/ef24fa13-be3f-4332-ada0-c9a682aab30f/2023-Round-Two-Narratives.pdf",
+        "title": "2023 Round Two application narratives",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 143,
+        "quote": "These capture rates assume 30% in-migration, consistent with expectations at a TOD site."
+      },
+      "more_quote": "The overall capture rate for the project is 17.3%",
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    },
+    {
+      "id": "creekside",
+      "project": "Creekside Flats",
+      "round": "2024 Round Two",
+      "setting": "Family homes at a transit site",
+      "in_migration": "30%",
+      "capture": "15.9% overall",
+      "basis": "Typical of a transit site",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/432406db-046f-4911-ae25-3a07d87cb95f/2024-Round-Two-Narratives.pdf",
+        "title": "2024 Round Two application narratives",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 47,
+        "quote": "The capture rates calculated assume a 30% in-migration, which is typical for a TOD site."
+      },
+      "more_quote": "The overall capture rate for Creekside Flats is 15.9%.",
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    },
+    {
+      "id": "a-line",
+      "project": "A Line Flats",
+      "round": "2025 Round Two",
+      "setting": "Family homes at a rail station",
+      "in_migration": "25%",
+      "capture": "26.3% without, 21.0% with",
+      "basis": "Transit location; draw from outside the market area",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf",
+        "title": "2025 Housing Tax Credit Round Two application narratives",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 12,
+        "quote": "base capture rate of 26.3% for A Line Flats, which improves to 21.0% when adjusted for 25% in-migration"
+      },
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    },
+    {
+      "id": "ridge",
+      "project": "The Ridge",
+      "round": "2026 Round Two",
+      "setting": "Family homes, Denver",
+      "in_migration": "25%",
+      "capture": "Not stated overall",
+      "basis": "Two nearby properties where half or more of residents came from outside the area",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/a3ac77b4-ea89-4f8f-a09b-9427df4aa115/2026-HTC-Round-Two-Narratives.pdf",
+        "title": "2026 Housing Tax Credit Round Two application narratives",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 99,
+        "quote": "with the analyst-supported 25% in-migration adjustment"
+      },
+      "more_quote": "50% or more of residents relocated outside the immediate area",
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    },
+    {
+      "id": "switchgrass",
+      "project": "Switchgrass Crossing",
+      "round": "2025 Round One",
+      "setting": "Homes for older adults, Fort Collins",
+      "in_migration": "30%",
+      "capture": "26.3% overall",
+      "basis": "The sponsor's earlier property next door",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/e041164b-26b5-4192-90db-d54d181ead00/2025-HTC-Round-One-Narratives.pdf",
+        "title": "2025 Housing Tax Credit Round One application narratives",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 98,
+        "quote": "assumes an in-migration rate of 30% based on the in-migration trends of Cadence."
+      },
+      "more_quote": "The overall capture rate for the Project is 26.3%.",
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    },
+    {
+      "id": "smith-ranch",
+      "project": "Smith Ranch Apartments",
+      "round": "2022 Round Two",
+      "setting": "Family homes, mountain resort county",
+      "in_migration": "Not in the rate",
+      "capture": "Not used",
+      "basis": "Property managers' counts of tenants from outside the county, used as support",
+      "source": {
+        "url": "https://www.chfainfo.com/getattachment/4a09630b-e9f1-4117-8e2d-18628f014462/2022-round2-narratives.pdf",
+        "title": "2022 Round Two application narratives",
+        "publisher": "Colorado Housing and Finance Authority",
+        "page": 78,
+        "quote": "six LIHTC and mixed-income property managers mentioned 10% to 50% of tenants are from outside Summit County"
+      },
+      "verification": {
+        "checked": "2026-11-18",
+        "level": "primary"
+      },
+      "review_by": "2027-05-18"
+    }
+  ],
+  "designs": [
+    {
+      "id": "town",
+      "family": "Whole tracts",
+      "label": "The town's own two tracts",
+      "short": "Town only",
+      "whole_tracts": true,
+      "land_sq_mi": 300,
+      "qualified_renter_households": 110,
+      "existing_comparable_homes": 0,
+      "capture": 55.6,
+      "project_share": 55.6,
+      "highest_ami_level": 50,
+      "highest_ami_rate": 66.7,
+      "net_of_occupied": 54.4,
+      "rental_vacancy": 0,
+      "draw_20min": 68
+    },
+    {
+      "id": "best",
+      "family": "Whole tracts",
+      "label": "The town's tracts plus one neighbouring rural tract",
+      "short": "Town + one rural tract (best fit)",
+      "whole_tracts": true,
+      "land_sq_mi": 500,
+      "qualified_renter_households": 220,
+      "existing_comparable_homes": 0,
+      "capture": 27.1,
+      "project_share": 27.1,
+      "highest_ami_level": 60,
+      "highest_ami_rate": 33.9,
+      "net_of_occupied": 26.6,
+      "rental_vacancy": 2,
+      "draw_20min": 81
+    },
+    {
+      "id": "lake",
+      "family": "Whole tracts",
+      "label": "Best fit plus a large remote tract of mostly second homes",
+      "short": "Best fit + remote tract",
+      "whole_tracts": true,
+      "land_sq_mi": 700,
+      "qualified_renter_households": 250,
+      "existing_comparable_homes": 0,
+      "capture": 23.9,
+      "project_share": 23.9,
+      "highest_ami_level": 60,
+      "highest_ami_rate": 29.0,
+      "net_of_occupied": 23.4,
+      "rental_vacancy": 5,
+      "draw_20min": 81
+    },
+    {
+      "id": "nearcity",
+      "family": "Whole tracts",
+      "label": "Best fit plus the tract toward the city",
+      "short": "Best fit + near-city tract",
+      "whole_tracts": true,
+      "land_sq_mi": 500,
+      "qualified_renter_households": 350,
+      "existing_comparable_homes": 40,
+      "capture": 27.1,
+      "project_share": 17.1,
+      "highest_ami_level": 50,
+      "highest_ami_rate": 47.6,
+      "net_of_occupied": 18.6,
+      "rental_vacancy": 5,
+      "draw_20min": 99
+    },
+    {
+      "id": "city",
+      "family": "Whole tracts",
+      "label": "Best fit plus the regional city",
+      "short": "Best fit + regional city",
+      "whole_tracts": true,
+      "land_sq_mi": 600,
+      "qualified_renter_households": 1090,
+      "existing_comparable_homes": 410,
+      "capture": 42.9,
+      "project_share": 5.5,
+      "highest_ami_level": 60,
+      "highest_ami_rate": 67.4,
+      "net_of_occupied": 8.5,
+      "rental_vacancy": 5,
+      "draw_20min": 99
+    },
+    {
+      "id": "county",
+      "family": "Whole tracts",
+      "label": "The whole county",
+      "short": "Whole county",
+      "whole_tracts": true,
+      "land_sq_mi": 1700,
+      "qualified_renter_households": 1280,
+      "existing_comparable_homes": 410,
+      "capture": 36.7,
+      "project_share": 4.7,
+      "highest_ami_level": 60,
+      "highest_ami_rate": 56.9,
+      "net_of_occupied": 6.7,
+      "rental_vacancy": 6,
+      "draw_20min": 100
+    },
+    {
+      "id": "dt10",
+      "family": "Drive time, part tracts",
+      "label": "Within 10 minutes by road",
+      "short": "10-minute drive",
+      "whole_tracts": false,
+      "land_sq_mi": 100,
+      "qualified_renter_households": 50,
+      "existing_comparable_homes": 0,
+      "capture": 122.4,
+      "project_share": 122.4,
+      "highest_ami_level": 50,
+      "highest_ami_rate": 150.0,
+      "net_of_occupied": 120.0,
+      "rental_vacancy": 0,
+      "draw_20min": 41
+    },
+    {
+      "id": "dt15",
+      "family": "Drive time, part tracts",
+      "label": "Within 15 minutes by road",
+      "short": "15-minute drive",
+      "whole_tracts": false,
+      "land_sq_mi": 200,
+      "qualified_renter_households": 70,
+      "existing_comparable_homes": 0,
+      "capture": 81.1,
+      "project_share": 81.1,
+      "highest_ami_level": 50,
+      "highest_ami_rate": 92.3,
+      "net_of_occupied": 79.5,
+      "rental_vacancy": 1,
+      "draw_20min": 59
+    },
+    {
+      "id": "dt20",
+      "family": "Drive time, part tracts",
+      "label": "Within 20 minutes by road",
+      "short": "20-minute drive",
+      "whole_tracts": false,
+      "land_sq_mi": 300,
+      "qualified_renter_households": 150,
+      "existing_comparable_homes": 40,
+      "capture": 65.1,
+      "project_share": 41.1,
+      "highest_ami_level": 50,
+      "highest_ami_rate": 130.0,
+      "net_of_occupied": 52.6,
+      "rental_vacancy": 3,
+      "draw_20min": 100
+    },
+    {
+      "id": "dt30",
+      "family": "Drive time, part tracts",
+      "label": "Within 30 minutes by road",
+      "short": "30-minute drive",
+      "whole_tracts": false,
+      "land_sq_mi": 800,
+      "qualified_renter_households": 580,
+      "existing_comparable_homes": 410,
+      "capture": 80.4,
+      "project_share": 10.3,
+      "highest_ami_level": 60,
+      "highest_ami_rate": 115.0,
+      "net_of_occupied": 32.3,
+      "rental_vacancy": 5,
+      "draw_20min": 100
+    },
+    {
+      "id": "dt20w",
+      "family": "Drive time, whole tracts",
+      "label": "Tracts with most people within 20 minutes",
+      "short": "20-minute drive",
+      "whole_tracts": true,
+      "land_sq_mi": 300,
+      "qualified_renter_households": 110,
+      "existing_comparable_homes": 0,
+      "capture": 55.6,
+      "project_share": 55.6,
+      "highest_ami_level": 50,
+      "highest_ami_rate": 66.7,
+      "net_of_occupied": 54.4,
+      "rental_vacancy": 0,
+      "draw_20min": 68
+    },
+    {
+      "id": "dt30w",
+      "family": "Drive time, whole tracts",
+      "label": "Tracts with most people within 30 minutes",
+      "short": "30-minute drive",
+      "whole_tracts": true,
+      "land_sq_mi": 600,
+      "qualified_renter_households": 640,
+      "existing_comparable_homes": 170,
+      "capture": 35.4,
+      "project_share": 9.4,
+      "highest_ami_level": 60,
+      "highest_ami_rate": 48.2,
+      "net_of_occupied": 12.3,
+      "rental_vacancy": 5,
+      "draw_20min": 99
+    },
+    {
+      "id": "r5",
+      "family": "Radius, part tracts",
+      "label": "Within 5 miles in a straight line",
+      "short": "5-mile radius",
+      "whole_tracts": false,
+      "land_sq_mi": 100,
+      "qualified_renter_households": 80,
+      "existing_comparable_homes": 0,
+      "capture": 75.9,
+      "project_share": 75.9,
+      "highest_ami_level": 60,
+      "highest_ami_rate": 87.5,
+      "net_of_occupied": 74.4,
+      "rental_vacancy": 1,
+      "draw_20min": 52
+    },
+    {
+      "id": "r10",
+      "family": "Radius, part tracts",
+      "label": "Within 10 miles in a straight line",
+      "short": "10-mile radius",
+      "whole_tracts": false,
+      "land_sq_mi": 300,
+      "qualified_renter_households": 220,
+      "existing_comparable_homes": 0,
+      "capture": 27.9,
+      "project_share": 27.9,
+      "highest_ami_level": 60,
+      "highest_ami_rate": 35.9,
+      "net_of_occupied": 27.3,
+      "rental_vacancy": 3,
+      "draw_20min": 87
+    },
+    {
+      "id": "r15",
+      "family": "Radius, part tracts",
+      "label": "Within 15 miles in a straight line",
+      "short": "15-mile radius",
+      "whole_tracts": false,
+      "land_sq_mi": 700,
+      "qualified_renter_households": 550,
+      "existing_comparable_homes": 180,
+      "capture": 43.6,
+      "project_share": 10.9,
+      "highest_ami_level": 50,
+      "highest_ami_rate": 61.5,
+      "net_of_occupied": 15.7,
+      "rental_vacancy": 5,
+      "draw_20min": 100
+    },
+    {
+      "id": "r10w",
+      "family": "Radius, whole tracts",
+      "label": "Tracts whose centre is within 10 miles",
+      "short": "Tract centres within 10 miles",
+      "whole_tracts": true,
+      "land_sq_mi": 500,
+      "qualified_renter_households": 220,
+      "existing_comparable_homes": 0,
+      "capture": 27.1,
+      "project_share": 27.1,
+      "highest_ami_level": 60,
+      "highest_ami_rate": 33.9,
+      "net_of_occupied": 26.6,
+      "rental_vacancy": 2,
+      "draw_20min": 81
+    },
+    {
+      "id": "bg20",
+      "family": "Block groups",
+      "label": "Block groups with most people within 20 minutes",
+      "short": "20-minute drive",
+      "whole_tracts": false,
+      "land_sq_mi": 100,
+      "qualified_renter_households": 120,
+      "existing_comparable_homes": 0,
+      "capture": 50.0,
+      "project_share": 50.0,
+      "highest_ami_level": 60,
+      "highest_ami_rate": 57.5,
+      "net_of_occupied": 49.0,
+      "rental_vacancy": 1,
+      "draw_20min": 77
+    },
+    {
+      "id": "shed5",
+      "family": "Commuter shed",
+      "label": "Tracts sending 5% or more of the site tract's workers",
+      "short": "Sends 5%+ of local workers",
+      "whole_tracts": true,
+      "land_sq_mi": 500,
+      "qualified_renter_households": 220,
+      "existing_comparable_homes": 0,
+      "capture": 27.1,
+      "project_share": 27.1,
+      "highest_ami_level": 60,
+      "highest_ami_rate": 33.9,
+      "net_of_occupied": 26.6,
+      "rental_vacancy": 2,
+      "draw_20min": 81
+    },
+    {
+      "id": "shed75",
+      "family": "Commuter shed",
+      "label": "Tracts housing 75% of the site tract's workers",
+      "short": "Houses 75% of local workers",
+      "whole_tracts": true,
+      "land_sq_mi": 1000,
+      "qualified_renter_households": 710,
+      "existing_comparable_homes": 170,
+      "capture": 31.8,
+      "project_share": 8.4,
+      "highest_ami_level": 60,
+      "highest_ami_rate": 44.0,
+      "net_of_occupied": 10.7,
+      "rental_vacancy": 5,
+      "draw_20min": 100
+    }
+  ],
+  "in_migration": [
+    {
+      "outside_share": 0,
+      "basis": "Base case: no in-migration",
+      "qualifying": 220,
+      "capture": 27.1
+    },
+    {
+      "outside_share": 5,
+      "basis": "Census: renters in the area who moved in from another county or state in the past year (about 5%)",
+      "qualifying": 230,
+      "capture": 25.8
+    },
+    {
+      "outside_share": 12,
+      "basis": "Census: the same measure for the whole county (about 12%)",
+      "qualifying": 250,
+      "capture": 23.9
+    },
+    {
+      "outside_share": 25,
+      "basis": "Rate CHFA has accepted at transit sites with comparable-property proof",
+      "qualifying": 290,
+      "capture": 20.4
+    },
+    {
+      "outside_share": 30,
+      "basis": "Rate CHFA has accepted at transit sites with comparable-property proof",
+      "qualifying": 320,
+      "capture": 19.0
+    },
+    {
+      "outside_share": 50,
+      "basis": "A tenant-origin model's expectation (narrative only)",
+      "qualifying": 440,
+      "capture": 13.6
+    }
+  ]
+}
