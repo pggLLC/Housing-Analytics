@@ -725,13 +725,13 @@
     return ok.filter(function (x) { return x.eval.chfa.rateAll <= low + BEST.within + 1e-9; })
       .sort(function (x, y) { return x.list.length - y.list.length || x.eval.chfa.rateAll - y.eval.chfa.rateAll; })[0];
   }
-  function areaById(b, id) { return (b.areas || areasFor(b)).filter(function (x) { return x.ids.indexOf(id) > -1; })[0] || null; }
+  function areaById(b, id) { return areasFor(b).filter(function (x) { return x.ids.indexOf(id) > -1; })[0] || null; }
   // What is picked: the reader's choice; else the map's tracts once edited; else the best fit for CHFA (paul, 18 Nov
   // 2026); else, with no best fit, the local market area.
   function effectivePick(b) {
     if (b.pickId && areaById(b, b.pickId)) return areaById(b, b.pickId);
     if (b.picked) return areaById(b, 'map');
-    var list = b.areas || areasFor(b);
+    var list = areasFor(b);
     return b.best && list.indexOf(b.best) > -1 ? b.best : areaById(b, 'suggested');
   }
   // The best fit and the local and regional market areas need no reason; they can be the same tracts.
