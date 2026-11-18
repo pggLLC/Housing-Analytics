@@ -63,6 +63,12 @@ export const FILES = [
     checked: (r) => r.verification && r.verification.checked, source: (r) => r.source && r.source.url },
   { file: 'data/policy/tariffs-construction-costs.json', key: 'production', title: 'Tariffs: production and home building', page: 'research-brief.html?id=tariffs-construction-costs-2026', name: (r) => r.title,
     checked: (r) => r.verification && r.verification.checked, source: (r) => r.source && r.source.url },
+  // Market area and capture rate brief: each CHFA rule and each application-narrative
+  // precedent (research brief co-pma-capture-small-town-2026).
+  { file: 'data/policy/pma-capture-example.json', key: 'rules', title: 'Market area and capture: CHFA rules', page: 'research-brief.html?id=co-pma-capture-small-town-2026', name: (r) => r.topic,
+    checked: (r) => r.verification && r.verification.checked, source: (r) => r.source && r.source.url },
+  { file: 'data/policy/pma-capture-example.json', key: 'precedents', title: 'Market area and capture: CHFA precedents', page: 'research-brief.html?id=co-pma-capture-small-town-2026', name: (r) => `${r.project} (${r.round})`,
+    checked: (r) => r.verification && r.verification.checked, source: (r) => r.source && r.source.url },
   { file: 'data/policy/local-support.json', key: 'jurisdictions', title: 'Local support (plans and council record)', page: 'lihtc-opportunity-finder.html', name: (r) => r.jurisdiction,
     checked: (r) => r.checked, source: (r) => (r.sources_checked || [])[0] },
 ];
