@@ -263,6 +263,25 @@ test('malformed feed or dataset is unavailable instead of fabricating an empty r
   }
 });
 
+test('a brief that moved to the member site shows a notice and the research list, not "not found"', async (t) => {
+  const id = 'co-pma-capture-small-town-2026';
+  assert.equal(FEED.briefs.some((b) => b.id === id), false, 'the moved brief must not be in the public feed');
+  const { doc } = await runPage(t, { id });
+  const host = doc.getElementById('brief-content');
+  assert.equal(host.dataset.moved, 'member');
+  const other = await runPage(t, { id: 'no-such-brief' });
+  const notFound = other.doc.querySelector('h1').textContent;
+  assert.equal(other.doc.getElementById('brief-content').dataset.moved, undefined, 'an unknown id is not reported as moved');
+  for (const name of ['constructor', 'toString', '__proto__']) {
+    const inherited = await runPage(t, { id: name });
+    assert.equal(inherited.doc.getElementById('brief-content').dataset.moved, undefined, `${name} is not a moved brief`);
+  }
+  assert.ok(doc.querySelector('h1').textContent.trim() && doc.querySelector('h1').textContent !== notFound, 'the moved notice is its own message, not "not found"');
+  // The way back goes to the research list (the catalog page), with a readable name.
+  const back = [...host.querySelectorAll('a[href]')];
+  assert.ok(back.some((a) => a.getAttribute('href') === 'insights.html' && a.textContent.trim().length > 3), 'no named link to the research list');
+});
+
 test('print control calls window.print, and the reader loads the shared head/nav and print styles', async (t) => {
   const { doc, prints } = await runPage(t);
   const sources = [...doc.querySelectorAll('script[src]')].map((script) => script.getAttribute('src'));

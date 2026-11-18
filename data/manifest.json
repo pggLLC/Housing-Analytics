@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-18T11:57:19.535983Z",
+  "generated": "2026-11-18T13:21:41.175234Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1011138
+      "bytes": 1010412
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -104,7 +104,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2552702
+      "bytes": 2570429
     },
     "data/alerts/outlet-decisions.json": {
       "featureCount": 0,
@@ -9691,11 +9691,6 @@
       "placeholder": false,
       "bytes": 17856
     },
-    "data/policy/pma-capture-example.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 24900
-    },
     "data/policy/policy-timeline.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -9809,12 +9804,12 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 750387
+      "bytes": 863166
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 481037
+      "bytes": 447442
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,
