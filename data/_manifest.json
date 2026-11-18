@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-18T13:15:04.337Z",
+    "generated_at": "2026-11-18T13:21:36.423Z",
     "root": "data/",
     "file_count": 1997,
-    "total_size_bytes": 228243226,
+    "total_size_bytes": 228373732,
     "kinds": {
       "json": 1948,
       "geojson": 35,
@@ -400,8 +400,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 2552702,
-      "mtime": "2026-11-18T11:54:24.280Z",
+      "size_bytes": 2570429,
+      "mtime": "2026-11-18T13:21:34.392Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -409,7 +409,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 3826,
+      "primary_array_length": 3854,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -468,7 +468,7 @@
       "path": "alerts/outlet-review.json",
       "kind": "json",
       "size_bytes": 12329,
-      "mtime": "2026-11-18T11:57:12.425Z",
+      "mtime": "2026-11-18T13:21:34.393Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -492,7 +492,7 @@
       "path": "alerts/owner-news.json",
       "kind": "json",
       "size_bytes": 324,
-      "mtime": "2026-11-18T11:54:25.396Z",
+      "mtime": "2026-11-18T13:21:34.393Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -41641,7 +41641,7 @@
       "path": "policy/housing-events.json",
       "kind": "json",
       "size_bytes": 160883,
-      "mtime": "2026-11-18T11:57:12.351Z",
+      "mtime": "2026-11-18T13:21:34.393Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42634,8 +42634,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 750387,
-      "mtime": "2026-11-18T11:57:06.133Z",
+      "size_bytes": 863166,
+      "mtime": "2026-11-18T13:21:34.397Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42647,7 +42647,7 @@
       ],
       "key_count": 6,
       "primary_array_key": "stories",
-      "primary_array_length": 539,
+      "primary_array_length": 538,
       "primary_array_first_keys": [
         "title",
         "source",
