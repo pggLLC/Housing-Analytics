@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-18T18:13:20.794Z",
+    "generated_at": "2026-11-18T18:29:11.913Z",
     "root": "data/",
     "file_count": 1997,
-    "total_size_bytes": 228630653,
+    "total_size_bytes": 228702220,
     "kinds": {
       "json": 1948,
       "geojson": 35,
@@ -400,8 +400,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 2570429,
-      "mtime": "2026-11-18T13:21:34.392Z",
+      "size_bytes": 2617347,
+      "mtime": "2026-11-18T18:29:10.267Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -409,7 +409,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 3854,
+      "primary_array_length": 3924,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -467,8 +467,8 @@
     {
       "path": "alerts/outlet-review.json",
       "kind": "json",
-      "size_bytes": 12329,
-      "mtime": "2026-11-18T13:21:34.393Z",
+      "size_bytes": 13442,
+      "mtime": "2026-11-18T18:29:10.267Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -476,7 +476,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "outlets",
-      "primary_array_length": 16,
+      "primary_array_length": 17,
       "primary_array_first_keys": [
         "id",
         "name",
@@ -492,7 +492,7 @@
       "path": "alerts/owner-news.json",
       "kind": "json",
       "size_bytes": 324,
-      "mtime": "2026-11-18T13:21:34.393Z",
+      "mtime": "2026-11-18T18:29:10.267Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -41641,7 +41641,7 @@
       "path": "policy/housing-events.json",
       "kind": "json",
       "size_bytes": 160883,
-      "mtime": "2026-11-18T13:21:34.393Z",
+      "mtime": "2026-11-18T18:29:10.268Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42634,8 +42634,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 863166,
-      "mtime": "2026-11-18T13:21:34.397Z",
+      "size_bytes": 886702,
+      "mtime": "2026-11-18T18:29:10.271Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42647,11 +42647,12 @@
       ],
       "key_count": 6,
       "primary_array_key": "stories",
-      "primary_array_length": 538,
+      "primary_array_length": 543,
       "primary_array_first_keys": [
         "title",
         "source",
         "sourcing",
+        "sourcing_label",
         "source_domain",
         "link",
         "date",
@@ -42659,8 +42660,7 @@
         "programs",
         "places",
         "regions",
-        "also",
-        "summary"
+        "also"
       ]
     },
     {
