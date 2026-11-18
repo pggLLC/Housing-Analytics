@@ -21,6 +21,9 @@
  *   - data/market/travel_time_matrix_co.json (OSM-derived tract-to-regional-hub drive times)
  *   - data/market/lodes_tract_od_co.json (LODES tract-to-tract OD matrix)
  *   - data/market/tract_drive_times_co.json (OSM-derived drive times between nearby tracts)
+ *   - data/market/tract_drive_bands_co.json (share of each tract's people within 10/15/20 minutes by road)
+ *   - data/market/tract_school_districts_co.json (each tract's population by school district)
+ *   - data/market/acs_tract_movers_co.json (renters who moved in from another county, ACS B07013)
  *
  * Each was added in a one-time commit and has no refresh workflow. The UI
  * discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -153,6 +156,21 @@ const BENCHMARK_FILES = [
     label: 'Colorado tract-to-tract drive times (nearby tracts)',
     reviewByPaths: ['meta.review_by'],
     // Road-network drive times; rebuild yearly or after a major network change.
+    staleAfterDays: 365,
+  },  {
+    file: 'data/market/tract_drive_bands_co.json',
+    label: 'Colorado tract people within 10, 15 and 20 minutes by road',
+    reviewByPaths: ['meta.review_by'],
+    staleAfterDays: 365,
+  },  {
+    file: 'data/market/tract_school_districts_co.json',
+    label: 'Colorado tract population by school district',
+    reviewByPaths: ['meta.review_by'],
+    staleAfterDays: 365,
+  },  {
+    file: 'data/market/acs_tract_movers_co.json',
+    label: 'Colorado tract renters who moved in (ACS B07013)',
+    reviewByPaths: ['meta.review_by'],
     staleAfterDays: 365,
   },
 ];

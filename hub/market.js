@@ -368,6 +368,9 @@
     if (radius === 't') {
       var TC = global.LabTractCapture, edited = TC ? TC.parseList(mp().get('tr')) : [];
       var picked = TC ? TC.current(site, edited) : null, pa = TC && TC.pickedArea ? TC.pickedArea(site) : null;
+      // The best fit for CHFA (paul, 18 Nov 2026) is the default pick: named as such, with the rule's area. Where the
+      // best fit is the local market area itself, it keeps the local area's wording; the saved comparison names it.
+      if (pa && pa.best && pa.id !== 'suggested' && !edited.length) return { tracts: pa.list.slice(), radiusMiles: null, method: 'best-fit:' + pa.method, areaLabel: 'Census tracts: best fit for CHFA (' + pa.label + ')', pending: false };
       if (pa && pa.id !== 'map' && pa.id !== 'suggested') return { tracts: pa.list.slice(), radiusMiles: null, method: 'compared-area:' + pa.method, areaLabel: 'Census tracts: ' + pa.label + ', picked from the comparison', pending: false };
       return { tracts: (picked || []).slice().sort(), radiusMiles: null, method: edited.length ? 'suggested-tracts-edited' : 'suggested-tracts',
         areaLabel: edited.length ? 'Census tracts round the site, as set on the map' : 'Census tracts suggested round the site', pending: !picked };
@@ -590,16 +593,16 @@
     }
     // The suggested tracts keep each tract's reason and the rules, so a later page reads them without new math.
     // A radius or the county is a screening stand-in and says so.
-    var rec = /^(suggested|compared)/.test(area.method) && global.LabTractCapture ? global.LabTractCapture.record(site, global.LabTractCapture.parseList(params.get('tr'))) : null;
+    var rec = /^(suggested|compared|best-fit)/.test(area.method) && global.LabTractCapture ? global.LabTractCapture.record(site, global.LabTractCapture.parseList(params.get('tr'))) : null;
     P.attach(pid, sid, { kind: 'market-snapshot', label: area.areaLabel + ' (' + area.tracts.length + (area.tracts.length === 1 ? ' tract)' : ' tracts)'),
       snapshot: { tracts: area.tracts, site: site ? { lat: site.lat, lon: site.lon, label: site.label } : null, countyFips: county.fips, areaLabel: area.areaLabel,
         radiusMiles: area.radiusMiles, method: area.method,
-        boundary: /^(suggested|compared)/.test(area.method) ? 'tract-picker' : 'buffer', screeningOnly: !/^(suggested|compared)/.test(area.method),
+        boundary: /^(suggested|compared|best-fit)/.test(area.method) ? 'tract-picker' : 'buffer', screeningOnly: !/^(suggested|compared|best-fit)/.test(area.method),
         screeningNote: /^(suggested|compared)/.test(area.method) ? 'Whole census tracts, each with a reason. COHO screening rules, not a CHFA market area until an analyst draws it.' : 'Screening only, not a CHFA market area',
         tractReasons: rec ? rec.tracts : null, rules: rec ? rec.rules : null, comparison: rec ? rec.comparison : null,
-        tractSource: area.method === 'county' ? 'data/market/chfa_renter_demand_co.json' : /^(suggested|compared)/.test(area.method) ? [TCF.cent, TCF.geom, TCF.od, TCF.barriers].filter(Boolean) : CENTROIDS.cent },
+        tractSource: area.method === 'county' ? 'data/market/chfa_renter_demand_co.json' : /^(suggested|compared|best-fit)/.test(area.method) ? [TCF.cent, TCF.geom, TCF.od, TCF.barriers, TCF.drive, TCF.bands, TCF.schools, TCF.movers].filter(Boolean) : CENTROIDS.cent },
       sourceDates: rec ? rec.sourceDates : { tractCentroids: cent.data.cent && cent.data.cent.meta ? (cent.data.cent.meta.generated || null) : null },
-      methodVersions: rec ? { suggestion: 'site/tract-capture.js rules of 14 Nov 2026', renters: 'PMAMarketScoring.chfaQualifiedRenters', crossings: 'PMABarriers.proposeTractExclusions' } : null,
+      methodVersions: rec ? { suggestion: 'site/tract-capture.js rules of 18 Nov 2026', capture: 'CHFA rate with comparable family tax credit homes (site/tract-capture.js, 18 Nov 2026)', renters: 'PMAMarketScoring.chfaQualifiedRenters', crossings: 'PMABarriers.proposeTractExclusions' } : null,
       origin: { route: route } });
     var back = params.get('back');
     if (back && /^#\//.test(back)) { location.hash = back; return; }
