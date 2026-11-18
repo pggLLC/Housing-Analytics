@@ -41,7 +41,6 @@ const DERIVED = [
   'data/market/acs_median_rent_co.json', // scripts/build_acs_rent_co.py (copies the summaries' DP04_0134E)
   'data/derived/funding-vs-need.json', // scripts/funding/build_funding_vs_need.mjs (reads the ranking index)
   'data/market/development-activity.json', // scripts/market/build_development_activity.py (reads geo-config)
-  'data/jurisdiction-briefs/_round-watch.json', // scripts/funding/build_round_watch.py (reads applications, ledger, awards)
   'data/policy/prop123-land-banking-status.json', // scripts/funding/build_land_banking_status.py (reads awards, ledger, research notes)
   'data/derived/funding-map.json',  // scripts/funding/build_funding_map.py (reads the ledger, DOLA awards, deal records)
   'data/market/market-direction.json', // scripts/market/build_market_direction.py (reads permits, projections, LEHD)

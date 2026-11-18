@@ -82,8 +82,8 @@ test('the new-format pages count visits too: hub/lab-config.js starts the same b
 });
 
 test('every gated developer page is excluded from measurement', () => {
-  const gated = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && read(f).includes('js/developer-gate.js'));
-  assert(gated.length > 0, 'found no pages loading js/developer-gate.js');
+  // The developer pages moved to coho-backend (18 Nov 2026); their names still must never be measured here.
+  const gated = ['developer.html', 'developer-brief.html', 'developer-where.html', 'developer-pipeline.html', 'developer-methods.html', 'developer-about.html'];
   for (const f of gated) {
     assert.strictEqual(runLoader('t0ken', 'cohoanalytics.com', '/' + f).length, 0, f + ' would be measured');
   }

@@ -102,7 +102,7 @@ test('no surface pairs a rank with a percentile of something else', () => {
   // A source-level check, because the data can be right while a page picks
   // the wrong field. Any file that renders `rank` beside a percentile must
   // read percentileRank, not gapPercentile.
-  const surfaces = ['js/hna/hna-comparison.js', 'js/hna/hna-ranking-index.js', 'developer-brief.html'];
+  const surfaces = ['js/hna/hna-comparison.js', 'js/hna/hna-ranking-index.js'];  // developer-brief.html moved to coho-backend (18 Nov 2026)
   for (const rel of surfaces) {
     const src = fs.readFileSync(path.join(ROOT, rel), 'utf8');
     const lines = src.split('\n');

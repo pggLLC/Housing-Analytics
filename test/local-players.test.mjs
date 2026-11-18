@@ -90,11 +90,5 @@ const tpl = read('places/_template.html');
 ok(tpl.includes('id="psPlayersCard"') && tpl.includes('data.local_players'), 'place template renders the card');
 ok(read('scripts/hna/build_place_pages.py').includes("'local_players'"), 'place builder feeds the card');
 
-const WP = require(join(ROOT, 'js/whitepaper/jurisdiction-whitepaper.js'));
-const { loadSources, build } = await import(join(ROOT, 'scripts/whitepaper/build-whitepaper.mjs'));
-const src = loadSources();
-const html = build('08077', { src }).html;
-ok(/id="players"/.test(html) && /load on the gated developer site only/.test(html), 'report says the section is gated when no detail file is present');
-ok(WP.localPlayersPath('08077') === 'data/jurisdiction-briefs/_local-players/08077.json', 'detail path');
-ok(WP.countyOf(src, '0831660') === '08077' && WP.countyOf(src, '08077') === null, 'town reads its county');
+// The Jurisdiction Report's players section moved to coho-backend on 18 Nov 2026, with its checks.
 console.log(`local-players: ${checks} checks passed`);

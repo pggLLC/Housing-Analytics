@@ -163,6 +163,40 @@ def summarize(story: dict, fetcher=fetch) -> dict:
     return {'text': trim(text), 'link': article, 'basis': basis}
 
 
+def summarize_items(items: list[dict], cache: dict, fetcher=fetch, agency: bool = False,
+                    today: str = '', budget: list | None = None) -> dict:
+    """Set `summary` on each item from the cache, looking up what is missing; returns the entries used.
+
+    A story not found is tried again at most once a day (`checked`). `budget` is a one-item list
+    counting the lookups this run may still make, so one run never reads hundreds of pages.
+    """
+    keep = {}
+    # first attempts before daily retries of stories not found, so a run of unreadable
+    # outlets cannot hold back stories never tried (Codex review of #2934)
+    fresh = [it for it in items if (it.get('link') or it.get('title')) not in cache]
+    retry = [it for it in items if (it.get('link') or it.get('title')) in cache]
+    for it in fresh + retry:
+        key = it.get('link') or it.get('title')
+        hit = cache.get(key)
+        stale = hit is None or hit.get('basis') == 'not found' and hit.get('checked', '') != today
+        if stale and (budget is None or budget[0] > 0):
+            if budget is not None:
+                budget[0] -= 1
+            story = {'title': it['title'], 'link': it.get('link', ''), 'agency': agency or bool(it.get('agency')),
+                     'source_domain': it.get('source_domain') or urllib.parse.urlsplit(it.get('link', '')).netloc}
+            try:
+                hit = summarize(story, fetcher)
+            except Exception:
+                hit = {'text': '', 'link': '', 'basis': 'not found'}
+            if hit.get('basis') == 'not found':
+                hit['checked'] = today
+            cache[key] = hit
+        if hit is not None:
+            it['summary'] = hit
+            keep[key] = hit
+    return keep
+
+
 def with_summaries(today: dict, cache: dict | None, fetcher=fetch) -> tuple[dict, dict]:
     """Add `summary` to each agency release and top story in the today block."""
     cache = dict(cache or {})
@@ -171,17 +205,9 @@ def with_summaries(today: dict, cache: dict | None, fetcher=fetch) -> tuple[dict
         # copies: the agency items are the agency block's own records, which must not carry summaries
         today[group] = [{k: v for k, v in it.items() if k not in ('summary', 'ai')} for it in today.get(group) or []]
     for group in ('agency', 'top'):
-        for it in today.get(group) or []:
-            key = it.get('link') or it.get('title')
-            if key not in cache or cache[key].get('basis') == 'not found':
-                story = {'title': it['title'], 'link': it.get('link', ''), 'agency': group == 'agency',
-                         'source_domain': it.get('source_domain') or urllib.parse.urlsplit(it.get('link', '')).netloc}
-                try:
-                    cache[key] = summarize(story, fetcher)
-                except Exception:
-                    cache[key] = {'text': '', 'link': '', 'basis': 'not found'}
-            it['summary'] = cache[key]
-            keep[key] = cache[key]
+        keep.update(summarize_items(today[group], cache, fetcher, agency=group == 'agency', today=today.get('date', '')))
+        for it in today[group]:
+            it.setdefault('summary', {'text': '', 'link': '', 'basis': 'not found'})
     lines = []
     for it in today.get('agency') or []:
         s = it['summary']['text']
@@ -214,7 +240,7 @@ def _numbers(s: str) -> set:
 
 def _openai(prompt: str, api_key: str) -> str:
     import json
-    body = json.dumps({'model': AI_MODEL, 'temperature': 0.2, 'max_tokens': 600,
+    body = json.dumps({'model': AI_MODEL, 'temperature': 0.2, 'max_tokens': 1600,
                        'response_format': {'type': 'json_object'},
                        'messages': [{'role': 'user', 'content': prompt}]}).encode()
     req = urllib.request.Request('https://api.openai.com/v1/chat/completions', data=body, method='POST',
@@ -246,21 +272,23 @@ def grounded(sentence: str, source: str, allow: int = 3) -> bool:
     return len(_stems(sentence) - _stems(source)) <= allow
 
 
-def with_ai(today: dict, cache: dict, api_key: str, ask=None) -> dict:
-    """Add `ai` (one sentence) to each story that has its own summary text."""
+def ai_items(items: list[dict], cache: dict, api_key: str, ask=None, batch: int = 15) -> int:
+    """Set `ai` (one sentence) on each item that has its own summary text; returns how many have one."""
     import json
     ask = ask or _openai
-    items = [it for g in ('agency', 'top') for it in today.get(g) or [] if (it.get('summary') or {}).get('text')]
+    items = [it for it in items if (it.get('summary') or {}).get('text')]
     todo = []
     for it in items:
+        it.pop('ai', None)
         key = it.get('link') or it.get('title')
         hit = (cache.get(key) or {}).get('ai')
         if hit and hit.get('from') == it['summary']['text'] and grounded(hit['text'], it['title'] + ' ' + hit['from']):
             it['ai'] = hit['text']
         else:
             todo.append(it)
-    if todo and api_key:
-        src = '\n'.join(f'{i}. Headline: {it["title"]}\n   Its own summary: {it["summary"]["text"]}' for i, it in enumerate(todo))
+    for start in range(0, len(todo) if api_key else 0, batch):
+        part = todo[start:start + batch]
+        src = '\n'.join(f'{i}. Headline: {it["title"]}\n   Its own summary: {it["summary"]["text"]}' for i, it in enumerate(part))
         prompt = ('For each Colorado housing news item below, restate in one plain sentence (at most 30 words) what '
                   'the story reports. Use only the words and facts in the headline and summary given. Do not add why '
                   'it matters, who it affects, what it could lead to, or any judgment such as "important". No new '
@@ -270,18 +298,47 @@ def with_ai(today: dict, cache: dict, api_key: str, ask=None) -> dict:
             got = {int(x['n']): str(x['sentence']).strip() for x in json.loads(ask(prompt, api_key)).get('items', [])}
         except Exception as e:  # never fatal: the quotes stay
             print(f'  AI summaries skipped: {e}')
-            got = {}
-        for i, it in enumerate(todo):
+            break
+        for i, it in enumerate(part):
             s = got.get(i, '')
             source = it['title'] + ' ' + it['summary']['text']
             if s and len(s) < 400 and _numbers(s) <= _numbers(source) and grounded(s, source):
                 it['ai'] = s
                 key = it.get('link') or it.get('title')
-                cache.setdefault(key, dict(it['summary']))['ai'] = {'text': s, 'from': it['summary']['text'], 'model': AI_MODEL}
-    today['ai'] = {'model': AI_MODEL, 'count': sum(1 for it in items if it.get('ai'))}
+                entry = cache.setdefault(key, {k: v for k, v in it['summary'].items() if k != 'ai'})
+                entry['ai'] = {'text': s, 'from': it['summary']['text'], 'model': AI_MODEL}
+    return sum(1 for it in items if it.get('ai'))
+
+
+def with_ai(today: dict, cache: dict, api_key: str, ask=None) -> dict:
+    """Add `ai` (one sentence) to each story in the today block that has its own summary text."""
+    items = [it for g in ('agency', 'top') for it in today.get(g) or []]
+    today['ai'] = {'model': AI_MODEL, 'count': ai_items(items, cache, api_key, ask)}
     if today['ai']['count']:
         today['method'] = (f'The one-line summaries marked AI are written by AI ({AI_MODEL}) from only each story\'s '
                            'headline and its own description; check the source before relying on them. A story the '
                            'news script could not read shows its headline only. Window: today and yesterday, Mountain '
                            'Time. Top stories are the ones the most outlets ran.')
     return today
+
+
+STORY_DAYS = 14      # stories this recent get a summary
+LOOKUPS_PER_RUN = 60  # new page lookups one run may make
+
+
+def with_story_summaries(stories: list[dict], cache: dict, api_key: str, today: str, since: str,
+                         fetcher=fetch, ask=None) -> dict:
+    """Every recent story in the news list gets its own summary, and an AI line where one passes.
+
+    paul, 2026-11-18: "the news briefs use to have summaries of the content ... so people would
+    know what is in the link". Newest first; older stories keep what the cache already has.
+    """
+    recent = sorted((s for s in stories if s.get('title') and (s.get('date') or '') >= since),
+                    key=lambda s: s.get('date') or '', reverse=True)
+    for s in recent:
+        s.pop('summary', None)
+        s.pop('ai', None)
+    keep = summarize_items(recent, cache, fetcher, today=today, budget=[LOOKUPS_PER_RUN])
+    count = ai_items(recent, cache, api_key, ask)
+    print(f'  Story summaries: {sum(1 for s in recent if (s.get("summary") or {}).get("text"))} of {len(recent)} recent; {count} AI lines')
+    return keep

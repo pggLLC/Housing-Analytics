@@ -202,7 +202,7 @@ const nav = read('js/navigation.js');
 const navLabel = (nav.match(/\{\s*label:\s*"([^"]+)",\s*href:\s*"(?:where-housing-money-goes\.html|policy-hub\.html#\/money)"/) || [])[1];
 ok(navLabel === h1, `the menu label (${navLabel}) is the page <h1> (${h1})`);
 const unq = (s) => s.replace(/\\'/g, "'");
-const linkers = ['colorado-deep-dive.html', 'sitemap.html', 'js/whitepaper/jurisdiction-whitepaper.js'];
+const linkers = ['colorado-deep-dive.html', 'sitemap.html'];  // the Jurisdiction Report moved to coho-backend (18 Nov 2026)
 linkers.forEach((f) => {
   const src = unq(read(f));
   // Plain links, sitemap cards (named by their site-card-name) and the report's built link.
@@ -212,9 +212,7 @@ linkers.forEach((f) => {
     .concat(built.map((t) => t.trim()));
   ok(names.length >= 1 && names.every((t) => t === h1), `${f} links to the page by its name (${names.join(' | ') || 'no link'})`);
 });
-const report = read('js/whitepaper/jurisdiction-whitepaper.js');
-ok(/'https:\/\/cohoanalytics\.com\/where-housing-money-goes\.html#county=' \+ county/.test(report) && /k === 'county'/.test(js),
-  'the Jurisdiction Report opens the page on its county, a key the view reads');
+ok(/k === 'county'/.test(js), 'the view reads a county key (the Jurisdiction Report, now in coho-backend, opens it on one)');
 const deep = read('colorado-deep-dive.html');
 ok(!/data-agency-funding/.test(deep) && !/agency-funding\.js/.test(deep), 'Colorado Deep Dive links to the page instead of holding a second copy');
 ok(/parts\[0\] === 'tab-need' && parts\.length > 1\)[\s\S]{0,80}location\.replace\('where-housing-money-goes\.html#' \+ parts\.slice\(1\)\.join\('&'\)\)/.test(deep),

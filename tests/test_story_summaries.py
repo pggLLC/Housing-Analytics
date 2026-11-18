@@ -156,3 +156,43 @@ def test_cached_line_that_fails_the_check_is_not_shown():
 def test_one_framing_word_in_the_source_does_not_allow_others():
     assert not ss.grounded('Nine homes were funded, which is important for renters.', 'The agency will help fund nine homes.')
     assert ss.grounded('The agency will help fund nine homes.', 'The agency will help fund nine homes for renters.')
+
+
+def test_every_recent_story_gets_its_summary_within_the_lookup_budget(monkeypatch):
+    monkeypatch.setattr(ss, 'LOOKUPS_PER_RUN', 2)
+    stories = [{'title': TITLE, 'link': f'https://example.com/g{i}', 'source_domain': 'example.com', 'date': f'2026-11-1{i}'}
+               for i in range(5)] + [{'title': 'Old story', 'link': 'https://example.com/old', 'date': '2026-10-01'}]
+    f = fake({'robots.txt': '', '?s=': SEARCH, 'home-sales': ARTICLE})
+    ask = lambda p, k: '{"items": [' + ','.join('{"n": %d, "sentence": "Realtors say sellers will not lower prices."}' % i for i in range(5)) + ']}'
+    cache = {}
+    keep = ss.with_story_summaries(stories, cache, 'k', '2026-11-18', '2026-11-04', fetcher=f, ask=ask)
+    done = [s for s in stories if s.get('summary')]
+    assert sorted(s['date'] for s in done) == ['2026-11-13', '2026-11-14']          # newest first, two lookups
+    assert all(s['ai'] == 'Realtors say sellers will not lower prices.' for s in done)
+    assert 'summary' not in stories[-1] and len(keep) == 2
+    # the next run reads two more, and reuses the cached ones without asking again
+    ss.with_story_summaries(stories, cache, 'k', '2026-11-18', '2026-11-04', fetcher=f, ask=ask)
+    assert sum(1 for s in stories if s.get('ai')) == 4
+
+
+def test_a_story_not_found_is_tried_again_only_the_next_day():
+    calls = []
+    f = fake({'robots.txt': 'User-agent: *\nDisallow: /'}, calls)
+    items = [{'title': TITLE, 'link': 'https://example.com/x', 'source_domain': 'example.com'}]
+    cache = {}
+    ss.summarize_items(items, cache, f, today='2026-11-18')
+    n = len(calls)
+    ss.summarize_items([dict(items[0])], cache, f, today='2026-11-18')
+    assert len(calls) == n and cache['https://example.com/x']['checked'] == '2026-11-18'
+    ss._robots.clear()
+    ss.summarize_items([dict(items[0])], cache, f, today='2026-11-19')
+    assert len(calls) > n
+
+
+def test_stories_never_tried_come_before_daily_retries():
+    f = fake({'robots.txt': '', '?s=': SEARCH, 'home-sales': ARTICLE})
+    failed = [{'title': f'Unreadable {i}', 'link': f'https://example.com/u{i}'} for i in range(3)]
+    cache = {x['link']: {'text': '', 'link': '', 'basis': 'not found', 'checked': '2026-11-17'} for x in failed}
+    new = {'title': TITLE, 'link': 'https://example.com/new', 'source_domain': 'example.com'}
+    ss.summarize_items(failed + [new], cache, f, today='2026-11-18', budget=[1])
+    assert new['summary']['basis'] == 'outlet'
