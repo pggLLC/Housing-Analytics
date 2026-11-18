@@ -4,7 +4,9 @@
 // data file (data/policy/credit-geography.json) from:
 //   data/policy/funding-awards/ledger.json   every CHFA 9% and 4% award, 2016-2026 (CHFA award reports)
 //   data/co-county-demographics.json         renter households and renters paying 50%+ of income (ACS 5-year)
-//   data/chfa-lihtc.json                     CHFA's region for each county (CHFA tax credit property list)
+//   data/chfa-lihtc.json                     CHFA's region for each county, and 4% bond deals CHFA awards
+//                                            outside its rounds (CHFA tax credit property list, matched to
+//                                            the award reports by matchBondDeals, as Funding vs Need does)
 //   data/boundaries/counties_co.geojson      the 64 county names
 // Every number in the brief is computed here, so a data change cannot leave the
 // prose or a table stale. The words are written here too.
@@ -15,6 +17,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { matchBondDeals, RETURNED } from '../funding/build_funding_vs_need.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 export const BRIEF_ID = 'co-tax-credit-geography-2016-2026';
@@ -73,7 +76,9 @@ export function compute(ledger, demo, props, counties) {
   const names = Object.fromEntries(counties.features.map((f) => [f.properties.GEOID, f.properties.NAME]));
   const reg = regions(props, names);
   const byFips = Object.fromEntries(Object.values(demo.counties).map((c) => [c.fips, c]));
-  const awards = ledger.awards.filter((a) => /^LIHTC (9|4)%/.test(a.program));
+  // A returned award built no homes (CHFA: "Project did not proceed. Award returned").
+  const returned = ledger.awards.filter((a) => /^LIHTC (9|4)%/.test(a.program) && RETURNED.test(a.detail || ''));
+  const awards = ledger.awards.filter((a) => /^LIHTC (9|4)%/.test(a.program) && !RETURNED.test(a.detail || ''));
   const skipped = awards.filter((a) => !a.county_fips || !names[a.county_fips]);
   const used = awards.filter((a) => a.county_fips && names[a.county_fips]);
   const kind = (a) => (a.program.startsWith('LIHTC 9%') ? '9' : '4');
@@ -85,15 +90,24 @@ export function compute(ledger, demo, props, counties) {
     C[fips] = {
       fips, name: names[fips], region: reg[fips].region, region_method: reg[fips].method,
       renter_households: d.rent_burden_universe || 0, renters_paying_half: d.renters_burdened_50_plus || 0,
-      awards_9: 0, homes_9: 0, credit_9: 0, awards_4: 0, homes_4: 0, credit_4: 0, state_credit: 0, years_9: [],
+      awards_9: 0, homes_9: 0, credit_9: 0, awards_4: 0, homes_4_rounds: 0, bond_deals_outside_rounds: 0, homes_4_outside_rounds: 0, homes_4: 0, credit_4: 0, state_credit: 0, years_9: [],
     };
   }
   for (const a of used) {
     const c = C[a.county_fips], k = kind(a);
     c['awards_' + k] += 1; c['homes_' + k] += homes(a); c['credit_' + k] += a.federal_credit || 0; c.state_credit += a.state_credit || 0;
+    if (k === '4') c.homes_4_rounds += homes(a);
     if (k === '9' && !c.years_9.includes(a.year)) c.years_9.push(a.year);
   }
-  const sumKeys = ['renter_households', 'renters_paying_half', 'awards_9', 'homes_9', 'credit_9', 'awards_4', 'homes_4', 'credit_4', 'state_credit'];
+  // 4% bond deals CHFA awards outside its rounds are not in the round reports.
+  const span = [Math.min(...used.map((a) => a.year)), Math.max(...used.map((a) => a.year))];
+  const bond = matchBondDeals(props.features.map((f) => f.properties || {}), ledger.awards.filter((a) => !RETURNED.test(a.detail || '')), { firstYear: span[0], lastYear: span[1] });
+  const bondUsed = bond.added.filter((d) => C[d.county_fips]);
+  for (const d of bondUsed) {
+    const c = C[d.county_fips];
+    c.bond_deals_outside_rounds += 1; c.homes_4_outside_rounds += d.homes || 0; c.homes_4 += d.homes || 0;
+  }
+  const sumKeys = ['renter_households', 'renters_paying_half', 'awards_9', 'homes_9', 'credit_9', 'awards_4', 'homes_4_rounds', 'bond_deals_outside_rounds', 'homes_4_outside_rounds', 'homes_4', 'credit_4', 'state_credit'];
   const add = (rows) => Object.fromEntries(sumKeys.map((k) => [k, rows.reduce((s, r) => s + r[k], 0)]));
   const T = add(Object.values(C));
   const index = (x) => (x.renters_paying_half ? (x.credit_9 / x.renters_paying_half) / (T.credit_9 / T.renters_paying_half) : 0);
@@ -119,6 +133,10 @@ export function compute(ledger, demo, props, counties) {
       if (outside) out[`homes_${k}_outside_front_range`] += h;
       if (k === '9') out.homes_9_by_region[r] = (out.homes_9_by_region[r] || 0) + h;
     }
+    for (const d of bondUsed.filter((d) => d.award_year === y)) {
+      out.homes_4 += d.homes || 0;
+      if (!FRONT_RANGE.includes(C[d.county_fips].region)) out.homes_4_outside_front_range += d.homes || 0;
+    }
     out.counties_9 = new Set(ys.filter((a) => kind(a) === '9').map((a) => a.county_fips)).size;
     out.awards_9 = ys.filter((a) => kind(a) === '9').length;
     return out;
@@ -137,7 +155,7 @@ export function compute(ledger, demo, props, counties) {
       }
     }
   }
-  return { C, R, T, regionOrder, front, rest, byYear, repeats, skipped, years };
+  return { C, R, T, regionOrder, front, rest, byYear, repeats, skipped, returned, years, bond: { candidates: bond.candidates, matched: bond.matched.length, added: bondUsed, feedLastYear: Math.max(...props.features.map((f) => f.properties?.AwardYear).filter(Number.isInteger)) } };
 }
 
 export function dataFile(x, ledger, demo) {
@@ -153,7 +171,9 @@ export function dataFile(x, ledger, demo) {
       years: [x.years[0], x.years[x.years.length - 1]],
       index_note: "index_9 = a county's (or region's) share of Colorado's 9% federal credit divided by its share of Colorado renter households paying 50% or more of income for rent. 1.0 = the state rate.",
       credit_note: 'credit_9, credit_4 and state_credit are the yearly credit amounts CHFA prints, added up over every award; they are not 10-year totals.',
-      homes_note: 'Homes are the income-restricted rental homes CHFA prints for each award (total homes where restricted is blank).',
+      homes_note: 'Homes are the income-restricted rental homes CHFA prints for each award (total homes where restricted is blank). homes_4 adds 4% bond deals CHFA awarded outside its rounds (homes_4_outside_rounds): properties on CHFA\'s tax credit list with a 4% award year in the window that no round award accounts for (matchBondDeals in scripts/funding/build_funding_vs_need.mjs). Those carry homes but no credit amount.',
+      bond_match: { feed_4pct_properties_in_window: x.bond.candidates, matched_to_round_awards: x.bond.matched, added_outside_rounds: x.bond.added.length },
+      returned_awards: x.returned.map((a) => ({ name: a.name, year: a.year, program: a.program, reason: 'award returned; no homes built' })),
       skipped_awards: x.skipped.map((a) => ({ name: a.name, year: a.year, program: a.program, reason: 'no county on the award report or CHFA list' })),
     },
     totals: x.T,
@@ -176,7 +196,7 @@ export function buildBrief(x, ledger, demo) {
   const wsHigh = [...wsCounties].sort((a, b) => b.index_9 - a.index_9).slice(0, 3);
   const ranked = Object.values(C).filter((c) => c.renters_paying_half >= MIN_SEVERE).sort((a, b) => b.index_9 - a.index_9);
   const none9 = Object.values(C).filter((c) => c.awards_9 === 0);
-  const noneAny = Object.values(C).filter((c) => c.awards_9 === 0 && c.awards_4 === 0);
+  const noneAny = Object.values(C).filter((c) => c.awards_9 === 0 && c.awards_4 === 0 && c.bond_deals_outside_rounds === 0);
   const noneBig = none9.filter((c) => c.renters_paying_half >= MIN_SEVERE).sort((a, b) => b.renters_paying_half - a.renters_paying_half);
   const restRegions = regionOrder.filter((r) => !R[r].front_range);
   const zero4 = restRegions.filter((r) => R[r].homes_4 === 0);
@@ -190,9 +210,9 @@ export function buildBrief(x, ledger, demo) {
   const since2020 = repeats.cases_since_2020.map((c) => `${c.county} (${c.years.join(' and ')})`);
 
   const short = [
-    `All of these homes are rentals with income limits. From ${y0} to ${y1}, CHFA awarded the competitive 9% credit to ${fmt(T.awards_9)} buildings with ${fmt(T.homes_9)} homes, and the 4% credit, paired with tax-exempt bonds, to ${fmt(T.awards_4)} buildings with ${fmt(T.homes_4)} homes.`,
+    `All of these homes are rentals with income limits. From ${y0} to ${y1}, CHFA awarded the competitive 9% credit to ${fmt(T.awards_9)} buildings with ${fmt(T.homes_9)} homes, and the 4% credit, paired with tax-exempt bonds, to ${fmt(T.awards_4 + T.bond_deals_outside_rounds)} deals with ${fmt(T.homes_4)} homes. ${fmt(T.bond_deals_outside_rounds)} of those 4% deals (${fmt(T.homes_4_outside_rounds)} homes) were bond deals CHFA awarded outside its two yearly rounds.`,
     `The 9% credit reaches well beyond the Front Range. The four Front Range regions have ${pct0(front.renters_paying_half, T.renters_paying_half)} of the renters who pay half their income or more for rent, and they received ${pct0(front.credit_9, T.credit_9)} of the 9% credit. The rest of Colorado has ${pct0(rest.renters_paying_half, T.renters_paying_half)} of those renters and received ${pct0(rest.credit_9, T.credit_9)}.`,
-    `The 4% credit stays on the Front Range: ${pct0(front.homes_4, T.homes_4)} of its homes. Bond deals need enough homes to carry their fixed costs, so they rarely reach small towns. The ${list(zero4)} regions had no 4% homes at all.`,
+    `The 4% credit stays on the Front Range: ${pct0(front.homes_4, T.homes_4)} of its homes. Bond deals need enough homes to carry their fixed costs, so they rarely reach small towns. ${zero4.length ? `The ${list(zero4)} region${zero4.length > 1 ? 's' : ''} had no 4% homes at all.` : `The ${list(restRegions.filter((r) => R[r].homes_4 / T.homes_4 < 0.01))} regions each had under 1% of them.`}`,
     `The Western Slope has ${pct1(ws.renters_paying_half, T.renters_paying_half)} of these renters and received ${pct1(ws.credit_9, T.credit_9)} of the 9% credit, about ${idx(ws.index_9)} times the state rate.`,
     `Counties within a region differ a lot. ${wsTop.name}, the Western Slope's largest county, has ${pct0(wsTop.renters_paying_half, ws.renters_paying_half)} of the region's renters paying half their income and received ${pct0(wsTop.credit_9, ws.credit_9)} of its 9% credit, an index of ${idx(wsTop.index_9)}. ${list(wsHigh.map((c) => `${c.name} is at ${idx(c.index_9)}`))}.`,
     `${none9.length} of Colorado's 64 counties had no 9% award in these years, and ${noneAny.length} had no tax credit award at all. The largest without a 9% award ${noneBig.length === 1 ? 'is' : 'are'} ${list(noneBig.slice(0, 4).map((c) => `${c.name} (${fmt(c.renters_paying_half)} renter households paying half or more)`))}.`,
@@ -242,8 +262,8 @@ export function buildBrief(x, ledger, demo) {
     generated: ledger.meta.generated_at.slice(0, 10) + 'T00:00:00Z',
     verified: ledger.meta.generated_at.slice(0, 10),
     takeaway: `CHFA's competitive 9% tax credit reaches well beyond the Front Range: the rest of Colorado has ${pct0(rest.renters_paying_half, T.renters_paying_half)} of renters paying half their income for rent and received ${pct0(rest.credit_9, T.credit_9)} of the 9% credit from ${y0} to ${y1}. The 4% bond credit stays on the Front Range (${pct0(front.homes_4, T.homes_4)} of its homes). Within regions, counties differ a lot, and ${none9.length} counties had no 9% award.`,
-    summary: `This brief adds up every CHFA housing tax credit award from ${y0} to ${y1}, ${fmt(T.awards_9)} 9% awards and ${fmt(T.awards_4)} 4% awards, by county and by CHFA region. It compares them with the renter households in each place that pay 50% or more of their income for rent (American Community Survey 2020-2024, table B25070; renter households are those for which Census computes rent as a share of income). All of these homes are rentals with income limits; tax credits fund no homes for sale. An index of 1.0 means a place got the same share of 9% credit as its share of those renters.`,
-    implications: `For a town outside the Front Range, the 9% round is the realistic path: the 4% bond round has almost never reached a small town. Because the 2027-28 plan has no regional set-asides, each year's result depends on who applies, so a region's share swings from year to year. For anyone reading the county table: a high index is not a sign of too much housing, and a low one is not a sign of neglect. A single 50-home award moves a small county a long way, and the index does not count homes funded before ${y0} or by other programs.`,
+    summary: `This brief adds up every CHFA housing tax credit award from ${y0} to ${y1}, ${fmt(T.awards_9)} 9% awards and ${fmt(T.awards_4 + T.bond_deals_outside_rounds)} 4% deals (${fmt(T.awards_4)} in CHFA's rounds and ${fmt(T.bond_deals_outside_rounds)} bond deals awarded outside them), by county and by CHFA region. It compares them with the renter households in each place that pay 50% or more of their income for rent (American Community Survey 2020-2024, table B25070; renter households are those for which Census computes rent as a share of income). All of these homes are rentals with income limits; tax credits fund no homes for sale. An index of 1.0 means a place got the same share of 9% credit as its share of those renters.`,
+    implications: `For a town outside the Front Range, the 9% round is the realistic path: 4% bond deals have rarely reached a small town. Because the 2027-28 plan has no regional set-asides, each year's result depends on who applies, so a region's share swings from year to year. For anyone reading the county table: a high index is not a sign of too much housing, and a low one is not a sign of neglect. A single 50-home award moves a small county a long way, and the index does not count homes funded before ${y0} or by other programs.`,
     related_data: DATA,
     sources: ['CHFA', 'U.S. Census Bureau, American Community Survey'],
     regions: ['Colorado', 'Statewide', ...regionOrder],
@@ -276,7 +296,8 @@ export function buildBrief(x, ledger, demo) {
         id: 'limits', heading: 'Limits of this brief',
         items: [
           'Counts are by county. A county total does not show which towns in it were served.',
-          'Credit amounts are the yearly amounts CHFA prints at award, added up across awards. Later exchanges, returns or changes are not shown.',
+          'Credit amounts are the yearly amounts CHFA prints at award, added up across awards. Later exchanges or changes are not shown. Awards CHFA reports as returned are left out.',
+          `4% bond deals CHFA awarded outside its rounds are not in the round reports. They are the ${fmt(T.bond_deals_outside_rounds)} properties on CHFA's tax credit list with a 4% award year from ${y0} to ${y1} that no round award accounts for, matched the same way as the site's Funding vs Need tab. They count in 4% homes, with no credit amount.${x.bond.feedLastYear < y1 ? ` CHFA's list has no award year after ${x.bond.feedLastYear} yet, so bond deals outside the rounds after that are not counted.` : ''}`,
           'Renters paying 50% or more of income is one measure of need. It counts renters only; homeowners are not part of this comparison.',
           `Regions are as CHFA's tax credit property list groups counties. ${say(Object.values(C).filter((c) => c.region_method !== 'CHFA property list').length)[0].toUpperCase() + say(Object.values(C).filter((c) => c.region_method !== 'CHFA property list').length).slice(1)} counties with no property on that list were placed with the CHFA region they border.`,
           ...x.skipped.map((a) => `One ${a.year} award on CHFA's 9% report (${a.name}) has no county on CHFA's report and is left out.`),

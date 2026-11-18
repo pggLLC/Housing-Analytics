@@ -51,7 +51,7 @@
     return '<strong>' + esc(c.name) + ' County</strong> · ' + esc(c.region) + '<br>' +
       fmt(c.renters_paying_half) + ' renter households paying 50%+ of income<br>' +
       '9%: ' + fmt(c.awards_9) + ' awards, ' + fmt(c.homes_9) + ' homes, ' + musd(c.credit_9) + ' credit (yearly amounts)<br>' +
-      '4%: ' + fmt(c.awards_4) + ' awards, ' + fmt(c.homes_4) + ' homes<br>' +
+      '4%: ' + fmt(c.awards_4 + (c.bond_deals_outside_rounds || 0)) + ' deals, ' + fmt(c.homes_4) + ' homes<br>' +
       (c.renters_paying_half >= MIN_SEVERE
         ? 'Index ' + Number(c.index_9).toFixed(1) + ' (Colorado = 1.0)'
         : 'Too few renters paying 50%+ for an index');

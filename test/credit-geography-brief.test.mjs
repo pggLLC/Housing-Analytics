@@ -11,6 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { RETURNED } from '../scripts/funding/build_funding_vs_need.mjs';
 import { build, BRIEF_ID, DATA, FEED, LEDGER, DEMO, FRONT_RANGE, REGION_BY_GEOGRAPHY, MIN_SEVERE } from '../scripts/policy/build_credit_geography_brief.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -19,7 +20,7 @@ const json = (f) => JSON.parse(read(f));
 const D = json(DATA);
 const feed = json(FEED);
 const brief = feed.briefs.find((b) => b.id === BRIEF_ID);
-const ledger = json(LEDGER).awards.filter((a) => /^LIHTC (9|4)%/.test(a.program));
+const ledger = json(LEDGER).awards.filter((a) => /^LIHTC (9|4)%/.test(a.program) && !RETURNED.test(a.detail || ''));
 const sec = (id) => brief.sections.find((s) => s.id === id);
 const num = (s) => Number(String(s).replace(/[$,%M]/g, ''));
 
@@ -33,7 +34,7 @@ test('the data file and brief are what the builder makes', () => {
   assert.equal(feed.meta.brief_count, feed.briefs.length);
 });
 
-test('county rows add up to every 9% and 4% award in the ledger', () => {
+test('county rows add up to every 9% and 4% award in the ledger, plus bond deals outside the rounds', () => {
   const placed = ledger.filter((a) => a.county_fips && D.counties.some((c) => c.fips === a.county_fips));
   assert.equal(placed.length + D.metadata.skipped_awards.length, ledger.length, 'every award is counted or listed as skipped');
   const is9 = (a) => a.program.startsWith('LIHTC 9%');
@@ -42,9 +43,15 @@ test('county rows add up to every 9% and 4% award in the ledger', () => {
   assert.equal(sum('awards_9'), placed.filter(is9).length);
   assert.equal(sum('awards_4'), placed.filter((a) => !is9(a)).length);
   assert.equal(sum('homes_9'), placed.filter(is9).reduce((s, a) => s + homes(a), 0));
-  assert.equal(sum('homes_4'), placed.filter((a) => !is9(a)).reduce((s, a) => s + homes(a), 0));
+  assert.equal(sum('homes_4_rounds'), placed.filter((a) => !is9(a)).reduce((s, a) => s + homes(a), 0));
+  for (const c of D.counties) assert.equal(c.homes_4, c.homes_4_rounds + c.homes_4_outside_rounds, `${c.name}: 4% homes`);
+  // the same bond deals the Funding vs Need tab adds (data/derived/funding-vs-need.json)
+  const fvn = json('data/derived/funding-vs-need.json');
+  assert.equal(sum('bond_deals_outside_rounds'), fvn.statewide.bond_deals_outside_rounds);
+  assert.equal(sum('homes_4_outside_rounds'), fvn.statewide.bond_units_outside_rounds);
+  assert.equal(D.metadata.returned_awards.length, json(LEDGER).awards.filter((a) => /^LIHTC (9|4)%/.test(a.program) && RETURNED.test(a.detail || '')).length);
   assert.equal(sum('credit_9'), placed.filter(is9).reduce((s, a) => s + (a.federal_credit || 0), 0));
-  for (const k of ['awards_9', 'homes_9', 'credit_9', 'awards_4', 'homes_4', 'renters_paying_half', 'renter_households']) {
+  for (const k of ['awards_9', 'homes_9', 'credit_9', 'awards_4', 'homes_4', 'homes_4_outside_rounds', 'renters_paying_half', 'renter_households']) {
     assert.equal(D.totals[k], sum(k), `totals.${k}`);
     assert.equal(D.regions.reduce((s, r) => s + r[k], 0), sum(k), `regions add to ${k}`);
     assert.equal(D.front_range[k] + D.rest_of_state[k], sum(k), `Front Range + rest = ${k}`);
