@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T16:51:26.284Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T18:10:13.834Z. Do not edit by hand.
 
 ---
 
@@ -39,7 +39,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
 | `deal-hub.html` | Build a deal · COHO Analytics | 10.3 KB |
-| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 160.7 KB |
+| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 160.8 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 95.7 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.6 KB |
@@ -2462,7 +2462,7 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.6 KB |
-| `test/market-analysis-hub-page.test.mjs` | 56.2 KB |
+| `test/market-analysis-hub-page.test.mjs` | 56.3 KB |
 | `test/market-construction.test.js` | 6.5 KB |
 | `test/market-direction-tab.test.mjs` | 25.6 KB |
 | `test/market-geography-binding.test.mjs` | 17.9 KB |
@@ -2841,7 +2841,7 @@
 | `tests/test_stage2_temporal.py` | 38.1 KB |
 | `tests/test_stage3_accessibility.py` | 24.1 KB |
 | `tests/test_stage3_visualization.py` | 17.7 KB |
-| `tests/test_story_summaries.py` | 15.5 KB |
+| `tests/test_story_summaries.py` | 16.9 KB |
 | `tests/test_tax_exemption_routes.py` | 4.5 KB |
 | `tests/test_transit_stop_gate.py` | 9.2 KB |
 | `tests/test_transit_stop_selection.py` | 15.9 KB |
