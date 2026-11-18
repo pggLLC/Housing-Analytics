@@ -572,8 +572,8 @@
     return idx;
   }
   function compIn(b, list) {
-    var by = {}, none = { n: 0, units: 0 }, s8 = { n: 0, units: 0 }, props = 0;
-    CAP_TIERS.forEach(function (t) { by[t] = 0; });
+    var by = {}, none = { n: 0, units: 0 }, s8 = { n: 0, units: 0, by: {} }, props = 0;
+    CAP_TIERS.forEach(function (t) { by[t] = 0; s8.by[t] = 0; });
     list.forEach(function (g) {
       (b.lihtc[g] || []).forEach(function (f) {
         var c = compOf(f), low = 0;
@@ -581,7 +581,8 @@
         if (c.none > 0) { none.n++; none.units += c.none; }
         if (low > 0 || c.none > 0) props++;
         var p = f.properties || {}, k = b.s8 && addrKey(p.PROJ_ADD, p.PROJ_CTY);
-        if (k && b.s8[k] && low > 0) { s8.n++; s8.units += Math.min(low, b.s8[k]); }
+        // Up to the contract's homes could be assisted, at each level no more than the property has there.
+        if (k && b.s8[k] && low > 0) { s8.n++; s8.units += Math.min(low, b.s8[k]); CAP_TIERS.forEach(function (t) { s8.by[t] += Math.min(c.by[t], b.s8[k]); }); }
       });
     });
     return { by: by, none: none, s8: s8, props: props };
@@ -799,7 +800,7 @@
     if (notes.length && rT != null && rA != null) {
       var qa = cr.qAll, upAll = qa > 0 ? (units + cr.existingAll + cr.comp.none.units) / qa : null, downAll = qa > 0 ? (units + cr.existingAll - cr.comp.s8.units) / qa : null;
       t4.caveat = notes.join(' ');
-      var downT = cr.qT > 0 ? (units + Math.max(0, cr.existingT - cr.comp.s8.units)) / cr.qT : null;
+      var downT = cr.qT > 0 ? (units + Math.max(0, cr.existingT - (cr.comp.s8.by[tier] || 0))) / cr.qT : null;
       var upT = cr.qT > 0 ? (units + cr.existingT + cr.comp.none.units) / cr.qT : null;
       // Homes with no AMI split could sit at any level, so a pass is uncertain if they could lift either rate over the line.
       t4.uncertain = under ? (cr.comp.none.units > 0 && (upAll > line || upT > line)) : (cr.comp.s8.units > 0 && downT <= line && downAll <= line);
