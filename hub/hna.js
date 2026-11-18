@@ -1392,7 +1392,8 @@
         (r.noGrowthNeed ? '<p><strong>No added homes needed for growth.</strong> Households are forecast to stay flat or shrink over 20 years.</p>' : '') +
         (r.currentGap != null ? '<p>Deep affordability gap today: about <strong>' + num(r.currentGap) + '</strong> renter households in the county pay 50% or more of income on rent.</p>' : '') +
         '<details><summary>Method and assumptions</summary><ul>' + r.methodology.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></details>' +
-        '<p class="metric-source">' + Pl.srcLine(dolaName() + '; ACS 2020-2024 5-year, B25070, B25003', LINKS.dola) + '</p>';
+        '<p class="metric-source">' + Pl.srcLine(dolaName() + '; ACS 2020-2024 5-year, B25070, B25003', LINKS.dola) + '</p>' +
+        '<p><a href="#/places/scenario?g=' + esc(cf) + '">Change the forecast →</a> The Scenario builder sets your own growth, household size and vacancy.</p>';
     }
     function amiMix() {
       var HNP = global.HousingNeedProjector, MC = global.MixCheck, MI = global.MixCheckInputs, cf = isCounty ? geoid : fips;
@@ -2370,7 +2371,11 @@
         mc('Homes needed over 20 years', 'future_units_needed_20yr', needNum, smallRec() ? 'Fewer than 250 households: see the county' : needWhy(num(v('future_units_growth_20yr')) + ' for resident growth, ' + num(v('incommuter_need_units')) + ' for in-commuters')) +
         mc('Change in the 65+ share', 'senior_share_growth_pp', function (x) { return signed(x, function (y) { return y.toFixed(1); }) + ' points'; }) +
         '</div>' + outlook() +
-        '<h2>Population projection by scenario</h2>' + projectionRange() + homesByYear() + demandByIncome() + scenarioTable() +
+        '<h2>Population projection by scenario</h2>' + projectionRange() + homesByYear() + demandByIncome() +
+        // The homes each scenario needs live on "What to do"; the forecast is changed in the Scenario builder
+        // (one-home proposal item 12, paul "go remaining duplicates", 18 Nov 2026). The year-by-year detail folds.
+        '<p class="actions"><a class="button-link secondary" href="#/place/' + esc(geoid) + '/action">Homes needed by scenario →</a> <a class="button-link secondary" href="#/places/scenario?g=' + esc(geoid) + '">Change the forecast →</a></p>' +
+        fold(scenarioTable(), 'Residents under the state forecast and with growth 15% slower or faster, year by year.') +
         '<h2>Labor market context</h2>' + payBands() + industries() + employers() + wagesVsHousing() + housingWage() +
         '<h2>Commuting</h2>' + modeShare() + commuteCard() +
         '<h2>Economic indicators</h2>' + jobTrend() + payTrend() + marketCall() +
