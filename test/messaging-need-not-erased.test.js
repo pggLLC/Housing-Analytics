@@ -32,21 +32,31 @@ const W = {
 };
 const CONTROLS = ['08089', '0828745', '0842330'];
 
-test('a fall in households is said as fewer homes needed, with the digest figure, never a surplus of homes', () => {
-  let checked = 0;
-  for (const g of CONTROLS) {
-    const fu = val(g, 'future_units_needed_20yr');
-    const c = card(g, 'production');
-    if (!c || !c.verdict || typeof fu !== 'number' || fu >= 0) continue;
-    checked += 1;
-    const text = c.verdict + ' ' + c.plain;
-    assert.doesNotMatch(text, /surplus/i, g);
+// Reads one production card the way the page does and checks it against the figure it was given, whatever its sign.
+function checkProduction(label, d) {
+  const fu = d.metrics.future_units_needed_20yr && d.metrics.future_units_needed_20yr.value;
+  const c = Contract.build({ digest: d, generatedAt: 'x' }).conclusions.find((x) => x.id === 'production');
+  if (!c || !c.verdict || typeof fu !== 'number') return false;
+  const text = c.verdict + ' ' + c.plain;
+  assert.doesNotMatch(text, /surplus/i, label);
+  if (fu < 0) {
     const said = text.match(/([\d,]+) fewer homes needed/);
-    assert.ok(said, g + ': the fall is not said in words: ' + text);
-    assert.equal(n(said[1]), Math.abs(Math.round(fu)), g + ': the words disagree with future_units_needed_20yr');
-    assert.match(c.plain, /not a count of spare homes/i, g + ': a projected fall is not a stock of spare homes');
+    assert.ok(said, label + ': the fall is not said in words: ' + text);
+    assert.equal(n(said[1]), Math.abs(Math.round(fu)), label + ': the words disagree with future_units_needed_20yr');
+    assert.match(c.plain, /not a count of spare homes/i, label + ': a projected fall is not a stock of spare homes');
+  } else {
+    assert.doesNotMatch(text, /fewer homes needed|spare homes/i, label + ': growth is described as a fall');
   }
-  assert.ok(checked >= 2, 'too few controls with a projected fall to mean anything (' + checked + ')');
+  return true;
+}
+
+test('a fall in households is said as fewer homes needed, with the digest figure, never a surplus of homes', () => {
+  // Non-vacuity on the scan: every control's card and figure is read, whatever the sign today.
+  CONTROLS.forEach((g) => assert.ok(checkProduction(g, digest(g)), g + ': no production card or figure to check'));
+  // The negative and positive branches on a controlled copy, so a projection refresh cannot make this vacuous.
+  const fixture = (v) => { const d = JSON.parse(JSON.stringify(digest('08089'))); d.metrics.future_units_needed_20yr.value = v; if (d.metrics.future_units_growth_20yr) d.metrics.future_units_growth_20yr.value = v; return d; };
+  assert.ok(checkProduction('Otero copy at -123', fixture(-123)));
+  assert.ok(checkProduction('Otero copy at +123', fixture(123)));
 });
 
 test('the 30% AMI gap the recommendation quotes is the digest figure and is named as price-only', () => {
@@ -83,8 +93,11 @@ test('the blended rank discloses the builder\'s own weights and never reads as n
 });
 
 test('a list of missing evidence renders the contract\'s own lines', () => {
-  const lines = Contract.build({ digest: digest('0842330'), generatedAt: 'x' }).conclusions.flatMap((c) => c.blocking);
-  assert.ok(lines.length, 'Lake City should have an unanswered question to test with');
+  // A controlled copy with one figure removed, so the check does not depend on today's data having a gap.
+  const d = JSON.parse(JSON.stringify(digest('08089')));
+  delete d.metrics.pct_cost_burdened;
+  const lines = Contract.build({ digest: d, generatedAt: 'x' }).conclusions.flatMap((c) => c.blocking);
+  assert.ok(lines.length, 'removing a figure should leave a question unanswered');
   lines.forEach((l) => assert.equal(typeof l, 'string', 'the contract emits plain lines'));
   // The renderer must accept what the contract emits: a string is printed as it is.
   const src = read('hub/finder.js');
@@ -99,8 +112,10 @@ test('HNA leads quote HUD\'s affordable-and-available record beside the price-on
   assert.match(fn[0], /tiers\['30'\]/);
   const finding = src.match(/var finding = \{[\s\S]*?\n      people:/)[0];
   assert.ok((finding.match(/hudBeside\(\)/g) || []).length >= 2, 'the overview lead uses it on both the no-shortfall and shortfall branches');
+  // The record it reads exists for the places the HNA shows (non-vacuity on the file, not on any one place's value).
   const aa = JSON.parse(read('data/hna/chas_affordable_available.json'));
-  assert.ok(aa.counties['08089'].tiers['30'].homes_short > 0, 'Otero control: HUD record shows a shortfall to quote');
+  const withTier = Object.values(aa.counties || {}).filter((r) => r.tiers && r.tiers['30'] && typeof r.tiers['30'].homes_short === 'number').length;
+  assert.ok(withTier >= 60, 'the HUD affordable-and-available file has too few counties with a 30% tier (' + withTier + ')');
 });
 
 test('Deep Dive: the funding group label describes the median split the file computes, the same on every surface', () => {
