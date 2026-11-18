@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T04:25:59.669Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T05:14:53.301Z. Do not edit by hand.
 
 ---
 
@@ -339,7 +339,7 @@
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
 | `data/fixtures/fruita-commons-family.scenario.json` | 4.9 KB | ✅ | — |
 | `data/fixtures/fruita-commons.scenario.json` | 4.8 KB | ✅ | — |
-| `data/fred-data.json` | 1.24 MB | ✅ | — |
+| `data/fred-data.json` | 1.25 MB | ✅ | — |
 | `data/glossary.json` | 83.8 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 274.3 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 4.1 KB | ✅ | — |
