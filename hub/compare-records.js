@@ -148,7 +148,8 @@
       projectCount: inside.length, lastYear: lastYear, lastAwardYear: lastAwardYear, r1Count: r1Awards.length, r1Units: r1Units,
       r2Count: r2Awards.length, r2Units: r2Units,
       latestChfaActivityYear: latest === -Infinity ? null : latest,
-      droughtYears: wl && Number.isFinite(wl.drought_years) ? wl.drought_years : (lastYear == null ? null : Math.max(0, CURRENT_YEAR - lastYear)),
+      // The watch list was written before the 2026 rounds; an award since then wins (as js/compare.js).
+      droughtYears: (function () { var since = lastYear == null ? null : Math.max(0, CURRENT_YEAR - lastYear); return wl && Number.isFinite(wl.drought_years) ? (since != null && since < wl.drought_years ? since : wl.drought_years) : since; }()),
       watchSignal: (wl && wl.signal) || null, watchTracked: true,
       pabDirect: pabDirect, pabIsCounty: pabIsCounty,
       preservationCount: prec.total, preservationUrgent5y: prec.urgent5y,

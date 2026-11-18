@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "6a6ff27d2692ae2436b3918e590165a0142148cf",
+  "commit": "24162a7f3c6eb82f9a194fde991cbec98bb9bcf4",
   "dirty": false
  },
  "files": {
@@ -42,7 +42,7 @@
   "hub/calendar.js": "884a8a59c403789aca5626a384af6467f4bec4571f637422497cae1c3519db27",
   "hub/change-arrows.js": "3bfb7835e88183749dd64cacc43d91af9ae80d65038bb60ed70190d7755d4f3d",
   "hub/commuting.js": "eaae2b3cfc1e120fc48bfe27eca752c1f05672d040fda80203bab92bb6162bdc",
-  "hub/compare-records.js": "3e603596251c6eb64922447545ec5b7e7bfbc4e628139e553a220eacbcffe92c",
+  "hub/compare-records.js": "99a84a3a4f76b73819016dc6c338859cfc3ee31b9226289e0cb11074244fd4d3",
   "hub/components.js": "1a3192c4037be964f0a9447cd5d3d6a1b6795871c6f9d017b640b7f538f38590",
   "hub/county-costs.css": "27d26b7dee75f7fe60d9521925a49b17dfc037bf2c18b3d4aef837ec33e8e575",
   "hub/county-costs.js": "7d208298f94a20ca59dea00aff1de7ecd9648279f7e0b062d6adb4fea98c81fd",

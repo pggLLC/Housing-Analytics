@@ -490,7 +490,9 @@
       watchlist: state.watchlistByGeoid && state.watchlistByGeoid[placeGeoid] || null,
       droughtYears: (function () {
         var wlEntry = state.watchlistByGeoid && state.watchlistByGeoid[placeGeoid];
-        if (wlEntry && Number.isFinite(wlEntry.drought_years)) return wlEntry.drought_years;
+        // The watch list was written before the 2026 rounds; an award since then wins.
+        var since = lastYear == null ? null : Math.max(0, CURRENT_YEAR - lastYear);
+        if (wlEntry && Number.isFinite(wlEntry.drought_years)) return since != null && since < wlEntry.drought_years ? since : wlEntry.drought_years;
         if (lastYear == null) return null;
         return Math.max(0, CURRENT_YEAR - lastYear);
       })(),
