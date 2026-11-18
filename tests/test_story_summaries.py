@@ -216,7 +216,7 @@ def test_a_rate_limited_search_is_not_recorded_as_not_found():
     items = [{'title': TITLE, 'link': 'https://example.com/x', 'source_domain': 'example.com'}]
     cache = {}
     ss.summarize_items(items, cache, f, today='2026-11-18')
-    assert 'https://example.com/x' not in cache and 'summary' not in items[0]
+    assert 'https://example.com/x' not in cache and items[0]['summary']['basis'] == 'unavailable'
     f = fake({'robots.txt': '', '?s=': SEARCH, 'home-sales': ARTICLE})
     ss.summarize_items([dict(items[0])], cache, f, today='2026-11-18')
     assert cache['https://example.com/x']['basis'] == 'outlet'
@@ -251,11 +251,11 @@ def test_a_zero_width_space_in_a_headline_is_left_out_of_the_search():
 
 def test_a_story_its_outlet_would_not_serve_borrows_the_same_story_from_another_outlet():
     read = {'title': '34% of Colorado households are cost-burdened, new state housing study finds',
-            'source': 'Grand Junction Daily Sentinel', 'link': 'https://example.com/a',
+            'source': 'Grand Junction Daily Sentinel', 'link': 'https://example.com/a', 'date': '2026-11-17',
             'summary': {'text': 'A new state study finds 34% of households spend over 30% of income on housing.',
                         'link': 'https://example.com/a-article', 'basis': 'outlet'}, 'ai': 'A state study found 34% of households are cost-burdened.'}
     blocked = {'title': 'Nearly 34% of Colorado households are spending too much on housing, new state study says',
-               'source': 'CBS Colorado', 'link': 'https://example.com/b',
+               'source': 'CBS Colorado', 'link': 'https://example.com/b', 'date': '2026-11-18',
                'summary': {'text': '', 'link': '', 'basis': 'not found'}}
     other = {'title': 'Aspen breaks ground on employee housing project', 'source': 'Aspen Times',
              'link': 'https://example.com/c', 'summary': {'text': '', 'link': '', 'basis': 'not found'}}
@@ -271,3 +271,14 @@ def test_a_borrowed_line_is_never_lent_on():
     b = {'title': 'Denver council passes rent rule for older buildings, landlords react', 'source': 'Denver Post',
          'summary': {'text': '', 'basis': 'not found'}}
     assert ss.borrow([b], [a, b]) == 0
+
+
+def test_two_shared_housing_words_are_not_enough_to_lend_a_line():
+    # Codex review of #2941, from the committed news data
+    lawsuit = {'title': 'Builder sues Denver over affordable housing fees', 'source': 'Denver Gazette', 'date': '2026-11-17',
+               'summary': {'text': 'The case challenges rules requiring builders to pay fees.', 'basis': 'outlet'}}
+    election = {'title': 'Housing affordability after the midterm elections', 'source': 'Other', 'date': '2026-11-16',
+                'summary': {'text': '', 'basis': 'not found'}}
+    late = {'title': 'Builder sues Denver over affordable housing fees, city responds', 'source': 'Denver Post',
+            'date': '2026-11-01', 'summary': {'text': '', 'basis': 'not found'}}
+    assert ss.borrow([election, late], [lawsuit, election, late]) == 0

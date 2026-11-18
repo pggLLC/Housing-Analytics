@@ -236,7 +236,9 @@ def summarize_items(items: list[dict], cache: dict, fetcher=fetch, agency: bool 
             try:
                 hit = summarize(story, fetcher)
             except Transient:
+                # shown as "no summary yet" this run, but never cached as a miss
                 cache.pop(key, None)
+                it['summary'] = {'text': '', 'link': '', 'basis': 'unavailable'}
                 hit = None
             except Exception:
                 hit = {'text': '', 'link': '', 'basis': 'not found'}
@@ -258,7 +260,30 @@ def borrow(items: list[dict], pool: list[dict]) -> int:
     the AI line written from them) and names that outlet (`via`); the headline still links to the
     story's own outlet. Returns how many stories borrowed a line.
     """
-    from agency_releases import ordinary_words, same_story
+    from agency_releases import _content, _names, ordinary_words, same_story
+    import datetime as _dt
+
+    def days(x):
+        try:
+            return _dt.date.fromisoformat((x.get('date') or '')[:10]).toordinal()
+        except ValueError:
+            return None
+
+    def clearly_same(a, b):
+        # same_story groups the Today box; lending words needs more (Codex review of #2941: an
+        # election story took a lawsuit's summary on two shared housing words)
+        ta, tb = a.get('title', ''), b.get('title', '')
+        if not same_story(ta, tb, ordinary):
+            return False
+        da, db = days(a), days(b)
+        if da is None or db is None or abs(da - db) > 3:
+            return False
+        wa, wb = _content(ta), _content(tb)
+        shared = wa & wb
+        figures = {w for w in shared if re.match(r'\d', w)}
+        names = _names(ta, ordinary) & _names(tb, ordinary)
+        return len(shared) >= 3 and bool(figures or names or len(shared) / max(len(wa), len(wb)) >= 0.6)
+
     have = [p for p in pool if (p.get('summary') or {}).get('text') and p['summary'].get('basis') != 'same story']
     if not have:
         return 0
@@ -270,7 +295,7 @@ def borrow(items: list[dict], pool: list[dict]) -> int:
         for p in have:
             if p is it or (p.get('source') and p.get('source') == it.get('source')):
                 continue
-            if same_story(it.get('title', ''), p.get('title', ''), ordinary):
+            if clearly_same(it, p):
                 it['summary'] = {'text': p['summary']['text'], 'link': '', 'basis': 'same story',
                                  'via': p.get('source', ''), 'via_link': p['summary'].get('link') or p.get('link', '')}
                 if p.get('ai'):

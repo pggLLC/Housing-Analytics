@@ -80,6 +80,7 @@
     if (it.ai) return '<p class="news-quote"><span class="news-ai" title="Written by AI from this story\u2019s own summary">AI</span> ' + esc(it.ai) + via + '</p>';
     if (sm.text) return '<p class="news-quote">\u201c' + esc(sm.text) + '\u201d' + via + '</p>';
     // paul, 18 Nov: a blank row reads as broken; say why there is no line
+    if (sm.basis === 'unavailable') return '<p class="news-quote news-none">No summary yet: the outlet\u2019s site did not answer this time. The next update tries again.</p>';
     return sm.basis === 'not found' ? '<p class="news-quote news-none">No summary: the news script could not read this story on the outlet\u2019s site.</p>' : '';
   }
   function storyLink(it) { return (it.summary && safe(it.summary.link)) || safe(it.link); }
