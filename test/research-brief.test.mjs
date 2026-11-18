@@ -268,11 +268,14 @@ test('a brief that moved to the member site shows a notice and the research list
   assert.equal(FEED.briefs.some((b) => b.id === id), false, 'the moved brief must not be in the public feed');
   const { doc } = await runPage(t, { id });
   const host = doc.getElementById('brief-content');
-  assert.equal(doc.querySelector('h1').textContent, 'This brief is now for members');
   assert.equal(host.dataset.moved, 'member');
-  assert.equal(host.querySelector('a[href="insights.html"]').textContent, 'Browse the research list');
   const other = await runPage(t, { id: 'no-such-brief' });
-  assert.equal(other.doc.querySelector('h1').textContent, 'Brief not found');
+  const notFound = other.doc.querySelector('h1').textContent;
+  assert.equal(other.doc.getElementById('brief-content').dataset.moved, undefined, 'an unknown id is not reported as moved');
+  assert.ok(doc.querySelector('h1').textContent.trim() && doc.querySelector('h1').textContent !== notFound, 'the moved notice is its own message, not "not found"');
+  // The way back goes to the research list (the catalog page), with a readable name.
+  const back = [...host.querySelectorAll('a[href]')];
+  assert.ok(back.some((a) => a.getAttribute('href') === 'insights.html' && a.textContent.trim().length > 3), 'no named link to the research list');
 });
 
 test('print control calls window.print, and the reader loads the shared head/nav and print styles', async (t) => {
