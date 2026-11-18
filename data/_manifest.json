@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-18T13:21:36.423Z",
+    "generated_at": "2026-11-18T15:45:13.544Z",
     "root": "data/",
     "file_count": 1997,
-    "total_size_bytes": 228373732,
+    "total_size_bytes": 228636160,
     "kinds": {
       "json": 1948,
       "geojson": 35,
@@ -648,8 +648,8 @@
     {
       "path": "audit/chfa-qap-watch.json",
       "kind": "json",
-      "size_bytes": 3571034,
-      "mtime": "2026-11-04T13:01:24.216Z",
+      "size_bytes": 3842676,
+      "mtime": "2026-11-18T14:04:01.902Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -666,7 +666,7 @@
       ],
       "key_count": 11,
       "primary_array_key": "documents",
-      "primary_array_length": 132,
+      "primary_array_length": 117,
       "primary_array_first_keys": [
         "url",
         "title",
@@ -678,15 +678,15 @@
         "bytes",
         "content_type",
         "last_modified",
-        "pages",
-        "text"
+        "last_changed_at",
+        "pages"
       ]
     },
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 719719,
-      "mtime": "2026-11-17T14:52:29.647Z",
+      "size_bytes": 706295,
+      "mtime": "2026-11-18T14:30:58.669Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -706,7 +706,7 @@
       ],
       "key_count": 16,
       "primary_array_key": "federal_notices",
-      "primary_array_length": 674,
+      "primary_array_length": 677,
       "primary_array_first_keys": [
         "key",
         "source",
@@ -724,7 +724,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-18T13:14:59.511Z",
+      "mtime": "2026-11-18T15:41:51.727Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1125,7 +1125,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-11-17T16:08:23.440Z",
+      "mtime": "2026-11-18T15:45:10.459Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1241,7 +1241,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 49065,
-      "mtime": "2026-11-17T16:08:20.718Z",
+      "mtime": "2026-11-18T15:45:07.838Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -6827,8 +6827,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1311413,
-      "mtime": "2026-11-18T09:33:49.107Z",
+      "size_bytes": 1311670,
+      "mtime": "2026-11-18T14:01:45.199Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -39108,7 +39108,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 102932,
-      "mtime": "2026-11-17T16:08:23.536Z",
+      "mtime": "2026-11-18T15:45:10.539Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39166,7 +39166,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-18T13:15:02.110Z",
+      "mtime": "2026-11-18T15:41:53.243Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39190,7 +39190,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-18T13:15:01.661Z",
+      "mtime": "2026-11-18T15:41:52.882Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41557,8 +41557,8 @@
     {
       "path": "policy/green-building.json",
       "kind": "json",
-      "size_bytes": 58882,
-      "mtime": "2026-11-05T07:03:10.978Z",
+      "size_bytes": 59692,
+      "mtime": "2026-11-18T15:40:29.456Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42292,8 +42292,8 @@
     {
       "path": "policy/resident-services.json",
       "kind": "json",
-      "size_bytes": 35185,
-      "mtime": "2026-11-02T12:29:31.187Z",
+      "size_bytes": 35671,
+      "mtime": "2026-11-18T15:40:29.461Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42437,8 +42437,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 41714,
-      "mtime": "2026-11-10T13:57:51.439Z",
+      "size_bytes": 41768,
+      "mtime": "2026-11-18T15:40:29.461Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42494,8 +42494,8 @@
     {
       "path": "policy/thiz-map-status.json",
       "kind": "json",
-      "size_bytes": 4779,
-      "mtime": "2026-11-04T02:15:28.024Z",
+      "size_bytes": 4833,
+      "mtime": "2026-11-18T15:40:29.462Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42666,8 +42666,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 447442,
-      "mtime": "2026-11-18T12:30:53.308Z",
+      "size_bytes": 447766,
+      "mtime": "2026-11-18T15:40:29.471Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42719,8 +42719,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 20476,
-      "mtime": "2026-11-17T14:49:31.703Z",
+      "size_bytes": 20473,
+      "mtime": "2026-11-18T14:28:43.763Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -42739,8 +42739,8 @@
     {
       "path": "polymarket-history.json",
       "kind": "json",
-      "size_bytes": 232233,
-      "mtime": "2026-11-17T14:49:31.763Z",
+      "size_bytes": 234461,
+      "mtime": "2026-11-18T14:28:43.826Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42748,7 +42748,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "rows",
-      "primary_array_length": 215,
+      "primary_array_length": 216,
       "primary_array_first_keys": [
         "date",
         "events"
