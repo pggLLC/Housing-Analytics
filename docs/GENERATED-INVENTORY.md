@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T12:18:13.274Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T12:31:11.471Z. Do not edit by hand.
 
 ---
 
@@ -80,7 +80,7 @@
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
 | `regional.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
-| `research-brief.html` | Research Brief | COHO Analytics | 27.2 KB |
+| `research-brief.html` | Research Brief | COHO Analytics | 28.0 KB |
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.7 KB |
 | `search.html` | Search · COHO Analytics | 4.3 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
@@ -95,7 +95,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1950 JSON files found.
+1949 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -2005,7 +2005,6 @@
 | `data/policy/local-support.json` | 154.9 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.4 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 17.4 KB | ✅ | — |
-| `data/policy/pma-capture-example.json` | 24.3 KB | ✅ | — |
 | `data/policy/policy-timeline.json` | 7.2 KB | ✅ | — |
 | `data/policy/policy-watch.json` | 54.6 KB | ✅ | — |
 | `data/policy/prop123-land-banking-awards.json` | 80.8 KB | ✅ | — |
@@ -2028,7 +2027,7 @@
 | `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
 | `data/policy_briefs.json` | 732.8 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 469.8 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 437.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
 | `data/polymarket-history.json` | 226.8 KB | ✅ | — |
@@ -2054,7 +2053,7 @@
 
 ## Test Files
 
-792 test files found.
+791 test files found.
 
 | File | Size |
 |------|------|
@@ -2546,7 +2545,6 @@
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
 | `test/pma-barrier-data.test.js` | 6.5 KB |
 | `test/pma-boundary-clear-race.test.js` | 3.1 KB |
-| `test/pma-capture-brief.test.mjs` | 10.0 KB |
 | `test/pma-capture-denominator.test.js` | 15.4 KB |
 | `test/pma-capture-naming.test.js` | 12.1 KB |
 | `test/pma-chfa-qualified-renters.test.js` | 22.1 KB |
@@ -2633,7 +2631,7 @@
 | `test/report-text-cleanup.test.js` | 3.1 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
-| `test/research-brief.test.mjs` | 16.2 KB |
+| `test/research-brief.test.mjs` | 17.5 KB |
 | `test/research-catalog.test.mjs` | 8.9 KB |
 | `test/resident-services.test.mjs` | 10.9 KB |
 | `test/resort-programs.test.mjs` | 7.8 KB |

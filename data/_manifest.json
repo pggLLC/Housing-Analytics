@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-18T12:19:00.643Z",
+    "generated_at": "2026-11-18T12:31:55.083Z",
     "root": "data/",
-    "file_count": 1998,
-    "total_size_bytes": 228301846,
+    "file_count": 1997,
+    "total_size_bytes": 228243353,
     "kinds": {
-      "json": 1949,
+      "json": 1948,
       "geojson": 35,
       "csv": 14
     }
@@ -724,7 +724,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-18T12:18:55.497Z",
+      "mtime": "2026-11-18T12:31:50.183Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39165,8 +39165,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16182,
-      "mtime": "2026-11-18T12:18:57.909Z",
+      "size_bytes": 16184,
+      "mtime": "2026-11-18T12:31:52.520Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39190,7 +39190,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-18T12:18:57.357Z",
+      "mtime": "2026-11-18T12:31:51.912Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42074,37 +42074,6 @@
       "primary_array_first_keys": null
     },
     {
-      "path": "policy/pma-capture-example.json",
-      "kind": "json",
-      "size_bytes": 24900,
-      "mtime": "2026-11-18T09:33:49.550Z",
-      "shape": "object",
-      "keys": [
-        "meta",
-        "rules",
-        "precedents",
-        "designs",
-        "in_migration"
-      ],
-      "key_count": 5,
-      "primary_array_key": "designs",
-      "primary_array_length": 19,
-      "primary_array_first_keys": [
-        "id",
-        "family",
-        "label",
-        "short",
-        "whole_tracts",
-        "land_sq_mi",
-        "qualified_renter_households",
-        "existing_comparable_homes",
-        "capture",
-        "project_share",
-        "highest_ami_level",
-        "highest_ami_rate"
-      ]
-    },
-    {
       "path": "policy/policy-timeline.json",
       "kind": "json",
       "size_bytes": 7346,
@@ -42697,8 +42666,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 481037,
-      "mtime": "2026-11-18T09:33:49.560Z",
+      "size_bytes": 447442,
+      "mtime": "2026-11-18T12:30:53.308Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42706,20 +42675,20 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 19,
+      "primary_array_length": 18,
       "primary_array_first_keys": [
         "id",
         "title",
         "policy_topic",
         "is_curated",
         "source_reviewed",
+        "generated",
         "verified",
         "takeaway",
         "summary",
         "implications",
         "related_data",
-        "sources",
-        "sections"
+        "sources"
       ]
     },
     {
