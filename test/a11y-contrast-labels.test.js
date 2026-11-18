@@ -11,9 +11,6 @@ function read(relPath) {
 const siteTheme = read('css/site-theme.css');
 const scenarioBuilder = read('css/scenario-builder.css');
 const landValueTool = read('js/components/land-value-tool.js');
-const pipelineAddButton = read('js/components/pipeline-add-button.js');
-const developerHtml = read('developer.html');
-const developerBrief = read('developer-brief.html');
 const dataSourcesUi = read('dashboard-data-sources-ui.html');
 
 const lvtBandRule = siteTheme.match(/\.lvt-band-bar\s*\{[^}]*\}/);
@@ -37,24 +34,8 @@ assert(skippedHoverRule, 'site theme defines skipped next-action hover');
 assert(!/color\s*:\s*#fff\b/i.test(skippedHoverRule[0]), 'skipped next-action hover no longer uses white text');
 assert(/color\s*:\s*var\(--on-warn\)/.test(skippedHoverRule[0]), 'skipped next-action hover uses --on-warn');
 
-const formLabels = [...pipelineAddButton.matchAll(/<label class="pab-form__label"([^>]*)>/g)];
-assert(formLabels.length >= 10, 'pipeline add form labels are present');
-const labelsWithoutFor = formLabels.filter((match) => !/\bfor=/.test(match[1]));
-assert.equal(labelsWithoutFor.length, 0, 'every pipeline add form label has a for attribute');
-
-for (const name of ['stage', 'confidence', 'classification']) {
-  assert(new RegExp(`selectHtml\\('${name}'[\\s\\S]*'${name.replace(/^./, (c) => c.toUpperCase())}'`).test(pipelineAddButton), `${name} select passes an aria label`);
-  assert(new RegExp(`id="\\s*' \\+ fieldId\\(name\\) \\+ '\\s*"`).test(pipelineAddButton) || pipelineAddButton.includes('id="\' + fieldId(name) + \'"'), 'selectHtml writes an id');
-}
-
-assert(/<label[^>]+for="pri-text"[^>]*>/.test(developerHtml), 'developer priorities textarea has a visible label');
-assert(/<textarea[^>]+id="pri-text"/.test(developerHtml), 'developer priorities textarea retains id');
-
-// Every icon-only link the brief injects carries an aria-label; the signal list's
-// source link now uses the word "source" as its name.
-const iconLinks = developerBrief.match(/<a\b[^>]*>\s*[↗🔗→]\s*<\/a>/g) || [];
-assert(iconLinks.every((a) => /aria-label="[^"]+"/.test(a)), 'developer brief icon-only links have an accessible name');
-assert(/rel="noopener">source<\/a>/.test(developerBrief), 'developer brief signal source links have visible text');
+// The Deal Tracker form and the developer pages moved to coho-backend (18 Nov 2026); their label checks moved
+// with them (coho-backend member/test/a11y-contrast-labels.test.js).
 assert(/aria-label="Open source">🔗<\/a>/.test(dataSourcesUi), 'dashboard data-source link icon has an accessible name');
 
 console.log('a11y-contrast-labels: PASS');

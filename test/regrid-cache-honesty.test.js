@@ -173,8 +173,7 @@ const deferred = JSON.parse(fs.readFileSync(COMMITTED_CACHE, 'utf8'));
   await run('user-facing Regrid copy describes deferral without retired free-tier claims', async () => {
     const paths = [
       'js/components/map-layer-status.js',
-      'developer-brief.html',
-      'dashboard-data-quality.html'
+      'dashboard-data-quality.html'  // developer-brief.html moved to coho-backend (18 Nov 2026)
     ];
     paths.forEach((relative) => {
       const source = fs.readFileSync(path.join(ROOT, relative), 'utf8');
@@ -182,8 +181,6 @@ const deferred = JSON.parse(fs.readFileSync(COMMITTED_CACHE, 'utf8'));
       assert.match(source, /#1612/, relative + ' must link the owner decision');
       assert.doesNotMatch(source, /free tier|free-tier/i, relative + ' must not advertise a retired tier');
     });
-    const brief = fs.readFileSync(path.join(ROOT, 'developer-brief.html'), 'utf8');
-    assert.doesNotMatch(brief, /Add <code>REGRID_API_KEY<\/code> to\s*<code>js\/config\.js/i);
     const status = fs.readFileSync(path.join(ROOT, 'js/components/map-layer-status.js'), 'utf8');
     assert.doesNotMatch(status, /comes from free county/i);
     const market = fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8');

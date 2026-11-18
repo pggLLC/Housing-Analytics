@@ -46,7 +46,7 @@ const CORE_PAGES = [
   'hna-comparative-analysis.html', 'lihtc-opportunity-finder.html', 'compare.html',
   'chfa-portfolio.html', 'preservation.html',
   'hna-scenario-builder.html', 'market-analysis.html',
-  'insights.html', 'developer-pipeline.html', 'developer-brief.html',
+  'insights.html',  // developer-pipeline and developer-brief moved to coho-backend gated/ (18 Nov 2026)
   'data-status.html', 'data-review-hub.html', 'dashboard-data-sources-ui.html',
   'dashboard-data-quality.html', 'colorado-deep-dive.html', 'housing-needs-assessment.html',
 ];

@@ -21,7 +21,6 @@ import test from 'node:test';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
-import { issueBody, MARKER, md } from '../scripts/news/update-brief-review-issue.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
@@ -171,85 +170,5 @@ test('past events page in tens', async () => {
   assert.equal(doc.getElementById('eventsPastMore').hidden, true);
 });
 
-// ── The brief page's news panel ────────────────────────────────────────────
-
-function briefDom() {
-  const dom = new JSDOM('<!doctype html><div id="m"></div>', { runScripts: 'outside-only', url: 'http://localhost/developer-brief.html' });
-  dom.window.eval(read('js/components/jurisdiction-brief.js'));
-  return dom.window;
-}
-
-const BRIEF = { geoid: '0812045', jurisdiction: 'Town of Carbondale', last_curated: '2026-09-01' };
-const queue = (stories, events = [], generated = '2026-10-14T09:40:00Z') => ({ meta: { generated }, briefs: [
-  { geoid: '0812045', stories, events }, { geoid: '0820000', stories: [{ title: 'Denver only', date: '2026-10-01', match: 'place' }], events: [] }] });
-
-test('the brief panel shows this brief\'s headlines since its review, apart from the brief', () => {
-  const w = briefDom();
-  const html = w.JurisdictionBrief._renderNews(BRIEF, queue([
-    { title: 'Carbondale approves lease', source: 'The Sopris Sun', date: '2026-10-01', match: 'place', link: 'https://news.localhost/1' },
-    { title: 'Garfield County housing', source: 'Post Independent', date: '2026-09-20', match: 'county', link: 'https://news.localhost/2' },
-    { title: 'Before the review', source: 'X', date: '2026-08-31', match: 'place', link: 'https://news.localhost/3' },
-    { title: 'Paywalled lead', source: 'Y', date: '2026-08-30', match: 'place', link: 'https://news.localhost/4', unread: 'blocked' },
-    { title: 'Fresh unread', source: 'Y', date: '2026-10-02', match: 'place', link: 'https://news.localhost/5', unread: 'blocked' },
-  ], [{ title: 'NSPIRE, Carbondale', start: '2026-10-22', organizer: 'CHFA', url: 'https://chfa.localhost/n' },
-    { title: 'Over already', start: '2026-10-01', organizer: 'CHFA' }]), NOW);
-  const el = w.document.createElement('div');
-  el.innerHTML = html;
-  const items = [...el.querySelectorAll('li')].map((li) => li.textContent);
-  assert.equal(items.filter((t) => /Carbondale approves|Garfield County housing|Paywalled lead|Fresh unread/.test(t)).length, 4);
-  assert.match(el.querySelector('.jbrief-news__title').textContent, /\(4\)/, 'the panel count disagrees with the headlines shown');
-  assert.ok(items.some((t) => t.includes('Paywalled lead') && t.includes('not yet read') && t.includes('older')), 'an unread lead from before the review was dropped or not marked older');
-  assert.ok(items.some((t) => t.includes('Fresh unread') && t.includes('not yet read') && !t.includes('older')), 'a post-review unread lead was called older');
-  assert.match(el.textContent, /not part of this brief and not sources for it/);
-  assert.ok(items.some((t) => t.includes('Carbondale approves lease')));
-  assert.ok(items.some((t) => t.includes('Garfield County housing') && t.includes('names the county')));
-  assert.ok(!items.some((t) => t.includes('Before the review')), 'a headline from before the review was shown');
-  assert.ok(!items.some((t) => t.includes('Denver only')), 'another brief\'s headline was shown');
-  assert.ok(items.some((t) => t.includes('NSPIRE, Carbondale')));
-  assert.ok(!items.some((t) => t.includes('Over already')), 'an ended event was shown');
-});
-
-test('a missing or stale queue is said, not shown as "no news"', () => {
-  const w = briefDom();
-  assert.match(w.JurisdictionBrief._renderNews(BRIEF, null, NOW), /could not be loaded/);
-  const stale = w.JurisdictionBrief._renderNews(BRIEF, queue([],
-    [{ title: 'Future event from an old queue', start: '2026-11-01', organizer: 'CHFA' }], '2026-10-01T09:00:00Z'), NOW);
-  assert.match(stale, /has not updated since Oct 1, 2026/);
-  assert.ok(!stale.includes('Future event from an old queue'), 'a stale queue still listed an event');
-  assert.match(w.JurisdictionBrief._renderNews(BRIEF, queue([]), NOW), /No new headlines since the last review/);
-});
-
-// ── The review issue ───────────────────────────────────────────────────────
-
-test('the review issue lists each brief with news, with its reasons and headlines', () => {
-  const committed = JSON.parse(read('data/alerts/brief-news-queue.json'));
-  // A fully reviewed queue is the goal state, so when the committed file has no news,
-  // give its first brief one headline to keep the section check honest.
-  const q = committed.briefs.some((b) => b.stories.length) ? committed : {
-    ...committed,
-    briefs: committed.briefs.map((b, i) => (i ? b : {
-      ...b, days_since_review: 3, reasons: ['1 new story naming it'],
-      stories: [{ title: 'Fixture headline', source: 'Fixture', link: 'https://example.org/story', date: '2026-10-14', match: 'place', also: [] }],
-    })),
-  };
-  if (q !== committed) {
-    const empty = issueBody(committed);
-    assert.match(empty, /\(0\)/);
-    assert.ok(!empty.includes('\n### '), 'an empty queue still rendered a brief section');
-  }
-  const body = issueBody(q);
-  assert.ok(body.startsWith(MARKER));
-  assert.ok(!/\d{4}-\d{2}-\d{2}T\d{2}:/.test(body), 'a run timestamp in the body edits the issue every day');
-  const withNews = q.briefs.filter((b) => b.stories.length);
-  assert.ok(withNews.length > 0, 'the committed queue has no brief with news to check');
-  for (const b of withNews) {
-    // Match the section's own heading line: another brief's headline can name this place.
-    const section = body.split('\n### ').find((s) => s.split('\n')[0].includes(md(b.jurisdiction)));
-    assert.ok(section, `${b.jurisdiction} has news but no section`);
-    assert.ok(section.includes(b.reasons.join('; ')), `${b.jurisdiction}'s reasons are missing`);
-  }
-  for (const b of q.briefs.filter((x) => !x.stories.length)) {
-    assert.ok(body.includes(`| ${b.published ? 'yes' : 'draft'} | ${b.last_curated}`), `${b.jurisdiction} missing from the table`);
-  }
-  assert.match(body, new RegExp(`## News since the last review \\(${withNews.length}\\)`));
-});
+// The brief page's news panel and the "Jurisdiction briefs to review" issue moved to coho-backend with the
+// briefs on 18 Nov 2026 (member/test/housing-events-and-brief-news.test.mjs there).

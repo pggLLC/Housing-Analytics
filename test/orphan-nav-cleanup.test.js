@@ -21,7 +21,6 @@ function assertRedirect(html, target, label) {
 
 const lihtcDashboard = read('LIHTC-dashboard.html');
 const complianceDashboard = read('compliance-dashboard.html');
-const developerBrief = read('developer-brief.html');
 const sitemap = read('sitemap.html');
 
 // The national allocation pages came off the public site on 10-22; their old
@@ -45,10 +44,7 @@ assert(/dashboard has been retired/i.test(complianceDashboard), 'retired dashboa
 assert(!sitemap.includes('compliance-dashboard.html'),
   'retired compliance dashboard is absent from sitemap');
 
-assert(!developerBrief.includes('HOUSING-POLICY-SCORECARD.md'), 'developer brief no longer links to missing scorecard methodology doc');
-// The gated pages draw one shared menu (js/whitepaper/developer-nav.js).
-const developerNav = read('js/whitepaper/developer-nav.js');
-assert(developerBrief.includes('js/whitepaper/developer-nav.js') && developerNav.includes("href: 'developer-where.html'"), 'private developer-where page is reachable from the developer menu on the report page');
+// The developer pages and their shared menu moved to coho-backend on 18 Nov 2026, with their menu checks.
 
 const requiredSitemapPages = [
   'compare.html',
