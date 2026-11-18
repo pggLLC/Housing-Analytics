@@ -40,6 +40,7 @@ def fake(pages, calls=None):
 def setup_function():
     ss._robots.clear()
     ss._unsure.clear()
+    ss._feeds.clear()
 
 
 def test_outlet_story_quotes_the_articles_own_description():
@@ -231,7 +232,6 @@ def test_an_unreadable_robots_file_is_not_a_miss_either():
 
 
 def test_a_clean_miss_is_marked_sure_and_older_misses_get_one_more_try_today():
-    f = fake({'robots.txt': ''})
     items = [{'title': TITLE, 'link': 'https://example.com/x', 'source_domain': 'example.com'}]
     cache = {'https://example.com/x': {'text': '', 'link': '', 'basis': 'not found', 'checked': '2026-11-18'}}
     calls = []
@@ -295,3 +295,27 @@ def test_outlets_that_did_not_answer_cannot_hold_back_stories_never_tried():
     assert all(cache[b['link']]['basis'] == 'unavailable' for b in busy)
     ss.summarize_items([dict(b) for b in busy] + [new], cache, f, today='2026-11-19', budget=[1])
     assert new['summary']['basis'] == 'outlet'
+
+
+def test_outlet_news_feed_is_read_when_search_gives_a_web_page():
+    # Aspen Times / Post Independent answer the search with a web page, not a feed (18 Nov 2026)
+    calls = []
+    other = 'Valley school board picks a new superintendent after long search'
+    home = SEARCH.replace('</channel>', f'<item><title>{other}</title><link>https://example.com/board/</link>'
+                          '<description>The board voted 4-1 on Tuesday night to hire the district interim leader.</description></item></channel>')
+    f = fake({'robots.txt': '', '?s=': '<html>search page</html>', '/search/': '<html></html>',
+              'example.com/feed/': home, 'home-sales': ARTICLE}, calls)
+    out = ss.summarize({'title': TITLE, 'source_domain': 'example.com'}, f)
+    assert out['basis'] == 'outlet' and out['text'].startswith('Realtors say')
+    out2 = ss.summarize({'title': other, 'source_domain': 'example.com'}, f)
+    assert out2['text'].startswith('The board voted')
+    assert sum(1 for c in calls if c.endswith('/feed/')) == 1
+
+
+def test_outlet_news_feed_respects_robots():
+    calls = []
+    f = fake({'robots.txt': 'User-agent: *\nDisallow: /feed/', '?s=': '<html></html>', '/search/': '<html></html>',
+              'example.com/feed/': SEARCH}, calls)
+    out = ss.summarize({'title': TITLE, 'source_domain': 'example.com'}, f)
+    assert out['basis'] == 'not found'
+    assert not any(c.endswith('/feed/') for c in calls)
