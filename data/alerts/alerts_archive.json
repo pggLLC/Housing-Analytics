@@ -1,11 +1,61 @@
 {
   "meta": {
-    "generated": "2026-11-18T11:54:24Z",
+    "generated": "2026-11-18T13:15:06Z",
     "feed_count": 33,
-    "alert_count": 3826,
+    "alert_count": 3854,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Trump arrives in Shenzhen, China, where Xi Jinping\u2019s family history runs deep - The Washington Post",
+      "date": "2026-11-18T12:12:31Z",
+      "source": "The Washington Post",
+      "source_domain": "washingtonpost.com",
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOSHhIQXJqQW5hSDdiaHBPQWpvR1NTeUU5aXQ0TTlmR09DMVpCU01VMTl4R3ZxREFYNGpPTDNfYjczMFlKb1MxVVdjRTVaM1NzMjBnWW9wcDFQamY0TkJtTEFLdHdIRGp5emtHWUVIelZONzRoMHZHN0ZRZDdNTXpqTEgtWGxmbUNlOU5rQlh0WDNtd0JIV1dHc01kQmFXRlBaWlBqMjJpNHRrWFV2aUdzMGtHcVExRFFnMC1MNA?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Trump arrives in Shenzhen, China, where Xi Jinping\u2019s family history runs deep \u00a0\u00a0 The Washington Post"
+    },
+    {
+      "title": "PODCAST: Nvidia: Good earnings, bad timing? - Reuters",
+      "date": "2026-11-18T11:53:14Z",
+      "source": "Reuters",
+      "source_domain": "reuters.com",
+      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOLWszQjV4MEI3dzlQNjVKY2tVVWxGMUxodG80YUJiMHBDZXg0cDBhU21NLWdEWTZaS1B0bWpST1Y0NzdBSFRneHh0Z1QwRXNvOTFXMHVia3pDc3MzV1FRREFHbVpVTnZCdXJYeW5WcVJ3NjJlRzI1Y0pYMUppTURzZnBta1FaV3k0Ni1Dc25Kak5xZkp6b2NrVTNFaU0?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "PODCAST: Nvidia: Good earnings, bad timing? \u00a0\u00a0 Reuters"
+    },
+    {
+      "title": "Target Posts Strongest Sales Growth in Years as Focus on New Products, Value Pays Off - WSJ",
+      "date": "2026-11-18T11:41:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNQmNjZGowSElHblBXMDNwdjJvLV9xVjJNX19oZmdVMzVtRzdoNE01eG5tTGh0dWVsSlNLZW5zMmdQc1ZfTjMxWWd0enEwNlFUZ05mdlc0WXoycnBaUVJnY3pmZ3lhSGVfcUNwWlZBWmhMZGhFN1k0elZtMkRqeHRYZ3FmSlZ2Z3FSeE9ZX0NJSndtcFE3T0RjT1VWZFhmLUNHTXg0blVmRzJhUzNPU3JaRTZVdHNDTkV6d0phc0RhQzZDdl9pMFp0dw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Target Posts Strongest Sales Growth in Years as Focus on New Products, Value Pays Off \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Treasuries Edge Higher for a Third Day as Risk Appetite Falters - Bloomberg.com",
+      "date": "2026-11-18T11:25:15Z",
+      "source": "Bloomberg.com",
+      "source_domain": "bloomberg.com",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPeW96NHpWeDVTdWtWVUJTdVRRR1VZNXFiQ01mZnJ5Qk5ydjR4S2ExbmtGNVdKM0pNVTB3NDR0VXFuNnBDQjlvNWJJNTUxSEx6MU81cG9ValRHYUI0TEtnRUR4LThLQWgwT0ZMeDNCZ2FvcFljbUJpM180dUtyNWQ5bS1EOC1qb2kxOG9lT1UzVlBTV2xjV09xQWdzMVNiYW9L?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Treasuries Edge Higher for a Third Day as Risk Appetite Falters \u00a0\u00a0 Bloomberg.com"
+    },
+    {
+      "title": "Exclusive | Cost Pressures Already in Pipeline to Fuel Higher Inflation - WSJ",
+      "date": "2026-11-18T10:43:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQaHROaGlMV1FteF9zZlkyZGE5ZUdHa2tFRzZDTnR3QUJXWkdRZ3dlelRhWHNlNWJQTzlsNkxCeWpHb2luR2d5NGk0ZC1fS3RyOW5vYVdsYXptclBfa2VZVHNnMzVSNTIyZFNVdjZ5S204OTM4MjBZT1JrdTd2Z0JKbDZjemNsX0p3ck53Xy1MY254dGhjSC0yczlRakcxSm1GaWpxRGlB?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Exclusive | Cost Pressures Already in Pipeline to Fuel Higher Inflation \u00a0\u00a0 WSJ"
+    },
     {
       "title": "U.S. Energy Chief Urges Western Europe to Pivot to Power Expansion - WSJ",
       "date": "2026-11-18T10:35:47Z",
@@ -15,6 +65,36 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "U.S. Energy Chief Urges Western Europe to Pivot to Power Expansion \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Which $330,000 Home Would You Choose? - The New York Times",
+      "date": "2026-11-18T10:05:14Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQbWRwRFJBVmliYjhBbFZ5eFdVNGplOGpEZ1NrdjVjMldpelFaZDdFUlFXZ1Q4bzFMRG1YMWNaN3BvYWpKbXdJZUcwZDdMa3E1alM5QTFzc2FtckJyMEl3cURZUEhpZlhVbGRLai1UbGtOajlVR3U0LVM0UTFXaHFSeTBFY2VyR0F0R3JfaENneUpISVdRUkxz?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Which $330,000 Home Would You Choose? \u00a0\u00a0 The New York Times"
+    },
+    {
+      "title": "Pittsburgh\u2019s North Side: A Desirable Area Emerges - The New York Times",
+      "date": "2026-11-18T10:02:15Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOd0dxUS1Ca29JSU9hUDVkY2JocXdFRFJPSXdGMkhrQ19rRUFmLV83LXI0N1lDYUpXUkV6M0FSWjd1YnNfSU5JM2RaS3kyUnY2VVlxQ2hSWER2RGpCLUlzMU9ac0ZISmR3YW9iTW82NXZ2ZnliRUtNUHU1bWF6MkFjT3RBdHlGZ1R6YlFRLXN5dDQ2QUxFd3RvT1FiNUluN0E?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Pittsburgh\u2019s North Side: A Desirable Area Emerges \u00a0\u00a0 The New York Times"
+    },
+    {
+      "title": "The Real-Life City That Inspires Grand Theft Auto VI - The New York Times",
+      "date": "2026-11-18T10:02:04Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPVEJwZEhEVE4xMWIyWEgzNGdJRWNwZHROdDlHcmhfQnhZLXAxWTBpWW9NeGxSX1dkWGpmdHJxYXJYc1JudThVdmd5cDVKdHJpV2VuY09tY3o3eElvVUh6aE5TSWstRGhHdzl3QWxyZVZtalZtRFVPWUh0VHVWSzBzS290aGY?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "The Real-Life City That Inspires Grand Theft Auto VI \u00a0\u00a0 The New York Times"
     },
     {
       "title": "She retired early to care for family. New work rules for food aid disrupted that - NPR",
@@ -47,6 +127,16 @@
       "summary": "Stock Futures Rally as Nvidia Earnings Calm AI Trade Fears \u00a0\u00a0 WSJ"
     },
     {
+      "title": "European Chip Stocks Rise After Strong Nvidia Results - WSJ",
+      "date": "2026-11-18T09:31:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOMldXbGg0UF9xaEtzeVRMMEltSExuOWxmT2tkQmptWlRuRFJMbUNvM0pNY1dmcE9ZT21ESUFUTWpvN3I3V2tBZkNmZ0VJc1ROd3RGZC1TSEc2Tlkydk82MTJnRU9PYVZoS1R5WUlyV0xGVDJBd2hXQ1dYVFRINXNYSUtTRzRVQllmTEE?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "European Chip Stocks Rise After Strong Nvidia Results \u00a0\u00a0 WSJ"
+    },
+    {
       "title": "AI borrowing binge has \u2018historic parallels\u2019 with subprime bubble, says ECB - Financial Times",
       "date": "2026-11-18T09:00:07Z",
       "source": "Financial Times",
@@ -55,6 +145,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "AI borrowing binge has \u2018historic parallels\u2019 with subprime bubble, says ECB \u00a0\u00a0 Financial Times"
+    },
+    {
+      "title": "Oil Prices Fall Amid Supply Surplus Expectations, Middle East Tensions - WSJ",
+      "date": "2026-11-18T08:55:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPaDFCTV9zN1pVaFoteGpWam5uX3pGOXp4X3gwOVVqOVk5Yy1xdkdkc0w3MlFmWkNZWXA2Sms4OHhLMk5iNUExb3NYc3lJQW53dVJUQlkzVlNIX0FCWlM0cVpab0tQT2l1dzM0a3FlQmlqQ0NoQzB6WWs4Um9vbHY4LTFTMUc1Q3E5NnJYbVZSUzZ1czhPdXBkUjZMWXpKa2IxU1hqenFDc1RhRVV3bTJIdUtNWEJjZ2VsTUE?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Oil Prices Fall Amid Supply Surplus Expectations, Middle East Tensions \u00a0\u00a0 WSJ"
     },
     {
       "title": "In Choosing Shenzhen for Trump-Putin Summit, Xi Shows Off His Tech Ambitions - WSJ",
@@ -87,6 +187,16 @@
       "summary": "Democrats win Alaska Senate seat to complete midterms victory \u00a0\u00a0 Financial Times"
     },
     {
+      "title": "GSK Gets FDA Approval for New Lung-Cancer Drug - WSJ",
+      "date": "2026-11-18T07:43:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOU1pFbjgyNlNyS3RWaVNTYVVUZnZHWUNlS1p2TXpudFNBVS12bEtURkoyT1RESmZTVlF3UUFCRVpranEzQ3BYLVctbGlVREZZR1c3UUduQXZKREVrZ3FKRUNEWER4TkhqWjFmVlNnMHZwcEpMOTMwdENoZXZ1OEFPQWZhbHRSaFJpUUZ6cEpIdjBQLTA?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "GSK Gets FDA Approval for New Lung-Cancer Drug \u00a0\u00a0 WSJ"
+    },
+    {
       "title": "Indonesia Resumes Rate Increases as Rupiah Hits Record Low - WSJ",
       "date": "2026-11-18T07:37:00Z",
       "source": "WSJ",
@@ -117,6 +227,16 @@
       "summary": "'It's resurrected dignity': Panel of homelessness-focused organizations held in Fruita \u00a0\u00a0 The Grand Junction Daily Sentinel"
     },
     {
+      "title": "COMMENTARY: What the last two bubbles tell us about the AI boom - Reuters",
+      "date": "2026-11-18T07:00:00Z",
+      "source": "Reuters",
+      "source_domain": "reuters.com",
+      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQdDdsUjlxY1dzNFk4ZDNDZFRFQWdTTVRiTlZYOW44MEZtNXVORUVyMnN0d3R6ZXd6b29uLWtreVczVzg3Q0dDcnJFTmFsNURNSGcyMm9aQmNiSkdoRVNPeGhxZ1A4VThody14Z3QxVDc1X3Y2U2hTV3BGdkhZS3AtdGJpcGN1NlpDSXZvNmFiZ0ota0lHOEZOQ3NGQko2d1RhU0lfV1REYzRFVTRvVFVUb0tfVVYyR0Zua21lam9CWm5rTXVFZzBr?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "COMMENTARY: What the last two bubbles tell us about the AI boom \u00a0\u00a0 Reuters"
+    },
+    {
       "title": "South Korea's chip boom bypasses retail investors as stock rout hits spending - Reuters",
       "date": "2026-11-18T06:06:00Z",
       "source": "Reuters",
@@ -145,6 +265,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Singapore Leader Wong Expects \u2018Some Impact\u2019 From US Chip Curbs \u00a0\u00a0 Bloomberg.com"
+    },
+    {
+      "title": "Asian Equities Mixed as Investors Parse Nvidia\u2019s Quarterly Results, Guidance - WSJ",
+      "date": "2026-11-18T05:33:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQTUlkaFB0Z3RKN245bXlDcG5YY0NRTURYQU5LWUcxeFhWdk9QUWJhWEdLY3NtbFV0VlNUWW92S2YzSzVjaGwzdUZxMVE5WmxYQ2JQWE9wa0Z6UlZ6dXJmTVFHLUZjTWVZaEIwLWVjbk1VUVh1UzRQZlNiS3ZoRndPZDlyQmVhYW5JYUtCbkF0bTBrS1hkY1pLNTNDSGg5UnNRSHM0?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Asian Equities Mixed as Investors Parse Nvidia\u2019s Quarterly Results, Guidance \u00a0\u00a0 WSJ"
     },
     {
       "title": "Private Fund Giants Battle Inertia in \u20ac10 Trillion EU Asset Hunt - Bloomberg.com",
@@ -317,6 +447,16 @@
       "summary": "Phillies need a lefty reliever. So why have they been looking at righties? \u00a0\u00a0 The New York Times"
     },
     {
+      "title": "The SEC Is Investigating Nvidia - WSJ",
+      "date": "2026-11-17T22:43:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9tS2ZhV3NLaEU5QWF3R1psdHZ5X2xfOEtKWmNJcERNYkIzS0h2cF9nU0RaTl8xZlprTUhGUEhodGlnY3lTcjdPSHFTWXdOTHRhR1p1TGRCZmtsZjZ0cVBtNnpsczZ4eG5LLVpnb3RuSHZTZTNfNGVTNg?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "The SEC Is Investigating Nvidia \u00a0\u00a0 WSJ"
+    },
+    {
       "title": "Trump Administration Says It Will Not Use Ships to Deport Migrants - The New York Times",
       "date": "2026-11-17T22:40:32Z",
       "source": "The New York Times",
@@ -437,6 +577,16 @@
       "summary": "Waymo Halts Freeway Rides After Crackdown by California DMV \u00a0\u00a0 Bloomberg.com"
     },
     {
+      "title": "Exclusive | Corporate-Card Startup Ramp Raising Funds at $70 Billion Valuation - WSJ",
+      "date": "2026-11-17T20:00:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOSm81UWJFSmdEMk0wU0poTTJ4X2lGSmZ2d2xhWGFkSjRnM0stUmZkaDVncmtDQjNEekpiVW9faEdZSGJoQUtGTjVINlR6cFFsM0llQXNPU25zMl9UdmdkQkpXUTVwVmw3TERnYzY0eUI3a3hNbVlxY2xfWmx2eU1FcFNWd0hRYzhQeVBMcDhZZGlsWHlWd2EzeF90ekNfOTNLcVpxNA?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Exclusive | Corporate-Card Startup Ramp Raising Funds at $70 Billion Valuation \u00a0\u00a0 WSJ"
+    },
+    {
       "title": "Major Arab newspaper calls for decriminalization of same-sex relationships - The Washington Post",
       "date": "2026-11-17T20:00:00Z",
       "source": "The Washington Post",
@@ -445,6 +595,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Major Arab newspaper calls for decriminalization of same-sex relationships \u00a0\u00a0 The Washington Post"
+    },
+    {
+      "title": "Kanye West\u2019s Comeback Attempt Gains Traction After Apologies - WSJ",
+      "date": "2026-11-17T19:43:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxQWHZOWWJqamR0ZVo3aDc4RDd5ZEJseWRyTUpfQ1JRcEtTWFVmREplZGlyLVdQNjBuMlNzbkR3dVVvS05LWTBkQlRmcnZlZmxJUEFvNXE4UEVwVFcyRGVPaVFFUlViOEJOMFJVcndLc3NuMG9vTXpsZlZ6NUxXelpiZUx1MTUwaWhYMUNKU2RLTUpCZmhqTVEyQW04WXJRQQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Kanye West\u2019s Comeback Attempt Gains Traction After Apologies \u00a0\u00a0 WSJ"
     },
     {
       "title": "Stocks Dip Ahead of Nvidia Earnings - WSJ",
@@ -587,6 +747,16 @@
       "summary": "Oklahoma native Blake Griffin says taxpayers had little choice on $900 million Thunder arena \u00a0\u00a0 The New York Times"
     },
     {
+      "title": "NYSE parent ICE launches tool to assess data-center construction delays - Reuters",
+      "date": "2026-11-17T17:20:34Z",
+      "source": "Reuters",
+      "source_domain": "reuters.com",
+      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNbE9SejJZQjNOZTZvVnhYR01vVXBIdjBadFBNTmtkMHZnb3FfZW93WlhyNnVCQzA5SUdOZC0xUWozY1NJZkV6blZtMm1mRHM3c2RVaEszSVUtYXFpTmpMd28zSUdoVWlYWnRJdUI3TU0xaWJLOEZmaEo0UUtfeS1MMFJmWTNNbC1KYUtIXzVpTm1Md2ktZkk3MUpKdExUX0lMNVgwRy1VcDRJWjlqX0hwQ05Mby05dkZWVWFZaVd3?oc=5",
+      "topic": "rent",
+      "region": "Colorado",
+      "summary": "NYSE parent ICE launches tool to assess data-center construction delays \u00a0\u00a0 Reuters"
+    },
+    {
       "title": "Data center builders seek clarity on rules in largest US grid - Reuters",
       "date": "2026-11-17T16:16:13Z",
       "source": "Reuters",
@@ -605,6 +775,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "U.S. Bancorp stock: U.S. Bank raises 240 million dollars for housing \u00a0\u00a0 ad-hoc-news.de"
+    },
+    {
+      "title": "Jensen Huang Breaks Silence, Signals Willingness to Return as Nvidia CEO - WSJ",
+      "date": "2026-11-17T16:11:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5QczVTbUQzdjZ0WHN0QjYwRXJidGl2YmJzeFVVOGhEV0FoZHp3QkJ1dng1REtUS21Qa2lYSGdUejlhbGtfNzlQT1V6Zm45NDltc2hKeEowZ3NtcHdsaUNvN2ttTTJXWUgzNkF3SGZUUjdFX1FiRHc?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Jensen Huang Breaks Silence, Signals Willingness to Return as Nvidia CEO \u00a0\u00a0 WSJ"
     },
     {
       "title": "Investors Press for Answers From Nvidia, Where \u2018Everything Has Changed\u2019 - WSJ",
@@ -757,6 +937,16 @@
       "summary": "UK sanctions Israeli companies building West Bank settlements \u00a0\u00a0 AP News"
     },
     {
+      "title": "Trump Returns to World Stage After Midterm Setback - WSJ",
+      "date": "2026-11-17T13:35:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPZkkwTDR1Nm9YNDNoREQ3d0VkUXpfR2tBZjBVVTA5UVVLX1I1cEZybTZkdmVhbVoxR3N4OGl5a003emxjOUlrX0xVUDNhR0Q1VXhRb1BIZkxIamExZndxMXlXX2xNT25Bb0VvNlJxaWZRMVdGV2ZmVkU4bjB0V3Y3N0Z5TVJFZkphdFhqaGNR?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Trump Returns to World Stage After Midterm Setback \u00a0\u00a0 WSJ"
+    },
+    {
       "title": "Bracken Prize for Young Authors 2026: the finalists - Financial Times",
       "date": "2026-11-17T13:25:02Z",
       "source": "Financial Times",
@@ -775,6 +965,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "The Four-Person Agency Cooking Up Kalshi Ads With Martha Stewart and Shane Gillis \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Fed\u2019s Musalem Says Several Rate Hikes Likely Needed Before Spring 2027 - WSJ",
+      "date": "2026-11-17T13:14:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxONlE5MkU2R0ZHZmVES3lZRXd0anBhR25DRkJOcTM5UU1INjc2VXVuMTFZSG9ONE9HTUdCTGpiVnE2bTdxNmQ5a0JuZWZwVlNFM3dKc0JiZ3U4OElZRWtkLTFOU20tMGZDNVRWMFk5YjdsTzlZdkxNRGV5dl9QWjF3YW5SMV9RdVJUUGNqcmpuSzhNT25wYllhWVcwSXIzYU5acEZkRmlMbUdiQl91NXpnbG95M2NiVmdCYjVuUlFJdw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Fed\u2019s Musalem Says Several Rate Hikes Likely Needed Before Spring 2027 \u00a0\u00a0 WSJ"
     },
     {
       "title": "EXCLUSIVE: UBS set to accept defeat over Swiss capital curbs, sources say - Reuters",
@@ -807,6 +1007,26 @@
       "summary": "The Morning Risk Report: Commerce Department Moves to Crack Down on Chip Exports \u00a0\u00a0 WSJ"
     },
     {
+      "title": "European Leaders Near Deal to Pick Spanish Economist as Next ECB President - WSJ",
+      "date": "2026-11-17T12:11:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOTnRmY2xlT3llVlRPWm5PNXFJQ25YVFY0OHp5NkJCbE1obGx1TkRjZzNET19NNTJLQVltSTB3c0lVbjdmaGxfTHMyeC02b3ZJRkpDV3VwQTJZc0RWdVNmRFdzcWJ6TUV2ZzRzWGtzcEY3SmlEM3NpUmNxNkVqYnNNUmtHM0h5M2ttN2YwTU9odWFMMjJJLXZnSk5HOE15MTAwd3RNNl8xdWg1RExNcUwwdnJxaDFpWXM?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "European Leaders Near Deal to Pick Spanish Economist as Next ECB President \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "JD.com Profit, Revenue Grow as It Seeks Food-Delivery, Overseas Expansion - WSJ",
+      "date": "2026-11-17T12:11:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPV2pDNEhiRldHdzQ1THVJM2NNMTRjZHdfT2E3aGMyQWlhTFBFWVFiU2VQUk9JSG1ZX285ai1Scnhnd0h4NnFDb2hFU09fTlJZQnZnMmY5NTJjaDN4MDNJQWlnLVNWd0xEMVJhQXJUMEdtd2pFbGYxcThJdUNrbHFFRm5zeHMyU3NBQU1OTEU5MnYzY1B6NWtIV2xGdlRDV1FhTTlnN1VMM3dWM21XRHU1SWVMTDhpQXlhb1E?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "JD.com Profit, Revenue Grow as It Seeks Food-Delivery, Overseas Expansion \u00a0\u00a0 WSJ"
+    },
+    {
       "title": "Empty Stocking Fund: Partners in Housing paves pathways to stability - Colorado Springs Gazette",
       "date": "2026-11-17T12:00:00Z",
       "source": "Colorado Springs Gazette",
@@ -835,6 +1055,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Trump pushes more White House renovations in wake of GOP midterm loss \u00a0\u00a0 The Washington Post"
+    },
+    {
+      "title": "EU Expects Continued Resilience as AI Boosts Exports - WSJ",
+      "date": "2026-11-17T11:30:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNT0padlNyQWkwb2JyZGVPUERhN0dYTnlHRG9OWVhRS1lTcGZ0RWhwOVVmX0dicGVUTzNoSXViNHh0OTBMdXIwSm9ob21mczA3Vng2ODFPbmNVRTR5NlBBaTFEeXhlcGFFcHpmTWVfNktJWXZRZW9ZWWVKYVBMQlNYbE5mLURMeEUxbmJ0eDQ2aXA2LWxKS0dreHhR?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "EU Expects Continued Resilience as AI Boosts Exports \u00a0\u00a0 WSJ"
     },
     {
       "title": "Exclusive | Google Embraces Geothermal Technology to Vaporize Rock for Clean Power - WSJ",
@@ -875,6 +1105,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "It\u2019s Hard to Protect Your Nest Egg from Nvidia \u00a0\u00a0 WSJ"
+    },
+    {
+      "title": "Opinion | Jensen Huang Hopes You Get Flu and Die - WSJ",
+      "date": "2026-11-17T11:14:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPUHNHQlk0MmJIS0xrbzZtSEZNbEUwci12QkFJcml4OWlYazRjNGdsOTI5dUYwcEpJOTVuV3VsSWJULTVqbTZZYkpscXBUS0NQdXNzX0I1SHYtdzJXbERNakE0WVFsUEZ2T3FRRkNOanZ1QW5XYzQ2WXFsaHR4Q1FvQ2RISHpBend2U05oZ0RrdnY1YmhzS2c?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Opinion | Jensen Huang Hopes You Get Flu and Die \u00a0\u00a0 WSJ"
     },
     {
       "title": "OpenAI Partners With NATO On Cyber Defenses - WSJ",
@@ -1105,6 +1345,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "James Franklin dreams of longer runways. Is college football travel really that bad? \u00a0\u00a0 The New York Times"
+    },
+    {
+      "title": "Ukraine Attacks Kerch Bridge Linking Russia to Occupied Crimea - The New York Times",
+      "date": "2026-11-17T09:55:26Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPSWtLTm1oUmtNWG42UWhuQ0l1Q05RS2pJd1NZaHBRTjNPYmpBYUV2cEJ2VkhySDZpa3RjV0dpd25WaTFCbERTdVNpZU9IQ1Y0OHVZUHZiTjc2c1hURGN6STBLRC04eTYzclJIanh2cllwM2pZRDJQanpFeERPWlN1Zjc3TXZkZXhwZWk1YllzVlk3bGRGQ0s0?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Ukraine Attacks Kerch Bridge Linking Russia to Occupied Crimea \u00a0\u00a0 The New York Times"
     },
     {
       "title": "Ukrainian Strike Severs Part of Russia\u2019s Crimean Bridge - WSJ",
@@ -1425,6 +1675,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Stocks slide as Nvidia results loom \u00a0\u00a0 Financial Times"
+    },
+    {
+      "title": "Aurorans meet with police oversight office candidates - Colorado Politics",
+      "date": "2026-11-17T04:31:11Z",
+      "source": "Colorado Politics",
+      "source_domain": "coloradopolitics.com",
+      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPQ0pobUZzS1FkOTlTVlRXT3dHOEJ4Y3JOSWZBaHdvR3ZzRUVvSFEzOWFuem9USlR0Q2VyMTFHRUFuTTNLd2g0LXpCRUVReEpRc01XQUtiRER2d2Nwei13NnU1b2NfcjM3Mm1Bel9IUEI1RUxBQ25yU0VtWjhvSGJtbHU1TXVGWjJqb3hYVDFMMF9kc1JMQXJWMUFqaXAzaGM?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Aurorans meet with police oversight office candidates \u00a0\u00a0 Colorado Politics"
     },
     {
       "title": "National service promoted as a bipartisan solution to young job seekers\u2019 worries - The Washington Post",
@@ -2197,6 +2457,16 @@
       "summary": "Typical Colorado home takes over 9 years of pay to afford \u00a0\u00a0 AOL.com"
     },
     {
+      "title": "Weight-Loss Drugs for Elementary-Age Children Succeed in Study - WSJ",
+      "date": "2026-11-16T15:00:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPeXYyT2tIUklYaDc4aFZMR2ZVY0tXUW9BS1NhcVdKVzNYZ0ZETjhGVHRaY3lsdGJDVzBwenQ1NlZoNFlrckZfR2RTY3h1cjJ6Q2pBRHcxTmpWeFhLd2VDdjFzWE9iRXRWNk9DMDJrbzhmX1F4bk9WYTB6MGs5cU1mN3JjR1NyQm54bVduamZqWnFoMmpsS0tYWmp0TXFvSGZzZkhrVkNYTUI?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Weight-Loss Drugs for Elementary-Age Children Succeed in Study \u00a0\u00a0 WSJ"
+    },
+    {
       "title": "Exclusive | EQT Ventures Invests $10 Million in Enterprise AI Company Edra - WSJ",
       "date": "2026-11-16T14:49:00Z",
       "source": "WSJ",
@@ -2867,6 +3137,16 @@
       "summary": "China Home Price Slump Drags On Despite Latest Stimulus Push \u00a0\u00a0 Bloomberg.com"
     },
     {
+      "title": "Opinion | The FAA Is a Classic Government Failure - WSJ",
+      "date": "2026-11-16T02:05:00Z",
+      "source": "WSJ",
+      "source_domain": "wsj.com",
+      "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPZGhNekVLcXJNZGtQaVp4MWRFemo5ZGVJTWUwSGlTSDdLUk5KN0UxUUl2NzByZ1pITTRQaHlrSnpLZmVSY1htd21jVXRtSGdKLWNETy1ZdEF2MWNSaDBKbU9VTmRRWDBYTjI1MVpBWVdabTlKSEdaOXVCbE5RTktoMw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Opinion | The FAA Is a Classic Government Failure \u00a0\u00a0 WSJ"
+    },
+    {
       "title": "Oil settles lower as recovering Middle East exports bolster surplus outlook - Reuters",
       "date": "2026-11-16T02:00:00Z",
       "source": "Reuters",
@@ -3195,6 +3475,16 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Young Britons out of work or training for a year to be guaranteed jobs \u00a0\u00a0 Financial Times"
+    },
+    {
+      "title": "Opinion | Why Public College Is Becoming Unaffordable - The New York Times",
+      "date": "2026-11-15T14:00:06Z",
+      "source": "The New York Times",
+      "source_domain": "nytimes.com",
+      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNMjZoazhfMURRNENTZ3Utb201eWF5aTNISDBHV1VUeW9pbXZmOTlGakdHZzRKeTNWUHgwSXRZVlpQcGF6bzQ4R08wNlFGUGI5WE84dmNzMFJFS0pLYnBxLWdUWXk0TFdPamQzVW9VZzhZOGFsNF91b1ltSU9ndDJXY0hB?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Opinion | Why Public College Is Becoming Unaffordable \u00a0\u00a0 The New York Times"
     },
     {
       "title": "Democrats Should Call Trump\u2019s Bluff on Immigration - Bloomberg.com",
@@ -36989,16 +37279,6 @@
       "region": "Colorado",
       "summary": "OHFA Board Approves Financing for Three Housing Developments and Announces Ohio LIHTC Allocations \u00a0\u00a0 The Ohio Housing Finance Agency (OHFA)",
       "source_domain": "ohiohome.org"
-    },
-    {
-      "title": "Colorado is facing a housing shortage - building more duplexes and townhomes could be part of the solution - The Conversation",
-      "date": "2026-08-20T12:37:12Z",
-      "source": "The Conversation",
-      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPVTNZTzA0Y3hjOHlFdUM2NHJUY3B0UFVRbHEtUldwVTN5N1lZZzdDb0ZHQTR3SnEzOVZjUk1jTC1GbTR1MEd0ZVd0LUg2NGxlbjlCWEtlNDZpM1FPUG5obk1nZ2V6bEgxWmVIUzM5aFJVWmpMMHVMbE5qVFg5b0NDcWI0R3dSN2xWRF9SR0RFbFFvY0VhSHdjM3NRSmhjMGhFRXZsdmVBZDY5WU9Wanpsc29JUDVUbWQxNFFwR2R6WlVmcEM1OTZyOXJfSGlRclVRQW5tVnVn?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Colorado is facing a housing shortage - building more duplexes and townhomes could be part of the solution \u00a0\u00a0 The Conversation",
-      "source_domain": "theconversation.com"
     }
   ]
 }

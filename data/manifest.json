@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-18T11:57:19.535983Z",
+  "generated": "2026-11-18T18:11:04.660982Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1011138
+      "bytes": 1010423
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -104,7 +104,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2552702
+      "bytes": 2570429
     },
     "data/alerts/outlet-decisions.json": {
       "featureCount": 0,
@@ -169,12 +169,12 @@
     "data/audit/chfa-qap-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3571034
+      "bytes": 3842676
     },
     "data/audit/funding-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 719719
+      "bytes": 706295
     },
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
@@ -279,7 +279,7 @@
     "data/chfa-qap-calendar.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21172
+      "bytes": 21280
     },
     "data/co-county-boundaries.json": {
       "featureCount": 64,
@@ -1159,7 +1159,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 312413
+      "bytes": 305718
     },
     "data/entitled-land/findings.json": {
       "featureCount": 0,
@@ -1199,12 +1199,12 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1311413
+      "bytes": 1311670
     },
     "data/glossary.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 85819
+      "bytes": 86089
     },
     "data/hmda/co-county-aggregates.json": {
       "featureCount": 64,
@@ -8794,7 +8794,7 @@
     "data/market/finder-place-demand.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21713
+      "bytes": 21767
     },
     "data/market/flood_zones_co.geojson": {
       "featureCount": 12537,
@@ -9474,12 +9474,12 @@
     "data/policy/chfa-2027-r1-scoring.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21300
+      "bytes": 21354
     },
     "data/policy/chfa-2027-r2-scoring.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 22915
+      "bytes": 22969
     },
     "data/policy/chfa-awards-historical.json": {
       "featureCount": 0,
@@ -9499,7 +9499,7 @@
     "data/policy/co-developer-funding-guide.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 436532
+      "bytes": 436748
     },
     "data/policy/colorado-deal-rules.json": {
       "featureCount": 0,
@@ -9584,7 +9584,7 @@
     "data/policy/green-building.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 58882
+      "bytes": 59692
     },
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
@@ -9664,7 +9664,7 @@
     "data/policy/lihtc-underwriting-rules.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 24242
+      "bytes": 24296
     },
     "data/policy/local-commitment.json": {
       "featureCount": 0,
@@ -9691,11 +9691,6 @@
       "placeholder": false,
       "bytes": 17856
     },
-    "data/policy/pma-capture-example.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 24900
-    },
     "data/policy/policy-timeline.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -9704,7 +9699,7 @@
     "data/policy/policy-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 55919
+      "bytes": 56243
     },
     "data/policy/prop123-land-banking-awards.json": {
       "featureCount": 0,
@@ -9739,7 +9734,7 @@
     "data/policy/resident-services.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35185
+      "bytes": 35671
     },
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
@@ -9769,7 +9764,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41714
+      "bytes": 41768
     },
     "data/policy/tax-exemption-routes.json": {
       "featureCount": 0,
@@ -9779,7 +9774,7 @@
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4779
+      "bytes": 4833
     },
     "data/policy/thiz-zones.geojson": {
       "featureCount": 1,
@@ -9794,7 +9789,7 @@
     "data/policy/unit-size-standards.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4929
+      "bytes": 4983
     },
     "data/policy/vacancy-tax.json": {
       "featureCount": 0,
@@ -9809,12 +9804,12 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 750387
+      "bytes": 863166
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 481037
+      "bytes": 447766
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,
@@ -9824,12 +9819,12 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20476
+      "bytes": 20473
     },
     "data/polymarket-history.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 232233
+      "bytes": 234461
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,

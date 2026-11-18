@@ -67,7 +67,7 @@ const meta = {
   miles: MILES,
   capture_limit: 0.85,
   capture_limit_source: 'CHFA 2027-2028 QAP (adopted), Section 2.B Market Conditions: capture rates above 85 percent are not accepted without additional data to support demand',
-  capture_limit_url: 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf',
+  capture_limit_url: 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US',
   sources: ['data/market/chfa_renter_demand_co.json', 'data/chfa-lihtc.json', 'data/co-place-centroids.json'],
   built_from: revision,
   generated: new Date().toISOString().slice(0, 10),

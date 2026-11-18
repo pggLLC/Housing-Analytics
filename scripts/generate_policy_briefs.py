@@ -1063,7 +1063,7 @@ def with_agency_releases(stories: list[dict], geos: dict, prior: dict | None) ->
     api_key = os.environ.get('OPENAI_API_KEY', '').strip()
     story_since = date.fromordinal(today.toordinal() - story_summaries.STORY_DAYS).isoformat()
     kept = story_summaries.with_story_summaries(out, cache, api_key, today.isoformat(), story_since, fetcher=fetcher)
-    summary, today_kept = story_summaries.with_summaries(summary, cache, fetcher=fetcher)
+    summary, today_kept = story_summaries.with_summaries(summary, cache, fetcher=fetcher, pool=out)
     summary = story_summaries.with_ai(summary, cache, api_key)
     block['summaries'] = {**kept, **today_kept}
     return out, block, summary

@@ -2721,7 +2721,7 @@
       '</div>' + _tierCaptureLine(simDen, amiMix) + brNote + (counted ? counted(sim.proposedUnits) : '') +
       '<p class="pma-sim-note" style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0">' +
         'CHFA does not accept a project that needs more than 85% of the households that qualify without more data to support demand, and its demand table counts existing, planned and proposed tax-credit units against households at the project\'s own AMI levels ' +
-        '(<a href="https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf" target="_blank" rel="noopener noreferrer">2027–28 QAP</a>, pp. 9 and 85). ' +
+        '(<a href="https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US" target="_blank" rel="noopener noreferrer">2027–28 QAP</a>, pp. 9 and 85). ' +
         'Existing units here are not split by AMI tier, so both ratios are shown and either one over 85% is over. A whole-market screen, not CHFA\'s finding.</p>';
     explainCapture(result, sim, simDen, null);
   }
@@ -2807,7 +2807,7 @@
         older.value.toLocaleString() + ' renter households would qualify and capture would be ' + oldRate + '.');
     }
     items.push('<strong>Compared with CHFA\'s guide:</strong> CHFA sets the 40% rent test, the most people each bedroom size may hold, and counts renters ' +
-      '\u201cas of the current date\u201d (<a href="https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf" target="_blank" rel="noopener noreferrer">2027\u201328 QAP</a>, Appendix A section 7, p. 83). ' +
+      '\u201cas of the current date\u201d (<a href="https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US" target="_blank" rel="noopener noreferrer">2027\u201328 QAP</a>, Appendix A section 7, p. 83). ' +
       'Updating CHAS to the newer ACS count follows that. CHFA does not say which size a two-person household rents, how to set household sizes, or how to treat students: ' +
       'those are our choices from Census data, so the older rule is shown beside them.');
     return '<details class="pma-demand-counted" style="margin:.5rem 0 0;font-size:var(--tiny);color:var(--muted)">' +
