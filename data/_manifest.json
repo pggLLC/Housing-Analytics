@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-18T13:21:36.423Z",
+    "generated_at": "2026-11-18T14:31:04.447Z",
     "root": "data/",
     "file_count": 1997,
-    "total_size_bytes": 228373732,
+    "total_size_bytes": 228634432,
     "kinds": {
       "json": 1948,
       "geojson": 35,
@@ -648,8 +648,8 @@
     {
       "path": "audit/chfa-qap-watch.json",
       "kind": "json",
-      "size_bytes": 3571034,
-      "mtime": "2026-11-04T13:01:24.216Z",
+      "size_bytes": 3842676,
+      "mtime": "2026-11-18T14:04:01.902Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -666,7 +666,7 @@
       ],
       "key_count": 11,
       "primary_array_key": "documents",
-      "primary_array_length": 132,
+      "primary_array_length": 117,
       "primary_array_first_keys": [
         "url",
         "title",
@@ -678,15 +678,15 @@
         "bytes",
         "content_type",
         "last_modified",
-        "pages",
-        "text"
+        "last_changed_at",
+        "pages"
       ]
     },
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 719719,
-      "mtime": "2026-11-17T14:52:29.647Z",
+      "size_bytes": 706295,
+      "mtime": "2026-11-18T14:30:58.669Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -706,7 +706,7 @@
       ],
       "key_count": 16,
       "primary_array_key": "federal_notices",
-      "primary_array_length": 674,
+      "primary_array_length": 677,
       "primary_array_first_keys": [
         "key",
         "source",
@@ -6827,8 +6827,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1311413,
-      "mtime": "2026-11-18T09:33:49.107Z",
+      "size_bytes": 1311670,
+      "mtime": "2026-11-18T14:01:45.199Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -42719,8 +42719,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 20476,
-      "mtime": "2026-11-17T14:49:31.703Z",
+      "size_bytes": 20473,
+      "mtime": "2026-11-18T14:28:43.763Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -42739,8 +42739,8 @@
     {
       "path": "polymarket-history.json",
       "kind": "json",
-      "size_bytes": 232233,
-      "mtime": "2026-11-17T14:49:31.763Z",
+      "size_bytes": 234461,
+      "mtime": "2026-11-18T14:28:43.826Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42748,7 +42748,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "rows",
-      "primary_array_length": 215,
+      "primary_array_length": 216,
       "primary_array_first_keys": [
         "date",
         "events"
