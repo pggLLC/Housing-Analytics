@@ -205,6 +205,20 @@
           });
       }
 
+      // The tax credit geography map (js/credit-geography-map.js): counties shaded by
+      // 9% credit against renter need. Loads only for the brief that has it.
+      function creditGeographyMap(mount) {
+        mount.textContent = 'Loading the map\u2026';
+        Promise.all([loadAsset('js/vendor/leaflet.css'), loadAsset('js/vendor/leaflet.js')])
+          .then(function () { return Promise.all([loadAsset('js/config/basemaps.js'), loadAsset('js/credit-geography-map.js')]); })
+          .then(function () { return window.CreditGeographyMap.render(mount); })
+          .catch(function (error) {
+            mount.textContent = '';
+            var p = el('p', 'Map unavailable. ' + error.message + ' The county table below has every figure.', mount, 'brief-note');
+            p.setAttribute('data-cgm-state', 'unavailable');
+          });
+      }
+
       async function readJson(file) {
         try {
           var response = await (window.fetchWithTimeout || window.fetch)(file, {}, 15000);
@@ -301,6 +315,7 @@
           }
           if (item.map === 'transit-zone-screen') transitZoneMap(el('div', undefined, node, 'brief-map'));
           if (item.map === 'chfa-round-two') chfaRoundTwoMap(el('div', undefined, node, 'brief-map'));
+          if (item.map === 'credit-geography') creditGeographyMap(el('div', undefined, node, 'brief-map'));
           var spec = item.table;
           if (spec && Array.isArray(spec.columns) && Array.isArray(spec.rows)) {
             // Wide tables scroll inside their own box on a phone instead of widening the page.

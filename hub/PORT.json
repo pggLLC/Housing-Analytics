@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "6b6415a092f2141da5e113131fcd4520801bfb97",
+  "commit": "b6d0476a6286ca7a9fbd104efeda478aeb6900f3",
   "dirty": false
  },
  "files": {
@@ -86,7 +86,7 @@
   "hub/lender-export.js": "d1e48681ef719397028af4e5bbea04baf62f6b1b24441a7d1f40b034e5eea7da",
   "hub/lender-schedules.js": "d540caedeb111c4440fa773e80a45f85c9ced6d4c0ffe7014e54abb2bbffb0b7",
   "hub/lihtc-history.css": "466ec422410ecd3d0f14cf00089648a29ce0e400774871dde69a775414078d56",
-  "hub/lihtc-history.js": "047ff4dbe3918313d1a5428cf1bdeb165f54ed6924a725c9d92501d82d688ca5",
+  "hub/lihtc-history.js": "924f62424bc6d021956928a97701c446c7a3c91ca49eac5637358de3b10ffc8a",
   "hub/look.css": "fffcf13b058699380e3a44ffcf4d8def4e7068bff8dcc09fb2eaf43a9938d64d",
   "hub/map-base.js": "cbb667abc88877093c487ec239a8af62c291303f682c6114ca0c49da75c15d3f",
   "hub/map-kit.js": "e70fb1db58bf10e7d487c03c4cb1f31757c22762f86b37bc4c11e77d3629a945",
@@ -166,7 +166,7 @@
   "js/local-incentives-data.js": "f1ad486017680b9af8781485def973e6f3294634c0ae96542c7e0a27cebc55a5",
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
   "js/land-comps.js": "f44d06e4a206699667d7ae316db1a65dbffe75a8364b2316c5a91bab55afad4f",
-  "js/data-source-inventory.js": "e0de1448dda451f081e2b28b5366d71d2859d04acb04398544008e1e96b8500e",
+  "js/data-source-inventory.js": "4efeba1f5bef2e3e099c247e8745dd4cc4126927b9fa030e43114f8530dc4025",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
   "js/hna/hna-ownership-need.js": "b33284b054b1120870e2850d8995c990edabf661d42a3a767bf9cc8f98b1f8d0",
   "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",
@@ -190,7 +190,7 @@
   "js/vendor/leaflet.css": "a7837102824184820dfa198d1ebcd109ff6d0ff9a2672a074b9a1b4d147d04c6",
   "js/pma-barriers.js": "c061ecf0ba1bad50996d981558542b2da528f6ea5d57af9c89039bd3d4cc8e51",
   "js/market-analysis-supply.js": "9b388a34c5176eac431cfdbd2bf72467e5fbd338f649ba6e0269275aa88ff3b1",
-  "js/fred-commodities.js": "1282a56d027a8d77b760adc3785122055759439890ee8c27b5a6a2a77a63e42f",
+  "js/fred-commodities.js": "d1c9dfc423de4bcbc2c3028f7f8f2be2b8f5dd4765f78016fd03eefc6442e145",
   "js/components/equity-pricing.js": "7d8ba1c5c408b51949f6605dfa0cfb8a09f4c74e5d32f3518c3452a63a4240bf",
   "js/components/market-pulse.js": "46c29a2f5ede3d77b03f6b255b2cc56dee869130f61d908ddd7dead9c663d8c9",
   "js/components/lihtc-by-year.js": "2af4c9a02163f4d4ae72264be71180b643126ca76c6f6df1b194d56ec1611299",

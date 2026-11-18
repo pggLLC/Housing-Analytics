@@ -174,7 +174,8 @@
     return sec('lh-where', 'Where the deals go',
       '<p>In ' + f.label + ', ' + pct(f.nRuralMtn, f.n) + '% of properties were in rural or mountain areas. Since 2000 that share has stayed at ' + range(a.per.slice(2), function (p) { return pct(p.nRuralMtn, p.n); }) + ', and the Denver metro has had well over half of new properties.</p>' +
       Viz.stackedBars({ title: 'Properties by region, by allocation period', rows: a.per.map(function (p) { return [p.label, [p.where.metro, p.where.front, p.where.west, p.where.rural]]; }), parts: [['Denver metro', C.pine], ['Other Front Range', C.blue], ['Western Slope and mountains', C.homes], ['Eastern Plains and San Luis Valley', SAND]], end: function (r) { return num(r[1].reduce(function (t, x) { return t + x; }, 0)) + ' properties'; } }) +
-      '<p class="note">Regions are CHFA’s. Other Front Range is Larimer/Weld, El Paso/Teller and Pueblo; Western Slope and mountains adds Mountain Rural/Resort and the Upper Arkansas Valley.</p>' + layerSource(a.meta));
+      '<p class="note">Regions are CHFA’s. Other Front Range is Larimer/Weld, El Paso/Teller and Pueblo; Western Slope and mountains adds Mountain Rural/Resort and the Upper Arkansas Valley.</p>' +
+      '<p>Awards since 2016 against renter need, county by county: <a href="#/research/brief/co-tax-credit-geography-2016-2026">Where Colorado’s housing tax credits go</a>.</p>' + layerSource(a.meta));
   }
 
   function rulesSection() {
@@ -236,7 +237,7 @@
       sec('lh-story', 'The short story', findings(a)) +
       sizeSection(a) + creditSection(a) + rehabSection(a) + popSection(a) + amiSection(a) + whereSection(a) + rulesSection() + shapesSection(a) +
       pricingSection(s.data.hist, s.data.bench) + limitsSection(a) +
-      T.next('Next', [{ href: '#/opportunity/portfolio', label: 'See every property →' }, { href: '#/research/brief/chfa-2026-round-two-awards', label: 'The latest round: CHFA 2026 Round Two awards', secondary: true }, { href: '#/equity-pricing', label: 'Tax credit equity markets', secondary: true }]);
+      T.next('Next', [{ href: '#/opportunity/portfolio', label: 'See every property →' }, { href: '#/research/brief/chfa-2026-round-two-awards', label: 'The latest round: CHFA 2026 Round Two awards', secondary: true }, { href: '#/research/brief/co-tax-credit-geography-2016-2026', label: 'Where the credits go, county by county', secondary: true }, { href: '#/equity-pricing', label: 'Tax credit equity markets', secondary: true }]);
   }
 
   Shell.views['tax-credit-history'] = view;
