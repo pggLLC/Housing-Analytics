@@ -32,9 +32,32 @@ UA = 'Mozilla/5.0 (compatible; cohoanalytics-news/1.0; +https://cohoanalytics.co
 UA_TOKEN = 'cohoanalytics-news'
 MAX_CHARS = 320
 _robots: dict = {}
+# Hosts whose robots.txt could not be read this run (rate limit, server error, timeout): a miss there
+# is not a real "not found", so the story is tried again on the next run, not a day later.
+_unsure: set = set()
+
+
+class Transient(Exception):
+    """The outlet could not be read this time (429, 5xx, timeout); try the story again next run."""
+
+
+def _transient(e: Exception) -> bool:
+    if isinstance(e, urllib.error.HTTPError):
+        return e.code == 429 or e.code >= 500
+    return True
+
+
+_last: dict = {}
+SPACING = 2.0  # seconds between two reads of one site: the Sentinel answered 429 to faster reads (18 Nov 2026)
 
 
 def fetch(url: str, timeout: int = 20) -> str:
+    import time
+    host = urllib.parse.urlsplit(url).netloc
+    wait = _last.get(host, 0) + SPACING - time.monotonic()
+    if wait > 0:
+        time.sleep(wait)
+    _last[host] = time.monotonic()
     req = urllib.request.Request(url, headers={'User-Agent': UA})
     with urllib.request.urlopen(req, timeout=timeout) as res:
         return res.read(2_000_000).decode('utf-8', 'replace')
@@ -47,10 +70,12 @@ def allowed(url: str, fetcher=fetch) -> bool:
         rp = urllib.robotparser.RobotFileParser()
         try:
             rp.parse(fetcher(host + '/robots.txt').splitlines())
-        except urllib.error.HTTPError as e:
-            rp.parse([] if e.code < 500 else ['User-agent: *', 'Disallow: /'])
-        except Exception:
-            rp.parse(['User-agent: *', 'Disallow: /'])
+        except Exception as e:
+            if _transient(e):
+                rp.parse(['User-agent: *', 'Disallow: /'])
+                _unsure.add(host)
+            else:
+                rp.parse([])
         _robots[host] = rp
     return _robots[host].can_fetch(UA_TOKEN, url)
 
@@ -120,17 +145,29 @@ def page_description(page: str) -> str:
     return ''
 
 
+def _host(url: str) -> str:
+    p = urllib.parse.urlsplit(url)
+    return f'{p.scheme}://{p.netloc}'
+
+
 def find_article(title: str, domain: str, fetcher=fetch) -> tuple[str, str]:
-    """(article link, feed description) for a headline on the outlet's own site."""
+    """(article link, feed description) for a headline on the outlet's own site.
+
+    Raises Transient when nothing was found and a search could not be read (rate limit, server
+    error, timeout), so the caller tries again next run instead of recording a miss.
+    """
     if not domain:
         return '', ''
-    q = urllib.parse.quote(title)
+    q = urllib.parse.quote(re.sub(r'[\u200b-\u200f\u2060\ufeff]', '', title))
+    trouble = False
     for url in (f'https://{domain}/?s={q}&feed=rss2', f'https://{domain}/search/?f=rss&q={q}'):
         if not allowed(url, fetcher):
+            trouble = trouble or _host(url) in _unsure
             continue
         try:
             feed = fetcher(url)
-        except Exception:
+        except Exception as e:
+            trouble = trouble or _transient(e)
             continue
         for item in re.findall(r'<item>.*?</item>', feed, re.S)[:10]:
             t = re.search(r'<title>(.*?)</title>', item, re.S)
@@ -139,6 +176,8 @@ def find_article(title: str, domain: str, fetcher=fetch) -> tuple[str, str]:
             link = re.search(r'<link>(.*?)</link>', item, re.S)
             desc = re.search(r'<description>(.*?)</description>', item, re.S)
             return (clean(link.group(1)) if link else ''), (clean(desc.group(1)) if desc else '')
+    if trouble:
+        raise Transient(domain)
     return '', ''
 
 
@@ -150,15 +189,17 @@ def summarize(story: dict, fetcher=fetch) -> dict:
     else:
         article, feed_desc = find_article(title, story.get('source_domain', ''), fetcher)
         basis = 'outlet'
-    text = ''
+    text, trouble = '', False
     if article and allowed(article, fetcher):
         try:
             text = page_description(fetcher(article))
-        except Exception:
-            text = ''
+        except Exception as e:
+            text, trouble = '', _transient(e)
     if not text and feed_desc and not feed_desc.lower().startswith(title.lower()[:30]):
         text = feed_desc
     if not text or same_headline(text, title) and len(text) < len(title) + 20:
+        if trouble:
+            raise Transient(article)
         return {'text': '', 'link': article or '', 'basis': 'not found'}
     return {'text': trim(text), 'link': article, 'basis': basis}
 
@@ -167,18 +208,26 @@ def summarize_items(items: list[dict], cache: dict, fetcher=fetch, agency: bool 
                     today: str = '', budget: list | None = None) -> dict:
     """Set `summary` on each item from the cache, looking up what is missing; returns the entries used.
 
-    A story not found is tried again at most once a day (`checked`). `budget` is a one-item list
-    counting the lookups this run may still make, so one run never reads hundreds of pages.
+    A story not found is tried again at most once a day (`checked`). One the outlet would not
+    serve this time (Transient) is left out of the cache, so the next run tries it again.
+    `budget` is a one-item list counting the lookups this run may still make, so one run never
+    reads hundreds of pages.
     """
     keep = {}
-    # first attempts before daily retries of stories not found, so a run of unreadable
-    # outlets cannot hold back stories never tried (Codex review of #2934)
-    fresh = [it for it in items if (it.get('link') or it.get('title')) not in cache]
-    retry = [it for it in items if (it.get('link') or it.get('title')) in cache]
+    # first attempts before daily retries of clean misses, so a run of unreadable outlets cannot
+    # hold back stories never tried (Codex review of #2934); a miss recorded before `sure` existed
+    # (some were rate limits) keeps its place in the newest-first order
+    def retry_of_clean_miss(it):
+        return bool((cache.get(it.get('link') or it.get('title')) or {}).get('sure'))
+    fresh = [it for it in items if not retry_of_clean_miss(it)]
+    retry = [it for it in items if retry_of_clean_miss(it)]
     for it in fresh + retry:
         key = it.get('link') or it.get('title')
         hit = cache.get(key)
-        stale = hit is None or hit.get('basis') == 'not found' and hit.get('checked', '') != today
+        # `sure` marks a clean miss; misses recorded before it existed (18 Nov 2026, some of them
+        # rate limits) get one more try the same day
+        stale = hit is None or hit.get('basis') == 'not found' and (
+            hit.get('checked', '') != today or not hit.get('sure'))
         if stale and (budget is None or budget[0] > 0):
             if budget is not None:
                 budget[0] -= 1
@@ -186,18 +235,53 @@ def summarize_items(items: list[dict], cache: dict, fetcher=fetch, agency: bool 
                      'source_domain': it.get('source_domain') or urllib.parse.urlsplit(it.get('link', '')).netloc}
             try:
                 hit = summarize(story, fetcher)
+            except Transient:
+                cache.pop(key, None)
+                hit = None
             except Exception:
                 hit = {'text': '', 'link': '', 'basis': 'not found'}
-            if hit.get('basis') == 'not found':
-                hit['checked'] = today
-            cache[key] = hit
+            if hit is not None:
+                if hit.get('basis') == 'not found':
+                    hit['checked'] = today
+                    hit['sure'] = True
+                cache[key] = hit
         if hit is not None:
             it['summary'] = hit
             keep[key] = hit
     return keep
 
 
-def with_summaries(today: dict, cache: dict | None, fetcher=fetch) -> tuple[dict, dict]:
+def borrow(items: list[dict], pool: list[dict]) -> int:
+    """A story whose own outlet could not be read takes the summary of the same story from another outlet.
+
+    paul, 18 Nov 2026, wants a line under every story. The line stays the other outlet's own words (or
+    the AI line written from them) and names that outlet (`via`); the headline still links to the
+    story's own outlet. Returns how many stories borrowed a line.
+    """
+    from agency_releases import ordinary_words, same_story
+    have = [p for p in pool if (p.get('summary') or {}).get('text') and p['summary'].get('basis') != 'same story']
+    if not have:
+        return 0
+    ordinary = ordinary_words(p.get('title', '') for p in pool)
+    n = 0
+    for it in items:
+        if (it.get('summary') or {}).get('text'):
+            continue
+        for p in have:
+            if p is it or (p.get('source') and p.get('source') == it.get('source')):
+                continue
+            if same_story(it.get('title', ''), p.get('title', ''), ordinary):
+                it['summary'] = {'text': p['summary']['text'], 'link': '', 'basis': 'same story',
+                                 'via': p.get('source', ''), 'via_link': p['summary'].get('link') or p.get('link', '')}
+                if p.get('ai'):
+                    it['ai'] = p['ai']
+                n += 1
+                break
+    return n
+
+
+def with_summaries(today: dict, cache: dict | None, fetcher=fetch,
+                   pool: list | None = None) -> tuple[dict, dict]:
     """Add `summary` to each agency release and top story in the today block."""
     cache = dict(cache or {})
     keep = {}
@@ -206,6 +290,8 @@ def with_summaries(today: dict, cache: dict | None, fetcher=fetch) -> tuple[dict
         today[group] = [{k: v for k, v in it.items() if k not in ('summary', 'ai')} for it in today.get(group) or []]
     for group in ('agency', 'top'):
         keep.update(summarize_items(today[group], cache, fetcher, agency=group == 'agency', today=today.get('date', '')))
+        if group == 'top' and pool:
+            borrow(today[group], pool)
         for it in today[group]:
             it.setdefault('summary', {'text': '', 'link': '', 'basis': 'not found'})
     lines = []
@@ -323,7 +409,7 @@ def with_ai(today: dict, cache: dict, api_key: str, ask=None) -> dict:
 
 
 STORY_DAYS = 14      # stories this recent get a summary
-LOOKUPS_PER_RUN = 60  # new page lookups one run may make
+LOOKUPS_PER_RUN = 100  # new page lookups one run may make
 
 
 def with_story_summaries(stories: list[dict], cache: dict, api_key: str, today: str, since: str,
@@ -340,5 +426,7 @@ def with_story_summaries(stories: list[dict], cache: dict, api_key: str, today: 
         s.pop('ai', None)
     keep = summarize_items(recent, cache, fetcher, today=today, budget=[LOOKUPS_PER_RUN])
     count = ai_items(recent, cache, api_key, ask)
-    print(f'  Story summaries: {sum(1 for s in recent if (s.get("summary") or {}).get("text"))} of {len(recent)} recent; {count} AI lines')
+    lent = borrow(recent, recent)
+    print(f'  Story summaries: {sum(1 for s in recent if (s.get("summary") or {}).get("text"))} of {len(recent)} recent '
+          f'({lent} from another outlet on the same story); {count} AI lines')
     return keep

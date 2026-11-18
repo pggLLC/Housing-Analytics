@@ -39,6 +39,7 @@ def fake(pages, calls=None):
 
 def setup_function():
     ss._robots.clear()
+    ss._unsure.clear()
 
 
 def test_outlet_story_quotes_the_articles_own_description():
@@ -64,8 +65,14 @@ def test_robots_disallow_is_honoured():
 
 
 def test_unreachable_robots_means_no_reading():
-    f = fake({'robots.txt': OSError('down'), '?s=': SEARCH})
-    assert ss.summarize({'title': TITLE, 'source_domain': 'example.com'}, f)['basis'] == 'not found'
+    calls = []
+    f = fake({'robots.txt': OSError('down'), '?s=': SEARCH}, calls)
+    try:
+        ss.summarize({'title': TITLE, 'source_domain': 'example.com'}, f)
+        raise AssertionError('expected Transient')
+    except ss.Transient:
+        pass
+    assert not any('?s=' in u for u in calls)
 
 
 def test_agency_release_uses_its_first_real_paragraph():
@@ -160,7 +167,8 @@ def test_one_framing_word_in_the_source_does_not_allow_others():
 
 def test_every_recent_story_gets_its_summary_within_the_lookup_budget(monkeypatch):
     monkeypatch.setattr(ss, 'LOOKUPS_PER_RUN', 2)
-    stories = [{'title': TITLE, 'link': f'https://example.com/g{i}', 'source_domain': 'example.com', 'date': f'2026-11-1{i}'}
+    stories = [{'title': TITLE, 'link': f'https://example.com/g{i}', 'source_domain': 'example.com', 'date': f'2026-11-1{i}',
+                'source': 'One outlet'}
                for i in range(5)] + [{'title': 'Old story', 'link': 'https://example.com/old', 'date': '2026-10-01'}]
     f = fake({'robots.txt': '', '?s=': SEARCH, 'home-sales': ARTICLE})
     ask = lambda p, k: '{"items": [' + ','.join('{"n": %d, "sentence": "Realtors say sellers will not lower prices."}' % i for i in range(5)) + ']}'
@@ -192,7 +200,74 @@ def test_a_story_not_found_is_tried_again_only_the_next_day():
 def test_stories_never_tried_come_before_daily_retries():
     f = fake({'robots.txt': '', '?s=': SEARCH, 'home-sales': ARTICLE})
     failed = [{'title': f'Unreadable {i}', 'link': f'https://example.com/u{i}'} for i in range(3)]
-    cache = {x['link']: {'text': '', 'link': '', 'basis': 'not found', 'checked': '2026-11-17'} for x in failed}
+    cache = {x['link']: {'text': '', 'link': '', 'basis': 'not found', 'checked': '2026-11-17', 'sure': True} for x in failed}
     new = {'title': TITLE, 'link': 'https://example.com/new', 'source_domain': 'example.com'}
     ss.summarize_items(failed + [new], cache, f, today='2026-11-18', budget=[1])
     assert new['summary']['basis'] == 'outlet'
+
+
+def rate_limited(url):
+    return urllib.error.HTTPError(url, 429, 'Too Many Requests', {}, None)
+
+
+def test_a_rate_limited_search_is_not_recorded_as_not_found():
+    # 18 Nov 2026: the newest stories came back "not found" on rate limits and then waited a day
+    f = fake({'robots.txt': '', '?s=': rate_limited('s'), '/search/': rate_limited('b')})
+    items = [{'title': TITLE, 'link': 'https://example.com/x', 'source_domain': 'example.com'}]
+    cache = {}
+    ss.summarize_items(items, cache, f, today='2026-11-18')
+    assert 'https://example.com/x' not in cache and 'summary' not in items[0]
+    f = fake({'robots.txt': '', '?s=': SEARCH, 'home-sales': ARTICLE})
+    ss.summarize_items([dict(items[0])], cache, f, today='2026-11-18')
+    assert cache['https://example.com/x']['basis'] == 'outlet'
+
+
+def test_an_unreadable_robots_file_is_not_a_miss_either():
+    f = fake({'robots.txt': rate_limited('r')})
+    items = [{'title': TITLE, 'link': 'https://example.com/x', 'source_domain': 'example.com'}]
+    cache = {}
+    ss.summarize_items(items, cache, f, today='2026-11-18')
+    assert cache == {}
+
+
+def test_a_clean_miss_is_marked_sure_and_older_misses_get_one_more_try_today():
+    f = fake({'robots.txt': ''})
+    items = [{'title': TITLE, 'link': 'https://example.com/x', 'source_domain': 'example.com'}]
+    cache = {'https://example.com/x': {'text': '', 'link': '', 'basis': 'not found', 'checked': '2026-11-18'}}
+    calls = []
+    ss.summarize_items(items, cache, fake({'robots.txt': ''}, calls), today='2026-11-18')
+    assert calls and cache['https://example.com/x'].get('sure') is True
+    calls.clear()
+    ss.summarize_items([dict(items[0])], cache, fake({'robots.txt': ''}, calls), today='2026-11-18')
+    assert calls == []
+
+
+def test_a_zero_width_space_in_a_headline_is_left_out_of_the_search():
+    calls = []
+    f = fake({'robots.txt': ''}, calls)
+    ss.find_article('Housing\u200b study finds', 'example.com', f)
+    assert all('%E2%80%8B' not in u for u in calls)
+
+
+def test_a_story_its_outlet_would_not_serve_borrows_the_same_story_from_another_outlet():
+    read = {'title': '34% of Colorado households are cost-burdened, new state housing study finds',
+            'source': 'Grand Junction Daily Sentinel', 'link': 'https://example.com/a',
+            'summary': {'text': 'A new state study finds 34% of households spend over 30% of income on housing.',
+                        'link': 'https://example.com/a-article', 'basis': 'outlet'}, 'ai': 'A state study found 34% of households are cost-burdened.'}
+    blocked = {'title': 'Nearly 34% of Colorado households are spending too much on housing, new state study says',
+               'source': 'CBS Colorado', 'link': 'https://example.com/b',
+               'summary': {'text': '', 'link': '', 'basis': 'not found'}}
+    other = {'title': 'Aspen breaks ground on employee housing project', 'source': 'Aspen Times',
+             'link': 'https://example.com/c', 'summary': {'text': '', 'link': '', 'basis': 'not found'}}
+    assert ss.borrow([read, blocked, other], [read, blocked, other]) == 1
+    assert blocked['summary']['basis'] == 'same story' and blocked['summary']['via'] == 'Grand Junction Daily Sentinel'
+    assert blocked['summary']['link'] == '' and blocked['ai'] == read['ai']
+    assert other['summary']['text'] == ''
+
+
+def test_a_borrowed_line_is_never_lent_on():
+    a = {'title': 'Denver council passes rent rule for older buildings', 'source': 'Denverite',
+         'summary': {'text': 'Borrowed text.', 'basis': 'same story', 'via': 'X'}}
+    b = {'title': 'Denver council passes rent rule for older buildings, landlords react', 'source': 'Denver Post',
+         'summary': {'text': '', 'basis': 'not found'}}
+    assert ss.borrow([b], [a, b]) == 0
