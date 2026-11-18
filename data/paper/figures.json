@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "82b740c38",
+  "generated_from_commit": "4d1e29c22",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-11-18",
-    "total_commits": 9908,
+    "total_commits": 9910,
     "partial_month": "2026-11",
     "commits_by_month": [
       {
@@ -54,28 +54,28 @@
       },
       {
         "month": "2026-11",
-        "commits": 791,
-        "pct_of_peak": 50.6
+        "commits": 793,
+        "pct_of_peak": 50.7
       }
     ]
   },
   "inventory": {
     "places_with_chas": 482,
-    "html_pages_toplevel": 90,
-    "html_pages_total": 584,
+    "html_pages_toplevel": 80,
+    "html_pages_total": 575,
     "workflows": 84,
-    "scripts": 410,
-    "docs": 585,
-    "data_files": 2082,
+    "scripts": 396,
+    "docs": 562,
+    "data_files": 2039,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 71,
-    "test_files": 736,
-    "absence_test_cases": 322,
-    "absence_tests": 128,
+    "test_files": 712,
+    "absence_test_cases": 318,
+    "absence_tests": 124,
     "lihtc_features": 926
   },
   "case": {
@@ -251,13 +251,13 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 548175,
+    "hand_written_lines": 523381,
     "generated_place_page_lines": 286567,
-    "top_level_pages": 90,
-    "html_nonblank_lines": 56295,
-    "html_distinct_lines": 20212,
-    "html_distinct_share": 0.359,
-    "substantial_tools": 27,
+    "top_level_pages": 80,
+    "html_nonblank_lines": 52988,
+    "html_distinct_lines": 18275,
+    "html_distinct_share": 0.345,
+    "substantial_tools": 25,
     "declared_data_sources": 89,
     "estimate": {
       "declared": "analyst-constructed; not repository methodology",
@@ -320,7 +320,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "82b740c38",
+    "extracted_at_commit": "4d1e29c22",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
