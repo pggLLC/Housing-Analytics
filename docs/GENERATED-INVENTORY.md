@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-17T14:39:45.402Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T04:12:25.598Z. Do not edit by hand.
 
 ---
 
@@ -109,7 +109,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1011.8 KB | ✅ | — |
+| `data/_manifest.json` | 1012.8 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-two.json` | 29.2 KB | ✅ | — |
@@ -137,7 +137,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 685.8 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 702.9 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -332,7 +332,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 304.3 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 305.1 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.5 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
@@ -1862,7 +1862,7 @@
 | `data/jurisdiction-briefs/_verified/0876795.json` | 1.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 10.9 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 252.9 KB | ✅ | — |
+| `data/manifest.json` | 253.2 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -2082,7 +2082,7 @@
 | `data/policy_briefs_curated.json` | 437.0 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 224.6 KB | ✅ | — |
+| `data/polymarket-history.json` | 226.8 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2754,7 +2754,7 @@
 | `test/table-export.test.js` | 25.3 KB |
 | `test/table-header-tips.test.js` | 9.2 KB |
 | `test/table-sort.test.js` | 19.8 KB |
-| `test/tariffs-brief.test.mjs` | 19.3 KB |
+| `test/tariffs-brief.test.mjs` | 19.9 KB |
 | `test/tax-credit-equity-markets.test.js` | 12.8 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
