@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-18T14:31:07.526118Z",
+  "generated": "2026-11-18T15:45:16.718335Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9584,7 +9584,7 @@
     "data/policy/green-building.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 58882
+      "bytes": 59692
     },
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
@@ -9734,7 +9734,7 @@
     "data/policy/resident-services.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 35185
+      "bytes": 35671
     },
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
@@ -9764,7 +9764,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41714
+      "bytes": 41768
     },
     "data/policy/tax-exemption-routes.json": {
       "featureCount": 0,
@@ -9774,7 +9774,7 @@
     "data/policy/thiz-map-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4779
+      "bytes": 4833
     },
     "data/policy/thiz-zones.geojson": {
       "featureCount": 1,
@@ -9809,7 +9809,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 447442
+      "bytes": 447766
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,
