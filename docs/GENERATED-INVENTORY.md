@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T04:25:59.669Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T09:34:58.129Z. Do not edit by hand.
 
 ---
 
@@ -105,7 +105,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1991 JSON files found.
+1992 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -339,7 +339,7 @@
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
 | `data/fixtures/fruita-commons-family.scenario.json` | 4.9 KB | ✅ | — |
 | `data/fixtures/fruita-commons.scenario.json` | 4.8 KB | ✅ | — |
-| `data/fred-data.json` | 1.24 MB | ✅ | — |
+| `data/fred-data.json` | 1.25 MB | ✅ | — |
 | `data/glossary.json` | 83.8 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 274.3 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 4.1 KB | ✅ | — |
@@ -2057,6 +2057,7 @@
 | `data/policy/local-support.json` | 154.9 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.4 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 17.4 KB | ✅ | — |
+| `data/policy/pma-capture-example.json` | 24.3 KB | ✅ | — |
 | `data/policy/policy-timeline.json` | 7.2 KB | ✅ | — |
 | `data/policy/policy-watch.json` | 54.6 KB | ✅ | — |
 | `data/policy/prop123-land-banking-awards.json` | 80.8 KB | ✅ | — |
@@ -2079,7 +2080,7 @@
 | `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
 | `data/policy_briefs.json` | 655.1 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 437.0 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 469.8 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
 | `data/polymarket-history.json` | 226.8 KB | ✅ | — |
@@ -2105,7 +2106,7 @@
 
 ## Test Files
 
-817 test files found.
+818 test files found.
 
 | File | Size |
 |------|------|
@@ -2610,6 +2611,7 @@
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
 | `test/pma-barrier-data.test.js` | 6.5 KB |
 | `test/pma-boundary-clear-race.test.js` | 3.1 KB |
+| `test/pma-capture-brief.test.mjs` | 10.0 KB |
 | `test/pma-capture-denominator.test.js` | 15.4 KB |
 | `test/pma-capture-naming.test.js` | 12.1 KB |
 | `test/pma-chfa-qualified-renters.test.js` | 22.1 KB |

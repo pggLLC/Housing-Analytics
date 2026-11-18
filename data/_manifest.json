@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-18T04:26:43.108Z",
+    "generated_at": "2026-11-18T09:35:35.366Z",
     "root": "data/",
-    "file_count": 2039,
-    "total_size_bytes": 229985135,
+    "file_count": 2040,
+    "total_size_bytes": 230050103,
     "kinds": {
-      "json": 1990,
+      "json": 1991,
       "geojson": 35,
       "csv": 14
     }
@@ -747,7 +747,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-18T04:26:38.390Z",
+      "mtime": "2026-11-18T09:35:31.667Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6850,8 +6850,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1304940,
-      "mtime": "2026-11-17T14:38:39.773Z",
+      "size_bytes": 1311413,
+      "mtime": "2026-11-18T09:33:49.107Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -38345,7 +38345,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 259260,
-      "mtime": "2026-11-18T04:12:07.132Z",
+      "mtime": "2026-11-18T09:34:58.087Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -40333,7 +40333,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-18T04:26:40.713Z",
+      "mtime": "2026-11-18T09:35:33.560Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40357,7 +40357,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-18T04:26:40.135Z",
+      "mtime": "2026-11-18T09:35:33.114Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -43241,6 +43241,37 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "policy/pma-capture-example.json",
+      "kind": "json",
+      "size_bytes": 24900,
+      "mtime": "2026-11-18T09:33:49.550Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "rules",
+        "precedents",
+        "designs",
+        "in_migration"
+      ],
+      "key_count": 5,
+      "primary_array_key": "designs",
+      "primary_array_length": 19,
+      "primary_array_first_keys": [
+        "id",
+        "family",
+        "label",
+        "short",
+        "whole_tracts",
+        "land_sq_mi",
+        "qualified_renter_households",
+        "existing_comparable_homes",
+        "capture",
+        "project_share",
+        "highest_ami_level",
+        "highest_ami_rate"
+      ]
+    },
+    {
       "path": "policy/policy-timeline.json",
       "kind": "json",
       "size_bytes": 7346,
@@ -43832,8 +43863,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 447442,
-      "mtime": "2026-11-17T14:38:40.226Z",
+      "size_bytes": 481037,
+      "mtime": "2026-11-18T09:33:49.560Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -43841,20 +43872,20 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 18,
+      "primary_array_length": 19,
       "primary_array_first_keys": [
         "id",
         "title",
         "policy_topic",
         "is_curated",
         "source_reviewed",
-        "generated",
         "verified",
         "takeaway",
         "summary",
         "implications",
         "related_data",
-        "sources"
+        "sources",
+        "sections"
       ]
     },
     {
