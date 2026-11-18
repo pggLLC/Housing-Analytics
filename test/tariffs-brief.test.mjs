@@ -279,11 +279,18 @@ test('the cost pages show the brief\'s conclusions, and the brief links back', a
   assert.match(read('hub/places-more.js'), /#\/places\/costs/);
 });
 
-test('the material cards name each series as the Bureau of Labor Statistics does', () => {
-  // WPU0812 is hardwood lumber; plywood is WPU083. The card must not call it plywood.
+test('the plywood entry reads the plywood series, not hardwood lumber', () => {
+  // WPU083 is plywood; WPU0812, which the entry once read, is hardwood lumber.
   const src = read('js/fred-commodities.js');
-  const name = src.match(/id: 'WPU0812',\s*name: '([^']+)'/)[1];
-  assert.equal(name, 'Hardwood Lumber');
-  assert.match(read('scripts/fetch_fred_data.py'), /"WPU0812": \("PPI: Hardwood Lumber"/);
-  assert.ok(!/WPU0812[^<]*Plywood/.test(read('construction-commodities.html')));
+  const entry = src.match(/plywoodSheathing:\s*\{[^}]*\}/)[0];
+  const id = entry.match(/id: '([^']+)'/)[1];
+  assert.equal(id, 'WPU083');
+  assert.match(entry.match(/name: '([^']+)'/)[1], /plywood/i);
+  assert.match(read('scripts/fetch_fred_data.py'), new RegExp(`"${id}": \\("[^"]*Plywood`), 'the fetch list does not carry the plywood series');
+  assert.ok(read('construction-commodities.html').includes(`https://fred.stlouisfed.org/series/${id}`), 'the sources list does not link the plywood series');
+  // Once the fetch has run, the stored series must be the one FRED titles Plywood.
+  const stored = json('data/fred-data.json').series[id];
+  if (stored && stored.title) assert.match(stored.title, /Plywood/);
+  // The brief already reads the same series, so the card and the brief agree.
+  assert.ok(D.prices.some((p) => p.id === id && /plywood/i.test(p.label)), 'the brief does not read the same plywood series');
 });

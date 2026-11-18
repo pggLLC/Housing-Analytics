@@ -52,10 +52,10 @@ const FREDCommodities = {
             share: '12-18%'
         },
         plywoodSheathing: {
-            id: 'WPU0812',
-            name: 'Hardwood Lumber',
+            id: 'WPU083',
+            name: 'Plywood',
             category: 'Wood Products',
-            impact: 'Flooring, trim, cabinets',
+            impact: 'Subflooring, roof decking, wall sheathing',
             share: '5-8%'
         },
         concreteProducts: {
