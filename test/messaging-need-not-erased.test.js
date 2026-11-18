@@ -116,6 +116,13 @@ test('Deep Dive: the funding group label describes the median split the file com
     assert.doesNotMatch(l, /beyond need|exceeds need|over-?funded/, 'a median split does not show funding exceeds need: ' + l);
   });
   assert.equal(new Set(labels).size, 1, 'surfaces disagree: ' + labels.join(' | '));
+  // The split is on normalized measures, so the label and description name both of them, as the method does.
+  assert.match(method, /per 1,000 residents/);
+  assert.match(method, /per 100 gap households/);
+  labels.forEach((l) => { assert.match(l, /per gap/, l); assert.match(l, /per resident/, l); });
+  const desc = read('hub/deep-dive.js').match(/'funded-above-need':\s*\['[^']+',\s*'([^']+)'/)[1];
+  assert.match(desc, /per 1,000 residents/);
+  assert.match(desc, /per 100 homes short/);
 });
 
 test('Deep Dive: a ratio of medians is never labelled as household cost burden', () => {

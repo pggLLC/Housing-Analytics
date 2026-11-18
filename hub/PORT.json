@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "00a668c4267c3f39176a4a266e2fd42ae360c874",
+  "commit": "9d2f118f16e3d729d6657f808cc8ee74a8e249cb",
   "dirty": false
  },
  "files": {
@@ -60,7 +60,7 @@
   "hub/deal-town.js": "ff1d569519879d746c28fc8bd1ba4fdcadd3d084893bbcdceacb4b99b239a998",
   "hub/deals.js": "b6e20037509e6c3e62349b903ba8c89eb59c57105b3847bcc28078e5ea1cad07",
   "hub/deep-dive.css": "92b76ff0fc6aa72e72dad971fcc9394d3eacb581e75db038b01700b625fcc606",
-  "hub/deep-dive.js": "f1af6734b76f9a72221cda371823a3dc1bd8d937e604c1609b16d381d32e65c3",
+  "hub/deep-dive.js": "112bea02e024fbe78100f58c9c170ab95a51aff00884d9cf719ac33508f75686",
   "hub/design-guide.css": "0af1c6a4375ac1f7c859c36191b1602b85915ed8ac8b75a8d6a0e8e00fbe02a9",
   "hub/design-guide.js": "cc76b6f718a3b0b197be657af7d5b03f05dc860d9525c658b7ae9f4152fbe9ae",
   "hub/economy.css": "fa070ef297c5247ab1a316c0721ba21dc3bb8db7a6460fc4d3ab3851d2e93ef6",
@@ -78,7 +78,7 @@
   "hub/home.css": "a178558303c67e69f5e505f974e1aa65ee8a2d824f8144a8e9e755a0ccc8d9bd",
   "hub/home.js": "e08ddb607abfd407526e8affb5d263aec3ee64f3fbc79f5e761610eb233795a9",
   "hub/homes.js": "048cc62e0cfd9789252368d9aecf8e951c96500f207d94bb41f54dc7e6684d2b",
-  "hub/ic-summary.js": "35ef0905fb193a88c8f7a1b734bd6229edc4d89bb3b2a7dc3bdb0898bfd9865b",
+  "hub/ic-summary.js": "07ec429caffee2a6f5f9a2093cf63343bd106da32fc62cd9a06d01d62ca1ea5b",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
   "hub/lab-config.js": "b9a3022c24374a09826fb24bf50bb9bc8e2f5b1704a568bb17b1ff42de09bfd3",
   "hub/lab-wave2.css": "ab1303c77232cd775f5a19296fafd69aaa59cadc4c8da99d6ff869004fb28a76",
@@ -105,7 +105,7 @@
   "hub/place-list.js": "a4410f06be16d7f716696726f8393e9babe3e7973227cfcbd04ea1339c729f95",
   "hub/places-combine.js": "b3d53321409c2dd780df591f1871cdd1cc299f7e465e2d726fce08c988dbcdf0",
   "hub/places-more.js": "9b4c0fc048cc66c3b02be1342da3f60dd4def9e3c104c4856e7b35f97a7337c0",
-  "hub/places-state.js": "daed429b6ad993ed6485070980adc70aa9dd3da6ba43d1fea1c89553808fb5ef",
+  "hub/places-state.js": "58a528f4c1a0435e4e3754229aff4d010b967a8c8a3e899bb6461ada49399ca2",
   "hub/places.js": "04497f848f6c97cff113dd7aa8f9026375f5197c8fdb5afc73da176738ad04d8",
   "hub/policy-more.js": "e6a5ba534333028a9071f12f28597abb8fa5ec22434786c481ecd3f9e261be05",
   "hub/policy.js": "1a9bcc5a9da5881bc50a04a11eb20e43650a2e4d6470856c1469a892478ee08d",

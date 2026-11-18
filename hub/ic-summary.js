@@ -337,7 +337,7 @@
 
     // The county's tax credit and Prop 123 awards against its need.
     var fc = d.fvn.counties.filter(function (x) { return x.fips === fips; })[0], w = d.fvn.meta.window;
-    var QUAD = { underserved: 'high need, little funding', aligned: 'high need, funded', 'funded-above-need': 'above-median awards, below-median measured gap', 'low-need-low-funding': 'low need, little funding', 'not-computable': 'not computable' };
+    var QUAD = { underserved: 'high need, little funding', aligned: 'high need, funded', 'funded-above-need': 'above-median awards per gap, below-median gap per resident', 'low-need-low-funding': 'low need, little funding', 'not-computable': 'not computable' };
 
     // Local housing organizations on record (organizations only; never named people).
     var lr = (!isCounty && d.local['place:' + g]) || d.local[(r.type === 'cdp' ? 'cdp:' : 'place:') + g] || d.local['county:' + fips] || null;

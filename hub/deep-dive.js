@@ -857,7 +857,7 @@
     underserved: ['High need, little funding', 'Need above the middle county, tax credit homes below it.', 'var(--rust)'],
     aligned: ['High need, funded', 'Need and tax credit homes both above the middle county.', 'var(--map-4)'],
     // Named for the comparison made, not a verdict (outside messaging review, 18 Nov 2026; the old page said "Lower need, more funding").
-    'funded-above-need': ['Above-median awards, below-median measured gap', 'Tax credit homes per 100 short above the middle county, the ACS price-only gap below it. Awards span years; the gap is today. It does not show that need is met.', 'var(--c-blue)'],
+    'funded-above-need': ['Above-median awards per gap, below-median gap per resident', 'Tax credit homes per 100 homes short above the middle county; homes short at 30% AMI (ACS, price-only) per 1,000 residents below it. Awards span years; the gap is today. It does not show that need is met.', 'var(--c-blue)'],
     'low-need-low-funding': ['Low need, little funding', 'Need and tax credit homes both below the middle county.', 'var(--grey)'],
     'not-computable': ['Not computable', 'Too few renters at 30% AMI to compare.', 'var(--line)']
   };
