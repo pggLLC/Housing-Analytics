@@ -52,6 +52,8 @@ export const MIN_SEVERE = 500;
 const read = (f) => JSON.parse(readFileSync(join(ROOT, f), 'utf8'));
 export const fmt = (n) => Number(n).toLocaleString('en-US');
 export const musd = (n, d = 1) => '$' + (n / 1e6).toFixed(d) + 'M';
+// County credit: under $1M in thousands, so no cell reads like an equity price ($0.80).
+export const countyUsd = (n) => (!n ? '$0' : n < 1e6 ? '$' + Math.round(n / 1e3).toLocaleString('en-US') + 'K' : musd(n, 2));
 const pct1 = (a, b) => (b ? ((100 * a) / b).toFixed(1) : '0.0') + '%';
 const pct0 = (a, b) => (b ? Math.round((100 * a) / b) : 0) + '%';
 const idx = (x) => x.toFixed(1);
@@ -254,7 +256,7 @@ export function buildBrief(D) {
   const countyTable = {
     caption: `All 64 counties, largest need first. The index is left blank where fewer than ${fmt(MIN_SEVERE)} renter households pay 50%+ of income, because a single award swings it.`,
     columns: ['County', 'CHFA region', 'Renters paying 50%+ of income', '9% awards', '9% homes', '9% credit (yearly, added up)', '4% homes', 'Index'],
-    rows: countyRows.map((c) => [c.name, c.region, fmt(c.renters_paying_half), String(c.awards_9), fmt(c.homes_9), musd(c.credit_9, 2), fmt(c.homes_4), c.renters_paying_half >= MIN_SEVERE ? idx(c.index_9) : '']),
+    rows: countyRows.map((c) => [c.name, c.region, fmt(c.renters_paying_half), String(c.awards_9), fmt(c.homes_9), countyUsd(c.credit_9), fmt(c.homes_4), c.renters_paying_half >= MIN_SEVERE ? idx(c.index_9) : '']),
   };
 
   const periodTable = {
