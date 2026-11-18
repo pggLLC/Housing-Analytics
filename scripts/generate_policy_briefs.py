@@ -1055,14 +1055,17 @@ def with_agency_releases(stories: list[dict], geos: dict, prior: dict | None) ->
         it.pop('summary', None)
         it.pop('ai', None)
     summary = agency_releases.summarize_today(out, block, about=says_housing)
-    # Each story's own summary, quoted (scripts/news/story_summaries.py); cached in the block.
-    cache = (prior or {}).get('summaries') or {}
-    if os.environ.get('NEWS_AGENCY_OFFLINE') == '1':
-        summary, block['summaries'] = story_summaries.with_summaries(summary, cache, fetcher=_offline)
-    else:
-        summary, block['summaries'] = story_summaries.with_summaries(summary, cache)
-    # paul, 2026-11-17: "AI-written, labelled". One sentence per story, from its own summary only.
-    summary = story_summaries.with_ai(summary, block['summaries'], os.environ.get('OPENAI_API_KEY', '').strip())
+    # Each story's own summary (scripts/news/story_summaries.py), cached in the block, and a
+    # labelled AI line from it (paul, 2026-11-17: "AI-written, labelled"). paul, 2026-11-18: every
+    # recent story in the list gets one, "so people would know what is in the link".
+    cache = dict((prior or {}).get('summaries') or {})
+    fetcher = _offline if os.environ.get('NEWS_AGENCY_OFFLINE') == '1' else story_summaries.fetch
+    api_key = os.environ.get('OPENAI_API_KEY', '').strip()
+    story_since = date.fromordinal(today.toordinal() - story_summaries.STORY_DAYS).isoformat()
+    kept = story_summaries.with_story_summaries(out, cache, api_key, today.isoformat(), story_since, fetcher=fetcher)
+    summary, today_kept = story_summaries.with_summaries(summary, cache, fetcher=fetcher)
+    summary = story_summaries.with_ai(summary, cache, api_key)
+    block['summaries'] = {**kept, **today_kept}
     return out, block, summary
 
 
