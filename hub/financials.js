@@ -945,7 +945,14 @@
         row('First mortgage payment', '0%', W(r.annualDebtService), 'fl-debt', money(r.annualDebtService)) +
         '</ul><p class="note">Scheduled rent from the saved rent schedule; costs from the operating budget below.</p></section>';
     }
-    return '<section class="ans" aria-labelledby="ans-gap"><div class="ans-card' + (tone ? ' tone-' + tone : '') + '"><h2 id="ans-gap" class="ans-k">' + esc(finding) + '</h2>' + global.LabTpl.toneBadge(tone) + hero + bar + '</div>' +
+    // The same bar, pinned under the header while the full one is scrolled out of view (paul, 18 Nov: "pin the sources
+    // bar"), so a change made far down the form shows its effect at once. Same parts and figures; step-bar.js shows it.
+    var pinText = !gapKnown ? '' : r.gap > 0 ? 'Short ' + money(r.gap) + ' (' + pct(r.gap / r.tdc, 0) + ')' : 'Covered';
+    var pin = whole > 0 ? '<div class="fin-pin" data-pin-after=".ans-bar" hidden><div class="fin-pin-in"><p class="fin-pin-k' + (gapKnown && r.gap > 0 ? '' : gapKnown ? ' ok' : ' none') + '">' +
+      esc(pinText || 'Sources so far') + '</p><a class="fin-pin-up" href="' + esc(location.hash.split('?')[0]) + '" data-jump="ans-gap">Breakdown</a>' +
+      '<div class="stack-bar fin-pin-bar" role="img" aria-label="' + esc('Cost ' + money(r.tdc) + ': ' + parts.map(function (x) { return x[0] + ' ' + money(x[1]); }).join(', ')) + '">' +
+      parts.map(function (x) { return '<span class="seg seg-' + x[2] + '" style="width:' + (x[1] / whole * 100).toFixed(2) + '%"></span>'; }).join('') + '</div></div></div>' : '';
+    return pin + '<section class="ans" aria-labelledby="ans-gap"><div class="ans-card' + (tone ? ' tone-' + tone : '') + '"><h2 id="ans-gap" class="ans-k" tabindex="-1">' + esc(finding) + '</h2>' + global.LabTpl.toneBadge(tone) + hero + bar + '</div>' +
       '<ul class="ans-tiles">' + tiles.map(function (t) { return '<li><b>' + esc(t[0]) + '</b><span>' + esc(t[1]) + '</span></li>'; }).join('') + '</ul>' +
       flow + '</section><p class="ans-change">Change the inputs:</p>';
   }
@@ -1381,6 +1388,8 @@
     Array.prototype.forEach.call(main.querySelectorAll('details[id]'), function (el) { open[el.id] = el.open; });
     Shell.render();
     Object.keys(open).forEach(function (id) { var el = document.getElementById(id); if (el && el.tagName === 'DETAILS') el.open = open[id]; });
+    // The pinned sources bar and the slim step line come back at once, not at the next scroll.
+    if (global.LabStep && global.LabStep.refresh) global.LabStep.refresh();
   }
   main.addEventListener('change', function (ev) {
     var form = ev.target.form;
