@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 744" width="420" height="744" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title id="t">One project, 19 market areas: the CHFA capture rate</title>
+<desc id="d">Bar chart of the CHFA capture rate for the same 60-home family project in the same small town under 19 ways of drawing the market area, counting renter households only, with CHFA's 85% limit marked. The town's own two tracts (whole tracts): 55.6%; The town's tracts plus one neighbouring rural tract (whole tracts): 27.1%; Best fit plus a large remote tract of mostly second homes (whole tracts): 23.9%; Best fit plus the tract toward the city (whole tracts): 27.1%; Best fit plus the regional city (whole tracts): 42.9%; The whole county (whole tracts): 36.7%; Within 10 minutes by road (drive time, part tracts): 122.4%; Within 15 minutes by road (drive time, part tracts): 81.1%; Within 20 minutes by road (drive time, part tracts): 65.1%; Within 30 minutes by road (drive time, part tracts): 80.4%; Tracts with most people within 20 minutes (drive time, whole tracts): 55.6%; Tracts with most people within 30 minutes (drive time, whole tracts): 35.4%; Within 5 miles in a straight line (radius, part tracts): 75.9%; Within 10 miles in a straight line (radius, part tracts): 27.9%; Within 15 miles in a straight line (radius, part tracts): 43.6%; Tracts whose centre is within 10 miles (radius, whole tracts): 27.1%; Block groups with most people within 20 minutes (block groups): 50.0%; Tracts sending 5% or more of the site tract's workers (commuter shed): 27.1%; Tracts housing 75% of the site tract's workers (commuter shed): 31.8%.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="16.0" y="24.0" font-size="16" font-weight="700" fill="#1d2329" text-anchor="start">One project, 19 market areas: CHFA capture rate</text>
+<text x="16.0" y="44.0" font-size="12" font-weight="400" fill="#55606b" text-anchor="start">Same 60 family homes, same small town. Renter households only.</text>
+<text x="16.0" y="62.0" font-size="12" font-weight="400" fill="#55606b" text-anchor="start">Dashed line: CHFA's 85% limit. Dark bars: whole census tracts,</text>
+<text x="16.0" y="78.0" font-size="12" font-weight="400" fill="#55606b" text-anchor="start">the only shape CHFA accepts. Light bars: not allowed as drawn.</text>
+<line x1="16.0" x2="16.0" y1="110" y2="684" stroke="#e3e6ea"/>
+<text x="16.0" y="698.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="middle">0%</text>
+<line x1="65.1" x2="65.1" y1="110" y2="684" stroke="#e3e6ea"/>
+<text x="65.1" y="698.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="middle">20%</text>
+<line x1="114.3" x2="114.3" y1="110" y2="684" stroke="#e3e6ea"/>
+<text x="114.3" y="698.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="middle">40%</text>
+<line x1="163.4" x2="163.4" y1="110" y2="684" stroke="#e3e6ea"/>
+<text x="163.4" y="698.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="middle">60%</text>
+<line x1="212.6" x2="212.6" y1="110" y2="684" stroke="#e3e6ea"/>
+<text x="212.6" y="698.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="middle">80%</text>
+<line x1="261.7" x2="261.7" y1="110" y2="684" stroke="#e3e6ea"/>
+<text x="261.7" y="698.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="middle">100%</text>
+<line x1="310.9" x2="310.9" y1="110" y2="684" stroke="#e3e6ea"/>
+<text x="310.9" y="698.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="middle">120%</text>
+<line x1="360.0" x2="360.0" y1="110" y2="684" stroke="#e3e6ea"/>
+<text x="360.0" y="698.0" font-size="11" font-weight="400" fill="#55606b" text-anchor="middle">140%</text>
+<text x="16.0" y="121.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">Town only · whole tracts</text>
+<rect x="16.0" y="126" width="136.6" height="11" rx="2" fill="#1f5f99"/>
+<text x="157.6" y="136.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">55.6%</text>
+<text x="16.0" y="151.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">Town + one rural tract (best fit) · whole tracts</text>
+<rect x="16.0" y="156" width="66.6" height="11" rx="2" fill="#1f5f99"/>
+<text x="87.6" y="166.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">27.1%</text>
+<text x="16.0" y="181.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">Best fit + remote tract · whole tracts</text>
+<rect x="16.0" y="186" width="58.7" height="11" rx="2" fill="#1f5f99"/>
+<text x="79.7" y="196.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">23.9%</text>
+<text x="16.0" y="211.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">Best fit + near-city tract · whole tracts</text>
+<rect x="16.0" y="216" width="66.6" height="11" rx="2" fill="#1f5f99"/>
+<text x="87.6" y="226.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">27.1%</text>
+<text x="16.0" y="241.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">Best fit + regional city · whole tracts</text>
+<rect x="16.0" y="246" width="105.4" height="11" rx="2" fill="#1f5f99"/>
+<text x="126.4" y="256.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">42.9%</text>
+<text x="16.0" y="271.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">Whole county · whole tracts</text>
+<rect x="16.0" y="276" width="90.2" height="11" rx="2" fill="#1f5f99"/>
+<text x="111.2" y="286.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">36.7%</text>
+<text x="16.0" y="301.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">10-minute drive · drive time, part tracts</text>
+<rect x="16.0" y="306" width="300.8" height="11" rx="2" fill="#9db8d3"/>
+<text x="321.8" y="316.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">122.4%</text>
+<text x="16.0" y="331.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">15-minute drive · drive time, part tracts</text>
+<rect x="16.0" y="336" width="199.3" height="11" rx="2" fill="#9db8d3"/>
+<text x="220.3" y="346.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">81.1%</text>
+<text x="16.0" y="361.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">20-minute drive · drive time, part tracts</text>
+<rect x="16.0" y="366" width="160.0" height="11" rx="2" fill="#9db8d3"/>
+<text x="181.0" y="376.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">65.1%</text>
+<text x="16.0" y="391.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">30-minute drive · drive time, part tracts</text>
+<rect x="16.0" y="396" width="197.6" height="11" rx="2" fill="#9db8d3"/>
+<text x="218.6" y="406.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">80.4%</text>
+<text x="16.0" y="421.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">20-minute drive · drive time, whole tracts</text>
+<rect x="16.0" y="426" width="136.6" height="11" rx="2" fill="#1f5f99"/>
+<text x="157.6" y="436.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">55.6%</text>
+<text x="16.0" y="451.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">30-minute drive · drive time, whole tracts</text>
+<rect x="16.0" y="456" width="87.0" height="11" rx="2" fill="#1f5f99"/>
+<text x="108.0" y="466.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">35.4%</text>
+<text x="16.0" y="481.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">5-mile radius · radius, part tracts</text>
+<rect x="16.0" y="486" width="186.5" height="11" rx="2" fill="#9db8d3"/>
+<text x="207.5" y="496.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">75.9%</text>
+<text x="16.0" y="511.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">10-mile radius · radius, part tracts</text>
+<rect x="16.0" y="516" width="68.6" height="11" rx="2" fill="#9db8d3"/>
+<text x="89.6" y="526.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">27.9%</text>
+<text x="16.0" y="541.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">15-mile radius · radius, part tracts</text>
+<rect x="16.0" y="546" width="107.1" height="11" rx="2" fill="#9db8d3"/>
+<text x="128.1" y="556.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">43.6%</text>
+<text x="16.0" y="571.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">Tract centres within 10 miles · radius, whole tracts</text>
+<rect x="16.0" y="576" width="66.6" height="11" rx="2" fill="#1f5f99"/>
+<text x="87.6" y="586.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">27.1%</text>
+<text x="16.0" y="601.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">20-minute drive · block groups</text>
+<rect x="16.0" y="606" width="122.9" height="11" rx="2" fill="#9db8d3"/>
+<text x="143.9" y="616.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">50.0%</text>
+<text x="16.0" y="631.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">Sends 5%+ of local workers · commuter shed</text>
+<rect x="16.0" y="636" width="66.6" height="11" rx="2" fill="#1f5f99"/>
+<text x="87.6" y="646.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">27.1%</text>
+<text x="16.0" y="661.0" font-size="11" font-weight="600" fill="#1d2329" text-anchor="start">Houses 75% of local workers · commuter shed</text>
+<rect x="16.0" y="666" width="78.1" height="11" rx="2" fill="#1f5f99"/>
+<text x="99.1" y="676.0" font-size="11" font-weight="700" fill="#1d2329" text-anchor="start">31.8%</text>
+<line x1="224.9" x2="224.9" y1="92" y2="684" stroke="#b3261e" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="228.9" y="102.0" font-size="11" font-weight="700" fill="#b3261e" text-anchor="start">85% limit</text>
+<text x="16.0" y="718.0" font-size="10" font-weight="400" fill="#55606b" text-anchor="start">Source: COHO estimate; HUD CHAS 2018-2022, ACS 2020-2024, HUD LIHTC,</text>
+<text x="16.0" y="732.0" font-size="10" font-weight="400" fill="#55606b" text-anchor="start">LODES 2024, CHFA 2027-2028 QAP rules. As of 2026-11-18.</text>
+</svg>

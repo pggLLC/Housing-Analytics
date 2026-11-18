@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-18T04:26:47.129864Z",
+  "generated": "2026-11-18T09:35:38.475439Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1037107
+      "bytes": 1037833
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -1204,7 +1204,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1304940
+      "bytes": 1311413
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -9901,6 +9901,11 @@
       "placeholder": false,
       "bytes": 17856
     },
+    "data/policy/pma-capture-example.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 24900
+    },
     "data/policy/policy-timeline.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -10019,7 +10024,7 @@
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 447442
+      "bytes": 481037
     },
     "data/polymarket-curated.json": {
       "featureCount": 0,
