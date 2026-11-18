@@ -2187,6 +2187,7 @@
             drought_years:     m.drought_years,
             lihtc_project_count: m.lihtc_project_count,
             r1_2026_count:     m.r1_2026_count,
+            r2_2026_count:     m.r2_2026_count,
             recency_score:     m.recency_score,
             recency_basis:     m.recency_basis,
             // F191 point-in-polygon count. The name match that produces
@@ -2279,6 +2280,7 @@
       const basis = rec.recency_basis;
       const n = rec.lihtc_project_count;
       const r1 = rec.r1_2026_count || 0;
+      const r2 = rec.r2_2026_count || 0;
       // Color the badge by drought urgency. ≥8yr drought is a "strong
       // candidate" signal in the OF; 4-7yr is moderate; <4yr is a busy
       // jurisdiction (saturation risk).
@@ -2291,6 +2293,7 @@
         award_year: 'CHFA AwardYear',
         pis_year:   'feed year only (AwardYear missing)',
         r1_bridge:  '2026 R1 bridge',
+        r2_bridge:  '2026 R2 bridge',
         never_funded: 'no records',
       })[basis] || basis;
       host.innerHTML =
@@ -2302,6 +2305,7 @@
           '<div style="margin-top:2px;font-size:1rem;color:var(--muted)">' +
             n + ' project' + (n === 1 ? '' : 's') + ' on record' +
             (r1 > 0 ? ' · <strong style="color:var(--accent)">' + r1 + ' 2026 R1 award' + (r1 === 1 ? '' : 's') + '</strong>' : '') +
+            (r2 > 0 ? ' · <strong style="color:var(--accent)">' + r2 + ' 2026 R2 award' + (r2 === 1 ? '' : 's') + '</strong>' : '') +
             ' · basis: ' + basisTag +
           '</div>' +
         '</div>';

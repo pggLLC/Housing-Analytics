@@ -3,7 +3,7 @@
  * Renders the data-driven parts of resident-services.html from
  * data/policy/resident-services.json: the evidence cards, the CHFA QAP
  * requirements, who pays, what services cost, and which 2026 Round One
- * awards describe services. Every figure on those cards comes from the file,
+ * and Round Two awards describe services. Every figure on those cards comes from the file,
  * and each record shows its source and, once it falls due, a re-check warning.
  * The narrative around them is static HTML in the page.
  */
@@ -187,12 +187,20 @@
     if (el) el.innerHTML = html;
   }
 
-  function render(rootEl, doc, awardsDoc) {
+  // Round Two (2026-11-16) is drawn first when its file and notes are given; Round One keeps its own table.
+  function render(rootEl, doc, awardsDoc, awardsDoc2) {
     fill(rootEl, '[data-rs-evidence]', evidenceHtml(doc));
     fill(rootEl, '[data-rs-qap]', qapHtml(doc));
     fill(rootEl, '[data-rs-funding]', fundingHtml(doc));
     fill(rootEl, '[data-rs-costs]', costHtml(doc));
-    fill(rootEl, '[data-rs-awards]', awardsHtml(joinAwards(doc, awardsDoc), doc.awards && doc.awards.models));
+    var models = doc.awards && doc.awards.models;
+    var html = awardsHtml(joinAwards(doc, awardsDoc), models);
+    if (awardsDoc2 && doc.awards_round_two) {
+      var two = awardsHtml(joinAwards({ awards: doc.awards_round_two }, awardsDoc2), models).replace('<p data-rs-award-count>', '<p data-rs-award-count-two>');
+      html = '<h3>' + esc((awardsDoc2.metadata && awardsDoc2.metadata.round) || 'Round Two') + '</h3>' + two +
+        '<h3>' + esc((awardsDoc && awardsDoc.metadata && awardsDoc.metadata.round) || 'Round One') + '</h3>' + html;
+    }
+    fill(rootEl, '[data-rs-awards]', html);
     var checked = longDate(doc.meta && doc.meta.last_verified);
     fill(rootEl, '[data-rs-checked]', checked ? 'Sources last checked ' + esc(checked) : '');
   }
@@ -203,7 +211,9 @@
     fetchJson(DATA).then(function (doc) {
       var awardsFile = doc.awards && doc.awards.file;
       var awards = awardsFile ? fetchJson(awardsFile).catch(function () { return null; }) : Promise.resolve(null);
-      return awards.then(function (awardsDoc) { render(rootEl, doc, awardsDoc); });
+      var file2 = doc.awards_round_two && doc.awards_round_two.file;
+      var awards2 = file2 ? fetchJson(file2).catch(function () { return null; }) : Promise.resolve(null);
+      return Promise.all([awards, awards2]).then(function (r) { render(rootEl, doc, r[0], r[1]); });
     }).catch(function (err) {
       rootEl.querySelectorAll('[data-rs-evidence],[data-rs-qap],[data-rs-funding],[data-rs-costs],[data-rs-awards]').forEach(function (el) {
         el.innerHTML = '<p class="rs-muted">This section could not load its data (' + esc(err && err.message) + ').</p>';

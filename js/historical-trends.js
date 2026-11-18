@@ -8,7 +8,7 @@
  *   3. Peer benchmark table (given user-chosen county + unit count, find similar LIHTC projects)
  *
  * Data sources (all local, no external API):
- *   - data/affordable-housing/chfa-awards/2026-round-one.json — latest round, parsed from CHFA's award report
+ *   - data/affordable-housing/chfa-awards/2026-round-one.json and 2026-round-two.json — the 2026 rounds, parsed from CHFA's award reports
  *   - data/chfa-lihtc.json                     — CHFA HousingTaxCreditProperties_view live export
  *
  * No rent trajectory panel: current ACS dataset is single-vintage (2023) and does not
@@ -272,6 +272,8 @@
     var units = awards.map(function (a) { return a.total_units; }).filter(pos);
     var with9 = awards.filter(function (a) { return pos(a.federal_9pct_credit) && pos(a.total_units); });
     var fed9 = awards.map(function (a) { return a.federal_9pct_credit; }).filter(pos);
+    var with4 = awards.filter(function (a) { return pos(a.federal_4pct_credit) && pos(a.total_units); });
+    var fed4 = awards.map(function (a) { return a.federal_4pct_credit; }).filter(pos);
     var m = String(meta.round || meta.announcement_date || '').match(/(19|20)\d{2}/);
     var roundYear = m ? parseInt(m[0], 10) : null;
     // Has the live feed caught up? Then these awards may be in the chart too.
@@ -288,6 +290,11 @@
       federal9PerUnit: with9.length
         ? Math.round(sum(with9.map(function (a) { return a.federal_9pct_credit; })) /
                      sum(with9.map(function (a) { return a.total_units; })))
+        : null,
+      federal4Total: fed4.length ? sum(fed4) : null,
+      federal4PerUnit: with4.length
+        ? Math.round(sum(with4.map(function (a) { return a.federal_4pct_credit; })) /
+                     sum(with4.map(function (a) { return a.total_units; })))
         : null,
       withStateCredit: awards.filter(function (a) { return pos(a.state_credit); }).length
     };
@@ -330,7 +337,8 @@
         county:     a.county,
         countyFips: a.county_fips || null,
         units:      typeof a.total_units === 'number' && a.total_units > 0 ? a.total_units : null,
-        liUnits:    0,
+        // Round Two prints low-income homes (li_units); Round One does not, so it stays 0 as before.
+        liUnits:    typeof a.li_units === 'number' && a.li_units > 0 ? a.li_units : 0,
         yrAlloc:    r.roundYear,
         credit:     credit,
         bridge:     r.name || String(r.roundYear)
@@ -338,17 +346,29 @@
     });
   }
 
+  // Both 2026 rounds, newest first: Round Two (4% + state, 2026-11-16), then Round One.
+  function _rounds() {
+    return [state.round2, state.round].filter(function (x) { return x && Array.isArray(x.awards) && x.awards.length; });
+  }
+  function _bridgeRows(features, countyName) {
+    return _rounds().reduce(function (rows, rd) { return rows.concat(bridgeBenchmarkRows(rd, features, countyName)); }, []);
+  }
+
   function _renderLatestRound() {
     var el = document.getElementById('chfaStats');
     if (!el) return;
-    var r = summarizeRound(state.round, state.lihtcFeatures);
-    if (!r) return;
+    el.innerHTML = _rounds().map(function (rd, i) {
+      var r = summarizeRound(rd, state.lihtcFeatures);
+      return r ? _roundStats(r, i === 0 ? 'Latest round' : 'Earlier round') : '';
+    }).join('');
+  }
+  function _roundStats(r, lead) {
     function show(v, fmt) { return v != null ? fmt(v) : 'Unavailable'; }
     function money(v) {
       return v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : '$' + _fmt(Math.round(v));
     }
-    el.innerHTML =
-      '<p class="ht-stat-caption">Latest round: ' + esc(r.name || 'CHFA') +
+    var nine = r.federal9Total != null || r.federal4Total == null;
+    return '<p class="ht-stat-caption">' + lead + ': ' + esc(r.name || 'CHFA') +
         (r.announced ? ' (announced ' + esc(r.announced) + ')' : '') +
         (r.inFeed
           ? ' — the live feed now has ' + r.roundYear + ' awards, so these may also be counted in the chart'
@@ -357,8 +377,14 @@
         '<div><dt>Developments</dt><dd>' + r.developments + '</dd></div>' +
         '<div><dt>Units</dt><dd>' + show(r.units, _fmt) + '</dd></div>' +
         '<div><dt>Median development</dt><dd>' + show(r.medianUnits, function (v) { return v + ' units'; }) + '</dd></div>' +
-        '<div><dt>Federal 9% credits / yr</dt><dd>' + show(r.federal9Total, money) + '</dd></div>' +
-        '<div><dt>9% credit per unit / yr</dt><dd>' + show(r.federal9PerUnit, function (v) { return '$' + _fmt(v); }) + '</dd></div>' +
+        (nine
+          ? '<div><dt>Federal 9% credits / yr</dt><dd>' + show(r.federal9Total, money) + '</dd></div>' +
+            '<div><dt>9% credit per unit / yr</dt><dd>' + show(r.federal9PerUnit, function (v) { return '$' + _fmt(v); }) + '</dd></div>'
+          : '') +
+        (r.federal4Total != null
+          ? '<div><dt>Federal 4% credits / yr</dt><dd>' + money(r.federal4Total) + '</dd></div>' +
+            '<div><dt>4% credit per unit / yr</dt><dd>' + show(r.federal4PerUnit, function (v) { return '$' + _fmt(v); }) + '</dd></div>'
+          : '') +
         '<div><dt>With state credits too</dt><dd>' + r.withStateCredit + ' of ' + r.developments + '</dd></div>' +
       '</dl>';
   }
@@ -486,7 +512,7 @@
       var fips = p.CNTY_FIPS || p.COUNTY_FIPS || null;
       if (nm) counties[nm] = fips;
     });
-    bridgeBenchmarkRows(state.round, state.lihtcFeatures, null).forEach(function (r) {
+    _bridgeRows(state.lihtcFeatures, null).forEach(function (r) {
       if (r.county && !(r.county in counties)) counties[r.county] = r.countyFips;
     });
     var names = Object.keys(counties).sort();
@@ -524,7 +550,7 @@
         yrAlloc:  parseInt(p.YR_ALLOC || p.YEAR_ALLOC || 0, 10) || null,
         credit:   p.CREDIT || ''
       };
-    }).concat(bridgeBenchmarkRows(state.round, state.lihtcFeatures, county));
+    }).concat(_bridgeRows(state.lihtcFeatures, county));
 
     if (!feats.length) {
       tbody.innerHTML = '<tr><td colspan="5" class="ht-empty">No LIHTC projects found in this county.</td></tr>';
@@ -579,14 +605,17 @@
 
   function render() {
     var roundUrl      = 'data/affordable-housing/chfa-awards/2026-round-one.json';
+    var round2Url     = 'data/affordable-housing/chfa-awards/2026-round-two.json';
     function fetchLihtc() { return _fetchJson('data/chfa-lihtc.json'); }
 
     Promise.all([
       _fetchJson(roundUrl).catch(function () { return null; }),
       fetchLihtc(),
-      _fetchJson('data/hna/geo-config.json')
+      _fetchJson('data/hna/geo-config.json'),
+      _fetchJson(round2Url).catch(function () { return null; })
     ]).then(function (results) {
       state.round = results[0];
+      state.round2 = results[3];
       if (!global.LihtcByYear) throw new Error('CHFA LIHTC series unavailable');
       state.geoConfig = results[2];
       state.lihtcFeatures = results[1] && Array.isArray(results[1].features) ? results[1].features : [];

@@ -14,7 +14,7 @@
     membership: 'data/hna/place-tract-membership.json', ami: 'data/co_ami_gap_by_place.json', geo: 'data/hna/geo-config.json',
     scorecard: 'data/policy/housing-policy-scorecard.json', props: 'data/affordable-housing/properties.json',
     pab: 'data/policy/pab-allocations.json', od: 'data/hna/place-od-flows.json',
-    r1: 'data/affordable-housing/chfa-awards/2026-round-one.json', watch: 'data/policy/chfa-watchlist.json',
+    r1: 'data/affordable-housing/chfa-awards/2026-round-one.json', r2: 'data/affordable-housing/chfa-awards/2026-round-two.json', watch: 'data/policy/chfa-watchlist.json',
     guide: 'data/policy/co-developer-funding-guide.json', acs: 'data/hna/acs-reliability.json',
     lehd: 'data/hna/place-lehd.json', aliases: 'data/hna/place-phantom-aliases.json'
   };
@@ -23,7 +23,7 @@
 
   // The indexes compare.js builds once its files load.
   function index(d) {
-    var st = { qctTractIds: new Set(), ddaCountyFips: new Set(), countyName: {}, placeMeta: {}, preservationByCity: {}, preservationByCounty: {}, chfa2026R1ByCity: {}, watchlistByGeoid: {} };
+    var st = { qctTractIds: new Set(), ddaCountyFips: new Set(), countyName: {}, placeMeta: {}, preservationByCity: {}, preservationByCounty: {}, chfa2026R1ByCity: {}, chfa2026R2ByCity: {}, watchlistByGeoid: {} };
     st.acsGeos = (d.acs && d.acs.geos) || {};
     (d.qct.features || []).forEach(function (f) { if (f.properties && f.properties.GEOID) st.qctTractIds.add(f.properties.GEOID); });
     (d.dda.features || []).forEach(function (f) { if (f.properties && f.properties.GEOID && f.properties.GEOID.length === 5) st.ddaCountyFips.add(f.properties.GEOID); });
@@ -56,10 +56,14 @@
     st.pabMeta = (d.pab && d.pab.metadata) || null;
     st.placeOdFlows = (d.od && d.od.places) || {};
     st.odMeta = (d.od && (d.od.meta || d.od.metadata)) || {};
-    if (d.r1 && Array.isArray(d.r1.awards)) {
-      st.chfa2026R1Meta = d.r1.metadata || null;
-      d.r1.awards.forEach(function (a) { var key = (a.city || '').trim().toLowerCase(); if (key) (st.chfa2026R1ByCity[key] = st.chfa2026R1ByCity[key] || []).push(a); });
-    }
+    // Both 2026 rounds (the CHFA feed carries neither yet); each award keeps its round's name.
+    // paul, 18 Nov 2026: "add round two to the site in general... where it should be".
+    // Read as the public Compare reads them (js/compare.js): one index per round.
+    [[d.r1, 'chfa2026R1ByCity', 'chfa2026R1Meta'], [d.r2, 'chfa2026R2ByCity', 'chfa2026R2Meta']].forEach(function (b) {
+      if (!b[0] || !Array.isArray(b[0].awards)) return;
+      st[b[2]] = b[0].metadata || null;
+      b[0].awards.forEach(function (a) { var key = (a.city || '').trim().toLowerCase(); if (key) (st[b[1]][key] = st[b[1]][key] || []).push(a); });
+    });
     if (d.watch && Array.isArray(d.watch.entries)) d.watch.entries.forEach(function (e) { if (e && e.place_geoid) st.watchlistByGeoid[e.place_geoid] = e; });
     st.watchMeta = (d.watch && (d.watch.metadata || d.watch.meta)) || {};
     st.fundingGuide = (d.guide && Array.isArray(d.guide.programs)) ? d.guide : null;
@@ -109,12 +113,20 @@
     var r1Units = r1Awards.reduce(function (s, a) { return s + (+a.total_units || 0); }, 0);
     var lastAwardYear = inside.reduce(function (m, p) { var y = parseInt(p.properties.AwardYear || p.properties.YR_ALLOC, 10); return (Number.isFinite(y) && y > m) ? y : m; }, -Infinity);
     if (lastAwardYear === -Infinity) lastAwardYear = null;
-    var bridgeYear = null;
-    if (r1Awards.length && st.chfa2026R1Meta) {
-      var rm = /(\d{4})/.exec(st.chfa2026R1Meta.round || '');
-      if (rm) bridgeYear = parseInt(rm[1], 10);
-      if (bridgeYear == null && typeof st.chfa2026R1Meta.announcement_date === 'string') { var rm2 = /^(\d{4})/.exec(st.chfa2026R1Meta.announcement_date); if (rm2) bridgeYear = parseInt(rm2[1], 10); }
+    var r2Awards = st.chfa2026R2ByCity[label.toLowerCase()] || [];
+    var r2Units = r2Awards.reduce(function (s, a) { return s + (+a.total_units || 0); }, 0);
+    function roundYear(meta) {
+      var y = null, rm = /(\d{4})/.exec((meta && meta.round) || '');
+      if (rm) y = parseInt(rm[1], 10);
+      if (y == null && meta && typeof meta.announcement_date === 'string') { var rm2 = /^(\d{4})/.exec(meta.announcement_date); if (rm2) y = parseInt(rm2[1], 10); }
+      return y;
     }
+    var bridgeYear = null;
+    [[r1Awards, st.chfa2026R1Meta], [r2Awards, st.chfa2026R2Meta]].forEach(function (b) {
+      if (!b[0].length || !b[1]) return;
+      var y = roundYear(b[1]);
+      if (y != null && (bridgeYear == null || y > bridgeYear)) bridgeYear = y;
+    });
     var lastYear = lastAwardYear;
     if (bridgeYear != null && (lastYear == null || bridgeYear > lastYear)) lastYear = bridgeYear;
     var ownCivic = st.policyScores[placeGeoid];
@@ -127,15 +139,17 @@
     if (od) lab = labor(fin(od.within), fin(od.inflow), fin(od.outflow), fin(od.jobs), 'block-od');
     else if (lehd) lab = labor(fin(lehd.within), fin(lehd.inflow), fin(lehd.outflow), fin(lehd.C000), lehd.flows_source || 'tract-lodes');
     var wl = st.watchlistByGeoid[placeGeoid] || null, pop = acsPop(st, placeGeoid);
-    var ys = [lastYear, lastAwardYear]; if (r1Awards.length) ys.push(2026);
+    var ys = [lastYear, lastAwardYear]; if (r1Awards.length || r2Awards.length) ys.push(2026);
     var latest = ys.filter(function (y) { return Number.isFinite(y); }).reduce(function (a, b) { return a > b ? a : b; }, -Infinity);
     return {
       geoid: placeGeoid, county: false, name: label, type: meta.type || 'place', countyFips: containingCounty, countyName: st.countyName[containingCounty] || '—',
       hasQct: qctTracts.length > 0, qctCount: qctTracts.length, hasDda: !!(containingCounty && st.ddaCountyFips.has(containingCounty)),
       civicRawScore: civic && Number.isFinite(civic.totalScore) ? civic.totalScore : null, civicIsCounty: !ownCivic && !!civic,
       projectCount: inside.length, lastYear: lastYear, lastAwardYear: lastAwardYear, r1Count: r1Awards.length, r1Units: r1Units,
+      r2Count: r2Awards.length, r2Units: r2Units,
       latestChfaActivityYear: latest === -Infinity ? null : latest,
-      droughtYears: wl && Number.isFinite(wl.drought_years) ? wl.drought_years : (lastYear == null ? null : Math.max(0, CURRENT_YEAR - lastYear)),
+      // The watch list was written before the 2026 rounds; an award since then wins (as js/compare.js).
+      droughtYears: (function () { var since = lastYear == null ? null : Math.max(0, CURRENT_YEAR - lastYear); return wl && Number.isFinite(wl.drought_years) ? (since != null && since < wl.drought_years ? since : wl.drought_years) : since; }()),
       watchSignal: (wl && wl.signal) || null, watchTracked: true,
       pabDirect: pabDirect, pabIsCounty: pabIsCounty,
       preservationCount: prec.total, preservationUrgent5y: prec.urgent5y,
@@ -156,7 +170,7 @@
       geoid: fips, county: true, name: st.countyName[fips] || fips, type: 'county', countyFips: fips, countyName: st.countyName[fips] || '—',
       hasQct: qct > 0, qctCount: qct, hasDda: st.ddaCountyFips.has(fips),
       civicRawScore: civic && Number.isFinite(civic.totalScore) ? civic.totalScore : null, civicIsCounty: false,
-      projectCount: inside.length, lastYear: lastAwardYear, lastAwardYear: lastAwardYear, r1Count: null, r1Units: null,
+      projectCount: inside.length, lastYear: lastAwardYear, lastAwardYear: lastAwardYear, r1Count: null, r1Units: null, r2Count: null, r2Units: null,
       latestChfaActivityYear: lastAwardYear, droughtYears: lastAwardYear == null ? null : Math.max(0, CURRENT_YEAR - lastAwardYear),
       watchSignal: null, watchTracked: false,
       pabDirect: (pab && pab.directAllocation) || null, pabIsCounty: false,
