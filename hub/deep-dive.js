@@ -479,7 +479,9 @@
   // ---------- 5. Affordability geography ----------
   // Map kit part 2: both maps use the one teal "more of something" ramp. The traffic-light tract scale and the blue
   // burden ramp are gone (red-green readers could not separate the first; the second broke the one-ramp rule).
-  var RATIO_BANDS = [[25, 'var(--map-1)', 'Under 25%'], [30, 'var(--map-2)', '25–29%, near the 30% line'], [50, 'var(--map-4)', '30–49%, cost-burdened'], [Infinity, 'var(--map-5)', '50% or more, severely cost-burdened']];
+  // A ratio of two medians, so its bands are not cost-burden classes: burden is measured household by household
+  // (Census, ACS subject definitions). The county map below is the household measure (outside messaging review, 18 Nov 2026).
+  var RATIO_BANDS = [[25, 'var(--map-1)', 'Under 25%'], [30, 'var(--map-2)', '25–29%'], [50, 'var(--map-4)', '30–49%'], [Infinity, 'var(--map-5)', '50% or more']];
   var BURDEN_BANDS = [[0.4, 'var(--map-1)', 'Under 40%'], [0.5, 'var(--map-2)', '40–50%'], [0.6, 'var(--map-4)', '50–60%'], [Infinity, 'var(--map-5)', 'Over 60%']];
   function geography(d) {
     var at = {}; d.cent.tracts.forEach(function (c) { at[c.geoid] = c; });
@@ -501,7 +503,7 @@
       .map(function (c) { return { county: c.county_name, gap: c.gap_units_minus_households_le_ami_pct[50], cov: c.coverage_le_ami_pct[50] * 100, fips: c.fips }; });
     var names = {}; d.bounds.features.forEach(function (f) { names[f.properties.GEOID] = f.properties.NAME; });
     return sec('geo', 'Geography of housing affordability', '<p>Where affordability pressure is sharpest, from tract rent burdens to county housing gaps.</p>' +
-        sec('ratio-map', 'Affordability ratio map: gross rent as % of income', '<p>Each dot is a Colorado census tract, colored by how much of the median household income the median gross rent takes. Tracts in red spend half or more of their income on housing, a sign of severe stress.</p>' +
+        sec('ratio-map', 'Median rent as a share of median income, by tract', '<p>Each dot is a Colorado census tract, colored by a year of median gross rent against median household income (owners and renters together). It compares two medians; it is not the share of income any renter pays. The county map below counts renters who pay over 30%.</p>' +
           coMap({ features: d.bounds.features, fill: function () { return 'var(--track)'; }, label: function (k) { return names[k] + ' County'; }, kicker: 'Median rent as a share of median income, by tract',
             title: 'In ' + num(counts[2] + counts[3]) + ' of ' + num(dots.length) + ' Colorado tracts, median rent takes 30% or more of median income; in ' + num(counts[3]) + ', half or more',
             note: num(dots.length) + ' tracts with both figures, ACS ' + d.tracts.meta.vintage + ' 5-year. Darker means rent takes more of income.', inset: true, alt: 'Source: ACS ' + d.tracts.meta.vintage + ' 5-year.',
@@ -857,7 +859,8 @@
   var QUAD = {
     underserved: ['High need, little funding', 'Need above the middle county, tax credit homes below it.', 'var(--rust)'],
     aligned: ['High need, funded', 'Need and tax credit homes both above the middle county.', 'var(--map-4)'],
-    'funded-above-need': ['Funded beyond need', 'Tax credit homes above the middle county, need below it.', 'var(--c-blue)'],
+    // Named for the comparison made, not a verdict (outside messaging review, 18 Nov 2026; the old page said "Lower need, more funding").
+    'funded-above-need': ['Above-median awards per gap, below-median gap per resident', 'Tax credit homes per 100 homes short above the middle county; homes short at 30% AMI (ACS, price-only) per 1,000 residents below it. Awards span years; the gap is today. It does not show that need is met.', 'var(--c-blue)'],
     'low-need-low-funding': ['Low need, little funding', 'Need and tax credit homes both below the middle county.', 'var(--grey)'],
     'not-computable': ['Not computable', 'Too few renters at 30% AMI to compare.', 'var(--line)']
   };
@@ -914,13 +917,15 @@
       ? 'These groups count CHFA\u2019s round awards and ' + num(sw.bond_deals_outside_rounds) + ' 4% bond deals CHFA awarded outside the rounds (' + num(sw.bond_units_outside_rounds) + ' homes), taken from CHFA\u2019s property list and matched so no deal counts twice.'
       : 'These groups count homes in CHFA\u2019s round award reports. Most 4% bond deals are approved outside the rounds and never appear in those reports, so they are missing here, and counties that rely on bond deals look less funded than they are. CHFA\u2019s property list, on the portfolio page, has them.';
   }
-  function glanceNote(fvn) {
+  function glanceNote(fvn, d) {
     var out = fvn.counties.filter(function (c) { return !c.quadrant; });
     if (!out.length) return '';
     var why = {};
     out.forEach(function (c) { var r = c.quadrant_unavailable_reason || 'not computable'; (why[r] = why[r] || []).push(cname(c.name)); });
+    // A zero on the price-only count is not zero need: say so, and give HUD's count for the same counties.
+    var said = function (r) { return /zero/.test(r) ? 'the ACS price-only gap at or below 30% AMI is zero, which is not zero need' : r; };
     return '<p class="note">' + out.length + (out.length === 1 ? ' county is' : ' counties are') + ' in no group: ' +
-      Object.keys(why).map(function (r) { return why[r].sort().join(', ') + ' (' + r + ')'; }).join('; ') + '.</p>';
+      Object.keys(why).map(function (r) { return why[r].sort().join(', ') + ' (' + said(r) + ')'; }).join('; ') + '.' + (d ? esc(chasOutNote(d)) : '') + '</p>';
   }
   // Owners beside renters (paul, 16 Nov: "go owner gap with B25119"). Not a "homes short" count: the for-sale
   // screen compares buyers with homes owners already live in and reads 0 almost everywhere, so the owner gap is
@@ -1189,9 +1194,10 @@
     // The page story (paul 11-06): lead with the statewide finding. Not the funding groups: they leave out most
     // 4% bond deals on pins before HA #2726 (see ledgerNote), so they cannot carry the headline.
     var lede = function () {
-      var R = global.LabRentIncome && global.LabRentIncome.rows(), x = R && !R.error && R.geo && R.geo['08'], o = x && global.LabRentIncome.over(R, x, '2000');
+      // Survey to survey first, the longer view from 2000 second and marked approximate (paul, 18 Nov 2026: keep both and explain).
+      var R = global.LabRentIncome && global.LabRentIncome.rows(), x = R && !R.error && R.geo && R.geo['08'], o = x && global.LabRentIncome.over(R, x, '2010-14'), l = x && global.LabRentIncome.over(R, x, '2000');
       if (!o || o.fell) return 'Statewide figures for Colorado: tax credit projects and awards, rents against income, costs, funding against need, and the market in each county and town.';
-      return 'Since 2000, the typical Colorado rent rose ' + Math.round(o.rp * 100) + '% and household income ' + Math.round(o.ip * 100) + '%. Below: rents against income, where tax credit homes went, costs, and the market in each county.';
+      return 'From 2010–14 to 2020–24, the typical Colorado rent rose ' + Math.round(o.rp * 100) + '% and household income ' + Math.round(o.ip * 100) + '%' + (l && !l.fell ? '; since 2000, roughly ' + Math.round(l.rp * 100) + '% and ' + Math.round(l.ip * 100) + '% (approximate: Census counted rent differently in 2000)' : '') + '. Below: rents against income, where tax credit homes went, costs, and the market in each county.';
     };
     var head = function (facts, d) {
       return T.head({ kind: 'data', crumbs: T.trail('places', title), title: title,
@@ -1210,7 +1216,7 @@
       ].filter(Boolean), d) +
       fold('About this page', 'What it does, why it matters, and what it does not do', '<p><strong>What this page does.</strong> ' + esc(STATIC.about[0]) + '</p><p><strong>Why it matters.</strong> ' + esc(STATIC.about[1]) + '</p><p><strong>What this page does not do.</strong> ' + esc(STATIC.about[2]) + '</p>' +
         '<p>Next: <a href="#/places/ranking">compare jurisdictions</a> to rank geographies by housing need, or <a href="#/places">find a place</a> to start a local housing needs assessment.</p>') +
-      '<section class="dd-glance" aria-labelledby="dd-glance-h"><h2 id="dd-glance-h">Funding against rental need, at a glance</h2>' + glanceNote(d.fvn) + '<p class="note">' + esc(ledgerNote(d.fvn.statewide)) + '</p>' + '<div class="agency-cards">' + ['underserved', 'aligned', 'funded-above-need', 'low-need-low-funding'].map(function (k) {
+      '<section class="dd-glance" aria-labelledby="dd-glance-h"><h2 id="dd-glance-h">Funding against rental need, at a glance</h2>' + glanceNote(d.fvn, d) + '<p class="note">' + esc(ledgerNote(d.fvn.statewide)) + '</p>' + '<div class="agency-cards">' + ['underserved', 'aligned', 'funded-above-need', 'low-need-low-funding'].map(function (k) {
         return '<a class="agency-card" href="#/places/deep-dive?tab=need&amp;quad=' + k + '"><p class="lever-title">' + esc(QUAD[k][0]) + '</p><p class="metric-value">' + num(sw.quadrants[k]) + ' counties</p><p class="dq-what">' + esc(QUAD[k][1]) + '</p></a>';
       }).join('') + '</div></section>' +
       // One clear next page above the chapters (usage report, 26 Oct to 1 Nov: pages per visit fell to 1.4).

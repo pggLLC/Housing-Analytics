@@ -26,6 +26,7 @@
   var ACS = 'https://data.census.gov/table/ACSDT5Y2024.B25064';
   var LONG = 'https://www2.census.gov/library/publications/2011/compendia/usa-counties/excel/';
   var COMPARE = 'https://www.census.gov/programs-surveys/acs/guidance/comparing-acs-data.html';
+  var SUBJ = 'https://www2.census.gov/programs-surveys/acs/tech_docs/subject_definitions/2024_ACSSubjectDefinitions.pdf#page=20';
   var BIG = 11, CO = '08';
   var PERIODS = [{ id: '1980', label: 'Since 1980' }, { id: '2000', label: 'Since 2000' }, { id: '2010-14', label: 'Last 10 years' }];
   var END = '2020-24';
@@ -109,7 +110,9 @@
   function sourceLine(d) {
     return T.source('U.S. Census Bureau: 1980, 1990 and 2000 Census long form (USA Counties); 2000 Census SF3 for towns; American Community Survey 5-year medians 2005–09, 2010–14 and 2020–24 (B25064 rent, B19013 income), as gathered by COHO', REPO, d.date) +
       '<p class="note ri-note">Long-form income is for the year before the census; we move it to the rent year with the BLS consumer price index (CPI-U), and “after inflation” uses the same index to 2024. ' +
-      'Census says long-form and survey figures can be compared with care (<a href="' + COMPARE + '" rel="noopener">how</a>). Small places have wide survey margins. ' +
+      // Census's own rule for gross rent (2024 ACS Subject Definitions, Gross Rent, Comparability): the 2000 universe was
+      // "specified renter-occupied housing units", so 2000 rent "should not be compared" with ACS rent (outside messaging review, 18 Nov 2026).
+      'Census says 2000 and earlier gross rent covered a narrower set of rental homes (\u201cspecified\u201d renter homes) and should not be compared directly with survey rent (<a href="' + SUBJ + '" rel="noopener">Census definitions</a>), so read changes from 1980, 1990 or 2000 as approximate. The last 10 years view compares survey with survey (<a href="' + COMPARE + '" rel="noopener">how</a>). Small places have wide survey margins. ' +
       '<a href="' + LONG + '" rel="noopener">Long-form county file</a> · <a href="' + ACS + '" rel="noopener">ACS table</a>.</p>';
   }
 
@@ -177,7 +180,12 @@
     var x = d.geo[String(fips || '')];
     // Colorado ('08') too: Home shows the statewide card alone, with no picker (paul, 15 Nov: one picker on Home).
     if (!x || (x.kind !== 'county' && x.kind !== 'state')) return '';
-    return '<section class="ri-card" aria-label="Rent against income in ' + esc(title(x)) + '">' + cardBody(d, x, '2000', place) +
+    // Both comparisons, explained (paul, 18 Nov 2026: "keeping both and explaining them"). The headline is survey to
+    // survey, 2010–14 to 2020–24, which Census says compares; the longer view from 2000 follows, marked approximate,
+    // because Census says 2000 gross rent "should not be compared" with ACS rent (2024 ACS Subject Definitions, p.20).
+    var lr = !x.small && over(d, x, '2000');
+    var longer = lr && !lr.fell ? '<p class="note ri-longer"><strong>Over a longer run:</strong> since 2000, the typical rent went up about ' + pct(lr.rp) + ' and the typical household\u2019s income about ' + pct(lr.ip) + '. Read that as approximate: the 2000 Census counted a narrower set of rental homes, so Census says its rent is not directly comparable with the survey\u2019s. Pick \u201cSince 2000\u201d on the deep dive for that view.</p>' : '';
+    return '<section class="ri-card" aria-label="Rent against income in ' + esc(title(x)) + '">' + cardBody(d, x, '2010-14', place) + longer +
       '<div class="ri-foot">' + sourceLine(d) + '<p class="ri-more-link"><a href="#/places/deep-dive">Every county, 1980 to today, on the Colorado deep dive →</a></p></div></section>';
   }
 
@@ -338,7 +346,7 @@
     var d = rows();
     if (!d) return '<p role="status" class="note">Loading rent and income…</p>';
     if (d.error) return '<p class="note">Rent against income did not load (' + esc(d.error) + ').</p>';
-    if (!state[id]) state[id] = { id: id, sel: sel && d.geo[sel] ? sel : CO, period: '2000', all: false };
+    if (!state[id]) state[id] = { id: id, sel: sel && d.geo[sel] ? sel : CO, period: '2010-14', all: false };
     return '<div class="ri-wrap" id="ri-' + id + '" data-ri="' + id + '">' + inner(id) + '</div>';
   }
   function redraw(wrap, focusSel) {

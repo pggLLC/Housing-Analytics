@@ -206,7 +206,7 @@
     }).join('') + '</tbody></table></div>';
 
     return headFor(Object.assign({}, x.data, shared.data)) + global.LabHna.stepPath(true, '#/finder') + toggles + '<p class="chapter-finding">' + esc(why) + '</p>' +
-      '<p class="count" role="status">' + (rows.length > 150 ? 'Showing 150 of ' + rows.length : rows.length) + ' places, sorted by ' + esc(sortedBy.toLowerCase()) + '.' + (hide ? ' ' + thinCount + ' places with thin survey data are hidden.' : ' Places with thin survey data come after the rest.') + '</p>' + townMap(rows, x.data, sortedBy) + table +
+      '<p class="count" role="status">' + (rows.length > 150 ? 'Showing 150 of ' + rows.length : rows.length) + ' places, sorted by ' + esc(sortedBy.toLowerCase()) + '.' + (hide ? ' ' + thinCount + ' places with thin survey data are hidden.' : ' Places with thin survey data come after the rest.') + ' Thin data means we know less about a place, not that its need is lower.</p>' + townMap(rows, x.data, sortedBy) + table +
       '<p class="metric-source">' + Pl.srcLine([['HUD QCT and DDA designations, ' + esc(String(x.data.dda.designationYear || '')), 'https://www.huduser.gov/portal/datasets/qct.html'], ['CHFA Housing Tax Credit property list, ' + String(shared.data.lihtc.fetchedAt).slice(0, 10), shared.data.lihtc.source], ['Census ACS 2020–2024', Pl.SRC.acsGap], ['Census TIGER 2024 place and tract boundaries', 'https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html']]) + '</p>' +
       '<div class="callout">These are facts, not a ranking or a prediction of CHFA points. A Small Area DDA counts only for a site inside the ZIP. Awards match by city name, so a project listed under a neighboring city is not counted here. The full Opportunity Finder adds COHO’s weighted screen, maps and local support.</div>' +
       T.next('Next', [{ href: '#/market', label: 'Market check a place' }, { href: LIVE + 'lihtc-opportunity-finder.html' + (/^\d{5,7}$/.test(params.get('g') || '') ? '?geoid=' + params.get('g') : ''), label: 'Full Opportunity Finder ↗', secondary: true }]);
@@ -476,7 +476,9 @@
       return '<article class="rec-card rec-card-' + esc(k.state) + '"><p class="rec-q">' + esc(k.question) + '</p>' +
         '<h3>' + (k.verdict ? esc(k.verdict) : '<span class="rec-none">No answer from public data</span>') + ' ' + chip(k.state) + '</h3>' +
         (k.plain ? '<p>' + esc(k.plain) + '</p>' : '') +
-        (k.blocking && k.blocking.length ? '<ul class="rec-blocking">' + k.blocking.map(function (b) { return '<li>' + esc(b.label + ': ' + (b.why || 'no figure')) + '</li>'; }).join('') + '</ul>' : '') +
+        (k.blocking && k.blocking.length ? '<ul class="rec-blocking">' + k.blocking.map(function (b) {
+          // The contract's list is plain lines ("label — why"); an object form is read too. Reading .label off a line printed "undefined: no figure".
+          return '<li>' + esc(typeof b === 'string' ? b : (b.label || 'A measure') + ': ' + (b.why || 'no figure')) + '</li>'; }).join('') + '</ul>' : '') +
         '<details><summary>Evidence (' + k.usableCount + ' of ' + k.evidenceCount + ' usable)</summary><div class="table-scroll" role="region" tabindex="0" aria-label="' + esc('Evidence: ' + k.question) + '"><table><thead><tr><th scope="col">Measure</th><th scope="col">Value</th><th scope="col">Standing</th><th scope="col">Source</th></tr></thead><tbody>' +
         k.evidence.map(function (e) {
           return '<tr><th scope="row">' + esc(e.label) + '</th><td>' + esc(fmt(e)) + (e.borrowedFrom ? ' <span class="note">from ' + esc(e.borrowedFrom.replace(/_/g, ' ')) + '</span>' : '') + '</td><td>' + chip(e.state) + '</td>' +

@@ -214,7 +214,7 @@
     if (units == null || !Number.isFinite(Number(units))) return 'Not available';
     var n = Math.round(Number(units));
     var f = Math.abs(n).toLocaleString('en-US');
-    return n < 0 ? 'Surplus of ' + f + ' homes' : f + ' homes';
+    return n < 0 ? f + ' fewer homes needed (not spare homes)' : f + ' homes';
   }
 
   /** Safely read visible text from a DOM element, returning '' on miss. */
