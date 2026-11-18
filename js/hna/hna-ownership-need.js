@@ -583,11 +583,16 @@
       lte30SevereCount >= CONSTANTS.deepAffordability.lte30RenterCb50CountMin &&
       safeDiv(lte30SevereCount, totalHouseholds) >= CONSTANTS.deepAffordability.lte30RenterCb50TotalHouseholdShareMin;
 
+    // Deep affordability is checked before the ownership reading. Until
+    // 18 Nov 2026 it came last, so a town whose lowest-income renters were
+    // severely burdened (Fruita: 89% of renters at 30% AMI or less paying over
+    // half their income, 196 households) still read "Ownership-supportive"
+    // whenever owner burden was high. Ownership tools stay in the detail text.
     var recommendation = 'Verify locally';
     if (rentalHigh && ownershipHigh) recommendation = 'Rental + ownership mix';
     else if (rentalHigh && fitLow) recommendation = 'Rental priority';
-    else if (ownershipHigh && fitModerateOrUp) recommendation = 'Ownership-supportive strategy';
     else if (deepAffordabilityHigh) recommendation = 'Deep affordability priority';
+    else if (ownershipHigh && fitModerateOrUp) recommendation = 'Ownership-supportive strategy';
 
     var detail = 'Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.';
     if (recommendation === 'Rental + ownership mix') {
@@ -597,7 +602,8 @@
     } else if (recommendation === 'Ownership-supportive strategy') {
       detail = 'Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.';
     } else if (recommendation === 'Deep affordability priority') {
-      detail = 'Severe burden among the lowest-income renter households points first to deep rental affordability and supportive subsidy tools.';
+      detail = 'Severe burden among the lowest-income renter households points first to deep rental affordability and supportive subsidy tools.' +
+        (ownershipHigh && fitModerateOrUp ? ' Owner cost burden is also high, so ownership tools may complement rental after local price and assistance checks.' : '');
     }
 
     var quality = dataQuality(chas, caveats);

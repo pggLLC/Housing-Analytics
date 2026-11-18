@@ -2364,7 +2364,7 @@
       'DP05_0019E', // Under 18 years
       'DP05_0024E', // 65 years and over (primary 65+ aggregate)
       'DP05_0029E', // 65 years and over (secondary/vintage fallback)
-      'DP02_0003E', // family households
+      'DP02_0003E', // married-couple households with children under 18 (ACS 2019+; not all family households)
       'DP02_0009E', // male single-parent HH
       'DP02_0013E', // female single-parent HH
       'DP02_0072E', // with a disability
