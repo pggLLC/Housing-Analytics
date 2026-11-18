@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-17T16:08:26.808Z",
+    "generated_at": "2026-11-18T05:15:25.530Z",
     "root": "data/",
     "file_count": 2039,
-    "total_size_bytes": 229984353,
+    "total_size_bytes": 229991277,
     "kinds": {
       "json": 1990,
       "geojson": 35,
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 7519,
-      "mtime": "2026-11-17T05:00:14.589Z",
+      "size_bytes": 7517,
+      "mtime": "2026-11-18T04:12:06.793Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -747,7 +747,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-17T14:40:18.382Z",
+      "mtime": "2026-11-18T05:15:21.973Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6634,8 +6634,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 311629,
-      "mtime": "2026-11-17T05:00:14.695Z",
+      "size_bytes": 312413,
+      "mtime": "2026-11-18T04:12:06.901Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -6650,7 +6650,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 2007,
+      "primary_array_length": 2012,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -6850,8 +6850,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1304940,
-      "mtime": "2026-11-17T14:38:39.773Z",
+      "size_bytes": 1311082,
+      "mtime": "2026-11-18T05:14:35.942Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -38345,7 +38345,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 259260,
-      "mtime": "2026-11-17T14:49:29.837Z",
+      "mtime": "2026-11-18T04:12:07.132Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -40333,7 +40333,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-17T14:40:20.252Z",
+      "mtime": "2026-11-18T05:15:23.708Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -40357,7 +40357,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-17T14:40:19.819Z",
+      "mtime": "2026-11-18T05:15:23.268Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

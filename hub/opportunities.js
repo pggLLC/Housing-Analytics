@@ -149,7 +149,7 @@
       UI.linkCard('#/opportunity/portfolio', 'Tax credit properties in compliance', num(f.active.length), num(f.activeHomes) + ' low-income homes', LIHTC_SRC + ', ' + f.fetched, d.lihtc.source) +
       UI.linkCard('#/opportunity/preservation', 'Properties on CHFA’s preservation map', num(f.pres.length), num(f.presHomes) + ' homes. About half match a tax credit or USDA record that dates them; the page shows each date', 'CHFA preservation map, no date in the source file', PRES_URL) +
       UI.linkCard('#/opportunity/land-banking', 'Prop 123 land banking awards', num(lb.award_count), UI.millions(lb.total_awarded) + ' for about ' + num(lb.total_estimated_units) + ' future homes', 'CHFA award lists, ' + lb.generated, lb.program_url) +
-      UI.linkCard('#/opportunity/round-one', '2026 Round One tax credit awards', num(r1.parsed_count), num(r1.press_release_total_units) + ' homes, $' + r1.press_release_total_equity_M + ' million in equity', 'CHFA, ' + r1.announcement_date, r1.source_url) +
+      UI.linkCard('#/deals?round=2026-1', '2026 Round One tax credit awards', num(r1.parsed_count), num(r1.press_release_total_units) + ' homes, $' + r1.press_release_total_equity_M + ' million in equity', 'CHFA, ' + r1.announcement_date, r1.source_url) +
       '</div>' +
       UI.bars('Low-income homes in tax credit properties, by year awarded', 'Five-year periods, all compliance states', UI.tally(f.props, function (p) { var y = p.AwardYear && Math.floor(p.AwardYear / 5) * 5; return !y ? null : y + 4 >= new Date().getFullYear() ? y + ' to date' : y + '–' + (y + 4); }, function (p) { return p.LI_UNITS; })
         .sort(function (a, b) { return a[0] < b[0] ? -1 : 1; }), num) + global.LabTpl.source(LIHTC_SRC, d.lihtc.source, f.fetched) +
@@ -353,7 +353,7 @@
         var c = [a.federal_9pct_credit && '9%: ' + money(+a.federal_9pct_credit), a.federal_4pct_credit && '4%: ' + money(+a.federal_4pct_credit), a.state_credit && 'state: ' + money(+a.state_credit), a.toc_credit && 'TOC: ' + money(+a.toc_credit)].filter(Boolean);
         return '<li><strong>' + esc(a.name) + '</strong> · ' + esc(a.city || '—') + '<span>' + esc((a.total_units || '—') + ' homes · ' + (a.sponsor || 'Sponsor not named')) + '</span>' + (c.length ? '<span>' + esc(c.join(' · ')) + '</span>' : '') + '</li>';
       }).join('') + '</ul>' +
-      '<p class="note">Sources: <a href="' + esc(r1m.source_url) + '">CHFA award descriptions</a> and <a href="' + esc(r1m.press_release_url) + '">press release</a>. All 14 are on the <a href="#/opportunity/round-one">2026 Round One</a> screen.</p></section>' +
+      '<p class="note">Sources: <a href="' + esc(r1m.source_url) + '">CHFA award descriptions</a> and <a href="' + esc(r1m.press_release_url) + '">press release</a>. All 14 are on <a href="#/deals?round=2026-1">Deal summaries, 2026 Round One</a>.</p></section>' +
       '<section id="pf-about" tabindex="-1"><h2>About the columns</h2>' +
       '<p><strong>Location.</strong> CHFA’s feed publishes no property website, so Map opens Google Maps at the coordinates CHFA publishes for the property. The property’s own listing is usually one click away there. A property with no coordinates is looked up by street address, and one with neither shows a dash rather than a guessed location.</p>' +
       '<p><strong>Development, setting, serves and income.</strong> Each uses a field CHFA publishes for every property. Development is the kind of deal (new construction, rehab of an existing building, or both), not the building form: CHFA publishes no building type. Serves and income targeting match a property with at least one home in that group. A few properties have no population or income breakdown in CHFA’s data; they appear under “Any” but drop out when you pick a group, because the source does not say whether they serve it.</p>' +
@@ -361,7 +361,7 @@
       '<p><strong>Award year</strong> is the year CHFA awarded the credits. CHFA’s feed publishes no placed-in-service year, and a property typically opens two to three years after its award, so a recent award year can be a project still under construction. Data may lag the current allocation year by 12 to 18 months.</p></section>' +
       T.source(LIHTC_SRC, L.d.lihtc.source, f.fetched) +
       T.source('HUD LIHTC database (basis boost)', 'https://www.huduser.gov/portal/datasets/lihtc.html', 'records through properties placed in service in 2024') +
-      T.next('Next', [{ href: '#/opportunity/preservation', label: 'Preservation candidates →' }, { href: '#/opportunity/round-one', label: '2026 Round One awards', secondary: true }, { href: '#/places', label: 'Find a place', secondary: true }]);
+      T.next('Next', [{ href: '#/opportunity/preservation', label: 'Preservation candidates →' }, { href: '#/deals?round=2026-1', label: '2026 Round One awards', secondary: true }, { href: '#/places', label: 'Find a place', secondary: true }]);
   }
 
   // Preservation reads three more public files: HUD's assisted properties, USDA's rural rentals and
@@ -913,34 +913,16 @@
       '<p>Award lists: ' + lb.rounds.map(function (r) { return '<a href="' + esc(r.source_url) + '">' + esc(r.title) + '</a>, dated ' + esc(usDate(r.pdf_date)); }).join('; ') + '. Each list’s rows add up to the total it prints.</p>' +
       '<p class="note">A public-data reference. Confirm current terms and contacts with CHFA before relying on them.</p></section>' +
       T.source('CHFA land banking award lists', m.program_url, m.generated) +
-      T.next('Next', [{ href: '#/opportunity/round-one', label: '2026 Round One awards →' }, { href: '#/places', label: 'Find a place', secondary: true }]);
+      T.next('Next', [{ href: '#/deals?round=2026-1', label: '2026 Round One awards →' }, { href: '#/places', label: 'Find a place', secondary: true }]);
   }
 
+  // The 2026 Round One page now lives on Deal summaries as a round filter (one home for awards; paul "go remaining
+  // duplicates", 18 Nov 2026). Its old address forwards there; replace() keeps Back on the page the reader came from.
   function roundOne() {
-    var L = loading('2026 Round One tax credit awards');
-    if (L.html) return L.html;
-    var m = L.d.roundOne.metadata, awards = L.d.roundOne.awards;
-    // Each development opens its COHO deal summary where one is written; otherwise its town.
-    var summaryOf = function (r) { return global.LabDeals ? global.LabDeals.summaryHref({ agency: 'CHFA', year: 2026, name: r.name }) : null; };
-    return frame('2026 Round One tax credit awards') +
-      '<p class="lede">Announced by CHFA on ' + esc(m.announcement_date) + '.</p>' +
-      UI.intro('Which developments won tax credits this spring, where, and how big they are.',
-        num(m.parsed_count) + ' developments won credits for ' + num(m.press_release_total_units) + ' homes and about $' + m.press_release_total_equity_M + ' million in equity.') +
-      UI.bars('Homes in each award', null, awards.map(function (a) { return [a.name + ', ' + a.city, a.total_units]; }).sort(function (a, b) { return b[1] - a[1]; }), num) +
-      UI.table('r1', '2026 Round One awards', [
-        { key: 'name', label: 'Development', href: function (r) { return summaryOf(r) || UI.placeFor(r.city); }, tip: 'Opens COHO’s sourced deal summary where one is written, otherwise the town' },
-        { key: 'city', label: 'City' },
-        { key: 'county', label: 'County' },
-        { key: 'sponsor', label: 'Sponsor' },
-        { key: 'total_units', label: 'Homes', num: true, fmt: num },
-        { key: 'federal_9pct_credit', label: '9% credit', num: true, fmt: money, tip: 'Annual federal 9% credit awarded' },
-        { key: 'federal_4pct_credit', label: '4% credit', num: true, fmt: money, tip: 'Annual federal 4% credit, where listed' },
-        { key: 'state_credit', label: 'State credit', num: true, fmt: money, tip: 'Colorado state credit awarded' },
-        { key: 'unit_mix_raw', label: 'Unit mix' }
-      ], awards, { noun: 'awards', placeholder: 'Name, city or sponsor' }) +
-      '<p class="note metric-source">' + esc(m.note) + ' Sources: <a href="' + esc(m.source_url) + '">CHFA award descriptions</a> and <a href="' + esc(m.press_release_url) + '">press release</a>, announced ' + esc(m.announcement_date) + '.</p>' +
-      UI.next([{ href: '#/opportunity/portfolio', label: 'Whole tax credit portfolio →' }, { href: '#/opportunities', label: 'Back to Opportunities', secondary: true }]);
+    if (global.setTimeout && global.location) global.setTimeout(function () { if (/^#\/opportunity\/round-one/.test(global.location.hash)) global.location.replace('#/deals?round=2026-1'); }, 0);
+    return frame('2026 Round One tax credit awards') + '<p class="lede">This list moved to <a href="#/deals?round=2026-1">Deal summaries, 2026 Round One</a>.</p>';
   }
+
 
   var SCREENS = { portfolio: portfolio, preservation: preservation, 'land-banking': landBanking, 'round-one': roundOne };
   Shell.views.opportunities = hub;

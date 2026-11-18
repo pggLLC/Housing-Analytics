@@ -56,7 +56,14 @@
     'deal-reading': { menu: 'deal', diagram: cardsFrom({ from: 'what-makes-lihtc-deals-actually-hard', title: 'What makes LIHTC deals hard' }), introTitle: 'In short', next: [{ href: '#/deal-calculator', label: 'Back to the Deal Calculator \u2192' }, { href: '#/guide/lihtc-basics', label: 'LIHTC basics', secondary: true }] },
     'green-building': { menu: 'deal', diagram: cardsFrom({ from: 'gb-requirements', title: 'What CHFA requires of every project' }), introTitle: 'In short', next: [{ href: '#/deal-calculator', label: 'Test a LIHTC deal \u2192' }, { href: '#/guide/lihtc-basics', label: 'LIHTC basics', secondary: true }] },
     'resident-services': { menu: 'deal', diagram: cardsFrom({ from: 'rs-how', kind: 'flow', title: 'How services help, step by step' }), introTitle: 'In short', next: [{ href: '#/guide/deal-team', label: 'Who does what on a deal \u2192' }, { href: '#/deal-calculator', label: 'Test a LIHTC deal', secondary: true }] },
-    'cra-pricing': { menu: 'deal', diagram: craBars, introTitle: 'In short', next: [{ href: '#/deal-calculator', label: 'Test equity prices in the Deal Calculator \u2192' }, { href: '#/guide/deal-team', label: 'Which banks invest', secondary: true }] },
+    // The legislation watch reads the same record as Legislation: one card here, the full list one tap down
+    // (one-home proposal item 16, paul "go remaining duplicates", 18 Nov 2026). Scopes as the live page lists them.
+    'cra-pricing': { menu: 'deal', inserts: { 'tax-credit-legislation-watch': function (html) {
+      var T = global.LabTpl, E = global.LabEquity;
+      if (!T || !E || !E.lawWatch || !global.LabUI) return html;
+      var s = global.LabUI.load({ law: E.FILES.law });
+      return (s.data ? E.lawWatch(s.data.law, ['cra', 'lihtc', 'nmtc', 'itc-ptc']) : '') + '<details class="counted"><summary>Every law and rule on this page</summary>' + html + '</details>';
+    } }, diagram: craBars, introTitle: 'In short', next: [{ href: '#/deal-calculator', label: 'Test equity prices in the Deal Calculator \u2192' }, { href: '#/guide/deal-team', label: 'Which banks invest', secondary: true }] },
     'ahcia': { menu: 'policy', diagram: cardsFrom({ from: 'key-provisions-impacting-lihtc-productio', title: 'The key provisions for tax credit production' }), introTitle: 'In short', next: [{ href: '#/equity-pricing', label: 'What credits sell for now \u2192' }, { href: '#/guide/lihtc-basics', label: 'LIHTC basics', secondary: true }] },
     'fair-housing': { menu: 'policy', diagram: cardsFrom({ from: 'what-is-changing-and-what-is-not', title: 'What survives, and what has gone' }), introTitle: 'In short', next: [{ href: '#/places', label: 'See a place\u2019s needs \u2192' }, { href: '#/guide/housing-authority', label: 'Starting a housing authority', secondary: true }] },
     // Read from the live page at a newer commit than the pin (latest: true in the build); it has no intro before its first heading.

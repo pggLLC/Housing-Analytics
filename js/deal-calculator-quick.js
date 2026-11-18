@@ -194,8 +194,8 @@
   function render(host) {
     var field = 'min-height:44px;width:100%;box-sizing:border-box;padding:.35rem .5rem;border:1px solid var(--border);border-radius:var(--radius-sm,6px);background:var(--card);color:var(--text);font:inherit;';
     host.innerHTML =
-      '<h2 id="dq-title" style="margin:0 0 .25rem;font-size:1.15rem;">Quick estimate</h2>' +
-      '<p style="margin:0 0 .75rem;font-size:.88rem;color:var(--muted);">Start here. The full calculator below runs the same numbers, with costs, rents, loans and the 15-year pro forma.</p>' +
+      '<h2 id="dq-title" style="margin:0 0 .25rem;font-size:1.15rem;">Quick start: five answers fill in the pro forma</h2>' +
+      '<p style="margin:0 0 .75rem;font-size:.88rem;color:var(--muted);">Each answer here writes the pro forma\u2019s own line below, and the results are read back from it, so the two never differ. Then change any line: costs, rents, loans and the 15-year cash flow.</p>' +
       '<div class="dq-grid">' +
         '<label class="dq-f">County<select id="dq-county" style="' + field + '"></select></label>' +
         '<label class="dq-f">Total development cost ($)<input id="dq-tdc" type="number" min="0" step="100000" inputmode="numeric" style="' + field + '"></label>' +
