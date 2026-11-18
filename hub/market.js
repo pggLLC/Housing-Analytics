@@ -424,6 +424,7 @@
   function areaScope(now) {
     var n = now && now.tracts;
     if (!n) return 'Figures at the top are for the census tracts COHO suggests round the site, as soon as they are worked out (map below).';
+    if (now.label && !now.edited) return 'Figures at the top are for ' + now.label + ': ' + n + (n === 1 ? ' whole census tract' : ' whole census tracts') + ' (compared below).';
     return 'Figures at the top are for ' + (now.edited ? 'your market area: ' : 'the site’s suggested market area: ') + n + (n === 1 ? ' whole census tract' : ' whole census tracts') + ' round it (map below).';
   }
   // The project form further down, with everything in the address kept (the market area as set on the map too).

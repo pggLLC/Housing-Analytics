@@ -367,7 +367,7 @@
       if (t.hasAttribute('data-tc-usepick')) { ev.preventDefault(); if (!t.disabled) useThese(b); return; }
       ev.preventDefault();
       if (t.hasAttribute('data-tc-use')) {
-        b.pickId = b.picked ? 'map' : 'suggested';
+        b.pickId = b.picked ? 'map' : (headArea(b) ? headArea(b).id : 'suggested');
         save(b);
         // An area other than the local or regional one needs a reason first, asked for under the comparison.
         if (needsReason(b.ctx.site)) { drawCompare(b); var w = b.el.querySelector('[data-tc-why]'); if (w) { w.scrollIntoView({ block: 'center' }); w.focus(); } return; }
@@ -380,7 +380,7 @@
     b.el.addEventListener('change', function (ev) {
       var t = ev.target;
       if (t && t.name === 'tc-in') { b.focus = t.value; toggle(b, t.value); }
-      if (t && t.name === 'tc-area') { b.pickId = t.value; b.pickWhy = ''; save(b); drawCompare(b); }
+      if (t && t.name === 'tc-area') { b.pickId = t.value; b.pickWhy = ''; save(b); drawHead(b); drawCompare(b); }
     });
     // The reason for picking an area other than the local or regional one; the button waits for it.
     b.el.addEventListener('input', function (ev) {
@@ -800,7 +800,9 @@
       var qa = cr.qAll, upAll = qa > 0 ? (units + cr.existingAll + cr.comp.none.units) / qa : null, downAll = qa > 0 ? (units + cr.existingAll - cr.comp.s8.units) / qa : null;
       t4.caveat = notes.join(' ');
       var downT = cr.qT > 0 ? (units + Math.max(0, cr.existingT - cr.comp.s8.units)) / cr.qT : null;
-      t4.uncertain = under ? (cr.comp.none.units > 0 && upAll > line) : (cr.comp.s8.units > 0 && downT <= line && downAll <= line);
+      var upT = cr.qT > 0 ? (units + cr.existingT + cr.comp.none.units) / cr.qT : null;
+      // Homes with no AMI split could sit at any level, so a pass is uncertain if they could lift either rate over the line.
+      t4.uncertain = under ? (cr.comp.none.units > 0 && (upAll > line || upT > line)) : (cr.comp.s8.units > 0 && downT <= line && downAll <= line);
       t4.text += ' Note: ' + t4.caveat + (t4.uncertain ? (under ? ' So this pass is not certain.' : ' So this fail is not certain.') : '');
     }
     return { byTier: byTier, pool: pool, existing: existing, projects: sup.lihtcCount || 0, pen: pen, supplyNotes: supplyNotes(sup), compNotes: notes, chfa: cr, ev: ev, tests: tests, passes: tests.filter(function (t) { return t.pass; }).length };
@@ -1086,12 +1088,30 @@
       '<div class="cap-track" role="img" aria-label="' + esc(label + ' ' + p1(v) + ', against the 85% line') + '"><span class="cap-fill' + (v > line ? ' cap-over' : '') + '" style="width:' + w.toFixed(1) + '%"></span><span class="cap-line" style="left:' + lw.toFixed(1) + '%"></span></div>' +
       '<p class="note">' + esc(note) + '</p></div>';
   }
+  // The head's figures follow the area that is picked, so what the page shows is what a project or the full Market
+  // Analysis gets: the map's tracts once edited, else the picked area (by default the best fit for CHFA).
+  function headArea(b) {
+    if (b.picked) return null;
+    var pa = effectivePick(b);
+    return pa && pa.ids.indexOf('suggested') < 0 && pa.ids.indexOf('map') < 0 ? pa : null;
+  }
   function draw(b) {
-    var ctx = b.ctx, list = chosen(b), m = measure(b, list), E = global.PMAMarketScoring;
+    drawHead(b);
+    drawPanel(b);
+    drawViews(b);
+    drawCompare(b);
+    drawTable(b);
+    drawHow(b);
+    paint(b);
+    curve(b);
+  }
+  function drawHead(b) {
+    var ctx = b.ctx, pa = headArea(b), list = pa ? pa.list.slice() : chosen(b), m = measure(b, list), E = global.PMAMarketScoring;
     var line = (E && E.CHFA_CAPTURE_LIMIT) || 0.85;
-    b.now = m; b.count = list.length;
+    b.now = m; b.count = list.length; b.nowLabel = pa ? (pa.best ? 'the best fit for CHFA (' + pa.label + ')' : 'the picked area (' + pa.label + ')') : null;
     var nSug = b.sug.tracts.filter(function (t) { return t.suggested; }).length;
     var head = b.picked ? 'Your market area: ' + list.length + (list.length === 1 ? ' tract' : ' tracts') + ' (the suggestion had ' + nSug + ').'
+      : pa ? (pa.best ? 'Best fit for CHFA: ' : 'Picked area: ') + pa.label + ', ' + list.length + (list.length === 1 ? ' whole census tract' : ' whole census tracts') + '. The map shows the local market area (' + nSug + (nSug === 1 ? ' tract' : ' tracts') + '); the comparison below has every area.'
       : 'Suggested market area: ' + list.length + (list.length === 1 ? ' whole census tract' : ' whole census tracts') + ' round the site.';
     var ans = !list.length ? head + ' Add a tract on the map to see a capture rate.'
       : !m || m.capture == null ? head + ' No capture rate: ' + ((m && m.reason) || 'no renter household here qualifies under CHFA’s rules') + '.'
@@ -1103,13 +1123,6 @@
         (m.pen != null ? meter('Penetration, all tax credit homes', m.pen, '(' + num(m.existing) + ' existing in ' + num(m.projects) + (m.projects === 1 ? ' property' : ' properties') + ' + ' + num(ctx.units) + ' proposed) ÷ ' + num(m.pool) + ' renter households who qualify at 20 to 80% AMI.' + (m.supplyNotes.length ? ' Supply note: ' + m.supplyNotes.join(' ') : ''), line) : '')
       : '';
     b.el.querySelector('[data-tc-reset]').hidden = !b.picked;
-    drawPanel(b);
-    drawViews(b);
-    drawCompare(b);
-    drawTable(b);
-    drawHow(b);
-    paint(b);
-    curve(b);
     // The Market check's head shows these same counts (site/market.js, siteFacts): tell it they changed.
     try { doc.dispatchEvent(new global.CustomEvent('tc:drawn', { detail: { key: b.key } })); } catch (e) { /* no CustomEvent: the head keeps its last figures */ }
   }
@@ -1289,7 +1302,7 @@
   // before the box has worked out its suggestion. The Market check's head reads these, so it never counts on its own.
   function now(site) {
     var b = site && boxes[keyOf(site)];
-    return b && b.sug && b.count != null ? { m: b.now || null, tracts: b.count, edited: !!b.picked, key: b.key } : null;
+    return b && b.sug && b.count != null ? { m: b.now || null, tracts: b.count, edited: !!b.picked, key: b.key, label: b.nowLabel || null } : null;
   }
   // The tract list the "Use in project" form stores: the edited list from the address, else the suggestion once
   // it has been worked out; null while it is still loading.
