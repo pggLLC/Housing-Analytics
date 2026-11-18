@@ -591,7 +591,7 @@
   // The CHFA rate for a list of tracts: at the project's level, and across every level up to 60% AMI (or the project's
   // level, if higher). qualifiedAll and comparableAll are the parts of the all-levels rate.
   function chfaRate(b, list) {
-    var s = b.ctx.s, units = b.ctx.units, tier = b.ctx.tier, ct = chfaTiers(tier);
+    var units = b.ctx.units, tier = b.ctx.tier, ct = chfaTiers(tier);
     var c = compIn(b, list), qT = qual(b, list, [tier]), qAll = qual(b, list, ct.tiers);
     var compAll = 0; CAP_TIERS.forEach(function (t) { if (t <= ct.top) compAll += c.by[t]; });
     return { comp: c, qT: qT, existingT: c.by[tier] || 0, rateT: qT > 0 ? (units + (c.by[tier] || 0)) / qT : null,
