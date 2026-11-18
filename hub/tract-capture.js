@@ -571,18 +571,20 @@
     });
     return idx;
   }
-  function compIn(b, list) {
+  // top: the highest level CHFA's all-levels rate counts (60% AMI, or the project's level if higher).
+  function compIn(b, list, top) {
+    top = top || chfaTiers(b.ctx.tier).top;
     var by = {}, none = { n: 0, units: 0 }, s8 = { n: 0, units: 0, by: {} }, props = 0;
     CAP_TIERS.forEach(function (t) { by[t] = 0; s8.by[t] = 0; });
     list.forEach(function (g) {
       (b.lihtc[g] || []).forEach(function (f) {
         var c = compOf(f), low = 0;
-        CAP_TIERS.forEach(function (t) { by[t] += c.by[t]; if (t <= 60) low += c.by[t]; });
+        CAP_TIERS.forEach(function (t) { by[t] += c.by[t]; if (t <= top) low += c.by[t]; });
         if (c.none > 0) { none.n++; none.units += c.none; }
         if (low > 0 || c.none > 0) props++;
         var p = f.properties || {}, k = b.s8 && addrKey(p.PROJ_ADD, p.PROJ_CTY);
         // Up to the contract's homes could be assisted, at each level no more than the property has there.
-        if (k && b.s8[k] && low > 0) { s8.n++; s8.units += Math.min(low, b.s8[k]); CAP_TIERS.forEach(function (t) { s8.by[t] += Math.min(c.by[t], b.s8[k]); }); }
+        if (k && b.s8[k] && low > 0) { s8.n++; s8.units += Math.min(low, b.s8[k]); CAP_TIERS.forEach(function (t) { if (t <= top) s8.by[t] += Math.min(c.by[t], b.s8[k]); }); }
       });
     });
     return { by: by, none: none, s8: s8, props: props };
@@ -593,7 +595,7 @@
   // level, if higher). qualifiedAll and comparableAll are the parts of the all-levels rate.
   function chfaRate(b, list) {
     var units = b.ctx.units, tier = b.ctx.tier, ct = chfaTiers(tier);
-    var c = compIn(b, list), qT = qual(b, list, [tier]), qAll = qual(b, list, ct.tiers);
+    var c = compIn(b, list, ct.top), qT = qual(b, list, [tier]), qAll = qual(b, list, ct.tiers);
     var compAll = 0; CAP_TIERS.forEach(function (t) { if (t <= ct.top) compAll += c.by[t]; });
     return { comp: c, qT: qT, existingT: c.by[tier] || 0, rateT: qT > 0 ? (units + (c.by[tier] || 0)) / qT : null,
       qAll: qAll, existingAll: compAll, rateAll: qAll > 0 ? (units + compAll) / qAll : null, top: ct.top };
@@ -1092,7 +1094,6 @@
   // The head's figures follow the area that is picked, so what the page shows is what a project or the full Market
   // Analysis gets: the map's tracts once edited, else the picked area (by default the best fit for CHFA).
   function headArea(b) {
-    if (b.picked) return null;
     var pa = effectivePick(b);
     return pa && pa.ids.indexOf('suggested') < 0 && pa.ids.indexOf('map') < 0 ? pa : null;
   }
@@ -1111,8 +1112,8 @@
     var line = (E && E.CHFA_CAPTURE_LIMIT) || 0.85;
     b.now = m; b.count = list.length; b.nowLabel = pa ? (pa.best ? 'the best fit for CHFA (' + pa.label + ')' : 'the picked area (' + pa.label + ')') : null;
     var nSug = b.sug.tracts.filter(function (t) { return t.suggested; }).length;
-    var head = b.picked ? 'Your market area: ' + list.length + (list.length === 1 ? ' tract' : ' tracts') + ' (the suggestion had ' + nSug + ').'
-      : pa ? (pa.best ? 'Best fit for CHFA: ' : 'Picked area: ') + pa.label + ', ' + list.length + (list.length === 1 ? ' whole census tract' : ' whole census tracts') + '. The map shows the local market area (' + nSug + (nSug === 1 ? ' tract' : ' tracts') + '); the comparison below has every area.'
+    var head = pa ? (pa.best ? 'Best fit for CHFA: ' : 'Picked area: ') + pa.label + ', ' + list.length + (list.length === 1 ? ' whole census tract' : ' whole census tracts') + '. The map shows ' + (b.picked ? 'your edited tracts' : 'the local market area (' + nSug + (nSug === 1 ? ' tract' : ' tracts') + ')') + '; the comparison below has every area.'
+      : b.picked ? 'Your market area: ' + list.length + (list.length === 1 ? ' tract' : ' tracts') + ' (the suggestion had ' + nSug + ').'
       : 'Suggested market area: ' + list.length + (list.length === 1 ? ' whole census tract' : ' whole census tracts') + ' round the site.';
     var ans = !list.length ? head + ' Add a tract on the map to see a capture rate.'
       : !m || m.capture == null ? head + ' No capture rate: ' + ((m && m.reason) || 'no renter household here qualifies under CHFA’s rules') + '.'
