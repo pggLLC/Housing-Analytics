@@ -72,7 +72,9 @@
     ev.preventDefault();
     // Two steps: the row and the step bar's slim line only stick once the page has scrolled, so the first jump
     // measures them stuck and the second, a frame later, settles the section just under them.
-    var land = function () { window.scrollTo(0, Math.max(0, t.getBoundingClientRect().top + window.pageYOffset - cover() - 12)); };
+    // Instant, both times: the tool's theme sets html { scroll-behavior: smooth }, and a smooth first scroll would still
+    // be moving when the second measures (Codex P2 on #2943).
+    var land = function () { window.scrollTo({ top: Math.max(0, t.getBoundingClientRect().top + window.pageYOffset - cover() - 12), behavior: 'instant' }); };
     land();
     requestAnimationFrame(function () { requestAnimationFrame(land); });
     if (!t.hasAttribute('tabindex')) t.setAttribute('tabindex', '-1');
