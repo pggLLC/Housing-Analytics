@@ -26,6 +26,7 @@
   var ACS = 'https://data.census.gov/table/ACSDT5Y2024.B25064';
   var LONG = 'https://www2.census.gov/library/publications/2011/compendia/usa-counties/excel/';
   var COMPARE = 'https://www.census.gov/programs-surveys/acs/guidance/comparing-acs-data.html';
+  var SUBJ = 'https://www2.census.gov/programs-surveys/acs/tech_docs/subject_definitions/2024_ACSSubjectDefinitions.pdf#page=20';
   var BIG = 11, CO = '08';
   var PERIODS = [{ id: '1980', label: 'Since 1980' }, { id: '2000', label: 'Since 2000' }, { id: '2010-14', label: 'Last 10 years' }];
   var END = '2020-24';
@@ -109,7 +110,9 @@
   function sourceLine(d) {
     return T.source('U.S. Census Bureau: 1980, 1990 and 2000 Census long form (USA Counties); 2000 Census SF3 for towns; American Community Survey 5-year medians 2005–09, 2010–14 and 2020–24 (B25064 rent, B19013 income), as gathered by COHO', REPO, d.date) +
       '<p class="note ri-note">Long-form income is for the year before the census; we move it to the rent year with the BLS consumer price index (CPI-U), and “after inflation” uses the same index to 2024. ' +
-      'Census says long-form and survey figures can be compared with care (<a href="' + COMPARE + '" rel="noopener">how</a>). Small places have wide survey margins. ' +
+      // Census's own rule for gross rent (2024 ACS Subject Definitions, Gross Rent, Comparability): the 2000 universe was
+      // "specified renter-occupied housing units", so 2000 rent "should not be compared" with ACS rent (outside messaging review, 18 Nov 2026).
+      'Census says 2000 and earlier gross rent covered a narrower set of rental homes (\u201cspecified\u201d renter homes) and should not be compared directly with survey rent (<a href="' + SUBJ + '" rel="noopener">Census definitions</a>), so read changes from 1980, 1990 or 2000 as approximate. The last 10 years view compares survey with survey (<a href="' + COMPARE + '" rel="noopener">how</a>). Small places have wide survey margins. ' +
       '<a href="' + LONG + '" rel="noopener">Long-form county file</a> · <a href="' + ACS + '" rel="noopener">ACS table</a>.</p>';
   }
 

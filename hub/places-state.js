@@ -489,7 +489,7 @@
   var QUAD = {
     underserved: ['High need, little funding', 'Need above the middle county, tax credit homes below it.'],
     aligned: ['High need, funded', 'Need and tax credit homes both above the middle county.'],
-    'funded-above-need': ['Funded beyond need', 'Tax credit homes above the middle county, need below it.'],
+    'funded-above-need': ['Above-median awards, below-median measured gap', 'Tax credit homes per 100 short above the middle county, the ACS price-only gap below it. Awards span years; the gap is today. It does not show that need is met.'],
     'low-need-low-funding': ['Low need, little funding', 'Need and tax credit homes both below the middle county.'],
     'not-computable': ['Not computable', 'Too few renters at 30% AMI to compare.']
   };

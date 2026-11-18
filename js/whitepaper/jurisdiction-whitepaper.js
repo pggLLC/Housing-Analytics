@@ -1271,8 +1271,8 @@
       row2('Low-wage local jobs; workers commuting in', fmtInt(n.lowWageJobs) + '; ' + fmtInt(n.inCommuters)) +
       // Below zero is a surplus where projected households fall, said in words.
       row2('Homes needed over 20 years', n.need20yr !== null && n.need20yr < 0
-        ? 'Surplus of ' + fmtInt(Math.abs(n.need20yr)) + ' (households projected to fall)' : fmtInt(n.need20yr)) +
-      row2('Overall need score (0–100); statewide percentile', (n.overallNeedScore === null ? NA : n.overallNeedScore.toFixed(1)) + '; ' + (n.percentileRank === null ? NA : 'p' + Math.round(n.percentileRank))) +
+        ? fmtInt(Math.abs(n.need20yr)) + ' fewer (households projected to fall; not spare homes)' : fmtInt(n.need20yr)) +
+      row2('HNA priority score, 55% need and 45% opportunity (0–100); statewide percentile', (n.overallNeedScore === null ? NA : n.overallNeedScore.toFixed(1)) + '; ' + (n.percentileRank === null ? NA : 'p' + Math.round(n.percentileRank))) +
       row2('Statewide rank', n.rank === null ? NA : '#' + fmtInt(n.rank) + (n.ranked ? ' of ' + fmtInt(n.ranked) : '')) +
       '</tbody></table>' +
       '<p class="wp-meta">' + (n.scoreMethod ? 'How the score is built: ' + esc(n.scoreMethod) + ' ' : '') + 'It compares places with each other; it is not a funding award score and does not replace a local housing needs assessment.</p>' +

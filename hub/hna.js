@@ -800,7 +800,7 @@
         pace = { need: pvn.annual_need_10yr_dola, permits: pvn.permits_avg_annual_5yr, sf: pr.avg_annual_sf_5yr ? pr.avg_annual_sf_5yr.value : null, mf: pr.avg_annual_mf_5yr ? pr.avg_annual_mf_5yr.value : null };
       }
       var used = pr && pr.avg_annual_total_5yr ? pr.avg_annual_total_5yr : null;
-      var ans = pace ? 'Recent permits, ' + num(pace.permits) + ' a year, run ' + (pace.permits >= pace.need ? 'above' : 'below') + ' the ' + num(pace.need) + ' a year the forecast needs.' : null;
+      var ans = pace ? 'Recent permits, ' + num(pace.permits) + ' a year, run ' + (pace.permits >= pace.need ? 'above' : 'below') + ' the ' + num(pace.need) + ' a year the forecast needs. These are homes at any price; they do not show whether renters at 30% to 60% AMI can afford them.' : null;
       return Viz.outlook({ title: 'Homes needed over 20 years', scope: Pl.scope(scopeOf(d.future_units_needed_20yr, 'future_units_needed_20yr', sctx) || here), years: 20,
         parts: [['Resident growth', g, Viz.COLORS.homes], ['In-commuters who would live here', inc, Viz.COLORS.blue]], pace: pace, answer: ans,
         note: used ? 'Permits are the yearly average of ' + used.years_used + ' year' + (used.years_used === 1 ? '' : 's') + ' with data, ' + used.window + '. Need a year is the forecast\u2019s first 10 years.' : null,
@@ -1873,7 +1873,7 @@
         '</div>' +
         '<div class="metrics">' +
         mc('HNA priority score (need and opportunity)', 'overall_need_score', function (x) { return Number(x).toFixed(1); }, 'From 0 to 100: 55% need, 45% opportunity, so not need alone') +
-        mc('Statewide need ranking', 'rank', function (x) { return '#' + x; }, 'Among Colorado counties, places and CDPs') +
+        mc('Statewide need and opportunity rank', 'rank', function (x) { return '#' + x; }, 'Among Colorado counties, places and CDPs. 55% need, 45% opportunity, so not need alone') +
         '</div>';
     };
 
@@ -1943,7 +1943,7 @@
           title: 'Homes permitted each year, ' + first[0] + '\u2013' + last[0], scope: Pl.scope(here), color: Viz.COLORS.homes,
           rows: yrs.map(function (r) { return [r[0], r[1]]; }),
           ref: pvn && pvn.annual_need_10yr_dola ? { value: pvn.annual_need_10yr_dola, label: 'Needed a year' } : null,
-          answer: pvn && pvn.annual_need_10yr_dola ? 'An average of ' + num(tot / yrs.length) + ' homes a year, against ' + num(pvn.annual_need_10yr_dola) + ' a year the forecast needs.' : 'An average of ' + num(tot / yrs.length) + ' homes a year.',
+          answer: pvn && pvn.annual_need_10yr_dola ? 'An average of ' + num(tot / yrs.length) + ' homes a year, against ' + num(pvn.annual_need_10yr_dola) + ' a year the forecast needs. These are homes at any price; they do not show whether renters at 30% to 60% AMI can afford them.' : 'An average of ' + num(tot / yrs.length) + ' homes a year.',
           note: pvn && pvn.annual_need_10yr_dola ? 'The dashed line is the yearly need over the first 10 years of the State Demography Office forecast.' : null,
           source: Pl.srcLine('Census Building Permits Survey, ' + first[0] + '\u2013' + last[0], 'https://www.census.gov/construction/bps/')
         })) +
@@ -2426,13 +2426,23 @@
     };
 
     var name = entry.label;
+    // The price-only lead never stands alone: HUD's affordable-and-available count goes beside it, so a zero
+    // there cannot read as no need (outside messaging review, 18 Nov 2026; Otero: 104 per 100 on price, 220 short on HUD).
+    function hudBeside() {
+      var h = hudRecord(), x = h && h.tiers['30'];
+      if (!x || typeof x.homes_short !== 'number' || !isFinite(x.homes_short) || x.homes_short < 0) return '';
+      return ' That counts every rental priced for each income, whoever rents it. HUD\u2019s count of homes affordable and available to renters at or below 30% AMI, which leaves out homes rented by higher-income households, is ' +
+        (x.homes_short > 0 ? num(x.homes_short) + ' short' : 'not short') + ' (CHAS ' + h.vintage + ').';
+    }
     var finding = {
       overview: function () {
         // Lead with where the gap is widest and what kind of homes meet it. The need rank stays in the scorecard.
         var bs = place && place.bands ? place.bands.filter(function (x) { return x.shortfall != null; }) : [];
         if (!bs.length) return null;
         var short = bs.filter(function (x) { return x.shortfall > 0; });
-        if (!short.length) return name + ' has as many homes priced for renters as renters at every income up to ' + bs[bs.length - 1].band + '% AMI.';
+        var cb0 = v('pct_cost_burdened');
+        if (!short.length) return name + ' has as many homes priced for renters as renters at every income up to ' + bs[bs.length - 1].band + '% AMI.' + hudBeside() +
+          (cb0 != null ? ' ' + pct(cb0) + ' of renters pay more than 30% of income for housing.' : '');
         var wide = short.reduce(function (a, x) { return x.shortfall > a.shortfall ? x : a; }), top = short[short.length - 1], b30 = bs[0];
         var reach = top === bs[bs.length - 1] ? 'at every income up to ' + top.band + '% AMI' : 'up to ' + top.band + '% AMI';
         var fit = +wide.band <= 30 ? ' Closing it takes homes at 30% AMI rents, which need deep subsidy such as project-based vouchers on top of tax credits.'
@@ -2440,7 +2450,7 @@
           : ' That is above the usual 60% AMI tax credit limit, where workforce rentals and ownership fit.';
         return name + ' is short of homes renters can afford ' + reach + '. The gap is widest at or below ' + wide.band + '% AMI: ' + num(wide.households) + ' renter households and ' + num(wide.homes) +
           ' homes at ' + money(wide.rent) + ' a month or less, ' + num(wide.shortfall) + ' short.' + fit +
-          (b30 !== wide && b30.shortfall > 0 ? ' At 30% AMI, ' + num(b30.households) + ' households have ' + num(b30.homes) + ' homes priced for them.' : '');
+          (b30 !== wide && b30.shortfall > 0 ? ' At 30% AMI, ' + num(b30.households) + ' households have ' + num(b30.homes) + ' homes priced for them.' : '') + hudBeside();
       },
       people: function () {
         var inc = v('median_hh_income'), cr = v('commute_ratio');
@@ -2455,7 +2465,7 @@
       afford: function () {
         var b = place && place.bands[0], cb = v('pct_cost_burdened');
         var first = b && b.shortfall != null ? (b.shortfall > 0 ? 'There are ' + num(b.households) + ' renter households at or below 30% AMI and ' + num(b.homes) + ' homes priced for them: ' + num(b.shortfall) + ' more renters than homes.' : b.net < 0 ? 'Homes priced at or below 30% AMI outnumber the renters at that income.' : 'Homes priced at or below 30% AMI match the renters at that income.') : '';
-        return (first + (cb != null ? ' ' + pct(cb) + ' of renters pay more than 30% of income for housing.' : '')).trim() || null;
+        return (first + (first ? hudBeside() : '') + (cb != null ? ' ' + pct(cb) + ' of renters pay more than 30% of income for housing.' : '')).trim() || null;
       },
       future: function () {
         var pop = v('population_projection_20yr'), need = v('future_units_needed_20yr');

@@ -337,7 +337,7 @@
 
     // The county's tax credit and Prop 123 awards against its need.
     var fc = d.fvn.counties.filter(function (x) { return x.fips === fips; })[0], w = d.fvn.meta.window;
-    var QUAD = { underserved: 'high need, little funding', aligned: 'high need, funded', 'funded-above-need': 'funded beyond need', 'low-need-low-funding': 'low need, little funding', 'not-computable': 'not computable' };
+    var QUAD = { underserved: 'high need, little funding', aligned: 'high need, funded', 'funded-above-need': 'above-median awards, below-median measured gap', 'low-need-low-funding': 'low need, little funding', 'not-computable': 'not computable' };
 
     // Local housing organizations on record (organizations only; never named people).
     var lr = (!isCounty && d.local['place:' + g]) || d.local[(r.type === 'cdp' ? 'cdp:' : 'place:') + g] || d.local['county:' + fips] || null;
@@ -363,7 +363,7 @@
         (isCounty ? (peers.length ? '<h2>Peer counties in the ' + esc(r.region || 'same') + ' region</h2>' + UI.table('ic-peers', 'Counties in the ' + (r.region || 'same') + ' region, closest in size', [
           { key: 'name', label: 'County', href: function (y) { return '#/ic-summary?g=' + y.geoid; } }, { key: 'pop', label: 'People', num: true, fmt: num },
           { key: 'rent', label: 'Median rent', num: true, fmt: money }, { key: 'burden', label: 'Renters paying 30%+', num: true, fmt: pct1 },
-          { key: 'gap', label: 'Homes short at 30% AMI', num: true, fmt: num }, { key: 'rank', label: 'Need rank', num: true }
+          { key: 'gap', label: 'Homes short at 30% AMI', num: true, fmt: num }, { key: 'rank', label: 'Need and opportunity rank', num: true }
         ], peers, { noun: 'counties', placeholder: 'County' }) : '') : countyPeers(x, d, g, fips, cname)) +
         awardHistory(x.props, name, fips, isCounty, cname) + comps(withBridge(x.props, x.bridge), d, g, fips, name);
     }

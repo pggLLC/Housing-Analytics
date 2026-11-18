@@ -217,7 +217,7 @@
     { label: 'Renters cost burdened', key: 'pct_cost_burdened', fmt: pct, src: 'acs' },
     { label: 'Homes needed over 20 years', key: 'future_units_needed_20yr', fmt: num, src: 'dola' },
     { label: 'Tax credit properties', key: 'lihtc_project_count', fmt: num, src: 'chfa' },
-    { label: 'HNA need rank', key: '_rank', fmt: function (v) { return '#' + v; }, src: 'rank' }
+    { label: 'HNA need and opportunity rank', key: '_rank', fmt: function (v) { return '#' + v; }, src: 'rank' }
   ];
 
   // The deal types the full comparison on cohoanalytics.com ranks by (its ?target= values and labels, js/compare.js).

@@ -288,12 +288,12 @@
       // "Homes short" as dots (Gemini round 5, question 19; big visual pass 11-06): 100 renter households at or below
       // 30% AMI, filled where a home is priced for them. Desktop only; the bars carry the same figure on a phone.
       '<div class="ladder-dots" aria-hidden="true"><span class="ld-grid">' + (function () { var k = Math.min(100, per(first)), o = ''; for (var i = 0; i < 100; i++) o += '<i' + (i < k ? ' class="on"' : '') + '></i>'; return o; })() + '</span>' +
-      '<span class="ld-key"><span><i class="on"></i>a home priced for them</span><span><i></i>no home</span><span>per 100 renter households, \u226430% AMI</span></span></div>' +
+      '<span class="ld-key"><span><i class="on"></i>a home priced for them</span><span><i></i>no home priced for them</span><span>per 100 renter households, \u226430% AMI</span></span></div>' +
       '<ul class="ladder-rows" aria-hidden="true">' + steps.map(function (b) {
         var v = per(b), gap = b.households - b.homes;
         return '<li><span class="ladder-l">\u2264' + esc(String(b.band)) + '% AMI</span><span class="ladder-t"><span class="ladder-b' + (v < 100 ? ' is-short' : '') + '" style="width:' + Math.min(100, v / 1.5).toFixed(1) + '%"></span><span class="ladder-100" title="100 homes per 100 renters"></span></span>' +
           '<span class="ladder-v"><b>' + v + '</b> per 100' + (gap > 0 ? ' \u00b7 ' + esc(num(gap)) + ' short' : '') + '</span></li>';
-      }).join('') + '</ul><p class="metric-source">Homes priced for renters per 100 renter households, at or below each income; the black tick is 100. ' + srcLine([['Census ACS 2020\u20132024', SRC.acsGap], ['HUD FY2026 income limits', SRC.hudIl]]) + '</p></figure>';
+      }).join('') + '</ul><p class="metric-source">Homes priced for renters per 100 renter households, at or below each income, whoever rents them; the black tick is 100. HUD\u2019s count of homes affordable and available to these renters is under What households can afford. ' + srcLine([['Census ACS 2020\u20132024', SRC.acsGap], ['HUD FY2026 income limits', SRC.hudIl]]) + '</p></figure>';
   }
 
   function useHref(entry) {
@@ -379,7 +379,7 @@
     return '<h2>Don\u2019t know your jurisdiction yet?</h2>' +
       '<p class="note">Start from the statewide picture, find the places with the widest gaps, then come back here to open one.</p>' +
       '<ul class="route-list">' +
-      '<li><a href="#/places/ranking">Compare all jurisdictions \u2192</a><p class="note">Every county, town and CDP ranked by housing need, cost burden and gap.</p></li>' +
+      '<li><a href="#/places/ranking">Compare all jurisdictions \u2192</a><p class="note">Every county, town and CDP ranked on need and opportunity (55% need, 45% opportunity).</p></li>' +
       '<li><a href="#/places/deep-dive">Colorado market overview \u2192</a><p class="note">Regional housing conditions, construction costs and how fast markets move.</p></li>' +
       '<li><a href="#/guide/lihtc-basics">What is a housing tax credit? \u2192</a><p class="note">A plain guide to the Low-Income Housing Tax Credit.</p></li>' +
       '</ul>';

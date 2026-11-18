@@ -182,7 +182,7 @@ async function renderTile(selection, countyFips) {
     assert(!/in-commuter/i.test(c.plain), `growth alone still mentions in-commuters: "${c.plain}"`);
   });
 
-  await test('a figure below zero is a surplus in words, never a minus sign', () => {
+  await test('a figure below zero is said in words (fewer homes needed, not spare homes), never a minus sign', () => {
     // Where projected households fall, growth is negative and so may be the
     // total. "Roughly -1,030 additional homes" was the Recommendation for Las
     // Animas County before this was held.
@@ -196,11 +196,12 @@ async function renderTile(selection, countyFips) {
       if (/(^|[\s(:])[-\u2212]\d/.test(c.verdict + ' ' + c.plain)) raw.push(`${f}: ${c.verdict} | ${c.plain}`);
       if (typeof fu === 'number' && fu < 0) {
         surplus += 1;
-        if (!/surplus/i.test(c.verdict) || !/surplus/i.test(c.plain)) raw.push(`${f}: ${fu} is not called a surplus: ${c.plain}`);
+        // Not "surplus" since the 18 Nov 2026 messaging review: a projected fall in households is not a stock of spare homes.
+        if (!/fewer homes needed/i.test(c.verdict) || !/fewer homes needed/i.test(c.plain) || !/not a count of spare homes/i.test(c.plain) || /surplus/i.test(c.verdict + ' ' + c.plain)) raw.push(`${f}: ${fu} is not said as fewer homes needed: ${c.plain}`);
       }
     }
     assert(surplus >= 10, `only ${surplus} digests carry a figure below zero; too few to mean anything`);
-    assert.deepStrictEqual(raw.slice(0, 5), [], `${raw.length} answers print a minus sign or skip the word surplus`);
+    assert.deepStrictEqual(raw.slice(0, 5), [], `${raw.length} answers print a minus sign or skip the words`);
   });
 
   if (failures) { console.log(`\n${failures} failed`); process.exit(1); }
