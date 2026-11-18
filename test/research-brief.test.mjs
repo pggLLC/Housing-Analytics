@@ -263,6 +263,18 @@ test('malformed feed or dataset is unavailable instead of fabricating an empty r
   }
 });
 
+test('a brief that moved to the member site shows a notice and the research list, not "not found"', async (t) => {
+  const id = 'co-pma-capture-small-town-2026';
+  assert.equal(FEED.briefs.some((b) => b.id === id), false, 'the moved brief must not be in the public feed');
+  const { doc } = await runPage(t, { id });
+  const host = doc.getElementById('brief-content');
+  assert.equal(doc.querySelector('h1').textContent, 'This brief is now for members');
+  assert.equal(host.dataset.moved, 'member');
+  assert.equal(host.querySelector('a[href="insights.html"]').textContent, 'Browse the research list');
+  const other = await runPage(t, { id: 'no-such-brief' });
+  assert.equal(other.doc.querySelector('h1').textContent, 'Brief not found');
+});
+
 test('print control calls window.print, and the reader loads the shared head/nav and print styles', async (t) => {
   const { doc, prints } = await runPage(t);
   const sources = [...doc.querySelectorAll('script[src]')].map((script) => script.getAttribute('src'));

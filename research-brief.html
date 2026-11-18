@@ -423,6 +423,17 @@
         status.textContent = 'Research brief loaded.';
         status.className = 'sr-only';
       }
+      // Briefs that moved to the member site. Their old links land here with a short
+      // notice and a way back to the research list, not a "not found".
+      // co-pma-capture-small-town-2026: paul, 18 Nov 2026, "make the capture brief private for now".
+      var MEMBER_ONLY = { 'co-pma-capture-small-town-2026': true };
+      function showMoved() {
+        showError('This brief is now for members', 'It moved to the member site, where members can read it from Member home.');
+        var back = el('p', undefined, host);
+        var a = el('a', 'Browse the research list', back);
+        a.href = 'insights.html';
+        host.dataset.moved = 'member';
+      }
       function showError(title, reason) {
         host.replaceChildren();
         el('h1', title, host);
@@ -441,6 +452,7 @@
           var briefs = Array.isArray(feed) ? feed : feed && feed.briefs;
           if (!Array.isArray(briefs)) throw new Error('Curated feed does not contain a briefs list.');
           var brief = briefs.find(function (item) { return item.id === id && item.is_curated; });
+          if (!brief && MEMBER_ONLY[id]) { showMoved(); return; }
           if (!brief) { showError('Brief not found', 'This research brief is not in the curated feed.'); return; }
           var fees = null;
           if (brief.related_data === FEES_PATH) {
