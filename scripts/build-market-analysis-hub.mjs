@@ -25,6 +25,9 @@
 //      and sat differently here, and its Scenarios step led to a page without one)
 //   8. a site sent from Market check (?site=lat,lon&sl=) is typed into the page's own address box as "lat, lon"
 //      and found there, as a person pasting coordinates would (js/components/ma-site-link.js)
+//   9. the report's row of section links gets three stops inside the market-area tool (site score, supply,
+//      capture), keeps the #pma= address when a link is used, and marks the section on screen
+//      (js/components/ma-section-nav.js; paul, 18 Nov 2026). Navigation only.
 // The body and every script of the tool are carried as they are.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -134,6 +137,8 @@ export function build(src, hubPage, palette) {
   swap(/[ \t]*<!-- Workflow progress bar[^\n]*-->\n[ \t]*<div class="wf-progress-wrap" id="maWorkflowProgress">\n[\s\S]*?\n  <\/div>\n/,
     '  <!-- The seven-step bar, as on every other step: js/components/ma-step-bar.js draws it (hub/step-bar.js). -->\n  <div id="maStepBar" class="ma-step-bar"></div>\n', 'the seven-step bar above <main>');
   swap(/<\/body>/, '<script src="hub/step-bar.js"></script>\n<script src="js/components/ma-step-bar.js"></script>\n</body>', 'a closing body tag');
+  // 9. The section row's extra stops and address-keeping jumps, after the step bar has measured the header.
+  swap(/<\/body>/, '<script src="js/components/ma-section-nav.js"></script>\n</body>', 'a closing body tag');
 
   // 4. Where the page sits in the new site (the new pages' trail).
   const trail = '<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li><a href="deal-hub.html#/projects">Build a deal</a></li><li><a href="deal-hub.html#/market">Market check</a></li><li><span aria-current="page">Market Analysis</span></li></ol></nav>\n';

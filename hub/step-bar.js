@@ -167,7 +167,7 @@
         t.setAttribute('aria-expanded', fold ? 'false' : 'true'); t.textContent = fold ? 'Show steps' : 'Hide';
         check(); return;
       }
-      if (t.hasAttribute('data-sp-clear')) { clearWorking(); if (global.LabShell) global.LabShell.render(); else if (mount.el) mount(mount.el, mount.at); }
+      if (t.hasAttribute('data-sp-clear')) { clearWorking(); if (global.LabShell && global.LabShell.render) global.LabShell.render(); else if (mount.el) mount(mount.el, mount.at); headerPlace(); }
       else if (t.hasAttribute('data-sp-all')) { var nav = t.closest('.step-path'), on = !nav.classList.contains('sp-open'); nav.classList.toggle('sp-open', on); t.setAttribute('aria-expanded', on ? 'true' : 'false'); t.textContent = on ? 'Fewer steps' : 'All 7 steps'; }
       else { ev.preventDefault(); var bar = document.querySelector('.step-path'); if (bar) bar.scrollIntoView({ block: 'start' }); }
     });
@@ -215,6 +215,40 @@
     global.addEventListener('hashchange', function () { global.setTimeout(check, 0); });
     global.setTimeout(check, 0);
   }
+  // The working place in the main header (paul 18 Nov 2026, "do the small and low risk"): on a page with no step bar
+  // (the state picture, data, policy, guides), the header names the place this browser is working on, so it is never
+  // lost between pages. A page with the bar already names it in the bar's "Working on" line and in the slim line that
+  // rides at the top, so the header leaves it out there rather than say it twice. It links to that place's page.
+  function headerPlace() {
+    var d = global.document, head = d && d.querySelector('.site-header');
+    if (!head) return;
+    var line = head.querySelector('[data-hdr-place]'), w = working(), onBar = !!d.querySelector('.step-path');
+    var show = !!w && !onBar;
+    head.classList.toggle('has-place', show);
+    if (!show) { if (line) line.hidden = true; return; }
+    if (!line) {
+      line = d.createElement('p');
+      line.className = 'hdr-place';
+      line.setAttribute('data-hdr-place', '1');
+      head.appendChild(line);
+    }
+    // The same words as the step bar's line: the place, with a way to change it.
+    line.innerHTML = 'Working on: <a href="' + esc(go('#/place/' + encodeURIComponent(w.geoid))) + '"><strong>' + esc(w.label) + '</strong></a>' +
+      ' <a class="hdr-place-change" href="' + esc(go('#/places')) + '">Change</a>';
+    line.hidden = false;
+  }
+  headerPlace.bind = function () {
+    if (headerPlace.bound || !global.document || typeof global.addEventListener !== 'function') return;
+    headerPlace.bound = true;
+    var later = function () { global.setTimeout(headerPlace, 0); };
+    // After the hubs' router has drawn the new view (shell.js listens first), and when another tab changes the place.
+    global.addEventListener('hashchange', later);
+    global.addEventListener('storage', function (ev) { if (!ev || ev.key === WORK_KEY || ev.key === MEMBER_KEY) later(); });
+    global.addEventListener('load', later);
+    if (global.document.readyState === 'loading') global.document.addEventListener('DOMContentLoaded', later); else later();
+  };
+  headerPlace.bind();
+
   // Draws the bar into an element on a page outside the hubs (the full Market Analysis); Clear draws it again. at is
   // that page's own step (its file); geoid and label are the place it is on, when it has one.
   function mount(el, at, geoid, label) {
@@ -223,9 +257,10 @@
     if (geoid && label) setWorking(geoid, label);
     el.innerHTML = stepPath(true, at, geoid);
     bindStepBar();
+    headerPlace();
   }
   if (global.LabShell) bindStepBar();
 
-  global.LabStep = { PATH: PATH, OWN: OWN, product: product, placed: placed, withPlace: withPlace, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, working: working, setWorking: setWorking, clearWorking: clearWorking, path: stepPath, mount: mount, bind: bindStepBar,
+  global.LabStep = { PATH: PATH, OWN: OWN, product: product, placed: placed, withPlace: withPlace, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, working: working, setWorking: setWorking, headerPlace: headerPlace, clearWorking: clearWorking, path: stepPath, mount: mount, bind: bindStepBar,
     refresh: function () { if (bindStepBar.check) bindStepBar.check(); } };
 })(window);
