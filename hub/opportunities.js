@@ -154,7 +154,7 @@
       UI.bars('Low-income homes in tax credit properties, by year awarded', 'Five-year periods, all compliance states', UI.tally(f.props, function (p) { var y = p.AwardYear && Math.floor(p.AwardYear / 5) * 5; return !y ? null : y + 4 >= new Date().getFullYear() ? y + ' to date' : y + '–' + (y + 4); }, function (p) { return p.LI_UNITS; })
         .sort(function (a, b) { return a[0] < b[0] ? -1 : 1; }), num) + global.LabTpl.source(LIHTC_SRC, d.lihtc.source, f.fetched) +
       '<div class="callout"><strong>Land banking is open now.</strong> ' + esc(lb.open_round.summary) + ' <a href="' + esc(lb.open_round.source_url) + '">CHFA program page</a>, checked ' + esc(lb.open_round.checked) + '.</div>' +
-      '<h2>Jobs and commuting</h2><ul class="choices">' + '<li class="choice"><a href="#/opportunity/commuting"><h3>Commuting and jobs</h3><p>How many of a town’s jobs are held by people who drive in, how far, and what the drive costs.</p></a></li>' + '</ul>' +
+      '<h2>Jobs and commuting</h2><ul class="choices">' + '<li class="choice"><a href="#/opportunity/commuting"><h3>Commuting and jobs</h3><p>How many of a town’s jobs are held by people who live elsewhere, how far away they live, and what a daily drive would cost.</p></a></li>' + '</ul>' +
       '<h2>More tools</h2>' + rest +
       global.LabTpl.next('Next', [{ href: '#/opportunity/preservation', label: 'Homes that could be lost \u2192' }, { href: '#/opportunity/land-value', label: 'Value a site', secondary: true }, { href: '#/deal-calculator', label: 'Test a LIHTC deal', secondary: true }]);
   }
