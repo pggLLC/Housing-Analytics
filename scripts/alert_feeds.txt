@@ -37,7 +37,7 @@ https://news.google.com/rss/search?q=housing+%28site%3Ajchs.harvard.edu+OR+site%
 # hudexchange.info/feed/, leg.colorado.gov/rss.xml all return
 # 404. The Google News queries above cover the same topical
 # surface.
-# ── One search per brief jurisdiction (18), from data/jurisdiction-briefs/ ──
+# ── One search per brief jurisdiction (18) ──
 https://news.google.com/rss/search?q=%22Aspen%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
 https://news.google.com/rss/search?q=%22Garfield+County%22+colorado+housing&hl=en-US&gl=US&ceid=US:en
 https://news.google.com/rss/search?q=%22Pitkin+County%22+colorado+housing&hl=en-US&gl=US&ceid=US:en

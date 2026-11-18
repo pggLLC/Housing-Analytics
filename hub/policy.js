@@ -75,11 +75,16 @@
   // What a story says: its AI line (labelled) or, failing that, the outlet's own words in quotes.
   // paul, 17 Nov: "AI-written, labelled"; 18 Nov: every story, "so people would know what is in the link".
   function storySaid(it) {
-    if (it.ai) return '<p class="news-quote"><span class="news-ai" title="Written by AI from this story\u2019s own summary">AI</span> ' + esc(it.ai) + '</p>';
-    var q = it.summary && it.summary.text; return q ? '<p class="news-quote">\u201c' + esc(q) + '\u201d</p>' : '';
+    var sm = it.summary || {};
+    var via = sm.basis === 'same story' && sm.via ? ' <span class="news-via">(from ' + (safe(sm.via_link) ? '<a href="' + esc(safe(sm.via_link)) + '">' + esc(sm.via) + '</a>' : esc(sm.via)) + ', same story)</span>' : '';
+    if (it.ai) return '<p class="news-quote"><span class="news-ai" title="Written by AI from this story\u2019s own summary">AI</span> ' + esc(it.ai) + via + '</p>';
+    if (sm.text) return '<p class="news-quote">\u201c' + esc(sm.text) + '\u201d' + via + '</p>';
+    // paul, 18 Nov: a blank row reads as broken; say why there is no line
+    if (sm.basis === 'unavailable') return '<p class="news-quote news-none">No summary yet: the outlet\u2019s site did not answer this time. The next update tries again.</p>';
+    return sm.basis === 'not found' ? '<p class="news-quote news-none">No summary: the news script could not read this story on the outlet\u2019s site.</p>' : '';
   }
   function storyLink(it) { return (it.summary && safe(it.summary.link)) || safe(it.link); }
-  var SAID_NOTE = 'Lines marked AI are written by AI (gpt-4o-mini) from only the story\u2019s headline and its own description; check the source before relying on them. Lines in quotes are the outlet\u2019s own words. A story whose site the news script could not read shows its headline only.';
+  var SAID_NOTE = 'Lines marked AI are written by AI (gpt-4o-mini) from only the story\u2019s headline and its own description; check the source before relying on them. Lines in quotes are the outlet\u2019s own words. When a story\u2019s own site cannot be read, the line may come from another outlet that ran the same story, and names it.';
   function natRow(x) {
     var u = storyLink(x);
     return '<li><p>' + (u ? '<a href="' + esc(u) + '">' + esc(x.title) + '</a>' : esc(x.title)) + '</p>' + storySaid(x) + '<p class="note">' + esc(x.source || 'Unknown publisher') + (x.date ? ' · ' + esc(x.date) : '') +

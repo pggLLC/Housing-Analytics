@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T11:41:08.044Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T15:41:27.791Z. Do not edit by hand.
 
 ---
 
@@ -80,7 +80,7 @@
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
 | `regional.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
-| `research-brief.html` | Research Brief | COHO Analytics | 27.2 KB |
+| `research-brief.html` | Research Brief | COHO Analytics | 28.0 KB |
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.7 KB |
 | `search.html` | Search · COHO Analytics | 4.3 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
@@ -95,11 +95,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1950 JSON files found.
+1949 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1013.5 KB | ✅ | — |
+| `data/_manifest.json` | 986.7 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-two.json` | 29.2 KB | ✅ | — |
@@ -119,14 +119,14 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 957 B | ✅ | — |
-| `data/alerts/alerts_archive.json` | 2.36 MB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 2.45 MB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 5.8 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
-| `data/alerts/outlet-review.json` | 10.6 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 12.0 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
-| `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 702.9 KB | ✅ | — |
+| `data/audit/chfa-qap-watch.json` | 3.66 MB | ✅ | — |
+| `data/audit/funding-watch.json` | 689.7 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -1810,7 +1810,7 @@
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 431.6 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 10.9 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 253.3 KB | ✅ | — |
+| `data/manifest.json` | 247.8 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1983,10 +1983,10 @@
 | `data/policy/funding-awards/ledger.json` | 385.4 KB | ✅ | — |
 | `data/policy/funding-awards/reviewed-documents.json` | 23.0 KB | ✅ | — |
 | `data/policy/funding-watch-sources.json` | 11.8 KB | ✅ | — |
-| `data/policy/green-building.json` | 57.5 KB | ✅ | — |
+| `data/policy/green-building.json` | 58.3 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 32.6 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 157.5 KB | ✅ | — |
+| `data/policy/housing-events.json` | 157.1 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/housing-roll-calls.json` | 5.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
@@ -2005,7 +2005,6 @@
 | `data/policy/local-support.json` | 154.9 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.4 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 17.4 KB | ✅ | — |
-| `data/policy/pma-capture-example.json` | 24.3 KB | ✅ | — |
 | `data/policy/policy-timeline.json` | 7.2 KB | ✅ | — |
 | `data/policy/policy-watch.json` | 54.6 KB | ✅ | — |
 | `data/policy/prop123-land-banking-awards.json` | 80.8 KB | ✅ | — |
@@ -2014,24 +2013,24 @@
 | `data/policy/prop123_jurisdictions.json` | 182.3 KB | ✅ | — |
 | `data/policy/resale-conventions.json` | 7.6 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.8 KB | ✅ | — |
-| `data/policy/resident-services.json` | 34.4 KB | ✅ | — |
+| `data/policy/resident-services.json` | 34.8 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 45.8 KB | ✅ | — |
 | `data/policy/state-housing-laws.json` | 195.0 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tariffs-construction-costs.json` | 32.3 KB | ✅ | — |
 | `data/policy/tariffs-cost-note.json` | 2.0 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 40.7 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 40.8 KB | ✅ | — |
 | `data/policy/tax-exemption-routes.json` | 20.8 KB | ✅ | — |
 | `data/policy/thiz-map-status.json` | 4.7 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 5.4 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 655.1 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 469.8 KB | ✅ | — |
+| `data/policy_briefs.json` | 842.9 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 437.3 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 226.8 KB | ✅ | — |
+| `data/polymarket-history.json` | 229.0 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2054,7 +2053,7 @@
 
 ## Test Files
 
-792 test files found.
+791 test files found.
 
 | File | Size |
 |------|------|
@@ -2546,7 +2545,6 @@
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
 | `test/pma-barrier-data.test.js` | 6.5 KB |
 | `test/pma-boundary-clear-race.test.js` | 3.1 KB |
-| `test/pma-capture-brief.test.mjs` | 10.0 KB |
 | `test/pma-capture-denominator.test.js` | 15.4 KB |
 | `test/pma-capture-naming.test.js` | 12.1 KB |
 | `test/pma-chfa-qualified-renters.test.js` | 22.1 KB |
@@ -2633,7 +2631,7 @@
 | `test/report-text-cleanup.test.js` | 3.1 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
-| `test/research-brief.test.mjs` | 16.2 KB |
+| `test/research-brief.test.mjs` | 17.5 KB |
 | `test/research-catalog.test.mjs` | 8.9 KB |
 | `test/resident-services.test.mjs` | 10.9 KB |
 | `test/resort-programs.test.mjs` | 7.8 KB |
@@ -2843,7 +2841,7 @@
 | `tests/test_stage2_temporal.py` | 38.1 KB |
 | `tests/test_stage3_accessibility.py` | 24.1 KB |
 | `tests/test_stage3_visualization.py` | 17.7 KB |
-| `tests/test_story_summaries.py` | 9.9 KB |
+| `tests/test_story_summaries.py` | 15.5 KB |
 | `tests/test_tax_exemption_routes.py` | 4.5 KB |
 | `tests/test_transit_stop_gate.py` | 9.2 KB |
 | `tests/test_transit_stop_selection.py` | 15.9 KB |
