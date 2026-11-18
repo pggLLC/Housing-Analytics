@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-18T14:28:46.337Z",
+    "generated_at": "2026-11-18T14:31:04.447Z",
     "root": "data/",
     "file_count": 1997,
-    "total_size_bytes": 228647856,
+    "total_size_bytes": 228634432,
     "kinds": {
       "json": 1948,
       "geojson": 35,
@@ -685,8 +685,8 @@
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 719719,
-      "mtime": "2026-11-17T14:52:29.647Z",
+      "size_bytes": 706295,
+      "mtime": "2026-11-18T14:30:58.669Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -706,7 +706,7 @@
       ],
       "key_count": 16,
       "primary_array_key": "federal_notices",
-      "primary_array_length": 674,
+      "primary_array_length": 677,
       "primary_array_first_keys": [
         "key",
         "source",

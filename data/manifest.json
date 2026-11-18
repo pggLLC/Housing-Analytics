@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-18T14:28:50.363157Z",
+  "generated": "2026-11-18T14:31:07.526118Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -174,7 +174,7 @@
     "data/audit/funding-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 719719
+      "bytes": 706295
     },
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
