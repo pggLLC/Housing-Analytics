@@ -10,8 +10,8 @@ summary, so nothing on the page is reworded or written by AI:
 
 The alerts feed gives Google News links, which hide the article's address,
 so an outlet story is found on the outlet's own site: its WordPress search
-feed (/?s=...&feed=rss2) or its BLOX search feed (/search/?f=rss&q=...),
-matched to the headline. robots.txt is honoured (RFC 9309: an unreadable
+feed (/?s=...&feed=rss2), its BLOX search feed (/search/?f=rss&q=...) or,
+failing those, its own news feed (/feed/), matched to the headline. robots.txt is honoured (RFC 9309: an unreadable
 4xx robots file allows, a 5xx one does not). A story that cannot be found
 keeps its headline only, and says so.
 
@@ -35,6 +35,17 @@ _robots: dict = {}
 # Hosts whose robots.txt could not be read this run (rate limit, server error, timeout): a miss there
 # is not a real "not found", so the story is tried again on the next run, not a day later.
 _unsure: set = set()
+# Outlets' own news feeds read this run, by address.
+_feeds: dict = {}
+# Colorado newsrooms that run often in the alerts but publish their local feed somewhere other
+# than /feed/ (each checked 18 Nov 2026: the outlet's own published RSS, allowed by its robots.txt).
+OUTLET_FEEDS = {
+    'cbsnews.com': ['https://www.cbsnews.com/colorado/latest/rss/main'],
+    '9news.com': ['https://www.9news.com/feeds/syndication/rss/news/local'],
+    'denver7.com': ['https://www.denver7.com/news/local-news.rss'],
+    'koaa.com': ['https://www.koaa.com/news/local-news.rss'],
+    'kktv.com': ['https://www.kktv.com/arc/outboundfeeds/rss/category/news/?outputType=xml'],
+}
 
 
 class Transient(Exception):
@@ -160,16 +171,23 @@ def find_article(title: str, domain: str, fetcher=fetch) -> tuple[str, str]:
         return '', ''
     q = urllib.parse.quote(re.sub(r'[\u200b-\u200f\u2060\ufeff]', '', title))
     trouble = False
-    for url in (f'https://{domain}/?s={q}&feed=rss2', f'https://{domain}/search/?f=rss&q={q}'):
+    # The outlet's own news feed comes last: papers whose search gives no feed (Aspen Times, Post
+    # Independent and the other Swift papers answer with a web page) still list the day's stories
+    # there, each with its own description (paul, 18 Nov 2026: "fix the outlet feeds").
+    feeds = OUTLET_FEEDS.get(domain.removeprefix('www.'), [f'https://{domain}/feed/'])
+    for url, depth in [(f'https://{domain}/?s={q}&feed=rss2', 10), (f'https://{domain}/search/?f=rss&q={q}', 10)] + \
+            [(u, 100) for u in feeds]:
         if not allowed(url, fetcher):
             trouble = trouble or _host(url) in _unsure
             continue
         try:
-            feed = fetcher(url)
+            feed = _feeds[url] if url in _feeds else fetcher(url)
         except Exception as e:
             trouble = trouble or _transient(e)
             continue
-        for item in re.findall(r'<item>.*?</item>', feed, re.S)[:10]:
+        if depth > 10:
+            _feeds[url] = feed  # one read of a site's news feed per run serves all its stories
+        for item in re.findall(r'<item>.*?</item>', feed, re.S)[:depth]:
             t = re.search(r'<title>(.*?)</title>', item, re.S)
             if not t or not same_headline(title, clean(t.group(1))):
                 continue
