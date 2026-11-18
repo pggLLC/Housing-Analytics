@@ -216,7 +216,7 @@ def test_a_rate_limited_search_is_not_recorded_as_not_found():
     items = [{'title': TITLE, 'link': 'https://example.com/x', 'source_domain': 'example.com'}]
     cache = {}
     ss.summarize_items(items, cache, f, today='2026-11-18')
-    assert 'https://example.com/x' not in cache and items[0]['summary']['basis'] == 'unavailable'
+    assert cache['https://example.com/x']['basis'] == 'unavailable' and items[0]['summary']['basis'] == 'unavailable'
     f = fake({'robots.txt': '', '?s=': SEARCH, 'home-sales': ARTICLE})
     ss.summarize_items([dict(items[0])], cache, f, today='2026-11-18')
     assert cache['https://example.com/x']['basis'] == 'outlet'
@@ -227,7 +227,7 @@ def test_an_unreadable_robots_file_is_not_a_miss_either():
     items = [{'title': TITLE, 'link': 'https://example.com/x', 'source_domain': 'example.com'}]
     cache = {}
     ss.summarize_items(items, cache, f, today='2026-11-18')
-    assert cache == {}
+    assert cache['https://example.com/x']['basis'] == 'unavailable'
 
 
 def test_a_clean_miss_is_marked_sure_and_older_misses_get_one_more_try_today():
@@ -282,3 +282,16 @@ def test_two_shared_housing_words_are_not_enough_to_lend_a_line():
     late = {'title': 'Builder sues Denver over affordable housing fees, city responds', 'source': 'Denver Post',
             'date': '2026-11-01', 'summary': {'text': '', 'basis': 'not found'}}
     assert ss.borrow([election, late], [lawsuit, election, late]) == 0
+
+
+def test_outlets_that_did_not_answer_cannot_hold_back_stories_never_tried():
+    # Codex review of #2941: 100 rate-limited stories must not use up every later run's budget
+    f = fake({'robots.txt': '', 'busy.example.com': rate_limited('x'), '?s=': SEARCH, 'home-sales': ARTICLE})
+    busy = [{'title': f'Busy {i}', 'link': f'https://busy.example.com/{i}', 'source_domain': 'busy.example.com'}
+            for i in range(3)]
+    new = {'title': TITLE, 'link': 'https://example.com/new', 'source_domain': 'example.com'}
+    cache = {}
+    ss.summarize_items(busy, cache, f, today='2026-11-18', budget=[3])
+    assert all(cache[b['link']]['basis'] == 'unavailable' for b in busy)
+    ss.summarize_items([dict(b) for b in busy] + [new], cache, f, today='2026-11-19', budget=[1])
+    assert new['summary']['basis'] == 'outlet'

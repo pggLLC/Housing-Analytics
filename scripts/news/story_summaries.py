@@ -214,19 +214,19 @@ def summarize_items(items: list[dict], cache: dict, fetcher=fetch, agency: bool 
     reads hundreds of pages.
     """
     keep = {}
-    # first attempts before daily retries of clean misses, so a run of unreadable outlets cannot
-    # hold back stories never tried (Codex review of #2934); a miss recorded before `sure` existed
-    # (some were rate limits) keeps its place in the newest-first order
-    def retry_of_clean_miss(it):
-        return bool((cache.get(it.get('link') or it.get('title')) or {}).get('sure'))
-    fresh = [it for it in items if not retry_of_clean_miss(it)]
-    retry = [it for it in items if retry_of_clean_miss(it)]
-    for it in fresh + retry:
+    # Order: stories never tried, then retries of outlets that did not answer last time (or misses
+    # recorded before `sure` existed, some of them rate limits), then daily retries of clean misses.
+    # Never-tried stories always go first, so a run of unreadable outlets cannot hold them back
+    # (Codex reviews of #2934 and #2941).
+    def tier(it):
+        hit = cache.get(it.get('link') or it.get('title'))
+        if hit is None:
+            return 0
+        return 2 if hit.get('sure') else 1
+    for it in sorted(items, key=tier):  # stable: newest first within each tier
         key = it.get('link') or it.get('title')
         hit = cache.get(key)
-        # `sure` marks a clean miss; misses recorded before it existed (18 Nov 2026, some of them
-        # rate limits) get one more try the same day
-        stale = hit is None or hit.get('basis') == 'not found' and (
+        stale = hit is None or hit.get('basis') == 'unavailable' or hit.get('basis') == 'not found' and (
             hit.get('checked', '') != today or not hit.get('sure'))
         if stale and (budget is None or budget[0] > 0):
             if budget is not None:
@@ -236,17 +236,14 @@ def summarize_items(items: list[dict], cache: dict, fetcher=fetch, agency: bool 
             try:
                 hit = summarize(story, fetcher)
             except Transient:
-                # shown as "no summary yet" this run, but never cached as a miss
-                cache.pop(key, None)
-                it['summary'] = {'text': '', 'link': '', 'basis': 'unavailable'}
-                hit = None
+                # shown as "no summary yet"; tried again next run, never taken for a clean miss
+                hit = {'text': '', 'link': '', 'basis': 'unavailable', 'checked': today}
             except Exception:
                 hit = {'text': '', 'link': '', 'basis': 'not found'}
-            if hit is not None:
-                if hit.get('basis') == 'not found':
-                    hit['checked'] = today
-                    hit['sure'] = True
-                cache[key] = hit
+            if hit.get('basis') == 'not found':
+                hit['checked'] = today
+                hit['sure'] = True
+            cache[key] = hit
         if hit is not None:
             it['summary'] = hit
             keep[key] = hit
