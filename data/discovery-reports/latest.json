@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-11-17T16:51:16.024Z",
-  "totalScanned": 2044,
-  "newSourceCount": 2012,
+  "scanTimestamp": "2026-11-18T16:25:06.004Z",
+  "totalScanned": 2002,
+  "newSourceCount": 1970,
   "existingCount": 31,
   "staleCount": 0,
   "agingCount": 1,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1037107,
+      "sizeBytes": 1010423,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7519,
+      "sizeBytes": 7517,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -128,13 +128,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 2471480,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/alerts/brief-news-queue.json",
-      "sizeBytes": 65587,
+      "sizeBytes": 2570429,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -152,7 +146,7 @@
     },
     {
       "path": "data/alerts/outlet-review.json",
-      "sizeBytes": 10874,
+      "sizeBytes": 12329,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -182,13 +176,13 @@
     },
     {
       "path": "data/audit/chfa-qap-watch.json",
-      "sizeBytes": 3571034,
+      "sizeBytes": 3842676,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 719719,
+      "sizeBytes": 706295,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1298,7 +1292,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 311629,
+      "sizeBytes": 312413,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10261,114 +10255,6 @@
       "inFilesManifest": true
     },
     {
-      "path": "data/jurisdiction-briefs/0803620.json",
-      "sizeBytes": 37970,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/08045.json",
-      "sizeBytes": 38017,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/08097.json",
-      "sizeBytes": 37747,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0810105.json",
-      "sizeBytes": 22836,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0812045.json",
-      "sizeBytes": 34321,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0816000.json",
-      "sizeBytes": 32572,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0817375.json",
-      "sizeBytes": 28017,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0818310.json",
-      "sizeBytes": 22696,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0820000.json",
-      "sizeBytes": 45422,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0822035.json",
-      "sizeBytes": 28718,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0827425.json",
-      "sizeBytes": 34426,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0828745.json",
-      "sizeBytes": 22011,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0830780.json",
-      "sizeBytes": 39565,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0864255.json",
-      "sizeBytes": 24306,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0867280.json",
-      "sizeBytes": 32670,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0870195.json",
-      "sizeBytes": 34678,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0873825.json",
-      "sizeBytes": 25339,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/0876795.json",
-      "sizeBytes": 21340,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
       "path": "data/jurisdiction-briefs/_lihtc-applications-excluded.json",
       "sizeBytes": 465,
       "inDataManifest": false,
@@ -10377,144 +10263,6 @@
     {
       "path": "data/jurisdiction-briefs/_lihtc-applications.json",
       "sizeBytes": 441908,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_liveness.json",
-      "sizeBytes": 350092,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_news-used.json",
-      "sizeBytes": 69002,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_round-watch.json",
-      "sizeBytes": 413366,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_schema.json",
-      "sizeBytes": 3550,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verification-plan.json",
-      "sizeBytes": 180965,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0803620.json",
-      "sizeBytes": 23173,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/08045.json",
-      "sizeBytes": 17552,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/08097.json",
-      "sizeBytes": 23944,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0810105.json",
-      "sizeBytes": 3064,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0812045.json",
-      "sizeBytes": 14366,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0816000.json",
-      "sizeBytes": 16837,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0817375.json",
-      "sizeBytes": 15443,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0818310.json",
-      "sizeBytes": 1508,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0820000.json",
-      "sizeBytes": 26424,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0822035.json",
-      "sizeBytes": 8305,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0827425.json",
-      "sizeBytes": 22278,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0828745.json",
-      "sizeBytes": 3792,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0830780.json",
-      "sizeBytes": 24081,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0864255.json",
-      "sizeBytes": 14457,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0867280.json",
-      "sizeBytes": 22378,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0870195.json",
-      "sizeBytes": 18763,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0873825.json",
-      "sizeBytes": 1756,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/jurisdiction-briefs/_verified/0876795.json",
-      "sizeBytes": 1319,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11660,7 +11408,7 @@
     },
     {
       "path": "data/policy/green-building.json",
-      "sizeBytes": 58882,
+      "sizeBytes": 59692,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11678,7 +11426,7 @@
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 161311,
+      "sizeBytes": 160883,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11846,7 +11594,7 @@
     },
     {
       "path": "data/policy/resident-services.json",
-      "sizeBytes": 35185,
+      "sizeBytes": 35671,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11882,7 +11630,7 @@
     },
     {
       "path": "data/policy/tax-credit-legislation.json",
-      "sizeBytes": 41714,
+      "sizeBytes": 41768,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11894,7 +11642,7 @@
     },
     {
       "path": "data/policy/thiz-map-status.json",
-      "sizeBytes": 4779,
+      "sizeBytes": 4833,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11930,13 +11678,13 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 670804,
+      "sizeBytes": 863166,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy_briefs_curated.json",
-      "sizeBytes": 447442,
+      "sizeBytes": 447766,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11948,13 +11696,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20476,
+      "sizeBytes": 20473,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 232233,
+      "sizeBytes": 234461,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -12084,7 +11832,7 @@
     {
       "path": "data/car-market.json",
       "name": "Colorado Association of Realtors (CAR) — Statewide Market Summary",
-      "daysSince": 289
+      "daysSince": 290
     }
   ]
 }

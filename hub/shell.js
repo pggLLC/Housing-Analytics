@@ -448,6 +448,8 @@
     if (global.LabTpl && global.LabTpl.pageTabs) global.LabTpl.pageTabs();
     // A port points each link at what that site carries (window.LAB_PORT.fix).
     if (global.LAB_PORT && global.LAB_PORT.fix) global.LAB_PORT.fix(main);
+    // The header names the working place on a page with no step bar (site/step-bar.js headerPlace).
+    if (global.LabStep && global.LabStep.headerPlace) global.LabStep.headerPlace();
     // The two resident guides sit under Housing help, so that link shows as current on them.
     var navView = /^#\/guide\/(renter-help|homebuyer-help)\/?$/.test((location.hash || '').split('?')[0]) ? 'assistance' : route.view;
     document.querySelectorAll('.site-nav a').forEach(function (a) {

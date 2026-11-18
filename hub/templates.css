@@ -253,6 +253,10 @@ html { overflow-x: clip; }
 .strength { margin: .75rem 0 0; padding: 0 .75rem; border-left: 4px solid var(--fair); max-width: 52rem; color: var(--ink); display: flex; flex-wrap: wrap; align-items: center; column-gap: 1rem; }
 /* min-width 0 lets the open note shrink to a phone's width; its margins table scrolls inside it instead of pushing the page sideways. */
 .strength-detail[open] { flex-basis: 100%; min-width: 0; max-width: 100%; overflow-x: auto; }
+.strength-why summary { cursor: pointer; color: var(--pine); min-height: 44px; display: inline-flex; align-items: center; gap: .25rem; text-decoration: underline; }
+.strength-why[open] { flex-basis: 100%; }
+.strength-why p { margin: 0 0 .5rem; max-width: 40rem; }
+.page-place .place-tools .strength:has(.strength-why[open]) { flex-basis: 100%; }
 .strength-strong { border-left-color: var(--good); }
 .strength-thin { border-left-color: var(--caution); }
 .strength p { margin: 0; color: var(--ink); }
@@ -1666,3 +1670,13 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 @media print { .sum-card { break-inside: avoid; } }
 .ic-next { list-style: none; margin: .5rem 0; padding: 0; }
 .ic-next li { padding: .4rem 0; border-bottom: 1px solid var(--line); }
+/* The working place in the main header, on a page with no step bar (site/step-bar.js headerPlace; paul 18 Nov 2026).
+   A slim line of its own under the header's row, as the step bar's line is on a step page: the row itself has no
+   room to spare at 1280px, and a place name can be long. */
+.site-header.has-place { flex-wrap: wrap; row-gap: 0; }
+.hdr-place { order: 99; flex: 1 0 100%; margin: 0; padding: .1rem 0 .2rem; font-size: 14px; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 0 .6rem; }
+.hdr-place a { color: var(--pine); display: inline-flex; align-items: center; min-height: 32px; }
+.hdr-place a strong { color: var(--ink); }
+.hdr-place[hidden] { display: none; }
+@media (max-width: 767px) { .site-header.has-place .site-nav { order: 100; } }
+@media print { .hdr-place { display: none !important; } }
