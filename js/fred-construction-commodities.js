@@ -20,7 +20,7 @@ class FREDCommodityPrices {
             
             // Specific Construction Commodity Series
             'lumber_framing': 'WPU0811',              // Softwood Lumber
-            'plywood': 'WPU0812',                     // Plywood
+            'plywood': 'WPU083',                      // Plywood
             'steel_rebar': 'WPU10170503',             // Steel Reinforcing Bar
             'copper_wire': 'WPU10260306',             // Copper Wire
             'cement': 'WPU1322',                  // Cement, Hydraulic

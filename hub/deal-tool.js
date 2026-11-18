@@ -60,7 +60,7 @@
       (rows ? '<ul class="plain-list">' + rows + '</ul>' : '') +
       '<div class="actions"><a class="button-link" href="#/places">Start from a place</a><a class="button-link secondary" href="#/projects">Your projects</a></div></section>' +
       '<section class="start-card"><h2>Every line on one page</h2><p>The full Deal Calculator runs the same engine with every input on one page, including soft funding.</p>' +
-      '<div class="actions"><a class="button-link secondary" href="' + esc(liveTool()) + '">Open the full Deal Calculator ↗</a></div></section></div>';
+      '<div class="actions"><a class="button-link secondary" href="' + esc(liveTool()) + '">Open the full pro forma ↗</a></div></section></div>';
   }
 
   function dataTable() {
@@ -81,6 +81,8 @@
       answer: 'Does a Colorado Low-Income Housing Tax Credit (LIHTC) deal pencil? Start with a quick estimate for a 9% or 4% rental deal, or homes for sale, then enter every line to see the sources and uses, tax credits, debt and the funding gap.'
     }) + (global.LabHna ? global.LabHna.stepPath(true, '#/deal-calculator', inAddress() || undefined) : '') +
       (global.LabDealQuick ? global.LabDealQuick.view() : '') +
+      // One quick estimate, here; the full page is the full pro forma (one-home proposal item 5, paul 18 Nov).
+      '<div class="actions"><a class="button-link" href="' + esc(liveTool()) + '">Next: full pro forma, every line →</a></div>' +
       '<section class="tool-section"><h2>How it runs</h2>' + stepper() +
       '<p class="note" data-role="slider-pointer"><strong>Stress sliders</strong> (deep-tier rent cut, coverage floor, lease-up, and rent, vacancy and expense cases) are on a project\u2019s results page. Start from a place and save homes and rents, then open <em>results</em> and use <em>Jump to Stress sliders</em> under Full result. The quick estimate above has no sliders.</p></section>' +
       '<section class="tool-section">' + start() + '</section>' +

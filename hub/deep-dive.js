@@ -602,8 +602,11 @@
         '<p class="note">Milestones on the timeline tab: ' + esc(events.join(' · ')) + '.</p>' +
         // The layer the file is fetched from, as the old page linked it (content check gap 10).
         src('Source: CHFA housing tax credit properties, ArcGIS FeatureServer (public)', /^https:\/\/services\d*\.arcgis\.com\//.test(d.lihtc.source || '') ? String(d.lihtc.source).replace(/\/layers$/, '/0') : 'https://www.chfainfo.com/rental-housing/housing-credit', 'fetched ' + day(d.lihtc.fetchedAt))) +
-      sec('site-sel', 'Site selection tool', '<p>Ready to test a specific site? The market check draws a primary market area around it and reads the capture rate, competing projects and QCT/DDA status. For statewide tax credit, Prop 123 and QCT/DDA map layers, see the overview tab and the data map.</p>' +
-        '<div class="actions"><a class="button-link" href="#/market">Market check →</a><a class="button-link secondary" href="#/data/map?layer=qct">Data map</a></div>') +
+      // Where to build has one home, the Opportunity Finder, with the Market check to test one site (one-home
+      // proposal item 6, paul "go remaining duplicates", 18 Nov 2026).
+      sec('site-sel', 'Where to build', '<div class="dd-cards">' + card({ from: 'Opportunity Finder', href: '#/finder', title: 'Every Colorado town on the facts for 4% and 9% deals',
+        more: 'Sort towns by renters short at 60% AMI, basis boost (QCT and DDA) and years since the last award; it sets no score. To test one site, the Market check draws its market area and reads the capture rate.',
+        also: [{ href: '#/market', label: 'Market check' }, { href: '#/data/map?layer=qct', label: 'Data map' }] }) + '</div>') +
       sec('sig-sources', 'Data sources', list([ext('https://data.census.gov/', 'ACS 5-year, Census Bureau (B25070, B25014, B11001)'), ext('https://www.huduser.gov/portal/datasets/lihtc.html', 'HUD LIHTC tax credit database'), ext('https://www.chfainfo.com/', 'CHFA, Colorado Housing and Finance Authority'),
         ext('https://fred.stlouisfed.org/', 'FRED economic series and housing starts'), ext('https://www.bls.gov/lau/', 'BLS LAUS unemployment and employed residents'), ext('https://cdola.colorado.gov/commitment-filings', 'Prop 123: DOLA commitment filings'), ext('https://lehd.ces.census.gov/', 'LEHD / LODES commuting flows')]) +
         '<p><a href="#/data/sources">Every data source →</a> · <a href="#/data/trust?at=trust-today">Data freshness →</a></p>');

@@ -237,6 +237,7 @@
         { key: 'year', label: 'Year', num: true }, { key: 'name', label: 'Property', href: function (r) { return r.deal; }, tip: 'A linked name opens COHO’s sourced deal summary' }, { key: 'city', label: 'Town' },
         { key: 'units', label: 'Homes', num: true, fmt: num }, { key: 'credit', label: 'Credit' }
       ], rows, { noun: 'awards', placeholder: 'Property or town' }) +
+      '<p><a href="#/deals?county=' + esc(encodeURIComponent(String(isCounty ? name : cname).replace(/ County$/, ''))) + '">Deal summaries for ' + esc(String(isCounty ? name : cname).replace(/ County$/, '')) + ' County →</a> Each written-up award, with its sources.</p>' +
       T.source('CHFA tax credit properties, merged with HUD and USDA records', 'https://www.chfainfo.com/rental-housing/housing-credit', String(P.metadata && (P.metadata.generated || P.metadata.generatedAt) || '').slice(0, 10) || null),
       num(rows.length) + ' awards and ' + num(units) + ' homes. Latest: ' + rows[0].name + (rows[0].city ? ', ' + rows[0].city : '') + ', ' + rows[0].year + '.');
   }

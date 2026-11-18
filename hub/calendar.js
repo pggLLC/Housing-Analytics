@@ -262,7 +262,7 @@
       s.data.events.sources.filter(function (x) { return safe(x.url) && x.status === 'ok'; })
         .map(function (x) { return T.source(x.name, safe(x.url), 'as of ' + em.as_of); }).join('') +
       (down.length ? '<p class="note">Not read on ' + esc(nice(em.as_of)) + ': ' + esc(down.join('; ')) + '. Their dates are missing until the next read.</p>' : '') +
-      T.next('Next', [{ href: '#/opportunity/round-one', label: 'Latest CHFA awards →' }, { href: '#/news', label: 'Housing news', secondary: true }]);
+      T.next('Next', [{ href: '#/deals?round=2026-1', label: 'Latest CHFA awards →' }, { href: '#/news', label: 'Housing news', secondary: true }]);
   }
 
   Shell.views.calendar = view;

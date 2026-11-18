@@ -507,7 +507,7 @@
       (M.csv ? '<p class="viz-data-csv"><a class="button-link secondary" download="colorado-housing-awards' + (agency === 'ALL' ? '' : '-' + agency.toLowerCase()) + (county ? '-' + county : '') + '.csv" href="data:text/csv;charset=utf-8,' + encodeURIComponent('\ufeff' + M.csv(picked)) + '">Download these ' + num(picked.length) + ' awards as CSV</a></p>' : '') +
       '<p class="note">From CHFA’s award reports (2016 to 2026), Prop 123 fund selection lists from OEDIT (FY23-24 to FY25-26), and DOLA announcements read by hand, which are partial. Tax credits are not dollars: CHFA prints the credit each project claims a year, so credits are never added to grants and loans, and “all three” is counted in homes. A project funded by two agencies counts under each. Land banking homes are estimates.</p>' +
       T.source('CHFA, OEDIT and DOLA award lists, as gathered by COHO', LIVE + 'where-housing-money-goes.html', day(d.ledger.meta && d.ledger.meta.generated_at)) +
-      T.next('Next', [{ href: '#/opportunity/round-one', label: '2026 Round One awards →' }, { href: '#/deals', label: 'Deal summaries', secondary: true }]);
+      T.next('Next', [{ href: '#/deals?round=2026-1', label: '2026 Round One awards →' }, { href: '#/deals', label: 'Deal summaries', secondary: true }]);
   }
   function day(iso) { return iso ? String(iso).slice(0, 10) : null; }
 
