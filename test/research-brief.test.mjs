@@ -272,6 +272,10 @@ test('a brief that moved to the member site shows a notice and the research list
   const other = await runPage(t, { id: 'no-such-brief' });
   const notFound = other.doc.querySelector('h1').textContent;
   assert.equal(other.doc.getElementById('brief-content').dataset.moved, undefined, 'an unknown id is not reported as moved');
+  for (const name of ['constructor', 'toString', '__proto__']) {
+    const inherited = await runPage(t, { id: name });
+    assert.equal(inherited.doc.getElementById('brief-content').dataset.moved, undefined, `${name} is not a moved brief`);
+  }
   assert.ok(doc.querySelector('h1').textContent.trim() && doc.querySelector('h1').textContent !== notFound, 'the moved notice is its own message, not "not found"');
   // The way back goes to the research list (the catalog page), with a readable name.
   const back = [...host.querySelectorAll('a[href]')];
