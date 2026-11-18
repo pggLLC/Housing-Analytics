@@ -1,15 +1,33 @@
 {
   "meta": {
-    "generated": "2026-11-17T12:09:19Z",
+    "generated": "2026-11-18T11:57:12Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-11",
+      "since": "2026-11-12",
       "checked": 58,
       "unverified": 7,
       "weak": 2
     }
   },
   "outlets": [
+    {
+      "id": "f42343e885",
+      "name": "Yahoo",
+      "domains": [
+        "yahoo.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-18",
+      "last_seen": "2026-11-18",
+      "headlines": [
+        {
+          "title": "Colorado project aims to fit 40 affordable teacher homes on 1 acre of school grounds",
+          "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPWkxwaDlmNXNlb1dZZnVxYjdjWGtiNG1aX0NTSUdTbHVVU0N0UV9VWVdzT2ZjY0FveUcteHNRdGVXenJ2d0h2UXF1Q3FiR2dKY2FzUlNvZFNSUmlQQU5VeUxqOG5xSEhzczJvZmdaNVlZcXBiRFdTSkQ3VjBTeWRCRUp4THNHSmdseUE?oc=5",
+          "date": "2026-11-18"
+        }
+      ],
+      "first_listed": "2026-11-18"
+    },
     {
       "id": "428142109b",
       "name": "Connect CRE",
@@ -243,6 +261,24 @@
         }
       ],
       "first_listed": "2026-11-17"
+    },
+    {
+      "id": "90cec9f119",
+      "name": "KSJD",
+      "domains": [
+        "ksjd.org"
+      ],
+      "stories": 1,
+      "first_seen": "2026-09-11",
+      "last_seen": "2026-09-11",
+      "headlines": [
+        {
+          "title": "Montezuma County Commission candidates disagree over affordable housing, child care",
+          "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNOXF2azJZWFVuNGlPdk9fdTVENU5ka0FFU1hTdUNfMURKbnI0YWFXUWFZMlU0Mm5EbFpQRDhDWnMzbGhJV3ZPd2NMeUVGdjhRTUp5RkhXcXdzQWlCYm51R1FZVTRqdG02X21ONVhEZ09Bd19iczJ2ZGhETlFiOTlCTEFYVmZ6Z0Ffc09zYlg4QVp6Nnh3SXpEMnJaZVQzTlRYd1B4X2NnQVgtR3ZjVUJVQWNPamFVZ0l1RlRIV09WU0ZlOWtIWkFGMWk2UVVURnNYMFR4aUdnLTZKaTA?oc=5",
+          "date": "2026-09-11"
+        }
+      ],
+      "first_listed": "2026-11-18"
     },
     {
       "id": "9dd15260fc",

@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-17T12:09:19Z",
-    "as_of": "2026-11-17",
+    "generated": "2026-11-18T11:57:12Z",
+    "as_of": "2026-11-18",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -4573,18 +4573,6 @@
       "url": "https://events.teams.microsoft.com/event/9d8b1f3c-f13b-4768-b991-7ba7877de20d@de029520-7a0e-4208-bc91-86b9369ad432",
       "source": "chfa",
       "category": "homebuyer"
-    },
-    {
-      "title": "chfareach: chfareach Office Hours, Online Meeting",
-      "start": "2025-11-17",
-      "end": null,
-      "time": "13:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-chfareach-office-hours-online-meeting-11-17-2025",
-      "source": "chfa",
-      "category": "compliance"
     }
   ]
 }

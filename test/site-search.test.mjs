@@ -105,8 +105,10 @@ if (!live) {
   const bundle = await mkdtemp(path.join(os.tmpdir(), 'gated-search-'));
   try {
     await writeFile(path.join(bundle, 'search-index.json'), JSON.stringify(index));
-    for (const name of (await readdir('.')).filter((n) => /^developer.*\.html$/.test(n))) {
-      await copyFile(name, path.join(bundle, name));
+    // The developer pages live in coho-backend since 18 Nov 2026; a stand-in page plays one here.
+    const FIX = 'test/fixtures/gated-search';
+    for (const name of (await readdir(FIX)).filter((n) => /^developer.*\.html$/.test(n))) {
+      await copyFile(path.join(FIX, name), path.join(bundle, name));
     }
     const { records, added } = await gatedSearchIndex(bundle);
     assert(added.length > 0, 'the developer site added no pages to its search index');

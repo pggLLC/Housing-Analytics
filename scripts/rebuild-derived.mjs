@@ -79,11 +79,6 @@ export const CHAIN = [
     why: '546 digests + ownership-need.json, all derived from the index',
   },
   {
-    id: 'brief-digest-sections',
-    argv: ['node', 'scripts/generate-brief-metric-digest-sections.mjs'],
-    why: 'brief d6 sections are generated from the digests, not from the index',
-  },
-  {
     id: 'home-snapshot',
     argv: ['node', 'scripts/build-home-snapshot.mjs'],
     why: 'pins the index generatedAt; a two-line diff here cost a CI round on #1692',
@@ -119,12 +114,6 @@ export const CHAIN = [
     why: 'data/market/development-activity.json joins the award ledger, the CHFA '
        + 'applicant reports, DOLA awards and the CHFA property feed into one row per '
        + 'project; every workflow that refreshes one of those commits through this chain',
-  },
-  {
-    id: 'round-watch',
-    argv: ['python3', 'scripts/funding/build_round_watch.py'],
-    why: 'data/jurisdiction-briefs/_round-watch.json scores the CHFA applicant reports and '
-       + 'the development ledger for the gated Next round watch page; it runs after the ledger it reads',
   },
   {
     id: 'land-banking-status',

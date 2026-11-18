@@ -56,7 +56,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`deal-operating-budget.js`](./js__deal-operating-budget.md) | Operating budget and other income in the Division of Housing layout (DOH PR 2). | 5 |
 | [`deal-permanent-financing.js`](./js__deal-permanent-financing.md) | Permanent financing in the Division of Housing layout (DOH PR 3). | 4 |
 | [`deal-summary.js`](./js__deal-summary.md) | deal-summary. | 0 |
-| [`developer-gate.js`](./js__developer-gate.md) | Developer Password Gate | 0 |
 | [`discovery-ui-handler.js`](./js__discovery-ui-handler.md) | _no header_ | 3 |
 | [`economic-section-callouts.js`](./js__economic-section-callouts.md) | economic-section-callouts. | 0 |
 | [`environmental-screening.js`](./js__environmental-screening.md) | js/environmental-screening. | 9 |
@@ -154,8 +153,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`transit-zone.js`](./js__transit-zone.md) | js/transit-zone. | 0 |
 | [`trend-analysis.js`](./js__trend-analysis.md) | trend-analysis. | 4 |
 | [`ui-interactions.js`](./js__ui-interactions.md) | ui-interactions. | 0 |
-| [`where-to-build-charts.js`](./js__where-to-build-charts.md) | _no header_ | 4 |
-| [`where-to-build.js`](./js__where-to-build.md) | js/where-to-build. | 5 |
 | [`workflow-state-api.js`](./js__workflow-state-api.md) | workflow-state-api. | 0 |
 | [`workflow-state-core.js`](./js__workflow-state-core.md) | workflow-state-core. | 11 |
 
@@ -213,7 +210,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`inline-glossary.js`](./js__components__inline-glossary.md) | inline-glossary. | 0 |
 | [`input-provenance.js`](./js__components__input-provenance.md) | Input origins for screening: metadata follows values, including shared scenarios. | 0 |
 | [`jurisdiction-boundaries.js`](./js__components__jurisdiction-boundaries.md) | js/components/jurisdiction-boundaries. | 0 |
-| [`jurisdiction-brief.js`](./js__components__jurisdiction-brief.md) | js/components/jurisdiction-brief. | 3 |
 | [`jurisdiction-select-search.js`](./js__components__jurisdiction-select-search.md) | Progressive search enhancement for jurisdiction <select> controls. | 0 |
 | [`jurisdiction-url-context.js`](./js__components__jurisdiction-url-context.md) | Shared jurisdiction resolver for cross-page workflow links. | 0 |
 | [`land-value-tool.js`](./js__components__land-value-tool.md) | js/components/land-value-tool. | 0 |
@@ -228,12 +224,9 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`mhi-ami-clarifier.js`](./js__components__mhi-ami-clarifier.md) | js/components/mhi-ami-clarifier. | 0 |
 | [`next-action-cta.js`](./js__components__next-action-cta.md) | js/components/next-action-cta. | 0 |
 | [`page-context.js`](./js__components__page-context.md) | js/components/page-context. | 1 |
-| [`pipeline-add-button.js`](./js__components__pipeline-add-button.md) | js/components/pipeline-add-button. | 0 |
-| [`pipeline-store.js`](./js__components__pipeline-store.md) | js/components/pipeline-store. | 0 |
 | [`place-deals-limits.js`](./js__components__place-deals-limits.md) | js/components/place-deals-limits. | 0 |
 | [`pma-vintage-strip.js`](./js__components__pma-vintage-strip.md) | js/components/pma-vintage-strip. | 0 |
 | [`policy-watch.js`](./js__components__policy-watch.md) | js/components/policy-watch. | 0 |
-| [`private-workspace.js`](./js__components__private-workspace.md) | private-workspace. | 0 |
 | [`property-lookup-links.js`](./js__components__property-lookup-links.md) | js/components/property-lookup-links. | 0 |
 | [`qap-calendar.js`](./js__components__qap-calendar.md) | js/components/qap-calendar. | 0 |
 | [`rent-triangulation.js`](./js__components__rent-triangulation.md) | js/components/rent-triangulation. | 0 |
@@ -376,19 +369,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 
 | Module | Summary | Symbols |
 |---|---|---:|
-| [`ask-pggllc.js`](./js__whitepaper__ask-pggllc.md) | ask-pggllc. | 0 |
-| [`deal-workbook.js`](./js__whitepaper__deal-workbook.md) | deal-workbook. | 0 |
-| [`dev-terms.js`](./js__whitepaper__dev-terms.md) | dev-terms. | 0 |
-| [`developer-nav.js`](./js__whitepaper__developer-nav.md) | developer-nav. | 0 |
-| [`jurisdiction-whitepaper.js`](./js__whitepaper__jurisdiction-whitepaper.md) | jurisdiction-whitepaper. | 0 |
-| [`local-discussion.js`](./js__whitepaper__local-discussion.md) | local-discussion. | 0 |
-| [`member-calculator.js`](./js__whitepaper__member-calculator.md) | member-calculator. | 0 |
-| [`place-card.js`](./js__whitepaper__place-card.md) | place-card. | 0 |
-| [`ripeness.js`](./js__whitepaper__ripeness.md) | ripeness. | 0 |
-| [`round-watch.js`](./js__whitepaper__round-watch.md) | round-watch. | 10 |
-| [`submittal-review.js`](./js__whitepaper__submittal-review.md) | submittal-review. | 0 |
-| [`submittal-tieout.js`](./js__whitepaper__submittal-tieout.md) | submittal-tieout. | 0 |
-| [`town-questions.js`](./js__whitepaper__town-questions.md) | town-questions. | 1 |
 
 ## `js/workflow/`
 
@@ -429,8 +409,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`fetch-zillow.js`](./scripts__fetch-zillow.md) | fetch-zillow. | 5 |
 | [`fix-advocacy-mismatches.js`](./scripts__fix-advocacy-mismatches.md) | fix-advocacy-mismatches. | 0 |
 | [`generate-api-docs.mjs`](./scripts__generate-api-docs.md) | scripts/generate-api-docs. | 5 |
-| [`generate-brief-local-support-sections.mjs`](./scripts__generate-brief-local-support-sections.md) | Add or refresh the "Local support for affordable housing" section in the | 5 |
-| [`generate-brief-metric-digest-sections.mjs`](./scripts__generate-brief-metric-digest-sections.md) | Add or refresh the Metric Digest section in curated jurisdiction briefs. | 0 |
 | [`generate-test-coverage.mjs`](./scripts__generate-test-coverage.md) | scripts/generate-test-coverage. | 1 |
 | [`normalize-dda.js`](./scripts__normalize-dda.md) | normalize-dda. | 2 |
 | [`normalize-lihtc-to-hud-schema.js`](./scripts__normalize-lihtc-to-hud-schema.md) | scripts/normalize-lihtc-to-hud-schema. | 0 |
@@ -593,4 +571,3 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 
 | Module | Summary | Symbols |
 |---|---|---:|
-| [`build-whitepaper.mjs`](./scripts__whitepaper__build-whitepaper.md) | build-whitepaper. | 0 |

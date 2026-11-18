@@ -29,9 +29,9 @@ name: Daily Housing News Update
 #     (scripts/news/brief_news_feeds.py), so small brief towns surface.
 #   - Fetches upcoming events (scripts/news/fetch_housing_events.py →
 #     data/policy/housing-events.json) for the News page's events panel.
-#   - Builds the brief news queue (scripts/news/build_brief_news_queue.py →
-#     data/alerts/brief-news-queue.json) shown on each brief, and rewrites the
-#     one "Jurisdiction briefs to review" issue from it.
+#   - (Until 18 Nov 2026 it also built the brief news queue and the
+#     "Jurisdiction briefs to review" issue. Both moved to the private member
+#     site with the briefs: coho-backend brief-upkeep.yml.)
 #   - Rebuilds data/_manifest.json before data/manifest.json, the order
 #     AGENTS.md requires (it rebuilt only the second).
 
@@ -51,7 +51,7 @@ on:
 permissions:
   contents: write
   actions: write
-  issues: write          # the "Jurisdiction briefs to review" issue
+  issues: write          # the "News picks to review" issue
 
 concurrency:
   group: data-commits
@@ -213,9 +213,6 @@ jobs:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: python3 scripts/news/fetch_housing_events.py
 
-      - name: Build the brief news queue
-        run: python3 scripts/news/build_brief_news_queue.py
-
       # paul, 2026-10-31: unverified outlets are reviewed on every news run.
       - name: List outlets to review
         run: python3 scripts/news/outlet_review.py
@@ -245,7 +242,6 @@ jobs:
           git add data/alerts/alerts_archive.json
           git add data/policy_briefs.json
           git add data/policy/housing-events.json
-          git add data/alerts/brief-news-queue.json
           git add data/alerts/owner-news.json
           git add data/alerts/outlet-review.json data/alerts/outlet-decisions.json
           git add robots.txt || true
@@ -301,13 +297,6 @@ jobs:
               ref: 'main'
             });
             core.notice('Dispatched deploy.yml for latest main commit.');
-
-      # After the data push, so a failure here never holds back the news. Main only.
-      - name: Rewrite the "Jurisdiction briefs to review" issue
-        if: github.ref == 'refs/heads/main'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node scripts/news/update-brief-review-issue.mjs data/alerts/brief-news-queue.json
 
       # After the push, so a link issue is closed only once its pick is on main.
       - name: Close added news links and rewrite "News picks to review"
