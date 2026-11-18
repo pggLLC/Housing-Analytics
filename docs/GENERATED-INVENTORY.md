@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T11:41:08.044Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T12:18:13.274Z. Do not edit by hand.
 
 ---
 
@@ -99,7 +99,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 1013.5 KB | ✅ | — |
+| `data/_manifest.json` | 987.4 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-two.json` | 29.2 KB | ✅ | — |
@@ -119,10 +119,10 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 957 B | ✅ | — |
-| `data/alerts/alerts_archive.json` | 2.36 MB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 2.43 MB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 5.8 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
-| `data/alerts/outlet-review.json` | 10.6 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 12.0 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
@@ -1810,7 +1810,7 @@
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 431.6 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 10.9 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 253.3 KB | ✅ | — |
+| `data/manifest.json` | 247.9 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1986,7 +1986,7 @@
 | `data/policy/green-building.json` | 57.5 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 32.6 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 157.5 KB | ✅ | — |
+| `data/policy/housing-events.json` | 157.1 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/housing-roll-calls.json` | 5.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
@@ -2027,7 +2027,7 @@
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 655.1 KB | ✅ | — |
+| `data/policy_briefs.json` | 732.8 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 469.8 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
