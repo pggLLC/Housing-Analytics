@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T19:08:21.393Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T19:34:55.271Z. Do not edit by hand.
 
 ---
 
@@ -10,7 +10,7 @@
 
 | File | Title | Size |
 |------|-------|------|
-| `404.html` | Page not found | COHO Analytics | 3.4 KB |
+| `404.html` | Page not found | COHO Analytics | 3.5 KB |
 | `LIHTC-dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `about.html` | About | COHO Analytics | 19.3 KB |
 | `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.7 KB |
@@ -2053,7 +2053,7 @@
 
 ## Test Files
 
-792 test files found.
+793 test files found.
 
 | File | Size |
 |------|------|
@@ -2473,6 +2473,7 @@
 | `test/market-study-report.test.js` | 30.6 KB |
 | `test/market-types.test.mjs` | 10.9 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
+| `test/messaging-need-not-erased.test.js` | 9.8 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
 | `test/methods-spec-sources.test.mjs` | 6.3 KB |
 | `test/metric-semantics-wording.test.js` | 5.4 KB |
@@ -2583,7 +2584,7 @@
 | `test/predictor-policy.test.js` | 4.1 KB |
 | `test/preservation.test.js` | 16.8 KB |
 | `test/pro-forma.test.js` | 2.9 KB |
-| `test/production-figure-names-its-reading.test.js` | 11.6 KB |
+| `test/production-figure-names-its-reading.test.js` | 11.9 KB |
 | `test/production-need-counts-the-workforce.test.mjs` | 8.8 KB |
 | `test/production-read-names-both-parts.test.js` | 3.9 KB |
 | `test/project-scenario.test.js` | 10.4 KB |
