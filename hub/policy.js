@@ -72,9 +72,17 @@
     }).join('') + '<p class="note">From <a href="' + LIVE + 'housing-legislation-2026.html?classic=1#road-act">the full Legislation page</a>.</p></section>';
   }
 
+  // What a story says: its AI line (labelled) or, failing that, the outlet's own words in quotes.
+  // paul, 17 Nov: "AI-written, labelled"; 18 Nov: every story, "so people would know what is in the link".
+  function storySaid(it) {
+    if (it.ai) return '<p class="news-quote"><span class="news-ai" title="Written by AI from this story\u2019s own summary">AI</span> ' + esc(it.ai) + '</p>';
+    var q = it.summary && it.summary.text; return q ? '<p class="news-quote">\u201c' + esc(q) + '\u201d</p>' : '';
+  }
+  function storyLink(it) { return (it.summary && safe(it.summary.link)) || safe(it.link); }
+  var SAID_NOTE = 'Lines marked AI are written by AI (gpt-4o-mini) from only the story\u2019s headline and its own description; check the source before relying on them. Lines in quotes are the outlet\u2019s own words. A story whose site the news script could not read shows its headline only.';
   function natRow(x) {
-    var u = safe(x.link);
-    return '<li><p>' + (u ? '<a href="' + esc(u) + '">' + esc(x.title) + '</a>' : esc(x.title)) + '</p><p class="note">' + esc(x.source || 'Unknown publisher') + (x.date ? ' · ' + esc(x.date) : '') +
+    var u = storyLink(x);
+    return '<li><p>' + (u ? '<a href="' + esc(u) + '">' + esc(x.title) + '</a>' : esc(x.title)) + '</p>' + storySaid(x) + '<p class="note">' + esc(x.source || 'Unknown publisher') + (x.date ? ' · ' + esc(x.date) : '') +
       (Array.isArray(x.also) && x.also.length ? ' · Also ' + esc(x.also.map(function (y) { return y.source; }).join(', ')) : '') + '</p></li>';
   }
   // The live page's "This week" sourcing line: the last seven days' stories by outlet check.
@@ -167,12 +175,7 @@
     var link = function (title, href) { var h = safe(href); return h ? '<a href="' + esc(h) + '">' + esc(title) + '</a>' : esc(title); };
     // paul, 2026-11-17: say what each story says, not just link it. The quote is the story's own summary
     // (the outlet's description of its article, or the release's own words), found by the news script.
-    // paul chose "AI-written, labelled": a sentence the news script had AI write is marked AI; otherwise the quote shows.
-    var said = function (it) {
-      if (it.ai) return '<p class="news-quote"><span class="news-ai" title="Written by AI from this story\u2019s own summary">AI</span> ' + esc(it.ai) + '</p>';
-      var q = it.summary && it.summary.text; return q ? '<p class="news-quote">\u201c' + esc(q) + '\u201d</p>' : '';
-    };
-    var href = function (it) { return (it.summary && safe(it.summary.link)) || it.link; };
+    var said = storySaid, href = storyLink;
     var rows = (t.agency || []).map(function (a) {
       return '<li><span class="news-today-tag">' + esc(a.agency) + '</span> ' + link(a.title, href(a)) + ' <span class="news-date">' + (a.date_basis === 'first_seen' ? 'first seen ' : 'posted ') + esc(a.date) + '</span>' + said(a) + '</li>';
     }).concat((t.top || []).map(function (x) {
@@ -228,7 +231,7 @@
       (checkChips.filter(Boolean).length > 1 ? '<nav class="dm-chips" aria-label="Outlet check"><p class="news-pick-label">Outlet check</p><ul>' + checkChips.join('') + '</ul></nav>' : '');
     var pick = pickRows ? '<section id="nw-pick" class="news-pick" aria-label="Narrow the headlines">' + pickRows +
       (narrowed ? '<p class="chapter-finding" role="status">' + (picked.length ? 'Showing ' + num(picked.length) + ' of ' + num(st.length) + ' headlines' : 'No headlines match') + ': ' + esc(pickedNames.join(', ')) + '. <a id="nw-all" href="' + esc(to({ np: '', nc: '' })) + '">Show all headlines</a></p>' : '') + '</section>' : '';
-    var stories = picked.map(function (x) { return { date: x.date, title: x.title, link: safe(x.link), source: x.source, check: check(x), where: (x.places || []).map(function (p) { return p.name; }).concat(x.places && x.places.length ? [] : x.regions || []).join(', ') || 'Statewide', local: newsLocal(x) }; });
+    var stories = picked.map(function (x) { return { date: x.date, title: x.title, link: storyLink(x), said: storySaid(x), source: x.source, check: check(x), where: (x.places || []).map(function (p) { return p.name; }).concat(x.places && x.places.length ? [] : x.regions || []).join(', ') || 'Statewide', local: newsLocal(x) }; });
     var byMonth = UI.tally(st, function (x) { return x.date && x.date.slice(0, 7); }).sort(function (a, b) { return a[0] < b[0] ? -1 : 1; });
     var outlets = UI.tally(st, function (x) { return x.source; }).length;
     var top = stories.slice(0, 8);
@@ -240,14 +243,14 @@
       (narrowed ? '' : newsToday(s.data.briefs.today)) +
       pick +
       (!top.length ? '' : '<section id="nw-top" aria-labelledby="nw-top-h"><h2 id="nw-top-h" class="visually-hidden">Latest stories</h2><ol class="news-top">' + top.map(function (r) {
-        return '<li><p class="news-date">' + esc(r.date) + ' · ' + esc(r.source) + (r.check !== 'Checked' ? ' · <span class="news-check">' + esc(r.check) + '</span>' : '') + '</p><p class="news-head">' + (r.link ? '<a href="' + esc(r.link) + '">' + esc(r.title) + '</a>' : esc(r.title)) + '</p>' +
+        return '<li><p class="news-date">' + esc(r.date) + ' · ' + esc(r.source) + (r.check !== 'Checked' ? ' · <span class="news-check">' + esc(r.check) + '</span>' : '') + '</p><p class="news-head">' + (r.link ? '<a href="' + esc(r.link) + '">' + esc(r.title) + '</a>' : esc(r.title)) + '</p>' + r.said +
           '<p class="news-where">' + esc(r.where) + '</p>' + r.local + '</li>';
-      }).join('') + '</ol></section>') +
+      }).join('') + '</ol>' + (top.some(function (r) { return r.said; }) ? '<p class="note">' + esc(SAID_NOTE) + '</p>' : '') + '</section>') +
       weekLine(st) +
       '<section id="nw-latest" tabindex="-1"><h2>' + (narrowed ? 'Headlines picked' : 'All headlines') + '</h2>' +
       UI.table('news', 'Colorado housing headlines, newest first' + (narrowed ? ': ' + pickedNames.join(', ') : ''), [
         { key: 'date', label: 'Date' },
-        { key: 'title', label: 'Headline', href: function (r) { return r.link; }, more: function (r) { return r.local; } },
+        { key: 'title', label: 'Headline', href: function (r) { return r.link; }, more: function (r) { return r.said + r.local; } },
         { key: 'source', label: 'Outlet' },
         { key: 'check', label: 'Outlet check', tip: 'Checked: COHO has reviewed the outlet. Unverified: not checked yet. Weak sourcing: reviewed, with the reason. The same tags are on the older Housing News page.' },
         { key: 'where', label: 'Where', tip: 'Places named in the story, matched to the 546 Colorado geographies; otherwise its region' }
