@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-18T15:45:13.544Z",
+    "generated_at": "2026-11-18T16:52:08.968Z",
     "root": "data/",
     "file_count": 1997,
-    "total_size_bytes": 228636160,
+    "total_size_bytes": 228630653,
     "kinds": {
       "json": 1948,
       "geojson": 35,
@@ -724,7 +724,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-18T15:41:51.727Z",
+      "mtime": "2026-11-18T16:52:04.453Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1194,8 +1194,8 @@
     {
       "path": "chfa-qap-calendar.json",
       "kind": "json",
-      "size_bytes": 21172,
-      "mtime": "2026-11-02T12:29:30.611Z",
+      "size_bytes": 21280,
+      "mtime": "2026-11-18T16:50:07.883Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -6611,8 +6611,8 @@
     {
       "path": "discovery-reports/latest.json",
       "kind": "json",
-      "size_bytes": 312413,
-      "mtime": "2026-11-18T04:12:06.901Z",
+      "size_bytes": 305718,
+      "mtime": "2026-11-18T16:50:07.924Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -6627,7 +6627,7 @@
       ],
       "key_count": 9,
       "primary_array_key": "newSources",
-      "primary_array_length": 2012,
+      "primary_array_length": 1970,
       "primary_array_first_keys": [
         "path",
         "sizeBytes",
@@ -6842,8 +6842,8 @@
     {
       "path": "glossary.json",
       "kind": "json",
-      "size_bytes": 85819,
-      "mtime": "2026-11-13T12:47:01.889Z",
+      "size_bytes": 86089,
+      "mtime": "2026-11-18T16:50:07.928Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -37178,7 +37178,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 253699,
-      "mtime": "2026-11-18T13:14:07.951Z",
+      "mtime": "2026-11-18T16:51:26.233Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -37881,8 +37881,8 @@
     {
       "path": "market/finder-place-demand.json",
       "kind": "json",
-      "size_bytes": 21713,
-      "mtime": "2026-11-02T12:29:30.996Z",
+      "size_bytes": 21767,
+      "mtime": "2026-11-18T16:50:08.240Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39166,7 +39166,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-18T15:41:53.243Z",
+      "mtime": "2026-11-18T16:52:06.763Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39190,7 +39190,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-18T15:41:52.882Z",
+      "mtime": "2026-11-18T16:52:06.196Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41012,8 +41012,8 @@
     {
       "path": "policy/chfa-2027-r1-scoring.json",
       "kind": "json",
-      "size_bytes": 21300,
-      "mtime": "2026-11-02T12:29:31.177Z",
+      "size_bytes": 21354,
+      "mtime": "2026-11-18T16:50:08.442Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -41048,8 +41048,8 @@
     {
       "path": "policy/chfa-2027-r2-scoring.json",
       "kind": "json",
-      "size_bytes": 22915,
-      "mtime": "2026-11-02T12:29:31.177Z",
+      "size_bytes": 22969,
+      "mtime": "2026-11-18T16:50:08.442Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -41170,8 +41170,8 @@
     {
       "path": "policy/co-developer-funding-guide.json",
       "kind": "json",
-      "size_bytes": 436532,
-      "mtime": "2026-11-10T13:57:51.430Z",
+      "size_bytes": 436748,
+      "mtime": "2026-11-18T16:50:08.444Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -41903,8 +41903,8 @@
     {
       "path": "policy/lihtc-underwriting-rules.json",
       "kind": "json",
-      "size_bytes": 24242,
-      "mtime": "2026-11-03T13:59:28.548Z",
+      "size_bytes": 24296,
+      "mtime": "2026-11-18T16:50:08.452Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42100,8 +42100,8 @@
     {
       "path": "policy/policy-watch.json",
       "kind": "json",
-      "size_bytes": 55919,
-      "mtime": "2026-11-10T12:05:01.912Z",
+      "size_bytes": 56243,
+      "mtime": "2026-11-18T16:50:08.454Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42562,8 +42562,8 @@
     {
       "path": "policy/unit-size-standards.json",
       "kind": "json",
-      "size_bytes": 4929,
-      "mtime": "2026-11-02T12:29:31.188Z",
+      "size_bytes": 4983,
+      "mtime": "2026-11-18T16:50:08.461Z",
       "shape": "object",
       "keys": [
         "schema",

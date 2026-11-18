@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-18T16:25:09.982658Z",
+  "generated": "2026-11-18T16:52:12.962606Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -279,7 +279,7 @@
     "data/chfa-qap-calendar.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21172
+      "bytes": 21280
     },
     "data/co-county-boundaries.json": {
       "featureCount": 64,
@@ -1204,7 +1204,7 @@
     "data/glossary.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 85819
+      "bytes": 86089
     },
     "data/hmda/co-county-aggregates.json": {
       "featureCount": 64,
@@ -8794,7 +8794,7 @@
     "data/market/finder-place-demand.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21713
+      "bytes": 21767
     },
     "data/market/flood_zones_co.geojson": {
       "featureCount": 12537,
@@ -9474,12 +9474,12 @@
     "data/policy/chfa-2027-r1-scoring.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21300
+      "bytes": 21354
     },
     "data/policy/chfa-2027-r2-scoring.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 22915
+      "bytes": 22969
     },
     "data/policy/chfa-awards-historical.json": {
       "featureCount": 0,
@@ -9499,7 +9499,7 @@
     "data/policy/co-developer-funding-guide.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 436532
+      "bytes": 436748
     },
     "data/policy/colorado-deal-rules.json": {
       "featureCount": 0,
@@ -9664,7 +9664,7 @@
     "data/policy/lihtc-underwriting-rules.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 24242
+      "bytes": 24296
     },
     "data/policy/local-commitment.json": {
       "featureCount": 0,
@@ -9699,7 +9699,7 @@
     "data/policy/policy-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 55919
+      "bytes": 56243
     },
     "data/policy/prop123-land-banking-awards.json": {
       "featureCount": 0,
@@ -9789,7 +9789,7 @@
     "data/policy/unit-size-standards.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4929
+      "bytes": 4983
     },
     "data/policy/vacancy-tax.json": {
       "featureCount": 0,
