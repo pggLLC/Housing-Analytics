@@ -205,6 +205,22 @@ test('ownership pressure plus moderate fit recommends ownership-supportive strat
   assert.equal(out.tenureMixRecommendation, 'Ownership-supportive strategy');
 });
 
+test('severe deep-tier renter burden outranks the ownership reading (Fruita, 18 Nov 2026)', () => {
+  // The ownership fixture above, with the lowest-income renters severely burdened:
+  // 170 of 250 at or below 30% AMI pay over half their income (68%, at least 150
+  // households, at least 3% of all households). Until 18 Nov 2026 the ownership
+  // rule was checked first and this read "Ownership-supportive strategy".
+  const out = compute({
+    placeChasEntry: fixtureEntry({ renterCb30: 250, renterCb50: 170, ownerCb30: 300, ownerCb50: 125, modRenter: 650, modOwner: 500, modOwnerCb: 210 }),
+    amiGapEntry: amiGap,
+    homeValueEntry: { value: 430000, source: 'test' },
+  });
+  assert.notEqual(out.rentalPressure.tier, 'High');
+  assert.notEqual(out.rentalPressure.tier, 'Very High');
+  assert.equal(out.tenureMixRecommendation, 'Deep affordability priority');
+  assert.match(out.recommendationDetail, /ownership tools may complement rental/);
+});
+
 test('low_confidence and acs_anchor downgrade quality with caveats', () => {
   const low = compute({ placeChasEntry: fixtureEntry({ lowConfidence: true }), amiGapEntry: amiGap, homeValueEntry: { value: 300000, source: 'test' } });
   assert.notEqual(low.dataQuality, 'High');
