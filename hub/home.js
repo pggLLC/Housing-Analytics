@@ -519,7 +519,7 @@
     var g = params.get('town');
     return '<section class="home-hero hh-warm" aria-labelledby="home-h1"><div class="hh-copy"><p class="hh-kicker">COHO Analytics · Colorado housing</p>' +
       '<h1 id="home-h1">Colorado needs more homes that people can afford.</h1>' +
-      '<p class="lede">Rent has outpaced pay since 2000, and a typical home costs more than five years of a typical income. We bring data and expert analysis to the people who work on housing, from town staff to builders, so communities can plan the homes they need and there is housing with dignity for all.</p></div>' +
+      '<p class="lede">Rent has outpaced pay over the last ten years and since 2000, and a typical home costs more than five years of a typical income. We bring data and expert analysis to the people who work on housing, from town staff to builders, so communities can plan the homes they need and there is housing with dignity for all.</p></div>' +
       // The search comes before the county figure, so it is on the first phone screen; a picked town answers here.
       '<div class="hh-find">' + Shell.searchBox('home-place', 'Find your town or county', params.get('q') || '', 'For example Fruita or Mesa County') +
       found(params) + answer(params) + resume(params) +

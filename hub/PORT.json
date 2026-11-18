@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "93c71e701cf37d20173bc23843ec03283c52e40f",
+  "commit": "10b665a397396f8f529b3b3cb33999b4281dff78",
   "dirty": false
  },
  "files": {
@@ -60,7 +60,7 @@
   "hub/deal-town.js": "ff1d569519879d746c28fc8bd1ba4fdcadd3d084893bbcdceacb4b99b239a998",
   "hub/deals.js": "b6e20037509e6c3e62349b903ba8c89eb59c57105b3847bcc28078e5ea1cad07",
   "hub/deep-dive.css": "92b76ff0fc6aa72e72dad971fcc9394d3eacb581e75db038b01700b625fcc606",
-  "hub/deep-dive.js": "958c6b50ba0a2b9e916760951e1322a99b57d51102e98b33fd41fe7790cfdb76",
+  "hub/deep-dive.js": "f1af6734b76f9a72221cda371823a3dc1bd8d937e604c1609b16d381d32e65c3",
   "hub/design-guide.css": "0af1c6a4375ac1f7c859c36191b1602b85915ed8ac8b75a8d6a0e8e00fbe02a9",
   "hub/design-guide.js": "cc76b6f718a3b0b197be657af7d5b03f05dc860d9525c658b7ae9f4152fbe9ae",
   "hub/economy.css": "fa070ef297c5247ab1a316c0721ba21dc3bb8db7a6460fc4d3ab3851d2e93ef6",
@@ -76,7 +76,7 @@
   "hub/hna-dola.js": "fbd5032131872fdd0b9ba6bd5b3015ee19dd6756abdd48caaa7143048f64cdc7",
   "hub/hna.js": "ed2b410d912d6917b53fde6e2bccdcdaeec0fe8f8c1f8ec8d51f692e438aefda",
   "hub/home.css": "a178558303c67e69f5e505f974e1aa65ee8a2d824f8144a8e9e755a0ccc8d9bd",
-  "hub/home.js": "5f1055a2e103968aacf5b484d2dae5b24d8c57ff06839eba9d4947e2453343fa",
+  "hub/home.js": "4ad2159cde9ec4ed793b094d20638752835262b374172d229cdb2fe0b5dd53e0",
   "hub/homes.js": "048cc62e0cfd9789252368d9aecf8e951c96500f207d94bb41f54dc7e6684d2b",
   "hub/ic-summary.js": "35ef0905fb193a88c8f7a1b734bd6229edc4d89bb3b2a7dc3bdb0898bfd9865b",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
@@ -113,7 +113,7 @@
   "hub/project-store.js": "f05e2135eb76a37550cc142ccbd552e35712bc83836e0a7125389ea69de5ff91",
   "hub/redraw.js": "0aa306638ac0e4dd3ca9a88c54459bdf16d7f486ae4c3ed3472c23e532622c16",
   "hub/rent-income.css": "2f703dc314e61cf4783e1f2d5e9acdbae2cf0c7f9cad28149d81b8dbe44f267a",
-  "hub/rent-income.js": "41fe9385406100fbe4f3dbc090bb2a34ce10c0f8d183d97120e70aaf7284b447",
+  "hub/rent-income.js": "e641f94b7d546120fd36b59588e7d2967f8c4c4020ae0b79dd39e1a7966253a4",
   "hub/report.js": "8592e92722550a739e3278371821c832d56896c7fadb99335793b9f58a60d8fb",
   "hub/route-catalog.json": "a8b4fc44432ef008bf499883422cb0a20674d4597a4b83aebc0c7c1555359c87",
   "hub/sale-deal.js": "53bd1e8a5600b9c5ee42f916c44f9352a0a38e4a1cd3d056ec1dbecbde1c6d7b",
@@ -166,7 +166,7 @@
   "js/local-incentives-data.js": "f1ad486017680b9af8781485def973e6f3294634c0ae96542c7e0a27cebc55a5",
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
   "js/land-comps.js": "f44d06e4a206699667d7ae316db1a65dbffe75a8364b2316c5a91bab55afad4f",
-  "js/data-source-inventory.js": "2c11c8e429341a4b8e185e39975e81c3524dd05d67a3402bf384420e31c62941",
+  "js/data-source-inventory.js": "0b556064030e5f667ff1eddbce7d47935e33776e89297021885e4439871836bf",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
   "js/hna/hna-ownership-need.js": "b33284b054b1120870e2850d8995c990edabf661d42a3a767bf9cc8f98b1f8d0",
   "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",

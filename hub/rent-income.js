@@ -180,7 +180,12 @@
     var x = d.geo[String(fips || '')];
     // Colorado ('08') too: Home shows the statewide card alone, with no picker (paul, 15 Nov: one picker on Home).
     if (!x || (x.kind !== 'county' && x.kind !== 'state')) return '';
-    return '<section class="ri-card" aria-label="Rent against income in ' + esc(title(x)) + '">' + cardBody(d, x, '2000', place) +
+    // Both comparisons, explained (paul, 18 Nov 2026: "keeping both and explaining them"). The headline is survey to
+    // survey, 2010–14 to 2020–24, which Census says compares; the longer view from 2000 follows, marked approximate,
+    // because Census says 2000 gross rent "should not be compared" with ACS rent (2024 ACS Subject Definitions, p.20).
+    var lr = !x.small && over(d, x, '2000');
+    var longer = lr && !lr.fell ? '<p class="note ri-longer"><strong>Over a longer run:</strong> since 2000, the typical rent went up about ' + pct(lr.rp) + ' and the typical household\u2019s income about ' + pct(lr.ip) + '. Read that as approximate: the 2000 Census counted a narrower set of rental homes, so Census says its rent is not directly comparable with the survey\u2019s. Pick \u201cSince 2000\u201d on the deep dive for that view.</p>' : '';
+    return '<section class="ri-card" aria-label="Rent against income in ' + esc(title(x)) + '">' + cardBody(d, x, '2010-14', place) + longer +
       '<div class="ri-foot">' + sourceLine(d) + '<p class="ri-more-link"><a href="#/places/deep-dive">Every county, 1980 to today, on the Colorado deep dive →</a></p></div></section>';
   }
 
@@ -341,7 +346,7 @@
     var d = rows();
     if (!d) return '<p role="status" class="note">Loading rent and income…</p>';
     if (d.error) return '<p class="note">Rent against income did not load (' + esc(d.error) + ').</p>';
-    if (!state[id]) state[id] = { id: id, sel: sel && d.geo[sel] ? sel : CO, period: '2000', all: false };
+    if (!state[id]) state[id] = { id: id, sel: sel && d.geo[sel] ? sel : CO, period: '2010-14', all: false };
     return '<div class="ri-wrap" id="ri-' + id + '" data-ri="' + id + '">' + inner(id) + '</div>';
   }
   function redraw(wrap, focusSel) {

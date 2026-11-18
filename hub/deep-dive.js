@@ -1191,9 +1191,10 @@
     // The page story (paul 11-06): lead with the statewide finding. Not the funding groups: they leave out most
     // 4% bond deals on pins before HA #2726 (see ledgerNote), so they cannot carry the headline.
     var lede = function () {
-      var R = global.LabRentIncome && global.LabRentIncome.rows(), x = R && !R.error && R.geo && R.geo['08'], o = x && global.LabRentIncome.over(R, x, '2000');
+      // Survey to survey first, the longer view from 2000 second and marked approximate (paul, 18 Nov 2026: keep both and explain).
+      var R = global.LabRentIncome && global.LabRentIncome.rows(), x = R && !R.error && R.geo && R.geo['08'], o = x && global.LabRentIncome.over(R, x, '2010-14'), l = x && global.LabRentIncome.over(R, x, '2000');
       if (!o || o.fell) return 'Statewide figures for Colorado: tax credit projects and awards, rents against income, costs, funding against need, and the market in each county and town.';
-      return 'Since 2000, the typical Colorado rent rose ' + Math.round(o.rp * 100) + '% and household income ' + Math.round(o.ip * 100) + '%. Below: rents against income, where tax credit homes went, costs, and the market in each county.';
+      return 'From 2010–14 to 2020–24, the typical Colorado rent rose ' + Math.round(o.rp * 100) + '% and household income ' + Math.round(o.ip * 100) + '%' + (l && !l.fell ? '; since 2000, roughly ' + Math.round(l.rp * 100) + '% and ' + Math.round(l.ip * 100) + '% (approximate: Census counted rent differently in 2000)' : '') + '. Below: rents against income, where tax credit homes went, costs, and the market in each county.';
     };
     var head = function (facts, d) {
       return T.head({ kind: 'data', crumbs: T.trail('places', title), title: title,
