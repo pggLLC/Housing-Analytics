@@ -337,7 +337,8 @@
         county:     a.county,
         countyFips: a.county_fips || null,
         units:      typeof a.total_units === 'number' && a.total_units > 0 ? a.total_units : null,
-        liUnits:    0,
+        // Round Two prints low-income homes (li_units); Round One does not, so it stays 0 as before.
+        liUnits:    typeof a.li_units === 'number' && a.li_units > 0 ? a.li_units : 0,
         yrAlloc:    r.roundYear,
         credit:     credit,
         bridge:     r.name || String(r.roundYear)

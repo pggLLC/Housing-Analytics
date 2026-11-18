@@ -185,17 +185,27 @@ async function main() {
   // Round Two (announced 2026-11-16) is counted the same way.
   function bridgeCounts(bridge, label) {
     const byCity = new Map(), byCounty = new Map();
+    // Which credits the round's awards here carry, read from each award's own amounts.
+    const creditsByCity = new Map(), creditsByCounty = new Map();
+    const addCredits = (m, k, a) => {
+      const c = m.get(k) || { nine: false, four: false, state: false, competitive: false };
+      if (a.federal_9pct_credit) c.nine = true;
+      if (a.federal_4pct_credit) c.four = true;
+      if (a.state_credit) c.state = true;
+      if (a.federal_9pct_credit || (a.federal_4pct_credit && a.state_credit)) c.competitive = true;
+      m.set(k, c);
+    };
     for (const a of (bridge.awards || [])) {
       const city = _normCity(a.city);
-      if (city) byCity.set(city, (byCity.get(city) || 0) + 1);
+      if (city) { byCity.set(city, (byCity.get(city) || 0) + 1); addCredits(creditsByCity, city, a); }
       const fips = countyForPoint(countyIdx, Number(a.lon), Number(a.lat));
-      if (fips) byCounty.set(fips, (byCounty.get(fips) || 0) + 1);
+      if (fips) { byCounty.set(fips, (byCounty.get(fips) || 0) + 1); addCredits(creditsByCounty, fips, a); }
       else console.warn(label + ' award outside every county boundary (not counted for any county): ' + a.name);
     }
-    return [byCity, byCounty];
+    return [byCity, byCounty, creditsByCity, creditsByCounty];
   }
   const [r1ByCity, r1ByCounty] = bridgeCounts(r1, 'R1');
-  const [r2ByCity, r2ByCounty] = bridgeCounts(r2, 'R2');
+  const [r2ByCity, r2ByCounty, r2CreditsByCity, r2CreditsByCounty] = bridgeCounts(r2, 'R2');
   const r2Yr  = Number((r2.metadata && r2.metadata.round || '').match(/(\d{4})/)?.[1]) || r1Yr;
 
   // Annotate each ranking entry.
@@ -265,6 +275,20 @@ async function main() {
       e.metrics.recency_score_4pct         = 100;
       e.metrics.recency_score_state_credit = 100;
       e.metrics.recency_score_competitive  = 100;
+    }
+    // Round Two (4% + state, 2026-11-16) is not in the feed yet: fold it into the
+    // credit-specific years its own awards carry, before the regional rollup
+    // reads them (Codex review of #2945).
+    const r2c = (isCounty ? r2CreditsByCounty.get(e.geoid) : r2CreditsByCity.get(cityKey)) || null;
+    if (r2c && Number.isFinite(r2Yr)) {
+      for (const [flag, key] of [['nine', '9pct'], ['four', '4pct'], ['state', 'state_credit'], ['competitive', 'competitive']]) {
+        if (!r2c[flag]) continue;
+        const cur = e.metrics['latest_' + key + '_year'];
+        if (cur == null || r2Yr > cur) {
+          e.metrics['latest_' + key + '_year'] = r2Yr;
+          e.metrics['recency_score_' + key] = _recencyScore(r2Yr);
+        }
+      }
     }
 
     touched++;
