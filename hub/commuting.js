@@ -16,7 +16,7 @@
   // IRS standard mileage rate from 1 July 2026 (Announcement 2026-11). It covers the full cost of a car, so a
   // cost built on it is the high end per mile; distances are straight-line, so the miles are a floor.
   var IRS_RATE = 0.76, WORKDAYS = 240;
-  // Share of a town's jobs held by people driving 20 to 60 miles in, light to strong (Okabe-Ito, as live).
+  // Share of a town's jobs held by people living 20 to 60 miles away, light to strong (Okabe-Ito, as live).
   var BINS = [
     { max: 0.05, color: 'var(--share-0)', label: 'Under 5%' },
     { max: 0.15, color: 'var(--cat-6)', label: '5 to 15%' },
@@ -77,23 +77,23 @@
     }
     var dots = list.slice().sort(function (a, b) { return b.jobs - a.jobs; }).map(function (p) {
       var c = xy(p.lon, p.lat), r = Math.max(3, Math.min(13, 1.5 + Math.sqrt(p.jobs) / 24)).toFixed(1);
-      var t = bare(p.name) + ': ' + pct(p.far, p.jobs) + ' of ' + num(p.jobs) + ' jobs held by people driving 20 to 60 miles in';
+      var t = bare(p.name) + ': ' + pct(p.far, p.jobs) + ' of ' + num(p.jobs) + ' jobs held by people living 20 to 60 miles away';
       return '<a href="' + esc(townHref(p.geoid)) + '"' + (sel && sel.geoid === p.geoid ? ' class="is-picked"' : '') + '><circle cx="' + c[0] + '" cy="' + c[1] + '" r="' + r + '" style="fill:' + binFor(farShare(p)).color + '"><title>' + esc(t) + '</title></circle></a>';
     }).join('');
     return '<figure class="pres-map cj-map">' +
-      '<figcaption><span class="cc-kicker">Share of each town’s jobs held by people driving 20 to 60 miles in</span><strong>' + esc((function () {
+      '<figcaption><span class="cc-kicker">Share of each town’s jobs held by people living 20 to 60 miles away</span><strong>' + esc((function () {
         var t = list.slice().sort(function (a, b) { return farShare(b) - farShare(a); });
-        return t.length > 1 ? 'Statewide, people driving 20 to 60 miles in hold the most jobs in ' + bare(t[0].name) + ' (' + pct(t[0].far, t[0].jobs) + ') and ' + bare(t[1].name) + ' (' + pct(t[1].far, t[1].jobs) + ')' : 'Share of each town’s jobs held by people driving 20 to 60 miles in';
+        return t.length > 1 ? 'Statewide, people living 20 to 60 miles away hold the most jobs in ' + bare(t[0].name) + ' (' + pct(t[0].far, t[0].jobs) + ') and ' + bare(t[1].name) + ' (' + pct(t[1].far, t[1].jobs) + ')' : 'Share of each town’s jobs held by people living 20 to 60 miles away';
       })()) + '</strong><span class="note">' + (sel ? 'This headline is for all of Colorado. ' + esc(bare(sel.name)) + ' is outlined, with lines from the towns that send it the most workers; its own numbers are above. ' : '') + 'One dot per town with 200 or more jobs, sized by its jobs. Select a dot, or pick a town above, to see its numbers and the towns that send it the most workers.</span></figcaption>' +
-      '<div class="pm-frame"><svg viewBox="0 0 ' + MAP_W + ' ' + MAP_H + '" role="group" aria-label="Colorado towns shaded by the share of jobs held by people driving 20 to 60 miles in">' +
+      '<div class="pm-frame"><svg viewBox="0 0 ' + MAP_W + ' ' + MAP_H + '" role="group" aria-label="Colorado towns shaded by the share of jobs held by people living 20 to 60 miles away">' +
       '<g class="pm-counties is-quiet">' + outline + '</g>' + flows + '<g class="pm-layer cj-dots">' + dots + '</g>' + K.metroBox() + K.cities() + '</svg></div>' +
       '<ul class="lb-key">' + BINS.map(function (b) { return '<li><span class="pm-key" style="background:' + b.color + '" aria-hidden="true"></span>' + esc(b.label) + ' <b>' + num(list.filter(function (p) { return binFor(farShare(p)) === b; }).length) + '</b></li>'; }).join('') + '</ul>' +
       // Map kit part 3: the Denver metro close-up, the same towns and shares.
       K.inset({ features: d.counties.features, groups: [{ cls: 'cj-dots', dots: list.slice().sort(function (a, b) { return b.jobs - a.jobs; }).map(function (p) {
-        return { lon: p.lon, lat: p.lat, r: Math.max(4, Math.min(16, 2 + Math.sqrt(p.jobs) / 18)), fill: binFor(farShare(p)).color, href: esc(townHref(p.geoid)), label: esc(bare(p.name) + ': ' + pct(p.far, p.jobs) + ' of ' + num(p.jobs) + ' jobs held by people driving 20 to 60 miles in') };
+        return { lon: p.lon, lat: p.lat, r: Math.max(4, Math.min(16, 2 + Math.sqrt(p.jobs) / 18)), fill: binFor(farShare(p)).color, href: esc(townHref(p.geoid)), label: esc(bare(p.name) + ': ' + pct(p.far, p.jobs) + ' of ' + num(p.jobs) + ' jobs held by people living 20 to 60 miles away') };
       }) }] }) +
       '<p class="note">County outlines: US Census TIGER. Towns are placed at the point the commute file gives.</p>' +
-      (global.LabVizData ? global.LabVizData.block('Share of each town’s jobs held by people driving 20 to 60 miles in', ['Town', 'Jobs', 'Held by people driving 20 to 60 miles in', 'Share (%)'],
+      (global.LabVizData ? global.LabVizData.block('Share of each town’s jobs held by people living 20 to 60 miles away', ['Town', 'Jobs', 'Held by people living 20 to 60 miles away', 'Share (%)'],
         list.slice().sort(function (a, b) { return b.jobs - a.jobs; }).map(function (p) { return [bare(p.name), p.jobs, p.far, p.jobs ? Math.round(p.far / p.jobs * 1000) / 10 : null]; })) : '') + '</figure>';
   }
 
@@ -165,7 +165,7 @@
     var hours = function (r) { return Math.round(2 * r[2] * WORKDAYS / 60); };
     var head = 'A full-time worker on Colorado’s $' + MIN_WAGE.toFixed(2) + ' minimum wage who drives in from ' + bare(top[0]) + ' spends ' + share(yearCost(top[3], RUN_RATE)).replace('%', '') + ' to ' + share(yearCost(top[3], IRS_RATE)) + ' of their pay on the drive, and ' + num(hours(top)) + ' hours a year in the car.';
     return '<div class="cj-card"><p class="cc-kicker">What the drive costs a lower-paid worker</p><p class="cj-head">' + esc(head) + '</p>' +
-      '<p>' + num(p.in_low) + ' of the ' + num(p.in_commuters) + ' people who drive in to ' + esc(nm) + ' earn $3,333 a month or less.</p>' +
+      '<p>' + num(p.in_low) + ' of the ' + num(p.in_commuters) + ' people who work in ' + esc(nm) + ' but live elsewhere earn $3,333 a month or less.</p>' +
       '<ul class="cj-costs">' + rows.map(function (r) {
         var lo = yearCost(r[3], RUN_RATE), hi = yearCost(r[3], IRS_RATE);
         return '<li><p class="cj-cost-top"><b>' + esc(bare(r[0])) + '</b><span>' + num(r[1]) + ' workers · ' + Math.round(r[2]) + ' min · ' + Math.round(r[3]) + ' road miles</span></p>' +
@@ -281,7 +281,7 @@
       stat(num(p.jobs), 'jobs in town (primary jobs)') +
       stat(pct(p.in_commuters, p.jobs), 'held by people who live elsewhere (' + num(p.in_commuters) +
         (p.in_other_state ? ', of whom ' + num(p.in_other_state) + ' live in another state' : '') + ')') +
-      stat(num(p.far), 'drive in from 20 to 60 miles; ' + num(p.far_low) + ' of them earn $3,333 a month or less') +
+      stat(num(p.far), 'live 20 to 60 miles away; ' + num(p.far_low) + ' of them earn $3,333 a month or less') +
       (c ? stat(c, 'a year for a typical 20 to 60 mile commuter (' + p.median_far_miles + ' miles each way, straight line, 240 days, IRS rate)') : '') +
       stat(num(p.long), 'recorded 60+ miles away; many are not daily trips, so they are not costed') +
       stat(pct(p.out_commuters, p.residents), 'of working residents work in another town (' + num(p.out_commuters) + ' of ' + num(p.residents) +
@@ -343,11 +343,11 @@
       return { geoid: p.geoid, name: bare(p.name), jobs: p.jobs, inShare: p.jobs ? Math.round(100 * p.in_commuters / p.jobs) : null, far: p.far, farShare: p.jobs ? Math.round(100 * p.far / p.jobs) : null, farLow: p.far_low, miles: p.median_far_miles, cost: p.median_far_miles ? Math.round(2 * p.median_far_miles * WORKDAYS * IRS_RATE / 10) * 10 : null, out: p.residents ? Math.round(100 * p.out_commuters / p.residents) : null };
     });
     return head({
-      answer: 'Where a town’s workers live tells you whether its housing fits its jobs. Pick a town to see how many of its jobs are held by people who drive in, how far, and what the drive costs them.',
+      answer: 'Where a town’s workers live tells you whether its housing fits its jobs. Pick a town to see how many of its jobs are held by people who live elsewhere, how far away they live, and what a daily drive would cost.',
       meta: '<span class="scope-tag">Scope: Colorado towns with 200 or more jobs</span> LEHD LODES ' + esc(meta.lodes_year) + ', primary jobs, home block to work block.',
       facts: [
         { value: num(list.length), label: 'Towns with 200 or more primary jobs', source: 'LEHD LODES ' + meta.lodes_year, href: meta.source },
-        { value: num(far), label: 'Jobs in those towns held by people driving 20 to 60 miles in, of ' + num(jobs), source: 'LEHD LODES ' + meta.lodes_year, href: meta.source },
+        { value: num(far), label: 'Jobs in those towns held by people living 20 to 60 miles away, of ' + num(jobs), source: 'LEHD LODES ' + meta.lodes_year, href: meta.source },
         { value: cost(25), label: 'A year to drive 25 miles each way, 240 days, at the IRS rate', source: 'IRS rate via Journal of Accountancy, July 2026', href: IRS_URL },
         { value: num((d.employers.areas || []).length), label: 'Areas with a largest-employer table from audit filings', source: 'Office of the State Auditor filings', href: d.employers.meta.library }
       ]
@@ -358,14 +358,14 @@
       (sel ? detail(sel, q.get('dir')) : '<p class="chapter-finding">Pick a town, or select one on the map. ' + num(list.length) + ' towns with 200 or more jobs are shown.</p>') +
       map(d, list, byName, sel) +
       sourceLine(meta) +
-      UI.bars('Towns where the most jobs are held by 20 to 60 mile commuters', 'Share of each town’s primary jobs; the 12 highest', top.map(function (p) { return [bare(p.name), Math.round(1000 * farShare(p)) / 10]; }), function (v) { return v.toFixed(1) + '%'; }) +
+      UI.bars('Towns where the most jobs are held by people living 20 to 60 miles away', 'Share of each town’s primary jobs; the 12 highest', top.map(function (p) { return [bare(p.name), Math.round(1000 * farShare(p)) / 10]; }), function (v) { return v.toFixed(1) + '%'; }) +
       sourceLine(meta) +
       UI.table('cj', 'Every town', [
         { key: 'name', label: 'Town', href: function (r) { return townHref(r.geoid); } },
         { key: 'jobs', label: 'Jobs', num: true, fmt: num, tip: 'Primary jobs in town (LODES JT01), so each worker counts once' },
         { key: 'inShare', label: 'Held by in-commuters', num: true, fmt: function (v) { return v + '%'; }, tip: 'Share of the town’s jobs held by people who live somewhere else' },
         { key: 'far', label: '20–60 mile commuters', num: true, fmt: num, tip: 'Jobs held by people who live 20 to 60 straight-line miles away' },
-        { key: 'farShare', label: 'Share driving 20–60 mi', num: true, fmt: function (v) { return v + '%'; } },
+        { key: 'farShare', label: 'Share living 20–60 mi away', num: true, fmt: function (v) { return v + '%'; } },
         { key: 'farLow', label: 'Of them lower-paid', num: true, fmt: num, tip: '$3,333 a month or less, LODES’s lower two pay bands' },
         { key: 'miles', label: 'Typical miles', num: true, tip: 'Median one-way straight-line miles for the 20 to 60 mile commuters' },
         { key: 'cost', label: 'Yearly drive cost', num: true, fmt: UI.money, tip: 'Typical miles, both ways, 240 days, at the IRS rate of 76 cents a mile' },
