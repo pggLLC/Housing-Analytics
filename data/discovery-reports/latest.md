@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-11-17T16:51:16.024Z
+**Scan timestamp:** 2026-11-18T16:25:06.004Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 2044 |
-| New (unregistered) | 2012 |
+| Files scanned | 2002 |
+| New (unregistered) | 1970 |
 | Registered | 31 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 1 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (1013 KB)
+- `data/_manifest.json` (987 KB)
 - `data/_qa-status.json` (7 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (16 KB)
 - `data/affordable-housing/chfa-awards/2026-round-two.json` (29 KB)
@@ -34,17 +34,16 @@
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/property-websites.json` (31 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (1 KB)
-- `data/alerts/alerts_archive.json` (2414 KB)
-- `data/alerts/brief-news-queue.json` (64 KB)
+- `data/alerts/alerts_archive.json` (2510 KB)
 - `data/alerts/outlet-decisions.json` (6 KB)
 - `data/alerts/outlet-register.json` (31 KB)
-- `data/alerts/outlet-review.json` (11 KB)
+- `data/alerts/outlet-review.json` (12 KB)
 - `data/alerts/owner-news.json` (0 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3871 KB)
-- `data/audit/chfa-qap-watch.json` (3487 KB)
-- `data/audit/funding-watch.json` (703 KB)
+- `data/audit/chfa-qap-watch.json` (3753 KB)
+- `data/audit/funding-watch.json` (690 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/benchmarks/str-license-counts.json` (6 KB)
@@ -229,7 +228,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (3957 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (304 KB)
+- `data/discovery-reports/latest.json` (305 KB)
 - `data/entitled-land/findings.json` (2 KB)
 - `data/environmental/epa-superfund-co.json` (324 KB)
 - `data/environmental/fema-flood-co.geojson` (2 KB)
@@ -1723,49 +1722,8 @@
 - `data/hud-lihtc-co-match.json` (226 KB)
 - `data/insights/catalog.json` (13 KB)
 - `data/insights-meta.json` (1 KB)
-- `data/jurisdiction-briefs/0803620.json` (37 KB)
-- `data/jurisdiction-briefs/08045.json` (37 KB)
-- `data/jurisdiction-briefs/08097.json` (37 KB)
-- `data/jurisdiction-briefs/0810105.json` (22 KB)
-- `data/jurisdiction-briefs/0812045.json` (34 KB)
-- `data/jurisdiction-briefs/0816000.json` (32 KB)
-- `data/jurisdiction-briefs/0817375.json` (27 KB)
-- `data/jurisdiction-briefs/0818310.json` (22 KB)
-- `data/jurisdiction-briefs/0820000.json` (44 KB)
-- `data/jurisdiction-briefs/0822035.json` (28 KB)
-- `data/jurisdiction-briefs/0827425.json` (34 KB)
-- `data/jurisdiction-briefs/0828745.json` (21 KB)
-- `data/jurisdiction-briefs/0830780.json` (39 KB)
-- `data/jurisdiction-briefs/0864255.json` (24 KB)
-- `data/jurisdiction-briefs/0867280.json` (32 KB)
-- `data/jurisdiction-briefs/0870195.json` (34 KB)
-- `data/jurisdiction-briefs/0873825.json` (25 KB)
-- `data/jurisdiction-briefs/0876795.json` (21 KB)
 - `data/jurisdiction-briefs/_lihtc-applications-excluded.json` (0 KB)
 - `data/jurisdiction-briefs/_lihtc-applications.json` (432 KB)
-- `data/jurisdiction-briefs/_liveness.json` (342 KB)
-- `data/jurisdiction-briefs/_news-used.json` (67 KB)
-- `data/jurisdiction-briefs/_round-watch.json` (404 KB)
-- `data/jurisdiction-briefs/_schema.json` (3 KB)
-- `data/jurisdiction-briefs/_verification-plan.json` (177 KB)
-- `data/jurisdiction-briefs/_verified/0803620.json` (23 KB)
-- `data/jurisdiction-briefs/_verified/08045.json` (17 KB)
-- `data/jurisdiction-briefs/_verified/08097.json` (23 KB)
-- `data/jurisdiction-briefs/_verified/0810105.json` (3 KB)
-- `data/jurisdiction-briefs/_verified/0812045.json` (14 KB)
-- `data/jurisdiction-briefs/_verified/0816000.json` (16 KB)
-- `data/jurisdiction-briefs/_verified/0817375.json` (15 KB)
-- `data/jurisdiction-briefs/_verified/0818310.json` (1 KB)
-- `data/jurisdiction-briefs/_verified/0820000.json` (26 KB)
-- `data/jurisdiction-briefs/_verified/0822035.json` (8 KB)
-- `data/jurisdiction-briefs/_verified/0827425.json` (22 KB)
-- `data/jurisdiction-briefs/_verified/0828745.json` (4 KB)
-- `data/jurisdiction-briefs/_verified/0830780.json` (24 KB)
-- `data/jurisdiction-briefs/_verified/0864255.json` (14 KB)
-- `data/jurisdiction-briefs/_verified/0867280.json` (22 KB)
-- `data/jurisdiction-briefs/_verified/0870195.json` (18 KB)
-- `data/jurisdiction-briefs/_verified/0873825.json` (2 KB)
-- `data/jurisdiction-briefs/_verified/0876795.json` (1 KB)
 - `data/kalshi/prediction-market.json` (11 KB)
 - `data/market/aamd-denver-vacancy.json` (2 KB)
 - `data/market/acs_median_rent_co.json` (133 KB)
@@ -1959,7 +1917,7 @@
 - `data/policy/green-building.json` (58 KB)
 - `data/policy/homeownership-programs.json` (33 KB)
 - `data/policy/housing-events-curated.json` (3 KB)
-- `data/policy/housing-events.json` (158 KB)
+- `data/policy/housing-events.json` (157 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/housing-roll-calls.json` (6 KB)
 - `data/policy/hud-state-median-family-income.json` (1 KB)
@@ -1987,7 +1945,7 @@
 - `data/policy/prop123-rental-rules.json` (33 KB)
 - `data/policy/resale-conventions.json` (8 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
-- `data/policy/resident-services.json` (34 KB)
+- `data/policy/resident-services.json` (35 KB)
 - `data/policy/soft-funding-status.json` (46 KB)
 - `data/policy/state-housing-laws.json` (195 KB)
 - `data/policy/stewardship-providers.json` (2 KB)
@@ -2001,11 +1959,11 @@
 - `data/policy/unit-size-standards.json` (5 KB)
 - `data/policy/vacancy-tax.json` (45 KB)
 - `data/policy/where-to-build-context.json` (34 KB)
-- `data/policy_briefs.json` (655 KB)
+- `data/policy_briefs.json` (843 KB)
 - `data/policy_briefs_curated.json` (437 KB)
 - `data/polymarket-curated.json` (6 KB)
 - `data/polymarket-data.json` (20 KB)
-- `data/polymarket-history.json` (227 KB)
+- `data/polymarket-history.json` (229 KB)
 - `data/processed/co_county_housing_indicators.geojson` (447 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
@@ -2029,4 +1987,4 @@
 
 ## ⏳ Aging Sources
 
-- undefined — 289 days since last update
+- undefined — 290 days since last update
