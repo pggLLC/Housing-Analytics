@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-18T14:31:04.447Z",
+    "generated_at": "2026-11-18T15:41:54.854Z",
     "root": "data/",
     "file_count": 1997,
-    "total_size_bytes": 228634432,
+    "total_size_bytes": 228636160,
     "kinds": {
       "json": 1948,
       "geojson": 35,
@@ -724,7 +724,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-18T13:14:59.511Z",
+      "mtime": "2026-11-18T15:41:51.727Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39166,7 +39166,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-18T13:15:02.110Z",
+      "mtime": "2026-11-18T15:41:53.243Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39190,7 +39190,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-18T13:15:01.661Z",
+      "mtime": "2026-11-18T15:41:52.882Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41557,8 +41557,8 @@
     {
       "path": "policy/green-building.json",
       "kind": "json",
-      "size_bytes": 58882,
-      "mtime": "2026-11-05T07:03:10.978Z",
+      "size_bytes": 59692,
+      "mtime": "2026-11-18T15:40:29.456Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42292,8 +42292,8 @@
     {
       "path": "policy/resident-services.json",
       "kind": "json",
-      "size_bytes": 35185,
-      "mtime": "2026-11-02T12:29:31.187Z",
+      "size_bytes": 35671,
+      "mtime": "2026-11-18T15:40:29.461Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42437,8 +42437,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 41714,
-      "mtime": "2026-11-10T13:57:51.439Z",
+      "size_bytes": 41768,
+      "mtime": "2026-11-18T15:40:29.461Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42494,8 +42494,8 @@
     {
       "path": "policy/thiz-map-status.json",
       "kind": "json",
-      "size_bytes": 4779,
-      "mtime": "2026-11-04T02:15:28.024Z",
+      "size_bytes": 4833,
+      "mtime": "2026-11-18T15:40:29.462Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -42666,8 +42666,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 447442,
-      "mtime": "2026-11-18T12:30:53.308Z",
+      "size_bytes": 447766,
+      "mtime": "2026-11-18T15:40:29.471Z",
       "shape": "object",
       "keys": [
         "meta",
