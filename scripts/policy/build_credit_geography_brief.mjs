@@ -278,7 +278,7 @@ export function buildBrief(D) {
 
   return {
     id: BRIEF_ID,
-    title: "Where Colorado's housing tax credits go: 9% and 4% awards against renter need, 2016 to 2026",
+    title: "Where Colorado's housing tax credits go: awards against renter need, county by county",
     policy_topic: 'Colorado Housing Policy & LIHTC',
     is_curated: true,
     source_reviewed: true,
