@@ -11,9 +11,9 @@
     "params": {
       "min_rate_denominator": 50
     },
-    "generated_at": "2026-11-18T14:36:06Z",
-    "source_commit": "a43793aec9",
-    "based_on": "2026-11-18T14:35:35Z"
+    "generated_at": "2026-11-19T14:13:57Z",
+    "source_commit": "69cc46059",
+    "based_on": "2026-11-19T14:13:29Z"
   },
   "rankings": [
     {
