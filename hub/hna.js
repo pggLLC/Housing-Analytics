@@ -1866,8 +1866,11 @@
         (need == null ? '' : Pl.card('Income needed to buy', money(need), gapNote, sourceOf(hm, ctx) + '; ' + (OF.MORTGAGE_RATE.rateAnnual * 100).toFixed(2) + '% rate, ' + OF.MORTGAGE_RATE.source, sourceUrl(hm, ctx), buyScope())) +
         Pl.card('Mean commute', commute == null ? null : Math.round(commute) + ' min', 'One way, for workers who live here', acs + ', S0801', acsUrl('S0801'), here) +
         '</div>' + versusCounty() + '<h2>Need at a glance: renters and owners</h2><div class="metrics">' +
-        mc('Renters minus homes priced for them, at or below 30% AMI', 'ami_gap_30pct', num, 'Some of those homes are rented by higher-income households. AMI is area median income, set by HUD for the county.') +
-        mc('Renters minus homes priced for them, at or below 60% AMI', 'ami_gap_60pct', num) +
+        // The digest's shortfall is never below 0: where homes priced for the group outnumber its renter households it
+        // reads 0 (scripts/hna/build_ranking_index.py clamps a surplus), so the card names a shortfall, not a signed
+        // difference, and says what 0 means (functionality audit F4, 19 Nov 2026).
+        mc('Homes short for renters at or below 30% AMI', 'ami_gap_30pct', num, 'Renter households minus homes priced for them, or 0 when those homes outnumber them. Some of those homes are rented by higher-income households, so 0 does not mean no need. AMI is area median income, set by HUD for the county.') +
+        mc('Homes short for renters at or below 60% AMI', 'ami_gap_60pct', num, 'Renter households minus homes priced for them, or 0 when those homes outnumber them. 0 does not mean no need: a home priced for them may be rented by someone else.') +
         mc('Renters paying over 30% of income', 'pct_cost_burdened', function (x) { return pct(x); }) +
         // Batch 2 (paul 15 Nov): the owner side, so the glance is not renters only.
         mc('Owners paying over 30% of income', 'pct_owner_burdened_30plus', function (x) { return pct(x); }) +

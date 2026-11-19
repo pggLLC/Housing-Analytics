@@ -136,13 +136,28 @@
     return t10 && spread != null ? { rate: (t10.value + spread).toFixed(2), t10: t10, spread: spread } : null;
   }
 
+  // Why the land cost entered cannot be used, or null. Blank uses the example budget's land share; 0 (donated land) and
+  // any amount below the total are used as entered. Land equal to or above the total leaves nothing for the building,
+  // which is all that earns credit (26 U.S.C. 42(d)(1)), so it is refused with this reason and no figures are shown,
+  // never swapped for the example's land (functionality audit F2, 19 Nov 2026: it used to be, silently).
+  function landProblem(land, total) {
+    if (land == null) return null;
+    if (!isFinite(land)) return 'Enter the land cost as a number of dollars, or leave it blank to use the example budget’s 5%.';
+    if (land < 0) return 'The land cost cannot be below $0. Enter 0 if the land is donated.';
+    if (!(land < total)) return 'The land cost (' + money(land) + ') must be less than the total development cost (' + money(total) + '). The rest of the budget pays for the building, which is what earns tax credits.';
+    return null;
+  }
+
   // The example budget's lines with every amount, basis part and use scaled to `total`, rounded, and the
   // rounding left over put on the largest line, as the live panel's scaleCosts does.
   // A land cost given (0 or more, below the total) replaces the example's land line, and the other lines share the rest.
+  // A land cost that cannot be used throws with landProblem's reason: it is never replaced by the example's land.
   function scaledLines(B, total, land) {
     var lines = B.exampleLines().map(function (l) { return Object.assign({}, l); });
     var amt = function (l) { return l.amount == null ? 0 : Number(l.amount); };
-    var setLand = land != null && isFinite(land) && land >= 0 && land < total;
+    var bad = landProblem(land, total);
+    if (bad) throw new Error(bad);
+    var setLand = land != null;
     var rest = lines.filter(function (l) { return !(setLand && l.id === 'land'); });
     var from = rest.reduce(function (s, l) { return s + (amt(l) > 0 ? amt(l) : 0); }, 0);
     var to = setLand ? total - Math.round(land) : total;
@@ -356,13 +371,110 @@
     var w = global.LabHna && global.LabHna.working ? global.LabHna.working() : null;
     return w && GEO.test(String(w.geoid || '')) ? String(w.geoid) : '';
   }
-  function fullTool() { var p = pagePlace(); return LIVE_TOOL + (p ? '?geoid=' + p : ''); }
+  // The full Deal Calculator opens on the estimate typed here, not on its own example (functionality audit F1, 19 Nov
+  // 2026: "Next" opened a $20M rental deal whatever was entered, and a for-sale estimate as a 9% rental). The scenario
+  // goes in the full calculator's own share-link format, read by its own hydrate (js/deal-calculator-share.js): the
+  // fragment "#v=1&...", each box by its id less "dc-", a ticked box as 1 or 0, a radio group under its first member's
+  // id (mode-rental, rate-9), soft funding in tr, a utility allowance as JSON. Nothing is recalculated here: the full
+  // calculator runs the same engine on the same boxes. qa/deal-quick-handoff.js opens the link on the full calculator
+  // and checks its figures match the estimate's.
+  var CARRY = ['dc-county-select', 'dc-tdc', 'dc-units', 'dc-qap-year', 'dc-equity-price', 'dc-boost-designation', 'dc-boost-evidence', 'dc-boost-pct',
+    'dc-state-path', 'dc-state-annual', 'dc-state-price', 'dc-state-awarded', 'dc-rate', 'dc-dcr', 'dc-term', 'dc-vacancy', 'dc-tax-exempt', 'dc-rep-reserve', 'dc-prop-tax'];
+  function boxValue(v) { return v === true ? '1' : v === false ? '0' : v == null ? '' : String(v); }
+  // The rental estimate's boxes as link parameters. inputs is build()'s result for the estimate.
+  function rentalParams(inputs, s) {
+    var f = inputs.fields, ps = new URLSearchParams();
+    ps.set('mode-rental', 'rental');
+    ps.set('rate-9', f['dc-rate-4'] ? '0.04' : '0.09');
+    CARRY.forEach(function (id) { if (id in f) ps.set(id.slice(3), boxValue(f[id])); });
+    Object.keys(f).filter(function (id) { return /^dc-(chk-\d+|units-\d+(-(studio|[1-4]br))?|br-\d+)$/.test(id); }).forEach(function (id) { ps.set(id.slice(3), boxValue(f[id])); });
+    (inputs.costLines || []).forEach(function (l) {
+      ps.set('cost-' + l.id, boxValue(l.amount));
+      if ('eligibleAmount' in l) ps.set('cost-' + l.id + '-eligible', boxValue(l.eligibleAmount));
+      if ('used' in l) ps.set('cost-' + l.id + '-used', boxValue(l.used));
+    });
+    (inputs.operatingLines || []).forEach(function (l) { ps.set('op-' + l.id, boxValue(l.amount)); });
+    // Soft funding, only when some was entered: program:amount:mode:rate:term:cash flow %:accrue:priority:type:maturity:IO.
+    var tr = (s.soft && SOFT.some(function (d) { return s.soft[d.k] > 0; })) ? inputs.tranches.map(function (t) {
+      return [t.program, t.amount, t.mode, t.rate, t.term, t.cashflowPayPct, t.loanType === 'accrue_defer' ? 'accrued' : 'current', t.priority, t.loanType, t.maturity, t.ioYears].join(':');
+    }).join(';') : '';
+    if (tr) ps.set('tr', tr);
+    var ua = inputs.utilityAllowance;
+    if (ua && ua.applied) ps.set('utilityAllowance', JSON.stringify({ applied: true, reason: null, countyFips: ua.countyFips, method: ua.basis.method, reference: ua.basis.reference,
+      effectiveDate: ua.basis.effectiveDate, perBedroom: ua.perBedroom, feesPerBedroom: ua.feesPerBedroom }));
+    // Not applied is said out loud too, so the full calculator keeps the owner-paid rents instead of using an
+    // allowance saved earlier in that browser. The reason is one the full calculator has words for (its
+    // ChfaRentLimits.unavailableMessage): owner-paid means no allowance method was chosen, and a renter-paid estimate
+    // missing a size's amount is a missing bedroom amount. An unknown code would read "Rent unavailable" there.
+    // The reason never changes a figure: the engine reads it only when an allowance is applied.
+    else if (ua) ps.set('utilityAllowance', JSON.stringify({ applied: false,
+      reason: ua.reason === 'allowance_entered_incomplete' ? 'allowance_bedroom_missing' : 'allowance_method_missing' }));
+    return ps;
+  }
+  // The for-sale estimate's boxes: always the for-sale mode, so an ownership estimate never opens as a rental deal.
+  // A cost or homes entry that is blank or invalid is left out, and the full calculator keeps its own.
+  function saleParams(st) {
+    var ps = new URLSearchParams();
+    ps.set('mode-rental', 'ownership');
+    if (st.county) ps.set('county-select', st.county);
+    if (isFinite(st.tdc) && st.tdc > 0) ps.set('tdc', String(Math.round(st.tdc)));
+    if (isFinite(st.units) && st.units >= 1 && Math.round(st.units) === st.units) ps.set('units', String(st.units));
+    if (st.target) ps.set('sale-target-ami', String(st.target));
+    return ps;
+  }
+  // What the link to the full calculator carries: { hash, kind, blocked }. hash is '' when there is nothing to carry yet
+  // (no county, no homes, data still loading); blocked is the reason the rental estimate cannot go on as entered.
+  function handoff() {
+    var p = pagePlace(), S = global.LabDealQuickSale;
+    var withPlace = function (ps) { if (p) ps.set('geoid', p); return 'v=1&' + ps.toString(); };
+    if (kind === 'sale' && S && S.state) return { kind: 'sale', hash: withPlace(saleParams(S.state())), blocked: null };
+    var units = TIERS.reduce(function (n, t) { return n + (q.tiers[t] > 0 ? Math.round(q.tiers[t]) : 0); }, 0);
+    var bad = landProblem(q.land, q.tdc);
+    if (bad) return { kind: 'rental', hash: '', blocked: bad };
+    if (!data || !q.county || !(units > 0) || !global.LabFinancials) return { kind: 'rental', hash: '', blocked: null };
+    var inputs;
+    try { inputs = build(q, data, mods()); } catch (e) { return { kind: 'rental', hash: '', blocked: e.message }; }
+    return { kind: 'rental', hash: withPlace(rentalParams(inputs, q)), blocked: null };
+  }
+  // The full calculator, on this page's place and carrying the estimate. base defaults to the live page.
+  function fullTool(base) {
+    var p = pagePlace(), h = handoff();
+    return (base || LIVE_TOOL) + (p ? '?geoid=' + p : '') + (h.hash ? '#' + h.hash : '');
+  }
   function setCounty(fips) {
     if (q.county === fips) { q.place = ''; return; }
     q.county = fips; q.place = '';
     if (q.boost !== 'auto' && q.boost !== 'qct' && q.boost !== 'sadda') q.boost = 'auto';
   }
   var followed = null; // the place the boxes were last set from; null until the first look
+  // Back from the full calculator brings the estimate back (stakeholder review, 19 Nov 2026: Next then Back reset
+  // everything typed to the $20M example). It is kept in this browser tab only (sessionStorage: gone when the tab
+  // closes, never in the address, so never in a copied, shared or translated link) and comes back only for the same
+  // place. A record that does not read is ignored.
+  var KEEP = 'coho-quick-estimate-v1', kept = false;
+  function keep() {
+    try {
+      // Saved under the place the boxes were last set from, not the page's current place: after the reader moves to
+      // another place's page (which does not redraw the estimate), the boxes still hold the old place (Codex, #2949).
+      if (followed === null) return; // the boxes were never set from a place: nothing to bring back
+      var S = global.LabDealQuickSale;
+      global.sessionStorage.setItem(KEEP, JSON.stringify({ v: 1, place: followed || '', kind: kind, q: q, sale: S && S.state ? S.state() : null }));
+    } catch (e) { /* storage off or full: Back shows the example, as before */ }
+  }
+  function unkeep() {
+    if (kept) return;
+    kept = true;
+    try {
+      var o = JSON.parse(global.sessionStorage.getItem(KEEP) || 'null'), S = global.LabDealQuickSale;
+      if (!o || o.v !== 1 || !o.q || typeof o.q !== 'object' || o.place !== (pagePlace() || '')) return;
+      q = Object.assign(JSON.parse(JSON.stringify(START)), o.q);
+      if (q.land === null && o.q.land !== null) q.land = null;
+      kind = o.kind === 'sale' ? 'sale' : 'rental';
+      if (o.sale && S && S.state) Object.assign(S.state(), o.sale);
+      followed = pagePlace(); // the boxes already hold this place: do not reset them to it
+    } catch (e) { /* unreadable: start from the example */ }
+  }
+  if (typeof global.addEventListener === 'function') global.addEventListener('pagehide', function () { if (kept) keep(); });
   function follow() {
     var p = pagePlace();
     if (p === followed || !data) return;
@@ -523,6 +635,9 @@
   function results(units) {
     if (!q.county) return '<p class="note quick-prompt">Pick a county to see the estimate.</p>';
     if (!(units > 0)) return '<p class="note quick-prompt">Add homes at one or more income limits.</p>';
+    // A land cost that cannot be used stops the estimate with its reason (audit F2); every other entry is kept as typed.
+    var landBad = landProblem(q.land, q.tdc);
+    if (landBad) return '<p class="callout quick-prompt" role="alert" data-quick-problem="land">' + esc(landBad) + ' Fix the land cost to see the estimate.</p>';
     var r;
     try { r = global.DealEngine.computeDeal(build(q, data, mods())); } catch (e) { return '<p class="note" role="status">The engine could not run these inputs (' + esc(e.message) + ').</p>'; }
     var why = function (k) { return (r.unavailable && r.unavailable[k]) || r.noiUnknownReason || r.rentsUnknownReason; };
@@ -571,8 +686,8 @@
         help('mix', 'How many bedrooms the homes have. Rent limits rise with bedrooms, so this moves the rent more than anything else here. ' +
           '“Suggested for this market” sizes the homes to the renters in this county, or in the town you picked when its figures are reliable enough, who qualify at your income limits and can pay each size’s rent, the way CHFA’s market study rules count them. Change it if a market study for the site says otherwise.',
           'Census ACS 2020-2024 and HUD CHAS 2018-2022 renter households; <a href="' + esc(data.rules && data.rules.sources && data.rules.sources.S5 ? data.rules.sources.S5.url : '') + '">CHFA 2027-2028 Qualified Allocation Plan</a>, Appendix A, Market Study Guide; rents assume 1.5 people a bedroom, <a href="' + IRC + '">26 U.S.C. 42(g)(2)(C)</a>. The full market analysis is a member tool.') + '</div>' +
-      '<div class="field-wrap"><label class="field">Land cost ($)<input name="quick:land" type="number" min="0" step="50000" inputmode="numeric" placeholder="example: 5% of cost" value="' + (q.land != null ? esc(String(q.land)) : '') + '">' +
-        (q.land != null && !(q.land < q.tdc) ? '<span class="hint warn">Land must be less than the total cost.</span>' : tdcPer) + '</label>' +
+      '<div class="field-wrap"><label class="field">Land cost ($)<input name="quick:land" type="number" min="0" step="50000" inputmode="numeric" placeholder="example: 5% of cost" value="' + (q.land != null && isFinite(q.land) ? esc(String(q.land)) : '') + '"' + (landProblem(q.land, q.tdc) ? ' aria-invalid="true" aria-describedby="quick-land-why"' : '') + '>' +
+        (landProblem(q.land, q.tdc) ? '<span class="hint warn" id="quick-land-why">' + esc(landProblem(q.land, q.tdc)) + '</span>' : tdcPer) + '</label>' +
         help('land', 'What the land costs, inside the total development cost. Enter 0 if it is donated. Land never earns tax credits, so the more of the cost that is land, the smaller the credit. Leave it blank to use the example budget’s 5%.',
           '<a href="' + IRC + '">26 U.S.C. 42(d)(1)</a>: eligible basis is the building’s adjusted basis, not the land.') + '</div>' +
       '<div class="field-wrap"><label class="field">Running costs, $ a home a month<input name="quick:opex" type="number" min="0" step="10" inputmode="numeric" value="' + esc(String(opex)) + '">' +
@@ -696,6 +811,7 @@
 
   function view() {
     load();
+    unkeep();
     follow();
     var sale = kind === 'sale' && global.LabDealQuickSale;
     var tabs = global.LabDealQuickSale ? '<div class="seg quick-kind" role="group" aria-label="Kind of deal">' + [['rental', 'Rental tax credit'], ['sale', 'Homes for sale']].map(function (k) {
@@ -759,7 +875,8 @@
     else if (n === 'quick:fedPrice') { var fp = Number(t.value); q.fedPrice = fp > 0 ? fp : null; }
     else if (n.indexOf('quick:soft:') === 0) { q.soft = q.soft || {}; q.soft[n.slice(11)] = Math.max(0, Number(t.value) || 0); }
     else if (n === 'quick:mix') q.mix = ['market', '1br', '2br', '3br'].indexOf(t.value) > -1 ? t.value : 'market';
-    else if (n === 'quick:land') { var ld = String(t.value).trim(); q.land = ld === '' || !(Number(ld) >= 0) ? null : Math.round(Number(ld)); }
+    // A land cost stays as typed, even one that cannot be used: landProblem says why and the estimate waits (audit F2).
+    else if (n === 'quick:land') { var ld = String(t.value).trim(); q.land = ld === '' ? null : isFinite(Number(ld)) ? Math.round(Number(ld)) : NaN; }
     else if (n === 'quick:opex') { var ox = Number(t.value); q.opexMonth = ox > 0 && ox !== 450 ? ox : null; }
     else if (n === 'quick:util') q.util = t.value === 'renter' ? 'renter' : 'owner';
     else if (n.indexOf('quick:ua:') === 0) { var ua = String(t.value).trim(); q.ua = q.ua || {}; q.ua[n.slice(9)] = ua === '' || !(Number(ua) >= 0) ? null : Number(ua); }
@@ -790,7 +907,8 @@
   });
 
   global.LabDealQuick = { view: view, build: build, scaledLines: scaledLines, scaledOpex: scaledOpex, splitHomes: splitHomes, marketMix: marketMix, allowanceFor: allowanceFor, sizeTotals: sizeTotals, permRate: permRate, boostFor: boostFor, designations: designations, stateCap: stateCap, stateGone: stateGone, YEARS: YEARS, softCap: softCap, SOFT: SOFT, TIERS: TIERS, START: START,
-    place: pagePlace, fullTool: fullTool, adopt: adopt,
+    place: pagePlace, fullTool: fullTool, handoff: handoff, rentalParams: rentalParams, saleParams: saleParams, landProblem: landProblem, adopt: adopt,
+    kind: function () { return kind; },
     _inputs: function () { return data && q.county ? build(q, data, mods()) : null; },
     _state: function () { return q; }, _follow: follow, _data: function (d) { data = d; asked = true; },
     _set: function (o) { q = Object.assign(JSON.parse(JSON.stringify(START)), o); } };

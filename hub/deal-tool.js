@@ -14,7 +14,22 @@
   // The place this page is on: the one in the address, else the working place (deal-quick.js pagePlace). The
   // "Working on" line, the quick estimate's county and every link to the full calculator use this one place.
   function place() { return global.LabDealQuick && global.LabDealQuick.place ? global.LabDealQuick.place() : inAddress(); }
-  function liveTool() { return LIVE_TOOL + (place() ? '?geoid=' + place() : ''); }
+  // The full calculator on this place, carrying the quick estimate as entered (deal-quick.js fullTool: audit F1, 19 Nov).
+  function blankTool() { return LIVE_TOOL + (place() ? '?geoid=' + place() : ''); }
+  function liveTool() { return global.LabDealQuick && global.LabDealQuick.fullTool ? global.LabDealQuick.fullTool(LIVE_TOOL) : blankTool(); }
+  // "Next" goes on with the estimate typed above. When the estimate cannot go on as entered, it says why, and the only
+  // way to the full calculator from here is a link that says it starts over from the calculator's own example.
+  function blocked() { var Q = global.LabDealQuick; return !!(Q && Q.handoff && Q.handoff().blocked); }
+  function next() {
+    var Q = global.LabDealQuick, h = Q && Q.handoff ? Q.handoff() : { hash: '', blocked: null, kind: 'rental' };
+    if (h.blocked) return '<div class="actions quick-next" data-handoff="blocked"><p class="note" role="status">The land cost above cannot be used, so this estimate cannot go on to the full pro forma yet. Fix it above.</p>' +
+      '<a class="button-link secondary" href="' + esc(blankTool()) + '">Start the full pro forma from its example instead ↗</a></div>';
+    var what = h.kind === 'sale' ? 'Next: full pro forma for homes for sale, every line →' : 'Next: full pro forma, every line →';
+    var says = !h.hash ? '' : h.kind === 'sale' ? 'Opens in the for-sale mode with your county, cost, homes and buyer income.'
+      : 'Opens with everything entered above, on the same engine.';
+    return '<div class="actions quick-next" data-handoff="' + (h.hash ? h.kind : 'none') + '"><a class="button-link" href="' + esc(liveTool()) + '">' + esc(what) + '</a>' +
+      (says ? '<p class="note">' + esc(says) + '</p>' : '') + '</div>';
+  }
 
   var STEPS = [
     { title: 'Pick a place', text: 'The county sets the rent and income limits.' },
@@ -60,7 +75,8 @@
       (rows ? '<ul class="plain-list">' + rows + '</ul>' : '') +
       '<div class="actions"><a class="button-link" href="#/places">Start from a place</a><a class="button-link secondary" href="#/projects">Your projects</a></div></section>' +
       '<section class="start-card"><h2>Every line on one page</h2><p>The full Deal Calculator runs the same engine with every input on one page, including soft funding.</p>' +
-      '<div class="actions"><a class="button-link secondary" href="' + esc(liveTool()) + '">Open the full pro forma ↗</a></div></section></div>';
+      '<div class="actions">' + (blocked() ? '<a class="button-link secondary" href="' + esc(blankTool()) + '">Open the full pro forma from its example ↗</a>'
+        : '<a class="button-link secondary" href="' + esc(liveTool()) + '">Open the full pro forma ↗</a>') + '</div></section></div>';
   }
 
   function dataTable() {
@@ -82,7 +98,7 @@
     }) + (global.LabHna ? global.LabHna.stepPath(true, '#/deal-calculator', inAddress() || undefined) : '') +
       (global.LabDealQuick ? global.LabDealQuick.view() : '') +
       // One quick estimate, here; the full page is the full pro forma (one-home proposal item 5, paul 18 Nov).
-      '<div class="actions"><a class="button-link" href="' + esc(liveTool()) + '">Next: full pro forma, every line →</a></div>' +
+      next() +
       '<section class="tool-section"><h2>How it runs</h2>' + stepper() +
       '<p class="note" data-role="slider-pointer"><strong>Stress sliders</strong> (deep-tier rent cut, coverage floor, lease-up, and rent, vacancy and expense cases) are on a project\u2019s results page. Start from a place and save homes and rents, then open <em>results</em> and use <em>Jump to Stress sliders</em> under Full result. The quick estimate above has no sliders.</p></section>' +
       '<section class="tool-section">' + start() + '</section>' +
