@@ -215,9 +215,10 @@
       kind: 'tool', crumbs: T.trail('deal', 'Market check', [{ label: 'Pick a place', href: '#/market' }]), title: 'Market check: ' + siteTitle(site),
       answer: esc(siteWhere(site, s, county)) + ' <a href="#/market">Change site</a>',
       meta: '<span class="scope-tag">Free screen, not a market study</span> <span data-mk-area-scope>' + esc(areaScope(null)) + '</span> Town and county figures follow for comparison.',
-      aside: siteFacts(site, units, tier, cap, county) +
+      aside: siteFacts(site, units, tier, cap, county, popOf(params) === 'older') +
         '<div class="actions mk-lead-actions"><a class="button-link" href="' + esc(maHref) + '" rel="noopener">Full Market Analysis for this site ↗</a>' +
-        '<a class="button-link secondary" href="' + esc(useHere(params)) + '">Use this site in a project</a></div>'
+        '<a class="button-link secondary" href="' + esc(useHere(params)) + '">Use this site in a project</a></div>' +
+        (popOf(params) === 'older' ? '<p class="note">The full Market Analysis counts family renters for now; the older-adult count is on this page.</p>' : '')
     }) + tractSection(params, s, g) : T.head({
       kind: 'tool', crumbs: T.trail('deal', 'Market check', [{ label: 'Pick a place', href: '#/market' }]), title: 'Market check: ' + s.entry.label,
       answer: 'Who rents here, what they can pay, how rents compare with what a tax credit home can charge, how much tax credit housing the county has, and the capture rate a project would need.',
@@ -432,17 +433,17 @@
   }
   // The project form further down, with everything in the address kept (the market area as set on the map too).
   function useHere(params) { var q = new URLSearchParams(params); q.set('at', 'mk-use'); return '#/market?' + q.toString(); }
-  function siteFacts(site, units, tier, cap, county) {
+  function siteFacts(site, units, tier, cap, county, older) {
     var key = global.LabTractCapture.keyOf(site);
     var li = function (k, label, source) {
       return '<li><span class="fact-value" data-mk-area="' + k + '">…</span><span class="fact-label" data-mk-area-label="' + k + '">' + esc(label) + '</span><span class="fact-source">' + esc(source) + '</span></li>';
     };
     return '<ul class="fact-strip mk-site-facts" data-mk-area-for="' + esc(key) + '" data-units="' + units + '" data-tier="' + tier + '"' +
       ' data-county-cap="' + esc(cap.capture != null ? shareCounty(cap.capture) : '') + '" data-county="' + esc(county.name) + '">' +
-      li('qualified', 'Renter households who qualify for a ' + tier + '% AMI home, market area', 'Census ACS 2020–2024, CHFA rules') +
-      li('capture', 'Capture rate, ' + num(units) + ' homes at ' + tier + '% AMI', 'COHO capture engine') +
+      li('qualified', (older ? 'Older-adult renter households (62+) who qualify' : 'Renter households who qualify') + ' for a ' + tier + '% AMI home, market area', older ? 'HUD CHAS, Census ACS PUMS, CHFA older-adult rules' : 'Census ACS 2020–2024, CHFA rules') +
+      li('capture', 'Capture rate, ' + num(units) + (older ? ' older-adult' : '') + ' homes at ' + tier + '% AMI', 'COHO capture engine') +
       li('existing', 'Tax credit homes in the market area', 'HUD tax credit property list') +
-      li('pen', 'Penetration, all tax credit homes (CHFA line: 85%)', 'COHO capture engine') + '</ul>';
+      li('pen', older ? 'Penetration: shown for family projects only' : 'Penetration, all tax credit homes (CHFA line: 85%)', 'COHO capture engine') + '</ul>';
   }
   function fillSiteFacts() {
     var TC = global.LabTractCapture, ul = document.querySelector && document.querySelector('[data-mk-area-for]');
@@ -464,6 +465,8 @@
   }
   document.addEventListener('tc:drawn', fillSiteFacts);
 
+  // Who the homes are for (pop=older: CHFA's older-adult rules, paul approved 18 Nov 2026); family by default.
+  function popOf(params) { return params.get('pop') === 'older' ? 'older' : 'family'; }
   // Suggested market area round the site, with a tap map and capture as tracts go in or out (site/tract-capture.js).
   var TCF = global.LabTractCapture ? global.LabTractCapture.FILES : {};
   function tractSection(params, s, g) {
@@ -476,7 +479,7 @@
         '<button type="button" class="button-link secondary" data-mk-pick="map">Pick on the map</button></div>' : '<p><a href="#mk-use">Place the site below</a>.</p>');
     var units = Math.max(1, Math.min(1000, Math.round(+params.get('u')) || 60)), tier = CAP_TIERS.indexOf(+params.get('t')) > -1 ? +params.get('t') : 60;
     return head + '<p>Whole census tracts round ' + esc(site.label) + ', each with the reason it is in or out. Tap a tract to see what it does to the capture rate; the project is ' + num(units) + ' homes at ' + tier + '% AMI, as set under Capture rate.</p>' +
-      TC.section({ s: s, site: site, units: units, tier: tier, edited: TC.parseList(params.get('tr')), ta: params.get('ta') });
+      TC.section({ s: s, site: site, units: units, tier: tier, edited: TC.parseList(params.get('tr')), ta: params.get('ta'), pop: popOf(params), mig: popOf(params) === 'older' ? Math.max(0, Math.min(50, Math.round(+params.get('im')) || 0)) : 0 });
   }
   // The site box: an address (US Census Geocoder, then OpenStreetMap), where you are, or a tap on a map. start: the
   // Market check's first screen, where it is the first way in rather than an option under a place.
@@ -604,9 +607,11 @@
         boundary: /^(suggested|compared|best-fit)/.test(area.method) ? 'tract-picker' : 'buffer', screeningOnly: !/^(suggested|compared|best-fit)/.test(area.method),
         screeningNote: /^(suggested|compared)/.test(area.method) ? 'Whole census tracts, each with a reason. COHO screening rules, not a CHFA market area until an analyst draws it.' : 'Screening only, not a CHFA market area',
         tractReasons: rec ? rec.tracts : null, rules: rec ? rec.rules : null, comparison: rec ? rec.comparison : null,
+        // Who the homes are for and any in-migration factor, inside the snapshot the project keeps (Codex, HA #2948).
+        population: rec ? rec.population : null,
         tractSource: area.method === 'county' ? 'data/market/chfa_renter_demand_co.json' : /^(suggested|compared|best-fit)/.test(area.method) ? [TCF.cent, TCF.geom, TCF.od, TCF.barriers, TCF.drive, TCF.bands, TCF.schools, TCF.movers].filter(Boolean) : CENTROIDS.cent },
       sourceDates: rec ? rec.sourceDates : { tractCentroids: cent.data.cent && cent.data.cent.meta ? (cent.data.cent.meta.generated || null) : null },
-      methodVersions: rec ? { suggestion: 'site/tract-capture.js rules of 18 Nov 2026', capture: 'CHFA rate with comparable family tax credit homes (site/tract-capture.js, 18 Nov 2026)', renters: 'PMAMarketScoring.chfaQualifiedRenters', crossings: 'PMABarriers.proposeTractExclusions' } : null,
+      methodVersions: rec ? { suggestion: 'site/tract-capture.js rules of 18 Nov 2026', capture: rec.population && rec.population.kind === 'older-adult' ? 'CHFA older-adult rate with comparable age-restricted tax credit homes (site/tract-capture.js, 18 Nov 2026)' : 'CHFA rate with comparable family tax credit homes (site/tract-capture.js, 18 Nov 2026)', renters: 'PMAMarketScoring.chfaQualifiedRenters', crossings: 'PMABarriers.proposeTractExclusions' } : null,
       origin: { route: route } });
     var back = params.get('back');
     if (back && /^#\//.test(back)) { location.hash = back; return; }

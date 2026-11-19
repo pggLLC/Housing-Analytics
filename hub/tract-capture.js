@@ -52,6 +52,9 @@
     schools: 'data/market/tract_school_districts_co.json',
     movers: 'data/market/acs_tract_movers_co.json',
     s8: 'data/market/hud_s8_contracts_co.json',
+    // Older adults (paul approved 18 Nov 2026): renter households with a householder 62 or older, one or two people, by
+    // tract and income, in the same shape as the family file, so the same engine counts them.
+    older: 'data/market/chfa_older_renter_demand_co.json',
     // "Who could rent here" (paul, 15 Nov 2026): the town's own renters, by the needs assessment's own apportionment,
     // and the workers who commute in, from its workforce file.
     membership: 'data/hna/place-tract-membership.json',
@@ -341,6 +344,13 @@
     var b = { key: key, el: doc.createElement('div'), ctx: null, data: null, sug: null, picked: null, focus: null, map: null, layers: {}, curve: null, curveFor: null, started: false };
     b.el.className = 'tc-box';
     b.el.innerHTML =
+      '<form class="tc-pop" data-tc-popform><fieldset><legend>Who the homes are for</legend><div class="tc-pop-row">' +
+        '<label><input type="radio" name="tc-pop" value="family"> Families (CHFA’s family rules)</label>' +
+        '<label><input type="radio" name="tc-pop" value="older"> Older adults (CHFA’s older-adult rules)</label></div></fieldset>' +
+        '<div class="tc-mig" data-tc-migwrap hidden><label for="tc-mig-' + esc(key) + '">In-migration factor, optional</label>' +
+        '<div class="tc-mig-row"><input id="tc-mig-' + esc(key) + '" name="tc-mig" type="number" min="0" max="' + MIG_MAX + '" step="1" inputmode="numeric" aria-describedby="tc-mig-note-' + esc(key) + '"> <span>% added to older-adult renters who qualify</span></div>' +
+        '<p class="note" id="tc-mig-note-' + esc(key) + '">Off unless you set it. This is an analyst’s factor, not a COHO figure: CHFA accepts in-migration only “when it is demonstrated from other comparable projects”, with supporting information, never from anecdote (2027–28 QAP, Appendix A, page 86).</p></div>' +
+        '<p class="note tc-pop-note"></p></form>' +
       '<p class="viz-answer tc-answer" aria-live="polite">Loading the census tracts round the site…</p>' +
       '<div class="tc-meters"></div>' +
       '<section class="tc-views" aria-labelledby="tc-views-h"><h3 id="tc-views-h">Who could rent here</h3><div class="tc-views-body"><p class="note">Working out the six views\u2026</p></div></section>' +
@@ -381,6 +391,16 @@
       var t = ev.target;
       if (t && t.name === 'tc-in') { b.focus = t.value; toggle(b, t.value); }
       if (t && t.name === 'tc-area') { b.pickId = t.value; b.pickWhy = ''; save(b); drawHead(b); drawCompare(b); }
+      if (t && t.name === 'tc-pop') setPop(b, { pop: t.value === 'older' ? 'older' : null, im: t.value === 'older' ? (b.ctx.mig || null) : null });
+      if (t && t.name === 'tc-mig') { var v = Math.round(+t.value); setPop(b, { pop: 'older', im: v > 0 ? Math.min(MIG_MAX, v) : null }); }
+    });
+    // Enter in the in-migration box sets it; the form never submits.
+    b.el.addEventListener('submit', function (ev) {
+      var f = ev.target;
+      if (!f || !f.hasAttribute || !f.hasAttribute('data-tc-popform')) return;
+      ev.preventDefault();
+      var v = Math.round(+f['tc-mig'].value);
+      if (isOlder(b) && (v > 0 ? Math.min(MIG_MAX, v) : 0) !== Math.round(migOf(b) * 100)) setPop(b, { pop: 'older', im: v > 0 ? Math.min(MIG_MAX, v) : null });
     });
     // The reason for picking an area other than the local or regional one; the button waits for it.
     b.el.addEventListener('input', function (ev) {
@@ -495,6 +515,30 @@
     var c = doc.querySelector('[data-tc-count]'), pa = b.pickId && areaById(b, b.pickId);
     if (c) c.textContent = String(pa ? pa.list.length : chosen(b).length);
   }
+  // The group and any in-migration factor go in the address (pop=older, im=<percent>), and the page is drawn again so
+  // its head and project form follow.
+  function setPop(b, o) {
+    var h = location.hash, i = h.indexOf('?'), q = new URLSearchParams(i > -1 ? h.slice(i + 1) : '');
+    if (o.pop) q.set('pop', o.pop); else q.delete('pop');
+    if (o.im) q.set('im', String(o.im)); else q.delete('im');
+    history.replaceState(null, '', (i > -1 ? h.slice(0, i) : h) + '?' + q.toString());
+    b.ctx = Object.assign({}, b.ctx, { pop: o.pop || 'family', mig: o.im || 0 });
+    if (o.pop === 'older' && !b.older) b.olderFailed = false;
+    if (global.LabShell && global.LabShell.render) global.LabShell.render(); else draw(b);
+  }
+  function drawPop(b) {
+    var f = b.el.querySelector('[data-tc-popform]');
+    if (!f) return;
+    var old = isOlder(b);
+    Array.prototype.forEach.call(f.querySelectorAll('input[name="tc-pop"]'), function (r) { r.checked = (r.value === 'older') === old; });
+    var w = f.querySelector('[data-tc-migwrap]'); w.hidden = !old;
+    var mi = f.querySelector('input[name="tc-mig"]'), m = Math.round(migOf(b) * 100);
+    if (doc.activeElement !== mi) mi.value = m ? String(m) : '';
+    f.querySelector('.tc-pop-note').textContent = old
+      ? 'Counted CHFA’s older-adult way (2027–28 QAP, Appendix A, pages 85 to 87): renter households with a householder 62 or older, of one or two people, in one- and two-bedroom homes with no more than two people, rent no more than 40% of income, against existing age-restricted tax credit homes only. CHFA names a 62+ count even for a 55+ project; COHO counts a 55+ project the same way, which is our reading, not a quoted rule. Homeowners are not counted.' +
+        (b.olderFailed ? ' The older-adult renter file did not load, so there are no counts.' : !b.older ? ' Loading the older-adult renter counts…' : '')
+      : 'Family is the default. Older adults counts CHFA’s older-adult demand instead: the same tracts and the same best-fit rule, a different count.';
+  }
   function useThese(b) {
     var h = location.hash, i = h.indexOf('?'), q = new URLSearchParams(i > -1 ? h.slice(i + 1) : '');
     q.set('r', 't'); q.set('at', 'mk-use');
@@ -504,6 +548,57 @@
     if (global.LabShell && global.LabShell.render) global.LabShell.render();
     setTimeout(function () { var t = doc.getElementById('mk-use'); if (t) t.scrollIntoView(); }, 0);
   }
+
+  // ---- who the homes are for (paul approved 18 Nov 2026, "do it.") ----
+  // Family homes by default. Older adults follows CHFA's Market Study Guide for older-adult projects (2027-28 QAP,
+  // Appendix A, printed pages 85 to 87): renter households with a householder 62 or older, of one or two people, in one-
+  // and two-bedroom homes with no more than two occupants, rent no more than 40% of income, against existing
+  // age-restricted tax credit homes only. The tracts, their reasons and the best-fit rule stay the same; only the
+  // count and the comparable homes change. CHFA also allows "+ In-migration adjustment factor (if any)" (page 87), only
+  // "when it is demonstrated from other comparable projects" with supporting information, never anecdote (page 86): an
+  // optional factor here, off unless the reader sets it, said wherever it is used.
+  var OLDER_BEDS = ['1br', '2br'];
+  var MIG_MAX = 50;
+  function isOlder(b) { return !!b.ctx && b.ctx.pop === 'older'; }
+  function migOf(b) { var m = isOlder(b) ? +b.ctx.mig : 0; return m > 0 ? Math.min(MIG_MAX, m) / 100 : 0; }
+  function popKey(b) { return (isOlder(b) ? 'older' + (b.older ? '' : '-wait') : 'family') + '|' + migOf(b); }
+  // The older-adult file is fetched only when older adults is picked.
+  function needOlder(b) {
+    // After a failed load the page says so and stays put: no new request until the reader picks older adults again
+    // (Codex, HA #2948).
+    if (!isOlder(b) || b.older || b.olderLoad || b.olderFailed) return;
+    b.olderLoad = get(FILES.older).then(function (d) { b.older = d; b.olderFailed = false; }, function () { b.olderFailed = true; })
+      .then(function () { b.olderLoad = null; b.single = {}; if (b.sug) draw(b); });
+  }
+  // The engine scales each tract's CHAS count to its ACS renters (acsIdx). For older adults the tract's ACS renters
+  // are cut by the older share of its CHAS renters, so the scaling factor is the family one.
+  function olderOpts(b) {
+    if (b._olderOpts && b._olderOpts.d === b.older) return b._olderOpts.o;
+    var x = b.ctx.s.x, idx = engineOpts(x).acsIdx, fam = x.demand.tracts || {}, out = {};
+    if (idx) Object.keys(b.older.tracts || {}).forEach(function (g) {
+      var a = idx[g], row = fam[g], el = b.older.tracts[g];
+      if (!a || !row || a.renter_hh == null) return;
+      var all = 0, old = 0;
+      for (var k = 1; k < row.length; k++) all += row[k] > 0 ? row[k] : 0;
+      for (var j = 1; j < el.length; j++) old += el[j] > 0 ? el[j] : 0;
+      out[g] = { renter_hh: all > 0 ? old * a.renter_hh / all : null };
+    });
+    b._olderOpts = { d: b.older, o: { acsIdx: idx ? out : null, sizeIdx: null } };
+    return b._olderOpts.o;
+  }
+  // The engine's count for some tracts at some levels, for the homes' group, with any in-migration factor on top
+  // (value; base is the count before it).
+  function count(b, list, tiers) {
+    var E = global.PMAMarketScoring, s = b.ctx.s, tr = list.map(function (g) { return { geoid: g }; });
+    if (!isOlder(b)) return E.chfaQualifiedRenters(s.x.demand, limitsOf(s), tr, tiers, undefined, engineOpts(s.x));
+    if (!b.older) return { value: null, reason: b.olderFailed ? 'the older-adult renter file did not load' : 'the older-adult renter counts are still loading' };
+    var r = E.chfaQualifiedRenters(b.older, limitsOf(s), tr, tiers, OLDER_BEDS, olderOpts(b)), k = migOf(b);
+    return r.value != null && k ? { value: r.value * (1 + k), base: r.value, reason: r.reason } : r;
+  }
+  // Words for the households counted, as each sentence needs them.
+  function who(b) { return isOlder(b) ? 'older-adult renter households (householder 62+, one or two people)' : 'renter households'; }
+  function kind(b) { return isOlder(b) ? 'older-adult' : 'family'; }
+  function migWords(b) { var k = migOf(b); return k ? ', plus the ' + Math.round(k * 100) + '% in-migration factor you set' : ''; }
 
   // ---- the counts: the public site's engines on the chosen tracts ----
   function engineOpts(x) {
@@ -520,16 +615,16 @@
   function measure(b, list) {
     var E = global.PMAMarketScoring, S = global.PMAAffordableSupply, s = b.ctx.s;
     if (!E || !E.chfaQualifiedRenters || !list.length) return null;
-    var tr = list.map(function (g) { return { geoid: g }; }), lim = limitsOf(s), o = engineOpts(s.x);
-    var q = E.chfaQualifiedRenters(s.x.demand, lim, tr, [b.ctx.tier], undefined, o);
-    var pool = E.chfaQualifiedRenters(s.x.demand, lim, tr, PEN_TIERS, undefined, o);
+    var q = count(b, list, [b.ctx.tier]);
+    // Penetration is COHO's family screen; CHFA's older-adult table has no such test, so it is not shown for older adults.
+    var pool = isOlder(b) ? { value: null } : count(b, list, PEN_TIERS);
     var feats = []; list.forEach(function (g) { if (b.lihtc[g]) feats = feats.concat(b.lihtc[g]); });
     var sup = S ? S.summarizeAffordableSupply(feats, []) : { lihtcUnits: null, lihtcCount: feats.length };
     var existing = sup.lihtcUnits || 0, units = b.ctx.units;
     var c = compIn(b, list), compT = c.by[b.ctx.tier] || 0;
     return { qualified: q.value, pool: pool.value, existing: existing, projects: sup.lihtcCount || 0, supplyNotes: supplyNotes(sup),
       capture: q.value > 0 ? units / q.value : null, pen: pool.value > 0 ? (existing + units) / pool.value : null, reason: q.reason,
-      comparable: compT, chfa: q.value > 0 ? (units + compT) / q.value : null, compNotes: compNotes(c) };
+      comparable: compT, chfa: q.value > 0 ? (units + compT) / q.value : null, compNotes: compNotes(c, b) };
   }
   // The supply engine's own caveats: a property counted at all its units because it reports no income-restricted
   // count (may overstate), or one with no unit count at all (left out, so understates). The full Market Analysis shows
@@ -544,13 +639,17 @@
   // counts as family. A property with no AMI split cannot be placed at a level and is left out, said so. Every property
   // on the list counts, whatever its compliance status, so one under construction counts as planned.
   var COMP_KEYS = { 30: ['lte20', 'ami30'], 40: ['ami40'], 50: ['ami50'], 60: ['ami60'], 70: ['ami70'], 80: ['ami80'] };
-  function compOf(f) {
-    if (f._tcComp) return f._tcComp;
+  // For older adults (CHFA, page 85) comparable means existing age-restricted homes: each property's homes times its
+  // senior share, and a property with no population split counts as none. CHFA also leaves assisted living out; the
+  // list does not flag it, so the rate may be overstated where a senior property offers it.
+  function compOf(f, older) {
+    var memo = older ? '_tcCompOld' : '_tcComp';
+    if (f[memo]) return f[memo];
     var p = f.properties || {}, a = p.AMIUnits || {}, pu = p.PopulationUnits || {}, tot = 0, all = 0, by = {};
     Object.keys(pu).forEach(function (k) { tot += +pu[k] || 0; });
-    var fam = tot > 0 ? (+pu.family || 0) / tot : 1;
+    var fam = older ? (tot > 0 ? (+pu.senior || 0) / tot : 0) : tot > 0 ? (+pu.family || 0) / tot : 1;
     CAP_TIERS.forEach(function (t) { var n = 0; COMP_KEYS[t].forEach(function (k) { n += +a[k] || 0; }); all += n; by[t] = n * fam; });
-    return (f._tcComp = { by: by, fam: fam, none: all > 0 ? 0 : (+p.LI_UNITS || +p.N_UNITS || 0) * fam, name: p.PROJECT || p.PROJECT_NAME || '' });
+    return (f[memo] = { by: by, fam: fam, none: all > 0 ? 0 : (+p.LI_UNITS || +p.N_UNITS || 0) * fam, name: p.PROJECT || p.PROJECT_NAME || '' });
   }
   // HUD's Section 8 contract list has no map point, so a property is matched to it by street address and city. CHFA
   // leaves project-based Section 8 homes out of the comparable count; the CHFA list does not flag them, so a match is
@@ -578,7 +677,7 @@
     CAP_TIERS.forEach(function (t) { by[t] = 0; s8.by[t] = 0; });
     list.forEach(function (g) {
       (b.lihtc[g] || []).forEach(function (f) {
-        var c = compOf(f), low = 0;
+        var c = compOf(f, isOlder(b)), low = 0;
         CAP_TIERS.forEach(function (t) { by[t] += c.by[t]; if (t <= top) low += c.by[t]; });
         if (c.none > 0) { none.n++; none.units += c.none; }
         if (low > 0 || c.none > 0) props++;
@@ -600,9 +699,9 @@
     return { comp: c, qT: qT, existingT: c.by[tier] || 0, rateT: qT > 0 ? (units + (c.by[tier] || 0)) / qT : null,
       qAll: qAll, existingAll: compAll, rateAll: qAll > 0 ? (units + compAll) / qAll : null, top: ct.top };
   }
-  function compNotes(c) {
+  function compNotes(c, b) {
     var out = [];
-    if (c.none.n) out.push(c.none.n + (c.none.n === 1 ? ' property' : ' properties') + ' (' + num(c.none.units) + ' family homes) on CHFA’s list give no AMI split, so ' + (c.none.n === 1 ? 'it is' : 'they are') + ' left out; the rate may be understated.');
+    if (c.none.n) out.push(c.none.n + (c.none.n === 1 ? ' property' : ' properties') + ' (' + num(c.none.units) + ' ' + kind(b) + ' homes) on CHFA’s list give no AMI split, so ' + (c.none.n === 1 ? 'it is' : 'they are') + ' left out; the rate may be understated.');
     if (c.s8.n) out.push(c.s8.n + (c.s8.n === 1 ? ' comparable property shares its address' : ' comparable properties share their address') + ' with a HUD Section 8 contract (up to ' + num(c.s8.units) + ' homes). CHFA leaves project-based Section 8 homes out, so the rate may be overstated.');
     return out;
   }
@@ -646,7 +745,7 @@
     return (b.coreJobs = { byHome: byHome, total: total });
   }
   function single(b, g) {
-    var k = g + '|' + b.ctx.tier;
+    var k = g + '|' + b.ctx.tier + '|' + popKey(b);
     if (!(k in b.single)) { var m = measure(b, [g]); b.single[k] = m ? m.qualified : null; }
     return b.single[k];
   }
@@ -670,7 +769,7 @@
     return null;
   }
   function areasFor(b) {
-    var key = (b.picked ? chosen(b).join('.') : '') + '|' + b.ctx.units + '|' + b.ctx.tier;
+    var key = (b.picked ? chosen(b).join('.') : '') + '|' + b.ctx.units + '|' + b.ctx.tier + '|' + popKey(b);
     if (b.areas && b.areasKey === key) return b.areas;
     var sug = b.sug, out = [], seen = {}, core = sug.coreMiles;
     var add = function (id, label, note, list, method) {
@@ -746,10 +845,9 @@
 
   function evaluate(b, area, town) {
     var E = global.PMAMarketScoring, S = global.PMAAffordableSupply, s = b.ctx.s, units = b.ctx.units;
-    var tr = area.list.map(function (g) { return { geoid: g }; }), lim = limitsOf(s), o = engineOpts(s.x);
     var byTier = {};
-    CAP_TIERS.forEach(function (t) { var q = E.chfaQualifiedRenters(s.x.demand, lim, tr, [t], undefined, o).value; byTier[t] = { qualified: q, capture: q > 0 ? units / q : null }; });
-    var pool = E.chfaQualifiedRenters(s.x.demand, lim, tr, PEN_TIERS, undefined, o).value;
+    CAP_TIERS.forEach(function (t) { var q = count(b, area.list, [t]).value; byTier[t] = { qualified: q, capture: q > 0 ? units / q : null }; });
+    var pool = isOlder(b) ? null : count(b, area.list, PEN_TIERS).value;
     var feats = []; area.list.forEach(function (g) { if (b.lihtc[g]) feats = feats.concat(b.lihtc[g]); });
     var sup = S ? S.summarizeAffordableSupply(feats, []) : { lihtcUnits: 0, lihtcCount: feats.length };
     var existing = sup.lihtcUnits || 0, pen = pool > 0 ? (existing + units) / pool : null;
@@ -798,7 +896,7 @@
     ];
     // An uncertain comparable count never decides the test silently: the caveat goes with the test, and where the count
     // could turn the result (homes left out behind a pass, Section 8 homes counted behind a fail) the test says so.
-    var notes = compNotes(cr.comp), t4 = tests[3];
+    var notes = compNotes(cr.comp, b), t4 = tests[3];
     if (notes.length && rT != null && rA != null) {
       var qa = cr.qAll, upAll = qa > 0 ? (units + cr.existingAll + cr.comp.none.units) / qa : null, downAll = qa > 0 ? (units + cr.existingAll - cr.comp.s8.units) / qa : null;
       t4.caveat = notes.join(' ');
@@ -835,11 +933,11 @@
     if (ev.draw != null) why.push('<li><strong>Where people live.</strong> Holds ' + pc(ev.draw) + ' of everyone living within ' + s.band + ' minutes’ drive of the site (2020 Census blocks, OpenStreetMap roads). CHFA asks for the area the project draws most of its tenants from.</li>');
     if (ev.school != null && s.siteDistrict) why.push('<li><strong>School district.</strong> ' + pc(ev.school) + ' of its people live in the site’s district, ' + esc(s.siteDistrict.name) + '.</li>');
     if (ev.jobs != null) why.push('<li><strong>Jobs.</strong> Its residents hold ' + pc(ev.jobs) + ' of the ' + num(ev.jobsTotal) + ' jobs within ' + s.coreMiles + ' miles of the site (LODES 2024).</li>');
-    if (ev.movers != null) why.push('<li><strong>Movers, for context.</strong> ' + p1(ev.movers) + ' of people in its rented homes moved in from another county, state or abroad last year (about ' + num(ev.moversPeople) + ', give or take ' + num(ev.moversMoe) + '; ACS 2020–2024). Not in the rate: CHFA counts in-migration only when comparable properties show it.</li>');
+    if (ev.movers != null) why.push('<li><strong>Movers, for context.</strong> ' + p1(ev.movers) + ' of people in its rented homes moved in from another county, state or abroad last year (about ' + num(ev.moversPeople) + ', give or take ' + num(ev.moversMoe) + '; ACS 2020–2024). ' + (migOf(b) ? 'The in-migration factor you set is in the rate; CHFA accepts one only with evidence from comparable properties.' : 'Not in the rate: CHFA counts in-migration only when comparable properties show it.') + '</li>');
     return '<div class="tc-best"><p class="tc-best-head"><span class="tc-badge tc-badge-best">Best fit for CHFA</span> <strong>' + esc(x.label) + '</strong>, ' + x.list.length + (x.list.length === 1 ? ' whole tract' : ' whole tracts') + '</p>' +
       '<div class="tc-best-rates"><p><strong class="' + (c.rateT > line ? 'tc-over' : '') + '">' + p1(c.rateT) + '</strong><span class="note">CHFA rate at ' + tier + '% AMI</span></p>' +
       '<p><strong class="' + (c.rateAll > line ? 'tc-over' : '') + '">' + p1(c.rateAll) + '</strong><span class="note">all levels to ' + c.top + '% AMI</span></p></div>' +
-      '<p class="note">(' + num(b.ctx.units) + ' new homes + ' + num(c.existingT) + ' comparable tax credit homes already at ' + tier + '% AMI) ÷ ' + num(c.qT) + ' renter households who qualify; across all levels, (' + num(b.ctx.units) + ' + ' + num(c.existingAll) + ') ÷ ' + num(c.qAll) + '. CHFA’s line is 85%.</p>' +
+      '<p class="note">(' + num(b.ctx.units) + ' new homes + ' + num(c.existingT) + ' comparable ' + kind(b) + ' tax credit homes already at ' + tier + '% AMI) ÷ ' + num(c.qT) + ' ' + who(b) + ' who qualify' + migWords(b) + '; across all levels, (' + num(b.ctx.units) + ' + ' + num(c.existingAll) + ') ÷ ' + num(c.qAll) + '. CHFA’s line is 85%.</p>' +
       '<p><strong>Why these tracts</strong></p><ul class="tc-best-why">' + why.join('') + '</ul>' +
       '<p class="note"><strong>How the pick was made.</strong> ' + held.length + ' of the ' + list.length + ' areas below hold at least half the people within ' + s.band + ' minutes’ drive; ' + okL.length + ' of those stay at or under 85% at ' + tier + '% AMI and across all levels. The lowest rate is ' + p1(low.eval.chfa.rateAll) + ' (' + esc(low.label) + '); the best fit is the area with the fewest tracts within 5 points of it. COHO’s screening rule, approved for this use; a CHFA-approved analyst draws the market area a study uses.</p>' +
       (x.eval.compNotes.length ? '<p class="note">Note: ' + esc(x.eval.compNotes.join(' ')) + '</p>' : '') + '</div>';
@@ -869,21 +967,21 @@
       ' None is a CHFA market area until an analyst draws one.</p>' +
       '<p><strong>How each area does on the four tests:</strong></p><ul>' + list.map(function (x) { return '<li><strong>' + esc(x.label) + ':</strong> ' + esc(x.line) + (x.eval.tests[3].uncertain ? ' The rate test rests on a count of comparable homes that may be off.' : '') + '</li>'; }).join('') + '</ul></div>' : '';
     var noted = list.filter(function (x) { return (x.eval.supplyNotes.length && x.eval.pen != null) || x.eval.compNotes.length; });
-    var notesList = noted.length ? '<div class="tc-supply-note"><p><strong>Notes on the counts.</strong> CHFA’s rate counts comparable family tax credit homes at each level; penetration counts every tax credit home, as the full Market Analysis does. Some counts are uncertain:</p><ul>' +
+    var notesList = noted.length ? '<div class="tc-supply-note"><p><strong>Notes on the counts.</strong> CHFA’s rate counts comparable ' + kind(b) + ' tax credit homes at each level' + (isOlder(b) ? '.' : '; penetration counts every tax credit home, as the full Market Analysis does.') + ' Some counts are uncertain:</p><ul>' +
       noted.map(function (x) { return '<li><strong>' + esc(x.label) + ':</strong> ' + esc(x.eval.compNotes.concat(x.eval.pen != null ? x.eval.supplyNotes : []).join(' ')) + '</li>'; }).join('') + '</ul></div>' : '';
     var diff = !!pa0 && !isView(pa0);
     var form = '<div class="tc-pickform"><p class="tc-picked" aria-live="polite">' + (pick ? 'Picked: <strong>' + esc((areaById(b, pick) || {}).label || '') + '</strong>.' : '') + '</p>' +
       (diff ? '<label for="tc-why">Why this area instead of the best fit, local or regional one? <span class="note">(saved with the pick; needed to use it)</span></label><textarea id="tc-why" name="tc-why" rows="3" data-tc-why>' + esc(b.pickWhy || '') + '</textarea>' : '') +
       '<div class="actions"><button type="button" class="button-link" data-tc-usepick' + (diff && !(b.pickWhy || '').trim() ? ' disabled' : '') + '>Use the picked area in a project</button></div></div>';
     host.innerHTML = bestCard(b, list) +
-      '<p>CHFA’s rate for a ' + num(b.ctx.units) + '-home project with every home at each AMI level: (the new homes + comparable tax credit homes already there at that level) ÷ renter households who qualify. The project’s level, ' + tier + '% AMI, and all levels together are the ones the tests use. Cells over CHFA’s 85% line are marked.</p>' +
+      '<p>CHFA’s rate for a ' + num(b.ctx.units) + '-home project with every home at each AMI level: (the new homes + comparable ' + kind(b) + ' tax credit homes already there at that level) ÷ ' + who(b) + ' who qualify' + migWords(b) + '. The project’s level, ' + tier + '% AMI, and all levels together are the ones the tests use. Cells over CHFA’s 85% line are marked.</p>' +
       '<div class="tc-compare-wrap"><table class="data-table tc-compare-table"><caption>Market areas round the site, smallest first</caption><thead><tr><th scope="col">Area</th>' +
       (s.withBands ? '<th scope="col" class="num">Holds of ' + s.band + '-min draw</th>' : '') +
       CAP_TIERS.map(function (t) { return '<th scope="col" class="num' + (t === tier ? ' tc-tier' : '') + '">' + t + '% AMI</th>'; }).join('') + '<th scope="col" class="num">All levels</th><th scope="col" class="num">Penetration</th><th scope="col">Tests</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
       notesList + why + form +
       '<p class="note">The four tests: 1. whole census tracts, as CHFA’s Market Study Guide asks (Appendix A to the <a href="' + MSG + '" rel="noopener">2027–28 QAP</a>); 2. tenants could plausibly come from every tract (' + (s.withBands ? 'most of its people within ' + s.band + ' minutes’ drive, or ' : '') + 'near the site on its side' + (!s.withBands && s.withDrive ? ' and within ' + s.maxDrive + ' minutes’ drive' : '') + ', or at least 10% of working residents with a job near it, LODES 2024); 3. no tract where another town holds most homes and has tax credit homes of its own (2020 Census homes by town and tract); 4. CHFA’s rate at the project’s level and across all levels at or under 85%. Tests 2 and 3 and their thresholds are COHO’s screening judgments, not CHFA rules. ' +
       (s.withBands ? 'Drive shares count 2020 Census block population, grouped in cells of about 2 km and routed by road (free-flow OpenStreetMap times) from the 2020 population centre nearest the site. ' : s.withDrive ? 'Drive times are free-flow OpenStreetMap times from each tract’s 2020 population centre to the one nearest the site. ' : 'The drive-time files did not load, so drive times are not checked. ') +
-      'Comparable homes: CHFA’s property list, each property’s homes at each level times its share of family homes. Penetration: every tax credit home, ' + 'over renter households who qualify at 20 to 80% AMI.</p>';
+      'Comparable homes: CHFA’s property list, each property’s homes at each level times its share of ' + (isOlder(b) ? 'senior homes (CHFA counts existing age-restricted tax credit homes only, and leaves assisted living out; the list does not flag assisted living). Penetration is not shown for older adults: CHFA’s older-adult table has no such test.' : 'family homes. Penetration: every tax credit home, over renter households who qualify at 20 to 80% AMI.') + '</p>';
   }
   // True when the reader picked an area other than the local or regional one and has not said why.
   function needsReason(site) {
@@ -929,7 +1027,7 @@
   function qual(b, list, tiers) {
     var E = global.PMAMarketScoring, s = b.ctx.s;
     if (!E || !list.length) return null;
-    var r = E.chfaQualifiedRenters(s.x.demand, limitsOf(s), list.map(function (g) { return { geoid: g }; }), tiers, undefined, engineOpts(s.x));
+    var r = count(b, list, tiers);
     if (r.value == null) { if (r.reason && b.viewWhy && b.viewWhy.indexOf(r.reason) < 0) b.viewWhy.push(r.reason); return null; }
     return r.value;
   }
@@ -1006,16 +1104,17 @@
     b.viewWhy = [];
     var area = function (list) {
       var sup = supplyIn(b, list);
-      return { qT: qual(b, list, [tier]), qA: qual(b, list, CAP_TIERS), pool: qual(b, list, PEN_TIERS), existing: sup.units, supplyNotes: sup.notes };
+      return { qT: qual(b, list, [tier]), qA: qual(b, list, CAP_TIERS), pool: isOlder(b) ? null : qual(b, list, PEN_TIERS), existing: sup.units, supplyNotes: sup.notes };
     };
-    var wf = workforce(b, town), band = bandOf(tier);
+    // In-commuters are workers; an older-adult project's tenants are not counted from them.
+    var wf = isOlder(b) ? null : workforce(b, town), band = bandOf(tier), W = who(b);
     // t is null where the project's level has no band of its own.
     var add = function (scale) { return wf ? { t: band ? (wf.by[band] || 0) * scale : null, a: ANY_BANDS.reduce(function (s, k) { return s + (wf.by[k] || 0); }, 0) * scale } : null; };
     var plus = plusN;
     var noBand = function () { return 'In-commuters are counted in pay bands that end at 30, 50, 60 and 80% AMI, so there is no figure for ' + tier + '% AMI homes. Switch to any level, 30\u201380% AMI'; };
     var r = residents(b, town);
     if (r) {
-      out.push({ id: 'residents', label: 'Town residents only', tag: 'local', who: function (q) { return num(q) + ' ' + town.name + ' renter households qualify'; }, qT: r.qT, qA: r.qA, pool: r.pool, existing: r.existing, supplyNotes: r.supplyNotes });
+      out.push({ id: 'residents', label: 'Town residents only', tag: 'local', who: function (q) { return num(q) + ' ' + town.name + ' ' + W + ' qualify'; }, qT: r.qT, qA: r.qA, pool: r.pool, existing: r.existing, supplyNotes: r.supplyNotes });
       if (wf && wf.from === 'town') {
         var a = add(1), hi = add(VIEW.high / VIEW.move);
         out.push({ id: 'residents-ic', label: 'Residents plus in-commuters', tag: 'local', ic: true,
@@ -1025,10 +1124,10 @@
       }
     }
     var loc = chosen(b), L = area(loc);
-    out.push({ id: 'local', label: b.picked ? 'Your market area' : 'Local market area', tag: 'local', picked: true, who: function (q) { return num(q) + ' renter households in ' + loc.length + (loc.length === 1 ? ' tract' : ' tracts') + (b.picked ? ', as set on the map' : ' round the site'); }, qT: L.qT, qA: L.qA, pool: L.pool, existing: L.existing, supplyNotes: L.supplyNotes });
+    out.push({ id: 'local', label: b.picked ? 'Your market area' : 'Local market area', tag: 'local', picked: true, who: function (q) { return num(q) + ' ' + W + ' in ' + loc.length + (loc.length === 1 ? ' tract' : ' tracts') + (b.picked ? ', as set on the map' : ' round the site'); }, qT: L.qT, qA: L.qA, pool: L.pool, existing: L.existing, supplyNotes: L.supplyNotes });
     var ring = areaById(b, 'ring'), R = ring ? area(ring.list) : null;
     if (ring) {
-      out.push({ id: 'regional', label: 'Regional market area', tag: 'regional', who: function (q) { return num(q) + ' renter households in ' + ring.list.length + ' tracts within ' + (b.sug.coreMiles * 2) + ' miles' + (ring === areaById(b, 'suggested') ? ', the same tracts as the local area' : ''); }, qT: R.qT, qA: R.qA, pool: R.pool, existing: R.existing, supplyNotes: R.supplyNotes });
+      out.push({ id: 'regional', label: 'Regional market area', tag: 'regional', who: function (q) { return num(q) + ' ' + W + ' in ' + ring.list.length + ' tracts within ' + (b.sug.coreMiles * 2) + ' miles' + (ring === areaById(b, 'suggested') ? ', the same tracts as the local area' : ''); }, qT: R.qT, qA: R.qA, pool: R.pool, existing: R.existing, supplyNotes: R.supplyNotes });
       var fw = wf && farWorkers(b, ring.list);
       if (fw) {
         var per = function (k) { return (wf.by[k] || 0) / wf.incommuters; };
@@ -1039,10 +1138,12 @@
       }
     }
     var cty = areaById(b, 'county');
-    if (cty) { var K = area(cty.list); out.push({ id: 'county', label: 'Whole county', tag: null, who: function (q) { return num(q) + ' renter households in ' + cty.list.length + ' tracts'; }, qT: K.qT, qA: K.qA, pool: K.pool, existing: K.existing, supplyNotes: K.supplyNotes }); }
+    if (cty) { var K = area(cty.list); out.push({ id: 'county', label: 'Whole county', tag: null, who: function (q) { return num(q) + ' ' + W + ' in ' + cty.list.length + ' tracts'; }, qT: K.qT, qA: K.qA, pool: K.pool, existing: K.existing, supplyNotes: K.supplyNotes }); }
     out.forEach(function (v) {
       v.capT = v.qT > 0 ? units / v.qT : null; v.capA = v.qA > 0 ? units / v.qA : null;
-      v.pen = v.pool > 0 ? (v.existing + units) / v.pool : null;
+      // No penetration for older adults, as in the box's own figures: every tax credit home over older renters alone
+      // would mix two groups (Codex, HA #2948).
+      v.pen = !isOlder(b) && v.pool > 0 ? (v.existing + units) / v.pool : null;
       if (v.high) { v.high.capT = v.high.qT > 0 ? units / v.high.qT : null; v.high.capA = v.high.qA > 0 ? units / v.high.qA : null; }
     });
     return { list: out, town: town, wf: wf, residents: !!r, why: b.viewWhy.slice() };
@@ -1065,16 +1166,18 @@
         (v.supplyNotes.length && v.pen != null ? ' Supply note on penetration: ' + esc(v.supplyNotes.join(' ')) : '') + '</p>' +
         '<div class="cap-track tc-v-track" role="img" aria-label="' + esc(v.label + ': capture ' + (cap == null ? 'not available' : p1(cap)) + ', against CHFA’s 85% line') + '"><span class="cap-fill' + (over ? ' cap-over' : '') + '" style="width:' + w.toFixed(1) + '%"></span><span class="cap-line tc-v-line" style="left:' + lw + '%"></span></div></li>';
     }).join('');
-    var lead = 'Six ways to draw the market for these ' + num(ctx.units) + ' homes, from the town’s own renters out to the county. A town reading its own need starts at the top; for a CHFA application, see the best fit under Compare market areas. Every count is renter households who qualify under CHFA’s rules, except in-commuters, whose tenure is not known.';
+    var lead = isOlder(b)
+      ? 'Ways to draw the market for these ' + num(ctx.units) + ' older-adult homes, from the town’s own older renters out to the county. Every count is ' + who(b) + ' who qualify under CHFA’s older-adult rules' + migWords(b) + '. In-commuters are left out: they are workers, not the tenants an older-adult project counts.'
+      : 'Six ways to draw the market for these ' + num(ctx.units) + ' homes, from the town’s own renters out to the county. A town reading its own need starts at the top; for a CHFA application, see the best fit under Compare market areas. Every count is renter households who qualify under CHFA’s rules, except in-commuters, whose tenure is not known.';
     if (!V.residents) lead += b.pfDone ? (V.town ? ' The town files did not cover ' + V.town.name + ', so the two town views are left out.' : ' The site is not in a town, so the two town views are left out.') : ' The town views are still loading.';
     var src = b.data.sources;
     host.innerHTML = '<p>' + esc(lead) + '</p>' +
       '<div class="tc-vmode" role="group" aria-label="Which homes the capture counts"><button type="button" class="button-link' + (mode === 'tier' ? '' : ' secondary') + '" data-tc-vmode="tier" aria-pressed="' + (mode === 'tier') + '">All ' + num(ctx.units) + ' at ' + ctx.tier + '% AMI</button>' +
         '<button type="button" class="button-link' + (mode === 'any' ? '' : ' secondary') + '" data-tc-vmode="any" aria-pressed="' + (mode === 'any') + '">Any level, 30–80% AMI</button></div>' +
       '<ul class="tc-vlist">' + cards + '</ul>' +
-      '<p class="note">Black mark: CHFA’s 85% line (<a href="' + MSG + '" rel="noopener">2027–28 QAP</a>). Capture = homes ÷ households who qualify. Penetration = (tax credit homes already there + these) ÷ renter households who qualify at 20 to 80% AMI, plus in-commuters’ households at 30 to 80%. ' +
-        'In-commuters: ' + (V.wf ? 'a quarter of the people who work in ' + (V.wf.from === 'town' && V.town ? V.town.name : 'the county') + ' but live elsewhere, as households, by pay (LEHD LODES 2024; the needs assessment’s move-closer share)' : 'the workforce file did not load') +
-        '; for the regional view, a quarter of those whose job is in its tracts and who live more than ' + VIEW.farMiles + ' miles from the site, at the same rate per worker. Out-of-state homes are not in the tract flows. ' +
+      '<p class="note">Black mark: CHFA’s 85% line (<a href="' + MSG + '" rel="noopener">2027–28 QAP</a>). Capture = homes ÷ households who qualify. ' + (isOlder(b) ? 'Penetration is not shown for older adults. ' : 'Penetration = (tax credit homes already there + these) ÷ renter households who qualify at 20 to 80% AMI, plus in-commuters’ households at 30 to 80%. ') +
+        (isOlder(b) ? 'In-commuters are left out for older adults. ' : 'In-commuters: ' + (V.wf ? 'a quarter of the people who work in ' + (V.wf.from === 'town' && V.town ? V.town.name : 'the county') + ' but live elsewhere, as households, by pay (LEHD LODES 2024; the needs assessment’s move-closer share)' : 'the workforce file did not load') +
+        '; for the regional view, a quarter of those whose job is in its tracts and who live more than ' + VIEW.farMiles + ' miles from the site, at the same rate per worker. Out-of-state homes are not in the tract flows. ') +
         'Town residents: the needs assessment’s share of each tract in the town, scaled to the town’s ACS renter count (HUD CHAS 2018–2022, Census ACS 5-year). The local and regional areas are COHO screening views, not CHFA market areas.</p>' +
       '<p class="metric-source">' + [
         '<a href="https://lehd.ces.census.gov/data/" rel="noopener">LEHD LODES ' + esc((src.od && src.od.vintage) || '2024') + '</a>',
@@ -1098,6 +1201,8 @@
     return pa && pa.ids.indexOf('suggested') < 0 && pa.ids.indexOf('map') < 0 ? pa : null;
   }
   function draw(b) {
+    needOlder(b);
+    drawPop(b);
     drawHead(b);
     drawPanel(b);
     drawViews(b);
@@ -1117,11 +1222,11 @@
       : 'Suggested market area: ' + list.length + (list.length === 1 ? ' whole census tract' : ' whole census tracts') + ' round the site.';
     var ans = !list.length ? head + ' Add a tract on the map to see a capture rate.'
       : !m || m.capture == null ? head + ' No capture rate: ' + ((m && m.reason) || 'no renter household here qualifies under CHFA’s rules') + '.'
-      : head + ' A ' + num(ctx.units) + '-home project at ' + ctx.tier + '% AMI would need ' + p1(m.capture) + ' of the ' + num(m.qualified) + ' renter households there who qualify; with the ' + num(m.comparable) + ' comparable tax credit homes already there, CHFA’s rate is ' + p1(m.chfa) + '.';
+      : head + ' A ' + num(ctx.units) + '-home ' + (isOlder(b) ? 'older-adult ' : '') + 'project at ' + ctx.tier + '% AMI would need ' + p1(m.capture) + ' of the ' + num(m.qualified) + ' ' + who(b) + ' there who qualify' + migWords(b) + '; with the ' + num(m.comparable) + ' comparable ' + kind(b) + ' tax credit homes already there, CHFA’s rate is ' + p1(m.chfa) + '.';
     b.el.querySelector('.tc-answer').textContent = ans;
     b.el.querySelector('.tc-meters').innerHTML = m && m.capture != null
-      ? meter('CHFA rate, ' + ctx.tier + '% AMI', m.chfa, '(' + num(ctx.units) + ' new homes + ' + num(m.comparable) + ' comparable family tax credit homes already at ' + ctx.tier + '% AMI) ÷ ' + num(m.qualified) + ' renter households in these tracts who qualify, as CHFA’s Market Study Guide counts it.' + (m.compNotes.length ? ' Note: ' + m.compNotes.join(' ') : ''), line) +
-        meter('Capture rate, the new homes alone', m.capture, num(ctx.units) + ' homes ÷ ' + num(m.qualified) + ' renter households in these tracts who qualify for a ' + ctx.tier + '% AMI home.', line) +
+      ? meter('CHFA rate, ' + ctx.tier + '% AMI', m.chfa, '(' + num(ctx.units) + ' new homes + ' + num(m.comparable) + ' comparable ' + kind(b) + ' tax credit homes already at ' + ctx.tier + '% AMI) ÷ ' + num(m.qualified) + ' ' + who(b) + ' in these tracts who qualify' + migWords(b) + ', as CHFA’s Market Study Guide counts it.' + (m.compNotes.length ? ' Note: ' + m.compNotes.join(' ') : ''), line) +
+        meter('Capture rate, the new homes alone', m.capture, num(ctx.units) + ' homes ÷ ' + num(m.qualified) + ' ' + who(b) + ' in these tracts who qualify for a ' + ctx.tier + '% AMI home' + migWords(b) + '.', line) +
         (m.pen != null ? meter('Penetration, all tax credit homes', m.pen, '(' + num(m.existing) + ' existing in ' + num(m.projects) + (m.projects === 1 ? ' property' : ' properties') + ' + ' + num(ctx.units) + ' proposed) ÷ ' + num(m.pool) + ' renter households who qualify at 20 to 80% AMI.' + (m.supplyNotes.length ? ' Supply note: ' + m.supplyNotes.join(' ') : ''), line) : '')
       : '';
     b.el.querySelector('[data-tc-reset]').hidden = !b.picked;
@@ -1144,9 +1249,9 @@
     p.innerHTML = '<h3 class="tc-panel-title">' + esc(t.name + ', ' + t.county) + '</h3>' +
       '<p><strong>' + (t.suggested ? 'Suggested in.' : 'Suggested out.') + '</strong> ' + esc(t.reason) + '</p>' +
       (reasonsOf(b, t) ? '<p class="note">' + esc(reasonsOf(b, t)) + '</p>' : '') +
-      '<p>' + num(q) + ' renter households here qualify for a ' + b.ctx.tier + '% AMI home' + (b.lihtc[g] ? '; ' + b.lihtc[g].length + (b.lihtc[g].length === 1 ? ' tax credit property' : ' tax credit properties') + ' here.' : '.') + '</p>' +
+      '<p>' + num(q) + ' ' + who(b) + ' here qualify for a ' + b.ctx.tier + '% AMI home' + (b.lihtc[g] ? '; ' + b.lihtc[g].length + (b.lihtc[g].length === 1 ? ' tax credit property' : ' tax credit properties') + ' here.' : '.') + '</p>' +
       '<p class="tc-panel-what">' + (inNow ? 'Taking it out:' : 'Adding it:') + '</p><ul class="tc-panel-change">' +
-        change('Capture rate', a && a.capture, z && z.capture) + change('Penetration', a && a.pen, z && z.pen) + '</ul>' +
+        change('Capture rate', a && a.capture, z && z.capture) + (isOlder(b) ? '' : change('Penetration', a && a.pen, z && z.pen)) + '</ul>' +
       '<div class="actions"><button type="button" class="button-link" data-tc-toggle="' + esc(g) + '">' + (inNow ? 'Take it out' : 'Add it') + '</button></div>';
   }
 
@@ -1169,7 +1274,7 @@
         (s.withSchools ? '<td class="num" data-label="In the site’s school district">' + pc(t.school) + '</td>' : '') +
         (s.withCommutes ? '<td class="num" data-label="Job near the site">' + (t.tie && t.tie.workers ? pc(t.tie.share) : '—') + '</td>' : '') +
         (s.withMovers ? '<td class="num" data-label="Renters who moved in">' + (t.movers && t.movers.share != null ? p1(t.movers.share) : '—') + '</td>' : '') +
-        '<td class="num" data-label="Renters who qualify">' + num(single(b, g)) + '</td></tr>';
+        '<td class="num" data-label="' + (isOlder(b) ? 'Older-adult renters' : 'Renters') + ' who qualify">' + num(single(b, g)) + '</td></tr>';
     }).join('');
     b.el.querySelector('.tc-table-body').innerHTML = '<div class="tc-table-wrap"><table class="data-table"><caption>Every tract within ' + s.reach + ' miles of the site' + (s.withBands ? ', or with a quarter of its people within 20 minutes’ drive' : '') + '. Tick a tract to put it in the market area.</caption>' +
       '<thead><tr><th scope="col">Tract</th><th scope="col">Suggested</th><th scope="col">Why</th>' +
@@ -1177,7 +1282,7 @@
       (s.withSchools ? '<th scope="col" class="num">In ' + esc(s.siteDistrict.name) + '</th>' : '') +
       (s.withCommutes ? '<th scope="col" class="num">Working residents with a job within ' + s.coreMiles + ' mi</th>' : '') +
       (s.withMovers ? '<th scope="col" class="num">Renters who moved in last year</th>' : '') +
-      '<th scope="col" class="num">Renters who qualify, ' + b.ctx.tier + '% AMI</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+      '<th scope="col" class="num">' + (isOlder(b) ? 'Older-adult renters' : 'Renters') + ' who qualify, ' + b.ctx.tier + '% AMI</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
       '<p class="note">People by road: 2020 Census block population, routed by OpenStreetMap roads. School districts: Census TIGER 2024. Jobs: LEHD LODES 2024. Movers: Census ACS 2020–2024 table B07013, people (not households) in rented homes who lived in another county, state or abroad a year earlier; tract margins are wide, and CHFA counts in-migration only when comparable properties show it.</p>';
   }
 
@@ -1199,13 +1304,14 @@
         line('CDOT highways and Census TIGERweb water', 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Hydro/MapServer'),
         line('Census TIGER 2020 tracts', 'https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html'),
         line('CHFA Housing Tax Credit property list', 'https://www.chfainfo.com/rental-housing/housing-credit'),
-        line('Renters who qualify: HUD CHAS 2018–2022 and Census ACS, counted the CHFA Market Study Guide way', 'https://www.huduser.gov/portal/datasets/cp.html')
+        line('Renters who qualify: HUD CHAS 2018–2022 and Census ACS, counted the CHFA Market Study Guide way', 'https://www.huduser.gov/portal/datasets/cp.html'),
+        isOlder(b) && line('Older-adult renters: HUD CHAS 2018–2022 Table 7 (elderly family and elderly non-family renters) and Census ACS 2020–2024 PUMS (householder 62+, one or two people)', 'https://www.huduser.gov/portal/datasets/cp.html')
       ].filter(Boolean).join(' · ') + '</p>';
   }
 
   // Capture as tracts are added in the suggested order: worked out a few steps at a time so the page stays free.
   function curve(b) {
-    var forKey = b.sug.order.join(',') + '|' + b.ctx.units + '|' + b.ctx.tier;
+    var forKey = b.sug.order.join(',') + '|' + b.ctx.units + '|' + b.ctx.tier + '|' + popKey(b);
     if (b.curveFor === forKey && b.curve && b.curve.done) { drawCurve(b); return; }
     if (b.curveFor !== forKey) { b.curveFor = forKey; b.curve = { pts: [], done: false }; }
     var c = b.curve, order = b.sug.order;
@@ -1304,7 +1410,7 @@
   // before the box has worked out its suggestion. The Market check's head reads these, so it never counts on its own.
   function now(site) {
     var b = site && boxes[keyOf(site)];
-    return b && b.sug && b.count != null ? { m: b.now || null, tracts: b.count, edited: !!b.picked, key: b.key, label: b.nowLabel || null } : null;
+    return b && b.sug && b.count != null ? { m: b.now || null, tracts: b.count, edited: !!b.picked, key: b.key, label: b.nowLabel || null, older: isOlder(b), migration: migOf(b) } : null;
   }
   // The tract list the "Use in project" form stores: the edited list from the address, else the suggestion once
   // it has been worked out; null while it is still loading.
@@ -1332,11 +1438,11 @@
         areas: areas.map(function (x) {
           var c = x.eval.chfa, ev = x.eval.ev;
           return { id: x.id, ids: x.ids.slice(), label: x.label, method: x.method, note: x.note, tracts: x.list.slice(), recommended: !!x.recommended, bestFit: !!x.best, tests: x.eval.tests.map(function (t) { return { id: t.id, pass: t.pass, text: t.text, caveat: t.caveat || null, uncertain: !!t.uncertain }; }), supplyNotes: x.eval.supplyNotes.slice(), line: x.line || null,
-            chfa: { tier: b.ctx.tier, rate: c.rateT, comparable: c.existingT, qualified: c.qT, allLevelsTo: c.top, rateAll: c.rateAll, comparableAll: c.existingAll, qualifiedAll: c.qAll, notes: x.eval.compNotes.slice() },
+            chfa: { tier: b.ctx.tier, population: kind(b), rate: c.rateT, comparable: c.existingT, qualified: c.qT, allLevelsTo: c.top, rateAll: c.rateAll, comparableAll: c.existingAll, qualifiedAll: c.qAll, notes: x.eval.compNotes.slice() },
             reasons: { drawShare: ev.draw, drawMinutes: b.sug.withBands ? b.sug.band : null, schoolDistrictShare: ev.school, jobsHeld: ev.jobs, renterMoverShare: ev.movers } };
         }),
         bestFit: b.best ? b.best.id : null,
-        bestFitRule: b.sug.withBands ? 'Approved by paul 18 Nov 2026: of the areas holding at least half the people within ' + b.sug.band + ' minutes’ drive of the site and at or under 85% (CHFA rate, comparable family tax credit homes counted) at the project level and across all levels, the lowest rate, then the fewest tracts within 5 points.' : null,
+        bestFitRule: b.sug.withBands ? 'Approved by paul 18 Nov 2026: of the areas holding at least half the people within ' + b.sug.band + ' minutes’ drive of the site and at or under 85% (CHFA rate, comparable ' + kind(b) + ' tax credit homes counted) at the project level and across all levels, the lowest rate, then the fewest tracts within 5 points.' : null,
         schoolDistrict: b.sug.siteDistrict ? b.sug.siteDistrict.name : null,
         // Since 15 Nov 2026 no area is recommended: the local and regional areas are named instead.
         recommended: null,
@@ -1344,8 +1450,11 @@
         views: { local: (areaById(b, 'suggested') || {}).id || null, regional: (areaById(b, 'ring') || {}).id || null, bestFit: b.best ? b.best.id : null },
         picked: pa ? pa.id : null,
         pickedWhy: pa && !isView(pa) ? (b.pickWhy || '').trim() || null : null,
-        tests: 'COHO screening tests, 18 Nov 2026: 1 whole tracts (CHFA Market Study Guide); 2 every tract with most of its people within ' + (b.sug.withBands ? b.sug.band + ' minutes by road, or ' : '') + 'near the site on its side' + (!b.sug.withBands && b.sug.withDrive ? ' and within ' + b.sug.maxDrive + ' minutes by road (OpenStreetMap)' : '') + ', or with 10%+ of working residents employed near it (LODES 2024); 3 no tract where another town holds most homes and has tax credit homes; 4 CHFA rate (comparable family tax credit homes + the project, over renter households who qualify) at or under 85% at the project level and across all levels. Tests 2-3 are not CHFA rules.'
+        tests: 'COHO screening tests, 18 Nov 2026: 1 whole tracts (CHFA Market Study Guide); 2 every tract with most of its people within ' + (b.sug.withBands ? b.sug.band + ' minutes by road, or ' : '') + 'near the site on its side' + (!b.sug.withBands && b.sug.withDrive ? ' and within ' + b.sug.maxDrive + ' minutes by road (OpenStreetMap)' : '') + ', or with 10%+ of working residents employed near it (LODES 2024); 3 no tract where another town holds most homes and has tax credit homes; 4 CHFA rate (comparable ' + kind(b) + ' tax credit homes + the project, over ' + who(b) + ' who qualify' + migWords(b) + ') at or under 85% at the project level and across all levels. Tests 2-3 are not CHFA rules.'
       },
+      // Who the homes are for, and the in-migration factor the reader set (null when none), so a later page counts the same way.
+      population: isOlder(b) ? { kind: 'older-adult', rules: 'CHFA 2027-28 QAP, Appendix A, pages 85-87: renter households, householder 62+, one or two people, 1-2 bedroom homes with no more than two occupants, rent no more than 40% of income; comparable = existing age-restricted tax credit homes', inMigrationPct: migOf(b) ? Math.round(migOf(b) * 100) : null,
+        inMigrationNote: migOf(b) ? 'Analyst’s factor set by the reader; CHFA accepts in-migration only when demonstrated from comparable projects, with supporting information (page 86).' : null, source: FILES.older } : { kind: 'family' },
       edited: !!(edited && edited.length), city: b.sug.city, coreMiles: b.sug.coreMiles, reachMiles: b.sug.reach,
       withCommutes: b.sug.withCommutes, withCrossings: b.sug.withCrossings,
       rules: 'COHO screening rules, 18 Nov 2026: the site tract; tracts within ' + b.sug.coreMiles + ' miles' + (b.sug.withBands ? ' unless fewer than half their people live within ' + b.sug.band + ' minutes by road' : '') + '; farther tracts to ' + b.sug.reach + ' miles where 25% or more (and 50 or more) of working residents have a job within ' + b.sug.coreMiles + ' miles' + (!b.sug.withBands && b.sug.withDrive ? ' unless more than ' + b.sug.maxDrive + ' minutes by road' : '') + '; nothing across an interstate, river or named lake unless that jobs tie holds' + (b.sug.withBands ? ' or most of its people are within ' + b.sug.band + ' minutes by road' : '') + '; at least 3 tracts' + (b.sug.withDrive ? ', the added ones within ' + RULES.smallDrive + ' minutes by road' : '') + '. Not CHFA rules.',
