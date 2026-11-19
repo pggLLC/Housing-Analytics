@@ -454,8 +454,11 @@
   var KEEP = 'coho-quick-estimate-v1', kept = false;
   function keep() {
     try {
+      // Saved under the place the boxes were last set from, not the page's current place: after the reader moves to
+      // another place's page (which does not redraw the estimate), the boxes still hold the old place (Codex, #2949).
+      if (followed === null) return; // the boxes were never set from a place: nothing to bring back
       var S = global.LabDealQuickSale;
-      global.sessionStorage.setItem(KEEP, JSON.stringify({ v: 1, place: pagePlace() || '', kind: kind, q: q, sale: S && S.state ? S.state() : null }));
+      global.sessionStorage.setItem(KEEP, JSON.stringify({ v: 1, place: followed || '', kind: kind, q: q, sale: S && S.state ? S.state() : null }));
     } catch (e) { /* storage off or full: Back shows the example, as before */ }
   }
   function unkeep() {
