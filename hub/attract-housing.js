@@ -24,7 +24,7 @@
 
   // Primary sources, each with the date it was issued or read.
   var S = {
-    qap: { t: 'CHFA 2027-2028 Qualified Allocation Plan', u: 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf', d: 'adopted, read 5 Nov 2026' },
+    qap: { t: 'CHFA 2027-2028 Qualified Allocation Plan', u: 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US', d: 'adopted, read 5 Nov 2026' },
     dola: { t: 'DOLA, Meeting Proposition 123 Commitments: Unit Count and Expedited Review Guidance, 2027-2029', u: 'https://docs.google.com/document/d/1EwQ_rU8amUmc7lLPbO3nydJixd3AMBgZ2Ao4WXx1xpo/edit', d: 'second cycle, read 5 Nov 2026' },
     p123: { t: 'Proposition 123, C.R.S. 29-32-105', u: 'https://colorado.public.law/statutes/crs_29-32-105', d: 'approved by voters Nov 2022' },
     hb1313: { t: 'HB26-1313, 2026 Session Laws ch. 154', u: 'https://leg.colorado.gov/laws/session-laws/HB26-1313/154/download', d: 'approved 26 May 2026' },

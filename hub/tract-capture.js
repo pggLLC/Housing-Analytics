@@ -17,6 +17,14 @@
 //      js/pma-barriers.js, on data/market/natural_barriers_co.geojson).
 //   5. If that leaves fewer than 3 tracts, the next-nearest tracts in the site's county are added up to 3, so a small
 //      town's area is more than the town.
+// With the people-by-road file (data/market/tract_drive_bands_co.json; paul approved 18 Nov 2026 as "only
+// justification for the [tract] method, to capture the right [tracts] for CHFA"), rule 2's drive test asks whether most
+// of a tract's 2020 Census population lives within 20 minutes' drive of the site (15 in a city), and rule 4's crossing
+// gives way where it does, since roads cross. Each tract also shows its school district share, job tie and movers.
+// The comparison then holds drive-time areas too, scores every area with CHFA's own rate (comparable family tax credit
+// homes already there + the new homes, over renter households who qualify, at each AMI level and across all), and
+// picks the best fit for CHFA by a stated rule (BEST), the default pick carried to the project and the full Market
+// Analysis.
 // The map shows every candidate tract. A tap shows what adding or dropping that tract does to the capture rate and
 // to penetration, and a button makes the change. A chart shows capture as tracts are added in the suggested order.
 // Every count comes from the public site's engines: renters who qualify from PMAMarketScoring.chfaQualifiedRenters
@@ -38,6 +46,12 @@
     lihtc: 'data/market/hud_lihtc_co.geojson',
     places: 'data/market/census2020-place-tract-housing-co.json',
     drive: 'data/market/tract_drive_times_co.json',
+    // The reasons for each tract (paul approved 18 Nov 2026): people by road, school district, movers; and the HUD
+    // Section 8 contracts, to say where a comparable tax credit property may also carry project-based rent help.
+    bands: 'data/market/tract_drive_bands_co.json',
+    schools: 'data/market/tract_school_districts_co.json',
+    movers: 'data/market/acs_tract_movers_co.json',
+    s8: 'data/market/hud_s8_contracts_co.json',
     // "Who could rent here" (paul, 15 Nov 2026): the town's own renters, by the needs assessment's own apportionment,
     // and the workers who commute in, from its workforce file.
     membership: 'data/hna/place-tract-membership.json',
@@ -46,7 +60,12 @@
     workforce: 'data/hna/workforce-need.json'
   };
   var ENGINES = { barriers: 'js/pma-barriers.js', supply: 'js/market-analysis-supply.js' };
-  var RULES = { core: 4, cityCore: 2, cityTest: 3, cityCount: 25, reach: 12, cityReach: 6, tie: 0.25, tieMin: 50, minTracts: 3, maxCandidates: 150, drive: 30, cityDrive: 20, smallDrive: 45 };
+  var RULES = { core: 4, cityCore: 2, cityTest: 3, cityCount: 25, reach: 12, cityReach: 6, tie: 0.25, tieMin: 50, minTracts: 3, maxCandidates: 150, drive: 30, cityDrive: 20, smallDrive: 45, band: 20, cityBand: 15 };
+  // The best-fit rule (paul approved 18 Nov 2026, from the 17 Nov proposal): of the areas that hold at least half the
+  // people within the drive band of the site (20 minutes, 15 in a city) and stay at or under CHFA's 85% line at the
+  // project's level and across all levels, the lowest CHFA rate; then the fewest tracts within 5 points of it.
+  var BEST = { draw: 0.5, within: 0.05, quarter: 0.25 };
+  var BAND_AT = { 10: 0, 15: 1, 20: 2 };
   var PEN_TIERS = [20, 30, 40, 45, 50, 55, 60, 70, 80];
   var OSM = { url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom: 19 };
   var SAT = { url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attribution: 'Imagery &copy; <a href="https://www.esri.com/">Esri</a>, Maxar, Earthstar Geographics', maxZoom: 19 };
@@ -86,8 +105,42 @@
       .sort(function (a, b) { return a.miles - b.miles; });
     var city = rows.filter(function (r) { return r.miles <= RULES.cityTest; }).length >= RULES.cityCount;
     var coreMiles = city ? RULES.cityCore : RULES.core, reach = city ? RULES.cityReach : RULES.reach;
-    var cands = rows.filter(function (r) { return r.miles <= reach; }).slice(0, RULES.maxCandidates);
     var siteGeoid = o.siteGeoid || (rows[0] && rows[0].geoid);
+    // Where each tract's people live, by road (paul, 18 Nov 2026: drive time is "only justification for the [tract]
+    // method, to capture the right [tracts] for CHFA"). The share of each tract's 2020 Census population within 10, 15
+    // and 20 minutes' drive of the 2020 population centre nearest the site (data/market/tract_drive_bands_co.json).
+    var anchorIdx = -1;
+    if (o.drive && Array.isArray(o.drive.tracts) && Array.isArray(o.drive.points) && o.drive.points.length === o.drive.tracts.length) {
+      var near0 = Infinity;
+      o.drive.points.forEach(function (p, k) { var m = miles(site, { lat: p[0], lon: p[1] }); if (m < near0) { near0 = m; anchorIdx = k; } });
+    } else if (o.drive && Array.isArray(o.drive.tracts) && siteGeoid) anchorIdx = o.drive.tracts.indexOf(siteGeoid);
+    var anchor0 = anchorIdx > -1 ? o.drive.tracts[anchorIdx] : null;
+    var shares = null, bandPop = null, drawTotal = null, band = city ? RULES.cityBand : RULES.band;
+    var bf = o.bands, bandFrom = anchor0, bandFromName = null;
+    // The file's own origins: each tract's population centre and each town's or CDP's internal point. A site in
+    // town takes the town's point, since a rural tract's centre can sit miles out of town.
+    if (bf && Array.isArray(bf.points) && Array.isArray(bf.tracts) && bf.points.length === bf.tracts.length) {
+      var nb = Infinity;
+      bf.points.forEach(function (p, k) { var m = miles(site, { lat: p[0], lon: p[1] }); if (m < nb && bf.from[bf.tracts[k]]) { nb = m; bandFrom = bf.tracts[k]; bandFromName = null; } });
+      (bf.places || []).forEach(function (p) { var m = miles(site, { lat: p[2], lon: p[3] }); if (m < nb && bf.from[p[0]]) { nb = m; bandFrom = p[0]; bandFromName = p[1]; } });
+    }
+    if (bf && bf.from && Array.isArray(bf.tracts) && Array.isArray(bf.pop) && bandFrom && Array.isArray(bf.from[bandFrom])) {
+      shares = {}; bandPop = {}; drawTotal = [0, 0, 0];
+      bf.from[bandFrom].forEach(function (r) {
+        var g = bf.tracts[r[0]], pop = +bf.pop[r[0]] || 0;
+        if (!g) return;
+        shares[g] = [r[1] / 100, r[2] / 100, r[3] / 100]; bandPop[g] = pop;
+        for (var k = 0; k < 3; k++) drawTotal[k] += shares[g][k] * pop;
+      });
+    }
+    var shareOf = function (g, m) { return shares ? (shares[g] ? shares[g][BAND_AT[m]] : 0) : undefined; };
+    var cands = rows.filter(function (r) { return r.miles <= reach; }).slice(0, RULES.maxCandidates);
+    // A tract where a quarter or more of its people live within 20 minutes' drive is looked at too, however far its
+    // centre: the drive-time areas in the comparison take such tracts in.
+    if (shares) {
+      var inC = {}; cands.forEach(function (r) { inC[r.geoid] = true; });
+      rows.forEach(function (r) { if (!inC[r.geoid] && shareOf(r.geoid, 20) >= BEST.quarter) { cands.push(r); inC[r.geoid] = true; } });
+    }
     if (siteGeoid && !cands.some(function (r) { return r.geoid === siteGeoid; })) {
       var sr = rows.filter(function (r) { return r.geoid === siteGeoid; })[0];
       if (sr) cands.unshift(sr);
@@ -120,13 +173,9 @@
     // data/market/tract_drive_times_co.json). Nearest the site, not the site tract's own: a big rural tract's people
     // can live miles from a site at its edge. A range or a long way round shows as a long drive even when near on the map.
     var mins = null, maxDrive = city ? RULES.cityDrive : RULES.drive, anchor = null;
-    if (o.drive && o.drive.from && Array.isArray(o.drive.tracts) && siteGeoid) {
-      var si = o.drive.tracts.indexOf(siteGeoid);
-      if (Array.isArray(o.drive.points) && o.drive.points.length === o.drive.tracts.length) {
-        var best = Infinity;
-        o.drive.points.forEach(function (p, k) { var m = miles(o.site, { lat: p[0], lon: p[1] }); if (m < best) { best = m; si = k; } });
-      }
-      anchor = o.drive.tracts[si] || null;
+    if (o.drive && o.drive.from && Array.isArray(o.drive.tracts) && siteGeoid && anchorIdx > -1) {
+      var si = anchorIdx;
+      anchor = anchor0;
       mins = {};
       cands.forEach(function (r) {
         if (r.geoid === anchor) { mins[r.geoid] = 0; return; }
@@ -137,8 +186,30 @@
     }
     var driveOf = function (g) { return mins ? mins[g] : undefined; };
     // A pair not on file (centres more than 15 miles apart, or no route) is unknown, not long: a big rural site tract's centre can be far from the site.
-    var longDrive = function (g) { var m = driveOf(g); return m != null && m > maxDrive; };
-    var driveWords = function (g) { var m = driveOf(g); return m === undefined ? '' : m == null ? 'no drive time on file' : Math.round(m) + ' minutes\u2019 drive'; };
+    // With the people-by-road file, a tract is near by road when most of its people live within the band (20 minutes,
+    // 15 in a city): CHFA's market area is where a project draws "the majority of its residents" (2027-28 QAP,
+    // Appendix A). Without it, the centre-to-centre drive as before.
+    var most = function (g) { return shares ? shareOf(g, band) >= BEST.draw : null; };
+    var longDrive = function (g) { if (shares) return !most(g); var m = driveOf(g); return m != null && m > maxDrive; };
+    var peopleWords = function (g) { return Math.round(shareOf(g, band) * 100) + '% of its people within ' + band + ' minutes\u2019 drive'; };
+    var driveWords = function (g) { if (shares) return peopleWords(g); var m = driveOf(g); return m === undefined ? '' : m == null ? 'no drive time on file' : Math.round(m) + ' minutes\u2019 drive'; };
+    // The other reasons a reviewer reads, for every tract: the site's school district (the district holding most of
+    // the site tract's people) and renters who moved in from another county, state or abroad (context only).
+    var sch = o.schools && o.schools.tracts && Array.isArray(o.schools.districts) ? o.schools : null;
+    var siteDist = sch && siteGeoid && sch.tracts[siteGeoid] && sch.tracts[siteGeoid][0] ? sch.tracts[siteGeoid][0][0] : null;
+    var schoolOf = function (g) {
+      if (!sch || siteDist == null) return null;
+      var rs = sch.tracts[g] || [];
+      for (var k = 0; k < rs.length; k++) if (rs[k][0] === siteDist) return rs[k][1] / 100;
+      return 0;
+    };
+    var mv = o.movers && o.movers.tracts ? o.movers.tracts : null;
+    var moversOf = function (g) {
+      var m = mv && mv[g];
+      if (!m || m[0] == null) return null;
+      var out = (m[2] || 0) + (m[3] || 0) + (m[4] || 0);
+      return { renters: m[0], outside: out, moe: m[5], share: m[0] > 0 ? out / m[0] : null };
+    };
     var coreWords = 'within ' + coreMiles + ' miles of the site';
     var tied = function (g) { return tie && tie[g] && tie[g].share >= RULES.tie && tie[g].toCore >= RULES.tieMin; };
     var tieWords = function (g) {
@@ -146,10 +217,15 @@
       return x && x.workers ? Math.round(x.share * 100) + '% of the people who live here and work have a job ' + coreWords + ' (' + num(x.toCore) + ' of ' + num(x.workers) + ')' : null;
     };
     var list = cands.map(function (r) {
-      var g = r.geoid, x = across && across[g], d = mi(r.miles) + (mins && g !== siteGeoid ? ' (' + driveWords(g) + ')' : ''), it = { drive: driveOf(g) === undefined ? null : driveOf(g), geoid: g, name: tractName(r.t), county: r.t.county_name ? r.t.county_name + ' County' : '', countyFips: String(r.t.county_fips || g.slice(0, 5)), miles: r.miles, lat: r.t.lat, lon: r.t.lon, across: x || null, tie: tie ? tie[g] : null };
+      var g = r.geoid, x = across && across[g], d = mi(r.miles) + ((mins || shares) && g !== siteGeoid ? ' (' + driveWords(g) + ')' : ''), it = { drive: driveOf(g) === undefined ? null : driveOf(g), geoid: g, name: tractName(r.t), county: r.t.county_name ? r.t.county_name + ' County' : '', countyFips: String(r.t.county_fips || g.slice(0, 5)), miles: r.miles, lat: r.t.lat, lon: r.t.lon, across: x || null, tie: tie ? tie[g] : null,
+        bands: shares ? [shareOf(g, 10), shareOf(g, 15), shareOf(g, 20)] : null, school: schoolOf(g), movers: moversOf(g) };
       if (g === siteGeoid) return Object.assign(it, { suggested: true, why: 'site', reason: 'The site is in this tract.' });
       if (core[g]) {
-        if (longDrive(g) && !tied(g)) return Object.assign(it, { suggested: false, why: 'drive', reason: d + ' from the site: more than ' + maxDrive + ' minutes by road, so near on the map but not in practice (a range, a river or a long way round).' });
+        if (longDrive(g) && !tied(g)) return Object.assign(it, { suggested: false, why: 'drive', reason: shares
+          ? d + ' from the site: fewer than half its people live within ' + band + ' minutes by road, so near on the map but not in practice (a range, a river or a long way round).'
+          : d + ' from the site: more than ' + maxDrive + ' minutes by road, so near on the map but not in practice (a range, a river or a long way round).' });
+        // Roads cross the river or interstate when most of the tract's people are within the band by road.
+        if (x && !tied(g) && most(g)) return Object.assign(it, { suggested: true, why: 'near', reason: d + ' from the site. It is across ' + x + ', but roads cross it: most of its people are within ' + band + ' minutes’ drive.' });
         if (x && !tied(g)) return Object.assign(it, { suggested: false, why: 'across', reason: d + ' from the site, but across ' + x + '. A market area’s edge usually follows a river or an interstate.' });
         if (x) return Object.assign(it, { suggested: true, why: 'tied', reason: d + ' from the site, across ' + x + ', but ' + tieWords(g) + ', so it is tied to the site.' });
         var tw = tieWords(g);
@@ -166,7 +242,7 @@
       list.forEach(function (t) {
         if (count >= RULES.minTracts || t.suggested || !!t.across !== crossing || t.countyFips !== siteCounty || (driveOf(t.geoid) != null && driveOf(t.geoid) > RULES.smallDrive)) return;
         t.suggested = true; t.why = 'small';
-        t.reason = mi(t.miles) + (mins ? ' (' + driveWords(t.geoid) + ')' : '') + ' from the site. Added so the area is more than the town itself: the next-nearest tract in ' + (t.county || 'the county') + '.' +
+        t.reason = mi(t.miles) + (mins || shares ? ' (' + driveWords(t.geoid) + ')' : '') + ' from the site. Added so the area is more than the town itself: the next-nearest tract in ' + (t.county || 'the county') + '.' +
           (t.across ? ' It is across ' + t.across + ', but no tract on the site\u2019s side is nearer.' : '');
         count++;
       });
@@ -174,7 +250,9 @@
     // The site's tract first, then the other suggested tracts nearest first, then the rest nearest first.
     var rank = function (t) { return t.why === 'site' ? 0 : t.suggested ? 1 : 2; };
     var order = list.slice().sort(function (a, c) { return rank(a) - rank(c) || a.miles - c.miles; }).map(function (t) { return t.geoid; });
-    return { city: city, coreMiles: coreMiles, reach: reach, maxDrive: maxDrive, siteGeoid: siteGeoid, tracts: list, order: order, withCommutes: !!tie, withCrossings: !!across, withDrive: !!mins, driveFrom: anchor, rules: RULES };
+    return { city: city, coreMiles: coreMiles, reach: reach, maxDrive: maxDrive, siteGeoid: siteGeoid, tracts: list, order: order, withCommutes: !!tie, withCrossings: !!across, withDrive: !!mins, driveFrom: anchor, rules: RULES,
+      core: Object.keys(core), band: band, withBands: !!shares, bandFrom: shares ? bandFrom : null, bandFromName: shares ? bandFromName : null, shares: shares, bandPop: bandPop, drawTotal: drawTotal,
+      siteDistrict: siteDist != null ? { geoid: sch.districts[siteDist][0], name: sch.districts[siteDist][1] } : null, withSchools: siteDist != null, withMovers: !!mv };
   }
 
   // ---- files and engines, fetched once ----
@@ -289,7 +367,7 @@
       if (t.hasAttribute('data-tc-usepick')) { ev.preventDefault(); if (!t.disabled) useThese(b); return; }
       ev.preventDefault();
       if (t.hasAttribute('data-tc-use')) {
-        b.pickId = b.picked ? 'map' : 'suggested';
+        b.pickId = b.picked ? 'map' : (headArea(b) ? headArea(b).id : 'suggested');
         save(b);
         // An area other than the local or regional one needs a reason first, asked for under the comparison.
         if (needsReason(b.ctx.site)) { drawCompare(b); var w = b.el.querySelector('[data-tc-why]'); if (w) { w.scrollIntoView({ block: 'center' }); w.focus(); } return; }
@@ -302,7 +380,7 @@
     b.el.addEventListener('change', function (ev) {
       var t = ev.target;
       if (t && t.name === 'tc-in') { b.focus = t.value; toggle(b, t.value); }
-      if (t && t.name === 'tc-area') { b.pickId = t.value; b.pickWhy = ''; save(b); drawCompare(b); }
+      if (t && t.name === 'tc-area') { b.pickId = t.value; b.pickWhy = ''; save(b); drawHead(b); drawCompare(b); }
     });
     // The reason for picking an area other than the local or regional one; the button waits for it.
     b.el.addEventListener('input', function (ev) {
@@ -325,7 +403,11 @@
     var heavy = Promise.all([
       get(FILES.od).catch(function () { return null; }),
       get(FILES.drive).catch(function () { return null; }),
-      Promise.all([get(FILES.barriers), script(ENGINES.barriers, 'PMABarriers')]).catch(function () { return [null, null]; })
+      Promise.all([get(FILES.barriers), script(ENGINES.barriers, 'PMABarriers')]).catch(function () { return [null, null]; }),
+      get(FILES.bands).catch(function () { return null; }),
+      get(FILES.schools).catch(function () { return null; }),
+      get(FILES.movers).catch(function () { return null; }),
+      get(FILES.s8).catch(function () { return null; })
     ]);
     light.then(function (a) {
       say('Checking commutes, rivers and interstates round the site…');
@@ -335,7 +417,9 @@
         var site = ctx.site, siteGeoid = null;
         Object.keys(shapes).some(function (g) { if (inGeom(site.lon, site.lat, shapes[g].geometry)) { siteGeoid = g; return true; } return false; });
         var bf = h[2] && h[2][0] ? h[2][0].features : null;
-        b.sug = suggest({ site: site, cent: cent, siteGeoid: siteGeoid, od: h[0], drive: h[1], barrierFeatures: bf, B: h[2] ? h[2][1] : null });
+        b.sug = suggest({ site: site, cent: cent, siteGeoid: siteGeoid, od: h[0], drive: h[1], barrierFeatures: bf, B: h[2] ? h[2][1] : null, bands: h[3], schools: h[4], movers: h[5] });
+        b.files = { schools: h[4], movers: h[5] };
+        b.s8 = s8Index(h[6]);
         b.byId = {}; b.sug.tracts.forEach(function (t) { b.byId[t.geoid] = t; });
         b.od = h[0];
         // Existing tax credit homes, by tract: each property's point falls in one tract shape.
@@ -367,7 +451,8 @@
             if (!cur || sh > cur.share) b.townOf[r.tract_geoid] = { geoid: pg, name: String(pl.name || '').replace(/ \((city|town|CDP)\)$/, '').replace(/ CDP \((.+ County)\)$/, ' ($1)'), share: sh };
           });
         });
-        b.data = { cent: cent, shapes: shapes, sources: { od: h[0] && h[0].meta, drive: h[1] && h[1].meta, barriers: h[2] && h[2][0] && h[2][0].meta, cent: cent.meta, places: b.places && b.places.meta } };
+        b.data = { cent: cent, shapes: shapes, sources: { od: h[0] && h[0].meta, drive: h[1] && h[1].meta, barriers: h[2] && h[2][0] && h[2][0].meta, cent: cent.meta, places: b.places && b.places.meta,
+          bands: h[3] && h[3].meta, schools: h[4] && h[4].meta, movers: h[5] && h[5].meta, s8: h[6] && h[6].meta } };
         b.pickId = ctx.ta || null;
         b.single = {};
         b.picked = (ctx.edited && ctx.edited.length) ? set(ctx.edited.filter(function (g) { return b.byId[g]; })) : null;
@@ -441,13 +526,125 @@
     var feats = []; list.forEach(function (g) { if (b.lihtc[g]) feats = feats.concat(b.lihtc[g]); });
     var sup = S ? S.summarizeAffordableSupply(feats, []) : { lihtcUnits: null, lihtcCount: feats.length };
     var existing = sup.lihtcUnits || 0, units = b.ctx.units;
+    var c = compIn(b, list), compT = c.by[b.ctx.tier] || 0;
     return { qualified: q.value, pool: pool.value, existing: existing, projects: sup.lihtcCount || 0, supplyNotes: supplyNotes(sup),
-      capture: q.value > 0 ? units / q.value : null, pen: pool.value > 0 ? (existing + units) / pool.value : null, reason: q.reason };
+      capture: q.value > 0 ? units / q.value : null, pen: pool.value > 0 ? (existing + units) / pool.value : null, reason: q.reason,
+      comparable: compT, chfa: q.value > 0 ? (units + compT) / q.value : null, compNotes: compNotes(c) };
   }
   // The supply engine's own caveats: a property counted at all its units because it reports no income-restricted
   // count (may overstate), or one with no unit count at all (left out, so understates). The full Market Analysis shows
   // them beside its figures; so does every penetration here, and the saved comparison keeps them.
   function supplyNotes(sup) { return [sup.unitsFallbackReason, sup.unitsUnavailableReason].filter(Boolean); }
+
+  // ---- CHFA's capture rate (paul approved 18 Nov 2026) ----
+  // CHFA's Market Study Guide (2027-28 QAP, Appendix A): at each AMI level, (comparable existing and planned tax credit
+  // homes + the proposed homes) ÷ renter households who qualify, reviewed against 85%. Comparable means family homes
+  // for a family project: each property on CHFA's list counts its homes at each AMI level times its family share
+  // (senior, homeless, veteran, supportive and special-needs homes are left out). A property with no population split
+  // counts as family. A property with no AMI split cannot be placed at a level and is left out, said so. Every property
+  // on the list counts, whatever its compliance status, so one under construction counts as planned.
+  var COMP_KEYS = { 30: ['lte20', 'ami30'], 40: ['ami40'], 50: ['ami50'], 60: ['ami60'], 70: ['ami70'], 80: ['ami80'] };
+  function compOf(f) {
+    if (f._tcComp) return f._tcComp;
+    var p = f.properties || {}, a = p.AMIUnits || {}, pu = p.PopulationUnits || {}, tot = 0, all = 0, by = {};
+    Object.keys(pu).forEach(function (k) { tot += +pu[k] || 0; });
+    var fam = tot > 0 ? (+pu.family || 0) / tot : 1;
+    CAP_TIERS.forEach(function (t) { var n = 0; COMP_KEYS[t].forEach(function (k) { n += +a[k] || 0; }); all += n; by[t] = n * fam; });
+    return (f._tcComp = { by: by, fam: fam, none: all > 0 ? 0 : (+p.LI_UNITS || +p.N_UNITS || 0) * fam, name: p.PROJECT || p.PROJECT_NAME || '' });
+  }
+  // HUD's Section 8 contract list has no map point, so a property is matched to it by street address and city. CHFA
+  // leaves project-based Section 8 homes out of the comparable count; the CHFA list does not flag them, so a match is
+  // shown as a caveat (the rate may be overstated), never taken out.
+  function addrKey(addr, city) {
+    var w = { AVENUE: 'AVE', STREET: 'ST', ROAD: 'RD', DRIVE: 'DR', BOULEVARD: 'BLVD', COURT: 'CT', PLACE: 'PL', LANE: 'LN', CIRCLE: 'CIR', PARKWAY: 'PKWY', HIGHWAY: 'HWY', NORTH: 'N', SOUTH: 'S', EAST: 'E', WEST: 'W' };
+    var a = String(addr || '').toUpperCase().replace(/[.,#]/g, ' ').split(/\s+/).filter(Boolean).map(function (x) { return w[x] || x; }).join(' ');
+    var c = String(city || '').toUpperCase().replace(/[^A-Z ]/g, '').trim();
+    return a && c ? a + '|' + c : null;
+  }
+  function s8Index(file) {
+    if (!file || !Array.isArray(file.contracts)) return null;
+    var idx = {};
+    file.contracts.forEach(function (c) {
+      if (/expired|terminated/i.test(String(c.status || ''))) return;
+      var k = addrKey(c.address, c.city);
+      if (k) idx[k] = (idx[k] || 0) + (+c.assisted_units || 0);
+    });
+    return idx;
+  }
+  // top: the highest level CHFA's all-levels rate counts (60% AMI, or the project's level if higher).
+  function compIn(b, list, top) {
+    top = top || chfaTiers(b.ctx.tier).top;
+    var by = {}, none = { n: 0, units: 0 }, s8 = { n: 0, units: 0, by: {} }, props = 0;
+    CAP_TIERS.forEach(function (t) { by[t] = 0; s8.by[t] = 0; });
+    list.forEach(function (g) {
+      (b.lihtc[g] || []).forEach(function (f) {
+        var c = compOf(f), low = 0;
+        CAP_TIERS.forEach(function (t) { by[t] += c.by[t]; if (t <= top) low += c.by[t]; });
+        if (c.none > 0) { none.n++; none.units += c.none; }
+        if (low > 0 || c.none > 0) props++;
+        var p = f.properties || {}, k = b.s8 && addrKey(p.PROJ_ADD, p.PROJ_CTY);
+        // Up to the contract's homes could be assisted, at each level no more than the property has there.
+        if (k && b.s8[k] && low > 0) { s8.n++; s8.units += Math.min(low, b.s8[k]); CAP_TIERS.forEach(function (t) { if (t <= top) s8.by[t] += Math.min(c.by[t], b.s8[k]); }); }
+      });
+    });
+    return { by: by, none: none, s8: s8, props: props };
+  }
+  // The project's level and every level up to it (20 to 60% AMI at least), counted once each.
+  function chfaTiers(tier) { var top = Math.max(60, tier); return { top: top, tiers: PEN_TIERS.filter(function (t) { return t <= top; }) }; }
+  // The CHFA rate for a list of tracts: at the project's level, and across every level up to 60% AMI (or the project's
+  // level, if higher). qualifiedAll and comparableAll are the parts of the all-levels rate.
+  function chfaRate(b, list) {
+    var units = b.ctx.units, tier = b.ctx.tier, ct = chfaTiers(tier);
+    var c = compIn(b, list, ct.top), qT = qual(b, list, [tier]), qAll = qual(b, list, ct.tiers);
+    var compAll = 0; CAP_TIERS.forEach(function (t) { if (t <= ct.top) compAll += c.by[t]; });
+    return { comp: c, qT: qT, existingT: c.by[tier] || 0, rateT: qT > 0 ? (units + (c.by[tier] || 0)) / qT : null,
+      qAll: qAll, existingAll: compAll, rateAll: qAll > 0 ? (units + compAll) / qAll : null, top: ct.top };
+  }
+  function compNotes(c) {
+    var out = [];
+    if (c.none.n) out.push(c.none.n + (c.none.n === 1 ? ' property' : ' properties') + ' (' + num(c.none.units) + ' family homes) on CHFA’s list give no AMI split, so ' + (c.none.n === 1 ? 'it is' : 'they are') + ' left out; the rate may be understated.');
+    if (c.s8.n) out.push(c.s8.n + (c.s8.n === 1 ? ' comparable property shares its address' : ' comparable properties share their address') + ' with a HUD Section 8 contract (up to ' + num(c.s8.units) + ' homes). CHFA leaves project-based Section 8 homes out, so the rate may be overstated.');
+    return out;
+  }
+  // The reasons for an area, in the people they cover: its share of everyone within the drive band of the site; the
+  // share of its people in the site's school district; the share of the jobs near the site held by its residents
+  // (LODES); and renters who moved in from another county, state or abroad last year (ACS; context only).
+  function evidence(b, list) {
+    var s = b.sug, r = { draw: null, school: null, jobs: null, movers: null, moversMoe: null };
+    if (s.withBands) {
+      var k = BAND_AT[s.band], n = 0;
+      list.forEach(function (g) { var sh = s.shares[g]; if (sh) n += sh[k] * (s.bandPop[g] || 0); });
+      r.draw = s.drawTotal[k] > 0 ? n / s.drawTotal[k] : null;
+    }
+    var idx = engineOpts(b.ctx.s.x).acsIdx || {}, sch = b.files && b.files.schools, dist = s.siteDistrict;
+    if (sch && dist) {
+      var di = -1; sch.districts.forEach(function (d, i) { if (d[0] === dist.geoid) di = i; });
+      var pIn = 0, pAll = 0;
+      list.forEach(function (g) {
+        var pop = (s.bandPop && s.bandPop[g]) || (idx[g] && +idx[g].pop) || 0, rs = sch.tracts[g] || [], sh = 0;
+        rs.forEach(function (x) { if (x[0] === di) sh = x[1] / 100; });
+        pAll += pop; pIn += pop * sh;
+      });
+      r.school = pAll > 0 ? pIn / pAll : null;
+    }
+    var jt = coreJobs(b);
+    if (jt && jt.total > 0) { var h = 0; list.forEach(function (g) { h += jt.byHome[g] || 0; }); r.jobs = h / jt.total; r.jobsTotal = jt.total; }
+    var mv = b.files && b.files.movers && b.files.movers.tracts;
+    if (mv) {
+      var rp = 0, out = 0, moe2 = 0;
+      list.forEach(function (g) { var m = mv[g]; if (!m || m[0] == null) return; rp += m[0]; out += (m[2] || 0) + (m[3] || 0) + (m[4] || 0); moe2 += (m[5] || 0) * (m[5] || 0); });
+      if (rp > 0) { r.movers = out / rp; r.moversPeople = out; r.moversMoe = Math.sqrt(moe2); }
+    }
+    return r;
+  }
+  // Jobs in the core tracts (the site's tract and those within the core miles), by the tract their workers live in.
+  function coreJobs(b) {
+    if (b.coreJobs !== undefined) return b.coreJobs;
+    if (!b.od || !Array.isArray(b.od.pairs)) return (b.coreJobs = null);
+    var core = set(b.sug.core), byHome = {}, total = 0;
+    b.od.pairs.forEach(function (p) { if (!core[p[1]]) return; var j = +p[2] || 0; byHome[p[0]] = (byHome[p[0]] || 0) + j; total += j; });
+    return (b.coreJobs = { byHome: byHome, total: total });
+  }
   function single(b, g) {
     var k = g + '|' + b.ctx.tier;
     if (!(k in b.single)) { var m = measure(b, [g]); b.single[k] = m ? m.qualified : null; }
@@ -465,7 +662,7 @@
   // which in a small town was the town alone. The local area is picked by default; any area but those two asks why.
   var CAP_TIERS = [30, 40, 50, 60, 70, 80];
   var TEST = { townShare: 0.10, shedTie: 0.10, otherTown: 0.5, room: 0.75 };
-  var MSG = 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf';
+  var MSG = 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US';
   function sorted(list) { var o = {}; list.forEach(function (g) { o[g] = true; }); return Object.keys(o).sort(); }
   function siteTown(b) {
     var g = b.ctx.s && b.ctx.s.entry ? String(b.ctx.s.entry.geoid || '') : '';
@@ -498,27 +695,53 @@
     add('ring', 'Regional market area', 'The suggested tracts plus every tract whose centre is within ' + (core * 2) + ' miles of the site, across rivers and interstates.',
       inSug.concat(sug.tracts.filter(function (t) { return t.miles <= core * 2; }).map(function (t) { return t.geoid; })), 'suggested-plus-ring');
     if (sug.withCommutes) add('shed', 'Commute-shed', 'Adds every tract within ' + sug.reach + ' miles where at least 10% of working residents (and 50 or more) have a job within ' + core + ' miles of the site (LODES 2024).',
-      inSug.concat(sug.tracts.filter(function (t) { return t.tie && t.tie.share >= TEST.shedTie && t.tie.toCore >= 50; }).map(function (t) { return t.geoid; })), 'commute-shed');
+      inSug.concat(sug.tracts.filter(function (t) { return t.miles <= sug.reach && t.tie && t.tie.share >= TEST.shedTie && t.tie.toCore >= 50; }).map(function (t) { return t.geoid; })), 'commute-shed');
+    // Drive-time areas: whole tracts by where their people live (2020 Census blocks, OpenStreetMap roads).
+    if (sug.withBands) {
+      var byShare = function (m, th) { return [sug.siteGeoid].concat(Object.keys(sug.shares).filter(function (g) { return sug.shares[g][BAND_AT[m]] >= th; })).filter(Boolean); };
+      [10, 15, 20].forEach(function (m) {
+        add('d' + m, 'Most people within ' + m + ' minutes', 'Every tract where at least half the people live within ' + m + ' minutes’ drive of the site, plus the site’s tract.', byShare(m, BEST.draw), 'drive-' + m);
+      });
+      add('q20', 'A quarter within 20 minutes', 'Every tract where at least a quarter of the people live within 20 minutes’ drive of the site, plus the site’s tract.', byShare(20, BEST.quarter), 'drive-20-quarter');
+    }
     var cf = sug.siteGeoid ? sug.siteGeoid.slice(0, 5) : null, cName = (sug.tracts.filter(function (t) { return t.geoid === sug.siteGeoid; })[0] || {}).county || 'the county';
     if (cf) add('county', 'Whole county', 'Every tract in ' + cName + '.', Object.keys(b.ctx.s.x.demand.tracts || {}).filter(function (g) { return g.slice(0, 5) === cf; }), 'county');
     if (b.picked) add('map', 'Your area on the map', 'The tracts as you set them on the map above.', chosen(b), 'suggested-tracts-edited');
     out.forEach(function (a) { a.eval = evaluate(b, a, town); });
     recommend(out);
-    b.areas = out; b.areasKey = key;
+    var bf = bestFit(b, out);
+    out.forEach(function (a) { a.best = a === bf; });
+    b.areas = out; b.areasKey = key; b.best = bf;
     return out;
   }
-  function areaById(b, id) { return (b.areas || areasFor(b)).filter(function (x) { return x.ids.indexOf(id) > -1; })[0] || null; }
-  // What is picked: the reader's choice; else the map's tracts once edited; else the local market area.
+  // The best fit for CHFA, by the stated rule (BEST); null without the people-by-road file or when no area qualifies.
+  // The reader's own map edit is never the best fit: it is theirs to argue.
+  function bestFit(b, list) {
+    if (!b.sug.withBands) return null;
+    var E = global.PMAMarketScoring, line = (E && E.CHFA_CAPTURE_LIMIT) || 0.85;
+    var ok = list.filter(function (x) {
+      var c = x.eval.chfa, d = x.eval.ev.draw;
+      return x.id !== 'map' && d != null && d >= BEST.draw && c.rateT != null && c.rateAll != null && c.rateT <= line && c.rateAll <= line;
+    });
+    if (!ok.length) return null;
+    var low = Math.min.apply(null, ok.map(function (x) { return x.eval.chfa.rateAll; }));
+    return ok.filter(function (x) { return x.eval.chfa.rateAll <= low + BEST.within + 1e-9; })
+      .sort(function (x, y) { return x.list.length - y.list.length || x.eval.chfa.rateAll - y.eval.chfa.rateAll; })[0];
+  }
+  function areaById(b, id) { return areasFor(b).filter(function (x) { return x.ids.indexOf(id) > -1; })[0] || null; }
+  // What is picked: the reader's choice; else the map's tracts once edited; else the best fit for CHFA (paul, 18 Nov
+  // 2026); else, with no best fit, the local market area.
   function effectivePick(b) {
     if (b.pickId && areaById(b, b.pickId)) return areaById(b, b.pickId);
     if (b.picked) return areaById(b, 'map');
-    return areaById(b, 'suggested');
+    var list = areasFor(b);
+    return b.best && list.indexOf(b.best) > -1 ? b.best : areaById(b, 'suggested');
   }
-  // The local and regional market areas need no reason; they can be the same tracts (in a city the next ring adds none).
-  function isView(x) { return !!x && (x.ids.indexOf('suggested') > -1 || x.ids.indexOf('ring') > -1); }
+  // The best fit and the local and regional market areas need no reason; they can be the same tracts.
+  function isView(x) { return !!x && (!!x.best || x.ids.indexOf('suggested') > -1 || x.ids.indexOf('ring') > -1); }
   function viewTag(x) {
     var l = x.ids.indexOf('suggested') > -1, r = x.ids.indexOf('ring') > -1;
-    return (l ? '<span class="tc-badge">Local</span>' : '') + (r ? '<span class="tc-badge tc-badge-reg">Regional, CHFA-style</span>' : '');
+    return (x.best ? '<span class="tc-badge tc-badge-best">Best fit for CHFA</span>' : '') + (l ? '<span class="tc-badge">Local</span>' : '') + (r ? '<span class="tc-badge tc-badge-reg">Regional</span>' : '');
   }
 
   function evaluate(b, area, town) {
@@ -530,15 +753,23 @@
     var feats = []; area.list.forEach(function (g) { if (b.lihtc[g]) feats = feats.concat(b.lihtc[g]); });
     var sup = S ? S.summarizeAffordableSupply(feats, []) : { lihtcUnits: 0, lihtcCount: feats.length };
     var existing = sup.lihtcUnits || 0, pen = pool > 0 ? (existing + units) / pool : null;
-    // Test 2: every tract is near the site on its side, or tied to it by jobs.
+    // CHFA's own rate, with the comparable family tax credit homes already there, at each level and across all.
+    var cr = chfaRate(b, area.list);
+    CAP_TIERS.forEach(function (t) { var q = byTier[t].qualified; byTier[t].existing = cr.comp.by[t]; byTier[t].chfa = q > 0 ? (units + cr.comp.by[t]) / q : null; });
+    var ev = evidence(b, area.list), withB = b.sug.withBands, band = b.sug.band;
+    var mostOf = function (g) { var sh = b.sug.shares && b.sug.shares[g]; return !!sh && sh[BAND_AT[band]] >= BEST.draw; };
+    // Test 2: every tract is near the site on its side, tied to it by jobs, or (with the people-by-road file) home to
+    // people most of whom live within the drive band of the site.
     var loose = area.list.filter(function (g) {
       var t = b.byId[g];
+      if (withB && mostOf(g)) return false;
       if (!t) return true;
       if (t.why === 'site' || t.why === 'near' || t.why === 'tied' || t.why === 'small') return false;
       return !(t.tie && t.tie.share >= TEST.shedTie && t.tie.toCore >= 50);
     });
     var farOut = loose.filter(function (g) { return !b.byId[g]; }).length, across = loose.filter(function (g) { return b.byId[g] && b.byId[g].across; }).length;
-    var longD = b.sug.withDrive ? loose.filter(function (g) { var t = b.byId[g]; return t && t.drive != null && t.drive > b.sug.maxDrive; }).length : 0;
+    var longD = withB ? loose.filter(function (g) { return !mostOf(g); }).length
+      : b.sug.withDrive ? loose.filter(function (g) { var t = b.byId[g]; return t && t.drive != null && t.drive > b.sug.maxDrive; }).length : 0;
     // Test 3: no tract where another town holds most homes and has tax credit homes of its own.
     var others = {};
     area.list.forEach(function (g) {
@@ -548,30 +779,36 @@
     });
     var otherNames = Object.keys(others).sort(function (x, y) { return others[y].length - others[x].length; });
     var tier = b.ctx.tier, cap = byTier[tier] ? byTier[tier].capture : null;
-    var line = (E && E.CHFA_CAPTURE_LIMIT) || 0.85;
+    var line = (E && E.CHFA_CAPTURE_LIMIT) || 0.85, rT = cr.rateT, rA = cr.rateAll, lvl = 'all levels to ' + cr.top + '% AMI';
+    var under = rT != null && rA != null && rT <= line && rA <= line;
     var tests = [
       { id: 'whole', pass: true, text: 'Whole census tracts, as CHFA’s Market Study Guide asks; no radius.' },
       { id: 'origin', pass: !loose.length, text: !loose.length
-        ? 'Tenants could come from every tract: each is within ' + b.sug.coreMiles + ' miles' + (b.sug.withDrive ? ' and ' + b.sug.maxDrive + ' minutes’ drive' : '') + ' on the site’s side, tied to it by jobs, or one of the nearest tracts in a small town’s county.'
-        : loose.length + ' of ' + area.list.length + ' tracts have little tie to the site' + (farOut || across || longD ? ' (' + [farOut ? farOut + ' beyond ' + b.sug.reach + ' miles' : '', longD ? longD + ' more than ' + b.sug.maxDrive + ' minutes’ drive' : '', across ? across + ' across a river or interstate' : ''].filter(Boolean).join(', ') + ')' : '') + ': under 10% of their working residents have a job near it.' },
+        ? 'Tenants could come from every tract: ' + (withB ? 'most of its people live within ' + band + ' minutes’ drive, or it is ' : 'each is ') + 'within ' + b.sug.coreMiles + ' miles' + (!withB && b.sug.withDrive ? ' and ' + b.sug.maxDrive + ' minutes’ drive' : '') + ' on the site’s side, tied to it by jobs, or one of the nearest tracts in a small town’s county.'
+        : loose.length + ' of ' + area.list.length + ' tracts have little tie to the site' + (farOut || across || longD ? ' (' + [farOut ? farOut + ' beyond ' + b.sug.reach + ' miles' : '', longD ? longD + (withB ? ' where fewer than half the people live within ' + band + ' minutes’ drive' : ' more than ' + b.sug.maxDrive + ' minutes’ drive') : '', across ? across + ' across a river or interstate' : ''].filter(Boolean).join(', ') + ')' : '') + ': under 10% of their working residents have a job near it.' },
       { id: 'town', pass: !otherNames.length, text: !otherNames.length
         ? 'Takes in no other town’s tax credit market.'
         : 'Takes in the tax credit market of ' + otherNames.slice(0, 3).map(function (n) { return n + ' (' + others[n].length + (others[n].length === 1 ? ' property)' : ' properties)'); }).join(', ') + (otherNames.length > 3 ? ' and ' + (otherNames.length - 3) + ' more' : '') + '.' },
-      { id: 'capture', pass: cap != null && cap <= TEST.room && pen != null && pen <= TEST.room, text: cap == null
-        ? 'No renter here qualifies for a ' + tier + '% AMI home, so there is no capture rate.'
-        : (cap <= TEST.room && pen <= TEST.room ? 'Capture at ' + tier + '% AMI is ' + p1(cap) + ' and penetration ' + p1(pen) + ', both at least 10 points under CHFA’s 85% line.'
-          : (cap > line || pen > line ? 'Over CHFA’s 85% line: ' : 'Within 10 points of CHFA’s 85% line: ') + 'capture at ' + tier + '% AMI ' + p1(cap) + ', penetration ' + p1(pen) + '.') }
+      // Test 4 is CHFA's own: its rate, with the comparable homes already there, at the project's level and across all
+      // levels, at or under 85%. Within 10 points of the line is said, not failed.
+      { id: 'capture', pass: under, text: rT == null
+        ? 'No renter here qualifies for a ' + tier + '% AMI home, so there is no CHFA rate.'
+        : (under ? 'CHFA’s rate is ' + p1(rT) + ' at ' + tier + '% AMI and ' + p1(rA) + ' across ' + lvl + ', with the ' + num(cr.existingAll) + ' comparable tax credit homes already there' + (rT > TEST.room || rA > TEST.room ? '; under CHFA’s 85% line, but within 10 points of it.' : '; both at least 10 points under CHFA’s 85% line.')
+          : 'Over CHFA’s 85% line: ' + p1(rT) + ' at ' + tier + '% AMI, ' + p1(rA) + ' across ' + lvl + ', with the ' + num(cr.existingAll) + ' comparable tax credit homes already there.') }
     ];
-    // An uncertain supply count never decides the test silently: the caveat goes with the test, and where the count
-    // could turn the result (an overstated count behind a fail, an understated one behind a pass) the test says so.
-    var notes = supplyNotes(sup), t4 = tests[3];
-    if (notes.length && cap != null && pen != null) {
-      var penOk = pen <= TEST.room, capOk = cap <= TEST.room;
+    // An uncertain comparable count never decides the test silently: the caveat goes with the test, and where the count
+    // could turn the result (homes left out behind a pass, Section 8 homes counted behind a fail) the test says so.
+    var notes = compNotes(cr.comp), t4 = tests[3];
+    if (notes.length && rT != null && rA != null) {
+      var qa = cr.qAll, upAll = qa > 0 ? (units + cr.existingAll + cr.comp.none.units) / qa : null, downAll = qa > 0 ? (units + cr.existingAll - cr.comp.s8.units) / qa : null;
       t4.caveat = notes.join(' ');
-      t4.uncertain = capOk && ((penOk && !!sup.unitsUnavailableReason) || (!penOk && !!sup.unitsFallbackReason));
-      t4.text += ' Supply note: ' + t4.caveat + (t4.uncertain ? (penOk ? ' So this pass is not certain.' : ' So this fail is not certain.') : '');
+      var downT = cr.qT > 0 ? (units + Math.max(0, cr.existingT - (cr.comp.s8.by[tier] || 0))) / cr.qT : null;
+      var upT = cr.qT > 0 ? (units + cr.existingT + cr.comp.none.units) / cr.qT : null;
+      // Homes with no AMI split could sit at any level, so a pass is uncertain if they could lift either rate over the line.
+      t4.uncertain = under ? (cr.comp.none.units > 0 && (upAll > line || upT > line)) : (cr.comp.s8.units > 0 && downT <= line && downAll <= line);
+      t4.text += ' Note: ' + t4.caveat + (t4.uncertain ? (under ? ' So this pass is not certain.' : ' So this fail is not certain.') : '');
     }
-    return { byTier: byTier, pool: pool, existing: existing, projects: sup.lihtcCount || 0, pen: pen, supplyNotes: notes, tests: tests, passes: tests.filter(function (t) { return t.pass; }).length };
+    return { byTier: byTier, pool: pool, existing: existing, projects: sup.lihtcCount || 0, pen: pen, supplyNotes: supplyNotes(sup), compNotes: notes, chfa: cr, ev: ev, tests: tests, passes: tests.filter(function (t) { return t.pass; }).length };
   }
   // Each area's one line: its first failed test, or that it passes all four. None is marked recommended.
   function recommend(list) {
@@ -583,40 +820,70 @@
     return null;
   }
 
+  function pc(x) { return x == null || !isFinite(x) ? '—' : Math.round(x * 100) + '%'; }
+  // The best fit's card: its CHFA rate at the project's level and across all levels, the four reasons for its tracts,
+  // and how the rule got there.
+  function bestCard(b, list) {
+    var s = b.sug, x = b.best, tier = b.ctx.tier, E = global.PMAMarketScoring, line = (E && E.CHFA_CAPTURE_LIMIT) || 0.85;
+    if (!s.withBands) return '<div class="tc-best tc-best-none"><p><strong>No best fit yet.</strong> The file of where each tract’s people live by road did not load, so the areas below are not ranked. The local market area is picked.</p></div>';
+    var held = list.filter(function (a) { return a.id !== 'map' && a.eval.ev.draw != null && a.eval.ev.draw >= BEST.draw; });
+    var okL = held.filter(function (a) { var c = a.eval.chfa; return c.rateT != null && c.rateAll != null && c.rateT <= line && c.rateAll <= line; });
+    if (!x) return '<div class="tc-best tc-best-none"><p><strong>No best fit.</strong> ' + (held.length ? held.length + (held.length === 1 ? ' area holds' : ' areas hold') + ' most of the people within ' + s.band + ' minutes’ drive of the site, but none stays at or under CHFA’s 85% line at ' + tier + '% AMI and across all levels.' : 'No area below holds most of the people within ' + s.band + ' minutes’ drive of the site.') +
+      ' The local market area is picked; an analyst would need more demand evidence, a smaller project, or another level.</p></div>';
+    var c = x.eval.chfa, ev = x.eval.ev, low = okL.slice().sort(function (a, y) { return a.eval.chfa.rateAll - y.eval.chfa.rateAll; })[0];
+    var why = [];
+    if (ev.draw != null) why.push('<li><strong>Where people live.</strong> Holds ' + pc(ev.draw) + ' of everyone living within ' + s.band + ' minutes’ drive of the site (2020 Census blocks, OpenStreetMap roads). CHFA asks for the area the project draws most of its tenants from.</li>');
+    if (ev.school != null && s.siteDistrict) why.push('<li><strong>School district.</strong> ' + pc(ev.school) + ' of its people live in the site’s district, ' + esc(s.siteDistrict.name) + '.</li>');
+    if (ev.jobs != null) why.push('<li><strong>Jobs.</strong> Its residents hold ' + pc(ev.jobs) + ' of the ' + num(ev.jobsTotal) + ' jobs within ' + s.coreMiles + ' miles of the site (LODES 2024).</li>');
+    if (ev.movers != null) why.push('<li><strong>Movers, for context.</strong> ' + p1(ev.movers) + ' of people in its rented homes moved in from another county, state or abroad last year (about ' + num(ev.moversPeople) + ', give or take ' + num(ev.moversMoe) + '; ACS 2020–2024). Not in the rate: CHFA counts in-migration only when comparable properties show it.</li>');
+    return '<div class="tc-best"><p class="tc-best-head"><span class="tc-badge tc-badge-best">Best fit for CHFA</span> <strong>' + esc(x.label) + '</strong>, ' + x.list.length + (x.list.length === 1 ? ' whole tract' : ' whole tracts') + '</p>' +
+      '<div class="tc-best-rates"><p><strong class="' + (c.rateT > line ? 'tc-over' : '') + '">' + p1(c.rateT) + '</strong><span class="note">CHFA rate at ' + tier + '% AMI</span></p>' +
+      '<p><strong class="' + (c.rateAll > line ? 'tc-over' : '') + '">' + p1(c.rateAll) + '</strong><span class="note">all levels to ' + c.top + '% AMI</span></p></div>' +
+      '<p class="note">(' + num(b.ctx.units) + ' new homes + ' + num(c.existingT) + ' comparable tax credit homes already at ' + tier + '% AMI) ÷ ' + num(c.qT) + ' renter households who qualify; across all levels, (' + num(b.ctx.units) + ' + ' + num(c.existingAll) + ') ÷ ' + num(c.qAll) + '. CHFA’s line is 85%.</p>' +
+      '<p><strong>Why these tracts</strong></p><ul class="tc-best-why">' + why.join('') + '</ul>' +
+      '<p class="note"><strong>How the pick was made.</strong> ' + held.length + ' of the ' + list.length + ' areas below hold at least half the people within ' + s.band + ' minutes’ drive; ' + okL.length + ' of those stay at or under 85% at ' + tier + '% AMI and across all levels. The lowest rate is ' + p1(low.eval.chfa.rateAll) + ' (' + esc(low.label) + '); the best fit is the area with the fewest tracts within 5 points of it. COHO’s screening rule, approved for this use; a CHFA-approved analyst draws the market area a study uses.</p>' +
+      (x.eval.compNotes.length ? '<p class="note">Note: ' + esc(x.eval.compNotes.join(' ')) + '</p>' : '') + '</div>';
+  }
   function drawCompare(b) {
     var host = b.el.querySelector('.tc-compare-body');
-    var list = areasFor(b), tier = b.ctx.tier;
+    var list = areasFor(b), tier = b.ctx.tier, s = b.sug;
     var E = global.PMAMarketScoring, line = (E && E.CHFA_CAPTURE_LIMIT) || 0.85;
     var pa0 = effectivePick(b), pick = pa0 ? pa0.id : null;
-    var cell = function (v, isTier) {
-      if (v == null) return '<td class="num" data-label="">—</td>';
-      return '<td class="num' + (isTier ? ' tc-tier' : '') + (v > line ? ' tc-over' : '') + '">' + p1(v) + (v > line ? ' <span class="tc-flag">over</span>' : '') + '</td>';
+    var cell = function (v, isTier, label) {
+      if (v == null) return '<td class="num" data-label="' + esc(label) + '">—</td>';
+      return '<td data-label="' + esc(label) + '" class="num' + (isTier ? ' tc-tier' : '') + (v > line ? ' tc-over' : '') + '">' + p1(v) + (v > line ? ' <span class="tc-flag">over</span>' : '') + '</td>';
     };
     var rows = list.map(function (x) {
       var ev = x.eval;
       return '<tr' + (isView(x) ? ' class="tc-rec"' : '') + '><th scope="row"><label class="tc-check"><input type="radio" name="tc-area" value="' + esc(x.id) + '"' + (x.id === pick ? ' checked' : '') + '> ' + esc(x.label) + '</label>' +
         viewTag(x) + '<span class="note tc-sub">' + x.list.length + (x.list.length === 1 ? ' tract. ' : ' tracts. ') + esc(x.note) + (x.alias.length ? ' Same tracts as: ' + esc(x.alias.join(', ')) + '.' : '') + '</span></th>' +
-        CAP_TIERS.map(function (t) { return cell(ev.byTier[t].capture, t === tier).replace('<td class="num', '<td data-label="' + t + '% AMI" class="num'); }).join('') +
-        cell(ev.pen, false).replace('<td class="num', '<td data-label="Penetration" class="num').replace('</td>', ev.supplyNotes.length && ev.pen != null ? ' <span class="tc-flag tc-flag-note">supply note</span></td>' : '</td>') +
-        '<td data-label="Tests" class="tc-tests">' + ev.tests.map(function (t) { return '<span class="' + (t.pass ? 'tc-pass' : 'tc-fail') + '" title="' + esc(t.text) + '">' + (t.pass ? '✓' : '✗') + ' ' + ({ whole: 'Whole tracts', origin: 'Tenants could come from here', town: 'No other town’s market', capture: 'Room under the line' })[t.id] + (t.uncertain ? ', not certain' : '') + '</span>'; }).join('') + '</td></tr>';
+        (s.withBands ? '<td class="num" data-label="Holds of ' + s.band + '-minute draw">' + pc(ev.ev.draw) + '</td>' : '') +
+        CAP_TIERS.map(function (t) { return cell(ev.byTier[t].chfa, t === tier, t + '% AMI'); }).join('') +
+        cell(ev.chfa.rateAll, false, 'All levels to ' + ev.chfa.top + '%').replace('</td>', ev.compNotes.length ? ' <span class="tc-flag tc-flag-note">note</span></td>' : '</td>') +
+        cell(ev.pen, false, 'Penetration').replace('</td>', ev.supplyNotes.length && ev.pen != null ? ' <span class="tc-flag tc-flag-note">supply note</span></td>' : '</td>') +
+        '<td data-label="Tests" class="tc-tests">' + ev.tests.map(function (t) { return '<span class="' + (t.pass ? 'tc-pass' : 'tc-fail') + '" title="' + esc(t.text) + '">' + (t.pass ? '✓' : '✗') + ' ' + ({ whole: 'Whole tracts', origin: 'Tenants could come from here', town: 'No other town’s market', capture: 'At or under 85%, CHFA rate' })[t.id] + (t.uncertain ? ', not certain' : '') + '</span>'; }).join('') + '</td></tr>';
     }).join('');
     var loc = areaById(b, 'suggested'), reg = areaById(b, 'ring');
-    var why = loc ? '<div class="tc-why"><p><strong>Two views, no single answer.</strong> The <strong>local market area</strong> (' + loc.list.length + (loc.list.length === 1 ? ' tract' : ' tracts') + ') reads the site the way a town reads its own need: tight, near, on the site\u2019s side of rivers and interstates. ' +
-      (reg && reg !== loc ? 'The <strong>regional market area</strong> (' + reg.list.length + ' tracts) is the wider area a CHFA reviewer reads: every tract within ' + (b.sug.coreMiles * 2) + ' miles, across rivers and interstates.' : 'Here the regional market area is the same tracts: no tract centre lies between ' + b.sug.coreMiles + ' and ' + (b.sug.coreMiles * 2) + ' miles that the local area leaves out.') +
-      ' Neither is a CHFA market area until an analyst draws one.</p>' +
-      '<p><strong>How each area does on the four tests:</strong></p><ul>' + list.map(function (x) { return '<li><strong>' + esc(x.label) + ':</strong> ' + esc(x.line) + (x.eval.tests[3].uncertain ? ' The capture test rests on a supply count that may be off.' : '') + '</li>'; }).join('') + '</ul></div>' : '';
-    var noted = list.filter(function (x) { return x.eval.supplyNotes.length && x.eval.pen != null; });
-    var notesList = noted.length ? '<div class="tc-supply-note"><p><strong>Supply note.</strong> Penetration counts the tax credit homes already in each area, from CHFA’s property list as the full Market Analysis reads it. Some counts are uncertain:</p><ul>' +
-      noted.map(function (x) { return '<li><strong>' + esc(x.label) + ':</strong> ' + esc(x.eval.supplyNotes.join(' ')) + '</li>'; }).join('') + '</ul></div>' : '';
+    var why = loc ? '<div class="tc-why"><p><strong>Three readings.</strong> The <strong>best fit for CHFA</strong>, when there is one, is picked by the rule above. The <strong>local market area</strong> (' + loc.list.length + (loc.list.length === 1 ? ' tract' : ' tracts') + ') reads the site the way a town reads its own need: tight, near, on the site’s side of rivers and interstates. ' +
+      (reg && reg !== loc ? 'The <strong>regional market area</strong> (' + reg.list.length + ' tracts) takes every tract within ' + (s.coreMiles * 2) + ' miles, across rivers and interstates.' : 'Here the regional market area is the same tracts: no tract centre lies between ' + s.coreMiles + ' and ' + (s.coreMiles * 2) + ' miles that the local area leaves out.') +
+      ' None is a CHFA market area until an analyst draws one.</p>' +
+      '<p><strong>How each area does on the four tests:</strong></p><ul>' + list.map(function (x) { return '<li><strong>' + esc(x.label) + ':</strong> ' + esc(x.line) + (x.eval.tests[3].uncertain ? ' The rate test rests on a count of comparable homes that may be off.' : '') + '</li>'; }).join('') + '</ul></div>' : '';
+    var noted = list.filter(function (x) { return (x.eval.supplyNotes.length && x.eval.pen != null) || x.eval.compNotes.length; });
+    var notesList = noted.length ? '<div class="tc-supply-note"><p><strong>Notes on the counts.</strong> CHFA’s rate counts comparable family tax credit homes at each level; penetration counts every tax credit home, as the full Market Analysis does. Some counts are uncertain:</p><ul>' +
+      noted.map(function (x) { return '<li><strong>' + esc(x.label) + ':</strong> ' + esc(x.eval.compNotes.concat(x.eval.pen != null ? x.eval.supplyNotes : []).join(' ')) + '</li>'; }).join('') + '</ul></div>' : '';
     var diff = !!pa0 && !isView(pa0);
     var form = '<div class="tc-pickform"><p class="tc-picked" aria-live="polite">' + (pick ? 'Picked: <strong>' + esc((areaById(b, pick) || {}).label || '') + '</strong>.' : '') + '</p>' +
-      (diff ? '<label for="tc-why">Why this area instead of the local or regional one? <span class="note">(saved with the pick; needed to use it)</span></label><textarea id="tc-why" name="tc-why" rows="3" data-tc-why>' + esc(b.pickWhy || '') + '</textarea>' : '') +
+      (diff ? '<label for="tc-why">Why this area instead of the best fit, local or regional one? <span class="note">(saved with the pick; needed to use it)</span></label><textarea id="tc-why" name="tc-why" rows="3" data-tc-why>' + esc(b.pickWhy || '') + '</textarea>' : '') +
       '<div class="actions"><button type="button" class="button-link" data-tc-usepick' + (diff && !(b.pickWhy || '').trim() ? ' disabled' : '') + '>Use the picked area in a project</button></div></div>';
-    host.innerHTML = '<p>Capture for a ' + num(b.ctx.units) + '-home project with every home at each AMI level, and penetration with the tax credit homes already there. The project’s level, ' + tier + '% AMI, is the one the tests use. Cells over CHFA’s 85% line are marked.</p>' +
+    host.innerHTML = bestCard(b, list) +
+      '<p>CHFA’s rate for a ' + num(b.ctx.units) + '-home project with every home at each AMI level: (the new homes + comparable tax credit homes already there at that level) ÷ renter households who qualify. The project’s level, ' + tier + '% AMI, and all levels together are the ones the tests use. Cells over CHFA’s 85% line are marked.</p>' +
       '<div class="tc-compare-wrap"><table class="data-table tc-compare-table"><caption>Market areas round the site, smallest first</caption><thead><tr><th scope="col">Area</th>' +
-      CAP_TIERS.map(function (t) { return '<th scope="col" class="num' + (t === tier ? ' tc-tier' : '') + '">' + t + '% AMI</th>'; }).join('') + '<th scope="col" class="num">Penetration</th><th scope="col">Tests</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+      (s.withBands ? '<th scope="col" class="num">Holds of ' + s.band + '-min draw</th>' : '') +
+      CAP_TIERS.map(function (t) { return '<th scope="col" class="num' + (t === tier ? ' tc-tier' : '') + '">' + t + '% AMI</th>'; }).join('') + '<th scope="col" class="num">All levels</th><th scope="col" class="num">Penetration</th><th scope="col">Tests</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
       notesList + why + form +
-      '<p class="note">The four tests: 1. whole census tracts, as CHFA’s Market Study Guide asks (Appendix A to the <a href="' + MSG + '" rel="noopener">2027–28 QAP</a>); 2. tenants could plausibly come from every tract (near the site on its side' + (b.sug.withDrive ? ' and within ' + b.sug.maxDrive + ' minutes\u2019 drive' : '') + ', or at least 10% of working residents with a job near it, LODES 2024); 3. no tract where another town holds most homes and has tax credit homes of its own (2020 Census homes by town and tract); 4. capture at the project’s level and penetration at least 10 points under CHFA’s 85% line. Tests 2 to 4 and their thresholds are COHO’s screening judgments, not CHFA rules. ' + (b.sug.withDrive ? 'Drive times are free-flow OpenStreetMap times from each tract\u2019s 2020 population centre to the one nearest the site, so a range or a long way round shows as a long drive. ' : 'The drive-time file did not load, so drive times are not checked. ') + 'School districts are not checked here; an analyst weighs them.</p>';
+      '<p class="note">The four tests: 1. whole census tracts, as CHFA’s Market Study Guide asks (Appendix A to the <a href="' + MSG + '" rel="noopener">2027–28 QAP</a>); 2. tenants could plausibly come from every tract (' + (s.withBands ? 'most of its people within ' + s.band + ' minutes’ drive, or ' : '') + 'near the site on its side' + (!s.withBands && s.withDrive ? ' and within ' + s.maxDrive + ' minutes’ drive' : '') + ', or at least 10% of working residents with a job near it, LODES 2024); 3. no tract where another town holds most homes and has tax credit homes of its own (2020 Census homes by town and tract); 4. CHFA’s rate at the project’s level and across all levels at or under 85%. Tests 2 and 3 and their thresholds are COHO’s screening judgments, not CHFA rules. ' +
+      (s.withBands ? 'Drive shares count 2020 Census block population, grouped in cells of about 2 km and routed by road (free-flow OpenStreetMap times) from the 2020 population centre nearest the site. ' : s.withDrive ? 'Drive times are free-flow OpenStreetMap times from each tract’s 2020 population centre to the one nearest the site. ' : 'The drive-time files did not load, so drive times are not checked. ') +
+      'Comparable homes: CHFA’s property list, each property’s homes at each level times its share of family homes. Penetration: every tax credit home, ' + 'over renter households who qualify at 20 to 80% AMI.</p>';
   }
   // True when the reader picked an area other than the local or regional one and has not said why.
   function needsReason(site) {
@@ -792,13 +1059,13 @@
       var w = cap == null ? 0 : Math.min(cap / 1.2, 1) * 100, over = cap != null && cap > line;
       var hi = v.high ? (mode === 'any' ? v.high.capA : v.high.capT) : null;
       return '<li class="tc-v' + (v.picked ? ' tc-v-pick' : '') + '" data-view="' + v.id + '"><div class="tc-v-head"><p class="tc-v-name"><strong>' + esc(v.label) + '</strong>' +
-        (v.tag === 'local' ? ' <span class="tc-vtag">Local</span>' : v.tag === 'regional' ? ' <span class="tc-vtag tc-vtag-reg">CHFA-style</span>' : '') + '</p>' +
+        (v.tag === 'local' ? ' <span class="tc-vtag">Local</span>' : v.tag === 'regional' ? ' <span class="tc-vtag tc-vtag-reg">Regional</span>' : '') + '</p>' +
         '<p class="tc-v-num"><strong' + (over ? ' class="tc-over"' : '') + '>' + (cap == null ? '—' : p1(cap)) + '</strong> <span class="note">capture' + (v.pen != null ? ' · penetration ' + p1(v.pen) + (v.supplyNotes.length ? ' <span class="tc-flag tc-flag-note">supply note</span>' : '') : '') + '</span></p></div>' +
         '<p class="note tc-v-who">' + esc(((mode === 'any' ? ('rA' in v ? v.rA : v.qA) : ('rT' in v ? v.rT : v.qT)) == null ? 'No count of renter households who qualify here' + (V.why.length ? ': ' + V.why.join(' ') : '') : v.who(q, mode))) + (hi != null ? '. If half of in-commuters would move: ' + p1(hi) + ' capture' : '') + '.' +
         (v.supplyNotes.length && v.pen != null ? ' Supply note on penetration: ' + esc(v.supplyNotes.join(' ')) : '') + '</p>' +
         '<div class="cap-track tc-v-track" role="img" aria-label="' + esc(v.label + ': capture ' + (cap == null ? 'not available' : p1(cap)) + ', against CHFA’s 85% line') + '"><span class="cap-fill' + (over ? ' cap-over' : '') + '" style="width:' + w.toFixed(1) + '%"></span><span class="cap-line tc-v-line" style="left:' + lw + '%"></span></div></li>';
     }).join('');
-    var lead = 'Six ways to draw the market for these ' + num(ctx.units) + ' homes, from the town’s own renters out to the county. A town reading its own need starts at the top; a CHFA application uses the regional area. Every count is renter households who qualify under CHFA’s rules, except in-commuters, whose tenure is not known.';
+    var lead = 'Six ways to draw the market for these ' + num(ctx.units) + ' homes, from the town’s own renters out to the county. A town reading its own need starts at the top; for a CHFA application, see the best fit under Compare market areas. Every count is renter households who qualify under CHFA’s rules, except in-commuters, whose tenure is not known.';
     if (!V.residents) lead += b.pfDone ? (V.town ? ' The town files did not cover ' + V.town.name + ', so the two town views are left out.' : ' The site is not in a town, so the two town views are left out.') : ' The town views are still loading.';
     var src = b.data.sources;
     host.innerHTML = '<p>' + esc(lead) + '</p>' +
@@ -824,22 +1091,14 @@
       '<div class="cap-track" role="img" aria-label="' + esc(label + ' ' + p1(v) + ', against the 85% line') + '"><span class="cap-fill' + (v > line ? ' cap-over' : '') + '" style="width:' + w.toFixed(1) + '%"></span><span class="cap-line" style="left:' + lw.toFixed(1) + '%"></span></div>' +
       '<p class="note">' + esc(note) + '</p></div>';
   }
+  // The head's figures follow the area that is picked, so what the page shows is what a project or the full Market
+  // Analysis gets: the map's tracts once edited, else the picked area (by default the best fit for CHFA).
+  function headArea(b) {
+    var pa = effectivePick(b);
+    return pa && pa.ids.indexOf('suggested') < 0 && pa.ids.indexOf('map') < 0 ? pa : null;
+  }
   function draw(b) {
-    var ctx = b.ctx, list = chosen(b), m = measure(b, list), E = global.PMAMarketScoring;
-    var line = (E && E.CHFA_CAPTURE_LIMIT) || 0.85;
-    b.now = m; b.count = list.length;
-    var nSug = b.sug.tracts.filter(function (t) { return t.suggested; }).length;
-    var head = b.picked ? 'Your market area: ' + list.length + (list.length === 1 ? ' tract' : ' tracts') + ' (the suggestion had ' + nSug + ').'
-      : 'Suggested market area: ' + list.length + (list.length === 1 ? ' whole census tract' : ' whole census tracts') + ' round the site.';
-    var ans = !list.length ? head + ' Add a tract on the map to see a capture rate.'
-      : !m || m.capture == null ? head + ' No capture rate: ' + ((m && m.reason) || 'no renter household here qualifies under CHFA’s rules') + '.'
-      : head + ' A ' + num(ctx.units) + '-home project at ' + ctx.tier + '% AMI would need ' + p1(m.capture) + ' of the ' + num(m.qualified) + ' renter households there who qualify.';
-    b.el.querySelector('.tc-answer').textContent = ans;
-    b.el.querySelector('.tc-meters').innerHTML = m && m.capture != null
-      ? meter('Capture rate, this project', m.capture, num(ctx.units) + ' homes ÷ ' + num(m.qualified) + ' renter households in these tracts who qualify for a ' + ctx.tier + '% AMI home.', line) +
-        (m.pen != null ? meter('Penetration, all tax credit homes', m.pen, '(' + num(m.existing) + ' existing in ' + num(m.projects) + (m.projects === 1 ? ' property' : ' properties') + ' + ' + num(ctx.units) + ' proposed) ÷ ' + num(m.pool) + ' renter households who qualify at 20 to 80% AMI.' + (m.supplyNotes.length ? ' Supply note: ' + m.supplyNotes.join(' ') : ''), line) : '')
-      : '';
-    b.el.querySelector('[data-tc-reset]').hidden = !b.picked;
+    drawHead(b);
     drawPanel(b);
     drawViews(b);
     drawCompare(b);
@@ -847,6 +1106,25 @@
     drawHow(b);
     paint(b);
     curve(b);
+  }
+  function drawHead(b) {
+    var ctx = b.ctx, pa = headArea(b), list = pa ? pa.list.slice() : chosen(b), m = measure(b, list), E = global.PMAMarketScoring;
+    var line = (E && E.CHFA_CAPTURE_LIMIT) || 0.85;
+    b.now = m; b.count = list.length; b.nowLabel = pa ? (pa.best ? 'the best fit for CHFA (' + pa.label + ')' : 'the picked area (' + pa.label + ')') : null;
+    var nSug = b.sug.tracts.filter(function (t) { return t.suggested; }).length;
+    var head = pa ? (pa.best ? 'Best fit for CHFA: ' : 'Picked area: ') + pa.label + ', ' + list.length + (list.length === 1 ? ' whole census tract' : ' whole census tracts') + '. The map shows ' + (b.picked ? 'your edited tracts' : 'the local market area (' + nSug + (nSug === 1 ? ' tract' : ' tracts') + ')') + '; the comparison below has every area.'
+      : b.picked ? 'Your market area: ' + list.length + (list.length === 1 ? ' tract' : ' tracts') + ' (the suggestion had ' + nSug + ').'
+      : 'Suggested market area: ' + list.length + (list.length === 1 ? ' whole census tract' : ' whole census tracts') + ' round the site.';
+    var ans = !list.length ? head + ' Add a tract on the map to see a capture rate.'
+      : !m || m.capture == null ? head + ' No capture rate: ' + ((m && m.reason) || 'no renter household here qualifies under CHFA’s rules') + '.'
+      : head + ' A ' + num(ctx.units) + '-home project at ' + ctx.tier + '% AMI would need ' + p1(m.capture) + ' of the ' + num(m.qualified) + ' renter households there who qualify; with the ' + num(m.comparable) + ' comparable tax credit homes already there, CHFA’s rate is ' + p1(m.chfa) + '.';
+    b.el.querySelector('.tc-answer').textContent = ans;
+    b.el.querySelector('.tc-meters').innerHTML = m && m.capture != null
+      ? meter('CHFA rate, ' + ctx.tier + '% AMI', m.chfa, '(' + num(ctx.units) + ' new homes + ' + num(m.comparable) + ' comparable family tax credit homes already at ' + ctx.tier + '% AMI) ÷ ' + num(m.qualified) + ' renter households in these tracts who qualify, as CHFA’s Market Study Guide counts it.' + (m.compNotes.length ? ' Note: ' + m.compNotes.join(' ') : ''), line) +
+        meter('Capture rate, the new homes alone', m.capture, num(ctx.units) + ' homes ÷ ' + num(m.qualified) + ' renter households in these tracts who qualify for a ' + ctx.tier + '% AMI home.', line) +
+        (m.pen != null ? meter('Penetration, all tax credit homes', m.pen, '(' + num(m.existing) + ' existing in ' + num(m.projects) + (m.projects === 1 ? ' property' : ' properties') + ' + ' + num(ctx.units) + ' proposed) ÷ ' + num(m.pool) + ' renter households who qualify at 20 to 80% AMI.' + (m.supplyNotes.length ? ' Supply note: ' + m.supplyNotes.join(' ') : ''), line) : '')
+      : '';
+    b.el.querySelector('[data-tc-reset]').hidden = !b.picked;
     // The Market check's head shows these same counts (site/market.js, siteFacts): tell it they changed.
     try { doc.dispatchEvent(new global.CustomEvent('tc:drawn', { detail: { key: b.key } })); } catch (e) { /* no CustomEvent: the head keeps its last figures */ }
   }
@@ -865,20 +1143,42 @@
     };
     p.innerHTML = '<h3 class="tc-panel-title">' + esc(t.name + ', ' + t.county) + '</h3>' +
       '<p><strong>' + (t.suggested ? 'Suggested in.' : 'Suggested out.') + '</strong> ' + esc(t.reason) + '</p>' +
+      (reasonsOf(b, t) ? '<p class="note">' + esc(reasonsOf(b, t)) + '</p>' : '') +
       '<p>' + num(q) + ' renter households here qualify for a ' + b.ctx.tier + '% AMI home' + (b.lihtc[g] ? '; ' + b.lihtc[g].length + (b.lihtc[g].length === 1 ? ' tax credit property' : ' tax credit properties') + ' here.' : '.') + '</p>' +
       '<p class="tc-panel-what">' + (inNow ? 'Taking it out:' : 'Adding it:') + '</p><ul class="tc-panel-change">' +
         change('Capture rate', a && a.capture, z && z.capture) + change('Penetration', a && a.pen, z && z.pen) + '</ul>' +
       '<div class="actions"><button type="button" class="button-link" data-tc-toggle="' + esc(g) + '">' + (inNow ? 'Take it out' : 'Add it') + '</button></div>';
   }
 
+  // One tract's reasons in a line: people by road, school district, job tie, movers.
+  function reasonsOf(b, t) {
+    var s = b.sug, out = [];
+    if (t.bands) out.push('People within 10, 15 and 20 minutes’ drive of the site: ' + t.bands.map(pc).join(', ') + '.');
+    if (t.school != null && s.siteDistrict) out.push(pc(t.school) + ' in the site’s school district (' + s.siteDistrict.name + ').');
+    if (t.tie && t.tie.workers) out.push(pc(t.tie.share) + ' of working residents have a job within ' + s.coreMiles + ' miles of the site.');
+    if (t.movers && t.movers.share != null) out.push(p1(t.movers.share) + ' of people in rented homes moved in from another county, state or abroad last year (about ' + num(t.movers.outside) + ', give or take ' + num(t.movers.moe) + ').');
+    return out.join(' ');
+  }
   function drawTable(b) {
-    var rows = b.sug.order.map(function (g) {
+    var s = b.sug;
+    var rows = s.order.map(function (g) {
       var t = b.byId[g], on = isIn(b, g);
       return '<tr' + (g === b.focus ? ' class="tc-focus"' : '') + '><td><label class="tc-check"><input type="checkbox" name="tc-in" value="' + esc(g) + '"' + (on ? ' checked' : '') + '> ' + esc(t.name) + '</label><span class="note"> ' + esc(t.county) + '</span></td>' +
-        '<td data-label="Suggested">' + (t.suggested ? 'In' : 'Out') + '</td><td data-label="Why">' + esc(t.reason) + '</td><td class="num" data-label="Renters who qualify">' + num(single(b, g)) + '</td></tr>';
+        '<td data-label="Suggested">' + (t.suggested ? 'In' : 'Out') + '</td><td data-label="Why">' + esc(t.reason) + '</td>' +
+        (s.withBands ? '<td class="num" data-label="People within ' + s.band + ' min">' + pc(t.bands[BAND_AT[s.band]]) + '</td>' : '') +
+        (s.withSchools ? '<td class="num" data-label="In the site’s school district">' + pc(t.school) + '</td>' : '') +
+        (s.withCommutes ? '<td class="num" data-label="Job near the site">' + (t.tie && t.tie.workers ? pc(t.tie.share) : '—') + '</td>' : '') +
+        (s.withMovers ? '<td class="num" data-label="Renters who moved in">' + (t.movers && t.movers.share != null ? p1(t.movers.share) : '—') + '</td>' : '') +
+        '<td class="num" data-label="Renters who qualify">' + num(single(b, g)) + '</td></tr>';
     }).join('');
-    b.el.querySelector('.tc-table-body').innerHTML = '<div class="tc-table-wrap"><table class="data-table"><caption>Every tract within ' + b.sug.reach + ' miles of the site. Tick a tract to put it in the market area.</caption>' +
-      '<thead><tr><th scope="col">Tract</th><th scope="col">Suggested</th><th scope="col">Why</th><th scope="col" class="num">Renters who qualify, ' + b.ctx.tier + '% AMI</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+    b.el.querySelector('.tc-table-body').innerHTML = '<div class="tc-table-wrap"><table class="data-table"><caption>Every tract within ' + s.reach + ' miles of the site' + (s.withBands ? ', or with a quarter of its people within 20 minutes’ drive' : '') + '. Tick a tract to put it in the market area.</caption>' +
+      '<thead><tr><th scope="col">Tract</th><th scope="col">Suggested</th><th scope="col">Why</th>' +
+      (s.withBands ? '<th scope="col" class="num">People within ' + s.band + ' min drive</th>' : '') +
+      (s.withSchools ? '<th scope="col" class="num">In ' + esc(s.siteDistrict.name) + '</th>' : '') +
+      (s.withCommutes ? '<th scope="col" class="num">Working residents with a job within ' + s.coreMiles + ' mi</th>' : '') +
+      (s.withMovers ? '<th scope="col" class="num">Renters who moved in last year</th>' : '') +
+      '<th scope="col" class="num">Renters who qualify, ' + b.ctx.tier + '% AMI</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+      '<p class="note">People by road: 2020 Census block population, routed by OpenStreetMap roads. School districts: Census TIGER 2024. Jobs: LEHD LODES 2024. Movers: Census ACS 2020–2024 table B07013, people (not households) in rented homes who lived in another county, state or abroad a year earlier; tract margins are wide, and CHFA counts in-migration only when comparable properties show it.</p>';
   }
 
   function drawHow(b) {
@@ -886,13 +1186,16 @@
     var line = function (t, u) { return u ? '<a href="' + esc(u) + '" rel="noopener">' + esc(t) + '</a>' : esc(t); };
     b.el.querySelector('.tc-how').innerHTML =
       '<p class="note"><strong>How COHO suggests the tracts.</strong> The tract the site is in; tracts whose centre is within ' + s.coreMiles + ' miles' + (s.city ? ' (2 in a city, where 25 or more tract centres sit within 3 miles)' : ' (the full Market Analysis pre-selects the same 4 miles)') +
-      (s.withDrive ? ', unless the drive is longer than ' + s.maxDrive + ' minutes' : '') + '; farther tracts, out to ' + s.reach + ' miles, where at least a quarter of the working residents, and at least 50 of them, have a job within ' + s.coreMiles + ' miles of the site; nothing across an interstate, a river or a named lake unless that jobs tie holds; and at least 3 tracts' + (s.withDrive ? ', adding the nearest in the county within ' + RULES.smallDrive + ' minutes\u2019 drive' : '') + '. ' +
+      (s.withBands ? ', unless fewer than half its people live within ' + s.band + ' minutes’ drive' : s.withDrive ? ', unless the drive is longer than ' + s.maxDrive + ' minutes' : '') + '; farther tracts, out to ' + s.reach + ' miles, where at least a quarter of the working residents, and at least 50 of them, have a job within ' + s.coreMiles + ' miles of the site; nothing across an interstate, a river or a named lake unless that jobs tie holds' + (s.withBands ? ' or roads cross it (most of its people within ' + s.band + ' minutes’ drive)' : '') + '; and at least 3 tracts' + (s.withDrive ? ', adding the nearest in the county within ' + RULES.smallDrive + ' minutes\u2019 drive' : '') + '. ' +
       'These are COHO’s screening rules, not CHFA’s. CHFA asks for whole tracts and a written reason for the edge, and a CHFA-approved analyst draws the area a study uses.' +
       (s.withCommutes ? '' : ' The commuting file did not load, so this suggestion uses distance only.') + (s.withCrossings ? '' : ' The rivers and interstates file did not load, so no crossing was checked.') + '</p>' +
       '<p class="metric-source">' + [
         line('LEHD LODES ' + ((src.od && src.od.vintage) || '2024') + ' home-to-work flows', src.od && src.od.source_url),
         s.withDrive && line('Drive times: OpenStreetMap contributors, routed by OSRM' + (src.drive && src.drive.as_of ? ', ' + src.drive.as_of : ''), 'https://www.openstreetmap.org/copyright'),
         s.withDrive && line('Tract population centres: U.S. Census Bureau, 2020 Centers of Population', 'https://www.census.gov/geographies/reference-files/time-series/geo/centers-population.html'),
+        s.withBands && line('People by road: 2020 Census blocks (TIGER/Line), routed on OpenStreetMap by OSRM' + (src.bands && src.bands.as_of ? ', ' + src.bands.as_of : ''), (src.bands && src.bands.blocks_source_url) || 'https://www2.census.gov/geo/tiger/TIGER2020/TABBLOCK20/'),
+        s.withSchools && line('School districts: Census TIGER 2024', (src.schools && src.schools.districts_source_url) || 'https://www2.census.gov/geo/tiger/TIGER2024/UNSD/'),
+        s.withMovers && line('Movers: Census ACS 2020–2024, table B07013', 'https://data.census.gov/table/ACSDT5Y2024.B07013'),
         line('CDOT highways and Census TIGERweb water', 'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Hydro/MapServer'),
         line('Census TIGER 2020 tracts', 'https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html'),
         line('CHFA Housing Tax Credit property list', 'https://www.chfainfo.com/rental-housing/housing-credit'),
@@ -1001,7 +1304,7 @@
   // before the box has worked out its suggestion. The Market check's head reads these, so it never counts on its own.
   function now(site) {
     var b = site && boxes[keyOf(site)];
-    return b && b.sug && b.count != null ? { m: b.now || null, tracts: b.count, edited: !!b.picked, key: b.key } : null;
+    return b && b.sug && b.count != null ? { m: b.now || null, tracts: b.count, edited: !!b.picked, key: b.key, label: b.nowLabel || null } : null;
   }
   // The tract list the "Use in project" form stores: the edited list from the address, else the suggestion once
   // it has been worked out; null while it is still loading.
@@ -1021,25 +1324,38 @@
     return {
       tracts: b.sug.order.map(function (g) {
         var t = b.byId[g];
-        return { geoid: g, name: t.name, county: t.county, miles: Math.round(t.miles * 10) / 10, inArea: !!inSet[g], suggested: t.suggested, why: t.why, reason: t.reason };
+        return { geoid: g, name: t.name, county: t.county, miles: Math.round(t.miles * 10) / 10, inArea: !!inSet[g], suggested: t.suggested, why: t.why, reason: t.reason,
+          peopleWithin: t.bands ? { m10: t.bands[0], m15: t.bands[1], m20: t.bands[2] } : null, siteSchoolDistrictShare: t.school, jobTie: t.tie && t.tie.workers ? Math.round(t.tie.share * 1000) / 1000 : null,
+          renterMovers: t.movers ? { people: t.movers.outside, of: t.movers.renters, moe: t.movers.moe } : null };
       }),
       comparison: {
-        areas: areas.map(function (x) { return { id: x.id, ids: x.ids.slice(), label: x.label, method: x.method, note: x.note, tracts: x.list.slice(), recommended: !!x.recommended, tests: x.eval.tests.map(function (t) { return { id: t.id, pass: t.pass, text: t.text, caveat: t.caveat || null, uncertain: !!t.uncertain }; }), supplyNotes: x.eval.supplyNotes.slice(), line: x.line || null }; }),
+        areas: areas.map(function (x) {
+          var c = x.eval.chfa, ev = x.eval.ev;
+          return { id: x.id, ids: x.ids.slice(), label: x.label, method: x.method, note: x.note, tracts: x.list.slice(), recommended: !!x.recommended, bestFit: !!x.best, tests: x.eval.tests.map(function (t) { return { id: t.id, pass: t.pass, text: t.text, caveat: t.caveat || null, uncertain: !!t.uncertain }; }), supplyNotes: x.eval.supplyNotes.slice(), line: x.line || null,
+            chfa: { tier: b.ctx.tier, rate: c.rateT, comparable: c.existingT, qualified: c.qT, allLevelsTo: c.top, rateAll: c.rateAll, comparableAll: c.existingAll, qualifiedAll: c.qAll, notes: x.eval.compNotes.slice() },
+            reasons: { drawShare: ev.draw, drawMinutes: b.sug.withBands ? b.sug.band : null, schoolDistrictShare: ev.school, jobsHeld: ev.jobs, renterMoverShare: ev.movers } };
+        }),
+        bestFit: b.best ? b.best.id : null,
+        bestFitRule: b.sug.withBands ? 'Approved by paul 18 Nov 2026: of the areas holding at least half the people within ' + b.sug.band + ' minutes’ drive of the site and at or under 85% (CHFA rate, comparable family tax credit homes counted) at the project level and across all levels, the lowest rate, then the fewest tracts within 5 points.' : null,
+        schoolDistrict: b.sug.siteDistrict ? b.sug.siteDistrict.name : null,
         // Since 15 Nov 2026 no area is recommended: the local and regional areas are named instead.
         recommended: null,
         recommendedWhy: null,
-        views: { local: (areaById(b, 'suggested') || {}).id || null, regional: (areaById(b, 'ring') || {}).id || null },
+        views: { local: (areaById(b, 'suggested') || {}).id || null, regional: (areaById(b, 'ring') || {}).id || null, bestFit: b.best ? b.best.id : null },
         picked: pa ? pa.id : null,
         pickedWhy: pa && !isView(pa) ? (b.pickWhy || '').trim() || null : null,
-        tests: 'COHO screening tests, 14 Nov 2026 (no area recommended since 15 Nov 2026): 1 whole tracts (CHFA Market Study Guide); 2 every tract near the site on its side' + (b.sug.withDrive ? ' and within ' + b.sug.maxDrive + ' minutes by road (OpenStreetMap)' : '') + ', or with 10%+ of working residents employed near it (LODES 2024); 3 no tract where another town holds most homes and has tax credit homes; 4 capture at the project level and penetration at least 10 points under the 85% line. Tests 2-4 are not CHFA rules.'
+        tests: 'COHO screening tests, 18 Nov 2026: 1 whole tracts (CHFA Market Study Guide); 2 every tract with most of its people within ' + (b.sug.withBands ? b.sug.band + ' minutes by road, or ' : '') + 'near the site on its side' + (!b.sug.withBands && b.sug.withDrive ? ' and within ' + b.sug.maxDrive + ' minutes by road (OpenStreetMap)' : '') + ', or with 10%+ of working residents employed near it (LODES 2024); 3 no tract where another town holds most homes and has tax credit homes; 4 CHFA rate (comparable family tax credit homes + the project, over renter households who qualify) at or under 85% at the project level and across all levels. Tests 2-3 are not CHFA rules.'
       },
       edited: !!(edited && edited.length), city: b.sug.city, coreMiles: b.sug.coreMiles, reachMiles: b.sug.reach,
       withCommutes: b.sug.withCommutes, withCrossings: b.sug.withCrossings,
-      rules: 'COHO screening rules, 14 Nov 2026: the site tract; tracts within ' + b.sug.coreMiles + ' miles; farther tracts to ' + b.sug.reach + ' miles where 25% or more (and 50 or more) of working residents have a job within ' + b.sug.coreMiles + ' miles' + (b.sug.withDrive ? ' unless more than ' + b.sug.maxDrive + ' minutes by road' : '') + '; nothing across an interstate, river or named lake unless that jobs tie holds; at least 3 tracts' + (b.sug.withDrive ? ', the added ones within ' + RULES.smallDrive + ' minutes by road' : '') + '. Not CHFA rules.',
+      rules: 'COHO screening rules, 18 Nov 2026: the site tract; tracts within ' + b.sug.coreMiles + ' miles' + (b.sug.withBands ? ' unless fewer than half their people live within ' + b.sug.band + ' minutes by road' : '') + '; farther tracts to ' + b.sug.reach + ' miles where 25% or more (and 50 or more) of working residents have a job within ' + b.sug.coreMiles + ' miles' + (!b.sug.withBands && b.sug.withDrive ? ' unless more than ' + b.sug.maxDrive + ' minutes by road' : '') + '; nothing across an interstate, river or named lake unless that jobs tie holds' + (b.sug.withBands ? ' or most of its people are within ' + b.sug.band + ' minutes by road' : '') + '; at least 3 tracts' + (b.sug.withDrive ? ', the added ones within ' + RULES.smallDrive + ' minutes by road' : '') + '. Not CHFA rules.',
       sourceDates: {
         lodesOd: src.od ? (src.od.vintage ? 'LODES ' + src.od.vintage : null) : null, lodesOdBuilt: src.od ? src.od.generated_at || src.od.as_of || null : null,
         barriers: src.barriers ? src.barriers.generated || null : null,
         driveTimes: src.drive ? src.drive.generated || null : null,
+        driveBands: src.bands ? src.bands.generated || null : null,
+        schoolDistricts: src.schools ? src.schools.generated || null : null,
+        renterMovers: src.movers ? 'ACS ' + (src.movers.vintage || '') + ' 5-year' : null,
         placeTracts: src.places ? 'Census ' + (src.places.vintage || 2020) : null,
         tractCentroids: src.cent ? src.cent.generated || null : null
       }

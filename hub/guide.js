@@ -97,7 +97,7 @@
     'commuters-capture': {
       menu: 'policy', introTitle: 'In short',
       facts: [
-        { value: '85%', label: 'Capture rate above which CHFA wants more data to support demand', source: 'CHFA 2027-28 QAP, p. 9', href: 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf' },
+        { value: '85%', label: 'Capture rate above which CHFA wants more data to support demand', source: 'CHFA 2027-28 QAP, p. 9', href: 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US' },
         { value: '65%', label: 'Share of Durango\u2019s primary jobs held by people who live outside the city (2024)', source: 'LEHD LODES 2024', href: 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/' },
         { value: '61%', label: 'Summit County in-commuters surveyed who would make a trade-off to live in the county', source: 'Summit County 2023 HNA, V-60', href: 'https://www.friscogov.com/wp-content/uploads/2026/04/Attachment-1_2023-Summit-County-Housing-Needs-Assessment.pdf' },
         { value: '26.3% \u2192 21.0%', label: 'A Line Flats capture rate before and after a 25% in-migration adjustment', source: 'CHFA 2025 Round Two narratives, p. 12', href: 'https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf' }
@@ -210,7 +210,7 @@
     return '<figure class="credit-compare" aria-labelledby="cc-cap"><figcaption id="cc-cap"><strong>A 9% credit pays about twice as much of a project as a 4% credit</strong>' +
       '<span>Sample: 60 homes costing $' + COST + 'M, $' + BASIS + 'M of it eligible basis. Bars show credit equity as a share of the cost.</span></figcaption>' +
       '<ol class="cc-rows">' + row(S[0]) + row(S[1]) + row(S[1], '4s') + '</ol>' +
-      '<p class="metric-source">Credit: about ' + S.map(function (x) { return x.r + '% of basis a year for 10 years ($' + x.credits.toFixed(1) + 'M)'; }).join(' or ') + ', <a href="https://www.law.cornell.edu/uscode/text/26/42" target="_blank" rel="noopener">IRC §42(b)</a>. Price: $0.82 (9%) and $0.83 (4%) per credit dollar, Novogradac 2026-Q2 national averages. Round Two dates and state credit caps: <a href="https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf" target="_blank" rel="noopener">CHFA 2027–28 QAP</a> §3.B.2 (p. 15) and §3.L (p. 31); Round Two counts: CHFA applicant and award reports.</p></figure>';
+      '<p class="metric-source">Credit: about ' + S.map(function (x) { return x.r + '% of basis a year for 10 years ($' + x.credits.toFixed(1) + 'M)'; }).join(' or ') + ', <a href="https://www.law.cornell.edu/uscode/text/26/42" target="_blank" rel="noopener">IRC §42(b)</a>. Price: $0.82 (9%) and $0.83 (4%) per credit dollar, Novogradac 2026-Q2 national averages. Round Two dates and state credit caps: <a href="https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US" target="_blank" rel="noopener">CHFA 2027–28 QAP</a> §3.B.2 (p. 15) and §3.L (p. 31); Round Two counts: CHFA applicant and award reports.</p></figure>';
   }
   function stackBox(title, sub, strong) {
     return '<li class="dg-stack-box' + (strong ? ' dg-stack-box--main' : '') + '"><strong>' + esc(title) + '</strong><span>' + esc(sub) + '</span></li>';

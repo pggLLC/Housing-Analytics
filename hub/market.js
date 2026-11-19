@@ -233,7 +233,7 @@
       '<p>' + (lead ? 'The figures at the top use the census tracts COHO suggests round the site; the capture rate above uses the whole county. ' : 'This screen uses the whole county. ') + 'A CHFA market study needs a primary market area drawn round the site from whole census tracts; CHFA does not accept a radius. The full Market Analysis draws it: place the site, add or drop tracts, and note the natural barriers, school districts, town lines or commute patterns that justify the edge. Demand by income and bedroom size, capture and nearby comparables then count only what is inside it.</p>' +
       '<p><a href="' + esc(maHref) + '" rel="noopener">Open the full Market Analysis and draw the market area ↗</a></p>' +
       '<p>Members can then start a <a href="' + CHFA_DRAFT + '" rel="noopener">CHFA-format market study ↗</a>: CHFA\u2019s nine sections in order, the tables public data can fill, six maps, and a Word file for a CHFA-approved analyst to finish. It supports the study; it is not the study CHFA accepts.</p>' +
-      '<p class="metric-source">' + Pl.srcLine('CHFA Market Study Guide, Appendix A to the 2027–28 QAP (adopted 25 September 2026, approved 23 October 2026)', 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf') + '</p>' +
+      '<p class="metric-source">' + Pl.srcLine('CHFA Market Study Guide, Appendix A to the 2027–28 QAP (adopted 25 September 2026, approved 23 October 2026)', 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US') + '</p>' +
       (lead ? '' : tractSection(params, s, g)) +
       useSection(params, s, g) +
       T.next('Next', [{ href: '#/report?g=' + encodeURIComponent(g), label: 'Free report for ' + s.name }, { href: maHref, label: 'Full Market Analysis ↗', secondary: true }, { href: '#/for-sale?g=' + encodeURIComponent(g), label: 'For-sale and ownership here', secondary: true }]);
@@ -371,6 +371,9 @@
     if (radius === 't') {
       var TC = global.LabTractCapture, edited = TC ? TC.parseList(mp().get('tr')) : [];
       var picked = TC ? TC.current(site, edited) : null, pa = TC && TC.pickedArea ? TC.pickedArea(site) : null;
+      // The best fit for CHFA (paul, 18 Nov 2026) is the default pick: named as such, with the rule's area. Where the
+      // best fit is the local market area itself, it keeps the local area's wording; the saved comparison names it.
+      if (pa && pa.best && pa.id !== 'suggested' && !edited.length) return { tracts: pa.list.slice(), radiusMiles: null, method: 'best-fit:' + pa.method, areaLabel: 'Census tracts: best fit for CHFA (' + pa.label + ')', pending: false };
       if (pa && pa.id !== 'map' && pa.id !== 'suggested') return { tracts: pa.list.slice(), radiusMiles: null, method: 'compared-area:' + pa.method, areaLabel: 'Census tracts: ' + pa.label + ', picked from the comparison', pending: false };
       return { tracts: (picked || []).slice().sort(), radiusMiles: null, method: edited.length ? 'suggested-tracts-edited' : 'suggested-tracts',
         areaLabel: edited.length ? 'Census tracts round the site, as set on the map' : 'Census tracts suggested round the site', pending: !picked };
@@ -424,6 +427,7 @@
   function areaScope(now) {
     var n = now && now.tracts;
     if (!n) return 'Figures at the top are for the census tracts COHO suggests round the site, as soon as they are worked out (map below).';
+    if (now.label) return 'Figures at the top are for ' + now.label + ': ' + n + (n === 1 ? ' whole census tract' : ' whole census tracts') + ' (compared below).';
     return 'Figures at the top are for ' + (now.edited ? 'your market area: ' : 'the site’s suggested market area: ') + n + (n === 1 ? ' whole census tract' : ' whole census tracts') + ' round it (map below).';
   }
   // The project form further down, with everything in the address kept (the market area as set on the map too).
@@ -593,16 +597,16 @@
     }
     // The suggested tracts keep each tract's reason and the rules, so a later page reads them without new math.
     // A radius or the county is a screening stand-in and says so.
-    var rec = /^(suggested|compared)/.test(area.method) && global.LabTractCapture ? global.LabTractCapture.record(site, global.LabTractCapture.parseList(params.get('tr'))) : null;
+    var rec = /^(suggested|compared|best-fit)/.test(area.method) && global.LabTractCapture ? global.LabTractCapture.record(site, global.LabTractCapture.parseList(params.get('tr'))) : null;
     P.attach(pid, sid, { kind: 'market-snapshot', label: area.areaLabel + ' (' + area.tracts.length + (area.tracts.length === 1 ? ' tract)' : ' tracts)'),
       snapshot: { tracts: area.tracts, site: site ? { lat: site.lat, lon: site.lon, label: site.label } : null, countyFips: county.fips, areaLabel: area.areaLabel,
         radiusMiles: area.radiusMiles, method: area.method,
-        boundary: /^(suggested|compared)/.test(area.method) ? 'tract-picker' : 'buffer', screeningOnly: !/^(suggested|compared)/.test(area.method),
+        boundary: /^(suggested|compared|best-fit)/.test(area.method) ? 'tract-picker' : 'buffer', screeningOnly: !/^(suggested|compared|best-fit)/.test(area.method),
         screeningNote: /^(suggested|compared)/.test(area.method) ? 'Whole census tracts, each with a reason. COHO screening rules, not a CHFA market area until an analyst draws it.' : 'Screening only, not a CHFA market area',
         tractReasons: rec ? rec.tracts : null, rules: rec ? rec.rules : null, comparison: rec ? rec.comparison : null,
-        tractSource: area.method === 'county' ? 'data/market/chfa_renter_demand_co.json' : /^(suggested|compared)/.test(area.method) ? [TCF.cent, TCF.geom, TCF.od, TCF.barriers].filter(Boolean) : CENTROIDS.cent },
+        tractSource: area.method === 'county' ? 'data/market/chfa_renter_demand_co.json' : /^(suggested|compared|best-fit)/.test(area.method) ? [TCF.cent, TCF.geom, TCF.od, TCF.barriers, TCF.drive, TCF.bands, TCF.schools, TCF.movers].filter(Boolean) : CENTROIDS.cent },
       sourceDates: rec ? rec.sourceDates : { tractCentroids: cent.data.cent && cent.data.cent.meta ? (cent.data.cent.meta.generated || null) : null },
-      methodVersions: rec ? { suggestion: 'site/tract-capture.js rules of 14 Nov 2026', renters: 'PMAMarketScoring.chfaQualifiedRenters', crossings: 'PMABarriers.proposeTractExclusions' } : null,
+      methodVersions: rec ? { suggestion: 'site/tract-capture.js rules of 18 Nov 2026', capture: 'CHFA rate with comparable family tax credit homes (site/tract-capture.js, 18 Nov 2026)', renters: 'PMAMarketScoring.chfaQualifiedRenters', crossings: 'PMABarriers.proposeTractExclusions' } : null,
       origin: { route: route } });
     var back = params.get('back');
     if (back && /^#\//.test(back)) { location.hash = back; return; }

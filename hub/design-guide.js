@@ -16,7 +16,7 @@
   var LIVE = 'https://cohoanalytics.com/research-brief.html?id=' + BRIEF_ID;
   var CRS = 'https://colorado.public.law/statutes/crs_9-5-105';
   var SB109 = 'https://leg.colorado.gov/bill_files/115906/download';
-  var QAP = 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf';
+  var QAP = 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US';
   var SDO = 'https://storage.googleapis.com/co-publicdata/sya-county.csv';
 
   // The order a planner reads it in: the home, the street, health, then who must be able to use it, then the rules.

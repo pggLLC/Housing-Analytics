@@ -572,7 +572,7 @@
     { name: 'Finance', what: 'The fee is paid with a loan, or turned into a note the project repays from leftover cash.', law: 'A local loan, or a council agreement to pay the fee from other funds.', credit: 'The fee stays a building cost and earns credit.', back: 'Some or all, as cash allows; often at sale or refinance.', key: true }
   ];
   function feeFinancing() {
-    var QAP = 'https://www.chfainfo.com/getattachment/0978a6c3-ed9b-4058-8a35-becc27dd9d8d/2027-2028-QAP.pdf';
+    var QAP = 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US';
     var body = '<p>Three ways to handle an impact fee on an affordable rental:</p><div class="fee-ways">' + FEE_WAYS.map(function (w) {
       return '<section class="fee-way' + (w.key ? ' fee-way-key' : '') + '"><h3>' + esc(w.name) + '</h3><dl>' +
         '<dt>What happens</dt><dd>' + esc(w.what) + '</dd><dt>Colorado law</dt><dd>' + esc(w.law) + '</dd>' +
