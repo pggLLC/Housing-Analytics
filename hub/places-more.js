@@ -161,7 +161,7 @@
       { key: 'score', label: 'Priority score (need and opportunity)', num: true, fmt: function (v) { return Number(v).toFixed(1); }, tip: metricTip(d, 'overall_need_score') },
       { key: 'need', label: 'Community need', num: true, fmt: function (v) { return Number(v).toFixed(1); }, tip: metricTip(d, 'community_need_score') },
       { key: 'opp', label: 'Opportunity', num: true, fmt: function (v) { return Number(v).toFixed(1); }, tip: metricTip(d, 'opportunity_score') },
-      { key: 'gap30', label: 'Homes short, 30% AMI', num: true, fmt: num, tip: 'Renter households at or below 30% AMI minus homes priced for them.' },
+      { key: 'gap30', label: 'Homes short, 30% AMI', num: true, fmt: num, tip: 'Renter households at or below 30% AMI minus homes priced for them, or 0 when those homes outnumber them.' },
       { key: 'burden', label: 'Renters cost burdened', num: true, fmt: pct, tip: 'Renters paying more than 30% of income.' },
       { key: 'future', label: 'Homes needed, 20 years', num: true, fmt: num, tip: 'Resident growth plus in-commuters, from the State Demography Office forecast.' },
       { key: 'pop', label: 'Population', num: true, fmt: num },
@@ -301,8 +301,9 @@
         src: function (d) { var m = d.pab.metadata || {}; return 'Colorado DOLA Division of Housing, ' + (m.year || '') + ' direct allocations, fetched ' + (m.fetched || ''); }, url: 'https://doh.colorado.gov/private-activity-bond-direct-allocations-2026' }
     ]],
     ['Preservation pipeline', [
-      { label: 'Subsidized homes to preserve', key: 'pres', cell: function (r) { return num(r.preservationCount); },
-        def: 'Properties with a subsidy that could end: CHFA preservation, HUD assisted, USDA rural and local voucher records. The universe for preservation outreach, not a count of homes at risk.',
+      // A count of properties, not homes (functionality audit F3, 19 Nov 2026): each record is one property of any size.
+      { label: 'Subsidized properties to preserve', key: 'pres', cell: function (r) { return num(r.preservationCount); },
+        def: 'Properties (not homes; one property can hold many homes) with a subsidy that could end: CHFA preservation, HUD assisted, USDA rural and local voucher records. The universe for preservation outreach, not a count of homes at risk.',
         src: function (d, r) { return 'COHO affordable housing inventory, built ' + dateOf(d.props.metadata && d.props.metadata.generated) + (r.county ? ', by county code' : ', by city name'); }, url: LIVE + 'preservation.html' },
       { label: '…with restrictions ending within 5 years', key: 'pres5', cell: function (r) { return num(r.preservationUrgent5y); },
         def: 'Of those, properties whose affordability restriction ends within five years: the near-term risk.',
