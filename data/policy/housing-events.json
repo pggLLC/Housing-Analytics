@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-18T18:29:08Z",
-    "as_of": "2026-11-18",
+    "generated": "2026-11-19T12:01:52Z",
+    "as_of": "2026-11-19",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -48,7 +48,7 @@
       "url": "https://cdola.colorado.gov/calendar",
       "status": "ok",
       "listed": 46,
-      "upcoming": 3
+      "upcoming": 2
     },
     {
       "id": "apa_colorado",
@@ -79,8 +79,8 @@
       "name": "FRED release calendar: CPI, jobs report, housing starts",
       "url": "https://fred.stlouisfed.org/",
       "status": "ok",
-      "listed": 6,
-      "upcoming": 6
+      "listed": 5,
+      "upcoming": 5
     },
     {
       "id": "curated",
@@ -103,30 +103,6 @@
       "url": "https://doh.colorado.gov/news-article/nofa-doh-cdbg-abatement-and-demolition-program",
       "source": "doh",
       "category": "deadline"
-    },
-    {
-      "title": "Housing starts and permits (New Residential Construction) released",
-      "start": "2026-11-18",
-      "end": null,
-      "time": null,
-      "location": null,
-      "online": true,
-      "organizer": "U.S. Census Bureau",
-      "url": "http://www.census.gov/construction/nrc/",
-      "source": "fred",
-      "category": "release"
-    },
-    {
-      "title": "Proposition 123 Unit Goal and Commitment Office Hours",
-      "start": "2026-11-18",
-      "end": null,
-      "time": "13:00",
-      "location": null,
-      "online": false,
-      "organizer": "DOLA Proposition 123",
-      "url": "https://cdola.colorado.gov/calendar",
-      "source": "prop123",
-      "category": "developer"
     },
     {
       "title": "Housing Strategies Peer Exchange",
@@ -419,6 +395,30 @@
     }
   ],
   "past": [
+    {
+      "title": "Proposition 123 Unit Goal and Commitment Office Hours",
+      "start": "2026-11-18",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "DOLA Proposition 123",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "prop123",
+      "category": "developer"
+    },
+    {
+      "title": "Housing starts and permits (New Residential Construction) released",
+      "start": "2026-11-18",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Census Bureau",
+      "url": "http://www.census.gov/construction/nrc/",
+      "source": "fred",
+      "category": "release"
+    },
     {
       "title": "chfareach: Maintaining Compliance with DOH and CHFA, Online Workshop",
       "start": "2026-11-12",
@@ -4525,54 +4525,6 @@
       "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-dignified-building-design-innovative-research-and-practical-applications-webinar-11-19-202",
       "source": "chfa",
       "category": "compliance"
-    },
-    {
-      "title": "Training Webinar: Final Documents",
-      "start": "2025-11-18",
-      "end": null,
-      "time": "13:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://attendee.gotowebinar.com/register/7036110707774349657",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "chfareach: EIV Open House with CHFA's Section 8 Program Compliance Team, Online Meeting",
-      "start": "2025-11-18",
-      "end": null,
-      "time": "12:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-eiv-open-house-with-chfa-s-section-8-program-compliance-team-online-meeting-11-18-2025",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "Training Webinar: CHFA Loan Purchase Training",
-      "start": "2025-11-18",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://attendee.gotowebinar.com/register/4904378663353724247",
-      "source": "chfa",
-      "category": "homebuyer"
-    },
-    {
-      "title": "Training Webinar: CHFA Lender Basic Training",
-      "start": "2025-11-18",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://events.teams.microsoft.com/event/9d8b1f3c-f13b-4768-b991-7ba7877de20d@de029520-7a0e-4208-bc91-86b9369ad432",
-      "source": "chfa",
-      "category": "homebuyer"
     }
   ]
 }

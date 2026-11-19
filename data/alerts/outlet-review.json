@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated": "2026-11-18T18:29:08Z",
+    "generated": "2026-11-19T12:01:52Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-12",
-      "checked": 62,
+      "since": "2026-11-13",
+      "checked": 50,
       "unverified": 9,
       "weak": 2
     }
@@ -32,6 +32,24 @@
         }
       ],
       "first_listed": "2026-11-18"
+    },
+    {
+      "id": "77f6369c2f",
+      "name": "The Mortgage Reports",
+      "domains": [
+        "themortgagereports.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-18",
+      "last_seen": "2026-11-18",
+      "headlines": [
+        {
+          "title": "CHFA Down Payment Assistance: Colorado Grants and Loans Explained",
+          "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQeVFYUEZtc01fanRiSVZVbVNSSFhvMy1zSG1TbndzeUVJVV96X3ljSzJGS2tkbkhmc09NdEJiUEVyblpJLVR6dDJJNWVoQnpQMHdNNlY3a3QxSXJmanpKSUcxY0Rrb19xbS1sMTh1X2dURkctUzJxdWYxSnJ1dkkxUQ?oc=5",
+          "date": "2026-11-18"
+        }
+      ],
+      "first_listed": "2026-11-19"
     },
     {
       "id": "f42343e885",
