@@ -447,6 +447,31 @@
     if (q.boost !== 'auto' && q.boost !== 'qct' && q.boost !== 'sadda') q.boost = 'auto';
   }
   var followed = null; // the place the boxes were last set from; null until the first look
+  // Back from the full calculator brings the estimate back (stakeholder review, 19 Nov 2026: Next then Back reset
+  // everything typed to the $20M example). It is kept in this browser tab only (sessionStorage: gone when the tab
+  // closes, never in the address, so never in a copied, shared or translated link) and comes back only for the same
+  // place. A record that does not read is ignored.
+  var KEEP = 'coho-quick-estimate-v1', kept = false;
+  function keep() {
+    try {
+      var S = global.LabDealQuickSale;
+      global.sessionStorage.setItem(KEEP, JSON.stringify({ v: 1, place: pagePlace() || '', kind: kind, q: q, sale: S && S.state ? S.state() : null }));
+    } catch (e) { /* storage off or full: Back shows the example, as before */ }
+  }
+  function unkeep() {
+    if (kept) return;
+    kept = true;
+    try {
+      var o = JSON.parse(global.sessionStorage.getItem(KEEP) || 'null'), S = global.LabDealQuickSale;
+      if (!o || o.v !== 1 || !o.q || typeof o.q !== 'object' || o.place !== (pagePlace() || '')) return;
+      q = Object.assign(JSON.parse(JSON.stringify(START)), o.q);
+      if (q.land === null && o.q.land !== null) q.land = null;
+      kind = o.kind === 'sale' ? 'sale' : 'rental';
+      if (o.sale && S && S.state) Object.assign(S.state(), o.sale);
+      followed = pagePlace(); // the boxes already hold this place: do not reset them to it
+    } catch (e) { /* unreadable: start from the example */ }
+  }
+  if (typeof global.addEventListener === 'function') global.addEventListener('pagehide', function () { if (kept) keep(); });
   function follow() {
     var p = pagePlace();
     if (p === followed || !data) return;
@@ -783,6 +808,7 @@
 
   function view() {
     load();
+    unkeep();
     follow();
     var sale = kind === 'sale' && global.LabDealQuickSale;
     var tabs = global.LabDealQuickSale ? '<div class="seg quick-kind" role="group" aria-label="Kind of deal">' + [['rental', 'Rental tax credit'], ['sale', 'Homes for sale']].map(function (k) {
