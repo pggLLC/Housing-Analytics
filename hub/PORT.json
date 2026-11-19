@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "1ac1de8d0ce0aff2aed386a05d9e065d6070c441",
+  "commit": "7cb17a6a1a2ba6c6eeb23dee03fa6e977c43f1db",
   "dirty": false
  },
  "files": {
@@ -80,7 +80,7 @@
   "hub/homes.js": "048cc62e0cfd9789252368d9aecf8e951c96500f207d94bb41f54dc7e6684d2b",
   "hub/ic-summary.js": "0f286ee1802abfc62a2f96ce710611bb216228850b308d4c0c5e107ed5abbf28",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
-  "hub/lab-config.js": "1862dc534f38f1a36786d39517a017e83aaaa7b9cc979e2ac1d37da12316e01b",
+  "hub/lab-config.js": "34384a9d70542c3c7df866672df4f92c6c666194734d14cac23139e6ccc95252",
   "hub/lab-wave2.css": "ab1303c77232cd775f5a19296fafd69aaa59cadc4c8da99d6ff869004fb28a76",
   "hub/land-value.js": "a17a8494a22b88dfede56d838a757afc3ed0b051deaca05cfc22f5bc9e5d294c",
   "hub/lender-export.js": "d1e48681ef719397028af4e5bbea04baf62f6b1b24441a7d1f40b034e5eea7da",

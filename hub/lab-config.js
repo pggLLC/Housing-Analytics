@@ -131,7 +131,12 @@ window.resolveAssetUrl = function (p) { return window.LAB_ROOT + p; };
     var s = split(hash), path = s.path;
     if (path === '#' || !carries(hash) || ES_PRIVATE.test(path)) return '';
     var parts = path.slice(2).split('/');
-    if (!parts.every(function (x) { return /^[a-z][a-z-]*$/.test(x) || ES_GEO.test(x); })) return '';
+    // Words only, except a place's GEOID where a public route holds one (#/place/<geoid>[/chapter],
+    // #/places/incentives/<geoid>). A number anywhere else could be a deal value, so the link falls back to the
+    // Spanish home page (Codex, HA #2952).
+    if (parts.length > 4) return '';
+    var geoAt = parts[0] === 'place' ? 1 : (parts[0] === 'places' && parts[1] === 'incentives') ? 2 : -1;
+    if (!parts.every(function (x, i) { return /^[a-z][a-z-]*$/.test(x) || (i === geoAt && ES_GEO.test(x)); })) return '';
     var q = new URLSearchParams(s.query), out = new URLSearchParams();
     var g = String(q.get('g') || q.get('geoid') || '');
     var list = g.split(',').filter(function (x) { return ES_GEO.test(x); });
