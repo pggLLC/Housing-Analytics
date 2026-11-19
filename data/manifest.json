@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-19T12:01:58.927706Z",
+  "generated": "2026-11-19T12:48:01.037316Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1011689
+      "bytes": 1012217
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -8681,6 +8681,11 @@
       "placeholder": false,
       "bytes": 3597503
     },
+    "data/market/chfa_older_renter_demand_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 179536
+    },
     "data/market/chfa_programs_co.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -9134,7 +9139,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16182
+      "bytes": 16184
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,

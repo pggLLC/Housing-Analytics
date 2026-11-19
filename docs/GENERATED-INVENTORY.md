@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-19T05:23:07.146Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-19T12:47:18.461Z. Do not edit by hand.
 
 ---
 
@@ -95,11 +95,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1952 JSON files found.
+1953 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 986.8 KB | ✅ | — |
+| `data/_manifest.json` | 988.0 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-two.json` | 29.2 KB | ✅ | — |
@@ -119,10 +119,10 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 957 B | ✅ | — |
-| `data/alerts/alerts_archive.json` | 2.50 MB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 2.55 MB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 5.8 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
-| `data/alerts/outlet-review.json` | 13.1 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 13.8 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.66 MB | ✅ | — |
@@ -1810,7 +1810,7 @@
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 431.6 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 10.9 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 247.8 KB | ✅ | — |
+| `data/manifest.json` | 248.1 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -1825,6 +1825,7 @@
 | `data/market/census2020-place-tract-housing-co.json` | 350.3 KB | ✅ | — |
 | `data/market/chas_co.json` | 159.0 KB | ✅ | — |
 | `data/market/chas_tract_co.json` | 3.43 MB | ✅ | — |
+| `data/market/chfa_older_renter_demand_co.json` | 175.3 KB | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
 | `data/market/chfa_renter_demand_co.json` | 153.3 KB | ✅ | — |
 | `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
@@ -1989,7 +1990,7 @@
 | `data/policy/green-building.json` | 58.3 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 32.6 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 157.1 KB | ✅ | — |
+| `data/policy/housing-events.json` | 155.5 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/housing-roll-calls.json` | 5.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
@@ -2029,7 +2030,7 @@
 | `data/policy/unit-size-standards.json` | 4.9 KB | ✅ | — |
 | `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 865.9 KB | ✅ | — |
+| `data/policy_briefs.json` | 860.9 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 437.3 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
@@ -2056,7 +2057,7 @@
 
 ## Test Files
 
-794 test files found.
+795 test files found.
 
 | File | Size |
 |------|------|
@@ -2116,6 +2117,7 @@
 | `test/chfa-award-coverage.test.mjs` | 5.0 KB |
 | `test/chfa-cost-basis-limits.test.js` | 5.7 KB |
 | `test/chfa-dda-qct-absence.test.js` | 13.4 KB |
+| `test/chfa-older-renter-demand.test.js` | 3.6 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/chfa-portfolio-filters.test.js` | 6.3 KB |
 | `test/chfa-portfolio-location-link.test.js` | 6.1 KB |
