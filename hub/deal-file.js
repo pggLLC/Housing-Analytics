@@ -173,6 +173,11 @@
     // section with no box in the link was not on the sender's page: its boxes keep Financials' starting values. For
     // the pro forma and partnership these are the engine's own values when the boxes are missing; the stress test
     // starts at a 12-month lease-up, where the engine on that page tests none (its stress table has no slider).
+    // A link from the quick estimate (from=quick) holds only the boxes the estimate sets, not every box the old page
+    // had: a box it leaves out was never typed, so it keeps Financials' starting value (stakeholder review, 19 Nov
+    // 2026: read as blank, the loan maturity opened empty and the funding gap read "Not yet").
+    var fromQuick = q.get('from') === 'quick';
+    if (has('from')) take('from');
     var R = env.registry, keys = [];
     q.forEach(function (v, k) { keys.push(k); });
     var absent = SECTIONS.filter(function (re) { return !keys.some(function (k) { return re.test(k); }); });
@@ -180,7 +185,7 @@
     F.FIELDS.forEach(function (i) {
       var k = i.id.replace(/^dc-/, '');
       if (i.id === 'dc-credit') { if (has('rate-9')) d.fields[i.id] = Number(take('rate-9')) === 0.04 ? '4' : '9'; return; }
-      if (!has(k)) { if (!checks[i.id] && !i.options && R && R.get(i.id) && onPage(k)) d.fields[i.id] = ''; return; }
+      if (!has(k)) { if (!fromQuick && !checks[i.id] && !i.options && R && R.get(i.id) && onPage(k)) d.fields[i.id] = ''; return; }
       var v = String(take(k));
       // A yes-or-no list here can be a ticked box on the old page (dc-auto-noi), which the link sends as 1 or 0.
       var yesNo = i.options && i.options.some(function (o) { return o[0] === 'yes'; }) && i.options.some(function (o) { return o[0] === 'no'; });

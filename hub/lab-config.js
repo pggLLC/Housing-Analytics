@@ -121,10 +121,27 @@ window.resolveAssetUrl = function (p) { return window.LAB_ROOT + p; };
   // Points every in-page lab link at what this site carries; a link with nowhere to go is left out
   // (a button) or kept as plain text (a link inside a sentence).
   // The Spanish link sends the page to Google Translate. Like the site's own (js/navigation.js spanishHref), it
-  // carries the place and nothing else: a place page's route (#/place/<geoid>/<chapter>), never a query.
+  // never sends what someone typed. It carries the public route and the place (QA/QC F6, 19 Nov 2026: Market check,
+  // For sale and Compare lost both) and nothing else: no deal or project route, no query value outside a short
+  // allowlist of places and Compare's own view settings. A homes count, rent tier, cost or project id never goes.
+  var ES_PRIVATE = /^#\/(projects?|financials|open-calc|open-deal|convert|handoff|homes|use|deals|ic-summary|recommendation|design|members|equity-pricing|pipeline|saved)(\/|$)/;
+  var ES_GEO = /^\d{2,7}$/;
+  var ES_COMPARE = { t: /^(9pct|4pct|preservation|workforce_resort|prop123_local|any)$/, view: /^blend$/ };
+  function spanishPath(hash) {
+    var s = split(hash), path = s.path;
+    if (path === '#' || !carries(hash) || ES_PRIVATE.test(path)) return '';
+    var parts = path.slice(2).split('/');
+    if (!parts.every(function (x) { return /^[a-z][a-z-]*$/.test(x) || ES_GEO.test(x); })) return '';
+    var q = new URLSearchParams(s.query), out = new URLSearchParams();
+    var g = String(q.get('g') || q.get('geoid') || '');
+    var list = g.split(',').filter(function (x) { return ES_GEO.test(x); });
+    if (g && list.length === g.split(',').length && list.length <= 6) out.set('g', list.join(','));
+    if (path === '#/places/compare') Object.keys(ES_COMPARE).forEach(function (k) { if (ES_COMPARE[k].test(q.get(k) || '')) out.set(k, q.get(k)); });
+    var qs = out.toString().replace(/%2C/g, ',');
+    return path + (qs ? '?' + qs : '');
+  }
   function spanishHref(hash) {
-    var m = /^#\/place\/\d{5,7}(\/[a-z-]+)?/.exec(split(hash).path);
-    var u = 'https://cohoanalytics.com/' + HERE + (m ? m[0] : '');
+    var u = 'https://cohoanalytics.com/' + HERE + spanishPath(hash);
     // A written guide is translated from its own page, as it was before the guide opened here: the whole guide
     // is in that page's file, so the translation does not depend on this page drawing it inside Google's frame.
     var gm = /^#\/guide\/([a-z-]+)$/.exec(split(hash).path);

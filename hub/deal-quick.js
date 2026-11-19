@@ -426,7 +426,9 @@
   // (no county, no homes, data still loading); blocked is the reason the rental estimate cannot go on as entered.
   function handoff() {
     var p = pagePlace(), S = global.LabDealQuickSale;
-    var withPlace = function (ps) { if (p) ps.set('geoid', p); return 'v=1&' + ps.toString(); };
+    // from=quick says the link holds only the boxes the estimate sets, so the hub's open-calc fills the rest with
+    // Financials' starting values instead of reading them as left blank. The full calculator page ignores it.
+    var withPlace = function (ps) { if (p) ps.set('geoid', p); ps.set('from', 'quick'); return 'v=1&' + ps.toString(); };
     if (kind === 'sale' && S && S.state) return { kind: 'sale', hash: withPlace(saleParams(S.state())), blocked: null };
     var units = TIERS.reduce(function (n, t) { return n + (q.tiers[t] > 0 ? Math.round(q.tiers[t]) : 0); }, 0);
     var bad = landProblem(q.land, q.tdc);
