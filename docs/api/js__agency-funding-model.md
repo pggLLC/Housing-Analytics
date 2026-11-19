@@ -22,5 +22,9 @@ grants and loans (dollars). The one measure all three report is homes, so
 ### `normalise(opts)`
 
 One record per award, whichever agency made it.
-opts: { ledger, documents, rows, dola, aliases, counties }
+opts: { ledger, documents, rows, dola, aliases, counties, bondDeals }
+  bondDeals: 4% bond deals CHFA awarded outside its rounds, matched against
+  the ledger by scripts/funding/build_funding_vs_need.mjs
+  (data/derived/funding-vs-need.json meta.bond_deals_outside_rounds).
+  CHFA's property list prints their homes but no credit or developer.
   counties: { '08001': { name: 'Adams', population: 530225 }, ... }

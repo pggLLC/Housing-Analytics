@@ -55,3 +55,16 @@ Labelled basemap. A LayerGroup unless CARTO is keyed, which bundles labels.
 ### `unlabelled(tone, opts)`
 
 Bare basemap, no place names.
+
+### `street(opts)`
+
+OpenStreetMap streets. opts.dark (default: the page's theme) shows them dark.
+
+### `satellite(opts)`
+
+Esri World Imagery.
+
+### `standard(map, opts)`
+
+Open a map on the street map and give it the Streets / Satellite switch and a scale bar in miles.
+Returns { base, satellite, control }. opts.extra adds more base layers to the switch, by label.
