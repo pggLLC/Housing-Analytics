@@ -24,7 +24,7 @@ Levels, from strongest to weakest claim:
 `apportioned` carries the tract count because that is the real confidence
 signal and it is already recorded per place in data/hna/place-chas.json:
 270 of 482 Colorado places resolve to a single tract, where apportionment
-means one tract's profile scaled by population share. That is a materially
+means one tract's profile scaled to the place. That is a materially
 weaker claim than a twelve-tract city and the reader deserves to see the
 difference. The neighbouring `low_confidence` and `coverage_share` fields
 are not used here: both are constant across all 482 places in the committed

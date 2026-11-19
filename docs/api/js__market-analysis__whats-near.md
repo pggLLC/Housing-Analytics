@@ -8,7 +8,7 @@ reads the nearest-distance inputs the controller builds, not this block).
 Two tables, both plain <table>s with one header row so the shared sorter
 and header tips pick them up (column help is each <th>'s data-tip):
   - Jobs in the site's census tract and within 5 and 10 miles, from LEHD
-    LODES 2023 workplace counts by census tract. A tract's jobs count when
+    LODES 2024 workplace counts by census tract. A tract's jobs count when
     the tract's centre point (TIGER 2020 internal point) is inside the
     distance; the site's own tract always counts, however large it is.
   - Places near the site: nearest one by name and straight-line distance,

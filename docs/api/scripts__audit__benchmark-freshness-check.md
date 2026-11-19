@@ -20,6 +20,11 @@ The Deal Calculator cites two static market-benchmark snapshots:
   - data/market/developable_land_context_co.json (tract developable-land context)
   - data/market/travel_time_matrix_co.json (OSM-derived tract-to-regional-hub drive times)
   - data/market/lodes_tract_od_co.json (LODES tract-to-tract OD matrix)
+  - data/market/tract_drive_times_co.json (OSM-derived drive times between nearby tracts)
+  - data/market/tract_drive_bands_co.json (share of each tract's people within 10/15/20 minutes by road)
+  - data/market/tract_school_districts_co.json (each tract's population by school district)
+  - data/market/acs_tract_movers_co.json (renters who moved in from another county, ACS B07013)
+  - data/market/chfa_older_renter_demand_co.json (older-adult renters for CHFA's older-adult capture rate)
 
 Each was added in a one-time commit and has no refresh workflow. The UI
 discloses the vintage honestly (shows `as_of` inline, links the source,

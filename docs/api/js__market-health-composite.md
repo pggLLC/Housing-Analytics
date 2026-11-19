@@ -5,8 +5,8 @@ market-health-composite.js
 Computes a per-county "Market Health" composite index (0-100) by
 blending 5 normalized signals already on disk:
 
-  1. Job growth 5y (BLS QCEW)            — higher = stronger demand
-  2. Population growth 5y (ACS/DOLA)     — higher = stronger demand
+  1. Employed residents 5y (BLS LAUS)    — higher = stronger demand
+  2. Population growth 5y (ACS 5-year)   — higher = stronger demand
   3. Inverse unemployment (BLS LAUS)     — lower unemp = stronger
   4. Mortgage originations per 1,000 households (HMDA ÷ ACS households)
      — higher = healthier credit. A raw count would rank counties by size.

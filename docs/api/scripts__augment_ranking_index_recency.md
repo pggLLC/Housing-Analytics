@@ -6,13 +6,14 @@ Adds per-jurisdiction:
   - latest_lihtc_year   (CHFA AwardYear or YR_PIS, whichever is highest)
   - lihtc_project_count (count of CHFA LIHTC projects matching this jurisdiction)
   - r1_2026_count       (2026 R1 bridge awards in this jurisdiction)
+  - r2_2026_count       (2026 R2 bridge awards in this jurisdiction)
   - drought_years       (CURRENT_YEAR - latest_lihtc_year, null if never funded)
   - recency_score       (F146 formula: min(100, drought × 25); 100 means
                          "never funded on record", treated as max opportunity)
-  - recency_basis       ('award_year' | 'pis_year' | 'r1_bridge' | 'never_funded')
+  - recency_basis       ('award_year' | 'pis_year' | 'r1_bridge' | 'r2_bridge' | 'never_funded')
 
 Counties are the exception: they aggregate by CHFA's CNTY_FIPS (and
-2026 R1 awards by point-in-county-polygon), because a county name never
+2026 R1 and R2 awards by point-in-county-polygon), because a county name never
 matches a PROJ_CTY.
 
 Matches CHFA records to jurisdictions by uppercased city name against
