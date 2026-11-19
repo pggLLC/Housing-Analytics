@@ -206,18 +206,21 @@
 
   // ---- Compare places -----------------------------------------------------------------------
   // Each row names where its figure comes from (src), so the page can say the survey, period and geography per place.
+  // unit and def go in the CSV beside each figure (QA/QC F5, 19 Nov 2026: the download kept labels and values only).
+  // They say what the stored figure is, in the words the needs assessment uses; nothing is added for a figure the
+  // files do not describe.
   var CMP_ROWS = [
-    { label: 'Population', key: 'population', fmt: num, src: 'acs' },
-    { label: 'Median household income', key: 'median_hh_income', fmt: function (v) { return Pl.money(v); }, src: 'acs' },
-    { label: 'Median gross rent', key: 'gross_rent_median', fmt: function (v) { return Pl.money(v); }, src: 'acs' },
-    { label: 'Share who rent', key: 'pct_renters', fmt: pct, src: 'acs' },
-    { label: 'Renters at or below 30% AMI', key: 'low_income_households_lte30', fmt: num, src: 'gap' },
-    { label: 'Homes short at 30% AMI', key: 'ami_gap_30pct', fmt: num, src: 'gap' },
-    { label: 'Homes short at 60% AMI', key: 'ami_gap_60pct', fmt: num, src: 'gap' },
-    { label: 'Renters cost burdened', key: 'pct_cost_burdened', fmt: pct, src: 'acs' },
-    { label: 'Homes needed over 20 years', key: 'future_units_needed_20yr', fmt: num, src: 'dola' },
-    { label: 'Tax credit properties', key: 'lihtc_project_count', fmt: num, src: 'chfa' },
-    { label: 'HNA need and opportunity rank', key: '_rank', fmt: function (v) { return '#' + v; }, src: 'rank' }
+    { label: 'Population', key: 'population', fmt: num, src: 'acs', unit: 'people', def: 'Residents, from the Census survey.' },
+    { label: 'Median household income', key: 'median_hh_income', fmt: function (v) { return Pl.money(v); }, src: 'acs', unit: 'dollars a year', def: 'Half of households earn more and half less.' },
+    { label: 'Median gross rent', key: 'gross_rent_median', fmt: function (v) { return Pl.money(v); }, src: 'acs', unit: 'dollars a month', def: 'Rent plus utilities, middle value for renter homes paying cash rent (Census gross rent).' },
+    { label: 'Share who rent', key: 'pct_renters', fmt: pct, src: 'acs', unit: 'percent of households', def: 'Households that rent their home.' },
+    { label: 'Renters at or below 30% AMI', key: 'low_income_households_lte30', fmt: num, src: 'gap', unit: 'households', def: 'Renter households with income at or below 30% of area median income (AMI, set by HUD for the county).' },
+    { label: 'Homes short at 30% AMI', key: 'ami_gap_30pct', fmt: num, src: 'gap', unit: 'homes', def: 'Renter households at or below 30% AMI minus homes priced for them, or 0 when those homes outnumber them. 0 does not mean no need: some of those homes are rented by higher-income households.' },
+    { label: 'Homes short at 60% AMI', key: 'ami_gap_60pct', fmt: num, src: 'gap', unit: 'homes', def: 'Renter households at or below 60% AMI minus homes priced for them, or 0 when those homes outnumber them. 0 does not mean no need.' },
+    { label: 'Renters cost burdened', key: 'pct_cost_burdened', fmt: pct, src: 'acs', unit: 'percent of renter households', def: 'Renter households paying over 30% of income on rent and utilities.' },
+    { label: 'Homes needed over 20 years', key: 'future_units_needed_20yr', fmt: num, src: 'dola', unit: 'homes', def: 'Homes for resident growth plus in-commuters, rented and owned, from the State Demography Office forecast.' },
+    { label: 'Tax credit properties', key: 'lihtc_project_count', fmt: num, src: 'chfa', unit: 'properties (not homes)', def: 'Housing tax credit properties on CHFA\u2019s list. One property can hold many homes.' },
+    { label: 'HNA need and opportunity rank', key: '_rank', fmt: function (v) { return '#' + v; }, src: 'rank', unit: 'rank (1 = highest)', def: 'Position among Colorado counties, places and CDPs: 55% need, 45% opportunity, so not need alone.' }
   ];
 
   // The deal types the full comparison on cohoanalytics.com ranks by (its ?target= values and labels, js/compare.js).
@@ -237,19 +240,42 @@
       var a = sum && sum.acsProfile;
       if (!a) return { text: 'Census ACS profile (series loading)', geo: county ? 'county' : 'place' };
       var y = Number(a._acsYear), one = a._acsSeries === 'acs1';
-      return { text: y ? 'Census ACS ' + (one ? y + ' 1-year' : (y - 4) + '\u2013' + y + ' 5-year') : 'Census ACS (year not stated in the file)', geo: county ? 'county' : 'place', series: y ? (one ? 'acs1-' + y : 'acs5-' + y) : 'acs' };
+      return { text: y ? 'Census ACS ' + (one ? y + ' 1-year' : (y - 4) + '\u2013' + y + ' 5-year') : 'Census ACS (year not stated in the file)', geo: county ? 'county' : 'place', series: y ? (one ? 'acs1-' + y : 'acs5-' + y) : 'acs',
+        period: y ? (one ? String(y) : (y - 4) + '\u2013' + y) : '' };
     }
     if (row.src === 'gap') {
       var direct = m._ami_gap_source === 'place_acs_direct' || m._ami_gap_source === 'county_direct';
-      return { text: 'Census ACS 2020\u20132024 5-year, scored against HUD FY2026 income limits' + (direct ? '' : ' (estimated from the county)'), geo: direct ? (county ? 'county' : 'place') : 'county share', series: 'acs5-2024' };
+      return { text: 'Census ACS 2020\u20132024 5-year, scored against HUD FY2026 income limits' + (direct ? '' : ' (estimated from the county)'), geo: direct ? (county ? 'county' : 'place') : 'county share', series: 'acs5-2024', period: '2020\u20132024' };
     }
     if (row.src === 'dola') {
       var basis = String(m.future_units_basis || '');
-      return { text: 'State Demography Office forecast, 2024\u20132044' + (/county_direct/.test(basis) ? '' : ', county forecast shared out to the place'), geo: /county_direct/.test(basis) ? 'county' : 'county share' };
+      return { text: 'State Demography Office forecast, 2024\u20132044' + (/county_direct/.test(basis) ? '' : ', county forecast shared out to the place'), geo: /county_direct/.test(basis) ? 'county' : 'county share', period: '2024\u20132044 forecast' };
     }
-    if (row.src === 'chfa') return { text: 'CHFA tax credit property list, matched by place name', geo: county ? 'county' : 'place' };
-    return { text: 'HNA ranking, built ' + String(meta.generatedAt).slice(0, 10), geo: county ? 'county' : 'place' };
+    var built = String(meta.generatedAt).slice(0, 10);
+    if (row.src === 'chfa') return { text: 'CHFA tax credit property list, matched by place name', geo: county ? 'county' : 'place', period: 'Counted when the ranking was built, ' + built };
+    return { text: 'HNA ranking, built ' + built, geo: county ? 'county' : 'place', period: 'Built ' + built };
   }
+  // The comparison as a CSV: one row per figure and place, with the unit, definition, source, period and geography the
+  // screen gives it, and a reason where the cell is a dash (QA/QC F5). Values are the stored figures, unrounded.
+  function cmpCsvRows(picked, by, sums, meta) {
+    var rows = [];
+    CMP_ROWS.forEach(function (row) {
+      picked.forEach(function (g) {
+        var r = by[g], v = row.key === '_rank' ? r.rank : (r.metrics || {})[row.key], x = cmpSource(row, r, sums[g], meta);
+        var loading = /loading/.test(x.text);
+        rows.push([row.label, cleanName(r.name), g, v == null ? '' : v, row.unit, row.def, x.text, x.period || '', x.geo,
+          v == null ? 'Not published for this place in the HNA ranking file' : loading ? 'Survey year was still loading when this file was made; download it again' : '']);
+      });
+    });
+    return rows;
+  }
+  // Each picked place's HNA summary, which names its own Census series and year; null while it loads.
+  function cmpSums(picked) {
+    var H = global.LabHna, sums = {};
+    picked.forEach(function (g) { var c = H && H.loadPlace ? H.loadPlace(g) : null; sums[g] = c && c.summary; });
+    return sums;
+  }
+  var CMP_CSV_COLS = ['Figure', 'Place', 'GEOID', 'Value', 'Unit', 'Definition', 'Source', 'Period', 'Geography', 'Note'];
 
   // ---- Compare: the deal rows the public Compare shows (site/compare-records.js builds them the way js/compare.js does) ----
   var R = global.LabCompareRecords;
@@ -418,8 +444,7 @@
         CMP_ROWS.map(function (row) {
           return '<tr><th scope="row">' + esc(row.label) + '</th>' + picked.map(function (g) { var v = val(g, row.key); return '<td class="num">' + esc(v == null ? '—' : row.fmt(v)) + '</td>'; }).join('') + '</tr>';
         }).join('') + '</tbody></table></div>' +
-        (global.LabVizData ? '<p class="viz-data-csv"><a class="button-link secondary" download="coho-compare-places.csv" href="data:text/csv;charset=utf-8,' + encodeURIComponent('\ufeff' + global.LabVizData.csvText(['Figure'].concat(picked.map(function (g) { return cleanName(by[g].name) + ' (' + g + ')'; })),
-          CMP_ROWS.map(function (row) { return [row.label].concat(picked.map(function (g) { return val(g, row.key); })); }))) + '">Download this comparison as CSV</a></p>' : '') +
+        (global.LabVizData ? '<p class="viz-data-csv"><a class="button-link secondary" download="coho-compare-places.csv" href="data:text/csv;charset=utf-8,' + encodeURIComponent('\ufeff' + global.LabVizData.csvText(CMP_CSV_COLS, cmpCsvRows(picked, by, cmpSums(picked), s.data.ranking.metadata))) + '">Download this comparison as CSV</a> <span class="hint">One row for each figure and place, with its unit, definition, source and period.</span></p>' : '') +
         '<p class="note">Counties and places are counted the same way, so a county’s figures include its towns. A dash means the figure is not published for that place.</p>' + cmpSrcLine;
       // Homes per 10 renters at or below 30% AMI, the measure on the Places map.
       var per = picked.map(function (g) {
@@ -431,8 +456,7 @@
       }).join('') + '</ol>';
     }
     // Where each figure comes from, per place. Build dates stay apart from survey periods.
-    var H = global.LabHna, sums = {};
-    picked.forEach(function (g) { var c = H && H.loadPlace ? H.loadPlace(g) : null; sums[g] = c && c.summary; });
+    var sums = cmpSums(picked);
     var provenance = '';
     if (picked.length) {
       var acsSeries = picked.map(function (g) { return cmpSource(CMP_ROWS[0], by[g], sums[g], s.data.ranking.metadata).series; });
@@ -966,5 +990,5 @@
     var f = parts && SUB[parts[1]];
     return f ? f(params, parts) : hub(params, parts);
   };
-  global.LabPlacesMore = { CMP_DEAL_FILES: CMP_DEAL_FILES, DEAL_GROUPS: DEAL_GROUPS, CMP_TARGETS: CMP_TARGETS, fullCompareHref: fullCompareHref, cmpSource: cmpSource, RANK_FILES: RANK_FILES, RANKING_VIEW_FILES: RANKING_VIEW_FILES, LENSES: LENSES, COMMIT_DIMS: COMMIT_DIMS, COST_FILES: COST_FILES, TARIFF_FILES: TARIFF_FILES, LI_FILES: LI_FILES, TAX_FILES: TAX_FILES, ranking: ranking, compare: compare, incentives: incentives, jurisdiction: jurisdiction, CMP_ROWS: CMP_ROWS };
+  global.LabPlacesMore = { cmpCsvRows: cmpCsvRows, CMP_CSV_COLS: CMP_CSV_COLS, CMP_DEAL_FILES: CMP_DEAL_FILES, DEAL_GROUPS: DEAL_GROUPS, CMP_TARGETS: CMP_TARGETS, fullCompareHref: fullCompareHref, cmpSource: cmpSource, RANK_FILES: RANK_FILES, RANKING_VIEW_FILES: RANKING_VIEW_FILES, LENSES: LENSES, COMMIT_DIMS: COMMIT_DIMS, COST_FILES: COST_FILES, TARIFF_FILES: TARIFF_FILES, LI_FILES: LI_FILES, TAX_FILES: TAX_FILES, ranking: ranking, compare: compare, incentives: incentives, jurisdiction: jurisdiction, CMP_ROWS: CMP_ROWS };
 })(window);
