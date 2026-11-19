@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-18T19:35:43.165628Z",
+  "generated": "2026-11-19T05:23:40.064906Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1010458
+      "bytes": 1011696
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -8631,6 +8631,11 @@
       "placeholder": false,
       "bytes": 1398066
     },
+    "data/market/acs_tract_movers_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 52103
+    },
     "data/market/acs_tract_renter_household_size_co.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -9026,10 +9031,20 @@
       "placeholder": false,
       "bytes": 353190
     },
+    "data/market/tract_drive_bands_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 2660128
+    },
     "data/market/tract_drive_times_co.json": {
       "featureCount": 0,
       "placeholder": false,
       "bytes": 3777980
+    },
+    "data/market/tract_school_districts_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 47739
     },
     "data/market/transit_routes_co.geojson": {
       "featureCount": 1658,
@@ -9119,7 +9134,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16184
+      "bytes": 16182
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,

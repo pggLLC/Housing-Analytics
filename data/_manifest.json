@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-18T19:35:39.192Z",
+    "generated_at": "2026-11-19T05:23:37.282Z",
     "root": "data/",
-    "file_count": 1997,
-    "total_size_bytes": 228970576,
+    "file_count": 2000,
+    "total_size_bytes": 231730544,
     "kinds": {
-      "json": 1948,
+      "json": 1951,
       "geojson": 35,
       "csv": 14
     }
@@ -724,7 +724,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-18T19:35:33.922Z",
+      "mtime": "2026-11-19T05:23:34.064Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -37283,6 +37283,21 @@
       ]
     },
     {
+      "path": "market/acs_tract_movers_co.json",
+      "kind": "json",
+      "size_bytes": 52103,
+      "mtime": "2026-11-19T05:22:05.775Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "tracts"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/acs_tract_renter_household_size_co.json",
       "kind": "json",
       "size_bytes": 49396,
@@ -38790,6 +38805,25 @@
       ]
     },
     {
+      "path": "market/tract_drive_bands_co.json",
+      "kind": "json",
+      "size_bytes": 2660128,
+      "mtime": "2026-11-19T05:22:05.947Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "tracts",
+        "pop",
+        "points",
+        "places",
+        "from"
+      ],
+      "key_count": 6,
+      "primary_array_key": "tracts",
+      "primary_array_length": 1447,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "market/tract_drive_times_co.json",
       "kind": "json",
       "size_bytes": 3777980,
@@ -38805,6 +38839,25 @@
       "primary_array_key": "tracts",
       "primary_array_length": 1447,
       "primary_array_first_keys": null
+    },
+    {
+      "path": "market/tract_school_districts_co.json",
+      "kind": "json",
+      "size_bytes": 47739,
+      "mtime": "2026-11-19T05:22:05.958Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "districts",
+        "tracts"
+      ],
+      "key_count": 3,
+      "primary_array_key": "districts",
+      "primary_array_length": 178,
+      "primary_array_first_keys": [
+        "0",
+        "1"
+      ]
     },
     {
       "path": "market/transit_routes_co.geojson",
@@ -39165,8 +39218,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16184,
-      "mtime": "2026-11-18T19:35:36.190Z",
+      "size_bytes": 16182,
+      "mtime": "2026-11-19T05:23:35.687Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39190,7 +39243,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-18T19:35:35.676Z",
+      "mtime": "2026-11-19T05:23:35.311Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
