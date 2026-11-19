@@ -607,9 +607,10 @@
         boundary: /^(suggested|compared|best-fit)/.test(area.method) ? 'tract-picker' : 'buffer', screeningOnly: !/^(suggested|compared|best-fit)/.test(area.method),
         screeningNote: /^(suggested|compared)/.test(area.method) ? 'Whole census tracts, each with a reason. COHO screening rules, not a CHFA market area until an analyst draws it.' : 'Screening only, not a CHFA market area',
         tractReasons: rec ? rec.tracts : null, rules: rec ? rec.rules : null, comparison: rec ? rec.comparison : null,
+        // Who the homes are for and any in-migration factor, inside the snapshot the project keeps (Codex, HA #2948).
+        population: rec ? rec.population : null,
         tractSource: area.method === 'county' ? 'data/market/chfa_renter_demand_co.json' : /^(suggested|compared|best-fit)/.test(area.method) ? [TCF.cent, TCF.geom, TCF.od, TCF.barriers, TCF.drive, TCF.bands, TCF.schools, TCF.movers].filter(Boolean) : CENTROIDS.cent },
       sourceDates: rec ? rec.sourceDates : { tractCentroids: cent.data.cent && cent.data.cent.meta ? (cent.data.cent.meta.generated || null) : null },
-      population: rec ? rec.population : null,
       methodVersions: rec ? { suggestion: 'site/tract-capture.js rules of 18 Nov 2026', capture: rec.population && rec.population.kind === 'older-adult' ? 'CHFA older-adult rate with comparable age-restricted tax credit homes (site/tract-capture.js, 18 Nov 2026)' : 'CHFA rate with comparable family tax credit homes (site/tract-capture.js, 18 Nov 2026)', renters: 'PMAMarketScoring.chfaQualifiedRenters', crossings: 'PMABarriers.proposeTractExclusions' } : null,
       origin: { route: route } });
     var back = params.get('back');

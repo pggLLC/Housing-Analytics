@@ -523,6 +523,7 @@
     if (o.im) q.set('im', String(o.im)); else q.delete('im');
     history.replaceState(null, '', (i > -1 ? h.slice(0, i) : h) + '?' + q.toString());
     b.ctx = Object.assign({}, b.ctx, { pop: o.pop || 'family', mig: o.im || 0 });
+    if (o.pop === 'older' && !b.older) b.olderFailed = false;
     if (global.LabShell && global.LabShell.render) global.LabShell.render(); else draw(b);
   }
   function drawPop(b) {
@@ -563,7 +564,9 @@
   function popKey(b) { return (isOlder(b) ? 'older' + (b.older ? '' : '-wait') : 'family') + '|' + migOf(b); }
   // The older-adult file is fetched only when older adults is picked.
   function needOlder(b) {
-    if (!isOlder(b) || b.older || b.olderLoad) return;
+    // After a failed load the page says so and stays put: no new request until the reader picks older adults again
+    // (Codex, HA #2948).
+    if (!isOlder(b) || b.older || b.olderLoad || b.olderFailed) return;
     b.olderLoad = get(FILES.older).then(function (d) { b.older = d; b.olderFailed = false; }, function () { b.olderFailed = true; })
       .then(function () { b.olderLoad = null; b.single = {}; if (b.sug) draw(b); });
   }
@@ -1101,7 +1104,7 @@
     b.viewWhy = [];
     var area = function (list) {
       var sup = supplyIn(b, list);
-      return { qT: qual(b, list, [tier]), qA: qual(b, list, CAP_TIERS), pool: qual(b, list, PEN_TIERS), existing: sup.units, supplyNotes: sup.notes };
+      return { qT: qual(b, list, [tier]), qA: qual(b, list, CAP_TIERS), pool: isOlder(b) ? null : qual(b, list, PEN_TIERS), existing: sup.units, supplyNotes: sup.notes };
     };
     // In-commuters are workers; an older-adult project's tenants are not counted from them.
     var wf = isOlder(b) ? null : workforce(b, town), band = bandOf(tier), W = who(b);
@@ -1138,7 +1141,9 @@
     if (cty) { var K = area(cty.list); out.push({ id: 'county', label: 'Whole county', tag: null, who: function (q) { return num(q) + ' ' + W + ' in ' + cty.list.length + ' tracts'; }, qT: K.qT, qA: K.qA, pool: K.pool, existing: K.existing, supplyNotes: K.supplyNotes }); }
     out.forEach(function (v) {
       v.capT = v.qT > 0 ? units / v.qT : null; v.capA = v.qA > 0 ? units / v.qA : null;
-      v.pen = v.pool > 0 ? (v.existing + units) / v.pool : null;
+      // No penetration for older adults, as in the box's own figures: every tax credit home over older renters alone
+      // would mix two groups (Codex, HA #2948).
+      v.pen = !isOlder(b) && v.pool > 0 ? (v.existing + units) / v.pool : null;
       if (v.high) { v.high.capT = v.high.qT > 0 ? units / v.high.qT : null; v.high.capA = v.high.qA > 0 ? units / v.high.qA : null; }
     });
     return { list: out, town: town, wf: wf, residents: !!r, why: b.viewWhy.slice() };
@@ -1170,9 +1175,9 @@
       '<div class="tc-vmode" role="group" aria-label="Which homes the capture counts"><button type="button" class="button-link' + (mode === 'tier' ? '' : ' secondary') + '" data-tc-vmode="tier" aria-pressed="' + (mode === 'tier') + '">All ' + num(ctx.units) + ' at ' + ctx.tier + '% AMI</button>' +
         '<button type="button" class="button-link' + (mode === 'any' ? '' : ' secondary') + '" data-tc-vmode="any" aria-pressed="' + (mode === 'any') + '">Any level, 30–80% AMI</button></div>' +
       '<ul class="tc-vlist">' + cards + '</ul>' +
-      '<p class="note">Black mark: CHFA’s 85% line (<a href="' + MSG + '" rel="noopener">2027–28 QAP</a>). Capture = homes ÷ households who qualify. Penetration = (tax credit homes already there + these) ÷ renter households who qualify at 20 to 80% AMI, plus in-commuters’ households at 30 to 80%. ' +
-        'In-commuters: ' + (V.wf ? 'a quarter of the people who work in ' + (V.wf.from === 'town' && V.town ? V.town.name : 'the county') + ' but live elsewhere, as households, by pay (LEHD LODES 2024; the needs assessment’s move-closer share)' : 'the workforce file did not load') +
-        '; for the regional view, a quarter of those whose job is in its tracts and who live more than ' + VIEW.farMiles + ' miles from the site, at the same rate per worker. Out-of-state homes are not in the tract flows. ' +
+      '<p class="note">Black mark: CHFA’s 85% line (<a href="' + MSG + '" rel="noopener">2027–28 QAP</a>). Capture = homes ÷ households who qualify. ' + (isOlder(b) ? 'Penetration is not shown for older adults. ' : 'Penetration = (tax credit homes already there + these) ÷ renter households who qualify at 20 to 80% AMI, plus in-commuters’ households at 30 to 80%. ') +
+        (isOlder(b) ? 'In-commuters are left out for older adults. ' : 'In-commuters: ' + (V.wf ? 'a quarter of the people who work in ' + (V.wf.from === 'town' && V.town ? V.town.name : 'the county') + ' but live elsewhere, as households, by pay (LEHD LODES 2024; the needs assessment’s move-closer share)' : 'the workforce file did not load') +
+        '; for the regional view, a quarter of those whose job is in its tracts and who live more than ' + VIEW.farMiles + ' miles from the site, at the same rate per worker. Out-of-state homes are not in the tract flows. ') +
         'Town residents: the needs assessment’s share of each tract in the town, scaled to the town’s ACS renter count (HUD CHAS 2018–2022, Census ACS 5-year). The local and regional areas are COHO screening views, not CHFA market areas.</p>' +
       '<p class="metric-source">' + [
         '<a href="https://lehd.ces.census.gov/data/" rel="noopener">LEHD LODES ' + esc((src.od && src.od.vintage) || '2024') + '</a>',
