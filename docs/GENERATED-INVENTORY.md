@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-18T19:34:55.271Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-19T05:23:07.146Z. Do not edit by hand.
 
 ---
 
@@ -95,7 +95,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1949 JSON files found.
+1952 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1816,6 +1816,7 @@
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
 | `data/market/acs_renter_household_size_co.json` | 158.8 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.33 MB | ✅ | — |
+| `data/market/acs_tract_movers_co.json` | 50.9 KB | ✅ | — |
 | `data/market/acs_tract_renter_household_size_co.json` | 48.2 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
 | `data/market/bps_monthly_ytd.json` | 92.9 KB | ✅ | — |
@@ -1875,7 +1876,9 @@
 | `data/market/through-commuters.json` | 163.7 KB | ✅ | — |
 | `data/market/tract-workplaces.json` | 1.87 MB | ✅ | — |
 | `data/market/tract_centroids_co.json` | 344.9 KB | ✅ | — |
+| `data/market/tract_drive_bands_co.json` | 2.54 MB | ✅ | — |
 | `data/market/tract_drive_times_co.json` | 3.60 MB | ✅ | — |
+| `data/market/tract_school_districts_co.json` | 46.6 KB | ✅ | — |
 | `data/market/transit_stops_coverage_co.json` | 230.7 KB | ✅ | — |
 | `data/market/travel_time_matrix_co.json` | 4.23 MB | ✅ | — |
 | `data/market/unfunded-application-points.json` | 56.4 KB | ✅ | — |
@@ -2053,7 +2056,7 @@
 
 ## Test Files
 
-793 test files found.
+794 test files found.
 
 | File | Size |
 |------|------|
@@ -2708,6 +2711,7 @@
 | `test/tool-watch.test.js` | 4.6 KB |
 | `test/tract-drive-times.test.js` | 3.5 KB |
 | `test/tract-geometry-integrity.test.js` | 18.0 KB |
+| `test/tract-market-reasons.test.js` | 6.0 KB |
 | `test/tract-point-placement.test.js` | 2.2 KB |
 | `test/transit-stops-consumers.test.js` | 10.5 KB |
 | `test/transit-zone-absence.test.mjs` | 37.6 KB |
