@@ -403,8 +403,12 @@
     if (ua && ua.applied) ps.set('utilityAllowance', JSON.stringify({ applied: true, reason: null, countyFips: ua.countyFips, method: ua.basis.method, reference: ua.basis.reference,
       effectiveDate: ua.basis.effectiveDate, perBedroom: ua.perBedroom, feesPerBedroom: ua.feesPerBedroom }));
     // Not applied is said out loud too, so the full calculator keeps the owner-paid rents instead of using an
-    // allowance saved earlier in that browser.
-    else if (ua) ps.set('utilityAllowance', JSON.stringify({ applied: false, reason: ua.reason || 'allowance_reference_missing' }));
+    // allowance saved earlier in that browser. The reason is one the full calculator has words for (its
+    // ChfaRentLimits.unavailableMessage): owner-paid means no allowance method was chosen, and a renter-paid estimate
+    // missing a size's amount is a missing bedroom amount. An unknown code would read "Rent unavailable" there.
+    // The reason never changes a figure: the engine reads it only when an allowance is applied.
+    else if (ua) ps.set('utilityAllowance', JSON.stringify({ applied: false,
+      reason: ua.reason === 'allowance_entered_incomplete' ? 'allowance_bedroom_missing' : 'allowance_method_missing' }));
     return ps;
   }
   // The for-sale estimate's boxes: always the for-sale mode, so an ownership estimate never opens as a rental deal.
