@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-19T15:49:55.219Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-19T19:25:09.491Z. Do not edit by hand.
 
 ---
 
@@ -321,7 +321,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 3.86 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 298.6 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 299.2 KB | ✅ | — |
 | `data/entitled-land/findings.json` | 2.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.5 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.1 KB | ✅ | — |
