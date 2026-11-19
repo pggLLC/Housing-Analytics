@@ -402,6 +402,9 @@
     var ua = inputs.utilityAllowance;
     if (ua && ua.applied) ps.set('utilityAllowance', JSON.stringify({ applied: true, reason: null, countyFips: ua.countyFips, method: ua.basis.method, reference: ua.basis.reference,
       effectiveDate: ua.basis.effectiveDate, perBedroom: ua.perBedroom, feesPerBedroom: ua.feesPerBedroom }));
+    // Not applied is said out loud too, so the full calculator keeps the owner-paid rents instead of using an
+    // allowance saved earlier in that browser.
+    else if (ua) ps.set('utilityAllowance', JSON.stringify({ applied: false, reason: ua.reason || 'allowance_reference_missing' }));
     return ps;
   }
   // The for-sale estimate's boxes: always the for-sale mode, so an ownership estimate never opens as a rental deal.
