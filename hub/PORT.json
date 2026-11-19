@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "6f58d83c39b76a0c99f499a789280d45772239b6",
+  "commit": "2834a7f437216ef42d102002b9c381f530f7247f",
   "dirty": false
  },
  "files": {
@@ -91,7 +91,7 @@
   "hub/map-base.js": "cbb667abc88877093c487ec239a8af62c291303f682c6114ca0c49da75c15d3f",
   "hub/map-kit.js": "e70fb1db58bf10e7d487c03c4cb1f31757c22762f86b37bc4c11e77d3629a945",
   "hub/map-zoom.js": "854ba56f8749d75876c408596354074fc80a1b0621ae09a6a0306324ebc0a6eb",
-  "hub/market.js": "1f02cce8a04035a8ab5ef759f5322d8f967eb90f6e49b36e1d2737af42eedb01",
+  "hub/market.js": "182364987ae13f16bbc15a25f313f3d2cffb281392dc398d0bb3244d9c597846",
   "hub/middle-income.css": "d6ee8edc88955d68fc798e4ed247954c3d0900fd11bf62fba990ad09855ed22e",
   "hub/middle-income.js": "5301fa977060cca905ef65201fcdf54cc58f3f831580abcd49f5b3088835bb29",
   "hub/nav.js": "cbc72f42711bb426cba929a823ac38d955ab66e7829c92d938b78354665b834a",
@@ -117,7 +117,7 @@
   "hub/report.js": "8592e92722550a739e3278371821c832d56896c7fadb99335793b9f58a60d8fb",
   "hub/route-catalog.json": "a8b4fc44432ef008bf499883422cb0a20674d4597a4b83aebc0c7c1555359c87",
   "hub/sale-deal.js": "53bd1e8a5600b9c5ee42f916c44f9352a0a38e4a1cd3d056ec1dbecbde1c6d7b",
-  "hub/shell.css": "4b56e81a55c0dc27d0cb51f613038982759b3e312184b8e376080a3b9addb6be",
+  "hub/shell.css": "df128f2ca1918eaf2b28f973f2dfebe549a849835f436b88e3a12169ae509b51",
   "hub/shell.js": "0ddfc42303fb79309d9b8af57687a93edf837d37a626a0d61190e1d3ca8fc565",
   "hub/slider.js": "8af257af0c99e0dd98be109775e5e0c8abc6c61b77e2ad2eae90351001d3c76e",
   "hub/small-pages.css": "01c03c267e836964d60cf723e0fb1ba0c1e6bc13a3ef7b1b3cb10bd179d5c9d8",
@@ -129,7 +129,7 @@
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
   "hub/text-fit.js": "583c08d1ce2e9c0b7fd7cd3baca0bee436da9f3741625d9aa7eb683276ea78f8",
-  "hub/tract-capture.js": "7ea605bb9c8e2000d2975911db42baaf31cdb6d37db47c8877b048f6976fe207",
+  "hub/tract-capture.js": "c26ce0bf9404ab3667801cdbd81b1ec7606f99965068c78f9d6e4d8d1cf4b5be",
   "hub/visual-pass.css": "f8ae913b2ed977b9bf0453da2bdbdbb84e58a7eb61a648af414afe4b98ee6387",
   "hub/viz-data.js": "1e6c2a0dae68aa2e33a0fb7123503fcd7c13bd9c00e6d163a6a1cb214dac33db",
   "hub/viz-tip.js": "0d9ccb4a63a5da29953d75fbc47f71d40f57fa2e74afea832b1e02b305dc1dbc",

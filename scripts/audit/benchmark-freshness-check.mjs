@@ -24,6 +24,7 @@
  *   - data/market/tract_drive_bands_co.json (share of each tract's people within 10/15/20 minutes by road)
  *   - data/market/tract_school_districts_co.json (each tract's population by school district)
  *   - data/market/acs_tract_movers_co.json (renters who moved in from another county, ACS B07013)
+ *   - data/market/chfa_older_renter_demand_co.json (older-adult renters for CHFA's older-adult capture rate)
  *
  * Each was added in a one-time commit and has no refresh workflow. The UI
  * discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -170,6 +171,11 @@ const BENCHMARK_FILES = [
   },  {
     file: 'data/market/acs_tract_movers_co.json',
     label: 'Colorado tract renters who moved in (ACS B07013)',
+    reviewByPaths: ['meta.review_by'],
+    staleAfterDays: 365,
+  },  {
+    file: 'data/market/chfa_older_renter_demand_co.json',
+    label: 'Colorado older-adult renters (CHAS Table 7, PUMS 62+) for CHFA capture',
     reviewByPaths: ['meta.review_by'],
     staleAfterDays: 365,
   },
