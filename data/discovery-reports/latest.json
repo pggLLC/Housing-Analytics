@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-11-19T16:31:04.420Z",
+  "scanTimestamp": "2026-11-20T16:05:20.240Z",
   "totalScanned": 2006,
   "newSourceCount": 1974,
   "existingCount": 31,
@@ -14,7 +14,7 @@
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7517,
+      "sizeBytes": 7518,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -128,7 +128,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 2675133,
+      "sizeBytes": 2761189,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -146,7 +146,7 @@
     },
     {
       "path": "data/alerts/outlet-review.json",
-      "sizeBytes": 14113,
+      "sizeBytes": 17487,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -182,7 +182,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 706978,
+      "sizeBytes": 722914,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -194,7 +194,7 @@
     },
     {
       "path": "data/audit/upstream-vintage-watch.json",
-      "sizeBytes": 1173,
+      "sizeBytes": 1198,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1292,7 +1292,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 305718,
+      "sizeBytes": 306352,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10310,7 +10310,7 @@
     },
     {
       "path": "data/market/apartment_list_co.json",
-      "sizeBytes": 5646,
+      "sizeBytes": 5455,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10616,13 +10616,13 @@
     },
     {
       "path": "data/market/market-direction.json",
-      "sizeBytes": 773572,
+      "sizeBytes": 773423,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/market/market-types.json",
-      "sizeBytes": 438146,
+      "sizeBytes": 438114,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10700,7 +10700,7 @@
     },
     {
       "path": "data/market/realtor_inventory_co.json",
-      "sizeBytes": 231120,
+      "sizeBytes": 230197,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10844,7 +10844,7 @@
     },
     {
       "path": "data/market/zori_rents_co.json",
-      "sizeBytes": 24922,
+      "sizeBytes": 23958,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11450,7 +11450,7 @@
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 159268,
+      "sizeBytes": 158385,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11486,7 +11486,7 @@
     },
     {
       "path": "data/policy/incentive-peer-profiles.json",
-      "sizeBytes": 41052,
+      "sizeBytes": 41047,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11702,7 +11702,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 881517,
+      "sizeBytes": 927404,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11720,13 +11720,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20511,
+      "sizeBytes": 20485,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 236689,
+      "sizeBytes": 238919,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11780,7 +11780,7 @@
     },
     {
       "path": "data/reports/developer-url-health.json",
-      "sizeBytes": 21660,
+      "sizeBytes": 21619,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11822,7 +11822,7 @@
     },
     {
       "path": "data/url-health.json",
-      "sizeBytes": 1243212,
+      "sizeBytes": 1256948,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11856,7 +11856,7 @@
     {
       "path": "data/car-market.json",
       "name": "Colorado Association of Realtors (CAR) — Statewide Market Summary",
-      "daysSince": 291
+      "daysSince": 292
     }
   ]
 }
