@@ -7,7 +7,7 @@
    "data/market/market-types.json",
    "data/hna/ranking-index.json"
   ],
-  "market_types_generated_at": "2026-11-17T04:20:50Z",
+  "market_types_generated_at": "2026-11-20T14:25:28Z",
   "type_labels": {
    "resort": "Resort and second-home",
    "job_centre": "Job centre",
@@ -226,7 +226,7 @@
   "08045": {
    "level": "county",
    "region": "Western Slope",
-   "type": "steady",
+   "type": "growing",
    "population": 62479
   },
   "08047": {
@@ -502,7 +502,7 @@
   "08101": {
    "level": "county",
    "region": "Front Range",
-   "type": "softening",
+   "type": "steady",
    "population": 169356
   },
   "0810105": {
@@ -1654,7 +1654,7 @@
   "0862000": {
    "level": "municipality",
    "region": "Front Range",
-   "type": "softening",
+   "type": "steady",
    "population": 111561
   },
   "0862660": {

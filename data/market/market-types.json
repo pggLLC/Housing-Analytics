@@ -2,7 +2,7 @@
  "meta": {
   "title": "COHO market patterns and a Colorado strategy menu",
   "generator": "scripts/market/build_market_types.py",
-  "generated_at": "2026-11-17T04:20:50Z",
+  "generated_at": "2026-11-20T14:25:28Z",
   "generated_at_note": "the market-direction stamp this was built from, not the time this ran",
   "sources": [
    "data/market/market-direction.json",
@@ -554,18 +554,18 @@
     "cdp": 5
    },
    "growing": {
-    "county": 11,
+    "county": 12,
     "town": 35,
     "cdp": 0
    },
    "softening": {
-    "county": 9,
-    "town": 56,
+    "county": 8,
+    "town": 55,
     "cdp": 0
    },
    "steady": {
     "county": 24,
-    "town": 131,
+    "town": 132,
     "cdp": 6
    },
    "too_little_data": {
@@ -582,7 +582,7 @@
    "cluster_check": {
     "method": "k-means, 5 groups, 20 starts, on standardised seasonal share (log), jobs per working resident (log) and household growth",
     "places": 249,
-    "adjusted_rand": 0.285,
+    "adjusted_rand": 0.283,
     "reading": "Agreement between the written types and groups found without them (0 is chance, 1 is the same grouping)."
    }
   },
@@ -1067,7 +1067,7 @@
     "jobs": 131518,
     "working_residents": 185707,
     "household_growth_pct": 2.27,
-    "call": "softening",
+    "call": "steady",
     "rent_edge": "clear",
     "population": 377150,
     "prop123_committed": true
@@ -1217,8 +1217,8 @@
   "08045": {
    "name": "Garfield County",
    "level": "county",
-   "type": "steady",
-   "basis": "No rule above holds.",
+   "type": "growing",
+   "basis": "The market call is \"emerging\".",
    "stability": 1.0,
    "near_line": [],
    "modifiers": [],
@@ -1228,7 +1228,7 @@
     "jobs": 22196,
     "working_residents": 29085,
     "household_growth_pct": 1.01,
-    "call": "steady",
+    "call": "emerging",
     "rent_edge": "clear",
     "population": 62479,
     "prop123_committed": true
@@ -1915,8 +1915,8 @@
   "08101": {
    "name": "Pueblo County",
    "level": "county",
-   "type": "softening",
-   "basis": "The market call is \"softening\".",
+   "type": "steady",
+   "basis": "No rule above holds.",
    "stability": 1.0,
    "near_line": [],
    "modifiers": [
@@ -1928,7 +1928,7 @@
     "jobs": 52422,
     "working_residents": 59087,
     "household_growth_pct": 0.58,
-    "call": "softening",
+    "call": "steady",
     "rent_edge": "no_edge",
     "population": 169356,
     "prop123_committed": true
@@ -6570,7 +6570,7 @@
     "jobs": 23746,
     "working_residents": 17014,
     "household_growth_pct": 0.71,
-    "call": "softening",
+    "call": "steady",
     "rent_edge": "clear",
     "population": 34129,
     "prop123_committed": true
@@ -12788,8 +12788,8 @@
   "0862000": {
    "name": "Pueblo (city)",
    "level": "town",
-   "type": "softening",
-   "basis": "The market call is \"softening\".",
+   "type": "steady",
+   "basis": "No rule above holds.",
    "stability": 1.0,
    "near_line": [],
    "modifiers": [
@@ -12801,7 +12801,7 @@
     "jobs": 39246,
     "working_residents": 38936,
     "household_growth_pct": 0.51,
-    "call": "softening",
+    "call": "steady",
     "rent_edge": "no_edge",
     "population": 111561,
     "prop123_committed": true
@@ -13845,7 +13845,7 @@
     "jobs": 7525,
     "working_residents": 2692,
     "household_growth_pct": 0.14,
-    "call": "softening",
+    "call": "steady",
     "rent_edge": "clear",
     "population": 6005,
     "prop123_committed": true

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-20T14:19:49.844860Z",
+  "generated": "2026-11-20T14:32:01.485462Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8644,7 +8644,7 @@
     "data/market/apartment_list_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5646
+      "bytes": 5455
     },
     "data/market/bps_monthly_ytd.json": {
       "featureCount": 64,
@@ -8904,12 +8904,12 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 773572
+      "bytes": 773423
     },
     "data/market/market-types.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 438146
+      "bytes": 438114
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -8979,7 +8979,7 @@
     "data/market/realtor_inventory_co.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 231120
+      "bytes": 230197
     },
     "data/market/redfin-city-observations-co.json": {
       "featureCount": 0,
@@ -9114,7 +9114,7 @@
     "data/market/zori_rents_co.json": {
       "featureCount": 33,
       "placeholder": false,
-      "bytes": 24922
+      "bytes": 23958
     },
     "data/metadata/rent_burden_sources.json": {
       "featureCount": 0,
@@ -9139,7 +9139,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16182
+      "bytes": 16184
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -9649,7 +9649,7 @@
     "data/policy/incentive-peer-profiles.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41052
+      "bytes": 41047
     },
     "data/policy/jchs-state-of-nations-housing.json": {
       "featureCount": 0,
