@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generated": "2026-11-19T12:01:52Z",
+    "generated": "2026-11-20T12:04:17Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-13",
-      "checked": 50,
+      "since": "2026-11-14",
+      "checked": 60,
       "unverified": 9,
-      "weak": 2
+      "weak": 1
     }
   },
   "outlets": [
@@ -16,10 +16,15 @@
       "domains": [
         "pagosadailypost.com"
       ],
-      "stories": 2,
+      "stories": 3,
       "first_seen": "2026-11-18",
-      "last_seen": "2026-11-18",
+      "last_seen": "2026-11-19",
       "headlines": [
+        {
+          "title": "Colorado Real Estate Markets Hitting Hard Times?",
+          "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQNng5TlUzbHpSYXVSMEZlMDN6N0cwLUR3dHExQWlnT1JDSllvSHVfQWxDbFFFLU5TQ3FoQ212TE41cmp4Ry1vR25ibVBJdk54dkhUTkZVU3RkbWpUZzJNX3gtVllpcnpTcTJ0QlU1TWVVanEyazVMU2tPY181UnlmQmh5bEpzVXp5c3MyMEh2QS0?oc=5",
+          "date": "2026-11-19"
+        },
         {
           "title": "FLOOD RECOVERY UPDATE: From the Town of Pagosa Springs",
           "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPTVExYzU1UHRtWGtUZlFSQlpNcUVRcDdqOTJZczBMMjB3UWdyRVExRG9Dd3NydW10cVI0MkNtS2dqWGhPT21UaWZzOVR4SDdlY3JuZ3haX2EwRWtONUdXNWxrUFF0LVhvR0twTFZjTkFlUEdtbHMtVHI4bnQzLWg1RVhtYU5md1J5U1dyZG05VXJpaVVoWW9GVw?oc=5",
@@ -32,6 +37,24 @@
         }
       ],
       "first_listed": "2026-11-18"
+    },
+    {
+      "id": "b7aa7b6e7e",
+      "name": "The Manila Times",
+      "domains": [
+        "manilatimes.net"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-19",
+      "last_seen": "2026-11-19",
+      "headlines": [
+        {
+          "title": "Boulder Housing Partners Wins Competitive Tax Credits to Build 55 Affordable Homes for Older Adults at Alpine Balsam",
+          "link": "https://news.google.com/rss/articles/CBMimgJBVV95cUxQRVE1eXE3aDlSVnl6ektUbGc5UUdJbHdyczFkcWF1OUNZeWlReVZFUWlKcUFJaWt0ZTJ3WWQ3dUpvN0liQ196RldRQmc5cXhWRUNiS3JjM0JxTDU0M1dGeVZiSG0tVWhWeFNqRXJHZWxZRDNKZ2xIMi02YWdEbW90Vi1iWkJlN3BMa1cyb3JwNDNqX2hCaUx0bVhGX1VVQ2FBZ1FrRXdlOUoxUUE3bGRBWGx0d1N5MUtPZ3FuWl9YeExFNjlSS1did2M0T0ROcExUWG1UUlFaUXp3TkM5ckU2dnlldnpVMzFpalcwdXdqb2oyWUFMVlpfb29mazdIS2NfTDVSMEhJSlVvZVByRFU3TGVNOGhyeUV4MGfSAZ8CQVVfeXFMTzJyNTFrTkFnZG1kZUk2Y2lGdG9IZHdLdWR2c2xVb2daMmpHaUNqNG52WXpsMzdVd2w1NFBZLVkybDlOSGE4UHpSaktRN2tHQklqOUFkMmN1UE12aFJuSzJweDhkZFhzUUxtV0MybWhwM3JVUWlJNlBMOHA5N1BCaTR0VThERmxoSzhnTGR2V3RIZFVHOTRtbEVEZHhhTlpqUTBGSDUwOTZYMVphdHZtSFptLXdGWG84S29RUTRydmhDeXdNa015VmJwYS1leUIwZXBST3QzRFRTOEx1dzI4RnFhUlVST1duZC11VUlhWXd5a1B3WlRNZlh3M0J6d2tVVTg3UlBIMVA4d0NIYkFWb0oyVnZqVy1TU29LeFdVVlU?oc=5",
+          "date": "2026-11-19"
+        }
+      ],
+      "first_listed": "2026-11-20"
     },
     {
       "id": "77f6369c2f",
@@ -214,6 +237,24 @@
       "first_listed": "2026-11-09"
     },
     {
+      "id": "051f546ab1",
+      "name": "Legal 500",
+      "domains": [
+        "legal500.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-06",
+      "last_seen": "2026-11-06",
+      "headlines": [
+        {
+          "title": "Colorado Is Pricing Itself Out Of Prosperity: Housing Affordability, Government Policy, And The Cost Of Building",
+          "link": "https://news.google.com/rss/articles/CBMimgJBVV95cUxQY0piNFRaSzZCTDBiQ1o5dkdmanAyNzlnaVlWUUEtMmcxQXV1b2tHUzE4YXhSZ1ZzWURaNGpCa1ZMSlUyRC1WbmRjUDNUTGgzS3l2WE1RNHFWQTgyanpmMklkN0VLZFRGbUZDdjF0Qy00cGkxY1pCaVVPN0JLeENzby1UU200SExNM2hQYWJKNXAyN09IMng5eU44b1NjdXVGbDkwZGtXaDNjV1VBOTZ0UERzZFo5RWg2RmlCckVqbEplRTN2RlBPZzIzd2VFTmpUWjIxX015UFdvSUlNN0l6RDM2Q2hObWtYSnZZTUNkVFJxbVJBTEFneHkyTzRQQTdiVF9Qd3FSenZLek5BekFtcXZZdFZhV2daS0E?oc=5",
+          "date": "2026-11-06"
+        }
+      ],
+      "first_listed": "2026-11-20"
+    },
+    {
       "id": "1eb9801a47",
       "name": "Nixon Peabody",
       "domains": [
@@ -284,6 +325,24 @@
         }
       ],
       "first_listed": "2026-11-06"
+    },
+    {
+      "id": "844138f128",
+      "name": "State Affairs Pro",
+      "domains": [
+        "pro.stateaffairs.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-10-09",
+      "last_seen": "2026-10-09",
+      "headlines": [
+        {
+          "title": "Denver's Javier Mabrey eyes Colorado House leadership",
+          "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOS1hVbGE4Mi1ERWN5Sk80ZnI0enlMNVRXOUlYV3k2d3FRRmw1dG51aVVLUEJSTTZUcXZ4VlFpNjh0bjlOWDlmLWhMSWxPSHFDcHNxU3pobUJxWURjT09GNFZJRExfcjNuZnZkV3lUZHJ3QU5XSXZ4QjktNWRoVHIxcGdHYUxBanMxeDd2Mk1MNWNvdE5Lam4zRU5NQmwwTmNjd1Q5Nzh3M0tMTXVYR0ZMOWtFaFFsSDlMTmZpOXFJSEFtNUtjWkdyRWxTb1JZZ0JQSUUwdzJUOHo1dlpMZE1YNw?oc=5",
+          "date": "2026-10-09"
+        }
+      ],
+      "first_listed": "2026-11-20"
     },
     {
       "id": "fdf0d4371f",

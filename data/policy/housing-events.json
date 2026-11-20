@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-19T12:01:52Z",
-    "as_of": "2026-11-19",
+    "generated": "2026-11-20T12:04:16Z",
+    "as_of": "2026-11-20",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -56,7 +56,7 @@
       "url": "https://colorado.planning.org/conferences-and-meetings/event-calendar",
       "status": "ok",
       "listed": 31,
-      "upcoming": 2
+      "upcoming": 1
     },
     {
       "id": "fomc",
@@ -103,18 +103,6 @@
       "url": "https://doh.colorado.gov/news-article/nofa-doh-cdbg-abatement-and-demolition-program",
       "source": "doh",
       "category": "deadline"
-    },
-    {
-      "title": "Housing Strategies Peer Exchange",
-      "start": "2026-11-19",
-      "end": null,
-      "time": "09:00",
-      "location": null,
-      "online": false,
-      "organizer": "APA Colorado",
-      "url": "https://us06web.zoom.us/meeting/register/tZEtceqrqTIjH9drTSNNcvphcB4Norn6OMbU",
-      "source": "apa_colorado",
-      "category": "other"
     },
     {
       "title": "State Housing Board Meeting",
@@ -395,6 +383,18 @@
     }
   ],
   "past": [
+    {
+      "title": "Housing Strategies Peer Exchange",
+      "start": "2026-11-19",
+      "end": null,
+      "time": "09:00",
+      "location": null,
+      "online": false,
+      "organizer": "APA Colorado",
+      "url": null,
+      "source": "apa_colorado",
+      "category": "other"
+    },
     {
       "title": "Proposition 123 Unit Goal and Commitment Office Hours",
       "start": "2026-11-18",
@@ -4501,30 +4501,6 @@
       "url": "https://www.chfainfo.com/about-chfa/leadership/board/november-2025-chfa-board-of-directors-meeting",
       "source": "chfa",
       "category": "board"
-    },
-    {
-      "title": "Housing Strategies Peer Exchange",
-      "start": "2025-11-19",
-      "end": null,
-      "time": "09:00",
-      "location": null,
-      "online": false,
-      "organizer": "APA Colorado",
-      "url": null,
-      "source": "apa_colorado",
-      "category": "other"
-    },
-    {
-      "title": "chfareach: Dignified Building Design: Innovative Research and Practical Applications, Webinar",
-      "start": "2025-11-19",
-      "end": null,
-      "time": "08:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-dignified-building-design-innovative-research-and-practical-applications-webinar-11-19-202",
-      "source": "chfa",
-      "category": "compliance"
     }
   ]
 }
