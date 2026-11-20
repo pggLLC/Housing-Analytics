@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T13:15:49.551Z",
+  "generated_at": "2026-11-20T14:10:33.123Z",
   "sources": [
     {
       "source": "HUD CHAS",
@@ -25,11 +25,11 @@
     },
     {
       "source": "CHFA tax credit rounds",
-      "current_vintage": "2026 Round One (bridge)",
-      "latest_vintage": "2026 Round One (bridge)",
+      "current_vintage": "2026 Round Two (bridge)",
+      "latest_vintage": "2026 Round Two (bridge)",
       "is_outdated": false,
       "status": "verified",
-      "notes": "Every published CHFA round for 2025-2026 is in the repo (2025 Round One (feed), 2025 Round Two (feed), 2026 Round One (bridge))."
+      "notes": "Every published CHFA round for 2025-2026 is in the repo (2025 Round One (feed), 2025 Round Two (feed), 2026 Round One (bridge), 2026 Round Two (bridge))."
     }
   ],
   "summary": {
