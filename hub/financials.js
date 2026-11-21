@@ -847,6 +847,17 @@
     }).join('') + '</div>';
   }
 
+  // The same boxes for a named set of inputs, in the order given (the chapters lay out inputs by subject).
+  function fieldGridIds(d, ids) {
+    var keep = {};
+    ids.forEach(function (id) { keep[id] = true; });
+    var held = FIELDS.filter(function (i) { return keep[i.id]; });
+    var saved = held.map(function (i) { return i.group; });
+    // fieldGrid picks by group: give the chosen inputs a group of their own for the one call.
+    held.forEach(function (i) { i.group = '__ids'; });
+    try { return fieldGrid(d, '__ids'); } finally { held.forEach(function (i, n) { if (saved[n] === undefined) delete i.group; else i.group = saved[n]; }); }
+  }
+
   // CHFA's coverage tests over the first 15 years, as the engine reports them (DealCostBasis.underwritingCheck).
   function coverageCheck(r) {
     var u = r.costBasis && r.costBasis.underwriting;
@@ -957,8 +968,10 @@
       flow + '</section><p class="ans-change">Change the inputs:</p>';
   }
 
+  // A link from the chapter workspace (site/fin-chapters.js) names the step to open with ?step=.
+  var openStep = null;
   function stepOpen(id, title, sub, body) {
-    return '<details class="fin-step" id="' + id + '"><summary><span class="fs-t">' + esc(title) + '</span>' + (sub ? '<span class="fs-s">' + esc(sub) + '</span>' : '') + '</summary><div class="fs-body">' + body + '</div></details>';
+    return '<details class="fin-step" id="' + id + '"' + (id === openStep ? ' open' : '') + '><summary><span class="fs-t">' + esc(title) + '</span>' + (sub ? '<span class="fs-s">' + esc(sub) + '</span>' : '') + '</summary><div class="fs-body">' + body + '</div></details>';
   }
 
   function rateGrid(inputs, r) {
@@ -1227,7 +1240,25 @@
     }).join('') + '<p class="note">Land and the reserve lines are never in eligible basis, so their choice is fixed: eligible basis is the building\u2019s adjusted basis (<a href="https://www.law.cornell.edu/uscode/text/26/42">26 U.S.C. 42(d)(1) \u2197</a>), and reserves are cash held for operations.</p></div>';
   }
 
+  // The full result's eight cards with the set-aside screen and the boost tag above them (the full page and the
+  // workspace's Results chapter draw the same block).
+  function resultCards(r, inputs) {
+    var sum = r.costBasis && r.costBasis.summary;
+    return setAsideStatus(r) + (function () { var t = boostTag(r, inputs.fields); return '<p class="boost-tag boost-' + t.kind + '" data-role="boost-tag">' + esc(t.text) + '</p>'; }()) + '<div class="fin-grid">' +
+      card('Net operating income', money(r.noi), r, 'noi') +
+      card('Supportable first mortgage', money(r.mortgage), r, 'mortgage', r.mortgage != null ? 'At ' + ratio(r.dcr) + ' coverage, ' + r.interestRate + '% over ' + r.term + ' years' : null) +
+      card('Annual tax credits', money(r.annualCredits), r, 'annualCredits', r.annualCredits != null ? 'Qualified basis ' + money(r.eligibleBasis) + ', after the boost and the ' + pct(r.applicableFraction, 0) + ' applicable fraction' : null) +
+      card('Tax-credit equity', money(r.equity), r, 'equity', r.equity != null ? 'At $' + Number(inputs.fields['dc-equity-price']).toFixed(2) + ' per credit dollar over 10 years' : null) +
+      card('Deferred developer fee', money(r.deferredDevFee), r, 'deferredDevFee') +
+      card('Funding gap', money(r.gap), r, 'gap', r.gap != null ? (r.gap > 0 ? 'Still to fund after equity, mortgage and deferred fee' : 'Modeled sources cover the costs') : null) +
+      card('Coverage after stress', ratio(r.stress && r.stress.combined && r.stress.combined.dscr), r, 'stress', combinedLabel(inputs.constants).replace(/^r/, 'R') + ' together') +
+      card('Break-even occupancy', pct(r.breakEvenOcc), r, 'breakEvenOcc') +
+      '</div>' +
+      (sum && sum.reason ? '<p class="callout"><strong>Costs:</strong> ' + esc(sum.reason) + '</p>' : '');
+  }
+
   function financialsView(params, parts) {
+    openStep = params && params.get ? params.get('step') : null;
     var p = P.get(parts[1]);
     var s = p && p.scenarios.filter(function (x) { return x.scenarioId === parts[2]; })[0];
     if (!s) return '<a class="back-link" href="#/projects">\u2190 Projects</a><h1>Deal not in this browser</h1><p class="lede">Projects are saved in the browser that made them, so this address opens only there.</p><p>To pass a deal on, open Financials where it was made and use \u201cCopy share link\u201d or \u201cDownload deal file\u201d. A deal file opens here: <a href="#/open-deal">open a shared deal</a>.</p>';
@@ -1251,11 +1282,16 @@
     var money$ = function (name, value, label) {
       return '<input name="' + esc(name) + '" type="number" min="0" step="1000" inputmode="numeric" value="' + esc(value == null ? '' : value) + '" placeholder="not entered" aria-label="' + esc(label) + '">';
     };
+    // A chapter of the workspace pilot (#/financials/<project>/<scenario>/costs): the same draft, inputs and engine
+    // run, laid out by site/fin-chapters.js.
+    if (parts[3] && global.LabFinChapters && global.LabFinChapters.has(parts[3])) {
+      return global.LabFinChapters.render(parts[3], { p: p, s: s, d: d, G: G, inputs: inputs, r: r, sched: sched, data: data, saved: saved, money$: money$, fieldGrid: fieldGrid, basisSection: basisSection });
+    }
     var costGroups = costGroupsHtml(d, inputs, money$);
     var sum = r.costBasis && r.costBasis.summary;
     var entered = costIds().filter(function (id) { return d.costs[id] !== '' && d.costs[id] != null; }).length;
     var costSub = entered + ' of ' + costIds().length + ' lines' + (isFinite(Number(d.fields['dc-tdc'])) && Number(d.fields['dc-tdc']) > 0 ? ', ' + money(Number(d.fields['dc-tdc'])) : '');
-    return head + (global.LabDealFile ? global.LabDealFile.openedNote(p) : '') +
+    return head + (global.LabFinChapters ? global.LabFinChapters.classicLink(p, s) : '') + (global.LabDealFile ? global.LabDealFile.openedNote(p) : '') +
       (sched && sched.state === 'stale' ? '<p class="callout">The rent schedule is out of date: ' + esc(sched.staleReason) + '. Save it again in Homes and affordability before relying on these figures.</p>' : '') +
       (saved ? '<p class="note">' + (global.LabProjects.isTemporary && global.LabProjects.isTemporary(p.projectId) ? 'Kept for this visit only, because this browser is not storing data. Download the deal file to keep it. Last kept ' : 'Saved to the project ') + esc(Shell.when(saved.attachedAt)) + (saved.state === 'stale' ? ' (out of date: ' + esc(saved.staleReason) + ')' : '') + '. Changes below are a draft until you save again.</p>' : '') +
       (G ? '<div class="callout" data-role="grid-summary">From the unit grid: ' + esc(String(r.units)) + ' homes, ' + esc(money(r.annualRents) || 'rents unavailable') + ' scheduled rent per year, vacancy ' + esc(pct(r.vacancyRate) || 'not set') + '. <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-step-homes">Change the homes or rents</a>.' + captureFlag(cm) + '</div>'
@@ -1279,17 +1315,7 @@
       stepOpen('fin-step-assumptions', 'Loans, credits and terms', r.interestRate != null ? r.interestRate + '% loan, $' + Number(inputs.fields['dc-equity-price']).toFixed(2) + ' equity' : '',
         '<h2>Assumptions</h2>' + (G ? '' : rentLimitsFixed(p, s)) + rentCapInputs(d, r) + (global.LabCalcTax ? global.LabCalcTax.callout(p, d) : '') + fieldGrid(d, null) + (SITE() ? SITE().area(d, inputs, G) : '') + creditInputs(d) + loanStackInputs(d) + '<h2>Exit and projection</h2>' + fieldGrid(d, 'exit')) +
       stepOpen('fin-step-stress', 'Stress settings', combinedLabel(inputs.constants), '<h2>Stress case settings</h2><p class="note">How far each stress case moves rent, vacancy and operating cost. The full Deal Calculator\u2019s defaults are tool settings for screening, not a lender\u2019s or CHFA\u2019s required cases. The sliders under Full result test one change at a time.</p>' + fieldGrid(d, 'stressconst') + '<div class="actions"><button type="button" class="button-link secondary" data-action="reset-stress-settings">Reset to the Deal Calculator\u2019s defaults</button></div>') +
-      '<h2>Full result</h2><p class="note jump-links">Jump to <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-sliders">Stress sliders</a> · <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-ls">Lender schedules</a></p>' + setAsideStatus(r) + (function () { var t = boostTag(r, inputs.fields); return '<p class="boost-tag boost-' + t.kind + '" data-role="boost-tag">' + esc(t.text) + '</p>'; }()) + '<div class="fin-grid">' +
-      card('Net operating income', money(r.noi), r, 'noi') +
-      card('Supportable first mortgage', money(r.mortgage), r, 'mortgage', r.mortgage != null ? 'At ' + ratio(r.dcr) + ' coverage, ' + r.interestRate + '% over ' + r.term + ' years' : null) +
-      card('Annual tax credits', money(r.annualCredits), r, 'annualCredits', r.annualCredits != null ? 'Qualified basis ' + money(r.eligibleBasis) + ', after the boost and the ' + pct(r.applicableFraction, 0) + ' applicable fraction' : null) +
-      card('Tax-credit equity', money(r.equity), r, 'equity', r.equity != null ? 'At $' + Number(inputs.fields['dc-equity-price']).toFixed(2) + ' per credit dollar over 10 years' : null) +
-      card('Deferred developer fee', money(r.deferredDevFee), r, 'deferredDevFee') +
-      card('Funding gap', money(r.gap), r, 'gap', r.gap != null ? (r.gap > 0 ? 'Still to fund after equity, mortgage and deferred fee' : 'Modeled sources cover the costs') : null) +
-      card('Coverage after stress', ratio(r.stress && r.stress.combined && r.stress.combined.dscr), r, 'stress', combinedLabel(inputs.constants).replace(/^r/, 'R') + ' together') +
-      card('Break-even occupancy', pct(r.breakEvenOcc), r, 'breakEvenOcc') +
-      '</div>' +
-      (sum && sum.reason ? '<p class="callout"><strong>Costs:</strong> ' + esc(sum.reason) + '</p>' : '') +
+      '<h2 id="fin-result">Full result</h2><p class="note jump-links">Jump to <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-sliders">Stress sliders</a> · <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-ls">Lender schedules</a></p>' + resultCards(r, inputs) +
       basisSection(r, inputs.fields) + creditChecks(r) + captureSection(p, s, cm) + (global.LabCalcGrid ? global.LabCalcGrid.tables(r, inputs, G, data) : '') + (global.LabCalcComps ? global.LabCalcComps.render(inputs) : '') +
       mostLikely(d, inputs, r) + sourcesUses(r) + loanTable(r) + (DOH() ? DOH().sections(r, d.fields) : '') + stressTable(r, inputs.constants) + stressSliders(d, inputs, r) + rateGrid(inputs, r) + exitSummary(r, inputs) + projectionTable(r) +
       (global.LabLenderExport ? global.LabLenderExport.remember(r, s.name) : '') + (global.LabLenderSchedules ? global.LabLenderSchedules.render(d, r, fieldGrid) : '') + waterfallSection(d, r) + (SITE() ? SITE().concept(d, inputs, r) : '') + (global.LabCalcOutcome ? global.LabCalcOutcome.render(p, d, inputs, r, G) : '') +
@@ -1330,11 +1356,12 @@
     var pupa = OB().pupaExpenses(sum, d.fields['dc-prop-tax'], d.fields['dc-rep-reserve']);
     var units = r.units;
     var totals = sum.reason ? '<p class="callout" role="status"><strong>Operating budget:</strong> ' + esc(sum.reason) + '</p>'
-      : '<dl class="op-totals" role="status">' +
+      // The live region wraps the list: role="status" on the <dl> itself hides its terms from screen readers (axe dlitem).
+      : '<div role="status"><dl class="op-totals">' +
         '<div><dt>Operating lines</dt><dd>' + perYear(sum.perUnitYear) + ' per home a year (' + perYear(sum.perUnitMonth) + ' a month)</dd></div>' +
         '<div><dt>With taxes and reserve (DOH\u2019s P.U.P.A.)</dt><dd>' + (pupa.value == null ? esc(pupa.reason) : perYear(pupa.value) + ' per home a year') + '</dd></div>' +
         (units > 0 ? '<div><dt>Operating lines, whole property</dt><dd>' + perYear(sum.perUnitYear * units) + ' a year for ' + esc(String(units)) + ' homes</dd></div>' : '') +
-        '<div><dt>Other income</dt><dd>' + perYear(sum.otherIncomePerUnitYear) + ' per home a year, added to rent before vacancy</dd></div></dl>';
+        '<div><dt>Other income</dt><dd>' + perYear(sum.otherIncomePerUnitYear) + ' per home a year, added to rent before vacancy</dd></div></dl></div>';
     return '<h2>Operating budget</h2>' + fieldGrid(d, 'noi') +
       (d.fields['dc-auto-noi'] === 'no' ? '<p class="callout">Net operating income is the figure you entered. The rents, vacancy and budget below do not change the results until you switch back to computing it.</p>' : '') +
       '<p class="note">Dollars per home per year, in the Colorado Division of Housing\u2019s operating pro forma lines, as on the full Deal Calculator. A blank line is nothing budgeted on it; a budget with every line blank is unknown, not $0.</p>' +
@@ -1470,5 +1497,5 @@
     Shell.render();
   });
 
-  global.LabFinancials = { FIELDS: FIELDS, TRANCHE_KEYS: TRANCHE_KEYS, setAsideStatus: setAsideStatus, SET_ASIDE_HELP: SET_ASIDE_HELP, boostTag: boostTag, basisSection: basisSection, LS_INPUTS: LS_INPUTS, fieldGrid: function (d, g) { return fieldGrid(d, g); }, SOFT_REFERENCE: SOFT_REFERENCE, AMOUNT_SOURCE: AMOUNT_SOURCE, IMPACT_FEE_NOTE: IMPACT_FEE_NOTE, programReference: programReference, _data: data, LOAN_INPUTS: LOAN_INPUTS, SOFT_PROGRAMS: SOFT_PROGRAMS, FEDERAL_FUND_DEFAULTS: FEDERAL_FUND_DEFAULTS, seedTranche: seedTranche, addedTranche: addedTranche, readDraft: readDraft, WF_INPUTS: WF_INPUTS, STRESS_INPUTS: STRESS_INPUTS, RATE_STEPS: RATE_STEPS, PRICE_STEPS: PRICE_STEPS, buildInputs: buildInputs, inputsFor: inputsFor, currentSchedule: currentSchedule, emptyDraft: emptyDraft, draftFor: draftFor, equityDefault: equityDefault, INPUTS: INPUTS, exitSummary: exitSummary, costIds: costIds, lineBasis: lineBasis, costGroupsHtml: costGroupsHtml, CONSTANTS: CONSTANTS, CREDIT_RATES: CREDIT_RATES, SOURCE_TAGS: SOURCE_TAGS, sourceTag: sourceTag, CREDIT_INPUTS: CREDIT_INPUTS, RENT_CAP_INPUTS: RENT_CAP_INPUTS, rentCapInputs: rentCapInputs, homesByBand: homesByBand, captureSection: captureSection, captureMarket: captureMarket, bedroomsOffered: bedroomsOffered, CHECKBOX_IDS: CHECKBOX_IDS, NOI_INPUTS: NOI_INPUTS, CONST_INPUTS: CONST_INPUTS, constantsFrom: constantsFrom, stressTable: stressTable, rentLimitsFixed: rentLimitsFixed, creditChecks: creditChecks, sourcesUses: sourcesUses, sourcesUsesRows: sourcesUsesRows, unavailable: unavailable };
+  global.LabFinancials = { FIELDS: FIELDS, TRANCHE_KEYS: TRANCHE_KEYS, setAsideStatus: setAsideStatus, SET_ASIDE_HELP: SET_ASIDE_HELP, boostTag: boostTag, basisSection: basisSection, LS_INPUTS: LS_INPUTS, fieldGrid: function (d, g) { return fieldGrid(d, g); }, SOFT_REFERENCE: SOFT_REFERENCE, AMOUNT_SOURCE: AMOUNT_SOURCE, IMPACT_FEE_NOTE: IMPACT_FEE_NOTE, programReference: programReference, _data: data, LOAN_INPUTS: LOAN_INPUTS, SOFT_PROGRAMS: SOFT_PROGRAMS, FEDERAL_FUND_DEFAULTS: FEDERAL_FUND_DEFAULTS, seedTranche: seedTranche, addedTranche: addedTranche, readDraft: readDraft, WF_INPUTS: WF_INPUTS, STRESS_INPUTS: STRESS_INPUTS, RATE_STEPS: RATE_STEPS, PRICE_STEPS: PRICE_STEPS, buildInputs: buildInputs, inputsFor: inputsFor, currentSchedule: currentSchedule, emptyDraft: emptyDraft, draftFor: draftFor, equityDefault: equityDefault, INPUTS: INPUTS, exitSummary: exitSummary, costIds: costIds, lineBasis: lineBasis, costGroupsHtml: costGroupsHtml, fieldGridIds: fieldGridIds, resultCards: resultCards, mostLikely: mostLikely, rateGrid: rateGrid, loanTable: loanTable, stressSliders: stressSliders, waterfallSection: waterfallSection, combinedLabel: combinedLabel, creditInputs: creditInputs, loanStackInputs: loanStackInputs, operatingBudget: function (d, inputs, r) { return operatingBudget(d, inputs, r); }, projectionTable: projectionTable, BASIS_CHOICES: BASIS_CHOICES, money: money, pct: pct, ratio: ratio, programLabel: programLabel, CONSTANTS: CONSTANTS, CREDIT_RATES: CREDIT_RATES, SOURCE_TAGS: SOURCE_TAGS, sourceTag: sourceTag, CREDIT_INPUTS: CREDIT_INPUTS, RENT_CAP_INPUTS: RENT_CAP_INPUTS, rentCapInputs: rentCapInputs, homesByBand: homesByBand, captureSection: captureSection, captureMarket: captureMarket, bedroomsOffered: bedroomsOffered, CHECKBOX_IDS: CHECKBOX_IDS, NOI_INPUTS: NOI_INPUTS, CONST_INPUTS: CONST_INPUTS, constantsFrom: constantsFrom, stressTable: stressTable, rentLimitsFixed: rentLimitsFixed, creditChecks: creditChecks, sourcesUses: sourcesUses, sourcesUsesRows: sourcesUsesRows, unavailable: unavailable };
 })(window);

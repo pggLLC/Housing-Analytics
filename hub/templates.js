@@ -317,8 +317,9 @@
     if (!main || !main.querySelector('h1')) return;
     // Guides keep their side contents list until they are served from the live pages (format review F3).
     if (/^#\/guide\//.test(location.hash)) { var g = main.querySelector('.page-tabs'); if (g) g.remove(); return; }
-    // The Deal Calculator's sticky result strip owns that spot; a page with its own tab row keeps it.
-    var own = main.querySelector('.tabs:not(.page-tabs), .quick-live');
+    // The Deal Calculator's sticky result strip owns that spot; a page with its own tab row keeps it, and so does the
+    // deal workspace, whose chapter menu and progress row are its contents (site/fin-chapters.js).
+    var own = main.querySelector('.tabs:not(.page-tabs), .quick-live, .fc-work');
     var old = main.querySelector('.page-tabs');
     if (own) { if (old) old.remove(); return; }
     var otp = main.querySelector('nav.on-this-page'), items = [];
