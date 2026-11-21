@@ -69,7 +69,7 @@
     return { state: 'ready', text: 'Ready: ' + entered.length + ' lines, ' + short$(tdc), items: [] };
   }
   function statuses(c) {
-    var p = c.p, s = c.s, r = c.r, d = c.d, out = {};
+    var p = c.p, r = c.r, d = c.d, out = {};
     var place = p.jurisdiction && p.jurisdiction.geoid;
     out.project = place ? { state: 'ready', text: 'Ready: ' + (p.jurisdiction.name || 'place set'), items: [] }
       : { state: 'answer', text: 'Needs an answer: place', items: [{ state: 'answer', text: 'Choose the project’s place' }] };
@@ -473,7 +473,7 @@
   }
   function resultsChapter(c, st) {
     var d = c.d, r = c.r, inputs = c.inputs, p = c.p, s = c.s;
-    var X = F(), DOH = global.LabCalcDoh, SITE = global.LabCalcSite;
+    var X = F(), DOH = global.LabCalcDoh;
     var rs = global.LabDealExtras && global.LabDealExtras.resultSections ? global.LabDealExtras.resultSections(p, s, r, c.data) : null;
     var fold = function (id, title, html) { return html ? '<details class="fc-more" id="' + id + '"><summary>' + esc(title) + '</summary>' + html + '</details>' : ''; };
     var land = st.costs.blocker;
@@ -556,7 +556,8 @@
       if (++tries < 30) setTimeout(look, 150);
     }());
   }
-  global.addEventListener('hashchange', function () { setTimeout(revealStep, 0); });
+  // Guarded so the page's scripts still start where there is no window to listen on (HA's render-home test).
+  if (global.addEventListener) global.addEventListener('hashchange', function () { setTimeout(revealStep, 0); });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(revealStep, 0); });
   else setTimeout(revealStep, 0);
   // Before financials.js reads the form (its listeners are on #main, so they run after this capturing one), every
