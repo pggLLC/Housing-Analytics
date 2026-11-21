@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-21T13:48:27.970Z",
+    "generated_at": "2026-11-21T14:44:08.503Z",
     "root": "data/",
     "file_count": 2001,
-    "total_size_bytes": 232200290,
+    "total_size_bytes": 232200417,
     "kinds": {
       "json": 1952,
       "geojson": 35,
@@ -1125,7 +1125,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-11-20T15:32:54.195Z",
+      "mtime": "2026-11-21T14:44:05.019Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1241,7 +1241,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 49065,
-      "mtime": "2026-11-20T15:32:51.959Z",
+      "mtime": "2026-11-21T14:44:02.753Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -39079,16 +39079,16 @@
     {
       "path": "market/zillow_co_metros.json",
       "kind": "json",
-      "size_bytes": 109627,
-      "mtime": "2026-11-07T13:11:26.283Z",
+      "size_bytes": 109754,
+      "mtime": "2026-11-21T14:44:00.602Z",
       "shape": "object",
       "keys": [
-        "median_list_price_metro",
         "zori_metro",
+        "median_list_price_metro",
         "zhvi_metro"
       ],
       "key_count": 3,
-      "primary_array_key": "median_list_price_metro",
+      "primary_array_key": "zori_metro",
       "primary_array_length": 6,
       "primary_array_first_keys": [
         "RegionID",
@@ -39096,13 +39096,13 @@
         "RegionName",
         "RegionType",
         "StateName",
-        "2018-03-31",
-        "2018-04-30",
-        "2018-05-31",
-        "2018-06-30",
-        "2018-07-31",
-        "2018-08-31",
-        "2018-09-30"
+        "2015-01-31",
+        "2015-02-28",
+        "2015-03-31",
+        "2015-04-30",
+        "2015-05-31",
+        "2015-06-30",
+        "2015-07-31"
       ]
     },
     {
@@ -39182,7 +39182,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 102932,
-      "mtime": "2026-11-20T15:32:54.285Z",
+      "mtime": "2026-11-21T14:44:05.105Z",
       "shape": "object",
       "keys": [
         "meta",
