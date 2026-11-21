@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-19T19:25:09.491Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-21T03:17:43.084Z. Do not edit by hand.
 
 ---
 
@@ -33,12 +33,12 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.3 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-hub.html` | Data and methods · COHO Analytics | 10.3 KB |
+| `data-hub.html` | Data and methods · COHO Analytics | 10.4 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 85.0 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
-| `deal-hub.html` | Build a deal · COHO Analytics | 10.3 KB |
+| `deal-hub.html` | Build a deal · COHO Analytics | 10.4 KB |
 | `deal-market-analysis.html` | Market Analysis · COHO Analytics | 160.8 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 95.7 KB |
@@ -58,7 +58,7 @@
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.7 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 265.6 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
-| `index.html` | COHO Analytics · Colorado affordable housing data | 12.3 KB |
+| `index.html` | COHO Analytics · Colorado affordable housing data | 12.4 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.2 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 13.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.3 KB |
@@ -71,11 +71,11 @@
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 88.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
-| `opportunities-hub.html` | Opportunities · COHO Analytics | 10.3 KB |
+| `opportunities-hub.html` | Opportunities · COHO Analytics | 10.4 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
-| `places-hub.html` | Places and need · COHO Analytics | 10.3 KB |
+| `places-hub.html` | Places and need · COHO Analytics | 10.4 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 53.6 KB |
-| `policy-hub.html` | Policy and research · COHO Analytics | 10.3 KB |
+| `policy-hub.html` | Policy and research · COHO Analytics | 10.4 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
@@ -119,16 +119,16 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 957 B | ✅ | — |
-| `data/alerts/alerts_archive.json` | 2.55 MB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 2.63 MB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 5.8 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
-| `data/alerts/outlet-review.json` | 13.8 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 17.1 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.66 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 690.4 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 706.0 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
-| `data/audit/upstream-vintage-watch.json` | 1.1 KB | ✅ | — |
+| `data/audit/upstream-vintage-watch.json` | 1.2 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
 | `data/capital-partners.json` | 13.2 KB | ✅ | — |
 | `data/car-market-report-2026-02.json` | 3.0 KB | ✅ | — |
@@ -1818,7 +1818,7 @@
 | `data/market/acs_tract_metrics_co.json` | 1.33 MB | ✅ | — |
 | `data/market/acs_tract_movers_co.json` | 50.9 KB | ✅ | — |
 | `data/market/acs_tract_renter_household_size_co.json` | 48.2 KB | ✅ | — |
-| `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
+| `data/market/apartment_list_co.json` | 5.3 KB | ✅ | — |
 | `data/market/bps_monthly_ytd.json` | 92.9 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 575 B | ✅ | — |
 | `data/market/cbp-workplace-size.json` | 41.0 KB | ✅ | — |
@@ -1856,8 +1856,8 @@
 | `data/market/local-players.json` | 554.7 KB | ✅ | — |
 | `data/market/lodes_co.json` | 663.8 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
-| `data/market/market-direction.json` | 755.4 KB | ✅ | — |
-| `data/market/market-types.json` | 427.9 KB | ✅ | — |
+| `data/market/market-direction.json` | 755.3 KB | ✅ | — |
+| `data/market/market-types.json` | 427.8 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/opportunity_zones_co_2027.json` | 24.1 KB | ✅ | — |
@@ -1867,7 +1867,7 @@
 | `data/market/public-jobs.json` | 80.9 KB | ✅ | — |
 | `data/market/qct_dda_designations_co.json` | 480 B | ✅ | — |
 | `data/market/qct_dda_designations_co_normalized.json` | 698 B | ✅ | — |
-| `data/market/realtor_inventory_co.json` | 225.7 KB | ✅ | — |
+| `data/market/realtor_inventory_co.json` | 224.8 KB | ✅ | — |
 | `data/market/redfin-city-observations-co.json` | 1.3 KB | ✅ | — |
 | `data/market/redfin_place_market_tracker_co.json` | 2.22 MB | ✅ | — |
 | `data/market/reference-projects.json` | 208.6 KB | ✅ | — |
@@ -1889,7 +1889,7 @@
 | `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
 | `data/market/zillow_co_metros.json` | 107.1 KB | ✅ | — |
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
-| `data/market/zori_rents_co.json` | 24.3 KB | ✅ | — |
+| `data/market/zori_rents_co.json` | 23.4 KB | ✅ | — |
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 100.5 KB | ✅ | — |
 | `data/news-digest/index.json` | 2.0 KB | ✅ | — |
@@ -1990,7 +1990,7 @@
 | `data/policy/green-building.json` | 58.3 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 32.6 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 155.5 KB | ✅ | — |
+| `data/policy/housing-events.json` | 154.7 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/housing-roll-calls.json` | 5.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
@@ -2030,11 +2030,11 @@
 | `data/policy/unit-size-standards.json` | 4.9 KB | ✅ | — |
 | `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 860.9 KB | ✅ | — |
+| `data/policy_briefs.json` | 905.7 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 437.3 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 231.1 KB | ✅ | — |
+| `data/polymarket-history.json` | 233.3 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2043,7 +2043,7 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 15.4 KB | ✅ | — |
 | `data/reports/data-source-health.json` | 7.6 KB | ✅ | — |
-| `data/reports/developer-url-health.json` | 21.2 KB | ✅ | — |
+| `data/reports/developer-url-health.json` | 21.1 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.92 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 158.8 KB | ✅ | — |
 | `data/schema/semantic-label-evidence.json` | 6.0 KB | ✅ | — |
@@ -2051,7 +2051,7 @@
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/table-header-tips.json` | 15.3 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 23.8 KB | ✅ | — |
-| `data/url-health.json` | 1.19 MB | ✅ | — |
+| `data/url-health.json` | 1.20 MB | ✅ | — |
 
 ---
 
