@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated": "2026-11-20T12:04:17Z",
+    "generated": "2026-11-21T11:33:04Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-14",
-      "checked": 60,
-      "unverified": 9,
+      "since": "2026-11-15",
+      "checked": 63,
+      "unverified": 10,
       "weak": 1
     }
   },
@@ -39,10 +39,28 @@
       "first_listed": "2026-11-18"
     },
     {
-      "id": "b7aa7b6e7e",
-      "name": "The Manila Times",
+      "id": "1c1e342f6c",
+      "name": "Wisevoter",
       "domains": [
-        "manilatimes.net"
+        "wisevoter.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-19",
+      "last_seen": "2026-11-19",
+      "headlines": [
+        {
+          "title": "Denver to Close Stone Creek Homeless Shelter in May",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTXU3b1NfR3M4OVRwZmZvTVlsOFNNZXZEQ0RGUG5uNjBiMnpLY3B3d2c3XzNMek4xRWVGX0pEWWNXRWREMHdLTmpRX0gwTmJPSmhuXzhaWmU5TDdHcVpGblZRaHVUVUwzV2V6blpNSUxfWXN5T2FGUVJkdUFScTZkdVhrdEtyRklhbE96dTRPcGRIWkdTSlZHSw?oc=5",
+          "date": "2026-11-19"
+        }
+      ],
+      "first_listed": "2026-11-21"
+    },
+    {
+      "id": "5a6d3b17a3",
+      "name": "markets.businessinsider.com",
+      "domains": [
+        "markets.businessinsider.com"
       ],
       "stories": 1,
       "first_seen": "2026-11-19",
@@ -50,11 +68,11 @@
       "headlines": [
         {
           "title": "Boulder Housing Partners Wins Competitive Tax Credits to Build 55 Affordable Homes for Older Adults at Alpine Balsam",
-          "link": "https://news.google.com/rss/articles/CBMimgJBVV95cUxQRVE1eXE3aDlSVnl6ektUbGc5UUdJbHdyczFkcWF1OUNZeWlReVZFUWlKcUFJaWt0ZTJ3WWQ3dUpvN0liQ196RldRQmc5cXhWRUNiS3JjM0JxTDU0M1dGeVZiSG0tVWhWeFNqRXJHZWxZRDNKZ2xIMi02YWdEbW90Vi1iWkJlN3BMa1cyb3JwNDNqX2hCaUx0bVhGX1VVQ2FBZ1FrRXdlOUoxUUE3bGRBWGx0d1N5MUtPZ3FuWl9YeExFNjlSS1did2M0T0ROcExUWG1UUlFaUXp3TkM5ckU2dnlldnpVMzFpalcwdXdqb2oyWUFMVlpfb29mazdIS2NfTDVSMEhJSlVvZVByRFU3TGVNOGhyeUV4MGfSAZ8CQVVfeXFMTzJyNTFrTkFnZG1kZUk2Y2lGdG9IZHdLdWR2c2xVb2daMmpHaUNqNG52WXpsMzdVd2w1NFBZLVkybDlOSGE4UHpSaktRN2tHQklqOUFkMmN1UE12aFJuSzJweDhkZFhzUUxtV0MybWhwM3JVUWlJNlBMOHA5N1BCaTR0VThERmxoSzhnTGR2V3RIZFVHOTRtbEVEZHhhTlpqUTBGSDUwOTZYMVphdHZtSFptLXdGWG84S29RUTRydmhDeXdNa015VmJwYS1leUIwZXBST3QzRFRTOEx1dzI4RnFhUlVST1duZC11VUlhWXd5a1B3WlRNZlh3M0J6d2tVVTg3UlBIMVA4d0NIYkFWb0oyVnZqVy1TU29LeFdVVlU?oc=5",
+          "link": "https://news.google.com/rss/articles/CBMihgJBVV95cUxOdE55WHpNR0J1bXdsaWx3aFE2bjV1OVBWTDF6UHVVZHhPREdOR0QtYll2d3oyazNlek5GczVTX0MteVdNa2ZnMHY1ZmgwakpkdHFlRnZPakJpREJxUFYtVE8yVnpUWldPU0Q5bGpETlZvcFZKT2pqOXh3S3NXQXg4VkUtaHBXMkJIMXNNRU83NnZKMEhnd050QWYtak84N0hfTWZIZk82NUk5NzlmZk5Zdi1fMFZEYTlOTDBPdWItRUNkaDFTeTdycVNoMHUtUUNIbWRIaDd4b1Facks0Snd3WUdiaWZOeHF0WjBINERhRy1FTWxiU3ZPQlFDV0hFQWRZS1pCRlZ3?oc=5",
           "date": "2026-11-19"
         }
       ],
-      "first_listed": "2026-11-20"
+      "first_listed": "2026-11-21"
     },
     {
       "id": "77f6369c2f",
@@ -147,6 +165,29 @@
       "first_listed": "2026-11-17"
     },
     {
+      "id": "a2096d397f",
+      "name": "Kiowa County Press",
+      "domains": [
+        "kiowacountypress.net"
+      ],
+      "stories": 2,
+      "first_seen": "2026-11-12",
+      "last_seen": "2026-11-14",
+      "headlines": [
+        {
+          "title": "Colorado Realtors report 19% decline in state's home sales",
+          "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNWVRmRmlJLUlhM2ZsUE14VXFlM3lsLVlrZEZqc1ZNQ3ZfQ0p2LXVwOFhGOTBaZXZ4UXZXbllVMUh3QXJhcWM5Tlp6d0EwSmNJeEc1NDVEak05UnI2aG53WXBCYTFxajR5RmRWRDFydFFkZU5COS0yMHl0UTFwY2JlVlhpV3NGZFRYOE0tLUV2S2h3b09r?oc=5",
+          "date": "2026-11-14"
+        },
+        {
+          "title": "Colorado releases first statewide housing needs assessment",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQZFFnY2tJX201UmhxTnkyM2hnLUMtRFgteU1nc2RManFYdkpsVC1mb0dMU3lLLWRxR1hybVVCaVpwUDYyQ0w4TFlVbzRicFJjdk5ET1FpS3gxOGdtemtVRGgwX0JZaGRZTWIwNTdCcXd3OVhncXVYSVdIbHlFMktIWEtxdlpwV1k1bXBsTF8zS0x6b1FWOThoSXU0TQ?oc=5",
+          "date": "2026-11-12"
+        }
+      ],
+      "first_listed": "2026-11-13"
+    },
+    {
       "id": "79575901bd",
       "name": "Just The News",
       "domains": [
@@ -181,24 +222,6 @@
         }
       ],
       "first_listed": "2026-11-14"
-    },
-    {
-      "id": "a2096d397f",
-      "name": "Kiowa County Press",
-      "domains": [
-        "kiowacountypress.net"
-      ],
-      "stories": 1,
-      "first_seen": "2026-11-12",
-      "last_seen": "2026-11-12",
-      "headlines": [
-        {
-          "title": "Colorado releases first statewide housing needs assessment",
-          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQZFFnY2tJX201UmhxTnkyM2hnLUMtRFgteU1nc2RManFYdkpsVC1mb0dMU3lLLWRxR1hybVVCaVpwUDYyQ0w4TFlVbzRicFJjdk5ET1FpS3gxOGdtemtVRGgwX0JZaGRZTWIwNTdCcXd3OVhncXVYSVdIbHlFMktIWEtxdlpwV1k1bXBsTF8zS0x6b1FWOThoSXU0TQ?oc=5",
-          "date": "2026-11-12"
-        }
-      ],
-      "first_listed": "2026-11-13"
     },
     {
       "id": "02a620c88d",

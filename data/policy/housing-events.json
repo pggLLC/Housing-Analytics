@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-20T12:04:16Z",
-    "as_of": "2026-11-20",
+    "generated": "2026-11-21T11:33:04Z",
+    "as_of": "2026-11-21",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -4453,54 +4453,6 @@
       "url": "https://attendee.gotowebinar.com/register/1737406943358634075",
       "source": "chfa",
       "category": "other"
-    },
-    {
-      "title": "Training Webinar: CHFA FHA Streamline Refinance Training for Operations Staff",
-      "start": "2025-11-20",
-      "end": null,
-      "time": "13:30",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://attendee.gotowebinar.com/register/2184599213096151386",
-      "source": "chfa",
-      "category": "developer"
-    },
-    {
-      "title": "Training Webinar: CHFA HomeAccess Training for Operations Staff",
-      "start": "2025-11-20",
-      "end": null,
-      "time": "10:00",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://attendee.gotowebinar.com/register/8990933530308867676",
-      "source": "chfa",
-      "category": "other"
-    },
-    {
-      "title": "chfareach: Becoming a Successful Staff of One, Webinar",
-      "start": "2025-11-20",
-      "end": null,
-      "time": "08:55",
-      "location": "Online",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/rental-housing/chfareach/chfareach-calendar/chfareach-becoming-a-successful-staff-of-one-webinar-11-20-2025",
-      "source": "chfa",
-      "category": "compliance"
-    },
-    {
-      "title": "November 2025 CHFA Board of Directors Meeting",
-      "start": "2025-11-20",
-      "end": null,
-      "time": null,
-      "location": "CHFA Board Room and Virtual",
-      "online": true,
-      "organizer": "CHFA",
-      "url": "https://www.chfainfo.com/about-chfa/leadership/board/november-2025-chfa-board-of-directors-meeting",
-      "source": "chfa",
-      "category": "board"
     }
   ]
 }
