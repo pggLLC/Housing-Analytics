@@ -423,7 +423,7 @@
     return h + '<p class="note">The Deal Engine run again with one input changed, the rest as entered; the first mortgage is re-sized each time. A gap below zero is money to spare.</p>' +
       '<p class="fc-mkey"><span class="fc-k fc-k-dn" aria-hidden="true"></span> Gap smaller <span class="fc-k fc-k-up" aria-hidden="true"></span> Gap bigger</p>' +
       '<ul class="fc-moves" role="list">' + list + '</ul>' +
-      '<p><strong>' + esc(top.ch.label) + '</strong> moves the gap most here: up to ' + esc(short$(Math.abs(top.delta))) + ' for that change.</p>' + table + '</section>';
+      '<p><strong>' + esc(top.ch.label) + '</strong> moves the gap most here: up to ' + esc(short$(size[top.ch.id])) + ' for that change.</p>' + table + '</section>';
   }
   function carryChart(c, st) {
     var r = c.r, h = '<section class="fc-graphic" aria-labelledby="fc-carry-h"><h2 id="fc-carry-h">Can the rent carry the loans?</h2>';
@@ -433,7 +433,7 @@
     var rows = [
       ['Net operating income', y1.noi, 'is-noi'],
       ['Loan payments that must be paid', y1.mustPayDebtService, 'is-pay'],
-      [left != null && left < 0 ? 'Short after all payments' : 'Left after all payments', left, left != null && left < 0 ? 'is-short' : 'is-left']
+      [left != null && left < 0 ? 'Short before the deferred fee' : 'Left before the deferred fee', left, left != null && left < 0 ? 'is-short' : 'is-left']
     ];
     var scale = Math.max.apply(null, rows.map(function (x) { return Math.abs(x[1] || 0); })) || 1;
     var weak = r.coverage.weakestAllMustPay;
@@ -444,7 +444,7 @@
     }).join('');
     var table = '<details class="fc-tbl"><summary>Show as a table</summary><div class="table-scroll" role="region" aria-label="Year 1 income and loan payments, as a table" tabindex="0"><table data-sort-seen="1"><thead><tr><th scope="col">Year 1</th><th scope="col" class="num">Amount</th></tr></thead><tbody>' +
       rows.map(function (x) { return '<tr><th scope="row">' + esc(x[0]) + '</th><td class="num">' + esc(x[1] == null ? 'Unknown' : money(x[1])) + '</td></tr>'; }).join('') + '</tbody></table></div></details>';
-    return h + '<p class="note">Year 1, on one scale. Payments that must be paid are the first mortgage and any soft loan with fixed payments; loans paid from cash flow come after.</p>' +
+    return h + '<p class="note">Year 1, on one scale. Payments that must be paid are the first mortgage and any soft loan with fixed payments. What is left is after every loan payment, the bridge loan and the asset management fee, and before the deferred developer fee is repaid from it.</p>' +
       '<ul class="fc-bars" role="list">' + bars + '</ul>' +
       '<dl class="fc-facts fc-carry-facts">' +
         '<div><dt>Coverage, year 1</dt><dd>' + esc(y1.allMustPayCoverage != null ? y1.allMustPayCoverage.toFixed(2) + 'x' : 'Not available') + '<small>Income ÷ payments that must be paid</small></dd></div>' +
