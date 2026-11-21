@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-21T11:33:08.491Z",
+    "generated_at": "2026-11-21T13:41:54.716Z",
     "root": "data/",
     "file_count": 2001,
-    "total_size_bytes": 232198463,
+    "total_size_bytes": 232198011,
     "kinds": {
       "json": 1952,
       "geojson": 35,
@@ -685,8 +685,8 @@
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 722914,
-      "mtime": "2026-11-20T14:19:34.283Z",
+      "size_bytes": 722165,
+      "mtime": "2026-11-21T13:41:47.272Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -706,7 +706,7 @@
       ],
       "key_count": 16,
       "primary_array_key": "federal_notices",
-      "primary_array_length": 682,
+      "primary_array_length": 686,
       "primary_array_first_keys": [
         "key",
         "source",
@@ -6827,8 +6827,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1312297,
-      "mtime": "2026-11-20T14:17:29.584Z",
+      "size_bytes": 1312594,
+      "mtime": "2026-11-21T13:40:24.846Z",
       "shape": "object",
       "keys": [
         "updated",
