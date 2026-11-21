@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-11-20T16:05:20.240Z
+**Scan timestamp:** 2026-11-21T15:18:34.912Z
 
 ## Summary
 
@@ -34,16 +34,16 @@
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/property-websites.json` (31 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (1 KB)
-- `data/alerts/alerts_archive.json` (2696 KB)
+- `data/alerts/alerts_archive.json` (2759 KB)
 - `data/alerts/outlet-decisions.json` (6 KB)
 - `data/alerts/outlet-register.json` (31 KB)
-- `data/alerts/outlet-review.json` (17 KB)
+- `data/alerts/outlet-review.json` (18 KB)
 - `data/alerts/owner-news.json` (0 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3871 KB)
 - `data/audit/chfa-qap-watch.json` (3753 KB)
-- `data/audit/funding-watch.json` (706 KB)
+- `data/audit/funding-watch.json` (705 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/benchmarks/str-license-counts.json` (6 KB)
@@ -1921,7 +1921,7 @@
 - `data/policy/green-building.json` (58 KB)
 - `data/policy/homeownership-programs.json` (33 KB)
 - `data/policy/housing-events-curated.json` (3 KB)
-- `data/policy/housing-events.json` (155 KB)
+- `data/policy/housing-events.json` (153 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/housing-roll-calls.json` (6 KB)
 - `data/policy/hud-state-median-family-income.json` (1 KB)
@@ -1963,11 +1963,11 @@
 - `data/policy/unit-size-standards.json` (5 KB)
 - `data/policy/vacancy-tax.json` (45 KB)
 - `data/policy/where-to-build-context.json` (34 KB)
-- `data/policy_briefs.json` (906 KB)
+- `data/policy_briefs.json` (910 KB)
 - `data/policy_briefs_curated.json` (437 KB)
 - `data/polymarket-curated.json` (6 KB)
 - `data/polymarket-data.json` (20 KB)
-- `data/polymarket-history.json` (233 KB)
+- `data/polymarket-history.json` (236 KB)
 - `data/processed/co_county_housing_indicators.geojson` (447 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
@@ -1984,11 +1984,11 @@
 - `data/table-header-tips.json` (15 KB)
 - `data/tax-abatement-inventory.json` (24 KB)
 - `data/url-health.json` (1227 KB)
-- `data/zillow/median_list_price_metro.csv` (855 KB)
-- `data/zillow/zhvi_metro.csv` (4386 KB)
-- `data/zillow/zori_metro.csv` (1050 KB)
+- `data/zillow/median_list_price_metro.csv` (863 KB)
+- `data/zillow/zhvi_metro.csv` (4369 KB)
+- `data/zillow/zori_metro.csv` (1066 KB)
 - `config/data-discovery-config.json` (1 KB)
 
 ## ⏳ Aging Sources
 
-- undefined — 292 days since last update
+- undefined — 293 days since last update

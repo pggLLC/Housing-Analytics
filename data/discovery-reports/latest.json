@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-11-20T16:05:20.240Z",
+  "scanTimestamp": "2026-11-21T15:18:34.912Z",
   "totalScanned": 2006,
   "newSourceCount": 1974,
   "existingCount": 31,
@@ -8,13 +8,13 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1012217,
+      "sizeBytes": 1012204,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7518,
+      "sizeBytes": 7519,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -128,7 +128,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 2761189,
+      "sizeBytes": 2825592,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -146,7 +146,7 @@
     },
     {
       "path": "data/alerts/outlet-review.json",
-      "sizeBytes": 17487,
+      "sizeBytes": 18166,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -182,7 +182,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 722914,
+      "sizeBytes": 722165,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10832,7 +10832,7 @@
     },
     {
       "path": "data/market/zillow_co_metros.json",
-      "sizeBytes": 109627,
+      "sizeBytes": 109754,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11450,7 +11450,7 @@
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 158385,
+      "sizeBytes": 156779,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11702,7 +11702,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 927404,
+      "sizeBytes": 931889,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11720,13 +11720,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20485,
+      "sizeBytes": 20528,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 238919,
+      "sizeBytes": 241155,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11828,19 +11828,19 @@
     },
     {
       "path": "data/zillow/median_list_price_metro.csv",
-      "sizeBytes": 875435,
+      "sizeBytes": 883805,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/zillow/zhvi_metro.csv",
-      "sizeBytes": 4491441,
+      "sizeBytes": 4474324,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/zillow/zori_metro.csv",
-      "sizeBytes": 1075563,
+      "sizeBytes": 1091287,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -11856,7 +11856,7 @@
     {
       "path": "data/car-market.json",
       "name": "Colorado Association of Realtors (CAR) — Statewide Market Summary",
-      "daysSince": 292
+      "daysSince": 293
     }
   ]
 }
