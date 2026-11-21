@@ -277,6 +277,8 @@
   });
 
   global.LabCalcDoh = { INPUTS: INPUTS, KEYS: KEYS, LENDER_TYPE_OPTIONS: LENDER_TYPE_OPTIONS, defaults: defaults, fill: fill, programChanged: programChanged, engine: engine,
-    trancheFields: trancheFields, read: read, financing: financing, schedules: schedules, sections: sections, outputRecords: outputRecords, csv: csv,
+    trancheFields: trancheFields, read: read, financing: financing, schedules: schedules, sections: sections,
+    // The 15-year pro forma alone, for the Operations chapter (site/fin-chapters.js).
+    fifteen: function (r, fields) { var f = financing(r, fields); return f ? fifteenSection(schedules(r, f).fifteenYear) : ''; }, outputRecords: outputRecords, csv: csv,
     last: function () { return last; } };
 })(typeof window !== 'undefined' ? window : globalThis);

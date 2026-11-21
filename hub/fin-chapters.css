@@ -1,0 +1,176 @@
+/* The deal workspace pilot (site/fin-chapters.js): chapter menu, one chapter, result rail. Palette colours only;
+   text in rem so 200% text grows every label. Status is always a word and an icon; colour only repeats it. */
+.fc-crumbs { font-size: .875rem; color: var(--muted); margin: 0 0 .25rem; }
+.fc-crumbs a { color: var(--pine); }
+.fc-head { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; align-items: flex-end; justify-content: space-between; margin-bottom: 1rem; }
+.fc-head h1 { margin: 0; }
+.fc-head .lede { margin: .25rem 0 0; font-size: 1rem; }
+.fc-pilot { display: block; color: var(--slate-text); font-size: .875rem; }
+.fc-head-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.fc-try { border-left: 4px solid var(--pine); padding-left: .75rem; }
+
+/* Statuses: icon + word. */
+.fc-st { display: inline-flex; align-items: baseline; gap: .35rem; font-size: .8125rem; line-height: 1.3; }
+.fc-ic { display: inline-grid; place-items: center; width: 1.15rem; height: 1.15rem; border-radius: 50%; font-size: .75rem; font-weight: 700; flex: none; }
+.fc-st-ready .fc-ic, .fc-step.fc-st-ready .fc-ic { background: var(--good-bg); color: var(--good); }
+.fc-st-example .fc-ic, .fc-step.fc-st-example .fc-ic { background: var(--fair-bg); color: var(--fair); }
+.fc-st-answer .fc-ic, .fc-ic.fc-st-answer, .fc-step.fc-st-answer .fc-ic { background: var(--rust); color: var(--on-fill); }
+.fc-st-none .fc-ic, .fc-step.fc-st-none .fc-ic { border: 1.5px dashed var(--slate); color: var(--slate-text); background: transparent; }
+.fc-st-ready .fc-sw { color: var(--good); }
+.fc-st-example .fc-sw { color: var(--fair); }
+.fc-st-answer .fc-sw { color: var(--caution); font-weight: 600; }
+.fc-st-none .fc-sw { color: var(--slate-text); }
+
+/* Phone first: progress row, slim result line, chapter, rail below, pinned pager. */
+.fc-prog { margin: 0 0 .5rem; }
+.fc-prog-h { margin: 0 0 .4rem; font-size: .9375rem; }
+.fc-prog ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(3.25rem, 1fr)); gap: .3rem; }
+.fc-step { display: flex; align-items: center; justify-content: center; gap: .3rem; min-height: 44px; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--card); color: var(--ink); text-decoration: none; font-size: .8125rem; font-weight: 600; }
+.fc-step.is-here { outline: 3px solid var(--pine); outline-offset: 1px; background: var(--tint); }
+.fc-slim { display: flex; justify-content: space-between; align-items: center; gap: .5rem; margin: 0 0 1rem; padding: .5rem .75rem; background: var(--card); border: 1px solid var(--line); border-radius: 8px; font-size: .9375rem; }
+.fc-jump { min-height: 44px; padding: 0 .75rem; background: none; border: 1px solid var(--line-strong); border-radius: 6px; color: var(--pine); font: inherit; font-weight: 600; cursor: pointer; }
+.fc-menu { display: none; }
+.fc-work { display: block; }
+.fc-main, .fc-col { min-width: 0; }
+.fc-rail { margin-top: 1.5rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+.fc-rail > * { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: .875rem 1rem; margin: 0; }
+.fc-rail h2 { font-size: 1rem; margin: 0 0 .5rem; }
+
+.fc-chapter h2#fc-h { display: flex; align-items: center; gap: .5rem; margin-top: 0; }
+.fc-n { display: inline-grid; place-items: center; min-width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--pine); color: var(--on-fill); font-size: .875rem; font-weight: 700; }
+.fc-step .fc-n { background: none; color: var(--ink); min-width: 0; height: auto; }
+.fc-q { color: var(--slate-text); margin: .25rem 0 .75rem; }
+
+/* Cost tables: Line | Amount | Counts toward basis | Where from. */
+.fc-ctable table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.fc-ctable th, .fc-ctable td { padding: .45rem .5rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; font-size: .9375rem; }
+.fc-ctable thead th { font-size: .8125rem; color: var(--slate-text); font-weight: 600; }
+.fc-ctable col, .fc-ctable thead th:nth-child(1) { width: 34%; }
+.fc-ctable thead th:nth-child(2) { width: 28%; }
+.fc-ctable thead th:nth-child(3) { width: 18%; }
+.fc-ctable thead th:nth-child(4) { width: 20%; }
+.fc-money { display: flex; align-items: center; min-height: 40px; border: 1px solid var(--line-strong); border-radius: 6px; background: var(--card); padding-left: .5rem; cursor: text; }
+.fc-money:focus-within { outline: 3px solid var(--pine); outline-offset: 1px; }
+.fc-cur { color: var(--slate-text); font-weight: 600; }
+.fc-money input { flex: 1; min-width: 0; width: 100%; border: 0; background: transparent; font: inherit; padding: .4rem .5rem .4rem .25rem; min-height: 38px; }
+.fc-money input:focus { outline: none; }
+.fc-ctable select { width: 100%; min-height: 40px; font: inherit; }
+.fc-never { display: inline-block; padding: .35rem 0; color: var(--slate-text); }
+.fc-from { color: var(--slate-text); font-size: .875rem; }
+.fc-blank { color: var(--muted); }
+.fc-extra { display: block; margin-top: .4rem; font-size: .8125rem; color: var(--slate-text); }
+.fc-total th, .fc-total td { background: var(--tint); font-weight: 600; }
+tr.is-error > th, tr.is-error > td { border-bottom: 0; }
+tr.is-error .fc-money { border: 2px solid var(--rust); }
+.fc-errrow td { padding-top: 0; }
+.fc-err { margin: 0; padding: .5rem .75rem; background: var(--caution-bg); color: var(--caution); border-left: 4px solid var(--rust); border-radius: 4px; display: flex; gap: .5rem; align-items: baseline; font-size: .9375rem; }
+.fc-err .fc-ic { background: var(--rust); color: var(--on-fill); }
+.fc-group, .fc-more { border: 1px solid var(--line); border-radius: 8px; background: var(--card); margin: .6rem 0; }
+.fc-group > summary, .fc-more > summary { min-height: 44px; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: .25rem .875rem; cursor: pointer; font-weight: 600; }
+.fc-group > summary .sub { font-weight: 400; color: var(--slate-text); font-size: .875rem; }
+.fc-group > .table-scroll, .fc-more > :not(summary) { padding: 0 .875rem .75rem; }
+.fc-adds { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem; padding: .6rem .875rem; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--tint-grey); margin: .75rem 0; }
+.fc-over { color: var(--caution); }
+.fc-pager { position: sticky; bottom: 0; z-index: 5; display: flex; justify-content: space-between; gap: .5rem; padding: .6rem 0; margin-top: 1rem; background: var(--paper); border-top: 1px solid var(--line); }
+.fc-pager .button-link { min-height: 44px; display: inline-flex; align-items: center; }
+
+/* Rail: gap headline, what pays (to scale), figures, to-check list. */
+.fc-gap .fc-big { font-size: 1.75rem; font-weight: 700; margin: 0; color: var(--ink); font-family: inherit; }
+.fc-gap.fc-wait { border-style: dashed; }
+.fc-gap.fc-wait .fc-big { font-size: 1.25rem; color: var(--slate-text); }
+.fc-gap .note { margin: .25rem 0 0; }
+.fc-bars { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.fc-bar { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "l v" "t t"; gap: .15rem .5rem; font-size: .8125rem; }
+.fc-bl { grid-area: l; }
+.fc-bv { grid-area: v; font-variant-numeric: tabular-nums; font-weight: 600; }
+.fc-bt { grid-area: t; height: .75rem; background: var(--track); border-radius: 3px; overflow: hidden; }
+.fc-bf { display: block; height: 100%; background: var(--pine); }
+.fc-bar.is-gap .fc-bl, .fc-bar.is-gap .fc-bv { font-weight: 700; }
+.fc-bar.is-gap .fc-bf { background: repeating-linear-gradient(135deg, var(--ink) 0 3px, var(--card) 3px 6px); border: 1px solid var(--ink); box-sizing: border-box; }
+.fc-tbl { margin-top: .5rem; font-size: .875rem; }
+.fc-tbl > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: var(--pine); font-weight: 600; }
+.fc-src { font-size: .8125rem; margin: .4rem 0 0; }
+.fc-fig dl { margin: 0; display: grid; gap: .5rem; }
+.fc-fig dl > div { display: flex; justify-content: space-between; gap: .75rem; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: .4rem; }
+.fc-fig dt { font-size: .875rem; }
+.fc-fig dt small { display: block; color: var(--slate-text); font-size: .75rem; }
+.fc-fig dd { margin: 0; font-weight: 700; text-align: right; font-size: .9375rem; }
+.fc-check ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .25rem; }
+.fc-check a { display: flex; justify-content: space-between; align-items: center; gap: .5rem; min-height: 44px; text-decoration: none; color: var(--ink); border-bottom: 1px solid var(--line); }
+.fc-chn { font-size: .75rem; color: var(--pine); white-space: nowrap; }
+
+/* Desktop: menu | chapter | rail, nothing pinned but the rail. */
+@media (min-width: 1100px) {
+  .fc-prog, .fc-slim { display: none; }
+  .fc-work { display: grid; grid-template-columns: 15rem minmax(0, 1fr) 18.5rem; gap: 1.5rem; align-items: start; }
+  .fc-menu { display: block; position: sticky; top: 1rem; }
+  .fc-menu-h { font-size: .8125rem; text-transform: uppercase; letter-spacing: .04em; color: var(--slate-text); margin: 0 0 .5rem; }
+  .fc-menu ol { list-style: none; margin: 0; padding: 0; display: grid; gap: .25rem; }
+  .fc-ch { display: grid; grid-template-columns: auto 1fr; gap: .15rem .5rem; padding: .5rem .6rem; min-height: 44px; border-radius: 8px; text-decoration: none; color: var(--ink); border: 1px solid transparent; }
+  .fc-ch:hover { background: var(--tint); }
+  .fc-ch.is-here { background: var(--tint); border-color: var(--tint-line); box-shadow: inset 4px 0 0 var(--pine); }
+  .fc-ch .fc-n { grid-row: span 2; }
+  .fc-ch .fc-t { font-weight: 600; font-size: .9375rem; }
+  .fc-ch .fc-t small { display: block; font-weight: 400; color: var(--slate-text); font-size: .75rem; }
+  .fc-rail { margin-top: 0; position: sticky; top: 1rem; max-height: calc(100vh - 2rem); overflow: auto; }
+  .fc-pager { position: static; background: none; }
+}
+@media (max-width: 640px) {
+  .fc-ctable thead { display: none; }
+  .fc-ctable table, .fc-ctable tbody, .fc-ctable tr, .fc-ctable th, .fc-ctable td { display: block; width: auto; }
+  .fc-ctable tr { padding: .5rem 0; border-bottom: 1px solid var(--line); }
+  .fc-ctable th, .fc-ctable td { border: 0; padding: .2rem 0; }
+  .fc-ctable td.fc-from { font-size: .8125rem; }
+  .fc-ctable tr.is-error { border-bottom: 0; }
+  .fc-head-actions .button-link { min-height: 44px; display: inline-flex; align-items: center; }
+}
+@media (max-width: 640px) {
+  .fc-ctable td[data-label] { display: flex; align-items: center; gap: .5rem; }
+  .fc-ctable td[data-label]::before { content: attr(data-label); font-size: .8125rem; color: var(--slate-text); flex: none; }
+  .fc-ctable td[data-label] select { width: auto; flex: 1; min-width: 0; }
+  .fc-ctable td[data-label]::before { white-space: normal; flex: 0 1 auto; }
+  .fc-ctable td.fc-nobasis { display: none; }
+}
+/* The half-filled circle glyph draws small in most fonts: draw it instead, so "Uses an example" reads at a glance. */
+.fc-st-example .fc-ic, .fc-step.fc-st-example .fc-ic { font-size: 0; background: linear-gradient(90deg, var(--fair) 50%, var(--fair-bg) 50%); border: 1.5px solid var(--fair); box-sizing: border-box; }
+/* Chapter 4: the four facts the budget works from. */
+.fc-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: .5rem; margin: 0 0 1rem; }
+.fc-facts > div { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .6rem .75rem; }
+.fc-facts dt { font-size: .8125rem; color: var(--slate-text); }
+.fc-facts dd { margin: .15rem 0 0; font-weight: 700; }
+.fc-facts dd small { display: block; font-weight: 400; font-size: .75rem; color: var(--slate-text); }
+.fc-budget .op-table .fc-money, .fc-budget input[data-fc-money] { min-height: 40px; }
+.fc-budget input[data-fc-money] { width: 100%; max-width: 10rem; font: inherit; padding: .4rem .5rem; border: 1px solid var(--line-strong); border-radius: 6px; text-align: right; }
+
+/* Chapter 6, Results and review: answers by chapter, three graphics, then the full page's result sections. */
+.fc-review .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.fc-review td a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+.fc-review td, .fc-review th { vertical-align: middle; }
+.fc-graphics { display: grid; gap: 1rem; margin: 1rem 0; }
+.fc-graphics > section { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .75rem 1rem; min-width: 0; }
+.fc-graphics h2 { margin-top: 0; font-size: 1.125rem; }
+.fc-graphics .fc-bar { font-size: .875rem; }
+.fc-mkey { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; font-size: .8125rem; margin: .25rem 0 .5rem; }
+.fc-k { display: inline-block; width: 1rem; height: .75rem; border-radius: 2px; }
+.fc-k-dn { background: var(--pine); margin-left: 0; }
+.fc-k-up { background: repeating-linear-gradient(135deg, var(--ink) 0 3px, var(--card) 3px 6px); border: 1px solid var(--ink); box-sizing: border-box; margin-left: .75rem; }
+.fc-moves { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.fc-mv { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "l v" "t t"; gap: .15rem .5rem; font-size: .875rem; }
+.fc-ml { grid-area: l; }
+.fc-mvv { grid-area: v; font-weight: 600; font-variant-numeric: tabular-nums; }
+.fc-mv.is-up .fc-mvv { font-weight: 700; }
+.fc-mt { grid-area: t; position: relative; height: .75rem; background: var(--track); border-radius: 3px; overflow: hidden; }
+.fc-mt::after { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--ink); }
+.fc-mf { position: absolute; top: 0; bottom: 0; background: var(--pine); }
+.fc-mv.is-up .fc-mf { background: repeating-linear-gradient(135deg, var(--ink) 0 3px, var(--card) 3px 6px); border: 1px solid var(--ink); box-sizing: border-box; }
+.fc-carry.is-pay .fc-bf { background: var(--slate-text); }
+.fc-carry.is-short .fc-bf { background: repeating-linear-gradient(135deg, var(--ink) 0 3px, var(--card) 3px 6px); border: 1px solid var(--ink); box-sizing: border-box; }
+.fc-carry.is-short .fc-bl, .fc-carry.is-short .fc-bv { font-weight: 700; }
+.fc-carry-facts { margin-top: .75rem; }
+.fc-review .table-scroll { position: relative; }
+@media (max-width: 40rem) {
+  .fc-review table, .fc-review tbody, .fc-review tr, .fc-review th, .fc-review td { display: block; width: auto; }
+  .fc-review thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .fc-review tr { border-bottom: 1px solid var(--line); padding: .5rem 0; }
+  .fc-review th, .fc-review td { border: 0; padding: .15rem 0; }
+}

@@ -216,6 +216,15 @@
       var countyName = c ? c.name || c.county_name || 'the county' : 'the county';
       return sensitivity(r) + compare(p, s.scenarioId, data) + rentContext(fips, countyName, data.hud) + funding(fips, countyName, d.fields['dc-credit']) + rentVsBuy() + landLink(r, d);
     },
+    // The two rent sections on their own, for the deal workspace's Homes and income chapter (site/fin-chapters.js).
+    rentSections: function (p, inputs, data) {
+      load();
+      var fips = String(inputs.countyFips || (p.jurisdiction && p.jurisdiction.geoid || '').slice(0, 5));
+      var c = (data.hud && data.hud.counties || []).filter(function (x) { return x.fips === fips; })[0];
+      return { context: rentContext(fips, c ? c.name || c.county_name || 'the county' : 'the county', data.hud), rentVsBuy: rentVsBuy() };
+    },
+    // The sensitivity chart and the scenario comparison on their own, for the workspace's Results chapter.
+    resultSections: function (p, s, r, data) { load(); return { sensitivity: sensitivity(r), compare: compare(p, s.scenarioId, data) }; },
     _rvb: function (k, v) { if (rvbIn && RVB.some(function (f) { return f[0] === k; }) && isFinite(v)) rvbIn[k] = v; }
   };
 
