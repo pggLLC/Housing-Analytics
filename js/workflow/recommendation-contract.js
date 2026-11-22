@@ -268,10 +268,25 @@
       var cb30 = num(items[0].value);
       var cb50 = num(items[1].value);
       var tier = band(cb30, [50, 35, 20], ['High', 'Elevated', 'Moderate', 'Lower']);
+      // The two shares can come from different surveys, years and geography
+      // (ACS 5-year for over 30%, HUD CHAS built from tracts for over half).
+      // When they do, each sentence carries its own period, so they do not read
+      // as nested shares of one count (Codex content QA C05, 22 Nov 2026).
+      var same = items[0].source === items[1].source && items[0].asOf === items[1].asOf;
+      var period = function (item) {
+        var t = item.asOf ? String(item.asOf) : '';
+        if (/apportion/i.test(item.source || '')) t += (t ? ', ' : '') + 'estimated from census tracts';
+        return t ? ' (' + t + ')' : '';
+      };
       return {
         verdict: tier + ' renter cost burden',
-        plain: cb30 + '% of renter households pay more than 30% of income on rent'
-          + (cb50 === null ? '' : ', and ' + cb50 + '% pay more than half') + '.'
+        plain: cb50 === null
+          ? cb30 + '% of renter households pay more than 30% of income on rent' + period(items[0]) + '.'
+          : same
+            ? cb30 + '% of renter households pay more than 30% of income on rent, and ' + cb50 + '% pay more than half' + period(items[0]) + '.'
+            : cb30 + '% of renter households pay more than 30% of income on rent' + period(items[0]) + '. '
+              + 'A separate count puts ' + cb50 + '% paying more than half' + period(items[1])
+              + '. The two come from different surveys and years, so one is not a share of the other.'
       };
     });
 
