@@ -57,12 +57,20 @@ sel.dispatchEvent(new p.w.Event('change', { bubbles: true }));
 assert.equal(p.name(), 'Mesa County', 'a county changed on the page heads it');
 assert.match(p.sub(), /County changed on this page/, 'the heading says the county was changed here');
 
+// 3b. Address names Hinsdale but place names are not loaded yet (share link or
+// quick-estimate handoff): the heading names the picked county, not "—".
+p = page('?geoid=08053', { source: 'url', geoid: '08053', geoType: 'county', countyFips: '08053', countyName: null, displayName: null }, '08053');
+assert.equal(p.name(), 'Hinsdale County', 'names the picked county while place names load');
+assert.doesNotMatch(p.sub(), /changed/, 'the same county is not reported as changed');
+
 // 4. The other saved-project readers put the address first too.
 const share = read('js/deal-calculator-share.js');
 const calc = read('js/deal-calculator.js');
 const nav = read('js/navigation.js');
 assert.match(share, /_serialize[\s\S]*isUrlContextPresent/, 'share link takes the address place first');
 assert.match(share, /function openIcSummary\(\) \{[\s\S]{0,800}var ser = _serialize\(\);[\s\S]{0,300}ser\.get\('geoid'\)[\s\S]{0,120}picked/, 'IC summary opens the place the share link names, else the county the inputs use');
+assert.match(calc, /__DealCalcSharedCounty && _selectCounty\(window\.__DealCalcSharedCounty\)\) \{ _loadNamesOnly\(\); return; \}/, 'a share link still loads place names for the heading and pill');
+assert.match(calc, /if \(linkedSitePoint\(\)\) \{ _loadNamesOnly\(\); return; \}/, 'a linked site still loads place names');
 assert.match(calc, /_dcGetJurisdictionGeoKey\(\) \{[\s\S]{0,400}isUrlContextPresent/, 'tax-abatement banner takes the address place first');
 assert.match(nav, /_updateJurisdictionPill[\s\S]{0,1500}isUrlContextPresent/, 'header place pill takes the address place first');
 assert.match(html, /_resolveJurisdiction\(\) \{[\s\S]{0,400}isUrlContextPresent/, 'pipeline button takes the address place first');

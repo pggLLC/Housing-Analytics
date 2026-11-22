@@ -1142,6 +1142,11 @@
           var opt = cSel.options[cSel.selectedIndex];
           var pickedName = opt ? String(opt.textContent).split(' \u2014 ')[0].trim() : null;
           if (pickedName) { countyName = pickedName; cityName = null; changedHere = !!shownFips; }
+        } else if (picked && !countyName) {
+          // Same county, but its name is not loaded yet: name it from the picker.
+          var opt2 = cSel.options[cSel.selectedIndex];
+          var name2 = opt2 ? String(opt2.textContent).split(' \u2014 ')[0].trim() : null;
+          if (name2) countyName = name2;
         }
       } catch (_) {}
 
