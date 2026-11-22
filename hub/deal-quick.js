@@ -552,6 +552,12 @@
       (source ? '<p class="quick-help-src">Source: ' + source + '</p>' : '') + '</details>';
   }
   var folds = {};
+  // Layout A (paul 22 Nov 2026, Codex C09): the optional groups start closed, each with a one-line summary of what it
+  // holds now, so the first inputs and the result sit closer. Opened groups stay open across redraws (folds).
+  function fold(id, title, now, fieldset) {
+    return '<details class="quick-fold" data-quick-fold="' + id + '"' + (folds[id] ? ' open' : '') + '><summary><span class="quick-fold-t">' + esc(title) + '</span>' +
+      (now ? ' <span class="quick-fold-v">' + esc(now) + '</span>' : '') + '</summary>' + fieldset + '</details>';
+  }
 
   // One year once the building is full, read line by line off the engine's result: rents, vacancy, running costs, tax,
   // reserve, what is left, the loan payment it carries and the coverage. No arithmetic beyond the engine's own figures
@@ -811,6 +817,17 @@
       ' (Prop 123 at its published 2.5%). CHFA’s Capital Magnet and Housing Opportunity loans are must-pay, which can shrink the first mortgage; run those terms in the full calculator.</p></fieldset>';
   }
 
+  function foldedExtras(units) {
+    var boostNow = { none: 'No boost', dda: 'County DDA', sadda: 'Small Area DDA ZIP', qct: 'Qualified Census Tract', chfa: 'CHFA boost' }[q.boost] || (q.boost === 'auto' ? 'Set from the county' : '');
+    var eq = global.LabFinancials && global.LabFinancials.equityDefault ? global.LabFinancials.equityDefault(q.credit, data.equity) : null;
+    var fed = q.fedPrice > 0 ? q.fedPrice : eq, st = q.state.price != null && q.state.price !== '' ? Number(q.state.price) : STATE_PRICE;
+    var softSum = Object.keys(q.soft || {}).reduce(function (t, k) { return t + (q.soft[k] || 0); }, 0);
+    return fold('boost', '30% basis boost', boostNow, boostField()) +
+      fold('state', 'Colorado state credit', q.state.on ? 'On' : 'Off', stateField(units)) +
+      fold('price', 'Credit prices', (fed ? 'Federal $' + fed.toFixed(2) : '') + (q.state.on ? ', state $' + st.toFixed(2) : ''), priceField()) +
+      fold('soft', 'Gap funding', softSum > 0 ? money(softSum) + ' entered' : 'None entered', softField());
+  }
+
   function countyName(fips) {
     var c = data && (data.hud.counties || []).filter(function (x) { return x.fips === fips; })[0];
     return c ? String(c.county_name || c.name) : '';
@@ -837,7 +854,7 @@
     // far below the first inputs, and a change should not mean scrolling to see what it did.
     live = '';
     var out = results(units);
-    return head + '<form class="homes" data-action="quick" novalidate>' + live + '<div class="field-grid">' +
+    return head + '<div class="quick-cols"><form class="homes" data-action="quick" novalidate>' + live + '<div class="field-grid">' +
       '<div class="field-wrap"><label class="field">County<select name="quick:county"><option value="">Pick a county</option>' + counties.map(function (c) {
         return '<option value="' + esc(c.fips) + '"' + (c.fips === q.county ? ' selected' : '') + '>' + esc(c.county_name || c.name) + '</option>';
       }).join('') + '</select></label>' +
@@ -858,8 +875,8 @@
       }).join('') + '</div><p class="note">' + units + ' homes in all.</p>' +
       help('tiers', 'How many homes rent at each income limit, as a percent of the area’s median income. A home at 60% can only go to a household earning 60% or less, and its rent, with utilities, is capped at 30% of that income. Under the usual election at least 40% of the homes must be at 60% or less.',
         '<a href="' + IRC + '">26 U.S.C. 42(g)(1) and 42(g)(2)(A)</a>.') + '</fieldset>' +
-      (q.county ? basicFields(units) + boostField() + stateField(units) + priceField() + softField() + termsField() : '') + '</form>' +
-      out +
+      (q.county ? basicFields(units) + foldedExtras(units) + termsField() : '') + '</form>' +
+      '<div class="quick-res">' + out + '</div></div>' +
       '<p class="note">Every assumption is listed under Assumptions used. Boost designations are HUD’s ' + esc(String(designations(data, q.county).year || '')) + ' lists.</p></section>';
   }
 

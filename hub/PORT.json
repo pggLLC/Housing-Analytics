@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "5dfa5eade899c4e22204eb5f5d16b37090230721",
+  "commit": "578a84a4df3293a97495e61c77b0d03f85eb236f",
   "dirty": false
  },
  "files": {
@@ -55,7 +55,7 @@
   "hub/deal-extras.js": "f07617b498fa72e8b723511d11f116a4d3cc25fded7baf928bef2dd5fd3f2dce",
   "hub/deal-file.js": "de23d0cb99585497e8ee3322694651b0c483b3b77b7895aaaa86325c3b2482e5",
   "hub/deal-quick-sale.js": "8707ba8e2fb14cc752bf8063c79edcd37265cdbed2a81abb4a86afd1feb54ff4",
-  "hub/deal-quick.js": "e869cb92e31b6d439ff7af45957b26146e5ea91b4446502da47743c051e5cd8e",
+  "hub/deal-quick.js": "1af8ab79d7304b41e0185aca572645939a15b77e65da9255e7a7efdbc21b671d",
   "hub/deal-tool.js": "daa3f0e65b63d02ad7c8c5efb38bdc590a569772de4c7611ebd77591c410ac07",
   "hub/deal-town.js": "ff1d569519879d746c28fc8bd1ba4fdcadd3d084893bbcdceacb4b99b239a998",
   "hub/deals.js": "b6e20037509e6c3e62349b903ba8c89eb59c57105b3847bcc28078e5ea1cad07",
@@ -107,7 +107,7 @@
   "hub/place-list.js": "a4410f06be16d7f716696726f8393e9babe3e7973227cfcbd04ea1339c729f95",
   "hub/places-combine.js": "b3d53321409c2dd780df591f1871cdd1cc299f7e465e2d726fce08c988dbcdf0",
   "hub/places-more.js": "f4b4d4b8492e421946609cf55b616fb9e0bea72327e2f04489f7df6f5aeb0eb2",
-  "hub/places-state.js": "791ee8d11b8b60089d575dbb88c6a8e8c8e39c6a5898da037a5fd62d22a6c770",
+  "hub/places-state.js": "594906aec4821062fd610ff078220c96eb71506a88ab8515633e88f2d1788503",
   "hub/places.js": "04497f848f6c97cff113dd7aa8f9026375f5197c8fdb5afc73da176738ad04d8",
   "hub/policy-more.js": "206af8e7ec8008627d019365f1af731a3f6a54b954377ae3d911d35c580c9b04",
   "hub/policy.js": "1a9bcc5a9da5881bc50a04a11eb20e43650a2e4d6470856c1469a892478ee08d",
@@ -126,7 +126,7 @@
   "hub/start-numbers.js": "50205a8ddccc79283c6b218811aa6f82a912749a1952ea4d843a4d38610183ea",
   "hub/step-bar.js": "646522f45a2f0a3a3a6d65440733278d7c4f48838be137fb2e1dc12b3de3ffba",
   "hub/strength.js": "267e464d104b402a33859aeb289acb365c202ee62aebb0df89634e0e2f3c4921",
-  "hub/templates.css": "793cbd2ec3af6c68e97a285034417071dd13216d0a9616c1593f8d83cf21d9e6",
+  "hub/templates.css": "4e00241099341e6565345316f32eef01420230429fd096636e8e0948fde10987",
   "hub/templates.js": "0dc115f01736c34c96436b15d731c44817763d824a42891ce2c539cfecf586de",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
