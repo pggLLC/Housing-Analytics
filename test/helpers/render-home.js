@@ -16,14 +16,19 @@ const ROOT = path.resolve(__dirname, '..', '..');
 const at = (f) => path.join(ROOT, f);
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-let ready = null;
-function boot() {
-  if (!ready) ready = start({});
-  return ready;
+// One load per page: Home is index.html; a route another hub page draws is drawn from that page's own scripts,
+// since each hub page loads only the scripts its own views need (lab port, page-scripts.js).
+const ready = {};
+function boot(page) {
+  const p = page || 'index.html';
+  if (!ready[p]) ready[p] = start({}, p);
+  return ready[p];
 }
 // One page load. `files` stands in for data files by path ('data/home-snapshot.json': {...}); every other file
 // is read from this repo. `fetched` lists every file the page asked for.
-function start(files) {
+function start(files, pageFile) {
+  const pageName = pageFile || 'index.html';
+  const isHome = pageName === 'index.html';
   const fetched = [];
   const catalog = JSON.parse(fs.readFileSync(at('hub/route-catalog.json'), 'utf8'));
   const Shell = {
@@ -52,7 +57,7 @@ function start(files) {
   win.window = win;
   win.location = ctx.location; // one address bar, as in a browser
   vm.createContext(ctx);
-  const page = fs.readFileSync(at('index.html'), 'utf8');
+  const page = fs.readFileSync(at(pageName), 'utf8');
   const scripts = [...page.matchAll(/<script\b[^>]*\bsrc="([^"]+)"[^>]*>\s*<\/script[^>]*>/gi)].map((m) => m[1]);
   const SKIP = /^hub\/(lab-config|shell)\.js$/;
   // Four files cannot start without a real document. Home's words do not come from them, so they are left out
@@ -71,6 +76,7 @@ function start(files) {
   });
   // The town answer card reads its facts from the site's own homepage engine, loaded by the page's own script
   // tag. If that script is gone from the page, or did not start, the real page draws no facts.
+  if (!isHome) return Promise.resolve({ Shell, settle: () => new Promise((r) => setTimeout(r, 25)), left, win, fetched, location: ctx.location });
   if (!win.HomeJurisdictionSearch) throw new Error('index.html did not load js/home-jurisdiction-search.js, so the town answer card has no engine');
   if (!Shell.views.home) throw new Error('hub/home.js did not register the Home view (' + left.join('; ') + ')');
   const settle = () => new Promise((r) => setTimeout(r, 25));
@@ -88,7 +94,10 @@ async function renderHomeWith(files, query) {
 // Fruita. The shell picks the view by the first part of the route (hub/shell.js parseHash) and titles the tab
 // with the view's own <h1>.
 async function renderRoute(raw) {
-  const { Shell, settle } = await boot();
+  // The hub page the link opens (hub/lab-config.js points it); a route Home draws, or one with no hub page, stays on Home.
+  const target = pageOf(portConfig().href(String(raw)) || '');
+  const page = /^[a-z-]+-hub\.html$/.test(target) && fs.existsSync(at(target)) ? target : 'index.html';
+  const { Shell, settle } = await boot(page);
   const bare = String(raw).replace(/^#\/?/, '');
   const q = bare.indexOf('?');
   const parts = (q > -1 ? bare.slice(0, q) : bare).split('/').filter(Boolean);
