@@ -394,14 +394,30 @@
       params.set('utilityAllowance', JSON.stringify(window.__DealCalc.getUtilityAllowanceMetadata()));
       if (window.__DealCalc.getRentScheduleMetadata) params.set('rentSchedule', JSON.stringify(window.__DealCalc.getRentScheduleMetadata()));
     }
-    // Active jurisdiction (county FIPS) so the partner lands on the same
-    // basis-boost / county context.
+    // The place analysed, so the partner lands on the same basis-boost / county
+    // context: the place named in this page's address first, else the saved
+    // project's place, and that only when it lies in the county the inputs use.
+    // A saved project elsewhere never rides along (Codex content QA C01,
+    // 22 Nov 2026: a Hinsdale calculation's link named Mesa County).
     try {
-      var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
-                 window.WorkflowState.getActiveProject();
-      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-      if (jx && jx.fips)  params.set('fips',  jx.fips);
-      if (jx && jx.geoid) params.set('geoid', jx.geoid);
+      var picked = params.get('county-select');
+      var U = window.JurisdictionUrlContext;
+      var uctx = U && U.isUrlContextPresent && U.isUrlContextPresent() && U.resolveSync ? U.resolveSync() : null;
+      var place = null;
+      if (uctx && uctx.source === 'url') {
+        place = { fips: uctx.fips, geoid: uctx.geoid, county: uctx.countyFips };
+      } else {
+        var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                   window.WorkflowState.getActiveProject();
+        var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+        if (jx) place = { fips: jx.fips, geoid: jx.geoid,
+          county: jx.countyFips || (jx.geoType === 'county' ? jx.geoid : null) || (String(jx.fips || '').length === 5 ? jx.fips : null) };
+      }
+      var five = function (v) { v = String(v || ''); return v ? ('08' + v.replace(/^08(?=\d{3}$)/, '').padStart(3, '0')).slice(-5) : null; };
+      if (place && (!picked || !place.county || five(place.county) === five(picked))) {
+        if (place.fips)  params.set('fips',  place.fips);
+        if (place.geoid) params.set('geoid', place.geoid);
+      }
     } catch (_) {}
     return params;
   }
@@ -779,11 +795,13 @@
   // ── F214 — Open IC Summary with geoid + back-link to this scenario ─
   function openIcSummary() {
     try {
-      // 1. Resolve the active jurisdiction's geoid from WorkflowState.
-      var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
-                 window.WorkflowState.getActiveProject();
-      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-      var geoid = jx && (jx.geoid || jx.fips || '').replace(/\D/g, '');
+      // 1. The place this calculation analyses, as the share link names it: the
+      //    address's place, else the saved project's, and either only while it
+      //    lies in the county the inputs use; otherwise that county itself
+      //    (Codex content QA C01 and its review on #2963, 22 Nov 2026).
+      var ser = _serialize();
+      var picked = String(ser.get('county-select') || '').replace(/\D/g, '');
+      var geoid = String(ser.get('geoid') || ser.get('fips') || '').replace(/\D/g, '') || (picked.length === 5 ? picked : '');
       if (!geoid) {
         _showShareToast('⚠ No active jurisdiction. Pick one in HNA or Deal Calc first.', 'warn');
         return;
@@ -793,7 +811,7 @@
       //    underwriting" pill that takes the reader back here.
       // Both the deal link and its ride on the summary page sit in fragments,
       // so neither request carries the deal (see SHARE_HASH_PREFIX).
-      var dcUrl = _shareUrl(_serialize());
+      var dcUrl = _shareUrl(ser);
       var icUrl = window.location.origin + window.location.pathname.replace(/deal-calculator\.html$/, 'ic-summary.html') +
         '?geoid=' + encodeURIComponent(geoid) + '#dc=' + encodeURIComponent(dcUrl);
       // 3. Open in a new tab so the user keeps the Deal Calc state alive.

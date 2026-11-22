@@ -1094,8 +1094,14 @@
   // the fallback for places without a specific program.
   var __dcAbatementBanner = null;
   function _dcGetJurisdictionGeoKey() {
-    // Look up the currently selected jurisdiction via WorkflowState
+    // The place named in the address first (Codex content QA C01, 22 Nov 2026),
+    // then the currently selected jurisdiction via WorkflowState
     // (the same source the Silt-label fix uses).
+    try {
+      var U = window.JurisdictionUrlContext;
+      var u = U && U.isUrlContextPresent && U.isUrlContextPresent() && U.resolveSync ? U.resolveSync() : null;
+      if (u && u.source === 'url' && u.geoid) return (String(u.geoid).length === 5 ? 'county:' : 'place:') + u.geoid;
+    } catch (_) {}
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
       var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));

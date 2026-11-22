@@ -1101,7 +1101,7 @@
           (isCounty ? sel('vac', 'Target vacancy', vacOn ? vacPick.toFixed(1) : '', '', vacOpts) : '') + '</div>' +
           '<p class="note">' + (isCounty ? 'These change the figures in this part only; the charts further down stay at 20 years and the published vacancy target. '
             : 'A town reads its stored projection at the year picked. Its vacancy target is the county’s and is set in that projection, so it has no control here. The charts further down stay at 20 years. ') +
-          'The forecast file ends in ' + (pj.years || [])[(pj.years || []).length - 1] + ', so 20 years is the longest horizon. Households follow the State Demography Office’s forecast; the full Scenario Builder can also hold or trend the headship rate.' +
+          'The forecast file ends in ' + (pj.years || [])[(pj.years || []).length - 1] + ', so 20 years is the longest horizon. Households follow the State Demography Office’s forecast; the Scenario builder can also hold households per person at today’s levels.' +
           (customFail ? ' The forecast has no figure for that pick here, so the published 20-year reading is shown.' : '') + '</p></div>';
       })();
       var dolaSrc = [dolaName(), LINKS.dola], bps = ['Census Building Permits Survey' + (permits ? ', ' + permits.window : ''), 'https://www.census.gov/construction/bps/'];
@@ -1395,7 +1395,7 @@
         (r.currentGap != null ? '<p>Deep affordability gap today: about <strong>' + num(r.currentGap) + '</strong> renter households in the county pay 50% or more of income on rent.</p>' : '') +
         '<details><summary>Method and assumptions</summary><ul>' + r.methodology.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></details>' +
         '<p class="metric-source">' + Pl.srcLine(dolaName() + '; ACS 2020-2024 5-year, B25070, B25003', LINKS.dola) + '</p>' +
-        '<p><a href="#/places/scenario?g=' + esc(cf) + '">Change the forecast →</a> The Scenario builder sets your own growth, household size and vacancy.</p>';
+        '<p><a href="#/places/scenario?g=' + esc(cf) + '">Change the forecast →</a> The Scenario builder changes migration, births, deaths and households per person. Vacancy stays at the county’s target.</p>';
     }
     function amiMix() {
       var HNP = global.HousingNeedProjector, MC = global.MixCheck, MI = global.MixCheckInputs, cf = isCounty ? geoid : fips;
@@ -2453,7 +2453,7 @@
         var wide = short.reduce(function (a, x) { return x.shortfall > a.shortfall ? x : a; }), top = short[short.length - 1], b30 = bs[0];
         var reach = top === bs[bs.length - 1] ? 'at every income up to ' + top.band + '% AMI' : 'up to ' + top.band + '% AMI';
         var fit = +wide.band <= 30 ? ' Closing it takes homes at 30% AMI rents, which need deep subsidy such as project-based vouchers on top of tax credits.'
-          : +wide.band <= 60 ? ' Tax credit rentals set at or below ' + wide.band + '% AMI meet it.'
+          : +wide.band <= 60 ? ' Tax credit rentals with rents set at or below ' + wide.band + '% AMI could help close it, if a site and the funding work; test one in the Deal Calculator.'
           : ' That is above the usual 60% AMI tax credit limit, where workforce rentals and ownership fit.';
         return name + ' is short of homes renters can afford ' + reach + '. The gap is widest at or below ' + wide.band + '% AMI: ' + num(wide.households) + ' renter households and ' + num(wide.homes) +
           ' homes at ' + money(wide.rent) + ' a month or less, ' + num(wide.shortfall) + ' short.' + fit +

@@ -98,7 +98,7 @@
       menu: 'policy', introTitle: 'In short',
       facts: [
         { value: '85%', label: 'Capture rate above which CHFA wants more data to support demand', source: 'CHFA 2027-28 QAP, p. 9', href: 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US' },
-        { value: '65%', label: 'Share of Durango\u2019s primary jobs held by people who live outside the city (2024)', source: 'LEHD LODES 2024', href: 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/' },
+        { value: '70%', label: 'Share of Durango\u2019s primary jobs held by people who live outside the city (2024)', source: 'LEHD LODES 2024', href: 'https://lehd.ces.census.gov/data/lodes/LODES8/co/od/' },
         { value: '61%', label: 'Summit County in-commuters surveyed who would make a trade-off to live in the county', source: 'Summit County 2023 HNA, V-60', href: 'https://www.friscogov.com/wp-content/uploads/2026/04/Attachment-1_2023-Summit-County-Housing-Needs-Assessment.pdf' },
         { value: '26.3% \u2192 21.0%', label: 'A Line Flats capture rate before and after a 25% in-migration adjustment', source: 'CHFA 2025 Round Two narratives, p. 12', href: 'https://www.chfainfo.com/getattachment/7441af58-7dec-46d2-abab-1b5ac8f19575/2025-HTC-Round-Two-Application-Narratives.pdf' }
       ],
@@ -127,7 +127,7 @@
       if (COMMUTE_TOWNS.indexOf(p.name) > -1 && p.jobs) rows.push([p.name.replace(/ \((city|town)\)$/, ''), Math.round(p.in_commuters / p.jobs * 1000) / 10]);
     });
     rows.sort(function (a, b) { return b[1] - a[1]; });
-    return out + Viz.orderedBars({ title: 'Share of a town\u2019s primary jobs held by people who live outside it, 2023', answer: 'In most of these job centers, more than half the jobs go to people who drive in.',
+    return out + Viz.orderedBars({ title: 'Share of a town\u2019s primary jobs held by people who live outside it, ' + s.data.commute.meta.lodes_year, answer: 'In most of these job centers, more than half the jobs go to people who drive in.',
       rows: rows, noShare: true, color: 'var(--c-green)', fmt: pct, source: 'LEHD LODES 2024, primary jobs, homes in any state (' + esc(s.data.commute.meta.lodes_year) + ' file, COHO copy)' });
   }
 

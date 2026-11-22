@@ -1085,10 +1085,29 @@
         }
       } catch (_) {}
 
+      // A place named in the address (?geoid= or ?fips=) is the place this page
+      // analyses: the county inputs are set from it, so the banner names it too.
+      // The browser's saved project only names the place when the address does
+      // not (Codex content QA C01, 22 Nov 2026: a saved Mesa County project
+      // headed a Hinsdale County calculation).
+      var urlNamesPlace = false;
       try {
+        urlNamesPlace = !!(window.JurisdictionUrlContext &&
+          window.JurisdictionUrlContext.isUrlContextPresent &&
+          window.JurisdictionUrlContext.isUrlContextPresent());
+      } catch (_) {}
+      var countyFipsShown = null;
+      try {
+        var ctx0 = window.JurisdictionUrlContext && window.JurisdictionUrlContext.resolveSync &&
+          window.JurisdictionUrlContext.resolveSync();
+        if (ctx0 && ctx0.countyFips) countyFipsShown = String(ctx0.countyFips);
+      } catch (_) {}
+
+      if (!urlNamesPlace) try {
         var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
         var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
         if (jx) {
+          countyFipsShown = jx.countyFips || (jx.geoType === 'county' ? jx.geoid : null) || jx.fips || countyFipsShown;
           // jx.name is the SELECTED geography's own name, which for a
           // place/CDP is a city name (e.g. "Fruita (city)") — assigning it
           // to countyName unconditionally mislabeled it as a county
@@ -1112,6 +1131,20 @@
         } catch (_) {}
       }
 
+      // The county picked in the calculator wins over both: the banner names the
+      // county whose limits the inputs use, also after the reader changes it here.
+      var changedHere = false;
+      try {
+        var cSel = document.getElementById('dc-county-select');
+        var picked = cSel && /^\d{5}$/.test(cSel.value || '') ? cSel.value : null;
+        var shownFips = countyFipsShown ? ('08' + String(countyFipsShown).replace(/^08/, '').padStart(3, '0')).slice(-5) : null;
+        if (picked && picked !== shownFips) {
+          var opt = cSel.options[cSel.selectedIndex];
+          var pickedName = opt ? String(opt.textContent).split(' \u2014 ')[0].trim() : null;
+          if (pickedName) { countyName = pickedName; cityName = null; changedHere = !!shownFips; }
+        }
+      } catch (_) {}
+
       if (countyName) {
         var countyLabel = /county$/i.test(countyName) ? countyName : countyName + ' County';
         nameEl.textContent = countyLabel;
@@ -1120,7 +1153,7 @@
         // are. HUD publishes rent and income limits by county, not by town.
         if (subEl) subEl.textContent = cityName
           ? '\u00b7 ' + cityName + '. HUD sets rent and income limits by county, not by town, so the limits used here are ' + countyLabel + '\u2019s.'
-          : '';
+          : changedHere ? '\u00b7 County changed on this page.' : '';
         banner.removeAttribute('hidden');
       }
     }
@@ -1391,6 +1424,9 @@
     function init() {
       updateJurisdictionBanner();
       document.addEventListener('jurisdiction-url-context:resolved', updateJurisdictionBanner);
+      document.addEventListener('change', function (e) {
+        if (e.target && e.target.id === 'dc-county-select') updateJurisdictionBanner();
+      });
       populateCraGrid();
       wireSaveExport();
       // Fix #2: update progress bar step completion from WorkflowState
@@ -1433,6 +1469,14 @@
 
   function _resolveJurisdiction() {
     var name = null, geoid = null;
+    // The place named in the address first (Codex content QA C01, 22 Nov 2026).
+    try {
+      var U = window.JurisdictionUrlContext;
+      var u = U && U.isUrlContextPresent && U.isUrlContextPresent() && U.resolveSync ? U.resolveSync() : null;
+      if (u && u.source === 'url' && u.geoid && (u.displayName || u.countyName)) {
+        return { geoid: String(u.geoid), name: String(u.displayName || u.countyName).replace(/\s*\(?(town|city|CDP)\)?\s*$/i, '').trim() };
+      }
+    } catch (_) {}
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
                  window.WorkflowState.getActiveProject();

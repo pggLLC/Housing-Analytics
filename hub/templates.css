@@ -410,7 +410,7 @@ html.dark-mode .mb-tiles[data-base="street"] .mb-tile { filter: invert(1) hue-ro
 .gap-chart .gap-lead { margin: .5rem 0 .25rem; font-size: 1.0625rem; font-weight: 600; color: var(--ink); max-width: 65ch; }
 .gap-chart .gap-band .gap-cum { display: block; font-size: 13px; }
 .gap-chart .gap-band .gap-surplus { display: block; font-size: 13px; font-style: italic; }
-.gap-chart .gap-who { margin: .75rem 0 0; padding-top: .75rem; border-top: 1px solid var(--line); font-size: .9375rem; max-width: 65ch; }
+.gap-chart .gap-who { margin: .75rem 0 0; padding-top: .75rem; border-top: 1px solid var(--line); font-size: .9375rem; }
 .gap-chart .gap-who .note { display: block; margin-top: .25rem; font-size: 13px; }
 
 /* Local incentives: how far the check has got, one stacked bar per scope (blue steps, gray = not checked). */
@@ -1001,6 +1001,17 @@ th[aria-sort="descending"] > button.th-sort::after { content: "\2193"; color: va
 .sc-form .sc-slider span { display: flex; justify-content: space-between; gap: 1rem; font-weight: 600; }
 .sc-form .sc-slider input[type="range"] { width: 100%; }
 .sc-form fieldset label:not(.sc-slider) { display: flex; gap: .5rem; align-items: center; margin: .35rem 0; }
+/* Layout B (22 Nov 2026): totals above the sliders on a phone, sticky while they move; rarer settings fold. */
+.sc-live { display: none; }
+@media (max-width: 860px) {
+  .sc-live { position: sticky; top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px)); z-index: 2; display: flex; flex-wrap: wrap; gap: .15rem 1rem; align-items: baseline; margin: 0 0 .75rem; padding: .45rem .75rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--green); border-radius: 8px; font-size: 14px; font-variant-numeric: tabular-nums; }
+  .sc-live b { font-weight: 600; color: var(--ink-soft); }
+  .sc-live-y { color: var(--muted); }
+}
+.sc-more { margin-top: .75rem; border: 1px solid var(--line); border-radius: 8px; background: var(--card); }
+.sc-more > summary { cursor: pointer; min-height: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: .1rem .6rem; padding: .35rem .75rem; font-weight: 700; }
+.sc-more-v { font-weight: 400; color: var(--muted); font-size: .9rem; }
+.sc-more > fieldset { margin: .25rem .75rem .75rem; }
 .sc-presets { list-style: none; margin: 0; padding: 0; display: grid; gap: .4rem; }
 .sc-presets a.is-on { font-weight: 700; text-decoration: none; color: var(--ink); }
 .sc-presets a.is-on::before { content: "✓ "; }
@@ -1026,7 +1037,7 @@ th[aria-sort="descending"] > button.th-sort::after { content: "\2193"; color: va
 .brief .brief-step-level { display: inline-block; font-size: .75rem; letter-spacing: .04em; text-transform: uppercase; color: var(--green); }
 .brief .brief-steps-ends { display: flex; justify-content: space-between; font-size: .8125rem; color: var(--muted, var(--muted)); }
 .brief .brief-figure { margin: 1.25rem 0; }
-.brief .brief-figure img { display: block; width: 100%; max-width: 640px; height: auto; border: 1px solid var(--line); border-radius: 8px; background: #ffffff; }
+.brief .brief-figure img { display: block; width: 100%; max-width: 640px; height: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--figure-bg); }
 .brief .brief-figure figcaption { font-size: .8125rem; color: var(--muted); margin-top: .5rem; max-width: 640px; }
 .brief .brief-sources li { margin-bottom: .5rem; }
 .brief .brief-sources .research-meta { display: block; font-size: .8125rem; }
@@ -1101,6 +1112,17 @@ html { scroll-padding-top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) + var(--t
 .quick fieldset.field legend { font-weight: 600; padding: 0 .25rem; }
 .quick fieldset.field label.radio { flex-direction: row; align-items: center; padding: .4rem 0; font-weight: 400; }
 .quick fieldset.field label.radio input { margin-top: 0; }
+/* Layout A (22 Nov 2026): optional groups fold; on a wide screen the result sits beside the inputs and stays in view. */
+.quick-fold { margin: .75rem 0 0; border: 1px solid var(--line); border-radius: 8px; background: var(--card); }
+.quick-fold > summary { cursor: pointer; min-height: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: .1rem .6rem; padding: .35rem .75rem; font-weight: 700; }
+.quick-fold-v { font-weight: 400; color: var(--muted); font-size: .9rem; }
+.quick-fold > fieldset.quick-extra { margin: 0; padding: .25rem .75rem .75rem; border: 0; }
+.quick-fold > fieldset.quick-extra > legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (min-width: 1100px) {
+  .quick-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+  .quick-res { position: sticky; top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) + .5rem); max-height: calc(100vh - var(--hdr-h, 0px) - var(--sp-top, 0px) - 1rem); overflow: auto; }
+  .quick-cols .quick-live, .quick-cols .quick-back { display: none; }
+}
 .quick-out { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .75rem; margin: 1rem 0 .5rem; }
 .quick-out > div { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: .6rem .8rem; min-width: 0; }
 .quick-out dt { font-size: .85rem; color: var(--muted); }
@@ -1632,6 +1654,19 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .page-tabs a[aria-current="location"] { border-bottom-color: var(--green); font-weight: 600; color: var(--green); }
 #main [id] { scroll-margin-top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) + 3rem + .5rem); }
 @media print { .page-tabs { display: none; } }
+/* "More sections": the tabs that do not fit one row on a laptop or wider (templates.js fitTabs). */
+.page-tabs .pt-more { position: relative; margin-left: auto; }
+.page-tabs .pt-more summary { display: flex; align-items: center; gap: .35rem; min-height: 44px; padding: 0 .9rem; cursor: pointer; list-style: none; color: var(--ink); white-space: nowrap; border-bottom: 3px solid transparent; }
+.page-tabs .pt-more summary::-webkit-details-marker { display: none; }
+.page-tabs .pt-more summary::after { content: ""; width: .45em; height: .45em; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-.15em) rotate(45deg); }
+.page-tabs .pt-more details[open] summary::after { transform: translateY(.1em) rotate(-135deg); }
+.page-tabs .pt-more summary:hover { color: var(--green); border-bottom-color: var(--line); }
+.page-tabs .pt-more summary:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.page-tabs .pt-more.has-current summary { border-bottom-color: var(--green); font-weight: 600; color: var(--green); }
+.page-tabs .pt-more-list { display: block; position: absolute; right: 0; top: 100%; z-index: 45; list-style: none; margin: 0; padding: .35rem 0; width: max-content; min-width: 16rem; max-width: min(26rem, 90vw); max-height: min(70vh, 32rem); overflow-y: auto; background: var(--card); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 6px 18px var(--shade-soft); }
+.page-tabs .pt-more-list li { display: block; }
+.page-tabs .pt-more-list a { white-space: normal; min-height: 44px; padding: .4rem 1rem; border-bottom: 0; border-left: 3px solid transparent; }
+.page-tabs .pt-more-list a[aria-current="location"] { border-left-color: var(--green); border-bottom-color: transparent; }
 /* "Which document do you need?": the chooser the white paper, working paper and Methods share. */
 .doc-guide { margin: 0 0 1.5rem; padding: 1rem 1.25rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
 .doc-guide-t { margin: 0 0 .5rem; font-weight: 700; }

@@ -148,13 +148,21 @@
     var horizon = rows.filter(function (x) { return x.year <= rows[0].year + SB.HORIZON_YEARS; });
     var years = horizon.map(function (x) { return x.year; });
     var pick = function (arr, k) { return arr.slice(0, years.length).map(function (x) { return x && x[k] != null ? x[k] : null; }); };
+    // What the reader can change and what stays fixed (Codex content QA C02, 22 Nov 2026).
+    var base0 = rows[0].year;
+    var vacTxt = ctx.counties.length === 1 && ctx.counties[0].vacancy != null ? (Math.round(ctx.counties[0].vacancy * 1000) / 10) + '%'
+      : ctx.counties.some(function (c) { return c.vacancy == null; }) ? null : ctx.counties.map(function (c) { return (Math.round(c.vacancy * 1000) / 10) + '%'; }).join(', ');
+    var growLabel = 'Homes for new residents since ' + base0;
+    var settingsTxt = isDefault ? 'State forecast (every setting at 100%)' : 'Migration ' + p.migration_pct + '%' + (p.migration_from ? ' of the ' + span + ' average' : '') + '; births ' + p.births_pct + '%; deaths ' + p.deaths_pct + '%' +
+      (p.headship ? '; households per person held at ' + (ctx.counties[0].baseline.baseYear || 'today') : '') + (p.town_share ? '; town share by age' : '');
+    var vintage = String(ctx.counties[0].baseline.vintage || '').replace(/["\u201c\u201d]/g, '').replace(/\s+Prepared\s+/i, ', prepared ').trim();
     var chart = Viz.projection({
-      title: 'Homes needed for growth in ' + geo.name + ', ' + years[0] + ' to ' + years[years.length - 1],
+      title: 'Homes for new residents in ' + geo.name + ', ' + years[0] + ' to ' + years[years.length - 1],
       series: { years: years, main: pick(rows, 'homesNeeded'), alt: isDefault ? null : pick(sdoRows, 'homesNeeded'), low: band.length ? pick(band, 'low') : null, high: band.length ? pick(band, 'high') : null },
       labels: { main: isDefault ? 'State forecast' : 'Your scenario', alt: 'State forecast', band: 'Where 2 in 3 past forecasts landed' },
       answer: fig ? (isDefault ? 'The state forecast' : 'Your scenario') + ' needs ' + num(fig.growth) + ' more homes for residents by ' + fig.year + (isDefault || !figSdo ? '.' : ', against ' + num(figSdo.growth) + ' in the state forecast.') : '',
-      note: 'Homes are the rise in households divided by one minus the county’s target vacancy' + (ctx.counties.length === 1 && ctx.counties[0].vacancy != null ? ' (' + (Math.round(ctx.counties[0].vacancy * 1000) / 10) + '% here)' : '') + ', as on the needs assessment; this tool holds it fixed, and the full Scenario Builder shows it. The shaded range is how far past forecasts for places this size missed.',
-      source: '<a href="' + SDO + '">Colorado State Demography Office forecast</a>, ' + esc(String(ctx.counties[0].baseline.vintage || '').replace(/\s+Prepared\s+/i, ', prepared '))
+      note: 'The line counts homes for new residents only, from ' + base0 + '. Homes are the rise in households divided by one minus the county’s target vacancy' + (vacTxt ? ' (' + vacTxt + ')' : '') + ', as on the needs assessment. Vacancy is not a setting on this page or the full builder. The shaded range is how far past forecasts for places this size missed.',
+      source: '<a href="' + SDO + '">Colorado State Demography Office forecast</a>, ' + esc(vintage) + (ctx.isCounty ? '' : '; ' + esc(geo.name) + '’s share of the county and the homes math are COHO’s')
     });
     var end = horizon[horizon.length - 1];
     var presets = (global.ScenarioPresets && global.ScenarioPresets.list || []).map(function (pr) {
@@ -166,7 +174,11 @@
     var radio = function (name, val, label, on, disabled) {
       return '<label><input type="radio" name="' + name + '" value="' + val + '" data-sc="' + name + '"' + (on ? ' checked' : '') + (disabled ? ' disabled' : '') + '> <span>' + esc(label) + '</span></label>';
     };
-    var form = '<form class="lv-form sc-form" data-sc-form="1" onsubmit="return false"><input type="hidden" data-sc="g" value="' + esc(g) + '">' +
+    // Layout B (paul 22 Nov 2026, Codex C09): on a phone the two totals sit above the sliders and stay in view while
+    // they move; on a wide screen the result column beside the form already shows them, so the strip hides.
+    var strip = fig ? '<p class="sc-live" aria-hidden="true"><span><b>New residents</b> ' + esc(num(fig.growth)) + '</span>' +
+      (fig.inCommuters != null ? '<span><b>With in-commuters</b> ' + esc(num(fig.total)) + '</span>' : '') + '<span class="sc-live-y">by ' + esc(fig.year) + '</span></p>' : '';
+    var form = '<form class="lv-form sc-form" data-sc-form="1" onsubmit="return false"><input type="hidden" data-sc="g" value="' + esc(g) + '">' + strip +
       '<fieldset><legend>Presets</legend><ul class="sc-presets">' + presets.map(function (x) { return '<li><a href="' + esc(x[0]) + '"' + (x[2] ? ' class="is-on" aria-current="true"' : '') + '>' + esc(x[1]) + '</a></li>'; }).join('') + '</ul></fieldset>' +
       '<fieldset><legend>Your settings, as a share of their starting point</legend>' + SLIDE.map(function (sl) {
         var v = p[sl.key];
@@ -177,6 +189,8 @@
           '<p class="note" id="sc-' + sl.k + '-help">' + esc(sl.k === 'm' ? (p.migration_from ? '100% is the ' + span + ' average.' : '100% is the state forecast: ' + count(avg) + '.') + (past != null && !p.migration_from ? ' In ' + span + ', ' + count(past, true) + '.' : '')
             : sl.k === 'b' ? '110% means one more baby for every ten the state expects.' : 'Below 100% means people live longer.') + '</p>';
       }).join('') + '</fieldset>' +
+      '<details class="sc-more" data-sc-more="1"' + (scMoreOpen || p.migration_from || p.headship || p.town_share ? ' open' : '') + '><summary>More settings <span class="sc-more-v">' +
+        esc([p.migration_from ? 'migration from ' + span : 'migration from the state forecast', p.headship ? 'households per person held' : 'households per person as forecast'].concat(ctx.isCounty ? [] : [p.town_share ? 'town share by age' : 'one town share']).join(' · ')) + '</span></summary>' +
       '<fieldset><legend>Starting point for migration (100%)</legend>' + radio('from', 'sdo', 'The state forecast', !p.migration_from) + radio('from', 'past', past != null ? 'What happened, ' + span + ' average' : 'What happened before (not on file here)', !!p.migration_from, past == null) +
         '<p class="note">The state forecast is the State Demography Office projection. Births and deaths always start from it.</p></fieldset>' +
       '<fieldset><legend>Households per person, by age</legend>' + radio('hs', 'sdo', 'Change as the state forecast expects', !p.headship) + radio('hs', 'held', 'Stay at ' + (ctx.counties[0].baseline.baseYear || 'today') + ' levels', !!p.headship) +
@@ -184,7 +198,7 @@
       (ctx.isCounty ? '' : '<fieldset><legend>' + esc(geo.name) + '’s share of the county</legend>' + radio('ts', 'hna', 'One share at every age, as the needs assessment uses', !p.town_share) +
         radio('ts', 'age', ctx.townShares ? 'By age, from the 2010 and 2020 Census' : 'By age (not available here)', !!p.town_share, !ctx.townShares) +
         (ctx.townShares ? '' : '<p class="note">' + esc(ctx.townSharesReason || '') + '</p>') + '</fieldset>') +
-      '</form>';
+      '</details></form>';
     var tableRows = horizon.filter(function (x, i) { return i % 5 === 0 || i === horizon.length - 1; }).map(function (x) {
       var b = sdoRows.filter(function (y) { return y.year === x.year; })[0];
       return { year: x.year, pop: x.population, hh: x.householdsAdded, homes: x.homesNeeded, sdo: b && b.homesNeeded };
@@ -196,24 +210,31 @@
           (fig.inCommuters != null ? ', plus ' + num(fig.inCommuters) + ' for people who commute in today: ' + num(fig.total) + ' in all.' : '.') : '') +
       '<div class="lv-layout sc-layout">' + form + '<section class="lv-out" aria-live="polite"><h2>Result</h2>' +
       '<div class="metrics">' +
-      '<div class="metric"><p class="metric-label">Homes needed by ' + esc(fig ? fig.year : '') + '</p><p class="metric-value">' + esc(fig ? num(fig.total) : '—') + '</p><p class="metric-detail">' + esc(fig && fig.inCommuters != null ? num(fig.growth) + ' for growth, ' + num(fig.inCommuters) + ' for in-commuters' : 'For growth') + '</p></div>' +
+      '<div class="metric"><p class="metric-label">' + esc(fig && fig.inCommuters != null ? 'All homes needed by ' + fig.year + ', growth plus in-commuters' : 'Homes for new residents by ' + (fig ? fig.year : '')) + '</p><p class="metric-value">' + esc(fig ? num(fig.total) : '—') + '</p><p class="metric-detail">' + esc(fig && fig.inCommuters != null ? num(fig.growth) + ' for new residents (the chart and table), ' + num(fig.inCommuters) + ' for in-commuters (fixed)' : 'The chart and table count these') + '</p></div>' +
       '<div class="metric"><p class="metric-label">People in ' + esc(end.year) + '</p><p class="metric-value">' + esc(end.population == null ? '—' : num(end.population)) + '</p><p class="metric-detail">From ' + esc(rows[0].population == null ? '—' : num(rows[0].population)) + ' in ' + esc(rows[0].year) + '</p></div>' +
       '<div class="metric"><p class="metric-label">Households added</p><p class="metric-value">' + esc(num(end.householdsAdded)) + '</p><p class="metric-detail">' + esc(rows[0].year + ' to ' + end.year) + '</p></div></div>' +
+      '<p class="note sc-fixed"><strong>Fixed here.</strong> Target vacancy' + (vacTxt ? ' (' + esc(vacTxt) + ')' : '') + '.' +
+        (fig && fig.inCommuters != null ? ' The ' + esc(num(fig.inCommuters)) + ' homes for people who commute in today, which come from today’s commuting and do not move with these settings.' : '') + '</p>' +
       chart + '<p class="note">This page keeps your settings in its link, so you can copy the address to share it. Saved scenarios are a member feature.</p></section></div>' +
-      '<h2>Year by year</h2>' + UI.table('sc-years', 'Every fifth year of the scenario', [
+      '<h2>Year by year</h2>' + UI.table('sc-years', 'Every fifth year of the scenario. Running totals since ' + base0 + '; in-commuter homes are not in these columns', [
         { key: 'year', label: 'Year' },
         { key: 'pop', label: 'People', num: true, fmt: num },
         { key: 'hh', label: 'Households added', num: true, fmt: num },
-        { key: 'homes', label: isDefault ? 'Homes needed' : 'Homes needed, your scenario', num: true, fmt: num },
-        { key: 'sdo', label: 'Homes needed, state forecast', num: true, fmt: num }
+        { key: 'homes', label: isDefault ? growLabel : growLabel + ', your scenario', num: true, fmt: num },
+        { key: 'sdo', label: growLabel + ', state forecast', num: true, fmt: num }
       ], tableRows, { noun: 'years', placeholder: 'Year' }) +
-      '<p class="metric-source">Source: <a href="' + SDO + '">Colorado State Demography Office forecast</a>, ' + esc(String(ctx.counties[0].baseline.vintage || '').replace(/\s+Prepared\s+/i, ', prepared ')) + (isDefault ? '' : ', with your changes') + '.</p>' +
+      '<p class="metric-source">Source: <a href="' + SDO + '">Colorado State Demography Office forecast</a>, ' + esc(vintage) + (isDefault ? '' : ', with your changes') + (ctx.isCounty ? '' : '; ' + esc(geo.name) + '’s share of the county and the homes math are COHO’s') + '.</p>' +
       (global.LabVizData ? '<p class="viz-data-csv"><a class="button-link secondary" download="' + esc('coho-scenario-' + g + (isDefault ? '-state-forecast' : '-your-scenario')) + '.csv" href="data:text/csv;charset=utf-8,' + encodeURIComponent('\ufeff' + global.LabVizData.csvText(
-        ['Year', 'People', 'Households added', isDefault ? 'Homes needed' : 'Homes needed, your scenario', 'Homes needed, state forecast'],
-        horizon.map(function (x) { var b = sdoRows.filter(function (y) { return y.year === x.year; })[0]; return [x.year, x.population, x.householdsAdded, x.homesNeeded, b ? b.homesNeeded : null]; }))) + '">Download every year as CSV</a></p>' : '') +
+        ['Place', 'GEOID', 'Settings', 'Year', 'People', 'Households added since ' + base0, isDefault ? growLabel : growLabel + ', your scenario', growLabel + ', state forecast', 'Target vacancy (fixed)', 'Homes for in-commuters (fixed, not in yearly columns)', 'Source'],
+        horizon.map(function (x) { var b = sdoRows.filter(function (y) { return y.year === x.year; })[0];
+          var r0 = function (v) { return v == null ? null : Math.round(v); };
+          return [geo.name, g, settingsTxt, x.year, r0(x.population), r0(x.householdsAdded), r0(x.homesNeeded), b ? r0(b.homesNeeded) : null, vacTxt, fig && fig.inCommuters != null ? fig.inCommuters : null,
+            'Colorado State Demography Office forecast, ' + vintage + (ctx.isCounty ? '' : '; town share and homes math by COHO') + '; COHO Scenario Builder']; }))) + '">Download every year as CSV</a></p>' : '') +
       T.source('COHO Scenario Builder', SB_SRC + '?geoid=' + g) +
-      T.next('Next', [{ href: '#/place/' + g, label: 'Full needs assessment for ' + geo.name + ' →' }, { href: '#/places/ranking', label: 'HNA ranking', secondary: true }]);
+      T.next('Next', [{ href: '#/place/' + g, label: 'Full needs assessment for ' + geo.name + ' →' }, { href: '#/market?g=' + encodeURIComponent(g), label: 'Check a site’s market here', secondary: true }, { href: '#/deal-calculator?g=' + encodeURIComponent(g), label: 'Test a project in the Deal Calculator', secondary: true }, { href: '#/places/ranking', label: 'HNA ranking', secondary: true }]);
   }
+  var scMoreOpen = false;
+  document.addEventListener('toggle', function (ev) { var d = ev.target; if (d && d.getAttribute && d.getAttribute('data-sc-more')) scMoreOpen = d.open; }, true);
   // Settings write into the address and redraw; the field being moved keeps focus. A slider shows its
   // value as it moves and redraws when let go.
   document.addEventListener('input', function (ev) {

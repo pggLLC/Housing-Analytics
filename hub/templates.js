@@ -355,8 +355,55 @@
     while (at.parentNode && at.parentNode !== main && !at.parentNode.contains(h1)) at = at.parentNode;
     at.parentNode.insertBefore(nav, at);
     if (otp) otp.hidden = true;
+    fitTabs(nav);
     spyTabs();
   }
+  // On a laptop or wider the row keeps to one line: the tabs that do not fit go under "More sections", in page order,
+  // so a page with many sections (Financials has over 30) never stacks rows of tabs over the page. A phone keeps
+  // the one swipeable row. Every section stays one tap or click away.
+  var MORE_FROM = 768;
+  function fitTabs(nav) {
+    nav = nav || document.querySelector('#main .page-tabs');
+    if (!nav) return;
+    var ul = nav.querySelector('ul'), more = ul && ul.querySelector(':scope > li.pt-more');
+    if (!ul) return;
+    if (more) {
+      Array.prototype.slice.call(more.querySelectorAll('.pt-more-list > li')).forEach(function (li) { ul.insertBefore(li, more); });
+      more.remove();
+    }
+    if ((global.innerWidth || 0) < MORE_FROM) return;
+    var lis = ul.children;
+    if (lis.length < 2 || lis[lis.length - 1].offsetTop === lis[0].offsetTop) return;
+    more = document.createElement('li');
+    more.className = 'pt-more';
+    more.innerHTML = '<details><summary>More sections</summary><ul class="pt-more-list"></ul></details>';
+    ul.appendChild(more);
+    var list = more.querySelector('.pt-more-list'), sum = more.querySelector('summary'), top = lis[0].offsetTop;
+    var fit = function () { while (more.offsetTop !== top && more.previousElementSibling) list.insertBefore(more.previousElementSibling, list.firstChild); };
+    fit(); sum.textContent = 'More sections (' + list.children.length + ')'; fit();
+    sum.textContent = 'More sections (' + list.children.length + ')';
+    var cur = nav.querySelector('a[aria-current="location"]');
+    more.classList.toggle('has-current', !!(cur && more.contains(cur)));
+  }
+  var fitQueued = null;
+  if (typeof global.addEventListener === 'function') global.addEventListener('resize', function () {
+    global.clearTimeout(fitQueued);
+    fitQueued = global.setTimeout(function () { fitTabs(); spyTabs(); }, 120);
+  });
+  // A section picked from "More sections" closes the list; so does a click elsewhere or Escape.
+  function closeMore(except) {
+    Array.prototype.forEach.call(document.querySelectorAll('.page-tabs .pt-more details[open]'), function (d) { if (d !== except) d.open = false; });
+  }
+  document.addEventListener('click', function (ev) {
+    var t = ev.target, d = t.closest && t.closest('.pt-more details');
+    if (d && t.closest('.pt-more-list a')) { d.open = false; return; }
+    closeMore(d);
+  });
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key !== 'Escape') return;
+    var d = document.querySelector('.page-tabs .pt-more details[open]');
+    if (d) { d.open = false; d.querySelector('summary').focus(); }
+  });
   // The tab for the section being read is marked, and on a phone scrolled into view in the row.
   // A tab the reader picks stays marked until they scroll on, even when its section sits too low to reach the top.
   var spyQueued = false, picked = null;
@@ -379,6 +426,8 @@
       var ul = nav.querySelector('ul');
       if (ul && ul.scrollWidth > ul.clientWidth) ul.scrollLeft = Math.max(0, cur.parentNode.offsetLeft - 16);
     }
+    var more = nav.querySelector('.pt-more');
+    if (more) more.classList.toggle('has-current', more.contains(cur));
   }
   function spyTabs() {
     spyQueued = false;
