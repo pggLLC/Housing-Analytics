@@ -795,17 +795,13 @@
   // ── F214 — Open IC Summary with geoid + back-link to this scenario ─
   function openIcSummary() {
     try {
-      // 1. Resolve the active jurisdiction's geoid from WorkflowState.
-      var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
-                 window.WorkflowState.getActiveProject();
-      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-      var geoid = jx && (jx.geoid || jx.fips || '').replace(/\D/g, '');
-      // The place named in the address wins (Codex content QA C01, 22 Nov 2026).
-      try {
-        var U = window.JurisdictionUrlContext;
-        var u = U && U.isUrlContextPresent && U.isUrlContextPresent() && U.resolveSync ? U.resolveSync() : null;
-        if (u && u.source === 'url' && u.geoid) geoid = String(u.geoid).replace(/\D/g, '');
-      } catch (_) {}
+      // 1. The place this calculation analyses, as the share link names it: the
+      //    address's place, else the saved project's, and either only while it
+      //    lies in the county the inputs use; otherwise that county itself
+      //    (Codex content QA C01 and its review on #2963, 22 Nov 2026).
+      var ser = _serialize();
+      var picked = String(ser.get('county-select') || '').replace(/\D/g, '');
+      var geoid = String(ser.get('geoid') || ser.get('fips') || '').replace(/\D/g, '') || (picked.length === 5 ? picked : '');
       if (!geoid) {
         _showShareToast('⚠ No active jurisdiction. Pick one in HNA or Deal Calc first.', 'warn');
         return;
@@ -815,7 +811,7 @@
       //    underwriting" pill that takes the reader back here.
       // Both the deal link and its ride on the summary page sit in fragments,
       // so neither request carries the deal (see SHARE_HASH_PREFIX).
-      var dcUrl = _shareUrl(_serialize());
+      var dcUrl = _shareUrl(ser);
       var icUrl = window.location.origin + window.location.pathname.replace(/deal-calculator\.html$/, 'ic-summary.html') +
         '?geoid=' + encodeURIComponent(geoid) + '#dc=' + encodeURIComponent(dcUrl);
       // 3. Open in a new tab so the user keeps the Deal Calc state alive.

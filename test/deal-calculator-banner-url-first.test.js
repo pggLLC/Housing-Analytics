@@ -62,7 +62,7 @@ const share = read('js/deal-calculator-share.js');
 const calc = read('js/deal-calculator.js');
 const nav = read('js/navigation.js');
 assert.match(share, /_serialize[\s\S]*isUrlContextPresent/, 'share link takes the address place first');
-assert.match(share, /openIcSummary[\s\S]*isUrlContextPresent/, 'IC summary takes the address place first');
+assert.match(share, /function openIcSummary\(\) \{[\s\S]{0,800}var ser = _serialize\(\);[\s\S]{0,300}ser\.get\('geoid'\)[\s\S]{0,120}picked/, 'IC summary opens the place the share link names, else the county the inputs use');
 assert.match(calc, /_dcGetJurisdictionGeoKey\(\) \{[\s\S]{0,400}isUrlContextPresent/, 'tax-abatement banner takes the address place first');
 assert.match(nav, /_updateJurisdictionPill[\s\S]{0,1500}isUrlContextPresent/, 'header place pill takes the address place first');
 assert.match(html, /_resolveJurisdiction\(\) \{[\s\S]{0,400}isUrlContextPresent/, 'pipeline button takes the address place first');
