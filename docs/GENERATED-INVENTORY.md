@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-22T18:54:17.211Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-22T23:07:33.444Z. Do not edit by hand.
 
 ---
 
@@ -33,12 +33,12 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.3 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-hub.html` | Data and methods · COHO Analytics | 10.4 KB |
+| `data-hub.html` | Data and methods · COHO Analytics | 7.4 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 85.0 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 93.4 KB |
-| `deal-hub.html` | Build a deal · COHO Analytics | 10.4 KB |
+| `deal-hub.html` | Build a deal · COHO Analytics | 8.9 KB |
 | `deal-market-analysis.html` | Market Analysis · COHO Analytics | 160.8 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 95.7 KB |
@@ -58,7 +58,7 @@
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.7 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 265.6 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
-| `index.html` | COHO Analytics · Colorado affordable housing data | 12.4 KB |
+| `index.html` | COHO Analytics · Colorado affordable housing data | 9.0 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.2 KB |
 | `land-banking-awards.html` | Prop 123 Land Banking Awards | COHO Analytics | 13.2 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 20.3 KB |
@@ -71,11 +71,11 @@
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 88.4 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
-| `opportunities-hub.html` | Opportunities · COHO Analytics | 10.4 KB |
+| `opportunities-hub.html` | Opportunities · COHO Analytics | 7.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
-| `places-hub.html` | Places and need · COHO Analytics | 10.4 KB |
+| `places-hub.html` | Places and need · COHO Analytics | 8.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 53.6 KB |
-| `policy-hub.html` | Policy and research · COHO Analytics | 10.4 KB |
+| `policy-hub.html` | Policy and research · COHO Analytics | 7.6 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
 | `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
@@ -2325,7 +2325,7 @@
 | `test/helpers/deal-engine-p-expected.cjs` | 2.6 KB |
 | `test/helpers/deal-engine-page.cjs` | 1.6 KB |
 | `test/helpers/jspdf-mock.cjs` | 2.8 KB |
-| `test/helpers/render-home.js` | 10.6 KB |
+| `test/helpers/render-home.js` | 11.4 KB |
 | `test/historical-trends-real-data.test.js` | 16.6 KB |
 | `test/hmda-lookup.test.js` | 6.9 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
