@@ -387,7 +387,7 @@
     var title = 'Where the money goes';
     var headFor = function (dated) { return T.head({
       kind: 'data', crumbs: T.trail('policy', title), title: title,
-      answer: 'Every affordable housing award from CHFA, OEDIT and DOLA’s Division of Housing, by county and project, each linked to the list it came from.',
+      answer: 'Affordable housing awards from CHFA, OEDIT and DOLA’s Division of Housing, by county and project, each linked to the list it came from. DOLA’s announcements are read by hand and are partial.',
       dated: dated
     }); };
     var head = headFor();
@@ -433,6 +433,9 @@
     if (perHere != null) finding += agency === 'ALL' && sum.dollars != null
       ? ' That is $' + num(Math.round(sum.dollars / pop)) + ' per resident in grants and loans, and ' + perHere.toFixed(1) + ' homes per 1,000 residents.'
       : ' That is ' + (agency === 'ALL' ? perHere.toFixed(1) + ' homes per 1,000 residents' : '$' + (perHere >= 100 ? num(perHere) : perHere.toFixed(2)) + (agency === 'CHFA' ? ' a year in tax credits' : '') + ' per resident') + '.';
+    // What the count means, beside it (Codex content QA C07, 22 Nov 2026).
+    if (sum.awards && agency === 'ALL') finding += ' These are homes named in awards, not distinct finished homes: a project funded by two agencies counts under each, land banking homes are estimates, and DOLA’s lists are partial.';
+    else if (sum.awards && agency === 'DOLA') finding += ' DOLA’s lists are partial.';
     var q = function (k, v) { var p = new URLSearchParams(params); if (v == null) p.delete(k); else p.set(k, v); var x = p.toString(); return '#/money' + (x ? '?' + x : ''); };
     var chips = '<nav class="dm-chips" aria-label="Which agency"><ul>' + [['ALL', 'All three, in homes']].concat(AGENCY_ORDER.map(function (k) { return [k, M.AGENCIES[k].label]; })).map(function (c) {
       return '<li><a href="' + esc(q('agency', c[0] === 'ALL' ? null : c[0])) + '"' + (c[0] === agency ? ' class="is-on" aria-current="true"' : '') + '>' + esc(c[1]) + '</a></li>';

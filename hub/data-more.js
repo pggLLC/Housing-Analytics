@@ -63,9 +63,14 @@
     if (!s.data) return loading('Trust center', s);
     var qa = s.data.qa, I = global.DataSourceInventory, stats = I ? I.getStats() : null;
     var ok = passed(qa), when = day(qa.generated_at);
-    var attention = I ? I.getSources().filter(function (x) { return x.status === 'stale' || x.status === 'aging' || x.status === 'unavailable'; }).length : null;
+    // Each status keeps its own meaning (Codex content QA C08, 22 Nov 2026): an unavailable source could not be reached,
+    // which says nothing about how old its copy is. The checks test the files, not how well a model predicts.
+    var srcs = I ? I.getSources() : [], nOf = function (st) { return srcs.filter(function (x) { return x.status === st; }).length; };
+    var late = nOf('stale'), aging = nOf('aging'), down = nOf('unavailable');
+    var parts = [late ? num(late) + ' past their refresh date' : null, aging ? num(aging) + ' near it' : null, down ? num(down) + ' could not be reached at the last check' : null].filter(Boolean);
     var finding = (ok === CHECKS.length ? 'All five data checks passed on ' + when + '.' : ok + ' of ' + CHECKS.length + ' data checks passed on ' + when + '.') +
-      (stats ? ' ' + num(attention) + ' of ' + num(stats.total) + ' sources are past or near their refresh date.' : '');
+      ' The checks test the site’s copies of the files, not how well a forecast or model predicts.' +
+      (stats ? ' Of ' + num(stats.total) + ' sources, ' + (parts.length ? (parts.length > 1 ? parts.slice(0, -1).join(', ') + ' and ' + parts[parts.length - 1] : parts[0]) + '.' : 'none is past or near its refresh date or out of reach.') : '');
     var steps = [
       { n: '1', title: 'A public agency publishes it', detail: stats ? num(stats.total) + ' sources, each with its publisher' : 'Each source names its publisher', href: '#/data/sources', go: 'Data sources' },
       { n: '2', title: 'The site keeps a dated copy', detail: num(s.data.files.files.filter(function (f) { return !MEMBER.test(f.path); }).length) + ' files, each with its update date', href: '#/data/explorer', go: 'Data explorer' },

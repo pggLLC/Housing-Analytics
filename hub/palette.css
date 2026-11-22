@@ -6,6 +6,7 @@
   --pine: #1B4D3E;        /* headings, links, buttons; white text on it 9.6:1 */
   --pine-deep: #14382C;   /* hero and share-card background */
   --on-dark: #FFFFFF;     /* text on pine-deep panels; stays white in any theme */
+  --figure-bg: #FFFFFF;   /* behind a brief's SVG figure, drawn for a white page; stays white in any theme */
   --on-dark-soft: #E6EEEA; /* body text on pine-deep; 11.6:1 */
   --gold: #F2C14E;        /* accent fill only; never text on a light background (1.7:1) */
   --rust: #C2410C;        /* households, warnings, "short"; 5.2:1 on white */

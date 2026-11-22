@@ -410,7 +410,7 @@ html.dark-mode .mb-tiles[data-base="street"] .mb-tile { filter: invert(1) hue-ro
 .gap-chart .gap-lead { margin: .5rem 0 .25rem; font-size: 1.0625rem; font-weight: 600; color: var(--ink); max-width: 65ch; }
 .gap-chart .gap-band .gap-cum { display: block; font-size: 13px; }
 .gap-chart .gap-band .gap-surplus { display: block; font-size: 13px; font-style: italic; }
-.gap-chart .gap-who { margin: .75rem 0 0; padding-top: .75rem; border-top: 1px solid var(--line); font-size: .9375rem; max-width: 65ch; }
+.gap-chart .gap-who { margin: .75rem 0 0; padding-top: .75rem; border-top: 1px solid var(--line); font-size: .9375rem; }
 .gap-chart .gap-who .note { display: block; margin-top: .25rem; font-size: 13px; }
 
 /* Local incentives: how far the check has got, one stacked bar per scope (blue steps, gray = not checked). */
@@ -1026,7 +1026,7 @@ th[aria-sort="descending"] > button.th-sort::after { content: "\2193"; color: va
 .brief .brief-step-level { display: inline-block; font-size: .75rem; letter-spacing: .04em; text-transform: uppercase; color: var(--green); }
 .brief .brief-steps-ends { display: flex; justify-content: space-between; font-size: .8125rem; color: var(--muted, var(--muted)); }
 .brief .brief-figure { margin: 1.25rem 0; }
-.brief .brief-figure img { display: block; width: 100%; max-width: 640px; height: auto; border: 1px solid var(--line); border-radius: 8px; background: #ffffff; }
+.brief .brief-figure img { display: block; width: 100%; max-width: 640px; height: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--figure-bg); }
 .brief .brief-figure figcaption { font-size: .8125rem; color: var(--muted); margin-top: .5rem; max-width: 640px; }
 .brief .brief-sources li { margin-bottom: .5rem; }
 .brief .brief-sources .research-meta { display: block; font-size: .8125rem; }
@@ -1632,6 +1632,19 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .page-tabs a[aria-current="location"] { border-bottom-color: var(--green); font-weight: 600; color: var(--green); }
 #main [id] { scroll-margin-top: calc(var(--hdr-h, 0px) + var(--sp-top, 0px) + 3rem + .5rem); }
 @media print { .page-tabs { display: none; } }
+/* "More sections": the tabs that do not fit one row on a laptop or wider (templates.js fitTabs). */
+.page-tabs .pt-more { position: relative; margin-left: auto; }
+.page-tabs .pt-more summary { display: flex; align-items: center; gap: .35rem; min-height: 44px; padding: 0 .9rem; cursor: pointer; list-style: none; color: var(--ink); white-space: nowrap; border-bottom: 3px solid transparent; }
+.page-tabs .pt-more summary::-webkit-details-marker { display: none; }
+.page-tabs .pt-more summary::after { content: ""; width: .45em; height: .45em; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-.15em) rotate(45deg); }
+.page-tabs .pt-more details[open] summary::after { transform: translateY(.1em) rotate(-135deg); }
+.page-tabs .pt-more summary:hover { color: var(--green); border-bottom-color: var(--line); }
+.page-tabs .pt-more summary:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.page-tabs .pt-more.has-current summary { border-bottom-color: var(--green); font-weight: 600; color: var(--green); }
+.page-tabs .pt-more-list { display: block; position: absolute; right: 0; top: 100%; z-index: 45; list-style: none; margin: 0; padding: .35rem 0; width: max-content; min-width: 16rem; max-width: min(26rem, 90vw); max-height: min(70vh, 32rem); overflow-y: auto; background: var(--card); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 6px 18px var(--shade-soft); }
+.page-tabs .pt-more-list li { display: block; }
+.page-tabs .pt-more-list a { white-space: normal; min-height: 44px; padding: .4rem 1rem; border-bottom: 0; border-left: 3px solid transparent; }
+.page-tabs .pt-more-list a[aria-current="location"] { border-left-color: var(--green); border-bottom-color: transparent; }
 /* "Which document do you need?": the chooser the white paper, working paper and Methods share. */
 .doc-guide { margin: 0 0 1.5rem; padding: 1rem 1.25rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
 .doc-guide-t { margin: 0 0 .5rem; font-weight: 700; }

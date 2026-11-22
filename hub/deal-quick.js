@@ -43,7 +43,10 @@
     var p = def.id && softDoc && softDoc.programs && softDoc.programs[def.id], r = p && p.max_rule || {};
     var caps = [r.max_amount || p && p.maxPerProject, r.max_project_cost_pct ? tdc * r.max_project_cost_pct / 100 : null].filter(function (v) { return v > 0; });
     return { max: caps.length ? Math.floor(Math.min.apply(null, caps)) : null, min: r.min_amount || null, rate: p && p.rate_pct != null ? p.rate_pct : 0,
-      rule: r.text || null, url: p && p.source_url || null };
+      rule: r.text || null, url: p && p.source_url || null,
+      // Which cap sets the maximum (Codex content QA C04): the program's dollar cap, or its share of this project's cost.
+      amountCap: r.max_amount || p && p.maxPerProject || null, costPct: r.max_project_cost_pct || null,
+      byCost: !!(r.max_project_cost_pct && caps.length > 1 && tdc * r.max_project_cost_pct / 100 < (r.max_amount || p && p.maxPerProject)) };
   }
   // The county's place on HUD's 2026 lists: a nonmetro county DDA, its Small Area DDA ZIP codes (metro), and its QCT count.
   function designations(src, fips) {
@@ -799,7 +802,9 @@
       var band = c.max ? [c.min || 0, c.max] : null, name = 'quick:soft:' + d.k, out = 'quick-soft-' + d.k + '-v';
       return '<label class="field" for="' + name + '">' + sliderName(name, esc(d.label)) + '<output id="' + out + '">' + esc(money(v)) + '</output><input name="' + name + '"' + named(name) + ' type="range" min="0" max="' + max + '" step="25000" value="' + v + '"' + SL().attrs('money', out, band, true) + '>' +
         SL().scale({ id: name, min: 0, max: max, value: v, band: band, zeroOk: true }) +
-        '<span class="hint">' + (band ? SL().key('band') + (band[0] > 0 ? 'The program’s range: ' + esc(money(band[0])) + ' to ' + esc(money(band[1])) + '. ' : 'Up to ' + esc(money(band[1])) + '. ') : '') +
+        '<span class="hint">' + (band ? SL().key('band') + (c.byCost
+          ? 'For this project: ' + (band[0] > 0 ? esc(money(band[0])) + ' to ' : 'up to ') + esc(money(band[1])) + ', which is ' + esc(String(c.costPct)) + '% of its ' + esc(money(q.tdc)) + ' cost. The program’s own cap is ' + esc(money(c.amountCap)) + '. The award itself is the program’s decision. '
+          : (band[0] > 0 ? 'The program’s range: ' + esc(money(band[0])) + ' to ' + esc(money(band[1])) + '. ' : 'Up to ' + esc(money(band[1])) + '. ')) : '') +
         (c.rule ? esc(c.rule) : c.max ? '' : 'No published limit; enter the award.') +
         (c.min && v > 0 && v < c.min ? ' Below the ' + esc(money(c.min)) + ' minimum.' : '') + (c.url ? ' <a href="' + esc(c.url) + '">Program ↗</a>' : '') + '</span></label>';
     }).join('') + '</div><p class="note">Each is entered as a loan repaid from sale or refinance' +

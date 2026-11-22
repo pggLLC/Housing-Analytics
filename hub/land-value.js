@@ -129,7 +129,8 @@
       '<li><strong>Most the deal can pay is at or above market value.</strong> The project can afford market land. Negotiate from strength.</li>' +
       '<li><strong>Between the public-discount price and market value.</strong> It needs a below-market deal; housing authority or Prop 123 land banking help can close it.</li>' +
       '<li><strong>Above zero but below the public-discount price.</strong> A big gap. Expect a ground lease, donated land or a seller carry-back note.</li>' +
-      '<li><strong>Zero or less.</strong> The deal cannot pay anything for land. Don’t pursue it unless land is donated.</li></ul>' +
+      '<li><strong>Zero.</strong> The deal can pay nothing for land. It works only with donated or public land.</li>' +
+      '<li><strong>Below zero.</strong> Even free land leaves a gap: the deal is short on costs other than land by that amount. It needs lower costs, more income or more funding as well as free land.</li></ul>' +
       '<h3>Further reading</h3><ul>' +
       '<li><a href="https://www.appraisalinstitute.org">Appraisal Institute</a>: the MAI directory, and the sales-comparison and residual methods in full.</li>' +
       '<li><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits">Novogradac tax credit resource center</a>: land valuation from the developer’s side.</li>' +
