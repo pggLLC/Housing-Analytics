@@ -55,16 +55,23 @@
     var short = String(entryLabel || g).replace(/ County$/, '') + ' County';
     var hn = c.proj.housing_need || {}, ys = c.proj.years || [];
     var at = function (xs, y) { var i = ys.indexOf(y); return i > -1 && xs ? xs[i] : null; };
-    var grow10 = at(hn.incremental_units_needed_dola, 2036) - at(hn.incremental_units_needed_dola, 2026);
-    var rep = (hn.replacement || {}).cumulative_units, lost10 = rep ? at(rep, 2036) - at(rep, 2026) : 0;
-    var need10 = grow10 + (lost10 > 0 ? lost10 : 0);
+    // A ten-year change only when both ends are published: a missing end is never read as zero (Codex, HA #2968).
+    var fin = function (x) { return typeof x === 'number' && isFinite(x); };
+    var diff = function (xs) { var a = at(xs, 2026), b = at(xs, 2036); return fin(a) && fin(b) ? b - a : null; };
+    var grow10 = diff(hn.incremental_units_needed_dola);
+    var lost10 = diff((hn.replacement || {}).cumulative_units);
+    var need10 = grow10 == null ? null : grow10 + (lost10 > 0 ? lost10 : 0);
+    var noRep = lost10 == null ? ' The replacement estimate is not published for ' + esc(short) + ', so this counts growth only.' : '';
     var ownShare = hn.tenure_split && hn.tenure_split.owner_share != null ? hn.tenure_split.owner_share : (a.DP04_0046PE != null ? a.DP04_0046PE / 100 : null);
     var hh26 = at(hn.households_dola, 2026), hh36 = at(hn.households_dola, 2036);
     var gp = c.gap || {}, le30 = (gp.households_le_ami_pct || {})['30'], homes30 = (gp.units_priced_affordable_le_ami_pct || {})['30'], rent30 = (gp.affordable_rent_monthly || {})['30'];
-    var short30 = le30 != null && homes30 != null ? le30 - homes30 : null, ami = gp.ami_4person;
+    // Homes short is the file's matched minimum (cheapest homes to the lowest incomes first, homes rented for no cash
+    // rent counted as housing someone), not households minus cash-rent homes (Codex, HA #2968).
+    var mm = (gp.min_shortfall_matched_le_ami_pct || {})['30'], short30 = fin(mm) && mm >= 0 ? mm : null;
+    var noCash = gp.renter_units_no_cash_rent, ami = gp.ami_4person;
     var renters = a.DP04_0047E, owners = a.DP04_0046E, rentPct = a.DP04_0047PE, ownPct = a.DP04_0046PE;
     var rb = m.pct_cost_burdened, ob = m.pct_owner_burdened_30plus, inc = m.median_hh_income, val = m.median_home_value;
-    var stock100 = m.pct_owner_stock_affordable_100ami, grow20 = m.future_units_needed_20yr, decline = grow10 < 0;
+    var stock100 = m.pct_owner_stock_affordable_100ami, grow20 = m.future_units_needed_20yr, decline = grow10 != null && grow10 < 0;
     var S = {
       rent: src(M.pct_cost_burdened, 'Census ACS', ACS_URL), own: src(M.pct_owner_burdened_30plus, 'HUD CHAS', CHAS_URL),
       value: src(M.median_home_value, 'Census ACS', ACS_URL), stock: src(M.pct_owner_stock_affordable_100ami, 'Census ACS', ACS_URL),
@@ -74,13 +81,14 @@
 
     // 1. Five things to know: three for renters, two for owners, each a full sentence with its years.
     var f = [];
-    f.push(decline
-      ? '<strong>' + esc(short) + '’s forecast has fewer households in 2036 than today</strong>, so growth adds no homes. About ' + about(lost10) + ' homes will still need replacing as they wear out (' + S.sdo + '; COHO estimate).'
-      : '<strong>' + esc(short) + ' needs about ' + about(need10) + ' more homes from 2026 to 2036</strong>: ' + num(grow10) + ' for new households and ' + num(lost10) + ' to replace homes that wear out.' +
+    if (grow10 == null) f.push('<strong>The forecast file has no 2026 to 2036 homes-needed figure for ' + esc(short) + '</strong>, so this summary gives none. The <a href="#/place/' + esc(g) + '/future">Where it’s heading</a> chapter shows what the forecast has (' + S.sdo + ').');
+    else f.push(decline
+      ? '<strong>' + esc(short) + '’s forecast has fewer households in 2036 than today</strong>, so growth adds no homes.' + (lost10 != null ? ' About ' + about(lost10) + ' homes will still need replacing as they wear out' : noRep) + ' (' + S.sdo + '; COHO estimate).'
+      : '<strong>' + esc(short) + ' needs about ' + about(need10) + ' more homes from 2026 to 2036</strong>: ' + num(grow10) + ' for new households' + (lost10 != null ? ' and ' + num(lost10) + ' to replace homes that wear out.' : '.' + noRep) +
         (ownShare != null ? ' If new households own and rent as today’s do, that is about ' + about(need10 * ownShare) + ' owner homes and ' + about(need10 * (1 - ownShare)) + ' rental homes.' : '') + ' (' + S.sdo + '; COHO estimate.)');
-    if (short30 != null) f.push(short30 > 0
-      ? '<strong>The deepest shortage is for the lowest-income renters.</strong> ' + num(le30) + ' renter households earn 30% of area median income or less (about ' + money(ami * 0.3) + ' a year for a family of four). Only ' + num(homes30) + ' homes rent for what they can pay, ' + money(rent30) + ' a month or less, so about ' + about(short30) + ' are short (' + S.acs + '; ' + S.hud + ').'
-      : '<strong>At 30% of area median income, homes priced for renters outnumber renters</strong> (' + num(homes30) + ' homes, ' + num(le30) + ' renter households), but many of those homes are rented by higher earners (' + S.acs + ').');
+    if (short30 != null && le30 != null && homes30 != null) f.push(short30 > 0
+      ? '<strong>The deepest shortage is for the lowest-income renters.</strong> ' + num(le30) + ' renter households earn 30% of area median income or less (about ' + money(ami * 0.3) + ' a year for a family of four). Only ' + num(homes30) + ' homes rent for what they can pay, ' + money(rent30) + ' a month or less. Even if all of them' + (noCash > 0 ? ', and the ' + num(noCash) + ' homes rented for no cash rent,' : '') + ' went to these households, at least ' + num(short30) + ' would be short (' + S.acs + '; ' + S.hud + ').'
+      : '<strong>At 30% of area median income, homes priced for renters' + (noCash > 0 ? ' and homes rented for no cash rent' : '') + ' at least match renters in number</strong> (' + num(homes30) + ' homes, ' + num(le30) + ' renter households), but many of those homes are rented by higher earners (' + S.acs + ').');
     f.push('<strong>' + pct(rb) + ' of renter households pay 30% or more of income on rent and utilities.</strong> For owner households it is ' + pct(ob) + ' (renters: ' + S.rent + '; owners: ' + S.own + ').');
     if (val && inc) f.push('<strong>The typical home is worth ' + money(val) + ', ' + (val / inc).toFixed(1) + ' times the typical household’s income of ' + money(inc) + '.</strong> Lenders’ rule of thumb is about three times (' + S.value + ').');
     if (stock100 != null) f.push('<strong>' + pct(stock100, 0) + ' of owner-occupied homes are worth what a household at area median income can buy.</strong> The rest are out of reach without more income or savings (' + S.stock + '; ' + S.hud + ').');
@@ -105,12 +113,13 @@
 
     // 3. Homes needed: one headline, its parts, the other counts in a fold.
     out += '<h2>Homes needed, 2026 to 2036</h2>' +
-      (decline ? '<p><strong>' + esc(short) + '’s forecast has ' + num(Math.abs(hh36 - hh26)) + ' fewer households in 2036.</strong> Growth adds no homes; about ' + about(lost10) + ' still need replacing as they wear out.</p>'
+      (grow10 == null ? '<p>The forecast file has no 2026 to 2036 figure for ' + esc(short) + '.</p>'
+      : decline ? '<p><strong>' + esc(short) + '’s forecast has ' + (fin(hh26) && fin(hh36) ? num(Math.abs(hh36 - hh26)) + ' ' : '') + 'fewer households in 2036.</strong> Growth adds no homes' + (lost10 != null ? '; about ' + about(lost10) + ' still need replacing as they wear out.' : '.' + noRep) + '</p>'
         : '<p><strong>About ' + about(need10) + ' more homes</strong>' + (grow20 ? '. Over 20 years, 2024 to 2044, the figure is about ' + about(grow20) + ', counting workers who commute in and might move closer.' : '.') + '</p>' +
-          '<ul><li>' + num(grow10) + ' for ' + num(hh36 - hh26) + ' new households, with room for people to move.</li>' +
-          '<li>' + num(lost10) + ' to replace homes that wear out or are torn down.</li>' +
+          '<ul><li>' + num(grow10) + ' for ' + (fin(hh26) && fin(hh36) ? num(hh36 - hh26) + ' ' : '') + 'new households, with room for people to move.</li>' +
+          (lost10 != null ? '<li>' + num(lost10) + ' to replace homes that wear out or are torn down.</li>' : '<li>' + noRep.trim() + '</li>') +
           (ownShare != null ? '<li>About ' + about(need10 * ownShare) + ' owner homes and ' + about(need10 * (1 - ownShare)) + ' rental homes, if new households own and rent like today’s.</li>' : '') + '</ul>') +
-      (short30 > 0 ? '<p><strong>On top of that, today’s shortage:</strong> about ' + about(short30) + ' rental homes for renter households at 30% of area median income or less (renters only).</p>' : '') +
+      (short30 > 0 ? '<p><strong>On top of that, today’s shortage:</strong> at least ' + num(short30) + ' rental homes for renter households at 30% of area median income or less (renters only). It is a minimum: it assumes every home priced for them goes to them.</p>' : '') +
       '<details class="pb-fold"><summary>How this works, and other ways to count</summary><ul>' +
         '<li>We take the forecast’s new households and add enough homes to leave about 5 in every 100 empty so people can move, then add homes lost to age (yearly loss rates by building age, from the Census year-built count).</li>' +
         (grow20 ? '<li>Over 20 years, 2024–2044: ' + num(grow20) + ' homes, resident growth plus workers who commute in and might move closer (the Overview’s headline).</li>' : '') +
