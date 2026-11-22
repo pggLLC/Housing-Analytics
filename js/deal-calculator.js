@@ -6478,10 +6478,21 @@
         // sets this before init). It wins over the recipient's own workflow
         // jurisdiction, which would otherwise re-select a different county
         // after the link hydrated — or none, leaving every output at "—".
-        if (window.__DealCalcSharedCounty && _selectCounty(window.__DealCalcSharedCounty)) return;
+        // Either early return still loads the place names, so the heading and the
+        // header pill can name the address's place (rehearsal 22 Nov 2026: a
+        // quick-estimate handoff opened the full calculator headed "—" and
+        // "Choose jurisdiction"). Loading names never changes the county picked.
+        var _loadNamesOnly = function () {
+          try {
+            if (window.JurisdictionUrlContext && typeof window.JurisdictionUrlContext.resolve === 'function') {
+              window.JurisdictionUrlContext.resolve().catch(function () {});
+            }
+          } catch (_) {}
+        };
+        if (window.__DealCalcSharedCounty && _selectCounty(window.__DealCalcSharedCounty)) { _loadNamesOnly(); return; }
         // A linked site's county comes from its coordinates (_wireCountyDetect), not from the county this
         // browser last used: the stored jurisdiction must not overwrite it (Codex review of #2902).
-        if (linkedSitePoint()) return;
+        if (linkedSitePoint()) { _loadNamesOnly(); return; }
         var _fallbackCounty = function () {
           // Pre-select the jurisdiction county so user doesn't re-enter it.
           // GEO-1 writes a canonical countyFips for place/CDP selections;
