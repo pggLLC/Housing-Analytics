@@ -317,10 +317,22 @@
     var wrap = document.getElementById('jurisdictionPillWrap');
     if (!wrap) return;
 
-    // Try WorkflowState first, fall back to SiteState
+    // A place named in the address is the place the page shows, so the pill
+    // names it (Codex content QA C01, 22 Nov 2026). Otherwise WorkflowState,
+    // then SiteState.
     var county = null;
     var city = null;
     try {
+      var U = window.JurisdictionUrlContext;
+      var uctx = U && U.isUrlContextPresent && U.isUrlContextPresent() && U.resolveSync ? U.resolveSync() : null;
+      if (uctx && uctx.source === 'url' && uctx.countyName) {
+        county = uctx.countyName;
+        if (uctx.geoType !== 'county' && uctx.displayName && uctx.displayName !== county) {
+          city = String(uctx.displayName).replace(/\s*\((?:city|town|CDP)\)/i, '');
+        }
+      }
+    } catch (_) {}
+    if (!county) try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
       var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
       if (jx && (jx.name || jx.countyName)) {
@@ -860,6 +872,7 @@
     _updateJurisdictionPill();
     document.addEventListener('workflow:step-updated', _updateJurisdictionPill);
     document.addEventListener('sitestate:county-changed', _updateJurisdictionPill);
+    document.addEventListener('jurisdiction-url-context:resolved', _updateJurisdictionPill);
 
     document.dispatchEvent(new CustomEvent('nav:rendered'));
   }

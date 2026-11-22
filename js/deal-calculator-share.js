@@ -394,14 +394,30 @@
       params.set('utilityAllowance', JSON.stringify(window.__DealCalc.getUtilityAllowanceMetadata()));
       if (window.__DealCalc.getRentScheduleMetadata) params.set('rentSchedule', JSON.stringify(window.__DealCalc.getRentScheduleMetadata()));
     }
-    // Active jurisdiction (county FIPS) so the partner lands on the same
-    // basis-boost / county context.
+    // The place analysed, so the partner lands on the same basis-boost / county
+    // context: the place named in this page's address first, else the saved
+    // project's place, and that only when it lies in the county the inputs use.
+    // A saved project elsewhere never rides along (Codex content QA C01,
+    // 22 Nov 2026: a Hinsdale calculation's link named Mesa County).
     try {
-      var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
-                 window.WorkflowState.getActiveProject();
-      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-      if (jx && jx.fips)  params.set('fips',  jx.fips);
-      if (jx && jx.geoid) params.set('geoid', jx.geoid);
+      var picked = params.get('county-select');
+      var U = window.JurisdictionUrlContext;
+      var uctx = U && U.isUrlContextPresent && U.isUrlContextPresent() && U.resolveSync ? U.resolveSync() : null;
+      var place = null;
+      if (uctx && uctx.source === 'url') {
+        place = { fips: uctx.fips, geoid: uctx.geoid, county: uctx.countyFips };
+      } else {
+        var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                   window.WorkflowState.getActiveProject();
+        var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+        if (jx) place = { fips: jx.fips, geoid: jx.geoid,
+          county: jx.countyFips || (jx.geoType === 'county' ? jx.geoid : null) || (String(jx.fips || '').length === 5 ? jx.fips : null) };
+      }
+      var five = function (v) { v = String(v || ''); return v ? ('08' + v.replace(/^08(?=\d{3}$)/, '').padStart(3, '0')).slice(-5) : null; };
+      if (place && (!picked || !place.county || five(place.county) === five(picked))) {
+        if (place.fips)  params.set('fips',  place.fips);
+        if (place.geoid) params.set('geoid', place.geoid);
+      }
     } catch (_) {}
     return params;
   }
@@ -784,6 +800,12 @@
                  window.WorkflowState.getActiveProject();
       var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
       var geoid = jx && (jx.geoid || jx.fips || '').replace(/\D/g, '');
+      // The place named in the address wins (Codex content QA C01, 22 Nov 2026).
+      try {
+        var U = window.JurisdictionUrlContext;
+        var u = U && U.isUrlContextPresent && U.isUrlContextPresent() && U.resolveSync ? U.resolveSync() : null;
+        if (u && u.source === 'url' && u.geoid) geoid = String(u.geoid).replace(/\D/g, '');
+      } catch (_) {}
       if (!geoid) {
         _showShareToast('⚠ No active jurisdiction. Pick one in HNA or Deal Calc first.', 'warn');
         return;
