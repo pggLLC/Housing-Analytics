@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-11-21T15:18:34.912Z
+**Scan timestamp:** 2026-11-22T15:14:52.206Z
 
 ## Summary
 
@@ -34,7 +34,7 @@
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/property-websites.json` (31 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (1 KB)
-- `data/alerts/alerts_archive.json` (2759 KB)
+- `data/alerts/alerts_archive.json` (2785 KB)
 - `data/alerts/outlet-decisions.json` (6 KB)
 - `data/alerts/outlet-register.json` (31 KB)
 - `data/alerts/outlet-review.json` (18 KB)
@@ -43,7 +43,7 @@
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3871 KB)
 - `data/audit/chfa-qap-watch.json` (3753 KB)
-- `data/audit/funding-watch.json` (705 KB)
+- `data/audit/funding-watch.json` (693 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/benchmarks/str-license-counts.json` (6 KB)
@@ -1776,7 +1776,7 @@
 - `data/market/hud_s8_contracts_co.json` (188 KB)
 - `data/market/hud_zip_tract_crosswalk_co.json` (776 KB)
 - `data/market/inclusionary_zoning_co.json` (7 KB)
-- `data/market/landuse_zoning_proxy_co.geojson` (5105 KB)
+- `data/market/landuse_zoning_proxy_co.geojson` (5108 KB)
 - `data/market/lihtc-equity-pricing-history.json` (5 KB)
 - `data/market/local-players.json` (555 KB)
 - `data/market/lodes_co.json` (664 KB)
@@ -1963,11 +1963,11 @@
 - `data/policy/unit-size-standards.json` (5 KB)
 - `data/policy/vacancy-tax.json` (45 KB)
 - `data/policy/where-to-build-context.json` (34 KB)
-- `data/policy_briefs.json` (910 KB)
+- `data/policy_briefs.json` (896 KB)
 - `data/policy_briefs_curated.json` (437 KB)
 - `data/polymarket-curated.json` (6 KB)
 - `data/polymarket-data.json` (20 KB)
-- `data/polymarket-history.json` (236 KB)
+- `data/polymarket-history.json` (238 KB)
 - `data/processed/co_county_housing_indicators.geojson` (447 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
@@ -1991,4 +1991,4 @@
 
 ## ⏳ Aging Sources
 
-- undefined — 293 days since last update
+- undefined — 294 days since last update
