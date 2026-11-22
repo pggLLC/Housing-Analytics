@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-22T14:07:13.869675Z",
+  "generated": "2026-11-22T14:19:28.529708Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8759,7 +8759,7 @@
     "data/market/development-activity.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1374939
+      "bytes": 1374943
     },
     "data/market/dola_demographics_co.json": {
       "featureCount": 64,
@@ -8904,12 +8904,12 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 773423
+      "bytes": 773427
     },
     "data/market/market-types.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 438114
+      "bytes": 438118
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -9649,7 +9649,7 @@
     "data/policy/incentive-peer-profiles.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41047
+      "bytes": 41051
     },
     "data/policy/jchs-state-of-nations-housing.json": {
       "featureCount": 0,
@@ -9729,7 +9729,7 @@
     "data/policy/prop123-land-banking-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36902
+      "bytes": 36906
     },
     "data/policy/prop123-rental-rules.json": {
       "featureCount": 0,
