@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-21T03:17:43.084Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-22T16:17:56.337Z. Do not edit by hand.
 
 ---
 
@@ -37,7 +37,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 85.0 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 90.6 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 93.1 KB |
 | `deal-hub.html` | Build a deal · COHO Analytics | 10.4 KB |
 | `deal-market-analysis.html` | Market Analysis · COHO Analytics | 160.8 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
@@ -119,14 +119,14 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 957 B | ✅ | — |
-| `data/alerts/alerts_archive.json` | 2.63 MB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 2.72 MB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 5.8 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
-| `data/alerts/outlet-review.json` | 17.1 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 17.7 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.66 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 706.0 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 693.5 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.2 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -526,7 +526,7 @@
 | `data/hna/jurisdiction-metrics-digest/08105.json` | 41.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0810600.json` | 42.5 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08107.json` | 41.2 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/08109.json` | 41.2 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/08109.json` | 41.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0810985.json` | 41.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08111.json` | 41.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0811260.json` | 42.1 KB | ✅ | — |
@@ -610,7 +610,7 @@
 | `data/hna/jurisdiction-metrics-digest/0822882.json` | 41.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0823025.json` | 42.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0823135.json` | 42.7 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0823300.json` | 41.1 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0823300.json` | 41.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0823520.json` | 41.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0823575.json` | 41.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0823630.json` | 41.4 KB | ✅ | — |
@@ -618,7 +618,7 @@
 | `data/hna/jurisdiction-metrics-digest/0823795.json` | 41.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0824235.json` | 41.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0824290.json` | 41.3 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0824620.json` | 42.8 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0824620.json` | 42.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0824785.json` | 42.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0824950.json` | 42.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0825115.json` | 42.8 KB | ✅ | — |
@@ -695,7 +695,7 @@
 | `data/hna/jurisdiction-metrics-digest/0837545.json` | 42.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837600.json` | 42.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837655.json` | 41.4 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0837820.json` | 43.0 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0837820.json` | 42.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837875.json` | 42.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0838370.json` | 42.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0838425.json` | 41.0 KB | ✅ | — |
@@ -712,7 +712,7 @@
 | `data/hna/jurisdiction-metrics-digest/0839855.json` | 42.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0839965.json` | 42.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0840185.json` | 42.9 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0840377.json` | 41.1 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0840377.json` | 41.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0840515.json` | 42.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0840550.json` | 41.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0840570.json` | 42.3 KB | ✅ | — |
@@ -795,7 +795,7 @@
 | `data/hna/jurisdiction-metrics-digest/0853945.json` | 41.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0854330.json` | 42.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0854495.json` | 41.3 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0854750.json` | 41.3 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0854750.json` | 41.4 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0854880.json` | 42.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0854935.json` | 42.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0855045.json` | 42.9 KB | ✅ | — |
@@ -937,7 +937,7 @@
 | `data/hna/jurisdiction-metrics-digest/0882460.json` | 42.4 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0882735.json` | 42.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0882900.json` | 41.4 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0883120.json` | 41.1 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0883120.json` | 41.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0883175.json` | 41.3 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0883230.json` | 42.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0883450.json` | 42.4 KB | ✅ | — |
@@ -1887,7 +1887,7 @@
 | `data/market/walk_bike_map_co.json` | 4.86 MB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
-| `data/market/zillow_co_metros.json` | 107.1 KB | ✅ | — |
+| `data/market/zillow_co_metros.json` | 107.2 KB | ✅ | — |
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
 | `data/market/zori_rents_co.json` | 23.4 KB | ✅ | — |
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
@@ -1990,7 +1990,7 @@
 | `data/policy/green-building.json` | 58.3 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 32.6 KB | ✅ | — |
 | `data/policy/housing-events-curated.json` | 2.9 KB | ✅ | — |
-| `data/policy/housing-events.json` | 154.7 KB | ✅ | — |
+| `data/policy/housing-events.json` | 153.1 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 178.8 KB | ✅ | — |
 | `data/policy/housing-roll-calls.json` | 5.7 KB | ✅ | — |
 | `data/policy/hud-state-median-family-income.json` | 1.0 KB | ✅ | — |
@@ -2030,11 +2030,11 @@
 | `data/policy/unit-size-standards.json` | 4.9 KB | ✅ | — |
 | `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 905.7 KB | ✅ | — |
+| `data/policy_briefs.json` | 896.4 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 437.3 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 233.3 KB | ✅ | — |
+| `data/polymarket-history.json` | 237.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2057,7 +2057,7 @@
 
 ## Test Files
 
-795 test files found.
+797 test files found.
 
 | File | Size |
 |------|------|
@@ -2201,6 +2201,7 @@
 | `test/deal-calc-studio-units.test.js` | 3.2 KB |
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
+| `test/deal-calculator-banner-url-first.test.js` | 4.3 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
 | `test/deal-cost-basis.test.js` | 58.2 KB |
@@ -2619,6 +2620,7 @@
 | `test/ranking-index-no-coerced-zeros.test.js` | 10.1 KB |
 | `test/ranking-scenarios.test.js` | 3.1 KB |
 | `test/rebuild-derived-chain.test.mjs` | 8.9 KB |
+| `test/recommendation-burden-vintages.test.js` | 2.0 KB |
 | `test/recommendation-leads-with-the-conclusion.test.mjs` | 32.9 KB |
 | `test/recommendation-transit-zone.test.mjs` | 13.6 KB |
 | `test/redfin-place-market-tracker.test.js` | 4.8 KB |
