@@ -2,9 +2,23 @@
   "meta": {
     "description": "Sunday digest of Colorado affordable housing news. One edition per week, Monday to Sunday, written from official releases and checked newsrooms. Each edition is a Markdown file in this folder.",
     "schedule": "Sundays, about 6:40 am Mountain Time; published on the site when the weekly pull request merges",
-    "updated": "2026-11-15"
+    "updated": "2026-11-22"
   },
   "editions": [
+    {
+      "date": "2026-11-22",
+      "window_start": "2026-11-16",
+      "window_end": "2026-11-22",
+      "title": "Colorado Housing Week: Nov 16 – 22, 2026",
+      "file": "data/news-digest/2026-11-22.md",
+      "summary": [
+        "CHFA's 2026 Round Two tax credits went to 9 of 26 applications, for 845 rental homes; 8 of the 9 are in metro Denver, and no rural project won.",
+        "The governor asked for a second federal flood declaration, this time with household aid in four counties; 271 primary homes were destroyed or unlivable from the second storm.",
+        "A federal judge blocked HUD's rewrite of the homelessness grant program, protecting supportive housing renewals for now.",
+        "HUD's final mixed-status rule takes effect Dec 14, and two lawsuits were filed against it.",
+        "The 30-year rate rose to 7.28%, ending a four-week slide."
+      ]
+    },
     {
       "date": "2026-11-15",
       "window_start": "2026-11-09",
