@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-23T03:47:59.359Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-23T12:16:22.474Z. Do not edit by hand.
 
 ---
 
@@ -69,7 +69,7 @@
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.6 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 158.5 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
-| `methods.html` | Computational Methods | COHO Analytics | 88.4 KB |
+| `methods.html` | Computational Methods | COHO Analytics | 88.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `opportunities-hub.html` | Opportunities · COHO Analytics | 7.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
