@@ -1715,3 +1715,28 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .hdr-place[hidden] { display: none; }
 @media (max-width: 767px) { .site-header.has-place .site-nav { order: 100; } }
 @media print { .hdr-place { display: none !important; } }
+
+/* Prose page (reorg pilot, 22 Nov 2026): a county's Summary tab (site/place-brief.js). Answer first, findings as
+   full sentences, renters and owners side by side with the benchmark beside each figure, sources inline. */
+.pb-summary { max-width: 46rem; }
+.pb-summary .page-answer { font-size: 1.125rem; line-height: 1.55; margin: 0 0 1rem; }
+.pb-findings { padding-left: 1.4rem; margin: 0 0 1rem; }
+.pb-findings li { margin: 0 0 .75rem; line-height: 1.6; font-size: 1rem; }
+.pb-why { line-height: 1.6; }
+.pb-sides { display: grid; grid-template-columns: 1fr; gap: 1rem; max-width: none; }
+@media (min-width: 720px) { .pb-sides { grid-template-columns: 1fr 1fr; } .pb-summary { max-width: 60rem; } .pb-summary > p, .pb-summary > ol, .pb-summary > ul { max-width: 46rem; } }
+.pb-side { display: grid; gap: .6rem; align-content: start; }
+.pb-tag { margin: 0; font-size: .875rem; letter-spacing: .06em; text-transform: uppercase; }
+.pb-tag-rent { color: var(--pine); }
+.pb-tag-own { color: var(--rust); }
+.pb-tile { border: 1px solid var(--line); border-radius: 10px; padding: .75rem .9rem; background: var(--card); }
+.pb-tile b { display: block; font-size: 1.6rem; line-height: 1.2; }
+.pb-tile span { display: block; font-size: 1rem; }
+.pb-tile small { display: block; margin-top: .3rem; font-size: .875rem; color: var(--muted); }
+.pb-fold { margin: .5rem 0 1rem; }
+.pb-fold summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; }
+.pb-table th, .pb-table td { vertical-align: top; }
+.pb-tools { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .6rem; }
+.pb-tools a { display: block; border: 1px solid var(--line); border-radius: 10px; padding: .75rem .9rem; text-decoration: none; min-height: 44px; background: var(--card); }
+.pb-tools a strong { display: block; text-decoration: underline; }
+.pb-tools a span { display: block; font-size: .9375rem; color: var(--muted); margin-top: .2rem; }

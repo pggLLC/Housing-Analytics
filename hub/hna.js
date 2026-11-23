@@ -22,6 +22,11 @@
     { id: 'dola', title: 'For DOLA: SB24-174 check', tab: 'For DOLA' }
   ];
 
+  // A county opens on its prose summary (site/place-brief.js, reorg pilot 22 Nov 2026), a tab before the chapters;
+  // towns open on the Overview. Not one of TABS: it is not a chapter of figures.
+  var SUMMARY = { id: 'summary', title: 'Summary' };
+  function tabsFor(briefs) { return briefs ? [SUMMARY].concat(TABS) : TABS; }
+
   // What each chapter answers, in one line, shown above its figures.
   var ASKS = {
     overview: 'The headline figures, and where the gap is widest.',
@@ -2569,7 +2574,10 @@
   function placeView(params, parts) {
     var catalog = Shell.catalog();
     var geoid = parts[1];
-    var tab = TABS.some(function (x) { return x.id === parts[2]; }) ? parts[2] : 'overview';
+    var Brief = global.LabPlaceBrief, briefs = !!(Brief && Brief.forCounty(geoid));
+    var first = briefs ? 'summary' : 'overview';
+    var tabs = tabsFor(briefs);
+    var tab = tabs.some(function (x) { return x.id === parts[2]; }) ? parts[2] : first;
     var entry = Pl.entryFor(geoid);
     var back = '<a class="back-link" href="#/places">← Places and need</a>';
     if (!entry && (String(geoid).length === 5 || String(geoid).length === 7) && !Pl.data().data && !Pl.data().error) return back + '<h1>Loading…</h1><p role="status" class="note">Loading the Housing Needs Assessment…</p>';
@@ -2591,9 +2599,9 @@
     global.LAB_VIZ_CONTEXT = { geography: entry.label, geoid: geoid };
     var place = Pl.placeFacts(geoid, shared.data);
     var county = place && place.county.county ? place.county.county.county_name : '';
-    var current = TABS.filter(function (x) { return x.id === tab; })[0];
-    var nav = '<nav class="tabs" aria-label="Housing Needs Assessment chapters"><ul>' + TABS.map(function (x) {
-      return '<li><a href="#/place/' + esc(geoid) + (x.id === 'overview' ? '' : '/' + x.id) + '"' + (x.id === tab ? ' aria-current="page"' : '') + '>' + esc(x.tab || x.title) + '</a></li>';
+    var current = tabs.filter(function (x) { return x.id === tab; })[0];
+    var nav = '<nav class="tabs" aria-label="Housing Needs Assessment chapters"><ul>' + tabs.map(function (x) {
+      return '<li><a href="#/place/' + esc(geoid) + (x.id === first ? '' : '/' + x.id) + '"' + (x.id === tab ? ' aria-current="page"' : '') + '>' + esc(x.tab || x.title) + '</a></li>';
     }).join('') + '</ul></nav>';
     // The county's own page is in the lab too.
     var fips = place && place.rec.containing_county_fips;
@@ -2604,7 +2612,7 @@
     var lifted = (function (html) {
       var m = /<!--first-strip-->([\s\S]*?)<!--\/first-strip-->/.exec(html);
       return m ? { strip: '<div class="first-strip">' + m[1] + '</div>', body: html.replace(m[0], '') } : { strip: '', body: html };
-    })(view(c, geoid, tab, entry, place));
+    })(tab === 'summary' ? Brief.html(geoid, entry.label) : view(c, geoid, tab, entry, place));
     return global.LabTpl.head({
       kind: 'place', crumbs: global.LabTpl.trail('places', entry.label, [{ label: 'Find a place', href: '#/places' }]), title: entry.label,
       visual: locator(geoid, entry.label, fips, county, shared.data.counties),
@@ -2612,7 +2620,8 @@
       aside: '<div class="place-tools">' + strength + geoKey(String(geoid).length === 5, county) +
         '<div class="actions"><a class="button-link" href="' + esc(Pl.useHref(entry)) + '">Use in project</a></div></div>'
     }) +
-      lifted.strip + stepPath(false, null, geoid) + nav + '<h2 class="tab-title">' + esc(current.title) + '</h2>' + focusTables(lifted.body) + downloads(geoid, entry) + (tab === 'overview' ? shareCard(entry, place, county, locator(geoid, entry.label, fips, county, shared.data.counties)) : '') + nextStep(geoid, tab, entry) +
+      // The summary is a prose page: no step bar (reorg rule), the chapters one tab away.
+      lifted.strip + (tab === 'summary' ? '' : stepPath(false, null, geoid)) + nav + '<h2 class="tab-title">' + esc(current.title) + '</h2>' + focusTables(lifted.body) + downloads(geoid, entry) + (tab === 'overview' ? shareCard(entry, place, county, locator(geoid, entry.label, fips, county, shared.data.counties)) : '') + nextStep(geoid, tab, entry) +
       (global.LabStrength ? global.LabStrength.footnote() : '') +
       '<p class="note">Census figures are survey estimates with margins of error, which are wide for small places. Each figure names its agency, dataset and year. ' +
       '<a href="' + esc(current.live ? Pl.LIVE + current.live + '?geoid=' + geoid : entry.href) + '">Open this chapter’s full page</a>.</p>';
