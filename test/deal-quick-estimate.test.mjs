@@ -128,6 +128,26 @@ try {
   await settle(tab);
   ok(await tab.$eval('#dq-units-30', (u) => u.value) === '7', 'homes typed in the full calculator show in the panel');
 
+  // Bedroom size by income limit, both ways (paul, 23 Nov 2026: "deal calculator has only ami, not brs?"). The
+  // size sets the tier's rent limit, so it moves the results, and the panel still shows what the calculator shows.
+  ok(await val('dq-br-60') === '2br' && await val('dc-br-60') === '2br', 'the panel shows the calculator\'s 2-bedroom default');
+  const before = await settle(tab);
+  await tab.selectOption('#dq-br-60', '3br');
+  ok(await val('dc-br-60') === '3br', 'a bedroom size picked in the panel is the full calculator\'s bedroom size');
+  const three = await settle(tab);
+  agree(three, '3 bedrooms at 60%');
+  ok(JSON.stringify(three) !== JSON.stringify(before), 'non-vacuous: 3 bedrooms at 60% moves the results (' + JSON.stringify(three) + ')');
+  await tab.evaluate(() => { const b = document.getElementById('dc-br-30'); b.value = '1br'; b.dispatchEvent(new Event('change', { bubbles: true })); });
+  await settle(tab);
+  ok(await val('dq-br-30') === '1br', 'a bedroom size picked in the full calculator shows in the panel');
+  // A tier split by bedroom in Unit mix sets its own sizes: the panel's picker steps aside and says why.
+  await tab.evaluate(() => { const u = document.getElementById('dc-units-50-2br'); u.value = '3'; u.dispatchEvent(new Event('input', { bubbles: true })); u.dispatchEvent(new Event('change', { bubbles: true })); });
+  await settle(tab);
+  ok(await tab.$eval('#dq-br-50', (b) => b.disabled && /bedroom split/.test(b.title)), 'a tier split by bedroom shows its picker as set in Unit mix');
+  await tab.evaluate(() => { ['studio', '1br', '2br', '3br', '4br'].map((b) => document.getElementById('dc-units-50-' + b)).forEach((u) => { u.value = '0'; u.dispatchEvent(new Event('input', { bubbles: true })); u.dispatchEvent(new Event('change', { bubbles: true })); }); });
+  await settle(tab);
+  ok(await tab.$eval('#dq-br-50', (b) => !b.disabled), 'with the split cleared the picker is back');
+
   // A tier the full calculator leaves out counts as none in the panel, and homes typed there put it back in.
   await tab.evaluate(() => { const c = document.getElementById('dc-chk-70'); c.checked = false; c.dispatchEvent(new Event('change', { bubbles: true })); });
   await settle(tab);
@@ -174,12 +194,12 @@ try {
   await settle(sch.tab);
   const shown = await sch.tab.evaluate(() => {
     const v = (id) => { const el = document.getElementById(id); return { value: el.value, disabled: el.disabled }; };
-    return { t30: v('dq-units-30'), t60: v('dq-units-60'), t80: v('dq-units-80'), t50: v('dq-units-50'), total: v('dq-units'), note: document.getElementById('dq-homes').textContent };
+    return { t30: v('dq-units-30'), t60: v('dq-units-60'), t80: v('dq-units-80'), t50: v('dq-units-50'), total: v('dq-units'), br60: v('dq-br-60'), note: document.getElementById('dq-homes').textContent };
   });
   ok(shown.t30.value === '4' && shown.t60.value === '15' && shown.t50.value === '2' && shown.t80.value === '0',
     'the panel shows the rent schedule\'s homes at each income limit: ' + JSON.stringify(shown));
   ok(shown.total.value === '21' && /^21 homes.*rent schedule/.test(shown.note), 'the panel shows the schedule\'s 21 homes: ' + JSON.stringify(shown));
-  ok([shown.t30, shown.t60, shown.t80, shown.t50, shown.total].every((f) => f.disabled), 'with a rent schedule the panel\'s homes are read only');
+  ok([shown.t30, shown.t60, shown.t80, shown.t50, shown.total, shown.br60].every((f) => f.disabled), 'with a rent schedule the panel\'s homes and bedroom sizes are read only');
   const schOut = await settle(sch.tab);
   agree(schOut, 'With a rent schedule');
   ok(measured(schOut).length >= 3, 'non-vacuous: the schedule deal is measured (' + JSON.stringify(schOut) + ')');
