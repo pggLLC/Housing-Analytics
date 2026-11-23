@@ -85,5 +85,5 @@ body.member-page .ib-priority-rank { background: var(--green); color: var(--on-f
 body.member-page .ib-quick-link { background: var(--card); border: 1px solid var(--line); border-radius: 10px; color: var(--ink); }
 body.member-page .ib-quick-link:hover { border-color: var(--green); background: var(--tint); transform: none; }
 body.member-page .ib-quick-link strong { color: var(--pine); }
-body.member-page .ib-quick-link span { display: block; color: var(--ink-soft); font-size: 15px; margin-top: .2rem; }
+body.member-page .ib-quick-link > span { display: block; color: var(--ink-soft); font-size: 15px; margin-top: .2rem; }
 body.member-page .ib-quick-link .ib-new { display: inline; margin: 0 0 0 .4rem; font-size: 12px; font-weight: 600; color: var(--green); }
