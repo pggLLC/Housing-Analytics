@@ -443,7 +443,11 @@
     var curTab = main.querySelector('.tabs [aria-current="page"]'), tabList = curTab && curTab.closest('ul');
     if (tabList && tabList.scrollWidth > tabList.clientWidth) tabList.scrollLeft = Math.max(0, curTab.offsetLeft - tabList.offsetLeft - 16);
     // Fold the source lines before anything below measures the page, so a redraw keeps the reader's place.
+    // Folding measures the new page (a one-line source stays open, site/templates.js oneLine). That first layout can
+    // let the browser's scroll anchoring nudge the reader on a redraw in place, so put them back where they were.
+    var foldY = global.scrollY;
     if (global.LabTpl && global.LabTpl.foldSources) global.LabTpl.foldSources();
+    if (render.started && global.scrollY !== foldY) global.scrollTo(0, foldY);
     if (global.LabTpl && global.LabTpl.sortable) global.LabTpl.sortable();
     if (global.LabTpl && global.LabTpl.pageTabs) global.LabTpl.pageTabs();
     // A port points each link at what that site carries (window.LAB_PORT.fix).

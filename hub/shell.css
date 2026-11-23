@@ -358,7 +358,7 @@ figcaption .geo-chip { align-self: flex-start; }
 .geo-chip[data-tone="derived"] { color: var(--geo-derived); background: var(--geo-derived-bg); }
 .geo-chip[data-tone="proxy"] { color: var(--geo-proxy); background: var(--geo-proxy-bg); }
 .geo-chip[data-tone="neutral"], .geo-chip[data-tone="none"] { color: var(--geo-neutral); background: var(--geo-neutral-bg); }
-.geo-key { display: flex; flex-wrap: wrap; gap: .5rem 1rem; list-style: none; padding: 0; margin: .5rem 0 0; font-size: 14px; }
+.geo-key { display: flex; flex-direction: column; gap: .35rem; list-style: none; padding: 0; margin: .5rem 0 0; font-size: 14px; }
 .geo-key li { display: flex; gap: .4rem; align-items: baseline; }
 /* HNA chapter close: the figures to carry forward, and the sources panel. */
 .recap { margin: 2rem 0 1rem; padding: 1rem 1.25rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--ink); border-radius: 8px; }
