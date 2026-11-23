@@ -289,7 +289,7 @@
       // Scroll rather than clip. A rail that cannot fit must still be
       // reachable: `overflow:hidden` on the wrap turns an overflowing strip
       // into a step the reader never learns about.
-      '.wf-progress-steps{display:flex;align-items:center;gap:0;width:100%;max-width:1200px;margin:0 auto;min-width:0;'
+      '.wf-progress-steps{display:flex;align-items:flex-start;gap:0;width:100%;max-width:1200px;margin:0 auto;min-width:0;'
         + 'overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;}',
       '.wf-progress-steps::-webkit-scrollbar{display:none;}',
       '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;',
@@ -303,7 +303,7 @@
       '.wf-step--done .wf-step__num{background:var(--good,#047857);color:#fff;border-color:var(--good,#047857);}',
       '.wf-step--done .wf-step__label{color:var(--good,#047857);}',
       // The "optional" tag on step 2 lives in css/site-theme.css.
-      '.wf-step-connector{flex:1;height:2px;background:var(--border);min-width:20px;margin-bottom:18px;}',
+      '.wf-step-connector{flex:1;height:2px;background:var(--border);min-width:20px;margin:14px 0 0;}', // through the circles' middle, labels hang below
       '.wf-companions{max-width:1200px;margin:6px auto 0;font-size:.8125rem;line-height:1.4;color:var(--muted);text-align:center;}',
       '@media(max-width:' + compactBelowPx() + 'px){',
       '  .wf-progress-wrap{box-sizing:border-box;width:100%;max-width:100%;min-width:0;padding:8px 10px;overflow:hidden;}',

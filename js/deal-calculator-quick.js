@@ -17,6 +17,11 @@
  * split the lines had stays the same (the example budget's split until a user
  * itemizes their own).
  *
+ * Bedrooms (paul, 23 Nov 2026: "deal calculator has only ami, not brs?"): each income limit's bedroom size
+ * mirrors the full calculator's own dc-br-<pct> (2 bedrooms unless changed), which sets that tier's rent
+ * limit. Before, the panel never showed it, so its results quietly assumed 2-bedroom homes. A tier split by
+ * bedroom in Unit mix, or a Market Analysis rent schedule, sets the sizes there instead, and the panel says so.
+ *
  * Homes: a tier changed here moves Total Units by the same number, so homes
  * outside these limits (market rate, 100% AMI and up) stay as they were. When a
  * Market Analysis rent schedule is active the counts come from its rows (the
@@ -27,6 +32,8 @@
 
   // Credit-eligible income limits shown in the panel; 100% AMI and up stay in the full unit mix.
   var TIERS = [20, 30, 40, 50, 60, 70, 80];
+  // The full calculator's bedroom sizes (js/deal-calculator.js, dc-br-<pct>), in its order.
+  var BEDROOMS = [['studio', 'Studio'], ['1br', '1 BR'], ['2br', '2 BR'], ['3br', '3 BR'], ['4br', '4 BR']];
   var OUTPUTS = [
     { id: 'dc-r-credits', label: 'Annual federal credit' },
     { id: 'dc-r-equity', label: 'Credit equity' },
@@ -130,6 +137,12 @@
       put(box, 'disabled', !!fixed);
       put(box, 'title', fixed);
       if (active !== box) put(box, 'value', String(tierUnits(pct)));
+      var br = $('dq-br-' + pct), full = $('dc-br-' + pct);
+      if (br) {
+        put(br, 'disabled', !!fixed || !full);
+        put(br, 'title', fixed);
+        if (full && active !== br) put(br, 'value', full.value);
+      }
     });
     var all = $('dc-units'), qAll = $('dq-units');
     if (all && qAll) {
@@ -178,6 +191,11 @@
       if (!total || total.readOnly || !(homes >= 1)) return;
       total.value = String(Math.round(homes));
       fire(total, ['input', 'change']);
+    } else if (/^dq-br-\d+$/.test(t.id)) {
+      var size = $('dc-br-' + t.id.slice('dq-br-'.length));
+      if (!size || size.disabled || tierFixed(t.id.slice('dq-br-'.length))) return;
+      size.value = t.value;
+      fire(size, ['input', 'change']);
     } else if (/^dq-units-\d+$/.test(t.id)) {
       var pct = t.id.slice('dq-units-'.length), units = $('dc-units-' + pct), chk = $('dc-chk-' + pct);
       var n = num(t.value);
@@ -204,9 +222,11 @@
           '<label class="dq-radio"><input type="radio" name="dq-rate" id="dq-rate-4"> 4% with bonds</label></div></fieldset>' +
         '<label class="dq-f">Total homes<input id="dq-units" type="number" min="1" step="1" inputmode="numeric" style="' + field + '"></label>' +
       '</div>' +
-      '<fieldset style="border:0;margin:.75rem 0 0;padding:0;min-width:0;"><legend style="padding:0;font-weight:600;font-size:.9rem;">Homes by income limit (% of area median income)</legend>' +
+      '<fieldset style="border:0;margin:.75rem 0 0;padding:0;min-width:0;"><legend style="padding:0;font-weight:600;font-size:.9rem;">Homes and bedroom size by income limit (% of area median income)</legend>' +
         '<div class="dq-tiers">' + TIERS.map(function (pct) {
-          return '<label class="dq-tier">' + pct + '%<input id="dq-units-' + pct + '" type="number" min="0" step="1" inputmode="numeric" aria-label="Homes at ' + pct + '% AMI" style="' + field + 'text-align:right;"></label>';
+          return '<div class="dq-tier"><label for="dq-units-' + pct + '">' + pct + '%</label><input id="dq-units-' + pct + '" type="number" min="0" step="1" inputmode="numeric" aria-label="Homes at ' + pct + '% AMI" style="' + field + 'text-align:right;">' +
+            '<select id="dq-br-' + pct + '" class="dq-br" aria-label="Bedrooms for homes at ' + pct + '% AMI" style="' + field + 'padding:.35rem .25rem;">' +
+            BEDROOMS.map(function (b) { return '<option value="' + b[0] + '">' + b[1] + '</option>'; }).join('') + '</select></div>';
         }).join('') + '</div>' +
         '<p id="dq-homes" style="margin:.3rem 0 0;font-size:.82rem;color:var(--muted);"></p>' +
         '<p id="dq-mix" hidden style="margin:.3rem 0 0;font-size:.82rem;color:var(--muted);"></p></fieldset>' +
@@ -225,6 +245,8 @@
       '#dcQuick .dq-radio input{width:20px;height:20px;margin:0}' +
       '#dcQuick .dq-tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:.4rem}' +
       '#dcQuick .dq-tier{display:flex;flex-direction:column;gap:.2rem;font-size:.85rem;font-weight:600;min-width:0}' +
+      '#dcQuick .dq-br{font-weight:400;font-size:.85rem}' +
+      '#dcQuick .dq-tier>label{min-height:0;margin:0;padding:0;text-align:left}' +
       '#dcQuick .dq-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.6rem;margin:.9rem 0 0}' +
       '#dcQuick .dq-out div{padding:.55rem .7rem;background:var(--bg2);border-radius:var(--radius-sm,6px);min-width:0}' +
       '#dcQuick .dq-out dt{font-size:.8rem;color:var(--muted)}' +

@@ -2007,7 +2007,10 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
 .wf-progress-steps,
 .workflow-progress__steps {
   display: flex !important;
-  align-items: center !important;
+  /* Top, not centre: a step whose label runs to two or three lines (Opportunity Finder's "optional") used to
+     lift its circle above the others (paul, 23 Nov 2026: "circles that jump around"). The circles now sit on
+     one row and the labels hang below them. */
+  align-items: flex-start !important;
   gap: 0 !important;
   max-width: var(--page-max, 1920px);
   margin: 0 auto;
@@ -2058,7 +2061,8 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
   height: 2px !important;
   background: var(--border) !important;
   min-width: 20px !important;
-  margin-bottom: 18px !important;
+  /* Through the middle of the 30px circles: 14px down, 2px tall. */
+  margin: 14px 0 0 !important;
 }
 /* ACTIVE state — current page's step. Cyan accent fill, on-accent text.
    F127 baseline; F130 promotes to global. */
