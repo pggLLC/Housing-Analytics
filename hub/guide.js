@@ -317,7 +317,7 @@
     if (!keep) return html;
     var d = document.createElement('details');
     d.className = 'g-more';
-    d.innerHTML = '<summary>Read the rest of this part <span class="note">(about ' + Math.max(1, Math.round((words - seen) / 220)) + ' min)</span></summary>';
+    d.innerHTML = '<summary>Read more <span class="note">(about ' + Math.max(1, Math.round((words - seen) / 220)) + ' min)</span></summary>';
     kids.slice(keep).forEach(function (k) { d.appendChild(k); });
     root.appendChild(d);
     return box.innerHTML;
@@ -483,7 +483,7 @@
       var named = Array.prototype.filter.call(document.querySelectorAll('.guide-body [data-at]'), function (n) { return n.getAttribute('data-at') === at; })[0];
       var el = document.getElementById(at) || named || (held && document.getElementById('g-' + held.id));
       if (!el) return false;
-      // Every fold around it opens, so the link shows what it pointed at; a part jumped to opens its "read the rest".
+      // Every fold around it opens, so the link shows what it pointed at; a part jumped to opens its "Read more".
       for (var up = el.parentNode; up && up !== document; up = up.parentNode) if (up.tagName === 'DETAILS') up.open = true;
       if (el.tagName === 'DETAILS') el.open = true;
       Array.prototype.forEach.call(el.querySelectorAll('details.g-more'), function (d) { d.open = true; });

@@ -443,7 +443,11 @@
     // .hh-facts li .hh-n stays the page's ready marker (Housing-Analytics scripts/audit/ux-budget.json), and the
     // explicit region role is how Housing-Analytics' accessibility gate finds Home's figure strip (tests/test_stage3_accessibility.py).
     return '<section class="hh-facts hh-five" role="region" aria-labelledby="h-five"><h2 id="h-five">Five things to know about Colorado</h2><ol>' + items.map(function (x) {
-      return '<li><span class="hh-tag hh-tag-' + x[0].replace(/\W+/g, '').toLowerCase() + '">' + esc(x[0]) + '</span> ' + x[1] +
+      // Each thing is a tile led by its figure, large (paul, 23 Nov: the sentence list read "a little more clunky").
+      // The large figure is for the eye; the sentence carries it for screen readers.
+      var big = (/<strong class="hh-n">([^<]+)<\/strong>/.exec(x[1]) || [])[1] || '';
+      return '<li><span class="hh-tag hh-tag-' + x[0].replace(/\W+/g, '').toLowerCase() + '">' + esc(x[0]) + '</span>' +
+        (big ? '<span class="hh-fig" aria-hidden="true">' + big + '</span>' : ' ') + x[1] +
         ' <span class="hf-why">' + esc(x[2]) + '</span> <a class="hh-s" href="' + esc(x[4]) + '">' + esc(x[3]) + '</a></li>';
     }).join('') + '</ol></section>';
   }
@@ -456,7 +460,7 @@
       ['It takes many hands, working from the same facts', 'Town staff, builders, lenders, nonprofits and neighbors each have a part. Plans move faster when everyone starts from the same numbers, and every number here links to where it came from.']
     ];
     return '<section class="home-why" aria-labelledby="h-why"><h2 id="h-why">Why affordable housing matters</h2><ul class="hw-list">' + W.map(function (w) {
-      return '<li><strong>' + esc(w[0]) + '.</strong> ' + esc(w[1]) + '</li>';
+      return '<li><strong>' + esc(w[0]) + '</strong> ' + esc(w[1]) + '</li>';
     }).join('') + '</ul></section>';
   }
 
@@ -491,24 +495,61 @@
   }
 
   // Every hub and tool, read from the menus so it never drifts from them (paul, 15 Nov: an inventory on Home).
-  function everything() {
+  // The four areas, and the parts of each as the menus group them, explained (paul, 23 Nov 2026: "swap the page
+  // list for the four areas ... the four areas and the two sub areas in them"). It replaced a list of every page,
+  // which repeated the menus. Each part names its most-used pages; the menus and each area's own page list the rest.
+  var AREAS = {
+    places: 'Start with a town or county: how many homes it needs, for whom, and how Colorado compares.',
+    deal: 'For developers, funders and housing teams: test a deal, find a site, follow the money and learn how deals work.',
+    policy: 'Housing news, deadlines and laws as they change, and dated briefs and papers on Colorado housing.',
+    data: 'Every source is linked and dated. See how each figure is worked out, how fresh each source is, and open the data yourself.'
+  };
+  var PARTS = {
+    'Look up a place': ['Any town, county or CDP: its needs assessment, the need at each income level, a free printable report, and scenarios that change the forecast.',
+      ['#/places', '#/place/0828745', '#/report', '#/places/ranking', '#/places/scenario']],
+    'The state picture': ['Colorado as a whole: county markets, the economy, housing and construction costs, and what towns have adopted.',
+      ['#/places/deep-dive', '#/places/economy', '#/places/county-costs', '#/places/incentives']],
+    'Tools': ['Test whether a tax credit deal pencils, check a market, study homes for sale, and see what the data says a place needs.',
+      ['#/deal-calculator', '#/market', '#/for-sale', '#/recommendation']],
+    'Find a site or a property': ['Places that fit 4% or 9% deals, affordable homes at risk of being lost, land value, and where workers commute.',
+      ['#/finder', '#/opportunity/preservation', '#/opportunity/land-value', '#/opportunity/commuting']],
+    'Where the money went': ['Who won tax credits and Prop 123 land awards, and where housing money from CHFA, OEDIT and others went.',
+      ['#/deals?round=2026-1', '#/opportunity/land-banking', '#/money']],
+    'Learn how deals work': ['How tax credits work, who does what, how a project gets built, and what investors pay for credits now.',
+      ['#/guide/lihtc-basics', '#/guide/deal-team', '#/pipeline', '#/equity-pricing']],
+    'Policy and news': ['Colorado housing news, deadlines and events, the laws COHO tracks, and elections.',
+      ['#/news', '#/calendar', '#/legislation', '#/elections']],
+    'Research': ['Every paper and brief, each dated, from how tax credit deals have changed to starting a housing authority.',
+      ['#/guides?at=research-all', '#/tax-credit-history', '#/middle-income', '#/guide/housing-authority']],
+    'How it works': ['How each figure is worked out, how fresh each source is, and plain definitions of the terms.',
+      ['#/guide/methods', '#/data/trust', '#/data/glossary']],
+    'The data': ['Every data file and source behind the site, with previews and a map.',
+      ['#/data/explorer', '#/data/map', '#/data/sources']]
+  };
+  function areas() {
     var N = global.LabNav;
     if (!N || !N.MENUS) return '';
     // The county list the ranking's place count is counted from loads with Places' data.
     if (Pl.data) Pl.data();
-    return '<section class="home-all" aria-labelledby="h-all"><h2 id="h-all">Everything on the site</h2>' +
-      '<p class="ha-lede">Four areas, each answering one question, and every page in them.</p><div class="hall-grid">' +
+    return '<section class="home-all" aria-labelledby="h-all"><h2 id="h-all">The four areas of the site</h2>' +
+      '<p class="ha-lede">Each area answers one question. Here is what is in each part, and where to start.</p><div class="hall-grid hall-areas">' +
       N.MENUS.map(function (m) {
-        var items = [].concat.apply([], m.groups.map(function (g) { return g.items; }));
-        return '<article class="hall-card"><h3><a href="' + esc(m.hub) + '">' + esc(m.title) + '</a></h3><p class="hall-q">' + esc(m.question) + '</p><ul>' +
-          // A lab route stays a route here, like every other link on Home, so the port points it at its hub page.
-          // The ranking says how many places it covers, counted (the public site's count check reads it).
-          items.map(function (it) {
-            var more = it.lab === '#/places/ranking' && placeCount() ? ', ' + allPlaces() : '';
-            return '<li><a href="' + esc(it.lab || N.href(it)) + '" title="' + esc(it.desc || '') + '">' + esc(it.label + more) + '</a></li>';
-          }).join('') + '</ul>' +
-          // On a phone the first five show; the area's own page lists every one.
-          (items.length > 5 ? '<p class="hall-more"><a href="' + esc(m.hub) + '">All ' + items.length + ' in ' + esc(m.title) + ' →</a></p>' : '') + '</article>';
+        var count = m.groups.reduce(function (t, g) { return t + g.items.length; }, 0);
+        return '<article class="hall-card"><h3><a href="' + esc(m.hub) + '">' + esc(m.title) + '</a></h3><p class="hall-q">' + esc(m.question) + '</p>' +
+          (AREAS[m.id] ? '<p class="hall-what">' + esc(AREAS[m.id]) + '</p>' : '') +
+          m.groups.map(function (g) {
+            var part = PARTS[g.title] || ['', []];
+            // A lab route stays a route here, like every other link on Home, so the port points it at its hub page.
+            // The ranking says how many places it covers, counted (the public site's count check reads it).
+            var links = part[1].map(function (h) { return g.items.filter(function (it) { return it.lab === h; })[0]; }).filter(Boolean).map(function (it) {
+              var text = it.lab === '#/places/ranking' && placeCount() ? 'Rank ' + allPlaces() : it.label;
+              return '<a href="' + esc(it.lab || N.href(it)) + '" title="' + esc(it.desc || '') + '">' + esc(text) + '</a>';
+            });
+            // The parts describe what is on each page ("4% or 9% deals" names a kind of deal, not a figure to source).
+            return '<div class="hall-part"><h4>' + esc(g.title) + '</h4>' + (part[0] ? '<p data-no-source="definition">' + esc(part[0]) + '</p>' : '') +
+              (links.length ? '<p class="hall-links">' + links.join(' · ') + '</p>' : '') + '</div>';
+          }).join('') +
+          '<p class="hall-all"><a href="' + esc(m.hub) + '">All ' + count + ' in ' + esc(m.title) + ' →</a></p></article>';
       }).join('') + '</div></section>';
   }
 
@@ -535,10 +576,11 @@
       // tests hold), then one row of goals; the rest in folds (reorg step 2b).
       startPaths() + doors(params) + (g ? quick(g) : '') + why() +
       // Colorado only: one picker on Home (the search above); counties and towns are on their own pages.
-      '<details class="home-about home-rent" data-fold="rent"><summary>Rent and home prices against income, in detail</summary><div class="hf-body">' +
+      // The chart shows open again (paul, 23 Nov: "the graphic nature and ux are important too").
+      '<section class="home-rent" aria-labelledby="h-rent"><h2 id="h-rent">Rent and home prices against income</h2>' +
       '<p class="ha-lede">Statewide, for renters and for owners. For your own town, use the search at the top.</p>' +
-      (global.LabRentIncome ? global.LabRentIncome.card('08') : '') + ownCard(f) + '</div></details>' +
-      '<details class="home-about home-all-fold" data-fold="all"><summary>Every page on the site</summary><div class="hf-body">' + everything() + '</div></details>' +
+      (global.LabRentIncome ? global.LabRentIncome.card('08') : '') + ownCard(f) + '</section>' +
+      '<details class="home-about home-all-fold" data-fold="all"><summary>The four areas of the site, and what is in each</summary><div class="hf-body">' + areas() + '</div></details>' +
       '<p class="callout home-member"><strong>For developers and housing teams.</strong> The Market check and the for-sale study are free here. Members get the full versions, site dossiers and deal workbooks. <a href="#/members">Member tools</a></p>' +
       figures + (f ? '<details class="home-about home-counted"><summary>How the Colorado numbers are counted, and more of them</summary>' + glance(f) + moreNumbers(f) + '</details>' : '') +
       '<details class="home-about" id="home-about"><summary>How COHO works, who it is for, and the research behind it</summary>' + steps() + paths() + audiences() + research() + '</details>' +

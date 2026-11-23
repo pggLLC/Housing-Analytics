@@ -164,7 +164,7 @@
     var el = document.getElementById(a.dataset.jump);
     if (!el) return;
     ev.preventDefault();
-    // A guide part folded behind "Read the rest" opens when the contents list jumps to it.
+    // A guide part folded behind "Read more" opens when the contents list jumps to it.
     Array.prototype.forEach.call(el.querySelectorAll('details.g-more'), function (d) { d.open = true; });
     if (el.tagName === 'DETAILS') el.open = true;
     openAround(el);
@@ -183,7 +183,7 @@
     guide: [['#g-ha-steps ol', 3, 'steps'], ['#g-ha-joint ol', 3, 'steps']],
     research: [['.research-cards', 4, 'briefs']],
     elections: [['#candidate-records', 1, 'races'], ['.candidate-race', 4, 'entries'], ['#on-ballot-records > section', 4, 'entries'], ['ol.milestones', 5, 'milestones']],
-    'equity-pricing': [['ul.eq-law', 3, 'bills and rules'], ['ul.eq-credits', 2, 'credit types'], ['ul.eq-gaps', 3, 'items'], ['#eq-drivers', 5, '', 'Read the rest of this part']],
+    'equity-pricing': [['ul.eq-law', 3, 'bills and rules'], ['ul.eq-credits', 2, 'credit types'], ['ul.eq-gaps', 3, 'items'], ['#eq-drivers', 5, '', 'Read more']],
     data: [['ul.ds-apis', 6, 'services'], ['ul.ds-groups', 4, 'groups'], ['.ds-col > ul', 6, 'entries'], ['.ds-col > ol', 6, 'entries']]
   };
   function unclipList(list) {
@@ -472,6 +472,33 @@
   }
   if (typeof global.addEventListener === 'function') global.addEventListener('scroll', function () { if (!spyQueued) { spyQueued = true; (global.requestAnimationFrame || setTimeout)(spyTabs); } }, { passive: true });
 
+  // A source that fits on one line stays as it is: a "Source" toggle would take the same room and hide it behind a
+  // click (paul, 23 Nov: "some drop down menus are just one line? ... not great"). Longer ones fold. Measured as laid
+  // out, so a line that wraps on a phone folds there and not on a laptop; a line not laid out yet (0 tall) is left.
+  function oneLine(p) {
+    var h = p.getBoundingClientRect().height;
+    if (!h) return false;   // not laid out (inside a shut fold): fold it; unfoldShort looks again when it shows
+    var cs = global.getComputedStyle(p), lh = parseFloat(cs.lineHeight);
+    if (!(lh > 0)) lh = parseFloat(cs.fontSize) * 1.4;
+    return h - (parseFloat(cs.paddingTop) || 0) - (parseFloat(cs.paddingBottom) || 0) < lh * 1.6;
+  }
+  // A fold that opens shows the sources inside it for the first time: a single one that fits on one line comes out of
+  // its "Source" toggle there and then.
+  function unfoldShort(root) {
+    Array.prototype.forEach.call(root.querySelectorAll('details.fold-src-1'), function (d) {
+      if (!d.getClientRects().length || d.open) return;
+      var p = d.querySelector('p.source-line, p.metric-source, div.source-line');
+      if (!p || d.querySelector('.source-note')) return;
+      d.open = true;
+      var short = oneLine(p);
+      d.open = false;
+      if (short) { d.parentNode.insertBefore(p, d); d.parentNode.removeChild(d); }
+    });
+  }
+  document.addEventListener('toggle', function (e) {
+    var d = e.target;
+    if (d && d.open && d.tagName === 'DETAILS' && !d.classList.contains('fold-src')) unfoldShort(d);
+  }, true);
   function foldSources() {
     var main = document.getElementById('main');
     if (!main) return;
@@ -483,11 +510,16 @@
       var run = [p];
       for (var n = p.nextElementSibling; n && n.classList.contains('source-line'); n = n.nextElementSibling) run.push(n);
       // Inside a tool's form the source stays beside its input, as before (runs of more than three still fold).
-      if (run.length > (p.closest('form') ? 3 : FOLD_OVER)) made.push(srcFold(run, run.length === 1 ? 'Source' : 'Sources (' + run.length + ')'));
+      // A note that explains the source (class "source-note", right after it) folds in with it, so a long method note
+      // does not sit open under a shut "Source" (paul, 23 Nov: "source drop downs aren't working").
+      var notes = [];
+      for (var m = run[run.length - 1].nextElementSibling; m && m.classList.contains('source-note'); m = m.nextElementSibling) notes.push(m);
+      if (run.length === 1 && !notes.length && oneLine(p)) return;
+      if (run.length + notes.length > (p.closest('form') ? 3 : FOLD_OVER)) made.push(srcFold(run.concat(notes), run.length === 1 ? 'Source' : 'Sources (' + run.length + ')'));
     });
     // The source under a card, chart or figure: a small "Source" that opens to the same line, link and date.
     Array.prototype.forEach.call(main.querySelectorAll('p.metric-source, div.source-line'), function (p) {
-      if (p.closest('details.fold-src, .print-only, summary, form') || !p.textContent.trim()) return;
+      if (p.closest('details.fold-src, .print-only, summary, form') || !p.textContent.trim() || oneLine(p)) return;
       made.push(srcFold([p], 'Source'));
     });
     Array.prototype.forEach.call(main.querySelectorAll('h2, h3'), function (h) {
