@@ -527,7 +527,7 @@
         }).join('');
       }).join('') + '</fieldset>' +
       '<p class="note">What is stored: ' + (site ? 'the site’s address and coordinates, and ' : '') + 'the list of census tracts in the market area. No figures are copied. A project with no place takes ' + esc(s.entry.label) + '.</p>' +
-      '<button type="submit"' + (area && (area.tracts.length || area.pending) ? '' : ' disabled') + '>Use in project</button></form>';
+      '<button type="submit"' + (area && (area.tracts.length || area.pending) ? '' : ' disabled') + '>Save to a project</button></form>';
     return head + '<p>Place the site and pick the market area, then add both to a project. Its Site and market area steps then show them.</p>' + siteForm + '<form data-mk-radius="' + esc(g) + '">' + radios + '</form>' + areaNote + choose;
   }
   function setParams(change) {

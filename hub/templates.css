@@ -1261,6 +1261,10 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
      page, and the open chapter is scrolled into view (shell.js). */
   .tabs ul { display: flex; flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: thin; }
   .tabs li { flex: 0 0 auto; scroll-snap-align: start; }
+  /* More tabs past the right edge (templates.js tabCue): a fade and an arrow, gone once the row is scrolled to its end. */
+  .tabs.tabs-more::after { content: "\203A"; position: absolute; right: 0; top: 0; bottom: 1px; width: 2.75rem; display: flex; align-items: center; justify-content: flex-end;
+    padding-right: .4rem; font-size: 24px; line-height: 1; color: var(--muted); pointer-events: none; background: linear-gradient(to right, transparent, var(--card) 55%); }
+  html.sp-folded .tabs.tabs-more { position: relative; }
   .tabs a { white-space: nowrap; padding: 0 .6rem; }
   .page-place .place-tools .actions { margin: 0; }
   .page-place .place-tools .geo-legend { flex: 1 1 auto; }
@@ -1630,7 +1634,9 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 @media print { .fold-src > summary { display: none; } }
 /* One source line (under a card, chart or figure): a small muted "Source" that keeps the card's foot where it was. */
 .fold-src-1 { margin: auto 0 0; padding-top: .35rem; } /* auto: sits at the foot of a card that stacks as a column */
-.fold-src-1 > summary { min-height: 24px; font-weight: 600; letter-spacing: 0; font-size: 12px; padding: 0 .25rem 0 0; }
+/* Small to look at, full size to tap: the summary is 44px tall (the site's touch minimum, Codex on HA #2970), and its
+   negative margin gives back 20px so the line takes about 24px of the page. */
+.fold-src-1 > summary { min-height: 44px; box-sizing: border-box; margin: -10px 0; padding: 0 .25rem 0 0; font-weight: 600; letter-spacing: 0; font-size: 12px; }
 .fold-src-1 > .metric-source, .fold-src-1 > .source-line { margin: .15rem 0 .25rem; padding-top: 0; }
 .ladder:has(.ladder-dots) > .fold-src-1 { grid-column: 1 / -1; }
 
@@ -1748,3 +1754,8 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .pb-tools a { display: block; border: 1px solid var(--line); border-radius: 10px; padding: .75rem .9rem; text-decoration: none; min-height: 44px; background: var(--card); }
 .pb-tools a strong { display: block; text-decoration: underline; }
 .pb-tools a span { display: block; font-size: .9375rem; color: var(--muted); margin-top: .2rem; }
+
+/* A place's Summary: data strength, ranges and labels fold together under the facts (fresh-eyes review, 23 Nov 2026). */
+.place-about { margin: 1.5rem 0; border: 1px solid var(--line); border-radius: 8px; background: var(--card); }
+.place-about > summary { min-height: 44px; display: flex; align-items: center; padding: 0 1rem; cursor: pointer; font-weight: 600; }
+.place-about > .place-tools { padding: 0 1rem 1rem; }

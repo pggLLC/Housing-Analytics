@@ -19,7 +19,8 @@
     { id: 'future', title: 'Where it’s heading', live: 'hna-where-its-heading.html' },
     { id: 'action', title: 'What to do about it', tab: 'What to do', live: 'hna-what-to-do.html' },
     // New in the lab (SB24-174): DOLA's required tables and checklist. No live page yet; ports as its own chapter.
-    { id: 'dola', title: 'For DOLA: SB24-174 check', tab: 'For DOLA' }
+    // Tab named in plain words (fresh-eyes review, 23 Nov 2026: "For DOLA" is a tab name a resident can't read).
+    { id: 'dola', title: 'State housing needs check (DOLA, SB24-174)', tab: 'State check' }
   ];
 
   // A county opens on its prose summary (site/place-brief.js, reorg pilot 22 Nov 2026), a tab before the chapters;
@@ -2609,6 +2610,8 @@
       geoid: geoid, name: entry.label, tracts: String(geoid).length === 5 ? null : tractCount(geoid),
       county: fips && fips !== geoid ? { name: county || 'the county', href: '#/place/' + fips } : null
     }) : '';
+    var tools = '<div class="place-tools">' + strength + geoKey(String(geoid).length === 5, county) +
+      '<div class="actions"><a class="button-link" href="' + esc(Pl.useHref(entry)) + '">Save to a project</a></div></div>';
     var lifted = (function (html) {
       var m = /<!--first-strip-->([\s\S]*?)<!--\/first-strip-->/.exec(html);
       return m ? { strip: '<div class="first-strip">' + m[1] + '</div>', body: html.replace(m[0], '') } : { strip: '', body: html };
@@ -2617,11 +2620,13 @@
       kind: 'place', crumbs: global.LabTpl.trail('places', entry.label, [{ label: 'Find a place', href: '#/places' }]), title: entry.label,
       visual: locator(geoid, entry.label, fips, county, shared.data.counties),
       answer: 'Housing Needs Assessment' + (county && county !== entry.label ? ' \u00b7 ' + esc(county) : ''),
-      aside: '<div class="place-tools">' + strength + geoKey(String(geoid).length === 5, county) +
-        '<div class="actions"><a class="button-link" href="' + esc(Pl.useHref(entry)) + '">Use in project</a></div></div>'
+      // The Summary answers first (fresh-eyes review, 23 Nov 2026: five controls sat above the first fact on a phone);
+      // its data strength, ranges and labels fold together under the facts. The chapters keep them up top.
+      aside: tab === 'summary' ? '' : tools
     }) +
       // The summary is a prose page: no step bar (reorg rule), the chapters one tab away.
-      lifted.strip + (tab === 'summary' ? '' : stepPath(false, null, geoid)) + nav + '<h2 class="tab-title">' + esc(current.title) + '</h2>' + focusTables(lifted.body) + downloads(geoid, entry) + (tab === 'overview' ? shareCard(entry, place, county, locator(geoid, entry.label, fips, county, shared.data.counties)) : '') + nextStep(geoid, tab, entry) +
+      lifted.strip + (tab === 'summary' ? '' : stepPath(false, null, geoid)) + nav + '<h2 class="tab-title">' + esc(current.title) + '</h2>' + focusTables(lifted.body) +
+        (tab === 'summary' ? '<details class="place-about"><summary>About these figures: data strength, ranges and labels</summary>' + tools + '</details>' : '') + downloads(geoid, entry) + (tab === 'overview' ? shareCard(entry, place, county, locator(geoid, entry.label, fips, county, shared.data.counties)) : '') + nextStep(geoid, tab, entry) +
       (global.LabStrength ? global.LabStrength.footnote() : '') +
       '<p class="note">Census figures are survey estimates with margins of error, which are wide for small places. Each figure names its agency, dataset and year. ' +
       '<a href="' + esc(current.live ? Pl.LIVE + current.live + '?geoid=' + geoid : entry.href) + '">Open this chapter’s full page</a>.</p>';
@@ -2811,8 +2816,8 @@
   function nextStep(geoid, tab, entry) {
     var i = TABS.map(function (x) { return x.id; }).indexOf(tab), next = TABS[i + 1];
     return '<div class="next-step"><p><strong>Next</strong></p><div class="actions">' +
-      (next ? '<a class="button-link" href="#/place/' + esc(geoid) + '/' + next.id + '">' + esc(next.title) + ' \u2192</a><a class="button-link secondary" href="' + esc(Pl.useHref(entry)) + '">Use in project</a>'
-        : '<a class="button-link" href="' + esc(Pl.useHref(entry)) + '">Test a site here: use in project</a><a class="button-link secondary" href="#/places">Compare another place</a>') +
+      (next ? '<a class="button-link" href="#/place/' + esc(geoid) + '/' + next.id + '">' + esc(next.title) + ' \u2192</a><a class="button-link secondary" href="' + esc(Pl.useHref(entry)) + '">Save to a project</a>'
+        : '<a class="button-link" href="' + esc(Pl.useHref(entry)) + '">Test a site here: save to a project</a><a class="button-link secondary" href="#/places">Compare another place</a>') +
       '<a class="button-link secondary" href="#/report?g=' + esc(geoid) + '">Free report</a>' +
       '</div></div>';
   }

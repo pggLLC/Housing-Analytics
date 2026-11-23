@@ -95,7 +95,7 @@
       : '<span class="unlinked">' + esc(e.label) + '</span>';
     var note = e.status === 'alias' ? 'Forwards to ' + e.target + '.' : e.note;
     var use = e.role === 'generated-place'
-      ? '<a class="use-link" href="#/use?' + esc(String(new URLSearchParams({ kind: 'place-reference', geoid: e.geoid, label: e.label, href: e.href, from: location.hash || '#/' }))) + '">Use in project</a>'
+      ? '<a class="use-link" href="#/use?' + esc(String(new URLSearchParams({ kind: 'place-reference', geoid: e.geoid, label: e.label, href: e.href, from: location.hash || '#/' }))) + '">Save to a project</a>'
       : '';
     return '<li>' + link + '<span class="status status-' + esc(e.status) + '">' + esc(STATUS[e.status]) + '</span>' +
       (note ? '<p class="note"' + (e.noteTerms ? ' data-no-source="' + esc(e.noteTerms) + '"' : '') + '>' + esc(note) +
@@ -180,7 +180,7 @@
       var mine = LabProjects.list();
       var legacy = LabProjects.legacyPreview();
       return hubHead('projects') +
-        '<div class="callout">Exploring never starts a project. Results go into a project only when you choose \u201cUse in project\u201d.</div>' +
+        '<div class="callout">Exploring never starts a project. Results go into a project only when you choose \u201cSave to a project\u201d.</div>' +
         '<h2>Your projects</h2>' + (LabProjects.persistent() ? '<p class="note">Saved in this browser only. Nothing is sent anywhere.</p>' : NOT_STORED) +
         (mine.length ? '<ul class="route-list">' + mine.map(function (p) {
           return '<li><a href="#/project/' + esc(p.projectId) + '">' + esc(p.name) + '</a><span class="status">' + esc(KIND[p.kind]) + '</span>' +

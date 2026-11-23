@@ -425,7 +425,7 @@
   // (paul, 15 Nov) and its dated source. The same figures as before: the four-number strip and the owner card's buying gap.
   function roundTo(v, step) { return Math.round(v / step) * step; }
   function fiveThings(f) {
-    if (!f) return '<section class="hh-facts hh-five" aria-labelledby="h-five"><h2 id="h-five">Five things to know about Colorado</h2><p role="status" class="note">Loading Colorado’s figures…</p></section>';
+    if (!f) return '<section class="hh-facts hh-five" role="region" aria-labelledby="h-five"><h2 id="h-five">Five things to know about Colorado</h2><p role="status" class="note">Loading Colorado’s figures…</p></section>';
     var t30 = f.t30 || {}, g = f.og || {};
     // tag, the sentence (figure in bold), why it matters, source, link
     var items = [
@@ -440,8 +440,9 @@
       g.buy && fin(f.incRenter) ? ['Owners', 'Buying the typical home takes about <strong class="hh-n">$' + num(g.buy) + '</strong> a year in income. Renter households, the would-be first-time buyers, earn <strong>$' + num(f.incRenter) + '</strong>.',
         'At 30% of income, ' + Math.round((g.down || 0.1) * 100) + '% down and ' + (g.rate ? (g.rate * 100).toFixed(2) + '%' : 'today’s rate') + ' for 30 years, with taxes and insurance.', 'ACS ' + (f.tenureYears || '2020–2024') + ', B25119; Freddie Mac' + (g.week ? ', week of ' + g.week : ''), HSRC.b25119] : null
     ].filter(Boolean);
-    // .hh-facts li .hh-n stays the page's ready marker (Housing-Analytics scripts/audit/ux-budget.json).
-    return '<section class="hh-facts hh-five" aria-labelledby="h-five"><h2 id="h-five">Five things to know about Colorado</h2><ol>' + items.map(function (x) {
+    // .hh-facts li .hh-n stays the page's ready marker (Housing-Analytics scripts/audit/ux-budget.json), and the
+    // explicit region role is how Housing-Analytics' accessibility gate finds Home's figure strip (tests/test_stage3_accessibility.py).
+    return '<section class="hh-facts hh-five" role="region" aria-labelledby="h-five"><h2 id="h-five">Five things to know about Colorado</h2><ol>' + items.map(function (x) {
       return '<li><span class="hh-tag hh-tag-' + x[0].replace(/\W+/g, '').toLowerCase() + '">' + esc(x[0]) + '</span> ' + x[1] +
         ' <span class="hf-why">' + esc(x[2]) + '</span> <a class="hh-s" href="' + esc(x[4]) + '">' + esc(x[3]) + '</a></li>';
     }).join('') + '</ol></section>';

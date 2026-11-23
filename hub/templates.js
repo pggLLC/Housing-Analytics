@@ -237,7 +237,9 @@
   function srcKey(i) { return location.hash.slice(2).split('?')[0] + '|' + i; }
   function srcFold(nodes, label) {
     var first = nodes[0], d = document.createElement('details');
-    d.className = 'fold-src' + (nodes.length === 1 ? ' fold-src-1' : '');
+    // "source-fold" names it as a source line for the public site's source-lines audit
+    // (scripts/audit/source-lines-ratchet.mjs reads the line after a figure by its class).
+    d.className = 'fold-src source-fold' + (nodes.length === 1 ? ' fold-src-1' : '');
     d.innerHTML = '<summary>' + esc(label) + '</summary>';
     first.parentNode.insertBefore(d, first);
     nodes.forEach(function (n) { d.appendChild(n); });
@@ -325,6 +327,18 @@
     used[id] = 1; return id;
   }
   function tabLabel(t) { t = t.replace(/\s+/g, ' ').trim(); return t.length > 42 ? t.slice(0, 41).replace(/\s+\S*$/, '') + '…' : t; }
+  // A tab row cut off at the right edge says so (fresh-eyes review, 23 Nov 2026: "Wh…" with no hint it scrolls):
+  // a fade and an arrow on the edge while more tabs sit past it.
+  function tabCue() {
+    Array.prototype.forEach.call(document.querySelectorAll('#main nav.tabs'), function (nav) {
+      var ul = nav.querySelector('ul');
+      if (!ul) return;
+      var set = function () { nav.classList.toggle('tabs-more', ul.scrollWidth - ul.clientWidth - ul.scrollLeft > 2); };
+      if (!ul.hasAttribute('data-cue')) { ul.setAttribute('data-cue', ''); ul.addEventListener('scroll', set, { passive: true }); }
+      set();
+    });
+  }
+  if (typeof global.addEventListener === 'function') global.addEventListener('resize', function () { tabCue(); });
   function pageTabs() {
     var main = document.getElementById('main');
     if (!main || !main.querySelector('h1')) return;
@@ -532,6 +546,7 @@
       sortable();
       pageTabs();
       keepFolds();
+      tabCue();
       if (clipQueued) return;
       clipQueued = true;
       (global.requestAnimationFrame || setTimeout)(function () { clipQueued = false; clipLists(); openAt(); });
