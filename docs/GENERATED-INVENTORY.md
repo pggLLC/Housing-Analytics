@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-23T01:56:42.763Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-23T03:47:59.359Z. Do not edit by hand.
 
 ---
 
@@ -2057,7 +2057,7 @@
 
 ## Test Files
 
-798 test files found.
+799 test files found.
 
 | File | Size |
 |------|------|
@@ -2218,7 +2218,7 @@
 | `test/deal-lender-schedules.test.js` | 21.9 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
 | `test/deal-permanent-financing.test.js` | 14.0 KB |
-| `test/deal-quick-estimate.test.mjs` | 12.8 KB |
+| `test/deal-quick-estimate.test.mjs` | 14.8 KB |
 | `test/deal-recommenders-mix-check.test.mjs` | 14.1 KB |
 | `test/deal-review-checks.test.js` | 7.7 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
@@ -2763,6 +2763,7 @@
 | `test/workflow-next-action-prerequisites.test.js` | 8.3 KB |
 | `test/workflow-outcome-monitor.test.js` | 57.9 KB |
 | `test/workflow-push-dispatches-deploy.test.js` | 7.0 KB |
+| `test/workflow-rail-circles.test.mjs` | 3.7 KB |
 | `test/workflow-rail-truthful.test.js` | 7.0 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
 | `test/workflows-rebuild-derived-chain.test.mjs` | 11.6 KB |
