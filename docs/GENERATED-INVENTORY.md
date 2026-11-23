@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-23T00:11:12.690Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-23T01:56:42.763Z. Do not edit by hand.
 
 ---
 
@@ -2057,7 +2057,7 @@
 
 ## Test Files
 
-797 test files found.
+798 test files found.
 
 | File | Size |
 |------|------|
@@ -2479,6 +2479,7 @@
 | `test/market-study-report.test.js` | 30.6 KB |
 | `test/market-types.test.mjs` | 10.9 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
+| `test/member-chrome-popups.test.mjs` | 4.9 KB |
 | `test/messaging-need-not-erased.test.js` | 9.8 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
 | `test/methods-spec-sources.test.mjs` | 6.3 KB |
