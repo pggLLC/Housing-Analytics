@@ -5,6 +5,13 @@
 
   var esc = function (s) { return global.LabShell.esc(s); };
   var KINDS = { guide: 'Guide', brief: 'Research brief', data: 'Data', tool: 'Tool', place: 'Place', hub: 'Section' };
+  // The three page templates (reorg step 2b, paul 23 Nov 2026), named once. Each page head carries its template as
+  // data-template, so the lab's audit can hold each page to its template's rules.
+  //   prose: the answer first, at most two plain sentences, sections each with one "How this works" fold, no step bar
+  //          (Home, hubs, a place's Summary, guides and briefs).
+  //   tool:  a one-line step marker; inputs and result together, prose before the tool or in folds, never between.
+  //   list:  search and filters first, then the list, newest first, each item dated and sourced.
+  var TEMPLATES = { hub: 'prose', guide: 'prose', brief: 'prose', place: 'prose', tool: 'tool', data: 'list' };
 
   // crumbs: [{ label, href }], last one is the current page and is not linked.
   function crumbs(list) {
@@ -14,9 +21,12 @@
   }
 
   // A trail for a page under one of the five menus.
+  // Opportunities sits inside Money and deals (reorg step 2b), so its pages read Home › Money and deals › Opportunities.
+  var SUB = { opportunities: ['deal', { label: 'Opportunities', href: '#/opportunities' }] };
   function trail(menuId, page, extra) {
-    var m = global.LabNav.MENUS.filter(function (x) { return x.id === menuId; })[0];
-    return [{ label: 'Home', href: '#/' }, { label: m.title, href: m.hub }].concat(extra || [], page ? [{ label: page }] : []);
+    var sub = SUB[menuId];
+    var m = global.LabNav.MENUS.filter(function (x) { return x.id === (sub ? sub[0] : menuId); })[0];
+    return [{ label: 'Home', href: '#/' }, { label: m.title, href: m.hub }].concat(sub ? [sub[1]] : [], extra || [], page ? [{ label: page }] : []);
   }
 
   // facts: [{ value, label, source, href }]. Each fact names its source; a fact without one is not shown.
@@ -55,7 +65,7 @@
 
   function head(o) {
     // o.visual: a small picture beside the title (a locator map on place pages; big visual pass, paul 11-06).
-    return '<header class="page-head page-' + esc(o.kind) + (o.visual ? ' has-visual' : '') + '">' + crumbs(o.crumbs) +
+    return '<header class="page-head page-' + esc(o.kind) + (o.visual ? ' has-visual' : '') + '" data-template="' + esc(TEMPLATES[o.kind] || 'prose') + '">' + crumbs(o.crumbs) +
       (o.visual ? '<div class="ph-visual">' + o.visual + '</div>' : '') +
       '<p class="page-kind">' + esc(KINDS[o.kind]) + '</p>' +
       '<h1>' + esc(o.title) + '</h1>' +
@@ -220,11 +230,16 @@
   // Sources fold (paul, 10 Nov): a run of source lines, and a section headed "Sources", sits under one "Sources"
   // line that opens on tap, but only past FOLD_OVER lines (paul, 11-10: one line doesn't need to fold, just over three). Nothing is removed: the lines stay on the page, open for printing and for a
   // link into them, and a fold the reader opened stays open when the page redraws.
-  var srcState = {}, FOLD_OVER = 3;
+  // Every source sits one tap away, shut by default (paul, 23 Nov 2026: "sources are still taking up a lot of room on
+  // pages, shouldn't they be collapsed?"). Until then only runs of more than three lines folded (paul, 10 and 11 Nov),
+  // and the one-line source under each card or chart (p.metric-source) never folded at all.
+  var srcState = {}, FOLD_OVER = 0;
   function srcKey(i) { return location.hash.slice(2).split('?')[0] + '|' + i; }
   function srcFold(nodes, label) {
     var first = nodes[0], d = document.createElement('details');
-    d.className = 'fold-src';
+    // "source-fold" names it as a source line for the public site's source-lines audit
+    // (scripts/audit/source-lines-ratchet.mjs reads the line after a figure by its class).
+    d.className = 'fold-src source-fold' + (nodes.length === 1 ? ' fold-src-1' : '');
     d.innerHTML = '<summary>' + esc(label) + '</summary>';
     first.parentNode.insertBefore(d, first);
     nodes.forEach(function (n) { d.appendChild(n); });
@@ -312,6 +327,18 @@
     used[id] = 1; return id;
   }
   function tabLabel(t) { t = t.replace(/\s+/g, ' ').trim(); return t.length > 42 ? t.slice(0, 41).replace(/\s+\S*$/, '') + '…' : t; }
+  // A tab row cut off at the right edge says so (fresh-eyes review, 23 Nov 2026: "Wh…" with no hint it scrolls):
+  // a fade and an arrow on the edge while more tabs sit past it.
+  function tabCue() {
+    Array.prototype.forEach.call(document.querySelectorAll('#main nav.tabs'), function (nav) {
+      var ul = nav.querySelector('ul');
+      if (!ul) return;
+      var set = function () { nav.classList.toggle('tabs-more', ul.scrollWidth - ul.clientWidth - ul.scrollLeft > 2); };
+      if (!ul.hasAttribute('data-cue')) { ul.setAttribute('data-cue', ''); ul.addEventListener('scroll', set, { passive: true }); }
+      set();
+    });
+  }
+  if (typeof global.addEventListener === 'function') global.addEventListener('resize', function () { tabCue(); });
   function pageTabs() {
     var main = document.getElementById('main');
     if (!main || !main.querySelector('h1')) return;
@@ -455,7 +482,13 @@
       if (prev && prev.classList.contains('source-line')) return; // handled with the first line of its run
       var run = [p];
       for (var n = p.nextElementSibling; n && n.classList.contains('source-line'); n = n.nextElementSibling) run.push(n);
-      if (run.length > FOLD_OVER) made.push(srcFold(run, 'Sources (' + run.length + ')'));
+      // Inside a tool's form the source stays beside its input, as before (runs of more than three still fold).
+      if (run.length > (p.closest('form') ? 3 : FOLD_OVER)) made.push(srcFold(run, run.length === 1 ? 'Source' : 'Sources (' + run.length + ')'));
+    });
+    // The source under a card, chart or figure: a small "Source" that opens to the same line, link and date.
+    Array.prototype.forEach.call(main.querySelectorAll('p.metric-source, div.source-line'), function (p) {
+      if (p.closest('details.fold-src, .print-only, summary, form') || !p.textContent.trim()) return;
+      made.push(srcFold([p], 'Source'));
     });
     Array.prototype.forEach.call(main.querySelectorAll('h2, h3'), function (h) {
       if (!/^(sources?|data sources|methodology and data sources)\b/i.test(h.textContent.trim()) || h.closest('details, summary')) return;
@@ -463,7 +496,7 @@
       for (var n = h.nextElementSibling; n && !/^H[12]$/.test(n.tagName) && !(n.tagName === h.tagName); n = n.nextElementSibling) rest.push(n);
       // Count the lines a reader sees: list items, else paragraphs.
       var lines = rest.reduce(function (t, n) { var li = n.querySelectorAll ? n.querySelectorAll('li').length : 0; return t + (li || (n.tagName === 'P' ? 1 : 0)); }, 0);
-      if (lines <= FOLD_OVER) return;
+      if (lines <= (h.closest('form') ? 3 : FOLD_OVER)) return;
       var d = srcFold(rest, h.textContent.trim());
       d.classList.add('fold-src-sec');
       d.insertBefore(h, d.firstChild.nextSibling);
@@ -513,6 +546,7 @@
       sortable();
       pageTabs();
       keepFolds();
+      tabCue();
       if (clipQueued) return;
       clipQueued = true;
       (global.requestAnimationFrame || setTimeout)(function () { clipQueued = false; clipLists(); openAt(); });
@@ -593,5 +627,5 @@
   }
   var B25119_URL = 'https://data.census.gov/table/ACSDT5Y2024.B25119';
 
-  global.LabTpl = { summary: summary, ownerGap: ownerGap, short: short, B25119_URL: B25119_URL, newest: newest, stamp: stamp, means: means, terms: terms, alt: alt, ALT_MAX: ALT_MAX, gapTone: gapTone, toneBadge: toneBadge, crumbs: crumbs, trail: trail, head: head, factStrip: factStrip, onThisPage: onThisPage, pageTabs: pageTabs, next: next, source: source, fold: fold, foldHtml: foldHtml, openAround: openAround, printBar: printBar, foldSources: foldSources, sortable: sortable };
+  global.LabTpl = { TEMPLATES: TEMPLATES, summary: summary, ownerGap: ownerGap, short: short, B25119_URL: B25119_URL, newest: newest, stamp: stamp, means: means, terms: terms, alt: alt, ALT_MAX: ALT_MAX, gapTone: gapTone, toneBadge: toneBadge, crumbs: crumbs, trail: trail, head: head, factStrip: factStrip, onThisPage: onThisPage, pageTabs: pageTabs, next: next, source: source, fold: fold, foldHtml: foldHtml, openAround: openAround, printBar: printBar, foldSources: foldSources, sortable: sortable };
 })(window);

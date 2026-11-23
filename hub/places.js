@@ -307,7 +307,7 @@
     var line = rec ? num(rec.renter_households_total) + ' renter households' + (s != null ? (s > 0 ? ' · ' + num(s) + ' short at or below 30% AMI' : ' · no shortfall at or below 30% AMI') : '') : null;
     return '<li><a href="#/place/' + esc(entry.geoid) + '" data-route-path="' + esc(entry.path) + '">' + esc(entry.label) + '</a>' +
       (line ? '<p class="note">' + esc(line) + '</p>' : '') +
-      '<a class="use-link" href="' + esc(useHref(entry)) + '">Use in project</a></li>';
+      '<a class="use-link" href="' + esc(useHref(entry)) + '">Save to a project</a></li>';
   }
 
   // County map: homes priced for renters at or below 30% AMI, for every 10 such renter households.
@@ -509,7 +509,7 @@
     if (!data) return back + '<h1>' + esc(entry.label) + '</h1><p role="status" class="note">Loading figures…</p>';
     var f = placeFacts(geoid, data);
     var actions = '<div class="actions"><a class="button-link" href="' + esc(entry.href) + '">Open the full profile</a>' +
-      '<a class="button-link secondary" href="' + esc(useHref(entry)) + '">Use in project</a></div>';
+      '<a class="button-link secondary" href="' + esc(useHref(entry)) + '">Save to a project</a></div>';
     if (!f) return back + '<h1>' + esc(entry.label) + '</h1><p class="lede">This place has no row in the income and rent gap data.</p>' + actions;
     var c = f.county, countyName = c.county ? c.county.county_name : f.rec.containing_county_fips;
     var b30 = f.bands[0], b60 = f.bands[3];

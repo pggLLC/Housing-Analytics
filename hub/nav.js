@@ -1,4 +1,4 @@
-// The five menus. Each opens a panel listing its pages with one line on what each answers.
+// The four menus, with Home the five hubs (reorg step 2b). Each opens a panel listing its pages with one line on what each answers.
 // Pages rebuilt in the lab open here; the rest open the live site, and the panel says which.
 (function (global) {
   'use strict';
@@ -30,19 +30,9 @@
         { label: 'Local incentives', lab: '#/places/incentives', desc: 'Which housing tools each county and town has adopted.' },
         { label: 'How towns attract affordable housing', lab: '#/places/attract-housing', desc: 'What a town or county can do, in order of what matters most.' }] }
     ] },
-    { id: 'opportunities', title: 'Opportunities', question: 'Where can homes be built or kept affordable?', hub: '#/opportunities', views: ['opportunities', 'opportunity', 'finder'], groups: [
-      { title: 'Find a site or a property', items: [
-        { step: 1, label: 'Opportunity Finder', lab: '#/finder', desc: 'Every town on the facts for 4% and 9% deals. Free.' },
-        { label: 'Preservation inventory', lab: '#/opportunity/preservation', desc: 'Affordable homes that could be lost, and when.' },
-        { draft: true, label: 'Preservation in Colorado', lab: '#/guide/preservation', desc: 'Right to buy, park sales and money to keep homes affordable.' },
-        { label: 'CHFA portfolio', lab: '#/opportunity/portfolio', desc: 'Every tax credit property and its homes.' },
-        { label: 'Land value', lab: '#/opportunity/land-value', desc: 'Estimate a site’s land value and a negotiation range.' },
-        { label: 'Commuting and jobs', lab: '#/opportunity/commuting', desc: 'Where workers live, where the jobs are, and the largest employers.' }] },
-      { title: 'Where the money went', items: [
-        { label: '2026 Round One awards', lab: '#/deals?round=2026-1', desc: 'CHFA’s latest tax credit awards.' },
-        { label: 'Prop 123 land banking', lab: '#/opportunity/land-banking', desc: 'State awards to buy land for future homes.' }] }
-    ] },
-    { id: 'deal', title: 'Build a deal', question: 'Does this project pencil, and who does what?', hub: '#/projects', views: ['projects', 'project', 'homes', 'handoff', 'convert', 'financials', 'open-deal', 'open-calc', 'deal-calculator', 'sale-deal', 'use', 'deals', 'equity-pricing', 'pipeline', 'market', 'for-sale', 'recommendation', 'ic-summary', 'design'], groups: [
+    // Money and deals (reorg step 2b, paul 23 Nov 2026 "build Home and the menu"): Opportunities and Build a deal in one
+    // menu, with Where the money goes from Policy. No page or address moves.
+    { id: 'deal', title: 'Money and deals', question: 'Where can homes be built, does the deal pencil, and where did the money go?', hub: '#/projects', views: ['opportunities', 'opportunity', 'finder', 'money', 'projects', 'project', 'homes', 'handoff', 'convert', 'financials', 'open-deal', 'open-calc', 'deal-calculator', 'sale-deal', 'use', 'deals', 'equity-pricing', 'pipeline', 'market', 'for-sale', 'recommendation', 'ic-summary', 'design'], groups: [
       { title: 'Tools', items: [
         { step: 5, label: 'Deal Calculator', lab: '#/deal-calculator', desc: 'Sources and uses, credits, debt and the gap.' },
         { label: 'Market check', lab: '#/market', desc: 'Renters, rents, supply and a capture rate for any place. Free.' },
@@ -52,6 +42,17 @@
         { label: 'Deal summaries', lab: '#/deals', desc: 'One sourced summary per Colorado tax credit award.' },
         { label: 'Investor summary', lab: '#/ic-summary', desc: 'One place on one page, for lenders and investors.' },
         { label: 'Your projects', lab: '#/projects', desc: 'Projects saved in this browser.' }] },
+      { title: 'Find a site or a property', items: [
+        { step: 1, label: 'Opportunity Finder', lab: '#/finder', desc: 'Every town on the facts for 4% and 9% deals. Free.' },
+        { label: 'Preservation inventory', lab: '#/opportunity/preservation', desc: 'Affordable homes that could be lost, and when.' },
+        { draft: true, label: 'Preservation in Colorado', lab: '#/guide/preservation', desc: 'Right to buy, park sales and money to keep homes affordable.' },
+        { label: 'CHFA portfolio', lab: '#/opportunity/portfolio', desc: 'Every tax credit property and its homes.' },
+        { label: 'Land value', lab: '#/opportunity/land-value', desc: 'Estimate a site’s land value and a negotiation range.' },
+        { label: 'Commuting and jobs', lab: '#/opportunity/commuting', desc: 'Where workers live, where the jobs are, and the largest employers.' }] },
+      { title: 'Where the money went', items: [
+        { label: '2026 Round One awards', lab: '#/deals?round=2026-1', desc: 'CHFA’s latest tax credit awards.' },
+        { label: 'Prop 123 land banking', lab: '#/opportunity/land-banking', desc: 'State awards to buy land for future homes.' },
+        { label: 'Where the money goes', lab: '#/money', desc: 'Housing awards from CHFA, OEDIT and others, traced.' }] },
       { title: 'Learn how deals work', items: [
         { label: 'LIHTC basics', lab: '#/guide/lihtc-basics', desc: 'How tax credits work, and who does what.' },
         { label: 'Who does what', lab: '#/guide/deal-team', desc: 'Bankers, syndicators, lawyers and local partners.' },
@@ -62,7 +63,7 @@
         { label: 'Resident services', lab: '#/guide/resident-services', desc: 'Services that help residents stay housed.' },
         { label: 'CRA and pricing', lab: '#/guide/cra-pricing', desc: 'How bank rule changes could move credit prices.' }] }
     ] },
-    { id: 'policy', title: 'Policy & research', question: 'What is changing, and what does the research say?', hub: '#/guides', views: ['guides', 'guide', 'news', 'digest', 'housing-posts', 'legislation', 'calendar', 'elections', 'money', 'research', 'tax-credit-history', 'middle-income'], groups: [
+    { id: 'policy', title: 'Policy & research', question: 'What is changing, and what does the research say?', hub: '#/guides', views: ['guides', 'guide', 'news', 'digest', 'housing-posts', 'legislation', 'calendar', 'elections', 'research', 'tax-credit-history', 'middle-income'], groups: [
       { title: 'Policy and news', items: [
         { label: 'Housing news', lab: '#/news', desc: 'Colorado housing news articles, dated and linked.' },
         { label: 'Sunday digest', lab: '#/digest', desc: 'The week in Colorado housing news, every item linked to its source.' },
@@ -72,8 +73,7 @@
         { label: 'AHCIA status', lab: '#/guide/ahcia', desc: 'Where the federal credit expansion stands.' },
         { label: 'Fair housing', lab: '#/guide/fair-housing', desc: 'What the federal rollback did, and what survives.' },
         { label: 'Federal rule changes', lab: '#/guide/federal-rules', desc: 'Federal fixes that would help affordable housing, ranked.' },
-        { label: 'Elections', lab: '#/elections', desc: 'How elections and ballot measures shape housing policy.' },
-        { label: 'Where the money goes', lab: '#/money', desc: 'Housing awards from CHFA, OEDIT and others, traced.' }] },
+        { label: 'Elections', lab: '#/elections', desc: 'How elections and ballot measures shape housing policy.' }] },
       { title: 'Research', items: [
         { label: 'All research and briefs', lab: '#/guides?at=research-all', desc: 'Every paper, brief and analysis, each with its date.' },
         { label: 'How tax credit deals have changed', lab: '#/tax-credit-history', desc: 'Colorado’s housing tax credit since 1987: deal size, bonds, who it serves.' },
@@ -168,7 +168,8 @@
   }
 
   function panel(m) {
-    return '<div class="mega" id="mega-' + m.id + '" hidden><div class="mega-inner">' +
+    // Money and deals carries four groups (reorg step 2b, 23 Nov): they sit side by side, so the menu still fits a tall screen.
+    return '<div class="mega" id="mega-' + m.id + '" hidden><div class="mega-inner' + (m.groups.length > 2 ? ' mega-' + m.groups.length : '') + '">' +
       '<div class="mega-intro"><p class="mega-question">' + esc(m.question) + '</p>' +
       (!PORT || PORT.href(m.hub) === m.hub ? '<a class="mega-hub" href="' + esc(m.hub) + '" data-hub="' + esc(m.views[0]) + '">All of ' + esc(m.title) + ' →</a>' : '') + '</div>' +
       m.groups.map(function (g) {

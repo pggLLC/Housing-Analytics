@@ -282,6 +282,8 @@ ul.plain li { margin: .4rem 0; }
 .metric-main:focus-visible { outline: none; }
 .metric-main:focus-visible::after { outline: 3px solid var(--green); outline-offset: 2px; }
 .metric-link .metric-source a { position: relative; z-index: 1; }
+/* A folded source (templates.js foldSources) opens above the card's link, not through it (Codex on HA #2970). */
+.metric-link .fold-src { position: relative; z-index: 1; }
 .metric-go { margin-top: .5rem; color: var(--green); font-weight: 600; font-size: 14px; }
 
 /* Two charts side by side on wide screens. */

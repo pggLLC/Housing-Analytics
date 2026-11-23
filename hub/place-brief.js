@@ -123,7 +123,7 @@
       '<details class="pb-fold"><summary>How this works, and other ways to count</summary><ul>' +
         '<li>We take the forecast’s new households and add enough homes to leave about 5 in every 100 empty so people can move, then add homes lost to age (yearly loss rates by building age, from the Census year-built count).</li>' +
         (grow20 ? '<li>Over 20 years, 2024–2044: ' + num(grow20) + ' homes, resident growth plus workers who commute in and might move closer (the Overview’s headline).</li>' : '') +
-        '<li>DOLA’s local-assessment method, 2024–2034: on the <a href="#/place/' + esc(g) + '/dola">For DOLA</a> tab.</li>' +
+        '<li>DOLA’s local-assessment method, 2024–2034: on the <a href="#/place/' + esc(g) + '/dola">State check</a> tab.</li>' +
         '<li>Low and high growth: the <a href="#/places/scenario?g=' + esc(g) + '">scenario builder</a>.</li>' +
       '</ul></details>';
 
