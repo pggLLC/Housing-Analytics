@@ -1,15 +1,56 @@
 {
   "meta": {
-    "generated": "2026-11-22T11:48:48Z",
+    "generated": "2026-11-23T13:22:42Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-16",
-      "checked": 61,
+      "since": "2026-11-17",
+      "checked": 57,
       "unverified": 10,
       "weak": 1
     }
   },
   "outlets": [
+    {
+      "id": "1c1e342f6c",
+      "name": "Wisevoter",
+      "domains": [
+        "wisevoter.com"
+      ],
+      "stories": 2,
+      "first_seen": "2026-11-19",
+      "last_seen": "2026-11-23",
+      "headlines": [
+        {
+          "title": "Boulder Council Sets 90-Day Affordable Housing Review",
+          "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNXzlFbmpFaHFiVGRJc3VqNXhPQWtBRnR6NGRTTFk3X1hPR3dyUnZWNVE1LTVXN2JPUlp5OUJfQ1lldk5JQ3BOdnBwUGtoNVhPN2RMeUFFSXNLWXZDS0FYRFBabWlNM3BoZ0tFVGJwRWVqQUVmX2lSRFhsLVpSXzViM0pPRFRNQkgzX09KSVRUdHZTTEpWemNzS1FUdTMyQzFmU0RN?oc=5",
+          "date": "2026-11-23"
+        },
+        {
+          "title": "Denver to Close Stone Creek Homeless Shelter in May",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTXU3b1NfR3M4OVRwZmZvTVlsOFNNZXZEQ0RGUG5uNjBiMnpLY3B3d2c3XzNMek4xRWVGX0pEWWNXRWREMHdLTmpRX0gwTmJPSmhuXzhaWmU5TDdHcVpGblZRaHVUVUwzV2V6blpNSUxfWXN5T2FGUVJkdUFScTZkdVhrdEtyRklhbE96dTRPcGRIWkdTSlZHSw?oc=5",
+          "date": "2026-11-19"
+        }
+      ],
+      "first_listed": "2026-11-21"
+    },
+    {
+      "id": "a5760673ab",
+      "name": "cedarnews.net",
+      "domains": [
+        "cedarnews.net"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-22",
+      "last_seen": "2026-11-22",
+      "headlines": [
+        {
+          "title": "Colorado Springs Deck Builder Genesis Group Explains What Colorado's Wildfire Code Means for New Decks",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPV0VwVXdaMXIzekJyekp0TUpVMlI1QS1aNGQ1WHh1c29LUGQxQ1lUZG9sQzlKWFczWms2R0RBZTE3UDdsdGZERHc1WEl3dk0tcUZrVmpqc0dFZ01GcWtxeUhZaHFMU2ZFeHgxZGJsa1RTWWxjN0NMekZ4WmYyRVVwNko0Z2FRVXJWcUc3ZnF3ekZ2Nzl1NlN3Qg?oc=5",
+          "date": "2026-11-22"
+        }
+      ],
+      "first_listed": "2026-11-23"
+    },
     {
       "id": "0abff70912",
       "name": "Pagosa Daily Post",
@@ -37,24 +78,6 @@
         }
       ],
       "first_listed": "2026-11-18"
-    },
-    {
-      "id": "1c1e342f6c",
-      "name": "Wisevoter",
-      "domains": [
-        "wisevoter.com"
-      ],
-      "stories": 1,
-      "first_seen": "2026-11-19",
-      "last_seen": "2026-11-19",
-      "headlines": [
-        {
-          "title": "Denver to Close Stone Creek Homeless Shelter in May",
-          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTXU3b1NfR3M4OVRwZmZvTVlsOFNNZXZEQ0RGUG5uNjBiMnpLY3B3d2c3XzNMek4xRWVGX0pEWWNXRWREMHdLTmpRX0gwTmJPSmhuXzhaWmU5TDdHcVpGblZRaHVUVUwzV2V6blpNSUxfWXN5T2FGUVJkdUFScTZkdVhrdEtyRklhbE96dTRPcGRIWkdTSlZHSw?oc=5",
-          "date": "2026-11-19"
-        }
-      ],
-      "first_listed": "2026-11-21"
     },
     {
       "id": "5a6d3b17a3",
@@ -402,22 +425,6 @@
         }
       ],
       "first_listed": "2026-11-18"
-    },
-    {
-      "id": "9dd15260fc",
-      "name": "AMI Sun",
-      "domains": [],
-      "stories": 1,
-      "first_seen": "2026-08-25",
-      "last_seen": "2026-08-25",
-      "headlines": [
-        {
-          "title": "Tailgatin’ Sports Tavern opens in Cortez",
-          "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE4wWUxzbnhSVW50M1k4TzlYVE5mZ1VmZjZxYk9zMy1GYmpiYlNtbDVuRXktNDNhTW0xdlhwa0FfVnIwTzIxQUg2Zk1mZDFfNW9oMzRNU09rNVV6aHR3WEtrVjY0N01KMVpkR1JF?oc=5",
-          "date": "2026-08-25"
-        }
-      ],
-      "first_listed": "2026-10-31"
     }
   ]
 }

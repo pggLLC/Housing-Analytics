@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-22T11:48:48Z",
-    "as_of": "2026-11-22",
+    "generated": "2026-11-23T13:22:42Z",
+    "as_of": "2026-11-23",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -40,7 +40,7 @@
       "url": "https://cdola.colorado.gov/calendar",
       "status": "ok",
       "listed": 188,
-      "upcoming": 10
+      "upcoming": 11
     },
     {
       "id": "prop123",
@@ -380,6 +380,18 @@
       "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
       "source": "fomc",
       "category": "release"
+    },
+    {
+      "title": "State Housing Board Meeting",
+      "start": "2027-03-23",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
     }
   ],
   "past": [
