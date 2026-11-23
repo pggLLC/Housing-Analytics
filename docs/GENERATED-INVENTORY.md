@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-22T23:07:33.444Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-23T00:11:12.690Z. Do not edit by hand.
 
 ---
 
@@ -33,7 +33,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 38.3 KB |
 | `dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.7 KB |
-| `data-hub.html` | Data and methods · COHO Analytics | 7.4 KB |
+| `data-hub.html` | Data and methods · COHO Analytics | 7.5 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 85.0 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
@@ -73,7 +73,7 @@
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `opportunities-hub.html` | Opportunities · COHO Analytics | 7.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
-| `places-hub.html` | Places and need · COHO Analytics | 8.0 KB |
+| `places-hub.html` | Places and need · COHO Analytics | 8.1 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 53.6 KB |
 | `policy-hub.html` | Policy and research · COHO Analytics | 7.6 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
