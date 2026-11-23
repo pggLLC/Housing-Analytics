@@ -215,3 +215,26 @@
 }
 .hall-more { display: none; margin: .5rem 0 0; font-size: 14px; font-weight: 600; }
 @media (max-width: 767px) { .hall-card li:nth-child(n+6) { display: none; } .hall-more { display: block; } }
+
+/* Reorg step 2b (paul, 23 Nov 2026 "build Home and the menu"): five things to know about Colorado, as sentences, where
+   the four number cards sat; the three ways in as one compact row; why it matters as three lines; the rest in folds. */
+.hh-five { grid-area: fig; align-self: start; background: var(--card); color: var(--ink); border-radius: 12px; padding: 1rem 1.15rem 1.1rem; box-shadow: 0 8px 24px var(--hero-shadow); }
+.hh-five h2 { font-size: 1.25rem; margin: 0 0 .6rem; color: var(--ink); }
+.hh-five ol { margin: 0; padding-left: 1.3rem; display: grid; gap: .75rem; }
+.hh-facts.hh-five li { display: list-item; padding: 0; background: none; border: 0; border-radius: 0; box-shadow: none; font-size: 15px; line-height: 1.45; color: var(--ink); }
+.hh-facts.hh-five .hh-n { font-size: inherit; color: var(--ink); font-weight: 700; line-height: inherit; }
+.hh-five .hh-tag { display: inline-block; vertical-align: .1em; margin-right: .2rem; }
+.hf-why { display: block; font-size: 14px; color: var(--ink-soft); margin-top: .15rem; }
+.hh-five .hh-s { font-size: 13px; }
+.hh-paths ul { margin-top: 1.25rem; }
+.hh-paths a { padding: .8rem 1rem .9rem; }
+.hw-list { margin: 0; padding-left: 1.2rem; display: grid; gap: .55rem; max-width: 72ch; }
+.hw-list li { line-height: 1.5; }
+@media (max-width: 767px) {
+  .hh-paths .hh-path-d { display: none; }
+  .hh-paths .hh-icon { grid-row: span 2; }
+}
+.home-about > .hf-body { padding: 0 1rem 1rem; }
+/* The search sits under the lede, not at the foot of the taller five-things card. */
+.home-hero.hh-warm { grid-template-rows: auto 1fr; }
+.home-hero.hh-warm .hh-find { align-self: start; }

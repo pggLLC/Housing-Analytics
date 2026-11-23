@@ -374,7 +374,7 @@
   }
 
   // Which of the five menus each hub sits under, for its breadcrumbs.
-  var HUB_MENU = { places: 'places', opportunities: 'opportunities', projects: 'deal', guides: 'policy', data: 'data' };
+  var HUB_MENU = { places: 'places', opportunities: 'deal', projects: 'deal', guides: 'policy', data: 'data' };
   function hubHead(key) {
     var T = global.LabTpl;
     if (!T) return '<a class="back-link" href="#/">← Home</a><h1>' + esc(HUBS[key].title) + '</h1><p class="lede">' + esc(HUBS[key].lede) + '</p>';

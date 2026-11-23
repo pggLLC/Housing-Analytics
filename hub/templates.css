@@ -54,6 +54,9 @@
   padding: 1.75rem 16px 2rem;
 }
 .mega-intro { border-right: 1px solid var(--line); padding-right: 1.5rem; }
+/* Four groups side by side (Money and deals): a narrower intro, a wider frame, and shorter descriptions' lines. */
+.mega-inner.mega-4 { max-width: 1440px; grid-template-columns: minmax(160px, .8fr) repeat(4, minmax(0, 1fr)); gap: 1.25rem 1.75rem; }
+.mega-inner.mega-4 .mega-desc { font-size: 13px; line-height: 1.4; }
 .mega-question { font-size: 22px; line-height: 1.3; font-weight: 600; color: var(--ink); margin: 0 0 1rem; text-wrap: balance; }
 .mega-hub { font-weight: 600; text-decoration: none; display: inline-flex; min-height: 44px; align-items: center; color: var(--green); }
 .mega-hub:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
@@ -80,7 +83,7 @@
   .menu-button { padding: 0 .4rem; font-size: 14px; }
   .nav-utilities { gap: .25rem .5rem; font-size: 13px; }
 }
-/* Below 1180px the brand, five menus and utility links do not fit one row (look.css puts them on one row from
+/* Below 1180px the brand, the menus and utility links do not fit one row (look.css puts them on one row from
    1180px), so the Menu button takes over there. Between 961 and 1179px they used to wrap into a header 109 to
    157px tall that stayed stuck to the top of the screen. */
 @media (max-width: 1179px) {
@@ -92,7 +95,7 @@
   .menu-button { width: 100%; justify-content: space-between; padding: 0 .5rem; font-size: 16px; border-bottom: 1px solid var(--line); }
   .menu-button[aria-current="true"] { border-bottom-color: var(--line); box-shadow: inset 3px 0 0 var(--green); padding-left: .75rem; }
   .mega { position: static; box-shadow: none; border: 0; max-height: none; overflow: visible; background: var(--card); }
-  .mega-inner { grid-template-columns: 1fr; padding: .75rem .25rem 1.25rem; gap: 1rem; }
+  .mega-inner, .mega-inner.mega-4 { grid-template-columns: 1fr; padding: .75rem .25rem 1.25rem; gap: 1rem; }
   .mega-intro { border-right: 0; padding-right: 0; }
   .mega-question { font-size: 17px; margin-bottom: .25rem; }
   .nav-utilities { margin: .5rem 0 0; flex-direction: column; align-items: stretch; gap: 0; }
@@ -1625,6 +1628,11 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .fold-src > .source-line:first-of-type { margin-top: .25rem; }
 .fold-src-sec > .fold-src-head { display: none; }
 @media print { .fold-src > summary { display: none; } }
+/* One source line (under a card, chart or figure): a small muted "Source" that keeps the card's foot where it was. */
+.fold-src-1 { margin: auto 0 0; padding-top: .35rem; } /* auto: sits at the foot of a card that stacks as a column */
+.fold-src-1 > summary { min-height: 24px; font-weight: 600; letter-spacing: 0; font-size: 12px; padding: 0 .25rem 0 0; }
+.fold-src-1 > .metric-source, .fold-src-1 > .source-line { margin: .15rem 0 .25rem; padding-top: 0; }
+.ladder:has(.ladder-dots) > .fold-src-1 { grid-column: 1 / -1; }
 
 /* Bank and CRA coverage map on the Deal team guide (site/cra-map.js). */
 .cra-map { margin: 1rem 0; min-width: 0; }

@@ -420,28 +420,31 @@
     }).join('') + '</ul></section>';
   }
 
-  // The hero and the Colorado snapshot in one block (paul, 15 Nov): four statewide numbers, each tagged Renters,
-  // Owners or All homes, each saying why it matters, each with its source. It replaces the county map that sat in
-  // the hero, which stays on Places and need.
-  function heroFacts(f) {
-    if (!f) return '<section class="hh-strip hh-facts" aria-label="Colorado in four numbers"><p role="status" class="note">Loading Colorado’s figures…</p></section>';
-    var t30 = f.t30 || {};
-    // tag, number, what it counts, why it matters (paul, 15 Nov: "numbers on the home page should say why they
-    // matter"), source, link.
+  // Five things to know about Colorado (reorg step 2b, paul 23 Nov 2026 "build Home and the menu"): the hero's figures
+  // as sentences, the way a county's Summary reads, each tagged Renters, Owners or All homes, each with why it matters
+  // (paul, 15 Nov) and its dated source. The same figures as before: the four-number strip and the owner card's buying gap.
+  function roundTo(v, step) { return Math.round(v / step) * step; }
+  function fiveThings(f) {
+    if (!f) return '<section class="hh-facts hh-five" aria-labelledby="h-five"><h2 id="h-five">Five things to know about Colorado</h2><p role="status" class="note">Loading Colorado’s figures…</p></section>';
+    var t30 = f.t30 || {}, g = f.og || {};
+    // tag, the sentence (figure in bold), why it matters, source, link
     var items = [
-      ['Renters', fin(f.burden) ? Math.round(f.burden) + '%' : '—', 'of Colorado renters pay 30% or more of their income for rent and utilities',
-        'That leaves little for food, child care or savings, and one rent increase can force a move.', 'ACS 2020–2024, B25070', HSRC.b25070],
-      ['Owners', fin(f.priceRatio) ? f.priceRatio.toFixed(1) + '×' : '—', 'a typical home’s value against a typical household’s income' + (fin(f.value) && fin(f.income) ? ' ($' + num(f.value) + ' against $' + num(f.income) + ' a year)' : ''),
-        'First-time buyers need a far bigger income or down payment, so more households keep renting.', 'ACS 2020–2024, DP04 and DP03', HSRC.dp04],
-      ['Renters', cnt(t30.homes_short), 'homes short for the lowest-income renters, who earn 30% of area median income or less',
-        'These households are the likeliest to fall behind or lose their home, and rents this low rarely get built without public money.', 'HUD CHAS ' + f.chasVintage, HSRC.chas],
-      ['All homes', cnt(f.need), 'more homes Colorado needs by ' + f.needYear + ' as households grow, at every income',
-        'If building falls short of this, the shortage grows and prices climb for everyone.', 'COHO estimate from the State Demography Office forecast' + (f.sdoVintage ? ', Vintage ' + f.sdoVintage : ''), HSRC.dola]
-    ];
-    return '<section class="hh-strip hh-facts" aria-label="Colorado in four numbers"><ul>' + items.map(function (x) {
-      return '<li><span class="hh-tag hh-tag-' + x[0].replace(/\W+/g, '').toLowerCase() + '">' + esc(x[0]) + '</span><span class="hh-n">' + esc(x[1]) + '</span><span class="hh-l">' + esc(x[2]) + '</span>' +
-        '<span class="hh-why"><b>Why it matters:</b> ' + esc(x[3]) + '</span><a class="hh-s" href="' + esc(x[5]) + '">' + esc(x[4]) + '</a></li>';
-    }).join('') + '</ul></section>';
+      fin(f.need) ? ['All homes', 'Colorado needs about <strong class="hh-n">' + num(roundTo(f.need, 1000)) + '</strong> more homes by ' + esc(f.needYear) + ' as households grow, at every income.',
+        'If building falls short of this, the shortage grows and prices climb for everyone.', 'COHO estimate from the State Demography Office forecast' + (f.sdoVintage ? ', Vintage ' + f.sdoVintage : ''), HSRC.dola] : null,
+      fin(f.burden) ? ['Renters', '<strong class="hh-n">' + Math.round(f.burden) + '%</strong> of Colorado renters pay 30% or more of their income for rent and utilities.',
+        'That leaves little for food, child care or savings, and one rent increase can force a move.', 'ACS 2020–2024, B25070', HSRC.b25070] : null,
+      fin(t30.homes_short) ? ['Renters', 'The lowest-income renters, who earn 30% of area median income or less, are about <strong class="hh-n">' + num(roundTo(t30.homes_short, 100)) + '</strong> homes short.',
+        'These households are the likeliest to fall behind or lose their home, and rents this low rarely get built without public money.', 'HUD CHAS ' + f.chasVintage, HSRC.chas] : null,
+      fin(f.priceRatio) ? ['Owners', 'A typical home costs <strong class="hh-n">' + f.priceRatio.toFixed(1) + ' years</strong> of a typical household’s income' + (fin(f.value) && fin(f.income) ? ' ($' + num(f.value) + ' against $' + num(f.income) + ' a year)' : '') + '.',
+        'First-time buyers need a far bigger income or down payment, so more households keep renting.', 'ACS 2020–2024, DP04 and DP03', HSRC.dp04] : null,
+      g.buy && fin(f.incRenter) ? ['Owners', 'Buying the typical home takes about <strong class="hh-n">$' + num(g.buy) + '</strong> a year in income. Renter households, the would-be first-time buyers, earn <strong>$' + num(f.incRenter) + '</strong>.',
+        'At 30% of income, ' + Math.round((g.down || 0.1) * 100) + '% down and ' + (g.rate ? (g.rate * 100).toFixed(2) + '%' : 'today’s rate') + ' for 30 years, with taxes and insurance.', 'ACS ' + (f.tenureYears || '2020–2024') + ', B25119; Freddie Mac' + (g.week ? ', week of ' + g.week : ''), HSRC.b25119] : null
+    ].filter(Boolean);
+    // .hh-facts li .hh-n stays the page's ready marker (Housing-Analytics scripts/audit/ux-budget.json).
+    return '<section class="hh-facts hh-five" aria-labelledby="h-five"><h2 id="h-five">Five things to know about Colorado</h2><ol>' + items.map(function (x) {
+      return '<li><span class="hh-tag hh-tag-' + x[0].replace(/\W+/g, '').toLowerCase() + '">' + esc(x[0]) + '</span> ' + x[1] +
+        ' <span class="hf-why">' + esc(x[2]) + '</span> <a class="hh-s" href="' + esc(x[4]) + '">' + esc(x[3]) + '</a></li>';
+    }).join('') + '</ol></section>';
   }
 
   // Why affordable housing matters, in plain words (paul, 15 Nov: the site's message on Home).
@@ -451,9 +454,9 @@
       ['Towns need the people who keep them running', 'When rent and prices run ahead of pay, teachers, nurses, cooks and retirees move away or drive in from far off. Businesses can’t hire, and towns lose neighbors.'],
       ['It takes many hands, working from the same facts', 'Town staff, builders, lenders, nonprofits and neighbors each have a part. Plans move faster when everyone starts from the same numbers, and every number here links to where it came from.']
     ];
-    return '<section class="home-why" aria-labelledby="h-why"><h2 id="h-why">Why affordable housing matters</h2><div class="hw-grid">' + W.map(function (w) {
-      return '<article><h3>' + esc(w[0]) + '</h3><p>' + esc(w[1]) + '</p></article>';
-    }).join('') + '</div></section>';
+    return '<section class="home-why" aria-labelledby="h-why"><h2 id="h-why">Why affordable housing matters</h2><ul class="hw-list">' + W.map(function (w) {
+      return '<li><strong>' + esc(w[0]) + '.</strong> ' + esc(w[1]) + '</li>';
+    }).join('') + '</ul></section>';
   }
 
   // Owners beside renters (paul, 15 Nov). Colorado only, like the rent card above it.
@@ -493,7 +496,7 @@
     // The county list the ranking's place count is counted from loads with Places' data.
     if (Pl.data) Pl.data();
     return '<section class="home-all" aria-labelledby="h-all"><h2 id="h-all">Everything on the site</h2>' +
-      '<p class="ha-lede">Five areas, each answering one question, and every page in them.</p><div class="hall-grid">' +
+      '<p class="ha-lede">Four areas, each answering one question, and every page in them.</p><div class="hall-grid">' +
       N.MENUS.map(function (m) {
         var items = [].concat.apply([], m.groups.map(function (g) { return g.items; }));
         return '<article class="hall-card"><h3><a href="' + esc(m.hub) + '">' + esc(m.title) + '</a></h3><p class="hall-q">' + esc(m.question) + '</p><ul>' +
@@ -519,20 +522,22 @@
     var g = params.get('town');
     return '<section class="home-hero hh-warm" aria-labelledby="home-h1"><div class="hh-copy"><p class="hh-kicker">COHO Analytics · Colorado housing</p>' +
       '<h1 id="home-h1">Colorado needs more homes that people can afford.</h1>' +
-      '<p class="lede">Rent has outpaced pay for ten years and since 2000, and a typical home costs over five years of typical income. We bring data and expert analysis to the people who work on housing, from town staff to builders, so communities can plan the homes they need and there is housing with dignity for all.</p></div>' +
+      '<p class="lede">We bring data and expert analysis to the people who work on housing, from town staff to builders, so communities can plan the homes they need and there is housing with dignity for all.</p></div>' +
       // The search comes before the county figure, so it is on the first phone screen; a picked town answers here.
       '<div class="hh-find">' + Shell.searchBox('home-place', 'Find your town or county', params.get('q') || '', 'For example Fruita or Mesa County') +
       found(params) + answer(params) + resume(params) +
       (g || params.get('q') ? '' : '<p class="hh-try">Try <a href="' + esc(homeHref(params, { town: '0828745' })) + '">Fruita</a> · <a href="' + esc(homeHref(params, { town: '08077' })) + '">Mesa County</a> · <a href="' + esc(homeHref(params, { town: '0862000' })) + '">Pueblo</a></p>') +
       '<p class="hh-help"><a href="#/assistance">Looking for a home? Rent help, eviction help and vouchers, English y español →</a></p></div>' +
-      heroFacts(f) + '</section>' +
+      fiveThings(f) + '</section>' +
       (f && global.LabTpl.newest(x.data) ? '<p class="page-meta home-stamp">' + global.LabTpl.stamp('Figures updated', global.LabTpl.newest(x.data)) + '</p>' : '') +
-      why() + startPaths() + doors(params) + (g ? quick(g) : '') +
+      // Search and five things, then the three ways in as one compact row (the one "Start here" entry the public site's
+      // tests hold), then one row of goals; the rest in folds (reorg step 2b).
+      startPaths() + doors(params) + (g ? quick(g) : '') + why() +
       // Colorado only: one picker on Home (the search above); counties and towns are on their own pages.
-      '<section class="home-rent" aria-labelledby="h-rent"><h2 id="h-rent">Rent and home prices against income</h2>' +
+      '<details class="home-about home-rent" data-fold="rent"><summary>Rent and home prices against income, in detail</summary><div class="hf-body">' +
       '<p class="ha-lede">Statewide, for renters and for owners. For your own town, use the search at the top.</p>' +
-      (global.LabRentIncome ? global.LabRentIncome.card('08') : '') + ownCard(f) + '</section>' +
-      everything() +
+      (global.LabRentIncome ? global.LabRentIncome.card('08') : '') + ownCard(f) + '</div></details>' +
+      '<details class="home-about home-all-fold" data-fold="all"><summary>Every page on the site</summary><div class="hf-body">' + everything() + '</div></details>' +
       '<p class="callout home-member"><strong>For developers and housing teams.</strong> The Market check and the for-sale study are free here. Members get the full versions, site dossiers and deal workbooks. <a href="#/members">Member tools</a></p>' +
       figures + (f ? '<details class="home-about home-counted"><summary>How the Colorado numbers are counted, and more of them</summary>' + glance(f) + moreNumbers(f) + '</details>' : '') +
       '<details class="home-about" id="home-about"><summary>How COHO works, who it is for, and the research behind it</summary>' + steps() + paths() + audiences() + research() + '</details>' +
