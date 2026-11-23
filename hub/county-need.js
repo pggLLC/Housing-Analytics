@@ -68,7 +68,7 @@
       what: 'Owner households, at every income, whose housing costs (mortgage, taxes, insurance and utilities) take 30% or more of income. The owner side of the cost burden the renter measures show.',
       src: [SRC.chasOwn] },
     { id: 'home_value_to_income', label: 'Home price to income', unit: 'median household income', tenure: 'Owners', worse: 'high', fmt: 'ratio',
-      what: 'Median home value as a multiple of median household income. Lenders’ rule of thumb is about three times income.',
+      what: 'Median home value as a multiple of median household income.',
       grey: 'The survey margins for this county are too wide to rank it.',
       src: [SRC.acs] },
     { id: 'need', label: 'Priority score (need and opportunity)', unit: 'out of 100', tenure: 'All households', worse: 'high',
