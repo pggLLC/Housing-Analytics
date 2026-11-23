@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-11-22T15:14:52.206Z",
+  "scanTimestamp": "2026-11-23T19:11:53.377Z",
   "totalScanned": 2006,
   "newSourceCount": 1974,
   "existingCount": 31,
@@ -8,13 +8,13 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1012204,
+      "sizeBytes": 1012211,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7515,
+      "sizeBytes": 7517,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -128,7 +128,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 2851844,
+      "sizeBytes": 2908705,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -146,7 +146,7 @@
     },
     {
       "path": "data/alerts/outlet-review.json",
-      "sizeBytes": 18166,
+      "sizeBytes": 18741,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -182,7 +182,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 710129,
+      "sizeBytes": 711167,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11450,7 +11450,7 @@
     },
     {
       "path": "data/policy/housing-events.json",
-      "sizeBytes": 156779,
+      "sizeBytes": 157108,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11702,13 +11702,13 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 917919,
+      "sizeBytes": 937569,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy_briefs_curated.json",
-      "sizeBytes": 447766,
+      "sizeBytes": 447779,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11720,13 +11720,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20500,
+      "sizeBytes": 20490,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 243387,
+      "sizeBytes": 245621,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11856,7 +11856,7 @@
     {
       "path": "data/car-market.json",
       "name": "Colorado Association of Realtors (CAR) — Statewide Market Summary",
-      "daysSince": 294
+      "daysSince": 295
     }
   ]
 }

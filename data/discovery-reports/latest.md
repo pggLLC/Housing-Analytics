@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-11-22T15:14:52.206Z
+**Scan timestamp:** 2026-11-23T19:11:53.377Z
 
 ## Summary
 
@@ -34,7 +34,7 @@
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/property-websites.json` (31 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (1 KB)
-- `data/alerts/alerts_archive.json` (2785 KB)
+- `data/alerts/alerts_archive.json` (2841 KB)
 - `data/alerts/outlet-decisions.json` (6 KB)
 - `data/alerts/outlet-register.json` (31 KB)
 - `data/alerts/outlet-review.json` (18 KB)
@@ -43,7 +43,7 @@
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3871 KB)
 - `data/audit/chfa-qap-watch.json` (3753 KB)
-- `data/audit/funding-watch.json` (693 KB)
+- `data/audit/funding-watch.json` (694 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/benchmarks/str-license-counts.json` (6 KB)
@@ -1963,11 +1963,11 @@
 - `data/policy/unit-size-standards.json` (5 KB)
 - `data/policy/vacancy-tax.json` (45 KB)
 - `data/policy/where-to-build-context.json` (34 KB)
-- `data/policy_briefs.json` (896 KB)
+- `data/policy_briefs.json` (916 KB)
 - `data/policy_briefs_curated.json` (437 KB)
 - `data/polymarket-curated.json` (6 KB)
 - `data/polymarket-data.json` (20 KB)
-- `data/polymarket-history.json` (238 KB)
+- `data/polymarket-history.json` (240 KB)
 - `data/processed/co_county_housing_indicators.geojson` (447 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
@@ -1991,4 +1991,4 @@
 
 ## ⏳ Aging Sources
 
-- undefined — 294 days since last update
+- undefined — 295 days since last update
