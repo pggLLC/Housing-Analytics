@@ -623,7 +623,7 @@
       var message = result.status === 'missing-ami'
         ? 'Select a county to load HUD AMI and price the ownership affordability limit.'
         : (result.status === 'missing-helper'
-          ? 'Ownership affordability helper unavailable; reload the page before relying on this mode.'
+          ? 'For-sale results could not be worked out: the ownership math did not load on this page. Open the Deal Calculator page for this mode.'
           : 'Enter total development cost and units to size the ownership gap.');
       setText('dc-own-note', message);
       renderDeveloperOwnershipFundingStack(null);
