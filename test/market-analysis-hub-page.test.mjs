@@ -464,6 +464,27 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 7
   ok(t.a.textContent.trim() && t.p.querySelector('#' + t.a.getAttribute('aria-describedby')), 'the link should have words and a described note');
   ok(!parts((await run({ subject: null })).a.getAttribute('href')).q.has('subject'), 'with no subject project the link should still open, without one');
   ok(!(await run({ drawn: false })).p && !(await run({ share: false })).p, 'before the calculator is drawn, or without the share script, there should be no link yet');
+  // The for-sale mode (24 Nov 2026, Codex walkthrough check): Financials works rental deals only, so the link opens the
+  // hub's for-sale screen with the same settings, says so, and sends no subject project.
+  const sale = (/var SALE_ROUTE = '([^']+)';/.exec(src) || [])[1] || '';
+  const sm = /^([a-z0-9-]+\.html)#\/([a-z0-9-]+)\?v=1&$/.exec(sale);
+  ok(sm && sm[1] === hubFile, 'the for-sale hand-off route is not "' + hubFile + '#/<view>?v=1&": ' + sale);
+  const saleView = sm ? sm[2] : '';
+  const saleReg = hubScripts.filter(f => f.startsWith('hub/') && fs.existsSync(path.join(root, f)) && new RegExp("Shell\\.views\\[['\"]" + saleView + "['\"]\\]\\s*=").test(read(f)));
+  ok(saleReg.length === 1, hubFile + ' does not load a script that registers the "' + saleView + '" view the for-sale hand-off opens');
+  ok((hubs[hubFile] || []).some(re => new RegExp(re).test('#/' + saleView)), 'hub/lab-config.js does not let #/' + saleView + ' through on ' + hubFile);
+  if (saleReg.length === 1) ok(/mode-rental/.test(read(saleReg[0])) && /tdc/.test(read(saleReg[0])), saleReg[0] + ' no longer reads the for-sale settings the hand-off sends');
+  const own = await run();
+  own.snap.q = 'mode-rental=ownership&tdc=18500000&units=42&county-select=08077';
+  own.a.dispatchEvent(new own.w.Event('focus'));
+  const oh = own.a.getAttribute('href');
+  ok(oh.startsWith(sale) && parts(oh).q.get('mode-rental') === 'ownership' && parts(oh).q.get('tdc') === '18500000' && parts(oh).q.get('county-select') === '08077',
+    'in the for-sale mode the link should open the for-sale screen with the share settings: ' + oh);
+  ok(!parts(oh).q.has('subject'), 'a for-sale link carries no subject project');
+  ok(!/Financials/.test(own.a.textContent) && /for sale/i.test(own.a.textContent), 'in the for-sale mode the link should not say Financials: ' + own.a.textContent);
+  own.snap.q = 'units=40';
+  own.a.dispatchEvent(new own.w.Event('focus'));
+  ok(own.a.getAttribute('href').startsWith(route) && /Financials/.test(own.a.textContent), 'back in the rental mode the link should open Financials again');
   opened.forEach(x => x.close()); // the script keeps looking for the calculator for a minute
 }
 
@@ -484,6 +505,18 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 7
   ok(parts.length >= 15, 'the PDF names fewer parts than expected: ' + parts.length);
   parts.forEach(sel => ok(sel.startsWith('#') ? new RegExp('id="' + sel.slice(1) + '"').test(oldPage) : new RegExp('class="[^"]*\\b' + sel.slice(1) + '\\b').test(oldPage), 'the PDF part ' + sel + ' is not on the page'));
   ok(/getElementById\('pmaPdfBtn'\)[\s\S]{0,80}addEventListener\('click', download\)/.test(pdfSrc), 'the PDF button should run the PDF download (ma-pdf.js download)');
+  // A closed fold shows only its summary on screen; html2canvas draws its body anyway, so the capture must leave it
+  // out (walkthrough check, 24 Nov 2026: the closed info tips came out as one-word columns over the figures).
+  {
+    const fn = (/function closedFoldBody\(e\) \{[\s\S]*?\n  \}/.exec(pdfSrc) || [''])[0];
+    ok(fn && /ignoreElements:[^\n]*closedFoldBody\(e\)/.test(pdfSrc), 'the PDF capture should leave out what a closed fold hides (closedFoldBody in ignoreElements)');
+    const { JSDOM } = await import('jsdom');
+    const d = new JSDOM('<details class="info-tooltip"><summary>i</summary><div class="info-tooltip-body">What this counts.</div></details><details open><summary>s</summary><p>shown</p></details>').window.document;
+    const closedFoldBody = new Function(fn + '; return closedFoldBody;')();
+    const [closed, open] = d.querySelectorAll('details');
+    ok(closedFoldBody(closed.querySelector('.info-tooltip-body')) && !closedFoldBody(closed.querySelector('summary')) && !closedFoldBody(open.querySelector('p')) && !closedFoldBody(closed),
+      'closedFoldBody should leave out a closed fold\'s body only: not its summary, an open fold\'s body, or the fold itself');
+  }
   ok(/getElementById\('pmaExportBtn'\)[\s\S]{0,300}\.exportReport\(\)/.test(read('js/market-analysis/market-analysis-controller.js')), 'the print button should open the printable report (MARenderers.exportReport)');
   ok(/PMA_RESULT_EXPORT_BTNS = \['pmaPdfBtn'/.test(read('js/market-analysis.js')), 'the PDF button should be off while a new site\'s result is pending, as the other exports are');
   ok(/OpenStreetMap/.test(pdfSrc) && /leaflet-control-attribution/.test(pdfSrc), 'the PDF must carry the map credit');
