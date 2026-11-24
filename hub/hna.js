@@ -980,6 +980,17 @@
     }
 
     // The market call for this place: the rule's verdict, then each signal with its own source.
+    // "Near the line" (paul, 24 Nov 2026): signals within their margin of a threshold whose crossing alone would
+    // change the call (data/market/market-direction.json near_line). The call is unchanged. Same words as
+    // js/hna/hna-market-call.js nearLineText.
+    function nearLine(list) {
+      var NAMES = { permits: 'the five-year permit change', price: 'the home price change', rent: 'the past year\u2019s rent change', population: 'household population growth', jobs: 'the jobs change' };
+      return list.map(function (x, i) {
+        var dp = x.signal === 'population' ? 2 : 1, unit = x.signal === 'population' ? '% a year' : '%', d = Math.abs(x.value - x.line), name = NAMES[x.signal] || x.signal;
+        return (i ? ' ' + name.charAt(0).toUpperCase() + name.slice(1) : 'Near the line: ' + name) + ', ' + (x.value > 0 ? '+' : '') + x.value.toFixed(dp) + unit + ', ' +
+          (d < 0.005 ? 'sits on' : 'is ' + d.toFixed(dp) + ' points from') + ' its ' + x.line.toFixed(dp) + unit + ' line; crossing it would make this ' + String(x.becomes).replace(/_/g, ' ') + '.';
+      }).join('');
+    }
     function marketCall() {
       var md = extraFile(EXTRA.direction), r = md && (isCounty ? (md.counties || {})[geoid] : (md.places || {})[geoid]);
       if (!r || !r.call) return '';
@@ -995,6 +1006,7 @@
       var call = String(r.call).replace(/_/g, ' '), def = ((md.meta || {}).calls || {})[r.call];
       return '<h3>Market direction</h3><p><strong>' + esc(call.charAt(0).toUpperCase() + call.slice(1)) + '.</strong> ' + esc(def || '') +
         (r.county_call && !isCounty ? ' ' + esc(countyName) + ' is ' + esc(String(r.county_call).replace(/_/g, ' ')) + '.' : '') + '</p>' +
+        (r.call !== 'not_enough_data' && r.near_line && r.near_line.length ? '<p class="note">' + esc(nearLine(r.near_line)) + '</p>' : '') +
         '<div class="table-scroll"><table><caption>The signals behind the call</caption><thead><tr><th scope="col">Signal</th><th scope="col">Change</th><th scope="col">Reading</th><th scope="col">Source</th></tr></thead><tbody>' +
         ROWS.map(function (x) { var s = x[1], ok = s.value != null; return '<tr><th scope="row">' + x[0] + '</th><td>' + esc(ok ? x[3](s) : 'Not available' + (s.unavailable_reason ? ': ' + s.unavailable_reason : '')) + '</td><td>' + esc(s.reading || '') + '</td><td>' + (x[2] ? '<a href="' + esc(x[2].url) + '" target="_blank" rel="noopener">' + esc(String(x[2].source).split(/[,(—]/)[0].trim()) + '</a>' : '') + '</td></tr>'; }).join('') +
         '</tbody></table></div>';
@@ -1657,6 +1669,8 @@
         tile('Shared-equity fit', num(r.moderateIncomeRenterHouseholds) + ' renter households', r.ownershipFit.tier, 'earning 51–100% of area median income: a possible buyer base, not buyers ready to purchase') +
         '</div>' +
         (t ? '<p>The typical home, ' + money(t.medianHomeValue) + ', is ' + esc(CLS[t.classification] || t.classification) + ': a four-person household at 80% AMI can buy up to ' + money(t.maxPriceAt80Ami) + ', at 100% AMI up to ' + money(t.maxPriceAt100Ami) + '.</p>' : '') +
+        // "Near the line" (paul, 24 Nov 2026): the engine's nearLine, the typical home within 3% of the 80% or 100% AMI price.
+        (t && t.nearLine ? '<p class="note"><strong>Near the line:</strong> the typical home is ' + Math.abs(t.nearLine.pct).toFixed(1) + '% ' + (t.nearLine.pct > 0 ? 'above' : t.nearLine.pct < 0 ? 'below' : 'at') + ' what ' + t.nearLine.amiPct + '% AMI can buy, so a small ' + (t.medianHomeValue > t.nearLine.linePrice ? 'fall' : 'rise') + ' in home prices or mortgage rates would make it ' + esc(CLS[t.nearLine.becomes] || t.nearLine.becomes) + '.</p>' : '') +
         takeFurther(r, ownSrc) + ownStrategy(r, home) +
         '<details><summary>Caveats</summary><ul>' + (r.caveats || []).map(function (c) { return '<li>' + esc(c) + '</li>'; }).join('') + '</ul></details>' +
         '<div class="actions"><a class="button-link secondary" href="#/for-sale?g=' + esc(geoid) + '">For-sale and ownership in ' + esc(placeShort) + '</a></div>' +

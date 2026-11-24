@@ -406,3 +406,43 @@ def test_dola_town_rows_take_the_total_row_and_a_zero_is_null():
     assert out['0804000']['household_population'] == {'2024': 397985}
     assert out['0812030']['household_population'] == {'2024': None} and out['0812030']['unavailable_reason']
     assert out['0820000']['household_population'] == {'2024': 712470}
+
+
+# "Near the line" (paul, 24 Nov 2026): a marker only; it never changes a reading or a call.
+def _county_call(s):
+    return md.call_of(s)[0]
+
+
+def test_near_line_marks_a_call_one_signal_could_tip():
+    # Pueblo-like: rent +0.3 just above the 0.0 down line; with price already down, one more fall is softening
+    s = sig(permits=0, price=1.0, rent=0.3, population=0.2, jobs=2)
+    assert _county_call(s) == 'steady'
+    out = md.near_line(s, 'steady', md.THRESHOLDS, md.NEAR_MARGIN, _county_call)
+    assert out == [{'signal': 'rent', 'value': 0.3, 'line': 0.0, 'becomes': 'softening'}]
+
+
+def test_near_line_margin_edges():
+    m = md.NEAR_MARGIN['rent']
+    inside = sig(permits=0, price=1.0, rent=m, population=0.2, jobs=2)
+    outside = sig(permits=0, price=1.0, rent=m + 0.1, population=0.2, jobs=2)
+    on = sig(permits=0, price=1.0, rent=0.0, population=0.2, jobs=2)
+    assert md.near_line(inside, _county_call(inside), md.THRESHOLDS, md.NEAR_MARGIN, _county_call)
+    assert md.near_line(outside, _county_call(outside), md.THRESHOLDS, md.NEAR_MARGIN, _county_call) == []
+    # on the line rent reads down (at or below 0.0): the call is softening, and just above it would be steady
+    assert _county_call(on) == 'softening'
+    assert md.near_line(on, 'softening', md.THRESHOLDS, md.NEAR_MARGIN, _county_call) == \
+        [{'signal': 'rent', 'value': 0.0, 'line': 0.0, 'becomes': 'steady'}]
+
+
+def test_near_line_ignores_a_signal_whose_crossing_changes_nothing():
+    s = sig(permits=0, price=20, rent=0.2, population=0.2, jobs=2)  # rent near 0.0 but only one signal could fall
+    assert md.near_line(s, _county_call(s), md.THRESHOLDS, md.NEAR_MARGIN, _county_call) == []
+
+
+def test_every_record_carries_near_line_and_it_agrees_with_the_rule():
+    for kind in ('counties', 'places'):
+        for g, r in DOC[kind].items():
+            assert isinstance(r.get('near_line'), list), (kind, g)
+            for x in r['near_line']:
+                assert x['becomes'] != r['call'], (kind, g, x)
+                assert x['signal'] in r['signals'] and r['signals'][x['signal']]['value'] == x['value'], (kind, g, x)
