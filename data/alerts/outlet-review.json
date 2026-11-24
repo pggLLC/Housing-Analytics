@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated": "2026-11-23T13:22:42Z",
+    "generated": "2026-11-24T14:07:28Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-17",
-      "checked": 57,
-      "unverified": 10,
+      "since": "2026-11-18",
+      "checked": 51,
+      "unverified": 9,
       "weak": 1
     }
   },
@@ -263,6 +263,24 @@
         }
       ],
       "first_listed": "2026-11-11"
+    },
+    {
+      "id": "960181970e",
+      "name": "Haute Living",
+      "domains": [
+        "hauteliving.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-10",
+      "last_seen": "2026-11-10",
+      "headlines": [
+        {
+          "title": "Aspen Luxury Real Estate: A Buyer's Guide",
+          "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9heWdfYzBlSElxd25DY1p2TjZ5S2pvSlVaY0NJQW5KTUpGZVIwNlJib3I4aExEUEdrdFI0SFBGOG5Fc2JUNVM1MTdPcXZKVnFtUjJHRjFWSWlkaW9odGg0QWRENC1aeXF6dnpFOTc1eXJFQUwwUnR6VWl3bWp5Zw?oc=5",
+          "date": "2026-11-10"
+        }
+      ],
+      "first_listed": "2026-11-24"
     },
     {
       "id": "a31f0f45ba",
