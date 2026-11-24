@@ -64,7 +64,7 @@
 main {
   /* REVIEW: 1040px, not 960px, so the content lines up with the header and footer rails. */
   max-width: 1040px;
-  padding: 2.5rem 16px 4rem;
+  padding: 1.5rem 16px 2rem;
 }
 
 h1 {
@@ -172,7 +172,7 @@ main > p > a[href="#/tools"] {
   max-width: none;
   margin: 0;
   border-top: 1px solid var(--line);
-  padding: 2rem max(16px, calc((100% - 1040px) / 2 + 16px));
+  padding: 1.25rem max(16px, calc((100% - 1040px) / 2 + 16px));
   color: var(--ink);
   font-size: 14px;
 }
@@ -180,7 +180,7 @@ main > p > a[href="#/tools"] {
 /* Responsive overrides (< 768px) */
 @media (max-width: 767px) {
   main {
-    padding: 1.5rem 16px 3rem;
+    padding: 1rem 16px 1.5rem;
   }
 
   h1 {
@@ -255,7 +255,7 @@ h2 {
   font-size: 22px;
   font-weight: 700;
   color: var(--ink);
-  margin: 2rem 0 0.75rem;
+  margin: 1.5rem 0 0.5rem;
   padding-bottom: 0.5rem;
   border-bottom: 2px solid var(--line);
   letter-spacing: -0.01em;

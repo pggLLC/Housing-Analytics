@@ -1052,10 +1052,12 @@
           'table { border-collapse: collapse; width: 100%; }' +
           'td, th { padding: 4px 8px; border-bottom: 1px solid #eee; font-size: 0.85rem; }' +
           '.callout { border-left: 3px solid #ddd; padding: 0.5rem 0.75rem; margin: 0.5rem 0; background: #f8f9fa; }' +
-          '@media print { body { padding: 0.5in; } .no-print { display: none !important; } ' +
-          '  .report-section { break-inside: avoid; } ' +
-          '  img { max-height: 400px; } }' +
-          '@page { margin: 0.75in; size: letter; }' +
+          // Print: the page margin alone frames the report (the body padding doubled it), sections
+          // follow on instead of each jumping to a new page, and a heading stays with its text.
+          '@media print { body { padding: 0; max-width: none; } .no-print { display: none !important; } ' +
+          '  .report-section { break-inside: auto; } h2 { break-after: avoid; } tr, .callout, img { break-inside: avoid; } ' +
+          '  thead { display: table-header-group; } img { max-height: 400px; } }' +
+          '@page { margin: 0.6in; size: letter; }' +
         '</style></head><body>' +
         '<div class="report-header">' +
           '<div><h1>PMA Site Analysis Report</h1>' + siteInfo + '</div>' +
