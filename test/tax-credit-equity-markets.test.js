@@ -55,14 +55,14 @@ async function renderArticle(overrides) {
   return dom;
 }
 
-async function renderCra() {
+async function renderCra(overrides) {
   const html = fs.readFileSync(path.join(root, 'cra-expansion-analysis.html'), 'utf8');
   const dom = new JSDOM(html, {
     url: 'http://127.0.0.1/cra-expansion-analysis.html',
     runScripts: 'outside-only',
     pretendToBeVisual: true
   });
-  installFetch(dom.window);
+  installFetch(dom.window, overrides);
   dom.window.eval(provenanceSrc);
   dom.window.eval(componentSrc);
   dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
@@ -152,8 +152,14 @@ console.log('='.repeat(46));
     const cell = doc.querySelector(`[data-transfer-id="${m.id}"]`).cells[2].textContent.trim();
     assert.strictEqual(cell, `$${Math.round(m.price_low * 1000) / 1000} average`, `${m.id} shows its average`);
   }
-  assert(doc.querySelector('[data-policy-id="cra-2025-rescission-npr"]'), 'CRA rescission NPR policy card renders');
-  assert(doc.querySelector('[data-policy-id="obbba-lihtc-ceiling-12pct"]'), 'LIHTC enacted policy card renders');
+  // One home for the watchlist (duplicate cleanup, 24 Nov 2026): this page links to Policy & Legislation, which renders
+  // every entry of the same file with no scope filter, so no entry the page used to show is lost.
+  assert(!doc.querySelector('[data-tax-credit-watch]') && !doc.querySelector('[data-policy-id]'), 'the equity markets page links to the watchlist, not a second copy');
+  const watchLink = doc.getElementById('tcePolicyWatchLink');
+  assert(watchLink && watchLink.getAttribute('href') === 'housing-legislation-2026.html#bill-status-panel', 'the equity markets page links to the tax credit watchlist on Policy & Legislation');
+  const legHtml = fs.readFileSync(path.join(root, 'housing-legislation-2026.html'), 'utf8');
+  assert(/id="bill-status-panel"/.test(legHtml) && /loadLegislationData\('data\/policy\/tax-credit-legislation\.json'\)\s*\.then\(renderBills\)/.test(legHtml),
+    'Policy & Legislation renders the whole tax-credit legislation file in #bill-status-panel');
 
   const explainerRows = Array.from(doc.querySelectorAll('#tceExplainerMatrix [data-credit-row]'));
   assert.strictEqual(explainerRows.length, 6, 'explainer matrix renders one row for each credit type');
@@ -178,15 +184,6 @@ console.log('='.repeat(46));
     'non-vacuous proof: empty transfer-pricing JSON removes transfer rows'
   );
 
-  const emptyLegislation = readJson('data/policy/tax-credit-legislation.json');
-  emptyLegislation.entries = [];
-  const emptyLegislationDom = await renderArticle({ legislation: emptyLegislation });
-  assert.strictEqual(
-    emptyLegislationDom.window.document.querySelectorAll('[data-policy-id]').length,
-    0,
-    'non-vacuous proof: empty policy JSON removes watchlist cards'
-  );
-
   const craDom = await renderCra();
   const craText = craDom.window.document.body.textContent.replace(/\s+/g, ' ');
   assert(craText.includes('July 18, 2025 notice of proposed rulemaking'), 'CRA page status copy names the rescission NPR');
@@ -197,6 +194,14 @@ console.log('='.repeat(46));
   assert(
     !craIds.includes('obbba-25c-25d-termination') && !craIds.includes('nhia-119th-congress'),
     'data-tax-credit-watch scope attribute filters out homebuyer entries on the CRA page'
+  );
+  const emptyLegislation = readJson('data/policy/tax-credit-legislation.json');
+  emptyLegislation.entries = [];
+  const emptyLegislationDom = await renderCra({ legislation: emptyLegislation });
+  assert.strictEqual(
+    emptyLegislationDom.window.document.querySelectorAll('[data-policy-id]').length,
+    0,
+    'non-vacuous proof: empty policy JSON removes watchlist cards'
   );
   assert(!craText.includes('Medium-Low (25%)'), 'CRA page no longer shows stale hardcoded passage probability card');
 

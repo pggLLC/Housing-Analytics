@@ -187,16 +187,27 @@ test('an anchor on a figure, table or sub-heading inside a part is kept on that 
 });
 
 test('a link in a guide to another part of the same page stays a link, and lands on that part of the guide', () => {
-  const found = {};
+  const found = {}, other = [];
   pages.forEach((page) => {
     const slug = slugOf(page), { g } = cut(page, slug);
     const html = g.intro + g.sections.map((x) => x.html).join('');
-    const ats = [...new Set([...html.matchAll(/href="#\/guide\/([a-z0-9-]+)\?at=([A-Za-z0-9_-]+)"/g)].map((m) => { assert.equal(m[1], slug, page + ': a part link names another guide'); return m[2]; }))];
+    const links = [...html.matchAll(/href="#\/guide\/([a-z0-9-]+)\?at=([A-Za-z0-9_-]+)"/g)];
+    // A link to a part of another guide (About's "Methods and Sources" card to Methods §12, duplicate cleanup row 17)
+    // lands on that guide's part: checked below, once every guide is cut.
+    links.filter((m) => m[1] !== slug).forEach((m) => { other.push([page, m[1], m[2]]); });
+    const ats = [...new Set(links.filter((m) => m[1] === slug).map((m) => m[2]))];
     ats.forEach((id) => {
       const lands = g.sections.some((x) => x.id === id || (x.ids || []).includes(id)) || html.includes('data-at="' + id + '"');
       assert.ok(lands, page + ': the link to #' + id + ' has nowhere to land in the guide');
     });
     found[slug] = ats;
+  });
+  other.forEach(([page, to, id]) => {
+    const target = pages.find((x) => slugOf(x) === to);
+    assert.ok(target, page + ': a part link names ' + to + ', which is not a guide');
+    const { g } = cut(target, to), html = g.intro + g.sections.map((x) => x.html).join('');
+    const lands = g.sections.some((x) => x.id === id || (x.ids || []).includes(id)) || html.includes('data-at="' + id + '"');
+    assert.ok(lands, page + ': the link to ' + to + ' #' + id + ' has nowhere to land in that guide');
   });
   // Methods cross-refers between its numbered sections ("review §05 first"); those were plain text before.
   ['m-apportion', 'm-anchor', 'm-burden', 'm-affordability', 'm-score', 'm-absence', 'm-loss'].forEach((id) => assert.ok(found.methods.includes(id), 'methods.html: the link to #' + id + ' was dropped'));
