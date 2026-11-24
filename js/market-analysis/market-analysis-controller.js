@@ -1394,7 +1394,7 @@
       });
     }
 
-    // Bind the "Export Report" button if present.
+    // Bind the "Print report" button (formerly "Export Report") if present.
     var exportBtn = document.getElementById('pmaExportBtn');
     if (exportBtn) {
       exportBtn.addEventListener('click', function () {

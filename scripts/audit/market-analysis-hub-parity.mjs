@@ -54,7 +54,7 @@ async function runPage(browser, file, site, input) {
   const errors = [];
   page.on('pageerror', e => errors.push(String(e.message).slice(0, 200)));
   await page.route('**/*', route => (route.request().url().startsWith(BASE) ? route.continue() : route.abort()));
-  await page.goto(BASE + '/' + file, { waitUntil: 'load' });
+  await page.goto(BASE + '/' + file + (file === 'market-analysis.html' ? '?classic=1' : ''), { waitUntil: 'load' });   // the old page forwards since 24 Nov 2026; ?classic=1 keeps it as written
   await page.waitForFunction(() => window.PMAEngine && window.PMAEngine.whenDataReady, null, { timeout: 60000 });
   await page.evaluate(() => window.PMAEngine.whenDataReady());
   if (input.buffer) await page.selectOption('#pmaBufferSelect', input.buffer);

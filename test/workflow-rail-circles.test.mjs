@@ -12,7 +12,8 @@ import { chromium } from 'playwright';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ORIGIN = 'http://example.org';
-const PAGES = ['deal-calculator.html', 'lihtc-opportunity-finder.html', 'market-analysis.html'];
+// The old Market Analysis forwards since 24 Nov 2026; ?classic=1 keeps it as written.
+const PAGES = ['deal-calculator.html', 'lihtc-opportunity-finder.html', 'market-analysis.html?classic=1'];
 const WIDTHS = [390, 700, 1366];
 const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.svg': 'image/svg+xml', '.json': 'application/json', '.geojson': 'application/json' };
 let checks = 0;

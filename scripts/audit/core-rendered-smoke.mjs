@@ -101,7 +101,7 @@ const FLOWS = [
   },
   {
     name: 'PMA',
-    path: '/market-analysis.html',
+    path: '/market-analysis.html?classic=1',   // forwards since 24 Nov 2026 without it
     mustContain: ['Public Market Analysis', 'screening tool'],
     requiredSelectors: ['#pmaMap', '.pma-intro-text'],
     interact: pmaTractDefaultInteraction,
@@ -112,7 +112,7 @@ const FLOWS = [
     // takes the stale-cache path and the cache-ready re-run fires while the
     // second site waits for its tracts (Codex review of #1888).
     name: 'PMA deferred re-run',
-    path: '/market-analysis.html',
+    path: '/market-analysis.html?classic=1',   // forwards since 24 Nov 2026 without it
     mustContain: ['Public Market Analysis', 'screening tool'],
     requiredSelectors: ['#pmaMap'],
     beforeLoad: holdAffordableInventory,
@@ -124,7 +124,7 @@ const FLOWS = [
     // tracts" (Codex review of #1888). Malformed JSON rather than a 404, so
     // the page logs no console error of its own.
     name: 'PMA tract data unavailable',
-    path: '/market-analysis.html',
+    path: '/market-analysis.html?classic=1',   // forwards since 24 Nov 2026 without it
     mustContain: ['Public Market Analysis'],
     requiredSelectors: ['#pmaMap'],
     beforeLoad: (page) => page.route(/tract_boundaries_co\.geojson/, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: '{' })),
