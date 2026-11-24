@@ -229,6 +229,7 @@
           <li><a href="#m-alternatives">Why this method and not another</a></li>
           <li><a href="#m-footprint">How the site is built, and its environmental footprint</a></li>
           <li><a href="#m-conventions">Site-wide conventions and core sources</a></li>
+          <li><a href="#m-capture">Capture rate: one definition, named counts</a></li>
         </ol>
       </nav>
 
@@ -1388,6 +1389,35 @@ weighted_avg(F)  =  ───────────────       F* = { f
           <li><a href="https://www.ffiec.gov/craadweb/main.aspx" target="_blank" rel="noopener">FFIEC CRA</a> — Community Reinvestment Act data and disclosure reports</li>
           <li><a href="https://ncua.gov/support-services/credit-union-resources-expansion/grants-loans/grants" target="_blank" rel="noopener">NCUA Grants &amp; Community Development</a> — credit union community development resources</li>
         </ul>
+        </div>
+      </section>
+
+      <section aria-labelledby="m-capture">
+        <h2 id="m-capture"><span class="num">13</span> Capture rate: one definition, named counts</h2>
+        <div class="col">
+          <p><strong>The definition.</strong> A capture rate is homes divided by the renter households who could live in them. Every count on the site is that one ratio. They differ in which homes are counted, which renters are counted, and over what area, so each carries its own name, and a figure is only compared with the line that belongs to its count.</p>
+          <p><strong>CHFA&rsquo;s rule.</strong> CHFA&rsquo;s Market Study Guide counts a renter household as qualified when its income is at or under the limit, the rent is no more than 40% of its income, and its size fits the home. The <a href="https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US" target="_blank" rel="noopener">2027&ndash;28 QAP</a> (Appendix A, p. 9) will not accept a rate above 85% without more data to support demand; the 2025&ndash;26 QAP sets no number. The 85% line is shown only beside a count made by CHFA&rsquo;s rule.</p>
+        </div>
+        <div class="mx-scroll">
+          <table>
+            <caption>Table 4 &middot; The capture counts on the site, by the name each carries on screen</caption>
+            <thead>
+              <tr><th scope="col">Name on screen</th><th scope="col">Where</th><th scope="col">Homes counted</th><th scope="col">Renters counted</th><th scope="col">Line shown</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Capture rate, this project</th><td class="lbl">Market check for a place; the place report (a sample 60-home project at 60% AMI)</td><td class="lbl">The project&rsquo;s homes at one AMI level</td><td class="lbl">Renter households in the whole county who qualify by CHFA&rsquo;s rule</td><td class="lbl">85% (CHFA)</td></tr>
+              <tr><th scope="row">Penetration, all tax credit homes</th><td class="lbl">Market check for a place</td><td class="lbl">The county&rsquo;s tax credit homes plus the project</td><td class="lbl">County renter households who qualify at 20&ndash;80% AMI by CHFA&rsquo;s rule</td><td class="lbl">85% (CHFA)</td></tr>
+              <tr><th scope="row">Capture rate, the new homes alone; CHFA&rsquo;s capture rate</th><td class="lbl">Market check for a site, on the tract map</td><td class="lbl">The project alone; then comparable existing and planned tax credit homes plus the project, at each AMI level</td><td class="lbl">Renter households in the chosen census tracts who qualify by CHFA&rsquo;s rule</td><td class="lbl">85% (CHFA)</td></tr>
+              <tr><th scope="row">Proposed-project capture rate</th><td class="lbl">Market Analysis, the capture simulator</td><td class="lbl">The proposed homes</td><td class="lbl">Renter households in the market area who qualify for them</td><td class="lbl">85% (CHFA), on the penetration line beside it</td></tr>
+              <tr><th scope="row">Existing affordable penetration</th><td class="lbl">Market Analysis, the market area panel</td><td class="lbl">Existing affordable homes (tax credit, HUD multifamily, USDA, local project-based vouchers, CHFA preservation)</td><td class="lbl">Renter households in the market area who qualify at 20&ndash;80% AMI by CHFA&rsquo;s rule</td><td class="lbl">None: a score input, not a capture rate</td></tr>
+              <tr><th scope="row">Share (by income band)</th><td class="lbl">The start panel and Financials, &ldquo;Can the market fill these homes?&rdquo;</td><td class="lbl">The deal&rsquo;s homes in each band</td><td class="lbl">Renters who qualify for that band by CHFA&rsquo;s rule, in the saved market area, the place&rsquo;s tracts or the county</td><td class="lbl">10% and 20%: COHO starting rules, not a published standard</td></tr>
+              <tr><th scope="row">County share</th><td class="lbl">Market Analysis, the demand and capture stack</td><td class="lbl">The Subject Project&rsquo;s homes at or under each tier</td><td class="lbl">County renter households at or under that AMI, with no rent or size fit</td><td class="lbl">None: a screening share, not CHFA&rsquo;s count</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <p><strong>Why the counts differ for the same project.</strong> A bigger area holds more renters, so the county count reads lower than a market area drawn round a site. CHFA&rsquo;s rule leaves out renters whose income is too low for the rent or whose household does not fit the home, so it reads higher than the county share. The start panel counts 1 to 3 bedroom homes; Financials counts the sizes the deal&rsquo;s homes come in, so the two agree only for a deal of 1 to 3 bedroom homes.</p>
+          <p><strong>Where the count is made.</strong> CHFA&rsquo;s rule is one function, <code>chfaQualifiedRenters</code> in <code>js/market-analysis-scoring.js</code>, used by Market check, the tract map, the start panel, Financials and the Market Analysis simulator and panel. The county share is the one count made outside it, from <code>data/co_ami_gap_by_county.json</code>. Data: HUD CHAS 2018&ndash;2022, Census ACS 2020&ndash;2024 and PUMS, CHFA 2026 rent limits, CHFA&rsquo;s Housing Tax Credit property list.</p>
         </div>
       </section>
 

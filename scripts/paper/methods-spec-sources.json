@@ -302,6 +302,18 @@
       "sources": [],
       "no_sources": "Moved word for word from About on 24 Nov 2026 (duplicate cleanup row 17). It states site-wide conventions (year-over-year change, per-person figures, rankings, index units, maps) and lists core sources; no one function implements them.",
       "reviewed": "2026-11-24"
+    },
+    {
+      "section": "m-capture",
+      "title": "Capture rate: one definition, named counts",
+      "sources": [
+        {
+          "file": "js/market-analysis-scoring.js",
+          "function": "chfaQualifiedRenters",
+          "sha": "48a933a180fdd8e7"
+        }
+      ],
+      "reviewed": "2026-11-24"
     }
   ]
 }
