@@ -227,8 +227,14 @@ sabotage('latest diverges from the last observation',
   (d) => { firstMonthly(d).latest.value += 1; }, /latest is not the last observation/);
 sabotage('yoy no longer recomputes',
   (d) => { firstMonthly(d).yoy.value += 0.5; }, /yoy .* does not recompute/);
+// Any rate series that has a year-on-year this month. The Colorado
+// unemployment rate (LASST080000000000003) has none while October 2026 is its latest month,
+// because BLS published no October 2025 state figure (federal shutdown).
+const RATE_WITH_YOY = Object.keys(DATA.monthly)
+  .find((id) => DATA.monthly[id].yoy && DATA.monthly[id].yoy.basis === 'pts');
+assert.ok(RATE_WITH_YOY, 'no rate series with a year-on-year to sabotage');
 sabotage('a rate series reports pct instead of pts',
-  (d) => { d.monthly.LASST080000000000003.yoy.basis = 'pct'; }, /LASST080000000000003: yoy/);
+  (d) => { d.monthly[RATE_WITH_YOY].yoy.basis = 'pct'; }, new RegExp(`${RATE_WITH_YOY}: yoy`));
 sabotage('an unknown observation coerced to 0',
   (d) => { firstMonthly(d).observations[0].value = 0; }, /0 stands in for unknown/);
 sabotage('a failed series emptied without a reason',
