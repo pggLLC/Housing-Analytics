@@ -300,25 +300,30 @@ def call_of(sig: dict) -> tuple[str, str]:
 
 def near_line(sig: dict, call: str, thresholds: dict, margins: dict, call_fn) -> list[dict]:
     """Signals sitting within their margin of a line, where crossing that line alone changes the call.
-    A crossing is the nearest value on the line's other side: at the line for the side it includes
-    (down at or below, up at or above), 0.05 past it for the side it excludes."""
+    Crossing is tried at the line itself and 0.05 past it on the far side, so it holds for the readings'
+    inclusive thresholds (down at or below, up at or above) and for falling_demand's strict below-zero test.
+    A value on the line is tried both ways."""
     out = []
     for k, (up, down) in thresholds.items():
         v = (sig.get(k) or {}).get('value')
         if not isinstance(v, (int, float)):
             continue
-        for line in (down, up):
+        for line in sorted({down, up, 0.0} if k in ('population', 'jobs') else {down, up}):
             if abs(v - line) > margins[k] + 1e-9:
                 continue
-            if line == down:
-                crossed = line if v > line else round(line + 0.05, 2)
+            if v > line:
+                tries = [line, round(line - 0.05, 2)]
+            elif v < line:
+                tries = [line, round(line + 0.05, 2)]
             else:
-                crossed = line if v < line else round(line - 0.05, 2)
-            moved = {n: dict(s) for n, s in sig.items()}
-            moved[k]['value'] = crossed
-            becomes = call_fn(moved)
-            if becomes != call:
-                out.append({'signal': k, 'value': v, 'line': line, 'becomes': becomes})
+                tries = [round(line - 0.05, 2), round(line + 0.05, 2)]
+            for crossed in tries:
+                moved = {n: dict(s) for n, s in sig.items()}
+                moved[k]['value'] = crossed
+                becomes = call_fn(moved)
+                if becomes != call:
+                    out.append({'signal': k, 'value': v, 'line': line, 'becomes': becomes})
+                    break
     return out
 
 

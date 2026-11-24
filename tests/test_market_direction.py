@@ -446,3 +446,15 @@ def test_every_record_carries_near_line_and_it_agrees_with_the_rule():
             for x in r['near_line']:
                 assert x['becomes'] != r['call'], (kind, g, x)
                 assert x['signal'] in r['signals'] and r['signals'][x['signal']]['value'] == x['value'], (kind, g, x)
+
+
+def test_near_line_respects_the_strict_falling_demand_test():
+    # falling_demand needs population < 0 and jobs < 0 (strict): jobs +0.5 or 0.0 with people shrinking is one step away
+    for jobs in (0.5, 0.0):
+        s = sig(permits=0, price=5, rent=1, population=-0.33, jobs=jobs)
+        assert _county_call(s) == 'steady'
+        assert {'signal': 'jobs', 'value': jobs, 'line': 0.0, 'becomes': 'falling_demand'} in \
+            md.near_line(s, 'steady', md.THRESHOLDS, md.NEAR_MARGIN, _county_call)
+    s = sig(permits=0, price=5, rent=1, population=0.04, jobs=-13.8)
+    assert {'signal': 'population', 'value': 0.04, 'line': 0.0, 'becomes': 'falling_demand'} in \
+        md.near_line(s, 'steady', md.THRESHOLDS, md.NEAR_MARGIN, _county_call)

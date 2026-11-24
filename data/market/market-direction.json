@@ -1120,7 +1120,14 @@
      "reading": "flat"
     }
    },
-   "near_line": [],
+   "near_line": [
+    {
+     "signal": "jobs",
+     "value": 0.5,
+     "line": 0.0,
+     "becomes": "falling_demand"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -2808,7 +2815,14 @@
      "reading": "down"
     }
    },
-   "near_line": [],
+   "near_line": [
+    {
+     "signal": "jobs",
+     "value": 0.0,
+     "line": 0.0,
+     "becomes": "falling_demand"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -6180,7 +6194,14 @@
      "reading": "down"
     }
    },
-   "near_line": [],
+   "near_line": [
+    {
+     "signal": "population",
+     "value": 0.04,
+     "line": 0.0,
+     "becomes": "falling_demand"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,

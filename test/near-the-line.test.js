@@ -66,9 +66,24 @@ test('ownership-need.json: each near-line record is within 3% and names the othe
 
 const M = load('js/hna/hna-market-call.js').HnaMarketCall;
 const md = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/market/market-direction.json'), 'utf8'));
-test('market call: a near-line record gets one plain sentence naming the call it would become', () => {
-  const rec = { call: 'steady', near_line: [{ signal: 'rent', value: 0.3, line: 0, becomes: 'softening' }] };
-  assert.strictEqual(M.nearLineText(rec), 'Near the line: the past year’s rent change, +0.3%, is 0.3 points from its 0.0% line; crossing it would make this softening.');
+test('market call: the sentence agrees with the record (signal, value, line, distance, resulting call)', () => {
+  const cases = [
+    { call: 'steady', near_line: [{ signal: 'rent', value: 0.3, line: 0, becomes: 'softening' }] },
+    { call: 'steady', near_line: [{ signal: 'jobs', value: 0, line: 0, becomes: 'falling_demand' }] },
+    { call: 'softening', near_line: [{ signal: 'permits', value: -15.9, line: -15, becomes: 'steady' }, { signal: 'price', value: 4, line: 4, becomes: 'steady' }] },
+  ];
+  cases.forEach((rec) => {
+    const text = M.nearLineText(rec);
+    assert.ok(/near the line/i.test(text), text);
+    rec.near_line.forEach((x) => {
+      const dp = x.signal === 'population' ? 2 : 1;
+      assert.ok(text.includes(Math.abs(x.value).toFixed(dp)), 'value ' + x.value + ' missing: ' + text);
+      assert.ok(text.includes(x.line.toFixed(dp)), 'line ' + x.line + ' missing: ' + text);
+      assert.ok(text.toLowerCase().includes(M._labels[x.becomes].toLowerCase()), 'resulting call missing: ' + text);
+      const d = Math.abs(x.value - x.line);
+      if (d >= 0.005) assert.ok(text.includes(d.toFixed(dp)), 'distance missing: ' + text);
+    });
+  });
   assert.strictEqual(M.nearLineText({ call: 'steady', near_line: [] }), '');
 });
 test('market call: the HNA line carries the note only where the file has one', () => {
