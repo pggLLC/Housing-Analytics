@@ -350,6 +350,22 @@ async function test(name, fn) {
       assert.deepEqual(plain(w.__DealCalcShare.buildSnapshot().utilityAllowance), { applied: false, reason: 'shared_allowance_invalid' });
     } finally { w.close(); }
   });
+  await test('a place or site link (Market Analysis, Compare Sites) is not a shared scenario: the Subject Project schedule stays', async () => {
+    const w = await calculator();
+    try {
+      const src = w.document.getElementById('dc-unit-mix-source');
+      const before = src.value, rents = text(w, 'dc-r-rents');
+      for (const q of ['?geoid=0820000', '?geoid=0820000&site-lat=39.750000&site-lon=-104.990000', '?site-lat=39.75&site-lon=-104.99', '?fips=08031']) {
+        w.history.replaceState({}, '', '/deal-calculator.html' + q); w.__DealCalcShare.hydrate();
+        assert.equal(src.value, before, q + ': the unit-mix source is not switched to a manual grid');
+        assert.notEqual(src.value, 'manual', q);
+        assert.equal(text(w, 'dc-r-rents'), rents, q + ': rents unchanged');
+      }
+      // A real share link (any input) still hydrates as before.
+      w.history.replaceState({}, '', '/deal-calculator.html?geoid=0820000&units=40'); w.__DealCalcShare.hydrate();
+      assert.equal(w.document.getElementById('dc-units').value, '40', 'a scenario link still hydrates');
+    } finally { w.close(); }
+  });
   await test('page loads SubjectProject after the rent module and CI reaches this test', () => {
     const w = new JSDOM(read('deal-calculator.html')).window;
     const scripts = [...w.document.querySelectorAll('script[src]')].map((s) => s.getAttribute('src'));

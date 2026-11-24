@@ -382,17 +382,30 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 7
   let w = await page('https://example.com/deal-market-analysis.html?geoid=08077', null, null, true);
   ok(w.document.querySelector('a').getAttribute('href') === 'deal-calculator.html?geoid=08077', 'before a site is chosen the link should carry the place only');
   w.close();
+  w = await page('https://example.com/market-analysis.html?fips=0820000&auto=1', null, null, false);
+  ok(w.document.querySelector('a').getAttribute('href') === 'deal-calculator.html?geoid=0820000', 'a page opened by ?fips= (older links, the HNA) should carry that place: ' + w.document.querySelector('a').getAttribute('href'));
+  w.close();
   w = await page('https://example.com/deal-market-analysis.html?geoid=08077&auto=1', { lat: 39.06, lon: -108.55, siteSource: 'jurisdiction_centroid' }, null, true);
   ok(!/site-lat/.test(w.document.querySelector('a').getAttribute('href')), 'a town centre is not a site: the link should not send it as one');
   w.close();
-  w = await page('https://example.com/deal-market-analysis.html?geoid=08077#pma=1', { lat: 39.0712345, lon: -108.5512345, siteSource: 'site' }, ['08077000100', '08077000200'], true);
+  // Back: the site only, never tracts. The tract picker keeps its own selection and note for the site and starts from
+  // them; a Market check link's tracts would be imported over the reader's edits and note (Codex review of #2982).
+  const PL = '#pma=39.071234,-108.551234,tract,5,100';
+  w = await page('https://example.com/deal-market-analysis.html?geoid=08077&site=39.07,-108.55&sl=x&tr=077000100.077000200.077000300&tl=y&auto=1' + PL, { lat: 39.0712345, lon: -108.5512345, siteSource: 'site' }, ['08077000100', '08077000200'], true);
   const a = w.document.querySelector('a');
   a.addEventListener('click', e => e.preventDefault());
   a.click();
   ok(a.getAttribute('href') === 'deal-calculator.html?geoid=08077&site-lat=39.071235&site-lon=-108.551235', 'the link should carry the chosen site as site-lat/site-lon, six decimals: ' + a.getAttribute('href'));
   const back = new URLSearchParams(w.location.search);
-  ok(back.get('site') === '39.07123,-108.55123' && back.get('tr') === '077000100.077000200' && back.get('geoid') === '08077' && w.location.hash === '#pma=1',
-    'following the link should leave the site and tracts in this page\'s address, in the form js/components/ma-site-link.js reads, so Back returns to them: ' + w.location.href);
+  ok(back.get('site') === '39.07123,-108.55123' && back.get('geoid') === '08077' && w.location.hash === PL && ['tr', 'tl', 'sl', 'auto'].every(k => !back.has(k)),
+    'following the link should leave the site (no tracts, no auto=1) in this page\'s address, in the form js/components/ma-site-link.js reads: ' + w.location.href);
+  w.close();
+  // A site kept out of the address on purpose (Use my location) stays out.
+  w = await page('https://example.com/deal-market-analysis.html?geoid=08077', { lat: 39.0712345, lon: -108.5512345, siteSource: 'site' }, [], true);
+  w.CohoSiteTransient = true;
+  w.document.querySelector('a').addEventListener('click', e => e.preventDefault());
+  w.document.querySelector('a').click();
+  ok(w.location.search === '?geoid=08077', 'a Use my location site must not be written into the address: ' + w.location.href);
   w.close();
   w = await page('https://example.com/market-analysis.html?fips=08013&auto=1', { lat: 40.01, lon: -105.27, siteSource: 'site' }, [], false);
   w.document.querySelector('a').addEventListener('click', e => e.preventDefault());

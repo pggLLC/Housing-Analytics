@@ -9,7 +9,7 @@
  *
  * Every <a data-ma-calc-link> on the page gets its address from the page's current state when it is shown, hovered,
  * focused or followed:
- *   deal-calculator.html[?geoid=<the page's place>][&site-lat=<lat>&site-lon=<lon>]
+ *   deal-calculator.html[?geoid=<the page's place, from its ?fips= or ?geoid=>][&site-lat=<lat>&site-lon=<lon>]
  * site-lat/site-lon are the form Compare Sites already uses (js/market-analysis/site-comparison.js). They are sent
  * only for a site the person chose (a map click, an address, a Market check site), never for a town centre (the
  * ?auto=1 links place one), so the calculator's county and its QCT/DDA and transit-zone notes are for a real site.
@@ -17,11 +17,14 @@
  * The Subject Project (homes, sizes, income targets) is shared through the browser's storage, so it carries over
  * without being in the address.
  *
- * Back: before leaving, the page's own address is rewritten (history.replaceState, nothing is added to history)
- * to name the site and the market area's tracts, in the form the page already reads when it opens, so Back
- * returns to the same site and market area:
- *   deal-market-analysis.html  ?site=<lat>,<lon>&tr=<tracts without 08, dot-separated>  (js/components/ma-site-link.js)
- *   market-analysis.html       ?lat=<lat>&lon=<lon>                                     (js/market-analysis.js)
+ * Back: before leaving, the page's own address is tidied (history.replaceState, nothing is added to history) so
+ * Back returns to the same site and market area:
+ *   - the site is named in the form the page reads when it opens:
+ *       deal-market-analysis.html  ?site=<lat>,<lon>  (js/components/ma-site-link.js)
+ *       market-analysis.html       ?lat=<lat>&lon=<lon> (js/market-analysis.js)
+ *   - never its tracts: the tract picker keeps its own selection and note for the site and starts from them. A Market
+ *     check link's tracts (?tr=) or a centroid's ?auto=1 are taken off, so they cannot replay over the reader's edits.
+ *   - a site kept out of the address on purpose (Use my location) is left out.
  * Other parameters and the #section are kept. Nothing here computes a figure.
  */
 (function () {
@@ -37,10 +40,12 @@
     return s;
   }
 
+  // The place this page was opened for: ?fips= or ?geoid=, fips first, as js/components/jurisdiction-url-context.js
+  // reads them (older links and the HNA's use ?fips=; Codex review of #2982). The calculator reads it as ?geoid=.
   function placeGeoid() {
     var sp;
     try { sp = new URLSearchParams(location.search); } catch (_) { return null; }
-    var g = sp.get('geoid') || '';
+    var g = sp.get('fips') || sp.get('geoid') || '';
     return /^08\d{3}(\d{2})?$/.test(g) ? g : null;
   }
 
@@ -52,28 +57,22 @@
     return CALC + (q ? '?' + q : '');
   }
 
-  function tracts() {
-    var T = window.PMATractPicker;
-    var g = T && typeof T.getSelectedGeoids === 'function' ? T.getSelectedGeoids() : [];
-    return (Array.isArray(g) ? g : []).map(String).filter(function (x) { return /^08\d{9}$/.test(x); })
-      .map(function (x) { return x.slice(2); }).slice(0, 400);
-  }
+  // What a Market check link (or a centroid link) adds that would replay over the reader's own market area on Back.
+  var REPLAY = ['sl', 'tr', 'tl', 'auto'];
 
   function keepPlaceForBack() {
     var s = chosenSite();
-    if (!s || !window.history || typeof history.replaceState !== 'function') return;
+    // A site kept out of the address on purpose (Use my location; js/pma-ui-controller.js) stays out.
+    if (!s || window.CohoSiteTransient || !window.history || typeof history.replaceState !== 'function') return;
     var sp;
     try { sp = new URLSearchParams(location.search); } catch (_) { return; }
     var lat = Number(s.lat).toFixed(5), lon = Number(s.lon).toFixed(5);
-    if (document.querySelector('script[src*="ma-site-link"]')) {
-      sp.set('site', lat + ',' + lon);
-      var tr = tracts();
-      if (tr.length) sp.set('tr', tr.join('.')); else sp.delete('tr');
-    } else {
-      sp.set('lat', lat); sp.set('lon', lon);
-    }
-    // A centroid link's auto=1 would place the town centre again in place of the site.
-    sp.delete('auto');
+    // The site only, never its tracts: the tract picker keeps its own selection and note for a site
+    // (js/pma-tract-picker.js) and starts from them when the same site is placed again. Tracts in the address would be
+    // imported as "from Market check" over the reader's edits and note (Codex review of #2982).
+    REPLAY.forEach(function (k) { sp.delete(k); });
+    if (document.querySelector('script[src*="ma-site-link"]')) sp.set('site', lat + ',' + lon);
+    else { sp.set('lat', lat); sp.set('lon', lon); }
     try { history.replaceState(history.state, '', location.pathname + '?' + sp.toString() + location.hash); } catch (_) {}
   }
 
