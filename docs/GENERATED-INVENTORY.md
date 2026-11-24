@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T15:00:33.886Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T16:31:52.256Z. Do not edit by hand.
 
 ---
 
@@ -37,9 +37,9 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 85.0 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 93.4 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 94.3 KB |
 | `deal-hub.html` | Build a deal · COHO Analytics | 8.9 KB |
-| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 161.1 KB |
+| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 161.5 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 95.7 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.6 KB |
@@ -67,7 +67,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 78.6 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.8 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.6 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 158.8 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 159.3 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 88.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -126,7 +126,7 @@
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.66 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 694.5 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 701.5 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.2 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -1830,7 +1830,7 @@
 | `data/market/chfa_renter_demand_co.json` | 153.3 KB | ✅ | — |
 | `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
 | `data/market/co-adaptive-reuse-references.json` | 13.7 KB | ✅ | — |
-| `data/market/co-construction-labor-cost.json` | 128.3 KB | ✅ | — |
+| `data/market/co-construction-labor-cost.json` | 129.0 KB | ✅ | — |
 | `data/market/co-urban-renewal-authorities.json` | 12.6 KB | ✅ | — |
 | `data/market/colorado-equity-pricing-factors.json` | 5.3 KB | ✅ | — |
 | `data/market/colorado-foreclosure-performance.json` | 48.4 KB | ✅ | — |
@@ -2034,7 +2034,7 @@
 | `data/policy_briefs_curated.json` | 437.3 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 239.9 KB | ✅ | — |
+| `data/polymarket-history.json` | 242.0 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2176,15 +2176,15 @@
 | `test/deal-calc-correctness.test.js` | 4.7 KB |
 | `test/deal-calc-cost-basis-page.test.js` | 25.0 KB |
 | `test/deal-calc-cost-limit-plan.test.js` | 3.7 KB |
-| `test/deal-calc-credit-stack-page.test.js` | 13.8 KB |
+| `test/deal-calc-credit-stack-page.test.js` | 14.0 KB |
 | `test/deal-calc-doh-schedules-page.test.js` | 12.1 KB |
 | `test/deal-calc-equity-pricing.test.js` | 8.2 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.6 KB |
-| `test/deal-calc-lender-schedules-page.test.js` | 3.9 KB |
+| `test/deal-calc-lender-schedules-page.test.js` | 4.0 KB |
 | `test/deal-calc-manual-market-rent.test.js` | 17.5 KB |
 | `test/deal-calc-minimum-set-aside.test.js` | 7.4 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
-| `test/deal-calc-net-rent.test.js` | 25.2 KB |
+| `test/deal-calc-net-rent.test.js` | 26.3 KB |
 | `test/deal-calc-operating-page.test.js` | 7.6 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-partnership-terms.test.js` | 12.2 KB |
@@ -2207,8 +2207,8 @@
 | `test/deal-cost-basis.test.js` | 58.2 KB |
 | `test/deal-credit-stack.test.js` | 8.5 KB |
 | `test/deal-deferred-fee-order.test.js` | 6.8 KB |
-| `test/deal-doh-schedules.test.js` | 27.4 KB |
-| `test/deal-engine-golden.test.js` | 8.3 KB |
+| `test/deal-doh-schedules.test.js` | 27.5 KB |
+| `test/deal-engine-golden.test.js` | 8.4 KB |
 | `test/deal-engine-rent-cut-floor.test.js` | 3.2 KB |
 | `test/deal-engine-signed-rent-growth.test.js` | 3.5 KB |
 | `test/deal-engine-surfaces.test.js` | 14.0 KB |
@@ -2469,7 +2469,7 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.6 KB |
-| `test/market-analysis-hub-page.test.mjs` | 56.3 KB |
+| `test/market-analysis-hub-page.test.mjs` | 58.3 KB |
 | `test/market-construction.test.js` | 6.5 KB |
 | `test/market-direction-tab.test.mjs` | 25.6 KB |
 | `test/market-geography-binding.test.mjs` | 17.9 KB |
