@@ -472,7 +472,10 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 7
 //      of the page as drawn, so every part it names must be on the page, and the button is off while a result is pending.
 {
   [['market-analysis.html', oldPage], ['deal-market-analysis.html', newPage]].forEach(([f, html]) => {
-    ok(/<button[^>]*id="pmaPdfBtn"[^>]*>Download PDF<\/button>/.test(html) && /id="pmaExportBtn"[^>]*>Print report</.test(html), f + ' should offer "Download PDF" and "Print report", named apart');
+    // The two buttons' names must differ (the UX check asked for distinct names), whatever the words; each must do its
+    // own export: pmaPdfBtn the PDF file (ma-pdf.js), pmaExportBtn the printable page (MARenderers.exportReport).
+    const label = id => ((new RegExp('<button[^>]*id="' + id + '"[^>]*>([^<]+)<').exec(html) || [])[1] || '').trim();
+    ok(label('pmaPdfBtn') && label('pmaExportBtn') && label('pmaPdfBtn').toLowerCase() !== label('pmaExportBtn').toLowerCase(), f + ' should offer the PDF download and the printable report under two different names: ' + label('pmaPdfBtn') + ' / ' + label('pmaExportBtn'));
     ok(scripts(html).includes('js/components/ma-pdf.js') && scripts(html).includes('js/vendor/html2canvas-pro.min.js'), f + ' does not load the PDF download or its capture library');
     ok(/id="pmaPdfStatus"[^>]*role="status"/.test(html), f + ' should show the PDF progress in a status line');
   });
@@ -480,6 +483,8 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 7
   const parts = [...pdfSrc.matchAll(/\{ sel: '([^']+)'/g)].map(m => m[1]);
   ok(parts.length >= 15, 'the PDF names fewer parts than expected: ' + parts.length);
   parts.forEach(sel => ok(sel.startsWith('#') ? new RegExp('id="' + sel.slice(1) + '"').test(oldPage) : new RegExp('class="[^"]*\\b' + sel.slice(1) + '\\b').test(oldPage), 'the PDF part ' + sel + ' is not on the page'));
+  ok(/getElementById\('pmaPdfBtn'\)[\s\S]{0,80}addEventListener\('click', download\)/.test(pdfSrc), 'the PDF button should run the PDF download (ma-pdf.js download)');
+  ok(/getElementById\('pmaExportBtn'\)[\s\S]{0,300}\.exportReport\(\)/.test(read('js/market-analysis/market-analysis-controller.js')), 'the print button should open the printable report (MARenderers.exportReport)');
   ok(/PMA_RESULT_EXPORT_BTNS = \['pmaPdfBtn'/.test(read('js/market-analysis.js')), 'the PDF button should be off while a new site\'s result is pending, as the other exports are');
   ok(/OpenStreetMap/.test(pdfSrc) && /leaflet-control-attribution/.test(pdfSrc), 'the PDF must carry the map credit');
 }

@@ -124,16 +124,31 @@
     if (R && typeof R.exportReport === 'function') R.exportReport();
   }
 
+  // The study the PDF is of. Placing a site or finishing a run while the PDF builds changes the page under the capture,
+  // so each such event counts here and the PDF is dropped if the count moves (Codex review of #2985).
+  var changes = 0;
+  ['pma-site-selected', 'pma:site-placed', 'ma:analysis-complete'].forEach(function (ev) {
+    document.addEventListener(ev, function () { changes++; });
+  });
+  function Changed() { this.message = 'the analysis changed while the PDF was being built'; }
+
   var busy = false;
   async function download() {
     if (busy) return;
     var s = site();
     if (!s || document.body.getAttribute('data-pma-result-state') === 'pending') { status('Run an analysis first, then download the PDF.', true); return; }
     var btn = document.getElementById('pmaPdfBtn');
+    var at = changes;
+    // Same site, no new run, and the result on screen is not pending: else the parts would mix two studies.
+    var same = function () {
+      var n = site();
+      if (at !== changes || !n || n.lat !== s.lat || n.lon !== s.lon || document.body.getAttribute('data-pma-result-state') === 'pending') throw new Changed();
+    };
     busy = true; if (btn) btn.disabled = true;
     try {
       status('Building PDF: loading…');
       await loadScript(JSPDF_URL, function () { return !!(window.jspdf && window.jspdf.jsPDF); });
+      same();
       if (!window.html2canvas) throw new Error('the page capture library did not load');
       var pdf = new window.jspdf.jsPDF({ orientation: 'p', unit: 'pt', format: 'letter' });
       var pos = { y: 40, margin: 40 };
@@ -162,19 +177,24 @@
             onclone: function (d) { var m = d.getElementById('pmaMap'), live = document.getElementById('pmaMap'); if (m && live) m.style.height = live.getBoundingClientRect().height + 'px'; },
             ignoreElements: function (e) { return !!(e.classList && (e.classList.contains('map-layer-section') || e.classList.contains('pma-address-search'))) || e.id === 'pmaPdfStatus'; } });
         } catch (e) {
+          same();
           if (p.map) { write(pdf, pos, 'Map: could not be captured in this browser (' + (e && e.message || 'capture failed') + ').', 9); continue; }
           throw e;
         }
+        same();
         if (p.title) write(pdf, pos, p.title, 13, true);
         addCanvas(pdf, canvas, pos, bg);
         if (p.map) write(pdf, pos, mapCredit(), 8);
       }
+      same();
       status('Building PDF: saving…');
       pdf.save(fileName(s));
       status('PDF downloaded.');
       setTimeout(function () { status(''); }, 6000);
     } catch (e) {
-      fallback(e && e.message ? e.message : 'unknown error');
+      // A changed study is not a failure of the PDF: say so, and let the reader press again for the new one.
+      if (e instanceof Changed) status('The analysis changed while the PDF was being built, so it was not saved. Press Download PDF again for the study on screen.', true);
+      else fallback(e && e.message ? e.message : 'unknown error');
     } finally {
       busy = false;
       // As js/market-analysis.js leaves it: off while a new site's result is pending.
