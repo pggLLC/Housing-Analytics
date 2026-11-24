@@ -145,6 +145,7 @@
   // Links made before then carry the deal in the query and still open.
   // window.DealCalcLinkParams (js/deal-calculator.js) reads both.
   var SHARE_HASH_PREFIX = 'v=1&';
+  var LOCATION_ONLY_KEYS = ['geoid', 'fips', 'site-lat', 'site-lon'];
   function _linkParams() {
     if (window.DealCalcLinkParams) return window.DealCalcLinkParams(window.location);
     var h = String(window.location.hash || '').replace(/^#/, '');
@@ -424,6 +425,10 @@
   function _hydrate() {
     var params = _linkParams();
     if (!Array.from(params.keys()).length) return;  // no params, nothing to do
+    // A link that only names a place or a site point (Market Analysis's "Open the Deal Calculator", Compare Sites)
+    // is not a shared scenario: deal-calculator.js reads those itself, and treating them as one would switch the
+    // rent schedule to a manual grid and drop the Subject Project's homes (Codex review of #2982).
+    if (Array.from(params.keys()).every(function (k) { return LOCATION_ONLY_KEYS.indexOf(k) !== -1; })) return;
     if (window.__DealCalc && window.__DealCalc.beginSharedScenario) window.__DealCalc.beginSharedScenario();
     try { _sharedProvenance = JSON.parse(params.get('inputProvenance')); } catch (_) { _sharedProvenance = null; }
     // Cost lines saved before the DOH layout load into the DOH lines that hold them.

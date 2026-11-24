@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-24T15:01:22.722544Z",
+  "generated": "2026-11-24T16:32:42.327422Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -174,7 +174,7 @@
     "data/audit/funding-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 711167
+      "bytes": 718351
     },
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
@@ -8714,7 +8714,7 @@
     "data/market/co-construction-labor-cost.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 131373
+      "bytes": 132127
     },
     "data/market/co-urban-renewal-authorities.json": {
       "featureCount": 0,
@@ -9839,12 +9839,12 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20490
+      "bytes": 20466
     },
     "data/polymarket-history.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 245621
+      "bytes": 247849
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,

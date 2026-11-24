@@ -262,7 +262,7 @@
       provider: 'BLS (CES, LAUS, JOLTS, OEWS) + BLS PPI via FRED',
       url: 'https://www.bls.gov/sae/',
       localFile: 'data/market/co-construction-labor-cost.json',
-      lastUpdated: '2026-10-24',
+      lastUpdated: '2026-11-24',
       updateFrequency: 'Monthly',
       maxAgeDays: 45,
       geoUnit: 'State / Metro / National',

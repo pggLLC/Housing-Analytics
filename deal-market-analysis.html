@@ -555,6 +555,8 @@
             <button class="pma-btn" id="pmaExportCsvBtn" type="button" title="Download analytics-grade CSV: site coords, dimension scores, ACS aggregates, amenity distances, data-coverage flags">Download CSV</button>
             <button class="pma-btn" id="pmaExportJsonBtn" type="button" title="Download full result snapshot as JSON for downstream analysis">Download JSON</button>
           </div>
+          <!-- Beside the results: the one Deal Calculator (js/components/ma-calc-link.js). -->
+          <p class="ma-calc-link-side" style="margin:.6rem 0 0;font-size:.875rem;"><a data-ma-calc-link href="deal-calculator.html">Test this site in the Deal Calculator &rarr;</a> <span style="color:var(--muted);">County, site point and Subject Project carry over.</span></p>
 
           <!-- F162 — gated CRM add mount. Hydrated by the
                script block at the bottom of this page, gated on the
@@ -1368,8 +1370,14 @@
       </div>
     </section>
 
-    <!-- LIHTC Deal Calculator -->
-    <div id="dealCalcMount" class="container" style="padding-bottom:0;"></div>
+    <!-- Deal Calculator: one home (duplicate cleanup, 24 Nov 2026). This page used to draw a second copy of the
+         calculator here; it now links to deal-calculator.html (js/components/ma-calc-link.js). -->
+    <section class="ma-report-section ma-calc-link-block" id="maCalcLink" aria-labelledby="maCalcLinkHeading">
+      <h2 id="maCalcLinkHeading">Test the deal</h2>
+      <p>Run the numbers for <span data-ma-calc-site>this place</span> in the Deal Calculator: credits, equity, debt and the funding gap, or a for-sale project.</p>
+      <p><a class="pma-btn pma-btn-primary" data-ma-calc-link href="deal-calculator.html">Open the Deal Calculator &rarr;</a></p>
+      <p class="ma-calc-link-note" style="font-size:.82rem;color:var(--muted);margin:0;">Carries over the county, the site point and your Subject Project (homes, sizes, income targets). HUD QCT/DDA and transit-zone notes for the site show there. Back returns to this study.</p>
+    </section>
 
     <!-- LIHTC Concept Recommendation Card -->
     <section class="ma-report-section" id="lihtcConceptSection" aria-labelledby="lihtcConceptHeading" style="margin-top:1.5rem;">
@@ -1526,21 +1534,10 @@
   <script defer src="js/market-analysis.js"></script>
   <script defer src="js/config/table-export-registry.js"></script>
   <script defer src="js/components/table-export.js"></script>
-  <script defer src="js/deal-calculator-math.js"></script>
   <!-- HB26-1065 zone screen used by the PMA gate (#1937). -->
   <script defer src="js/transit-zone.js"></script>
-  <!-- Shared HNA ownership affordability math: the built-in Deal Calculator's for-sale mode needs it, as on deal-calculator.html. -->
-  <script defer src="js/hna/ownership-finance.js"></script>
-  <script defer src="js/hna/hna-ownership-need.js"></script>
-  <script defer src="js/hna/ownership-resale.js"></script>
-  <script defer src="js/deal-cost-basis.js"></script>
-  <script defer src="js/deal-operating-budget.js"></script>
-  <script defer src="js/deal-lender-schedules.js"></script>
-  <script defer src="js/deal-permanent-financing.js"></script>
-  <script defer src="js/deal-doh-schedules.js"></script>
-  <script defer src="js/deal-engine.js"></script>
-  <script defer src="js/deal-lender-schedules-view.js"></script>
-  <script defer src="js/deal-calculator.js"></script>
+  <!-- The Deal Calculator is linked, not drawn here: see #maCalcLink. -->
+  <script defer src="js/components/ma-calc-link.js"></script>
   <!-- Enhanced PMA delineation modules -->
   <script defer src="js/pma-commuting.js"></script>
   <script defer src="js/pma-commute-context.js"></script>
@@ -2459,8 +2456,6 @@
   document.addEventListener('jurisdiction-url-context:resolved', _hydrate);
 }());
 </script>
-<script defer src="js/components/ma-calc-handoff.js"></script>
-<script defer src="js/deal-calculator-share.js"></script>
 <script defer src="js/components/ma-site-link.js"></script>
 <script src="js/components/ma-place-row.js"></script>
 <script src="hub/lab-config.js"></script>

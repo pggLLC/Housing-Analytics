@@ -66,7 +66,7 @@ ok(oldIds.size > 200, 'market-analysis.html has far fewer ids than expected (' +
 // 4. The same scripts, in order.
 const scripts = html => [...html.matchAll(/<script[^>]*\ssrc="([^"]+)"/g)].map(m => m[1]);
 const DROPPED = ['js/navigation.js', 'js/dark-mode-toggle.js', 'js/mobile-menu.js'];
-const ADDED = ['js/components/ma-calc-handoff.js', 'js/deal-calculator-share.js', 'js/components/ma-site-link.js', 'js/components/ma-place-row.js', 'hub/lab-config.js', 'hub/page-chrome.js', 'hub/nav.js', 'hub/step-bar.js', 'js/components/ma-step-bar.js', 'js/components/ma-section-nav.js'];
+const ADDED = ['js/components/ma-site-link.js', 'js/components/ma-place-row.js', 'hub/lab-config.js', 'hub/page-chrome.js', 'hub/nav.js', 'hub/step-bar.js', 'js/components/ma-step-bar.js', 'js/components/ma-section-nav.js'];
 const oldScripts = scripts(oldPage), newScripts = scripts(newPage);
 DROPPED.forEach(f => { ok(oldScripts.includes(f), 'market-analysis.html no longer loads ' + f + '; update the build script'); ok(!newScripts.includes(f), 'the new page still loads ' + f); });
 ADDED.forEach(f => ok(newScripts.includes(f), 'the new page does not load ' + f));
@@ -315,34 +315,11 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 7
   const drawn = [oldPage, ...jsFiles('js').map(read)].join('\n');
   const selectors = [...bridge.matchAll(/([^{}]+)\{/g)].map(m => m[1]).filter(sel => !/^\s*@/.test(sel));
   const named = new Set(selectors.flatMap(sel => [...sel.replace(/"[^"]*"/g, '""').matchAll(/#([A-Za-z][\w-]*)/g)].map(m => m[1])));
-  ok(named.has('dealCalcMount') && named.has('dc-ami-rows'), 'the sheet no longer has rules for the built-in calculator');
+  // The page links to the one Deal Calculator (24 Nov 2026), so the sheet keeps no rules for a copy of it.
+  ok(!named.has('dealCalcMount') && !named.has('dc-ami-rows') && !named.has('dc-cb-detail'), 'the sheet still has rules for the calculator this page no longer draws');
   // An id is drawn when the page or a script writes it whole.
   const writes = id => ['"' + id + '"', "'" + id + "'", 'id=\\"' + id + '\\"'].some(q => drawn.includes(q));
   named.forEach(id => ok(writes(id), 'the bridging sheet names #' + id + ', which nothing on the page draws'));
-  // The calculator's phone rules sit in the phone block, and each still finds its layout.
-  const phone = [...bridge.matchAll(/@media \(max-width: 640px\) \{([\s\S]*?)\n\}/g)].map(m => m[1]).join('\n');
-  ['#dc-ami-rows, div:has(+ #dc-ami-rows))', '#dc-cb-detail > div[style*="grid-template-columns"]', '#dealCalcMount dl[style*="grid-template-columns"]']
-    .forEach(k => ok(new RegExp(k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ' \\{ grid-template-columns:[^;]+!important').test(phone), k + ' should be laid out on a phone only, over its inline grid'));
-  ok(/#dealCalcMount label:has\(> :is\(input, select\):is\(\[style\*="display:block"\], \[style\*="display: block"\]\)\)/.test(phone), 'the pay-in labels should be laid out on a phone only');
-  const calc = read('js/deal-calculator.js');
-  // Tiers: a three-column grid with its heading row just before it.
-  ok(/<div style="display:grid;grid-template-columns:[^"]+">\s*(?:<span[^>]*>[^<]*<\/span>\s*){3}<\/div>\s*<div id="dc-ami-rows" style="display:grid;grid-template-columns:/.test(calc),
-    'the income tiers are no longer a grid with its heading row just before it');
-  ok(/`\s*<label style="display:flex[^"]*">\s*<input id="dc-chk-\$\{pct\}"/.test(calc), 'a tier no longer starts with its label, which the sheet gives the whole row');
-  ok(/<div style="grid-column:1 \/ -1;display:grid;grid-template-columns:/.test(calc) && /#dc-ami-rows > div\[style\*="grid-column"\] \{ grid-template-columns:[^;]+!important/.test(phone),
-    'the homes-by-bedroom boxes under each tier are no longer a full-row inline grid the sheet sets three to a row');
-  // Pay-in boxes: words and a display:block box inside one label, which a phone draws as a row.
-  ['fed', 'state', 'add'].forEach(k => ok(new RegExp('<label[^>]*>[^<]*<input id="dc-' + k + '-payin-completion" type="number"[^>]*style="display:block').test(calc),
-    'the ' + k + ' pay-in box is no longer a display:block box inside its label'));
-  ok(/\blabel,[^{}]*\{[^}]*display:\s*inline-flex/.test(read('css/responsive.css')), 'css/responsive.css no longer draws every label as a row on a phone; the pay-in rule may be unneeded');
-  // Terms list and basis lines: inline two-column grids.
-  ok(/<dl style="[^"]*display:grid;grid-template-columns:/.test(calc), 'the formula terms are no longer an inline grid');
-  ok(/function row\(label, value, note\) \{\s*rows\.push\('<div style="display:grid;grid-template-columns:[^"]+">'/.test(calc) && /el\('dc-cb-detail'\)/.test(calc),
-    'the basis lines are no longer inline grids written into #dc-cb-detail');
-  // The calculator's notes beat the 18px rule for paragraphs in main: two ids against one, and no inline size.
-  const big = /(?:^|[}/])\s*([^{}/]*#main-content p:not\(\[style\*="font-size"\]\))\s*\{[^}]*font-size/m.exec(read('css/pages/housing-needs-assessment.css').replace(/\/\*[\s\S]*?\*\//g, '/'));
-  ok(big && (big[1].match(/#/g) || []).length === 1, 'the rule that makes paragraphs in main large has changed; recheck the calculator notes');
-  ok(/#main-content #dealCalcMount p:not\(\[style\*="font-size"\]\)\s*\{\s*font-size/.test(bridge), 'the calculator notes no longer outrank the large-paragraph rule');
 }
 
 // 9. The links switched. The old page stays up at its address, with no redirect, until paul retires it; nothing on
@@ -369,21 +346,84 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 7
   ok(/'market-analysis\.html':\s*'market'/.test(read('js/components/workflow-next-action.js')), 'the old page, still up, is no longer recognised as step 4');
 }
 
-// 10. Under the built-in calculator, a link that opens its numbers in the Deal hub's Financials. The settings come from
-//     js/deal-calculator-share.js, loaded unchanged (the rules "Copy link" uses), plus the page's subject project.
-//     js/components/ma-calc-handoff.js keeps the share script from opening this page's own address (?fips=...)
-//     as a share link, which would reset the calculator's rent schedule and utility allowance.
+// 10. One Deal Calculator (duplicate cleanup, 24 Nov 2026). Both Market Analysis pages link to deal-calculator.html in
+//     place of drawing a copy of it, and "Continue in Financials" moved with the calculator: it sits under the
+//     calculator on deal-calculator.html (js/components/calc-financials-link.js), built from js/deal-calculator-share.js
+//     (the rules "Copy link" uses) plus the page's subject project.
 {
-  const at = f => newScripts.indexOf(f);
-  ok(at('js/deal-calculator.js') >= 0 && at('js/deal-calculator.js') < at('js/components/ma-calc-handoff.js') && at('js/components/ma-calc-handoff.js') === at('js/deal-calculator-share.js') - 1,
-    'the hand-off script must load after js/deal-calculator.js (which sets window.DealCalcLinkParams) and just before js/deal-calculator-share.js (which reads it)');
-  const tag = f => (newPage.match(new RegExp('<script[^>]*\\ssrc="' + f.replace(/[.*+?^${}()|[\]\\/-]/g, '\\$&') + '"[^>]*>')) || [''])[0];
-  ok(/\sdefer[\s>]/.test(tag('js/deal-calculator.js')) && /\sdefer[\s>]/.test(tag('js/components/ma-calc-handoff.js')) && /\sdefer[\s>]/.test(tag('js/deal-calculator-share.js')),
-    'the calculator, hand-off and share scripts must all be deferred, or they no longer run in that order');
-  ok(!scripts(oldPage).includes('js/deal-calculator-share.js') && !scripts(oldPage).includes('js/components/ma-calc-handoff.js'), 'the old page itself should not load the hand-off');
+  [['market-analysis.html', oldPage], ['deal-market-analysis.html', newPage]].forEach(([f, html]) => {
+    ok(!/id="dealCalcMount"/.test(html) && !scripts(html).includes('js/deal-calculator.js'), f + ' should link to the Deal Calculator, not draw a copy of it');
+    ok(scripts(html).includes('js/components/ma-calc-link.js'), f + ' does not load the Deal Calculator link');
+    ok((html.match(/<a [^>]*data-ma-calc-link[^>]*href="deal-calculator\.html"/g) || []).length === 2, f + ' should have two Deal Calculator links: beside the results and in the report');
+    ['js/deal-engine.js', 'js/hna/ownership-finance.js', 'js/components/ma-calc-handoff.js', 'js/deal-calculator-share.js'].forEach(s2 =>
+      ok(!scripts(html).includes(s2), f + ' still loads ' + s2 + ', which only the copy of the calculator needed'));
+  });
+  ok(!fs.existsSync(path.join(root, 'js/components/ma-calc-handoff.js')), 'js/components/ma-calc-handoff.js should have moved to js/components/calc-financials-link.js');
+  // The copy of the calculator used to start HUD's county AMI loading (HudFmr.load) as it drew itself, and the site
+  // score's rent-pressure and workforce dimensions read that AMI (_getCountyAmi). Without the copy the page loads it
+  // itself, before it is ready; without that, Grand Junction scored 71 in place of 59 (rent pressure dropped).
+  const loadDataSrc = (/function loadData\(\) \{([\s\S]*?)\n  \}\n/.exec(read('js/market-analysis.js')) || [])[1] || '';
+  ok(/window\.HudFmr\.load\(\)/.test(loadDataSrc), 'js/market-analysis.js should load HUD\'s county AMI before the page is ready (rent pressure and workforce need it)');
+  ok(scripts(oldPage).indexOf('js/data-connectors/hud-fmr.js') > -1 && scripts(oldPage).indexOf('js/data-connectors/hud-fmr.js') < scripts(oldPage).indexOf('js/market-analysis.js'), 'hud-fmr.js must load before js/market-analysis.js');
+
+  // The link: place and chosen site, never a town centre; Back keeps the site and market area.
+  const { JSDOM } = await import('jsdom');
+  const linkSrc = read('js/components/ma-calc-link.js');
+  const page = async (url, site, tracts, hubPage) => {
+    const dom = new JSDOM('<!doctype html><body>' + (hubPage ? '<script src="js/components/ma-site-link.js"></script>' : '') +
+      '<a data-ma-calc-link href="deal-calculator.html">x</a><span data-ma-calc-site></span></body>', { runScripts: 'outside-only', url });
+    const w = dom.window;
+    w.MAController = { getCurrentSite: () => site };
+    w.PMATractPicker = { getSelectedGeoids: () => tracts || [] };
+    w.eval(linkSrc);
+    if (w.document.readyState === 'loading') await new Promise(r => w.document.addEventListener('DOMContentLoaded', r));
+    return w;
+  };
+  let w = await page('https://example.com/deal-market-analysis.html?geoid=08077', null, null, true);
+  ok(w.document.querySelector('a').getAttribute('href') === 'deal-calculator.html?geoid=08077', 'before a site is chosen the link should carry the place only');
+  w.close();
+  w = await page('https://example.com/market-analysis.html?fips=0820000&auto=1', null, null, false);
+  ok(w.document.querySelector('a').getAttribute('href') === 'deal-calculator.html?geoid=0820000', 'a page opened by ?fips= (older links, the HNA) should carry that place: ' + w.document.querySelector('a').getAttribute('href'));
+  w.close();
+  w = await page('https://example.com/deal-market-analysis.html?geoid=08077&auto=1', { lat: 39.06, lon: -108.55, siteSource: 'jurisdiction_centroid' }, null, true);
+  ok(!/site-lat/.test(w.document.querySelector('a').getAttribute('href')), 'a town centre is not a site: the link should not send it as one');
+  w.close();
+  // Back: the site only, never tracts. The tract picker keeps its own selection and note for the site and starts from
+  // them; a Market check link's tracts would be imported over the reader's edits and note (Codex review of #2982).
+  const PL = '#pma=39.071234,-108.551234,tract,5,100';
+  w = await page('https://example.com/deal-market-analysis.html?geoid=08077&site=39.07,-108.55&sl=x&tr=077000100.077000200.077000300&tl=y&auto=1' + PL, { lat: 39.0712345, lon: -108.5512345, siteSource: 'site' }, ['08077000100', '08077000200'], true);
+  const a = w.document.querySelector('a');
+  a.addEventListener('click', e => e.preventDefault());
+  a.click();
+  ok(a.getAttribute('href') === 'deal-calculator.html?geoid=08077&site-lat=39.071235&site-lon=-108.551235', 'the link should carry the chosen site as site-lat/site-lon, six decimals: ' + a.getAttribute('href'));
+  const back = new URLSearchParams(w.location.search);
+  ok(back.get('site') === '39.07123,-108.55123' && back.get('geoid') === '08077' && w.location.hash === PL && ['tr', 'tl', 'sl', 'auto'].every(k => !back.has(k)),
+    'following the link should leave the site (no tracts, no auto=1) in this page\'s address, in the form js/components/ma-site-link.js reads: ' + w.location.href);
+  w.close();
+  // A site kept out of the address on purpose (Use my location) stays out.
+  w = await page('https://example.com/deal-market-analysis.html?geoid=08077', { lat: 39.0712345, lon: -108.5512345, siteSource: 'site' }, [], true);
+  w.CohoSiteTransient = true;
+  w.document.querySelector('a').addEventListener('click', e => e.preventDefault());
+  w.document.querySelector('a').click();
+  ok(w.location.search === '?geoid=08077', 'a Use my location site must not be written into the address: ' + w.location.href);
+  w.close();
+  w = await page('https://example.com/market-analysis.html?fips=08013&auto=1', { lat: 40.01, lon: -105.27, siteSource: 'site' }, [], false);
+  w.document.querySelector('a').addEventListener('click', e => e.preventDefault());
+  w.document.querySelector('a').click();
+  const back2 = new URLSearchParams(w.location.search);
+  ok(back2.get('lat') === '40.01000' && back2.get('lon') === '-105.27000' && !back2.has('auto') && back2.get('fips') === '08013', 'on the old page Back should reopen the site by ?lat=&lon= (js/market-analysis.js): ' + w.location.href);
+  w.close();
+
+  // deal-calculator.html: the site notes and "Continue in Financials".
+  const calcPage = read('deal-calculator.html'), calcScripts = scripts(calcPage);
+  const at = f => calcScripts.indexOf(f);
+  ['js/data-connectors/hud-egis.js', 'js/transit-zone.js', 'js/components/calc-site-context.js'].forEach(f =>
+    ok(at(f) > at('js/deal-calculator.js'), 'deal-calculator.html should load ' + f + ' after the calculator, for the site notes the Market Analysis page used to pass in'));
+  ok(at('js/components/calc-financials-link.js') === at('js/deal-calculator-share.js') + 1, 'the Financials link must load just after js/deal-calculator-share.js, whose settings it carries');
+  const src = read('js/components/calc-financials-link.js');
+  ok(!/DealCalcLinkParams\s*=/.test(src), 'on deal-calculator.html the Financials link must not hide the page\'s own share link');
 
   // The address the link opens agrees with the route the Deal hub registers.
-  const src = read('js/components/ma-calc-handoff.js');
   const route = (/var ROUTE = '([^']+)';/.exec(src) || [])[1] || '';
   const m = /^([a-z0-9-]+\.html)#\/([a-z0-9-]+)\?v=1&$/.exec(route);
   ok(m, 'the hand-off route is not "<page>#/<view>?v=1&": ' + route);
@@ -391,36 +431,28 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 7
   const hubScripts = scripts(read(hubFile || 'deal-hub.html'));
   const registers = hubScripts.filter(f => f.startsWith('hub/') && fs.existsSync(path.join(root, f)) && new RegExp("Shell\\.views\\[['\"]" + view + "['\"]\\]\\s*=").test(read(f)));
   ok(registers.length === 1, hubFile + ' does not load a script that registers the "' + view + '" view the hand-off opens');
-  // And the hub page lets the route through: hub/lab-config.js sends a route its page's list does not match to that
-  // page's start (#/projects). Tested the way its drawnBy() tests a hash: the path, with and without a closing slash.
   const hubs = JSON.parse((/var HUBS = (\{.*?\}), STARTS = /.exec(read('hub/lab-config.js')) || [])[1] || '{}');
   ok((hubs[hubFile] || []).some(re => new RegExp(re).test('#/' + view) || new RegExp(re).test('#/' + view + '/')),
     'hub/lab-config.js does not let #/' + view + ' through on ' + hubFile + ', so the link would land on its start page');
-  if (registers.length === 1) {
-    const reader = read(registers[0]);
-    ok(/['"]subject['"]/.test(reader), registers[0] + ' no longer reads the subject setting the hand-off sends');
-  }
+  if (registers.length === 1) ok(/['"]subject['"]/.test(read(registers[0])), registers[0] + ' no longer reads the subject setting the hand-off sends');
 
   // What the script does, in a page with the calculator drawn. The share script and subject project are stand-ins.
-  const { JSDOM } = await import('jsdom');
   const opened = [];
   const run = async ({ drawn = true, share = true, subject = { total_units: 40, unit_mix: [{ br: 2, ami: 60, count: 40 }] } } = {}) => {
-    const dom = new JSDOM('<!doctype html><body><main id="main-content"><div id="dealCalcMount">' + (drawn ? '<input id="dc-units" value="40">' : '') + '</div><section id="lihtcConceptSection"></section></main></body>',
-      { runScripts: 'outside-only', url: 'https://example.com/deal-market-analysis.html?fips=08013&auto=1' });
-    const w = dom.window;
-    opened.push(w);
-    w.DealCalcLinkParams = () => new w.URLSearchParams('fips=08013&auto=1');
+    const dom = new JSDOM('<!doctype html><body><main id="main-content"><div id="dealCalcMount">' + (drawn ? '<input id="dc-units" value="40">' : '') + '</div></main></body>',
+      { runScripts: 'outside-only', url: 'https://example.com/deal-calculator.html?units=40' });
+    const w2 = dom.window;
+    opened.push(w2);
     const snap = { q: 'units=40&tr=a%3D1' };
-    if (share) w.__DealCalcShare = { buildSnapshot: () => ({ url: 'https://example.com/deal-market-analysis.html?' + snap.q }) };
-    if (subject) w.SubjectProject = { get: () => subject };
-    w.eval(src);
-    if (w.document.readyState === 'loading') await new Promise(r => w.document.addEventListener('DOMContentLoaded', r));
-    const p = w.document.getElementById('maCalcHandoff');
-    return { w, p, a: p && p.querySelector('a'), snap };
+    if (share) w2.__DealCalcShare = { buildSnapshot: () => ({ url: 'https://example.com/deal-calculator.html?' + snap.q }) };
+    if (subject) w2.SubjectProject = { get: () => subject };
+    w2.eval(src);
+    if (w2.document.readyState === 'loading') await new Promise(r => w2.document.addEventListener('DOMContentLoaded', r));
+    const p = w2.document.getElementById('maCalcHandoff');
+    return { w: w2, p, a: p && p.querySelector('a'), snap };
   };
   const t = await run();
-  ok(t.w.DealCalcLinkParams(t.w.location).toString() === '', 'on this page the share script must see no share link in the address');
-  ok(t.p && t.p.previousElementSibling && t.p.previousElementSibling.id === 'dealCalcMount', 'the link should sit just under the built-in calculator');
+  ok(t.p && t.p.previousElementSibling && t.p.previousElementSibling.id === 'dealCalcMount', 'the link should sit just under the calculator');
   const href = () => t.a.getAttribute('href');
   const parts = h => { const q = new URLSearchParams(h.slice(h.indexOf('?') + 1)); return { route: h.slice(0, h.indexOf('?') + 1), q }; };
   ok(parts(href()).route === route.slice(0, -('v=1&'.length)) && parts(href()).q.get('v') === '1', 'the link should open the hub route with v=1 first');
@@ -432,7 +464,7 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 7
   ok(t.a.textContent.trim() && t.p.querySelector('#' + t.a.getAttribute('aria-describedby')), 'the link should have words and a described note');
   ok(!parts((await run({ subject: null })).a.getAttribute('href')).q.has('subject'), 'with no subject project the link should still open, without one');
   ok(!(await run({ drawn: false })).p && !(await run({ share: false })).p, 'before the calculator is drawn, or without the share script, there should be no link yet');
-  opened.forEach(w => w.close()); // the script keeps looking for the calculator for a minute
+  opened.forEach(x => x.close()); // the script keeps looking for the calculator for a minute
 }
 
 // 11. A site from Market check. hub/market.js links "Full Market Analysis for this site" to this page with

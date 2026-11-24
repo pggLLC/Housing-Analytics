@@ -113,7 +113,8 @@ test('every page that mounts the calculator loads the DOH schedules module befor
   const fs = require('fs'), path = require('path');
   const pages = fs.readdirSync(path.join(__dirname, '..')).filter(f => f.endsWith('.html'))
     .filter(f => /src="js\/deal-calculator\.js"/.test(fs.readFileSync(path.join(__dirname, '..', f), 'utf8')));
-  assert(pages.length >= 2, 'found the pages that mount it: ' + pages.join(', '));
+  // One calculator page since the duplicate cleanup (24 Nov 2026): the Market Analysis pages link to it.
+  assert(pages.includes('deal-calculator.html'), 'found the pages that mount it: ' + pages.join(', '));
   pages.forEach(f => {
     const html = fs.readFileSync(path.join(__dirname, '..', f), 'utf8');
     const mod = html.indexOf('src="js/deal-doh-schedules.js"'), calc = html.indexOf('src="js/deal-calculator.js"');

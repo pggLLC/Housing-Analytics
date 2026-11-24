@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-24T15:01:18.634Z",
+    "generated_at": "2026-11-24T16:32:38.632Z",
     "root": "data/",
     "file_count": 2001,
-    "total_size_bytes": 232425829,
+    "total_size_bytes": 232435971,
     "kinds": {
       "json": 1952,
       "geojson": 35,
@@ -685,8 +685,8 @@
     {
       "path": "audit/funding-watch.json",
       "kind": "json",
-      "size_bytes": 711167,
-      "mtime": "2026-11-23T16:25:25.279Z",
+      "size_bytes": 718351,
+      "mtime": "2026-11-24T16:17:55.122Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -706,7 +706,7 @@
       ],
       "key_count": 16,
       "primary_array_key": "federal_notices",
-      "primary_array_length": 687,
+      "primary_array_length": 689,
       "primary_array_first_keys": [
         "key",
         "source",
@@ -724,7 +724,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-24T15:01:14.094Z",
+      "mtime": "2026-11-24T16:32:33.222Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -37578,8 +37578,8 @@
     {
       "path": "market/co-construction-labor-cost.json",
       "kind": "json",
-      "size_bytes": 131373,
-      "mtime": "2026-10-24T09:38:50.150Z",
+      "size_bytes": 132127,
+      "mtime": "2026-11-24T16:02:13.381Z",
       "shape": "object",
       "keys": [
         "generatedAt",
@@ -37592,7 +37592,7 @@
       ],
       "key_count": 7,
       "primary_array_key": "history",
-      "primary_array_length": 117,
+      "primary_array_length": 118,
       "primary_array_first_keys": [
         "period",
         "laborWageYoyPct",
@@ -39240,7 +39240,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16185,
-      "mtime": "2026-11-24T15:01:16.379Z",
+      "mtime": "2026-11-24T16:32:36.050Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39264,7 +39264,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-24T15:01:15.866Z",
+      "mtime": "2026-11-24T16:32:35.428Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -42794,8 +42794,8 @@
     {
       "path": "polymarket-data.json",
       "kind": "json",
-      "size_bytes": 20490,
-      "mtime": "2026-11-23T16:23:16.727Z",
+      "size_bytes": 20466,
+      "mtime": "2026-11-24T16:14:40.102Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -42814,8 +42814,8 @@
     {
       "path": "polymarket-history.json",
       "kind": "json",
-      "size_bytes": 245621,
-      "mtime": "2026-11-23T16:23:16.779Z",
+      "size_bytes": 247849,
+      "mtime": "2026-11-24T16:14:40.157Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42823,7 +42823,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "rows",
-      "primary_array_length": 221,
+      "primary_array_length": 222,
       "primary_array_first_keys": [
         "date",
         "events"
