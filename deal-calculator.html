@@ -133,6 +133,7 @@
   <script defer src="js/deal-calculator-share.js"></script>
   <!-- "Continue in Financials": after the share script, whose link settings it carries. -->
   <script defer src="js/components/calc-financials-link.js"></script>
+  <script defer src="js/deal-calculator-quick.js"></script>
   <!-- Site notes for a linked site point (?site-lat=&site-lon=), worked out as the Market Analysis page does:
        HUD QCT/DDA (hud-egis.js) and the HB26-1065 transit zone (transit-zone.js). -->
   <script defer src="js/data-connectors/hud-egis.js"></script>
@@ -250,10 +251,10 @@
 
     <!-- ── Calculator mount (deal-calculator.js renders into this div) ── -->
     <div style="max-width:1400px;margin:0 auto;padding:0 18px;">
-      <!-- Quick estimate: one home (duplicate cleanup, 24 Nov 2026). The five-box estimate lives on the Deal
-           Calculator's front page (deal-hub.html#/deal-calculator, hub/deal-quick.js), which opens this page
-           filled in. This page is the full calculator. -->
-      <p id="dcQuickLink" data-dc-mode="rental" style="margin:.25rem 0 .75rem;font-size:.9rem;">Just want a rough answer first? <a href="deal-hub.html#/deal-calculator">Try the quick estimate</a> (county, cost, homes by income) and open it here when you are ready for the full model.</p>
+      <!-- Quick estimate (js/deal-calculator-quick.js): five inputs that drive the
+           full calculator below and read its results back. Rental deals only.
+           Kept on this page (paul, 24 Nov 2026: "keep bedroom sizes on quick estimate"). -->
+      <section id="dcQuick" data-dc-mode="rental" aria-labelledby="dq-title" data-no-source="input: quick estimate fields and the calculator's results, sourced below"></section>
       <!-- F202 — Save / share / export bar. Mirrors the HNA pattern.
            "Copy link" updates the URL bar with the current scenario state +
            writes it to clipboard. "Download PDF" screenshots <main>. "Download
