@@ -83,7 +83,8 @@ async function run() {
       console.log(`Golden ${scenario}: NOI ${captured.figures['dc-r-noi-stab']}, mortgage ${captured.figures['dc-r-mortgage']}, gap ${captured.figures['dc-su-gap']}; ${Object.keys(captured.figures).length} figures`);
       await page.close();
     }
-    if (!record) for (const name of ['deal-calculator.html', 'market-analysis.html']) {
+    // deal-calculator.html is the calculator's one home; the Market Analysis pages link to it (24 Nov 2026).
+    if (!record) for (const name of ['deal-calculator.html']) {
       for (const width of [1280, 390]) {
         const page = await browser.newPage({ viewport: { width, height: 900 } });
         await routeInvented(page);

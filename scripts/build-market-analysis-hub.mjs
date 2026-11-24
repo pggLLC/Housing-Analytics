@@ -18,8 +18,8 @@
 //   4. a trail back to Build a deal above the heading
 //   5. a row above the page with the place being worked on and the saved projects: the old header's pill and its
 //      list of recent projects (js/components/ma-place-row.js fills it)
-//   6. a link under the built-in Deal Calculator that opens its numbers in the Deal hub's Financials
-//      (js/components/ma-calc-handoff.js, with js/deal-calculator-share.js loaded unchanged)
+//   6. (retired 24 Nov 2026: the page no longer draws a copy of the Deal Calculator; it links to
+//      deal-calculator.html, which now carries "Continue in Financials", js/components/calc-financials-link.js)
 //   7. the seven-step bar is the new pages' own (hub/step-bar.js, drawn by js/components/ma-step-bar.js), the same
 //      bar in the same place as on every other step, where the old page has its own (paul, 15 Nov: the bar looked
 //      and sat differently here, and its Scenarios step led to a page without one)
@@ -122,11 +122,6 @@ export function build(src, hubPage, palette) {
   // 5. The old header's place pill and its list of saved projects, as a row above <main>. Outside <main>, so the
   //    body stays the old page's body, control for control.
   swap(/([ \t]*)<main id="main-content">\n/, '$1<div id="maPlaceRow" class="ma-place-row" role="region" aria-label="Place and saved projects" hidden></div>\n$1<main id="main-content">\n', 'a main');
-  // 6. Under the built-in Deal Calculator, a link that opens its numbers in the Deal hub's Financials. Deferred, so
-  //    both run after js/deal-calculator.js, in this order: js/components/ma-calc-handoff.js stops the share
-  //    script opening this page's own address as a share link, then js/deal-calculator-share.js (unchanged, the
-  //    file deal-calculator.html loads) builds the link's settings by the rules "Copy link" uses.
-  swap(/<\/body>/, '<script defer src="js/components/ma-calc-handoff.js"></script>\n<script defer src="js/deal-calculator-share.js"></script>\n</body>', 'a closing body tag');
   // 8. A site Market check sends: typed into the page's own address box once the data has loaded. Deferred, last of
   //    the page's own scripts, before the new header's.
   swap(/<\/body>/, '<script defer src="js/components/ma-site-link.js"></script>\n</body>', 'a closing body tag');

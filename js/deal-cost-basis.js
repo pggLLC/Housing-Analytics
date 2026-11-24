@@ -972,7 +972,7 @@
       out.eligibility = args.inZone === false ? 'not in a zone' : 'unknown';
       out.reason = args.inZone === false
         ? 'Market Analysis does not place this site in a Transit Zone, so the Transit Zone credit does not apply.'
-        : 'Transit Zone credit eligibility unknown: the site has not been checked against OEDIT\'s Transit Zone map. Use this calculator on the Market Analysis page, which checks the site, and enter the evidence.';
+        : 'Transit Zone credit eligibility unknown: the site has not been checked against OEDIT\'s Transit Zone map. Choose the site on the Market Analysis page and open the Deal Calculator from its link, which checks the site here, then enter the evidence.';
       return out;
     }
     if (out.eligibility === 'unknown') {
