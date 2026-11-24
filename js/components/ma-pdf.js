@@ -33,6 +33,12 @@
     { sel: '#maInfrastructure' }, { sel: '#lihtcConceptSection' }
   ];
 
+  // An element inside a closed <details> that is not its summary: hidden on screen, so not in the file either.
+  function closedFoldBody(e) {
+    var d = e && e.parentElement;
+    return !!(d && d.tagName === 'DETAILS' && !d.open && e.tagName !== 'SUMMARY');
+  }
+
   function status(text, isError) {
     var s = document.getElementById('pmaPdfStatus');
     if (!s) return;
@@ -175,7 +181,10 @@
             // The map's height comes from a sheet the copy html2canvas draws from does not keep: give it the height on
             // screen. The layer pickers and address box are controls, not results (and their sheet stops the capture).
             onclone: function (d) { var m = d.getElementById('pmaMap'), live = document.getElementById('pmaMap'); if (m && live) m.style.height = live.getBoundingClientRect().height + 'px'; },
-            ignoreElements: function (e) { return !!(e.classList && (e.classList.contains('map-layer-section') || e.classList.contains('pma-address-search'))) || e.id === 'pmaPdfStatus'; } });
+            // A closed fold (<details>) shows only its summary on screen, but html2canvas draws its whole body: the
+            // closed info tips ("What this counts.") came out as text squeezed into a one-word column over the
+            // figures (walkthrough check, 24 Nov 2026). Leave out everything in a closed fold but its summary.
+            ignoreElements: function (e) { return !!(e.classList && (e.classList.contains('map-layer-section') || e.classList.contains('pma-address-search'))) || e.id === 'pmaPdfStatus' || closedFoldBody(e); } });
         } catch (e) {
           same();
           if (p.map) { write(pdf, pos, 'Map: could not be captured in this browser (' + (e && e.message || 'capture failed') + ').', 9); continue; }

@@ -505,6 +505,18 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 7
   ok(parts.length >= 15, 'the PDF names fewer parts than expected: ' + parts.length);
   parts.forEach(sel => ok(sel.startsWith('#') ? new RegExp('id="' + sel.slice(1) + '"').test(oldPage) : new RegExp('class="[^"]*\\b' + sel.slice(1) + '\\b').test(oldPage), 'the PDF part ' + sel + ' is not on the page'));
   ok(/getElementById\('pmaPdfBtn'\)[\s\S]{0,80}addEventListener\('click', download\)/.test(pdfSrc), 'the PDF button should run the PDF download (ma-pdf.js download)');
+  // A closed fold shows only its summary on screen; html2canvas draws its body anyway, so the capture must leave it
+  // out (walkthrough check, 24 Nov 2026: the closed info tips came out as one-word columns over the figures).
+  {
+    const fn = (/function closedFoldBody\(e\) \{[\s\S]*?\n  \}/.exec(pdfSrc) || [''])[0];
+    ok(fn && /ignoreElements:[^\n]*closedFoldBody\(e\)/.test(pdfSrc), 'the PDF capture should leave out what a closed fold hides (closedFoldBody in ignoreElements)');
+    const { JSDOM } = await import('jsdom');
+    const d = new JSDOM('<details class="info-tooltip"><summary>i</summary><div class="info-tooltip-body">What this counts.</div></details><details open><summary>s</summary><p>shown</p></details>').window.document;
+    const closedFoldBody = new Function(fn + '; return closedFoldBody;')();
+    const [closed, open] = d.querySelectorAll('details');
+    ok(closedFoldBody(closed.querySelector('.info-tooltip-body')) && !closedFoldBody(closed.querySelector('summary')) && !closedFoldBody(open.querySelector('p')) && !closedFoldBody(closed),
+      'closedFoldBody should leave out a closed fold\'s body only: not its summary, an open fold\'s body, or the fold itself');
+  }
   ok(/getElementById\('pmaExportBtn'\)[\s\S]{0,300}\.exportReport\(\)/.test(read('js/market-analysis/market-analysis-controller.js')), 'the print button should open the printable report (MARenderers.exportReport)');
   ok(/PMA_RESULT_EXPORT_BTNS = \['pmaPdfBtn'/.test(read('js/market-analysis.js')), 'the PDF button should be off while a new site\'s result is pending, as the other exports are');
   ok(/OpenStreetMap/.test(pdfSrc) && /leaflet-control-attribution/.test(pdfSrc), 'the PDF must carry the map credit');
