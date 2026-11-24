@@ -11,7 +11,8 @@ async function run() {
   const executablePath = explicit || (fs.existsSync(bundled) ? bundled : await require('puppeteer').executablePath());
   const browser = await chromium.launch({ headless: true, executablePath, args: ['--no-sandbox'] });
   try {
-    for (const name of ['deal-calculator.html', 'market-analysis.html']) for (const width of [1280, 390]) {
+    // deal-calculator.html is the calculator's one home; the Market Analysis pages link to it (24 Nov 2026).
+    for (const name of ['deal-calculator.html']) for (const width of [1280, 390]) {
       const page = await browser.newPage({ viewport: { width, height: 900 } });
       const errors = []; page.on('pageerror', e => errors.push(e.message));
       await routeInvented(page);

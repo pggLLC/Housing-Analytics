@@ -1,33 +1,25 @@
 /**
- * js/components/ma-calc-handoff.js
- * deal-market-analysis.html only (written in by scripts/build-market-analysis-hub.mjs).
+ * js/components/calc-financials-link.js
+ * deal-calculator.html.
  *
- * Puts "Continue in Financials" under the built-in Deal Calculator. The link opens the
- * Deal hub's #/open-calc route with the calculator's own share-link parameters, which the hub shows
- * first and then opens as a new project on Financials. Nothing is saved before that click.
+ * Puts "Continue in Financials" under the Deal Calculator. The link opens the Deal hub's #/open-calc route with the
+ * calculator's own share-link parameters, which the hub shows first and then opens as a new project on Financials.
+ * Nothing is saved before that click.
  *
- * The parameters come from js/deal-calculator-share.js, loaded unchanged after this file:
- * window.__DealCalcShare.buildSnapshot().url carries exactly what "Copy link" on
- * deal-calculator.html carries (every dc- and pf- control, the tranche string, input sources,
- * utility allowance and rent schedule). Nothing here reads a calculator control itself. One setting is
- * added: subject, the page's subject project (window.SubjectProject.get()), which the hub needs to price homes
- * that come from the rent schedule.
+ * Moved here from deal-market-analysis.html (it was js/components/ma-calc-handoff.js, under the copy of the calculator
+ * that page drew) in the duplicate cleanup of 24 Nov 2026: the Market Analysis pages now link to this page, so the
+ * path to Financials lives with the one calculator.
  *
- * On this page the address belongs to Market Analysis (?fips=, ?geoType=, ?auto=, ?lat=, ?lon=),
- * never to a calculator share link. js/deal-calculator-share.js opens a share link from the page
- * address through window.DealCalcLinkParams as soon as the address has any query at all, which
- * here would reset the built-in calculator's rent schedule and utility allowance. So, before that
- * file runs, this file points window.DealCalcLinkParams at an empty set for this page. Only
- * js/deal-calculator-share.js reads that global on this page; js/deal-calculator.js keeps its own
- * copy.
+ * The parameters come from js/deal-calculator-share.js, loaded before this file:
+ * window.__DealCalcShare.buildSnapshot().url carries exactly what "Copy link" carries (every dc- and pf- control,
+ * the tranche string, input sources, utility allowance and rent schedule). Nothing here reads a calculator control
+ * itself. One setting is added: subject, the page's subject project (window.SubjectProject.get()), which the hub needs
+ * to price homes that come from the rent schedule.
  */
 (function () {
   'use strict';
 
   var ROUTE = 'deal-hub.html#/open-calc?v=1&';
-
-  // Runs before js/deal-calculator-share.js (both deferred, this one first).
-  window.DealCalcLinkParams = function () { return new URLSearchParams(); };
 
   function params() {
     var share = window.__DealCalcShare;

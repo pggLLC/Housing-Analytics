@@ -6245,6 +6245,10 @@
       // first and scored workforce without them, so one link read 63 on one
       // load and 65 on the next.
       window.LodesCommute ? window.LodesCommute.loadMetrics().catch(function () { return null; }) : Promise.resolve(null),
+      // HUD's county 4-person AMI (js/data-connectors/hud-fmr.js) for the rent-pressure and workforce dimensions
+      // (_getCountyAmi). The copy of the Deal Calculator this page used to draw loaded it as it started; the page
+      // now links to the calculator (24 Nov 2026), so it loads it here, before the page is ready, as above.
+      window.HudFmr && typeof window.HudFmr.load === 'function' ? window.HudFmr.load().catch(function () { return null; }) : Promise.resolve(null),
       // Published renter household sizes by tract (ACS B25009), matched by
       // the CHFA count. Without it the count uses the regional sizes as they are.
       fetchFile('market/acs_tract_renter_household_size_co.json').catch(function () { return null; })

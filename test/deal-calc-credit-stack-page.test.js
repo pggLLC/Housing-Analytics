@@ -145,10 +145,12 @@ function enterAdded(p, over) {
     assert.equal(p.w.__DealCalc.getResult().creditStack.counted, false);
     assert.equal(p.d.getElementById('dc-su-added-row').hidden, true);
     assert.match(suText(p, 'dc-su-credit-note'), /not counted in the sources: Transit Zone credit eligibility unknown/);
-    // The reason sends the user to Market Analysis; that page must load both the zone check and this calculator.
+    // The reason sends the user to Market Analysis to choose the site. That page links here with the site
+    // (js/components/ma-calc-link.js), and this page checks the zone itself (js/components/calc-site-context.js).
     assert.match(p.d.getElementById('dc-add-reason').textContent, /Market Analysis page/);
-    const ma = require('fs').readFileSync(require('path').join(__dirname, '../market-analysis.html'), 'utf8');
-    assert(/src="js\/transit-zone\.js"/.test(ma) && /src="js\/deal-calculator\.js"/.test(ma), 'Market Analysis checks the zone and mounts the calculator');
+    const read = f => require('fs').readFileSync(require('path').join(__dirname, '..', f), 'utf8');
+    assert(/src="js\/components\/ma-calc-link\.js"/.test(read('market-analysis.html')), 'Market Analysis links here with the site');
+    assert(/src="js\/transit-zone\.js"/.test(read('deal-calculator.html')) && /src="js\/components\/calc-site-context\.js"/.test(read('deal-calculator.html')), 'this page checks the zone for a linked site');
     setField(p, 'dc-add-evidence', 'Invented: OEDIT map printout');
     assert.equal(ac().eligibility, 'unknown', 'evidence alone is not enough without the map answer');
     // A site Market Analysis places inside an official zone polygon.
