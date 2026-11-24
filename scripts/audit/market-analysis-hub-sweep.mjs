@@ -56,7 +56,7 @@ async function openPage(browser, file) {
   page.on('dialog', d => d.dismiss().catch(() => {}));
   await page.route('**/*', route => (route.request().url().startsWith(BASE) ? route.continue() : route.abort()));
   await page.addInitScript(() => { window.print = () => { window.__printed = (window.__printed || 0) + 1; }; window.open = () => null; });
-  await page.goto(BASE + '/' + file, { waitUntil: 'load' });
+  await page.goto(BASE + '/' + file + (file === 'market-analysis.html' ? '?classic=1' : ''), { waitUntil: 'load' });   // the old page forwards since 24 Nov 2026; ?classic=1 keeps it as written
   await page.waitForFunction(() => window.PMAEngine && window.PMAEngine.whenDataReady, null, { timeout: 60000 });
   await page.evaluate(() => window.PMAEngine.whenDataReady());
   await page.evaluate(({ lat, lon }) => { window.PMAEngine.placeSiteMarker(lat, lon); return window.PMAEngine.runAnalysis(lat, lon); }, SITE);

@@ -162,8 +162,13 @@ test('duplicates batch 3: the Sunday digest forwards to its view, carrying the e
   assert.equal(load(SITE + 'sunday-digest.html?classic=1&date=2026-11-08').went, null, '?classic=1 keeps the page as written');
 });
 
-test('duplicates batch 3: links to the old Market Analysis open the new copy of the tool; the old page itself stays', () => {
-  assert.equal(load(SITE + 'market-analysis.html').went, null, 'the member Market screen engine loads market-analysis.html by name');
+test('duplicates batch 3: links to the old Market Analysis open the new copy of the tool, and (24 Nov 2026) so does the old page', () => {
+  // The file stays as the build source (deal-market-analysis.html and the member Market screen engine read it from disk);
+  // a visitor who opens it is forwarded with the same query and hash, never with ?classic=1 or inside a frame.
+  assert.equal(load(SITE + 'market-analysis.html').went, 'deal-market-analysis.html');
+  assert.equal(load(SITE + 'market-analysis.html?geoid=08077&lat=39.1&lon=-108.5#pma=1').went, 'deal-market-analysis.html?geoid=08077&lat=39.1&lon=-108.5#pma=1');
+  assert.equal(load(SITE + 'market-analysis.html?classic=1').went, null, '?classic=1 keeps the page as written');
+  assert.equal(load(SITE + 'market-analysis.html', '', true).went, null, 'inside a frame nothing forwards');
   const { doc } = load(SITE + 'methods.html', '<a id="a" href="market-analysis.html?geoid=08077#pma">x</a><a id="b" href="market-analysis.html?classic=1">y</a><a id="c" href="https://cohoanalytics.com/market-analysis.html">z</a>');
   assert.equal(doc.getElementById('a').getAttribute('href'), 'deal-market-analysis.html?geoid=08077#pma');
   assert.equal(doc.getElementById('b').getAttribute('href'), 'market-analysis.html?classic=1');
@@ -184,7 +189,7 @@ test('not forwarded: ?classic=1, inside a frame, the picker while another page u
   assert.equal(load(SITE + 'data-map-browser.html?classic=1').went, null, 'classic');
   assert.equal(load(SITE + 'commuting.html', '', true).went, null, 'frame');
   for (const q of ['?next=market-analysis.html', '?step=2', '?new=1', '?classic=1']) assert.equal(load(SITE + 'select-jurisdiction.html' + q).went, null, 'picker ' + q);
-  for (const p of ['market-analysis.html', 'deal-calculator.html', 'lihtc-opportunity-finder.html', 'for-sale-market-study.html', 'deal-market-analysis.html']) assert.equal(load(SITE + p).went, null, p);
+  for (const p of ['deal-calculator.html', 'lihtc-opportunity-finder.html', 'for-sale-market-study.html', 'deal-market-analysis.html']) assert.equal(load(SITE + p).went, null, p);
 });
 
 test('on a page that stays, links to forwarded pages and guides point at the views; others are left alone', () => {

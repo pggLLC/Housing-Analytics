@@ -115,8 +115,12 @@
   // Pages that stay at their own address, but whose links on other pages open the newer copy of the same tool, with the
   // same query and hash. Duplicates batch 3 (16 Nov 2026): market-analysis.html is the page the full Market Analysis is
   // kept on, and deal-market-analysis.html is built from it (scripts/build-market-analysis-hub.mjs) in the new pages'
-  // header and step bar; every menu already opens the new one. The old page itself does not forward, because the
-  // member site's Market screen engine loads it by name (coho-backend engines/market-screen).
+  // header and step bar; every menu already opens the new one.
+  // Duplicate cleanup (paul, 24 Nov 2026, row 3): a visitor who opens the old page itself (a bookmark, an outside
+  // link) is now forwarded to the new one too, with the same query and hash, so one Market Analysis is in use. The
+  // file stays: it is the build source for the new page and for the member site's Market screen engine, which reads
+  // it from disk (coho-backend scripts/build-market-engine.mjs) and runs it outside a browser, where nothing here
+  // forwards. ?classic=1 shows the page as written, and inside a frame nothing is forwarded.
   var LINK_TO = { 'market-analysis.html': 'deal-market-analysis.html' };
   // The place page's chapter for each needs assessment page (hub/hna.js TABS).
   var HNA_TAB = { 'housing-needs-assessment.html': '', 'hna-who-lives-here.html': '/people', 'hna-what-housing-exists.html': '/housing',
@@ -227,6 +231,7 @@
     // Inside a frame (how a hub reads a page) nothing is forwarded or rewritten.
     if (window.top !== window.self) return;
     var away = movedTo(file, loc.search, loc.hash);
+    if (!away && has(LINK_TO, file) && !/[?&]classic(=|&|$)/.test(loc.search || '')) away = LINK_TO[file] + (loc.search || '') + (loc.hash || '');
     if (away) { loc.replace(away); return; }
     // Part 2: links on this page.
     // Links resolve against the page without its query or hash: a calculator share link's hash runs to many
