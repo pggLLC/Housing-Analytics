@@ -570,11 +570,13 @@
       found(params) + answer(params) + resume(params) +
       (g || params.get('q') ? '' : '<p class="hh-try">Try <a href="' + esc(homeHref(params, { town: '0828745' })) + '">Fruita</a> · <a href="' + esc(homeHref(params, { town: '08077' })) + '">Mesa County</a> · <a href="' + esc(homeHref(params, { town: '0862000' })) + '">Pueblo</a></p>') +
       '<p class="hh-help"><a href="#/assistance">Looking for a home? Rent help, eviction help and vouchers, English y español →</a></p></div>' +
-      fiveThings(f) + '</section>' +
+      // The three ways in sit in the hero, under the search, where the five things leave room (paul, 24 Nov 2026:
+      // "blank spaces that result in more scrolling"); after the five things in reading order, as before.
+      fiveThings(f) + startPaths() + '</section>' +
       (f && global.LabTpl.newest(x.data) ? '<p class="page-meta home-stamp">' + global.LabTpl.stamp('Figures updated', global.LabTpl.newest(x.data)) + '</p>' : '') +
-      // Search and five things, then the three ways in as one compact row (the one "Start here" entry the public site's
-      // tests hold), then one row of goals; the rest in folds (reorg step 2b).
-      startPaths() + doors(params) + (g ? quick(g) : '') + why() +
+      // Search, five things and the three ways in (the one "Start here" entry the public site's tests hold), then one
+      // row of goals; the rest in folds (reorg step 2b).
+      doors(params) + (g ? quick(g) : '') + why() +
       // Colorado only: one picker on Home (the search above); counties and towns are on their own pages.
       // The chart shows open again (paul, 23 Nov: "the graphic nature and ux are important too").
       '<section class="home-rent" aria-labelledby="h-rent"><h2 id="h-rent">Rent and home prices against income</h2>' +

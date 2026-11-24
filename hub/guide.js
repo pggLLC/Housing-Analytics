@@ -456,7 +456,12 @@
       '<article class="guide-body">' +
       (hasStart ? '<section id="g-start" tabindex="-1"><h2>' + esc(startTitle) + '</h2>' + (conf.fold ? g.intro : shortened(null, g.intro)) + (conf.diagram ? conf.diagram(g) : '') + '</section>' : '') +
       g.sections.map(function (s) {
-        return '<section id="g-' + esc(s.id) + '" tabindex="-1"' + (s.lang ? ' lang="' + esc(s.lang) + '"' : '') + '><h2>' + esc(s.title) + '</h2>' + (ins[s.id] ? ins[s.id](folded(s, conf), params) : folded(s, conf)) +
+        // Where the Spanish starts, the switch names the other language: "English", back to where the English
+        // starts (paul, 24 Nov 2026: "espanol on spanish page should say english").
+        var firstEs = s.lang === 'es' && g.sections.filter(function (x) { return x.lang === 'es'; })[0] === s;
+        var enAt = hasStart ? 'g-start' : (function (x) { return x ? 'g-' + x.id : ''; })(g.sections.filter(function (x) { return x.lang !== 'es'; })[0]);
+        var toEn = firstEs && enAt ? '<p class="guide-lang"><a href="#/guide/' + esc(slug) + '?at=' + esc(enAt) + '" data-jump="' + esc(enAt) + '" lang="en" hreflang="en">English</a></p>' : '';
+        return '<section id="g-' + esc(s.id) + '" tabindex="-1"' + (s.lang ? ' lang="' + esc(s.lang) + '"' : '') + '><h2>' + esc(s.title) + '</h2>' + toEn + (ins[s.id] ? ins[s.id](folded(s, conf), params) : folded(s, conf)) +
           (s.liveFilled && !ins[s.id] ? '<p class="callout live-filled"><a href="' + esc(g.live) + '">More figures for this part in the full guide</a>.</p>' : '') + '</section>';
       }).join('') +
       T.next('Next', conf.next) +

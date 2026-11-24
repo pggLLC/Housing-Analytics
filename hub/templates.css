@@ -161,6 +161,8 @@ html { overflow-x: clip; }
 .on-this-page a { display: flex; align-items: center; min-height: 44px; padding: .5rem .75rem; margin-left: -2px; border-left: 2px solid transparent; color: var(--ink-soft); text-decoration: none; line-height: 1.35; }
 .on-this-page a:hover { color: var(--green); border-left-color: var(--green); }
 .on-this-page a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* Print hides the On this page list; without one column the guide text would print in its 220px slot (74 pages, not 26). */
+@media print { .guide-layout { display: block; } }
 .guide-body { max-width: 46rem; overflow-wrap: break-word; }
 .guide-body section { scroll-margin-top: 1rem; padding-bottom: 1rem; }
 .guide-body section:focus { outline: none; }

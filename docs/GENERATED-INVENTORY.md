@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T10:43:40.902Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T11:21:15.522Z. Do not edit by hand.
 
 ---
 
@@ -13,7 +13,7 @@
 | `404.html` | Page not found | COHO Analytics | 3.5 KB |
 | `LIHTC-dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `about.html` | About | COHO Analytics | 19.3 KB |
-| `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.7 KB |
+| `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.8 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 47.6 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.5 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 23.2 KB |
@@ -39,7 +39,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 93.4 KB |
 | `deal-hub.html` | Build a deal · COHO Analytics | 8.9 KB |
-| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 160.8 KB |
+| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 161.1 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 95.7 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.6 KB |
@@ -67,7 +67,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 78.6 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.8 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.6 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 158.5 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 158.8 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 88.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
