@@ -113,6 +113,13 @@ PLACE_CALLS = dict(CALLS,
                    not_enough_data=('Fewer than two market signals and no household population reading, or a '
                                     'shrinking household population that no permit, price or rent reading '
                                     'confirms.'))
+# How close to a line a reading has to be before the page says "near the line" (paul, 24 Nov 2026,
+# "approve near-the-line labels"). Each is about one ordinary month-to-month wobble in that input. The
+# margins change no reading and no call: they only mark a call that one signal could tip.
+NEAR_MARGIN = {'permits': 2.0, 'price': 1.0, 'rent': 0.3, 'population': 0.05, 'jobs': 0.5}
+PLACE_NEAR_MARGIN = dict(NEAR_MARGIN, price=0.3)
+NEAR_NOTE = ('near_line lists the signals within their margin of a threshold whose crossing alone would change '
+             'the call, and the call it would become. The call itself uses the thresholds unchanged.')
 # a town shrinking in year-round households while this share of its homes
 # are seasonal is losing homes to second-home use, not losing demand
 SECOND_HOME_SHARE = 0.20
@@ -291,6 +298,35 @@ def call_of(sig: dict) -> tuple[str, str]:
     return 'steady', ('rising: ' + (', '.join(rising) or 'none') + '; falling: ' + (', '.join(falling) or 'none'))
 
 
+def near_line(sig: dict, call: str, thresholds: dict, margins: dict, call_fn) -> list[dict]:
+    """Signals sitting within their margin of a line, where crossing that line alone changes the call.
+    Crossing is tried at the line itself and 0.05 past it on the far side, so it holds for the readings'
+    inclusive thresholds (down at or below, up at or above) and for falling_demand's strict below-zero test.
+    A value on the line is tried both ways."""
+    out = []
+    for k, (up, down) in thresholds.items():
+        v = (sig.get(k) or {}).get('value')
+        if not isinstance(v, (int, float)):
+            continue
+        for line in sorted({down, up, 0.0} if k in ('population', 'jobs') else {down, up}):
+            if abs(v - line) > margins[k] + 1e-9:
+                continue
+            if v > line:
+                tries = [line, round(line - 0.05, 2)]
+            elif v < line:
+                tries = [line, round(line + 0.05, 2)]
+            else:
+                tries = [round(line - 0.05, 2), round(line + 0.05, 2)]
+            for crossed in tries:
+                moved = {n: dict(s) for n, s in sig.items()}
+                moved[k]['value'] = crossed
+                becomes = call_fn(moved)
+                if becomes != call:
+                    out.append({'signal': k, 'value': v, 'line': line, 'becomes': becomes})
+                    break
+    return out
+
+
 def rent_edge(fips: str, limits: dict, fmr: dict) -> dict:
     lim_rec = limits.get(fips) or {}
     tiers = lim_rec.get('regular_tiers') or {}
@@ -463,6 +499,7 @@ def build() -> dict:
         act = activity['county_summary'].get(f)
         counties[f] = {
             'name': c['label'], 'call': call, 'call_basis': why, 'signals': sig,
+            'near_line': near_line(sig, call, THRESHOLDS, NEAR_MARGIN, lambda s: call_of(s)[0]),
             'recent_demand': recent_demand(f, prof),
             'rent_edge': rent_edge(f, limits, fmr),
             'permits_ytd': permits_ytd(monthly['counties'].get(f)),
@@ -509,6 +546,8 @@ def build() -> dict:
         places[g] = {
             'name': pl['label'], 'type': 'cdp' if is_cdp else 'town', 'county_fips': county,
             'call': call, 'call_basis': why, 'signals': sig,
+            'near_line': near_line(sig, call, PLACE_THRESHOLDS, PLACE_NEAR_MARGIN,
+                                   lambda s, seasonal=seasonal: place_call(s, seasonal)[0]),
             'seasonal_homes': {'share_of_housing_units': seasonal.get('share_of_housing_units'),
                                'reliability': seasonal.get('reliability')} if seasonal else
             {'share_of_housing_units': None,
@@ -542,6 +581,8 @@ def build() -> dict:
             'rule_order': ('not_enough_data, then falling_demand, then softening, then emerging, else steady: '
                            'the first that applies is the call'),
             'thresholds': {k: {'up_at_or_above': v[0], 'down_at_or_below': v[1]} for k, v in THRESHOLDS.items()},
+            'near_margin': NEAR_MARGIN,
+            'near_line_note': NEAR_NOTE,
             'threshold_note': ('Thresholds are a reviewer\'s choice, not a standard. Prices are nominal: about 4% '
                                'over three years is a fall after inflation. A signal between its two thresholds '
                                'reads flat.'),
@@ -586,6 +627,7 @@ def build() -> dict:
                 'calls': PLACE_CALLS,
                 'thresholds': {k: {'up_at_or_above': v[0], 'down_at_or_below': v[1]}
                                for k, v in PLACE_THRESHOLDS.items() if k != 'jobs'},
+                'near_margin': {k: v for k, v in PLACE_NEAR_MARGIN.items() if k != 'jobs'},
                 'rule_note': ('The county rule on what a place has. Price is one year of FHFA tract indexes '
                               'modelled to the place, read against the county thresholds scaled to a year. '
                               'No town-level jobs trend exists, so demand is household population alone; '

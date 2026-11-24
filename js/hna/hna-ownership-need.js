@@ -319,6 +319,21 @@
     return false;
   }
 
+  // "Near the line" (paul, 24 Nov 2026, "approve near-the-line labels"): the typical home value within
+  // NEAR_LINE_PCT of the 80% or 100% AMI purchase price, so a small move in prices or the weekly mortgage
+  // rate would change the band. It changes no band; it only says how close the band is to tipping.
+  var NEAR_LINE_PCT = 3;
+  function nearLine(price, max80, max100) {
+    var best = null;
+    [[max80, '80', 'market-attainable', 'stretch'], [max100, '100', 'stretch', 'priced-out']].forEach(function (l) {
+      if (!l[0]) return;
+      var pct = (price - l[0]) / l[0] * 100;
+      if (Math.abs(pct) > NEAR_LINE_PCT || (best && Math.abs(best.pct) <= Math.abs(pct))) return;
+      best = { amiPct: Number(l[1]), linePrice: l[0], pct: round(pct, 1), becomes: price <= l[0] ? l[3] : l[2] };
+    });
+    return best;
+  }
+
   function affordabilityTest(amiGapEntry, homeValueEntry, assumptions) {
     var ami = num(amiGapEntry && amiGapEntry.ami_4person);
     var price = num(homeValueEntry && (homeValueEntry.value != null ? homeValueEntry.value : homeValueEntry.median_home_value));
@@ -330,6 +345,7 @@
       : 'priced-out';
     return {
       classification: classification,
+      nearLine: nearLine(price, max80, max100),
       medianHomeValue: price,
       maxPriceAt80Ami: max80,
       maxPriceAt100Ami: max100,
@@ -655,5 +671,7 @@
     CHAS_TOP_BAND_LIMIT: CHAS_TOP_BAND_LIMIT,
     OWNER_VALUE_BINS: OWNER_VALUE_BINS,
     CONSTANTS: CONSTANTS,
+    affordabilityTest: affordabilityTest,
+    NEAR_LINE_PCT: NEAR_LINE_PCT,
   };
 }());

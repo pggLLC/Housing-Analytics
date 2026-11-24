@@ -35,6 +35,14 @@
     "down_at_or_below": 0.0
    }
   },
+  "near_margin": {
+   "permits": 2.0,
+   "price": 1.0,
+   "rent": 0.3,
+   "population": 0.05,
+   "jobs": 0.5
+  },
+  "near_line_note": "near_line lists the signals within their margin of a threshold whose crossing alone would change the call, and the call it would become. The call itself uses the thresholds unchanged.",
   "threshold_note": "Thresholds are a reviewer's choice, not a standard. Prices are nominal: about 4% over three years is a fall after inflation. A signal between its two thresholds reads flat.",
   "permit_floor": 50,
   "rent_edge": {
@@ -130,6 +138,12 @@
      "down_at_or_below": -0.25
     }
    },
+   "near_margin": {
+    "permits": 2.0,
+    "price": 0.3,
+    "rent": 0.3,
+    "population": 0.05
+   },
    "rule_note": "The county rule on what a place has. Price is one year of FHFA tract indexes modelled to the place, read against the county thresholds scaled to a year. No town-level jobs trend exists, so demand is household population alone; county_call is the county's call, for context. A town of a few hundred homes often has fewer than two market signals: that is not_enough_data, not a guess. With no jobs trend, a shrinking household population is falling_demand only when a market signal agrees (one falling or flat, none rising); where seasonal homes are 20% or more of homes (ACS, not graded unreliable) it is second_home_shift; unconfirmed it is not_enough_data; contradicted by a rising signal it is read on the market rule.",
    "rule_order": "not_enough_data (no demand reading), then for shrinking household population: second_home_shift, not_enough_data (no market signal), falling_demand (none rising), else on to softening, then emerging, else steady",
    "second_home_share": 0.2,
@@ -209,6 +223,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -318,6 +333,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": 0.48,
+     "line": 0.5,
+     "becomes": "emerging"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -407,6 +430,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -511,6 +535,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -607,6 +632,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -692,6 +718,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -775,6 +802,20 @@
      "reading": "flat"
     }
    },
+   "near_line": [
+    {
+     "signal": "permits",
+     "value": -15.9,
+     "line": -15.0,
+     "becomes": "steady"
+    },
+    {
+     "signal": "price",
+     "value": 4.0,
+     "line": 4.0,
+     "becomes": "steady"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -878,6 +919,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -976,6 +1018,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -1077,6 +1120,14 @@
      "reading": "flat"
     }
    },
+   "near_line": [
+    {
+     "signal": "jobs",
+     "value": 0.5,
+     "line": 0.0,
+     "becomes": "falling_demand"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -1160,6 +1211,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -1251,6 +1303,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -1337,6 +1390,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -1428,6 +1482,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -1512,6 +1567,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -1595,6 +1651,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -1684,6 +1741,14 @@
      "reading": "up"
     }
    },
+   "near_line": [
+    {
+     "signal": "permits",
+     "value": -15.3,
+     "line": -15.0,
+     "becomes": "steady"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -1800,6 +1865,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -1883,6 +1949,14 @@
      "reading": "up"
     }
    },
+   "near_line": [
+    {
+     "signal": "rent",
+     "value": 0.1,
+     "line": 0.0,
+     "becomes": "softening"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -1976,6 +2050,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -2075,6 +2150,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -2157,6 +2233,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -2255,6 +2332,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "permits",
+     "value": 14.8,
+     "line": 15.0,
+     "becomes": "emerging"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -2343,6 +2428,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -2442,6 +2528,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "permits",
+     "value": -14.6,
+     "line": -15.0,
+     "becomes": "softening"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -2525,6 +2619,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -2624,6 +2719,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -2719,6 +2815,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "jobs",
+     "value": 0.0,
+     "line": 0.0,
+     "becomes": "falling_demand"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -2803,6 +2907,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -2900,6 +3005,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -2983,6 +3089,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -3089,6 +3196,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -3174,6 +3282,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -3258,6 +3367,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -3352,6 +3462,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -3445,6 +3556,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -3549,6 +3661,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -3645,6 +3758,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -3728,6 +3842,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -3822,6 +3937,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -3927,6 +4043,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -4011,6 +4128,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -4100,6 +4218,14 @@
      "reading": "flat"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": 0.52,
+     "line": 0.5,
+     "becomes": "steady"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -4195,6 +4321,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -4289,6 +4416,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -4385,6 +4513,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -4475,6 +4604,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -4564,6 +4694,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -4648,6 +4779,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -4731,6 +4863,14 @@
      "reading": "flat"
     }
    },
+   "near_line": [
+    {
+     "signal": "jobs",
+     "value": 4.9,
+     "line": 5.0,
+     "becomes": "emerging"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -4822,6 +4962,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": -0.04,
+     "line": 0.0,
+     "becomes": "steady"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -4905,6 +5053,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "rent",
+     "value": 0.3,
+     "line": 0.0,
+     "becomes": "softening"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -5005,6 +5161,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -5095,6 +5252,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -5189,6 +5347,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -5284,6 +5443,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -5379,6 +5539,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -5470,6 +5631,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -5561,6 +5723,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -5644,6 +5807,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -5742,6 +5906,14 @@
      "reading": "flat"
     }
    },
+   "near_line": [
+    {
+     "signal": "price",
+     "value": 3.1,
+     "line": 4.0,
+     "becomes": "emerging"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -5837,6 +6009,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -5920,6 +6093,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -6020,6 +6194,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": 0.04,
+     "line": 0.0,
+     "becomes": "falling_demand"
+    }
+   ],
    "recent_demand": {
     "from_year": 2019,
     "to_year": 2024,
@@ -6092,6 +6274,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -6136,6 +6319,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -6188,6 +6372,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0875,
     "reliability": "unreliable"
@@ -6232,6 +6417,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0055,
     "reliability": "unreliable"
@@ -6284,6 +6470,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -6334,6 +6521,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0101,
     "reliability": "unreliable"
@@ -6383,6 +6571,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -6426,6 +6615,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.5437,
     "reliability": "use_with_caution"
@@ -6477,6 +6667,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1522,
     "reliability": "unreliable"
@@ -6521,6 +6712,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.84,
     "reliability": "unreliable"
@@ -6564,6 +6756,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -6607,6 +6800,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -6659,6 +6853,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0844,
     "reliability": "unreliable"
@@ -6702,6 +6897,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0082,
     "reliability": "unreliable"
@@ -6746,6 +6942,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -6790,6 +6987,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.3432,
     "reliability": "use_with_caution"
@@ -6834,6 +7032,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -6882,6 +7081,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -6931,6 +7131,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0031,
     "reliability": "unreliable"
@@ -6995,6 +7196,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2362,
     "reliability": "reliable"
@@ -7043,6 +7245,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.041,
     "reliability": "unreliable"
@@ -7087,6 +7290,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -7137,6 +7341,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0112,
     "reliability": "unreliable"
@@ -7196,6 +7401,14 @@
      "reading": "up"
     }
    },
+   "near_line": [
+    {
+     "signal": "rent",
+     "value": -0.3,
+     "line": 0.0,
+     "becomes": "steady"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0037,
     "reliability": "use_with_caution"
@@ -7261,6 +7474,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.3394,
     "reliability": "reliable"
@@ -7314,6 +7528,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -7358,6 +7573,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -7408,6 +7624,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0614,
     "reliability": "unreliable"
@@ -7456,6 +7673,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0251,
     "reliability": "unreliable"
@@ -7506,6 +7724,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0145,
     "reliability": "unreliable"
@@ -7561,6 +7780,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -7604,6 +7824,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0077,
     "reliability": "unreliable"
@@ -7653,6 +7874,14 @@
      "reading": "up"
     }
    },
+   "near_line": [
+    {
+     "signal": "price",
+     "value": 1.1,
+     "line": 1.3,
+     "becomes": "steady"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0035,
     "reliability": "unreliable"
@@ -7718,6 +7947,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -7761,6 +7991,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1869,
     "reliability": "unreliable"
@@ -7804,6 +8035,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0103,
     "reliability": "unreliable"
@@ -7855,6 +8087,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.023,
     "reliability": "unreliable"
@@ -7907,6 +8140,14 @@
      "reading": "flat"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": -0.2,
+     "line": -0.25,
+     "becomes": "not_enough_data"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0583,
     "reliability": "unreliable"
@@ -7950,6 +8191,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -8002,6 +8244,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.4202,
     "reliability": "reliable"
@@ -8045,6 +8288,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -8088,6 +8332,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -8136,6 +8381,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1,
     "reliability": "unreliable"
@@ -8179,6 +8425,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -8227,6 +8474,14 @@
      "reading": "flat"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": -0.2,
+     "line": -0.25,
+     "becomes": "not_enough_data"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0786,
     "reliability": "unreliable"
@@ -8276,6 +8531,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0091,
     "reliability": "use_with_caution"
@@ -8341,6 +8597,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0107,
     "reliability": "unreliable"
@@ -8385,6 +8642,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -8433,6 +8691,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1077,
     "reliability": "unreliable"
@@ -8484,6 +8743,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.5589,
     "reliability": "reliable"
@@ -8543,6 +8803,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -8586,6 +8847,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -8635,6 +8897,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0066,
     "reliability": "unreliable"
@@ -8692,6 +8955,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.14,
     "reliability": "unreliable"
@@ -8743,6 +9007,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -8792,6 +9057,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0092,
     "reliability": "use_with_caution"
@@ -8857,6 +9123,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0221,
     "reliability": "unreliable"
@@ -8904,6 +9171,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.028,
     "reliability": "unreliable"
@@ -8960,6 +9228,14 @@
      "reading": "flat"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": -0.22,
+     "line": -0.25,
+     "becomes": "falling_demand"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -9003,6 +9279,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -9054,6 +9331,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": -0.25,
+     "line": -0.25,
+     "becomes": "steady"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.031,
     "reliability": "unreliable"
@@ -9102,6 +9387,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -9151,6 +9437,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0306,
     "reliability": "unreliable"
@@ -9210,6 +9497,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -9258,6 +9546,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": null,
     "reliability": "zero_estimate"
@@ -9308,6 +9597,14 @@
      "reading": "flat"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": 0.47,
+     "line": 0.5,
+     "becomes": "emerging"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0183,
     "reliability": "unreliable"
@@ -9356,6 +9653,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1479,
     "reliability": "unreliable"
@@ -9405,6 +9703,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0016,
     "reliability": "unreliable"
@@ -9462,6 +9761,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0413,
     "reliability": "unreliable"
@@ -9511,6 +9811,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0003,
     "reliability": "unreliable"
@@ -9569,6 +9870,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2857,
     "reliability": "unreliable"
@@ -9613,6 +9915,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -9656,6 +9959,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -9706,6 +10010,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0215,
     "reliability": "unreliable"
@@ -9755,6 +10060,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0021,
     "reliability": "unreliable"
@@ -9812,6 +10118,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.017,
     "reliability": "unreliable"
@@ -9864,6 +10171,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1599,
     "reliability": "unreliable"
@@ -9907,6 +10215,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -9955,6 +10264,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -9998,6 +10308,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.02,
     "reliability": "unreliable"
@@ -10049,6 +10360,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -10111,6 +10423,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0451,
     "reliability": "unreliable"
@@ -10154,6 +10467,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -10206,6 +10520,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.3082,
     "reliability": "use_with_caution"
@@ -10248,6 +10563,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -10296,6 +10612,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0714,
     "reliability": "unreliable"
@@ -10348,6 +10665,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.028,
     "reliability": "unreliable"
@@ -10391,6 +10709,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.369,
     "reliability": "unreliable"
@@ -10439,6 +10758,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.15,
     "reliability": "unreliable"
@@ -10486,6 +10806,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0896,
     "reliability": "unreliable"
@@ -10529,6 +10850,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -10572,6 +10894,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1304,
     "reliability": "unreliable"
@@ -10618,6 +10941,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0046,
     "reliability": "use_with_caution"
@@ -10666,6 +10990,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0117,
     "reliability": "unreliable"
@@ -10717,6 +11042,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0139,
     "reliability": "unreliable"
@@ -10760,6 +11086,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -10809,6 +11136,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.004,
     "reliability": "unreliable"
@@ -10867,6 +11195,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": null,
     "reliability": "zero_estimate"
@@ -10911,6 +11240,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.125,
     "reliability": "unreliable"
@@ -10955,6 +11285,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.7062,
     "reliability": "reliable"
@@ -11004,6 +11335,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0213,
     "reliability": "unreliable"
@@ -11052,6 +11384,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.3086,
     "reliability": "unreliable"
@@ -11103,6 +11436,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0153,
     "reliability": "unreliable"
@@ -11159,6 +11493,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0388,
     "reliability": "unreliable"
@@ -11210,6 +11545,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.3418,
     "reliability": "use_with_caution"
@@ -11277,6 +11613,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0532,
     "reliability": "unreliable"
@@ -11328,6 +11665,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1349,
     "reliability": "use_with_caution"
@@ -11376,6 +11714,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -11428,6 +11767,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1111,
     "reliability": "unreliable"
@@ -11480,6 +11820,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -11530,6 +11871,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -11583,6 +11925,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -11630,6 +11973,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0242,
     "reliability": "unreliable"
@@ -11680,6 +12024,14 @@
      "reading": "up"
     }
    },
+   "near_line": [
+    {
+     "signal": "price",
+     "value": 3.7,
+     "line": 4.0,
+     "becomes": "emerging"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -11728,6 +12080,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.039,
     "reliability": "unreliable"
@@ -11778,6 +12131,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -11842,6 +12196,14 @@
      "reading": "up"
     }
    },
+   "near_line": [
+    {
+     "signal": "permits",
+     "value": -15.3,
+     "line": -15.0,
+     "becomes": "steady"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0076,
     "reliability": "reliable"
@@ -11899,6 +12261,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -11946,6 +12309,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.5743,
     "reliability": "reliable"
@@ -12003,6 +12367,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0872,
     "reliability": "unreliable"
@@ -12046,6 +12411,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -12102,6 +12468,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -12150,6 +12517,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -12198,6 +12566,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0427,
     "reliability": "unreliable"
@@ -12242,6 +12611,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -12285,6 +12655,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -12334,6 +12705,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.023,
     "reliability": "unreliable"
@@ -12401,6 +12773,14 @@
      "reading": "flat"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": -0.24,
+     "line": -0.25,
+     "becomes": "not_enough_data"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0114,
     "reliability": "unreliable"
@@ -12451,6 +12831,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0099,
     "reliability": "unreliable"
@@ -12509,6 +12890,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -12560,6 +12942,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -12613,6 +12996,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -12664,6 +13048,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -12715,6 +13100,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0324,
     "reliability": "unreliable"
@@ -12759,6 +13145,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2306,
     "reliability": "reliable"
@@ -12802,6 +13189,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -12845,6 +13233,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.3125,
     "reliability": "use_with_caution"
@@ -12889,6 +13278,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -12939,6 +13329,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -12993,6 +13384,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0112,
     "reliability": "unreliable"
@@ -13036,6 +13428,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -13080,6 +13473,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2525,
     "reliability": "unreliable"
@@ -13127,6 +13521,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0175,
     "reliability": "unreliable"
@@ -13176,6 +13571,14 @@
      "reading": "up"
     }
    },
+   "near_line": [
+    {
+     "signal": "rent",
+     "value": 0.1,
+     "line": 0.0,
+     "becomes": "softening"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0053,
     "reliability": "unreliable"
@@ -13240,6 +13643,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0011,
     "reliability": "unreliable"
@@ -13290,6 +13694,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2507,
     "reliability": "use_with_caution"
@@ -13354,6 +13759,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0041,
     "reliability": "unreliable"
@@ -13396,6 +13802,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0514,
     "reliability": "unreliable"
@@ -13444,6 +13851,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0081,
     "reliability": "unreliable"
@@ -13495,6 +13903,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0562,
     "reliability": "unreliable"
@@ -13546,6 +13955,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -13595,6 +14005,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0014,
     "reliability": "unreliable"
@@ -13655,6 +14066,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0352,
     "reliability": "unreliable"
@@ -13707,6 +14119,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -13757,6 +14170,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0172,
     "reliability": "unreliable"
@@ -13815,6 +14229,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -13858,6 +14273,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0778,
     "reliability": "unreliable"
@@ -13902,6 +14318,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -13951,6 +14368,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.005,
     "reliability": "use_with_caution"
@@ -14009,6 +14427,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0591,
     "reliability": "unreliable"
@@ -14059,6 +14478,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0038,
     "reliability": "unreliable"
@@ -14124,6 +14544,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -14185,6 +14606,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -14229,6 +14651,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0018,
     "reliability": "unreliable"
@@ -14281,6 +14704,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -14333,6 +14757,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0311,
     "reliability": "unreliable"
@@ -14386,6 +14811,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -14434,6 +14860,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.4986,
     "reliability": "reliable"
@@ -14489,6 +14916,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -14545,6 +14973,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.5218,
     "reliability": "reliable"
@@ -14605,6 +15034,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0123,
     "reliability": "unreliable"
@@ -14662,6 +15092,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0074,
     "reliability": "unreliable"
@@ -14706,6 +15137,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 1.0,
     "reliability": "unreliable"
@@ -14757,6 +15189,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0599,
     "reliability": "unreliable"
@@ -14801,6 +15234,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.136,
     "reliability": "unreliable"
@@ -14844,6 +15278,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1724,
     "reliability": "unreliable"
@@ -14888,6 +15323,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0188,
     "reliability": "unreliable"
@@ -14935,6 +15371,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0242,
     "reliability": "unreliable"
@@ -14985,6 +15422,14 @@
      "reading": "up"
     }
    },
+   "near_line": [
+    {
+     "signal": "permits",
+     "value": -13.1,
+     "line": -15.0,
+     "becomes": "softening"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.1612,
     "reliability": "use_with_caution"
@@ -15034,6 +15479,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0885,
     "reliability": "unreliable"
@@ -15085,6 +15531,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -15136,6 +15583,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "rent",
+     "value": 2.9,
+     "line": 3.0,
+     "becomes": "steady"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -15179,6 +15634,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -15222,6 +15678,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -15271,6 +15728,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0274,
     "reliability": "unreliable"
@@ -15335,6 +15793,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.004,
     "reliability": "unreliable"
@@ -15383,6 +15842,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -15426,6 +15886,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -15478,6 +15939,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.019,
     "reliability": "unreliable"
@@ -15525,6 +15987,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.335,
     "reliability": "reliable"
@@ -15576,6 +16039,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0134,
     "reliability": "use_with_caution"
@@ -15628,6 +16092,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.7035,
     "reliability": "reliable"
@@ -15672,6 +16137,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -15721,6 +16187,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0011,
     "reliability": "unreliable"
@@ -15782,6 +16249,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.4784,
     "reliability": "use_with_caution"
@@ -15832,6 +16300,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0058,
     "reliability": "unreliable"
@@ -15883,6 +16352,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "price",
+     "value": 4.3,
+     "line": 4.0,
+     "becomes": "falling_demand"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -15926,6 +16403,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.4595,
     "reliability": "unreliable"
@@ -15969,6 +16447,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0038,
     "reliability": "unreliable"
@@ -16019,6 +16498,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0197,
     "reliability": "unreliable"
@@ -16084,6 +16564,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0188,
     "reliability": "unreliable"
@@ -16142,6 +16623,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -16185,6 +16667,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": null,
     "reliability": "zero_estimate"
@@ -16229,6 +16712,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -16277,6 +16761,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -16329,6 +16814,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -16376,6 +16862,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0254,
     "reliability": "unreliable"
@@ -16425,6 +16912,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.6627,
     "reliability": "unreliable"
@@ -16469,6 +16957,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.6964,
     "reliability": "unreliable"
@@ -16511,6 +17000,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0031,
     "reliability": "unreliable"
@@ -16568,6 +17058,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -16612,6 +17103,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -16664,6 +17156,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -16707,6 +17200,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0109,
     "reliability": "unreliable"
@@ -16758,6 +17252,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0178,
     "reliability": "unreliable"
@@ -16810,6 +17305,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -16861,6 +17357,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -16908,6 +17405,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1342,
     "reliability": "unreliable"
@@ -16951,6 +17449,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2827,
     "reliability": "unreliable"
@@ -17002,6 +17501,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -17054,6 +17554,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0232,
     "reliability": "unreliable"
@@ -17105,6 +17606,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.019,
     "reliability": "unreliable"
@@ -17154,6 +17656,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0385,
     "reliability": "unreliable"
@@ -17197,6 +17700,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -17248,6 +17752,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0095,
     "reliability": "unreliable"
@@ -17305,6 +17810,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0237,
     "reliability": "unreliable"
@@ -17348,6 +17854,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1206,
     "reliability": "unreliable"
@@ -17392,6 +17899,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -17435,6 +17943,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.4324,
     "reliability": "use_with_caution"
@@ -17483,6 +17992,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0519,
     "reliability": "unreliable"
@@ -17527,6 +18037,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -17570,6 +18081,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -17613,6 +18125,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0235,
     "reliability": "unreliable"
@@ -17662,6 +18175,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -17723,6 +18237,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": -0.26,
+     "line": -0.25,
+     "becomes": "steady"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0541,
     "reliability": "unreliable"
@@ -17773,6 +18295,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0112,
     "reliability": "unreliable"
@@ -17816,6 +18339,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.003,
     "reliability": "unreliable"
@@ -17867,6 +18391,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -17910,6 +18435,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.5998,
     "reliability": "reliable"
@@ -17963,6 +18489,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -18014,6 +18541,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -18057,6 +18585,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2727,
     "reliability": "unreliable"
@@ -18109,6 +18638,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": -0.28,
+     "line": -0.25,
+     "becomes": "steady"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -18152,6 +18689,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -18199,6 +18737,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0229,
     "reliability": "unreliable"
@@ -18248,6 +18787,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0013,
     "reliability": "unreliable"
@@ -18307,6 +18847,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -18359,6 +18900,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0861,
     "reliability": "unreliable"
@@ -18410,6 +18952,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -18454,6 +18997,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -18502,6 +19046,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.4111,
     "reliability": "reliable"
@@ -18549,6 +19094,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -18598,6 +19144,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0032,
     "reliability": "unreliable"
@@ -18664,6 +19211,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0029,
     "reliability": "unreliable"
@@ -18717,6 +19265,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -18764,6 +19313,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -18815,6 +19365,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -18867,6 +19418,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0199,
     "reliability": "unreliable"
@@ -18918,6 +19470,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1605,
     "reliability": "use_with_caution"
@@ -18962,6 +19515,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -19005,6 +19559,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -19052,6 +19607,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1993,
     "reliability": "use_with_caution"
@@ -19100,6 +19656,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2363,
     "reliability": "unreliable"
@@ -19144,6 +19701,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0774,
     "reliability": "unreliable"
@@ -19188,6 +19746,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": null,
     "reliability": "zero_estimate"
@@ -19239,6 +19798,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -19282,6 +19842,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0193,
     "reliability": "unreliable"
@@ -19331,6 +19892,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0014,
     "reliability": "unreliable"
@@ -19395,6 +19957,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -19448,6 +20011,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1485,
     "reliability": "unreliable"
@@ -19500,6 +20064,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -19543,6 +20108,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -19592,6 +20158,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -19655,6 +20222,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0008,
     "reliability": "unreliable"
@@ -19709,6 +20277,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0062,
     "reliability": "unreliable"
@@ -19768,6 +20337,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0809,
     "reliability": "unreliable"
@@ -19817,6 +20387,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0011,
     "reliability": "unreliable"
@@ -19866,6 +20437,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": null,
     "reliability": "zero_estimate"
@@ -19917,6 +20489,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -19961,6 +20534,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -20005,6 +20579,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": null,
     "reliability": "zero_estimate"
@@ -20053,6 +20628,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0052,
     "reliability": "unreliable"
@@ -20104,6 +20680,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0233,
     "reliability": "unreliable"
@@ -20155,6 +20732,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.075,
     "reliability": "unreliable"
@@ -20212,6 +20790,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -20264,6 +20843,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0984,
     "reliability": "unreliable"
@@ -20307,6 +20887,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -20351,6 +20932,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -20395,6 +20977,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -20438,6 +21021,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1404,
     "reliability": "unreliable"
@@ -20488,6 +21072,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -20548,6 +21133,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0404,
     "reliability": "unreliable"
@@ -20590,6 +21176,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0109,
     "reliability": "unreliable"
@@ -20633,6 +21220,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -20685,6 +21273,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0267,
     "reliability": "unreliable"
@@ -20728,6 +21317,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1838,
     "reliability": "unreliable"
@@ -20778,6 +21368,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0048,
     "reliability": "unreliable"
@@ -20830,6 +21421,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1609,
     "reliability": "use_with_caution"
@@ -20882,6 +21474,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -20930,6 +21523,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0389,
     "reliability": "unreliable"
@@ -20983,6 +21577,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.3455,
     "reliability": "unreliable"
@@ -21033,6 +21628,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.012,
     "reliability": "unreliable"
@@ -21093,6 +21689,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0166,
     "reliability": "unreliable"
@@ -21136,6 +21733,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -21187,6 +21785,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0927,
     "reliability": "unreliable"
@@ -21230,6 +21829,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -21281,6 +21881,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": -0.29,
+     "line": -0.25,
+     "becomes": "steady"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -21333,6 +21941,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.268,
     "reliability": "reliable"
@@ -21394,6 +22003,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.5727,
     "reliability": "reliable"
@@ -21448,6 +22058,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2203,
     "reliability": "unreliable"
@@ -21491,6 +22102,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.3524,
     "reliability": "unreliable"
@@ -21543,6 +22155,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -21594,6 +22207,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0302,
     "reliability": "unreliable"
@@ -21644,6 +22258,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0073,
     "reliability": "unreliable"
@@ -21687,6 +22302,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -21730,6 +22346,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0857,
     "reliability": "unreliable"
@@ -21774,6 +22391,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": null,
     "reliability": "zero_estimate"
@@ -21824,6 +22442,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0005,
     "reliability": "unreliable"
@@ -21873,6 +22492,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -21917,6 +22537,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -21965,6 +22586,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -22017,6 +22639,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -22068,6 +22691,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0273,
     "reliability": "unreliable"
@@ -22115,6 +22739,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0991,
     "reliability": "unreliable"
@@ -22166,6 +22791,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0392,
     "reliability": "unreliable"
@@ -22218,6 +22844,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0231,
     "reliability": "unreliable"
@@ -22270,6 +22897,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0882,
     "reliability": "unreliable"
@@ -22313,6 +22941,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -22363,6 +22992,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0247,
     "reliability": "unreliable"
@@ -22406,6 +23036,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -22458,6 +23089,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -22506,6 +23138,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -22557,6 +23190,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2782,
     "reliability": "use_with_caution"
@@ -22614,6 +23248,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0535,
     "reliability": "unreliable"
@@ -22658,6 +23293,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -22708,6 +23344,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2326,
     "reliability": "use_with_caution"
@@ -22760,6 +23397,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -22807,6 +23445,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0255,
     "reliability": "unreliable"
@@ -22859,6 +23498,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1724,
     "reliability": "unreliable"
@@ -22910,6 +23550,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.052,
     "reliability": "unreliable"
@@ -22961,6 +23602,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -23009,6 +23651,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -23052,6 +23695,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -23101,6 +23745,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0034,
     "reliability": "unreliable"
@@ -23158,6 +23803,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -23210,6 +23856,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0265,
     "reliability": "unreliable"
@@ -23253,6 +23900,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0407,
     "reliability": "unreliable"
@@ -23296,6 +23944,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -23339,6 +23988,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -23381,6 +24031,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -23424,6 +24075,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -23468,6 +24120,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.4717,
     "reliability": "unreliable"
@@ -23519,6 +24172,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -23562,6 +24216,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1354,
     "reliability": "unreliable"
@@ -23605,6 +24260,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -23657,6 +24313,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.6845,
     "reliability": "use_with_caution"
@@ -23701,6 +24358,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1011,
     "reliability": "unreliable"
@@ -23752,6 +24410,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -23799,6 +24458,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0799,
     "reliability": "unreliable"
@@ -23847,6 +24507,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -23890,6 +24551,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.25,
     "reliability": "unreliable"
@@ -23938,6 +24600,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -23984,6 +24647,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0062,
     "reliability": "use_with_caution"
@@ -24032,6 +24696,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0091,
     "reliability": "unreliable"
@@ -24083,6 +24748,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -24134,6 +24800,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -24186,6 +24853,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "price",
+     "value": 4.3,
+     "line": 4.0,
+     "becomes": "falling_demand"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -24238,6 +24913,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1394,
     "reliability": "unreliable"
@@ -24281,6 +24957,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.7856,
     "reliability": "reliable"
@@ -24324,6 +25001,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0357,
     "reliability": "unreliable"
@@ -24367,6 +25045,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -24411,6 +25090,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -24463,6 +25143,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.112,
     "reliability": "unreliable"
@@ -24513,6 +25194,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0226,
     "reliability": "unreliable"
@@ -24578,6 +25260,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0174,
     "reliability": "unreliable"
@@ -24626,6 +25309,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -24678,6 +25362,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1201,
     "reliability": "unreliable"
@@ -24730,6 +25415,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0034,
     "reliability": "unreliable"
@@ -24778,6 +25464,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -24826,6 +25513,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -24869,6 +25557,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.01,
     "reliability": "unreliable"
@@ -24916,6 +25605,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.3271,
     "reliability": "unreliable"
@@ -24959,6 +25649,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25011,6 +25702,14 @@
      "reading": "down"
     }
    },
+   "near_line": [
+    {
+     "signal": "population",
+     "value": -0.25,
+     "line": -0.25,
+     "becomes": "steady"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0592,
     "reliability": "unreliable"
@@ -25059,6 +25758,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25102,6 +25802,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.7352,
     "reliability": "unreliable"
@@ -25149,6 +25850,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0952,
     "reliability": "unreliable"
@@ -25197,6 +25899,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25241,6 +25944,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25289,6 +25993,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25341,6 +26046,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1127,
     "reliability": "unreliable"
@@ -25393,6 +26099,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25435,6 +26142,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25479,6 +26187,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25531,6 +26240,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1818,
     "reliability": "unreliable"
@@ -25575,6 +26285,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25626,6 +26337,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25669,6 +26381,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25719,6 +26432,14 @@
      "reading": "up"
     }
    },
+   "near_line": [
+    {
+     "signal": "price",
+     "value": 1.2,
+     "line": 1.3,
+     "becomes": "steady"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25772,6 +26493,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25821,6 +26543,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0153,
     "reliability": "unreliable"
@@ -25869,6 +26592,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -25912,6 +26636,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0018,
     "reliability": "unreliable"
@@ -25955,6 +26680,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.041,
     "reliability": "unreliable"
@@ -26005,6 +26731,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -26071,6 +26798,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1198,
     "reliability": "unreliable"
@@ -26132,6 +26860,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.4122,
     "reliability": "use_with_caution"
@@ -26181,6 +26910,14 @@
      "reading": "up"
     }
    },
+   "near_line": [
+    {
+     "signal": "rent",
+     "value": 0.3,
+     "line": 0.0,
+     "becomes": "softening"
+    }
+   ],
    "seasonal_homes": {
     "share_of_housing_units": 0.257,
     "reliability": "use_with_caution"
@@ -26242,6 +26979,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2514,
     "reliability": "use_with_caution"
@@ -26299,6 +27037,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -26342,6 +27081,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -26393,6 +27133,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.3355,
     "reliability": "use_with_caution"
@@ -26446,6 +27187,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.7,
     "reliability": "unreliable"
@@ -26490,6 +27232,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -26533,6 +27276,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1273,
     "reliability": "unreliable"
@@ -26581,6 +27325,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.4782,
     "reliability": "use_with_caution"
@@ -26638,6 +27383,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -26686,6 +27432,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -26732,6 +27479,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2946,
     "reliability": "reliable"
@@ -26781,6 +27529,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -26831,6 +27580,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0055,
     "reliability": "unreliable"
@@ -26880,6 +27630,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -26923,6 +27674,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -26967,6 +27719,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.7951,
     "reliability": "unreliable"
@@ -27010,6 +27763,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -27052,6 +27806,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -27103,6 +27858,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -27155,6 +27911,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0321,
     "reliability": "unreliable"
@@ -27198,6 +27955,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.3008,
     "reliability": "unreliable"
@@ -27241,6 +27999,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -27290,6 +28049,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0021,
     "reliability": "unreliable"
@@ -27355,6 +28115,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -27398,6 +28159,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2727,
     "reliability": "unreliable"
@@ -27441,6 +28203,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -27492,6 +28255,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2964,
     "reliability": "use_with_caution"
@@ -27535,6 +28299,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0045,
     "reliability": "unreliable"
@@ -27584,6 +28349,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0029,
     "reliability": "unreliable"
@@ -27648,6 +28414,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -27700,6 +28467,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -27743,6 +28511,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -27792,6 +28561,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -27835,6 +28605,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -27887,6 +28658,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.047,
     "reliability": "use_with_caution"
@@ -27935,6 +28707,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -27978,6 +28751,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2581,
     "reliability": "unreliable"
@@ -28026,6 +28800,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -28069,6 +28844,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0896,
     "reliability": "unreliable"
@@ -28112,6 +28888,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1383,
     "reliability": "unreliable"
@@ -28163,6 +28940,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.5105,
     "reliability": "reliable"
@@ -28207,6 +28985,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -28251,6 +29030,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -28295,6 +29075,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": null,
     "reliability": "zero_estimate"
@@ -28346,6 +29127,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1661,
     "reliability": "unreliable"
@@ -28394,6 +29176,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -28437,6 +29220,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -28484,6 +29268,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -28536,6 +29321,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0796,
     "reliability": "unreliable"
@@ -28587,6 +29373,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0888,
     "reliability": "unreliable"
@@ -28644,6 +29431,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0245,
     "reliability": "unreliable"
@@ -28696,6 +29484,7 @@
      "reading": "down"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1053,
     "reliability": "unreliable"
@@ -28739,6 +29528,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -28782,6 +29572,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -28825,6 +29616,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.1392,
     "reliability": "unreliable"
@@ -28875,6 +29667,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -28936,6 +29729,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2047,
     "reliability": "unreliable"
@@ -28990,6 +29784,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.2537,
     "reliability": "unreliable"
@@ -29039,6 +29834,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.006,
     "reliability": "unreliable"
@@ -29088,6 +29884,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -29131,6 +29928,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -29180,6 +29978,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0029,
     "reliability": "unreliable"
@@ -29235,6 +30034,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.017,
     "reliability": "unreliable"
@@ -29293,6 +30093,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -29344,6 +30145,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0432,
     "reliability": "unreliable"
@@ -29393,6 +30195,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0061,
     "reliability": "unreliable"
@@ -29449,6 +30252,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.7127,
     "reliability": "reliable"
@@ -29493,6 +30297,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": null,
     "reliability": "zero_estimate"
@@ -29542,6 +30347,7 @@
      "reading": "up"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0112,
     "reliability": "unreliable"
@@ -29601,6 +30407,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -29645,6 +30452,7 @@
      "reading": null
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0,
     "reliability": "zero_estimate"
@@ -29697,6 +30505,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0072,
     "reliability": "unreliable"
@@ -29745,6 +30554,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0919,
     "reliability": "unreliable"
@@ -29796,6 +30606,7 @@
      "reading": "flat"
     }
    },
+   "near_line": [],
    "seasonal_homes": {
     "share_of_housing_units": 0.0594,
     "reliability": "unreliable"

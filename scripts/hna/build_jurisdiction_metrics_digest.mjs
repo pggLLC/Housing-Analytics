@@ -874,6 +874,7 @@ function buildOwnershipRecords(ranking) {
       ownership_pressure_tier: result.ownershipPressure?.tier || null,
       ownership_fit_tier: result.ownershipFit?.tier || null,
       affordability_classification: result.affordabilityTest?.classification || null,
+      affordability_near_line: result.affordabilityTest?.nearLine || null,
       caveats: result.caveats || [],
     };
   }

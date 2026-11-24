@@ -279,11 +279,28 @@
     }).catch(function () { mount.hidden = true; });
   }
 
+  // "Near the line" (paul, 24 Nov 2026): a call one signal could tip, from the file's near_line list. The call
+  // is unchanged; the cell says so and the hover names the signal and the call it would become.
+  var NEAR_NAMES = { permits: 'five-year permit change', price: 'home price change', rent: 'rent change', population: 'household population growth', jobs: 'jobs change' };
+  function nearNote(m) {
+    var g = m.near_margin;
+    if (!g) return '';
+    return ' A call marked "near the line" has a signal within a small margin of its threshold (rent ' + g.rent + ' points, county prices ' + g.price + ', town prices ' +
+      ((m.places || {}).near_margin || {}).price + ', permits ' + g.permits + ', household population ' + g.population + ', jobs ' + g.jobs + ') that would change the call on its own if it crossed. The call itself is unchanged.';
+  }
+  function whyCell(r) {
+    var w = why(r.call_basis), n = r.call !== 'not_enough_data' && r.near_line && r.near_line.length ? r.near_line : null;
+    if (!n) return { text: w, sort: w };
+    return { text: w + ' · near the line', sort: w, title: n.map(function (x) {
+      return (NEAR_NAMES[x.signal] || x.signal) + ' ' + (x.value > 0 ? '+' : '') + x.value + '% against the ' + x.line + '% line: crossing it would make this ' + callLabel(x.becomes).toLowerCase();
+    }).join('; ') };
+  }
+
   // ── Tables ──────────────────────────────────────────────────────────
   var COUNTY_COLS = [
     { key: 'name', label: 'County', title: 'Colorado county', get: function (c) { return { text: c.name, sort: c.name }; } },
     { key: 'call', label: 'Call', title: 'The market call: the first rule in the order under "How a call is made" that applies', get: function (c) { return { text: callLabel(c.call), sort: COUNTY_ORDER.indexOf(c.call) }; } },
-    { key: 'why', label: 'Why', title: 'The signals that decided the call', get: function (c) { return { text: why(c.call_basis), sort: why(c.call_basis) }; } },
+    { key: 'why', label: 'Why', title: 'The signals that decided the call; "near the line" marks a call one signal could tip', get: function (c) { return whyCell(c); } },
     { key: 'pop', label: 'Household population, per year', title: 'Change in household population (people not in group quarters), % a year, DOLA county profiles', get: function (c) { return signal(c.signals.population, 2); } },
     { key: 'jobs', label: 'Jobs', title: 'Change in jobs located in the county, Census LEHD LODES, from the first year to the last of its window', get: function (c) { return signal(c.signals.jobs, 1); } },
     { key: 'permits', label: 'Permits, 5 years', title: 'Homes permitted in the last five years against the five before, Census Building Permits Survey annual files', get: function (c) { return signal(c.signals.permits, 1); } },
@@ -311,7 +328,7 @@
     { key: 'county', label: 'County', title: 'The county the town sits in', get: function (p) { var c = data.counties[p.county_fips]; var n = c ? c.name : ''; return { text: n, sort: n }; } },
     { key: 'type', label: 'Type', title: 'Town: an incorporated municipality. CDP: a census-designated place, an unincorporated community the Census Bureau names; shown only when the box above is ticked', get: function (p) { var t = p.type === 'cdp' ? 'CDP' : 'Town'; return { text: t, sort: t }; } },
     { key: 'call', label: 'Call', title: 'The town call, on the town rule under "How a call is made"', get: function (p) { return { text: callLabel(p.call), sort: callLabel(p.call) }; } },
-    { key: 'why', label: 'Why', title: 'The signals that decided the call', get: function (p) { return { text: why(p.call_basis), sort: why(p.call_basis) }; } },
+    { key: 'why', label: 'Why', title: 'The signals that decided the call; "near the line" marks a call one signal could tip', get: function (p) { return whyCell(p); } },
     { key: 'pop', label: 'Household population, per year', title: 'Change in household population, % a year, DOLA municipal estimates; towns only', get: function (p) { return signal(p.signals.population, 2); } },
     { key: 'permits', label: 'Permits, 5 years', title: 'Homes permitted in the last five years against the five before, Census Building Permits Survey annual place files', get: function (p) { return signal(p.signals.permits, 1); } },
     { key: 'price', label: 'Home prices, past year', title: 'One year of FHFA tract price indexes modelled to the place; nominal', get: function (p) { return signal(p.signals.price, 1); } },
@@ -482,7 +499,7 @@
       }).join('');
     }
     setText('mdOrder', 'Counties: ' + m.rule_order + '. Towns: ' + m.places.rule_order + '.');
-    setText('mdThresholdNote', m.threshold_note);
+    setText('mdThresholdNote', m.threshold_note + nearNote(m));
     // The windows each county reading covers, as the file records them.
     var w = {};
     counties.forEach(function (c) {

@@ -44,6 +44,27 @@
   function label(c) { return LABELS[c] || c; }
   function sentence(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
 
+  // "Near the line" (paul, 24 Nov 2026): the file lists each signal within its margin of a threshold whose
+  // crossing alone would change the call. The call is unchanged; this says how close it is to tipping.
+  var NEAR_NAMES = {
+    permits: 'the five-year permit change',
+    price: 'the home price change',
+    rent: 'the past year\u2019s rent change',
+    population: 'household population growth',
+    jobs: 'the jobs change'
+  };
+  function nearLineText(rec) {
+    var n = rec && rec.near_line;
+    if (!n || !n.length) return '';
+    return n.map(function (x, i) {
+      var dp = x.signal === 'population' ? 2 : 1, unit = x.signal === 'population' ? '% a year' : '%';
+      var d = Math.abs(x.value - x.line), name = NEAR_NAMES[x.signal] || x.signal;
+      return (i ? ' ' + name.charAt(0).toUpperCase() + name.slice(1) : 'Near the line: ' + name) + ', ' + (x.value > 0 ? '+' : '') + x.value.toFixed(dp) + unit + ', ' +
+        (d < 0.005 ? 'sits on' : 'is ' + d.toFixed(dp) + ' points from') + ' its ' + x.line.toFixed(dp) + unit +
+        ' line; crossing it would make this ' + label(x.becomes).toLowerCase() + '.';
+    }).join('');
+  }
+
   function load() {
     if (loading) return loading;
     var url = global.resolveAssetUrl ? global.resolveAssetUrl(FILE) : FILE;
@@ -91,7 +112,9 @@
     var head = rec.call === 'not_enough_data'
       ? 'Market direction: <strong>not enough data to call</strong> (' + esc(rec.call_basis || 'no reason given') + ').'
       : 'Market direction: <strong>' + esc(label(rec.call)) + '</strong>. ' + esc(why(rec.call_basis)) + '.';
-    var parts = [head, esc(permits(rec.permits_ytd, through))];
+    var parts = [head];
+    if (rec.call !== 'not_enough_data' && nearLineText(rec)) parts.push(esc(nearLineText(rec)));
+    parts.push(esc(permits(rec.permits_ytd, through)));
     if (t.kind === 'place') {
       var county = d.counties[rec.county_fips];
       if (county) parts.push('Its county, ' + esc(county.name) + ', is ' + esc(label(county.call).toLowerCase()) + '.');
@@ -131,7 +154,7 @@
     onChange();
   }
 
-  global.HnaMarketCall = { render: render, _lineFor: lineFor, _labels: LABELS, _why: why };
+  global.HnaMarketCall = { render: render, nearLineText: nearLineText, _lineFor: lineFor, _labels: LABELS, _why: why };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();
 })(typeof window !== 'undefined' ? window : this);
