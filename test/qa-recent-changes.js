@@ -466,7 +466,7 @@ async function runSmokeTest() {
     // PMA page — the connector must load exactly what the amenity file holds,
     // for every type it scores. (#1945: this used to call a getAll() the
     // connector never had, so it read 0 whether or not anything loaded.)
-    await page.goto(baseUrl + '/market-analysis.html', { waitUntil: 'networkidle2' });
+    await page.goto(baseUrl + '/market-analysis.html?classic=1', { waitUntil: 'networkidle2' });   // forwards since 24 Nov 2026 without it
     await page.waitForFunction(
       () => window.OsmAmenities && window.OsmAmenities.isLoaded(), { timeout: 15000 }
     ).catch(() => {});
