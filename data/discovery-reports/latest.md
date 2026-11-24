@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-11-23T19:11:53.377Z
+**Scan timestamp:** 2026-11-24T18:51:30.518Z
 
 ## Summary
 
@@ -34,16 +34,16 @@
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/property-websites.json` (31 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (1 KB)
-- `data/alerts/alerts_archive.json` (2841 KB)
+- `data/alerts/alerts_archive.json` (2920 KB)
 - `data/alerts/outlet-decisions.json` (6 KB)
 - `data/alerts/outlet-register.json` (31 KB)
-- `data/alerts/outlet-review.json` (18 KB)
+- `data/alerts/outlet-review.json` (19 KB)
 - `data/alerts/owner-news.json` (0 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3871 KB)
 - `data/audit/chfa-qap-watch.json` (3753 KB)
-- `data/audit/funding-watch.json` (694 KB)
+- `data/audit/funding-watch.json` (702 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/benchmarks/str-license-counts.json` (6 KB)
@@ -997,7 +997,7 @@
 - `data/hna/local-notes.json` (1 KB)
 - `data/hna/local-resources-candidates.json` (7 KB)
 - `data/hna/local-resources.json` (182 KB)
-- `data/hna/ownership-need.json` (704 KB)
+- `data/hna/ownership-need.json` (731 KB)
 - `data/hna/permits.json` (270 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
 - `data/hna/place-chas.json` (1592 KB)
@@ -1745,7 +1745,7 @@
 - `data/market/childcare_co.geojson` (1899 KB)
 - `data/market/climate_hazards_co.json` (3 KB)
 - `data/market/co-adaptive-reuse-references.json` (14 KB)
-- `data/market/co-construction-labor-cost.json` (128 KB)
+- `data/market/co-construction-labor-cost.json` (129 KB)
 - `data/market/co-urban-renewal-authorities.json` (13 KB)
 - `data/market/colorado-equity-pricing-factors.json` (5 KB)
 - `data/market/colorado-foreclosure-performance.json` (48 KB)
@@ -1782,7 +1782,7 @@
 - `data/market/lodes_co.json` (664 KB)
 - `data/market/lodes_od_arcs_co.geojson` (1771 KB)
 - `data/market/lodes_tract_od_co.json` (14424 KB)
-- `data/market/market-direction.json` (755 KB)
+- `data/market/market-direction.json` (770 KB)
 - `data/market/market-types.json` (428 KB)
 - `data/market/natural_barriers_co.geojson` (10546 KB)
 - `data/market/novogradac-equity-pricing.json` (17 KB)
@@ -1823,7 +1823,7 @@
 - `data/market/zori_rents_co.json` (23 KB)
 - `data/metadata/rent_burden_sources.json` (8 KB)
 - `data/multifamily-inventory-co.json` (101 KB)
-- `data/news-digest/index.json` (2 KB)
+- `data/news-digest/index.json` (3 KB)
 - `data/paper/compute-footprint.json` (2 KB)
 - `data/paper/figures.json` (16 KB)
 - `data/paper/model-parameters.json` (6 KB)
@@ -1963,11 +1963,11 @@
 - `data/policy/unit-size-standards.json` (5 KB)
 - `data/policy/vacancy-tax.json` (45 KB)
 - `data/policy/where-to-build-context.json` (34 KB)
-- `data/policy_briefs.json` (916 KB)
+- `data/policy_briefs.json` (929 KB)
 - `data/policy_briefs_curated.json` (437 KB)
 - `data/polymarket-curated.json` (6 KB)
 - `data/polymarket-data.json` (20 KB)
-- `data/polymarket-history.json` (240 KB)
+- `data/polymarket-history.json` (242 KB)
 - `data/processed/co_county_housing_indicators.geojson` (447 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
@@ -1991,4 +1991,4 @@
 
 ## ⏳ Aging Sources
 
-- undefined — 295 days since last update
+- undefined — 296 days since last update

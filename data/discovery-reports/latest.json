@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-11-23T19:11:53.377Z",
+  "scanTimestamp": "2026-11-24T18:51:30.518Z",
   "totalScanned": 2006,
   "newSourceCount": 1974,
   "existingCount": 31,
@@ -8,13 +8,13 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1012211,
+      "sizeBytes": 1012204,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 7517,
+      "sizeBytes": 7519,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -128,7 +128,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 2908705,
+      "sizeBytes": 2990423,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -146,7 +146,7 @@
     },
     {
       "path": "data/alerts/outlet-review.json",
-      "sizeBytes": 18741,
+      "sizeBytes": 19368,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -182,7 +182,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 711167,
+      "sizeBytes": 718351,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5906,7 +5906,7 @@
     },
     {
       "path": "data/hna/ownership-need.json",
-      "sizeBytes": 721387,
+      "sizeBytes": 748772,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10244,7 +10244,7 @@
     },
     {
       "path": "data/insights/catalog.json",
-      "sizeBytes": 13547,
+      "sizeBytes": 13582,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10394,7 +10394,7 @@
     },
     {
       "path": "data/market/co-construction-labor-cost.json",
-      "sizeBytes": 131373,
+      "sizeBytes": 132127,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10616,7 +10616,7 @@
     },
     {
       "path": "data/market/market-direction.json",
-      "sizeBytes": 773427,
+      "sizeBytes": 788682,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10862,7 +10862,7 @@
     },
     {
       "path": "data/news-digest/index.json",
-      "sizeBytes": 2095,
+      "sizeBytes": 2985,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10874,7 +10874,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 16185,
+      "sizeBytes": 16184,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11702,7 +11702,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 937569,
+      "sizeBytes": 951447,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11720,13 +11720,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20490,
+      "sizeBytes": 20466,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 245621,
+      "sizeBytes": 247849,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11856,7 +11856,7 @@
     {
       "path": "data/car-market.json",
       "name": "Colorado Association of Realtors (CAR) — Statewide Market Summary",
-      "daysSince": 295
+      "daysSince": 296
     }
   ]
 }
