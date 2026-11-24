@@ -261,6 +261,6 @@
   }
   if (global.LabShell) bindStepBar();
 
-  global.LabStep = { PATH: PATH, OWN: OWN, product: product, placed: placed, withPlace: withPlace, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, working: working, setWorking: setWorking, headerPlace: headerPlace, clearWorking: clearWorking, path: stepPath, mount: mount, bind: bindStepBar,
+  global.LabStep = { PATH: PATH, OWN: OWN, product: product, placed: placed, withPlace: withPlace, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, working: working, setWorking: setWorking, nameFor: nameFor, headerPlace: headerPlace, clearWorking: clearWorking, path: stepPath, mount: mount, bind: bindStepBar,
     refresh: function () { if (bindStepBar.check) bindStepBar.check(); } };
 })(window);

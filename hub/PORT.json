@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "0efbf611845a883ecc5b059dcc355a4ba12179d1",
+  "commit": "b4b16e8b6dd7d6099d3a3e351281d112590351ee",
   "dirty": false
  },
  "files": {
@@ -76,13 +76,13 @@
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
   "hub/guide.js": "9c0c1da3af7e79336cd6dbb0fdad15e86d291a6a196f7ab1e7847742f760563a",
   "hub/hna-dola.js": "fbd5032131872fdd0b9ba6bd5b3015ee19dd6756abdd48caaa7143048f64cdc7",
-  "hub/hna.js": "6527d6f4ddacd33c5713911382474e56f14b4dcaeb8b2a7e485d19570d8c56df",
+  "hub/hna.js": "db6f33cd2d8a3433cfef070f47a8d27d1480ac3ed149d98f338505d0658602db",
   "hub/home.css": "2e5c985aaeb4e0e4d6227edf47fee6e570a68c8c18832dec16fdff6bfb9ef07a",
   "hub/home.js": "0bb43a4d6f3c8201ca5eebab03bd8c24c33977ec30d80e80875cabe8f1d17304",
   "hub/homes.js": "048cc62e0cfd9789252368d9aecf8e951c96500f207d94bb41f54dc7e6684d2b",
   "hub/ic-summary.js": "0f286ee1802abfc62a2f96ce710611bb216228850b308d4c0c5e107ed5abbf28",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
-  "hub/lab-config.js": "3af1391911432e20a6eaafae830bd0d062c9688928e972514ab2f5fd243d93ba",
+  "hub/lab-config.js": "3ff66cd5b2b4ef3876e601f9fe6869725af14ca34cb1f0da81df34ec795b702d",
   "hub/lab-wave2.css": "ab1303c77232cd775f5a19296fafd69aaa59cadc4c8da99d6ff869004fb28a76",
   "hub/land-value.js": "ff92f5ad0a8cde1a48cdd05800423e59208de4a90a1b02242a51e40cb40255b3",
   "hub/lender-export.js": "d1e48681ef719397028af4e5bbea04baf62f6b1b24441a7d1f40b034e5eea7da",
@@ -125,9 +125,9 @@
   "hub/slider.js": "8af257af0c99e0dd98be109775e5e0c8abc6c61b77e2ad2eae90351001d3c76e",
   "hub/small-pages.css": "01c03c267e836964d60cf723e0fb1ba0c1e6bc13a3ef7b1b3cb10bd179d5c9d8",
   "hub/start-numbers.js": "50205a8ddccc79283c6b218811aa6f82a912749a1952ea4d843a4d38610183ea",
-  "hub/step-bar.js": "646522f45a2f0a3a3a6d65440733278d7c4f48838be137fb2e1dc12b3de3ffba",
+  "hub/step-bar.js": "1e0d85c31570d4a270a303a2ae670533c0976e6890f80355910218880d13fff9",
   "hub/strength.js": "267e464d104b402a33859aeb289acb365c202ee62aebb0df89634e0e2f3c4921",
-  "hub/templates.css": "25ef810e92e5408a491d40e2797e45e241bbdee071ea1ce41dbd79db8849520c",
+  "hub/templates.css": "5a6062c9faccb09ec65178451fa7d8786f514598cbc458b52d872fe93f4c364a",
   "hub/templates.js": "5b21d8103ca129232f2bcac12131d7e5a9f7d8ed849770a3a8541baf5136c661",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
