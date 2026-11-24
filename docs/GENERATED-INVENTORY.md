@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T16:48:04.240Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T17:56:06.277Z. Do not edit by hand.
 
 ---
 
@@ -39,7 +39,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 94.3 KB |
 | `deal-hub.html` | Build a deal · COHO Analytics | 8.9 KB |
-| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 161.5 KB |
+| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 161.9 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 95.7 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.6 KB |
@@ -67,7 +67,7 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 78.6 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.8 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.6 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 159.3 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 159.8 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 88.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
@@ -2469,7 +2469,7 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.6 KB |
-| `test/market-analysis-hub-page.test.mjs` | 58.3 KB |
+| `test/market-analysis-hub-page.test.mjs` | 60.8 KB |
 | `test/market-construction.test.js` | 6.5 KB |
 | `test/market-direction-tab.test.mjs` | 25.6 KB |
 | `test/market-geography-binding.test.mjs` | 17.9 KB |
@@ -2504,7 +2504,7 @@
 | `test/no-synthesized-chfa-awards.test.js` | 4.5 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/notify-cancelled-outcome.test.js` | 3.5 KB |
-| `test/old-pages-forward.test.mjs` | 24.5 KB |
+| `test/old-pages-forward.test.mjs` | 25.0 KB |
 | `test/one-canonical-step-sequence.test.mjs` | 6.2 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
@@ -2611,7 +2611,7 @@
 | `test/public-facing-numbers.test.js` | 11.9 KB |
 | `test/public-jobs.test.mjs` | 4.4 KB |
 | `test/public-land-contract.test.js` | 9.3 KB |
-| `test/qa-recent-changes.js` | 22.2 KB |
+| `test/qa-recent-changes.js` | 22.3 KB |
 | `test/qap-tod-points.test.js` | 16.6 KB |
 | `test/qct-dda-designation-unknown.test.js` | 10.0 KB |
 | `test/qct-dda-embedded-agreement.test.js` | 8.3 KB |
@@ -2764,7 +2764,7 @@
 | `test/workflow-next-action-prerequisites.test.js` | 8.3 KB |
 | `test/workflow-outcome-monitor.test.js` | 57.9 KB |
 | `test/workflow-push-dispatches-deploy.test.js` | 7.0 KB |
-| `test/workflow-rail-circles.test.mjs` | 3.7 KB |
+| `test/workflow-rail-circles.test.mjs` | 3.8 KB |
 | `test/workflow-rail-truthful.test.js` | 7.0 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
 | `test/workflows-rebuild-derived-chain.test.mjs` | 11.6 KB |

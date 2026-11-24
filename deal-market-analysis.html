@@ -551,10 +551,12 @@
           <div style="margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;">
             <button class="pma-btn pma-btn-primary" id="pmaRunBtn" type="button">Run Analysis</button>
             <button class="pma-btn" id="pmaExplainScoreBtn" type="button" hidden>Explain Score</button>
-            <button class="pma-btn" id="pmaExportBtn" type="button" title="Export PMA report as printable HTML">Export Report</button>
+            <button class="pma-btn" id="pmaPdfBtn" type="button" title="Save the whole study as a PDF file: map, score, capture, supply, CHFA checklist, Subject Project and the report sections">Download PDF</button>
+            <button class="pma-btn" id="pmaExportBtn" type="button" title="Open the eight report sections as a printable page">Print report</button>
             <button class="pma-btn" id="pmaExportCsvBtn" type="button" title="Download analytics-grade CSV: site coords, dimension scores, ACS aggregates, amenity distances, data-coverage flags">Download CSV</button>
             <button class="pma-btn" id="pmaExportJsonBtn" type="button" title="Download full result snapshot as JSON for downstream analysis">Download JSON</button>
           </div>
+          <p id="pmaPdfStatus" role="status" aria-live="polite" hidden style="margin:.4rem 0 0;font-size:.8125rem;"></p>
           <!-- Beside the results: the one Deal Calculator (js/components/ma-calc-link.js). -->
           <p class="ma-calc-link-side" style="margin:.6rem 0 0;font-size:.875rem;"><a data-ma-calc-link href="deal-calculator.html">Test this site in the Deal Calculator &rarr;</a> <span style="color:var(--muted);">County, site point and Subject Project carry over.</span></p>
 
@@ -1538,6 +1540,8 @@
   <script defer src="js/transit-zone.js"></script>
   <!-- The Deal Calculator is linked, not drawn here: see #maCalcLink. -->
   <script defer src="js/components/ma-calc-link.js"></script>
+  <!-- "Download PDF": the whole study as one file (jsPDF loads on the first click). -->
+  <script defer src="js/components/ma-pdf.js"></script>
   <!-- Enhanced PMA delineation modules -->
   <script defer src="js/pma-commuting.js"></script>
   <script defer src="js/pma-commute-context.js"></script>

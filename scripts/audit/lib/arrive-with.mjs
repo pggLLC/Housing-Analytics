@@ -38,6 +38,8 @@ export const ARRIVE_WITH = Object.freeze({
   'help-for-homebuyers.html':            GUIDE_AS_WRITTEN,
   'colorado-elections.html':             MOVED_AS_WRITTEN,
   'commuting.html':                      MOVED_AS_WRITTEN,
+  // Since 2026-11-24 the old Market Analysis forwards to deal-market-analysis.html (js/path-resolver.js LINK_TO).
+  'market-analysis.html':                MOVED_AS_WRITTEN,
   'compare.html':                        MOVED_AS_WRITTEN,
   'construction-commodities.html':       MOVED_AS_WRITTEN,
   'article-pricing.html':                MOVED_AS_WRITTEN,

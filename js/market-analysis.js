@@ -5039,7 +5039,7 @@
      body[data-pma-result-state="pending"] in css/pages/market-analysis.css,
      and the export buttons are disabled. The next completed analysis
      restores all three. */
-  var PMA_RESULT_EXPORT_BTNS = ['pmaExportBtn', 'pmaExportCsvBtn', 'pmaExportJsonBtn',
+  var PMA_RESULT_EXPORT_BTNS = ['pmaPdfBtn', 'pmaExportBtn', 'pmaExportCsvBtn', 'pmaExportJsonBtn',
     'pmaExportJson', 'pmaExportCsv', 'pmaExportMeta', 'pmaExportAuditJson'];
   function setResultPending(pending) {
     if (pending) {
