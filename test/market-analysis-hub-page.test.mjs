@@ -464,6 +464,27 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 7
   ok(t.a.textContent.trim() && t.p.querySelector('#' + t.a.getAttribute('aria-describedby')), 'the link should have words and a described note');
   ok(!parts((await run({ subject: null })).a.getAttribute('href')).q.has('subject'), 'with no subject project the link should still open, without one');
   ok(!(await run({ drawn: false })).p && !(await run({ share: false })).p, 'before the calculator is drawn, or without the share script, there should be no link yet');
+  // The for-sale mode (24 Nov 2026, Codex walkthrough check): Financials works rental deals only, so the link opens the
+  // hub's for-sale screen with the same settings, says so, and sends no subject project.
+  const sale = (/var SALE_ROUTE = '([^']+)';/.exec(src) || [])[1] || '';
+  const sm = /^([a-z0-9-]+\.html)#\/([a-z0-9-]+)\?v=1&$/.exec(sale);
+  ok(sm && sm[1] === hubFile, 'the for-sale hand-off route is not "' + hubFile + '#/<view>?v=1&": ' + sale);
+  const saleView = sm ? sm[2] : '';
+  const saleReg = hubScripts.filter(f => f.startsWith('hub/') && fs.existsSync(path.join(root, f)) && new RegExp("Shell\\.views\\[['\"]" + saleView + "['\"]\\]\\s*=").test(read(f)));
+  ok(saleReg.length === 1, hubFile + ' does not load a script that registers the "' + saleView + '" view the for-sale hand-off opens');
+  ok((hubs[hubFile] || []).some(re => new RegExp(re).test('#/' + saleView)), 'hub/lab-config.js does not let #/' + saleView + ' through on ' + hubFile);
+  if (saleReg.length === 1) ok(/mode-rental/.test(read(saleReg[0])) && /tdc/.test(read(saleReg[0])), saleReg[0] + ' no longer reads the for-sale settings the hand-off sends');
+  const own = await run();
+  own.snap.q = 'mode-rental=ownership&tdc=18500000&units=42&county-select=08077';
+  own.a.dispatchEvent(new own.w.Event('focus'));
+  const oh = own.a.getAttribute('href');
+  ok(oh.startsWith(sale) && parts(oh).q.get('mode-rental') === 'ownership' && parts(oh).q.get('tdc') === '18500000' && parts(oh).q.get('county-select') === '08077',
+    'in the for-sale mode the link should open the for-sale screen with the share settings: ' + oh);
+  ok(!parts(oh).q.has('subject'), 'a for-sale link carries no subject project');
+  ok(!/Financials/.test(own.a.textContent) && /for sale/i.test(own.a.textContent), 'in the for-sale mode the link should not say Financials: ' + own.a.textContent);
+  own.snap.q = 'units=40';
+  own.a.dispatchEvent(new own.w.Event('focus'));
+  ok(own.a.getAttribute('href').startsWith(route) && /Financials/.test(own.a.textContent), 'back in the rental mode the link should open Financials again');
   opened.forEach(x => x.close()); // the script keeps looking for the calculator for a minute
 }
 

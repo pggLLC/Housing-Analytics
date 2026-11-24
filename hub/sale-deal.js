@@ -176,13 +176,75 @@
     return '<label class="field">' + esc(label) + '<input name="' + name + '" type="number" inputmode="numeric"' + (opts || '') + ' value="' + esc(value == null || (typeof value === 'number' && !isFinite(value)) ? '' : String(value)) + '" placeholder="not entered">' + (note ? '<span class="hint">' + esc(note) + '</span>' : '') + '</label>';
   }
 
-  function view() {
+  // The Deal Calculator's for-sale mode hands its deal here: "Continue in Homes for sale" under the calculator
+  // (js/components/calc-financials-link.js) and a for-sale link opened on #/open-calc both arrive as
+  // #/sale-deal?v=1&mode-rental=ownership&..., in the calculator's own share-link format (js/deal-calculator-share.js:
+  // each box by its id less "dc-"). Each box this screen has is filled once from the link, the place becomes the working
+  // place, and every other box the link carries is named: it stays on the calculator, which the link reopens. Nothing
+  // is saved. Before 24 Nov 2026 the link opened Financials, which works rental deals only, and stopped there.
+  var CARRIED = { 'county-select': 'county', tdc: 'cost', units: 'homes', 'sale-target-ami': 'buyer income', 'gross-sf': 'floor area',
+    'own-resale-years': 'resale', 'own-resale-principal': 'resale', 'own-resale-costs': 'resale', 'own-resale-appreciation': 'resale',
+    'resale-subsidy': 'resale', 'resale-mechanism': 'resale' };
+  var LINK_ONLY = { v: 1, 'mode-rental': 1, from: 1, geoid: 1, g: 1, subject: 1, inputProvenance: 1, tr: 1, rentSchedule: 1, utilityAllowance: 1 };
+  var GEO = /^08\d{3}(\d{2})?$/;
+  var opened = null;
+  function fromLink(params) {
+    if (!params || params.get('v') !== '1' || params.get('mode-rental') !== 'ownership') return null;
+    // The key leaves out g, the working place this screen adds to the address, so the link is read once and later
+    // edits on this screen are kept.
+    var bare = new URLSearchParams(params.toString()); bare.delete('g');
+    var key = bare.toString();
+    if (opened && opened.key === key) return opened;
+    var s = quick(), got = {}, notes = [], unread = [];
+    var counties = data.hud.counties || [];
+    var fips = String(params.get('county-select') || '');
+    var county = counties.filter(function (c) { return c.fips === fips; })[0];
+    if (county) { s.county = fips; got.county = 1; } else if (fips) notes.push('The link’s county (' + fips + ') is not in the HUD income limits, so no county is set.');
+    // A cost or homes entry is kept as the link has it, so a blank or invalid one is named in the results, not replaced.
+    if (params.has('tdc')) { s.tdc = params.get('tdc') === '' ? null : Number(params.get('tdc')); got.cost = 1; }
+    if (params.has('units')) { s.units = params.get('units') === '' ? null : Number(params.get('units')); got.homes = 1; }
+    if (params.has('sale-target-ami')) {
+      var t = Number(params.get('sale-target-ami'));
+      if (Q().TARGETS.indexOf(t) !== -1) { s.target = t; got['buyer income'] = 1; }
+      else notes.push('The link’s buyer income (' + params.get('sale-target-ami') + '% of median) is not one this screen offers, so it stays at ' + s.target + '%.');
+    }
+    if (params.has('gross-sf')) { x.grossSf = params.get('gross-sf'); got['floor area'] = 1; }
+    RESALE.forEach(function (i) { var k = i.id.replace(/^dc-/, ''); if (params.has(k)) { x[i.id] = params.get(k); got.resale = 1; } });
+    // The resale pickers use the same OwnershipResale ids on both pages (js/deal-calculator-share.js sends them).
+    if (params.get('resale-subsidy')) { x.subsidyType = params.get('resale-subsidy'); got.resale = 1; }
+    if (params.get('resale-mechanism')) { x.conventionId = params.get('resale-mechanism'); got.resale = 1; }
+    params.forEach(function (v, k) { if (!CARRIED[k] && !LINK_ONLY[k] && v !== '' && unread.indexOf(k) < 0) unread.push(k); });
+    // The place: the town or county the calculator was on (its geoid), else the link's county. A town keeps its own
+    // name; when the town list has not loaded, the working place looks the name up itself.
+    var geoid = String(params.get('geoid') || '');
+    var place = GEO.test(geoid) ? geoid : county ? fips : '';
+    var label = place === fips && county ? String(county.county_name || '') : '';
+    if (place && place.length === 7) {
+      var town = global.LabDealTown && global.LabDealTown.lookup ? global.LabDealTown.lookup(place) : null;
+      if (town && town.name) label = town.name;
+    }
+    if (place && global.LabDealQuick && global.LabDealQuick.adopt) global.LabDealQuick.adopt(place, label);
+    var back = new URLSearchParams(key); back.delete('from');
+    opened = { key: key, got: Object.keys(got), notes: notes, unread: unread, back: LIVE_TOOL.split('?')[0] + '#' + back.toString() };
+    return opened;
+  }
+  function linkNote(o) {
+    if (!o) return '';
+    var list = o.got.length ? o.got.join(', ').replace(/, ([^,]*)$/, ' and $1') : 'nothing this screen uses';
+    return '<div class="sale-from-link" data-from-calc="1"><p class="callout" role="status">Opened from the Deal Calculator’s for-sale mode with its ' + esc(list) + (o.got.indexOf('resale') >= 0 ? ' inputs' : '') + '. Nothing is saved.</p>' +
+      o.notes.map(function (n) { return '<p class="callout">' + esc(n) + '</p>'; }).join('') +
+      (o.unread.length ? '<details class="calc-unread"><summary>' + esc(String(o.unread.length)) + ' boxes from the calculator this screen does not use</summary><p class="note">They stay on the Deal Calculator: ' + esc(o.unread.join(', ')) + '. <a href="' + esc(o.back) + '">Reopen the calculator with every box ↗</a></p></details>' : '') +
+      '</div>';
+  }
+
+  function view(params) {
     var head = T.head({ kind: 'tool', crumbs: T.trail('deal', 'Homes for sale', [{ label: 'Deal Calculator', href: '#/deal-calculator' }]), title: 'Homes for sale',
       answer: 'Does a for-sale project close? What each home costs against the price a buyer at the target income can pay, what may fill the gap, and what the public keeps when the home resells.' });
     if (!Q()) return head;
     Q().load(); load();
     if (failed || Q().failed()) return head + '<p class="callout" role="status">The data did not load (' + esc(failed || Q().failed()) + ').</p>';
     if (!data || !Q().ready()) return head + '<p class="note" role="status">Loading the income limits, programs and resale rules…</p>';
+    var link = linkNote(fromLink(params));
     var s = quick(), bad = Q().problem(s), r = s.county && !bad ? run(s, x, data) : null, ok = r && r.status === 'ok';
     var counties = (data.hud.counties || []).slice().sort(function (a, b) { return String(a.county_name).localeCompare(String(b.county_name)); });
     var county = counties.filter(function (c) { return c.fips === s.county; })[0];
@@ -202,7 +264,7 @@
       '</form>';
     if (!ok) {
       var why = bad || (!s.county ? 'Pick a county to see the price a buyer can pay and the gap.' : r && r.status === 'missing-ami' ? 'HUD lists no median income for this county.' : 'Enter a cost above zero and at least one home.');
-      return head + '<div class="sale-layout">' + inputs + '<aside class="sale-board"><p class="callout" role="' + (bad ? 'alert' : 'status') + '">' + esc(why) + '</p></aside></div>';
+      return head + link + '<div class="sale-layout">' + inputs + '<aside class="sale-board"><p class="callout" role="' + (bad ? 'alert' : 'status') + '">' + esc(why) + '</p></aside></div>';
     }
     var pi = publicInterest(r.ownershipResale);
     var board = '<aside class="sale-board" aria-label="The deal at a glance">' + gapGraphic(s, r) +
@@ -211,7 +273,7 @@
         : 'Next buyer pays up to <strong data-out="publicResalePrice" data-value="' + Math.round(pi.outcome.maxResalePrice) + '">' + esc(money(pi.outcome.maxResalePrice)) + '</strong>' +
           (pi.outcome.publicSubsidyRecaptured > 0 ? ', ' + esc(money(pi.outcome.publicSubsidyRecaptured)) + ' back to the public' : '')) + '<small>' + esc(pi.scenario || '') + ' market</small></dd></div>' : '') +
       '</dl>' + programList(s, r) + '</aside>';
-    return head + '<div class="sale-layout">' + board + inputs + '</div>' + priceTiles(r) +
+    return head + link + '<div class="sale-layout">' + board + inputs + '</div>' + priceTiles(r) +
       '<section class="tool-section" aria-labelledby="sale-resale-h"><h2 id="sale-resale-h">When the home resells</h2><p>How each resale rule keeps the home affordable for the next buyer, after ' + esc(x['dc-own-resale-years'] || '5') + ' years, in a falling, steady and rising market.</p>' + resaleTable(r) + '</section>' +
       '<p class="note">Calculated by the COHO Deal Engine for homes for sale. Funding programs checked ' + esc(data.programs.meta && data.programs.meta.last_verified || '') + '. Screening only, not underwriting.</p>' +
       T.next('Next', [{ href: '#/for-sale', label: 'For-sale market study' }, { href: LIVE_TOOL, label: 'Every for-sale input on the full Deal Calculator ↗', secondary: true }, { href: '#/deal-calculator', label: 'Back to the Deal Calculator', secondary: true }]);
@@ -233,5 +295,5 @@
   Shell.views['sale-deal'] = view;
   global.LabSaleDeal = { RESALE: RESALE, build: build,
     _result: function () { var s = Q() && quick(); return data && s && s.county ? run(s, x, data) : null; },
-    _set: function (o) { x = Object.assign(JSON.parse(JSON.stringify(START)), o); } };
+    _set: function (o) { x = Object.assign(JSON.parse(JSON.stringify(START)), o); opened = null; }, _ext: function () { return x; } };
 })(window);

@@ -280,6 +280,9 @@
     var back = '<a class="back-link" href="#/projects">← Projects</a>';
     var head = back + '<h1>Open a deal from the Deal Calculator</h1><p class="lede">See what the calculator’s link holds before anything is saved.</p>';
     if (!params.toString() || params.get('v') !== '1') return head + '<p class="callout" role="alert">This address holds no Deal Calculator deal. Use the calculator’s “Copy link”, or “Continue in Financials” on Market Analysis.</p>' + picker();
+    // A for-sale deal goes to the for-sale screen with the same link, which fills the boxes it has and names the rest.
+    if (params.get('mode-rental') === 'ownership') return head + '<p class="callout" role="alert">This link is a for-sale deal. Financials works rental deals, so it opens on Homes for sale, with the same inputs.</p>' +
+      '<div class="actions"><a class="button-link" href="#/sale-deal?' + esc(params.toString()) + '">Open it on Homes for sale</a></div>';
     loadChfa();
     if (chfaError) return head + '<p class="callout">' + esc(chfaError) + '</p>';
     if (!global.LabFinancials || !global.DealCostBasis || !global.DealOperatingBudget || !global.LabCalcGrid) return head + '<p role="status">Loading the calculator…</p>';
