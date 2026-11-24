@@ -154,7 +154,8 @@ window.resolveAssetUrl = function (p) { return window.LAB_ROOT + p; };
     return 'https://translate.google.com/translate?sl=en&tl=es&hl=es&u={page}'.replace('{page}', function () { return encodeURIComponent(u); });
   }
   function fix(root) {
-    var es = document.querySelector('a[lang="es"]');
+    // The site's own Spanish link (footer); a guide's in-page switch to its written Spanish stays as it is.
+    var es = document.querySelector('a[lang="es"]:not([data-jump])');
     if (es) es.setAttribute('href', spanishHref(location.hash));
     // On the public site itself, "live site" and the lab's rebuilt/current tags say nothing; members-only stays.
     Array.prototype.forEach.call(root.querySelectorAll('.live-tag, .status-lab, .status-current'), function (n) { n.parentNode.removeChild(n); });

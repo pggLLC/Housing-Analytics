@@ -255,3 +255,36 @@
 /* The search sits under the lede, not at the foot of the taller five-things card. */
 .home-hero.hh-warm { grid-template-rows: auto 1fr; }
 .home-hero.hh-warm .hh-find { align-self: start; }
+
+/* Tighter Home (paul, 24 Nov 2026: "blank spaces that result in more scrolling ... not an efficient use of space").
+   The three ways in fill the hero under the search, as compact rows; the rent card's longer-run note sits under its
+   answer; the owner card's "income it takes" fills the column beside it. Layout only: no wording changes. */
+.home-hero.hh-warm { grid-template-areas: "copy fig" "find fig" "paths fig"; grid-template-rows: auto auto 1fr; }
+.home-hero > .hh-paths { grid-area: paths; align-self: start; }
+.home-hero > .hh-paths ul { grid-template-columns: minmax(0, 1fr); gap: .6rem; margin: 0; }
+.home-hero > .hh-paths a { grid-template-columns: auto minmax(0, 1fr); column-gap: .8rem; row-gap: .1rem; align-items: center; padding: .6rem .9rem; }
+.home-hero > .hh-paths a > :not(.hh-icon) { grid-column: 2; margin: 0; }
+.home-hero > .hh-paths .hh-icon { grid-row: span 2; }
+.home-hero > .hh-paths .hh-path-d { display: none; }
+@media (min-width: 768px) {
+  .home-rent .ri-card:not(.hw-own) { grid-template-rows: auto 1fr auto; }
+  .home-rent .ri-card:not(.hw-own) > .ri-text { grid-column: 1; grid-row: 1; }
+  .home-rent .ri-card:not(.hw-own) > .ri-viz { grid-column: 2; grid-row: 1 / span 2; }
+  .home-rent .ri-card:not(.hw-own) > .ri-longer { grid-column: 1; grid-row: 2; align-self: start; }
+  .home-rent .hw-own { grid-template-rows: none; align-content: start; row-gap: .25rem; }
+  .home-rent .hw-own > .ri-viz, .home-rent .hw-own > .ri-foot { margin-top: .75rem; }
+  .home-rent .hw-own > .ri-text { display: contents; }
+  .home-rent .hw-own > .ri-text > * { grid-column: 1; }
+  .home-rent .hw-own .ri-owngap { grid-column: 2; grid-row: 1 / span 6; align-self: start; }
+  .home-rent .hw-own > .ri-viz { grid-column: 1; }
+  .home-rent .hw-own > .ri-foot { grid-column: 1 / -1; }
+}
+@media (max-width: 767px) {
+  .home-hero.hh-warm { grid-template-areas: "copy" "find" "fig" "paths"; grid-template-rows: none; }
+  .hh-facts.hh-five li { padding: .65rem .8rem; }
+  .hh-five .hh-fig { font-size: 1.45rem; margin: .2rem 0 .1rem; }
+  .hf-why { margin-top: .35rem; padding-top: .3rem; }
+  .home-why { margin: 1.5rem 0 1rem; }
+  .hw-list { gap: .6rem; }
+  .hw-list li { padding: .75rem .9rem; }
+}
