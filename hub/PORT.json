@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "50328bdbf0782cb51dac43f5148a152f53d338d7",
+  "commit": "03b3afa9a2492f8a9af5bf133429d5d6c33c7b25",
   "dirty": false
  },
  "files": {
@@ -127,13 +127,13 @@
   "hub/start-numbers.js": "50205a8ddccc79283c6b218811aa6f82a912749a1952ea4d843a4d38610183ea",
   "hub/step-bar.js": "1e0d85c31570d4a270a303a2ae670533c0976e6890f80355910218880d13fff9",
   "hub/strength.js": "267e464d104b402a33859aeb289acb365c202ee62aebb0df89634e0e2f3c4921",
-  "hub/templates.css": "5a6062c9faccb09ec65178451fa7d8786f514598cbc458b52d872fe93f4c364a",
+  "hub/templates.css": "2e62279713e848b8087f23bb246c84c9e32cd0808324d0e3c80187c7f3f5846c",
   "hub/templates.js": "5b21d8103ca129232f2bcac12131d7e5a9f7d8ed849770a3a8541baf5136c661",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
   "hub/text-fit.js": "583c08d1ce2e9c0b7fd7cd3baca0bee436da9f3741625d9aa7eb683276ea78f8",
   "hub/tract-capture.js": "559effc4b861344446ecbe8e660a7c70b080a45baf24db7be19e124b910ea72e",
-  "hub/visual-pass.css": "f8ae913b2ed977b9bf0453da2bdbdbb84e58a7eb61a648af414afe4b98ee6387",
+  "hub/visual-pass.css": "c4ead044c619d3b38e1dfad1a52198b3825a1c770c0c46e5a8f684d03778df45",
   "hub/viz-data.js": "1e6c2a0dae68aa2e33a0fb7123503fcd7c13bd9c00e6d163a6a1cb214dac33db",
   "hub/viz-tip.js": "0d9ccb4a63a5da29953d75fbc47f71d40f57fa2e74afea832b1e02b305dc1dbc",
   "hub/viz.js": "2d8148ba65f8c4a47b1a26e2d0273ce41226f8ffe4b0641e459f621ea6212332",
@@ -147,7 +147,7 @@
  "engines": {
   "js/deal-calculator-math.js": "305fc93936feecf0756732ccf52046adfc2af113ab232abe4769b7ff83701612",
   "js/chfa-rent-limits.js": "1df51b28817a6a76cda4e47c76297aa9daaae7a59fb2f0574df6fe4b11b9e17e",
-  "js/deal-cost-basis.js": "6445276907fd960179f8064d0849b2598bf5365dec8890b04e5b23032bb9c76f",
+  "js/deal-cost-basis.js": "34d8ca220737d80a92e62c1f2f91d70d3f21fab30d083a678a520b68c5c3aabb",
   "js/deal-operating-budget.js": "31101c41368da8124bc5fe58f69c515421a8491d62bd972b5ad6bf5a54585deb",
   "js/deal-lender-schedules.js": "c3ae73613dc02b2044db86d3a678348880e01f62a4c182a2bee0d97693882769",
   "js/deal-permanent-financing.js": "266f3886192b1f40391b87371d7b79bd545471b0913661c566426db1b98c9c2f",
@@ -169,7 +169,7 @@
   "js/local-incentives-data.js": "f1ad486017680b9af8781485def973e6f3294634c0ae96542c7e0a27cebc55a5",
   "js/components/land-value-tool.js": "7b09e07196dee1ca12ac289b071d3d45e8e527d7f3df93223868bbec865c926f",
   "js/land-comps.js": "f44d06e4a206699667d7ae316db1a65dbffe75a8364b2316c5a91bab55afad4f",
-  "js/data-source-inventory.js": "cbec0b616bec22dbcc45b14e0b45b0cbeb25d4709f1df243766d574df04fb9f0",
+  "js/data-source-inventory.js": "3277bc7e44cc8564a861fbc8ff2da743c7d5f83ecfb77087b16c02259ed2b60b",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
   "js/hna/hna-ownership-need.js": "328bf12fea31ff26482b4c0234b8a1a4f4fcbecc161daceef239464db2429cff",
   "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",

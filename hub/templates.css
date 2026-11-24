@@ -111,7 +111,7 @@
 /* The head's tint runs edge to edge; clipping at the root stops the scrollbar's width from adding a sideways scroll. */
 html { overflow-x: clip; }
 .page-head {
-  margin: -2.5rem calc(50% - 50vw) 2rem; padding: 1.25rem calc(50vw - 50% ) 1.75rem;
+  margin: -1.5rem calc(50% - 50vw) 2rem; padding: 1.25rem calc(50vw - 50% ) 1.75rem;
   background: linear-gradient(180deg, var(--tint), var(--paper));
   border-bottom: 1px solid var(--line);
 }
@@ -286,7 +286,7 @@ html { overflow-x: clip; }
 .tier-none { background: var(--geo-neutral-bg); color: var(--geo-neutral); }
 
 @media (max-width: 767px) {
-  .page-head { margin-top: -1.5rem; }
+  .page-head { margin-top: -1rem; }
   .page-answer { font-size: 17px; }
   .fact-value { font-size: 22px; }
   .guide-layout { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
@@ -1188,9 +1188,9 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
 
 /* ---------- Spacing pass (paul, 2026-11-01: too much blank space) ----------
    Loaded last, so these tighten the gaps the earlier rules leave. Tap targets stay 44px. */
-.page-head { margin-bottom: 1.25rem; padding-bottom: 1.25rem; }
+.page-head { margin-bottom: .75rem; padding-bottom: 1rem; }
 .page-head .page-answer:last-child, .page-head .page-meta:last-child { margin-bottom: 0; }
-.metrics { margin-bottom: 1.25rem; }
+.metrics { margin-bottom: 1rem; }
 .next-box { margin-top: 1.5rem; }
 .footnote { margin-top: 1.25rem; }
 .page-place .place-tools { gap: .25rem 1.25rem; }
@@ -1202,6 +1202,40 @@ main details > summary { min-height: 44px; box-sizing: border-box; padding-top: 
 .step-path .sp-box { grid-template-rows: auto auto 1fr 1.25rem; align-content: start; }
 .step-path .sp-here { line-height: 1.25rem; }
 .step-path ~ .page-head { margin-top: 0; }
+/* Spacing pass 2 (paul, 2026-11-24: blank space on every page). Gaps only; every section still keeps at least twice
+   a paragraph's gap. Main's top padding is 1.5rem (1rem on phones), so the page head pulls up by the same. */
+.actions { margin: 1rem 0; }
+.next-box { padding: 1rem 1.25rem; }
+.next-box .actions:last-child { margin-bottom: 0; }
+.guide-body section { padding-bottom: .5rem; }
+.guide-body section + section { margin-top: 1rem; padding-top: 1.25rem; }
+.panel { margin: 1rem 0; }
+.fold { margin: .5rem 0; }
+.source-line { margin: .5rem 0; }
+.pw-list { gap: .5rem; }
+.pw-list li { padding: .6rem .85rem; }
+.hub-cards, .rank { margin-bottom: 1rem; }
+.report { gap: .75rem; }
+@media print {
+  /* Report sections follow on instead of each starting a fresh sheet; a heading stays with its text. */
+  .sheet { break-after: auto; }
+  .sheet + .sheet { margin-top: .2in; }
+  .sheet h2, .sheet h3, .guide-body h2, .guide-body h3 { break-after: avoid; }
+  /* A tall chart may continue on the next page; each bar row and its caption stay whole. */
+  figure { break-inside: auto; }
+  figure > figcaption, .gap-row { break-inside: avoid; }
+  /* Long tables repeat their header row on each page. */
+  thead { display: table-header-group; }
+  /* A scrolling box cannot split across pages, so a guide's tables print across pages instead of one per page. */
+  .guide-body div:has(> table) { overflow: visible; }
+  .guide-body div:has(> table) > table, .guide-body div:has(> table) > table td:last-child { min-width: 0; }
+  /* Paper has no fingers: the 44px tap-target heights drop, so form rows and links print at text height. */
+  a, button, input, select, textarea, label, summary, .rank-label, .crumbs a { min-height: 0 !important; }
+  input, select, textarea { padding-top: 0; padding-bottom: 0; height: auto; }
+  /* The full deal printout: a long table continues on the next page (each row whole, header repeated)
+     instead of jumping whole to a new page. */
+  body.print-full table { break-inside: auto; }
+}
 /* Where you are: the step and the working place, with Change and Clear (paul 11-11). The same line rides at the top
    of the screen once the bar scrolls away. "All 7 steps" is for phones, where the bar shows three. */
 .step-path .sp-where, .sp-sticky .sp-where { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem .9rem; margin: 0 0 .5rem; font-size: 14px; }

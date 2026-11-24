@@ -1535,9 +1535,17 @@
           drawNarrative('(Data not available for this geography.)');
           return;
         }
-        const COLS = 3;
+        // Four cards to a row when every label still fits on one line at that width,
+        // so a page holds more figures; three to a row otherwise (blank space pass, 24 Nov).
         const GAP_X = 10;
         const GAP_Y = 8;
+        const labelFits = (cols) => {
+          const w = (CONTENT_W - (cols - 1) * GAP_X) / cols - 14;
+          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(8);
+          return cells.every(c => pdf.splitTextToSize(String(c.label), w).length === 1);
+        };
+        const COLS = labelFits(4) ? 4 : 3;
         const CELL_W = (CONTENT_W - (COLS - 1) * GAP_X) / COLS;
         // A card grows with its text: a long source line (a county-adjusted
         // Zillow value, say) wraps to three lines or more, and at a fixed
@@ -1588,7 +1596,7 @@
           }
         }
         // Room below the last row of cards: the next heading overlapped it.
-        y += 14;
+        y += 10;
       }
 
       function drawChart(canvasId, caption, maxHeightPt) {
@@ -1616,8 +1624,16 @@
           const imgW = CONTENT_W;
           let imgH = imgW * aspect;
           if (imgH > (maxHeightPt || 220)) imgH = maxHeightPt || 220;
+          // A chart that nearly fits the rest of the page is drawn a little smaller there,
+          // keeping its shape, instead of leaving the space blank and starting a new page.
+          let drawW = imgW;
+          const room = (PAGE_H - MARGIN) - y - 24;
+          if (imgH > room && room >= Math.max(120, imgH * 0.7)) {
+            drawW = imgW * (room / imgH);
+            imgH = room;
+          }
           newPageIfNeeded(imgH + 24);
-          pdf.addImage(dataUrl, 'PNG', MARGIN, y, imgW, imgH, undefined, 'FAST');
+          pdf.addImage(dataUrl, 'PNG', MARGIN, y, drawW, imgH, undefined, 'FAST');
           y += imgH + 4;
           if (caption) {
             pdf.setFont('helvetica', 'italic');

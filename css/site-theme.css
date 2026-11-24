@@ -2551,3 +2551,8 @@ html.dark-mode .devr-flag--strong { background: rgba(52,211,153,.18); color: #d4
 .chart-card > ul[style*="--mcm-beige"],
 .chart-card > ol[style*="--mcm-beige"],
 .chart-card > p[style*="--mcm-beige"] { color: var(--text) !important; }
+
+/* Spacing pass (paul, 2026-11-24: blank space on every page). Gaps only: less space above the
+   footer and inside page title bands on the standalone pages. "body" lifts these over navigation.css. */
+body footer.site-footer { margin-top: 1rem; }
+body .page-hero { padding-top: var(--sp4); padding-bottom: var(--sp4); }
