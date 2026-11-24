@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-24T14:34:12.089665Z",
+  "generated": "2026-11-24T15:01:22.722544Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9129,7 +9129,7 @@
     "data/news-digest/index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2095
+      "bytes": 2985
     },
     "data/paper/compute-footprint.json": {
       "featureCount": 0,

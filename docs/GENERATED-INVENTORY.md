@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T14:33:17.418Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T15:00:33.886Z. Do not edit by hand.
 
 ---
 
@@ -1892,7 +1892,7 @@
 | `data/market/zori_rents_co.json` | 23.4 KB | ✅ | — |
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 100.5 KB | ✅ | — |
-| `data/news-digest/index.json` | 2.0 KB | ✅ | — |
+| `data/news-digest/index.json` | 2.9 KB | ✅ | — |
 | `data/paper/compute-footprint.json` | 1.8 KB | ✅ | — |
 | `data/paper/figures.json` | 15.8 KB | ✅ | — |
 | `data/paper/model-parameters.json` | 6.1 KB | ✅ | — |
