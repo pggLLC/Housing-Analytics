@@ -152,14 +152,14 @@ console.log('='.repeat(46));
     const cell = doc.querySelector(`[data-transfer-id="${m.id}"]`).cells[2].textContent.trim();
     assert.strictEqual(cell, `$${Math.round(m.price_low * 1000) / 1000} average`, `${m.id} shows its average`);
   }
-  // One home for the watchlist (duplicate cleanup, 24 Nov 2026): this page links to Legislation 2026, which renders
+  // One home for the watchlist (duplicate cleanup, 24 Nov 2026): this page links to Policy & Legislation, which renders
   // every entry of the same file with no scope filter, so no entry the page used to show is lost.
   assert(!doc.querySelector('[data-tax-credit-watch]') && !doc.querySelector('[data-policy-id]'), 'the equity markets page links to the watchlist, not a second copy');
   const watchLink = doc.getElementById('tcePolicyWatchLink');
-  assert(watchLink && watchLink.getAttribute('href') === 'housing-legislation-2026.html#bill-status-panel', 'the equity markets page links to the tax credit watchlist on Legislation 2026');
+  assert(watchLink && watchLink.getAttribute('href') === 'housing-legislation-2026.html#bill-status-panel', 'the equity markets page links to the tax credit watchlist on Policy & Legislation');
   const legHtml = fs.readFileSync(path.join(root, 'housing-legislation-2026.html'), 'utf8');
   assert(/id="bill-status-panel"/.test(legHtml) && /loadLegislationData\('data\/policy\/tax-credit-legislation\.json'\)\s*\.then\(renderBills\)/.test(legHtml),
-    'Legislation 2026 renders the whole tax-credit legislation file in #bill-status-panel');
+    'Policy & Legislation renders the whole tax-credit legislation file in #bill-status-panel');
 
   const explainerRows = Array.from(doc.querySelectorAll('#tceExplainerMatrix [data-credit-row]'));
   assert.strictEqual(explainerRows.length, 6, 'explainer matrix renders one row for each credit type');
