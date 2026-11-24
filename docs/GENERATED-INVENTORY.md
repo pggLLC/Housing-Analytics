@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T16:31:52.256Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T16:48:04.240Z. Do not edit by hand.
 
 ---
 
@@ -2126,7 +2126,7 @@
 | `test/chfa-round-two-brief.test.mjs` | 7.4 KB |
 | `test/ci-tools-are-declared.test.mjs` | 9.3 KB |
 | `test/ci-verifies-bot-commits.test.js` | 5.4 KB |
-| `test/co-construction-labor-cost.test.js` | 15.4 KB |
+| `test/co-construction-labor-cost.test.js` | 15.8 KB |
 | `test/co-developer-funding-guide.test.js` | 12.3 KB |
 | `test/co-historical-allocations.test.js` | 12.9 KB |
 | `test/co-lihtc-map.test.js` | 8.8 KB |
