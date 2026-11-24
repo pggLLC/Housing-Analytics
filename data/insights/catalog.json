@@ -131,7 +131,7 @@
       "type": "Market reference",
       "title": "Tax Credit Equity Markets",
       "url": "article-pricing.html",
-      "summary": "LIHTC equity pricing history, Novogradac national and regional benchmarks, transfer-credit pricing, and the federal policy watchlist, all rendered from data files.",
+      "summary": "LIHTC equity pricing history, Novogradac national and regional benchmarks, and transfer-credit pricing, rendered from data files, with a link to the federal policy watchlist on Legislation 2026.",
       "sources": ["Novogradac", "Crux", "IRS", "Federal Register"],
       "maintenance": "live-data"
     },
