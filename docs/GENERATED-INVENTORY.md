@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T11:21:15.522Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T11:50:45.384Z. Do not edit by hand.
 
 ---
 
@@ -1091,7 +1091,7 @@
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 6.5 KB | ✅ | — |
 | `data/hna/local-resources.json` | 181.8 KB | ✅ | — |
-| `data/hna/ownership-need.json` | 704.5 KB | ✅ | — |
+| `data/hna/ownership-need.json` | 731.2 KB | ✅ | — |
 | `data/hna/permits.json` | 270.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.55 MB | ✅ | — |
@@ -1856,7 +1856,7 @@
 | `data/market/local-players.json` | 554.7 KB | ✅ | — |
 | `data/market/lodes_co.json` | 663.8 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
-| `data/market/market-direction.json` | 755.3 KB | ✅ | — |
+| `data/market/market-direction.json` | 770.2 KB | ✅ | — |
 | `data/market/market-types.json` | 427.8 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
@@ -2057,7 +2057,7 @@
 
 ## Test Files
 
-799 test files found.
+800 test files found.
 
 | File | Size |
 |------|------|
@@ -2494,6 +2494,7 @@
 | `test/navigation-paths.test.js` | 555 B |
 | `test/navigation-pill-label.test.js` | 2.7 KB |
 | `test/navigation-reaches-every-page.test.mjs` | 6.7 KB |
+| `test/near-the-line.test.js` | 4.9 KB |
 | `test/need-severity-is-place-level.test.mjs` | 16.0 KB |
 | `test/neuro-inclusive-brief.test.mjs` | 5.6 KB |
 | `test/news-local-line-matches-old-page.test.js` | 4.7 KB |
@@ -2830,7 +2831,7 @@
 | `tests/test_lodes_and_health_centers.py` | 3.3 KB |
 | `tests/test_market_construction.py` | 13.3 KB |
 | `tests/test_market_data_builder_redaction.py` | 1.8 KB |
-| `tests/test_market_direction.py` | 18.9 KB |
+| `tests/test_market_direction.py` | 21.7 KB |
 | `tests/test_neighborhood_access_builder.py` | 6.0 KB |
 | `tests/test_news_stories.py` | 27.5 KB |
 | `tests/test_osm_landuse_thinning.py` | 4.2 KB |

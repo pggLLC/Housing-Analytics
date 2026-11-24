@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-24T11:21:56.082Z",
+    "generated_at": "2026-11-24T11:51:25.674Z",
     "root": "data/",
     "file_count": 2001,
-    "total_size_bytes": 232286076,
+    "total_size_bytes": 232328716,
     "kinds": {
       "json": 1952,
       "geojson": 35,
@@ -724,7 +724,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-24T11:21:51.891Z",
+      "mtime": "2026-11-24T11:51:21.769Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -22421,8 +22421,8 @@
     {
       "path": "hna/ownership-need.json",
       "kind": "json",
-      "size_bytes": 721387,
-      "mtime": "2026-11-22T14:19:14.752Z",
+      "size_bytes": 748772,
+      "mtime": "2026-11-24T11:49:32.373Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -38320,8 +38320,8 @@
     {
       "path": "market/market-direction.json",
       "kind": "json",
-      "size_bytes": 773427,
-      "mtime": "2026-11-22T14:17:06.844Z",
+      "size_bytes": 788682,
+      "mtime": "2026-11-24T11:49:32.608Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -39240,7 +39240,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16185,
-      "mtime": "2026-11-24T11:21:53.971Z",
+      "mtime": "2026-11-24T11:51:23.785Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39264,7 +39264,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-24T11:21:53.489Z",
+      "mtime": "2026-11-24T11:51:23.334Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

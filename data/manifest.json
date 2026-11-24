@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-24T11:21:59.431905Z",
+  "generated": "2026-11-24T11:51:29.053283Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -5014,7 +5014,7 @@
     "data/hna/ownership-need.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 721387
+      "bytes": 748772
     },
     "data/hna/permits.json": {
       "featureCount": 64,
@@ -8904,7 +8904,7 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 773427
+      "bytes": 788682
     },
     "data/market/market-types.json": {
       "featureCount": 0,
