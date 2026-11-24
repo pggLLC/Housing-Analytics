@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-24T09:38:50Z",
+  "generatedAt": "2026-11-24T16:02:13Z",
   "sources": [
     {
       "id": "bls-ces-state",
@@ -623,18 +623,23 @@
         },
         {
           "period": "2026-09",
-          "value": 193.6,
+          "value": 193.7,
+          "preliminary": false
+        },
+        {
+          "period": "2026-10",
+          "value": 191.4,
           "preliminary": true
         }
       ],
       "latest": {
-        "period": "2026-09",
-        "value": 193.6,
+        "period": "2026-10",
+        "value": 191.4,
         "preliminary": true
       },
       "yoy": {
-        "period": "2026-09",
-        "value": 3.81,
+        "period": "2026-10",
+        "value": 1.27,
         "basis": "pct"
       },
       "yoyUnavailableReason": null,
@@ -1230,18 +1235,23 @@
         },
         {
           "period": "2026-09",
-          "value": 43.88,
+          "value": 43.79,
+          "preliminary": false
+        },
+        {
+          "period": "2026-10",
+          "value": 43.8,
           "preliminary": true
         }
       ],
       "latest": {
-        "period": "2026-09",
-        "value": 43.88,
+        "period": "2026-10",
+        "value": 43.8,
         "preliminary": true
       },
       "yoy": {
-        "period": "2026-09",
-        "value": 4.15,
+        "period": "2026-10",
+        "value": 3.23,
         "basis": "pct"
       },
       "yoyUnavailableReason": null,
@@ -1837,18 +1847,23 @@
         },
         {
           "period": "2026-09",
-          "value": 1689.38,
+          "value": 1681.54,
+          "preliminary": false
+        },
+        {
+          "period": "2026-10",
+          "value": 1747.62,
           "preliminary": true
         }
       ],
       "latest": {
-        "period": "2026-09",
-        "value": 1689.38,
+        "period": "2026-10",
+        "value": 1747.62,
         "preliminary": true
       },
       "yoy": {
-        "period": "2026-09",
-        "value": 2.56,
+        "period": "2026-10",
+        "value": 2.97,
         "basis": "pct"
       },
       "yoyUnavailableReason": null,
@@ -2440,20 +2455,21 @@
         {
           "period": "2026-09",
           "value": 4.1,
+          "preliminary": false
+        },
+        {
+          "period": "2026-10",
+          "value": 4.4,
           "preliminary": true
         }
       ],
       "latest": {
-        "period": "2026-09",
-        "value": 4.1,
+        "period": "2026-10",
+        "value": 4.4,
         "preliminary": true
       },
-      "yoy": {
-        "period": "2026-09",
-        "value": 0.3,
-        "basis": "pts"
-      },
-      "yoyUnavailableReason": null,
+      "yoy": null,
+      "yoyUnavailableReason": "No usable October 2025 observation to compare against.",
       "unavailableReason": null
     },
     "JTU230000000000000JOR": {
@@ -3041,18 +3057,23 @@
         },
         {
           "period": "2026-08",
-          "value": 2.7,
+          "value": 2.8,
+          "preliminary": false
+        },
+        {
+          "period": "2026-09",
+          "value": 3.3,
           "preliminary": true
         }
       ],
       "latest": {
-        "period": "2026-08",
-        "value": 2.7,
+        "period": "2026-09",
+        "value": 3.3,
         "preliminary": true
       },
       "yoy": {
-        "period": "2026-08",
-        "value": 0.4,
+        "period": "2026-09",
+        "value": 1.0,
         "basis": "pts"
       },
       "yoyUnavailableReason": null,
@@ -3643,18 +3664,23 @@
         },
         {
           "period": "2026-08",
-          "value": 3.8,
+          "value": 3.7,
+          "preliminary": false
+        },
+        {
+          "period": "2026-09",
+          "value": 4.2,
           "preliminary": true
         }
       ],
       "latest": {
-        "period": "2026-08",
-        "value": 3.8,
+        "period": "2026-09",
+        "value": 4.2,
         "preliminary": true
       },
       "yoy": {
-        "period": "2026-08",
-        "value": -0.3,
+        "period": "2026-09",
+        "value": 0.4,
         "basis": "pts"
       },
       "yoyUnavailableReason": null,
@@ -4551,75 +4577,75 @@
       {
         "id": "WPUIP231120",
         "label": "PPI: Net inputs to multifamily residential construction (headline)",
-        "latestPeriod": "2026-09",
-        "latest": 170.943,
-        "yoyPct": 10.06,
+        "latestPeriod": "2026-10",
+        "latest": 171.564,
+        "yoyPct": 10.16,
         "unavailableReason": null
       },
       {
         "id": "WPUSI012011",
         "label": "PPI: Construction materials (special index)",
-        "latestPeriod": "2026-09",
-        "latest": 378.61,
-        "yoyPct": 11.03,
+        "latestPeriod": "2026-10",
+        "latest": 381.552,
+        "yoyPct": 12.12,
         "unavailableReason": null
       },
       {
         "id": "PCU327320327320",
         "label": "PPI: Ready-mix concrete",
-        "latestPeriod": "2026-09",
-        "latest": 402.82,
-        "yoyPct": 2.34,
+        "latestPeriod": "2026-10",
+        "latest": 402.369,
+        "yoyPct": 2.4,
         "unavailableReason": null
       },
       {
         "id": "PCU331110331110",
         "label": "PPI: Iron and steel mills",
-        "latestPeriod": "2026-09",
-        "latest": 344.919,
-        "yoyPct": 29.04,
+        "latestPeriod": "2026-10",
+        "latest": 352.808,
+        "yoyPct": 33.72,
         "unavailableReason": null
       },
       {
         "id": "WPU0811",
         "label": "PPI: Lumber",
-        "latestPeriod": "2026-09",
-        "latest": 288.562,
-        "yoyPct": 14.15,
+        "latestPeriod": "2026-10",
+        "latest": 277.612,
+        "yoyPct": 10.59,
         "unavailableReason": null
       },
       {
         "id": "PCU327420327420",
         "label": "PPI: Gypsum products",
-        "latestPeriod": "2026-09",
-        "latest": 409.632,
-        "yoyPct": 1.06,
+        "latestPeriod": "2026-10",
+        "latest": 407.627,
+        "yoyPct": 0.53,
         "unavailableReason": null
       },
       {
         "id": "PCU331420331420A",
         "label": "PPI: Copper wire and cable",
-        "latestPeriod": "2026-09",
-        "latest": 441.52,
-        "yoyPct": 32.45,
+        "latestPeriod": "2026-10",
+        "latest": 442.766,
+        "yoyPct": 26.65,
         "unavailableReason": null
       },
       {
         "id": "PCU324121324121",
         "label": "PPI: Asphalt paving mixtures and blocks",
-        "latestPeriod": "2026-09",
-        "latest": 442.715,
-        "yoyPct": 7.66,
+        "latestPeriod": "2026-10",
+        "latest": 448.167,
+        "yoyPct": 7.75,
         "unavailableReason": null
       }
     ]
   },
   "summary": {
-    "period": "2026-09",
-    "text": "Colorado construction average hourly earnings rose 4.2% year over year in September 2026 (preliminary), while prices of net inputs to multifamily construction rose 10.1%; construction employment was 3.8% higher than a year earlier.",
-    "laborWageYoyPct": 4.15,
-    "employmentYoyPct": 3.81,
-    "materialsYoyPct": 10.06
+    "period": "2026-10",
+    "text": "Colorado construction average hourly earnings rose 3.2% year over year in October 2026 (preliminary), while prices of net inputs to multifamily construction rose 10.2%; construction employment was 1.3% higher than a year earlier.",
+    "laborWageYoyPct": 3.23,
+    "employmentYoyPct": 1.27,
+    "materialsYoyPct": 10.16
   },
   "history": [
     {
@@ -5304,25 +5330,31 @@
       "period": "2026-06",
       "laborWageYoyPct": 3.16,
       "employmentYoyPct": 2.99,
-      "materialsYoyPct": 6.25
+      "materialsYoyPct": 6.24
     },
     {
       "period": "2026-07",
       "laborWageYoyPct": 2.1,
       "employmentYoyPct": 2.97,
-      "materialsYoyPct": 6.14
+      "materialsYoyPct": 6.17
     },
     {
       "period": "2026-08",
       "laborWageYoyPct": 4.63,
       "employmentYoyPct": 2.44,
-      "materialsYoyPct": 8.31
+      "materialsYoyPct": 8.23
     },
     {
       "period": "2026-09",
-      "laborWageYoyPct": 4.15,
-      "employmentYoyPct": 3.81,
-      "materialsYoyPct": 10.06
+      "laborWageYoyPct": 3.94,
+      "employmentYoyPct": 3.86,
+      "materialsYoyPct": 10.09
+    },
+    {
+      "period": "2026-10",
+      "laborWageYoyPct": 3.23,
+      "employmentYoyPct": 1.27,
+      "materialsYoyPct": 10.16
     }
   ]
 }
