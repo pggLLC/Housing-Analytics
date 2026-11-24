@@ -2782,10 +2782,12 @@
     reportBusy = true;
     var buttons = global.document.querySelectorAll('[data-hna-report]');
     Array.prototype.forEach.call(buttons, function (b) { b.disabled = true; });
-    // nameFor lives in site/step-bar.js (LabStep); calling it bare here threw and left both report buttons disabled.
-    var label = (global.LabStep && global.LabStep.nameFor && global.LabStep.nameFor(g)) || g;
-    reportStatus(g, 'Building the ' + spec.what + ' for ' + label + '…');
+    // Everything after the buttons are disabled sits inside the try, so any error re-enables them (finally) and says so.
+    var label = g;
     try {
+      // nameFor lives in site/step-bar.js (LabStep); calling it bare here once threw and left both buttons disabled.
+      label = (global.LabStep && global.LabStep.nameFor && global.LabStep.nameFor(g)) || g;
+      reportStatus(g, 'Building the ' + spec.what + ' for ' + label + '…');
       var w = await reportReady(reportFrameFor(g), spec);
       if (!w) { reportStatus(g, 'The ' + spec.what + ' could not be built: the assessment did not finish loading. Try again in a moment.'); return; }
       // The file is only written for the place on this page: if the assessment opened any other place, nothing is saved.
