@@ -228,6 +228,7 @@
           <li><a href="#m-loss">What future need counts, and what it leaves out</a></li>
           <li><a href="#m-alternatives">Why this method and not another</a></li>
           <li><a href="#m-footprint">How the site is built, and its environmental footprint</a></li>
+          <li><a href="#m-conventions">Site-wide conventions and core sources</a></li>
         </ol>
       </nav>
 
@@ -1322,6 +1323,71 @@ weighted_avg(F)  =  ───────────────       F* = { f
               Berkeley National Laboratory, December 2024</a>).
             </li>
           </ul>
+        </div>
+      </section>
+
+      <!-- Moved from About (duplicate cleanup, 24 Nov 2026, row 17): About's Methodology, Site Calculations and
+           Core Sources now link here, so the site describes its methods in one place. Text and links as they were. -->
+      <section aria-labelledby="m-conventions">
+        <h2 id="m-conventions"><span class="num">12</span> Site-wide conventions and core sources</h2>
+        <div class="col">
+          <h3 id="m-conventions-data">12.1 &middot; How the data is gathered</h3>
+          <p><strong>Data Aggregation:</strong> Data is drawn from public agency sources, and each page names the sources and data years behind its figures.</p>
+          <p><strong>Colorado LIHTC Data Provenance:</strong> For Colorado-specific LIHTC analyses, the primary data source is the CHFA (Colorado Housing and Finance Authority) ArcGIS FeatureServer, which provides the most current Colorado project data. If CHFA's endpoint is unreachable or returns an empty result, the system automatically falls back to the HUD LIHTC ArcGIS service. For all other states, HUD is the live source. An embedded Colorado fallback dataset is used when both live APIs are unavailable. The active data source is clearly labeled (Source: CHFA / Source: HUD) on LIHTC project listings and in each project popup.</p>
+          <p><strong>State Allocations:</strong> Per-capita calculations use Census Bureau population estimates (ACS population or Census estimates as used on the page). Allocation tiers are based on total dollar amounts, not adjusted for cost of living or construction costs. Rankings are sorted descending by selected metric; ties follow stable sort / alphabetical where applicable.</p>
+          <p><strong>Market Analysis:</strong> Pricing data reflects secondary market transactions and may vary by deal structure, investor type, and state-specific factors.</p>
+          <p><strong>Economic Indicators:</strong> Federal Reserve Economic Data (FRED) provides standardized metrics updated according to each series' publication schedule. CPI and PPI are index levels, not dollars; changes are computed on index levels. Charts show native units (SAAR, %, index, or dollars as labeled).</p>
+          <p><strong>Commodity &amp; Cost Indicators:</strong> Commodity and cost indicators are reported from BLS PPI series accessed via FRED. The site charts observed data and simple changes (e.g., year-over-year), not forward projections unless explicitly labeled.</p>
+          <h3 id="m-conventions-calc">12.2 &middot; Calculations used across the site</h3>
+          <p><strong>Year-over-Year % Change:</strong> <code>(current year − prior year) ÷ prior year × 100</code></p>
+          <p><strong>Per-Capita Allocations:</strong> <code>allocation ÷ population</code> using ACS population estimates or Census estimates as available for the geography shown.</p>
+          <p><strong>Ranking Logic:</strong> Sorted descending by selected metric; ties follow stable sort / alphabetical where applicable.</p>
+          <p><strong>Index Series:</strong> CPI and PPI are index levels, not dollar amounts. Changes are computed directly on index levels.</p>
+          <p><strong>Units &amp; Scaling:</strong> Charts show native units — SAAR (seasonally adjusted annual rate), percentage points, index levels, or dollars — as labeled on each chart.</p>
+          <p><strong>Maps:</strong> Maps are rendered with Leaflet; basemap tiles may be sourced from OpenStreetMap contributors (per tile provider attribution).</p>
+          <h3 id="m-sources">12.3 &middot; Core sources</h3>
+        <h4>Economy &amp; Inflation</h4>
+        <ul>
+          <li><a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">Federal Reserve Economic Data (FRED)</a> — economic indicators, interest rates, housing starts</li>
+          <li><a href="https://www.bls.gov/ppi" target="_blank" rel="noopener">BLS Producer Price Index (PPI)</a> — construction input costs by material category</li>
+          <li><a href="https://www.bls.gov/cps" target="_blank" rel="noopener">BLS Current Population Survey (CPS)</a> — labor force and employment</li>
+          <li><a href="https://www.bls.gov/jlt" target="_blank" rel="noopener">BLS JOLTS</a> — job openings and labor turnover</li>
+        </ul>
+
+        <h4>Census</h4>
+        <ul>
+          <li><a href="https://www.census.gov/programs-surveys/acs/" target="_blank" rel="noopener">American Community Survey (ACS)</a> — population, housing, and income data</li>
+          <li><a href="https://www.census.gov/construction/nrc/" target="_blank" rel="noopener">Census New Residential Construction</a> — housing starts and permits</li>
+        </ul>
+
+        <h4>HUD</h4>
+        <ul>
+          <li><a href="https://www.huduser.gov/portal/sadda/sadda_qct.html" target="_blank" rel="noopener">HUD QCT/DDA Designations</a> — qualified census tracts and difficult development areas</li>
+          <li><a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD Income Limits</a> — area median income limits by geography</li>
+          <li><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC Dataset</a> (landing page) — project-level LIHTC allocation data</li>
+          <li><a href="https://www.huduser.gov/lihtc/" target="_blank" rel="noopener">HUD LIHTC Query Tool</a> — interactive project search</li>
+        </ul>
+
+        <h4>LIHTC &amp; Policy</h4>
+        <ul>
+          <li><a href="https://www.ncsha.org/advocacy-issues/housing-credit/" target="_blank" rel="noopener">NCSHA</a> — state housing finance agency information and LIHTC policy resources</li>
+          <li><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits" target="_blank" rel="noopener">Novogradac Affordable Housing Tax Credits Hub</a> — market analysis and pricing data</li>
+          <li><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/qct-dda-mapping-tool" target="_blank" rel="noopener">Novogradac QCT/DDA Mapping Tool</a> — interactive mapping tool</li>
+        </ul>
+
+        <h4>Colorado</h4>
+        <ul>
+          <li><a href="https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/0" target="_blank" rel="noopener">CHFA HousingTaxCreditProperties (live ArcGIS)</a> — <strong>primary source</strong> for Colorado LIHTC project locations and data (Colorado Housing and Finance Authority; 926 projects through 2025)</li>
+          <li><a href="https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0" target="_blank" rel="noopener">HUD LIHTC FeatureServer</a> — secondary / fallback source (national database; lags Colorado data by 2–3 years)</li>
+          <li><a href="https://www.chfainfo.com/arh/lihtc" target="_blank" rel="noopener">CHFA</a> — Colorado Housing and Finance Authority LIHTC program and allocations</li>
+          <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Proposition 123</a> — local government affordable housing commitments</li>
+        </ul>
+
+        <h4>CRA / Finance</h4>
+        <ul>
+          <li><a href="https://www.ffiec.gov/craadweb/main.aspx" target="_blank" rel="noopener">FFIEC CRA</a> — Community Reinvestment Act data and disclosure reports</li>
+          <li><a href="https://ncua.gov/support-services/credit-union-resources-expansion/grants-loans/grants" target="_blank" rel="noopener">NCUA Grants &amp; Community Development</a> — credit union community development resources</li>
+        </ul>
         </div>
       </section>
 
