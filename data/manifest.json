@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-24T17:56:53.649436Z",
+  "generated": "2026-11-24T18:22:29.171045Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8584,7 +8584,7 @@
     "data/insights/catalog.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13547
+      "bytes": 13582
     },
     "data/jurisdiction-briefs/_lihtc-applications-excluded.json": {
       "featureCount": 0,
@@ -9139,7 +9139,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16185
+      "bytes": 16184
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,

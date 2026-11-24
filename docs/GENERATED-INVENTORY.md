@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T17:56:06.277Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T18:21:45.253Z. Do not edit by hand.
 
 ---
 
@@ -12,13 +12,13 @@
 |------|-------|------|
 | `404.html` | Page not found | COHO Analytics | 3.5 KB |
 | `LIHTC-dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
-| `about.html` | About | COHO Analytics | 19.3 KB |
+| `about.html` | About | COHO Analytics | 11.5 KB |
 | `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.8 KB |
 | `apa-white-paper.html` | Deciding About Housing With Public Data: A White Paper for Planners | COHO Analytics | 47.6 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | COHO Analytics | 44.5 KB |
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | COHO Analytics | 23.2 KB |
 | `article-federal-rule-changes.html` | Federal Rule Changes That Would Help Affordable Housing | COHO Analytics | 86.2 KB |
-| `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.4 KB |
+| `article-pricing.html` | Tax Credit Equity Markets | COHO Analytics | 13.7 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 17.3 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 42.9 KB |
 | `colorado-deep-dive.html` | Colorado Deep Dive | COHO Analytics | 227.3 KB |
@@ -39,7 +39,7 @@
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 94.3 KB |
 | `deal-hub.html` | Build a deal · COHO Analytics | 8.9 KB |
-| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 161.9 KB |
+| `deal-market-analysis.html` | Market Analysis · COHO Analytics | 162.1 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 95.7 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.6 KB |
@@ -67,9 +67,9 @@
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 78.6 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.8 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.6 KB |
-| `market-analysis.html` | Market Analysis | COHO Analytics | 159.8 KB |
+| `market-analysis.html` | Market Analysis | COHO Analytics | 159.9 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
-| `methods.html` | Computational Methods | COHO Analytics | 88.3 KB |
+| `methods.html` | Computational Methods | COHO Analytics | 101.3 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
 | `opportunities-hub.html` | Opportunities · COHO Analytics | 7.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
@@ -1805,7 +1805,7 @@
 | `data/hud-home-rent-limits-co-2026.json` | 60.4 KB | ✅ | — |
 | `data/hud-lihtc-co-match.json` | 225.7 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/insights/catalog.json` | 13.2 KB | ✅ | — |
+| `data/insights/catalog.json` | 13.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications-excluded.json` | 465 B | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 431.6 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 10.9 KB | ✅ | — |
@@ -2313,7 +2313,7 @@
 | `test/guided-path-enters-the-chapters.test.mjs` | 10.6 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 5.0 KB |
 | `test/guided-path-product-routes.test.js` | 16.7 KB |
-| `test/guides-open-in-hub.test.mjs` | 21.3 KB |
+| `test/guides-open-in-hub.test.mjs` | 22.1 KB |
 | `test/hamilton-perry-option.test.js` | 17.7 KB |
 | `test/headship-held-option.test.js` | 13.5 KB |
 | `test/helpers/ci-wiring.js` | 1.9 KB |
@@ -2693,7 +2693,7 @@
 | `test/table-header-tips.test.js` | 9.2 KB |
 | `test/table-sort.test.js` | 19.8 KB |
 | `test/tariffs-brief.test.mjs` | 19.9 KB |
-| `test/tax-credit-equity-markets.test.js` | 12.8 KB |
+| `test/tax-credit-equity-markets.test.js` | 13.5 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-reachability.test.js` | 8.4 KB |
