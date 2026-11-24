@@ -195,7 +195,12 @@
     var bare = new URLSearchParams(params.toString()); bare.delete('g');
     var key = bare.toString();
     if (opened && opened.key === key) return opened;
+    // A new link starts from the starting values, so a box this link leaves out (the calculator's link omits a blank
+    // box) never keeps the last link's entry (Codex review of HA #2991). A redraw of the same link keeps edits (above).
     var s = quick(), got = {}, notes = [], unread = [];
+    var base = JSON.parse(JSON.stringify(Q().START));
+    Object.keys(base).forEach(function (k) { s[k] = base[k]; });
+    x = JSON.parse(JSON.stringify(START));
     var counties = data.hud.counties || [];
     var fips = String(params.get('county-select') || '');
     var county = counties.filter(function (c) { return c.fips === fips; })[0];
