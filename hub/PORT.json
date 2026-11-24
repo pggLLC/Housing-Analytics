@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "6ea84121aa78c0cb32d3615649d26ddab27b29ff",
+  "commit": "1776b8fcbeaa809b8547e671b5f8cd7d9e5780f3",
   "dirty": false
  },
  "files": {
@@ -76,7 +76,7 @@
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
   "hub/guide.js": "ac1d7263d27d2529d2efb0dc08ae67863ca4441503a839495bd1e312532d0f32",
   "hub/hna-dola.js": "fbd5032131872fdd0b9ba6bd5b3015ee19dd6756abdd48caaa7143048f64cdc7",
-  "hub/hna.js": "6527d6f4ddacd33c5713911382474e56f14b4dcaeb8b2a7e485d19570d8c56df",
+  "hub/hna.js": "db6f33cd2d8a3433cfef070f47a8d27d1480ac3ed149d98f338505d0658602db",
   "hub/home.css": "a04bda07e50b51d317831b53f60b213e8efde90513b734f7567043c95711a32e",
   "hub/home.js": "79d1234008c8a3c1bf88fafc594aadf24b0d57e9217d8f64ea7156570b97d100",
   "hub/homes.js": "048cc62e0cfd9789252368d9aecf8e951c96500f207d94bb41f54dc7e6684d2b",
@@ -125,7 +125,7 @@
   "hub/slider.js": "8af257af0c99e0dd98be109775e5e0c8abc6c61b77e2ad2eae90351001d3c76e",
   "hub/small-pages.css": "01c03c267e836964d60cf723e0fb1ba0c1e6bc13a3ef7b1b3cb10bd179d5c9d8",
   "hub/start-numbers.js": "50205a8ddccc79283c6b218811aa6f82a912749a1952ea4d843a4d38610183ea",
-  "hub/step-bar.js": "646522f45a2f0a3a3a6d65440733278d7c4f48838be137fb2e1dc12b3de3ffba",
+  "hub/step-bar.js": "1e0d85c31570d4a270a303a2ae670533c0976e6890f80355910218880d13fff9",
   "hub/strength.js": "267e464d104b402a33859aeb289acb365c202ee62aebb0df89634e0e2f3c4921",
   "hub/templates.css": "25ef810e92e5408a491d40e2797e45e241bbdee071ea1ce41dbd79db8849520c",
   "hub/templates.js": "5b21d8103ca129232f2bcac12131d7e5a9f7d8ed849770a3a8541baf5136c661",
