@@ -610,7 +610,7 @@
   Shell.views.places = placesView;
   Shell.views.place = placeView;
   global.LabPlaces = { entryFor: entryFor, retiredTo: retiredTo, countyEntries: countyEntries, TERMS: TERMS, bandsOwn: bandsOwn, needMap: needMap, per10: per10, MAP_BINS: MAP_BINS,
-    shortfall: shortfall, shortNested: shortNested, gapMetric: gapMetric, gapRecordFor: gapRecordFor, GAP_KEYS: GAP_KEYS, netGap: netGap, gapCard: gapCard, placeFacts: placeFacts, countyFacts: countyFacts, QUESTIONS: QUESTIONS, FILES: FILES, LIVE: LIVE,
+    shortfall: shortfall, shortNested: shortNested, gapMetric: gapMetric, gapRecordFor: gapRecordFor, GAP_KEYS: GAP_KEYS, netGap: netGap, placeFacts: placeFacts, countyFacts: countyFacts, QUESTIONS: QUESTIONS, FILES: FILES, LIVE: LIVE,
     // Shared with hna.js, which builds the place page's chapters.
     data: function () { load(); return { data: data, error: error }; }, card: card, scope: scope, AT: AT, srcLine: srcLine, SRC: SRC, gapCard: gapCard, gapChart: gapChart, ladder: ladder, useHref: useHref, num: num, money: money
   };
