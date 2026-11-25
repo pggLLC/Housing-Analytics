@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-25T20:26:29.087Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-25T20:54:14.389Z. Do not edit by hand.
 
 ---
 
@@ -2057,7 +2057,7 @@
 
 ## Test Files
 
-801 test files found.
+802 test files found.
 
 | File | Size |
 |------|------|
@@ -2224,6 +2224,7 @@
 | `test/deal-review-checks.test.js` | 7.7 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
 | `test/deal-tracker-wording.test.js` | 5.2 KB |
+| `test/deal-workbook-checks.test.js` | 4.3 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 8.2 KB |
 | `test/deep-dive-aamd-vacancy.test.mjs` | 4.4 KB |
 | `test/deep-dive-hmda-loads-on-page-load.test.js` | 3.3 KB |
