@@ -47,9 +47,16 @@
       if (a.federal_4pct_credit) pt.push('lihtc-4pct');
       if (a.state_credit) pt.push('lihtc-state-paired');
       if (a.mihtc_credit) pt.push('lihtc-mihtc');
-      return { property_name: a.name, city: a.city, lat: +a.lat, lng: +a.lon, program_type: pt, total_units: a.total_units };
+      return { property_name: a.name, city: a.city, lat: +a.lat, lng: +a.lon, program_type: pt, total_units: a.total_units, li_units: a.li_units, award_year: 2026, award_round: pair2round(a._tag) };
     });
     return { metadata: P.metadata, properties: (P.properties || []).concat(extra) };
+  }
+  function pair2round(tag) { return tag === 'chfa-2026-r2-bridge' ? '2026 Round Two' : '2026 Round One'; }
+  // A 2026 award from CHFA's round award lists, in the shape of a feed award (CHFA's property feed has none yet).
+  function bridgeAward(p, anchor) {
+    var pt = p.program_type || [], credit = [pt.indexOf('lihtc-9pct') !== -1 ? '9%' : '', pt.indexOf('lihtc-4pct') !== -1 ? '4%' : '', pt.indexOf('lihtc-state-paired') !== -1 ? 'state credit' : ''].filter(Boolean).join(' + ');
+    return { name: p.property_name, city: p.city, year: 2026, units: +(p.li_units || p.total_units) || 0, credit: (credit ? credit + ', ' : '') + p.award_round + ' (CHFA award list)',
+      mi: miles(anchor.lat, anchor.lng, p.lat, p.lng) };
   }
   function programOf(p) {
     var A = global.AffordableHousingLayer, c = A && A.categorize ? A.categorize(p) : null;
@@ -272,12 +279,18 @@
       var pts = d.lihtc.features.filter(function (f) { return String(f.properties.CNTY_FIPS || '').padStart(5, '0') === fips && f.geometry; }).map(function (f) { return f.geometry.coordinates; });
       if (pts.length) anchor = { lat: pts.reduce(function (t, x) { return t + x[1]; }, 0) / pts.length, lng: pts.reduce(function (t, x) { return t + x[0]; }, 0) / pts.length };
     }
+    // CHFA's property feed has no 2026 awards yet; its round award lists add them (Round One 21 May, Round Two 16 Nov 2026).
+    var feedNames = {}; d.lihtc.features.forEach(function (f) { if (f.properties && f.properties.PROJECT) feedNames[String(f.properties.PROJECT).toLowerCase()] = true; });
     var nowY = new Date().getFullYear(), recent = anchor ? d.lihtc.features.map(function (f) {
       var p = f.properties || {}, co = f.geometry && f.geometry.coordinates, y = parseInt(p.AwardYear || p.YR_ALLOC, 10);
       if (!co || !isFinite(y) || y < COMP_SINCE || y > nowY + 1) return null;
       var mi = miles(anchor.lat, anchor.lng, co[1], co[0]);
       return mi <= COMP_RADIUS ? { name: p.PROJECT, city: String(p.PROJ_CTY || '').toLowerCase().replace(/\b\w/g, function (x) { return x.toUpperCase(); }), year: y, units: +p.LI_UNITS || 0, credit: p.CREDIT, mi: mi } : null;
-    }).filter(Boolean).sort(function (a, b) { return b.year - a.year || b.units - a.units; }).slice(0, 12) : [];
+    }).filter(Boolean).concat((P.properties || []).filter(function (p) {
+      return /^chfa-2026-r[12]-bridge$/.test((p.program_type || [])[0] || '');
+    }).map(function (p) { return bridgeAward(p, anchor); }).filter(function (x) {
+      return x.mi <= COMP_RADIUS && !feedNames[String(x.name).toLowerCase()];
+    })).sort(function (a, b) { return b.year - a.year || b.units - a.units; }).slice(0, 12) : [];
     return '<h2>Five nearest affordable properties</h2>' +
       (near.length ? '<p>Any program: tax credit, CHFA preservation, HUD multifamily, USDA Rural Development and local voucher homes. Distance from the middle of ' + esc(name) + '. CHFA’s usual market area runs 5 miles in a city and up to 30 in rural places.</p>' +
         (global.LabViz ? global.LabViz.orderedBars({ title: 'How far each one is', answer: 'Miles from the middle of ' + name + '.', noShare: true, color: 'var(--c-blue)',
@@ -292,7 +305,8 @@
         { key: 'name', label: 'Property', href: function (r) { return global.LabDeals ? global.LabDeals.summaryHref({ agency: 'CHFA', year: r.year, name: r.name }) : null; }, tip: 'A linked name opens COHO’s sourced deal summary' }, { key: 'city', label: 'Town' }, { key: 'year', label: 'Award year', num: true, tip: 'The year CHFA awarded the credits. A property usually opens two to three years later.' },
         { key: 'units', label: 'Affordable homes', num: true, fmt: num }, { key: 'credit', label: 'Credit' }, { key: 'mi', label: 'Miles', num: true, fmt: function (v) { return v.toFixed(1); } }
       ], recent, { noun: 'awards', placeholder: 'Property or town' }) : '<p class="note">No CHFA tax credit award within ' + COMP_RADIUS + ' miles since ' + COMP_SINCE + '.</p>') +
-      T.source('CHFA housing tax credit properties', d.lihtc.source, String(d.lihtc.fetchedAt).slice(0, 10));
+      T.source('CHFA housing tax credit properties', d.lihtc.source, String(d.lihtc.fetchedAt).slice(0, 10)) +
+      (recent.some(function (x) { return / \(CHFA award list\)$/.test(x.credit || ''); }) ? T.source('CHFA 2026 award lists (Round One, 21 May; Round Two, 16 Nov), until CHFA’s property feed lists them', 'https://www.chfainfo.com/rental-housing/housing-credit', '2026-11-16') : '');
   }
 
   function view(params) {
