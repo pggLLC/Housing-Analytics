@@ -3129,6 +3129,12 @@
           <dd id="dc-r-rents" style="font-weight:700;text-align:right;">—</dd>
         </dl>
         <p id="dc-cb-credit-note" role="status" style="font-size:var(--tiny);line-height:1.45;margin:.35rem 0 0;"></p>
+        <p id="dc-boost-sizing" data-dc-mode="rental" role="status" hidden style="font-size:var(--small);line-height:1.45;margin:.45rem 0 0;padding:.4rem .6rem;border-left:3px solid var(--accent);background:var(--bg2);border-radius:0 4px 4px 0;"></p>
+        <details id="dc-checks-panel" data-dc-mode="rental" style="margin-top:var(--sp2);border:1px solid var(--border);border-radius:var(--radius);padding:.5rem .75rem;background:var(--bg2);">
+          <summary id="dc-checks-summary" style="cursor:pointer;min-height:44px;font-weight:700;font-size:var(--small);display:flex;align-items:center;">Deal checks</summary>
+          <p style="font-size:var(--tiny);color:var(--muted);line-height:1.45;margin:.2rem 0 .5rem;">Every check from the dossier deal workbooks that applies here, with CHFA's rule where there is one. Look again means CHFA may ask about it; it doesn't stop the deal.</p>
+          <ul id="dc-checks-list" style="list-style:none;margin:0;padding:0;font-size:var(--small);line-height:1.45;"></ul>
+        </details>
         <details id="dc-cb-panel" data-dc-mode="rental" style="margin-top:var(--sp2);border:1px solid var(--border);border-radius:var(--radius);padding:.5rem .75rem;background:var(--bg2);">
           <summary style="cursor:pointer;min-height:44px;font-weight:700;font-size:var(--small);">How basis and credit were calculated</summary>
           <div id="dc-cb-detail" style="font-size:var(--small);line-height:1.45;"></div>
@@ -4921,6 +4927,38 @@
     }).join('');
   }
 
+  // Workbook pieces (paul, 25 Nov 2026, "approve the workbook pieces"): the CHFA boost that would close the gap,
+  // and every dossier-workbook check in one list. Both read the engine (sizeChfaBoost, dealChecks); neither
+  // changes a figure.
+  var CHECK_MARK = { pass: ['✓', 'Pass', 'var(--good,#15803d)'], look: ['!', 'Look again', 'var(--warn,#b45309)'],
+    fail: ['✕', 'Fail', 'var(--bad,#b91c1c)'], na: ['–', 'Not checked', 'var(--muted)'] };
+  function renderWorkbookChecks(result, inputs, fmt) {
+    var engine = dealEngine();
+    var boostEl = document.getElementById('dc-boost-sizing');
+    if (boostEl && engine.sizeChfaBoost) {
+      var b = inputs ? engine.sizeChfaBoost(inputs) : null;
+      var text = '';
+      if (b && b.status === 'sized') text = '<strong>A CHFA basis boost of ' + b.pct.toFixed(1) + '% would close the ' + fmt(b.gap) + ' gap.</strong> CHFA may award up to ' + b.maxPct + '% to a 9% building that needs it to be feasible (' + b.citation + '). This is a readout: the figures above assume no CHFA boost.';
+      else if (b && b.status === 'not-enough') text = '<strong>No CHFA basis boost closes this gap.</strong> At the most CHFA awards (' + b.maxPct + '%), ' + fmt(b.gapAtMost) + ' is still short'
+        + (b.setBy === 'round' ? ', because the credit reaches CHFA\'s per-project limit.' : b.setBy === 'cost limit' ? ', because CHFA\'s cost basis limit sets the credit.' : '.') + ' (' + b.citation + ')';
+      boostEl.innerHTML = text;
+      boostEl.hidden = !text;
+    }
+    var list = document.getElementById('dc-checks-list'), summary = document.getElementById('dc-checks-summary');
+    if (!list || !engine.dealChecks) return;
+    var c = engine.dealChecks(result);
+    list.innerHTML = c.items.map(function (it) {
+      var m = CHECK_MARK[it.status] || CHECK_MARK.na;
+      return '<li data-check="' + _escHtml(it.id) + '" data-status="' + it.status + '" style="display:grid;grid-template-columns:1.6rem 1fr;gap:.1rem .4rem;padding:.35rem 0;border-top:1px solid var(--border);">'
+        + '<span aria-hidden="true" style="font-weight:700;color:' + m[2] + ';text-align:center;">' + m[0] + '</span>'
+        + '<span><strong>' + _escHtml(it.label) + '</strong> <span style="color:' + m[2] + ';font-weight:600;">' + m[1] + '</span>'
+        + (it.detail ? '<span style="display:block;color:var(--muted);">' + _escHtml(it.detail) + '</span>' : '')
+        + (it.citation ? '<span style="display:block;font-size:var(--tiny);color:var(--muted);">' + _escHtml(it.citation) + '</span>' : '') + '</span></li>';
+    }).join('');
+    if (summary) summary.textContent = 'Deal checks: ' + c.counts.pass + ' pass, ' + c.counts.look + ' look again, ' + c.counts.fail + ' fail'
+      + (c.counts.na ? ', ' + c.counts.na + ' not checked' : '');
+  }
+
   function renderCostBasis(result, fmt) {
     var cbr = result.costBasis;
     if (!cbr) return;
@@ -5359,6 +5397,7 @@
 
     // #2160: budget totals come from the itemized cost lines.
     renderCostBasis(result, fmt);
+    renderWorkbookChecks(result, inputs, fmt);
     renderAddedCredit(result, fmt);
     renderOperatingBudget(result, fmt);
     renderPermanentFinancing(result, fmt);
