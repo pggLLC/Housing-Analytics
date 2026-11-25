@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-25T19:02:41.589Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-25T19:27:08.955Z. Do not edit by hand.
 
 ---
 
@@ -1974,7 +1974,7 @@
 | `data/policy/colorado-deal-rules.json` | 2.5 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
-| `data/policy/developer-ownership-funding.json` | 22.1 KB | ✅ | — |
+| `data/policy/developer-ownership-funding.json` | 23.2 KB | ✅ | — |
 | `data/policy/fee-reductions.json` | 576.7 KB | ✅ | — |
 | `data/policy/forest-service-admin-sites.json` | 32.7 KB | ✅ | — |
 | `data/policy/funding-awards/applicant-report-counts.json` | 4.0 KB | ✅ | — |
