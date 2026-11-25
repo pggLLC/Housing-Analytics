@@ -25,7 +25,7 @@ import assert from 'node:assert';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { JSDOM } from 'jsdom';
+import { JSDOM, VirtualConsole } from 'jsdom';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SELECTOR = fs.readFileSync(path.join(ROOT, 'js/jurisdiction-selector.js'), 'utf8');
@@ -141,6 +141,48 @@ test('the button names the destination it actually opens', () => {
     `step 'deal' resolves to '${label}', so a button built from it would not name the page`);
   assert.ok(!/Housing Needs Assessment/.test(label),
     'the deal step is labelled as the needs assessment');
+});
+
+// The step banner on the picker names the same destination as the picker's own button (launch audit, 25 Nov:
+// opened from Market Analysis, the banner still said "continue to Housing Needs Assessment"). Pinned to agreement,
+// not wording: the expected name comes from the rail, and both the banner and the initialised button must carry it.
+function picker(search) {
+  const dom = new JSDOM(
+    '<!doctype html><html><body><main><div class="sj-header"><h1>Where are you working?</h1></div>'
+    + '<button id="sjContinueBtn">Begin Housing Needs Assessment →</button><input id="countySearch"></main></body></html>',
+    // The picker's init also wires parts of the page this fixture leaves out; their errors are not this check's.
+    { url: 'http://localhost/select-jurisdiction.html' + search, runScripts: 'outside-only', virtualConsole: new VirtualConsole() });
+  const w = dom.window;
+  w.WorkflowState = { getProgress: () => ({ completedSteps: [] }) };
+  w.fetch = () => new Promise(() => {}); // the picker's place list is not needed here
+  w.eval(PROGRESS);
+  w.eval(NEXT_ACTION);
+  w.eval(SELECTOR);
+  w.document.dispatchEvent(new w.Event('DOMContentLoaded')); // the picker's init relabels its button
+  w.WorkflowNextAction.render();
+  const m = w.document.getElementById('workflowNextAction');
+  const canon = w.WorkflowNextAction.steps();
+  const back = w.JurisdictionSelector.returnTarget();
+  const key = back ? canon.keys.find((k) => canon.urls[k] === back) : null;
+  return { banner: m ? m.textContent : '', button: w.document.getElementById('sjContinueBtn').textContent,
+    dest: key ? canon.labels[key] : null, hna: canon.labels.hsa };
+}
+
+test('the step banner and the button name the same place ?next= sends the reader', () => {
+  const plain = picker('');
+  assert.ok(plain.hna && plain.banner.includes(plain.hna), 'with no next=, the banner no longer names the needs assessment: ' + plain.banner);
+  let checked = 0;
+  for (const next of ['deal-market-analysis.html', 'deal-calculator.html']) {
+    const r = picker('?next=' + next);
+    assert.ok(r.dest, next + ' is not a step on the rail; this probe proves nothing');
+    assert.ok(r.button.includes(r.dest), next + ': the button says "' + r.button + '", not ' + r.dest);
+    assert.ok(r.banner.includes(r.dest), next + ': the banner does not name ' + r.dest + ': ' + r.banner);
+    assert.ok(!r.banner.includes(r.hna), next + ': the banner still names ' + r.hna + ': ' + r.banner);
+    checked++;
+  }
+  assert.strictEqual(checked, 2);
+  // A refused next= changes nothing.
+  assert.strictEqual(picker('?next=' + encodeURIComponent('https://example.com/x.html')).banner, plain.banner);
 });
 
 test('and the allowlist would actually notice', () => {

@@ -88,6 +88,18 @@
       }
       short[b] = v;
     });
+    // Never falls as the level rises (paul, 25 Nov 2026, the rule on every page): homes priced above what the
+    // poorer households can pay do not close their shortfall. A level with no count of its own stays unmeasured.
+    // The 40% band counts too, as on the place cards (Codex on HA #3010), though it is not shown here.
+    var most = null, own40 = null;
+    if (place) { var h40 = (rec.households_le_ami_pct || {})['40'], u40 = (rec.units_priced_affordable_le_ami_pct || {})['40']; if (h40 != null && u40 != null && isFinite(Number(h40)) && isFinite(Number(u40))) own40 = Math.max(0, Number(h40) - Number(u40)); }
+    else { var g40 = (rec.gap_units_minus_households_le_ami_pct || {})['40']; if (g40 != null && g40 !== '' && isFinite(Number(g40))) own40 = Math.max(0, -Number(g40)); }
+    LEVELS.forEach(function (b) {
+      if (short[b] == null) return;
+      most = most == null ? short[b] : Math.max(most, short[b]);
+      if (b > 40 && own40 != null) most = Math.max(most, own40);
+      short[b] = most;
+    });
     return { name: place ? rec.place_name || 'this town' : rec.county_name || 'this county', level: place ? 'town' : 'county', short: short,
       source: String(meta.source || 'Census ACS renter affordability-gap counts').replace(/[.\s]+$/, '') + (meta.acs_year ? ', ACS ' + meta.acs_year : '') + (meta.hud_income_limits_year ? ', HUD FY' + meta.hud_income_limits_year + ' income limits' : '') };
   }

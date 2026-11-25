@@ -384,6 +384,17 @@
         nextAfterCurrent = STEP_KEYS[na];
         break;
       }
+      // Sent here from another step to pick a place (select-jurisdiction.html?next=…): the banner names that step,
+      // as the page's own button does, not the Needs Assessment (launch audit, 25 Nov: opened from Market Analysis,
+      // the page said "continue to Housing Needs Assessment"). Only an allowlisted step href comes back from
+      // returnTarget, and only one the canon lists is used.
+      if (currentStep === 'jurisdiction') {
+        var back = null;
+        try { back = global.JurisdictionSelector && global.JurisdictionSelector.returnTarget(); } catch (e) { back = null; }
+        for (var bk = 0; back && bk < STEP_KEYS.length; bk++) {
+          if (STEP_URLS[STEP_KEYS[bk]] === back && STEP_KEYS[bk] !== 'jurisdiction') { nextAfterCurrent = STEP_KEYS[bk]; break; }
+        }
+      }
       icon    = '\uD83D\uDCCB';  // clipboard
       variant = 'current';
       heading = 'Step ' + (currentIdx + 1) + ' of ' + STEP_KEYS.length;

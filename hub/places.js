@@ -117,6 +117,46 @@
     var n = netGap(rec, band, gapSign);
     return n == null ? null : Math.max(0, n);
   }
+  // Homes short at or below a band never fall as the band widens (paul, 25 Nov 2026: one rule on every page). The
+  // files count everyone at or below each band, and a band with more homes than renters lowers the next count, but
+  // those homes cost too much for the poorer renters below, so their shortfall still stands. The shown count is the
+  // largest at or below the band: the fewest homes short once each home goes to a renter who can pay for it.
+  // null when the band's own count is missing.
+  function shortNested(rec, band, gapSign) {
+    var own = shortfall(rec, band, gapSign);
+    if (own == null) return null;
+    var most = own;
+    BANDS.forEach(function (b) { if (+b < +band) { var s = shortfall(rec, b, gapSign); if (s != null && s > most) most = s; } });
+    return most;
+  }
+  // The same rule for the ranking file's three counts (ami_gap_30pct, _50pct, _60pct), as stored in metrics: the
+  // value at a band is the largest of that band's count and the ones below it; null when its own count is missing.
+  // The ranking has no 40% count, so when the place or county gap record is at hand (opts.rec with opts.sign) its
+  // bands at or below the band count too, and the figure matches the place card (Codex on HA #3010).
+  var GAP_KEYS = ['ami_gap_30pct', 'ami_gap_50pct', 'ami_gap_60pct'];
+  function gapMetric(metrics, key, opts) {
+    opts = opts || {};
+    var read = opts.read || function (k) { var x = metrics && metrics[k]; return x == null || x === '' || !isFinite(Number(x)) ? null : Number(x); };
+    var i = GAP_KEYS.indexOf(key), own = read(key);
+    if (i < 1 || own == null) return own;
+    for (var j = 0; j < i; j++) { var y = read(GAP_KEYS[j]); if (y != null && y > own) own = y; }
+    if (opts.rec && opts.sign) {
+      var band = key.replace(/^ami_gap_|pct$/g, '');
+      var n = shortNested(opts.rec, band, opts.sign);
+      if (n != null && n > own) own = n;
+    }
+    return own;
+  }
+  // The gap record and its sign for a 7-digit place or 5-digit county GEOID, from the two gap files; null if absent.
+  function gapRecordFor(geoid, gapPlace, gapCounty) {
+    geoid = String(geoid || '');
+    if (geoid.length === 7 && gapPlace && gapPlace.places && gapPlace.places[geoid]) return { rec: gapPlace.places[geoid], sign: gapPlace.meta.gap_sign };
+    if (geoid.length === 5 && gapCounty && gapCounty.counties) {
+      var c = gapCounty.counties.filter(function (x) { return x.fips === geoid; })[0];
+      if (c) return { rec: c, sign: gapCounty.meta.gap_sign };
+    }
+    return null;
+  }
 
   function countyFacts(fips, d) {
     var county = d.gapCounty.counties.filter(function (c) { return c.fips === fips; })[0] || null;
@@ -143,7 +183,7 @@
     return {
       geoid: geoid, rec: rec, rent: rent, sign: sign, at: AT.gap(isCounty),
       bands: BANDS.map(function (b) {
-        return { band: b, at: AT.gap(isCounty), households: rec.households_le_ami_pct[b], homes: rec.units_priced_affordable_le_ami_pct[b], net: netGap(rec, b, sign), shortfall: shortfall(rec, b, sign), rent: rec.affordable_rent_monthly[b], matched: matched(rec, b) };
+        return { band: b, at: AT.gap(isCounty), households: rec.households_le_ami_pct[b], homes: rec.units_priced_affordable_le_ami_pct[b], net: netGap(rec, b, sign), shortfall: shortNested(rec, b, sign), ownShortfall: shortfall(rec, b, sign), rent: rec.affordable_rent_monthly[b], matched: matched(rec, b) };
       }),
       noCash: rec.renter_units_no_cash_rent,
       county: countyFacts(rec.containing_county_fips, d)
@@ -190,7 +230,9 @@
     var title = 'Renter households minus homes priced for them, at or below ' + b.band + '% AMI';
     if (b.net == null) return card(title, null, null, src, null, at);
     var signed = (b.net > 0 ? '+' : b.net < 0 ? '\u2212' : '') + num(Math.abs(b.net));
-    var short = b.net < 0 ? 'Shortfall: 0, since homes outnumber renters here.' : 'Shortfall: ' + num(b.shortfall) + ' renter households.';
+    var short = !b.shortfall ? 'Shortfall: 0, since homes outnumber renters here.'
+      : b.ownShortfall != null && b.shortfall > b.ownShortfall ? 'Shortfall: ' + num(b.shortfall) + ' renter households, the count at a lower income: the extra homes at this level cost too much for the poorer renters, so it never falls as income rises.'
+      : 'Shortfall: ' + num(b.shortfall) + ' renter households.';
     var min = b.matched == null ? '' : ' Matching each home to the households who can afford it, at least ' + num(b.matched) + ' homes are short.';
     return card(title, signed,
       'Signed difference. ' + short + ' ' + num(b.households) + ' renter households, ' + num(b.homes) + ' homes priced for them. Some of those homes are rented by higher-income households.' + min,
@@ -568,7 +610,7 @@
   Shell.views.places = placesView;
   Shell.views.place = placeView;
   global.LabPlaces = { entryFor: entryFor, retiredTo: retiredTo, countyEntries: countyEntries, TERMS: TERMS, bandsOwn: bandsOwn, needMap: needMap, per10: per10, MAP_BINS: MAP_BINS,
-    shortfall: shortfall, netGap: netGap, gapCard: gapCard, placeFacts: placeFacts, countyFacts: countyFacts, QUESTIONS: QUESTIONS, FILES: FILES, LIVE: LIVE,
+    shortfall: shortfall, shortNested: shortNested, gapMetric: gapMetric, gapRecordFor: gapRecordFor, GAP_KEYS: GAP_KEYS, netGap: netGap, gapCard: gapCard, placeFacts: placeFacts, countyFacts: countyFacts, QUESTIONS: QUESTIONS, FILES: FILES, LIVE: LIVE,
     // Shared with hna.js, which builds the place page's chapters.
     data: function () { load(); return { data: data, error: error }; }, card: card, scope: scope, AT: AT, srcLine: srcLine, SRC: SRC, gapCard: gapCard, gapChart: gapChart, ladder: ladder, useHref: useHref, num: num, money: money
   };
