@@ -64,6 +64,15 @@
     return to || o.live + href.replace(/^\.?\//, '');
   }
 
+  // A heading's or lede's own words, without the glossary popups a page read after js/glossary.js carries
+  // (span.gl-tooltip-popup inside each term): their text would otherwise run into the sentence
+  // ("LIHTCLow-Income Housing Tax CreditThe main federal program..."), clarity check 25 Nov 2026.
+  function words(el) {
+    const c = el.cloneNode(true);
+    c.querySelectorAll('.gl-tooltip-popup').forEach(n => n.remove());
+    return c.textContent.replace(/\s+/g, ' ').trim();
+  }
+
   function clean(node, doc, o) {
     node.querySelectorAll(DROP).forEach(n => n.remove());
     // The site's glossary script wraps a term in a popup (js/glossary.js: abbr.gl-tooltip-trigger holding a hidden
@@ -121,14 +130,14 @@
   // when h2s sit side by side in one block, the section is the h2's following siblings up to the next one.
   function byH2(main, doc, o) {
     const h1 = main.querySelector('h1');
-    const title = h1.textContent.replace(/\s+/g, ' ').trim();
+    const title = words(h1);
     // The lede is the first paragraph after the h1 inside the page's header block.
     let ledeEl = null;
     for (let box = h1.parentElement, up = 0; box && !ledeEl && up < 3; box = box.parentElement, up++) {
       ledeEl = [...box.querySelectorAll('p')].find(p => h1.compareDocumentPosition(p) & 4 && !p.querySelector('h2') && !p.closest('h2') && p.textContent.trim().length > 40) || null;
       if (ledeEl && [...main.querySelectorAll('h2')].some(h => h.compareDocumentPosition(ledeEl) & 4)) ledeEl = null;
     }
-    const lede = ledeEl ? ledeEl.textContent.replace(/\s+/g, ' ').trim() : '';
+    const lede = ledeEl ? words(ledeEl) : '';
     if (ledeEl) ledeEl.remove();
     h1.remove();
     // "Which document do you need?": the chooser the white paper, working paper and Methods share. It is the
@@ -215,8 +224,8 @@
   // The LIHTC guide's own layout: a .hero, a .lihtc-explainer intro and one <section> per part.
   function lihtc(main, doc, o) {
     const hero = main.querySelector('.hero');
-    const title = hero.querySelector('h1').textContent.trim();
-    const lede = hero.querySelector('p').textContent.replace(/\s+/g, ' ').trim();
+    const title = words(hero.querySelector('h1'));
+    const lede = words(hero.querySelector('p'));
     const intro = main.querySelector('.lihtc-explainer');
     const sections = [...main.children].filter(el => el.tagName === 'SECTION' && el !== intro).map((el, i) => {
       const h2 = el.querySelector('h2');

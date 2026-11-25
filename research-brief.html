@@ -387,7 +387,7 @@
         }
         var takeaway = section('brief-takeaway', 'Takeaway');
         takeaway.className = 'brief-takeaway';
-        el('p', brief.takeaway || String(brief.summary || '').split(/(?<=\.)\s+(?=[A-Z])/).slice(0, 2).join(' '), takeaway);
+        el('p', brief.takeaway || String(brief.summary || '').split(/(?<!\b[A-Z]\.)(?<!\b(?:Rep|Sen|Gov|St|No|Mr|Mrs|Ms|Dr|Jr|Inc|Co|Corp|vs|Ft|Mt)\.)(?<=\.)\s+(?=[A-Z])/).slice(0, 2).join(' '), takeaway);
         paragraphs(section('brief-summary', 'Summary'), brief.summary);
         paragraphs(section('brief-implications', 'Practical implications'), brief.implications);
         renderSections(brief);

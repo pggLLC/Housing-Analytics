@@ -464,7 +464,7 @@
         // counted" note are in that section.
         (aa30 ? T.summary({ from: 'Colorado deep dive: renters, owners and homes, statewide', href: '#/places/deep-dive?tab=need&at=dd-fvn-ami',
           figures: [{ value: num(aa30.homes_short), label: 'Homes short for renters at or below 30% AMI, Colorado', tenure: 'Renters' },
-            buyShort ? { value: '$' + num(buyShort), label: 'More income a typical renter household needs to buy Colorado’s typical home', tenure: 'Owners' } : null],
+            buyShort ? { value: '$' + num(buyShort), label: 'More a year than a typical renter household earns, to buy Colorado’s typical home', tenure: 'Buying a home' } : null],
           source: 'HUD CHAS ' + (aaYears || '') + (buyShort ? '; ACS ' + ((tf.meta && tf.meta.vintage) || '') + ' B25119 and B25077' : ''), sourceHref: 'https://www.huduser.gov/portal/datasets/cp.html',
           more: 'The statewide counts for renters and owners, both ways of counting renters, and why there is no “homes short” figure for buyers.' }) : '') +
         '<h2>Where renters at or below 30% AMI most outnumber the homes priced for them</h2>' +

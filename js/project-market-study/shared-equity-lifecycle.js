@@ -452,8 +452,8 @@
       publicSubsidyTreatmentLabel: 'Retained in the home; no separate recapture instruction was supplied.',
       preservesAffordability: preservesAffordability,
       preservesAffordabilityLabel: preservesAffordability
-        ? 'Resale price is within the next buyer modeled capacity.'
-        : 'Resale price exceeds the next buyer modeled capacity.',
+        ? 'The next buyer can pay the resale price.'
+        : 'The resale price is more than the next buyer can pay.',
       negativeEquity: ownerNetProceeds < 0,
       classification: CLASSIFICATION,
       scenarioLabel: scenarioLabel,

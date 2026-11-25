@@ -1216,7 +1216,7 @@
     return head([
         { value: compact(co.allocation), label: d.alloc.year + ' federal housing credit ceiling ($' + co.perCapita.toFixed(2) + ' per resident)', source: 'IRS', href: d.alloc.source && d.alloc.source.url },
         chas30(d) ? { value: num(chas30(d).homes_short), label: 'Homes short for renters at or below 30% AMI', source: 'HUD CHAS ' + chasYears(d), href: CHAS_URL } : null,
-        { value: num(-st.gap_units_minus_households_le_ami_pct[30]), label: 'The same on the ACS count (another measure), used for the county groups', source: 'ACS ' + d.gap.meta.acs_year + ' with HUD limits', href: d.gap.sources[2] && d.gap.sources[2].url },
+        { value: num(-st.gap_units_minus_households_le_ami_pct[30]), label: 'A second count of the same gap, from the newer Census survey; used only to group counties below', source: 'ACS ' + d.gap.meta.acs_year + ' with HUD limits', href: d.gap.sources[2] && d.gap.sources[2].url },
         { value: num(sw.lihtc_units), label: hasBonds(sw) ? 'Tax credit homes CHFA awarded, ' + w.first_year + '–' + w.last_year + ', rounds and 4% bond deals' : 'Tax credit homes in CHFA round award reports, ' + w.first_year + '–' + w.last_year + ' (4% bond deals outside the rounds not included)', source: 'CHFA award reports', href: '#/money?agency=CHFA' }
       ].filter(Boolean), d) +
       fold('About this page', 'What it does, why it matters, and what it does not do', '<p><strong>What this page does.</strong> ' + esc(STATIC.about[0]) + '</p><p><strong>Why it matters.</strong> ' + esc(STATIC.about[1]) + '</p><p><strong>What this page does not do.</strong> ' + esc(STATIC.about[2]) + '</p>' +

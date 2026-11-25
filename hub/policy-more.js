@@ -8,6 +8,12 @@
 //   rebuilt page where there is one.
 (function (global) {
   'use strict';
+  // The first n sentences of a summary. A period after a single capital (U.S., D.C., an initial) or a common
+  // title (Rep., Sen., St.) does not end a sentence: "Democrats are projected to win control of both the U.S."
+  // was the whole takeaway of the midterms brief (clarity check 25 Nov 2026).
+  function firstSentences(text, n) {
+    return String(text || '').split(/(?<!\b[A-Z]\.)(?<!\b(?:Rep|Sen|Gov|St|No|Mr|Mrs|Ms|Dr|Jr|Inc|Co|Corp|vs|Ft|Mt)\.)(?<=\.)\s+(?=[A-Z])/).slice(0, n).join(' ');
+  }
 
   var Shell = global.LabShell, T = global.LabTpl, UI = global.LabUI;
   var esc = Shell.esc, num = UI.num, money = UI.money;
@@ -46,7 +52,7 @@
     ['#/places/economy', 'Economic dashboard', 'Housing costs next to the wider economy that elections respond to.'],
     ['#/news', 'Housing news', 'Colorado housing headlines, newest first.'],
     ['#/legislation', 'Policy and legislation', 'The federal and Colorado laws, rules and CHFA plan changes COHO tracks.'],
-    ['#/research/brief/federal-midterms-2026-housing', '2026 midterms and housing', 'What the projected November 2026 congressional results could mean for federal housing money in Colorado.'],
+    ['#/research/brief/federal-midterms-2026-housing', '2026 midterms and housing', 'What the unofficial November 2026 congressional results could mean for federal housing money in Colorado.'],
     ['#/research/brief/co-vacancy-tax-2026', 'Vacancy taxes in Colorado', 'Who can tax empty homes, and what Boulder’s 2J, passed November 3, 2026, could raise.']
   ];
   function denverToday() {
@@ -722,7 +728,7 @@
     var arts = Array.isArray(b.articles) ? b.articles : [];
     return T.head({ kind: 'brief', crumbs: crumbs, title: b.title, meta: esc([b.policy_topic].concat(meta).filter(Boolean).join(' · ')) }) +
       '<article class="guide-body brief">' +
-      '<section id="brief-takeaway" class="brief-takeaway"><h2>Takeaway</h2><p>' + esc(b.takeaway || String(b.summary || '').split(/(?<=\.)\s+(?=[A-Z])/).slice(0, 2).join(' ')) + '</p></section>' +
+      '<section id="brief-takeaway" class="brief-takeaway"><h2>Takeaway</h2><p>' + esc(b.takeaway || firstSentences(b.summary, 2)) + '</p></section>' +
       '<section id="brief-summary"><h2>Summary</h2>' + paras(b.summary) + '</section>' +
       '<section id="brief-implications"><h2>Practical implications</h2>' + paras(b.implications) + '</section>' +
       briefSections(b) + (fees ? feeSection(fees) : '') +

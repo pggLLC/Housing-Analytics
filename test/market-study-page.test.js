@@ -70,7 +70,9 @@ assert.deepStrictEqual(
 // and candidate-only partner language are all visible.
 const directDerived = ProjectScenario.derive(scenarios[0], OwnershipFinance);
 directDerived.bands.forEach((band) => {
-  assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(band.assistanceRangeCheck));
+  // The finding is said in plain words, not the engine's 'sufficient' / 'insufficient' flag (clarity check, 25 Nov).
+  const finding = { sufficient: 'Gap covered', insufficient: 'even with the most down-payment help on offer', unknown: 'Assistance comparison unavailable' }[band.assistanceRangeCheck];
+  assert(finding && text(defaultDom.mount.querySelector('#ms-s1')).includes(finding), 'finding for ' + band.assistanceRangeCheck);
   assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(money(band.maxAffordablePrice)));
   assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(money(band.gapVsLocalPrice)));
 });
@@ -92,7 +94,7 @@ assert.strictEqual((text(defaultDom.mount).match(/Screening arithmetic for analy
 const firstBand = directDerived.bands[0];
 const firstAssistance = scenarios[0].assistance_ranges[0];
 const firstResidual = Math.max(0, firstBand.gapVsLocalPrice) - firstAssistance.range[1];
-assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(`Short by ${money(firstResidual)}`));
+assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(`Still ${money(firstResidual)} short`));
 assert(defaultDom.mount.querySelector('#ms-s1 .ms-affordability-gap strong'));
 
 // The real derivation must render both outcomes distinctly when the source
@@ -106,7 +108,7 @@ assert(lowerPriceModel.derived.bands.some((row) => row.assistanceRangeCheck === 
 const lowerPriceDom = dom();
 Page.render(lowerPriceDom.mount, lowerPriceModel, lowerPriceData);
 assert(text(lowerPriceDom.mount.querySelector('#ms-s1')).includes('Gap covered'));
-assert(text(lowerPriceDom.mount.querySelector('#ms-s1')).includes('Short by'));
+assert(text(lowerPriceDom.mount.querySelector('#ms-s1')).includes('even with the most down-payment help on offer'));
 
 // S2: policy dataset order is preserved and lifecycle dollars equal direct calls.
 const landNodes = Array.from(defaultDom.mount.querySelectorAll('[data-land-model]'));

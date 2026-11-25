@@ -110,8 +110,8 @@
   function routeGap(r) {
     if (r.walk_reach_straight == null) return '';
     var s = r.walk_reach_straight, w = r.walk_reach, d = Math.round(s - w);
-    return '<div class="wb-gap"><div><p class="wb-gap-v">' + esc(pct(s)) + '</p><p class="note">by straight-line distance</p></div><div class="wb-gap-arrow" aria-hidden="true">→</div>' +
-      '<div><p class="wb-gap-v">' + esc(pct(w)) + '</p><p class="note">by streets and trails</p></div>' +
+    return '<div class="wb-gap"><div><p class="wb-gap-v">' + esc(pct(s)) + '</p><p class="note">near everyday services, by straight-line distance</p></div><div class="wb-gap-arrow" aria-hidden="true">→</div>' +
+      '<div><p class="wb-gap-v">' + esc(pct(w)) + '</p><p class="note">near everyday services, by streets and trails</p></div>' +
       '<p class="wb-gap-say">' + (d > 0 ? 'A straight line would overstate walking access here by ' + d + ' points. Streets bend, dead-end and stop at rivers and highways.' : 'Here the route and the straight line agree.') + '</p></div>';
   }
 

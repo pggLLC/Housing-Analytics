@@ -587,7 +587,7 @@
       card('Renter households', r.renters == null ? (r.renter == null ? null : pct1(r.renter)) : num(r.renters), r.renter != null ? pct1(r.renter) + ' of households; ' + pct1(r.owner) + ' own' : '', acs) +
       card('Median gross rent', r.rent ? money(r.rent) : null, r.value ? 'A month. Median home value ' + money(r.value) : 'A month', acs) +
       card('Renters paying 30%+', r.burdened == null ? null : pct1(r.burdened), 'Of income on rent', acs) +
-      card('Tax credit (LIHTC) properties', lihtc ? num(lihtc.properties) : null, lihtc ? num(lihtc.units) + ' affordable homes' : 'None on record', CHFA) + '</div>');
+      card('Tax credit (LIHTC) properties', lihtc ? num(lihtc.properties) : null, lihtc ? num(lihtc.units) + ' homes, from the compiled list dated below (the CHFA portfolio page reads CHFA’s live feed, so its count can differ)' : 'None on record', CHFA) + '</div>');
 
     var counts = STRUCT.map(function (x) { return r.count[x[0]]; });
     var structTable = counts.every(function (v) { return v == null; }) ? '<p class="note">Building-type counts are not published for ' + esc(name) + '.</p>' :

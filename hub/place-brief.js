@@ -104,7 +104,8 @@
       '<div class="pb-side"><h3 class="pb-tag pb-tag-rent">Renters</h3>' +
         tile(num(renters), 'renter households (' + pct(rentPct) + ')', S.acs) +
         tile(pct(rb), 'pay 30% or more of income on rent', 'The usual line is 30%. ' + S.rent) +
-        tile(pct(m.raw_rental_vacancy_rate_pct), 'of rental homes stand empty', '5% to 7% is a balanced rental market. ' + S.vac) +
+        // Clarity check 25 Nov 2026: a bare 0.0% read as missing data; in small places the survey often finds no vacant rental.
+        tile(pct(m.raw_rental_vacancy_rate_pct), m.raw_rental_vacancy_rate_pct === 0 ? 'of rental homes stand empty: the Census survey found none here, a rough count where few homes rent' : 'of rental homes stand empty', '5% to 7% is a balanced rental market. ' + S.vac) +
       '</div><div class="pb-side"><h3 class="pb-tag pb-tag-own">Owners</h3>' +
         tile(num(owners), 'owner households (' + pct(ownPct) + ')', S.acs) +
         tile(pct(ob), 'pay 30% or more of income on housing', 'The usual line is 30%. ' + S.own) +
