@@ -842,6 +842,16 @@
       #dc-ami-rows label span { min-width: 0 !important; overflow-wrap: anywhere !important; }
     }
   
+    /* Two columns on a wide screen (paul's pick, 25 Nov 2026): the inputs on the left, the pro forma and the capital
+       stack stacked on the right, so the right side no longer sits empty beside the long input column. The grid's own
+       columns are set inline by js/deal-calculator.js; these rules only place the three blocks. */
+    @media (min-width: 1100px) {
+      #dc-calc-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) !important; align-items: start; }
+      #dc-calc-grid > #dc-inputs-col { grid-column: 1; grid-row: 1 / span 2; }
+      #dc-calc-grid > #dc-pro-forma-col { grid-column: 2; grid-row: 1; }
+      #dc-calc-grid > #dc-capital-stack-col { grid-column: 2; grid-row: 2; }
+    }
+
     /* The reading that sat below the tool is on deal-reference.html; this card points to it. */
     .dc-ref-card { max-width: 1200px; margin: 40px auto 0; padding: 0 18px; }
     .dc-ref-card ul { margin: .25rem 0 0; padding-left: 1.2rem; line-height: 1.8; }

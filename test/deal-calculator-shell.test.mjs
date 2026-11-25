@@ -94,6 +94,7 @@ try {
       banner: (() => { const b = document.getElementById('dcJurisdictionBanner'); return b && b.getClientRects().length ? 1 : 0; })(),
       sw: document.documentElement.scrollWidth,
       menu: document.querySelectorAll('#site-nav .menu-button').length,
+      cols: (() => { const g = (id) => { const e = document.getElementById(id); if (!e) return null; const r = e.getBoundingClientRect(); return { x: Math.round(r.left), y: Math.round(r.top + scrollY), w: Math.round(r.width) }; }; return { i: g('dc-inputs-col'), p: g('dc-pro-forma-col'), c: g('dc-capital-stack-col'), kids: document.getElementById('dc-calc-grid') ? document.getElementById('dc-calc-grid').children.length : 0 }; })(),
     }));
     const where = `deal-calculator.html at ${width}px`;
     ok(/You are here/.test(m.here) && /Deal Calculator/.test(m.hereStep), `${where}: step 6 is not marked "You are here" (${m.hereStep})`);
@@ -102,6 +103,15 @@ try {
     ok(m.banner === 0, `${where}: the "Analyzing" banner repeats the bar`);
     ok(m.sw <= width, `${where}: the page scrolls sideways (${m.sw})`);
     ok(m.menu >= 4, `${where}: the site's menus did not draw (${m.menu})`);
+    // Two columns on a wide screen (paul's pick, 25 Nov): inputs left, pro forma then capital stack on the right.
+    const { i, p, c } = m.cols;
+    ok(i && p && c, `${where}: the calculator's three blocks did not draw (${JSON.stringify(m.cols)})`);
+    if (width >= 1100) {
+      ok(p.x > i.x + i.w - 2 && Math.abs(p.y - i.y) < 4, `${where}: the pro forma is not beside the inputs (${JSON.stringify(m.cols)})`);
+      ok(Math.abs(c.x - p.x) < 2 && c.y > p.y, `${where}: the capital stack is not under the pro forma (${JSON.stringify(m.cols)})`);
+    } else {
+      ok(Math.abs(p.x - i.x) < 2 && p.y > i.y, `${where}: the phone layout is not one column (${JSON.stringify(m.cols)})`);
+    }
 
     await tab.goto(`${ORIGIN}/deal-reference.html`, { waitUntil: 'load', timeout: 90000 });
     await tab.waitForTimeout(800);
