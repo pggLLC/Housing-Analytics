@@ -55,7 +55,8 @@ require('../js/deal-calculator.js');
 // Loaded with the page's own inline calls to them, so what is scanned below
 // is what a browser shows, not only the static markup.
 const LOAD_TIME_RENDERERS = [
-  ['js/components/development-realism.js', 'DevRealism.'],
+  // js/components/development-realism.js ('DevRealism.') drew the realism checklists here until 25 Nov 2026; they
+  // are on deal-reference.html now, a rental-only reading page the calculator links to.
   ['js/components/data-quality-summary.js', 'DataQualitySummary.render'],
 ];
 LOAD_TIME_RENDERERS.forEach(([file, call]) => {
@@ -68,8 +69,7 @@ LOAD_TIME_RENDERERS.forEach(([file, call]) => {
   inline.forEach((src) => window.eval(src));
 });
 document.dispatchEvent(new Event('DOMContentLoaded', { bubbles: true }));
-assert(document.getElementById('dealColorado').textContent.length > 100,
-  'the Colorado factors checklist did not render; the scan would not see it');
+assert(!document.getElementById('dealColorado'), 'the realism checklists are back on the calculator; scan them in ownership mode');
 
 // The page's own save function, taken from the page rather than retyped, so
 // this cannot pass against a copy that has drifted from what ships.

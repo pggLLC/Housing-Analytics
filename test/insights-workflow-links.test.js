@@ -48,11 +48,13 @@ test('all 12 contextual routes use existing canonical targets and shared page na
   let deal;
   try {
     deal = await openPage('#dc-equity-price');
-    const names = deal.w.WorkflowPageNames;
-    assert.ok(names && Object.keys(names).length > 20, 'shared nav-name source did not load');
     for (const file of new Set(ROUTES.map(r => r[1]))) {
       if (file !== 'deal-calculator.html') pages.set(file, await render(file));
     }
+    // The shared page names come from js/navigation.js. The Deal Calculator wears the site's new header since
+    // 25 Nov 2026 and no longer loads it, so they are read from a page that still does.
+    const names = pages.get('article-pricing.html').window.WorkflowPageNames;
+    assert.ok(names && Object.keys(names).length > 20, 'shared nav-name source did not load');
     const checked = new Set();
     for (const [id, from, expected, selector] of ROUTES) {
       const doc = from === 'deal-calculator.html' ? deal.d : pages.get(from).window.document;

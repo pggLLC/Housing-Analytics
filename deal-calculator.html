@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>/* Light or dark, before the page paints (the site's own key and classes). */
+  try { var s = localStorage.getItem('coho-analytics-scheme'); if (s === 'dark' || s === 'light') document.documentElement.classList.add(s + '-mode'); } catch (e) {}</script>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
@@ -16,6 +19,19 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="hub/palette.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap">
+  <!-- The site's header, menu, footer and look, as on Market Analysis: the new pages' sheets in a cascade layer, so the
+       calculator's own sheets keep deciding its layout, and css/pages/market-analysis-hub.css (the shared tool-page
+       bridge) hands the header, menu, footer and step bar back to that layer. -->
+  <style>@import url("hub/shell.css") layer(hub); @import url("hub/visual-pass.css") layer(hub); @import url("hub/templates.css") layer(hub); @import url("hub/look.css") layer(hub);</style>
+  <link rel="stylesheet" href="css/pages/market-analysis-hub.css">
+  <style>/* The header, footer and trail keep the new pages' small-print colour (hub/palette.css, read at build). */
+  :is(.skip-link, .site-header, .site-footer, .crumbs) { --muted: #64748B; }
+  @media screen and (prefers-color-scheme: dark) { :root:not(.light-mode) :is(.skip-link, .site-header, .site-footer, .crumbs) { --muted: #A3B3AD; } }
+  @media screen { :root.dark-mode :is(.skip-link, .site-header, .site-footer, .crumbs) { --muted: #A3B3AD; } }</style>
   <!-- L3 — print stylesheet for IC packet export -->
   <link rel="stylesheet" href="css/print.css" media="print">
   <!-- Counts data requests still in flight, so the developer Deal workbook waits for the CHFA and policy
@@ -57,11 +73,11 @@
   <script src="js/data-freshness.js"></script>
   <script src="js/site-state.js"></script>
   <!-- Deferred: navigation and UI -->
-  <script defer src="js/navigation.js"></script>
+  <script type="module">/* The glossary and the header announcement, as js/navigation.js did them. */
+  if (!document.getElementById('glossary-script')) { const gs = document.createElement('script'); gs.id = 'glossary-script'; gs.src = 'js/glossary.js'; document.body.appendChild(gs); }
+  document.dispatchEvent(new CustomEvent('nav:rendered'));</script>
   <script defer src="js/components/inline-glossary.js"></script>
   <script src="js/components/rent-triangulation.js"></script>
-  <script defer src="js/dark-mode-toggle.js"></script>
-  <script defer src="js/mobile-menu.js"></script>
   <!-- Toast notifications (must load before component scripts) -->
   <script defer src="js/components/toast.js"></script>
   <script defer src="js/components/jurisdiction-url-context.js"></script>
@@ -158,7 +174,6 @@
   <!-- F19: site-wide Chart.js theming so axis labels/grid render correctly in dark mode -->
   <script defer src="js/components/chart-theme.js"></script>
   <script defer src="js/pro-forma.js"></script>
-  <script defer src="js/components/development-realism.js"></script>
   <script src="js/components/method-footer.js"></script>
   <script src="js/components/capital-partners.js"></script>
   <script src="js/components/tax-abatement.js"></script>
@@ -168,55 +183,22 @@
   <!-- F162 — gated CRM CRUD. Hydrated for visitors with a live developer
        session; mount stays empty for the public underwriter. -->
 </head>
-<body data-page-update-key="manifest"
+<body data-menu="deal" class="tool-page" data-page-update-key="manifest"
       data-page-source="HUD FMR · CHFA · IRC §42">
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <header class="site-header">
-    <!-- Injected by navigation.js -->
-  </header>
+  <a class="brand" href="index.html">COHO Analytics</a>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"></nav>
+  <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">Dark</button>
+</header>
 
-  <!-- ── Workflow progress bar (Step 6 of 7 active) — outside <main class="js-glossary-auto"> so it sticks independently -->
-  <div class="wf-progress-wrap" id="dcWorkflowProgress">
-    <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-      <a class="wf-step" href="select-jurisdiction.html" data-step="1">
-        <span class="wf-step__num">1</span>
-        <span class="wf-step__label">Jurisdiction</span>
-      </a>
-      <div class="wf-step-connector"></div>
-      <a class="wf-step" href="lihtc-opportunity-finder.html" data-step="2">
-        <span class="wf-step__num">2</span>
-        <span class="wf-step__label">Opportunity Finder</span>
-      </a>
-      <div class="wf-step-connector"></div>
-      <a class="wf-step" href="hna-what-housing-exists.html" data-step="3">
-        <span class="wf-step__num">3</span>
-        <span class="wf-step__label">Needs Assessment</span>
-      </a>
-      <div class="wf-step-connector"></div>
-      <a class="wf-step" href="deal-market-analysis.html" data-step="4">
-        <span class="wf-step__num">4</span>
-        <span class="wf-step__label">Market Analysis</span>
-      </a>
-      <div class="wf-step-connector"></div>
-      <a class="wf-step" href="hna-scenario-builder.html" data-step="5">
-        <span class="wf-step__num">5</span>
-        <span class="wf-step__label">Scenarios</span>
-      </a>
-      <div class="wf-step-connector"></div>
-      <div class="wf-step wf-step--active" data-step="6" aria-current="step">
-        <span class="wf-step__num">6</span>
-        <span class="wf-step__label">Deal Calculator</span>
-      </div>
-      <div class="wf-step-connector"></div>
-      <a class="wf-step" href="recommendation.html" data-step="7">
-        <span class="wf-step__num">7</span>
-        <span class="wf-step__label">Recommendation</span>
-      </a>
-    </div>
-  </div>
+  <!-- The seven-step bar, as on every other step: js/components/dc-step-bar.js draws it (hub/step-bar.js). -->
+  <div id="dcStepBar" class="ma-step-bar"></div>
 
   <main id="main-content">
+    <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li><a href="deal-hub.html#/projects">Build a deal</a></li><li><span aria-current="page">Deal Calculator</span></li></ol></nav>
 
     <!-- ── Jurisdiction context banner ───────────────────────────────── -->
     <div id="dcJurisdictionBanner" class="hna-jurisdiction-banner" hidden>
@@ -238,15 +220,16 @@
 
     <!-- ── Editorial header ───────────────────────────────────────────── -->
     <div class="dc-hero">
-      <div class="kicker">Step 6 of 7 &middot; Deal Calculator</div>
-      <h1><span data-dc-mode="rental">Tax Credit Deal Screen: Pro Forma &amp; Capital Stack</span><span data-dc-mode="ownership" hidden>For-Sale Ownership Feasibility</span></h1>
-      <!-- Walkthrough 2026-10-20 (R2): the first phone screen gave no instruction; this line is it. -->
-      <p class="dc-start" data-dc-mode="rental" style="margin:.35rem 0 .5rem;font-weight:600;"><a href="#dc-inputs-col">Start here: enter total development cost and units</a> Credits, equity and the funding gap update as you type.</p>
-      <p class="dc-start" data-dc-mode="ownership" hidden style="margin:.35rem 0 .5rem;font-weight:600;"><a href="#dc-inputs-col">Start here: enter total development cost, homes and target income</a> The price gap per home updates as you type.</p>
-      <p class="dc-lead" data-dc-mode="rental">Model your tax credit deal: eligible basis, credit amount, equity, gap financing, and debt service. Choose published CHFA limits, a non-CHFA AMI formula, or unrestricted market rents for your county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
-      <p class="dc-lead" data-dc-mode="ownership" hidden>Test whether a for-sale project closes: development cost per home against the price a household at the target income can afford, the subsidy gap between them, and what the public keeps at resale. Uses HUD income limits for your selected county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
-      <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;" role="note"><strong>Screening tool only.</strong> Outputs are planning-level estimates based on simplified assumptions. They are not a substitute for lender underwriting, investor pricing, legal advice, or a CHFA-required market analysis.</p>
-      <p data-dc-mode="rental" style="font-size:.82rem;margin-top:.25rem;"><a href="#dcAboutAndContext">What this calculator does not model, rent context and data sources &darr;</a></p>
+      <h1><span data-dc-mode="rental">Deal Calculator</span><span data-dc-mode="ownership" hidden>For-Sale Ownership Feasibility</span></h1>
+      <p class="dc-start" data-dc-mode="rental"><a href="#dc-inputs-col">Pick the county, then enter total development cost and homes.</a> Credits, equity and the funding gap update as you type.</p>
+      <p class="dc-start" data-dc-mode="ownership" hidden><a href="#dc-inputs-col">Start here: enter total development cost, homes and target income</a> The price gap per home updates as you type.</p>
+      <details class="dc-about-fold">
+        <summary><span><strong>Screening tool only.</strong> What this calculator models</span></summary>
+        <p class="dc-lead" data-dc-mode="rental">Model your tax credit deal: eligible basis, credit amount, equity, gap financing, and debt service. Choose published CHFA limits, a non-CHFA AMI formula, or unrestricted market rents for your county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
+        <p class="dc-lead" data-dc-mode="ownership" hidden>Test whether a for-sale project closes: development cost per home against the price a household at the target income can afford, the subsidy gap between them, and what the public keeps at resale. Uses HUD income limits for your selected county. Results are illustrative &mdash; not a substitute for professional underwriting.</p>
+        <p role="note">Outputs are planning-level estimates based on simplified assumptions. They are not a substitute for lender underwriting, investor pricing, legal advice, or a CHFA-required market analysis.</p>
+        <p data-dc-mode="rental"><a href="#dcAboutAndContext">What this calculator does not model, rent context and data sources &darr;</a></p>
+      </details>
     </div>
 
     <!-- ── Calculator mount (deal-calculator.js renders into this div) ── -->
@@ -669,81 +652,22 @@
     <!-- LIHTC contextual tips (Deal Calculator step) -->
     <div data-dc-mode="rental" id="lihtcTipsMount-dc"></div>
 
-    <!-- ── LIHTC Complexity Education ─────────────────────────────────── -->
-    <section data-dc-mode="rental" class="dc-edu-section" aria-labelledby="dcEduHeading">
-      <h2 id="dcEduHeading">What makes LIHTC deals actually hard</h2>
-      <p class="dc-edu-intro">The tax credit program is the most effective affordable housing production tool in U.S. history &mdash; and one of the most technically demanding. Here is what the pro forma above does not show you.</p>
-
-      <div class="dc-edu-grid">
-
-        <div class="dc-edu-item">
-          <h3>Credit pricing is a market &mdash; and it moves</h3>
-          <p>The equity price per dollar of tax credit (the "credit price") is determined by what tax credit investors will pay. For 2026-Q2, Novogradac's national averages were $0.82 for 9% credits and $0.83 for 4% credits, and its Colorado median (all credit types) was $0.81 (<a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-equity-pricing-trends" target="_blank" rel="noopener">Novogradac LIHTC equity pricing trends</a>; <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/regional-and-state-level-lihtc-equity-pricing" target="_blank" rel="noopener">regional and state pricing</a>). A 10-cent swing on a $1M annual credit changes your equity by $1M. LIHTC equity closes 12&ndash;18 months after allocation, during which your project's financial structure is locked &mdash; but market conditions are not.</p>
-        </div>
-
-        <div class="dc-edu-item">
-          <h3>Eligible basis is not total development cost</h3>
-          <p>Only "residential" costs qualify: construction, some soft costs, architect fees, developer overhead up to a limit. Land, commercial space, excess developer fee, and many financing costs are excluded. HUD's basis boost (130% in QCTs and DDAs) can add meaningful credit but requires specific HUD certification. The QCT/DDA overlay on the Housing Needs Assessment map shows your project's eligibility.</p>
-        </div>
-
-        <div class="dc-edu-item">
-          <h3>9% credits are competitive &mdash; not guaranteed</h3>
-          <p>CHFA allocates 9% credits through a competitive QAP process. For 2026 each state's 9% ceiling is $3.416 per resident (<a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32</a>), about $20.5 million for Colorado. A typical 60-unit LIHTC project needs $1.2&ndash;$1.8M in annual credits. Demand routinely exceeds supply by 3:1 or more. Applications score on: site control, readiness, community support, income targeting, green standards, nonprofit involvement, and design quality. Rejection does not mean the project is bad &mdash; it often means it is early.</p>
-        </div>
-
-        <div class="dc-edu-item" id="dc-edu-livability">
-          <h3>Design for livability before you draw the first plan</h3>
-          <p>This calculator does not price design, because no study supports a dollar value for a courtyard or a community room. The design choices still matter to residents and to CHFA, and most of them are cheap only at the start:</p>
-          <ul>
-            <li>One step-free route from the sidewalk and parking to every entrance, unit and shared room, with controls and fixtures anyone can use.</li>
-            <li>Units with the same amenities and square footage for every income tier, spread through the building, as the QAP asks.</li>
-            <li>Shade trees and water-wise planting instead of turf, with outdoor space residents can reach and use.</li>
-            <li>Small homes that work: storage inside where it is used, a defined entry, rooms checked against real furniture, and a porch deep enough to sit on.</li>
-            <li>Shared rooms on the routes residents already walk, bedrooms that fit the households, and quiet between units.</li>
-            <li>Noisy rooms kept away from bedrooms and routes that are easy to follow, and in supportive housing, a design shaped around residents' safety and choice.</li>
-          </ul>
-          <p><a href="research-brief.html?id=livability-universal-design-2026">Read the livability brief</a> for the evidence and for what CHFA requires, scores and rewards.</p>
-        </div>
-
-        <div class="dc-edu-item">
-          <h3>The "gap" problem is structural</h3>
-          <p>LIHTC rents are capped below market to serve low-income residents &mdash; which is the point. But lower revenue means lower debt capacity. The gap between total development cost and available financing (tax credit equity + first mortgage) is filled by: CHFA subordinate loans, HOME funds, CDBG, local housing trust funds, seller-carry notes, and deferred developer fee. Stacking these sources requires coordinated closings and subordination agreements. A typical 60-unit deal has 5&ndash;8 financing sources.</p>
-        </div>
-
-        <div class="dc-edu-item">
-          <h3>Compliance runs 30+ years</h3>
-          <p>The initial compliance period is 15 years. The extended use period adds another 15 (30 total). During this time, units must be rent-restricted and income-qualified. Annual CHFA compliance audits, IRS Form 8609, tenant income certifications (TICs), and annual owner's certificates are all required. A compliance violation can trigger credit recapture &mdash; the investor gets back the credits they claimed, plus interest and penalties. This liability runs through the full compliance period.</p>
-        </div>
-
-        <div class="dc-edu-item" id="dc-edu-services">
-          <h3>Services need their own budget</h3>
-          <p>The operating expense figure above is a general per-unit default with no separate line for resident or supportive services. If you plan a services coordinator, a supportive housing set-aside or CHFA's homelessness and special-populations points, price the services each year and name who pays for each year: operations, a capitalized reserve, the developer fee boost CHFA requires to be spent on services or rent help, or an outside funder. Buildings are financed for decades; services money is usually renewed one year at a time. <a href="resident-services.html">How services help, what CHFA requires, and what they cost</a>.</p>
-        </div>
-
-        <div class="dc-edu-item">
-          <h3>Working with banks: CRA and the capital stack</h3>
-          <p>Community Reinvestment Act (CRA) obligations incentivize banks to invest in affordable housing &mdash; either as LIHTC equity investors, construction lenders, or permanent lenders. Banks under CRA examination pressure are often the best sources of below-market subordinate debt. Identifying your local CRA lenders early &mdash; before allocation &mdash; can open financing that is not available through standard channels. See the lender guide below.</p>
-        </div>
-
-      </div>
+<!-- Deal reference: the long reading that sat below the tool is on its own page, word for word (paul, 25 Nov 2026,
+         build plan item 10; fresh-eyes fix 1). -->
+    <section data-dc-mode="rental" class="dc-ref-card" aria-labelledby="dcRefHeading">
+      <h2 id="dcRefHeading">Deal reference</h2>
+      <p>On their own page, so the calculator comes first:</p>
+      <ul>
+        <li><a href="deal-reference.html#hard">What makes tax credit deals hard</a>: credit pricing, basis, the gap, compliance, services</li>
+        <li><a href="deal-reference.html#cra">Finding CRA lenders</a>: Colorado lenders and CDFIs active in tax credit deals</li>
+        <li><a href="deal-reference.html#checklists">Development realism checklists</a>: partnerships, Colorado factors, project types</li>
+      </ul>
     </section>
 
-    <!-- ── Soft Funding Program Reference ───────────────────────────── -->
+        <!-- ── Soft Funding Program Reference ───────────────────────────── -->
     <section data-dc-mode="rental" class="dc-edu-section" aria-labelledby="dcSoftFundingHeading">
       <h2 id="dcSoftFundingHeading">Soft-Funding Program Reference (Colorado)</h2>
       <p class="dc-edu-intro">Gap sources sit alongside LIHTC equity and the first mortgage: CHFA's gap and preservation loans, Proposition 123 funds, Division of Housing grants and loans (including HOME, the National Housing Trust Fund and CDBG), city housing funds, historic and new markets tax credits, and seller notes. The <a href="colorado-deep-dive.html#tab-funding">Funding Sources tab</a> of the Colorado Deep Dive lists every Colorado program with its award size, rate, term, AMI restriction and next round quoted from the official source, and its finder narrows them to your deal type and county. The breakdown below the Sources &amp; Uses table above lists only programs whose current terms were confirmed on the program's own page. To apply for tax credits with state or Denver gap money, the agencies share one workbook, CHFA's <a href="https://www.chfainfo.com/rental-housing/housing-credit/application" target="_blank" rel="noopener">2027 Common Application</a>, and one calendar on <a href="https://housinghubcolorado.com/" target="_blank" rel="noopener">Housing Hub Colorado</a>.</p>
-    </section>
-
-    <!-- ── CRA Lender Partnership Guide ───────────────────────────────── -->
-    <section data-dc-mode="rental" class="dc-cra-section" aria-labelledby="dcCraHeading">
-      <h2 id="dcCraHeading">Finding CRA lenders for your project</h2>
-      <p class="dc-cra-intro">Banks with Community Reinvestment Act obligations are among the most consistent sources of affordable housing capital &mdash; equity, construction debt, and subordinate permanent debt. The following Colorado-active lenders have established LIHTC and affordable housing programs.</p>
-
-      <div class="dc-cra-grid" id="dcCraGrid">
-        <!-- Populated by inline JS -->
-      </div>
-
-      <p class="dc-cra-note">This list reflects publicly reported CRA activity and program descriptions. Not an endorsement or guarantee of availability. Contact your CHFA relationship manager for current lender referrals before beginning preliminary conversations.</p>
     </section>
 
     <!-- ── Save & Export panel ────────────────────────────────────────── -->
@@ -779,27 +703,13 @@
       </script>
     </div>
 
-    <div style="max-width:1400px;margin:2rem auto;padding:0 18px;">
-      <h2 style="margin:0 0 .5rem;">Development Realism Checklists</h2>
-      <p style="font-size:.82rem;color:var(--faint);margin:0 0 1rem;">These factors are not modeled in the calculator but materially affect deal feasibility. Review before investing in predevelopment.</p>
-      <div id="dealPPP" data-dc-mode="rental"></div>
-      <div id="dealColorado" data-dc-mode="rental"></div>
-      <div id="dealProjectTypes"></div>
-    </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      if (window.DevRealism) {
-        DevRealism.renderPartnershipPanel('dealPPP');
-        DevRealism.renderColoradoFactors('dealColorado');
-        DevRealism.renderProjectTypeGuidance('dealProjectTypes');
-      }
-    });
-    </script>
   </main>
 
   <footer class="site-footer">
-    <!-- Injected by navigation.js -->
-  </footer>
+  <p class="footer-terms">Free, and worth every penny. COHO Analytics is offered as-is, with no warranty. It isn’t legal, tax or financial advice, and pggLLC isn’t liable for what you do with it. Using the site means you accept the terms.</p>
+  <p class="footer-links"><a class="footer-link" href="terms-of-use.html">Terms of use</a> <a class="footer-link" href="privacy-policy.html">Privacy</a> <a class="footer-link" href="sitemap.html">Site map</a> <a class="footer-link" href="https://docs.google.com/forms/d/e/1FAIpQLSfC1m7Y1_b3VL_U9rOg8f0nIE14RVg8qm4gvhQaG2Qw8vVOdw/viewform">Questions or feedback</a> <a class="footer-link" href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a> <a class="footer-link" href="#" lang="es" title="Español: traducción automática de Google">Español</a> <a class="footer-link" href="https://coho-backend.communityplanner.workers.dev/">Member sign in</a></p>
+  <p>Developed and maintained by <a class="footer-link" href="https://pggllc.org">pggLLC</a>.</p>
+</footer>
 
   <!-- ── Inline styles ─────────────────────────────────────────────────── -->
   <style>
@@ -817,110 +727,6 @@
       margin-top: .5rem;
       margin-bottom: .25rem;
       line-height: 1.55;
-    }
-
-    /* Education section */
-    .dc-edu-section {
-      max-width: 1200px;
-      margin: 40px auto 0;
-      padding: 0 18px;
-    }
-    .dc-edu-section h2 {
-      margin-top: 0;
-      margin-bottom: 8px;
-    }
-    .dc-edu-intro {
-      color: var(--muted);
-      margin-bottom: 24px;
-      line-height: 1.55;
-    }
-    .dc-edu-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    @media (max-width: 700px) {
-      .dc-edu-grid { grid-template-columns: 1fr; }
-    }
-    .dc-edu-item {
-      border-left: 3px solid var(--accent);
-      padding-left: 16px;
-    }
-    .dc-edu-item h3 {
-      font-size: 1rem;
-      margin-top: 0;
-      margin-bottom: 8px;
-    }
-    .dc-edu-item p {
-      font-size: .88rem;
-      color: var(--muted);
-      line-height: 1.6;
-      margin: 0;
-    }
-    .dc-edu-item ul {
-      font-size: .88rem;
-      color: var(--muted);
-      line-height: 1.6;
-      margin: 8px 0;
-      padding-left: 1.25rem;
-    }
-
-    /* CRA section */
-    .dc-cra-section {
-      max-width: 1200px;
-      margin: 40px auto 0;
-      padding: 0 18px;
-    }
-    .dc-cra-intro {
-      color: var(--muted);
-      line-height: 1.55;
-      margin-bottom: 20px;
-    }
-    .dc-cra-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-    @media (max-width: 700px) {
-      .dc-cra-grid { grid-template-columns: 1fr; }
-    }
-    .dc-cra-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px 20px;
-    }
-    .dc-cra-card__name {
-      font-weight: 700;
-      font-size: .95rem;
-    }
-    .dc-cra-card__role {
-      font-size: .82rem;
-      color: var(--muted);
-      margin-top: 4px;
-      line-height: 1.45;
-    }
-    .dc-cra-card__tag {
-      display: inline-block;
-      margin-top: 8px;
-      font-size: .8125rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 4px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .04em;
-    }
-    .dc-cra-note {
-      font-size: .82rem;
-      color: var(--muted);
-      border-left: 3px solid var(--border);
-      padding-left: 12px;
-      line-height: 1.5;
-      margin-top: 4px;
     }
 
     /* ── Scenario comparison styles ──────────────────────────────── */
@@ -1035,6 +841,14 @@
       #dc-ami-rows label { min-width: 0 !important; white-space: normal !important; }
       #dc-ami-rows label span { min-width: 0 !important; overflow-wrap: anywhere !important; }
     }
+  
+    /* The reading that sat below the tool is on deal-reference.html; this card points to it. */
+    .dc-ref-card { max-width: 1200px; margin: 40px auto 0; padding: 0 18px; }
+    .dc-ref-card ul { margin: .25rem 0 0; padding-left: 1.2rem; line-height: 1.8; }
+    .dc-ref-card a { font-weight: 600; }
+    .dc-about-fold { margin: .5rem 0 0; font-size: .9rem; }
+    .dc-about-fold summary { cursor: pointer; min-height: 44px; }
+    .dc-about-fold p { margin: .4rem 0; }
   </style>
 
   <!-- ── Inline JavaScript ─────────────────────────────────────────────── -->
@@ -1166,71 +980,6 @@
           : changedHere ? '\u00b7 County changed on this page.' : '';
         banner.removeAttribute('hidden');
       }
-    }
-
-    /* ── CRA lender grid ─────────────────────────────────────────────── */
-    var CRA_LENDERS = [
-      {
-        name: 'Wells Fargo',
-        role: 'National LIHTC equity investor and construction lender. One of the largest affordable housing equity investors in the country. Active in Colorado new construction and preservation.',
-        tags: ['Equity', 'Construction', 'Permanent']
-      },
-      {
-        name: 'U.S. Bancorp Community Development Corporation',
-        role: 'Major LIHTC syndicator through USBCDC. Consistent equity investor in Colorado 9% and 4% deals. Also provides construction financing.',
-        tags: ['Equity', 'Construction']
-      },
-      {
-        name: 'JPMorgan Chase',
-        role: 'Affordable housing equity investment and construction lending. CRA-active nationally and in Colorado Front Range markets.',
-        tags: ['Equity', 'Construction']
-      },
-      {
-        name: 'FirstBank Colorado',
-        role: 'Colorado-headquartered bank with strong CRA presence. Provides construction financing for affordable multifamily. Active along the Front Range.',
-        tags: ['Construction', 'CRA-active']
-      },
-      {
-        name: 'Vectra Bank Colorado',
-        role: 'Regional bank providing construction and mini-perm lending for affordable housing. Front Range and mountain community focus. CRA-motivated lending.',
-        tags: ['Construction']
-      },
-      {
-        name: 'Colorado Housing Assistance Corporation (CHAC)',
-        role: 'Non-bank CDFI providing subordinate debt for affordable homeownership and rental projects. Frequently stacked in LIHTC capital structures as gap filler.',
-        tags: ['Subordinate Debt', 'CDFI']
-      },
-      {
-        name: 'Colorado Housing and Finance Authority (CHFA)',
-        role: 'State HFA providing subordinate loans, HOME funds, and construction-to-perm financing. CHFA is typically the allocating agency and a key program lender in every Colorado LIHTC deal.',
-        tags: ['Subordinate Debt', 'HOME', 'Program Lender']
-      },
-      {
-        name: 'CDFI Locator (Opportunity Finance Network)',
-        role: 'Directory of Community Development Financial Institutions offering flexible, mission-driven capital, searchable by state. Not a single lender.',
-        tags: ['CDFI Directory'],
-        link: 'https://www.ofn.org/cdfi-locator/'
-      }
-    ];
-
-    function populateCraGrid() {
-      var grid = document.getElementById('dcCraGrid');
-      if (!grid) return;
-      var html = '';
-      CRA_LENDERS.forEach(function (l) {
-        var tagsHtml = (l.tags || []).map(function (t) {
-          return '<span class="dc-cra-card__tag">' + t + '</span>';
-        }).join(' ');
-        var nameHtml = l.link
-          ? '<a href="' + l.link + '" class="dc-cra-card__name" target="_blank" rel="noopener">' + l.name + '</a>'
-          : '<div class="dc-cra-card__name">' + l.name + '</div>';
-        html += '<div class="dc-cra-card">' +
-          nameHtml +
-          '<div class="dc-cra-card__role">' + l.role + '</div>' +
-          '<div style="margin-top:8px;">' + tagsHtml + '</div>' +
-          '</div>';
-      });
-      grid.innerHTML = html;
     }
 
     /* ── Read current deal calculator state from DOM ─────────────────── */
@@ -1437,7 +1186,6 @@
       document.addEventListener('change', function (e) {
         if (e.target && e.target.id === 'dc-county-select') updateJurisdictionBanner();
       });
-      populateCraGrid();
       wireSaveExport();
       // Fix #2: update progress bar step completion from WorkflowState
       if (window.WorkflowProgress) WorkflowProgress.refreshSteps('dcWorkflowProgress', 6);
@@ -1559,5 +1307,10 @@
 <!-- Sortable headers and header definitions on every table (paul, 2026-10-18). -->
 <script defer src="js/components/table-header-tips.js"></script>
 <script defer src="js/components/table-sort.js"></script>
+<script src="hub/lab-config.js"></script>
+<script src="hub/page-chrome.js"></script>
+<script src="hub/nav.js"></script>
+<script src="hub/step-bar.js"></script>
+<script src="js/components/dc-step-bar.js"></script>
 </body>
 </html>

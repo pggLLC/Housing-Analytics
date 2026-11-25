@@ -13,7 +13,8 @@ import { chromium } from 'playwright';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ORIGIN = 'http://example.org';
 // The old Market Analysis forwards since 24 Nov 2026; ?classic=1 keeps it as written.
-const PAGES = ['deal-calculator.html', 'lihtc-opportunity-finder.html', 'market-analysis.html?classic=1'];
+// The Deal Calculator draws the new pages' bar since 25 Nov 2026 (hub/step-bar.js), so it is no longer on this list.
+const PAGES = ['lihtc-opportunity-finder.html', 'market-analysis.html?classic=1'];
 const WIDTHS = [390, 700, 1366];
 const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.svg': 'image/svg+xml', '.json': 'application/json', '.geojson': 'application/json' };
 let checks = 0;

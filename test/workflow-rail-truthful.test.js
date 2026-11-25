@@ -26,13 +26,15 @@ for (const f of pages) {
 // 2. With nothing recorded, the script ticks nothing; with a recorded step, it
 //    ticks exactly that step.
 function rail(project) {
-  const html = fs.readFileSync(path.join(ROOT, 'deal-calculator.html'), 'utf8');
-  const dom = new JSDOM(html, { url: 'http://127.0.0.1/deal-calculator.html', runScripts: 'outside-only' });
+  // The Deal Calculator drew this rail until 25 Nov 2026 and now draws the new pages' bar (hub/step-bar.js), so the
+  // old rail is tested where it is still drawn: the classic Market Analysis, step 4.
+  const html = fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8');
+  const dom = new JSDOM(html, { url: 'http://127.0.0.1/market-analysis.html', runScripts: 'outside-only' });
   dom.window.WorkflowState = { getActiveProject: () => project };
   dom.window.eval(fs.readFileSync(path.join(ROOT, 'js', 'components', 'workflow-progress.js'), 'utf8'));
-  dom.window.WorkflowProgress.refreshSteps('dcWorkflowProgress', 6);
-  const steps = [...dom.window.document.querySelectorAll('#dcWorkflowProgress .wf-step[data-step]')];
-  assert.equal(steps.length, 7, 'the deal calculator rail has seven steps');
+  dom.window.WorkflowProgress.refreshSteps('maWorkflowProgress', 4);
+  const steps = [...dom.window.document.querySelectorAll('#maWorkflowProgress .wf-step[data-step]')];
+  assert.equal(steps.length, 7, 'the market analysis rail has seven steps');
   return steps.filter((el) => el.classList.contains('wf-step--done')).map((el) => Number(el.dataset.step));
 }
 assert.deepEqual(rail(null), [], 'no project: no step is ticked');

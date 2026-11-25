@@ -91,8 +91,10 @@ test('the universal design points the brief states equal the QAP', () => {
   assert.equal(toNumber(said[1]), qapPoints, 'summary points disagree with the QAP');
 });
 
-test('the Deal Calculator links to this brief', () => {
-  const doc = new JSDOM(read('deal-calculator.html')).window.document;
+test('the Deal Calculator\u2019s reference page links to this brief, and the calculator links to that page', () => {
+  // The reading below the calculator moved to deal-reference.html on 25 Nov 2026 (build plan item 10).
+  assert.ok(new JSDOM(read('deal-calculator.html')).window.document.querySelector('.dc-ref-card a[href^="deal-reference.html#hard"]'), 'the calculator no longer links to the reference page');
+  const doc = new JSDOM(read('deal-reference.html')).window.document;
   const links = [...doc.querySelectorAll('#dc-edu-livability a[href^="research-brief.html"]')];
   assert.equal(links.length, 1, 'expected one brief link in the livability card');
   const id = new URLSearchParams(links[0].getAttribute('href').split('?')[1]).get('id');
