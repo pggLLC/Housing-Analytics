@@ -104,7 +104,17 @@
     <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.PageContext) PageContext.render('pageContext', {
-        what: 'The place you pick here is saved in this browser. Housing Needs Assessment (what housing is missing), Market Analysis (rents, vacancy and nearby tax credit projects) and the Deal Calculator (whether a tax credit deal pencils) open on it. Come back here to switch places.',
+        what: (function () {
+          // The tool that sent the reader here (?next=) is named first (launch audit, 25 Nov).
+          var tools = [['deal-market-analysis.html', 'Market Analysis (rents, vacancy and nearby tax credit projects)'],
+            ['deal-calculator.html', 'the Deal Calculator (whether a tax credit deal pencils)']];
+          var back = null;
+          try { back = window.JurisdictionSelector && window.JurisdictionSelector.returnTarget(); } catch (e) { back = null; }
+          var first = tools.filter(function (t) { return t[0] === back; })[0];
+          var list = first ? [first[1].replace(/^the /, 'The ')].concat(['Housing Needs Assessment (what housing is missing)'], tools.filter(function (t) { return t !== first; }).map(function (t) { return t[1]; }))
+            : ['Housing Needs Assessment (what housing is missing)'].concat(tools.map(function (t) { return t[1]; }));
+          return 'The place you pick here is saved in this browser. ' + list[0] + ', ' + list[1] + ' and ' + list[2] + ' open on it. Come back here to switch places.';
+        })(),
         why: 'Affordable housing development is local. The same project can look very different depending on where it is located. A county or city can affect income limits, achievable rents, demand, scoring competitiveness, nearby projects, local policy support, and whether a LIHTC deal is likely to be feasible.',
         not: 'This page does not tell you which community is the best place to build. If you are still deciding where to focus, use the Compare Jurisdictions page first. That page helps compare communities by housing need, cost burden, vacancy, and affordability gaps.',
         nextSteps: [
@@ -336,10 +346,12 @@
           panelBtn.disabled = !enabled;
           panelBtn.style.opacity = enabled ? '1' : '.5';
           panelBtn.style.cursor  = enabled ? 'pointer' : 'not-allowed';
+          // Sent here from another step (?next=): name that step, as the page's own button does (launch audit, 25 Nov).
+          var dest = (primaryBtn.textContent.match(/Continue to (.+?)\s*\u2192/) || [])[1] || null;
           if (enabled && panelDesc) {
-            panelDesc.textContent = 'Your jurisdiction is set. Continue to Housing Needs Assessment.';
+            panelDesc.textContent = 'Your jurisdiction is set. Continue to ' + (dest || 'Housing Needs Assessment') + '.';
           } else if (panelDesc) {
-            panelDesc.textContent = 'Select a county above to begin your Housing Needs Assessment.';
+            panelDesc.textContent = dest ? 'Select a county above, then continue to ' + dest + '.' : 'Select a county above to begin your Housing Needs Assessment.';
           }
         }
 
@@ -347,7 +359,8 @@
 
         // Watch for disability changes on the primary button
         var obs = new MutationObserver(syncPanelBtn);
-        obs.observe(primaryBtn, { attributes: true, attributeFilter: ['disabled'] });
+        obs.observe(primaryBtn, { attributes: true, attributeFilter: ['disabled'], childList: true, characterData: true, subtree: true });
+        window.addEventListener('load', syncPanelBtn);
 
         // Clicking the panel button triggers the same action as the primary button
         panelBtn.addEventListener('click', function () {

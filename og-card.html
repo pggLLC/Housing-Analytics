@@ -3,25 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=1200">
-  <meta name="theme-color" content="#1a365d" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0a1628" media="(prefers-color-scheme: dark)">
-  <title>OG Card — COHO Analytics</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#14382C">
+  <title>Share card — COHO Analytics</title>
+  <!-- The template for assets/og-image.png, the picture social sites and chat apps show beside a shared
+       cohoanalytics.com link. Open it at 1200 × 630 and screenshot it to remake the picture. Its words match the
+       picture that is live (HA #2980, paul's option 1, 24 Nov) and the lab's Share card page; it carries no figures,
+       so it cannot go stale. Colours: the hero deep green (#14382C) and gold (#F2C14E) from the site palette. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&display=swap">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { width: 1200px; height: 630px; overflow: hidden; background: #0f2137; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; flex-direction: column; justify-content: center; padding: 60px; }
-    /* F133 — was #096e65 dark teal on #0f2137 dark navy = 1.5:1. Use a brighter
-       cyan that holds contrast against the dark social-share gradient. */
-    .brand { font-size: 18px; font-weight: 600; color: #5ecbcc; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px; }
-    h1 { font-size: 56px; font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
-    .subtitle { font-size: 22px; color: rgba(255,255,255,0.7); }
-    .footer { position: absolute; bottom: 40px; left: 60px; font-size: 14px; color: rgba(255,255,255,0.7); } /* #2038: 0.4 was 3.7:1 on the navy card */
+    body { width: 1200px; height: 630px; overflow: hidden; background: #14382C; color: #fff; border-left: 14px solid #F2C14E;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      display: flex; flex-direction: column; justify-content: center; padding: 0 66px; }
+    .brand { font-size: 24px; font-weight: 600; color: #F2C14E; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 40px; }
+    h1 { font-family: 'Fraunces', Georgia, serif; font-size: 72px; font-weight: 700; line-height: 1.12; max-width: 780px; margin-bottom: 36px; }
+    .subtitle { font-size: 28px; line-height: 1.45; color: #E6EEEA; max-width: 820px; margin-bottom: 48px; }
+    .footer { display: flex; justify-content: space-between; font-size: 24px; font-weight: 600; }
+    .footer .free { color: #F2C14E; }
   </style>
-  <script defer src="js/components/inline-glossary.js"></script>
 </head>
-<body class="js-glossary-auto">
-  <div class="brand">COHO Analytics</div>
-  <h1>Colorado Housing Intelligence</h1>
-  <p class="subtitle">Colorado housing data for people who plan, build and fund affordable homes</p>
-  <div class="footer">cohoanalytics.com · LIHTC · Market Analysis · HNA</div>
+<body>
+  <div class="brand">COHO Analytics · Colorado housing</div>
+  <h1>Colorado needs more homes that people can afford.</h1>
+  <p class="subtitle">The need in every town and county, where to build, and whether a project works.</p>
+  <div class="footer"><span>cohoanalytics.com</span><span class="free">Free · every number sourced</span></div>
 </body>
 </html>
