@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-25T19:02:41.589Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-25T20:26:29.087Z. Do not edit by hand.
 
 ---
 
@@ -10,7 +10,7 @@
 
 | File | Title | Size |
 |------|-------|------|
-| `404.html` | Page not found | COHO Analytics | 3.5 KB |
+| `404.html` | Page not found | COHO Analytics | 4.1 KB |
 | `LIHTC-dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `about.html` | About | COHO Analytics | 11.5 KB |
 | `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.8 KB |
@@ -70,7 +70,7 @@
 | `market-analysis.html` | Market Analysis | COHO Analytics | 159.9 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 101.3 KB |
-| `og-card.html` | OG Card — COHO Analytics | 1.6 KB |
+| `og-card.html` | Share card — COHO Analytics | 2.1 KB |
 | `opportunities-hub.html` | Opportunities · COHO Analytics | 7.6 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | COHO Analytics | 2.2 KB |
 | `places-hub.html` | Places and need · COHO Analytics | 8.1 KB |
@@ -83,7 +83,7 @@
 | `research-brief.html` | Research Brief | COHO Analytics | 28.1 KB |
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.9 KB |
 | `search.html` | Search · COHO Analytics | 4.3 KB |
-| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 19.5 KB |
+| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 20.7 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 19.0 KB |
 | `state-allocation-map.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `sunday-digest.html` | Sunday Digest | COHO Analytics | 4.2 KB |
@@ -1974,7 +1974,7 @@
 | `data/policy/colorado-deal-rules.json` | 2.5 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
-| `data/policy/developer-ownership-funding.json` | 22.1 KB | ✅ | — |
+| `data/policy/developer-ownership-funding.json` | 23.2 KB | ✅ | — |
 | `data/policy/fee-reductions.json` | 576.7 KB | ✅ | — |
 | `data/policy/forest-service-admin-sites.json` | 32.7 KB | ✅ | — |
 | `data/policy/funding-awards/applicant-report-counts.json` | 4.0 KB | ✅ | — |
@@ -2099,7 +2099,7 @@
 | `test/boards-advocates-search-links.test.js` | 3.1 KB |
 | `test/bot-pr-dispatches-ci-checks.test.js` | 18.9 KB |
 | `test/both-surfaces-answer-the-same-question.test.mjs` | 6.9 KB |
-| `test/branded-404.test.js` | 2.1 KB |
+| `test/branded-404.test.js` | 3.5 KB |
 | `test/bridge-token-guidance.test.js` | 3.9 KB |
 | `test/buyer-assistance-programs.test.js` | 2.6 KB |
 | `test/caching.test.js` | 7.3 KB |
@@ -2441,7 +2441,7 @@
 | `test/inventory-sync-push.test.js` | 15.7 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 37.2 KB |
 | `test/jurisdiction-picker-hidden-card.test.js` | 3.8 KB |
-| `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
+| `test/jurisdiction-return-trip.test.mjs` | 10.6 KB |
 | `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 8.9 KB |
 | `test/kalshi-signing-and-write.test.js` | 11.7 KB |
