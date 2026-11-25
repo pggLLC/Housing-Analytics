@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-24T21:43:42.391Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-25T01:54:03.324Z. Do not edit by hand.
 
 ---
 
@@ -1974,7 +1974,7 @@
 | `data/policy/colorado-deal-rules.json` | 2.5 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
-| `data/policy/developer-ownership-funding.json` | 21.9 KB | ✅ | — |
+| `data/policy/developer-ownership-funding.json` | 22.1 KB | ✅ | — |
 | `data/policy/fee-reductions.json` | 576.7 KB | ✅ | — |
 | `data/policy/forest-service-admin-sites.json` | 32.7 KB | ✅ | — |
 | `data/policy/funding-awards/applicant-report-counts.json` | 4.0 KB | ✅ | — |
@@ -2195,12 +2195,12 @@
 | `test/deal-calc-rent-programs.test.js` | 11.1 KB |
 | `test/deal-calc-report-meta.test.js` | 14.6 KB |
 | `test/deal-calc-schedule.test.js` | 25.2 KB |
-| `test/deal-calc-screening-apply.test.js` | 6.0 KB |
+| `test/deal-calc-screening-apply.test.js` | 6.6 KB |
 | `test/deal-calc-share-roundtrip.test.js` | 23.9 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.8 KB |
 | `test/deal-calc-studio-units.test.js` | 3.2 KB |
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
-| `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
+| `test/deal-calc-workflow-prefill.test.js` | 6.8 KB |
 | `test/deal-calculator-banner-url-first.test.js` | 5.1 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
@@ -2515,9 +2515,9 @@
 | `test/ownership-answer-leads.test.js` | 6.4 KB |
 | `test/ownership-decision-chain.test.js` | 8.2 KB |
 | `test/ownership-finance.test.js` | 23.3 KB |
-| `test/ownership-funding-schema.test.js` | 5.6 KB |
+| `test/ownership-funding-schema.test.js` | 5.9 KB |
 | `test/ownership-rental-separation.test.js` | 16.1 KB |
-| `test/ownership-resale.test.js` | 16.5 KB |
+| `test/ownership-resale.test.js` | 19.1 KB |
 | `test/package-4-user-visible.test.js` | 7.8 KB |
 | `test/page-dates.test.mjs` | 10.8 KB |
 | `test/pages-availability-check.js` | 19.5 KB |

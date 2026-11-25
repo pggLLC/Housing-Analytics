@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-24T21:44:21.314Z",
+    "generated_at": "2026-11-25T01:54:37.254Z",
     "root": "data/",
     "file_count": 2001,
-    "total_size_bytes": 232436005,
+    "total_size_bytes": 232436260,
     "kinds": {
       "json": 1952,
       "geojson": 35,
@@ -724,7 +724,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-24T21:44:17.446Z",
+      "mtime": "2026-11-25T01:54:34.141Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39240,7 +39240,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16184,
-      "mtime": "2026-11-24T21:44:19.359Z",
+      "mtime": "2026-11-25T01:54:35.785Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39264,7 +39264,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-24T21:44:18.929Z",
+      "mtime": "2026-11-25T01:54:35.405Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -41339,8 +41339,8 @@
     {
       "path": "policy/developer-ownership-funding.json",
       "kind": "json",
-      "size_bytes": 22403,
-      "mtime": "2026-11-01T16:31:26.435Z",
+      "size_bytes": 22658,
+      "mtime": "2026-11-25T01:53:02.949Z",
       "shape": "object",
       "keys": [
         "schema",
