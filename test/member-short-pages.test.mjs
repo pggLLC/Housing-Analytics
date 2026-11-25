@@ -48,7 +48,7 @@ for (const f of TOOLS) {
   const left = [...src.matchAll(/<h2 id="(m-[a-z-]+)">([\s\S]*?)<\/h2>/g)].filter(([, id]) => !['m-footprint', 'm-conventions', 'm-capture'].includes(id));
   ok(left.length > 0, 'methods: some sections leave');
   for (const [, id, h] of left) {
-    const words = h.replace(/<span class="num">[^<]*<\/span>/, '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    const words = h.replace(/<span class="num">[^<]*<\/span>/, '').trim();
     ok(!new RegExp(`<h2 id="${id}">`).test(html) && html.includes(`<li id="${id}">`) && html.includes(words), `methods: ${id} leaves; its line in the member card keeps its id and heading`);
   }
   // Any id inside a section that left still lands (HNA chapters link methods.html#m-sampling-error).

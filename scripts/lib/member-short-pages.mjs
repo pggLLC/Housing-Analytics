@@ -153,7 +153,7 @@ export function longPage(file, html) {
     for (const d of block.matchAll(/\bid="([^"]+)"/g)) ids.push(d[1]);
     const keep = ids.some((x) => spec.keep.includes(x));
     if (!keep && heading) {
-      removed.push({ ids: [...new Set(ids)], hid: heading[1], title: heading[2].replace(/<span class="num">[^<]*<\/span>/, '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() });
+      removed.push({ ids: [...new Set(ids)], hid: heading[1], title: heading[2].replace(/<span class="num">[^<]*<\/span>/, '').trim() });
       out += html.slice(i, m.index) + (removed.length === 1 ? MARK : '');
       i = end;
     }
