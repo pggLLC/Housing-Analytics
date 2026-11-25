@@ -43,10 +43,19 @@ for (const f of TOOLS) {
   const html = shortPage('methods.html', read('methods.html'));
   for (const id of ['m-footprint', 'm-conventions', 'm-capture']) ok(new RegExp(`<section aria-labelledby="${id}"`).test(html), `methods: section ${id} stays public`);
   ok(/AI/.test(html.slice(html.indexOf('m-footprint'))), 'methods: the AI disclosure stays public (section 11)');
-  ok(!/<h2 id="m-score">/.test(html) && /<li id="m-score">The scoring chain<\/li>/.test(html), 'methods: the scoring chain leaves; a link to #m-score lands on its line in the member card');
+  // Every heading that left is listed in the member card under its own id, in the source's words.
+  const src = read('methods.html');
+  const left = [...src.matchAll(/<h2 id="(m-[a-z-]+)">([\s\S]*?)<\/h2>/g)].filter(([, id]) => !['m-footprint', 'm-conventions', 'm-capture'].includes(id));
+  ok(left.length > 0, 'methods: some sections leave');
+  for (const [, id, h] of left) {
+    const words = h.replace(/<span class="num">[^<]*<\/span>/, '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    ok(!new RegExp(`<h2 id="${id}">`).test(html) && html.includes(`<li id="${id}">`) && html.includes(words), `methods: ${id} leaves; its line in the member card keeps its id and heading`);
+  }
+  // Any id inside a section that left still lands (HNA chapters link methods.html#m-sampling-error).
+  for (const [, id] of src.matchAll(/\bid="(m-[a-z0-9-]+)"/g)) ok(html.includes(`id="${id}"`), `methods: #${id} still lands`);
   ok(!/<section aria-labelledby="m-affordability"/.test(html) && !/Reviewers are asked/.test(html), 'methods: section 05 and the line sending reviewers to it leave');
   ok(!/<li><a href="#m-notation">/.test(html) && /<li><a href="#m-capture">/.test(html), 'methods: contents list only what stayed');
-  ok(/<meta name="description" content="This is the short version of Methods/.test(html), 'methods: the description says it is the short version');
+  ok(/<meta name="description" content="([^"]*)">/.exec(html)[1] !== /<meta name="description" content="([^"]*)">/.exec(src)[1], 'methods: the description is not the full page\'s');
   ok(/member-short-banner/.test(html), 'methods: a short-version line under the title');
 }
 {

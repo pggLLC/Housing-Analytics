@@ -149,6 +149,8 @@ export function longPage(file, html) {
     const ids = [(/aria-labelledby="([^"]+)"/.exec(m[0]) || [])[1], (/\bid="([^"]+)"/.exec(m[0]) || [])[1]].filter(Boolean);
     const heading = /<h2[^>]*\bid="([^"]+)"[^>]*>([\s\S]*?)<\/h2>/i.exec(block);
     if (heading) ids.push(heading[1]);
+    // Every id inside the section too (methods #m-sampling-error sits under §10), so links into it still land.
+    for (const d of block.matchAll(/\bid="([^"]+)"/g)) ids.push(d[1]);
     const keep = ids.some((x) => spec.keep.includes(x));
     if (!keep && heading) {
       removed.push({ ids: [...new Set(ids)], hid: heading[1], title: heading[2].replace(/<span class="num">[^<]*<\/span>/, '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() });
