@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-25T15:21:27.427Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-25T15:42:19.651Z. Do not edit by hand.
 
 ---
 
@@ -125,7 +125,7 @@
 | `data/alerts/outlet-review.json` | 20.6 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
-| `data/audit/chfa-qap-watch.json` | 3.66 MB | ✅ | — |
+| `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
 | `data/audit/funding-watch.json` | 701.5 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.2 KB | ✅ | — |
