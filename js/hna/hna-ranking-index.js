@@ -88,24 +88,30 @@
   // the poorer renters below, so their shortfall still stands. A missing count stays missing.
   // The ranking has no 40% count, so the place or county gap file's 40% band counts too when it loads, and the
   // figures match the place cards (Codex on #3010).
+  // A count from a data file, or null when it is missing or not a number (never read as zero).
+  function countOf(v) {
+    if (typeof v === 'number') return Number.isFinite(v) ? v : null;
+    if (typeof v === 'string' && /^\s*-?\d+(\.\d+)?\s*$/.test(v)) return parseFloat(v);
+    return null;
+  }
   function nestAmiGaps(e, gaps) {
     const m = e && e.metrics;
     if (!m) return;
     let own40 = null;
     const g = String(e.geoid || '');
     if (gaps && gaps.place && g.length === 7 && gaps.place.places && gaps.place.places[g]) {
-      const r = gaps.place.places[g], h = (r.households_le_ami_pct || {})['40'], u = (r.units_priced_affordable_le_ami_pct || {})['40'];
-      if (h != null && u != null && isFinite(Number(h)) && isFinite(Number(u))) own40 = Math.max(0, Number(h) - Number(u));
+      const r = gaps.place.places[g], h = countOf((r.households_le_ami_pct || {})['40']), u = countOf((r.units_priced_affordable_le_ami_pct || {})['40']);
+      if (h !== null && u !== null) own40 = Math.max(0, h - u);
     } else if (gaps && gaps.county && g.length === 5 && Array.isArray(gaps.county.counties)) {
-      const c = gaps.county.counties.find(x => x.fips === g), v = c && (c.gap_units_minus_households_le_ami_pct || {})['40'];
-      if (v != null && v !== '' && isFinite(Number(v))) own40 = Math.max(0, -Number(v));
+      const c = gaps.county.counties.find(x => x.fips === g), v = c ? countOf((c.gap_units_minus_households_le_ami_pct || {})['40']) : null;
+      if (v !== null) own40 = Math.max(0, -v);
     }
     let most = null;
     ['ami_gap_30pct', 'ami_gap_50pct', 'ami_gap_60pct'].forEach((k, i) => {
-      const v = m[k];
-      if (v == null || v === '' || !isFinite(Number(v))) return;
-      most = most == null ? Number(v) : Math.max(most, Number(v));
-      if (i > 0 && own40 != null) most = Math.max(most, own40);
+      const v = countOf(m[k]);
+      if (v === null) return;
+      most = most === null ? v : Math.max(most, v);
+      if (i > 0 && own40 !== null) most = Math.max(most, own40);
       m[k] = most;
     });
   }
