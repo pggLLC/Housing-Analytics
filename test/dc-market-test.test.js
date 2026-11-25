@@ -117,6 +117,44 @@ async function test(name, fn) {
     assert.ok(100 / cnt.poolFor(50, ['1br', '2br']) <= M.GOOD && 100 / cnt.poolFor(50, ['2br']) > M.GOOD);
   });
 
+  await test('a count the engine cannot make stays unknown, not zero (Codex P1 on #3016)', () => {
+    const cnt = M.countRenters(E, data, ['08077999999'], [30, 60], { 60: ['2br'] }, ['2br']);
+    assert.equal(cnt.pool[60], null);
+    assert.equal(cnt.pool[30], null);
+    assert.ok(cnt.unavailable);
+    assert.equal(cnt.poolFor(50, ['2br']), null);
+    const chk = M.captureCheck({ 60: 40 }, { 50: null, 60: 100 }, { sizesByBand: { 60: ['2br'] }, poolFor: () => null });
+    assert.equal(chk.rows[0].down, null);
+    assert.equal(chk.rows[0].downUnknown, true);
+  });
+
+  await test('on the page, a saved area the renter file cannot count says so and shows no shares', async () => {
+    const p = await openPage('', null, {});
+    p.w.localStorage.setItem('coho-lab.projects', JSON.stringify([{ projectId: 'p1' }]));
+    p.w.localStorage.setItem('coho-lab.project.p1', JSON.stringify({ projectId: 'p1', name: 'Test A', attachments: [
+      { attachmentId: 'a1', kind: 'market-snapshot', attachedAt: '2026-11-20', snapshot: { tracts: ['08077999999'], countyFips: '08077', areaLabel: 'Gone tracts' } }] }));
+    setField(p, 'dc-county-select', '08077');
+    for (const t of p.w.__DealCalc.getAmiBands()) {
+      p.d.getElementById('dc-chk-' + t).checked = t === 60;
+      p.d.getElementById('dc-units-' + t).value = 0;
+      for (const br of ['studio', '1br', '2br', '3br', '4br']) { const el = p.d.getElementById('dc-units-' + t + '-' + br); if (el) el.value = 0; }
+    }
+    p.d.getElementById('dc-units-60-2br').value = 30;
+    setField(p, 'dc-unit-mix-source', 'manual');
+    setField(p, 'dc-units', 30);
+    const det = p.d.getElementById('dc-market-test');
+    det.open = true;
+    det.dispatchEvent(new p.w.Event('toggle'));
+    const body = p.d.getElementById('dc-mt-body'), flag = p.d.getElementById('dc-mt-flag');
+    const end = Date.now() + 20000;
+    while (Date.now() < end && !body.querySelector('select')) await new Promise((r) => setTimeout(r, 100));
+    assert.equal(body.querySelector('table'), null, 'no shares for an uncounted area');
+    assert.equal(flag.getAttribute('data-weak'), '');
+    assert.doesNotMatch(body.textContent, /No renters qualify/);
+    assert.ok(body.querySelector('option[value="county"]'), 'the county stays on offer');
+    assert.deepEqual(p.errors, []);
+  });
+
   // The panel's state must agree with the capture check run here on the same homes and county, for a deal that
   // passes and one that does not (Codex P1 on #3016: no fixed wording is pinned).
   async function pageCase(name, homes) {

@@ -83,6 +83,7 @@
           merged = ['0br', '1br', '2br', '3br'].filter(function (k) { return (sizesAt[l] || []).indexOf(k) >= 0 || (sizesAt[r.band] || []).indexOf(k) >= 0; });
           q = step.poolFor(l, merged);
         }
+        if (q == null) { r.downUnknown = true; continue; }
         if (q > 0 && (load[l] + r.homes) / q <= GOOD) {
           load[l] += r.homes; r.down = { band: l, share: load[l] / q };
           if (merged) sizesAt[l] = merged;
@@ -131,14 +132,20 @@
       if (!(k in memo)) memo[k] = E.chfaQualifiedRenters(data.demand, limits, tl, [b], br && br.length ? br : undefined, opts);
       return memo[k];
     }
+    // A count the engine could not make (value null, with its reason) stays null: unknown is not zero.
+    var value = function (q) { return q && q.value != null ? Math.max(0, q.value) : null; };
+    var unavailable = null;
     bands.forEach(function (b) {
       var own = sizesByBand && sizesByBand[b], br = own ? own : all;
       var q = count(b, br);
-      pool[b] = q && q.value > 0 ? q.value : 0;
-      if (own) bySize[b] = (q && q.byBedroom) || {};
+      pool[b] = value(q);
+      if (own) {
+        bySize[b] = (q && q.byBedroom) || {};
+        if (pool[b] == null && !unavailable) unavailable = (q && q.reason) || 'the renter count is unavailable';
+      }
     });
-    return { pool: pool, bySize: bySize, tracts: tl.length,
-      poolFor: function (b, br) { var q = count(b, br); return q && q.value > 0 ? q.value : 0; } };
+    return { pool: pool, bySize: bySize, tracts: tl.length, unavailable: unavailable,
+      poolFor: function (b, br) { return value(count(b, br)); } };
   }
 
   // The bands a weak band can step down to (the unit grid's bands up to 80% that CHFA's table carries for the
@@ -154,11 +161,16 @@
     return r.level === 'none' ? 'No renters qualify' : esc(pct(r.share)) + (r.level === 'good' ? '' : ' <small style="display:block;color:var(--warn,#a15c00);font-weight:600;">' + esc(r.level) + '</small>');
   }
 
+  // The market area picker, shown when more than one area can be counted.
+  function picker(areas, pick, countyName) {
+    return '<label style="display:block;margin:.4rem 0;font-size:var(--small);">Count renters in <select id="dc-mt-area" style="display:block;width:100%;max-width:32rem;min-height:44px;margin-top:.2rem;">' +
+      areas.map(function (a) { return '<option value="' + esc(a.key) + '"' + (a.key === pick ? ' selected' : '') + '>' + esc(a.saved ? a.label + ' (saved in ' + a.project + ')' : 'All of ' + countyName) + '</option>'; }).join('') + '</select></label>';
+  }
+
   // The panel's body for a finished count.
   function render(h, area, cnt, chk, countyName, areas, pick, fips) {
     var sizes = h.bedrooms;
-    var choice = areas.length > 1 ? '<label style="display:block;margin:.4rem 0;font-size:var(--small);">Count renters in <select id="dc-mt-area" style="display:block;width:100%;max-width:32rem;min-height:44px;margin-top:.2rem;">' +
-      areas.map(function (a) { return '<option value="' + esc(a.key) + '"' + (a.key === pick ? ' selected' : '') + '>' + esc(a.saved ? a.label + ' (saved in ' + a.project + ')' : 'All of ' + countyName) + '</option>'; }).join('') + '</select></label>' : '';
+    var choice = areas.length > 1 ? picker(areas, pick, countyName) : '';
     var hub = 'deal-hub.html#/market?g=' + encodeURIComponent(fips);
     var lead = area.saved
       ? 'Renters counted in the market area saved from Market check in ' + area.project + ': ' + area.label + (area.screening ? '. It is a screening area, not a CHFA market area.' : '.')
@@ -190,6 +202,7 @@
         var head = 'The ' + r.band + '% band: ' + r.homes + ' home' + (r.homes === 1 ? '' : 's') + (r.level === 'none' ? ', and no renter in this area qualifies for it.'
           : ' would need ' + pct(r.share) + ' of its ' + num(r.renters) + ' qualifying renters. Staying at 10% takes about ' + num(r.needed) + ', ' + num(r.short) + ' more than this area counts.');
         var then = r.down ? 'Recommended: rent these homes at the ' + r.down.band + '% rent, where they would take ' + pct(r.down.share) + ' of that band’s renters.'
+          : r.downUnknown ? 'A lower band could not be counted here, so no lower rent is offered. Count renters in a wider area.'
           : r.renters > 0 ? 'No lower band has room. About ' + num(Math.floor(GOOD * r.renters + 1e-9)) + ' homes in this band would stay at 10%, or count renters in a wider area.'
             : 'No lower band has room. Count renters in a wider area.';
         return '<li>' + esc(head) + ' <strong>' + esc(then) + '</strong></li>';
@@ -206,7 +219,7 @@
   }
 
   global.DcMarketTest = { GOOD: GOOD, VERY_THIN: VERY_THIN, FILES: FILES, homesFrom: homesFrom, captureCheck: captureCheck, savedAreas: savedAreas,
-    countRenters: countRenters, bandsFor: bandsFor, render: render };
+    countRenters: countRenters, bandsFor: bandsFor, render: render, picker: picker };
 
   // ---- the page ----
   var doc = global.document;
@@ -265,6 +278,12 @@
     var ck = [c.fips, area.key, bands.join(','), JSON.stringify(h.sizesByBand), h.bedrooms.join(',')].join('|');
     if (!last || last.key !== ck) last = { key: ck, cnt: countRenters(E, data, area.tracts, bands, h.sizesByBand, h.bedrooms) };
     var cnt = last.cnt;
+    if (cnt.unavailable) {
+      var other = areas.length > 1 ? picker(areas, area.key, c.name) : '';
+      body.innerHTML = '<p style="margin:.3rem 0;">' + esc('Renters could not be counted in ' + (area.saved ? area.label : 'all of ' + c.name) + ': ' + cnt.unavailable + '. This is missing data, not a finding that no one qualifies.') + '</p>' + other;
+      flag.textContent = 'Renter count unavailable'; flag.setAttribute('data-weak', ''); flag.style.color = 'var(--muted)';
+      return;
+    }
     var chk = captureCheck(h.byBand, cnt.pool, { sizesByBand: h.sizesByBand, poolFor: cnt.poolFor });
     body.innerHTML = render(h, area, cnt, chk, c.name, areas, area.key, c.fips);
     flag.textContent = chk.weak.length ? 'Weak in the ' + list(chk.weak.map(function (x) { return x.band + '%'; })) + ' band' + (chk.weak.length === 1 ? '' : 's') : 'Every band at 10% or less';
