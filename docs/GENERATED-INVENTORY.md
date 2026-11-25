@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-25T22:05:34.773Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-25T22:59:29.572Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-80 pages found.
+81 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -37,9 +37,10 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 85.0 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 94.3 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 84.0 KB |
 | `deal-hub.html` | Build a deal · COHO Analytics | 8.9 KB |
 | `deal-market-analysis.html` | Market Analysis · COHO Analytics | 162.1 KB |
+| `deal-reference.html` | Deal reference | COHO Analytics | 16.8 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 95.7 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.6 KB |
@@ -2057,7 +2058,7 @@
 
 ## Test Files
 
-804 test files found.
+805 test files found.
 
 | File | Size |
 |------|------|
@@ -2205,6 +2206,7 @@
 | `test/deal-calculator-banner-url-first.test.js` | 5.1 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
+| `test/deal-calculator-shell.test.mjs` | 10.1 KB |
 | `test/deal-cost-basis.test.js` | 58.2 KB |
 | `test/deal-credit-stack.test.js` | 8.5 KB |
 | `test/deal-deferred-fee-order.test.js` | 6.8 KB |
@@ -2432,7 +2434,7 @@
 | `test/insights-agreement.test.mjs` | 5.3 KB |
 | `test/insights-market-pulse.test.mjs` | 7.5 KB |
 | `test/insights-nav-labels.test.mjs` | 7.6 KB |
-| `test/insights-workflow-links.test.js` | 10.0 KB |
+| `test/insights-workflow-links.test.js` | 10.2 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/economic-indicators.test.js` | 12.2 KB |
 | `test/integration/hna-ranking.test.js` | 12.4 KB |
@@ -2461,7 +2463,7 @@
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 8.8 KB |
 | `test/lihtc-practice-claims.test.js` | 5.9 KB |
 | `test/lihtc-project-size.test.js` | 6.8 KB |
-| `test/livability-brief.test.mjs` | 10.6 KB |
+| `test/livability-brief.test.mjs` | 10.9 KB |
 | `test/loan-obligations-page.test.js` | 5.8 KB |
 | `test/loan-obligations.test.js` | 8.1 KB |
 | `test/local-incentives.test.mjs` | 18.1 KB |
@@ -2520,7 +2522,7 @@
 | `test/ownership-decision-chain.test.js` | 8.2 KB |
 | `test/ownership-finance.test.js` | 23.3 KB |
 | `test/ownership-funding-schema.test.js` | 5.9 KB |
-| `test/ownership-rental-separation.test.js` | 16.1 KB |
+| `test/ownership-rental-separation.test.js` | 16.2 KB |
 | `test/ownership-resale.test.js` | 20.3 KB |
 | `test/package-4-user-visible.test.js` | 7.8 KB |
 | `test/page-dates.test.mjs` | 10.8 KB |
@@ -2648,7 +2650,7 @@
 | `test/resale-waterfall.test.js` | 11.9 KB |
 | `test/research-brief.test.mjs` | 17.5 KB |
 | `test/research-catalog.test.mjs` | 8.9 KB |
-| `test/resident-services.test.mjs` | 11.9 KB |
+| `test/resident-services.test.mjs` | 12.1 KB |
 | `test/resort-programs.test.mjs` | 7.8 KB |
 | `test/runtime-contrast-scanner-errors.test.mjs` | 7.7 KB |
 | `test/runtime-contrast-scanner-fixtures.test.mjs` | 8.1 KB |
@@ -2768,8 +2770,8 @@
 | `test/workflow-next-action-prerequisites.test.js` | 8.3 KB |
 | `test/workflow-outcome-monitor.test.js` | 57.9 KB |
 | `test/workflow-push-dispatches-deploy.test.js` | 7.0 KB |
-| `test/workflow-rail-circles.test.mjs` | 3.8 KB |
-| `test/workflow-rail-truthful.test.js` | 7.0 KB |
+| `test/workflow-rail-circles.test.mjs` | 3.9 KB |
+| `test/workflow-rail-truthful.test.js` | 7.2 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
 | `test/workflows-rebuild-derived-chain.test.mjs` | 11.6 KB |
 | `test/workforce-gap-is-job-based.test.mjs` | 16.5 KB |

@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-25T22:06:15.571Z",
+    "generated_at": "2026-11-25T23:00:01.826Z",
     "root": "data/",
     "file_count": 2001,
-    "total_size_bytes": 232246766,
+    "total_size_bytes": 232246768,
     "kinds": {
       "json": 1952,
       "geojson": 35,
@@ -724,7 +724,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-25T22:06:11.270Z",
+      "mtime": "2026-11-25T22:59:58.413Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -39239,8 +39239,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 16183,
-      "mtime": "2026-11-25T22:06:13.231Z",
+      "size_bytes": 16185,
+      "mtime": "2026-11-25T23:00:00.007Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39264,7 +39264,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-25T22:06:12.781Z",
+      "mtime": "2026-11-25T22:59:59.658Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
