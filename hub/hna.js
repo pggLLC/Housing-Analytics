@@ -411,7 +411,7 @@
     var m = function (k) {
       var x = m0(k);
       if (!x || Pl.GAP_KEYS.indexOf(k) < 1) return x;
-      var n = Pl.gapMetric(null, k, function (kk) { var y = m0(kk); return y ? Number(y.value) : null; });
+      var n = Pl.gapMetric(null, k, { read: function (kk) { var y = m0(kk); return y ? Number(y.value) : null; }, rec: place && place.rec, sign: place && place.sign });
       return n === x.value ? x : Object.assign({}, x, { value: n });
     };
     var v = function (k) { var x = m(k); return x ? x.value : null; };

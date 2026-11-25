@@ -86,14 +86,26 @@
   // on every page, as the Deal Calculator, place pages and member report show it). The file counts everyone at or
   // below each band; a band with more homes than renters lowers the next count, but those homes cost too much for
   // the poorer renters below, so their shortfall still stands. A missing count stays missing.
-  function nestAmiGaps(e) {
+  // The ranking has no 40% count, so the place or county gap file's 40% band counts too when it loads, and the
+  // figures match the place cards (Codex on #3010).
+  function nestAmiGaps(e, gaps) {
     const m = e && e.metrics;
     if (!m) return;
+    let own40 = null;
+    const g = String(e.geoid || '');
+    if (gaps && gaps.place && g.length === 7 && gaps.place.places && gaps.place.places[g]) {
+      const r = gaps.place.places[g], h = (r.households_le_ami_pct || {})['40'], u = (r.units_priced_affordable_le_ami_pct || {})['40'];
+      if (h != null && u != null && isFinite(Number(h)) && isFinite(Number(u))) own40 = Math.max(0, Number(h) - Number(u));
+    } else if (gaps && gaps.county && g.length === 5 && Array.isArray(gaps.county.counties)) {
+      const c = gaps.county.counties.find(x => x.fips === g), v = c && (c.gap_units_minus_households_le_ami_pct || {})['40'];
+      if (v != null && v !== '' && isFinite(Number(v))) own40 = Math.max(0, -Number(v));
+    }
     let most = null;
-    ['ami_gap_30pct', 'ami_gap_50pct', 'ami_gap_60pct'].forEach(k => {
+    ['ami_gap_30pct', 'ami_gap_50pct', 'ami_gap_60pct'].forEach((k, i) => {
       const v = m[k];
       if (v == null || v === '' || !isFinite(Number(v))) return;
       most = most == null ? Number(v) : Math.max(most, Number(v));
+      if (i > 0 && own40 != null) most = Math.max(most, own40);
       m[k] = most;
     });
   }
@@ -103,13 +115,15 @@
       ? window.safeFetchJSON
       : (u) => fetch(u).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
 
-    const [data, scorecard, econ] = await Promise.all([
+    const [data, scorecard, econ, gapPlace, gapCounty] = await Promise.all([
       fetcher(DATA_PATH),
       fetcher(SCORECARD_PATH).catch(() => ({ scores: {} })),
       fetcher('data/co-county-economic-indicators.json').catch(() => null),
+      fetcher('data/co_ami_gap_by_place.json').catch(() => null),
+      fetcher('data/co_ami_gap_by_county.json').catch(() => null),
     ]);
     _officialEntries = cloneEntries(data.rankings || []);
-    _officialEntries.forEach(nestAmiGaps);
+    _officialEntries.forEach(e => nestAmiGaps(e, { place: gapPlace, county: gapCounty }));
     _allEntries    = cloneEntries(_officialEntries);
     _metadata      = data.metadata || {};
     _metricsConfig = data.metrics  || [];

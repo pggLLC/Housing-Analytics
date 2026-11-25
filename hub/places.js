@@ -131,13 +131,31 @@
   }
   // The same rule for the ranking file's three counts (ami_gap_30pct, _50pct, _60pct), as stored in metrics: the
   // value at a band is the largest of that band's count and the ones below it; null when its own count is missing.
+  // The ranking has no 40% count, so when the place or county gap record is at hand (opts.rec with opts.sign) its
+  // bands at or below the band count too, and the figure matches the place card (Codex on HA #3010).
   var GAP_KEYS = ['ami_gap_30pct', 'ami_gap_50pct', 'ami_gap_60pct'];
-  function gapMetric(metrics, key, read) {
-    read = read || function (k) { var x = metrics && metrics[k]; return x == null || x === '' || !isFinite(Number(x)) ? null : Number(x); };
+  function gapMetric(metrics, key, opts) {
+    opts = opts || {};
+    var read = opts.read || function (k) { var x = metrics && metrics[k]; return x == null || x === '' || !isFinite(Number(x)) ? null : Number(x); };
     var i = GAP_KEYS.indexOf(key), own = read(key);
     if (i < 1 || own == null) return own;
     for (var j = 0; j < i; j++) { var y = read(GAP_KEYS[j]); if (y != null && y > own) own = y; }
+    if (opts.rec && opts.sign) {
+      var band = key.replace(/^ami_gap_|pct$/g, '');
+      var n = shortNested(opts.rec, band, opts.sign);
+      if (n != null && n > own) own = n;
+    }
     return own;
+  }
+  // The gap record and its sign for a 7-digit place or 5-digit county GEOID, from the two gap files; null if absent.
+  function gapRecordFor(geoid, gapPlace, gapCounty) {
+    geoid = String(geoid || '');
+    if (geoid.length === 7 && gapPlace && gapPlace.places && gapPlace.places[geoid]) return { rec: gapPlace.places[geoid], sign: gapPlace.meta.gap_sign };
+    if (geoid.length === 5 && gapCounty && gapCounty.counties) {
+      var c = gapCounty.counties.filter(function (x) { return x.fips === geoid; })[0];
+      if (c) return { rec: c, sign: gapCounty.meta.gap_sign };
+    }
+    return null;
   }
 
   function countyFacts(fips, d) {
@@ -592,7 +610,7 @@
   Shell.views.places = placesView;
   Shell.views.place = placeView;
   global.LabPlaces = { entryFor: entryFor, retiredTo: retiredTo, countyEntries: countyEntries, TERMS: TERMS, bandsOwn: bandsOwn, needMap: needMap, per10: per10, MAP_BINS: MAP_BINS,
-    shortfall: shortfall, shortNested: shortNested, gapMetric: gapMetric, GAP_KEYS: GAP_KEYS, netGap: netGap, gapCard: gapCard, placeFacts: placeFacts, countyFacts: countyFacts, QUESTIONS: QUESTIONS, FILES: FILES, LIVE: LIVE,
+    shortfall: shortfall, shortNested: shortNested, gapMetric: gapMetric, gapRecordFor: gapRecordFor, GAP_KEYS: GAP_KEYS, netGap: netGap, gapCard: gapCard, placeFacts: placeFacts, countyFacts: countyFacts, QUESTIONS: QUESTIONS, FILES: FILES, LIVE: LIVE,
     // Shared with hna.js, which builds the place page's chapters.
     data: function () { load(); return { data: data, error: error }; }, card: card, scope: scope, AT: AT, srcLine: srcLine, SRC: SRC, gapCard: gapCard, gapChart: gapChart, ladder: ladder, useHref: useHref, num: num, money: money
   };
