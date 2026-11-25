@@ -51,11 +51,11 @@
    * is always stated as a signed difference so a reader can disagree.
    */
   var DISPLAY_METRICS = [
-    { key: 'pct_cost_burdened',          label: 'Renters cost-burdened',      higherIsWorse: true,
-      tip: 'Share of renter households paying 30% or more of income on rent and utilities (ACS). HUD’s threshold for “cost-burdened.”' },
-    { key: 'pct_renter_severe_burdened', label: 'Severe renter burden',       higherIsWorse: true,
-      tip: 'Share of renter households paying 50% or more of income on housing — the households closest to displacement.' },
-    { key: 'pct_owner_burdened_30plus',  label: 'Owners cost-burdened',       higherIsWorse: true,
+    { key: 'pct_cost_burdened',          label: 'Renters paying 30%+ (Census ACS)', higherIsWorse: true,
+      tip: 'Share of renter households paying 30% or more of income on rent and utilities (Census ACS 2020–2024). The place profile pages show HUD CHAS 2018–2022 for the same measure, an older count, so the two can differ. HUD’s threshold for “cost-burdened.”' },
+    { key: 'pct_renter_severe_burdened', label: 'Renters paying 50%+ (HUD CHAS)', higherIsWorse: true,
+      tip: 'Share of renter households paying 50% or more of income on housing (HUD CHAS 2018–2022) — the households closest to displacement.' },
+    { key: 'pct_owner_burdened_30plus',  label: 'Owners paying 30%+ (HUD CHAS)',       higherIsWorse: true,
       tip: 'Share of homeowner households paying 30% or more of income on mortgage, taxes, insurance and utilities.' },
     // Was "Gap rate at ≤30% AMI" — the bare word "gap" collided with three
     // other, unrelated "gap" figures elsewhere on the page (a household-count

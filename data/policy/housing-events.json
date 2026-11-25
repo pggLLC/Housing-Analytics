@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-24T14:07:28Z",
-    "as_of": "2026-11-24",
+    "generated": "2026-11-25T13:20:28Z",
+    "as_of": "2026-11-25",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -40,7 +40,7 @@
       "url": "https://cdola.colorado.gov/calendar",
       "status": "ok",
       "listed": 188,
-      "upcoming": 11
+      "upcoming": 10
     },
     {
       "id": "prop123",
@@ -103,18 +103,6 @@
       "url": "https://doh.colorado.gov/news-article/nofa-doh-cdbg-abatement-and-demolition-program",
       "source": "doh",
       "category": "deadline"
-    },
-    {
-      "title": "State Housing Board Meeting",
-      "start": "2026-11-24",
-      "end": null,
-      "time": "13:00",
-      "location": null,
-      "online": false,
-      "organizer": "Colorado Division of Housing",
-      "url": "https://cdola.colorado.gov/calendar",
-      "source": "doh",
-      "category": "board"
     },
     {
       "title": "Housing starts and permits (New Residential Construction) released",
@@ -395,6 +383,18 @@
     }
   ],
   "past": [
+    {
+      "title": "State Housing Board Meeting",
+      "start": "2026-11-24",
+      "end": null,
+      "time": "13:00",
+      "location": null,
+      "online": false,
+      "organizer": "Colorado Division of Housing",
+      "url": "https://cdola.colorado.gov/calendar",
+      "source": "doh",
+      "category": "board"
+    },
     {
       "title": "Housing Strategies Peer Exchange",
       "start": "2026-11-19",

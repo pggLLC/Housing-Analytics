@@ -309,7 +309,8 @@
     return T.head({
       kind: 'data', crumbs: T.trail('opportunities', 'CHFA multifamily portfolio'), title: 'CHFA multifamily portfolio',
       answer: 'Every Housing Tax Credit property in CHFA’s feed: where it is, how many homes, for which incomes, and what kind of deal. ' +
-        num(f.activeHomes) + ' low-income homes are in ' + num(f.active.length) + ' properties still in compliance; ' + esc(top[0]) + ' County has the most, ' + num(top[1]) + '.',
+        // Clarity check 25 Nov 2026: the tiles below count every compliance status, so say both counts here.
+        num(all.length) + ' properties are in the feed; ' + num(f.active.length) + ' of them are still in compliance, with ' + num(f.activeHomes) + ' low-income homes. ' + esc(top[0]) + ' County has the most, ' + num(top[1]) + '.',
       meta: '<span class="scope-tag">Scope: Colorado, by property</span> CHFA’s Housing Tax Credit properties feed, with HUD’s LIHTC database for the basis boost.',
       dated: L.d,
       facts: [
@@ -616,7 +617,7 @@
     var listedHomes = rows.reduce(function (t, r) { return t + (r.homes || 0); }, 0);
     return T.head({
       kind: 'data', crumbs: T.trail('opportunities', 'Preservation inventory'), title: 'Preservation inventory',
-      strip: colStrip(num(sum(y15)) + ' tax credit homes reach year 15 by ' + (THIS_YEAR + 9) + ' (estimate)', y15, 'Year placed in service plus 15, from ' + LIHTC_SRC + '. The extended-use agreement runs on after it. Fetched ' + f.fetched + '.', 'CHFA tax credit properties, fetched ' + f.fetched),
+      strip: colStrip(num(sum(y15)) + ' tax credit homes reach year 15 by ' + (THIS_YEAR + 9) + ', when the federal compliance period ends (estimate)', y15, 'Year placed in service plus 15, from ' + LIHTC_SRC + '. The extended-use agreement runs on after it. Fetched ' + f.fetched + '.', 'CHFA tax credit properties, fetched ' + f.fetched),
       answer: 'Which existing affordable homes could be lost, when, and how Colorado keeps them. CHFA lists ' + num(f.pres.length) + ' properties with ' + num(f.presHomes) + ' homes in ' + num(nCounties) + ' counties; ' + esc(byCounty[0][0]) + ' County has the most, ' + num(byCounty[0][1]) + '.',
       meta: '<span class="scope-tag">Scope: Colorado, by property</span> CHFA’s preservation map, with HUD, USDA and tax credit records matched by address, and HUD’s rent subsidy contracts.',
       facts: [
@@ -863,7 +864,7 @@
       meta: '<span class="scope-tag">Scope: Colorado, by award</span> ' + esc(m.program) + ', run by ' + esc(m.administrator.split(',')[0]) + '.',
       facts: [
         { value: num(m.award_count), label: 'Awards in ' + num(lb.rounds.length) + ' rounds', source: 'CHFA award lists, ' + m.generated, href: m.program_url },
-        { value: UI.millions(m.total_awarded), label: 'Awarded to buy land', source: 'CHFA award lists', href: m.program_url },
+        { value: '$' + (m.total_awarded / 1e6).toFixed(1) + ' million', label: 'Awarded to buy land', source: 'CHFA award lists', href: m.program_url },
         { value: num(m.total_estimated_units), label: 'Future homes the grantees estimate', source: 'CHFA award lists', href: m.program_url },
         { value: num((lb.meta.counts || {}).financed || 0), label: 'Awards whose project has later state building money', source: 'COHO status check, ' + ((lb.meta.generated_from || {}).research_checked || ''), href: m.program_url }
       ]

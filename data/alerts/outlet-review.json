@@ -1,22 +1,50 @@
 {
   "meta": {
-    "generated": "2026-11-24T14:07:28Z",
+    "generated": "2026-11-25T13:20:28Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-18",
-      "checked": 51,
-      "unverified": 9,
-      "weak": 1
+      "since": "2026-11-19",
+      "checked": 48,
+      "unverified": 7,
+      "weak": 2
     }
   },
   "outlets": [
+    {
+      "id": "a2096d397f",
+      "name": "Kiowa County Press",
+      "domains": [
+        "kiowacountypress.net"
+      ],
+      "stories": 3,
+      "first_seen": "2026-11-12",
+      "last_seen": "2026-11-24",
+      "headlines": [
+        {
+          "title": "Colorado sues Trump administration over housing assistance rule that excludes immigrant families",
+          "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOYVFUZ2xGUWQyRGlCVTZMcHdmNlV4SFdqOXcxQkg4UmpQTFNKdENMVVhua3Y1MDRjTEJaM3ZWeVdscUp1UmM5RnN6Q1pBNHlYN3RicVpmUWhrVkxlZXM4S0F2T1JrUUJacTF4ZGtXU1hLNlNqUGxVYVlHQ0t6TmNMZjZrNzBsWHJYRURFeFBWS0haQmR5S05xSFAxc1AtQ2lyb1VxaVpzZUNLQ0xGamZoejMzcDBDZUJuenpnSlN1SVJrVnNvZ3NB?oc=5",
+          "date": "2026-11-24"
+        },
+        {
+          "title": "Colorado Realtors report 19% decline in state's home sales",
+          "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNWVRmRmlJLUlhM2ZsUE14VXFlM3lsLVlrZEZqc1ZNQ3ZfQ0p2LXVwOFhGOTBaZXZ4UXZXbllVMUh3QXJhcWM5Tlp6d0EwSmNJeEc1NDVEak05UnI2aG53WXBCYTFxajR5RmRWRDFydFFkZU5COS0yMHl0UTFwY2JlVlhpV3NGZFRYOE0tLUV2S2h3b09r?oc=5",
+          "date": "2026-11-14"
+        },
+        {
+          "title": "Colorado releases first statewide housing needs assessment",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQZFFnY2tJX201UmhxTnkyM2hnLUMtRFgteU1nc2RManFYdkpsVC1mb0dMU3lLLWRxR1hybVVCaVpwUDYyQ0w4TFlVbzRicFJjdk5ET1FpS3gxOGdtemtVRGgwX0JZaGRZTWIwNTdCcXd3OVhncXVYSVdIbHlFMktIWEtxdlpwV1k1bXBsTF8zS0x6b1FWOThoSXU0TQ?oc=5",
+          "date": "2026-11-12"
+        }
+      ],
+      "first_listed": "2026-11-13"
+    },
     {
       "id": "1c1e342f6c",
       "name": "Wisevoter",
       "domains": [
         "wisevoter.com"
       ],
-      "stories": 2,
+      "stories": 3,
       "first_seen": "2026-11-19",
       "last_seen": "2026-11-23",
       "headlines": [
@@ -24,6 +52,11 @@
           "title": "Boulder Council Sets 90-Day Affordable Housing Review",
           "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNXzlFbmpFaHFiVGRJc3VqNXhPQWtBRnR6NGRTTFk3X1hPR3dyUnZWNVE1LTVXN2JPUlp5OUJfQ1lldk5JQ3BOdnBwUGtoNVhPN2RMeUFFSXNLWXZDS0FYRFBabWlNM3BoZ0tFVGJwRWVqQUVmX2lSRFhsLVpSXzViM0pPRFRNQkgzX09KSVRUdHZTTEpWemNzS1FUdTMyQzFmU0RN?oc=5",
           "date": "2026-11-23"
+        },
+        {
+          "title": "Colorado Launches Mortgage Aid for First Responders",
+          "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQdE1ESnczRFVTOVBHTjJ4NFZ6a3M3QTdNOXRlZFRCU1BCRk1sWGdyd1NldXFyclg4aXBRSEU3LUQ0WmpFSHNKeU43U2JpdGdYdE1hU3Z4ZGZmUEFiZTR2VDZvTFlCQlU0U1BfbEJPRy02Q19UVjhfYzhDaXMycG1HU2V2bHMwLTljaVhPTThDVm5VaEU?oc=5",
+          "date": "2026-11-20"
         },
         {
           "title": "Denver to Close Stone Creek Homeless Shelter in May",
@@ -186,29 +219,6 @@
         }
       ],
       "first_listed": "2026-11-17"
-    },
-    {
-      "id": "a2096d397f",
-      "name": "Kiowa County Press",
-      "domains": [
-        "kiowacountypress.net"
-      ],
-      "stories": 2,
-      "first_seen": "2026-11-12",
-      "last_seen": "2026-11-14",
-      "headlines": [
-        {
-          "title": "Colorado Realtors report 19% decline in state's home sales",
-          "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNWVRmRmlJLUlhM2ZsUE14VXFlM3lsLVlrZEZqc1ZNQ3ZfQ0p2LXVwOFhGOTBaZXZ4UXZXbllVMUh3QXJhcWM5Tlp6d0EwSmNJeEc1NDVEak05UnI2aG53WXBCYTFxajR5RmRWRDFydFFkZU5COS0yMHl0UTFwY2JlVlhpV3NGZFRYOE0tLUV2S2h3b09r?oc=5",
-          "date": "2026-11-14"
-        },
-        {
-          "title": "Colorado releases first statewide housing needs assessment",
-          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQZFFnY2tJX201UmhxTnkyM2hnLUMtRFgteU1nc2RManFYdkpsVC1mb0dMU3lLLWRxR1hybVVCaVpwUDYyQ0w4TFlVbzRicFJjdk5ET1FpS3gxOGdtemtVRGgwX0JZaGRZTWIwNTdCcXd3OVhncXVYSVdIbHlFMktIWEtxdlpwV1k1bXBsTF8zS0x6b1FWOThoSXU0TQ?oc=5",
-          "date": "2026-11-12"
-        }
-      ],
-      "first_listed": "2026-11-13"
     },
     {
       "id": "79575901bd",
@@ -389,6 +399,24 @@
         }
       ],
       "first_listed": "2026-11-06"
+    },
+    {
+      "id": "efa7fee197",
+      "name": "McKnight's Senior Living",
+      "domains": [
+        "mcknightsseniorliving.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-10-14",
+      "last_seen": "2026-10-14",
+      "headlines": [
+        {
+          "title": "Senior living advocates push back against federal changes to program that funds affordable senior housing",
+          "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxNYXI4bXg0NXJNM3lQNGlwbEl6WFlCQjlUNlJEWkZZRWI0bU0wc1M3czEyajdlV1M3OW96dWpEb290dnBmaVM4MFV6WllkNHhJU3Y4bGlkRlJCTTJFb0hjY1JnTFJaV0xmZEEtLUp4ZHlqMEZqNWVONFAyWlpPeTFfdl9LTDh4b2gxT0RpaEZMSlpka2VMNWVFMzhsS3RobjBFalExX01sUDZWRkxMU3pEbTJlU1lCaEYwYXFmMEZuNnByeDdYWlZHajg5RDVoWXY4amQzR2U4cXB5R2doVmZteUptdw?oc=5",
+          "date": "2026-10-14"
+        }
+      ],
+      "first_listed": "2026-11-25"
     },
     {
       "id": "844138f128",

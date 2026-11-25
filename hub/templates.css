@@ -1577,11 +1577,20 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .ladder-t { grid-area: t; position: relative; height: 12px; background: var(--track); border-radius: 3px; }
 .ladder-b { position: absolute; left: 0; top: 0; bottom: 0; background: var(--c-green); border-radius: 3px; }
 .ladder-b.is-short { background: var(--rust); }
+.ladder-b.is-priced { background: var(--c-blue); }
+/* paul 25 Nov: HUD's affordable-and-available bar under each price bar, thinner, so the two are never read as one. */
+.ladder-rows li { grid-template-areas: 'l t' '. v' '. th' '. tv'; }
+.ladder-rows .ladder-t-hud { grid-area: th; height: 8px; margin-top: .2rem; }
+.ladder-rows .ladder-v-hud { grid-area: tv; color: var(--ink); }
+.ladder .ladder-rows li .ladder-t-hud .ladder-100::after { content: none; }
+.ladder .ladder-note { margin: .35rem 0 .2rem; font-size: 13px; color: var(--ink); grid-column: 1 / -1; }
+.ladder-b-hud { background: var(--c-green); }
+.ladder.has-hud .ladder-rows { gap: .55rem; }
 .ladder-100 { position: absolute; left: 66.67%; top: -3px; bottom: -3px; width: 2px; background: var(--ink); }
 .ladder-v { grid-area: v; color: var(--ink); }
 .ladder .metric-source { margin: .2rem 0 0; }
 @media (min-width: 641px) {
-  .ladder-rows li { grid-template-columns: 7rem minmax(0, 1fr) 12rem; grid-template-areas: 'l t v'; }
+  .ladder-rows li { grid-template-columns: 7rem minmax(0, 1fr) 15rem; grid-template-areas: 'l t v' '. th tv'; }
 }
 /* The 20-year need strip on What to do (site/hna.js needStrip; Gemini round 10, pick A). */
 .ns-bar { display: flex; height: 16px; margin: .6rem 0 .4rem; border-radius: 3px; overflow: hidden; background: var(--track); }

@@ -281,11 +281,11 @@
 }
 
 .hp-odds-yes .hp-odds-pct {
-  color: var(--color-success, #2e7d32);
+  color: var(--good, #2e7d32);
 }
 
 .hp-odds-no .hp-odds-pct {
-  color: var(--color-error, #c62828);
+  color: var(--bad, #c62828);
 }
 
 .hp-odds-pct {
@@ -331,11 +331,11 @@
 }
 
 .hp-diff-higher {
-  color: var(--color-success, #2e7d32);
+  color: var(--good, #2e7d32);
 }
 
 .hp-diff-lower {
-  color: var(--color-error, #c62828);
+  color: var(--bad, #c62828);
 }
 
 .hp-diff-neutral {
@@ -409,11 +409,11 @@
 }
 
 .hp-trend-up {
-  color: var(--color-success, #2e7d32);
+  color: var(--good, #2e7d32);
 }
 
 .hp-trend-down {
-  color: var(--color-error, #c62828);
+  color: var(--bad, #c62828);
 }
 
 .hp-trend-neutral {
@@ -472,12 +472,12 @@
 }
 
 .hp-acc-correct {
-  color: var(--color-success, #2e7d32);
+  color: var(--good, #2e7d32);
   font-weight: 600;
 }
 
 .hp-acc-wrong {
-  color: var(--color-error, #c62828);
+  color: var(--bad, #c62828);
   font-weight: 600;
 }
 
