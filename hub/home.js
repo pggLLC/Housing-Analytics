@@ -920,9 +920,9 @@
   // og-card.html: the picture social sites show beside a shared cohoanalytics.com link, drawn at its 1200 × 630 shape.
   function shareCard() {
     return utilHead('Share card', 'When someone shares a cohoanalytics.com link, social sites and chat apps show this card beside it. It is a picture, not a page people read.') +
-      '<figure class="og-frame" data-no-source="catalog: a picture of the share card, with no figures"><div class="og-card" role="img" aria-label="Share card: COHO Analytics, Colorado Housing Intelligence"><p class="og-brand">COHO Analytics</p>' +
-      '<h2 class="og-title">Colorado Housing Intelligence</h2><p class="og-tag">Colorado housing data for people who plan, build and fund affordable homes</p>' +
-      '<p class="og-foot">cohoanalytics.com · LIHTC · Market Analysis · HNA</p></div>' +
+      '<figure class="og-frame" data-no-source="catalog: a picture of the share card, with no figures"><div class="og-card" role="img" aria-label="Share card: Colorado needs more homes that people can afford. COHO Analytics, free, every number sourced."><p class="og-brand">COHO Analytics · Colorado housing</p>' +
+      '<h2 class="og-title">Colorado needs more homes that people can afford.</h2><p class="og-tag">The need in every town and county, where to build, and whether a project works.</p>' +
+      '<p class="og-foot">cohoanalytics.com<span class="og-free">Free · every number sourced</span></p></div>' +
       '<figcaption class="note">Shown at 1200 × 630, the shape link previews use.</figcaption></figure>';
   }
 

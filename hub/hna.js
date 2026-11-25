@@ -2494,9 +2494,9 @@
         var fit = +wide.band <= 30 ? ' Closing it takes homes at 30% AMI rents, which need deep subsidy such as project-based vouchers on top of tax credits.'
           : +wide.band <= 60 ? ' Tax credit rentals with rents set at or below ' + wide.band + '% AMI could help close it, if a site and the funding work; test one in the Deal Calculator.'
           : ' That is above the usual 60% AMI tax credit limit, where workforce rentals and ownership fit.';
-        return name + ' is short of homes renters can afford ' + reach + '. The gap is widest at or below ' + wide.band + '% AMI: ' + num(wide.households) + ' renter households and ' + num(wide.homes) +
-          ' homes at ' + money(wide.rent) + ' a month or less, ' + num(wide.shortfall) + ' short.' + fit +
-          (b30 !== wide && b30.shortfall > 0 ? ' At 30% AMI, ' + num(b30.households) + ' households have ' + num(b30.homes) + ' homes priced for them.' : '') + hudBeside();
+        return name + ' is short of homes renters can afford ' + reach + '. The gap is widest at or below ' + wide.band + '% AMI: ' + num(wide.households) + (wide.households === 1 ? ' renter household and ' : ' renter households and ') + num(wide.homes) +
+          (wide.homes === 1 ? ' home at ' : ' homes at ') + money(wide.rent) + ' a month or less, ' + num(wide.shortfall) + ' short.' + fit +
+          (b30 !== wide && b30.shortfall > 0 ? ' At 30% AMI, ' + num(b30.households) + (b30.households === 1 ? ' household has ' : ' households have ') + num(b30.homes) + (b30.homes === 1 ? ' home' : ' homes') + ' priced for them.' : '') + hudBeside();
       },
       people: function () {
         var inc = v('median_hh_income'), cr = v('commute_ratio');

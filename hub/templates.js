@@ -67,7 +67,9 @@
     // o.visual: a small picture beside the title (a locator map on place pages; big visual pass, paul 11-06).
     return '<header class="page-head page-' + esc(o.kind) + (o.visual ? ' has-visual' : '') + '" data-template="' + esc(TEMPLATES[o.kind] || 'prose') + '">' + crumbs(o.crumbs) +
       (o.visual ? '<div class="ph-visual">' + o.visual + '</div>' : '') +
-      '<p class="page-kind">' + esc(KINDS[o.kind]) + '</p>' +
+      // o.kindLabel: the menu a hub sits in, named over its title, so the menu word and the page agree (launch audit,
+      // 25 Nov: the menu said "Money and deals", the page only "Build a deal").
+      '<p class="page-kind">' + esc(o.kindLabel || KINDS[o.kind]) + '</p>' +
       '<h1>' + esc(o.title) + '</h1>' +
       (o.answer ? '<p class="page-answer">' + o.answer + '</p>' : '') +
       // Gemini round 10, pick A (paul 11-05): a graphic strip under 200 px, after the sentence that says what the page is for.

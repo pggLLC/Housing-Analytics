@@ -459,7 +459,10 @@
 
   function recommendation(params) {
     var g = params.get('g');
-    if (!g) return M.picker('recommendation', 'Recommendation', 'What the public data says a Colorado town or county needs, one conclusion at a time, and how sure it is. Free.', params.get('q'), 'deal');
+    // Opened with no place (recommendation.html, or the menu): the seven-step bar still shows, saying no place is
+    // picked yet, so the page is the same seventh step as when a place is open (launch audit, 25 Nov).
+    if (!g) return M.picker('recommendation', 'Recommendation', 'What the public data says a Colorado town or county needs, one conclusion at a time, and how sure it is. Free.', params.get('q'), 'deal', '',
+      global.LabHna && global.LabHna.stepPath ? global.LabHna.stepPath(true, '#/recommendation') : '');
     var entry = Pl.entryFor(g), title = 'Recommendation';
     var headOnly = function (body) { return T.head({ kind: 'tool', crumbs: T.trail('deal', title), title: title }) + body; };
     if (!entry) return headOnly('<p class="callout">No Colorado place has the ID ' + esc(g) + '.</p>');

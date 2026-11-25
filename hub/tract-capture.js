@@ -413,12 +413,14 @@
     return b;
   }
 
+  // A headless box (b.headless, from analyse() below) has no page: it loads the same files and works out the same
+  // suggestion, and draws nothing.
   function load(b) {
-    var ctx = b.ctx, say = function (t) { var a = b.el.querySelector('.tc-answer'); if (a) a.textContent = t; };
+    var ctx = b.ctx, say = function (t) { var a = b.el && b.el.querySelector('.tc-answer'); if (a) a.textContent = t; };
     var light = Promise.all([get(FILES.cent), get(FILES.geom), get(FILES.lihtc), script(ENGINES.supply, 'PMAAffordableSupply'), get(FILES.places).catch(function () { return null; })]);
     // The commuting and crossing files are large; the suggestion waits for them, and says so if they fail.
     // The town and workforce files feed only "Who could rent here"; the rest of the box never waits for them.
-    b.placeFiles = Promise.all([get(FILES.membership), get(FILES.placePop), get(FILES.placeRenters), get(FILES.workforce)])
+    b.placeFiles = b.headless ? Promise.resolve(null) : Promise.all([get(FILES.membership), get(FILES.placePop), get(FILES.placeRenters), get(FILES.workforce)])
       .then(function (r) { return { memb: r[0], pop: r[1], renters: r[2], wf: r[3] }; }, function () { return null; });
     var heavy = Promise.all([
       get(FILES.od).catch(function () { return null; }),
@@ -429,7 +431,7 @@
       get(FILES.movers).catch(function () { return null; }),
       get(FILES.s8).catch(function () { return null; })
     ]);
-    light.then(function (a) {
+    return light.then(function (a) {
       say('Checking commutes, rivers and interstates round the site…');
       return heavy.then(function (h) {
         var cent = a[0], geom = a[1], lihtc = a[2];
@@ -476,6 +478,7 @@
         b.pickId = ctx.ta || null;
         b.single = {};
         b.picked = (ctx.edited && ctx.edited.length) ? set(ctx.edited.filter(function (g) { return b.byId[g]; })) : null;
+        if (b.headless) return b;
         draw(b);
         drawMap(b);
         b.placeFiles.then(function (pf) { b.pf = pf; b.pfDone = true; if (b.sug) drawViews(b); });
@@ -484,6 +487,7 @@
         if (global.LabShell && global.LabShell.render && doc.contains(b.el)) global.LabShell.render();
       });
     }).catch(function (e) {
+      if (b.headless) throw e;
       say('The census tract files did not load (' + (e && e.message ? e.message : 'unknown error') + '). Try again in a moment, or use the radius choices below.');
     });
   }
@@ -568,7 +572,7 @@
     // (Codex, HA #2948).
     if (!isOlder(b) || b.older || b.olderLoad || b.olderFailed) return;
     b.olderLoad = get(FILES.older).then(function (d) { b.older = d; b.olderFailed = false; }, function () { b.olderFailed = true; })
-      .then(function () { b.olderLoad = null; b.single = {}; if (b.sug) draw(b); });
+      .then(function () { b.olderLoad = null; b.single = {}; if (b.sug && !b.headless) draw(b); });
   }
   // The engine scales each tract's CHAS count to its ACS renters (acsIdx). For older adults the tract's ACS renters
   // are cut by the older share of its CHAS renters, so the scaling factor is the family one.
@@ -1470,6 +1474,71 @@
       }
     };
   }
+  // ---- the same counts without a page (paul, 25 Nov 2026, "build it all before the walkthrough", from the 25 Nov
+  // proposal "Compare market areas tract by tract") ----
+  // The member page that compares named market areas tract by tract reads every figure from here, so its counts,
+  // CHFA rates, tests and best fit are the Market check's own, from the same files. Nothing is drawn and the address is
+  // not touched.
+  // ctx: { s: { x: { demand, acs, sizes }, d: { chfa }, entry: { geoid } or null }, site: { lat, lon }, units, tier,
+  // pop: 'older' or 'family', mig: percent }. With no entry, the town is the one holding the most of the site tract's homes.
+  function analyse(ctx) {
+    var b = { key: keyOf(ctx.site), el: null, headless: true, ctx: Object.assign({}, ctx), data: null, sug: null, picked: null, single: {} };
+    return load(b).then(function () {
+      if (!b.ctx.s.entry) {
+        var tw = b.sug.siteGeoid && b.townOf[b.sug.siteGeoid];
+        b.ctx.s = Object.assign({}, b.ctx.s, { entry: tw ? { geoid: tw.geoid } : null });
+      }
+      return olderReady(b);
+    }).then(function () { return headlessApi(b); });
+  }
+  function olderReady(b) {
+    if (!isOlder(b) || b.older) return Promise.resolve();
+    return get(FILES.older).then(function (d) { b.older = d; b.olderFailed = false; }, function () { b.olderFailed = true; });
+  }
+  function headlessApi(b) {
+    var cent = {};
+    ((b.data.cent && b.data.cent.tracts) || []).forEach(function (t) { cent[String(t.geoid)] = t; });
+    var fresh = function () { b.areas = null; b.areasKey = null; b.single = {}; };
+    var o = {
+      sug: b.sug, shapes: b.data.shapes, sources: b.data.sources, files: FILES,
+      rules: { best: BEST, test: TEST, tiers: CAP_TIERS, line: (global.PMAMarketScoring && global.PMAMarketScoring.CHFA_CAPTURE_LIMIT) || 0.85, msg: MSG },
+      ctx: function () { return b.ctx; },
+      // New units, level, group or in-migration factor; resolves once any older-adult file is in.
+      set: function (c) { b.ctx = Object.assign({}, b.ctx, c); fresh(); return olderReady(b).then(function () { return o; }); },
+      older: function () { return isOlder(b); },
+      olderFailed: function () { return !!b.olderFailed; },
+      kind: function () { return kind(b); },
+      who: function () { return who(b); },
+      migration: function () { return migOf(b); },
+      town: function () { var t = siteTown(b); return t ? { geoid: t.geoid, name: t.name } : null; },
+      // The Market check's own areas, each with its evaluation, and the best fit for CHFA (null when none).
+      areas: function () { return areasFor(b); },
+      best: function () { areasFor(b); return b.best || null; },
+      // Any list of tracts, held to the same four tests.
+      evaluate: function (list) { var l = sorted(list || []); return { list: l, eval: l.length ? evaluate(b, { list: l }, siteTown(b)) : null }; },
+      // CHFA's rate alone, for what-ifs (one tract in or out).
+      rate: function (list) { var l = sorted(list || []); return l.length ? chfaRate(b, l) : null; },
+      // One tract, whether or not it is near the site: where it is, why the Market check suggests it or not, where its
+      // people live by road, its jobs tie, the town that holds most of its homes, and its counts.
+      tract: function (g) {
+        g = String(g);
+        var t = b.byId[g], c = cent[g], s = b.sug, d = c ? miles(b.ctx.site, c) : null, tier = b.ctx.tier;
+        var sh = s.shares && s.shares[g] ? s.shares[g].slice() : (s.shares ? [0, 0, 0] : null);
+        var comp = compIn(b, [g]), q = count(b, [g], [tier]).value;
+        return {
+          geoid: g, known: !!(c || t || (b.data.shapes && b.data.shapes[g])), name: t ? t.name : c ? tractName(c) : 'Tract ' + g.slice(5),
+          county: t ? t.county : c && c.county_name ? c.county_name + ' County' : '', miles: t ? t.miles : d,
+          looked: !!t, suggested: t ? !!t.suggested : false, why: t ? t.why : 'far',
+          reason: t ? t.reason : (d != null ? mi(d) + ' from the site, beyond the tracts the Market check looks at.' : 'Not in the census tract files.'),
+          across: t ? t.across : null, tie: t ? t.tie : null, bands: sh, band: s.band, drawMost: sh ? sh[BAND_AT[s.band]] >= BEST.draw : null,
+          school: t ? t.school : null, town: b.townOf[g] || null, qualified: q, comparable: comp.by[tier] || 0,
+          properties: (b.lihtc[g] || []).map(function (f) { var x = compOf(f, isOlder(b)); return { name: x.name, atTier: x.by[tier] || 0 }; })
+        };
+      }
+    };
+    return o;
+  }
+
   function parseList(text) {
     return String(text || '').split('.').filter(function (g) { return /^\d{9}$/.test(g); }).map(full);
   }
@@ -1483,5 +1552,5 @@
     if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', start); else start();
   }
 
-  global.LabTractCapture = { section: section, suggest: suggest, current: current, now: now, keyOf: keyOf, record: record, pickedArea: pickedArea, needsReason: needsReason, parseList: parseList, RULES: RULES, FILES: FILES, mountAll: mountAll };
+  global.LabTractCapture = { section: section, suggest: suggest, current: current, now: now, keyOf: keyOf, record: record, pickedArea: pickedArea, needsReason: needsReason, parseList: parseList, RULES: RULES, FILES: FILES, mountAll: mountAll, analyse: analyse };
 })(window);
