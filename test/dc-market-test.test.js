@@ -87,52 +87,80 @@ async function test(name, fn) {
     const rec = data.limits.counties.find((c) => c.fips === fips);
     const bands = M.bandsFor(rec, { 30: 6, 60: 40 });
     assert.ok(bands.includes(30) && bands.includes(60) && bands.every((b) => b <= 80));
-    const cnt = M.countRenters(E, data, tracts, bands, [30, 60], ['1br', '2br']);
+    const cnt = M.countRenters(E, data, tracts, bands, { 30: ['1br'], 60: ['2br'] }, ['1br', '2br']);
     const limits = {}; data.limits.counties.forEach((c) => { limits[c.fips] = c; });
     const idx = {}; data.acs.tracts.forEach((m) => { idx[m.geoid] = m; });
-    const direct = E.chfaQualifiedRenters(data.demand, limits, tracts.map((g) => ({ geoid: g })), [60], ['1br', '2br'], { acsIdx: idx, sizeIdx: data.sizes.tracts });
+    const direct = E.chfaQualifiedRenters(data.demand, limits, tracts.map((g) => ({ geoid: g })), [60], ['2br'], { acsIdx: idx, sizeIdx: data.sizes.tracts });
     assert.ok(direct.value > 0);
     assert.equal(cnt.pool[60], direct.value);
     assert.deepEqual(JSON.parse(JSON.stringify(cnt.bySize[60])), JSON.parse(JSON.stringify(direct.byBedroom)));
     assert.equal(cnt.tracts, tracts.length);
+    // A band with no homes, one a weak band could step down to, is counted for every size the deal offers.
+    const both = E.chfaQualifiedRenters(data.demand, limits, tracts.map((g) => ({ geoid: g })), [50], ['1br', '2br'], { acsIdx: idx, sizeIdx: data.sizes.tracts });
+    assert.equal(cnt.pool[50], both.value);
+    // Counting the 60% band for the 30% band's one-bedrooms too would add renters no 60% home fits (Codex P1, #3016).
+    const wide = E.chfaQualifiedRenters(data.demand, limits, tracts.map((g) => ({ geoid: g })), [60], ['1br', '2br'], { acsIdx: idx, sizeIdx: data.sizes.tracts });
+    assert.ok(wide.value > cnt.pool[60]);
   });
 
-  await test('on the page: closed until opened, then capture by band and size for the picked county', async () => {
-    const p = await openPage('', null, {});
-    assert.deepEqual(p.errors, []);
-    const det = p.d.getElementById('dc-market-test');
-    assert.ok(det, 'the panel draws into its mount');
-    assert.equal(det.closest('#dc-market-test-mount').dataset.dcMode, 'rental');
-    assert.equal(det.open, false);
-    setField(p, 'dc-county-select', '08077');
-    const tiers = p.w.__DealCalc.getAmiBands();
-    for (const t of tiers) {
-      p.d.getElementById('dc-chk-' + t).checked = t === 30 || t === 60;
-      p.d.getElementById('dc-units-' + t).value = 0;
-      for (const br of ['studio', '1br', '2br', '3br', '4br']) { const el = p.d.getElementById('dc-units-' + t + '-' + br); if (el) el.value = 0; }
-    }
-    p.d.getElementById('dc-units-30-1br').value = 6;
-    p.d.getElementById('dc-units-60-2br').value = 30;
-    setField(p, 'dc-unit-mix-source', 'manual');
-    setField(p, 'dc-units', 36);
-    det.open = true;
-    det.dispatchEvent(new p.w.Event('toggle'));
-    const body = p.d.getElementById('dc-mt-body');
-    const end = Date.now() + 20000;
-    while (Date.now() < end && !body.querySelector('table')) await new Promise((r) => setTimeout(r, 100));
-    const tables = body.querySelectorAll('table');
-    assert.equal(tables.length, 2, body.textContent);
-    const bandRows = Array.from(tables[0].querySelectorAll('tbody tr')).map((tr) => tr.querySelector('th').textContent);
-    assert.deepEqual(bandRows, ['30%', '60%']);
-    assert.match(tables[0].querySelector('tbody tr').textContent, /^30%6/);
-    assert.deepEqual(Array.from(tables[1].querySelectorAll('thead th')).map((th) => th.textContent), ['Band', '1BR', '2BR']);
-    assert.match(body.textContent, /all of Mesa County/);
-    assert.match(body.textContent, /COHO starting rules/);
-    assert.match(body.textContent, /85% penetration/);
-    assert.match(p.d.getElementById('dc-mt-flag').textContent, /^(Every band at 10% or less|Weak in the )/);
-    assert.ok(body.querySelector('a[href="deal-hub.html#/market?g=08077"]'));
-    assert.deepEqual(p.errors, []);
-  });
+  // The panel's state must agree with the capture check run here on the same homes and county, for a deal that
+  // passes and one that does not (Codex P1 on #3016: no fixed wording is pinned).
+  async function pageCase(name, homes) {
+    await test('on the page, ' + name + ': the panel agrees with the capture check', async () => {
+      const p = await openPage('', null, {});
+      assert.deepEqual(p.errors, []);
+      const det = p.d.getElementById('dc-market-test');
+      assert.ok(det, 'the panel draws into its mount');
+      assert.equal(det.closest('#dc-market-test-mount').dataset.dcMode, 'rental');
+      assert.equal(det.open, false);
+      setField(p, 'dc-county-select', '08077');
+      for (const t of p.w.__DealCalc.getAmiBands()) {
+        p.d.getElementById('dc-chk-' + t).checked = homes.some((h) => h.tier === t);
+        p.d.getElementById('dc-units-' + t).value = 0;
+        for (const br of ['studio', '1br', '2br', '3br', '4br']) { const el = p.d.getElementById('dc-units-' + t + '-' + br); if (el) el.value = 0; }
+      }
+      for (const h of homes) p.d.getElementById('dc-units-' + h.tier + '-' + h.br).value = h.units;
+      setField(p, 'dc-unit-mix-source', 'manual');
+      setField(p, 'dc-units', homes.reduce((t, h) => t + h.units, 0));
+      det.open = true;
+      det.dispatchEvent(new p.w.Event('toggle'));
+      const body = p.d.getElementById('dc-mt-body'), flag = p.d.getElementById('dc-mt-flag');
+      const end = Date.now() + 20000;
+      while (Date.now() < end && !body.querySelector('table')) await new Promise((r) => setTimeout(r, 100));
+      const tables = body.querySelectorAll('table');
+      assert.equal(tables.length, 2, body.textContent);
+
+      // The same check, run here from the calculator's rows on the county's tracts.
+      const h = M.homesFrom(p.w.__DealCalc.getResult().pricedRows);
+      const tracts = Object.keys(data.demand.tracts).filter((g) => g.slice(0, 5) === '08077');
+      const bands = M.bandsFor(data.limits.counties.find((c) => c.fips === '08077'), h.byBand);
+      const cnt = M.countRenters(E, data, tracts, bands, h.sizesByBand, h.bedrooms);
+      const chk = hub.LabStart.captureCheck(JSON.parse(JSON.stringify(h.byBand)), cnt.pool);
+      const rows = Array.from(tables[0].querySelectorAll('tbody tr')).map((tr) => Array.from(tr.children, (c) => c.textContent));
+      assert.deepEqual(rows.map((r) => r[0]), Array.from(chk.rows, (r) => r.band + '%'));
+      chk.rows.forEach((r, i) => {
+        assert.equal(rows[i][1], r.homes.toLocaleString('en-US'));
+        assert.equal(rows[i][2], Math.round(r.renters).toLocaleString('en-US'));
+        assert.ok(rows[i][3].startsWith((Math.round(r.share * 1000) / 10).toFixed(1).replace(/\.0$/, '') + '%'), rows[i][3]);
+        assert.equal(rows[i][3].includes('thin'), r.level !== 'good');
+      });
+      assert.equal(flag.getAttribute('data-weak'), Array.from(chk.weak, (r) => r.band).join(','));
+      assert.equal(!!body.querySelector('[role="note"]'), chk.weak.length > 0, 'the weak-capture warning shows only when a band is weak');
+      chk.weak.forEach((r) => assert.ok(flag.textContent.includes(r.band + '%'), flag.textContent));
+      assert.ok(body.querySelector('a[href="deal-hub.html#/market?g=08077"]'));
+      assert.deepEqual(p.errors, []);
+      return chk;
+    });
+  }
+  await pageCase('a small deal', [{ tier: 30, br: '1br', units: 6 }, { tier: 60, br: '2br', units: 30 }]);
+  await pageCase('a deal too big for its 30% renters', [{ tier: 30, br: '1br', units: 150 }, { tier: 60, br: '2br', units: 30 }]);
+  // The second case must really be weak, or it tests nothing.
+  {
+    const h = M.homesFrom([{ tier: 30, bedrooms: '1BR', units: 150 }, { tier: 60, bedrooms: '2BR', units: 30 }]);
+    const tracts = Object.keys(data.demand.tracts).filter((g) => g.slice(0, 5) === '08077');
+    const cnt = M.countRenters(E, data, tracts, M.bandsFor(data.limits.counties.find((c) => c.fips === '08077'), h.byBand), h.sizesByBand, h.bedrooms);
+    await test('the weak case is weak', () => assert.ok(M.captureCheck(h.byBand, cnt.pool).weak.some((r) => r.band === 30)));
+  }
 
   if (failed) { console.error(failed + ' failed'); process.exit(1); }
   console.log('dc-market-test: all passed');

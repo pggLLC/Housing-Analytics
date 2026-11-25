@@ -50,7 +50,11 @@
       cell[t] = cell[t] || {};
       cell[t][br] = (cell[t][br] || 0) + n;
     });
-    return { byBand: by, cell: cell, bedrooms: ['0br', '1br', '2br', '3br'].filter(function (k) { return offered[k]; }),
+    // The sizes each band's own homes come in, so a band counts only renters a home in that band fits (Codex P1 on
+    // HA #3016): 30% one-bedrooms do not add 60% renters who need a one-bedroom.
+    var sizesByBand = {};
+    Object.keys(by).forEach(function (t) { sizesByBand[t] = ['0br', '1br', '2br', '3br'].filter(function (k) { return cell[t] && cell[t][k] > 0; }); });
+    return { byBand: by, cell: cell, sizesByBand: sizesByBand, bedrooms: ['0br', '1br', '2br', '3br'].filter(function (k) { return offered[k]; }),
       over: Object.keys(over).map(Number).sort(function (a, b) { return a - b; }), noRule: big };
   }
 
@@ -98,18 +102,20 @@
     return out.sort(function (a, b) { return String(b.at).localeCompare(String(a.at)); });
   }
 
-  // Renters who qualify, band by band, in an area, for the sizes on offer (none: the engine's 1-3BR default), and
-  // by size for each band the deal has homes in.
-  function countRenters(E, data, tracts, bands, homeBands, bedrooms) {
+  // Renters who qualify, band by band, in an area, and by size for each band the deal has homes in. A band with
+  // homes is counted for the sizes its own homes come in (sizesByBand); a band a weak band could step down to is
+  // counted for every size the deal offers (bedrooms). No size with a CHFA rule: the engine's 1-3BR default.
+  function countRenters(E, data, tracts, bands, sizesByBand, bedrooms) {
     var limits = {}; ((data.limits && data.limits.counties) || []).forEach(function (c) { limits[c.fips] = c; });
     var idx = {}; ((data.acs && data.acs.tracts) || []).forEach(function (m) { idx[m.geoid] = m; });
     var opts = { acsIdx: Object.keys(idx).length ? idx : null, sizeIdx: data.sizes && data.sizes.tracts ? data.sizes.tracts : null };
     var tl = tracts.filter(function (g) { return data.demand.tracts && data.demand.tracts[g]; }).map(function (g) { return { geoid: g }; });
-    var pool = {}, bySize = {}, br = bedrooms && bedrooms.length ? bedrooms : undefined;
+    var pool = {}, bySize = {}, all = bedrooms && bedrooms.length ? bedrooms : undefined;
     bands.forEach(function (b) {
+      var own = sizesByBand && sizesByBand[b], br = own ? (own.length ? own : undefined) : all;
       var q = E.chfaQualifiedRenters(data.demand, limits, tl, [b], br, opts);
       pool[b] = q && q.value > 0 ? q.value : 0;
-      if (homeBands.indexOf(b) >= 0) bySize[b] = (q && q.byBedroom) || {};
+      if (own) bySize[b] = (q && q.byBedroom) || {};
     });
     return { pool: pool, bySize: bySize, tracts: tl.length };
   }
@@ -137,7 +143,7 @@
       ? 'Renters counted in the market area saved from Market check in ' + area.project + ': ' + area.label + (area.screening ? '. It is a screening area, not a CHFA market area.' : '.')
       : 'Renters counted in all of ' + countyName + '. No market area for this county is saved in this browser, so this is the biggest assumption here.';
     var rows = chk.rows.map(function (r) {
-      return '<tr' + (r.level === 'good' ? '' : ' data-weak style="background:var(--warn-bg,rgba(161,92,0,.08));"') + '><th scope="row">' + r.band + '%</th><td class="num">' + num(r.homes) + '</td><td class="num">' + num(r.renters) +
+      return '<tr' + (r.level === 'good' ? '' : ' data-weak style="background:var(--warn-dim,rgba(161,92,0,.08));"') + '><th scope="row">' + r.band + '%</th><td class="num">' + num(r.homes) + '</td><td class="num">' + num(r.renters) +
         '</td><td class="num">' + cellHtml(r) + '</td><td class="num">' + num(r.needed) + '</td></tr>';
     }).join('');
     var bandTable = '<p style="font-size:var(--tiny);color:var(--muted);margin:.5rem 0 .2rem;">By income band: homes, the renters who qualify, the share (homes ÷ renters), and the renters a 10% share needs.</p>' +
@@ -168,7 +174,7 @@
         return '<li>' + esc(head) + ' <strong>' + esc(then) + '</strong></li>';
       }).join('') + '</ul></div>' : '<p style="margin:.5rem 0 0;">Every band stays at 10% or less of the renters who qualify for it.</p>';
     var notes = [];
-    notes.push(sizes.length ? 'Counted for the sizes these homes come in (' + list(sizes.map(function (k) { return SIZE_NAME[k]; })) + '): a household counts only if one fits it. CHFA’s limits: studio 1 person, 1BR 1 to 2, 2BR 2 to 3, 3BR 3 to 5.'
+    notes.push(sizes.length ? 'Each band is counted for the sizes its own homes come in (here ' + list(sizes.map(function (k) { return SIZE_NAME[k]; })) + ' in all): a household counts only if one fits it. CHFA’s limits: studio 1 person, 1BR 1 to 2, 2BR 2 to 3, 3BR 3 to 5.'
       : 'Counted for 1 to 3 bedroom homes: no size these homes come in has a CHFA household rule.');
     if (h.noRule) notes.push(h.noRule + ' four-bedroom home' + (h.noRule === 1 ? ' is' : 's are') + ' in the band totals but not the size table: the CHFA count has no four-bedroom rule.');
     if (h.over.length) notes.push('Homes at ' + list(h.over.map(function (t) { return t + '%'; })) + ' of area median income are not counted: the CHFA count covers bands up to 80%.');
@@ -234,14 +240,14 @@
     var area = areas.filter(function (a) { return a.key === pick; })[0] || areas[0];
     var rec = ((data.limits && data.limits.counties) || []).filter(function (x) { return x.fips === c.fips; })[0];
     var bands = bandsFor(rec, h.byBand);
-    var homeBands = Object.keys(h.byBand).map(Number);
     // The count changes only with the area, the bands and the sizes, not with costs or rents: kept for the last ones.
-    var ck = [c.fips, area.key, bands.join(','), homeBands.join(','), h.bedrooms.join(',')].join('|');
-    if (!last || last.key !== ck) last = { key: ck, cnt: countRenters(E, data, area.tracts, bands, homeBands, h.bedrooms) };
+    var ck = [c.fips, area.key, bands.join(','), JSON.stringify(h.sizesByBand), h.bedrooms.join(',')].join('|');
+    if (!last || last.key !== ck) last = { key: ck, cnt: countRenters(E, data, area.tracts, bands, h.sizesByBand, h.bedrooms) };
     var cnt = last.cnt;
     var chk = captureCheck(h.byBand, cnt.pool);
     body.innerHTML = render(h, area, cnt, chk, c.name, areas, area.key, c.fips);
     flag.textContent = chk.weak.length ? 'Weak in the ' + list(chk.weak.map(function (x) { return x.band + '%'; })) + ' band' + (chk.weak.length === 1 ? '' : 's') : 'Every band at 10% or less';
+    flag.setAttribute('data-weak', chk.weak.map(function (x) { return x.band; }).join(','));
     flag.style.color = chk.weak.length ? 'var(--warn,#a15c00)' : 'var(--muted)';
   }
   function safeStorage() { try { return global.localStorage; } catch (_) { return null; } }
