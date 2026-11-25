@@ -382,6 +382,99 @@
     };
   }
 
+  // ---------------------------------------------------------------------------
+  // Size the homes (for-sale). For each bedroom count: the buyer household's
+  // income from CHFA's published limit for that household size, the most that
+  // household can pay (the caller's priceFor, which is OwnershipFinance
+  // .maxAffordablePrice on the page), the cost of a home of that size, the gap,
+  // and the largest home the price covers. Household size follows CHFA's rent
+  // convention of 1.5 people per bedroom (a studio is 1 person); a half person
+  // averages the two published limits either side. No cost is assumed: a blank
+  // cost input leaves cost, gap and largest home unknown (null) with a reason.
+  // ---------------------------------------------------------------------------
+  var SIZING_PERSONS_PER_BEDROOM = 1.5;
+  function sizingHouseholdSize(bedrooms) {
+    var b = +bedrooms;
+    if (!isFinite(b) || b < 0) return null;
+    return b === 0 ? 1 : b * SIZING_PERSONS_PER_BEDROOM;
+  }
+  function sizingIncome(limits, persons) {
+    if (!limits || persons == null) return null;
+    var lo = Math.floor(persons), hi = Math.ceil(persons);
+    var a = +limits[lo + 'p'], b = +limits[hi + 'p'];
+    if (!(a > 0) || !(b > 0)) return null;
+    return (a + b) / 2;
+  }
+  function sizingPositive(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var n = +v;
+    return isFinite(n) && n >= 0 ? n : null;
+  }
+
+  function sizeForSaleHomes(input) {
+    input = input || {};
+    var tiers = input.incomeLimitsByTier || null;
+    var priceFor = typeof input.priceFor === 'function' ? input.priceFor : null;
+    var hard = sizingPositive(input.buildCostPerSf);
+    if (hard === 0) hard = null;
+    var softPct = sizingPositive(input.softCostPct);
+    var land = sizingPositive(input.landPerHome);
+    var writeDown = sizingPositive(input.landWriteDownPerHome) || 0;
+    var hoa = sizingPositive(input.hoaMonthly) || 0;
+    var costMissing = [];
+    if (hard == null) costMissing.push('build cost per square foot');
+    if (softPct == null) costMissing.push('soft costs %');
+    if (land == null) costMissing.push('land and site work per home');
+    var netLand = land == null ? null : Math.max(0, land - writeDown);
+    var perSf = hard == null || softPct == null ? null : hard * (1 + softPct / 100);
+
+    var rows = (Array.isArray(input.rows) ? input.rows : []).map(function (row) {
+      var homes = Math.max(0, Math.round(+row.homes || 0));
+      var sqft = sizingPositive(row.sqft);
+      var amiPct = +row.amiPct;
+      var persons = sizingHouseholdSize(row.bedrooms);
+      var out = { bedrooms: +row.bedrooms, homes: homes, sqft: sqft, amiPct: amiPct, householdSize: persons,
+        income: null, maxPrice: null, costPerHome: null, gapPerHome: null, surplusPerHome: null,
+        largestSf: null, reason: null };
+      var limits = tiers && tiers[String(amiPct)] && tiers[String(amiPct)].income_limits;
+      out.income = sizingIncome(limits, persons);
+      if (out.income == null) { out.reason = 'No CHFA income limit at ' + amiPct + '% for this county'; return out; }
+      if (!priceFor) { out.reason = 'The buyer price math did not load'; return out; }
+      var price = priceFor(out.income, { hoaMonthly: hoa });
+      out.maxPrice = isFinite(price) && price > 0 ? price : null;
+      if (out.maxPrice == null) { out.reason = 'A buyer at this income cannot carry a mortgage under these terms'; return out; }
+      if (perSf == null || netLand == null) { out.reason = 'Enter ' + costMissing.join(', ') + ' to see cost and gap'; return out; }
+      var room = out.maxPrice - netLand;
+      out.largestSf = room > 0 ? Math.floor(room / perSf) : 0;
+      if (sqft == null || sqft === 0) { out.reason = 'Enter the home size to see its cost and gap'; return out; }
+      out.costPerHome = sqft * perSf + netLand;
+      out.gapPerHome = Math.max(0, out.costPerHome - out.maxPrice);
+      out.surplusPerHome = Math.max(0, out.maxPrice - out.costPerHome);
+      return out;
+    });
+
+    var counted = rows.filter(function (r) { return r.homes > 0; });
+    var complete = counted.length > 0 && counted.every(function (r) { return r.gapPerHome != null; });
+    var totalHomes = counted.reduce(function (s, r) { return s + r.homes; }, 0);
+    var totals = { homes: totalHomes, totalGap: null, totalCost: null, totalPrice: null, averageGapPerHome: null,
+      fundingStack: null, reason: null };
+    if (!counted.length) totals.reason = 'Enter how many homes of each size';
+    else if (!complete) totals.reason = 'Every row with homes needs a size, a cost and an income limit';
+    else {
+      totals.totalGap = counted.reduce(function (s, r) { return s + r.gapPerHome * r.homes; }, 0);
+      totals.totalCost = counted.reduce(function (s, r) { return s + r.costPerHome * r.homes; }, 0);
+      totals.totalPrice = counted.reduce(function (s, r) { return s + r.maxPrice * r.homes; }, 0);
+      totals.averageGapPerHome = totals.totalGap / totalHomes;
+      totals.fundingStack = computeDeveloperOwnershipFundingStack({
+        subsidyGapPerUnit: totals.averageGapPerHome,
+        tdcPerUnit: totals.totalCost / totalHomes,
+        maxAffordableSalePrice: totals.totalPrice / totalHomes
+      }, { units: totalHomes, programs: input.developerFundingPrograms, countyFips: input.countyFips });
+    }
+    return { personsPerBedroom: SIZING_PERSONS_PER_BEDROOM, costPerSfAllIn: perSf, netLandPerHome: netLand,
+      landWriteDownPerHome: writeDown, hoaMonthly: hoa, costMissing: costMissing, rows: rows, totals: totals };
+  }
+
   function known(value) { return typeof value === 'number' && Number.isFinite(value); }
   // Must-pay debt service NOI could not cover stays in the loan balance; it is
   // not cash that left the project (DOH PR 4).
@@ -1931,7 +2024,7 @@
   }
 
   return { computeDeal: computeDeal, rentCutImpact: rentCutImpact, creditStackTotal: creditStackTotal, investorCapital: investorCapital, costPerGrossSf: costPerGrossSf,
-    computeForSaleFeasibility: computeForSaleFeasibility, computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack, computeDscrStressScenarios: computeDscrStressScenarios,
+    computeForSaleFeasibility: computeForSaleFeasibility, computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack, sizeForSaleHomes: sizeForSaleHomes, computeDscrStressScenarios: computeDscrStressScenarios,
     computeRentAchievability: computeRentAchievability, evaluateMinimumSetAside: evaluateMinimumSetAside,
     isLihtcCreditEligiblePct: isLihtcCreditEligiblePct, loanObligations: loanObligations, loanTerms: loanTerms, LOAN_TYPES: LOAN_TYPES };
 }));

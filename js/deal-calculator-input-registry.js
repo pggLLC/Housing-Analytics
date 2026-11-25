@@ -210,6 +210,19 @@
   ['dc-res-sf', 'dc-restricted-sf', 'dc-boost-evidence', 'dc-pf-appraised'].forEach(function (id) {
     fields[id].status = 'needs-source'; fields[id].why = 'No project-specific source has been supplied.';
   });
+  // For-sale sizing panel: every box starts blank except the income target. No cost is assumed.
+  [1, 2, 3, 4].forEach(function (b) {
+    var label = b === 1 ? 'one-bedroom' : b === 2 ? 'two-bedroom' : b === 3 ? 'three-bedroom' : 'four-bedroom';
+    add('dc-size-homes-' + b, 'Number of ' + label + ' homes for sale in the sizing panel.', 'needs-source', 'Your planned mix.');
+    add('dc-size-sf-' + b, 'Living area of each ' + label + ' home, in square feet.', 'needs-source', 'Your plans or the size you want to test.');
+    add('dc-size-ami-' + b, 'Income target for ' + label + ' buyers, as a percent of area median income (CHFA 2026 limits).');
+  });
+  add('dc-size-cost-sf', 'Cost to build one square foot of home, before land and soft costs.', 'needs-source',
+    'No dated public figure covers your region; use a contractor estimate. Denver and resort references are shown beside the box.');
+  add('dc-size-soft-pct', 'Soft costs and fees (design, permits, tap fees, financing, developer fee) as a percent of building cost.', 'needs-source', 'No project-specific source has been supplied.');
+  add('dc-size-land', 'Land and site work cost for each home, in dollars.', 'needs-source', 'No project-specific source has been supplied.');
+  add('dc-size-land-writedown', 'Land value given up per home by a public or nonprofit owner, in dollars. Blank means none.', 'needs-source', 'Only a land deal or award can supply it.');
+  add('dc-size-hoa', 'Monthly HOA dues or land-trust ground lease the buyer pays, in dollars. Blank means none.', 'needs-source', 'No project-specific source has been supplied.');
   // #2160: itemized cost lines (js/deal-cost-basis.js). The prefilled amounts
   // are an INVENTED example budget, so they are illustrative.
   add('cost-amount', 'Dollars on this development budget line.', 'illustrative',
