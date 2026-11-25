@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-11-24T18:51:30.518Z",
+  "scanTimestamp": "2026-11-25T17:56:31.218Z",
   "totalScanned": 2006,
   "newSourceCount": 1974,
   "existingCount": 31,
@@ -8,7 +8,7 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 1012204,
+      "sizeBytes": 1012193,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -128,7 +128,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 2990423,
+      "sizeBytes": 3062364,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -146,7 +146,7 @@
     },
     {
       "path": "data/alerts/outlet-review.json",
-      "sizeBytes": 19368,
+      "sizeBytes": 21118,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -176,13 +176,13 @@
     },
     {
       "path": "data/audit/chfa-qap-watch.json",
-      "sizeBytes": 3842676,
+      "sizeBytes": 3570693,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 718351,
+      "sizeBytes": 711778,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10886,7 +10886,7 @@
     },
     {
       "path": "data/pipeline/content.json",
-      "sizeBytes": 42278,
+      "sizeBytes": 42378,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11354,7 +11354,7 @@
     },
     {
       "path": "data/policy/developer-ownership-funding.json",
-      "sizeBytes": 22403,
+      "sizeBytes": 22658,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11702,13 +11702,13 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 951447,
+      "sizeBytes": 962361,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy_briefs_curated.json",
-      "sizeBytes": 447779,
+      "sizeBytes": 447767,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11720,13 +11720,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20466,
+      "sizeBytes": 20517,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 247849,
+      "sizeBytes": 250081,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11856,7 +11856,7 @@
     {
       "path": "data/car-market.json",
       "name": "Colorado Association of Realtors (CAR) — Statewide Market Summary",
-      "daysSince": 296
+      "daysSince": 297
     }
   ]
 }
