@@ -1184,9 +1184,76 @@
     };
   }
 
+  // Workbook piece 5 (paul, 25 Nov 2026): a starting hard-cost budget from your per-home construction cost.
+  // The page supplies no cost: CoHO's rule is no cost figure without a local public source, so the per-home cost,
+  // escalation and local premium are yours to type. The splits are the dossier workbooks' standard: the builder's
+  // contract holds base cost plus general requirements 6%, overhead 2% and profit 6%; on-site work is 12% of base;
+  // the owner's hard-cost contingency is 5% of the contract. Soft costs, fees and reserves are not built here.
+  // Public-data starting points for the builder (paul, 25 Nov 2026: "make some assumptions based on the data and
+  // present those clearly"). Never our deal budgets. Each comes back with its source so the page can label it.
+  var PERMIT_MIN_UNITS = 50;
+  /** The county's Census Building Permits Survey declared value per multifamily unit (structure only), or the
+   * state's across all counties when the county has fewer than PERMIT_MIN_UNITS permitted units in the window. */
+  function permitCostPerHome(permits, fips) {
+    var out = { value: null, geography: null, name: null, units: null, window: null, reason: null };
+    var counties = permits && permits.counties;
+    if (!counties) { out.reason = 'Permit data did not load.'; return out; }
+    var c = fips && counties[String(fips)];
+    var rec = c && c.declared_value_per_unit_mf_5yr;
+    if (rec && typeof rec.value === 'number' && rec.value > 0 && (rec.units || 0) >= PERMIT_MIN_UNITS) {
+      return { value: rec.value, geography: 'county', name: c.name, units: rec.units, window: rec.window || null, reason: null };
+    }
+    var dv = 0, units = 0, win = null;
+    Object.keys(counties).forEach(function (k) {
+      var r = counties[k] && counties[k].declared_value_per_unit_mf_5yr;
+      if (r && typeof r.declared_value === 'number' && r.declared_value > 0 && r.units > 0) { dv += r.declared_value; units += r.units; win = win || r.window; }
+    });
+    if (!(units > 0)) { out.reason = 'No permit values are available.'; return out; }
+    return { value: dv / units, geography: 'state', name: 'Colorado', units: units, window: win,
+      reason: c ? (c.name + ' has too few permitted apartments (' + ((rec && rec.units) || 0) + ') to go on, so this is the statewide figure.') : 'No county chosen, so this is the statewide figure.' };
+  }
+  /** Price change from the average month of a permit window (e.g. "2021-2025") to the latest month of a monthly
+   * index such as FRED WPUIP231120. Null with a reason when either end is missing. */
+  function indexEscalation(observations, window) {
+    var out = { factor: null, from: null, to: null, toDate: null, reason: null };
+    var m = /^(\d{4})\D+(\d{4})$/.exec(String(window || ''));
+    if (!Array.isArray(observations) || !m) { out.reason = 'The price index or the permit years are unavailable.'; return out; }
+    var y0 = +m[1], y1 = +m[2], sum = 0, n = 0, last = null;
+    observations.forEach(function (o) {
+      var v = o && o.value !== '.' ? Number(o.value) : NaN, y = o && o.date ? +String(o.date).slice(0, 4) : NaN;
+      if (!Number.isFinite(v) || v <= 0) return;
+      if (y >= y0 && y <= y1) { sum += v; n++; }
+      last = { v: v, date: o.date };
+    });
+    if (!n || !last) { out.reason = 'The price index has no months in ' + window + '.'; return out; }
+    out.from = sum / n; out.to = last.v; out.toDate = last.date;
+    out.factor = Math.round(out.to / out.from * 1000) / 1000;
+    return out;
+  }
+
+  var HARD_COST_SPLITS = Object.freeze({ site_work: 0.12, general_requirements: 0.06, overhead: 0.02, profit: 0.06, owner_contingency: 0.05 });
+  function buildHardCosts(args) {
+    var a = args || {};
+    var out = { fills: {}, contract: null, reason: null };
+    function n(v, d) { if (v === null || v === undefined || v === '') return d; var x = Number(v); return Number.isFinite(x) ? x : NaN; }
+    var perHome = n(a.perHome, null), homes = n(a.homes, null), esc = n(a.escalation, 1), prem = n(a.premium, 1);
+    if (perHome === null || !(perHome > 0)) { out.reason = 'Enter your construction cost per home.'; return out; }
+    if (homes === null || !(homes > 0)) { out.reason = 'Enter the number of units.'; return out; }
+    if (!(esc > 0) || !(prem > 0)) { out.reason = 'Escalation and local premium must be above 0 (1 means none).'; return out; }
+    var sp = HARD_COST_SPLITS;
+    var contract = Math.round(perHome * homes * esc * prem);
+    var base = contract / (1 + sp.general_requirements + sp.overhead + sp.profit);
+    var site = Math.round(base * sp.site_work), gr = Math.round(base * sp.general_requirements);
+    var ohp = Math.round(base * sp.overhead) + Math.round(base * sp.profit);
+    out.contract = contract;
+    out.fills = { site_work: site, structures: contract - site - gr - ohp, general_requirements: gr, overhead_profit: ohp,
+      owner_contingency: Math.round(contract * sp.owner_contingency) };
+    return out;
+  }
+
   return {
     RULE_NOT_SOURCED: RULE_NOT_SOURCED, APPLICANT_LIMIT_NOTE: APPLICANT_LIMIT_NOTE, BOND_TEST_NOTE: BOND_TEST_NOTE, REHAB_MINIMUM_NOTE: REHAB_MINIMUM_NOTE, GROUPS: GROUPS, LINE_TEMPLATE: LINE_TEMPLATE, NEVER_IN_BASIS: NEVER_IN_BASIS,
-    CONTINGENCY_KINDS: CONTINGENCY_KINDS, exampleLines: exampleLines, ruleStatus: ruleStatus, capStatus: capStatus,
+    CONTINGENCY_KINDS: CONTINGENCY_KINDS, exampleLines: exampleLines, HARD_COST_SPLITS: HARD_COST_SPLITS, buildHardCosts: buildHardCosts, permitCostPerHome: permitCostPerHome, indexEscalation: indexEscalation, PERMIT_MIN_UNITS: PERMIT_MIN_UNITS, ruleStatus: ruleStatus, capStatus: capStatus,
     summarizeCosts: summarizeCosts, grantBasisReduction: grantBasisReduction,
     contractorFeeTest: contractorFeeTest, developerFeeBase: developerFeeBase, developerFeeTest: developerFeeTest,
     feeExcessInBasis: feeExcessInBasis, gapCredit: gapCredit, STATE_CREDIT_PATHS: STATE_CREDIT_PATHS,

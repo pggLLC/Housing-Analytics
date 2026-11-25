@@ -246,6 +246,158 @@
       + '<span>Other income</span><span data-op-subtotal="income" style="font-variant-numeric:tabular-nums;"></span></summary>'
       + '<p style="font-size:var(--tiny);color:var(--muted);margin:.3rem 0;">Added to rent before vacancy, as in DOH\'s sheet, and grown at the rent growth rate.</p>' + income + '</details>';
   }
+  // Workbook piece 4 (paul, 25 Nov 2026): fill the operating lines you have not typed from a per-home total, by
+  // the dossier workbooks' typical shares. A line you typed (or one with a source) is kept.
+  function operatingLineInput(id) {
+    var ob = operatingBudgetModule();
+    var separate = ob && ob.SEPARATE_LINES.filter(function (l) { return l.id === id; })[0];
+    return document.getElementById(separate ? separate.input : 'dc-op-' + id);
+  }
+  function fillOperatingFromTotal() {
+    var ob = operatingBudgetModule();
+    var note = document.getElementById('dc-op-fill-note');
+    var totalEl = document.getElementById('dc-op-fill-total');
+    if (!ob || !ob.fillFromTotal || !totalEl) return;
+    var prov = window.InputProvenance;
+    var typed = {};
+    Object.keys(ob.WORKBOOK_SHARES).forEach(function (id) {
+      var el = operatingLineInput(id);
+      var rec = el && prov ? prov.get(el) : null;
+      if (!el) typed[id] = 0;
+      else if (rec && (rec.status === 'yours' || rec.status === 'data')) typed[id] = el.value === '' ? 0 : el.value;
+    });
+    var r = ob.fillFromTotal(totalEl.value, typed);
+    if (r.reason) { if (note) note.textContent = r.reason; return; }
+    Object.keys(r.fills).forEach(function (id) {
+      var el = operatingLineInput(id);
+      if (!el) return;
+      el.value = String(r.fills[id]);
+      if (prov) prov.mark(el, { status: 'assumption', why: 'Filled from your per-home total of $' + Math.round(r.total).toLocaleString('en-US') + ' by typical shares; replace it with the manager\'s budget.' });
+    });
+    if (note) note.textContent = 'Filled ' + Object.keys(r.fills).length + ' lines from $' + Math.round(r.total).toLocaleString('en-US') + ' a home'
+      + (r.kept.length ? ', after the ' + r.kept.length + ' line' + (r.kept.length === 1 ? '' : 's') + ' you typed ($' + Math.round(r.keptTotal).toLocaleString('en-US') + ').' : '.');
+    var exampleNote = document.getElementById('dc-op-example-note');
+    if (exampleNote) exampleNote.hidden = true;
+    recalculate();
+  }
+  // Workbook piece 5 (paul, 25 Nov 2026: "do it please" to public-data assumptions): the per-home cost starts at the
+  // Census permit value per apartment and the escalation at FRED's apartment-input price index, each labelled with
+  // its source. A value you typed is never replaced.
+  var _fredForBuilder = null;
+  function prefillCostBuilder() {
+    var cb = costBasisModule();
+    if (!cb || !cb.permitCostPerHome) return;
+    var prov = window.InputProvenance;
+    var note = document.getElementById('dc-cb-build-source');
+    function typed(el) { var r = el && prov ? prov.get(el) : null; return !!(r && r.status === 'yours'); }
+    var perEl = document.getElementById('dc-cb-build-per-home'), escEl = document.getElementById('dc-cb-build-escalation');
+    var permit = cb.permitCostPerHome(_permits, _countyFips);
+    var lines = [];
+    if (permit.value && perEl && !typed(perEl)) {
+      perEl.value = String(Math.round(permit.value));
+      if (prov) prov.markData(perEl, { source: 'Census Building Permits Survey, declared value per multifamily unit (structure only)',
+        sourceUrl: 'https://www2.census.gov/econ/bps/County/', vintage: permit.window, geography: permit.name, countyFips: _countyFips || null,
+        why: 'Building only: no land, site work outside the structure, fees, soft costs or financing. ' + (permit.reason || '') });
+    }
+    if (permit.value) lines.push('Cost per home: ' + (permit.geography === 'county' ? permit.name : 'Colorado') + ' permit value, $' + Math.round(permit.value).toLocaleString('en-US')
+      + ' across ' + Number(permit.units).toLocaleString('en-US') + ' permitted apartments, ' + permit.window + ' (Census Building Permits Survey).' + (permit.reason ? ' ' + permit.reason : ''));
+    else if (permit.reason) lines.push('Cost per home: ' + permit.reason + ' Type your own.');
+    function withIndex(doc) {
+      var s = doc && doc.series && doc.series.WPUIP231120;
+      var e = cb.indexEscalation(s && (s.observations || s.data), permit.window);
+      if (e.factor && escEl && !typed(escEl)) {
+        escEl.value = String(e.factor);
+        if (prov) prov.markData(escEl, { source: 'FRED WPUIP231120, PPI net inputs to multifamily construction', sourceUrl: 'https://fred.stlouisfed.org/series/WPUIP231120',
+          vintage: String(e.toDate || '').slice(0, 7), geography: 'United States', why: 'Average month of ' + permit.window + ' to the latest month. Materials and energy, not labor.' });
+      }
+      lines.push(e.factor ? 'Escalation: ' + e.factor + ', the price index from its ' + permit.window + ' average to ' + String(e.toDate || '').slice(0, 7)
+        + ' (FRED WPUIP231120, materials and energy, not labor). Raise it for a later build year.' : 'Escalation: ' + e.reason);
+      if (note) note.textContent = lines.join(' ');
+    }
+    if (_fredForBuilder) withIndex(_fredForBuilder);
+    else fetch('data/fred-data.json').then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (doc) { _fredForBuilder = doc; withIndex(doc); }).catch(function () { withIndex(null); });
+  }
+
+  // Fill a cost line you have not typed, labelled as an assumption with its basis.
+  function fillCostLine(id, amount, why) {
+    var prov = window.InputProvenance;
+    var el = document.getElementById('dc-cost-' + id);
+    if (!el || !(amount >= 0)) return 'missing';
+    var rec = prov ? prov.get(el) : null;
+    if (rec && (rec.status === 'yours' || rec.status === 'data')) return 'kept';
+    el.value = String(Math.round(amount));
+    var basisEl = document.getElementById('dc-cost-' + id + '-basis');
+    if (basisEl && !basisEl.disabled && id !== 'reserves') basisEl.value = 'eligible';
+    if (prov) prov.mark(el, { status: 'assumption', why: why });
+    return 'filled';
+  }
+
+  // Total Development Cost follows the built lines unless you typed it.
+  function syncTdcToLines() {
+    var cb = costBasisModule(), prov = window.InputProvenance;
+    var tdcEl = document.getElementById('dc-tdc');
+    if (!cb || !tdcEl) return false;
+    var rec = prov ? prov.get(tdcEl) : null;
+    if (rec && rec.status === 'yours') return false;
+    var sum = cb.summarizeCosts(readCostLines(), Infinity);
+    if (!(sum && sum.itemized > 0)) return false;
+    tdcEl.value = String(Math.round(sum.itemized));
+    if (prov) prov.mark(tdcEl, { status: 'assumption', why: 'The sum of the cost lines, set by the cost builder.' });
+    recalculate();
+    return true;
+  }
+
+  function buildHardCostLines() {
+    var cb = costBasisModule();
+    var note = document.getElementById('dc-cb-build-note');
+    if (!cb || !cb.buildHardCosts) return;
+    function val(id) { var e = document.getElementById(id); return e ? e.value : ''; }
+    var r = cb.buildHardCosts({ perHome: val('dc-cb-build-per-home'), homes: val('dc-units'),
+      escalation: val('dc-cb-build-escalation'), premium: val('dc-cb-build-premium') });
+    if (r.reason) { if (note) note.textContent = r.reason; return; }
+    var filled = 0, kept = 0;
+    Object.keys(r.fills).forEach(function (id) {
+      var got = fillCostLine(id, r.fills[id], 'Unconfirmed: built from the cost per home by the standard splits; type over it with the bid.');
+      if (got === 'filled') filled++; else if (got === 'kept') kept++;
+    });
+    recalculate();
+    var tdcSynced = syncTdcToLines();
+    // Developer fee at CHFA's limit and the operating reserve at CHFA's minimum, read from the engine after the
+    // hard costs are in (the fee base leaves out fees and reserves, so one pass is enough).
+    var extra = [];
+    // CHFA's fee limit and reserve minimum are only worked out once their line holds an amount, so a blank line
+    // (one you have not typed) is seeded with $0 to read the figure, then filled, or set blank again.
+    function seeded(id, read) {
+      var el = document.getElementById('dc-cost-' + id), prov = window.InputProvenance;
+      var rec = el && prov ? prov.get(el) : null;
+      var mine = rec && (rec.status === 'yours' || rec.status === 'data');
+      var seed = el && !mine && String(el.value).trim() === '';
+      if (seed) { el.value = '0'; recalculate(); }
+      var out = read(_lastResult && _lastResult.costBasis);
+      if (seed && !out.ok) { el.value = ''; recalculate(); }
+      return out;
+    }
+    var dfr = seeded('developer_fee', function (c) { var d = c && c.developerFee; return { ok: !!(d && d.limit > 0), d: d }; });
+    if (dfr.ok) {
+      var got = fillCostLine('developer_fee', Math.floor(dfr.d.limit - (Number(val('dc-cost-consultant_fee')) || 0)), 'Unconfirmed: set at CHFA\'s developer fee limit (' + (dfr.d.citation || 'QAP 3.M.3') + ').');
+      if (got === 'filled') extra.push('the developer fee at CHFA\'s limit'); else if (got === 'kept') kept++;
+    } else extra.push('not the developer fee (' + String((dfr.d && dfr.d.reason) || 'its limit is not available yet').replace(/\.$/, '') + ')');
+    recalculate();
+    syncTdcToLines();
+    var orr = seeded('reserves', function (c) { var o = c && c.operatingReserve; return { ok: !!(o && o.minimum > 0), d: o }; });
+    if (orr.ok) {
+      var gotR = fillCostLine('reserves', Math.ceil(orr.d.minimum), 'Unconfirmed: set at CHFA\'s operating reserve minimum (' + (orr.d.citation || 'QAP') + ').');
+      if (gotR === 'filled') extra.push('the operating reserve at CHFA\'s minimum'); else if (gotR === 'kept') kept++;
+    } else extra.push('not the operating reserve (' + String((orr.d && orr.d.reason) || 'its minimum is not available yet').replace(/\.$/, '') + ')');
+    if (note) note.textContent = 'Built ' + filled + ' hard-cost lines from a $' + r.contract.toLocaleString('en-US') + ' builder contract, and '
+      + extra.join(', and ') + (kept ? '. Kept ' + kept + ' line' + (kept === 1 ? '' : 's') + ' you typed' : '')
+      + '. Soft costs need a source, so they are not filled; any soft-cost lines already there are kept. '
+      + (syncTdcToLines() || tdcSynced ? 'Total Development Cost now matches the cost lines. ' : 'Your Total Development Cost is kept. ')
+      + 'Everything built is unconfirmed until you type over it.';
+    var wrap = document.getElementById('dc-cost-lines-wrap');
+    if (wrap) wrap.open = true;
+  }
   function readOperatingLines() {
     var ob = operatingBudgetModule();
     if (!ob) return null;
@@ -1921,6 +2073,9 @@
       window.InputProvenance.invalidateGeography(document.getElementById('dealCalcMount') || document, fips || null);
     }
     _countyFips = fips || null;
+    // The cost builder's permit-based cost follows the county (an entry you typed stays).
+    var costBuilderOpen = document.getElementById('dc-cost-builder');
+    if (costBuilderOpen && costBuilderOpen.open) prefillCostBuilder();
     populateProp123Choices();
     _amiLimits = null;
     _amiLimitsByBr = null;
@@ -2512,6 +2667,18 @@
           <button type="button" id="dc-cost-use-total" class="btn btn-secondary" style="min-height:44px;white-space:normal;max-width:100%;">Make Total Development Cost match the cost lines</button>
           <button type="button" id="dc-cost-clear" class="btn btn-secondary" style="min-height:44px;white-space:normal;max-width:100%;">Clear the example budget</button>
         </div>
+        <details id="dc-cost-builder" style="margin-bottom:var(--sp2);border:1px solid var(--border);border-radius:var(--radius);padding:.3rem .6rem;">
+          <summary style="cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600;font-size:var(--small);">Start the hard costs from a cost per home</summary>
+          <p style="margin:.3rem 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">A starting budget from public data, every figure an assumption until you type over it. The cost per home starts at the county's Census permit value per apartment, the building only (no site, fees or soft costs), so expect a real bid to be higher. Escalation brings it to the latest month of the federal price index for apartment construction inputs. Pressing the button builds the builder's contract (general requirements 6%, overhead 2%, profit 6%), on-site work (12% of base), a 5% owner contingency, the developer fee at CHFA's limit and the operating reserve at CHFA's minimum. Lines you typed are kept. Soft costs need a source and are not filled.</p>
+          <p id="dc-cb-build-source" role="note" style="margin:.3rem 0;font-size:var(--tiny);line-height:1.45;"></p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.5rem;">
+            <label style="display:block;font-size:var(--small);"><span style="display:block;">Construction cost per home ($)</span><input id="dc-cb-build-per-home" type="number" min="0" step="5000" placeholder="loading permit data" style="display:block;width:100%;min-height:44px;margin-top:.2rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);"></label>
+            <label style="display:block;font-size:var(--small);"><span style="display:block;">Escalation to the build year (1 = none)</span><input id="dc-cb-build-escalation" type="number" min="0" step="0.01" value="1" style="display:block;width:100%;min-height:44px;margin-top:.2rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);"></label>
+            <label style="display:block;font-size:var(--small);"><span style="display:block;">Local bidder premium (1 = none)</span><input id="dc-cb-build-premium" type="number" min="0" step="0.01" value="1" style="display:block;width:100%;min-height:44px;margin-top:.2rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);"></label>
+          </div>
+          <button type="button" id="dc-cb-build-apply" class="btn btn-secondary" style="min-height:44px;margin-top:.5rem;">Build the hard-cost lines</button>
+          <p id="dc-cb-build-note" role="status" style="margin:.3rem 0;font-size:var(--small);line-height:1.45;"></p>
+        </details>
         <details id="dc-cost-lines-wrap">
           <summary style="cursor:pointer;min-height:44px;font-weight:600;font-size:var(--small);">Edit the cost lines</summary>
           <p style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0;line-height:1.45;">Each line is in eligible basis, partly in it, or not in it. A blank line has no cost. Contingencies keep their original amount, the use proposed so far, and what remains.</p>
@@ -2703,6 +2870,15 @@
           </label>
           <p id="dc-op-target-check" role="status" style="margin:0 0 var(--sp1);font-size:var(--small);line-height:1.45;"></p>
           <p id="dc-op-utilities-note" style="margin:0 0 var(--sp1);font-size:var(--tiny);color:var(--muted);line-height:1.45;"></p>
+          <div id="dc-op-fill" style="margin:0 0 var(--sp1);padding:.5rem .6rem;border:1px solid var(--border);border-radius:var(--radius);">
+            <label for="dc-op-fill-total" style="display:block;font-size:var(--small);font-weight:600;">Fill from a per-home total ($ per unit per year, before the replacement reserve, taxes included)</label>
+            <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.25rem;">
+              <input id="dc-op-fill-total" type="number" min="0" step="50" placeholder="e.g. 5000" style="flex:1 1 9rem;min-height:44px;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);">
+              <button type="button" id="dc-op-fill-apply" style="min-height:44px;padding:0 .9rem;border:1px solid var(--accent);border-radius:var(--radius);background:var(--card);color:var(--accent);font-weight:600;cursor:pointer;">Fill the lines</button>
+            </div>
+            <p style="margin:.3rem 0 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">Splits the total by typical shares of a rural Colorado family property's budget. Lines you typed are kept and come off the total first. Replace the filled lines with the manager's budget when you have it.</p>
+            <p id="dc-op-fill-note" role="status" style="margin:.3rem 0 0;font-size:var(--small);line-height:1.45;"></p>
+          </div>
           <div id="dc-op-lines">${operatingBudgetHtml({ real_estate_taxes: `
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Real estate taxes ($ per unit per year)</span>
@@ -3878,6 +4054,12 @@
     if (sizeHost) { sizeHost.addEventListener('input', recalculate); sizeHost.addEventListener('change', recalculate); }
     var opHost = document.getElementById('dc-op-lines');
     if (opHost) { opHost.addEventListener('input', recalculate); opHost.addEventListener('change', recalculate); }
+    var costBuilder = document.getElementById('dc-cost-builder');
+    if (costBuilder) costBuilder.addEventListener('toggle', function () { if (costBuilder.open) prefillCostBuilder(); });
+    var costBuild = document.getElementById('dc-cb-build-apply');
+    if (costBuild) costBuild.addEventListener('click', buildHardCostLines);
+    var opFill = document.getElementById('dc-op-fill-apply');
+    if (opFill) opFill.addEventListener('click', fillOperatingFromTotal);
     var useTotal = document.getElementById('dc-cost-use-total');
     if (useTotal) useTotal.addEventListener('click', function () {
       var r = _lastResult && _lastResult.costBasis && _lastResult.costBasis.summary;
@@ -4338,6 +4520,8 @@
   function setPermitsData(data) {
     _permits = data && data.counties && typeof data.counties === 'object' ? data : null;
     renderPermitContext(_countyFips);
+    var builder = document.getElementById('dc-cost-builder');
+    if (builder && builder.open) prefillCostBuilder();
   }
 
   function permitRecordFor(fips) {

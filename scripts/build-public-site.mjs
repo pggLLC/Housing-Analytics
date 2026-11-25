@@ -6,6 +6,7 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { contentChangedDate, isArticle, isScriptDrawn, isStampable, parseHistory, stampPage, visibleText } from './lib/page-dates.mjs';
 import { isSensitive } from './lib/public-sensitive-patterns.mjs';
+import { SHORT_PAGES, shortPage } from './lib/member-short-pages.mjs';
 import { briefRecords, countyRecords, fundingProgramRecords, glossaryRecords, markdownRecord, pageRecords, redirectAlias, SEARCH_HIDDEN } from './lib/search-index.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -197,6 +198,11 @@ async function main() {
 
     if (entry.isFile()) {
       if (PRIVATE_ROOT_HTML.has(name)) continue;
+      // A full tool moved behind sign-in (paul, 25 Nov 2026): the short free page at the same address.
+      if (SHORT_PAGES.has(name)) {
+        await writeFile(path.join(DIST, name), shortPage(name, await readFile(path.join(ROOT, name), 'utf8')));
+        continue;
+      }
       if (name.endsWith('.html') || PUBLIC_ROOT_FILES.has(name)) {
         await copyRecursive(name);
       }

@@ -378,8 +378,9 @@
   function hubHead(key) {
     var T = global.LabTpl;
     if (!T) return '<a class="back-link" href="#/">← Home</a><h1>' + esc(HUBS[key].title) + '</h1><p class="lede">' + esc(HUBS[key].lede) + '</p>';
-    var crumbs = HUB_MENU[key] ? T.trail(HUB_MENU[key]).slice(0, 1).concat([{ label: HUBS[key].title }]) : [{ label: 'Home', href: '#/' }, { label: HUBS[key].title }];
-    return T.head({ kind: 'hub', crumbs: crumbs, title: HUBS[key].title, answer: esc(HUBS[key].lede) });
+    var t = HUB_MENU[key] ? T.trail(HUB_MENU[key]) : null, menu = t && t[1] && t[1].label !== HUBS[key].title ? t[1].label : null;
+    var crumbs = t ? t.slice(0, 1).concat([{ label: HUBS[key].title }]) : [{ label: 'Home', href: '#/' }, { label: HUBS[key].title }];
+    return T.head({ kind: 'hub', crumbs: crumbs, title: HUBS[key].title, answer: esc(HUBS[key].lede), kindLabel: menu });
   }
 
   // The control that has focus, described so it can be found again after the page is redrawn.
