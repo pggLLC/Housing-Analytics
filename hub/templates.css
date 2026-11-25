@@ -211,6 +211,8 @@ html { overflow-x: clip; }
 .lab-diagram { margin: 1.5rem 0; padding: 1rem; background: var(--diagram-fill); border: 1px solid var(--line); border-radius: 10px; overflow-x: auto; }
 .lab-diagram svg { display: block; width: 100%; min-width: 520px; height: auto; }
 .lab-diagram figcaption { font-size: 13px; color: var(--ink-soft); margin-top: .5rem; }
+.lab-diagram .dg-notes { margin: .9rem 0 0; padding-left: 1.1rem; display: grid; gap: .35rem; font-size: 14px; color: var(--ink); }
+.lab-diagram .g-cards-title { margin: 0 0 .5rem; }
 .dg-box rect { fill: var(--card); stroke: var(--line-strong); stroke-width: 1.5; }
 .dg-box--main rect { stroke: var(--green); stroke-width: 2.5; }
 .dg-box-title { font-size: 15px; font-weight: 700; fill: var(--ink); }

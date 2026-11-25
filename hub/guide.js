@@ -22,13 +22,18 @@
   var GUIDES = {
     'lihtc-basics': {
       menu: 'deal',
+      // Plain words for a newcomer (paul, 25 Nov 2026: "does this make sense, is it intuitive?").
       facts: [
-        { value: 'About $90K/yr', label: '9% credit for each $1M of eligible basis, for 10 years', source: 'IRC §42(b)', href: 'https://www.law.cornell.edu/uscode/text/26/42' },
-        { value: 'About $40K/yr', label: '4% credit for each $1M of eligible basis, for 10 years', source: 'IRC §42(b)', href: 'https://www.law.cornell.edu/uscode/text/26/42' },
-        { value: '14 of 32', label: '9% applications CHFA funded in 2026', source: 'CHFA applicant and award reports', href: 'https://www.chfainfo.com/rental-housing/housing-credit/awards' },
-        { value: '9 of 26', label: '4% + state credit applications CHFA funded in Round Two, 2026 (9 of 21 in 2025)', source: 'CHFA applicant and award reports', href: 'https://www.chfainfo.com/rental-housing/housing-credit/awards' },
-        { value: '30 years', label: 'Colorado minimum affordability (15 compliance + 15 extended use)', source: 'CHFA QAP', href: 'https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan' }
+        { value: 'About $90K a year', label: 'in 9% credits for each $1M of building cost, for 10 years, when every home is affordable (about $740K of equity at $0.82)', source: 'IRC §42(b); Novogradac 2026-Q2', href: 'https://www.law.cornell.edu/uscode/text/26/42' },
+        { value: 'About $40K a year', label: 'in 4% credits for each $1M of building cost, for 10 years (about $330K of equity at $0.83)', source: 'IRC §42(b); Novogradac 2026-Q2', href: 'https://www.law.cornell.edu/uscode/text/26/42' },
+        { value: '14 of 32', label: 'applications for 9% credits that CHFA funded in 2026', source: 'CHFA applicant and award reports', href: 'https://www.chfainfo.com/rental-housing/housing-credit/awards' },
+        { value: '9 of 26', label: 'applications for 4% credits with state credit that CHFA funded in Round Two, 2026', source: 'CHFA applicant and award reports', href: 'https://www.chfainfo.com/rental-housing/housing-credit/awards' },
+        { value: '40 / 30 years', label: 'minimum affordability in Colorado: 40 for 9% deals, 30 for 4% deals', source: 'CHFA 2027–28 QAP, Threshold #14', href: 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US' }
       ],
+      // Read in this order, under plain headings; the words inside each part are the live page's own.
+      introTitle: 'Who\u2019s involved',
+      order: ['key-concepts', 'housing-authorities', 'developers', 'investors', 'resources'],
+      titles: { 'key-concepts': 'Key terms', 'housing-authorities': 'How CHFA awards credits', developers: 'For developers: structuring a deal', investors: 'For investors: what to check', resources: 'More sources' },
       diagram: function (g) { return partners() + payStack(g) + creditCompare(g); },
       // What a newcomer needs stays open; every other panel folds shut behind a one-line summary.
       // Keys are section id / panel number. The summaries are the lab's, from each panel's own text.
@@ -131,34 +136,46 @@
       rows: rows, noShare: true, color: 'var(--c-green)', fmt: pct, source: 'LEHD LODES 2024, primary jobs, homes in any state (' + esc(s.data.commute.meta.lodes_year) + ' file, COHO copy)' });
   }
 
-  // The guide's three parties and what passes between them, drawn from its own sentences:
-  // "The housing agency awards the credits. The developer builds and operates the housing.
-  // The investor turns the credits into upfront money."
+  // Who is involved in a typical 9% deal and what passes between them (paul, 25 Nov 2026: the old three-box picture
+  // was presumptuous; name CHFA, show the syndicator, say a local housing authority is a different body, and note
+  // the 4% path). Roles per IRC §42 and CHFA's 2027–28 QAP; minimum terms from QAP Threshold #14.
   function partners() {
     return '<figure class="lab-diagram" aria-labelledby="partners-cap">' +
-      '<svg viewBox="0 0 720 300" role="img" aria-label="The housing agency awards credits to the project; the investor pays cash for them; the developer builds and runs the homes.">' +
-      box(260, 20, 200, 64, 'The housing agency', 'In Colorado, CHFA') +
-      box(260, 200, 200, 76, 'The project', 'The developer builds and operates the housing', true) +
-      box(20, 200, 180, 76, 'The investor', 'A bank, insurer or large business') +
-      box(520, 200, 180, 76, 'Residents', 'Homes at affordable rents') +
-      arrow('M360 84 L360 196', 'awards the credits', 372, 145, 'start') +
-      arrow('M200 222 L256 222', 'cash up front', 228, 194, 'middle') +
-      arrow('M256 258 L200 258', 'credits over time', 228, 294, 'middle') +
-      arrow('M460 238 L516 238', 'homes', 488, 228, 'middle') +
+      '<p class="g-cards-title">How a typical 9% tax credit deal is put together</p>' +
+      '<svg viewBox="0 0 820 340" role="img" aria-label="CHFA awards the credits to the project. Investors pay a syndicator cash; the syndicator pays the project equity in stages and passes the credits back over 10 years. The developer builds and runs the homes for residents.">' +
+      box(425, 14, 200, 72, 'CHFA', 'Colorado\u2019s tax credit agency: scores and awards', false, 28) +
+      box(10, 180, 150, 92, 'Investors', 'Usually banks, seeking tax credits and CRA credit', false, 21) +
+      box(225, 180, 150, 92, 'Syndicator', 'Pools investors, pays equity in stages', false, 21) +
+      box(440, 174, 170, 110, 'The project', 'The developer (nonprofit, for-profit or housing authority) builds and runs it', true, 24) +
+      box(675, 180, 140, 92, 'Residents', 'Homes at capped rents for 30 to 40+ years', false, 19) +
+      arrow('M525 86 L525 170', 'awards the credits', 537, 132, 'start') +
+      arrow('M160 204 L221 204', 'cash', 190, 196, 'middle') +
+      arrow('M221 250 L160 250', 'credits', 190, 268, 'middle') +
+      arrow('M375 204 L436 204', 'equity', 405, 196, 'middle') +
+      arrow('M436 250 L375 250', 'credits', 405, 268, 'middle') +
+      arrow('M610 226 L671 226', 'homes', 640, 218, 'middle') +
+      '<text x="410" y="318" class="dg-box-sub" text-anchor="middle">Credits flow back to investors over 10 years; the cash up front lowers the debt, which is what makes lower rents possible.</text>' +
       '</svg>' +
       // Phones get the same parties and flows as a stacked list: real text at body size, no sideways scroll.
       '<ol class="dg-stack">' +
-      stackBox('The housing agency', 'In Colorado, CHFA') +
+      stackBox('CHFA', 'Colorado\u2019s tax credit agency: scores applications and awards the credits') +
       stackFlow('\u2193', 'awards the credits') +
-      stackBox('The project', 'The developer builds and operates the housing', true) +
+      stackBox('The project', 'The developer (a nonprofit, a for-profit or a local housing authority) builds and runs it', true) +
       stackFlow('\u2193', 'homes') +
-      stackBox('Residents', 'Homes at affordable rents') +
+      stackBox('Residents', 'Homes at capped rents for 30 to 40+ years') +
       '</ol>' +
       '<ol class="dg-stack dg-stack--then">' +
-      stackBox('The investor', 'A bank, insurer or large business') +
-      stackFlow('\u2191', 'pays the project cash up front and gets the credits over time') +
+      stackBox('Investors', 'Usually banks, seeking tax credits and CRA credit') +
+      stackFlow('\u2193', 'pay cash to a syndicator') +
+      stackBox('Syndicator', 'Pools investors and pays the project equity in stages') +
+      stackFlow('\u2193', 'equity to the project; the credits pass back to the investors over 10 years') +
       '</ol>' +
-      '<figcaption id="partners-cap">Source: IRC §42; CHFA 2026 Qualified Allocation Plan. The cash lowers the debt the project carries, which is what makes lower rents possible.</figcaption></figure>';
+      '<ul class="dg-notes">' +
+      '<li><strong>A local housing authority is not CHFA.</strong> It can be the developer, a co-owner, the land source or the holder of the vouchers that help pay rent.</li>' +
+      '<li><strong>The 4% path:</strong> no competitive award. Tax-exempt bonds from CHFA or a local issuer bring the credits with them, often paired with Colorado\u2019s state credit.</li>' +
+      '<li><strong>Other structures exist:</strong> preservation and rehab deals, deals with HUD or USDA rental help, and owner-builders who keep the credits.</li>' +
+      '</ul>' +
+      '<figcaption id="partners-cap">Sources: <a href="https://www.law.cornell.edu/uscode/text/26/42" target="_blank" rel="noopener">IRC §42</a>; <a href="https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US" target="_blank" rel="noopener">CHFA 2027–28 QAP</a> (Threshold #14 for the 30- and 40-year minimums).</figcaption></figure>';
   }
   // How a tax credit deal is paid for (Gemini round 5, q16): the guide's own sample sources table drawn as one
   // stacked bar. Read from the page's table so the picture never says something the table does not.
@@ -218,10 +235,10 @@
   function stackFlow(mark, label) {
     return '<li class="dg-stack-flow"><span aria-hidden="true">' + mark + '</span> ' + esc(label) + '</li>';
   }
-  function box(x, y, w, h, title, sub, strong) {
+  function box(x, y, w, h, title, sub, strong, max) {
     return '<g class="dg-box' + (strong ? ' dg-box--main' : '') + '"><rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="10"/>' +
       '<text x="' + (x + w / 2) + '" y="' + (y + 28) + '" class="dg-box-title" text-anchor="middle">' + esc(title) + '</text>' +
-      wrap(sub, 30).map(function (line, i) { return '<text x="' + (x + w / 2) + '" y="' + (y + 48 + i * 16) + '" class="dg-box-sub" text-anchor="middle">' + esc(line) + '</text>'; }).join('') + '</g>';
+      wrap(sub, max || 30).map(function (line, i) { return '<text x="' + (x + w / 2) + '" y="' + (y + 48 + i * 16) + '" class="dg-box-sub" text-anchor="middle">' + esc(line) + '</text>'; }).join('') + '</g>';
   }
   function arrow(d, label, lx, ly, anchor) {
     return '<path d="' + d + '" class="dg-arrow" marker-end="url(#dg-head)"/><text x="' + lx + '" y="' + ly + '" class="dg-arrow-label" text-anchor="' + anchor + '">' + esc(label) + '</text>' +
@@ -414,6 +431,11 @@
       '<p><button type="button" class="button-link secondary" data-guide-retry="' + esc(slug) + '">Try again</button></p></div>';
     if (!c.guide) return '<h1>Loading the guide</h1><p role="status" class="note">Loading…</p>';
     var g = c.guide;
+    if (conf.order || conf.titles) {
+      var rank = function (s) { var i = (conf.order || []).indexOf(s.id); return i < 0 ? 99 : i; };
+      g = Object.assign({}, g, { sections: g.sections.map(function (s, i) { return Object.assign({}, s, { title: (conf.titles || {})[s.id] || s.title, _i: i }); })
+        .sort(function (a, b) { return rank(a) - rank(b) || a._i - b._i; }) });
+    }
     arrow.defs = false;
     var startTitle = conf.introTitle || 'The three parties';
     var hasStart = !!(String(g.intro || '').replace(/<[^>]*>/g, '').trim() || conf.diagram);
