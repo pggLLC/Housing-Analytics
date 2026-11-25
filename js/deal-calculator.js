@@ -246,6 +246,67 @@
       + '<span>Other income</span><span data-op-subtotal="income" style="font-variant-numeric:tabular-nums;"></span></summary>'
       + '<p style="font-size:var(--tiny);color:var(--muted);margin:.3rem 0;">Added to rent before vacancy, as in DOH\'s sheet, and grown at the rent growth rate.</p>' + income + '</details>';
   }
+  // Workbook piece 4 (paul, 25 Nov 2026): fill the operating lines you have not typed from a per-home total, by
+  // the dossier workbooks' typical shares. A line you typed (or one with a source) is kept.
+  function operatingLineInput(id) {
+    var ob = operatingBudgetModule();
+    var separate = ob && ob.SEPARATE_LINES.filter(function (l) { return l.id === id; })[0];
+    return document.getElementById(separate ? separate.input : 'dc-op-' + id);
+  }
+  function fillOperatingFromTotal() {
+    var ob = operatingBudgetModule();
+    var note = document.getElementById('dc-op-fill-note');
+    var totalEl = document.getElementById('dc-op-fill-total');
+    if (!ob || !ob.fillFromTotal || !totalEl) return;
+    var prov = window.InputProvenance;
+    var typed = {};
+    Object.keys(ob.WORKBOOK_SHARES).forEach(function (id) {
+      var el = operatingLineInput(id);
+      var rec = el && prov ? prov.get(el) : null;
+      if (!el) typed[id] = 0;
+      else if (rec && (rec.status === 'yours' || rec.status === 'data')) typed[id] = el.value === '' ? 0 : el.value;
+    });
+    var r = ob.fillFromTotal(totalEl.value, typed);
+    if (r.reason) { if (note) note.textContent = r.reason; return; }
+    Object.keys(r.fills).forEach(function (id) {
+      var el = operatingLineInput(id);
+      if (!el) return;
+      el.value = String(r.fills[id]);
+      if (prov) prov.mark(el, { status: 'assumption', why: 'Filled from your per-home total of $' + Math.round(r.total).toLocaleString('en-US') + ' by typical shares; replace it with the manager\'s budget.' });
+    });
+    if (note) note.textContent = 'Filled ' + Object.keys(r.fills).length + ' lines from $' + Math.round(r.total).toLocaleString('en-US') + ' a home'
+      + (r.kept.length ? ', after the ' + r.kept.length + ' line' + (r.kept.length === 1 ? '' : 's') + ' you typed ($' + Math.round(r.keptTotal).toLocaleString('en-US') + ').' : '.');
+    var exampleNote = document.getElementById('dc-op-example-note');
+    if (exampleNote) exampleNote.hidden = true;
+    recalculate();
+  }
+  // Workbook piece 5: build the hard-cost lines you have not typed from your own per-home cost.
+  function buildHardCostLines() {
+    var cb = costBasisModule();
+    var note = document.getElementById('dc-cb-build-note');
+    if (!cb || !cb.buildHardCosts) return;
+    function val(id) { var e = document.getElementById(id); return e ? e.value : ''; }
+    var r = cb.buildHardCosts({ perHome: val('dc-cb-build-per-home'), homes: val('dc-units'),
+      escalation: val('dc-cb-build-escalation'), premium: val('dc-cb-build-premium') });
+    if (r.reason) { if (note) note.textContent = r.reason; return; }
+    var prov = window.InputProvenance, filled = 0, kept = 0;
+    Object.keys(r.fills).forEach(function (id) {
+      var el = document.getElementById('dc-cost-' + id);
+      if (!el) return;
+      var rec = prov ? prov.get(el) : null;
+      if (rec && (rec.status === 'yours' || rec.status === 'data')) { kept++; return; }
+      el.value = String(r.fills[id]);
+      var basisEl = document.getElementById('dc-cost-' + id + '-basis');
+      if (basisEl && !basisEl.disabled) basisEl.value = 'eligible';
+      if (prov) prov.mark(el, { status: 'assumption', why: 'Unconfirmed: built from your cost per home by the standard splits; type over it with the bid.' });
+      filled++;
+    });
+    if (note) note.textContent = 'Built ' + filled + ' hard-cost lines from a $' + r.contract.toLocaleString('en-US') + ' builder contract'
+      + (kept ? ' and kept ' + kept + ' you typed' : '') + '. They are unconfirmed until you type over them with a bid.';
+    var wrap = document.getElementById('dc-cost-lines-wrap');
+    if (wrap) wrap.open = true;
+    recalculate();
+  }
   function readOperatingLines() {
     var ob = operatingBudgetModule();
     if (!ob) return null;
@@ -2512,6 +2573,17 @@
           <button type="button" id="dc-cost-use-total" class="btn btn-secondary" style="min-height:44px;white-space:normal;max-width:100%;">Make Total Development Cost match the cost lines</button>
           <button type="button" id="dc-cost-clear" class="btn btn-secondary" style="min-height:44px;white-space:normal;max-width:100%;">Clear the example budget</button>
         </div>
+        <details id="dc-cost-builder" style="margin-bottom:var(--sp2);border:1px solid var(--border);border-radius:var(--radius);padding:.3rem .6rem;">
+          <summary style="cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600;font-size:var(--small);">Start the hard costs from a cost per home</summary>
+          <p style="margin:.3rem 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">This page supplies no construction cost, because CoHO shows no cost without a local public source. Type your own: a bid, an estimator's figure or a recent local project. It builds the builder's contract (with general requirements 6%, overhead 2% and profit 6%), on-site work (12% of base) and a 5% owner contingency. Lines you typed are kept. Soft costs, fees and reserves stay yours to enter.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.5rem;">
+            <label style="display:block;font-size:var(--small);"><span style="display:block;">Construction cost per home ($)</span><input id="dc-cb-build-per-home" type="number" min="0" step="5000" placeholder="yours to enter" style="display:block;width:100%;min-height:44px;margin-top:.2rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);"></label>
+            <label style="display:block;font-size:var(--small);"><span style="display:block;">Escalation to the build year (1 = none)</span><input id="dc-cb-build-escalation" type="number" min="0" step="0.01" value="1" style="display:block;width:100%;min-height:44px;margin-top:.2rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);"></label>
+            <label style="display:block;font-size:var(--small);"><span style="display:block;">Local bidder premium (1 = none)</span><input id="dc-cb-build-premium" type="number" min="0" step="0.01" value="1" style="display:block;width:100%;min-height:44px;margin-top:.2rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);"></label>
+          </div>
+          <button type="button" id="dc-cb-build-apply" class="btn btn-secondary" style="min-height:44px;margin-top:.5rem;">Build the hard-cost lines</button>
+          <p id="dc-cb-build-note" role="status" style="margin:.3rem 0;font-size:var(--small);line-height:1.45;"></p>
+        </details>
         <details id="dc-cost-lines-wrap">
           <summary style="cursor:pointer;min-height:44px;font-weight:600;font-size:var(--small);">Edit the cost lines</summary>
           <p style="font-size:var(--tiny);color:var(--muted);margin:.35rem 0;line-height:1.45;">Each line is in eligible basis, partly in it, or not in it. A blank line has no cost. Contingencies keep their original amount, the use proposed so far, and what remains.</p>
@@ -2703,6 +2775,15 @@
           </label>
           <p id="dc-op-target-check" role="status" style="margin:0 0 var(--sp1);font-size:var(--small);line-height:1.45;"></p>
           <p id="dc-op-utilities-note" style="margin:0 0 var(--sp1);font-size:var(--tiny);color:var(--muted);line-height:1.45;"></p>
+          <div id="dc-op-fill" style="margin:0 0 var(--sp1);padding:.5rem .6rem;border:1px solid var(--border);border-radius:var(--radius);">
+            <label for="dc-op-fill-total" style="display:block;font-size:var(--small);font-weight:600;">Fill from a per-home total ($ per unit per year, before the replacement reserve, taxes included)</label>
+            <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.25rem;">
+              <input id="dc-op-fill-total" type="number" min="0" step="50" placeholder="e.g. 5000" style="flex:1 1 9rem;min-height:44px;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);">
+              <button type="button" id="dc-op-fill-apply" style="min-height:44px;padding:0 .9rem;border:1px solid var(--accent);border-radius:var(--radius);background:var(--card);color:var(--accent);font-weight:600;cursor:pointer;">Fill the lines</button>
+            </div>
+            <p style="margin:.3rem 0 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">Splits the total by typical shares of a rural Colorado family property's budget. Lines you typed are kept and come off the total first. Replace the filled lines with the manager's budget when you have it.</p>
+            <p id="dc-op-fill-note" role="status" style="margin:.3rem 0 0;font-size:var(--small);line-height:1.45;"></p>
+          </div>
           <div id="dc-op-lines">${operatingBudgetHtml({ real_estate_taxes: `
           <label style="display:block;margin-bottom:var(--sp2);">
             <span style="font-size:var(--small);color:var(--muted);">Real estate taxes ($ per unit per year)</span>
@@ -3878,6 +3959,10 @@
     if (sizeHost) { sizeHost.addEventListener('input', recalculate); sizeHost.addEventListener('change', recalculate); }
     var opHost = document.getElementById('dc-op-lines');
     if (opHost) { opHost.addEventListener('input', recalculate); opHost.addEventListener('change', recalculate); }
+    var costBuild = document.getElementById('dc-cb-build-apply');
+    if (costBuild) costBuild.addEventListener('click', buildHardCostLines);
+    var opFill = document.getElementById('dc-op-fill-apply');
+    if (opFill) opFill.addEventListener('click', fillOperatingFromTotal);
     var useTotal = document.getElementById('dc-cost-use-total');
     if (useTotal) useTotal.addEventListener('click', function () {
       var r = _lastResult && _lastResult.costBasis && _lastResult.costBasis.summary;
