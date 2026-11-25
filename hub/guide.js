@@ -24,8 +24,8 @@
       menu: 'deal',
       // Plain words for a newcomer (paul, 25 Nov 2026: "does this make sense, is it intuitive?").
       facts: [
-        { value: 'About $90K a year', label: 'in 9% credits for each $1M of building cost, for 10 years, when every home is affordable (about $740K of equity at $0.82)', source: 'IRC §42(b); Novogradac 2026-Q2', href: 'https://www.law.cornell.edu/uscode/text/26/42' },
-        { value: 'About $40K a year', label: 'in 4% credits for each $1M of building cost, for 10 years (about $330K of equity at $0.83)', source: 'IRC §42(b); Novogradac 2026-Q2', href: 'https://www.law.cornell.edu/uscode/text/26/42' },
+        { value: 'About $90K a year', label: 'in 9% credits for each $1M of eligible basis (building costs, not land), for 10 years, when every home is affordable (about $740K of equity at $0.82)', source: 'IRC §42(b); Novogradac 2026-Q2', href: 'https://www.law.cornell.edu/uscode/text/26/42' },
+        { value: 'About $40K a year', label: 'in 4% credits for each $1M of eligible basis, for 10 years, when every home is affordable (about $330K of equity at $0.83)', source: 'IRC §42(b); Novogradac 2026-Q2', href: 'https://www.law.cornell.edu/uscode/text/26/42' },
         { value: '14 of 32', label: 'applications for 9% credits that CHFA funded in 2026', source: 'CHFA applicant and award reports', href: 'https://www.chfainfo.com/rental-housing/housing-credit/awards' },
         { value: '9 of 26', label: 'applications for 4% credits with state credit that CHFA funded in Round Two, 2026', source: 'CHFA applicant and award reports', href: 'https://www.chfainfo.com/rental-housing/housing-credit/awards' },
         { value: '40 / 30 years', label: 'minimum affordability in Colorado: 40 for 9% deals, 30 for 4% deals', source: 'CHFA 2027–28 QAP, Threshold #14', href: 'https://www.chfainfo.com/getContentAsset/fc0028b4-7a54-457d-9a68-050da03ffb89/141d77fc-2e06-49eb-b14c-2ff58f5ce730/2027-2028-QAP.pdf?language=en-US' }
