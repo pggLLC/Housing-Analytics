@@ -405,7 +405,15 @@
     if (brief) tab = 'future';
     var d = c.digest.metrics;
     var p = c.summary.acsProfile || {};
-    var m = function (k) { return d[k] && d[k].value != null ? d[k] : null; };
+    var m0 = function (k) { return d[k] && d[k].value != null ? d[k] : null; };
+    // Homes short at or below 50% and 60% AMI never read lower than the count below them (Pl.gapMetric, paul 25 Nov
+    // 2026); the stored record keeps its own value and source.
+    var m = function (k) {
+      var x = m0(k);
+      if (!x || Pl.GAP_KEYS.indexOf(k) < 1) return x;
+      var n = Pl.gapMetric(null, k, function (kk) { var y = m0(kk); return y ? Number(y.value) : null; });
+      return n === x.value ? x : Object.assign({}, x, { value: n });
+    };
     var v = function (k) { var x = m(k); return x ? x.value : null; };
     var pct = function (x, dp) { return x == null ? null : Number(x).toFixed(dp == null ? 1 : dp).replace(/\.0$/, '') + '%'; };
     // The stored profile is the 1-year survey for Colorado's largest counties and places, the 5-year for the rest.
@@ -1898,7 +1906,7 @@
         // reads 0 (scripts/hna/build_ranking_index.py clamps a surplus), so the card names a shortfall, not a signed
         // difference, and says what 0 means (functionality audit F4, 19 Nov 2026).
         mc('Homes short for renters at or below 30% AMI', 'ami_gap_30pct', num, 'Renter households minus homes priced for them, or 0 when those homes outnumber them. Some of those homes are rented by higher-income households, so 0 does not mean no need. AMI is area median income, set by HUD for the county.') +
-        mc('Homes short for renters at or below 60% AMI', 'ami_gap_60pct', num, 'Renter households minus homes priced for them, or 0 when those homes outnumber them. 0 does not mean no need: a home priced for them may be rented by someone else.') +
+        mc('Homes short for renters at or below 60% AMI', 'ami_gap_60pct', num, 'Renter households minus homes priced for them, or 0 when those homes outnumber them. Never lower than the 30% count: homes priced for 31–60% AMI cost too much for the poorest renters. 0 does not mean no need: a home priced for them may be rented by someone else.') +
         mc('Renters paying over 30% of income', 'pct_cost_burdened', function (x) { return pct(x); }) +
         // Batch 2 (paul 15 Nov): the owner side, so the glance is not renters only.
         mc('Owners paying over 30% of income', 'pct_owner_burdened_30plus', function (x) { return pct(x); }) +
@@ -2478,7 +2486,10 @@
         var cb0 = v('pct_cost_burdened');
         if (!short.length) return name + ' has as many homes priced for renters as renters at every income up to ' + bs[bs.length - 1].band + '% AMI.' + hudBeside() +
           (cb0 != null ? ' ' + pct(cb0) + ' of renters pay more than 30% of income for housing.' : '');
-        var wide = short.reduce(function (a, x) { return x.shortfall > a.shortfall ? x : a; }), top = short[short.length - 1], b30 = bs[0];
+        // shortfall never falls as income rises (Pl.shortNested), so how far the shortage reaches reads each band's own
+        // count: the highest band where renters still outnumber the homes priced for them.
+        var own = short.filter(function (x) { return x.ownShortfall == null || x.ownShortfall > 0; });
+        var wide = short.reduce(function (a, x) { return x.shortfall > a.shortfall ? x : a; }), top = (own.length ? own : short)[(own.length ? own : short).length - 1], b30 = bs[0];
         var reach = top === bs[bs.length - 1] ? 'at every income up to ' + top.band + '% AMI' : 'up to ' + top.band + '% AMI';
         var fit = +wide.band <= 30 ? ' Closing it takes homes at 30% AMI rents, which need deep subsidy such as project-based vouchers on top of tax credits.'
           : +wide.band <= 60 ? ' Tax credit rentals with rents set at or below ' + wide.band + '% AMI could help close it, if a site and the funding work; test one in the Deal Calculator.'

@@ -88,6 +88,10 @@
       }
       short[b] = v;
     });
+    // Never falls as the level rises (paul, 25 Nov 2026, the rule on every page): homes priced above what the
+    // poorer households can pay do not close their shortfall. A level with no count of its own stays unmeasured.
+    var most = null;
+    LEVELS.forEach(function (b) { if (short[b] != null) { most = most == null ? short[b] : Math.max(most, short[b]); short[b] = most; } });
     return { name: place ? rec.place_name || 'this town' : rec.county_name || 'this county', level: place ? 'town' : 'county', short: short,
       source: String(meta.source || 'Census ACS renter affordability-gap counts').replace(/[.\s]+$/, '') + (meta.acs_year ? ', ACS ' + meta.acs_year : '') + (meta.hud_income_limits_year ? ', HUD FY' + meta.hud_income_limits_year + ' income limits' : '') };
   }

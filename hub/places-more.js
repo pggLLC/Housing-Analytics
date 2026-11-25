@@ -216,7 +216,7 @@
     { label: 'Share who rent', key: 'pct_renters', fmt: pct, src: 'acs', unit: 'percent of households', def: 'Households that rent their home.' },
     { label: 'Renters at or below 30% AMI', key: 'low_income_households_lte30', fmt: num, src: 'gap', unit: 'households', def: 'Renter households with income at or below 30% of area median income (AMI, set by HUD for the county).' },
     { label: 'Homes short at 30% AMI', key: 'ami_gap_30pct', fmt: num, src: 'gap', unit: 'homes', def: 'Renter households at or below 30% AMI minus homes priced for them, or 0 when those homes outnumber them. 0 does not mean no need: some of those homes are rented by higher-income households.' },
-    { label: 'Homes short at 60% AMI', key: 'ami_gap_60pct', fmt: num, src: 'gap', unit: 'homes', def: 'Renter households at or below 60% AMI minus homes priced for them, or 0 when those homes outnumber them. 0 does not mean no need.' },
+    { label: 'Homes short at 60% AMI', key: 'ami_gap_60pct', fmt: num, src: 'gap', unit: 'homes', def: 'Renter households at or below 60% AMI minus homes priced for them, or 0 when those homes outnumber them. Never lower than the 30% count. 0 does not mean no need.' },
     { label: 'Renters cost burdened', key: 'pct_cost_burdened', fmt: pct, src: 'acs', unit: 'percent of renter households', def: 'Renter households paying over 30% of income on rent and utilities.' },
     { label: 'Homes needed over 20 years', key: 'future_units_needed_20yr', fmt: num, src: 'dola', unit: 'homes', def: 'Homes for resident growth plus in-commuters, rented and owned, from the State Demography Office forecast.' },
     { label: 'Tax credit properties', key: 'lihtc_project_count', fmt: num, src: 'chfa', unit: 'properties (not homes)', def: 'Housing tax credit properties on CHFA\u2019s list. One property can hold many homes.' },
@@ -261,7 +261,7 @@
     var rows = [];
     CMP_ROWS.forEach(function (row) {
       picked.forEach(function (g) {
-        var r = by[g], v = row.key === '_rank' ? r.rank : (r.metrics || {})[row.key], x = cmpSource(row, r, sums[g], meta);
+        var r = by[g], v = row.key === '_rank' ? r.rank : Pl.GAP_KEYS.indexOf(row.key) > 0 ? Pl.gapMetric(r.metrics || {}, row.key) : (r.metrics || {})[row.key], x = cmpSource(row, r, sums[g], meta);
         var loading = /loading/.test(x.text);
         rows.push([row.label, cleanName(r.name), g, v == null ? '' : v, row.unit, row.def, x.text, x.period || '', x.geo,
           v == null ? 'Not published for this place in the HNA ranking file' : loading ? 'Survey year was still loading when this file was made; download it again' : '']);
@@ -429,7 +429,7 @@
       (hits.length ? '<ul class="route-list">' + hits.map(function (r) { return '<li><a href="' + esc(href(picked.concat([r.geoid]))) + '">Add ' + esc(cleanName(r.name)) + '</a><p class="note">' + esc((TYPE[r.type] || r.type) + ', ' + r.region) + '</p></li>'; }).join('') + '</ul>' : q ? '<p class="count" role="status">No matches.</p>' : '') : '<p class="note">Six places is the most this table shows.</p>';
     var table = '';
     if (picked.length) {
-      var val = function (g, k) { return k === '_rank' ? by[g].rank : (by[g].metrics || {})[k]; };
+      var val = function (g, k) { return k === '_rank' ? by[g].rank : Pl.GAP_KEYS.indexOf(k) > 0 ? Pl.gapMetric(by[g].metrics || {}, k) : (by[g].metrics || {})[k]; };
       // Two shares that compare fairly across places of any size, drawn before the full table.
       var Viz = global.LabViz, shareBars = function (title, key, color) {
         return Viz && Viz.orderedBars ? Viz.orderedBars({ title: title, rows: picked.map(function (g) { return [cleanName(by[g].name), val(g, key)]; }), fmt: pct, noShare: true, color: color }) : '';
