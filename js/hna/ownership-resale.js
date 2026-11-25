@@ -92,14 +92,32 @@
     return null;
   }
 
+  // An entry the reader left blank ('' or missing) is null; Number('') would read it as 0.
+  function entered(value) {
+    return value == null || String(value).trim() === '' ? null : num(value);
+  }
+  function missingResaleInputs(input) {
+    var out = [];
+    if (entered(input && input.remainingPrincipal) == null) out.push('the loan balance left at resale');
+    if (entered(input && input.sellingCosts) == null) out.push('the selling costs');
+    return out;
+  }
+  function missingReason(missing) {
+    return 'Owner equity and public recovery need ' + missing.join(' and ') + '; ' + (missing.length > 1 ? 'they are' : 'it is') +
+      ' blank, and blank is not counted as $0. Enter 0 if there is none.';
+  }
+
   function evaluateConvention(convention, input) {
     input = input || {};
     convention = convention || {};
     var purchasePrice = num(input.purchasePrice);
     var years = num(input.holdingPeriodYears);
     if (years == null) years = 5;
-    var sellingCosts = num(input.sellingCosts) || 0;
-    var remainingPrincipal = num(input.remainingPrincipal) || 0;
+    // A blank loan balance or selling cost is unknown, not $0 (Codex launch audit B3, 24 Nov): owner equity and
+    // public recovery then stay unavailable with the reason. An entered 0 is used as 0.
+    var sellingCosts = entered(input.sellingCosts);
+    var remainingPrincipal = entered(input.remainingPrincipal);
+    var missing = missingResaleInputs(input);
     var resaleCap = null;
     var calculationBasis = '';
     var verifyParameter = convention.parameter_status && convention.parameter_status !== 'verified';
@@ -114,7 +132,8 @@
       calculationBasis = 'Lesser of fixed cap or entered CPI rate; exact governing terms require verification';
       verifyParameter = true;
     } else if (convention.type === 'shared_appreciation') {
-      resaleCap = sharedAppreciationCap(purchasePrice, input.marketAppreciation || 0, convention.appreciation_share, sellingCosts);
+      // Under shared appreciation the next buyer's price includes the selling costs, so it needs them.
+      resaleCap = sellingCosts == null ? null : sharedAppreciationCap(purchasePrice, input.marketAppreciation || 0, convention.appreciation_share, sellingCosts);
       calculationBasis = convention.share_label || 'Shared appreciation';
       verifyParameter = true;
     } else if (convention.type === 'recapture') {
@@ -130,12 +149,18 @@
     if (cap == null) {
       unavailableReason = purchasePrice == null || purchasePrice <= 0
         ? (input.unavailableReason || 'A positive purchase price is unavailable; resale price and owner equity cannot be calculated.')
-        : 'Required resale inputs are unavailable; resale price and owner equity cannot be calculated.';
+        : (convention.type === 'shared_appreciation' && sellingCosts == null
+          ? 'Selling costs are blank; under shared appreciation the next buyer\u2019s price includes them. Enter 0 if there are none.'
+          : 'Required resale inputs are unavailable; resale price and owner equity cannot be calculated.');
     }
+    var known = cap != null && !missing.length;
+    var equityUnavailableReason = cap == null ? unavailableReason : (missing.length ? missingReason(missing) : null);
+    // With no resale price there is nothing to recover from (0, as before); with a price but a blank loan balance
+    // or selling cost the recovery is unknown (null).
     var recaptured = convention.type === 'recapture' && cap != null
-      ? money(Math.min(recoveryAmount, Math.max(0, cap - remainingPrincipal - sellingCosts)))
+      ? (known ? money(Math.min(recoveryAmount, Math.max(0, cap - remainingPrincipal - sellingCosts))) : null)
       : 0;
-    var equity = cap == null ? null : money(cap - remainingPrincipal - sellingCosts - recaptured);
+    var equity = known ? money(cap - remainingPrincipal - sellingCosts - recaptured) : null;
     var affordablePrice = affordabilityBenchmark(input);
     var preserves = cap != null && affordablePrice != null ? cap <= affordablePrice : null;
 
@@ -158,6 +183,7 @@
       maxResalePrice: cap,
       ownerGrossEquity: equity,
       unavailableReason: unavailableReason,
+      equityUnavailableReason: equityUnavailableReason,
       publicSubsidyRecaptured: recaptured,
       estimatedRemainingPrincipal: money(remainingPrincipal),
       sellingCosts: money(sellingCosts),
@@ -217,8 +243,10 @@
         })
       };
     });
+    var missingInputs = missingResaleInputs(input);
     return {
       subsidyType: subsidyType,
+      equityNote: missingInputs.length ? missingReason(missingInputs) : null,
       // Only a lesser-of convention reads the CPI input; with none in the
       // data the input changes nothing, so it is not reported.
       cpiRateAnnual: conventions.some(function (convention) { return convention.type === 'lesser_of_fixed_cpi'; })
@@ -259,7 +287,9 @@
       (Number.isFinite(comparison.cpiRateAnnual) ? '<p>Lesser-of comparison CPI input: ' + escapeHtml((comparison.cpiRateAnnual * 100).toFixed(1)) + '% annually.</p>' : '') +
       '<div style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:end"><label>Subsidy type<select data-resale-subsidy-type style="display:block;min-height:44px">' + subsidyOptions + '</select></label>' +
       '<label>Selected mechanism<select data-resale-mechanism style="display:block;min-height:44px">' + mechanismOptions + '</select></label></div>' +
-      legalNotes + '<div style="overflow-x:auto"><table><thead><tr><th>Mechanism</th>' + headings + '</tr></thead><tbody>' + rows + '</tbody></table></div><p>' + escapeHtml(comparison.caveat || SCREENING_CAVEAT) + '</p></div>';
+      legalNotes + '<div style="overflow-x:auto"><table><thead><tr><th>Mechanism</th>' + headings + '</tr></thead><tbody>' + rows + '</tbody></table></div>' +
+      (comparison.equityNote ? '<p data-resale-equity-note role="note">' + escapeHtml(comparison.equityNote) + '</p>' : '') +
+      '<p>' + escapeHtml(comparison.caveat || SCREENING_CAVEAT) + '</p></div>';
   }
 
   function bindComparisonControls(mount, onChange) {

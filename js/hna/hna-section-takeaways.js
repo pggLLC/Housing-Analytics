@@ -122,6 +122,8 @@
     var ami30Total = null, ami30Burdened = null;
     var ami50Total = null, ami50Burdened = null;
     var ami80Total = null, ami80Burdened = null;
+    // The file's own shares, as the page's burden panel shows them (rounded apportioned counts can differ).
+    var share = { 30: null, 50: null, 80: null };
     var isPlace = ctx.geoType === 'place' || ctx.geoType === 'cdp';
     // F222 — mirror narratives' fallback flag. true = place file used,
     // false = silent county fallback for a selected place, null = county
@@ -142,11 +144,11 @@
           if (!b) return null;
           var t = +b.total || null;
           var c = +(b.cost_burdened_30pct != null ? b.cost_burdened_30pct : b.cost_burdened) || null;
-          return { total: t, burdened: c };
+          return { total: t, burdened: c, share: b.pct_cost_burdened_30 != null && Number.isFinite(+b.pct_cost_burdened_30) ? +b.pct_cost_burdened_30 : null };
         }
-        var t30 = _tier(rba.lte30);   if (t30) { ami30Total = t30.total; ami30Burdened = t30.burdened; }
-        var t50 = _tier(rba['31to50']); if (t50) { ami50Total = t50.total; ami50Burdened = t50.burdened; }
-        var t80 = _tier(rba['51to80']); if (t80) { ami80Total = t80.total; ami80Burdened = t80.burdened; }
+        var t30 = _tier(rba.lte30);   if (t30) { ami30Total = t30.total; ami30Burdened = t30.burdened; share[30] = t30.share; }
+        var t50 = _tier(rba['31to50']); if (t50) { ami50Total = t50.total; ami50Burdened = t50.burdened; share[50] = t50.share; }
+        var t80 = _tier(rba['51to80']); if (t80) { ami80Total = t80.total; ami80Burdened = t80.burdened; share[80] = t80.share; }
       }
     }
     if (renterCb30 == null) {
@@ -161,6 +163,7 @@
       var crba = rec && rec.renter_hh_by_ami;
       if (crba) {
         var c30 = crba.lte30, c50 = crba['31to50'], c80 = crba['51to80'];
+        share = { 30: null, 50: null, 80: null }; // county counts are whole households; computed below
         if (c30) {
           ami30Total = +c30.total || ami30Total;
           ami30Burdened = +(c30.cost_burdened_30pct != null ? c30.cost_burdened_30pct : c30.cost_burdened) || ami30Burdened;
@@ -178,9 +181,13 @@
     ctx.renterCb30 = renterCb30;
     ctx.renterCb50 = renterCb50;
     ctx.ownerCb30  = ownerCb30;
-    ctx.ami30BurdenPct = (ami30Total && ami30Burdened) ? +((ami30Burdened / ami30Total) * 100).toFixed(1) : null;
-    ctx.ami50BurdenPct = (ami50Total && ami50Burdened) ? +((ami50Burdened / ami50Total) * 100).toFixed(1) : null;
-    ctx.ami80BurdenPct = (ami80Total && ami80Burdened) ? +((ami80Burdened / ami80Total) * 100).toFixed(1) : null;
+    function burdenPct(total, burdened, sh) {
+      if (!total || !burdened) return null;
+      return sh != null ? +(sh * 100).toFixed(1) : +((burdened / total) * 100).toFixed(1);
+    }
+    ctx.ami30BurdenPct = burdenPct(ami30Total, ami30Burdened, share[30]);
+    ctx.ami50BurdenPct = burdenPct(ami50Total, ami50Burdened, share[50]);
+    ctx.ami80BurdenPct = burdenPct(ami80Total, ami80Burdened, share[80]);
     ctx.chasSourceIsPlace = chasSourceIsPlace; // F222
 
     // Ranking-index — population projection + FHFA HPI 10y

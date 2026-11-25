@@ -90,7 +90,12 @@
       esc(money(stack.residualGapPerUnit)) + '</strong> a home.</p>' + (stack.outsideSources || []).map(function (p) {
         return '<p class="note" data-outside-county="' + esc(p.id) + '">' + esc(p.name) + ': ' + esc(p.reason) + (p.jurisdictionScope ? ' (' + esc(p.jurisdictionScope) + ' only)' : '') + '; not counted.</p>';
       }).join('');
-    var verify = stack.verifySources || [];
+    // Named with its rule, not counted (CHFA buyer assistance; Codex audit B2).
+    var ruled = (stack.verifySources || []).filter(function (v) { return v.displayAmount && v.displayAmount !== 'VERIFY'; });
+    if (gap) out += ruled.map(function (p) {
+      return '<p class="note" data-not-counted="' + esc(p.id) + '"><a href="' + esc(p.sourceUrl) + '">' + esc(p.name) + ' ↗</a>: ' + esc(p.displayAmount) + '.</p>';
+    }).join('');
+    var verify = (stack.verifySources || []).filter(function (v) { return ruled.indexOf(v) === -1; });
     if (gap && verify.length) out += '<p class="note">' + verify.length + ' more sources (Prop 123, FHLBank, USDA, local fee waivers and others) have no screening amount; the <a href="' + esc(global.LabDealQuick && global.LabDealQuick.fullTool ? global.LabDealQuick.fullTool() : LIVE_TOOL) + '">full Deal Calculator ↗</a> lists them.</p>';
     return out;
   }

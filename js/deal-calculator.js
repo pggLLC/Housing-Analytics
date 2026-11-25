@@ -480,7 +480,10 @@
     });
     (stack.verifySources || []).forEach(function (source) {
       var li = document.createElement('li');
-      li.appendChild(document.createTextNode(source.name + ': '));
+      // A source with a rule but no amount this screen can confirm says so (CHFA buyer assistance, Codex audit B2).
+      var shownAmount = source.displayAmount && source.displayAmount !== 'VERIFY' ? source.displayAmount : '';
+      if (shownAmount) li.setAttribute('data-not-counted', source.id);
+      li.appendChild(document.createTextNode(source.name + ': ' + (shownAmount ? shownAmount + ' · ' : '')));
       addProvenance(li, source);
       list.appendChild(li);
     });
@@ -575,9 +578,11 @@
       value.setAttribute('title', outcome.unavailableReason || 'Resale inputs unavailable.');
       return;
     }
+    // A recovery that depends on a blank loan balance or selling cost is unknown, not "no cash recovery" (B3).
+    var unknownRecovery = outcome.publicSubsidyRecaptured == null;
     var recovered = Number(outcome.publicSubsidyRecaptured) || 0;
     value.textContent = 'Next buyer price capped at ' + fmt(outcome.maxResalePrice) +
-      (recovered > 0 ? ' · ' + fmt(recovered) + ' subsidy recovered' : ' · no cash recovery');
+      (unknownRecovery ? ' · recovery needs the loan balance and selling costs' : (recovered > 0 ? ' · ' + fmt(recovered) + ' subsidy recovered' : ' · no cash recovery'));
     value.setAttribute('title', outcome.preservationLabel || '');
   }
 
@@ -3077,10 +3082,10 @@
               <input id="dc-own-resale-years" type="number" min="0" step="1" value="5" style="width:100%;margin-top:.15rem;">
             </label>
             <label>Est. remaining principal
-              <input id="dc-own-resale-principal" type="number" min="0" step="1000" placeholder="0" style="width:100%;margin-top:.15rem;">
+              <input id="dc-own-resale-principal" type="number" min="0" step="1000" placeholder="Enter 0 if none" style="width:100%;margin-top:.15rem;">
             </label>
             <label>Selling costs
-              <input id="dc-own-resale-costs" type="number" min="0" step="1000" placeholder="0" style="width:100%;margin-top:.15rem;">
+              <input id="dc-own-resale-costs" type="number" min="0" step="1000" placeholder="Enter 0 if none" style="width:100%;margin-top:.15rem;">
             </label>
             <label>Shared-appreciation assumption
               <input id="dc-own-resale-appreciation" type="number" step="1000" placeholder="0" style="width:100%;margin-top:.15rem;">
@@ -4370,6 +4375,12 @@
     return records;
   }
 
+  function blankOrNumber(v) {
+    if (v == null || String(v).trim() === '') return null;
+    var n = parseFloat(v);
+    return isFinite(n) ? n : null;
+  }
+
   function readDealInputs() {
     var fields = {};
     // The partnership terms and the stress sliders sit in their own panels below
@@ -4385,8 +4396,9 @@
       targetAmiPct: (parseFloat(fields['dc-sale-target-ami']) || 80) / 100,
       developerFundingPrograms: _developerOwnershipFunding, resaleConventions: _resaleConventions,
       resaleHoldingYears: parseFloat(fields['dc-own-resale-years']) || 5,
-      resaleRemainingPrincipal: parseFloat(fields['dc-own-resale-principal']) || 0,
-      resaleSellingCosts: parseFloat(fields['dc-own-resale-costs']) || 0,
+      // Blank stays unknown (null), not $0: owner equity then says what is missing (Codex launch audit B3).
+      resaleRemainingPrincipal: blankOrNumber(fields['dc-own-resale-principal']),
+      resaleSellingCosts: blankOrNumber(fields['dc-own-resale-costs']),
       resaleMarketAppreciation: parseFloat(fields['dc-own-resale-appreciation']) || 0,
       resaleSubsidyType: _resaleSelection.subsidyType, resaleConventionId: _resaleSelection.selectedConventionId
     });
@@ -5902,15 +5914,33 @@
   // F45: resolve the active place geoid from cross-page state so AMI-gap
   // figures can reflect a small town instead of its containing county when the
   // user came from a place selection.
-  function _getActivePlaceGeoid() {
+  //
+  // Codex launch audit B1 (24 Nov): the place must belong to the county the
+  // calculator is working in. An explicit ?geoid=/?fips= in the address wins
+  // over a place saved earlier in the browser, so a county address shows that
+  // county, and a saved town is kept only while its county is the selected one.
+  function _getActivePlaceGeoid(countyFips) {
+    var county = countyFips || _countyFips || null;
+    function inCounty(geoid, ctxCounty) {
+      if (!county) return true;
+      var rec = _findAmiGapPlace(geoid);
+      var known = (rec && rec.containing_county_fips) || ctxCounty || null;
+      return !!known && (String(known) === String(county) || String(ctxCounty || '') === String(county));
+    }
     try {
-      if (window.JurisdictionUrlContext && typeof window.JurisdictionUrlContext.resolveSync === 'function') {
-        var c = window.JurisdictionUrlContext.resolveSync();
-        if (c && c.placeGeoid && /^\d{7}$/.test(c.placeGeoid)) return c.placeGeoid;
+      var urlCtx = window.JurisdictionUrlContext;
+      if (urlCtx && typeof urlCtx.isUrlContextPresent === 'function' && urlCtx.isUrlContextPresent()) {
+        var u = typeof urlCtx.resolveSync === 'function' ? urlCtx.resolveSync() : null;
+        var ug = u && u.placeGeoid;
+        return (ug && /^\d{7}$/.test(ug) && inCounty(ug, u.countyFips)) ? ug : null;
+      }
+      if (urlCtx && typeof urlCtx.resolveSync === 'function') {
+        var c = urlCtx.resolveSync();
+        if (c && c.placeGeoid && /^\d{7}$/.test(c.placeGeoid) && inCounty(c.placeGeoid, c.countyFips)) return c.placeGeoid;
       }
       var p = window.WorkflowState && window.WorkflowState.getActiveProject && window.WorkflowState.getActiveProject();
       var jx = p && (p.jurisdiction || (p.steps && p.steps.jurisdiction));
-      if (jx && jx.placeGeoid && /^\d{7}$/.test(jx.placeGeoid)) return jx.placeGeoid;
+      if (jx && jx.placeGeoid && /^\d{7}$/.test(jx.placeGeoid) && inCounty(jx.placeGeoid, jx.countyFips || jx.fips)) return jx.placeGeoid;
     } catch (_) { /* soft-fail */ }
     return null;
   }
@@ -6555,7 +6585,7 @@
       countySel.addEventListener('change', function () {
         var fips = this.value;
         updateAmiLimitsFromFmr(fips);
-        _renderAmiGapInfo(fips, _getActivePlaceGeoid());
+        _renderAmiGapInfo(fips, _getActivePlaceGeoid(fips));
         _runDealPredictor(fips);
         _renderCrossCountyDisclosure(fips);
         _renderHmdaContext(fips);
@@ -6587,14 +6617,19 @@
       if (data && data.counties) {
         _chasAaData = data;
         var sel = document.getElementById('dc-county-select');
-        if (sel && sel.value) _renderAmiGapInfo(sel.value, _getActivePlaceGeoid());
+        if (sel && sel.value) _renderAmiGapInfo(sel.value, _getActivePlaceGeoid(sel.value));
       }
     }).catch(function () { /* gap line stays hidden */ });
     // F45: place-level AMI gap — soft-fail (county fallback handles missing).
     fetch(_gapResolver('data/co_ami_gap_by_place.json')).then(function (r) {
       return r.ok ? r.json() : null;
     }).then(function (data) {
-      if (data && data.places) _amiGapPlaceData = data;
+      if (data && data.places) {
+        _amiGapPlaceData = data;
+        // The place's county is read from this file, so redraw the gap line once it is here.
+        var sel2 = document.getElementById('dc-county-select');
+        if (_chasAaData && sel2 && sel2.value) _renderAmiGapInfo(sel2.value, _getActivePlaceGeoid(sel2.value));
+      }
     }).catch(function () { /* place file absent — county fallback applies */ });
 
     // F25: Load PAB direct allocations so the 4% bond path can show the

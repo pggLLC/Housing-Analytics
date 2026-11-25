@@ -55,8 +55,10 @@ assert.match(data.meta.methodology, /screening_apply.*potential.*never counted a
 data.programs.forEach(validateProgram);
 assert.deepEqual(data.programs.filter((program) => program.screening_apply).map((program) => program.id), [
   'wmrhc-good-deeds-buydown',
-  'chfa-dpa-layering',
 ]);
+// CHFA buyer assistance is listed with its rule but never counted: the amount depends on the buyer's product,
+// first mortgage and eligibility (Codex launch audit B2, 24 Nov).
+assert.equal(data.programs.find((program) => program.id === 'chfa-dpa-layering').screening_apply, false);
 assert.equal(hasRank(data), false);
 assert.throws(() => validateProgram(Object.assign({}, data.programs[0], { commitment_status: 'available', apply_to_gap: true })));
 assert.throws(() => validateProgram(Object.assign({}, data.programs[1], { screening_apply: true })));

@@ -532,8 +532,10 @@
     ].map(function (r) {
       var blank = _isBlankText(r.value);
       r.display = blank ? UNAVAILABLE : String(r.value).trim();
+      // A blank Census figure says why in the page's words (hub/hna.js whyMissing): the Census publishes none here.
+      var census = /^(ACS|DP0|Renter-occupied DP04)/.test(r.sub || '');
       r.reason = blank ? ((r.key === 'baselineUnits' && hs.unavailableReasons && hs.unavailableReasons.baselineUnits)
-        || 'Not shown on the page for this geography when exported.') : null;
+        || (census ? 'The Census publishes no figure for this place in this survey.' : 'Not shown on the page for this geography when exported.')) : null;
       return r;
     });
   }

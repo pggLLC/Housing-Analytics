@@ -21,8 +21,8 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "8e02686d6c5ceca5bcfa9b8bb2a8b31ed8535247",
-  "dirty": false
+  "commit": "45e8e8fd9eba95bde3c738f18b29bfcc920e5d56",
+  "dirty": true
  },
  "files": {
   "data-hub.html": "cd5daf85bf43c0353803f0b464beca877488681b048b91d9ef284df66fe25276",
@@ -54,7 +54,7 @@
   "hub/data-pages.css": "169f41c5c2ccd772ee812606eae6a73ea97059392794156d13f24304351e19be",
   "hub/deal-extras.js": "f07617b498fa72e8b723511d11f116a4d3cc25fded7baf928bef2dd5fd3f2dce",
   "hub/deal-file.js": "0020c66a67814fc632878ed36c56025006b1ee2843ca90486b656fa4463b3071",
-  "hub/deal-quick-sale.js": "8707ba8e2fb14cc752bf8063c79edcd37265cdbed2a81abb4a86afd1feb54ff4",
+  "hub/deal-quick-sale.js": "fed82c4734bf8d3fd4d8d065e5d5d2cddf651be2cbe26663a2a95493d242a6c6",
   "hub/deal-quick.js": "1af8ab79d7304b41e0185aca572645939a15b77e65da9255e7a7efdbc21b671d",
   "hub/deal-tool.js": "daa3f0e65b63d02ad7c8c5efb38bdc590a569772de4c7611ebd77591c410ac07",
   "hub/deal-town.js": "ff1d569519879d746c28fc8bd1ba4fdcadd3d084893bbcdceacb4b99b239a998",
@@ -76,7 +76,7 @@
   "hub/guide-extract.js": "46ea3774adf1d15b715bcb13dd39ecdcdbea91668eca1fb5398e86ad249f43c8",
   "hub/guide.js": "9c0c1da3af7e79336cd6dbb0fdad15e86d291a6a196f7ab1e7847742f760563a",
   "hub/hna-dola.js": "fbd5032131872fdd0b9ba6bd5b3015ee19dd6756abdd48caaa7143048f64cdc7",
-  "hub/hna.js": "d194883573eb07e5e1aa8e0ed8ea72f8f29e786720013779c9ce7c90aeb1088d",
+  "hub/hna.js": "3437f99e5c5dc1bcb159875716f48c23e170c4e1db91215f75dbe066f79e13c3",
   "hub/home.css": "2e5c985aaeb4e0e4d6227edf47fee6e570a68c8c18832dec16fdff6bfb9ef07a",
   "hub/home.js": "0bb43a4d6f3c8201ca5eebab03bd8c24c33977ec30d80e80875cabe8f1d17304",
   "hub/homes.js": "048cc62e0cfd9789252368d9aecf8e951c96500f207d94bb41f54dc7e6684d2b",
@@ -118,8 +118,8 @@
   "hub/rent-income.css": "2f703dc314e61cf4783e1f2d5e9acdbae2cf0c7f9cad28149d81b8dbe44f267a",
   "hub/rent-income.js": "ad5c5ad8a1d8c64848fd92096ab91cfd249a21b377e5da03b54dcccca4f4d63d",
   "hub/report.js": "8592e92722550a739e3278371821c832d56896c7fadb99335793b9f58a60d8fb",
-  "hub/route-catalog.json": "75a3e6037d5f2dd6bc9e03ed51bf1072c5a574892e954a3420dc7d8898b050ad",
-  "hub/sale-deal.js": "22476b90331866961a098f86cd32dcac0ef29549a326b741f85a59b85bc66bc4",
+  "hub/route-catalog.json": "dcdf1eb5a503d0867166411c96f589c48a932ce67d29712a5e11060e8d0d45d3",
+  "hub/sale-deal.js": "dc255b5393cfce573352c02a850aac49ad9176db7bb0a154f18a502b7bfc0497",
   "hub/shell.css": "d796ed3eac3c51968b5b2e754973a5c4980700c93c263fd8941931418b898c0b",
   "hub/shell.js": "727bbd30b7ecf45744679098090e33c5613bf10ee48e42773a020bf94749d78b",
   "hub/slider.js": "8af257af0c99e0dd98be109775e5e0c8abc6c61b77e2ad2eae90351001d3c76e",
@@ -172,7 +172,7 @@
   "js/data-source-inventory.js": "3277bc7e44cc8564a861fbc8ff2da743c7d5f83ecfb77087b16c02259ed2b60b",
   "js/provenance-label.js": "3ff209e63e783bef704042871c665727bcd9f49bec3e5c84a5f1a3118e589b05",
   "js/hna/hna-ownership-need.js": "328bf12fea31ff26482b4c0234b8a1a4f4fcbecc161daceef239464db2429cff",
-  "js/hna/ownership-resale.js": "16474b25e098f38f2f6bed66466c9403c0b38902dde77a408706bf808a266b57",
+  "js/hna/ownership-resale.js": "b6cfd1ea0abd52da90534b566345806f60cd017ad19be773d7865e4d6c2da02a",
   "js/market-analysis-scoring.js": "52d5d11761f42bab2bd8788cb1aa02c23522389bcd2929443faddc0725170bb3",
   "js/workflow/recommendation-contract.js": "b81280d97ecb14effc32c68a4b00d504293632e858e8ccd0b4ce418daee3c7df",
   "js/transit-zone.js": "e625afb1746b576a159cb5167cf2432c627635e6dcd88205c990190b549282b6",

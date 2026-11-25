@@ -140,6 +140,7 @@
     // burden charts use.
     var renterCb30 = null, renterCb50 = null, ownerCb30 = null;
     var ami30Total = null, ami30Burdened = null;  // for "deep-need" framing
+    var ami30Share = null; // the file's own share, as the page shows it
     var isPlace = ctx.geoType === 'place' || ctx.geoType === 'cdp';
     var contextCounty = null;
     // F222 — track whether burden figures came from place-CHAS (true) or
@@ -169,6 +170,7 @@
             ? rba.lte30.cost_burdened_30pct
             : rba.lte30.cost_burdened;
           ami30Burdened = +cb30Field || null;
+          ami30Share = rba.lte30.pct_cost_burdened_30;
         }
       }
 
@@ -217,9 +219,13 @@
       ctx.acsSevereLabel = bcSevere && window.HNAUtils.acsSeriesText ? 'ACS ' + window.HNAUtils.acsSeriesText(bcSevere.series, bcSevere.year) : null;
     } catch (_) { ctx.acsSeverePct = null; }
     ctx.ownerCb30  = ownerCb30;
-    ctx.ami30BurdenPct = (ami30Total && ami30Burdened && ami30Total > 0)
-      ? +((ami30Burdened / ami30Total) * 100).toFixed(1)
-      : null;
+    // The file's own share first, as the page's burden panel shows it: recomputing from rounded apportioned counts
+    // can differ for a small town (Haswell: 1.2 of 1.9 households reads 63%; the file and the page say 60%).
+    ctx.ami30BurdenPct = (ami30Share != null && Number.isFinite(+ami30Share) && ami30Burdened)
+      ? +((+ami30Share) * 100).toFixed(1)
+      : (ami30Total && ami30Burdened && ami30Total > 0)
+        ? +((ami30Burdened / ami30Total) * 100).toFixed(1)
+        : null;
     ctx.chasSourceIsPlace = chasSourceIsPlace;        // F222
     ctx.chasFallbackCountyName = chasFallbackCountyName; // F222
 

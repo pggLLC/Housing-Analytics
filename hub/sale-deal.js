@@ -18,8 +18,8 @@
   // note on what goes in it and where to find it.
   var RESALE = [
     { id: 'dc-own-resale-years', label: 'Years the first buyer owns', value: '5', step: '1', min: '0', note: 'How long the first buyer owns before selling.' },
-    { id: 'dc-own-resale-principal', label: 'Loan balance left at resale ($)', value: '', step: '1000', min: '0', note: 'From the buyer’s loan amortization schedule at that year. Blank is $0.' },
-    { id: 'dc-own-resale-costs', label: 'Selling costs ($)', value: '', step: '1000', min: '0', note: 'Commission and closing costs at resale, from a local broker. Blank is $0.' },
+    { id: 'dc-own-resale-principal', label: 'Loan balance left at resale ($)', value: '', step: '1000', min: '0', note: 'From the buyer’s loan amortization schedule at that year. Enter 0 if the home is paid off; blank leaves owner’s equity unshown.' },
+    { id: 'dc-own-resale-costs', label: 'Selling costs ($)', value: '', step: '1000', min: '0', note: 'Commission and closing costs at resale, from a local broker. Enter 0 if none; blank leaves owner’s equity unshown.' },
     { id: 'dc-own-resale-appreciation', label: 'Market gain to share ($)', value: '', step: '1000', note: 'Used only by shared appreciation: the market gain the deed restriction splits. Blank is $0.' }
   ];
   var START = { grossSf: '', subsidyType: 'none', conventionId: null };
@@ -44,14 +44,16 @@
     var target = s.target / 100, a = Q().ami4(src, s.county);
     var price = isFinite(a) && a > 0 ? OF.maxAffordablePrice(a, target, undefined) : null;
     var num = function (id, dflt) { return parseFloat(ext[id]) || dflt; };
+    var known = function (id) { var v = ext[id]; if (v == null || String(v).trim() === '') return null; var n = parseFloat(v); return isFinite(n) ? n : null; };
     var resale = null;
     if (OR && typeof OR.evaluateAll === 'function') {
       var purchase = price != null && isFinite(price) && price > 0 ? price : null;
       var base = {
         purchasePrice: purchase,
         unavailableReason: purchase == null ? 'A positive purchase price is unavailable; resale price and owner equity cannot be calculated.' : null,
-        holdingPeriodYears: num('dc-own-resale-years', 5), remainingPrincipal: num('dc-own-resale-principal', 0),
-        sellingCosts: num('dc-own-resale-costs', 0), marketAppreciation: num('dc-own-resale-appreciation', 0),
+        // A blank loan balance or selling cost stays unknown, not $0 (Codex launch audit B3), as in deal-calculator.js.
+        holdingPeriodYears: num('dc-own-resale-years', 5), remainingPrincipal: known('dc-own-resale-principal'),
+        sellingCosts: known('dc-own-resale-costs'), marketAppreciation: num('dc-own-resale-appreciation', 0),
         ami4Person: a, targetAmiPct: target, assumptions: undefined, maxAffordablePrice: undefined
       };
       resale = {
@@ -123,7 +125,13 @@
     var outside = (st.outsideSources || []).map(function (p) {
       return '<li data-outside-county="' + esc(p.id) + '"><a href="' + esc(p.sourceUrl) + '">' + esc(p.name) + ' ↗</a>: ' + esc(p.reason) + (p.jurisdictionScope ? ' (' + esc(p.jurisdictionScope) + ' only)' : '') + '; not counted.</li>';
     }).join('');
-    var verify = st.verifySources || [];
+    // A program with a rule but no amount this screen can confirm is named with its rule, not counted (CHFA buyer
+    // assistance: its amount depends on the buyer's CHFA product, first mortgage and eligibility; Codex audit B2).
+    var ruled = (st.verifySources || []).filter(function (v) { return v.displayAmount && v.displayAmount !== 'VERIFY'; });
+    outside += ruled.map(function (p) {
+      return '<li data-not-counted="' + esc(p.id) + '"><a href="' + esc(p.sourceUrl) + '">' + esc(p.name) + ' ↗</a>: ' + esc(p.displayAmount) + '.</li>';
+    }).join('');
+    var verify = (st.verifySources || []).filter(function (v) { return ruled.indexOf(v) === -1; });
     return '<section class="sale-card" aria-labelledby="sale-stack-h"><h3 id="sale-stack-h">Programs that may cover part of the gap</h3>' +
       '<p class="ss-head">Counted toward the <span>' + esc(money(gap)) + '</span> gap a home: <strong data-out="appliedAmountPerUnit" data-value="' + Math.round(st.appliedAmountPerUnit) + '">' + esc(money(st.appliedAmountPerUnit)) + '</strong></p>' +
       bar + '<ul class="ss-list">' + rows + rest + '</ul>' +
@@ -145,13 +153,15 @@
         '<small>' + esc(row.objective) + '</small>' + (row.sourceUrl ? '<small><a href="' + esc(row.sourceUrl) + '">' + esc(row.sourceProgram || 'Source') + ' ↗</a>' + (row.lastVerified ? ', checked ' + esc(row.lastVerified) : '') + '</small>' : '') + '</th>' +
         row.outcomes.map(function (o) {
           return '<td><span class="ro-price" data-value="' + (o.maxResalePrice == null ? '' : Math.round(o.maxResalePrice)) + '">' + esc(money(o.maxResalePrice)) + '</span>' +
-            '<small>Owner’s equity ' + esc(money(o.ownerGrossEquity)) + '</small><small>Public gets back ' + esc(money(o.publicSubsidyRecaptured)) + '</small></td>';
+            '<small>Owner’s equity ' + esc(o.ownerGrossEquity == null && o.maxResalePrice != null ? 'not shown' : money(o.ownerGrossEquity)) + '</small>' +
+            '<small>Public gets back ' + esc(o.publicSubsidyRecaptured == null && o.maxResalePrice != null ? 'not shown' : money(o.publicSubsidyRecaptured)) + '</small></td>';
         }).join('') + '</tr>';
     }).join('');
     return '<div class="field-grid sale-pickers"><label class="field">Public money in the home<select name="saleful:subsidy">' + subsidy + '</select><span class="hint">HOME funds limit which resale rules are allowed.</span></label>' +
       '<label class="field">Resale rule<select name="saleful:convention">' + mech + '</select><span class="hint">Set by the deed restriction or ground lease.</span></label></div>' + reasons +
       '<div class="table-scroll resale-table" role="region" aria-label="Resale rules compared" tabindex="0"><table><thead><tr><th scope="col">Rule</th>' +
       c.scenarios.map(function (sc) { return '<th scope="col">' + esc(sc.label) + '<small>Next buyer’s price</small></th>'; }).join('') + '</tr></thead><tbody>' + body + '</tbody></table></div>' +
+      (c.equityNote ? '<p class="callout" role="note" data-resale-equity-note>' + esc(c.equityNote) + '</p>' : '') +
       '<p class="note">' + esc(c.caveat) + ' The rules are not ranked; each protects a different interest.</p>';
   }
 
