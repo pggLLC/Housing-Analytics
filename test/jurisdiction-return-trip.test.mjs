@@ -143,6 +143,34 @@ test('the button names the destination it actually opens', () => {
     'the deal step is labelled as the needs assessment');
 });
 
+// The step banner on the picker names the same destination as the button (launch audit, 25 Nov: opened from
+// Market Analysis, the banner still said "continue to Housing Needs Assessment").
+function banner(search) {
+  const dom = new JSDOM(
+    '<!doctype html><html><body><main><div class="sj-header"><h1>Where are you working?</h1></div>'
+    + '<button id="sjContinueBtn">Begin Housing Needs Assessment →</button></main></body></html>',
+    { url: 'http://localhost/select-jurisdiction.html' + search, runScripts: 'outside-only' });
+  const w = dom.window;
+  w.WorkflowState = { getProgress: () => ({ completedSteps: [] }) };
+  w.eval(PROGRESS);
+  w.eval(NEXT_ACTION);
+  w.eval(SELECTOR);
+  w.WorkflowNextAction.render();
+  const m = w.document.getElementById('workflowNextAction');
+  return m ? m.textContent : '';
+}
+
+test('the step banner names where ?next= sends the reader, not the needs assessment', () => {
+  const plain = banner('');
+  assert.ok(/Housing Needs Assessment/.test(plain), 'with no next=, the banner no longer renders or names the needs assessment: ' + plain);
+  const market = banner('?next=deal-market-analysis.html');
+  assert.ok(/continue to Market Analysis/.test(market) && /Go on to Market Analysis/.test(market),
+    'opened from Market Analysis, the banner says: ' + market);
+  assert.ok(!/Housing Needs Assessment/.test(market), 'the banner still names the needs assessment: ' + market);
+  // A refused next= changes nothing.
+  assert.strictEqual(banner('?next=' + encodeURIComponent('https://example.com/x.html')), plain);
+});
+
 test('and the allowlist would actually notice', () => {
   // Every case above is a constant, so they pass whether or not the matching
   // works. Prove the rail comparison is what decides.

@@ -41,6 +41,12 @@
           There is no page at <code id="nf-path">this address</code>. Pages move when the site's
           workflow changes; the places below are always current.
         </p>
+        <!-- Old member addresses (developer-*.html) moved to the members site in the 18 Nov cutover (HA #2936).
+             The script below shows this line only for those addresses. -->
+        <p class="page-sub" id="nf-members" hidden>
+          This was a member page. Member tools are now on the
+          <a href="https://coho-backend.communityplanner.workers.dev/"><strong>members site</strong></a>, behind its sign-in.
+        </p>
       </div>
 
       <section class="chart-card" aria-label="Where to go instead" style="margin-bottom:var(--sp4);">
@@ -66,6 +72,9 @@
     (function () {
       var el = document.getElementById('nf-path');
       if (el) el.textContent = window.location.pathname + window.location.search;
+      // An old member page address (developer-*.html): point to the members site.
+      var mem = document.getElementById('nf-members');
+      if (mem && /^\/developer[-.]/i.test(window.location.pathname)) mem.hidden = false;
     })();
   </script>
   <script src="/js/contrast-guard.js"></script>
