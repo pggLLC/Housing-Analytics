@@ -1189,6 +1189,48 @@
   // escalation and local premium are yours to type. The splits are the dossier workbooks' standard: the builder's
   // contract holds base cost plus general requirements 6%, overhead 2% and profit 6%; on-site work is 12% of base;
   // the owner's hard-cost contingency is 5% of the contract. Soft costs, fees and reserves are not built here.
+  // Public-data starting points for the builder (paul, 25 Nov 2026: "make some assumptions based on the data and
+  // present those clearly"). Never our deal budgets. Each comes back with its source so the page can label it.
+  var PERMIT_MIN_UNITS = 50;
+  /** The county's Census Building Permits Survey declared value per multifamily unit (structure only), or the
+   * state's across all counties when the county has fewer than PERMIT_MIN_UNITS permitted units in the window. */
+  function permitCostPerHome(permits, fips) {
+    var out = { value: null, geography: null, name: null, units: null, window: null, reason: null };
+    var counties = permits && permits.counties;
+    if (!counties) { out.reason = 'Permit data did not load.'; return out; }
+    var c = fips && counties[String(fips)];
+    var rec = c && c.declared_value_per_unit_mf_5yr;
+    if (rec && typeof rec.value === 'number' && rec.value > 0 && (rec.units || 0) >= PERMIT_MIN_UNITS) {
+      return { value: rec.value, geography: 'county', name: c.name, units: rec.units, window: rec.window || null, reason: null };
+    }
+    var dv = 0, units = 0, win = null;
+    Object.keys(counties).forEach(function (k) {
+      var r = counties[k] && counties[k].declared_value_per_unit_mf_5yr;
+      if (r && typeof r.declared_value === 'number' && r.declared_value > 0 && r.units > 0) { dv += r.declared_value; units += r.units; win = win || r.window; }
+    });
+    if (!(units > 0)) { out.reason = 'No permit values are available.'; return out; }
+    return { value: dv / units, geography: 'state', name: 'Colorado', units: units, window: win,
+      reason: c ? (c.name + ' has too few permitted apartments (' + ((rec && rec.units) || 0) + ') to go on, so this is the statewide figure.') : 'No county chosen, so this is the statewide figure.' };
+  }
+  /** Price change from the average month of a permit window (e.g. "2021-2025") to the latest month of a monthly
+   * index such as FRED WPUIP231120. Null with a reason when either end is missing. */
+  function indexEscalation(observations, window) {
+    var out = { factor: null, from: null, to: null, toDate: null, reason: null };
+    var m = /^(\d{4})\D+(\d{4})$/.exec(String(window || ''));
+    if (!Array.isArray(observations) || !m) { out.reason = 'The price index or the permit years are unavailable.'; return out; }
+    var y0 = +m[1], y1 = +m[2], sum = 0, n = 0, last = null;
+    observations.forEach(function (o) {
+      var v = o && o.value !== '.' ? Number(o.value) : NaN, y = o && o.date ? +String(o.date).slice(0, 4) : NaN;
+      if (!Number.isFinite(v) || v <= 0) return;
+      if (y >= y0 && y <= y1) { sum += v; n++; }
+      last = { v: v, date: o.date };
+    });
+    if (!n || !last) { out.reason = 'The price index has no months in ' + window + '.'; return out; }
+    out.from = sum / n; out.to = last.v; out.toDate = last.date;
+    out.factor = Math.round(out.to / out.from * 1000) / 1000;
+    return out;
+  }
+
   var HARD_COST_SPLITS = Object.freeze({ site_work: 0.12, general_requirements: 0.06, overhead: 0.02, profit: 0.06, owner_contingency: 0.05 });
   function buildHardCosts(args) {
     var a = args || {};
@@ -1211,7 +1253,7 @@
 
   return {
     RULE_NOT_SOURCED: RULE_NOT_SOURCED, APPLICANT_LIMIT_NOTE: APPLICANT_LIMIT_NOTE, BOND_TEST_NOTE: BOND_TEST_NOTE, REHAB_MINIMUM_NOTE: REHAB_MINIMUM_NOTE, GROUPS: GROUPS, LINE_TEMPLATE: LINE_TEMPLATE, NEVER_IN_BASIS: NEVER_IN_BASIS,
-    CONTINGENCY_KINDS: CONTINGENCY_KINDS, exampleLines: exampleLines, HARD_COST_SPLITS: HARD_COST_SPLITS, buildHardCosts: buildHardCosts, ruleStatus: ruleStatus, capStatus: capStatus,
+    CONTINGENCY_KINDS: CONTINGENCY_KINDS, exampleLines: exampleLines, HARD_COST_SPLITS: HARD_COST_SPLITS, buildHardCosts: buildHardCosts, permitCostPerHome: permitCostPerHome, indexEscalation: indexEscalation, PERMIT_MIN_UNITS: PERMIT_MIN_UNITS, ruleStatus: ruleStatus, capStatus: capStatus,
     summarizeCosts: summarizeCosts, grantBasisReduction: grantBasisReduction,
     contractorFeeTest: contractorFeeTest, developerFeeBase: developerFeeBase, developerFeeTest: developerFeeTest,
     feeExcessInBasis: feeExcessInBasis, gapCredit: gapCredit, STATE_CREDIT_PATHS: STATE_CREDIT_PATHS,

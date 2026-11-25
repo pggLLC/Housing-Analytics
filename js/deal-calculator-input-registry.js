@@ -119,7 +119,7 @@
     'dc-after-rehab-per-home': 'Rehabilitation cost per home in a resyndication, in dollars.',
     'dc-after-rehab-rate': 'Credit rate on resyndication rehabilitation cost, in percent.',
     'dc-after-resyn-price': 'Dollars of investor equity per dollar of resyndication credit.',
-    'dc-cb-build-per-home': 'Your construction cost per home, used once to build the hard-cost lines; the lines, not this figure, feed the deal.',
+    'dc-cb-build-per-home': 'Construction cost per home, starting at the Census permit value per apartment (building only); used once to build the hard-cost lines, which feed the deal.',
     'dc-cb-build-escalation': 'A multiplier taking your per-home cost to the construction year; 1 means none.',
     'dc-cb-build-premium': 'A multiplier for a local bidder premium; 1 means none.',
     'dc-op-fill-total': 'A per-home operating total used once to fill the lines you have not typed, by typical shares; the lines, not this total, feed the deal.',
