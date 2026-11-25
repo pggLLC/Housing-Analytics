@@ -51,7 +51,8 @@ for (const f of HNA) {
 // The carry script sends ?geoid=08031 to places-hub.html#/place/08031 and leaves the statewide ?geoid=08 on the list.
 {
   const html = shortPage('hna-who-lives-here.html', read('hna-who-lives-here.html'));
-  const script = /<script>\n\(function \(\) \{[\s\S]*?<\/script>/.exec(html)[0].replace(/<\/?script>/g, '');
+  const at = html.indexOf('<script>\n(function () {') + '<script>'.length;
+  const script = html.slice(at, html.indexOf('</' + 'script>', at));
   const run = (search) => {
     const a = { attrs: { href: 'places-hub.html#/places', 'data-place-route': '' }, getAttribute(k) { return this.attrs[k]; }, hasAttribute(k) { return k in this.attrs; }, href: '' };
     const m = { attrs: { href: MEMBER_SITE + 'hna-who-lives-here.html' }, getAttribute(k) { return this.attrs[k]; }, href: '' };
