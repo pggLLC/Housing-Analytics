@@ -2054,8 +2054,149 @@
     return cleaned;
   }
 
+  /** Workbook piece (paul, 25 Nov 2026, "approve the workbook pieces"): the CHFA basis boost that would
+   * close the gap. CHFA may award "up to" 30% to a 9% building that needs it to be feasible (QAP 3.M.2);
+   * the dossier workbooks size it to the gap. This is a readout: it reruns the engine with a CHFA boost
+   * and never changes the deal's own figures. */
+  function sizeChfaBoost(inputs) {
+    var fields = inputs.fields || {};
+    var run = function (f) { return computeDeal(Object.assign({}, inputs, { fields: f, skipSchedules: true })); };
+    var base = run(fields);
+    var basis = base.costBasis && base.costBasis.basis;
+    var out = { status: 'na', pct: null, gap: base.gap, gapAtMost: null, setBy: null, reason: null, citation: 'QAP 3.M.2' };
+    if (!base.chfaRegime) { out.reason = 'Only for CHFA tax credit deals.'; return out; }
+    if (base.creditType !== '9') { out.reason = 'CHFA\'s basis boost applies only to 9% deals (QAP 3.M.2).'; return out; }
+    if (!basis) { out.reason = base.basisUnknownReason || 'Eligible basis is not available yet.'; return out; }
+    if (basis.creditForEquityBasis === 'awarded') { out.reason = 'A credit award is entered, so the credit no longer depends on basis.'; return out; }
+    var designation = fields['dc-boost-designation'];
+    if (basis.boost && basis.boost.applied && designation !== 'chfa') {
+      out.reason = 'The deal already has the 30% boost from its ' + basis.boost.designation + ' designation.'; return out;
+    }
+    if (base.gap === null || base.gap === undefined) { out.reason = (base.unavailable && base.unavailable.gap) || 'The gap is not available yet.'; return out; }
+    if (base.gap <= 0.5) { out.status = 'not-needed'; return out; }
+    var rule = (inputs.costRules && inputs.costRules.rules && inputs.costRules.rules.basis_boost) || null;
+    var d = rule && rule.designations && rule.designations.chfa;
+    var maxPct = d && d.max_multiplier ? Math.round((d.max_multiplier - 1) * 1000) / 10 : 30;
+    function gapAt(pct) {
+      var f = Object.assign({}, fields, { 'dc-boost-designation': 'chfa', 'dc-boost-evidence': 'Sizing check: CHFA boost not requested', 'dc-boost-pct': String(pct) });
+      var r = run(f);
+      var b = r.costBasis && r.costBasis.basis;
+      return { gap: r.gap, setBy: !b ? null : b.costLimitPlan && b.costLimitPlan.applied ? 'cost limit' : b.cap && b.cap.binding ? 'round'
+          : b.gapMethod && b.gapMethod.binding ? 'need' : 'basis',
+        applied: !!(r.costBasis && r.costBasis.basis && r.costBasis.basis.boost && r.costBasis.basis.boost.applied) };
+    }
+    var top = gapAt(maxPct);
+    if (!top.applied || top.gap === null || top.gap === undefined) { out.reason = 'The boost could not be tested with these inputs.'; return out; }
+    out.gapAtMost = top.gap; out.setBy = top.setBy; out.maxPct = maxPct;
+    if (top.gap > 0.5) { out.status = 'not-enough'; return out; }
+    var lo = 0, hi = maxPct;
+    for (var i = 0; i < 14 && hi - lo > 0.05; i++) {
+      var mid = (lo + hi) / 2;
+      var g = gapAt(Math.round(mid * 100) / 100).gap;
+      if (g !== null && g !== undefined && g <= 0.5) hi = mid; else lo = mid;
+    }
+    // Smallest boost on the 0.1% grid that closes the gap: start just below the search's bracket and step up.
+    var pct = Math.max(0, Math.floor(lo * 10) / 10);
+    while (pct < maxPct) {
+      var gp = gapAt(pct).gap;
+      if (gp !== null && gp !== undefined && gp <= 0.5) break;
+      pct = Math.round((pct + 0.1) * 10) / 10;
+    }
+    out.status = 'sized';
+    out.pct = Math.min(maxPct, pct);
+    return out;
+  }
+
+  /** Workbook piece: every dossier-workbook check that applies to a calculator deal, in one list. Each item is
+   * pass, look (look again) or fail, or na with the reason it could not be checked. The checks themselves are
+   * the engine's (costBasis.*); this only gathers them, so no figure changes. */
+  function dealChecks(result) {
+    var items = [];
+    var cb = result && result.costBasis;
+    var money = function (v) { return '$' + Math.round(v).toLocaleString('en-US'); };
+    function add(id, label, status, detail, citation) { items.push({ id: id, label: label, status: status, detail: detail || '', citation: citation || null }); }
+    function fromPasses(id, label, check, okText, badText, badStatus) {
+      if (!check) return;
+      if (check.passes === null || check.passes === undefined) add(id, label, 'na', check.reason || 'Not available for these inputs.', check.citation);
+      else add(id, label, check.passes ? 'pass' : (badStatus || 'fail'), check.passes ? okText : badText, check.citation);
+    }
+    if (!result) return { items: items, counts: { pass: 0, look: 0, fail: 0, na: 0 } };
+    var gap = result.gap;
+    if (gap === null || gap === undefined) add('gap', 'Sources cover the cost (no gap)', 'na', (result.unavailable && result.unavailable.gap) || 'The gap is not available yet.');
+    else add('gap', 'Sources cover the cost (no gap)', gap > 0.5 ? 'fail' : 'pass', gap > 0.5 ? 'Gap of ' + money(gap) + '.' : 'No gap.');
+    var tb = cb && cb.basis && cb.basis.gapMethod;
+    if (tb && tb.binding && tb.capacityBefore != null && cb.basis.capacity != null) {
+      add('surplus', 'Credit not trimmed to the need', 'look', 'At the full credit sources would exceed the cost; CHFA would likely trim the credit by ' + money(tb.capacityBefore - cb.basis.capacity) + ' a year (Method Two).');
+    }
+    if (cb && cb.chfaMinimums) {
+      (cb.chfaMinimums.items || []).forEach(function (it) {
+        var label = 'CHFA: ' + it.label + ' ' + it.direction + ' ' + (it.minimum == null ? '' : it.minimum < 1 ? (Math.round(it.minimum * 1000) / 10) + '%' : money(it.minimum));
+        if (it.passes === null) add(it.key, label, 'na', it.reason, it.citation);
+        else add(it.key, label, it.passes ? 'pass' : 'fail', it.entered == null ? '' : 'This deal: ' + (it.entered < 1 ? (Math.round(it.entered * 1000) / 10) + '%' : money(it.entered)) + '.', it.citation);
+      });
+      if (cb.chfaMinimums.reason) add('chfa_minimums', 'CHFA pro forma minimums', 'na', cb.chfaMinimums.reason);
+    }
+    var uw = cb && cb.underwriting;
+    if (uw) {
+      var mn = uw.minimum;
+      if (mn.passes === null) add('min_dcr', 'CHFA: debt coverage at least 1.15 in every year 1 to 15', 'na', mn.reason, mn.status && mn.status.citation);
+      else add('min_dcr', 'CHFA: debt coverage at least 1.15 in every year 1 to 15', mn.passes ? 'pass' : 'fail', 'Lowest: ' + mn.lowest.toFixed(2) + 'x.', mn.status && mn.status.citation);
+      var hg = uw.high;
+      if (hg.exceeds === null || hg.exceeds === undefined) { if (hg.reason) add('high_dcr', 'Year-one coverage not above 1.30 and rising', 'na', hg.reason, hg.status && hg.status.citation); }
+      else add('high_dcr', 'Year-one coverage not above 1.30 and rising', hg.exceeds ? 'look' : 'pass', hg.exceeds ? 'Year one ' + hg.firstYear.toFixed(2) + 'x and rising: CHFA may award less credit.' : 'Year one ' + hg.firstYear.toFixed(2) + 'x.', hg.status && hg.status.citation);
+    }
+    var orc = cb && cb.operatingReserve;
+    fromPasses('operating_reserve', 'CHFA: operating reserve at least 4 months of expenses and debt service', orc,
+      orc && orc.months != null ? orc.months.toFixed(1) + ' months.' : '', orc && orc.minimum != null ? 'Below the minimum of ' + money(orc.minimum) + '.' : 'Below the minimum.');
+    var dfr = cb && cb.deferredFee;
+    fromPasses('deferred_fee', 'Deferred developer fee repaid within 15 years', dfr,
+      dfr && dfr.fee === 0 ? 'No fee deferred.' : dfr && dfr.yearRepaid ? 'Repaid in year ' + dfr.yearRepaid + '.' : '', dfr && dfr.owed != null ? money(dfr.owed) + ' still owed after year ' + dfr.years + '.' : '');
+    var cf = cb && cb.contractorFee;
+    fromPasses('contractor_fee', 'CHFA: builder profit, overhead and general requirements within the limit', cf, '', cf && cf.excess != null ? money(cf.excess) + ' over the limit.' : '');
+    var df = cb && cb.developerFee;
+    fromPasses('developer_fee', 'CHFA: developer fee within the limit', df, '', df && df.excess != null ? money(df.excess) + ' over the limit.' : '');
+    var ci = cb && cb.constructionInterest;
+    fromPasses('construction_interest', 'Construction interest budget covers the estimate', ci, '', ci && ci.shortfall != null ? money(ci.shortfall) + ' short.' : '', 'look');
+    if (result.creditType === '4') {
+      var bt = cb && cb.bondTest;
+      fromPasses('bond_test', 'Bond test: bonds at least the share of basis and land', bt, bt && bt.ratio != null ? (Math.round(bt.ratio * 1000) / 10) + '%.' : '', bt && bt.ratio != null ? (Math.round(bt.ratio * 1000) / 10) + '%.' : '');
+    }
+    var basis = cb && cb.basis;
+    if (basis && result.chfaRegime) {
+      var plan = basis.costLimitPlan || {};
+      if (plan.applied) add('cost_limit', 'CHFA cost basis limit does not cut the federal credit', 'look', 'It cuts the credit to ' + money(basis.creditForEquity) + ' a year, from ' + money(plan.before) + '.');
+      else if (basis.costLimitMethod && basis.costLimitMethod.checked) add('cost_limit', 'CHFA cost basis limit does not cut the federal credit', 'pass', '');
+      else add('cost_limit', 'CHFA cost basis limit does not cut the federal credit', 'na', (basis.costLimitMethod && basis.costLimitMethod.reason) || 'The cost basis limit is not available for these inputs.');
+      var designation = basis.boost && basis.boost.designation;
+      if (basis.boost && !basis.boost.applied && basis.boost.reason && !/No QCT, DDA, SADDA or CHFA designation selected/.test(basis.boost.reason)) add('boost', 'Basis boost has its designation and evidence', 'look', basis.boost.reason);
+      else if (designation) add('boost', 'Basis boost has its designation and evidence', 'pass', designation + '.');
+    }
+    var sc = cb && cb.stateCredit;
+    if (sc && sc.entered) add('state_credit', 'State credit within CHFA\'s limits', sc.capReason ? 'look' : sc.reason ? 'na' : 'pass', sc.capReason || sc.reason || '');
+    var ms = result.minimumSetAsideResult;
+    if (ms && result.chfaRegime) {
+      add('set_aside', 'Minimum set-aside met (' + ms.election + ')', ms.qualifies ? 'pass' : 'fail',
+        ms.qualifies ? (ms.averageAmiPct != null ? 'Average ' + (Math.round(ms.averageAmiPct * 10) / 10) + '% AMI.' : '') : 'Not met.');
+    }
+    var years = result.coverage && result.coverage.years;
+    var drawnLabel = 'Cash flow covers the must-pay debt every year 1 to 15';
+    var known15 = function (v) { return v !== null && v !== undefined && Number.isFinite(v); };
+    var first15 = (years || []).slice(0, 15);
+    var measured = first15.filter(function (y) { return y && known15(y.noi) && known15(y.mustPayDebtService); });
+    var short = measured.filter(function (y) { return y.noi < y.mustPayDebtService - 0.5; });
+    // A shortfall in any measured year is worth a look; a pass needs all 15 years measured.
+    if (short.length) add('reserve_drawn', drawnLabel, 'look', 'Short in ' + short.length + ' year(s); the operating reserve or the sponsor covers it.');
+    else if (measured.length < 15) add('reserve_drawn', drawnLabel, 'na', 'Only ' + measured.length + ' of the 15 years can be measured with these inputs (check the projection years and growth rates).');
+    else add('reserve_drawn', drawnLabel, 'pass', '');
+    add('market_test', 'Capture and penetration under the healthy lines', 'na', 'Run a market check for this place: capture is worked out there, not in the calculator.');
+    var counts = { pass: 0, look: 0, fail: 0, na: 0 };
+    items.forEach(function (i) { counts[i.status]++; });
+    return { items: items, counts: counts };
+  }
+
   return { computeDeal: computeDeal, rentCutImpact: rentCutImpact, creditStackTotal: creditStackTotal, investorCapital: investorCapital, costPerGrossSf: costPerGrossSf,
     computeForSaleFeasibility: computeForSaleFeasibility, computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack, sizeForSaleHomes: sizeForSaleHomes, FOR_SALE_COST_REFERENCES: FOR_SALE_COST_REFERENCES, forSaleCostReferenceHtml: forSaleCostReferenceHtml, computeDscrStressScenarios: computeDscrStressScenarios,
     computeRentAchievability: computeRentAchievability, evaluateMinimumSetAside: evaluateMinimumSetAside,
-    isLihtcCreditEligiblePct: isLihtcCreditEligiblePct, loanObligations: loanObligations, loanTerms: loanTerms, LOAN_TYPES: LOAN_TYPES };
+    isLihtcCreditEligiblePct: isLihtcCreditEligiblePct, loanObligations: loanObligations, loanTerms: loanTerms, LOAN_TYPES: LOAN_TYPES,
+    sizeChfaBoost: sizeChfaBoost, dealChecks: dealChecks };
 }));
