@@ -82,6 +82,22 @@
   // Data loading
   // -------------------------------------------------------------------------
 
+  // Homes short at or below 50% and 60% AMI never read lower than the count below them (paul, 25 Nov 2026: one rule
+  // on every page, as the Deal Calculator, place pages and member report show it). The file counts everyone at or
+  // below each band; a band with more homes than renters lowers the next count, but those homes cost too much for
+  // the poorer renters below, so their shortfall still stands. A missing count stays missing.
+  function nestAmiGaps(e) {
+    const m = e && e.metrics;
+    if (!m) return;
+    let most = null;
+    ['ami_gap_30pct', 'ami_gap_50pct', 'ami_gap_60pct'].forEach(k => {
+      const v = m[k];
+      if (v == null || v === '' || !isFinite(Number(v))) return;
+      most = most == null ? Number(v) : Math.max(most, Number(v));
+      m[k] = most;
+    });
+  }
+
   async function load() {
     const fetcher = (typeof window.safeFetchJSON === 'function')
       ? window.safeFetchJSON
@@ -93,6 +109,7 @@
       fetcher('data/co-county-economic-indicators.json').catch(() => null),
     ]);
     _officialEntries = cloneEntries(data.rankings || []);
+    _officialEntries.forEach(nestAmiGaps);
     _allEntries    = cloneEntries(_officialEntries);
     _metadata      = data.metadata || {};
     _metricsConfig = data.metrics  || [];
