@@ -132,9 +132,10 @@
       calculationBasis = 'Lesser of fixed cap or entered CPI rate; exact governing terms require verification';
       verifyParameter = true;
     } else if (convention.type === 'shared_appreciation') {
-      // Under shared appreciation the next buyer's price includes the selling costs, so it needs them.
-      resaleCap = sellingCosts == null ? null : sharedAppreciationCap(purchasePrice, input.marketAppreciation || 0, convention.appreciation_share, sellingCosts);
-      calculationBasis = convention.share_label || 'Shared appreciation';
+      // Under shared appreciation the next buyer's price adds the selling costs. Blank costs add nothing, so the
+      // price is the lower one and is labelled so; owner equity still needs them and stays unshown (B3).
+      resaleCap = sharedAppreciationCap(purchasePrice, input.marketAppreciation || 0, convention.appreciation_share, sellingCosts || 0);
+      calculationBasis = (convention.share_label || 'Shared appreciation') + (sellingCosts == null ? '; selling costs not added (blank)' : '');
       verifyParameter = true;
     } else if (convention.type === 'recapture') {
       resaleCap = num(input.unrestrictedMarketValue);
@@ -149,9 +150,7 @@
     if (cap == null) {
       unavailableReason = purchasePrice == null || purchasePrice <= 0
         ? (input.unavailableReason || 'A positive purchase price is unavailable; resale price and owner equity cannot be calculated.')
-        : (convention.type === 'shared_appreciation' && sellingCosts == null
-          ? 'Selling costs are blank; under shared appreciation the next buyer\u2019s price includes them. Enter 0 if there are none.'
-          : 'Required resale inputs are unavailable; resale price and owner equity cannot be calculated.');
+        : 'Required resale inputs are unavailable; resale price and owner equity cannot be calculated.';
     }
     var known = cap != null && !missing.length;
     var equityUnavailableReason = cap == null ? unavailableReason : (missing.length ? missingReason(missing) : null);
