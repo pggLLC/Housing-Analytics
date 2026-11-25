@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "99c3915e46a9be6dca4d9bd33719499cc7ff28d2",
+  "commit": "ac9264b2b6ce3bab747e063af12df5911bea5c71",
   "dirty": false
  },
  "files": {
@@ -80,7 +80,7 @@
   "hub/home.css": "2e5c985aaeb4e0e4d6227edf47fee6e570a68c8c18832dec16fdff6bfb9ef07a",
   "hub/home.js": "0bb43a4d6f3c8201ca5eebab03bd8c24c33977ec30d80e80875cabe8f1d17304",
   "hub/homes.js": "048cc62e0cfd9789252368d9aecf8e951c96500f207d94bb41f54dc7e6684d2b",
-  "hub/ic-summary.js": "50dab911210899c5741f1f03a5587337ee0b77b4fb1d1c4c05aeb28d572c61c4",
+  "hub/ic-summary.js": "2bb36b7048116385633d7ae495e216437efd2c07bdc6d7a81d06e116b8b1c147",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
   "hub/lab-config.js": "3ff66cd5b2b4ef3876e601f9fe6869725af14ca34cb1f0da81df34ec795b702d",
   "hub/lab-wave2.css": "ab1303c77232cd775f5a19296fafd69aaa59cadc4c8da99d6ff869004fb28a76",
@@ -118,7 +118,7 @@
   "hub/rent-income.css": "2f703dc314e61cf4783e1f2d5e9acdbae2cf0c7f9cad28149d81b8dbe44f267a",
   "hub/rent-income.js": "ad5c5ad8a1d8c64848fd92096ab91cfd249a21b377e5da03b54dcccca4f4d63d",
   "hub/report.js": "8592e92722550a739e3278371821c832d56896c7fadb99335793b9f58a60d8fb",
-  "hub/route-catalog.json": "31b28b06442661d9df7638345be237d0a31d2f1f07874548105cf3b6f0fdcf14",
+  "hub/route-catalog.json": "00082054758b9c053f3797e37cdf3231ac8a068e77c62a3dea222b65544a9f8e",
   "hub/sale-deal.js": "04cd6cd97748df540bf0ca6e00813266fd54257baed026fcb603e932dae19179",
   "hub/shell.css": "d796ed3eac3c51968b5b2e754973a5c4980700c93c263fd8941931418b898c0b",
   "hub/shell.js": "727bbd30b7ecf45744679098090e33c5613bf10ee48e42773a020bf94749d78b",
@@ -152,7 +152,7 @@
   "js/deal-lender-schedules.js": "c3ae73613dc02b2044db86d3a678348880e01f62a4c182a2bee0d97693882769",
   "js/deal-permanent-financing.js": "266f3886192b1f40391b87371d7b79bd545471b0913661c566426db1b98c9c2f",
   "js/deal-doh-schedules.js": "c994b2d33b25effda4990eb8d7c4a1275f1bde88cf0e4c22e1b862fae225d012",
-  "js/deal-engine.js": "f3c4b83d0bc974a0d15b1da9a7ebecf479b5f56072117a6e3b8e99ca7a9d3dbe",
+  "js/deal-engine.js": "87f2c87e966796250a171d1b6f621053fa61b6acb4f7391269badfa045a7fb9a",
   "js/components/zori-rent-utils.js": "abc03b5eede8deafb6b9dc4e435e45a7833359b45d75fd2339976c2d95141c3d",
   "js/hna/geography-provenance.js": "72b4721bff6f5b7ff369229d69c3c2e7e62962cfeeb417ad2cc802403c3a9919",
   "js/home-jurisdiction-search.js": "8e64e5572c2645f2c57c97764525709855cca35470a2af512cf65b9fb8b9cd2f",
@@ -206,7 +206,7 @@
   "js/hna/hna-ownership-strategy.js": "e7194b52b59e709a48a76c00cf85800ebf0c55faf7d5cf066297f2dc92b90773",
   "js/components/search-links.js": "baf9e0f650686161dc051432ba1a222bd15d6dc7cc2c635491418d923e259ebf",
   "js/components/development-realism.js": "174e35387989e2a1da198bcf53856688914add0b697bfa13e1f0b04e1e81ccb9",
-  "js/deal-calculator-input-registry.js": "640ca2f3a105dd94cdfa97e2e144649251ae4e814c78e4d3eb384ac62fb55b9d",
+  "js/deal-calculator-input-registry.js": "975ec537a3f0152066a61c28bc0f95d2368e419165897e5d485cbd4b8f2b3ab4",
   "js/deal-calculator-unit-size.js": "a36aae7469af793fb85cb9bb2a5fc332155cd7d502247b51ad6cb360edd5291a",
   "js/county-from-coords.js": "5c25f70968786fde9db1b4307041b66ec9ce260f42b8f3f022d6f138f5e88d1f",
   "js/data-connectors/hud-fmr.js": "e7d62f328340d652016b09656f45c6ac078e5af5f428adfb59b6e9684951df35",
