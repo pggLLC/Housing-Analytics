@@ -71,3 +71,12 @@ test('the page has the boost line and the checks panel', () => {
   }
   assert.ok(/renderWorkbookChecks\(result/.test(src), 'rendered with each result');
 });
+
+test('cash flow check needs all 15 years measured before it passes', () => {
+  const full = dealChecks(computeDeal(inputs())).items.find((x) => x.id === 'reserve_drawn');
+  assert.ok(full && full.status !== 'na', 'measured with full inputs: ' + (full && full.status));
+  const noGrowth = dealChecks(computeDeal(inputs((f) => { f['pf-rent-growth'] = ''; }))).items.find((x) => x.id === 'reserve_drawn');
+  assert.ok(noGrowth.status === 'na' || noGrowth.status === 'look', 'missing growth: ' + noGrowth.status);
+  const five = dealChecks(computeDeal(inputs((f) => { f['pf-years'] = '5'; }))).items.find((x) => x.id === 'reserve_drawn');
+  assert.ok(five.status === 'na' || five.status === 'look', 'five-year projection: ' + five.status);
+});

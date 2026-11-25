@@ -2179,10 +2179,15 @@
         ms.qualifies ? (ms.averageAmiPct != null ? 'Average ' + (Math.round(ms.averageAmiPct * 10) / 10) + '% AMI.' : '') : 'Not met.');
     }
     var years = result.coverage && result.coverage.years;
-    if (years && years.length) {
-      var short = years.slice(0, 15).filter(function (y) { return y && y.noi !== null && y.mustPayDebtService !== null && y.noi < y.mustPayDebtService - 0.5; });
-      add('reserve_drawn', 'Cash flow covers the must-pay debt every year 1 to 15', short.length ? 'look' : 'pass', short.length ? 'Short in ' + short.length + ' year(s); the operating reserve or the sponsor covers it.' : '');
-    }
+    var drawnLabel = 'Cash flow covers the must-pay debt every year 1 to 15';
+    var known15 = function (v) { return v !== null && v !== undefined && Number.isFinite(v); };
+    var first15 = (years || []).slice(0, 15);
+    var measured = first15.filter(function (y) { return y && known15(y.noi) && known15(y.mustPayDebtService); });
+    var short = measured.filter(function (y) { return y.noi < y.mustPayDebtService - 0.5; });
+    // A shortfall in any measured year is worth a look; a pass needs all 15 years measured.
+    if (short.length) add('reserve_drawn', drawnLabel, 'look', 'Short in ' + short.length + ' year(s); the operating reserve or the sponsor covers it.');
+    else if (measured.length < 15) add('reserve_drawn', drawnLabel, 'na', 'Only ' + measured.length + ' of the 15 years can be measured with these inputs (check the projection years and growth rates).');
+    else add('reserve_drawn', drawnLabel, 'pass', '');
     add('market_test', 'Capture and penetration under the healthy lines', 'na', 'Run a market check for this place: capture is worked out there, not in the calculator.');
     var counts = { pass: 0, look: 0, fail: 0, na: 0 };
     items.forEach(function (i) { counts[i.status]++; });
