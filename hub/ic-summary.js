@@ -338,9 +338,14 @@
       var prev = i ? amiRows[i - 1] : null, lo = prev ? prev.band.replace('% AMI', '') : null;
       var hh = r.hh == null || (prev && prev.hh == null) ? null : r.hh - (prev ? prev.hh : 0);
       var u = r.units == null || (prev && prev.units == null) ? null : r.units - (prev ? prev.units : 0);
-      return { band: (lo ? lo + '–' : 'Up to ') + r.band, rent: r.rent, hh: hh, units: u, gap: hh != null && u != null ? hh - u : null };
+      return { band: (lo ? lo + '–' : 'Up to ') + r.band, rent: r.rent, hh: hh, units: u, gap: r.short };
     });
-    var gapText = function (v) { return v == null ? '—' : v > 0 ? num(v) + ' short' : v < 0 ? num(-v) + ' extra homes' : 'Even'; };
+    // Short counts everyone at or below the band's top income and never falls as the band widens (the site's rule, as
+    // on the Deal Calculator): homes priced above what lower incomes can pay do not close their shortfall, and a band's
+    // own count difference is not a shortage when cheaper homes are left over (Codex on #2997).
+    var most = null;
+    bandRows.forEach(function (r) { if (r.gap != null) { most = most == null ? r.gap : Math.max(most, r.gap); r.gap = most; } });
+    var gapText = function (v) { return v == null ? '—' : v > 0 ? num(v) + ' short' : 'None'; };
 
     // Tax credit properties: in the place by city name, in the county, and, for a town, within 15 miles of its
     // middle. A county lists its own properties instead: one point cannot stand for a whole county.
@@ -434,14 +439,14 @@
       metric('Renters paying 30%+', pct1(m.pct_cost_burdened)) + metric('Households renting', pct1(m.pct_renters)) +
       metric('Homes needed in 20 years', num(m.future_units_needed_20yr), m.incommuter_need_units != null ? num(m.future_units_growth_20yr) + ' for growth, ' + num(m.incommuter_need_units) + ' for in-commuters' : '') + '</div>' +
       T.source('HNA ranking: Census ACS, State Demography Office, HUD CHAS, LEHD', '#/place/' + g, String(d.ranking.metadata.generatedAt).slice(0, 10)) +
-      '<h2>Demand by income</h2>' + (amiRows.length ? UI.table('ic-ami', 'Renters in each income band against the homes priced for that band', [
+      '<h2>Demand by income</h2>' + (amiRows.length ? UI.table('ic-ami', 'Renters and homes in each income band, and the shortage up to it', [
         { key: 'band', label: 'Income band' },
-        { key: 'gap', label: 'Short or extra', num: true, fmt: gapText, tip: 'Renter households in the band less homes priced for the band. Extra homes in a higher band cannot house renters below it: they cannot pay those rents.' },
-        { key: 'hh', label: 'Renter households', num: true, fmt: num }, { key: 'units', label: 'Homes priced for them', num: true, fmt: num },
+        { key: 'gap', label: 'Short, everyone up to this income', num: true, fmt: gapText, tip: 'Renter households up to the band’s top income less the homes priced for them. It never falls as the band widens: homes priced above what lower incomes can pay do not close their shortfall.' },
+        { key: 'hh', label: 'Renters in this band', num: true, fmt: num }, { key: 'units', label: 'Homes priced for this band', num: true, fmt: num },
         { key: 'rent', label: 'Rent the top of the band can pay', num: true, fmt: money }
       ], bandRows, { noun: 'income bands', placeholder: 'Income' }) + '<p class="note metric-source">' + esc(survey) + ' with HUD ' + esc(d.amiPlace.meta.hud_income_limits_year) + ' income limits for ' + esc(cname) + '. ' +
-        'Each row is one band. Extra homes in a higher band do not help the renters below it, who cannot pay those rents' +
-        (at60 && at60.short != null ? '. Counting every band up to 60% AMI together: ' + gapText(at60.short) + '.' : '.') + ' A home priced for a band may be rented by someone who earns more, so short is a minimum.</p>' :
+        'Renters and homes are counted in each band. Short counts everyone up to the band’s top income and never falls as the band widens: homes priced above what lower incomes can pay do not close their shortfall. ' +
+        'A home priced for a band may be rented by someone who earns more, so short is a minimum.</p>' :
         '<p class="note">No income-band figures on file for ' + esc(name) + '.</p>') +
       '<h2>Workers and commuting</h2><div class="metrics">' + (f ? '' : metric('People who commute in', num(m.in_commuters))) + metric('Jobs held by in-commuters', pct1(m.commute_ratio), 'Of all jobs here') + metric('Low-wage jobs here', num(m.local_low_wage_jobs), 'Paying $1,250 a month or less') + '</div>' +
       commute() +
