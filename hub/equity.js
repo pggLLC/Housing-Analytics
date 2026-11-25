@@ -454,7 +454,7 @@
     if (!T || !T.summary) return lawWatchFull(law);
     var figs = Object.keys(STATUS).map(function (k) { var n = e.filter(function (x) { return x.status === k; }).length; return n ? { value: String(n), label: STATUS[k].toLowerCase() } : null; }).filter(Boolean);
     var named = e.filter(function (x) { return x.status === 'enacted'; }).sort(function (a, b) { return String(b.effective_date || '') < String(a.effective_date || '') ? -1 : 1; }).slice(0, 3).map(function (x) { return x.title; });
-    return T.summary({ from: 'Legislation', href: '#/legislation', title: e.length + ' laws and rules that move tax credit prices',
+    return T.summary({ from: 'Legislation', href: '#/legislation', title: e.length + ' of the ' + law.entries.length + ' laws and rules COHO tracks ' + (scopes ? 'bear on the credits this page covers' : 'move tax credit prices'),
       figures: figs, more: named.length ? 'Newest in effect: ' + named.join('; ') + '. Each one, with what it does to prices and its official source, is on Legislation.' : null,
       source: 'Official federal and Colorado sources, checked ' + day(m.last_verified) + '; next review by ' + day(m.review_by) });
   }

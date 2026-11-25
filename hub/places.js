@@ -275,25 +275,50 @@
   // Gemini round 10, pick B (paul 11-05): the affordability ladder, a strip under 200 px for the first phone
   // screen. Homes priced for renters per 100 renter households, at or below 30%, 50%, 80% and 100% AMI, read from
   // the same cumulative bands as the chart below it, with each value written on its bar (round 10, pick A).
-  function ladder(f) {
+  // paul, 25 Nov ("Add HUD bar + plain headline", after reading Bayfield's 167 per 100 at 50% AMI as enough homes):
+  // the Census bars count every rental priced for the band, whoever rents it. hud, when given, is the place's HUD
+  // CHAS affordable-and-available record (data/hna/chas_affordable_available.json, read by site/hna.js hudRecord):
+  // a second bar at 30, 50 and 80% AMI counts only homes these renters can get, and leads the headline. Its
+  // shortfall is homes_short_nested, which never falls as the band widens (Codex on HA #2997). A price bar at or
+  // over 100 is not drawn green: priced is not available.
+  function ladder(f, hud) {
     var steps = (f.bands || []).filter(function (b) { return ['30', '50', '80', '100'].indexOf(String(b.band)) > -1 && b.households > 0 && b.homes != null; });
     if (steps.length < 2) return '';
     var name = f.rec && f.rec.place_name ? f.rec.place_name.replace(/ (town|city|CDP)$/, '') : 'This place';
     var per = function (b) { return Math.round(b.homes / b.households * 100); };
+    var ok = function (x) { return typeof x === 'number' && isFinite(x) && x >= 0; };
+    var H = function (band) {
+      var x = hud && hud.tiers && hud.tiers[String(band)];
+      return x && ok(x.renter_households) && x.renter_households > 0 && ok(x.affordable_available_homes) ? x : null;
+    };
+    var hShort = function (x) { return ok(x.homes_short_nested) ? x.homes_short_nested : ok(x.homes_short) ? x.homes_short : null; };
+    var hudRows = ['30', '50', '80'].map(function (k) { var x = H(k); return x && hShort(x) != null ? { band: k, x: x, short: hShort(x) } : null; }).filter(Boolean);
+    var worst = hudRows.reduce(function (a, r) { return r.short > 0 && (!a || r.short >= a.short) ? r : a; }, null);
     var first = steps[0], short = first.households - first.homes;
-    var finding = name + ': ' + per(first) + ' homes for every 100 renter households at or below 30% AMI' + (short > 0 ? ', ' + num(short) + ' short' : '');
-    var src = 'Census ACS 2020\u20132024, HUD FY2026 income limits';
-    return '<figure class="ladder" aria-label="' + esc((global.LabTpl && global.LabTpl.alt || function (f, s) { return f + '. Source: ' + s + '.'; })(finding, 'Census ACS, HUD')) + '">' +
+    var priced = per(first) + ' homes for every 100 renter households at or below 30% AMI' + (short > 0 ? ', ' + num(short) + ' short' : '');
+    var finding = worst ? name + ': about ' + num(worst.short) + ' rental homes short for renters up to ' + worst.band + '% AMI, counting only homes these renters can get (HUD). On price alone, ' + priced + '.'
+      : hudRows.length ? name + ': ' + priced + ' on price; HUD finds no shortfall of homes these renters can get, up to ' + hudRows[hudRows.length - 1].band + '% AMI.'
+      : name + ': ' + priced;
+    var hv = hud && hud.vintage ? hud.vintage : '';
+    var srcs = [['Census ACS 2020–2024', SRC.acsGap], ['HUD FY2026 income limits', SRC.hudIl]].concat(hudRows.length ? [['HUD CHAS ' + hv, SRC.chas]] : []);
+    var w = function (v) { return Math.min(100, v / 1.5).toFixed(1); };
+    return '<figure class="ladder' + (hudRows.length ? ' has-hud' : '') + '" aria-label="' + esc((global.LabTpl && global.LabTpl.alt || function (f, s) { return f + '. Source: ' + s + '.'; })(finding, hudRows.length ? 'Census ACS, HUD CHAS' : 'Census ACS, HUD')) + '">' +
       '<figcaption><strong>' + esc(finding) + '</strong></figcaption>' +
       // "Homes short" as dots (Gemini round 5, question 19; big visual pass 11-06): 100 renter households at or below
       // 30% AMI, filled where a home is priced for them. Desktop only; the bars carry the same figure on a phone.
       '<div class="ladder-dots" aria-hidden="true"><span class="ld-grid">' + (function () { var k = Math.min(100, per(first)), o = ''; for (var i = 0; i < 100; i++) o += '<i' + (i < k ? ' class="on"' : '') + '></i>'; return o; })() + '</span>' +
-      '<span class="ld-key"><span><i class="on"></i>a home priced for them</span><span><i></i>no home priced for them</span><span>per 100 renter households, \u226430% AMI</span></span></div>' +
+      '<span class="ld-key"><span><i class="on"></i>a home priced for them</span><span><i></i>no home priced for them</span><span>per 100 renter households, ≤30% AMI</span></span></div>' +
       '<ul class="ladder-rows" aria-hidden="true">' + steps.map(function (b) {
-        var v = per(b), gap = b.households - b.homes;
-        return '<li><span class="ladder-l">\u2264' + esc(String(b.band)) + '% AMI</span><span class="ladder-t"><span class="ladder-b' + (v < 100 ? ' is-short' : '') + '" style="width:' + Math.min(100, v / 1.5).toFixed(1) + '%"></span><span class="ladder-100" title="100 homes per 100 renters"></span></span>' +
-          '<span class="ladder-v"><b>' + v + '</b> per 100' + (gap > 0 ? ' \u00b7 ' + esc(num(gap)) + ' short' : '') + '</span></li>';
-      }).join('') + '</ul><p class="metric-source">Homes priced for renters per 100 renter households, at or below each income, whoever rents them; the black tick is 100. HUD\u2019s count of homes affordable and available to these renters is under What households can afford. ' + srcLine([['Census ACS 2020\u20132024', SRC.acsGap], ['HUD FY2026 income limits', SRC.hudIl]]) + '</p></figure>';
+        var v = per(b), gap = b.households - b.homes, x = H(b.band), hs = x ? hShort(x) : null;
+        var hp = x ? Math.round(x.affordable_available_homes / x.renter_households * 100) : null;
+        return '<li><span class="ladder-l">≤' + esc(String(b.band)) + '% AMI</span><span class="ladder-t"><span class="ladder-b' + (v < 100 ? ' is-short' : ' is-priced') + '" style="width:' + w(v) + '%"></span><span class="ladder-100" title="100 homes per 100 renters"></span></span>' +
+          '<span class="ladder-v"><b>' + v + '</b> per 100 priced' + (gap > 0 ? ' · ' + esc(num(gap)) + ' short' : '') + '</span>' +
+          (x ? '<span class="ladder-t ladder-t-hud"><span class="ladder-b ladder-b-hud' + (hp < 100 ? ' is-short' : '') + '" style="width:' + w(hp) + '%"></span><span class="ladder-100"></span></span>' +
+            '<span class="ladder-v ladder-v-hud"><b>' + hp + '</b> per 100 they can get' + (hs > 0 ? ' · ' + esc(num(hs)) + ' short' + (ok(x.homes_short) && hs > x.homes_short ? ', counting the gap at lower incomes' : '') : '') + ' (HUD)</span>' : '') + '</li>';
+      }).join('') + '</ul>' + (hudRows.length ? '<p class="note ladder-note">Over 100 on price means homes at that price exist, not that these renters can get them: higher-income households rent many. The thinner bar counts only homes vacant or rented by renters at that income.</p>' : '') + '<p class="metric-source">' + (hudRows.length
+        ? 'Thick bar: homes priced for renters per 100 renter households at or below each income, whoever rents them (Census). Thin bar: homes affordable and available to those renters, vacant or rented by them (HUD CHAS, at 30, 50 and 80% AMI; its shortfall never falls as the income band widens). Small places carry wide margins. The black tick is 100. '
+        : 'Homes priced for renters per 100 renter households, at or below each income, whoever rents them; over 100 means homes at that price exist, not that these renters can get them. The black tick is 100. HUD’s count of homes affordable and available to these renters is under What households can afford. ') +
+      srcLine(srcs) + '</p></figure>';
   }
 
   function useHref(entry) {
@@ -464,7 +489,7 @@
         // counted" note are in that section.
         (aa30 ? T.summary({ from: 'Colorado deep dive: renters, owners and homes, statewide', href: '#/places/deep-dive?tab=need&at=dd-fvn-ami',
           figures: [{ value: num(aa30.homes_short), label: 'Homes short for renters at or below 30% AMI, Colorado', tenure: 'Renters' },
-            buyShort ? { value: '$' + num(buyShort), label: 'More income a typical renter household needs to buy Colorado’s typical home', tenure: 'Owners' } : null],
+            buyShort ? { value: '$' + num(buyShort), label: 'More a year than a typical renter household earns, to buy Colorado’s typical home', tenure: 'Buying a home' } : null],
           source: 'HUD CHAS ' + (aaYears || '') + (buyShort ? '; ACS ' + ((tf.meta && tf.meta.vintage) || '') + ' B25119 and B25077' : ''), sourceHref: 'https://www.huduser.gov/portal/datasets/cp.html',
           more: 'The statewide counts for renters and owners, both ways of counting renters, and why there is no “homes short” figure for buyers.' }) : '') +
         '<h2>Where renters at or below 30% AMI most outnumber the homes priced for them</h2>' +

@@ -93,7 +93,7 @@
     return T.head({
       kind: 'data', crumbs: crumbs('Deal summaries'), title: 'Deal summaries',
       answer: 'One sourced summary per Colorado housing tax credit award: the homes, who they serve, the public money and what is still open.',
-      meta: '<span class="scope-tag">Scope: CHFA awards</span> Researched through ' + esc(latest) + ' from public records. Each summary lists its own dated sources.',
+      meta: '<span class="scope-tag">Scope: CHFA awards</span> Researched through ' + esc(latest) + ' from public records. Each summary lists its own dated sources. A few deals have both 9% and 4% credits or neither, so those two counts do not add to the total.',
       facts: [
         { value: UI.num(all.length), label: 'Summaries so far', source: 'COHO deal summaries', href: LIVE },
         { value: UI.num(homes), label: 'Homes in them', source: 'CHFA award reports', href: AWARDS },

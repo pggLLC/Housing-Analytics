@@ -377,7 +377,7 @@ def build_subtitle(place_chas: dict, cross_county: dict | None) -> str:
     if total > 0:
         parts.append(f"~{int(round(total)):,} households")
     if cb30 > 0 and renters >= MIN_HH_FOR_RATE:
-        parts.append(f"renter cost-burden {cb30*100:.1f}%")
+        parts.append(f"renter cost-burden {cb30*100:.1f}% (HUD CHAS 2018-22)")
     if cross_county and len(cross_county.get('all_counties', [])) > 1:
         parts.append('cross-county jurisdiction')
     return ' · '.join(parts) if parts else 'Colorado place'

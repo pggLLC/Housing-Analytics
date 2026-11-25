@@ -878,7 +878,7 @@
     var srcHits = q ? srcs.filter(function (s) { var hay = fold((s.name || '') + ' ' + (s.provider || '') + ' ' + (s.category || '') + ' ' + (s.id || '')); return words.every(function (w) { return hay.indexOf(w) > -1; }); }) : [];
     var places = records.filter(function (r) { return r.kind; }).length, terms = records.filter(function (r) { return r.tag; }).length;
     var body = !q ? '<p class="count">Type a place (for example Silt), a topic (LIHTC, AMI, rent burden) or a page name. ' + (records.length - places - terms) + ' pages, ' +
-        (terms ? terms + ' glossary terms, funding programs, research briefs and method notes, ' : '') + places + ' places and counties' + (srcs.length ? ', and ' + srcs.length + ' data sources' : '') + '.</p>' +
+        (terms ? terms + ' terms, funding programs, research briefs and method notes, ' : '') + places + ' places and counties' + (srcs.length ? ', and ' + srcs.length + ' data sources' : '') + '.</p>' +
         '<p class="note">Try: <a href="#/search?q=Silt">Silt</a> · <a href="#/search?q=LIHTC">LIHTC</a> · <a href="#/search?q=AMI">AMI</a> · <a href="#/search?q=preservation">preservation</a></p>'
       : '<p class="count" role="status">' + (hits.length + srcHits.length === 0 ? 'No matches. Try fewer words.' : (hits.length ? hits.length + (hits.length === 1 ? ' result' : ' results') : '') + (hits.length && srcHits.length ? ' and ' : '') + (srcHits.length ? srcHits.length + (srcHits.length === 1 ? ' data source' : ' data sources') : '') + '.') + '</p>' +
         (hits.length ? '<h2>Pages, places and terms</h2><ul class="route-list">' + hits.slice(0, 50).map(function (r) {

@@ -109,12 +109,12 @@
       return '<span class="ms-unavailable">Assistance comparison unavailable</span>';
     }
     if (row.assistanceRangeCheck === 'sufficient') {
-      return '<strong>Gap covered</strong><span class="ms-assistance-qualifier">sufficient at the top of the available assistance range</span>';
+      return '<strong>Gap covered</strong><span class="ms-assistance-qualifier">with the most down-payment help on offer</span>';
     }
     var gap = Math.max(0, row.gapVsLocalPrice);
     var maximumAssistance = assistance.range[1];
     var residual = Math.max(0, gap - maximumAssistance);
-    return `<strong class="ms-assistance-residual">Short by ${display(residual, 'money')}</strong><span class="ms-assistance-qualifier">insufficient at the top of the available assistance range</span>`;
+    return `<strong class="ms-assistance-residual">Still ${display(residual, 'money')} short</strong><span class="ms-assistance-qualifier">even with the most down-payment help on offer</span>`;
   }
   function studyJurisdiction(data) {
     var geography = data && data.geography;

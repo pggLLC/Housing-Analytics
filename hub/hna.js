@@ -2518,7 +2518,7 @@
     }[tab]();
     // Gemini round 10, pick A (paul 11-05): a strip under 200 px right after the chapter's question, so a phone's
     // first screen carries a graphic. Overview: the affordability ladder. What to do: the 20-year need, by part.
-    var strip = tab === 'overview' && place && Pl.ladder ? Pl.ladder(place) : tab === 'action' ? needStrip() : '';
+    var strip = tab === 'overview' && place && Pl.ladder ? Pl.ladder(place, hudRecord()) : tab === 'action' ? needStrip() : '';
     // The page lifts the strip to just under its head (see the place view below), so it shows on the first screen.
     var intro = (strip ? '<!--first-strip-->' + strip + '<!--/first-strip-->' : '') + '<div class="chapter-intro"><p class="chapter-ask">' + esc(ASKS[tab]) + '</p>' +
       (finding ? '<p class="chapter-finding">' + esc(finding) + '</p>' : '') + '</div>';

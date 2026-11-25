@@ -185,7 +185,7 @@
         { value: num(meta.totalCounties), label: 'Counties', source: 'HNA ranking', href: RANK_SRC },
         { value: num(meta.totalPlaces), label: 'Towns and cities', source: 'HNA ranking', href: RANK_SRC },
         { value: num(meta.totalCDPs), label: 'CDPs', source: 'HNA ranking', href: RANK_SRC },
-        { value: num(meta.medianHousingGap), label: 'Median homes short', source: 'HNA ranking', href: RANK_SRC }
+        { value: num(meta.medianHousingGap), label: 'Homes short for renters at or below 30% AMI, in the middle place', source: 'HNA ranking', href: RANK_SRC }
       ]
     }) +
       '<h2>The ten places ranked highest' + (lensOn ? ' (official ranking)' : '') + '</h2>' + topTen(top, max, rows.length) +
@@ -649,7 +649,7 @@
       facts: [
         { value: num(cov.any_records), label: 'Jurisdictions with a record', source: 'Local incentives, ' + meta.as_of, href: LI_SRC },
         { value: num(cov.jurisdictions), label: 'Counties and municipalities', source: 'HNA geography list', href: LI_SRC },
-        { value: num(cov.by_scope.fees.records), label: 'With fee relief on record', source: 'Local incentives, ' + meta.as_of, href: LI_SRC },
+        { value: num(cov.by_scope.fees.records), label: 'With any kind of fee relief on record', source: 'Local incentives, ' + meta.as_of, href: LI_SRC },
         { value: num(cov.by_scope.fees.not_checked), label: 'Not checked yet for fees', source: 'Local incentives, ' + meta.as_of, href: LI_SRC }
       ]
     }) +
@@ -963,7 +963,7 @@
       meta: '<span class="scope-tag">Scope: United States and Colorado</span> Material prices are national: Colorado has no state series for construction inputs. Pay, jobs and trade wages are Colorado.',
       facts: [
         { value: '+' + Math.round(rise) + '%', label: 'Since January 2020', source: 'BLS via FRED', href: fredUrl },
-        { value: String(Math.round(pts[pts.length - 1][1])), label: 'Index, ' + when, source: 'BLS via FRED', href: fredUrl },
+        { value: String(Math.round(pts[pts.length - 1][1])), label: 'Price index (January 2020 = 100), ' + when, source: 'BLS via FRED', href: fredUrl },
         { value: String(events.length), label: 'Events marked', source: 'Policy timeline', href: COST_SRC }
       ]
     }) + chart + means + tariffs +
