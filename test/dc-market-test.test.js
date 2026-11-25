@@ -103,6 +103,20 @@ async function test(name, fn) {
     assert.ok(wide.value > cnt.pool[60]);
   });
 
+  await test('a step-down is tested for the sizes of the homes that would move (Codex P1 on #3016)', () => {
+    const fips = '08077';
+    const tracts = Object.keys(data.demand.tracts).filter((g) => g.slice(0, 5) === fips);
+    const h = M.homesFrom([{ tier: 30, bedrooms: '1BR', units: 6 }, { tier: 60, bedrooms: '2BR', units: 100 }]);
+    const cnt = M.countRenters(E, data, tracts, M.bandsFor(data.limits.counties.find((c) => c.fips === fips), h.byBand), h.sizesByBand, h.bedrooms);
+    const chk = M.captureCheck(h.byBand, cnt.pool, { sizesByBand: h.sizesByBand, poolFor: cnt.poolFor });
+    const sixty = chk.rows.find((r) => r.band === 60);
+    assert.notEqual(sixty.level, 'good');
+    // Whatever band it names, the 100 two-bedrooms there stay at 10% of that band's renters a two-bedroom fits.
+    if (sixty.down) assert.ok(100 / cnt.poolFor(sixty.down.band, ['2br']) <= M.GOOD + 1e-9, JSON.stringify(sixty.down));
+    // Counting every size the deal offers at 50% would have promised a move there.
+    assert.ok(100 / cnt.poolFor(50, ['1br', '2br']) <= M.GOOD && 100 / cnt.poolFor(50, ['2br']) > M.GOOD);
+  });
+
   // The panel's state must agree with the capture check run here on the same homes and county, for a deal that
   // passes and one that does not (Codex P1 on #3016: no fixed wording is pinned).
   async function pageCase(name, homes) {

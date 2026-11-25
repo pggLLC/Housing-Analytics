@@ -61,7 +61,12 @@
   // The same check as the deal hub (hub/start-numbers.js captureCheck; test/dc-market-test.test.js holds them equal):
   // each band's share of its renters, the renters a 10% share needs, and for a weak band the next band down that
   // stays at 10% with these homes added.
-  function captureCheck(byBand, pool) {
+  // step (optional): { sizesByBand, poolFor(band, sizes) }. With it, a lower band is tested for the sizes of the
+  // homes that would move there together with the sizes already there, so a 60% two-bedroom moved to 50% is
+  // counted against 50% renters a two-bedroom fits (Codex P1 on HA #3016). Without it, as the hub counts.
+  function captureCheck(byBand, pool, step) {
+    var sizesAt = {};
+    if (step) Object.keys(step.sizesByBand || {}).forEach(function (b) { sizesAt[b] = (step.sizesByBand[b] || []).slice(); });
     var bands = Object.keys(byBand).map(Number).filter(function (b) { return byBand[b] > 0; }).sort(function (a, b) { return a - b; });
     var load = {}; Object.keys(pool).forEach(function (b) { load[b] = byBand[b] || 0; });
     var rows = bands.map(function (b) {
@@ -73,7 +78,16 @@
       var lower = Object.keys(pool).map(Number).filter(function (l) { return l < r.band; }).sort(function (a, b) { return b - a; });
       for (var i = 0; i < lower.length; i++) {
         var l = lower[i];
-        if (pool[l] > 0 && (load[l] + r.homes) / pool[l] <= GOOD) { load[l] += r.homes; r.down = { band: l, share: load[l] / pool[l] }; return; }
+        var q = pool[l], merged = null;
+        if (step) {
+          merged = ['0br', '1br', '2br', '3br'].filter(function (k) { return (sizesAt[l] || []).indexOf(k) >= 0 || (sizesAt[r.band] || []).indexOf(k) >= 0; });
+          q = step.poolFor(l, merged);
+        }
+        if (q > 0 && (load[l] + r.homes) / q <= GOOD) {
+          load[l] += r.homes; r.down = { band: l, share: load[l] / q };
+          if (merged) sizesAt[l] = merged;
+          return;
+        }
       }
     });
     return { rows: rows, weak: rows.filter(function (r) { return r.level !== 'good'; }) };
@@ -110,14 +124,21 @@
     var idx = {}; ((data.acs && data.acs.tracts) || []).forEach(function (m) { idx[m.geoid] = m; });
     var opts = { acsIdx: Object.keys(idx).length ? idx : null, sizeIdx: data.sizes && data.sizes.tracts ? data.sizes.tracts : null };
     var tl = tracts.filter(function (g) { return data.demand.tracts && data.demand.tracts[g]; }).map(function (g) { return { geoid: g }; });
-    var pool = {}, bySize = {}, all = bedrooms && bedrooms.length ? bedrooms : undefined;
+    var pool = {}, bySize = {}, all = bedrooms && bedrooms.length ? bedrooms : undefined, memo = {};
+    // Renters who qualify for one band, for the given sizes (none: the engine's 1-3BR default), counted once.
+    function count(b, br) {
+      var k = b + '|' + (br || []).join(',');
+      if (!(k in memo)) memo[k] = E.chfaQualifiedRenters(data.demand, limits, tl, [b], br && br.length ? br : undefined, opts);
+      return memo[k];
+    }
     bands.forEach(function (b) {
-      var own = sizesByBand && sizesByBand[b], br = own ? (own.length ? own : undefined) : all;
-      var q = E.chfaQualifiedRenters(data.demand, limits, tl, [b], br, opts);
+      var own = sizesByBand && sizesByBand[b], br = own ? own : all;
+      var q = count(b, br);
       pool[b] = q && q.value > 0 ? q.value : 0;
       if (own) bySize[b] = (q && q.byBedroom) || {};
     });
-    return { pool: pool, bySize: bySize, tracts: tl.length };
+    return { pool: pool, bySize: bySize, tracts: tl.length,
+      poolFor: function (b, br) { var q = count(b, br); return q && q.value > 0 ? q.value : 0; } };
   }
 
   // The bands a weak band can step down to (the unit grid's bands up to 80% that CHFA's table carries for the
@@ -244,7 +265,7 @@
     var ck = [c.fips, area.key, bands.join(','), JSON.stringify(h.sizesByBand), h.bedrooms.join(',')].join('|');
     if (!last || last.key !== ck) last = { key: ck, cnt: countRenters(E, data, area.tracts, bands, h.sizesByBand, h.bedrooms) };
     var cnt = last.cnt;
-    var chk = captureCheck(h.byBand, cnt.pool);
+    var chk = captureCheck(h.byBand, cnt.pool, { sizesByBand: h.sizesByBand, poolFor: cnt.poolFor });
     body.innerHTML = render(h, area, cnt, chk, c.name, areas, area.key, c.fips);
     flag.textContent = chk.weak.length ? 'Weak in the ' + list(chk.weak.map(function (x) { return x.band + '%'; })) + ' band' + (chk.weak.length === 1 ? '' : 's') : 'Every band at 10% or less';
     flag.setAttribute('data-weak', chk.weak.map(function (x) { return x.band; }).join(','));
