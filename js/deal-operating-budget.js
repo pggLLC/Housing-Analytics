@@ -69,6 +69,52 @@
   });
   var EXAMPLE_INCOME = Object.freeze({ parking: 0, laundry: 0, fees: 0 });
 
+  // Workbook piece 4 (paul, 25 Nov 2026): typical shares of a rural Colorado family property's operating budget
+  // before the replacement reserve, from the dossier deal workbooks' shared standard, mapped onto the lines above.
+  // They are a starting split of a per-home total, not a benchmark; the manager's budget replaces them.
+  // Workbook lines folded together: salaries = management salaries + both payroll taxes; legal and accounting;
+  // utilities = common electricity + water + sewer + gas; maintenance contracts = maintenance salaries + contracts
+  // + decorating + repairs; grounds = grounds + snow removal.
+  var WORKBOOK_SHARES = Object.freeze({
+    management_fee: 0.12, admin_salaries: 0.13, legal_accounting: 0.03, advertising: 0.005,
+    office_supplies: 0.01, telephone: 0.01, audit: 0, admin_other: 0,
+    utilities: 0.145, trash: 0.03, operating_other: 0,
+    maint_supplies: 0.03, maint_contracts: 0.195, extermination: 0.01, grounds: 0.065, maint_other: 0,
+    insurance: 0.09, other_other: 0, real_estate_taxes: 0.13
+  });
+
+  /** Fill the lines you have not typed from a per-home total (before the replacement reserve, taxes included),
+   * split by WORKBOOK_SHARES. Typed lines are kept and come off the total first; the rest is shared out among the
+   * other lines in proportion to their shares, so the lines add to the total. Whole dollars; the rounding goes to
+   * the largest filled line. `typed` lists the line ids to keep with their amounts ({ id: amount }).
+   * Returns { fills: { id: amount }, kept, keptTotal, total, reason } and never fills when it cannot add up. */
+  function fillFromTotal(totalPerHome, typed) {
+    var out = { fills: {}, kept: [], keptTotal: 0, total: null, reason: null };
+    var total = num(totalPerHome);
+    if (total === null || !Number.isFinite(total) || total <= 0) { out.reason = 'Enter a total above $0 a home a year.'; return out; }
+    out.total = total;
+    var kept = typed || {};
+    var open = [];
+    Object.keys(WORKBOOK_SHARES).forEach(function (id) {
+      if (Object.prototype.hasOwnProperty.call(kept, id)) {
+        var v = num(kept[id]);
+        out.kept.push(id); out.keptTotal += (v !== null && Number.isFinite(v)) ? v : 0;
+      } else open.push(id);
+    });
+    var rest = total - out.keptTotal;
+    var shareSum = open.reduce(function (a, id) { return a + WORKBOOK_SHARES[id]; }, 0);
+    if (!open.length || shareSum <= 0) { out.reason = 'Every line with a typical share is already typed, so there is nothing to fill.'; return out; }
+    if (rest < 0) { out.reason = 'The lines you typed already add to more than this total.'; return out; }
+    var largest = null, sum = 0;
+    open.forEach(function (id) {
+      var amount = Math.round(rest * WORKBOOK_SHARES[id] / shareSum);
+      out.fills[id] = amount; sum += amount;
+      if (largest === null || WORKBOOK_SHARES[id] > WORKBOOK_SHARES[largest]) largest = id;
+    });
+    out.fills[largest] += Math.round(rest) - sum;
+    return out;
+  }
+
   function exampleLines() {
     return LINE_TEMPLATE.map(function (t) {
       return { id: t.id, label: t.label, group: t.group, amount: EXAMPLE_BUDGET[t.id] };
@@ -195,7 +241,7 @@
 
   return {
     GROUPS: GROUPS, LINE_TEMPLATE: LINE_TEMPLATE, INCOME_TEMPLATE: INCOME_TEMPLATE, SEPARATE_LINES: SEPARATE_LINES,
-    EXAMPLE_BUDGET: EXAMPLE_BUDGET, EXAMPLE_INCOME: EXAMPLE_INCOME,
+    EXAMPLE_BUDGET: EXAMPLE_BUDGET, EXAMPLE_INCOME: EXAMPLE_INCOME, WORKBOOK_SHARES: WORKBOOK_SHARES, fillFromTotal: fillFromTotal,
     exampleLines: exampleLines, exampleIncome: exampleIncome,
     summarizeOperating: summarizeOperating, pupaExpenses: pupaExpenses,
     legacyOperatingFields: legacyOperatingFields, legacyOperatingProvenance: legacyOperatingProvenance,
