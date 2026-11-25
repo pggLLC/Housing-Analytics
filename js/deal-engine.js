@@ -382,6 +382,130 @@
     };
   }
 
+  // ---------------------------------------------------------------------------
+  // Size the homes (for-sale). For each bedroom count: the buyer household's
+  // income from CHFA's published limit for that household size, the most that
+  // household can pay (the caller's priceFor, which is OwnershipFinance
+  // .maxAffordablePrice on the page), the cost of a home of that size, the gap,
+  // and the largest home the price covers. Household size follows CHFA's rent
+  // convention of 1.5 people per bedroom (a studio is 1 person); a half person
+  // averages the two published limits either side. No cost is assumed: a blank
+  // cost input leaves cost, gap and largest home unknown (null) with a reason.
+  // ---------------------------------------------------------------------------
+  // Dated public build-cost references shown beside the sizing panel's cost box. They are never used as a
+  // default: the box stays blank. Amounts are construction cost per square foot of building only (no land,
+  // fees or soft costs), as each publisher prints them.
+  var FOR_SALE_COST_REFERENCES = [
+    { id: 'rlb-denver-single-family', place: 'Denver single-family homes', lowPerSf: 265, highPerSf: 515,
+      publisher: 'Rider Levett Bucknall', period: 'Q3 2026', year: 2026,
+      url: 'https://www.rlb.com/wp-content/uploads/sites/4/2026/09/Q3-2026-QCR.pdf' },
+    { id: 'rlb-denver-multifamily', place: 'Denver apartments', lowPerSf: 225, highPerSf: 415,
+      publisher: 'Rider Levett Bucknall', period: 'Q3 2026', year: 2026,
+      url: 'https://www.rlb.com/wp-content/uploads/sites/4/2026/09/Q3-2026-QCR.pdf' },
+    { id: 'nwccog-frisco-workforce', place: 'Mountain resort workforce homes in Frisco', lowPerSf: 556, highPerSf: 647,
+      publisher: 'NWCCOG Workforce Housing Report', period: '2023', year: 2023, older: true,
+      url: 'https://www.nwccog.org/wp-content/uploads/2023/10/23078-Workforce-Housing-Report_FF_web.pdf' }
+  ];
+  function forSaleCostReferenceHtml(refs) {
+    refs = refs || FOR_SALE_COST_REFERENCES;
+    function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    var parts = refs.map(function (r) {
+      return '<span data-cost-ref="' + esc(r.id) + '">' + esc(r.place) + ' $' + r.lowPerSf + '&ndash;$' + r.highPerSf + ' per sq ft (' +
+        '<a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + esc(r.publisher + ', ' + r.period) + '</a>' +
+        (r.older ? '; older figure' : '') + ')</span>';
+    });
+    return 'For reference, building cost only (no land, fees or soft costs): ' + parts.join('; ') +
+      '. No dated public figure was found for other regions, so enter your own.';
+  }
+  var SIZING_PERSONS_PER_BEDROOM = 1.5;
+  // A home size outside this range is still costed, with a warning (a typo such as 100 for 1,000 is the usual cause).
+  var SIZING_SF_RANGE = { min: 300, max: 4000 };
+  function sizingHouseholdSize(bedrooms) {
+    var b = +bedrooms;
+    if (!isFinite(b) || b < 0) return null;
+    return b === 0 ? 1 : b * SIZING_PERSONS_PER_BEDROOM;
+  }
+  function sizingIncome(limits, persons) {
+    if (!limits || persons == null) return null;
+    var lo = Math.floor(persons), hi = Math.ceil(persons);
+    var a = +limits[lo + 'p'], b = +limits[hi + 'p'];
+    if (!(a > 0) || !(b > 0)) return null;
+    return (a + b) / 2;
+  }
+  function sizingPositive(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var n = +v;
+    return isFinite(n) && n >= 0 ? n : null;
+  }
+
+  function sizeForSaleHomes(input) {
+    input = input || {};
+    var tiers = input.incomeLimitsByTier || null;
+    var priceFor = typeof input.priceFor === 'function' ? input.priceFor : null;
+    var hard = sizingPositive(input.buildCostPerSf);
+    if (hard === 0) hard = null;
+    var softPct = sizingPositive(input.softCostPct);
+    var land = sizingPositive(input.landPerHome);
+    var writeDown = sizingPositive(input.landWriteDownPerHome) || 0;
+    var hoa = sizingPositive(input.hoaMonthly) || 0;
+    var costMissing = [];
+    if (hard == null) costMissing.push('build cost per square foot');
+    if (softPct == null) costMissing.push('soft costs %');
+    if (land == null) costMissing.push('land and site work per home');
+    var netLand = land == null ? null : Math.max(0, land - writeDown);
+    var perSf = hard == null || softPct == null ? null : hard * (1 + softPct / 100);
+
+    var rows = (Array.isArray(input.rows) ? input.rows : []).map(function (row) {
+      var homes = Math.max(0, Math.round(+row.homes || 0));
+      var sqft = sizingPositive(row.sqft);
+      var amiPct = +row.amiPct;
+      var persons = sizingHouseholdSize(row.bedrooms);
+      var out = { bedrooms: +row.bedrooms, homes: homes, sqft: sqft, amiPct: amiPct, householdSize: persons,
+        income: null, maxPrice: null, costPerHome: null, gapPerHome: null, surplusPerHome: null,
+        largestSf: null, sizeWarning: null, reason: null };
+      var limits = tiers && tiers[String(amiPct)] && tiers[String(amiPct)].income_limits;
+      out.income = sizingIncome(limits, persons);
+      if (out.income == null) { out.reason = 'No CHFA income limit at ' + amiPct + '% for this county'; return out; }
+      if (!priceFor) { out.reason = 'The buyer price math did not load'; return out; }
+      var price = priceFor(out.income, { hoaMonthly: hoa });
+      out.maxPrice = isFinite(price) && price > 0 ? price : null;
+      if (out.maxPrice == null) { out.reason = 'A buyer at this income cannot carry a mortgage under these terms'; return out; }
+      if (perSf == null || netLand == null) { out.reason = 'Enter ' + costMissing.join(', ') + ' to see cost and gap'; return out; }
+      var room = out.maxPrice - netLand;
+      out.largestSf = room > 0 ? Math.floor(room / perSf) : 0;
+      if (sqft == null || sqft === 0) { out.reason = null; return out; }
+      if (sqft < SIZING_SF_RANGE.min || sqft > SIZING_SF_RANGE.max) {
+        out.sizeWarning = sqft.toLocaleString('en-US') + ' sq ft is outside the usual ' + SIZING_SF_RANGE.min + '\u2013' +
+          SIZING_SF_RANGE.max.toLocaleString('en-US') + ' sq ft for a home; check the size';
+      }
+      out.costPerHome = sqft * perSf + netLand;
+      out.gapPerHome = Math.max(0, out.costPerHome - out.maxPrice);
+      out.surplusPerHome = Math.max(0, out.maxPrice - out.costPerHome);
+      return out;
+    });
+
+    var counted = rows.filter(function (r) { return r.homes > 0; });
+    var complete = counted.length > 0 && counted.every(function (r) { return r.gapPerHome != null; });
+    var totalHomes = counted.reduce(function (s, r) { return s + r.homes; }, 0);
+    var totals = { homes: totalHomes, totalGap: null, totalCost: null, totalPrice: null, averageGapPerHome: null,
+      fundingStack: null, reason: null };
+    if (!counted.length) totals.reason = 'Enter how many homes of each size';
+    else if (!complete) totals.reason = 'Every home type with homes needs a size, your costs and an income limit';
+    else {
+      totals.totalGap = counted.reduce(function (s, r) { return s + r.gapPerHome * r.homes; }, 0);
+      totals.totalCost = counted.reduce(function (s, r) { return s + r.costPerHome * r.homes; }, 0);
+      totals.totalPrice = counted.reduce(function (s, r) { return s + r.maxPrice * r.homes; }, 0);
+      totals.averageGapPerHome = totals.totalGap / totalHomes;
+      totals.fundingStack = computeDeveloperOwnershipFundingStack({
+        subsidyGapPerUnit: totals.averageGapPerHome,
+        tdcPerUnit: totals.totalCost / totalHomes,
+        maxAffordableSalePrice: totals.totalPrice / totalHomes
+      }, { units: totalHomes, programs: input.developerFundingPrograms, countyFips: input.countyFips });
+    }
+    return { personsPerBedroom: SIZING_PERSONS_PER_BEDROOM, costPerSfAllIn: perSf, netLandPerHome: netLand,
+      landWriteDownPerHome: writeDown, hoaMonthly: hoa, costMissing: costMissing, rows: rows, totals: totals };
+  }
+
   function known(value) { return typeof value === 'number' && Number.isFinite(value); }
   // Must-pay debt service NOI could not cover stays in the loan balance; it is
   // not cash that left the project (DOH PR 4).
@@ -1931,7 +2055,7 @@
   }
 
   return { computeDeal: computeDeal, rentCutImpact: rentCutImpact, creditStackTotal: creditStackTotal, investorCapital: investorCapital, costPerGrossSf: costPerGrossSf,
-    computeForSaleFeasibility: computeForSaleFeasibility, computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack, computeDscrStressScenarios: computeDscrStressScenarios,
+    computeForSaleFeasibility: computeForSaleFeasibility, computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack, sizeForSaleHomes: sizeForSaleHomes, FOR_SALE_COST_REFERENCES: FOR_SALE_COST_REFERENCES, forSaleCostReferenceHtml: forSaleCostReferenceHtml, computeDscrStressScenarios: computeDscrStressScenarios,
     computeRentAchievability: computeRentAchievability, evaluateMinimumSetAside: evaluateMinimumSetAside,
     isLihtcCreditEligiblePct: isLihtcCreditEligiblePct, loanObligations: loanObligations, loanTerms: loanTerms, LOAN_TYPES: LOAN_TYPES };
 }));

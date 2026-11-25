@@ -605,8 +605,105 @@
       ' · ' + (source.source || 'rent-limit source unavailable') + ' ' + (source.tableYear == null ? 'date unavailable' : source.tableYear) +
       (source.effectiveDate ? ' · effective ' + source.effectiveDate : '');
   }
+  // Size the homes (for-sale): per bedroom count, the price a buyer at the target income can pay, the cost of a
+  // home that size, the gap and the largest home that works (DealEngine.sizeForSaleHomes). Owners only.
+  var SALE_SIZING_BEDROOMS = [1, 2, 3, 4];
+  function saleSizingCountyTiers() {
+    var counties = _chfaRentTable && Array.isArray(_chfaRentTable.counties) ? _chfaRentTable.counties : [];
+    var row = counties.filter(function (c) { return c.fips === _countyFips; })[0];
+    return row && row.regular_tiers ? row.regular_tiers : null;
+  }
+  function readSaleSizingInputs(doc) {
+    doc = doc || document;
+    function val(id) { var el = doc.getElementById(id); return el ? el.value : ''; }
+    // A row's income follows the page's Ownership Sale Target unless the row picks its own.
+    var target = parseFloat(val('dc-sale-target-ami')) || 80;
+    return {
+      rows: SALE_SIZING_BEDROOMS.map(function (b) {
+        var own = parseFloat(val('dc-size-ami-' + b));
+        return { bedrooms: b, homes: val('dc-size-homes-' + b), sqft: val('dc-size-sf-' + b), amiPct: isFinite(own) ? own : target };
+      }),
+      buildCostPerSf: val('dc-size-cost-sf'), softCostPct: val('dc-size-soft-pct'), landPerHome: val('dc-size-land'),
+      landWriteDownPerHome: val('dc-size-land-writedown'), hoaMonthly: val('dc-size-hoa')
+    };
+  }
+  function computeSaleSizing(input) {
+    var of = window.OwnershipFinance;
+    var priceFor = of && typeof of.maxAffordablePrice === 'function'
+      // The income passed is already the household's own limit, so it is used at 100% and the
+      // 4-person size factor (1.0) leaves it unchanged.
+      ? function (income, opts) { return of.maxAffordablePrice(income, 1, Object.assign({ householdSize: 4 }, opts || {})); }
+      : null;
+    return dealEngine().sizeForSaleHomes(Object.assign({}, input, {
+      incomeLimitsByTier: input && input.incomeLimitsByTier !== undefined ? input.incomeLimitsByTier : saleSizingCountyTiers(),
+      priceFor: priceFor, developerFundingPrograms: readDeveloperFundingPrograms(_developerOwnershipFunding), countyFips: _countyFips
+    }));
+  }
+  function renderSaleSizing() {
+    var mount = document.getElementById('dc-size-results');
+    if (!mount) return;
+    var of = window.OwnershipFinance;
+    var ref = document.getElementById('dc-size-cost-ref');
+    if (ref && !ref.firstChild) ref.innerHTML = dealEngine().forSaleCostReferenceHtml();
+    var terms = document.getElementById('dc-size-terms');
+    if (terms && of && of.MORTGAGE_RATE) {
+      var d = of.DEFAULTS || {};
+      terms.textContent = 'Buyer terms: ' + (of.MORTGAGE_RATE.rateAnnual * 100).toFixed(2) + '% 30-year rate (Freddie Mac, week of ' +
+        of.MORTGAGE_RATE.week + '), ' + Math.round((d.downPaymentRate || 0) * 100) + '% down, ' + Math.round((d.frontEndRatio || 0) * 100) +
+        '% of income for the payment, property tax ' + ((d.propertyTaxRate || 0) * 100).toFixed(2) + '% and insurance ' +
+        ((d.insuranceRate || 0) * 100).toFixed(2) + '% of the price a year (screening figures; the insurance rate is unconfirmed), mortgage insurance ' +
+        ((d.pmiRate || 0) * 100).toFixed(1) + '%. Household size: 1.5 people per bedroom (CHFA’s convention). Income limits: CHFA 2026, effective ' +
+        ((_chfaRentTable && _chfaRentTable.meta && _chfaRentTable.meta.effective_date) || 'date unavailable') + '.';
+    }
+    function fmt(n) { return n == null || !isFinite(n) ? '—' : '$' + Math.round(n).toLocaleString('en-US'); }
+    function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    if (!_countyFips) { mount.innerHTML = '<p style="margin:0;color:var(--muted);">Pick a county above to load its income limits.</p>'; return; }
+    var result = computeSaleSizing(readSaleSizingInputs());
+    var html = result.rows.map(function (r) {
+      var name = r.bedrooms + ' bed' + (r.homes > 0 ? ' × ' + r.homes : '') + ', ' + r.amiPct + '% AMI';
+      var parts = [];
+      if (r.maxPrice == null) parts.push('<span data-size="reason">' + esc(r.reason || 'Unavailable') + '</span>');
+      else {
+        parts.push('buyer can pay <strong data-size="price">' + fmt(r.maxPrice) + '</strong>');
+        if (r.largestSf != null) parts.push(r.largestSf > 0 ? 'works up to <strong data-size="largest">' + r.largestSf.toLocaleString('en-US') + ' sq ft</strong>'
+          : '<strong data-size="largest">land alone costs more than the buyer can pay</strong>');
+        if (r.costPerHome != null) {
+          parts.push(r.sqft.toLocaleString('en-US') + ' sq ft costs <strong data-size="cost">' + fmt(r.costPerHome) + '</strong>');
+          parts.push(r.gapPerHome > 0 ? 'gap <strong data-size="gap" style="color:var(--accent);">' + fmt(r.gapPerHome) + '</strong>'
+            : '<strong data-size="gap">no gap</strong>');
+        }
+      }
+      return '<p class="dc-size-out" data-bedrooms="' + r.bedrooms + '" style="margin:.25rem 0;"><span style="font-weight:700;color:var(--text);">' + esc(name) + ':</span> ' +
+        parts.join(' · ') + (r.sizeWarning ? '<br><span data-size="warning" style="color:var(--warn,#9a5b00);">⚠ ' + esc(r.sizeWarning) + '.</span>' : '') + '</p>';
+    }).join('');
+    if (result.costMissing.length) {
+      html += '<p data-size="needs-costs" style="margin:.3rem 0 0;color:var(--muted);">Enter ' + esc(result.costMissing.join(', ')) + ' below to see how big each home can be.</p>';
+    }
+    var t = result.totals;
+    if (t.totalGap != null) {
+      var stack = t.fundingStack || {};
+      html += '<p data-size="totals" style="margin:.45rem 0 0;padding-top:.35rem;border-top:1px solid var(--border);color:var(--text);">' +
+        '<strong>Total gap, ' + t.homes + ' homes: <span data-size="total-gap" style="color:var(--accent);">' + fmt(t.totalGap) + '</span></strong>' +
+        ' · counted funding (awarded only) <span data-size="counted">' + fmt(stack.appliedTotal) + '</span>' +
+        ' · still to find <strong data-size="still">' + fmt(stack.residualTotalGap) + '</strong></p>';
+      if (t.totalGap > 0) {
+        html += '<p style="margin:.35rem 0 .1rem;font-weight:700;color:var(--text);">Ways to close the gap</p>' +
+          '<ul data-size="ways" style="margin:0;padding-left:1.1rem;">' +
+          '<li>Build smaller: see “works up to” above.</li>' +
+          '<li>Land: a write-down, or a land trust or ground lease (land $0, lease in Change assumptions).</li>' +
+          '<li>Prop 123 grant (DOLA): up to $70,000 a home sold at or below 100% AMI, 30-year affordability, town must have filed its commitment. Counted only once awarded.</li>' +
+          '<li>Local housing funds and fee waivers for your county.</li></ul>' +
+          '<p style="margin:.25rem 0 0;color:var(--muted);">Not counted: CHFA down payment help goes to the buyer for cash to close and does not lower the cost to build. A home type that costs less than its buyer can pay does not cover another type’s gap.</p>';
+      } else html += '<p style="margin:.25rem 0 0;color:var(--muted);">No gap: every home type costs no more than its buyer can pay.</p>';
+    } else if (result.rows.some(function (r) { return r.homes > 0; })) {
+      html += '<p data-size="total-reason" style="margin:.3rem 0 0;color:var(--muted);">Total gap: ' + esc(t.reason) + '.</p>';
+    }
+    mount.innerHTML = html;
+  }
+
   function renderForSaleFeasibility(result) {
     result = result || {};
+    try { renderSaleSizing(); } catch (_) { /* the sizing panel never breaks the main result */ }
     function fmt(n) {
       return isFinite(n) ? ('$' + Math.round(n).toLocaleString('en-US')) : '—';
     }
@@ -3104,6 +3201,54 @@
           </div>
         </div>
 
+        <div id="dc-own-sizing" data-dc-mode="ownership" hidden style="margin-top:var(--sp3);padding:.6rem .75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);font-size:var(--tiny);line-height:1.45;">
+          <h3 style="margin:0;font-size:var(--small);">Size the homes for buyers (owners)</h3>
+          <p style="margin:.2rem 0 .45rem;color:var(--muted);">What a buyer at the sale target can pay for each home size, and how big the home can be. Add your costs to see the gap.</p>
+          <div id="dc-size-results" role="status" aria-live="polite">
+            <p style="margin:0;color:var(--muted);">Pick a county above to load its income limits.</p>
+          </div>
+          <p style="margin:.6rem 0 .1rem;font-weight:700;color:var(--text);">Your costs</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(6.5rem,1fr));gap:.35rem;align-items:start;">
+              <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Build $ per sq ft</span><input id="dc-size-cost-sf" type="number" min="0" step="5" inputmode="numeric" placeholder="Enter" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"></label>
+              <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Soft costs %</span><input id="dc-size-soft-pct" type="number" min="0" step="1" inputmode="numeric" placeholder="Enter" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"></label>
+              <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Land per home $</span><input id="dc-size-land" type="number" min="0" step="1000" inputmode="numeric" placeholder="Enter" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"></label>
+          </div>
+          <p id="dc-size-cost-ref" style="margin:.35rem 0 0;color:var(--muted);"></p>
+          <details id="dc-size-assumptions" style="margin-top:.5rem;border-top:1px solid var(--border);padding-top:.25rem;">
+            <summary style="cursor:pointer;min-height:44px;font-weight:700;color:var(--text);display:flex;align-items:center;">Change assumptions: home mix, sizes, land write-down, HOA</summary>
+            <p style="margin:.2rem 0 0;color:var(--muted);">Enter how many homes of each size and how big, to see the cost and gap for each and the total. Income uses the sale target unless you pick another.</p>
+                <div class="dc-size-row" data-bedrooms="1" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.35rem;align-items:start;margin-top:.45rem;">
+                  <span style="grid-column:1/-1;font-weight:700;color:var(--text);">1 bedroom</span>
+                  <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Homes</span><input id="dc-size-homes-1" type="number" min="0" step="1" inputmode="numeric" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"></label>
+                  <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Sq ft each</span><input id="dc-size-sf-1" type="number" min="0" step="10" inputmode="numeric" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"></label>
+                  <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Income</span><select id="dc-size-ami-1" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"><option value="" selected>Target</option><option value="60">60%</option><option value="70">70%</option><option value="80">80%</option><option value="90">90%</option><option value="100">100%</option><option value="110">110%</option><option value="120">120%</option><option value="130">130%</option><option value="140">140%</option><option value="150">150%</option><option value="160">160%</option></select></label>
+                </div>
+                <div class="dc-size-row" data-bedrooms="2" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.35rem;align-items:start;margin-top:.45rem;">
+                  <span style="grid-column:1/-1;font-weight:700;color:var(--text);">2 bedrooms</span>
+                  <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Homes</span><input id="dc-size-homes-2" type="number" min="0" step="1" inputmode="numeric" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"></label>
+                  <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Sq ft each</span><input id="dc-size-sf-2" type="number" min="0" step="10" inputmode="numeric" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"></label>
+                  <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Income</span><select id="dc-size-ami-2" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"><option value="" selected>Target</option><option value="60">60%</option><option value="70">70%</option><option value="80">80%</option><option value="90">90%</option><option value="100">100%</option><option value="110">110%</option><option value="120">120%</option><option value="130">130%</option><option value="140">140%</option><option value="150">150%</option><option value="160">160%</option></select></label>
+                </div>
+                <div class="dc-size-row" data-bedrooms="3" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.35rem;align-items:start;margin-top:.45rem;">
+                  <span style="grid-column:1/-1;font-weight:700;color:var(--text);">3 bedrooms</span>
+                  <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Homes</span><input id="dc-size-homes-3" type="number" min="0" step="1" inputmode="numeric" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"></label>
+                  <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Sq ft each</span><input id="dc-size-sf-3" type="number" min="0" step="10" inputmode="numeric" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"></label>
+                  <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Income</span><select id="dc-size-ami-3" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"><option value="" selected>Target</option><option value="60">60%</option><option value="70">70%</option><option value="80">80%</option><option value="90">90%</option><option value="100">100%</option><option value="110">110%</option><option value="120">120%</option><option value="130">130%</option><option value="140">140%</option><option value="150">150%</option><option value="160">160%</option></select></label>
+                </div>
+                <div class="dc-size-row" data-bedrooms="4" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.35rem;align-items:start;margin-top:.45rem;">
+                  <span style="grid-column:1/-1;font-weight:700;color:var(--text);">4 bedrooms</span>
+                  <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Homes</span><input id="dc-size-homes-4" type="number" min="0" step="1" inputmode="numeric" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"></label>
+                  <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Sq ft each</span><input id="dc-size-sf-4" type="number" min="0" step="10" inputmode="numeric" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"></label>
+                  <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Income</span><select id="dc-size-ami-4" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"><option value="" selected>Target</option><option value="60">60%</option><option value="70">70%</option><option value="80">80%</option><option value="90">90%</option><option value="100">100%</option><option value="110">110%</option><option value="120">120%</option><option value="130">130%</option><option value="140">140%</option><option value="150">150%</option><option value="160">160%</option></select></label>
+                </div>
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.35rem;align-items:start;margin-top:.55rem;">
+              <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>Land write-down per home $</span><input id="dc-size-land-writedown" type="number" min="0" step="1000" inputmode="numeric" placeholder="0" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"></label>
+              <label style="display:flex;flex-direction:column;gap:.1rem;min-width:0;"><span>HOA or ground lease $/month</span><input id="dc-size-hoa" type="number" min="0" step="10" inputmode="numeric" placeholder="0" style="display:block;width:100%;min-height:44px;box-sizing:border-box;padding:.3rem .4rem;font-size:var(--small);"></label>
+            </div>
+            <p id="dc-size-terms" style="margin:.45rem 0 0;color:var(--muted);"></p>
+          </details>
+        </div>
+
         <!-- F257-6 — Development budget breakdown (typical shares). The
              headline outputs above show the equity raised but not what
              the total dev cost is going toward. The block below back-
@@ -3723,6 +3868,8 @@
       costHost.addEventListener('change', onCost);
     }
     // DOH PR 2: operating budget and other income lines.
+    var sizeHost = document.getElementById('dc-own-sizing');
+    if (sizeHost) { sizeHost.addEventListener('input', recalculate); sizeHost.addEventListener('change', recalculate); }
     var opHost = document.getElementById('dc-op-lines');
     if (opHost) { opHost.addEventListener('input', recalculate); opHost.addEventListener('change', recalculate); }
     var useTotal = document.getElementById('dc-cost-use-total');
@@ -8186,6 +8333,7 @@
     /* Exposed for testing — pure functions, no DOM access */
     computeDscrStressScenarios: computeDscrStressScenarios,
     computeForSaleFeasibility:  computeForSaleFeasibility,
+    computeSaleSizing:          computeSaleSizing,
     computeOwnershipResale:     computeOwnershipResale,
     setPermitsData:             setPermitsData,
     renderPermitContext:        renderPermitContext,
