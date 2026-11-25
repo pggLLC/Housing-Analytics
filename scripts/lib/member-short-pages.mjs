@@ -64,7 +64,7 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 
 function memberButtons(file) {
   return `<p class="member-short-actions"><a class="button-link" data-member-link href="${MEMBER_SITE}${file}">Member sign in</a> ` +
-    `<a class="button-link secondary" href="index.html#/request-access">Ask about member access</a></p>`;
+    `<a class="button-link secondary" href="mailto:info@cohoanalytics.com?subject=Member%20access">Ask about member access</a></p>`;
 }
 
 function toolPage(file, t) {

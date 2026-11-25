@@ -24,7 +24,7 @@ for (const f of [...TOOLS, ...LONG]) {
   ok(existsSync(path.join(ROOT, f)), `${f}: the full page stays in this checkout, for the member site`);
   const html = shortPage(f, read(f));
   ok(html.includes(`href="${MEMBER_SITE}${f}"`), `${f}: member sign in opens the same page on the member site`);
-  ok(html.includes('index.html#/request-access'), `${f}: links the member access request`);
+  ok(html.includes('mailto:info@cohoanalytics.com?subject=Member%20access'), `${f}: links the member access request`);
   ok(/<footer id="site-footer"><\/footer>/.test(html), `${f}: has the site footer`);
   ok(/<a class="skip-link" href="#main-content">/.test(html) && /id="main-content"/.test(html), `${f}: skip link lands on the page`);
   ok((html.match(/<h1\b/g) || []).length === 1, `${f}: one h1`);
