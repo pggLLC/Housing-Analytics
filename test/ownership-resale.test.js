@@ -130,13 +130,22 @@ assert.equal(b3(232077, 18000).ownerGrossEquity, 314109 - 232077 - 18000, 'enter
 assert.equal(b3(null, 0, 'recapture').publicSubsidyRecaptured, null, 'blank loan balance: public recovery unknown, not $0');
 assert.equal(b3(232077, 18000, 'recapture').publicSubsidyRecaptured, Math.min(90000, 314109 - 232077 - 18000), 'recapture with entries');
 const sharedBlank = b3(0, null, 'shared_appreciation');
-assert.equal(sharedBlank.maxResalePrice, null, 'shared appreciation needs the selling costs for the next buyer price');
-assert(/Selling costs are blank/.test(sharedBlank.unavailableReason), sharedBlank.unavailableReason);
+// Blank costs add nothing to the next buyer's price: the price stays shown (the for-sale chart and cards use it,
+// as before), labelled as leaving costs out, and owner equity stays unshown.
+assert.equal(sharedBlank.maxResalePrice, b3(0, 0, 'shared_appreciation').maxResalePrice, 'blank selling costs add nothing to the shared-appreciation price');
+assert(/selling costs not added \(blank\)/.test(sharedBlank.calculationBasis), sharedBlank.calculationBasis);
+assert.equal(sharedBlank.ownerGrossEquity, null, 'shared appreciation with blank selling costs: owner equity unshown');
+assert(/Before selling costs/.test(sharedBlank.priceNote), 'the price says it leaves blank selling costs out');
+assert.equal(b3(0, 0, 'shared_appreciation').priceNote, null, 'entered 0: no note');
+assert.equal(b3(0, null).priceNote, null, 'only shared appreciation adds selling costs to the price');
+assert.equal(b3(0, 10000, 'shared_appreciation').maxResalePrice, b3(0, 0, 'shared_appreciation').maxResalePrice + 10000, 'entered selling costs are added');
 const cmpBlank = Resale.compareConventions(data, { purchasePrice: 273138, holdingPeriodYears: 5, remainingPrincipal: null, sellingCosts: null });
 assert(/loan balance left at resale and the selling costs/.test(cmpBlank.equityNote), cmpBlank.equityNote);
 assert(cmpBlank.rows.every((row) => row.outcomes.every((o) => o.ownerGrossEquity === null)), 'no row shows owner equity from blanks');
 assert.equal(Resale.compareConventions(data, { purchasePrice: 273138, holdingPeriodYears: 5, remainingPrincipal: 0, sellingCosts: 0 }).equityNote, null);
 assert(Resale.renderComparisonHtml(cmpBlank).includes('data-resale-equity-note'), 'the comparison says why equity is not shown');
+assert(Resale.renderComparisonHtml(cmpBlank).includes('data-resale-price-note'), 'the comparison says the shared-appreciation price leaves blank selling costs out');
+assert(!Resale.renderComparisonHtml(Resale.compareConventions(data, { purchasePrice: 273138, holdingPeriodYears: 5, remainingPrincipal: 0, sellingCosts: 0 })).includes('data-resale-price-note'));
 assert.equal(wmrhc.preservesAffordability, true, 'WMRHC example remains below the current AMI-affordable benchmark');
 
 const apcha = Resale.evaluateConvention(byId('apcha_fixed_simple'), {

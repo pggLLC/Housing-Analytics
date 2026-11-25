@@ -582,6 +582,7 @@
     var unknownRecovery = outcome.publicSubsidyRecaptured == null;
     var recovered = Number(outcome.publicSubsidyRecaptured) || 0;
     value.textContent = 'Next buyer price capped at ' + fmt(outcome.maxResalePrice) +
+      (outcome.priceNote ? ' before selling costs (blank)' : '') +
       (unknownRecovery ? ' · recovery needs the loan balance and selling costs' : (recovered > 0 ? ' · ' + fmt(recovered) + ' subsidy recovered' : ' · no cash recovery'));
     value.setAttribute('title', outcome.preservationLabel || '');
   }
