@@ -5,8 +5,8 @@
     "title": "Developer Ownership Funding Stack Watchlist",
     "audience": "affordable ownership developers",
     "as_of": "2026-08-04",
-    "last_verified": "2026-08-04",
-    "review_by": "2026-11-02",
+    "last_verified": "2026-11-25",
+    "review_by": "2027-02-25",
     "refresh_cadence": "Quarterly review, or sooner when state/local ownership program terms change.",
     "consumer_dataset": "data/policy/homeownership-programs.json",
     "commitment_note": "Only awarded or committed sources may carry apply_to_gap=true. Available sources are context only.",
@@ -66,8 +66,8 @@
       "last_verified": "2026-10-21", "review_by": "2027-01-21", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
     },
     {
-      "id": "dola-prop123-new-construction", "name": "DOLA Proposition 123 new construction / acquisition rehabilitation",
-      "max_amount": 70000, "max_percent": null, "render_value": null, "review_by": "2026-11-02",
+      "id": "dola-prop123-new-construction", "name": "DOLA Proposition 123 new construction / acquisition rehabilitation", "status": "active",
+      "max_amount": 70000, "max_percent": null, "render_value": null, "review_by": "2027-02-25",
       "funding_type": "grant", "side": "project", "capital_stack_category": "B_project_gap",
       "eligible_applicant": ["housing_authority", "nonprofit", "local_government"], "eligible_buyer_ami_max": 1,
       "eligible_geography": ["eligible_committed_jurisdictions"], "max_per_household": 70000, "max_per_project": null,
@@ -75,12 +75,12 @@
       "application_cycle": "competitive", "commitment_status": "available", "apply_to_gap": false, "screening_apply": false,
       "stacking_constraints": ["eligible_local_commitment_required", "project_award_required"],
       "source_url": "https://cdola.colorado.gov/new-construction-acquisition-rehabilitation",
-      "source_note": "Official DOLA page fetched 2026-08-04 and rechecked 2026-10-26: \"Urban & Rural/Resort $70,000/unit\", \"Up to 100% AMI\", \"Minimum of 30 years\"; pre-applications are due 15 days before the first of each month. Fruita's jurisdiction filing does not constitute a project award.",
-      "last_verified": "2026-10-26", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
+      "source_note": "Official DOLA page fetched 2026-08-04 and rechecked 2026-10-26: \"Urban & Rural/Resort $70,000/unit\", \"Up to 100% AMI\", \"Minimum of 30 years\"; pre-applications are due 15 days before the first of each month. Fruita's jurisdiction filing does not constitute a project award. Rechecked 2026-11-25: same three lines, and pre-applications still due 15 days before the first of each month.",
+      "last_verified": "2026-11-25", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
     },
     {
       "id": "fhlb-topeka-ahp", "name": "FHLBank Topeka Affordable Housing Program",
-      "max_amount": 1500000, "max_percent": null, "render_value": null, "review_by": "2026-11-02",
+      "max_amount": 1500000, "max_percent": null, "render_value": null, "review_by": "2027-02-25",
       "funding_type": "grant", "side": "project", "capital_stack_category": "B_project_gap",
       "eligible_applicant": ["housing_authority", "developer", "nonprofit", "clt"], "eligible_buyer_ami_max": null,
       "eligible_geography": ["CO", "KS", "NE", "OK"], "max_per_household": 75000, "max_per_project": 1500000,
@@ -88,12 +88,12 @@
       "application_cycle": "competitive", "commitment_status": "available", "apply_to_gap": false, "screening_apply": false,
       "stacking_constraints": ["fhlbank_member_sponsor_required", "competitive_award_required"],
       "source_url": "https://www.fhlbtopeka.com/ahp",
-      "source_note": "Official 2026 AHP page fetched 2026-08-04 and rechecked 2026-10-26; verifies $75,000 per unit and $1.5 million per project caps. The 2026 round is closed: \"Round closing - July 31, 2026\"; \"Announcements - No later than Dec. 31, 2026\".",
-      "last_verified": "2026-10-26", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
+      "source_note": "Official 2026 AHP page fetched 2026-08-04 and rechecked 2026-10-26; verifies $75,000 per unit and $1.5 million per project caps. The 2026 round is closed: \"Round closing - July 31, 2026\"; \"Announcements - No later than Dec. 31, 2026\". Rechecked 2026-11-25: caps unchanged; 2026 round closed July 31, 2026, announcements by Dec. 31, 2026.",
+      "last_verified": "2026-11-25", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
     },
     {
       "id": "fhlb-topeka-hsp", "name": "FHLBank Topeka Homeownership Set-Aside Program",
-      "max_amount": 15000, "max_percent": null, "render_value": null, "review_by": "2026-11-02",
+      "max_amount": 15000, "max_percent": null, "render_value": null, "review_by": "2027-02-25",
       "funding_type": "grant", "side": "buyer", "capital_stack_category": "D_cash_to_close",
       "eligible_applicant": ["buyer"], "eligible_buyer_ami_max": 0.8, "eligible_geography": ["CO", "KS", "NE", "OK"],
       "max_per_household": 15000, "max_per_project": null, "affordability_period_years": 5,
@@ -101,24 +101,24 @@
       "application_cycle": "annual", "commitment_status": "available", "apply_to_gap": false, "screening_apply": false,
       "stacking_constraints": ["participating_member_required", "reservation_required"],
       "source_url": "https://www.fhlbtopeka.com/services-and-programs/community/turnkey/hsp",
-      "source_note": "Official 2026 HSP page fetched 2026-08-04 and rechecked 2026-10-26; verifies 80% AMI, $15,000 maximum, $2,500 minimum, five-year retention, and member reservation workflow. Closed for 2026: reservations were accepted \"through Sept. 30, 2026\".",
-      "last_verified": "2026-10-26", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
+      "source_note": "Official 2026 HSP page fetched 2026-08-04 and rechecked 2026-10-26; verifies 80% AMI, $15,000 maximum, $2,500 minimum, five-year retention, and member reservation workflow. Closed for 2026: reservations were accepted \"through Sept. 30, 2026\". Rechecked 2026-11-25: $15,000 maximum, $2,500 minimum, 80% AMI; reservations through Sept. 30, 2026.",
+      "last_verified": "2026-11-25", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
     },
     {
       "id": "chfa-construction-financing", "name": "CHFA construction financing for ownership development",
-      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2026-11-02",
+      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2027-02-25",
       "funding_type": "deferred_loan", "side": "project", "capital_stack_category": "B_project_gap",
       "eligible_applicant": ["developer", "housing_authority", "nonprofit"], "eligible_buyer_ami_max": null,
       "eligible_geography": ["statewide"], "max_per_household": null, "max_per_project": null,
       "affordability_period_years": null, "lien_or_recapture": {"type": "recapture", "terms": "VERIFY"},
       "application_cycle": "competitive", "commitment_status": "unverified", "apply_to_gap": false, "screening_apply": false,
       "stacking_constraints": ["VERIFY ownership-development product eligibility"],
-      "source_url": "https://www.chfainfo.com/getattachment/81386595-3fe2-4826-b1b4-1056457950df/CHFAMFLendingProgramMatrix.pdf", "source_note": "Official CHFA matrix fetched 2026-08-04 describes multifamily rental lending, not a confirmed for-sale construction product. Applicable primary for-sale product evidence is named by this candidate but has not been retrieved; amounts and terms remain null.",
-      "last_verified": "2026-08-04", "classification": "not_available", "observation_class": "unverified", "evidence_basis": "named_unretrieved", "verify": true
+      "source_url": "https://www.chfainfo.com/getContentAsset/81386595-3fe2-4826-b1b4-1056457950df/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/CHFAMFLendingProgramMatrix.pdf?language=en-US", "source_note": "Official CHFA matrix fetched 2026-08-04 describes multifamily rental lending, not a confirmed for-sale construction product. Applicable primary for-sale product evidence is named by this candidate but has not been retrieved; amounts and terms remain null. Rechecked 2026-11-25: CHFA moved the matrix to the getContentAsset address above; it still lists multifamily rental programs only.",
+      "last_verified": "2026-11-25", "classification": "not_available", "observation_class": "unverified", "evidence_basis": "named_unretrieved", "verify": true
     },
     {
       "id": "usda-rd-502-direct", "name": "USDA Rural Development Section 502 Direct Loan",
-      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2026-11-02",
+      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2027-02-25",
       "funding_type": "deferred_loan", "side": "buyer", "capital_stack_category": "C_buyer_gap",
       "eligible_applicant": ["buyer"], "eligible_buyer_ami_max": null, "eligible_geography": ["eligible_rural_areas"],
       "max_per_household": null, "max_per_project": null, "affordability_period_years": null,
@@ -126,12 +126,12 @@
       "application_cycle": "rolling", "commitment_status": "available", "apply_to_gap": false, "screening_apply": false,
       "stacking_constraints": ["income_and_rural_eligibility", "cannot_obtain_other_credit_on_expected_terms"],
       "source_url": "https://www.rd.usda.gov/programs-services/single-family-housing-programs/single-family-housing-direct-home-loans",
-      "source_note": "Official USDA page fetched 2026-08-04; terms vary by borrower capacity, area loan limit, and current rate, so no fixed amount is encoded.",
-      "last_verified": "2026-08-04", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
+      "source_note": "Official USDA page fetched 2026-08-04; terms vary by borrower capacity, area loan limit, and current rate, so no fixed amount is encoded. Rechecked 2026-11-25: application window open; no down payment typically required; assistance set by adjusted family income.",
+      "last_verified": "2026-11-25", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
     },
     {
       "id": "usda-rd-502-guaranteed", "name": "USDA Rural Development Section 502 Guaranteed Loan",
-      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2026-11-02",
+      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2027-02-25",
       "funding_type": "guarantee", "side": "buyer", "capital_stack_category": "C_buyer_gap",
       "eligible_applicant": ["buyer"], "eligible_buyer_ami_max": 1.15, "eligible_geography": ["eligible_rural_areas"],
       "max_per_household": null, "max_per_project": null, "affordability_period_years": null,
@@ -139,47 +139,47 @@
       "application_cycle": "rolling", "commitment_status": "available", "apply_to_gap": false, "screening_apply": false,
       "stacking_constraints": ["approved_lender_required", "income_and_rural_eligibility"],
       "source_url": "https://www.rd.usda.gov/programs-services/single-family-housing-programs/single-family-housing-guaranteed-loan-program",
-      "source_note": "Official USDA page fetched 2026-08-04; verifies up to 115% median income and 100% financing. Lender rates and household loan amounts vary.",
-      "last_verified": "2026-08-04", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
+      "source_note": "Official USDA page fetched 2026-08-04; verifies up to 115% median income and 100% financing. Lender rates and household loan amounts vary. Rechecked 2026-11-25: income cannot exceed 115% of median household income; 100% financing.",
+      "last_verified": "2026-11-25", "classification": "observed", "observation_class": "human_verified", "evidence_basis": "primary_source", "verify": true
     },
     {
       "id": "employer-assisted-ownership-placeholder", "name": "Employer-assisted ownership contribution",
-      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2026-11-02",
+      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2027-02-25",
       "funding_type": "grant", "side": "buyer", "capital_stack_category": "D_cash_to_close",
       "eligible_applicant": ["buyer"], "eligible_buyer_ami_max": null, "eligible_geography": ["project_specific"],
       "max_per_household": null, "max_per_project": null, "affordability_period_years": null,
       "lien_or_recapture": {"type": "none", "terms": "VERIFY"}, "application_cycle": "rolling",
       "commitment_status": "unverified", "apply_to_gap": false, "screening_apply": false, "stacking_constraints": ["employer_program_not_identified"],
-      "source_url": "https://www.dol.gov/general/topic/benefits-other", "source_note": "Official U.S. Department of Labor employee-benefits context reviewed 2026-08-04; it does not establish a local employer housing program. No external evidence exists for this screening placeholder; owner input is required and all terms remain null.",
-      "last_verified": "2026-08-04", "classification": "user_entered", "observation_class": "unverified", "evidence_basis": "none", "verify": true
+      "source_url": "https://www.dol.gov/general/topic/benefits-other", "source_note": "Official U.S. Department of Labor employee-benefits context reviewed 2026-08-04; it does not establish a local employer housing program. No external evidence exists for this screening placeholder; owner input is required and all terms remain null. Rechecked 2026-11-25: page live; still no project-specific program.",
+      "last_verified": "2026-11-25", "classification": "user_entered", "observation_class": "unverified", "evidence_basis": "none", "verify": true
     },
     {
       "id": "cra-bank-participation-placeholder", "name": "CRA bank participation",
-      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2026-11-02",
+      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2027-02-25",
       "funding_type": "equity", "side": "project", "capital_stack_category": "B_project_gap",
       "eligible_applicant": ["developer", "nonprofit", "housing_authority"], "eligible_buyer_ami_max": null,
       "eligible_geography": ["project_specific"], "max_per_household": null, "max_per_project": null,
       "affordability_period_years": null, "lien_or_recapture": {"type": "none", "terms": "VERIFY"},
       "application_cycle": "rolling", "commitment_status": "unverified", "apply_to_gap": false, "screening_apply": false,
       "stacking_constraints": ["financial_institution_not_identified"], "source_url": "https://www.federalreserve.gov/consumerscommunities/cra_about.htm",
-      "source_note": "Official Federal Reserve CRA context reviewed 2026-08-04; it does not establish a project-specific product. No external evidence exists for this screening placeholder; owner input is required and all terms remain null.",
-      "last_verified": "2026-08-04", "classification": "user_entered", "observation_class": "unverified", "evidence_basis": "none", "verify": true
+      "source_note": "Official Federal Reserve CRA context reviewed 2026-08-04; it does not establish a project-specific product. No external evidence exists for this screening placeholder; owner input is required and all terms remain null. Rechecked 2026-11-25: page live; still no project-specific program.",
+      "last_verified": "2026-11-25", "classification": "user_entered", "observation_class": "unverified", "evidence_basis": "none", "verify": true
     },
     {
       "id": "foundation-participation-placeholder", "name": "Foundation ownership contribution",
-      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2026-11-02",
+      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2027-02-25",
       "funding_type": "grant", "side": "project", "capital_stack_category": "B_project_gap",
       "eligible_applicant": ["nonprofit", "housing_authority"], "eligible_buyer_ami_max": null,
       "eligible_geography": ["project_specific"], "max_per_household": null, "max_per_project": null,
       "affordability_period_years": null, "lien_or_recapture": {"type": "none", "terms": "VERIFY"},
       "application_cycle": "competitive", "commitment_status": "unverified", "apply_to_gap": false, "screening_apply": false,
       "stacking_constraints": ["foundation_program_not_identified"], "source_url": "https://wc-cf.org/",
-      "source_note": "Official Western Colorado Community Foundation site reviewed 2026-08-04; no project-specific ownership award was identified. No external evidence exists for this screening placeholder; owner input is required and all terms remain null.",
-      "last_verified": "2026-08-04", "classification": "user_entered", "observation_class": "unverified", "evidence_basis": "none", "verify": true
+      "source_note": "Official Western Colorado Community Foundation site reviewed 2026-08-04; no project-specific ownership award was identified. No external evidence exists for this screening placeholder; owner input is required and all terms remain null. Rechecked 2026-11-25: page live; still no project-specific program.",
+      "last_verified": "2026-11-25", "classification": "user_entered", "observation_class": "unverified", "evidence_basis": "none", "verify": true
     },
     {
       "id": "fruita-tap-fee-deferral", "name": "Fruita water/sewer tap or plant-investment fee deferral",
-      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2026-11-02",
+      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2027-02-25",
       "funding_type": "fee_waiver", "side": "project", "capital_stack_category": "B_project_gap",
       "eligible_applicant": ["developer", "housing_authority"], "eligible_buyer_ami_max": null,
       "eligible_geography": ["0828745"], "max_per_household": null, "max_per_project": null,
@@ -187,12 +187,12 @@
       "application_cycle": "rolling", "commitment_status": "unverified", "apply_to_gap": false, "screening_apply": false,
       "stacking_constraints": ["local_authorization_required"], "contribution_mechanism": "plant_investment_fee",
       "timing": "deferred", "deferral_trigger": "certificate_of_occupancy", "value_basis": "per_tap", "amount": null,
-      "source_url": "https://www.fruita.org/694/Fruita-Housing-Authority", "source_note": "Official Fruita Housing Authority page reviewed 2026-08-04; it does not establish an affordable-housing tap-fee deferral. No external evidence exists for this screening placeholder; owner input is required for amount, eligibility, authorization, and trigger.",
-      "last_verified": "2026-08-04", "classification": "user_entered", "observation_class": "unverified", "evidence_basis": "none", "verify": true
+      "source_url": "https://www.fruita.org/694/Fruita-Housing-Authority", "source_note": "Official Fruita Housing Authority page reviewed 2026-08-04; it does not establish an affordable-housing tap-fee deferral. No external evidence exists for this screening placeholder; owner input is required for amount, eligibility, authorization, and trigger. Rechecked 2026-11-25: page live; still no project-specific program.",
+      "last_verified": "2026-11-25", "classification": "user_entered", "observation_class": "unverified", "evidence_basis": "none", "verify": true
     },
     {
       "id": "fruita-permit-plan-review-waiver", "name": "Fruita building-permit and plan-review fee waiver",
-      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2026-11-02",
+      "max_amount": null, "max_percent": null, "render_value": "VERIFY", "review_by": "2027-02-25",
       "funding_type": "fee_waiver", "side": "project", "capital_stack_category": "B_project_gap",
       "eligible_applicant": ["developer", "housing_authority"], "eligible_buyer_ami_max": null,
       "eligible_geography": ["0828745"], "max_per_household": null, "max_per_project": null,
@@ -200,8 +200,8 @@
       "application_cycle": "rolling", "commitment_status": "unverified", "apply_to_gap": false, "screening_apply": false,
       "stacking_constraints": ["local_authorization_required"], "contribution_mechanism": "building_permit_plan_review",
       "timing": "waived", "deferral_trigger": null, "value_basis": "per_project", "amount": null,
-      "source_url": "https://www.fruita.org/694/Fruita-Housing-Authority", "source_note": "Official Fruita Housing Authority page reviewed 2026-08-04; it does not establish an affordable-ownership permit or plan-review waiver. No external evidence exists for this screening placeholder; owner input is required for amount and authorization.",
-      "last_verified": "2026-08-04", "classification": "user_entered", "observation_class": "unverified", "evidence_basis": "none", "verify": true
+      "source_url": "https://www.fruita.org/694/Fruita-Housing-Authority", "source_note": "Official Fruita Housing Authority page reviewed 2026-08-04; it does not establish an affordable-ownership permit or plan-review waiver. No external evidence exists for this screening placeholder; owner input is required for amount and authorization. Rechecked 2026-11-25: page live; still no project-specific program.",
+      "last_verified": "2026-11-25", "classification": "user_entered", "observation_class": "unverified", "evidence_basis": "none", "verify": true
     }
   ]
 }
