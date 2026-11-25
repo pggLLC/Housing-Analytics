@@ -435,7 +435,9 @@
         'That leaves little for food, child care or savings, and one rent increase can force a move.', 'ACS 2020–2024, B25070', HSRC.b25070] : null,
       fin(t30.homes_short) ? ['Renters', 'The lowest-income renters, who earn 30% of area median income or less, are about <strong class="hh-n">' + num(roundTo(t30.homes_short, 100)) + '</strong> homes short.',
         'These households are the likeliest to fall behind or lose their home, and rents this low rarely get built without public money.', 'HUD CHAS ' + f.chasVintage, HSRC.chas] : null,
-      fin(f.priceRatio) ? ['Owners', 'A typical home costs <strong class="hh-n">' + f.priceRatio.toFixed(1) + ' years</strong> of a typical household’s income' + (fin(f.value) && fin(f.income) ? ' ($' + num(f.value) + ' against $' + num(f.income) + ' a year)' : '') + '.',
+      // Each number says what it is (paul, 25 Nov: "$539,400 against $95,470 a year" was unclear). DP04_0089 is the
+      // median value of owner-occupied homes; DP03_0062 is the median income of all households.
+      fin(f.priceRatio) ? ['Owners', 'A typical home costs <strong class="hh-n">' + f.priceRatio.toFixed(1) + ' years</strong> of a typical household’s income' + (fin(f.value) && fin(f.income) ? ': the typical owner’s home is valued at $' + num(f.value) + ', and the typical household earns $' + num(f.income) + ' a year' : '') + '.',
         'First-time buyers need a far bigger income or down payment, so more households keep renting.', 'ACS 2020–2024, DP04 and DP03', HSRC.dp04] : null,
       g.buy && fin(f.incRenter) ? ['Owners', 'Buying the typical home takes about <strong class="hh-n">$' + num(g.buy) + '</strong> a year in income. Renter households, the would-be first-time buyers, earn <strong>$' + num(f.incRenter) + '</strong>.',
         'At 30% of income, ' + Math.round((g.down || 0.1) * 100) + '% down and ' + (g.rate ? (g.rate * 100).toFixed(2) + '%' : 'today’s rate') + ' for 30 years, with taxes and insurance.', 'ACS ' + (f.tenureYears || '2020–2024') + ', B25119; Freddie Mac' + (g.week ? ', week of ' + g.week : ''), HSRC.b25119] : null
