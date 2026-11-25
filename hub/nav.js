@@ -12,8 +12,8 @@
   // seven steps, and opens on the working place as the bar does. The seven sit in three menus, by what they answer;
   // the line under each ties them together. No step numbers: "1, 3, 5" in one menu reads oddly.
   var MENUS = [
-    { id: 'places', title: 'Places and need', question: 'Where is the need, and how big is it?', hub: '#/places', views: ['places', 'place', 'report'], groups: [
-      { title: 'Look up a place', items: [
+    { id: 'places', title: 'Places and need', question: 'Where is the need, and how big is it?', summary: 'Start with one place for its own numbers, or look across the state.', hub: '#/places', views: ['places', 'place', 'report'], groups: [
+      { title: 'Look up a place', about: 'One town, county or CDP: its needs assessment, report, ranking and what-ifs.', items: [
         { step: 0, label: 'Jurisdiction', lab: '#/places', desc: 'Find any Colorado town, county or CDP, with its full needs assessment.' },
         { step: 2, label: 'Needs Assessment', lab: '#/place/0828745', desc: 'The housing needs assessment: six chapters per place, need by income level.' },
         { label: 'Free report', lab: '#/report', desc: 'A printable needs and market summary for any place. Free.' },
@@ -21,7 +21,7 @@
         { label: 'Compare 2–6 places', lab: '#/places/compare', desc: 'Two to six places side by side, figure by figure.' },
         { label: 'Rank every place', lab: '#/places/ranking', desc: 'Every county, town and CDP ranked on need and opportunity (HNA ranking, 55% need).' },
         { step: 4, label: 'Scenarios', lab: '#/places/scenario', desc: 'Change the state forecast and see the homes needed.' }] },
-      { title: 'The state picture', items: [
+      { title: 'The state picture', about: 'Statewide maps and dashboards: costs, jobs, apartments and local tools.', items: [
         { label: 'Colorado deep dive', lab: '#/places/deep-dive', desc: 'County markets: tax credit pipeline, AMI gap, QCTs and DDAs.' },
         { label: 'Economic dashboard', lab: '#/places/economy', desc: 'Rates, costs, jobs and inflation that shape deals.' },
         { label: 'Housing costs by county', lab: '#/places/county-costs', desc: 'County rents, prices, wages and permits, mapped.' },
@@ -32,8 +32,8 @@
     ] },
     // Money and deals (reorg step 2b, paul 23 Nov 2026 "build Home and the menu"): Opportunities and Build a deal in one
     // menu, with Where the money goes from Policy. No page or address moves.
-    { id: 'deal', title: 'Money and deals', question: 'Where can homes be built, does the deal pencil, and where did the money go?', hub: '#/projects', views: ['opportunities', 'opportunity', 'finder', 'money', 'projects', 'project', 'homes', 'handoff', 'convert', 'financials', 'open-deal', 'open-calc', 'deal-calculator', 'sale-deal', 'use', 'deals', 'equity-pricing', 'pipeline', 'market', 'for-sale', 'recommendation', 'ic-summary', 'design'], groups: [
-      { title: 'Tools', items: [
+    { id: 'deal', title: 'Money and deals', question: 'Where can homes be built, does the deal pencil, and where did the money go?', summary: 'From a site to a tested deal, and what has already been funded.', hub: '#/projects', views: ['opportunities', 'opportunity', 'finder', 'money', 'projects', 'project', 'homes', 'handoff', 'convert', 'financials', 'open-deal', 'open-calc', 'deal-calculator', 'sale-deal', 'use', 'deals', 'equity-pricing', 'pipeline', 'market', 'for-sale', 'recommendation', 'ic-summary', 'design'], groups: [
+      { title: 'Tools', about: 'Test a deal: market check, Deal Calculator, ownership and summaries.', items: [
         { step: 5, label: 'Deal Calculator', lab: '#/deal-calculator', desc: 'Sources and uses, credits, debt and the gap.' },
         { label: 'Market check', lab: '#/market', desc: 'Renters, rents, supply and a capture rate for any place. Free.' },
         { step: 3, label: 'Market Analysis', path: 'deal-market-analysis.html', desc: 'The full study for one site: market area, demand, rents and capture. A member tool, open to all for now.' },
@@ -42,18 +42,18 @@
         { label: 'Deal summaries', lab: '#/deals', desc: 'One sourced summary per Colorado tax credit award.' },
         { label: 'Investor summary', lab: '#/ic-summary', desc: 'One place on one page, for lenders and investors.' },
         { label: 'Your projects', lab: '#/projects', desc: 'Projects saved in this browser.' }] },
-      { title: 'Find a site or a property', items: [
+      { title: 'Find a site or a property', about: 'Land, homes at risk of loss and existing tax credit homes.', items: [
         { step: 1, label: 'Opportunity Finder', lab: '#/finder', desc: 'Every town on the facts for 4% and 9% deals. Free.' },
         { label: 'Preservation inventory', lab: '#/opportunity/preservation', desc: 'Affordable homes that could be lost, and when.' },
         { draft: true, label: 'Preservation in Colorado', lab: '#/guide/preservation', desc: 'Right to buy, park sales and money to keep homes affordable.' },
         { label: 'CHFA portfolio', lab: '#/opportunity/portfolio', desc: 'Every tax credit property and its homes.' },
         { label: 'Land value', lab: '#/opportunity/land-value', desc: 'Estimate a site’s land value and a negotiation range.' },
         { label: 'Commuting and jobs', lab: '#/opportunity/commuting', desc: 'Where workers live, where the jobs are, and the largest employers.' }] },
-      { title: 'Where the money went', items: [
+      { title: 'Where the money went', about: 'Past awards from CHFA, the state and others.', items: [
         { label: '2026 Round One awards', lab: '#/deals?round=2026-1', desc: 'CHFA’s latest tax credit awards.' },
         { label: 'Prop 123 land banking', lab: '#/opportunity/land-banking', desc: 'State awards to buy land for future homes.' },
         { label: 'Where the money goes', lab: '#/money', desc: 'Housing awards from CHFA, OEDIT and others, traced.' }] },
-      { title: 'Learn how deals work', items: [
+      { title: 'Learn how deals work', about: 'Short guides to tax credits, partners and building.', items: [
         { label: 'LIHTC basics', lab: '#/guide/lihtc-basics', desc: 'How tax credits work, and who does what.' },
         { label: 'Who does what', lab: '#/guide/deal-team', desc: 'Bankers, syndicators, lawyers and local partners.' },
         { label: 'How it gets built', lab: '#/pipeline', desc: 'Eight stages from need to homes people can afford.' },
@@ -63,8 +63,8 @@
         { label: 'Resident services', lab: '#/guide/resident-services', desc: 'Services that help residents stay housed.' },
         { label: 'CRA and pricing', lab: '#/guide/cra-pricing', desc: 'How bank rule changes could move credit prices.' }] }
     ] },
-    { id: 'policy', title: 'Policy & research', question: 'What is changing, and what does the research say?', hub: '#/guides', views: ['guides', 'guide', 'news', 'digest', 'housing-posts', 'legislation', 'calendar', 'elections', 'research', 'tax-credit-history', 'middle-income'], groups: [
-      { title: 'Policy and news', items: [
+    { id: 'policy', title: 'Policy & research', question: 'What is changing, and what does the research say?', summary: 'What is changing in law and the news, and what the research shows.', hub: '#/guides', views: ['guides', 'guide', 'news', 'digest', 'housing-posts', 'legislation', 'calendar', 'elections', 'research', 'tax-credit-history', 'middle-income'], groups: [
+      { title: 'Policy and news', about: 'Dated news, deadlines, laws and who holds housing posts.', items: [
         { label: 'Housing news', lab: '#/news', desc: 'Colorado housing news articles, dated and linked.' },
         { label: 'Sunday digest', lab: '#/digest', desc: 'The week in Colorado housing news, every item linked to its source.' },
         { label: 'Deadlines and events', lab: '#/calendar', desc: 'CHFA round dates, law deadlines, hearings, trainings and conferences.' },
@@ -74,7 +74,7 @@
         { label: 'Fair housing', lab: '#/guide/fair-housing', desc: 'What the federal rollback did, and what survives.' },
         { label: 'Federal rule changes', lab: '#/guide/federal-rules', desc: 'Federal fixes that would help affordable housing, ranked.' },
         { label: 'Elections', lab: '#/elections', desc: 'How elections and ballot measures shape housing policy.' }] },
-      { title: 'Research', items: [
+      { title: 'Research', about: 'Briefs and papers, each with its sources.', items: [
         { label: 'All research and briefs', lab: '#/guides?at=research-all', desc: 'Every paper, brief and analysis, each with its date.' },
         { label: 'How tax credit deals have changed', lab: '#/tax-credit-history', desc: 'Colorado’s housing tax credit since 1987: deal size, bonds, who it serves.' },
         { draft: true, label: 'Commuters and capture rates', lab: '#/guide/commuters-capture', desc: 'How workers who drive in can widen a rental\u2019s market, and the proof CHFA asks for.' },
@@ -83,13 +83,13 @@
         { label: 'Working paper', lab: '#/guide/working-paper', desc: 'What building a public housing-data system taught.' },
         { label: 'Starting a housing authority', lab: '#/guide/housing-authority', desc: 'How a Colorado town or county creates one, step by step.' }] }
     ] },
-    { id: 'data', title: 'Data and methods', question: 'Where does each number come from, and can I trust it?', hub: '#/data', views: ['data'], groups: [
-      { title: 'How it works', items: [
+    { id: 'data', title: 'Data and methods', question: 'Where does each number come from, and can I trust it?', summary: 'How every figure is made and where it comes from.', hub: '#/data', views: ['data'], groups: [
+      { title: 'How it works', about: 'Methods, nightly checks and plain definitions.', items: [
         { label: 'Methods', lab: '#/guide/methods', desc: 'Every calculation behind the need estimates.' },
         { label: 'Trust center', lab: '#/data/trust', desc: 'Sources, freshness, the nightly checks and today’s dataset check.' },
         { label: 'About', lab: '#/guide/about', desc: 'Sources, methods and how the site is built.' },
         { label: 'Glossary', lab: '#/data/glossary', desc: 'Plain definitions of tax credit and housing terms.' }] },
-      { title: 'The data', items: [
+      { title: 'The data', about: 'Every file and source, with its date, to browse.', items: [
         { label: 'Data explorer', lab: '#/data/explorer', desc: 'Every data file behind the site, with previews.' },
         { label: 'Data map', lab: '#/data/map', desc: 'Every geographic dataset on a map.' },
         { label: 'Data sources', lab: '#/data/sources', desc: 'Every source, its freshness and coverage.' }] }
@@ -170,7 +170,10 @@
   function panel(m) {
     // Money and deals carries four groups (reorg step 2b, 23 Nov): they sit side by side, so the menu still fits a tall screen.
     return '<div class="mega" id="mega-' + m.id + '" hidden><div class="mega-inner' + (m.groups.length > 2 ? ' mega-' + m.groups.length : '') + '">' +
+      // Under the question (paul, 25 Nov 2026): one line on what the menu holds, and what each column is for.
       '<div class="mega-intro"><p class="mega-question">' + esc(m.question) + '</p>' +
+      (m.summary ? '<p class="mega-summary">' + esc(m.summary) + '</p>' : '') +
+      '<dl class="mega-key">' + m.groups.filter(function (g) { return g.about; }).map(function (g) { return '<dt>' + esc(g.title) + '</dt><dd>' + esc(g.about) + '</dd>'; }).join('') + '</dl>' +
       (!PORT || PORT.href(m.hub) === m.hub ? '<a class="mega-hub" href="' + esc(m.hub) + '" data-hub="' + esc(m.views[0]) + '">All of ' + esc(m.title) + ' →</a>' : '') + '</div>' +
       m.groups.map(function (g) {
         var items = g.items.filter(function (it) { return href(it) != null; });

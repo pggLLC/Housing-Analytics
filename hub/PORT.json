@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "db99373ef94da21f27966617df7bb7dcc10fb561",
+  "commit": "b7d87639fbf22a9bf63986ddaaaa3d81427099af",
   "dirty": false
  },
  "files": {
@@ -96,7 +96,7 @@
   "hub/market.js": "056724eaffb4234fcffc76871ce7c9caf48cae12ca6182ef7ed3453d9c49c648",
   "hub/middle-income.css": "d6ee8edc88955d68fc798e4ed247954c3d0900fd11bf62fba990ad09855ed22e",
   "hub/middle-income.js": "5301fa977060cca905ef65201fcdf54cc58f3f831580abcd49f5b3088835bb29",
-  "hub/nav.js": "558f31c2a4da3dc9619cfaf3ec52f88fcecdf766748eaf1b286342aabc3b13cc",
+  "hub/nav.js": "585f15c5632aeb7ef3aa9c2c98d42c214a3d641e210622021c858dfd90c10a53",
   "hub/need-scorecard.js": "a8c89af9acc59264b61eb5ccb5d8f553bc49ac1dfbff5d15a4fa95914ddf16a0",
   "hub/opportunities.css": "f4d29f9760b0139c6dbf5d6e0de5e2f0e525a7553ed8c4a03eb6c12f3745cac0",
   "hub/opportunities.js": "f0b358809e4ab88e24a0a4bf76c3e01de70002743940168b21588b03666e5763",
@@ -127,12 +127,12 @@
   "hub/start-numbers.js": "50205a8ddccc79283c6b218811aa6f82a912749a1952ea4d843a4d38610183ea",
   "hub/step-bar.js": "1e0d85c31570d4a270a303a2ae670533c0976e6890f80355910218880d13fff9",
   "hub/strength.js": "267e464d104b402a33859aeb289acb365c202ee62aebb0df89634e0e2f3c4921",
-  "hub/templates.css": "e4dc045a146a52400f6d806babffbdfc22a2839c219634ff0deeeb08f0e1f20d",
+  "hub/templates.css": "a62ce9f3344921d7b7c7383543e7a0c1bba82dfd10554cd02558c19fc96bda70",
   "hub/templates.js": "5b21d8103ca129232f2bcac12131d7e5a9f7d8ed849770a3a8541baf5136c661",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
   "hub/text-fit.js": "583c08d1ce2e9c0b7fd7cd3baca0bee436da9f3741625d9aa7eb683276ea78f8",
-  "hub/tract-capture.js": "463ac9b614ff270e9f967a4eb276696efcf1e3166efeb7bc20f19b506e248a3b",
+  "hub/tract-capture.js": "559effc4b861344446ecbe8e660a7c70b080a45baf24db7be19e124b910ea72e",
   "hub/visual-pass.css": "c4ead044c619d3b38e1dfad1a52198b3825a1c770c0c46e5a8f684d03778df45",
   "hub/viz-data.js": "1e6c2a0dae68aa2e33a0fb7123503fcd7c13bd9c00e6d163a6a1cb214dac33db",
   "hub/viz-tip.js": "0d9ccb4a63a5da29953d75fbc47f71d40f57fa2e74afea832b1e02b305dc1dbc",
