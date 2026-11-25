@@ -50,6 +50,9 @@ TOOLS['market-analysis.html'] = TOOLS['deal-market-analysis.html'];
 // Batch B (paul, 25 Nov 2026, "do it": HNA option B). The needs assessment's chapters, scenarios and comparisons are
 // for members; every town and county keeps a free summary and report on its place page. A place in the old page's
 // query (?geoid=, ?fips=) opens that place's page (places-hub.html#/place/<geoid>), otherwise the list of places.
+// housing-needs-assessment.html itself stays whole: the place page's free PDF and Excel report are built from it in a
+// hidden frame (hub/hna.js oldHnaUrl), and the place page's Local partners links into it (Codex P1 on HA #3015). Its
+// chapters are gated where visitors read them, on the place page (lab port).
 const HNA_FREE = { href: 'places-hub.html#/places', label: 'Open the free place summary', place: true };
 const HNA_MEMBERS = ['All six chapters for any Colorado town or county', 'Scenarios for growth and policy', 'Side-by-side comparisons and rankings of places'];
 const chapter = (title, what) => ({
@@ -60,13 +63,6 @@ const chapter = (title, what) => ({
   free: HNA_FREE
 });
 Object.assign(TOOLS, {
-  'housing-needs-assessment.html': {
-    title: 'Housing Needs Assessment',
-    description: 'The full needs assessment is for members. Every Colorado town and county has a free summary and report on its place page.',
-    lede: 'The full needs assessment, with its chapters, scenarios and comparisons, is for members. Every Colorado town and county has a free summary and a free report on its place page.',
-    members: HNA_MEMBERS,
-    free: HNA_FREE
-  },
   'hna-who-lives-here.html': chapter('Who lives here', 'Who lives here, the people and households of a place,'),
   'hna-what-housing-exists.html': chapter('What housing exists', 'What housing exists, the homes a place has today,'),
   'hna-what-households-can-afford.html': chapter('What households can afford', 'What households can afford, renters and owners side by side,'),

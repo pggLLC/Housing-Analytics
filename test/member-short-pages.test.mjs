@@ -11,12 +11,14 @@ const read = (f) => readFileSync(path.join(ROOT, f), 'utf8');
 let checks = 0;
 const ok = (c, m) => { assert.ok(c, m); checks++; };
 
-const HNA = ['housing-needs-assessment.html', 'hna-who-lives-here.html', 'hna-what-housing-exists.html', 'hna-what-households-can-afford.html',
+const HNA = ['hna-who-lives-here.html', 'hna-what-housing-exists.html', 'hna-what-households-can-afford.html',
   'hna-where-its-heading.html', 'hna-what-to-do.html', 'hna-scenario-builder.html', 'hna-comparative-analysis.html'];
 const TOOLS = ['deal-market-analysis.html', 'market-analysis.html', 'for-sale-market-study.html', 'lihtc-opportunity-finder.html', ...HNA];
 const LONG = ['methods.html', 'working-paper.html', 'apa-white-paper.html'];
-ok([...SHORT_PAGES].sort().join() === [...TOOLS, ...LONG].sort().join(), 'the short pages are the seven of batch A and the eight needs assessment pages of batch B: ' + [...SHORT_PAGES].join(', '));
+ok([...SHORT_PAGES].sort().join() === [...TOOLS, ...LONG].sort().join(), 'the short pages are the seven of batch A and the seven needs assessment pages of batch B: ' + [...SHORT_PAGES].join(', '));
 ok(!SHORT_PAGES.has('deal-calculator.html'), 'the Deal Calculator stays free');
+// The place page's free report is built from the whole assessment in a hidden frame (hub/hna.js; Codex P1 on #3015).
+ok(!SHORT_PAGES.has('housing-needs-assessment.html') && /housing-needs-assessment\.html\?geoid=/.test(read('hub/hna.js')), 'the assessment the free report is built from stays whole');
 
 const build = read('scripts/build-public-site.mjs');
 ok(/SHORT_PAGES\.has\(name\)/.test(build) && /shortPage\(name,/.test(build), 'the public build writes the short page at each address');
