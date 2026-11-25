@@ -428,7 +428,7 @@
 
     var where = isCounty ? 'in ' + name : 'within ' + RADIUS + ' miles';
     var finding = name + ' ranks ' + num(r.rank) + ' of ' + num(list.length) + ' Colorado counties, towns and CDPs on housing need. ' +
-      (at60 && at60.short != null ? (at60.short > 0 ? num(at60.short) + ' more renter households at or below 60% AMI than homes priced for them. ' : 'At 60% AMI, homes priced for renters outnumber renter households. ') : '') +
+      (at60 && at60.short != null ? (at60.short > 0 ? num(at60.short) + ' more renter household' + (at60.short === 1 ? '' : 's') + ' at or below 60% AMI than homes priced for them. ' : 'At 60% AMI, homes priced for renters outnumber renter households. ') : '') +
       num(near.length) + ' tax credit ' + (near.length === 1 ? 'property' : 'properties') + ' (' + num(nearUnits) + ' affordable homes) ' + (near.length === 1 ? 'sits ' : 'sit ') + where + '.';
     var survey = d.amiPlace.meta.acs_year ? 'ACS ' + (d.amiPlace.meta.acs_year - 4) + '–' + d.amiPlace.meta.acs_year : 'ACS five-year';
     return head('A one-page view of ' + name + ' for lenders and investors: market, need, competition and local partners.',

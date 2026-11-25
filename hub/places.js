@@ -296,7 +296,7 @@
     if (first && first.households > 0 && first.homes != null) {
       var short = first.households - first.homes, r = first.homes / first.households * 10;
       var cr = county && county.households > 0 && county.homes != null ? county.homes / county.households * 10 : null;
-      lead = (name || 'This place') + (short > 0 ? ' has ' + num(short) + ' more renter households at or below 30% AMI than homes priced for them' : ' has as many homes priced for renters at or below 30% AMI as such renters') +
+      lead = (name || 'This place') + (short > 0 ? ' has ' + num(short) + ' more renter household' + (short === 1 ? '' : 's') + ' at or below 30% AMI than homes priced for them' : ' has as many homes priced for renters at or below 30% AMI as such renters') +
         ': ' + r.toFixed(1) + ' homes for every 10' + (cr != null ? ' (' + county.name + ': ' + cr.toFixed(1) + ')' : '') + '.';
     }
     // Gemini round 16, picks 1 and 2 (paul 11-05): the finding is the title, and the figure's label is the
@@ -308,7 +308,7 @@
       '<ul class="legend"><li><span class="key households"></span>Renter households in the band</li><li><span class="key homes"></span>Homes priced for the band</li></ul>' +
       '<div class="gap-rows">' + rows.map(function (b) {
         return '<div class="gap-row"><p class="gap-band">' + esc(label(b)) + '<span class="note">Rent ' + esc(b.fromRent == null ? 'up to ' + money(b.rent) : money(b.fromRent + 1) + '\u2013' + money(b.rent)) + '</span>' +
-          '<span class="note gap-cum">At or below: ' + esc(num(b.cumHouseholds)) + ' renters, ' + esc(num(b.cumHomes)) + ' homes</span>' +
+          '<span class="note gap-cum">At or below: ' + esc(num(b.cumHouseholds)) + (b.cumHouseholds === 1 ? ' renter, ' : ' renters, ') + esc(num(b.cumHomes)) + (b.cumHomes === 1 ? ' home' : ' homes') + '</span>' +
           (b.households != null && b.homes != null && b.homes > b.households ? '<span class="note gap-surplus">Homes at this price, not spare homes: renters at other incomes rent them</span>' : '') + '</p>' +
           '<div class="gap-bars">' + bar('households', b.households, 'Renter households', b) + bar('homes', b.homes, 'Homes priced for the band', b) + '</div></div>';
       }).join('') + '</div><p class="metric-source">' + srcLine([['Census ACS 2020\u20132024', SRC.acsGap], ['HUD FY2026 income limits', SRC.hudIl]]) + '</p>' + whoRents(f, d, name) + '</figure>';

@@ -47,9 +47,10 @@
 
   // The place picker both pages open on: no figures until a place is chosen (as the HNA starts, paul 26 Oct).
   // before: a block above the place search (the Market check's site box); the search then reads as the other way in.
-  function picker(route, title, answer, q, menu, before) {
+  // bar: drawn under the title and above everything else (the seven-step bar on a step page opened with no place).
+  function picker(route, title, answer, q, menu, before, bar) {
     var hits = q ? Shell.catalog().entries.filter(function (e) { return e.geoid; }).filter(Shell.matches(q)).slice(0, 12) : [];
-    return T.head({ kind: 'tool', crumbs: T.trail(menu || 'deal', title), title: title, answer: answer }) + (before || '') +
+    return T.head({ kind: 'tool', crumbs: T.trail(menu || 'deal', title), title: title, answer: answer }) + (bar || '') + (before || '') +
       '<form class="search" role="search" data-pick="' + route + '"><label for="' + route + '-q">' + (before ? 'Or a whole town, city or county' : 'Pick a town, city or county') + '</label>' +
       '<input id="' + route + '-q" name="q" type="search" autocomplete="off" value="' + esc(q || '') + '" placeholder="For example Fruita or Mesa County"></form>' +
       (q ? (hits.length ? '<ul class="route-list">' + hits.map(function (e) { return '<li><a href="#/' + route + '?g=' + esc(e.geoid) + '">' + esc(e.label) + '</a></li>'; }).join('') + '</ul>'
