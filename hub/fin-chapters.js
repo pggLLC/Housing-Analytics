@@ -409,14 +409,23 @@
       else { o.state = 'misses'; o.value = x2(v); o.fix = 'Size the first mortgage at a higher coverage (chapter 5), or fund an operating reserve; the stress cases are under Results.'; o.ch = 'funding'; }
       add(o);
     }());
-    // 4. Deferred developer fee repaid by year 15
+    // 4. Deferred developer fee repaid by year 15. Read from the engine's yearly payments through year 15 (r.obligations,
+    //    which pay the fee after the must-pay debt), not from exit.dfYr, which only looks as far as the exit hold, nor
+    //    from the optional repayment limit's own check (Codex, HA #3009).
     (function () {
-      var rc = r.deferredRepayCap || {}, yrs = rc.years || 15, dfYr = r.exit ? r.exit.dfYr : null;
+      var rc = r.deferredRepayCap || {}, yrs = rc.years || 15, years = r.obligations && r.obligations.years;
       var o = { id: 'fee-repaid', name: 'Deferred developer fee repaid', target: 'By year ' + yrs, source: 'CHFA QAP ' + (rc.citation ? rc.citation.replace(/^QAP /, '') : '2.B'), ch: 'funding' };
+      var paidYr = null, owed = null, why = null;
+      if (years) for (var y = 1; y <= yrs; y++) {
+        var py = years[y - 1];
+        if (!py || py.deferredFeeOwed == null || !isFinite(py.deferredFeeOwed)) { why = py && py.unavailableReason; owed = null; break; }
+        owed = py.deferredFeeOwed;
+        if (owed <= 0.5) { paidYr = y; break; }
+      }
       if (!(r.deferredDevFee > 0.5)) { o.state = r.deferredDevFee == null ? 'unknown' : 'meets'; o.value = r.deferredDevFee == null ? 'Not available' : 'No fee deferred'; if (r.deferredDevFee == null) o.fix = F().unavailable(r, 'deferredDevFee'); }
-      else if (dfYr != null && dfYr <= yrs) { o.state = 'meets'; o.value = 'Year ' + dfYr; }
-      else if (dfYr != null || (rc.owedAfter != null && rc.owedAfter > 0.5)) { o.state = 'misses'; o.value = dfYr != null ? 'Year ' + dfYr : 'Not by year ' + yrs; o.fix = 'Defer less of the fee (chapter 5), turn on the repayment limit, or lower running costs in chapter 4.'; }
-      else { o.state = 'unknown'; o.value = 'Not available'; o.fix = rc.reason || F().unavailable(r, 'exit.dfYr'); }
+      else if (paidYr != null) { o.state = 'meets'; o.value = 'Year ' + paidYr; }
+      else if (owed != null && y > yrs) { o.state = 'misses'; o.value = short$(owed) + ' left after year ' + yrs; o.fix = 'Defer less of the fee (chapter 5), turn on the repayment limit, or lower running costs in chapter 4.'; }
+      else { o.state = 'unknown'; o.value = 'Not available'; o.fix = why ? 'The yearly payments stop before year ' + yrs + ': ' + String(why).replace(/\.$/, '') + '.' : (rc.reason || F().unavailable(r, 'exit.dfYr')); }
       add(o);
     }());
     // 5. Developer fee
@@ -712,5 +721,5 @@
     if (el) { el.scrollIntoView({ block: 'start' }); el.focus({ preventScroll: true }); }
   });
 
-  global.LabFinChapters = { CHAPTERS: CHAPTERS, has: function (id) { return !!BUILT[id]; }, render: render, classicLink: classicLink, statuses: statuses, landCheck: landCheck, short$: short$ };
+  global.LabFinChapters = { CHAPTERS: CHAPTERS, has: function (id) { return !!BUILT[id]; }, render: render, classicLink: classicLink, statuses: statuses, landCheck: landCheck, short$: short$, dealChecks: dealChecks };
 })(window);
