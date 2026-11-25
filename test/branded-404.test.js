@@ -42,5 +42,26 @@ run('it is not indexed and shows the missed address as text', () => {
   assert.ok(!/innerHTML\s*=/.test(html), 'never as markup');
 });
 
+run('an old member address (developer-*.html) points to the members site; other addresses do not', () => {
+  // Run the page's own inline script, at each address (launch audit, 25 Nov: the old member pages 404ed with no pointer).
+  const { JSDOM } = require('jsdom');
+  // The page's inline scripts, read from the parsed page. With 'outside-only', jsdom runs no page script and loads
+  // no external file, so only the inline code evaluated below runs.
+  const shown = (p) => {
+    const dom = new JSDOM(html, { url: 'https://cohoanalytics.com' + p, runScripts: 'outside-only' });
+    const inline = [...dom.window.document.querySelectorAll('script:not([src])')].map((s) => s.textContent).join('\n');
+    assert.ok(/nf-members/.test(inline), 'the inline script no longer handles the members line');
+    dom.window.eval(inline);
+    const el = dom.window.document.getElementById('nf-members');
+    assert.ok(el, 'the members line is gone from 404.html');
+    assert.match(el.innerHTML, /href="https:\/\/coho-backend\.communityplanner\.workers\.dev\/"/, 'it links the members site');
+    return !el.hidden;
+  };
+  assert.equal(shown('/developer-where.html'), true, 'developer-where.html');
+  assert.equal(shown('/developer.html'), true, 'developer.html');
+  assert.equal(shown('/places/nowhere.html'), false, 'a non-member address');
+  assert.equal(shown('/data/developer-x.json'), false, 'developer- below the root is not a member page');
+});
+
 if (failures) { console.error('branded-404: FAIL'); process.exitCode = 1; }
 else console.log('branded-404: PASS');

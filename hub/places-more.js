@@ -12,6 +12,8 @@
   var LIVE = Pl.LIVE;
 
   var RANK_FILES = { ranking: 'data/hna/ranking-index.json' };
+  // Compare also reads the gap files, so its 50% and 60% counts include the 40% band as the place cards do.
+  var CMP_FILES = { ranking: 'data/hna/ranking-index.json', gapPlace: 'data/co_ami_gap_by_place.json', gapCounty: 'data/co_ami_gap_by_county.json' };
   var LI_FILES = {
     geoConfig: 'data/hna/geo-config.json', fees: 'data/policy/fee-reductions.json', funds: 'data/policy/local-housing-funds.json',
     coverage: 'data/policy/incentive-coverage.json', prop123: 'data/policy/prop123_jurisdictions.json', alternatives: 'data/policy/incentive-alternatives.json',
@@ -216,7 +218,7 @@
     { label: 'Share who rent', key: 'pct_renters', fmt: pct, src: 'acs', unit: 'percent of households', def: 'Households that rent their home.' },
     { label: 'Renters at or below 30% AMI', key: 'low_income_households_lte30', fmt: num, src: 'gap', unit: 'households', def: 'Renter households with income at or below 30% of area median income (AMI, set by HUD for the county).' },
     { label: 'Homes short at 30% AMI', key: 'ami_gap_30pct', fmt: num, src: 'gap', unit: 'homes', def: 'Renter households at or below 30% AMI minus homes priced for them, or 0 when those homes outnumber them. 0 does not mean no need: some of those homes are rented by higher-income households.' },
-    { label: 'Homes short at 60% AMI', key: 'ami_gap_60pct', fmt: num, src: 'gap', unit: 'homes', def: 'Renter households at or below 60% AMI minus homes priced for them, or 0 when those homes outnumber them. 0 does not mean no need.' },
+    { label: 'Homes short at 60% AMI', key: 'ami_gap_60pct', fmt: num, src: 'gap', unit: 'homes', def: 'Renter households at or below 60% AMI minus homes priced for them, or 0 when those homes outnumber them. Never lower than the 30% count. 0 does not mean no need.' },
     { label: 'Renters cost burdened', key: 'pct_cost_burdened', fmt: pct, src: 'acs', unit: 'percent of renter households', def: 'Renter households paying over 30% of income on rent and utilities.' },
     { label: 'Homes needed over 20 years', key: 'future_units_needed_20yr', fmt: num, src: 'dola', unit: 'homes', def: 'Homes for resident growth plus in-commuters, rented and owned, from the State Demography Office forecast.' },
     { label: 'Tax credit properties', key: 'lihtc_project_count', fmt: num, src: 'chfa', unit: 'properties (not homes)', def: 'Housing tax credit properties on CHFA\u2019s list. One property can hold many homes.' },
@@ -257,11 +259,17 @@
   }
   // The comparison as a CSV: one row per figure and place, with the unit, definition, source, period and geography the
   // screen gives it, and a reason where the cell is a dash (QA/QC F5). Values are the stored figures, unrounded.
-  function cmpCsvRows(picked, by, sums, meta) {
+  // A 50% or 60% AMI count for one ranking entry: never below the counts under it, the 40% band included when the
+  // gap files are loaded (gaps: { gapPlace, gapCounty }).
+  function cmpGap(r, key, gaps) {
+    var gr = gaps ? Pl.gapRecordFor(r.geoid, gaps.gapPlace, gaps.gapCounty) : null;
+    return Pl.gapMetric(r.metrics || {}, key, gr || {});
+  }
+  function cmpCsvRows(picked, by, sums, meta, gaps) {
     var rows = [];
     CMP_ROWS.forEach(function (row) {
       picked.forEach(function (g) {
-        var r = by[g], v = row.key === '_rank' ? r.rank : (r.metrics || {})[row.key], x = cmpSource(row, r, sums[g], meta);
+        var r = by[g], v = row.key === '_rank' ? r.rank : Pl.GAP_KEYS.indexOf(row.key) > 0 ? cmpGap(r, row.key, gaps) : (r.metrics || {})[row.key], x = cmpSource(row, r, sums[g], meta);
         var loading = /loading/.test(x.text);
         rows.push([row.label, cleanName(r.name), g, v == null ? '' : v, row.unit, row.def, x.text, x.period || '', x.geo,
           v == null ? 'Not published for this place in the HNA ranking file' : loading ? 'Survey year was still loading when this file was made; download it again' : '']);
@@ -411,7 +419,7 @@
   }
 
   function compare(params) {
-    var s = load(RANK_FILES);
+    var s = load(CMP_FILES);
     if (!s.data) return waiting('Compare places', s);
     var all = s.data.ranking.rankings, by = {};
     all.forEach(function (r) { by[r.geoid] = r; });
@@ -429,7 +437,7 @@
       (hits.length ? '<ul class="route-list">' + hits.map(function (r) { return '<li><a href="' + esc(href(picked.concat([r.geoid]))) + '">Add ' + esc(cleanName(r.name)) + '</a><p class="note">' + esc((TYPE[r.type] || r.type) + ', ' + r.region) + '</p></li>'; }).join('') + '</ul>' : q ? '<p class="count" role="status">No matches.</p>' : '') : '<p class="note">Six places is the most this table shows.</p>';
     var table = '';
     if (picked.length) {
-      var val = function (g, k) { return k === '_rank' ? by[g].rank : (by[g].metrics || {})[k]; };
+      var val = function (g, k) { return k === '_rank' ? by[g].rank : Pl.GAP_KEYS.indexOf(k) > 0 ? cmpGap(by[g], k, s.data) : (by[g].metrics || {})[k]; };
       // Two shares that compare fairly across places of any size, drawn before the full table.
       var Viz = global.LabViz, shareBars = function (title, key, color) {
         return Viz && Viz.orderedBars ? Viz.orderedBars({ title: title, rows: picked.map(function (g) { return [cleanName(by[g].name), val(g, key)]; }), fmt: pct, noShare: true, color: color }) : '';
@@ -444,7 +452,7 @@
         CMP_ROWS.map(function (row) {
           return '<tr><th scope="row">' + esc(row.label) + '</th>' + picked.map(function (g) { var v = val(g, row.key); return '<td class="num">' + esc(v == null ? '—' : row.fmt(v)) + '</td>'; }).join('') + '</tr>';
         }).join('') + '</tbody></table></div>' +
-        (global.LabVizData ? '<p class="viz-data-csv"><a class="button-link secondary" download="coho-compare-places.csv" href="data:text/csv;charset=utf-8,' + encodeURIComponent('\ufeff' + global.LabVizData.csvText(CMP_CSV_COLS, cmpCsvRows(picked, by, cmpSums(picked), s.data.ranking.metadata))) + '">Download this comparison as CSV</a> <span class="hint">One row for each figure and place, with its unit, definition, source and period.</span></p>' : '') +
+        (global.LabVizData ? '<p class="viz-data-csv"><a class="button-link secondary" download="coho-compare-places.csv" href="data:text/csv;charset=utf-8,' + encodeURIComponent('\ufeff' + global.LabVizData.csvText(CMP_CSV_COLS, cmpCsvRows(picked, by, cmpSums(picked), s.data.ranking.metadata, s.data))) + '">Download this comparison as CSV</a> <span class="hint">One row for each figure and place, with its unit, definition, source and period.</span></p>' : '') +
         '<p class="note">Counties and places are counted the same way, so a county’s figures include its towns. A dash means the figure is not published for that place.</p>' + cmpSrcLine;
       // Homes per 10 renters at or below 30% AMI, the measure on the Places map.
       var per = picked.map(function (g) {

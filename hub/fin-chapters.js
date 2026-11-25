@@ -181,7 +181,7 @@
       }).join('') + '</ul>' : '<p class="note">Nothing to check: every chapter is ready.</p>') + '</section>';
   }
   function rail(c, st, here) {
-    return '<aside class="fc-rail" id="fc-rail" aria-label="Result" tabindex="-1">' + gapBlock(c, st) + (here === 'results' ? '' : paysChart(c, st)) + railFigures(c) + toCheck(c, st) + '</aside>';
+    return '<aside class="fc-rail" id="fc-rail" aria-label="Result" tabindex="-1">' + gapBlock(c, st) + (here === 'results' ? '' : checkPanel(c, st, false) + paysChart(c, st)) + railFigures(c) + toCheck(c, st) + '</aside>';
   }
   function slim(c, st) {
     var r = c.r, n = 0;
@@ -362,6 +362,142 @@
       '<details class="fc-more" id="fc-capture"><summary>Can the market fill these homes?</summary>' + F().captureSection(p, s, cm) + '</details>' +
       '</section>';
   }
+  // ---------- How this deal is doing (paul, 25 Nov 2026: "build the deal check panel") ----------
+  // Six indicators, each the engine's own figure against a published target or the reader's own setting, with a
+  // status and one suggested change linked to the chapter where it is made. No overall score.
+  var CHECK = {
+    meets: { st: 'ready', word: 'Meets target' },
+    misses: { st: 'answer', word: 'Misses target' },
+    unknown: { st: 'none', word: 'Not measured yet' }
+  };
+  function chap(id) { return CHAPTERS.filter(function (x) { return x.id === id; })[0]; }
+  function dealChecks(c, st) {
+    var r = c.r, f = c.inputs.fields, out = [];
+    var rules = F()._data && F()._data.rules && F()._data.rules.rules;
+    var minDcr = rules && rules.min_debt_coverage && Number(rules.min_debt_coverage.min_coverage);
+    var x2 = function (v) { return v == null || !isFinite(v) ? null : v.toFixed(2) + 'x'; };
+    var add = function (o) { out.push(o); };
+    // 1. Funding gap
+    (function () {
+      var o = { id: 'gap', name: 'Funding gap', target: '$0', source: 'Sources must cover the cost', ch: 'funding' };
+      if (st.costs.blocker) { o.state = 'unknown'; o.value = 'Waiting on land'; o.fix = 'Fix the land line.'; o.ch = 'costs'; }
+      else if (r.gap == null) { o.state = 'unknown'; o.value = 'Not available'; o.fix = F().unavailable(r, 'gap'); }
+      else if (r.gap <= 0.5) { o.state = 'meets'; o.value = r.gap < -0.5 ? short$(-r.gap) + ' to spare' : 'Covered'; }
+      else {
+        o.state = 'misses'; o.value = short$(r.gap) + ' short';
+        var best = levers(c).filter(function (x) { return x.delta < -0.5; }).sort(function (a, b) { return a.delta - b.delta; })[0];
+        if (best) { o.fix = best.ch.label + ' ' + (best.dir < 0 ? best.ch.down : best.ch.up) + ' would make the gap ' + short$(-best.delta) + ' smaller' + (best.gap <= 0.5 ? ', closing it' : '') + '. Or add a soft loan or grant.'; o.ch = best.ch.ch; }
+        else o.fix = 'Add a soft loan or grant.';
+      }
+      add(o);
+    }());
+    // 2. First-mortgage coverage, year 1
+    (function () {
+      var y1 = r.coverage && r.coverage.years && r.coverage.years[0], v = y1 ? y1.seniorCoverage : null;
+      var o = { id: 'dcr', name: 'First-mortgage coverage, year 1', target: minDcr ? 'At least ' + x2(minDcr) : '—', source: 'CHFA minimum, underwriting rules', ch: 'funding' };
+      if (v == null || !minDcr) { o.state = 'unknown'; o.value = 'Not available'; o.fix = F().unavailable(r, 'coverage'); }
+      else if (v >= minDcr - 0.005) { o.state = 'meets'; o.value = x2(v); }
+      else { o.state = 'misses'; o.value = x2(v); o.fix = 'Size the loan at ' + x2(minDcr) + ' or more (coverage under First mortgage terms), or lower running costs in chapter 4.'; }
+      add(o);
+    }());
+    // 3. Coverage under the combined stress case
+    (function () {
+      var v = r.stress && r.stress.combined ? r.stress.combined.dscr : null, floor = num(f['dc-stress-dscr-floor']);
+      var o = { id: 'stress', name: 'Coverage under the combined stress case', target: floor != null ? 'At least ' + x2(floor) : '—', source: 'Your lender floor setting', ch: 'results' };
+      if (v == null || !isFinite(v) || floor == null) { o.state = 'unknown'; o.value = 'Not available'; o.fix = F().unavailable(r, 'stress'); }
+      else if (v >= floor - 0.005) { o.state = 'meets'; o.value = x2(v); }
+      else { o.state = 'misses'; o.value = x2(v); o.fix = 'Size the first mortgage at a higher coverage (chapter 5), or fund an operating reserve; the stress cases are under Results.'; o.ch = 'funding'; }
+      add(o);
+    }());
+    // 4. Deferred developer fee repaid by year 15. Read from the engine's yearly payments through year 15 (r.obligations,
+    //    which pay the fee after the must-pay debt), not from exit.dfYr, which only looks as far as the exit hold, nor
+    //    from the optional repayment limit's own check (Codex, HA #3009).
+    (function () {
+      var rc = r.deferredRepayCap || {}, yrs = rc.years || 15, years = r.obligations && r.obligations.years;
+      var o = { id: 'fee-repaid', name: 'Deferred developer fee repaid', target: 'By year ' + yrs, source: 'CHFA QAP ' + (rc.citation ? rc.citation.replace(/^QAP /, '') : '2.B'), ch: 'funding' };
+      var paidYr = null, owed = null, why = null;
+      if (years) for (var y = 1; y <= yrs; y++) {
+        var py = years[y - 1];
+        if (!py || py.deferredFeeOwed == null || !isFinite(py.deferredFeeOwed)) { why = py && py.unavailableReason; owed = null; break; }
+        owed = py.deferredFeeOwed;
+        if (owed <= 0.5) { paidYr = y; break; }
+      }
+      if (!(r.deferredDevFee > 0.5)) { o.state = r.deferredDevFee == null ? 'unknown' : 'meets'; o.value = r.deferredDevFee == null ? 'Not available' : 'No fee deferred'; if (r.deferredDevFee == null) o.fix = F().unavailable(r, 'deferredDevFee'); }
+      else if (paidYr != null) { o.state = 'meets'; o.value = 'Year ' + paidYr; }
+      else if (owed != null && y > yrs) { o.state = 'misses'; o.value = short$(owed) + ' left after year ' + yrs; o.fix = 'Defer less of the fee (chapter 5), turn on the repayment limit, or lower running costs in chapter 4.'; }
+      else { o.state = 'unknown'; o.value = 'Not available'; o.fix = why ? 'The yearly payments stop before year ' + yrs + ': ' + String(why).replace(/\.$/, '') + '.' : (rc.reason || F().unavailable(r, 'exit.dfYr')); }
+      add(o);
+    }());
+    // 5. Developer fee
+    (function () {
+      var dev = (r.costBasis || {}).developerFee;
+      var o = { id: 'fee', name: 'Developer fee', target: 'Within CHFA’s limit', source: 'CHFA QAP developer fee limits', ch: 'costs' };
+      if (dev && dev.passes === false) { o.state = 'misses'; o.value = short$(dev.excess) + ' over'; o.fix = 'Lower the developer fee to ' + money(dev.limit) + '; the excess is out of basis.'; }
+      else if (dev && dev.passes === true) { o.state = 'meets'; o.value = dev.fee != null ? short$(dev.fee) : 'Within'; }
+      else { o.state = 'unknown'; o.value = 'Not tested'; o.fix = (dev && dev.reason) || 'Itemize the costs so the fee can be tested.'; }
+      add(o);
+    }());
+    // 6. Cost per home and per bedroom, against CHFA's per-home cost basis limits for this mix (Method Three)
+    (function () {
+      var b = (r.costBasis || {}).basis || {}, clm = b.costLimitMethod || {}, plan = b.costLimitPlan || {};
+      var units = r.units, beds = 0, counted = 0;
+      (r.pricedRows || []).forEach(function (row) {
+        var n = Number(row && row.units), k = row && row.bedrooms;
+        if (!(n > 0) || !k) return;
+        var br = k === 'efficiency' || k === '0BR' ? 1 : parseInt(k, 10);
+        if (!(br > 0)) return;
+        beds += br * n; counted += n;
+      });
+      var perHome = r.tdc > 0 && units > 0 ? r.tdc / units : null;
+      var perBed = r.tdc > 0 && beds > 0 && Math.abs(counted - units) < 0.5 ? r.tdc / beds : null;
+      var limitHome = clm.checked && units > 0 ? clm.adjustedEligibleBasis / units : null;
+      var basisHome = r.eligibleBasis > 0 && units > 0 ? r.eligibleBasis / units : null;
+      var o = { id: 'cost', name: 'Cost per home and per bedroom', target: 'Within CHFA’s per-home limits',
+        source: 'CHFA 2027 Common Application, by bedrooms and building type' + (limitHome != null ? ': ' + short$(limitHome) + ' a home for this mix' : ''), ch: 'costs',
+        detail: (perBed != null ? short$(perBed) + ' a bedroom (studios count as one)' : 'Per bedroom needs a bedroom count for every home') +
+          (basisHome != null ? '; eligible basis ' + short$(basisHome) + ' a home' : '') };
+      o.value = perHome != null ? short$(perHome) + ' a home' : 'No cost yet';
+      if (perHome == null) { o.state = 'unknown'; o.fix = 'Enter the costs in chapter 3.'; }
+      else if (!clm.checked) { o.state = 'unknown'; o.fix = clm.reason || 'CHFA’s limits need the county, the building type and a bedroom count for every home.'; }
+      // The status compares eligible basis with the limits' total for this mix. Whether Method Three then cuts the
+      // credit is a separate fact: another limit (the credit cap, the gap) can already hold the credit lower (Codex, HA #3009).
+      else if (!(r.eligibleBasis > 0)) { o.state = 'unknown'; o.fix = F().unavailable(r, 'eligibleBasis'); }
+      else if (r.eligibleBasis > clm.adjustedEligibleBasis + 0.5) {
+        o.state = 'misses';
+        o.fix = 'Eligible basis is ' + short$(r.eligibleBasis - clm.adjustedEligibleBasis) + ' above CHFA’s per-home limits for this mix' +
+          (clm.lower ? ', so Method Three cuts the credit to ' + money(clm.credit) + ' a year' + (plan.applied ? ' (applied)' : '')
+            : '. Method Three does not cut the credit today, because another limit already holds it lower') + '. Lower costs, or check the building type.';
+      } else o.state = 'meets';
+      add(o);
+    }());
+    // 7. Minimum set-aside
+    (function () {
+      var m = r.minimumSetAsideResult;
+      var o = { id: 'set-aside', name: 'Minimum set-aside', target: 'Qualifies', source: '26 U.S.C. 42(g), as screened by the engine', ch: 'homes' };
+      if (!m || m.qualifies == null) { o.state = 'unknown'; o.value = 'Not available'; o.fix = 'Enter the homes and their income bands.'; }
+      else if (m.qualifies) { o.state = 'meets'; o.value = m.setAsideUnits + ' of ' + m.totalUnits + ' homes'; }
+      else { o.state = 'misses'; o.value = 'Does not qualify'; o.fix = m.reason + '. Change the homes’ income bands (chapter 2) or the election (chapter 1).'; }
+      add(o);
+    }());
+    return out;
+  }
+  function lc(t) { t = String(t); return /^[A-Z][a-z]/.test(t) ? t.charAt(0).toLowerCase() + t.slice(1) : t; }
+  function checkBadge(o) { var k = CHECK[o.state]; return badge(k.st, k.word); }
+  function checkPanel(c, st, wide) {
+    var list = dealChecks(c, st), n = { meets: 0, misses: 0, unknown: 0 };
+    list.forEach(function (o) { n[o.state]++; });
+    var sum = n.meets + ' of ' + list.length + ' meet their target' + (n.misses ? ', ' + n.misses + ' miss' : '') + (n.unknown ? ', ' + n.unknown + ' not measured yet' : '');
+    var id = wide ? 'fc-dc-h' : 'fc-dcr-h';
+    var link = function (o) { var ch = chap(o.ch); return '<a href="' + esc(chapterHref(c, ch)) + '">Chapter ' + ch.n + '<span class="sr-only"> ' + esc(ch.title) + '</span></a>'; };
+    return '<section class="fc-dcheck' + (wide ? ' fc-dcheck-wide' : '') + '" aria-labelledby="' + id + '"><h2 id="' + id + '">How this deal is doing</h2><p class="note">' + esc(sum) + '.' +
+      (wide ? ' Each figure is the Deal Engine\u2019s; each target is published or your own setting. There is no overall score.' : '') + '</p><ul role="list">' +
+      list.map(function (o) {
+        return '<li data-check="' + o.id + '"><div class="fc-dcl"><span class="fc-dcn">' + esc(o.name) + (o.detail ? '<small class="fc-dcs fc-dcd">' + esc(o.detail) + '</small>' : '') + (wide ? '<small class="fc-dcs">Target: ' + esc(lc(o.target)) + ' (' + esc(o.source) + ')</small>' : '') + '</span>' +
+          '<span class="fc-dcv">' + esc(o.value) + (wide ? '' : ' <small>target ' + esc(lc(o.target)) + '</small>') + '</span>' + checkBadge(o) + '</div>' +
+          (o.fix && o.state !== 'meets' ? '<p class="fc-dcf">' + esc(o.fix) + ' ' + link(o) + '</p>' : '') + '</li>';
+      }).join('') + '</ul></section>';
+  }
+
   // ---------- chapter 6, Results and review ----------
   // A one-line answer from each chapter with its status and a link to change it; three graphics drawn on one scale
   // each; the full page's result cards; and every result section of the full page in folds. "What moves the gap"
@@ -391,16 +527,23 @@
     }
     return global.DealEngine.computeDeal(x).gap;
   }
-  function movesChart(c, st) {
-    var r = c.r, h = '<section class="fc-graphic" aria-labelledby="fc-moves-h"><h2 id="fc-moves-h">What moves the gap most?</h2>';
-    if (st.costs.blocker || r.gap == null || !global.DealEngine) return h + '<p class="note">' + esc(st.costs.blocker ? 'Shown once the land line is fixed.' : F().unavailable(r, 'gap')) + '</p></section>';
-    var rows = [];
-    CHANGES.forEach(function (ch) {
+  // The six one-input runs, made once per drawing and shared by the chart and the deal check.
+  function levers(c) {
+    if (c._levers) return c._levers;
+    var r = c.r, rows = [];
+    if (r.gap != null && global.DealEngine) CHANGES.forEach(function (ch) {
       [-1, 1].forEach(function (dir) {
         var g = rerun(c.inputs, ch.id, dir);
         if (g != null) rows.push({ ch: ch, dir: dir, gap: g, delta: g - r.gap });
       });
     });
+    c._levers = rows;
+    return rows;
+  }
+  function movesChart(c, st) {
+    var r = c.r, h = '<section class="fc-graphic" aria-labelledby="fc-moves-h"><h2 id="fc-moves-h">What moves the gap most?</h2>';
+    if (st.costs.blocker || r.gap == null || !global.DealEngine) return h + '<p class="note">' + esc(st.costs.blocker ? 'Shown once the land line is fixed.' : F().unavailable(r, 'gap')) + '</p></section>';
+    var rows = levers(c).slice();
     if (!rows.length) return h + '<p class="note">Not available for these inputs.</p></section>';
     var widest = Math.max.apply(null, rows.map(function (x) { return Math.abs(x.delta); })) || 1;
     var size = {}; rows.forEach(function (x) { size[x.ch.id] = Math.max(size[x.ch.id] || 0, Math.abs(x.delta)); });
@@ -479,7 +622,7 @@
     var land = st.costs.blocker;
     return '<section class="fc-chapter" aria-labelledby="fc-h"><h2 id="fc-h"><span class="fc-n">6</span> Results and review</h2>' +
       '<p class="fc-q">Does it work, and what would change it? Check each chapter’s answers, then read the result.</p>' +
-      reviewTable(c, st) +
+      checkPanel(c, st, true) + reviewTable(c, st) +
       (land ? '<p class="callout"><strong>Waiting on land:</strong> ' + esc(land) + '</p>' : '') +
       '<div class="fc-graphics">' + paysChart(c, st) + movesChart(c, st) + carryChart(c, st) + '</div>' +
       '<h2 id="fin-result">The result</h2>' + X.resultCards(r, inputs) +
@@ -583,5 +726,5 @@
     if (el) { el.scrollIntoView({ block: 'start' }); el.focus({ preventScroll: true }); }
   });
 
-  global.LabFinChapters = { CHAPTERS: CHAPTERS, has: function (id) { return !!BUILT[id]; }, render: render, classicLink: classicLink, statuses: statuses, landCheck: landCheck, short$: short$ };
+  global.LabFinChapters = { CHAPTERS: CHAPTERS, has: function (id) { return !!BUILT[id]; }, render: render, classicLink: classicLink, statuses: statuses, landCheck: landCheck, short$: short$, dealChecks: dealChecks };
 })(window);
