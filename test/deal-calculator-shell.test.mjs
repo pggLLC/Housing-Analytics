@@ -67,7 +67,10 @@ ok(ref.includes('<script src="js/components/cra-lenders.js"></script>') && ref.i
 const ORIGIN = 'http://example.org';
 const mime = { '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.svg': 'image/svg+xml', '.json': 'application/json', '.geojson': 'application/json' };
 const bundled = chromium.executablePath();
-const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (fs.existsSync(bundled) ? bundled : '/opt/pw-browsers/chromium');
+// As test/workflow-rail-circles.test.mjs: Playwright's own browser, else Puppeteer's (CI), else this machine's.
+const fromPuppeteer = fs.existsSync(bundled) ? null : await (await import('puppeteer')).default.executablePath();
+const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (fs.existsSync(bundled) ? bundled
+  : fromPuppeteer && fs.existsSync(fromPuppeteer) ? fromPuppeteer : '/opt/pw-browsers/chromium');
 const browser = await chromium.launch({ headless: true, executablePath, args: ['--no-sandbox'] });
 try {
   for (const width of [390, 1280]) {
