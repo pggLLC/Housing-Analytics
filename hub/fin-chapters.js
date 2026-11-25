@@ -459,9 +459,14 @@
       o.value = perHome != null ? short$(perHome) + ' a home' : 'No cost yet';
       if (perHome == null) { o.state = 'unknown'; o.fix = 'Enter the costs in chapter 3.'; }
       else if (!clm.checked) { o.state = 'unknown'; o.fix = clm.reason || 'CHFA’s limits need the county, the building type and a bedroom count for every home.'; }
-      else if (clm.lower) {
+      // The status compares eligible basis with the limits' total for this mix. Whether Method Three then cuts the
+      // credit is a separate fact: another limit (the credit cap, the gap) can already hold the credit lower (Codex, HA #3009).
+      else if (!(r.eligibleBasis > 0)) { o.state = 'unknown'; o.fix = F().unavailable(r, 'eligibleBasis'); }
+      else if (r.eligibleBasis > clm.adjustedEligibleBasis + 0.5) {
         o.state = 'misses';
-        o.fix = 'Eligible basis is above CHFA’s per-home limits for this mix, so Method Three cuts the credit to ' + money(clm.credit) + ' a year' + (plan.applied ? ' (applied)' : '') + '. Lower costs, or check the building type.';
+        o.fix = 'Eligible basis is ' + short$(r.eligibleBasis - clm.adjustedEligibleBasis) + ' above CHFA’s per-home limits for this mix' +
+          (clm.lower ? ', so Method Three cuts the credit to ' + money(clm.credit) + ' a year' + (plan.applied ? ' (applied)' : '')
+            : '. Method Three does not cut the credit today, because another limit already holds it lower') + '. Lower costs, or check the building type.';
       } else o.state = 'meets';
       add(o);
     }());
