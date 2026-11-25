@@ -35,6 +35,8 @@ const dayMonYear = (iso) => {
 const CONTENT = 'data/core/educational-content.json';
 const GUIDE = 'lihtc-guide-for-stakeholders.html';
 const DC = 'deal-calculator.html';
+// The reading that sat below the calculator moved to its own page on 25 Nov 2026 (the calculator in the site shell).
+const DREF = 'deal-reference.html';
 const DEEP = 'colorado-deep-dive.html';
 const FUNDING = 'data/policy/co-developer-funding-guide.json';
 const BRIEFS = 'data/policy_briefs_curated.json';
@@ -45,13 +47,13 @@ const SIM = 'js/policy-simulator.js';
 export const RULES = [
   // ── Equity price: data/market/novogradac-equity-pricing.json ──────────────
   { fig: 'quarter', files: [CONTENT], pattern: /Novogradac's (\d{4}-Q\d) national average/g },
-  { fig: 'eq9', files: [CONTENT, DC], pattern: /national averages were \$(\d\.\d\d) (?:per credit dollar )?for 9%/g },
-  { fig: 'eq4', files: [CONTENT, DC], pattern: /for 9% credits and \$(\d\.\d\d) for 4%/g },
+  { fig: 'eq9', files: [CONTENT, DREF], pattern: /national averages were \$(\d\.\d\d) (?:per credit dollar )?for 9%/g },
+  { fig: 'eq4', files: [CONTENT, DREF], pattern: /for 9% credits and \$(\d\.\d\d) for 4%/g },
   { fig: 'eq9', files: [CONTENT], pattern: /At \$(\d\.\d\d) per credit dollar \(Novogradac's/g },
   { value: (F) => (F.eq9 * 10).toFixed(1), files: [CONTENT], pattern: /a \$1M annual credit raises about \$(\d+\.\d)M/g },
   { value: (F) => (3.24 * F.eq9).toFixed(2), files: [CONTENT], pattern: /that's about \$(\d+\.\d\d)M in additional equity/g },
-  { fig: 'quarter', files: [DC], pattern: /For (\d{4}-Q\d), Novogradac's national averages/g },
-  { fig: 'eqCo', files: [DC], pattern: /Colorado median \(all credit types\) was \$(\d\.\d\d)/g },
+  { fig: 'quarter', files: [DREF], pattern: /For (\d{4}-Q\d), Novogradac's national averages/g },
+  { fig: 'eqCo', files: [DREF], pattern: /Colorado median \(all credit types\) was \$(\d\.\d\d)/g },
   { fig: 'quarter', files: ['cra-expansion-analysis.html'], pattern: /Novogradac(?:<\/a>)? (\d{4}-Q\d): 9% \$/g },
   { fig: 'eq9', files: ['cra-expansion-analysis.html'], pattern: /: 9% \$(\d\.\d\d), 4% \$/g },
   { fig: 'eq4', files: ['cra-expansion-analysis.html'], pattern: /, 4% \$(\d\.\d\d)\), not only/g },
@@ -94,9 +96,9 @@ export const RULES = [
   { fig: 'revProc', files: [CONTENT], pattern: /per resident, (IRS Rev\. Proc\. \d{4}-\d+)\)/g },
   { fig: 'year', files: [CONTENT], pattern: /For (\d{4}) the per-resident part of the ceiling is about \$[\d.]+M/g },
   { fig: 'coM', files: [CONTENT], pattern: /per-resident part of the ceiling is about \$(\d+\.\d)M in annual credits/g },
-  { fig: 'year', files: [DC], pattern: /For (\d{4}) each state's 9% ceiling/g },
-  { fig: 'perCapita', files: [DC], pattern: /9% ceiling is \$(\d\.\d{3}) per resident/g },
-  { fig: 'coM', files: [DC], pattern: /about \$(\d+\.\d) million for Colorado/g },
+  { fig: 'year', files: [DREF], pattern: /For (\d{4}) each state's 9% ceiling/g },
+  { fig: 'perCapita', files: [DREF], pattern: /9% ceiling is \$(\d\.\d{3}) per resident/g },
+  { fig: 'coM', files: [DREF], pattern: /about \$(\d+\.\d) million for Colorado/g },
   { fig: 'perCapita', files: [DEEP], pattern: /credit authority \(\$(\d\.\d{3}) per resident\)/g },
   { fig: 'perCapita', files: [DEEP], pattern: /\$(\d\.\d{3}) per resident under Rev\. Proc\./g },
   { fig: 'perCapita', files: [DEEP], pattern: /ceiling: \$(\d\.\d{3}) per resident times/g },
@@ -113,8 +115,8 @@ export const RULES = [
   { value: (F) => (F.coPop == null ? null : thousands(F.coPop)), files: [GUIDE], pattern: /<td>\$[\d,]+ for \d{4}: ([\d,]+) residents at/g },
   { fig: 'smallStateMin', files: [GUIDE], pattern: /small-state minimum \(\$([\d,]+) for \d{4}\)/g },
   { fig: 'revProc', files: [GUIDE], pattern: /<td>(IRS Rev\. Proc\. \d{4}-\d+) §4\.08 \(rate/g },
-  { fig: 'revProcUrl', files: [DC, DEEP, GUIDE], pattern: /href="(https:\/\/www\.irs\.gov\/pub\/irs-drop\/rp-\d\d-\d+\.pdf)"/g },
-  { fig: 'revProc', files: [DC, DEEP, GUIDE], pattern: /irs-drop\/rp-\d\d-\d+\.pdf" target="_blank" rel="noopener"[^>]*>(IRS Rev\. Proc\. \d{4}-\d+)</g },
+  { fig: 'revProcUrl', files: [DREF, DEEP, GUIDE], pattern: /href="(https:\/\/www\.irs\.gov\/pub\/irs-drop\/rp-\d\d-\d+\.pdf)"/g },
+  { fig: 'revProc', files: [DREF, DEEP, GUIDE], pattern: /irs-drop\/rp-\d\d-\d+\.pdf" target="_blank" rel="noopener"[^>]*>(IRS Rev\. Proc\. \d{4}-\d+)</g },
   // The population notice the ceiling multiplies by: data/allocations.json source.
   { fig: 'noticeUrl', files: [DEEP, GUIDE], pattern: /href="(https:\/\/www\.irs\.gov\/irb\/\d{4}-\d+_IRB)"/g },
   { fig: 'notice', files: [DEEP, GUIDE], pattern: /irb\/\d{4}-\d+_IRB" target="_blank" rel="noopener"[^>]*>IRS (Notice \d{4}-\d+)/g },

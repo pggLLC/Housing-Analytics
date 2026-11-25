@@ -162,14 +162,16 @@ async function renderPage(doc) {
 }
 
 // ── 6. Links and repeated claims agree ─────────────────────────────────────
-for (const page of ['js/navigation.js', 'insights.html', 'sitemap.xml', 'lihtc-guide-for-stakeholders.html', 'hna-what-to-do.html', 'deal-calculator.html']) {
+for (const page of ['js/navigation.js', 'insights.html', 'sitemap.xml', 'lihtc-guide-for-stakeholders.html', 'hna-what-to-do.html', 'deal-reference.html']) {
   assert(read(page).includes('resident-services.html'), `${page} does not link to resident-services.html`);
 }
 assert(json('data/insights/catalog.json').entries.some((e) => e.url === 'resident-services.html' && e.review_from && e.review_from.file === 'data/policy/resident-services.json'),
   'the research catalog does not list the page with its review file');
 const qap = Object.fromEntries(DOC.entries.filter((e) => e.kind === 'qap').map((e) => [e.id, norm(e.quote)]));
-// The Deal Calculator card says the developer fee boost must be spent on services or rent help.
-const calc = read('deal-calculator.html');
+// The Deal Calculator's reference card says the developer fee boost must be spent on services or rent help (on
+// deal-reference.html since 25 Nov 2026, which the calculator links to).
+assert(read('deal-calculator.html').includes('href="deal-reference.html#hard"'), 'deal-calculator.html no longer links to its reference page');
+const calc = read('deal-reference.html');
 const card = calc.slice(calc.indexOf('id="dc-edu-services"'), calc.indexOf('</div>', calc.indexOf('id="dc-edu-services"')));
 assert(/developer fee boost CHFA requires to be spent on services or rent help/.test(card), 'the Deal Calculator services card no longer states the fee-boost rule');
 assert(qap['qap-developer-fee-boost'] && qap['qap-developer-fee-boost'].includes('supportive services or a rental subsidy'),

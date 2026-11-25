@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>/* Light or dark, before the page paints (the site's own key and classes). */
+  try { var s = localStorage.getItem('coho-analytics-scheme'); if (s === 'dark' || s === 'light') document.documentElement.classList.add(s + '-mode'); } catch (e) {}</script>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Deal reference | COHO Analytics</title>
+  <meta name="description" content="What makes tax credit deals hard, Colorado lenders active in tax credit deals, and development realism checklists. Reading that goes with the Deal Calculator.">
+  <link rel="canonical" href="https://cohoanalytics.com/deal-reference.html">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="hub/palette.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap">
+  <!-- The site's header, menu, footer and look, as on Market Analysis: the new pages' sheets in a cascade layer, so the
+       calculator's own sheets keep deciding its layout, and css/pages/market-analysis-hub.css (the shared tool-page
+       bridge) hands the header, menu, footer and step bar back to that layer. -->
+  <style>@import url("hub/shell.css") layer(hub); @import url("hub/visual-pass.css") layer(hub); @import url("hub/templates.css") layer(hub); @import url("hub/look.css") layer(hub);</style>
+  <link rel="stylesheet" href="css/pages/market-analysis-hub.css">
+  <style>/* The header, footer and trail keep the new pages' small-print colour (hub/palette.css, read at build). */
+  :is(.skip-link, .site-header, .site-footer, .crumbs) { --muted: #64748B; }
+  @media screen and (prefers-color-scheme: dark) { :root:not(.light-mode) :is(.skip-link, .site-header, .site-footer, .crumbs) { --muted: #A3B3AD; } }
+  @media screen { :root.dark-mode :is(.skip-link, .site-header, .site-footer, .crumbs) { --muted: #A3B3AD; } }</style>
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script type="module">/* The glossary and the header announcement, as js/navigation.js did them. */
+  if (!document.getElementById('glossary-script')) { const gs = document.createElement('script'); gs.id = 'glossary-script'; gs.src = 'js/glossary.js'; document.body.appendChild(gs); }
+  document.dispatchEvent(new CustomEvent('nav:rendered'));</script>
+  <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/development-realism.js"></script>
+  <style>
+    /* The sections as they looked under the Deal Calculator (moved with them from deal-calculator.html). */
+
+    /* Education section */
+    .dc-edu-section {
+      max-width: 1200px;
+      margin: 40px auto 0;
+      padding: 0 18px;
+    }
+    .dc-edu-section h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .dc-edu-intro {
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.55;
+    }
+    .dc-edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 700px) {
+      .dc-edu-grid { grid-template-columns: 1fr; }
+    }
+    .dc-edu-item {
+      border-left: 3px solid var(--accent);
+      padding-left: 16px;
+    }
+    .dc-edu-item h3 {
+      font-size: 1rem;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .dc-edu-item p {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+    .dc-edu-item ul {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 8px 0;
+      padding-left: 1.25rem;
+    }
+
+    /* CRA section */
+    .dc-cra-section {
+      max-width: 1200px;
+      margin: 40px auto 0;
+      padding: 0 18px;
+    }
+    .dc-cra-intro {
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 20px;
+    }
+    .dc-cra-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 700px) {
+      .dc-cra-grid { grid-template-columns: 1fr; }
+    }
+    .dc-cra-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+    }
+    .dc-cra-card__name {
+      font-weight: 700;
+      font-size: .95rem;
+    }
+    .dc-cra-card__role {
+      font-size: .82rem;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.45;
+    }
+    .dc-cra-card__tag {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: .8125rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .dc-cra-note {
+      font-size: .82rem;
+      color: var(--muted);
+      border-left: 3px solid var(--border);
+      padding-left: 12px;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+    .dc-chk-section { max-width: 1200px; margin: 40px auto 0; padding: 0 18px; }
+    .dc-ref-jump { max-width: 1200px; margin: 0 auto; padding: 0 18px; }
+    .dc-ref-jump ul { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; list-style: none; padding: 0; margin: .5rem 0 0; }
+    .dc-ref-jump a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+  </style>
+</head>
+<body data-menu="deal" class="tool-page">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+  <a class="brand" href="index.html">COHO Analytics</a>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+  <nav id="site-nav" class="site-nav" aria-label="Main"></nav>
+  <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">Dark</button>
+</header>
+
+  <main id="main-content" class="js-glossary-auto">
+    <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li><a href="deal-hub.html#/projects">Build a deal</a></li><li><a href="deal-calculator.html">Deal Calculator</a></li><li><span aria-current="page">Deal reference</span></li></ol></nav>
+    <div class="dc-ref-jump">
+      <h1>Deal reference</h1>
+      <p>Reading that goes with the <a href="deal-calculator.html">Deal Calculator</a>: what the pro forma doesn’t show, who lends in Colorado tax credit deals, and what to check before predevelopment. It used to sit below the calculator.</p>
+      <ul aria-label="On this page"><li><a href="#hard">What makes deals hard</a></li><li><a href="#cra">Finding CRA lenders</a></li><li><a href="#checklists">Realism checklists</a></li></ul>
+    </div>
+
+    <!-- ── LIHTC Complexity Education ─────────────────────────────────── -->
+    <section id="hard" class="dc-edu-section" aria-labelledby="dcEduHeading">
+      <h2 id="dcEduHeading">What makes LIHTC deals actually hard</h2>
+      <p class="dc-edu-intro">The tax credit program is the most effective affordable housing production tool in U.S. history &mdash; and one of the most technically demanding. Here is what the Deal Calculator’s pro forma does not show you.</p>
+
+      <div class="dc-edu-grid">
+
+        <div class="dc-edu-item">
+          <h3>Credit pricing is a market &mdash; and it moves</h3>
+          <p>The equity price per dollar of tax credit (the "credit price") is determined by what tax credit investors will pay. For 2026-Q2, Novogradac's national averages were $0.82 for 9% credits and $0.83 for 4% credits, and its Colorado median (all credit types) was $0.81 (<a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/lihtc-equity-pricing-trends" target="_blank" rel="noopener">Novogradac LIHTC equity pricing trends</a>; <a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits/regional-and-state-level-lihtc-equity-pricing" target="_blank" rel="noopener">regional and state pricing</a>). A 10-cent swing on a $1M annual credit changes your equity by $1M. LIHTC equity closes 12&ndash;18 months after allocation, during which your project's financial structure is locked &mdash; but market conditions are not.</p>
+        </div>
+
+        <div class="dc-edu-item">
+          <h3>Eligible basis is not total development cost</h3>
+          <p>Only "residential" costs qualify: construction, some soft costs, architect fees, developer overhead up to a limit. Land, commercial space, excess developer fee, and many financing costs are excluded. HUD's basis boost (130% in QCTs and DDAs) can add meaningful credit but requires specific HUD certification. The QCT/DDA overlay on the Housing Needs Assessment map shows your project's eligibility.</p>
+        </div>
+
+        <div class="dc-edu-item">
+          <h3>9% credits are competitive &mdash; not guaranteed</h3>
+          <p>CHFA allocates 9% credits through a competitive QAP process. For 2026 each state's 9% ceiling is $3.416 per resident (<a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32</a>), about $20.5 million for Colorado. A typical 60-unit LIHTC project needs $1.2&ndash;$1.8M in annual credits. Demand routinely exceeds supply by 3:1 or more. Applications score on: site control, readiness, community support, income targeting, green standards, nonprofit involvement, and design quality. Rejection does not mean the project is bad &mdash; it often means it is early.</p>
+        </div>
+
+        <div class="dc-edu-item" id="dc-edu-livability">
+          <h3>Design for livability before you draw the first plan</h3>
+          <p>This calculator does not price design, because no study supports a dollar value for a courtyard or a community room. The design choices still matter to residents and to CHFA, and most of them are cheap only at the start:</p>
+          <ul>
+            <li>One step-free route from the sidewalk and parking to every entrance, unit and shared room, with controls and fixtures anyone can use.</li>
+            <li>Units with the same amenities and square footage for every income tier, spread through the building, as the QAP asks.</li>
+            <li>Shade trees and water-wise planting instead of turf, with outdoor space residents can reach and use.</li>
+            <li>Small homes that work: storage inside where it is used, a defined entry, rooms checked against real furniture, and a porch deep enough to sit on.</li>
+            <li>Shared rooms on the routes residents already walk, bedrooms that fit the households, and quiet between units.</li>
+            <li>Noisy rooms kept away from bedrooms and routes that are easy to follow, and in supportive housing, a design shaped around residents' safety and choice.</li>
+          </ul>
+          <p><a href="research-brief.html?id=livability-universal-design-2026">Read the livability brief</a> for the evidence and for what CHFA requires, scores and rewards.</p>
+        </div>
+
+        <div class="dc-edu-item">
+          <h3>The "gap" problem is structural</h3>
+          <p>LIHTC rents are capped below market to serve low-income residents &mdash; which is the point. But lower revenue means lower debt capacity. The gap between total development cost and available financing (tax credit equity + first mortgage) is filled by: CHFA subordinate loans, HOME funds, CDBG, local housing trust funds, seller-carry notes, and deferred developer fee. Stacking these sources requires coordinated closings and subordination agreements. A typical 60-unit deal has 5&ndash;8 financing sources.</p>
+        </div>
+
+        <div class="dc-edu-item">
+          <h3>Compliance runs 30+ years</h3>
+          <p>The initial compliance period is 15 years. The extended use period adds another 15 (30 total). During this time, units must be rent-restricted and income-qualified. Annual CHFA compliance audits, IRS Form 8609, tenant income certifications (TICs), and annual owner's certificates are all required. A compliance violation can trigger credit recapture &mdash; the investor gets back the credits they claimed, plus interest and penalties. This liability runs through the full compliance period.</p>
+        </div>
+
+        <div class="dc-edu-item" id="dc-edu-services">
+          <h3>Services need their own budget</h3>
+          <p>The Deal Calculator’s operating expense figure is a general per-unit default with no separate line for resident or supportive services. If you plan a services coordinator, a supportive housing set-aside or CHFA's homelessness and special-populations points, price the services each year and name who pays for each year: operations, a capitalized reserve, the developer fee boost CHFA requires to be spent on services or rent help, or an outside funder. Buildings are financed for decades; services money is usually renewed one year at a time. <a href="resident-services.html">How services help, what CHFA requires, and what they cost</a>.</p>
+        </div>
+
+        <div class="dc-edu-item">
+          <h3>Working with banks: CRA and the capital stack</h3>
+          <p>Community Reinvestment Act (CRA) obligations incentivize banks to invest in affordable housing &mdash; either as LIHTC equity investors, construction lenders, or permanent lenders. Banks under CRA examination pressure are often the best sources of below-market subordinate debt. Identifying your local CRA lenders early &mdash; before allocation &mdash; can open financing that is not available through standard channels. See the lender guide below.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── CRA Lender Partnership Guide ───────────────────────────────── -->
+    <section id="cra" class="dc-cra-section" aria-labelledby="dcCraHeading">
+      <h2 id="dcCraHeading">Finding CRA lenders for your project</h2>
+      <p class="dc-cra-intro">Banks with Community Reinvestment Act obligations are among the most consistent sources of affordable housing capital &mdash; equity, construction debt, and subordinate permanent debt. The following Colorado-active lenders have established LIHTC and affordable housing programs.</p>
+
+      <div class="dc-cra-grid" id="dcCraGrid">
+        <!-- Populated by inline JS -->
+      </div>
+
+      <p class="dc-cra-note">This list reflects publicly reported CRA activity and program descriptions. Not an endorsement or guarantee of availability. Contact your CHFA relationship manager for current lender referrals before beginning preliminary conversations.</p>
+    </section>
+
+    <section id="checklists" class="dc-chk-section" aria-labelledby="dcChecklistsHeading">
+      <h2 id="dcChecklistsHeading">Development realism checklists</h2>
+      <p style="font-size:.82rem;color:var(--faint);margin:0 0 1rem;">These factors are not modeled in the calculator but materially affect deal feasibility. Review before investing in predevelopment.</p>
+      <div id="dealPPP"></div>
+      <div id="dealColorado"></div>
+      <div id="dealProjectTypes"></div>
+    </section>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DevRealism) {
+        DevRealism.renderPartnershipPanel('dealPPP');
+        DevRealism.renderColoradoFactors('dealColorado');
+        DevRealism.renderProjectTypeGuidance('dealProjectTypes');
+      }
+    });
+    </script>
+  </main>
+
+  <footer class="site-footer">
+  <p class="footer-terms">Free, and worth every penny. COHO Analytics is offered as-is, with no warranty. It isn’t legal, tax or financial advice, and pggLLC isn’t liable for what you do with it. Using the site means you accept the terms.</p>
+  <p class="footer-links"><a class="footer-link" href="terms-of-use.html">Terms of use</a> <a class="footer-link" href="privacy-policy.html">Privacy</a> <a class="footer-link" href="sitemap.html">Site map</a> <a class="footer-link" href="https://docs.google.com/forms/d/e/1FAIpQLSfC1m7Y1_b3VL_U9rOg8f0nIE14RVg8qm4gvhQaG2Qw8vVOdw/viewform">Questions or feedback</a> <a class="footer-link" href="mailto:info@cohoanalytics.com">info@cohoanalytics.com</a> <a class="footer-link" href="#" lang="es" title="Español: traducción automática de Google">Español</a> <a class="footer-link" href="https://coho-backend.communityplanner.workers.dev/">Member sign in</a></p>
+  <p>Developed and maintained by <a class="footer-link" href="https://pggllc.org">pggLLC</a>.</p>
+</footer>
+
+<script src="js/components/cra-lenders.js"></script>
+<script src="hub/lab-config.js"></script>
+<script src="hub/page-chrome.js"></script>
+<script src="hub/nav.js"></script>
+</body>
+</html>
