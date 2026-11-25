@@ -80,15 +80,59 @@ test('one home type\'s surplus does not cover another\'s gap; uncounted sources 
   assert.strictEqual(stack.appliedTotal, 0, 'nothing in the starter list is awarded');
   assert(stack.verifySources.some((s) => s.id === 'chfa-dpa-layering'), 'CHFA buyer aid listed, not counted');
 });
-test('the panel lives in the ownership view, labels owners, and every box has a registry entry', () => {
+test('the largest home is known without a size; an odd size is costed with a warning, never blocked', () => {
+  const r = Engine.sizeForSaleHomes(Object.assign({}, base, { rows: [
+    { bedrooms: 2, homes: '', sqft: '', amiPct: 80 }, { bedrooms: 2, homes: 1, sqft: 100, amiPct: 80 }, { bedrooms: 2, homes: 1, sqft: 1000, amiPct: 80 }] }));
+  assert(r.rows[0].largestSf > 0 && r.rows[0].costPerHome === null && r.rows[0].sizeWarning === null);
+  assert(/outside the usual/.test(r.rows[1].sizeWarning) && r.rows[1].costPerHome === 100 * 375 + 60000);
+  assert.strictEqual(r.rows[2].sizeWarning, null);
+});
+test('zero, negative and huge inputs: $0 build cost is blank; negatives are blank; land above price gives 0 sq ft', () => {
+  const zero = Engine.sizeForSaleHomes(Object.assign({}, base, { buildCostPerSf: 0, rows: [{ bedrooms: 1, homes: 1, sqft: 700, amiPct: 80 }] }));
+  assert.strictEqual(zero.rows[0].costPerHome, null);
+  assert(zero.costMissing.includes('build cost per square foot'));
+  const neg = Engine.sizeForSaleHomes(Object.assign({}, base, { softCostPct: -5, rows: [{ bedrooms: 1, homes: 1, sqft: 700, amiPct: 80 }] }));
+  assert(neg.costMissing.includes('soft costs %'));
+  const pricey = Engine.sizeForSaleHomes(Object.assign({}, base, { landPerHome: 5000000, rows: [{ bedrooms: 1, homes: 1, sqft: 700, amiPct: 80 }] }));
+  assert.strictEqual(pricey.rows[0].largestSf, 0);
+  assert(pricey.rows[0].gapPerHome > 4000000);
+  const softZero = Engine.sizeForSaleHomes(Object.assign({}, base, { softCostPct: 0, rows: [{ bedrooms: 1, homes: 1, sqft: 700, amiPct: 80 }] }));
+  assert.strictEqual(softZero.rows[0].costPerHome, 700 * 300 + 60000, '0% soft costs is a real value');
+});
+test('cost references agree with their records: amounts, publisher period and link destination', () => {
+  const refs = Engine.FOR_SALE_COST_REFERENCES;
+  assert(refs.length > 0, 'scan found references to check');
+  const html = Engine.forSaleCostReferenceHtml();
+  refs.forEach((r) => {
+    const span = html.slice(html.indexOf('data-cost-ref="' + r.id + '"'));
+    assert(span.length < html.length, r.id + ' is rendered');
+    const piece = span.slice(0, span.indexOf('</span>'));
+    assert(piece.includes('$' + r.lowPerSf + '&ndash;$' + r.highPerSf), r.id + ' shows its own range');
+    assert(r.lowPerSf < r.highPerSf, r.id + ' low below high');
+    const href = /href="([^"]+)"/.exec(piece)[1];
+    assert.strictEqual(href, r.url, r.id + ' links to its own source');
+    const u = new URL(href);
+    assert.strictEqual(u.protocol, 'https:');
+    assert(u.pathname.includes('/' + r.year + '/'), r.id + ' link is filed under its stated year ' + r.year);
+    assert(piece.includes(String(r.year)), r.id + ' names its year on screen');
+  });
+});
+test('the panel is owner-only, reads the shared references, and no box carries a cost default', () => {
   const src = fs.readFileSync(path.join(root, 'js', 'deal-calculator.js'), 'utf8');
   const reg = fs.readFileSync(path.join(root, 'js', 'deal-calculator-input-registry.js'), 'utf8');
-  assert(/<details id="dc-own-sizing" data-dc-mode="ownership" hidden/.test(src));
-  assert(/Size the homes for buyers \(owners\)/.test(src));
-  assert(/Rider Levett Bucknall, Q3 2026/.test(src) && /NWCCOG Workforce Housing Report, 2023/.test(src));
-  assert(/the insurance rate is unconfirmed/.test(src));
-  ['dc-size-cost-sf', 'dc-size-soft-pct', 'dc-size-land', 'dc-size-land-writedown', 'dc-size-hoa', "'dc-size-homes-'", "'dc-size-sf-'", "'dc-size-ami-'"]
-    .forEach((id) => assert(reg.includes(id), 'registry has ' + id));
-  assert(!/placeholder="(?!Enter|0)/.test(src.slice(src.indexOf('dc-own-sizing'), src.indexOf('dc-size-results'))), 'no default cost figure');
+  const foldStart = src.indexOf('<div id="dc-own-sizing"');
+  assert(foldStart > 0, 'panel markup found');
+  const fold = src.slice(foldStart, src.indexOf('<!--', foldStart));
+  assert(/data-dc-mode="ownership" hidden/.test(fold), 'shown only in the for-sale view');
+  assert(/<h3[^>]*>[^<]*\bowners?\b/i.test(fold), 'heading names owners (renter vs owner rule)');
+  assert(src.includes('forSaleCostReferenceHtml()'), 'references come from the engine records');
+  Engine.FOR_SALE_COST_REFERENCES.forEach((r) => assert(!src.includes('$' + r.lowPerSf + '&ndash;'), 'no second copy of ' + r.id));
+  const inputs = fold.match(/<input [^>]*>/g) || [];
+  assert(inputs.length >= 13, 'scan found the panel inputs');
+  inputs.forEach((tag) => {
+    assert(!/\svalue="/.test(tag), 'no prefilled value: ' + tag);
+    const id = /id="([^"]+)"/.exec(tag)[1];
+    assert(reg.includes("'" + id + "'") || reg.includes("'" + id.replace(/\d+$/, "'")), 'registry has ' + id);
+  });
 });
 console.log('\n' + passed + ' passed');
