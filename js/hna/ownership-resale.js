@@ -192,6 +192,10 @@
         ? 'Affordability preservation unavailable'
         : (preserves ? "Keeps price at or below today's AMI-affordable price" : "Drifts above today's AMI-affordable price"),
       calculationBasis: calculationBasis,
+      // Shown wherever the price is: with blank selling costs the shared-appreciation price leaves them out.
+      priceNote: convention.type === 'shared_appreciation' && cap != null && sellingCosts == null
+        ? 'Before selling costs: they are blank, so this price leaves them out; under shared appreciation the next buyer pays them too.'
+        : null,
       caveat: SCREENING_CAVEAT
     };
   }
@@ -280,7 +284,8 @@
       var outcomes = row.outcomes.map(function (outcome) {
         return '<td><span>Next buyer ' + displayMoney(outcome.maxResalePrice) + '</span><br><span>Owner equity ' + displayMoney(outcome.ownerGrossEquity) + '</span><br><span>Public recovery ' + displayMoney(outcome.publicSubsidyRecaptured) + '</span></td>';
       }).join('');
-      return '<tr data-resale-row="' + escapeHtml(row.conventionId) + '"' + (row.conventionId === comparison.selectedConventionId ? ' data-selected="true"' : '') + '><th scope="row">' + escapeHtml(row.label) + '<br><small>' + escapeHtml(row.objective) + '</small>' + (row.calculationNote ? '<br><small data-resale-calculation-note>' + escapeHtml(row.calculationNote) + '</small>' : '') + '<br><small>' + ProvenanceLabel.html(row, { sourceText: row.sourceProgram || 'View source' }) + '</small></th>' + outcomes + '</tr>';
+      return '<tr data-resale-row="' + escapeHtml(row.conventionId) + '"' + (row.conventionId === comparison.selectedConventionId ? ' data-selected="true"' : '') + '><th scope="row">' + escapeHtml(row.label) + '<br><small>' + escapeHtml(row.objective) + '</small>' + (row.calculationNote ? '<br><small data-resale-calculation-note>' + escapeHtml(row.calculationNote) + '</small>' : '') +
+        (function () { var o = row.outcomes.find(function (x) { return x.priceNote; }); return o ? '<br><small data-resale-price-note>' + escapeHtml(o.priceNote) + '</small>' : ''; })() + '<br><small>' + ProvenanceLabel.html(row, { sourceText: row.sourceProgram || 'View source' }) + '</small></th>' + outcomes + '</tr>';
     }).join('');
     return '<div data-resale-comparison><p><strong>Compare mechanisms in declared source order.</strong> These alternatives are not ranked; they protect different interests.</p>' +
       (Number.isFinite(comparison.cpiRateAnnual) ? '<p>Lesser-of comparison CPI input: ' + escapeHtml((comparison.cpiRateAnnual * 100).toFixed(1)) + '% annually.</p>' : '') +

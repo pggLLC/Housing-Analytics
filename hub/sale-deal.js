@@ -153,6 +153,7 @@
         '<small>' + esc(row.objective) + '</small>' + (row.sourceUrl ? '<small><a href="' + esc(row.sourceUrl) + '">' + esc(row.sourceProgram || 'Source') + ' ↗</a>' + (row.lastVerified ? ', checked ' + esc(row.lastVerified) : '') + '</small>' : '') + '</th>' +
         row.outcomes.map(function (o) {
           return '<td><span class="ro-price" data-value="' + (o.maxResalePrice == null ? '' : Math.round(o.maxResalePrice)) + '">' + esc(money(o.maxResalePrice)) + '</span>' +
+            (o.priceNote ? '<small data-resale-price-note title="' + esc(o.priceNote) + '">before selling costs (blank)</small>' : '') +
             '<small>Owner’s equity ' + esc(o.ownerGrossEquity == null && o.maxResalePrice != null ? 'not shown' : money(o.ownerGrossEquity)) + '</small>' +
             '<small>Public gets back ' + esc(o.publicSubsidyRecaptured == null && o.maxResalePrice != null ? 'not shown' : money(o.publicSubsidyRecaptured)) + '</small></td>';
         }).join('') + '</tr>';
@@ -286,6 +287,7 @@
       '<dl class="sale-facts"><div><dt>Cost a square foot</dt><dd>' + (r.tdcPerSf ? esc(money(r.tdcPerSf)) : '<span class="muted">Add the floor area</span>') + '</dd></div>' +
       (pi ? '<div><dt>At resale, ' + esc(pi.label) + '</dt><dd>' + (pi.outcome.maxResalePrice == null ? '<span class="muted">' + esc(pi.outcome.unavailableReason || 'Unavailable') + '</span>'
         : 'Next buyer pays up to <strong data-out="publicResalePrice" data-value="' + Math.round(pi.outcome.maxResalePrice) + '">' + esc(money(pi.outcome.maxResalePrice)) + '</strong>' +
+          (pi.outcome.priceNote ? ' before selling costs (blank)' : '') +
           (pi.outcome.publicSubsidyRecaptured > 0 ? ', ' + esc(money(pi.outcome.publicSubsidyRecaptured)) + ' back to the public' : '')) + '<small>' + esc(pi.scenario || '') + ' market</small></dd></div>' : '') +
       '</dl>' + programList(s, r) + '</aside>';
     return head + link + '<div class="sale-layout">' + board + inputs + '</div>' + priceTiles(r) +

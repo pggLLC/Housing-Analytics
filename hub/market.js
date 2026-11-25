@@ -292,7 +292,7 @@
       series: series, ref: { y: at80, label: 'Affordable at 80% AMI today' }, xUnit: 'years',
       answer: 'A home bought for $' + num(at80) + ', the most an 80% AMI household can pay here, resells for $' + num(series[0].points[YEARS][1]) + ' on the open market after ' + YEARS + ' years at 3% a year. The resale formulas cap it lower, at $' +
         num(Math.min.apply(null, series.slice(1).map(function (x) { return x.points[YEARS][1]; }))) + ' to $' + num(Math.max.apply(null, series.slice(1).map(function (x) { return x.points[YEARS][1]; }))) + '.',
-      note: 'Market growth of 3% a year is the site’s moderate scenario. Recapture is left out: the home sells at market and public money is repaid from the owner’s gain. Screening only; the deed restriction or ground lease decides the real terms.',
+      note: 'Market growth of 3% a year is the site’s moderate scenario. Recapture is left out: the home sells at market and public money is repaid from the owner’s gain. The shared-appreciation line leaves selling costs out; the next buyer pays them too. Screening only; the deed restriction or ground lease decides the real terms.',
       source: Pl.srcLine([['COHO resale conventions, verified ' + ((doc.meta && doc.meta.last_verified) || ''), LIVE + 'for-sale-market-study.html']])
     }) : '';
 
