@@ -107,6 +107,31 @@ function extractFunction(src, name) {
   assert(!line.hidden && line.textContent.includes(cdp.label),
     'renderer also accepts displayName-only resolver contexts');
 
+  // Codex launch audit B1 (24 Nov): the affordability-gap line used a town saved earlier in the browser for any county.
+  // The place now has to belong to the selected county, and an explicit county address wins over a saved town.
+  console.log('\n[test] affordability-gap place follows the selected county (B1)');
+  const placeGap = JSON.parse(fs.readFileSync(path.join(root, 'data/co_ami_gap_by_place.json'), 'utf8'));
+  win.eval('var _countyFips = null; var _amiGapPlaceData = null;');
+  win._amiGapPlaceData = placeGap;
+  win.eval(extractFunction(dc, '_findAmiGapPlace'));
+  win.eval(extractFunction(dc, '_getActivePlaceGeoid'));
+  win.WorkflowState.setJurisdiction({ geoType: 'place', geoid: '0828745', name: 'Fruita', displayName: 'Fruita', placeGeoid: '0828745', countyFips: '08077', countyName: 'Mesa County' });
+  const realCtx = win.JurisdictionUrlContext;
+  const urlAt = (geoid) => ({ isUrlContextPresent: () => !!geoid, resolveSync: () => (geoid ? (geoid.length === 5
+    ? { geoType: 'county', geoid, countyFips: geoid, source: 'url' }
+    : { geoType: 'place', geoid, placeGeoid: geoid, countyFips: '08077', source: 'url' }) : realCtx.resolveSync()) });
+  win.JurisdictionUrlContext = urlAt(null);
+  assert(win._getActivePlaceGeoid('08077') === '0828745', 'saved Fruita shows while Mesa is selected');
+  assert(win._getActivePlaceGeoid('08053') === null, 'saved Fruita is dropped when Hinsdale is selected');
+  win.JurisdictionUrlContext = urlAt('08053');
+  assert(win._getActivePlaceGeoid('08053') === null, 'a Hinsdale county address wins over saved Fruita');
+  win.JurisdictionUrlContext = urlAt('08077');
+  assert(win._getActivePlaceGeoid('08077') === null, 'a Mesa county address shows Mesa, not saved Fruita');
+  win.JurisdictionUrlContext = urlAt('0828745');
+  assert(win._getActivePlaceGeoid('08077') === '0828745', 'a Fruita address shows Fruita');
+  assert(win._getActivePlaceGeoid('08053') === null, 'Hinsdale picked after a Fruita address drops Fruita');
+  win.JurisdictionUrlContext = realCtx;
+
   console.log('\n=========================================');
   console.log('Results: ' + passed + ' passed, ' + failed + ' failed');
   process.exit(failed === 0 ? 0 : 1);

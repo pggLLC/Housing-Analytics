@@ -246,13 +246,21 @@
     Object.keys(ms).sort().forEach(function (k) { var w = whyMissing(ms[k]); if (w) out[k] = w; });
     return out;
   }
+  // A figure whose value is a record, not a number (the latest nearby tax credit award: place, year, credit type),
+  // written out in words so the CSV keeps all of it. Any other record keeps its fields as JSON text.
+  function cellOf(v) {
+    if (v == null || typeof v !== 'object') return v;
+    if (Array.isArray(v)) return v.map(cellOf).join('; ');
+    if (v.place != null && v.year != null) return [v.place, v.year, v.type].filter(function (x) { return x != null && x !== ''; }).join(', ') + (v.from_neighbor ? ' (award in a nearby place)' : '');
+    return JSON.stringify(v);
+  }
   // One row per published figure: its key, value, source, vintage and the geography it is measured for.
   function csvOf(digest, geoid) {
     var q = function (x) { x = x == null ? '' : String(x); return /[",\n]/.test(x) ? '"' + x.replace(/"/g, '""') + '"' : x; };
     var ms = (digest && digest.metrics) || {};
     var rows = [['geoid', 'figure', 'value', 'source', 'source id', 'vintage', 'geography', 'confidence', 'why no value']].concat(Object.keys(ms).sort().map(function (k) {
       var m = ms[k] || {};
-      return [geoid, k, m.value, sourceOf(m), m.source_id || '', m.as_of || '', m.geography_level || '', m.confidence || '', whyMissing(m) || ''];
+      return [geoid, k, cellOf(m.value), sourceOf(m), m.source_id || '', m.as_of || '', m.geography_level || '', m.confidence || '', whyMissing(m) || ''];
     }));
     // HUD's affordable-and-available count, the page's headline, under its own keys and source.
     var h = hudFor(geoid);
@@ -1754,7 +1762,7 @@
             var on = row.conventionId === rc.selectedConventionId;
             return '<tr' + (on ? ' class="own-on"' : '') + '><th scope="row">' + (on ? '<span class="own-mark">Marked</span> ' : '') + esc(row.label) + (row.sourceUrl ? ' <a href="' + esc(row.sourceUrl) + '" rel="noopener">' + esc(row.sourceProgram || 'source') + '</a>' : '') + '</th>' +
               row.outcomes.map(function (o) {
-                return '<td>' + (o.maxResalePrice == null ? 'Not available' : 'Next buyer pays <strong>' + money(o.maxResalePrice) + '</strong><br>Owner keeps ' + money(o.ownerGrossEquity) + '<br>Public gets back ' + money(o.publicSubsidyRecaptured)) + '</td>';
+                return '<td>' + (o.maxResalePrice == null ? 'Not available' : 'Next buyer pays <strong>' + money(o.maxResalePrice) + '</strong><br>Owner keeps ' + money(o.ownerGrossEquity) + ' before paying off the mortgage and selling costs<br>Public gets back ' + money(o.publicSubsidyRecaptured)) + '</td>';
               }).join('') + '</tr>';
           }).join('') + '</tbody></table></div><p class="note">' + esc(rc.caveat || '') + '</p>';
       }
@@ -2880,5 +2888,5 @@
     return COHORTS.map(function (c) { return [c[1] >= 200 ? '85+' : c[0] + '\u2013' + c[1], sum(sya.male, c[0], c[1]), sum(sya.female, c[0], c[1])]; });
   }
 
-  global.LabHna = { peopleFigures: peopleFigures, ageGroups: ageGroups, TABS: TABS, chapter: function (c, geoid, tab, entry, place) { return focusTables(view(c, geoid, tab, entry, place)); }, stepPath: stepPath, PATH: PATH, working: working, setWorking: setWorking, clearWorking: clearWorking, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, loadPlace: loadPlace, sourceOf: sourceOf, sourceUrl: sourceUrl, scopeOf: scopeOf, INCOME: INCOME, STRUCTURE: STRUCTURE, BEDROOMS: BEDROOMS, RENT_BURDEN: RENT_BURDEN, BURDEN_TIERS: BURDEN_TIERS };
+  global.LabHna = { csvOf: csvOf, cellOf: cellOf, peopleFigures: peopleFigures, ageGroups: ageGroups, TABS: TABS, chapter: function (c, geoid, tab, entry, place) { return focusTables(view(c, geoid, tab, entry, place)); }, stepPath: stepPath, PATH: PATH, working: working, setWorking: setWorking, clearWorking: clearWorking, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, loadPlace: loadPlace, sourceOf: sourceOf, sourceUrl: sourceUrl, scopeOf: scopeOf, INCOME: INCOME, STRUCTURE: STRUCTURE, BEDROOMS: BEDROOMS, RENT_BURDEN: RENT_BURDEN, BURDEN_TIERS: BURDEN_TIERS };
 })(window);

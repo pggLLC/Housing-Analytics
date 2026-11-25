@@ -110,6 +110,33 @@ const wmrhc = Resale.evaluateConvention(byId('fixed_simple'), {
 });
 assert.equal(wmrhc.maxResalePrice, 460000, 'WMRHC 3% simple math: 400,000 held 5 years -> 460,000');
 assert.equal(wmrhc.ownerGrossEquity, 140000, 'owner gross equity subtracts remaining principal and selling costs');
+
+// Codex launch audit B3 (24 Nov): a blank loan balance or selling cost is unknown, not $0. Owner equity and public
+// recovery stay unavailable with the reason; an entered 0 is a $0 deduction; a positive entry is deducted exactly.
+const b3 = (principal, costs, id) => Resale.evaluateConvention(byId(id || 'fixed_simple'), {
+  purchasePrice: 273138, holdingPeriodYears: 5, remainingPrincipal: principal, sellingCosts: costs, marketAppreciation: 40000,
+  unrestrictedMarketValue: 314109,
+});
+const blankLoan = b3(null, 0);
+assert.equal(blankLoan.maxResalePrice, 314109, 'the resale price does not depend on the loan balance');
+assert.equal(blankLoan.ownerGrossEquity, null, 'blank loan balance: owner equity unavailable, not the whole resale price');
+assert(/loan balance left at resale/.test(blankLoan.equityUnavailableReason) && /Enter 0/.test(blankLoan.equityUnavailableReason), blankLoan.equityUnavailableReason);
+assert.equal(b3('', 0).ownerGrossEquity, null, 'an empty string is blank too');
+assert.equal(b3(0, null).ownerGrossEquity, null, 'blank selling costs: owner equity unavailable');
+assert(/selling costs/.test(b3(0, null).equityUnavailableReason));
+assert.equal(b3(0, 0).ownerGrossEquity, 314109, 'entered 0 and 0: no deduction');
+assert.equal(b3(0, 0).equityUnavailableReason, null);
+assert.equal(b3(232077, 18000).ownerGrossEquity, 314109 - 232077 - 18000, 'entered balance and costs are deducted exactly');
+assert.equal(b3(null, 0, 'recapture').publicSubsidyRecaptured, null, 'blank loan balance: public recovery unknown, not $0');
+assert.equal(b3(232077, 18000, 'recapture').publicSubsidyRecaptured, Math.min(90000, 314109 - 232077 - 18000), 'recapture with entries');
+const sharedBlank = b3(0, null, 'shared_appreciation');
+assert.equal(sharedBlank.maxResalePrice, null, 'shared appreciation needs the selling costs for the next buyer price');
+assert(/Selling costs are blank/.test(sharedBlank.unavailableReason), sharedBlank.unavailableReason);
+const cmpBlank = Resale.compareConventions(data, { purchasePrice: 273138, holdingPeriodYears: 5, remainingPrincipal: null, sellingCosts: null });
+assert(/loan balance left at resale and the selling costs/.test(cmpBlank.equityNote), cmpBlank.equityNote);
+assert(cmpBlank.rows.every((row) => row.outcomes.every((o) => o.ownerGrossEquity === null)), 'no row shows owner equity from blanks');
+assert.equal(Resale.compareConventions(data, { purchasePrice: 273138, holdingPeriodYears: 5, remainingPrincipal: 0, sellingCosts: 0 }).equityNote, null);
+assert(Resale.renderComparisonHtml(cmpBlank).includes('data-resale-equity-note'), 'the comparison says why equity is not shown');
 assert.equal(wmrhc.preservesAffordability, true, 'WMRHC example remains below the current AMI-affordable benchmark');
 
 const apcha = Resale.evaluateConvention(byId('apcha_fixed_simple'), {
