@@ -296,7 +296,7 @@
     if (permit.value && perEl && !typed(perEl)) {
       perEl.value = String(Math.round(permit.value));
       if (prov) prov.markData(perEl, { source: 'Census Building Permits Survey, declared value per multifamily unit (structure only)',
-        sourceUrl: 'https://www2.census.gov/econ/bps/County/', vintage: permit.window, geography: permit.name,
+        sourceUrl: 'https://www2.census.gov/econ/bps/County/', vintage: permit.window, geography: permit.name, countyFips: _countyFips || null,
         why: 'Building only: no land, site work outside the structure, fees, soft costs or financing. ' + (permit.reason || '') });
     }
     if (permit.value) lines.push('Cost per home: ' + (permit.geography === 'county' ? permit.name : 'Colorado') + ' permit value, $' + Math.round(permit.value).toLocaleString('en-US')
@@ -366,22 +366,33 @@
     // Developer fee at CHFA's limit and the operating reserve at CHFA's minimum, read from the engine after the
     // hard costs are in (the fee base leaves out fees and reserves, so one pass is enough).
     var extra = [];
-    var cbr = _lastResult && _lastResult.costBasis;
-    var df = cbr && cbr.developerFee, orr = cbr && cbr.operatingReserve;
-    if (df && df.limit > 0) {
-      var got = fillCostLine('developer_fee', Math.floor(df.limit - (Number(val('dc-cost-consultant_fee')) || 0)), 'Unconfirmed: set at CHFA\'s developer fee limit (' + (df.citation || 'QAP 3.M.3') + ').');
+    // CHFA's fee limit and reserve minimum are only worked out once their line holds an amount, so a blank line
+    // (one you have not typed) is seeded with $0 to read the figure, then filled, or set blank again.
+    function seeded(id, read) {
+      var el = document.getElementById('dc-cost-' + id), prov = window.InputProvenance;
+      var rec = el && prov ? prov.get(el) : null;
+      var mine = rec && (rec.status === 'yours' || rec.status === 'data');
+      var seed = el && !mine && String(el.value).trim() === '';
+      if (seed) { el.value = '0'; recalculate(); }
+      var out = read(_lastResult && _lastResult.costBasis);
+      if (seed && !out.ok) { el.value = ''; recalculate(); }
+      return out;
+    }
+    var dfr = seeded('developer_fee', function (c) { var d = c && c.developerFee; return { ok: !!(d && d.limit > 0), d: d }; });
+    if (dfr.ok) {
+      var got = fillCostLine('developer_fee', Math.floor(dfr.d.limit - (Number(val('dc-cost-consultant_fee')) || 0)), 'Unconfirmed: set at CHFA\'s developer fee limit (' + (dfr.d.citation || 'QAP 3.M.3') + ').');
       if (got === 'filled') extra.push('the developer fee at CHFA\'s limit'); else if (got === 'kept') kept++;
-    } else extra.push('not the developer fee (' + String((df && df.reason) || 'its limit is not available yet').replace(/\.$/, '') + ')');
+    } else extra.push('not the developer fee (' + String((dfr.d && dfr.d.reason) || 'its limit is not available yet').replace(/\.$/, '') + ')');
     recalculate();
     syncTdcToLines();
-    cbr = _lastResult && _lastResult.costBasis; orr = cbr && cbr.operatingReserve;
-    if (orr && orr.minimum > 0) {
-      var gotR = fillCostLine('reserves', Math.ceil(orr.minimum), 'Unconfirmed: set at CHFA\'s operating reserve minimum (' + (orr.citation || 'QAP') + ').');
+    var orr = seeded('reserves', function (c) { var o = c && c.operatingReserve; return { ok: !!(o && o.minimum > 0), d: o }; });
+    if (orr.ok) {
+      var gotR = fillCostLine('reserves', Math.ceil(orr.d.minimum), 'Unconfirmed: set at CHFA\'s operating reserve minimum (' + (orr.d.citation || 'QAP') + ').');
       if (gotR === 'filled') extra.push('the operating reserve at CHFA\'s minimum'); else if (gotR === 'kept') kept++;
-    } else extra.push('not the operating reserve (' + String((orr && orr.reason) || 'its minimum is not available yet').replace(/\.$/, '') + ')');
+    } else extra.push('not the operating reserve (' + String((orr.d && orr.d.reason) || 'its minimum is not available yet').replace(/\.$/, '') + ')');
     if (note) note.textContent = 'Built ' + filled + ' hard-cost lines from a $' + r.contract.toLocaleString('en-US') + ' builder contract, and '
       + extra.join(', and ') + (kept ? '. Kept ' + kept + ' line' + (kept === 1 ? '' : 's') + ' you typed' : '')
-      + '. Soft costs need a source, so they are not filled: the example soft-cost lines stay until you replace or clear them. '
+      + '. Soft costs need a source, so they are not filled; any soft-cost lines already there are kept. '
       + (syncTdcToLines() || tdcSynced ? 'Total Development Cost now matches the cost lines. ' : 'Your Total Development Cost is kept. ')
       + 'Everything built is unconfirmed until you type over it.';
     var wrap = document.getElementById('dc-cost-lines-wrap');
@@ -2062,6 +2073,9 @@
       window.InputProvenance.invalidateGeography(document.getElementById('dealCalcMount') || document, fips || null);
     }
     _countyFips = fips || null;
+    // The cost builder's permit-based cost follows the county (an entry you typed stays).
+    var costBuilderOpen = document.getElementById('dc-cost-builder');
+    if (costBuilderOpen && costBuilderOpen.open) prefillCostBuilder();
     populateProp123Choices();
     _amiLimits = null;
     _amiLimitsByBr = null;

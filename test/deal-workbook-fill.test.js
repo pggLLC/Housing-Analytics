@@ -57,6 +57,9 @@ test('the page has both controls and marks filled lines as assumptions', () => {
   }
   assert.ok(/fillCostLine\(id, r.fills\[id\], 'Unconfirmed/.test(src), 'built cost lines are labelled unconfirmed');
   assert.ok(!/id="dc-cb-build-per-home"[^>]*value="\d/.test(src), 'no cost is written into the page itself');
+  assert.ok(/countyFips: _countyFips/.test(src), 'the permit-based cost carries its county, so a county change clears it');
+  assert.ok(/costBuilderOpen && costBuilderOpen.open\) prefillCostBuilder\(\)/.test(src), 'a county change refreshes the open builder');
+  assert.ok(/seeded\('developer_fee'/.test(src) && /seeded\('reserves'/.test(src), 'fee and reserve are worked out even when their lines are blank');
   assert.ok(/markData\(perEl/.test(src) && /markData\(escEl/.test(src), 'the public-data defaults carry their sources');
 });
 
