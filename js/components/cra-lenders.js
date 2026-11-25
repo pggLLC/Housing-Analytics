@@ -62,7 +62,7 @@
         : '<div class="dc-cra-card__name">' + l.name + '</div>';
       html += '<div class="dc-cra-card">' +
         nameHtml +
-        '<div class="dc-cra-card__role">' + l.role + '</div>' +
+        '<div class="dc-cra-card__role" data-no-source="definition">' + l.role + '</div>' +
         '<div style="margin-top:8px;">' + tagsHtml + '</div>' +
         '</div>';
     });
