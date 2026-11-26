@@ -458,7 +458,7 @@
   function why() {
     var W = [
       ['A home is where the rest starts', 'Kids stay in one school. People keep their jobs and see the same doctor. There is something left at the end of the month to save.'],
-      ['Towns need the people who keep them running', 'When rent and prices run ahead of pay, teachers, nurses, cooks and retirees move away or drive in from far off. Businesses can’t hire, and towns lose neighbors.'],
+      ['Towns need the people who keep them running', 'When rent and prices run ahead of pay, teachers, nurses, cooks and retirees move away or drive in from far off. Businesses can’t hire, and people who grew up there can’t afford to stay.'],
       ['It takes many hands, working from the same facts', 'Town staff, builders, lenders, nonprofits and neighbors each have a part. Plans move faster when everyone starts from the same numbers, and every number here links to where it came from.']
     ];
     return '<section class="home-why" aria-labelledby="h-why"><h2 id="h-why">Why affordable housing matters</h2><ul class="hw-list">' + W.map(function (w) {
