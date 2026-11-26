@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T18:55:49.902Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T19:12:36.150Z. Do not edit by hand.
 
 ---
 
@@ -2058,7 +2058,7 @@
 
 ## Test Files
 
-808 test files found.
+810 test files found.
 
 | File | Size |
 |------|------|
@@ -2183,28 +2183,29 @@
 | `test/deal-calc-equity-pricing.test.js` | 8.2 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.6 KB |
 | `test/deal-calc-lender-schedules-page.test.js` | 4.3 KB |
-| `test/deal-calc-manual-market-rent.test.js` | 17.5 KB |
+| `test/deal-calc-manual-market-rent.test.js` | 17.6 KB |
 | `test/deal-calc-minimum-set-aside.test.js` | 7.4 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
-| `test/deal-calc-net-rent.test.js` | 26.3 KB |
-| `test/deal-calc-operating-page.test.js` | 7.6 KB |
+| `test/deal-calc-net-rent.test.js` | 26.4 KB |
+| `test/deal-calc-operating-page.test.js` | 7.7 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-partnership-terms.test.js` | 12.2 KB |
 | `test/deal-calc-perm-rate-hint.test.js` | 6.1 KB |
 | `test/deal-calc-permanent-financing-page.test.js` | 8.6 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
-| `test/deal-calc-provenance.test.js` | 16.8 KB |
+| `test/deal-calc-provenance.test.js` | 16.9 KB |
 | `test/deal-calc-rent-programs.test.js` | 11.1 KB |
-| `test/deal-calc-report-meta.test.js` | 14.6 KB |
+| `test/deal-calc-report-meta.test.js` | 14.7 KB |
 | `test/deal-calc-sale-sizing.test.js` | 9.1 KB |
 | `test/deal-calc-schedule.test.js` | 25.2 KB |
 | `test/deal-calc-screening-apply.test.js` | 6.6 KB |
-| `test/deal-calc-share-roundtrip.test.js` | 23.9 KB |
+| `test/deal-calc-share-roundtrip.test.js` | 24.2 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.8 KB |
 | `test/deal-calc-studio-units.test.js` | 3.2 KB |
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 6.8 KB |
 | `test/deal-calculator-banner-url-first.test.js` | 5.1 KB |
+| `test/deal-calculator-chfa-comps.test.mjs` | 8.2 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-calculator-member-gate.test.mjs` | 8.2 KB |
 | `test/deal-calculator-member-place.test.mjs` | 8.7 KB |
@@ -2219,7 +2220,7 @@
 | `test/deal-engine-signed-rent-growth.test.js` | 3.5 KB |
 | `test/deal-engine-surfaces.test.js` | 14.0 KB |
 | `test/deal-engine.test.js` | 8.2 KB |
-| `test/deal-file.test.mjs` | 15.4 KB |
+| `test/deal-file.test.mjs` | 16.4 KB |
 | `test/deal-gap-handoff.test.js` | 6.0 KB |
 | `test/deal-lender-schedules.test.js` | 21.9 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
@@ -2334,6 +2335,7 @@
 | `test/helpers/deal-engine-page.cjs` | 1.9 KB |
 | `test/helpers/jspdf-mock.cjs` | 2.8 KB |
 | `test/helpers/render-home.js` | 11.4 KB |
+| `test/helpers/share-link.cjs` | 655 B |
 | `test/historical-trends-real-data.test.js` | 16.6 KB |
 | `test/hmda-lookup.test.js` | 6.9 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
@@ -2525,7 +2527,7 @@
 | `test/ownership-decision-chain.test.js` | 8.2 KB |
 | `test/ownership-finance.test.js` | 23.3 KB |
 | `test/ownership-funding-schema.test.js` | 5.9 KB |
-| `test/ownership-rental-separation.test.js` | 16.2 KB |
+| `test/ownership-rental-separation.test.js` | 16.3 KB |
 | `test/ownership-resale.test.js` | 20.3 KB |
 | `test/package-4-user-visible.test.js` | 7.8 KB |
 | `test/page-dates.test.mjs` | 10.8 KB |
