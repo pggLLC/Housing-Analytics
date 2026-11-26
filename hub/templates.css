@@ -131,6 +131,8 @@ html { overflow-x: clip; }
 .page-kind { display: inline-block; margin: 0 0 .5rem; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--green); }
 .page-head h1 { font-size: clamp(28px, 4vw, 40px); line-height: 1.15; margin: 0 0 .75rem; text-wrap: balance; color: var(--ink); }
 .page-answer { font-size: 19px; line-height: 1.5; max-width: 42rem; margin: 0 0 .75rem; color: var(--ink); }
+.page-terms { font-size: 15px; line-height: 1.5; max-width: 42rem; margin: -.25rem 0 .75rem; color: var(--ink-soft); }
+.page-terms abbr { text-decoration: none; font-weight: 600; color: var(--ink); }
 .page-meta { font-size: 14px; color: var(--ink-soft); max-width: 46rem; margin: 0 0 1rem; }
 .scope-tag { display: inline-block; margin-right: .5rem; padding: .05rem .55rem; border-radius: 999px; background: var(--geo-local-bg); color: var(--geo-local); font-weight: 600; font-size: 13px; }
 

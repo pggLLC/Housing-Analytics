@@ -149,11 +149,18 @@ if (dataMatch) {
     const sub = (html.match(/<p class="place-sub">([^<]*)<\/p>/) || [])[1] || '';
     const renters = d.summary.total_renter_hh || 0;
     scanned += 1;
+    // Pinned to the data, not the wording: the opening line prints the page's own embedded share, or no share at all.
+    const share = d.summary.renter_cb30_share || 0;
+    const printed = sub.match(/(\d+\.\d)%/);
     if (renters < FLOOR) {
-      if (/cost-burden/.test(sub)) assert(false, f + ': under ' + FLOOR + ' renter households, yet the subtitle prints a rate');
-    } else if ((d.summary.renter_cb30_share || 0) > 0) {
-      if (!/renter cost-burden \d/.test(sub)) assert(false, f + ': ' + FLOOR + '+ renter households, yet no rate in the subtitle');
+      if (printed) assert(false, f + ': under ' + FLOOR + ' renter households, yet the opening line prints a rate');
+    } else if (share > 0) {
+      // Python and JavaScript round a half differently at one decimal, so allow that half step.
+      if (!printed || Math.abs(Number(printed[1]) - share * 100) > 0.051) assert(false, f + ': the opening line prints ' + (printed ? printed[1] + '%' : 'no rate') + ', the data says ' + (share * 100).toFixed(1) + '%');
     }
+    // The opening line is a sentence about this place: it names the place the H1 names.
+    const h1 = ((html.match(/<h1>([^<]*)<\/h1>/) || [])[1] || '').trim();
+    if (!h1 || sub.indexOf(h1) < 0) assert(false, f + ': the opening line does not name ' + (h1 || 'the place') + ': ' + sub);
   });
   assert(scanned > 0 && scanned === pageFiles.length, `every place page was scanned for the ${FLOOR}-household floor (${scanned})`);
   assert(/var MIN_HH = Number\('\{\{MIN_HH\}\}'\);/.test(template) && /fewRenters \? FEW/.test(template),
