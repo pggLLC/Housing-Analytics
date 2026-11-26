@@ -2635,7 +2635,8 @@
     var county = place && place.county.county ? place.county.county.county_name : '';
     var current = tabs.filter(function (x) { return x.id === tab; })[0];
     var nav = '<nav class="tabs" aria-label="Housing Needs Assessment chapters"><ul>' + tabs.map(function (x) {
-      return '<li><a href="#/place/' + esc(geoid) + (x.id === first ? '' : '/' + x.id) + '"' + (x.id === tab ? ' aria-current="page"' : '') + '>' + esc(x.tab || x.title) + '</a></li>';
+      return '<li><a href="#/place/' + esc(geoid) + (x.id === first ? '' : '/' + x.id) + '"' + (x.id === tab ? ' aria-current="page"' : '') + '>' + esc(x.tab || x.title) +
+        (locked(x.id) ? ' <span class="tab-member">Members</span>' : '') + '</a></li>';
     }).join('') + '</ul></nav>';
     // The county's own page is in the lab too.
     var fips = place && place.rec.containing_county_fips;
@@ -2648,7 +2649,7 @@
     var lifted = (function (html) {
       var m = /<!--first-strip-->([\s\S]*?)<!--\/first-strip-->/.exec(html);
       return m ? { strip: '<div class="first-strip">' + m[1] + '</div>', body: html.replace(m[0], '') } : { strip: '', body: html };
-    })(tab === 'summary' ? Brief.html(geoid, entry.label) : view(c, geoid, tab, entry, place));
+    })(tab === 'summary' ? Brief.html(geoid, entry.label) : locked(tab) ? chapterCard(geoid, entry, current) : view(c, geoid, tab, entry, place));
     return global.LabTpl.head({
       kind: 'place', crumbs: global.LabTpl.trail('places', entry.label, [{ label: 'Find a place', href: '#/places' }]), title: entry.label,
       visual: locator(geoid, entry.label, fips, county, shared.data.counties),
@@ -2662,7 +2663,21 @@
         (tab === 'summary' ? '<details class="place-about"><summary>About these figures: data strength, ranges and labels</summary>' + tools + '</details>' : '') + downloads(geoid, entry) + (tab === 'overview' ? shareCard(entry, place, county, locator(geoid, entry.label, fips, county, shared.data.counties)) : '') + nextStep(geoid, tab, entry) +
       (global.LabStrength ? global.LabStrength.footnote() : '') +
       '<p class="note">Census figures are survey estimates with margins of error, which are wide for small places. Each figure names its agency, dataset and year. ' +
-      '<a href="' + esc(current.live ? Pl.LIVE + current.live + '?geoid=' + geoid : entry.href) + '">Open this chapter’s full page</a>.</p>';
+      (locked(tab) ? '' : '<a href="' + esc(current.live ? Pl.LIVE + current.live + '?geoid=' + geoid : entry.href) + '">Open this chapter’s full page</a>.') + '</p>';
+  }
+
+  // Members only on the public site (paul, 25 Nov 2026, "do it": HNA option B): the place's Summary and Overview
+  // stay free, with the free report; the chapters after them are for members. The member site shows them all.
+  var FREE_TABS = { summary: true, overview: true };
+  function locked(id) { return !FREE_TABS[id] && !!(Shell.memberOnly && Shell.memberOnly()); }
+  function chapterCard(geoid, entry, current) {
+    var first = String(geoid).length === 5 && global.LabPlaceBrief && global.LabPlaceBrief.forCounty(geoid) ? 'Summary' : 'Overview';
+    return Shell.memberCard({
+      title: current.title + ' is a member chapter',
+      what: ASKS[current.id] ? 'This chapter answers: ' + ASKS[current.id].charAt(0).toLowerCase() + ASKS[current.id].slice(1) : '',
+      gets: ['Every chapter of the needs assessment for ' + entry.label + ', with charts and sources', 'Projection scenarios, the statewide ranking and side-by-side compare', 'The same figures as the free ' + first + ' and report'],
+      free: [{ href: '#/place/' + geoid, label: 'Back to the free ' + first }]
+    });
   }
 
   // Share card for one place (Gemini round 7, q25; big visual pass 11-06): the 1200 x 630 picture a shared link
