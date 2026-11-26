@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <meta name="robots" content="noindex">
+  <title>Member sign in | COHO Analytics</title>
+  <meta name="description" content="Sign in to the COHO Analytics member tools, or keep using the free site.">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    .msi-choices { display: grid; gap: var(--sp4); grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); margin: var(--sp4) 0; }
+    .msi-choice { display: flex; flex-direction: column; gap: var(--sp2); }
+    .msi-choice h2 { margin: 0; font-size: 1.2rem; }
+    .msi-choice p { margin: 0; color: var(--muted); }
+    .msi-choice .btn { align-self: flex-start; margin-top: auto; font-size: 1.05rem; padding: .7rem 1.3rem; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <main id="main-content">
+    <div class="container" style="max-width:62rem;">
+
+      <div class="page-hero" style="border:none;padding-left:0;padding-right:0;">
+        <h1>Member sign in</h1>
+        <p class="page-sub">Member tools sit behind a sign-in. Everything else on cohoanalytics.com is free and open to everyone.</p>
+      </div>
+
+      <div class="msi-choices">
+        <section class="chart-card msi-choice" aria-labelledby="msi-free">
+          <h2 id="msi-free">Not a member?</h2>
+          <p>Place profiles, housing needs, the Deal Calculator and the data are all free. No sign-in needed.</p>
+          <a class="btn" id="msi-free-link" href="index.html">Use the free site</a>
+        </section>
+        <section class="chart-card msi-choice" aria-labelledby="msi-member">
+          <h2 id="msi-member">Already a member?</h2>
+          <p>The next page asks for the email you joined with and sends you a sign-in code.</p>
+          <a class="btn btn-outline" id="msi-go" href="https://coho-backend.communityplanner.workers.dev/">Sign in as a member</a>
+        </section>
+      </div>
+
+      <p style="font-size:.9rem;color:var(--muted);">Want member access? Email <a href="mailto:info@cohoanalytics.com?subject=Member%20access">info@cohoanalytics.com</a>.</p>
+
+    </div>
+  </main>
+
+  <script>
+    // A "Member sign in" link elsewhere on the site sends the visitor here with the member page it
+    // pointed to in the fragment (#to=..., js/config.js), so a deal carried in a calculator link
+    // never reaches a server. Only addresses on the member site are followed; anything else falls
+    // back to the member home.
+    (function () {
+      var MEMBER_ORIGIN = 'https://coho-backend.communityplanner.workers.dev';
+      var go = document.getElementById('msi-go');
+      var m = /(?:^#|&)to=([^&]*)/.exec(location.hash || '');
+      if (go && m) {
+        try {
+          var u = new URL(decodeURIComponent(m[1]));
+          if (u.origin === MEMBER_ORIGIN) go.href = u.href;
+        } catch (e) { /* keep the member home */ }
+      }
+      // A member who signs in from here goes straight to sign-in next time (js/config.js reads this).
+      if (go) go.addEventListener('click', function () {
+        try { localStorage.setItem('coho_member_signin_direct', String(Date.now())); } catch (e) { /* private mode */ }
+      });
+    })();
+  </script>
+  <script src="js/contrast-guard.js"></script>
+</body>
+</html>

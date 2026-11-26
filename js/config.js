@@ -41,3 +41,36 @@
     ANALYTICS_ENDPOINT:   ""    // required when using a custom beacon endpoint
   }, stored);
 }());
+
+// ── Member sign in ─────────────────────────────────────────────────────────
+// Every "Member sign in" link points at the member site, which opens behind a
+// Cloudflare sign-in page that gives non-members no way back. On the public
+// site those links first open member-sign-in.html, which offers both: "Use the
+// free site" and "Sign in as a member" (to the same member address, carried in
+// the fragment so a deal in a calculator link never reaches a server). A
+// visitor who chose "Sign in as a member" there in the last 30 days goes
+// straight through. On the member site itself nothing changes.
+(function () {
+  var MEMBER_HOST = 'coho-backend.communityplanner.workers.dev';
+  var DIRECT_KEY = 'coho_member_signin_direct';
+  var DAYS30 = 30 * 24 * 60 * 60 * 1000;
+  if (typeof document === 'undefined' || /\.workers\.dev$/.test(location.hostname)) return;
+  var self = document.currentScript && document.currentScript.src;
+  var chooser = self ? self.replace(/js\/config\.js(?:[?#].*)?$/, 'member-sign-in.html') : '/member-sign-in.html';
+  function goesDirect() {
+    try {
+      var t = Number(localStorage.getItem(DIRECT_KEY));
+      return t > 0 && Date.now() - t < DAYS30;
+    } catch (e) { return false; }
+  }
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || /member-sign-in\.html$/.test(location.pathname)) return;
+    var u;
+    try { u = new URL(a.href, location.href); } catch (err) { return; }
+    if (u.hostname !== MEMBER_HOST || goesDirect()) return;
+    e.preventDefault();
+    location.href = chooser + '#to=' + encodeURIComponent(u.href);
+  });
+}());
