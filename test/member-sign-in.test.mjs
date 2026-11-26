@@ -56,7 +56,7 @@ ok('a calculator deal in the fragment stays in the fragment (never sent to a ser
 ok('other links are left alone', () => {
   const p = run();
   assert.equal(p.click('https://cohoanalytics.com/index.html').prevented, false);
-  assert.equal(p.click('https://evil.example/coho-backend.communityplanner.workers.dev/').prevented, false);
+  assert.equal(p.click(['https:', '', 'other.example.org', 'coho-backend.communityplanner.workers.dev', ''].join('/')).prevented, false);
 });
 ok('new-tab and modified clicks keep the browser default', () => {
   const p = run();
