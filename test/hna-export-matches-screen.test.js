@@ -693,12 +693,25 @@ async function exportAll(c) {
   });
 
   await test('HUD\'s count of homes short leads the AMI gap rows and matches CHAS (fix audit 2026-11-10)', async () => {
-    // Fruita: HUD CHAS 2018-2022 affordable and available, 210 / 235 / 65.
+    // Fruita's HUD homes short, as the place page shows them (hub/places.js hShort: homes_short_nested where the
+    // file has it, never-falls; paul, 25 Nov 2026). The pre-run on fd4e299 found the files at HUD's raw 65 at <=80%.
     const chas = readJson('data/hna/chas_affordable_available.json');
     const tiers = chas.places['0828745'].tiers;
     const r = await exportAll(CASES.find((c) => c.geoid === '0828745'));
+    const shownHud = (t) => (typeof tiers[t].homes_short_nested === 'number' ? tiers[t].homes_short_nested : tiers[t].homes_short);
+    assert(shownHud('50') >= shownHud('30') && shownHud('80') >= shownHud('50'), 'the file\'s nested HUD counts fall');
     for (const t of ['30', '50', '80']) {
-      const want = tiers[t].homes_short;
+      const want = shownHud(t);
+      // HUD's own count stays as a raw row in the workbook and CSV, and never in the PDF.
+      const rawLab = 'HUD households minus affordable and available homes, ≤' + t + '% AMI (HUD CHAS';
+      const rawRow = sheets.Summary.rows.find((x) => typeof x.k === 'string' && x.k.startsWith(rawLab));
+      assert(rawRow && rawRow.v === tiers[t].homes_short, `HUD raw ${t}%: CHAS ${tiers[t].homes_short}, Excel ${rawRow ? JSON.stringify(rawRow.v) : 'no row'}`);
+      const rawCsv = r.csvRows.find((x) => typeof x[0] === 'string' && x[0].startsWith(rawLab));
+      assert(rawCsv && rawCsv[1] === Number(tiers[t].homes_short).toLocaleString('en-US'), `HUD raw ${t}%: CSV ${rawCsv ? rawCsv[1] : 'no row'}`);
+      assert(!r.pdf.some((x) => typeof x === 'string' && x.startsWith('HUD households minus')), 'the PDF prints a raw HUD row');
+      const pdfLab = 'Homes short, <=' + t + '% AMI (HUD CHAS';
+      const pi = r.pdf.findIndex((x) => typeof x === 'string' && x.startsWith(pdfLab));
+      assert(pi !== -1 && r.pdf[pi + 1] === Number(want).toLocaleString('en-US'), `HUD ${t}%: page ${want}, PDF ${pi === -1 ? 'no row' : JSON.stringify(r.pdf[pi + 1])}`);
       const row = sheets.Summary.rows.find((x) => typeof x.k === 'string' && x.k.startsWith('Homes short, ≤' + t + '% AMI (HUD CHAS'));
       assert(row, `the workbook has no HUD homes-short row at ${t}%`);
       assert.strictEqual(row.v, want, `HUD ${t}%: CHAS ${want}, Excel ${JSON.stringify(row.v)}`);
@@ -799,6 +812,27 @@ async function exportAll(c) {
       const overlap = a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
       assert(!overlap, 'two cards overlap: ' + JSON.stringify([a, b]));
     }
+  });
+
+  await test('HUD card on invented records: nested shown, raw kept on data-raw, a missing band stays missing', async () => {
+    const R = window.HNARenderers;
+    const data = { meta: { vintage: '2018-2022' }, places: { '0899999': { tiers: {
+      30: { homes_short: 50, homes_short_nested: 50, renter_households: 80, affordable_available_homes: 30 },
+      50: { homes_short: 20, homes_short_nested: 50, renter_households: 120, affordable_available_homes: 100 },
+      80: { homes_short_nested: 50 },
+    } } }, counties: { '08999': { tiers: { 30: { homes_short: 7, homes_short_nested: 3 }, 50: { homes_short: 0, homes_short_nested: 0 }, 80: { homes_short: 4 } } } } };
+    const cell = (t) => document.getElementById('statChasShort' + t);
+    R.renderChasAvailableShortfall(data, { type: 'place', geoid: '0899999' });
+    assert.strictEqual(cell('30').getAttribute('data-value'), '50', '30%');
+    assert.strictEqual(cell('50').getAttribute('data-value'), '50', '50%: nested lifts the band');
+    assert.strictEqual(cell('50').getAttribute('data-raw'), '20', '50%: HUD raw kept');
+    assert(/never falls/.test(document.getElementById('statChasShort50Note').textContent), 'a lifted band does not say why');
+    assert.strictEqual(cell('80').getAttribute('data-value'), null, '80%: own count missing must stay missing');
+    assert.strictEqual(cell('80').textContent, '—', '80%: a missing band reads as a dash');
+    R.renderChasAvailableShortfall(data, { type: 'county', geoid: '08999' });
+    assert.strictEqual(cell('30').getAttribute('data-value'), '7', 'a nested value below the band\'s own count never lowers it');
+    assert.strictEqual(cell('50').getAttribute('data-value'), '0', 'a measured zero stays 0');
+    assert.strictEqual(cell('80').getAttribute('data-value'), '4', 'no nested field: HUD\'s own count');
   });
 
   await test('the never-falls rule on invented records: 40% and 70% bands, both signs, missing, measured zero, unknown sign', async () => {

@@ -266,7 +266,11 @@
     var h = hudFor(geoid);
     if (h) ['30', '50', '80'].forEach(function (k) {
       var x = h.tiers[k] || {};
-      [['hud_homes_short_lte' + k, x.homes_short], ['hud_renter_households_lte' + k, x.renter_households], ['hud_affordable_available_homes_lte' + k, x.affordable_available_homes]].forEach(function (r) {
+      // hud_homes_short is HUD's own count at the band (raw: CSV downloads keep raw); the _shown row is the page's
+      // never-falls figure (homes_short_nested, never below the band's own count).
+      var okv = function (v) { return typeof v === 'number' && isFinite(v) && v >= 0; };
+      var shown = !okv(x.homes_short) ? null : okv(x.homes_short_nested) ? Math.max(x.homes_short, x.homes_short_nested) : x.homes_short;
+      [['hud_homes_short_lte' + k, x.homes_short], ['hud_homes_short_shown_never_falls_lte' + k, shown], ['hud_renter_households_lte' + k, x.renter_households], ['hud_affordable_available_homes_lte' + k, x.affordable_available_homes]].forEach(function (r) {
         rows.push([geoid, r[0], r[1] == null ? '' : r[1], 'HUD CHAS, affordable and available (calculated by COHO from HUD counts)', 'hud-chas-affordable-available', h.vintage, String(geoid).length === 5 ? 'county' : 'place', r[1] == null ? 'not published' : '', r[1] == null ? 'HUD publishes no count for this place.' : '']);
       });
     });
@@ -2376,14 +2380,23 @@
       var rec = isCounty ? (aa.counties || {})[geoid] : (aa.places || {})[geoid];
       return rec && rec.tiers ? { tiers: rec.tiers, vintage: (aa.meta && aa.meta.vintage) || '' } : null;
     }
+    // HUD's homes short at a band as the place page shows it: homes_short_nested where the file has it (never-falls),
+    // never below the band's own count, and missing when the band's own count is missing.
+    function hudNested(x) {
+      var ok = function (v) { return typeof v === 'number' && isFinite(v) && v >= 0; };
+      if (!x || !ok(x.homes_short)) return null;
+      return ok(x.homes_short_nested) ? Math.max(x.homes_short, x.homes_short_nested) : x.homes_short;
+    }
     function hudShort() {
       var h = hudRecord(), ok = function (x) { return typeof x === 'number' && isFinite(x) && x >= 0; };
       if (!h || !['30', '50', '80'].some(function (k) { return h.tiers[k] && ok(h.tiers[k].homes_short); })) return '';
       var at = { level: 'calculated', where: isCounty ? 'this county' : 'this place', from: 'HUD CHAS counts of renter households and of homes affordable and available to them' };
       return '<h2>Rental homes short: HUD’s count</h2><div class="metrics">' + ['30', '50', '80'].map(function (k) {
-        var x = h.tiers[k] || {};
-        return Pl.card('Homes short for renters at or below ' + k + '% of area median income', ok(x.homes_short) ? num(x.homes_short) : null,
-          ok(x.renter_households) && ok(x.affordable_available_homes) ? num(x.affordable_available_homes) + ' homes affordable and available for ' + num(x.renter_households) + ' renter households' : 'HUD does not publish this tier here.',
+        var x = h.tiers[k] || {}, n = hudNested(x), lifted = n != null && n > x.homes_short;
+        // Homes short never fall as the band widens (paul, 25 Nov 2026), as the place page's HUD bar shows them.
+        return Pl.card('Homes short for renters at or below ' + k + '% of area median income', n != null ? num(n) : null,
+          lifted ? 'The count at a lower income: homes priced for this band cost too much for poorer renters, so it never falls as income rises. HUD’s own count at this band alone is ' + num(x.homes_short) + '.'
+            : ok(x.renter_households) && ok(x.affordable_available_homes) ? num(x.affordable_available_homes) + ' homes affordable and available for ' + num(x.renter_households) + ' renter households' : 'HUD does not publish this tier here.',
           'HUD CHAS ' + h.vintage, HUD_CHAS_URL, at);
       }).join('') + '</div><p class="note">Counts renters living here today. A home counts only when it is affordable to the group and is vacant or rented by a household in that group. ' +
         'COHO works the shortfall out from HUD’s rounded estimates; it is the figure to quote. The Census cards below answer a different question: they count every rental priced for the band, whoever rents it, so they read lower.</p>';
@@ -2568,7 +2581,7 @@
         housing: [kept.lihtc, kept.qct, hm ? [money(hm.value), 'typical home value', [sourceOf(hm, ctx), sourceUrl(hm, ctx)]] : null],
         afford: (function () {
           // HUD's count where HUD has one; otherwise the Census difference under its own name, never as "homes short".
-          var h = hudRecord(), hs = function (k) { var x = h && h.tiers[k]; return x && typeof x.homes_short === 'number' ? x.homes_short : null; };
+          var h = hudRecord(), hs = function (k) { return hudNested(h && h.tiers[k]); };
           var S = h ? ['HUD CHAS ' + h.vintage, HUD_CHAS_URL] : null;
           if (h && hs('30') != null) return [[num(hs('30')), 'homes short for renter households at or below 30% of area median income (HUD’s count)', S],
             hs('50') != null ? [num(hs('50')), 'homes short at or below 50% (HUD’s count)', S] : null];
