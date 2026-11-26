@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "56eeefdfb3a44025a73df800c45d88322676b480",
+  "commit": "aece7768ae146ff0f72bc33061f1fc3eaaa9d846",
   "dirty": false
  },
  "files": {
@@ -52,7 +52,7 @@
   "hub/data-map.js": "387fbf5e5d6d6995d74c8a4bc63b39f39f5e6a8a00271ea15eff3ff4b6ed3dff",
   "hub/data-more.js": "0a5c2e7223686f21134c8bfa5962d355b09dccd41fd8c4a92de61f625b5d62bd",
   "hub/data-pages.css": "169f41c5c2ccd772ee812606eae6a73ea97059392794156d13f24304351e19be",
-  "hub/deal-extras.js": "b387b7af2bd89ae7644d4c94b29ae70f21fce93a9fd0e51a2ccceaf0b7635ffc",
+  "hub/deal-extras.js": "ddf2a10207e04e5a285f08106bf3bea94b6a0249248cdac6135a80210a8c46fb",
   "hub/deal-file.js": "0d379b7557508e1c914846e83c5f6b2b1e7786780674a800205674c7a80c5696",
   "hub/deal-quick-sale.js": "fed82c4734bf8d3fd4d8d065e5d5d2cddf651be2cbe26663a2a95493d242a6c6",
   "hub/deal-quick.js": "1af8ab79d7304b41e0185aca572645939a15b77e65da9255e7a7efdbc21b671d",
@@ -70,7 +70,7 @@
   "hub/equity.js": "77bafa3fe0f55a4b411241958aa1d6a1e8406c65805b29745815a1e75416ba21",
   "hub/fin-chapters.css": "5cd2a8f04c142efb00cabe50fa3fa1bd5680cc98fb94fd6048397c25ceb61d16",
   "hub/fin-chapters.js": "79987cebf8c8d5edf5a58fc82bac92639f27b03c9771ec6a4e1a51e14fc10977",
-  "hub/financials.js": "486c4ebc71bcb5718b0fbeda0cfaf41042203964a5477999700aa05cd57a4bcf",
+  "hub/financials.js": "49d700be0e1ac5b757fceb7b7c2d6117a301c77e03ef0e3bb59de47c65e365ae",
   "hub/finder.js": "a0663024af915ed9443e9e40a30a70d21bca1e6939b540762239d518909e77ab",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/guide-extract.js": "785e4f6de491110d8cd776c734bd2068cd9e39a0a3883043261bc7c16e422c82",
