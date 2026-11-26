@@ -90,8 +90,11 @@ window.HTMLAnchorElement.prototype.click = function () {};
 window.APP_CONFIG = { DATA_VERSION: 'test' };
 // A test may stand a modified data file in for the real one (by path).
 const FETCH_OVERRIDES = {};
+// A test may hold a data file back until it releases it (a slow network).
+const FETCH_DELAYS = {};
 window.fetch = async function (url) {
   const rel = String(url).replace(/^https?:\/\/[^/]+\//, '').replace(/^\//, '').split('?')[0];
+  if (FETCH_DELAYS[rel]) await FETCH_DELAYS[rel];
   if (FETCH_OVERRIDES[rel] !== undefined) {
     const text = JSON.stringify(FETCH_OVERRIDES[rel]);
     return { ok: true, status: 200, json: async () => JSON.parse(text), text: async () => text };
@@ -831,6 +834,33 @@ async function exportAll(c) {
     }
     const census = sheets.Summary.rows.find((x) => typeof x.k === 'string' && x.k.startsWith('Homes short, ≤50% AMI (Census)'));
     assert(census && /band households/.test(census.n || ''), 'the Census row lost its method note');
+  });
+
+  await test('a CSV clicked before the gap file arrives waits for it, so the 40% band still counts (Codex P2 on #3026)', async () => {
+    const c = CASES.find((x) => x.geoid === '0828745');
+    await exportAll(c);
+    // An invented 40% band above every shown count: only the gap file can lift 50% to it.
+    const placeFile = readJson('data/co_ami_gap_by_place.json');
+    placeFile.places['0828745'].gap_units_minus_households_le_ami_pct['40'] = 300;
+    FETCH_OVERRIDES['data/co_ami_gap_by_place.json'] = placeFile;
+    let release;
+    FETCH_DELAYS['data/co_ami_gap_by_place.json'] = new Promise((r) => { release = r; });
+    try {
+      freshRequire('js/hna/hna-export.js');
+      capturedBlob = null;
+      const done = window.__HNA_exportCsv();
+      setTimeout(release, 50);
+      await done;
+      assert(capturedBlob, 'no CSV was written');
+      const csv = await capturedBlob.text();
+      const rows = csv.split('\r\n').map((line) => (line.match(/"((?:[^"]|"")*)"/g) || []).map((f) => f.slice(1, -1).replace(/""/g, '"')));
+      const r50 = rows.find((x) => x[0] === 'Homes short, ≤50% AMI (Census): ' + CENSUS_SHORT_NOTE);
+      assert(r50 && r50[1] === '300', '≤50% in a CSV made before the gap file loaded: ' + JSON.stringify(r50 && r50[1]));
+    } finally {
+      delete FETCH_DELAYS['data/co_ami_gap_by_place.json'];
+      delete FETCH_OVERRIDES['data/co_ami_gap_by_place.json'];
+      if (release) release();
+    }
   });
 
   await test('a 0 AMI gap is exercised: Mesa\'s 60% AMI gap is 0 in the data', async () => {

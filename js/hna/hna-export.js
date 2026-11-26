@@ -94,7 +94,13 @@
       var args = arguments;
       var self = this;
       var c = _controller();
-      if (!c) return fn.apply(self, args);
+      // A file built from the page's own state waits for the ranking and gap
+      // files first, so the never-falls bands are never left out because a
+      // download was clicked before they arrived (Codex P2 on #3026).
+      if (!c) {
+        if (args[0] && typeof args[0] === 'object') return fn.apply(self, args);
+        return _exportDataReady().then(function () { return fn.apply(self, args); });
+      }
       // A caller that hands in its own report data owns that data: no
       // page check. CSV and JSON stay synchronous for such callers.
       if (args[0] && typeof args[0] === 'object' && fn !== exportStructuredPdf && fn !== exportPdf) {
@@ -124,6 +130,7 @@
           _showExportToast('This place has not finished loading, so the ' + label + ' was not made. Try again in a moment.', 'warn');
           return;
         }
+        await _exportDataReady();
         var ctx = { seq: seq, stale: false };
         _exportCtx = ctx;
         try {
@@ -811,6 +818,13 @@
     return _gapFilesPromise;
   }
   try { _loadGapFiles(); } catch (_) { /* non-fatal */ }
+  /** Resolves once the ranking index and both gap files have loaded or failed. */
+  function _exportDataReady() {
+    return Promise.all([
+      Promise.resolve().then(_loadRankingIndex).catch(function () { return null; }),
+      Promise.resolve().then(_loadGapFiles).catch(function () { return null; })
+    ]);
+  }
   /** The gap record and its sign for a 7-digit place or 5-digit county, or null. */
   function _gapRecordFor(geoid, files) {
     var g = String(geoid || '');
