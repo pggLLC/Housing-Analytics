@@ -227,6 +227,13 @@
     });
     return { rows: rows, weak: rows.filter(function (r) { return r.level !== 'good'; }) };
   }
+  // The bands no lower band can take: past the very-thin line (or with no renters) and with nowhere to step down.
+  // With step (sizes), the step-down is sized as captureCheck sizes it, so area widening and the check agree
+  // (Codex P2 on HA #3020); without it, as moves() counts it for the panel.
+  function stuckBands(byBand, pool, bands, step) {
+    if (!step) return moves(byBand, pool, bands).tooBig;
+    return captureCheck(byBand, pool, step).weak.filter(function (r) { return r.level !== 'thin' && !r.down; }).map(function (r) { return r.band; });
+  }
   // A table cell: the share, with its level under it when weak (HTML; the level words are fixed).
   function captureLevel(r) { return r.level === 'none' ? 'No renters qualify' : pct(r.share) + (r.level === 'good' ? '' : '<small class="cap-level">' + r.level + '</small>'); }
   // The plain warning under a capture table, or '' when every band is at the good line. moved: the panel's own rent
@@ -269,12 +276,15 @@
       area = areas[0];
       if (area.key === 'place') {
         var pp = poolOf(c, area, bands, bedrooms, sizesByBand);
-        if (!(sum(pp) > 0) || moves(byBand, pp, bands).tooBig.length) { widened = area; area = areas[areas.length - 1]; }
+        // With sizes, the widening test is the same sized step-down the check shows: a band past the very-thin line
+        // with no lower band that has room for the sizes that would move (Codex P2 on HA #3020). Without sizes, as
+        // the panel tests it.
+        if (!(sum(pp) > 0) || stuckBands(byBand, pp, bands, stepFor(area)).length) { widened = area; area = areas[areas.length - 1]; }
       }
     }
+    function stepFor(a) { return sizesByBand ? { sizesByBand: sizesByBand, poolFor: function (b, br) { return poolOf(c, a, [b], br)[b]; } } : null; }
     var pool = poolOf(c, area, bands, bedrooms, sizesByBand);
-    var step = sizesByBand ? { sizesByBand: sizesByBand, poolFor: function (b, br) { return poolOf(c, area, [b], br)[b]; } } : null;
-    return { area: area, areas: areas, widened: widened, staleSaved: areas.staleSaved, pool: pool, check: captureCheck(byBand, pool, step), countyName: c.countyName, name: c.name };
+    return { area: area, areas: areas, widened: widened, staleSaved: areas.staleSaved, pool: pool, check: captureCheck(byBand, pool, stepFor(area)), countyName: c.countyName, name: c.name };
   }
 
   function draftOf(p, s) { var o = p.overrides[s.scenarioId] && p.overrides[s.scenarioId].startDraft; return o ? JSON.parse(JSON.stringify(o)) : { homes: '', bands: null, cost: false }; }
@@ -624,7 +634,7 @@
     });
   }
 
-  global.LabStart = { section: section, plan: plan, apply: apply, homesNote: homesNote, homesDraft: homesDraft, spread: spread, grid: grid, moves: moves, uaFor: uaFor, localCost: localCost,
+  global.LabStart = { section: section, plan: plan, apply: apply, homesNote: homesNote, homesDraft: homesDraft, spread: spread, grid: grid, moves: moves, stuckBands: stuckBands, uaFor: uaFor, localCost: localCost,
     captureCheck: captureCheck, captureWarning: captureWarning, captureLevel: captureLevel, marketFor: marketFor,
     GOOD: GOOD, VERY_THIN: VERY_THIN, DOH_UA: DOH_UA, GJ_COST: GJ_COST, BANDS: BANDS };
 })(window);

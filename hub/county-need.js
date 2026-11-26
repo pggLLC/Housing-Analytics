@@ -478,6 +478,26 @@
     if ('trend' in next) state.trend = next.trend;
     if (global.history && global.history.replaceState) global.history.replaceState(null, '', hashFor());
     refresh(focusSel);
+    if (next.county) pickPlace(next.county);
+  }
+  // On Places, a county picked on the map or from its list is the visitor's place (paul, 26 Nov 2026, "map pick sets
+  // the place": the page offers "or pick a county on the map", so that pick counts). The step bar is drawn again on
+  // it; the map and its panel stay as they are. Home's copy of the map only explores, as before.
+  function pickPlace(g) {
+    var S = global.LabStep, d = global.document;
+    if (!S || !S.setWorking || !d || !/^#\/places(\?|$)/.test(String(global.location.hash || ''))) return;
+    var was = S.working && S.working();
+    if (was && was.geoid === g) return;
+    var nm = d.querySelector('[data-cn-county] option[value="' + g + '"]');
+    S.setWorking(g, nm ? nm.textContent.trim() : '');
+    var html = S.path(true, '#/places');
+    var bar = d.querySelector('.step-path'), slim = d.querySelector('[data-sp-sticky]');
+    if (!bar) return;
+    var box = d.createElement('div'); box.innerHTML = html;
+    var nb = box.querySelector('.step-path'), ns = box.querySelector('[data-sp-sticky]');
+    if (nb) bar.replaceWith(nb);
+    if (slim && ns) { ns.hidden = slim.hidden; slim.replaceWith(ns); }
+    if (S.bind && S.bind.check) S.bind.check();
   }
 
   if (doc && doc.addEventListener) {

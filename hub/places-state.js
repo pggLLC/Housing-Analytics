@@ -33,7 +33,7 @@
   // A place picker over the HNA ranking list: counties, towns and CDPs in one A to Z list, each labelled with its
   // type, so typing a letter reaches every place that starts with it (LabPlaceList).
   function placeSelect(id, ranking, picked, withState) {
-    return '<form class="search sc-pick" onsubmit="return false"><label for="' + id + '">Pick a place</label><select id="' + id + '" data-place-pick="' + id + '">' +
+    return '<form class="search sc-pick" onsubmit="return false"><label for="' + id + '">Pick a place</label><select id="' + id + '" data-place-pick="' + id + '" data-place-picker="Pick a place">' +
       (withState ? '<option value="08"' + (picked === '08' ? ' selected' : '') + '>Colorado (the whole state)</option>' : '<option value="">Choose a county, city or town</option>') +
       global.LabPlaceList.options(global.LabPlaceList.fromRanking(ranking), picked) + '</select></form>';
   }
@@ -203,7 +203,10 @@
       var b = sdoRows.filter(function (y) { return y.year === x.year; })[0];
       return { year: x.year, pop: x.population, hh: x.householdsAdded, homes: x.homesNeeded, sdo: b && b.homesNeeded };
     });
-    return head + placeSelect('sc-g', s.data.ranking, g) +
+    // Nobody picked this place (paul, 26 Nov 2026: Scenarios opened on Mesa County while the bar said no place was
+    // picked): say it is an example, so the figures are not read as the visitor's own place.
+    var example = !asked && !(work && work.geoid) ? '<p class="sp-example"><strong>Showing ' + esc(geo.name) + ' as an example.</strong> Pick your own place above to change it.</p>' : '';
+    return head + placeSelect('sc-g', s.data.ranking, g) + example +
       '<p class="note">' + esc(SB.describeContext(ctx)) + '</p>' +
       UI.intro('How many homes would ' + geo.name + ' need if growth ran faster or slower?',
         fig ? (isDefault ? 'On the state forecast, ' : 'In your scenario, ') + num(fig.growth) + ' homes for new residents by ' + fig.year +

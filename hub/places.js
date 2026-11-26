@@ -503,7 +503,7 @@
       answer: 'Find your town or county for its renters, homes and housing need: ' + num(profiles.length) + ' Colorado places, or pick a county on the map.',
       meta: '<span class="scope-tag">Scope: Colorado, by county and place</span> Census ACS 2020\u20132024 with HUD FY2026 income limits.',
       aside: T.terms(TERMS)
-    }) + (global.LabHna ? global.LabHna.stepPath(true, '#/places') : '') + Shell.searchBox('place-q', 'Find a town or county', q, 'For example Fruita or 0828745');
+    }) + (global.LabHna ? global.LabHna.stepPath(true, '#/places') : '') + Shell.searchBox('place-q', 'Find a town or county', q, 'For example Fruita or 0828745', 'Pick your town or county');
     var working = global.LabHna && global.LabHna.working ? global.LabHna.working() : null;
     var means = T.means([
       { text: 'Each place has its own count of renters and the homes priced for them, so the need you see is that town\u2019s or county\u2019s, not the state\u2019s.' }

@@ -135,10 +135,11 @@
     };
   }
 
-  function searchBox(id, label, value, placeholder) {
+  // picker: this box is the page's place picker, and these are the step bar's button words for it (site/step-bar.js).
+  function searchBox(id, label, value, placeholder, picker) {
     return '<form class="search" role="search" data-search="' + id + '">' +
       '<label for="' + id + '">' + esc(label) + '</label>' +
-      '<input id="' + id + '" name="q" type="search" autocomplete="off" value="' + esc(value) + '" placeholder="' + esc(placeholder) + '">' +
+      '<input id="' + id + '" name="q" type="search" autocomplete="off" value="' + esc(value) + '" placeholder="' + esc(placeholder) + '"' + (picker ? ' data-place-picker="' + esc(picker) + '"' : '') + '>' +
       '</form>';
   }
 

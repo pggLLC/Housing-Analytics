@@ -50,9 +50,14 @@
   // bar: drawn under the title and above everything else (the seven-step bar on a step page opened with no place).
   function picker(route, title, answer, q, menu, before, bar) {
     var hits = q ? Shell.catalog().entries.filter(function (e) { return e.geoid; }).filter(Shell.matches(q)).slice(0, 12) : [];
-    return T.head({ kind: 'tool', crumbs: T.trail(menu || 'deal', title), title: title, answer: answer }) + (bar || '') + (before || '') +
-      '<form class="search" role="search" data-pick="' + route + '"><label for="' + route + '-q">' + (before ? 'Or a whole town, city or county' : 'Pick a town, city or county') + '</label>' +
-      '<input id="' + route + '-q" name="q" type="search" autocomplete="off" value="' + esc(q || '') + '" placeholder="For example Fruita or Mesa County"></form>' +
+    // The place this browser is already working on (paul, 26 Nov 2026: the step bar said "Working on: Salida" above an
+    // empty picker). One tap opens it; it never opens on its own, so the examples and another place stay one tap away.
+    var S = global.LabStep, w = S && S.working ? S.working() : null;
+    var mine = w ? '<div class="sp-mine"><p>You are working on <strong>' + esc(w.label) + '</strong>.</p>' +
+      '<a class="button-link" href="#/' + route + '?g=' + encodeURIComponent(w.geoid) + '">' + esc(title) + ' for ' + esc(w.label) + ' \u2192</a></div>' : '';
+    return T.head({ kind: 'tool', crumbs: T.trail(menu || 'deal', title), title: title, answer: answer }) + (bar || '') + (before || '') + mine +
+      '<form class="search" role="search" data-pick="' + route + '"><label for="' + route + '-q">' + (before ? 'Or a whole town, city or county' : w ? 'Or pick another town, city or county' : 'Pick a town, city or county') + '</label>' +
+      '<input id="' + route + '-q" name="q" type="search" autocomplete="off" data-place-picker="Pick a place" value="' + esc(q || '') + '" placeholder="For example Fruita or Mesa County"></form>' +
       (q ? (hits.length ? '<ul class="route-list">' + hits.map(function (e) { return '<li><a href="#/' + route + '?g=' + esc(e.geoid) + '">' + esc(e.label) + '</a></li>'; }).join('') + '</ul>'
         : '<p class="note">No Colorado place matches that name.</p>')
         : '<p class="note">Or start with an example: <a href="#/' + route + '?g=0828745">Fruita</a>, <a href="#/' + route + '?g=08077">Mesa County</a>, <a href="#/' + route + '?g=0812045">Carbondale</a>.</p>');
