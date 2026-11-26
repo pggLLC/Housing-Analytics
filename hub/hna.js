@@ -226,7 +226,7 @@
     if (!c || !c.digest) return;
     var kind = b.getAttribute('data-hna-dl'), name = 'coho-hna-' + g + '-' + kind, body, type;
     if (kind === 'json') {
-      body = JSON.stringify({ geoid: g, pinnedCommit: global.LAB_PIN || null, digest: c.digest, summary: c.summary, unavailableReasons: missingReasons(c.digest), hudAffordableAvailable: hudFor(g) }, null, 1); type = 'application/json'; name += '.json';
+      body = JSON.stringify({ geoid: g, pinnedCommit: global.LAB_PIN || null, digest: c.digest, summary: c.summary, unavailableReasons: missingReasons(c.digest), hudAffordableAvailable: hudFor(g), shownShortfall: shownShortfall(c.digest, g) }, null, 1); type = 'application/json'; name += '.json';
     } else {
       body = '﻿' + csvOf(c.digest, g); type = 'text/csv'; name += '.csv';
     }
@@ -254,24 +254,66 @@
     if (v.place != null && v.year != null) return [v.place, v.year, v.type].filter(function (x) { return x != null && x !== ''; }).join(', ') + (v.from_neighbor ? ' (award in a nearby place)' : '');
     return JSON.stringify(v);
   }
+  // The homes short the page shows, beside the raw counts the files store (Codex delta check F1/F2, 26 Nov 2026).
+  // Census: the digest's ami_gap_*pct is renter households minus homes priced for them at that band alone, or 0. The
+  // shown count never falls as income rises (paul, 25 Nov 2026): the largest of that band's own count, the counts at
+  // the lower digest bands, and the place's gap-file counts at or below the band (40% and 70% too), as the page's
+  // cards and the HNA PDF and Excel read it. HUD: the larger of homes_short and homes_short_nested. A band whose own
+  // count is missing stays missing; the raw values are never changed.
+  var CENSUS_SHORT_BANDS = ['30', '50', '60', '80'];
+  var SHOWN_DEFINITION = {
+    census: 'Homes short, never falling as income rises: the largest count of renter households minus homes priced for them, or 0, at this band or any lower one (Census ACS 5-year, as on the page). The raw ami_gap_*pct figures are the count at the band alone.',
+    hud: 'Homes short, never falling as income rises: the larger of HUD\u2019s own count at this band and its count at a lower band (homes_short_nested, as on the page). hud_homes_short is HUD\u2019s count at the band alone.'
+  };
+  function numOrNull(v) { return typeof v === 'number' && isFinite(v) ? v : null; }
+  function shownShortfall(digest, geoid) {
+    var ms = (digest && digest.metrics) || {}, shared = Pl.data && Pl.data().data, place = null;
+    try { place = shared ? Pl.placeFacts(String(geoid), shared) : null; } catch (e) { place = null; }
+    var own = function (b) { var x = ms['ami_gap_' + b + 'pct']; return x ? numOrNull(x.value) : null; };
+    var census = {}, censusRaw = {};
+    CENSUS_SHORT_BANDS.forEach(function (b, i) {
+      var v = own(b); censusRaw[b] = v;
+      if (v == null) { census[b] = null; return; }
+      for (var j = 0; j < i; j++) { var y = own(CENSUS_SHORT_BANDS[j]); if (y != null && y > v) v = y; }
+      if (place && place.rec) { var n = Pl.shortNested(place.rec, b, place.sign); if (n != null && n > v) v = n; }
+      census[b] = v;
+    });
+    var h = hudFor(geoid), hud = null, hudRaw = null;
+    if (h) {
+      hud = {}; hudRaw = {};
+      ['30', '50', '80'].forEach(function (k) {
+        var x = h.tiers[k] || {}, o = numOrNull(x.homes_short), n = numOrNull(x.homes_short_nested);
+        hudRaw[k] = o; hud[k] = o == null || o < 0 ? null : n != null && n > o ? n : o;
+      });
+    }
+    return { definition: SHOWN_DEFINITION, census: census, censusBandAlone: censusRaw, censusUsesGapFile: !!(place && place.rec), hud: hud, hudBandAlone: hudRaw };
+  }
   // One row per published figure: its key, value, source, vintage and the geography it is measured for.
   function csvOf(digest, geoid) {
     var q = function (x) { x = x == null ? '' : String(x); return /[",\n]/.test(x) ? '"' + x.replace(/"/g, '""') + '"' : x; };
     var ms = (digest && digest.metrics) || {};
-    var rows = [['geoid', 'figure', 'value', 'source', 'source id', 'vintage', 'geography', 'confidence', 'why no value']].concat(Object.keys(ms).sort().map(function (k) {
+    var shownAll = shownShortfall(digest, geoid);
+    var rows = [['geoid', 'figure', 'value', 'source', 'source id', 'vintage', 'geography', 'confidence', 'why no value', 'definition']].concat(Object.keys(ms).sort().map(function (k) {
       var m = ms[k] || {};
-      return [geoid, k, cellOf(m.value), sourceOf(m), m.source_id || '', m.as_of || '', m.geography_level || '', m.confidence || '', whyMissing(m) || ''];
+      var def = /^ami_gap_(30|50|60|80)pct$/.test(k) ? 'Raw: renter households minus homes priced for them at this band alone, or 0. The page shows ' + k + '_shown_never_falls.' : '';
+      return [geoid, k, cellOf(m.value), sourceOf(m), m.source_id || '', m.as_of || '', m.geography_level || '', m.confidence || '', whyMissing(m) || '', def];
     }));
+    // The Census homes short the page shows, one row per band beside the raw digest rows (raw: CSV downloads keep raw).
+    CENSUS_SHORT_BANDS.forEach(function (b) {
+      var k = 'ami_gap_' + b + 'pct', m = ms[k];
+      if (!m) return;
+      var v = shownAll.census[b];
+      rows.push([geoid, k + '_shown_never_falls', v == null ? '' : v, sourceOf(m), m.source_id || '', m.as_of || '', m.geography_level || '', v == null ? 'not published' : (m.confidence || ''), v == null ? (whyMissing(m) || '') : '', SHOWN_DEFINITION.census]);
+    });
     // HUD's affordable-and-available count, the page's headline, under its own keys and source.
     var h = hudFor(geoid);
     if (h) ['30', '50', '80'].forEach(function (k) {
       var x = h.tiers[k] || {};
       // hud_homes_short is HUD's own count at the band (raw: CSV downloads keep raw); the _shown row is the page's
       // never-falls figure (homes_short_nested, never below the band's own count).
-      var okv = function (v) { return typeof v === 'number' && isFinite(v) && v >= 0; };
-      var shown = !okv(x.homes_short) ? null : okv(x.homes_short_nested) ? Math.max(x.homes_short, x.homes_short_nested) : x.homes_short;
-      [['hud_homes_short_lte' + k, x.homes_short], ['hud_homes_short_shown_never_falls_lte' + k, shown], ['hud_renter_households_lte' + k, x.renter_households], ['hud_affordable_available_homes_lte' + k, x.affordable_available_homes]].forEach(function (r) {
-        rows.push([geoid, r[0], r[1] == null ? '' : r[1], 'HUD CHAS, affordable and available (calculated by COHO from HUD counts)', 'hud-chas-affordable-available', h.vintage, String(geoid).length === 5 ? 'county' : 'place', r[1] == null ? 'not published' : '', r[1] == null ? 'HUD publishes no count for this place.' : '']);
+      var shown = shownAll.hud ? shownAll.hud[k] : null;
+      [['hud_homes_short_lte' + k, x.homes_short, 'Raw: HUD\u2019s count at this band alone. The page shows hud_homes_short_shown_never_falls_lte' + k + '.'], ['hud_homes_short_shown_never_falls_lte' + k, shown, SHOWN_DEFINITION.hud], ['hud_renter_households_lte' + k, x.renter_households, ''], ['hud_affordable_available_homes_lte' + k, x.affordable_available_homes, '']].forEach(function (r) {
+        rows.push([geoid, r[0], r[1] == null ? '' : r[1], 'HUD CHAS, affordable and available (calculated by COHO from HUD counts)', 'hud-chas-affordable-available', h.vintage, String(geoid).length === 5 ? 'county' : 'place', r[1] == null ? 'not published' : '', r[1] == null ? 'HUD publishes no count for this place.' : '', r[2]]);
       });
     });
     return rows.map(function (r) { return r.map(q).join(','); }).join('\n') + '\n';
@@ -2378,7 +2420,7 @@
     function hudRecord() {
       var aa = shared && shared.aa; if (!aa) return null;
       var rec = isCounty ? (aa.counties || {})[geoid] : (aa.places || {})[geoid];
-      return rec && rec.tiers ? { tiers: rec.tiers, vintage: (aa.meta && aa.meta.vintage) || '' } : null;
+      return rec && rec.tiers ? { tiers: rec.tiers, byRent: rec.homes_by_rent || null, vintage: (aa.meta && aa.meta.vintage) || '' } : null;
     }
     // HUD's homes short at a band as the place page shows it: homes_short_nested where the file has it (never-falls),
     // never below the band's own count, and missing when the band's own count is missing.
@@ -2927,5 +2969,5 @@
     return COHORTS.map(function (c) { return [c[1] >= 200 ? '85+' : c[0] + '\u2013' + c[1], sum(sya.male, c[0], c[1]), sum(sya.female, c[0], c[1])]; });
   }
 
-  global.LabHna = { csvOf: csvOf, cellOf: cellOf, peopleFigures: peopleFigures, ageGroups: ageGroups, TABS: TABS, chapter: function (c, geoid, tab, entry, place) { return focusTables(view(c, geoid, tab, entry, place)); }, stepPath: stepPath, PATH: PATH, working: working, setWorking: setWorking, clearWorking: clearWorking, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, loadPlace: loadPlace, sourceOf: sourceOf, sourceUrl: sourceUrl, scopeOf: scopeOf, INCOME: INCOME, STRUCTURE: STRUCTURE, BEDROOMS: BEDROOMS, RENT_BURDEN: RENT_BURDEN, BURDEN_TIERS: BURDEN_TIERS };
+  global.LabHna = { csvOf: csvOf, shownShortfall: shownShortfall, cellOf: cellOf, peopleFigures: peopleFigures, ageGroups: ageGroups, TABS: TABS, chapter: function (c, geoid, tab, entry, place) { return focusTables(view(c, geoid, tab, entry, place)); }, stepPath: stepPath, PATH: PATH, working: working, setWorking: setWorking, clearWorking: clearWorking, WORK_KEY: WORK_KEY, MEMBER_KEY: MEMBER_KEY, loadPlace: loadPlace, sourceOf: sourceOf, sourceUrl: sourceUrl, scopeOf: scopeOf, INCOME: INCOME, STRUCTURE: STRUCTURE, BEDROOMS: BEDROOMS, RENT_BURDEN: RENT_BURDEN, BURDEN_TIERS: BURDEN_TIERS };
 })(window);
