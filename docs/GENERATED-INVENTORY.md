@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T04:31:04.104Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T11:01:00.295Z. Do not edit by hand.
 
 ---
 
@@ -37,7 +37,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 85.0 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 84.3 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 84.6 KB |
 | `deal-hub.html` | Build a deal · COHO Analytics | 8.9 KB |
 | `deal-market-analysis.html` | Market Analysis · COHO Analytics | 162.1 KB |
 | `deal-reference.html` | Deal reference | COHO Analytics | 16.8 KB |
@@ -2058,7 +2058,7 @@
 
 ## Test Files
 
-807 test files found.
+808 test files found.
 
 | File | Size |
 |------|------|
@@ -2207,6 +2207,7 @@
 | `test/deal-calculator-banner-url-first.test.js` | 5.1 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-calculator-member-gate.test.mjs` | 8.2 KB |
+| `test/deal-calculator-member-place.test.mjs` | 8.7 KB |
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
 | `test/deal-calculator-shell.test.mjs` | 10.1 KB |
 | `test/deal-cost-basis.test.js` | 58.2 KB |
