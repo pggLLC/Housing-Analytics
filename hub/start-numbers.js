@@ -29,6 +29,8 @@
   // The bands Financials' capture check can step a weak band down to: the unit grid's bands up to 80%.
   var STEP_BANDS = [20, 30, 40, 50, 60, 70, 80];
   var SIZES = ['efficiency', '1BR', '2BR', '3BR'];
+  // The capture engine's names for the same sizes.
+  var SIZE_KEYS = ['0br', '1br', '2br', '3br'];
   var SIZE_PLURAL = { efficiency: ['studio', 'studios'], '1BR': ['one-bedroom', 'one-bedrooms'], '2BR': ['two-bedroom', 'two-bedrooms'], '3BR': ['three-bedroom', 'three-bedrooms'] };
   var SHORT = { efficiency: 'Studio', '1BR': '1 BR', '2BR': '2 BR', '3BR': '3 BR' };
   var FMR_KEY = { efficiency: 'efficiency', '1BR': 'one_br', '2BR': 'two_br', '3BR': 'three_br' };
@@ -192,7 +194,13 @@
   // at the good line, which bands are weak (above it), and for each weak band the next band down that is not weak
   // once that band's homes are counted against its renters, as moves() counts them. The panel and Financials both
   // show it; the recommendation changes no figure on its own.
-  function captureCheck(byBand, pool) {
+  // step (optional, Financials): { sizesByBand, poolFor(band, sizes) }. With it, a lower band is tested for the sizes
+  // of the homes that would move there together with the sizes already there, so a 60% two-bedroom moved to 50% is
+  // counted against 50% renters a two-bedroom fits (Codex P1 on HA #3016, the calculator's market test). Without it
+  // (the panel), every band is counted for the same sizes.
+  function captureCheck(byBand, pool, step) {
+    var sizesAt = {};
+    if (step) Object.keys(step.sizesByBand || {}).forEach(function (b) { sizesAt[b] = (step.sizesByBand[b] || []).slice(); });
     var bands = Object.keys(byBand).map(Number).filter(function (b) { return byBand[b] > 0; }).sort(function (a, b) { return a - b; });
     var load = {}; Object.keys(pool).forEach(function (b) { load[b] = byBand[b] || 0; });
     var rows = bands.map(function (b) {
@@ -205,7 +213,16 @@
       var lower = Object.keys(pool).map(Number).filter(function (l) { return l < r.band; }).sort(function (a, b) { return b - a; });
       for (var i = 0; i < lower.length; i++) {
         var l = lower[i];
-        if (pool[l] > 0 && (load[l] + r.homes) / pool[l] <= GOOD) { load[l] += r.homes; r.down = { band: l, share: load[l] / pool[l] }; return; }
+        var q = pool[l], merged = null;
+        if (step) {
+          merged = SIZE_KEYS.filter(function (k) { return (sizesAt[l] || []).indexOf(k) >= 0 || (sizesAt[r.band] || []).indexOf(k) >= 0; });
+          q = step.poolFor(l, merged);
+        }
+        if (q > 0 && (load[l] + r.homes) / q <= GOOD) {
+          load[l] += r.homes; r.down = { band: l, share: load[l] / q };
+          if (merged) sizesAt[l] = merged;
+          return;
+        }
       }
     });
     return { rows: rows, weak: rows.filter(function (r) { return r.level !== 'good'; }) };
@@ -234,7 +251,10 @@
   // widened to the county when a band there is past the very-thin line with no lower band to take it.
   // bedrooms: the sizes the deal's homes come in, as the engine names them ('0br' to '3br'); none counts the engine's
   // 1-3BR default, as the panel does.
-  function marketFor(p, s, byBand, pick, bedrooms) {
+  // sizesByBand (optional): the sizes each band's own homes come in, so a band counts only renters a home in that band
+  // fits (Codex P1 on HA #3016: 30% one-bedrooms do not add 60% renters who need a one-bedroom). Bands with no homes,
+  // the ones a weak band could step down to, are counted for every size the deal offers (bedrooms).
+  function marketFor(p, s, byBand, pick, bedrooms, sizesByBand) {
     var c = context(p);
     if (c.wait || c.error) return c;
     // Every band a weak band could step down to is counted, whether or not the deal has homes in it (Codex P2 on
@@ -248,12 +268,13 @@
     if (!area) {
       area = areas[0];
       if (area.key === 'place') {
-        var pp = poolOf(c, area, bands, bedrooms);
+        var pp = poolOf(c, area, bands, bedrooms, sizesByBand);
         if (!(sum(pp) > 0) || moves(byBand, pp, bands).tooBig.length) { widened = area; area = areas[areas.length - 1]; }
       }
     }
-    var pool = poolOf(c, area, bands, bedrooms);
-    return { area: area, areas: areas, widened: widened, staleSaved: areas.staleSaved, pool: pool, check: captureCheck(byBand, pool), countyName: c.countyName, name: c.name };
+    var pool = poolOf(c, area, bands, bedrooms, sizesByBand);
+    var step = sizesByBand ? { sizesByBand: sizesByBand, poolFor: function (b, br) { return poolOf(c, area, [b], br)[b]; } } : null;
+    return { area: area, areas: areas, widened: widened, staleSaved: areas.staleSaved, pool: pool, check: captureCheck(byBand, pool, step), countyName: c.countyName, name: c.name };
   }
 
   function draftOf(p, s) { var o = p.overrides[s.scenarioId] && p.overrides[s.scenarioId].startDraft; return o ? JSON.parse(JSON.stringify(o)) : { homes: '', bands: null, cost: false }; }
@@ -298,13 +319,15 @@
   }
   // Renters who qualify in an area, band by band, for the bedroom sizes given (none: the engine's 1-3BR default).
   // Kept on the area for each set of sizes.
-  function poolOf(c, a, bands, bedrooms) {
-    var key = bedrooms && bedrooms.length ? bedrooms.join(',') : '';
+  // sizesByBand (optional): a band listed there is counted for its own sizes instead.
+  function poolOf(c, a, bands, bedrooms, sizesByBand) {
     a.pools = a.pools || {};
-    var cache = a.pools[key] = a.pools[key] || {};
     var list = a.tracts.map(function (g) { return { geoid: g }; }), out = {};
     bands.forEach(function (b) {
-      if (!(b in cache)) { var q = c.E.chfaQualifiedRenters(c.x.demand, c.limits, list, [b], key ? bedrooms : undefined, engineOpts(c.x)); cache[b] = q && q.value > 0 ? q.value : 0; }
+      var own = sizesByBand && sizesByBand[b], br = own && own.length ? own : bedrooms;
+      var key = br && br.length ? br.join(',') : '';
+      var cache = a.pools[key] = a.pools[key] || {};
+      if (!(b in cache)) { var q = c.E.chfaQualifiedRenters(c.x.demand, c.limits, list, [b], key ? br : undefined, engineOpts(c.x)); cache[b] = q && q.value > 0 ? q.value : 0; }
       out[b] = cache[b];
     });
     return out;
