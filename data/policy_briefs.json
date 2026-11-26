@@ -1,25 +1,37 @@
 {
   "meta": {
-    "generated": "2026-11-25T13:20:22Z",
+    "generated": "2026-11-26T13:00:52Z",
     "brief_count": 10,
-    "source_alerts": 4585,
+    "source_alerts": 4688,
     "methodology": "Policy briefs generated using GPT-4o-mini (LLM-assisted mode)."
   },
   "briefs": [
     {
-      "title": "Colorado Housing Policy Needs to Address Federal Loan Changes and Immigrant Exclusion",
+      "title": "Colorado Implements New Housing Initiatives Amid Federal Changes and Legal Challenges",
       "policy_topic": "General",
-      "summary": "Recent federal actions have increased the maximum size of single-family loans guaranteed by the government, which could impact housing affordability in Colorado. Additionally, the state is suing the Trump administration over a housing assistance rule that excludes immigrant families, highlighting ongoing challenges in equitable housing access. These developments underscore the need for a comprehensive approach to housing policy that considers both financial support and inclusivity.",
-      "implications": "Policymakers should advocate for state-level adjustments to align with the new federal loan limits to enhance housing affordability. Furthermore, addressing the lawsuit against the federal government could pave the way for more inclusive housing assistance programs that support immigrant families. Local governments should also consider partnerships with nonprofits to provide immediate relief and long-term housing solutions for vulnerable populations affected by recent disasters.",
+      "summary": "Recent developments in Colorado's housing policy include state mortgage assistance for first responders and a lawsuit against the federal government regarding housing assistance rules that exclude immigrant families. Additionally, the federal agency has increased the limit on guaranteed single-family loans to $855,400, which may impact housing affordability in the state.",
+      "implications": "To address the growing housing crisis, Colorado should expand mortgage assistance programs to include a wider range of essential workers beyond first responders. Furthermore, the state must actively engage in advocacy for inclusive federal housing policies that support all families, ensuring equitable access to housing assistance.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
-        "The Colorado Sun",
+        "AP News",
+        "cedarnews.net",
+        "KGNU",
         "Colorado Springs Gazette",
-        "Kiowa County Press",
-        "Colorado Politics",
-        "KOAA News 5"
+        "Kiowa County Press"
       ],
       "articles": [
+        {
+          "title": "Colorado first responders can now get state home mortgage help - HousingWire",
+          "source": "HousingWire",
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5ldUdLWGlTbHl6OW95VWRYWWRfRnU4UVNHQ1hGeFEwS0RUMHlHell3SGFVQ2R5Tk1aUTEtcnRzTDMxQkhyWDFjN0JTWWhCcEFOVm4tZ2xPd1NZUThaU1pTQzJJcG55ak91VnFmU0VHUXQwQ3c?oc=5",
+          "date": "2026-11-26"
+        },
+        {
+          "title": "Colorado joins suit over fed housing rule; Hwy 151 reopens; RTD creates Sundance festival page - KGNU",
+          "source": "KGNU",
+          "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPdnI2LTZrOWFyaDlyOGRMbnlqcEhJNDE1dFNSR05nY0lyZGRiZ3kxWHY3MGhnODVSYUx5aVI2LXpzcTBnVmtBaGpmYjBHVUFJOUM1dUkzZmN2SVZweTVuTHRtUHNnRjFpTjh0WnFjRlc2bW9PRWZlZjhJamtZRmd4TGUtUVZDdC1qWXpxVUtXaUx0ZXFibEZhTFd6T1owZUw2X05ZUktpdXl2dHFpcDZN?oc=5",
+          "date": "2026-11-25"
+        },
         {
           "title": "Federal agency boosts size of most single-family loans the government can guarantee to $855,400 - AP News",
           "source": "AP News",
@@ -2109,29 +2121,41 @@
           "date": "2026-08-29"
         }
       ],
-      "alert_count": 348,
+      "alert_count": 350,
       "regions": [
-        "Statewide",
         "Denver",
+        "Statewide",
         "Colorado Springs",
         "Colorado"
       ],
-      "generated": "2026-11-25T13:11:42Z"
+      "generated": "2026-11-26T12:52:50Z"
     },
     {
-      "title": "Navigating Colorado's Affordable Housing Landscape Amid Legal and Policy Challenges",
+      "title": "Colorado's Recent Developments in Affordable Housing: Progress and Challenges",
       "policy_topic": "Affordable Housing",
-      "summary": "Recent developments in Colorado's affordable housing sector highlight significant legal challenges and local initiatives aimed at addressing housing shortages. A coalition of states, including Colorado, is suing HUD over a rule that could jeopardize housing aid for mixed-status families, while local governments like Boulder are actively pursuing strategies to enhance affordable housing availability, including a 90-day review process and securing tax credits for new projects.",
-      "implications": "Policymakers must prioritize the protection of housing aid for vulnerable populations, particularly mixed-status families, to ensure equitable access to affordable housing. Additionally, local governments should continue to streamline permitting processes and explore innovative funding mechanisms, such as Proposition 123, to expedite the development of affordable housing projects. Collaboration between state and local entities will be essential to meet housing goals and address the ongoing crisis.",
+      "summary": "Recent initiatives in Colorado highlight a growing commitment to affordable housing, with Manitou Springs approving its first project and Boulder securing funding for new developments. However, legal challenges against HUD's immigrant housing rule pose significant risks to housing aid for mixed-status families, potentially exacerbating existing housing disparities.",
+      "implications": "Policymakers must prioritize the swift implementation of affordable housing projects while addressing legal challenges that threaten funding for vulnerable populations. Additionally, local governments should consider adopting streamlined permitting processes, as demonstrated by Denver, to expedite the development of affordable housing solutions.",
       "related_data": "data/market/hud_lihtc_co.geojson",
       "sources": [
-        "KDVR",
+        "AP News",
+        "KGNU",
+        "Colorado Springs Gazette",
         "markets.businessinsider.com",
-        "The Manila Times",
-        "SummitDaily.com",
-        "Wisevoter"
+        "The Manila Times"
       ],
       "articles": [
+        {
+          "title": "Manitou Springs approves first affordable housing project - Colorado Springs Gazette",
+          "source": "Colorado Springs Gazette",
+          "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOclNQdjVrTjFTNEs2QTdOSDR3d2JMZlh3YmFWVVlXbmZjRHdhcENxZFB4MU56MnJsT2U0ZVhMVnpwcWxSbTk3YV9qZldidFpRLURWMm5TWno4YmlXaXB3UjZhUUx3R2VIZVRsU3czc25BbXJUNGUyQ255Y2stVC1mWkdWNWY1aHZHRnh0LXh6YmNBbHc?oc=5",
+          "date": "2026-11-25"
+        },
+        {
+          "title": "$9.1 million in federal funds for flood-ravaged SW Colorado; Colorado makes Space Academy bid; Boulder affordable housing law - KGNU",
+          "source": "KGNU",
+          "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQUUQ3bE90bVNlaEdteVAtUXF6MHZwTENXbnQydFFoS0otcHNQSnVtMEd2azFzdWJqRHE2aHZHMFFKdTY4Q1NMQi1ROHY1YWYxUUdjcG1iTDFlYW5rdGJUY1lobnFodFlNRDIxNGlpZ0ZNNDVzRW1obE9GU2JTdkRBWVZiNFZwRzVGSDNjMkdXczItNkQtTmZKdmVXZVVjb0VZRFluWnZWb1JlaklGQXpOMDlrZ25Vd1ZtOFFXZExCbG0ydVFqSUw4NUtrb2FzS2R0XzJDU1E0Yw?oc=5",
+          "date": "2026-11-24"
+        },
         {
           "title": "Colorado, 21 other states sue HUD to block immigrant housing rule - KDVR",
           "source": "KDVR",
@@ -2352,6 +2376,12 @@
           "title": "Valley Housing Fund awarded $1 million to acquire Gunnison land for affordable housing - Gunnison Country Times",
           "source": "Gunnison Country Times",
           "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNd1ZiWlRDam83XzN6S0d0cnBJNGpxalAxZ3dGWmZ1MUdFYk5KM1BOZVVjNHRHblVmYkltQkxHS1RFLWNBZHRSdGhQc00xQUd4S19MRFpodGFQUEV2VVByT1NrWVBqejJNQkVRc0lKMFhGUVBpZC1rdDRMVUZHdjVZNjdTQnd4aXgzZ2d2S2NNSE5iV1FxU280amFpVTlaM21BbXdja25tZjZDd3JnZHpOX0R1VGVBTlh3M1pKeUJDMGNwTFQ1YWNHaQ?oc=5",
+          "date": "2026-10-29"
+        },
+        {
+          "title": "Flexibility, innovation, speed urged for affordable housing in Northern Colorado - Greeley Tribune",
+          "source": "Greeley Tribune",
+          "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQQzE1eW1ZM0N2QnNHbTRfby1nRExCNENzMlVHOTNxeFNzRXpTLU1xX0g1MkxXelRIOFE2VkwxaHlJRzVUSnZOMUU0UFh3NGUwaTNsOE94LTZzNThMeFFpX1I4UEl5WDhzSnBxTXZIa1BhNHlPalVNZURoMUh2ek5zeWk3dG1veXQxbi0zdHhzN3ZEQk5QcXZCTnRTd2c5RkFUcjF4OWRmelJDOUdOblh4U2JwRlJUSnhmQzY4YTN3?oc=5",
           "date": "2026-10-29"
         },
         {
@@ -2695,35 +2725,30 @@
           "source": "Parker Chronicle",
           "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPSWVScjhESk5aSDc2TGM0djZEWUtrQU5oVzhveWV2cWZMbFFacFNyTzZicWMxN1RmaE5ma3B3bnV2a1N3anhyblZPX0V6TFNkYlpqdHU1NWp4LUVPZzZlcGdQNTIzZndNZV84d01lMnFKSDlwbk9JYjg1bFNla1pGSk5hNGY5b0pSQmdqaFVkalVhc3NWUS00akh3?oc=5",
           "date": "2026-08-28"
-        },
-        {
-          "title": "The NHP Foundation Closes Financing on The Bella, Expanding Affordable Housing in Frisco, Colorado - PR Newswire",
-          "source": "PR Newswire",
-          "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQV1R1WGo0TFRUck5sdnI4a2VlQl9ZVk04d3pZZC1wYXNWbXhKbHg4MUl2OWZzUEVQUEJiUGNlQzZQTExndnZYekNaak5Ub3NYYmxseVJqdXljY2IxZDIyQzdCZ2QxQkZqUnhKU2JfOWpQNGlDSU42ZEo0X0VzSXhSRWx1MzFtS2FzY1JoNTdwcGFBcXlOV1VrMG1ZNnlZVFZsSWlheTFsd3RVRVp1UVJxZjZVZTdSVEpMYmRuSzk5bTVHWVFSUTRTU0M2LTRxbzlESnY0eXlWYzdYSV80MXo2Sm10R0l3dkU?oc=5",
-          "date": "2026-08-27"
         }
       ],
-      "alert_count": 95,
+      "alert_count": 97,
       "regions": [
-        "Boulder",
         "Statewide",
-        "Denver",
-        "Colorado"
+        "Boulder",
+        "Colorado",
+        "Colorado Springs",
+        "Denver"
       ],
-      "generated": "2026-11-25T13:11:46Z"
+      "generated": "2026-11-26T12:52:52Z"
     },
     {
-      "title": "Colorado Housing Market Faces Decline Amid High Mortgage Rates and Cooling Trends",
+      "title": "Colorado Housing Market Faces Cooling Trends Amid High Mortgage Rates and Declining Sales",
       "policy_topic": "Housing Market",
-      "summary": "Recent reports indicate a significant cooling trend in Colorado's housing market, with home sales dropping by 19% in October and flat median prices. The Pikes Peak region and ski towns are particularly affected, as high mortgage rates deter buyers and lead to increased listings without corresponding sales. Realtors are hopeful that favorable winter conditions may revive interest in these areas.",
-      "implications": "Policymakers should consider implementing measures to alleviate the burden of high mortgage rates, such as promoting affordable financing options or down payment assistance programs. Additionally, strategies to enhance the appeal of ski towns and other affected regions, such as targeted marketing campaigns or incentives for seasonal buyers, could help stimulate sales. Monitoring market trends closely will be essential to adapt policies effectively in response to ongoing fluctuations.",
+      "summary": "Recent reports indicate a significant cooling trend in Colorado's housing market, with home sales dropping by 19% in October and median prices remaining flat. The Pikes Peak region is experiencing increased listings but steady prices, while ski towns are particularly affected by sinking sales as realtors hope for a rebound with favorable winter conditions. The overall sentiment reflects a cautious atmosphere among buyers and sellers, largely influenced by high mortgage rates.",
+      "implications": "Policymakers should consider implementing targeted interventions to support first-time homebuyers, such as down payment assistance programs or incentives for affordable housing development. Additionally, monitoring the impact of seasonal trends on housing demand can inform strategies to stabilize the market in ski towns and other affected regions. Engaging with financial institutions to explore options for lowering mortgage rates could also help revitalize buyer interest.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
-        "Reuters",
-        "The Colorado Sun",
-        "Colorado Springs Gazette",
+        "Just The News",
         "KOAA News 5",
-        "AspenTimes.com"
+        "Colorado Springs Gazette",
+        "SummitDaily.com",
+        "The Colorado Sun"
       ],
       "articles": [
         {
@@ -2915,27 +2940,33 @@
       ],
       "alert_count": 31,
       "regions": [
-        "Statewide",
         "Denver",
-        "Colorado",
-        "Colorado Springs"
+        "Statewide",
+        "Colorado Springs",
+        "Colorado"
       ],
-      "generated": "2026-11-25T13:11:49Z"
+      "generated": "2026-11-26T12:52:57Z"
     },
     {
-      "title": "Navigating Colorado's Evolving Rental Landscape: Challenges and Opportunities for Tenants and Landlords",
+      "title": "Navigating Colorado's Evolving Rental Landscape: Policy Recommendations for Sustainable Housing Solutions",
       "policy_topic": "Rent & Tenants",
-      "summary": "Recent developments in Colorado's rental market highlight the ongoing challenges faced by tenants and landlords, including the establishment of rental registration task forces and legal disputes over rental practices. Initiatives like Archway Communities aim to facilitate pathways to homeownership for families, while ongoing litigation and policy debates reflect the complexities of rental regulations. These dynamics underscore the need for balanced approaches to housing affordability and tenant protections.",
-      "implications": "Policymakers should prioritize the establishment of comprehensive rental registration systems to enhance transparency and accountability in the rental market. Additionally, increasing funding for temporary rental assistance programs is crucial to support vulnerable tenants facing financial hardships. Finally, stakeholders should engage in collaborative discussions to address short-term rental regulations, ensuring that community needs are met while fostering sustainable housing solutions.",
+      "summary": "Recent developments in Colorado highlight the urgent need for comprehensive rental policies as municipalities grapple with issues related to short-term rentals, tenant protections, and affordable housing initiatives. From Montezuma County's consideration of annual permits for Airbnbs to Aurora's formation of a rental registration task force, local governments are actively seeking solutions to address the housing crisis. Additionally, initiatives like Archway Communities are paving pathways to homeownership for families, underscoring the importance of affordable rental options.",
+      "implications": "Policymakers should prioritize the establishment of clear regulations for short-term rentals to balance tourism and housing availability, while also enhancing tenant protections to prevent displacement. Furthermore, expanding programs that facilitate affordable rent and pathways to homeownership can help stabilize communities. Collaboration among local governments, housing advocates, and community organizations is essential to create a cohesive strategy that addresses both immediate rental challenges and long-term housing sustainability.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
-        "CBS News",
+        "The Journal",
         "Gunnison Country Times",
         "Colorado Politics",
-        "AspenTimes.com",
-        "Post Independent"
+        "The Denver Post",
+        "CBS News"
       ],
       "articles": [
+        {
+          "title": "Montezuma County weighs annual permits for Airbnbs, short-term rentals - The Journal",
+          "source": "The Journal",
+          "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPRTRGaUh4TlUxZGllOFNMX1JfbXZfWXdJa0EtRVJKX2ZXRTQyZFNVamRtMU1FckdEc3c0YV83ankzRzM0SV9GZURfMDZocEZHOWRsYlVWa21QY0ZqeUhDSWdVMWVReGVVOHhwblBfMzNKZlM2MlFkdWwxVjZEWHJ2ZFR0ZU5UWllJZHl0LWhSWEw0VUJ3OTJ2X2J3V2RfcjBSSDJ3anFPZXFKbkN4N1lWRWl5QVV1c0kyVGc?oc=5",
+          "date": "2026-11-25"
+        },
         {
           "title": "Aurora seeking applicants for rental registration task force - Colorado Politics",
           "source": "Colorado Politics",
@@ -3063,26 +3094,26 @@
           "date": "2026-09-02"
         }
       ],
-      "alert_count": 21,
+      "alert_count": 22,
       "regions": [
-        "Statewide",
         "Denver",
+        "Statewide",
         "Colorado"
       ],
-      "generated": "2026-11-25T13:11:53Z"
+      "generated": "2026-11-26T12:52:59Z"
     },
     {
-      "title": "Navigating Housing Development Challenges and Opportunities in Colorado",
+      "title": "Colorado's Housing Development Landscape: Challenges and Opportunities Ahead",
       "policy_topic": "Construction & Permitting",
-      "summary": "Recent developments in Colorado's housing market highlight significant progress and ongoing challenges. While Colorado Springs has met key housing goals with state funding, single-family building permits have plummeted by nearly 43% since 2021, indicating a potential crisis in housing supply. Additionally, rising water fees are influencing housing development decisions across the state.",
-      "implications": "To address the decline in single-family permits, policymakers should consider incentives for developers to stimulate construction activity, particularly in affordable housing. Furthermore, a review of water fee structures may be necessary to balance environmental sustainability with the urgent need for housing development. Collaborative efforts between state officials and local communities can enhance housing strategies and ensure that developments meet both economic and social needs.",
+      "summary": "Recent developments in Colorado's housing market reveal a mixed picture, with significant state funding supporting new projects in Colorado Springs while single-family building permits have plummeted by nearly 43% since 2021. Additionally, water fees are becoming a critical factor in shaping housing development across the state. These trends highlight the urgent need for strategic policy interventions to address affordability and support sustainable growth.",
+      "implications": "Policymakers should consider revising water fee structures to encourage more housing development without compromising environmental sustainability. Furthermore, increasing state funding for affordable housing initiatives can help mitigate the decline in single-family permits and ensure that new developments meet community needs. Collaborative efforts between local governments and developers are essential to create a balanced approach to housing that prioritizes both affordability and infrastructure.",
       "related_data": "data/market/hud_lihtc_co.geojson",
       "sources": [
         "Colorado Public Radio",
+        "Colorado Office of Economic Development and International Trade (.gov)",
+        "KKTV",
         "Rocky Mountain Voice -",
-        "Construction Owners",
-        "The Telluride Times",
-        "Post Independent"
+        "ColoradoBiz"
       ],
       "articles": [
         {
@@ -3197,24 +3228,24 @@
       "alert_count": 18,
       "regions": [
         "Denver",
-        "Statewide",
+        "Colorado Springs",
         "Colorado",
-        "Colorado Springs"
+        "Statewide"
       ],
-      "generated": "2026-11-25T13:11:56Z"
+      "generated": "2026-11-26T12:53:03Z"
     },
     {
-      "title": "Addressing the Rising Homelessness Crisis in Colorado: A Call for Comprehensive Policy Reform",
+      "title": "Addressing the Growing Homelessness Crisis in Colorado: Urgent Action Required",
       "policy_topic": "Homelessness",
-      "summary": "Recent developments in Colorado highlight the urgent need for effective homelessness policies, as shelters face closures and capacity challenges while support services struggle with inadequate funding and conditions. Local initiatives, such as the Fruita Hope Initiative, demonstrate community engagement but underscore the necessity for systemic change to ensure sustainable housing solutions. The plight of vulnerable populations, including veterans, emphasizes the importance of coordinated efforts among service providers and government agencies.",
-      "implications": "Policymakers must prioritize funding for homeless shelters and support services, ensuring they meet health and safety standards while also providing pathways to stable housing. Engaging community stakeholders in the development of a comprehensive homelessness strategy can foster innovative solutions and improve service delivery. Additionally, addressing the root causes of homelessness through affordable housing initiatives and mental health support is crucial for long-term success.",
+      "summary": "Recent developments in Colorado highlight a critical homelessness crisis, with shelters reaching full capacity and closures of key facilities like the Stone Creek Homeless Shelter in Denver. Local organizations are actively engaging in discussions to improve conditions and support for the homeless, yet protests over inadequate living conditions and low wages for workers indicate systemic issues that need addressing. The situation calls for immediate policy interventions to enhance shelter services and support systems.",
+      "implications": "Policymakers must prioritize funding for homeless services and ensure that shelters meet health and safety standards to provide dignified living conditions. Additionally, expanding outreach programs and permanent housing solutions is essential to transition individuals from shelters to stable housing. Engaging community stakeholders in the development of these policies will foster a more comprehensive and effective response to homelessness in Colorado.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
-        "The Times of India",
+        "KJCT",
         "Denver7",
         "9NEWS",
-        "Wisevoter",
-        "The New York Times"
+        "FOX21 News Colorado",
+        "The Grand Junction Daily Sentinel"
       ],
       "articles": [
         {
@@ -3322,28 +3353,34 @@
       ],
       "alert_count": 17,
       "regions": [
-        "Colorado Springs",
-        "Grand Junction",
         "Statewide",
+        "Colorado",
+        "Colorado Springs",
         "Denver",
-        "Colorado"
+        "Grand Junction"
       ],
-      "generated": "2026-11-25T13:12:00Z"
+      "generated": "2026-11-26T12:53:06Z"
     },
     {
-      "title": "Navigating Zoning Challenges to Enhance Housing Density in Colorado",
+      "title": "Navigating Zoning Challenges and Opportunities in Colorado's Housing Landscape",
       "policy_topic": "Zoning & Land Use",
-      "summary": "Recent developments in Colorado highlight the ongoing tension between local zoning regulations and the need for increased residential density. Efforts in areas like Garfield County and Colorado Springs demonstrate a push for more housing options, yet challenges remain, particularly with manufactured housing and citywide upzoning initiatives. These dynamics underscore the importance of aligning local policies with broader housing goals to address the state's growing housing crisis.",
-      "implications": "Local governments must prioritize updating zoning codes to facilitate higher density housing and streamline the approval process for new developments. Policymakers should also consider incentives for adopting manufactured housing solutions to overcome federal-local discrepancies. Collaborative efforts among municipalities, state agencies, and community stakeholders are essential to create a cohesive strategy that addresses housing shortages while respecting local needs.",
+      "summary": "Recent developments in Colorado's zoning and land use policies highlight a critical intersection of local governance and housing needs. Arvada's withdrawal from a land use lawsuit and Garfield County's approval of new residential zoning reflect shifting local strategies aimed at addressing housing shortages. Meanwhile, debates over manufactured housing and density in urban areas like Denver underscore the complexities of balancing growth with community concerns.",
+      "implications": "Local governments should prioritize collaborative approaches to zoning that incorporate community input while addressing housing demands. Policymakers are encouraged to streamline zoning processes for affordable housing and manufactured units to overcome existing hurdles. Additionally, updating land use codes, as seen in Jefferson County, can facilitate more flexible and responsive housing solutions in rapidly growing areas.",
       "related_data": "data/policy/prop123_jurisdictions.json",
       "sources": [
         "Colorado Springs Gazette",
-        "AspenTimes.com",
-        "KRDO",
         "Denverite",
-        "The Korea Daily"
+        "PostIndependent.com",
+        "KRDO",
+        "Arvada Press"
       ],
       "articles": [
+        {
+          "title": "Arvada withdraws from land use lawsuit against Colorado - Arvada Press",
+          "source": "Arvada Press",
+          "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPZGdiTVZyQ3RSNy1zYkVvSld3TExfQlVvLWNYbENJMHJvV3JHczJUVFNoN1JwOFFkeF8zTUR6Vk95VXQ5bFhIMHlQVndyWFZ1azlobTdKcy00RmxMQlljd1IxaTVxOEFjSXQtNkRVeEp4LTlsRVBlcmpmMjNNZW9ONVZYWnJjMlRGZGhKTTl2TUNiczN3ZXZuRk5Jd3B6a1JF?oc=5",
+          "date": "2026-11-24"
+        },
         {
           "title": "Manufactured Housing \u2014 Federal Push Meets Local Zoning Hurdles - The Korea Daily",
           "source": "The Korea Daily",
@@ -3387,13 +3424,14 @@
           "date": "2026-09-09"
         }
       ],
-      "alert_count": 7,
+      "alert_count": 8,
       "regions": [
         "Denver",
+        "Statewide",
         "Colorado Springs",
         "Colorado"
       ],
-      "generated": "2026-11-25T13:12:03Z"
+      "generated": "2026-11-26T12:53:08Z"
     },
     {
       "title": "Affordable Housing Tool Evaluations \u2014 November 2026",
@@ -3442,17 +3480,17 @@
       "regions": [
         "National tool evaluation"
       ],
-      "generated": "2026-11-25T13:12:03Z"
+      "generated": "2026-11-26T12:53:08Z"
     },
     {
-      "title": "Advancing Affordable Housing Initiatives in Colorado: Proposition 123 Developments",
+      "title": "Advancements in Affordable Housing Initiatives in Colorado: Proposition 123 Progress",
       "policy_topic": "Housing Policy",
-      "summary": "Recent developments in Colorado highlight the ongoing efforts to address housing shortages through Proposition 123, with the opening of a 76-unit project in Fort Collins and Salida City Council's pursuit of housing credits from Buena Vista. These initiatives aim to enhance affordable housing availability and meet community needs. As local governments collaborate to implement these policies, the focus remains on sustainable growth and equitable access to housing.",
-      "implications": "Local governments should prioritize partnerships and resource-sharing to maximize the impact of Proposition 123. Additionally, stakeholders must ensure that new housing projects are inclusive and accessible to diverse populations. Continuous monitoring and evaluation of these initiatives will be essential to adapt strategies and meet the evolving housing demands in Colorado.",
+      "summary": "Recent developments in Colorado's housing policy include the opening of a 76-unit housing project in Fort Collins under Proposition 123, aimed at increasing affordable housing availability. Additionally, the Salida City Council is actively seeking housing credits from Buena Vista to fulfill its commitments under the same proposition, highlighting collaborative efforts among municipalities to address housing shortages.",
+      "implications": "These initiatives underscore the importance of local governments working together to meet housing needs and the potential for Proposition 123 to drive similar projects across the state. Policymakers should consider expanding funding and support for collaborative housing projects to ensure sustainable growth and accessibility in the housing market.",
       "related_data": "data/policy/prop123_jurisdictions.json",
       "sources": [
-        "Ark Valley Voice",
-        "ColoradoBiz"
+        "ColoradoBiz",
+        "Ark Valley Voice"
       ],
       "articles": [
         {
@@ -3470,16 +3508,16 @@
       ],
       "alert_count": 2,
       "regions": [
-        "Colorado",
-        "Fort Collins"
+        "Fort Collins",
+        "Colorado"
       ],
-      "generated": "2026-11-25T13:12:05Z"
+      "generated": "2026-11-26T12:53:11Z"
     },
     {
       "title": "Colorado City Secures $10 Million for Infrastructure Development",
       "policy_topic": "Infrastructure & Funding",
-      "summary": "A Colorado city has been awarded $10 million in funding aimed at enhancing its infrastructure. This investment is expected to address critical needs in transportation, utilities, and public facilities, ultimately improving the quality of life for residents. The funding reflects a growing commitment to modernize infrastructure in the state.",
-      "implications": "Local government should prioritize projects that maximize the impact of this funding, focusing on areas with the greatest need and potential for economic growth. Stakeholders, including community members and businesses, should be engaged in the planning process to ensure that the infrastructure improvements align with local priorities. Additionally, the city should explore opportunities for matching funds or partnerships to further amplify the benefits of this investment.",
+      "summary": "A Colorado city has been awarded $10 million in funding aimed at enhancing local infrastructure. This investment is expected to address critical needs in transportation, utilities, and public facilities, ultimately improving the quality of life for residents. The funding reflects a growing commitment to modernizing infrastructure across the state.",
+      "implications": "Local governments should prioritize the allocation of these funds towards projects that address the most pressing infrastructure needs, such as road repairs and public transit improvements. Additionally, stakeholders should engage with community members to ensure that the projects align with residents' needs and expectations. This funding opportunity could also serve as a model for other cities seeking to secure similar investments in the future.",
       "related_data": "data/policy/funding-watch-sources.json",
       "sources": [
         "KTXS"
@@ -3496,10 +3534,193 @@
       "regions": [
         "Statewide"
       ],
-      "generated": "2026-11-25T13:12:09Z"
+      "generated": "2026-11-26T12:53:14Z"
     }
   ],
   "stories": [
+    {
+      "title": "Colorado first responders can now get state home mortgage help",
+      "source": "HousingWire",
+      "sourcing": "checked",
+      "source_domain": "housingwire.com",
+      "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5ldUdLWGlTbHl6OW95VWRYWWRfRnU4UVNHQ1hGeFEwS0RUMHlHell3SGFVQ2R5Tk1aUTEtcnRzTDMxQkhyWDFjN0JTWWhCcEFOVm4tZ2xPd1NZUThaU1pTQzJJcG55ak91VnFmU0VHUXQwQ3c?oc=5",
+      "date": "2026-11-26",
+      "scope": "colorado",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": [],
+      "summary": {
+        "text": "Colorado adds state housing help for first responders, lifting CHFA limits to $196,810 as median list price is $599,000.",
+        "link": "https://www.housingwire.com/articles/colorado-chfa-mortgage-help/",
+        "basis": "outlet",
+        "ai": {
+          "text": "Colorado provides state mortgage help for first responders, raising CHFA limits to $196,810 as the median list price is $599,000.",
+          "from": "Colorado adds state housing help for first responders, lifting CHFA limits to $196,810 as median list price is $599,000.",
+          "model": "gpt-4o-mini"
+        }
+      },
+      "ai": "Colorado provides state mortgage help for first responders, raising CHFA limits to $196,810 as the median list price is $599,000."
+    },
+    {
+      "title": "Colorado joins suit over fed housing rule; Hwy 151 reopens; RTD creates Sundance festival page",
+      "source": "KGNU",
+      "sourcing": "checked",
+      "source_domain": "kgnu.org",
+      "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPdnI2LTZrOWFyaDlyOGRMbnlqcEhJNDE1dFNSR05nY0lyZGRiZ3kxWHY3MGhnODVSYUx5aVI2LXpzcTBnVmtBaGpmYjBHVUFJOUM1dUkzZmN2SVZweTVuTHRtUHNnRjFpTjh0WnFjRlc2bW9PRWZlZjhJamtZRmd4TGUtUVZDdC1qWXpxVUtXaUx0ZXFibEZhTFd6T1owZUw2X05ZUktpdXl2dHFpcDZN?oc=5",
+      "date": "2026-11-25",
+      "scope": "colorado",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": [],
+      "summary": {
+        "text": "Headlines Wednesday, Nov. 25, 2026 Colorado joins suit over fed housing rule Colorado Attorney General Phil Weiser joined a lawsuit challenging a federal rule that would exclude an entire household from receiving housing assistance if it contains at least one ineligible immigrant member.",
+        "link": "https://kgnu.org/colorado-joins-suit-over-fed-housing-rule-hwy-151-reopens-rtd-creates-sundance-festival-page/",
+        "basis": "outlet",
+        "ai": {
+          "text": "Colorado joins a lawsuit against a federal housing rule that excludes households with ineligible immigrant members from receiving housing assistance.",
+          "from": "Headlines Wednesday, Nov. 25, 2026 Colorado joins suit over fed housing rule Colorado Attorney General Phil Weiser joined a lawsuit challenging a federal rule that would exclude an entire household from receiving housing assistance if it contains at least one ineligible immigrant member.",
+          "model": "gpt-4o-mini"
+        }
+      },
+      "ai": "Colorado joins a lawsuit against a federal housing rule that excludes households with ineligible immigrant members from receiving housing assistance."
+    },
+    {
+      "title": "Montezuma County weighs annual permits for Airbnbs, short-term rentals",
+      "source": "The Journal",
+      "sourcing": "checked",
+      "source_domain": "the-journal.com",
+      "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPRTRGaUh4TlUxZGllOFNMX1JfbXZfWXdJa0EtRVJKX2ZXRTQyZFNVamRtMU1FckdEc3c0YV83ankzRzM0SV9GZURfMDZocEZHOWRsYlVWa21QY0ZqeUhDSWdVMWVReGVVOHhwblBfMzNKZlM2MlFkdWwxVjZEWHJ2ZFR0ZU5UWllJZHl0LWhSWEw0VUJ3OTJ2X2J3V2RfcjBSSDJ3anFPZXFKbkN4N1lWRWl5QVV1c0kyVGc?oc=5",
+      "date": "2026-11-25",
+      "scope": "colorado",
+      "programs": [],
+      "places": [
+        {
+          "geoid": "08083",
+          "name": "Montezuma County",
+          "type": "county"
+        }
+      ],
+      "regions": [
+        "Southwest"
+      ],
+      "also": [],
+      "summary": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
+      }
+    },
+    {
+      "title": "Manitou Springs approves first affordable housing project",
+      "source": "Colorado Springs Gazette",
+      "sourcing": "checked",
+      "source_domain": "gazette.com",
+      "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOclNQdjVrTjFTNEs2QTdOSDR3d2JMZlh3YmFWVVlXbmZjRHdhcENxZFB4MU56MnJsT2U0ZVhMVnpwcWxSbTk3YV9qZldidFpRLURWMm5TWno4YmlXaXB3UjZhUUx3R2VIZVRsU3czc25BbXJUNGUyQ255Y2stVC1mWkdWNWY1aHZHRnh0LXh6YmNBbHc?oc=5",
+      "date": "2026-11-25",
+      "scope": "colorado",
+      "programs": [],
+      "places": [
+        {
+          "geoid": "0848445",
+          "name": "Manitou Springs",
+          "type": "place"
+        }
+      ],
+      "regions": [
+        "Front Range"
+      ],
+      "also": [],
+      "summary": {
+        "text": "Last week, the city of Manitou Springs approved a major development plan for 50 affordable housing units on the former site of the La Fon Hotel.",
+        "link": "https://gazette.com/2026/11/24/manitou-springs-approves-first-affordable-housing-project/",
+        "basis": "outlet",
+        "ai": {
+          "text": "Manitou Springs approved a development plan for 50 affordable housing units on the former site of the La Fon Hotel.",
+          "from": "Last week, the city of Manitou Springs approved a major development plan for 50 affordable housing units on the former site of the La Fon Hotel.",
+          "model": "gpt-4o-mini"
+        }
+      },
+      "ai": "Manitou Springs approved a development plan for 50 affordable housing units on the former site of the La Fon Hotel."
+    },
+    {
+      "title": "The average US 30-year mortgage rate eases to 7.21%, not far from 2026 high",
+      "source": "AP News",
+      "sourcing": "checked",
+      "source_domain": "apnews.com",
+      "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOcEE4dmdQMFlNR1NlRTVScXVoMFhFUkl1eTRFekQ1UDcxSlhrVWltTHVveGZ3TWRCRXctWVEtZXRZR2ZVYUNDaWlNbjVBaDBJbEhCeU4wMndqMUh6eS1rYWxjNHpfaTVNM2o1Q18temNfeE1kT2k4bGQ4R2lGRTRGSG1IazFWRERTVFJqTHdlYm5CTWFoTlVPZ0tFRVRmdnpHeEFmaQ?oc=5",
+      "date": "2026-11-25",
+      "scope": "national",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": [],
+      "summary": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
+      }
+    },
+    {
+      "title": "New Home Sales Increase in October, but Remain Below Last Year\u2019s Pace",
+      "source": "Eye On Housing",
+      "sourcing": "checked",
+      "source_domain": "eyeonhousing.org",
+      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQNy11OTdDTl8zdnRjTk03b3A0SFRfNTRYLW5ONktybW1md3N4RlRFN28zYVpITzN4XzRFNTduaDVha2QyX2xweE9sZzRoY0VOSDlVRGllNWhVWkp3SEd4endkbm9BUWJSX3ZtcFJnYkE4ZmgtQ1VtRDQwcVBnRTAxcDl3Q0tEd1k3M0xSMlZORGRidUxoMmtpM0IyR2RkYVVCX05N?oc=5",
+      "date": "2026-11-25",
+      "scope": "national",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": [
+        {
+          "source": "WSJ",
+          "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOMEZ4cm9ySkN1N25Gdk5LWlo0aS1zTGZmUlFiREFDRmtUTVJTSS1MOEdjM01sekJmNVA2MVNfT1VaT0hwOXlpUnluTllMZG5NUlFXa25GeERuMmtKOF81VkxwdURzNFZ6bGtDU2c0eWREU29pOVhuS2lzc0RoTlRuX3FZcw?oc=5",
+          "date": "2026-11-25"
+        },
+        {
+          "source": "Reuters",
+          "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQWVFCMG8xYnFuT1BCVlhjODBTdklWOUpUenFhUmRETC1YTUFxa0lScGdIVFVQM0FybEpmWW9hZHF4VWY2cnAxeGhNZU9GSm5rbTMxZ3l5dnpxYUJTaFg0OC1yN3h1b3JEMW9wMW5PQ3FTc05mS0hMZXhYdm5fSUoyUWZJWjZlMHN6QU1GcndERUlxZjEt?oc=5",
+          "date": "2026-11-25"
+        }
+      ],
+      "summary": {
+        "text": "Despite the monthly gain, new home sales continued to trail 2025 levels, with year-to-date sales through October down 3.0% compared to the same period last year. Persistent housing affordability challenges, including elevated home prices and mortgage rates, continue to weigh on prospective buyers and constrain demand.",
+        "link": "https://eyeonhousing.org/2026/11/new-home-sales-increase-in-october-but-remain-below-last-years-pace/",
+        "basis": "outlet",
+        "ai": {
+          "text": "New home sales increased in October but remain lower than last year's levels, with year-to-date sales down 3.0%.",
+          "from": "Despite the monthly gain, new home sales continued to trail 2025 levels, with year-to-date sales through October down 3.0% compared to the same period last year. Persistent housing affordability challenges, including elevated home prices and mortgage rates, continue to weigh on prospective buyers and constrain demand.",
+          "model": "gpt-4o-mini"
+        }
+      },
+      "ai": "New home sales increased in October but remain lower than last year's levels, with year-to-date sales down 3.0%."
+    },
+    {
+      "title": "Homebuilder Stock Woes to Persist After Longest Slump Since 2008",
+      "source": "Bloomberg.com",
+      "sourcing": "checked",
+      "source_domain": "bloomberg.com",
+      "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNajBXQ3BwQ3gwRkFIcGlIa3VhYy1EbUVSb0FhTFYwNThDZ0tSVUZCNWozSnpfWmZtMy1YMHBFUGJTbmpjbDR2b193TDZWYk5Yb3BBV0tuRWN6TmdxZWVMSUdjdUh5eGV0TEFoTWc2MHRkTXUxVkZ6cFBNOWt4ODVHNW1ZZVNVWVI4bW1nSGliMS04TV8wSVQ5NlhZSi04cUo4OGU1RXJlY1RNR0hZNGluaG5ldTB4QQ?oc=5",
+      "date": "2026-11-25",
+      "scope": "national",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": [],
+      "summary": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
+      }
+    },
     {
       "title": "Nationwide launches 99% mortgage for first-time buyers",
       "source": "Financial Times",
@@ -3516,7 +3737,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -3560,9 +3781,68 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
+    },
+    {
+      "title": "Arvada withdraws from land use lawsuit against Colorado",
+      "source": "Arvada Press",
+      "sourcing": "checked",
+      "source_domain": "arvadapress.com",
+      "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPZGdiTVZyQ3RSNy1zYkVvSld3TExfQlVvLWNYbENJMHJvV3JHczJUVFNoN1JwOFFkeF8zTUR6Vk95VXQ5bFhIMHlQVndyWFZ1azlobTdKcy00RmxMQlljd1IxaTVxOEFjSXQtNkRVeEp4LTlsRVBlcmpmMjNNZW9ONVZYWnJjMlRGZGhKTTl2TUNiczN3ZXZuRk5Jd3B6a1JF?oc=5",
+      "date": "2026-11-24",
+      "scope": "colorado",
+      "programs": [],
+      "places": [
+        {
+          "geoid": "0803455",
+          "name": "Arvada",
+          "type": "place"
+        }
+      ],
+      "regions": [
+        "Front Range"
+      ],
+      "also": [],
+      "summary": {
+        "text": "",
+        "link": "",
+        "basis": "unavailable",
+        "checked": "2026-11-26"
+      }
+    },
+    {
+      "title": "$9.1 million in federal funds for flood-ravaged SW Colorado; Colorado makes Space Academy bid; Boulder affordable housing law",
+      "source": "KGNU",
+      "sourcing": "checked",
+      "source_domain": "kgnu.org",
+      "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQUUQ3bE90bVNlaEdteVAtUXF6MHZwTENXbnQydFFoS0otcHNQSnVtMEd2azFzdWJqRHE2aHZHMFFKdTY4Q1NMQi1ROHY1YWYxUUdjcG1iTDFlYW5rdGJUY1lobnFodFlNRDIxNGlpZ0ZNNDVzRW1obE9GU2JTdkRBWVZiNFZwRzVGSDNjMkdXczItNkQtTmZKdmVXZVVjb0VZRFluWnZWb1JlaklGQXpOMDlrZ25Vd1ZtOFFXZExCbG0ydVFqSUw4NUtrb2FzS2R0XzJDU1E0Yw?oc=5",
+      "date": "2026-11-24",
+      "scope": "colorado",
+      "programs": [],
+      "places": [
+        {
+          "geoid": "0807850",
+          "name": "Boulder",
+          "type": "place"
+        }
+      ],
+      "regions": [
+        "Front Range"
+      ],
+      "also": [],
+      "summary": {
+        "text": "Headlines Tuesday, Nov. 24, 2026 $9.1 million in federal funds for flood-ravaged SW Colorado The Federal Highway Administration has approved $9.1 million in additional emergency relief funds to repair roads damaged by storms in Southwest Colorado.",
+        "link": "https://kgnu.org/9-1-million-in-federal-funds-for-flood-ravaged-sw-colorado-colorado-makes-space-academy-bid-boulder-affordable-housing-law/",
+        "basis": "outlet",
+        "ai": {
+          "text": "$9.1 million in federal funds has been approved for repairing roads damaged by storms in Southwest Colorado.",
+          "from": "Headlines Tuesday, Nov. 24, 2026 $9.1 million in federal funds for flood-ravaged SW Colorado The Federal Highway Administration has approved $9.1 million in additional emergency relief funds to repair roads damaged by storms in Southwest Colorado.",
+          "model": "gpt-4o-mini"
+        }
+      },
+      "ai": "$9.1 million in federal funds has been approved for repairing roads damaged by storms in Southwest Colorado."
     },
     {
       "title": "9 Colorado Towns Perfect For A Fresh Start",
@@ -3581,7 +3861,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -3601,7 +3881,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -3622,7 +3902,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -3690,7 +3970,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -3710,7 +3990,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -3789,7 +4069,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -3818,7 +4098,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -3862,7 +4142,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -3882,7 +4162,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4005,7 +4285,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4049,7 +4329,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4165,7 +4445,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4209,7 +4489,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4336,7 +4616,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4356,7 +4636,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4376,7 +4656,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4396,7 +4676,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4453,7 +4733,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4522,7 +4802,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4552,7 +4832,7 @@
         "text": "",
         "link": "https://milehighcre.com/early-prop-123-equity-project-opens-in-fort-collins/",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4604,7 +4884,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4675,7 +4955,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4738,7 +5018,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4767,7 +5047,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4819,7 +5099,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4839,7 +5119,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4859,7 +5139,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4879,7 +5159,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4899,7 +5179,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -4943,7 +5223,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5046,7 +5326,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5156,7 +5436,7 @@
         "text": "",
         "link": "",
         "basis": "unavailable",
-        "checked": "2026-11-25"
+        "checked": "2026-11-26"
       }
     },
     {
@@ -5183,7 +5463,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5210,7 +5490,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5243,7 +5523,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5271,7 +5551,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5299,7 +5579,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5335,7 +5615,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5355,7 +5635,27 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
+        "sure": true
+      }
+    },
+    {
+      "title": "Watch Ferguson CFO on AI Boom, Housing Pressure and $1.6 Billion Deal",
+      "source": "Bloomberg.com",
+      "sourcing": "checked",
+      "source_domain": "bloomberg.com",
+      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPUkptRmQwVUlORDEzdWRpTGdZSV9mRE1veFNnUjVPaWJ1dkdtcEk2THdwWXQ3NmxkUGpadjhOeUdGR0ZreldtLUctMVhnaHplNDdNMWdOckRkZ0FUaEZtdTcyU2Q1dE9MajdmTmpoV0lyNW9XMGZXZWtTTUVDeGZJODZrSWg4UVRoaERlNnpxQXZseG5CR1haSmR1MDQwUVV2RXU4?oc=5",
+      "date": "2026-11-18",
+      "scope": "national",
+      "programs": [],
+      "places": [],
+      "regions": [],
+      "also": [],
+      "summary": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5415,7 +5715,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5595,7 +5895,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5663,7 +5963,7 @@
         "text": "",
         "link": "",
         "basis": "unavailable",
-        "checked": "2026-11-25"
+        "checked": "2026-11-26"
       }
     },
     {
@@ -5682,7 +5982,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5726,7 +6026,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5746,7 +6046,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5774,7 +6074,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5826,7 +6126,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -5919,7 +6219,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6004,7 +6304,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6025,7 +6325,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6053,7 +6353,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6081,7 +6381,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6125,7 +6425,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6145,7 +6445,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6251,7 +6551,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6323,7 +6623,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6431,7 +6731,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6560,7 +6860,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6580,7 +6880,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6600,7 +6900,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6628,7 +6928,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6752,7 +7052,7 @@
         "text": "",
         "link": "",
         "basis": "unavailable",
-        "checked": "2026-11-25"
+        "checked": "2026-11-26"
       }
     },
     {
@@ -6787,7 +7087,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6839,7 +7139,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6890,8 +7190,9 @@
       "summary": {
         "text": "",
         "link": "",
-        "basis": "unavailable",
-        "checked": "2026-11-25"
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
       }
     },
     {
@@ -6910,7 +7211,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6954,7 +7255,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -6975,7 +7276,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -7032,7 +7333,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -7060,7 +7361,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -7088,7 +7389,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -7108,7 +7409,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -7136,7 +7437,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -7201,7 +7502,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -7221,7 +7522,7 @@
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     },
@@ -7241,7 +7542,7 @@
         "text": "",
         "link": "",
         "basis": "unavailable",
-        "checked": "2026-11-25"
+        "checked": "2026-11-26"
       }
     },
     {
@@ -7263,18 +7564,7 @@
       "regions": [
         "Front Range"
       ],
-      "also": [],
-      "summary": {
-        "text": "Devanna Dunson died during her first night on the job at the Amazon facility in Colorado Springs last week. Her family is still at a loss.",
-        "link": "https://gazette.com/2026/11/11/family-mourns-unexpected-death-of-colorado-springs-amazon-worker/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Devanna Dunson died during her first night at the Amazon facility in Colorado Springs, leaving her family in grief.",
-          "from": "Devanna Dunson died during her first night on the job at the Amazon facility in Colorado Springs last week. Her family is still at a loss.",
-          "model": "gpt-4o-mini"
-        }
-      },
-      "ai": "Devanna Dunson died during her first night at the Amazon facility in Colorado Springs, leaving her family in grief."
+      "also": []
     },
     {
       "title": "BoodleBox partners with Pikes Peak State College on AI hackathon in Colorado Springs",
@@ -7295,14 +7585,7 @@
       "regions": [
         "Front Range"
       ],
-      "also": [],
-      "summary": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      }
+      "also": []
     },
     {
       "title": "Midwestern ice cream brand Handel\u2019s debuting in Colorado Springs",
@@ -7323,18 +7606,7 @@
       "regions": [
         "Front Range"
       ],
-      "also": [],
-      "summary": {
-        "text": "Canfield, Ohio-based Handel\u2019s Ice Cream is opening its first Colorado Springs location on Nov. 12, 2026, at 1220 Interquest Parkway.",
-        "link": "https://gazette.com/2026/11/11/midwestern-ice-cream-brand-handels-debuting-in-colorado-springs/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Handel\u2019s Ice Cream from Ohio is opening its first location in Colorado Springs on Nov. 12, 2026.",
-          "from": "Canfield, Ohio-based Handel\u2019s Ice Cream is opening its first Colorado Springs location on Nov. 12, 2026, at 1220 Interquest Parkway.",
-          "model": "gpt-4o-mini"
-        }
-      },
-      "ai": "Handel\u2019s Ice Cream from Ohio is opening its first location in Colorado Springs on Nov. 12, 2026."
+      "also": []
     },
     {
       "title": "Nikki Haley rules out 2028 White House bid",
@@ -7347,18 +7619,7 @@
       "programs": [],
       "places": [],
       "regions": [],
-      "also": [],
-      "summary": {
-        "text": "Former Gov. Nikki Haley (R-SC) said she is not running for the Republican presidential nomination in 2028, despite increasing her media presence after the GOP\u2019s 2026 midterm election loss.",
-        "link": "https://www.denvergazette.com/2026/11/11/nikki-haley-rules-out-2028-white-house-bid/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Nikki Haley announced she will not run for the Republican presidential nomination in 2028.",
-          "from": "Former Gov. Nikki Haley (R-SC) said she is not running for the Republican presidential nomination in 2028, despite increasing her media presence after the GOP\u2019s 2026 midterm election loss.",
-          "model": "gpt-4o-mini"
-        }
-      },
-      "ai": "Nikki Haley announced she will not run for the Republican presidential nomination in 2028."
+      "also": []
     },
     {
       "title": "Johnson Capital Multifamily and Gershman Investment Corp Close $17.2-M HUD Refinance of Fort Collins Affordable Housing Community",
@@ -7381,14 +7642,7 @@
       "regions": [
         "Front Range"
       ],
-      "also": [],
-      "summary": {
-        "text": "",
-        "link": "https://yieldpro.com/2026/11/caribou-apartments/",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      }
+      "also": []
     },
     {
       "title": "Time to plan a Christmas tree hunt in Colorado",
@@ -7401,18 +7655,7 @@
       "programs": [],
       "places": [],
       "regions": [],
-      "also": [],
-      "summary": {
-        "text": "Some Christmas trees are unpacked while others are picked from a parking lot. Then there are those earned the Colorado way \u30fc through adventure.",
-        "link": "https://www.denvergazette.com/outtherecolorado/2026/11/11/time-to-plan-a-christmas-tree-hunt-in-colorado/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Some Christmas trees are unpacked while others are picked from a parking lot or earned through adventure.",
-          "from": "Some Christmas trees are unpacked while others are picked from a parking lot. Then there are those earned the Colorado way \u30fc through adventure.",
-          "model": "gpt-4o-mini"
-        }
-      },
-      "ai": "Some Christmas trees are unpacked while others are picked from a parking lot or earned through adventure."
+      "also": []
     },
     {
       "title": "Cult, divorce featured in former Colorado Springs resident\u2019s solo show",
@@ -7433,18 +7676,7 @@
       "regions": [
         "Front Range"
       ],
-      "also": [],
-      "summary": {
-        "text": "Former Colorado Springs resident Amy Brown Carver will bring her one-woman show, \"Eat Pray Cult,\" to Millibo Art Theatre on Friday and Saturday. The hour-long show revolves around getting a divorce and joining a cult-like group in the California desert.",
-        "link": "https://gazette.com/2026/11/11/cult-divorce-featured-in-former-colorado-springs-residents-solo-show/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Amy Brown Carver's one-woman show, 'Eat Pray Cult,' will be performed at Millibo Art Theatre this weekend.",
-          "from": "Former Colorado Springs resident Amy Brown Carver will bring her one-woman show, \"Eat Pray Cult,\" to Millibo Art Theatre on Friday and Saturday. The hour-long show revolves around getting a divorce and joining a cult-like group in the California desert.",
-          "model": "gpt-4o-mini"
-        }
-      },
-      "ai": "Amy Brown Carver's one-woman show, 'Eat Pray Cult,' will be performed at Millibo Art Theatre this weekend."
+      "also": []
     },
     {
       "title": "Jeffco Public Schools preparing to comply with Prop 134",
@@ -7457,18 +7689,7 @@
       "programs": [],
       "places": [],
       "regions": [],
-      "also": [],
-      "summary": {
-        "text": "Voters approved Proposition 134, barring trans students from teams that match their gender identity.",
-        "link": "https://www.westword.com/news/jeffco-public-schools-preparing-to-comply-prop-134-40960825/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Jeffco Public Schools are preparing to follow Proposition 134, which restricts trans students from teams matching their gender identity.",
-          "from": "Voters approved Proposition 134, barring trans students from teams that match their gender identity.",
-          "model": "gpt-4o-mini"
-        }
-      },
-      "ai": "Jeffco Public Schools are preparing to follow Proposition 134, which restricts trans students from teams matching their gender identity."
+      "also": []
     },
     {
       "title": "Colorado home sellers under increasing pressure to drop prices, cut deals with buyers",
@@ -7481,14 +7702,7 @@
       "programs": [],
       "places": [],
       "regions": [],
-      "also": [],
-      "summary": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      }
+      "also": []
     },
     {
       "title": "Letters: Gun regulations; need for affordable housing in Longmont",
@@ -7509,14 +7723,7 @@
       "regions": [
         "Front Range"
       ],
-      "also": [],
-      "summary": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      }
+      "also": []
     },
     {
       "title": "Denver's shelters are 96% full, but few residents leave for stable housing",
@@ -7537,14 +7744,7 @@
       "regions": [
         "Front Range"
       ],
-      "also": [],
-      "summary": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      }
+      "also": []
     },
     {
       "title": "High Plains Environmental Center grows native plants, puts them to work across Colorado",
@@ -7565,14 +7765,7 @@
       "regions": [
         "San Luis Valley"
       ],
-      "also": [],
-      "summary": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      }
+      "also": []
     },
     {
       "title": "Exclusive | Bella Hadid Buys Historic Colorado Mountain Home for $5.5 Million",
@@ -7585,14 +7778,7 @@
       "programs": [],
       "places": [],
       "regions": [],
-      "also": [],
-      "summary": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      }
+      "also": []
     },
     {
       "title": "Colorado Partners with IBM to Deploy AI-Driven Quantum Ecosystem Mapping and Workforce Tools",
@@ -7606,18 +7792,7 @@
       "programs": [],
       "places": [],
       "regions": [],
-      "also": [],
-      "summary": {
-        "text": "In a two-year initiative, Colorado has partnered with the IBM Impact Accelerator to advance quantum technology.",
-        "link": "https://quantumcomputingreport.com/colorado-partners-with-ibm-to-deploy-ai-driven-quantum-ecosystem-mapping-and-workforce-tools/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Colorado is partnering with IBM to advance quantum technology through a two-year initiative.",
-          "from": "In a two-year initiative, Colorado has partnered with the IBM Impact Accelerator to advance quantum technology.",
-          "model": "gpt-4o-mini"
-        }
-      },
-      "ai": "Colorado is partnering with IBM to advance quantum technology through a two-year initiative."
+      "also": []
     },
     {
       "title": "Field of Vision is no more, but King Gizzard will still play Colorado in 2027",
@@ -7630,18 +7805,7 @@
       "programs": [],
       "places": [],
       "regions": [],
-      "also": [],
-      "summary": {
-        "text": "A third edition of the popular annual shindig in Buena Vista has been scrapped, but the band has a trio of Colorado dates next summer.",
-        "link": "https://www.westword.com/music/king-gizzard-field-of-vision-2027-canceled-40960950/",
-        "basis": "outlet",
-        "ai": {
-          "text": "The third edition of the Field of Vision event in Buena Vista has been canceled, but King Gizzard will perform in Colorado in 2027.",
-          "from": "A third edition of the popular annual shindig in Buena Vista has been scrapped, but the band has a trio of Colorado dates next summer.",
-          "model": "gpt-4o-mini"
-        }
-      },
-      "ai": "The third edition of the Field of Vision event in Buena Vista has been canceled, but King Gizzard will perform in Colorado in 2027."
+      "also": []
     },
     {
       "title": "Household Debt Delinquencies Rise as Mortgage Performance Weakens",
@@ -7654,18 +7818,7 @@
       "programs": [],
       "places": [],
       "regions": [],
-      "also": [],
-      "summary": {
-        "text": "Household debt delinquency rates increased in the third quarter of 2026 as the share of delinquent balances and the transition to seriously delinquent debt increased.",
-        "link": "https://eyeonhousing.org/2026/11/household-debt-delinquencies-rise-as-mortgage-performance-weakens/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Household debt delinquency rates rose in the third quarter of 2026 as more balances became seriously delinquent.",
-          "from": "Household debt delinquency rates increased in the third quarter of 2026 as the share of delinquent balances and the transition to seriously delinquent debt increased.",
-          "model": "gpt-4o-mini"
-        }
-      },
-      "ai": "Household debt delinquency rates rose in the third quarter of 2026 as more balances became seriously delinquent."
+      "also": []
     },
     {
       "title": "Colorado Springs Utilities\u2019 2027 budget gets first approval vote",
@@ -9843,7 +9996,13 @@
       "programs": [],
       "places": [],
       "regions": [],
-      "also": []
+      "also": [
+        {
+          "source": "Greeley Tribune",
+          "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQQzE1eW1ZM0N2QnNHbTRfby1nRExCNENzMlVHOTNxeFNzRXpTLU1xX0g1MkxXelRIOFE2VkwxaHlJRzVUSnZOMUU0UFh3NGUwaTNsOE94LTZzNThMeFFpX1I4UEl5WDhzSnBxTXZIa1BhNHlPalVNZURoMUh2ek5zeWk3dG1veXQxbi0zdHhzN3ZEQk5QcXZCTnRTd2c5RkFUcjF4OWRmelJDOUdOblh4U2JwRlJUSnhmQzY4YTN3?oc=5",
+          "date": "2026-10-29"
+        }
+      ]
     },
     {
       "title": "EXCLUSIVE: Trump appointee Bill Pulte\u2019s housing agency obstructed watchdog, report says",
@@ -14557,13 +14716,7 @@
       "regions": [
         "Mountains"
       ],
-      "also": [
-        {
-          "source": "PR Newswire",
-          "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQV1R1WGo0TFRUck5sdnI4a2VlQl9ZVk04d3pZZC1wYXNWbXhKbHg4MUl2OWZzUEVQUEJiUGNlQzZQTExndnZYekNaak5Ub3NYYmxseVJqdXljY2IxZDIyQzdCZ2QxQkZqUnhKU2JfOWpQNGlDSU42ZEo0X0VzSXhSRWx1MzFtS2FzY1JoNTdwcGFBcXlOV1VrMG1ZNnlZVFZsSWlheTFsd3RVRVp1UVJxZjZVZTdSVEpMYmRuSzk5bTVHWVFSUTRTU0M2LTRxbzlESnY0eXlWYzdYSV80MXo2Sm10R0l3dkU?oc=5",
-          "date": "2026-08-27"
-        }
-      ]
+      "also": []
     },
     {
       "title": "Council discusses hiring consultants to review Telluride housing policies",
@@ -15147,93 +15300,107 @@
     }
   ],
   "stories_meta": {
-    "generated": "2026-11-25T13:20:22Z",
-    "source_alerts": 4580,
-    "out_of_scope": 3896,
-    "merged_duplicates": 70,
+    "generated": "2026-11-26T13:00:52Z",
+    "source_alerts": 4683,
+    "out_of_scope": 3987,
+    "merged_duplicates": 72,
     "blocked_outlets": 1,
     "method": "One story per headline, newest first. Other-state news is left out. Places are matched against the 546 geographies in data/hna/geo-config.json; regions follow the county map in scripts/hna/build_ranking_index.py. Each publisher is looked up in data/alerts/outlet-register.json: checked outlets carry no tag, others are tagged \"Unverified outlet\" or \"Weak sourcing\", and documented imposter sites are left out."
   },
   "today": {
-    "as_of": "2026-11-25T06:12:12-0700",
-    "date": "2026-11-25",
-    "since": "2026-11-24",
+    "as_of": "2026-11-26T05:53:16-0700",
+    "date": "2026-11-26",
+    "since": "2026-11-25",
     "counts": {
-      "stories": 5,
+      "stories": 4,
       "agency": 0
     },
     "agency": [],
     "top": [
       {
-        "title": "A cooling trend continues across the Pikes Peak region housing market",
-        "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPc3JadkJIbFY1a0FTODBxbUFia3lBeUVoVHdtQ1M0LThJaDJRM1pndm5wenp2X3U2MGVTN2t5NmdVSTBpODZ2Sm5nYWt6bzJ0eGhjRXRKVUxrS2RTbm9ra3VrWU9CSnRTazZBaVc0UnhDZXRvQjdFUkJ5bVpMUW5KTmF4WlUxNElrU1RjbDhGZUtXX0ozelVFdFBzd0NaSUU5eHFZ?oc=5",
-        "source": "Colorado Springs Gazette",
-        "source_domain": "gazette.com",
+        "title": "Colorado first responders can now get state home mortgage help",
+        "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5ldUdLWGlTbHl6OW95VWRYWWRfRnU4UVNHQ1hGeFEwS0RUMHlHell3SGFVQ2R5Tk1aUTEtcnRzTDMxQkhyWDFjN0JTWWhCcEFOVm4tZ2xPd1NZUThaU1pTQzJJcG55ak91VnFmU0VHUXQwQ3c?oc=5",
+        "source": "HousingWire",
+        "source_domain": "housingwire.com",
         "outlets": 1,
-        "date": "2026-11-24",
+        "date": "2026-11-26",
         "summary": {
-          "text": "The number of single-family and patio homes for sale across the Pikes Peak region dropped month-over-month and prices are trending downward.",
-          "link": "https://gazette.com/2026/11/24/a-cooling-trend-continues-across-the-pikes-peak-region-housing-market/",
+          "text": "Colorado adds state housing help for first responders, lifting CHFA limits to $196,810 as median list price is $599,000.",
+          "link": "https://www.housingwire.com/articles/colorado-chfa-mortgage-help/",
           "basis": "outlet",
           "ai": {
-            "text": "The number of homes for sale in the Pikes Peak region decreased, and prices are going down.",
-            "from": "The number of single-family and patio homes for sale across the Pikes Peak region dropped month-over-month and prices are trending downward.",
+            "text": "Colorado provides state mortgage help for first responders, raising CHFA limits to $196,810 as the median list price is $599,000.",
+            "from": "Colorado adds state housing help for first responders, lifting CHFA limits to $196,810 as median list price is $599,000.",
             "model": "gpt-4o-mini"
           }
         },
-        "ai": "The number of homes for sale in the Pikes Peak region decreased, and prices are going down."
+        "ai": "Colorado provides state mortgage help for first responders, raising CHFA limits to $196,810 as the median list price is $599,000."
       },
       {
-        "title": "US single-family home prices flat in September, FHFA says",
-        "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQV3VabHlrZjNqdmx5YkM3S1c2MG1YTUJoZVJ6UkxIUUlNSWNCczItYUY2bFJ2dUFiMy1kYlllVk9uMURDOEJQLXRlajhYQXhRZkRncU1DS3RhZHB0Z2JpN1ppLThNOTMwanhRTEdmRXgwY1hWWGc0ZmJiVk4xWDRiOWRuWnRxTEcySDhCNjZkaVl1NmFGUkltblAzZ1QyWHM?oc=5",
-        "source": "Reuters",
-        "source_domain": "reuters.com",
+        "title": "Colorado joins suit over fed housing rule; Hwy 151 reopens; RTD creates Sundance festival page",
+        "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPdnI2LTZrOWFyaDlyOGRMbnlqcEhJNDE1dFNSR05nY0lyZGRiZ3kxWHY3MGhnODVSYUx5aVI2LXpzcTBnVmtBaGpmYjBHVUFJOUM1dUkzZmN2SVZweTVuTHRtUHNnRjFpTjh0WnFjRlc2bW9PRWZlZjhJamtZRmd4TGUtUVZDdC1qWXpxVUtXaUx0ZXFibEZhTFd6T1owZUw2X05ZUktpdXl2dHFpcDZN?oc=5",
+        "source": "KGNU",
+        "source_domain": "kgnu.org",
         "outlets": 1,
-        "date": "2026-11-24",
+        "date": "2026-11-25",
+        "summary": {
+          "text": "Headlines Wednesday, Nov. 25, 2026 Colorado joins suit over fed housing rule Colorado Attorney General Phil Weiser joined a lawsuit challenging a federal rule that would exclude an entire household from receiving housing assistance if it contains at least one ineligible immigrant member.",
+          "link": "https://kgnu.org/colorado-joins-suit-over-fed-housing-rule-hwy-151-reopens-rtd-creates-sundance-festival-page/",
+          "basis": "outlet",
+          "ai": {
+            "text": "Colorado joins a lawsuit against a federal housing rule that excludes households with ineligible immigrant members from receiving housing assistance.",
+            "from": "Headlines Wednesday, Nov. 25, 2026 Colorado joins suit over fed housing rule Colorado Attorney General Phil Weiser joined a lawsuit challenging a federal rule that would exclude an entire household from receiving housing assistance if it contains at least one ineligible immigrant member.",
+            "model": "gpt-4o-mini"
+          }
+        },
+        "ai": "Colorado joins a lawsuit against a federal housing rule that excludes households with ineligible immigrant members from receiving housing assistance."
+      },
+      {
+        "title": "Montezuma County weighs annual permits for Airbnbs, short-term rentals",
+        "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPRTRGaUh4TlUxZGllOFNMX1JfbXZfWXdJa0EtRVJKX2ZXRTQyZFNVamRtMU1FckdEc3c0YV83ankzRzM0SV9GZURfMDZocEZHOWRsYlVWa21QY0ZqeUhDSWdVMWVReGVVOHhwblBfMzNKZlM2MlFkdWwxVjZEWHJ2ZFR0ZU5UWllJZHl0LWhSWEw0VUJ3OTJ2X2J3V2RfcjBSSDJ3anFPZXFKbkN4N1lWRWl5QVV1c0kyVGc?oc=5",
+        "source": "The Journal",
+        "source_domain": "the-journal.com",
+        "outlets": 1,
+        "date": "2026-11-25",
         "summary": {
           "text": "",
           "link": "",
           "basis": "not found",
-          "checked": "2026-11-25",
-          "sure": true
-        }
-      },
-      {
-        "title": "Colorado sues Trump administration over housing assistance rule that excludes immigrant families",
-        "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOYVFUZ2xGUWQyRGlCVTZMcHdmNlV4SFdqOXcxQkg4UmpQTFNKdENMVVhua3Y1MDRjTEJaM3ZWeVdscUp1UmM5RnN6Q1pBNHlYN3RicVpmUWhrVkxlZXM4S0F2T1JrUUJacTF4ZGtXU1hLNlNqUGxVYVlHQ0t6TmNMZjZrNzBsWHJYRURFeFBWS0haQmR5S05xSFAxc1AtQ2lyb1VxaVpzZUNLQ0xGamZoejMzcDBDZUJuenpnSlN1SVJrVnNvZ3NB?oc=5",
-        "source": "Kiowa County Press",
-        "source_domain": "kiowacountypress.net",
-        "outlets": 1,
-        "date": "2026-11-24",
-        "summary": {
-          "text": "",
-          "link": "",
-          "basis": "not found",
-          "checked": "2026-11-25",
+          "checked": "2026-11-26",
           "sure": true
         }
       }
     ],
-    "places": [],
+    "places": [
+      {
+        "name": "Manitou Springs",
+        "stories": 1
+      },
+      {
+        "name": "Montezuma County",
+        "stories": 1
+      }
+    ],
     "lines": [
-      "5 new Colorado housing stories since Tuesday, November 24.",
-      "A cooling trend continues across the Pikes Peak region housing market (Colorado Springs Gazette).",
-      "US single-family home prices flat in September, FHFA says (Reuters).",
-      "Colorado sues Trump administration over housing assistance rule that excludes immigrant families (Kiowa County Press)."
+      "4 new Colorado housing stories since Wednesday, November 25.",
+      "Colorado first responders can now get state home mortgage help (HousingWire).",
+      "Colorado joins suit over fed housing rule; Hwy 151 reopens; RTD creates Sundance festival page (KGNU).",
+      "Montezuma County weighs annual permits for Airbnbs, short-term rentals (The Journal).",
+      "Places in the news: Manitou Springs (1), Montezuma County (1)."
     ],
     "method": "The one-line summaries marked AI are written by AI (gpt-4o-mini) from only each story's headline and its own description; check the source before relying on them. A story the news script could not read shows its headline only. Window: today and yesterday, Mountain Time. Top stories are the ones the most outlets ran.",
     "summary_lines": [
-      "Colorado Springs Gazette: A cooling trend continues across the Pikes Peak region housing market. \u201cThe number of single-family and patio homes for sale across the Pikes Peak region dropped month-over-month and prices are trending downward.\u201d",
-      "Reuters: US single-family home prices flat in September, FHFA says.",
-      "Kiowa County Press: Colorado sues Trump administration over housing assistance rule that excludes immigrant families."
+      "HousingWire: Colorado first responders can now get state home mortgage help. \u201cColorado adds state housing help for first responders, lifting CHFA limits to $196,810 as median list price is $599,000.\u201d",
+      "KGNU: Colorado joins suit over fed housing rule; Hwy 151 reopens; RTD creates Sundance festival page. \u201cHeadlines Wednesday, Nov. 25, 2026 Colorado joins suit over fed housing rule Colorado Attorney General Phil Weiser joined a lawsuit challenging a federal rule that would exclude an entire household from receiving housing assistance if it contains at least one ineligible immigrant member.\u201d",
+      "The Journal: Montezuma County weighs annual permits for Airbnbs, short-term rentals."
     ],
     "ai": {
       "model": "gpt-4o-mini",
-      "count": 1
+      "count": 2
     }
   },
   "agency": {
-    "checked": "2026-11-25T13:12:12Z",
+    "checked": "2026-11-26T12:53:16Z",
     "sources": [
       {
         "id": "chfa-news",
@@ -15425,11 +15592,88 @@
       "https://www.chfainfo.com/chfa-news/11202026-chfa-colorado-champions": "2026-11-21"
     },
     "summaries": {
-      "https://news.google.com/rss/articles/CBMihAFBVV95cUxOU3kzYy1IRU1HeVlBVEMzUXFqWlcyWnRNWmc2SEhUMVdZT2JRUU1MdTVVSlVlMTk3VXRNZzY2NlFYM0phejFjenFpWjNXVk14dVlkUS1wLUhfX25NamRySzBjMkxFalZ0dkI3dGNQQm42M1FlY3dwbWxGOUplLThvVGROXzM?oc=5": {
+      "https://news.google.com/rss/articles/CBMic0FVX3lxTE5ldUdLWGlTbHl6OW95VWRYWWRfRnU4UVNHQ1hGeFEwS0RUMHlHell3SGFVQ2R5Tk1aUTEtcnRzTDMxQkhyWDFjN0JTWWhCcEFOVm4tZ2xPd1NZUThaU1pTQzJJcG55ak91VnFmU0VHUXQwQ3c?oc=5": {
+        "text": "Colorado adds state housing help for first responders, lifting CHFA limits to $196,810 as median list price is $599,000.",
+        "link": "https://www.housingwire.com/articles/colorado-chfa-mortgage-help/",
+        "basis": "outlet",
+        "ai": {
+          "text": "Colorado provides state mortgage help for first responders, raising CHFA limits to $196,810 as the median list price is $599,000.",
+          "from": "Colorado adds state housing help for first responders, lifting CHFA limits to $196,810 as median list price is $599,000.",
+          "model": "gpt-4o-mini"
+        }
+      },
+      "https://news.google.com/rss/articles/CBMirwFBVV95cUxPdnI2LTZrOWFyaDlyOGRMbnlqcEhJNDE1dFNSR05nY0lyZGRiZ3kxWHY3MGhnODVSYUx5aVI2LXpzcTBnVmtBaGpmYjBHVUFJOUM1dUkzZmN2SVZweTVuTHRtUHNnRjFpTjh0WnFjRlc2bW9PRWZlZjhJamtZRmd4TGUtUVZDdC1qWXpxVUtXaUx0ZXFibEZhTFd6T1owZUw2X05ZUktpdXl2dHFpcDZN?oc=5": {
+        "text": "Headlines Wednesday, Nov. 25, 2026 Colorado joins suit over fed housing rule Colorado Attorney General Phil Weiser joined a lawsuit challenging a federal rule that would exclude an entire household from receiving housing assistance if it contains at least one ineligible immigrant member.",
+        "link": "https://kgnu.org/colorado-joins-suit-over-fed-housing-rule-hwy-151-reopens-rtd-creates-sundance-festival-page/",
+        "basis": "outlet",
+        "ai": {
+          "text": "Colorado joins a lawsuit against a federal housing rule that excludes households with ineligible immigrant members from receiving housing assistance.",
+          "from": "Headlines Wednesday, Nov. 25, 2026 Colorado joins suit over fed housing rule Colorado Attorney General Phil Weiser joined a lawsuit challenging a federal rule that would exclude an entire household from receiving housing assistance if it contains at least one ineligible immigrant member.",
+          "model": "gpt-4o-mini"
+        }
+      },
+      "https://news.google.com/rss/articles/CBMiugFBVV95cUxPRTRGaUh4TlUxZGllOFNMX1JfbXZfWXdJa0EtRVJKX2ZXRTQyZFNVamRtMU1FckdEc3c0YV83ankzRzM0SV9GZURfMDZocEZHOWRsYlVWa21QY0ZqeUhDSWdVMWVReGVVOHhwblBfMzNKZlM2MlFkdWwxVjZEWHJ2ZFR0ZU5UWllJZHl0LWhSWEw0VUJ3OTJ2X2J3V2RfcjBSSDJ3anFPZXFKbkN4N1lWRWl5QVV1c0kyVGc?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
+        "sure": true
+      },
+      "https://news.google.com/rss/articles/CBMikwFBVV95cUxOclNQdjVrTjFTNEs2QTdOSDR3d2JMZlh3YmFWVVlXbmZjRHdhcENxZFB4MU56MnJsT2U0ZVhMVnpwcWxSbTk3YV9qZldidFpRLURWMm5TWno4YmlXaXB3UjZhUUx3R2VIZVRsU3czc25BbXJUNGUyQ255Y2stVC1mWkdWNWY1aHZHRnh0LXh6YmNBbHc?oc=5": {
+        "text": "Last week, the city of Manitou Springs approved a major development plan for 50 affordable housing units on the former site of the La Fon Hotel.",
+        "link": "https://gazette.com/2026/11/24/manitou-springs-approves-first-affordable-housing-project/",
+        "basis": "outlet",
+        "ai": {
+          "text": "Manitou Springs approved a development plan for 50 affordable housing units on the former site of the La Fon Hotel.",
+          "from": "Last week, the city of Manitou Springs approved a major development plan for 50 affordable housing units on the former site of the La Fon Hotel.",
+          "model": "gpt-4o-mini"
+        }
+      },
+      "https://news.google.com/rss/articles/CBMipAFBVV95cUxOcEE4dmdQMFlNR1NlRTVScXVoMFhFUkl1eTRFekQ1UDcxSlhrVWltTHVveGZ3TWRCRXctWVEtZXRZR2ZVYUNDaWlNbjVBaDBJbEhCeU4wMndqMUh6eS1rYWxjNHpfaTVNM2o1Q18temNfeE1kT2k4bGQ4R2lGRTRGSG1IazFWRERTVFJqTHdlYm5CTWFoTlVPZ0tFRVRmdnpHeEFmaQ?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
+      },
+      "https://news.google.com/rss/articles/CBMiowFBVV95cUxQNy11OTdDTl8zdnRjTk03b3A0SFRfNTRYLW5ONktybW1md3N4RlRFN28zYVpITzN4XzRFNTduaDVha2QyX2xweE9sZzRoY0VOSDlVRGllNWhVWkp3SEd4endkbm9BUWJSX3ZtcFJnYkE4ZmgtQ1VtRDQwcVBnRTAxcDl3Q0tEd1k3M0xSMlZORGRidUxoMmtpM0IyR2RkYVVCX05N?oc=5": {
+        "text": "Despite the monthly gain, new home sales continued to trail 2025 levels, with year-to-date sales through October down 3.0% compared to the same period last year. Persistent housing affordability challenges, including elevated home prices and mortgage rates, continue to weigh on prospective buyers and constrain demand.",
+        "link": "https://eyeonhousing.org/2026/11/new-home-sales-increase-in-october-but-remain-below-last-years-pace/",
+        "basis": "outlet",
+        "ai": {
+          "text": "New home sales increased in October but remain lower than last year's levels, with year-to-date sales down 3.0%.",
+          "from": "Despite the monthly gain, new home sales continued to trail 2025 levels, with year-to-date sales through October down 3.0% compared to the same period last year. Persistent housing affordability challenges, including elevated home prices and mortgage rates, continue to weigh on prospective buyers and constrain demand.",
+          "model": "gpt-4o-mini"
+        }
+      },
+      "https://news.google.com/rss/articles/CBMitgFBVV95cUxNajBXQ3BwQ3gwRkFIcGlIa3VhYy1EbUVSb0FhTFYwNThDZ0tSVUZCNWozSnpfWmZtMy1YMHBFUGJTbmpjbDR2b193TDZWYk5Yb3BBV0tuRWN6TmdxZWVMSUdjdUh5eGV0TEFoTWc2MHRkTXUxVkZ6cFBNOWt4ODVHNW1ZZVNVWVI4bW1nSGliMS04TV8wSVQ5NlhZSi04cUo4OGU1RXJlY1RNR0hZNGluaG5ldTB4QQ?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
+      },
+      "https://news.google.com/rss/articles/CBMioAFBVV95cUxPZGdiTVZyQ3RSNy1zYkVvSld3TExfQlVvLWNYbENJMHJvV3JHczJUVFNoN1JwOFFkeF8zTUR6Vk95VXQ5bFhIMHlQVndyWFZ1azlobTdKcy00RmxMQlljd1IxaTVxOEFjSXQtNkRVeEp4LTlsRVBlcmpmMjNNZW9ONVZYWnJjMlRGZGhKTTl2TUNiczN3ZXZuRk5Jd3B6a1JF?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "unavailable",
+        "checked": "2026-11-26"
+      },
+      "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQUUQ3bE90bVNlaEdteVAtUXF6MHZwTENXbnQydFFoS0otcHNQSnVtMEd2azFzdWJqRHE2aHZHMFFKdTY4Q1NMQi1ROHY1YWYxUUdjcG1iTDFlYW5rdGJUY1lobnFodFlNRDIxNGlpZ0ZNNDVzRW1obE9GU2JTdkRBWVZiNFZwRzVGSDNjMkdXczItNkQtTmZKdmVXZVVjb0VZRFluWnZWb1JlaklGQXpOMDlrZ25Vd1ZtOFFXZExCbG0ydVFqSUw4NUtrb2FzS2R0XzJDU1E0Yw?oc=5": {
+        "text": "Headlines Tuesday, Nov. 24, 2026 $9.1 million in federal funds for flood-ravaged SW Colorado The Federal Highway Administration has approved $9.1 million in additional emergency relief funds to repair roads damaged by storms in Southwest Colorado.",
+        "link": "https://kgnu.org/9-1-million-in-federal-funds-for-flood-ravaged-sw-colorado-colorado-makes-space-academy-bid-boulder-affordable-housing-law/",
+        "basis": "outlet",
+        "ai": {
+          "text": "$9.1 million in federal funds has been approved for repairing roads damaged by storms in Southwest Colorado.",
+          "from": "Headlines Tuesday, Nov. 24, 2026 $9.1 million in federal funds for flood-ravaged SW Colorado The Federal Highway Administration has approved $9.1 million in additional emergency relief funds to repair roads damaged by storms in Southwest Colorado.",
+          "model": "gpt-4o-mini"
+        }
+      },
+      "https://news.google.com/rss/articles/CBMiowFBVV95cUxPUkptRmQwVUlORDEzdWRpTGdZSV9mRE1veFNnUjVPaWJ1dkdtcEk2THdwWXQ3NmxkUGpadjhOeUdGR0ZreldtLUctMVhnaHplNDdNMWdOckRkZ0FUaEZtdTcyU2Q1dE9MajdmTmpoV0lyNW9XMGZXZWtTTUVDeGZJODZrSWg4UVRoaERlNnpxQXZseG5CR1haSmR1MDQwUVV2RXU4?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiowFBVV95cUxPc3JadkJIbFY1a0FTODBxbUFia3lBeUVoVHdtQ1M0LThJaDJRM1pndm5wenp2X3U2MGVTN2t5NmdVSTBpODZ2Sm5nYWt6bzJ0eGhjRXRKVUxrS2RTbm9ra3VrWU9CSnRTazZBaVc0UnhDZXRvQjdFUkJ5bVpMUW5KTmF4WlUxNElrU1RjbDhGZUtXX0ozelVFdFBzd0NaSUU5eHFZ?oc=5": {
@@ -15442,34 +15686,6 @@
           "model": "gpt-4o-mini"
         }
       },
-      "https://news.google.com/rss/articles/CBMiugFBVV95cUxPTjlKV2FqZ0I5SG84VVVjdE10bjFjQ3F4R2tsaEczLTMwUkk0cHVpZWp0NVN2czkyU1ZmdDdjb0FMeF9iZk9NUVNaVUJfLXhZcmpvaW9ESjd6V0hlMGxvSFdmVWdEbEp5Ry1ybGlYRFkwbjJVRU4wTFdnRWhXaGNSby1UbEZjUENhbi1XT2R5WG5feHp4cW5sb2xSTXgyNm82WnlYMVhaVkI0ZVpEaE1PZzZZcmZxOWpHNnc?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMihwFBVV95cUxQUkticUtjdGVYa3piUXpyb2ZEWGJSbWJqaTVhWXVFbmtZTFBkd0tFZDZNYXVPc3ZHSDhBMTd5QnBtUGNHZzBUNzhyM1NyLVhqWF8xYktLNjFLSDYzb05nbWEtWjRQczNxZmVhYm5uclZSenlSei1DUzlEcUJINE9TakZDWE5pMTg?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMinwFBVV95cUxQV3VabHlrZjNqdmx5YkM3S1c2MG1YTUJoZVJ6UkxIUUlNSWNCczItYUY2bFJ2dUFiMy1kYlllVk9uMURDOEJQLXRlajhYQXhRZkRncU1DS3RhZHB0Z2JpN1ppLThNOTMwanhRTEdmRXgwY1hWWGc0ZmJiVk4xWDRiOWRuWnRxTEcySDhCNjZkaVl1NmFGUkltblAzZ1QyWHM?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMixwFBVV95cUxOYVFUZ2xGUWQyRGlCVTZMcHdmNlV4SFdqOXcxQkg4UmpQTFNKdENMVVhua3Y1MDRjTEJaM3ZWeVdscUp1UmM5RnN6Q1pBNHlYN3RicVpmUWhrVkxlZXM4S0F2T1JrUUJacTF4ZGtXU1hLNlNqUGxVYVlHQ0t6TmNMZjZrNzBsWHJYRURFeFBWS0haQmR5S05xSFAxc1AtQ2lyb1VxaVpzZUNLQ0xGamZoejMzcDBDZUJuenpnSlN1SVJrVnNvZ3NB?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
       "https://news.google.com/rss/articles/CBMijgFBVV95cUxOdFpnZU1UQ2pvVUYtcXNwT0hJVlJabmFSRnR0R2xkODgtLW1ySi0wSlBiNlNpbFoySHowSk84MkFodms4WUQ4dHBkcFFhdFo2UTN5UkZySW1YdG9WY3Z5NXpwVm5teHNJLXZHUDF6N1hyRkF4UG5ESXgtY0QwYjNuQ3k0TjRyZllCdkZUNEN3?oc=5": {
         "text": "Multifamily missing middle construction declined during the third quarter of 2026, and the market is down on a one-year basis. The missing middle construction sector includes development of medium-density housing, such as townhouses, duplexes and other small multifamily properties.",
         "link": "https://eyeonhousing.org/2026/11/declining-conditions-for-multifamily-missing-middle/",
@@ -15479,68 +15695,6 @@
           "from": "Multifamily missing middle construction declined during the third quarter of 2026, and the market is down on a one-year basis. The missing middle construction sector includes development of medium-density housing, such as townhouses, duplexes and other small multifamily properties.",
           "model": "gpt-4o-mini"
         }
-      },
-      "https://news.google.com/rss/articles/CBMifEFVX3lxTE11SHBETmFkYWF4Z3d4VEluVmI3bW1ReGhyNU9iSExzOUZZeGVLdGpBTUc0WEFkYXh4VXJYTmM0R01kWVY0bjJUYlhsRFJ2TlB5ZUMzZ3dQcXphelRvSDZ1UU4teW5ZdGRIWFpsRGZWWUxPT0cwN3kyclQwNHc?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMihgFBVV95cUxOVmljTWd1ZE9wNUZtYXZ2cUpfZFJvRmNWeW02QzdYM2pJMVVrTV9vWXRfeUtGMHdMb21JdG02NUQ5dmROZFpKNUViaV9XVFpzaVhGc3ZfVzRsWlVucUJGWmtjbnpBVUZOenZpOEFFXzNBbk9rdkx3eFdaMkVEMlFUMUpkbmxTZw?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMieEFVX3lxTE5mWE5ISW1aRm9LM01uNnFEd0h5Z19La0FSYlBIekpaSWtzUGJXb051X29HcHJwUmlqSzZBQWNNRGs3clY2V3I4Uy1QM09IN09BeHYzTFZ4Qzh1NGk1QXZZdkhGLWZZclJUcU9xSXpxVGNGOENaVDBlWg?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMigAFBVV95cUxNY1ZzYWotaC1NWHpnZF83MXVhMmdGY0w1MmU3SjZjaDlnVjJTSFhKZ3BFY1FCNDBQUHZ5Szl0VERPMXlxNDhBMURDcWd4UFdRUTFfZUxzaGtLU0ZiUnhST0V0RDk1b1M0Q2FZeVppdWxyaHIyQlFodDBwd01SZTFVMw?oc=5": {
-        "text": "With the election behind us, Colorado\u2019s new leaders have an opportunity to turn campaign conversations into practical solutions.",
-        "link": "https://gazette.com/2026/11/22/perspective-colorados-energy-in-the-balance/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Colorado\u2019s new leaders have a chance to turn campaign discussions into practical solutions.",
-          "from": "With the election behind us, Colorado\u2019s new leaders have an opportunity to turn campaign conversations into practical solutions.",
-          "model": "gpt-4o-mini"
-        }
-      },
-      "https://news.google.com/rss/articles/CBMikwFBVV95cUxQdE1ESnczRFVTOVBHTjJ4NFZ6a3M3QTdNOXRlZFRCU1BCRk1sWGdyd1NldXFyclg4aXBRSEU3LUQ0WmpFSHNKeU43U2JpdGdYdE1hU3Z4ZGZmUEFiZTR2VDZvTFlCQlU0U1BfbEJPRy02Q19UVjhfYzhDaXMycG1HU2V2bHMwLTljaVhPTThDVm5VaEU?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMif0FVX3lxTE5DT19vV1F5VktpSGltSDRrVWxmVUxUcF9WdXgxYVc5NGJ2al8zV2RJelkweTVMVXppa0lhOHU2MVJWSEdzLXlQSWtWY29aUlU2OTlRU3JDd29kUEJmdE9KTWZROVNCeDdNSFJxaGRTVUJYMTdIZUVnVFBjSjBsWnM?oc=5": {
-        "text": "States are finding new ways to accelerate housing development near public transit. This analysis examines how state policies, financing tools, and government coordination can expand housing supply and improve affordability.",
-        "link": "https://www.brookings.edu/articles/state-led-transit-oriented-development/",
-        "basis": "outlet",
-        "ai": {
-          "text": "States are discovering new methods to speed up housing development near public transit.",
-          "from": "States are finding new ways to accelerate housing development near public transit. This analysis examines how state policies, financing tools, and government coordination can expand housing supply and improve affordability.",
-          "model": "gpt-4o-mini"
-        }
-      },
-      "https://news.google.com/rss/articles/CBMivgFBVV95cUxQSWZQNU9iR1ZoRzRoN0k1YXkxSWI5TzBKeTZTR3ByTzdLNUtBVGRDYXZ1VHFuOE5kdm1hT3cxWWdjeGpsQjRUeXp3YW90YkVWeDNqaHJvc3c2Nlh5SG1PQm1udTlHRzBmT2dScFJqTElZQ2I3bmlsVFNZUmhtMHozZ2FFWHFiNlRmbmhVTldVWS13cF83cTZWNkdNa25iUExnc0tEVjJYUlp6R0VhMVdDVF9nYXMxeU1WbWFncW130gHSAUFVX3lxTE9oSXZWbElValo2MFZlZkRRcTd0cG03TjY5bVVVUkV2UnVvbldDRC1mYXdNOVd6Z09YR2x6ekRXdEdnMFFiMVZWaHhZWVRYdlk5YnVUcHFhM1ctU3NES0lyTUoyeXNvWDRaSDlDRlJFa0hJN3JtTmhQenQ5Wk5MeVNINEhRYTNqNE5jcjFaeHg4ZURqaHZhTktvekpZM1FiaTJ2c0ZPWEcwOURLZmhzTkdDbTQ1a0wtZTU4VHJVa1g4TTNaLUs5Z0RUQ2dsYVF3Ri1hUQ?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQTjZnNnJkWUNIT3NWVXRYcS1BaDdCMW52eWdmbEZfTUtQaFRfcXJtZUNUZTM3NVgwaHR4aXd1XzVDS1B1TDJFR0M3MFVweEEydE9QSFdvUnp2Rm5aMXlUR2tqN2JEOVMwTE1NQmFPVl9DQ1Npckw4QWN2Q09Xckh4YXFJekxGbFVxMVo3NUhjanMwZXdJNEhsU21wNmYxZkt3VUx5VG1wUjNfZw?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
       },
       "https://news.google.com/rss/articles/CBMif0FVX3lxTFA1SldaTWt6MjhLamJWU1FIa25DLWZBVDR1cDdMM1Y2TW9oQVUtSC1MRlhBajFJTjd4MWVWVEFzWFF0NmFxSVlTQ0JTUzRycG8yS09GU3NEMzVBMU5EU3pmdFJ1aElTTzhVU2h0czFYb0RZSVd6QmpJM00wSWhpejQ?oc=5": {
         "text": "According to NAHB analysis of quarterly Census data, multifamily, for-rent housing starts increased in terms of market share during the third quarter of 2026. For the quarter, 110,000 multifamily residences started construction. Of this total, 106,000 were built-for-rent.",
@@ -15589,6 +15743,16 @@
         "ai": {
           "text": "Genesis Group explains what Colorado's wildfire code means for new decks.",
           "from": "Wildfire: There were 234 press releases posted in the last 24 hours and 503,919 in the last 365 days. 's priority is author transparency. We do not accept.",
+          "model": "gpt-4o-mini"
+        }
+      },
+      "https://news.google.com/rss/articles/CBMigAFBVV95cUxNY1ZzYWotaC1NWHpnZF83MXVhMmdGY0w1MmU3SjZjaDlnVjJTSFhKZ3BFY1FCNDBQUHZ5Szl0VERPMXlxNDhBMURDcWd4UFdRUTFfZUxzaGtLU0ZiUnhST0V0RDk1b1M0Q2FZeVppdWxyaHIyQlFodDBwd01SZTFVMw?oc=5": {
+        "text": "With the election behind us, Colorado\u2019s new leaders have an opportunity to turn campaign conversations into practical solutions.",
+        "link": "https://gazette.com/2026/11/22/perspective-colorados-energy-in-the-balance/",
+        "basis": "outlet",
+        "ai": {
+          "text": "Colorado\u2019s new leaders have a chance to turn campaign discussions into practical solutions.",
+          "from": "With the election behind us, Colorado\u2019s new leaders have an opportunity to turn campaign conversations into practical solutions.",
           "model": "gpt-4o-mini"
         }
       },
@@ -15806,7 +15970,7 @@
         "text": "",
         "link": "",
         "basis": "unavailable",
-        "checked": "2026-11-25"
+        "checked": "2026-11-26"
       },
       "https://news.google.com/rss/articles/CBMinwFBVV95cUxNTjVTOU02YWNwSGZXMFBXZFRuVzQtc0I2VURJdk1oOEhnd2V1UUxjLURWN2xBNVFlTV9HTW44Z094SEZNektFVk1LYmpZdU5EUnlzTUpJWFFxYkEwM3pMN1BEd2dtZU52c0FOTlRHSjlzWU5IbzgxU25oVjZyaWZJWFE2Mnc1SmplQWFGY2N4X24tZk5aUEVfcHpoc0ZUa0k?oc=5": {
         "text": "A homebuilder that specializes in entry-level priced homes sued Denver in federal court, challenging \u201cmandated affordable\u201d home requirements",
@@ -15832,7 +15996,7 @@
         "text": "",
         "link": "",
         "basis": "unavailable",
-        "checked": "2026-11-25"
+        "checked": "2026-11-26"
       },
       "https://news.google.com/rss/articles/CBMirAFBVV95cUxPSVhMYl9yYk9wc1BZaHEzcGNranhWeXpJZVQwbFNjU0dlUWpvQ1VFTU9ib24wcVZna1pkYWZfZ2RmZFpOcVo4eGRJRGZmSzNzb1VUcWZsQjdkU0Vwb3BzU0ZRZlp3MWh2RXVwbjB0aDJ1QldvMUVxbk1Qb1FKeW8xWEhlWnZCdDF2R3BJbXNwczVqSXVROE9lNEktSVBEbW50N2tyNUp0RjBjcHdX?oc=5": {
         "text": "Johnson Capital Multifamily LLC (JCM) and Gershman Investment Corp have arranged a $17.2-million HUD-insured refinancing for Caribou I & II, a 193-unit affordable multifamily community in Fort Collins, Colorado. The loan was completed through HUD\u2019s Section 223(f) program and carries a 35-year term.",
@@ -15888,7 +16052,7 @@
         "text": "",
         "link": "",
         "basis": "unavailable",
-        "checked": "2026-11-25"
+        "checked": "2026-11-26"
       },
       "https://news.google.com/rss/articles/CBMimwFBVV95cUxNc2s2cEppSkc0c2Y2SG9WeU9mZV9UdnFkLTg4MXhUV0NYZGN0T2w1U0NmVEt0dEQwWjEySHl1MndiamFtZE9XcVU4dUEzaUNmdjlkV0hkLUhmdEE2b2ZaM3EyRkVDSmRxVDQwanNjbEdXTmV3YWdaTG81Ym9tdFNLU2pSaDI1ZGI5Qm1aVmRBVGx6d21QdE84RUk0MA?oc=5": {
         "text": "Builder confidence has dropped to a 14-year low, dragged down by high mortgage rates, ongoing inflation pressure, elevated energy and material costs, rising labor shortages and hesitant buyers.",
@@ -16070,6 +16234,16 @@
           "model": "gpt-4o-mini"
         }
       },
+      "https://news.google.com/rss/articles/CBMif0FVX3lxTE5DT19vV1F5VktpSGltSDRrVWxmVUxUcF9WdXgxYVc5NGJ2al8zV2RJelkweTVMVXppa0lhOHU2MVJWSEdzLXlQSWtWY29aUlU2OTlRU3JDd29kUEJmdE9KTWZROVNCeDdNSFJxaGRTVUJYMTdIZUVnVFBjSjBsWnM?oc=5": {
+        "text": "States are finding new ways to accelerate housing development near public transit. This analysis examines how state policies, financing tools, and government coordination can expand housing supply and improve affordability.",
+        "link": "https://www.brookings.edu/articles/state-led-transit-oriented-development/",
+        "basis": "outlet",
+        "ai": {
+          "text": "States are discovering new methods to speed up housing development near public transit.",
+          "from": "States are finding new ways to accelerate housing development near public transit. This analysis examines how state policies, financing tools, and government coordination can expand housing supply and improve affordability.",
+          "model": "gpt-4o-mini"
+        }
+      },
       "https://news.google.com/rss/articles/CBMimgFBVV95cUxQclU5WjJ3NllXRUtteWhXS1ZKWFZkbjVkNjRXd2I4VWRhUFByLXlnY0hvRzdUSG1PRy1Wd1pRY1N5MmpXV2hLZWNTU3lOUjdtZVdFWTV0b29WUlVyR2piOGU3bjVKaGoxcEFSRkZSalYyTUVSVG1PSGhiN3dwZ2x0SV9sZEdKQlozNTJ4cUQwMGdDcVVWT3BOU0ln?oc=5": {
         "text": "Webinar | Wednesday, December 2, 11:00am \u2013 12:00pm PT Join us for a robust, cross-state discussion about the role of land use laws in determining new housing supply.",
         "link": "https://ternercenter.berkeley.edu/blog/how-state-and-local-land-use-laws-shape-housing-supply/?utm_source=rss&utm_medium=rss&utm_campaign=how-state-and-local-land-use-laws-shape-housing-supply",
@@ -16084,7 +16258,7 @@
         "text": "",
         "link": "",
         "basis": "unavailable",
-        "checked": "2026-11-25"
+        "checked": "2026-11-26"
       },
       "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQdFYxeWQ2alRzblg2WWs4TmtZYXBRVnAybUhqYlBTdkpPT0ZBczFPM0lhc1hTQzVsYVZyemtndTFTaDk1dlo1V0ZRNkMzemZ4RFZFZDNwMXZ2ZGN0NHhWVl9BdV9aSW93SnlhVlVTcEdjWHdvT3dDYUttUlYzdUpYNXVPS1FQSG9WaHZZckpTM1ZucUlKUTcxYVpKX1Y4M0c4VVY1VXhQNlV5cTF6M0J1dFdFZHdyNS1tOEVrUXBWVkxydkk?oc=5": {
         "text": "Jamie Laurie of Project Worthmore, said the collective taking over the Ambience site is \"a full circle moment.\"",
@@ -16109,8 +16283,9 @@
       "https://news.google.com/rss/articles/CBMiekFVX3lxTE1TQVVMYWFsdWQ5aE04RVpkZUxzVWpjUkJtMXJMWnlVSExjU3dpaTRUN0tsaEFqcFp1Ylp0V2NoT2c4N0xlNlA3X1U4dTZReXdZWkJMeWxGdFd6ODhVNTJMNENFMW5ZTFJWY1g1Rmw1TElXQVFUY2xjeGpn?oc=5": {
         "text": "",
         "link": "",
-        "basis": "unavailable",
-        "checked": "2026-11-25"
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
       },
       "https://news.google.com/rss/articles/CBMirgFBVV95cUxPaDRVQmtTSFBSRjNQLTNCc0sxbHBmTWpfNFNKX1ZhRzlRdllveGtCWTB4bGlIUU92Z1RJdHNGdzlCaVZwTkU0YXA5Q3EteVE5b0N4Mk5oVlYyZTdSaWIyY2FLLWtZbEluYUhOTDRXWXlKUHdZaTl1SmwzS1JUT1lhLWpnOUJHZ0ctdzVRcHp2dnBPSHZzd3ZJU24tNUlYTVpYUkFSNmxKSi0yNjBJeFE?oc=5": {
         "text": "Local riders and advocates are celebrating the expanded North Fruita Desert network, better known as 18 Road.",
@@ -16146,614 +16321,552 @@
         "text": "",
         "link": "",
         "basis": "unavailable",
-        "checked": "2026-11-25"
+        "checked": "2026-11-26"
       },
-      "https://news.google.com/rss/articles/CBMinAFBVV95cUxOcDlJTFBqanV1dTZ1VlFfdTViUURKeDVrMFNqU05aMmVfRXFEY0tGUEVVY1FKXzlKTEtBbEw5R1ZUMDBFMjQxX3BSZlhjTEhmWGFMdHJoLTJ5bWpHRk9QYS1BTjlLWHllUm9zUE5jMHh2Y3dBR2tJMEp6YVpKQlE1dzRTOE5xNEpqUHJuaVhZNVhHRG9IZy1UMVp1SWo?oc=5": {
-        "text": "Devanna Dunson died during her first night on the job at the Amazon facility in Colorado Springs last week. Her family is still at a loss.",
-        "link": "https://gazette.com/2026/11/11/family-mourns-unexpected-death-of-colorado-springs-amazon-worker/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Devanna Dunson died during her first night at the Amazon facility in Colorado Springs, leaving her family in grief.",
-          "from": "Devanna Dunson died during her first night on the job at the Amazon facility in Colorado Springs last week. Her family is still at a loss.",
-          "model": "gpt-4o-mini"
-        }
+      "https://news.google.com/rss/articles/CBMihAFBVV95cUxOU3kzYy1IRU1HeVlBVEMzUXFqWlcyWnRNWmc2SEhUMVdZT2JRUU1MdTVVSlVlMTk3VXRNZzY2NlFYM0phejFjenFpWjNXVk14dVlkUS1wLUhfX25NamRySzBjMkxFalZ0dkI3dGNQQm42M1FlY3dwbWxGOUplLThvVGROXzM?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
       },
-      "https://news.google.com/rss/articles/CBMimwFBVV95cUxPNktsWFdiOXNYOFBMem8tNF8wWjdTQXUwUURsUENOeDFTTVYteEpKeXh5QmZWUGNJdWRjODZZbFVDWFhfRlVaaHdfS1l3Rlp2aDhfQ21USXhGWUxXQ3FXZVJhWjlyOXIta2ttRGpudWtrNUF2S3U5QTcyOGY5emlmSTR6bDhXRHlpWVlQenNpUjV6dm1pNm5jX2MzNA?oc=5": {
-        "text": "Canfield, Ohio-based Handel\u2019s Ice Cream is opening its first Colorado Springs location on Nov. 12, 2026, at 1220 Interquest Parkway.",
-        "link": "https://gazette.com/2026/11/11/midwestern-ice-cream-brand-handels-debuting-in-colorado-springs/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Handel\u2019s Ice Cream from Ohio is opening its first location in Colorado Springs on Nov. 12, 2026.",
-          "from": "Canfield, Ohio-based Handel\u2019s Ice Cream is opening its first Colorado Springs location on Nov. 12, 2026, at 1220 Interquest Parkway.",
-          "model": "gpt-4o-mini"
-        }
+      "https://news.google.com/rss/articles/CBMiugFBVV95cUxPTjlKV2FqZ0I5SG84VVVjdE10bjFjQ3F4R2tsaEczLTMwUkk0cHVpZWp0NVN2czkyU1ZmdDdjb0FMeF9iZk9NUVNaVUJfLXhZcmpvaW9ESjd6V0hlMGxvSFdmVWdEbEp5Ry1ybGlYRFkwbjJVRU4wTFdnRWhXaGNSby1UbEZjUENhbi1XT2R5WG5feHp4cW5sb2xSTXgyNm82WnlYMVhaVkI0ZVpEaE1PZzZZcmZxOWpHNnc?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
       },
-      "https://news.google.com/rss/articles/CBMijAFBVV95cUxQbE5CT3Y0elRYOERpb19yTWJIcHlXT3dkLWMwa2M5RlhyS1NTWUtETnhZTWNiNDdOSWJRbmVUYl9aeWJWTVFKR1dkM3VtdC1XWk15eUNVcXNtalNIakVCZmFSRFF5NndzaDdUajZib1B3WG0wSWRVVkNOcGdiblFLSXo4cnBIYmxBS1hBbg?oc=5": {
-        "text": "Former Gov. Nikki Haley (R-SC) said she is not running for the Republican presidential nomination in 2028, despite increasing her media presence after the GOP\u2019s 2026 midterm election loss.",
-        "link": "https://www.denvergazette.com/2026/11/11/nikki-haley-rules-out-2028-white-house-bid/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Nikki Haley announced she will not run for the Republican presidential nomination in 2028.",
-          "from": "Former Gov. Nikki Haley (R-SC) said she is not running for the Republican presidential nomination in 2028, despite increasing her media presence after the GOP\u2019s 2026 midterm election loss.",
-          "model": "gpt-4o-mini"
-        }
+      "https://news.google.com/rss/articles/CBMihwFBVV95cUxQUkticUtjdGVYa3piUXpyb2ZEWGJSbWJqaTVhWXVFbmtZTFBkd0tFZDZNYXVPc3ZHSDhBMTd5QnBtUGNHZzBUNzhyM1NyLVhqWF8xYktLNjFLSDYzb05nbWEtWjRQczNxZmVhYm5uclZSenlSei1DUzlEcUJINE9TakZDWE5pMTg?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
       },
-      "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQdzZ6RTI0TmFPM1hVczBrX3daWExVdjY5VVFwT09ETU44QzBRN3VSa1ozdkhDajlYZkNqU3dqdWltSVBnbXUya1NnbFdUSU83NXN2Z1EzUXEwbEhjZHBZV2RNRy1nLU1lOFdQenp4N0JTQ0tmVld3TzgyTjRuaDVUOHZ2TkQxc2VTREpNN0I5ekl0Wnc4dmpCdTZrUExXXzd1NnBtdzBEbHp0ZDQ?oc=5": {
-        "text": "Some Christmas trees are unpacked while others are picked from a parking lot. Then there are those earned the Colorado way \u30fc through adventure.",
-        "link": "https://www.denvergazette.com/outtherecolorado/2026/11/11/time-to-plan-a-christmas-tree-hunt-in-colorado/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Some Christmas trees are unpacked while others are picked from a parking lot or earned through adventure.",
-          "from": "Some Christmas trees are unpacked while others are picked from a parking lot. Then there are those earned the Colorado way \u30fc through adventure.",
-          "model": "gpt-4o-mini"
-        }
+      "https://news.google.com/rss/articles/CBMinwFBVV95cUxQV3VabHlrZjNqdmx5YkM3S1c2MG1YTUJoZVJ6UkxIUUlNSWNCczItYUY2bFJ2dUFiMy1kYlllVk9uMURDOEJQLXRlajhYQXhRZkRncU1DS3RhZHB0Z2JpN1ppLThNOTMwanhRTEdmRXgwY1hWWGc0ZmJiVk4xWDRiOWRuWnRxTEcySDhCNjZkaVl1NmFGUkltblAzZ1QyWHM?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
       },
-      "https://news.google.com/rss/articles/CBMiogFBVV95cUxQYlZSN0pOOXlYNnI0RGxSUzE0Q0FFUVV4X053YjF1b0NBN1pfcGNaNTVHYWFiZFo2bS1OS0lKdTBLX1NjSGhiU1N1dzFHV2tDWHdoRjI3czhST2pvTmNpOFR6M1BZa3E3VllFX2ZkRmptVHVKZ2QwSUxSdzVGSnJ1cUtrR25XVTJmbEJxQnJBa2R5cFlOWHgxLUlqOFNXOURGeXc?oc=5": {
-        "text": "Former Colorado Springs resident Amy Brown Carver will bring her one-woman show, \"Eat Pray Cult,\" to Millibo Art Theatre on Friday and Saturday. The hour-long show revolves around getting a divorce and joining a cult-like group in the California desert.",
-        "link": "https://gazette.com/2026/11/11/cult-divorce-featured-in-former-colorado-springs-residents-solo-show/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Amy Brown Carver's one-woman show, 'Eat Pray Cult,' will be performed at Millibo Art Theatre this weekend.",
-          "from": "Former Colorado Springs resident Amy Brown Carver will bring her one-woman show, \"Eat Pray Cult,\" to Millibo Art Theatre on Friday and Saturday. The hour-long show revolves around getting a divorce and joining a cult-like group in the California desert.",
-          "model": "gpt-4o-mini"
-        }
+      "https://news.google.com/rss/articles/CBMixwFBVV95cUxOYVFUZ2xGUWQyRGlCVTZMcHdmNlV4SFdqOXcxQkg4UmpQTFNKdENMVVhua3Y1MDRjTEJaM3ZWeVdscUp1UmM5RnN6Q1pBNHlYN3RicVpmUWhrVkxlZXM4S0F2T1JrUUJacTF4ZGtXU1hLNlNqUGxVYVlHQ0t6TmNMZjZrNzBsWHJYRURFeFBWS0haQmR5S05xSFAxc1AtQ2lyb1VxaVpzZUNLQ0xGamZoejMzcDBDZUJuenpnSlN1SVJrVnNvZ3NB?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
       },
-      "https://news.google.com/rss/articles/CBMilAFBVV95cUxPVDEzSlhjMkw5Y3RjcVBuQXRRMUpVbmFlcUhJNW03NnhRY1lJTVhhMHF3Z3QzWUVyYng4U05oU21Xa1gwRTlrd3c1dXBrS1ZqRTV4OTIyZ3dKaHlKSmJMMnpwOXhyT2ZYSlg3WXVOeVctcWR5Z3djTUJNeWdKOHFobnFIVDJvVmRkUW5HeVc0X2F5X2FY?oc=5": {
-        "text": "Voters approved Proposition 134, barring trans students from teams that match their gender identity.",
-        "link": "https://www.westword.com/news/jeffco-public-schools-preparing-to-comply-prop-134-40960825/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Jeffco Public Schools are preparing to follow Proposition 134, which restricts trans students from teams matching their gender identity.",
-          "from": "Voters approved Proposition 134, barring trans students from teams that match their gender identity.",
-          "model": "gpt-4o-mini"
-        }
+      "https://news.google.com/rss/articles/CBMifEFVX3lxTE11SHBETmFkYWF4Z3d4VEluVmI3bW1ReGhyNU9iSExzOUZZeGVLdGpBTUc0WEFkYXh4VXJYTmM0R01kWVY0bjJUYlhsRFJ2TlB5ZUMzZ3dQcXphelRvSDZ1UU4teW5ZdGRIWFpsRGZWWUxPT0cwN3kyclQwNHc?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
       },
-      "https://news.google.com/rss/articles/CBMixwFBVV95cUxPWHZpYXZKVmwyX0lrTV91N2tDYjRrNGZYZTM4eEt0ZV9teFhOZWwyQlRSbDQ3anNEdmpwTUxNWHJsZXNROTlFelAtaHdaT25fOFZZWUU1MTFVcDd6NEhNemNxR1RzU2JMVHJBX3ZfVHpLTEpfYWhrajdqclphdmFsdU5BeGZhNFEtdmFCTHhsang3RlJBZ3JDSDBZdVY3bUY3eDQwZmZXUktaX2twZ1UzWmtnb3RFVFlocUNvZEhRd0pyNDZ3czJn0gHMAUFVX3lxTE5uMW12VGlNRDl3ZmwwdDZSUVdZVzB1cUxUcDVVZy1mZXdqVHlqT29RNVVHS2NNUGI2dkRmR3RGc1hlck5yRndnTEFrenNrOVEtc1pieWlaU2tsMmd6c3RKWVAwbVJrTkZ6ZVVqNnd5S2hQUUFWUy1UN01BMGd0TkF5UzNyQ0xwTTdKeDVSV1lLMU5pZWhKZVpHc2VkZ01GTDBLandhV2kwRkN6Q0MwTy1HdHlSQ1h2LWxhTWxLckNpSFFTNWJjdlZENkIyNQ?oc=5": {
-        "text": "In a two-year initiative, Colorado has partnered with the IBM Impact Accelerator to advance quantum technology.",
-        "link": "https://quantumcomputingreport.com/colorado-partners-with-ibm-to-deploy-ai-driven-quantum-ecosystem-mapping-and-workforce-tools/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Colorado is partnering with IBM to advance quantum technology through a two-year initiative.",
-          "from": "In a two-year initiative, Colorado has partnered with the IBM Impact Accelerator to advance quantum technology.",
-          "model": "gpt-4o-mini"
-        }
-      },
-      "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOMzU5STJWV01BX2ZoeW1janhzaDAzM0lVeFVQbFRSaUlvMnhEekhlWGdFdjAyaFFtZkdscWs1ajkxYzlWc05Bc0hCR0N4YkoyaVVFY1NRcnVwb3A1RlBhY3NaUW5TYjVsd0g0SHdUOTNHTEp5U3RTaU5NQnJmbmNHM3dyU2lEQXlCZjJj?oc=5": {
-        "text": "A third edition of the popular annual shindig in Buena Vista has been scrapped, but the band has a trio of Colorado dates next summer.",
-        "link": "https://www.westword.com/music/king-gizzard-field-of-vision-2027-canceled-40960950/",
-        "basis": "outlet",
-        "ai": {
-          "text": "The third edition of the Field of Vision event in Buena Vista has been canceled, but King Gizzard will perform in Colorado in 2027.",
-          "from": "A third edition of the popular annual shindig in Buena Vista has been scrapped, but the band has a trio of Colorado dates next summer.",
-          "model": "gpt-4o-mini"
-        }
-      },
-      "https://news.google.com/rss/articles/CBMioAFBVV95cUxOd2J0R3NhSXVSNzV0U0Z3NFRmN1JvOXlEaEsyVXFFOGx6UVZySklKMlVzRWhCTHIySDBiWm1hQWlNWFh6alB0UklrdTVKdEtpUk8zaFlHOWxaMWNodE94dEliN1gwRTZTMkx5dmRyWGlySnZMUXRjWEk2QkRpQmZ6QjV1M3FkeFh5UG9wN2xPcFFSVjFMOFNVa3BWX3k0MmZ3?oc=5": {
-        "text": "Household debt delinquency rates increased in the third quarter of 2026 as the share of delinquent balances and the transition to seriously delinquent debt increased.",
-        "link": "https://eyeonhousing.org/2026/11/household-debt-delinquencies-rise-as-mortgage-performance-weakens/",
-        "basis": "outlet",
-        "ai": {
-          "text": "Household debt delinquency rates rose in the third quarter of 2026 as more balances became seriously delinquent.",
-          "from": "Household debt delinquency rates increased in the third quarter of 2026 as the share of delinquent balances and the transition to seriously delinquent debt increased.",
-          "model": "gpt-4o-mini"
-        }
+      "https://news.google.com/rss/articles/CBMihgFBVV95cUxOVmljTWd1ZE9wNUZtYXZ2cUpfZFJvRmNWeW02QzdYM2pJMVVrTV9vWXRfeUtGMHdMb21JdG02NUQ5dmROZFpKNUViaV9XVFpzaVhGc3ZfVzRsWlVucUJGWmtjbnpBVUZOenZpOEFFXzNBbk9rdkx3eFdaMkVEMlFUMUpkbmxTZw?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
+        "sure": true
       },
       "https://news.google.com/rss/articles/CBMipgFBVV95cUxORzlzTjgzdC1pZ1lyY0IwOEg3SjJDZzJIaDN1Mm9vN3pKTFd3QThrX1dmTkNmem5peE5OZ1YtY1JtRTJVY0tKX0lCWkhMcllpLUJxUmg1b3F3N3FmX2Vncy1WczJrU3lzOUxzclp6Wkw5M1E2X2NuUnRpSjFZaTdYNm9IM0Z2Z0x3WFpKX3V3U25veHlXNVl6Mml1ZFNzU3VtMjI4R21R?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
+        "sure": true
+      },
+      "https://news.google.com/rss/articles/CBMieEFVX3lxTE5mWE5ISW1aRm9LM01uNnFEd0h5Z19La0FSYlBIekpaSWtzUGJXb051X29HcHJwUmlqSzZBQWNNRGs3clY2V3I4Uy1QM09IN09BeHYzTFZ4Qzh1NGk1QXZZdkhGLWZZclJUcU9xSXpxVGNGOENaVDBlWg?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiowFBVV95cUxNXzlFbmpFaHFiVGRJc3VqNXhPQWtBRnR6NGRTTFk3X1hPR3dyUnZWNVE1LTVXN2JPUlp5OUJfQ1lldk5JQ3BOdnBwUGtoNVhPN2RMeUFFSXNLWXZDS0FYRFBabWlNM3BoZ0tFVGJwRWVqQUVmX2lSRFhsLVpSXzViM0pPRFRNQkgzX09KSVRUdHZTTEpWemNzS1FUdTMyQzFmU0RN?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMilwFBVV95cUxQRklvWklPTVl3ME52SnA0NF9YcmItc2xHeTRseGJydXJFUHo4c2NBcVZnRXlTYmRGVUlEdVlkNHVzUlgwM0NNaV9TcWNJTE5ZTlRkVUo4ZWpDY1Yxb25LU0JySndreUV4V3ZYejlUTnJsZDVqUzhMbk4xZUpjOGFoSUoxSUdiV3U0N2hjQU9abTdXOWx3d0xV?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPRFFLd0NKSmpibGtvU2hIVGdNM1JPZy1ZS2p6RzdsbWZPYzE3WFRoOVZnVFE5WGxtRDZSZklqT190WFdiTDdMVlFTV3c3bDhFRVBLQ0VMZEE4bVc4YXp2R1JrVmo4R1dYOU80OVNnSHBnMXR5NFF0VzREQUUwVFJlWmFVclV5Z0ZrTkdlZF9HMV9vX2QzSUxES3NQYlRCNHRFSnBDZ3JOWWhxeEYtSkR2SmZ3b3pMLTMyTmVj?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMimANBVV95cUxNZ211dmJEV1Q5clVpVkFpbUlOMnoxbjFDbUxDa3RrUV9TaUpVOVVFMEY3czlUVnVOQzBuWFJVcEpJaW9EZFVGYWNSLVJJdG1OUkt3cE1Md2VwYVRELWJZVlFZRC0tZnZDZUw1QWlwN3JYWVgtRGhacDFsRlM3Q0kzS21BZlVsNTlqbFhucmVTQi1GdExTOWdKTEp4MXdHVUxKYmdocWNjell1MzV0U1JheHNObEVEN0hRdWhfTFlrY0tJZkdDekpxRlVMUzBkeTlqekVwS1dFckk3czlqYUZvbS1KZUloOTNVZWg1VVFTYmtLb0g3cm1lZVdzXy1ZakJCcXA1MTZheF95ZnY4Rl81b2FyVWluSDZYaFZxRWNFZnlYMUFBV0xrNUFGelFKMlk3SjczTU1xb0hLUW50NWd0dXhKcEMyRWdfUEUtU200UUl5S21wTjMxSHotMGcyS3FYM2JVMFlsTTVrVUJhWWRFMFZHbXd3dWlWLTgyYXhORmlrb1Q1SVdraEJVNHhKZm0zaW4zZkRSWFnSAZ4DQVVfeXFMUFcwbDU5RTIyYldVbHpNendLSnhrZFJpa1NZcG44R2MwYjktTVZGY2l5UGlKbGxTNHNkWFdmNUtOd2hhbnJ4YVpFVUE5SWRVQmZ2TzlIcnlYX28xTGdYVC04WDh0bXBlY1hpV2FjbG1kcFFxZE4xbDdkLWZwamNMZC1mMDlaNkNXTmx1V2ZUd1FYUkZwSG9CVmcwSXgyOFRVQWl4RU10WXdnZDRTSUU2WHZadUY0T0o5RmFKejY0TFRXTWc4NVVBWGx6U1lNTlBLUlZ2TVlsUjJGb2VRQ25EbnF4ZVhuYnZYeXBmOWxCRzkzVnQ2alc2OUk3eE1yTEJCZWxEVnBzWU54MU9Rc1V0SHlZdVdxSEFCYzFGRmRFalBBUmFuWFd4Z2pGODVlVjB1VmxiVW5hb1JKMFg1b3BFUHA2Y3NpeDIxQmNZVndPSlRxMFVGanZZZE9ET1dYNjJ2VVBPTFYtVWxWWWJjbk1CWlFadC1BSlRCUnlGMkdsbWhkdjh2YXo0TzdkQlRBMVJJdm96X0w1R2RTSWhrclF3?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMihAFBVV95cUxOakE3UkFGYmpBeUtjdUJRRkQwNzhTZDdvc3R5dmd5SUJMLTV6ODEyS1BNeUpqTXJldFFvY3lMMjlWRU00VGFFRGN3cno3dkNqYkJVZGs2YlJfNEtxdEF2T1dBaTBoemFRTzZsVHFtWkdZTnZweFMzTnZ1M3M3M2x3RHZIYzA?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMigwFBVV95cUxNMkt2dTJXTWxaNGFzakUtUURvdTJpNGxmd1lDRFFKcjlDU3ZOTlZqcEltdUhZaXRyWUd2UTQ3WnlJbHVCa2pJRmdKampKeG1ma3k5ck9QaG9janBlN1lfcDdJOVdrcmlfVlpadmRMU19GUjFUeTdfWWJKMkI2QVd5Y0NFVQ?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPWXZvSi1GMWhRWUhuYXVlT0dSWmNiWnVOY3lMaFFUX1V1LW5QRzhKTHZDcktfV1BpZkkyX2lqMktNc3pQSEo0SXpEMWdZNi1hUXhYOXNjQjFYeGR5ZGNJVnJSQk9CbDJ4bm5XNlhabDNZWDBFLUtQdU9aZk5VZFZaN29JTW1BbmF5MlZJ?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
+        "sure": true
+      },
+      "https://news.google.com/rss/articles/CBMikwFBVV95cUxQdE1ESnczRFVTOVBHTjJ4NFZ6a3M3QTdNOXRlZFRCU1BCRk1sWGdyd1NldXFyclg4aXBRSEU3LUQ0WmpFSHNKeU43U2JpdGdYdE1hU3Z4ZGZmUEFiZTR2VDZvTFlCQlU0U1BfbEJPRy02Q19UVjhfYzhDaXMycG1HU2V2bHMwLTljaVhPTThDVm5VaEU?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMijAFBVV95cUxQbW5KOGcwZEdPOGVwRXN2ajIxenVWVl9sUkdRUTlnS0MzVTZoX3FfRHFjX2dQTnlKZG4wRFM0WjBEcHdLbTVCbDh3bGx6NTltRks0VzZRM2VuZEJJVS1rZk9tVGN1MVJObXFLX3IxSUQxQ2MzOFpkWDBBUmExZkN5WFJhTklLbUU3azhVcA?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMizAFBVV95cUxON2RSOXN3X0hibzNMemY2VzVJTy1wQm1hcXVndG1mUy1MQ0t5MVlTMVcxdk0xbnNJZkp5WlpLZGFsdWF5YnFpQzBCa3NXNVBZdXc2VnJ2Y25PVlFNd1hyZ1FMRVRvd0F3dU1Dc2NzQk51SHFYVU9YOHNXRGtYTjBEemhZbEpHMUdsRkNsTDBfZVJVclk0ekFDcFkxMzBSQ0RrenFIbko5czV0NzViUHFmYjZlOF9xbU05S2hCMDZEMWM4NlJNbWVkVGhJWFI?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMitgFBVV95cUxOSEdFWGNWWTlkZlBXVDcwU3ZnY3BSTm1tdGozOU83czVlRGRVc3Noa2tFZ1ZSNjczemNydlZkSm0xSE9xM3EzTXNkSkZpRWE1SlA4OTFOSm01NTBneHVfUHh1MEpjaE4wT1Nxc3dBa21DV1JUT3RtQXJjdGxBRmRnQW9SVHFDZElhSzhXTVdzNWJSNjk2MU4wNWZqYXJGRmFtNGZOSFlnUVZkbEJGUURKeF9yc0k1UQ?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMimAFBVV95cUxNQ0laMWs5WnY2ZXJWOG9NekhoNVpDdElTbElaZnhZNFVPU1VOOVExUkIwTzFvSHlsSzkxRUJNYmF5OFotXzdET3I4VEVCMERmbVBBQURHSXBVMWNfV0t3UWRmczBEeXpmTmVJUzJYb3plajhRWmNJSTV4RGcwcHpkbDBIX3VLclN2aW5BZkRPelE4LVhOTldReA?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTXU3b1NfR3M4OVRwZmZvTVlsOFNNZXZEQ0RGUG5uNjBiMnpLY3B3d2c3XzNMek4xRWVGX0pEWWNXRWREMHdLTmpRX0gwTmJPSmhuXzhaWmU5TDdHcVpGblZRaHVUVUwzV2V6blpNSUxfWXN5T2FGUVJkdUFScTZkdVhrdEtyRklhbE96dTRPcGRIWkdTSlZHSw?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMihgJBVV95cUxOdE55WHpNR0J1bXdsaWx3aFE2bjV1OVBWTDF6UHVVZHhPREdOR0QtYll2d3oyazNlek5GczVTX0MteVdNa2ZnMHY1ZmgwakpkdHFlRnZPakJpREJxUFYtVE8yVnpUWldPU0Q5bGpETlZvcFZKT2pqOXh3S3NXQXg4VkUtaHBXMkJIMXNNRU83NnZKMEhnd050QWYtak84N0hfTWZIZk82NUk5NzlmZk5Zdi1fMFZEYTlOTDBPdWItRUNkaDFTeTdycVNoMHUtUUNIbWRIaDd4b1Facks0Snd3WUdiaWZOeHF0WjBINERhRy1FTWxiU3ZPQlFDV0hFQWRZS1pCRlZ3?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiggFBVV95cUxOVV9xaEROSWw2VkZvUE5UOVRwekVVcFRYTWppNXdmOFFWZWZjSUkzb09sM3cwb2YwYW0wam9qaG1pWURzYVBIcjIxaEFCLUkxb2FyTXNfdVZ4MldJUzJfNi14QU41Z1J6SWJVR0JXbFN1TWFYSlZYSFlqZGdxMXFuVGFn?oc=5": {
         "text": "",
         "link": "https://milehighcre.com/early-prop-123-equity-project-opens-in-fort-collins/",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNRTg5akxIQzl5el9lRTZIWXI0QXE2cXlUVV9KVjVKUmRnbmNKMUZQQ0QzaDBpMmFBZ3Z2YklKYXY2U1VhQnZNYUgxd0lrMmltYTh0bGN1YTlkdjB3c3pwVW9FRkVUSDd1Z0paaEZfSDdCU0x2SzhtQXV1dVFOWWktOXlvNmVzT1ZubmdDdVVzVFRWemFnRWhGT0JxM1NCUkdCXzNnM0QwUzA?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOREI2M25LQk9ieEx1dXYxQzQzVmxHRVB1QmtDOHh0QlI4Q0Q2OWhsUDZ3Z2l5VzBTWmh1WTNDRzZPQmJrdWpGNnVsOVhSa3QtaExNTjE4ZS12c1doLVQtaTdabGdwOFJkbXRoVjNOVzNGMHdoVWVjUE9QbGo4UjJCbXdFY0pOeTdT?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMilAFBVV95cUxQNkpjM1ZQelJIWk9mMGx1MXBBNEdsOEhyeFRHNkI1b1I4TW1RRzhGWFNuMzFTUmZCNmdELU9iSTJSMGxGWjNZSUdzXy1nekxXQUVDbW5yaFdwVlJTR1RCMWRleGtUX0tOQk5HbHBYZFhvNmlMRzE2Zm82ZXY0STZXODJwNkVLRGxKT21sRmNBRWg5V2VM?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNeUxfVl9NeHBTdWRDc2pYdW5sRk9pNWE3VE01b2xqNHlwR1VjOW1RaUcwV1c3VElaSThyWExuS1UyNHZtbVhCckhYZnh4UTJNdHMzdzdYVk5XSUZxZXpxVVhsdXNidlMzbzJNUEdRbHZsX1VoV3RBUU1DcDByekUyVU9TZG8zUHhwX2ViZU9kTHRVUWpCZi1FVGdpQkdfcUp3QnVXcWV2XzhPTU9PcEZRVFRoTEtWV3Rf?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMixAFBVV95cUxPUnFTYnUtbld0TDNPRmNBZ3BnNnJWR0Izam15ZXM2QVFQcmswRFhMTndPZDdFd1NhNEFvX3ZTVHJfZHdGYVJMNF9PbE5XWGdkTXg5Z1hBMjhocWNHWE1oT3ItOEtsUWtEZ2xkMVdzVnp2NU1yaTFFc0hGc055bEh1dWwwWThaSjQzOVhjR2xrRUFyWkNka0g4WDBGMXdzeGpINXR6RnR4WFpQeHh2UkFxNjNaZ0dydkNzREMzTU02S0xFTUQt?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMipAFBVV95cUxNY0prTGQ4Z1R2M3B2S1Q0SGc5VG5ibTJTTGgwbTVnMkZpanJCZjRjcUNnaVBCMFdiTHNpV3NXR0RmcW1VWnNKLWdDXzRjaE1XNXdxckVWaVl6SjFoWEtfZUUzWEpwMDI2eFNpTXkzbkx5Vk5fSFhtQ2s5MHk2UzVDYXR0X2wwLTVQeUdKU3lhZmZaMU13bXlmdmFQcUE1ODlrRlQtZA?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOMi1BcmtXdTB3MmNRLTEwLVh4dEpzZ1gwNWt0dVYxT3NrdDAtamtxYnBTNndfVXJhY0V5UWlHOEhNXzVJQ2wxZWh3cnJPcVhmREZrTDZVdVhtNHV6dXd5YlF4dVpRUmxYa2dxZ0prZUY0S3Z4dDNkWDYtYzJYSWJ4ZFdMRld6UVBU?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMirwFBVV95cUxQbU5VcjZtVGoycThWMjhJUWhyM1B2cWYxckh1LWpod1JrU1VhZWQwOUhVa2lCRTI5SVY4UVNGTHN6LXF2aXFZZnJtcVlSSGt3ejBjZTFjRWFOSExNZENqN2xBU040WlBBM1AzUkVIUUFVNjA4QjJ5R2F5TlhmTkFuTm9SMzAzUVE2d0RFdnQzSUY1RjJQMTlvU2VkY0JpRDd2UEZYczNUYTJocTF5Vmpz?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMisgFBVV95cUxQOC04cHg0RVduNXJKTTJLb2FkUnlEbmFkcTliWFotVzlOdlh3Ymh2b3RzaXRVNWdlOEc2a29sR3JpeFhoZ0hUbUNNZGhRWDEzTWx5UmJzQ0I3LWpUTGdnWUFwbnBUZUdpQ09GWFBValRTN2VXajV6cWoyXzU2MjdTc3psSENqQjZiYlAxeFVpamNQVEdZLS1CVzN5NUcwc2NsVGhKMVVOclllR0I5Ny1ibEpn?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMihAFBVV95cUxOd1Z0UjJGeGdKamFlSTRuZFBuWHowVmhHdkwwbTh2VVBuVmExcnQwMWtRbTVpUWhyNjlPSHNva2JMNmw5WWJRX3VyNG5CdlNLM3EtVFVmaFhjZGRnenVHUzZNbWpBQS1pWmJXaDZiWHBNZlprQ1ZiWWRoVndhNkUtcVpDYVE?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMijgFBVV95cUxQaENrcFJTa1JRMGgzQTJ2V1ZyVnBiZGhCczZ1QzJjTk1tQ1cwZmV4RFlweHN0VUNhUVlCRFdzdXU2dFd6dEdMRTFuTGpoMmFfVHpzWnhJNy1PY2x0d1d0OTV0YWlWZmRFX3lsa0lGMTBaSndITmlZLVViZVhYUV95aFhUWFVVYkFDd1VKNWtn?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMirAFBVV95cUxORWo4SHdNb0Ric3JraFhLUDhlcUxaY255TjE0Yk1QUWNUZURXSzNIeWUtb2IxVEs2d0ZXNVY1eEhQdmZteEYxTVRDWHJFc3lGODJCcE5RcEF5aDJ3djZ2VWFORXNNbUlzd2lDQ3RpOElOMUZxUklDOG1Qc1ZQemZwb1ZfT29mRFZBOHNmWlVRZnJPZmdseW03dmNCQ3BsWXFzbklVVFhIZXp3UFRL?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiigFBVV95cUxPWkxwaDlmNXNlb1dZZnVxYjdjWGtiNG1aX0NTSUdTbHVVU0N0UV9VWVdzT2ZjY0FveUcteHNRdGVXenJ2d0h2UXF1Q3FiR2dKY2FzUlNvZFNSUmlQQU5VeUxqOG5xSEhzczJvZmdaNVlZcXBiRFdTSkQ3VjBTeWRCRUp4THNHSmdseUE?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiygFBVV95cUxNZmNFemduT0c3RGZHUVNaanFTYmx5cWxsY1Qwek5Bb05XLWRieG15SVFNQ1pfWTRBdVctbDlyY0ZnaUNmNXpNNVg3Z01uRXBYampIcFFGSVV0THI4OFhsc1FxVVNSTU5VV215ekRCM1p6WVo4MGZvQnNkX2Z3aTh0Zzk2cUNRRS1UcjVDUzNfb21xdml1dC1lcFFldmZfYlotRU5icUlSTkIyd1gwZVVWWEVaYkVJRGJYNzNhYS1lMll2dS12em5UVXZn?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMilwFBVV95cUxPVzdmTXhTTVZLOWhTWlRKNFBrS1paX2Vnd09oSDdPVklSTVd6UG1UbmZZcTVCTndJNFpHWE1IZlVad24yTDVzMEdISjVDek4xMDViU3JTSEp0NWN5eHUtbDROVjFpY0huUjlhdUVTUEdrNWtsNWswdVF3Qm1kbGVkTDN6MmFYWmhZdGIzWWtON2tyNXEyenIw?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPMXUzT3YxeFlIRmJOWmI4OEFIME5Ed2dXZXdKUlFia1VRQlBXYmtJR0xmR0J4eGptTUMxV0swMG1qQ2gyRnFpM0t0V2g5UHhlMmtVek9HTVdWeVNNWUdJblRKTTMxVkJ2bGVfeXIxMk16eTVRUXdaLUdTSDF3ODhRXzdjbkdjSkVMMjQ4Y0VCbkNzU1dUamxuLVNFTmI0Q09fOHdWcElibE1EYzF3NXMxNHprVUtmdXAyX2NrV3QtLUVyQdIB1gFBVV95cUxNelVPdjNEUzQ2dnNGcU5kVGhzVjJHOS1RcU1ZUWE2TXdFVXVQMGJ1S3hHNXJLbHNlamJ2Sm9aUnFUUTc4bFExdDlnanlORkRERTBhVjRPajVDakllQUxVaWc1RlVsUnpzbWk1U3QtaFVGLUpLdTN6VjVjVW83X3ZYYnZIclV5SmpjbjZiLUV6MVhGb0NmRHBFV1FsOVY1RWVkTXpCSU1mY3R0MUs1M2hBT0RoZHgzaEt1ZUZxdXRQR0NYNG9vMUNfN096LXlfNjVyeWhRb0VR?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMitwFBVV95cUxNOHNvWXhTdjFvTnd2ZWpsdjVvM29QLWdyUzZOMWFTTjdHUEdTazZZMGxPWFdtZk9TdVZ5WlhJb2FPbmtQbURFd1pTWUlnSS1LTk54Wk1RY2FSRWJ5cGdHOGl3NEVBaEZlcWlJVW1LblcySGxZVjUtdFNuMUlNbmhiNHJiM2tYZUZpdHg2LVdiS3dTZ1RmVjZqZzlhaXJua2JMc2FORFdFMTlNZTRSTUZpbWFIMExWdnM?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMirgFBVV95cUxPQy12V3lxemNVVlhtS2VpMkFKR0lHT2RxWjFEay0tOGtNcFFONnBtUkhmanNrYTBkQXBDM2ZBc2pXSFRUNnFoV1o5bHdfZ0ppMUltN1VwdHdlLU5HTWRzMVlaOGswc0pkYkd1eHNhbWNGWGFvaFBGTHl5ZDNYY1M2SDVXRTByWWhPNVFCdmdiMlZCem5aYzZEUGZBMXRNOWU5bTBLcXBWczBGMm85M3c?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMijAFBVV95cUxPbGpYZXhMNUNDcGJYTWJmaWFPQzRSTGpaX1RVMWljZVI3YU9TTzBwcXhiYnBFbENrOERhVmxKN1FQRjBUbWRmd3d5WllkcGhNejgtaHJBempGM3I5bE4tMWllMGl5RE1tcVJ1djM0YmlFMTN5WEZ2MldBYUZ0ajRmMUNyc3ZCM2RUZWY1dA?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMipwFBVV95cUxPcV96elZuWTVFdkFRcXFHVDVlMDB3WGpKdHZDZGJjV2cxSTlwRks1Ti1IYzlWbWFNVTR0M1o1XzhPbHlKQWZ3aEdxSktoblJkSU16VXBfUHEyYmtiT0FTMVV1N0tHbW1mbVl2LVhGZHExUzhFckNLSGU3UjUwVFZEVHllZnZEb2VUN3p2THEyZHVYTVN4ODd3MTMxb21xaUtLOUFDaDdBdw?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMitAFBVV95cUxNdFpocGI2RUc2VlJqbWdjNXpPT1VjOGdLZVhxc2t0VGVCT2dyZjdYRDY0UENsU2U1SEZLU3lLR3hnNTNtMjBmVTRUZm00enlOUWxRaHBOQkpVUHV0SExhblZlaVdWb1pJQ3Z4WVFvazdiWWMwbWZSUHRMYzBMcjhHN3JNTHVmZjFqYXFhbFh1UFFZUXZ1Uml5MGhybG0yQ3picl9xb2U4aUJyc2JpX19kRmluWUw?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMisAFBVV95cUxPV2RIcTE0dE9xcDUxZ1RJeFFDdTNVM2UwVUI4OW9mUmRpN2FVYWxUcEFENmx1YzdnbXdaZTBpWGxpTnFObnJ0MXdjT0dmNUptc3FwT1QyWmVmMlBrblB0WlMyXzlxdU5GelNGWUFLMTh1aHZqUjJHczdWRGZmNHVQcXFuZHNtY2tFVk5YbmFqQ3h0enBzT1dtSEhmRlBSenh1cnBzWFYtM2NZaTJWQm1IVA?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMigwFBVV95cUxPOUhqTFF4OUdVMVFmWG1OWDZLYk5kZkt1U2R2R3F4dWNPb1RlT2t3R01iQktHTFdEWTd1ZUF6cHhxaWEwSDkzZWJ3YlFaclJRdjBCWkFQT2pCbWl1STlPanBvYWVWdEhYU1FCSmVZaHhkdHM1T2ZvZ19jWVctMjRUdEhLdw?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMilAFBVV95cUxOeUVRRlJDSDNXOFZZZnBIZVlKSlZVYUY2dGc0dnJvV2pzLURKbXdVZ0JqOUVqMjhhNktIWnI3aGx0eGRWWmpYb2lWYjdiX3BsQXpVeWxNV0RTR01YdDhtU2ROMEdjSVdOME9EY3hPS0dDNWI2Zk5UdG9haTZUcVVRWXliTjRsVEhDRDJ4enNVZTVTMEFB?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNc1Z5ZXktN1NUYUowR2Z5b2N2NWYwbUVWYVJOalVLN1pueEtTNFZQVkxzZ2o5NGVEYW94QjBFVVdqQkhGR3preVRJbkJIRmMtZUpsa0xKOHdxYTdSOEM3X0xwUzRhUmN6R0I0TW42bkxzdWVtNVJ0Tks1UVhqdnBqX2QtSG9UeUt3WU5aVkJKYXUzcEw3TlRGcHY0S1cxQkVVSG1jSmtjbVljQzVTMHdQQ3ZPNUdvbFRMd3JDMlFSWU1icjFTWm1JOQ?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMirAFBVV95cUxQSzZDOWdWaHZlVm82amJhOGxEdW5HWkZtUDRjdHNaMzFEc0tfMDdhVzRoVzdEZWlEWjJSXzExMy10Z3N6TUxMRlpEdUdyNTJYNG1BWHFXRVZuZ2xiZExzcG5MT01OVS1uTjVRRldQSms3Q1hsLVBmeVIzTDRWdGw3elVsaW9LUmU4eUpPTUg5NnlTdnNaZjZCU2cxWmJuakFLT0FKOThrZHRJZEYz?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMimAFBVV95cUxPZWxmQnJWWVNSY1Y5cGpuNnpPeENSalBvaWJDSVJXSndLZjVtRl9xN3RmZDFvMnhWUktxR0R3RVM1ZXZBMEJHMWcyV2VBb05HRFpxZnBBSzRkX2t4T2Z3dnRseVRUZjRPTVpES18zQ2pDUy0zbmdkaTJPN0c1WGhSaklfZVg0V1BYa0Z0MXdKSUwzUF9nWnR6ag?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiggFBVV95cUxOZWE3am92bEJqNWxoWWk0clhmRG1pcFNTeGpIS2txTFpKR1BpT2pyU2NnZm9sX1B3NVJZTmQzX1I5dzNOel9LZTQ4WlJLY2htY0pLM1pTUElSUzJHWktlbzJoT1ZUa0FTR1RaVjhBMmVYQWJrVWk0MGMwRHYxR2l6djRn?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMirwFBVV95cUxPTmRSTldxYUh6TVp2eW5BY2trRUc5bHlkZmFfR09kek1POTZPMThsbGNOUlpXYjdEclM3QlFsNHhFa1pzdFVSMFA0bDRFWjlSRjA0THRrUFc2YkZSUmw2dEp1RFMwXzJYOHg0SVNpUFcxQnFicW9Fdm82X0pKTlFKaVBPOFdIZG50VUdIUERvblpBUWp0SEN0MGRjbUdZUHF1a0xoNHNfUXJSYVFCcHR3?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMitwFBVV95cUxOSTQwa0dJb2wwREtZNHVwVFdXelFodHFLVnNxS0xzMm5WRWJ4S3EtWU4tbVF0VzNxRlNPc3NZVmVhLUVZRWRpenM4WGZGSnhsMkJONTNWOVU5d1BlWkRXTWl4aTRnSW8zU2RHMHAwWklQc0g4Wmp6d2tYTHNDRFRieTgwdnNPVDc1bGhKOFFKdlViUXZOZDlmRUF3OHhhaFhBenN3NEVvd1d6Q192YVZ5OWNLa25VRUk?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiywFBVV95cUxNNEtsSWhNXzRuNmZyNUpnV2JnSlAzX2ZURjNQR0FKVWljVlF2NFF2Vk1qYnBwUE01WUxhbGNHaV9lSUNxSnZrXzRLVjlFY2tJZm5nZUd5U28xZlc3RWhWek9JeDloSjN3d09qTmpUN0ZtckV1M0FZbjZqVkVTOVJoZTY0VkMyMk53MzJHTng1aHBjUGpnbU9zRFRqejVaWHQzM09kVHcteFNfdU1PZnFrLTlwN2xYeTlteGpneWxwMXZZZ2ZabGNSMjZicw?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiswFBVV95cUxPaTMyWlBkeVVjYW5mWmZ0RFFmcE9KX1FJNnpxRDRnaEFpblpPS0FOQ1MyZE1hakZfRVhfTVZwX2owSUoxVGpvaUN1Q2xSUURBMWtJbzRySDRBLWZUTFMxOE5YMGVWYXd5b1hVMFpBd09vcFRvdGtfZmREUXJjbEdoUDZLTTlBcHB6NVlHQTY2Q3ZTRXRuY3lxVFd5YjRqNnBMcHZNUnJLU0trM2h1NEltd3Zobw?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiugFBVV95cUxNcTJRSzV3Y1FHY2k0UHFDdDM4UTUxM3VhdWFZMDVrSm4zTDVyVG1FcUVnY2lvSHJuMnVFRWF6OWlxR3Rkc05Kbm9Udm45ZHpjMUY2am53Rmc4RExnc0RMRHlZbnY5LU5NVjV6SS1GbkZvMkN5dGdPS1JTSWpWZFdaMzJVQy1Wa0k5WWhBQnRwOFBjeGJFbGpsc0ppUGFyR25ocFg3MmNHSlRnMVdva0JLLVVaYm5pS2FMRnc?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMilAFBVV95cUxNWVRmRmlJLUlhM2ZsUE14VXFlM3lsLVlrZEZqc1ZNQ3ZfQ0p2LXVwOFhGOTBaZXZ4UXZXbllVMUh3QXJhcWM5Tlp6d0EwSmNJeEc1NDVEak05UnI2aG53WXBCYTFxajR5RmRWRDFydFFkZU5COS0yMHl0UTFwY2JlVlhpV3NGZFRYOE0tLUV2S2h3b09r?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMitwFBVV95cUxOOUNMdERTRHg2VHh0elFQd2NmeHV2cFVDbTNUWldxRXJKSDdsVnlqYlR4MENFMEF1U2xBMEttTUxnMldiVGtmeEY1ZTVuN1BRcldyVkdaRmZucU1jMDR4bmFFR1V0NnRMTGxpQllwSkFKSTBzNV93QTdRbjZ3Qkg1UzBNSC05Wk0zWkpQM1RqX2dITEdDa2N3TjlmSnVJUTNyQ3djUnJGRUxGU0RxenRYTmgwR0J5eEE?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNc0xLTWVTdEdHSl9PbjRpNzZVNkVKekFBbkJKNzNhNDdKUjZQNkN5Sl9SRkp2TnZJcFRYWHdkcXQ4SjBYdF9zSmZLZTZvZjVMRlpRQ0RpZHNVbi1uXzBHbWQ5a2tkNFRweGRPT0ZYSFJXMTR3Z1JURm5VWHZURWQ1YnlnVTU0NFdtZDVmRVFOc1dNM3NHMUhnM3B0QXdEckhlQlg3XzEzaDZBbGNYWEVkNzZ4TURic1cy?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNeHJCRDhQRXFHa2Y2X3ZEemhrdXd2XzdKdVZ3TElPVlluMEpiV3FFSlhvcExyMGVOZXAtQV93VndfTWNhYnlMTlJNSk9LNzVzSVVqTElabGItZldpT2ljRlpLd19UNmVIMGtzbmpTTmVHSGUzQ2JTUmxzZmoxTXNFUHExQUYyNDRmckxWdldqVmVSS2Q4LWhLYTcycE5nQzQ2YnhCZlF2UVc?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPeTllM2NBVFJ0R0NXeTdLbUNub082bUt3dDBMMTFzZkx4QmNWYXdaWmdjcXpsTHR0RG9jc0I5REtMTHYtUmFKVUdJZkI3ZGRaaTd4MVpMZVlROWRfaHN3eFdoNXB1Q0lpZ3NTTzlDWUJoUjA1NEo5Rmx4VkE5akVPakFnc25pVnRTYXE3bG5BaTRZaUJzNWRyQ3VXdEZ3dmJ1MmtBUmw2b0o?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiogFBVV95cUxNSEZHWGpVTDZDZW02MzFpcXQ4ZHZldE9aQmUzRHZmQkxCYjFQVHp6cHVMTDlUQ0FBd0ZOTFl2eE41Mmd1b201LV92YW53M1RLcW9jVTVEMks2M0hpZW0wSkR4UlNtRm5aTEUzRF9KTU9YY19IRksycTVqT2V3RFVPUkdqV1hXRXFQcUxBei1FaFJGOFVCWXlQcmo5cEpCVDR5WlHSAbYBQVVfeXFMTjdaMGF0U3YxdThwUGRNeWdxN3BtRWh4R0hVQW9XbDIteDFmWWpJU2hBY1pjN092cEJHdjMwRWpleWhrUzhHanlmZ203WkhGdlladnlxTVV3dEdqZjJxcTVtZktrNGgwRGxhZ2VTUUh5S21kQ2lqRmZvTG9fVFhLNXBCSUxWS0RHcXNJN2RuRXl5OUZpN1ROTS15LU5NejVBZFVreVk5eldieFo4SEF0aU5uUGhyOHc?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMimAFBVV95cUxQUks3ZEw2TUhuQUx2Sk0xTGlOd3NMUXd4N0toMHpLeFFsdHNWTEdLQnBpWXlTZThRVXpkcWZHanR5UDc0UmpyV08zYjhyM0RJdzV2TEJhQTkyOEhRcnhYaDB3S1hMRTdSYjYyelhza0RTNHRlWkVBQnZJMVFtSEEzZ3ZtZkxoTUU2RG4zZ0ZHUDNodXlhUGxkYQ?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMizAFBVV95cUxQbDcwYlU2cGx1c09FbFZXVzVQanVGZXZfLUdPc0ttZTdjc2N4SFhUc0drcWRRZ1JBTE5Ycllmd1gyUHV6eHVUVFAxbXRuMkJSMnVscU5PT2ZOclFnQ2NOMzJhYmx6VjRBYzdZcDd1WUVQU00wYmJocHFoalpydS1tMGNqYkgyRG1kZVhEN3Jfa1piVTNiSkJINUNScTV5YWRLUTBSWFlqdzFYNnVSZmpBQzVCNFFRSHY1YkxnalBvSmRKekx1ekdseXU4cjQ?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNdUw3eWxPNFFHZFRoQ29IT0dNOE5ncGN5QlVqdXliV1hwaWZsc0MwQ2pDeXY1UDFFMllWTVQ0S2dGcFljX3F2dHFfVlFYQzdzcE1PX0Nua1B2YXZQUjdfZVpuekNXdWhpaFFWTmpKdkN1cUVXODJORzF4R0pHNFBDZ2Vic0sxYmJjY0N5anJYT1gxYURyQllrNk1MZGxWWXdfdy0zMTJRVWs4Rl9jemtLeXJRdW41Ym96?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMilwFBVV95cUxNYjlCN1JPaGdWN1JLdUFmU25Cd01iWW1ZczJPdmJqXzdyV0ozS2hLU29QRlRFQUpHQVIyWHMwQmY0TTB5WWFPdVZ1cHdQdzdXQ25WWEdwX1pubTlvRE40cDNuaC1CU2xLWWRpa2dIY1M4S3kyakRSZ1EtQU9JeWFSVmdwSUpCOFB6d0wzOHBKbG5mdHVqTDEw?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMimAFBVV95cUxQUjBNLTBjOUlNLUhva2VIanRENlE4VmM2Y1FuTjhBM1dMV19wNnpNcEl1LTZ2T21HTUxrOVdsRURYSl85aHkta1cwNmw0NGtJVE9hMkdzdm9IOUhQWEl3TDFqbG9veVc5N2lUZ2YyN3dBLXlpWXd1VVgzS0pSZXh0Y0QtU2lGRzI1bl9fRkVDRzVmS1RQVXNiaQ?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMi8wFBVV95cUxQZDJYTF9LNVdOU0xCR0lqR0JjZzc0SFpZdVJwNS0teElRUXpVV1pjR3NOZ1hVdm5VdWdZYjVfUDIwVGhlckp5WlBxTzhmaDZNdHl2OWJ3ejAtM2Y2N0JSSG9sYTVLVFo5VVpSMjNhZWNBQjFQanU2VmdKN2hFWW5HT0U5MklQSm91Q19VcEhBanc2MGNaemVDU3FMUjB6dUI0clJvVFRlWHVZdUQ4RjZvOGRuMG8wM2dLUlhZT0hnVUx6RVdGNGN6QVVhQ3JVcU51SjVOdDRKaDdDNlN0SmFSQ3JaeHZQX3JXVGlIMVRtQ2xPY0E?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPU1R3ZHhBT2o0LVRPOHhMTmVaWVJHWnNGRnJTTFB4a0FDeU1LTU1PblA2N0o4YzJCSEdVYTZTbHdVdEs2ZHhyUkFpdWJQZFJzMzR1UGxab3pGOU5KT2U3NWltZzZ0ZXhxSjdkQ3I3eTZiZGJoNm1HMWJaR3VPUzc0UTlXQTVqVWZxSVZZbFJwTmh6emhodGItU1RRMUhyVHVQekZ6a1pBRVhhUQ?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMimwFBVV95cUxQZFFnY2tJX201UmhxTnkyM2hnLUMtRFgteU1nc2RManFYdkpsVC1mb0dMU3lLLWRxR1hybVVCaVpwUDYyQ0w4TFlVbzRicFJjdk5ET1FpS3gxOGdtemtVRGgwX0JZaGRZTWIwNTdCcXd3OVhncXVYSVdIbHlFMktIWEtxdlpwV1k1bXBsTF8zS0x6b1FWOThoSXU0TQ?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
+        "sure": true
+      },
+      "https://news.google.com/rss/articles/CBMivgFBVV95cUxQSWZQNU9iR1ZoRzRoN0k1YXkxSWI5TzBKeTZTR3ByTzdLNUtBVGRDYXZ1VHFuOE5kdm1hT3cxWWdjeGpsQjRUeXp3YW90YkVWeDNqaHJvc3c2Nlh5SG1PQm1udTlHRzBmT2dScFJqTElZQ2I3bmlsVFNZUmhtMHozZ2FFWHFiNlRmbmhVTldVWS13cF83cTZWNkdNa25iUExnc0tEVjJYUlp6R0VhMVdDVF9nYXMxeU1WbWFncW130gHSAUFVX3lxTE9oSXZWbElValo2MFZlZkRRcTd0cG03TjY5bVVVUkV2UnVvbldDRC1mYXdNOVd6Z09YR2x6ekRXdEdnMFFiMVZWaHhZWVRYdlk5YnVUcHFhM1ctU3NES0lyTUoyeXNvWDRaSDlDRlJFa0hJN3JtTmhQenQ5Wk5MeVNINEhRYTNqNE5jcjFaeHg4ZURqaHZhTktvekpZM1FiaTJ2c0ZPWEcwOURLZmhzTkdDbTQ1a0wtZTU4VHJVa1g4TTNaLUs5Z0RUQ2dsYVF3Ri1hUQ?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPc0hwb1pfbF9zYnVvVmpqbUZRZE1RdTZQU1VIbWRZSGQzenJpeW43cllNYnloXzZLU0xQSlF2TkxJRUt3czZma1poRzc0b1lJNkhKRzd6bFBITE5OSmd5X1M5aWhfVWwzaDBsZnNEZzhfWlN2M1FwNFNSaXhadm1oYm9ReFB5T0lvcVltd3JDZkN4d1UtNmxiU1BQT25xN3NSZmhTSTVPNXR2Sk1FT1ZkbnEwV0ZiejFVbE0wUmxTczByQQ?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMivAFBVV95cUxNQTJmVHctVUFLQ2xHR0NMVk50dkl3WjBRSVFhR2E3d2VoVV9GNzVRTzZlMWdKSjZnTGNTNHZNdENrb3BBNnFWNVVnMl82UWhOQzZZd0UyenNpVUkzOHBTM096WFB4U19LWEZFczBxNXM3Z0lkSmQyZ1hrbWZqYkxVOEdja2hGeUJSR0RjQU96bFVJdG5wbG1FSTVORE42NVQ1aXhRR3Q3d3RvV0dieHBVN0ZwUzBKUU84OVBfZA?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOTklacGV5SlpvSjFkbF9RNnhiX21LVlB3YklvSjBvQ3dtYnppXzVZY3J5MVZKaThtcDg3NWpsTWh5cDdQcEhfbzBFMW1XUjJ5MzZ2LVcwejM5QzdTVXF6SFpLanZIcWlKUFpocUFTdW9sVTdTUV9tSzhzNVJEdTBaQkt0NzRESjJlR01oVWJVMm1rQi1ad2QzM1JZVVlyQllTX3BnRjJhYmlCdTF6dDZ0OFh2aHFUUEha?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
+        "sure": true
+      },
+      "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQTjZnNnJkWUNIT3NWVXRYcS1BaDdCMW52eWdmbEZfTUtQaFRfcXJtZUNUZTM3NVgwaHR4aXd1XzVDS1B1TDJFR0M3MFVweEEydE9QSFdvUnp2Rm5aMXlUR2tqN2JEOVMwTE1NQmFPVl9DQ1Npckw4QWN2Q09Xckh4YXFJekxGbFVxMVo3NUhjanMwZXdJNEhsU21wNmYxZkt3VUx5VG1wUjNfZw?oc=5": {
+        "text": "",
+        "link": "",
+        "basis": "not found",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMiugFBVV95cUxOS09PUFNBenprT295anI3ajZuQVFRMDlNZVFsN3JGLWE4akFsZTJvWExXeHdIZ1ZYbDVEdHNaQTJ0WVhnZ25PZ2NNSzJnTlU5MXBHOGZ5NmYtbGJHdVBfOHd6SkJYM0dXRWRaNVlsTUV4elhjTVFEYTk1aEJrSU9xSjVrdGJZYl9IVk51MVlVcTdfZC0wQ216a2ZZX2daamNIRml5dGZBa1EzVnUxVGVuekNqV09WWFZWU1E?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       },
       "https://news.google.com/rss/articles/CBMikwFBVV95cUxQM2RDTlVOTFB5RkdlOEp2YlozS2J5Z2M2UUliOXhLcXR2Vm51S2Rtbm5Wdmh0bmZHUXVPNG54TjN3MU5FNmZyNGdScnBDVmI3ZXVBM2owc3BJV1BYdTZ4T2pBYmRiUHdLanhYZFQ4MEdJVGdZNUppclF3M2IyVks5akg5UGpqY2NUdU0tcUhmWkpHMVE?oc=5": {
         "text": "",
         "link": "",
         "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMifEFVX3lxTE8yMzlONlJHTjBPX1BfX2ZtS09pR0ZpQjR5SHE4OWNyVHg4S0tLYjJIZ1c1M2t0dmdoR0hMcXI0SUxzNEZIRmZnSExLOFRPbzZjeVJrZUZMRWFjMXJDMnZwMDVqcFNybUlvLVRJWFVSNXBuTDMzODlBUHdLMUk?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1ISWpoMlpyVm15R2puS2pIN1pCOEFoVVBzZFRNR0dldjRaMWJfTXVjdW90aXlyb1VMclNiYlA4aE1sSHB3eV80RVFDN3JUekpyalJURXJRZkJwVmF4?oc=5": {
-        "text": "",
-        "link": "https://yieldpro.com/2026/11/caribou-apartments/",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMihgFBVV95cUxPT3ZZZzdkQlBmZGdkNTdSZnJ2bHl6eWl5TGQtN2tTOHFISC0ybkM3OHEwUk9qR2luYlRpRVRDRUd5dXo5aWlISHRId3g1NzN4VlhHNFJRVFAyM1RxazlOc0M3MVdDVlNOU3NaMGZ4X0dETVVXWkVZYkdtaG1zWnkxQVBRZ25fQQ?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMiowFBVV95cUxPcHhudzN4NHdGd1JDMEx0Zm9scUFvc2pyRDlxenVaQjV4WmJvMlJySXBRUzNqUDdnTkg3djRodnp2bW5ZajE4cGNRZ1B6Nkh1RTJ4VVgyZk9ILTdTWnM5MXJSUnpPSlFhQ0VFM2tLeTl0aFZBWGg0SVlkbG1nY0NVeDBoTGdvNGE1U0h2bHV6U1huLWRIc2tJYm56akRvN1NjaTAw?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMivwFBVV95cUxOdk45UW9kOURZdm5URUJ4cXllbDZiM1huRkxmcjREUE5OOGIyTGMxTTJ5TmhVbDdBN2RmYzZ1TFlMTGs2bkRHQ05wV2o5WFp1ZnlQTHl1SVRnT0c5elpIRlpCUEllWmlkTU5YQkEyV0JucjN5RG0xMzRSSjhIT0lRNnR2YmpKWV9xcktmS3ctZWxiZmRfREZlZnNWcTNwQVFRZXpYQncyZkxhSEpONmtrZmVZMElBM1NDRVhmWTlSZw?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMixAFBVV95cUxNVVg5Q3JyNHI1TjNhNWgxMS1QRk43T3dPOXVFaFAyV1R6Uzl0aTA5akpVZG56ckZkUWZtNGZUN1Yyd0tCTHV4b3BkUDl2LWhHTFpPRmkwNGZnMUw1X2NuSFpqVVFMazZmTGZsRE0ta1VMTFVwM2tmeUNxR2N1akdMbEZmUkVhOGJDMEE1emVKOXcza1JPQ2V2YlRUTE1PbWFIeFFMbWdHbXM2MGlJS0kwU19HS0M5LWc1Z1NRTGhFNDM3dzBL?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
-        "sure": true
-      },
-      "https://news.google.com/rss/articles/CBMijAFBVV95cUxPXy1kc2dHU0k4dk9iV0lJWHpQMGFrbndQc2d1Si05cnBNdk5YMV8wYzd5SnJxOHdScVQ2OElwUDJfaGlMTGtLMEtmdjVuMWRxLUZITVdDc1dwSlAxRG1sR3g1bEdhTUNxaTdtOEMzS0ZLVEtIQVBFaGdyU2d5MlJwLVpXWXlmWTlEZnVyUQ?oc=5": {
-        "text": "",
-        "link": "",
-        "basis": "not found",
-        "checked": "2026-11-25",
+        "checked": "2026-11-26",
         "sure": true
       }
     }
