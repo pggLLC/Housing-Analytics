@@ -117,3 +117,13 @@ CHFA reviews whether cash flow repays the deferred developer fee within its
 ### `costPerSf(args)`
 
 Cost per SF for the contractor contract and the total, each with its scope.
+
+### `permitCostPerHome(permits, fips)`
+
+The county's Census Building Permits Survey declared value per multifamily unit (structure only), or the
+state's across all counties when the county has fewer than PERMIT_MIN_UNITS permitted units in the window.
+
+### `indexEscalation(observations, window)`
+
+Price change from the average month of a permit window (e.g. "2021-2025") to the latest month of a monthly
+index such as FRED WPUIP231120. Null with a reason when either end is missing.

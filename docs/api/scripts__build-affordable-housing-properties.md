@@ -86,3 +86,13 @@ schema in that directory's README.md.
 
 Returns a flat array of normalized records, ready to combine with the
 other sources.
+
+### `normalizePublicHousing(feature, idx)`
+
+Normalize a HUD public housing development (housing-authority owned,
+HUD operating and capital funds). HUD gives no street address or city.
+
+### `normalizeUsdaFarmLabor(feature, idx)`
+
+Normalize a USDA Section 514 farm labor rental (USDA's own active-projects
+file; HUD's copy of the USDA layer holds Section 515 only).

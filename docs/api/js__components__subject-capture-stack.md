@@ -2,15 +2,16 @@
 
 js/components/subject-capture-stack.js
 ===============================================================
-Demand & Capture stack (CHFA method) — anchored to the Subject Project.
+Demand & capture stack, county share — anchored to the Subject Project.
+One of the site's named capture counts (methods.html#m-capture): the county share, not CHFA's count.
 
 For each AMI tier in subject.unit_mix:
   • Qualifying renter HHs in the county  — from data/co_ami_gap_by_county.json
     (cumulative HHs ≤ AMI tier per HUD limits).
   • Subject units at that tier
-  • Capture rate = Subject_units / qualifying_HHs × 100%
+  • County share = Subject_units / qualifying_HHs × 100%
 
-Also computes overall (portfolio) capture rate folding in the
+Also computes the overall (portfolio) county share folding in the
 in-migration assumption from Subject Project.
 
 A second line, "capture with relocation", grows the county pool only by a

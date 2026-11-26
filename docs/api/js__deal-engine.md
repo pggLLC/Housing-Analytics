@@ -14,3 +14,16 @@ Annual operating payments, in priority order; balloon cash is NOT assumed.
 Must-pay loans use monthly interest/amortization. Deferred and contingent
 interest compounds annually. Forgiveness occurs at stated maturity.
 After an unpaid maturity, subsequent years need a refinancing assumption.
+
+### `sizeChfaBoost(inputs)`
+
+Workbook piece (paul, 25 Nov 2026, "approve the workbook pieces"): the CHFA basis boost that would
+close the gap. CHFA may award "up to" 30% to a 9% building that needs it to be feasible (QAP 3.M.2);
+the dossier workbooks size it to the gap. This is a readout: it reruns the engine with a CHFA boost
+and never changes the deal's own figures.
+
+### `dealChecks(result)`
+
+Workbook piece: every dossier-workbook check that applies to a calculator deal, in one list. Each item is
+pass, look (look again) or fail, or na with the reason it could not be checked. The checks themselves are
+the engine's (costBasis.*); this only gathers them, so no figure changes.
