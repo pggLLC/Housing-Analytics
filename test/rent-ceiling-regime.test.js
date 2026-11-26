@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 const { createJsPdfMock } = require('./helpers/jspdf-mock.cjs');
+const { asQuery } = require('./helpers/share-link.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { JSDOM, VirtualConsole } = require('jsdom');
@@ -253,7 +254,7 @@ async function test(name, fn) {
         const snap = w.__DealCalcShare.buildSnapshot();
         assert.deepEqual(plain(snap.rentLimits), meta);
         assert.equal(snap.inputs['rent-limit-regime'], regime);
-        assert.equal(new URL(snap.url).searchParams.get('rent-limit-regime'), regime);
+        assert.equal(new URL(asQuery(snap.url)).searchParams.get('rent-limit-regime'), regime);
 
         w.html2canvas = async () => ({ width: 600, height: 600, toDataURL: () => 'image' });
         const pdf = createJsPdfMock();

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 const assert = require('node:assert/strict');
+const { asQuery } = require('./helpers/share-link.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const { openPage, setField, close } = require('./helpers/deal-calculator-page.cjs');
@@ -124,7 +125,7 @@ async function test(name,fn) {
     assert.deepEqual(plain(record(p,'dc-market-rent-2br').origin),origin);
     assert(snapshot.reportMeta.assumptions.some(f=>f.id==='dc-market-rent-source' && f.value===note));
     assert(snapshot.reportMeta.methodology.find(m=>m.id==='dc-r-rents').currentSource.includes(note));
-    const recipient=await openPage(new URL(snapshot.url).search);
+    const recipient=await openPage(new URL(asQuery(snapshot.url)).search);
     for(const id of ['dc-r-rents','dc-r-noi-stab','dc-su-gap']) assert.equal(text(recipient,id),text(p,id));
     assert.equal(record(recipient,'dc-market-rent-2br').status,'yours');
     assert.equal(record(recipient,'dc-market-rent-2br').sharedUnverified,true);
@@ -158,7 +159,7 @@ async function test(name,fn) {
     assert.deepEqual(JSON.parse(stored['dc-market-rent-overrides']),{rents:entered,note});
     // A shared ZORI scenario must also retain the unused override for a later
     // mode switch, without letting that note claim the sourced ZORI figures.
-    const recipient=await openPage(new URL(zoriSnapshot.url).search);
+    const recipient=await openPage(new URL(asQuery(zoriSnapshot.url)).search);
     for(const page of [p,recipient]) {
       setField(page,'dc-market-rent-mode','override');
       for(const [br,value] of Object.entries(entered)) {
@@ -173,7 +174,7 @@ async function test(name,fn) {
       assert(snap.reportMeta.methodology.find(m=>m.id==='dc-r-rents').currentSource.includes(note.trim()));
     }
     // Legacy override links have no separate record; retain their entered values.
-    const legacy=new URL(p.w.__DealCalcShare.buildSnapshot().url);
+    const legacy=new URL(asQuery(p.w.__DealCalcShare.buildSnapshot().url));
     legacy.searchParams.delete('market-rent-overrides');
     const oldRecipient=await openPage(legacy.search);
     checkRevenue(oldRecipient,ownRevenue);

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 const { createJsPdfMock } = require('./helpers/jspdf-mock.cjs');
+const { asQuery } = require('./helpers/share-link.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { JSDOM, VirtualConsole } = require('jsdom');
@@ -271,7 +272,7 @@ async function test(name, fn) {
     try {
       change(sender, 'dc-county-select', fips); mix(sender, rows);
       const snapshot = plain(sender.__DealCalcShare.buildSnapshot());
-      assert.deepEqual(JSON.parse(new URL(snapshot.url).searchParams.get('utilityAllowance')), snapshot.utilityAllowance);
+      assert.deepEqual(JSON.parse(new URL(asQuery(snapshot.url)).searchParams.get('utilityAllowance')), snapshot.utilityAllowance);
       assert.equal(snapshot.utilityAllowance.countyFips, fips);
       assert.equal(snapshot.utilityAllowance.perBedroom['2BR'], 150);
       assert(figures(sender).every((v) => /\$-?[\d,]+/.test(v)), 'sender figures are measured: ' + JSON.stringify(figures(sender)));
@@ -280,7 +281,7 @@ async function test(name, fn) {
         const recipient = await calculator(noSubject ? null : local, { noSubject });
         try {
           const before = recipient.localStorage.getItem('coho.subjectProject.v1');
-          recipient.history.replaceState({}, '', snapshot.url);
+          recipient.history.replaceState({}, '', asQuery(snapshot.url));
           recipient.__DealCalcShare.hydrate();
           assert.deepEqual(figures(recipient), figures(sender));
           assert.equal(recipient.localStorage.getItem('coho.subjectProject.v1'), before, 'shared basis never enters Subject Project storage');
@@ -310,14 +311,14 @@ async function test(name, fn) {
     try {
       change(sender, 'dc-county-select', fips); mix(sender, rows);
       const snapshot = sender.__DealCalcShare.buildSnapshot();
-      recipient.history.replaceState({}, '', snapshot.url); recipient.__DealCalcShare.hydrate();
+      recipient.history.replaceState({}, '', asQuery(snapshot.url)); recipient.__DealCalcShare.hydrate();
       checkRevenue(recipient, expected('chfa_lihtc', rows, local, false)); checkDisclosure(recipient, 'allowance_method_missing');
       for (const id of ['dc-r-noi-stab', 'dc-su-gap']) assert.equal(text(recipient, id), text(sender, id));
       change(recipient, 'dc-county-select', '08077');
       checkDisclosure(recipient, 'allowance_basis_other_geography');
       assert(!recipient.document.getElementById('dc-allowance-local-notice').hidden);
       change(recipient, 'dc-county-select', fips); checkRevenue(recipient, expected('chfa_lihtc', rows, local));
-      const old = new URL(snapshot.url); old.searchParams.delete('utilityAllowance');
+      const old = new URL(asQuery(snapshot.url)); old.searchParams.delete('utilityAllowance');
       recipient.history.replaceState({}, '', old.href); recipient.__DealCalcShare.hydrate();
       checkRevenue(recipient, expected('chfa_lihtc', rows, local));
       assert.equal(recipient.document.getElementById('dc-rent-allowance-status').dataset.allowanceSource, 'local');
@@ -334,7 +335,7 @@ async function test(name, fn) {
       mix(w, rows);
       const snapshot = plain(w.__DealCalcShare.buildSnapshot());
       assert.equal(snapshot.utilityAllowance.applied, true);
-      const url = new URL(snapshot.url);
+      const url = new URL(asQuery(snapshot.url));
       snapshot.utilityAllowance.countyFips = '08077';
       url.searchParams.set('utilityAllowance', JSON.stringify(snapshot.utilityAllowance));
       w.history.replaceState({}, '', url.href); w.__DealCalcShare.hydrate();

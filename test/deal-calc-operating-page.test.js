@@ -4,6 +4,7 @@
 // page's figures must agree with js/deal-operating-budget.js and the engine, not
 // with numbers copied here. The prefilled budget is the module's INVENTED example.
 const assert = require('node:assert/strict');
+const { asQuery } = require('./helpers/share-link.cjs');
 const { openPage, setField, close } = require('./helpers/deal-calculator-page.cjs');
 const ob = require('../js/deal-operating-budget.js');
 
@@ -91,7 +92,7 @@ async function test(name, fn) {
     const sender = await openPage('');
     const snap = JSON.parse(JSON.stringify(sender.w.__DealCalcShare.buildSnapshot()));
     const oldLink = (status) => {
-      const url = new URL(snap.url);
+      const url = new URL(asQuery(snap.url));
       [...url.searchParams.keys()].filter(k => /^op-/.test(k)).forEach(k => url.searchParams.delete(k));
       url.searchParams.set('opex', '500');
       const map = JSON.parse(JSON.stringify(snap.inputProvenance));
