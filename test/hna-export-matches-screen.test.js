@@ -848,6 +848,7 @@ async function exportAll(c) {
     const canvas = document.getElementById('chartRentBurdenBins');
     assert(canvas, 'fixture: the rent burden chart is missing');
     const was = window.Chart.instances;
+    let drawn = null;
     try {
       // The chart as hna-renderers.js draws it.
       const realChart = window.Chart;
@@ -856,8 +857,8 @@ async function exportAll(c) {
       canvas.getContext = canvas.getContext || (() => ({}));
       window.HNARenderers.renderRentBurdenBins && window.HNARenderers.renderRentBurdenBins({ DP04_0137PE: 16.9, DP04_0138PE: 12, DP04_0139PE: 11, DP04_0140PE: 10, DP04_0141PE: 9, DP04_0142PE: 41.1 });
       window.Chart = global.Chart = realChart;
-      const data = cfg ? cfg.data : { labels: ['<15%'], datasets: [{ label: 'Renter households (% of all renters)', data: [16.9] }] };
       assert(cfg, 'the rent burden chart did not draw from the renderer');
+      const data = drawn = cfg.data;
       window.Chart.instances = { 0: { canvas, data, config: { type: 'bar' } } };
       sheets = {};
       await window.__HNA_exportExcel(window.__HNA_buildReportData(), 't.xlsx');
@@ -865,8 +866,13 @@ async function exportAll(c) {
     const ws = Object.values(sheets).find((w) => /Rent burden/i.test(w.name));
     assert(ws, 'no rent burden sheet: ' + Object.keys(sheets).join(', '));
     const head = ws.byN[4] && ws.byN[4].values;
-    assert(head && head[0] === 'Share of income spent on rent', 'label column header: ' + JSON.stringify(head));
-    assert(head[1] === 'Renter households (% of all renters)', 'value column header: ' + JSON.stringify(head));
+    // The headers are whatever the chart says (its canvas's category, its dataset's label), and say something.
+    const category = canvas.getAttribute('data-xlsx-category'), series = drawn && drawn.datasets[0].label;
+    assert(category && category.trim() && category !== 'Category', 'the chart names no label column: ' + JSON.stringify(category));
+    assert(series && series.trim() && !/^Series \d/.test(series), 'the chart names no value column: ' + JSON.stringify(series));
+    assert(/%/.test(series), 'the value column gives no unit: ' + series);
+    assert(head && head[0] === category, 'label column header ' + JSON.stringify(head && head[0]) + ' is not the chart\u2019s ' + JSON.stringify(category));
+    assert.strictEqual(head[1], series, 'value column header is not the chart\u2019s dataset label');
     assert(!head.some((h) => /^Series \d/.test(String(h))), '"Series" header remains');
     assert.strictEqual(ws.byN[5].values[1], 16.9, 'the value changed');
   });
