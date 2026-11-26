@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "0f7430cc168bfba848f94a137c7f0efd5506d981",
+  "commit": "ee31b357d9c733541c09199ccc007a264433ac55",
   "dirty": false
  },
  "files": {
@@ -78,7 +78,7 @@
   "hub/hna-dola.js": "fbd5032131872fdd0b9ba6bd5b3015ee19dd6756abdd48caaa7143048f64cdc7",
   "hub/hna.js": "1bd3f4fd156f6f13aa91f43eb37c2ac69f2d7123b81c4861d68737c2eb8bd036",
   "hub/home.css": "589e29eaa4734222ac9631dd3f59107e259d998d421d8f14256aeaa5051c8757",
-  "hub/home.js": "4e82c7a3c8b4cd05d6b04a3a34f56de016e9de0b45981ff26035c127958c6f2c",
+  "hub/home.js": "4c536e26124306b0f4ce23d307d8a44b8dd0c9a9aa60ff693a6d030212244ec1",
   "hub/homes.js": "048cc62e0cfd9789252368d9aecf8e951c96500f207d94bb41f54dc7e6684d2b",
   "hub/ic-summary.js": "d635d7f96227955251e3569b6dcb67617c2742be770273386c2a6637498b3e18",
   "hub/icons.js": "233cf064a645c331292f0951e400fa828acc86763f9922707bbccca3121f7de0",
@@ -93,7 +93,7 @@
   "hub/map-base.js": "cbb667abc88877093c487ec239a8af62c291303f682c6114ca0c49da75c15d3f",
   "hub/map-kit.js": "e70fb1db58bf10e7d487c03c4cb1f31757c22762f86b37bc4c11e77d3629a945",
   "hub/map-zoom.js": "854ba56f8749d75876c408596354074fc80a1b0621ae09a6a0306324ebc0a6eb",
-  "hub/market.js": "7e9a0cb8e14de64243b903dbcb86ee309ef91ee15c6b0da3a660ed10e4c8e203",
+  "hub/market.js": "58864818fe3f9fbedcab9c9a3a547edcf5016a065aaf26741308a7f42bac0a35",
   "hub/middle-income.css": "d6ee8edc88955d68fc798e4ed247954c3d0900fd11bf62fba990ad09855ed22e",
   "hub/middle-income.js": "5301fa977060cca905ef65201fcdf54cc58f3f831580abcd49f5b3088835bb29",
   "hub/nav.js": "585f15c5632aeb7ef3aa9c2c98d42c214a3d641e210622021c858dfd90c10a53",
