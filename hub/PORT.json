@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "241d06de44e411492479c7a652f4f3fa39c90333",
+  "commit": "ea256e60ffc8849e9e8fead9e602cf9f707c4630",
   "dirty": false
  },
  "files": {
@@ -74,7 +74,7 @@
   "hub/finder.js": "a0663024af915ed9443e9e40a30a70d21bca1e6939b540762239d518909e77ab",
   "hub/geocode.js": "5615576798dbf832fe8cd0acc5122bd42a71f515a5ae47a444240df7e97558ac",
   "hub/guide-extract.js": "785e4f6de491110d8cd776c734bd2068cd9e39a0a3883043261bc7c16e422c82",
-  "hub/guide.js": "aec1064b2ac188cb7276b7659958d8b5cebde28dafe05ca8c8b66121e5640b33",
+  "hub/guide.js": "e07e9cea8d74337bf0990b7930586fbe4d9a1d33cf9030809dee550723f11541",
   "hub/hna-dola.js": "fbd5032131872fdd0b9ba6bd5b3015ee19dd6756abdd48caaa7143048f64cdc7",
   "hub/hna.js": "1bd3f4fd156f6f13aa91f43eb37c2ac69f2d7123b81c4861d68737c2eb8bd036",
   "hub/home.css": "589e29eaa4734222ac9631dd3f59107e259d998d421d8f14256aeaa5051c8757",
@@ -111,7 +111,7 @@
   "hub/places-state.js": "c549c0d95f3327c9a4ffce4b3ca986659deeec4c4477ae03ed0fdfa7ec0365d7",
   "hub/places.js": "1ca4e81009c93f34e56d3cec776698c032b5663de66cfb715a5815fee8e95ca3",
   "hub/policy-more.js": "be3f40f4d69349758c41e45f1c8cbb6193e08554f412441a67989d8e2c8f2eb0",
-  "hub/policy.js": "1a9bcc5a9da5881bc50a04a11eb20e43650a2e4d6470856c1469a892478ee08d",
+  "hub/policy.js": "2e54ec8a94ad8a669731268d60561f7bb3abd7cb0fc3dd1a0dafddc4a89a7347",
   "hub/profile.css": "d18e7355133687b3c43099751dc234a12da6cbfe743fb65d932e414e171015a2",
   "hub/project-store.js": "f05e2135eb76a37550cc142ccbd552e35712bc83836e0a7125389ea69de5ff91",
   "hub/redraw.js": "0aa306638ac0e4dd3ca9a88c54459bdf16d7f486ae4c3ed3472c23e532622c16",
@@ -127,8 +127,8 @@
   "hub/start-numbers.js": "f671b5a549e5fae8d3c72a91eaeb029319bf0d42f300bd9de115103b0af14509",
   "hub/step-bar.js": "c7ca3bd8edf4b8244fb02e79e19441f4d46399665bef3985c2c4ad82995f0dea",
   "hub/strength.js": "267e464d104b402a33859aeb289acb365c202ee62aebb0df89634e0e2f3c4921",
-  "hub/templates.css": "f40acec60a86e0bc5facfa074863337915f71bd74c336244c1bfc4b080ffd666",
-  "hub/templates.js": "e052bb242b362c8bce20aedd5587e68a9bd256fae7d22f4a477e69401dad26d1",
+  "hub/templates.css": "8868ea369f1bd4f2fc25dc6e3b55b6af89baf9e4f9ee59354365ab419052eeae",
+  "hub/templates.js": "5e43af664397a27f924b4c9ce8177b7e539f15f3a2ed8e4e9dc4c1b97f56dbb1",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
   "hub/text-fit.js": "583c08d1ce2e9c0b7fd7cd3baca0bee436da9f3741625d9aa7eb683276ea78f8",
