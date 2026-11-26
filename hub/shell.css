@@ -195,6 +195,8 @@ ul.plain li { margin: .4rem 0; }
 .rank-bar { display: block; min-width: 0; }
 .rank-bar .bar { max-width: 100%; }
 .rank .bar-value { text-align: right; }
+.rank-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 0 2rem; }
+.rank-pair h3 { margin: .25rem 0 .5rem; }
 
 @media (max-width: 767px) {
   .gap-row { grid-template-columns: 1fr; }
