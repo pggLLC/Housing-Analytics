@@ -519,11 +519,30 @@
     var glance = '';
     if (!q && data) {
       var sign = data.gapCounty.meta.gap_sign;
-      var top = profiles.map(function (e) {
+      // By region, not one statewide list (paul, 26 Nov 2026: one list by count was all Front Range cities, COHO's deals
+      // are mostly rural, and a top five of rural towns never reached the San Luis Valley). Six regions, each county in
+      // one; the top three places in each, by count, each region's bars scaled to its own first place. Same figures.
+      var REGIONS = [
+        ['Western Slope', '077 045 085 029 107 081 103 091 113', 'Mesa, Garfield, Montrose, Delta, Routt, Moffat, Rio Blanco, Ouray, San Miguel'],
+        ['Mountains', '037 117 097 049 057 065 093 015 051 019 047 119 043 027 053', 'Eagle, Summit, Pitkin, Grand, Jackson, Lake, Park, Chaffee, Gunnison, Clear Creek, Gilpin, Teller, Fremont, Custer, Hinsdale'],
+        ['Southwest', '067 083 007 033 111', 'La Plata, Montezuma, Archuleta, Dolores, San Juan'],
+        ['San Luis Valley', '003 021 023 079 105 109', 'Alamosa, Conejos, Costilla, Mineral, Rio Grande, Saguache'],
+        ['Plains and southeast', '075 087 115 095 125 121 063 017 073 039 061 099 011 089 025 009 071 055', 'Logan, Morgan, Sedgwick, Phillips, Yuma, Washington, Kit Carson, Cheyenne, Lincoln, Elbert, Kiowa, Prowers, Bent, Otero, Crowley, Baca, Las Animas, Huerfano'],
+        ['Front Range', '069 123 013 014 001 031 005 059 035 041 101', 'Larimer, Weld, Boulder, Broomfield, Adams, Denver, Arapahoe, Jefferson, Douglas, El Paso, Pueblo']];
+      var regionOf = {};
+      REGIONS.forEach(function (r, i) { r[1].split(' ').forEach(function (c) { regionOf['08' + c] = i; }); });
+      var ranked = profiles.map(function (e) {
         var rec = data.gapPlace.places[e.geoid];
-        return { e: e, s: rec ? shortfall(rec, '30', data.gapPlace.meta.gap_sign) : null };
-      }).filter(function (x) { return x.s != null && x.s > 0; }).sort(function (a, b) { return b.s - a.s; }).slice(0, 8);
-      var topMax = top.length ? top[0].s : 1;
+        return { e: e, s: rec ? shortfall(rec, '30', data.gapPlace.meta.gap_sign) : null, r: rec ? regionOf[rec.containing_county_fips] : null };
+      }).filter(function (x) { return x.s != null && x.s > 0; }).sort(function (a, b) { return b.s - a.s; });
+      var rankOl = function (list) {
+        var max = list.length ? list[0].s : 1;
+        return '<ol class="rank">' + list.map(function (x) {
+          return '<li><a href="#/place/' + esc(x.e.geoid) + '" data-route-path="' + esc(x.e.path) + '">' + esc(x.e.label) + '</a>' +
+            '<span class="rank-bar"><span class="bar households" style="width:' + (x.s / max * 100).toFixed(2) + '%" title="' + esc(x.e.label + ': ' + num(x.s) + ' more renters than homes') + '"></span></span>' +
+            '<span class="bar-value">' + esc(num(x.s)) + '</span></li>';
+        }).join('') + '</ol>';
+      };
       glance = '<h2>Housing need by county: renters and owners</h2>' + (global.LabCountyNeed ? global.LabCountyNeed.figure(data, params) : needMap(data)) +
         means +
         // Colorado as a whole lives on the Deep dive's Funding vs need tab (paul, 16 Nov 2026: statewide figures are not
@@ -535,12 +554,15 @@
           source: 'HUD CHAS ' + (aaYears || '') + (buyShort ? '; ACS ' + ((tf.meta && tf.meta.vintage) || '') + ' B25119 and B25077' : ''), sourceHref: 'https://www.huduser.gov/portal/datasets/cp.html',
           more: 'The statewide counts for renters and owners, both ways of counting renters, and why there is no “homes short” figure for buyers.' }) : '') +
         '<h2>Where renters at or below 30% AMI most outnumber the homes priced for them</h2>' +
-        '<p class="note">Shortfall: renter households minus homes priced for them, for each Colorado place where renters outnumber homes. Larger places lead because they have more renters.</p>' +
-        '<ol class="rank">' + top.map(function (x) {
-          return '<li><a href="#/place/' + esc(x.e.geoid) + '" data-route-path="' + esc(x.e.path) + '">' + esc(x.e.label) + '</a>' +
-            '<span class="rank-bar"><span class="bar households" style="width:' + (x.s / topMax * 100).toFixed(2) + '%" title="' + esc(x.e.label + ': ' + num(x.s) + ' more renters than homes') + '"></span></span>' +
-            '<span class="bar-value">' + esc(num(x.s)) + '</span></li>';
-        }).join('') + '</ol>';
+        '<p class="note">Shortfall: renter households minus homes priced for them. The top three places in each region, by count, so larger places lead; the bars compare the places within a region.</p>' +
+        '<div class="rank-pair">' + REGIONS.map(function (r, i) {
+          var list = ranked.filter(function (x) { return x.r === i; }).slice(0, 3);
+          return list.length ? '<div class="rank-region"><h3>' + esc(r[0]) + '</h3>' + rankOl(list) + '</div>' : '';
+        }).join('') + '</div>' +
+        '<p class="metric-source">Source: ' + srcLine([['Census ACS 2020\u20132024', SRC.acsGap], ['HUD FY2026 income limits', SRC.hudIl]]) + '</p>' +
+        '<details class="counted"><summary>Which counties are in each region</summary><ul>' + REGIONS.map(function (r) {
+          return '<li><strong>' + esc(r[0]) + ':</strong> ' + esc(r[2]) + '</li>';
+        }).join('') + '</ul></details>';
     } else if (!q && error) {
       glance = '<p class="callout">' + esc(error) + '</p>';
     } else if (!q) {

@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "5b779c95d59ada811347188ee0a41cd4cf753e93",
+  "commit": "04996c8d65bd59564fd939b6a952186439a8801a",
   "dirty": false
  },
  "files": {
@@ -109,7 +109,7 @@
   "hub/places-combine.js": "b3d53321409c2dd780df591f1871cdd1cc299f7e465e2d726fce08c988dbcdf0",
   "hub/places-more.js": "34169570e101f316d2b277432faaa3ca5278750d5a3dce970dcc17525403027d",
   "hub/places-state.js": "c549c0d95f3327c9a4ffce4b3ca986659deeec4c4477ae03ed0fdfa7ec0365d7",
-  "hub/places.js": "45a598e8dd381dfe541c921d6a4e63b1f65821982451771715a2a1aeefbf9c8b",
+  "hub/places.js": "a5364e802da1271474363037b79676df597c433f2b09f79c5fce18aa211a1d32",
   "hub/policy-more.js": "be3f40f4d69349758c41e45f1c8cbb6193e08554f412441a67989d8e2c8f2eb0",
   "hub/policy.js": "1a9bcc5a9da5881bc50a04a11eb20e43650a2e4d6470856c1469a892478ee08d",
   "hub/profile.css": "d18e7355133687b3c43099751dc234a12da6cbfe743fb65d932e414e171015a2",
@@ -120,7 +120,7 @@
   "hub/report.js": "8592e92722550a739e3278371821c832d56896c7fadb99335793b9f58a60d8fb",
   "hub/route-catalog.json": "00082054758b9c053f3797e37cdf3231ac8a068e77c62a3dea222b65544a9f8e",
   "hub/sale-deal.js": "29b6a8f36f294b1ced8cbb6400b4366aaec8d1b27bb82aeb28ce310d38bcb34d",
-  "hub/shell.css": "0b1092ebd02e7513baea9ca9bd45036a5d5b34d1f44b43e4234e9e3dec0350dd",
+  "hub/shell.css": "0080463099cf2a0fcfb24a8a16e86fa15536f0bbc725d19bea836eeb08f3ef1f",
   "hub/shell.js": "02a91fc46354e214436204a052b4b54dd70c1fcea2e63164fd69039ddff02062",
   "hub/slider.js": "8af257af0c99e0dd98be109775e5e0c8abc6c61b77e2ad2eae90351001d3c76e",
   "hub/small-pages.css": "01c03c267e836964d60cf723e0fb1ba0c1e6bc13a3ef7b1b3cb10bd179d5c9d8",
