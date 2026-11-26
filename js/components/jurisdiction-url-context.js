@@ -124,8 +124,45 @@
     return null;
   }
 
+  // The place this browser is working on, as the hubs and the member site keep it (hub/step-bar.js working():
+  // coho-lab-working and coho-member-place as {geoid, at}, the newer wins). A page opts in with
+  // <meta name="coho-place-order" content="kept-first">: there the kept place comes after the address and before the
+  // old pages' project and county, so a project left on the old pages cannot pull a member back to its place (member
+  // live check, 26 Nov 2026: the Deal Calculator opened on El Paso and saved it over Fruita; same class as #2878).
+  function _keptFirst() {
+    try {
+      var m = global.document && global.document.querySelector('meta[name="coho-place-order"]');
+      return !!(m && m.getAttribute('content') === 'kept-first');
+    } catch (_) { return false; }
+  }
+  function _baseFromKeptPlace() {
+    if (!_keptFirst()) return null;
+    var read = function (key) {
+      try {
+        var x = JSON.parse(global.localStorage.getItem(key) || 'null');
+        var g = x && typeof x === 'object' ? String(x.geoid || '') : '';
+        if (!/^08\d{3}(\d{2})?$/.test(g)) return null;
+        var at = Number(x.at);
+        return { geoid: g, at: isFinite(at) && at > 0 ? at : 0, label: String(x.label || x.name || '') };
+      } catch (_) { return null; }
+    };
+    var a = read('coho-member-place'), b = read('coho-lab-working');
+    var w = a && b ? (b.at > a.at ? b : a) : (a || b);
+    if (!w) return null;
+    var county = w.geoid.length === 5;
+    return {
+      fips: w.geoid,
+      geoid: w.geoid,
+      geoType: county ? 'county' : 'place',
+      countyFips: county ? w.geoid : null,
+      placeGeoid: county ? null : w.geoid,
+      displayName: w.label && w.label !== w.geoid ? w.label : null,
+      source: 'kept'
+    };
+  }
+
   function _baseContext() {
-    return _baseFromUrl() || _baseFromWorkflow() || _baseFromSiteState();
+    return _baseFromUrl() || _baseFromKeptPlace() || _baseFromWorkflow() || _baseFromSiteState();
   }
 
   function _enrich(base, config) {
@@ -197,9 +234,19 @@
     return !!_baseFromUrl();
   }
 
+  // The place this page leads with, ahead of the old pages' saved project: the place in the address, or, where the
+  // page opts in (meta coho-place-order), the kept place. Null when neither applies, so a caller falls back to the
+  // project as before. Readers that took "the address, else the project" use this so the kept place reaches them
+  // too (Codex on HA #3023: the tax and fee notes, the shared link and IC summary).
+  function leading() {
+    var c = resolveSync();
+    return c && (c.source === 'url' || c.source === 'kept') ? c : null;
+  }
+
   global.JurisdictionUrlContext = {
     resolve: resolve,
     resolveSync: resolveSync,
-    isUrlContextPresent: isUrlContextPresent
+    isUrlContextPresent: isUrlContextPresent,
+    leading: leading
   };
 })(typeof window !== 'undefined' ? window : this);

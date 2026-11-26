@@ -404,9 +404,14 @@
       var picked = params.get('county-select');
       var U = window.JurisdictionUrlContext;
       var uctx = U && U.isUrlContextPresent && U.isUrlContextPresent() && U.resolveSync ? U.resolveSync() : null;
+      // Where the page puts the kept place first (meta coho-place-order), it stands where the address would, but
+      // only once its county is known, so a town is never sent with another county's inputs (Codex on HA #3023).
+      var kctx = !uctx && U && U.leading ? U.leading() : null;
       var place = null;
       if (uctx && uctx.source === 'url') {
         place = { fips: uctx.fips, geoid: uctx.geoid, county: uctx.countyFips };
+      } else if (kctx && kctx.source === 'kept') {
+        if (kctx.countyFips) place = { fips: kctx.fips, geoid: kctx.geoid, county: kctx.countyFips };
       } else {
         var proj = window.WorkflowState && window.WorkflowState.getActiveProject &&
                    window.WorkflowState.getActiveProject();

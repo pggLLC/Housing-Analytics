@@ -1225,6 +1225,12 @@
     // against the recipient's own ACS geography record before using city ZORI.
     var linkedGeoid = linkParams().get('geoid');
     if (/^08\d{5}$/.test(linkedGeoid || '')) return { bedroomMix: _renterBedroomMix, geoid: linkedGeoid };
+    // The kept place, where the page leads with it (meta coho-place-order), stands before the saved project: a
+    // Fruita member with an old Grand Junction project gets Fruita's city rents, not Grand Junction's (Codex on #3023).
+    var U = window.JurisdictionUrlContext, lead = U && U.leading ? U.leading() : null;
+    if (lead && lead.source === 'kept') {
+      return { bedroomMix: _renterBedroomMix, geoid: String(lead.countyFips) === String(fips) ? lead.geoid : null };
+    }
     var jurisdiction = window.WorkflowState && window.WorkflowState.getJurisdiction
       ? window.WorkflowState.getJurisdiction() : null;
     return { bedroomMix: _renterBedroomMix,
@@ -1350,12 +1356,16 @@
   var __dcAbatementBanner = null;
   function _dcGetJurisdictionGeoKey() {
     // The place named in the address first (Codex content QA C01, 22 Nov 2026),
-    // then the currently selected jurisdiction via WorkflowState
-    // (the same source the Silt-label fix uses).
+    // then the kept place, then the currently selected jurisdiction via WorkflowState.
     try {
       var U = window.JurisdictionUrlContext;
       var u = U && U.isUrlContextPresent && U.isUrlContextPresent() && U.resolveSync ? U.resolveSync() : null;
       if (u && u.source === 'url' && u.geoid) return (String(u.geoid).length === 5 ? 'county:' : 'place:') + u.geoid;
+      // The place this browser is working on, where the page puts it first (meta coho-place-order): the county list
+      // opens on it, so the local tax and fee notes follow it too (Codex on HA #3023). WorkflowState is the same
+      // source the Silt-label fix uses.
+      var k = !u && U && U.resolveSync ? U.resolveSync() : null;
+      if (k && k.source === 'kept' && k.geoid) return (String(k.geoid).length === 5 ? 'county:' : 'place:') + k.geoid;
     } catch (_) {}
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
@@ -6308,6 +6318,8 @@
       if (urlCtx && typeof urlCtx.resolveSync === 'function') {
         var c = urlCtx.resolveSync();
         if (c && c.placeGeoid && /^\d{7}$/.test(c.placeGeoid) && inCounty(c.placeGeoid, c.countyFips)) return c.placeGeoid;
+        // A kept county (the page leads with the kept place) is the whole county: no saved project's town stands in.
+        if (c && c.source === 'kept') return null;
       }
       var p = window.WorkflowState && window.WorkflowState.getActiveProject && window.WorkflowState.getActiveProject();
       var jx = p && (p.jurisdiction || (p.steps && p.steps.jurisdiction));
