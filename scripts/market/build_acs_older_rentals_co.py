@@ -92,7 +92,11 @@ def summarise(row, lines):
     if any(e is None for e in ests):
         return None
     est = sum(ests)
-    moe = math.sqrt(sum((m or 0) ** 2 for m in moes))
+    if any(m is None for m in moes):
+        # An unpublished margin is unknown, never zero: no MOE, no CV, never reliable.
+        return {'est': int(round(est)), 'moe': None, 'cv': None, 'reliable': False,
+                'moe_note': 'Census did not publish a margin for at least one part of this count'}
+    moe = math.sqrt(sum(m ** 2 for m in moes))
     cv = (moe / 1.645) / est if est > 0 else None
     return {'est': int(round(est)), 'moe': int(round(moe)), 'cv': None if cv is None else round(cv, 3),
             'reliable': bool(cv is not None and cv <= CV_LIMIT)}

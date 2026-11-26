@@ -28,7 +28,10 @@ for (const [kind, len] of [['counties', 5], ['places', 7], ['tracts', 11]]) {
     for (const k of groups) {
       const c = rec[k];
       if (c === null) continue;
-      assert.ok(Number.isInteger(c.est) && c.est >= 0 && Number.isInteger(c.moe) && c.moe >= 0, g + ' ' + k);
+      assert.ok(Number.isInteger(c.est) && c.est >= 0, g + ' ' + k);
+      // An unpublished margin stays null with a note and is never reliable; it is never written as zero.
+      if (c.moe === null) assert.ok(c.cv === null && c.reliable === false && c.moe_note, g + ' ' + k + ' unknown margin');
+      else assert.ok(Number.isInteger(c.moe) && c.moe >= 0, g + ' ' + k);
       // A count is never marked reliable unless its CV clears the rule.
       if (c.reliable) assert.ok(c.cv !== null && c.cv <= 0.30, g + ' ' + k + ' reliable only at CV <= 30%');
       if (k !== 'renter_total' && rec.renter_total) assert.ok(c.est <= rec.renter_total.est, g + ' ' + k + ' within all renter homes');
@@ -52,5 +55,15 @@ if (String(metrics.meta.vintage) === '2024') {
   }
   assert.ok(compared > 1000, 'compared most tracts');
 }
+
+// Builder: a missing margin is unknown, not zero (AGENTS.md unknown-versus-zero).
+const { execFileSync } = require('node:child_process');
+const probe = execFileSync('python3', ['-c', [
+  'import importlib.util, json',
+  "spec = importlib.util.spec_from_file_location('b', 'scripts/market/build_acs_older_rentals_co.py')",
+  'b = importlib.util.module_from_spec(spec); spec.loader.exec_module(b)',
+  "print(json.dumps([b.summarise({'B25127_E045': '100', 'B25127_M045': 'N'}, [45]), b.summarise({'B25127_E045': '100', 'B25127_M045': '20', 'B25127_E046': '5', 'B25127_M046': ''}, [45, 46])]))"
+].join('\n')], { cwd: root }).toString();
+for (const r of JSON.parse(probe)) assert.ok(r.moe === null && r.cv === null && r.reliable === false, 'missing margin is never zero');
 
 console.log('acs older rentals: PASS');
