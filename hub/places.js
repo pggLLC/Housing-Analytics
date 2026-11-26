@@ -557,8 +557,9 @@
         '<p class="note">Shortfall: renter households minus homes priced for them. The top three places in each region, by count, so larger places lead; the bars compare the places within a region.</p>' +
         '<div class="rank-pair">' + REGIONS.map(function (r, i) {
           var list = ranked.filter(function (x) { return x.r === i; }).slice(0, 3);
-          return list.length ? '<section><h3>' + esc(r[0]) + '</h3>' + rankOl(list) + '</section>' : '';
+          return list.length ? '<div class="rank-region"><h3>' + esc(r[0]) + '</h3>' + rankOl(list) + '</div>' : '';
         }).join('') + '</div>' +
+        '<p class="metric-source">Source: ' + srcLine([['Census ACS 2020\u20132024', SRC.acsGap], ['HUD FY2026 income limits', SRC.hudIl]]) + '</p>' +
         '<details class="counted"><summary>Which counties are in each region</summary><ul>' + REGIONS.map(function (r) {
           return '<li><strong>' + esc(r[0]) + ':</strong> ' + esc(r[2]) + '</li>';
         }).join('') + '</ul></details>';
