@@ -1710,7 +1710,9 @@
       type: 'bar',
       data: {
         labels: bins.map(b => b.label),
-        datasets: [{ data: values, backgroundColor: colors }],
+        // The label names the workbook column (it read "Series 1" with bare percents, Codex delta check F7,
+        // 26 Nov 2026); the legend below draws its own two swatches.
+        datasets: [{ label: 'Renter households (% of all renters)', data: values, backgroundColor: colors }],
       },
       options: {
         responsive: true,

@@ -1687,7 +1687,26 @@
           pdf.setFontSize(7.5);
           return pdf.splitTextToSize(String(cell.sub), CELL_W - 14);
         };
-        const heightOf = (cell) => Math.max(50, 45 + Math.max(0, subLinesOf(cell).length - 1) * SUB_LINE_H + 5);
+        // A long label or value wraps too (Hinsdale's "Estimated surplus" value ran into its note, Codex delta
+        // check F4, 26 Nov 2026), so the value and note move down by the extra lines above them.
+        const LABEL_LINE_H = 10;
+        const VALUE_LINE_H = 15;
+        const layoutOf = (cell) => {
+          pdf.setFont('helvetica', 'normal');
+          pdf.setFontSize(8);
+          const labelLines = pdf.splitTextToSize(String(cell.label), CELL_W - 14);
+          pdf.setFont('helvetica', 'bold');
+          pdf.setFontSize(13);
+          const valLines = pdf.splitTextToSize(String(cell.value), CELL_W - 14);
+          const subLines = subLinesOf(cell);
+          const valY = 33 + Math.max(0, labelLines.length - 1) * LABEL_LINE_H;
+          const subY = valY + 12 + Math.max(0, valLines.length - 1) * VALUE_LINE_H;
+          const h = Math.max(50, subLines.length
+            ? subY + Math.max(0, subLines.length - 1) * SUB_LINE_H + 5
+            : valY + Math.max(0, valLines.length - 1) * VALUE_LINE_H + 12);
+          return { labelLines, valLines, subLines, valY, subY, h };
+        };
+        const heightOf = (cell) => layoutOf(cell).h;
         let CELL_H = 50;
         for (let i = 0; i < cells.length; i++) {
           const col = i % COLS;
@@ -1700,24 +1719,22 @@
           pdf.setFillColor.apply(pdf, COLOR_CARD);
           pdf.roundedRect(x, y, CELL_W, CELL_H, 4, 4, 'F');
           // Label
+          const lay = layoutOf(cells[i]);
           pdf.setFont('helvetica', 'normal');
           pdf.setFontSize(8);
           pdf.setTextColor.apply(pdf, COLOR_MUTED);
-          const labelLines = pdf.splitTextToSize(cells[i].label, CELL_W - 14);
-          pdf.text(labelLines, x + 7, y + 13);
+          pdf.text(lay.labelLines, x + 7, y + 13, { lineHeightFactor: LABEL_LINE_H / 8 });
           // Value
           pdf.setFont('helvetica', 'bold');
           pdf.setFontSize(13);
           pdf.setTextColor.apply(pdf, COLOR_INK);
-          const valLines = pdf.splitTextToSize(String(cells[i].value), CELL_W - 14);
-          pdf.text(valLines, x + 7, y + 33);
+          pdf.text(lay.valLines, x + 7, y + lay.valY, { lineHeightFactor: VALUE_LINE_H / 13 });
           // Sub-note
           if (cells[i].sub) {
-            const subLines = subLinesOf(cells[i]);
             pdf.setFont('helvetica', 'normal');
             pdf.setFontSize(7.5);
             pdf.setTextColor.apply(pdf, COLOR_MUTED);
-            pdf.text(subLines, x + 7, y + 45, { lineHeightFactor: SUB_LINE_H / 7.5 });
+            pdf.text(lay.subLines, x + 7, y + lay.subY, { lineHeightFactor: SUB_LINE_H / 7.5 });
           }
           // Advance row after the last column or last cell
           if (col === COLS - 1 || i === cells.length - 1) {
@@ -2112,6 +2129,8 @@
           || aria || canvas.id;
         return {
           id: canvas.id, title: title,
+          // What the label column holds, when the chart says (data-xlsx-category); "Category" otherwise.
+          category: canvas.getAttribute('data-xlsx-category') || 'Category',
           labels: labels.map(function (l) { return String(l); }),
           series: series,
           type: c.config && c.config.type === 'line' ? 'line' : 'bar',
@@ -2304,7 +2323,7 @@
         sh.getCell('A2').value = 'Chart ID: #' + chart.id;
         sh.getCell('A2').font  = { italic: true, color: { argb: 'FF5A6A7C' }, size: 10 };
 
-        var headerRow = ['Category'].concat(chart.series.map(function (sr) { return sr.name; }));
+        var headerRow = [chart.category || 'Category'].concat(chart.series.map(function (sr) { return sr.name; }));
         sh.getRow(4).values = headerRow;
         sh.getRow(4).font = { bold: true, color: { argb: 'FFFFFFFF' } };
         sh.getRow(4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF096E65' } };

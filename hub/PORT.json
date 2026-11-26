@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "bf22962a403090e948754fb02263e845b67a1b58",
+  "commit": "29f769ea03318e14b1568dabc45a46ea710f96f7",
   "dirty": false
  },
  "files": {
@@ -76,7 +76,7 @@
   "hub/guide-extract.js": "785e4f6de491110d8cd776c734bd2068cd9e39a0a3883043261bc7c16e422c82",
   "hub/guide.js": "e07e9cea8d74337bf0990b7930586fbe4d9a1d33cf9030809dee550723f11541",
   "hub/hna-dola.js": "fbd5032131872fdd0b9ba6bd5b3015ee19dd6756abdd48caaa7143048f64cdc7",
-  "hub/hna.js": "7d1e417574cacfdb0605c4734def1744992328d6a612b4f29f6a70c0fdfe70f4",
+  "hub/hna.js": "7b34e73e0fcba794cf125b2385c814d716a782e9670d5e853ee3873e89db836f",
   "hub/home.css": "589e29eaa4734222ac9631dd3f59107e259d998d421d8f14256aeaa5051c8757",
   "hub/home.js": "4c536e26124306b0f4ce23d307d8a44b8dd0c9a9aa60ff693a6d030212244ec1",
   "hub/homes.js": "048cc62e0cfd9789252368d9aecf8e951c96500f207d94bb41f54dc7e6684d2b",
@@ -118,7 +118,7 @@
   "hub/rent-income.css": "2f703dc314e61cf4783e1f2d5e9acdbae2cf0c7f9cad28149d81b8dbe44f267a",
   "hub/rent-income.js": "ad5c5ad8a1d8c64848fd92096ab91cfd249a21b377e5da03b54dcccca4f4d63d",
   "hub/report.js": "8592e92722550a739e3278371821c832d56896c7fadb99335793b9f58a60d8fb",
-  "hub/route-catalog.json": "00082054758b9c053f3797e37cdf3231ac8a068e77c62a3dea222b65544a9f8e",
+  "hub/route-catalog.json": "111e51a51873896bfbe0e39663ff63f311e954d446f00db14cafa8e3d3293057",
   "hub/sale-deal.js": "29b6a8f36f294b1ced8cbb6400b4366aaec8d1b27bb82aeb28ce310d38bcb34d",
   "hub/shell.css": "8e9345ebf7b61031776ced5ad145a024813647602350274e02cb544c84353ea0",
   "hub/shell.js": "02a91fc46354e214436204a052b4b54dd70c1fcea2e63164fd69039ddff02062",

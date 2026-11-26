@@ -135,8 +135,9 @@ let sheets = {};
 window.ExcelJS = global.ExcelJS = { Workbook: class {
   addWorksheet(name) {
     const rows = [];
-    const ws = { name, rows, columns: [], addRow: (o) => { rows.push(o); return { font: {} }; },
-      getRow: () => ({ font: {}, fill: {}, values: [] }), getColumn: () => ({}), getCell: () => ({ font: {} }) };
+    const byN = {};
+    const ws = { name, rows, byN, columns: [], addRow: (o) => { rows.push(o); return { font: {} }; },
+      getRow: (n) => (byN[n] = byN[n] || { font: {}, fill: {}, values: [] }), getColumn: () => ({}), getCell: () => ({ font: {} }) };
     sheets[name] = ws;
     return ws;
   }
@@ -812,6 +813,62 @@ async function exportAll(c) {
       const overlap = a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
       assert(!overlap, 'two cards overlap: ' + JSON.stringify([a, b]));
     }
+  });
+
+  await test('a long stat value wraps above its note, never over it (Codex delta check F4: Hinsdale\u2019s estimated surplus)', async () => {
+    const VALUE = 'Estimated surplus of 1,234,567 units (households projected to fall)';
+    const NOTE = 'Households projected to fall over the forecast, so the stock exceeds the need';
+    await exportAll(CASES.find((c) => c.geoid === '0828745'));
+    const el = document.getElementById('statUnitsNeed'), basis = document.getElementById('statUnitsNeedBasis');
+    assert(el && basis, 'fixture: the units-needed card is missing');
+    const was = [el.textContent, basis.textContent], realPdf = window.jspdf;
+    const wrap = createJsPdfMock({ wrapText: true });
+    try {
+      el.textContent = VALUE; basis.textContent = NOTE;
+      window.jspdf = { jsPDF: wrap.jsPDF };
+      await window.HNAExport.exportPdf('t.pdf');
+      wrap.assertSupported();
+    } finally { el.textContent = was[0]; basis.textContent = was[1]; window.jspdf = realPdf; }
+    const flat = (t) => t.lines.join(' ').replace(/\s+/g, '');
+    const texts = wrap.calls.filter((c) => c.method === 'text').map((c) => ({ page: c.page, lines: Array.isArray(c.args[0]) ? c.args[0] : [c.args[0]], x: c.args[1], y: c.args[2], size: c.fontSize, lh: (c.args[3] && c.args[3].lineHeightFactor) || 1.15 }));
+    const val = texts.find((t) => flat(t) === VALUE.replace(/\s+/g, ''));
+    const note = texts.find((t) => t.page === (val && val.page) && t.x === (val && val.x) && flat(t) === NOTE.replace(/\s+/g, ''));
+    assert(val && val.lines.length >= 2, 'the long value was not exported wrapped: ' + JSON.stringify(val && val.lines));
+    assert(note, 'the note under the long value was not found beside it');
+    const valBottom = val.y + (val.lines.length - 1) * val.size * val.lh;
+    assert(note.y - note.size >= valBottom + 1, 'the note is drawn over the value: value ends at ' + valBottom + ', note cap at ' + (note.y - note.size));
+    const card = wrap.calls.filter((c) => c.method === 'roundedRect' && c.page === val.page).map((c) => ({ x: c.args[0], y: c.args[1], w: c.args[2], h: c.args[3] }))
+      .find((c) => val.x >= c.x && val.x < c.x + c.w && val.y > c.y && val.y < c.y + c.h);
+    assert(card, 'the long value is not inside a card');
+    const noteBottom = note.y + (note.lines.length - 1) * note.size * note.lh;
+    assert(noteBottom <= card.y + card.h - 2, 'the note runs past its card: ' + noteBottom + ' > ' + (card.y + card.h));
+  });
+
+  await test('the rent burden sheet names its columns and units, not "Series 1" (Codex delta check F7)', async () => {
+    const canvas = document.getElementById('chartRentBurdenBins');
+    assert(canvas, 'fixture: the rent burden chart is missing');
+    const was = window.Chart.instances;
+    try {
+      // The chart as hna-renderers.js draws it.
+      const realChart = window.Chart;
+      let cfg = null;
+      window.Chart = global.Chart = class { constructor(ctx, c) { cfg = c; } destroy() {} };
+      canvas.getContext = canvas.getContext || (() => ({}));
+      window.HNARenderers.renderRentBurdenBins && window.HNARenderers.renderRentBurdenBins({ DP04_0137PE: 16.9, DP04_0138PE: 12, DP04_0139PE: 11, DP04_0140PE: 10, DP04_0141PE: 9, DP04_0142PE: 41.1 });
+      window.Chart = global.Chart = realChart;
+      const data = cfg ? cfg.data : { labels: ['<15%'], datasets: [{ label: 'Renter households (% of all renters)', data: [16.9] }] };
+      assert(cfg, 'the rent burden chart did not draw from the renderer');
+      window.Chart.instances = { 0: { canvas, data, config: { type: 'bar' } } };
+      sheets = {};
+      await window.__HNA_exportExcel(window.__HNA_buildReportData(), 't.xlsx');
+    } finally { window.Chart.instances = was; }
+    const ws = Object.values(sheets).find((w) => /Rent burden/i.test(w.name));
+    assert(ws, 'no rent burden sheet: ' + Object.keys(sheets).join(', '));
+    const head = ws.byN[4] && ws.byN[4].values;
+    assert(head && head[0] === 'Share of income spent on rent', 'label column header: ' + JSON.stringify(head));
+    assert(head[1] === 'Renter households (% of all renters)', 'value column header: ' + JSON.stringify(head));
+    assert(!head.some((h) => /^Series \d/.test(String(h))), '"Series" header remains');
+    assert.strictEqual(ws.byN[5].values[1], 16.9, 'the value changed');
   });
 
   await test('HUD card on invented records: nested shown, raw kept on data-raw, a missing band stays missing', async () => {
