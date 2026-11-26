@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T19:24:57.937Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T20:11:18.514Z. Do not edit by hand.
 
 ---
 
@@ -2032,7 +2032,7 @@
 | `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
 | `data/policy_briefs.json` | 944.3 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 437.3 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 438.6 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
 | `data/polymarket-history.json` | 246.4 KB | ✅ | — |
