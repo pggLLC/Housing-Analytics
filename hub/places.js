@@ -400,7 +400,6 @@
       return '<p class="lw-census">Census, on price alone: ' + per(b) + ' homes per 100 renter households' + (gap > 0 ? ', ' + esc(num(gap)) + ' short' : '') + (band === '100' ? '. HUD does not count this band.' : '') + '</p>';
     };
     var lab = function (band) { return '≤' + band + '% AMI'; };
-    var plural = function (n, one, many) { return esc(num(n)) + ' ' + (n === 1 ? one : many); };
     var html = '<ul class="lw-key" aria-hidden="true"><li><i class="lw-hh"></i>Renter households</li><li><i class="lw-get"></i>Homes they can get (they rent it, or it is vacant)</li><li><i class="lw-oth"></i>Priced for them, rented by higher incomes</li></ul>' +
       '<ol class="lw-rows">' + rows.map(function (r, i) {
         var from = r.own != null && r.short > r.own ? rows.slice(0, i).filter(function (q) { return q.own === r.short; })[0] : null;

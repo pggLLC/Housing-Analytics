@@ -273,6 +273,9 @@
     var d = global.document, head = d && d.querySelector('.site-header');
     if (!head) return;
     var line = head.querySelector('[data-hdr-place]'), w = working(), onBar = !!d.querySelector('.step-path');
+    // While a view still shows its "Loading" line it has not drawn its step bar yet: leave the header as it is, so the
+    // line does not appear for a moment and then go, pushing the page down and back up (Codex F6, 26 Nov 2026).
+    if (!onBar && d.querySelector('#main > p.note[role="status"]')) return;
     var show = !!w && !onBar;
     head.classList.toggle('has-place', show);
     if (!show) { if (line) line.hidden = true; return; }

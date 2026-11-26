@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "cd4e179368efe2462a967c77d01fafe859158783",
+  "commit": "96b5941f72683dc7ffe98d6ba170d023e20e16c2",
   "dirty": false
  },
  "files": {
@@ -54,8 +54,8 @@
   "hub/data-pages.css": "169f41c5c2ccd772ee812606eae6a73ea97059392794156d13f24304351e19be",
   "hub/deal-extras.js": "ddf2a10207e04e5a285f08106bf3bea94b6a0249248cdac6135a80210a8c46fb",
   "hub/deal-file.js": "0d379b7557508e1c914846e83c5f6b2b1e7786780674a800205674c7a80c5696",
-  "hub/deal-quick-sale.js": "b8960196cc36334bc8d9048c61c535673f2f31f1ae5192af1b55f940123aed68",
-  "hub/deal-quick.js": "e7cf68e65c56638ff223d76baa150fed6b9b80659296a3550ac4ce24402f3187",
+  "hub/deal-quick-sale.js": "06c884afd1a01c60c38f6bd1bcab2d334e1c5982abf2d99153ba2bcd5cc44525",
+  "hub/deal-quick.js": "bcc3d61d08d87ef218dd50eb869f7fe08fc8f2831e500fe7ce02cc0a6cefd483",
   "hub/deal-tool.js": "daa3f0e65b63d02ad7c8c5efb38bdc590a569772de4c7611ebd77591c410ac07",
   "hub/deal-town.js": "ff1d569519879d746c28fc8bd1ba4fdcadd3d084893bbcdceacb4b99b239a998",
   "hub/deals.js": "c69b7548489d8f49cf56c1eb7081cd4a00bfd7dac89d97eef32fdacaf5a8abf4",
@@ -109,7 +109,7 @@
   "hub/places-combine.js": "b3d53321409c2dd780df591f1871cdd1cc299f7e465e2d726fce08c988dbcdf0",
   "hub/places-more.js": "34169570e101f316d2b277432faaa3ca5278750d5a3dce970dcc17525403027d",
   "hub/places-state.js": "c549c0d95f3327c9a4ffce4b3ca986659deeec4c4477ae03ed0fdfa7ec0365d7",
-  "hub/places.js": "b61088993ba465f28c7dfd0e12de891a48c7730653a849ac7294158c98d3ddea",
+  "hub/places.js": "68b2b1e2726f42350017dca274901750fbfc49bf63111d8eb6e073a348830397",
   "hub/policy-more.js": "be3f40f4d69349758c41e45f1c8cbb6193e08554f412441a67989d8e2c8f2eb0",
   "hub/policy.js": "2e54ec8a94ad8a669731268d60561f7bb3abd7cb0fc3dd1a0dafddc4a89a7347",
   "hub/profile.css": "d18e7355133687b3c43099751dc234a12da6cbfe743fb65d932e414e171015a2",
@@ -125,9 +125,9 @@
   "hub/slider.js": "8af257af0c99e0dd98be109775e5e0c8abc6c61b77e2ad2eae90351001d3c76e",
   "hub/small-pages.css": "01c03c267e836964d60cf723e0fb1ba0c1e6bc13a3ef7b1b3cb10bd179d5c9d8",
   "hub/start-numbers.js": "f671b5a549e5fae8d3c72a91eaeb029319bf0d42f300bd9de115103b0af14509",
-  "hub/step-bar.js": "c7ca3bd8edf4b8244fb02e79e19441f4d46399665bef3985c2c4ad82995f0dea",
+  "hub/step-bar.js": "760211c4bf9ce1f39a65b4671092be5819173cb447f84915dd4ecdb836cc8ce0",
   "hub/strength.js": "267e464d104b402a33859aeb289acb365c202ee62aebb0df89634e0e2f3c4921",
-  "hub/templates.css": "e3cc1bc7791d9c8af178e40236d1df18c774e8a34298a47946838b249ce3442b",
+  "hub/templates.css": "d2ffab16553c636eae69717fa8323a58499a6430718d1191e4f52a63d89fcfda",
   "hub/templates.js": "5e43af664397a27f924b4c9ce8177b7e539f15f3a2ed8e4e9dc4c1b97f56dbb1",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "2f9a594ab90789848a6c65c024c9490b05d731b17cf57a31bc57a2a02a67455a",

@@ -339,3 +339,9 @@ img:not(.leaflet-tile):not(.leaflet-marker-icon):not(.leaflet-marker-shadow) {
     display: none !important;
   }
 }
+
+/* Layout shift on load (Codex F6, 26 Nov 2026): the Deal Calculator and its quick estimate draw after their scripts
+   run, so each holds about its drawn height until it draws. Kept here, not in the Market Analysis sheet, which no
+   longer draws the calculator. */
+#dealCalcMount:empty { min-height: 100vh; }
+#dcQuick:empty:not([hidden]) { min-height: 560px; }
