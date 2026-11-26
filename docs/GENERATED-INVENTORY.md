@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T01:10:41.526Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T01:58:51.846Z. Do not edit by hand.
 
 ---
 
@@ -2058,7 +2058,7 @@
 
 ## Test Files
 
-806 test files found.
+807 test files found.
 
 | File | Size |
 |------|------|
@@ -2182,7 +2182,7 @@
 | `test/deal-calc-doh-schedules-page.test.js` | 12.1 KB |
 | `test/deal-calc-equity-pricing.test.js` | 8.2 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.6 KB |
-| `test/deal-calc-lender-schedules-page.test.js` | 4.0 KB |
+| `test/deal-calc-lender-schedules-page.test.js` | 4.3 KB |
 | `test/deal-calc-manual-market-rent.test.js` | 17.5 KB |
 | `test/deal-calc-minimum-set-aside.test.js` | 7.4 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
@@ -2206,6 +2206,7 @@
 | `test/deal-calc-workflow-prefill.test.js` | 6.8 KB |
 | `test/deal-calculator-banner-url-first.test.js` | 5.1 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
+| `test/deal-calculator-member-gate.test.mjs` | 8.2 KB |
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
 | `test/deal-calculator-shell.test.mjs` | 10.1 KB |
 | `test/deal-cost-basis.test.js` | 58.2 KB |
@@ -2329,7 +2330,7 @@
 | `test/helpers/deal-engine-inputs.cjs` | 1.4 KB |
 | `test/helpers/deal-engine-l1-expected.cjs` | 1.2 KB |
 | `test/helpers/deal-engine-p-expected.cjs` | 2.6 KB |
-| `test/helpers/deal-engine-page.cjs` | 1.6 KB |
+| `test/helpers/deal-engine-page.cjs` | 1.9 KB |
 | `test/helpers/jspdf-mock.cjs` | 2.8 KB |
 | `test/helpers/render-home.js` | 11.4 KB |
 | `test/historical-trends-real-data.test.js` | 16.6 KB |
