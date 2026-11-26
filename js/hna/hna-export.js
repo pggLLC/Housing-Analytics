@@ -557,6 +557,7 @@
      file's own value at each band follows as a raw row in the workbook and CSV. */
   var CENSUS_SHORT_NOTE = 'renter households minus rentals priced for them, never lower than the count at a lower income, because homes priced higher cost too much for poorer renters (Census; counts every cheap rental as available; 0 = none short)';
   var CENSUS_RAW_NOTE = 'raw Census difference at this band alone, before the never-falls rule; it can fall as income rises, so it is not the homes-short count';
+  var HUD_RAW_NOTE = 'raw HUD count at this band alone, before the never-falls rule; it can fall as income rises, so it is not the homes-short count';
   var HUD_SHORT_NOTE = 'HUD CHAS: renter households at or below this income minus homes affordable and available to them (vacant, or rented by a household at or below it). Not the same count as the rows of homes priced for renters.';
   function _amiGapRows(d, opts) {
     var g = (d && d.amiGap) || {};
@@ -571,7 +572,14 @@
       : 'HUD CHAS has no affordable-and-available count for this geography.';
     var hudRows = ['30', '50', '80'].map(function (t) {
       var v = _numOrNull(hud[t]);
-      return { key: 'hudShort' + t, label: 'Homes short, ≤' + t + '% AMI (HUD CHAS' + hudVintage + ', affordable and available)',
+      return { key: 'hudShort' + t, label: 'Homes short, ≤' + t + '% AMI (HUD CHAS' + hudVintage + ', affordable and available; never lower than the count at a lower income)',
+        value: v, display: _unitsDisplay(v), reason: v === null ? hudReason : null };
+    });
+    // HUD's own count at each band, before the never-falls rule: workbook and CSV only.
+    var hudRaw = g.hudShortRaw || {};
+    var hudRawRows = (opts && opts.noRaw) || !['30', '50', '80'].some(function (t) { return _numOrNull(hudRaw[t]) !== null; }) ? [] : ['30', '50', '80'].map(function (t) {
+      var v = _numOrNull(hudRaw[t]);
+      return { key: 'hudShortRaw' + t, raw: true, label: 'HUD households minus affordable and available homes, ≤' + t + '% AMI (HUD CHAS' + hudVintage + '): ' + HUD_RAW_NOTE,
         value: v, display: _unitsDisplay(v), reason: v === null ? hudReason : null };
     });
     var censusRows = [
@@ -600,7 +608,7 @@
       return { key: 'rawGap' + t + 'pctUnits', raw: true, label: 'Census difference, ≤' + t + '% AMI: ' + CENSUS_RAW_NOTE,
         value: v, display: _unitsDisplay(v), reason: v === null ? reason : null };
     }) : [];
-    return hudRows.concat(censusRows, rawRows);
+    return hudRows.concat(hudRawRows, censusRows, rawRows);
   }
 
   /** HUD's count as the page's cards show it (renderChasAvailableShortfall);
@@ -614,6 +622,19 @@
       // reader's locale and "119.735" would not parse back to the count.
       var el = document.getElementById('statChasShort' + t);
       var raw = el && el.getAttribute ? el.getAttribute('data-value') : null;
+      out[t] = raw != null && /^\d+$/.test(raw) ? Number(raw) : null;
+    });
+    return out;
+  }
+  /** HUD's own homes_short at each band, before the never-falls rule (the
+   *  card's data-raw); null where the card shows none. */
+  function _hudShortRawFromPage() {
+    var box = document.getElementById('hnaChasShortfall');
+    var out = { '30': null, '50': null, '80': null };
+    if (!box || box.hidden) return out;
+    Object.keys(out).forEach(function (t) {
+      var el = document.getElementById('statChasShort' + t);
+      var raw = el && el.getAttribute ? el.getAttribute('data-raw') : null;
       out[t] = raw != null && /^\d+$/.test(raw) ? Number(raw) : null;
     });
     return out;
@@ -1151,6 +1172,7 @@
         } : null,
         neverFalls:         !!gapShown,
         hudShort:           _hudShortFromPage(),
+        hudShortRaw:        _hudShortRawFromPage(),
         hudVintage:         ((_elText('statChasShort30Src') || '').match(/\d{4}[–-]\d{4}/) || [null])[0],
         missingAmiTiers:    m.missing_ami_tiers || [],
         source:             m._ami_gap_source || 'unavailable',
@@ -1928,7 +1950,7 @@
       drawNarrative(_pdfPlain('CHAS data source: ' + (data.chasCostBurden.sourceLabel || data.chasCostBurden.source)));
       gapRows.forEach(function (r) { if (r.reason) drawNarrative(_pdfPlain(r.label + ': ' + r.reason)); });
       if (data.amiGap.note) drawNarrative(_pdfPlain(data.amiGap.note));
-      if (data.amiGap.raw) drawNarrative(_pdfPlain('Census homes short never read lower than the count at a lower income, as on the page. The workbook and CSV also list each band\u2019s raw Census difference before that rule.'));
+      if (data.amiGap.raw || (data.amiGap.hudShortRaw && ['30', '50', '80'].some(function (t) { return _numOrNull(data.amiGap.hudShortRaw[t]) !== null; }))) drawNarrative(_pdfPlain('Census homes short never read lower than the count at a lower income, as on the page. HUD\u2019s count follows the same rule. The workbook and CSV also list each band\u2019s raw HUD and Census counts before that rule.'));
 
       // ── 7. Employment + commute ──
       drawSectionHeader('7. Employment & commute pattern', 'Inbound commuters (LEHD) and the local-jobs-to-resident-workers ratio.');
