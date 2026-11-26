@@ -360,6 +360,15 @@
       if (!b) return;
       var act = b.dataset.action;
       if (act === 'fin-print-full') return printFull();
+      // From a member card on the public site (financials.js carryNote): the same deal link, opened on the member site.
+      if (act === 'deal-to-members') {
+        var mp;
+        var cant = function () { b.insertAdjacentHTML('afterend', ' <span role="status">This browser could not make the link. Use \u201cDownload deal file\u201d on the one-page view and open it on the member site.</span>'); b.disabled = true; };
+        try { mp = P.exportScenario(b.dataset.project, b.dataset.scenario); } catch (e) { return cant(); }
+        var page = String(location.pathname || '').split('/').pop() || 'index.html';
+        encode(mp).then(function (code) { location.href = global.LabShell.MEMBER_SITE + page + '#/open-deal?d=' + code; }, cant);
+        return;
+      }
       if (act === 'deal-share' || act === 'deal-download') {
         var pkg;
         try { pkg = P.exportScenario(b.dataset.project, b.dataset.scenario); } catch (e) { return status(esc(e.message)); }

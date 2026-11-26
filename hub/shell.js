@@ -609,15 +609,18 @@
     if (/[?&]view=public(&|$)/.test(String((global.location && global.location.search) || ''))) return true;
     return !!global.LAB_PORT;
   }
-  // o: { title, what (one plain line), gets: [lines], free: [{ href, label }] }. The member link opens the same
+  // o: { title, what (one plain line), gets: [lines], free: [{ href, label }], page, id }. The member link opens the same
   // page and route on the member site.
   function memberCard(o) {
     var page = String((global.location && global.location.pathname) || '').split('/').pop() || 'index.html';
     var to = MEMBER_SITE + page + String((global.location && global.location.hash) || '');
-    return '<section class="callout member-card" aria-labelledby="member-card-h"><p class="ma-kicker">For members</p>' +
+    // o.id names the heading when one page shows more than one card (Financials: lender schedules and the scenario
+    // comparison).
+    var hid = o.id || 'member-card-h';
+    return '<section class="callout member-card" aria-labelledby="' + esc(hid) + '"><p class="ma-kicker">For members</p>' +
       // A gated view that is the whole page (ranking, compare, scenarios) titles the page with it (page: true); a
       // gated chapter sits under its place's own h1.
-      (o.page ? '<h1 id="member-card-h">' + esc(o.title) + '</h1>' : '<h2 id="member-card-h">' + esc(o.title) + '</h2>') + (o.what ? '<p>' + esc(o.what) + '</p>' : '') +
+      (o.page ? '<h1 id="' + esc(hid) + '">' + esc(o.title) + '</h1>' : '<h2 id="' + esc(hid) + '">' + esc(o.title) + '</h2>') + (o.what ? '<p>' + esc(o.what) + '</p>' : '') +
       (o.gets && o.gets.length ? '<ul>' + o.gets.map(function (g) { return '<li>' + esc(g) + '</li>'; }).join('') + '</ul>' : '') +
       '<div class="actions">' + (o.free || []).map(function (f) { return '<a class="button-link" href="' + esc(f.href) + '">' + esc(f.label) + '</a>'; }).join('') +
       '<a class="button-link' + ((o.free || []).length ? ' secondary' : '') + '" href="' + esc(to) + '">Member sign in</a>' +

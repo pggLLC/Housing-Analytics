@@ -1257,6 +1257,29 @@
       (sum && sum.reason ? '<p class="callout"><strong>Costs:</strong> ' + esc(sum.reason) + '</p>' : '');
   }
 
+  // Member tools on this page (paul, 25 Nov 2026, "approve the member moves", batch B): the six-chapter workspace,
+  // the lender schedules and lender download, and the scenario comparison (deal-extras.js). Shell.memberOnly() is
+  // true on the public site only; the lab and the member site show everything. The free Deal Calculator and the
+  // rest of this page stay open: the same engine, the same figures.
+  function gated() { return !!(Shell.memberOnly && Shell.memberOnly()); }
+  var FREE_CALC = { href: '#/deal-calculator', label: 'Open the free Deal Calculator' };
+  function workspaceCard(p, s) {
+    return Shell.memberCard({ title: 'The deal workspace is a member tool', what: 'The same deal in six chapters, with a status for each and a check of how the deal is doing.',
+      gets: ['Project, homes, costs, operations, funding and results, one chapter at a time', 'How this deal is doing: the checks that need an answer', 'Lender schedules and a lender download'],
+      free: [{ href: '#/financials/' + p.projectId + '/' + s.scenarioId, label: 'Open this deal on one page' }, FREE_CALC] }) + carryNote(p, s);
+  }
+  // Projects live in the browser, one store per site, so a member's deal does not follow them to the member site on
+  // its own. This button carries it in a deal link (deal-file.js), the same as "Copy share link".
+  function carryNote(p, s) {
+    return global.LabDealFile ? '<p class="note" data-role="deal-to-members"><button type="button" class="button-link secondary" data-action="deal-to-members" data-project="' + esc(p.projectId) + '" data-scenario="' + esc(s.scenarioId) + '">Take this deal to the member site</button> ' +
+      'A member already signed in gets their own copy there. If it asks you to sign in first, come back and press this again.</p>' : '';
+  }
+  function lenderCard() {
+    return '<div id="fin-ls" tabindex="-1">' + Shell.memberCard({ id: 'fin-ls-member', title: 'Lender schedules are a member tool', what: 'What a construction and permanent lender asks to see, from the same engine run.',
+      gets: ['The bond test and construction interest check', 'Month-by-month construction draws and conversion', '15 years of coverage under stress, reserves and exit paths', 'A lender download (CSV)'],
+      free: [FREE_CALC] }) + '</div>';
+  }
+
   function financialsView(params, parts) {
     openStep = params && params.get ? params.get('step') : null;
     var p = P.get(parts[1]);
@@ -1267,6 +1290,9 @@
     // saved rent schedule.
     var manual = global.LabCalcGrid && p.overrides[s.scenarioId] && p.overrides[s.scenarioId].manualMix;
     var head = back + '<h1>Financials</h1><p class="lede">' + esc(p.name) + ', ' + esc(s.name) + '. Run on the site’s Deal Engine with ' + (manual ? 'the homes typed in this scenario’s unit grid' : 'this scenario’s saved rents') + '. Every figure and every reason comes from that engine.</p>';
+    // The deal workspace in six chapters is a member tool (paul, 25 Nov 2026, "approve the member moves", batch B):
+    // on the public site a chapter address shows the member card, before any data loads or the engine runs.
+    if (parts[3] && global.LabFinChapters && global.LabFinChapters.has(parts[3]) && gated()) return head + workspaceCard(p, s);
     var sched = manual ? null : currentSchedule(p, s.scenarioId);
     if (!manual && !sched) return head + '<p class="callout">Save a rent schedule in Homes and affordability first.</p>';
     loadData();
@@ -1291,7 +1317,7 @@
     var sum = r.costBasis && r.costBasis.summary;
     var entered = costIds().filter(function (id) { return d.costs[id] !== '' && d.costs[id] != null; }).length;
     var costSub = entered + ' of ' + costIds().length + ' lines' + (isFinite(Number(d.fields['dc-tdc'])) && Number(d.fields['dc-tdc']) > 0 ? ', ' + money(Number(d.fields['dc-tdc'])) : '');
-    return head + (global.LabFinChapters ? global.LabFinChapters.classicLink(p, s) : '') + (global.LabDealFile ? global.LabDealFile.openedNote(p) : '') +
+    return head + (global.LabFinChapters && !gated() ? global.LabFinChapters.classicLink(p, s) : '') + (global.LabDealFile ? global.LabDealFile.openedNote(p) : '') +
       (sched && sched.state === 'stale' ? '<p class="callout">The rent schedule is out of date: ' + esc(sched.staleReason) + '. Save it again in Homes and affordability before relying on these figures.</p>' : '') +
       (saved ? '<p class="note">' + (global.LabProjects.isTemporary && global.LabProjects.isTemporary(p.projectId) ? 'Kept for this visit only, because this browser is not storing data. Download the deal file to keep it. Last kept ' : 'Saved to the project ') + esc(Shell.when(saved.attachedAt)) + (saved.state === 'stale' ? ' (out of date: ' + esc(saved.staleReason) + ')' : '') + '. Changes below are a draft until you save again.</p>' : '') +
       (G ? '<div class="callout" data-role="grid-summary">From the unit grid: ' + esc(String(r.units)) + ' homes, ' + esc(money(r.annualRents) || 'rents unavailable') + ' scheduled rent per year, vacancy ' + esc(pct(r.vacancyRate) || 'not set') + '. <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-step-homes">Change the homes or rents</a>.' + captureFlag(cm) + '</div>'
@@ -1318,7 +1344,7 @@
       '<h2 id="fin-result">Full result</h2><p class="note jump-links">Jump to <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-sliders">Stress sliders</a> · <a href="' + esc(location.hash.split('?')[0]) + '" data-jump="fin-ls">Lender schedules</a></p>' + resultCards(r, inputs) +
       basisSection(r, inputs.fields) + creditChecks(r) + captureSection(p, s, cm) + (global.LabCalcGrid ? global.LabCalcGrid.tables(r, inputs, G, data) : '') + (global.LabCalcComps ? global.LabCalcComps.render(inputs) : '') +
       mostLikely(d, inputs, r) + sourcesUses(r) + loanTable(r) + (DOH() ? DOH().sections(r, d.fields) : '') + stressTable(r, inputs.constants) + stressSliders(d, inputs, r) + rateGrid(inputs, r) + exitSummary(r, inputs) + projectionTable(r) +
-      (global.LabLenderExport ? global.LabLenderExport.remember(r, s.name) : '') + (global.LabLenderSchedules ? global.LabLenderSchedules.render(d, r, fieldGrid) : '') + waterfallSection(d, r) + (SITE() ? SITE().concept(d, inputs, r) : '') + (global.LabCalcOutcome ? global.LabCalcOutcome.render(p, d, inputs, r, G) : '') +
+      (gated() ? lenderCard() : (global.LabLenderExport ? global.LabLenderExport.remember(r, s.name) : '') + (global.LabLenderSchedules ? global.LabLenderSchedules.render(d, r, fieldGrid) : '')) + waterfallSection(d, r) + (SITE() ? SITE().concept(d, inputs, r) : '') + (global.LabCalcOutcome ? global.LabCalcOutcome.render(p, d, inputs, r, G) : '') +
       '<p class="note">Calculated by the COHO Deal Calculator. CHFA ' + esc(data.chfa.meta.fiscal_year) + ' rent table effective ' + esc(data.chfa.meta.effective_date) + '; HUD ' + esc(data.hud.meta && data.hud.meta.fiscal_year ? 'FY' + data.hud.meta.fiscal_year + ' ' : '') + 'Fair Market Rents; equity pricing Novogradac national average as of ' + esc(data.equity.meta.as_of || '') + '. Screening only, not underwriting.</p>' +
       '<div class="actions"><button type="submit">Save to ' + esc(s.name) + '</button>' +
       '<a class="button-link secondary" href="#/project/' + esc(p.projectId) + '">Back to the project</a></div></form>' +
