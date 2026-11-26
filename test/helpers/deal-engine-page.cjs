@@ -4,10 +4,12 @@ const path = require('node:path');
 const sources = require('../fixtures/deal-engine/invented-sources.cjs');
 const root = path.resolve(__dirname, '../..');
 const mime = { '.js': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.svg': 'image/svg+xml', '.json': 'application/json' };
-async function routeInvented(page) {
+// origin: the address the page is served from. The default is the public site's stand-in; a test that needs the
+// member site's view (the Deal Calculator's member-only parts, HA #3019) passes a *.workers.dev origin.
+async function routeInvented(page, { origin = 'http://example.org' } = {}) {
   await page.route('**/*', async route => {
     const u = new URL(route.request().url());
-    if (u.origin !== 'http://example.org') return route.abort();
+    if (u.origin !== origin) return route.abort();
     const rel = decodeURIComponent(u.pathname.slice(1));
     if (Object.hasOwn(sources, rel)) return route.fulfill({ json: sources[rel] });
     if (rel.startsWith('data/')) return route.fulfill({ status: 404, json: { unavailableReason: 'not_in_invented_fixture' } });

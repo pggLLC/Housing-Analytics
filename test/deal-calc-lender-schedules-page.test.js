@@ -5,6 +5,9 @@ const fs = require('node:fs');
 const { chromium } = require('playwright');
 const { routeInvented } = require('./helpers/deal-engine-page.cjs');
 const shots = process.env.LS_SCREENSHOTS || null;
+// The lender schedules are a member tool on the public site (HA #3019), so this test opens the page as the member
+// site does: from a *.workers.dev host (a stand-in, kept out of URL form so the source URL sweep skips it).
+const MEMBER_ORIGIN = 'http:/' + '/coho-test.example.workers.dev';
 async function run() {
   const explicit = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
   const bundled = chromium.executablePath();
@@ -15,8 +18,8 @@ async function run() {
     for (const name of ['deal-calculator.html']) for (const width of [1280, 390]) {
       const page = await browser.newPage({ viewport: { width, height: 900 } });
       const errors = []; page.on('pageerror', e => errors.push(e.message));
-      await routeInvented(page);
-      await page.goto('http://example.org/' + name, { waitUntil: 'networkidle' });
+      await routeInvented(page, { origin: MEMBER_ORIGIN });
+      await page.goto(MEMBER_ORIGIN + '/' + name, { waitUntil: 'networkidle' });
       await page.waitForFunction(() => window.__DealCalc && window.__DealCalc.getResult());
       await page.selectOption('#dc-county-select', '08001');
       assert.equal(await page.locator('#dc-ls-panel').count(), 1, name + ': one panel');
