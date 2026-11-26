@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "93a745b12c86916a1f322ccd0da82fb13e44455b",
+  "commit": "6151093f184b80d0e58ad15aa34a871c53e2e720",
   "dirty": false
  },
  "files": {
@@ -99,7 +99,7 @@
   "hub/nav.js": "585f15c5632aeb7ef3aa9c2c98d42c214a3d641e210622021c858dfd90c10a53",
   "hub/need-scorecard.js": "a8c89af9acc59264b61eb5ccb5d8f553bc49ac1dfbff5d15a4fa95914ddf16a0",
   "hub/opportunities.css": "f4d29f9760b0139c6dbf5d6e0de5e2f0e525a7553ed8c4a03eb6c12f3745cac0",
-  "hub/opportunities.js": "d0760793d6a77799bdf55aa169be9b308760f36e7888e665d86807636cf4c047",
+  "hub/opportunities.js": "ea988c988d0e31bbae2890438fed65b3755745c47fbd39b893b00eff0e9d6f4c",
   "hub/page-chrome.js": "6fb948627686c77a38a591d3a367104656c298d14e1f45c44e755d50e10793e3",
   "hub/palette.css": "f0e49be0774ac6a161b6a50a1a12f206b5dba6cb018ffeacab76159a9971e109",
   "hub/pick-site.js": "f117a18b6d92658449be0c11e1853d6a27b46e427b0e03ee007c83b7a14e593f",
