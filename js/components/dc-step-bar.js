@@ -42,21 +42,54 @@
     if (b) b.style.display = sub && /HUD sets/.test(sub.textContent || '') ? '' : 'none';
   }
 
+  // Which county a kept town is in, from the place the page resolved (js/components/jurisdiction-url-context.js).
+  var placeCounty = {}, resolved = null;
+  document.addEventListener('jurisdiction-url-context:resolved', function (ev) {
+    var c = ev && ev.detail;
+    resolved = c || null;
+    if (c && c.placeGeoid && COUNTY.test(c.countyFips || '')) placeCounty[c.placeGeoid] = c.countyFips;
+  });
+  // Only a county someone chose becomes the kept place: one picked in this page's county lists, or one the address
+  // or a shared link names. The county the page fills in by itself on opening, from the old pages' saved project or
+  // county, is shown but never kept, so it cannot replace the member's place (member live check, 26 Nov 2026: El Paso
+  // over Fruita). That fill is the first county set, matching what the page resolved from those old keys.
+  var chosen = false, first = true;
+  function selfFilled(value) {
+    var c = resolved;
+    return !!(c && (c.source === 'workflow' || c.source === 'sitestate') && c.countyFips === value);
+  }
+  function fromLink() {
+    if (window.__DealCalcSharedCounty) return true;
+    try { var q = new URLSearchParams(location.search); return !!(q.get('geoid') || q.get('fips')); } catch (e) { return false; }
+  }
+
   var shown = '';
   function draw() {
     var p = picked();
     notice(!!p);
     banner();
-    var key = p ? p.geoid : '';
+    var w = Step.working && Step.working();
+    // The kept place stays the bar's place while the calculator is on it, or on the county it is in (Fruita and
+    // Mesa County): the bar names the town, and the kept place is not narrowed or widened to the county.
+    var same = !!(w && p && (w.geoid === p.geoid || placeCounty[w.geoid] === p.geoid));
+    var key = p ? (same ? w.geoid : p.geoid) : '';
     if (shown && key === shown) return;
-    if (p) { shown = key; Step.mount(el, AT, p.geoid, p.label); return; }
-    if (!shown) { shown = '-'; var w = Step.working && Step.working(); Step.mount(el, AT, w && w.geoid, w && w.label); }
+    if (p && same) { shown = key; Step.mount(el, AT, w.geoid, w.label); return; }
+    // (The bar keeps any place it is given, so a county the page filled in by itself is not given to it.)
+    if (p && (chosen || fromLink())) { shown = key; Step.mount(el, AT, p.geoid, p.label); return; }
+    if (p) { if (shown !== '-') { shown = '-'; Step.mount(el, AT, w && w.geoid, w && w.label); } return; }
+    if (!shown) { shown = '-'; Step.mount(el, AT, w && w.geoid, w && w.label); }
   }
 
   draw();
   document.addEventListener('change', function (ev) {
     var t = ev.target;
-    if (t && (t.id === 'dc-county-select' || t.id === 'dq-county')) setTimeout(draw, 0);
+    if (t && (t.id === 'dc-county-select' || t.id === 'dq-county')) {
+      var auto = first && t.id === 'dc-county-select' && selfFilled(t.value);
+      first = false;
+      if (!auto) chosen = true;
+      setTimeout(draw, 0);
+    }
   });
   // The county arrives late when it comes from a shared link, a deal file or the place kept from other steps; the
   // notice is drawn late too. Check again once things have loaded, and when the notice appears.

@@ -537,7 +537,7 @@
     "test:deal-summaries": "python3 -m pytest tests/test_deal_summaries.py -q",
     "test:lihtc-activity": "python3 -m pytest tests/test_lihtc_applications.py -q",
     "test:entry-path": "node test/entry-path-starts-at-jurisdiction.test.mjs",
-    "test:workflow-rail-circles": "node test/workflow-rail-circles.test.mjs && node test/deal-calculator-shell.test.mjs && node test/deal-calculator-member-gate.test.mjs",
+    "test:workflow-rail-circles": "node test/workflow-rail-circles.test.mjs && node test/deal-calculator-shell.test.mjs && node test/deal-calculator-member-gate.test.mjs && node test/deal-calculator-member-place.test.mjs",
     "test:forsale-jurisdiction": "node test/for-sale-study-follows-jurisdiction.test.mjs",
     "test:geography-naming": "node test/geography-naming.test.js",
     "test:market-jurisdiction-clears": "node test/market-jurisdiction-clears.test.js",
