@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T14:48:14.806Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T15:08:11.292Z. Do not edit by hand.
 
 ---
 
@@ -1808,7 +1808,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/insights/catalog.json` | 13.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications-excluded.json` | 465 B | ✅ | — |
-| `data/jurisdiction-briefs/_lihtc-applications.json` | 431.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/_lihtc-applications.json` | 437.2 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 10.9 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 248.3 KB | ✅ | — |
@@ -1857,7 +1857,7 @@
 | `data/market/local-players.json` | 554.7 KB | ✅ | — |
 | `data/market/lodes_co.json` | 663.8 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
-| `data/market/market-direction.json` | 770.2 KB | ✅ | — |
+| `data/market/market-direction.json` | 770.3 KB | ✅ | — |
 | `data/market/market-types.json` | 427.8 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
@@ -2002,7 +2002,7 @@
 | `data/policy/job-access.json` | 104.0 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 39.6 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
-| `data/policy/leading-signals.json` | 212.3 KB | ✅ | — |
+| `data/policy/leading-signals.json` | 212.7 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 4.9 KB | ✅ | — |
 | `data/policy/lihtc-underwriting-rules.json` | 23.7 KB | ✅ | — |
 | `data/policy/local-commitment.json` | 64.1 KB | ✅ | — |
