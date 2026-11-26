@@ -94,13 +94,10 @@
       var args = arguments;
       var self = this;
       var c = _controller();
-      // A file built from the page's own state waits for the ranking and gap
-      // files first, so the never-falls bands are never left out because a
-      // download was clicked before they arrived (Codex P2 on #3026).
-      if (!c) {
-        if (args[0] && typeof args[0] === 'object') return fn.apply(self, args);
-        return _exportDataReady().then(function () { return fn.apply(self, args); });
-      }
+      // Without the page's controller (a bare test harness) the call stays
+      // synchronous, as before; the page's own buttons go through guardedRun,
+      // which waits for the ranking and gap files (Codex P2 on #3026).
+      if (!c) return fn.apply(self, args);
       // A caller that hands in its own report data owns that data: no
       // page check. CSV and JSON stay synchronous for such callers.
       if (args[0] && typeof args[0] === 'object' && fn !== exportStructuredPdf && fn !== exportPdf) {
