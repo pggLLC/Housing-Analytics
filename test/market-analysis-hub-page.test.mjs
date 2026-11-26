@@ -444,7 +444,7 @@ ok(newScripts.indexOf('js/components/ma-place-row.js') === newScripts.length - 7
     const w2 = dom.window;
     opened.push(w2);
     const snap = { q: 'units=40&tr=a%3D1' };
-    if (share) w2.__DealCalcShare = { buildSnapshot: () => ({ url: 'https://example.com/deal-calculator.html?' + snap.q }) };
+    if (share) w2.__DealCalcShare = { buildSnapshot: () => ({ url: 'https://example.com/deal-calculator.html#v=1&' + snap.q }) };  // the share script's fragment form (D1)
     if (subject) w2.SubjectProject = { get: () => subject };
     w2.eval(src);
     if (w2.document.readyState === 'loading') await new Promise(r => w2.document.addEventListener('DOMContentLoaded', r));

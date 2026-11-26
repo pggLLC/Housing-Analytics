@@ -37,9 +37,11 @@
     var share = window.__DealCalcShare;
     if (!share || typeof share.buildSnapshot !== 'function') return null;
     var url = share.buildSnapshot().url || '';
-    var q = url.indexOf('?');
-    if (q < 0) return null;
-    var out = url.slice(q + 1);
+    // The settings ride in the fragment ("#v=1&..."), as Copy link writes them (Codex delta check D1); a query
+    // form is still read.
+    var h = url.indexOf('#v=1&'), q = url.indexOf('?');
+    var out = h >= 0 ? url.slice(h + 5) : q >= 0 ? url.slice(q + 1).split('#')[0] : null;
+    if (!out) return null;
     // The subject project on this page (homes, sizes, AMI targets, utility allowance basis). A deal whose homes come
     // from the Market Analysis rent schedule cannot be priced from the share settings alone: the hub reruns this
     // subject on its own rent-limit code, attaches it as the scenario's homes, and says whether the rerun matches

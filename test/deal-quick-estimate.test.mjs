@@ -165,7 +165,7 @@ try {
 
   // A share link brings the panel back with the deal.
   const sent = await settle(tab);
-  const search = new URL(await tab.evaluate(() => window.__DealCalcShare.buildSnapshot().url)).search;
+  const search = new URL(await tab.evaluate(() => window.__DealCalcShare.buildSnapshot().url)).hash;
   const back = await open(browser, search);
   const got = await settle(back.tab);
   agree(got, 'Opened from the share link');
