@@ -87,7 +87,7 @@
   function picker(list, g) {
     var items = list.filter(function (r) { return r.type === 'county' || r.type === 'place' || r.type === 'cdp'; })
       .map(function (r) { return { value: r.geoid, name: r.name, kind: r.type }; });
-    return '<form class="search sc-pick" onsubmit="return false"><label for="ic-g">Pick a place</label><select id="ic-g" data-ic-pick="1"><option value="">Choose a county, city or town</option>' +
+    return '<form class="search sc-pick" onsubmit="return false"><label for="ic-g">Pick a place</label><select id="ic-g" data-ic-pick="1" data-place-picker="Pick a place"><option value="">Choose a county, city or town</option>' +
       global.LabPlaceList.options(items, g) + '</select></form>';
   }
 
@@ -320,7 +320,11 @@
     var d = s.data, list = Array.isArray(d.ranking.rankings) ? d.ranking.rankings : Object.keys(d.ranking.rankings).map(function (k) { return d.ranking.rankings[k]; });
     var g = params.get('g') || '';
     var r = list.filter(function (x) { return x.geoid === g; })[0];
-    if (!r) return head() + picker(list, '') + '<p class="lede">Pick a place to see its summary. For example <a href="#/ic-summary?g=0828745">Fruita</a>, <a href="#/ic-summary?g=0853395">New Castle</a> or <a href="#/ic-summary?g=08045">Garfield County</a>.</p>';
+    // The place this browser is working on, one tap away (as the shared picker in site/market.js offers it).
+    var S = global.LabStep, w = !r && S && S.working ? S.working() : null;
+    if (w && !list.some(function (x) { return x.geoid === w.geoid; })) w = null;
+    var mine = w ? '<div class="sp-mine"><p>You are working on <strong>' + esc(w.label) + '</strong>.</p><a class="button-link" href="#/ic-summary?g=' + encodeURIComponent(w.geoid) + '">Investor summary for ' + esc(w.label) + ' \u2192</a></div>' : '';
+    if (!r) return head() + mine + picker(list, '') + '<p class="lede">Pick a place to see its summary. For example <a href="#/ic-summary?g=0828745">Fruita</a>, <a href="#/ic-summary?g=0853395">New Castle</a> or <a href="#/ic-summary?g=08045">Garfield County</a>.</p>';
     var m = r.metrics || {}, isCounty = r.type === 'county', name = cleanName(r.name), fips = isCounty ? r.geoid : r.containingCounty;
     var cf = d.counties.features.filter(function (f) { return f.properties.GEOID === fips; })[0], cname = cf ? cf.properties.NAME + ' County' : 'its county';
 

@@ -112,6 +112,40 @@
     return s;
   }
   function placed(route, w) { return placedStep(['', '', route], w)[2]; }
+  // With no place picked, the line is a button, not a grey note (paul, 26 Nov 2026: once you scroll past a page's
+  // picker nothing says a place is still needed, and on Places the old link opened the page you were on). The button
+  // goes to this page's own picker when it has one (a field marked data-place-picker, whose value is the button's
+  // words there, such as "Pick a county"), and only otherwise to Places, where the search box is ready to type in.
+  var NEED = 'Pick your town or county';
+  var PICK_FLAG = 'coho-sp-pick';
+  function pagePicker() {
+    var d = global.document; if (!d) return null;
+    var all = d.querySelectorAll('#main [data-place-picker]');
+    for (var i = 0; i < all.length; i++) if (all[i].getClientRects().length) return all[i];
+    return null;
+  }
+  function toPicker(el) {
+    el.scrollIntoView({ block: 'center' });
+    try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }
+    if (el.tagName === 'INPUT' && !el.value) {
+      var box = el.closest('form') || el.parentNode, hint = box.querySelector('.sp-hint');
+      if (!hint) { hint = global.document.createElement('p'); hint.className = 'sp-hint'; hint.setAttribute('role', 'status'); box.appendChild(hint); }
+      hint.textContent = 'Type a town or county name, then tap it in the list.';
+    }
+  }
+  // An empty-state card's button (the Deal Calculator's quick estimate) goes to the same picker, bar or no bar.
+  if (global.document && global.document.addEventListener) global.document.addEventListener('click', function (ev) {
+    var t = ev.target.closest && ev.target.closest('[data-to-picker]'), p = t && pagePicker();
+    if (p) { ev.preventDefault(); toPicker(p); }
+  });
+  // The button's words and arrow: this page's picker's own words, and which way it is from here.
+  function needLabel() {
+    var d = global.document, btns = d ? d.querySelectorAll('[data-sp-need]') : [];
+    if (!btns.length) return;
+    var p = pagePicker(), words = p ? p.getAttribute('data-place-picker') || NEED : NEED, arrow = '';
+    if (p) { var r = p.getBoundingClientRect(); arrow = r.bottom < 0 ? ' \u2191' : r.top > global.innerHeight ? ' \u2193' : ''; }
+    Array.prototype.forEach.call(btns, function (b) { var t = words + arrow; if (b.textContent !== t) b.textContent = t; });
+  }
   // away: drawn off the HNA, so the HNA step links to its picker; at: the lab route that is "you are here" instead;
   // geoid: the place this page is on (it becomes the working place). Without one, the bar uses the working place,
   // and offers Clear; a page that is about one place offers only Change.
@@ -145,7 +179,7 @@
     // at the top of the screen once the bar scrolls away (bindStepBar).
     var step = hereAt > -1 ? '<span class="sp-of">Step ' + (hereAt + 1) + ' of ' + PATH.length + ': <strong>' + esc(PATH[hereAt][0]) + '</strong></span>' : '';
     var place = '<span class="sp-place">' + (w ? 'Working on: <strong>' + esc(w.label) + '</strong> <a href="' + esc(go('#/places')) + '">Change</a>' + (geoid ? '' : ' <button type="button" class="sp-clear" data-sp-clear="1">Clear</button>')
-      : 'No place picked yet. <a href="' + esc(go('#/places')) + '">Pick a town or county</a>') + '</span>';
+      : '<span class="sp-none">No place picked yet.</span> <a class="sp-need" data-sp-need="1" href="' + esc(go('#/places')) + '">' + NEED + '</a>') + '</span>';
     var where = step + place;
     return '<nav class="step-path" aria-label="From a town to a deal, seven steps"><p class="sp-where">' + where +
       '<button type="button" class="sp-all" data-sp-all="1" aria-expanded="false">All 7 steps</button></p><ol>' + items.join('') + '</ol>' + also + '</nav>' +
@@ -159,8 +193,15 @@
     if (bindStepBar.done || !global.document) return;
     bindStepBar.done = true;
     document.addEventListener('click', function (ev) {
-      var t = ev.target.closest && ev.target.closest('[data-sp-clear], [data-sp-all], [data-sp-up], [data-sp-fold]');
+      var t = ev.target.closest && ev.target.closest('[data-sp-clear], [data-sp-all], [data-sp-up], [data-sp-fold], [data-sp-need]');
       if (!t) return;
+      if (t.hasAttribute('data-sp-need')) {
+        var p = pagePicker();
+        if (p) { ev.preventDefault(); toPicker(p); return; }
+        // Off to Places: its search box takes the cursor once it is drawn there.
+        try { global.sessionStorage.setItem(PICK_FLAG, '1'); } catch (e) { /* the link still opens Places */ }
+        return;
+      }
       if (t.hasAttribute('data-sp-fold')) {
         var fold = !spFolded();
         document.documentElement.classList.toggle('sp-folded', fold);
@@ -173,8 +214,15 @@
     });
     // On scroll (one check a frame): the slim bar shows once the step bar's bottom has passed the top of the screen.
     var queued = false;
+    // The button's words, and the picker a tap on another page asked for, once this page has drawn it.
+    function needCheck() {
+      needLabel();
+      var flag = null; try { flag = global.sessionStorage.getItem(PICK_FLAG); } catch (e) { /* none */ }
+      if (flag) { var pp = pagePicker(); if (pp) { try { global.sessionStorage.removeItem(PICK_FLAG); } catch (e) { /* once */ } toPicker(pp); } }
+    }
     function check() {
       queued = false;
+      needCheck();
       var root = document.documentElement, head = document.querySelector('.site-header');
       // The main navigation sticks at the top; everything else that sticks sits under it.
       var hdr = head && global.getComputedStyle(head).position === 'sticky' ? Math.ceil(head.getBoundingClientRect().height) : 0;
@@ -212,8 +260,10 @@
     });
     global.addEventListener('scroll', function () { if (!queued) { queued = true; global.requestAnimationFrame(check); } }, { passive: true });
     global.addEventListener('resize', function () { if (!queued) { queued = true; global.requestAnimationFrame(check); } }, { passive: true });
-    global.addEventListener('hashchange', function () { global.setTimeout(check, 0); });
-    global.setTimeout(check, 0);
+    // A page drawn after its data loads gets its picker late: look again for a few seconds.
+    var soon = function () { global.setTimeout(check, 0); [400, 1200, 2500].forEach(function (ms) { global.setTimeout(needCheck, ms); }); };
+    global.addEventListener('hashchange', soon);
+    soon();
   }
   // The working place in the main header (paul 18 Nov 2026, "do the small and low risk"): on a page with no step bar
   // (the state picture, data, policy, guides), the header names the place this browser is working on, so it is never

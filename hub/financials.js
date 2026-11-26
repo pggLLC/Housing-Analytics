@@ -1140,6 +1140,25 @@
     }
     return ['0br', '1br', '2br', '3br'].filter(function (k) { return on[k]; });
   }
+  // The same sizes, band by band, so each band counts only the renters its own homes fit (Codex P1 on HA #3016). A
+  // band whose homes have no size with a CHFA rule (only 4BR) is left out and counts the deal's sizes.
+  function bedroomsByBand(inputs, G) {
+    var on = {}, mix = inputs.resolvedDealMix;
+    var add = function (t, b, n) { if (ENGINE_BR[b] && n > 0) { on[t] = on[t] || {}; on[t][ENGINE_BR[b]] = true; } };
+    if (mix && mix.available) (mix.restrictedRows || []).forEach(function (x) { var t = Number(x.tier); if (t > 0 && t <= 80) add(t, x.bedrooms, Number(x.units) || 0); });
+    else if (G && G.grid && global.LabCalcGrid && global.LabCalcGrid.rowHomes && G.grid['dc-rent-limit-regime'] !== 'market') {
+      var g = G.grid, BR = global.LabCalcGrid.BR || [], int = function (v) { return Math.max(0, Math.round(Number(v) || 0)); };
+      global.LabCalcGrid.BANDS.forEach(function (t) {
+        if (g['dc-chk-' + t] !== 'yes' || t > 80) return;
+        var split = 0;
+        BR.forEach(function (br) { var n = int(g['dc-units-' + t + '-' + br]); split += n; add(t, br, n); });
+        if (!split) add(t, g['dc-br-' + t] || '2br', int(g['dc-units-' + t]));
+      });
+    }
+    var out = {};
+    Object.keys(on).forEach(function (t) { out[t] = ['0br', '1br', '2br', '3br'].filter(function (k) { return on[t][k]; }); });
+    return out;
+  }
   function sizeNames(list) { return list.map(function (b) { return b === '0br' ? 'studio' : b.toUpperCase(); }); }
   function captureMarket(p, s, inputs, G) {
     var S = global.LabStart;
@@ -1148,7 +1167,7 @@
     Object.keys(by).forEach(function (t) { if (Number(t) > 80) { over[t] = by[t]; delete by[t]; } });
     if (!Object.keys(by).length) return null;
     var pick = p.overrides[s.scenarioId] && p.overrides[s.scenarioId].captureArea, br = bedroomsOffered(inputs, G);
-    return { by: by, over: Object.keys(over), br: br, m: S.marketFor(p, s, by, pick, br.length ? br : null) };
+    return { by: by, over: Object.keys(over), br: br, m: S.marketFor(p, s, by, pick, br.length ? br : null, bedroomsByBand(inputs, G)) };
   }
   function captureSection(p, s, cm) {
     if (!cm) return '';
@@ -1169,7 +1188,7 @@
     }).join('');
     var sizes = cm.br && cm.br.length ? sizeNames(cm.br) : null;
     var fit = '<p class="note" data-role="capture-sizes">' + esc(sizes
-      ? 'Counted for the sizes these homes come in (' + (sizes.length > 1 ? sizes.slice(0, -1).join(', ') + ' and ' + sizes[sizes.length - 1] : sizes[0]) + '): a household counts only if one fits it.'
+      ? 'Each band is counted for the sizes its own homes come in (here ' + (sizes.length > 1 ? sizes.slice(0, -1).join(', ') + ' and ' + sizes[sizes.length - 1] : sizes[0]) + ' in all): a household counts only if one fits it.'
       : 'Counted for 1 to 3 bedroom homes: no size these homes come in has a CHFA household rule.') +
       ' CHFA’s limits: studio 1 person, 1BR 1 to 2, 2BR 2 to 3, 3BR 3 to 5.</p>';
     return head + '<p class="note">' + esc(lead) + '</p>' + fit + choice +
@@ -1523,5 +1542,5 @@
     Shell.render();
   });
 
-  global.LabFinancials = { carryNote: carryNote, FIELDS: FIELDS, TRANCHE_KEYS: TRANCHE_KEYS, setAsideStatus: setAsideStatus, SET_ASIDE_HELP: SET_ASIDE_HELP, boostTag: boostTag, basisSection: basisSection, LS_INPUTS: LS_INPUTS, fieldGrid: function (d, g) { return fieldGrid(d, g); }, SOFT_REFERENCE: SOFT_REFERENCE, AMOUNT_SOURCE: AMOUNT_SOURCE, IMPACT_FEE_NOTE: IMPACT_FEE_NOTE, programReference: programReference, _data: data, LOAN_INPUTS: LOAN_INPUTS, SOFT_PROGRAMS: SOFT_PROGRAMS, FEDERAL_FUND_DEFAULTS: FEDERAL_FUND_DEFAULTS, seedTranche: seedTranche, addedTranche: addedTranche, readDraft: readDraft, WF_INPUTS: WF_INPUTS, STRESS_INPUTS: STRESS_INPUTS, RATE_STEPS: RATE_STEPS, PRICE_STEPS: PRICE_STEPS, buildInputs: buildInputs, inputsFor: inputsFor, currentSchedule: currentSchedule, emptyDraft: emptyDraft, draftFor: draftFor, equityDefault: equityDefault, INPUTS: INPUTS, exitSummary: exitSummary, costIds: costIds, lineBasis: lineBasis, costGroupsHtml: costGroupsHtml, fieldGridIds: fieldGridIds, resultCards: resultCards, mostLikely: mostLikely, rateGrid: rateGrid, loanTable: loanTable, stressSliders: stressSliders, waterfallSection: waterfallSection, combinedLabel: combinedLabel, creditInputs: creditInputs, loanStackInputs: loanStackInputs, operatingBudget: function (d, inputs, r) { return operatingBudget(d, inputs, r); }, projectionTable: projectionTable, BASIS_CHOICES: BASIS_CHOICES, money: money, pct: pct, ratio: ratio, programLabel: programLabel, CONSTANTS: CONSTANTS, CREDIT_RATES: CREDIT_RATES, SOURCE_TAGS: SOURCE_TAGS, sourceTag: sourceTag, CREDIT_INPUTS: CREDIT_INPUTS, RENT_CAP_INPUTS: RENT_CAP_INPUTS, rentCapInputs: rentCapInputs, homesByBand: homesByBand, captureSection: captureSection, captureMarket: captureMarket, bedroomsOffered: bedroomsOffered, CHECKBOX_IDS: CHECKBOX_IDS, NOI_INPUTS: NOI_INPUTS, CONST_INPUTS: CONST_INPUTS, constantsFrom: constantsFrom, stressTable: stressTable, rentLimitsFixed: rentLimitsFixed, creditChecks: creditChecks, sourcesUses: sourcesUses, sourcesUsesRows: sourcesUsesRows, unavailable: unavailable };
+  global.LabFinancials = { carryNote: carryNote, FIELDS: FIELDS, TRANCHE_KEYS: TRANCHE_KEYS, setAsideStatus: setAsideStatus, SET_ASIDE_HELP: SET_ASIDE_HELP, boostTag: boostTag, basisSection: basisSection, LS_INPUTS: LS_INPUTS, fieldGrid: function (d, g) { return fieldGrid(d, g); }, SOFT_REFERENCE: SOFT_REFERENCE, AMOUNT_SOURCE: AMOUNT_SOURCE, IMPACT_FEE_NOTE: IMPACT_FEE_NOTE, programReference: programReference, _data: data, LOAN_INPUTS: LOAN_INPUTS, SOFT_PROGRAMS: SOFT_PROGRAMS, FEDERAL_FUND_DEFAULTS: FEDERAL_FUND_DEFAULTS, seedTranche: seedTranche, addedTranche: addedTranche, readDraft: readDraft, WF_INPUTS: WF_INPUTS, STRESS_INPUTS: STRESS_INPUTS, RATE_STEPS: RATE_STEPS, PRICE_STEPS: PRICE_STEPS, buildInputs: buildInputs, inputsFor: inputsFor, currentSchedule: currentSchedule, emptyDraft: emptyDraft, draftFor: draftFor, equityDefault: equityDefault, INPUTS: INPUTS, exitSummary: exitSummary, costIds: costIds, lineBasis: lineBasis, costGroupsHtml: costGroupsHtml, fieldGridIds: fieldGridIds, resultCards: resultCards, mostLikely: mostLikely, rateGrid: rateGrid, loanTable: loanTable, stressSliders: stressSliders, waterfallSection: waterfallSection, combinedLabel: combinedLabel, creditInputs: creditInputs, loanStackInputs: loanStackInputs, operatingBudget: function (d, inputs, r) { return operatingBudget(d, inputs, r); }, projectionTable: projectionTable, BASIS_CHOICES: BASIS_CHOICES, money: money, pct: pct, ratio: ratio, programLabel: programLabel, CONSTANTS: CONSTANTS, CREDIT_RATES: CREDIT_RATES, SOURCE_TAGS: SOURCE_TAGS, sourceTag: sourceTag, CREDIT_INPUTS: CREDIT_INPUTS, RENT_CAP_INPUTS: RENT_CAP_INPUTS, rentCapInputs: rentCapInputs, homesByBand: homesByBand, captureSection: captureSection, captureMarket: captureMarket, bedroomsOffered: bedroomsOffered, bedroomsByBand: bedroomsByBand, CHECKBOX_IDS: CHECKBOX_IDS, NOI_INPUTS: NOI_INPUTS, CONST_INPUTS: CONST_INPUTS, constantsFrom: constantsFrom, stressTable: stressTable, rentLimitsFixed: rentLimitsFixed, creditChecks: creditChecks, sourcesUses: sourcesUses, sourcesUsesRows: sourcesUsesRows, unavailable: unavailable };
 })(window);

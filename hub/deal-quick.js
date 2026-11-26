@@ -644,7 +644,8 @@
 
   var live = '';
   function results(units) {
-    if (!q.county) return '<p class="note quick-prompt">Pick a county to see the estimate.</p>';
+    // Where the estimate will be, a card that says what it waits for and goes to the county box (paul, 26 Nov 2026).
+    if (!q.county) return '<div class="quick-prompt sp-empty"><p class="sp-empty-t">Pick a county to see the estimate</p><p>The county sets the rent and income limits, so the tax credits, loan and gap wait for it. Your other entries are kept.</p><button type="button" class="button-link" data-to-picker="1">Pick a county \u2191</button></div>';
     if (!(units > 0)) return '<p class="note quick-prompt">Add homes at one or more income limits.</p>';
     // A land cost that cannot be used stops the estimate with its reason (audit F2); every other entry is kept as typed.
     var landBad = landProblem(q.land, q.tdc);
@@ -855,7 +856,7 @@
     live = '';
     var out = results(units);
     return head + '<div class="quick-cols"><form class="homes" data-action="quick" novalidate>' + live + '<div class="field-grid">' +
-      '<div class="field-wrap"><label class="field">County<select name="quick:county"><option value="">Pick a county</option>' + counties.map(function (c) {
+      '<div class="field-wrap"><label class="field">County<select name="quick:county" data-place-picker="Pick a county"><option value="">Pick a county</option>' + counties.map(function (c) {
         return '<option value="' + esc(c.fips) + '"' + (c.fips === q.county ? ' selected' : '') + '>' + esc(c.county_name || c.name) + '</option>';
       }).join('') + '</select></label>' +
       help('county', 'Where the homes will be. The county sets the income limits and the highest rent each home can charge.',

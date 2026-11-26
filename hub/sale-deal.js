@@ -266,7 +266,7 @@
     var county = counties.filter(function (c) { return c.fips === s.county; })[0];
     var inputs = '<form class="homes sale-form" data-action="sale-full" novalidate>' +
       step(1, 'Homes and buyers', county ? esc(county.county_name) + ', ' + esc(s.units == null ? '?' : String(s.units)) + ' homes for buyers earning ' + esc(String(s.target)) + '% of median income' : 'Pick the county first.',
-        '<div class="field-grid"><label class="field">County<select name="sale:county"><option value="">Pick a county</option>' + counties.map(function (c) {
+        '<div class="field-grid"><label class="field">County<select name="sale:county" data-place-picker="Pick a county"><option value="">Pick a county</option>' + counties.map(function (c) {
           return '<option value="' + esc(c.fips) + '"' + (c.fips === s.county ? ' selected' : '') + '>' + esc(c.county_name) + '</option>';
         }).join('') + '</select><span class="hint">Sets the HUD median income.</span></label>' +
         field('sale:units', 'Homes', s.units, ' min="1" step="1"', 'Homes for sale in the project.') +

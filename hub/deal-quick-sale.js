@@ -61,7 +61,7 @@
   function results() {
     var why = problem(s);
     if (why) return '<p class="callout quick-prompt" role="alert">' + esc(why) + '</p>';
-    if (!s.county) return '<p class="note quick-prompt">Pick a county to see the price a buyer can pay and the gap.</p>';
+    if (!s.county) return '<div class="quick-prompt sp-empty"><p class="sp-empty-t">Pick a county to see the price a buyer can pay and the gap</p><p>The county sets the income limits buyers are measured against. Your other entries are kept.</p><button type="button" class="button-link" data-to-picker="1">Pick a county \u2191</button></div>';
     var r = run(s, data);
     if (!r || r.status !== 'ok') return '<p class="note quick-prompt">' + esc(r && r.status === 'missing-ami' ? 'HUD lists no median income for this county.' : 'Enter a cost above zero and at least one home.') + '</p>';
     var cap = global.OwnershipFinance.computeBuyerCapacity(r.ami4Person, r.targetAmiPct), A = cap && cap.assumptions || {}, M = global.OwnershipFinance.MORTGAGE_RATE || {};
@@ -106,7 +106,7 @@
     if (!data) return '<p class="note quick-prompt">Loading the income limits…</p>';
     var counties = (data.hud.counties || []).slice().sort(function (a, b) { return String(a.county_name).localeCompare(String(b.county_name)); });
     return '<form class="homes" data-action="quick-sale" novalidate><div class="field-grid">' +
-      '<label class="field">County<select name="sale:county"><option value="">Pick a county</option>' + counties.map(function (c) {
+      '<label class="field">County<select name="sale:county" data-place-picker="Pick a county"><option value="">Pick a county</option>' + counties.map(function (c) {
         return '<option value="' + esc(c.fips) + '"' + (c.fips === s.county ? ' selected' : '') + '>' + esc(c.county_name) + '</option>';
       }).join('') + '</select></label>' +
       '<label class="field">Total development cost ($)<input name="sale:tdc" type="number" min="0" step="100000" inputmode="numeric" value="' + esc(shown(s.tdc)) + '"' + (isFinite(s.tdc) && s.tdc > 0 ? '' : ' aria-invalid="true"') + '></label>' +
