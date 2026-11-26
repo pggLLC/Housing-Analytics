@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "bf22962a403090e948754fb02263e845b67a1b58",
+  "commit": "d37b52078533b51cd0d66732aa1f6a6ad10b1ba8",
   "dirty": false
  },
  "files": {
@@ -118,16 +118,16 @@
   "hub/rent-income.css": "2f703dc314e61cf4783e1f2d5e9acdbae2cf0c7f9cad28149d81b8dbe44f267a",
   "hub/rent-income.js": "ad5c5ad8a1d8c64848fd92096ab91cfd249a21b377e5da03b54dcccca4f4d63d",
   "hub/report.js": "8592e92722550a739e3278371821c832d56896c7fadb99335793b9f58a60d8fb",
-  "hub/route-catalog.json": "00082054758b9c053f3797e37cdf3231ac8a068e77c62a3dea222b65544a9f8e",
+  "hub/route-catalog.json": "111e51a51873896bfbe0e39663ff63f311e954d446f00db14cafa8e3d3293057",
   "hub/sale-deal.js": "29b6a8f36f294b1ced8cbb6400b4366aaec8d1b27bb82aeb28ce310d38bcb34d",
   "hub/shell.css": "8e9345ebf7b61031776ced5ad145a024813647602350274e02cb544c84353ea0",
   "hub/shell.js": "02a91fc46354e214436204a052b4b54dd70c1fcea2e63164fd69039ddff02062",
   "hub/slider.js": "8af257af0c99e0dd98be109775e5e0c8abc6c61b77e2ad2eae90351001d3c76e",
   "hub/small-pages.css": "01c03c267e836964d60cf723e0fb1ba0c1e6bc13a3ef7b1b3cb10bd179d5c9d8",
   "hub/start-numbers.js": "f671b5a549e5fae8d3c72a91eaeb029319bf0d42f300bd9de115103b0af14509",
-  "hub/step-bar.js": "c7ca3bd8edf4b8244fb02e79e19441f4d46399665bef3985c2c4ad82995f0dea",
+  "hub/step-bar.js": "760211c4bf9ce1f39a65b4671092be5819173cb447f84915dd4ecdb836cc8ce0",
   "hub/strength.js": "267e464d104b402a33859aeb289acb365c202ee62aebb0df89634e0e2f3c4921",
-  "hub/templates.css": "8868ea369f1bd4f2fc25dc6e3b55b6af89baf9e4f9ee59354365ab419052eeae",
+  "hub/templates.css": "b0dec8c8a1db978d5f601543692bdf9727149f0b8b271996d8d948acf2aba499",
   "hub/templates.js": "5e43af664397a27f924b4c9ce8177b7e539f15f3a2ed8e4e9dc4c1b97f56dbb1",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
   "hub/text-fit.css": "2f9a594ab90789848a6c65c024c9490b05d731b17cf57a31bc57a2a02a67455a",

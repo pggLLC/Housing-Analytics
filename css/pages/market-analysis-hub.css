@@ -242,3 +242,15 @@ body.tool-page #main-content #lihtcConceptSection p.lihtc-cc-constraint-narrativ
    the rules that laid out the copy this page used to draw went with it. */
 
 @media print { body.tool-page .crumbs { display: none; } }
+
+/* Layout shift on load (Codex F6, 26 Nov 2026). The step bar and the calculator draw after their scripts run, so the
+   page first paints without them and then jumps down. Each holds about its drawn height until it draws. The bar's
+   heights were measured on the calculator and Market Analysis: about 191px on a phone, 243px at 768, 210-227px from 900. :not(#_) outranks the
+   revert-layer rule above. */
+body.tool-page .ma-step-bar:empty:not(#_) { display: block !important; min-height: 190px !important; }
+@media (min-width: 700px) { body.tool-page .ma-step-bar:empty:not(#_) { min-height: 243px !important; } }
+@media (min-width: 900px) { body.tool-page .ma-step-bar:empty:not(#_) { min-height: 220px !important; } }
+/* Market Analysis: the place row is shown by js/components/ma-place-row.js once it runs; it holds its 48px meanwhile. */
+body.tool-page #maPlaceRow[hidden]:not(#_) { display: block !important; visibility: hidden !important; min-height: 48px !important; }
+#dealCalcMount:empty { min-height: 100vh; }
+#dcQuick:empty:not([hidden]) { min-height: 560px; }

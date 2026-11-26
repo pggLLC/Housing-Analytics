@@ -1873,3 +1873,7 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
   .pw-list, .cal-list, .cal-rolling, .dq-checks { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
   .stack { max-width: 52rem; }
 }
+
+/* Layout shift on load (Codex F6, 26 Nov 2026): the hubs draw their view after the scripts run, so the footer first
+   paints just under the header and then jumps down a screen. An empty view, or one still showing its "Loading" line, holds a screen's height until it draws. */
+#main:empty, #main:has(> p.note[role="status"]) { min-height: 100vh; }
