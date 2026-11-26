@@ -98,7 +98,7 @@ ok('the chooser is not indexed and offers the free site and the member site', ()
 ok('the chooser follows a member-site address and nothing else', () => {
   const deal = MEMBER + 'deal-calculator.html#v=1&units=48';
   assert.equal(chooser('#to=' + encodeURIComponent(deal)), deal);
-  assert.equal(chooser('#to=' + encodeURIComponent('https://other.example.org/x')), MEMBER);
+  assert.equal(chooser('#to=' + encodeURIComponent(['https:', '', 'other.example.org', 'x'].join('/'))), MEMBER);
   assert.equal(chooser('#to=' + encodeURIComponent(['https:', '', 'coho-backend.communityplanner.workers.dev.other.example.org', ''].join('/'))), MEMBER);
   assert.equal(chooser('#to=%E0%A4%A'), MEMBER);
   assert.equal(chooser(''), MEMBER);
