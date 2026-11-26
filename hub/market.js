@@ -522,17 +522,34 @@
         (area.method === 'county' ? '' : /^(suggested|compared)/.test(area.method) ? ' Why each tract is in is listed under Suggested market area above. COHO\u2019s screening rules, not CHFA\u2019s: a CHFA market study draws the area and justifies its edge.' : ' A tract counts when its centre (Census TIGER 2020) is inside the radius. This is a screening stand-in: a CHFA market study draws the area from whole tracts and justifies its edge.') + '</p>';
     var mine = P ? P.list() : [];
     var want = params.get('p') && params.get('s') ? params.get('p') + '|' + params.get('s') : null;
-    var choose = !mine.length
-      ? '<p class="note">No projects in this browser yet. <a href="#/projects">Start one on Build a deal</a>, then come back.</p>'
-      : '<form class="stack" data-mk-use="' + esc(g) + '"><fieldset><legend>Add to which project?</legend>' + mine.map(function (p) {
-        var full = P.get(p.projectId);
-        return full.scenarios.map(function (sc) {
-          var v = p.projectId + '|' + sc.scenarioId;
-          return '<label><input type="radio" name="target" required value="' + esc(v) + '"' + (v === want ? ' checked' : '') + '> ' + esc(p.name) + ' (' + esc(sc.name) + ')' +
-            ' <span class="note">' + esc(p.jurisdiction ? p.jurisdiction.name : 'No place set') + '</span></label>';
-        }).join('');
-      }).join('') + '</fieldset>' +
-      '<p class="note">What is stored: ' + (site ? 'the site’s address and coordinates, and ' : '') + 'the list of census tracts in the market area. No figures are copied. A project with no place takes ' + esc(s.entry.label) + '.</p>' +
+    var here = s.entry.label;
+    // Each project and scenario, with its place said plainly; "Scenario A" only when a project has more than one.
+    // A new project is always offered (paul, 26 Nov 2026: "this should allow a new project").
+    var picked = false;
+    var rows = mine.map(function (p) {
+      var full = P.get(p.projectId);
+      if (!full) return '';
+      var many = full.scenarios.length > 1;
+      return full.scenarios.map(function (sc) {
+        var v = p.projectId + '|' + sc.scenarioId, j = p.jurisdiction;
+        if (v === want) picked = true;
+        var place = !j ? 'No place yet, so it takes ' + esc(here)
+          : 'Place: ' + esc(j.name) + (String(j.geoid) === String(g) ? '' : '. Its place will not change');
+        return '<label><input type="radio" name="target" required value="' + esc(v) + '"' + (v === want ? ' checked' : '') + '> <span>' + esc(p.name) + (many ? ' · ' + esc(sc.name) : '') +
+          ' <span class="note" style="display:block">' + place + '</span></span></label>';
+      }).join('');
+    }).join('');
+    // A name no project here has yet, so two projects are not told apart only by their place.
+    var taken = mine.map(function (p) { return String(p.name).toLowerCase(); });
+    var suggest = site && site.label ? site.label : here + ' site', tryName = suggest;
+    for (var k = 2; taken.indexOf(tryName.toLowerCase()) > -1; k++) tryName = suggest + ' ' + k;
+    suggest = tryName;
+    var choose = !P ? ''
+      : '<form class="stack" data-mk-use="' + esc(g) + '"><fieldset><legend>Add to which project?</legend>' + rows +
+      '<label><input type="radio" name="target" required value="new"' + (picked ? '' : ' checked') + '> <span>A new project' +
+      ' <span class="note" style="display:block">Place: ' + esc(here) + '</span></span></label>' +
+      '<label class="mk-new-name" style="flex-direction:column;align-items:stretch;gap:.25rem">Name of the new project <input type="text" name="newName" maxlength="80" value="' + esc(suggest) + '"></label></fieldset>' +
+      '<p class="note">What is stored: ' + (site ? 'the site’s address and coordinates, and ' : '') + 'the list of census tracts in the market area. No figures are copied. A new project, or one with no place yet, takes ' + esc(here) + ' as its place.</p>' +
       '<button type="submit"' + (area && (area.tracts.length || area.pending) ? '' : ' disabled') + '>Save to a project</button></form>';
     return head + '<p>Place the site and pick the market area, then add both to a project. Its Site and market area steps then show them.</p>' + siteForm + '<form data-mk-radius="' + esc(g) + '">' + radios + '</form>' + areaNote + choose;
   }
@@ -580,13 +597,24 @@
       why.textContent = 'You picked an area other than the local or regional one. Say why under Compare market areas, then add it.';
       return;
     }
-    if (target.length !== 2 || !area.tracts.length) {
+    if ((target[0] !== 'new' && target.length !== 2) || !target[0] || !area.tracts.length) {
       var st = form.querySelector('[data-mk-wait]') || form.appendChild(Object.assign(document.createElement('p'), { className: 'note' }));
       st.setAttribute('data-mk-wait', ''); st.setAttribute('role', 'status');
       st.textContent = area.pending ? 'Still working out the suggested tracts. Try again in a moment.' : 'Pick a project and a market area first.';
       return;
     }
-    var pid = target[0], sid = target[1], p = P.get(pid);
+    var pid, sid, p;
+    if (target[0] === 'new') {
+      var nm = String(new FormData(form).get('newName') || '').trim();
+      if (!nm) {
+        var nn = form.querySelector('[data-mk-wait]') || form.appendChild(Object.assign(document.createElement('p'), { className: 'note' }));
+        nn.setAttribute('data-mk-wait', ''); nn.setAttribute('role', 'status');
+        nn.textContent = 'Give the new project a name.';
+        return;
+      }
+      p = P.create({ name: nm, kind: 'development', jurisdiction: { geoid: g, name: s.entry.label } });
+      pid = p.projectId; sid = p.scenarios[0].scenarioId;
+    } else { pid = target[0]; sid = target[1]; p = P.get(pid); }
     if (!p) return;
     var route = '#/market?' + params.toString();
     if (!p.jurisdiction) P.setJurisdiction(pid, { geoid: g, name: s.entry.label });
