@@ -11,6 +11,12 @@ other places that show a definition are written from it.
     callouts keep their own notes for elected officials, developers and
     lenders; only the summary comes from here.
   - `inline_key`: the tooltip's key when it differs from `term`.
+  - `aliases`: other spellings of the term (CDOH for DOH). Each gets the same
+    tooltip, is searched by the pop-up, and is auto-wrapped like the term.
+  - `label`: the name the pop-up shows, when it differs from `term`. `term`
+    is the case-sensitive text the pages are matched on, so it is not renamed.
+  - `list: false`: kept out of the pop-up's browsing list (search still finds it).
+  - `source` + `checked`: where an entry's figure, year or rule was read, and when.
   - `autolink: false`: listed in the pop-up and used for tooltips, but not
     auto-wrapped on every page by js/glossary.js.
 
@@ -20,6 +26,10 @@ other places that show a definition are written from it.
 test/glossary-sync.test.mjs runs the check.
 
 ## Symbols
+
+### `tooltipKeys`
+
+Every key a page can ask for this entry's tip by: its name, then its other spellings.
 
 ### `termsBlock(glossary)`
 

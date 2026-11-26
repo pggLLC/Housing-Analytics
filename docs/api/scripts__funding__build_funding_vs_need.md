@@ -4,8 +4,16 @@ scripts/funding/build_funding_vs_need.mjs — where public housing subsidy has
 gone, county by county, against the need and market the site measures.
 
 Reads the award ledger (scripts/funding/build_funding_awards.py), the county
-rows of the ranking index, building permits against projected need, and
-CHFA's 2026 rent limits. Writes data/derived/funding-vs-need.json, which the
+rows of the ranking index, building permits against projected need, CHFA's
+2026 rent limits, and CHFA's tax credit property list (data/chfa-lihtc.json).
+
+The ledger is built from CHFA's round award reports, and most 4% credits
+paired with private activity bonds are awarded outside the rounds, so they
+are not in it. The property list has them. Each 4% property on the list with
+an award year in the ledger window is matched to the ledger (matchBondDeals);
+the ones no round award accounts for are added to the county's tax credit
+homes as bond deals outside the rounds. The round-report figures are kept
+beside the totals. Writes data/derived/funding-vs-need.json, which the
 Funding vs Need tab of colorado-deep-dive.html renders.
 
 It is a step of the derived chain (scripts/rebuild-derived.mjs) because it

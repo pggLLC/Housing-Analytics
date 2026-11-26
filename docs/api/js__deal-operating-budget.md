@@ -10,6 +10,14 @@ DOH's "Other expenses" group. An unknown figure is null with a reason, never 0.
 
 ## Symbols
 
+### `fillFromTotal(totalPerHome, typed)`
+
+Fill the lines you have not typed from a per-home total (before the replacement reserve, taxes included),
+split by WORKBOOK_SHARES. Typed lines are kept and come off the total first; the rest is shared out among the
+other lines in proportion to their shares, so the lines add to the total. Whole dollars; the rounding goes to
+the largest filled line. `typed` lists the line ids to keep with their amounts ({ id: amount }).
+Returns { fills: { id: amount }, kept, keptTotal, total, reason } and never fills when it cannot add up.
+
 ### `summarizeOperating(lines, income)`
 
 Totals per unit per year. A blank line is nothing budgeted on that line;

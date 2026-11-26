@@ -54,16 +54,6 @@ haven't propagated to the HUD LIHTC database yet. See
 @param {number|null} lastYear  Calendar year of most-recent LIHTC activity
 @returns {number}              0–100
 
-### `bridgeAwardYear(meta)`
-
-F146 — Pull the award year out of a CHFA bridge metadata block.
-Bridge files (currently `data/affordable-housing/chfa-awards/
-2026-round-one.json`) carry the round label in
-`metadata.round` (e.g. "2026 Round One"); parse out the leading
-4-digit year. Falls back to parsing `metadata.announcement_date`
-if the round string is missing. Returns null when neither is
-present (caller should treat as "no signal").
-
 ### `_scenarioScore(op, scenario)`
 
 F236 — Compute a one-off composite using user-chosen weights +

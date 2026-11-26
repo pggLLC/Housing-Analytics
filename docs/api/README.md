@@ -1,6 +1,6 @@
 # API reference
 
-_Auto-generated from JSDoc — 2026-11-06. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
+_Auto-generated from JSDoc — 2026-11-26. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
 
 Only modules with at least one JSDoc-commented symbol are indexed. To get a module on this page, add a `/** ... */` comment on any exported function, constant, or class.
 
@@ -21,6 +21,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`chas-tier-shares.js`](./js__chas-tier-shares.md) | chas-tier-shares. | 3 |
 | [`chfa-pma-checklist.js`](./js__chfa-pma-checklist.md) | _no header_ | 19 |
 | [`chfa-rent-limits.js`](./js__chfa-rent-limits.md) | CHFA published rent/income lookups and contract-rent arithmetic. | 0 |
+| [`chfa-round-two-map.js`](./js__chfa-round-two-map.md) | js/chfa-round-two-map. | 0 |
 | [`co-construction-costs.js`](./js__co-construction-costs.md) | co-construction-costs. | 0 |
 | [`co-developer-funding.js`](./js__co-developer-funding.md) | co-developer-funding. | 0 |
 | [`co-lihtc-map.js`](./js__co-lihtc-map.md) | co-lihtc-map. | 4 |
@@ -48,12 +49,12 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`deal-calculator-unit-size.js`](./js__deal-calculator-unit-size.md) | Deal calculator: estimate gross building area from a bedroom mix (#1814). | 1 |
 | [`deal-calculator.js`](./js__deal-calculator.md) | _no header_ | 18 |
 | [`deal-comparison.js`](./js__deal-comparison.md) | js/deal-comparison. | 0 |
-| [`deal-cost-basis.js`](./js__deal-cost-basis.md) | Itemized development costs, eligible basis, fee tests and credit limits (#2160). | 21 |
+| [`deal-cost-basis.js`](./js__deal-cost-basis.md) | Itemized development costs, eligible basis, fee tests and credit limits (#2160). | 23 |
 | [`deal-doh-schedules.js`](./js__deal-doh-schedules.md) | Sources and uses by activity, and the 15-year operating pro forma, in the | 2 |
-| [`deal-engine.js`](./js__deal-engine.md) | Pure rental calculation extracted for #2118, with explicit L1 loan obligations. | 1 |
+| [`deal-engine.js`](./js__deal-engine.md) | Pure rental calculation extracted for #2118, with explicit L1 loan obligations. | 3 |
 | [`deal-lender-schedules-view.js`](./js__deal-lender-schedules-view.md) | Deal Calculator panel for the lender schedules (js/deal-lender-schedules. | 0 |
 | [`deal-lender-schedules.js`](./js__deal-lender-schedules.md) | Lender schedules built on a finished Deal Engine result: the construction | 7 |
-| [`deal-operating-budget.js`](./js__deal-operating-budget.md) | Operating budget and other income in the Division of Housing layout (DOH PR 2). | 5 |
+| [`deal-operating-budget.js`](./js__deal-operating-budget.md) | Operating budget and other income in the Division of Housing layout (DOH PR 2). | 6 |
 | [`deal-permanent-financing.js`](./js__deal-permanent-financing.md) | Permanent financing in the Division of Housing layout (DOH PR 3). | 4 |
 | [`deal-summary.js`](./js__deal-summary.md) | deal-summary. | 0 |
 | [`discovery-ui-handler.js`](./js__discovery-ui-handler.md) | _no header_ | 3 |
@@ -86,7 +87,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`lihtc-concept-card-renderer.js`](./js__lihtc-concept-card-renderer.md) | js/lihtc-concept-card-renderer. | 7 |
 | [`lihtc-deal-predictor-enhanced.js`](./js__lihtc-deal-predictor-enhanced.md) | js/lihtc-deal-predictor-enhanced. | 8 |
 | [`lihtc-deal-predictor.js`](./js__lihtc-deal-predictor.md) | js/lihtc-deal-predictor. | 11 |
-| [`lihtc-opportunity-finder.js`](./js__lihtc-opportunity-finder.md) | js/lihtc-opportunity-finder. | 3 |
+| [`lihtc-opportunity-finder.js`](./js__lihtc-opportunity-finder.md) | js/lihtc-opportunity-finder. | 2 |
 | [`lihtc-project-size.js`](./js__lihtc-project-size.md) | js/lihtc-project-size. | 0 |
 | [`local-incentives-data.js`](./js__local-incentives-data.md) | js/local-incentives-data. | 8 |
 | [`local-incentives.js`](./js__local-incentives.md) | js/local-incentives. | 0 |
@@ -116,6 +117,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`place-lehd-lookup.js`](./js__place-lehd-lookup.md) | place-lehd-lookup. | 0 |
 | [`place-profile-help.js`](./js__place-profile-help.md) | js/place-profile-help. | 0 |
 | [`pma-analysis-runner.js`](./js__pma-analysis-runner.md) | js/pma-analysis-runner. | 1 |
+| [`pma-area-towns.js`](./js__pma-area-towns.md) | js/pma-area-towns. | 2 |
 | [`pma-barrier-aware.js`](./js__pma-barrier-aware.md) | js/pma-barrier-aware. | 0 |
 | [`pma-barriers.js`](./js__pma-barriers.md) | js/pma-barriers. | 11 |
 | [`pma-commute-context.js`](./js__pma-commute-context.md) | js/pma-commute-context. | 0 |
@@ -148,6 +150,8 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`site-state.js`](./js__site-state.md) | site-state. | 0 |
 | [`soft-funding-tracker.js`](./js__soft-funding-tracker.md) | js/soft-funding-tracker. | 12 |
 | [`state-allocations-historical.js`](./js__state-allocations-historical.md) | _no header_ | 4 |
+| [`sunday-digest.js`](./js__sunday-digest.md) | sunday-digest. | 1 |
+| [`tariff-cost-note.js`](./js__tariff-cost-note.md) | _no header_ | 1 |
 | [`temporal-dashboard.js`](./js__temporal-dashboard.md) | _no header_ | 2 |
 | [`transit-zone-map.js`](./js__transit-zone-map.md) | js/transit-zone-map. | 0 |
 | [`transit-zone.js`](./js__transit-zone.md) | js/transit-zone. | 0 |
@@ -180,6 +184,8 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`affordable-housing-layer.js`](./js__components__affordable-housing-layer.md) | js/components/affordable-housing-layer. | 4 |
 | [`analytics.js`](./js__components__analytics.md) | analytics. | 8 |
 | [`api-health.js`](./js__components__api-health.md) | js/components/api-health. | 4 |
+| [`calc-financials-link.js`](./js__components__calc-financials-link.md) | js/components/calc-financials-link. | 0 |
+| [`calc-site-context.js`](./js__components__calc-site-context.md) | js/components/calc-site-context. | 0 |
 | [`capital-partners.js`](./js__components__capital-partners.md) | js/components/capital-partners. | 0 |
 | [`census-link-geo.js`](./js__components__census-link-geo.md) | js/components/census-link-geo. | 0 |
 | [`chart-theme.js`](./js__components__chart-theme.md) | chart-theme. | 0 |
@@ -201,7 +207,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`fetch-error-surface.js`](./js__components__fetch-error-surface.md) | fetch-error-surface. | 0 |
 | [`funding-context-card.js`](./js__components__funding-context-card.md) | js/components/funding-context-card. | 0 |
 | [`guided-route-map.js`](./js__components__guided-route-map.md) | guided-route-map. | 0 |
-| [`home-need-map.js`](./js__components__home-need-map.md) | js/components/home-need-map. | 0 |
 | [`homeownership-programs.js`](./js__components__homeownership-programs.md) | js/components/homeownership-programs. | 0 |
 | [`hos-renderer.js`](./js__components__hos-renderer.md) | js/components/hos-renderer. | 0 |
 | [`housing-events.js`](./js__components__housing-events.md) | js/components/housing-events. | 2 |
@@ -215,6 +220,9 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`land-value-tool.js`](./js__components__land-value-tool.md) | js/components/land-value-tool. | 0 |
 | [`lihtc-credits-to-cash.js`](./js__components__lihtc-credits-to-cash.md) | lihtc-credits-to-cash. | 0 |
 | [`lihtc-tips.js`](./js__components__lihtc-tips.md) | js/components/lihtc-tips. | 2 |
+| [`ma-calc-link.js`](./js__components__ma-calc-link.md) | js/components/ma-calc-link. | 0 |
+| [`ma-pdf.js`](./js__components__ma-pdf.md) | js/components/ma-pdf. | 0 |
+| [`ma-site-link.js`](./js__components__ma-site-link.md) | js/components/ma-site-link. | 0 |
 | [`map-home-btn.js`](./js__components__map-home-btn.md) | map-home-btn. | 0 |
 | [`map-layer-status.js`](./js__components__map-layer-status.md) | js/components/map-layer-status. | 1 |
 | [`market-pulse.js`](./js__components__market-pulse.md) | js/components/market-pulse. | 5 |
@@ -259,7 +267,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 
 | Module | Summary | Symbols |
 |---|---|---:|
-| [`basemaps.js`](./js__config__basemaps.md) | js/config/basemaps. | 3 |
+| [`basemaps.js`](./js__config__basemaps.md) | js/config/basemaps. | 6 |
 | [`financial-constants.js`](./js__config__financial-constants.md) | js/config/financial-constants. | 0 |
 | [`live-market-rates.js`](./js__config__live-market-rates.md) | js/config/live-market-rates. | 0 |
 | [`table-export-registry.js`](./js__config__table-export-registry.md) | table-export-registry. | 0 |
@@ -299,7 +307,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`hna-chapter-handoff.js`](./js__hna__hna-chapter-handoff.md) | hna-chapter-handoff. | 0 |
 | [`hna-comparison.js`](./js__hna__hna-comparison.md) | js/hna/hna-comparison. | 4 |
 | [`hna-controller.js`](./js__hna__hna-controller.md) | hna-controller. | 15 |
-| [`hna-export.js`](./js__hna__hna-export.md) | _no header_ | 26 |
+| [`hna-export.js`](./js__hna__hna-export.md) | _no header_ | 30 |
 | [`hna-market-bridge.js`](./js__hna__hna-market-bridge.md) | js/hna/hna-market-bridge. | 2 |
 | [`hna-market-call.js`](./js__hna__hna-market-call.md) | js/hna/hna-market-call. | 0 |
 | [`hna-narratives.js`](./js__hna__hna-narratives.md) | hna-narratives. | 0 |
@@ -310,6 +318,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`hna-section-takeaways.js`](./js__hna__hna-section-takeaways.md) | hna-section-takeaways. | 0 |
 | [`hna-utils.js`](./js__hna__hna-utils.md) | hna-utils. | 20 |
 | [`hna-workflow-autosave.js`](./js__hna__hna-workflow-autosave.md) | hna-workflow-autosave. | 0 |
+| [`need-scorecard.js`](./js__hna__need-scorecard.md) | Housing Needs Scorecard: the one computation (closeout ledger P04, 2026-11-12). | 1 |
 | [`ownership-decision-chain.js`](./js__hna__ownership-decision-chain.md) | js/hna/ownership-decision-chain. | 0 |
 | [`ownership-finance.js`](./js__hna__ownership-finance.md) | js/hna/ownership-finance. | 9 |
 | [`reading-path.js`](./js__hna__reading-path.md) | The guided reading path. | 3 |
@@ -365,11 +374,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`data-quality.js`](./js__utils__data-quality.md) | js/utils/data-quality. | 4 |
 | [`format-money.js`](./js__utils__format-money.md) | Shared currency formatting contract. | 0 |
 
-## `js/whitepaper/`
-
-| Module | Summary | Symbols |
-|---|---|---:|
-
 ## `js/workflow/`
 
 | Module | Summary | Symbols |
@@ -389,7 +393,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`backfill_hna_household_occupation.mjs`](./scripts__backfill_hna_household_occupation.md) | F169 — Backfill ACS DP02 / DP03 / DP05 variables that power the new | 0 |
 | [`build_article_indicator_geojson.mjs`](./scripts__build_article_indicator_geojson.md) | F208 — Join the article's county-indicator CSV with the county | 0 |
 | [`build_rent_burden_crosscheck.mjs`](./scripts__build_rent_burden_crosscheck.md) | F207b — Build the CHAS rent-burden crosscheck JSON. | 0 |
-| [`build-affordable-housing-properties.js`](./scripts__build-affordable-housing-properties.md) | build-affordable-housing-properties. | 5 |
+| [`build-affordable-housing-properties.js`](./scripts__build-affordable-housing-properties.md) | build-affordable-housing-properties. | 7 |
 | [`build-car-report-index.mjs`](./scripts__build-car-report-index.md) | scripts/build-car-report-index. | 0 |
 | [`contrast-audit.js`](./scripts__contrast-audit.md) | scripts/contrast-audit. | 0 |
 | [`coverage-audit.js`](./scripts__coverage-audit.md) | coverage-audit. | 0 |
@@ -403,6 +407,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`fetch-county-demographics.js`](./scripts__fetch-county-demographics.md) | scripts/fetch-county-demographics. | 3 |
 | [`fetch-doh-mobile-home-parks.js`](./scripts__fetch-doh-mobile-home-parks.md) | fetch-doh-mobile-home-parks. | 0 |
 | [`fetch-hud-multifamily.js`](./scripts__fetch-hud-multifamily.md) | fetch-hud-multifamily. | 1 |
+| [`fetch-hud-public-housing.js`](./scripts__fetch-hud-public-housing.md) | fetch-hud-public-housing. | 0 |
 | [`fetch-kalshi.js`](./scripts__fetch-kalshi.md) | fetch-kalshi. | 0 |
 | [`fetch-pab-allocations.mjs`](./scripts__fetch-pab-allocations.md) | fetch-pab-allocations. | 0 |
 | [`fetch-usda-rural-housing.js`](./scripts__fetch-usda-rural-housing.md) | fetch-usda-rural-housing. | 1 |
@@ -420,7 +425,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`split-lihtc-by-county.js`](./scripts__split-lihtc-by-county.md) | split-lihtc-by-county. | 1 |
 | [`stamp_lihtc_provenance.mjs`](./scripts__stamp_lihtc_provenance.md) | F189 + F190 — Stamp LIHTC provenance + lock in F185 validation. | 0 |
 | [`sync-docs.mjs`](./scripts__sync-docs.md) | sync-docs. | 3 |
-| [`sync-glossary.mjs`](./scripts__sync-glossary.md) | One glossary: data/glossary. | 2 |
+| [`sync-glossary.mjs`](./scripts__sync-glossary.md) | One glossary: data/glossary. | 3 |
 | [`sync-hud-vintage-labels.mjs`](./scripts__sync-hud-vintage-labels.md) | Keep every hard-coded HUD, ACS and LODES vintage label on the site equal to | 2 |
 | [`sync-site-figures.mjs`](./scripts__sync-site-figures.md) | Keep every hard-coded copy of a tracked figure on the site equal to the | 4 |
 | [`tag_chfa_preservation_lihtc.mjs`](./scripts__tag_chfa_preservation_lihtc.md) | F184 — Tag CHFA preservation records as LIHTC across the affordable- | 0 |
@@ -565,9 +570,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 
 | Module | Summary | Symbols |
 |---|---|---:|
+| [`build_tariffs_brief.mjs`](./scripts__policy__build_tariffs_brief.md) | _no header_ | 6 |
 | [`fetch_thiz_zones.mjs`](./scripts__policy__fetch_thiz_zones.md) | scripts/policy/fetch_thiz_zones. | 0 |
-
-## `scripts/whitepaper/`
-
-| Module | Summary | Symbols |
-|---|---|---:|
+| [`vacancy-tax.mjs`](./scripts__policy__vacancy-tax.md) | Home rule, or a consolidated city and county (Denver, Broomfield), which is home rule too. | 3 |

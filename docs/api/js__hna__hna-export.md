@@ -97,9 +97,21 @@ and the page said 2023.
 
 Executive-snapshot rows, labelled as the page's stat cards are.
 
-### `_amiGapRows(d)`
+### `CENSUS_GAP_NOTE`
 
 AMI-gap rows: numbers kept as numbers, a real 0 kept as 0.
+
+ HUD's count comes first: homes short for renters, from CHAS "affordable
+ and available", quoted from the page's own cards. It is the figure the
+ HNA tells a reader to cite. The Census rows follow, labelled for what
+ they are: renter households minus rentals priced for them, which counts
+ every cheap rental as available. A bare "80% AMI gap: 37" would be read
+ as 37 homes short.
+
+### `_hudShortFromPage()`
+
+HUD's count as the page's cards show it (renderChasAvailableShortfall);
+ a hidden card or a dash is null, never 0.
 
 ### `_lihtcRows(d)`
 
@@ -112,6 +124,19 @@ Pull a ranking-index entry for the currently-selected geography by
 matching geoid against window.HNARanking._get().allEntries. Returns
 null if the ranking module isn't loaded yet — HNA single-jurisdiction
 page doesn't load it; Compare does.
+
+### `_exportDataReady()`
+
+Resolves once the ranking index and both gap files have loaded or failed.
+
+### `_gapRecordFor(geoid, files)`
+
+The gap record and its sign for a 7-digit place or 5-digit county, or null.
+
+### `_neverFallsCensusShort(metrics, gr)`
+
+Pure. The shown (never-falls) Census shortfall at 30/50/60/80% AMI from
+ the metrics record, with the gap file's record when it has one.
 
 ### `_acsPeriodLabel(series, year)`
 

@@ -9,7 +9,7 @@ Renders the three panels of the Historical Trends tab (colorado-deep-dive.html#t
   3. Peer benchmark table (given user-chosen county + unit count, find similar LIHTC projects)
 
 Data sources (all local, no external API):
-  - data/affordable-housing/chfa-awards/2026-round-one.json — latest round, parsed from CHFA's award report
+  - data/affordable-housing/chfa-awards/2026-round-one.json and 2026-round-two.json — the 2026 rounds, parsed from CHFA's award reports
   - data/chfa-lihtc.json                     — CHFA HousingTaxCreditProperties_view live export
 
 No rent trajectory panel: current ACS dataset is single-vintage (2023) and does not
