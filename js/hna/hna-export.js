@@ -2203,7 +2203,7 @@
       _sectionRow(summary.addRow({ k: 'AMI gap & affordability', n: 'Source: ' + ((d.amiGap && (d.amiGap.sourceLabel || _sourceWords(AMI_GAP_SOURCE_WORDS, d.amiGap.source))) || AMI_GAP_SOURCE_WORDS.unavailable) }));
       _amiGapRows(d).forEach(function (r) {
         // HUD's rows carry HUD's definition, never the Census method note.
-        var note = /^hudShort/.test(r.key) ? HUD_SHORT_NOTE : (d.amiGap.note || '');
+        var note = /^hudShort/.test(r.key) ? HUD_SHORT_NOTE : ((d.amiGap && d.amiGap.note) || '');
         summary.addRow({ k: r.label, v: r.value === null ? UNAVAILABLE : r.value, n: r.reason || note });
       });
 
