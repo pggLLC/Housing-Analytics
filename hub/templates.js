@@ -382,6 +382,8 @@
     // Placed in the container that holds the page head, so the row sticks for the whole page, not one wrapper.
     var h1 = main.querySelector('h1'), at = otp || items[0].el;
     while (at.parentNode && at.parentNode !== main && !at.parentNode.contains(h1)) at = at.parentNode;
+    // A search that shares its row with the first section (Places) stays first; the row of tabs goes under that row.
+    if (at.classList && at.classList.contains('start-row')) { at.parentNode.insertBefore(nav, at.nextSibling); } else
     at.parentNode.insertBefore(nav, at);
     if (otp) otp.hidden = true;
     fitTabs(nav);
