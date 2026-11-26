@@ -1,4 +1,4 @@
-// The full tools paul moved behind sign-in (25 Nov 2026, "approve the member moves"). The public build keeps each
+// The full tools paul moved behind sign-in (25 Nov 2026, "approve the member moves"; batch B, the needs assessment pages). The public build keeps each
 // address, so no link, bookmark or shared link breaks, and serves a short free page there instead: what the tool is,
 // the free version to use, and a member sign-in link to the same page on the member site. The member site
 // (coho-backend member-pages.json) serves the full page from this checkout at the same address.
@@ -11,7 +11,12 @@ export const MEMBER_SITE = 'https://coho-backend.communityplanner.workers.dev/';
 const CARRY = `<script>
 (function () {
   var q = new URLSearchParams(location.search), g = [q.get('geoid'), q.get('fips'), q.get('g')].filter(function (x) { return /^\\d{5}(\\d{2})?$/.test(x || ''); })[0];
-  document.querySelectorAll('[data-carry-place]').forEach(function (a) { if (g) a.href = a.getAttribute('href') + (a.getAttribute('href').indexOf('?') === -1 ? '?g=' : '&g=') + g; });
+  document.querySelectorAll('[data-carry-place]').forEach(function (a) {
+    if (!g) return;
+    // A place page carries its place in the route (#/place/<geoid>); the other hubs take ?g=.
+    if (a.hasAttribute('data-place-route')) a.href = a.getAttribute('href').split('#')[0] + '#/place/' + g;
+    else a.href = a.getAttribute('href') + (a.getAttribute('href').indexOf('?') === -1 ? '?g=' : '&g=') + g;
+  });
   document.querySelectorAll('[data-member-link]').forEach(function (a) { a.href = a.getAttribute('href') + location.search + location.hash; });
 })();
 </script>`;
@@ -41,6 +46,43 @@ const TOOLS = {
 };
 // The old-format Market Analysis page, still linked from older pages and bookmarks.
 TOOLS['market-analysis.html'] = TOOLS['deal-market-analysis.html'];
+
+// Batch B (paul, 25 Nov 2026, "do it": HNA option B). The needs assessment's chapters, scenarios and comparisons are
+// for members; every town and county keeps a free summary and report on its place page. A place in the old page's
+// query (?geoid=, ?fips=) opens that place's page (places-hub.html#/place/<geoid>), otherwise the list of places.
+// housing-needs-assessment.html itself stays whole: the place page's free PDF and Excel report are built from it in a
+// hidden frame (hub/hna.js oldHnaUrl), and the place page's Local partners links into it (Codex P1 on HA #3015). Its
+// chapters are gated where visitors read them, on the place page (lab port).
+const HNA_FREE = { href: 'places-hub.html#/places', label: 'Open the free place summary', place: true };
+const HNA_MEMBERS = ['All six chapters for any Colorado town or county', 'Scenarios for growth and policy', 'Side-by-side comparisons and rankings of places'];
+const chapter = (title, what) => ({
+  title,
+  description: `${title} is a chapter of the needs assessment, for members. Every Colorado town and county has a free summary and report on its place page.`,
+  lede: `${what} is a chapter of the full needs assessment, which is for members. Every Colorado town and county has a free summary and a free report on its place page.`,
+  members: HNA_MEMBERS,
+  free: HNA_FREE
+});
+Object.assign(TOOLS, {
+  'hna-who-lives-here.html': chapter('Who lives here', 'Who lives here, the people and households of a place,'),
+  'hna-what-housing-exists.html': chapter('What housing exists', 'What housing exists, the homes a place has today,'),
+  'hna-what-households-can-afford.html': chapter('What households can afford', 'What households can afford, renters and owners side by side,'),
+  'hna-where-its-heading.html': chapter('Where it’s heading', 'Where it’s heading, the growth and need ahead,'),
+  'hna-what-to-do.html': chapter('What to do', 'What to do, the actions that fit a place,'),
+  'hna-scenario-builder.html': {
+    title: 'Scenario builder',
+    description: 'The needs assessment scenario builder is for members. Every Colorado town and county has a free summary and report on its place page.',
+    lede: 'The scenario builder, which tests growth and policy choices for a place, is for members. Every Colorado town and county has a free summary and a free report on its place page.',
+    members: HNA_MEMBERS,
+    free: HNA_FREE
+  },
+  'hna-comparative-analysis.html': {
+    title: 'Compare places',
+    description: 'Comparing places side by side is for members. Every Colorado town and county has a free summary and report on its place page.',
+    lede: 'Comparing places side by side is for members. Every Colorado town and county has a free summary and a free report on its place page.',
+    members: HNA_MEMBERS,
+    free: HNA_FREE
+  }
+});
 
 // Sections kept on the public copy of each long page; everything else goes to members.
 const LONG = {
@@ -108,7 +150,7 @@ function toolPage(file, t) {
     <p class="kicker">Member tool</p>
     <h1>${esc(t.title)}</h1>
     <p class="lede">${esc(t.lede)}</p>
-    <p class="member-short-actions"><a class="button-link" data-carry-place href="${t.free.href}">${esc(t.free.label)}</a></p>
+    <p class="member-short-actions"><a class="button-link" data-carry-place${t.free.place ? ' data-place-route' : ''} href="${t.free.href}">${esc(t.free.label)}</a></p>
     <h2>What members get</h2>
     <ul>${t.members.map((m) => `<li>${esc(m)}</li>`).join('')}</ul>
     ${memberButtons(file)}

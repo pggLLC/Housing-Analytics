@@ -11,10 +11,14 @@ const read = (f) => readFileSync(path.join(ROOT, f), 'utf8');
 let checks = 0;
 const ok = (c, m) => { assert.ok(c, m); checks++; };
 
-const TOOLS = ['deal-market-analysis.html', 'market-analysis.html', 'for-sale-market-study.html', 'lihtc-opportunity-finder.html'];
+const HNA = ['hna-who-lives-here.html', 'hna-what-housing-exists.html', 'hna-what-households-can-afford.html',
+  'hna-where-its-heading.html', 'hna-what-to-do.html', 'hna-scenario-builder.html', 'hna-comparative-analysis.html'];
+const TOOLS = ['deal-market-analysis.html', 'market-analysis.html', 'for-sale-market-study.html', 'lihtc-opportunity-finder.html', ...HNA];
 const LONG = ['methods.html', 'working-paper.html', 'apa-white-paper.html'];
-ok([...SHORT_PAGES].sort().join() === [...TOOLS, ...LONG].sort().join(), 'the short pages are the seven moved in batch A: ' + [...SHORT_PAGES].join(', '));
+ok([...SHORT_PAGES].sort().join() === [...TOOLS, ...LONG].sort().join(), 'the short pages are the seven of batch A and the seven needs assessment pages of batch B: ' + [...SHORT_PAGES].join(', '));
 ok(!SHORT_PAGES.has('deal-calculator.html'), 'the Deal Calculator stays free');
+// The place page's free report is built from the whole assessment in a hidden frame (hub/hna.js; Codex P1 on #3015).
+ok(!SHORT_PAGES.has('housing-needs-assessment.html') && /housing-needs-assessment\.html\?geoid=/.test(read('hub/hna.js')), 'the assessment the free report is built from stays whole');
 
 const build = read('scripts/build-public-site.mjs');
 ok(/SHORT_PAGES\.has\(name\)/.test(build) && /shortPage\(name,/.test(build), 'the public build writes the short page at each address');
@@ -32,13 +36,33 @@ for (const f of [...TOOLS, ...LONG]) {
 
 for (const f of TOOLS) {
   const html = shortPage(f, read(f));
-  const free = /<a class="button-link" data-carry-place href="([a-z-]+\.html)#(\/[a-z-]+)"/.exec(html);
+  const free = /<a class="button-link" data-carry-place(?: data-place-route)? href="([a-z-]+\.html)#(\/[a-z-]+)"/.exec(html);
   ok(free, `${f}: a free version first`);
   ok(new RegExp('"' + free[1].replace('.', '\\\\.') + '":\\[[^\\]]*' + free[2].slice(1).replace('-', '\\-')).test(hubs) || hubs.includes(free[2].slice(1)), `${f}: ${free[1]}#${free[2]} is a route the hubs draw`);
   ok(!/js\/(market-analysis|lihtc-opportunity-finder|project-market-study)/.test(html), `${f}: loads none of the full tool's scripts`);
   ok(html.indexOf('data-carry-place') < html.indexOf('What members get'), `${f}: the free version comes before the member pitch`);
 }
 
+for (const f of HNA) {
+  const html = shortPage(f, read(f));
+  ok(/data-carry-place data-place-route href="places-hub\.html#\/places"/.test(html), `${f}: the free place summary, opened at the old page's place`);
+  ok(!/js\/hna\//.test(html), `${f}: loads none of the needs assessment's scripts`);
+}
+// The carry script sends ?geoid=08031 to places-hub.html#/place/08031 and leaves the statewide ?geoid=08 on the list.
+{
+  const html = shortPage('hna-who-lives-here.html', read('hna-who-lives-here.html'));
+  const at = html.indexOf('<script>\n(function () {') + '<script>'.length;
+  const script = html.slice(at, html.indexOf('</' + 'script>', at));
+  const run = (search) => {
+    const a = { attrs: { href: 'places-hub.html#/places', 'data-place-route': '' }, getAttribute(k) { return this.attrs[k]; }, hasAttribute(k) { return k in this.attrs; }, href: '' };
+    const m = { attrs: { href: MEMBER_SITE + 'hna-who-lives-here.html' }, getAttribute(k) { return this.attrs[k]; }, href: '' };
+    new Function('location', 'document', 'URLSearchParams', script)({ search, hash: '' }, { querySelectorAll: (q) => (q === '[data-carry-place]' ? [a] : [m]) }, URLSearchParams);
+    return a.href;
+  };
+  ok(run('?geoid=08031&geoType=county') === 'places-hub.html#/place/08031', 'a county in the old query opens its place page');
+  ok(run('?geoid=0812415') === 'places-hub.html#/place/0812415', 'a town in the old query opens its place page');
+  ok(run('?geoid=08') === '', 'the statewide page keeps the list of places');
+}
 {
   const html = shortPage('methods.html', read('methods.html'));
   for (const id of ['m-footprint', 'm-conventions', 'm-capture']) ok(new RegExp(`<section aria-labelledby="${id}"`).test(html), `methods: section ${id} stays public`);
