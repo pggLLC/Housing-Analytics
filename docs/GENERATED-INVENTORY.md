@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T00:06:51.018Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T00:12:18.989Z. Do not edit by hand.
 
 ---
 
@@ -37,7 +37,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 85.0 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 25.1 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 84.0 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 84.3 KB |
 | `deal-hub.html` | Build a deal · COHO Analytics | 8.9 KB |
 | `deal-market-analysis.html` | Market Analysis · COHO Analytics | 162.1 KB |
 | `deal-reference.html` | Deal reference | COHO Analytics | 16.8 KB |
@@ -2058,7 +2058,7 @@
 
 ## Test Files
 
-805 test files found.
+806 test files found.
 
 | File | Size |
 |------|------|
@@ -2170,6 +2170,7 @@
 | `test/data-trust-center.test.js` | 4.7 KB |
 | `test/dc-constants.test.js` | 6.9 KB |
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
+| `test/dc-market-test.test.js` | 13.8 KB |
 | `test/dc-peer-deals.test.js` | 9.3 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
 | `test/deal-calc-absence-semantics.test.js` | 13.6 KB |
