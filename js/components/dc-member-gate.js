@@ -26,18 +26,34 @@
     return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
   }
   function card(o) {
-    // The member link opens this page with the same address, so a shared deal opens there as it is here.
-    var to = MEMBER_SITE + 'deal-calculator.html' + String(location.search || '').replace(/([?&])view=public(&|$)/, '$1').replace(/[?&]$/, '') + String(location.hash || '');
+    var to = memberHref();
     var el = document.createElement('section');
     el.className = 'callout member-card';
     el.setAttribute('data-member-card', o.key);
     el.setAttribute('aria-labelledby', o.id);
     el.innerHTML = '<p class="ma-kicker">For members</p><h2 id="' + esc(o.id) + '">' + esc(o.title) + '</h2>' +
       '<p>' + esc(o.what) + '</p><ul>' + o.gets.map(function (g) { return '<li>' + esc(g) + '</li>'; }).join('') + '</ul>' +
-      '<div class="actions"><a class="button-link" href="' + esc(to) + '">Member sign in</a>' +
+      '<div class="actions"><a class="button-link" data-member-signin href="' + esc(to) + '">Member sign in</a>' +
       '<a class="button-link secondary" href="mailto:info@cohoanalytics.com?subject=Member%20access">Ask about member access</a></div>';
     return el;
   }
+
+  // The member link carries the deal as it stands now, in the same fragment "Copy link" writes
+  // (js/deal-calculator-share.js: #v=1&...), so the member tools open on the deal the visitor entered. It is built
+  // again when the link is used, since the inputs change after the card is drawn (Codex, HA #3019).
+  function memberHref() {
+    var base = MEMBER_SITE + 'deal-calculator.html';
+    var share = window.__DealCalcShare;
+    var q = null;
+    try { q = share && share.serialize ? share.serialize() : null; } catch (e) { q = null; }
+    if (q) return base + '#v=1&' + q;
+    return base + String(location.search || '').replace(/([?&])view=public(&|$)/, '$1').replace(/[?&]$/, '') + String(location.hash || '');
+  }
+  function refresh(ev) {
+    var a = ev.target && ev.target.closest && ev.target.closest('[data-member-card] a[data-member-signin]');
+    if (a) a.href = memberHref();
+  }
+  ['mousedown', 'click', 'auxclick', 'keydown', 'focusin', 'contextmenu'].forEach(function (t) { document.addEventListener(t, refresh, true); });
 
   var LENDER = {
     key: 'lender-schedules', id: 'dc-member-ls-h', title: 'Lender schedules',

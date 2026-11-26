@@ -74,6 +74,18 @@ async function open(origin, width) {
       heads: [...document.querySelectorAll('[data-member-card] h2')].map((h) => h.id),
     };
   });
+  // The member link carries the deal as it stands when the link is used (Codex, HA #3019): change an input, then
+  // focus the link, and it should match the deal fragment "Copy link" would write now.
+  m.carry = await tab.evaluate(() => {
+    const a = document.querySelector('[data-member-card="lender-schedules"] a[data-member-signin]');
+    if (!a || !window.__DealCalcShare) return null;
+    const before = a.href;
+    const f = document.getElementById('dc-units') || [...document.querySelectorAll('#dc-inputs-col input[type="number"]')].find((x) => x.offsetParent);
+    f.value = String((Number(f.value) || 40) + 7);
+    f.dispatchEvent(new Event('input', { bubbles: true })); f.dispatchEvent(new Event('change', { bubbles: true }));
+    a.focus();
+    return { before, after: a.href, want: 'https://coho-backend.communityplanner.workers.dev/deal-calculator.html#v=1&' + window.__DealCalcShare.serialize() };
+  });
   await ctx.close();
   return { m, errors };
 }
@@ -88,6 +100,7 @@ try {
     ok(new Set(pub.m.heads).size === pub.m.heads.length, `public ${w}: two cards share a heading id`);
     ok(!pub.m.lsLegend && !pub.m.saveA, `public ${w}: the lender schedules or the Save as Scenario buttons still show`);
     ok(pub.m.lsInputs > 5 && pub.m.saveAExists, `public ${w}: the gated controls were removed instead of hidden (${pub.m.lsInputs} inputs)`);
+    ok(pub.m.carry && pub.m.carry.after === pub.m.carry.want && pub.m.carry.after !== pub.m.carry.before, `public ${w}: the member link does not carry the deal as edited (${pub.m.carry && pub.m.carry.after.slice(0, 120)})`);
     ok(mem.m.cards.length === 0, `member site ${w}: a member card shows (${mem.m.cards.join()})`);
     ok(mem.m.lsLegend && mem.m.saveA, `member site ${w}: the lender schedules or the scenario buttons did not draw`);
     if (pub.m.figures !== mem.m.figures) { const a = pub.m.figures, b = mem.m.figures; let i = 0; while (a[i] === b[i]) i++; console.error('first difference:', JSON.stringify(a.slice(i - 80, i + 120)), '|', JSON.stringify(b.slice(i - 80, i + 120))); }
