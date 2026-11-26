@@ -629,7 +629,8 @@
       ]
     }) +
       '<p>CHFA lists properties that receive or have received an incentive to keep them affordable, such as rent supplements, below-market financing or Housing Tax Credits, drawn from CHFA’s portfolio and from the Colorado Division of Housing, the City and County of Denver, USDA and HUD. This copy of the map layer was retrieved in September 2026; CHFA updates its own portfolio annually and partner data at staggered intervals. The layer gives each property’s name, address, city, ZIP code and total units, not its subsidy or end dates, so this page matches other public records by address and shows <a href="#/opportunity/preservation?at=p-hud" data-jump="p-hud">HUD’s contract end dates</a> further down. Verify current restrictions with CHFA.</p>' +
-      T.onThisPage([{ id: 'p-dates', title: 'When homes could be lost' }, { id: 'p-where', title: 'Where they are' }, { id: 'p-list', title: 'Every property' }, { id: 'p-examples', title: 'Colorado examples' }, { id: 'p-hud', title: 'HUD contracts ending soon' }, { id: 'p-how', title: 'How preservation works' }], true) +
+      '<p class="note">This list covers homes that carry a subsidy or a recorded restriction. Older rentals that are affordable without one, and buildings sold and renovated to higher rents, are not on any public list; <a href="#p-noah">see below</a>.</p>' +
+      T.onThisPage([{ id: 'p-dates', title: 'When homes could be lost' }, { id: 'p-where', title: 'Where they are' }, { id: 'p-list', title: 'Every property' }, { id: 'p-examples', title: 'Colorado examples' }, { id: 'p-hud', title: 'HUD contracts ending soon' }, { id: 'p-noah', title: 'Homes affordable without a subsidy' }, { id: 'p-how', title: 'How preservation works' }], true) +
       '<section id="p-dates" tabindex="-1"><h2>When homes could be lost</h2>' +
       // Gemini round 16 picks 1 and 3, round 10 pick A (paul 11-05): the year-15 strip in the page head carries the
       // message; every date chart, year 15 by year included, folds under "Show the numbers".
@@ -676,7 +677,15 @@
         { key: 'report', label: 'CHFA report' }
       ], x.examples, { noun: 'awards', placeholder: 'Name or city' }) + sAwards + '</section>' +
       contractsSection(L.d) +
-      '<section id="p-how" tabindex="-1"><h2>How preservation works</h2>' +
+      // NOAH and renovation pressure (paul 26 Nov, thread "Explore tracking unsubsidized affordable homes"): what the
+      // public record can and cannot say, and the two Colorado rules that reach these homes. Words only; no lab data.
+      '<section id="p-noah" tabindex="-1"><h2>Homes affordable without a subsidy</h2>' +
+      '<p>Many Colorado renters live in older apartments that are affordable only because of their age and condition, with no subsidy or restriction. These homes are lost quietly: a building sells, is renovated and re-rents higher. No public list tracks them, so this page cannot show them.</p>' +
+      '<div class="panel"><h3>Older apartment buildings for sale</h3><p>For rental buildings of 15 to 100 homes with no affordability restriction, whose first certificate of occupancy is more than 30 years old, Colorado gives the local government a right of first offer before the owner sells. It has 7 days to respond and 14 days to make an offer once the owner shares the rent roll. A city, town or county can waive the right; El Paso County, Weld County, Colorado Springs and Cortez had waived it as of July 2025. The right ends December 31, 2029.</p></div>' +
+      '<div class="panel"><h3>Prop 123 counts these homes</h3><p>A town or county can count unsubsidized homes toward its Prop 123 commitment if they are newly preserved after its filing date, rent at or below 60% of area median income, and stay affordable to the end of the cycle. DOLA suggests assessor records, MLS, lease records or rent rolls as proof. Documentation for the 2024–2026 cycle is due December 31, 2026.</p></div>' +
+      '<p class="source-line"><span>Sources</span> <a href="https://leg.colorado.gov/bills/hb24-1175">HB24-1175, C.R.S. 29-4-1201 to 1208</a>; <a href="https://cl.cobar.org/features/new-law-gives-local-governments-rights-to-purchase-multifamily-rental-properties/">Colorado Lawyer, September/October 2025</a> (waivers as of July 28, 2025); <a href="https://cdola.colorado.gov/unit-counting">DOLA, Prop 123 unit counting</a>, checked 2026-11-26.</p>' +
+      '<p>Towns that act on this use local money: paying owners for deed restrictions, paying short-term rental owners to lease to locals, or lending for homes rented below market. <a href="#/places/incentives">See which local tools each town has on record</a>.</p></section>' +
+      '<section id="p-how\" tabindex="-1"><h2>How preservation works</h2>' +
       '<p>The tools Colorado owners, buyers and local governments use to keep these homes affordable are in the guide.</p>' +
       '<p><a class="button-link" href="#/guide/preservation">Preservation in Colorado</a></p>' +
       '<p class="note">For other subsidy types and end dates, see the <a href="https://preservationdatabase.org/">National Housing Preservation Database (NHPD)</a>, a joint project of the National Low Income Housing Coalition and the Public and Affordable Housing Research Corporation (PAHRC), which requires registration.</p></section>' +
