@@ -549,7 +549,12 @@
    *  every cheap rental as available. A bare "80% AMI gap: 37" would be read
    *  as 37 homes short. */
   var CENSUS_GAP_NOTE = 'renter households minus rentals priced for them (Census; counts every cheap rental as available; 0 = none short)';
-  function _amiGapRows(d) {
+  /* The shown Census rows follow the page's never-falls rule, and say so; the
+     file's own value at each band follows as a raw row in the workbook and CSV. */
+  var CENSUS_SHORT_NOTE = 'renter households minus rentals priced for them, never lower than the count at a lower income, because homes priced higher cost too much for poorer renters (Census; counts every cheap rental as available; 0 = none short)';
+  var CENSUS_RAW_NOTE = 'raw Census difference at this band alone, before the never-falls rule; it can fall as income rises, so it is not the homes-short count';
+  var HUD_SHORT_NOTE = 'HUD CHAS: renter households at or below this income minus homes affordable and available to them (vacant, or rented by a household at or below it). Not the same count as the rows of homes priced for renters.';
+  function _amiGapRows(d, opts) {
     var g = (d && d.amiGap) || {};
     var src = g.source || 'unavailable';
     var reason = src === 'unavailable'
@@ -576,13 +581,22 @@
         var threshold = r.key === 'housingGapUnits' ? '100' : r.key.match(/\d+/)[0];
         r.label = 'Cumulative shortfall through ≤' + threshold + '% AMI (positive band households − units)';
       } else if (r.key !== 'housingGapUnits') {
-        r.label = r.label + ': ' + CENSUS_GAP_NOTE;
+        r.label = g.neverFalls
+          ? 'Homes short, ≤' + r.key.match(/\d+/)[0] + '% AMI (Census): ' + CENSUS_SHORT_NOTE
+          : r.label + ': ' + CENSUS_GAP_NOTE;
       }
       r.display = _unitsDisplay(r.value);
       r.reason = r.value === null ? reason : null;
       return r;
     });
-    return hudRows.concat(censusRows);
+    // The file's own value at each band, labelled as raw; the PDF leaves these
+    // out (opts.noRaw) and says where they are.
+    var rawRows = (g.raw && !(opts && opts.noRaw)) ? ['30', '50', '60', '80'].map(function (t) {
+      var v = _numOrNull(g.raw[t]);
+      return { key: 'rawGap' + t + 'pctUnits', raw: true, label: 'Census difference, ≤' + t + '% AMI: ' + CENSUS_RAW_NOTE,
+        value: v, display: _unitsDisplay(v), reason: v === null ? reason : null };
+    }) : [];
+    return hudRows.concat(censusRows, rawRows);
   }
 
   /** HUD's count as the page's cards show it (renderChasAvailableShortfall);
@@ -769,6 +783,77 @@
   // safety.
   try { _loadRankingIndex(); } catch (_) { /* non-fatal */ }
 
+  /* Homes short never fall as the income band widens (paul, 25 Nov 2026: one
+     rule on every page, as the place pages, ranking and Deal Calculator show
+     it). The Census files count everyone at or below each band, and a band
+     with more homes than renters lowers the next count, but those homes cost
+     too much for the poorer renters below, so their shortfall still stands.
+     The shown count at a band is the largest max(0, households - homes) at or
+     below it, the 40% and 70% bands of the place or county gap file included
+     (the page's Pl.shortNested / Pl.gapMetric). A band whose own count is
+     missing stays missing, never 0. The file's own value stays in the export
+     as a separate, labelled raw row (CSV downloads keep raw). */
+  var _gapFilesCache = null;
+  var _gapFilesPromise = null;
+  function _loadGapFiles() {
+    if (_gapFilesCache) return Promise.resolve(_gapFilesCache);
+    if (_gapFilesPromise) return _gapFilesPromise;
+    var _fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : function (u) { return fetch(u, { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }); };
+    _gapFilesPromise = Promise.all([
+      Promise.resolve(_fetcher('data/co_ami_gap_by_place.json', { cache: 'no-store' })).catch(function () { return null; }),
+      Promise.resolve(_fetcher('data/co_ami_gap_by_county.json', { cache: 'no-store' })).catch(function () { return null; })
+    ]).then(function (both) {
+      _gapFilesCache = { place: both[0] || null, county: both[1] || null };
+      return _gapFilesCache;
+    }).catch(function () { _gapFilesPromise = null; return null; });
+    return _gapFilesPromise;
+  }
+  try { _loadGapFiles(); } catch (_) { /* non-fatal */ }
+  /** The gap record and its sign for a 7-digit place or 5-digit county, or null. */
+  function _gapRecordFor(geoid, files) {
+    var g = String(geoid || '');
+    files = files || _gapFilesCache || {};
+    var pf = files.place, cf = files.county;
+    if (g.length === 7 && pf && pf.places && pf.places[g]) return { rec: pf.places[g], sign: (pf.meta || {}).gap_sign };
+    if (g.length === 5 && cf && Array.isArray(cf.counties)) {
+      for (var i = 0; i < cf.counties.length; i++) if (cf.counties[i] && cf.counties[i].fips === g) return { rec: cf.counties[i], sign: (cf.meta || {}).gap_sign };
+    }
+    return null;
+  }
+  var GAP_REC_BANDS = ['30', '40', '50', '60', '70', '80', '100'];
+  var GAP_METRIC_BANDS = [['30', 'ami_gap_30pct'], ['50', 'ami_gap_50pct'], ['60', 'ami_gap_60pct'], ['80', 'ami_gap_80pct']];
+  function _recShort(rec, band, sign) {
+    var v = _numOrNull(((rec && rec.gap_units_minus_households_le_ami_pct) || {})[band]);
+    if (v === null) return null;
+    if (sign === 'households_minus_units') return Math.max(0, v);
+    if (sign === 'units_minus_households') return Math.max(0, -v);
+    return null; // an unknown sign is not guessed
+  }
+  function _recNested(rec, band, sign) {
+    var own = _recShort(rec, band, sign);
+    if (own === null) return null;
+    GAP_REC_BANDS.forEach(function (b) {
+      if (+b < +band) { var s = _recShort(rec, b, sign); if (s !== null && s > own) own = s; }
+    });
+    return own;
+  }
+  /** Pure. The shown (never-falls) Census shortfall at 30/50/60/80% AMI from
+   *  the metrics record, with the gap file's record when it has one. */
+  function _neverFallsCensusShort(metrics, gr) {
+    var m = metrics || {}, out = {}, most = null;
+    GAP_METRIC_BANDS.forEach(function (p) {
+      var own = _numOrNull(m[p[1]]);
+      if (own !== null) most = most === null ? own : Math.max(most, own);
+      if (own === null) { out[p[0]] = null; return; }
+      var v = most;
+      if (gr && gr.rec) { var n = _recNested(gr.rec, p[0], gr.sign); if (n !== null && n > v) v = n; }
+      out[p[0]] = v;
+    });
+    return out;
+  }
+
   /**
    * Fallback metrics builder for the HNA single-jurisdiction page where
    * HNARanking isn't loaded. Reads from window.HNAState (the loaded
@@ -949,6 +1034,8 @@
     var combinedResult = current && current.geoType === 'combined' ? current.combinedResult : null;
     var idxRec = combinedResult ? null : _rankingEntry(geoid);
     var m = combinedResult ? (_metricsFromCombinedResult(combinedResult) || {}) : ((idxRec && idxRec.metrics) || _metricsFromHnaState(geoid) || {});
+    // The shown Census shortfall follows the page's never-falls rule; the file's own values stay as raw rows.
+    var gapShown = combinedResult ? null : _neverFallsCensusShort(m, _gapRecordFor(geoid));
 
     var acsPeriod = _acsPeriodOf(current, geoid);
     var lehdYear = _lehdWacYear(geoid, idxRec ? idxRec.containingCounty : null);
@@ -1042,10 +1129,16 @@
       },
       amiGap: {
         housingGapUnits:    _numOrNull(m.housing_gap_units),
-        gap30pctUnits:      _numOrNull(m.ami_gap_30pct),
-        gap50pctUnits:      _numOrNull(m.ami_gap_50pct),
-        gap60pctUnits:      _numOrNull(m.ami_gap_60pct),
-        gap80pctUnits:      _numOrNull(m.ami_gap_80pct),
+        gap30pctUnits:      gapShown ? gapShown['30'] : _numOrNull(m.ami_gap_30pct),
+        gap50pctUnits:      gapShown ? gapShown['50'] : _numOrNull(m.ami_gap_50pct),
+        gap60pctUnits:      gapShown ? gapShown['60'] : _numOrNull(m.ami_gap_60pct),
+        gap80pctUnits:      gapShown ? gapShown['80'] : _numOrNull(m.ami_gap_80pct),
+        // The file's own value at each band, before the never-falls rule (null for a combined area).
+        raw: gapShown ? {
+          '30': _numOrNull(m.ami_gap_30pct), '50': _numOrNull(m.ami_gap_50pct),
+          '60': _numOrNull(m.ami_gap_60pct), '80': _numOrNull(m.ami_gap_80pct)
+        } : null,
+        neverFalls:         !!gapShown,
         hudShort:           _hudShortFromPage(),
         hudVintage:         ((_elText('statChasShort30Src') || '').match(/\d{4}[–-]\d{4}/) || [null])[0],
         missingAmiTiers:    m.missing_ami_tiers || [],
@@ -1452,6 +1545,7 @@
       // "source unavailable" even though the data exists in
       // data/hna/ranking-index.json.
       try { await _loadRankingIndex(); } catch (_) { /* non-fatal — proceed with whatever we have */ }
+      try { await _loadGapFiles(); } catch (_) { /* non-fatal: without the gap file the 40% and 70% bands are not counted */ }
 
       const jsPDF = window.jspdf.jsPDF;
       const data  = buildReportData();
@@ -1813,7 +1907,7 @@
       // ── 6. Affordability + AMI gap ──
       drawSectionHeader('6. AMI gap & affordability', 'Estimated supply gap by AMI tier — the canonical entry point for sizing affordable-housing demand.');
       // A real 0 prints as 0; an absent gap prints Unavailable, never blank.
-      const gapRows = _amiGapRows(data);
+      const gapRows = _amiGapRows(data, { noRaw: true });
       drawTableSimple(gapRows.map(function (r) {
         return { label: _pdfPlain(r.label), value: r.display };
       }).concat([
@@ -1823,6 +1917,7 @@
       drawNarrative(_pdfPlain('CHAS data source: ' + (data.chasCostBurden.sourceLabel || data.chasCostBurden.source)));
       gapRows.forEach(function (r) { if (r.reason) drawNarrative(_pdfPlain(r.label + ': ' + r.reason)); });
       if (data.amiGap.note) drawNarrative(_pdfPlain(data.amiGap.note));
+      if (data.amiGap.raw) drawNarrative(_pdfPlain('Census homes short never read lower than the count at a lower income, as on the page. The workbook and CSV also list each band\u2019s raw Census difference before that rule.'));
 
       // ── 7. Employment + commute ──
       drawSectionHeader('7. Employment & commute pattern', 'Inbound commuters (LEHD) and the local-jobs-to-resident-workers ratio.');
@@ -1898,6 +1993,8 @@
   // ---------------------------------------------------------------------------
 
   window.__HNA_buildReportData = buildReportData;
+  window.__HNA_neverFallsCensusShort = _neverFallsCensusShort; // pure, for the agreement test
+  window.__HNA_amiGapRows = _amiGapRows;
   window.__HNA_readableSheet = _readableSheet; // for the workbook layout test
   // The code-to-words tables, so a test can check every format against the one definition.
   window.__HNA_exportWords = { amiGapSource: AMI_GAP_SOURCE_WORDS, transitDesignation: TZ_DESIGNATION_WORDS, ddaNote: _ddaSub };
@@ -2048,6 +2145,10 @@
   }
 
   async function exportExcel(reportData, filename) {
+    if (!reportData) {
+      try { await _loadRankingIndex(); } catch (_) { /* non-fatal */ }
+      try { await _loadGapFiles(); } catch (_) { /* non-fatal */ }
+    }
     var d       = reportData || buildReportData();
     var outFile = filename   || _placeFilename(d, 'xlsx');
     var btn     = document.getElementById('btnExcel');
@@ -2090,7 +2191,9 @@
       summary.addRow({});
       _sectionRow(summary.addRow({ k: 'AMI gap & affordability', n: 'Source: ' + ((d.amiGap && (d.amiGap.sourceLabel || _sourceWords(AMI_GAP_SOURCE_WORDS, d.amiGap.source))) || AMI_GAP_SOURCE_WORDS.unavailable) }));
       _amiGapRows(d).forEach(function (r) {
-        summary.addRow({ k: r.label, v: r.value === null ? UNAVAILABLE : r.value, n: r.reason || d.amiGap.note || '' });
+        // HUD's rows carry HUD's definition, never the Census method note.
+        var note = /^hudShort/.test(r.key) ? HUD_SHORT_NOTE : (d.amiGap.note || '');
+        summary.addRow({ k: r.label, v: r.value === null ? UNAVAILABLE : r.value, n: r.reason || note });
       });
 
       // LIHTC properties, QCT and DDA, as the page's cards show them.

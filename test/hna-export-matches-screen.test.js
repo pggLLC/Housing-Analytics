@@ -30,6 +30,27 @@ const { JSDOM } = require('jsdom');
 
 const ROOT = path.resolve(__dirname, '..');
 const CENSUS_GAP_NOTE = 'renter households minus rentals priced for them (Census; counts every cheap rental as available; 0 = none short)';
+const CENSUS_SHORT_NOTE = 'renter households minus rentals priced for them, never lower than the count at a lower income, because homes priced higher cost too much for poorer renters (Census; counts every cheap rental as available; 0 = none short)';
+const CENSUS_RAW_NOTE = 'raw Census difference at this band alone, before the never-falls rule; it can fall as income rises, so it is not the homes-short count';
+// The page's never-falls rule, worked here from the gap file's households and homes (not its signed field, and not
+// the export's code): the shown count at a band is the largest max(0, households - homes) at or below it, 40% and
+// 70% included; a band whose own ranking count is missing stays missing.
+function shownShort(geoid, band) {
+  const own = rankOf(geoid).metrics['ami_gap_' + band + 'pct'];
+  if (own == null) return null;
+  const file = geoid.length === 7 ? readJson('data/co_ami_gap_by_place.json').places[geoid]
+    : readJson('data/co_ami_gap_by_county.json').counties.find((c) => c.fips === geoid);
+  let most = own;
+  for (const b of ['30', '40', '50', '60', '70', '80', '100']) {
+    if (+b > +band) continue;
+    const lower = ['30', '50', '60', '80'].includes(b) ? rankOf(geoid).metrics['ami_gap_' + b + 'pct'] : null;
+    if (lower != null && lower > most) most = lower;
+    if (file && file.households_le_ami_pct[b] != null && file.units_priced_affordable_le_ami_pct[b] != null) {
+      most = Math.max(most, Math.max(0, file.households_le_ami_pct[b] - file.units_priced_affordable_le_ami_pct[b]));
+    }
+  }
+  return most;
+}
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
 
 function freshRequire(relPath) {
@@ -265,13 +286,33 @@ async function exportAll(c) {
       }
     });
 
-    await test(`${label}: the AMI gap in every export equals the ranking index, and a 0 stays 0`, async () => {
+    await test(`${label}: the Census homes short in the PDF, CSV and workbook follow the page's never-falls rule`, async () => {
+      const r = await exportAll(c);
+      const pairs = ['30', '50', '60', '80'].map((t) => ['Homes short, ≤' + t + '% AMI (Census): ' + CENSUS_SHORT_NOTE, shownShort(c.geoid, t)]);
+      for (let i = 1; i < pairs.length; i++) {
+        if (pairs[i][1] != null && pairs[i - 1][1] != null) assert(pairs[i][1] >= pairs[i - 1][1], 'the expected values fall: ' + JSON.stringify(pairs));
+      }
+      for (const [lab, want] of pairs) {
+        const row = summaryRow(lab);
+        assert(row, `the workbook has no "${lab}" row`);
+        if (want == null) {
+          assert.strictEqual(row.v, 'Unavailable', `${lab}: absent in the data but ${JSON.stringify(row.v)} in Excel`);
+          continue;
+        }
+        assert.strictEqual(row.v, want, `${lab}: page rule ${want}, Excel ${JSON.stringify(row.v)}`);
+        const disp = Number(want).toLocaleString('en-US');
+        const csvRow = r.csvRows.find((x) => x[0] === lab);
+        assert(csvRow && csvRow[1] === disp, `${lab}: page rule ${want}, CSV ${csvRow ? JSON.stringify(csvRow[1]) : 'no row'}`);
+        const i = r.pdf.indexOf(lab.replace(/≤/g, '<='));
+        assert(i !== -1 && r.pdf[i + 1] === disp, `${lab}: page rule ${want}, PDF ${i === -1 ? 'no row' : JSON.stringify(r.pdf[i + 1])}`);
+      }
+    });
+
+    await test(`${label}: the raw Census difference stays in the workbook and CSV, labelled raw, and a 0 stays 0; the PDF leaves it out`, async () => {
       const r = await exportAll(c);
       const m = rankOf(c.geoid).metrics;
-      const pairs = [
-        ['30% AMI gap', m.ami_gap_30pct], ['50% AMI gap', m.ami_gap_50pct], ['60% AMI gap', m.ami_gap_60pct],
-        ['80% AMI gap', m.ami_gap_80pct],
-      ].map(([t, v]) => [t + ': ' + CENSUS_GAP_NOTE, v]);
+      const pairs = ['30', '50', '60', '80'].map((t) => ['Census difference, ≤' + t + '% AMI: ' + CENSUS_RAW_NOTE, m['ami_gap_' + t + 'pct']]);
+      assert(!r.pdf.some((x) => typeof x === 'string' && x.startsWith('Census difference, ')), 'the PDF prints a raw Census difference as a row');
       for (const [lab, want] of pairs) {
         const row = summaryRow(lab);
         assert(row, `the workbook has no "${lab}" row`);
@@ -284,8 +325,6 @@ async function exportAll(c) {
         const disp = Number(want).toLocaleString('en-US');
         const csvRow = r.csvRows.find((x) => x[0] === lab);
         assert(csvRow && csvRow[1] === disp, `${lab}: data ${want}, CSV ${csvRow ? JSON.stringify(csvRow[1]) : 'no row'}`);
-        const i = r.pdf.indexOf(lab);
-        assert(i !== -1 && r.pdf[i + 1] === disp, `${lab}: data ${want}, PDF ${i === -1 ? 'no row' : JSON.stringify(r.pdf[i + 1])}`);
       }
     });
 
@@ -631,7 +670,7 @@ async function exportAll(c) {
     assert.deepStrictEqual(fake.autoFilter, { from: { row: 1, column: 1 }, to: { row: 1, column: 3 } }, 'no filter on the header');
   });
 
-  await test('Fruita\'s 80% AMI gap reaches the export from the place gap file (Codex round 2, finding B)', async () => {
+  await test('Fruita\'s 80% AMI gap reaches the export from the place gap file, raw beside the never-falls count (Codex round 2, finding B; Codex HNA handoff 26 Nov)', async () => {
     // The place file stores households minus units; the export must carry it, not null.
     const placeFile = readJson('data/co_ami_gap_by_place.json');
     const fr = Array.isArray(placeFile.places) ? placeFile.places.find((p) => p.fips === '0828745') : placeFile.places['0828745'];
@@ -644,7 +683,11 @@ async function exportAll(c) {
       for (const v of Object.values(o)) { const x = find(v); if (x !== undefined) return x; }
       return undefined;
     };
-    assert.strictEqual(find(r.data), want, 'export gap80pctUnits is ' + JSON.stringify(find(r.data)));
+    assert.strictEqual(r.data.amiGap.raw['80'], want, 'export raw 80% is ' + JSON.stringify(r.data.amiGap.raw['80']));
+    // Codex found the live PDF and workbook at 103 / 232 / 204 / 37 while the page showed 103 / 232 / 232 / 232.
+    assert.deepStrictEqual([r.data.amiGap.gap30pctUnits, r.data.amiGap.gap50pctUnits, r.data.amiGap.gap60pctUnits, find(r.data)],
+      ['30', '50', '60', '80'].map((t) => shownShort('0828745', t)), 'export shown gaps');
+    assert.deepStrictEqual(['30', '50', '60', '80'].map((t) => shownShort('0828745', t)), [103, 232, 232, 232], 'fixture changed: Fruita no longer exercises a falling raw count');
   });
 
   await test('HUD\'s count of homes short leads the AMI gap rows and matches CHAS (fix audit 2026-11-10)', async () => {
@@ -657,11 +700,13 @@ async function exportAll(c) {
       const row = sheets.Summary.rows.find((x) => typeof x.k === 'string' && x.k.startsWith('Homes short, ≤' + t + '% AMI (HUD CHAS'));
       assert(row, `the workbook has no HUD homes-short row at ${t}%`);
       assert.strictEqual(row.v, want, `HUD ${t}%: CHAS ${want}, Excel ${JSON.stringify(row.v)}`);
-      const csvRow = r.csvRows.find((x) => typeof x[0] === 'string' && x[0].startsWith('Homes short, ≤' + t + '% AMI'));
+      const csvRow = r.csvRows.find((x) => typeof x[0] === 'string' && x[0].startsWith('Homes short, ≤' + t + '% AMI (HUD CHAS'));
+      // HUD's rows carry HUD's definition in the workbook, never the Census method note.
+      assert(!/Census|priced-affordable|band households/i.test(String(row.n || '')), `HUD ${t}%: the workbook note carries Census method: ${row.n}`);
       assert(csvRow && csvRow[1] === Number(want).toLocaleString('en-US'), `HUD ${t}%: CSV ${csvRow ? csvRow[1] : 'no row'}`);
     }
-    const first = r.csvRows.findIndex((x) => typeof x[0] === 'string' && x[0].startsWith('Homes short, ≤30%'));
-    const census = r.csvRows.findIndex((x) => typeof x[0] === 'string' && x[0].startsWith('30% AMI gap'));
+    const first = r.csvRows.findIndex((x) => typeof x[0] === 'string' && x[0].startsWith('Homes short, ≤30% AMI (HUD CHAS'));
+    const census = r.csvRows.findIndex((x) => typeof x[0] === 'string' && x[0].startsWith('Homes short, ≤30% AMI (Census)'));
     assert(first !== -1 && census !== -1 && first < census, 'HUD rows come before the Census rows');
     const pdfText = r.pdf.join(' ');
     assert(!/METHODOLOGY-GAPS/.test(pdfText), 'the PDF still names an internal docs file');
@@ -752,6 +797,40 @@ async function exportAll(c) {
       const overlap = a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
       assert(!overlap, 'two cards overlap: ' + JSON.stringify([a, b]));
     }
+  });
+
+  await test('the never-falls rule on invented records: 40% and 70% bands, both signs, missing, measured zero, unknown sign', async () => {
+    const f = window.__HNA_neverFallsCensusShort;
+    const metrics = { ami_gap_30pct: 10, ami_gap_50pct: 20, ami_gap_60pct: 0, ami_gap_80pct: 30 };
+    const gaps = { 30: 10, 40: 50, 50: 20, 60: -5, 70: 80, 80: 30, 100: -100 };
+    const flip = Object.fromEntries(Object.entries(gaps).map(([k, v]) => [k, -v]));
+    const place = { rec: { gap_units_minus_households_le_ami_pct: gaps }, sign: 'households_minus_units' };
+    const county = { rec: { gap_units_minus_households_le_ami_pct: flip }, sign: 'units_minus_households' };
+    // The 40% band lifts 50% and 60%; the 70% band lifts 80%; the 100% band, above every shown band, lifts none.
+    assert.deepStrictEqual(f(metrics, place), { 30: 10, 50: 50, 60: 50, 80: 80 }, 'place sign');
+    assert.deepStrictEqual(f(metrics, county), { 30: 10, 50: 50, 60: 50, 80: 80 }, 'county sign');
+    // A band whose own count is missing stays missing; the bands above still count the ones below it.
+    assert.deepStrictEqual(f(Object.assign({}, metrics, { ami_gap_60pct: null }), place), { 30: 10, 50: 50, 60: null, 80: 80 }, 'missing 60%');
+    assert.deepStrictEqual(f({ ami_gap_30pct: 10, ami_gap_50pct: 5, ami_gap_60pct: '', ami_gap_80pct: 3 }, null), { 30: 10, 50: 10, 60: null, 80: 10 }, 'no gap record');
+    // A measured zero is 0, never missing.
+    assert.deepStrictEqual(f({ ami_gap_30pct: 0, ami_gap_50pct: 0, ami_gap_60pct: 0, ami_gap_80pct: 0 }, null), { 30: 0, 50: 0, 60: 0, 80: 0 }, 'measured zero');
+    // An unknown sign is not guessed: the record is left out.
+    assert.deepStrictEqual(f(metrics, { rec: place.rec, sign: 'something_else' }), { 30: 10, 50: 20, 60: 20, 80: 30 }, 'unknown sign');
+  });
+
+  await test('HUD\'s workbook rows carry HUD\'s definition even when the AMI gap carries a Census method note', async () => {
+    const d = window.__HNA_buildReportData();
+    d.amiGap.note = 'Combined cumulative shortfall = sum of max(0, band households minus band priced-affordable units)';
+    sheets = {};
+    await window.__HNA_exportExcel(d, 't.xlsx');
+    for (const t of ['30', '50', '80']) {
+      const row = sheets.Summary.rows.find((x) => typeof x.k === 'string' && x.k.startsWith('Homes short, ≤' + t + '% AMI (HUD CHAS'));
+      assert(row, 'no HUD row at ' + t);
+      if (row.v === 'Unavailable') continue;
+      assert(/HUD CHAS/.test(row.n) && !/band households|priced-affordable/.test(row.n), `HUD ${t}%: note ${JSON.stringify(row.n)}`);
+    }
+    const census = sheets.Summary.rows.find((x) => typeof x.k === 'string' && x.k.startsWith('Homes short, ≤50% AMI (Census)'));
+    assert(census && /band households/.test(census.n || ''), 'the Census row lost its method note');
   });
 
   await test('a 0 AMI gap is exercised: Mesa\'s 60% AMI gap is 0 in the data', async () => {
