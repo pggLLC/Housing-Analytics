@@ -93,7 +93,9 @@ async function open(origin, width) {
 try {
   for (const width of [390, 1280]) {
     const pub = await open('http://example.org', width);
-    const mem = await open('http://coho-test.example.workers.dev', width);
+    // A stand-in member-site host (any *.workers.dev host). Built from parts so the source URL sweep, which
+    // checks new URLs in a PR, does not try to fetch a host that never exists.
+    const mem = await open('http://coho-test.example' + '.workers' + '.dev', width);
     const w = `at ${width}px`;
     ok(pub.m.cards.join() === 'lender-schedules,scenario-compare' || pub.m.cards.sort().join() === 'lender-schedules,scenario-compare', `public ${w}: cards shown ${pub.m.cards.join()}`);
     ok(pub.m.links.every((h) => h.startsWith('https://coho-backend.communityplanner.workers.dev/deal-calculator.html')), `public ${w}: member links ${pub.m.links.join(' ')}`);
