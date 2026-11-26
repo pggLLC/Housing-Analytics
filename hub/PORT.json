@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "ea256e60ffc8849e9e8fead9e602cf9f707c4630",
+  "commit": "6b823ba35f5f8eaba1cad0084499fdb7e68d7c28",
   "dirty": false
  },
  "files": {
@@ -101,7 +101,7 @@
   "hub/opportunities.css": "f4d29f9760b0139c6dbf5d6e0de5e2f0e525a7553ed8c4a03eb6c12f3745cac0",
   "hub/opportunities.js": "ea988c988d0e31bbae2890438fed65b3755745c47fbd39b893b00eff0e9d6f4c",
   "hub/page-chrome.js": "6fb948627686c77a38a591d3a367104656c298d14e1f45c44e755d50e10793e3",
-  "hub/palette.css": "f0e49be0774ac6a161b6a50a1a12f206b5dba6cb018ffeacab76159a9971e109",
+  "hub/palette.css": "447fd15ea33dcf2629874d2ec38768eef01394787c0b404714c73343b6b53646",
   "hub/pick-site.js": "f117a18b6d92658449be0c11e1853d6a27b46e427b0e03ee007c83b7a14e593f",
   "hub/pipeline.js": "8d59934c2cd081e69df36e2fc159b5cf8ac1bc68963d05efca202049575e1ac7",
   "hub/place-brief.js": "3a8f7b083020796f715267eca0582bcb0509b400fcb7103cf9cc257cbbd5bb9d",
@@ -120,7 +120,7 @@
   "hub/report.js": "8592e92722550a739e3278371821c832d56896c7fadb99335793b9f58a60d8fb",
   "hub/route-catalog.json": "00082054758b9c053f3797e37cdf3231ac8a068e77c62a3dea222b65544a9f8e",
   "hub/sale-deal.js": "29b6a8f36f294b1ced8cbb6400b4366aaec8d1b27bb82aeb28ce310d38bcb34d",
-  "hub/shell.css": "0080463099cf2a0fcfb24a8a16e86fa15536f0bbc725d19bea836eeb08f3ef1f",
+  "hub/shell.css": "8e9345ebf7b61031776ced5ad145a024813647602350274e02cb544c84353ea0",
   "hub/shell.js": "02a91fc46354e214436204a052b4b54dd70c1fcea2e63164fd69039ddff02062",
   "hub/slider.js": "8af257af0c99e0dd98be109775e5e0c8abc6c61b77e2ad2eae90351001d3c76e",
   "hub/small-pages.css": "01c03c267e836964d60cf723e0fb1ba0c1e6bc13a3ef7b1b3cb10bd179d5c9d8",
@@ -130,7 +130,7 @@
   "hub/templates.css": "8868ea369f1bd4f2fc25dc6e3b55b6af89baf9e4f9ee59354365ab419052eeae",
   "hub/templates.js": "5e43af664397a27f924b4c9ce8177b7e539f15f3a2ed8e4e9dc4c1b97f56dbb1",
   "hub/terms.js": "e9ce9e5686a7b1b795a944829145fa369f9555eebb5ada97407ccc0398b1e375",
-  "hub/text-fit.css": "109ee8bf3a90c3b7886e55dfb8001b1a8aff51d5754665b3f3c3c4bce4880ecd",
+  "hub/text-fit.css": "2f9a594ab90789848a6c65c024c9490b05d731b17cf57a31bc57a2a02a67455a",
   "hub/text-fit.js": "583c08d1ce2e9c0b7fd7cd3baca0bee436da9f3741625d9aa7eb683276ea78f8",
   "hub/tract-capture.js": "463ac9b614ff270e9f967a4eb276696efcf1e3166efeb7bc20f19b506e248a3b",
   "hub/visual-pass.css": "c4ead044c619d3b38e1dfad1a52198b3825a1c770c0c46e5a8f684d03778df45",
