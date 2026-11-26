@@ -2420,7 +2420,7 @@
     function hudRecord() {
       var aa = shared && shared.aa; if (!aa) return null;
       var rec = isCounty ? (aa.counties || {})[geoid] : (aa.places || {})[geoid];
-      return rec && rec.tiers ? { tiers: rec.tiers, vintage: (aa.meta && aa.meta.vintage) || '' } : null;
+      return rec && rec.tiers ? { tiers: rec.tiers, byRent: rec.homes_by_rent || null, vintage: (aa.meta && aa.meta.vintage) || '' } : null;
     }
     // HUD's homes short at a band as the place page shows it: homes_short_nested where the file has it (never-falls),
     // never below the band's own count, and missing when the band's own count is missing.
