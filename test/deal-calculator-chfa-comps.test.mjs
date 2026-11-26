@@ -32,8 +32,11 @@ const PROPS = {
   ]
 };
 
+// The browser the other calculator page tests launch (deal-calculator-member-place.test.mjs).
 const bundled = chromium.executablePath();
-const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (fs.existsSync(bundled) ? bundled : '/opt/pw-browsers/chromium');
+const fromPuppeteer = fs.existsSync(bundled) ? null : await (await import('puppeteer')).default.executablePath();
+const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (fs.existsSync(bundled) ? bundled
+  : fromPuppeteer && fs.existsSync(fromPuppeteer) ? fromPuppeteer : '/opt/pw-browsers/chromium');
 const browser = await chromium.launch({ headless: true, executablePath, args: ['--no-sandbox'] });
 
 // gate: when set, the property file waits until gate.release() is called.
