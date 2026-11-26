@@ -97,6 +97,10 @@ try {
     ok(!k.lab || k.lab.geoid === '0828745', 'Fruita kept: the hub place is not El Paso or Mesa (' + JSON.stringify(k.lab) + ')');
     ok(/Fruita/.test(k.bar), 'Fruita kept: the step bar names Fruita');
     ok(m.errors.length === 0, 'Fruita kept: no page errors ' + m.errors.join(' | '));
+    // The local tax and fee notes follow the same place (js/deal-calculator.js _dcGetJurisdictionGeoKey reads the
+    // resolved place; Codex on #3023): the resolver gives Fruita, not the old El Paso project.
+    const r = await m.tab.evaluate(() => { const c = window.JurisdictionUrlContext.resolveSync(); return c && c.source + ':' + c.geoid; });
+    ok(r === 'kept:0828745', 'Fruita kept: the place the tax and fee notes read is Fruita (' + r + ')');
     // A county the member picks becomes the kept place.
     // (A real key press, as a person picks: a change the page makes itself is not a pick.)
     await m.tab.focus('#dc-county-select');

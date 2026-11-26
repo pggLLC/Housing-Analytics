@@ -1350,12 +1350,16 @@
   var __dcAbatementBanner = null;
   function _dcGetJurisdictionGeoKey() {
     // The place named in the address first (Codex content QA C01, 22 Nov 2026),
-    // then the currently selected jurisdiction via WorkflowState
-    // (the same source the Silt-label fix uses).
+    // then the kept place, then the currently selected jurisdiction via WorkflowState.
     try {
       var U = window.JurisdictionUrlContext;
       var u = U && U.isUrlContextPresent && U.isUrlContextPresent() && U.resolveSync ? U.resolveSync() : null;
       if (u && u.source === 'url' && u.geoid) return (String(u.geoid).length === 5 ? 'county:' : 'place:') + u.geoid;
+      // The place this browser is working on, where the page puts it first (meta coho-place-order): the county list
+      // opens on it, so the local tax and fee notes follow it too (Codex on HA #3023). WorkflowState is the same
+      // source the Silt-label fix uses.
+      var k = !u && U && U.resolveSync ? U.resolveSync() : null;
+      if (k && k.source === 'kept' && k.geoid) return (String(k.geoid).length === 5 ? 'county:' : 'place:') + k.geoid;
     } catch (_) {}
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
