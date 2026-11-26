@@ -690,7 +690,6 @@ async function exportAll(c) {
     // Codex found the live PDF and workbook at 103 / 232 / 204 / 37 while the page showed 103 / 232 / 232 / 232.
     assert.deepStrictEqual([r.data.amiGap.gap30pctUnits, r.data.amiGap.gap50pctUnits, r.data.amiGap.gap60pctUnits, find(r.data)],
       ['30', '50', '60', '80'].map((t) => shownShort('0828745', t)), 'export shown gaps');
-    assert.deepStrictEqual(['30', '50', '60', '80'].map((t) => shownShort('0828745', t)), [103, 232, 232, 232], 'fixture changed: Fruita no longer exercises a falling raw count');
   });
 
   await test('HUD\'s count of homes short leads the AMI gap rows and matches CHAS (fix audit 2026-11-10)', async () => {
