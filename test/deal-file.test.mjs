@@ -3,7 +3,7 @@
 //
 // paul picked this on 10-26 (option 2A in the free-or-member doc): a visitor without
 // a login keeps a deal as a file, and the same file opens on the member site. The file
-// is the Export JSON snapshot; its `url` query is the deal, so it must agree with the
+// is the Export JSON snapshot; its `url` fragment is the deal, so it must agree with the
 // share link, and opening it must show the sender's figures, recomputed.
 // Renders the real page in Chromium, downloads through the button and opens through
 // the file picker.
@@ -166,7 +166,7 @@ try {
     'not JSON': 'this is not json',
     'JSON without a deal': JSON.stringify({ hello: 1 }),
     'another page\'s link': JSON.stringify(Object.assign({}, snap, { url: snap.url.replace('deal-calculator.html', 'market-analysis.html') })),
-    'a deal with no settings': JSON.stringify(Object.assign({}, snap, { url: snap.url.split('?')[0] }))
+    'a deal with no settings': JSON.stringify(Object.assign({}, snap, { url: snap.url.split('#')[0].split('?')[0] }))
   };
   for (const [label, body] of Object.entries(bad)) {
     const f = path.join(tmp, label.replace(/\W+/g, '-') + '.json');
@@ -226,7 +226,7 @@ try {
   const d1 = await figures(big.tab);
   ok(Math.round(d1.gap) === 4416400 && d1.noi === 308544 && d1.rents === 760800,
     'non-vacuous: the sender shows the D1 gap $4,416,400 (deferred fee held to what 15 years of cash flow repays), NOI $308,544 and rents $760,800: ' + JSON.stringify(d1));
-  const legacy = await big.tab.evaluate(() => new URL(window.__DealCalcShare.buildSnapshot().url).search.length);
+  const legacy = await big.tab.evaluate(() => { const u = new URL(window.__DealCalcShare.buildSnapshot().url); return (u.origin + u.pathname + '?' + u.hash.replace(/^#v=1&/, '')).length; });
   ok(legacy > 8192, 'non-vacuous: in the query this deal is ' + legacy + ' bytes, past the 8,192 the host accepts');
   await big.tab.evaluate(() => {
     Object.defineProperty(navigator, 'clipboard', { value: { writeText: async (t) => { window.__copied = t; } }, configurable: true });
@@ -248,6 +248,16 @@ try {
   await Promise.all([viaFile.tab.waitForNavigation({ timeout: 60000 }), pick(viaFile.tab, bigFile)]);
   await ready(viaFile.tab);
   ok(JSON.stringify(await figures(viaFile.tab)) === JSON.stringify(d1), 'a fresh browser opening the deal file shows the sender\'s gap, NOI and rents');
+  // The link inside the downloaded file, opened as is (Codex delta check D1:
+  // it used to carry the deal in the query, ~30,000 characters, HTTP 414).
+  const fileUrl = JSON.parse(fs.readFileSync(bigFile, 'utf8')).url;
+  ok(new URL(fileUrl).search === '' && /^#v=1&/.test(new URL(fileUrl).hash), 'the deal file\'s url carries the deal in the fragment: ' + fileUrl.slice(0, 80));
+  const viaFileUrl = await open(browser);
+  await Promise.all([viaFileUrl.tab.waitForNavigation({ timeout: 60000 }), viaFileUrl.tab.evaluate((u) => { window.location.href = u; }, fileUrl)]);
+  await ready(viaFileUrl.tab);
+  ok(JSON.stringify(await figures(viaFileUrl.tab)) === JSON.stringify(d1), 'a fresh browser opening the deal file\'s url shows the sender\'s gap, NOI and rents');
+  ok(viaFileUrl.errors.length === 0, 'no page errors opening the file url: ' + viaFileUrl.errors.slice(0, 3).join(' | '));
+  await viaFileUrl.ctx.close();
   ok(viaLink.errors.length === 0 && viaFile.errors.length === 0, 'no page errors: ' + viaLink.errors.concat(viaFile.errors).slice(0, 3).join(' | '));
   await big.ctx.close(); await viaLink.ctx.close(); await viaFile.ctx.close();
 

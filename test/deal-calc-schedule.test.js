@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 const { createJsPdfMock } = require('./helpers/jspdf-mock.cjs');
+const { asQuery } = require('./helpers/share-link.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { JSDOM, VirtualConsole } = require('jsdom');
@@ -267,7 +268,7 @@ async function test(name, fn) {
   await test('shared schedule reproduces revenue, NOI and gap with no recipient subject reads or writes', async () => {
     const sender = await calculator();
     try {
-      const snapshot = plain(sender.__DealCalcShare.buildSnapshot()), search = new URL(snapshot.url).search;
+      const snapshot = plain(sender.__DealCalcShare.buildSnapshot()), search = new URL(asQuery(snapshot.url)).search;
       for (const local of [null, { ...subject(), vacancy_rate: 0.5 }]) {
         const recipient = await calculator(local, { search, noSubject: !local, forbidSubjectRead: !!local });
         try {
@@ -297,7 +298,7 @@ async function test(name, fn) {
   await test('shared schedule with the wrong county is rejected; old links retain their manual grid', async () => {
     const sender = await calculator();
     try {
-      const params = new URL(sender.__DealCalcShare.buildSnapshot().url).searchParams;
+      const params = new URL(asQuery(sender.__DealCalcShare.buildSnapshot().url)).searchParams;
       const record = JSON.parse(params.get('rentSchedule')); record.countyFips = '08031';
       params.set('rentSchedule', JSON.stringify(record));
       const bad = await calculator(null, { search: '?' + params, noSubject: true });

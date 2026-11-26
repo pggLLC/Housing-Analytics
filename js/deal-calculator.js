@@ -8249,7 +8249,12 @@
       return s;
     }
 
+    // Each refresh takes a number; a load that finishes after a newer refresh
+    // (a county changed, cleared or reopened meanwhile) is dropped, so a late
+    // answer never paints an earlier county's rows (Codex delta check F3).
+    var _refreshSeq = 0;
     function _refresh() {
+      var seq = ++_refreshSeq;
       try {
         var bodyEl = document.getElementById('dc-chfa-comps-body');
         if (!bodyEl) return;
@@ -8276,6 +8281,9 @@
           proposedProject: _proposedProjectType()
         };
         _loadProps().then(function (props) {
+          if (seq !== _refreshSeq) return;
+          bodyEl = document.getElementById('dc-chfa-comps-body');
+          if (!bodyEl) return;
           if (!props || !props.length) {
             bodyEl.innerHTML = '<p style="color:var(--muted);font-size:var(--tiny);margin:0;">CHFA comparables database not available.</p>';
             return;
@@ -8345,19 +8353,31 @@
         console.warn('[DealCalc] CHFA comps refresh failed', e);
       }
     }
-    // First paint + recalculate hook
-    setTimeout(_refresh, 300);
-    if (window.__DealCalc && typeof window.__DealCalc.recalculate === 'function') {
-      var _origRecalc = window.__DealCalc.recalculate;
-      window.__DealCalc.recalculate = function () {
-        var r = _origRecalc.apply(this, arguments);
-        setTimeout(_refresh, 80);
-        return r;
-      };
+    // This runs before the calculator renders its panel and before
+    // window.__DealCalc exists, so hooks bound here to the panel or to
+    // __DealCalc.recalculate never attached and the panel stayed on "Select a
+    // county" (Codex delta check F3). Listen on the document instead: it
+    // catches the rendered controls whenever they appear.
+    var _refreshTimer = null;
+    function _refreshSoon() {
+      clearTimeout(_refreshTimer);
+      _refreshTimer = setTimeout(_refresh, 80);
     }
-    // Toggle hook so the details open triggers a refresh
-    var detEl = document.getElementById('dc-chfa-comps-details');
-    if (detEl) detEl.addEventListener('toggle', function () { if (detEl.open) _refresh(); });
+    var _watchedIds = { 'dc-county-select': 1, 'dc-units': 1, 'dc-rate-4': 1, 'dc-rate-9': 1 };
+    function _onInputChange(e) {
+      var t = e.target;
+      if (!t) return;
+      if (_watchedIds[t.id] || t.name === 'dc-deal-type') _refreshSoon();
+    }
+    document.addEventListener('change', _onInputChange);
+    document.addEventListener('input', _onInputChange);
+    // toggle does not bubble; capture it on the way down.
+    document.addEventListener('toggle', function (e) {
+      var t = e.target;
+      if (t && t.id === 'dc-chfa-comps-details' && t.open) _refresh();
+    }, true);
+    // First paint (the county may be restored without a change event).
+    setTimeout(_refresh, 300);
   }
   // ──────────────────────────────────────────────────────────────────
   // F230 — Novogradac equity pricing benchmark integration
