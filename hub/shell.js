@@ -598,8 +598,35 @@
     this.setAttribute('aria-expanded', String(open));
   });
 
+  // Member-only views (paul, 25 Nov 2026, "approve the member moves" and "do it": the needs assessment's chapters,
+  // scenarios, ranking and compare are for members). On the public site a view asks memberOnly() and, when it says
+  // yes, shows memberCard() in its place; the member site (coho-backend, *.workers.dev) serves this same page and
+  // shows the full view. The lab shows everything unless the address asks for the public view (?view=public).
+  var MEMBER_SITE = 'https://coho-backend.communityplanner.workers.dev/';
+  function memberOnly() {
+    var host = String((global.location && global.location.hostname) || '');
+    if (/\.workers\.dev$/.test(host)) return false;
+    if (/[?&]view=public(&|$)/.test(String((global.location && global.location.search) || ''))) return true;
+    return !!global.LAB_PORT;
+  }
+  // o: { title, what (one plain line), gets: [lines], free: [{ href, label }] }. The member link opens the same
+  // page and route on the member site.
+  function memberCard(o) {
+    var page = String((global.location && global.location.pathname) || '').split('/').pop() || 'index.html';
+    var to = MEMBER_SITE + page + String((global.location && global.location.hash) || '');
+    return '<section class="callout member-card" aria-labelledby="member-card-h"><p class="ma-kicker">For members</p>' +
+      // A gated view that is the whole page (ranking, compare, scenarios) titles the page with it (page: true); a
+      // gated chapter sits under its place's own h1.
+      (o.page ? '<h1 id="member-card-h">' + esc(o.title) + '</h1>' : '<h2 id="member-card-h">' + esc(o.title) + '</h2>') + (o.what ? '<p>' + esc(o.what) + '</p>' : '') +
+      (o.gets && o.gets.length ? '<ul>' + o.gets.map(function (g) { return '<li>' + esc(g) + '</li>'; }).join('') + '</ul>' : '') +
+      '<div class="actions">' + (o.free || []).map(function (f) { return '<a class="button-link" href="' + esc(f.href) + '">' + esc(f.label) + '</a>'; }).join('') +
+      '<a class="button-link' + ((o.free || []).length ? ' secondary' : '') + '" href="' + esc(to) + '">Member sign in</a>' +
+      '<a class="button-link secondary" href="mailto:info@cohoanalytics.com?subject=Member%20access">Ask about member access</a></div></section>';
+  }
+
   // Other lab modules (homes.js) add their views here before the first render.
   global.LabShell = {
+    memberOnly: memberOnly, memberCard: memberCard, MEMBER_SITE: MEMBER_SITE,
     views: VIEWS, esc: esc, when: when, KIND: KIND, render: function () { render(); },
     // For views built in other files (places.js): the same catalog, rows and search box as the hubs here.
     catalog: function () { return catalog; }, list: list, searchBox: searchBox, hubHead: hubHead, matches: matches,
