@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-26T14:49:04.868886Z",
+  "generated": "2026-11-26T15:05:02.139089Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8594,7 +8594,7 @@
     "data/jurisdiction-briefs/_lihtc-applications.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 441908
+      "bytes": 447729
     },
     "data/kalshi/prediction-market.json": {
       "featureCount": 0,
@@ -8759,7 +8759,7 @@
     "data/market/development-activity.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1374943
+      "bytes": 1377893
     },
     "data/market/dola_demographics_co.json": {
       "featureCount": 64,
@@ -8904,12 +8904,12 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 788682
+      "bytes": 788754
     },
     "data/market/market-types.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 438118
+      "bytes": 438114
     },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
@@ -9649,7 +9649,7 @@
     "data/policy/incentive-peer-profiles.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 41051
+      "bytes": 41047
     },
     "data/policy/jchs-state-of-nations-housing.json": {
       "featureCount": 0,
@@ -9674,7 +9674,7 @@
     "data/policy/leading-signals.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 217420
+      "bytes": 217763
     },
     "data/policy/lihtc-assumptions.json": {
       "featureCount": 0,
@@ -9729,7 +9729,7 @@
     "data/policy/prop123-land-banking-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 36906
+      "bytes": 36902
     },
     "data/policy/prop123-rental-rules.json": {
       "featureCount": 0,

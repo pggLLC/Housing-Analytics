@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-11-17T03:23:10Z",
+  "generated_at": "2026-11-26T14:51:54Z",
   "generator": "scripts/funding/build_lihtc_applications.py",
   "source": "https://www.chfainfo.com/rental-housing/housing-credit/awards",
   "note": "Rows per CHFA Applicant Report, as CHFA publishes them. A report counts only when its rows add up to the totals it prints (status ok). No project or contact fields.",
@@ -96,8 +96,8 @@
     "round_label": "Rolling federal 4% list",
     "credit_type": "4%",
     "status": "no_total_line",
-    "rows": 12,
-    "as_of": "2026-10-12",
+    "rows": 15,
+    "as_of": "2026-11-19",
     "url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf"
    }
   ]
