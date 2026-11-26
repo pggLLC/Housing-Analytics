@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T17:50:10.960Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T18:55:49.902Z. Do not edit by hand.
 
 ---
 
@@ -49,7 +49,7 @@
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 37.9 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.8 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 149.1 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 149.2 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 149.7 KB |
 | `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 187.4 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 179.9 KB |
@@ -57,7 +57,7 @@
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 53.4 KB |
 | `housing-help.html` | If You Need Housing Now | COHO Analytics | 17.2 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.7 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 265.6 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 265.7 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 9.3 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.2 KB |
@@ -2356,7 +2356,7 @@
 | `test/hna-dev-context-collision.test.js` | 4.6 KB |
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-export-binding-browser.test.js` | 12.7 KB |
-| `test/hna-export-matches-screen.test.js` | 59.2 KB |
+| `test/hna-export-matches-screen.test.js` | 63.9 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.5 KB |
 | `test/hna-functionality-check.js` | 64.6 KB |
 | `test/hna-gap-summary-sources.test.js` | 5.1 KB |
