@@ -503,7 +503,8 @@
       answer: 'Find your town or county for its renters, homes and housing need: ' + num(profiles.length) + ' Colorado places, or pick a county on the map.',
       meta: '<span class="scope-tag">Scope: Colorado, by county and place</span> Census ACS 2020\u20132024 with HUD FY2026 income limits.',
       aside: T.terms(TERMS)
-    }) + (global.LabHna ? global.LabHna.stepPath(true, '#/places') : '') + Shell.searchBox('place-q', 'Find a town or county', q, 'For example Fruita or 0828745', 'Pick your town or county');
+    }) + (global.LabHna ? global.LabHna.stepPath(true, '#/places') : '');
+    var search = Shell.searchBox('place-q', 'Find a town or county', q, 'For example Fruita or 0828745', 'Pick your town or county');
     var working = global.LabHna && global.LabHna.working ? global.LabHna.working() : null;
     var means = T.means([
       { text: 'Each place has its own count of renters and the homes priced for them, so the need you see is that town\u2019s or county\u2019s, not the state\u2019s.' }
@@ -578,9 +579,14 @@
     var rest = tools.filter(function (e) { return !named[e.path]; });
 
     // Saved projects sit under the first answer; with none yet, the short note goes to the foot of the page.
+    // On a wide screen the search and its neighbour share one row (paul, 26 Nov 2026: a narrow search card beside an
+    // empty half of the screen). The neighbour is the saved projects, or with none yet the three ways in for a visitor
+    // with no place in mind; the other of the two keeps its place lower down. Each stacks under the search on a phone.
     var recent = !q ? recentProjects() : null;
-    return head + results + (recent && recent.has ? recent.html : '') + glance + groups + (rest.length ? '<h2>More tools</h2>' + Shell.list(rest) : '') +
-      (!q ? notSure() : '') + (recent && !recent.has ? recent.html : '') +
+    var side = !q ? (recent.has ? recent.html : notSure()) : '';
+    var start = side ? '<div class="start-row">' + search + '<div class="start-side">' + side + '</div></div>' : search;
+    return head + start + results + glance + groups + (rest.length ? '<h2>More tools</h2>' + Shell.list(rest) : '') +
+      (!q && recent.has ? notSure() : '') + (recent && !recent.has ? recent.html : '') +
       (!q ? '<p class="count">' + profiles.length + ' place profiles. Type a name above to find one.</p>' : '') +
       // The first link opens the place being worked on (member rehearsal, 13 Nov 2026: it read Fruita whatever
       // place was picked); with none picked it keeps the Fruita example.

@@ -1841,3 +1841,33 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .place-about { margin: 1.5rem 0; border: 1px solid var(--line); border-radius: 8px; background: var(--card); }
 .place-about > summary { min-height: 44px; display: flex; align-items: center; padding: 0 1rem; cursor: pointer; font-weight: 600; }
 .place-about > .place-tools { padding: 0 1rem 1rem; }
+
+/* Desktop density (paul, 26 Nov 2026: "too much white/blank space. no screen ux efficiency"). On wide screens the
+   content column is about 1170px, but searches, link lists, report sheets and card lists stopped at 650 to 830px and
+   left the right third empty. These rules only apply from 900px up; phones keep the stacked layout. Nothing is
+   removed or reordered except the Places search, which now shares its row (places.js). */
+@media (min-width: 900px) {
+  .start-row { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 1.25rem; align-items: start; margin: 0 0 1rem; }
+  .start-row .search { max-width: none; margin-bottom: 0; }
+  .start-side > h2:first-child { font-size: 1.125rem; margin: 0 0 .35rem; }
+  .start-side .note { margin-top: 0; }
+  .start-side .route-list { margin-bottom: 0; }
+  /* Link rows: the note sits beside its link instead of on a second line. */
+  .route-list li { padding: .3rem 1rem; gap: 0 1.25rem; flex-wrap: nowrap; }
+  .route-list li > a:not(.use-link), .route-list li > .unlinked { flex: 0 1 18rem; }
+  .route-list li > .use-link { flex: none; }
+  .route-list li > .note { width: auto; flex: 1 1 0; margin: 0; }
+  .route-list li > .status { flex: none; }
+  .page-answer { max-width: 56rem; }
+  .page-meta { max-width: 64rem; }
+}
+@media (min-width: 1100px) {
+  /* Report sheets and the place summary use the full column; running text inside keeps a readable line. */
+  .sheet { max-width: none; }
+  .sheet p, .sheet li, .sheet .gap-lead { max-width: 80ch; }
+  .pb-summary { max-width: none; }
+  .guide-body { max-width: 54rem; }
+  /* Card lists go two across. */
+  .pw-list, .cal-list, .cal-rolling, .dq-checks { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .stack { max-width: 52rem; }
+}
