@@ -111,6 +111,21 @@ try {
     await m.ctx.close();
   }
   {
+    // Fruita kept, an old Grand Junction project in the same county (Codex on #3023): the shared link and the IC
+    // summary carry Fruita, not Grand Junction.
+    const GJ = { ...OLD,
+      coho_wf_project_p1: JSON.stringify({ id: 'p1', jurisdiction: { fips: '08077', geoid: '0831660', geoType: 'place', placeGeoid: '0831660', countyFips: '08077', name: 'Grand Junction (city)' } }),
+      coho_state_county: JSON.stringify({ fips: '08077', name: 'Mesa County' }),
+      'coho-member-place': JSON.stringify(FRUITA) };
+    const m = await open(MEMBER, GJ);
+    await settle(m.tab);
+    const geo = await m.tab.evaluate(() => { const p = new URLSearchParams(window.__DealCalcShare.serialize() || ''); return [p.get('geoid'), p.get('county-select')]; });
+    ok(geo[0] === '0828745' && geo[1] === '08077', 'Fruita kept, old Grand Junction project: the shared deal names Fruita in Mesa County (' + geo.join(' ') + ')');
+    const k = await kept(m.tab);
+    ok(k.member && k.member.geoid === '0828745', 'Fruita kept, old Grand Junction project: the member place is still Fruita');
+    await m.ctx.close();
+  }
+  {
     // Nothing kept: the calculator may fill in the old county, but never keeps it.
     const m = await open(MEMBER, { ...OLD });
     await settle(m.tab);

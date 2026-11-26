@@ -234,9 +234,19 @@
     return !!_baseFromUrl();
   }
 
+  // The place this page leads with, ahead of the old pages' saved project: the place in the address, or, where the
+  // page opts in (meta coho-place-order), the kept place. Null when neither applies, so a caller falls back to the
+  // project as before. Readers that took "the address, else the project" use this so the kept place reaches them
+  // too (Codex on HA #3023: the tax and fee notes, the shared link and IC summary).
+  function leading() {
+    var c = resolveSync();
+    return c && (c.source === 'url' || c.source === 'kept') ? c : null;
+  }
+
   global.JurisdictionUrlContext = {
     resolve: resolve,
     resolveSync: resolveSync,
-    isUrlContextPresent: isUrlContextPresent
+    isUrlContextPresent: isUrlContextPresent,
+    leading: leading
   };
 })(typeof window !== 'undefined' ? window : this);
