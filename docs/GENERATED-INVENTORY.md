@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-25T22:59:29.572Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T00:06:51.018Z. Do not edit by hand.
 
 ---
 
@@ -2485,7 +2485,7 @@
 | `test/market-types.test.mjs` | 10.9 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/member-chrome-popups.test.mjs` | 4.9 KB |
-| `test/member-short-pages.test.mjs` | 5.2 KB |
+| `test/member-short-pages.test.mjs` | 7.2 KB |
 | `test/messaging-need-not-erased.test.js` | 9.8 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
 | `test/methods-spec-sources.test.mjs` | 6.3 KB |
