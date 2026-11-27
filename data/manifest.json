@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-27T05:13:08.645086Z",
+  "generated": "2026-11-27T05:22:24.854343Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8654,7 +8654,7 @@
     "data/market/bps_monthly_ytd.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 95130
+      "bytes": 94880
     },
     "data/market/bridge_co_market_summary.json": {
       "featureCount": 0,
@@ -8909,7 +8909,7 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 788754
+      "bytes": 788359
     },
     "data/market/market-types.json": {
       "featureCount": 0,
