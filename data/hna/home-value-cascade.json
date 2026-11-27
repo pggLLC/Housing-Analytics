@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-27T10:44:19.385Z",
+    "generated_at": "2026-11-27T10:52:09.470Z",
     "schema": "median_home_value = { value, source, as_of, confidence }; counties are display-only affordability inputs and are ignored by rank/score models",
     "sources": {
       "zhvi_city_csv": "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
@@ -11,8 +11,8 @@
     "latest_zhvi_month": "2026-10-31",
     "colorado_zhvi_rows": 343,
     "counts": {
-      "zhvi": 289,
-      "acs_raw": 193,
+      "zhvi": 290,
+      "acs_raw": 192,
       "total": 482,
       "counties": {
         "fhfa_county_hpi_anchor": 49,
@@ -483,10 +483,12 @@
       "confidence": "missing"
     },
     "0812045": {
-      "value": 900600,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low"
+      "value": 1432827,
+      "source": "zhvi",
+      "as_of": "2026-10-31",
+      "confidence": "high",
+      "zillow_region_id": "10710",
+      "acs_raw_value": 900600
     },
     "0812325": {
       "value": 514900,

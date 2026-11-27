@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-27T10:44:19.385Z",
+    "generated_at": "2026-11-27T10:52:09.472Z",
     "source": "Derived from Census GEOID place names + containing county matched to Zillow city RegionID + CountyName.",
     "latest_zhvi_month": "2026-10-31",
-    "count": 289
+    "count": 290
   },
   "places": {
     "0800320": {
@@ -209,6 +209,12 @@
       "zillow_region_name": "Calhan",
       "zillow_county_name": "El Paso County",
       "county_fips": "08041"
+    },
+    "0812045": {
+      "zillow_region_id": "10710",
+      "zillow_region_name": "Carbondale",
+      "zillow_county_name": "Pitkin County",
+      "county_fips": "08045"
     },
     "0812387": {
       "zillow_region_id": "119344",

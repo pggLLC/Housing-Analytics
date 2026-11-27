@@ -87,6 +87,7 @@ async function loadZhviRows() {
   let headers = null;
   let month = null;
   const byKey = new Map();
+  const byRegionId = new Map();
   let coRows = 0;
 
   for await (const line of rl) {
@@ -102,16 +103,18 @@ async function loadZhviRows() {
     const value = Number(row[month.idx]);
     if (!regionName || !countyName || !Number.isFinite(value) || value <= 0) continue;
     const key = normName(regionName) + '|' + normName(countyName);
-    byKey.set(key, {
+    const entry = {
       regionId: row[headers.indexOf('RegionID')],
       regionName,
       countyName,
       value: Math.round(value),
       asOf: month.key,
-    });
+    };
+    byKey.set(key, entry);
+    if (entry.regionId) byRegionId.set(String(entry.regionId), entry);
     coRows += 1;
   }
-  return { byKey, latestAsOf: month.key, coRows };
+  return { byKey, byRegionId, latestAsOf: month.key, coRows };
 }
 
 // ACS multiyear dollar estimates are restated to the period's final year,
@@ -214,6 +217,11 @@ async function main() {
   const existing = fs.existsSync(OUT) ? readJson(OUT) : {};
   const zhviRows = hasCityZhvi ? await loadZhviRows() : null;
   const byKey = zhviRows ? zhviRows.byKey : new Map();
+  const byRegionId = zhviRows ? zhviRows.byRegionId : new Map();
+  // Zillow sometimes re-labels a city's county (Carbondale moved from Garfield
+  // to Pitkin in the October 2026 file), which breaks the name|county key. A
+  // place matched before keeps its match through the RegionID it was matched to.
+  const priorCrosswalk = fs.existsSync(CROSSWALK_OUT) ? (readJson(CROSSWALK_OUT).places || {}) : {};
   const latestAsOf = zhviRows ? zhviRows.latestAsOf : (existing.meta && existing.meta.latest_zhvi_month) || null;
   const coRows = zhviRows ? zhviRows.coRows : (existing.meta && existing.meta.colorado_zhvi_rows) || 0;
 
@@ -242,7 +250,8 @@ async function main() {
     const profile = summary.acsProfile || {};
     const acsValue = Number(profile.DP04_0089E);
     const key = normName(place.name) + '|' + normName(countyName);
-    const zhvi = byKey.get(key) || null;
+    const priorId = priorCrosswalk[geoid] && priorCrosswalk[geoid].zillow_region_id;
+    const zhvi = byKey.get(key) || (priorId ? byRegionId.get(String(priorId)) : null) || null;
 
     let display;
     if (zhvi) {
