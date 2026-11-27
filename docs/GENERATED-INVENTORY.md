@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-27T06:19:51.250Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-27T12:20:00.121Z. Do not edit by hand.
 
 ---
 
@@ -101,7 +101,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 988.5 KB | ✅ | — |
+| `data/_manifest.json` | 989.1 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-two.json` | 29.2 KB | ✅ | — |
@@ -1813,7 +1813,7 @@
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 437.2 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 10.9 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 248.3 KB | ✅ | — |
+| `data/manifest.json` | 248.4 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -2060,7 +2060,7 @@
 
 ## Test Files
 
-811 test files found.
+812 test files found.
 
 | File | Size |
 |------|------|
@@ -2582,6 +2582,7 @@
 | `test/pma-methodology-language.test.js` | 4.4 KB |
 | `test/pma-narrative-claims.test.js` | 7.7 KB |
 | `test/pma-natural-features.test.js` | 16.9 KB |
+| `test/pma-own-town.test.js` | 4.7 KB |
 | `test/pma-pipeline-stage.test.js` | 11.8 KB |
 | `test/pma-primary-score.test.js` | 4.4 KB |
 | `test/pma-real-schools.test.js` | 6.7 KB |
