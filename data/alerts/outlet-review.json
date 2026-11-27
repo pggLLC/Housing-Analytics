@@ -1,15 +1,33 @@
 {
   "meta": {
-    "generated": "2026-11-26T13:01:17Z",
+    "generated": "2026-11-27T12:52:23Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-20",
-      "checked": 41,
+      "since": "2026-11-21",
+      "checked": 31,
       "unverified": 4,
-      "weak": 1
+      "weak": 2
     }
   },
   "outlets": [
+    {
+      "id": "d182e571bd",
+      "name": "Dosya Haber",
+      "domains": [
+        "dosyahaber.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-26",
+      "last_seen": "2026-11-26",
+      "headlines": [
+        {
+          "title": "Colorado expands state mortgage aid for first responders",
+          "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQSFM0bmxSb0RHNTNOOU5mT1dXM1VMSWxNYTJQc3RVaGk5WWhtZHpsUWh2TFNFYlExS19lYVA0N0hVdzhLQnNVMWJjdXAwYlhkaE11UHozV0ZjMUZYX05qOTZ3NUlpQkg2eEVXaTBJdmJ0emtBbjlreERZeEtmN0U2cF9pRWF4eUV4REY5Qnl4Q0dYTUZyaWpqUDRQNnFBMlpP?oc=5",
+          "date": "2026-11-26"
+        }
+      ],
+      "first_listed": "2026-11-27"
+    },
     {
       "id": "a2096d397f",
       "name": "Kiowa County Press",
