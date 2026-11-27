@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-27T10:52:09.470Z",
+    "generated_at": "2026-11-27T11:27:19.456Z",
     "schema": "median_home_value = { value, source, as_of, confidence }; counties are display-only affordability inputs and are ignored by rank/score models",
     "sources": {
       "zhvi_city_csv": "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
@@ -11,8 +11,8 @@
     "latest_zhvi_month": "2026-10-31",
     "colorado_zhvi_rows": 343,
     "counts": {
-      "zhvi": 290,
-      "acs_raw": 192,
+      "zhvi": 281,
+      "acs_raw": 201,
       "total": 482,
       "counties": {
         "fhfa_county_hpi_anchor": 49,
@@ -39,12 +39,11 @@
       "confidence": "low"
     },
     "0800760": {
-      "value": 255690,
-      "source": "zhvi",
-      "as_of": "2026-10-31",
-      "confidence": "high",
-      "zillow_region_id": "23416",
-      "acs_raw_value": 96400
+      "value": 96400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: it falls outside the ACS margin of error."
     },
     "0800870": {
       "value": null,
@@ -123,12 +122,11 @@
       "confidence": "low"
     },
     "0802850": {
-      "value": 246681,
-      "source": "zhvi",
-      "as_of": "2026-10-31",
-      "confidence": "high",
-      "zillow_region_id": "23506",
-      "acs_raw_value": 0
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing",
+      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: there is no ACS value or margin to check it against."
     },
     "0802905": {
       "value": 344000,
@@ -143,12 +141,11 @@
       "confidence": "low"
     },
     "0803235": {
-      "value": 193383,
-      "source": "zhvi",
-      "as_of": "2026-10-31",
-      "confidence": "high",
-      "zillow_region_id": "55391",
-      "acs_raw_value": 110200
+      "value": 110200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: it falls outside the ACS margin of error."
     },
     "0803455": {
       "value": 590179,
@@ -263,12 +260,11 @@
       "acs_raw_value": 533500
     },
     "0806530": {
-      "value": 247464,
-      "source": "zhvi",
-      "as_of": "2026-10-31",
-      "confidence": "high",
-      "zillow_region_id": "28078",
-      "acs_raw_value": 127500
+      "value": 127500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: it falls outside the ACS margin of error."
     },
     "0806602": {
       "value": 334000,
@@ -1295,12 +1291,11 @@
       "acs_raw_value": 1032700
     },
     "0829680": {
-      "value": 269782,
-      "source": "zhvi",
-      "as_of": "2026-10-31",
-      "confidence": "high",
-      "zillow_region_id": "45410",
-      "acs_raw_value": 186100
+      "value": 186100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: it falls outside the ACS margin of error."
     },
     "0829735": {
       "value": 457026,
@@ -1435,12 +1430,11 @@
       "acs_raw_value": 1237800
     },
     "0833310": {
-      "value": 338017,
-      "source": "zhvi",
-      "as_of": "2026-10-31",
-      "confidence": "high",
-      "zillow_region_id": "24976",
-      "acs_raw_value": 0
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing",
+      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: there is no ACS value or margin to check it against."
     },
     "0833420": {
       "value": 473290,
@@ -2171,12 +2165,11 @@
       "acs_raw_value": 406700
     },
     "0850920": {
-      "value": 1369600,
-      "source": "zhvi",
-      "as_of": "2026-10-31",
-      "confidence": "high",
-      "zillow_region_id": "49777",
-      "acs_raw_value": 1103100
+      "value": 1103100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: it falls outside the ACS margin of error."
     },
     "0851250": {
       "value": 160421,
@@ -2871,12 +2864,11 @@
       "acs_raw_value": 0
     },
     "0868930": {
-      "value": 205647,
-      "source": "zhvi",
-      "as_of": "2026-10-31",
-      "confidence": "high",
-      "zillow_region_id": "13762",
-      "acs_raw_value": 98300
+      "value": 98300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: it falls outside the ACS margin of error."
     },
     "0868985": {
       "value": 160700,
@@ -3445,12 +3437,11 @@
       "acs_raw_value": 775300
     },
     "0885760": {
-      "value": 2908888,
-      "source": "zhvi",
-      "as_of": "2026-10-31",
-      "confidence": "high",
-      "zillow_region_id": "56685",
-      "acs_raw_value": 0
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing",
+      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: there is no ACS value or margin to check it against."
     },
     "0886090": {
       "value": 524806,
@@ -4678,6 +4669,116 @@
         "acs_value": 125500,
         "zhvi_value": 698737,
         "ratio": 5.57
+      }
+    ],
+    "zhvi_small_town_unconfirmed": [
+      {
+        "geoid": "0800760",
+        "place_name": "Aguilar town",
+        "county_fips": "08071",
+        "population": 401,
+        "acs_value": 96400,
+        "acs_moe": 3973,
+        "zhvi_value": 255690,
+        "zhvi_as_of": "2026-10-31",
+        "zillow_region_id": "23416",
+        "reason": "zillow_outside_acs_margin"
+      },
+      {
+        "geoid": "0802850",
+        "place_name": "Arapahoe CDP",
+        "county_fips": "08017",
+        "population": 53,
+        "acs_value": null,
+        "acs_moe": 0,
+        "zhvi_value": 246681,
+        "zhvi_as_of": "2026-10-31",
+        "zillow_region_id": "23506",
+        "reason": "no_acs_value_to_check"
+      },
+      {
+        "geoid": "0803235",
+        "place_name": "Arriba town",
+        "county_fips": "08073",
+        "population": 307,
+        "acs_value": 110200,
+        "acs_moe": 48784,
+        "zhvi_value": 193383,
+        "zhvi_as_of": "2026-10-31",
+        "zillow_region_id": "55391",
+        "reason": "zillow_outside_acs_margin"
+      },
+      {
+        "geoid": "0806530",
+        "place_name": "Bethune town",
+        "county_fips": "08063",
+        "population": 218,
+        "acs_value": 127500,
+        "acs_moe": 87304,
+        "zhvi_value": 247464,
+        "zhvi_as_of": "2026-10-31",
+        "zillow_region_id": "28078",
+        "reason": "zillow_outside_acs_margin"
+      },
+      {
+        "geoid": "0829680",
+        "place_name": "Genoa town",
+        "county_fips": "08073",
+        "population": 190,
+        "acs_value": 186100,
+        "acs_moe": 62067,
+        "zhvi_value": 269782,
+        "zhvi_as_of": "2026-10-31",
+        "zillow_region_id": "45410",
+        "reason": "zillow_outside_acs_margin"
+      },
+      {
+        "geoid": "0833310",
+        "place_name": "Grover town",
+        "county_fips": "08123",
+        "population": 164,
+        "acs_value": null,
+        "acs_moe": 0,
+        "zhvi_value": 338017,
+        "zhvi_as_of": "2026-10-31",
+        "zillow_region_id": "24976",
+        "reason": "no_acs_value_to_check"
+      },
+      {
+        "geoid": "0850920",
+        "place_name": "Minturn town",
+        "county_fips": "08037",
+        "population": 993,
+        "acs_value": 1103100,
+        "acs_moe": 98484,
+        "zhvi_value": 1369600,
+        "zhvi_as_of": "2026-10-31",
+        "zillow_region_id": "49777",
+        "reason": "zillow_outside_acs_margin"
+      },
+      {
+        "geoid": "0868930",
+        "place_name": "Sedgwick town",
+        "county_fips": "08115",
+        "population": 198,
+        "acs_value": 98300,
+        "acs_moe": 35699,
+        "zhvi_value": 205647,
+        "zhvi_as_of": "2026-10-31",
+        "zillow_region_id": "13762",
+        "reason": "zillow_outside_acs_margin"
+      },
+      {
+        "geoid": "0885760",
+        "place_name": "Wolcott CDP",
+        "county_fips": "08037",
+        "population": 0,
+        "acs_value": null,
+        "acs_moe": 0,
+        "zhvi_value": 2908888,
+        "zhvi_as_of": "2026-10-31",
+        "zillow_region_id": "56685",
+        "reason": "no_acs_value_to_check"
       }
     ]
   }
