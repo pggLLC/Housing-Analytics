@@ -29,6 +29,8 @@
 .nav-utilities { display: flex; align-items: center; gap: .25rem 1rem; margin-left: auto; white-space: nowrap; }
 .nav-utilities a { min-height: 44px; display: inline-flex; align-items: center; text-decoration: none; border-bottom: 3px solid transparent; }
 .nav-utilities a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* The Members button keeps its side padding: the rule above zeroes every header link's (paul, 27 Nov 2026: "the member heading seems a bit cramped"). */
+.site-nav .nav-utilities a.nav-members { padding: 0 .9rem; }
 .nav-members { padding: 0 .9rem; border: 1px solid var(--line-strong) !important; border-radius: 6px; min-height: 44px !important; color: var(--ink) !important; font-weight: 600; display: inline-flex; align-items: center; }
 
 .mega {

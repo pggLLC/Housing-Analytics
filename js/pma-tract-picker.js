@@ -25,6 +25,17 @@
   var AUTOSELECT_RADIUS_MI = 4;      // pre-select tracts within this radius
                                      // (4 mi handles rural sites where the
                                      // closest tract centroid is ~3-4 mi away)
+  // The site's own town is always in the starting market area (paul, 27 Nov
+  // 2026: "the pma for bayfield doesn't include bayfield!"). A rural tract's
+  // centre can sit 6-8 miles from the town inside it, so the radius alone
+  // missed the site's own tract in Bayfield and about 120 other towns and
+  // CDPs. Starting set: the tract the site is in, then every tract holding at
+  // least TOWN_TRACT_SHARE of the town's 2020 homes. The town is the Census
+  // place the site is in, or the nearest one within TOWN_EDGE_MI of its edge.
+  var PLACE_BOUNDARIES_URL = 'data/co-place-boundaries.geojson';
+  var PLACE_HOMES_URL      = 'data/market/census2020-place-tract-housing-co.json';
+  var TOWN_TRACT_SHARE     = 0.10;
+  var TOWN_EDGE_MI         = 1;
 
   var STYLE_UNSELECTED = {
     color:       '#7a7a7a',
@@ -76,6 +87,8 @@
   var _rationale        = '';         // analyst's per-PMA boundary rationale (CHFA Appendix A)
   var _onChange         = null;       // user callback(selectedGeoids)
   var _siteCenter       = null;       // { lat, lon }
+  var _townCache        = null;       // Promise of { places, homes } or null parts
+  var _home             = null;       // { siteTract, town: {geoid, name, tracts[]} } for the last init
   var _readyAt          = null;       // { lat, lon } of the last init that finished loading, or null
   var _barriersCache    = null;       // { features, generated }, or false when the file failed
   var _nf               = _nfOff();   // natural-feature option state (see getNaturalFeatures)
@@ -165,6 +178,85 @@
     return Promise.all([bP, cP]).then(function (arr) {
       return { boundaries: arr[0], centroids: arr[1] };
     });
+  }
+
+  /* Town files are optional: if either is missing, the site's own tract is
+     still added and the town step is skipped. */
+  function _loadTownData() {
+    if (!_townCache) {
+      var soft = function (url) {
+        try { return _fetchJSON(url).catch(function () { return null; }); }
+        catch (e) { return Promise.resolve(null); }
+      };
+      _townCache = Promise.all([soft(PLACE_BOUNDARIES_URL), soft(PLACE_HOMES_URL)]).then(function (a) {
+        return { places: a[0] && a[0].features ? a[0] : null, homes: a[1] && a[1].places ? a[1] : null };
+      });
+    }
+    return _townCache;
+  }
+
+  function _rings(geom) {
+    if (!geom) return [];
+    if (geom.type === 'Polygon') return [geom.coordinates];
+    if (geom.type === 'MultiPolygon') return geom.coordinates;
+    return [];
+  }
+  function _featureContains(f, lat, lon) {
+    return _rings(f && f.geometry).some(function (poly) {
+      return poly.length && _ringContains(poly[0], lon, lat) &&
+        !poly.slice(1).some(function (h) { return _ringContains(h, lon, lat); });
+    });
+  }
+  // Miles from the point to the nearest edge of the feature (flat-earth, fine at a mile).
+  function _edgeMiles(f, lat, lon) {
+    var kx = 69.17 * Math.cos(lat * Math.PI / 180), ky = 69.05, best = Infinity;
+    _rings(f && f.geometry).forEach(function (poly) {
+      poly.forEach(function (ring) {
+        for (var i = 1; i < ring.length; i++) {
+          var ax = (ring[i - 1][0] - lon) * kx, ay = (ring[i - 1][1] - lat) * ky;
+          var bx = (ring[i][0] - lon) * kx, by = (ring[i][1] - lat) * ky;
+          var dx = bx - ax, dy = by - ay, L = dx * dx + dy * dy;
+          var t = L ? Math.max(0, Math.min(1, -(ax * dx + ay * dy) / L)) : 0;
+          var px = ax + t * dx, py = ay + t * dy, d = Math.sqrt(px * px + py * py);
+          if (d < best) best = d;
+        }
+      });
+    });
+    return best;
+  }
+
+  /**
+   * The site's home: the tract it is in, and its town with the tracts that
+   * hold at least TOWN_TRACT_SHARE of the town's homes. Pure: a test can run it.
+   */
+  function homeTracts(lat, lon, tractFeatures, placeFC, placeHomes) {
+    var siteTract = null;
+    (tractFeatures || []).some(function (f) {
+      if (_featureContains(f, lat, lon)) { siteTract = _featureGeoid(f); return true; }
+      return false;
+    });
+    var town = null;
+    if (placeFC && placeHomes && placeHomes.places) {
+      var hit = null, near = null, nearD = Infinity;
+      (placeFC.features || []).forEach(function (f) {
+        if (hit) return;
+        var gid = f.properties && (f.properties.geoid || f.properties.GEOID);
+        if (!gid || !placeHomes.places[gid]) return;
+        if (_featureContains(f, lat, lon)) { hit = f; return; }
+        var d = _edgeMiles(f, lat, lon);
+        if (d < nearD) { nearD = d; near = f; }
+      });
+      var pick = hit || (nearD <= TOWN_EDGE_MI ? near : null);
+      if (pick) {
+        var pg = pick.properties.geoid || pick.properties.GEOID;
+        var info = placeHomes.places[pg], total = +info.housing_units || 0;
+        var tracts = total > 0 ? (info.tracts || []).filter(function (t) {
+          return (+t.housing_units || 0) / total >= TOWN_TRACT_SHARE;
+        }).map(function (t) { return String(t.tract_geoid); }) : [];
+        town = { geoid: pg, name: info.name || pick.properties.name, inside: !!hit, tracts: tracts };
+      }
+    }
+    return { siteTract: siteTract, town: town };
   }
 
   /* The picker draws in the shared selectionPane (js/map-panes.js), above
@@ -305,11 +397,18 @@
     _siteCenter = { lat: lat, lon: lon };
     _onChange   = onChange || null;
 
-    return _loadData().then(function (data) {
-      // Filter to nearby tracts by centroid distance
+    return Promise.all([_loadData(), _loadTownData()]).then(function (both) {
+      var data = both[0], townData = both[1] || {};
+      _home = homeTracts(lat, lon, data.boundaries.features, townData.places, townData.homes);
+      var homeSet = new Set();
+      if (_home.siteTract) homeSet.add(_home.siteTract);
+      if (_home.town) _home.town.tracts.forEach(function (g) { homeSet.add(g); });
+      // Filter to nearby tracts by centroid distance; the site's own tract and
+      // town tracts are always drawn, however far their centres are.
       var nearby = (data.boundaries.features || []).filter(function (f) {
         var gid = _featureGeoid(f);
         if (!gid) return false;
+        if (homeSet.has(gid)) return true;
         var c = data.centroids[gid];
         if (!c) return false;
         return _haversineMi(lat, lon, c.lat, c.lon) <= NEARBY_RADIUS_MI;
@@ -323,8 +422,18 @@
       var sameSite = persisted && persisted.siteCenter &&
         _haversineMi(lat, lon, persisted.siteCenter.lat, persisted.siteCenter.lon) < 0.5;
 
+      // A saved set nobody edited (it equals its own auto-pick) is drawn again
+      // with today's rule, so a set saved before the own-town fix gets the town.
+      var savedUnedited = sameSite && persisted.selected && persisted.autoSelected &&
+        _setsEqual(new Set(persisted.selected), new Set(persisted.autoSelected)) &&
+        !(persisted.naturalFeatures && persisted.naturalFeatures.status === 'applied');
       _selected = new Set();
-      if (sameSite && persisted.selected && persisted.selected.length) {
+      if (savedUnedited) {
+        _rationale = persisted.rationale || '';
+        sameSite = false;
+      }
+      var restored = !!(sameSite && persisted.selected && persisted.selected.length);
+      if (restored) {
         persisted.selected.forEach(function (gid) { _selected.add(gid); });
         _rationale = persisted.rationale || '';
         if (persisted.naturalFeatures && persisted.naturalFeatures.status) {
@@ -354,8 +463,9 @@
         });
       }
 
-      // If auto-select picked nothing (rural with sparse centroids), grab
+      // If the radius picked nothing (rural with sparse centroids), grab
       // the single closest tract so the user has a working starting set.
+      // The site's own tract and town are added on top, so this pick stays.
       if (_selected.size === 0 && nearby.length > 0) {
         var closest = null, bestD = Infinity;
         nearby.forEach(function (f) {
@@ -366,6 +476,9 @@
           if (d < bestD) { bestD = d; closest = gid; }
         });
         if (closest) _selected.add(closest);
+      }
+      if (!restored) {
+        homeSet.forEach(function (gid) { _selected.add(gid); });
       }
 
       // Snapshot the auto-pick set so we can later tell whether the analyst
@@ -532,6 +645,7 @@
     _autoSelected = new Set();
     _rationale    = '';
     _siteCenter   = null;
+    _home         = null;
     _readyAt      = null;
     _nf           = _nfOff();
     _nfGen++;
@@ -581,6 +695,11 @@
   /**
    * @returns {string[]} currently-selected tract GEOIDs
    */
+  /** The site's own tract and town from the last init: { siteTract, town } or null. */
+  function getHome() {
+    return _home ? JSON.parse(JSON.stringify(_home)) : null;
+  }
+
   function getSelectedGeoids() {
     return Array.from(_selected);
   }
@@ -898,6 +1017,8 @@
     turnOffNaturalFeatures: turnOffNaturalFeatures,
     getNaturalFeatures:     getNaturalFeatures,
     naturalFeatureSummary:  naturalFeatureSummary,
-    siteGeoid:              _siteGeoid
+    siteGeoid:              _siteGeoid,
+    getHome:                getHome,
+    homeTracts:             homeTracts
   };
 })();
