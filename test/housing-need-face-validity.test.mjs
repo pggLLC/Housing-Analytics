@@ -20,17 +20,11 @@
  * workforce-housing layer already flags as under pressure, may not rank in the
  * bottom half of housing need.
  *
- * The thresholds are stable from 13x/70 to 23x/79 — asserted below, including
- * where the stability ENDS at both ends. Below 13x the set grows to include
- * Red Cliff (and below 12x Granby), which are not extreme markets, so 13x is
- * where "expensive" stops being a judgement call. Above 23x it loses Nathrop
+ * The thresholds are stable from 12x/70 to 23x/80 — asserted below, including
+ * where the stability ENDS at both ends. Below 12x the set grows to include
+ * Granby and Red Cliff, which are not extreme markets, so 12x is where
+ * "expensive" stops being a judgement call. Above 23x it loses Nathrop
  * (23.77x) and is empty.
- * The floor moved from 12x to 13x on 2026-11-27: Zillow's October 2026 city
- * file put Red Cliff at 12.6x income at high confidence (it had been 11.6x on
- * the low-confidence ACS value), and this file already named it a non-extreme
- * market. The owner chose to move the floor rather than list it. The same
- * file moved Nathrop's workforce score from 80.5 to 79.2, so the stated top
- * of the workforce range is now 79, not 80.
  * The range was 12x-20x until Larkspur joined the ledger (#1991) and 12x-13.3x
  * while it sat there; it widened again on 2026-10-19 when Larkspur, Keystone
  * and Cattle Creek left (#2385). Each move followed a real place entering or
@@ -70,7 +64,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIGEST_DIR = path.join(ROOT, 'data/hna/jurisdiction-metrics-digest');
 
 /** Prices this far above local income are not a normal market. */
-const PRICE_TO_INCOME = 13;
+const PRICE_TO_INCOME = 12;
 /** The workforce layer's own reading that the local workforce cannot house itself. */
 const WORKFORCE_PRESSURE = 70;
 
@@ -224,8 +218,8 @@ test('the inputs the rule depends on are present and populated', () => {
 
 test('the failing set is stable across the range the rule claims', () => {
   // A rule that only works at one setting is a rule reverse-engineered from
-  // its answer. This one holds from 13x/70 to 23x/79.
-  const RANGE = [[13, 70], [13, 75], [13.3, 79], [18, 75], [23, 79]];
+  // its answer. This one holds from 12x/70 to 23x/80.
+  const RANGE = [[12, 70], [12, 75], [13, 75], [13.3, 80], [18, 75], [23, 80]];
   const sets = RANGE.map(([p, w]) => failing(p, w).map((x) => x.geoid).sort().join(','));
   const distinct = [...new Set(sets)];
   assert.strictEqual(distinct.length, 1,
@@ -234,14 +228,14 @@ test('the failing set is stable across the range the rule claims', () => {
 });
 
 test('and the rule stops being stable where it says it does', () => {
-  // The boundary, recorded rather than implied. Below 13x the set picks up
+  // The boundary, recorded rather than implied. Below 12x the set picks up
   // places whose prices are high but not extreme, which is the point at which
   // "expensive" stops being a fact and starts being an opinion. If this ever
   // passes silently, the honest range has moved and the docstring is stale.
-  const at12 = failing(13, 70).map((p) => p.geoid).sort().join(',');
-  const at10 = failing(12, 70).map((p) => p.geoid).sort().join(',');
+  const at12 = failing(12, 70).map((p) => p.geoid).sort().join(',');
+  const at10 = failing(10, 70).map((p) => p.geoid).sort().join(',');
   assert.notStrictEqual(at10, at12,
-    'the set no longer grows below 13x. That is good news about the data, but the '
+    'the set no longer grows below 12x. That is good news about the data, but the '
     + 'stated range in this file is now wrong — re-derive it and update the docstring');
   // And the top end: by 24x the set has lost a member. If it has not, the
   // range is wider than this file says and should be restated.
