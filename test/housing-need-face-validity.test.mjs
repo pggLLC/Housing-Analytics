@@ -20,7 +20,16 @@
  * workforce-housing layer already flags as under pressure, may not rank in the
  * bottom half of housing need.
  *
- * The thresholds are stable from 12x/70 to 23x/80 — asserted below, including
+ * A price-to-income ratio is only evidence when its income is. Where the
+ * Census itself labels the place's median household income "use with
+ * caution" (CV over 30%, data/hna/acs-reliability.json), the ratio is a data
+ * anomaly, not a reading of the market, and the place is left out of this
+ * rule. Added 2026-11-27 for Red Cliff (308 people): $72,125 ± $42,319 income
+ * against a home value two sources agree on (ACS $837,000, Zillow $908,864),
+ * so its 12.6x could be anything from about 8x to 30x. The owner's call was
+ * to treat it as an anomaly and keep the 12x floor.
+ *
+ * The thresholds are stable from 12x/70 to 23x/79 — asserted below, including
  * where the stability ENDS at both ends. Below 12x the set grows to include
  * Granby and Red Cliff, which are not extreme markets, so 12x is where
  * "expensive" stops being a judgement call. Above 23x it loses Nathrop
@@ -166,6 +175,8 @@ const BOTTOM_HALF = 273;
 const NEED_SCORE_BAND = 10;
 
 const read = (f) => JSON.parse(fs.readFileSync(path.join(DIGEST_DIR, f), 'utf8'));
+const RELIABILITY = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/acs-reliability.json'), 'utf8')).geos || {};
+const incomeTier = (geoid) => ((RELIABILITY[geoid] || {}).DP03_0062E || {}).t || null;
 const value = (m, k) => (m[k] || {}).value;
 
 const places = fs.readdirSync(DIGEST_DIR).filter((f) => f.endsWith('.json'))
@@ -179,10 +190,12 @@ const places = fs.readdirSync(DIGEST_DIR).filter((f) => f.endsWith('.json'))
     rank: value(d.metrics, 'rank'),
     gap: value(d.metrics, 'gap_pressure_score'),
     localLowWageJobs: value(d.metrics, 'local_low_wage_jobs'),
+    incomeTier: incomeTier(d.geography.geoid),
   }));
 
 function failing(priceThreshold = PRICE_TO_INCOME, workforceThreshold = WORKFORCE_PRESSURE) {
-  return places.filter((p) => (p.priceToIncome || 0) >= priceThreshold
+  return places.filter((p) => p.incomeTier !== 'use_with_caution'
+    && (p.priceToIncome || 0) >= priceThreshold
     && (p.workforce || 0) >= workforceThreshold
     && (p.rank || 0) > BOTTOM_HALF);
 }
@@ -218,8 +231,10 @@ test('the inputs the rule depends on are present and populated', () => {
 
 test('the failing set is stable across the range the rule claims', () => {
   // A rule that only works at one setting is a rule reverse-engineered from
-  // its answer. This one holds from 12x/70 to 23x/80.
-  const RANGE = [[12, 70], [12, 75], [13, 75], [13.3, 80], [18, 75], [23, 80]];
+  // its answer. This one holds from 12x/70 to 23x/79. The top was 80 until
+  // Zillow's October 2026 town values moved Nathrop's workforce score from
+  // 80.5 to 79.2 (2026-11-27); restated, not tuned.
+  const RANGE = [[12, 70], [12, 75], [13, 75], [13.3, 79], [18, 75], [23, 79]];
   const sets = RANGE.map(([p, w]) => failing(p, w).map((x) => x.geoid).sort().join(','));
   const distinct = [...new Set(sets)];
   assert.strictEqual(distinct.length, 1,
@@ -243,6 +258,21 @@ test('and the rule stops being stable where it says it does', () => {
   assert.notStrictEqual(at24, at12,
     'the set no longer shrinks by 24x, so the stable range reaches further than 23x — '
     + 're-derive it and update the docstring');
+});
+
+/* ── The data-anomaly exclusion stays named, never silent ─────────────────── */
+
+test('the only places excused for a "use with caution" income are the named ones', () => {
+  // The income exclusion must not become a quiet way out. Every place it
+  // excuses that would otherwise fail is named here with the reason; a new one
+  // breaks the build until someone looks at it and adds it with its numbers.
+  const EXCUSED = { '0863265': 'Red Cliff: income $72,125 ± $42,319 (CV 36%), 308 people' };
+  const excused = places.filter((p) => p.incomeTier === 'use_with_caution'
+    && (p.priceToIncome || 0) >= PRICE_TO_INCOME
+    && (p.workforce || 0) >= WORKFORCE_PRESSURE
+    && (p.rank || 0) > BOTTOM_HALF).map((p) => p.geoid).sort();
+  assert.deepStrictEqual(excused, Object.keys(EXCUSED).sort(),
+    'the set of places excused for an unreliable income changed — check each one and update EXCUSED with its numbers');
 });
 
 /* ── The rule itself ─────────────────────────────────────────────────────── */
