@@ -2,7 +2,7 @@
 
 /* Home: who you are, then where to go (chips are 44px tap targets). */
 .home-doors { margin-top: 1rem; }
-.hd-hands { margin: 0 0 .75rem; max-width: 62ch; }
+.hd-hands { margin: 0 0 .75rem; max-width: 80ch; }
 .hd-ask { font-weight: 600; margin: 0 0 .4rem; }
 .home-chips { list-style: none; margin: 0 0 .75rem; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
 .home-chips a { min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center; padding: .4rem .9rem; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--card); color: var(--ink); text-decoration: none; font-size: 15px; }
