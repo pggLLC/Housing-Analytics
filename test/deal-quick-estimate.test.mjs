@@ -235,6 +235,38 @@ try {
   ok(sch.errors.length === 0, 'no page errors with a rent schedule: ' + sch.errors.slice(0, 3).join(' | '));
   await sch.ctx.close();
 
+  // Changing a tier's size by clearing one count before typing the next (Codex, #3046): with every home in one tier,
+  // the cleared count can't take Total Units below 1, so the panel holds the running total and the new count lands on
+  // it. Moving 60 homes from one size to another must leave 60 in all, not 120 with 60 invented market-rate homes.
+  {
+    const w = await open(browser);
+    const t = w.tab;
+    const v = (id) => t.$eval('#' + id, (u) => u.value);
+    for (const p of [20, 30, 40, 50, 70, 80]) if (Number(await v('dq-units-' + p)) > 0) await t.fill('#dq-units-' + p, '0');
+    const n = Number(await v('dc-units-60'));
+    await t.fill('#dq-units', String(n));
+    ok(n > 0 && Number(await v('dc-units')) === n, 'non-vacuous: every one of ' + n + ' homes is at 60% (' + await v('dc-units') + ' in all)');
+    // By the tier box: clear it, then type the homes back.
+    await t.fill('#dq-units-60', '');
+    await t.fill('#dq-units-60', String(n));
+    ok(Number(await v('dc-units')) === n && Number(await v('dc-units-60')) === n, 'clearing the 60% count and typing it again leaves ' + n + ' in all (' + await v('dc-units') + ')');
+    // By the bedroom row: clear one size, then put the homes in another.
+    const size = await v('dc-br-60'), to = size === '3br' ? '2br' : '3br';
+    await t.click('#dq-more-60');
+    await t.fill('#dq-split-60-' + size, '');
+    await t.fill('#dq-split-60-' + to, String(n));
+    ok(Number(await v('dc-units')) === n && Number(await v('dc-units-60')) === n && await v('dc-units-60-' + to) === String(n),
+      'moving all ' + n + ' homes from ' + size + ' to ' + to + ' leaves ' + n + ' in all (' + await v('dc-units') + ')');
+    // A total typed while a count is cleared drops the hold: with no homes in a limit, all n + 2 typed are outside
+    // the limits, and they stay outside when the n homes come back.
+    await t.fill('#dq-split-60-' + to, '');
+    await t.fill('#dq-units', String(n + 2));
+    await t.fill('#dq-split-60-' + to, String(n));
+    ok(Number(await v('dc-units')) === 2 * n + 2, 'a total typed meanwhile counts as typed (' + await v('dc-units') + ', expected ' + (2 * n + 2) + ')');
+    ok(w.errors.length === 0, 'no page errors while moving sizes: ' + w.errors.slice(0, 3).join(' | '));
+    await w.ctx.close();
+  }
+
   // paul's walkthrough, 27 Nov 2026 ("I'm getting errors", "even when they match"): Mesa, $20.2M, 9%, one home at
   // 20% (3 bedrooms) and one at 70% beside the default 60. The 70% home earns no credit under the 40-60 election,
   // so the law needs floor space (26 U.S.C. 42(c)(1)(B)). The panel must say why, take the floor space or the

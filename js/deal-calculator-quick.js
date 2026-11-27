@@ -284,21 +284,32 @@
       var n = num(t.value);
       if (!units || !(n >= 0) || tierFixed(pct)) return;
       // Total Units moves with the tier, so the homes outside these limits stay the same.
-      var all = $('dc-units'), was = tierUnits(pct), next = num(all && all.value) + Math.round(n) - was;
+      var was = tierUnits(pct);
       units.value = String(Math.round(n));
-      if (all && !all.readOnly && next >= 1) { all.value = String(next); fire(all, ['input', 'change']); }
+      moveTotal(Math.round(n) - was);
       if (chk && n > 0 && !chk.checked) { chk.checked = true; fire(chk, ['change']); }
       fire(units, ['input', 'change']);
     }
   }
 
+  // Total Units moves by `delta`. Total Units can't go below 1, so while a count is cleared on the way to a new one
+  // (60 homes moved from 2 BR to 3 BR by clearing 2 BR first) the running total is held here and Total Units keeps
+  // what it showed; the next count lands on the held total, not on top of the old one (Codex, #3046). The hold only
+  // counts while Total Units still shows what it showed then, so a total typed meanwhile wins.
+  var HELD = null;
+  function moveTotal(delta) {
+    var all = $('dc-units');
+    if (!all || all.readOnly || !delta) return;
+    var cur = HELD && HELD.shown === all.value ? HELD.total : num(all.value), next = cur + delta;
+    if (next >= 1) { HELD = null; all.value = String(next); fire(all, ['input', 'change']); }
+    else HELD = { total: next, shown: all.value };
+  }
   // A tier's homes set to `n` (was `was`): its count, its tick, and Total Units by the same change, so the homes
   // outside these limits stay the same.
   function setTier(pct, n, was) {
-    var units = $('dc-units-' + pct), chk = $('dc-chk-' + pct), all = $('dc-units');
+    var units = $('dc-units-' + pct), chk = $('dc-chk-' + pct);
     if (units) units.value = String(Math.round(n));
-    var next = num(all && all.value) + Math.round(n) - was;
-    if (all && !all.readOnly && next >= 1) { all.value = String(next); fire(all, ['input', 'change']); }
+    moveTotal(Math.round(n) - was);
     if (chk && n > 0 && !chk.checked) { chk.checked = true; fire(chk, ['change']); }
     if (units) fire(units, ['input', 'change']);
   }
