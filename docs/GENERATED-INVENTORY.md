@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-27T02:02:28.489Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-27T06:19:51.250Z. Do not edit by hand.
 
 ---
 
@@ -97,7 +97,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1953 JSON files found.
+1954 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -141,8 +141,9 @@
 | `data/car-market-report-2026-07.json` | 70.1 KB | ✅ | — |
 | `data/car-market-report-2026-08.json` | 70.6 KB | ✅ | — |
 | `data/car-market-report-2026-09.json` | 70.3 KB | ✅ | — |
-| `data/car-market-report-2026-10.json` | 3.0 KB | ✅ | — |
-| `data/car-market-reports.json` | 467 B | ✅ | — |
+| `data/car-market-report-2026-10.json` | 69.9 KB | ✅ | — |
+| `data/car-market-report-2026-11.json` | 3.1 KB | ✅ | — |
+| `data/car-market-reports.json` | 482 B | ✅ | — |
 | `data/car-market.json` | 734 B | ✅ | — |
 | `data/census-acs-state.json` | 26.3 KB | ✅ | — |
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
@@ -412,7 +413,7 @@
 | `data/hna/geo-config.json` | 63.9 KB | ✅ | — |
 | `data/hna/geography-registry.json` | 120.4 KB | ✅ | — |
 | `data/hna/hna-views.json` | 14.0 KB | ✅ | — |
-| `data/hna/home-value-cascade.json` | 130.9 KB | ✅ | — |
+| `data/hna/home-value-cascade.json` | 130.5 KB | ✅ | — |
 | `data/hna/housing-units-b25001.json` | 36.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08001.json` | 41.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08003.json` | 41.2 KB | ✅ | — |
@@ -1821,7 +1822,7 @@
 | `data/market/acs_tract_movers_co.json` | 50.9 KB | ✅ | — |
 | `data/market/acs_tract_renter_household_size_co.json` | 48.2 KB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.3 KB | ✅ | — |
-| `data/market/bps_monthly_ytd.json` | 92.9 KB | ✅ | — |
+| `data/market/bps_monthly_ytd.json` | 92.7 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 575 B | ✅ | — |
 | `data/market/cbp-workplace-size.json` | 41.0 KB | ✅ | — |
 | `data/market/census2020-place-tract-housing-co.json` | 350.3 KB | ✅ | — |
@@ -1858,7 +1859,7 @@
 | `data/market/local-players.json` | 554.7 KB | ✅ | — |
 | `data/market/lodes_co.json` | 663.8 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
-| `data/market/market-direction.json` | 770.3 KB | ✅ | — |
+| `data/market/market-direction.json` | 769.9 KB | ✅ | — |
 | `data/market/market-types.json` | 427.8 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |

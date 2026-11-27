@@ -1,10 +1,10 @@
 {
-  "generated": "2026-11-27T02:03:01.156260Z",
+  "generated": "2026-11-27T06:20:27.726500Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1012193
+      "bytes": 1012806
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -242,14 +242,19 @@
       "bytes": 71950
     },
     "data/car-market-report-2026-10.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 71619
+    },
+    "data/car-market-report-2026-11.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3121
+      "bytes": 3170
     },
     "data/car-market-reports.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 467
+      "bytes": 482
     },
     "data/car-market.json": {
       "featureCount": 0,
@@ -1609,7 +1614,7 @@
     "data/hna/home-value-cascade.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 134046
+      "bytes": 133597
     },
     "data/hna/housing-units-b25001.json": {
       "featureCount": 0,
@@ -5399,27 +5404,27 @@
     "data/hna/ranking-scenarios/balanced.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49964
+      "bytes": 49965
     },
     "data/hna/ranking-scenarios/commuter-pressure.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49983
+      "bytes": 49984
     },
     "data/hna/ranking-scenarios/large-gap.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49975
+      "bytes": 49976
     },
     "data/hna/ranking-scenarios/rate-sensitive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49984
+      "bytes": 49985
     },
     "data/hna/ranking-scenarios/rural-lens.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49986
+      "bytes": 49987
     },
     "data/hna/scenario-baseline/08001.json": {
       "featureCount": 0,
@@ -8649,7 +8654,7 @@
     "data/market/bps_monthly_ytd.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 95130
+      "bytes": 94880
     },
     "data/market/bridge_co_market_summary.json": {
       "featureCount": 0,
@@ -8904,7 +8909,7 @@
     "data/market/market-direction.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 788754
+      "bytes": 788359
     },
     "data/market/market-types.json": {
       "featureCount": 0,
@@ -8989,7 +8994,7 @@
     "data/market/redfin_place_market_tracker_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2326318
+      "bytes": 2326320
     },
     "data/market/reference-projects.json": {
       "featureCount": 0,
