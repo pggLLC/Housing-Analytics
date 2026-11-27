@@ -256,8 +256,24 @@ try {
     const before = await settle(t);
     agree(before, '62 homes, one at 70%');
     const b1 = await box();
-    ok(b1.shown && /^1 home at 70% earns no tax credit \(the 40-60 election counts homes at 60% or below\)/.test(b1.why) && /Average Income Test/.test(b1.why),
-      'the panel says the 70% home earns no credit and why: ' + JSON.stringify(b1));
+    // The explanation must agree with the engine, not match one sentence: the engine decides which homes earn no credit
+    // under the chosen election and what the election's ceiling is; the text must name those, in any wording.
+    const truth = await t.evaluate(() => {
+      const election = document.getElementById('dc-minimum-set-aside').value;
+      const out = [];
+      document.querySelectorAll('[id^="dc-units-"]').forEach((el) => {
+        const m = /^dc-units-(\d+)$/.exec(el.id); const n = Number(el.value) || 0;
+        if (m && n > 0 && !window.DealEngine.isLihtcCreditEligiblePct(Number(m[1]), election)) out.push({ pct: Number(m[1]), homes: n });
+      });
+      let ceiling = 0; for (let p = 20; p <= 120; p += 10) if (window.DealEngine.isLihtcCreditEligiblePct(p, election)) ceiling = p;
+      return { election, out, ceiling };
+    });
+    ok(truth.election === '40-60' && truth.out.length === 1 && truth.out[0].pct === 70 && truth.out[0].homes === 1 && truth.ceiling === 60,
+      'non-vacuous: the engine says one 70% home earns no credit under 40-60, ceiling 60%: ' + JSON.stringify(truth));
+    const names = (why, t2) => t2.out.every((x) => new RegExp('\\b' + x.homes + ' homes?\\b[^.]*\\b' + x.pct + '%').test(why))
+      && why.indexOf(t2.election) >= 0 && why.indexOf(t2.ceiling + '%') >= 0 && /credit/i.test(why);
+    ok(b1.shown && names(b1.why, truth) && /Average Income Test/.test(b1.why),
+      'the panel names the homes the engine leaves out, the election and its ceiling, and offers the Average Income Test: ' + JSON.stringify(b1));
     ok(/floor space/i.test(credit(before)), 'before floor space, the credit waits on it (the case paul hit): ' + credit(before));
     // Floor space typed in the panel is the full calculator's own floor space, and the credit is measured.
     await type(t, 'dq-res-sf', 54000);
@@ -281,7 +297,9 @@ try {
     const mkt = await settle(t);
     agree(mkt, '63 homes under the Average Income Test');
     const b2 = await box();
-    ok(b2.shown && /^1 market-rate home earns no tax credit/.test(b2.why) && /Does not qualify/.test(b2.status), 'with a market-rate home the panel says why, and that the election fails: ' + JSON.stringify(b2));
+    const mktHomes = Number(await v('dc-units')) - (await t.evaluate(() => [...document.querySelectorAll('[id^="dc-units-"]')].filter((el) => /^dc-units-\d+$/.test(el.id)).reduce((a, el) => a + (Number(el.value) || 0), 0)));
+    ok(mktHomes === 1, 'non-vacuous: one home is outside every income limit (' + mktHomes + ')');
+    ok(b2.shown && new RegExp('\\b' + mktHomes + ' market-rate homes?\\b').test(b2.why) && /credit/i.test(b2.why) && /Does not qualify/.test(b2.status), 'with a market-rate home the panel says why, and that the election fails: ' + JSON.stringify(b2));
     await t.selectOption('#dq-set-aside', '40-60');
     await type(t, 'dq-res-sf', 55000);
     await type(t, 'dq-restricted-sf', 53150);
