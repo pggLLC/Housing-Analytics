@@ -22,6 +22,7 @@
 //   4. a unit mix whose tiers exceed Total Units renders no credit figures.
 
 const assert = require('assert');
+const { asQuery } = require('./helpers/share-link.cjs');
 const fs = require('fs');
 const path = require('path');
 const { JSDOM, VirtualConsole } = require('jsdom');
@@ -160,9 +161,11 @@ function shareSearch(page) {
   // The settings the page builds for Copy share link / Export JSON, as Copy
   // link sends them: in the fragment ("#v=1&..."), which never reaches the
   // server (a full deal in the query drew HTTP 414 on 2026-11-04). The
-  // snapshot keeps the query form; the old-link case below opens that.
+  // snapshot's url carries the same fragment (Codex delta check D1); the
+  // old-link case below opens the query form.
   const snap = page.w.__DealCalcShare.buildSnapshot();
-  return '#v=1&' + new URL(snap.url).search.slice(1);
+  assert.ok(new URL(snap.url).search === '' && /^#v=1&/.test(new URL(snap.url).hash), 'the deal file url carries the deal in the fragment');
+  return new URL(snap.url).hash;
 }
 
 async function roundTrip(sender, label, savedSubject) {
@@ -258,7 +261,7 @@ async function roundTrip(sender, label, savedSubject) {
     assert.strictEqual(snap.utilityAllowance.applied, true);
     assert.strictEqual(snap.utilityAllowance.perBedroom['2BR'], 150);
     assert.strictEqual(snap.utilityAllowance.countyFips, MESA);
-    assert.deepStrictEqual(JSON.parse(new URL(snap.url).searchParams.get('utilityAllowance')), snap.utilityAllowance);
+    assert.deepStrictEqual(JSON.parse(new URL(asQuery(snap.url)).searchParams.get('utilityAllowance')), snap.utilityAllowance);
     ['dc-r-rents', 'dc-r-noi-stab', 'dc-su-gap'].forEach((id) => assert(/\$[\d,]+/.test(visibleOutputs(s)[id]), id + ' must be measured'));
     for (const local of [null, saved(300)]) {
       const { recipient } = await roundTrip(s, 'Saved allowance', local);
@@ -275,7 +278,7 @@ async function roundTrip(sender, label, savedSubject) {
     const { recipient } = await roundTrip(gross, 'Shared gross upper bound', saved(300));
     assert.strictEqual(recipient.d.getElementById('dc-rent-allowance-status').dataset.unavailableReason, absent.reason);
     assert(recipient.d.getElementById('dc-rent-allowance-status').textContent.includes(s.w.ChfaRentLimits.unavailableMessage(absent.reason)));
-    const old = new URL(snap.url); old.searchParams.delete('utilityAllowance');
+    const old = new URL(asQuery(snap.url)); old.searchParams.delete('utilityAllowance');
     const oldRecipient = await openPage(old.search, saved(300));
     const localPage = await openPage('', saved(300)); setSelector(localPage, '#dc-county-select', MESA); await sleep(300);
     assert.deepStrictEqual(visibleOutputs(oldRecipient), visibleOutputs(localPage), 'older links must retain normal local lookup');

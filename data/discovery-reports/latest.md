@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-11-25T17:56:31.218Z
+**Scan timestamp:** 2026-11-26T17:41:00.427Z
 
 ## Summary
 
@@ -34,7 +34,7 @@
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/property-websites.json` (31 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (1 KB)
-- `data/alerts/alerts_archive.json` (2991 KB)
+- `data/alerts/alerts_archive.json` (3058 KB)
 - `data/alerts/outlet-decisions.json` (6 KB)
 - `data/alerts/outlet-register.json` (31 KB)
 - `data/alerts/outlet-review.json` (21 KB)
@@ -43,7 +43,7 @@
 - `data/amenities/transit_stops_co.geojson` (2342 KB)
 - `data/amenities/transit_stops_statewide_co.geojson` (3871 KB)
 - `data/audit/chfa-qap-watch.json` (3487 KB)
-- `data/audit/funding-watch.json` (695 KB)
+- `data/audit/funding-watch.json` (701 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
 - `data/audit/upstream-vintage-watch.json` (1 KB)
 - `data/benchmarks/str-license-counts.json` (6 KB)
@@ -1723,7 +1723,7 @@
 - `data/insights/catalog.json` (13 KB)
 - `data/insights-meta.json` (1 KB)
 - `data/jurisdiction-briefs/_lihtc-applications-excluded.json` (0 KB)
-- `data/jurisdiction-briefs/_lihtc-applications.json` (432 KB)
+- `data/jurisdiction-briefs/_lihtc-applications.json` (437 KB)
 - `data/kalshi/prediction-market.json` (11 KB)
 - `data/market/aamd-denver-vacancy.json` (2 KB)
 - `data/market/acs_median_rent_co.json` (133 KB)
@@ -1754,7 +1754,7 @@
 - `data/market/commuting_co.geojson` (569 KB)
 - `data/market/data_quality_report.json` (11 KB)
 - `data/market/developable_land_context_co.json` (1400 KB)
-- `data/market/development-activity.json` (1343 KB)
+- `data/market/development-activity.json` (1346 KB)
 - `data/market/dola_demographics_co.json` (24 KB)
 - `data/market/dola_muni_household_population.json` (75 KB)
 - `data/market/dola_rent_survey_co.json` (1 KB)
@@ -1905,7 +1905,7 @@
 - `data/policy/colorado-deal-rules.json` (2 KB)
 - `data/policy/county-ownership.json` (8 KB)
 - `data/policy/county-parcel-sources.json` (22 KB)
-- `data/policy/developer-ownership-funding.json` (22 KB)
+- `data/policy/developer-ownership-funding.json` (23 KB)
 - `data/policy/fee-reductions.json` (577 KB)
 - `data/policy/forest-service-admin-sites.json` (33 KB)
 - `data/policy/funding-awards/applicant-report-counts.json` (4 KB)
@@ -1932,7 +1932,7 @@
 - `data/policy/job-access.json` (104 KB)
 - `data/policy/jurisdiction-housing-progress.json` (40 KB)
 - `data/policy/land-disposition-models.json` (21 KB)
-- `data/policy/leading-signals.json` (212 KB)
+- `data/policy/leading-signals.json` (213 KB)
 - `data/policy/lihtc-assumptions.json` (5 KB)
 - `data/policy/lihtc-underwriting-rules.json` (24 KB)
 - `data/policy/local-commitment/dola-approved-hna-2026-10-22.csv` (5 KB)
@@ -1963,11 +1963,11 @@
 - `data/policy/unit-size-standards.json` (5 KB)
 - `data/policy/vacancy-tax.json` (45 KB)
 - `data/policy/where-to-build-context.json` (34 KB)
-- `data/policy_briefs.json` (940 KB)
+- `data/policy_briefs.json` (944 KB)
 - `data/policy_briefs_curated.json` (437 KB)
 - `data/polymarket-curated.json` (6 KB)
 - `data/polymarket-data.json` (20 KB)
-- `data/polymarket-history.json` (244 KB)
+- `data/polymarket-history.json` (246 KB)
 - `data/processed/co_county_housing_indicators.geojson` (447 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
@@ -1991,4 +1991,4 @@
 
 ## ⏳ Aging Sources
 
-- undefined — 297 days since last update
+- undefined — 298 days since last update

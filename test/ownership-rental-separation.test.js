@@ -17,6 +17,7 @@
 // analysis and no scenarios run.
 
 const assert = require('assert');
+const { asQuery } = require('./helpers/share-link.cjs');
 const fs = require('fs');
 const path = require('path');
 const { JSDOM } = require('jsdom');
@@ -181,7 +182,7 @@ test('the JSON export and share URL carry no LIHTC input in ownership mode', () 
   const leaked = PC2_KEYS.filter((k) => k in own.inputs);
   assert.deepStrictEqual(leaked, [], 'ownership JSON export carries ' + leaked.join(', '));
   assert.deepStrictEqual(own.tranches, [], 'ownership JSON export carries soft-funding tranches');
-  const params = new URL(own.url).searchParams;
+  const params = new URL(asQuery(own.url)).searchParams;
   const inUrl = PC2_KEYS.filter((k) => params.has(k)).concat(params.has('tr') ? ['tr'] : []);
   assert.deepStrictEqual(inUrl, [], 'ownership share URL carries ' + inUrl.join(', '));
   ['tdc', 'units', 'sale-target-ami'].forEach((k) =>

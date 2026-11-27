@@ -30,6 +30,27 @@ const { JSDOM } = require('jsdom');
 
 const ROOT = path.resolve(__dirname, '..');
 const CENSUS_GAP_NOTE = 'renter households minus rentals priced for them (Census; counts every cheap rental as available; 0 = none short)';
+const CENSUS_SHORT_NOTE = 'renter households minus rentals priced for them, never lower than the count at a lower income, because homes priced higher cost too much for poorer renters (Census; counts every cheap rental as available; 0 = none short)';
+const CENSUS_RAW_NOTE = 'raw Census difference at this band alone, before the never-falls rule; it can fall as income rises, so it is not the homes-short count';
+// The page's never-falls rule, worked here from the gap file's households and homes (not its signed field, and not
+// the export's code): the shown count at a band is the largest max(0, households - homes) at or below it, 40% and
+// 70% included; a band whose own ranking count is missing stays missing.
+function shownShort(geoid, band) {
+  const own = rankOf(geoid).metrics['ami_gap_' + band + 'pct'];
+  if (own == null) return null;
+  const file = geoid.length === 7 ? readJson('data/co_ami_gap_by_place.json').places[geoid]
+    : readJson('data/co_ami_gap_by_county.json').counties.find((c) => c.fips === geoid);
+  let most = own;
+  for (const b of ['30', '40', '50', '60', '70', '80', '100']) {
+    if (+b > +band) continue;
+    const lower = ['30', '50', '60', '80'].includes(b) ? rankOf(geoid).metrics['ami_gap_' + b + 'pct'] : null;
+    if (lower != null && lower > most) most = lower;
+    if (file && file.households_le_ami_pct[b] != null && file.units_priced_affordable_le_ami_pct[b] != null) {
+      most = Math.max(most, Math.max(0, file.households_le_ami_pct[b] - file.units_priced_affordable_le_ami_pct[b]));
+    }
+  }
+  return most;
+}
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
 
 function freshRequire(relPath) {
@@ -69,8 +90,11 @@ window.HTMLAnchorElement.prototype.click = function () {};
 window.APP_CONFIG = { DATA_VERSION: 'test' };
 // A test may stand a modified data file in for the real one (by path).
 const FETCH_OVERRIDES = {};
+// A test may hold a data file back until it releases it (a slow network).
+const FETCH_DELAYS = {};
 window.fetch = async function (url) {
   const rel = String(url).replace(/^https?:\/\/[^/]+\//, '').replace(/^\//, '').split('?')[0];
+  if (FETCH_DELAYS[rel]) await FETCH_DELAYS[rel];
   if (FETCH_OVERRIDES[rel] !== undefined) {
     const text = JSON.stringify(FETCH_OVERRIDES[rel]);
     return { ok: true, status: 200, json: async () => JSON.parse(text), text: async () => text };
@@ -111,8 +135,9 @@ let sheets = {};
 window.ExcelJS = global.ExcelJS = { Workbook: class {
   addWorksheet(name) {
     const rows = [];
-    const ws = { name, rows, columns: [], addRow: (o) => { rows.push(o); return { font: {} }; },
-      getRow: () => ({ font: {}, fill: {}, values: [] }), getColumn: () => ({}), getCell: () => ({ font: {} }) };
+    const byN = {};
+    const ws = { name, rows, byN, columns: [], addRow: (o) => { rows.push(o); return { font: {} }; },
+      getRow: (n) => (byN[n] = byN[n] || { font: {}, fill: {}, values: [] }), getColumn: () => ({}), getCell: () => ({ font: {} }) };
     sheets[name] = ws;
     return ws;
   }
@@ -265,13 +290,33 @@ async function exportAll(c) {
       }
     });
 
-    await test(`${label}: the AMI gap in every export equals the ranking index, and a 0 stays 0`, async () => {
+    await test(`${label}: the Census homes short in the PDF, CSV and workbook follow the page's never-falls rule`, async () => {
+      const r = await exportAll(c);
+      const pairs = ['30', '50', '60', '80'].map((t) => ['Homes short, ≤' + t + '% AMI (Census): ' + CENSUS_SHORT_NOTE, shownShort(c.geoid, t)]);
+      for (let i = 1; i < pairs.length; i++) {
+        if (pairs[i][1] != null && pairs[i - 1][1] != null) assert(pairs[i][1] >= pairs[i - 1][1], 'the expected values fall: ' + JSON.stringify(pairs));
+      }
+      for (const [lab, want] of pairs) {
+        const row = summaryRow(lab);
+        assert(row, `the workbook has no "${lab}" row`);
+        if (want == null) {
+          assert.strictEqual(row.v, 'Unavailable', `${lab}: absent in the data but ${JSON.stringify(row.v)} in Excel`);
+          continue;
+        }
+        assert.strictEqual(row.v, want, `${lab}: page rule ${want}, Excel ${JSON.stringify(row.v)}`);
+        const disp = Number(want).toLocaleString('en-US');
+        const csvRow = r.csvRows.find((x) => x[0] === lab);
+        assert(csvRow && csvRow[1] === disp, `${lab}: page rule ${want}, CSV ${csvRow ? JSON.stringify(csvRow[1]) : 'no row'}`);
+        const i = r.pdf.indexOf(lab.replace(/≤/g, '<='));
+        assert(i !== -1 && r.pdf[i + 1] === disp, `${lab}: page rule ${want}, PDF ${i === -1 ? 'no row' : JSON.stringify(r.pdf[i + 1])}`);
+      }
+    });
+
+    await test(`${label}: the raw Census difference stays in the workbook and CSV, labelled raw, and a 0 stays 0; the PDF leaves it out`, async () => {
       const r = await exportAll(c);
       const m = rankOf(c.geoid).metrics;
-      const pairs = [
-        ['30% AMI gap', m.ami_gap_30pct], ['50% AMI gap', m.ami_gap_50pct], ['60% AMI gap', m.ami_gap_60pct],
-        ['80% AMI gap', m.ami_gap_80pct],
-      ].map(([t, v]) => [t + ': ' + CENSUS_GAP_NOTE, v]);
+      const pairs = ['30', '50', '60', '80'].map((t) => ['Census difference, ≤' + t + '% AMI: ' + CENSUS_RAW_NOTE, m['ami_gap_' + t + 'pct']]);
+      assert(!r.pdf.some((x) => typeof x === 'string' && x.startsWith('Census difference, ')), 'the PDF prints a raw Census difference as a row');
       for (const [lab, want] of pairs) {
         const row = summaryRow(lab);
         assert(row, `the workbook has no "${lab}" row`);
@@ -284,8 +329,6 @@ async function exportAll(c) {
         const disp = Number(want).toLocaleString('en-US');
         const csvRow = r.csvRows.find((x) => x[0] === lab);
         assert(csvRow && csvRow[1] === disp, `${lab}: data ${want}, CSV ${csvRow ? JSON.stringify(csvRow[1]) : 'no row'}`);
-        const i = r.pdf.indexOf(lab);
-        assert(i !== -1 && r.pdf[i + 1] === disp, `${lab}: data ${want}, PDF ${i === -1 ? 'no row' : JSON.stringify(r.pdf[i + 1])}`);
       }
     });
 
@@ -631,7 +674,7 @@ async function exportAll(c) {
     assert.deepStrictEqual(fake.autoFilter, { from: { row: 1, column: 1 }, to: { row: 1, column: 3 } }, 'no filter on the header');
   });
 
-  await test('Fruita\'s 80% AMI gap reaches the export from the place gap file (Codex round 2, finding B)', async () => {
+  await test('Fruita\'s 80% AMI gap reaches the export from the place gap file, raw beside the never-falls count (Codex round 2, finding B; Codex HNA handoff 26 Nov)', async () => {
     // The place file stores households minus units; the export must carry it, not null.
     const placeFile = readJson('data/co_ami_gap_by_place.json');
     const fr = Array.isArray(placeFile.places) ? placeFile.places.find((p) => p.fips === '0828745') : placeFile.places['0828745'];
@@ -644,24 +687,42 @@ async function exportAll(c) {
       for (const v of Object.values(o)) { const x = find(v); if (x !== undefined) return x; }
       return undefined;
     };
-    assert.strictEqual(find(r.data), want, 'export gap80pctUnits is ' + JSON.stringify(find(r.data)));
+    assert.strictEqual(r.data.amiGap.raw['80'], want, 'export raw 80% is ' + JSON.stringify(r.data.amiGap.raw['80']));
+    // Codex found the live PDF and workbook at 103 / 232 / 204 / 37 while the page showed 103 / 232 / 232 / 232.
+    assert.deepStrictEqual([r.data.amiGap.gap30pctUnits, r.data.amiGap.gap50pctUnits, r.data.amiGap.gap60pctUnits, find(r.data)],
+      ['30', '50', '60', '80'].map((t) => shownShort('0828745', t)), 'export shown gaps');
   });
 
   await test('HUD\'s count of homes short leads the AMI gap rows and matches CHAS (fix audit 2026-11-10)', async () => {
-    // Fruita: HUD CHAS 2018-2022 affordable and available, 210 / 235 / 65.
+    // Fruita's HUD homes short, as the place page shows them (hub/places.js hShort: homes_short_nested where the
+    // file has it, never-falls; paul, 25 Nov 2026). The pre-run on fd4e299 found the files at HUD's raw 65 at <=80%.
     const chas = readJson('data/hna/chas_affordable_available.json');
     const tiers = chas.places['0828745'].tiers;
     const r = await exportAll(CASES.find((c) => c.geoid === '0828745'));
+    const shownHud = (t) => (typeof tiers[t].homes_short_nested === 'number' ? tiers[t].homes_short_nested : tiers[t].homes_short);
+    assert(shownHud('50') >= shownHud('30') && shownHud('80') >= shownHud('50'), 'the file\'s nested HUD counts fall');
     for (const t of ['30', '50', '80']) {
-      const want = tiers[t].homes_short;
+      const want = shownHud(t);
+      // HUD's own count stays as a raw row in the workbook and CSV, and never in the PDF.
+      const rawLab = 'HUD households minus affordable and available homes, ≤' + t + '% AMI (HUD CHAS';
+      const rawRow = sheets.Summary.rows.find((x) => typeof x.k === 'string' && x.k.startsWith(rawLab));
+      assert(rawRow && rawRow.v === tiers[t].homes_short, `HUD raw ${t}%: CHAS ${tiers[t].homes_short}, Excel ${rawRow ? JSON.stringify(rawRow.v) : 'no row'}`);
+      const rawCsv = r.csvRows.find((x) => typeof x[0] === 'string' && x[0].startsWith(rawLab));
+      assert(rawCsv && rawCsv[1] === Number(tiers[t].homes_short).toLocaleString('en-US'), `HUD raw ${t}%: CSV ${rawCsv ? rawCsv[1] : 'no row'}`);
+      assert(!r.pdf.some((x) => typeof x === 'string' && x.startsWith('HUD households minus')), 'the PDF prints a raw HUD row');
+      const pdfLab = 'Homes short, <=' + t + '% AMI (HUD CHAS';
+      const pi = r.pdf.findIndex((x) => typeof x === 'string' && x.startsWith(pdfLab));
+      assert(pi !== -1 && r.pdf[pi + 1] === Number(want).toLocaleString('en-US'), `HUD ${t}%: page ${want}, PDF ${pi === -1 ? 'no row' : JSON.stringify(r.pdf[pi + 1])}`);
       const row = sheets.Summary.rows.find((x) => typeof x.k === 'string' && x.k.startsWith('Homes short, ≤' + t + '% AMI (HUD CHAS'));
       assert(row, `the workbook has no HUD homes-short row at ${t}%`);
       assert.strictEqual(row.v, want, `HUD ${t}%: CHAS ${want}, Excel ${JSON.stringify(row.v)}`);
-      const csvRow = r.csvRows.find((x) => typeof x[0] === 'string' && x[0].startsWith('Homes short, ≤' + t + '% AMI'));
+      const csvRow = r.csvRows.find((x) => typeof x[0] === 'string' && x[0].startsWith('Homes short, ≤' + t + '% AMI (HUD CHAS'));
+      // HUD's rows carry HUD's definition in the workbook, never the Census method note.
+      assert(!/Census|priced-affordable|band households/i.test(String(row.n || '')), `HUD ${t}%: the workbook note carries Census method: ${row.n}`);
       assert(csvRow && csvRow[1] === Number(want).toLocaleString('en-US'), `HUD ${t}%: CSV ${csvRow ? csvRow[1] : 'no row'}`);
     }
-    const first = r.csvRows.findIndex((x) => typeof x[0] === 'string' && x[0].startsWith('Homes short, ≤30%'));
-    const census = r.csvRows.findIndex((x) => typeof x[0] === 'string' && x[0].startsWith('30% AMI gap'));
+    const first = r.csvRows.findIndex((x) => typeof x[0] === 'string' && x[0].startsWith('Homes short, ≤30% AMI (HUD CHAS'));
+    const census = r.csvRows.findIndex((x) => typeof x[0] === 'string' && x[0].startsWith('Homes short, ≤30% AMI (Census)'));
     assert(first !== -1 && census !== -1 && first < census, 'HUD rows come before the Census rows');
     const pdfText = r.pdf.join(' ');
     assert(!/METHODOLOGY-GAPS/.test(pdfText), 'the PDF still names an internal docs file');
@@ -751,6 +812,150 @@ async function exportAll(c) {
       if (a === b || a.page !== b.page) continue;
       const overlap = a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
       assert(!overlap, 'two cards overlap: ' + JSON.stringify([a, b]));
+    }
+  });
+
+  await test('a long stat value wraps above its note, never over it (Codex delta check F4: Hinsdale\u2019s estimated surplus)', async () => {
+    const VALUE = 'Estimated surplus of 1,234,567 units (households projected to fall)';
+    const NOTE = 'Households projected to fall over the forecast, so the stock exceeds the need';
+    await exportAll(CASES.find((c) => c.geoid === '0828745'));
+    const el = document.getElementById('statUnitsNeed'), basis = document.getElementById('statUnitsNeedBasis');
+    assert(el && basis, 'fixture: the units-needed card is missing');
+    const was = [el.textContent, basis.textContent], realPdf = window.jspdf;
+    const wrap = createJsPdfMock({ wrapText: true });
+    try {
+      el.textContent = VALUE; basis.textContent = NOTE;
+      window.jspdf = { jsPDF: wrap.jsPDF };
+      await window.HNAExport.exportPdf('t.pdf');
+      wrap.assertSupported();
+    } finally { el.textContent = was[0]; basis.textContent = was[1]; window.jspdf = realPdf; }
+    const flat = (t) => t.lines.join(' ').replace(/\s+/g, '');
+    const texts = wrap.calls.filter((c) => c.method === 'text').map((c) => ({ page: c.page, lines: Array.isArray(c.args[0]) ? c.args[0] : [c.args[0]], x: c.args[1], y: c.args[2], size: c.fontSize, lh: (c.args[3] && c.args[3].lineHeightFactor) || 1.15 }));
+    const val = texts.find((t) => flat(t) === VALUE.replace(/\s+/g, ''));
+    const note = texts.find((t) => t.page === (val && val.page) && t.x === (val && val.x) && flat(t) === NOTE.replace(/\s+/g, ''));
+    assert(val && val.lines.length >= 2, 'the long value was not exported wrapped: ' + JSON.stringify(val && val.lines));
+    assert(note, 'the note under the long value was not found beside it');
+    const valBottom = val.y + (val.lines.length - 1) * val.size * val.lh;
+    assert(note.y - note.size >= valBottom + 1, 'the note is drawn over the value: value ends at ' + valBottom + ', note cap at ' + (note.y - note.size));
+    const card = wrap.calls.filter((c) => c.method === 'roundedRect' && c.page === val.page).map((c) => ({ x: c.args[0], y: c.args[1], w: c.args[2], h: c.args[3] }))
+      .find((c) => val.x >= c.x && val.x < c.x + c.w && val.y > c.y && val.y < c.y + c.h);
+    assert(card, 'the long value is not inside a card');
+    const noteBottom = note.y + (note.lines.length - 1) * note.size * note.lh;
+    assert(noteBottom <= card.y + card.h - 2, 'the note runs past its card: ' + noteBottom + ' > ' + (card.y + card.h));
+  });
+
+  await test('the rent burden sheet names its columns and units, not "Series 1" (Codex delta check F7)', async () => {
+    const canvas = document.getElementById('chartRentBurdenBins');
+    assert(canvas, 'fixture: the rent burden chart is missing');
+    const was = window.Chart.instances;
+    let drawn = null;
+    try {
+      // The chart as hna-renderers.js draws it.
+      const realChart = window.Chart;
+      let cfg = null;
+      window.Chart = global.Chart = class { constructor(ctx, c) { cfg = c; } destroy() {} };
+      canvas.getContext = canvas.getContext || (() => ({}));
+      window.HNARenderers.renderRentBurdenBins && window.HNARenderers.renderRentBurdenBins({ DP04_0137PE: 16.9, DP04_0138PE: 12, DP04_0139PE: 11, DP04_0140PE: 10, DP04_0141PE: 9, DP04_0142PE: 41.1 });
+      window.Chart = global.Chart = realChart;
+      assert(cfg, 'the rent burden chart did not draw from the renderer');
+      const data = drawn = cfg.data;
+      window.Chart.instances = { 0: { canvas, data, config: { type: 'bar' } } };
+      sheets = {};
+      await window.__HNA_exportExcel(window.__HNA_buildReportData(), 't.xlsx');
+    } finally { window.Chart.instances = was; }
+    const ws = Object.values(sheets).find((w) => /Rent burden/i.test(w.name));
+    assert(ws, 'no rent burden sheet: ' + Object.keys(sheets).join(', '));
+    const head = ws.byN[4] && ws.byN[4].values;
+    // The headers are whatever the chart says (its canvas's category, its dataset's label), and say something.
+    const category = canvas.getAttribute('data-xlsx-category'), series = drawn && drawn.datasets[0].label;
+    assert(category && category.trim() && category !== 'Category', 'the chart names no label column: ' + JSON.stringify(category));
+    assert(series && series.trim() && !/^Series \d/.test(series), 'the chart names no value column: ' + JSON.stringify(series));
+    assert(/%/.test(series), 'the value column gives no unit: ' + series);
+    assert(head && head[0] === category, 'label column header ' + JSON.stringify(head && head[0]) + ' is not the chart\u2019s ' + JSON.stringify(category));
+    assert.strictEqual(head[1], series, 'value column header is not the chart\u2019s dataset label');
+    assert(!head.some((h) => /^Series \d/.test(String(h))), '"Series" header remains');
+    assert.strictEqual(ws.byN[5].values[1], 16.9, 'the value changed');
+  });
+
+  await test('HUD card on invented records: nested shown, raw kept on data-raw, a missing band stays missing', async () => {
+    const R = window.HNARenderers;
+    const data = { meta: { vintage: '2018-2022' }, places: { '0899999': { tiers: {
+      30: { homes_short: 50, homes_short_nested: 50, renter_households: 80, affordable_available_homes: 30 },
+      50: { homes_short: 20, homes_short_nested: 50, renter_households: 120, affordable_available_homes: 100 },
+      80: { homes_short_nested: 50 },
+    } } }, counties: { '08999': { tiers: { 30: { homes_short: 7, homes_short_nested: 3 }, 50: { homes_short: 0, homes_short_nested: 0 }, 80: { homes_short: 4 } } } } };
+    const cell = (t) => document.getElementById('statChasShort' + t);
+    R.renderChasAvailableShortfall(data, { type: 'place', geoid: '0899999' });
+    assert.strictEqual(cell('30').getAttribute('data-value'), '50', '30%');
+    assert.strictEqual(cell('50').getAttribute('data-value'), '50', '50%: nested lifts the band');
+    assert.strictEqual(cell('50').getAttribute('data-raw'), '20', '50%: HUD raw kept');
+    assert(/never falls/.test(document.getElementById('statChasShort50Note').textContent), 'a lifted band does not say why');
+    assert.strictEqual(cell('80').getAttribute('data-value'), null, '80%: own count missing must stay missing');
+    assert.strictEqual(cell('80').textContent, '—', '80%: a missing band reads as a dash');
+    R.renderChasAvailableShortfall(data, { type: 'county', geoid: '08999' });
+    assert.strictEqual(cell('30').getAttribute('data-value'), '7', 'a nested value below the band\'s own count never lowers it');
+    assert.strictEqual(cell('50').getAttribute('data-value'), '0', 'a measured zero stays 0');
+    assert.strictEqual(cell('80').getAttribute('data-value'), '4', 'no nested field: HUD\'s own count');
+  });
+
+  await test('the never-falls rule on invented records: 40% and 70% bands, both signs, missing, measured zero, unknown sign', async () => {
+    const f = window.__HNA_neverFallsCensusShort;
+    const metrics = { ami_gap_30pct: 10, ami_gap_50pct: 20, ami_gap_60pct: 0, ami_gap_80pct: 30 };
+    const gaps = { 30: 10, 40: 50, 50: 20, 60: -5, 70: 80, 80: 30, 100: -100 };
+    const flip = Object.fromEntries(Object.entries(gaps).map(([k, v]) => [k, -v]));
+    const place = { rec: { gap_units_minus_households_le_ami_pct: gaps }, sign: 'households_minus_units' };
+    const county = { rec: { gap_units_minus_households_le_ami_pct: flip }, sign: 'units_minus_households' };
+    // The 40% band lifts 50% and 60%; the 70% band lifts 80%; the 100% band, above every shown band, lifts none.
+    assert.deepStrictEqual(f(metrics, place), { 30: 10, 50: 50, 60: 50, 80: 80 }, 'place sign');
+    assert.deepStrictEqual(f(metrics, county), { 30: 10, 50: 50, 60: 50, 80: 80 }, 'county sign');
+    // A band whose own count is missing stays missing; the bands above still count the ones below it.
+    assert.deepStrictEqual(f(Object.assign({}, metrics, { ami_gap_60pct: null }), place), { 30: 10, 50: 50, 60: null, 80: 80 }, 'missing 60%');
+    assert.deepStrictEqual(f({ ami_gap_30pct: 10, ami_gap_50pct: 5, ami_gap_60pct: '', ami_gap_80pct: 3 }, null), { 30: 10, 50: 10, 60: null, 80: 10 }, 'no gap record');
+    // A measured zero is 0, never missing.
+    assert.deepStrictEqual(f({ ami_gap_30pct: 0, ami_gap_50pct: 0, ami_gap_60pct: 0, ami_gap_80pct: 0 }, null), { 30: 0, 50: 0, 60: 0, 80: 0 }, 'measured zero');
+    // An unknown sign is not guessed: the record is left out.
+    assert.deepStrictEqual(f(metrics, { rec: place.rec, sign: 'something_else' }), { 30: 10, 50: 20, 60: 20, 80: 30 }, 'unknown sign');
+  });
+
+  await test('HUD\'s workbook rows carry HUD\'s definition even when the AMI gap carries a Census method note', async () => {
+    const d = window.__HNA_buildReportData();
+    d.amiGap.note = 'Combined cumulative shortfall = sum of max(0, band households minus band priced-affordable units)';
+    sheets = {};
+    await window.__HNA_exportExcel(d, 't.xlsx');
+    for (const t of ['30', '50', '80']) {
+      const row = sheets.Summary.rows.find((x) => typeof x.k === 'string' && x.k.startsWith('Homes short, ≤' + t + '% AMI (HUD CHAS'));
+      assert(row, 'no HUD row at ' + t);
+      if (row.v === 'Unavailable') continue;
+      assert(/HUD CHAS/.test(row.n) && !/band households|priced-affordable/.test(row.n), `HUD ${t}%: note ${JSON.stringify(row.n)}`);
+    }
+    const census = sheets.Summary.rows.find((x) => typeof x.k === 'string' && x.k.startsWith('Homes short, ≤50% AMI (Census)'));
+    assert(census && /band households/.test(census.n || ''), 'the Census row lost its method note');
+  });
+
+  await test('a CSV clicked before the gap file arrives waits for it, so the 40% band still counts (Codex P2 on #3026)', async () => {
+    const c = CASES.find((x) => x.geoid === '0828745');
+    await exportAll(c);
+    // An invented 40% band above every shown count: only the gap file can lift 50% to it.
+    const placeFile = readJson('data/co_ami_gap_by_place.json');
+    placeFile.places['0828745'].gap_units_minus_households_le_ami_pct['40'] = 300;
+    FETCH_OVERRIDES['data/co_ami_gap_by_place.json'] = placeFile;
+    let release;
+    FETCH_DELAYS['data/co_ami_gap_by_place.json'] = new Promise((r) => { release = r; });
+    try {
+      freshRequire('js/hna/hna-export.js');
+      capturedBlob = null;
+      const done = window.__HNA_exportCsv();
+      setTimeout(release, 50);
+      await done;
+      assert(capturedBlob, 'no CSV was written');
+      const csv = await capturedBlob.text();
+      const rows = csv.split('\r\n').map((line) => (line.match(/"((?:[^"]|"")*)"/g) || []).map((f) => f.slice(1, -1).replace(/""/g, '"')));
+      const r50 = rows.find((x) => x[0] === 'Homes short, ≤50% AMI (Census): ' + CENSUS_SHORT_NOTE);
+      assert(r50 && r50[1] === '300', '≤50% in a CSV made before the gap file loaded: ' + JSON.stringify(r50 && r50[1]));
+    } finally {
+      delete FETCH_DELAYS['data/co_ami_gap_by_place.json'];
+      delete FETCH_OVERRIDES['data/co_ami_gap_by_place.json'];
+      if (release) release();
     }
   });
 

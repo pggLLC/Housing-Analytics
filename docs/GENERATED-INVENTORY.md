@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-26T11:06:00.616Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-27T02:02:28.489Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-81 pages found.
+82 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -49,7 +49,7 @@
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 37.9 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.8 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 149.1 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 149.2 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 149.7 KB |
 | `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 187.4 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 179.9 KB |
@@ -57,7 +57,7 @@
 | `housing-authority-guide.html` | Starting a Housing Authority | COHO Analytics | 53.4 KB |
 | `housing-help.html` | If You Need Housing Now | COHO Analytics | 17.2 KB |
 | `housing-legislation-2026.html` | Policy &amp; Legislation | COHO Analytics | 25.7 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 265.6 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 265.7 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 18.2 KB |
 | `index.html` | COHO Analytics · Colorado affordable housing data | 9.3 KB |
 | `insights.html` | Research &amp; Analysis | COHO Analytics | 20.2 KB |
@@ -70,6 +70,7 @@
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.6 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 159.9 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
+| `member-sign-in.html` | Member sign in | COHO Analytics | 3.9 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 101.3 KB |
 | `og-card.html` | Share card — COHO Analytics | 2.1 KB |
 | `opportunities-hub.html` | Opportunities · COHO Analytics | 7.6 KB |
@@ -120,14 +121,14 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 957 B | ✅ | — |
-| `data/alerts/alerts_archive.json` | 2.92 MB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 2.99 MB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 5.8 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
 | `data/alerts/outlet-review.json` | 20.6 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
-| `data/audit/funding-watch.json` | 695.1 KB | ✅ | — |
+| `data/audit/funding-watch.json` | 701.1 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 1.2 KB | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 5.8 KB | ✅ | — |
@@ -1808,7 +1809,7 @@
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/insights/catalog.json` | 13.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_lihtc-applications-excluded.json` | 465 B | ✅ | — |
-| `data/jurisdiction-briefs/_lihtc-applications.json` | 431.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/_lihtc-applications.json` | 437.2 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 10.9 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 248.3 KB | ✅ | — |
@@ -1857,7 +1858,7 @@
 | `data/market/local-players.json` | 554.7 KB | ✅ | — |
 | `data/market/lodes_co.json` | 663.8 KB | ✅ | — |
 | `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
-| `data/market/market-direction.json` | 770.2 KB | ✅ | — |
+| `data/market/market-direction.json` | 770.3 KB | ✅ | — |
 | `data/market/market-types.json` | 427.8 KB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 17.5 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
@@ -2002,7 +2003,7 @@
 | `data/policy/job-access.json` | 104.0 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 39.6 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
-| `data/policy/leading-signals.json` | 212.3 KB | ✅ | — |
+| `data/policy/leading-signals.json` | 212.7 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 4.9 KB | ✅ | — |
 | `data/policy/lihtc-underwriting-rules.json` | 23.7 KB | ✅ | — |
 | `data/policy/local-commitment.json` | 64.1 KB | ✅ | — |
@@ -2031,11 +2032,11 @@
 | `data/policy/unit-size-standards.json` | 4.9 KB | ✅ | — |
 | `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 939.8 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 437.3 KB | ✅ | — |
+| `data/policy_briefs.json` | 944.3 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 438.6 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
-| `data/polymarket-history.json` | 244.2 KB | ✅ | — |
+| `data/polymarket-history.json` | 246.4 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 4.1 KB | ✅ | — |
@@ -2058,7 +2059,7 @@
 
 ## Test Files
 
-808 test files found.
+811 test files found.
 
 | File | Size |
 |------|------|
@@ -2183,28 +2184,29 @@
 | `test/deal-calc-equity-pricing.test.js` | 8.2 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 17.6 KB |
 | `test/deal-calc-lender-schedules-page.test.js` | 4.3 KB |
-| `test/deal-calc-manual-market-rent.test.js` | 17.5 KB |
+| `test/deal-calc-manual-market-rent.test.js` | 17.6 KB |
 | `test/deal-calc-minimum-set-aside.test.js` | 7.4 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
-| `test/deal-calc-net-rent.test.js` | 26.3 KB |
-| `test/deal-calc-operating-page.test.js` | 7.6 KB |
+| `test/deal-calc-net-rent.test.js` | 26.4 KB |
+| `test/deal-calc-operating-page.test.js` | 7.7 KB |
 | `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-partnership-terms.test.js` | 12.2 KB |
 | `test/deal-calc-perm-rate-hint.test.js` | 6.1 KB |
 | `test/deal-calc-permanent-financing-page.test.js` | 8.6 KB |
 | `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
-| `test/deal-calc-provenance.test.js` | 16.8 KB |
+| `test/deal-calc-provenance.test.js` | 16.9 KB |
 | `test/deal-calc-rent-programs.test.js` | 11.1 KB |
-| `test/deal-calc-report-meta.test.js` | 14.6 KB |
+| `test/deal-calc-report-meta.test.js` | 14.7 KB |
 | `test/deal-calc-sale-sizing.test.js` | 9.1 KB |
 | `test/deal-calc-schedule.test.js` | 25.2 KB |
 | `test/deal-calc-screening-apply.test.js` | 6.6 KB |
-| `test/deal-calc-share-roundtrip.test.js` | 23.9 KB |
+| `test/deal-calc-share-roundtrip.test.js` | 24.2 KB |
 | `test/deal-calc-soft-funding-links-wrap.test.js` | 2.8 KB |
 | `test/deal-calc-studio-units.test.js` | 3.2 KB |
 | `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 6.8 KB |
 | `test/deal-calculator-banner-url-first.test.js` | 5.1 KB |
+| `test/deal-calculator-chfa-comps.test.mjs` | 8.2 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-calculator-member-gate.test.mjs` | 8.2 KB |
 | `test/deal-calculator-member-place.test.mjs` | 8.7 KB |
@@ -2219,7 +2221,7 @@
 | `test/deal-engine-signed-rent-growth.test.js` | 3.5 KB |
 | `test/deal-engine-surfaces.test.js` | 14.0 KB |
 | `test/deal-engine.test.js` | 8.2 KB |
-| `test/deal-file.test.mjs` | 15.4 KB |
+| `test/deal-file.test.mjs` | 16.4 KB |
 | `test/deal-gap-handoff.test.js` | 6.0 KB |
 | `test/deal-lender-schedules.test.js` | 21.9 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
@@ -2334,6 +2336,7 @@
 | `test/helpers/deal-engine-page.cjs` | 1.9 KB |
 | `test/helpers/jspdf-mock.cjs` | 2.8 KB |
 | `test/helpers/render-home.js` | 11.4 KB |
+| `test/helpers/share-link.cjs` | 655 B |
 | `test/historical-trends-real-data.test.js` | 16.6 KB |
 | `test/hmda-lookup.test.js` | 6.9 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
@@ -2356,7 +2359,7 @@
 | `test/hna-dev-context-collision.test.js` | 4.6 KB |
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-export-binding-browser.test.js` | 12.7 KB |
-| `test/hna-export-matches-screen.test.js` | 48.0 KB |
+| `test/hna-export-matches-screen.test.js` | 63.9 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.5 KB |
 | `test/hna-functionality-check.js` | 64.6 KB |
 | `test/hna-gap-summary-sources.test.js` | 5.1 KB |
@@ -2489,6 +2492,7 @@
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/member-chrome-popups.test.mjs` | 4.9 KB |
 | `test/member-short-pages.test.mjs` | 7.2 KB |
+| `test/member-sign-in.test.mjs` | 5.6 KB |
 | `test/messaging-need-not-erased.test.js` | 9.8 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
 | `test/methods-spec-sources.test.mjs` | 6.3 KB |
@@ -2525,7 +2529,7 @@
 | `test/ownership-decision-chain.test.js` | 8.2 KB |
 | `test/ownership-finance.test.js` | 23.3 KB |
 | `test/ownership-funding-schema.test.js` | 5.9 KB |
-| `test/ownership-rental-separation.test.js` | 16.2 KB |
+| `test/ownership-rental-separation.test.js` | 16.3 KB |
 | `test/ownership-resale.test.js` | 20.3 KB |
 | `test/package-4-user-visible.test.js` | 7.8 KB |
 | `test/page-dates.test.mjs` | 10.8 KB |
@@ -2554,7 +2558,7 @@
 | `test/place-deals-limits.test.js` | 11.5 KB |
 | `test/place-glossary-path.test.js` | 1.5 KB |
 | `test/place-lehd-apportionment.test.js` | 4.8 KB |
-| `test/place-pages.test.js` | 6.9 KB |
+| `test/place-pages.test.js` | 7.6 KB |
 | `test/place-profile-format.test.mjs` | 7.0 KB |
 | `test/places-hub-port.test.js` | 9.3 KB |
 | `test/planned-sources-are-not-unknown.test.js` | 8.1 KB |

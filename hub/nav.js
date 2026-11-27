@@ -378,3 +378,34 @@
 
   global.LabNav = { MENUS: MENUS, menuFor: menuFor, href: href, stepHref: stepHref, hereItem: hereItem, refresh: refresh, LIVE: LIVE, MOVED: MOVED, movedHref: movedHref, linkTo: linkTo, retarget: retarget };
 })(window);
+
+// Member sign in (paul, 26 Nov 2026). Every "Member sign in" link points at the member site, which
+// opens behind a Cloudflare sign-in page that gives a non-member no way back. On cohoanalytics.com
+// those links first open member-sign-in.html ("Use the free site" or "Sign in as a member"), with
+// the member address in the fragment so a deal in a calculator link never reaches a server. A
+// visitor who chose "Sign in as a member" there in the last 30 days goes straight through. The
+// live site's js/path-resolver.js carries the same rule for its own pages; whichever loads first
+// installs it, once. In the lab, and on the member site, nothing changes.
+(function () {
+  if (typeof document === 'undefined' || !document.addEventListener || window.__cohoMemberRoute) return;
+  if (!/(^|\.)cohoanalytics\.com$/.test(location.hostname)) return;
+  window.__cohoMemberRoute = true;
+  var MEMBER_HOST = 'coho-backend.communityplanner.workers.dev';
+  var DAYS30 = 30 * 24 * 60 * 60 * 1000;
+  function goesDirect() {
+    try {
+      var t = Number(localStorage.getItem('coho_member_signin_direct'));
+      return t > 0 && Date.now() - t < DAYS30;
+    } catch (e) { return false; }
+  }
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || /member-sign-in\.html$/.test(location.pathname)) return;
+    var u;
+    try { u = new URL(a.href, location.href); } catch (err) { return; }
+    if (u.hostname !== MEMBER_HOST || goesDirect()) return;
+    e.preventDefault();
+    location.href = location.origin + '/member-sign-in.html#to=' + encodeURIComponent(u.href);
+  });
+}());

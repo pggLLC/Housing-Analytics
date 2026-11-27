@@ -46,7 +46,7 @@
   var s = JSON.parse(JSON.stringify(START));
   function money(n) { return (n < 0 ? '-$' : '$') + Math.round(Math.abs(n)).toLocaleString('en-US'); }
   function card(key, label, v, sub) {
-    return '<div data-out="' + key + '" data-value="' + Math.round(v) + '"><dt>' + esc(label) + '</dt><dd>' + esc(money(v)) + '</dd>' + (sub ? '<p class="why">' + sub + '</p>' : '') + '</div>';
+    return '<div data-out="' + key + '" data-value="' + Math.round(v) + '"><dt>' + esc(label) + '</dt><dd><span class="quick-v">' + esc(money(v)) + '</span>' + (sub ? '<p class="why">' + sub + '</p>' : '') + '</dd></div>';
   }
 
   // What is wrong with the cost or homes as entered, or null. A blank, zero, negative or part-home entry is not run.

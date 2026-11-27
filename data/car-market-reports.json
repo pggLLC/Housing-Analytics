@@ -4,8 +4,9 @@
     "generated_by": "scripts/build-car-report-index.mjs",
     "file_pattern": "data/car-market-report-YYYY-MM.json"
   },
-  "latest": "2026-10",
+  "latest": "2026-11",
   "months": [
+    "2026-11",
     "2026-10",
     "2026-09",
     "2026-08",

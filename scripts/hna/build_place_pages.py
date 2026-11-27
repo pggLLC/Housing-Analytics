@@ -368,19 +368,27 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
 MIN_HH_FOR_RATE = 50
 
 
-def build_subtitle(place_chas: dict, cross_county: dict | None) -> str:
+def build_subtitle(place_chas: dict, cross_county: dict | None, place_name: str = '') -> str:
+    """The page's opening line: one sentence on what the page answers (first-screen
+    sweep, paul 26 Nov 2026: "the message on every page"). It names the place, the
+    households, and the share of renters paying 30% or more of income for housing,
+    with the source in words. Under MIN_HH_FOR_RATE renter households no rate is
+    printed (tract-apportioned noise)."""
     rec = place_chas
     renters = rec['summary']['total_renter_hh'] or 0
     total = renters + (rec['summary']['total_owner_hh'] or 0)
     cb30 = rec['summary']['renter_cb30_share'] or 0
-    parts = []
+    name = place_name or 'this place'
+    bits = []
     if total > 0:
-        parts.append(f"~{int(round(total)):,} households")
+        bits.append(f"about {int(round(total)):,} households")
     if cb30 > 0 and renters >= MIN_HH_FOR_RATE:
-        parts.append(f"renter cost-burden {cb30*100:.1f}% (HUD CHAS 2018-22)")
+        bits.append(f"{cb30*100:.1f}% of renters pay 30% or more of their income for housing "
+                    "(HUD\u2019s count of households by income and housing cost, 2018 to 2022)")
+    line = f"Housing need in {name}: " + ', and '.join(bits) + '.' if bits else f"Housing need in {name}, Colorado."
     if cross_county and len(cross_county.get('all_counties', [])) > 1:
-        parts.append('cross-county jurisdiction')
-    return ' · '.join(parts) if parts else 'Colorado place'
+        line += ' This place spans more than one county.'
+    return line
 
 
 def find_lat_lon(geoid: str, registry: dict) -> tuple[float, float]:
@@ -505,7 +513,7 @@ def generate_page(
 
     place_type = 'cdp' if (' (cdp)' in place_name.lower() or 'cdp' in (place_name or '').lower()) else 'place'
 
-    subtitle = build_subtitle(place_chas, cross_county)
+    subtitle = build_subtitle(place_chas, cross_county, place_name)
 
     replacements = {
         '{{MIN_HH}}':         str(MIN_HH_FOR_RATE),

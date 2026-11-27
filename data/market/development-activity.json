@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-11-22T14:07:47.854Z",
+  "generated_at": "2026-11-26T14:51:54Z",
   "generated_at_note": "the newest of the input files' own stamps, not the time this ran",
   "generator": "scripts/market/build_development_activity.py",
   "title": "Significant affordable-housing development activity in Colorado",
@@ -25,7 +25,7 @@
    "chfa_property_list": "data/chfa-lihtc.json"
   },
   "events_read": {
-   "chfa_applications": 147,
+   "chfa_applications": 150,
    "award_ledger": 467,
    "chfa_2026_round_one": 14,
    "dola_awards": 388,
@@ -35,10 +35,10 @@
   "program_awards_left_out": 115,
   "round_one_2026_already_in_ledger": 14,
   "program_awards_note": "Awards that fund a program rather than homes on a site (down payment assistance, rehabilitation and single-family repair programs, statewide NOFAs, lender capital, Prop 123 Modular Finance loans to factories, and Prop 123 homeownership awards that print no homes) are counted here and not listed. A site award that prints no home count is listed with units null.",
-  "project_count": 798,
+  "project_count": 800,
   "summary_since": 2023,
   "summary_note": "county_summary counts projects whose latest event is 2023 or later (the latest year any source records, 2026, less three), by stage, with homes as printed (total units). homes counts only projects that print a unit count; projects_without_homes says how many do not, and homes is null when none does. Counties with no projects are listed with zeros. A scattered site an application places in several counties (county_fips null, county_fips_all listed) counts in each and in multi_county_projects, so county rows can sum to more than statewide_recent_projects.",
-  "statewide_recent_projects": 397
+  "statewide_recent_projects": 399
  },
  "county_summary": {
   "08001": {
@@ -64,8 +64,8 @@
      "projects_without_homes": 0
     },
     "applied": {
-     "projects": 0,
-     "homes": 0,
+     "projects": 1,
+     "homes": 128,
      "projects_without_homes": 0
     },
     "not_funded": {
@@ -74,8 +74,8 @@
      "projects_without_homes": 0
     },
     "letter_of_intent": {
-     "projects": 1,
-     "homes": 128,
+     "projects": 0,
+     "homes": 0,
      "projects_without_homes": 0
     }
    }
@@ -668,7 +668,7 @@
   "08031": {
    "name": "Denver County",
    "projects": 92,
-   "homes": 9663,
+   "homes": 9732,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -699,7 +699,7 @@
     },
     "letter_of_intent": {
      "projects": 3,
-     "homes": 487,
+     "homes": 556,
      "projects_without_homes": 0
     }
    }
@@ -805,8 +805,8 @@
      "projects_without_homes": 0
     },
     "applied": {
-     "projects": 0,
-     "homes": 0,
+     "projects": 1,
+     "homes": 122,
      "projects_without_homes": 0
     },
     "not_funded": {
@@ -815,8 +815,8 @@
      "projects_without_homes": 0
     },
     "letter_of_intent": {
-     "projects": 1,
-     "homes": 122,
+     "projects": 0,
+     "homes": 0,
      "projects_without_homes": 0
     }
    }
@@ -1408,8 +1408,8 @@
   },
   "08069": {
    "name": "Larimer County",
-   "projects": 18,
-   "homes": 1151,
+   "projects": 19,
+   "homes": 1266,
    "projects_without_homes": 2,
    "multi_county_projects": 0,
    "by_stage": {
@@ -1439,8 +1439,8 @@
      "projects_without_homes": 0
     },
     "letter_of_intent": {
-     "projects": 1,
-     "homes": 56,
+     "projects": 2,
+     "homes": 171,
      "projects_without_homes": 0
     }
    }
@@ -2365,8 +2365,8 @@
      "projects_without_homes": 0
     },
     "applied": {
-     "projects": 0,
-     "homes": 0,
+     "projects": 1,
+     "homes": 122,
      "projects_without_homes": 0
     },
     "not_funded": {
@@ -2375,8 +2375,8 @@
      "projects_without_homes": 0
     },
     "letter_of_intent": {
-     "projects": 1,
-     "homes": 122,
+     "projects": 0,
+     "homes": 0,
      "projects_without_homes": 0
     }
    }
@@ -2461,8 +2461,8 @@
   },
   "08123": {
    "name": "Weld County",
-   "projects": 8,
-   "homes": 949,
+   "projects": 9,
+   "homes": 1013,
    "projects_without_homes": 0,
    "multi_county_projects": 0,
    "by_stage": {
@@ -2482,8 +2482,8 @@
      "projects_without_homes": 0
     },
     "applied": {
-     "projects": 0,
-     "homes": 0,
+     "projects": 1,
+     "homes": 64,
      "projects_without_homes": 0
     },
     "not_funded": {
@@ -2580,7 +2580,7 @@
    ],
    "county": null,
    "place_geoid": null,
-   "stage": "letter_of_intent",
+   "stage": "applied",
    "first_year": 2026,
    "latest_year": 2026,
    "total_units": 122,
@@ -2589,16 +2589,16 @@
    "restricted_units_unavailable_reason": null,
    "events": [
     {
-     "stage": "letter_of_intent",
+     "stage": "applied",
      "year": 2026,
      "agency": "CHFA",
      "program": "Housing tax credit 4% application",
-     "amount": 2425000,
+     "amount": 2496850,
      "amount_label": "annual credit requested",
      "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-     "quote": "Stage: LOI*; Type: I/F A/R; Name: Holy Cross Village & Villa Sierra Madre (scattered site); Total Units: 122; LI Units: 122; Federal 4% Credit Requested: $2,425,000; Bond Issuer: CHFA; Bond Cap Amount: $18,400,000",
+     "quote": "Stage: Application*; Type: I/F A/R; Name: Holy Cross Village & Villa Sierra Madre (scattered site); Total Units: 122; LI Units: 122; Federal 4% Credit Requested: $2,496,850; Bond Issuer: CHFA; Bond Cap Amount: $18,400,000",
      "round": "Rolling federal 4% list",
-     "as_of": "2026-10-12"
+     "as_of": "2026-11-19"
     }
    ]
   },
@@ -2725,7 +2725,7 @@
    "county_fips_all": null,
    "county": "Adams County",
    "place_geoid": "0854330",
-   "stage": "letter_of_intent",
+   "stage": "applied",
    "first_year": 2026,
    "latest_year": 2026,
    "total_units": 128,
@@ -2734,16 +2734,16 @@
    "restricted_units_unavailable_reason": null,
    "events": [
     {
-     "stage": "letter_of_intent",
+     "stage": "applied",
      "year": 2026,
      "agency": "CHFA",
      "program": "Housing tax credit 4% application",
-     "amount": 1560000,
+     "amount": 1513314,
      "amount_label": "annual credit requested",
      "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-     "quote": "Stage: LOI*; Type: I/F, A/R; Name: Greens of Northglenn; Address: 350 W 114th Avenue; City: Northglenn; Total Units: 128; LI Units: 128; Federal 4% Credit Requested: $1,560,000; Bond Issuer: CHFA; Bond Cap Amount: $17,500,000",
+     "quote": "Stage: Application*; Type: I/F, A/R; Name: Greens of Northglenn; Address: 350 W 114th Avenue; City: Northglenn; Total Units: 128; LI Units: 128; Federal 4% Credit Requested: $1,513,314; Bond Issuer: CHFA; Bond Cap Amount: $17,000,000",
      "round": "Rolling federal 4% list",
-     "as_of": "2026-10-12"
+     "as_of": "2026-11-19"
     }
    ]
   },
@@ -3155,7 +3155,7 @@
      "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
      "quote": "Stage: Application; Type: I/F A/R; Name: Asbury Park; Address: 10571 East Asbury Park; City: Aurora; Total Units: 44; LI Units: 43; Federal 4% Credit Requested: $746,874; Bond Issuer: Aurora Housing Authority; Bond Cap Amount: $8,400,000",
      "round": "Rolling federal 4% list",
-     "as_of": "2026-10-12"
+     "as_of": "2026-11-19"
     }
    ]
   },
@@ -3293,9 +3293,9 @@
      "amount": 4885671,
      "amount_label": "annual credit requested",
      "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-     "quote": "Stage: Application*; Type: I/F, N; Name: Reeve at Horizon; Address: E 6th Avenue & Gun Club Road; City: Aurora; Total Units: 252; LI Units: 252; Federal 4% Credit Requested: $4,885,671; Bond Issuer: CHFA; Bond Cap Amount: $30,000,000",
+     "quote": "Stage: Application*; Type: I/F, N; Name: Reeve at Horizon; Address: E 6th Avenue and Gun Club Road; City: Aurora; Total Units: 252; LI Units: 252; Federal 4% Credit Requested: $4,885,671; Bond Issuer: CHFA; Bond Cap Amount: $30,000,000",
      "round": "Rolling federal 4% list",
-     "as_of": "2026-10-12"
+     "as_of": "2026-11-19"
     }
    ]
   },
@@ -3569,7 +3569,7 @@
      "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
      "quote": "Stage: Application; Type: I/F, A/R; Name: Helios Station; Address: 550 N. 111th Street; City: Lafayette; Total Units: 30; LI Units: 30; Federal 4% Credit Requested: $733,933; Bond Issuer: CHFA; Bond Cap Amount: $6,342,500",
      "round": "Rolling federal 4% list",
-     "as_of": "2026-10-12"
+     "as_of": "2026-11-19"
     }
    ]
   },
@@ -4088,6 +4088,18 @@
      "source_title": "DOH Application Schedule and Awards page: awards announced November 2025"
     },
     {
+     "stage": "letter_of_intent",
+     "year": 2026,
+     "agency": "CHFA",
+     "program": "Housing tax credit 4% application",
+     "amount": 1592000,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
+     "quote": "Stage: LOI; Type: I/F, N, R; Name: 40th Avenue Apartments (scattered site); Total Units: 133; LI Units: 133; Federal 4% Credit Requested: $1,592,000; Bond Issuer: CHFA; Bond Cap Amount: $10,000,000",
+     "round": "Rolling federal 4% list",
+     "as_of": "2026-11-19"
+    },
+    {
      "stage": "not_funded",
      "year": 2026,
      "agency": "CHFA",
@@ -4098,36 +4110,6 @@
      "quote": "Type: N,I/F; Name: 40th Ave Apartments; Address: 3979 Central Park Boulevard; City: Denver; Total Units: 115; LI Units: 115; Federal 9% Credit Requested: $1,800,000; Standard State Credit Requested: $500,000; TOC Credit Requested: $230,000",
      "round": "2026 Round One",
      "as_of": "2026-02-09"
-    }
-   ]
-  },
-  {
-   "id": "40th-central-park-08031",
-   "name": "40th Central Park Apartments (scattered site)",
-   "city": "Denver",
-   "county_fips": "08031",
-   "county_fips_all": null,
-   "county": "Denver County",
-   "place_geoid": "0820000",
-   "stage": "letter_of_intent",
-   "first_year": 2026,
-   "latest_year": 2026,
-   "total_units": 128,
-   "total_units_unavailable_reason": null,
-   "restricted_units": 128,
-   "restricted_units_unavailable_reason": null,
-   "events": [
-    {
-     "stage": "letter_of_intent",
-     "year": 2026,
-     "agency": "CHFA",
-     "program": "Housing tax credit 4% application",
-     "amount": 1371566,
-     "amount_label": "annual credit requested",
-     "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
-     "quote": "Stage: LOI*; Type: I/F, N, R; Name: 40th Central Park Apartments (scattered site); Total Units: 128; LI Units: 128; Federal 4% Credit Requested: $1,371,566; Bond Issuer: CHFA; Bond Cap Amount: $12,900,000",
-     "round": "Rolling federal 4% list",
-     "as_of": "2026-10-12"
     }
    ]
   },
@@ -4276,7 +4258,7 @@
      "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
      "quote": "Stage: LOI; Type: OA, A/R; Name: Courthouse Square; Address: 901 W 14th Avenue; City: Denver; Total Units: 171; LI Units: 171; Federal 4% Credit Requested: $4,100,000; Bond Issuer: CHFA; Bond Cap Amount: $33,000,000",
      "round": "Rolling federal 4% list",
-     "as_of": "2026-10-12"
+     "as_of": "2026-11-19"
     }
    ]
   },
@@ -4445,6 +4427,36 @@
    ]
   },
   {
+   "id": "halcyon-house-08031",
+   "name": "Halcyon House",
+   "city": "Denver",
+   "county_fips": "08031",
+   "county_fips_all": null,
+   "county": "Denver County",
+   "place_geoid": "0820000",
+   "stage": "letter_of_intent",
+   "first_year": 2026,
+   "latest_year": 2026,
+   "total_units": 197,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 197,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "letter_of_intent",
+     "year": 2026,
+     "agency": "CHFA",
+     "program": "Housing tax credit 4% application",
+     "amount": 4958000,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
+     "quote": "Stage: LOI; Type: OA, A/R; Name: Halcyon House; Address: 1955 Arapahoe Street; City: Denver; Total Units: 197; LI Units: 197; Federal 4% Credit Requested: $4,958,000; Bond Issuer: CHFA; Bond Cap Amount: $32,500,000",
+     "round": "Rolling federal 4% list",
+     "as_of": "2026-11-19"
+    }
+   ]
+  },
+  {
    "id": "harbart-house-08031",
    "name": "Harbart House",
    "city": "Denver",
@@ -4512,7 +4524,7 @@
      "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
      "quote": "Stage: LOI; Type: OA, A/R; Name: Juanita Nolasco Residences; Address: 4550 W 9th Avenue; City: Denver; Total Units: 188; LI Units: 188; Federal 4% Credit Requested: $2,900,000; Bond Issuer: HOST; Bond Cap Amount: $18,400,000",
      "round": "Rolling federal 4% list",
-     "as_of": "2026-10-12"
+     "as_of": "2026-11-19"
     }
    ]
   },
@@ -5024,7 +5036,7 @@
      "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
      "quote": "Stage: Application*; Type: OA, A/R; Name: Sunset Park Apartments; Address: 1865 Larimer Street; City: Denver; Total Units: 238; LI Units: 238; Federal 4% Credit Requested: $5,554,103; Bond Issuer: CHFA; Bond Cap Amount: $36,110,000",
      "round": "Rolling federal 4% list",
-     "as_of": "2026-10-12"
+     "as_of": "2026-11-19"
     }
    ]
   },
@@ -6044,7 +6056,7 @@
      "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
      "quote": "Stage: LOI; Type: I/F, A/R; Name: Rock Crest; Address: 4905 Lucerne Avenue; City: Loveland; Total Units: 56; LI Units: 55; Federal 4% Credit Requested: $575,000; Bond Issuer: Loveland Housing Authority; Bond Cap Amount: $4,400,000",
      "round": "Rolling federal 4% list",
-     "as_of": "2026-10-12"
+     "as_of": "2026-11-19"
     }
    ]
   },
@@ -6123,6 +6135,36 @@
      "quote_basis": "fields as recorded from the source; the printed text names the grantee, so it is not copied",
      "confirmed": false,
      "source_title": "State Housing Board vote summary, meeting of 2026-04-14 (printed in the 2026-05-05 board packet)"
+    }
+   ]
+  },
+  {
+   "id": "villages-preservation-08069",
+   "name": "Villages Preservation (scattered site)",
+   "city": "Fort Collins",
+   "county_fips": "08069",
+   "county_fips_all": null,
+   "county": "Larimer County",
+   "place_geoid": "0827425",
+   "stage": "letter_of_intent",
+   "first_year": 2026,
+   "latest_year": 2026,
+   "total_units": 115,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 115,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "letter_of_intent",
+     "year": 2026,
+     "agency": "CHFA",
+     "program": "Housing tax credit 4% application",
+     "amount": 1579940,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
+     "quote": "Stage: LOI; Type: I/F, A/R; Name: Villages Preservation (scattered site); Total Units: 115; LI Units: 115; Federal 4% Credit Requested: $1,579,940; Bond Issuer: Housing Catalyst; Bond Cap Amount: $17,078,000",
+     "round": "Rolling federal 4% list",
+     "as_of": "2026-11-19"
     }
    ]
   },
@@ -6217,7 +6259,7 @@
      "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
      "quote": "Stage: Application*; Type: I/F, A/R; Name: 29 Mile Apartments; Address: 2915 Orchard Avenue; City: Grand Junction; Total Units: 144; LI Units: 144; Federal 4% Credit Requested: $1,781,428; Bond Issuer: CHFA; Bond Cap Amount: $12,085,693",
      "round": "Rolling federal 4% list",
-     "as_of": "2026-10-12"
+     "as_of": "2026-11-19"
     }
    ]
   },
@@ -6751,7 +6793,37 @@
      "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
      "quote": "Stage: LOI; Type: OA, A/R; Name: Island Grove Village & University Plaza (scattered site); Total Units: 142; LI Units: 142; Federal 4% Credit Requested: $1,784,635; Bond Issuer: City of Greeley; Bond Cap Amount: $12,096,457",
      "round": "Rolling federal 4% list",
-     "as_of": "2026-10-12"
+     "as_of": "2026-11-19"
+    }
+   ]
+  },
+  {
+   "id": "prairie-rose-08123",
+   "name": "Prairie Rose (scattered site)",
+   "city": "Dacono, Greeley",
+   "county_fips": "08123",
+   "county_fips_all": null,
+   "county": "Weld County",
+   "place_geoid": null,
+   "stage": "applied",
+   "first_year": 2026,
+   "latest_year": 2026,
+   "total_units": 64,
+   "total_units_unavailable_reason": null,
+   "restricted_units": 64,
+   "restricted_units_unavailable_reason": null,
+   "events": [
+    {
+     "stage": "applied",
+     "year": 2026,
+     "agency": "CHFA",
+     "program": "Housing tax credit 4% application",
+     "amount": 750000,
+     "amount_label": "annual credit requested",
+     "source_url": "https://www.chfainfo.com/getContentAsset/3aadf0e5-1030-4cc8-a72c-d963dc28f117/50c2bc4c-a8ff-46ba-95c2-0e74752d147f/Federal-4-percent-Credit-LOI-and-Applicant-Report.pdf",
+     "quote": "Type: I/F, OA, A/R; Name: Prairie Rose (scattered site); Total Units: 64; LI Units: 64; Federal 4% Credit Requested: $750,000; Bond Issuer: Greeley Housing Authority; Bond Cap Amount: $6,000,000",
+     "round": "Rolling federal 4% list",
+     "as_of": "2026-11-19"
     }
    ]
   },

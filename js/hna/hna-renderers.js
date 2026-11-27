@@ -1710,7 +1710,9 @@
       type: 'bar',
       data: {
         labels: bins.map(b => b.label),
-        datasets: [{ data: values, backgroundColor: colors }],
+        // The label names the workbook column (it read "Series 1" with bare percents, Codex delta check F7,
+        // 26 Nov 2026); the legend below draws its own two swatches.
+        datasets: [{ label: 'Renter households (% of all renters)', data: values, backgroundColor: colors }],
       },
       options: {
         responsive: true,
@@ -8233,8 +8235,11 @@
    * or rented by a household at or below the tier, so cheap homes held by
    * higher-income renters are not supply. That is the difference from the
    * ACS rows below it, which count every cheap rental, and it is why this is
-   * the figure the chapter summary quotes. homes_short is HUD's own field
-   * (floored at 0); this site's nested variant is not shown here.
+   * the figure the chapter summary quotes. The card shows homes_short_nested
+   * where the file has it: homes short never fall as the income band widens
+   * (paul, 25 Nov 2026: one rule on every page, as the place pages show it).
+   * HUD's own floored homes_short stays on the cell as data-raw, so the
+   * exports can list it as a labelled raw row.
    *
    * Missing stays missing: a geography without a record hides the card, and a
    * tier without a number reads "—", never 0.
@@ -8263,18 +8268,25 @@
       const vEl = document.getElementById('statChasShort' + tier);
       const nEl = document.getElementById('statChasShort' + tier + 'Note');
       const sEl = document.getElementById('statChasShort' + tier + 'Src');
-      const short = t && t.homes_short;
+      const own = t && t.homes_short;
+      // A band's own count missing stays missing, even where a nested value exists.
+      const short = !ok(own) ? null : (ok(t.homes_short_nested) ? Math.max(own, t.homes_short_nested) : own);
+      const lifted = ok(short) && short > own;
       if (vEl) {
         vEl.textContent = ok(short) ? fmt(short) : '—';
         // The exports read this, not the text: the text is grouped for the
         // reader's locale ("119.735", "119 735") and does not parse back.
         if (ok(short)) vEl.setAttribute('data-value', String(short));
         else vEl.removeAttribute('data-value');
+        if (ok(own)) vEl.setAttribute('data-raw', String(own));
+        else vEl.removeAttribute('data-raw');
       }
       if (nEl) {
-        nEl.textContent = (t && ok(t.renter_households) && ok(t.affordable_available_homes))
-          ? 'homes short · ' + fmt(t.affordable_available_homes) + ' homes for ' + fmt(t.renter_households) + ' households'
-          : 'homes short';
+        nEl.textContent = lifted
+          ? 'homes short · the count at a lower income: homes priced for this band cost too much for poorer renters, so it never falls as income rises'
+          : (t && ok(t.renter_households) && ok(t.affordable_available_homes))
+            ? 'homes short · ' + fmt(t.affordable_available_homes) + ' homes for ' + fmt(t.renter_households) + ' households'
+            : 'homes short';
       }
       if (sEl) {
         sEl.innerHTML = vintage

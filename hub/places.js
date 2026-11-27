@@ -343,6 +343,11 @@
       : name + ': ' + priced;
     var hv = hud && hud.vintage ? hud.vintage : '';
     var srcs = [['Census ACS 2020–2024', SRC.acsGap], ['HUD FY2026 income limits', SRC.hudIl]].concat(hudRows.length ? [['HUD CHAS ' + hv, SRC.chas]] : []);
+    var who = hudRows.length ? ladderWho(steps, hud, hudRows, H, hShort, ok, per) : '';
+    if (who) return '<figure class="ladder has-hud ladder-who" aria-label="' + esc((global.LabTpl && global.LabTpl.alt || function (f, s) { return f + '. Source: ' + s + '.'; })(finding, 'Census ACS, HUD CHAS')) + '">' +
+      '<figcaption><strong>' + esc(finding) + '</strong></figcaption>' + who + '<p class="metric-source">Bars: HUD CHAS counts of renter households, of rentals by rent and who rents them, and of homes vacant for rent; ' +
+      'each band includes every lower income, and its shortfall never falls as the band widens. Grey lines: homes priced for renters per 100 renter households, whoever rents them (Census); HUD and Census draw income bands differently. Small places carry wide margins. ' +
+      srcLine(srcs) + '</p></figure>';
     var w = function (v) { return Math.min(100, v / 1.5).toFixed(1); };
     return '<figure class="ladder' + (hudRows.length ? ' has-hud' : '') + '" aria-label="' + esc((global.LabTpl && global.LabTpl.alt || function (f, s) { return f + '. Source: ' + s + '.'; })(finding, hudRows.length ? 'Census ACS, HUD CHAS' : 'Census ACS, HUD')) + '">' +
       '<figcaption><strong>' + esc(finding) + '</strong></figcaption>' +
@@ -361,6 +366,53 @@
         ? 'Thick bar: homes priced for renters per 100 renter households at or below each income, whoever rents them (Census). Thin bar: homes affordable and available to those renters, vacant or rented by them (HUD CHAS, at 30, 50 and 80% AMI; its shortfall never falls as the income band widens). Small places carry wide margins. The black tick is 100. '
         : 'Homes priced for renters per 100 renter households, at or below each income, whoever rents them; over 100 means homes at that price exist, not that these renters can get them. The black tick is 100. HUD’s count of homes affordable and available to these renters is under What households can afford. ') +
       srcLine(srcs) + '</p></figure>';
+  }
+
+  // paul, 26 Nov ("this chart is hard to read ... hard to tell that there are houses that are filled by others, the
+  // total number seems unknown"): where HUD's record carries who rents each home (homes_by_rent), each band is drawn
+  // as counts. One bar is renter households; the other is every rental priced for them, split into the homes they can
+  // get (affordable_available_homes: rented by them or vacant) and the homes rented by higher incomes. Display only:
+  // priced is the sum of HUD's rent tiers at or below the band, and the badge is the never-falls homes_short_nested.
+  // The Census per-100 figures stay as a grey line under each band. Returns '' when any count is missing or does not
+  // add up, and the ladder falls back to its per-100 bars.
+  function ladderWho(steps, hud, hudRows, H, hShort, ok, per) {
+    var byRent = hud && hud.byRent, tiers = { '30': ['le30'], '50': ['le30', '30to50'], '80': ['le30', '30to50', '50to80'] };
+    if (!byRent) return '';
+    var rows = [], bad = false;
+    hudRows.forEach(function (r) {
+      var x = r.x, priced = 0;
+      tiers[r.band].forEach(function (t) {
+        var y = byRent[t], by = y && y.rented_by;
+        if (!by || !ok(y.vacant_for_rent)) { bad = true; return; }
+        ['le30', '30to50', '50to80', '80to100', 'over100'].forEach(function (g) { if (!ok(by[g])) bad = true; else priced += by[g]; });
+        priced += y.vacant_for_rent;
+      });
+      if (priced < x.affordable_available_homes) bad = true;
+      rows.push({ band: r.band, hh: x.renter_households, get: x.affordable_available_homes, priced: priced, others: priced - x.affordable_available_homes, short: r.short, own: ok(x.homes_short) ? x.homes_short : null });
+    });
+    if (bad || !rows.length) return '';
+    var max = Math.max.apply(null, rows.map(function (r) { return Math.max(r.hh, r.priced); })) || 1;
+    var pct = function (v) { return (Math.max(v, 0) / max * 100).toFixed(1) + '%'; };
+    var census = function (band) {
+      var b = steps.filter(function (s) { return String(s.band) === band; })[0];
+      if (!b) return '';
+      var gap = b.households - b.homes;
+      return '<p class="lw-census">Census, on price alone: ' + per(b) + ' homes per 100 renter households' + (gap > 0 ? ', ' + esc(num(gap)) + ' short' : '') + (band === '100' ? '. HUD does not count this band.' : '') + '</p>';
+    };
+    var lab = function (band) { return '≤' + band + '% AMI'; };
+    var html = '<ul class="lw-key" aria-hidden="true"><li><i class="lw-hh"></i>Renter households</li><li><i class="lw-get"></i>Homes they can get (they rent it, or it is vacant)</li><li><i class="lw-oth"></i>Priced for them, rented by higher incomes</li></ul>' +
+      '<ol class="lw-rows">' + rows.map(function (r, i) {
+        var from = r.own != null && r.short > r.own ? rows.slice(0, i).filter(function (q) { return q.own === r.short; })[0] : null;
+        var prev = i ? rows[i - 1].band : null;
+        return '<li class="lw-band"><p class="lw-head"><b>' + lab(r.band) + '</b><span class="lw-short' + (r.short > 0 ? '' : ' is-none') + '">' + (r.short > 0 ? esc(num(r.short)) + ' short' : 'None short') + '</span></p><div class="lw-body">' +
+          '<div class="lw-row"><span class="lw-track"><i class="lw-hh" style="width:' + pct(r.hh) + '"></i></span><span class="lw-v"><b>' + esc(num(r.hh)) + '</b> renter household' + (r.hh === 1 ? '' : 's') + '</span></div>' +
+          '<div class="lw-row"><span class="lw-track"><i class="lw-get" style="width:' + pct(r.get) + '"></i><i class="lw-oth" style="width:' + pct(r.others) + '"></i></span>' +
+          '<span class="lw-v"><b>' + esc(num(r.priced)) + '</b> ' + (r.priced === 1 ? 'home' : 'homes') + ' priced for them: <b>' + esc(num(r.get)) + '</b> they can get, <b>' + esc(num(r.others)) + '</b> filled by others</span></div>' +
+          (r.own != null && r.short > r.own ? '<p class="lw-why">Still ' + esc(num(r.short)) + ' short: the gap ' + (from ? 'at or below ' + from.band + '% AMI' : 'at lower incomes') + ' carries up, because homes priced for ' + (prev ? prev + '–' + r.band + '% AMI renters' : 'these renters') + ' cost too much for poorer renters.</p>' : '') +
+          census(r.band) + '</div></li>';
+      }).join('') + (steps.some(function (s) { return String(s.band) === '100'; }) ? '<li class="lw-band"><p class="lw-head"><b>' + lab('100') + '</b></p><div class="lw-body">' + census('100') + '</div></li>' : '') + '</ol>' +
+      '<p class="note lw-note">“Filled by others” means homes priced for these renters that households with higher incomes rent, so they are not open to them. Each band is a running total that includes every lower income.</p>';
+    return html;
   }
 
   function useHref(entry) {
@@ -503,7 +555,8 @@
       answer: 'Find your town or county for its renters, homes and housing need: ' + num(profiles.length) + ' Colorado places, or pick a county on the map.',
       meta: '<span class="scope-tag">Scope: Colorado, by county and place</span> Census ACS 2020\u20132024 with HUD FY2026 income limits.',
       aside: T.terms(TERMS)
-    }) + (global.LabHna ? global.LabHna.stepPath(true, '#/places') : '') + Shell.searchBox('place-q', 'Find a town or county', q, 'For example Fruita or 0828745', 'Pick your town or county');
+    }) + (global.LabHna ? global.LabHna.stepPath(true, '#/places') : '');
+    var search = Shell.searchBox('place-q', 'Find a town or county', q, 'For example Fruita or 0828745', 'Pick your town or county');
     var working = global.LabHna && global.LabHna.working ? global.LabHna.working() : null;
     var means = T.means([
       { text: 'Each place has its own count of renters and the homes priced for them, so the need you see is that town\u2019s or county\u2019s, not the state\u2019s.' }
@@ -578,9 +631,14 @@
     var rest = tools.filter(function (e) { return !named[e.path]; });
 
     // Saved projects sit under the first answer; with none yet, the short note goes to the foot of the page.
+    // On a wide screen the search and its neighbour share one row (paul, 26 Nov 2026: a narrow search card beside an
+    // empty half of the screen). The neighbour is the saved projects, or with none yet the three ways in for a visitor
+    // with no place in mind; the other of the two keeps its place lower down. Each stacks under the search on a phone.
     var recent = !q ? recentProjects() : null;
-    return head + results + (recent && recent.has ? recent.html : '') + glance + groups + (rest.length ? '<h2>More tools</h2>' + Shell.list(rest) : '') +
-      (!q ? notSure() : '') + (recent && !recent.has ? recent.html : '') +
+    var side = !q ? (recent.has ? recent.html : notSure()) : '';
+    var start = side ? '<div class="start-row">' + search + '<div class="start-side">' + side + '</div></div>' : search;
+    return head + start + results + glance + groups + (rest.length ? '<h2>More tools</h2>' + Shell.list(rest) : '') +
+      (!q && recent.has ? notSure() : '') + (recent && !recent.has ? recent.html : '') +
       (!q ? '<p class="count">' + profiles.length + ' place profiles. Type a name above to find one.</p>' : '') +
       // The first link opens the place being worked on (member rehearsal, 13 Nov 2026: it read Fruita whatever
       // place was picked); with none picked it keeps the Fruita example.

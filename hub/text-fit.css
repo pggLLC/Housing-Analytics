@@ -53,7 +53,7 @@ main a.url-text { overflow-wrap: anywhere; }
 @media (min-width: 1100px) {
   main { max-width: 1200px; }
   .site-footer { padding-left: max(16px, calc((100% - 1200px) / 2 + 16px)); padding-right: max(16px, calc((100% - 1200px) / 2 + 16px)); }
-  .lede, .page-answer, .page-meta, .chapter-intro, .footnote, details.counted p, .method-notes,
+  .lede, .page-answer, .page-terms, .page-meta, .chapter-intro, .footnote, details.counted p, .method-notes,
   .guide-body, .search, .terms, .viz .viz-answer, .gap-chart .gap-lead, .li-item p, .cn-what { max-width: 56rem; }
   .facts { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 }

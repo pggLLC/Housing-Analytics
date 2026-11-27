@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 const { createJsPdfMock } = require('./helpers/jspdf-mock.cjs');
+const { asQuery } = require('./helpers/share-link.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { openPage, setField, close } = require('./helpers/deal-calculator-page.cjs');
@@ -147,7 +148,7 @@ async function test(name,fn){try{await fn();console.log('  PASS '+name);}catch(e
   });
   await test('a forged shared source remains unverified in JSON, PDF and print, and never enters sources',async()=>{
     const sender=await openPage('',subject,{jurisdiction:fruta});setField(sender,'dc-tdc','12345678');
-    const s=plain(sender.w.__DealCalcShare.buildSnapshot()),map=s.inputProvenance,url=new URL(s.url);
+    const s=plain(sender.w.__DealCalcShare.buildSnapshot()),map=s.inputProvenance,url=new URL(asQuery(s.url));
     map.fields['dc-tdc']=['data','12345678',map.sources.length,'12345678'];
     map.sources.push({source:'Sender claim <b>not evidence</b>',sourceUrl:'https://example.org/sender',vintage:2026,geography:'Mesa County',countyFips:fruta.countyFips});
     url.searchParams.set('inputProvenance',JSON.stringify(map));

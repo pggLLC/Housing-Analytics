@@ -243,6 +243,8 @@
     newsFillSoon();
     return T.head({
       kind: 'data', crumbs: T.trail('policy', 'Housing news'), title: 'Housing news',
+      // The first line says what the page answers (first-screen sweep, paul 26 Nov: "the message on every page").
+      answer: 'Colorado housing news that affects deals and local plans, with the source linked on every item.',
       meta: '<span class="scope-tag">Colorado</span> Updated ' + esc(sm.generated.slice(0, 10)) + '.'
     }) +
       (narrowed ? '' : newsToday(s.data.briefs.today)) +

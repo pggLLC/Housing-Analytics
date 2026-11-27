@@ -1,7 +1,7 @@
 {
   "meta": {
-    "generated": "2026-11-25T13:20:28Z",
-    "as_of": "2026-11-25",
+    "generated": "2026-11-26T13:01:17Z",
+    "as_of": "2026-11-26",
     "horizon_days": 120,
     "past_days": 365,
     "categories": {
@@ -79,8 +79,8 @@
       "name": "FRED release calendar: CPI, jobs report, housing starts",
       "url": "https://fred.stlouisfed.org/",
       "status": "ok",
-      "listed": 5,
-      "upcoming": 5
+      "listed": 4,
+      "upcoming": 4
     },
     {
       "id": "curated",
@@ -103,18 +103,6 @@
       "url": "https://doh.colorado.gov/news-article/nofa-doh-cdbg-abatement-and-demolition-program",
       "source": "doh",
       "category": "deadline"
-    },
-    {
-      "title": "Housing starts and permits (New Residential Construction) released",
-      "start": "2026-11-25",
-      "end": null,
-      "time": null,
-      "location": null,
-      "online": true,
-      "organizer": "U.S. Census Bureau",
-      "url": "http://www.census.gov/construction/nrc/",
-      "source": "fred",
-      "category": "release"
     },
     {
       "title": "Young Professionals Holiday Party",
@@ -383,6 +371,18 @@
     }
   ],
   "past": [
+    {
+      "title": "Housing starts and permits (New Residential Construction) released",
+      "start": "2026-11-25",
+      "end": null,
+      "time": null,
+      "location": null,
+      "online": true,
+      "organizer": "U.S. Census Bureau",
+      "url": "http://www.census.gov/construction/nrc/",
+      "source": "fred",
+      "category": "release"
+    },
     {
       "title": "State Housing Board Meeting",
       "start": "2026-11-24",

@@ -636,8 +636,6 @@ output[id$="-v"], .stress-slider output { font-variant-numeric: tabular-nums; fo
 .tab-member { font-size: .7rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); margin-left: .25rem; }
 .member-card { margin: 1rem 0 1.5rem; }
 .member-card h1, .member-card h2 { margin: .2rem 0 .5rem; }
-/* The kicker in the member gold, dark enough to read on a white card (the shared --gold is for dark bands). */
-.member-card .ma-kicker { color: #6B4E00 !important; }
-@media screen and (prefers-color-scheme: dark) { :root:not(.light-mode) .member-card .ma-kicker { color: #F3D98B !important; } }
-:root.dark-mode .member-card .ma-kicker { color: #F3D98B !important; }
+/* The kicker in the member gold, dark enough to read on a white card (the shared --gold is for dark bands); --gold-text turns light in dark mode. */
+.member-card .ma-kicker { color: var(--gold-text) !important; }
 .member-card ul { padding-left: 1.2em; line-height: 1.6; }

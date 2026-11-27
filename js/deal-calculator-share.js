@@ -572,7 +572,8 @@
     var snapshot = {
       exportedAt: new Date().toISOString(),
       dealMode: _dealMode(),
-      url: window.location.origin + window.location.pathname + '?' + _serialize().toString(),
+      // The share link's own fragment form: the query form drew HTTP 414 (Codex delta check D1).
+      url: _shareUrl(_serialize()),
       inputProvenance: _provenanceMap(),
       reportMeta: buildReportMeta(result),
       inputs: {},

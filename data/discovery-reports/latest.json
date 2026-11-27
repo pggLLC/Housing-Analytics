@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-11-25T17:56:31.218Z",
+  "scanTimestamp": "2026-11-26T17:41:00.427Z",
   "totalScanned": 2006,
   "newSourceCount": 1974,
   "existingCount": 31,
@@ -128,7 +128,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 3062364,
+      "sizeBytes": 3131487,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -182,7 +182,7 @@
     },
     {
       "path": "data/audit/funding-watch.json",
-      "sizeBytes": 711778,
+      "sizeBytes": 717976,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10262,7 +10262,7 @@
     },
     {
       "path": "data/jurisdiction-briefs/_lihtc-applications.json",
-      "sizeBytes": 441908,
+      "sizeBytes": 447729,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10448,7 +10448,7 @@
     },
     {
       "path": "data/market/development-activity.json",
-      "sizeBytes": 1374943,
+      "sizeBytes": 1377893,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10616,13 +10616,13 @@
     },
     {
       "path": "data/market/market-direction.json",
-      "sizeBytes": 788682,
+      "sizeBytes": 788754,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/market/market-types.json",
-      "sizeBytes": 438118,
+      "sizeBytes": 438114,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -10874,7 +10874,7 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 16184,
+      "sizeBytes": 16185,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11354,7 +11354,7 @@
     },
     {
       "path": "data/policy/developer-ownership-funding.json",
-      "sizeBytes": 22658,
+      "sizeBytes": 23735,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11486,7 +11486,7 @@
     },
     {
       "path": "data/policy/incentive-peer-profiles.json",
-      "sizeBytes": 41051,
+      "sizeBytes": 41047,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11516,7 +11516,7 @@
     },
     {
       "path": "data/policy/leading-signals.json",
-      "sizeBytes": 217420,
+      "sizeBytes": 217763,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11594,7 +11594,7 @@
     },
     {
       "path": "data/policy/prop123-land-banking-status.json",
-      "sizeBytes": 36906,
+      "sizeBytes": 36902,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11702,7 +11702,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 962361,
+      "sizeBytes": 966958,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11720,13 +11720,13 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20517,
+      "sizeBytes": 20516,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-history.json",
-      "sizeBytes": 250081,
+      "sizeBytes": 252317,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -11856,7 +11856,7 @@
     {
       "path": "data/car-market.json",
       "name": "Colorado Association of Realtors (CAR) — Statewide Market Summary",
-      "daysSince": 297
+      "daysSince": 298
     }
   ]
 }

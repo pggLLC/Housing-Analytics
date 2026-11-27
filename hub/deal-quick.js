@@ -521,12 +521,13 @@
   function money(n) { return (n < 0 ? '-$' : '$') + Math.round(Math.abs(n)).toLocaleString('en-US'); }
 
   var tdcNow = NaN; // the run's total development cost, for the gap card's tone
+  // A dl group holds only dt and dd, so the badge and the explanation sit inside the dd (axe, Codex delta check F5).
   function card(key, label, v, why, extra) {
     var ok = v != null && isFinite(v);
     var shown = ok ? (key === 'gap' && v <= 0 ? '$0' : money(v)) : 'Unavailable';
     var tone = key === 'gap' && ok ? global.LabTpl.gapTone(v, tdcNow) : '';
-    return '<div data-out="' + key + '"' + (tone ? ' class="tone-' + tone + '"' : '') + (ok ? ' data-value="' + Math.round(v) + '"' : '') + '><dt>' + esc(label) + '</dt><dd' + (ok ? '' : ' class="unavail"') + '>' + esc(shown) + '</dd>' + (tone ? global.LabTpl.toneBadge(tone) : '') +
-      (!ok ? '<p class="why">' + esc(why || 'Not available for these inputs.') + '</p>' : extra ? '<p class="why">' + extra + '</p>' : '') + '</div>';
+    return '<div data-out="' + key + '"' + (tone ? ' class="tone-' + tone + '"' : '') + (ok ? ' data-value="' + Math.round(v) + '"' : '') + '><dt>' + esc(label) + '</dt><dd' + (ok ? '' : ' class="unavail"') + '><span class="quick-v">' + esc(shown) + '</span>' + (tone ? global.LabTpl.toneBadge(tone) : '') +
+      (!ok ? '<p class="why">' + esc(why || 'Not available for these inputs.') + '</p>' : extra ? '<p class="why">' + extra + '</p>' : '') + '</dd></div>';
   }
   function boostLine(r) {
     var b = r.costBasis && r.costBasis.basis && r.costBasis.basis.boost;

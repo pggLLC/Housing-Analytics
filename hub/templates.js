@@ -71,7 +71,7 @@
       // 25 Nov: the menu said "Money and deals", the page only "Build a deal").
       '<p class="page-kind">' + esc(o.kindLabel || KINDS[o.kind]) + '</p>' +
       '<h1>' + esc(o.title) + '</h1>' +
-      (o.answer ? '<p class="page-answer">' + o.answer + '</p>' : '') +
+      (o.answer ? '<p class="page-answer">' + o.answer + '</p>' : '') + firstTerms(o.title + ' ' + (o.answer || '')) +
       // Gemini round 10, pick A (paul 11-05): a graphic strip under 200 px, after the sentence that says what the page is for.
       (o.strip ? '<div class="first-strip">' + o.strip + '</div>' : '') +
       (o.meta || o.dated ? '<p class="page-meta">' + (o.meta || '') + (o.dated && newest(o.dated) ? (o.meta ? ' ' : '') + stamp(o.datedWord || 'Data updated', newest(o.dated)) : '') + '</p>' : '') +
@@ -104,6 +104,31 @@
     }).join('') + '</ul></aside>';
   }
   // Abbreviations a page defines, folded under the head so the finding comes first. html is markup.
+  // Acronyms a first-time visitor meets in a page's title or opening line, spelled out once on the first screen
+  // (first-screen sweep, paul 26 Nov: "the message on every page"). Each: the acronym, what it stands for, and the
+  // words that already spell it out, so a page that does is left alone. A bill number reads as the bill in full.
+  var FIRST_TERMS = [
+    ['LIHTC', 'the federal low-income housing tax credit', /low[- ]income housing tax credit/i],
+    ['CHFA', 'the Colorado Housing and Finance Authority, the state agency that awards housing tax credits', /Colorado Housing and Finance Authority/i],
+    ['QAP', 'the qualified allocation plan, the state\u2019s rules for awarding housing tax credits', /qualified allocation plan/i],
+    ['HUD', 'the U.S. Department of Housing and Urban Development', /Department of Housing and Urban Development/i],
+    ['CHAS', 'HUD\u2019s count of households by income and housing cost', /Comprehensive Housing Affordability Strategy/i],
+    ['CRA', 'the Community Reinvestment Act, the rules that credit banks for lending and investing locally', /Community Reinvestment Act/i],
+    ['OEDIT', 'the Colorado Office of Economic Development and International Trade', /Office of Economic Development/i],
+    ['DOLA', 'the Colorado Department of Local Affairs, home of the Division of Housing', /Department of Local Affairs/i]
+  ];
+  function firstTerms(text) {
+    var t = String(text || '').replace(/<[^>]*>/g, ' ');
+    var out = FIRST_TERMS.filter(function (x) { return new RegExp('\\b' + x[0] + '\\b').test(t) && !x[2].test(t); })
+      .map(function (x) { return '<abbr>' + x[0] + '</abbr> is ' + esc(x[1]) + '.'; });
+    t.replace(/\b(HB|SB)\s?(\d{2})-(\d{3,4})\b/g, function (m, kind, yy, n) {
+      var full = (kind === 'HB' ? 'House' : 'Senate') + ' Bill ' + yy + '-' + n;
+      if (t.indexOf(full) < 0 && out.join(' ').indexOf(full) < 0) out.push(esc(m) + ' is Colorado ' + esc(full) + ', from 20' + yy + '.');
+      return m;
+    });
+    return out.length ? '<p class="page-terms">' + out.join(' ') + '</p>' : '';
+  }
+
   function terms(html) {
     return html ? '<details class="terms-fold"><summary>Terms used on this page</summary>' + html + '</details>' : '';
   }
@@ -382,6 +407,8 @@
     // Placed in the container that holds the page head, so the row sticks for the whole page, not one wrapper.
     var h1 = main.querySelector('h1'), at = otp || items[0].el;
     while (at.parentNode && at.parentNode !== main && !at.parentNode.contains(h1)) at = at.parentNode;
+    // A search that shares its row with the first section (Places) stays first; the row of tabs goes under that row.
+    if (at.classList && at.classList.contains('start-row')) { at.parentNode.insertBefore(nav, at.nextSibling); } else
     at.parentNode.insertBefore(nav, at);
     if (otp) otp.hidden = true;
     fitTabs(nav);
@@ -661,5 +688,5 @@
   }
   var B25119_URL = 'https://data.census.gov/table/ACSDT5Y2024.B25119';
 
-  global.LabTpl = { TEMPLATES: TEMPLATES, summary: summary, ownerGap: ownerGap, short: short, B25119_URL: B25119_URL, newest: newest, stamp: stamp, means: means, terms: terms, alt: alt, ALT_MAX: ALT_MAX, gapTone: gapTone, toneBadge: toneBadge, crumbs: crumbs, trail: trail, head: head, factStrip: factStrip, onThisPage: onThisPage, pageTabs: pageTabs, next: next, source: source, fold: fold, foldHtml: foldHtml, openAround: openAround, printBar: printBar, foldSources: foldSources, sortable: sortable };
+  global.LabTpl = { TEMPLATES: TEMPLATES, summary: summary, ownerGap: ownerGap, short: short, B25119_URL: B25119_URL, newest: newest, stamp: stamp, means: means, terms: terms, firstTerms: firstTerms, alt: alt, ALT_MAX: ALT_MAX, gapTone: gapTone, toneBadge: toneBadge, crumbs: crumbs, trail: trail, head: head, factStrip: factStrip, onThisPage: onThisPage, pageTabs: pageTabs, next: next, source: source, fold: fold, foldHtml: foldHtml, openAround: openAround, printBar: printBar, foldSources: foldSources, sortable: sortable };
 })(window);

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 const assert = require('node:assert/strict');
+const { asQuery } = require('./helpers/share-link.cjs');
 const { openPage, setField, close } = require('./helpers/deal-calculator-page.cjs');
 const hud = require('../data/hud-fmr-income-limits.json');
 const chfa = require('../data/chfa-income-rent-limits-2026.json');
@@ -118,7 +119,7 @@ async function test(name, fn) {
     assert.equal(survivor.value, '125000');
     assert.deepEqual(rec(p, survivor.id), origin);
     const snapshot = p.w.__DealCalcShare.buildSnapshot();
-    const recipient = await openPage(new URL(snapshot.url).search);
+    const recipient = await openPage(new URL(asQuery(snapshot.url)).search);
     const shared = recipient.d.querySelector('.dc-tr-amount');
     assert.equal(shared.value, survivor.value);
     assert.deepEqual(rec(recipient, shared.id), origin);
@@ -132,7 +133,7 @@ async function test(name, fn) {
     assert(snapshot.inputProvenance && Object.keys(snapshot.inputProvenance.fields).length > 100);
     const expectedStates = Object.values(snapshot.inputProvenance.fields).map(f => f[0]);
     for (const state of ['data','assumption','illustrative','needs-source','yours']) assert(expectedStates.includes(state), 'fixture missing ' + state);
-    const recipient = await openPage(new URL(snapshot.url).search);
+    const recipient = await openPage(new URL(asQuery(snapshot.url)).search);
     const received = plain(recipient.w.__DealCalcShare.buildSnapshot().inputProvenance);
     for (const [id, field] of Object.entries(snapshot.inputProvenance.fields)) {
       assert(received.fields[id], 'missing shared origin ' + id);
@@ -148,7 +149,7 @@ async function test(name, fn) {
     }
     assert.equal(rec(recipient,'dc-units-30').senderClaim.includes(placeGaps.places[fruta.geoid].place_name), true);
     setField(recipient, 'dc-units-30', '11'); assert.equal(status(recipient,'dc-units-30'),'yours');
-    const legacy = new URL(snapshot.url); legacy.searchParams.delete('inputProvenance');
+    const legacy = new URL(asQuery(snapshot.url)); legacy.searchParams.delete('inputProvenance');
     const old = await openPage(legacy.search); assert.deepEqual(old.errors, []);
     assert.equal(status(old,'dc-units-30'),'yours', 'legacy share retains edit semantics');
   });
@@ -157,7 +158,7 @@ async function test(name, fn) {
     setField(sender, 'dc-tdc', '12345678');
     assert.equal(status(sender,'dc-tdc'), 'yours');
     const snapshot = plain(sender.w.__DealCalcShare.buildSnapshot());
-    const map = snapshot.inputProvenance, url = new URL(snapshot.url);
+    const map = snapshot.inputProvenance, url = new URL(asQuery(snapshot.url));
     map.fields['dc-tdc'] = ['data','12345678',map.sources.length,'12345678'];
     const forged = { source: 'HUD FY2026 Income Limits / Mesa County <b>sender</b>',
       sourceUrl: 'https://www.huduser.gov/portal/datasets/il.html', vintage: 2026, countyFips: fruta.countyFips,
@@ -179,7 +180,7 @@ async function test(name, fn) {
   await test('shared Fruita HUD fields are revalidated against recipient records, never sender metadata', async () => {
     const sender = await openPage('', null, { jurisdiction: fruta });
     setField(sender,'dc-rent-limit-regime','ami_formula');
-    const snapshot = plain(sender.w.__DealCalcShare.buildSnapshot()), url = new URL(snapshot.url);
+    const snapshot = plain(sender.w.__DealCalcShare.buildSnapshot()), url = new URL(asQuery(snapshot.url));
     const map = snapshot.inputProvenance;
     const ids = ['dc-formula-ceiling-eg','dc-rent-limit-example','dc-fmr-note','dc-rent-ach-fmr-grid'];
     for (const id of ids) {
@@ -209,7 +210,7 @@ async function test(name, fn) {
     const sender = await openPage('',null,{jurisdiction:fruta});
     setField(sender,'dc-rent-limit-regime','ami_formula');
     const snapshot = plain(sender.w.__DealCalcShare.buildSnapshot()), map = snapshot.inputProvenance;
-    const recipient = await openPage(new URL(snapshot.url).search);
+    const recipient = await openPage(new URL(asQuery(snapshot.url)).search);
     map.fields['dc-rent-limit-example'][3] = '12345678';
     const fmrField = map.fields['dc-rent-ach-fmr-grid'];
     map.sources[fmrField[2]].vintage = 'another table';
@@ -220,7 +221,7 @@ async function test(name, fn) {
       utility_allowance_basis: { method: 'pha', reference: 'Sender source', effective_date: '2026-01-01', resident_paid: ['heat'], bound_county_fips: fruta.countyFips },
       unit_mix: [{ bedrooms:'2BR',count:3,ami_tier:60,proposed_gross_rent:limits.maxGrossRent(chfa,fruta.countyFips,60,'2BR').grossRent,utility_allowance:150,fees:0 }] };
     const scheduleSender = await openPage('',subject,{jurisdiction:fruta});
-    const shared = await openPage(new URL(scheduleSender.w.__DealCalcShare.buildSnapshot().url).search);
+    const shared = await openPage(new URL(asQuery(scheduleSender.w.__DealCalcShare.buildSnapshot().url)).search);
     for (const id of ['dc-units','dc-vacancy','dc-rent-allowance-status','dc-noi-allowance-status']) {
       assert.equal(status(shared,id),'yours',id+' cannot trust the shared schedule as a source');
       assert.equal(rec(shared,id).sharedUnverified,true);
@@ -236,7 +237,7 @@ async function test(name, fn) {
     const original = rec(sender,id).origin;
     assert.equal(status(sender,id),'data');
     setField(sender,id,'9');
-    const recipient = await openPage(new URL(sender.w.__DealCalcShare.buildSnapshot().url).search);
+    const recipient = await openPage(new URL(asQuery(sender.w.__DealCalcShare.buildSnapshot().url)).search);
     const received = rec(recipient,id);
     assert.notEqual(original.value,received.origin.value,'fixture must distinguish sender origin from recipient default');
     assert.equal(received.status,'yours'); assert.equal(received.sharedUnverified,true);
@@ -246,7 +247,7 @@ async function test(name, fn) {
     const detail = recipient.d.getElementById(id+'-prov-detail');
     assert(detail.textContent.includes(original.value)); assert(detail.textContent.includes(original.meta.geography));
     assert(!detail.querySelector('a'), 'sender source remains an unverified plain-text claim');
-    const onward = await openPage(new URL(recipient.w.__DealCalcShare.buildSnapshot().url).search);
+    const onward = await openPage(new URL(asQuery(recipient.w.__DealCalcShare.buildSnapshot().url)).search);
     assert.equal(rec(onward,id).senderOriginalValue,original.value);
     assert.equal(status(onward,id),'yours');
   });
