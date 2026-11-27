@@ -337,7 +337,7 @@
     "test:hna-ranking-index": "node test/hna-ranking-index.test.js",
     "test:ranking-scenarios": "node test/ranking-scenarios.test.js",
     "test:home-value-integrity": "node --test test/home-value-integrity.test.mjs",
-    "test:hna-home-values": "node test/hna-home-value-cascade.test.js",
+    "test:hna-home-values": "node test/hna-home-value-cascade.test.js && node test/hna-home-value-small-town.test.mjs",
     "test:jurisdiction-metrics-digest": "node test/jurisdiction-metrics-digest.test.js",
     "test:car-showingtime": "node test/car-showingtime-fetcher.test.mjs",
     "test:hna-car-loader": "node test/hna-car-loader.test.js",

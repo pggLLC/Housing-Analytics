@@ -23,6 +23,25 @@ const REGISTRY = path.join(ROOT, 'data', 'hna', 'geography-registry.json');
 const SUMMARY_DIR = path.join(ROOT, 'data', 'hna', 'summary');
 const OUT = path.join(ROOT, 'data', 'hna', 'home-value-cascade.json');
 const CROSSWALK_OUT = path.join(ROOT, 'data', 'hna', 'zhvi-place-crosswalk.json');
+const ACS_RELIABILITY = path.join(ROOT, 'data', 'hna', 'acs-reliability.json');
+
+// Owner's rule (2026-11-27): a town under this population that matches a Zillow
+// row for the first time keeps its ACS value (or stays blank) when Zillow falls
+// outside the ACS 90% margin of error, or there is no ACS value to check it
+// against. Zillow's city index for a town of a few hundred rests on very few
+// sales (Aguilar, 401 people: ACS $96,400 ± $3,973 against Zillow $255,690).
+// The place is listed under review_flags.zhvi_small_town_unconfirmed.
+export const SMALL_TOWN_POPULATION = 1000;
+
+export function smallTownZhviCheck({ isNewMatch, population, zhviValue, acsValue, acsMoe }) {
+  if (!isNewMatch) return null;
+  if (!Number.isFinite(population) || population >= SMALL_TOWN_POPULATION) return null;
+  const hasAcs = Number.isFinite(acsValue) && acsValue > 0;
+  if (hasAcs && Number.isFinite(acsMoe) && zhviValue >= acsValue - acsMoe && zhviValue <= acsValue + acsMoe) return null;
+  return hasAcs
+    ? (Number.isFinite(acsMoe) ? 'zillow_outside_acs_margin' : 'no_acs_margin_to_check')
+    : 'no_acs_value_to_check';
+}
 const FHFA_HPI = path.join(ROOT, 'data', 'market', 'fhfa_hpi_subcounty_co.json');
 const ACS_HOME_VALUE_DOLLAR_YEAR = 2024;
 
@@ -87,6 +106,7 @@ async function loadZhviRows() {
   let headers = null;
   let month = null;
   const byKey = new Map();
+  const byRegionId = new Map();
   let coRows = 0;
 
   for await (const line of rl) {
@@ -102,16 +122,18 @@ async function loadZhviRows() {
     const value = Number(row[month.idx]);
     if (!regionName || !countyName || !Number.isFinite(value) || value <= 0) continue;
     const key = normName(regionName) + '|' + normName(countyName);
-    byKey.set(key, {
+    const entry = {
       regionId: row[headers.indexOf('RegionID')],
       regionName,
       countyName,
       value: Math.round(value),
       asOf: month.key,
-    });
+    };
+    byKey.set(key, entry);
+    if (entry.regionId) byRegionId.set(String(entry.regionId), entry);
     coRows += 1;
   }
-  return { byKey, latestAsOf: month.key, coRows };
+  return { byKey, byRegionId, latestAsOf: month.key, coRows };
 }
 
 // ACS multiyear dollar estimates are restated to the period's final year,
@@ -214,6 +236,13 @@ async function main() {
   const existing = fs.existsSync(OUT) ? readJson(OUT) : {};
   const zhviRows = hasCityZhvi ? await loadZhviRows() : null;
   const byKey = zhviRows ? zhviRows.byKey : new Map();
+  const byRegionId = zhviRows ? zhviRows.byRegionId : new Map();
+  // Zillow sometimes re-labels a city's county (Carbondale moved from Garfield
+  // to Pitkin in the October 2026 file), which breaks the name|county key. A
+  // place matched before keeps its match through the RegionID it was matched to.
+  const priorCrosswalk = fs.existsSync(CROSSWALK_OUT) ? (readJson(CROSSWALK_OUT).places || {}) : {};
+  const reliability = fs.existsSync(ACS_RELIABILITY) ? (readJson(ACS_RELIABILITY).geos || {}) : {};
+  const smallTown = [];
   const latestAsOf = zhviRows ? zhviRows.latestAsOf : (existing.meta && existing.meta.latest_zhvi_month) || null;
   const coRows = zhviRows ? zhviRows.coRows : (existing.meta && existing.meta.colorado_zhvi_rows) || 0;
 
@@ -231,6 +260,9 @@ async function main() {
     if (existing.review_flags && Array.isArray(existing.review_flags.zhvi_over_acs_ratio_gt_3)) {
       review.push(...existing.review_flags.zhvi_over_acs_ratio_gt_3);
     }
+    if (existing.review_flags && Array.isArray(existing.review_flags.zhvi_small_town_unconfirmed)) {
+      smallTown.push(...existing.review_flags.zhvi_small_town_unconfirmed);
+    }
   }
 
   for (const [geoid, place] of hasCityZhvi ? Object.entries(centroids).sort(([a], [b]) => a.localeCompare(b)) : []) {
@@ -242,10 +274,34 @@ async function main() {
     const profile = summary.acsProfile || {};
     const acsValue = Number(profile.DP04_0089E);
     const key = normName(place.name) + '|' + normName(countyName);
-    const zhvi = byKey.get(key) || null;
+    const priorId = priorCrosswalk[geoid] && priorCrosswalk[geoid].zillow_region_id;
+    const zhvi = byKey.get(key) || (priorId ? byRegionId.get(String(priorId)) : null) || null;
 
     let display;
-    if (zhvi) {
+    const rawMoe = ((reliability[geoid] || {}).DP04_0089E || {}).m;
+    const acsMoe = rawMoe == null || rawMoe === '' ? NaN : Number(rawMoe);
+    const smallTownReason = zhvi ? smallTownZhviCheck({
+      isNewMatch: !priorId,
+      population: Number(profile.DP05_0001E),
+      zhviValue: zhvi.value,
+      acsValue,
+      acsMoe,
+    }) : null;
+    if (smallTownReason) {
+      smallTown.push({
+        geoid,
+        place_name: place.name,
+        county_fips: countyFips,
+        population: Number(profile.DP05_0001E),
+        acs_value: Number.isFinite(acsValue) && acsValue > 0 ? acsValue : null,
+        acs_moe: Number.isFinite(acsMoe) ? acsMoe : null,
+        zhvi_value: zhvi.value,
+        zhvi_as_of: zhvi.asOf,
+        zillow_region_id: zhvi.regionId,
+        reason: smallTownReason,
+      });
+    }
+    if (zhvi && !smallTownReason) {
       display = {
         value: zhvi.value,
         source: 'zhvi',
@@ -278,6 +334,10 @@ async function main() {
         as_of: 'ACS 2020-2024 5-year',
         confidence: Number.isFinite(acsValue) && acsValue > 0 ? 'low' : 'missing',
       };
+      if (smallTownReason) {
+        display.review_note = `Zillow's first value for this town (${zhvi.asOf}) is not used until checked: `
+          + (smallTownReason === 'zillow_outside_acs_margin' ? 'it falls outside the ACS margin of error.' : 'there is no ACS value or margin to check it against.');
+      }
       acsCount += 1;
     }
 
@@ -320,6 +380,7 @@ async function main() {
     counties: countyRows.counties,
     review_flags: {
       zhvi_over_acs_ratio_gt_3: review,
+      zhvi_small_town_unconfirmed: smallTown,
     },
   }, null, 2) + '\n');
 

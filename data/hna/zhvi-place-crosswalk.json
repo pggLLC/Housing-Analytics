@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-14T02:55:41.547Z",
+    "generated_at": "2026-11-27T11:27:19.457Z",
     "source": "Derived from Census GEOID place names + containing county matched to Zillow city RegionID + CountyName.",
-    "latest_zhvi_month": "2026-08-31",
-    "count": 270
+    "latest_zhvi_month": "2026-10-31",
+    "count": 281
   },
   "places": {
     "0800320": {
@@ -150,6 +150,12 @@
       "zillow_county_name": "Adams County",
       "county_fips": "08001"
     },
+    "0809115": {
+      "zillow_region_id": "119284",
+      "zillow_region_name": "Brookside",
+      "zillow_county_name": "Fremont County",
+      "county_fips": "08043"
+    },
     "0809280": {
       "zillow_region_id": "10574",
       "zillow_region_name": "Broomfield",
@@ -183,7 +189,7 @@
     "0812045": {
       "zillow_region_id": "10710",
       "zillow_region_name": "Carbondale",
-      "zillow_county_name": "Garfield County",
+      "zillow_county_name": "Pitkin County",
       "county_fips": "08045"
     },
     "0812387": {
@@ -257,6 +263,12 @@
       "zillow_region_name": "Coal Creek",
       "zillow_county_name": "Jefferson County",
       "county_fips": "08059"
+    },
+    "0815330": {
+      "zillow_region_id": "21678",
+      "zillow_region_name": "Coal Creek",
+      "zillow_county_name": "Fremont County",
+      "county_fips": "08043"
     },
     "0815605": {
       "zillow_region_id": "10909",
@@ -624,6 +636,12 @@
       "zillow_county_name": "Boulder County",
       "county_fips": "08013"
     },
+    "0831550": {
+      "zillow_region_id": "45501",
+      "zillow_region_name": "Granada",
+      "zillow_county_name": "Prowers County",
+      "county_fips": "08099"
+    },
     "0831605": {
       "zillow_region_id": "11665",
       "zillow_region_name": "Granby",
@@ -708,6 +726,12 @@
       "zillow_county_name": "Morgan County",
       "county_fips": "08087"
     },
+    "0837215": {
+      "zillow_region_id": "52549",
+      "zillow_region_name": "Holly",
+      "zillow_county_name": "Prowers County",
+      "county_fips": "08099"
+    },
     "0837270": {
       "zillow_region_id": "39032",
       "zillow_region_name": "Holyoke",
@@ -755,6 +779,12 @@
       "zillow_region_name": "Idalia",
       "zillow_county_name": "Yuma County",
       "county_fips": "08125"
+    },
+    "0838480": {
+      "zillow_region_id": "16589",
+      "zillow_region_name": "Idledale",
+      "zillow_county_name": "Jefferson County",
+      "county_fips": "08059"
     },
     "0838535": {
       "zillow_region_id": "50509",
@@ -989,6 +1019,12 @@
       "zillow_region_name": "Marble",
       "zillow_county_name": "Gunnison County",
       "county_fips": "08051"
+    },
+    "0849215": {
+      "zillow_region_id": "39666",
+      "zillow_region_name": "Matheson",
+      "zillow_county_name": "Elbert County",
+      "county_fips": "08039"
     },
     "0849600": {
       "zillow_region_id": "25835",
@@ -1296,6 +1332,12 @@
       "zillow_county_name": "Rio Blanco County",
       "county_fips": "08103"
     },
+    "0863265": {
+      "zillow_region_id": "54075",
+      "zillow_region_name": "Red Cliff",
+      "zillow_county_name": "Eagle County",
+      "county_fips": "08037"
+    },
     "0863320": {
       "zillow_region_id": "35854",
       "zillow_region_name": "Red Feather Lakes",
@@ -1368,6 +1410,12 @@
       "zillow_county_name": "Douglas County",
       "county_fips": "08035"
     },
+    "0869040": {
+      "zillow_region_id": "29811",
+      "zillow_region_name": "Seibert",
+      "zillow_county_name": "Kit Carson County",
+      "county_fips": "08063"
+    },
     "0869150": {
       "zillow_region_id": "7017",
       "zillow_region_name": "Severance",
@@ -1439,6 +1487,12 @@
       "zillow_region_name": "South Fork",
       "zillow_county_name": "Rio Grande County",
       "county_fips": "08105"
+    },
+    "0873330": {
+      "zillow_region_id": "54521",
+      "zillow_region_name": "Springfield",
+      "zillow_county_name": "Baca County",
+      "county_fips": "08009"
     },
     "0873825": {
       "zillow_region_id": "20642",
@@ -1530,11 +1584,23 @@
       "zillow_county_name": "Teller County",
       "county_fips": "08119"
     },
+    "0882130": {
+      "zillow_region_id": "41540",
+      "zillow_region_name": "Walden",
+      "zillow_county_name": "Jackson County",
+      "county_fips": "08057"
+    },
     "0882350": {
       "zillow_region_id": "14462",
       "zillow_region_name": "Walsenburg",
       "zillow_county_name": "Huerfano County",
       "county_fips": "08055"
+    },
+    "0882460": {
+      "zillow_region_id": "7753",
+      "zillow_region_name": "Walsh",
+      "zillow_county_name": "Baca County",
+      "county_fips": "08009"
     },
     "0882735": {
       "zillow_region_id": "48326",
