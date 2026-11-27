@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-10-14T02:55:41.547Z",
+    "generated_at": "2026-11-27T05:05:16.807Z",
     "source": "Derived from Census GEOID place names + containing county matched to Zillow city RegionID + CountyName.",
-    "latest_zhvi_month": "2026-08-31",
-    "count": 270
+    "latest_zhvi_month": "2026-10-31",
+    "count": 289
   },
   "places": {
     "0800320": {
@@ -11,6 +11,12 @@
       "zillow_region_name": "Acres Green",
       "zillow_county_name": "Douglas County",
       "county_fips": "08035"
+    },
+    "0800760": {
+      "zillow_region_id": "23416",
+      "zillow_region_name": "Aguilar",
+      "zillow_county_name": "Las Animas County",
+      "county_fips": "08071"
     },
     "0800925": {
       "zillow_region_id": "3338",
@@ -41,6 +47,18 @@
       "zillow_region_name": "Antonito",
       "zillow_county_name": "Conejos County",
       "county_fips": "08021"
+    },
+    "0802850": {
+      "zillow_region_id": "23506",
+      "zillow_region_name": "Arapahoe",
+      "zillow_county_name": "Cheyenne County",
+      "county_fips": "08017"
+    },
+    "0803235": {
+      "zillow_region_id": "55391",
+      "zillow_region_name": "Arriba",
+      "zillow_county_name": "Lincoln County",
+      "county_fips": "08073"
     },
     "0803455": {
       "zillow_region_id": "10181",
@@ -108,6 +126,12 @@
       "zillow_county_name": "Larimer County",
       "county_fips": "08069"
     },
+    "0806530": {
+      "zillow_region_id": "28078",
+      "zillow_region_name": "Bethune",
+      "zillow_county_name": "Kit Carson County",
+      "county_fips": "08063"
+    },
     "0807190": {
       "zillow_region_id": "37453",
       "zillow_region_name": "Blanca",
@@ -150,6 +174,12 @@
       "zillow_county_name": "Adams County",
       "county_fips": "08001"
     },
+    "0809115": {
+      "zillow_region_id": "119284",
+      "zillow_region_name": "Brookside",
+      "zillow_county_name": "Fremont County",
+      "county_fips": "08043"
+    },
     "0809280": {
       "zillow_region_id": "10574",
       "zillow_region_name": "Broomfield",
@@ -179,12 +209,6 @@
       "zillow_region_name": "Calhan",
       "zillow_county_name": "El Paso County",
       "county_fips": "08041"
-    },
-    "0812045": {
-      "zillow_region_id": "10710",
-      "zillow_region_name": "Carbondale",
-      "zillow_county_name": "Garfield County",
-      "county_fips": "08045"
     },
     "0812387": {
       "zillow_region_id": "119344",
@@ -257,6 +281,12 @@
       "zillow_region_name": "Coal Creek",
       "zillow_county_name": "Jefferson County",
       "county_fips": "08059"
+    },
+    "0815330": {
+      "zillow_region_id": "21678",
+      "zillow_region_name": "Coal Creek",
+      "zillow_county_name": "Fremont County",
+      "county_fips": "08043"
     },
     "0815605": {
       "zillow_region_id": "10909",
@@ -594,6 +624,12 @@
       "zillow_county_name": "Jefferson County",
       "county_fips": "08059"
     },
+    "0829680": {
+      "zillow_region_id": "45410",
+      "zillow_region_name": "Genoa",
+      "zillow_county_name": "Lincoln County",
+      "county_fips": "08073"
+    },
     "0829735": {
       "zillow_region_id": "52196",
       "zillow_region_name": "Georgetown",
@@ -623,6 +659,12 @@
       "zillow_region_name": "Gold Hill",
       "zillow_county_name": "Boulder County",
       "county_fips": "08013"
+    },
+    "0831550": {
+      "zillow_region_id": "45501",
+      "zillow_region_name": "Granada",
+      "zillow_county_name": "Prowers County",
+      "county_fips": "08099"
     },
     "0831605": {
       "zillow_region_id": "11665",
@@ -659,6 +701,12 @@
       "zillow_region_name": "Greenwood Village",
       "zillow_county_name": "Arapahoe County",
       "county_fips": "08005"
+    },
+    "0833310": {
+      "zillow_region_id": "24976",
+      "zillow_region_name": "Grover",
+      "zillow_county_name": "Weld County",
+      "county_fips": "08123"
     },
     "0833420": {
       "zillow_region_id": "11751",
@@ -708,6 +756,12 @@
       "zillow_county_name": "Morgan County",
       "county_fips": "08087"
     },
+    "0837215": {
+      "zillow_region_id": "52549",
+      "zillow_region_name": "Holly",
+      "zillow_county_name": "Prowers County",
+      "county_fips": "08099"
+    },
     "0837270": {
       "zillow_region_id": "39032",
       "zillow_region_name": "Holyoke",
@@ -755,6 +809,12 @@
       "zillow_region_name": "Idalia",
       "zillow_county_name": "Yuma County",
       "county_fips": "08125"
+    },
+    "0838480": {
+      "zillow_region_id": "16589",
+      "zillow_region_name": "Idledale",
+      "zillow_county_name": "Jefferson County",
+      "county_fips": "08059"
     },
     "0838535": {
       "zillow_region_id": "50509",
@@ -990,6 +1050,12 @@
       "zillow_county_name": "Gunnison County",
       "county_fips": "08051"
     },
+    "0849215": {
+      "zillow_region_id": "39666",
+      "zillow_region_name": "Matheson",
+      "zillow_county_name": "Elbert County",
+      "county_fips": "08039"
+    },
     "0849600": {
       "zillow_region_id": "25835",
       "zillow_region_name": "Mead",
@@ -1025,6 +1091,12 @@
       "zillow_region_name": "Milliken",
       "zillow_county_name": "Weld County",
       "county_fips": "08123"
+    },
+    "0850920": {
+      "zillow_region_id": "49777",
+      "zillow_region_name": "Minturn",
+      "zillow_county_name": "Eagle County",
+      "county_fips": "08037"
     },
     "0851250": {
       "zillow_region_id": "23310",
@@ -1296,6 +1368,12 @@
       "zillow_county_name": "Rio Blanco County",
       "county_fips": "08103"
     },
+    "0863265": {
+      "zillow_region_id": "54075",
+      "zillow_region_name": "Red Cliff",
+      "zillow_county_name": "Eagle County",
+      "county_fips": "08037"
+    },
     "0863320": {
       "zillow_region_id": "35854",
       "zillow_region_name": "Red Feather Lakes",
@@ -1368,6 +1446,18 @@
       "zillow_county_name": "Douglas County",
       "county_fips": "08035"
     },
+    "0868930": {
+      "zillow_region_id": "13762",
+      "zillow_region_name": "Sedgwick",
+      "zillow_county_name": "Sedgwick County",
+      "county_fips": "08115"
+    },
+    "0869040": {
+      "zillow_region_id": "29811",
+      "zillow_region_name": "Seibert",
+      "zillow_county_name": "Kit Carson County",
+      "county_fips": "08063"
+    },
     "0869150": {
       "zillow_region_id": "7017",
       "zillow_region_name": "Severance",
@@ -1439,6 +1529,12 @@
       "zillow_region_name": "South Fork",
       "zillow_county_name": "Rio Grande County",
       "county_fips": "08105"
+    },
+    "0873330": {
+      "zillow_region_id": "54521",
+      "zillow_region_name": "Springfield",
+      "zillow_county_name": "Baca County",
+      "county_fips": "08009"
     },
     "0873825": {
       "zillow_region_id": "20642",
@@ -1530,11 +1626,23 @@
       "zillow_county_name": "Teller County",
       "county_fips": "08119"
     },
+    "0882130": {
+      "zillow_region_id": "41540",
+      "zillow_region_name": "Walden",
+      "zillow_county_name": "Jackson County",
+      "county_fips": "08057"
+    },
     "0882350": {
       "zillow_region_id": "14462",
       "zillow_region_name": "Walsenburg",
       "zillow_county_name": "Huerfano County",
       "county_fips": "08055"
+    },
+    "0882460": {
+      "zillow_region_id": "7753",
+      "zillow_region_name": "Walsh",
+      "zillow_county_name": "Baca County",
+      "county_fips": "08009"
     },
     "0882735": {
       "zillow_region_id": "48326",
@@ -1601,6 +1709,12 @@
       "zillow_region_name": "Winter Park",
       "zillow_county_name": "Grand County",
       "county_fips": "08049"
+    },
+    "0885760": {
+      "zillow_region_id": "56685",
+      "zillow_region_name": "Wolcott",
+      "zillow_county_name": "Eagle County",
+      "county_fips": "08037"
     },
     "0886090": {
       "zillow_region_id": "8000",

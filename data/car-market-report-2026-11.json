@@ -1,0 +1,101 @@
+{
+  "month": "2026-11",
+  "generated_at": "2026-11-27T05:05:10.857Z",
+  "estimated": true,
+  "estimated_scopes": {
+    "counties": true,
+    "statewide": true,
+    "metro": true
+  },
+  "estimate_basis": "trend-projection from 2026-10",
+  "source": "Colorado Association of REALTORS (CAR)",
+  "source_url": "https://coloradorealtors.com/market-trends/",
+  "version": "1.0",
+  "statewide": {
+    "median_sale_price": null,
+    "active_listings": 24092,
+    "median_days_on_market": 31.4,
+    "median_price_per_sqft": null,
+    "closed_sales": 7990,
+    "new_listings": 11077,
+    "months_of_supply": 3.1,
+    "list_to_sale_ratio": null,
+    "estimated_reason": "price_not_published_by_car",
+    "last_real_price_month": null
+  },
+  "metro_areas": {
+    "denver": {
+      "name": "Denver Metro",
+      "median_sale_price": null,
+      "active_listings": 9155,
+      "median_days_on_market": 29.2,
+      "median_price_per_sqft": null,
+      "closed_sales": 3196,
+      "new_listings": 4211,
+      "months_of_supply": 2.8,
+      "estimated_reason": "price_not_published_by_car",
+      "last_real_price_month": null
+    },
+    "colorado_springs": {
+      "name": "Colorado Springs",
+      "median_sale_price": null,
+      "active_listings": 2891,
+      "median_days_on_market": 33.4,
+      "median_price_per_sqft": null,
+      "closed_sales": 1039,
+      "new_listings": 1327,
+      "months_of_supply": 3.3,
+      "estimated_reason": "price_not_published_by_car",
+      "last_real_price_month": null
+    },
+    "fort_collins": {
+      "name": "Fort Collins / Greeley",
+      "median_sale_price": null,
+      "active_listings": 2168,
+      "median_days_on_market": 31.4,
+      "median_price_per_sqft": null,
+      "closed_sales": 641,
+      "new_listings": 997,
+      "months_of_supply": 3.2,
+      "estimated_reason": "price_not_published_by_car",
+      "last_real_price_month": null
+    },
+    "boulder": {
+      "name": "Boulder",
+      "median_sale_price": null,
+      "active_listings": 1204,
+      "median_days_on_market": 29.7,
+      "median_price_per_sqft": null,
+      "closed_sales": 320,
+      "new_listings": 554,
+      "months_of_supply": 2.9,
+      "estimated_reason": "price_not_published_by_car",
+      "last_real_price_month": null
+    },
+    "pueblo": {
+      "name": "Pueblo",
+      "median_sale_price": null,
+      "active_listings": 964,
+      "median_days_on_market": 39.4,
+      "median_price_per_sqft": null,
+      "closed_sales": 320,
+      "new_listings": 444,
+      "months_of_supply": 3.9,
+      "estimated_reason": "price_not_published_by_car",
+      "last_real_price_month": null
+    },
+    "grand_junction": {
+      "name": "Grand Junction",
+      "median_sale_price": null,
+      "active_listings": 964,
+      "median_days_on_market": 36.4,
+      "median_price_per_sqft": null,
+      "closed_sales": 320,
+      "new_listings": 444,
+      "months_of_supply": 3.6,
+      "estimated_reason": "price_not_published_by_car",
+      "last_real_price_month": null
+    }
+  },
+  "notes": "Tracking volumes and days on market estimated for November 2026 by trend-projection from 2026-10. Prices not yet published by CAR; no price estimates are provided."
+}
