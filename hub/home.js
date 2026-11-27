@@ -154,7 +154,7 @@
           ' a year: DOLA household growth × the share of all households that are renters at ≤60% AMI, from ACS 2020–2024), before any losses from the existing affordable stock, which no source here measures. Acquisition and rehab (' + (fin(f.presPerYr) ? num(f.presPerYr) : '—') + ' a year) preserves homes; it does not add to them.',
         src: '<a href="' + HSRC.b25118 + '">ACS 2020–2024 (B25118)</a> · <a href="' + HSRC.dola + '">State Demography Office household forecast' + (f.sdoVintage ? ', Vintage ' + esc(f.sdoVintage) : '') + ', from 2024</a> · <a href="' + HSRC.chfa + '">CHFA tax credit properties</a>' })
     ];
-    return '<section class="home-glance" aria-labelledby="h-glance"><h2 id="h-glance">Colorado at a glance</h2><div class="hg-grid">' + cards.join('') + '</div>' +
+    return '<section class="home-glance" aria-labelledby="h-glance"><h2 id="h-glance">A closer look at Colorado’s numbers</h2><p class="hg-lede">Three of these are the figures at the top, with how each is counted and where it comes from. Two are new: owners who pay too much, and how far new tax-credit homes keep up with new low-income renters.</p><div class="hg-grid">' + cards.join('') + '</div>' +
       '<div class="hg-read"><p><strong>Why this matters.</strong> The shortfall is deepest for the lowest-income renters, and new tax-credit homes cover only part of each year’s growth in low-income renters, so building at today’s pace does not keep up with new demand, let alone the existing shortfall.</p>' +
       '<p><strong>What to decide.</strong> Which income band a project should serve, and whether to add new homes or keep existing affordable ones. Statewide figures hide wide local differences, so check your town’s numbers before you decide.</p></div>' +
       '<p class="hg-burden">Across Colorado, roughly half of <strong>renters</strong> pay 30% or more of their income for housing (' + (fin(f.burden) ? f.burden.toFixed(1) + '% in ' : '') + '<a href="' + HSRC.b25070 + '">ACS 2020–2024</a>' +
@@ -208,7 +208,7 @@
   function doors(params) {
     var picked = params.get('door'), g = params.get('town');
     var d = DOORS.filter(function (x) { return x[0] === picked; })[0];
-    return '<div class="home-doors"><p class="hd-ask" id="hd-ask">What brings you here?</p><ul class="home-chips" aria-labelledby="hd-ask">' + DOORS.map(function (x) {
+    return '<div class="home-doors"><p class="hd-hands"><strong>It takes many hands, working from the same facts.</strong> Town staff, builders, lenders, nonprofits and neighbors each have a part. Plans move faster when everyone starts from the same numbers, and every number here links to where it came from.</p><p class="hd-ask" id="hd-ask">What brings you here?</p><ul class="home-chips" aria-labelledby="hd-ask">' + DOORS.map(function (x) {
       return '<li><a href="' + esc(homeHref(params, { door: x[0] === picked ? '' : x[0], q: '' })) + '"' + (x[0] === picked ? ' aria-current="true"' : '') + '>' + esc(x[1]) + '</a></li>';
     }).join('') + '</ul>' +
       (d ? '<div class="hd-next"><p class="hd-title">Next steps for you</p>' + doorLinks(d, g) + '</div>' : '') + '</div>';
@@ -459,7 +459,8 @@
     var W = [
       ['A home is where the rest starts', 'Kids stay in one school. People keep their jobs and see the same doctor. There is something left at the end of the month to save.'],
       ['Towns need the people who keep them running', 'When rent and prices run ahead of pay, teachers, nurses, cooks and retirees move away or drive in from far off. Businesses can’t hire, and people who grew up there can’t afford to stay.'],
-      ['It takes many hands, working from the same facts', 'Town staff, builders, lenders, nonprofits and neighbors each have a part. Plans move faster when everyone starts from the same numbers, and every number here links to where it came from.']
+      // The third card says why homes matter; "many hands" moved to lead into the roles (paul, 27 Nov).
+      ['Homes keep a town’s future in town', 'Young families starting out, workers taking a new job and older residents who want to stay all need a home they can afford. When there isn’t one, they leave, and so do the schools, shops and volunteers they kept going.']
     ];
     return '<section class="home-why" aria-labelledby="h-why"><h2 id="h-why">Why affordable housing matters</h2><ul class="hw-list">' + W.map(function (w) {
       return '<li><strong>' + esc(w[0]) + '</strong> ' + esc(w[1]) + '</li>';
