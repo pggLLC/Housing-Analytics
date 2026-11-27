@@ -278,7 +278,8 @@ async function main() {
     const zhvi = byKey.get(key) || (priorId ? byRegionId.get(String(priorId)) : null) || null;
 
     let display;
-    const acsMoe = Number(((reliability[geoid] || {}).DP04_0089E || {}).m);
+    const rawMoe = ((reliability[geoid] || {}).DP04_0089E || {}).m;
+    const acsMoe = rawMoe == null || rawMoe === '' ? NaN : Number(rawMoe);
     const smallTownReason = zhvi ? smallTownZhviCheck({
       isNewMatch: !priorId,
       population: Number(profile.DP05_0001E),

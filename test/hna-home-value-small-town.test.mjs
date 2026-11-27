@@ -31,5 +31,14 @@ for (const f of flagged) {
   assert.notStrictEqual(row.source, 'zhvi', `${f.place_name} is flagged but shows Zillow`);
   assert.ok(row.review_note, `${f.place_name} is flagged but carries no review note`);
   assert.ok(f.population < SMALL_TOWN_POPULATION, `${f.place_name} is flagged but has ${f.population} people`);
+  // The page reads the place summary, so the note and the non-Zillow value must reach it too.
+  const summaryPath = path.join(ROOT, 'data/hna/summary', `${f.geoid}.json`);
+  if (fs.existsSync(summaryPath)) {
+    const shown = ((JSON.parse(fs.readFileSync(summaryPath, 'utf8')).acsProfile) || {}).median_home_value || {};
+    assert.notStrictEqual(shown.source, 'zhvi', `${f.place_name} summary shows Zillow`);
+    assert.strictEqual(shown.review_note, row.review_note, `${f.place_name} summary lost its review note`);
+  }
+  // A missing ACS margin stays null, never a zero-width margin.
+  if (f.reason !== 'zillow_outside_acs_margin') assert.notStrictEqual(f.acs_moe, 0, `${f.place_name} margin read as 0`);
 }
 console.log(`hna-home-value-small-town: ok (${flagged.length} flagged)`);

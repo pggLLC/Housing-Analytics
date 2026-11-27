@@ -50,6 +50,8 @@ function cloneDisplay(display) {
   if (display && display.zillow_region_id != null) out.zillow_region_id = String(display.zillow_region_id);
   const raw = safeNumber(display && display.acs_raw_value);
   if (raw !== null) out.acs_raw_value = raw;
+  // Held small towns carry a note saying Zillow's first value waits for a check.
+  if (display && display.review_note) out.review_note = String(display.review_note);
   return out;
 }
 

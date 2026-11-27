@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-27T11:27:19.456Z",
+    "generated_at": "2026-11-27T11:50:32.843Z",
     "schema": "median_home_value = { value, source, as_of, confidence }; counties are display-only affordability inputs and are ignored by rank/score models",
     "sources": {
       "zhvi_city_csv": "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
@@ -4690,7 +4690,7 @@
         "county_fips": "08017",
         "population": 53,
         "acs_value": null,
-        "acs_moe": 0,
+        "acs_moe": null,
         "zhvi_value": 246681,
         "zhvi_as_of": "2026-10-31",
         "zillow_region_id": "23506",
@@ -4738,7 +4738,7 @@
         "county_fips": "08123",
         "population": 164,
         "acs_value": null,
-        "acs_moe": 0,
+        "acs_moe": null,
         "zhvi_value": 338017,
         "zhvi_as_of": "2026-10-31",
         "zillow_region_id": "24976",
@@ -4774,7 +4774,7 @@
         "county_fips": "08037",
         "population": 0,
         "acs_value": null,
-        "acs_moe": 0,
+        "acs_moe": null,
         "zhvi_value": 2908888,
         "zhvi_as_of": "2026-10-31",
         "zillow_region_id": "56685",
