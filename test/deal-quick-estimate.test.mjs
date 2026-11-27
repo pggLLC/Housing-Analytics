@@ -267,6 +267,35 @@ try {
     await w.ctx.close();
   }
 
+  // A bedroom row left open while the full calculator's "Pre-fill from local need" sets new tier totals and clears
+  // their sizes (Codex, #3046): the new totals stand, the row closes, and "One size" can't zero the tier.
+  {
+    const w = await open(browser);
+    const t = w.tab;
+    const v = (id) => t.$eval('#' + id, (u) => u.value);
+    await t.selectOption('#dq-county', MESA);
+    await settle(t);
+    for (const p of [30, 50, 60]) await t.click('#dq-more-' + p);
+    const all0 = await v('dc-units');
+    await t.evaluate(() => document.getElementById('dc-ami-prefill').click());
+    await settle(t);
+    const filled = [];
+    for (const p of [30, 50, 60]) {
+      const n = Number(await v('dc-units-' + p));
+      const cleared = await t.evaluate((q) => ['studio', '1br', '2br', '3br', '4br'].every((b) => !(Number(document.getElementById('dc-units-' + q + '-' + b).value) > 0)), p);
+      if (n > 0 && cleared) filled.push({ p, n });
+    }
+    ok(filled.length > 0, 'non-vacuous: the local-need pre-fill put homes in a tier and cleared its sizes: ' + JSON.stringify(filled) + ' ' + await t.$eval('#dc-ami-prefill-meta', (m) => m.textContent));
+    for (const f of filled) {
+      if (await t.$eval('#dq-split-' + f.p, (r) => !r.hidden)) await t.click('#dq-split-' + f.p + ' button[data-dq-act="close"]');
+      ok(await t.$eval('#dq-split-' + f.p, (r) => r.hidden) && Number(await v('dq-units-' + f.p)) === f.n && Number(await v('dc-units-' + f.p)) === f.n,
+        'the pre-filled ' + f.p + '% count (' + f.n + ') stands and its row is closed (' + await v('dc-units-' + f.p) + ')');
+    }
+    ok(await v('dc-units') === all0, 'Total Units is the pre-fill\'s own total (' + await v('dc-units') + ', was ' + all0 + ')');
+    ok(w.errors.length === 0, 'no page errors with the pre-fill: ' + w.errors.slice(0, 3).join(' | '));
+    await w.ctx.close();
+  }
+
   // paul's walkthrough, 27 Nov 2026 ("I'm getting errors", "even when they match"): Mesa, $20.2M, 9%, one home at
   // 20% (3 bedrooms) and one at 70% beside the default 60. The 70% home earns no credit under the 40-60 election,
   // so the law needs floor space (26 U.S.C. 42(c)(1)(B)). The panel must say why, take the floor space or the

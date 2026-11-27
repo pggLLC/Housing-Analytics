@@ -146,6 +146,9 @@
     TIERS.forEach(function (pct) {
       var box = $('dq-units-' + pct);
       if (!box) return;
+      // A row left open with no counts while the tier has homes was cleared from outside (for example "Pre-fill from
+      // local need" sets tier totals and clears their sizes; Codex, #3046): the tier's own count stands, so the row closes.
+      if (SPLIT_OPEN[pct] && !hasSplit(pct) && tierUnits(pct) > 0) delete SPLIT_OPEN[pct];
       var fixed = tierFixed(pct), split = !fixed && (hasSplit(pct) || SPLIT_OPEN[pct]);
       put(box, 'disabled', !!fixed);
       put(box, 'readOnly', !!split);
@@ -333,8 +336,9 @@
       var sel = $('dc-br-' + pct);
       if (big && sel) { sel.value = big.id.slice(('dc-units-' + pct + '-').length); fire(sel, ['input', 'change']); }
       Array.prototype.forEach.call(cells, function (el) { if (el.value !== '0') { el.value = '0'; fire(el, ['input', 'change']); } });
+      // With no counts in the row there is no split to fold, so the tier keeps the count it has.
       var units = $('dc-units-' + pct);
-      if (units) { units.value = String(total); fire(units, ['input', 'change']); }
+      if (units && total > 0) { units.value = String(total); fire(units, ['input', 'change']); }
       pull();
       var more = $('dq-more-' + pct);
       if (more) more.focus();
