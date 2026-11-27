@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-11-26T17:41:00.427Z
+**Scan timestamp:** 2026-11-27T17:25:40.831Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 2006 |
-| New (unregistered) | 1974 |
+| Files scanned | 2007 |
+| New (unregistered) | 1975 |
 | Registered | 31 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 1 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (988 KB)
+- `data/_manifest.json` (989 KB)
 - `data/_qa-status.json` (7 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (16 KB)
 - `data/affordable-housing/chfa-awards/2026-round-two.json` (29 KB)
@@ -34,7 +34,7 @@
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/property-websites.json` (31 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (1 KB)
-- `data/alerts/alerts_archive.json` (3058 KB)
+- `data/alerts/alerts_archive.json` (3111 KB)
 - `data/alerts/outlet-decisions.json` (6 KB)
 - `data/alerts/outlet-register.json` (31 KB)
 - `data/alerts/outlet-review.json` (21 KB)
@@ -54,7 +54,8 @@
 - `data/car-market-report-2026-07.json` (70 KB)
 - `data/car-market-report-2026-08.json` (71 KB)
 - `data/car-market-report-2026-09.json` (70 KB)
-- `data/car-market-report-2026-10.json` (3 KB)
+- `data/car-market-report-2026-10.json` (70 KB)
+- `data/car-market-report-2026-11.json` (3 KB)
 - `data/car-market-reports.json` (0 KB)
 - `data/census-multifamily-co.json` (116 KB)
 - `data/chfa-income-rent-limits-2026.json` (500 KB)
@@ -316,7 +317,7 @@
 - `data/hna/geo-config.json` (64 KB)
 - `data/hna/geography-registry.json` (120 KB)
 - `data/hna/hna-views.json` (14 KB)
-- `data/hna/home-value-cascade.json` (131 KB)
+- `data/hna/home-value-cascade.json` (135 KB)
 - `data/hna/housing-units-b25001.json` (37 KB)
 - `data/hna/jurisdiction-metrics-digest/08001.json` (41 KB)
 - `data/hna/jurisdiction-metrics-digest/08003.json` (41 KB)
@@ -997,7 +998,7 @@
 - `data/hna/local-notes.json` (1 KB)
 - `data/hna/local-resources-candidates.json` (7 KB)
 - `data/hna/local-resources.json` (182 KB)
-- `data/hna/ownership-need.json` (731 KB)
+- `data/hna/ownership-need.json` (730 KB)
 - `data/hna/permits.json` (270 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
 - `data/hna/place-chas.json` (1592 KB)
@@ -1684,7 +1685,7 @@
 - `data/hna/summary/0881030.json` (4 KB)
 - `data/hna/summary/0881305.json` (4 KB)
 - `data/hna/summary/0881690.json` (4 KB)
-- `data/hna/summary/0882130.json` (5 KB)
+- `data/hna/summary/0882130.json` (4 KB)
 - `data/hna/summary/0882350.json` (4 KB)
 - `data/hna/summary/0882460.json` (4 KB)
 - `data/hna/summary/0882735.json` (4 KB)
@@ -1716,7 +1717,7 @@
 - `data/hna/vacancy-status.json` (458 KB)
 - `data/hna/workforce-ami-crosswalk.json` (60 KB)
 - `data/hna/workforce-need.json` (350 KB)
-- `data/hna/zhvi-place-crosswalk.json` (46 KB)
+- `data/hna/zhvi-place-crosswalk.json` (48 KB)
 - `data/home-snapshot.json` (2 KB)
 - `data/hud-home-rent-limits-co-2026.json` (60 KB)
 - `data/hud-lihtc-co-match.json` (226 KB)
@@ -1963,11 +1964,11 @@
 - `data/policy/unit-size-standards.json` (5 KB)
 - `data/policy/vacancy-tax.json` (45 KB)
 - `data/policy/where-to-build-context.json` (34 KB)
-- `data/policy_briefs.json` (944 KB)
-- `data/policy_briefs_curated.json` (437 KB)
+- `data/policy_briefs.json` (925 KB)
+- `data/policy_briefs_curated.json` (439 KB)
 - `data/polymarket-curated.json` (6 KB)
 - `data/polymarket-data.json` (20 KB)
-- `data/polymarket-history.json` (246 KB)
+- `data/polymarket-history.json` (249 KB)
 - `data/processed/co_county_housing_indicators.geojson` (447 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
@@ -1983,7 +1984,7 @@
 - `data/source-registry.json` (6 KB)
 - `data/table-header-tips.json` (15 KB)
 - `data/tax-abatement-inventory.json` (24 KB)
-- `data/url-health.json` (1227 KB)
+- `data/url-health.json` (1228 KB)
 - `data/zillow/median_list_price_metro.csv` (863 KB)
 - `data/zillow/zhvi_metro.csv` (4369 KB)
 - `data/zillow/zori_metro.csv` (1066 KB)
@@ -1991,4 +1992,4 @@
 
 ## ⏳ Aging Sources
 
-- undefined — 298 days since last update
+- undefined — 299 days since last update
