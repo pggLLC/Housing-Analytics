@@ -29,7 +29,7 @@
  * earn no credit and why, and shows the election and the two floor areas, each mirroring the full calculator's own
  * input (dc-minimum-set-aside, dc-res-sf, dc-restricted-sf). No size is assumed: Colorado sets no unit sizes.
  *
- * Bedroom mix (paul, 27 Nov 2026: "only 1 br type?"): "+ size" under an income limit opens a row of counts by
+ * Bedroom mix (paul, 27 Nov 2026: "only 1 br type?"): "Mix sizes" under an income limit opens a row of counts by
  * bedroom size for it, mirroring the full calculator's own bedroom split (dc-units-<pct>-<br>). The current homes
  * start in the size they had, so nothing moves until a count changes; a count changed there moves the tier and
  * Total Units by the same number. "One size" folds the tier back into its biggest size.
@@ -302,7 +302,7 @@
     if (chk && n > 0 && !chk.checked) { chk.checked = true; fire(chk, ['change']); }
     if (units) fire(units, ['input', 'change']);
   }
-  // "+ size" opens a tier's bedroom row with its homes in the size they had; "One size" folds it back.
+  // "Mix sizes" opens a tier's bedroom row with its homes in the size they had; "One size" folds it back.
   function onClick(e) {
     var b = e.target && e.target.closest && e.target.closest('button[data-dq-split]');
     if (!b) return;
@@ -348,14 +348,14 @@
           return '<div class="dq-tier"><label for="dq-units-' + pct + '">' + pct + '%</label><input id="dq-units-' + pct + '" type="number" min="0" step="1" inputmode="numeric" aria-label="Homes at ' + pct + '% AMI" style="' + field + 'text-align:right;">' +
             '<select id="dq-br-' + pct + '" class="dq-br" aria-label="Bedrooms for homes at ' + pct + '% AMI" style="' + field + 'padding:.35rem .25rem;">' +
             BEDROOMS.map(function (b) { return '<option value="' + b[0] + '">' + b[1] + '</option>'; }).join('') + '</select>' +
-            '<button type="button" id="dq-more-' + pct + '" class="dq-more" data-dq-split="' + pct + '" data-dq-act="open" aria-label="Mix bedroom sizes at ' + pct + '% AMI">+ size</button></div>';
+            '<button type="button" id="dq-more-' + pct + '" class="dq-more" data-dq-split="' + pct + '" data-dq-act="open" aria-label="Mix sizes at ' + pct + '% AMI">Mix sizes</button></div>';
         }).join('') + '</div>' +
         TIERS.map(function (pct) {
           return '<div id="dq-split-' + pct + '" class="dq-split" hidden role="group" aria-label="Homes by bedroom size at ' + pct + '% AMI"><span class="dq-split-k">' + pct + '% by size</span>' +
             BEDROOMS.map(function (b) {
               return '<label class="dq-split-c">' + b[1] + '<input id="dq-split-' + pct + '-' + b[0] + '" type="number" min="0" step="1" inputmode="numeric" aria-label="' + b[1] + ' homes at ' + pct + '% AMI" style="' + field + 'text-align:right;"></label>';
             }).join('') +
-            '<button type="button" class="dq-more" data-dq-split="' + pct + '" data-dq-act="close" aria-label="One bedroom size at ' + pct + '% AMI">One size</button></div>';
+            '<button type="button" class="dq-more" data-dq-split="' + pct + '" data-dq-act="close" aria-label="One size at ' + pct + '% AMI">One size</button></div>';
         }).join('') +
         '<p id="dq-homes" style="margin:.3rem 0 0;font-size:.82rem;color:var(--muted);"></p>' +
         '<p id="dq-mix" hidden style="margin:.3rem 0 0;font-size:.82rem;color:var(--muted);"></p></fieldset>' +

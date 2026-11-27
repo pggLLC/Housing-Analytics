@@ -149,7 +149,7 @@ try {
   await settle(tab);
   ok(await tab.$eval('#dq-br-50', (b) => !b.disabled && !b.hidden), 'with the split cleared the picker is back');
 
-  // Bedroom mix in the panel (paul, 27 Nov 2026: "only 1 br type?"): "+ size" opens the tier's row with its homes in
+  // Bedroom mix in the panel (paul, 27 Nov 2026: "only 1 br type?"): "Mix sizes" opens the tier's row with its homes in
   // the size they had, so nothing moves; a count there is the full calculator's bedroom split, the tier is its sum,
   // and Total Units moves by the same change; "One size" folds it back into the biggest size.
   {
