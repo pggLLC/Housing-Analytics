@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "96b5941f72683dc7ffe98d6ba170d023e20e16c2",
+  "commit": "c223942cf0165396f569da65765b2d40fbb5d1ee",
   "dirty": false
  },
  "files": {
@@ -96,7 +96,7 @@
   "hub/market.js": "7e9a0cb8e14de64243b903dbcb86ee309ef91ee15c6b0da3a660ed10e4c8e203",
   "hub/middle-income.css": "d6ee8edc88955d68fc798e4ed247954c3d0900fd11bf62fba990ad09855ed22e",
   "hub/middle-income.js": "5301fa977060cca905ef65201fcdf54cc58f3f831580abcd49f5b3088835bb29",
-  "hub/nav.js": "585f15c5632aeb7ef3aa9c2c98d42c214a3d641e210622021c858dfd90c10a53",
+  "hub/nav.js": "83e84eacd9e5f11e04f58d1aeef3886b9784306236c70bf97dd936443feaaabe",
   "hub/need-scorecard.js": "a8c89af9acc59264b61eb5ccb5d8f553bc49ac1dfbff5d15a4fa95914ddf16a0",
   "hub/opportunities.css": "f4d29f9760b0139c6dbf5d6e0de5e2f0e525a7553ed8c4a03eb6c12f3745cac0",
   "hub/opportunities.js": "ea988c988d0e31bbae2890438fed65b3755745c47fbd39b893b00eff0e9d6f4c",
@@ -118,7 +118,7 @@
   "hub/rent-income.css": "2f703dc314e61cf4783e1f2d5e9acdbae2cf0c7f9cad28149d81b8dbe44f267a",
   "hub/rent-income.js": "ad5c5ad8a1d8c64848fd92096ab91cfd249a21b377e5da03b54dcccca4f4d63d",
   "hub/report.js": "8592e92722550a739e3278371821c832d56896c7fadb99335793b9f58a60d8fb",
-  "hub/route-catalog.json": "111e51a51873896bfbe0e39663ff63f311e954d446f00db14cafa8e3d3293057",
+  "hub/route-catalog.json": "6c8671d95aafb06c2b97dd6e8954b074952eed5940b3746c0dd2cb9c8a16a4d7",
   "hub/sale-deal.js": "29b6a8f36f294b1ced8cbb6400b4366aaec8d1b27bb82aeb28ce310d38bcb34d",
   "hub/shell.css": "8e9345ebf7b61031776ced5ad145a024813647602350274e02cb544c84353ea0",
   "hub/shell.js": "02a91fc46354e214436204a052b4b54dd70c1fcea2e63164fd69039ddff02062",
