@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-27T06:19:51.250Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-27T12:55:51.684Z. Do not edit by hand.
 
 ---
 
@@ -101,7 +101,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 988.5 KB | ✅ | — |
+| `data/_manifest.json` | 989.1 KB | ✅ | — |
 | `data/_qa-status.json` | 7.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 15.8 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-two.json` | 29.2 KB | ✅ | — |
@@ -121,10 +121,10 @@
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/property-websites.json` | 31.2 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 957 B | ✅ | — |
-| `data/alerts/alerts_archive.json` | 2.99 MB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 3.04 MB | ✅ | — |
 | `data/alerts/outlet-decisions.json` | 5.8 KB | ✅ | — |
 | `data/alerts/outlet-register.json` | 31.0 KB | ✅ | — |
-| `data/alerts/outlet-review.json` | 20.6 KB | ✅ | — |
+| `data/alerts/outlet-review.json` | 21.3 KB | ✅ | — |
 | `data/alerts/owner-news.json` | 324 B | ✅ | — |
 | `data/allocations.json` | 15.6 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 3.41 MB | ✅ | — |
@@ -1813,7 +1813,7 @@
 | `data/jurisdiction-briefs/_lihtc-applications.json` | 437.2 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 10.9 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 248.3 KB | ✅ | — |
+| `data/manifest.json` | 248.4 KB | ✅ | — |
 | `data/market/aamd-denver-vacancy.json` | 2.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 133.0 KB | ✅ | — |
 | `data/market/acs_renter_bedrooms_co.json` | 172.2 KB | ✅ | — |
@@ -2033,7 +2033,7 @@
 | `data/policy/unit-size-standards.json` | 4.9 KB | ✅ | — |
 | `data/policy/vacancy-tax.json` | 44.7 KB | ✅ | — |
 | `data/policy/where-to-build-context.json` | 34.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 944.3 KB | ✅ | — |
+| `data/policy_briefs.json` | 924.9 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 438.6 KB | ✅ | — |
 | `data/polymarket-curated.json` | 6.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 20.0 KB | ✅ | — |
@@ -2060,7 +2060,7 @@
 
 ## Test Files
 
-811 test files found.
+812 test files found.
 
 | File | Size |
 |------|------|
@@ -2582,6 +2582,7 @@
 | `test/pma-methodology-language.test.js` | 4.4 KB |
 | `test/pma-narrative-claims.test.js` | 7.7 KB |
 | `test/pma-natural-features.test.js` | 16.9 KB |
+| `test/pma-own-town.test.js` | 4.7 KB |
 | `test/pma-pipeline-stage.test.js` | 11.8 KB |
 | `test/pma-primary-score.test.js` | 4.4 KB |
 | `test/pma-real-schools.test.js` | 6.7 KB |

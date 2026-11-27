@@ -2,6 +2,7 @@
 
 /* Home: who you are, then where to go (chips are 44px tap targets). */
 .home-doors { margin-top: 1rem; }
+.hd-hands { margin: 0 0 .75rem; max-width: 62ch; }
 .hd-ask { font-weight: 600; margin: 0 0 .4rem; }
 .home-chips { list-style: none; margin: 0 0 .75rem; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
 .home-chips a { min-height: 44px; box-sizing: border-box; display: inline-flex; align-items: center; padding: .4rem .9rem; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--card); color: var(--ink); text-decoration: none; font-size: 15px; }
@@ -26,6 +27,7 @@
 .hg-how summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--green); font-weight: 600; }
 .hg-how p { font-size: 14px; margin: .3rem 0; }
 .hg-card .metric-source { margin: 0; font-size: 13px; }
+.hg-lede { margin: .25rem 0 .9rem; max-width: 70ch; }
 .hg-read { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr)); gap: .75rem; margin-top: .9rem; }
 .hg-read p { margin: 0; background: var(--tint); border-radius: 8px; padding: .75rem 1rem; }
 .hg-burden { margin: 1rem 0 .25rem; }
