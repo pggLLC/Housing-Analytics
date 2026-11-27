@@ -24,7 +24,20 @@ assert.strictEqual(smallTownZhviCheck({ isNewMatch: true, population: 1384, zhvi
 
 // The committed cascade: every flagged town shows an ACS value or blank, never Zillow, with a note.
 const cascade = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/home-value-cascade.json'), 'utf8'));
-const flagged = (cascade.review_flags || {}).zhvi_small_town_unconfirmed || [];
+const flags = cascade.review_flags || {};
+// Non-vacuous: the list must exist, and must be derived independently of itself.
+assert.ok(Array.isArray(flags.zhvi_small_town_unconfirmed), 'review_flags.zhvi_small_town_unconfirmed must be an array');
+const flagged = flags.zhvi_small_town_unconfirmed;
+// Every place row carrying a hold note must be flagged, and every flag must carry a note.
+const noted = Object.entries(cascade.places).filter(([, r]) => r && r.review_note).map(([g]) => g).sort();
+assert.deepStrictEqual(flagged.map((f) => f.geoid).sort(), noted, 'held-town flags and review notes disagree');
+// Pinned for the October 2026 Zillow vintage the owner reviewed (27 Nov 2026). A later
+// vintage rechecks held towns monthly, so this pin applies only to that month.
+const OCT_2026_HELD = ['0800760', '0802850', '0803235', '0806530', '0829680', '0833310', '0850920', '0868930', '0885760'];
+if ((cascade.meta || {}).latest_zhvi_month === '2026-10-31') {
+  assert.deepStrictEqual(flagged.map((f) => f.geoid).sort(), OCT_2026_HELD, 'October 2026 held towns changed');
+}
+let checked = 0;
 for (const f of flagged) {
   const row = cascade.places[f.geoid];
   assert.ok(row, `${f.place_name} missing from places`);
@@ -40,5 +53,8 @@ for (const f of flagged) {
   }
   // A missing ACS margin stays null, never a zero-width margin.
   if (f.reason !== 'zillow_outside_acs_margin') assert.notStrictEqual(f.acs_moe, 0, `${f.place_name} margin read as 0`);
+  checked += 1;
 }
+assert.strictEqual(checked, flagged.length);
+
 console.log(`hna-home-value-small-town: ok (${flagged.length} flagged)`);
