@@ -1,7 +1,7 @@
 {
   "schema": "hna-ownership-need/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-11-28T13:43:15Z",
+    "ranking_index_generated_at": "2026-11-28T16:43:30Z",
     "engine": "js/hna/hna-ownership-need.js",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs"
   },
@@ -433,8 +433,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 488716,
-        "pct": -1.2,
+        "linePrice": 491567,
+        "pct": -1.8,
         "becomes": "priced-out"
       },
       "caveats": [
@@ -654,8 +654,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 488716,
-        "pct": -0.7,
+        "linePrice": 491567,
+        "pct": -1.3,
         "becomes": "priced-out"
       },
       "caveats": [
@@ -777,12 +777,7 @@
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "High",
       "affordability_classification": "stretch",
-      "affordability_near_line": {
-        "amiPct": 100,
-        "linePrice": 488716,
-        "pct": -3,
-        "becomes": "priced-out"
-      },
+      "affordability_near_line": null,
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
@@ -1081,8 +1076,8 @@
       "geoid": "0884042",
       "name": "West Pleasant View (CDP)",
       "type": "cdp",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "recommendation": "Rental priority",
+      "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
       "data_quality": "High",
       "renter_cost_burdened": 293.8,
       "owner_cost_burdened": 191.2,
@@ -1092,17 +1087,17 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Very High",
       "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "priced-out",
+      "ownership_fit_tier": "Low",
+      "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 488716,
-        "pct": 0.1,
-        "becomes": "stretch"
+        "linePrice": 491567,
+        "pct": -0.4,
+        "becomes": "priced-out"
       },
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -1317,8 +1312,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 488716,
-        "pct": -2,
+        "linePrice": 491567,
+        "pct": -2.5,
         "becomes": "priced-out"
       },
       "caveats": [
@@ -1344,12 +1339,7 @@
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "High",
       "affordability_classification": "stretch",
-      "affordability_near_line": {
-        "amiPct": 100,
-        "linePrice": 488716,
-        "pct": -3,
-        "becomes": "priced-out"
-      },
+      "affordability_near_line": null,
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
@@ -1399,8 +1389,8 @@
       "affordability_classification": "market-attainable",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 390973,
-        "pct": -1.5,
+        "linePrice": 393253,
+        "pct": -2.1,
         "becomes": "stretch"
       },
       "caveats": [
@@ -1476,8 +1466,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 488716,
-        "pct": 1.2,
+        "linePrice": 491567,
+        "pct": 0.6,
         "becomes": "stretch"
       },
       "caveats": [
@@ -2200,12 +2190,7 @@
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Moderate",
       "affordability_classification": "stretch",
-      "affordability_near_line": {
-        "amiPct": 100,
-        "linePrice": 341422,
-        "pct": -2.6,
-        "becomes": "priced-out"
-      },
+      "affordability_near_line": null,
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
@@ -2352,8 +2337,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 488716,
-        "pct": -0.9,
+        "linePrice": 491567,
+        "pct": -1.5,
         "becomes": "priced-out"
       },
       "caveats": [
@@ -3676,12 +3661,7 @@
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "Low",
       "affordability_classification": "stretch",
-      "affordability_near_line": {
-        "amiPct": 100,
-        "linePrice": 341422,
-        "pct": -2.4,
-        "becomes": "priced-out"
-      },
+      "affordability_near_line": null,
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
@@ -3827,8 +3807,8 @@
       "affordability_classification": "market-attainable",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 316036,
-        "pct": -0.5,
+        "linePrice": 317880,
+        "pct": -1.1,
         "becomes": "stretch"
       },
       "caveats": [
@@ -4000,8 +3980,8 @@
       "affordability_classification": "market-attainable",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 264450,
-        "pct": -0.5,
+        "linePrice": 265992,
+        "pct": -1.1,
         "becomes": "stretch"
       },
       "caveats": [
@@ -4077,8 +4057,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 330562,
-        "pct": 2.1,
+        "linePrice": 332490,
+        "pct": 1.5,
         "becomes": "stretch"
       },
       "caveats": [
@@ -4444,8 +4424,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 488716,
-        "pct": 1.5,
+        "linePrice": 491567,
+        "pct": 0.9,
         "becomes": "stretch"
       },
       "caveats": [
@@ -4519,7 +4499,12 @@
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "High",
       "affordability_classification": "priced-out",
-      "affordability_near_line": null,
+      "affordability_near_line": {
+        "amiPct": 100,
+        "linePrice": 332490,
+        "pct": 2.6,
+        "becomes": "stretch"
+      },
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
@@ -4569,8 +4554,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 509079,
-        "pct": -1.8,
+        "linePrice": 512049,
+        "pct": -2.4,
         "becomes": "priced-out"
       },
       "caveats": [
@@ -5006,8 +4991,8 @@
       "affordability_classification": "market-attainable",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 390973,
-        "pct": -2.1,
+        "linePrice": 393253,
+        "pct": -2.7,
         "becomes": "stretch"
       },
       "caveats": [
@@ -5395,8 +5380,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 330562,
-        "pct": -2,
+        "linePrice": 332490,
+        "pct": -2.5,
         "becomes": "priced-out"
       },
       "caveats": [
@@ -5472,8 +5457,8 @@
       "affordability_classification": "market-attainable",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 264450,
-        "pct": 0,
+        "linePrice": 265992,
+        "pct": -0.6,
         "becomes": "stretch"
       },
       "caveats": [
@@ -5646,8 +5631,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 444935,
-        "pct": 2.6,
+        "linePrice": 447531,
+        "pct": 2,
         "becomes": "stretch"
       },
       "caveats": [
@@ -5747,8 +5732,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 488716,
-        "pct": -0.6,
+        "linePrice": 491567,
+        "pct": -1.2,
         "becomes": "priced-out"
       },
       "caveats": [
@@ -5776,8 +5761,8 @@
       "affordability_classification": "market-attainable",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 264450,
-        "pct": -1.6,
+        "linePrice": 265992,
+        "pct": -2.1,
         "becomes": "stretch"
       },
       "caveats": [
@@ -5950,8 +5935,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 264450,
-        "pct": 1.6,
+        "linePrice": 265992,
+        "pct": 1.1,
         "becomes": "market-attainable"
       },
       "caveats": [
@@ -6267,8 +6252,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 390973,
-        "pct": 2.8,
+        "linePrice": 393253,
+        "pct": 2.2,
         "becomes": "market-attainable"
       },
       "caveats": [
@@ -6485,16 +6470,16 @@
       "rental_pressure_tier": "Very High",
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
+      "affordability_classification": "market-attainable",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 390973,
-        "pct": 0.2,
-        "becomes": "market-attainable"
+        "linePrice": 393253,
+        "pct": -0.4,
+        "becomes": "stretch"
       },
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -6661,8 +6646,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 509079,
-        "pct": 2.6,
+        "linePrice": 512049,
+        "pct": 2,
         "becomes": "stretch"
       },
       "caveats": [
@@ -6810,8 +6795,8 @@
       "affordability_classification": "market-attainable",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 264450,
-        "pct": -1.9,
+        "linePrice": 265992,
+        "pct": -2.5,
         "becomes": "stretch"
       },
       "caveats": [
@@ -6960,8 +6945,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 423893,
-        "pct": 1.3,
+        "linePrice": 426366,
+        "pct": 0.7,
         "becomes": "stretch"
       },
       "caveats": [
@@ -6989,8 +6974,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 470728,
-        "pct": 2.3,
+        "linePrice": 473474,
+        "pct": 1.7,
         "becomes": "stretch"
       },
       "caveats": [
@@ -7018,8 +7003,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 423893,
-        "pct": 0.8,
+        "linePrice": 426366,
+        "pct": 0.3,
         "becomes": "stretch"
       },
       "caveats": [
@@ -7239,8 +7224,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 423893,
-        "pct": -1.6,
+        "linePrice": 426366,
+        "pct": -2.1,
         "becomes": "priced-out"
       },
       "caveats": [
@@ -7437,8 +7422,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 330562,
-        "pct": 0.9,
+        "linePrice": 332490,
+        "pct": 0.3,
         "becomes": "stretch"
       },
       "caveats": [
@@ -7515,8 +7500,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 330562,
-        "pct": 2.8,
+        "linePrice": 332490,
+        "pct": 2.2,
         "becomes": "stretch"
       },
       "caveats": [
@@ -7712,8 +7697,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 264450,
-        "pct": 2.9,
+        "linePrice": 265992,
+        "pct": 2.3,
         "becomes": "market-attainable"
       },
       "caveats": [
@@ -8030,8 +8015,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 395045,
-        "pct": 2.3,
+        "linePrice": 397350,
+        "pct": 1.8,
         "becomes": "stretch"
       },
       "caveats": [
@@ -8083,8 +8068,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 330562,
-        "pct": -0.1,
+        "linePrice": 332490,
+        "pct": -0.7,
         "becomes": "priced-out"
       },
       "caveats": [
@@ -8112,8 +8097,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 330562,
-        "pct": 2.3,
+        "linePrice": 332490,
+        "pct": 1.7,
         "becomes": "stretch"
       },
       "caveats": [
@@ -8209,17 +8194,17 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "High",
-      "affordability_classification": "priced-out",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 330562,
-        "pct": 0.2,
-        "becomes": "stretch"
+        "linePrice": 332490,
+        "pct": -0.3,
+        "becomes": "priced-out"
       },
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8457,7 +8442,12 @@
       "ownership_pressure_tier": "High",
       "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
-      "affordability_near_line": null,
+      "affordability_near_line": {
+        "amiPct": 100,
+        "linePrice": 335563,
+        "pct": 2.5,
+        "becomes": "stretch"
+      },
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
@@ -8627,8 +8617,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 330562,
-        "pct": 2.8,
+        "linePrice": 332490,
+        "pct": 2.2,
         "becomes": "stretch"
       },
       "caveats": [
@@ -8680,8 +8670,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 330562,
-        "pct": -0.8,
+        "linePrice": 332490,
+        "pct": -1.4,
         "becomes": "priced-out"
       },
       "caveats": [
@@ -8877,8 +8867,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 309792,
-        "pct": 0.9,
+        "linePrice": 311599,
+        "pct": 0.4,
         "becomes": "market-attainable"
       },
       "caveats": [
@@ -9073,12 +9063,7 @@
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "Moderate",
       "affordability_classification": "stretch",
-      "affordability_near_line": {
-        "amiPct": 100,
-        "linePrice": 442559,
-        "pct": -3,
-        "becomes": "priced-out"
-      },
+      "affordability_near_line": null,
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
@@ -9128,8 +9113,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 330562,
-        "pct": 1,
+        "linePrice": 332490,
+        "pct": 0.5,
         "becomes": "stretch"
       },
       "caveats": [
@@ -9494,8 +9479,8 @@
       "affordability_classification": "market-attainable",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 264450,
-        "pct": -0.4,
+        "linePrice": 265992,
+        "pct": -1,
         "becomes": "stretch"
       },
       "caveats": [
@@ -9571,8 +9556,8 @@
       "affordability_classification": "market-attainable",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 311421,
-        "pct": -0.6,
+        "linePrice": 313237,
+        "pct": -1.2,
         "becomes": "stretch"
       },
       "caveats": [
@@ -9600,8 +9585,8 @@
       "affordability_classification": "priced-out",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 488716,
-        "pct": 2.9,
+        "linePrice": 491567,
+        "pct": 2.3,
         "becomes": "stretch"
       },
       "caveats": [
@@ -9726,8 +9711,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 100,
-        "linePrice": 330562,
-        "pct": -2.2,
+        "linePrice": 332490,
+        "pct": -2.7,
         "becomes": "priced-out"
       },
       "caveats": [
@@ -10980,8 +10965,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 264450,
-        "pct": 2.3,
+        "linePrice": 265992,
+        "pct": 1.7,
         "becomes": "market-attainable"
       },
       "caveats": [
@@ -11178,7 +11163,12 @@
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Moderate",
       "affordability_classification": "stretch",
-      "affordability_near_line": null,
+      "affordability_near_line": {
+        "amiPct": 80,
+        "linePrice": 265992,
+        "pct": 2.5,
+        "becomes": "market-attainable"
+      },
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
@@ -11662,8 +11652,8 @@
       "affordability_classification": "stretch",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 264450,
-        "pct": 2,
+        "linePrice": 265992,
+        "pct": 1.4,
         "becomes": "market-attainable"
       },
       "caveats": [
@@ -12773,8 +12763,8 @@
       "affordability_classification": "market-attainable",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 264450,
-        "pct": -1.3,
+        "linePrice": 265992,
+        "pct": -1.9,
         "becomes": "stretch"
       },
       "caveats": [
@@ -12923,8 +12913,8 @@
       "affordability_classification": "market-attainable",
       "affordability_near_line": {
         "amiPct": 80,
-        "linePrice": 390973,
-        "pct": -1.9,
+        "linePrice": 393253,
+        "pct": -2.5,
         "becomes": "stretch"
       },
       "caveats": [

@@ -48,10 +48,10 @@
   // test/mortgage-rate-one-source.test.js checks it against the FRED
   // MORTGAGE30US reading for the same week in data/fred-data.json.
   var MORTGAGE_RATE = {
-    rateAnnual: 0.0728,
-    week: '2026-11-19',
+    rateAnnual: 0.0721,
+    week: '2026-11-25',
     series: 'MORTGAGE30US',
-    source: 'Freddie Mac PMMS 30-year fixed average, week of November 19, 2026',
+    source: 'Freddie Mac PMMS 30-year fixed average, week of November 25, 2026',
   };
   // methods-spec:begin affordability-defaults  (methods.html §05; see
   // test/methods-spec-sources.test.mjs). MORTGAGE_RATE sits above this
