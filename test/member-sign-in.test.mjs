@@ -95,6 +95,28 @@ ok('the chooser is not indexed and offers the free site and the member site', ()
   assert.equal(hrefOf('msi-free-link'), 'index.html');
   assert.equal(hrefOf('msi-go'), MEMBER);
 });
+// Guards pin the agreement, not the copy (AGENTS.md). The block sits below the two choices, lists
+// something, names no price, and a benefit that is also a site menu item agrees with that menu item:
+// the menu (hub/nav.js) must call it a member tool, not open to all.
+ok('a non-member sees what members get, below the two choices, and the menu agrees (paul, 28 Nov)', () => {
+  const choices = page.indexOf('class="msi-choices"'), why = page.indexOf('id="msi-why"');
+  assert.ok(choices > 0 && why > choices, 'the benefits block sits after the choices');
+  const block = page.slice(why, page.indexOf('</section>', why));
+  const items = [...block.matchAll(/<li[^>]*><strong>([^<]+?)\.?<\/strong>\s*([^<]*)/g)].map((m) => ({ label: m[1].trim(), text: m[2].trim() }));
+  assert.ok(items.length >= 3, 'the block lists member tools (' + items.length + ')');
+  items.forEach((it) => assert.ok(it.label && it.text, 'each benefit has a name and a line: ' + it.label));
+  assert.ok(!/\$\s?\d|per (month|year|seat)|subscribe|buy now/i.test(block), 'no prices or selling');
+  const nav = fs.readFileSync(path.join(ROOT, 'hub/nav.js'), 'utf8');
+  const menu = [...nav.matchAll(/label: '([^']+)', path: '[^']+', desc: '([^']+)'/g)].map((m) => ({ label: m[1], desc: m[2] }));
+  assert.ok(menu.length > 0, 'the menu items were read');
+  const shared = items.filter((it) => menu.some((m) => m.label === it.label));
+  assert.ok(shared.length > 0, 'at least one benefit is a menu item, so the agreement is checked');
+  shared.forEach((it) => {
+    const m = menu.find((x) => x.label === it.label);
+    assert.match(m.desc, /member tool/i, it.label + ': the menu calls it a member tool');
+    assert.doesNotMatch(m.desc, /open to all/i, it.label + ': the menu does not say it is open to all');
+  });
+});
 ok('the chooser follows a member-site address and nothing else', () => {
   const deal = MEMBER + 'deal-calculator.html#v=1&units=48';
   assert.equal(chooser('#to=' + encodeURIComponent(deal)), deal);
