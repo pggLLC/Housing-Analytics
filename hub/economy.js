@@ -397,9 +397,9 @@
   }
   function bars(rows) {
     if (!rows.length) return '';
-    var max = Math.max.apply(null, rows.map(function (r) { return r.prob || 0; })) || 1;
+    // Each bar is drawn on the same 0 to 100% scale, so a 13% line is a short bar on every card.
     return '<ul class="econ-odds-bars">' + rows.map(function (r) {
-      return '<li' + (r.settled ? ' class="econ-settled"' : '') + '><span class="econ-odds-l">' + esc(r.label) + '</span><span class="econ-odds-bar"><span style="width:' + (r.settled ? 0 : Math.round((r.prob || 0) / max * 100)) + '%"></span></span><span class="econ-odds-p">' + (r.settled ? 'Settled' : Math.round(r.prob * 100) + '%') + '</span></li>';
+      return '<li' + (r.settled ? ' class="econ-settled"' : '') + '><span class="econ-odds-l">' + esc(r.label) + '</span><span class="econ-odds-bar"><span style="width:' + (r.settled ? 0 : Math.max(0, Math.min(100, Math.round((r.prob || 0) * 100)))) + '%"></span></span><span class="econ-odds-p">' + (r.settled ? 'Settled' : Math.round(r.prob * 100) + '%') + '</span></li>';
     }).join('') + '</ul>';
   }
   function kalshi(k) {
@@ -412,11 +412,15 @@
       var even = priced.filter(function (o) { return o.prob >= 0.5; });
       var top = even.length ? even.slice().sort(function (a, b) { return a.prob - b.prob; })[0] : priced.slice().sort(function (a, b) { return b.prob - a.prob; })[0];
       var un = outs.length - priced.length;
-      return '<li class="econ-odds-card' + (/^colorado/.test(it.metric) ? ' econ-co' : '') + '"><h4>' + esc(it.label || it.metric) + '</h4>' + (it.note ? '<p class="econ-what">' + esc(it.note) + '</p>' : '') +
+      var co = /^colorado/.test(it.metric);
+      // One layout for every card: where, title, headline line, bars, then the small print in a fixed order.
+      return '<li class="econ-odds-card"><p class="econ-odds-where">' + (co ? 'Colorado' : 'U.S.') + '</p><h4>' + esc(it.label || it.metric) + '</h4>' +
         '<p class="econ-v">' + esc(top.name) + ' <span class="econ-odds-top">' + Math.round(top.prob * 100) + '%</span></p>' +
         bars(priced.map(function (o) { return { label: o.name, prob: o.prob }; })) +
+        '<div class="econ-odds-foot">' + (mk.title ? '<p class="econ-what">' + esc(mk.title) + '</p>' : '') +
+        (it.note ? '<p class="econ-what">' + esc(it.note) + '</p>' : '') +
         (un ? '<p class="econ-what">' + (un === 1 ? '1 more line is' : un + ' more lines are') + ' not shown: buyers and sellers are more than 10 points apart, or the prices contradict each other.</p>' : '') +
-        '<p class="econ-what">' + (mk.closes ? 'Trading closes ' + esc(when(mk.closes.slice(0, 10), 'daily')) + '. ' : '') + esc(mk.title || '') + ' ' + link('View on Kalshi', mk.url) + '</p></li>';
+        '<p class="econ-what">' + (mk.closes ? 'Trading closes ' + esc(when(mk.closes.slice(0, 10), 'daily')) + '. ' : '') + link('View on Kalshi', mk.url) + '</p></div></li>';
     }).join('');
     var co = k.items.filter(function (i) { return /^colorado/.test(i.metric); }).length;
     return '<p>What Kalshi traders pay on upcoming housing figures: ' + (co ? co + ' Colorado figures first (home prices and permits), then ' : '') + 'the year’s highest 30-year mortgage rate and monthly U.S. starts, permits, home prices and rents. A line’s price is the odds the figure lands above it.</p>' +
