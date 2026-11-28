@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-28T15:12:29.540Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-28T15:51:31.974Z. Do not edit by hand.
 
 ---
 
@@ -2209,7 +2209,7 @@
 | `test/deal-calculator-banner-url-first.test.js` | 5.1 KB |
 | `test/deal-calculator-chfa-comps.test.mjs` | 8.2 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
-| `test/deal-calculator-member-gate.test.mjs` | 8.2 KB |
+| `test/deal-calculator-member-gate.test.mjs` | 9.4 KB |
 | `test/deal-calculator-member-place.test.mjs` | 8.7 KB |
 | `test/deal-calculator-rent-link.test.js` | 5.8 KB |
 | `test/deal-calculator-shell.test.mjs` | 10.1 KB |
