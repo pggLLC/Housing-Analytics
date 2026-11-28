@@ -50,6 +50,13 @@ for (const f of PUBLIC_PAGES) {
   ok(/<a class="footer-link" href="\/?privacy-policy\.html">Privacy<\/a>/.test(html) && /href="https:\/\/coho-backend\.communityplanner\.workers\.dev\/">Member sign in<\/a>/.test(html), `${f}: the free footer, with Member sign in`);
   ok(/<body[^>]*class="[^"]*\bchrome-page\b/.test(html) && !/\bmember-page\b/.test(html), `${f}: a chrome page, not a member page`);
 }
+// 3. The full member tools the member site serves from here wear the member chrome, with one theme button: the new
+// header's (Codex P2 on #3058).
+for (const f of ['for-sale-market-study.html', 'lihtc-opportunity-finder.html']) {
+  const html = read(f), b = blocks(hub, palette);
+  ok(html === build(html, b, f) && /\bmember-page\b/.test(html), `${f}: matches a fresh member-chrome build`);
+  ok(!/src="\/?js\/(navigation|dark-mode-toggle|mobile-menu)\.js"/.test(html) && html.split('class="theme-toggle"').length === 2, `${f}: one theme button, the new header's`);
+}
 // 404.html is served at any depth, so every address it adds starts at the root.
 {
   const html = read('404.html');

@@ -104,8 +104,9 @@ export function build(src, b, name) {
   // The old header's empty placeholder goes; the new header takes its place, after the skip link.
   out = out.replace(/[ \t]*<header (?:id="siteHeader"|id="site-header"|class="site-header")>\s*(?:<!--[^>]*-->)?\s*<\/header>\n/, '');
   out = out.replace(/[ \t]*<footer (?:id="site-footer"|class="site-footer")>\s*(?:<!--[^>]*-->)?\s*<\/footer>\n/, '');
-  // On the free site the old header's theme button and phone drawer go with it: the new header has both.
-  if (b.bodyClass === 'chrome-page') out = out.replace(/[ \t]*<script (?:defer )?src="\/?js\/(?:dark-mode-toggle|mobile-menu)\.js"><\/script>\n/g, '');
+  // The old header's theme button and phone drawer go with it: the new header has both, and two theme buttons would
+  // each label only themselves (Codex P2 on #3058).
+  out = out.replace(/[ \t]*<script (?:defer )?src="\/?js\/(?:dark-mode-toggle|mobile-menu)\.js"><\/script>\n/g, '');
   put('header', () => {
     const skip = /<a class="skip-link"[^>]*>[^<]*<\/a>\n/.exec(out);
     if (skip) out = out.replace(skip[0], () => skip[0] + b.header + '\n');
