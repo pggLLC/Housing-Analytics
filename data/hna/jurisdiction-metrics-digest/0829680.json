@@ -362,7 +362,8 @@
       "confidence": "low",
       "source_id": "zillow-zhvi-city-index",
       "as_of": "2026-10-31",
-      "measure_type": "level"
+      "measure_type": "level",
+      "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $186,100 ± $62,067."
     },
     "home_value_to_income": {
       "value": 4.27,
@@ -370,7 +371,8 @@
       "confidence": "low",
       "source_id": "zillow-zhvi-city-index",
       "as_of": "2026-10-31",
-      "measure_type": "level"
+      "measure_type": "level",
+      "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $186,100 ± $62,067."
     },
     "rent_to_income": {
       "value": null,

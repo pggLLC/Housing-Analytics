@@ -362,7 +362,8 @@
       "confidence": "low",
       "source_id": "zillow-zhvi-city-index",
       "as_of": "2026-10-31",
-      "measure_type": "level"
+      "measure_type": "level",
+      "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; there is no Census figure to check it against."
     },
     "home_value_to_income": {
       "value": null,
@@ -370,7 +371,8 @@
       "confidence": "missing",
       "source_id": "zillow-zhvi-city-index",
       "as_of": "2026-10-31",
-      "measure_type": "level"
+      "measure_type": "level",
+      "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; there is no Census figure to check it against."
     },
     "rent_to_income": {
       "value": null,
