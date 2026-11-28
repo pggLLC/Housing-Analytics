@@ -1897,6 +1897,7 @@ details.type-more > summary { min-height: 44px; display: flex; align-items: cent
 .ladder-who .lw-key { list-style: none; margin: .4rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .3rem 1.2rem; font-size: 14px; font-weight: 600; }
 .ladder-who .lw-key li { display: inline-flex; align-items: center; gap: .4rem; }
 .ladder-who .lw-key i { width: 14px; height: 14px; border-radius: 3px; display: inline-block; flex: none; }
+.ladder-who .lw-how { margin: 0 0 .9rem; font-size: 13.5px; line-height: 1.5; color: var(--ink-soft); max-width: 60rem; }
 .ladder-who .lw-table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
 .ladder-who .lw-table caption { text-align: left; font-weight: 700; font-size: 14px; padding: 0 0 .3rem; }
 .ladder-who .lw-table th, .ladder-who .lw-table td { padding: .35rem .3rem; border-top: 1px solid var(--line); text-align: right; vertical-align: bottom; }
