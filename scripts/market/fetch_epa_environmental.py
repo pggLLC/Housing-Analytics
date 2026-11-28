@@ -76,6 +76,74 @@ def _county_fips(value):
     return text if len(text) == 5 and text.startswith("08") and text.isdigit() else None
 
 
+COUNTY_FILE = ROOT / "data" / "co-county-boundaries.json"
+
+# ACRES points checked by hand against a second source. EPA's coordinates are kept (they are EPA FRS
+# "representative" points and may be a parcel or office, not the named facility); the note says what was found.
+COORDINATE_NOTES = {
+    "270267": (
+        "EPA's point is about 19 km west-northwest of the Monte Vista Municipal Airport airfield "
+        "(FAA reference point 37.5287, -106.0459, https://airnav.com/airport/KMVI, checked 28 Nov 2026); "
+        "kept as EPA published it."
+    ),
+}
+
+
+def load_counties(path=COUNTY_FILE):
+    """Colorado county name -> (Census GEOID, polygons as [outer ring, *holes]) from the repo's county boundaries."""
+    try:
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    counties = {}
+    for feature in data.get("features", []):
+        props = feature.get("properties") or {}
+        name = str(props.get("NAME") or "").strip().title()
+        geoid = _county_fips(props.get("GEOID"))
+        geometry = feature.get("geometry") or {}
+        polygons = geometry.get("coordinates") or []
+        if geometry.get("type") == "Polygon":
+            polygons = [polygons]
+        if name and geoid:
+            counties[name] = (geoid, [poly for poly in polygons if poly])
+    return counties
+
+
+def _inside(lon, lat, ring):
+    hit = False
+    for i in range(len(ring)):
+        x1, y1 = ring[i][0], ring[i][1]
+        x2, y2 = ring[i - 1][0], ring[i - 1][1]
+        if (y1 > lat) != (y2 > lat) and lon < (x2 - x1) * (lat - y1) / (y2 - y1) + x1:
+            hit = not hit
+    return hit
+
+
+def _in_polygon(lon, lat, polygon):
+    """Inside the outer ring and in none of its holes (Denver has a hole that is Jefferson County)."""
+    return _inside(lon, lat, polygon[0]) and not any(_inside(lon, lat, hole) for hole in polygon[1:])
+
+
+def resolve_county_fips(record, counties):
+    """EPA leaves fips_code blank on some ACRES rows and mislabels a few. Fill a blank from the county
+    name, and when EPA's code and name disagree keep the one whose county contains the point."""
+    named = counties.get(record.get("county") or "")
+    if not named:
+        return record
+    epa_fips = record.get("county_fips")
+    if epa_fips == named[0]:
+        return record
+    if epa_fips is None:
+        record["county_fips"] = named[0]
+        record["county_fips_from"] = "county name (EPA fips_code blank)"
+        return record
+    in_named = any(_in_polygon(record["lon"], record["lat"], polygon) for polygon in named[1])
+    if in_named:
+        record["county_fips_from"] = f"county name; EPA fips_code {epa_fips} is a different county and the point is in {record['county']}"
+        record["county_fips"] = named[0]
+    return record
+
+
 def normalize_superfund(rows):
     records = []
     omitted_coordinates = 0
@@ -103,7 +171,9 @@ def normalize_superfund(rows):
     return records, omitted_coordinates
 
 
-def normalize_brownfields(rows):
+def normalize_brownfields(rows, counties=None):
+    if counties is None:
+        counties = load_counties()
     records = []
     omitted_coordinates = 0
     for row in rows:
@@ -125,8 +195,16 @@ def normalize_brownfields(rows):
             "status": "EPA ACRES program record",
             "riskLevel": "moderate",
         })
+    records = [finish_brownfield(record, counties) for record in records]
     records.sort(key=lambda item: (item["name"], item["id"]))
     return records, omitted_coordinates
+
+
+def finish_brownfield(record, counties):
+    resolve_county_fips(record, counties)
+    if record.get("id") in COORDINATE_NOTES:
+        record["coordinate_note"] = COORDINATE_NOTES[record["id"]]
+    return record
 
 
 def build_dataset(fetcher=fetch_json, retrieved_at=None):
@@ -163,7 +241,7 @@ def build_dataset(fetcher=fetch_json, retrieved_at=None):
             "brownfield_records": len(brownfields),
             "superfund_omitted_missing_coordinates": superfund_omitted,
             "brownfield_omitted_missing_coordinates": brownfield_omitted,
-            "note": "NPL query includes final, deleted, and proposed sites; ACRES records use EPA FRS representative coordinates.",
+            "note": "NPL query includes final, deleted, and proposed sites; ACRES records use EPA FRS representative coordinates. Where EPA leaves an ACRES county code blank, or gives one that disagrees with its county name and the point, county_fips comes from the county name (Census GEOID, data/co-county-boundaries.json) and county_fips_from says so. coordinate_note marks a point checked against a second source.",
         },
         "superfundSites": superfund,
         "brownfieldSites": brownfields,
