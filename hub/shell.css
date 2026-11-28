@@ -634,6 +634,10 @@ output[id$="-v"], .stress-slider output { font-variant-numeric: tabular-nums; fo
 
 /* Member-only views on the public site (Shell.memberCard; paul, 25 Nov 2026, HNA option B). */
 .tab-member { font-size: .7rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); margin-left: .25rem; }
+/* The gold Member tag (Shell.memberTag; paul, 28 Nov 2026): the same on a locked card and an unlocked view. */
+.member-tag { display: inline-block; padding: .05rem .5rem; border: 2px solid var(--member-line); border-radius: 6px; background: var(--member-bg); color: var(--gold-text); font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.4; white-space: nowrap; vertical-align: middle; }
+.member-tag-row { margin: .25rem 0 .35rem; }
+.tabs .member-tag { margin-left: .3rem; font-size: .65rem; padding: 0 .35rem; }
 .member-card { margin: 1rem 0 1.5rem; }
 .member-card h1, .member-card h2 { margin: .2rem 0 .5rem; }
 /* The kicker in the member gold, dark enough to read on a white card (the shared --gold is for dark bands); --gold-text turns light in dark mode. */

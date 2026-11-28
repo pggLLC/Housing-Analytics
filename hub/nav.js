@@ -398,6 +398,14 @@
       return t > 0 && Date.now() - t < DAYS30;
     } catch (e) { return false; }
   }
+  // A member-site address this page is about to open by itself (a typed #/members, Shell's leave()): the same rule as
+  // a click (Cutover, 28 Nov 2026: a typed #/members went straight to the Cloudflare sign-in, skipping the chooser).
+  window.__cohoMemberHref = function (to) {
+    var u;
+    try { u = new URL(to, location.href); } catch (err) { return to; }
+    if (u.hostname !== MEMBER_HOST || goesDirect() || /member-sign-in\.html$/.test(location.pathname)) return to;
+    return location.origin + '/member-sign-in.html#to=' + encodeURIComponent(u.href);
+  };
   document.addEventListener('click', function (e) {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;

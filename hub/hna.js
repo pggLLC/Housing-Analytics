@@ -2698,7 +2698,7 @@
     var current = tabs.filter(function (x) { return x.id === tab; })[0];
     var nav = '<nav class="tabs" aria-label="Housing Needs Assessment chapters"><ul>' + tabs.map(function (x) {
       return '<li><a href="#/place/' + esc(geoid) + (x.id === first ? '' : '/' + x.id) + '"' + (x.id === tab ? ' aria-current="page"' : '') + '>' + esc(x.tab || x.title) +
-        (locked(x.id) ? ' <span class="tab-member">Members</span>' : '') + '</a></li>';
+        (FREE_TABS[x.id] ? '' : ' ' + Shell.memberTag()) + '</a></li>';
     }).join('') + '</ul></nav>';
     // The county's own page is in the lab too.
     var fips = place && place.rec.containing_county_fips;
@@ -2721,7 +2721,7 @@
       aside: tab === 'summary' ? '' : tools
     }) +
       // The summary is a prose page: no step bar (reorg rule), the chapters one tab away.
-      lifted.strip + (tab === 'summary' ? '' : stepPath(false, null, geoid)) + nav + '<h2 class="tab-title">' + esc(current.title) + '</h2>' + focusTables(lifted.body) +
+      lifted.strip + (tab === 'summary' ? '' : stepPath(false, null, geoid)) + nav + (FREE_TABS[tab] || locked(tab) ? '' : '<p class="member-tag-row">' + Shell.memberTag() + '</p>') + '<h2 class="tab-title">' + esc(current.title) + '</h2>' + focusTables(lifted.body) +
         (tab === 'summary' ? '<details class="place-about"><summary>About these figures: data strength, ranges and labels</summary>' + tools + '</details>' : '') + downloads(geoid, entry) + (tab === 'overview' ? shareCard(entry, place, county, locator(geoid, entry.label, fips, county, shared.data.counties)) : '') + nextStep(geoid, tab, entry) +
       (global.LabStrength ? global.LabStrength.footnote() : '') +
       '<p class="note">Census figures are survey estimates with margins of error, which are wide for small places. Each figure names its agency, dataset and year. ' +

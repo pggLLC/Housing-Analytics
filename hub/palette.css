@@ -10,6 +10,8 @@
   --on-dark-soft: #E6EEEA; /* body text on pine-deep; 11.6:1 */
   --gold: #F2C14E;        /* accent fill only; never text on a light background (1.7:1) */
   --gold-text: #6B4E00;   /* member gold as text on a white card */
+  --member-bg: #FDF6E3;   /* the gold Member tag (Shell.memberTag), as the member site's Member \u2713 */
+  --member-line: #B8860B;
   --rust: #C2410C;        /* households, warnings, "short"; 5.2:1 on white */
   --ink: #1E293B;         /* body text */
   --muted: #64748B;       /* small print; 4.5:1 on paper, the minimum, so do not lighten */
@@ -150,7 +152,7 @@
     --c-green: #3DBB8C; --c-blue: #6EA6E0; --c-purple: #A88BD6; --c-amber: #D9A441; --c-band: #2B4466;
     --on-fill: #0B1A14; --halo: #16211D; --tip-bg: #E6EDEA; --map-edge: #475569;
     --shade: rgba(0, 0, 0, .6); --shade-soft: rgba(0, 0, 0, .35);
-    --hero-bg: #14382C; --gold-text: #F3D98B;
+    --hero-bg: #14382C; --gold-text: #F3D98B; --member-bg: #3A2F12; --member-line: #D4A94A;
   }
 }
 @media screen {
@@ -165,6 +167,6 @@
     --c-green: #3DBB8C; --c-blue: #6EA6E0; --c-purple: #A88BD6; --c-amber: #D9A441; --c-band: #2B4466;
     --on-fill: #0B1A14; --halo: #16211D; --tip-bg: #E6EDEA; --map-edge: #475569;
     --shade: rgba(0, 0, 0, .6); --shade-soft: rgba(0, 0, 0, .35);
-    --hero-bg: #14382C; --gold-text: #F3D98B;
+    --hero-bg: #14382C; --gold-text: #F3D98B; --member-bg: #3A2F12; --member-line: #D4A94A;
   }
 }

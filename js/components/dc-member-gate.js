@@ -1,7 +1,7 @@
 /*
  * Member tools on the public Deal Calculator (paul, 26 Nov 2026, "all three": gate the calculator's lender schedules,
  * as lab #333 did for the deal workspace). On cohoanalytics.com two parts of deal-calculator.html show the site's
- * "For members" card in their place:
+ * "Member" card in their place (one gold Member tag, which stays on the open part on the member site):
  *   - Lender schedules: construction to year 30 (#dc-ls-panel, js/deal-lender-schedules-view.js);
  *   - the A/B scenario comparison (Save as Scenario A / B, js/deal-comparison.js).
  * The member site (coho-backend, *.workers.dev) serves this same page and shows both. Nothing is removed: the gated
@@ -20,7 +20,37 @@
     if (/[?&]view=public(&|$)/.test(String(location.search || ''))) return true;
     return !!window.LAB_PORT;
   }
-  if (!memberOnly()) return;
+  // One gold Member tag on both parts (paul, 28 Nov 2026, "is there a tag that should show a member page?"): on the
+  // public card, and kept on the open part a member sees, as hub/shell.js memberTag (styles: hub/shell.css .member-tag).
+  var TAG = '<span class="member-tag">Member</span>';
+  function lenderBox() { return document.getElementById('dc-ls-panel'); }
+  function compareBox() { var a = document.getElementById('dcSaveAsA'), s = a && a.closest('.dc-scenario-actions'); return s && s.parentElement; }
+  function observe(fn) {
+    fn();
+    document.addEventListener('DOMContentLoaded', fn);
+    window.addEventListener('load', fn);
+    if (!window.MutationObserver) return;
+    var pending = false;
+    new MutationObserver(function () {
+      if (pending) return;
+      pending = true;
+      setTimeout(function () { pending = false; fn(); }, 0);
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
+  if (!memberOnly()) {
+    // The member site: each open part gets the tag first, once, each time the calculator draws it.
+    observe(function () {
+      [lenderBox(), compareBox()].forEach(function (box) {
+        if (!box || box.querySelector(':scope > [data-member-tag]')) return;
+        var p = document.createElement('p');
+        p.className = 'member-tag-row';
+        p.setAttribute('data-member-tag', '');
+        p.innerHTML = TAG;
+        box.insertBefore(p, box.firstChild);
+      });
+    });
+    return;
+  }
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
@@ -31,7 +61,7 @@
     el.className = 'callout member-card';
     el.setAttribute('data-member-card', o.key);
     el.setAttribute('aria-labelledby', o.id);
-    el.innerHTML = '<p class="ma-kicker">For members</p><h2 id="' + esc(o.id) + '">' + esc(o.title) + '</h2>' +
+    el.innerHTML = '<p class="ma-kicker member-tag-row">' + TAG + '</p><h2 id="' + esc(o.id) + '">' + esc(o.title) + '</h2>' +
       '<p>' + esc(o.what) + '</p><ul>' + o.gets.map(function (g) { return '<li>' + esc(g) + '</li>'; }).join('') + '</ul>' +
       '<div class="actions"><a class="button-link" data-member-signin href="' + esc(to) + '">Member sign in</a>' +
       '<a class="button-link secondary" href="mailto:info@cohoanalytics.com?subject=Member%20access">Ask about member access</a></div>';
@@ -76,22 +106,11 @@
     });
   }
   function run() {
-    gate(document.getElementById('dc-ls-panel'), LENDER);
-    var a = document.getElementById('dcSaveAsA');
-    gate(a && a.closest('.dc-scenario-actions') && a.closest('.dc-scenario-actions').parentElement, COMPARE);
+    gate(lenderBox(), LENDER);
+    gate(compareBox(), COMPARE);
   }
 
-  run();
-  document.addEventListener('DOMContentLoaded', run);
-  window.addEventListener('load', run);
   // The calculator draws the lender schedules late and may draw them again; gate each new copy.
-  if (window.MutationObserver) {
-    var pending = false;
-    new MutationObserver(function () {
-      if (pending) return;
-      pending = true;
-      setTimeout(function () { pending = false; run(); }, 0);
-    }).observe(document.documentElement, { childList: true, subtree: true });
-  }
+  observe(run);
   window.DcMemberGate = { memberOnly: memberOnly, run: run };
 })();

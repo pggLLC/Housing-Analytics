@@ -37,10 +37,10 @@
       { label: 'Prop 123 strategy', href: 'https://coho-backend.communityplanner.workers.dev/developer-prop123.html', status: 'members', note: 'How a nonprofit holding land, a developer and the housing authority work together with Prop 123 money: each step, who carries which risk, property tax, and who in each place already holds land-banked land.' },
       { label: 'Where a deal pencils', href: 'https://coho-backend.communityplanner.workers.dev/developer-deal-pencil.html', status: 'members', note: 'A standard 9% and 4% family deal run through the Deal Calculator\u2019s engine in every Colorado town, with the most a deal can cost per home and still close.' },
       { label: 'My partners', href: 'https://coho-backend.communityplanner.workers.dev/developer-my-partners.html', status: 'members', note: 'The firms you work with, shown in the Local players section of every dossier. Only you see them.' },
-      // Decided member tools that are still public pages today (paul, 26 Oct and 30 Oct). They move behind the
-      // gate when their hub lands; until then the link opens the public page.
-      { label: 'Market Analysis (full, site market area)', href: 'https://cohoanalytics.com/deal-market-analysis.html', status: 'members', note: 'Decided as a member tool. Still a public page until it moves behind the member gate. The free Market check is on this site.' },
-      { label: 'For-sale market study (full)', href: 'https://cohoanalytics.com/for-sale-market-study.html', status: 'members', note: 'Decided as a member tool (30 Oct). Still a public page until it moves behind the member gate. The free For-sale and ownership screen is on this site.' }
+      // Member tools whose public address now shows a short page with the free alternative (paul, 26 Oct, 30 Oct and
+      // 25 Nov). Members open the full tool at the same address on the member site.
+      { label: 'Market Analysis (full, site market area)', href: 'https://coho-backend.communityplanner.workers.dev/deal-market-analysis.html', status: 'members', note: 'The full study for one site: market area, demand, rents and capture. The free Market check is on this site.' },
+      { label: 'For-sale market study (full)', href: 'https://coho-backend.communityplanner.workers.dev/for-sale-market-study.html', status: 'members', note: 'The full for-sale study for one place. The free For-sale and ownership screen is on this site.' }
     ]
   };
 
@@ -421,7 +421,8 @@
     // In a port into the public site (window.LAB_PORT), a route that hub does not carry opens the public
     // page it rebuilds instead; replace() keeps Back on the page the reader came from.
     var away = global.LAB_PORT && global.LAB_PORT.leave(location.hash || '#/');
-    if (away) { location.replace(away); return; }
+    // A member-site address goes through the member sign-in chooser on cohoanalytics.com, as a click does (nav.js).
+    if (away) { location.replace(typeof global.__cohoMemberHref === 'function' ? global.__cohoMemberHref(away) : away); return; }
     // The view is looked up by the route table's own names, never by the address text itself.
     var key = Object.keys(VIEWS).filter(function (k) { return k === route.view; })[0];
     var view = key && typeof VIEWS[key] === 'function' ? VIEWS[key] : null;
@@ -612,13 +613,23 @@
   }
   // o: { title, what (one plain line), gets: [lines], free: [{ href, label }], page, id }. The member link opens the same
   // page and route on the member site.
+  // One gold "Member" tag on every member part (paul, 28 Nov 2026, "is there a tag that should show a member page?",
+  // "before the walkthrough"). It shows on the public site's member cards and stays when a member opens the part, so
+  // a member can tell what their sign-in unlocked. The colours match the member site's Member \u2713 (member-mark.js).
+  function memberTag() { return '<span class="member-tag">Member</span>'; }
+  // An unlocked member view: the tag on its own line above the view's first heading.
+  function memberMark(html) {
+    var s = String(html == null ? '' : html), i = s.search(/<h[12][\s>]/);
+    var row = '<p class="member-tag-row">' + memberTag() + '</p>';
+    return i < 0 ? row + s : s.slice(0, i) + row + s.slice(i);
+  }
   function memberCard(o) {
     var page = String((global.location && global.location.pathname) || '').split('/').pop() || 'index.html';
     var to = MEMBER_SITE + page + String((global.location && global.location.hash) || '');
     // o.id names the heading when one page shows more than one card (Financials: lender schedules and the scenario
     // comparison).
     var hid = o.id || 'member-card-h';
-    return '<section class="callout member-card" aria-labelledby="' + esc(hid) + '"><p class="ma-kicker">For members</p>' +
+    return '<section class="callout member-card" aria-labelledby="' + esc(hid) + '"><p class="ma-kicker member-tag-row">' + memberTag() + '</p>' +
       // A gated view that is the whole page (ranking, compare, scenarios) titles the page with it (page: true); a
       // gated chapter sits under its place's own h1.
       (o.page ? '<h1 id="' + esc(hid) + '">' + esc(o.title) + '</h1>' : '<h2 id="' + esc(hid) + '">' + esc(o.title) + '</h2>') + (o.what ? '<p>' + esc(o.what) + '</p>' : '') +
@@ -630,7 +641,7 @@
 
   // Other lab modules (homes.js) add their views here before the first render.
   global.LabShell = {
-    memberOnly: memberOnly, memberCard: memberCard, MEMBER_SITE: MEMBER_SITE,
+    memberOnly: memberOnly, memberCard: memberCard, memberTag: memberTag, memberMark: memberMark, MEMBER_SITE: MEMBER_SITE,
     views: VIEWS, esc: esc, when: when, KIND: KIND, render: function () { render(); },
     // For views built in other files (places.js): the same catalog, rows and search box as the hubs here.
     catalog: function () { return catalog; }, list: list, searchBox: searchBox, hubHead: hubHead, matches: matches,
