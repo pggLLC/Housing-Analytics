@@ -102,7 +102,7 @@ ok('a non-member sees what members get, below the two choices, and the menu agre
   const choices = page.indexOf('class="msi-choices"'), why = page.indexOf('id="msi-why"');
   assert.ok(choices > 0 && why > choices, 'the benefits block sits after the choices');
   const block = page.slice(why, page.indexOf('</section>', why));
-  const items = [...block.matchAll(/<li><strong>([^<]+?)\.?<\/strong>\s*([^<]*)/g)].map((m) => ({ label: m[1].trim(), text: m[2].trim() }));
+  const items = [...block.matchAll(/<li[^>]*><strong>([^<]+?)\.?<\/strong>\s*([^<]*)/g)].map((m) => ({ label: m[1].trim(), text: m[2].trim() }));
   assert.ok(items.length >= 3, 'the block lists member tools (' + items.length + ')');
   items.forEach((it) => assert.ok(it.label && it.text, 'each benefit has a name and a line: ' + it.label));
   assert.ok(!/\$\s?\d|per (month|year|seat)|subscribe|buy now/i.test(block), 'no prices or selling');
