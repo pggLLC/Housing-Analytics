@@ -25,18 +25,19 @@
 .econ-what { margin: 0; font-size: 13px; line-height: 1.45; color: var(--muted); }
 .econ-spark { display: block; width: 100%; height: 64px; margin: .25rem 0; }
 .econ-off .econ-v { font-size: 15px; font-weight: 600; color: var(--muted); }
-.econ-co-cards { grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 360px)); }
+.econ-co-cards { grid-template-columns: minmax(0, 1fr); }
 .econ-us { margin: 1rem 0 0; }
 .econ-us .panel, .econ-odds .panel { padding: 1rem; }
 
 /* Market odds. */
 .econ-odds-grid { list-style: none; margin: .5rem 0 1rem; padding: 0; display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
-.econ-odds-card { display: grid; gap: .3rem; align-content: start; min-width: 0; padding: .8rem .9rem; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
-.econ-odds-card.econ-co { border-top: 4px solid var(--green); }
+.econ-odds-card { display: flex; flex-direction: column; gap: .3rem; min-width: 0; padding: .8rem .9rem; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+.econ-odds-where { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--muted); }
+.econ-odds-foot { display: grid; gap: .3rem; margin-top: auto; padding-top: .4rem; border-top: 1px solid var(--line); }
 .econ-odds-card h4 { margin: 0; font-size: 15px; line-height: 1.35; }
 .econ-odds-card .econ-v { font-size: 18px; }
 .econ-odds-top { font-size: 15px; color: var(--green); }
-.econ-badge { margin: 0; justify-self: start; padding: .05rem .55rem; border: 1px solid; border-left-width: 4px; border-radius: 6px; font-size: 12px; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: .03em; }
+.econ-badge { margin: 0; justify-self: start; align-self: flex-start; padding: .05rem .55rem; border: 1px solid; border-left-width: 4px; border-radius: 6px; font-size: 12px; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: .03em; }
 .econ-odds-bars { list-style: none; margin: .2rem 0; padding: 0; display: grid; gap: .3rem; }
 .econ-odds-bars li { display: grid; grid-template-columns: minmax(0, 1fr) 70px 3.6rem; gap: .5rem; align-items: center; font-size: 14px; }
 .econ-odds-l { overflow-wrap: break-word; }
