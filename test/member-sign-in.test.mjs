@@ -95,6 +95,12 @@ ok('the chooser is not indexed and offers the free site and the member site', ()
   assert.equal(hrefOf('msi-free-link'), 'index.html');
   assert.equal(hrefOf('msi-go'), MEMBER);
 });
+ok('a non-member sees what members get, below the two choices (paul, 28 Nov)', () => {
+  const choices = page.indexOf('class="msi-choices"'), why = page.indexOf('id="msi-why"');
+  assert.ok(choices > 0 && why > choices, 'the benefits block sits after the choices');
+  for (const t of ['Market Analysis', 'housing needs chapters', 'Deal Calculator extras', 'Research library', 'Common App map', 'Next round watch']) assert.ok(page.includes(t), t);
+  assert.ok(!/\$\d|per month|per year|subscribe/i.test(page.slice(why)), 'no prices or selling');
+});
 ok('the chooser follows a member-site address and nothing else', () => {
   const deal = MEMBER + 'deal-calculator.html#v=1&units=48';
   assert.equal(chooser('#to=' + encodeURIComponent(deal)), deal);
