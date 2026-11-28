@@ -241,6 +241,7 @@
   function whyMissing(m) {
     if (!m || m.value != null) return null;
     if (m.unavailable_reason) return m.unavailable_reason;
+    if (m.note) return String(m.note);
     return /^acs/i.test(m.source_id || '') ? 'The Census publishes no figure for this place in this survey.' : 'The source publishes no figure for this place.';
   }
   function missingReasons(digest) {
@@ -486,8 +487,12 @@
       var x = m(key);
       var at = scopeOf(d[key], key, sctx);
       if (at) at.metric = title;
-      return x ? Pl.card(title, fmt(x.value), detail || null, sourceOf(x, ctx), sourceUrl(x, ctx), at)
-        : Pl.card(title, null, [whyMissing(d[key]), detail].filter(Boolean).join(' ') || null, sourceOf(d[key], ctx) || 'Not in the HNA files for this place', d[key] ? sourceUrl(d[key], ctx) : null, at);
+      // A figure's review note (e.g. "Unconfirmed, small town") is shown on the card under the value, where it is
+      // seen without opening Source (owner, 28 Nov 2026), so it is taken out of the source line here.
+      var note = (x || d[key] || {}).note ? String((x || d[key]).note) : '';
+      var src = function (s) { return note ? String(s || '').replace(' \u00b7 ' + note, '') : s; };
+      return x ? Pl.card(title, fmt(x.value), [note, detail].filter(Boolean).join(' ') || null, src(sourceOf(x, ctx)), sourceUrl(x, ctx), at)
+        : Pl.card(title, null, [whyMissing(d[key]), detail].filter(Boolean).join(' ') || null, src(sourceOf(d[key], ctx)) || 'Not in the HNA files for this place', d[key] ? sourceUrl(d[key], ctx) : null, at);
     };
     var word = function (title, key, detail) { return mc(title, key, String, detail).replace('<div class="metric">', '<div class="metric word">'); };
     var pv = function (k) { return p[k] == null || p[k] === '' ? null : Number(p[k]); };
