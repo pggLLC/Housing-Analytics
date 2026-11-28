@@ -36,7 +36,7 @@
       { title: 'Tools', about: 'Test a deal: market check, Deal Calculator, ownership and summaries.', items: [
         { step: 5, label: 'Deal Calculator', lab: '#/deal-calculator', desc: 'Sources and uses, credits, debt and the gap.' },
         { label: 'Market check', lab: '#/market', desc: 'Renters, rents, supply and a capture rate for any place. Free.' },
-        { step: 3, label: 'Market Analysis', path: 'deal-market-analysis.html', desc: 'The full study for one site: market area, demand, rents and capture. A member tool, open to all for now.' },
+        { step: 3, label: 'Market Analysis', path: 'deal-market-analysis.html', desc: 'The full study for one site: market area, demand, rents and capture. A member tool: members sign in to use it.' },
         { label: 'For-sale and ownership', lab: '#/for-sale', desc: 'What each income can pay for a home, and resale formulas. Free.' },
         { step: 6, label: 'Recommendation', lab: '#/recommendation', desc: 'What the public data says a place needs, and how sure. Free.' },
         { label: 'Deal summaries', lab: '#/deals', desc: 'One sourced summary per Colorado tax credit award.' },
