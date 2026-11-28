@@ -416,11 +416,14 @@
       rows.map(function (r) {
         return '<tr' + (r === st ? ' class="is-story"' : '') + '><th scope="row">≤' + r.band + '% AMI</th><td data-l="Households">' + n(r.hh) + '</td><td data-l="Homes priced for them">' + n(r.priced) + '</td><td data-l="Higher earners rent">' + n(r.others) + '</td><td data-l="Left for them">' + n(r.get) + '</td><td class="lw-s" data-l="Short">' + (r.short > 0 ? n(r.short) + (r.own != null && r.short > r.own ? '*' : '') : '0') + '</td></tr>';
       }).join('') + '</tbody></table>' +
-      (lifted.length ? '<p class="note lw-why">* Short never falls as income rises: homes priced for higher incomes cost too much for poorer renters, so the gap ' + (st.short > 0 ? at(st.band) : 'at lower incomes') + ' carries up.</p>' : '');
+      (lifted.length ? '<p class="note lw-why">* Short never falls as income rises: homes priced for higher incomes cost too much for poorer renters, so ' + lifted.map(function (r) {
+        var src = rows.filter(function (q) { return rows.indexOf(q) < rows.indexOf(r) && q.own === r.short; })[0];
+        return src ? 'the gap ' + at(src.band) + ' carries up to \u2264' + r.band + '%' : 'a gap at a lower income carries up to \u2264' + r.band + '%';
+      }).join('; ') + '.</p>' : '');
     var census = '<details class="lw-census"><summary>Price-only count (Census)</summary><ul>' + steps.map(function (b) {
       var gap = b.households - b.homes;
       return '<li>≤' + esc(String(b.band)) + '% AMI: ' + per(b) + ' homes per 100 renter households' + (gap > 0 ? ', ' + n(gap) + ' short' : '') + '</li>';
-    }).join('') + '</ul><p class="note">Counts every rental priced for the band, whoever rents it, so it reads higher than what these renters can get. HUD does not count the 100% band.</p></details>';
+    }).join('') + '</ul><p class="note">Counts every rental priced for the band, whoever rents it, so it does not show whether these renters can get those homes. HUD does not count the 100% band.</p></details>';
     return { head: head, story: story.replace(/<[^>]+>/g, ''), body: '<p class="lw-story">' + story + '</p>' + bars + table + census };
   }
 
