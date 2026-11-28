@@ -29,13 +29,20 @@ for (const f of [...TOOLS, ...LONG]) {
   const html = shortPage(f, read(f));
   ok(html.includes(`href="${MEMBER_SITE}${f}"`), `${f}: member sign in opens the same page on the member site`);
   ok(html.includes('mailto:info@cohoanalytics.com?subject=Member%20access'), `${f}: links the member access request`);
-  ok(/<footer id="site-footer"><\/footer>/.test(html), `${f}: has the site footer`);
+  ok(/<footer class="site-footer">/.test(html) || /<footer id="site-footer"><\/footer>/.test(html), `${f}: has the site footer`);
   ok(/<a class="skip-link" href="#main-content">/.test(html) && /id="main-content"/.test(html), `${f}: skip link lands on the page`);
   ok((html.match(/<h1\b/g) || []).length === 1, `${f}: one h1`);
 }
 
+// The short tool pages wear the new pages' header and footer, the same as deal-hub.html's, not the old header
+// (paul, 28 Nov 2026: "looks like somehow we're getting the old site pulled in").
+const hubHeader = /<header class="site-header">[\s\S]*?<\/header>/.exec(read('deal-hub.html'))[0];
+const hubFooter = /<footer class="site-footer">[\s\S]*?<\/footer>/.exec(read('deal-hub.html'))[0];
 for (const f of TOOLS) {
   const html = shortPage(f, read(f));
+  ok(html.includes(hubHeader) && html.split('<header').length === 2, `${f}: the new pages' header, once`);
+  ok(html.includes(hubFooter) && /Member sign in<\/a>/.test(hubFooter), `${f}: the new pages' footer, with Member sign in`);
+  ok(!/src="\/?js\/(navigation|dark-mode-toggle|mobile-menu)\.js"/.test(html) && /<script src="hub\/nav\.js"><\/script>/.test(html), `${f}: the new menu (hub/nav.js), not the old header's scripts`);
   const free = /<a class="button-link" data-carry-place(?: data-place-route)? href="([a-z-]+\.html)#(\/[a-z-]+)"/.exec(html);
   ok(free, `${f}: a free version first`);
   ok(new RegExp('"' + free[1].replace('.', '\\\\.') + '":\\[[^\\]]*' + free[2].slice(1).replace('-', '\\-')).test(hubs) || hubs.includes(free[2].slice(1)), `${f}: ${free[1]}#${free[2]} is a route the hubs draw`);
