@@ -304,7 +304,22 @@ async function main() {
         reason: smallTownReason,
       });
     }
-    if (zhvi && smallTownReason) {
+    const population = Number(profile.DP05_0001E);
+    if (zhvi && smallTownReason && !(population > 0)) {
+      // No recorded residents (Wolcott CDP: 0 people, Zillow $2,908,888): too few homes for a
+      // typical value, so none is shown, as for any place the files hold no value for.
+      display = {
+        value: null,
+        source: 'acs_raw',
+        as_of: 'ACS 2020-2024 5-year',
+        confidence: 'missing',
+        review_flag: {
+          reason: 'zhvi_small_town_unconfirmed',
+          note: 'Too few homes to report: the Census records no residents here, so Zillow\'s estimate is not shown.',
+        },
+      };
+      acsCount += 1;
+    } else if (zhvi && smallTownReason) {
       const fmt = (n) => '$' + Math.round(n).toLocaleString('en-US');
       const hasAcs = Number.isFinite(acsValue) && acsValue > 0;
       display = {
@@ -318,7 +333,7 @@ async function main() {
           reason: 'zhvi_small_town_unconfirmed',
           note: 'Unconfirmed, small town: Zillow\'s estimate for a town under 1,000 people; '
             + (hasAcs
-              ? `the Census figure is ${fmt(acsValue)}${Number.isFinite(acsMoe) ? ' ± ' + fmt(acsMoe) : ''}.`
+              ? `the Census figure is ${fmt(acsValue)}${Number.isFinite(acsMoe) ? ', give or take ' + fmt(acsMoe) : ''}.`
               : 'there is no Census figure to check it against.'),
         },
       };

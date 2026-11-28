@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-28T12:59:37.592Z",
+    "generated_at": "2026-11-28T13:34:01.791Z",
     "schema": "median_home_value = { value, source, as_of, confidence }; counties are display-only affordability inputs and are ignored by rank/score models",
     "sources": {
       "zhvi_city_csv": "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
@@ -11,8 +11,8 @@
     "latest_zhvi_month": "2026-10-31",
     "colorado_zhvi_rows": 343,
     "counts": {
-      "zhvi": 290,
-      "acs_raw": 192,
+      "zhvi": 289,
+      "acs_raw": 193,
       "total": 482,
       "counties": {
         "fhfa_county_hpi_anchor": 49,
@@ -47,7 +47,7 @@
       "acs_raw_value": 96400,
       "review_flag": {
         "reason": "zhvi_small_town_unconfirmed",
-        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $96,400 ± $3,973."
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $96,400, give or take $3,973."
       }
     },
     "0800870": {
@@ -159,7 +159,7 @@
       "acs_raw_value": 110200,
       "review_flag": {
         "reason": "zhvi_small_town_unconfirmed",
-        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $110,200 ± $48,784."
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $110,200, give or take $48,784."
       }
     },
     "0803455": {
@@ -283,7 +283,7 @@
       "acs_raw_value": 127500,
       "review_flag": {
         "reason": "zhvi_small_town_unconfirmed",
-        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $127,500 ± $87,304."
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $127,500, give or take $87,304."
       }
     },
     "0806602": {
@@ -1319,7 +1319,7 @@
       "acs_raw_value": 186100,
       "review_flag": {
         "reason": "zhvi_small_town_unconfirmed",
-        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $186,100 ± $62,067."
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $186,100, give or take $62,067."
       }
     },
     "0829735": {
@@ -2203,7 +2203,7 @@
       "acs_raw_value": 1103100,
       "review_flag": {
         "reason": "zhvi_small_town_unconfirmed",
-        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $1,103,100 ± $98,484."
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $1,103,100, give or take $98,484."
       }
     },
     "0851250": {
@@ -2907,7 +2907,7 @@
       "acs_raw_value": 98300,
       "review_flag": {
         "reason": "zhvi_small_town_unconfirmed",
-        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $98,300 ± $35,699."
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $98,300, give or take $35,699."
       }
     },
     "0868985": {
@@ -3477,15 +3477,13 @@
       "acs_raw_value": 775300
     },
     "0885760": {
-      "value": 2908888,
-      "source": "zhvi",
-      "as_of": "2026-10-31",
-      "confidence": "low",
-      "zillow_region_id": "56685",
-      "acs_raw_value": null,
+      "value": null,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "missing",
       "review_flag": {
         "reason": "zhvi_small_town_unconfirmed",
-        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; there is no Census figure to check it against."
+        "note": "Too few homes to report: the Census records no residents here, so Zillow's estimate is not shown."
       }
     },
     "0886090": {

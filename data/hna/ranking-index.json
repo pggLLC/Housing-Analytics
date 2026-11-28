@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-11-28T13:00:08Z",
+    "generatedAt": "2026-11-28T13:34:18Z",
     "version": "1.0",
     "totalCounties": 64,
     "totalPlaces": 272,
@@ -37034,10 +37034,10 @@
         "overcrowding_rate_pct": null,
         "population": 0,
         "median_hh_income": null,
-        "median_home_value": 2908888,
+        "median_home_value": null,
         "home_value_to_income": null,
         "rent_to_income": null,
-        "home_value_confidence": "low",
+        "home_value_confidence": "missing",
         "opportunity_mobility_score": 32.6,
         "walkability_score": 32,
         "amenity_access_score": 35,

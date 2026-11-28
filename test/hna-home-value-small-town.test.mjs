@@ -2,7 +2,8 @@
 // Owner's rule (2026-11-27, revised 2026-11-28): a town under 1,000 people matching
 // Zillow for the first time, where Zillow is outside the ACS margin of error or
 // cannot be checked, shows Zillow's value marked "unconfirmed, small town" (low
-// confidence, visible note). These pin the rule and the committed result.
+// confidence, visible note). A place with no recorded residents shows no value,
+// with a "too few homes to report" note. These pin the rule and the committed result.
 import assert from 'node:assert';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -46,10 +47,18 @@ let checked = 0;
 for (const f of flagged) {
   const row = cascade.places[f.geoid];
   assert.ok(row, `${f.place_name} missing from places`);
-  assert.strictEqual(row.source, 'zhvi', `${f.place_name} is flagged but does not show Zillow`);
-  assert.strictEqual(row.value, f.zhvi_value, `${f.place_name} shows a value other than Zillow's`);
-  assert.strictEqual(row.confidence, 'low', `${f.place_name} is unconfirmed but not low confidence`);
-  assert.match(row.review_flag.note, /^Unconfirmed, small town:/, `${f.place_name} note is not the visible unconfirmed note`);
+  if (f.population > 0) {
+    assert.strictEqual(row.source, 'zhvi', `${f.place_name} is flagged but does not show Zillow`);
+    assert.strictEqual(row.value, f.zhvi_value, `${f.place_name} shows a value other than Zillow's`);
+    assert.strictEqual(row.confidence, 'low', `${f.place_name} is unconfirmed but not low confidence`);
+    assert.match(row.review_flag.note, /^Unconfirmed, small town:/, `${f.place_name} note is not the visible unconfirmed note`);
+  } else {
+    // No recorded residents: no value is shown (Wolcott CDP, Zillow $2,908,888).
+    assert.strictEqual(row.value, null, `${f.place_name} has no residents but shows a home value`);
+    assert.match(row.review_flag.note, /^Too few homes to report:/, `${f.place_name} note does not say why no value is shown`);
+  }
+  // The card treats a "±" as a published margin, which a Zillow value has none of.
+  assert.ok(!/±/.test(row.review_flag.note), `${f.place_name} note carries a ± the card would read as a margin`);
   assert.ok(!crosswalk[f.geoid], `${f.place_name} is unconfirmed but was written to the crosswalk`);
   assert.ok(f.population < SMALL_TOWN_POPULATION, `${f.place_name} is flagged but has ${f.population} people`);
   // The page reads the place summary, so the value and the note must reach it too.
