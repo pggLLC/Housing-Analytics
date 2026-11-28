@@ -140,13 +140,42 @@ try {
   await tab.evaluate(() => { const b = document.getElementById('dc-br-30'); b.value = '1br'; b.dispatchEvent(new Event('change', { bubbles: true })); });
   await settle(tab);
   ok(await val('dq-br-30') === '1br', 'a bedroom size picked in the full calculator shows in the panel');
-  // A tier split by bedroom in Unit mix sets its own sizes: the panel's picker steps aside and says why.
+  // A tier split by bedroom in Unit mix shows in the panel as its row of sizes, in place of the single picker.
   await tab.evaluate(() => { const u = document.getElementById('dc-units-50-2br'); u.value = '3'; u.dispatchEvent(new Event('input', { bubbles: true })); u.dispatchEvent(new Event('change', { bubbles: true })); });
   await settle(tab);
-  ok(await tab.$eval('#dq-br-50', (b) => b.disabled && /bedroom split/.test(b.title)), 'a tier split by bedroom shows its picker as set in Unit mix');
+  ok(await tab.evaluate(() => document.getElementById('dq-br-50').hidden && !document.getElementById('dq-split-50').hidden && document.getElementById('dq-split-50-2br').value === '3'),
+    'a tier split by bedroom in Unit mix shows as its row of sizes in the panel');
   await tab.evaluate(() => { ['studio', '1br', '2br', '3br', '4br'].map((b) => document.getElementById('dc-units-50-' + b)).forEach((u) => { u.value = '0'; u.dispatchEvent(new Event('input', { bubbles: true })); u.dispatchEvent(new Event('change', { bubbles: true })); }); });
   await settle(tab);
-  ok(await tab.$eval('#dq-br-50', (b) => !b.disabled), 'with the split cleared the picker is back');
+  ok(await tab.$eval('#dq-br-50', (b) => !b.disabled && !b.hidden), 'with the split cleared the picker is back');
+
+  // Bedroom mix in the panel (paul, 27 Nov 2026: "only 1 br type?"): "Mix sizes" opens the tier's row with its homes in
+  // the size they had, so nothing moves; a count there is the full calculator's bedroom split, the tier is its sum,
+  // and Total Units moves by the same change; "One size" folds it back into the biggest size.
+  {
+    const t60 = Number(await val('dc-units-60')), all0 = Number(await val('dc-units')), size0 = await val('dc-br-60');
+    const other = size0 === '3br' ? '2br' : '3br', third = size0 === '1br' ? 'studio' : '1br';
+    const steady = await settle(tab);
+    await tab.click('#dq-more-60');
+    ok(await val('dc-units-60-' + size0) === String(t60) && await val('dq-split-60-' + size0) === String(t60) && await tab.$eval('#dq-split-60', (r) => !r.hidden),
+      '"+ size" opens the 60% row with its ' + t60 + ' homes in their ' + size0);
+    ok(JSON.stringify(await settle(tab)) === JSON.stringify(steady), 'opening the row moves no result');
+    await tab.fill('#dq-split-60-' + size0, String(t60 - 5));
+    await tab.fill('#dq-split-60-' + other, '5');
+    ok(await val('dc-units-60-' + other) === '5' && await val('dc-units-60-' + size0) === String(t60 - 5), 'counts typed in the row are the full calculator\'s bedroom split');
+    ok(await val('dq-units-60') === String(t60) && Number(await val('dc-units')) === all0, 'the tier is the row\'s sum and Total Units is unchanged (' + await val('dc-units') + ')');
+    const mixed = await settle(tab);
+    agree(mixed, '60% split into two sizes');
+    ok(JSON.stringify(mixed) !== JSON.stringify(steady), 'non-vacuous: five homes of another size at 60% move the results');
+    await tab.fill('#dq-split-60-' + third, '4');
+    ok(await val('dq-units-60') === String(t60 + 4) && Number(await val('dc-units')) === all0 + 4, 'a home added in the row adds to the tier and to Total Units');
+    agree(await settle(tab), '60% split with 4 more homes');
+    await tab.fill('#dq-split-60-' + third, '0');
+    await tab.click('#dq-split-60 button[data-dq-act="close"]');
+    ok(await val('dc-br-60') === size0 && await val('dc-units-60') === String(t60) && await val('dc-units-60-' + other) === '0' && await tab.$eval('#dq-split-60', (r) => r.hidden),
+      '"One size" folds the tier back into its biggest size, ' + size0);
+    ok(JSON.stringify(await settle(tab)) === JSON.stringify(steady), 'and the results are back where they were');
+  }
 
   // A tier the full calculator leaves out counts as none in the panel, and homes typed there put it back in.
   await tab.evaluate(() => { const c = document.getElementById('dc-chk-70'); c.checked = false; c.dispatchEvent(new Event('change', { bubbles: true })); });
@@ -205,6 +234,143 @@ try {
   ok(measured(schOut).length >= 3, 'non-vacuous: the schedule deal is measured (' + JSON.stringify(schOut) + ')');
   ok(sch.errors.length === 0, 'no page errors with a rent schedule: ' + sch.errors.slice(0, 3).join(' | '));
   await sch.ctx.close();
+
+  // Changing a tier's size by clearing one count before typing the next (Codex, #3046): with every home in one tier,
+  // the cleared count can't take Total Units below 1, so the panel holds the running total and the new count lands on
+  // it. Moving 60 homes from one size to another must leave 60 in all, not 120 with 60 invented market-rate homes.
+  {
+    const w = await open(browser);
+    const t = w.tab;
+    const v = (id) => t.$eval('#' + id, (u) => u.value);
+    for (const p of [20, 30, 40, 50, 70, 80]) if (Number(await v('dq-units-' + p)) > 0) await t.fill('#dq-units-' + p, '0');
+    const n = Number(await v('dc-units-60'));
+    await t.fill('#dq-units', String(n));
+    ok(n > 0 && Number(await v('dc-units')) === n, 'non-vacuous: every one of ' + n + ' homes is at 60% (' + await v('dc-units') + ' in all)');
+    // By the tier box: clear it, then type the homes back.
+    await t.fill('#dq-units-60', '');
+    await t.fill('#dq-units-60', String(n));
+    ok(Number(await v('dc-units')) === n && Number(await v('dc-units-60')) === n, 'clearing the 60% count and typing it again leaves ' + n + ' in all (' + await v('dc-units') + ')');
+    // By the bedroom row: clear one size, then put the homes in another.
+    const size = await v('dc-br-60'), to = size === '3br' ? '2br' : '3br';
+    await t.click('#dq-more-60');
+    await t.fill('#dq-split-60-' + size, '');
+    await t.fill('#dq-split-60-' + to, String(n));
+    ok(Number(await v('dc-units')) === n && Number(await v('dc-units-60')) === n && await v('dc-units-60-' + to) === String(n),
+      'moving all ' + n + ' homes from ' + size + ' to ' + to + ' leaves ' + n + ' in all (' + await v('dc-units') + ')');
+    // A total typed while a count is cleared drops the hold: with no homes in a limit, all n + 2 typed are outside
+    // the limits, and they stay outside when the n homes come back.
+    await t.fill('#dq-split-60-' + to, '');
+    await t.fill('#dq-units', String(n + 2));
+    await t.fill('#dq-split-60-' + to, String(n));
+    ok(Number(await v('dc-units')) === 2 * n + 2, 'a total typed meanwhile counts as typed (' + await v('dc-units') + ', expected ' + (2 * n + 2) + ')');
+    ok(w.errors.length === 0, 'no page errors while moving sizes: ' + w.errors.slice(0, 3).join(' | '));
+    await w.ctx.close();
+  }
+
+  // A bedroom row left open while the full calculator's "Pre-fill from local need" sets new tier totals and clears
+  // their sizes (Codex, #3046): the new totals stand, the row closes, and "One size" can't zero the tier.
+  {
+    const w = await open(browser);
+    const t = w.tab;
+    const v = (id) => t.$eval('#' + id, (u) => u.value);
+    await t.selectOption('#dq-county', MESA);
+    await settle(t);
+    for (const p of [30, 50, 60]) await t.click('#dq-more-' + p);
+    const all0 = await v('dc-units');
+    await t.evaluate(() => document.getElementById('dc-ami-prefill').click());
+    await settle(t);
+    const filled = [];
+    for (const p of [30, 50, 60]) {
+      const n = Number(await v('dc-units-' + p));
+      const cleared = await t.evaluate((q) => ['studio', '1br', '2br', '3br', '4br'].every((b) => !(Number(document.getElementById('dc-units-' + q + '-' + b).value) > 0)), p);
+      if (n > 0 && cleared) filled.push({ p, n });
+    }
+    ok(filled.length > 0, 'non-vacuous: the local-need pre-fill put homes in a tier and cleared its sizes: ' + JSON.stringify(filled) + ' ' + await t.$eval('#dc-ami-prefill-meta', (m) => m.textContent));
+    for (const f of filled) {
+      if (await t.$eval('#dq-split-' + f.p, (r) => !r.hidden)) await t.click('#dq-split-' + f.p + ' button[data-dq-act="close"]');
+      ok(await t.$eval('#dq-split-' + f.p, (r) => r.hidden) && Number(await v('dq-units-' + f.p)) === f.n && Number(await v('dc-units-' + f.p)) === f.n,
+        'the pre-filled ' + f.p + '% count (' + f.n + ') stands and its row is closed (' + await v('dc-units-' + f.p) + ')');
+    }
+    ok(await v('dc-units') === all0, 'Total Units is the pre-fill\'s own total (' + await v('dc-units') + ', was ' + all0 + ')');
+    ok(w.errors.length === 0, 'no page errors with the pre-fill: ' + w.errors.slice(0, 3).join(' | '));
+    await w.ctx.close();
+  }
+
+  // paul's walkthrough, 27 Nov 2026 ("I'm getting errors", "even when they match"): Mesa, $20.2M, 9%, one home at
+  // 20% (3 bedrooms) and one at 70% beside the default 60. The 70% home earns no credit under the 40-60 election,
+  // so the law needs floor space (26 U.S.C. 42(c)(1)(B)). The panel must say why, take the floor space or the
+  // Average Income Test right there, and then show a measured result.
+  {
+    const w = await open(browser);
+    const t = w.tab;
+    const v = (id) => t.$eval('#' + id, (u) => u.value);
+    const box = () => t.evaluate(() => { const b = document.getElementById('dq-floor'); return { shown: !b.hidden && b.getClientRects().length > 0, why: document.getElementById('dq-floor-why').textContent, status: document.getElementById('dq-floor-status').hidden ? '' : document.getElementById('dq-floor-status').textContent }; });
+    await t.selectOption('#dq-county', MESA);
+    await type(t, 'dq-tdc', 20200000);
+    let base = await settle(t);
+    ok(!(await box()).shown, 'with every home at 60% or below the floor-space box stays out of the way');
+    ok(measured(base).length === 4, 'the default Mesa deal is measured: ' + JSON.stringify(base));
+    await t.fill('#dq-units-20', '1');
+    await t.selectOption('#dq-br-20', '3br');
+    await t.fill('#dq-units-70', '1');
+    ok(await v('dc-units') === '62' && await v('dq-units') === '62', 'two homes added at 20% and 70% make 62 in all (' + await v('dc-units') + ')');
+    const before = await settle(t);
+    agree(before, '62 homes, one at 70%');
+    const b1 = await box();
+    // The explanation must agree with the engine, not match one sentence: the engine decides which homes earn no credit
+    // under the chosen election and what the election's ceiling is; the text must name those, in any wording.
+    const truth = await t.evaluate(() => {
+      const election = document.getElementById('dc-minimum-set-aside').value;
+      const out = [];
+      document.querySelectorAll('[id^="dc-units-"]').forEach((el) => {
+        const m = /^dc-units-(\d+)$/.exec(el.id); const n = Number(el.value) || 0;
+        if (m && n > 0 && !window.DealEngine.isLihtcCreditEligiblePct(Number(m[1]), election)) out.push({ pct: Number(m[1]), homes: n });
+      });
+      let ceiling = 0; for (let p = 20; p <= 120; p += 10) if (window.DealEngine.isLihtcCreditEligiblePct(p, election)) ceiling = p;
+      return { election, out, ceiling };
+    });
+    ok(truth.election === '40-60' && truth.out.length === 1 && truth.out[0].pct === 70 && truth.out[0].homes === 1 && truth.ceiling === 60,
+      'non-vacuous: the engine says one 70% home earns no credit under 40-60, ceiling 60%: ' + JSON.stringify(truth));
+    const names = (why, t2) => t2.out.every((x) => new RegExp('\\b' + x.homes + ' homes?\\b[^.]*\\b' + x.pct + '%').test(why))
+      && why.indexOf(t2.election) >= 0 && why.indexOf(t2.ceiling + '%') >= 0 && /credit/i.test(why);
+    ok(b1.shown && names(b1.why, truth) && /Average Income Test/.test(b1.why),
+      'the panel names the homes the engine leaves out, the election and its ceiling, and offers the Average Income Test: ' + JSON.stringify(b1));
+    ok(/floor space/i.test(credit(before)), 'before floor space, the credit waits on it (the case paul hit): ' + credit(before));
+    // Floor space typed in the panel is the full calculator's own floor space, and the credit is measured.
+    await type(t, 'dq-res-sf', 54000);
+    await type(t, 'dq-restricted-sf', 53150);
+    ok(await v('dc-res-sf') === '54000' && await v('dc-restricted-sf') === '53150', 'floor space typed in the panel lands in the full calculator');
+    const after = await settle(t);
+    agree(after, 'with floor space');
+    ok(measured(after).includes('dc-r-credits') && measured(after).includes('dc-r-equity') && measured(after).includes('dc-su-gap'),
+      'with floor space the credit, equity and gap are measured: ' + JSON.stringify(after));
+    // Or the Average Income Test counts the 70% home, and no floor space is needed.
+    await type(t, 'dq-res-sf', '');
+    await type(t, 'dq-restricted-sf', '');
+    await t.selectOption('#dq-set-aside', 'average-income');
+    ok(await v('dc-minimum-set-aside') === 'average-income', 'the election picked in the panel is the full calculator\'s election');
+    const ait = await settle(t);
+    agree(ait, 'Average Income Test');
+    ok(!(await box()).shown, 'under the Average Income Test every home counts, so the box steps aside');
+    ok(measured(ait).includes('dc-r-credits') && measured(ait).includes('dc-su-gap'), 'under the Average Income Test the credit and gap are measured: ' + JSON.stringify(ait));
+    // A market-rate home (63 in all): it never earns credit, and CHFA's Average Income Test needs every home designated.
+    await t.fill('#dq-units', '63');
+    const mkt = await settle(t);
+    agree(mkt, '63 homes under the Average Income Test');
+    const b2 = await box();
+    const mktHomes = Number(await v('dc-units')) - (await t.evaluate(() => [...document.querySelectorAll('[id^="dc-units-"]')].filter((el) => /^dc-units-\d+$/.test(el.id)).reduce((a, el) => a + (Number(el.value) || 0), 0)));
+    ok(mktHomes === 1, 'non-vacuous: one home is outside every income limit (' + mktHomes + ')');
+    ok(b2.shown && new RegExp('\\b' + mktHomes + ' market-rate homes?\\b').test(b2.why) && /credit/i.test(b2.why) && /Does not qualify/.test(b2.status), 'with a market-rate home the panel says why, and that the election fails: ' + JSON.stringify(b2));
+    await t.selectOption('#dq-set-aside', '40-60');
+    await type(t, 'dq-res-sf', 55000);
+    await type(t, 'dq-restricted-sf', 53150);
+    const back = await settle(t);
+    agree(back, '63 homes, 40-60, floor space entered');
+    ok(measured(back).includes('dc-r-credits') && measured(back).includes('dc-su-gap'), 'back on 40-60 with floor space the deal is measured: ' + JSON.stringify(back));
+    ok(credit(back) !== credit(after), 'non-vacuous: the extra market-rate home moves the credit (' + credit(after) + ' to ' + credit(back) + ')');
+    ok(w.errors.length === 0, 'no page errors in paul\'s case: ' + w.errors.slice(0, 3).join(' | '));
+    await w.ctx.close();
+  }
 
   // At 390px the panel fits.
   const phone = await open(browser, '', 390);
