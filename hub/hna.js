@@ -105,7 +105,9 @@
       'county-housing-cost-trends-acs-cohorts': 'Census ACS county estimates, 2009, 2014 and 2024',
       'zillow-zhvi-city-index': 'Zillow home value index, ' + asOf
     }[id] || asOf;
-    return src + (/^(medium|low)$/.test(m.confidence) ? ' · ' + m.confidence + ' confidence' : '');
+    // A note the HNA attaches to a figure (e.g. "Unconfirmed, small town: ...", owner's rule 28 Nov 2026)
+    // is shown with its source, before the confidence so the confidence can still be stripped where needed.
+    return src + (m.note ? ' \u00b7 ' + String(m.note) : '') + (/^(medium|low)$/.test(m.confidence) ? ' · ' + m.confidence + ' confidence' : '');
   }
 
   // What geography a digest value is, read from the digest's own geography_level, source_id and
