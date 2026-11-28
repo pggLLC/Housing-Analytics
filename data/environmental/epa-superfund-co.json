@@ -2,8 +2,8 @@
   "meta": {
     "source": "EPA Envirofacts SEMS and FRS/ACRES",
     "state": "Colorado",
-    "retrieved_at": "2026-11-08T15:04:16Z",
-    "generated": "2026-11-08T15:04:16Z",
+    "retrieved_at": "2026-11-28T14:28:23Z",
+    "generated": "2026-11-28T14:28:23Z",
     "coverage_status": "full_statewide",
     "coverage_reason": "Statewide Colorado queries of EPA SEMS NPL sites and FRS-linked ACRES brownfield program records.",
     "query_urls": {
@@ -11,12 +11,12 @@
       "brownfields": "https://data.epa.gov/dmapservice/lookups.mv_new_geo_best_picks/state_code/equals/CO/join/frs.frs_program_facility/registry_id/equals/registry_id/and/pgm_sys_acrnm/equals/ACRES/1:10000/json"
     },
     "superfund_source_records": 24,
-    "brownfield_source_records": 1121,
+    "brownfield_source_records": 1130,
     "superfund_records": 24,
-    "brownfield_records": 1121,
+    "brownfield_records": 1130,
     "superfund_omitted_missing_coordinates": 0,
     "brownfield_omitted_missing_coordinates": 0,
-    "note": "NPL query includes final, deleted, and proposed sites; ACRES records use EPA FRS representative coordinates."
+    "note": "NPL query includes final, deleted, and proposed sites; ACRES records use EPA FRS representative coordinates. Where EPA leaves an ACRES county code blank, or gives one that disagrees with its county name and the point, county_fips comes from the county name (Census GEOID, data/co-county-boundaries.json) and county_fips_from says so. coordinate_note marks a point checked against a second source."
   },
   "superfundSites": [
     {
@@ -387,6 +387,18 @@
       "riskLevel": "moderate"
     },
     {
+      "id": "270266",
+      "registry_id": "110072339980",
+      "name": "1007 2ND AVE",
+      "county_fips": "08105",
+      "county": "Rio Grande",
+      "lat": 37.5792,
+      "lon": -106.14503,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate",
+      "county_fips_from": "county name (EPA fips_code blank)"
+    },
+    {
       "id": "242677",
       "registry_id": "110071977306",
       "name": "101 121 PINE STREET",
@@ -680,6 +692,17 @@
       "county": "Larimer",
       "lat": 40.588622,
       "lon": -105.097358,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate"
+    },
+    {
+      "id": "272488",
+      "registry_id": "110072340078",
+      "name": "1250 GRAND AVENUE",
+      "county_fips": "08113",
+      "county": "San Miguel",
+      "lat": 38.13076,
+      "lon": -108.29497,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
     },
@@ -1072,12 +1095,13 @@
       "id": "263194",
       "registry_id": "110071976842",
       "name": "29X LANDO 29TH STREET DRYCLEANERS",
-      "county_fips": "08041",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.75848,
       "lon": -105.04999,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Denver"
     },
     {
       "id": "256692",
@@ -1930,12 +1954,13 @@
       "id": "14203",
       "registry_id": "110060947953",
       "name": "62ND AND QUEBEC STREETS",
-      "county_fips": "08041",
+      "county_fips": "08001",
       "county": "Adams",
       "lat": 39.8093,
       "lon": -104.90353,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Adams"
     },
     {
       "id": "258850",
@@ -2601,12 +2626,13 @@
       "id": "262986",
       "registry_id": "110070254869",
       "name": "AMERICA THE BEAUTIFUL PARK",
-      "county_fips": null,
+      "county_fips": "08041",
       "county": "El Paso",
       "lat": 38.82983,
       "lon": -104.83107,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name (EPA fips_code blank)"
     },
     {
       "id": "37153",
@@ -2843,12 +2869,13 @@
       "id": "167762",
       "registry_id": "110071964326",
       "name": "AVONDALE MILE HIGH VISTA",
-      "county_fips": "08041",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.739744,
       "lon": -105.027864,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Denver"
     },
     {
       "id": "172103",
@@ -3151,12 +3178,13 @@
       "id": "72461",
       "registry_id": "110038761676",
       "name": "BISHOP",
-      "county_fips": "08041",
+      "county_fips": "08001",
       "county": "Adams",
       "lat": 39.8945,
       "lon": -104.92465,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Adams"
     },
     {
       "id": "258578",
@@ -3360,12 +3388,13 @@
       "id": "64741",
       "registry_id": "110038755781",
       "name": "BUCKSHOT INDUSTRIES",
-      "county_fips": "08041",
+      "county_fips": "08025",
       "county": "Crowley",
       "lat": 38.214256,
       "lon": -103.75603,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Crowley"
     },
     {
       "id": "240596",
@@ -3679,12 +3708,13 @@
       "id": "236843",
       "registry_id": "110071986975",
       "name": "CHADMOR ESTATES",
-      "county_fips": "08041",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.685958,
       "lon": -104.90344,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Denver"
     },
     {
       "id": "37181",
@@ -3701,12 +3731,13 @@
       "id": "61041",
       "registry_id": "110038754808",
       "name": "CHERRY CREEK LANDFILL DUFFY",
-      "county_fips": "08041",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.670406,
       "lon": -104.891632,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Denver"
     },
     {
       "id": "37214",
@@ -3767,23 +3798,25 @@
       "id": "12262",
       "registry_id": "110060743174",
       "name": "CHRISTIANSEN S BRAGANZA",
-      "county_fips": "08117",
+      "county_fips": "08093",
       "county": "Park",
       "lat": 38.997841,
       "lon": -105.550911,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08117 is a different county and the point is in Park"
     },
     {
       "id": "241437",
       "registry_id": "110071976270",
       "name": "CITADEL LANDFILL",
-      "county_fips": "08041",
+      "county_fips": "08035",
       "county": "Douglas",
       "lat": 39.370829,
       "lon": -104.871082,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Douglas"
     },
     {
       "id": "250471",
@@ -3976,12 +4009,13 @@
       "id": "64581",
       "registry_id": "110038755718",
       "name": "COLORADO BROWNFIELDS FOUNDATION",
-      "county_fips": "08041",
+      "county_fips": "08071",
       "county": "Las Animas",
       "lat": 37.17501,
       "lon": -104.5004,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Las Animas"
     },
     {
       "id": "14205",
@@ -3998,12 +4032,13 @@
       "id": "241236",
       "registry_id": "110040880776",
       "name": "COLORADO QUARRIES",
-      "county_fips": null,
+      "county_fips": "08043",
       "county": "Fremont",
       "lat": 38.44515,
       "lon": -105.2266,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name (EPA fips_code blank)"
     },
     {
       "id": "258583",
@@ -4185,12 +4220,13 @@
       "id": "64622",
       "registry_id": "110038755727",
       "name": "COUCH",
-      "county_fips": "08041",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.761437,
       "lon": -104.91874,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Denver"
     },
     {
       "id": "238568",
@@ -4504,12 +4540,13 @@
       "id": "236842",
       "registry_id": "110071986974",
       "name": "DENVER BEER COMPANY",
-      "county_fips": "08041",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.77703,
       "lon": -104.99937,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Denver"
     },
     {
       "id": "202921",
@@ -4550,8 +4587,8 @@
       "name": "DENVER URBAN GARDENS APDC AND CITY OF AURORA",
       "county_fips": "08001",
       "county": "Arapahoe",
-      "lat": 39.740937,
-      "lon": -104.882616,
+      "lat": 39.74121,
+      "lon": -104.88228,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
     },
@@ -4561,8 +4598,8 @@
       "name": "DENVER URBAN GARDENS ASIAN PACIFIC DEVELP CENTER",
       "county_fips": "08001",
       "county": "Arapahoe",
-      "lat": 39.740937,
-      "lon": -104.882616,
+      "lat": 39.74121,
+      "lon": -104.88228,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
     },
@@ -4889,12 +4926,13 @@
       "id": "11487",
       "registry_id": "110060750815",
       "name": "DEPEW STREET PROPERTY",
-      "county_fips": "08059",
+      "county_fips": "08093",
       "county": "Park",
       "lat": 38.997841,
       "lon": -105.550911,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08059 is a different county and the point is in Park"
     },
     {
       "id": "249592",
@@ -5032,12 +5070,13 @@
       "id": "64801",
       "registry_id": "110071967404",
       "name": "DRY CLEANERS SITE",
-      "county_fips": "08041",
+      "county_fips": "08059",
       "county": "Jefferson",
       "lat": 39.754938,
       "lon": -105.219922,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Jefferson"
     },
     {
       "id": "37242",
@@ -5087,12 +5126,13 @@
       "id": "11197",
       "registry_id": "110038741662",
       "name": "DURANGO POWER PLANT",
-      "county_fips": "08041",
+      "county_fips": "08067",
       "county": "La Plata",
       "lat": 37.27829,
       "lon": -107.88004,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in La Plata"
     },
     {
       "id": "253116",
@@ -5219,12 +5259,13 @@
       "id": "172111",
       "registry_id": "110071965302",
       "name": "EE EMC",
-      "county_fips": "08123",
+      "county_fips": "08083",
       "county": "Montezuma",
       "lat": 37.054849,
       "lon": -108.691021,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08123 is a different county and the point is in Montezuma"
     },
     {
       "id": "266442",
@@ -5307,12 +5348,13 @@
       "id": "60965",
       "registry_id": "110071967265",
       "name": "EMPIRE WEST",
-      "county_fips": "08041",
+      "county_fips": "08019",
       "county": "Clear Creek",
       "lat": 39.7623,
       "lon": -105.71175,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Clear Creek"
     },
     {
       "id": "15037",
@@ -5659,12 +5701,13 @@
       "id": "39962",
       "registry_id": "110038756511",
       "name": "FORMER 5S GAS STATION",
-      "county_fips": "08041",
+      "county_fips": "08103",
       "county": "Rio Blanco",
       "lat": 40.08762,
       "lon": -108.80742,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Rio Blanco"
     },
     {
       "id": "231541",
@@ -5685,6 +5728,17 @@
       "county": "Boulder",
       "lat": 39.98015,
       "lon": -105.12788,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate"
+    },
+    {
+      "id": "272487",
+      "registry_id": "110072340077",
+      "name": "FORMER BSA BOY SCOUTS OF AMERICA BUILDING",
+      "county_fips": "08113",
+      "county": "San Miguel",
+      "lat": 38.13175,
+      "lon": -108.2966,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
     },
@@ -5736,12 +5790,13 @@
       "id": "33961",
       "registry_id": "110038754185",
       "name": "FORMER GALAXY SELF SERVE GAS STATION",
-      "county_fips": "08041",
+      "county_fips": "08103",
       "county": "Rio Blanco",
       "lat": 40.08754,
       "lon": -108.79809,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Rio Blanco"
     },
     {
       "id": "258370",
@@ -6253,12 +6308,13 @@
       "id": "230961",
       "registry_id": "110071982982",
       "name": "FREIGHT RESIDENCES",
-      "county_fips": "08041",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.77341,
       "lon": -104.98048,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Denver"
     },
     {
       "id": "252633",
@@ -6363,34 +6419,37 @@
       "id": "33841",
       "registry_id": "110038754167",
       "name": "GATES RUBBER CREAMERY PARCEL",
-      "county_fips": "08041",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.696372,
       "lon": -104.98781,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Denver"
     },
     {
       "id": "105481",
       "registry_id": "110040129410",
       "name": "GATES RUBBER EMPLOYEE GAS STATION BLDG 26",
-      "county_fips": "08041",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.696372,
       "lon": -104.98781,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Denver"
     },
     {
       "id": "33861",
       "registry_id": "110038754176",
       "name": "GATES RUBBER WELLFIELD PARCEL",
-      "county_fips": "08041",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.697986,
       "lon": -104.99141,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Denver"
     },
     {
       "id": "172115",
@@ -8002,12 +8061,13 @@
       "id": "164362",
       "registry_id": "110071964548",
       "name": "LOVELAND METH HOME",
-      "county_fips": "08041",
+      "county_fips": "08069",
       "county": "Larimer",
       "lat": 40.40879,
       "lon": -105.06821,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Larimer"
     },
     {
       "id": "170844",
@@ -8156,12 +8216,13 @@
       "id": "61101",
       "registry_id": "110038754826",
       "name": "MANCOS LIBRARY",
-      "county_fips": "08041",
+      "county_fips": "08083",
       "county": "Montezuma",
       "lat": 37.34746,
       "lon": -108.291129,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Montezuma"
     },
     {
       "id": "37309",
@@ -8189,12 +8250,13 @@
       "id": "61081",
       "registry_id": "110038754817",
       "name": "MANZANOLA TRAIN STATION",
-      "county_fips": "08041",
+      "county_fips": "08089",
       "county": "Otero",
       "lat": 38.10964,
       "lon": -103.86582,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Otero"
     },
     {
       "id": "233163",
@@ -8431,12 +8493,13 @@
       "id": "64721",
       "registry_id": "110038755772",
       "name": "MONTE VISTA BOYS AND GIRLS CLUB PROPERTY",
-      "county_fips": "08041",
+      "county_fips": "08105",
       "county": "Rio Grande",
       "lat": 37.58255,
       "lon": -106.14951,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Rio Grande"
     },
     {
       "id": "267786",
@@ -8448,6 +8511,19 @@
       "lon": -106.157919,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
+    },
+    {
+      "id": "270267",
+      "registry_id": "110072339981",
+      "name": "MONTE VISTA MUNICIPAL AIRPORT",
+      "county_fips": "08105",
+      "county": "Rio Grande",
+      "lat": 37.613167,
+      "lon": -106.231061,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate",
+      "county_fips_from": "county name (EPA fips_code blank)",
+      "coordinate_note": "EPA's point is about 19 km west-northwest of the Monte Vista Municipal Airport airfield (FAA reference point 37.5287, -106.0459, https://airnav.com/airport/KMVI, checked 28 Nov 2026); kept as EPA published it."
     },
     {
       "id": "136972",
@@ -8805,12 +8881,13 @@
       "id": "249591",
       "registry_id": "110012150581",
       "name": "NEW METHOD LAUNDRY DRY CLEANER",
-      "county_fips": null,
+      "county_fips": "08043",
       "county": "Fremont",
       "lat": 38.43965,
       "lon": -105.2426,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name (EPA fips_code blank)"
     },
     {
       "id": "249590",
@@ -8937,12 +9014,13 @@
       "id": "14206",
       "registry_id": "110039529677",
       "name": "NORTHSIDE TREATMENT PLANT",
-      "county_fips": "08041",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.74001,
       "lon": -104.99166,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Denver"
     },
     {
       "id": "237756",
@@ -9036,12 +9114,13 @@
       "id": "60922",
       "registry_id": "110038754791",
       "name": "OAK CREEK WTP",
-      "county_fips": "08041",
+      "county_fips": "08107",
       "county": "Routt",
       "lat": 40.27419,
       "lon": -106.96019,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Routt"
     },
     {
       "id": "170914",
@@ -9146,12 +9225,13 @@
       "id": "126301",
       "registry_id": "110043425647",
       "name": "OLD SKY UTE CASINO",
-      "county_fips": "08007",
+      "county_fips": "08067",
       "county": "La Plata",
       "lat": 37.128092,
       "lon": -107.635943,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08007 is a different county and the point is in La Plata"
     },
     {
       "id": "188301",
@@ -9344,12 +9424,13 @@
       "id": "64761",
       "registry_id": "110071967403",
       "name": "PALISADES GAS STATION",
-      "county_fips": "08041",
+      "county_fips": "08105",
       "county": "Rio Grande",
       "lat": 37.57789,
       "lon": -106.15613,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Rio Grande"
     },
     {
       "id": "256445",
@@ -9696,23 +9777,25 @@
       "id": "176289",
       "registry_id": "110071965407",
       "name": "PUEBLO COOPERATIVE CRE CENTER",
-      "county_fips": "08041",
+      "county_fips": "08101",
       "county": "Pueblo",
       "lat": 38.276165,
       "lon": -104.610567,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Pueblo"
     },
     {
       "id": "61121",
       "registry_id": "110071967271",
       "name": "PUEBLO RAIL ROAD ROW",
-      "county_fips": "08041",
+      "county_fips": "08101",
       "county": "Pueblo",
       "lat": 38.26705,
       "lon": -104.6043,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Pueblo"
     },
     {
       "id": "37319",
@@ -10037,12 +10120,13 @@
       "id": "120210",
       "registry_id": "110042112219",
       "name": "RIVERSIDE CEMETERY",
-      "county_fips": "08001",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.792134,
       "lon": -104.958582,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08001 is a different county and the point is in Denver"
     },
     {
       "id": "267481",
@@ -10092,12 +10176,13 @@
       "id": "230943",
       "registry_id": "110064505780",
       "name": "RUBY HILL",
-      "county_fips": null,
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.69589,
       "lon": -105.006166,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name (EPA fips_code blank)"
     },
     {
       "id": "37328",
@@ -10120,6 +10205,66 @@
       "lon": -108.72824,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
+    },
+    {
+      "id": "272772",
+      "registry_id": "110072340137",
+      "name": "SAGUACHE 125 3RD STREET",
+      "county_fips": "08109",
+      "county": "Saguache",
+      "lat": 38.089148,
+      "lon": -106.135502,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate",
+      "county_fips_from": "county name (EPA fips_code blank)"
+    },
+    {
+      "id": "272771",
+      "registry_id": "110072340136",
+      "name": "SAGUACHE ABSTRACT BUILDING",
+      "county_fips": "08109",
+      "county": "Saguache",
+      "lat": 38.087568,
+      "lon": -106.136861,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate",
+      "county_fips_from": "county name (EPA fips_code blank)"
+    },
+    {
+      "id": "272768",
+      "registry_id": "110072340134",
+      "name": "SAGUACHE COMMUNITY BUILDING",
+      "county_fips": "08109",
+      "county": "Saguache",
+      "lat": 37.74928,
+      "lon": -106.104074,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate",
+      "county_fips_from": "county name (EPA fips_code blank)"
+    },
+    {
+      "id": "272769",
+      "registry_id": "110072340135",
+      "name": "SAGUACHE HEADSTART BUILDING",
+      "county_fips": "08109",
+      "county": "Saguache",
+      "lat": 38.08765,
+      "lon": -106.14123,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate",
+      "county_fips_from": "county name (EPA fips_code blank)"
+    },
+    {
+      "id": "272766",
+      "registry_id": "110072340133",
+      "name": "SAGUACHE TOWN HALL",
+      "county_fips": "08109",
+      "county": "Saguache",
+      "lat": 38.086668,
+      "lon": -106.138231,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate",
+      "county_fips_from": "county name (EPA fips_code blank)"
     },
     {
       "id": "27561",
@@ -10158,12 +10303,13 @@
       "id": "263196",
       "registry_id": "110071976844",
       "name": "SAN LUIS PEOPLES MARKET",
-      "county_fips": "08041",
+      "county_fips": "08023",
       "county": "Costilla",
       "lat": 37.19905,
       "lon": -105.426199,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Costilla"
     },
     {
       "id": "124701",
@@ -10180,12 +10326,13 @@
       "id": "64541",
       "registry_id": "110038755709",
       "name": "SANDOVAL",
-      "county_fips": "08041",
+      "county_fips": "08005",
       "county": "Arapahoe",
       "lat": 39.69541,
       "lon": -104.79607,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Arapahoe"
     },
     {
       "id": "37329",
@@ -10202,12 +10349,13 @@
       "id": "188261",
       "registry_id": "110071971342",
       "name": "SAVIO HOUSE",
-      "county_fips": "08041",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.72132,
       "lon": -105.03398,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Denver"
     },
     {
       "id": "267603",
@@ -10367,12 +10515,13 @@
       "id": "232182",
       "registry_id": "110071985907",
       "name": "SISNEROS METH LAB",
-      "county_fips": "08041",
+      "county_fips": "08059",
       "county": "Jefferson",
       "lat": 39.83283,
       "lon": -105.09978,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Jefferson"
     },
     {
       "id": "218846",
@@ -10444,23 +10593,25 @@
       "id": "11485",
       "registry_id": "110060750842",
       "name": "SITE I NAME UNKNOWN",
-      "county_fips": "08059",
+      "county_fips": "08093",
       "county": "Park",
       "lat": 38.997841,
       "lon": -105.550911,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08059 is a different county and the point is in Park"
     },
     {
       "id": "11486",
       "registry_id": "110060750842",
       "name": "SITE II NAME UNKNOWN",
-      "county_fips": "08059",
+      "county_fips": "08093",
       "county": "Park",
       "lat": 38.997841,
       "lon": -105.550911,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08059 is a different county and the point is in Park"
     },
     {
       "id": "241235",
@@ -11500,23 +11651,25 @@
       "id": "172130",
       "registry_id": "110071965318",
       "name": "TRANSFER BURN STATION",
-      "county_fips": null,
+      "county_fips": "08083",
       "county": "Montezuma",
       "lat": 37.179446,
       "lon": -108.721518,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name (EPA fips_code blank)"
     },
     {
       "id": "12349",
       "registry_id": "110071965318",
       "name": "TRANSFER STATION",
-      "county_fips": null,
+      "county_fips": "08083",
       "county": "Montezuma",
       "lat": 37.179446,
       "lon": -108.721518,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name (EPA fips_code blank)"
     },
     {
       "id": "172132",
@@ -11797,12 +11950,13 @@
       "id": "167763",
       "registry_id": "110071964327",
       "name": "UNION STATION CLEANUP",
-      "county_fips": "08041",
+      "county_fips": "08031",
       "county": "Denver",
       "lat": 39.75321,
       "lon": -105.00259,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Denver"
     },
     {
       "id": "11135",
@@ -12072,12 +12226,13 @@
       "id": "235244",
       "registry_id": "110071980027",
       "name": "WALLACE RESIDENCE",
-      "county_fips": "08031",
+      "county_fips": "08059",
       "county": "Jefferson",
       "lat": 39.76847,
       "lon": -105.05325,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08031 is a different county and the point is in Jefferson"
     },
     {
       "id": "138541",
@@ -12281,12 +12436,13 @@
       "id": "108429",
       "registry_id": "110040821581",
       "name": "WHEAT RIDGE 44TH WADSWORTH",
-      "county_fips": "08001",
+      "county_fips": "08059",
       "county": "Jefferson",
       "lat": 39.775336,
       "lon": -105.08245,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08001 is a different county and the point is in Jefferson"
     },
     {
       "id": "116402",
@@ -12336,12 +12492,13 @@
       "id": "60981",
       "registry_id": "110061000214",
       "name": "WHITE WATER",
-      "county_fips": "08041",
+      "county_fips": "08019",
       "county": "Clear Creek",
       "lat": 39.706,
       "lon": -105.695839,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Clear Creek"
     },
     {
       "id": "250481",
@@ -12369,12 +12526,13 @@
       "id": "12263",
       "registry_id": "110060750897",
       "name": "WILLIAMS REVENUE",
-      "county_fips": "08117",
+      "county_fips": "08093",
       "county": "Park",
       "lat": 38.997841,
       "lon": -105.550911,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08117 is a different county and the point is in Park"
     },
     {
       "id": "176623",
@@ -12402,12 +12560,13 @@
       "id": "162104",
       "registry_id": "110071963811",
       "name": "WILLOW CREEK FLOODPLAIN",
-      "county_fips": "08041",
+      "county_fips": "08079",
       "county": "Mineral",
       "lat": 37.849166,
       "lon": -106.926435,
       "status": "EPA ACRES program record",
-      "riskLevel": "moderate"
+      "riskLevel": "moderate",
+      "county_fips_from": "county name; EPA fips_code 08041 is a different county and the point is in Mineral"
     },
     {
       "id": "257425",

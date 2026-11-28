@@ -188,5 +188,47 @@ class EpaEnvironmentalFetcherTests(unittest.TestCase):
             epa.build_dataset(fetcher=fetcher)
 
 
+    # 28 Nov 2026: EPA leaves fips_code blank on some ACRES rows (Saguache, Rio Grande) and gives
+    # El Paso's 08041 to rows in other counties. The county comes from the name, checked by the point.
+    def test_blank_county_code_is_filled_from_the_county_name(self):
+        records, _ = epa.normalize_brownfields([self.valid_brownfield_row(
+            fips_code="", county_name="SAGUACHE", latitude="38.0867", longitude="-106.1382")])
+        self.assertEqual(records[0]["county_fips"], "08109")
+        self.assertIn("blank", records[0]["county_fips_from"])
+
+    def test_wrong_county_code_is_replaced_only_when_the_point_is_in_the_named_county(self):
+        records, _ = epa.normalize_brownfields([
+            self.valid_brownfield_row(pgm_sys_id="A", fips_code="08041", county_name="RIO GRANDE",
+                                      latitude="37.5826", longitude="-106.1495"),
+            self.valid_brownfield_row(pgm_sys_id="B", fips_code="08041", county_name="RIO GRANDE",
+                                      latitude="38.83", longitude="-104.83"),
+        ])
+        by_id = {r["id"]: r for r in records}
+        self.assertEqual(by_id["A"]["county_fips"], "08105")
+        self.assertEqual(by_id["B"]["county_fips"], "08041")
+        self.assertNotIn("county_fips_from", by_id["B"])
+
+    def test_matching_county_code_is_left_alone(self):
+        records, _ = epa.normalize_brownfields([self.valid_brownfield_row()])
+        self.assertEqual(records[0]["county_fips"], "08031")
+        self.assertNotIn("county_fips_from", records[0])
+
+    def test_checked_point_carries_its_note(self):
+        records, _ = epa.normalize_brownfields([self.valid_brownfield_row(
+            pgm_sys_id="270267", fips_code="", county_name="RIO GRANDE",
+            latitude="37.613167", longitude="-106.231061")])
+        self.assertIn("airnav.com/airport/KMVI", records[0]["coordinate_note"])
+        self.assertEqual(records[0]["lat"], 37.613167)
+
+    def test_committed_file_has_no_blank_or_contradicted_county_code(self):
+        data = json.loads((ROOT / "data/environmental/epa-superfund-co.json").read_text(encoding="utf-8"))
+        counties = epa.load_counties()
+        for record in data["brownfieldSites"]:
+            self.assertTrue(record["county_fips"], record["id"])
+            named = counties.get(record["county"])
+            if named and record["county_fips"] != named[0]:
+                self.assertFalse(any(epa._inside(record["lon"], record["lat"], ring) for ring in named[1]), record["id"])
+        self.assertEqual(data["meta"]["brownfield_records"], len(data["brownfieldSites"]))
+
 if __name__ == "__main__":
     unittest.main()
