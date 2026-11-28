@@ -5,6 +5,17 @@
 //
 // Methods and the two papers keep their own masthead and their free sections; the rest are written here.
 
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { blocks, build } from '../build-member-chrome.mjs';
+
+// Each short tool page wears the new pages' header, menu and footer (scripts/build-member-chrome.mjs --public),
+// as every free page does (paul, 28 Nov 2026: the old header was still showing on these).
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+let chrome;
+const inChrome = (html, file) => build(html, chrome || (chrome = blocks(fs.readFileSync(path.join(ROOT, 'deal-hub.html'), 'utf8'), fs.readFileSync(path.join(ROOT, 'hub/palette.css'), 'utf8'), { public: true })), file);
+
 export const MEMBER_SITE = 'https://coho-backend.communityplanner.workers.dev/';
 
 // A place carried in the old page's query (?geoid=, ?fips=, ?g=) goes to the free page as the hub's ?g=.
@@ -222,7 +233,7 @@ export function longPage(file, html) {
 }
 
 export function shortPage(file, html) {
-  if (TOOLS[file]) return toolPage(file, TOOLS[file]);
+  if (TOOLS[file]) return inChrome(toolPage(file, TOOLS[file]), file);
   if (LONG[file]) return longPage(file, html);
   throw new Error(`member-short-pages: no short page for ${file}`);
 }

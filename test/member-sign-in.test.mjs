@@ -84,7 +84,8 @@ const tag = (id) => (page.match(new RegExp('<a\\b[^>]*\\bid="' + id + '"[^>]*>')
 const hrefOf = (id) => (tag(id).match(/\bhref="([^"]*)"/) || [])[1];
 function chooser(hash) {
   const go = { href: hrefOf('msi-go'), addEventListener() {} };
-  const script = page.match(/<script>\s*([\s\S]*?MEMBER_ORIGIN[\s\S]*?)<\/script>/)[1];
+  // The one script that names MEMBER_ORIGIN (the page's head now opens with the theme script, so start inside it).
+  const script = page.match(/<script>((?:(?!<\/?script)[\s\S])*?MEMBER_ORIGIN(?:(?!<\/?script)[\s\S])*)<\/script>/)[1];
   vm.runInNewContext(script, { URL, decodeURIComponent, String, Date,
     location: { hash }, localStorage: { setItem() {} },
     document: { getElementById: (id) => (id === 'msi-go' ? go : null) } });

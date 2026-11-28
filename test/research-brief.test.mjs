@@ -285,9 +285,13 @@ test('a brief that moved to the member site shows a notice and the research list
 test('print control calls window.print, and the reader loads the shared head/nav and print styles', async (t) => {
   const { doc, prints } = await runPage(t);
   const sources = [...doc.querySelectorAll('script[src]')].map((script) => script.getAttribute('src'));
-  for (const script of ['path-resolver', 'config', 'fetch-helper', 'navigation', 'dark-mode-toggle', 'mobile-menu']) {
+  for (const script of ['path-resolver', 'config', 'fetch-helper']) {
     assert.ok(sources.includes(`js/${script}.js`), `${script} missing`);
   }
+  // The site's header and menu, as on every free page (scripts/build-member-chrome.mjs --public), not the old header.
+  for (const script of ['hub/lab-config.js', 'hub/page-chrome.js', 'hub/nav.js']) assert.ok(sources.includes(script), `${script} missing`);
+  for (const old of ['navigation', 'dark-mode-toggle', 'mobile-menu']) assert.ok(!sources.includes(`js/${old}.js`), `old header script ${old} still loaded`);
+  assert.ok(doc.querySelector('header.site-header #site-nav') && doc.querySelector('footer.site-footer'), 'the site header and footer');
   assert.ok(doc.querySelector('link[href="css/print.css"]'));
   assert.ok(doc.querySelector('a.skip-link[href="#main-content"]'));
   assert.ok(doc.querySelector('main#main-content header'));
