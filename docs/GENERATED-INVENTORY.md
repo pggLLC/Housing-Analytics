@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-28T13:26:46.759Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-28T13:59:15.336Z. Do not edit by hand.
 
 ---
 
@@ -70,7 +70,7 @@
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.6 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 159.9 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
-| `member-sign-in.html` | Member sign in | COHO Analytics | 3.9 KB |
+| `member-sign-in.html` | Member sign in | COHO Analytics | 5.2 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 101.3 KB |
 | `og-card.html` | Share card — COHO Analytics | 2.1 KB |
 | `opportunities-hub.html` | Opportunities · COHO Analytics | 7.6 KB |
@@ -2494,7 +2494,7 @@
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/member-chrome-popups.test.mjs` | 4.9 KB |
 | `test/member-short-pages.test.mjs` | 7.2 KB |
-| `test/member-sign-in.test.mjs` | 5.6 KB |
+| `test/member-sign-in.test.mjs` | 7.3 KB |
 | `test/messaging-need-not-erased.test.js` | 9.8 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
 | `test/methods-spec-sources.test.mjs` | 6.3 KB |
