@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-28T15:51:31.974Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-28T16:40:48.620Z. Do not edit by hand.
 
 ---
 
@@ -10,7 +10,7 @@
 
 | File | Title | Size |
 |------|-------|------|
-| `404.html` | Page not found | COHO Analytics | 4.1 KB |
+| `404.html` | Page not found | COHO Analytics | 7.7 KB |
 | `LIHTC-dashboard.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `about.html` | About | COHO Analytics | 11.5 KB |
 | `affordable-deal-team.html` | Who Does What in a Colorado Affordable Deal | COHO Analytics | 53.8 KB |
@@ -43,7 +43,7 @@
 | `deal-reference.html` | Deal reference | COHO Analytics | 16.8 KB |
 | `deal-summary.html` | Deal Summaries | COHO Analytics | 2.5 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 95.7 KB |
-| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 19.6 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 23.2 KB |
 | `green-building-guide.html` | Green Building in a Colorado Deal | COHO Analytics | 16.8 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | COHO Analytics | 6.0 KB |
 | `historical-trends.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
@@ -66,11 +66,11 @@
 | `lihtc-allocations.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | COHO Analytics | 17.3 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 78.6 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 137.8 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | COHO Analytics | 141.4 KB |
 | `local-incentives.html` | Local Housing Incentives | COHO Analytics | 9.6 KB |
 | `market-analysis.html` | Market Analysis | COHO Analytics | 159.9 KB |
 | `market-intelligence.html` | Colorado Deep Dive | COHO Analytics | 1.1 KB |
-| `member-sign-in.html` | Member sign in | COHO Analytics | 5.2 KB |
+| `member-sign-in.html` | Member sign in | COHO Analytics | 8.7 KB |
 | `methods.html` | Computational Methods | COHO Analytics | 101.3 KB |
 | `og-card.html` | Share card — COHO Analytics | 2.1 KB |
 | `opportunities-hub.html` | Opportunities · COHO Analytics | 7.6 KB |
@@ -79,17 +79,17 @@
 | `policy-briefs.html` | Housing News | COHO Analytics | 53.6 KB |
 | `policy-hub.html` | Policy and research · COHO Analytics | 7.6 KB |
 | `preservation.html` | Preservation Inventory | COHO Analytics | 16.7 KB |
-| `privacy-policy.html` | Privacy Policy | COHO Analytics | 7.2 KB |
+| `privacy-policy.html` | Privacy Policy | COHO Analytics | 10.7 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 15.2 KB |
 | `regional.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
-| `research-brief.html` | Research Brief | COHO Analytics | 28.1 KB |
+| `research-brief.html` | Research Brief | COHO Analytics | 31.6 KB |
 | `resident-services.html` | Services in Affordable Housing | COHO Analytics | 27.9 KB |
-| `search.html` | Search · COHO Analytics | 4.3 KB |
+| `search.html` | Search · COHO Analytics | 7.7 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 20.7 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 19.0 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 22.5 KB |
 | `state-allocation-map.html` | Colorado Snapshot | COHO Analytics | 1.2 KB |
 | `sunday-digest.html` | Sunday Digest | COHO Analytics | 4.2 KB |
-| `terms-of-use.html` | Terms of Use | COHO Analytics | 5.4 KB |
+| `terms-of-use.html` | Terms of Use | COHO Analytics | 8.9 KB |
 | `where-housing-money-goes.html` | Where Colorado's Housing Money Goes | COHO Analytics | 3.4 KB |
 | `working-paper.html` | Instrumenting Housing Need | COHO Analytics | 77.2 KB |
 
@@ -2060,7 +2060,7 @@
 
 ## Test Files
 
-813 test files found.
+814 test files found.
 
 | File | Size |
 |------|------|
@@ -2493,8 +2493,8 @@
 | `test/market-types.test.mjs` | 10.9 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/member-chrome-popups.test.mjs` | 4.9 KB |
-| `test/member-short-pages.test.mjs` | 7.2 KB |
-| `test/member-sign-in.test.mjs` | 7.3 KB |
+| `test/member-short-pages.test.mjs` | 8.1 KB |
+| `test/member-sign-in.test.mjs` | 7.5 KB |
 | `test/messaging-need-not-erased.test.js` | 9.8 KB |
 | `test/methodology-registry.test.js` | 2.7 KB |
 | `test/methods-spec-sources.test.mjs` | 6.3 KB |
@@ -2622,6 +2622,7 @@
 | `test/property-websites.test.js` | 5.6 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
 | `test/public-build-metadata.test.mjs` | 9.7 KB |
+| `test/public-chrome.test.mjs` | 5.0 KB |
 | `test/public-config-no-secrets.test.js` | 4.8 KB |
 | `test/public-employers.test.mjs` | 3.2 KB |
 | `test/public-facing-numbers.test.js` | 11.9 KB |
@@ -2658,7 +2659,7 @@
 | `test/report-text-cleanup.test.js` | 3.1 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.3 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
-| `test/research-brief.test.mjs` | 17.5 KB |
+| `test/research-brief.test.mjs` | 18.0 KB |
 | `test/research-catalog.test.mjs` | 8.9 KB |
 | `test/resident-services.test.mjs` | 12.1 KB |
 | `test/resort-programs.test.mjs` | 7.8 KB |
