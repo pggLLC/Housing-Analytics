@@ -19,6 +19,10 @@ const ok = (c, m) => { assert.ok(c, m); checks++; };
 const mime = { '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.svg': 'image/svg+xml', '.json': 'application/json', '.geojson': 'application/json' };
 
 const html = fs.readFileSync(path.join(ROOT, 'deal-calculator.html'), 'utf8');
+// The gold Member tag is the hub's (hub/shell.js memberTag, used on every hub page). The calculator's own gate must
+// draw the same tag, so it is read from the hub and compared, not written out here (AGENTS.md: pin the agreement).
+const HUB_TAG = (/function memberTag\(\) \{ return '([^']+)'; \}/.exec(fs.readFileSync(path.join(ROOT, 'hub/shell.js'), 'utf8')) || [])[1];
+ok(!!HUB_TAG && /class="member-tag"/.test(HUB_TAG), 'hub/shell.js memberTag was read');
 ok(html.includes('<script src="js/components/dc-step-bar.js"></script>\n<script src="js/components/dc-member-gate.js"></script>'), 'deal-calculator.html does not load the member gate after the step bar');
 
 // As test/workflow-rail-circles.test.mjs: Playwright's own browser, else Puppeteer's (CI), else this machine's.
@@ -52,7 +56,7 @@ async function open(origin, width) {
     if (now === last) break;
     last = now; await tab.waitForTimeout(750);
   }
-  const m = await tab.evaluate(() => {
+  const m = await tab.evaluate((hubTag) => {
     const vis = (e) => !!e && e.getClientRects().length > 0;
     const cards = [...document.querySelectorAll('[data-member-card]')];
     const panel = document.getElementById('dc-ls-panel');
@@ -73,10 +77,10 @@ async function open(origin, width) {
       sw: document.documentElement.scrollWidth,
       heads: [...document.querySelectorAll('[data-member-card] h2')].map((h) => h.id),
       // The gold Member tag (paul, 28 Nov 2026): on each public card, and kept on each open part on the member site.
-      cardTags: cards.filter(vis).filter((c) => /^Member$/.test((c.querySelector('.member-tag') || {}).textContent || '')).length,
-      openTags: [...document.querySelectorAll('[data-member-tag]')].filter(vis).filter((p) => (p.querySelector('.member-tag') || {}).textContent === 'Member').length,
+      cardTags: cards.filter(vis).filter((c) => (c.querySelector('.member-tag') || {}).outerHTML === hubTag).length,
+      openTags: [...document.querySelectorAll('[data-member-tag]')].filter(vis).filter((p) => (p.querySelector('.member-tag') || {}).outerHTML === hubTag).length,
     };
-  });
+  }, HUB_TAG);
   // The member link carries the deal as it stands when the link is used (Codex, HA #3019): change an input, then
   // focus the link, and it should match the deal fragment "Copy link" would write now.
   m.carry = await tab.evaluate(() => {
