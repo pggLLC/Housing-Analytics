@@ -994,7 +994,7 @@
 
   // The ranking and compare are member tools on the public site (paul, 25 Nov 2026, HNA option B); the member site
   // shows them in full (Shell.memberOnly).
-  function gated(f, card) { card.page = true; return function (p, parts) { return Shell.memberOnly && Shell.memberOnly() ? Shell.memberCard(card) : f(p, parts); }; }
+  function gated(f, card) { card.page = true; return function (p, parts) { return Shell.memberOnly && Shell.memberOnly() ? Shell.memberCard(card) : (Shell.memberMark ? Shell.memberMark(f(p, parts)) : f(p, parts)); }; }
   var SUB = {
     ranking: gated(ranking, { title: 'The needs ranking is a member tool', what: 'Every Colorado county, town and place ranked on housing need, with lenses for the deal you are chasing.', gets: ['The full ranking, sortable and filterable by region', 'Lenses that reorder it for a deal type', 'A download of every row'], free: [{ href: '#/places', label: 'Find a place for free' }] }),
     compare: gated(compare, { title: 'Compare places is a member tool', what: 'Up to six places side by side on need, rents and deal fit.', gets: ['Up to six places side by side', 'Deal fit for 4% and 9% tax credit deals', 'A download of the comparison'], free: [{ href: '#/places', label: 'Find a place for free' }] }),

@@ -216,7 +216,7 @@
       var countyName = c ? c.name || c.county_name || 'the county' : 'the county';
       // The scenario comparison is a member tool on the public site (batch B, 25 Nov 2026); Shell.memberOnly() says
       // so.
-      var cmp = Shell.memberOnly && Shell.memberOnly() ? Shell.memberCard({ id: 'fin-compare-member', title: 'Comparing scenarios is a member tool', what: 'This project\u2019s scenarios side by side, each on its own saved homes and costs, with the difference from this one.', gets: ['Every result in money for each scenario', 'The difference from this one', 'Copy a scenario to try a change'] }) + (global.LabFinancials && global.LabFinancials.carryNote ? global.LabFinancials.carryNote(p, s) : '') : compare(p, s.scenarioId, data);
+      var cmp = Shell.memberOnly && Shell.memberOnly() ? Shell.memberCard({ id: 'fin-compare-member', title: 'Comparing scenarios is a member tool', what: 'This project\u2019s scenarios side by side, each on its own saved homes and costs, with the difference from this one.', gets: ['Every result in money for each scenario', 'The difference from this one', 'Copy a scenario to try a change'] }) + (global.LabFinancials && global.LabFinancials.carryNote ? global.LabFinancials.carryNote(p, s) : '') : (Shell.memberMark || String)(compare(p, s.scenarioId, data));
       return sensitivity(r) + cmp + rentContext(fips, countyName, data.hud) + funding(fips, countyName, d.fields['dc-credit']) + rentVsBuy() + landLink(r, d);
     },
     // The two rent sections on their own, for the deal workspace's Homes and income chapter (site/fin-chapters.js).

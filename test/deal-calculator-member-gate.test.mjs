@@ -3,7 +3,7 @@
 // schedules and the A/B scenario comparison, as lab #333 did for the deal workspace). js/components/dc-member-gate.js.
 //
 // In Chromium, with Mesa County picked in the quick start:
-// 1. On the public site the lender schedules and the scenario comparison show the "For members" card, with a member
+// 1. On the public site the lender schedules and the scenario comparison show the member card (gold Member tag), with a member
 //    sign-in link to the same page on the member site, and their controls are hidden, not removed.
 // 2. On the member site (*.workers.dev) both draw as before and no card shows.
 // 3. Every figure in the pro forma and the capital stack is the same on both.
@@ -19,6 +19,10 @@ const ok = (c, m) => { assert.ok(c, m); checks++; };
 const mime = { '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.svg': 'image/svg+xml', '.json': 'application/json', '.geojson': 'application/json' };
 
 const html = fs.readFileSync(path.join(ROOT, 'deal-calculator.html'), 'utf8');
+// The gold Member tag is the hub's (hub/shell.js memberTag, used on every hub page). The calculator's own gate must
+// draw the same tag, so it is read from the hub and compared, not written out here (AGENTS.md: pin the agreement).
+const HUB_TAG = (/function memberTag\(\) \{ return '([^']+)'; \}/.exec(fs.readFileSync(path.join(ROOT, 'hub/shell.js'), 'utf8')) || [])[1];
+ok(!!HUB_TAG && /class="member-tag"/.test(HUB_TAG), 'hub/shell.js memberTag was read');
 ok(html.includes('<script src="js/components/dc-step-bar.js"></script>\n<script src="js/components/dc-member-gate.js"></script>'), 'deal-calculator.html does not load the member gate after the step bar');
 
 // As test/workflow-rail-circles.test.mjs: Playwright's own browser, else Puppeteer's (CI), else this machine's.
@@ -52,7 +56,7 @@ async function open(origin, width) {
     if (now === last) break;
     last = now; await tab.waitForTimeout(750);
   }
-  const m = await tab.evaluate(() => {
+  const m = await tab.evaluate((hubTag) => {
     const vis = (e) => !!e && e.getClientRects().length > 0;
     const cards = [...document.querySelectorAll('[data-member-card]')];
     const panel = document.getElementById('dc-ls-panel');
@@ -72,8 +76,11 @@ async function open(origin, width) {
       }).join('\n'),
       sw: document.documentElement.scrollWidth,
       heads: [...document.querySelectorAll('[data-member-card] h2')].map((h) => h.id),
+      // The gold Member tag (paul, 28 Nov 2026): on each public card, and kept on each open part on the member site.
+      cardTags: cards.filter(vis).filter((c) => (c.querySelector('.member-tag') || {}).outerHTML === hubTag).length,
+      openTags: [...document.querySelectorAll('[data-member-tag]')].filter(vis).filter((p) => (p.querySelector('.member-tag') || {}).outerHTML === hubTag).length,
     };
-  });
+  }, HUB_TAG);
   // The member link carries the deal as it stands when the link is used (Codex, HA #3019): change an input, then
   // focus the link, and it should match the deal fragment "Copy link" would write now.
   m.carry = await tab.evaluate(() => {
@@ -105,6 +112,8 @@ try {
     ok(pub.m.lsInputs > 5 && pub.m.saveAExists, `public ${w}: the gated controls were removed instead of hidden (${pub.m.lsInputs} inputs)`);
     ok(pub.m.carry && pub.m.carry.after === pub.m.carry.want && pub.m.carry.after !== pub.m.carry.before, `public ${w}: the member link does not carry the deal as edited (${pub.m.carry && pub.m.carry.after.slice(0, 120)})`);
     ok(mem.m.cards.length === 0, `member site ${w}: a member card shows (${mem.m.cards.join()})`);
+    ok(pub.m.cardTags === 2 && pub.m.openTags === 0, `public ${w}: each card carries the Member tag (${pub.m.cardTags}, open ${pub.m.openTags})`);
+    ok(mem.m.openTags === 2, `member site ${w}: the open lender schedules and scenario comparison keep the Member tag (${mem.m.openTags})`);
     ok(mem.m.lsLegend && mem.m.saveA, `member site ${w}: the lender schedules or the scenario buttons did not draw`);
     if (pub.m.figures !== mem.m.figures) { const a = pub.m.figures, b = mem.m.figures; let i = 0; while (a[i] === b[i]) i++; console.error('first difference:', JSON.stringify(a.slice(i - 80, i + 120)), '|', JSON.stringify(b.slice(i - 80, i + 120))); }
     ok(pub.m.figures.split(' ').length > 50 && pub.m.figures === mem.m.figures, `${w}: the pro forma or capital stack differs between the public and member views`);
