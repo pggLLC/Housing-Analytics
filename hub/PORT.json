@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "ce5282a38392429b1ee7cb784b6c9cc6b8d1ac73",
+  "commit": "8b5895701f738305d3a67da0cf173bb975aa1f71",
   "dirty": false
  },
  "files": {
@@ -63,8 +63,8 @@
   "hub/deep-dive.js": "33db6f9bacad24540d25e8561f782a4498690bd5d5fddfb8854e10a3b50f265a",
   "hub/design-guide.css": "0af1c6a4375ac1f7c859c36191b1602b85915ed8ac8b75a8d6a0e8e00fbe02a9",
   "hub/design-guide.js": "b3bd0f04a18f7edb601aba413bab4e9c50fb94ee58bfa9514b3bc97ca3320fa3",
-  "hub/economy.css": "fa070ef297c5247ab1a316c0721ba21dc3bb8db7a6460fc4d3ab3851d2e93ef6",
-  "hub/economy.js": "15ec3f7f225fe7c655a5c7d5a3afeb25c341941474d8e9fe9c5f0161bda5c149",
+  "hub/economy.css": "14b63caacc0eaaeb5551e8b0c16aacac064418ca1445d665be1f0b05a9c1e364",
+  "hub/economy.js": "d01c05f33d9ccab96cb515c270d807be99ccc526671e826dfd14ee6e15520985",
   "hub/employers.js": "b88b55893ff703a8e7b4868804e125f2c8b07a10cdeb0ed5a3825e38c7821d48",
   "hub/equity.css": "53bb0d5d0c61318228d514d3c8db7e719dc9dee91b44ebdb690c1671e3491b3e",
   "hub/equity.js": "77bafa3fe0f55a4b411241958aa1d6a1e8406c65805b29745815a1e75416ba21",
