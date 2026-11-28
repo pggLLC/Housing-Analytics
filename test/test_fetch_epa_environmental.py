@@ -208,6 +208,13 @@ class EpaEnvironmentalFetcherTests(unittest.TestCase):
         self.assertEqual(by_id["B"]["county_fips"], "08041")
         self.assertNotIn("county_fips_from", by_id["B"])
 
+    # Codex P2 on #3059: Denver's boundary has a hole that is Jefferson County.
+    def test_a_point_in_a_county_hole_is_not_inside_that_county(self):
+        records, _ = epa.normalize_brownfields([self.valid_brownfield_row(
+            fips_code="08059", county_name="DENVER", latitude="39.6350565", longitude="-105.08130825")])
+        self.assertEqual(records[0]["county_fips"], "08059")
+        self.assertNotIn("county_fips_from", records[0])
+
     def test_matching_county_code_is_left_alone(self):
         records, _ = epa.normalize_brownfields([self.valid_brownfield_row()])
         self.assertEqual(records[0]["county_fips"], "08031")
@@ -227,7 +234,7 @@ class EpaEnvironmentalFetcherTests(unittest.TestCase):
             self.assertTrue(record["county_fips"], record["id"])
             named = counties.get(record["county"])
             if named and record["county_fips"] != named[0]:
-                self.assertFalse(any(epa._inside(record["lon"], record["lat"], ring) for ring in named[1]), record["id"])
+                self.assertFalse(any(epa._in_polygon(record["lon"], record["lat"], polygon) for polygon in named[1]), record["id"])
         self.assertEqual(data["meta"]["brownfield_records"], len(data["brownfieldSites"]))
 
 if __name__ == "__main__":

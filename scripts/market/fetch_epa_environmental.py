@@ -90,7 +90,7 @@ COORDINATE_NOTES = {
 
 
 def load_counties(path=COUNTY_FILE):
-    """Colorado county name -> (Census GEOID, outer rings) from the repo's county boundaries."""
+    """Colorado county name -> (Census GEOID, polygons as [outer ring, *holes]) from the repo's county boundaries."""
     try:
         data = json.loads(Path(path).read_text(encoding="utf-8"))
     except (OSError, ValueError):
@@ -105,7 +105,7 @@ def load_counties(path=COUNTY_FILE):
         if geometry.get("type") == "Polygon":
             polygons = [polygons]
         if name and geoid:
-            counties[name] = (geoid, [poly[0] for poly in polygons if poly])
+            counties[name] = (geoid, [poly for poly in polygons if poly])
     return counties
 
 
@@ -117,6 +117,11 @@ def _inside(lon, lat, ring):
         if (y1 > lat) != (y2 > lat) and lon < (x2 - x1) * (lat - y1) / (y2 - y1) + x1:
             hit = not hit
     return hit
+
+
+def _in_polygon(lon, lat, polygon):
+    """Inside the outer ring and in none of its holes (Denver has a hole that is Jefferson County)."""
+    return _inside(lon, lat, polygon[0]) and not any(_inside(lon, lat, hole) for hole in polygon[1:])
 
 
 def resolve_county_fips(record, counties):
@@ -132,7 +137,7 @@ def resolve_county_fips(record, counties):
         record["county_fips"] = named[0]
         record["county_fips_from"] = "county name (EPA fips_code blank)"
         return record
-    in_named = any(_inside(record["lon"], record["lat"], ring) for ring in named[1])
+    in_named = any(_in_polygon(record["lon"], record["lat"], polygon) for polygon in named[1])
     if in_named:
         record["county_fips_from"] = f"county name; EPA fips_code {epa_fips} is a different county and the point is in {record['county']}"
         record["county_fips"] = named[0]
