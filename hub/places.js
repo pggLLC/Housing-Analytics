@@ -343,10 +343,10 @@
       : name + ': ' + priced;
     var hv = hud && hud.vintage ? hud.vintage : '';
     var srcs = [['Census ACS 2020–2024', SRC.acsGap], ['HUD FY2026 income limits', SRC.hudIl]].concat(hudRows.length ? [['HUD CHAS ' + hv, SRC.chas]] : []);
-    var who = hudRows.length ? ladderWho(steps, hud, hudRows, H, hShort, ok, per) : '';
-    if (who) return '<figure class="ladder has-hud ladder-who" aria-label="' + esc((global.LabTpl && global.LabTpl.alt || function (f, s) { return f + '. Source: ' + s + '.'; })(finding, 'Census ACS, HUD CHAS')) + '">' +
-      '<figcaption><strong>' + esc(finding) + '</strong></figcaption>' + who + '<p class="metric-source">Bars: HUD CHAS counts of renter households, of rentals by rent and who rents them, and of homes vacant for rent; ' +
-      'each band includes every lower income, and its shortfall never falls as the band widens. Grey lines: homes priced for renters per 100 renter households, whoever rents them (Census); HUD and Census draw income bands differently. Small places carry wide margins. ' +
+    var who = hudRows.length ? ladderWho(steps, hud, hudRows, ok, per, name) : null;
+    if (who) return '<figure class="ladder has-hud ladder-who" aria-label="' + esc((global.LabTpl && global.LabTpl.alt || function (f, s) { return f + '. Source: ' + s + '.'; })(who.head + ' ' + who.story, 'HUD CHAS, Census ACS')) + '">' +
+      '<figcaption><strong>' + esc(who.head) + '</strong></figcaption>' + who.body + '<p class="metric-source">HUD CHAS counts of renter households, of rentals by rent and who rents them, and of homes vacant for rent. ' +
+      'Each band includes every lower income, and its shortfall never falls as the band widens. The price-only count is Census; HUD and Census draw income bands differently. Small places carry wide margins. ' +
       srcLine(srcs) + '</p></figure>';
     var w = function (v) { return Math.min(100, v / 1.5).toFixed(1); };
     return '<figure class="ladder' + (hudRows.length ? ' has-hud' : '') + '" aria-label="' + esc((global.LabTpl && global.LabTpl.alt || function (f, s) { return f + '. Source: ' + s + '.'; })(finding, hudRows.length ? 'Census ACS, HUD CHAS' : 'Census ACS, HUD')) + '">' +
@@ -369,15 +369,17 @@
   }
 
   // paul, 26 Nov ("this chart is hard to read ... hard to tell that there are houses that are filled by others, the
-  // total number seems unknown"): where HUD's record carries who rents each home (homes_by_rent), each band is drawn
-  // as counts. One bar is renter households; the other is every rental priced for them, split into the homes they can
-  // get (affordable_available_homes: rented by them or vacant) and the homes rented by higher incomes. Display only:
-  // priced is the sum of HUD's rent tiers at or below the band, and the badge is the never-falls homes_short_nested.
-  // The Census per-100 figures stay as a grey line under each band. Returns '' when any count is missing or does not
-  // add up, and the ladder falls back to its per-100 bars.
-  function ladderWho(steps, hud, hudRows, H, hShort, ok, per) {
+  // total number seems unknown") and 27 Nov walkthrough ("It is even confusing to me ... those with more income are
+  // living in less expensive housing"): where HUD's record carries who rents each home (homes_by_rent), the ladder tells
+  // one story. The headline is HUD's shortfall at the lowest band that reaches it; one plain sentence says how many
+  // rentals are priced for those renters and how many higher earners rent; one pair of bars draws that band; a table
+  // gives every band; the Census price-only count folds away. Display only: priced is the sum of HUD's rent tiers at or
+  // below the band, "rented by higher earners" is priced minus affordable_available_homes, and the short column is the
+  // never-falls homes_short_nested. Returns null when any count is missing or does not add up, and the ladder falls
+  // back to its per-100 bars.
+  function ladderWho(steps, hud, hudRows, ok, per, name) {
     var byRent = hud && hud.byRent, tiers = { '30': ['le30'], '50': ['le30', '30to50'], '80': ['le30', '30to50', '50to80'] };
-    if (!byRent) return '';
+    if (!byRent) return null;
     var rows = [], bad = false;
     hudRows.forEach(function (r) {
       var x = r.x, priced = 0;
@@ -390,29 +392,39 @@
       if (priced < x.affordable_available_homes) bad = true;
       rows.push({ band: r.band, hh: x.renter_households, get: x.affordable_available_homes, priced: priced, others: priced - x.affordable_available_homes, short: r.short, own: ok(x.homes_short) ? x.homes_short : null });
     });
-    if (bad || !rows.length) return '';
-    var max = Math.max.apply(null, rows.map(function (r) { return Math.max(r.hh, r.priced); })) || 1;
-    var pct = function (v) { return (Math.max(v, 0) / max * 100).toFixed(1) + '%'; };
-    var census = function (band) {
-      var b = steps.filter(function (s) { return String(s.band) === band; })[0];
-      if (!b) return '';
+    if (bad || !rows.length) return null;
+    var n = function (v) { return esc(num(v)); }, at = function (band) { return 'at or below ' + band + '% AMI'; };
+    var top = Math.max.apply(null, rows.map(function (r) { return r.short; }));
+    // The story band: the lowest band whose shortfall is the largest, where the band's own count is that shortfall, so
+    // renters = homes left for them + short holds on its face. With no shortfall anywhere, the lowest band.
+    var st = rows.filter(function (r) { return r.short === top && r.own === r.short; })[0] || rows[0];
+    var share = st.priced ? st.others / st.priced : 0;
+    var higher = st.others === 0 ? '' : share > 0.5 ? 'most of' : 'some of';
+    var head = st.short > 0
+      ? name + ': about ' + num(st.short) + ' rental homes short for renters ' + at(st.band) + '. ' + (higher ? 'Higher earners rent ' + higher + ' the homes priced for them.' : 'Too few homes are priced for them.')
+      : name + ': no shortfall of rental homes for renters ' + at(rows[rows.length - 1].band) + ', counting homes they can get (HUD).';
+    var story = num(st.priced) + ' rental' + (st.priced === 1 ? ' is' : 's are') + ' priced for the ' + num(st.hh) + ' renter households ' + at(st.band) +
+      (st.priced >= st.hh ? ', enough for every one of them on paper.' : ', ' + num(st.hh - st.priced) + ' too few even on paper.') +
+      (st.others > 0 ? ' But households with higher incomes rent ' + num(st.others) + ' of them, so only ' + num(st.get) + ' are left for these renters.' : ' Higher earners rent none of them.');
+    var max = Math.max(st.hh, st.priced) || 1, pct = function (v) { return (Math.max(v, 0) / max * 100).toFixed(1) + '%'; };
+    var bars = '<div class="lw-bars" aria-hidden="true">' +
+      '<div class="lw-row"><span class="lw-rl">Renter households</span><span class="lw-track"><i class="lw-hh" style="width:' + pct(st.hh) + '"></i></span><b class="lw-n">' + n(st.hh) + '</b></div>' +
+      '<div class="lw-row"><span class="lw-rl">Homes priced for them</span><span class="lw-track"><i class="lw-get" style="width:' + pct(st.get) + '"></i><i class="lw-oth" style="width:' + pct(st.others) + '"></i></span><b class="lw-n">' + n(st.priced) + '</b></div>' +
+      '<ul class="lw-key"><li><i class="lw-get"></i>Left for them: ' + n(st.get) + '</li><li><i class="lw-oth"></i>Rented by higher earners: ' + n(st.others) + '</li></ul></div>';
+    var lifted = rows.filter(function (r) { return r.own != null && r.short > r.own; });
+    var table = '<table class="lw-table" data-nosort><caption>Every income band</caption><thead><tr><th scope="col">Renters</th><th scope="col">Households</th><th scope="col">Homes priced for them</th><th scope="col">Higher earners rent</th><th scope="col">Left for them</th><th scope="col">Short</th></tr></thead><tbody>' +
+      rows.map(function (r) {
+        return '<tr' + (r === st ? ' class="is-story"' : '') + '><th scope="row">≤' + r.band + '% AMI</th><td data-l="Households">' + n(r.hh) + '</td><td data-l="Homes priced for them">' + n(r.priced) + '</td><td data-l="Higher earners rent">' + n(r.others) + '</td><td data-l="Left for them">' + n(r.get) + '</td><td class="lw-s" data-l="Short">' + (r.short > 0 ? n(r.short) + (r.own != null && r.short > r.own ? '*' : '') : '0') + '</td></tr>';
+      }).join('') + '</tbody></table>' +
+      (lifted.length ? '<p class="note lw-why">* Short never falls as income rises: homes priced for higher incomes cost too much for poorer renters, so ' + lifted.map(function (r) {
+        var src = rows.filter(function (q) { return rows.indexOf(q) < rows.indexOf(r) && q.own === r.short; })[0];
+        return src ? 'the gap ' + at(src.band) + ' carries up to \u2264' + r.band + '%' : 'a gap at a lower income carries up to \u2264' + r.band + '%';
+      }).join('; ') + '.</p>' : '');
+    var census = '<details class="lw-census"><summary>Price-only count (Census)</summary><ul>' + steps.map(function (b) {
       var gap = b.households - b.homes;
-      return '<p class="lw-census">Census, on price alone: ' + per(b) + ' homes per 100 renter households' + (gap > 0 ? ', ' + esc(num(gap)) + ' short' : '') + (band === '100' ? '. HUD does not count this band.' : '') + '</p>';
-    };
-    var lab = function (band) { return '≤' + band + '% AMI'; };
-    var html = '<ul class="lw-key" aria-hidden="true"><li><i class="lw-hh"></i>Renter households</li><li><i class="lw-get"></i>Homes they can get (they rent it, or it is vacant)</li><li><i class="lw-oth"></i>Priced for them, rented by higher incomes</li></ul>' +
-      '<ol class="lw-rows">' + rows.map(function (r, i) {
-        var from = r.own != null && r.short > r.own ? rows.slice(0, i).filter(function (q) { return q.own === r.short; })[0] : null;
-        var prev = i ? rows[i - 1].band : null;
-        return '<li class="lw-band"><p class="lw-head"><b>' + lab(r.band) + '</b><span class="lw-short' + (r.short > 0 ? '' : ' is-none') + '">' + (r.short > 0 ? esc(num(r.short)) + ' short' : 'None short') + '</span></p><div class="lw-body">' +
-          '<div class="lw-row"><span class="lw-track"><i class="lw-hh" style="width:' + pct(r.hh) + '"></i></span><span class="lw-v"><b>' + esc(num(r.hh)) + '</b> renter household' + (r.hh === 1 ? '' : 's') + '</span></div>' +
-          '<div class="lw-row"><span class="lw-track"><i class="lw-get" style="width:' + pct(r.get) + '"></i><i class="lw-oth" style="width:' + pct(r.others) + '"></i></span>' +
-          '<span class="lw-v"><b>' + esc(num(r.priced)) + '</b> ' + (r.priced === 1 ? 'home' : 'homes') + ' priced for them: <b>' + esc(num(r.get)) + '</b> they can get, <b>' + esc(num(r.others)) + '</b> filled by others</span></div>' +
-          (r.own != null && r.short > r.own ? '<p class="lw-why">Still ' + esc(num(r.short)) + ' short: the gap ' + (from ? 'at or below ' + from.band + '% AMI' : 'at lower incomes') + ' carries up, because homes priced for ' + (prev ? prev + '–' + r.band + '% AMI renters' : 'these renters') + ' cost too much for poorer renters.</p>' : '') +
-          census(r.band) + '</div></li>';
-      }).join('') + (steps.some(function (s) { return String(s.band) === '100'; }) ? '<li class="lw-band"><p class="lw-head"><b>' + lab('100') + '</b></p><div class="lw-body">' + census('100') + '</div></li>' : '') + '</ol>' +
-      '<p class="note lw-note">“Filled by others” means homes priced for these renters that households with higher incomes rent, so they are not open to them. Each band is a running total that includes every lower income.</p>';
-    return html;
+      return '<li>≤' + esc(String(b.band)) + '% AMI: ' + per(b) + ' homes per 100 renter households' + (gap > 0 ? ', ' + n(gap) + ' short' : '') + '</li>';
+    }).join('') + '</ul><p class="note">Counts every rental priced for the band, whoever rents it, so it does not show whether these renters can get those homes. HUD does not count the 100% band.</p></details>';
+    return { head: head, story: story, body: '<p class="lw-story">' + esc(story) + '</p>' + bars + table + census };
   }
 
   function useHref(entry) {
