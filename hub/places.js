@@ -402,15 +402,16 @@
     // paul, 28 Nov ("use that wording"): "Fruita has enough low-rent homes on paper, but higher earners rent most of
     // them, so about 235 of its lowest-income renter households have none they can get." The story band at 80% AMI
     // reads "lower-income", since its renters are not the lowest incomes.
-    var most = share > 0.5 ? 'most' : 'some', who = (st.band === '80' ? 'lower' : 'lowest') + '-income renter household' + (st.short === 1 ? ' has' : 's have');
-    var tail = ' about ' + num(st.short) + ' of its ' + who + ' none they can get.';
+    var most = share > 0.5 ? 'most' : 'some', who = (st.band === '80' ? 'lower' : 'lowest') + '-income renter household' + (st.short === 1 ? '' : 's');
+    var tail = ' about ' + num(st.short) + ' of its ' + who + ' can\u2019t get a home they can afford.';
     var head = st.short <= 0 ? name + ': no shortfall of rental homes for renters ' + at(rows[rows.length - 1].band) + ', counting homes they can get (HUD).'
       : st.priced >= st.hh ? name + ' has enough low-rent homes on paper, but higher earners rent ' + most + ' of them, so' + tail
       : st.others > 0 ? name + ' has too few low-rent homes, and higher earners rent ' + most + ' of those, so' + tail
       : name + ' has too few low-rent homes, so' + tail;
     var story = num(st.priced) + ' rental' + (st.priced === 1 ? ' is' : 's are') + ' priced for the ' + num(st.hh) + ' renter households ' + at(st.band) +
       (st.priced >= st.hh ? ', enough for every one of them on paper.' : ', ' + num(st.hh - st.priced) + ' too few even on paper.') +
-      (st.others > 0 ? ' But households with higher incomes rent ' + num(st.others) + ' of them, so only ' + num(st.get) + ' are left for these renters.' : ' Higher earners rent none of them.');
+      (st.others > 0 ? ' But households with higher incomes rent ' + num(st.others) + ' of them, so only ' + num(st.get) + ' are left for these renters.' : ' Higher earners rent none of them.') +
+      (st.short > 0 ? ' Renters who can\u2019t get one still rent somewhere: in homes priced above what they can afford, or in homes HUD does not price (no full kitchen or plumbing).' : '');
     var max = Math.max(st.hh, st.priced) || 1, pct = function (v) { return (Math.max(v, 0) / max * 100).toFixed(1) + '%'; };
     var bars = '<div class="lw-bars" aria-hidden="true">' +
       '<div class="lw-row"><span class="lw-rl">Renter households</span><span class="lw-track"><i class="lw-hh" style="width:' + pct(st.hh) + '"></i></span><b class="lw-n">' + n(st.hh) + '</b></div>' +
@@ -425,11 +426,15 @@
         var src = rows.filter(function (q) { return rows.indexOf(q) < rows.indexOf(r) && q.own === r.short; })[0];
         return src ? 'the gap ' + at(src.band) + ' carries up to \u2264' + r.band + '%' : 'a gap at a lower income carries up to \u2264' + r.band + '%';
       }).join('; ') + '.</p>' : '');
+    // paul, 28 Nov ("how do we know this? please make it clear"): where every number comes from, in one line.
+    var how = '<p class="lw-how"><strong>How we know:</strong> HUD\u2019s CHAS counts for ' + esc(String(hud.vintage || '2018-2022').replace('-', '\u2013')) + ', built from the Census Bureau\u2019s American Community Survey. ' +
+      'They count renter households by income, rentals by rent, and the income of the household living in each rental. A home is priced for a band when its rent is no more than 30% of the band\u2019s income limit. ' +
+      'HUD rounds most counts to the nearest 5, and small towns carry wide margins.</p>';
     var census = '<details class="lw-census"><summary>Price-only count (Census)</summary><ul>' + steps.map(function (b) {
       var gap = b.households - b.homes;
       return '<li>≤' + esc(String(b.band)) + '% AMI: ' + per(b) + ' homes per 100 renter households' + (gap > 0 ? ', ' + n(gap) + ' short' : '') + '</li>';
     }).join('') + '</ul><p class="note">Counts every rental priced for the band, whoever rents it, so it does not show whether these renters can get those homes. HUD does not count the 100% band.</p></details>';
-    return { head: head, story: story, body: '<p class="lw-story">' + esc(story) + '</p>' + bars + table + census };
+    return { head: head, story: story, body: '<p class="lw-story">' + esc(story) + '</p>' + bars + how + table + census };
   }
 
   function useHref(entry) {
