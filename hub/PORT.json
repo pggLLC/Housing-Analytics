@@ -21,7 +21,7 @@
   "policy-hub.html"
  ],
  "lab": {
-  "commit": "09ea731ec4be7dc79c68f7d8e56fcd88c214517b",
+  "commit": "41a6368c72bc8e16d22cdf391848cb5f094f9dc3",
   "dirty": false
  },
  "files": {
@@ -76,7 +76,7 @@
   "hub/guide-extract.js": "785e4f6de491110d8cd776c734bd2068cd9e39a0a3883043261bc7c16e422c82",
   "hub/guide.js": "e07e9cea8d74337bf0990b7930586fbe4d9a1d33cf9030809dee550723f11541",
   "hub/hna-dola.js": "fbd5032131872fdd0b9ba6bd5b3015ee19dd6756abdd48caaa7143048f64cdc7",
-  "hub/hna.js": "aa024c7e78982994330c77dc9f0ca97adbfa0a39dda04a07d8f9c37eab9dfdd7",
+  "hub/hna.js": "5cf9aa24a8ae54c30ac0452674ec635c2eacc44e503c2c233fb653655e066a2e",
   "hub/home.css": "e1e2d30ae3d7c5a89d27220ef8bd7423e1447a1ff702c4f107ce23cb6b99f853",
   "hub/home.js": "c418d81af80bd8c6ea9765b73b2b688c5df5270fd58fb58f1ed8cd5e149f3d95",
   "hub/homes.js": "048cc62e0cfd9789252368d9aecf8e951c96500f207d94bb41f54dc7e6684d2b",
@@ -161,7 +161,7 @@
   "js/county-measures.js": "952802e06d99dacbf87bc4857ac5089d728841c04658ce515b540295a0e4bab2",
   "js/utils/format-money.js": "738c5f3b1aeec8083bdc4c4657aef725bec276e4f80b5687cf0a0169f460e615",
   "js/hna/ownership-finance.js": "4813779c448377e9c5c43fe54e54d6483821b6130a5bce8f7bbe4eda16feb65b",
-  "js/hna/hna-utils.js": "3e5a137e65091f2c188f314d064244b797957d67b3c14ef5efc0cd49c997acca",
+  "js/hna/hna-utils.js": "010df852eb752e1d28fc4d43794ee8b4b3cda4162949610454876e1ddaf1f10e",
   "js/mix-check.js": "34802c186a18e089d05c7ee5b736c3409427b485ad5c26db874153c353d7efaa",
   "js/mix-check-inputs.js": "84b2ef0f714b800d8f552db186ccc522c907b7e5afa5461ea40d3b49d306cb84",
   "js/housing-need-projector.js": "03bb82c2d2b142065f6fe3cbc908af3971c267c6e4df75b5849e16d8cefb6ccd",
