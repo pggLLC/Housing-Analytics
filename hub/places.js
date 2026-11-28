@@ -403,9 +403,9 @@
     var head = st.short > 0
       ? name + ': about ' + num(st.short) + ' rental homes short for renters ' + at(st.band) + '. ' + (higher ? 'Higher earners rent ' + higher + ' the homes priced for them.' : 'Too few homes are priced for them.')
       : name + ': no shortfall of rental homes for renters ' + at(rows[rows.length - 1].band) + ', counting homes they can get (HUD).';
-    var story = n(st.priced) + ' rental' + (st.priced === 1 ? ' is' : 's are') + ' priced for the ' + n(st.hh) + ' renter households ' + at(st.band) +
-      (st.priced >= st.hh ? ', enough for every one of them on paper.' : ', ' + n(st.hh - st.priced) + ' too few even on paper.') +
-      (st.others > 0 ? ' But households with higher incomes rent ' + n(st.others) + ' of them, so only ' + n(st.get) + ' are left for these renters.' : ' Higher earners rent none of them.');
+    var story = num(st.priced) + ' rental' + (st.priced === 1 ? ' is' : 's are') + ' priced for the ' + num(st.hh) + ' renter households ' + at(st.band) +
+      (st.priced >= st.hh ? ', enough for every one of them on paper.' : ', ' + num(st.hh - st.priced) + ' too few even on paper.') +
+      (st.others > 0 ? ' But households with higher incomes rent ' + num(st.others) + ' of them, so only ' + num(st.get) + ' are left for these renters.' : ' Higher earners rent none of them.');
     var max = Math.max(st.hh, st.priced) || 1, pct = function (v) { return (Math.max(v, 0) / max * 100).toFixed(1) + '%'; };
     var bars = '<div class="lw-bars" aria-hidden="true">' +
       '<div class="lw-row"><span class="lw-rl">Renter households</span><span class="lw-track"><i class="lw-hh" style="width:' + pct(st.hh) + '"></i></span><b class="lw-n">' + n(st.hh) + '</b></div>' +
@@ -424,7 +424,7 @@
       var gap = b.households - b.homes;
       return '<li>≤' + esc(String(b.band)) + '% AMI: ' + per(b) + ' homes per 100 renter households' + (gap > 0 ? ', ' + n(gap) + ' short' : '') + '</li>';
     }).join('') + '</ul><p class="note">Counts every rental priced for the band, whoever rents it, so it does not show whether these renters can get those homes. HUD does not count the 100% band.</p></details>';
-    return { head: head, story: story.replace(/<[^>]+>/g, ''), body: '<p class="lw-story">' + story + '</p>' + bars + table + census };
+    return { head: head, story: story, body: '<p class="lw-story">' + esc(story) + '</p>' + bars + table + census };
   }
 
   function useHref(entry) {
