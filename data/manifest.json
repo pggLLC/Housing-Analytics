@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-28T16:46:49.621931Z",
+  "generated": "2026-11-28T17:18:49.471015Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -1174,7 +1174,7 @@
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 332271
+      "bytes": 341447
     },
     "data/environmental/fema-flood-co.geojson": {
       "featureCount": 4,

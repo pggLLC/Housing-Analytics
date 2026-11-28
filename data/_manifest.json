@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-28T16:46:45.650Z",
+    "generated_at": "2026-11-28T17:18:45.308Z",
     "root": "data/",
     "file_count": 2002,
-    "total_size_bytes": 232514710,
+    "total_size_bytes": 232523886,
     "kinds": {
       "json": 1953,
       "geojson": 35,
@@ -724,7 +724,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-11-28T16:41:17.038Z",
+      "mtime": "2026-11-28T17:18:40.653Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -6687,8 +6687,8 @@
     {
       "path": "environmental/epa-superfund-co.json",
       "kind": "json",
-      "size_bytes": 332271,
-      "mtime": "2026-11-08T17:00:07.108Z",
+      "size_bytes": 341447,
+      "mtime": "2026-11-28T17:16:37.058Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -6697,7 +6697,7 @@
       ],
       "key_count": 3,
       "primary_array_key": "brownfieldSites",
-      "primary_array_length": 1121,
+      "primary_array_length": 1130,
       "primary_array_first_keys": [
         "id",
         "registry_id",
@@ -39266,7 +39266,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 16186,
-      "mtime": "2026-11-28T16:46:44.234Z",
+      "mtime": "2026-11-28T17:18:42.995Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -39290,7 +39290,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6274,
-      "mtime": "2026-11-28T16:46:43.873Z",
+      "mtime": "2026-11-28T17:18:42.454Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
