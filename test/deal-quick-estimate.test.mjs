@@ -351,7 +351,16 @@ try {
     ok(await v('dc-minimum-set-aside') === 'average-income', 'the election picked in the panel is the full calculator\'s election');
     const ait = await settle(t);
     agree(ait, 'Average Income Test');
-    ok(!(await box()).shown, 'under the Average Income Test every home counts, so the box steps aside');
+    // Every home counts now, so the explanation and the floor areas step aside, but the election stays so the reader
+    // can switch back where they switched.
+    const aitBox = await t.evaluate(() => ({ shown: !document.getElementById('dq-floor').hidden, why: !document.getElementById('dq-floor-why').hidden,
+      sf: [...document.querySelectorAll('#dq-floor .dq-sf')].filter((l) => !l.hidden && l.getClientRects().length > 0).length,
+      sel: document.getElementById('dq-set-aside').getClientRects().length > 0 }));
+    ok(aitBox.shown && aitBox.sel && !aitBox.why && aitBox.sf === 0, 'under the Average Income Test only the election stays in view: ' + JSON.stringify(aitBox));
+    await t.selectOption('#dq-set-aside', '40-60');
+    ok(await v('dc-minimum-set-aside') === '40-60' && (await box()).shown && /70%/.test((await box()).why), 'switching back to 40-60 in the panel brings the 70% note back');
+    await t.selectOption('#dq-set-aside', 'average-income');
+    agree(await settle(t), 'Average Income Test again');
     ok(measured(ait).includes('dc-r-credits') && measured(ait).includes('dc-su-gap'), 'under the Average Income Test the credit and gap are measured: ' + JSON.stringify(ait));
     // A market-rate home (63 in all): it never earns credit, and CHFA's Average Income Test needs every home designated.
     await t.fill('#dq-units', '63');

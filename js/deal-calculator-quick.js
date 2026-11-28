@@ -214,7 +214,8 @@
     return { election: election, tiers: tiers, market: all > inTiers ? Math.round(all - inTiers) : 0 };
   }
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
-  // The election and the two floor areas, shown while any home earns no credit; each mirrors the full calculator.
+  // The election and the two floor areas, shown while any home earns no credit (the election also while it is not the
+  // default); each mirrors the full calculator.
   function floorBox(active) {
     var box = $('dq-floor');
     if (!box) return;
@@ -225,10 +226,13 @@
     var said = st && !st.hidden && /does not qualify/i.test(st.textContent) ? st.textContent.replace(/\s+/g, ' ').trim() : '';
     put(msg, 'textContent', said);
     put(msg, 'hidden', !said);
-    put(box, 'hidden', !(homes > 0) && !said);
+    // An election other than the default stays in view, so a reader who picked the Average Income Test here can
+    // switch back here too (once every home counts there is nothing else to show, and the box would hide its own switch).
+    var sel = $('dc-minimum-set-aside'), q = $('dq-set-aside');
+    var picked = !!(sel && sel.value && sel.value !== '40-60'); // the engine's DEFAULT_MINIMUM_SET_ASIDE_ELECTION
+    put(box, 'hidden', !(homes > 0) && !said && !picked);
     put($('dq-floor-why'), 'hidden', !(homes > 0));
     Array.prototype.forEach.call(box.querySelectorAll('.dq-sf'), function (l) { put(l, 'hidden', !(homes > 0)); });
-    var sel = $('dc-minimum-set-aside'), q = $('dq-set-aside');
     if (sel && q && active !== q) put(q, 'value', sel.value);
     if (!(homes > 0)) return;
     var parts = nc.tiers.map(function (t) { return plural(t.homes, 'home', 'homes') + ' at ' + t.pct + '%'; });
@@ -384,7 +388,7 @@
           '<label class="dq-f dq-sf">Floor space of the credit homes (sq ft)<input id="dq-restricted-sf" type="number" min="0" step="100" inputmode="numeric" placeholder="not entered" style="' + field + '"></label>' +
         '</div>' +
         '<p id="dq-floor-status" hidden class="dq-unavailable" style="margin:.4rem 0 0;font-size:.82rem;"></p>' +
-        '<p style="margin:.4rem 0 0;font-size:.8rem;color:var(--muted);">Floor space of the homes themselves, without halls or common space. Colorado sets no unit sizes, so the calculator assumes none. Source: 26 U.S.C. 42(c)(1)(B) and 42(g)(1).</p>' +
+        '<p class="dq-sf" style="margin:.4rem 0 0;font-size:.8rem;color:var(--muted);">Floor space of the homes themselves, without halls or common space. Colorado sets no unit sizes, so the calculator assumes none. Source: 26 U.S.C. 42(c)(1)(B) and 42(g)(1).</p>' +
       '</div>' +
       '<dl class="dq-out no-glossary" aria-live="polite">' + OUTPUTS.map(function (o) {
         return '<div><dt>' + o.label + '</dt><dd id="dq-out-' + o.id + '">—</dd></div>';
