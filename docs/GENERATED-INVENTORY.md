@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-28T04:50:04.518Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-11-28T05:18:42.056Z. Do not edit by hand.
 
 ---
 
@@ -2227,7 +2227,7 @@
 | `test/deal-lender-schedules.test.js` | 21.9 KB |
 | `test/deal-operating-budget.test.js` | 10.8 KB |
 | `test/deal-permanent-financing.test.js` | 14.0 KB |
-| `test/deal-quick-estimate.test.mjs` | 27.4 KB |
+| `test/deal-quick-estimate.test.mjs` | 28.3 KB |
 | `test/deal-recommenders-mix-check.test.mjs` | 14.1 KB |
 | `test/deal-review-checks.test.js` | 7.7 KB |
 | `test/deal-surface-dom-guard.test.mjs` | 4.5 KB |
