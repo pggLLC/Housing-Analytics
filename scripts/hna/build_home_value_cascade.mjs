@@ -25,12 +25,15 @@ const OUT = path.join(ROOT, 'data', 'hna', 'home-value-cascade.json');
 const CROSSWALK_OUT = path.join(ROOT, 'data', 'hna', 'zhvi-place-crosswalk.json');
 const ACS_RELIABILITY = path.join(ROOT, 'data', 'hna', 'acs-reliability.json');
 
-// Owner's rule (2026-11-27): a town under this population that matches a Zillow
-// row for the first time keeps its ACS value (or stays blank) when Zillow falls
-// outside the ACS 90% margin of error, or there is no ACS value to check it
-// against. Zillow's city index for a town of a few hundred rests on very few
-// sales (Aguilar, 401 people: ACS $96,400 ± $3,973 against Zillow $255,690).
-// The place is listed under review_flags.zhvi_small_town_unconfirmed.
+// Owner's rule (2026-11-27, revised 2026-11-28): a town under this population
+// that matches a Zillow row for the first time, where Zillow falls outside the
+// ACS 90% margin of error or there is no ACS value to check it against, shows
+// Zillow's value marked "unconfirmed, small town" (review_flag note, low
+// confidence). Aguilar, 401 people: ACS $96,400 ± $3,973 against Zillow
+// $255,690; RealtyTrac's estimate from 24 sales ($237,255) and Zillow's Las
+// Animas County value ($235,135) sit near Zillow, so the stale ACS figure is
+// the worse guide. The place is listed under review_flags.zhvi_small_town_unconfirmed
+// and kept out of the crosswalk, so it stays unconfirmed until reviewed.
 export const SMALL_TOWN_POPULATION = 1000;
 
 export function smallTownZhviCheck({ isNewMatch, population, zhviValue, acsValue, acsMoe }) {
@@ -301,7 +304,26 @@ async function main() {
         reason: smallTownReason,
       });
     }
-    if (zhvi && !smallTownReason) {
+    if (zhvi && smallTownReason) {
+      const fmt = (n) => '$' + Math.round(n).toLocaleString('en-US');
+      const hasAcs = Number.isFinite(acsValue) && acsValue > 0;
+      display = {
+        value: zhvi.value,
+        source: 'zhvi',
+        as_of: zhvi.asOf,
+        confidence: 'low',
+        zillow_region_id: zhvi.regionId,
+        acs_raw_value: hasAcs ? acsValue : null,
+        review_flag: {
+          reason: 'zhvi_small_town_unconfirmed',
+          note: 'Unconfirmed, small town: Zillow\'s estimate for a town under 1,000 people; '
+            + (hasAcs
+              ? `the Census figure is ${fmt(acsValue)}${Number.isFinite(acsMoe) ? ' ± ' + fmt(acsMoe) : ''}.`
+              : 'there is no Census figure to check it against.'),
+        },
+      };
+      zhviCount += 1;
+    } else if (zhvi) {
       display = {
         value: zhvi.value,
         source: 'zhvi',
@@ -334,10 +356,6 @@ async function main() {
         as_of: 'ACS 2020-2024 5-year',
         confidence: Number.isFinite(acsValue) && acsValue > 0 ? 'low' : 'missing',
       };
-      if (smallTownReason) {
-        display.review_note = `Zillow's first value for this town (${zhvi.asOf}) is not used until checked: `
-          + (smallTownReason === 'zillow_outside_acs_margin' ? 'it falls outside the ACS margin of error.' : 'there is no ACS value or margin to check it against.');
-      }
       acsCount += 1;
     }
 

@@ -27,7 +27,7 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | acs-grapi-and-hud-chas-blend | 546 |
 | acs-profile | 9828 |
 | acs-profile-dp02 | 1092 |
-| acs-profile-dp04 | 1068 |
+| acs-profile-dp04 | 1050 |
 | acs-profile-dp04-grapi | 546 |
 | acs-profile-dp05 | 1092 |
 | ami-gap-county-acs | 582 |
@@ -53,7 +53,7 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | lodes-incommuters-acs-pums | 1638 |
 | opportunity-amenity-context | 2730 |
 | workforce-gap-renters-incommuters-vs-ami-gap | 2184 |
-| zillow-zhvi-city-index | 562 |
+| zillow-zhvi-city-index | 580 |
 | zillow-zhvi-county-adjusted | 8 |
 
 ## Notes

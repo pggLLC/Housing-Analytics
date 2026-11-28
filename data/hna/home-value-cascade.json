@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-27T11:50:32.843Z",
+    "generated_at": "2026-11-28T12:59:37.592Z",
     "schema": "median_home_value = { value, source, as_of, confidence }; counties are display-only affordability inputs and are ignored by rank/score models",
     "sources": {
       "zhvi_city_csv": "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
@@ -11,8 +11,8 @@
     "latest_zhvi_month": "2026-10-31",
     "colorado_zhvi_rows": 343,
     "counts": {
-      "zhvi": 281,
-      "acs_raw": 201,
+      "zhvi": 290,
+      "acs_raw": 192,
       "total": 482,
       "counties": {
         "fhfa_county_hpi_anchor": 49,
@@ -39,11 +39,16 @@
       "confidence": "low"
     },
     "0800760": {
-      "value": 96400,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
+      "value": 255690,
+      "source": "zhvi",
+      "as_of": "2026-10-31",
       "confidence": "low",
-      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: it falls outside the ACS margin of error."
+      "zillow_region_id": "23416",
+      "acs_raw_value": 96400,
+      "review_flag": {
+        "reason": "zhvi_small_town_unconfirmed",
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $96,400 ± $3,973."
+      }
     },
     "0800870": {
       "value": null,
@@ -122,11 +127,16 @@
       "confidence": "low"
     },
     "0802850": {
-      "value": null,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "missing",
-      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: there is no ACS value or margin to check it against."
+      "value": 246681,
+      "source": "zhvi",
+      "as_of": "2026-10-31",
+      "confidence": "low",
+      "zillow_region_id": "23506",
+      "acs_raw_value": null,
+      "review_flag": {
+        "reason": "zhvi_small_town_unconfirmed",
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; there is no Census figure to check it against."
+      }
     },
     "0802905": {
       "value": 344000,
@@ -141,11 +151,16 @@
       "confidence": "low"
     },
     "0803235": {
-      "value": 110200,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
+      "value": 193383,
+      "source": "zhvi",
+      "as_of": "2026-10-31",
       "confidence": "low",
-      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: it falls outside the ACS margin of error."
+      "zillow_region_id": "55391",
+      "acs_raw_value": 110200,
+      "review_flag": {
+        "reason": "zhvi_small_town_unconfirmed",
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $110,200 ± $48,784."
+      }
     },
     "0803455": {
       "value": 590179,
@@ -260,11 +275,16 @@
       "acs_raw_value": 533500
     },
     "0806530": {
-      "value": 127500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
+      "value": 247464,
+      "source": "zhvi",
+      "as_of": "2026-10-31",
       "confidence": "low",
-      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: it falls outside the ACS margin of error."
+      "zillow_region_id": "28078",
+      "acs_raw_value": 127500,
+      "review_flag": {
+        "reason": "zhvi_small_town_unconfirmed",
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $127,500 ± $87,304."
+      }
     },
     "0806602": {
       "value": 334000,
@@ -1291,11 +1311,16 @@
       "acs_raw_value": 1032700
     },
     "0829680": {
-      "value": 186100,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
+      "value": 269782,
+      "source": "zhvi",
+      "as_of": "2026-10-31",
       "confidence": "low",
-      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: it falls outside the ACS margin of error."
+      "zillow_region_id": "45410",
+      "acs_raw_value": 186100,
+      "review_flag": {
+        "reason": "zhvi_small_town_unconfirmed",
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $186,100 ± $62,067."
+      }
     },
     "0829735": {
       "value": 457026,
@@ -1430,11 +1455,16 @@
       "acs_raw_value": 1237800
     },
     "0833310": {
-      "value": null,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "missing",
-      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: there is no ACS value or margin to check it against."
+      "value": 338017,
+      "source": "zhvi",
+      "as_of": "2026-10-31",
+      "confidence": "low",
+      "zillow_region_id": "24976",
+      "acs_raw_value": null,
+      "review_flag": {
+        "reason": "zhvi_small_town_unconfirmed",
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; there is no Census figure to check it against."
+      }
     },
     "0833420": {
       "value": 473290,
@@ -2165,11 +2195,16 @@
       "acs_raw_value": 406700
     },
     "0850920": {
-      "value": 1103100,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
+      "value": 1369600,
+      "source": "zhvi",
+      "as_of": "2026-10-31",
       "confidence": "low",
-      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: it falls outside the ACS margin of error."
+      "zillow_region_id": "49777",
+      "acs_raw_value": 1103100,
+      "review_flag": {
+        "reason": "zhvi_small_town_unconfirmed",
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $1,103,100 ± $98,484."
+      }
     },
     "0851250": {
       "value": 160421,
@@ -2864,11 +2899,16 @@
       "acs_raw_value": 0
     },
     "0868930": {
-      "value": 98300,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
+      "value": 205647,
+      "source": "zhvi",
+      "as_of": "2026-10-31",
       "confidence": "low",
-      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: it falls outside the ACS margin of error."
+      "zillow_region_id": "13762",
+      "acs_raw_value": 98300,
+      "review_flag": {
+        "reason": "zhvi_small_town_unconfirmed",
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; the Census figure is $98,300 ± $35,699."
+      }
     },
     "0868985": {
       "value": 160700,
@@ -3437,11 +3477,16 @@
       "acs_raw_value": 775300
     },
     "0885760": {
-      "value": null,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "missing",
-      "review_note": "Zillow's first value for this town (2026-10-31) is not used until checked: there is no ACS value or margin to check it against."
+      "value": 2908888,
+      "source": "zhvi",
+      "as_of": "2026-10-31",
+      "confidence": "low",
+      "zillow_region_id": "56685",
+      "acs_raw_value": null,
+      "review_flag": {
+        "reason": "zhvi_small_town_unconfirmed",
+        "note": "Unconfirmed, small town: Zillow's estimate for a town under 1,000 people; there is no Census figure to check it against."
+      }
     },
     "0886090": {
       "value": 524806,
