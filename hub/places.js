@@ -399,10 +399,15 @@
     // renters = homes left for them + short holds on its face. With no shortfall anywhere, the lowest band.
     var st = rows.filter(function (r) { return r.short === top && r.own === r.short; })[0] || rows[0];
     var share = st.priced ? st.others / st.priced : 0;
-    var higher = st.others === 0 ? '' : share > 0.5 ? 'most of' : 'some of';
-    var head = st.short > 0
-      ? name + ': about ' + num(st.short) + ' rental homes short for renters ' + at(st.band) + '. ' + (higher ? 'Higher earners rent ' + higher + ' the homes priced for them.' : 'Too few homes are priced for them.')
-      : name + ': no shortfall of rental homes for renters ' + at(rows[rows.length - 1].band) + ', counting homes they can get (HUD).';
+    // paul, 28 Nov ("use that wording"): "Fruita has enough low-rent homes on paper, but higher earners rent most of
+    // them, so about 235 of its lowest-income renter households have none they can get." The story band at 80% AMI
+    // reads "lower-income", since its renters are not the lowest incomes.
+    var most = share > 0.5 ? 'most' : 'some', who = (st.band === '80' ? 'lower' : 'lowest') + '-income renter household' + (st.short === 1 ? ' has' : 's have');
+    var tail = ' about ' + num(st.short) + ' of its ' + who + ' none they can get.';
+    var head = st.short <= 0 ? name + ': no shortfall of rental homes for renters ' + at(rows[rows.length - 1].band) + ', counting homes they can get (HUD).'
+      : st.priced >= st.hh ? name + ' has enough low-rent homes on paper, but higher earners rent ' + most + ' of them, so' + tail
+      : st.others > 0 ? name + ' has too few low-rent homes, and higher earners rent ' + most + ' of those, so' + tail
+      : name + ' has too few low-rent homes, so' + tail;
     var story = num(st.priced) + ' rental' + (st.priced === 1 ? ' is' : 's are') + ' priced for the ' + num(st.hh) + ' renter households ' + at(st.band) +
       (st.priced >= st.hh ? ', enough for every one of them on paper.' : ', ' + num(st.hh - st.priced) + ' too few even on paper.') +
       (st.others > 0 ? ' But households with higher incomes rent ' + num(st.others) + ' of them, so only ' + num(st.get) + ' are left for these renters.' : ' Higher earners rent none of them.');
