@@ -74,4 +74,16 @@ for (const f of flagged) {
 }
 assert.strictEqual(checked, flagged.length);
 
+// No place with no recorded residents shows a Zillow value, flagged or not (Codex on #3053: Hartsel CDP).
+let zeroPop = 0;
+for (const [geoid, r] of Object.entries(cascade.places)) {
+  const summaryPath = path.join(ROOT, 'data/hna/summary', `${geoid}.json`);
+  if (!fs.existsSync(summaryPath)) continue;
+  const profile = JSON.parse(fs.readFileSync(summaryPath, 'utf8')).acsProfile || {};
+  if (Number(profile.DP05_0001E) !== 0) continue;
+  zeroPop += 1;
+  assert.notStrictEqual(r.source, 'zhvi', `${geoid} has no residents but shows Zillow`);
+  assert.notStrictEqual((profile.median_home_value || {}).source, 'zhvi', `${geoid} summary has no residents but shows Zillow`);
+}
+assert.ok(zeroPop >= 2, 'expected the zero-population places (Wolcott, Hartsel) to be checked');
 console.log(`hna-home-value-small-town: ok (${flagged.length} flagged)`);

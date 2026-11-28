@@ -305,19 +305,29 @@ async function main() {
       });
     }
     const population = Number(profile.DP05_0001E);
-    if (zhvi && smallTownReason && !(population > 0)) {
-      // No recorded residents (Wolcott CDP: 0 people, Zillow $2,908,888): too few homes for a
-      // typical value, so none is shown, as for any place the files hold no value for.
+    if (zhvi && population === 0) {
+      // No recorded residents (Wolcott CDP, Zillow $2,908,888; Hartsel CDP, $398,704): too few
+      // homes for a typical value, so none is shown, as for any place the files hold no value
+      // for. Applies to every Zillow match, first or not. An earlier match keeps its crosswalk
+      // entry so it is not re-reviewed as new.
       display = {
         value: null,
         source: 'acs_raw',
         as_of: 'ACS 2020-2024 5-year',
         confidence: 'missing',
         review_flag: {
-          reason: 'zhvi_small_town_unconfirmed',
+          reason: smallTownReason ? 'zhvi_small_town_unconfirmed' : 'no_recorded_residents',
           note: 'Too few homes to report: the Census records no residents here, so Zillow\'s estimate is not shown.',
         },
       };
+      if (!smallTownReason) {
+        crosswalk[geoid] = {
+          zillow_region_id: zhvi.regionId,
+          zillow_region_name: zhvi.regionName,
+          zillow_county_name: zhvi.countyName,
+          county_fips: countyFips,
+        };
+      }
       acsCount += 1;
     } else if (zhvi && smallTownReason) {
       const fmt = (n) => '$' + Math.round(n).toLocaleString('en-US');
