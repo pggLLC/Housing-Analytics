@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-11-28T07:38:08.556Z",
+    "generated_at": "2026-11-28T12:06:32.487Z",
     "root": "data/",
     "file_count": 2002,
-    "total_size_bytes": 232454317,
+    "total_size_bytes": 232510406,
     "kinds": {
       "json": 1953,
       "geojson": 35,
@@ -400,8 +400,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 3186081,
-      "mtime": "2026-11-27T12:45:47.708Z",
+      "size_bytes": 3233952,
+      "mtime": "2026-11-28T11:59:32.268Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -409,7 +409,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 4765,
+      "primary_array_length": 4834,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -425,7 +425,7 @@
       "path": "alerts/outlet-decisions.json",
       "kind": "json",
       "size_bytes": 5909,
-      "mtime": "2026-11-27T12:45:48.998Z",
+      "mtime": "2026-11-28T11:59:33.397Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -467,8 +467,8 @@
     {
       "path": "alerts/outlet-review.json",
       "kind": "json",
-      "size_bytes": 21805,
-      "mtime": "2026-11-27T12:52:23.794Z",
+      "size_bytes": 22765,
+      "mtime": "2026-11-28T12:06:29.113Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -476,7 +476,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "outlets",
-      "primary_array_length": 25,
+      "primary_array_length": 26,
       "primary_array_first_keys": [
         "id",
         "name",
@@ -492,7 +492,7 @@
       "path": "alerts/owner-news.json",
       "kind": "json",
       "size_bytes": 324,
-      "mtime": "2026-11-27T12:45:48.565Z",
+      "mtime": "2026-11-28T11:59:33.033Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -41741,7 +41741,7 @@
       "path": "policy/housing-events.json",
       "kind": "json",
       "size_bytes": 157108,
-      "mtime": "2026-11-27T12:52:23.737Z",
+      "mtime": "2026-11-28T12:06:29.046Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42735,8 +42735,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 947131,
-      "mtime": "2026-11-27T12:52:12.784Z",
+      "size_bytes": 954389,
+      "mtime": "2026-11-28T12:06:22.215Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -42748,12 +42748,11 @@
       ],
       "key_count": 6,
       "primary_array_key": "stories",
-      "primary_array_length": 625,
+      "primary_array_length": 634,
       "primary_array_first_keys": [
         "title",
         "source",
         "sourcing",
-        "sourcing_label",
         "source_domain",
         "link",
         "date",
@@ -42761,7 +42760,8 @@
         "programs",
         "places",
         "regions",
-        "also"
+        "also",
+        "summary"
       ]
     },
     {

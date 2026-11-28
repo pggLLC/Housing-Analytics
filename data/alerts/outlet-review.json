@@ -1,15 +1,33 @@
 {
   "meta": {
-    "generated": "2026-11-27T12:52:23Z",
+    "generated": "2026-11-28T12:06:29Z",
     "method": "Housing News publishers not in data/alerts/outlet-register.json. Their stories show with an \"Unverified outlet\" tag until the outlet is ticked in the \"Outlets to review\" issue.",
     "week": {
-      "since": "2026-11-21",
-      "checked": 31,
-      "unverified": 4,
+      "since": "2026-11-22",
+      "checked": 38,
+      "unverified": 5,
       "weak": 2
     }
   },
   "outlets": [
+    {
+      "id": "4063cf408d",
+      "name": "IslanderNews.com",
+      "domains": [
+        "islandernews.com"
+      ],
+      "stories": 1,
+      "first_seen": "2026-11-27",
+      "last_seen": "2026-11-27",
+      "headlines": [
+        {
+          "title": "Developers of Wendy's Village, an affordable housing complex planned for teachers in Colorado Springs, Colo., completed their first homes in July 2025.",
+          "link": "https://news.google.com/rss/articles/CBMioAJBVV95cUxNaU9UenZqaDJDaldKS2ZvRmkwU3JPUlladHRVbmpSRXl6ZVc3a1JISFVqZ0JHQ1ByWXgyQTZzWFIzZE0xQnJQbnh1NGhkYXpyV3E4bVZJLWpEUXlIZ29OX1BSQjhUOFJ5UXgtZVFfTjlTY2VzSGtZekx3Q21GNVMzMVN5NXdzLVVxdVR6cXNraWZHNy1pVXpYWXhyMjJIVnF4dXZReGpWcWhSZ0dBa3NGd2hVbFRhUGRsSHhFOVFGQjc2RTVVdlBpNUhxSGVBVjlEeGwyN0ZFUDNZWlFLYWFEZ1lOaVVscWpXbWxoSHEyb3pzMGpoeHhnYjBtcjlmSXFTSnZEMDlLS1lnSlVZS002blRuYnhHWkhYVG1Nejd5VG0?oc=5",
+          "date": "2026-11-27"
+        }
+      ],
+      "first_listed": "2026-11-28"
+    },
     {
       "id": "d182e571bd",
       "name": "Dosya Haber",
