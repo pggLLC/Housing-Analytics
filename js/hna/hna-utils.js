@@ -333,7 +333,9 @@
     const asOf = info.asOf || 'unknown vintage';
     if (info.display) {
       const confidence = info.confidence || 'unknown';
-      const caveat = info.lowConfidence ? ' · low confidence: no current city index' : '';
+      // An unconfirmed small-town Zillow value is a city index, so its own note
+      // says why it is low confidence instead of "no current city index".
+      const caveat = info.lowConfidence && info.source !== 'zhvi' ? ' · low confidence: no current city index' : '';
       return info.sourceLabel + ' · ' + asOf + ' · ' + confidence + caveat + (info.display.review_flag ? ' · ' + info.display.review_flag.note : '');
     }
     return info.sourceLabel + ' · ' + asOf;

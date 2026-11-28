@@ -422,6 +422,8 @@ function sourceForMetric(metric, entry, summary) {
       geography_level: src === 'county_zhvi_adjusted' ? 'county_context' : localLevel(entry),
       as_of: home?.as_of || acsAsOf(summary),
       confidence: home?.confidence || m.home_value_confidence || 'medium',
+      // "Unconfirmed, small town" (owner's rule, 28 Nov 2026) travels with the figure.
+      ...(home?.review_flag?.note ? { note: String(home.review_flag.note) } : {}),
     };
   }
   // Today's in-commuters who would move closer: LODES in-commuters by pay
@@ -971,6 +973,7 @@ function digestMetric(metric, value, entry, summary, denom) {
     source_id: source.source_id,
     as_of: source.as_of,
     measure_type: measureType(metric),
+    ...(source.note ? { note: source.note } : {}),
     ...(denominatorKey ? {
       denominator_key: denominatorKey,
       denominator,

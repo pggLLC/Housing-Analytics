@@ -50,8 +50,10 @@ function cloneDisplay(display) {
   if (display && display.zillow_region_id != null) out.zillow_region_id = String(display.zillow_region_id);
   const raw = safeNumber(display && display.acs_raw_value);
   if (raw !== null) out.acs_raw_value = raw;
-  // Held small towns carry a note saying Zillow's first value waits for a check.
-  if (display && display.review_note) out.review_note = String(display.review_note);
+  // Unconfirmed small towns carry a visible note (shown on the home value card).
+  if (display && display.review_flag && display.review_flag.note) {
+    out.review_flag = { reason: String(display.review_flag.reason || ''), note: String(display.review_flag.note) };
+  }
   return out;
 }
 
@@ -59,6 +61,9 @@ function countyRatiosFromCascade(cascade, summaries) {
   const byCounty = new Map();
   for (const [geoid, display] of Object.entries(cascade.places || {})) {
     if (!display || display.source !== 'zhvi') continue;
+    // An unconfirmed small-town value is shown for its own town only; it does not
+    // set the county ratio that adjusts its neighbours.
+    if (display.review_flag && display.review_flag.reason === 'zhvi_small_town_unconfirmed') continue;
     const summary = summaries.get(geoid);
     const county = summary && summary.geo && summary.geo.containingCounty;
     const acsRaw = safeNumber(display.acs_raw_value);

@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-// Owner's rule (2026-11-27): a town under 1,000 people matching Zillow for the
-// first time keeps its ACS value when Zillow is outside the ACS margin of error
-// or cannot be checked. These pin the rule and the committed result.
+// Owner's rule (2026-11-27, revised 2026-11-28): a town under 1,000 people matching
+// Zillow for the first time, where Zillow is outside the ACS margin of error or
+// cannot be checked, shows Zillow's value marked "unconfirmed, small town" (low
+// confidence, visible note). A place with no recorded residents shows no value,
+// with a "too few homes to report" note. These pin the rule and the committed result.
 import assert from 'node:assert';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -22,34 +24,49 @@ assert.strictEqual(smallTownZhviCheck({ isNewMatch: false, population: 200, zhvi
 // 1,000 people or more: Zillow is used.
 assert.strictEqual(smallTownZhviCheck({ isNewMatch: true, population: 1384, zhviValue: 103527, acsValue: 134100, acsMoe: 19872 }), null);
 
-// The committed cascade: every flagged town shows an ACS value or blank, never Zillow, with a note.
+// The committed cascade: every flagged town shows Zillow with low confidence and a visible note.
 const cascade = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/home-value-cascade.json'), 'utf8'));
 const flags = cascade.review_flags || {};
 // Non-vacuous: the list must exist, and must be derived independently of itself.
 assert.ok(Array.isArray(flags.zhvi_small_town_unconfirmed), 'review_flags.zhvi_small_town_unconfirmed must be an array');
 const flagged = flags.zhvi_small_town_unconfirmed;
-// Every place row carrying a hold note must be flagged, and every flag must carry a note.
-const noted = Object.entries(cascade.places).filter(([, r]) => r && r.review_note).map(([g]) => g).sort();
-assert.deepStrictEqual(flagged.map((f) => f.geoid).sort(), noted, 'held-town flags and review notes disagree');
-// Pinned for the October 2026 Zillow vintage the owner reviewed (27 Nov 2026). A later
-// vintage rechecks held towns monthly, so this pin applies only to that month.
+// Every place row carrying the unconfirmed note must be flagged, and every flag must carry it.
+const UNCONFIRMED = 'zhvi_small_town_unconfirmed';
+const noted = Object.entries(cascade.places)
+  .filter(([, r]) => r && r.review_flag && r.review_flag.reason === UNCONFIRMED).map(([g]) => g).sort();
+assert.deepStrictEqual(flagged.map((f) => f.geoid).sort(), noted, 'unconfirmed-town flags and notes disagree');
+// Unconfirmed towns stay out of the crosswalk, so they are rechecked until reviewed.
+const crosswalk = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/zhvi-place-crosswalk.json'), 'utf8')).places || {};
+// Pinned for the October 2026 Zillow vintage the owner reviewed (27-28 Nov 2026). A later
+// vintage rechecks unconfirmed towns monthly, so this pin applies only to that month.
 const OCT_2026_HELD = ['0800760', '0802850', '0803235', '0806530', '0829680', '0833310', '0850920', '0868930', '0885760'];
 if ((cascade.meta || {}).latest_zhvi_month === '2026-10-31') {
-  assert.deepStrictEqual(flagged.map((f) => f.geoid).sort(), OCT_2026_HELD, 'October 2026 held towns changed');
+  assert.deepStrictEqual(flagged.map((f) => f.geoid).sort(), OCT_2026_HELD, 'October 2026 unconfirmed towns changed');
 }
 let checked = 0;
 for (const f of flagged) {
   const row = cascade.places[f.geoid];
   assert.ok(row, `${f.place_name} missing from places`);
-  assert.notStrictEqual(row.source, 'zhvi', `${f.place_name} is flagged but shows Zillow`);
-  assert.ok(row.review_note, `${f.place_name} is flagged but carries no review note`);
+  if (f.population > 0) {
+    assert.strictEqual(row.source, 'zhvi', `${f.place_name} is flagged but does not show Zillow`);
+    assert.strictEqual(row.value, f.zhvi_value, `${f.place_name} shows a value other than Zillow's`);
+    assert.strictEqual(row.confidence, 'low', `${f.place_name} is unconfirmed but not low confidence`);
+    assert.match(row.review_flag.note, /^Unconfirmed, small town:/, `${f.place_name} note is not the visible unconfirmed note`);
+  } else {
+    // No recorded residents: no value is shown (Wolcott CDP, Zillow $2,908,888).
+    assert.strictEqual(row.value, null, `${f.place_name} has no residents but shows a home value`);
+    assert.match(row.review_flag.note, /^Too few homes to report:/, `${f.place_name} note does not say why no value is shown`);
+  }
+  // The card treats a "±" as a published margin, which a Zillow value has none of.
+  assert.ok(!/±/.test(row.review_flag.note), `${f.place_name} note carries a ± the card would read as a margin`);
+  assert.ok(!crosswalk[f.geoid], `${f.place_name} is unconfirmed but was written to the crosswalk`);
   assert.ok(f.population < SMALL_TOWN_POPULATION, `${f.place_name} is flagged but has ${f.population} people`);
-  // The page reads the place summary, so the note and the non-Zillow value must reach it too.
+  // The page reads the place summary, so the value and the note must reach it too.
   const summaryPath = path.join(ROOT, 'data/hna/summary', `${f.geoid}.json`);
   if (fs.existsSync(summaryPath)) {
     const shown = ((JSON.parse(fs.readFileSync(summaryPath, 'utf8')).acsProfile) || {}).median_home_value || {};
-    assert.notStrictEqual(shown.source, 'zhvi', `${f.place_name} summary shows Zillow`);
-    assert.strictEqual(shown.review_note, row.review_note, `${f.place_name} summary lost its review note`);
+    assert.strictEqual(shown.value, row.value, `${f.place_name} summary value differs from the cascade`);
+    assert.deepStrictEqual(shown.review_flag, row.review_flag, `${f.place_name} summary lost its unconfirmed note`);
   }
   // A missing ACS margin stays null, never a zero-width margin.
   if (f.reason !== 'zillow_outside_acs_margin') assert.notStrictEqual(f.acs_moe, 0, `${f.place_name} margin read as 0`);
@@ -57,4 +74,16 @@ for (const f of flagged) {
 }
 assert.strictEqual(checked, flagged.length);
 
+// No place with no recorded residents shows a Zillow value, flagged or not (Codex on #3053: Hartsel CDP).
+let zeroPop = 0;
+for (const [geoid, r] of Object.entries(cascade.places)) {
+  const summaryPath = path.join(ROOT, 'data/hna/summary', `${geoid}.json`);
+  if (!fs.existsSync(summaryPath)) continue;
+  const profile = JSON.parse(fs.readFileSync(summaryPath, 'utf8')).acsProfile || {};
+  if (Number(profile.DP05_0001E) !== 0) continue;
+  zeroPop += 1;
+  assert.notStrictEqual(r.source, 'zhvi', `${geoid} has no residents but shows Zillow`);
+  assert.notStrictEqual((profile.median_home_value || {}).source, 'zhvi', `${geoid} summary has no residents but shows Zillow`);
+}
+assert.ok(zeroPop >= 2, 'expected the zero-population places (Wolcott, Hartsel) to be checked');
 console.log(`hna-home-value-small-town: ok (${flagged.length} flagged)`);
