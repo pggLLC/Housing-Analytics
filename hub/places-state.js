@@ -595,7 +595,7 @@
   // The economic dashboard's rebuild lives in economy.js (wave ticket 2A); this view stays as its fallback.
   // Projection scenarios are a member tool on the public site (paul, 25 Nov 2026, HNA option B).
   function scenarioGate(p, parts) {
-    return Shell.memberOnly && Shell.memberOnly() ? Shell.memberCard({ page: true, title: 'Projection scenarios are a member tool', what: 'Change the growth, vacancy and household assumptions behind a place’s 20-year need and see the result.', gets: ['Your own growth and vacancy assumptions', 'The 20-year need under each', 'Saved scenarios to compare'], free: [{ href: '#/places', label: 'Find a place for free' }] }) : Shell.memberMark(scenario(p));
+    return Shell.memberOnly && Shell.memberOnly() ? Shell.memberCard({ page: true, title: 'Projection scenarios are a member tool', what: 'Change the growth, vacancy and household assumptions behind a place’s 20-year need and see the result.', gets: ['Your own growth and vacancy assumptions', 'The 20-year need under each', 'Saved scenarios to compare'], free: [{ href: '#/places', label: 'Find a place for free' }] }) : (Shell.memberMark ? Shell.memberMark(scenario(p)) : scenario(p));
   }
   var SUB = { scenario: scenarioGate, economy: function (p, parts) { return global.LabEconomy ? global.LabEconomy.view(p, parts) : economy(p, parts); }, 'county-costs': function (p, x) { return global.LabCountyCosts.countyCosts(p, x); }, multifamily: function (p, x) { return global.LabCountyCosts.multifamily(p, x); }, 'deep-dive': deepDive };
   var hub = Shell.views.places;
